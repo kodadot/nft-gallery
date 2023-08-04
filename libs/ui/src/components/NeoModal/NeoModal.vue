@@ -23,7 +23,7 @@ const props = withDefaults(
   defineProps<{
     value: boolean
     destroyOnHide?: boolean
-    canCancel?: boolean
+    canCancel?: boolean | string[]
     fullScreen?: boolean
     contentClass?: string
     rootClass?: string

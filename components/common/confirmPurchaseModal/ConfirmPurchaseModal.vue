@@ -1,5 +1,10 @@
 <template>
-  <NeoModal v-model="isModalActive" scroll="clip" class="top" @close="onClose">
+  <NeoModal
+    v-model="isModalActive"
+    :can-cancel="['outside', 'escape']"
+    scroll="clip"
+    class="top"
+    @close="onClose">
     <div class="modal-width">
       <header
         class="py-5 px-6 is-flex is-justify-content-space-between border-bottom">

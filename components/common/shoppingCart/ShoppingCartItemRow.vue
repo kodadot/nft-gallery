@@ -3,7 +3,9 @@
     ref="hoverRef"
     class="is-flex is-justify-content-space-between background-hover">
     <div class="is-flex pr-2">
-      <nuxt-link :to="`/${urlPrefix}/gallery/${nft.id}`">
+      <nuxt-link
+        :to="`/${urlPrefix}/gallery/${nft.id}`"
+        @click.native="emit('click-item')">
         <BasicImage
           :src="avatar"
           :alt="nft?.name"
