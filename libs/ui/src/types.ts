@@ -11,5 +11,6 @@ export type NeoButtonVariant =
   | 'icon'
   | 'secondary'
   | 'disabled-secondary'
+  | 'text'
 
 export type NftCardVariant = 'primary' | 'minimal'
