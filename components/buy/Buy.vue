@@ -12,7 +12,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 import { useFiatStore } from '@/stores/fiat'
 
 import { warningMessage } from '@/utils/notification'
-import ConfirmPurchaseModal from '@/components/common/ConfirmPurchaseModal.vue'
+import ConfirmPurchaseModal from '@/components/common/confirmPurchaseModal/ConfirmPurchaseModal.vue'
 import Loader from '@/components/shared/Loader.vue'
 import { TokenToBuy } from '@/composables/transaction/types'
 import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
@@ -50,7 +50,7 @@ const ShoppingCartItemToTokenToBuy = (item: ShoppingCartItem): TokenToBuy => {
 watchEffect(() => {
   if (isLoading.value === false && status.value === 'loader.finalized') {
     preferencesStore.setTriggerBuySuccess(true)
-    shoppingCartStore.removeAll()
+    shoppingCartStore.clear()
   }
 })
 

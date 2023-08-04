@@ -1,10 +1,5 @@
 <template>
-  <NeoModal
-    v-model="isModalActive"
-    no-shadow
-    scroll="clip"
-    class="top"
-    @close="onClose">
+  <NeoModal v-model="isModalActive" scroll="clip" class="top" @close="onClose">
     <div class="modal-width">
       <header
         class="py-5 px-6 is-flex is-justify-content-space-between border-bottom">
@@ -25,6 +20,7 @@
             v-if="isLogIn"
             :label="$t('confirmPurchase.connectedWith')"
             hide-identity-popover
+            disable-identity-link
             :prefix="urlPrefix"
             :account="accountId"
             class="identity-name-font-weight-regular"
@@ -32,7 +28,7 @@
         </div>
       </div>
       <div class="py-2">
-        <ShoppingCartItemRow
+        <ConfirmPurchaseItemRow
           v-for="nft in items"
           :key="nft.id"
           :nft="nft"
@@ -63,7 +59,7 @@
 
       <div class="is-flex is-justify-content-space-between py-5 px-6">
         <NeoButton
-          :label="$t('nft.action.confirm')"
+          :label="btnLabel"
           variant="k-accent"
           no-shadow
           :disabled="disabled"
@@ -76,17 +72,20 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoModal } from '@kodadot1/brick'
-import ShoppingCartItemRow from './shoppingCart/ShoppingCartItemRow.vue'
 import { sum } from '@/utils/math'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
-import { totalPriceUsd } from './shoppingCart/utils'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
+import IdentityItem from '@/components/identity/IdentityItem.vue'
+import ConfirmPurchaseItemRow from './ConfirmPurchaseItemRow.vue'
+import { totalPriceUsd } from '../shoppingCart/utils'
 
 const prefrencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { isLogIn, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
+const { $i18n } = useNuxtApp()
+const { balance } = useBalance()
 const emit = defineEmits(['confirm'])
 
 const mode = computed(() => prefrencesStore.getCompletePurchaseModal.mode)
@@ -113,15 +112,20 @@ const totalRoyalties = computed(() =>
     )
   )
 )
-const disabled = ref(false)
 
-watch(
-  () => totalNFTsPrice.value + totalRoyalties.value,
-  async (price) => {
-    const { isBalanceEnough } = await useIsBalanceEnough(price)
-    disabled.value = !isBalanceEnough.value || !isLogIn.value
-  }
+const balanceIsEnough = computed(
+  () => totalNFTsPrice.value + totalRoyalties.value < balance.value
 )
+
+const btnLabel = computed(() => {
+  if (balanceIsEnough.value) {
+    return $i18n.t('nft.action.confirm')
+  }
+
+  return $i18n.t('confirmPurchase.notEnoughFuns')
+})
+
+const disabled = computed(() => !balanceIsEnough.value || !isLogIn.value)
 
 const priceUSD = computed(() => {
   const { nfts, royalties } = totalPriceUsd(items.value)
@@ -143,7 +147,7 @@ const confirm = () => {
 @import '@/styles/abstracts/variables';
 
 .top {
-  z-index: 100;
+  z-index: 1000;
 }
 .shade-border-color {
   @include ktheme() {

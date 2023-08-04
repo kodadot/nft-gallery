@@ -1,25 +1,23 @@
 <template>
   <div
     ref="hoverRef"
-    class="is-flex is-justify-content-space-between shopping-cart-item">
-    <div class="is-flex is-flex-grow-1 pr-2">
-      <component
-        :is="clickable ? 'nuxt-link' : 'div'"
-        :to="`/${urlPrefix}/gallery/${nft.id}`">
+    class="is-flex is-justify-content-space-between background-hover">
+    <div class="is-flex pr-2">
+      <nuxt-link :to="`/${urlPrefix}/gallery/${nft.id}`">
         <BasicImage
           :src="avatar"
           :alt="nft?.name"
           class="border image is-48x48" />
-      </component>
+      </nuxt-link>
 
       <div
         class="is-flex is-flex-direction-column is-justify-content-space-between ml-4 limit-width">
-        <component
-          :is="clickable ? 'nuxt-link' : 'div'"
+        <nuxt-link
           :to="`/${urlPrefix}/gallery/${nft.id}`"
-          class="has-text-weight-bold has-text-color line-height-1 no-wrap is-clipped ellipsis">
+          class="has-text-weight-bold has-text-color line-height-1 no-wrap is-clipped ellipsis"
+          @click.native="emit('click-item')">
           {{ nft.name }}
-        </component>
+        </nuxt-link>
         <div class="line-height-1 no-wrap is-clipped ellipsis">
           {{ nft.collection?.name || nft.collection.id }}
         </div>
@@ -27,7 +25,7 @@
     </div>
 
     <div
-      v-if="allowDelete && isHovered"
+      v-if="isHovered"
       class="is-flex is-justify-content-end is-align-items-center">
       <NeoButton
         variant="text"
@@ -56,12 +54,10 @@ const { urlPrefix } = usePrefix()
 const hoverRef = ref()
 const avatar = ref<string>()
 const isHovered = useElementHover(hoverRef)
-const emit = defineEmits(['delete'])
+const emit = defineEmits(['delete', 'click-item'])
 
 const props = defineProps<{
   nft: ShoppingCartItem
-  allowDelete?: boolean
-  clickable?: boolean
 }>()
 
 const getAvatar = async () => {
@@ -78,7 +74,7 @@ onMounted(() => {
 <style scoped lang="scss">
 @import '@/styles/abstracts/variables';
 
-.shopping-cart-item {
+.background-hover {
   &:hover {
     @include ktheme() {
       background-color: theme('k-accentlight2');
@@ -87,7 +83,7 @@ onMounted(() => {
 }
 
 .limit-width {
-  max-width: 170px;
+  max-width: 130px;
 }
 
 .ellipsis {

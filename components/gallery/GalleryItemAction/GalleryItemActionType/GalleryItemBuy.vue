@@ -1,10 +1,6 @@
 <template>
   <div data-cy="item-section-buy">
-    <GalleryItemPriceSection
-      v-if="nft.price"
-      ref="root"
-      title="Price"
-      :price="nft.price">
+    <GalleryItemPriceSection v-if="nft.price" title="Price" :price="nft.price">
       <div v-if="Number(nft.price)" class="is-flex desktop-full-w">
         <div class="is-flex buy-button-width">
           <NeoTooltip
@@ -61,13 +57,12 @@
 import { NeoButton, NeoTooltip } from '@kodadot1/brick'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
-import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
+import { openConnectWalletModal } from '@/components/common/ConnectWallet/useConnectWallet'
 import { useIdentityStore } from '@/stores/identity'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
 
-import Vue from 'vue'
 import { openShoppingCart } from '@/components/common/shoppingCart/ShoppingCartModalConfig'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { nftToShoppingCardItem } from '@/components/common/shoppingCart/utils'
@@ -80,8 +75,7 @@ const isMobileDevice = computed(() => useWindowSize().width.value < 1024)
 
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
-const root = ref<Vue<Record<string, string>>>()
-const { $i18n, $buefy } = useNuxtApp()
+const { $i18n } = useNuxtApp()
 const preferencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { cartIcon } = useShoppingCartIcon(props.nft.id)
@@ -137,10 +131,7 @@ const disabled = computed(() => {
 
 function onClick() {
   if (!connected.value) {
-    $buefy.modal.open({
-      parent: root?.value,
-      ...ConnectWalletModalConfig,
-    })
+    openConnectWalletModal(instance)
     return
   }
 

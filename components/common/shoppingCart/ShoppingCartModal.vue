@@ -11,7 +11,7 @@
           variant="text"
           no-shadow
           icon="close"
-          @click.native="onClose" />
+          @click.native="closeShoppingCart" />
       </header>
       <div
         v-if="numberOfItems"
@@ -33,9 +33,10 @@
             :key="item.id"
             :nft="item"
             clickable
-            class="px-6 py-2"
+            class="px-6 py-2 limit-name-width"
             allow-delete
-            @delete="shoppingCartStore.removeItem" />
+            @delete="shoppingCartStore.removeItem"
+            @click-item="closeShoppingCart" />
         </div>
         <div
           class="is-flex is-justify-content-space-between mx-6 py-4 border-top border-k-shade">
@@ -98,10 +99,13 @@ import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 
 import emptyCart from '@/assets/empty-cart.png'
 import { totalPriceUsd } from './utils'
+import { openConnectWalletModal } from '../ConnectWallet/useConnectWallet'
 
 const prefrencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { urlPrefix } = usePrefix()
+const { isLogIn } = useAuth()
+const instance = getCurrentInstance()
 const emit = defineEmits(['close'])
 
 const items = computed(() =>
@@ -139,19 +143,23 @@ watch(isOpen, (newValue, oldValue) => {
   }
 })
 
-const onClose = () => {
+const closeShoppingCart = () => {
   emit('close')
   isOpen.value = false
   document.body.classList.remove('is-clipped')
 }
 
 const onCompletePurchase = () => {
-  prefrencesStore.setCompletePurchaseModal({
-    isOpen: true,
-    mode: 'shopping-cart',
-  })
+  if (!isLogIn.value) {
+    openConnectWalletModal(instance)
+  } else {
+    prefrencesStore.setCompletePurchaseModal({
+      isOpen: true,
+      mode: 'shopping-cart',
+    })
+  }
 
-  onClose()
+  closeShoppingCart()
 }
 </script>
 
@@ -164,7 +172,7 @@ const onCompletePurchase = () => {
     right: 0;
     height: 100%;
     padding-top: 83px;
-    max-width: 400px;
+    max-width: 360px;
     width: 100%;
     @include mobile {
       padding-top: 58px;
