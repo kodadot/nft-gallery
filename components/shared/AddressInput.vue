@@ -5,6 +5,7 @@
         ref="address"
         v-model="inputValue"
         :icon-right="iconRight"
+        :placeholder="placeholder"
         icon-right-clickable
         @input="handleInput"
         @icon-right-click="clearIconClick" />
@@ -34,6 +35,7 @@ export default class AddressInput extends mixins(PrefixMixin) {
   @Prop(Boolean) public emptyOnError!: boolean
   @Prop({ type: Boolean, default: true }) public strict!: boolean
   @Prop({ type: String, default: '' }) public icon?: string
+  @Prop({ type: String, default: '' }) public placeholder?: string
 
   @Ref('address') readonly address
 

@@ -144,6 +144,10 @@
             :show-label="isMobile"
             @closeBurgerMenu="showMobileNavbar" />
 
+          <ShoppingCartButton
+            :show-label="isMobile"
+            @closeBurgerMenu="showMobileNavbar" />
+
           <template v-if="isMobile">
             <template v-if="!account">
               <MobileLanguageOption @closeLanguageOption="showMobileNavbar" />
@@ -204,6 +208,7 @@ import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
 import { useIdentityStore } from '@/stores/identity'
 import { getChainNameByPrefix } from '@/utils/chain'
 import { createVisible, explorerVisible } from '@/utils/config/permision.config'
+import ShoppingCartButton from './navbar/ShoppingCartButton.vue'
 
 const { $buefy, $nextTick } = useNuxtApp()
 const instance = getCurrentInstance()

@@ -339,6 +339,13 @@ export default defineNuxtConfig({
 
   sitemap: {
     hostname: process.env.BASE_URL || 'http://localhost:9090',
+    routes() {
+      const posts = fs.readdirSync('content/blog')
+
+      return posts
+        .map((post) => post.split('.')[0])
+        .map((post) => `/blog/${post}`)
+    },
   },
 
   hooks: {
@@ -395,7 +402,8 @@ export default defineNuxtConfig({
         process.env.NODE_ENV !== 'development' &&
         process.env.SENTRY_AUTH_TOKEN
       ) {
-        config.devtool = 'source-map'
+        // https://community.cloudflare.com/t/recurring-deployment-issue-on-pages-which-works-on-preview-branch-but-doesnt-on-production-branch/540278/10
+        // config.devtool = 'source-map'
 
         config.plugins.push(
           new SentryWebpackPlugin({
