@@ -40,7 +40,7 @@
       <div class="content-list-card">
         <div>
           <div class="card-tag">• {{ post.attributes.tags }}</div>
-          <div class="title is-3">{{ post.attributes.title }}</div>
+          <div class="title is-3 mb-4">{{ post.attributes.title }}</div>
           <div class="truncate mb-4">{{ post.attributes.subtitle }}</div>
         </div>
 
@@ -80,7 +80,7 @@ export default {
       const filePath = post.meta.resourcePath
       const fileName = filePath.match(/\/([^/]+)\.\w+$/)[1]
 
-      return fileName
+      return `/blog/${fileName}`
     },
   },
 }
@@ -151,17 +151,17 @@ export default {
       }
 
       .truncate {
-        max-width: 300px;
         display: -webkit-box;
-        -webkit-line-clamp: 4;
+        -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden;
       }
 
-      &-title {
-        font-size: 31px;
-        font-weight: 700;
-        margin-bottom: 1rem;
+      .title {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+        overflow: hidden;
       }
     }
 

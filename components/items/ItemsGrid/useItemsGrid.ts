@@ -35,7 +35,18 @@ export function useFetchSearch({
     }
     isFetchingData.value = true
 
-    const queryPath = client.value === 'ksm' ? 'chain-ksm' : client.value
+    const getQueryPath = (prefix: string) => {
+      switch (prefix) {
+        case 'rmrk':
+          return 'chain-rmrk'
+        case 'ksm':
+          return 'chain-ksm'
+        default:
+          return prefix
+      }
+    }
+
+    const queryPath = getQueryPath(client.value)
     const query = await resolveQueryPath(queryPath, 'nftListWithSearch')
     const result = await $apollo.query({
       query: query.default,

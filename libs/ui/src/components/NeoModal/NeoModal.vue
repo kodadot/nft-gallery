@@ -6,8 +6,11 @@
     :destroy-on-hide="destroyOnHide"
     :can-cancel="canCancel"
     :full-screen="fullScreen"
-    :content-class="contentClass"
+    :content-class="[contentClass, noShadow ? 'no-shadow' : '']"
     :root-class="rootClass"
+    :style="{
+      '--max-height': maxHeight,
+    }"
     @close="updateClose">
     <slot />
   </o-modal>
@@ -20,10 +23,12 @@ const props = withDefaults(
   defineProps<{
     value: boolean
     destroyOnHide?: boolean
-    canCancel?: boolean
+    canCancel?: boolean | string[]
     fullScreen?: boolean
     contentClass?: string
     rootClass?: string
+    noShadow?: boolean
+    maxHeight?: string | number
   }>(),
   {
     destroyOnHide: true,
@@ -31,10 +36,19 @@ const props = withDefaults(
     fullScreen: false,
     contentClass: '',
     rootClass: '',
+    noShadow: false,
+    maxHeight: '80vh',
   }
 )
 
 const emit = defineEmits(['close'])
+
+const maxHeight = computed(() => {
+  if (typeof props.maxHeight === 'number') {
+    return `${props.maxHeight}px`
+  }
+  return props.maxHeight
+})
 
 const isModalActive = useVModel(props, 'value')
 

@@ -77,17 +77,19 @@ export type ActionConsume = {
   errorMessage?: string
 }
 
+export type TokenToBuy = {
+  id: string
+  price: string
+  currentOwner: string
+  royalty?: Royalty
+}
+
 export type ActionBuy = {
   interaction: Interaction.BUY
   urlPrefix: string
-  price: string
-  nftId: string
-  tokenId: string
-  currentOwner: string
+  nfts: TokenToBuy | TokenToBuy[]
   successMessage?: string
   errorMessage?: string
-  royalty?: number
-  recipient?: string
 }
 
 export type TokenToList = {
