@@ -1,7 +1,7 @@
 ---
 date: 2023-03-18
 tags: Tokens
-image: https://eips.ethereum.org/assets/eip-6551/diagram.png
+image: '/blog/what-is-erc6551.webp'
 title: What is ERC6551 - Token Bound Accounts (TBA) ?
 subtitle: Understand ERC6551 which redefines how ERC-721 tokens interact with the Ethereum blockchain by giving every non-fungible token its very own smart contract account.
 ---

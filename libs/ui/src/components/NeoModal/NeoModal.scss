@@ -4,11 +4,15 @@
 .neo-modal {
   .o-modal__content {
     width: auto;
+    max-height: var(--max-height);
     @include ktheme() {
       box-shadow: theme('primary-shadow');
       border: 1px solid theme('border-color');
       color: theme('text-color');
       background: theme('background-color');
+    }
+    &.no-shadow {
+      box-shadow: none;
     }
   }
 

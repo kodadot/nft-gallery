@@ -1,76 +1,54 @@
 <template>
   <div data-cy="item-section-buy">
-    <Loader v-model="isLoading" :status="status" />
-    <GalleryItemPriceSection
-      v-if="nftPrice"
-      ref="root"
-      title="Price"
-      :price="nftPrice">
-      <div v-if="disabled" class="gallery-item-disabled">
-        <NeoTooltip
-          :active="disabled"
-          content-class="buy-tooltip"
-          :position="isMobileDevice ? 'top' : 'left'"
-          :auto-close="!isMobileDevice ? ['outside', 'escape'] : []"
-          multiline>
-          <template #content>
-            <div class="is-size-6">
-              {{
-                $t('tooltip.notEnoughBalanceChain', {
-                  chain: chainNames[urlPrefix],
-                })
-              }}
-              <div>
-                {{ $t('tip') }}:
-                <nuxt-link :to="`/${urlPrefix}/teleport`" target="_blank">
-                  {{ $t('useTeleport') }}</nuxt-link
-                >
+    <GalleryItemPriceSection v-if="nft.price" title="Price" :price="nft.price">
+      <div v-if="Number(nft.price)" class="is-flex desktop-full-w">
+        <div class="is-flex buy-button-width">
+          <NeoTooltip
+            :active="disabled"
+            class="w-full"
+            content-class="buy-tooltip"
+            :position="isMobileDevice ? 'top' : 'left'"
+            :auto-close="!isMobileDevice ? ['outside', 'escape'] : []"
+            multiline>
+            <template #content>
+              <div class="is-size-6">
+                {{
+                  $t('tooltip.notEnoughBalanceChain', {
+                    chain: chainNames[urlPrefix],
+                  })
+                }}
+                <div>
+                  {{ $t('tip') }}:
+                  <nuxt-link :to="`/${urlPrefix}/teleport`" target="_blank">
+                    {{ $t('useTeleport') }}</nuxt-link
+                  >
 
-                {{ $t('or') }}
+                  {{ $t('or') }}
 
-                <a @click="showRampSDK"> {{ $t('addFunds') }}</a>
+                  <a @click="showRampSDK"> {{ $t('addFunds') }}</a>
+                </div>
               </div>
-            </div>
-          </template>
-          <NeoButton
-            :label="label"
-            size="large"
-            variant="k-accent"
-            :disabled="disabled"
-            no-shadow
-            data-cy="item-buy"
-            @click.native="onClick" />
-        </NeoTooltip>
-      </div>
-      <div v-else>
-        <GalleryItemActionSlides
-          v-if="Number(nftPrice)"
-          ref="actionRef"
-          :active="active"
-          :class="{ 'gallery-item-slides-entry': !active }"
-          :disabled="disabled">
-          <template #action>
+            </template>
             <NeoButton
               :label="label"
               size="large"
-              fixed-width
+              class="button-height w-full"
               variant="k-accent"
-              no-shadow
+              :disabled="disabled"
               data-cy="item-buy"
               @click.native="onClick" />
-          </template>
+          </NeoTooltip>
+        </div>
 
-          <template #content>
-            <div class="has-text-centered">
-              {{ $t('nft.buyNFTOn') }}
-              <span class="has-text-weight-bold is-uppercase">{{
-                urlPrefix
-              }}</span>
-            </div>
-          </template>
-        </GalleryItemActionSlides>
-        <div v-else>{{ $t('nft.notListed') }}</div>
+        <NeoButton
+          class="button-height no-border-left"
+          data-cy="item-add-to-cart"
+          @click.native="onClickShoppingCart">
+          <img :src="cartIcon" class="image is-32x32" />
+        </NeoButton>
       </div>
+
+      <div v-else>{{ $t('nft.notListed') }}</div>
     </GalleryItemPriceSection>
   </div>
 </template>
@@ -78,65 +56,42 @@
 <script setup lang="ts">
 import { NeoButton, NeoTooltip } from '@kodadot1/brick'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
-import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
-import { onClickOutside } from '@vueuse/core'
-import {
-  notificationTypes,
-  showNotification,
-  warningMessage,
-} from '@/utils/notification'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
-import { tokenIdToRoute } from '@/components/unique/utils'
-import nftByIdMinimal from '@/queries/rmrk/subsquid/nftByIdMinimal.graphql'
-import { ShoppingActions } from '@/utils/shoppingActions'
-import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
+import { openConnectWalletModal } from '@/components/common/ConnectWallet/useConnectWallet'
 import { useIdentityStore } from '@/stores/identity'
+import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
 
-import Vue from 'vue'
+import { openShoppingCart } from '@/components/common/shoppingCart/ShoppingCartModalConfig'
+import { NFT } from '@/components/rmrk/service/scheme'
+import { nftToShoppingCardItem } from '@/components/common/shoppingCart/utils'
 import { chainNames } from '@/libs/static/src/chains'
 
-const props = withDefaults(
-  defineProps<{
-    nftId: string
-    currentOwner?: string
-    collectionId?: string
-    nftPrice?: string
-    royalty?: number
-    recipient?: string
-  }>(),
-  {
-    nftId: '',
-    currentOwner: '',
-    collectionId: '',
-    nftPrice: '',
-    royalty: 0,
-    recipient: '',
-  }
-)
-const isMobileDevice = ref(window.innerWidth < 1024)
+import { useWindowSize } from '@vueuse/core'
 
-const { urlPrefix, client } = usePrefix()
+const props = defineProps<{ nft: NFT }>()
+const isMobileDevice = computed(() => useWindowSize().width.value < 1024)
+
+const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
-const root = ref<Vue<Record<string, string>>>()
-const { $apollo, $i18n, $buefy, $route } = useNuxtApp()
+const { $i18n } = useNuxtApp()
 const preferencesStore = usePreferencesStore()
+const shoppingCartStore = useShoppingCartStore()
+const { cartIcon } = useShoppingCartIcon(props.nft.id)
 
-const emit = defineEmits(['buy-success'])
-const actionLabel = $i18n.t('nft.action.buy')
-
+const instance = getCurrentInstance()
 const identityStore = useIdentityStore()
-const { transaction, status, isLoading } = useTransaction()
 const connected = computed(() => Boolean(accountId.value))
-const active = ref(false)
-const label = computed(() =>
-  active.value
-    ? $i18n.t('nft.action.confirm')
-    : $i18n.t(
-        preferencesStore.getReplaceBuyNowWithYolo ? 'YOLO' : 'nft.action.buy'
-      )
-)
+
+const label = computed(() => {
+  if (shoppingCartStore.isItemInCart(props.nft.id)) {
+    return $i18n.t('shoppingCart.gotToCart')
+  }
+  return $i18n.t(
+    preferencesStore.getReplaceBuyNowWithYolo ? 'YOLO' : 'nft.action.buy'
+  )
+})
 
 const showRampSDK = () => {
   new RampInstantSDK({
@@ -165,94 +120,64 @@ const balance = computed<string>(() => {
   }
 })
 const disabled = computed(() => {
-  if (!(props.nftPrice && balance.value) || !connected.value) {
+  if (shoppingCartStore.isItemInCart(props.nft.id)) {
     return false
   }
-  return Number(balance.value) <= Number(props.nftPrice)
+  if (!(Number(props.nft.price) && balance.value) || !connected.value) {
+    return false
+  }
+  return Number(balance.value) <= Number(props.nft.price)
 })
 
 function onClick() {
   if (!connected.value) {
-    $buefy.modal.open({
-      parent: root?.value,
-      ...ConnectWalletModalConfig,
-    })
+    openConnectWalletModal(instance)
     return
   }
-  if (active.value) {
-    handleBuy()
+
+  if (shoppingCartStore.isItemInCart(props.nft.id)) {
+    openShoppingCart(instance)
   } else {
-    active.value = true
-  }
-}
-// close the buy button when transaction loading is finsihed
-watch(isLoading, (loading) => {
-  active.value = loading
-})
-
-const checkBuyBeforeSubmit = async () => {
-  const nft = await $apollo.query({
-    query: nftByIdMinimal,
-    client: client.value,
-    variables: {
-      id: props.nftId,
-    },
-  })
-
-  const {
-    data: { nft: nFTEntity },
-  } = nft
-
-  if (
-    nFTEntity.currentOwner !== props.currentOwner ||
-    nFTEntity.burned ||
-    nFTEntity.price === 0 ||
-    nFTEntity.price !== props.nftPrice
-  ) {
-    showNotification(
-      $i18n.t('nft.notification.nftChanged', {
-        chain: urlPrefix.value.toUpperCase(),
-        action: actionLabel,
-      }),
-      notificationTypes.warn
-    )
-    return false
-  }
-  return true
-}
-
-const handleBuy = async () => {
-  const { item: itemId } = tokenIdToRoute(props.nftId)
-
-  showNotification(
-    $i18n.t('nft.notification.info', { itemId, action: actionLabel })
-  )
-
-  if (urlPrefix.value === 'rmrk' && !(await checkBuyBeforeSubmit())) {
-    return
-  }
-
-  try {
-    await transaction({
-      interaction: ShoppingActions.BUY,
-      currentOwner: props.currentOwner,
-      price: props.nftPrice,
-      nftId: $route.params.id,
-      tokenId: $route.params.id,
-      urlPrefix: urlPrefix.value,
-      recipient: props.recipient,
-      royalty: props.royalty,
-      successMessage: $i18n.t('mint.successNewNfts'),
-      errorMessage: $i18n.t('transaction.buy.error'),
+    shoppingCartStore.setItemToBuy(nftToShoppingCardItem(props.nft))
+    preferencesStore.setCompletePurchaseModal({
+      isOpen: true,
+      mode: 'buy-now',
     })
-
-    showNotification(`[${actionLabel}] ${itemId}`, notificationTypes.success)
-    emit('buy-success')
-  } catch (error) {
-    warningMessage(error)
   }
 }
 
-const actionRef = ref(null)
-onClickOutside(actionRef, () => (active.value = false))
+const onClickShoppingCart = () => {
+  if (shoppingCartStore.isItemInCart(props.nft.id)) {
+    shoppingCartStore.removeItem(props.nft.id)
+  } else {
+    shoppingCartStore.setItem(nftToShoppingCardItem(props.nft))
+  }
+}
 </script>
+<style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+
+:deep .button-height {
+  height: 55px !important;
+}
+.buy-button-width {
+  width: 10rem;
+
+  @include until-widescreen {
+    width: 100%;
+    flex-grow: 1;
+  }
+  .wrapper {
+    width: 100%;
+  }
+}
+.no-border-left {
+  border-left: none !important;
+}
+
+.desktop-full-w {
+  @include until-widescreen {
+    width: 100%;
+  }
+}
+</style>

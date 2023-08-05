@@ -2,15 +2,7 @@
   <div
     class="is-flex is-flex-direction-column is-flex-grow-1 is-justify-content-start mt-5">
     <!-- price -->
-    <GalleryItemPriceBuy
-      v-if="!isOwner"
-      :nft-id="nft?.id"
-      :nft-price="nft?.price"
-      :collection-id="nft?.collection.id"
-      :current-owner="nft?.currentOwner"
-      :royalty="nft?.royalty"
-      :recipient="nft?.recipient"
-      @buy-success="emit('buy-success')" />
+    <GalleryItemPriceBuy v-if="!isOwner && nft" :nft="nft" />
 
     <!-- highest offer -->
     <GalleryItemPriceOffer
@@ -50,7 +42,6 @@ const props = defineProps<{
   nft: NFT | undefined
 }>()
 
-const emit = defineEmits(['buy-success'])
 const { accountId } = useAuth()
 const { offersDisabled } = useChain()
 const isOwner = computed(() =>

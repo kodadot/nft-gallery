@@ -1,8 +1,9 @@
 <template>
-  <p class="control">
+  <p class="control" :class="{ 'full-width': fullWidth }">
     <NeoButton
       class="explore-tabs-button"
       tag="nuxt-link"
+      :no-shadow="noShadow"
       :active="active"
       :to="to"
       :icon="active ? 'check' : ''">
@@ -14,11 +15,18 @@
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 
-defineProps<{
-  active: boolean
-  text: string
-  to: string
-}>()
+withDefaults(
+  defineProps<{
+    active: boolean
+    text: string
+    to?: string
+    fullWidth?: boolean
+    noShadow?: boolean
+  }>(),
+  {
+    to: '',
+  }
+)
 </script>
 
 <style scoped lang="scss">
@@ -33,6 +41,13 @@ defineProps<{
   }
 
   @include mobile {
+    width: 100%;
+  }
+}
+
+.full-width {
+  &.control,
+  .explore-tabs-button {
     width: 100%;
   }
 }

@@ -1,15 +1,23 @@
 <template>
   <div
     v-if="count"
-    class="count is-flex is-justify-content-center is-align-items-center">
-    <span>{{ count }}</span>
+    class="count is-flex is-justify-content-center is-align-items-center"
+    :class="{ rounded: rounded }">
+    {{ count }}
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  count?: number
-}>()
+withDefaults(
+  defineProps<{
+    count?: number
+    rounded?: boolean
+  }>(),
+  {
+    rounded: false,
+    count: 0,
+  }
+)
 </script>
 
 <style lang="scss" scoped>
@@ -29,5 +37,9 @@ defineProps<{
     background: theme('k-primary');
     color: theme('black');
   }
+}
+
+.rounded {
+  border-radius: 10rem;
 }
 </style>

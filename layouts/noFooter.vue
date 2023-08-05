@@ -12,6 +12,7 @@
       </div>
     </main>
     <LazyCookieBanner />
+    <Buy />
   </div>
 </template>
 

@@ -30,6 +30,29 @@
 }
 
 .o-btn {
+  &--text {
+    padding: 0;
+    height: fit-content;
+    @include ktheme() {
+      color: theme('text-color');
+      background: theme('background-color');
+      border: none;
+      &:hover {
+        color: theme('k-hovergrey');
+        background: theme('background-color');
+
+      }
+    }
+
+    &.o-btn--disabled {
+      opacity: unset;
+      @include ktheme() {
+        background: theme('background-color');
+        border: none;
+        color: theme('k-grey');
+      }
+    }
+  }
   &--k-accent {
     @include ktheme() {
       background-color: theme('k-primary');
