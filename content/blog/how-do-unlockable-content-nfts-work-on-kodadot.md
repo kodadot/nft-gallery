@@ -2,7 +2,7 @@
 date: 2022-12-12
 tags: NFTs
 image: /blog/how-do-unlockable-content-nfts-work-on-kodadot-1.webp
-title: How do unlockable content NFTs work on KodaDot ?
+title: How do unlockable content NFTs work on KodaDot?
 subtitle: 
 ---
 
@@ -10,7 +10,7 @@ subtitle:
 
 At KodaDot, our NFT marketplace is not just about owning unique and valuable digital assets. We believe in providing an immersive and rewarding experience for our community of collectors and creators. That's why we're thrilled to introduce Unlockables, a revolutionary feature that adds an element of excitement and exclusivity to your NFT ownership.
 
-<img src="/blog/how-do-unlockable-content-nfts-work-on-kodadot-2.webp" alt="" />
+<img src="/blog/how-do-unlockable-content-nfts-work-on-kodadot-2.webp" alt="Unlock-Able item section" />
 
 Unlockables are hidden content and special perks that become accessible to NFT owners once they mint their digital assets. These unique unlockable experiences are designed to enhance the value and enjoyment of your NFT collection.
 Gain access to exclusive, unlockable content associated with specific NFTs. Unlockables provide a thrilling sense of discovery. It's an invitation to explore the intricacies and stories that lie beneath the surface of the artwork, making your ownership even more special and unique.
