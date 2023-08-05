@@ -80,7 +80,7 @@ export default {
       const filePath = post.meta.resourcePath
       const fileName = filePath.match(/\/([^/]+)\.\w+$/)[1]
 
-      return fileName
+      return `/blog/${fileName}`
     },
   },
 }
