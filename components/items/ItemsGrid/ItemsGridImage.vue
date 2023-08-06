@@ -67,18 +67,23 @@ const { nft } = useNft(props.nft)
 const isOwner = computed(() =>
   checkOwner(props.nft?.currentOwner, accountId.value)
 )
-
-const onClickBuy = () => {
-  if (!isLogIn.value) {
-    openConnectWalletModal(instance)
-    return
-  }
+const openCompletePurcahseModal = () => {
   shoppingCartStore.setItemToBuy(nftToShoppingCardItem(props.nft))
-
   preferencesStore.setCompletePurchaseModal({
     isOpen: true,
     mode: 'buy-now',
   })
+}
+
+const onClickBuy = () => {
+  if (!isLogIn.value) {
+    openConnectWalletModal(instance, {
+      onConnect: openCompletePurcahseModal,
+      closeAfterConnect: true,
+    })
+  } else {
+    openCompletePurcahseModal()
+  }
 }
 
 const onClickShoppingCart = () => {

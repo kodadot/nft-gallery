@@ -149,14 +149,21 @@ const closeShoppingCart = () => {
   document.body.classList.remove('is-clipped')
 }
 
+const openCompletePurcahseModal = () => {
+  prefrencesStore.setCompletePurchaseModal({
+    isOpen: true,
+    mode: 'shopping-cart',
+  })
+}
+
 const onCompletePurchase = () => {
   if (!isLogIn.value) {
-    openConnectWalletModal(instance)
-  } else {
-    prefrencesStore.setCompletePurchaseModal({
-      isOpen: true,
-      mode: 'shopping-cart',
+    openConnectWalletModal(instance, {
+      onConnect: openCompletePurcahseModal,
+      closeAfterConnect: true,
     })
+  } else {
+    openCompletePurcahseModal
   }
 
   closeShoppingCart()

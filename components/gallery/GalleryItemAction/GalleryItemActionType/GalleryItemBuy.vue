@@ -129,21 +129,25 @@ const disabled = computed(() => {
   return Number(balance.value) <= Number(props.nft.price)
 })
 
+const openCompletePurcahseModal = () => {
+  shoppingCartStore.setItemToBuy(nftToShoppingCardItem(props.nft))
+  preferencesStore.setCompletePurchaseModal({
+    isOpen: true,
+    mode: 'buy-now',
+  })
+}
+
 function onClick() {
   if (!connected.value) {
-    openConnectWalletModal(instance)
+    openConnectWalletModal(instance, {
+      onConnect: openCompletePurcahseModal,
+      closeAfterConnect: true,
+    })
     return
   }
-
-  if (shoppingCartStore.isItemInCart(props.nft.id)) {
-    openShoppingCart(instance)
-  } else {
-    shoppingCartStore.setItemToBuy(nftToShoppingCardItem(props.nft))
-    preferencesStore.setCompletePurchaseModal({
-      isOpen: true,
-      mode: 'buy-now',
-    })
-  }
+  shoppingCartStore.isItemInCart(props.nft.id)
+    ? openShoppingCart(instance)
+    : openCompletePurcahseModal()
 }
 
 const onClickShoppingCart = () => {
