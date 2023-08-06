@@ -106,3 +106,9 @@ export const availablePrefixes = (): Option[] => {
 
   return chains
 }
+
+export const getAvailablePrefix = (prefix: string): string => {
+  return availablePrefixes().some((chain) => chain.value === prefix)
+    ? prefix
+    : ''
+}
