@@ -62,7 +62,7 @@ P2P NFT swaps offer numerous advantages for creators, making it an attractive fe
 
 One of the most significant advantages of P2P NFT swaps is the potential for reduced costs. By eliminating the need for intermediaries, creators can avoid unnecessary fees and enjoy a more efficient trading process.
 
-### Greater Control and Flexibility
+## Greater Control and Flexibility
 
 With P2P NFT swaps, creators have greater control over their trades. They can negotiate their own terms, choose which assets to swap, and even add additional assets or currencies to enhance the deal.
 
