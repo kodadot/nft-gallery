@@ -46,7 +46,7 @@ With P2P NFT swaps, users have the freedom to negotiate their own deals and crea
 
 Now that we understand the basics of P2P NFT swaps, let's delve into the practicalities of implementing this feature in an NFT marketplace.
 
-### Setting Up the Infrastructure
+## Setting Up the Infrastructure
 
 Before P2P NFT swaps can be implemented, the necessary infrastructure must be in place. This includes a robust NFT protocol, a user-friendly interface, and a secure blockchain network. The platform must also support cross-chain interoperability to enable seamless trades across different networks.
 
