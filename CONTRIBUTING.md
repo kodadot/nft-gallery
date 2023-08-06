@@ -232,11 +232,11 @@ For crafting much better culture and Developer Experience, we reccomend some ext
 - [Refined Github](https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf)
 - [Github HoverCard](https://chrome.google.com/webstore/detail/github-hovercard/mmoahbbnojgkclgceahhakhnccimnplk)
 - [Gifs for Github](https://chrome.google.com/webstore/detail/gifs-for-github/dkgjnpbipbdaoaadbdhpiokaemhlphep)
-- Feel free add your extension which helps you organize and being productive on Github
+- Feel free to add your extension, which helps you organize and be productive on GitHub.
 
 ### Does it follow the contributor covenant
 
-This repository has a [code of conduct](CODE_OF_CONDUCT.md). This repository has a code of conduct, and I will remove things that do not respect it.
+This repository has a [code of conduct](CODE_OF_CONDUCT.md) and we will remove things that do not respect it.
 
 ## Follow us
 
