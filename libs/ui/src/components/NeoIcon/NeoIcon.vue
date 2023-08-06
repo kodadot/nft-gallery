@@ -2,7 +2,7 @@
   <o-icon
     :pack="pack || 'fas'"
     :icon="icon"
-    :size="size || 'small'"
+    :size="size || ''"
     :custom-size="customSize"
     :variant="variant" />
 </template>
@@ -19,6 +19,6 @@ defineProps<{
 }>()
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import './NeoIcon.scss';
 </style>
