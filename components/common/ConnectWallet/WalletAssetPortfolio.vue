@@ -6,7 +6,6 @@
         no-shadow
         rounded
         tag="a"
-        size="small"
         :href="`/${urlPrefix}/assets`"
         icon="arrow-right-long">
         Portfolio View
