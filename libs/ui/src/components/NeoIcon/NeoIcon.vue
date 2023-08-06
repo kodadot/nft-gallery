@@ -2,7 +2,7 @@
   <o-icon
     :pack="pack || 'fas'"
     :icon="icon"
-    :size="size || ''"
+    :size="size || 'default'"
     :custom-size="customSize"
     :variant="variant" />
 </template>
