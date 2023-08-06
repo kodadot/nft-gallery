@@ -22,39 +22,39 @@ Layer-2 solutions tackle scalability issues by shifting some of the workload awa
 
 There are various types of Layer-2 scaling solutions, each with its unique approach to enhancing blockchain performance. Let's delve into some of the most common ones.
 
-## Optimistic Rollups
+### Optimistic Rollups
 
 Optimistic Rollups are a form of Layer-2 solution that bundle or "roll-up" multiple transactions into a single one. These rollups execute transactions off-chain and then post a summary to the Layer-1 blockchain, reducing the data that needs to be stored on-chain. This leads to faster and cheaper transactions, making the network more efficient and scalable.
 
 The term "optimistic" comes from the assumption that all transactions are valid by default. Only in the case of a dispute do these rollups run a computation to check the transaction's validity. If a transaction turns out to be fraudulent, the rollup performs a fraud-proof and penalizes the sender.
 
-## zk Rollups
+### zk Rollups
 
 Another prominent Layer-2 solution is zk (zero-knowledge) Rollups. Similar to Optimistic Rollups, zk Rollups also bundle transactions and process them off-chain. However, they use zero-knowledge proofs, a cryptographic method where one party can prove to another that they know specific information without revealing the information itself.
 
 In the context of zk Rollups, these proofs verify the validity of transactions off-chain and then compress them into a single transaction. This proof is then posted to the Layer-1 blockchain, significantly reducing the gas fee and increasing scalability.
 
-## Sidechains
+### Sidechains
 
 Sidechains are independent blockchains that run parallel to the main blockchain. Being Layer-2 solutions, they enhance scalability by processing transactions independently from the main chain. This allows sidechains to operate under their own consensus rules and parameters, thereby increasing the overall transaction capacity of the network.
 
-## State Channels
+### State Channels
 
 State Channels are another Layer-2 solution that facilitates off-chain transactions. They open a two-way communication channel between participants, allowing them to conduct multiple transactions off-chain. Only the final state of these transactions is recorded on the blockchain, which saves considerable computational power and storage space on the main chain.
 
-Layer-2 Platforms: Arbitrum, zkSync, and Starknet
+## Layer-2 Platforms: Arbitrum, zkSync, and Starknet
 
 With a clear understanding of Layer-2 solutions, it's important to examine some of the platforms that utilize these solutions.
 
-## Arbitrum
+### Arbitrum
 
 Arbitrum is a Layer-2 platform designed to scale Ethereum applications. It uses Optimistic Rollups to provide faster and cheaper transactions, making it an ideal solution for developers looking to enhance their Ethereum-based applications.
 
-## zkSync
+### zkSync
 
 zkSync is a Layer-2 scaling solution that utilizes zk Rollups to improve Ethereum's scalability. It provides low-cost, high-speed transactions while maintaining a high level of security. zkSync is especially beneficial for applications that require high throughput, like decentralized exchanges and payment systems.
 
-## Starknet
+### Starknet
 
 Starknet is another Layer-2 platform that uses zk Rollups to scale Ethereum. Developed by StarkWare, Starknet provides a decentralized zk Rollup network that enables developers to build scalable, secure, and cost-effective applications on top of Ethereum.
 
