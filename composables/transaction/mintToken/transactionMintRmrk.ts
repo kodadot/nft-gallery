@@ -160,11 +160,7 @@ export async function execMintRmrk({
 
   const arg = isSingle
     ? args
-    : [
-        args
-          .filter((arg) => arg)
-          .map((arg) => asSystemRemark(api, arg as string)),
-      ]
+    : [args.filter(Boolean).map((arg) => asSystemRemark(api, arg as string))]
 
   executeTransaction({
     cb,
