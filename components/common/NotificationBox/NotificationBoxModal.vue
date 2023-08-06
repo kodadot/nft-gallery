@@ -22,7 +22,7 @@
             class="rounded"
             @click.native="showFilter = !showFilter">
             {{ $t('notification.add') }}
-            <NeoIcon icon="plus" size="small" />
+            <NeoIcon icon="plus" />
           </NeoButton>
           <NeoButton
             v-else
@@ -30,7 +30,7 @@
             class="rounded"
             @click.native="showFilter = !showFilter">
             {{ $t('notification.done') }}
-            <NeoIcon icon="check" size="small" />
+            <NeoIcon icon="check" />
           </NeoButton>
         </div>
         <div v-if="showFilter" class="filter-option">
