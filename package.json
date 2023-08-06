@@ -78,7 +78,7 @@
     "@nuxtjs/sentry": "^7.3.1",
     "@nuxtjs/sitemap": "thisismydesign/sitemap-module#cd4dc22293b9b67e8ebb5b3c49840e67c108e312",
     "@oruga-ui/oruga": "^0.6.0",
-    "@paraspell/sdk": "^1.1.15",
+    "@paraspell/sdk": "^2.0.5",
     "@pinia/nuxt": "^0.4.11",
     "@polkadot/api": "^10.6.1",
     "@polkadot/api-base": "^10.6.1",
