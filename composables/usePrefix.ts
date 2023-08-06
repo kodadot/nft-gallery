@@ -12,9 +12,14 @@ export default function () {
   const initialPrefixFromPath = availablePrefixesList.find(
     (prefixValue) => prefixValue.value === route.path.split('/')[1]
   )?.value
+
+  const validPrefixFromRoute = availablePrefixesList.find(
+    (prefixValue) => prefixValue.value === route.params.prefix
+  )?.value
+
   const prefix = computed<Prefix>(
     () =>
-      (route.params.prefix ||
+      (validPrefixFromRoute ||
         storage.value.selected ||
         initialPrefixFromPath) as Prefix
   )
