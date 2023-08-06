@@ -1,21 +1,15 @@
 import { DEFAULT_PREFIX } from '@kodadot1/static'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
 import { useAssetsStore } from '@/stores/assets'
-import { availablePrefixes } from '@/utils/chain'
+import { getAvailablePrefix } from '@/utils/chain'
 
 import type { Prefix } from '@kodadot1/static'
 
 export default function () {
   const route = useRoute()
   const storage = useLocalStorage('urlPrefix', { selected: DEFAULT_PREFIX })
-  const availablePrefixesList = availablePrefixes()
-  const initialPrefixFromPath = availablePrefixesList.find(
-    (prefixValue) => prefixValue.value === route.path.split('/')[1]
-  )?.value
-
-  const validPrefixFromRoute = availablePrefixesList.find(
-    (prefixValue) => prefixValue.value === route.params.prefix
-  )?.value
+  const initialPrefixFromPath = getAvailablePrefix(route.path.split('/')[1])
+  const validPrefixFromRoute = getAvailablePrefix(route.params.prefix)
 
   const prefix = computed<Prefix>(
     () =>
