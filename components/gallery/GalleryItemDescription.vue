@@ -84,16 +84,26 @@
         <p>{{ nft?.royalty }}%</p>
       </div>
       <hr class="my-2" />
-      <div class="is-flex is-justify-content-space-between">
+      <div v-if="nftImage" class="is-flex is-justify-content-space-between">
         <p>{{ $t('tabs.tabDetails.media') }}</p>
         <a
-          :href="nftAnimation || nftImage"
+          :href="toCloudflareIpfsUrl(nftImage)"
           target="_blank"
           rel="nofollow noopener noreferrer"
           class="has-text-link"
-          data-cy="media-link"
-          >{{ nftMimeType }}</a
-        >
+          data-cy="media-link">
+          {{ nftMimeType }}
+        </a>
+      </div>
+      <div v-if="nftAnimation" class="is-flex is-justify-content-space-between">
+        <p>{{ $t('tabs.tabDetails.animatedMedia') }}</p>
+        <a
+          :href="toCloudflareIpfsUrl(nftAnimation)"
+          target="_blank"
+          rel="nofollow noopener noreferrer"
+          class="has-text-link">
+          {{ animationMediaMimeType }}
+        </a>
       </div>
       <div class="is-flex is-justify-content-space-between">
         <p>{{ $t('tabs.tabDetails.metadata') }}</p>
@@ -142,12 +152,12 @@ import {
   NeoTooltip,
 } from '@kodadot1/brick'
 import Identity from '@/components/identity/IdentityIndex.vue'
-import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import { sanitizeIpfsUrl, toCloudflareIpfsUrl } from '@/utils/ipfs'
 
 import { GalleryItem, useGalleryItem } from './useGalleryItem'
 
 import { MediaType } from '@/components/rmrk/types'
-import { resolveMedia } from '@/utils/gallery/media'
+import { getMimeType, resolveMedia } from '@/utils/gallery/media'
 
 import { replaceSingularCollectionUrlByText } from '@/utils/url'
 
@@ -217,10 +227,11 @@ const propertiesTabDisabled = computed(() => {
 
 const metadataMimeType = ref('application/json')
 const metadataURL = ref('')
+const animationMediaMimeType = ref('')
 
 watchEffect(async () => {
   if (nft.value?.metadata) {
-    const sanitizeMetadata = sanitizeIpfsUrl(nft.value?.metadata)
+    const sanitizeMetadata = sanitizeIpfsUrl(nft.value?.metadata, 'cloudflare')
     const response = await fetch(sanitizeMetadata, {
       method: 'HEAD',
     })
@@ -228,6 +239,8 @@ watchEffect(async () => {
     metadataMimeType.value =
       response.headers.get('content-type') || 'application/json'
     metadataURL.value = sanitizeMetadata
+
+    animationMediaMimeType.value = await getMimeType(nftAnimation.value)
   }
 })
 </script>
