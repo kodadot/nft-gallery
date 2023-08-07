@@ -114,7 +114,8 @@ When we merge those changes, they should be deployed to the live site within 24 
 
 ### Pull request template
 
-When you open a pull request, you must fill out the "Ready for review" template before we can review your PR. This template helps reviewers understand your changes and the purpose of your pull request.
+Please have a look before making PR for [a directory with PR templates](https://github.com/kodadot/nft-gallery/tree/main/.github/PULL_REQUEST_TEMPLATE). PRs ignoring our PR template will be closed.
+When you open a pull request, you must fill out one of our PR templates. This template helps reviewers understand your changes and the purpose of your pull request.
 When deciding if we merge in a pull request, we look at the following things:
 
 ### Does it state intent
@@ -231,11 +232,11 @@ For crafting much better culture and Developer Experience, we reccomend some ext
 - [Refined Github](https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf)
 - [Github HoverCard](https://chrome.google.com/webstore/detail/github-hovercard/mmoahbbnojgkclgceahhakhnccimnplk)
 - [Gifs for Github](https://chrome.google.com/webstore/detail/gifs-for-github/dkgjnpbipbdaoaadbdhpiokaemhlphep)
-- Feel free add your extension which helps you organize and being productive on Github
+- Feel free to add your extension, which helps you organize and be productive on GitHub.
 
 ### Does it follow the contributor covenant
 
-This repository has a [code of conduct](CODE_OF_CONDUCT.md). This repository has a code of conduct, and I will remove things that do not respect it.
+This repository has a [code of conduct](CODE_OF_CONDUCT.md) and we will remove things that do not respect it.
 
 ## Follow us
 

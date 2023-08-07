@@ -13,7 +13,7 @@ To create your DOT address in a safe and long-term manner, we recommend you get 
 
 After creating an account, you can visit [KodaDot Transfer](https://kodadot.xyz/dot/transfer) to make a payment link. Entering an amount like 100 USD and clicking the button **COPY REWARD ME LINK** will copy the link to your clipboard, and you can share it with us, like whenever you are filling up a bug report or submitting pull-request
 
-Your receiving address should be looks like this.
+Your receiving address should look like this.
 
 `https://kodadot.xyz/dot/transfer?target=${your address}&usdamount=100&donation=true`
 

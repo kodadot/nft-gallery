@@ -7,9 +7,9 @@
     </NeoField>
 
     <CollectionSelect
-      v-model="vSelectedCollection"
       :collections="collections"
-      :show-explainer-text="showExplainerText" />
+      :show-explainer-text="showExplainerText"
+      @changeSelectedCollection="onCollectionSelected" />
 
     <transition-group name="fade">
       <template v-if="vSelectedCollection">
@@ -111,6 +111,10 @@ export default class BaseTokenForm extends Vue {
     const nftNameValid = this.nftName.checkValidity()
     const uploadValid = this.upload.checkValidity()
     return nftNameValid && uploadValid
+  }
+
+  public onCollectionSelected(collection) {
+    this.vSelectedCollection = collection
   }
 
   get clickableMax() {

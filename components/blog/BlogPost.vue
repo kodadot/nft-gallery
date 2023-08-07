@@ -64,6 +64,7 @@ useNuxt2Meta({
   .subtitle {
     font-size: 25px;
     margin-bottom: 0;
+    white-space: break-spaces;
   }
 
   h1,

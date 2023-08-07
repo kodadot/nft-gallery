@@ -6,7 +6,6 @@
         <NeoIcon
           v-if="showCheckmark"
           icon="circle-check"
-          size="small"
           variant="success"
           class="ml-3" />
         <div v-else class="icon-placeholder ml-3" />
