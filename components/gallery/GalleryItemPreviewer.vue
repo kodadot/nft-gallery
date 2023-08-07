@@ -37,7 +37,6 @@ const props = defineProps<{
 }>()
 
 const nft = computed(() => props.galleryItem.nft.value)
-const nftMimeType = computed(() => props.galleryItem.nftMimeType.value)
 const nftAnimation = computed(() => props.galleryItem.nftAnimation.value)
 
 const emit = defineEmits(['input'])
