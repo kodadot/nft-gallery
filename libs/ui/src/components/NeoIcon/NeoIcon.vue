@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import { OIcon } from '@oruga-ui/oruga'
+import { OIcon } from '@oruga-ui/oruga-next'
 
 defineProps<{
   size?: 'small' | 'medium' | 'large'

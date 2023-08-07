@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitest/config'
 import { resolve } from 'path'
-import { createVuePlugin } from 'vite-plugin-vue2'
+import { createVuePlugin } from 'vite-plugin-vue'
 import graphql from '@rollup/plugin-graphql'
 
 export default defineConfig({

@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { OSkeleton } from '@oruga-ui/oruga'
+import { OSkeleton } from '@oruga-ui/oruga-next'
 
 export interface Props {
   itemClass?: string

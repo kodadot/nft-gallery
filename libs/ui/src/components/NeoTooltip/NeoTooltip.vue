@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { OTooltip } from '@oruga-ui/oruga'
+import { OTooltip } from '@oruga-ui/oruga-next'
 import { LocaleMessage } from 'vue-i18n'
 export interface Props {
   label?: string | LocaleMessage
@@ -84,6 +84,6 @@ const handleClick = (event: MouseEvent) => {
 </script>
 
 <style lang="scss">
-// @import '@oruga-ui/oruga/dist/oruga.min.css';
+// @import '@oruga-ui/oruga-next/dist/oruga.min.css';
 @import './NeoTooltip.scss';
 </style>

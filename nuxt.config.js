@@ -243,7 +243,7 @@ export default defineNuxtConfig({
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
     '@nuxtjs/sentry',
-    '@kevinmarrec/nuxt-pwa',
+    // '@kevinmarrec/nuxt-pwa',
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
     ['@pinia/nuxt', { disableVuex: false }],
@@ -277,22 +277,22 @@ export default defineNuxtConfig({
     },
   },
 
-  pwa: {
-    manifest: {
-      name: 'KodaDot - Polkadot NFT explorer',
-      short_name: 'KodaDot',
-      background_color: '#ffffff',
-      theme_color: '#ffffff',
-      start_url: '/',
-      icons: manifestIcons,
-    },
-    workbox: {
-      // enabled: true, // enable this to use workbox in localhost
-      autoRegister: true,
-      workboxVersion: '6.5.4',
-    },
-    icon: false,
-  },
+  // pwa: {
+  //   manifest: {
+  //     name: 'KodaDot - Polkadot NFT explorer',
+  //     short_name: 'KodaDot',
+  //     background_color: '#ffffff',
+  //     theme_color: '#ffffff',
+  //     start_url: '/',
+  //     icons: manifestIcons,
+  //   },
+  //   workbox: {
+  //     // enabled: true, // enable this to use workbox in localhost
+  //     autoRegister: true,
+  //     workboxVersion: '6.5.4',
+  //   },
+  //   icon: false,
+  // },
 
   i18n: {
     skipSettingLocaleOnNavigate: true,

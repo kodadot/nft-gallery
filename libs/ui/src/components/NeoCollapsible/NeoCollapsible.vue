@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-import { OCollapse, OIcon } from '@oruga-ui/oruga'
+import { OCollapse, OIcon } from '@oruga-ui/oruga-next'
 defineProps<{
   disabled?: boolean
 }>()

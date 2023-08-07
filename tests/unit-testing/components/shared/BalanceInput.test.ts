@@ -1,5 +1,5 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-import Oruga from '@oruga-ui/oruga'
+import Oruga from '@oruga-ui/oruga-next'
 import { expect, it, vi } from 'vitest'
 
 import { units } from '@/params/constants'

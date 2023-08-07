@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { OCheckbox } from '@oruga-ui/oruga'
+import { OCheckbox } from '@oruga-ui/oruga-next'
 const props = defineProps<{
   disabled?: boolean
   value: boolean
