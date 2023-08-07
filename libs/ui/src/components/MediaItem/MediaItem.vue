@@ -45,10 +45,6 @@ export default {
       type: String,
       default: '',
     },
-    mimeType: {
-      type: String,
-      default: '',
-    },
     title: {
       type: String,
       default: 'KodaDot NFT',
@@ -93,7 +89,7 @@ export default {
   },
   computed: {
     resolveComponent() {
-      const type = this.mimeType || this.defaultMimeType
+      const type = this.defaultMimeType
       return this.components[resolveMedia(type) + SUFFIX]
     },
     properSrc() {
@@ -110,7 +106,7 @@ export default {
   },
   methods: {
     async updateComponent() {
-      if (this.animationSrc && !this.mimeType) {
+      if (this.animationSrc) {
         this.defaultMimeType = await getMimeType(this.animationSrc)
       }
     },

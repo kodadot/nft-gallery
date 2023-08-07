@@ -35,7 +35,6 @@
                 <MediaItem
                   :key="resource.src"
                   :src="resource.src"
-                  :mime-type="resource.mimeType"
                   :animation-src="resource.animation"
                   is-detail />
               </NeoCarouselItem>
@@ -52,7 +51,6 @@
             class="gallery-item-media"
             :src="nftImage"
             :animation-src="nftAnimation"
-            :mime-type="nftMimeType"
             :title="nftMetadata?.name"
             is-detail
             :is-lewd="galleryDescriptionRef?.isLewd"

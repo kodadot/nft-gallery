@@ -5,23 +5,17 @@
     <nuxt-link
       :to="urlOf({ id: item.id, url, chain: item.chain })"
       rel="nofollow">
-      <PreviewMediaResolver
-        v-if="item.animationUrl"
-        :src="item.animationUrl"
-        :poster="imageSrc || ''"
-        :metadata="item.metadata" />
-      <BasicImage
-        v-else
-        :src="imageSrc"
-        :alt="item.name"
-        custom-class="carousel__image-wrapper" />
+      <MediaItem
+        class="carousel__image-wrapper"
+        :src="item.image || ''"
+        :animation-src="item.animationUrl || ''"
+        :title="item.name" />
     </nuxt-link>
   </div>
 </template>
 
 <script lang="ts" setup>
-import PreviewMediaResolver from '@/components/media/PreviewMediaResolver.vue'
-import BasicImage from '@/components/shared/view/BasicImage.vue'
+import { MediaItem } from '@kodadot1/brick'
 
 import type { CarouselNFT } from '@/components/base/types'
 import type { NFTWithMetadata } from '@/composables/useNft'

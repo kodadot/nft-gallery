@@ -121,7 +121,6 @@
             class="gallery-parent-item"
             :src="parent?.nftImage.value"
             :animation-src="parent?.nftAnimation.value"
-            :mime-type="parent?.nftMimeType.value"
             :title="parent?.nftMetadata?.value?.name"
             is-detail />
           <p class="gallery-parent-item__name">

@@ -18,7 +18,6 @@
         :src="itemSrc"
         :placeholder="placeholder"
         :animation-src="nftAnimation"
-        :mime-type="nftMimeType"
         :title="nft?.name || nft?.id"
         original />
     </div>

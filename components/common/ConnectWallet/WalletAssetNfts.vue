@@ -7,9 +7,7 @@
         v-for="nft in nfts.slice(0, 3)"
         :key="nft.meta.id"
         :href="`/${urlPrefix}/gallery/${nft.id}`">
-        <MediaItem
-          :src="sanitizeIpfsUrl(nft.meta.image)"
-          :mime-type="nft.type" />
+        <MediaItem :src="sanitizeIpfsUrl(nft.meta.image)" />
       </a>
     </div>
   </div>
