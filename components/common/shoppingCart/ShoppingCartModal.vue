@@ -163,7 +163,7 @@ const onCompletePurchase = () => {
       closeAfterConnect: true,
     })
   } else {
-    openCompletePurcahseModal
+    openCompletePurcahseModal()
   }
 
   closeShoppingCart()
