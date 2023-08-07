@@ -10,7 +10,7 @@
     <div
       v-for="post in featuredPost.slice(0, 1)"
       :key="post.attributes.title"
-      class="hero-card content-list mb-5">
+      class="content-featured content-list">
       <div
         class="content-list-cover"
         :style="{ backgroundImage: `url(${post.attributes.image})` }"></div>
@@ -135,6 +135,10 @@ export default {
 .content {
   margin: 0 auto;
   max-width: 60rem;
+
+  &-featured {
+    margin-bottom: 5rem;
+  }
 
   &-headline {
     h1 {
