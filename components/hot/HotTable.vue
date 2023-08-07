@@ -10,7 +10,7 @@
         {{ props.row.id }}
       </NeoTableColumn>
       <NeoTableColumn v-slot="props" label="Series Name">
-        <nuxt-link :to="`/rmrk/collection/${props.row.collectionId}`">
+        <nuxt-link :to="`/${urlPrefix}/collection/${props.row.collectionId}`">
           {{ props.row.name }}
         </nuxt-link>
       </NeoTableColumn>
@@ -53,7 +53,7 @@ import { lastweekDate } from '@/components/series/utils'
 
 const hot = ref([])
 const { $apollo } = useNuxtApp()
-const { client } = usePrefix()
+const { client, urlPrefix } = usePrefix()
 const { decimals } = useChain()
 
 const { pending } = useLazyAsyncData('data', async () => {
