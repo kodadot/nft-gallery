@@ -5,6 +5,10 @@
       <div class="subtitle has-text-weight-medium">
         Let’s Explore The NFT Universe
       </div>
+      <img
+        class="content-headline-cover"
+        src="/blog-cover.png"
+        alt="KodaDot Blog" />
     </div>
 
     <div
@@ -137,11 +141,25 @@ export default {
   max-width: 60rem;
 
   &-featured {
+    position: relative;
+    z-index: 1;
     margin-bottom: 5rem;
   }
 
   &-headline {
+    position: relative;
+
+    &-cover {
+      position: absolute;
+      top: -100%;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 25rem;
+    }
+
     h1 {
+      position: relative;
+      z-index: 1;
       letter-spacing: -0.02em;
       @include ktheme() {
         color: theme('text-color-inverse');
@@ -154,6 +172,8 @@ export default {
     }
 
     .subtitle {
+      position: relative;
+      z-index: 1;
       font-size: 1.5rem;
       margin-bottom: 5rem;
     }
@@ -180,6 +200,19 @@ export default {
 
       &-cover {
         border-bottom: 1px solid theme('card-border-color');
+      }
+
+      &:hover {
+        border-color: theme('border-color');
+
+        p,
+        div {
+          color: theme('text-color');
+        }
+
+        .content-board-cover {
+          opacity: theme('card-hover-opacity');
+        }
       }
     }
 
