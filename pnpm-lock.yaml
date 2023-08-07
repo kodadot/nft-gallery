@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: false
@@ -68,8 +68,8 @@ importers:
         specifier: thisismydesign/sitemap-module#cd4dc22293b9b67e8ebb5b3c49840e67c108e312
         version: github.com/thisismydesign/sitemap-module/cd4dc22293b9b67e8ebb5b3c49840e67c108e312
       '@paraspell/sdk':
-        specifier: ^1.1.15
-        version: 1.1.15(@polkadot/api-base@10.6.1)(@polkadot/api@10.6.1)(@polkadot/apps-config@0.130.1)(@polkadot/types@10.6.1)
+        specifier: ^2.0.5
+        version: 2.0.5(@polkadot/api-base@10.6.1)(@polkadot/api@10.6.1)(@polkadot/apps-config@0.130.1)(@polkadot/types@10.6.1)
       '@pinia/nuxt':
         specifier: ^0.4.11
         version: 0.4.11(typescript@4.9.5)(vue@2.7.14)
@@ -5085,8 +5085,8 @@ packages:
       '@open-web3/orml-type-definitions': 2.0.1
     dev: false
 
-  /@paraspell/sdk@1.1.15(@polkadot/api-base@10.6.1)(@polkadot/api@10.6.1)(@polkadot/apps-config@0.130.1)(@polkadot/types@10.6.1):
-    resolution: {integrity: sha512-CC9T25GIiqq7ihAQCurZpkmNC7C+zIjgbr4VmQPU2KBJmrkCvbxsOTv00uGNuLLH2Cuj3T4sK8DDYKlQ9dSpTw==}
+  /@paraspell/sdk@2.0.5(@polkadot/api-base@10.6.1)(@polkadot/api@10.6.1)(@polkadot/apps-config@0.130.1)(@polkadot/types@10.6.1):
+    resolution: {integrity: sha512-OBe4A5fTFMlNz9zkr/WqWlEloFF92PWQmJvJvbjKemfPOGkXlsGRNZjNR5sNy+zdxEboUKSQdgFRdV8OLz2tqg==}
     peerDependencies:
       '@polkadot/api': ^10.6.1
       '@polkadot/api-base': ^10.6.1
@@ -14600,6 +14600,7 @@ packages:
 
   /file-uri-to-path@1.0.0:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}
+    requiresBuild: true
 
   /filelist@1.0.4:
     resolution: {integrity: sha512-w1cEuf3S+DrLCQL7ET6kz+gmlJdbq9J7yXCSjK/OZCPA+qEN1WyF4ZAf0YYJa4/shHJra2t/d/r8SV4Ji+x+8Q==}
@@ -20695,6 +20696,7 @@ packages:
 
   /remove-trailing-separator@1.1.0:
     resolution: {integrity: sha512-/hS+Y0u3aOfIETiaiirUFwDBDzmXPvO+jAfKTitUngIPzdKc6Z0LoFjM/CK5PL4C+eKwHohlHAb6H0VFfmmUsw==}
+    requiresBuild: true
     dev: false
 
   /renderkid@2.0.7:

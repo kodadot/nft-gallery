@@ -220,10 +220,6 @@ export default class CreateToken extends mixins(
     return balanceInputValid && baseTokenFormValid
   }
 
-  get arweaveUpload(): boolean {
-    return this.preferencesStore.arweaveUpload
-  }
-
   public async submit() {
     if (!this.base.selectedCollection) {
       throw ReferenceError('[MINT] Unable to mint without collection')
