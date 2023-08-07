@@ -31,7 +31,6 @@ interface State {
   // Minting
   hasSupport: boolean
   hasCarbonOffset: boolean
-  arweaveUpload: boolean
   // Mass Mint
   visitedOnboarding: boolean
 }
@@ -63,7 +62,6 @@ export const usePreferencesStore = defineStore('preferences', {
     replaceBuyNowWithYolo: false,
     hasSupport: true,
     hasCarbonOffset: true,
-    arweaveUpload: false,
     enableAllArtwork: true,
     enableGyroEffect: false,
     gridSize: 'small',
@@ -89,7 +87,6 @@ export const usePreferencesStore = defineStore('preferences', {
     getReplaceBuyNowWithYolo: (state) => state.replaceBuyNowWithYolo,
     getHasSupport: (state) => state.hasSupport,
     getHasCarbonOffset: (state) => state.hasCarbonOffset,
-    getArweaveUpload: (state) => state.arweaveUpload,
     getLoadAllArtwork: (state) => state.enableAllArtwork,
     getEnableGyroEffect: (state) => state.enableGyroEffect,
     getGridSize: (state) => state.gridSize,
@@ -172,9 +169,6 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     setHasCarbonOffset(payload) {
       this.hasCarbonOffset = payload
-    },
-    setArweaveUpload(payload) {
-      this.arweaveUpload = payload
     },
     setAllArtworkVisible(payload) {
       this.enableAllArtwork = payload
