@@ -84,8 +84,17 @@ const instance = getCurrentInstance()
 const identityStore = useIdentityStore()
 const connected = computed(() => Boolean(accountId.value))
 
+enum BuyStatus {
+  BUY,
+  CART,
+}
+
+const btnStatus = computed(() =>
+  shoppingCartStore.isItemInCart(props.nft.id) ? BuyStatus.CART : BuyStatus.BUY
+)
+
 const label = computed(() => {
-  if (shoppingCartStore.isItemInCart(props.nft.id)) {
+  if (btnStatus.value === BuyStatus.CART) {
     return $i18n.t('shoppingCart.gotToCart')
   }
   return $i18n.t(
@@ -120,7 +129,7 @@ const balance = computed<string>(() => {
   }
 })
 const disabled = computed(() => {
-  if (shoppingCartStore.isItemInCart(props.nft.id)) {
+  if (btnStatus.value === BuyStatus.CART) {
     return false
   }
   if (!(Number(props.nft.price) && balance.value) || !connected.value) {
@@ -138,6 +147,10 @@ const openCompletePurcahseModal = () => {
 }
 
 function onClick() {
+  if (btnStatus.value === BuyStatus.CART) {
+    openShoppingCart(instance)
+    return
+  }
   if (!connected.value) {
     openConnectWalletModal(instance, {
       onConnect: openCompletePurcahseModal,
@@ -145,9 +158,8 @@ function onClick() {
     })
     return
   }
-  shoppingCartStore.isItemInCart(props.nft.id)
-    ? openShoppingCart(instance)
-    : openCompletePurcahseModal()
+
+  openCompletePurcahseModal()
 }
 
 const onClickShoppingCart = () => {
