@@ -28,8 +28,8 @@
 </template>
 
 <script setup lang="ts">
+import { getApproximatePriceOf } from '@/utils/coingecko'
 import format, { withoutDigitSeparator } from '@/utils/format/balance'
-import { getApproximatePriceOf, getKSMUSD } from '@/utils/coingecko'
 
 const { decimals, chainSymbol } = useChain()
 
