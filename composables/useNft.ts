@@ -47,7 +47,7 @@ async function getProcessMetadata(nft: NFTWithMetadata) {
   const metadata = (await processSingleMetadata(
     nft.metadata
   )) as NFTWithMetadata
-  const image = sanitizeIpfsUrl(metadata.image || '')
+  const image = sanitizeIpfsUrl(metadata.image || metadata.mediaUri || '')
   const animation_url = sanitizeIpfsUrl(metadata.animation_url || '')
   const getAttributes = () => {
     const hasMetadataAttributes =
@@ -79,6 +79,7 @@ export function getNftMetadata(nft: NFTWithMetadata, prefix: string) {
   if (prefix === 'stmn') {
     return getProcessMetadata(nft)
   }
+
   if (nft.meta && nft.meta.image) {
     return getGeneralMetadata(nft)
   }
