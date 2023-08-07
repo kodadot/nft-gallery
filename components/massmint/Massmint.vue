@@ -4,7 +4,7 @@
     <div>
       <section class="is-flex controls">
         <NeoButton class="left" @click.native="toOnborading">
-          <NeoIcon icon="arrow-left" size="small" class="mr-1" />
+          <NeoIcon icon="arrow-left" class="mr-1" />
           {{ $t('massmint.backToOnbaording') }}
         </NeoButton>
         <div class="dropdown-container">

@@ -157,7 +157,10 @@ export async function execMintRmrk({
 
   const isSingle = args.length === 1
   const cb = isSingle ? api.tx.system.remark : api.tx.utility.batchAll
-  const arg = isSingle ? args : [args]
+
+  const arg = isSingle
+    ? args
+    : [args.filter(Boolean).map((arg) => asSystemRemark(api, arg as string))]
 
   executeTransaction({
     cb,
