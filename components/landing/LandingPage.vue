@@ -43,7 +43,7 @@
 <script lang="ts" setup>
 import type { Prefix } from '@kodadot1/static'
 
-const prefixes: Prefix[] = ['rmrk', 'ksm', 'snek', 'bsx', 'stmn']
+const prefixes: Prefix[] = ['rmrk', 'ksm', 'snek', 'bsx', 'stmn', 'stt']
 const { urlPrefix } = usePrefix()
 
 // currently only supported on rmrk and snek
