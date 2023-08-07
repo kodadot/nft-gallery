@@ -10,6 +10,7 @@
       border: 1px solid theme('border-color');
       color: theme('text-color');
       background: theme('background-color');
+      border-radius: 0;
     }
     &.no-shadow {
       box-shadow: none;
