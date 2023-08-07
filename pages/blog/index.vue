@@ -246,17 +246,17 @@ export default {
       }
 
       .truncate {
-        max-width: 300px;
         display: -webkit-box;
-        -webkit-line-clamp: 4;
+        -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden;
       }
 
-      &-title {
-        font-size: 31px;
-        font-weight: 700;
-        margin-bottom: 1rem;
+      .title {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+        overflow: hidden;
       }
     }
 

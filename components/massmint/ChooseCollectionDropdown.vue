@@ -14,7 +14,6 @@
         <NeoIcon
           v-if="selectedCollection"
           icon="circle-check"
-          size="small"
           variant="success"
           class="ml-3" />
       </NeoButton>
@@ -31,7 +30,7 @@
       <NeoDropdownItem class="dropdown-width">
         <nuxt-link :to="`/${urlPrefix}/create`" class="w-full">
           <div class="w-full">
-            <NeoIcon icon="plus" size="small" class="mr-1" />
+            <NeoIcon icon="plus" class="mr-1" />
             {{ $t('massmint.createNewCollection') }}
           </div>
         </nuxt-link>
@@ -44,7 +43,7 @@
       <NeoDropdownItem class="dropdown-width">
         <nuxt-link :to="`/${urlPrefix}/create`" class="w-full">
           <div class="w-full">
-            <NeoIcon icon="plus" size="small" class="mr-1" />
+            <NeoIcon icon="plus" class="mr-1" />
             {{ $t('massmint.createNewCollection') }}
           </div>
         </nuxt-link>

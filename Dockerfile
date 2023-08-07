@@ -1,7 +1,10 @@
 # Dockerfile
 FROM node:18
 
-RUN npm i -g pnpm
+# Set the same pnpm version as the version in the package.json
+ENV PNPM_VERSION 8.6.0
+
+RUN npm i -g pnpm@$PNPM_VERSION
 WORKDIR /app
 
 COPY . .

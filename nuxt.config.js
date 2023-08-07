@@ -402,7 +402,8 @@ export default defineNuxtConfig({
         process.env.NODE_ENV !== 'development' &&
         process.env.SENTRY_AUTH_TOKEN
       ) {
-        config.devtool = 'source-map'
+        // https://community.cloudflare.com/t/recurring-deployment-issue-on-pages-which-works-on-preview-branch-but-doesnt-on-production-branch/540278/10
+        // config.devtool = 'source-map'
 
         config.plugins.push(
           new SentryWebpackPlugin({

@@ -41,6 +41,15 @@ export function getSumOfObjectField<T>(
     .reduce((acc, cur) => acc + cur, BigInt(0))
 }
 
+export function getNumberSumOfObjectField<T>(
+  list: Array<T>,
+  field: string
+): number {
+  return list
+    .map((x) => Number(x[field]) || 0)
+    .reduce((acc, cur) => acc + cur, Number(0))
+}
+
 export function getVolume(events: Interaction[]): bigint {
   return events
     .map((x) => x.meta)
