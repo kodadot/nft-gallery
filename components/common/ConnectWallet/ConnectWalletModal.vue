@@ -9,7 +9,7 @@
         }}
       </span>
       <a class="is-flex is-align-items-center" @click="emit('close')">
-        <font-awesome-icon :icon="['fasr', 'xmark']" size="sm" />
+        <NeoIcon icon="xmark" pack="fasr" />
       </a>
     </header>
     <section v-if="showAccount">

@@ -7,9 +7,12 @@
         <span class="modal-card-title is-size-6 has-text-weight-bold">
           {{ $t('shoppingCart.title') }}
         </span>
-        <a class="is-flex is-align-items-center" @click="closeShoppingCart">
-          <font-awesome-icon :icon="['fasr', 'xmark']" size="sm" />
-        </a>
+        <NeoButton
+          variant="text"
+          no-shadow
+          icon="xmark"
+          icon-pack="fasr"
+          @click.native="closeShoppingCart" />
       </header>
       <div
         v-if="numberOfItems"

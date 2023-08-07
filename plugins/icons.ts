@@ -251,5 +251,8 @@ Vue.component('VueFontawesome', FontAwesomeIcon).use(Neo, {
         default: 'fw fa-regular',
       },
     },
+    fasr: {
+      iconPrefix: 'fa-',
+    },
   },
 })

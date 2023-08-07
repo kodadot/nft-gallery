@@ -8,7 +8,7 @@
         {{ $t('notification.notifications') }}
       </span>
       <a class="is-flex is-align-items-center" @click="closeModal">
-        <font-awesome-icon :icon="['fasr', 'xmark']" size="sm" />
+        <NeoIcon icon="xmark" pack="fasr" />
       </a>
     </header>
     <div class="px-0 pt-0 pb-3 theme-background-color">
