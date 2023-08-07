@@ -8,7 +8,7 @@
 
 ![image](https://user-images.githubusercontent.com/5887929/217076362-464e1293-8a2d-43ee-829f-fba17408e4c3.png)
 
-#### Is this your first time contributing? Set up your local environment [here](FIRST_TIME.md)
+#### Is this your first time contributing? Set up your local environment [here](./content/blog/first-time.md)
 
 Before submitting your pull request, read up on our [documentation](https://developers.kodadot.xyz) and make sure it follows:
 
@@ -41,7 +41,7 @@ You'll find our goals for KodaDot upcoming future!
 - Read on the ever-evolving states of our [data storage](https://medium.com/kodadot/on-the-past-present-and-future-of-data-storage-at-kodadot-7634a0c32530)
 - Read up on our efforts to be a [public good](https://medium.com/kodadot/on-sustaining-open-source-as-a-public-good-a3e8c36e67d6)
 - Get a glimpse into our [contributor culture](https://medium.com/kodadot/contributor-culture-at-kodadot-665243d3d6a6)
-
+- Read about [keyboard shortcuts](https://medium.com/@ashutoshrishi844101/quick-guide-for-using-keyboard-shortcuts-on-kodadot-83b427d60145)
 # Support KodaDot
 
 #### Please ⭐️ **star** and **share** this repository! This exposes us to other builders and creators in the space.
@@ -54,3 +54,4 @@ You'll find our goals for KodaDot upcoming future!
 - Follow us on [Twitter](https://twitter.com/KodaDot), [Youtube](https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA), [SubStack](https://kodadot.substack.com/) and [Medium](https://blog.kodadot.xyz), [Instagram](https://instagram.com/kodadot.xyz),
 - Join our [Telegram KodaDot Ecosystem](https://t.me/kodadot_eco), [Discord](https://discord.gg/u6ymnbz4PR)
 - [Pick your T-shirt in KodaDot Swag Shop](https://shop.kodadot.xyz), use voucher `readme100` to get 100% OFF, first 10 redemptions only.
+

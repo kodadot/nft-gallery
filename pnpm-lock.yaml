@@ -1,4 +1,4 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
 
 settings:
   autoInstallPeers: false
@@ -67,9 +67,6 @@ importers:
       '@nuxtjs/sitemap':
         specifier: thisismydesign/sitemap-module#cd4dc22293b9b67e8ebb5b3c49840e67c108e312
         version: github.com/thisismydesign/sitemap-module/cd4dc22293b9b67e8ebb5b3c49840e67c108e312
-      '@oruga-ui/oruga':
-        specifier: ^0.6.0
-        version: 0.6.0(vue@2.7.14)
       '@paraspell/sdk':
         specifier: ^1.1.15
         version: 1.1.15(@polkadot/api-base@10.6.1)(@polkadot/api@10.6.1)(@polkadot/apps-config@0.130.1)(@polkadot/types@10.6.1)
@@ -408,6 +405,9 @@ importers:
       '@histoire/plugin-vue2':
         specifier: ^0.16.1
         version: 0.16.1(histoire@0.16.2)(vite@3.2.7)(vue@2.7.14)
+      '@oruga-ui/oruga':
+        specifier: ^0.6.0
+        version: 0.6.0(vue@2.7.14)
       '@vitejs/plugin-vue2':
         specifier: ^2.2.0
         version: 2.2.0(vite@3.2.7)(vue@2.7.14)
@@ -422,7 +422,7 @@ importers:
         version: 0.16.2(sass@1.64.0)(vite@3.2.7)
       vite:
         specifier: ^3.2.7
-        version: 3.2.7(@types/node@20.2.5)(sass@1.64.0)
+        version: 3.2.7(sass@1.64.0)(terser@5.17.7)
       vue:
         specifier: 2.7.14
         version: 2.7.14
@@ -3721,7 +3721,7 @@ packages:
       chokidar: 3.5.3
       pathe: 0.2.0
       picocolors: 1.0.0
-      vite: 3.2.7(@types/node@20.2.5)(sass@1.64.0)
+      vite: 3.2.7(sass@1.64.0)(terser@5.17.7)
     dev: true
 
   /@histoire/vendors@0.16.0:
@@ -5077,7 +5077,7 @@ packages:
       vue: ^2.6.11
     dependencies:
       vue: 2.7.14
-    dev: false
+    dev: true
 
   /@parallel-finance/type-definitions@1.7.17:
     resolution: {integrity: sha512-OFz9sXwlp90xDdKK1gUvpdUsnlUPhhRhzvC0SqOnnT1SCpJgPv4RD5DGBN6wSHuRwNsYnCWH+8RkK7jWVgUvrQ==}
@@ -8791,7 +8791,7 @@ packages:
       vite: ^3.0.0 || ^4.0.0
       vue: ^2.7.0-0
     dependencies:
-      vite: 3.2.7(@types/node@20.2.5)(sass@1.64.0)
+      vite: 3.2.7(sass@1.64.0)(terser@5.17.7)
       vue: 2.7.14
     dev: true
 
@@ -15670,7 +15670,7 @@ packages:
       sade: 1.8.1
       shiki-es: 0.2.0
       sirv: 2.0.3
-      vite: 3.2.7(@types/node@20.2.5)(sass@1.64.0)
+      vite: 3.2.7(sass@1.64.0)(terser@5.17.7)
       vite-node: 0.28.4(sass@1.64.0)
     transitivePeerDependencies:
       - '@types/node'
@@ -23096,7 +23096,7 @@ packages:
       picocolors: 1.0.0
       source-map: 0.6.1
       source-map-support: 0.5.21
-      vite: 3.2.7(@types/node@20.2.5)(sass@1.64.0)
+      vite: 3.2.7(sass@1.64.0)(terser@5.17.7)
     transitivePeerDependencies:
       - '@types/node'
       - less

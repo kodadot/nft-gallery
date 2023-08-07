@@ -19,11 +19,14 @@
       <div class="has-text-grey is-size-6">
         {{ label }}
       </div>
-      <nuxt-link
+      <component
+        :is="disableIdentityLink ? 'div' : 'nuxt-link'"
         class="identity-name has-text-weight-bold"
         :to="`/${prefix}/u/${account}`">
-        <Identity :address="account" />
-      </nuxt-link>
+        <Identity
+          :address="account"
+          :hide-identity-popover="hideIdentityPopover" />
+      </component>
     </div>
   </div>
 </template>
@@ -43,10 +46,14 @@ withDefaults(
     prefix: string
     variant?: 'normal' | 'button'
     buttonLabel?: string
+    hideIdentityPopover?: boolean
+    disableIdentityLink?: boolean
   }>(),
   {
     variant: 'normal',
     buttonLabel: 'View Profile',
+    hideIdentityPopover: false,
+    disableIdentityLink: false,
   }
 )
 </script>

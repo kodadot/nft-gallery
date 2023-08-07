@@ -26,6 +26,7 @@
     </main>
     <LazyTheFooter />
     <LazyCookieBanner />
+    <Buy />
   </div>
 </template>
 

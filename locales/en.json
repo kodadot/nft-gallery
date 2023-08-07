@@ -22,6 +22,10 @@
   "holders": "Holders",
   "flippers": "Flippers",
   "assets": "Assets",
+  "tip": "Tip",
+  "useTeleport": "Use Teleport",
+  "addFunds": "Add Funds",
+  "or": "or",
   "incomingOffers": "Incoming Offers",
   "transform": "Transform",
   "settings": "Settings",
@@ -38,6 +42,7 @@
   "creative": "Creative",
   "multipleNFTS": "Multiple NFT's",
   "about": "About",
+  "blog": "Blog",
   "ambassador program": "Ambassador Program",
   "artist ambassador": "Artist Ambassador",
   "merchshop": "MerchShop",
@@ -84,6 +89,16 @@
     "landingTitle3": "Marketplace",
     "collectionNotFound": "Our search agents did not found anything with \"{0}\" in collection name",
     "nftNotFound": "Our search agents did not found anything with \"{0}\" in NFT name"
+  },
+  "transfers": {
+    "recipient": "Recipient",
+    "sender": "Sender",
+    "sendSameAmount": "Send same amount",
+    "displayUnit": "Displayed units",
+    "addAddress": "Add recipient",
+    "payMeLink": "Pay me link",
+    "setSameAmount": "Set one amount that will be sent to all recipients",
+    "transferable": "Transferable"
   },
   "topCollections": {
     "timeFrames": {
@@ -478,6 +493,7 @@
       "phaseIntroduction": "We will have a 60-minute window every phase, each featuring only 10 exclusive items.",
       "readyIn": "Your mint will be ready in {0}, DO NOT CLOSE THIS WINDOW",
       "mintLive": "Free Unlockable Mint Live",
+      "mintLiveSmall": "Free Unlockable Mint",
       "takeMe": "Take Me There!",
       "viewItem": "View Item",
       "preparing": "Preparing Your Item...",
@@ -513,6 +529,7 @@
     "failedMaxSize": "Your File is too large",
     "needToSetValidPrice": "In order to list NFT, price has to be more than 0",
     "notEnoughBalance": "Insufficient funds",
+    "notEnoughBalanceChain": "Insufficient funds on {chain} chain",
     "invalidAmount": "Amount must be higher than 0.01 KSM",
     "haveNoToS": "Have no permission to use the asset",
     "smallDisplay": "Small Display",
@@ -790,6 +807,7 @@
     "copyUrl": "Copy URL",
     "openUrl": "Open URL",
     "copyRewardTooltip": "Your reward link copied to clipboard",
+    "copyToClipboard": "Copied to clipboard",
     "copyRewardLink": "Copy Reward Me link",
     "latestSales": "Latest sales",
     "search": "Search",
@@ -1196,5 +1214,27 @@
     "upcoming": "Upcoming",
     "noUpcoming": "Nothing  here yet...",
     "mintingLive": "Minting Live"
+  },
+  "confirmPurchase": {
+    "action": "Confirm Purchase",
+    "connectedWith": "Connected with",
+    "priceForNFTs": "Price for NFT(s)",
+    "royalties": "Royalties",
+    "youWillPay": "You Will Pay",
+    "notEnoughFuns": "Not Enough Funds"
+  },
+  "shoppingCart": {
+    "label": "Shopping Cart",
+    "title": "Cart",
+    "clearAll": "Clear All",
+    "total": "Total",
+    "completePurchase": "Complete Purchase",
+    "emptyCart": {
+      "line1": "Your cart is a little empty",
+      "line2": "Give it some company with cool NFTs from artists across multiple chains!"
+    },
+    "exploreNfts": "Explore NFTs",
+    "gotToCart": "Go To Cart",
+    "buyNow": "Buy Now"
   }
 }
