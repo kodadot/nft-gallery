@@ -16,9 +16,9 @@ export const EXPLORERS: Record<Prefix, string> = {
   snek: 'https://calamar.play.hydration.cloud/rococo%20basilisk/search?query=',
   movr: 'https://moonriver.subscan.io/account/',
   glmr: 'https://moonbeam.subscan.io/account/',
-  stmn: 'https://statemine.subscan.io/account/',
+  stmn: 'https://assethub-kusama.subscan.io/account/',
   dot: 'https://polkadot.subscan.io/account/',
-  stt: 'https://statemint.subscan.io/account/',
+  stt: 'https://assethub-polkadot.subscan.io/account/',
 }
 
 export const hasExplorer = (prefix: Prefix): boolean => {
