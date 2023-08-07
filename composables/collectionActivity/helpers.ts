@@ -12,7 +12,10 @@ import {
 
 export const mintInteraction = () => {
   const { urlPrefix } = usePrefix()
-  return urlPrefix.value === 'ksm' || urlPrefix.value === 'stmn'
+  // https://github.com/kodadot/snek/issues/183
+  return urlPrefix.value === 'ksm' ||
+    urlPrefix.value === 'stmn' ||
+    urlPrefix.value === 'stt'
     ? Interaction.MINT
     : Interaction.MINTNFT
 }
