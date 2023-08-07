@@ -44,25 +44,23 @@
     </div>
 
     <!-- article section with 2 grid cols -->
-    <div v-if="redesign">
-      <h2 class="title is-2">Tokens</h2>
-      <div class="content-list-grid content-list-grid-2">
-        <nuxt-link
-          v-for="post in tokensPosts"
-          :key="post.attributes.title"
-          class="content-board is-block"
-          :to="getPermalink(post)">
-          <div
-            class="content-board-cover"
-            :style="{ backgroundImage: `url(${post.attributes.image})` }"></div>
-          <div class="content-board-text">
-            <p class="has-text-weight-bold">{{ post.attributes.title }}</p>
-            <div class="content-board-subtitle">
-              {{ post.attributes.subtitle }}
-            </div>
+    <h2 class="title is-2">Tokens</h2>
+    <div class="content-list-grid content-list-grid-2">
+      <nuxt-link
+        v-for="post in tokensPosts.slice(0, 2)"
+        :key="post.attributes.title"
+        class="content-board is-block"
+        :to="getPermalink(post)">
+        <div
+          class="content-board-cover"
+          :style="{ backgroundImage: `url(${post.attributes.image})` }"></div>
+        <div class="content-board-text">
+          <p class="has-text-weight-bold">{{ post.attributes.title }}</p>
+          <div class="content-board-subtitle">
+            {{ post.attributes.subtitle }}
           </div>
-        </nuxt-link>
-      </div>
+        </div>
+      </nuxt-link>
     </div>
 
     <!-- article section -->
@@ -94,13 +92,6 @@ export default {
   name: 'BlogList',
   components: {
     NeoButton,
-  },
-  setup() {
-    const { redesign } = useExperiments()
-
-    return {
-      redesign,
-    }
   },
   asyncData() {
     const resolve = require.context('~/content/blog/', true, /\.md$/)
@@ -211,6 +202,7 @@ export default {
         }
 
         .content-board-cover {
+          border-color: theme('border-color');
           opacity: theme('card-hover-opacity');
         }
       }
