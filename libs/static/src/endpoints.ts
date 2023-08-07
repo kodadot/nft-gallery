@@ -41,7 +41,7 @@ export const ALTERNATIVE_ENDPOINT_MAP: Config<WS_URL[]> = {
   ],
   dot: POLKADOT_ENDPOINTS,
   stt: [
-    'wss://statemint-rpc.polkadot.io',
+    'wss://polkadot-asset-hub-rpc.polkadot.io',
     'wss://statemint-rpc.dwellir.com',
     'wss://statemint-rpc-tn.dwellir.com',
     'wss://sys.ibp.network/statemint',
@@ -59,5 +59,5 @@ export const ENDPOINT_MAP: Config<WS_URL> = {
   snek: 'wss://basilisk-rococo-rpc.play.hydration.cloud',
   stmn: 'wss://kusama-asset-hub-rpc.polkadot.io',
   dot: POLKADOT_ENDPOINTS[0],
-  stt: 'wss://statemint-rpc.polkadot.io',
+  stt: 'wss://polkadot-asset-hub-rpc.polkadot.io',
 }
