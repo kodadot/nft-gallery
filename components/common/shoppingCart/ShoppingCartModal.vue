@@ -99,13 +99,12 @@ import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 
 import emptyCart from '@/assets/empty-cart.png'
 import { totalPriceUsd } from './utils'
-import { openConnectWalletModal } from '../ConnectWallet/useConnectWallet'
 
 const prefrencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { urlPrefix } = usePrefix()
-const { isLogIn } = useAuth()
-const instance = getCurrentInstance()
+const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
+
 const emit = defineEmits(['close'])
 
 const items = computed(() =>
@@ -157,15 +156,7 @@ const openCompletePurcahseModal = () => {
 }
 
 const onCompletePurchase = () => {
-  if (!isLogIn.value) {
-    openConnectWalletModal(instance, {
-      onConnect: openCompletePurcahseModal,
-      closeAfterConnect: true,
-    })
-  } else {
-    openCompletePurcahseModal()
-  }
-
+  doAfterLogin(openCompletePurcahseModal)
   closeShoppingCart()
 }
 </script>

@@ -38,12 +38,11 @@ import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'
 import { nftToShoppingCardItem } from '@/components/common/shoppingCart/utils'
 import { isOwner as checkOwner } from '@/utils/account'
-import { openConnectWalletModal } from '@/components/common/ConnectWallet/useConnectWallet'
 
 const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()
-const { accountId, isLogIn } = useAuth()
-const instance = getCurrentInstance()
+const { accountId } = useAuth()
+const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
 const { unlockableIcon } = useUnlockableIcon()
 const shoppingCartStore = useShoppingCartStore()
 const preferencesStore = usePreferencesStore()
@@ -76,14 +75,7 @@ const openCompletePurcahseModal = () => {
 }
 
 const onClickBuy = () => {
-  if (!isLogIn.value) {
-    openConnectWalletModal(instance, {
-      onConnect: openCompletePurcahseModal,
-      closeAfterConnect: true,
-    })
-  } else {
-    openCompletePurcahseModal()
-  }
+  doAfterLogin(openCompletePurcahseModal)
 }
 
 const onClickShoppingCart = () => {

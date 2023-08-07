@@ -81,6 +81,7 @@ const shoppingCartStore = useShoppingCartStore()
 const { cartIcon } = useShoppingCartIcon(props.nft.id)
 
 const instance = getCurrentInstance()
+const { doAfterLogin } = useDoAfterlogin(instance)
 const identityStore = useIdentityStore()
 const connected = computed(() => Boolean(accountId.value))
 
@@ -149,17 +150,9 @@ const openCompletePurcahseModal = () => {
 function onClick() {
   if (btnStatus.value === BuyStatus.CART) {
     openShoppingCart(instance)
-    return
+  } else {
+    doAfterLogin(openCompletePurcahseModal)
   }
-  if (!connected.value) {
-    openConnectWalletModal(instance, {
-      onConnect: openCompletePurcahseModal,
-      closeAfterConnect: true,
-    })
-    return
-  }
-
-  openCompletePurcahseModal()
 }
 
 const onClickShoppingCart = () => {
