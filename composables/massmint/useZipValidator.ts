@@ -87,7 +87,7 @@ async function checkZipFileValidity(entries: {
       isEntryValid = false
     }
 
-    if (isEntryValid && (entry.isDirectory || name.includes('/'))) {
+    if (isEntryValid && entry.isDirectory) {
       warnings.push({
         name,
         reason: 'is a directory',
