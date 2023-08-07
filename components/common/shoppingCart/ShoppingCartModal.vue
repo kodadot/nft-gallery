@@ -3,7 +3,7 @@
     <div
       class="shopping-cart-modal-container theme-background-color border-left is-flex is-flex-direction-column">
       <header
-        class="py-5 px-6 is-flex is-justify-content-space-between border-bottom">
+        class="py-5 px-6 is-flex is-justify-content-space-between border-bottom is-align-items-center">
         <span class="modal-card-title is-size-6 has-text-weight-bold">
           {{ $t('shoppingCart.title') }}
         </span>
@@ -69,12 +69,13 @@
             $t('shoppingCart.emptyCart.line2')
           }}</span>
           <NeoButton
-            :label="$t('shoppingCart.exploreNfts')"
             rounded
             no-shadow
             tag="a"
-            :href="`/${urlPrefix}/explore/items`"
-            icon="magnifying-glass" />
+            :href="`/${urlPrefix}/explore/items`">
+            {{ $t('shoppingCart.exploreNfts') }}
+            <NeoIcon icon="magnifying-glass" />
+          </NeoButton>
         </div>
         <div class="pt-4">
           <NeoButton
@@ -90,7 +91,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import ShoppingCartItemRow from './ShoppingCartItemRow.vue'
