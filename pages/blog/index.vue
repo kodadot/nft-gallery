@@ -19,7 +19,9 @@
         <div>
           <div class="card-tag">• {{ post.attributes.tags }}</div>
           <p class="title is-4">
-            <a :href="getPermalink(post)">{{ post.attributes.title }}</a>
+            <nuxt-link :to="getPermalink(post)">
+              {{ post.attributes.title }}
+            </nuxt-link>
           </p>
           <div class="truncate mb-4">{{ post.attributes.subtitle }}</div>
         </div>
@@ -41,11 +43,11 @@
     <div v-if="redesign">
       <h2 class="title is-2">Tokens</h2>
       <div class="content-list-grid content-list-grid-2">
-        <a
+        <nuxt-link
           v-for="post in tokensPosts"
           :key="post.attributes.title"
           class="content-board is-block"
-          :href="getPermalink(post)">
+          :to="getPermalink(post)">
           <div
             class="content-board-cover"
             :style="{ backgroundImage: `url(${post.attributes.image})` }"></div>
@@ -55,18 +57,18 @@
               {{ post.attributes.subtitle }}
             </div>
           </div>
-        </a>
+        </nuxt-link>
       </div>
     </div>
 
     <!-- article section -->
     <h2 class="title is-2">Latest Posts</h2>
     <div class="content-list-grid">
-      <a
+      <nuxt-link
         v-for="post in posts"
         :key="post.attributes.title"
         class="content-board is-block"
-        :href="getPermalink(post)">
+        :to="getPermalink(post)">
         <div
           class="content-board-cover"
           :style="{ backgroundImage: `url(${post.attributes.image})` }"></div>
@@ -76,7 +78,7 @@
             {{ post.attributes.subtitle }}
           </div>
         </div>
-      </a>
+      </nuxt-link>
     </div>
   </div>
 </template>
