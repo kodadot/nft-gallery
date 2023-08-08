@@ -86,24 +86,19 @@
       <hr class="my-2" />
       <div v-if="nftImage" class="is-flex is-justify-content-space-between">
         <p>{{ $t('tabs.tabDetails.media') }}</p>
-        <a
-          :href="mediaURL"
-          target="_blank"
-          rel="nofollow noopener noreferrer"
-          class="has-text-link"
-          data-cy="media-link">
-          {{ nftMimeType }}
-        </a>
+        <div @click="openLink(nftImage)">
+          <a class="has-text-link" data-cy="media-link">
+            {{ nftMimeType }}
+          </a>
+        </div>
       </div>
       <div v-if="nftAnimation" class="is-flex is-justify-content-space-between">
         <p>{{ $t('tabs.tabDetails.animatedMedia') }}</p>
-        <a
-          :href="animationURL"
-          target="_blank"
-          rel="nofollow noopener noreferrer"
-          class="has-text-link">
-          {{ animationMediaMimeType }}
-        </a>
+        <div @click="openLink(nftAnimation)">
+          <a class="has-text-link">
+            {{ animationMediaMimeType }}
+          </a>
+        </div>
       </div>
       <div class="is-flex is-justify-content-space-between">
         <p>{{ $t('tabs.tabDetails.metadata') }}</p>
@@ -228,8 +223,6 @@ const propertiesTabDisabled = computed(() => {
 const metadataMimeType = ref('application/json')
 const metadataURL = ref('')
 const animationMediaMimeType = ref('')
-const animationURL = ref('')
-const mediaURL = ref('')
 
 watchEffect(async () => {
   if (nft.value?.metadata) {
@@ -245,11 +238,10 @@ watchEffect(async () => {
 
   if (nftAnimation.value) {
     animationMediaMimeType.value = await getMimeType(nftAnimation.value)
-    animationURL.value = toCloudflareIpfsUrl(nftAnimation.value)
-  }
-
-  if (nftImage.value) {
-    mediaURL.value = toCloudflareIpfsUrl(nftImage.value)
   }
 })
+
+const openLink = (link) => {
+  window.open(toCloudflareIpfsUrl(link), '_blank')
+}
 </script>
