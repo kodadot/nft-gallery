@@ -5,8 +5,7 @@ export default function () {
     redesign: computed(
       () =>
         searchParams.get('redesign') === 'true' ||
-        localStorage.getItem('redesign') === 'true' ||
-        searchParams.get('edge') === 'true'
+        localStorage.getItem('redesign') === 'true'
     ),
   }
 }
