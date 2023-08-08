@@ -25,20 +25,10 @@
         <NeoIcon icon="info-circle" pack="fas" />
       </NeoTooltip>
     </div>
-    <div class="py-2 is-flex">
-      <ArweaveUploadSwitch v-model="arweaveUpload" />
-      <NeoTooltip
-        :label="$i18n.t('arweave.tooltip')"
-        position="bottom"
-        multiline>
-        <NeoIcon icon="info-circle" pack="fas" />
-      </NeoTooltip>
-    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import ArweaveUploadSwitch from '@/components/rmrk/Create/ArweaveUploadSwitch.vue'
 import Support from '@/components/shared/Support.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
@@ -51,9 +41,5 @@ const hasSupport = computed({
 const hasCarbonOffset = computed({
   get: () => preferencesStore.getHasCarbonOffset,
   set: (value) => preferencesStore.setHasCarbonOffset(value),
-})
-const arweaveUpload = computed({
-  get: () => preferencesStore.arweaveUpload,
-  set: (value) => preferencesStore.setArweaveUpload(value),
 })
 </script>

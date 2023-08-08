@@ -36,6 +36,7 @@ type ChainType =
   | 'basilisk'
   | 'basilisk-testnet'
   | 'statemine'
+  | 'statemint'
 type ChainDetail = {
   balance: string
   nativeBalance: string
@@ -102,6 +103,7 @@ export const useIdentityStore = defineStore('identity', {
       { chain: 'kusama' },
       { chain: 'statemine' },
       { chain: 'polkadot', token: 'DOT' },
+      { chain: 'statemint', token: 'DOT' },
       { chain: 'basilisk', token: 'BSX' },
       { chain: 'basilisk', token: 'KSM', tokenId: getKusamaAssetId('bsx') },
     ],

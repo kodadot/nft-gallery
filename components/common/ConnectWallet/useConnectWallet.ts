@@ -8,14 +8,37 @@ export const ConnectWalletModalConfig = {
   autoFocus: false,
 }
 
-export const openConnectWalletModal = (instance) => {
+export interface OpenWalletModalConfig {
+  onConnect?: (account: string) => void
+  closeAfterConnect?: boolean
+}
+
+export const openConnectWalletModal = (
+  instance,
+  { onConnect, closeAfterConnect }: OpenWalletModalConfig = {}
+) => {
   const modal = ref<BModalComponent | null>()
+
+  const onCancel = () => {
+    modal.value = null
+  }
+
+  const closeModal = () => {
+    modal.value?.close()
+  }
 
   modal.value = Modal.open({
     parent: instance?.proxy,
-    onCancel: () => {
-      modal.value = null
-      document.body.classList.remove('is-clipped')
+    onCancel,
+    events: {
+      connect: (account: string) => {
+        if (onConnect) {
+          onConnect(account)
+        }
+        if (closeAfterConnect) {
+          closeModal()
+        }
+      },
     },
     ...ConnectWalletModalConfig,
   } as unknown as BModalConfig)

@@ -9,7 +9,7 @@ const hasCreate: Config<boolean> = {
   glmr: false,
   snek: true,
   dot: false,
-  stt: false,
+  stt: true,
 }
 
 const hasExplorer: Config<boolean> = {
