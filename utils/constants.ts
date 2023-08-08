@@ -20,6 +20,11 @@ export const bsxDenyList = [
   'bXjMVEdCzhjYbPc5rJk7NvPSDRiiNuCT3GdqohFp3wdpzJL6Z', // Beeple, copycat
 ]
 
+export const statemintDenyList = [
+  '128qRiVjxU3TuT37tg7AX99zwqfPtj2t4nDKUv9Dvi5wzxuF', // RMRK test
+  '155HWw3J9jyYphMm5is4vp9Bzj7ZRRd6HEzCPdWd8cq97KfT', // Very old unreacheable IPFS
+]
+
 export const IPFS_KODADOT_IMAGE_PLACEHOLDER =
   'bafkreifahjdjerrz65puqznmsu2acoktrxjbo3vvp2f2j4eb7h5tc345fi'
 
@@ -49,7 +54,7 @@ export const URLS = {
     antick: 'https://squid.subsquid.io/antick/v/001-rc0/graphql',
     marck: 'https://squid.subsquid.io/marck/graphql',
     stick: 'https://squid.subsquid.io/stick/graphql',
-    speck: 'https://squid.subsquid.io/speck/v/v1/graphql',
+    speck: 'https://squid.subsquid.io/speck/v/v2/graphql',
     replicate: 'https://replicate.kodadot.workers.dev/',
     search: 'https://polysearch.w.kodadot.xyz',
     baseUrl: 'https://kodadot.xyz',

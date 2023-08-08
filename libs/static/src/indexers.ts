@@ -13,7 +13,7 @@ export const INDEXERS: Config<SquidEndpoint> = {
   snek: 'https://squid.subsquid.io/snekk/v/004/graphql',
   stmn: 'https://squid.subsquid.io/stick/graphql',
   dot: 'https://squid.subsquid.io/rubick/graphql', // TODO: change to dot indexer when available
-  stt: 'https://squid.subsquid.io/speck/v/v1/graphql',
+  stt: 'https://squid.subsquid.io/speck/graphql',
 }
 
 export const toApolloEndpoint = (httpEndpoint: string): ApolloEndpoint => ({
