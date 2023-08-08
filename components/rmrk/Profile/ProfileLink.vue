@@ -7,7 +7,7 @@
       link="u">
       <Identity v-if="address" :address="address" />
       <template #extra>
-        <Avatar :size="avatarSize || 24" :value="address" class="mr-2" />
+        <Avatar :size="avatarSize" :value="address" class="mr-2" />
       </template>
     </LinkResolver>
     <template v-if="showTwitter">
@@ -21,30 +21,17 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, mixins } from 'nuxt-property-decorator'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-import shortAddress from '@/utils/shortAddress'
+<script setup lang="ts">
+import Identity from '@/components/identity/IdentityIndex.vue'
 
-const components = {
-  Identity: () => import('@/components/identity/IdentityIndex.vue'),
-  LinkResolver: () => import('@/components/shared/LinkResolver.vue'),
-}
+const { urlPrefix } = usePrefix()
 
-@Component({ components })
-export default class ProfileLink extends mixins(PrefixMixin) {
-  @Prop() public address!: string
-  @Prop(Boolean) public showTwitter!: boolean
-  @Prop(Boolean) public showDiscord!: boolean
-  @Prop() public avatarSize!: number
-  get shortendId(): string {
-    return shortAddress(this.address)
-  }
-
-  get verticalAlign(): boolean {
-    return this.showTwitter
-  }
-}
+defineProps({
+  address: { type: String, default: '' },
+  showTwitter: { type: Boolean, default: false },
+  showDiscord: { type: Boolean, default: false },
+  avatarSize: { type: Number, default: 24 },
+})
 </script>
 
 <style scoped>
