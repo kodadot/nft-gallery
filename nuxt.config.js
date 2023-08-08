@@ -171,6 +171,7 @@ export default defineNuxtConfig({
     '~/plugins/vueClipboard',
     '~/plugins/vueSocialSharing',
     '~/plugins/vueTippy',
+    '~plugins/oruga.ts',
   ],
 
   router: {
