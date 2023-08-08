@@ -364,12 +364,6 @@ const resolveAddress = (account: Address) => {
     ? account.toString()
     : account || ''
 }
-
-const goToRandomPage = async () => {
-  const randomNumber = getRandomIntInRange(1, pageSize.value)
-  currentPage.value = randomNumber
-  await updateSoldHistory()
-}
 </script>
 
 <style scoped lang="scss">
