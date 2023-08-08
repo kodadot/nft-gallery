@@ -4,7 +4,7 @@ type WS_URL = `wss://${string}` | `ws://${string}`
 
 const KUSAMA_ENDPOINTS: WS_URL[] = [
   'wss://kusama-rpc.polkadot.io',
-  'wss://kusama.public.curie.radiumblock.co/ws',
+  // 'wss://kusama.public.curie.radiumblock.co/ws', // https://github.com/polkadot-js/apps/issues/9763
   'wss://rpc.ibp.network/kusama',
   'wss://rpc.dotters.network/kusama',
   'wss://1rpc.io/ksm',
