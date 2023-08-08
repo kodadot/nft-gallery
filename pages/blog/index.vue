@@ -202,7 +202,6 @@ export default {
         }
 
         .content-board-cover {
-          border-color: theme('border-color');
           opacity: theme('card-hover-opacity');
         }
       }
@@ -251,7 +250,11 @@ export default {
         }
       }
 
-      @include touch {
+      @include until(769px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      @include until(426px) {
         grid-template-columns: repeat(1, minmax(0, 1fr));
       }
     }
