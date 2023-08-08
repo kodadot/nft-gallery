@@ -275,6 +275,7 @@ export default defineNuxtConfig({
         return event
       },
     },
+    sourceMapStyle: 'hidden-source-map',
   },
 
   pwa: {
