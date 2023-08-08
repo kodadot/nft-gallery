@@ -9,6 +9,7 @@ export default function () {
       case 'rmrk':
       case 'ksm':
       case 'stmn':
+      case 'stt':
         return identityStore.getAuthBalance
       case 'bsx':
         return identityStore.multiBalances.chains.basilisk?.ksm?.nativeBalance
