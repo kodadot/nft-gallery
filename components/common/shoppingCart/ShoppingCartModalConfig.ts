@@ -1,12 +1,14 @@
 import ShoppingCartModal from './ShoppingCartModal.vue'
-import { ModalProgrammatic as Modal } from 'buefy'
+import { useProgrammatic } from '@oruga-ui/oruga-next'
 import { BModalComponent, BModalConfig } from 'buefy/types/components'
 import { usePreferencesStore } from '@/stores/preferences'
+
+const { oruga } = useProgrammatic()
 
 export const ShoppingCartModalConfig = {
   component: ShoppingCartModal,
   canCancel: ['outside'],
-  customClass: 'shopping-cart-modal',
+  contentClass: 'shopping-cart-modal',
   autoFocus: false,
 }
 
@@ -18,7 +20,8 @@ export const openShoppingCart = (instance) => {
   const preferencesStore = usePreferencesStore()
 
   preferencesStore.setShoppingCartCollapse(true)
-  modal.value = Modal.open({
+
+  modal.value = oruga.modal.open({
     parent: instance?.proxy,
     onCancel: () => {
       modal.value = null
@@ -26,5 +29,5 @@ export const openShoppingCart = (instance) => {
       document.body.classList.remove('is-clipped')
     },
     ...ShoppingCartModalConfig,
-  } as unknown as BModalConfig)
+  })
 }

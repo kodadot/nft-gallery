@@ -9,9 +9,9 @@
     <Loader v-model="isLoading" :status="status" />
     <OfferTable
       :offers="offers"
-      :accountId="accountId"
+      :account-id="accountId"
       is-bsx-stats
-      :headerText="$t('nft.offer.title')"
+      :header-text="$t('nft.offer.title')"
       display-collection />
   </div>
 </template>

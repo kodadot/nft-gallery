@@ -1,12 +1,13 @@
 import RedirectModal from './RedirectModal.vue'
 import { EXTERNAL_LINK_WHITELIST } from '@/utils/constants'
-import { ModalProgrammatic as Modal } from 'buefy'
-import { BModalConfig } from 'buefy/types/components'
+import { useProgrammatic } from '@oruga-ui/oruga-next'
 import VueI18n from 'vue-i18n/types'
 import {
   convertSingularCollectionUrlToKodadotUrl,
   isExternal,
 } from '@/utils/url'
+
+const { oruga } = useProgrammatic()
 
 function isWhiteList(url: string) {
   const urlObj = new URL(url)
@@ -27,15 +28,15 @@ function isWhiteList(url: string) {
 }
 
 const showModal = (url: string, i18n: VueI18n) => {
-  Modal.open({
+  oruga.modal.open({
     component: RedirectModal,
     canCancel: ['outside', 'escape'],
-    customClass: 'redirect-modal',
+    contentClass: 'redirect-modal',
     props: {
       url,
       i18n,
     },
-  } as unknown as BModalConfig)
+  })
 }
 
 export const useRedirectModal = (target: string) => {

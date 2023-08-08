@@ -7,32 +7,30 @@
 
 <script setup lang="ts">
 import { NeoIcon } from '@kodadot1/brick'
-import { ModalProgrammatic as Modal } from 'buefy'
-import { BModalComponent, BModalConfig } from 'buefy/types/components'
+import { useProgrammatic } from '@oruga-ui/oruga-next'
 import { NotificationBoxModalConfig } from '@/components/common/NotificationBox/useNotificationBox'
 import { usePreferencesStore } from '@/stores/preferences'
 
+const { oruga } = useProgrammatic()
 const props = defineProps<{
   showLabel: boolean
 }>()
 const emit = defineEmits(['closeBurgerMenu'])
-const modal = ref<BModalComponent | null>()
+const modal = ref(null)
 const preferencesStore = usePreferencesStore()
-const instance = getCurrentInstance()
 
 function toggleNotificationModal() {
   emit('closeBurgerMenu')
 
   if (!document.querySelector('.notification-box-modal')) {
     preferencesStore.setNotificationBoxCollapse(true)
-    modal.value = Modal.open({
-      parent: instance?.proxy,
+    modal.value = oruga.modal.open({
       onCancel: () => {
         modal.value = null
         preferencesStore.setNotificationBoxCollapse(false)
       },
       ...NotificationBoxModalConfig,
-    } as unknown as BModalConfig)
+    })
   }
 
   // close all modal

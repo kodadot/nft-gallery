@@ -1,8 +1,8 @@
 <template>
   <Flipper
     :events="ownerEventsOfNft"
-    groupKeyOption="CollectionId"
-    nameHeaderLabel="Name" />
+    group-key-option="CollectionId"
+    name-header-label="Name" />
 </template>
 
 <script lang="ts">

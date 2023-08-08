@@ -72,9 +72,9 @@ import { useIdentityStore } from '@/stores/identity'
 import { useLangStore } from '@/stores/lang'
 import { langsFlags as langsFlagsList } from '@/utils/config/i18n'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
-import type { BModalConfig } from 'buefy/types/components'
-import { ModalProgrammatic as Modal } from 'buefy'
+import { useProgrammatic } from '@oruga-ui/oruga-next'
 
+const { oruga } = useProgrammatic()
 const identityStore = useIdentityStore()
 const langStore = useLangStore()
 const instance = getCurrentInstance()
@@ -96,10 +96,10 @@ const setUserLang = (value: string) => {
 
 const toggleWalletConnectModal = () => {
   if (!document.querySelector('.connect-wallet-modal')) {
-    modal.value = Modal.open({
+    modal.value = oruga.modal.open({
       parent: instance?.proxy,
       ...ConnectWalletModalConfig,
-    } as unknown as BModalConfig)
+    })
   }
 
   // close all modal
