@@ -114,6 +114,10 @@ useNuxt2Meta({
     img {
       border: 1px solid theme('border-color');
     }
+
+    a {
+      color: theme('k-blue');
+    }
   }
 
   @include touch {
