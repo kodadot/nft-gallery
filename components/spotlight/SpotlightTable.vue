@@ -26,7 +26,7 @@
       </template>
       <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered"
+        position="centered"
         field="id"
         :label="$t('spotlight.id')">
         <template v-if="!isLoading">
@@ -39,7 +39,7 @@
 
       <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered"
+        position="centered"
         field="sold"
         :label="$t('spotlight.sold')"
         sortable>
@@ -48,7 +48,7 @@
       </NeoTableColumn>
 
       <NeoTableColumn
-        cell-class="is-vcentered"
+        position="centered"
         field="unique"
         :label="$t('spotlight.unique')"
         sortable>
@@ -64,7 +64,7 @@
       </NeoTableColumn>
 
       <NeoTableColumn
-        cell-class="is-vcentered"
+        position="centered"
         field="uniqueCollectors"
         :label="$t('spotlight.uniqueCollectors')"
         sortable>
@@ -81,7 +81,7 @@
 
       <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered"
+        position="centered"
         field="total"
         :label="$t('spotlight.total')"
         sortable>
@@ -91,7 +91,7 @@
 
       <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered"
+        position="centered"
         field="average"
         :label="$t('spotlight.averagePrice')"
         sortable>
@@ -103,7 +103,7 @@
 
       <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered"
+        position="centered"
         field="collections"
         :label="$t('spotlight.count')"
         sortable>
@@ -113,7 +113,7 @@
 
       <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered"
+        position="centered"
         field="volume"
         label="Volume"
         sortable>
@@ -124,7 +124,7 @@
       </NeoTableColumn>
 
       <NeoTableColumn
-        cell-class="is-vcentered"
+        position="centered"
         field="rank"
         :label="$t('spotlight.score')"
         numeric>
@@ -244,24 +244,6 @@ const ids = computed(() => {
   const end = currentPage.value * PER_PAGE
   return computedData.value.slice(start, end).map((x) => x.id)
 })
-
-const bindPaginationEvents = (event) => {
-  switch (event.key) {
-    case 'n':
-      if (currentPage.value < pageSize.value) {
-        currentPage.value = currentPage.value + 1
-      }
-      break
-    case 'p':
-      if (currentPage.value > 1) {
-        currentPage.value = currentPage.value - 1
-      }
-      break
-    case 'r':
-      goToRandomPage()
-      break
-  }
-}
 
 const fetchSpotlightData = async (sort: string = toSort(sortBy.value)) => {
   isLoading.value = true
@@ -395,15 +377,13 @@ const goToRandomPage = async () => {
   width: 200px;
   height: 100px;
 }
-
-.spotlight-sticky-header th {
-  top: 120px;
-  position: sticky;
-  background-color: #0a0a0a;
-}
 </style>
 
 <style lang="scss">
+.spotlight-sticky-header td {
+  vertical-align: middle;
+}
+
 .spotlight .level-right {
   margin-right: 3rem;
 }
