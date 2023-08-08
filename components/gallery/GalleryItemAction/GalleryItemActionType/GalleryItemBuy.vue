@@ -81,11 +81,21 @@ const shoppingCartStore = useShoppingCartStore()
 const { cartIcon } = useShoppingCartIcon(props.nft.id)
 
 const instance = getCurrentInstance()
+const { doAfterLogin } = useDoAfterlogin(instance)
 const identityStore = useIdentityStore()
 const connected = computed(() => Boolean(accountId.value))
 
+enum BuyStatus {
+  BUY,
+  CART,
+}
+
+const btnStatus = computed(() =>
+  shoppingCartStore.isItemInCart(props.nft.id) ? BuyStatus.CART : BuyStatus.BUY
+)
+
 const label = computed(() => {
-  if (shoppingCartStore.isItemInCart(props.nft.id)) {
+  if (btnStatus.value === BuyStatus.CART) {
     return $i18n.t('shoppingCart.gotToCart')
   }
   return $i18n.t(
@@ -120,7 +130,7 @@ const balance = computed<string>(() => {
   }
 })
 const disabled = computed(() => {
-  if (shoppingCartStore.isItemInCart(props.nft.id)) {
+  if (btnStatus.value === BuyStatus.CART) {
     return false
   }
   if (!(Number(props.nft.price) && balance.value) || !connected.value) {
@@ -129,20 +139,19 @@ const disabled = computed(() => {
   return Number(balance.value) <= Number(props.nft.price)
 })
 
-function onClick() {
-  if (!connected.value) {
-    openConnectWalletModal(instance)
-    return
-  }
+const openCompletePurcahseModal = () => {
+  shoppingCartStore.setItemToBuy(nftToShoppingCardItem(props.nft))
+  preferencesStore.setCompletePurchaseModal({
+    isOpen: true,
+    mode: 'buy-now',
+  })
+}
 
-  if (shoppingCartStore.isItemInCart(props.nft.id)) {
+function onClick() {
+  if (btnStatus.value === BuyStatus.CART) {
     openShoppingCart(instance)
   } else {
-    shoppingCartStore.setItemToBuy(nftToShoppingCardItem(props.nft))
-    preferencesStore.setCompletePurchaseModal({
-      isOpen: true,
-      mode: 'buy-now',
-    })
+    doAfterLogin(openCompletePurcahseModal)
   }
 }
 
