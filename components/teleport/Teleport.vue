@@ -271,7 +271,6 @@ const getTransaction = async () => {
     return paraspell
       .Builder(api)
       .from(Chain[fromChain.value.toUpperCase()])
-      .currency('KSM')
       .amount(amountValue)
       .address(toAddress.value)
       .build()

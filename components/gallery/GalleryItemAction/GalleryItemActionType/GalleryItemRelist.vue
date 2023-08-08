@@ -50,6 +50,7 @@ import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
 import { Interaction } from '@kodadot1/minimark/v1'
 
 const { transaction, status, isLoading } = useTransaction()
+const { decimals } = useChain()
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 
@@ -81,7 +82,8 @@ function updatePrice() {
       interaction: Interaction.LIST,
       urlPrefix: urlPrefix.value,
       token: {
-        price: price.value && String(calculateBalance(price.value)),
+        price:
+          price.value && String(calculateBalance(price.value, decimals.value)),
         nftId: props.nftId,
       },
       successMessage: $i18n.t('transaction.price.success') as string,
