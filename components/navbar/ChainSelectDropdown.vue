@@ -25,29 +25,18 @@
 import { NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
 import { getChainNameByPrefix } from '@/utils/chain'
-import { explorerVisible } from '@/utils/config/permision.config'
 
 const { availableChains } = useChain()
+const { redirectAfterChainChange } = useChainRedirect()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const prefrencesStore = usePreferencesStore()
-
-const route = useRoute()
-const isExplorePage = computed(() => route.name?.includes('prefix-explore'))
-const isExplorePageAvailable = (chain: string): boolean =>
-  explorerVisible(chain)
 
 const selected = computed({
   get: () => urlPrefix.value,
   set: (value) => {
     prefrencesStore.setNotificationBoxCollapse(false)
     setUrlPrefix(value)
-
-    let newPath = `/${value}`
-    if (isExplorePage.value && isExplorePageAvailable(value)) {
-      newPath = route.path.replace(urlPrefix.value, value)
-    }
-
-    navigateTo(newPath)
+    redirectAfterChainChange(value, `/${value}`)
   },
 })
 

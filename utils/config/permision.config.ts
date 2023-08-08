@@ -24,10 +24,26 @@ const hasExplorer: Config<boolean> = {
   stt: true,
 }
 
+const hasInsight: Config<boolean> = {
+  rmrk: true,
+  ksm: false,
+  bsx: true,
+  stmn: false,
+  movr: false,
+  glmr: false,
+  snek: false,
+  dot: false,
+  stt: false,
+}
+
 export const createVisible = (prefix: Prefix | string): boolean => {
   return hasCreate[prefix]
 }
 
 export const explorerVisible = (prefix: Prefix | string): boolean => {
   return hasExplorer[prefix] ?? true
+}
+
+export const seriesInsightVisible = (prefix: Prefix | string) => {
+  return hasInsight[prefix]
 }
