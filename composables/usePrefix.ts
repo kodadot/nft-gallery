@@ -9,11 +9,13 @@ export default function () {
   const route = useRoute()
   const storage = useLocalStorage('urlPrefix', { selected: DEFAULT_PREFIX })
   const initialPrefixFromPath = getAvailablePrefix(route.path.split('/')[1])
-  const validPrefixFromRoute = getAvailablePrefix(route.params.prefix)
+  const validPrefixFromRoute = computed(() =>
+    getAvailablePrefix(route.params.prefix)
+  )
 
   const prefix = computed<Prefix>(
     () =>
-      (validPrefixFromRoute ||
+      (validPrefixFromRoute.value ||
         storage.value.selected ||
         initialPrefixFromPath) as Prefix
   )
