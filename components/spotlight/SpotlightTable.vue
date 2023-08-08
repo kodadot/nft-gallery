@@ -167,12 +167,9 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Watch, mixins } from 'nuxt-property-decorator'
-import { Debounce } from 'vue-debounce-decorator'
+<script setup lang="ts">
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import {
-  NeoButton,
   NeoField,
   NeoSkeleton,
   NeoSwitch,
@@ -193,10 +190,6 @@ import { SortType } from '@/components/series/types'
 import { exist } from '@/utils/exist'
 import { getRandomIntInRange } from '@/components/rmrk/utils'
 
-import KeyboardEventsMixin from '@/utils/mixins/keyboardEventsMixin'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-import TransactionMixin from '@/utils/mixins/txMixin'
-
 import { PER_PAGE } from '@/utils/constants'
 
 import { Row } from './types'
@@ -206,223 +199,197 @@ import spotlightSoldHistory from '@/queries/rmrk/subsquid/spotlightSoldHistory.g
 
 type Address = string | GenericAccountId | undefined
 
-const components = {
-  Identity: () => import('@/components/identity/IdentityIndex.vue'),
-  Money: () => import('@/components/shared/format/Money.vue'),
-  SpotlightDetail: () => import('./SpotlightDetail.vue'),
-  Loader: () => import('@/components/shared/Loader.vue'),
-  NeoButton,
-  NeoSkeleton,
-  NeoField,
-  NeoSwitch,
-  NeoTable,
-  NeoTableColumn,
-  NeoTooltip,
+import Identity from '@/components/identity/IdentityIndex.vue'
+import Money from '@/components/shared/format/Money.vue'
+import SpotlightDetail from './SpotlightDetail.vue'
+import Loader from '@/components/shared/Loader.vue'
+
+const { $apollo } = useNuxtApp()
+const { client, urlPrefix } = usePrefix()
+const { $route } = useNuxtApp()
+
+const spotlight = ref([])
+const onlyWithIdentity = ref($route.query?.identity || false)
+const currentPage = ref(1)
+const sortBy = ref({ field: 'sold', value: 'DESC' })
+const isLoading = ref(false)
+
+onMounted(async () => {
+  exist($route.query.sort, (val) => {
+    sortBy.value.field = val.slice(1)
+    sortBy.value.value = val.charAt(0) === '-' ? 'DESC' : 'ASC'
+  })
+  await fetchSpotlightData()
+})
+
+const pageSize = computed(() => {
+  return Math.ceil(total.value / PER_PAGE)
+})
+
+const total = computed(() => {
+  return computedData.value.length
+})
+
+const computedData = computed(() => {
+  return onlyWithIdentity.value
+    ? spotlight.value.filter((x) => x.hasIdentity)
+    : spotlight.value
+})
+
+const ids = computed(() => {
+  if (computedData.value.length === 0) {
+    return ['']
+  }
+  const start = (currentPage.value - 1) * PER_PAGE
+  const end = currentPage.value * PER_PAGE
+  return computedData.value.slice(start, end).map((x) => x.id)
+})
+
+const bindPaginationEvents = (event) => {
+  switch (event.key) {
+    case 'n':
+      if (currentPage.value < pageSize.value) {
+        currentPage.value = currentPage.value + 1
+      }
+      break
+    case 'p':
+      if (currentPage.value > 1) {
+        currentPage.value = currentPage.value - 1
+      }
+      break
+    case 'r':
+      goToRandomPage()
+      break
+  }
 }
 
-@Component({ components })
-export default class SpotlightTable extends mixins(
-  TransactionMixin,
-  KeyboardEventsMixin,
-  PrefixMixin
-) {
-  protected data: Row[] = []
-  protected onlyWithIdentity = this.$route.query?.identity || false
-  protected currentPage = 1
-  protected sortBy: SortType = { field: 'sold', value: 'DESC' }
-  // private hasPassionFeed = false
+const fetchSpotlightData = async (sort: string = toSort(sortBy.value)) => {
+  isLoading.value = true
+  const queryVars = {
+    offset: 0,
+    orderBy: sort || 'sold_DESC',
+  }
 
-  async created() {
-    exist(this.$route.query.sort, (val) => {
-      this.sortBy.field = val.slice(1)
-      this.sortBy.value = val.charAt(0) === '-' ? 'DESC' : 'ASC'
+  const collections = await $apollo.query({
+    query: spotlightList,
+    client: client.value,
+    variables: queryVars,
+  })
+
+  const {
+    data: { collectionEntities },
+  } = collections
+
+  spotlight.value = collectionEntities.map(
+    (e): Row => ({
+      ...e,
+      averagePrice: Number(e.averagePrice),
+      collectors: e.sold,
+      rank: e.sold * (e.unique / e.total || 1),
+      uniqueCollectors: e.uniqueCollectors,
+      volume: BigInt(e.volume),
+      soldHistory: axisLize(defaultEvents(lastmonthDate, today)),
     })
-    await this.fetchSpotlightData()
-    this.initKeyboardEventHandler({
-      g: this.bindPaginationEvents,
-    })
-  }
+  )
 
-  private get pageSize() {
-    return Math.ceil(this.total / PER_PAGE)
-  }
-
-  private get total() {
-    return this.computedData.length
-  }
-
-  private get computedData() {
-    return this.onlyWithIdentity
-      ? this.data.filter((x) => x.hasIdentity)
-      : this.data
-  }
-
-  public get ids(): string[] {
-    if (this.computedData.length === 0) {
-      return ['']
-    }
-    const start = (this.currentPage - 1) * PER_PAGE
-    const end = this.currentPage * PER_PAGE
-    return this.computedData.slice(start, end).map((x) => x.id)
-  }
-
-  private bindPaginationEvents(event) {
-    switch (event.key) {
-      case 'n':
-        if (this.currentPage < this.pageSize) {
-          this.currentPage = this.currentPage + 1
-        }
-        break
-      case 'p':
-        if (this.currentPage > 1) {
-          this.currentPage = this.currentPage - 1
-        }
-        break
-      case 'r':
-        this.goToRandomPage()
-        break
+  for (let index = 0; index < spotlight.value.length; index++) {
+    const result = resolveAddress(spotlight.value[index].id)
+    if (result) {
+      spotlight.value[index]['hasIdentity'] = true
     }
   }
 
-  public async fetchSpotlightData(sort: string = toSort(this.sortBy)) {
-    this.isLoading = true
-    const queryVars = {
-      offset: 0,
-      orderBy: sort || 'sold_DESC',
-      // where: {},
-    }
-    // if (this.isLogIn && this.hasPassionFeed) {
-    //   await this.fetchPassionList()
-    //   queryVars.where = {
-    //     id_in: this.passionList,
-    //   }
-    // }
+  await updateSoldHistory()
 
-    const collections = await this.$apollo.query({
-      query: spotlightList,
-      client: this.client,
-      variables: queryVars,
-    })
+  isLoading.value = false
+}
 
-    const {
-      data: { collectionEntities },
-    } = collections
-
-    this.data = collectionEntities.map(
-      (e): Row => ({
-        ...e,
-        averagePrice: Number(e.averagePrice),
-        collectors: e.sold,
-        rank: e.sold * (e.unique / e.total || 1),
-        uniqueCollectors: e.uniqueCollectors,
-        volume: BigInt(e.volume),
-        soldHistory: axisLize(defaultEvents(lastmonthDate, today)),
-      })
-    )
-
-    for (let index = 0; index < this.data.length; index++) {
-      const result = this.resolveAddress(this.data[index].id)
-      if (result) {
-        this.$set(this.data[index], 'hasIdentity', true)
+const updateSoldHistory = async () => {
+  isLoading.value = true
+  const defaultSoldEvents = defaultEvents(lastmonthDate, today)
+  const solds = (await fetchSpotlightSoldHistory())
+    .map((nft) => ({
+      id: nft.issuer,
+      timestamps: nft.events.flat().map((x) => onlyDate(new Date(x.timestamp))),
+    }))
+    .reduce((res, e) => {
+      const { id, timestamps } = e
+      if (!res[id]) {
+        res[id] = Object.assign({}, defaultSoldEvents)
       }
+      timestamps.forEach((ts) => (res[id][ts] += 1))
+      return res
+    }, {})
+
+  spotlight.value.forEach((row) => {
+    if (solds[row.id]) {
+      row['soldHistory'] = axisLize(solds[row.id])
     }
+  })
 
-    await this.updateSoldHistory()
+  isLoading.value = false
+}
 
-    this.isLoading = false
+const fetchSpotlightSoldHistory = async () => {
+  const data = await $apollo.query({
+    query: spotlightSoldHistory,
+    client: client.value,
+    variables: {
+      ids: ids.value,
+      lte: today,
+      gte: lastmonthDate,
+    },
+  })
+  const {
+    data: { nftEntities },
+  } = data
+  return nftEntities
+}
+
+const onPageChange = (page: number) => {
+  currentPage.value = page
+  updateSoldHistory()
+}
+
+watch(onlyWithIdentity, async (val) => {
+  replaceUrl(val ? 'true' : '', 'identity')
+  await updateSoldHistory()
+})
+
+const onSort = (field: string, order: string) => {
+  const sort: SortType = {
+    field: field,
+    value: order === 'desc' ? 'DESC' : 'ASC',
   }
+  replaceUrl((order === 'desc' ? '-' : '+') + field, 'sort')
+  fetchSpotlightData(toSort(sort))
+}
 
-  protected async updateSoldHistory() {
-    this.isLoading = true
-    const defaultSoldEvents = defaultEvents(lastmonthDate, today)
-    const solds = (await this.fetchSpotlightSoldHistory())
-      .map((nft) => ({
-        id: nft.issuer,
-        timestamps: nft.events
-          .flat()
-          .map((x) => onlyDate(new Date(x.timestamp))),
-      }))
-      .reduce((res, e) => {
-        const { id, timestamps } = e
-        if (!res[id]) {
-          res[id] = Object.assign({}, defaultSoldEvents)
-        }
-        timestamps.forEach((ts) => (res[id][ts] += 1))
-        return res
-      }, {})
-    this.data.forEach((row) => {
-      if (solds[row.id]) {
-        this.$set(row, 'soldHistory', axisLize(solds[row.id]))
-      }
-    })
-
-    this.isLoading = false
-  }
-
-  public async fetchSpotlightSoldHistory() {
-    const data = await this.$apollo.query({
-      query: spotlightSoldHistory,
-      client: this.client,
-      variables: {
-        ids: this.ids,
-        lte: today,
-        gte: lastmonthDate,
-      },
-    })
-    const {
-      data: { nftEntities },
-    } = data
-    return nftEntities
-  }
-
-  private onPageChange(page: number) {
-    this.currentPage = page
-    this.updateSoldHistory()
-  }
-
-  @Watch('onlyWithIdentity')
-  private async onOnlyWithIdentityChange(val: boolean) {
-    this.replaceUrl(val ? 'true' : '', 'identity')
-    await this.updateSoldHistory()
-  }
-
-  // @Watch('hasPassionFeed')
-  // private onHasPassionFeed() {
-  //   this.fetchSpotlightData()
-  // }
-
-  public onSort(field: string, order: string) {
-    let sort: SortType = {
-      field: field,
-      value: order === 'desc' ? 'DESC' : 'ASC',
-    }
-    this.replaceUrl((order === 'desc' ? '-' : '+') + field, 'sort')
-    this.fetchSpotlightData(toSort(sort))
-  }
-
-  @Debounce(100)
-  replaceUrl(value: string, key = 'sort') {
-    this.$router
+const replaceUrl = (value: string, key = 'sort') => {
+  const { $route, $router, $consola } = useNuxtApp()
+  if ($route.query[key] !== value) {
+    $router
       .replace({
-        path: String(this.$route.path),
-        query: { ...this.$route.query, [key]: value },
+        path: String($route.path),
+        query: { ...$route.query, [key]: value },
       })
-      .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
+      .catch($consola.warn /*Navigation Duplicate err fix later */)
   }
+}
 
-  private resolveAddress(account: Address): string {
-    return account instanceof GenericAccountId
-      ? account.toString()
-      : account || ''
-  }
+const resolveAddress = (account: Address) => {
+  return account instanceof GenericAccountId
+    ? account.toString()
+    : account || ''
+}
 
-  public async goToRandomPage() {
-    let randomNumber = getRandomIntInRange(1, this.pageSize)
-    this.currentPage = randomNumber
-    await this.updateSoldHistory()
-  }
+const goToRandomPage = async () => {
+  const randomNumber = getRandomIntInRange(1, pageSize.value)
+  currentPage.value = randomNumber
+  await updateSoldHistory()
 }
 </script>
+
 <style scoped lang="scss">
 .history {
   width: 200px;
