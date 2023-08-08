@@ -188,7 +188,6 @@ import {
 } from '@/components/series/utils'
 import { SortType } from '@/components/series/types'
 import { exist } from '@/utils/exist'
-import { getRandomIntInRange } from '@/components/rmrk/utils'
 
 import { PER_PAGE } from '@/utils/constants'
 
@@ -220,14 +219,6 @@ onMounted(async () => {
     sortBy.value.value = val.charAt(0) === '-' ? 'DESC' : 'ASC'
   })
   await fetchSpotlightData()
-})
-
-const pageSize = computed(() => {
-  return Math.ceil(total.value / PER_PAGE)
-})
-
-const total = computed(() => {
-  return computedData.value.length
 })
 
 const computedData = computed(() => {
