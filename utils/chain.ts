@@ -92,7 +92,7 @@ export const disableChainListOnBetaEnv = [
   'movr',
   'glmr',
   'snek',
-  'stt',
+  'ahp',
 ]
 
 export const availablePrefixes = (): Option[] => {
