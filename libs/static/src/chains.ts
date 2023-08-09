@@ -79,9 +79,9 @@ export const chainNames: Record<Prefix, string> = {
   movr: 'Moonriver',
   glmr: 'Moonbeam',
   ksm: 'Kusama',
-  ahk: 'Statemine',
+  ahk: 'Kusama AssetHub',
   dot: 'Polkadot',
-  ahp: 'Statemint',
+  ahp: 'Polkadot AssetHub',
 }
 
 export const chainList = (): Option[] => {
