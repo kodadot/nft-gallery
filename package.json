@@ -70,6 +70,7 @@
     "@google/model-viewer": "^1.12.1",
     "@kodadot1/brick": "workspace:*",
     "@kodadot1/minimark": "^0.1.10",
+    "@kodadot1/minipfs": "0.4.0-rc.0",
     "@kodadot1/static": "workspace:*",
     "@kodadot1/sub-api": "^0.1.2",
     "@kodadot1/vuex-options": "0.1.5",

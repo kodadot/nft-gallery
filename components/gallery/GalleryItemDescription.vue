@@ -138,6 +138,7 @@
 </template>
 
 <script setup lang="ts">
+import { obtainMimeType } from '@kodadot1/minipfs'
 import {
   MediaItem,
   NeoTabItem,
@@ -152,7 +153,7 @@ import { sanitizeIpfsUrl, toCloudflareIpfsUrl } from '@/utils/ipfs'
 import { GalleryItem, useGalleryItem } from './useGalleryItem'
 
 import { MediaType } from '@/components/rmrk/types'
-import { getMimeType, resolveMedia } from '@/utils/gallery/media'
+import { resolveMedia } from '@/utils/gallery/media'
 
 import { replaceSingularCollectionUrlByText } from '@/utils/url'
 
@@ -237,7 +238,7 @@ watchEffect(async () => {
   }
 
   if (nftAnimation.value) {
-    animationMediaMimeType.value = await getMimeType(nftAnimation.value)
+    animationMediaMimeType.value = await obtainMimeType(nftAnimation.value)
   }
 })
 
