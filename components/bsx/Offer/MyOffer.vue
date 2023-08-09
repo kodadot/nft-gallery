@@ -153,10 +153,11 @@ const fetchMyOffers = async () => {
 
 watchEffect(async () => await fetchMyOffers())
 
-const emit = defineEmits(['offersIncoming'])
-const offersIncoming = (response: OfferResponse) => {
-  emit('offersIncoming', (offers.value = response.offers))
-}
+// doesn't need emit?
+// const emit = defineEmits(['offersIncoming'])
+// const offersIncoming = (response: OfferResponse) => {
+//   emit('offersIncoming', (offers.value = response.offers))
+// }
 
 const submit = async (
   maker: string,
@@ -235,14 +236,6 @@ const calcExpirationTime = (expirationBlock: number): string => {
     return 'expired'
   }
   return formatSecondsToDuration(calcSecondsToBlock(expirationBlock))
-}
-
-const calcExpirationDate = (expirationBlock: number): string => {
-  return endDate(calcSecondsToBlock(expirationBlock))
-}
-
-const isExpired = (expirationBlock: number): boolean => {
-  return currentBlock.value >= expirationBlock
 }
 
 watch(accountId, () => {
