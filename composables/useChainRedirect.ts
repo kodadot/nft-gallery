@@ -2,6 +2,7 @@ import { Prefix } from '~~/libs/static/dist'
 import {
   classicCreateVisible,
   explorerVisible,
+  massmintCreateVisible,
   seriesInsightVisible,
 } from '@/utils/config/permision.config'
 
@@ -63,6 +64,10 @@ const pageVisibilityPerChain = {
     seriesInsightVisible(chain),
   [PageType.PREFIX_CLASSIC_CREATE]: (chain: Prefix | string) =>
     classicCreateVisible(chain),
+  [PageType.PREFIX_MASSMINT]: (chain: Prefix | string) =>
+    massmintCreateVisible(chain),
+  [PageType.PREFIX_MASSMINT_ONBOARDING]: (chain: Prefix | string) =>
+    massmintCreateVisible(chain),
 }
 
 const getPagaType = (routeName: string): PageType => {
@@ -121,7 +126,7 @@ export default function () {
     }
 
     const pageTypeValue = PageType[pageType]
-    let isPageAvailableForChain = true
+    let isPageAvailableForChain = false
 
     const pageVisibilityCheck = pageVisibilityPerChain[pageTypeValue]
 

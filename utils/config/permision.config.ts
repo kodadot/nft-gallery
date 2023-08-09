@@ -48,6 +48,18 @@ const hasClassicCreate: Config<boolean> = {
   stt: false,
 }
 
+const hasMassmintCreate: Config<boolean> = {
+  rmrk: true,
+  ksm: true,
+  bsx: true,
+  stmn: true,
+  movr: false,
+  glmr: false,
+  snek: true,
+  dot: false,
+  stt: false,
+}
+
 export const createVisible = (prefix: Prefix | string): boolean => {
   return hasCreate[prefix]
 }
@@ -62,4 +74,8 @@ export const seriesInsightVisible = (prefix: Prefix | string) => {
 
 export const classicCreateVisible = (prefix: Prefix | string) => {
   return hasClassicCreate[prefix]
+}
+
+export const massmintCreateVisible = (prefix: Prefix | string) => {
+  return hasMassmintCreate[prefix]
 }
