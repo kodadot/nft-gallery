@@ -142,9 +142,9 @@
 </template>
 
 <script setup lang="ts">
-import { AllOfferStatusType } from '~/utils/offerStatus'
-import { formatBsxBalanceToNumber } from '~/utils/format/balance'
-import { endDate, formatSecondsToDuration } from '~/utils/format/time'
+import { AllOfferStatusType } from '@/utils/offerStatus'
+import { formatBsxBalanceToNumber } from '@/utils/format/balance'
+import { endDate, formatSecondsToDuration } from '@/utils/format/time'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 
 import { Offer } from './types'
