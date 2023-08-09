@@ -1,8 +1,10 @@
 import { Prefix } from '~~/libs/static/dist'
 import {
-  classicCreateVisible,
+  createVisible,
   explorerVisible,
+  hotVisible,
   massmintCreateVisible,
+  salesVisible,
   seriesInsightVisible,
 } from '@/utils/config/permision.config'
 
@@ -63,11 +65,13 @@ const pageVisibilityPerChain = {
   [PageType.SERIES_INSIGHT]: (chain: Prefix | string) =>
     seriesInsightVisible(chain),
   [PageType.PREFIX_CLASSIC_CREATE]: (chain: Prefix | string) =>
-    classicCreateVisible(chain),
+    createVisible(chain),
   [PageType.PREFIX_MASSMINT]: (chain: Prefix | string) =>
     massmintCreateVisible(chain),
   [PageType.PREFIX_MASSMINT_ONBOARDING]: (chain: Prefix | string) =>
     massmintCreateVisible(chain),
+  [PageType.SALES]: (chain: Prefix | string) => salesVisible(chain),
+  [PageType.HOT]: (chain: Prefix | string) => hotVisible(chain),
 }
 
 const getPagaType = (routeName: string): PageType => {
@@ -79,7 +83,7 @@ const getPagaType = (routeName: string): PageType => {
   return matchingKey as PageType
 }
 
-export default function () {
+export default function (allowRedirectIfCheckNotPresent = false) {
   const route = useRoute()
 
   const getChangedChainPrefixFromPath = (
@@ -125,9 +129,8 @@ export default function () {
       return defaultRedirect
     }
 
+    let isPageAvailableForChain = allowRedirectIfCheckNotPresent
     const pageTypeValue = PageType[pageType]
-    let isPageAvailableForChain = false
-
     const pageVisibilityCheck = pageVisibilityPerChain[pageTypeValue]
 
     if (pageVisibilityCheck) {
@@ -140,13 +143,14 @@ export default function () {
 
     const pageRedirectType = PageRedirectType[pageTypeValue]
 
-    if (
-      pageRedirectType === RedirectTypes.STAY ||
+    const justStay = pageRedirectType === RedirectTypes.STAY
+    const noSpecialHandleRedirectAvailableForChain =
       !Object.prototype.hasOwnProperty.call(
         handleSpecialCaseRedirect,
         pageRedirectType
       )
-    ) {
+
+    if (justStay || noSpecialHandleRedirectAvailableForChain) {
       return null
     }
 

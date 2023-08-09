@@ -4,7 +4,7 @@ const hasCreate: Config<boolean> = {
   rmrk: true,
   ksm: true,
   bsx: true,
-  stmn: true,
+  stmn: false,
   movr: false,
   glmr: false,
   snek: true,
@@ -36,16 +36,28 @@ const hasInsight: Config<boolean> = {
   stt: false,
 }
 
-const hasClassicCreate: Config<boolean> = {
+const hasSales: Config<boolean> = {
   rmrk: true,
   ksm: true,
-  bsx: true,
+  bsx: false,
   stmn: false,
   movr: false,
   glmr: false,
-  snek: true,
+  snek: false,
   dot: false,
   stt: false,
+}
+
+const hasHot: Config<boolean> = {
+  rmrk: true,
+  ksm: true,
+  bsx: true,
+  stmn: true,
+  movr: true,
+  glmr: true,
+  snek: true,
+  dot: true,
+  stt: true,
 }
 
 const hasMassmintCreate: Config<boolean> = {
@@ -72,10 +84,14 @@ export const seriesInsightVisible = (prefix: Prefix | string) => {
   return hasInsight[prefix]
 }
 
-export const classicCreateVisible = (prefix: Prefix | string) => {
-  return hasClassicCreate[prefix]
-}
-
 export const massmintCreateVisible = (prefix: Prefix | string) => {
   return hasMassmintCreate[prefix]
+}
+
+export const salesVisible = (prefix: Prefix | string) => {
+  return hasSales[prefix]
+}
+
+export const hotVisible = (prefix: Prefix | string) => {
+  return hasHot[prefix]
 }
