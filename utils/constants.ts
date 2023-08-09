@@ -76,7 +76,7 @@ export const apolloClientConfig = {
   glmr: toApolloEndpoint(URLS.koda.antick),
   rmrk2: toApolloEndpoint(URLS.koda.marck),
   stmn: toApolloEndpoint(URLS.koda.stick),
-  stt: toApolloEndpoint(URLS.koda.speck),
+  ahp: toApolloEndpoint(URLS.koda.speck),
 }
 
 export const NFT_SQUID_SORT_CONDITION_LIST: string[] = [
