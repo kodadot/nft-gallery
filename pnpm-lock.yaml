@@ -287,18 +287,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      cypress:
-        specifier: ^12.17.1
-        version: 12.17.1
-      cypress-file-upload:
-        specifier: ^5.0.8
-        version: 5.0.8(cypress@12.17.1)
-      cypress-network-idle:
-        specifier: ^1.14.2
-        version: 1.14.2
-      cypress-real-events:
-        specifier: ^1.9.1
-        version: 1.9.1(cypress@12.17.1)
       eslint:
         specifier: ^8.45.0
         version: 8.45.0
