@@ -8,27 +8,22 @@
 <script setup lang="ts">
 import { NeoIcon } from '@kodadot1/brick'
 import { ModalProgrammatic as Modal } from 'buefy'
-import { BModalComponent, BModalConfig } from 'buefy/types/components'
+import { BModalConfig } from 'buefy/types/components'
 import { NotificationBoxModalConfig } from '@/components/common/NotificationBox/useNotificationBox'
 import { usePreferencesStore } from '@/stores/preferences'
 
 const props = defineProps<{
   showLabel: boolean
 }>()
-const emit = defineEmits(['closeBurgerMenu'])
-const modal = ref<BModalComponent | null>()
 const preferencesStore = usePreferencesStore()
 const instance = getCurrentInstance()
 
 function toggleNotificationModal() {
-  emit('closeBurgerMenu')
-
   if (!document.querySelector('.notification-box-modal')) {
     preferencesStore.setNotificationBoxCollapse(true)
-    modal.value = Modal.open({
+    Modal.open({
       parent: instance?.proxy,
       onCancel: () => {
-        modal.value = null
         preferencesStore.setNotificationBoxCollapse(false)
       },
       ...NotificationBoxModalConfig,
