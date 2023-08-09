@@ -50,7 +50,7 @@ import { useDrops } from './useDrops'
 
 const { $i18n } = useNuxtApp()
 const drops = useDrops(collectionId)
-const statemintDrops = useDrops(STT_COLLECTION_ID, 'stt')
+const statemintDrops = useDrops(STT_COLLECTION_ID, 'ahp')
 
 console.log('drops', statemintDrops)
 </script>
