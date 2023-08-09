@@ -25,7 +25,7 @@ describe('switch network', () => {
     cy.getCy('chain-select').click()
     cy.getCy('chain-dropdown-stmn').click()
     cy.getCy('explore').realHover().find('[data-cy="explore-items"]').click()
-    cy.getCy('chain').should('contain.text', 'stmn')
+    cy.getCy('chain').should('contain.text', 'ahk')
 
     cy.getCy('0').click()
     cy.getCy('chain-select').click()
