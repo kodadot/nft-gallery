@@ -118,7 +118,9 @@ withDefaults(
   }
 )
 
-const targetAddress = computed(() => destinationAddress || accountId)
+const targetAddress = computed(
+  () => destinationAddress.value || accountId.value
+)
 
 const getUniqType = () => {
   const statusSet = new Set(offers.value.map((offer) => offer.status))
@@ -148,6 +150,8 @@ const fetchMyOffers = async () => {
     $consola.error(e)
   }
 }
+
+watchEffect(async () => await fetchMyOffers())
 
 onMounted(() => {
   if (targetAddress.value) {
@@ -222,6 +226,36 @@ const displayOffers = (offers: Offer[]) => {
     formatPrice: formatBsxBalanceToNumber(offer.price),
     expirationBlock: parseInt(offer.expiration),
   }))
+}
+
+const currentBlock = ref(async () => {
+  const { apiInstance } = useApi()
+  const api = await apiInstance.value
+  const block = await api.rpc.chain.getHeader()
+  return block.number.toNumber()
+})
+
+const calcSecondsToBlock = (block: number): number => {
+  const secondsForEachBlock = 12
+  return secondsForEachBlock * (block - currentBlock.value)
+}
+
+const calcExpirationTime = (expirationBlock: number): string => {
+  if (currentBlock.value === 0) {
+    return 'computing'
+  }
+  if (currentBlock.value > expirationBlock) {
+    return 'expired'
+  }
+  return formatSecondsToDuration(calcSecondsToBlock(expirationBlock))
+}
+
+const calcExpirationDate = (expirationBlock: number): string => {
+  return endDate(calcSecondsToBlock(expirationBlock))
+}
+
+const isExpired = (expirationBlock: number): boolean => {
+  return currentBlock.value >= expirationBlock
 }
 
 watch(accountId, () => {
