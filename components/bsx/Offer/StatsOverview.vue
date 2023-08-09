@@ -57,7 +57,7 @@ const returnTotalCounts = (key, statsResponse) => {
   }
 }
 
-useLazyAsyncData('data', async () => {
+watchEffect(async () => {
   try {
     const { data } = await $apollo.query<StatsResponse>({
       client: client.value,
