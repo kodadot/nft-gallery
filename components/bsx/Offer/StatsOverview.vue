@@ -36,47 +36,41 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import { OfferStats, StatsResponse } from './types'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
 import { countOf } from '~/utils/countOf'
 import statsForBsx from '~/queries/subsquid/bsx/statsForBsx.graphql'
+import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 
-const components = {
-  Identity: () => import('@/components/identity/IdentityIndex.vue'),
-  CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
+const { $apollo, $consola } = useNuxtApp()
+const { client } = usePrefix()
+
+const statsResponse = ref<StatsResponse>()
+const offerStats = ref<OfferStats>()
+const keysObject = ref([])
+
+const returnTotalCounts = (key, statsResponse) => {
+  if (key === 'activeWallets') {
+    return countOf(statsResponse.activeWallets[0])
+  } else {
+    return countOf(statsResponse[key])
+  }
 }
 
-@Component({ components })
-export default class BsxStats extends mixins(PrefixMixin) {
-  public statsResponse!: StatsResponse
-  protected offerStats: OfferStats[] = []
-  protected keysObject: string[] = []
-
-  fetch() {
-    this.getOfferStats()
-  }
-
-  protected async getOfferStats() {
-    const response = await this.$apollo.query<StatsResponse>({
-      client: this.urlPrefix,
+useLazyAsyncData('data', async () => {
+  try {
+    const { data } = await $apollo.query<StatsResponse>({
+      client: client.value,
       query: statsForBsx,
     })
-    this.statsResponse = response.data
-    this.keysObject = Object.keys(response.data).filter(
-      (key) => key !== 'offerStats'
-    )
-    this.offerStats = this.statsResponse.offerStats
+
+    statsResponse.value = data
+    offerStats.value = data.offerStats
+    keysObject.value = Object.keys(data).filter((key) => key !== 'offerStats')
+  } catch (e) {
+    $consola.error(e)
   }
-  protected returnTotalCounts(key, statsResponse) {
-    if (key === 'activeWallets') {
-      return countOf(statsResponse.activeWallets[0])
-    } else {
-      return countOf(statsResponse[key])
-    }
-  }
-}
+})
 </script>
 
 <style lang="scss" scoped>

@@ -6,61 +6,40 @@
       </h1>
       <StatsOverview />
     </div>
-    <Loader v-model="isLoading" :status="status" />
+    <Loader v-model="pending" />
     <OfferTable
       :offers="offers"
-      :accountId="accountId"
+      :account-id="accountId"
       is-bsx-stats
-      :headerText="$t('nft.offer.title')"
+      :header-text="$t('nft.offer.title')"
       display-collection />
   </div>
 </template>
 
-<script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
-import AuthMixin from '~/utils/mixins/authMixin'
-import MetaTransactionMixin from '~/utils/mixins/metaMixin'
+<script lang="ts" setup>
 import { Offer, OfferResponse } from './types'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
 import offerList from '@/queries/subsquid/bsx/offerList.graphql'
-import SubscribeMixin from '~/utils/mixins/subscribeMixin'
 
-const components = {
-  Loader: () => import('@/components/shared/Loader.vue'),
-  CollapseCardWrapper: () =>
-    import('@/components/shared/collapse/CollapseCardWrapper.vue'),
-  OfferTable: () => import('@/components/bsx/Offer/OfferTable.vue'),
-  StatsOverview: () => import('~/components/bsx/Offer/StatsOverview.vue'),
-}
+import Loader from '@/components/shared/Loader.vue'
+import OfferTable from '@/components/bsx/Offer/OfferTable.vue'
+import StatsOverview from '@/components/bsx/Offer/StatsOverview.vue'
 
-@Component({ components })
-export default class OfferList extends mixins(
-  AuthMixin,
-  MetaTransactionMixin,
-  PrefixMixin,
-  SubscribeMixin
-) {
-  protected offers: Offer[] = []
-  protected total = 0
+const offers = ref<Offer[]>([])
 
-  fetch() {
-    this.fetchOffers()
+const { $apollo, $consola } = useNuxtApp()
+const { client } = usePrefix()
+const { accountId } = useAuth()
+
+const { pending } = useLazyAsyncData('data', async () => {
+  try {
+    const { data } = await $apollo.query<OfferResponse>({
+      client: client.value,
+      query: offerList,
+    })
+
+    offers.value = data.offers
+  } catch (e) {
+    $consola.error(e)
   }
-
-  protected setResponse(response: OfferResponse) {
-    this.offers = response.offers
-  }
-
-  protected async fetchOffers() {
-    try {
-      const { data } = await this.$apollo.query<OfferResponse>({
-        client: this.urlPrefix,
-        query: offerList,
-      })
-      this.setResponse(data)
-    } catch (e) {
-      this.$consola.error(e)
-    }
-  }
-}
+})
 </script>
