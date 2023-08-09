@@ -78,7 +78,7 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
     })
   }
 
-  if (item.urlPrefix === 'stmn' || item.urlPrefix === 'ahp') {
+  if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
     const legacy = isLegacy(item.nftId)
     const paramResolver = assetHubParamResolver(legacy)
     executeTransaction({
