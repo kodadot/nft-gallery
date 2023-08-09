@@ -58,20 +58,17 @@ const SpecialRedirectPageTypes: PageType[] = Object.keys(PageRedirectType)
   .filter(Boolean) as PageType[]
 
 const pageVisibilityPerChain = {
-  [PageType.PREFIX_EXPLORE_ITEMS]: (chain: Prefix | string): boolean =>
+  [PageType.PREFIX_EXPLORE_ITEMS]: (chain: Prefix): boolean =>
     explorerVisible(chain),
-  [PageType.PREFIX_EXPLORE_COLLECTIBLES]: (chain: Prefix | string): boolean =>
+  [PageType.PREFIX_EXPLORE_COLLECTIBLES]: (chain: Prefix): boolean =>
     explorerVisible(chain),
-  [PageType.SERIES_INSIGHT]: (chain: Prefix | string) =>
-    seriesInsightVisible(chain),
-  [PageType.PREFIX_CLASSIC_CREATE]: (chain: Prefix | string) =>
-    createVisible(chain),
-  [PageType.PREFIX_MASSMINT]: (chain: Prefix | string) =>
+  [PageType.SERIES_INSIGHT]: (chain: Prefix) => seriesInsightVisible(chain),
+  [PageType.PREFIX_CLASSIC_CREATE]: (chain: Prefix) => createVisible(chain),
+  [PageType.PREFIX_MASSMINT]: (chain: Prefix) => massmintCreateVisible(chain),
+  [PageType.PREFIX_MASSMINT_ONBOARDING]: (chain: Prefix) =>
     massmintCreateVisible(chain),
-  [PageType.PREFIX_MASSMINT_ONBOARDING]: (chain: Prefix | string) =>
-    massmintCreateVisible(chain),
-  [PageType.SALES]: (chain: Prefix | string) => salesVisible(chain),
-  [PageType.HOT]: (chain: Prefix | string) => hotVisible(chain),
+  [PageType.SALES]: (chain: Prefix) => salesVisible(chain),
+  [PageType.HOT]: (chain: Prefix) => hotVisible(chain),
 }
 
 const getPagaType = (routeName: string): PageType => {
@@ -87,22 +84,19 @@ export default function (allowRedirectIfCheckNotPresent = false) {
   const route = useRoute()
 
   const getChangedChainPrefixFromPath = (
-    chain: string | Prefix,
-    prevChain: string | Prefix
+    chain: Prefix,
+    prevChain: Prefix
   ): RedirectPath => ({
     path: route.path.replace(prevChain, chain),
     query: route.query,
   })
 
   const handleSpecialCaseRedirect: {
-    [key in RedirectTypes]?: (
-      chain: string | Prefix,
-      prevChain: string | Prefix
-    ) => RedirectPath
+    [key in RedirectTypes]?: (chain: Prefix, prevChain: Prefix) => RedirectPath
   } = {
     [RedirectTypes.CHAIN_PREFIX_CHANGE]: (
-      chain: string | Prefix,
-      prevChain: string | Prefix
+      chain: Prefix,
+      prevChain: Prefix
     ): RedirectPath => getChangedChainPrefixFromPath(chain, prevChain),
   }
 
@@ -111,8 +105,8 @@ export default function (allowRedirectIfCheckNotPresent = false) {
   }
 
   const getPageRedirectPath = (
-    newChain: string | Prefix,
-    prevChain: string | Prefix,
+    newChain: Prefix,
+    prevChain: Prefix,
     defaultRedirectPath: string
   ): RedirectPath | null => {
     const routeName = route.name || ''
@@ -158,8 +152,8 @@ export default function (allowRedirectIfCheckNotPresent = false) {
   }
 
   const redirectAfterChainChange = (
-    newChain: string | Prefix,
-    prevChain: string | Prefix,
+    newChain: Prefix,
+    prevChain: Prefix,
     defaultRedirect = `/${newChain}`
   ) => {
     const redirectPath = getPageRedirectPath(
