@@ -57,7 +57,7 @@ const SpecialRedirectPageTypes: PageType[] = Object.keys(PageRedirectType)
   .map<PageType>((value) => getEnumKeyByValue(PageType, value) as PageType)
   .filter(Boolean) as PageType[]
 
-const pageVisibilityPerChain = {
+const pageAvailabilityPerChain = {
   [PageType.PREFIX_EXPLORE_ITEMS]: (chain: Prefix): boolean =>
     explorerVisible(chain),
   [PageType.PREFIX_EXPLORE_COLLECTIBLES]: (chain: Prefix): boolean =>
@@ -108,18 +108,18 @@ export default function (allowRedirectIfCheckNotPresent = false) {
 
     const pageType = getPagaType(routeName)
 
-    const isSpecialCase = checkIfPageHasSpecialRedirect(pageType)
+    const hasSpecialRedirect = checkIfPageHasSpecialRedirect(pageType)
 
-    if (!isSpecialCase) {
+    if (!hasSpecialRedirect) {
       return defaultRedirect
     }
 
     let isPageAvailableForChain = allowRedirectIfCheckNotPresent
     const pageTypeValue = PageType[pageType]
-    const pageVisibilityCheck = pageVisibilityPerChain[pageTypeValue]
+    const pageAvailabilityCheck = pageAvailabilityPerChain[pageTypeValue]
 
-    if (pageVisibilityCheck) {
-      isPageAvailableForChain = pageVisibilityCheck(newChain)
+    if (pageAvailabilityCheck) {
+      isPageAvailableForChain = pageAvailabilityCheck(newChain)
     }
 
     if (!isPageAvailableForChain) {
