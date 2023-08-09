@@ -75,7 +75,7 @@ export const apolloClientConfig = {
   snek: toApolloEndpoint(URLS.koda.snekRococo),
   glmr: toApolloEndpoint(URLS.koda.antick),
   rmrk2: toApolloEndpoint(URLS.koda.marck),
-  stmn: toApolloEndpoint(URLS.koda.stick),
+  ahk: toApolloEndpoint(URLS.koda.stick),
   ahp: toApolloEndpoint(URLS.koda.speck),
 }
 
