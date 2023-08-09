@@ -50,7 +50,7 @@ export const chainPrefixes: Prefix[] = [
   'ksm',
   'stmn',
   'dot',
-  'stt',
+  'ahp',
 ]
 export const chainPrefixesMap = chainPrefixes.reduce(
   (acc: Partial<Record<Prefix, Prefix>>, prefix: Prefix) => ({
