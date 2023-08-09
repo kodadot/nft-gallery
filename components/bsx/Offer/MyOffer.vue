@@ -153,19 +153,6 @@ const fetchMyOffers = async () => {
 
 watchEffect(async () => await fetchMyOffers())
 
-onMounted(() => {
-  if (targetAddress.value) {
-    // $apollo.addSmartQuery<OfferResponse>('offers', {
-    //   client: client.value,
-    //   query: acceptableOfferByCurrentOwner,
-    //   variables: { id: targetAddress.value },
-    //   manual: true,
-    //   result: ({ data }) => setResponse(data),
-    //   pollInterval: 10000,
-    // })
-  }
-})
-
 const emit = defineEmits(['offersIncoming'])
 const offersIncoming = (response: OfferResponse) => {
   emit('offersIncoming', (offers.value = response.offers))
@@ -261,10 +248,6 @@ const isExpired = (expirationBlock: number): boolean => {
 watch(accountId, () => {
   fetchMyOffers()
 })
-// watch(componentsProps.address, (newval) => {
-//   destinationAddress.value = newval
-//   fetchMyOffers()
-// })
 </script>
 
 <style scoped>
