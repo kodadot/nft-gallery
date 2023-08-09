@@ -30,7 +30,7 @@ export const ALTERNATIVE_ENDPOINT_MAP: Config<WS_URL[]> = {
   movr: ['wss://wss.api.moonriver.moonbeam.network'],
   ksm: KUSAMA_ENDPOINTS,
   snek: ['wss://basilisk-rococo-rpc.play.hydration.cloud'],
-  stmn: [
+  ahk: [
     'wss://kusama-asset-hub-rpc.polkadot.io',
     'wss://statemine-rpc.dwellir.com',
     'wss://sys.ibp.network/statemine',
@@ -57,7 +57,7 @@ export const ENDPOINT_MAP: Config<WS_URL> = {
   movr: 'wss://wss.api.moonriver.moonbeam.network',
   ksm: KUSAMA_ENDPOINTS[0],
   snek: 'wss://basilisk-rococo-rpc.play.hydration.cloud',
-  stmn: 'wss://kusama-asset-hub-rpc.polkadot.io',
+  ahk: 'wss://kusama-asset-hub-rpc.polkadot.io',
   dot: POLKADOT_ENDPOINTS[0],
   ahp: 'wss://polkadot-asset-hub-rpc.polkadot.io',
 }
