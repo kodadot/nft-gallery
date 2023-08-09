@@ -25,7 +25,7 @@ export default function () {
   const availableChains = computed(() => availablePrefixes())
 
   const chainSymbol = computed(() => {
-    return ['rmrk', 'ksm', 'stmn', 'stt'].includes(urlPrefix.value)
+    return ['rmrk', 'ksm', 'stmn', 'ahp'].includes(urlPrefix.value)
       ? unit.value
       : symbol
   })
