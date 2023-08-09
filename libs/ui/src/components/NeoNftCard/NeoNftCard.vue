@@ -15,6 +15,7 @@
           class="nft-media"
           :src="nft.image"
           :animation-src="nft.animationUrl"
+          :mime-type="nft.mimeType"
           :placeholder="placeholder"
           :title="nft?.name" />
         <div

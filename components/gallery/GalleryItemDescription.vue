@@ -226,7 +226,7 @@ const animationMediaMimeType = ref('')
 
 watchEffect(async () => {
   if (nft.value?.metadata) {
-    const sanitizeMetadata = sanitizeIpfsUrl(nft.value?.metadata, 'cloudflare')
+    const sanitizeMetadata = sanitizeIpfsUrl(nft.value?.metadata)
     const response = await fetch(sanitizeMetadata, {
       method: 'HEAD',
     })
