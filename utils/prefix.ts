@@ -13,7 +13,7 @@ export function getDenyList(prefix: string): string[] | undefined {
     case 'bsx':
     case 'snek':
       return bsxDenyList
-    case 'stmn':
+    case 'ahk':
     case 'westmint':
       return statemineDenyList
     case 'ahp':
