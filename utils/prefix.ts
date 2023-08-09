@@ -16,7 +16,7 @@ export function getDenyList(prefix: string): string[] | undefined {
     case 'stmn':
     case 'westmint':
       return statemineDenyList
-    case 'stt':
+    case 'ahp':
       return statemintDenyList
     default:
       return undefined
