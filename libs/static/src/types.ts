@@ -5,7 +5,7 @@ export type Prefix =
   | 'movr'
   | 'ksm'
   | 'snek'
-  | 'stmn'
+  | 'ahk'
   | 'dot'
   | 'ahp'
 // | 'wst'
