@@ -28,9 +28,9 @@ _Kudos to [Vikival](https://twitter.com/vikiival), who spent hours programming, 
 
 But that was just the beginning. Many events and versions passed till we got to our current Drop Page. Created by who else - [Vikival](https://twitter.com/vikiival) and with the help of our excellent designer [Exez](https://twitter.com/OndraPulc), we managed to get to the point we were satisfied. But Im sure we are not done yet.
 
-## So, what is the KodaDot Drop Page? 
+## So, what is the KodaDot Drop Page?
 
-When you go to https://kodadot.xyz/ and in the right-up corner select [Drops](https://kodadot.xyz/stmn/drops), you will see drops that are happening at the moment. They are time-limited collections that are created for a specific audience. The goal of these is to create a unique experience for people visiting our platform. Artists, creators, and collectors can use and, in some cases, obtain free NFTs, with extra surprises coming with each one.
+When you go to https://kodadot.xyz/ and in the right-up corner select [Drops](https://kodadot.xyz/ahk/drops), you will see drops that are happening at the moment. They are time-limited collections that are created for a specific audience. The goal of these is to create a unique experience for people visiting our platform. Artists, creators, and collectors can use and, in some cases, obtain free NFTs, with extra surprises coming with each one.
 
 <img width="1462" src="/blog/kodadot's-drop-page-explained-4.webp">
 
@@ -46,7 +46,7 @@ And there's more! We've added unlockables so you can enjoy the thrill of discove
 
 <img width="1293" src="/blog/kodadot's-drop-page-explained-6.webp">
 
-On the [Upcoming](https://kodadot.xyz/stmn/drops) page, you can view scheduled releases and discover drop pages for those interested in obtaining them. Additionally, your page may be featured on this page.
+On the [Upcoming](https://kodadot.xyz/ahk/drops) page, you can view scheduled releases and discover drop pages for those interested in obtaining them. Additionally, your page may be featured on this page.
 
 <img width="1403" src="/blog/kodadot's-drop-page-explained-7.webp">
 
@@ -57,7 +57,7 @@ We already mentioned some of the features we implemented in this article. All of
 1. Dedicated times for minting
    Select what day your minting starts, what hours will be available, and how long. We can adjust this to your needs. Minting one hour every day for one week? No problem. We can also include an attractive countdown so your audience can better understand upcoming events.
 2. Limits
-   The basic limit is selecting how many NFTs in total can be minted. This varies on your collection size, but in some cases (AI minting, generative art), this number can be adjusted regarding your preferences. 
+   The basic limit is selecting how many NFTs in total can be minted. This varies on your collection size, but in some cases (AI minting, generative art), this number can be adjusted regarding your preferences.
    You can also limit mints by the number of NFTs that can be minted at various times. Choose how many can be minted max during different phases. And, of course, we can show the availability of your NFTs so people know how much of them are left.
 3. AI tools
    We had anime waifus in our previous campaigns created by a highly trained AI model. Im sure we can also use it in your case. You just need to tell us [your idea](https://form.kodadot.xyz/drop-page-interest).
