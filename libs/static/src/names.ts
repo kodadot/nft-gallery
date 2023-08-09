@@ -9,5 +9,5 @@ export const NAMES: Record<Prefix, string> = {
   snek: 'Snek [Rococo]',
   stmn: 'Statemine [Beta]',
   dot: 'Polkadot',
-  stt: 'Statemint [Beta]',
+  ahp: 'Statemint [Beta]',
 }
