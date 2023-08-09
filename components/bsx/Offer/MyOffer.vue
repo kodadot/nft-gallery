@@ -143,14 +143,10 @@ const fetchMyOffers = async () => {
         id: targetAddress.value,
       },
     })
-    setResponse(data)
+    offers.value = data.offers
   } catch (e) {
     $consola.error(e)
   }
-}
-
-const setResponse = (response: OfferResponse) => {
-  offers.value = response.offers
 }
 
 onMounted(() => {
@@ -168,7 +164,7 @@ onMounted(() => {
 
 const emit = defineEmits(['offersIncoming'])
 const offersIncoming = (response: OfferResponse) => {
-  emit('offersIncoming', setResponse(response))
+  emit('offersIncoming', (offers.value = response.offers))
 }
 
 const submit = async (
