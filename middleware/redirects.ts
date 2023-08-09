@@ -14,6 +14,10 @@ export default function ({ redirect, route }): void {
     }
   }
 
+  if (route.path.includes('/stmn/')) {
+    return redirect(window.location.href.replace('/stmn/', '/ahk/'))
+  }
+
   if (route.path.includes('/rmrk2/')) {
     return redirect(window.location.href.replace('/rmrk2/', '/ksm/'))
   }
