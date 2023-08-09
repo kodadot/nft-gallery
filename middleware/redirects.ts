@@ -2,7 +2,7 @@ export default function ({ redirect, route }): void {
   const { urlPrefix } = usePrefix()
 
   if (route.path === '/drops') {
-    return redirect('/stmn/drops')
+    return redirect('/ahk/drops')
   }
 
   if (route.path.startsWith(`/${urlPrefix.value}`)) {
