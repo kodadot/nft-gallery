@@ -85,7 +85,7 @@ export const useCarouselNftEvents = ({ type }: Types) => {
   const { data: dataRmrk } = useChainEvents('rmrk', type)
   const { data: dataSnek } = useChainEvents('snek', type)
   const { data: dataRmrk2 } = useChainEvents('ksm', type)
-  const { data: dataStmn } = useChainEvents('stmn', type)
+  const { data: dataStmn } = useChainEvents('ahk', type)
 
   const nfts = ref<CarouselNFT[]>([])
 
@@ -96,7 +96,7 @@ export const useCarouselNftEvents = ({ type }: Types) => {
     const snekNfts = await flattenNFT(dataSnek.value, 'snek')
     const bsxNfts = await flattenNFT(dataBsx.value, 'bsx')
     const rmrk2Nfts = await flattenNFT(dataRmrk2.value, 'ksm')
-    const stmnNfts = await flattenNFT(dataStmn.value, 'stmn')
+    const stmnNfts = await flattenNFT(dataStmn.value, 'ahk')
 
     const data = [
       ...stmnNfts,
