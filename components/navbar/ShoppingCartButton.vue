@@ -32,13 +32,10 @@ const numberOfItems = computed(
 const props = defineProps<{
   showLabel: boolean
 }>()
-const emit = defineEmits(['closeBurgerMenu'])
 
 const instance = getCurrentInstance()
 
 function toggleShoppingCartModal() {
-  emit('closeBurgerMenu')
-
   // can use the function in ShoppingCartModalConfig
   if (!isShoppingCartOpen()) {
     openShoppingCart(instance)
