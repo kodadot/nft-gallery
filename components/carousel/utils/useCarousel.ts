@@ -96,10 +96,10 @@ export const useCarouselNftEvents = ({ type }: Types) => {
     const snekNfts = await flattenNFT(dataSnek.value, 'snek')
     const bsxNfts = await flattenNFT(dataBsx.value, 'bsx')
     const rmrk2Nfts = await flattenNFT(dataRmrk2.value, 'ksm')
-    const stmnNfts = await flattenNFT(dataStmn.value, 'ahk')
+    const ahkNfts = await flattenNFT(dataStmn.value, 'ahk')
 
     const data = [
-      ...stmnNfts,
+      ...ahkNfts,
       ...rmrk2Nfts,
       ...snekNfts,
       ...bsxNfts,
