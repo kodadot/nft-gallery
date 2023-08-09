@@ -8,7 +8,7 @@ export default function () {
     switch (urlPrefix.value) {
       case 'rmrk':
       case 'ksm':
-      case 'stmn':
+      case 'ahk':
       case 'ahp':
         return identityStore.getAuthBalance
       case 'bsx':
