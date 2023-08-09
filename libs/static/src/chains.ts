@@ -34,7 +34,7 @@ export const CHAINS: Config<ChainProperties> = {
   ),
   movr: toChainProperty(1285, 18, 'MOVR', 'https://moonriver.subscan.io/'),
   glmr: toChainProperty(1284, 18, 'GLMR', 'https://moonbeam.subscan.io/'),
-  stmn: toChainProperty(2, 12, 'KSM', 'https://statemine.subscan.io/'),
+  ahk: toChainProperty(2, 12, 'KSM', 'https://statemine.subscan.io/'),
   dot: toChainProperty(0, 10, 'DOT', 'https://polkadot.subscan.io/'),
   ahp: toChainProperty(0, 10, 'DOT', 'https://statemint.subscan.io/'),
 }
@@ -67,7 +67,7 @@ export const chainInfo: Record<Prefix, string> = {
   movr: 'moonriver',
   glmr: 'moonbeam',
   ksm: 'rmrk',
-  stmn: 'statemine',
+  ahk: 'statemine',
   dot: 'polkadot',
   ahp: 'statemint',
 }
@@ -79,7 +79,7 @@ export const chainNames: Record<Prefix, string> = {
   movr: 'Moonriver',
   glmr: 'Moonbeam',
   ksm: 'Kusama',
-  stmn: 'Statemine',
+  ahk: 'Statemine',
   dot: 'Polkadot',
   ahp: 'Statemint',
 }
