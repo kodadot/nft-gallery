@@ -76,7 +76,7 @@ async function getProcessMetadata(nft: NFTWithMetadata) {
 
 export function getNftMetadata(nft: NFTWithMetadata, prefix: string) {
   // if subsquid already give us the metadata, we don't need to fetch it again
-  if (prefix === 'stmn' || prefix === 'stt') {
+  if (prefix === 'ahk' || prefix === 'ahp') {
     return getProcessMetadata(nft)
   }
   if (nft.meta && nft.meta.image) {

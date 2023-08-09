@@ -38,7 +38,7 @@ const Money = defineAsyncComponent(
 )
 
 const getApi = () => {
-  const value = urlPrefix.value === 'stmn' ? 'ksm' : 'dot'
+  const value = urlPrefix.value === 'ahk' ? 'ksm' : 'dot'
 
   const endpoint = getChainEndpointByPrefix(value) as string
   return ApiFactory.useApiInstance(endpoint)
@@ -54,7 +54,7 @@ const handleTokenImport = async () => {
   }
 
   const api = await getApi()
-  const to = urlPrefix.value === 'stmn' ? 'Statemine' : 'Statemint'
+  const to = urlPrefix.value === 'ahk' ? 'Statemine' : 'Statemint'
   const call = Builder(api).to(to).amount(1e10).address(accountId.value).build()
 
   const transactionHandler = txCb(

@@ -86,9 +86,9 @@ const networkToPrefix = {
   polkadot: 'dot',
   kusama: 'ksm',
   basilisk: 'bsx',
-  statemine: 'stmn',
+  statemine: 'ahk',
   'basilisk-testnet': 'snek',
-  statemint: 'stt',
+  statemint: 'ahp',
 }
 
 const isBalanceLoading = computed(
