@@ -91,15 +91,6 @@ export default function (allowRedirectIfCheckNotPresent = false) {
     query: route.query,
   })
 
-  const handleSpecialCaseRedirect: {
-    [key in RedirectTypes]?: (chain: Prefix, prevChain: Prefix) => RedirectPath
-  } = {
-    [RedirectTypes.CHAIN_PREFIX_CHANGE]: (
-      chain: Prefix,
-      prevChain: Prefix
-    ): RedirectPath => getChangedChainPrefixFromPath(chain, prevChain),
-  }
-
   const checkIfPageHasSpecialRedirect = (pageType: PageType): boolean => {
     return SpecialRedirectPageTypes.includes(pageType as PageType)
   }
@@ -137,18 +128,15 @@ export default function (allowRedirectIfCheckNotPresent = false) {
 
     const pageRedirectType = PageRedirectType[pageTypeValue]
 
-    const justStay = pageRedirectType === RedirectTypes.STAY
-    const noSpecialHandleRedirectAvailableForChain =
-      !Object.prototype.hasOwnProperty.call(
-        handleSpecialCaseRedirect,
-        pageRedirectType
-      )
-
-    if (justStay || noSpecialHandleRedirectAvailableForChain) {
+    if (pageRedirectType === RedirectTypes.STAY) {
       return null
     }
 
-    return handleSpecialCaseRedirect[pageRedirectType](newChain, prevChain)
+    if (pageRedirectType === RedirectTypes.CHAIN_PREFIX_CHANGE) {
+      return getChangedChainPrefixFromPath(newChain, prevChain)
+    }
+
+    return null
   }
 
   const redirectAfterChainChange = (
