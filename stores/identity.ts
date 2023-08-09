@@ -16,7 +16,7 @@ const DEFAULT_BALANCE_STATE = {
   glmr: '0',
   movr: '0',
   dot: '0',
-  stt: '0',
+  ahp: '0',
 }
 
 export interface IdentityMap {
