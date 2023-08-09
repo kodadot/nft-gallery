@@ -114,8 +114,14 @@ export default function (allowRedirectIfCheckNotPresent = false) {
       return defaultRedirect
     }
 
-    let isPageAvailableForChain = allowRedirectIfCheckNotPresent
     const pageTypeValue = PageType[pageType]
+    const pageRedirectType = PageRedirectType[pageTypeValue]
+
+    if (pageRedirectType === RedirectTypes.STAY) {
+      return null
+    }
+
+    let isPageAvailableForChain = allowRedirectIfCheckNotPresent
     const pageAvailabilityCheck = pageAvailabilityPerChain[pageTypeValue]
 
     if (pageAvailabilityCheck) {
@@ -124,12 +130,6 @@ export default function (allowRedirectIfCheckNotPresent = false) {
 
     if (!isPageAvailableForChain) {
       return defaultRedirect
-    }
-
-    const pageRedirectType = PageRedirectType[pageTypeValue]
-
-    if (pageRedirectType === RedirectTypes.STAY) {
-      return null
     }
 
     if (pageRedirectType === RedirectTypes.CHAIN_PREFIX_CHANGE) {
