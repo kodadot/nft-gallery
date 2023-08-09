@@ -88,7 +88,7 @@ const networkToPrefix = {
   basilisk: 'bsx',
   statemine: 'stmn',
   'basilisk-testnet': 'snek',
-  statemint: 'stt',
+  statemint: 'ahp',
 }
 
 const isBalanceLoading = computed(
