@@ -7,7 +7,7 @@ export const NAMES: Record<Prefix, string> = {
   ksm: 'RMRK2',
   movr: 'Moonriver [Beta]',
   snek: 'Snek [Rococo]',
-  ahk: 'Statemine [Beta]',
+  ahk: 'Kusama Hub [Beta]',
   dot: 'Polkadot',
-  ahp: 'Statemint [Beta]',
+  ahp: 'Polkadot Hub [Beta]',
 }
