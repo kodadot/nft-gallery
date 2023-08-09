@@ -9,7 +9,7 @@ export default function (prefix: ComputedRef<Prefix>) {
     () => prefix.value === 'rmrk' || prefix.value === 'ksm'
   )
   const isAssetHub = computed(
-    () => prefix.value === 'stmn' || prefix.value === 'ahp'
+    () => prefix.value === 'ahk' || prefix.value === 'ahp'
   )
 
   return {
