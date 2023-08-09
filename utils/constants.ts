@@ -11,13 +11,18 @@ export const denyList = [
   'H1scXqBBis6xobc9tSWjqAiHAe8X71xcgkbau8xgWm2xc2a', // AI NSFW
 ]
 
-export const statemineDenyList = [
+export const ksmHubDenyList = [
   'EZwaNLfEwAMYcEdbp7uKYFCjnsn43S85pm6BumT5UwvZQvB', // SubstraTee minter, broken IPFS
   'Eipd9P7j9XC7voYxYgAoyE6wwt8BmpLDNC89RAU2cf6Qtrk', // No metadata
 ]
 
 export const bsxDenyList = [
   'bXjMVEdCzhjYbPc5rJk7NvPSDRiiNuCT3GdqohFp3wdpzJL6Z', // Beeple, copycat
+]
+
+export const dotHubDenyList = [
+  '128qRiVjxU3TuT37tg7AX99zwqfPtj2t4nDKUv9Dvi5wzxuF', // RMRK test
+  '155HWw3J9jyYphMm5is4vp9Bzj7ZRRd6HEzCPdWd8cq97KfT', // Very old unreacheable IPFS
 ]
 
 export const IPFS_KODADOT_IMAGE_PLACEHOLDER =
@@ -49,7 +54,7 @@ export const URLS = {
     antick: 'https://squid.subsquid.io/antick/v/001-rc0/graphql',
     marck: 'https://squid.subsquid.io/marck/graphql',
     stick: 'https://squid.subsquid.io/stick/graphql',
-    speck: 'https://squid.subsquid.io/speck/v/v1/graphql',
+    speck: 'https://squid.subsquid.io/speck/v/v2/graphql',
     replicate: 'https://replicate.kodadot.workers.dev/',
     search: 'https://polysearch.w.kodadot.xyz',
     baseUrl: 'https://kodadot.xyz',
@@ -70,8 +75,8 @@ export const apolloClientConfig = {
   snek: toApolloEndpoint(URLS.koda.snekRococo),
   glmr: toApolloEndpoint(URLS.koda.antick),
   rmrk2: toApolloEndpoint(URLS.koda.marck),
-  stmn: toApolloEndpoint(URLS.koda.stick),
-  stt: toApolloEndpoint(URLS.koda.speck),
+  ahk: toApolloEndpoint(URLS.koda.stick),
+  ahp: toApolloEndpoint(URLS.koda.speck),
 }
 
 export const NFT_SQUID_SORT_CONDITION_LIST: string[] = [

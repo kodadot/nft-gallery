@@ -21,7 +21,7 @@ export type OfferResponse = {
     total: number
   }
 }
-export type OfferStats = {
+export interface OfferStats {
   status: string
   totalCount: number
   totalPrice: string

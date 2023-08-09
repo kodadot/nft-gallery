@@ -80,7 +80,7 @@
 
         <!-- NAV END -->
         <div class="navbar-end">
-          <nuxt-link to="/stmn/drops" rel="nofollow">
+          <nuxt-link to="/ahk/drops" rel="nofollow">
             <div class="navbar-item" data-cy="drops">
               {{ $t('drops.title') }}
 

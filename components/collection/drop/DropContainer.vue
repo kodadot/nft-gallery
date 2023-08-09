@@ -363,7 +363,7 @@ const handleSubmitMint = async (tokenId: string) => {
         metadata: hash,
         sn,
       },
-      urlPrefix.value === 'stmn' ? STMN_DROP_CAMPAIGN : STT_DROP_CAMPAIGN
+      urlPrefix.value === 'ahk' ? STMN_DROP_CAMPAIGN : STT_DROP_CAMPAIGN
     ).then((res) => {
       toast('mint success')
       justMinted.value = `${collectionId}-${res.result.sn}`

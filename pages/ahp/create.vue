@@ -20,7 +20,7 @@ const NFT = () => import('@/components/stmn/Create/CreateToken.vue')
 const components = { Collection, NFT, NeoTabItem, NeoTabs }
 
 export default {
-  name: 'StmnCreatePage',
+  name: 'SttCreatePage',
   components,
   layout: 'centered-half-layout',
   setup() {
@@ -37,7 +37,7 @@ export default {
       title,
       type: 'article',
       description: 'Create carbonless NFTs with low on-chain fees',
-      url: '/stmn/create',
+      url: '/ahp/create',
       image: `${this.$config.public.baseUrl}/k_card.png`,
     }
     return {

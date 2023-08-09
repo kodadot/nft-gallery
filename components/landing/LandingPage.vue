@@ -13,9 +13,7 @@
       </section>
 
       <!-- top collections -->
-      <section
-        v-if="urlPrefix !== 'ksm' && urlPrefix !== 'stmn'"
-        class="py-8 instance">
+      <section v-if="showTopCollections" class="py-8 instance">
         <div class="container is-fluid">
           <LazyTopCollections class="my-5" />
         </div>
@@ -43,9 +41,16 @@
 <script lang="ts" setup>
 import type { Prefix } from '@kodadot1/static'
 
-const prefixes: Prefix[] = ['rmrk', 'ksm', 'snek', 'bsx', 'stmn']
+const hiddenCarrouselPrefixes: Prefix[] = ['movr', 'glmr']
+const forbiddenPrefixesForTopCollections: Prefix[] = ['ksm', 'ahk', 'ahp']
+
 const { urlPrefix } = usePrefix()
 
 // currently only supported on rmrk and snek
-const showCarousel = computed(() => prefixes.includes(urlPrefix.value))
+const showCarousel = computed(
+  () => !hiddenCarrouselPrefixes.includes(urlPrefix.value)
+)
+const showTopCollections = computed(
+  () => !forbiddenPrefixesForTopCollections.includes(urlPrefix.value)
+)
 </script>

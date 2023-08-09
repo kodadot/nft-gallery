@@ -5,23 +5,24 @@ const hasCreate: Config<boolean> = {
   ksm: true,
   bsx: true,
   stmn: false,
+  ahk: true,
   movr: false,
   glmr: false,
   snek: true,
   dot: false,
-  stt: false,
+  ahp: true,
 }
 
 const hasExplorer: Config<boolean> = {
   rmrk: true,
   ksm: true,
   bsx: true,
-  stmn: true,
+  ahk: true,
   movr: true,
   glmr: true,
   snek: true,
   dot: false,
-  stt: true,
+  ahp: true,
 }
 
 const hasInsight: Config<boolean> = {

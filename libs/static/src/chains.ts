@@ -34,9 +34,9 @@ export const CHAINS: Config<ChainProperties> = {
   ),
   movr: toChainProperty(1285, 18, 'MOVR', 'https://moonriver.subscan.io/'),
   glmr: toChainProperty(1284, 18, 'GLMR', 'https://moonbeam.subscan.io/'),
-  stmn: toChainProperty(2, 12, 'KSM', 'https://statemine.subscan.io/'),
+  ahk: toChainProperty(2, 12, 'KSM', 'https://statemine.subscan.io/'),
   dot: toChainProperty(0, 10, 'DOT', 'https://polkadot.subscan.io/'),
-  stt: toChainProperty(0, 10, 'DOT', 'https://statemint.subscan.io/'),
+  ahp: toChainProperty(0, 10, 'DOT', 'https://statemint.subscan.io/'),
 }
 
 export const DEFAULT_PREFIX: Prefix = 'ksm'
@@ -48,9 +48,9 @@ export const chainPrefixes: Prefix[] = [
   'movr',
   'glmr',
   'ksm',
-  'stmn',
+  'ahk',
   'dot',
-  'stt',
+  'ahp',
 ]
 export const chainPrefixesMap = chainPrefixes.reduce(
   (acc: Partial<Record<Prefix, Prefix>>, prefix: Prefix) => ({
@@ -67,9 +67,9 @@ export const chainInfo: Record<Prefix, string> = {
   movr: 'moonriver',
   glmr: 'moonbeam',
   ksm: 'rmrk',
-  stmn: 'statemine',
+  ahk: 'statemine',
   dot: 'polkadot',
-  stt: 'statemint',
+  ahp: 'statemint',
 }
 
 export const chainNames: Record<Prefix, string> = {
@@ -79,9 +79,9 @@ export const chainNames: Record<Prefix, string> = {
   movr: 'Moonriver',
   glmr: 'Moonbeam',
   ksm: 'Kusama',
-  stmn: 'Statemine',
+  ahk: 'Kusama AssetHub',
   dot: 'Polkadot',
-  stt: 'Statemint',
+  ahp: 'Polkadot AssetHub',
 }
 
 export const chainList = (): Option[] => {
