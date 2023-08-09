@@ -41,11 +41,11 @@ const hasClassicCreate: Config<boolean> = {
   ksm: true,
   bsx: true,
   stmn: false,
-  movr: true,
-  glmr: true,
+  movr: false,
+  glmr: false,
   snek: true,
-  dot: true,
-  stt: true,
+  dot: false,
+  stt: false,
 }
 
 export const createVisible = (prefix: Prefix | string): boolean => {
