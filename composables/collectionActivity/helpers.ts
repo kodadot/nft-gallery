@@ -13,7 +13,7 @@ import {
 export const mintInteraction = () => {
   const { urlPrefix } = usePrefix()
   // https://github.com/kodadot/snek/issues/183
-  return ['ksm', 'stmn', 'ahp'].includes(urlPrefix.value)
+  return ['ksm', 'ahk', 'ahp'].includes(urlPrefix.value)
     ? Interaction.MINT
     : Interaction.MINTNFT
 }
