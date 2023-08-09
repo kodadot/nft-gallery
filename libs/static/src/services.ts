@@ -16,7 +16,7 @@ export const EXPLORERS: Record<Prefix, string> = {
   snek: 'https://calamar.play.hydration.cloud/rococo%20basilisk/search?query=',
   movr: 'https://moonriver.subscan.io/account/',
   glmr: 'https://moonbeam.subscan.io/account/',
-  stmn: 'https://assethub-kusama.subscan.io/account/',
+  ahk: 'https://assethub-kusama.subscan.io/account/',
   dot: 'https://polkadot.subscan.io/account/',
   ahp: 'https://assethub-polkadot.subscan.io/account/',
 }
