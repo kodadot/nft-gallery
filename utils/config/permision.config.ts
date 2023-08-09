@@ -9,7 +9,7 @@ const hasCreate: Config<boolean> = {
   glmr: false,
   snek: true,
   dot: false,
-  stt: true,
+  ahp: true,
 }
 
 const hasExplorer: Config<boolean> = {
@@ -21,7 +21,7 @@ const hasExplorer: Config<boolean> = {
   glmr: true,
   snek: true,
   dot: false,
-  stt: true,
+  ahp: true,
 }
 
 export const createVisible = (prefix: Prefix | string): boolean => {
