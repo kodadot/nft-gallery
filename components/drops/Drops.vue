@@ -19,7 +19,7 @@
           :data-cy="index">
           <DropCard
             :drop="drop"
-            override-url-prefix="stt"
+            override-url-prefix="ahp"
             drop-url="dot-drop" />
         </div>
       </template>
