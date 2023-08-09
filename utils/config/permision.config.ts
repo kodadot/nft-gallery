@@ -36,6 +36,18 @@ const hasInsight: Config<boolean> = {
   stt: false,
 }
 
+const hasClassicCreate: Config<boolean> = {
+  rmrk: true,
+  ksm: true,
+  bsx: true,
+  stmn: false,
+  movr: true,
+  glmr: true,
+  snek: true,
+  dot: true,
+  stt: true,
+}
+
 export const createVisible = (prefix: Prefix | string): boolean => {
   return hasCreate[prefix]
 }
@@ -46,4 +58,8 @@ export const explorerVisible = (prefix: Prefix | string): boolean => {
 
 export const seriesInsightVisible = (prefix: Prefix | string) => {
   return hasInsight[prefix]
+}
+
+export const classicCreateVisible = (prefix: Prefix | string) => {
+  return hasClassicCreate[prefix]
 }

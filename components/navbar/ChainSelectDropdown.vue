@@ -33,10 +33,11 @@ const prefrencesStore = usePreferencesStore()
 
 const selected = computed({
   get: () => urlPrefix.value,
-  set: (value) => {
+  set: (newChain) => {
     prefrencesStore.setNotificationBoxCollapse(false)
-    setUrlPrefix(value)
-    redirectAfterChainChange(value, `/${value}`)
+    const prevChain = urlPrefix.value
+    setUrlPrefix(newChain)
+    redirectAfterChainChange(newChain, prevChain)
   },
 })
 
