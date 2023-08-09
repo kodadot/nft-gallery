@@ -40,7 +40,7 @@ export const ALTERNATIVE_ENDPOINT_MAP: Config<WS_URL[]> = {
     'wss://statemine.public.curie.radiumblock.co/ws',
   ],
   dot: POLKADOT_ENDPOINTS,
-  stt: [
+  ahp: [
     'wss://polkadot-asset-hub-rpc.polkadot.io',
     'wss://statemint-rpc.dwellir.com',
     'wss://statemint-rpc-tn.dwellir.com',
@@ -59,5 +59,5 @@ export const ENDPOINT_MAP: Config<WS_URL> = {
   snek: 'wss://basilisk-rococo-rpc.play.hydration.cloud',
   stmn: 'wss://kusama-asset-hub-rpc.polkadot.io',
   dot: POLKADOT_ENDPOINTS[0],
-  stt: 'wss://polkadot-asset-hub-rpc.polkadot.io',
+  ahp: 'wss://polkadot-asset-hub-rpc.polkadot.io',
 }
