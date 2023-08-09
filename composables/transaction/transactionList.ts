@@ -97,7 +97,7 @@ export function execListTx(item: ActionList, api, executeTransaction) {
     }
   }
 
-  if (item.urlPrefix === 'stmn' || item.urlPrefix === 'stt') {
+  if (item.urlPrefix === 'stmn' || item.urlPrefix === 'ahp') {
     if (isSingle) {
       const token = item.token as TokenToList
       const legacy = isLegacy(token.nftId)
