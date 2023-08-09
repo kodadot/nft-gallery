@@ -7,7 +7,7 @@ export type Prefix =
   | 'snek'
   | 'stmn'
   | 'dot'
-  | 'stt'
+  | 'ahp'
 // | 'wst'
 
 export type Squid =
