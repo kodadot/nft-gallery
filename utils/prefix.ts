@@ -1,8 +1,8 @@
 import {
   bsxDenyList,
   denyList,
-  statemineDenyList,
-  statemintDenyList,
+  dotHubDenyList,
+  ksmHubDenyList,
 } from '@/utils/constants'
 
 export function getDenyList(prefix: string): string[] | undefined {
@@ -15,9 +15,9 @@ export function getDenyList(prefix: string): string[] | undefined {
       return bsxDenyList
     case 'ahk':
     case 'westmint':
-      return statemineDenyList
+      return ksmHubDenyList
     case 'ahp':
-      return statemintDenyList
+      return dotHubDenyList
     default:
       return undefined
   }
