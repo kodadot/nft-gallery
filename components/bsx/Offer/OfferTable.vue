@@ -161,7 +161,7 @@ import Money from '@/components/bsx/format/TokenMoney.vue'
 
 withDefaults(
   defineProps<{
-    offers: []
+    offers: Offer[]
     isOwner: boolean
     isBsxStats: boolean
     isCollection: boolean
