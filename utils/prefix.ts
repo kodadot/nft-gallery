@@ -1,4 +1,9 @@
-import { bsxDenyList, denyList, statemineDenyList } from '@/utils/constants'
+import {
+  bsxDenyList,
+  denyList,
+  statemineDenyList,
+  statemintDenyList,
+} from '@/utils/constants'
 
 export function getDenyList(prefix: string): string[] | undefined {
   switch (prefix) {
@@ -11,6 +16,8 @@ export function getDenyList(prefix: string): string[] | undefined {
     case 'stmn':
     case 'westmint':
       return statemineDenyList
+    case 'stt':
+      return statemintDenyList
     default:
       return undefined
   }

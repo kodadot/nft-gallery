@@ -684,7 +684,7 @@
   "sales": {
     "page": "Sales",
     "title": "Latest KUSAMA Sales",
-    "subtitle": "Featuring the most recently sold NFTs on Kusama.",
+    "subtitle": "Featuring the most recently sold NFTs on {chain}",
     "buyer": "Buyer",
     "tableDate": "Relative Date",
     "price": "Price of sale"
@@ -692,7 +692,7 @@
   "hot": {
     "label": "Hot",
     "title": "Recent KUSAMA Sales In One Week",
-    "subtitle": "Featuring the recently sold NFTs on Kusama"
+    "subtitle": "Featuring the recently sold NFTs on {chain}"
   },
   "spotlight": {
     "page": "Spotlight",
