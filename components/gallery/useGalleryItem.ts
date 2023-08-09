@@ -58,7 +58,7 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
   const queryPath = {
     rmrk: 'chain-rmrk',
     ksm: 'chain-ksm',
-    ahk: 'chain-stmn',
+    ahk: 'chain-ahk',
   }
 
   const { urlPrefix } = usePrefix()
