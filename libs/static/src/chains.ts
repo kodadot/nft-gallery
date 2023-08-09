@@ -48,7 +48,7 @@ export const chainPrefixes: Prefix[] = [
   'movr',
   'glmr',
   'ksm',
-  'stmn',
+  'ahk',
   'dot',
   'ahp',
 ]
