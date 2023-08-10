@@ -32,7 +32,7 @@ const hasInsight: Config<boolean> = {
   movr: false,
   glmr: false,
   snek: true,
-  dot: false,
+  dot: true,
   ahp: false,
 }
 
