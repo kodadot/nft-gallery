@@ -46,15 +46,15 @@ importers:
       '@kodadot1/minimark':
         specifier: ^0.1.10
         version: 0.1.10(@polkadot/api@10.6.1)
+      '@kodadot1/minipfs':
+        specifier: 0.4.0-rc.0
+        version: 0.4.0-rc.0
       '@kodadot1/static':
         specifier: workspace:*
         version: link:libs/static
       '@kodadot1/sub-api':
         specifier: ^0.1.2
         version: 0.1.2
-      '@kodadot1/vuex-options':
-        specifier: 0.1.5
-        version: 0.1.5
       '@nuxtjs/apollo':
         specifier: ^4.0.1-rc.5
         version: 4.0.1-rc.5(graphql-tag@2.12.6)(graphql-ws@5.14.0)(typescript@4.9.5)
@@ -287,18 +287,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      cypress:
-        specifier: ^12.17.1
-        version: 12.17.1
-      cypress-file-upload:
-        specifier: ^5.0.8
-        version: 5.0.8(cypress@12.17.1)
-      cypress-network-idle:
-        specifier: ^1.14.2
-        version: 1.14.2
-      cypress-real-events:
-        specifier: ^1.9.1
-        version: 1.9.1(cypress@12.17.1)
       eslint:
         specifier: ^8.45.0
         version: 8.45.0
@@ -422,7 +410,7 @@ importers:
         version: 0.16.2(sass@1.64.0)(vite@3.2.7)
       vite:
         specifier: ^3.2.7
-        version: 3.2.7(sass@1.64.0)(terser@5.17.7)
+        version: 3.2.7(@types/node@20.2.5)(sass@1.64.0)
       vue:
         specifier: 2.7.14
         version: 2.7.14
@@ -3721,7 +3709,7 @@ packages:
       chokidar: 3.5.3
       pathe: 0.2.0
       picocolors: 1.0.0
-      vite: 3.2.7(sass@1.64.0)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.64.0)
     dev: true
 
   /@histoire/vendors@0.16.0:
@@ -3860,6 +3848,12 @@ packages:
       slugify: 1.6.6
     dev: false
 
+  /@kodadot1/minipfs@0.4.0-rc.0:
+    resolution: {integrity: sha512-XLwrSIBFwnlPLeuk2G6USjg8eKJPoY4+yALE39gGtRxpQcxTz0kfpwKCIzcbKdgU+iutRIAL4JoVtiYfkPWjeg==}
+    dependencies:
+      ofetch: 1.1.1
+    dev: false
+
   /@kodadot1/sub-api@0.1.2:
     resolution: {integrity: sha512-I6iumNz4A2HakAkNS7dUfEJxoXCMN0Ke2M6ruXHk8+BGj3yw1e46R71bigRp4XK4GYW8wvIEN3rwVp/eniqlNQ==}
     dependencies:
@@ -3869,12 +3863,6 @@ packages:
       - bufferutil
       - supports-color
       - utf-8-validate
-    dev: false
-
-  /@kodadot1/vuex-options@0.1.5:
-    resolution: {integrity: sha512-FXAOJK5GlFctJWtGgfKnHL+WSCzBtKC4XlyOuosJvfrBXrGump6vGYaPnQWyajC0qtgFis8j1Sva8NnmxaYoFg==}
-    dependencies:
-      '@polkadot/networks': 12.2.2
     dev: false
 
   /@laminar/type-definitions@0.3.1:
@@ -8791,7 +8779,7 @@ packages:
       vite: ^3.0.0 || ^4.0.0
       vue: ^2.7.0-0
     dependencies:
-      vite: 3.2.7(sass@1.64.0)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.64.0)
       vue: 2.7.14
     dev: true
 
@@ -15671,7 +15659,7 @@ packages:
       sade: 1.8.1
       shiki-es: 0.2.0
       sirv: 2.0.3
-      vite: 3.2.7(sass@1.64.0)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.64.0)
       vite-node: 0.28.4(sass@1.64.0)
     transitivePeerDependencies:
       - '@types/node'
@@ -18523,7 +18511,6 @@ packages:
       destr: 2.0.0
       node-fetch-native: 1.2.0
       ufo: 1.1.2
-    dev: true
 
   /ohash@1.1.2:
     resolution: {integrity: sha512-9CIOSq5945rI045GFtcO3uudyOkYVY1nyfFxVQp+9BRgslr8jPNiSSrsFGg/BNTUFOLqx0P5tng6G32brIPw0w==}
@@ -23098,7 +23085,7 @@ packages:
       picocolors: 1.0.0
       source-map: 0.6.1
       source-map-support: 0.5.21
-      vite: 3.2.7(sass@1.64.0)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.64.0)
     transitivePeerDependencies:
       - '@types/node'
       - less

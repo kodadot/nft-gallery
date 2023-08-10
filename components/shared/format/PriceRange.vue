@@ -9,30 +9,26 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, mixins } from 'nuxt-property-decorator'
-import ChainMixin from '~/utils/mixins/chainMixin'
+<script lang="ts" setup>
+import Money from '@/components/shared/format/Money.vue'
 
-@Component({
-  components: {
-    Money: () => import('@/components/shared/format/Money.vue'),
-  },
+defineProps({
+  inline: { type: Boolean, default: true },
 })
-export default class PriceRange extends mixins(ChainMixin) {
-  @Prop(Boolean) readonly inline!: boolean
 
-  get from(): number | undefined {
-    if (this.$route.query.min) {
-      return parseFloat(this.$route.query.min.toString()) * 10 ** this.decimals
-    }
-    return undefined
-  }
+const route = useRoute()
+const decimals = useChain()
 
-  get to(): number | undefined {
-    if (this.$route.query.max) {
-      return parseFloat(this.$route.query.max.toString()) * 10 ** this.decimals
-    }
-    return undefined
+const from = computed(() => {
+  if (route.query.min) {
+    return parseFloat(route.query.min.toString()) * 10 ** Number(decimals)
   }
-}
+  return undefined
+})
+const to = computed(() => {
+  if (route.query.max) {
+    return parseFloat(route.query.max.toString()) * 10 ** Number(decimals)
+  }
+  return undefined
+})
 </script>
