@@ -5,6 +5,8 @@ import { getAvailablePrefix } from '@/utils/chain'
 
 import type { Prefix } from '@kodadot1/static'
 
+const sharedPrefix = ref<Prefix>()
+
 export default function () {
   const route = useRoute()
   const storage = useLocalStorage('urlPrefix', { selected: DEFAULT_PREFIX })
@@ -15,17 +17,29 @@ export default function () {
 
   const prefix = computed<Prefix>(
     () =>
-      (validPrefixFromRoute.value ||
+      (sharedPrefix.value ||
+        validPrefixFromRoute.value ||
         storage.value.selected ||
         initialPrefixFromPath) as Prefix
   )
+
+  watch(
+    prefix,
+    (value) => {
+      if (value) {
+        sharedPrefix.value = value
+        storage.value = { selected: value }
+      }
+    },
+    { immediate: true }
+  )
+
   const urlPrefix = computed<Prefix>(() => {
-    storage.value = { selected: prefix.value }
     return prefix.value
   })
 
-  const setUrlPrefix = (prefix) => {
-    storage.value = { selected: prefix }
+  const setUrlPrefix = (prefix: Prefix) => {
+    sharedPrefix.value = prefix
   }
 
   const client = computed<string>(() => {
