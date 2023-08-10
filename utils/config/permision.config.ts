@@ -33,7 +33,7 @@ const hasInsight: Config<boolean> = {
   glmr: false,
   snek: false,
   dot: false,
-  stt: false,
+  ahp: false,
 }
 
 const hasSales: Config<boolean> = {
@@ -45,7 +45,7 @@ const hasSales: Config<boolean> = {
   glmr: false,
   snek: false,
   dot: false,
-  stt: false,
+  ahp: false,
 }
 
 const hasHot: Config<boolean> = {
@@ -57,7 +57,7 @@ const hasHot: Config<boolean> = {
   glmr: true,
   snek: true,
   dot: true,
-  stt: true,
+  ahp: true,
 }
 
 const hasMassmintCreate: Config<boolean> = {
@@ -69,7 +69,7 @@ const hasMassmintCreate: Config<boolean> = {
   glmr: false,
   snek: true,
   dot: false,
-  stt: false,
+  ahp: false,
 }
 
 export const createVisible = (prefix: Prefix | string): boolean => {
