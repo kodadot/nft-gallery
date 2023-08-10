@@ -365,6 +365,9 @@ export default defineNuxtConfig({
   buildModules: ['nuxt-webpack-optimisations'],
 
   webpackOptimisations: {
+    features: {
+      esbuildLoader: process.env.NODE_ENV !== 'development',
+    },
     // https://github.com/privatenumber/esbuild-loader#%EF%B8%8F-options
     esbuildLoaderOptions: {
       client: {
