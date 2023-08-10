@@ -364,6 +364,19 @@ export default defineNuxtConfig({
 
   buildModules: ['nuxt-webpack-optimisations'],
 
+  webpackOptimisations: {
+    // https://github.com/privatenumber/esbuild-loader#%EF%B8%8F-options
+    esbuildLoaderOptions: {
+      client: {
+        target: 'esnext',
+        legalComments: 'none',
+      },
+      modern: {
+        target: 'esnext',
+      },
+    },
+  },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     babel: {
