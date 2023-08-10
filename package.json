@@ -52,7 +52,7 @@
   "engines": {
     "npm": "please-use-pnpm",
     "pnpm": "8",
-    "node": "^18"
+    "node": "^18.16"
   },
   "prettier": {
     "semi": false,
