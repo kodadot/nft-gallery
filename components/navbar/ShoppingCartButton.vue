@@ -35,7 +35,14 @@ const props = defineProps<{
 
 const instance = getCurrentInstance()
 
+const emit = defineEmits(['closeBurgerMenu'])
+const isMobile = ref(window.innerWidth < 1024)
+
 function toggleShoppingCartModal() {
+  if (isMobile.value) {
+    emit('closeBurgerMenu')
+  }
+
   // can use the function in ShoppingCartModalConfig
   if (!isShoppingCartOpen()) {
     openShoppingCart(instance)

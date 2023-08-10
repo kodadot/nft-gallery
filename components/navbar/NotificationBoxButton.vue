@@ -17,8 +17,14 @@ const props = defineProps<{
 }>()
 const preferencesStore = usePreferencesStore()
 const instance = getCurrentInstance()
+const emit = defineEmits(['closeBurgerMenu'])
+const isMobile = ref(window.innerWidth < 1024)
 
 function toggleNotificationModal() {
+  if (isMobile.value) {
+    emit('closeBurgerMenu')
+  }
+
   if (!document.querySelector('.notification-box-modal')) {
     preferencesStore.setNotificationBoxCollapse(true)
     Modal.open({
