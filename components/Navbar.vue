@@ -141,9 +141,7 @@
 
           <NotificationBoxButton v-if="account" :show-label="isMobile" />
 
-          <ShoppingCartButton
-            :show-label="isMobile"
-            @closeBurgerMenu="showMobileNavbar" />
+          <ShoppingCartButton :show-label="isMobile" />
 
           <template v-if="isMobile">
             <template v-if="!account">
