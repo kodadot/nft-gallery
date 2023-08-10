@@ -139,10 +139,7 @@
             class="navbar-chain custom-navbar-item"
             data-cy="chain-select" />
 
-          <NotificationBoxButton
-            v-if="account"
-            :show-label="isMobile"
-            @closeBurgerMenu="showMobileNavbar" />
+          <NotificationBoxButton v-if="account" :show-label="isMobile" />
 
           <ShoppingCartButton
             :show-label="isMobile"
