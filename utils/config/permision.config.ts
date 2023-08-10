@@ -26,7 +26,7 @@ const hasExplorer: Config<boolean> = {
 
 const hasInsight: Config<boolean> = {
   rmrk: true,
-  ksm: false,
+  ksm: true,
   bsx: true,
   ahk: false,
   movr: false,
