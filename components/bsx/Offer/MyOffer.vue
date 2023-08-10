@@ -5,14 +5,21 @@
         {{ $t('myOffer.bsxTitle') }}
       </h1>
     </div>
-    <NeoSelect v-model="selectedStatus">
-      <option
-        v-for="option in getUniqType()"
-        :key="option.type"
-        :value="option.type">
-        {{ option.value }}
-      </option>
-    </NeoSelect>
+    <div class="is-flex is-justify-content-space-between is-align-items-center">
+      <NeoSelect v-model="selectedStatus">
+        <option
+          v-for="option in getUniqType()"
+          :key="option.type"
+          :value="option.type">
+          {{ option.value }}
+        </option>
+      </NeoSelect>
+      <NeoButton
+        no-shadow
+        size="medium"
+        icon-left="refresh"
+        @click.native="refresh" />
+    </div>
     <Loader v-model="isLoading" :status="status" />
     <NeoTable :data="displayOffers(offers)">
       <NeoTableColumn v-slot="props" :label="$t('nft.offer.item')" sortable>
@@ -109,8 +116,8 @@ const selectedStatus = ref<AllOfferStatusType>(AllOfferStatusType.ALL)
 
 withDefaults(
   defineProps<{
-    address: string
-    hideHeading: boolean
+    address?: string
+    hideHeading?: boolean
   }>(),
   {
     address: '',
@@ -132,7 +139,7 @@ const getUniqType = () => {
   return [{ type: AllOfferStatusType.ALL, value: 'All' }, ...singleEventList]
 }
 
-const fetchMyOffers = async () => {
+const { refresh } = useLazyAsyncData('offers', async () => {
   if (!targetAddress.value) {
     return
   }
@@ -149,9 +156,7 @@ const fetchMyOffers = async () => {
   } catch (e) {
     $consola.error(e)
   }
-}
-
-watchEffect(async () => await fetchMyOffers())
+})
 
 // doesn't need emit?
 // const emit = defineEmits(['offersIncoming'])
@@ -196,7 +201,7 @@ const onClick = async (offer: Offer, withdraw: boolean) => {
   const { caller, nft } = offer
   const { id: collectionId, item } = tokenIdToRoute(nft.id)
   isLoading.value = true
-  await submit(caller, item, collectionId, withdraw, fetchMyOffers)
+  await submit(caller, item, collectionId, withdraw, refresh)
 }
 
 const displayOffers = (offers: Offer[]) => {
@@ -239,7 +244,7 @@ const calcExpirationTime = (expirationBlock: number): string => {
 }
 
 watch(accountId, () => {
-  fetchMyOffers()
+  refresh()
 })
 </script>
 
