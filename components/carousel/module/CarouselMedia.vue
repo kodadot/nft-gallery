@@ -6,8 +6,8 @@
       :to="urlOf({ id: item.id, url, chain: item.chain })"
       rel="nofollow">
       <MediaItem
-        class="carousel__image-wrapper"
-        :src="item.image || ''"
+        class="carousel-media-wrapper"
+        :src="imageSrc || ''"
         :animation-src="item.animationUrl || ''"
         :title="item.name" />
     </nuxt-link>
