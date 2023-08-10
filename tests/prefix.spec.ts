@@ -1,3 +1,5 @@
+import { chainPrefixes } from '@kodadot1/static'
+
 const withPrefix = /-/
 
 describe('PREFIX TEST', (): void => {
@@ -13,12 +15,12 @@ describe('PREFIX TEST', (): void => {
     return ''
   }
 
-  // beforeAll(async () => {
-  //   prefixes = URL_PREFIXES.map((option) => option.value as string).map(
-  //     // skipcq allowRegExp
-  //     (value) => RegExp(`^${value}`)
-  //   )
-  // })
+  beforeAll(async () => {
+    prefixes = chainPrefixes.map(
+      // skipcq allowRegExp
+      (value) => RegExp(`^${value}`)
+    )
+  })
 
   it('can correctly match /rmrk/create', () => {
     const routeName = 'rmrk-create'
