@@ -69,6 +69,7 @@ const pageAvailabilityPerChain = {
     massmintCreateVisible(chain),
   [PageType.SALES]: (chain: Prefix) => salesVisible(chain),
   [PageType.HOT]: (chain: Prefix) => hotVisible(chain),
+  [PageType.BLOG]: () => true,
 }
 
 const getPageType = (routeName: string): PageType => {
