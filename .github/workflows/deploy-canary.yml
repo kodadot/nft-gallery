@@ -29,3 +29,5 @@ jobs:
           accountId: 307ebd51f6c21a90c3873587c11a2913
           projectName: nft-gallery-canary
           directory: dist
+          branch: canary
+          wranglerVersion: '3'
