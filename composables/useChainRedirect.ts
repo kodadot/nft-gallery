@@ -116,10 +116,7 @@ export default function (allowRedirectIfCheckNotPresent = false) {
 
     const pageTypeValue = PageType[pageType]
     const pageRedirectType = PageRedirectType[pageTypeValue]
-
-    if (pageRedirectType === RedirectTypes.STAY) {
-      return null
-    }
+    const isStayRedirect = pageRedirectType === RedirectTypes.STAY
 
     let isPageAvailableForChain = allowRedirectIfCheckNotPresent
     const pageAvailabilityCheck = pageAvailabilityPerChain[pageTypeValue]
@@ -128,7 +125,11 @@ export default function (allowRedirectIfCheckNotPresent = false) {
       isPageAvailableForChain = pageAvailabilityCheck(newChain)
     }
 
-    if (!isPageAvailableForChain) {
+    if (isStayRedirect && isPageAvailableForChain) {
+      return null
+    }
+
+    if (!isPageAvailableForChain || isStayRedirect) {
       return defaultRedirect
     }
 
