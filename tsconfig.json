@@ -21,9 +21,6 @@
       "@types/node",
       "vue-apollo",
       "vitest/globals",
-      "cypress",
-      "cypress-file-upload",
-      "cypress-real-events",
       "@nuxtjs/sentry"
     ]
   },
