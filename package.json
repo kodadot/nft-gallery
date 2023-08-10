@@ -27,7 +27,7 @@
     "start": "nuxi preview",
     "start:static": "npx --yes serve@14.2.0 -L -l 9090 -s dist",
     "generate:pnpm": "npx pnpm@latest-8 i --store=node_modules/.pnpm-store && npx pnpm@latest-8 generate",
-    "generate": "node ./script/substack.mjs && cross-env NODE_OPTIONS=--openssl-legacy-provider NITRO_PRESET=netlify nuxt generate",
+    "generate": "node ./script/substack.mjs && cross-env NODE_OPTIONS=--openssl-legacy-provider nuxt generate",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:quiet": "eslint --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:fix": "eslint --fix --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
