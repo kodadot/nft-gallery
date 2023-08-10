@@ -90,7 +90,7 @@ onMounted(() => {
 }
 
 .ellipsis {
-  text-overflow: ellipsis !important;
+  text-overflow: ellipsis;
 }
 
 .line-height-1 {
