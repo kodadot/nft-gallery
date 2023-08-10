@@ -362,6 +362,8 @@ export default defineNuxtConfig({
     },
   },
 
+  buildModules: ['nuxt-webpack-optimisations'],
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     babel: {
