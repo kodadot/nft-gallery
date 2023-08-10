@@ -6,7 +6,9 @@
     <div class="container is-fluid">
       <div class="columns is-desktop">
         <div class="column is-half-desktop mobile-padding">
-          <UnlockableCollectionInfo :collection-id="collectionId" />
+          <UnlockableCollectionInfo
+            :collection-id="collectionId"
+            :description="description" />
           <hr class="mb-4" />
 
           <div

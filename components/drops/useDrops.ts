@@ -41,13 +41,13 @@ export function useDrops(collectionId: string, clientName?: string) {
   })
 
   watch(collectionData, () => {
-    if (collectionData.value) {
+    if (collectionData.value?.collectionEntity) {
       const { collectionEntity, nftEntitiesConnection } = collectionData.value
       const drops: Drop[] = []
       drops.push({
         collection: collectionEntity,
         minted: nftEntitiesConnection.totalCount,
-        max: collectionEntity.max || 300,
+        max: collectionEntity?.max || 300,
         dropStartTime: new Date(2023, 5, 6),
       })
 

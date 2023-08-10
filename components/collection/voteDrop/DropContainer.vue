@@ -8,7 +8,7 @@
         <div class="column is-half-desktop mobile-padding">
           <UnlockableCollectionInfo
             :collection-id="collectionId"
-            :description="description" />
+            :description="VOTE_DROP_DESCRIPTION" />
           <hr class="mb-4" />
 
           <div
@@ -75,16 +75,13 @@
           <div class="my-5">
             <div
               class="is-flex is-justify-content-space-between is-align-items-center">
-              <span class="title is-size-4"
-                ><Money :value="displayPricePerMint" inline
-              /></span>
               <div>
                 <NeoButton
                   ref="root"
                   class="mb-2 mt-4 mint-button"
                   variant="k-accent"
                   :disabled="mintButtonDisabled"
-                  label="Mint"
+                  :label="buttonLabel"
                   @click.native="handleBuy" />
                 <div class="is-flex is-align-items-center mt-2">
                   <svg
@@ -103,7 +100,6 @@
               </div>
             </div>
           </div>
-          <TokenImportButton />
         </div>
         <div class="column pt-5 is-flex is-justify-content-center">
           <ImageSlider v-if="imageList.length" :image-list="imageList" />
@@ -180,41 +176,46 @@ import {
 } from '../unlockable/utils'
 import { useCountDown } from '../unlockable/utils/useCountDown'
 import {
-  MINT_ADDRESS,
-  STMN_DROP_CAMPAIGN,
-  STT_COLLECTION_ID,
-  STT_DROP_CAMPAIGN,
+  COLLECTION_ID,
+  VOTE_DROP_CAMPAIGN,
+  VOTE_DROP_DESCRIPTION,
   countDownTime,
-  displayPricePerMint,
-  pricePerMint,
 } from './const'
+import { useCheckReferenDumVote } from '@/composables/drop/useCheckReferenDumVote'
 
 const Loader = defineAsyncComponent(
   () => import('@/components/collection/unlockable/UnlockableLoader.vue')
 )
 
-const Money = defineAsyncComponent(
-  () => import('@/components/shared/format/Money.vue')
-)
-
-const TokenImportButton = defineAsyncComponent(
-  () => import('@/components/collection/drop/TokenImportButton.vue')
-)
 const { $buefy, $i18n } = useNuxtApp()
 const root = ref<Vue>()
 
-const { toast } = useToast()
+// const { toast } = useToast()
 
 const imageList = ref<string[]>([])
 const resultList = ref<any[]>([])
-const { urlPrefix } = usePrefix()
+// const { urlPrefix } = usePrefix()
 const { isLogIn } = useAuth()
 const { hours, minutes } = useCountDown(countDownTime)
 const justMinted = ref('')
 const isLoading = ref(false)
-const collectionId = STT_COLLECTION_ID
+const collectionId = COLLECTION_ID
 
 const actionLabel = $i18n.t('nft.action.buy')
+
+const { isEligibleUser } = useCheckReferenDumVote()
+
+const needCheckEligible = computed(() => {
+  return !isLogIn.value
+})
+
+const buttonLabel = computed(() => {
+  return needCheckEligible.value
+    ? 'Check Eligible'
+    : isEligibleUser.value
+    ? 'Mint'
+    : 'Not Eligible'
+})
 
 onMounted(async () => {
   const res = await getLatestWaifuImages()
@@ -233,45 +234,45 @@ const { data: collectionData, refetch: tryAgain } = useGraphql({
   queryName: 'dropCollectionById',
   variables: {
     id: collectionId,
-    price: pricePerMint,
-    account: MINT_ADDRESS,
+    // price: pricePerMint,
+    // account: MINT_ADDRESS,
   },
 })
 
 const totalCount = computed(
-  () => collectionData.value?.collectionEntity.nftCount || 200
+  () => collectionData.value?.collectionEntity?.nftCount || 200
 )
 const totalAvailableMintCount = computed(
   () => collectionData.value?.nftEntitiesConnection?.totalCount
 )
 
-const { data, refetch } = useGraphql({
-  queryName: 'nftIdListByCollection',
-  clientName: urlPrefix.value,
-  variables: {
-    id: collectionId,
-    search: [{ price_eq: pricePerMint }, { currentOwner_eq: MINT_ADDRESS }],
-  },
-})
+// const { data, refetch } = useGraphql({
+//   queryName: 'nftIdListByCollection',
+//   clientName: urlPrefix.value,
+//   variables: {
+//     id: collectionId,
+//     search: [{ currentOwner_eq: MINT_ADDRESS }],
+//   },
+// })
 
 const refetchData = async () => {
-  await tryAgain()
-  await refetch()
+  // await tryAgain()
+  // await refetch()
 }
 
-useSubscriptionGraphql({
-  query: `nftEntities(
-    orderBy: id_ASC,
-    where: { burned_eq: false, collection: { id_eq: "${collectionId}" }, price_eq: "${pricePerMint}", currentOwner_eq: "${MINT_ADDRESS}" }
-    ) {
-      id
-  }`,
-  onChange: refetchData,
-})
+// useSubscriptionGraphql({
+//   query: `nftEntities(
+//     orderBy: id_ASC,
+//     where: { burned_eq: false, collection: { id_eq: "${collectionId}" }, currentOwner_eq: "${MINT_ADDRESS}" }
+//     ) {
+//       id
+//   }`,
+//   onChange: refetchData,
+// })
 
-const toBuy = computed<string[]>(() => {
-  return data.value?.nfts?.map((x) => x.id)
-})
+// const toBuy = computed<string[]>(() => {
+//   return data.value?.nfts?.map((x) => x.id)
+// })
 
 const mintedCount = computed(
   () => totalCount.value - totalAvailableMintCount.value
@@ -284,24 +285,20 @@ const mintedPercent = computed(() => {
 
 const mintCountAvailable = computed(() => mintedCount.value < totalCount.value)
 
-const mintButtonDisabled = computed(() => Boolean(!mintCountAvailable.value))
+const mintButtonDisabled = computed(
+  () =>
+    Boolean(!mintCountAvailable.value || isEligibleUser.value) &&
+    !needCheckEligible.value
+)
 
-const scrollToTop = () => {
-  window.scroll({
-    top: 0,
-    behavior: 'smooth',
-  })
-}
+// const scrollToTop = () => {
+//   window.scroll({
+//     top: 0,
+//     behavior: 'smooth',
+//   })
+// }
 
 const handleBuy = async () => {
-  const randomToken = getRandomInt(toBuy.value.length - 1)
-  const tokenId = toBuy.value.at(randomToken)
-
-  if (!tokenId) {
-    warningMessage('UNABLE TO MINT WITHOUT')
-    return
-  }
-
   if (!isLogIn.value) {
     $buefy.modal.open({
       parent: root?.value,
@@ -318,65 +315,39 @@ const handleBuy = async () => {
   showNotification(
     $i18n.t('nft.notification.info', { itemId: 'Waifu', action: actionLabel })
   )
-
-  const { transaction, blockNumber } = useTransaction()
-
-  try {
-    watch(blockNumber, async (block) => {
-      if (block) {
-        showNotification(`[${actionLabel}] Waifu`, notificationTypes.success)
-        await handleSubmitMint(tokenId)
-      }
-    })
-
-    await transaction({
-      interaction: ShoppingActions.BUY,
-      currentOwner: MINT_ADDRESS,
-      price: pricePerMint,
-      nftId: tokenId,
-      tokenId: tokenId,
-      urlPrefix: urlPrefix.value,
-      successMessage: $i18n.t('mint.successNewNfts'),
-      errorMessage: $i18n.t('transaction.buy.error'),
-    })
-  } catch (error) {
-    warningMessage(error)
-  }
 }
 
-const description = unlockableDesc(50)
+// const handleSubmitMint = async (tokenId: string) => {
+//   const randomIndex = getRandomInt(imageList.value.length - 1)
+//   const image = resultList.value.at(randomIndex).image
 
-const handleSubmitMint = async (tokenId: string) => {
-  const randomIndex = getRandomInt(imageList.value.length - 1)
-  const image = resultList.value.at(randomIndex).image
+//   if (!image || !tokenId) {
+//     toast('no image')
+//     return
+//   }
 
-  if (!image || !tokenId) {
-    toast('no image')
-    return
-  }
+//   const hash = await createUnlockableMetadata(image, VOTE_DROP_DESCRIPTION)
 
-  const hash = await createUnlockableMetadata(image, description)
+//   const { item: sn } = tokenIdToRoute(tokenId)
 
-  const { item: sn } = tokenIdToRoute(tokenId)
-
-  try {
-    await claimDropItem(
-      {
-        metadata: hash,
-        sn,
-      },
-      urlPrefix.value === 'ahk' ? STMN_DROP_CAMPAIGN : STT_DROP_CAMPAIGN
-    ).then((res) => {
-      toast('mint success')
-      justMinted.value = `${collectionId}-${res.result.sn}`
-      scrollToTop()
-    })
-  } catch (error) {
-    toast('failed to mint')
-  } finally {
-    isLoading.value = false
-  }
-}
+//   try {
+//     await claimDropItem(
+//       {
+//         metadata: hash,
+//         sn,
+//       },
+//       VOTE_DROP_CAMPAIGN
+//     ).then((res) => {
+//       toast('mint success')
+//       justMinted.value = `${collectionId}-${res.result.sn}`
+//       scrollToTop()
+//     })
+//   } catch (error) {
+//     toast('failed to mint')
+//   } finally {
+//     isLoading.value = false
+//   }
+// }
 </script>
 
 <style scoped lang="scss">

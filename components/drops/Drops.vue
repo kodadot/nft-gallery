@@ -6,7 +6,7 @@
     <div v-if="drops.drops.length" class="grid-container">
       <div
         v-for="(drop, index) in drops.drops"
-        :key="`${drop.collection.id}=${index}`"
+        :key="`${drop.collection?.id}=${index}`"
         class="w-full h-full"
         :data-cy="index">
         <DropCard :drop="drop" />
@@ -14,13 +14,25 @@
       <template v-if="statemintDrops.drops.length">
         <div
           v-for="(drop, index) in statemintDrops.drops"
-          :key="`${drop.collection.id}=${index}`"
+          :key="`${drop.collection?.id}=${index}`"
           class="w-full h-full"
           :data-cy="index">
           <DropCard
             :drop="drop"
             override-url-prefix="ahp"
             drop-url="dot-drop" />
+        </div>
+      </template>
+      <template v-if="voteDrop?.drops?.length">
+        <div
+          v-for="(drop, index) in voteDrop.drops"
+          :key="`${drop.collection?.id}=${index}`"
+          class="w-full h-full"
+          :data-cy="index">
+          <DropCard
+            :drop="drop"
+            override-url-prefix="dot"
+            drop-url="vote-drop" />
         </div>
       </template>
     </div>
@@ -30,7 +42,7 @@
     <div v-if="drops.futureDrops.length" class="grid-container">
       <div
         v-for="(drop, index) in drops.futureDrops"
-        :key="`${drop.collection.id}=${index}`"
+        :key="`${drop.collection?.id}=${index}`"
         class="w-full h-full"
         :data-cy="index">
         <DropCard :drop="drop" />
@@ -51,8 +63,7 @@ import { useDrops } from './useDrops'
 const { $i18n } = useNuxtApp()
 const drops = useDrops(collectionId)
 const statemintDrops = useDrops(STT_COLLECTION_ID, 'ahp')
-
-console.log('drops', statemintDrops)
+const voteDrop = useDrops(collectionId)
 </script>
 
 <style lang="scss" scoped>
