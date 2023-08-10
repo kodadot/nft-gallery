@@ -1,51 +1,49 @@
 <template>
   <Flipper
     :events="ownerEventsOfNft"
-    groupKeyOption="CollectionId"
-    nameHeaderLabel="Name" />
+    group-key-option="CollectionId"
+    name-header-label="Name" />
 </template>
 
-<script lang="ts">
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import { Interaction } from '../service/scheme'
 import allNftSaleEventsHistoryByAccountId from '@/queries/rmrk/subsquid/allNftSaleEventsHistoryByAccountId.graphql'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { sortedEventByDate } from '~/utils/sorting'
+import { sortedEventByDate } from '@/utils/sorting'
 import { NftHolderEvent } from '@/components/rmrk/Gallery/Holder/Holder.vue'
 
-const components = {
-  Flipper: () => import('@/components/rmrk/Gallery/Flipper.vue'),
-}
+import Flipper from '@/components/rmrk/Gallery/Flipper.vue'
 
-@Component({ components })
-export default class UserGainHistory extends mixins(PrefixMixin) {
-  @Prop({ type: String, default: '' }) accountId!: string
-  public ownerEventsOfNft: Interaction[] | [] = []
+const props = defineProps({
+  accountId: { type: String, default: '' },
+})
 
-  protected async fetchNftEvents() {
-    try {
-      const { data } = await this.$apollo.query<{ events: NftHolderEvent[] }>({
-        query: allNftSaleEventsHistoryByAccountId,
-        client: this.client,
-        variables: {
-          id: this.accountId,
-        },
-      })
+const ownerEventsOfNft = ref<Interaction[] | []>([])
+const { $apollo } = useNuxtApp()
+const { client } = usePrefix()
 
-      if (data && data.events && data.events.length) {
-        this.ownerEventsOfNft = sortedEventByDate(data.events, 'ASC')
-      }
-    } catch (e) {
-      showNotification(`${e}`, notificationTypes.warn)
+const { refresh } = useLazyAsyncData('ownerEventsOfNft', async () => {
+  try {
+    const { data } = await $apollo.query<{ events: NftHolderEvent[] }>({
+      query: allNftSaleEventsHistoryByAccountId,
+      client: client.value,
+      variables: {
+        id: props.accountId,
+      },
+    })
+
+    if (data && data.events && data.events.length) {
+      ownerEventsOfNft.value = sortedEventByDate(data.events, 'ASC')
     }
+  } catch (e) {
+    showNotification(`${e}`, notificationTypes.warn)
   }
+})
 
-  @Watch('accountId', { immediate: true })
-  public watchAccountId(): void {
-    if (this.accountId) {
-      this.fetchNftEvents()
-    }
+watch(
+  () => props.accountId,
+  () => {
+    refresh()
   }
-}
+)
 </script>
