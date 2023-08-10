@@ -1,3 +1,5 @@
+name: Deploy to canary
+
 on:
   push:
     branches:
@@ -9,7 +11,7 @@ jobs:
     permissions:
       contents: read
       deployments: write
-    name: Publish to Cloudflare Pages
+    name: Deploy to canary
     steps:
       - name: Checkout
         uses: actions/checkout@v3
