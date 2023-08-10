@@ -1,4 +1,4 @@
-import { Prefix } from '~~/libs/static/dist'
+import { Prefix } from '@kodadot1/static'
 import {
   createVisible,
   explorerVisible,
