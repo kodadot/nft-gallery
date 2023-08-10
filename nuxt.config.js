@@ -1,7 +1,7 @@
 import path from 'path'
 import * as fs from 'fs'
 import { defineNuxtConfig } from '@nuxt/bridge'
-import SentryWebpackPlugin from '@sentry/webpack-plugin'
+// import SentryWebpackPlugin from '@sentry/webpack-plugin'
 import Mode from 'frontmatter-markdown-loader/mode'
 
 import { manifestIcons } from './utils/config/pwa'
@@ -242,7 +242,7 @@ export default defineNuxtConfig({
     ],
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
-    '@nuxtjs/sentry',
+    // '@nuxtjs/sentry',
     '@kevinmarrec/nuxt-pwa',
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
@@ -399,22 +399,21 @@ export default defineNuxtConfig({
       '@google/model-viewer', // TODO check to see if it works without transpilation in future nuxt releases
     ],
     extend(config) {
-      if (
-        process.env.NODE_ENV !== 'development' &&
-        process.env.SENTRY_AUTH_TOKEN
-      ) {
-        // https://community.cloudflare.com/t/recurring-deployment-issue-on-pages-which-works-on-preview-branch-but-doesnt-on-production-branch/540278/10
-        // config.devtool = 'source-map'
-
-        config.plugins.push(
-          new SentryWebpackPlugin({
-            org: 'kodadot',
-            project: 'nft-gallery',
-            include: './dist',
-            authToken: process.env.SENTRY_AUTH_TOKEN,
-          })
-        )
-      }
+      // if (
+      //   process.env.NODE_ENV !== 'development' &&
+      //   process.env.SENTRY_AUTH_TOKEN
+      // ) {
+      // https://community.cloudflare.com/t/recurring-deployment-issue-on-pages-which-works-on-preview-branch-but-doesnt-on-production-branch/540278/10
+      // config.devtool = 'source-map'
+      // config.plugins.push(
+      //   new SentryWebpackPlugin({
+      //     org: 'kodadot',
+      //     project: 'nft-gallery',
+      //     include: './dist',
+      //     authToken: process.env.SENTRY_AUTH_TOKEN,
+      //   })
+      // )
+      // }
 
       // add frontmatter-markdown-loader
       config.module.rules.push({
