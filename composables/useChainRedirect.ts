@@ -71,7 +71,7 @@ const pageAvailabilityPerChain = {
   [PageType.HOT]: (chain: Prefix) => hotVisible(chain),
 }
 
-const getPagaType = (routeName: string): PageType => {
+const getPageType = (routeName: string): PageType => {
   const matchingKey = Object.keys(PageType).find((key) => {
     const pattern = PageType[key].replace(/\{.*\}/, '.+').replace('-', '\\-')
     return new RegExp(`^${pattern}$`).test(routeName)
@@ -106,7 +106,7 @@ export default function (allowRedirectIfCheckNotPresent = false) {
       path: defaultRedirectPath,
     }
 
-    const pageType = getPagaType(routeName)
+    const pageType = getPageType(routeName)
 
     const hasSpecialRedirect = checkIfPageHasSpecialRedirect(pageType)
 
