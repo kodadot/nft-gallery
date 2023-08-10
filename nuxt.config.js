@@ -362,27 +362,11 @@ export default defineNuxtConfig({
     },
   },
 
-  buildModules: ['nuxt-webpack-optimisations'],
-
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     babel: {
       // silence babel warning regarding exceeding file sizes (>500kb)
       compact: true,
-    },
-    optimization: {
-      runtimeChunk: true,
-      splitChunks: {
-        name: true,
-        cacheGroups: {
-          styles: {
-            name: 'styles',
-            test: /.(css|vue)$/,
-            chunks: 'all',
-            enforce: true,
-          },
-        },
-      },
     },
     transpile: [
       '@kodadot1/sub-api',
@@ -450,7 +434,10 @@ export default defineNuxtConfig({
         fs: 'empty',
       }
     },
-    postcss: null,
+  },
+
+  postcss: {
+    postCssOptions: null,
   },
 
   // env: {
