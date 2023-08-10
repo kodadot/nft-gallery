@@ -368,6 +368,20 @@ export default defineNuxtConfig({
       // silence babel warning regarding exceeding file sizes (>500kb)
       compact: true,
     },
+    optimization: {
+      runtimeChunk: true,
+      splitChunks: {
+        name: true,
+        cacheGroups: {
+          styles: {
+            name: 'styles',
+            test: /.(css|vue)$/,
+            chunks: 'all',
+            enforce: true,
+          },
+        },
+      },
+    },
     transpile: [
       '@kodadot1/sub-api',
       '@polkadot/api',
