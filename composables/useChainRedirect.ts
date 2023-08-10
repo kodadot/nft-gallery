@@ -13,6 +13,12 @@ enum RedirectTypes {
   STAY = 'stay',
 }
 
+/**
+ * Enum representing different page types for routing and matching.
+ * You can use placeholders using curly braces {} for dynamic parts.
+ * For example, '{prefix}-explore-items' contains a '{prefix}' placeholder
+ * that {prefix} will be treated as any value for exmaple rmrk-explore-items
+ */
 enum PageType {
   PREFIX_EXPLORE_ITEMS = '{prefix}-explore-items',
   PREFIX_EXPLORE_COLLECTIBLES = '{prefix}-explore-collectibles',
@@ -72,10 +78,20 @@ const pageAvailabilityPerChain = {
   [PageType.BLOG]: () => true,
 }
 
+const generateRouteRegexPattern = (pattern: string): string => {
+  const patternWithPlaceholderReplaced = pattern.replace(/\{.*\}/, '.+')
+  const patternWithHyphensEscaped = patternWithPlaceholderReplaced.replace(
+    '-',
+    '\\-'
+  )
+  return `^${patternWithHyphensEscaped}$`
+}
+
 const getPageType = (routeName: string): PageType => {
   const matchingKey = Object.keys(PageType).find((key) => {
-    const pattern = PageType[key].replace(/\{.*\}/, '.+').replace('-', '\\-')
-    return new RegExp(`^${pattern}$`).test(routeName)
+    const pagePattern = PageType[key]
+    const regexPattern = generateRouteRegexPattern(pagePattern)
+    return new RegExp(regexPattern).test(routeName)
   })
 
   return matchingKey as PageType
