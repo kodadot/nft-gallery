@@ -178,3 +178,8 @@ export type EntityWithMeta = {
   metadata: string
   meta?: NFTMetadata
 }
+
+export function toCloudflareIpfsUrl(baseurl) {
+  const url = new URL(baseurl)
+  return `https://cloudflare-ipfs.com/${url.pathname}`
+}
