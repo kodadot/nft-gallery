@@ -67,6 +67,15 @@ useNuxt2Meta({
     white-space: break-spaces;
   }
 
+  .markdown-body {
+    h1:nth-child(n + 2),
+    h2:nth-child(n + 2),
+    h3:nth-child(n + 2),
+    h4:nth-child(n + 2) {
+      margin-top: 3rem;
+    }
+  }
+
   h1,
   h2,
   h3,
