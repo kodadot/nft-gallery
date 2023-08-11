@@ -140,7 +140,6 @@
             data-cy="chain-select" />
 
           <NotificationBoxButton
-            v-if="account"
             :show-label="isMobile"
             @closeBurgerMenu="showMobileNavbar" />
 
@@ -255,7 +254,6 @@ const openWalletConnectModal = (): void => {
 }
 
 const showMobileNavbar = () => {
-  document.body.classList.toggle('is-clipped')
   isMobileNavbarOpen.value = !isMobileNavbarOpen.value
 }
 
