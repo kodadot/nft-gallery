@@ -39,11 +39,11 @@ const hasInsight: Config<boolean> = {
 const hasSales: Config<boolean> = {
   rmrk: true,
   ksm: true,
-  bsx: false,
+  bsx: true,
   ahk: false,
   movr: false,
   glmr: false,
-  snek: false,
+  snek: true,
   dot: false,
   ahp: false,
 }
