@@ -16,7 +16,7 @@
           class="is-flex is-flex-direction-column is-justify-content-space-between ml-4">
           <nuxt-link
             :to="`/${urlPrefix}/gallery/${nft.id}`"
-            class="has-text-weight-bold has-text-color line-height-1"
+            class="has-text-weight-bold has-text-color line-height-1 truncate-to-2-lines"
             @click.native="emit('click-item')">
             {{ nft.name }}
           </nuxt-link>
@@ -67,7 +67,7 @@ const emit = defineEmits(['delete', 'click-item'])
 const props = withDefaults(
   defineProps<{
     nft: ShoppingCartItem
-    round: number
+    round?: number
   }>(),
   {
     round: 2,
@@ -122,5 +122,12 @@ onMounted(() => {
 }
 .hidden {
   opacity: 0;
+}
+
+.truncate-to-2-lines {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 </style>
