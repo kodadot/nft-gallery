@@ -140,6 +140,7 @@
             data-cy="chain-select" />
 
           <NotificationBoxButton
+            v-if="account"
             :show-label="isMobile"
             @closeBurgerMenu="showMobileNavbar" />
 
