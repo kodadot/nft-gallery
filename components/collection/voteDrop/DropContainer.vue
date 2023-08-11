@@ -220,7 +220,7 @@ const needCheckEligible = computed(() => {
 
 const buttonLabel = computed(() => {
   return needCheckEligible.value
-    ? 'Check Eligible'
+    ? 'Check Eligibility'
     : isEligibleUser.value
     ? 'Mint'
     : 'Not Eligible'
