@@ -57,16 +57,8 @@ const props = defineProps<{
   variant?: NftCardVariant
 }>()
 
-const isConnectingWalletBuyFlow = computed(() => {
-  return Boolean(shoppingCartStore.getItemWaitingToBuy) && !isLogIn.value
-})
-
-const isCurrentItemWaitingToBeBought = computed(() => {
-  return shoppingCartStore.getItemWaitingToBuy?.id === nft.value.id
-})
-
 const showActionSection = computed(() => {
-  return isConnectingWalletBuyFlow.value && isCurrentItemWaitingToBeBought.value
+  return !isLogIn.value && shoppingCartStore.getItemToBuy?.id === nft.value.id
 })
 
 const buyLabel = computed(function () {
@@ -88,8 +80,6 @@ const isOwner = computed(() =>
 )
 
 const openCompletePurcahseModal = () => {
-  shoppingCartStore.removeItemWaitingToBuy()
-  shoppingCartStore.setItemToBuy(nftToShoppingCardItem(props.nft))
   preferencesStore.setCompletePurchaseModal({
     isOpen: true,
     mode: 'buy-now',
@@ -97,11 +87,11 @@ const openCompletePurcahseModal = () => {
 }
 
 const onCancelPurchase = () => {
-  shoppingCartStore.removeItemWaitingToBuy()
+  shoppingCartStore.removeItemToBuy()
 }
 
 const onClickBuy = () => {
-  shoppingCartStore.setItemWaitingToBuy(nftToShoppingCardItem(props.nft))
+  shoppingCartStore.setItemToBuy(nftToShoppingCardItem(props.nft))
   doAfterLogin(openCompletePurcahseModal, {
     onCancel: onCancelPurchase,
     onClose: onCancelPurchase,

@@ -6,7 +6,6 @@ type ID = string
 interface State {
   items: ShoppingCartItem[]
   itemToBuy?: ShoppingCartItem
-  itemWaitingToBuy?: ShoppingCartItem
 }
 
 const localStorage = useLocalStorage<ShoppingCartItem[]>('shoppingCart', [])
@@ -16,7 +15,6 @@ export const useShoppingCartStore = defineStore('shoppingCart', {
   state: (): State => ({
     items: items(),
     itemToBuy: undefined,
-    itemWaitingToBuy: undefined,
   }),
   getters: {
     getItems: () => items(),
@@ -26,7 +24,6 @@ export const useShoppingCartStore = defineStore('shoppingCart', {
     isItemInCart: () => (id: ID) =>
       items().find((item) => item.id === id) !== undefined,
     getItemToBuy: ({ itemToBuy }) => itemToBuy,
-    getItemWaitingToBuy: ({ itemWaitingToBuy }) => itemWaitingToBuy,
   },
 
   actions: {
@@ -44,12 +41,6 @@ export const useShoppingCartStore = defineStore('shoppingCart', {
     },
     setItemToBuy(payload: ShoppingCartItem) {
       this.itemToBuy = payload
-    },
-    setItemWaitingToBuy(payload: ShoppingCartItem) {
-      this.itemWaitingToBuy = payload
-    },
-    removeItemWaitingToBuy() {
-      this.itemWaitingToBuy = undefined
     },
     removeItemToBuy() {
       this.itemToBuy = undefined
