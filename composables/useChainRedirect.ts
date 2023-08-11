@@ -142,12 +142,12 @@ export default function (allowRedirectIfCheckNotPresent = false) {
       isPageAvailableForChain = pageAvailabilityCheck(newChain)
     }
 
-    if (isStayRedirect && isPageAvailableForChain) {
-      return null
-    }
-
-    if (!isPageAvailableForChain || isStayRedirect) {
-      return defaultRedirect
+    if (isStayRedirect) {
+      if (isPageAvailableForChain) {
+        return null
+      } else {
+        return defaultRedirect
+      }
     }
 
     if (pageRedirectType === RedirectTypes.CHAIN_PREFIX_CHANGE) {
