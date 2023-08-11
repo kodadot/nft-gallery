@@ -56,7 +56,7 @@ const { $apollo } = useNuxtApp()
 const { client, urlPrefix } = usePrefix()
 const { decimals } = useChain()
 
-const { pending } = useLazyAsyncData('data', async () => {
+const { pending, refresh } = useLazyAsyncData('data', async () => {
   const data = await fetchHotNfts()
   const collectionMap = groupBy(data, 'nft.collection.id')
   const sortOrder = [...new Set(data.map((e) => e.nft.collection.id))]
@@ -81,6 +81,12 @@ const { pending } = useLazyAsyncData('data', async () => {
   })
 
   hot.value = result
+})
+
+watch([client], (value) => {
+  if (value) {
+    refresh()
+  }
 })
 
 const toKSM = (amount) => {
