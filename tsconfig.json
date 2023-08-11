@@ -21,7 +21,6 @@
       "@types/node",
       "vue-apollo",
       "vitest/globals",
-      "@nuxtjs/sentry",
       "nuxt-webpack-optimisations"
     ]
   },
