@@ -411,7 +411,7 @@ export default defineNuxtConfig({
         include: [path.resolve(__dirname, 'node_modules')],
         use: [
           { loader: require.resolve('@open-wc/webpack-import-meta-loader') },
-          { loader: require.resolve('babel-loader') },
+          { loader: require.resolve('babel-loader'), query: { compact: true } },
         ],
       })
 
