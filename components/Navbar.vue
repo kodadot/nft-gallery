@@ -130,7 +130,7 @@
             v-if="isMobile"
             no-padding
             :title="$t('chainSelect', [chainName])">
-            <NavbarChainOptions />
+            <NavbarChainOptions @select="handleMobileChainSelect" />
           </MobileExpandableSection>
 
           <ChainSelectDropdown
@@ -238,6 +238,10 @@ const logoSrc = computed(() => (isDarkMode.value ? KodaBetaDark : KodaBeta))
 const showSearchOnNavbar = computed(
   () => !isLandingPage.value || !showTopNavbar.value || isBurgerMenuOpened.value
 )
+
+const handleMobileChainSelect = () => {
+  showMobileNavbar()
+}
 
 const openWalletConnectModal = (): void => {
   showMobileNavbar()

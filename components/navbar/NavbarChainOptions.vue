@@ -20,10 +20,13 @@ const { setUrlPrefix, urlPrefix } = usePrefix()
 const { redirectAfterChainChange } = useChainRedirect()
 const preferencesStore = usePreferencesStore()
 
+const emits = defineEmits(['select'])
+
 const changeChain = (newChain) => {
   preferencesStore.setNotificationBoxCollapse(false)
   const prevChain = urlPrefix.value
   setUrlPrefix(newChain)
   redirectAfterChainChange(newChain, prevChain)
+  emits('select')
 }
 </script>
