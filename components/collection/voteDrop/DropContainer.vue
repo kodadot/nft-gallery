@@ -73,8 +73,17 @@
             <UnlockableSlider :value="mintedCount / totalCount" />
           </div>
           <div class="my-5">
-            <div
-              class="is-flex is-justify-content-space-between is-align-items-center">
+            <div class="is-flex is-justify-content-space-between">
+              <div class="is-flex is-align-items-center">
+                <NeoIcon
+                  :icon="statusInformation.icon"
+                  class="mr-2"
+                  :class="statusInformation.iconClass"
+                  :pack="statusInformation.iconPack" />
+                <span :class="statusInformation.labelClass">{{
+                  statusInformation.label
+                }}</span>
+              </div>
               <div>
                 <NeoButton
                   ref="root"
@@ -167,7 +176,7 @@ import {
   warningMessage,
 } from '@/utils/notification'
 import { ShoppingActions } from '@/utils/shoppingActions'
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import type Vue from 'vue'
 import {
   createUnlockableMetadata,
@@ -215,6 +224,31 @@ const buttonLabel = computed(() => {
     : isEligibleUser.value
     ? 'Mint'
     : 'Not Eligible'
+})
+
+const statusInformation = computed(() => {
+  return needCheckEligible.value
+    ? {
+        label: 'For Aye Voters Only',
+        icon: 'circle-info',
+        iconClass: 'has-text-grey',
+        labelClass: 'has-text-grey',
+        iconPack: 'far',
+      }
+    : isEligibleUser.value
+    ? {
+        label: 'You Are Eligible',
+        icon: 'circle-check',
+        iconPack: 'fas',
+        iconClass: 'has-text-success',
+      }
+    : {
+        label: 'Exclusive Access Only',
+        icon: 'circle-info',
+        iconClass: 'has-text-grey',
+        labelClass: 'has-text-grey',
+        iconPack: 'far',
+      }
 })
 
 onMounted(async () => {
