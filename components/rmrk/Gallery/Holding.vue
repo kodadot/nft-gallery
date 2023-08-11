@@ -1,67 +1,64 @@
 <template>
   <CommonHolderTable
     :events="ownerEventsOfNft"
-    groupKeyOption="CollectionId"
-    openOnDefault
-    dateHeaderLabel="Last Activity"
-    nameHeaderLabel="Collection"
-    :collapseTitleOption="$t('Holdings')"
-    hideCollapse />
+    group-key-option="CollectionId"
+    open-on-default
+    date-header-label="Last Activity"
+    name-header-label="Collection"
+    :collapse-title-option="$t('Holdings')"
+    hide-collapse />
 </template>
 
-<script lang="ts">
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import { Interaction, NftEvents } from '../service/scheme'
 import allNftSaleEventsByAccountId from '@/queries/rmrk/subsquid/allNftSaleEventsByAccountId.graphql'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { sortedEventByDate } from '~/utils/sorting'
+import { sortedEventByDate } from '@/utils/sorting'
 import { NftHolderEvent } from '@/components/rmrk/Gallery/Holder/Holder.vue'
+import CommonHolderTable from '@/components/rmrk/Gallery/Holder/Holder.vue'
 
-const components = {
-  CommonHolderTable: () =>
-    import('@/components/rmrk/Gallery/Holder/Holder.vue'),
-}
+const props = defineProps({
+  accountId: { type: String, default: '' },
+})
 
-@Component({ components })
-export default class Holding extends mixins(PrefixMixin) {
-  @Prop({ type: String, default: '' }) accountId!: string
-  public ownerEventsOfNft: Interaction[] | [] = []
+const ownerEventsOfNft = ref<Interaction[] | []>([])
 
-  protected async fetchNftEvents() {
-    try {
-      const { data } = await this.$apollo.query<NftEvents>({
-        query: allNftSaleEventsByAccountId,
-        client: this.client,
-        variables: {
-          id: this.accountId,
-        },
+const { $apollo } = useNuxtApp()
+const { client } = usePrefix()
+
+const { refresh } = useLazyAsyncData('ownerEventsOfNft', async () => {
+  try {
+    const { data } = await $apollo.query<NftEvents>({
+      query: allNftSaleEventsByAccountId,
+      client: client.value,
+      variables: {
+        id: props.accountId,
+      },
+    })
+    if (data && data.nftEntities && data.nftEntities.length) {
+      const events: NftHolderEvent[] = []
+      data.nftEntities.forEach((item) => {
+        const nftEvents = item.events.map((event: Interaction) => ({
+          ...event,
+          nft: {
+            id: item.id,
+            name: item.name,
+            collection: item.collection,
+          },
+        }))
+        events.push(...nftEvents)
       })
-      if (data && data.nftEntities && data.nftEntities.length) {
-        const events: NftHolderEvent[] = []
-        data.nftEntities.forEach((item) => {
-          const nftEvents = item.events.map((event: Interaction) => ({
-            ...event,
-            nft: {
-              id: item.id,
-              name: item.name,
-              collection: item.collection,
-            },
-          }))
-          events.push(...nftEvents)
-        })
-        this.ownerEventsOfNft = sortedEventByDate(events, 'ASC')
-      }
-    } catch (e) {
-      showNotification(`${e}`, notificationTypes.warn)
+      ownerEventsOfNft.value = sortedEventByDate(events, 'ASC')
     }
+  } catch (e) {
+    showNotification(`${e}`, notificationTypes.warn)
   }
+})
 
-  @Watch('accountId', { immediate: true })
-  public watchAccountId(): void {
-    if (this.accountId) {
-      this.fetchNftEvents()
-    }
+watch(
+  () => props.accountId,
+  () => {
+    refresh()
   }
-}
+)
 </script>
