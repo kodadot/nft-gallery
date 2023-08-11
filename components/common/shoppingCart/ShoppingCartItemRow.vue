@@ -11,7 +11,7 @@
       </nuxt-link>
 
       <div
-        class="is-flex is-flex-direction-column is-justify-content-space-between ml-4 limit-width">
+        class="is-flex is-flex-direction-column is-justify-content-space-between ml-4 width-100">
         <nuxt-link
           :to="`/${urlPrefix}/gallery/${nft.id}`"
           class="has-text-weight-bold has-text-color line-height-1 no-wrap is-clipped ellipsis"
@@ -83,8 +83,8 @@ onMounted(() => {
   }
 }
 
-.limit-width {
-  width: 230px;
+.width-100 {
+  width: 100%;
 }
 
 .ellipsis {
