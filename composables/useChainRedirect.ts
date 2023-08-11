@@ -76,6 +76,7 @@ const pageAvailabilityPerChain = {
   [PageType.SALES]: (chain: Prefix) => salesVisible(chain),
   [PageType.HOT]: (chain: Prefix) => hotVisible(chain),
   [PageType.BLOG]: () => true,
+  [PageType.BLOG_SLUG]: () => true,
 }
 
 const generateRouteRegexPattern = (pattern: string): string => {
