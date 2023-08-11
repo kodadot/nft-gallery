@@ -20,8 +20,7 @@
       "@nuxtjs/color-mode",
       "@types/node",
       "vue-apollo",
-      "vitest/globals",
-      "@nuxtjs/sentry"
+      "vitest/globals"
     ]
   },
   "exclude": ["node_modules", "dist", "**/*.spec.ts"]
