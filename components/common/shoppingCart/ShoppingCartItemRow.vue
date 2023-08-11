@@ -1,45 +1,51 @@
 <template>
   <div
     ref="hoverRef"
-    class="is-flex is-justify-content-space-between background-hover">
-    <div class="is-flex pr-2">
-      <nuxt-link
-        :to="`/${urlPrefix}/gallery/${nft.id}`"
-        @click.native="emit('click-item')">
-        <BasicImage
-          :src="avatar"
-          :alt="nft?.name"
-          class="border image is-48x48" />
-      </nuxt-link>
-
-      <div
-        class="is-flex is-flex-direction-column is-justify-content-space-between ml-4 limit-width">
+    class="is-flex is-justify-content-space-between background-hover gap-8">
+    <div class="pr-2 flex-grow-1">
+      <div class="is-flex">
         <nuxt-link
           :to="`/${urlPrefix}/gallery/${nft.id}`"
-          class="has-text-weight-bold has-text-color line-height-1 no-wrap is-clipped ellipsis"
           @click.native="emit('click-item')">
-          {{ nft.name }}
+          <BasicImage
+            :src="avatar"
+            :alt="nft?.name"
+            class="border image is-48x48" />
         </nuxt-link>
-        <div class="line-height-1 no-wrap is-clipped ellipsis">
-          {{ nft.collection?.name || nft.collection.id }}
+        <div
+          class="is-flex is-flex-direction-column is-justify-content-space-between ml-4">
+          <nuxt-link
+            :to="`/${urlPrefix}/gallery/${nft.id}`"
+            class="has-text-weight-bold has-text-color line-height-1"
+            @click.native="emit('click-item')">
+            {{ nft.name }}
+          </nuxt-link>
+          <div class="line-height-1 no-wrap is-clipped ellipsis limit-width">
+            {{ nft.collection?.name || nft.collection.id }}
+          </div>
         </div>
       </div>
     </div>
+    <div>
+      <div
+        v-if="isHovered"
+        class="is-flex is-justify-content-end is-align-items-center">
+        <NeoButton
+          variant="text"
+          class="inherit-background-color"
+          no-shadow
+          icon="trash"
+          icon-pack="far"
+          @click.native="emit('delete', nft.id)" />
+      </div>
 
-    <div
-      v-if="isHovered"
-      class="is-flex is-justify-content-end is-align-items-center">
-      <NeoButton
-        variant="text"
-        class="inherit-background-color"
-        no-shadow
-        icon="trash"
-        icon-pack="far"
-        @click.native="emit('delete', nft.id)" />
-    </div>
-
-    <div v-else class="is-flex is-align-items-end no-wrap line-height-1">
-      <CommonTokenMoney :value="nft.price" />
+      <div
+        :class="{
+          'is-flex h-full is-align-items-end no-wrap line-height-1': true,
+          hidden: isHovered,
+        }">
+        <CommonTokenMoney :value="nft.price" :round="round" />
+      </div>
     </div>
   </div>
 </template>
@@ -58,9 +64,15 @@ const avatar = ref<string>()
 const isHovered = useElementHover(hoverRef)
 const emit = defineEmits(['delete', 'click-item'])
 
-const props = defineProps<{
-  nft: ShoppingCartItem
-}>()
+const props = withDefaults(
+  defineProps<{
+    nft: ShoppingCartItem
+    round: number
+  }>(),
+  {
+    round: 2,
+  }
+)
 
 const getAvatar = async () => {
   if (props.nft) {
@@ -84,10 +96,13 @@ onMounted(() => {
   }
 }
 
+.min-width {
+  min-width: 0;
+}
+
 .limit-width {
   max-width: 130px;
 }
-
 .ellipsis {
   text-overflow: ellipsis;
 }
@@ -98,5 +113,14 @@ onMounted(() => {
 
 .inherit-background-color {
   background-color: inherit !important;
+}
+.gap-8 {
+  gap: 2px;
+}
+.h-full {
+  height: 100%;
+}
+.hidden {
+  opacity: 0;
 }
 </style>
