@@ -92,10 +92,7 @@ const onCancelPurchase = () => {
 
 const onClickBuy = () => {
   shoppingCartStore.setItemToBuy(nftToShoppingCardItem(props.nft))
-  doAfterLogin(openCompletePurcahseModal, {
-    onCancel: onCancelPurchase,
-    onClose: onCancelPurchase,
-  })
+  doAfterLogin(openCompletePurcahseModal, onCancelPurchase)
 }
 
 const onClickShoppingCart = () => {

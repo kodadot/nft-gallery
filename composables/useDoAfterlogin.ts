@@ -3,20 +3,14 @@ import { openConnectWalletModal } from '@/components/common/ConnectWallet/useCon
 export default function (instance) {
   const doAfterLogin = (
     callback: (account?: string) => void,
-    {
-      onCancel,
-      onClose,
-    }: {
-      onCancel?: () => void
-      onClose?: () => void
-    }
+    onCancel?: () => void
   ) => {
     const { isLogIn } = useAuth()
     if (!isLogIn.value) {
       openConnectWalletModal(instance, {
         onConnect: callback,
         onCancel,
-        onClose,
+        onClose: onCancel,
         closeAfterConnect: true,
       })
     } else {
