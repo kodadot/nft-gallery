@@ -14,8 +14,9 @@
 </template>
 
 <script lang="ts" setup>
-import CommonHolderTable from '@/components/rmrk/Gallery/Holder/Holder.vue'
-import { TableRow } from '@/components/rmrk/Gallery/Holder/Holder.vue'
+import CommonHolderTable, {
+  TableRow,
+} from '@/components/rmrk/Gallery/Holder/Holder.vue'
 import { parseDate } from '@/components/rmrk/Gallery/Holder/helper'
 import { formatDistanceToNow } from 'date-fns'
 import { Interaction } from '@kodadot1/minimark/v1'

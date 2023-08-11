@@ -14,8 +14,9 @@ import { Interaction, NftEvents } from '../service/scheme'
 import allNftSaleEventsByAccountId from '@/queries/rmrk/subsquid/allNftSaleEventsByAccountId.graphql'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { sortedEventByDate } from '@/utils/sorting'
-import { NftHolderEvent } from '@/components/rmrk/Gallery/Holder/Holder.vue'
-import CommonHolderTable from '@/components/rmrk/Gallery/Holder/Holder.vue'
+import CommonHolderTable, {
+  NftHolderEvent,
+} from '@/components/rmrk/Gallery/Holder/Holder.vue'
 
 const props = defineProps({
   accountId: { type: String, default: '' },
