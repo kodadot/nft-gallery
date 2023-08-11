@@ -1,7 +1,5 @@
 <template>
-  <div
-    ref="hoverRef"
-    class="is-flex is-justify-content-space-between background-hover">
+  <div ref="hoverRef" style="position: relative" class="background-hover">
     <div class="is-flex pr-2">
       <nuxt-link
         :to="`/${urlPrefix}/gallery/${nft.id}`"
@@ -20,15 +18,20 @@
           @click.native="emit('click-item')">
           {{ nft.name }}
         </nuxt-link>
-        <div class="line-height-1 no-wrap is-clipped ellipsis">
-          {{ nft.collection?.name || nft.collection.id }}
+        <div class="is-flex is-justify-content-space-between">
+          <div class="line-height-1 no-wrap is-clipped ellipsis">
+            {{ nft.collection?.name || nft.collection.id }}
+          </div>
+          <div
+            v-if="!isHovered"
+            class="ml-2 is-flex is-align-items-end no-wrap line-height-1">
+            <CommonTokenMoney :value="nft.price" />
+          </div>
         </div>
       </div>
     </div>
 
-    <div
-      v-if="isHovered"
-      class="is-flex is-justify-content-end is-align-items-center">
+    <div v-if="isHovered" style="position: absolute; top: 25px; right: 50px">
       <NeoButton
         variant="text"
         class="inherit-background-color"
@@ -36,10 +39,6 @@
         icon="trash"
         icon-pack="far"
         @click.native="emit('delete', nft.id)" />
-    </div>
-
-    <div v-else class="is-flex is-align-items-end no-wrap line-height-1">
-      <CommonTokenMoney :value="nft.price" />
     </div>
   </div>
 </template>
@@ -85,7 +84,7 @@ onMounted(() => {
 }
 
 .limit-width {
-  max-width: 130px;
+  width: 230px;
 }
 
 .ellipsis {
