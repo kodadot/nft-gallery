@@ -8,10 +8,10 @@
     :variant="variant"
     :class="{ 'in-cart-border': shoppingCartStore.isItemInCart(nft.id) }"
     :unloackable-icon="unlockableIcon"
-    :show-action="showActionSection"
+    :show-action-on-hover="!showActionSection"
     link="nuxt-link"
     bind-key="to">
-    <template #hover-action>
+    <template #action>
       <div v-if="!isOwner && Number(nft?.price)" class="is-flex">
         <NeoButton
           :label="buyLabel"
