@@ -11,17 +11,14 @@ export const ConnectWalletModalConfig = {
 export interface OpenWalletModalConfig {
   onConnect?: (account: string) => void
   closeAfterConnect?: boolean
+  onCancel?: () => void
 }
 
 export const openConnectWalletModal = (
   instance,
-  { onConnect, closeAfterConnect }: OpenWalletModalConfig = {}
+  { onConnect, closeAfterConnect, onCancel }: OpenWalletModalConfig = {}
 ) => {
   const modal = ref<BModalComponent | null>()
-
-  const onCancel = () => {
-    modal.value = null
-  }
 
   const closeModal = () => {
     modal.value?.close()
@@ -29,7 +26,13 @@ export const openConnectWalletModal = (
 
   modal.value = Modal.open({
     parent: instance?.proxy,
-    onCancel,
+    onCancel: () => {
+      if (onCancel) {
+        onCancel()
+      }
+
+      modal.value = null
+    },
     events: {
       connect: (account: string) => {
         if (onConnect) {

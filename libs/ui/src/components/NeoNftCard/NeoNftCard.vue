@@ -19,7 +19,8 @@
           :placeholder="placeholder"
           :title="nft?.name" />
         <div
-          class="show-on-hover w-full is-flex is-justify-content-center hover-action-container">
+          :class="[showAction || 'show-on-hover']"
+          class="w-full is-flex is-justify-content-center hover-action-container">
           <slot name="hover-action" />
         </div>
       </div>
@@ -116,6 +117,7 @@ withDefaults(
     unloackableIcon?: string
     link?: string
     bindKey?: string
+    showAction: boolean
   }>(),
   {
     collectionPopoverShowDelay: 500,
@@ -123,6 +125,7 @@ withDefaults(
     unloackableIcon: undefined,
     link: 'a',
     bindKey: 'href',
+    showAction: false,
   }
 )
 </script>
