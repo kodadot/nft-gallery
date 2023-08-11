@@ -420,10 +420,12 @@ export default defineNuxtConfig({
         fs: 'empty',
       }
     },
-  },
 
-  postcss: {
-    postCssOptions: null,
+    postcss: {
+      postcssOptions: {
+        plugins: {},
+      },
+    },
   },
 
   // env: {
