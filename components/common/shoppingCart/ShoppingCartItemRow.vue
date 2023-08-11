@@ -19,7 +19,11 @@
           {{ nft.name }}
         </nuxt-link>
         <div class="is-flex is-justify-content-space-between">
-          <div class="line-height-1 no-wrap is-clipped ellipsis">
+          <div
+            class="line-height-1 no-wrap is-clipped ellipsis"
+            :style="{
+              'max-width': isHovered ? '190px' : '130px',
+            }">
             {{ nft.collection?.name || nft.collection.id }}
           </div>
           <div
