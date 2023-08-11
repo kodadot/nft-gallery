@@ -45,7 +45,7 @@ import { isOwner as checkOwner } from '@/utils/account'
 
 const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()
-const { accountId } = useAuth()
+const { accountId, isLogIn } = useAuth()
 const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
 const { unlockableIcon } = useUnlockableIcon()
 const shoppingCartStore = useShoppingCartStore()
@@ -58,7 +58,7 @@ const props = defineProps<{
 }>()
 
 const isConnectingWalletBuyFlow = computed(() => {
-  return Boolean(shoppingCartStore.getItemWaitingToBuy)
+  return Boolean(shoppingCartStore.getItemWaitingToBuy) && !isLogIn.value
 })
 
 const isCurrentItemWaitingToBeBought = computed(() => {
@@ -71,7 +71,7 @@ const showActionSection = computed(() => {
 
 const buyLabel = computed(function () {
   if (showActionSection.value) {
-    return 'shoppingCart.wallet'
+    return $i18n.t('shoppingCart.wallet')
   }
 
   return $i18n.t(
