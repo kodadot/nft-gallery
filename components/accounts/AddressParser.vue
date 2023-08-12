@@ -14,24 +14,14 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
+<script setup lang="ts">
 import { parseBatchAddresses } from './utils'
 import { NeoField, NeoInput } from '@kodadot1/brick'
 
-@Component({
-  components: {
-    NeoField,
-    NeoInput,
-  },
-})
-export default class AddressParser extends Vue {
-  @Prop({ type: Array, default: () => [], required: true }) value!: string[]
-
-  @Emit('input')
-  handleInput(event: string): string[] {
-    return parseBatchAddresses(event)
-  }
+defineEmits(['input'])
+defineProps<{ value: string[] }>()
+function handleInput(event: string): string[] {
+  return parseBatchAddresses(event)
 }
 </script>
 
