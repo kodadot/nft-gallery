@@ -332,6 +332,24 @@ export default defineNuxtConfig({
     },
   },
 
+  buildModules: ['nuxt-webpack-optimisations'],
+
+  webpackOptimisations: {
+    features: {
+      esbuildLoader: process.env.NODE_ENV !== 'development',
+    },
+    // https://github.com/privatenumber/esbuild-loader#%EF%B8%8F-options
+    esbuildLoaderOptions: {
+      client: {
+        target: 'esnext',
+        legalComments: 'none',
+      },
+      modern: {
+        target: 'esnext',
+      },
+    },
+  },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     babel: {
@@ -409,7 +427,7 @@ export default defineNuxtConfig({
         include: [path.resolve(__dirname, 'node_modules')],
         use: [
           { loader: require.resolve('@open-wc/webpack-import-meta-loader') },
-          { loader: require.resolve('babel-loader') },
+          { loader: require.resolve('babel-loader'), query: { compact: true } },
         ],
       })
 
@@ -418,7 +436,12 @@ export default defineNuxtConfig({
         fs: 'empty',
       }
     },
-    postcss: null,
+
+    postcss: {
+      postcssOptions: {
+        plugins: {},
+      },
+    },
   },
 
   // env: {
