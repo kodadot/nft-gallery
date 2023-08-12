@@ -72,6 +72,30 @@ const hasMassmintCreate: Config<boolean> = {
   ahp: false,
 }
 
+const hasIdentity: Config<boolean> = {
+  rmrk: true,
+  ksm: true,
+  bsx: true,
+  ahk: true,
+  movr: true,
+  glmr: true,
+  snek: true,
+  dot: true,
+  ahp: true,
+}
+
+const hasTransfer: Config<boolean> = {
+  rmrk: true,
+  ksm: true,
+  bsx: true,
+  ahk: true,
+  movr: true,
+  glmr: true,
+  snek: true,
+  dot: true,
+  ahp: true,
+}
+
 export const createVisible = (prefix: Prefix | string): boolean => {
   return hasCreate[prefix]
 }
@@ -94,4 +118,12 @@ export const salesVisible = (prefix: Prefix | string) => {
 
 export const hotVisible = (prefix: Prefix | string) => {
   return hasHot[prefix]
+}
+
+export const identityVisible = (prefix: Prefix | string) => {
+  return hasIdentity[prefix]
+}
+
+export const transferVisible = (prefix: Prefix | string) => {
+  return hasTransfer[prefix]
 }

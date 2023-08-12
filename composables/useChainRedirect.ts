@@ -3,9 +3,11 @@ import {
   createVisible,
   explorerVisible,
   hotVisible,
+  identityVisible,
   massmintCreateVisible,
   salesVisible,
   seriesInsightVisible,
+  transferVisible,
 } from '@/utils/config/permision.config'
 
 enum RedirectTypes {
@@ -31,6 +33,7 @@ enum PageType {
   PREFIX_MASSMINT_ONBOARDING = '{prefix}-massmint-onboarding',
   PREFIX_CLASSIC_CREATE = '{prefix}-create',
   PREFIX_TRANSFER = '{prefix}-transfer',
+  IDENTITY = 'identity',
 }
 
 type RedirectPath = {
@@ -52,6 +55,7 @@ const PageRedirectType: { [key in PageType]?: RedirectTypes } = {
   [PageType.PREFIX_MASSMINT_ONBOARDING]: RedirectTypes.CHAIN_PREFIX_CHANGE,
   [PageType.PREFIX_CLASSIC_CREATE]: RedirectTypes.CHAIN_PREFIX_CHANGE,
   [PageType.PREFIX_TRANSFER]: RedirectTypes.CHAIN_PREFIX_CHANGE,
+  [PageType.IDENTITY]: RedirectTypes.STAY,
 }
 
 function getEnumKeyByValue<
@@ -79,6 +83,8 @@ const pageAvailabilityPerChain = {
   [PageType.HOT]: (chain: Prefix) => hotVisible(chain),
   [PageType.BLOG]: () => true,
   [PageType.BLOG_SLUG]: () => true,
+  [PageType.PREFIX_TRANSFER]: (chain: Prefix) => transferVisible(chain),
+  [PageType.IDENTITY]: (chain: Prefix) => identityVisible(chain),
 }
 
 const generateRouteRegexPattern = (pattern: string): string => {
