@@ -47,7 +47,17 @@ import { NeoButton } from '@kodadot1/brick'
     @include ktheme() {
       border-color: theme('border-color');
     }
+    .svg-icons img {
+      stroke: k-black;
+    }
+    .neo-button {
+      background-color: rgba(255, 240, 248, 1);
+      .dark-mode & {
+        color: rgb(45, 45, 45);
+      }
+    }
   }
+
   &-banner {
     height: 17rem;
     background-size: cover;
@@ -91,10 +101,9 @@ import { NeoButton } from '@kodadot1/brick'
   top: 20px;
   left: 50.43px;
 }
-.neo-button:hover {
-  background-color: rgba(255, 240, 248, 1);
-}
-.dark-mode .neo-button:hover {
-  color: rgb(45, 45, 45);
+.neo-button {
+  font-size: 16px;
+  padding: 4px 10px;
+  transition: color 0.3s ease;
 }
 </style>
