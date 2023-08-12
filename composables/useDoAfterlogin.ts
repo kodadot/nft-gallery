@@ -12,7 +12,6 @@ export default function (instance) {
       openConnectWalletModal(instance, {
         onConnect: onLoginSuccess,
         onCancel,
-        onClose: onCancel,
         closeAfterConnect: true,
       })
     } else {

@@ -12,17 +12,11 @@ export interface OpenWalletModalConfig {
   onConnect?: (account: string) => void
   closeAfterConnect?: boolean
   onCancel?: () => void
-  onClose?: () => void
 }
 
 export const openConnectWalletModal = (
   instance,
-  {
-    onConnect,
-    closeAfterConnect,
-    onCancel,
-    onClose,
-  }: OpenWalletModalConfig = {}
+  { onConnect, closeAfterConnect, onCancel }: OpenWalletModalConfig = {}
 ) => {
   const modal = ref<BModalComponent | null>()
 
@@ -41,8 +35,8 @@ export const openConnectWalletModal = (
     },
     events: {
       close: () => {
-        if (onClose) {
-          onClose()
+        if (onCancel) {
+          onCancel()
         }
       },
       connect: (account: string) => {
