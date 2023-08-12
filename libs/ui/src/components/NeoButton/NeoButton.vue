@@ -4,6 +4,7 @@
       active: active,
       'is-fixed-width': fixedWidth,
       'no-shadow': noShadow,
+      'loading-with-label': loadingWithLabel,
     }"
     :size="size"
     :icon-right="icon"
@@ -24,20 +25,26 @@
 import { OButton } from '@oruga-ui/oruga'
 import { NeoButtonVariant } from '@kodadot1/brick'
 
-defineProps<{
-  size?: 'small' | 'medium' | 'large'
-  disabled?: boolean
-  expanded?: boolean
-  icon?: string
-  iconPack?: string
-  label?: string
-  active?: boolean
-  fixedWidth?: boolean
-  noShadow?: boolean
-  variant?: NeoButtonVariant
-  rounded?: boolean
-  tag?: string
-}>()
+withDefaults(
+  defineProps<{
+    size?: 'small' | 'medium' | 'large'
+    disabled?: boolean
+    expanded?: boolean
+    icon?: string
+    iconPack?: string
+    label?: string
+    active?: boolean
+    fixedWidth?: boolean
+    noShadow?: boolean
+    variant?: NeoButtonVariant
+    rounded?: boolean
+    tag?: string
+    loadingWithLabel: boolean
+  }>(),
+  {
+    loadingWithLabel: false,
+  }
+)
 </script>
 
 <style lang="scss">

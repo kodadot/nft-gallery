@@ -18,9 +18,9 @@
           data-cy="item-buy"
           no-shadow
           :loading="showActionSection"
-          class="is-flex-grow-1 btn-height override-button-loading"
+          class="is-flex-grow-1 btn-height"
+          loading-with-label
           @click.native.prevent="onClickBuy">
-          {{ buyLabel }}
         </NeoButton>
         <NeoButton
           data-cy="item-add-to-cart"
@@ -92,7 +92,10 @@ const onCancelPurchase = () => {
 
 const onClickBuy = () => {
   shoppingCartStore.setItemToBuy(nftToShoppingCardItem(props.nft))
-  doAfterLogin(openCompletePurcahseModal, onCancelPurchase)
+  doAfterLogin({
+    onLoginSuccess: openCompletePurcahseModal,
+    onCancel: onCancelPurchase,
+  })
 }
 
 const onClickShoppingCart = () => {
@@ -115,27 +118,6 @@ const onClickShoppingCart = () => {
     width: unset !important;
   }
 }
-
-.override-button-loading.o-btn--loading {
-  @include ktheme() {
-    color: theme('k-grey') !important;
-
-    :deep .o-btn__label {
-      margin: 0 3px !important;
-    }
-
-    &::after {
-      position: relative !important;
-      left: 0px !important ;
-      border: 2px solid theme('k-grey') !important;
-      border-radius: 9999px !important;
-      border-right-color: transparent !important;
-      border-top-color: transparent !important;
-      margin: 0 3px;
-    }
-  }
-}
-
 .in-cart-border {
   @include ktheme() {
     outline: 2px solid theme('k-blue') !important;
