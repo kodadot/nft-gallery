@@ -30,6 +30,7 @@ enum PageType {
   PREFIX_MASSMINT = '{prefix}-massmint',
   PREFIX_MASSMINT_ONBOARDING = '{prefix}-massmint-onboarding',
   PREFIX_CLASSIC_CREATE = '{prefix}-create',
+  PREFIX_TRANSFER = '{prefix}-transfer',
 }
 
 type RedirectPath = {
@@ -50,6 +51,7 @@ const PageRedirectType: { [key in PageType]?: RedirectTypes } = {
   [PageType.PREFIX_MASSMINT]: RedirectTypes.CHAIN_PREFIX_CHANGE,
   [PageType.PREFIX_MASSMINT_ONBOARDING]: RedirectTypes.CHAIN_PREFIX_CHANGE,
   [PageType.PREFIX_CLASSIC_CREATE]: RedirectTypes.CHAIN_PREFIX_CHANGE,
+  [PageType.PREFIX_TRANSFER]: RedirectTypes.CHAIN_PREFIX_CHANGE,
 }
 
 function getEnumKeyByValue<
@@ -154,11 +156,14 @@ export default function (allowRedirectIfCheckNotPresent = false) {
       }
     }
 
-    if (pageRedirectType === RedirectTypes.CHAIN_PREFIX_CHANGE) {
+    if (
+      pageRedirectType === RedirectTypes.CHAIN_PREFIX_CHANGE &&
+      isPageAvailableForChain
+    ) {
       return getChangedChainPrefixFromPath(newChain, prevChain)
     }
 
-    return null
+    return defaultRedirect
   }
 
   const redirectAfterChainChange = (
