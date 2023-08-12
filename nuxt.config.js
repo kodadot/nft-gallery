@@ -332,7 +332,7 @@ export default defineNuxtConfig({
     },
   },
 
-  buildModules: ['nuxt-webpack-optimisations'],
+  // buildModules: ['nuxt-webpack-optimisations'],
 
   webpackOptimisations: {
     features: {
