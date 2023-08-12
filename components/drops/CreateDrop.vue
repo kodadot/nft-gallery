@@ -40,9 +40,11 @@ import { NeoButton } from '@kodadot1/brick'
   column-gap: 2.5rem;
   border: 1px solid #cecbcb;
   cursor: pointer;
+
   a:hover {
     color: unset;
   }
+
   &:hover {
     @include ktheme() {
       border-color: theme('border-color');
@@ -52,12 +54,13 @@ import { NeoButton } from '@kodadot1/brick'
     }
     .neo-button {
       background-color: rgba(255, 240, 248, 1);
+
       .dark-mode & {
-        color: rgb(45, 45, 45);
+        color: rgba(255, 255, 255, 1);
+        background-color: rgba(54, 50, 52, 1);
       }
     }
   }
-
   &-banner {
     height: 17rem;
     background-size: cover;
@@ -66,6 +69,13 @@ import { NeoButton } from '@kodadot1/brick'
 }
 .light-mode .drop-card {
   background-color: white;
+}
+.light-mode .neo-button {
+  border: 1px solid rgba(0, 0, 0, 1);
+}
+
+.dark-mode .neo-button {
+  border: 1px solid #cecbcb;
 }
 .svg-icons {
   width: 154px;
@@ -77,25 +87,30 @@ import { NeoButton } from '@kodadot1/brick'
   top: 34px;
   left: 52px;
 }
+
 .svg-two {
   position: absolute;
   top: 68.6171875px;
   left: 32px;
   z-index: 10;
 }
+
 .svg-three {
   position: absolute;
   top: 20.24px;
   left: 45px;
 }
+
 .svg-four {
   position: absolute;
   top: 19px;
   left: 98.431640625px;
 }
+
 .ellipse {
   position: absolute;
 }
+
 .vector {
   position: absolute;
   top: 20px;
