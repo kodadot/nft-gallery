@@ -1,6 +1,6 @@
 import { spawn } from 'child_process'
 
-const generate = spawn('pnpm', ['generate'])
+const generate = spawn('pnpm', ['generate:script'])
 
 generate.stdout.on('data', (data) => {
   console.log(`stdout: ${data}`)
