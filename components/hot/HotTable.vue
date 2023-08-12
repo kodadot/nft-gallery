@@ -56,31 +56,40 @@ const { $apollo } = useNuxtApp()
 const { client, urlPrefix } = usePrefix()
 const { decimals } = useChain()
 
-const { pending } = useLazyAsyncData('data', async () => {
-  const data = await fetchHotNfts()
-  const collectionMap = groupBy(data, 'nft.collection.id')
-  const sortOrder = [...new Set(data.map((e) => e.nft.collection.id))]
-  const result = sortOrder.map((colId, idx) => {
-    const collection = collectionMap[colId][0].nft.collection
-    const nfts = sortBy(collectionMap[colId], 'timestamp').reverse()
-    const totalVolume = toKSM(getVolume(nfts))
-    const buys = nfts.length
-    const latestSale = nfts[0]
-    const medianIdx = Math.floor(buys / 2)
-    return {
-      id: idx + 1,
-      collectionId: colId,
-      name: collection.name,
-      totalVolume,
-      buys,
-      latestSoldSize: toKSM(latestSale.meta),
-      latestSoldTime: formatDistanceToNow(new Date(latestSale.timestamp)),
-      medianDate: formatDistanceToNow(new Date(nfts[medianIdx].timestamp)),
-      nfts,
-    }
-  })
+const { pending, refresh: refreshHotNfts } = useLazyAsyncData(
+  'data',
+  async () => {
+    const data = await fetchHotNfts()
+    const collectionMap = groupBy(data, 'nft.collection.id')
+    const sortOrder = [...new Set(data.map((e) => e.nft.collection.id))]
+    const result = sortOrder.map((colId, idx) => {
+      const collection = collectionMap[colId][0].nft.collection
+      const nfts = sortBy(collectionMap[colId], 'timestamp').reverse()
+      const totalVolume = toKSM(getVolume(nfts))
+      const buys = nfts.length
+      const latestSale = nfts[0]
+      const medianIdx = Math.floor(buys / 2)
+      return {
+        id: idx + 1,
+        collectionId: colId,
+        name: collection.name,
+        totalVolume,
+        buys,
+        latestSoldSize: toKSM(latestSale.meta),
+        latestSoldTime: formatDistanceToNow(new Date(latestSale.timestamp)),
+        medianDate: formatDistanceToNow(new Date(nfts[medianIdx].timestamp)),
+        nfts,
+      }
+    })
 
-  hot.value = result
+    hot.value = result
+  }
+)
+
+watch(client, (value) => {
+  if (value) {
+    refreshHotNfts()
+  }
 })
 
 const toKSM = (amount) => {
