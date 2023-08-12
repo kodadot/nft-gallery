@@ -152,7 +152,7 @@ function onClick() {
   if (btnStatus.value === BuyStatus.CART) {
     openShoppingCart(instance)
   } else {
-    doAfterLogin(openCompletePurcahseModal)
+    doAfterLogin({ onLoginSuccess: openCompletePurcahseModal })
   }
 }
 
