@@ -80,7 +80,10 @@ const pageAvailabilityPerChain = {
 }
 
 const generateRouteRegexPattern = (pattern: string): string => {
-  const patternWithPlaceholderReplaced = pattern.replace(/\{[^}]*\}/g, '.+')
+  const patternWithPlaceholderReplaced = pattern.replace(
+    /\{[^}]{1,30}\}/g,
+    '.+'
+  )
   const patternWithHyphensEscaped = patternWithPlaceholderReplaced.replace(
     /-/g,
     '\\-'
