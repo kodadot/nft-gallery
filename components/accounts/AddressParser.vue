@@ -18,10 +18,12 @@
 import { parseBatchAddresses } from './utils'
 import { NeoField, NeoInput } from '@kodadot1/brick'
 
-defineEmits(['input'])
+const emit = defineEmits(['input'])
 defineProps<{ value: string[] }>()
 function handleInput(event: string): string[] {
-  return parseBatchAddresses(event)
+  const address = parseBatchAddresses(event)
+  emit('input', address)
+  return address
 }
 </script>
 
