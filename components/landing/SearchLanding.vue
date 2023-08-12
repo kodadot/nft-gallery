@@ -6,7 +6,7 @@
       class="is-flex is-flex-direction-column is-align-items-center search-info">
       <h1
         class="title is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered is-flex is-flex-wrap-wrap is-justify-content-center is-align-items-center mb-0">
-        {{ $t('search.landingTitle1') }}
+        {{ $t('search.landingTitle1') }} test fails
         <span
           class="subtitle is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered is-capitalized ml-4">
           {{ $t('search.landingTitle2') }}

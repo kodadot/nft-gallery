@@ -387,9 +387,9 @@ export default defineNuxtConfig({
       '@google/model-viewer', // TODO check to see if it works without transpilation in future nuxt releases
     ],
     extend(config) {
-      if (process.env.NODE_ENV !== 'development') {
-        config.devtool = 'source-map'
-      }
+      // if (process.env.NODE_ENV !== 'development') {
+      //   config.devtool = 'source-map'
+      // }
 
       // add frontmatter-markdown-loader
       config.module.rules.push({
