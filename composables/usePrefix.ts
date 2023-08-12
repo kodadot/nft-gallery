@@ -8,15 +8,14 @@ import type { Prefix } from '@kodadot1/static'
 export default function () {
   const route = useRoute()
   const storage = useLocalStorage('urlPrefix', { selected: DEFAULT_PREFIX })
-  const initialPrefixFromPath = getAvailablePrefix(route.path.split('/')[1])
-  const validPrefixFromRoute = getAvailablePrefix(route.params.prefix)
 
   const prefix = computed<Prefix>(
     () =>
-      (validPrefixFromRoute ||
+      (getAvailablePrefix(route.params.prefix) ||
         storage.value.selected ||
-        initialPrefixFromPath) as Prefix
+        getAvailablePrefix(route.path.split('/')[1])) as Prefix
   )
+
   const urlPrefix = computed<Prefix>(() => {
     storage.value = { selected: prefix.value }
     return prefix.value
