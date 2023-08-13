@@ -134,9 +134,7 @@ function updateUrlWithPattern(
   pattern: string,
   replacements: { [key: string]: string }
 ): string {
-  const regexPattern = new RegExp(
-    pattern.replace(/\{([a-zA-Z0-9_]+)\}/g, '(?<$1>[^/]+)')
-  )
+  const regexPattern = new RegExp(pattern.replace(/\{(\w+)\}/g, '(?<$1>[^/]+)'))
 
   const match = targetUrl.match(regexPattern)
 
