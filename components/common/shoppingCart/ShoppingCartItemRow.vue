@@ -20,32 +20,32 @@
             @click.native="emit('click-item')">
             {{ nft.name }}
           </nuxt-link>
-          <div class="line-height-1 no-wrap is-clipped ellipsis">
-            {{ nft.collection?.name || nft.collection.id }}
+          <div class="is-flex gap-2">
+            <div class="line-height-1 no-wrap is-clipped ellipsis">
+              {{ nft.collection?.name || nft.collection.id }}
+            </div>
+
+            <div
+              :class="{
+                'line-height-1': true,
+                hidden: isHovered,
+              }">
+              <CommonTokenMoney :value="nft.price" :round="round" />
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div>
-      <div
-        v-if="isHovered"
-        class="is-flex is-justify-content-end is-align-items-center h-full">
-        <NeoButton
-          variant="text"
-          class="inherit-background-color"
-          no-shadow
-          icon="trash"
-          icon-pack="far"
-          @click.native="emit('delete', nft.id)" />
-      </div>
-
-      <div
-        :class="{
-          'is-flex h-full is-align-items-end no-wrap line-height-1': true,
-          hidden: isHovered,
-        }">
-        <CommonTokenMoney :value="nft.price" :round="round" />
-      </div>
+    <div
+      v-if="isHovered"
+      class="is-flex is-justify-content-end is-align-items-center h-full m-auto">
+      <NeoButton
+        variant="text"
+        class="inherit-background-color"
+        no-shadow
+        icon="trash"
+        icon-pack="far"
+        @click.native="emit('delete', nft.id)" />
     </div>
   </div>
 </template>
@@ -114,8 +114,11 @@ onMounted(() => {
 .inherit-background-color {
   background-color: inherit !important;
 }
-.gap-8 {
+.gap-2 {
   gap: 2px;
+}
+.gap-8 {
+  gap: 8px;
 }
 .hidden {
   opacity: 0;
