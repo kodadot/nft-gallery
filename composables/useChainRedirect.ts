@@ -122,11 +122,15 @@ const generateRouteRegexPattern = (pattern: string): string => {
   return `^${patternWithSlashesEscaped}$`
 }
 
-const getMatchingRoutePattern = (routeName: string): RoutePattern => {
+const getMatchingRoutePattern = (routePath: string): RoutePattern => {
+  const cleanedRoutePath = routePath.endsWith('/')
+    ? routePath.slice(0, -1)
+    : routePath
+
   const matchingKey = Object.keys(RoutePattern).find((key) => {
     const pagePattern = RoutePattern[key]
     const regexPattern = generateRouteRegexPattern(pagePattern)
-    return new RegExp(regexPattern).test(routeName)
+    return new RegExp(regexPattern).test(cleanedRoutePath)
   })
 
   return matchingKey as RoutePattern
