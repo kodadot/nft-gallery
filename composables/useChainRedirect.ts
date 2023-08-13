@@ -22,9 +22,12 @@ const PREFIX_PLACEHOLDER_NAME = 'prefix'
 
 /**
  * Enum representing different page types for routing and matching.
- * You can use placeholders using curly braces {} for dynamic parts.
- * For example, '{prefix}-explore-items' contains a '{prefix}' placeholder
- * that {prefix} will be treated as any value for exmaple rmrk-explore-items
+ * The patterns within the enum can be matched against URLs to identify specific routes.
+ * Certain patterns within the enum include placeholders encapsulated within curly braces {} for dynamic parts of the URL.
+ *
+ * Examples:
+ * - '/{prefix}/explore/items' contains a '{prefix}' placeholder. For a URL like '/rmrk/explore/items', the value for '{prefix}' would be 'rmrk'.
+ * - '/{prefix}/u/{wallet}' has placeholders '{prefix}' and '{wallet}'. If the URL is '/rmrk/u/abc123', the values would be 'rmrk' for '{prefix}' and 'abc123' for '{wallet}'.
  */
 enum RoutePattern {
   PREFIX_EXPLORE_ITEMS = '/{prefix}/explore/items',
