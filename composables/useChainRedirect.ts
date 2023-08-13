@@ -216,9 +216,9 @@ export default function (allowRedirectIfCheckNotPresent = false) {
     chain: Prefix
     routePattern: RoutePattern
   }): RedirectPath => {
-    const pageRedirectTypes = RouteRedirectTypes[RoutePattern[routePattern]]
+    const routeRedirectTypes = RouteRedirectTypes[RoutePattern[routePattern]]
 
-    return pageRedirectTypes.reduce(
+    return routeRedirectTypes.reduce(
       (redirectPath: RedirectPath, pageRedirectType: RedirectTypes) => {
         const redirectAction = RouteRedirectActions[pageRedirectType]
 
