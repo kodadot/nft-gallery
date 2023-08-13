@@ -138,7 +138,7 @@ function updateUrlWithPattern(
 
   const match = targetUrl.match(regexPattern)
 
-  if (!match || !match.groups) {
+  if (!match?.groups) {
     return targetUrl
   }
 
