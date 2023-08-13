@@ -145,10 +145,6 @@ function updateUrlWithPattern(
     return newUrl
   })
 }
-interface ChainParams {
-  newChain: Prefix
-  prevChain: Prefix
-}
 
 export default function (allowRedirectIfCheckNotPresent = false) {
   const route = useRoute()
@@ -156,12 +152,12 @@ export default function (allowRedirectIfCheckNotPresent = false) {
 
   const getChangedChainPrefixFromPath = (
     initialPath: RedirectPath,
-    chainParams: ChainParams,
+    chain: Prefix,
     pageType: PageType
   ): RedirectPath => {
     return {
       path: updateUrlWithPattern(initialPath.path, pageType, {
-        [PREFIX_PLACEHOLDER_NAME]: chainParams.newChain,
+        [PREFIX_PLACEHOLDER_NAME]: chain,
       }),
       query: initialPath.query,
     }
@@ -184,18 +180,18 @@ export default function (allowRedirectIfCheckNotPresent = false) {
 
   const RedirectTypesActions: {
     [key in RedirectTypes]?: (
-      chainParams: ChainParams,
+      chain: Prefix,
       initialPath: RedirectPath,
       pageType: PageType
     ) => RedirectPath
   } = {
     [RedirectTypes.CHAIN_PREFIX_CHANGE]: (
-      chainParams: ChainParams,
+      chain: Prefix,
       initialPath: RedirectPath,
       pageType: PageType
-    ) => getChangedChainPrefixFromPath(initialPath, chainParams, pageType),
+    ) => getChangedChainPrefixFromPath(initialPath, chain, pageType),
     [RedirectTypes.WALLET_ADDRESS_CHANGE]: (
-      chainParams: ChainParams,
+      chain: Prefix,
       initialPath: RedirectPath,
       pageType: PageType
     ) => updatePathWithCurrentWallet(initialPath, accountId.value, pageType),
@@ -206,12 +202,10 @@ export default function (allowRedirectIfCheckNotPresent = false) {
   }
 
   const getRedirect = ({
-    prevChain,
-    newChain,
+    chain,
     pageType,
   }: {
-    prevChain: Prefix
-    newChain: Prefix
+    chain: Prefix
     pageType: PageType
   }): RedirectPath => {
     const pageRedirectTypes = PageRedirectType[PageType[pageType]]
@@ -224,14 +218,7 @@ export default function (allowRedirectIfCheckNotPresent = false) {
           return reducer
         }
 
-        return redirectAction(
-          {
-            newChain,
-            prevChain,
-          },
-          reducer,
-          PageType[pageType]
-        )
+        return redirectAction(chain, reducer, PageType[pageType])
       },
       {
         path: route.path,
@@ -241,8 +228,7 @@ export default function (allowRedirectIfCheckNotPresent = false) {
   }
 
   const getPageRedirectPath = (
-    newChain: Prefix,
-    prevChain: Prefix,
+    chain: Prefix,
     defaultRedirectPath: string
   ): RedirectPath | null => {
     const routePath = route.path || ''
@@ -267,7 +253,7 @@ export default function (allowRedirectIfCheckNotPresent = false) {
     const pageAvailabilityCheck = pageAvailabilityPerChain[pageTypeValue]
 
     if (pageAvailabilityCheck) {
-      isPageAvailableForChain = pageAvailabilityCheck(newChain)
+      isPageAvailableForChain = pageAvailabilityCheck(chain)
     }
 
     if (isStayRedirect) {
@@ -279,22 +265,17 @@ export default function (allowRedirectIfCheckNotPresent = false) {
     }
 
     if (isPageAvailableForChain) {
-      return getRedirect({ newChain, prevChain, pageType })
+      return getRedirect({ chain: chain, pageType })
     }
 
     return defaultRedirect
   }
 
   const redirectAfterChainChange = (
-    newChain: Prefix,
-    prevChain: Prefix,
-    defaultRedirect = `/${newChain}`
+    chain: Prefix,
+    defaultRedirect = `/${chain}`
   ) => {
-    const redirectPath = getPageRedirectPath(
-      newChain,
-      prevChain,
-      defaultRedirect
-    )
+    const redirectPath = getPageRedirectPath(chain, defaultRedirect)
 
     if (!redirectPath) {
       return

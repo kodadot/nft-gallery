@@ -24,9 +24,8 @@ const emits = defineEmits(['select'])
 
 const changeChain = (newChain) => {
   preferencesStore.setNotificationBoxCollapse(false)
-  const prevChain = urlPrefix.value
   setUrlPrefix(newChain)
-  redirectAfterChainChange(newChain, prevChain)
+  redirectAfterChainChange(newChain)
   emits('select')
 }
 </script>
