@@ -90,7 +90,7 @@ const SpecialRedirectroutePatterns: RoutePattern[] = Object.keys(
   )
   .filter(Boolean) as RoutePattern[]
 
-const pageAvailabilityPerChain = {
+const routeAvailabilityPerChain = {
   [RoutePattern.PREFIX_EXPLORE_ITEMS]: (chain: Prefix): boolean =>
     explorerVisible(chain),
   [RoutePattern.PREFIX_EXPLORE_COLLECTIBLES]: (chain: Prefix): boolean =>
@@ -258,22 +258,22 @@ export default function (allowRedirectIfCheckNotPresent = false) {
       RouteRedirectTypes[routePatternValue]
     const isStayRedirect = routeRedirectTypes.includes(RedirectTypes.STAY)
 
-    let isPageAvailableForChain = allowRedirectIfCheckNotPresent
-    const pageAvailabilityCheck = pageAvailabilityPerChain[routePatternValue]
+    let isRouteAvailableForChain = allowRedirectIfCheckNotPresent
+    const routeAvailabilityCheck = routeAvailabilityPerChain[routePatternValue]
 
-    if (pageAvailabilityCheck) {
-      isPageAvailableForChain = pageAvailabilityCheck(chain)
+    if (routeAvailabilityCheck) {
+      isRouteAvailableForChain = routeAvailabilityCheck(chain)
     }
 
     if (isStayRedirect) {
-      if (isPageAvailableForChain) {
+      if (isRouteAvailableForChain) {
         return null
       } else {
         return defaultRedirect
       }
     }
 
-    if (isPageAvailableForChain) {
+    if (isRouteAvailableForChain) {
       return getRedirect({ chain, routePattern: routePattern })
     }
 
