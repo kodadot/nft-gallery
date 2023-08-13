@@ -10,35 +10,17 @@ const sharedPrefix = ref<Prefix>()
 export default function () {
   const route = useRoute()
   const storage = useLocalStorage('urlPrefix', { selected: DEFAULT_PREFIX })
-  const initialPrefixFromPath = getAvailablePrefix(route.path.split('/')[1])
-  const validPrefixFromRoute = computed(() =>
-    getAvailablePrefix(route.params.prefix)
-  )
 
-  const prefix = computed<Prefix>(
+  const urlPrefix = computed<Prefix>(
     () =>
       (sharedPrefix.value ||
-        validPrefixFromRoute.value ||
+        getAvailablePrefix(route.params.prefix) ||
         storage.value.selected ||
-        initialPrefixFromPath) as Prefix
+        getAvailablePrefix(route.path.split('/')[1])) as Prefix
   )
-
-  watch(
-    prefix,
-    (value) => {
-      if (value) {
-        sharedPrefix.value = value
-        storage.value = { selected: value }
-      }
-    },
-    { immediate: true }
-  )
-
-  const urlPrefix = computed<Prefix>(() => {
-    return prefix.value
-  })
 
   const setUrlPrefix = (prefix: Prefix) => {
+    storage.value = { selected: prefix }
     sharedPrefix.value = prefix
   }
 
@@ -49,13 +31,13 @@ export default function () {
   const tokenId = computed(() => getKusamaAssetId(urlPrefix.value))
 
   const assets = (id: string | number) => {
-    if (prefix.value === 'snek' || prefix.value === 'bsx') {
+    if (urlPrefix.value === 'snek' || urlPrefix.value === 'bsx') {
       useAssetsStore().fetchAssetList()
     }
     return useAssetsStore().getAssetById(String(id))
   }
 
-  const isTestnet = computed(() => prefix.value === 'snek')
+  const isTestnet = computed(() => urlPrefix.value === 'snek')
 
   return {
     urlPrefix,
