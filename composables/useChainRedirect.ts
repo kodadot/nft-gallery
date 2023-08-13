@@ -5,6 +5,7 @@ import {
   hotVisible,
   identityVisible,
   massmintCreateVisible,
+  profileVisible,
   salesVisible,
   seriesInsightVisible,
   transferVisible,
@@ -13,6 +14,7 @@ import {
 enum RedirectTypes {
   CHAIN_PREFIX_CHANGE = 'chain-prefix-change',
   STAY = 'stay',
+  WALLET_ADDRESS_CHANGE = 'wallet-address-change',
 }
 
 /**
@@ -22,18 +24,19 @@ enum RedirectTypes {
  * that {prefix} will be treated as any value for exmaple rmrk-explore-items
  */
 enum PageType {
-  PREFIX_EXPLORE_ITEMS = '{prefix}-explore-items',
-  PREFIX_EXPLORE_COLLECTIBLES = '{prefix}-explore-collectibles',
-  SALES = 'sales',
-  HOT = 'hot',
-  SERIES_INSIGHT = 'series-insight',
-  BLOG = 'blog',
-  BLOG_SLUG = 'blog-slug',
-  PREFIX_MASSMINT = '{prefix}-massmint',
-  PREFIX_MASSMINT_ONBOARDING = '{prefix}-massmint-onboarding',
-  PREFIX_CLASSIC_CREATE = '{prefix}-create',
-  PREFIX_TRANSFER = '{prefix}-transfer',
-  IDENTITY = 'identity',
+  PREFIX_EXPLORE_ITEMS = '/{prefix}/explore-items',
+  PREFIX_EXPLORE_COLLECTIBLES = '/{prefix}/explore-collectibles',
+  SALES = '/sales',
+  HOT = '/hot',
+  SERIES_INSIGHT = '/series-insight',
+  BLOG = '/blog',
+  BLOG_SLUG = '/blog/{slug}', // Assuming you have a dynamic slug for blogs
+  PREFIX_MASSMINT = '/{prefix}/massmint',
+  PREFIX_MASSMINT_ONBOARDING = '/{prefix}/massmint-onboarding',
+  PREFIX_CLASSIC_CREATE = '/{prefix}/create',
+  PREFIX_TRANSFER = '/{prefix}/transfer',
+  IDENTITY = '/identity',
+  PROFILE = '/{prefix}/u/{wallet}',
 }
 
 type RedirectPath = {
@@ -43,19 +46,23 @@ type RedirectPath = {
   }
 }
 
-const PageRedirectType: { [key in PageType]?: RedirectTypes } = {
-  [PageType.PREFIX_EXPLORE_ITEMS]: RedirectTypes.CHAIN_PREFIX_CHANGE,
-  [PageType.PREFIX_EXPLORE_COLLECTIBLES]: RedirectTypes.CHAIN_PREFIX_CHANGE,
-  [PageType.SALES]: RedirectTypes.STAY,
-  [PageType.HOT]: RedirectTypes.STAY,
-  [PageType.SERIES_INSIGHT]: RedirectTypes.STAY,
-  [PageType.BLOG]: RedirectTypes.STAY,
-  [PageType.BLOG_SLUG]: RedirectTypes.STAY,
-  [PageType.PREFIX_MASSMINT]: RedirectTypes.CHAIN_PREFIX_CHANGE,
-  [PageType.PREFIX_MASSMINT_ONBOARDING]: RedirectTypes.CHAIN_PREFIX_CHANGE,
-  [PageType.PREFIX_CLASSIC_CREATE]: RedirectTypes.CHAIN_PREFIX_CHANGE,
-  [PageType.PREFIX_TRANSFER]: RedirectTypes.CHAIN_PREFIX_CHANGE,
-  [PageType.IDENTITY]: RedirectTypes.STAY,
+const PageRedirectType: { [key in PageType]?: RedirectTypes[] } = {
+  [PageType.PREFIX_EXPLORE_ITEMS]: [RedirectTypes.CHAIN_PREFIX_CHANGE],
+  [PageType.PREFIX_EXPLORE_COLLECTIBLES]: [RedirectTypes.CHAIN_PREFIX_CHANGE],
+  [PageType.SALES]: [RedirectTypes.STAY],
+  [PageType.HOT]: [RedirectTypes.STAY],
+  [PageType.SERIES_INSIGHT]: [RedirectTypes.STAY],
+  [PageType.BLOG]: [RedirectTypes.STAY],
+  [PageType.BLOG_SLUG]: [RedirectTypes.STAY],
+  [PageType.PREFIX_MASSMINT]: [RedirectTypes.CHAIN_PREFIX_CHANGE],
+  [PageType.PREFIX_MASSMINT_ONBOARDING]: [RedirectTypes.CHAIN_PREFIX_CHANGE],
+  [PageType.PREFIX_CLASSIC_CREATE]: [RedirectTypes.CHAIN_PREFIX_CHANGE],
+  [PageType.PREFIX_TRANSFER]: [RedirectTypes.CHAIN_PREFIX_CHANGE],
+  [PageType.IDENTITY]: [RedirectTypes.STAY],
+  [PageType.PROFILE]: [
+    RedirectTypes.CHAIN_PREFIX_CHANGE,
+    RedirectTypes.WALLET_ADDRESS_CHANGE,
+  ],
 }
 
 function getEnumKeyByValue<
@@ -85,18 +92,19 @@ const pageAvailabilityPerChain = {
   [PageType.BLOG_SLUG]: () => true,
   [PageType.PREFIX_TRANSFER]: (chain: Prefix) => transferVisible(chain),
   [PageType.IDENTITY]: (chain: Prefix) => identityVisible(chain),
+  [PageType.PROFILE]: (chain: Prefix) => profileVisible(chain),
 }
 
 const generateRouteRegexPattern = (pattern: string): string => {
   const patternWithPlaceholderReplaced = pattern.replace(
     /\{[^}]{1,30}\}/g,
-    '.+'
+    '[^/]+'
   )
-  const patternWithHyphensEscaped = patternWithPlaceholderReplaced.replace(
-    /-/g,
-    '\\-'
+  const patternWithSlashesEscaped = patternWithPlaceholderReplaced.replace(
+    /\//g,
+    '\\/'
   )
-  return `^${patternWithHyphensEscaped}$`
+  return `^${patternWithSlashesEscaped}$`
 }
 
 const getPageType = (routeName: string): PageType => {
@@ -109,19 +117,92 @@ const getPageType = (routeName: string): PageType => {
   return matchingKey as PageType
 }
 
+interface ChainParams {
+  newChain: Prefix
+  prevChain: Prefix
+}
+
 export default function (allowRedirectIfCheckNotPresent = false) {
   const route = useRoute()
+  const { accountId } = useAuth()
 
   const getChangedChainPrefixFromPath = (
-    chain: Prefix,
-    prevChain: Prefix
+    chainParams: ChainParams,
+    initialPath: RedirectPath
   ): RedirectPath => ({
-    path: route.path.replace(prevChain, chain),
-    query: route.query,
+    path: initialPath.path.replace(chainParams.prevChain, chainParams.newChain),
+    query: initialPath.query,
   })
+
+  const updatePathWithCurrentWallet = (
+    initialPath: RedirectPath,
+    currentAccountId: string
+  ): RedirectPath => {
+    const { path, query } = initialPath
+    const newPathSegments = path.split('/')
+
+    newPathSegments[newPathSegments.length - 1] = currentAccountId
+
+    return {
+      path: newPathSegments.join('/'),
+      query,
+    }
+  }
+
+  const RedirectTypesActions: {
+    [key in RedirectTypes]?: (
+      chainParams: ChainParams,
+      initialPath: RedirectPath
+    ) => RedirectPath
+  } = {
+    [RedirectTypes.CHAIN_PREFIX_CHANGE]: (
+      chainParams: ChainParams,
+      initialPath: RedirectPath
+    ) => getChangedChainPrefixFromPath(chainParams, initialPath),
+    [RedirectTypes.WALLET_ADDRESS_CHANGE]: (
+      chainParams: ChainParams,
+      initialPath: RedirectPath
+    ) => updatePathWithCurrentWallet(initialPath, accountId.value),
+  }
 
   const checkIfPageHasSpecialRedirect = (pageType: PageType): boolean => {
     return SpecialRedirectPageTypes.includes(pageType as PageType)
+  }
+
+  const getRedirect = ({
+    prevChain,
+    newChain,
+    pageType,
+  }: {
+    prevChain: Prefix
+    newChain: Prefix
+    pageType: PageType
+  }): RedirectPath => {
+    const pageRedirectTypes = PageRedirectType[PageType[pageType]]
+
+    return pageRedirectTypes.reduce(
+      (reducer: RedirectPath, pageRedirectType: RedirectTypes) => {
+        const redirectAction = RedirectTypesActions[pageRedirectType]
+
+        if (!redirectAction) {
+          return reducer
+        }
+
+        return (
+          redirectAction(
+            {
+              newChain,
+              prevChain,
+            },
+            reducer
+          ) ?? null
+        )
+      },
+      {
+        path: route.path,
+        query: {},
+      } as RedirectPath
+    )
   }
 
   const getPageRedirectPath = (
@@ -129,13 +210,13 @@ export default function (allowRedirectIfCheckNotPresent = false) {
     prevChain: Prefix,
     defaultRedirectPath: string
   ): RedirectPath | null => {
-    const routeName = route.name || ''
+    const routePath = route.path || ''
 
     const defaultRedirect: RedirectPath = {
       path: defaultRedirectPath,
     }
 
-    const pageType = getPageType(routeName)
+    const pageType = getPageType(routePath)
 
     const hasSpecialRedirect = checkIfPageHasSpecialRedirect(pageType)
 
@@ -144,8 +225,8 @@ export default function (allowRedirectIfCheckNotPresent = false) {
     }
 
     const pageTypeValue = PageType[pageType]
-    const pageRedirectType = PageRedirectType[pageTypeValue]
-    const isStayRedirect = pageRedirectType === RedirectTypes.STAY
+    const pageRedirectTypes: RedirectTypes[] = PageRedirectType[pageTypeValue]
+    const isStayRedirect = pageRedirectTypes.includes(RedirectTypes.STAY)
 
     let isPageAvailableForChain = allowRedirectIfCheckNotPresent
     const pageAvailabilityCheck = pageAvailabilityPerChain[pageTypeValue]
@@ -162,11 +243,8 @@ export default function (allowRedirectIfCheckNotPresent = false) {
       }
     }
 
-    if (
-      pageRedirectType === RedirectTypes.CHAIN_PREFIX_CHANGE &&
-      isPageAvailableForChain
-    ) {
-      return getChangedChainPrefixFromPath(newChain, prevChain)
+    if (isPageAvailableForChain) {
+      return getRedirect({ newChain, prevChain, pageType })
     }
 
     return defaultRedirect

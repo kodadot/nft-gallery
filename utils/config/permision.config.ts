@@ -84,6 +84,18 @@ const hasIdentity: Config<boolean> = {
   ahp: true,
 }
 
+const hasProfile: Config<boolean> = {
+  rmrk: true,
+  ksm: true,
+  bsx: true,
+  ahk: true,
+  movr: true,
+  glmr: true,
+  snek: true,
+  dot: true,
+  ahp: true,
+}
+
 const hasTransfer: Config<boolean> = {
   rmrk: true,
   ksm: true,
@@ -122,6 +134,10 @@ export const hotVisible = (prefix: Prefix | string) => {
 
 export const identityVisible = (prefix: Prefix | string) => {
   return hasIdentity[prefix]
+}
+
+export const profileVisible = (prefix: Prefix | string) => {
+  return hasProfile[prefix]
 }
 
 export const transferVisible = (prefix: Prefix | string) => {
