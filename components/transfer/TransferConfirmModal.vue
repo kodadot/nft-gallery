@@ -7,6 +7,7 @@
           class="is-flex is-justify-content-center is-align-items-center header px-6 py-3">
           <span class="is-size-5 has-text-weight-bold">
             {{ $t('teleport.send') }}
+            <span class="is-uppercase">{{ unit }}</span>
           </span>
           <NeoIcon
             class="position-right is-clickable mr-6"
@@ -56,7 +57,10 @@
                   :address="targetAddresses[0].address"
                   hide-identity-popover />
               </span>
-              <NeoIcon icon="circle-info" pack="far" />
+              <NeoIcon
+                icon="circle-info"
+                pack="far"
+                :title="targetAddresses[0].address" />
             </div>
             <div
               v-else
@@ -75,7 +79,7 @@
               <div
                 v-for="(address, index) in targetAddresses"
                 :key="address.address"
-                class="py-4 is-bordered-top is-size-7">
+                class="py-4 is-bordered-top is-small-size-text">
                 <div
                   class="is-flex is-justify-content-space-between is-align-items-center mb-2">
                   <span class="has-text-weight-bold"
@@ -88,7 +92,10 @@
                         :address="address.address"
                         hide-identity-popover />
                     </span>
-                    <NeoIcon icon="circle-info" pack="far" />
+                    <NeoIcon
+                      icon="circle-info"
+                      pack="far"
+                      :title="address.address" />
                   </div>
                 </div>
                 <div
@@ -115,11 +122,11 @@
             $t('transfers.totalAmount')
           }}</span>
           <div class="is-flex is-align-items-center">
-            <span class="is-size-7 has-text-grey mr-1"
+            <span class="has-text-grey mr-1 is-small-size-text"
               >({{ totalTokenAmount }} {{ unit }})</span
             >
 
-            <span class="has-text-weight-bold is-size-6">
+            <span class="has-text-weight-bold is-size-5">
               ${{ totalUsdValue }}</span
             >
           </div>
@@ -188,11 +195,14 @@ const isExpandList = ref(false)
 }
 
 .fixed-button-height {
-  height: 3.5rem;
+  min-height: 55px;
+}
+.is-small-size-text {
+  font-size: 14px;
 }
 
 .is-scrollable {
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .is-bordered-top {
   @include ktheme() {
