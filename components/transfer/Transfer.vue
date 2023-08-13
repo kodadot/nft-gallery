@@ -182,10 +182,18 @@
         class="is-flex is-flex-1 fixed-height"
         variant="k-accent"
         :disabled="disabled"
-        @click.native="submit"
+        @click.native="handleContinue"
         >{{ $t('redirect.continue') }}</NeoButton
       >
     </div>
+    <TransferConfirmModal
+      :is-modal-active="isTransferModalVisible"
+      :total-token-amount="totalTokenAmount"
+      :total-usd-value="totalUsdValue"
+      :token-icon="tokenIcon"
+      :unit="unit"
+      :target-addresses="targetAddresses"
+      @close="isTransferModalVisible = false" />
   </div>
 </template>
 
@@ -208,7 +216,7 @@ import { useFiatStore } from '@/stores/fiat'
 import { useIdentityStore } from '@/stores/identity'
 import Avatar from '@/components/shared/Avatar.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
-
+import TransferConfirmModal from '@/components/transfer/TransferConfirmModal.vue'
 import { emptyObject } from '@kodadot1/minimark/utils'
 import {
   NeoButton,
@@ -237,10 +245,11 @@ const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
 const { initTransactionLoader, isLoading, resolveStatus } =
   useTransactionStatus()
 const { toast } = useToast()
+const isTransferModalVisible = ref(false)
 
 type Target = 'target' | `target${number}`
 type TargetMap = Record<Target, string>
-type TargetAddress = {
+export type TargetAddress = {
   address?: string
   usd?: number | string
   token?: number | string
@@ -339,6 +348,15 @@ const balanceUsdValue = computed(() =>
     decimals.value
   )
 )
+
+const handleContinue = () => {
+  if (!disabled.value) {
+    targetAddresses.value = targetAddresses.value.filter(
+      (address) => address.address && address.token && address.usd
+    )
+    isTransferModalVisible.value = true
+  }
+}
 const onAmountFieldChange = (target: TargetAddress) => {
   /* calculating usd value on the basis of price entered */
 
