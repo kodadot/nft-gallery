@@ -332,10 +332,12 @@ watch(sendSameAmount, (value) => {
 })
 
 const totalTokenAmount = computed(() =>
-  Number(getNumberSumOfObjectField(targetAddresses.value, 'token')).toFixed(4)
+  Number(
+    Number(getNumberSumOfObjectField(targetAddresses.value, 'token')).toFixed(4)
+  )
 )
 const totalUsdValue = computed(() =>
-  getNumberSumOfObjectField(targetAddresses.value, 'usd')
+  calculateUsdFromKsm(totalTokenAmount.value, Number(currentTokenValue.value))
 )
 
 const currentTokenValue = computed(() => getCurrentTokenValue(unit.value))
