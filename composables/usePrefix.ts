@@ -24,10 +24,6 @@ export default function () {
     sharedPrefix.value = prefix
   }
 
-  const client = computed<string>(() => {
-    return urlPrefix.value
-  })
-
   const tokenId = computed(() => getKusamaAssetId(urlPrefix.value))
 
   const assets = (id: string | number) => {
@@ -42,7 +38,7 @@ export default function () {
   return {
     urlPrefix,
     setUrlPrefix,
-    client,
+    client: urlPrefix,
     tokenId,
     assets,
     isTestnet,
