@@ -273,7 +273,7 @@ import nftListSold from '@/queries/subsquid/general/nftListSold.graphql'
 import offerListUser from '@/queries/subsquid/bsx/offerListUser.graphql'
 import recentSalesForCreator from '@/queries/rmrk/subsquid/recentSalesForCreator.graphql'
 
-import { NftHolderEvent } from '../Gallery/Holder/Holder.vue'
+import { NftHolderEvent } from '@/components/rmrk/Gallery/Holder/Holder.vue'
 import { exist } from '@/utils/exist'
 import { NeoButton, NeoTabItem, NeoTabs, NeoTooltip } from '@kodadot1/brick'
 
@@ -288,17 +288,16 @@ const components = {
     import('@/components/rmrk/Gallery/PaginatedCardList.vue'),
   DonationButton: () => import('@/components/transfer/DonationButton.vue'),
   Avatar: () => import('@/components/shared/Avatar.vue'),
-  ProfileLink: () => import('@/components/rmrk/Profile/ProfileLink.vue'),
+  ProfileLink: () => import('@/components/Profile/ProfileLink.vue'),
   Layout: () => import('@/components/rmrk/Gallery/Layout.vue'),
   Holding: () => import('@/components/rmrk/Gallery/Holding.vue'),
   InfiniteLoading: () => import('vue-infinite-loading'),
-  ProfileActivity: () =>
-    import('@/components/rmrk/Profile/ProfileActivity.vue'),
+  ProfileActivity: () => import('@/components/Profile/ProfileActivity.vue'),
   UserGainHistory: () =>
     import('@/components/rmrk/Gallery/UserGainHistory.vue'),
   History: () => import('@/components/rmrk/Gallery/History.vue'),
   OffersUserTable: () => import('@/components/bsx/Offer/OffersUserTable.vue'),
-  Sales: () => import('@/components/rmrk/Profile/Sales.vue'),
+  Sales: () => import('@/components/Profile/Sales.vue'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
   ShowQRModal: () => import('@/components/shared/modals/ShowQRModal.vue'),
   NeoButton,

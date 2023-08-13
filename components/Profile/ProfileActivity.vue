@@ -66,10 +66,10 @@
 <script lang="ts" setup>
 import { getSum, getSumOfObjectField } from '@/utils/math'
 import resolveQueryPath from '@/utils/queryPathResolver'
-import { Event } from '../service/types'
 
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import StatsColumn from '@/components/shared/format/StatsColumn.vue'
+import { Event } from '../rmrk/service/types'
 
 type Stats = {
   listedCount: number
