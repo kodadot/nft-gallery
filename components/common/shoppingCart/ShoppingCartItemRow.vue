@@ -20,7 +20,7 @@
             @click.native="emit('click-item')">
             {{ nft.name }}
           </nuxt-link>
-          <div class="is-flex gap-2">
+          <div class="is-flex is-justify-content-space-between gap-8">
             <div class="line-height-1 no-wrap is-clipped ellipsis">
               {{ nft.collection?.name || nft.collection.id }}
             </div>
@@ -113,9 +113,6 @@ onMounted(() => {
 
 .inherit-background-color {
   background-color: inherit !important;
-}
-.gap-2 {
-  gap: 2px;
 }
 .gap-8 {
   gap: 8px;
