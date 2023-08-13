@@ -82,7 +82,7 @@ function getEnumKeyByValue<
   return Object.keys(enumObject).find((key) => enumObject[key] === value) as K
 }
 
-const SpecialRedirectroutePatterns: RoutePattern[] = Object.keys(
+const SpecialRedirectRoutePatterns: RoutePattern[] = Object.keys(
   RouteRedirectTypes
 )
   .map<RoutePattern>(
@@ -206,7 +206,7 @@ export default function (allowRedirectIfCheckNotPresent = false) {
   const checkIfRouteHasSpecialRedirect = (
     routePattern: RoutePattern
   ): boolean => {
-    return SpecialRedirectroutePatterns.includes(routePattern as RoutePattern)
+    return SpecialRedirectRoutePatterns.includes(routePattern as RoutePattern)
   }
 
   const getRedirect = ({
