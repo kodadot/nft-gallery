@@ -17,6 +17,9 @@ enum RedirectTypes {
   WALLET_ADDRESS_CHANGE = 'wallet-address-change',
 }
 
+const WALLET_PLACEHOLDER_NAME = 'wallet'
+const PREFIX_PLACEHOLDER_NAME = 'prefix'
+
 /**
  * Enum representing different page types for routing and matching.
  * You can use placeholders using curly braces {} for dynamic parts.
@@ -24,19 +27,19 @@ enum RedirectTypes {
  * that {prefix} will be treated as any value for exmaple rmrk-explore-items
  */
 enum PageType {
-  PREFIX_EXPLORE_ITEMS = '/{prefix}/explore-items',
-  PREFIX_EXPLORE_COLLECTIBLES = '/{prefix}/explore-collectibles',
+  PREFIX_EXPLORE_ITEMS = `/{${PREFIX_PLACEHOLDER_NAME}}/explore/items`,
+  PREFIX_EXPLORE_COLLECTIBLES = `/{${PREFIX_PLACEHOLDER_NAME}}/explore/collectibles`,
   SALES = '/sales',
   HOT = '/hot',
   SERIES_INSIGHT = '/series-insight',
   BLOG = '/blog',
-  BLOG_SLUG = '/blog/{slug}', // Assuming you have a dynamic slug for blogs
-  PREFIX_MASSMINT = '/{prefix}/massmint',
-  PREFIX_MASSMINT_ONBOARDING = '/{prefix}/massmint-onboarding',
-  PREFIX_CLASSIC_CREATE = '/{prefix}/create',
-  PREFIX_TRANSFER = '/{prefix}/transfer',
+  BLOG_SLUG = '/blog/{slug}',
+  PREFIX_MASSMINT = `/{${PREFIX_PLACEHOLDER_NAME}}/massmint`,
+  PREFIX_MASSMINT_ONBOARDING = `/{${PREFIX_PLACEHOLDER_NAME}}/massmint/onboarding`,
+  PREFIX_CLASSIC_CREATE = `/{${PREFIX_PLACEHOLDER_NAME}}/create`,
+  PREFIX_TRANSFER = `/{${PREFIX_PLACEHOLDER_NAME}}/transfer`,
   IDENTITY = '/identity',
-  PROFILE = '/{prefix}/u/{wallet}',
+  PROFILE = `/{${PREFIX_PLACEHOLDER_NAME}}/u/{${WALLET_PLACEHOLDER_NAME}}`,
 }
 
 type RedirectPath = {
@@ -117,6 +120,31 @@ const getPageType = (routeName: string): PageType => {
   return matchingKey as PageType
 }
 
+function updateUrlWithPattern(
+  targetUrl: string,
+  pattern: string,
+  replacements: { [key: string]: string }
+): string {
+  // Replaces each placeholder in the pattern with a regex group
+  const regexPattern = new RegExp(
+    pattern.replace(/\{([a-zA-Z0-9_]+)\}/g, '(?<$1>.+?)'),
+    'g'
+  )
+
+  return targetUrl.replace(regexPattern, (_, ...args) => {
+    const groups = args.pop()
+
+    let newUrl = pattern
+    for (const [placeholder, replacement] of Object.entries(replacements)) {
+      newUrl = newUrl.replace(
+        `{${placeholder}}`,
+        replacement || groups[placeholder]
+      )
+    }
+
+    return newUrl
+  })
+}
 interface ChainParams {
   newChain: Prefix
   prevChain: Prefix
@@ -127,24 +155,29 @@ export default function (allowRedirectIfCheckNotPresent = false) {
   const { accountId } = useAuth()
 
   const getChangedChainPrefixFromPath = (
+    initialPath: RedirectPath,
     chainParams: ChainParams,
-    initialPath: RedirectPath
-  ): RedirectPath => ({
-    path: initialPath.path.replace(chainParams.prevChain, chainParams.newChain),
-    query: initialPath.query,
-  })
+    pageType: PageType
+  ): RedirectPath => {
+    return {
+      path: updateUrlWithPattern(initialPath.path, pageType, {
+        [PREFIX_PLACEHOLDER_NAME]: chainParams.newChain,
+      }),
+      query: initialPath.query,
+    }
+  }
 
   const updatePathWithCurrentWallet = (
     initialPath: RedirectPath,
-    currentAccountId: string
+    currentAccountId: string,
+    pageType: PageType
   ): RedirectPath => {
     const { path, query } = initialPath
-    const newPathSegments = path.split('/')
-
-    newPathSegments[newPathSegments.length - 1] = currentAccountId
 
     return {
-      path: newPathSegments.join('/'),
+      path: updateUrlWithPattern(path, pageType, {
+        [WALLET_PLACEHOLDER_NAME]: currentAccountId,
+      }),
       query,
     }
   }
@@ -152,17 +185,20 @@ export default function (allowRedirectIfCheckNotPresent = false) {
   const RedirectTypesActions: {
     [key in RedirectTypes]?: (
       chainParams: ChainParams,
-      initialPath: RedirectPath
+      initialPath: RedirectPath,
+      pageType: PageType
     ) => RedirectPath
   } = {
     [RedirectTypes.CHAIN_PREFIX_CHANGE]: (
       chainParams: ChainParams,
-      initialPath: RedirectPath
-    ) => getChangedChainPrefixFromPath(chainParams, initialPath),
+      initialPath: RedirectPath,
+      pageType: PageType
+    ) => getChangedChainPrefixFromPath(initialPath, chainParams, pageType),
     [RedirectTypes.WALLET_ADDRESS_CHANGE]: (
       chainParams: ChainParams,
-      initialPath: RedirectPath
-    ) => updatePathWithCurrentWallet(initialPath, accountId.value),
+      initialPath: RedirectPath,
+      pageType: PageType
+    ) => updatePathWithCurrentWallet(initialPath, accountId.value, pageType),
   }
 
   const checkIfPageHasSpecialRedirect = (pageType: PageType): boolean => {
@@ -188,14 +224,13 @@ export default function (allowRedirectIfCheckNotPresent = false) {
           return reducer
         }
 
-        return (
-          redirectAction(
-            {
-              newChain,
-              prevChain,
-            },
-            reducer
-          ) ?? null
+        return redirectAction(
+          {
+            newChain,
+            prevChain,
+          },
+          reducer,
+          PageType[pageType]
         )
       },
       {
