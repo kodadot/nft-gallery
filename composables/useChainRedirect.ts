@@ -125,25 +125,26 @@ function updateUrlWithPattern(
   pattern: string,
   replacements: { [key: string]: string }
 ): string {
-  // Replaces each placeholder in the pattern with a regex group
   const regexPattern = new RegExp(
-    pattern.replace(/\{([a-zA-Z0-9_]+)\}/g, '(?<$1>.+?)'),
-    'g'
+    pattern.replace(/\{([a-zA-Z0-9_]+)\}/g, '(?<$1>[^/]+)')
   )
 
-  return targetUrl.replace(regexPattern, (_, ...args) => {
-    const groups = args.pop()
+  const match = targetUrl.match(regexPattern)
 
-    let newUrl = pattern
-    for (const [placeholder, replacement] of Object.entries(replacements)) {
-      newUrl = newUrl.replace(
-        `{${placeholder}}`,
-        replacement || groups[placeholder]
-      )
+  if (!match || !match.groups) {
+    return targetUrl
+  }
+
+  const { groups } = match
+
+  let newUrl = targetUrl
+  for (const [placeholderName, replacement] of Object.entries(replacements)) {
+    if (groups[placeholderName] && (replacement || replacement === '')) {
+      newUrl = newUrl.replace(groups[placeholderName], replacement)
     }
+  }
 
-    return newUrl
-  })
+  return newUrl
 }
 
 export default function (allowRedirectIfCheckNotPresent = false) {
@@ -151,50 +152,44 @@ export default function (allowRedirectIfCheckNotPresent = false) {
   const { accountId } = useAuth()
 
   const getChangedChainPrefixFromPath = (
-    initialPath: RedirectPath,
     chain: Prefix,
-    pageType: PageType
-  ): RedirectPath => {
-    return {
-      path: updateUrlWithPattern(initialPath.path, pageType, {
-        [PREFIX_PLACEHOLDER_NAME]: chain,
-      }),
-      query: initialPath.query,
-    }
-  }
+    pageType: PageType,
+    initialPath: RedirectPath
+  ): RedirectPath => ({
+    path: updateUrlWithPattern(initialPath.path, pageType, {
+      [PREFIX_PLACEHOLDER_NAME]: chain,
+    }),
+    query: initialPath.query,
+  })
 
   const updatePathWithCurrentWallet = (
-    initialPath: RedirectPath,
     currentAccountId: string,
-    pageType: PageType
-  ): RedirectPath => {
-    const { path, query } = initialPath
-
-    return {
-      path: updateUrlWithPattern(path, pageType, {
-        [WALLET_PLACEHOLDER_NAME]: currentAccountId,
-      }),
-      query,
-    }
-  }
+    pageType: PageType,
+    initialPath: RedirectPath
+  ): RedirectPath => ({
+    path: updateUrlWithPattern(initialPath.path, pageType, {
+      [WALLET_PLACEHOLDER_NAME]: currentAccountId,
+    }),
+    query: initialPath.query,
+  })
 
   const RedirectTypesActions: {
     [key in RedirectTypes]?: (
       chain: Prefix,
-      initialPath: RedirectPath,
-      pageType: PageType
+      pageType: PageType,
+      initialPath: RedirectPath
     ) => RedirectPath
   } = {
     [RedirectTypes.CHAIN_PREFIX_CHANGE]: (
       chain: Prefix,
-      initialPath: RedirectPath,
-      pageType: PageType
-    ) => getChangedChainPrefixFromPath(initialPath, chain, pageType),
+      pageType: PageType,
+      initialPath: RedirectPath
+    ) => getChangedChainPrefixFromPath(chain, pageType, initialPath),
     [RedirectTypes.WALLET_ADDRESS_CHANGE]: (
       chain: Prefix,
-      initialPath: RedirectPath,
-      pageType: PageType
-    ) => updatePathWithCurrentWallet(initialPath, accountId.value, pageType),
+      pageType: PageType,
+      initialPath: RedirectPath
+    ) => updatePathWithCurrentWallet(accountId.value, pageType, initialPath),
   }
 
   const checkIfPageHasSpecialRedirect = (pageType: PageType): boolean => {
@@ -211,14 +206,14 @@ export default function (allowRedirectIfCheckNotPresent = false) {
     const pageRedirectTypes = PageRedirectType[PageType[pageType]]
 
     return pageRedirectTypes.reduce(
-      (reducer: RedirectPath, pageRedirectType: RedirectTypes) => {
+      (redirectPath: RedirectPath, pageRedirectType: RedirectTypes) => {
         const redirectAction = RedirectTypesActions[pageRedirectType]
 
         if (!redirectAction) {
-          return reducer
+          return redirectPath
         }
 
-        return redirectAction(chain, reducer, PageType[pageType])
+        return redirectAction(chain, PageType[pageType], redirectPath)
       },
       {
         path: route.path,
@@ -265,7 +260,7 @@ export default function (allowRedirectIfCheckNotPresent = false) {
     }
 
     if (isPageAvailableForChain) {
-      return getRedirect({ chain: chain, pageType })
+      return getRedirect({ chain, pageType })
     }
 
     return defaultRedirect
