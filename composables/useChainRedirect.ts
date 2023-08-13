@@ -251,9 +251,9 @@ export default function (allowRedirectIfCheckNotPresent = false) {
     }
 
     const routePatternValue = RoutePattern[routePattern]
-    const pageRedirectTypes: RedirectTypes[] =
+    const routeRedirectTypes: RedirectTypes[] =
       RouteRedirectTypes[routePatternValue]
-    const isStayRedirect = pageRedirectTypes.includes(RedirectTypes.STAY)
+    const isStayRedirect = routeRedirectTypes.includes(RedirectTypes.STAY)
 
     let isPageAvailableForChain = allowRedirectIfCheckNotPresent
     const pageAvailabilityCheck = pageAvailabilityPerChain[routePatternValue]
