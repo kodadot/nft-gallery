@@ -26,7 +26,7 @@ const PREFIX_PLACEHOLDER_NAME = 'prefix'
  * For example, '{prefix}-explore-items' contains a '{prefix}' placeholder
  * that {prefix} will be treated as any value for exmaple rmrk-explore-items
  */
-enum PageType {
+enum RoutePattern {
   PREFIX_EXPLORE_ITEMS = `/{${PREFIX_PLACEHOLDER_NAME}}/explore/items`,
   PREFIX_EXPLORE_COLLECTIBLES = `/{${PREFIX_PLACEHOLDER_NAME}}/explore/collectibles`,
   SALES = '/sales',
@@ -49,20 +49,24 @@ type RedirectPath = {
   }
 }
 
-const PageRedirectType: { [key in PageType]?: RedirectTypes[] } = {
-  [PageType.PREFIX_EXPLORE_ITEMS]: [RedirectTypes.CHAIN_PREFIX_CHANGE],
-  [PageType.PREFIX_EXPLORE_COLLECTIBLES]: [RedirectTypes.CHAIN_PREFIX_CHANGE],
-  [PageType.SALES]: [RedirectTypes.STAY],
-  [PageType.HOT]: [RedirectTypes.STAY],
-  [PageType.SERIES_INSIGHT]: [RedirectTypes.STAY],
-  [PageType.BLOG]: [RedirectTypes.STAY],
-  [PageType.BLOG_SLUG]: [RedirectTypes.STAY],
-  [PageType.PREFIX_MASSMINT]: [RedirectTypes.CHAIN_PREFIX_CHANGE],
-  [PageType.PREFIX_MASSMINT_ONBOARDING]: [RedirectTypes.CHAIN_PREFIX_CHANGE],
-  [PageType.PREFIX_CLASSIC_CREATE]: [RedirectTypes.CHAIN_PREFIX_CHANGE],
-  [PageType.PREFIX_TRANSFER]: [RedirectTypes.CHAIN_PREFIX_CHANGE],
-  [PageType.IDENTITY]: [RedirectTypes.STAY],
-  [PageType.PROFILE]: [
+const RouteRedirectTypes: { [key in RoutePattern]?: RedirectTypes[] } = {
+  [RoutePattern.PREFIX_EXPLORE_ITEMS]: [RedirectTypes.CHAIN_PREFIX_CHANGE],
+  [RoutePattern.PREFIX_EXPLORE_COLLECTIBLES]: [
+    RedirectTypes.CHAIN_PREFIX_CHANGE,
+  ],
+  [RoutePattern.SALES]: [RedirectTypes.STAY],
+  [RoutePattern.HOT]: [RedirectTypes.STAY],
+  [RoutePattern.SERIES_INSIGHT]: [RedirectTypes.STAY],
+  [RoutePattern.BLOG]: [RedirectTypes.STAY],
+  [RoutePattern.BLOG_SLUG]: [RedirectTypes.STAY],
+  [RoutePattern.PREFIX_MASSMINT]: [RedirectTypes.CHAIN_PREFIX_CHANGE],
+  [RoutePattern.PREFIX_MASSMINT_ONBOARDING]: [
+    RedirectTypes.CHAIN_PREFIX_CHANGE,
+  ],
+  [RoutePattern.PREFIX_CLASSIC_CREATE]: [RedirectTypes.CHAIN_PREFIX_CHANGE],
+  [RoutePattern.PREFIX_TRANSFER]: [RedirectTypes.CHAIN_PREFIX_CHANGE],
+  [RoutePattern.IDENTITY]: [RedirectTypes.STAY],
+  [RoutePattern.PROFILE]: [
     RedirectTypes.CHAIN_PREFIX_CHANGE,
     RedirectTypes.WALLET_ADDRESS_CHANGE,
   ],
@@ -75,27 +79,32 @@ function getEnumKeyByValue<
   return Object.keys(enumObject).find((key) => enumObject[key] === value) as K
 }
 
-const SpecialRedirectPageTypes: PageType[] = Object.keys(PageRedirectType)
-  .map<PageType>((value) => getEnumKeyByValue(PageType, value) as PageType)
-  .filter(Boolean) as PageType[]
+const SpecialRedirectroutePatterns: RoutePattern[] = Object.keys(
+  RouteRedirectTypes
+)
+  .map<RoutePattern>(
+    (value) => getEnumKeyByValue(RoutePattern, value) as RoutePattern
+  )
+  .filter(Boolean) as RoutePattern[]
 
 const pageAvailabilityPerChain = {
-  [PageType.PREFIX_EXPLORE_ITEMS]: (chain: Prefix): boolean =>
+  [RoutePattern.PREFIX_EXPLORE_ITEMS]: (chain: Prefix): boolean =>
     explorerVisible(chain),
-  [PageType.PREFIX_EXPLORE_COLLECTIBLES]: (chain: Prefix): boolean =>
+  [RoutePattern.PREFIX_EXPLORE_COLLECTIBLES]: (chain: Prefix): boolean =>
     explorerVisible(chain),
-  [PageType.SERIES_INSIGHT]: (chain: Prefix) => seriesInsightVisible(chain),
-  [PageType.PREFIX_CLASSIC_CREATE]: (chain: Prefix) => createVisible(chain),
-  [PageType.PREFIX_MASSMINT]: (chain: Prefix) => massmintCreateVisible(chain),
-  [PageType.PREFIX_MASSMINT_ONBOARDING]: (chain: Prefix) =>
+  [RoutePattern.SERIES_INSIGHT]: (chain: Prefix) => seriesInsightVisible(chain),
+  [RoutePattern.PREFIX_CLASSIC_CREATE]: (chain: Prefix) => createVisible(chain),
+  [RoutePattern.PREFIX_MASSMINT]: (chain: Prefix) =>
     massmintCreateVisible(chain),
-  [PageType.SALES]: (chain: Prefix) => salesVisible(chain),
-  [PageType.HOT]: (chain: Prefix) => hotVisible(chain),
-  [PageType.BLOG]: () => true,
-  [PageType.BLOG_SLUG]: () => true,
-  [PageType.PREFIX_TRANSFER]: (chain: Prefix) => transferVisible(chain),
-  [PageType.IDENTITY]: (chain: Prefix) => identityVisible(chain),
-  [PageType.PROFILE]: (chain: Prefix) => profileVisible(chain),
+  [RoutePattern.PREFIX_MASSMINT_ONBOARDING]: (chain: Prefix) =>
+    massmintCreateVisible(chain),
+  [RoutePattern.SALES]: (chain: Prefix) => salesVisible(chain),
+  [RoutePattern.HOT]: (chain: Prefix) => hotVisible(chain),
+  [RoutePattern.BLOG]: () => true,
+  [RoutePattern.BLOG_SLUG]: () => true,
+  [RoutePattern.PREFIX_TRANSFER]: (chain: Prefix) => transferVisible(chain),
+  [RoutePattern.IDENTITY]: (chain: Prefix) => identityVisible(chain),
+  [RoutePattern.PROFILE]: (chain: Prefix) => profileVisible(chain),
 }
 
 const generateRouteRegexPattern = (pattern: string): string => {
@@ -110,14 +119,14 @@ const generateRouteRegexPattern = (pattern: string): string => {
   return `^${patternWithSlashesEscaped}$`
 }
 
-const getPageType = (routeName: string): PageType => {
-  const matchingKey = Object.keys(PageType).find((key) => {
-    const pagePattern = PageType[key]
+const getMatchingRoutePattern = (routeName: string): RoutePattern => {
+  const matchingKey = Object.keys(RoutePattern).find((key) => {
+    const pagePattern = RoutePattern[key]
     const regexPattern = generateRouteRegexPattern(pagePattern)
     return new RegExp(regexPattern).test(routeName)
   })
 
-  return matchingKey as PageType
+  return matchingKey as RoutePattern
 }
 
 function updateUrlWithPattern(
@@ -153,10 +162,10 @@ export default function (allowRedirectIfCheckNotPresent = false) {
 
   const getChangedChainPrefixFromPath = (
     chain: Prefix,
-    pageType: PageType,
+    routePattern: RoutePattern,
     initialPath: RedirectPath
   ): RedirectPath => ({
-    path: updateUrlWithPattern(initialPath.path, pageType, {
+    path: updateUrlWithPattern(initialPath.path, routePattern, {
       [PREFIX_PLACEHOLDER_NAME]: chain,
     }),
     query: initialPath.query,
@@ -164,56 +173,59 @@ export default function (allowRedirectIfCheckNotPresent = false) {
 
   const updatePathWithCurrentWallet = (
     currentAccountId: string,
-    pageType: PageType,
+    routePattern: RoutePattern,
     initialPath: RedirectPath
   ): RedirectPath => ({
-    path: updateUrlWithPattern(initialPath.path, pageType, {
+    path: updateUrlWithPattern(initialPath.path, routePattern, {
       [WALLET_PLACEHOLDER_NAME]: currentAccountId,
     }),
     query: initialPath.query,
   })
 
-  const RedirectTypesActions: {
+  const RouteRedirectActions: {
     [key in RedirectTypes]?: (
       chain: Prefix,
-      pageType: PageType,
+      routePattern: RoutePattern,
       initialPath: RedirectPath
     ) => RedirectPath
   } = {
     [RedirectTypes.CHAIN_PREFIX_CHANGE]: (
       chain: Prefix,
-      pageType: PageType,
+      routePattern: RoutePattern,
       initialPath: RedirectPath
-    ) => getChangedChainPrefixFromPath(chain, pageType, initialPath),
+    ) => getChangedChainPrefixFromPath(chain, routePattern, initialPath),
     [RedirectTypes.WALLET_ADDRESS_CHANGE]: (
       chain: Prefix,
-      pageType: PageType,
+      routePattern: RoutePattern,
       initialPath: RedirectPath
-    ) => updatePathWithCurrentWallet(accountId.value, pageType, initialPath),
+    ) =>
+      updatePathWithCurrentWallet(accountId.value, routePattern, initialPath),
   }
 
-  const checkIfPageHasSpecialRedirect = (pageType: PageType): boolean => {
-    return SpecialRedirectPageTypes.includes(pageType as PageType)
+  const checkIfRouteHasSpecialRedirect = (
+    routePattern: RoutePattern
+  ): boolean => {
+    return SpecialRedirectroutePatterns.includes(routePattern as RoutePattern)
   }
 
   const getRedirect = ({
     chain,
-    pageType,
+    routePattern,
   }: {
     chain: Prefix
-    pageType: PageType
+    routePattern: RoutePattern
   }): RedirectPath => {
-    const pageRedirectTypes = PageRedirectType[PageType[pageType]]
+    const pageRedirectTypes = RouteRedirectTypes[RoutePattern[routePattern]]
 
     return pageRedirectTypes.reduce(
       (redirectPath: RedirectPath, pageRedirectType: RedirectTypes) => {
-        const redirectAction = RedirectTypesActions[pageRedirectType]
+        const redirectAction = RouteRedirectActions[pageRedirectType]
 
         if (!redirectAction) {
           return redirectPath
         }
 
-        return redirectAction(chain, PageType[pageType], redirectPath)
+        return redirectAction(chain, RoutePattern[routePattern], redirectPath)
       },
       {
         path: route.path,
@@ -232,20 +244,21 @@ export default function (allowRedirectIfCheckNotPresent = false) {
       path: defaultRedirectPath,
     }
 
-    const pageType = getPageType(routePath)
+    const routePattern = getMatchingRoutePattern(routePath)
 
-    const hasSpecialRedirect = checkIfPageHasSpecialRedirect(pageType)
+    const hasSpecialRedirect = checkIfRouteHasSpecialRedirect(routePattern)
 
     if (!hasSpecialRedirect) {
       return defaultRedirect
     }
 
-    const pageTypeValue = PageType[pageType]
-    const pageRedirectTypes: RedirectTypes[] = PageRedirectType[pageTypeValue]
+    const routePatternValue = RoutePattern[routePattern]
+    const pageRedirectTypes: RedirectTypes[] =
+      RouteRedirectTypes[routePatternValue]
     const isStayRedirect = pageRedirectTypes.includes(RedirectTypes.STAY)
 
     let isPageAvailableForChain = allowRedirectIfCheckNotPresent
-    const pageAvailabilityCheck = pageAvailabilityPerChain[pageTypeValue]
+    const pageAvailabilityCheck = pageAvailabilityPerChain[routePatternValue]
 
     if (pageAvailabilityCheck) {
       isPageAvailableForChain = pageAvailabilityCheck(chain)
@@ -260,7 +273,7 @@ export default function (allowRedirectIfCheckNotPresent = false) {
     }
 
     if (isPageAvailableForChain) {
-      return getRedirect({ chain, pageType })
+      return getRedirect({ chain, routePattern: routePattern })
     }
 
     return defaultRedirect
