@@ -27,19 +27,19 @@ const PREFIX_PLACEHOLDER_NAME = 'prefix'
  * that {prefix} will be treated as any value for exmaple rmrk-explore-items
  */
 enum RoutePattern {
-  PREFIX_EXPLORE_ITEMS = `/{${PREFIX_PLACEHOLDER_NAME}}/explore/items`,
-  PREFIX_EXPLORE_COLLECTIBLES = `/{${PREFIX_PLACEHOLDER_NAME}}/explore/collectibles`,
+  PREFIX_EXPLORE_ITEMS = '/{prefix}/explore/items',
+  PREFIX_EXPLORE_COLLECTIBLES = '/{prefix}/explore/collectibles',
   SALES = '/sales',
   HOT = '/hot',
   SERIES_INSIGHT = '/series-insight',
   BLOG = '/blog',
   BLOG_SLUG = '/blog/{slug}',
-  PREFIX_MASSMINT = `/{${PREFIX_PLACEHOLDER_NAME}}/massmint`,
-  PREFIX_MASSMINT_ONBOARDING = `/{${PREFIX_PLACEHOLDER_NAME}}/massmint/onboarding`,
-  PREFIX_CLASSIC_CREATE = `/{${PREFIX_PLACEHOLDER_NAME}}/create`,
-  PREFIX_TRANSFER = `/{${PREFIX_PLACEHOLDER_NAME}}/transfer`,
+  PREFIX_MASSMINT = '/{prefix}/massmint',
+  PREFIX_MASSMINT_ONBOARDING = '/{prefix}/massmint/onboarding',
+  PREFIX_CLASSIC_CREATE = '/{prefix}/create',
+  PREFIX_TRANSFER = '/{prefix}/transfer',
   IDENTITY = '/identity',
-  PROFILE = `/{${PREFIX_PLACEHOLDER_NAME}}/u/{${WALLET_PLACEHOLDER_NAME}}`,
+  PROFILE = '/{prefix}/u/{wallet}',
 }
 
 type RedirectPath = {
