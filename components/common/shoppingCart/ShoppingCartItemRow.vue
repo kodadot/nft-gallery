@@ -29,7 +29,7 @@
     <div>
       <div
         v-if="isHovered"
-        class="is-flex is-justify-content-end is-align-items-center">
+        class="is-flex is-justify-content-end is-align-items-center h-full">
         <NeoButton
           variant="text"
           class="inherit-background-color"
