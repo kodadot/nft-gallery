@@ -25,7 +25,6 @@
 import { OButton } from '@oruga-ui/oruga'
 import { NeoButtonVariant } from '@kodadot1/brick'
 
-withDefaults(
   defineProps<{
     size?: 'small' | 'medium' | 'large'
     disabled?: boolean
@@ -39,12 +38,8 @@ withDefaults(
     variant?: NeoButtonVariant
     rounded?: boolean
     tag?: string
-    loadingWithLabel: boolean
-  }>(),
-  {
-    loadingWithLabel: false,
-  }
-)
+    loadingWithLabel?: boolean
+  }>()
 </script>
 
 <style lang="scss">
