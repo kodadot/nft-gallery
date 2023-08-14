@@ -56,6 +56,10 @@ import CollectionCard from '@/components/collection/CollectionCard.vue'
 import { GRID_DEFAULT_WIDTH } from '@/components/collection/utils/constants'
 import { usePreferencesStore } from '@/stores/preferences'
 
+const props = defineProps<{
+  search?: Record<string, string>[]
+}>()
+
 const route = useRoute()
 const { $apollo } = useNuxtApp()
 const { urlPrefix, client } = usePrefix()
@@ -103,17 +107,27 @@ const fetchPageData = async (page: number, loadDirection = 'down') => {
     return false
   }
   isFetchingData.value = true
+
+  const variables = Boolean(props.search)
+    ? {
+        search: props.search,
+        first: first.value,
+        offset: (page - 1) * first.value,
+      }
+    : {
+        denyList: getDenyList(urlPrefix.value),
+        orderBy: searchQuery.value.sortBy,
+        search: buildSearchParam(),
+        listed: searchQuery.value.listed
+          ? [{ price: { greaterThan: '0' } }]
+          : [],
+        first: first.value,
+        offset: (page - 1) * first.value,
+      }
   const result = await $apollo.query({
     query: collectionListWithSearch,
     client: client.value,
-    variables: {
-      denyList: getDenyList(urlPrefix.value),
-      orderBy: searchQuery.value.sortBy,
-      search: buildSearchParam(),
-      listed: searchQuery.value.listed ? [{ price: { greaterThan: '0' } }] : [],
-      first: first.value,
-      offset: (page - 1) * first.value,
-    },
+    variables,
   })
   await handleResult(result, loadDirection)
   isFetchingData.value = false

@@ -86,7 +86,6 @@ export function useFetchSearch({
   }
 
   const refetch = (search?: { [key: string]: string | number }[]) => {
-    console.log('refetch')
     nfts.value = []
     fetchSearch(1, 'down', search)
   }

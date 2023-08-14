@@ -10,8 +10,8 @@ export default {
   components: {
     ProfileDetail,
   },
-  layout(context) {
-    return context.query.redesign === 'true' ? 'explore-layout' : 'default'
+  layout() {
+    return 'full-width-layout'
   },
   setup() {
     const { redesign } = useExperiments()

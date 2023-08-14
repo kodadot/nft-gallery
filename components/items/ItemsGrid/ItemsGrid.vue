@@ -1,18 +1,5 @@
 <template>
   <div class="is-flex-grow-1">
-    <div class="is-hidden-mobile">
-      <div
-        class="is-flex is-justify-content-space-between pb-4 pt-5 is-align-content-center">
-        <BreadcrumbsFilter />
-
-        <div v-if="total">{{ total }} {{ $t('items') }}</div>
-        <div v-else-if="isLoading" class="skeleton-container-fixed-width">
-          <NeoSkeleton no-margin />
-        </div>
-      </div>
-      <hr class="my-0" />
-    </div>
-
     <LoadPreviousPage
       v-if="startPage > 1 && !isLoading && total > 0"
       @click="reachTopHandler" />
@@ -56,14 +43,17 @@
 </template>
 
 <script setup lang="ts">
-import { NeoNftCard, NeoSkeleton } from '@kodadot1/brick'
+import { NeoNftCard } from '@kodadot1/brick'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'
+import isEquel from 'lodash/isEqual'
 
 const props = defineProps<{
-  search?: Record<string, string | number>[]
+  search?: Record<string, string | number>
 }>()
+
+const emit = defineEmits(['total', 'loading'])
 
 const isLoading = ref(true)
 const gotoPage = (page: number) => {
@@ -111,22 +101,33 @@ const { nfts, fetchSearch, refetch } = useFetchSearch({
 
 watch(total, () => {
   prefetchNextPage()
+  emit('total', total.value)
 })
+
+watch(isLoading, () => {
+  emit('loading', isLoading.value)
+})
+
+const parseSearch = (
+  search?: Record<string, string | number>
+): Record<string, string | number>[] =>
+  Object.entries(search || {}).map(([key, value]) => ({ [key]: value }))
 
 watch(
   () => props.search,
-  () => refetch(props.search),
+  (newSearch, oldSearch) => {
+    if (newSearch === undefined || oldSearch === undefined) {
+      return
+    }
+    if (!isEquel(newSearch, oldSearch)) {
+      refetch(parseSearch(props.search))
+    }
+  },
   { deep: true }
 )
 
 onBeforeMount(async () => {
-  await fetchSearch(startPage.value, 'down', props.search)
+  await fetchSearch(startPage.value, 'down', parseSearch(props.search))
   isLoading.value = false
 })
 </script>
-
-<style lang="scss" scoped>
-.skeleton-container-fixed-width {
-  width: 80px;
-}
-</style>

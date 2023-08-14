@@ -10,7 +10,7 @@
         </div>
       </div>
     </NeoModal>
-    <section>
+    <div class="container is-fluid pb-8 border-bottom">
       <div class="columns is-centered">
         <div class="column is-half has-text-centered">
           <div class="container image is-64x64 mb-2">
@@ -87,29 +87,53 @@
           <ProfileActivity :id="id" />
         </div>
       </div>
-      <section>
-        <div class="is-flex">
-          <TabItem
-            :active="activeTab === 'owned'"
-            text="Owned"
-            @click.native="() => switchToTab('owned')" />
-          <TabItem
-            :active="activeTab === 'created'"
-            text="Created"
-            @click.native="() => switchToTab('created')" />
-          <TabItem :active="activeTab === 'collection'" text="Collections" />
-          <TabItem :active="activeTab === 'activity'" text="Activity" />
+      <div class="is-flex">
+        <TabItem
+          v-for="tab in tabs"
+          :key="tab"
+          :active="activeTab === tab"
+          :text="tab"
+          @click.native="() => switchToTab(tab)" />
+      </div>
+    </div>
+
+    <div class="container is-fluid">
+      <div
+        v-if="activeTab === 'owned' || activeTab === 'created'"
+        class="is-flex-grow-1">
+        <div
+          class="is-flex is-justify-content-space-between pb-4 pt-5 is-align-content-center">
+          <div class="is-flex">
+            <NeoButton
+              :active="listed"
+              no-shadow
+              rounded
+              label="Buy Now"
+              @click.native="toggleListed" />
+            <NeoButton
+              v-if="activeTab === 'created'"
+              :active="sold"
+              no-shadow
+              rounded
+              label="Sold"
+              class="ml-4"
+              @click.native="toggleSold" />
+          </div>
+          <div class="is-hidden-mobile">
+            <ProfileGrid />
+          </div>
         </div>
-
-        <!-- <PaginatedCardList
-          v-if="activeTab === 'owned'"
-          :id="id"
-          :query="nftListByOwner"
-          :account="id" /> -->
-
+        <hr class="my-0" />
         <ItemsGrid :search="itemsGridSearch" />
-      </section>
-    </section>
+      </div>
+      <CollectionList
+        v-if="activeTab === 'collections'"
+        :search="[
+          {
+            issuer_eq: id,
+          },
+        ]" />
+    </div>
   </div>
 </template>
 
@@ -128,22 +152,23 @@ import { getExplorer, hasExplorer } from '@kodadot1/static'
 import { NeoButton, NeoModal } from '@kodadot1/brick'
 import TabItem from '../shared/TabItem.vue'
 import Identity from '../identity/IdentityIndex.vue'
+import CollectionList from '../collection/CollectionList.vue'
+import ItemsGrid from '../items/ItemsGrid/ItemsGrid.vue'
+import ProfileGrid from './ProfileGrid.vue'
 
 const route = useRoute()
 // const router = useRouter()
 const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
+const tabs = ['owned', 'created', 'collections', 'activity']
 
 const switchToTab = (tab: string) => {
   activeTab.value = tab
 }
 
-// const firstNFTData = ref({})
 const id = computed(() => route.params.id || '')
 // const shortendId = ref('')
-// const isLoading = ref(false)
-// const collections = ref<CollectionWithMeta[]>([])
 // const eventsOfNftCollection = ref<Interaction[]>([])
 // const userOfferList = ref<Offer[]>([])
 // const eventsOfSales = ref<Interaction[]>([])
@@ -160,20 +185,19 @@ const riot = ref('')
 const isModalActive = ref(false)
 
 const itemsGridSearch = computed(() => {
-  if (activeTab.value === 'owned') {
-    return [
-      {
-        currentOwner_eq: id.value,
-      },
-    ]
+  const tabKey = activeTab.value === 'owned' ? 'currentOwner_eq' : 'issuer_eq'
+  const query: Record<string, string | number> = {
+    [tabKey]: id.value,
   }
-  if (activeTab.value === 'created') {
-    return [
-      {
-        issuer_eq: id.value,
-      },
-    ]
+
+  if (listed.value) {
+    query['price_gt'] = 0
   }
+  if (sold.value) {
+    query['currentOwner_not_eq'] = id.value
+  }
+
+  return query
 })
 
 const realworldFullPath = computed(() => window.location.href)
@@ -186,6 +210,31 @@ const activeTab = computed({
     replaceUrl({ tab: val })
   },
 })
+
+const listed = computed({
+  get() {
+    return route.query.buy_now === 'true'
+  },
+  set(val) {
+    replaceUrl({ buy_now: val })
+  },
+})
+
+const sold = computed({
+  get() {
+    return route.query.sold === 'true'
+  },
+  set(val) {
+    replaceUrl({ sold: val })
+  },
+})
+const toggleListed = () => {
+  listed.value = !listed.value
+}
+const toggleSold = () => {
+  sold.value = !sold.value
+}
+
 const isMyProfile = computed(() => id.value === accountId.value)
 const hasBlockExplorer = computed(() => hasExplorer(urlPrefix.value))
 const explorer = computed(() => getExplorer(urlPrefix.value, id.value))
