@@ -349,6 +349,9 @@ const onAmountFieldChange = (target: TargetAddress) => {
       )
     : 0
 
+  // update targetAddresses
+  targetAddresses.value = [...targetAddresses.value]
+
   if (sendSameAmount.value) {
     unifyAddressAmount(target)
   }
@@ -362,6 +365,9 @@ const onUsdFieldChange = (target: TargetAddress) => {
         Number(target.usd)
       )
     : 0
+
+  // update targetAddresses
+  targetAddresses.value = [...targetAddresses.value]
 
   if (sendSameAmount.value) {
     unifyAddressAmount(target)
