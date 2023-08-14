@@ -20,10 +20,8 @@ const props = defineProps({
 })
 
 const vValue = computed({
-  get() {
-    return props.value
-  },
-  set(value) {
+  get: () => props.value,
+  set: (value) => {
     emit('input', value)
   },
 })
