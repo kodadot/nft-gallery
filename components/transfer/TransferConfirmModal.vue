@@ -3,44 +3,48 @@
     <div
       class="modal-width is-flex is-flex-direction-column is-justify-content-space-between">
       <div>
-        <div
+        <header
           class="is-flex is-justify-content-center is-align-items-center header px-6 py-3">
           <span class="is-size-5 has-text-weight-bold">
             {{ $t('teleport.send') }}
             <span class="is-uppercase">{{ unit }}</span>
           </span>
-          <NeoIcon
-            class="position-right is-clickable mr-6"
+          <NeoButton
+            class="position-right mr-6"
+            variant="text"
             icon="close"
-            pack="fas"
+            no-shadow
+            icon-pack="fas"
             @click.native="closeModal" />
-        </div>
+        </header>
         <div
-          class="px-6 is-scrollable"
-          :class="{
-            'is-bordered-top': isExpandList,
-          }">
+          :class="[
+            {
+              'is-bordered-top': isExpandList,
+            },
+            'px-6 is-scrollable',
+          ]">
           <div
             class="is-flex is-justify-content-space-between is-align-items-center py-4">
             <span class="has-text-weight-bold is-size-6">{{
-              $t('transfers.network')
+              $t('activity.network')
             }}</span>
-            <div class="is-flex is-align-items-center">
-              <img class="mr-2 is-24x24" :src="tokenIcon" alt="token" />
+            <span class="is-flex is-align-items-center">
+              <img class="mr-2 image is-24x24" :src="tokenIcon" alt="token" />
               {{ network }}
-            </div>
+            </span>
           </div>
           <div
             class="is-flex is-justify-content-space-between is-align-items-center py-4 is-bordered-top">
             <span class="has-text-weight-bold is-size-6 is-capitalized">{{
               $t('general.from')
             }}</span>
-            <div class="is-flex is-align-items-center">
+            <span class="is-flex is-align-items-center">
               <Avatar :value="accountId" :size="24" />
               <span class="ml-2 is-size-6">
                 <Identity :address="accountId" hide-identity-popover />
               </span>
-            </div>
+            </span>
           </div>
 
           <div

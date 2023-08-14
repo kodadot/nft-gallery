@@ -98,11 +98,10 @@
     "addAddress": "Add recipient",
     "payMeLink": "Pay me link",
     "setSameAmount": "Set one amount that will be sent to all recipients",
-    "network": "Network",
     "sendTo": "Sending to",
     "recipients": "recipients",
     "totalAmount": "Total Amount",
-     "transferable": "Transferable"
+    "transferable": "Transferable"
   },
   "topCollections": {
     "timeFrames": {

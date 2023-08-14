@@ -26,7 +26,7 @@
 
     <div class="is-flex mb-5">
       <div class="token-price py-2 px-4 is-flex is-align-items-center">
-        <img class="mr-2 is-20x20" :src="tokenIcon" alt="token" />
+        <img class="mr-2 square-20" :src="tokenIcon" alt="token" />
         {{ unit }} ${{ currentTokenValue }}
       </div>
     </div>
@@ -563,7 +563,10 @@ watch(
     width: 32px;
     height: 32px;
   }
-
+  .square-20 {
+    width: 20px;
+    height: 20px;
+  }
   .fixed-height {
     height: 51px;
   }
