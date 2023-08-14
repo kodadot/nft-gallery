@@ -120,6 +120,18 @@ const hasTeleport: Config<boolean> = {
   ahp: true,
 }
 
+const hasDrops: Config<boolean> = {
+  rmrk: false,
+  ksm: false,
+  bsx: false,
+  ahk: true,
+  movr: false,
+  glmr: false,
+  snek: false,
+  dot: false,
+  ahp: false,
+}
+
 export const createVisible = (prefix: Prefix | string): boolean => {
   return hasCreate[prefix]
 }
@@ -158,4 +170,8 @@ export const transferVisible = (prefix: Prefix | string) => {
 
 export const teleportVisible = (prefix: Prefix | string) => {
   return hasTeleport[prefix]
+}
+
+export const dropsVisible = (prefix: Prefix | string) => {
+  return hasDrops[prefix]
 }
