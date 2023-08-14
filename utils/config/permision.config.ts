@@ -108,6 +108,18 @@ const hasTransfer: Config<boolean> = {
   ahp: true,
 }
 
+const hasTeleport: Config<boolean> = {
+  rmrk: true,
+  ksm: true,
+  bsx: true,
+  ahk: true,
+  movr: true,
+  glmr: true,
+  snek: true,
+  dot: true,
+  ahp: true,
+}
+
 export const createVisible = (prefix: Prefix | string): boolean => {
   return hasCreate[prefix]
 }
@@ -142,4 +154,8 @@ export const profileVisible = (prefix: Prefix | string) => {
 
 export const transferVisible = (prefix: Prefix | string) => {
   return hasTransfer[prefix]
+}
+
+export const teleportVisible = (prefix: Prefix | string) => {
+  return hasTeleport[prefix]
 }
