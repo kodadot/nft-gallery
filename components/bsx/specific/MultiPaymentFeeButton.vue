@@ -17,7 +17,9 @@ const props = withDefaults(
   { prefix: 'bsx' }
 )
 const tokenId = ref('0')
-const asset = computed(() => useAsset().assetIdOf(tokenId.value))
+const { assets } = usePrefix()
+
+const asset = computed(() => assets(tokenId.value))
 
 const unit = computed(() => asset.value.symbol)
 const url = computed(() => `/${props.prefix}/assets`)
