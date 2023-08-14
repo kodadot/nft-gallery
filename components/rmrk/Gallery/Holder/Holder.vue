@@ -105,7 +105,7 @@
           label="Percentage"
           sortable>
           <span :class="percentageTextClassName(props.row.Percentage)">
-            {{ props.row.Percentage }}
+            {{ toPercent(props.row.Percentage, '-') }}
           </span>
         </NeoTableColumn>
         <NeoTableColumn
@@ -145,7 +145,7 @@
               v-if="displayPercentage"
               v-show="columnsVisible['Percentage'].display"
               :class="percentageTextClassName(item.Percentage)">
-              {{ item.Percentage }}
+              {{ toPercent(item.Percentage, '-') }}
             </td>
             <td v-show="columnsVisible['Date'].display">
               <NeoTooltip :label="item.Date" position="left">
@@ -162,7 +162,7 @@
 <script lang="ts" setup>
 import { Interaction } from '@kodadot1/minimark/v1'
 import { formatDistanceToNow } from 'date-fns'
-
+import { toPercent } from '@/utils/filters'
 import { parseDate, parsePriceForItem } from './helper'
 import { Interaction as EventInteraction } from '../../service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'

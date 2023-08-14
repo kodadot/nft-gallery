@@ -74,7 +74,7 @@
         field="Percentage"
         label="Percentage">
         <span :class="percentageTextClassName(props.row.Percentage)">
-          {{ props.row.Percentage }}
+          {{ toPercent(props.row.Percentage, '-') }}
         </span>
       </NeoTableColumn>
       <NeoTableColumn v-slot="props" field="Date" label="Date">
@@ -93,6 +93,7 @@ import { Interaction } from '@kodadot1/minimark/v1'
 import { formatDistanceToNow } from 'date-fns'
 
 import { exist } from '@/utils/exist'
+import { toPercent } from '@/utils/filters'
 import { usePreferencesStore } from '@/stores/preferences'
 
 import {
