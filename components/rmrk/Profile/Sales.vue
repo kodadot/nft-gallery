@@ -157,17 +157,6 @@ const showList = computed(() => {
   return data.value.slice(endIndex - itemsPerPage.value, endIndex)
 })
 
-const replaceUrl = (value: string, key = 'event') => {
-  if ($route.query[key] !== value) {
-    $router
-      .replace({
-        path: String($route.path),
-        query: { ...$route.query, [key]: encodeURIComponent(value) },
-      })
-      .catch($consola.warn /*Navigation Duplicate err fix later */)
-  }
-}
-
 const updateDataByEvent = () => {
   data.value =
     event.value === 'all'
