@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import BasicBalanceInput from '@/components/shared/form/BasicBalanceInput.vue'
-
+const balanceInputComponent = ref<BasicBalanceInput>()
 const emit = defineEmits(['input'])
 
 const props = defineProps({
@@ -28,4 +28,8 @@ const { assets } = usePrefix()
 const asset = computed(() => assets(props.tokenId))
 const unit = computed(() => asset.value.symbol)
 const decimals = computed(() => asset.value.decimals)
+
+function checkValidity() {
+  return balanceInputComponent.value?.checkValidity()
+}
 </script>
