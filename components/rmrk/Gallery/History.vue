@@ -136,9 +136,10 @@ const prop = withDefaults(
 )
 const emit = defineEmits(['setPriceChartData'])
 
-const { $i18n, $consola, $route, $router } = useNuxtApp()
+const { $i18n, $route } = useNuxtApp()
 const { decimals } = useChain()
 const { urlPrefix } = usePrefix()
+const { replaceUrl } = useReplaceUrl()
 
 const currentPage = ref(parseInt($route.query?.page) || 1)
 const event = ref<HistoryEventType>(HistoryEventType.BUY)
@@ -182,7 +183,7 @@ const selectedEvent = computed({
     if (value) {
       currentPage.value = 1
       event.value = value
-      replaceUrl(value)
+      replaceUrl({ event: value })
     }
   },
 })
@@ -190,6 +191,7 @@ const selectedEvent = computed({
 const getEventDisplayName = (type: Interaction) => {
   return wrapEventNameWithIcon(type, $i18n.t(`nft.event.${type}`) as string)
 }
+
 const percentageTextClassName = (percentage: number) => {
   if (percentage > 0) {
     return 'has-text-success'
@@ -198,16 +200,7 @@ const percentageTextClassName = (percentage: number) => {
   }
   return ''
 }
-const replaceUrl = (value: string, key = 'event') => {
-  if ($route.query[key] !== value) {
-    $router
-      .replace({
-        path: String($route.path),
-        query: { ...$route.query, [key]: value },
-      })
-      .catch($consola.warn /*Navigation Duplicate err fix later */)
-  }
-}
+
 const updateDataByEvent = () => {
   data.value =
     event.value === HistoryEventType.ALL

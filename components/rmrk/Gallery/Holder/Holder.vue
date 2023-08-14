@@ -246,10 +246,11 @@ const prop = withDefaults(
   }
 )
 
-const { $consola, $route, $router } = useNuxtApp()
+const { $route } = useNuxtApp()
 const preferencesStore = usePreferencesStore()
 const { decimals, unit } = useChain()
 const { urlPrefix } = usePrefix()
+const { replaceUrl } = useReplaceUrl()
 
 const isOpen = ref(false)
 const showDetailIcon = ref(true)
@@ -466,18 +467,9 @@ const generateCustomGroups = (itemRowList: TableRow[]): TableRow[] => {
   return customGroupsList
 }
 
-const replaceUrl = (value: string, key = 'page') => {
-  $router
-    .replace({
-      path: String($route.path),
-      query: { ...$route.query, [key]: value },
-    })
-    .catch($consola.warn /*Navigation Duplicate err fix later */)
-}
-
 watch(() => prop.events, createTable)
 
 watch(() => prop.tableRowsOption, createTableByTableRow)
 
-watch(currentPage, (val) => replaceUrl(String(val)))
+watch(currentPage, (val) => replaceUrl({ page: String(val) }))
 </script>
