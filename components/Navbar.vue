@@ -35,6 +35,7 @@
             <div
               class="fixed-stack is-flex is-align-items-center is-justify-content-space-between p-2">
               <Search
+                v-if="isMobile"
                 ref="mobilSearchRef"
                 hide-filter
                 class="is-flex-grow-1 mt-3" />
@@ -71,6 +72,7 @@
         <div class="navbar-start">
           <div v-if="showSearchOnNavbar" class="navbar-item is-expanded">
             <Search
+              v-if="!isMobile"
               class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
               hide-filter
               search-column-class="is-flex-grow-1" />
@@ -190,8 +192,6 @@
 import { NeoIcon } from '@kodadot1/brick'
 import { BModalConfig } from 'buefy/types/components'
 
-import KodaBeta from '@/assets/Koda_Beta.svg'
-import KodaBetaDark from '@/assets/Koda_Beta_dark.svg'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import ChainSelectDropdown from '@/components/navbar/ChainSelectDropdown.vue'
 import CreateDropdown from '@/components/navbar/CreateDropdown.vue'
@@ -233,7 +233,9 @@ const isCreateVisible = computed(() => createVisible(urlPrefix.value))
 const isExploreVisible = computed(() => explorerVisible(urlPrefix.value))
 const isLandingPage = computed(() => route.name === 'index')
 
-const logoSrc = computed(() => (isDarkMode.value ? KodaBetaDark : KodaBeta))
+const logoSrc = computed(() =>
+  isDarkMode.value ? '/Koda_Beta_dark.svg' : '/Koda_Beta.svg'
+)
 
 const showSearchOnNavbar = computed(
   () => !isLandingPage.value || !showTopNavbar.value || isBurgerMenuOpened.value
