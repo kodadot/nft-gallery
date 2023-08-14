@@ -229,10 +229,7 @@ const createTable = (): void => {
   }
   const previousPriceMap = {}
 
-  console.log(prop.events)
-
   for (const newEvent of prop.events) {
-    console.log(newEvent)
     const event: any = {}
 
     const nftId = newEvent['nft'] ? newEvent['nft']['id'] : 'id'
