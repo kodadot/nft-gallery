@@ -24,60 +24,68 @@
             },
             'px-6 is-scrollable',
           ]">
-          <div
-            class="is-flex is-justify-content-space-between is-align-items-center py-4">
-            <span class="has-text-weight-bold is-size-6">{{
-              $t('activity.network')
-            }}</span>
-            <span class="is-flex is-align-items-center">
-              <img class="mr-2 image is-24x24" :src="tokenIcon" alt="token" />
-              {{ network }}
-            </span>
-          </div>
-          <div
-            class="is-flex is-justify-content-space-between is-align-items-center py-4 is-bordered-top">
-            <span class="has-text-weight-bold is-size-6 is-capitalized">{{
-              $t('general.from')
-            }}</span>
-            <span class="is-flex is-align-items-center">
-              <Avatar :value="accountId" :size="24" />
-              <span class="ml-2 is-size-6">
-                <Identity :address="accountId" hide-identity-popover />
-              </span>
-            </span>
-          </div>
+          <table class="table is-fullwidth table-padding mb-0">
+            <tbody>
+              <tr class="py-4">
+                <td class="has-text-weight-bold is-size-6">
+                  {{ $t('activity.network') }}
+                </td>
+                <td
+                  class="is-flex is-align-items-center is-justify-content-end">
+                  <img
+                    class="mr-2 image is-24x24"
+                    :src="tokenIcon"
+                    alt="token" />
+                  {{ network }}
+                </td>
+              </tr>
+              <tr class="py-4">
+                <td class="has-text-weight-bold is-size-6 is-capitalized">
+                  {{ $t('general.from') }}
+                </td>
+                <td
+                  class="is-flex is-align-items-center is-justify-content-end">
+                  <Avatar :value="accountId" :size="24" />
+                  <span class="ml-2 is-size-6">
+                    <Identity :address="accountId" hide-identity-popover />
+                  </span>
+                </td>
+              </tr>
 
-          <div
-            class="is-flex is-justify-content-space-between is-align-items-center py-4 is-bordered-top">
-            <span class="has-text-weight-bold is-size-6">{{
-              $t('transfers.sendTo')
-            }}</span>
-            <div
-              v-if="targetAddresses.length === 1"
-              class="is-flex is-align-items-center">
-              <Avatar :value="targetAddresses[0].address" :size="24" />
-              <span class="mx-2 is-size-6">
-                <Identity
-                  :address="targetAddresses[0].address"
-                  hide-identity-popover />
-              </span>
-              <NeoIcon
-                icon="circle-info"
-                pack="far"
-                :title="targetAddresses[0].address" />
-            </div>
-            <div
-              v-else
-              class="is-clickable"
-              @click="isExpandList = !isExpandList">
-              <span class="mx-2 is-size-6">
-                {{ targetAddresses.length }} {{ $t('transfers.recipients') }}
-              </span>
-              <NeoIcon
-                :icon="isExpandList ? 'angle-up' : 'angle-down'"
-                pack="far" />
-            </div>
-          </div>
+              <tr class="py-4">
+                <td class="has-text-weight-bold is-size-6">
+                  {{ $t('transfers.sendTo') }}
+                </td>
+                <td
+                  v-if="targetAddresses.length === 1"
+                  class="is-flex is-align-items-center is-justify-content-end">
+                  <Avatar :value="targetAddresses[0].address" :size="24" />
+                  <span class="mx-2 is-size-6">
+                    <Identity
+                      :address="targetAddresses[0].address"
+                      hide-identity-popover />
+                  </span>
+                  <NeoIcon
+                    icon="circle-info"
+                    pack="far"
+                    :title="targetAddresses[0].address" />
+                </td>
+                <td
+                  v-else
+                  class="is-clickable is-flex is-align-items-center is-justify-content-end"
+                  @click="isExpandList = !isExpandList">
+                  <span class="mx-2 is-size-6">
+                    {{ targetAddresses.length }}
+                    {{ $t('transfers.recipients') }}
+                  </span>
+                  <NeoIcon
+                    :icon="isExpandList ? 'angle-up' : 'angle-down'"
+                    pack="far" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
           <div class="fixed-height">
             <template v-if="isExpandList">
               <div
@@ -207,6 +215,12 @@ const isExpandList = ref(false)
 
 .is-scrollable {
   overflow-y: auto;
+}
+
+.table-padding {
+  td {
+    padding: 1rem 0;
+  }
 }
 .is-bordered-top {
   @include ktheme() {
