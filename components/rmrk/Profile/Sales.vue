@@ -230,14 +230,7 @@ const createTable = (): void => {
   emit('setPriceChartData', [chartData.buy, chartData.list])
 }
 
-watch(
-  () => prop.events,
-  () => {
-    createTable()
-  }
-)
+watch(() => prop.events, createTable)
 
-watch(event, () => {
-  updateDataByEvent()
-})
+watch(event, updateDataByEvent)
 </script>

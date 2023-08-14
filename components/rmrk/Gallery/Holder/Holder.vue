@@ -475,19 +475,9 @@ const replaceUrl = (value: string, key = 'page') => {
     .catch($consola.warn /*Navigation Duplicate err fix later */)
 }
 
-watch(
-  () => prop.events,
-  () => {
-    createTable()
-  }
-)
+watch(() => prop.events, createTable)
 
-watch(
-  () => prop.tableRowsOption,
-  () => {
-    createTableByTableRow()
-  }
-)
+watch(() => prop.tableRowsOption, createTableByTableRow)
 
 watch(currentPage, (val) => replaceUrl(String(val)))
 </script>
