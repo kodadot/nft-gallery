@@ -192,8 +192,6 @@
 import { NeoIcon } from '@kodadot1/brick'
 import { BModalConfig } from 'buefy/types/components'
 
-import KodaBeta from '@/assets/Koda_Beta.svg'
-import KodaBetaDark from '@/assets/Koda_Beta_dark.svg'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import ChainSelectDropdown from '@/components/navbar/ChainSelectDropdown.vue'
 import CreateDropdown from '@/components/navbar/CreateDropdown.vue'
@@ -235,7 +233,9 @@ const isCreateVisible = computed(() => createVisible(urlPrefix.value))
 const isExploreVisible = computed(() => explorerVisible(urlPrefix.value))
 const isLandingPage = computed(() => route.name === 'index')
 
-const logoSrc = computed(() => (isDarkMode.value ? KodaBetaDark : KodaBeta))
+const logoSrc = computed(() =>
+  isDarkMode.value ? '/Koda_Beta_dark.svg' : '/Koda_Beta.svg'
+)
 
 const showSearchOnNavbar = computed(
   () => !isLandingPage.value || !showTopNavbar.value || isBurgerMenuOpened.value
