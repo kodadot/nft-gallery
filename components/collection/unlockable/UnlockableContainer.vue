@@ -25,7 +25,7 @@
               ><span
                 v-if="mintCountAvailable"
                 class="is-flex is-align-items-center">
-                <img :src="unlockablePulse" />
+                <img src="/unlockable-pulse.svg" />
                 Open</span
               >
             </div>
@@ -139,7 +139,6 @@ import CountdownTimer from '@/components/collection/unlockable/CountdownTimer.vu
 import ImageSlider from '@/components/collection/unlockable/ImageSlider.vue'
 import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import UnlockableSchedule from '@/components/collection/unlockable/UnlockableSchedule.vue'
-import unlockablePulse from '@/assets/unlockable-pulse.svg'
 import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
 import { DISPLAY_SLIDE_IMAGE_COUNT, collectionId, countDownTime } from './const'
 import {
