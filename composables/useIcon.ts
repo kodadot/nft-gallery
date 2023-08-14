@@ -1,18 +1,14 @@
-import bsxToken from '@/assets/token/bsx.svg'
-import dotToken from '@/assets/token/dot.svg'
-import ksmToken from '@/assets/token/ksm.svg'
-
 export const useIcon = () => {
   const getTokenIconBySymbol = (token: string) => {
     switch (token.toLowerCase()) {
       case 'bsx':
-        return bsxToken
+        return '/token/bsx.svg'
       case 'dot':
-        return dotToken
+        return '/token/dot.svg'
       case 'ksm':
-        return ksmToken
+        return '/token/ksm.svg'
       default:
-        return ksmToken
+        return '/token/ksm.svg'
     }
   }
 
