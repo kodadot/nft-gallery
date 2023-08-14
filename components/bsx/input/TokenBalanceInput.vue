@@ -10,8 +10,6 @@
 <script setup lang="ts">
 import BasicBalanceInput from '@/components/shared/form/BasicBalanceInput.vue'
 
-const balanceInputComponent = ref<BasicBalanceInput>()
-
 const emit = defineEmits(['input'])
 
 const props = defineProps({
