@@ -30,7 +30,7 @@
                 'line-height-1': true,
                 hidden: isHovered,
               }">
-              <CommonTokenMoney :value="nft.price" :round="round" />
+              <CommonTokenMoney :value="nft.price" :round="2" />
             </div>
           </div>
         </div>
@@ -64,15 +64,9 @@ const avatar = ref<string>()
 const isHovered = useElementHover(hoverRef)
 const emit = defineEmits(['delete', 'click-item'])
 
-const props = withDefaults(
-  defineProps<{
-    nft: ShoppingCartItem
-    round?: number
-  }>(),
-  {
-    round: 2,
-  }
-)
+const props = defineProps<{
+  nft: ShoppingCartItem
+}>()
 
 const getAvatar = async () => {
   if (props.nft) {
