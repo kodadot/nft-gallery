@@ -31,7 +31,4 @@ const vValue = computed({
 const asset = computed(() => useAsset().assetIdOf(props.tokenId))
 const unit = computed(() => asset.value.symbol)
 const decimals = computed(() => asset.value.decimals)
-function checkValidity() {
-  return balanceInputComponent.value?.checkValidity()
-}
 </script>
