@@ -1,12 +1,16 @@
 <template>
-  <div class="drop-card border card-border-color">
+  <a
+    href="https://form.kodadot.xyz/drop-page-interest"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="drop-card border card-border-color">
     <div class="svg-icons">
-      <img :src="createdDrop1" class="svg-one" />
-      <img :src="createdDrop2" class="svg-two" />
-      <img :src="Ellipse" class="ellipse" />
-      <img :src="createdDrop3" class="svg-three" />
-      <img :src="Vector" class="vector" />
-      <img :src="createdDrop4" class="svg-four" />
+      <img src="@/assets/drops/create_drop1.svg" class="svg-one" />
+      <img src="@/assets/drops/create_drop2.svg" class="svg-two" />
+      <img src="@/assets/drops/BlueShade.svg" class="ellipse" />
+      <img src="@/assets/drops/create_drop3.svg" class="svg-three" />
+      <img src="@/assets/drops/PinkShade.svg" class="vector" />
+      <img src="@/assets/drops/create_drop4.svg" class="svg-four" />
     </div>
     <div class="inner_card">
       <p>Create Your Own</p>
@@ -19,15 +23,9 @@
         Drop Page
       </NeoButton>
     </div>
-  </div>
+  </a>
 </template>
 <script setup lang="ts">
-import createdDrop1 from '@/assets/drops/create_drop1.svg'
-import createdDrop2 from '@/assets/drops/create_drop2.svg'
-import createdDrop3 from '@/assets/drops/create_drop3.svg'
-import createdDrop4 from '@/assets/drops/create_drop4.svg'
-import Ellipse from '@/assets/drops/Ellipse_36.svg'
-import Vector from '@/assets/drops/Vector_24.svg'
 import { NeoButton } from '@kodadot1/brick'
 </script>
 <style scoped lang="scss">
@@ -49,9 +47,6 @@ import { NeoButton } from '@kodadot1/brick'
     @include ktheme() {
       border-color: theme('border-color');
     }
-    .svg-icons img {
-      stroke: k-black;
-    }
     .neo-button {
       background-color: rgba(255, 240, 248, 1);
 
@@ -68,7 +63,7 @@ import { NeoButton } from '@kodadot1/brick'
   }
 }
 .light-mode .drop-card {
-  background-color: white;
+  background-color: rgba(255, 255, 255);
 }
 .light-mode .neo-button {
   border: 1px solid rgba(0, 0, 0, 1);
@@ -76,6 +71,15 @@ import { NeoButton } from '@kodadot1/brick'
 
 .dark-mode .neo-button {
   border: 1px solid #cecbcb;
+}
+.dark-mode .inner_card {
+  color: rgba(255, 255, 255);
+}
+.light-mode .inner_card {
+  color: rgba(0, 0, 0, 1);
+}
+.dark-mode .inner_card .neo-button {
+  border: 1px solid rgba(255, 255, 255);
 }
 .svg-icons {
   width: 154px;
@@ -118,7 +122,6 @@ import { NeoButton } from '@kodadot1/brick'
 }
 .neo-button {
   font-size: 16px;
-  padding: 4px 10px;
   transition: color 0.3s ease;
 }
 </style>
