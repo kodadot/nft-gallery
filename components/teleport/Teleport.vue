@@ -55,7 +55,7 @@
       <div class="mb-5">
         {{ $i18n.t('teleport.receiveValue', [amount || 0, toChain]) }}
         <a
-          :href="explorerUrl"
+          v-safe-href="explorerUrl"
           target="_blank"
           rel="nofollow noopener noreferrer"
           class="short-address">

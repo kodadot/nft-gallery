@@ -19,6 +19,9 @@ importers:
 
   .:
     dependencies:
+      '@braintree/sanitize-url':
+        specifier: ^6.0.4
+        version: 6.0.4
       '@chenfengyuan/vue-qrcode':
         specifier: '1'
         version: 1.0.0(vue@2.7.14)
@@ -404,7 +407,7 @@ importers:
         version: 0.16.2(sass@1.64.0)(vite@3.2.7)
       vite:
         specifier: ^3.2.7
-        version: 3.2.7(sass@1.64.0)(terser@5.17.7)
+        version: 3.2.7(@types/node@20.2.5)(sass@1.64.0)
       vue:
         specifier: 2.7.14
         version: 2.7.14
@@ -2240,6 +2243,10 @@ packages:
       '@open-web3/orml-type-definitions': 0.9.4-38
     dev: false
 
+  /@braintree/sanitize-url@6.0.4:
+    resolution: {integrity: sha512-s3jaWicZd0pkP0jf5ysyHUI/RE7MHos6qlToFcGWXVp+ykHOy77OUMrfbgJ9it2C5bow7OIQwYYaHjk9XlBQ2A==}
+    dev: false
+
   /@chenfengyuan/vue-qrcode@1.0.0(vue@2.7.14):
     resolution: {integrity: sha512-Ph+W4ltPIyn9YjjITuLewhw8MeEXxJ1L5z6ZM+trmVWcKLfoIDi3yLHDPFKFjesWqsdH8irIX67PCBZ80TY8kw==}
     peerDependencies:
@@ -3861,7 +3868,7 @@ packages:
       chokidar: 3.5.3
       pathe: 0.2.0
       picocolors: 1.0.0
-      vite: 3.2.7(sass@1.64.0)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.64.0)
     dev: true
 
   /@histoire/vendors@0.16.0:
@@ -8729,7 +8736,7 @@ packages:
       vite: ^3.0.0 || ^4.0.0
       vue: ^2.7.0-0
     dependencies:
-      vite: 3.2.7(sass@1.64.0)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.64.0)
       vue: 2.7.14
     dev: true
 
@@ -15410,7 +15417,7 @@ packages:
       sade: 1.8.1
       shiki-es: 0.2.0
       sirv: 2.0.3
-      vite: 3.2.7(sass@1.64.0)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.64.0)
       vite-node: 0.28.4(sass@1.64.0)
     transitivePeerDependencies:
       - '@types/node'
@@ -22662,7 +22669,7 @@ packages:
       picocolors: 1.0.0
       source-map: 0.6.1
       source-map-support: 0.5.21
-      vite: 3.2.7(sass@1.64.0)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.64.0)
     transitivePeerDependencies:
       - '@types/node'
       - less
