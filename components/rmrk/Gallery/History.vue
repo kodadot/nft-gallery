@@ -209,9 +209,6 @@ const replaceUrl = (value: string, key = 'event') => {
   }
 }
 const updateDataByEvent = () => {
-  console.log('Im in')
-  console.log(copyTableData.value)
-  // const event = event.value
   data.value =
     event.value === HistoryEventType.ALL
       ? copyTableData.value
