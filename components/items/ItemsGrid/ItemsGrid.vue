@@ -61,6 +61,10 @@ import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'
 
+const props = defineProps<{
+  search?: Record<string, string | number>[]
+}>()
+
 const isLoading = ref(true)
 const gotoPage = (page: number) => {
   currentPage.value = page
@@ -97,7 +101,7 @@ const resetPage = useDebounceFn(() => {
   gotoPage(1)
 }, 500)
 
-const { nfts, fetchSearch } = useFetchSearch({
+const { nfts, fetchSearch, refetch } = useFetchSearch({
   first,
   total,
   isFetchingData,
@@ -109,8 +113,14 @@ watch(total, () => {
   prefetchNextPage()
 })
 
+watch(
+  () => props.search,
+  () => refetch(props.search),
+  { deep: true }
+)
+
 onBeforeMount(async () => {
-  await fetchSearch(startPage.value)
+  await fetchSearch(startPage.value, 'down', props.search)
   isLoading.value = false
 })
 </script>

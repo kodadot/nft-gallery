@@ -1,14 +1,14 @@
 <template>
-  <Items v-if="redesign" />
-  <ProfileDetail v-else />
+  <ProfileDetail />
 </template>
 
 <script lang="ts">
-import Items from '@/components/items/Items.vue'
+import ProfileDetail from '@/components/Profile/ProfileDetail.vue'
 
 export default {
+  name: 'Profile',
   components: {
-    Items,
+    ProfileDetail,
   },
   layout(context) {
     return context.query.redesign === 'true' ? 'explore-layout' : 'default'
@@ -18,6 +18,20 @@ export default {
 
     return {
       redesign,
+    }
+  },
+  head() {
+    const title = 'NFT Artist Profile on KodaDot'
+    const metaData = {
+      title,
+      type: 'profile',
+      description: 'Find more NFTs from this creator',
+      url: this.$route.path,
+      // image: this.firstNFTData.image || this.defaultNFTImage,
+    }
+    return {
+      title,
+      meta: [...this.$seoMeta(metaData)],
     }
   },
 }
