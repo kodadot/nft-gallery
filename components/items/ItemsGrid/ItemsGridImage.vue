@@ -100,8 +100,8 @@ const onClickShoppingCart = () => {
 }
 .in-cart-border {
   @include ktheme() {
-    outline: 2px solid theme('k-blue') !important;
-    border-color: transparent !important;
+    border: 2px solid theme('k-blue') !important;
+    background-color: theme('blue-light-cards');
   }
 }
 
