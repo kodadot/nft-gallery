@@ -74,7 +74,7 @@
         field="Percentage"
         label="Percentage">
         <span :class="percentageTextClassName(props.row.Percentage)">
-          {{ props.row.Percentage | toPercent('-') }}
+          {{ props.row.Percentage }}
         </span>
       </NeoTableColumn>
       <NeoTableColumn v-slot="props" field="Date" label="Date">

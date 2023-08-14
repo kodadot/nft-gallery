@@ -132,7 +132,7 @@ const prop = withDefaults(
   }
 )
 
-const { $i18n, $consola, $route, $router } = useNuxtApp()
+const { $i18n, $route } = useNuxtApp()
 const preferencesStore = usePreferencesStore()
 const { decimals, unit } = useChain()
 const { urlPrefix } = usePrefix()
