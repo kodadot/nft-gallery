@@ -83,7 +83,7 @@
               <div
                 v-for="(address, index) in targetAddresses"
                 :key="address.address"
-                class="py-4 is-bordered-top is-small-size-text">
+                class="py-4 is-bordered-top is-size-7">
                 <div
                   class="is-flex is-justify-content-space-between is-align-items-center mb-2">
                   <span class="has-text-weight-bold"
@@ -91,7 +91,7 @@
                   >
                   <div class="is-flex is-align-items-center">
                     <Avatar :value="address.address" :size="18" />
-                    <span class="mx-2">
+                    <span class="mx-2 is-size-6">
                       <Identity
                         :address="address.address"
                         hide-identity-popover />
@@ -126,12 +126,11 @@
             $t('transfers.totalAmount')
           }}</span>
           <div class="is-flex is-align-items-center">
-            <span class="has-text-grey mr-1 is-small-size-text"
-              >({{ totalTokenAmount }} {{ unit }})</span
+            <span class="has-text-grey mr-1 is-size-7"
+              >({{ displayTotalValue[0] }})</span
             >
-
             <span class="has-text-weight-bold is-size-5">
-              ${{ totalUsdValue }}</span
+              {{ displayTotalValue[1] }}</span
             >
           </div>
         </div>
@@ -154,10 +153,9 @@ import Identity from '@/components/identity/IdentityIndex.vue'
 import type { TargetAddress } from '@/components/transfer/Transfer.vue'
 const props = defineProps<{
   isModalActive: boolean
-  totalTokenAmount: string
-  totalUsdValue: number
   tokenIcon: string
   unit: string
+  displayTotalValue: string[]
   targetAddresses: TargetAddress[]
 }>()
 
@@ -176,7 +174,10 @@ const confirmTransfer = () => {
 }
 const { accountId } = useAuth()
 
-const network = computed(() => NAMES[urlPrefix.value])
+const network = computed(
+  // naming: rmrk2 -> kusama
+  () => NAMES[urlPrefix.value === 'ksm' ? 'rmrk' : urlPrefix.value]
+)
 const isExpandList = ref(false)
 </script>
 

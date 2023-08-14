@@ -170,11 +170,13 @@
         $t('spotlight.total')
       }}</span>
       <div class="is-flex is-align-items-center">
-        <span class="is-size-7 has-text-grey mr-1">(${{ totalUsdValue }})</span>
-
-        <span class="has-text-weight-bold is-size-6"
-          >{{ totalTokenAmount }} {{ unit }}</span
+        <span class="is-size-7 has-text-grey mr-1"
+          >({{ displayTotalValue[0] }})</span
         >
+
+        <span class="has-text-weight-bold is-size-6">{{
+          displayTotalValue[1]
+        }}</span>
       </div>
     </div>
 
@@ -183,14 +185,13 @@
         class="is-flex is-flex-1 fixed-height"
         variant="k-accent"
         :disabled="disabled"
-        @click.native="handleContinue"
+        @click.native="handleOpenConfirmModal"
         >{{ $t('redirect.continue') }}</NeoButton
       >
     </div>
     <TransferConfirmModal
       :is-modal-active="isTransferModalVisible"
-      :total-token-amount="totalTokenAmount"
-      :total-usd-value="totalUsdValue"
+      :display-total-value="displayTotalValue"
       :token-icon="tokenIcon"
       :unit="unit"
       :target-addresses="targetAddresses"
@@ -266,6 +267,12 @@ const targetAddresses = ref<TargetAddress[]>([{}])
 
 const hasValidTarget = computed(() =>
   targetAddresses.value.some((item) => isAddress(item.address) && item.token)
+)
+
+const displayTotalValue = computed(() =>
+  displayUnit.value === 'token'
+    ? [`$${totalUsdValue.value}`, `${totalTokenAmount.value} ${unit.value}`]
+    : [`${totalTokenAmount.value} ${unit.value}`, `$${totalUsdValue.value}`]
 )
 
 const balance = getAuthBalance
@@ -391,7 +398,7 @@ const unifyAddressAmount = (target: TargetAddress) => {
   }))
 }
 
-const handleContinue = () => {
+const handleOpenConfirmModal = () => {
   if (!disabled.value) {
     targetAddresses.value = targetAddresses.value.filter(
       (address) => address.address && address.token && address.usd
