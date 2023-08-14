@@ -6,8 +6,8 @@
 
 <script setup lang="ts">
 import { getAssetIdByAccount } from '@/utils/api/bsx/query'
-
 import shouldUpdate from '@/utils/shouldUpdate'
+const { $consola } = useNuxtApp()
 
 const props = withDefaults(
   defineProps<{
@@ -28,7 +28,7 @@ const fetchCurrency = async () => {
     const api = await apiInstance.value
     tokenId.value = await getAssetIdByAccount(api, props.accountId)
   } catch (e) {
-    console.log(e) // Use `console.log` instead of `this.$consola.log`
+    $consola.warn(e)
   }
 }
 
