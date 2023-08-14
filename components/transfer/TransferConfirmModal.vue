@@ -63,6 +63,7 @@
               </span>
               <NeoIcon
                 icon="circle-info"
+                class="is-size-6"
                 pack="far"
                 :title="targetAddresses[0].address" />
             </div>
@@ -86,7 +87,7 @@
                 class="py-4 is-bordered-top is-size-7">
                 <div
                   class="is-flex is-justify-content-space-between is-align-items-center mb-2">
-                  <span class="has-text-weight-bold"
+                  <span class="has-text-grey"
                     >{{ $t('transfers.recipient') }} {{ index + 1 }}</span
                   >
                   <div class="is-flex is-align-items-center">
@@ -98,19 +99,20 @@
                     </span>
                     <NeoIcon
                       icon="circle-info"
+                      class="is-size-6"
                       pack="far"
                       :title="address.address" />
                   </div>
                 </div>
                 <div
                   class="is-flex is-justify-content-space-between is-align-items-center">
-                  <span class="has-text-weight-bold">{{ $t('amount') }}</span>
+                  <span class="has-text-grey">{{ $t('amount') }}</span>
 
                   <div class="is-flex is-align-items-center">
                     <span class="has-text-grey"
                       >({{ address.token }} {{ unit }})</span
                     >
-                    <span class="ml-1">${{ address.usd }}</span>
+                    <span class="ml-1 is-size-6">${{ address.usd }}</span>
                   </div>
                 </div>
               </div>
@@ -138,6 +140,7 @@
         <NeoButton
           :label="$t('teleport.send')"
           variant="k-accent"
+          no-shadow
           class="fixed-button-height is-flex is-flex-1"
           @click.native="confirmTransfer" />
       </div>
