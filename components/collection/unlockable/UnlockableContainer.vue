@@ -125,7 +125,7 @@
           </NeoButton>
         </div>
         <div class="column">
-          <img :src="unloackableBanner" alt="Unlockable" />
+          <img src="/unlockable-introduce.svg" alt="Unlockable" />
         </div>
       </div>
     </div>
@@ -139,7 +139,6 @@ import CountdownTimer from '@/components/collection/unlockable/CountdownTimer.vu
 import ImageSlider from '@/components/collection/unlockable/ImageSlider.vue'
 import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import UnlockableSchedule from '@/components/collection/unlockable/UnlockableSchedule.vue'
-import unloackableBanner from '@/assets/unlockable-introduce.svg'
 import unlockablePulse from '@/assets/unlockable-pulse.svg'
 import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
 import { DISPLAY_SLIDE_IMAGE_COUNT, collectionId, countDownTime } from './const'
