@@ -24,7 +24,8 @@ const vValue = computed({
   },
 })
 
-const asset = computed(() => useAsset().assetIdOf(props.tokenId))
+const { assets } = usePrefix()
+const asset = computed(() => assets(props.tokenId))
 const unit = computed(() => asset.value.symbol)
 const decimals = computed(() => asset.value.decimals)
 </script>
