@@ -20,12 +20,12 @@
   a:hover {
     color: unset !important;
 
-    .show-on-hover {
+    .show-on-hover, .show-always {
       display: flex !important;
     }
   }
 
-  .hover-action-container {
+  .action-container {
     position: absolute;
     bottom: 1rem;
   }

@@ -8,16 +8,20 @@
     :variant="variant"
     :class="{ 'in-cart-border': shoppingCartStore.isItemInCart(nft.id) }"
     :unloackable-icon="unlockableIcon"
+    :show-action-on-hover="!showActionSection"
     link="nuxt-link"
     bind-key="to">
-    <template #hover-action>
+    <template #action>
       <div v-if="!isOwner && Number(nft?.price)" class="is-flex">
         <NeoButton
           :label="buyLabel"
           data-cy="item-buy"
           no-shadow
+          :loading="showActionSection"
           class="is-flex-grow-1 btn-height"
-          @click.native.prevent="onClickBuy" />
+          loading-with-label
+          @click.native.prevent="onClickBuy">
+        </NeoButton>
         <NeoButton
           data-cy="item-add-to-cart"
           no-shadow
@@ -41,7 +45,7 @@ import { isOwner as checkOwner } from '@/utils/account'
 
 const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()
-const { accountId } = useAuth()
+const { accountId, isLogIn } = useAuth()
 const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
 const { unlockableIcon } = useUnlockableIcon()
 const shoppingCartStore = useShoppingCartStore()
@@ -53,11 +57,19 @@ const props = defineProps<{
   variant?: NftCardVariant
 }>()
 
-const buyLabel = computed(() =>
-  $i18n.t(
+const showActionSection = computed(() => {
+  return !isLogIn.value && shoppingCartStore.getItemToBuy?.id === nft.value.id
+})
+
+const buyLabel = computed(function () {
+  if (showActionSection.value) {
+    return $i18n.t('shoppingCart.wallet')
+  }
+
+  return $i18n.t(
     preferencesStore.getReplaceBuyNowWithYolo ? 'YOLO' : 'shoppingCart.buyNow'
   )
-)
+})
 
 const { cartIcon } = useShoppingCartIcon(props.nft.id)
 
@@ -66,16 +78,24 @@ const { nft } = useNft(props.nft)
 const isOwner = computed(() =>
   checkOwner(props.nft?.currentOwner, accountId.value)
 )
+
 const openCompletePurcahseModal = () => {
-  shoppingCartStore.setItemToBuy(nftToShoppingCardItem(props.nft))
   preferencesStore.setCompletePurchaseModal({
     isOpen: true,
     mode: 'buy-now',
   })
 }
 
+const onCancelPurchase = () => {
+  shoppingCartStore.removeItemToBuy()
+}
+
 const onClickBuy = () => {
-  doAfterLogin(openCompletePurcahseModal)
+  shoppingCartStore.setItemToBuy(nftToShoppingCardItem(props.nft))
+  doAfterLogin({
+    onLoginSuccess: openCompletePurcahseModal,
+    onCancel: onCancelPurchase,
+  })
 }
 
 const onClickShoppingCart = () => {

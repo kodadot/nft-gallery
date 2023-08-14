@@ -7,6 +7,7 @@ export default function (to) {
     'prefix-explore-items',
     'prefix-explore-collectibles',
     'prefix-u-id',
+    'prefix-transfer',
   ]
 
   if (disableScrollToTop.includes(toPath)) {

@@ -487,6 +487,12 @@ const displayVolumePercent = (
   return volumePercent > 0 ? `+${volumePercent}%` : `${volumePercent}%`
 }
 
+watch(client, (value) => {
+  if (value) {
+    fetchCollectionsSeries(Number(nbRows.value))
+  }
+})
+
 watch(nbRows, (value: string) => {
   router
     .replace({

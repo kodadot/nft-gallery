@@ -156,7 +156,7 @@ const openCompletePurcahseModal = () => {
 }
 
 const onCompletePurchase = () => {
-  doAfterLogin(openCompletePurcahseModal)
+  doAfterLogin({ onLoginSuccess: openCompletePurcahseModal })
   closeShoppingCart()
 }
 </script>
