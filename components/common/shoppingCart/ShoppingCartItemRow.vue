@@ -2,7 +2,7 @@
   <div
     ref="hoverRef"
     class="is-flex is-justify-content-space-between background-hover gap-8">
-    <div class="pr-2 flex-grow-1 no-wrap is-clipped ellipsis">
+    <div class="pr-2 w-full no-wrap is-clipped ellipsis">
       <div class="is-flex">
         <nuxt-link
           :to="`/${urlPrefix}/gallery/${nft.id}`"
@@ -13,14 +13,14 @@
             class="border image is-48x48" />
         </nuxt-link>
         <div
-          class="is-flex is-flex-direction-column is-justify-content-space-between ml-4 min-width">
+          class="is-flex is-flex-direction-column is-justify-content-space-between ml-4 min-width w-full">
           <nuxt-link
             :to="`/${urlPrefix}/gallery/${nft.id}`"
             class="has-text-weight-bold has-text-color line-height-1 no-wrap is-clipped ellipsis"
             @click.native="emit('click-item')">
             {{ nft.name }}
           </nuxt-link>
-          <div class="is-flex is-justify-content-space-between gap-8">
+          <div class="is-flex is-justify-content-space-between gap-8 w-full">
             <div class="line-height-1 no-wrap is-clipped ellipsis">
               {{ nft.collection?.name || nft.collection.id }}
             </div>
