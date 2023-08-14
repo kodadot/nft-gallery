@@ -35,6 +35,7 @@
             <div
               class="fixed-stack is-flex is-align-items-center is-justify-content-space-between p-2">
               <Search
+                v-if="isMobile"
                 ref="mobilSearchRef"
                 hide-filter
                 class="is-flex-grow-1 mt-3" />
@@ -71,6 +72,7 @@
         <div class="navbar-start">
           <div v-if="showSearchOnNavbar" class="navbar-item is-expanded">
             <Search
+              v-if="!isMobile"
               class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
               hide-filter
               search-column-class="is-flex-grow-1" />
