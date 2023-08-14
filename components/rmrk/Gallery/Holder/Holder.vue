@@ -264,12 +264,6 @@ const columnsVisible = ref({
   Date: { title: 'Date', display: true },
 })
 
-const initColumnVisibleConfig = () => {
-  columnsVisible.value['Name'].title = prop.nameHeaderLabel
-  columnsVisible.value['Date'].title = prop.dateHeaderLabel
-  columnsVisible.value['Sale'].title = prop.saleHeaderLabel
-}
-
 const itemsPerPage = computed(() => preferencesStore.getHistoryItemsPerPage)
 const showList = computed(() => customGroups.value)
 const groupKey = computed(() => prop.groupKeyOption || 'Holder')
