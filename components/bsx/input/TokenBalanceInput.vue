@@ -12,6 +12,10 @@ import BasicBalanceInput from '@/components/shared/form/BasicBalanceInput.vue'
 const balanceInputComponent = ref<BasicBalanceInput>()
 const emit = defineEmits(['input'])
 
+defineExpose({
+  checkValidity,
+})
+
 const props = defineProps({
   value: { type: String || Number, required: true },
   tokenId: { type: String || Number, required: false, default: '5' },
