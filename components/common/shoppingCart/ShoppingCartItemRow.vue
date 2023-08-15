@@ -1,7 +1,7 @@
 <template>
   <div
     ref="hoverRef"
-    class="is-flex is-justify-content-space-between background-hover gap-8">
+    class="is-flex is-justify-content-space-between background-hover">
     <div class="pr-2 w-full no-wrap is-clipped ellipsis">
       <div class="is-flex">
         <nuxt-link
@@ -13,23 +13,19 @@
             class="border image is-48x48" />
         </nuxt-link>
         <div
-          class="is-flex is-flex-direction-column is-justify-content-space-between ml-4 min-width w-full">
+          class="is-flex is-flex-direction-column is-justify-content-space-between ml-4 min-width w-full line-height-1">
           <nuxt-link
             :to="`/${urlPrefix}/gallery/${nft.id}`"
-            class="has-text-weight-bold has-text-color line-height-1 no-wrap is-clipped ellipsis"
+            class="has-text-weight-bold has-text-color no-wrap is-clipped ellipsis"
             @click.native="emit('click-item')">
             {{ nft.name }}
           </nuxt-link>
-          <div class="is-flex is-justify-content-space-between gap-8 w-full">
-            <div class="line-height-1 no-wrap is-clipped ellipsis">
+          <div class="is-flex is-justify-content-space-between w-full">
+            <div class="no-wrap is-clipped ellipsis">
               {{ nft.collection?.name || nft.collection.id }}
             </div>
 
-            <div
-              :class="{
-                'line-height-1': true,
-                hidden: isHovered,
-              }">
+            <div :class="[{ hidden: isHovered }, 'ml-2']">
               <CommonTokenMoney :value="nft.price" :round="2" />
             </div>
           </div>
@@ -38,7 +34,7 @@
     </div>
     <div
       v-if="isHovered"
-      class="is-flex is-justify-content-end is-align-items-center h-full m-auto">
+      class="is-flex is-justify-content-end is-align-items-center h-full m-auto ml-2">
       <NeoButton
         variant="text"
         class="inherit-background-color"
@@ -107,9 +103,6 @@ onMounted(() => {
 
 .inherit-background-color {
   background-color: inherit !important;
-}
-.gap-8 {
-  gap: 8px;
 }
 .hidden {
   opacity: 0;
