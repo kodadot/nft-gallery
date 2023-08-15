@@ -41,14 +41,14 @@
     </div>
     <hr />
     <div>
-      <CreateDropCard />
+      <CreateDropGallery />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import DropCard from '@/components/drops/DropCard.vue'
-import CreateDropCard from '@/components/drops/CreateDropCard.vue'
+import CreateDropGallery from './CreateDropGallery.vue'
 import { collectionId } from '@/components/collection/unlockable/const'
 import { STT_COLLECTION_ID } from '@/components/collection/drop/const'
 import { useDrops } from './useDrops'
