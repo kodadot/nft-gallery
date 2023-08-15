@@ -1,8 +1,9 @@
 import { useFiatStore } from '@/stores/fiat'
-import type { ChainProperties, Prefix } from '@kodadot1/static'
+import { type ChainProperties, type Prefix } from '@kodadot1/static'
 import { ComputedRef } from 'vue/types'
 import { chainPropListOf } from '@/utils/config/chain.config'
-import { groupByNestedProperty } from '@/utils/array'
+import { groupByNestedProperty } from '@/utils/objects'
+import { availablePrefixes } from '@/utils/chain'
 
 export interface TokenDetails {
   symbol: string
@@ -11,19 +12,23 @@ export interface TokenDetails {
   chains: Prefix[]
 }
 
-export default function useToken(
-  availableChains: ComputedRef<Prefix[]> = computed(() => ['bsx', 'dot', 'ksm'])
-) {
+export default function useToken() {
   const { getCurrentTokenValue } = useFiatStore()
   const { getTokenIconBySymbol } = useIcon()
 
+  const availableChains = availablePrefixes().map(
+    (item) => item.value as Prefix
+  )
+  const availableTokens = ['BSX', 'DOT', 'KSM']
+
   const chainsProperties = computed(() => {
-    return availableChains.value.reduce((reducer, chain: Prefix) => {
-      return {
+    return availableChains.reduce(
+      (reducer, chain: Prefix) => ({
         ...reducer,
         [chain]: chainPropListOf(chain),
-      }
-    }, {}) as { [k in Prefix]: ChainProperties }[]
+      }),
+      {}
+    ) as { [k in Prefix]: ChainProperties }[]
   })
 
   const groupedTokensByChains = computed(() =>
@@ -34,10 +39,11 @@ export default function useToken(
     groupedTokensByChains.value[token] || []
 
   const tokens: ComputedRef<TokenDetails[]> = computed(() => {
-    return Object.keys(chainsProperties.value).map((chain) => {
-      const chainProperties = chainsProperties.value[chain]
-      const tokenSymbol = chainProperties.tokenSymbol
+    const filteredTokens = Object.keys(groupedTokensByChains.value).filter(
+      (token) => availableTokens.includes(token)
+    )
 
+    return filteredTokens.map((tokenSymbol) => {
       return {
         symbol: tokenSymbol as string,
         value: getCurrentTokenValue(tokenSymbol),
@@ -47,7 +53,21 @@ export default function useToken(
     })
   })
 
+  const getPrefixByToken = (token: string): Prefix | null => {
+    switch (token.toLowerCase()) {
+      case 'bsx':
+        return 'bsx'
+      case 'dot':
+        return 'dot'
+      case 'ksm':
+        return 'ksm'
+      default:
+        return null
+    }
+  }
+
   return {
     tokens,
+    getPrefixByToken,
   }
 }

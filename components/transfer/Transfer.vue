@@ -189,7 +189,7 @@
 
 <script lang="ts" setup>
 import Connector from '@kodadot1/sub-api'
-import { ALTERNATIVE_ENDPOINT_MAP } from '@kodadot1/static'
+import { ALTERNATIVE_ENDPOINT_MAP, chainList } from '@kodadot1/static'
 
 import { isAddress } from '@polkadot/util-crypto'
 import { DispatchError } from '@polkadot/types/interfaces'
@@ -206,7 +206,7 @@ import { useFiatStore } from '@/stores/fiat'
 import { useIdentityStore } from '@/stores/identity'
 import Avatar from '@/components/shared/Avatar.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
-import { getMovedItemToFront } from '@/utils/array'
+import { getMovedItemToFront } from '@/utils/objects'
 
 import { emptyObject } from '@kodadot1/minimark/utils'
 import {
@@ -219,7 +219,7 @@ import {
   NeoTooltip,
 } from '@kodadot1/brick'
 import TransferTokenTabs, { TransferTokenTab } from './TransferTokenTabs.vue'
-import { TokenDetails } from '~~/composables/useToken'
+import { TokenDetails } from '@/composables/useToken'
 
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
@@ -254,8 +254,9 @@ const targets = ref(emptyObject<TargetMap>())
 const sendSameAmount = ref(false)
 const displayUnit = ref<'token' | 'usd'>('token')
 const { getTokenIconBySymbol } = useIcon()
-const { tokens } = useToken()
-const sortTabs = ref(true)
+const { tokens, getPrefixByToken } = useToken()
+
+const selectedTabFirst = ref(true)
 const tokenIcon = computed(() => getTokenIconBySymbol(unit.value))
 
 const tokenTabs = ref<TransferTokenTab[]>([])
@@ -275,12 +276,20 @@ const disabled = computed(
 )
 
 const handleTokenSelect = (newToken: string) => {
-  sortTabs.value = false
+  selectedTabFirst.value = false
   const token = tokens.value.find((t) => t.symbol === newToken)
 
   if (token) {
-    const firstChain = token.chains[0]
-    setUrlPrefix(firstChain)
+    const chain = getPrefixByToken(token.symbol)
+
+    if (!chain) {
+      $consola.error(
+        `[ERR: INVALID TOKEN] Chain for token ${token.symbol} is not valid`
+      )
+      return
+    }
+
+    setUrlPrefix(chain)
   }
 }
 
@@ -301,8 +310,11 @@ const generateTokenTabs = (
 watch(
   tokens,
   (items) => {
-    tokenTabs.value = generateTokenTabs(items, unit.value, sortTabs.value)
-    sortTabs.value = false
+    tokenTabs.value = generateTokenTabs(
+      items,
+      unit.value,
+      selectedTabFirst.value
+    )
   },
   { immediate: true }
 )
@@ -573,3 +585,4 @@ watch(
   }
 }
 </style>
+~~/utils/objects
