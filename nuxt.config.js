@@ -163,6 +163,7 @@ export default defineNuxtConfig({
     { src: '~/plugins/icons', mode: 'client' },
     { src: '~/plugins/consola', mode: 'client' },
     { src: '~/plugins/piniaPersistedState', mode: 'client' },
+    { src: '~/plugins/oruga-modal', mode: 'client' },
     '~/plugins/filters',
     '~/plugins/globalVariables',
     '~/plugins/pwa',
@@ -170,7 +171,6 @@ export default defineNuxtConfig({
     '~/plugins/vueClipboard',
     '~/plugins/vueSocialSharing',
     '~/plugins/vueTippy',
-    '~/plugins/oruga-modal',
   ],
 
   router: {
@@ -388,6 +388,9 @@ export default defineNuxtConfig({
       '@google/model-viewer', // TODO check to see if it works without transpilation in future nuxt releases
     ],
     extend(config) {
+      // for debugging
+      // config.devtool = 'source-map'
+
       // add frontmatter-markdown-loader
       config.module.rules.push({
         test: /\.md$/,
