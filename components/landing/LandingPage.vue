@@ -41,8 +41,13 @@
 <script lang="ts" setup>
 import type { Prefix } from '@kodadot1/static'
 
-const hiddenCarrouselPrefixes: Prefix[] = ['movr', 'glmr']
-const forbiddenPrefixesForTopCollections: Prefix[] = ['ksm', 'ahk', 'ahp']
+const hiddenCarrouselPrefixes: Prefix[] = ['movr', 'glmr', 'dot']
+const forbiddenPrefixesForTopCollections: Prefix[] = [
+  'ksm',
+  'ahk',
+  'ahp',
+  'dot',
+]
 
 const { urlPrefix } = usePrefix()
 

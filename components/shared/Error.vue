@@ -14,18 +14,21 @@
     </p>
   </div>
 </template>
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-
-@Component({})
-export default class Error extends Vue {
-  @Prop({ default: 500 }) readonly errorCode!: number
-  @Prop({ default: true }) readonly hasImg!: boolean
-  @Prop({ default: 'Indexer Error' }) errorTitle!: string
-  @Prop({ default: 'Indexer is not working properly.' }) errorSubtitle!: string
-
-  get imgSrc() {
-    return `https://http.cat/${this.$props.errorCode}`
+<script setup lang="ts">
+const props = withDefaults(
+  defineProps<{
+    errorCode: number
+    hasImg: boolean
+    errorTitle: string
+    errorSubtitle: string
+  }>(),
+  {
+    errorCode: 500,
+    hasImg: true,
+    errorTitle: 'Indexer Error',
+    errorSubtitle: 'Indexer is not working properly.',
   }
-}
+)
+
+const imgSrc = computed(() => `https://http.cat/${props.errorCode}`)
 </script>

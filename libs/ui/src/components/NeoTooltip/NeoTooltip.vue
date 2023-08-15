@@ -44,7 +44,7 @@ export interface Props {
   multilineWidth?: string | number
   fullWidth?: boolean
   stopEvents?: boolean
-  autoClose?: any | boolean
+  autoClose?: string[] | boolean
   contentClass?: string
 }
 const props = withDefaults(defineProps<Props>(), {
