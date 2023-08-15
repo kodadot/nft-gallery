@@ -11,30 +11,25 @@
 </template>
 
 <script lang="ts" setup>
-import Twitter from '@/assets/qrCode/twitter.png'
-import Instagram from '@/assets/qrCode/instagram.png'
-import Discord from '@/assets/qrCode/discord.png'
-import Github from '@/assets/qrCode/github.png'
-
 const qrCodeList = [
   {
     title: 'Discord',
-    img: Discord,
+    img: '/qrCode/discord.png',
     link: 'https://discord.gg/u6ymnbz4PR',
   },
   {
     title: 'Twitter',
-    img: Twitter,
+    img: '/qrCode/twitter.png',
     link: 'https://twitter.com/KodaDot',
   },
   {
     title: 'Github',
-    img: Github,
+    img: '/qrCode/github.png',
     link: 'https://github.com/kodadot/nft-gallery',
   },
   {
     title: 'Instagram',
-    img: Instagram,
+    img: '/qrCode/instagram.png',
     link: 'https://instagram.com/kodadot.xyz',
   },
 ]
