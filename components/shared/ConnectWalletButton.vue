@@ -33,8 +33,9 @@ const toggleWalletConnectModal = () => {
     emit('toggleConnectModal')
   }
 
+  $neoModal.closeAll()
+
   if (modal.value?.isActive) {
-    $neoModal.closeAll()
     modal.value = null
     return
   }
