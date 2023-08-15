@@ -132,6 +132,18 @@ const hasDrops: Config<boolean> = {
   ahp: false,
 }
 
+const hasAssets: Config<boolean> = {
+  rmrk: false,
+  ksm: false,
+  bsx: true,
+  ahk: false,
+  movr: false,
+  glmr: false,
+  snek: true,
+  dot: false,
+  ahp: false,
+}
+
 export const createVisible = (prefix: Prefix | string): boolean => {
   return hasCreate[prefix]
 }
@@ -174,4 +186,8 @@ export const teleportVisible = (prefix: Prefix | string) => {
 
 export const dropsVisible = (prefix: Prefix | string) => {
   return hasDrops[prefix]
+}
+
+export const assetsVisible = (prefix: Prefix | string) => {
+  return hasAssets[prefix]
 }

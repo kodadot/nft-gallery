@@ -1,5 +1,6 @@
 import { Prefix } from '@kodadot1/static'
 import {
+  assetsVisible,
   createVisible,
   dropsVisible,
   explorerVisible,
@@ -44,6 +45,7 @@ enum RoutePattern {
   PREFIX_CLASSIC_CREATE = '/{prefix}/create',
   PREFIX_TRANSFER = '/{prefix}/transfer',
   PREFIX_TELEPORT = '/{prefix}/teleport',
+  PREFIX_ASSETS = '/{prefix}/assets',
   IDENTITY = '/identity',
   PROFILE = '/{prefix}/u/{wallet}',
   PREFIX_DROPS = '/{prefix}/drops',
@@ -74,6 +76,7 @@ const RouteRedirectTypes: { [key in RoutePattern]?: RedirectTypes[] } = {
   [RoutePattern.PREFIX_TRANSFER]: [RedirectTypes.CHAIN_PREFIX_CHANGE],
   [RoutePattern.PREFIX_TELEPORT]: [RedirectTypes.CHAIN_PREFIX_CHANGE],
   [RoutePattern.PREFIX_DROPS]: [RedirectTypes.CHAIN_PREFIX_CHANGE],
+  [RoutePattern.PREFIX_ASSETS]: [RedirectTypes.CHAIN_PREFIX_CHANGE],
   [RoutePattern.IDENTITY]: [RedirectTypes.STAY],
   [RoutePattern.PROFILE]: [
     RedirectTypes.CHAIN_PREFIX_CHANGE,
@@ -113,6 +116,7 @@ const routeAvailabilityPerChain = {
   [RoutePattern.BLOG_SLUG]: () => true,
   [RoutePattern.PREFIX_TRANSFER]: (chain: Prefix) => transferVisible(chain),
   [RoutePattern.PREFIX_TELEPORT]: (chain: Prefix) => teleportVisible(chain),
+  [RoutePattern.PREFIX_ASSETS]: (chain: Prefix) => assetsVisible(chain),
   [RoutePattern.PREFIX_DROPS]: (chain: Prefix) => dropsVisible(chain),
   [RoutePattern.IDENTITY]: (chain: Prefix) => identityVisible(chain),
   [RoutePattern.PROFILE]: (chain: Prefix) => profileVisible(chain),
