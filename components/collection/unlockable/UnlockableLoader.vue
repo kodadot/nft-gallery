@@ -2,7 +2,7 @@
   <NeoLoading :active.sync="isLoading" is-full-page :can-cancel="canCancel">
     <div class="loading-container py-2">
       <NeoIcon class="close-icon" icon="close" @click.native="closeLoading" />
-      <img :src="unloackableLoaderImg" />
+      <img src="/unlockable-loader.svg" />
       <div
         class="is-flex is-flex-direction-column is-align-items-center px-5 has-text-centered is-capitalized">
         <div class="has-text-weight-bold mb-2">{{ $t('mint.success') }}</div>
@@ -42,7 +42,6 @@
 
 <script lang="ts" setup>
 import { NeoButton, NeoIcon, NeoLoading } from '@kodadot1/brick'
-import unloackableLoaderImg from '@/assets/unlockable-loader.svg'
 
 const props = withDefaults(
   defineProps<{

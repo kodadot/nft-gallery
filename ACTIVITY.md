@@ -57,6 +57,15 @@ flowchart TD
 
 ![image](https://user-images.githubusercontent.com/5887929/232563299-39e84aa1-19c8-4031-9488-6813f74f65f3.png)
 
+### Axiom - Repobeats
+
+![Alt](https://repobeats.axiom.co/api/embed/0fb5819705db8bf2be040d140b66f04aaf529a30.svg "Repobeats analytics image")
+
+
+### Crowd.dev - AnalyzeMyRepo
+
+[Verbose version from AnalyzeMyRepo](https://analyzemyrepo.com/analyze/kodadot/nft-gallery)
+
 ## We're constantly growing!
 
 [![Contributors Over Time](https://contributor-overtime-api.git-contributor.com/contributors-svg?chart=contributorOverTime&repo=kodadot/nft-gallery)](https://git-contributor.com?chart=contributorOverTime&repo=kodadot/nft-gallery)
