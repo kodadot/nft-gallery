@@ -25,7 +25,7 @@ const round = (value: string, limit: number, disableFilter: boolean) => {
 const finalValue = computed(() => {
   return round(
     formatBalance(checkInvalidBalanceFilter(props.value), decimals.value, ''),
-    4,
+    props.round,
     false
   )
 })
