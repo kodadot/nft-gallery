@@ -23,12 +23,10 @@
       </NeoDropdown>
     </div>
 
-    <div class="is-flex mb-5">
-      <div class="token-price py-2 px-4 is-flex is-align-items-center">
-        <img class="mr-2 is-20x20" :src="tokenIcon" alt="token" />
-        {{ unit }} ${{ currentTokenValue }}
-      </div>
-    </div>
+    <TransferTokenTabs
+      :tabs="tokenTabs"
+      :value="unit"
+      @select="handleTokenSelect" />
 
     <div class="is-flex is-justify-content-space-between">
       <div class="is-flex is-flex-direction-column">
@@ -208,6 +206,7 @@ import { useFiatStore } from '@/stores/fiat'
 import { useIdentityStore } from '@/stores/identity'
 import Avatar from '@/components/shared/Avatar.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
+import { getMovedItemToFront } from '@/utils/array'
 
 import { emptyObject } from '@kodadot1/minimark/utils'
 import {
@@ -219,6 +218,7 @@ import {
   NeoSwitch,
   NeoTooltip,
 } from '@kodadot1/brick'
+import TransferTokenTabs from './TransferTokenTabs.vue'
 
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
@@ -229,7 +229,7 @@ const router = useRouter()
 const { $consola, $i18n } = useNuxtApp()
 const { unit, decimals } = useChain()
 const { apiInstance } = useApi()
-const { urlPrefix } = usePrefix()
+const { urlPrefix, setUrlPrefix } = usePrefix()
 const { isLogIn, accountId } = useAuth()
 const { redesign } = useExperiments()
 const { getAuthBalance } = useIdentityStore()
@@ -253,8 +253,21 @@ const targets = ref(emptyObject<TargetMap>())
 const sendSameAmount = ref(false)
 const displayUnit = ref<'token' | 'usd'>('token')
 const { getTokenIconBySymbol } = useIcon()
-
+const { tokens } = useToken()
+const sortTabs = ref(true)
 const tokenIcon = computed(() => getTokenIconBySymbol(unit.value))
+
+const tokenTabs = computed(() => {
+  const items = sortTabs.value
+    ? getMovedItemToFront(tokens.value, 'unit', unit.value)
+    : tokens.value
+
+  return items.map((availableToken) => ({
+    label: `${availableToken.unit} $${availableToken.value}`,
+    icon: availableToken.icon,
+    value: availableToken.unit,
+  }))
+})
 
 const targetAddresses = ref<TargetAddress[]>([{}])
 
@@ -269,6 +282,16 @@ const disabled = computed(
     balanceUsdValue.value < totalUsdValue.value ||
     !hasValidTarget.value
 )
+
+const handleTokenSelect = (newToken: string) => {
+  sortTabs.value = false
+  const token = tokens.value.find((t) => t.unit === newToken)
+
+  if (token) {
+    const firstChain = token.chains[0]
+    setUrlPrefix(firstChain)
+  }
+}
 
 const checkQueryParams = () => {
   const { query } = route
@@ -523,20 +546,8 @@ watch(
 )
 </script>
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
-
 .transfer-card {
   max-width: 41rem;
-
-  .token-price {
-    border-radius: 3rem;
-
-    @include ktheme() {
-      background-color: theme('background-color-inverse');
-      color: theme('text-color-inverse');
-      border: 1px solid theme('background-color-inverse');
-    }
-  }
 
   .square-32 {
     width: 32px;
