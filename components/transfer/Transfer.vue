@@ -1,5 +1,6 @@
 <template>
   <div class="transfer-card theme-background-color k-shadow border py-8 px-6">
+    <Loader v-model="isLoading" :status="status" />
     <div
       class="is-flex is-justify-content-space-between is-align-items-center mb-2">
       <p class="has-text-weight-bold is-size-3">
@@ -25,7 +26,7 @@
 
     <div class="is-flex mb-5">
       <div class="token-price py-2 px-4 is-flex is-align-items-center">
-        <img class="mr-2 is-20x20" :src="tokenIcon" alt="token" />
+        <img class="mr-2 square-20" :src="tokenIcon" alt="token" />
         {{ unit }} ${{ currentTokenValue }}
       </div>
     </div>
@@ -169,11 +170,13 @@
         $t('spotlight.total')
       }}</span>
       <div class="is-flex is-align-items-center">
-        <span class="is-size-7 has-text-grey mr-1">(${{ totalUsdValue }})</span>
-
-        <span class="has-text-weight-bold is-size-6"
-          >{{ totalTokenAmount }} {{ unit }}</span
+        <span class="is-size-7 has-text-grey mr-1"
+          >({{ displayTotalValue[0] }})</span
         >
+
+        <span class="has-text-weight-bold is-size-6">{{
+          displayTotalValue[1]
+        }}</span>
       </div>
     </div>
 
@@ -182,10 +185,18 @@
         class="is-flex is-flex-1 fixed-height"
         variant="k-accent"
         :disabled="disabled"
-        @click.native="submit"
+        @click.native="handleOpenConfirmModal"
         >{{ $t('redirect.continue') }}</NeoButton
       >
     </div>
+    <TransferConfirmModal
+      :is-modal-active="isTransferModalVisible"
+      :display-total-value="displayTotalValue"
+      :token-icon="tokenIcon"
+      :unit="unit"
+      :target-addresses="targetAddresses"
+      @close="isTransferModalVisible = false"
+      @confirm="submit" />
   </div>
 </template>
 
@@ -208,8 +219,7 @@ import { useFiatStore } from '@/stores/fiat'
 import { useIdentityStore } from '@/stores/identity'
 import Avatar from '@/components/shared/Avatar.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
-
-import { emptyObject } from '@kodadot1/minimark/utils'
+import TransferConfirmModal from '@/components/transfer/TransferConfirmModal.vue'
 import {
   NeoButton,
   NeoDropdown,
@@ -231,16 +241,14 @@ const { unit, decimals } = useChain()
 const { apiInstance } = useApi()
 const { urlPrefix } = usePrefix()
 const { isLogIn, accountId } = useAuth()
-const { redesign } = useExperiments()
 const { getAuthBalance } = useIdentityStore()
 const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
-const { initTransactionLoader, isLoading, resolveStatus } =
+const { initTransactionLoader, isLoading, resolveStatus, status } =
   useTransactionStatus()
 const { toast } = useToast()
+const isTransferModalVisible = ref(false)
 
-type Target = 'target' | `target${number}`
-type TargetMap = Record<Target, string>
-type TargetAddress = {
+export type TargetAddress = {
   address?: string
   usd?: number | string
   token?: number | string
@@ -249,7 +257,6 @@ type TargetAddress = {
 const transactionValue = ref('')
 const price = ref(0)
 const usdValue = ref(0)
-const targets = ref(emptyObject<TargetMap>())
 const sendSameAmount = ref(false)
 const displayUnit = ref<'token' | 'usd'>('token')
 const { getTokenIconBySymbol } = useIcon()
@@ -260,6 +267,12 @@ const targetAddresses = ref<TargetAddress[]>([{}])
 
 const hasValidTarget = computed(() =>
   targetAddresses.value.some((item) => isAddress(item.address) && item.token)
+)
+
+const displayTotalValue = computed(() =>
+  displayUnit.value === 'token'
+    ? [`$${totalUsdValue.value}`, `${totalTokenAmount.value} ${unit.value}`]
+    : [`${totalTokenAmount.value} ${unit.value}`, `$${totalUsdValue.value}`]
 )
 
 const balance = getAuthBalance
@@ -326,10 +339,12 @@ watch(sendSameAmount, (value) => {
 })
 
 const totalTokenAmount = computed(() =>
-  Number(getNumberSumOfObjectField(targetAddresses.value, 'token')).toFixed(4)
+  Number(
+    Number(getNumberSumOfObjectField(targetAddresses.value, 'token')).toFixed(4)
+  )
 )
 const totalUsdValue = computed(() =>
-  getNumberSumOfObjectField(targetAddresses.value, 'usd')
+  calculateUsdFromKsm(totalTokenAmount.value, Number(currentTokenValue.value))
 )
 
 const currentTokenValue = computed(() => getCurrentTokenValue(unit.value))
@@ -339,6 +354,7 @@ const balanceUsdValue = computed(() =>
     decimals.value
   )
 )
+
 const onAmountFieldChange = (target: TargetAddress) => {
   /* calculating usd value on the basis of price entered */
 
@@ -382,34 +398,48 @@ const unifyAddressAmount = (target: TargetAddress) => {
   }))
 }
 
+const handleOpenConfirmModal = () => {
+  if (!disabled.value) {
+    targetAddresses.value = targetAddresses.value.filter(
+      (address) => address.address && address.token && address.usd
+    )
+    isTransferModalVisible.value = true
+  }
+}
+
 const submit = async (
   event: any,
   usedNodeUrls: string[] = []
 ): Promise<void> => {
-  if (redesign.value) {
-    showNotification('coming soon')
-    return
-  }
-
   showNotification(`${route.query.target ? 'Sent for Sign' : 'Dispatched'}`)
+  isTransferModalVisible.value = false
   initTransactionLoader()
-
   try {
     const api = await apiInstance.value
-    const amountToTansfer = String(
-      calculateBalance(price.value, decimals.value)
-    )
-    const numOfTargetAddresses = Object.keys(targets.value).length
+
+    const numOfTargetAddresses = targetAddresses.value.length
     const cb =
       numOfTargetAddresses > 1 ? api.tx.utility.batch : api.tx.balances.transfer
     const arg =
       numOfTargetAddresses > 1
         ? [
-            Object.values(targets.value).map((target) =>
-              api.tx.balances.transfer(target, amountToTansfer)
+            targetAddresses.value.map((target) => {
+              const amountToTransfer = String(
+                calculateBalance(Number(target.token), decimals.value)
+              )
+              return api.tx.balances.transfer(
+                target.address as string,
+                amountToTransfer
+              )
+            }),
+          ]
+        : [
+            targetAddresses.value[0].address as string,
+            calculateBalance(
+              Number(targetAddresses.value[0].token),
+              decimals.value
             ),
           ]
-        : [targets.value['target'], amountToTansfer]
 
     const tx = await exec(
       accountId.value,
@@ -423,9 +453,7 @@ const submit = async (
           const blockNumber = header.number.toString()
 
           showNotification(
-            `[${unit.value}] Transfered ${price.value * numOfTargetAddresses} ${
-              unit.value
-            } in block ${blockNumber}`,
+            `[${unit.value}] Transfered ${totalTokenAmount.value} ${unit.value} in block ${blockNumber}`,
             notificationTypes.success
           )
 
@@ -542,7 +570,10 @@ watch(
     width: 32px;
     height: 32px;
   }
-
+  .square-20 {
+    width: 20px;
+    height: 20px;
+  }
   .fixed-height {
     height: 51px;
   }
