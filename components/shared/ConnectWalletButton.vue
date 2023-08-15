@@ -31,11 +31,11 @@ export default class ConnectWalletButton extends Vue {
 
     if (!this.modalToggleDisabled) {
       if (this.modal?.isActive) {
-        this.modal.close()
+        this.$neoModal.closeAll()
         this.modal = null
         return
       }
-      this.modal = this.$buefy.modal.open({
+      this.modal = this.$neoModal.open({
         parent: this,
         ...ConnectWalletModalConfig,
       })

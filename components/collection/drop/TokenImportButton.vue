@@ -30,7 +30,7 @@ const { urlPrefix } = usePrefix()
 const { accountId, isLogIn } = useAuth()
 const isLoading = ref(false)
 
-const { $buefy } = useNuxtApp()
+const { $neoModal } = useNuxtApp()
 const root = ref<Vue>()
 
 const Money = defineAsyncComponent(
@@ -46,7 +46,7 @@ const getApi = () => {
 
 const handleTokenImport = async () => {
   if (!isLogIn.value) {
-    $buefy.modal.open({
+    $neoModal.open({
       parent: root?.value,
       ...ConnectWalletModalConfig,
     })
