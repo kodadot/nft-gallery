@@ -5,4 +5,7 @@ Vue.directive('safeHref', {
   inserted(el, { value: url }) {
     el.setAttribute('href', sanitizeUrl(url))
   },
+  componentUpdated(el, { value: url }) {
+    el.setAttribute('href', sanitizeUrl(url))
+  },
 })
