@@ -158,6 +158,8 @@ const { refresh } = useLazyAsyncData('offers', async () => {
   }
 })
 
+watch(client, () => refresh())
+
 // doesn't need emit?
 // const emit = defineEmits(['offersIncoming'])
 // const offersIncoming = (response: OfferResponse) => {
