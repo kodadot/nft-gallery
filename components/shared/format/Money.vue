@@ -1,55 +1,40 @@
 <template>
   <div :class="['money', { 'is-inline-block': inline }]">
     <span v-if="!hideUnit">
-      {{
-        value | checkInvalidBalance | formatBalance(decimals, '') | round(round)
-      }}
+      {{ finalValue }}
       {{ displayUnit }}
     </span>
     <span v-else>
-      {{
-        value | checkInvalidBalance | formatBalance(decimals, '') | round(round)
-      }}
+      {{ finalValue }}
     </span>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, mixins } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import { checkInvalidBalanceFilter, roundTo } from '@/utils/format/balance'
-import ChainMixin from '@/utils/mixins/chainMixin'
+import formatBalance from '@/utils/format/balance'
 
-@Component({
-  filters: {
-    checkInvalidBalance: checkInvalidBalanceFilter,
-    round: function roundOffNumber(
-      value: string,
-      limit: number,
-      disableFilter: boolean
-    ) {
-      const number = Number(value.replace(/,/g, ''))
-      if (disableFilter) {
-        return parseFloat(number.toString())
-      }
-      return roundTo(value, limit)
-    },
-  },
+const finalValue = computed(() => {
+  return roundTo(
+    formatBalance(checkInvalidBalanceFilter(props.value), decimals.value, '')
+  )
 })
-export default class Money extends mixins(ChainMixin) {
-  @Prop({ default: 0 }) readonly value: number | string | undefined
-  @Prop(Boolean) readonly inline!: boolean
-  @Prop(Boolean) readonly hideUnit!: boolean
-  @Prop({ type: String }) readonly unitSymbol!: string
-  @Prop({ type: Number, default: 4 }) readonly round!: number
 
-  private readonly coinId: string = 'kusama'
+const { decimals, unit } = useChain()
 
-  get isBsx() {
-    return this.urlPrefix === 'bsx'
+const props = withDefaults(
+  defineProps<{
+    value?: number | string | undefined
+    inline: boolean
+    hideUnit: boolean
+    unitSymbol: string
+    round: number
+  }>(),
+  {
+    value: 0,
+    round: 4,
   }
+)
 
-  get displayUnit() {
-    return this.unitSymbol || this.unit
-  }
-}
+const displayUnit = computed(() => props.unitSymbol || unit.value)
 </script>
