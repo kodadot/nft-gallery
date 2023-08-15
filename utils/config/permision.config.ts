@@ -144,6 +144,18 @@ const hasAssets: Config<boolean> = {
   ahp: false,
 }
 
+const hasIncomingOffers: Config<boolean> = {
+  rmrk: false,
+  ksm: false,
+  bsx: true,
+  ahk: false,
+  movr: false,
+  glmr: false,
+  snek: true,
+  dot: false,
+  ahp: false,
+}
+
 export const createVisible = (prefix: Prefix | string): boolean => {
   return hasCreate[prefix]
 }
@@ -190,4 +202,8 @@ export const dropsVisible = (prefix: Prefix | string) => {
 
 export const assetsVisible = (prefix: Prefix | string) => {
   return hasAssets[prefix]
+}
+
+export const incomingOfferssVisible = (prefix: Prefix | string) => {
+  return hasIncomingOffers[prefix]
 }
