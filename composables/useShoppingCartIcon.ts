@@ -1,16 +1,16 @@
-import shoppingCarteDark from '@/assets/shopping-cart-outline-sharp_dark.svg'
-import shoppingCart from '@/assets/shopping-cart-outline-sharp.svg'
-import strikedOutShoppingCart from '@/assets/striked-out-cart-shopping.svg'
-import strikedOutShoppingCartDark from '@/assets/striked-out-cart-shopping_dark.svg'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 
 export const useShoppingCartIcon = (nftId?: string) => {
   const { isDarkMode } = useTheme()
   const shoppingCartIcon = computed(() =>
-    isDarkMode.value ? shoppingCarteDark : shoppingCart
+    isDarkMode.value
+      ? '/shopping-cart-outline-sharp_dark.svg'
+      : '/shopping-cart-outline-sharp.svg'
   )
   const strikedOutShoppingCartIcon = computed(() =>
-    isDarkMode.value ? strikedOutShoppingCartDark : strikedOutShoppingCart
+    isDarkMode.value
+      ? '/striked-out-cart-shopping_dark.svg'
+      : '/striked-out-cart-shopping.svg'
   )
 
   const cartIcon = computed(() => {

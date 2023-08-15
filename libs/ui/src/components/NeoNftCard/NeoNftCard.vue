@@ -117,7 +117,7 @@ withDefaults(
     unloackableIcon?: string
     link?: string
     bindKey?: string
-    showActionOnHover: boolean
+    showActionOnHover?: boolean
   }>(),
   {
     collectionPopoverShowDelay: 500,

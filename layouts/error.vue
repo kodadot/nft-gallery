@@ -8,9 +8,10 @@
       alt="Internal error cat"
       class="mb-5" />
     <p class="subtitle">
-      If you think this should't happen, report it to us by
+      If you think this shouldn't happen, report it to us by
       <a
         target="_blank"
+        class="is-underlined has-text-k-orange"
         rel="nofollow noopener noreferrer"
         href="https://github.com/kodadot/nft-gallery/issues/new?assignees=&labels=bug&template=bug_report.md&title="
         >creating a bug issue with steps and screenshot to reproduce.</a
