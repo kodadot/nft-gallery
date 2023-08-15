@@ -15,13 +15,13 @@
 </template>
 
 <script lang="ts" setup>
-type Tab = {
+export type TransferTokenTab = {
   label: string
   value: string
   icon: string
 }
 defineProps<{
-  tabs: Tab[]
+  tabs: TransferTokenTab[]
   value: string
 }>()
 const emit = defineEmits(['select'])

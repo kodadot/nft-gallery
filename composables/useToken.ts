@@ -4,8 +4,8 @@ import { ComputedRef } from 'vue/types'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { groupByNestedProperty } from '@/utils/array'
 
-interface TokenDetails {
-  unit: string
+export interface TokenDetails {
+  symbol: string
   value: number | string | null
   icon: string
   chains: Prefix[]
@@ -39,7 +39,7 @@ export default function useToken(
       const tokenSymbol = chainProperties.tokenSymbol
 
       return {
-        unit: tokenSymbol as string,
+        symbol: tokenSymbol as string,
         value: getCurrentTokenValue(tokenSymbol),
         icon: getTokenIconBySymbol(tokenSymbol),
         chains: getTokenChain(tokenSymbol),

@@ -218,7 +218,8 @@ import {
   NeoSwitch,
   NeoTooltip,
 } from '@kodadot1/brick'
-import TransferTokenTabs from './TransferTokenTabs.vue'
+import TransferTokenTabs, { TransferTokenTab } from './TransferTokenTabs.vue'
+import { TokenDetails } from '~~/composables/useToken'
 
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
@@ -257,17 +258,7 @@ const { tokens } = useToken()
 const sortTabs = ref(true)
 const tokenIcon = computed(() => getTokenIconBySymbol(unit.value))
 
-const tokenTabs = computed(() => {
-  const items = sortTabs.value
-    ? getMovedItemToFront(tokens.value, 'unit', unit.value)
-    : tokens.value
-
-  return items.map((availableToken) => ({
-    label: `${availableToken.unit} $${availableToken.value}`,
-    icon: availableToken.icon,
-    value: availableToken.unit,
-  }))
-})
+const tokenTabs = ref<TransferTokenTab[]>([])
 
 const targetAddresses = ref<TargetAddress[]>([{}])
 
@@ -285,13 +276,36 @@ const disabled = computed(
 
 const handleTokenSelect = (newToken: string) => {
   sortTabs.value = false
-  const token = tokens.value.find((t) => t.unit === newToken)
+  const token = tokens.value.find((t) => t.symbol === newToken)
 
   if (token) {
     const firstChain = token.chains[0]
     setUrlPrefix(firstChain)
   }
 }
+
+const generateTokenTabs = (
+  items: TokenDetails[],
+  selectedToken: string,
+  sort = false
+) => {
+  items = sort ? getMovedItemToFront(items, 'symbol', selectedToken) : items
+
+  return items.map((availableToken) => ({
+    label: `${availableToken.symbol} $${availableToken.value || '0'}`,
+    icon: availableToken.icon,
+    value: availableToken.symbol,
+  }))
+}
+
+watch(
+  tokens,
+  (items) => {
+    tokenTabs.value = generateTokenTabs(items, unit.value, sortTabs.value)
+    sortTabs.value = false
+  },
+  { immediate: true }
+)
 
 const checkQueryParams = () => {
   const { query } = route
