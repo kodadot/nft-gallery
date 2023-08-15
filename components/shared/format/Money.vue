@@ -14,24 +14,6 @@
 import { checkInvalidBalanceFilter, roundTo } from '@/utils/format/balance'
 import formatBalance from '@/utils/format/balance'
 
-const round = (value: string, limit: number, disableFilter: boolean) => {
-  const number = Number(value.replace(/,/g, ''))
-  if (disableFilter) {
-    return parseFloat(number.toString())
-  }
-  return roundTo(value, limit)
-}
-
-const finalValue = computed(() => {
-  return round(
-    formatBalance(checkInvalidBalanceFilter(props.value), decimals.value, ''),
-    props.round,
-    false
-  )
-})
-
-const { decimals, unit } = useChain()
-
 const props = withDefaults(
   defineProps<{
     value?: number | string | undefined
@@ -46,5 +28,22 @@ const props = withDefaults(
   }
 )
 
+const { decimals, unit } = useChain()
+
 const displayUnit = computed(() => props.unitSymbol || unit.value)
+const finalValue = computed(() =>
+  round(
+    formatBalance(checkInvalidBalanceFilter(props.value), decimals.value, ''),
+    props.round,
+    false
+  )
+)
+
+const round = (value: string, limit: number, disableFilter: boolean) => {
+  const number = Number(value.replace(/,/g, ''))
+  if (disableFilter) {
+    return parseFloat(number.toString())
+  }
+  return roundTo(value, limit)
+}
 </script>
