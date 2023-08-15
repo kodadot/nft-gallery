@@ -45,8 +45,8 @@
             class="is-ellipsis">
             <template #trigger>
               <a
+                v-safe-href="`/${prefix}/collection/${nft.collection.id}`"
                 :title="nft.collectionName || nft.collection.name"
-                :href="`/${prefix}/collection/${nft.collection.id}`"
                 class="is-size-7 nft-info-collection-name">
                 {{ nft.collection.name || '--' }}
               </a>
