@@ -45,7 +45,33 @@ module.exports = {
   ignorePatterns: ['*.md'],
   overrides: [
     {
-      files: ['layouts/**/*.{js,ts,vue}', 'pages/**/*.vue'],
+      files: [
+        'layouts/**/*.{js,ts,vue}',
+        'pages/**/*.vue',
+        'components/**/*.{js,ts,vue}',
+      ],
+      rules: {
+        'no-restricted-imports': [
+          'warn',
+          {
+            patterns: [
+              {
+                group: [
+                  '*.png',
+                  '*.jpg',
+                  '*.jpeg',
+                  '*.gif',
+                  '*.bmp',
+                  '*.svg',
+                  '*.webp',
+                ],
+                message:
+                  'It is recommended to utilize HTML tags and using a URL path, instead of directly importing images using JavaScript',
+              },
+            ],
+          },
+        ],
+      },
     },
   ],
 }
