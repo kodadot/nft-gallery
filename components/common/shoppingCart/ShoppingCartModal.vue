@@ -61,7 +61,11 @@
         class="is-flex is-justify-content-space-between px-6 py-4 is-flex-direction-column h-full">
         <div
           class="is-flex is-align-items-center is-flex-direction-column pt-8">
-          <img :src="emptyCart" alt="empty cart" width="140px" class="mb-5" />
+          <img
+            src="/empty-cart.png"
+            alt="empty cart"
+            width="140px"
+            class="mb-5" />
           <span class="has-text-weight-bold mb-2">{{
             $t('shoppingCart.emptyCart.line1')
           }}</span>
@@ -97,7 +101,6 @@ import ShoppingCartItemRow from './ShoppingCartItemRow.vue'
 import { sum } from '@/utils/math'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 
-import emptyCart from '@/assets/empty-cart.png'
 import { totalPriceUsd } from './utils'
 
 const prefrencesStore = usePreferencesStore()
@@ -156,7 +159,7 @@ const openCompletePurcahseModal = () => {
 }
 
 const onCompletePurchase = () => {
-  doAfterLogin(openCompletePurcahseModal)
+  doAfterLogin({ onLoginSuccess: openCompletePurcahseModal })
   closeShoppingCart()
 }
 </script>
