@@ -21,5 +21,9 @@ export default {
   &__content {
     border-radius: 0;
   }
+
+  &__overlay {
+    background-color: rgba(0, 0, 0, 0.17);
+  }
 }
 </style>
