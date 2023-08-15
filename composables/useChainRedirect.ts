@@ -251,7 +251,7 @@ export default function (allowRedirectIfCheckNotPresent = false) {
       },
       {
         path: route.path,
-        query: {},
+        query: route.query,
       } as RedirectPath
     )
   }
