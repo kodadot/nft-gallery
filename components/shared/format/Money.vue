@@ -14,9 +14,19 @@
 import { checkInvalidBalanceFilter, roundTo } from '@/utils/format/balance'
 import formatBalance from '@/utils/format/balance'
 
+const round = (value: string, limit: number, disableFilter: boolean) => {
+  const number = Number(value.replace(/,/g, ''))
+  if (disableFilter) {
+    return parseFloat(number.toString())
+  }
+  return roundTo(value, limit)
+}
+
 const finalValue = computed(() => {
-  return roundTo(
-    formatBalance(checkInvalidBalanceFilter(props.value), decimals.value, '')
+  return round(
+    formatBalance(checkInvalidBalanceFilter(props.value), decimals.value, ''),
+    4,
+    false
   )
 })
 
