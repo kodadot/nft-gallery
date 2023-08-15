@@ -18,21 +18,17 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
 
 const { urlPrefix } = usePrefix()
 const { isBasilisk } = useIsChain(urlPrefix)
 const { accountId } = useAuth()
+const { initRampInstant } = useRamp()
 
 const showRampSDK = () => {
-  new RampInstantSDK({
+  initRampInstant({
     defaultAsset: 'KSM',
-    userAddress: accountId.value,
-    hostAppName: 'KodaDot',
-    hostApiKey: 'a99bfvomhhbvzy6thaycxbawz7d3pssuz2a8hsrc', // env
-    hostLogoUrl: 'https://kodadot.xyz/apple-touch-icon.png',
-    variant: 'desktop',
-  }).show()
+    address: accountId.value,
+  })
 }
 </script>
 

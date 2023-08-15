@@ -61,7 +61,6 @@ import { openConnectWalletModal } from '@/components/common/ConnectWallet/useCon
 import { useIdentityStore } from '@/stores/identity'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'
-import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
 
 import { openShoppingCart } from '@/components/common/shoppingCart/ShoppingCartModalConfig'
 import { NFT } from '@/components/rmrk/service/scheme'
@@ -78,6 +77,7 @@ const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
 const preferencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
+const { initRampInstant } = useRamp()
 const { cartIcon } = useShoppingCartIcon(props.nft.id)
 
 const instance = getCurrentInstance()
@@ -104,14 +104,10 @@ const label = computed(() => {
 })
 
 const showRampSDK = () => {
-  new RampInstantSDK({
+  initRampInstant({
     defaultAsset: 'KSM',
-    userAddress: accountId.value,
-    hostAppName: 'KodaDot',
-    hostApiKey: 'a99bfvomhhbvzy6thaycxbawz7d3pssuz2a8hsrc', // env
-    hostLogoUrl: 'https://kodadot.xyz/apple-touch-icon.png',
-    variant: 'desktop',
-  }).show()
+    address: accountId.value,
+  })
 }
 
 const balance = computed<string>(() => {
@@ -170,6 +166,7 @@ const onClickShoppingCart = () => {
 :deep .button-height {
   height: 55px !important;
 }
+
 .buy-button-width {
   width: 10rem;
 
@@ -177,10 +174,12 @@ const onClickShoppingCart = () => {
     width: 100%;
     flex-grow: 1;
   }
+
   .wrapper {
     width: 100%;
   }
 }
+
 .no-border-left {
   border-left: none !important;
 }

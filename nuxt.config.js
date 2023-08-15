@@ -454,6 +454,7 @@ export default defineNuxtConfig({
       baseUrl: process.env.BASE_URL || 'http://localhost:9090',
       googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || '',
       dev: process.env.NODE_ENV === 'development',
+      rampApiKey: process.env.RAMP_API_KEY,
     },
   },
   // In case of using ssr
