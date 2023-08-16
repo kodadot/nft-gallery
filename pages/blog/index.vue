@@ -32,10 +32,10 @@
 
         <div>
           <NeoButton
+            v-safe-href="getPermalink(post)"
             no-shadow
             rounded
             tag="a"
-            :href="getPermalink(post)"
             icon="arrow-right-long">
             View Article
           </NeoButton>

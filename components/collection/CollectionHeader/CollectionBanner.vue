@@ -11,6 +11,7 @@
             <img
               v-if="collectionAvatar"
               :src="collectionAvatar"
+              class="object-fit-cover"
               :alt="collectionName" />
             <img v-else :src="placeholder" />
           </div>

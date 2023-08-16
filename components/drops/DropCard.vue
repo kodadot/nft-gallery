@@ -3,7 +3,7 @@
     <component
       :is="externalUrl ? 'a' : 'nuxt-link'"
       v-if="drop.collection && !isLoadingMeta"
-      :href="externalUrl"
+      v-safe-href="externalUrl"
       rel="nofollow noopener noreferrer"
       :to="`/${correctUrlPrefix}/drops/${correctDropUrl}`">
       <div

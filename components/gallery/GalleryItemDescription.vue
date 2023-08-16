@@ -84,22 +84,27 @@
         <p>{{ nft?.royalty }}%</p>
       </div>
       <hr class="my-2" />
-      <div class="is-flex is-justify-content-space-between">
+      <div v-if="nftImage" class="is-flex is-justify-content-space-between">
         <p>{{ $t('tabs.tabDetails.media') }}</p>
-        <a
-          :href="nftAnimation || nftImage"
-          target="_blank"
-          rel="nofollow noopener noreferrer"
-          class="has-text-link"
-          data-cy="media-link"
-          >{{ nftMimeType }}</a
-        >
+        <div @click="openLink(nftImage)">
+          <a class="has-text-link" data-cy="media-link">
+            {{ nftMimeType }}
+          </a>
+        </div>
+      </div>
+      <div v-if="nftAnimation" class="is-flex is-justify-content-space-between">
+        <p>{{ $t('tabs.tabDetails.animatedMedia') }}</p>
+        <div @click="openLink(nftAnimation)">
+          <a class="has-text-link">
+            {{ animationMediaMimeType }}
+          </a>
+        </div>
       </div>
       <div class="is-flex is-justify-content-space-between">
         <p>{{ $t('tabs.tabDetails.metadata') }}</p>
         <a
+          v-safe-href="metadataURL"
           class="has-text-link"
-          :href="metadataURL"
           target="_blank"
           rel="nofollow noopener noreferrer"
           data-cy="metadata-link"
@@ -121,7 +126,6 @@
             class="gallery-parent-item"
             :src="parent?.nftImage.value"
             :animation-src="parent?.nftAnimation.value"
-            :mime-type="parent?.nftMimeType.value"
             :title="parent?.nftMetadata?.value?.name"
             is-detail />
           <p class="gallery-parent-item__name">
@@ -134,6 +138,7 @@
 </template>
 
 <script setup lang="ts">
+import { obtainMimeType } from '@kodadot1/minipfs'
 import {
   MediaItem,
   NeoTabItem,
@@ -143,7 +148,7 @@ import {
   NeoTooltip,
 } from '@kodadot1/brick'
 import Identity from '@/components/identity/IdentityIndex.vue'
-import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import { sanitizeIpfsUrl, toCloudflareIpfsUrl } from '@/utils/ipfs'
 
 import { GalleryItem, useGalleryItem } from './useGalleryItem'
 
@@ -218,6 +223,7 @@ const propertiesTabDisabled = computed(() => {
 
 const metadataMimeType = ref('application/json')
 const metadataURL = ref('')
+const animationMediaMimeType = ref('')
 
 watchEffect(async () => {
   if (nft.value?.metadata) {
@@ -230,5 +236,13 @@ watchEffect(async () => {
       response.headers.get('content-type') || 'application/json'
     metadataURL.value = sanitizeMetadata
   }
+
+  if (nftAnimation.value) {
+    animationMediaMimeType.value = await obtainMimeType(nftAnimation.value)
+  }
 })
+
+const openLink = (link) => {
+  window.open(toCloudflareIpfsUrl(link), '_blank')
+}
 </script>

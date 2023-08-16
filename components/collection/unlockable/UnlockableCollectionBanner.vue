@@ -1,14 +1,14 @@
 <template>
   <div
     class="collection-banner"
-    :style="{ backgroundImage: `url(${unloackableBanner})` }">
+    :style="{ backgroundImage: `url('/unlockable-banner.svg')` }">
     <div class="collection-banner-shadow"></div>
 
     <section class="h-full py-8">
       <div class="container is-fluid collection-banner-content">
         <div class="is-flex is-flex-direction-column is-align-items-start">
           <div class="collection-banner-avatar">
-            <img :src="image" alt="avatar" />
+            <img :src="image" alt="avatar" class="object-fit-cover" />
           </div>
           <h1 class="collection-banner-name">{{ title }}</h1>
         </div>
@@ -20,7 +20,6 @@
 
 <script setup lang="ts">
 import HeroButtons from '@/components/collection/unlockable/UnlockableHeroButtons.vue'
-import unloackableBanner from '@/assets/unlockable-banner.svg'
 import { unlockableDesc } from '../unlockable/utils'
 import { generateDropImage } from '@/utils/seoImageGenerator'
 

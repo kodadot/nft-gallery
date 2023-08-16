@@ -19,8 +19,9 @@
           :placeholder="placeholder"
           :title="nft?.name" />
         <div
-          class="show-on-hover w-full is-flex is-justify-content-center hover-action-container">
-          <slot name="hover-action" />
+          :class="[showActionOnHover ? 'show-on-hover' : 'show-always']"
+          class="w-full is-flex is-justify-content-center action-container">
+          <slot name="action" />
         </div>
       </div>
       <div
@@ -44,8 +45,8 @@
             class="is-ellipsis">
             <template #trigger>
               <a
+                v-safe-href="`/${prefix}/collection/${nft.collection.id}`"
                 :title="nft.collectionName || nft.collection.name"
-                :href="`/${prefix}/collection/${nft.collection.id}`"
                 class="is-size-7 nft-info-collection-name">
                 {{ nft.collection.name || '--' }}
               </a>
@@ -116,6 +117,7 @@ withDefaults(
     unloackableIcon?: string
     link?: string
     bindKey?: string
+    showActionOnHover?: boolean
   }>(),
   {
     collectionPopoverShowDelay: 500,
@@ -123,6 +125,7 @@ withDefaults(
     unloackableIcon: undefined,
     link: 'a',
     bindKey: 'href',
+    showActionOnHover: true,
   }
 )
 </script>

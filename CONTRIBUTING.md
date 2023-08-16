@@ -177,14 +177,7 @@ For content changes, make sure that you:
 
 ### Keeping tests relevant🔬
 
-Since we're using [Cypress](https://www.cypress.io/) as our primary E2E tool for testing, we need to ensure that newly added features are not breaking tests we previously implemented. Tests run automatically as [GitHub action](https://github.com/features/actions) to catch bugs introduced by development. Still, it's essential to check whether the failing test broke something or whether the subject of the test changed.
-
-One of the main reasons tests will fail (except when bugs get introduced) is that we're using custom HTML tags to [select elements](https://docs.cypress.io/guides/references/best-practices#Selecting-Elements) within the testing suite. If your contribution touches components with these custom tags and you get failed tests, these selectors must be checked and usually adjusted.
-
-You can identify these kinds of problems by seeing similar-looking test reports:
-`Expected to find element: [data-cy="submit"], but never found it.`
-
-TL;DR: If you're touching components which include HTML tags such as `data-cy="submit"`, and the tests fail, make sure the tests still use the correct selector.
+We are currently in the process of installing [Playwright](https://playwright.dev/). Tests will run automatically as [GitHub actions](https://github.com/features/actions) to catch bugs introduced by development. Still, it's essential to do your part by manually testing your PR to see if you can find any errors and request a review from the @kodadot/qa-guild. 
 
 **Example:**
 

@@ -22,7 +22,7 @@
       <a
         v-for="target in targets"
         :key="target"
-        :href="addressExplorerUrl(target)"
+        v-safe-href="addressExplorerUrl(target)"
         target="_blank"
         rel="nofollow noopener noreferrer"
         class="has-text-weight-bold">
@@ -159,7 +159,10 @@ import { ALTERNATIVE_ENDPOINT_MAP } from '@kodadot1/static'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
 import { DispatchError } from '@polkadot/types/interfaces'
 
-import { calculateKsmFromUsd, calculateUsdFromKsm } from '@/utils/calculation'
+import {
+  calculateTokenFromUsd,
+  calculateUsdFromToken,
+} from '@/utils/calculation'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { calculateBalance } from '@/utils/format/balance'
@@ -237,7 +240,7 @@ const checkQueryParams = () => {
   if (query.usdamount) {
     usdValue.value = Number(query.usdamount)
 
-    price.value = calculateKsmFromUsd(
+    price.value = calculateTokenFromUsd(
       Number(getCurrentTokenValue(unit.value)),
       usdValue.value
     )
@@ -247,7 +250,7 @@ const checkQueryParams = () => {
 const onAmountFieldChange = () => {
   /* calculating usd value on the basis of price entered */
   if (price.value) {
-    usdValue.value = calculateUsdFromKsm(
+    usdValue.value = calculateUsdFromToken(
       Number(getCurrentTokenValue(unit.value)),
       price.value
     )
@@ -259,7 +262,7 @@ const onAmountFieldChange = () => {
 const onUSDFieldChange = () => {
   /* calculating price value on the basis of usd entered */
   if (usdValue.value) {
-    price.value = calculateKsmFromUsd(
+    price.value = calculateTokenFromUsd(
       Number(getCurrentTokenValue(unit.value)),
       usdValue.value
     )

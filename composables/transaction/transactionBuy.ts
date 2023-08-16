@@ -96,7 +96,7 @@ export function execBuyTx(item: ActionBuy, api, executeTransaction) {
     execBuyBasilisk(item, api, executeTransaction)
   }
 
-  if (item.urlPrefix === 'stmn' || item.urlPrefix === 'stt') {
+  if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
     execBuyStatemine(item, api, executeTransaction)
   }
 }
