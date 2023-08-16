@@ -1,7 +1,5 @@
-import { Ref, ref } from 'vue'
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
 import { AllWidgetVariants } from '@ramp-network/ramp-instant-sdk/dist/types/types'
-import consola from 'consola'
 
 const HOST_APP_NAME = 'KodaDot'
 const HOST_LOGO_URL = 'https://kodadot.xyz/apple-touch-icon.png'
@@ -14,8 +12,10 @@ interface InitRampParams {
 }
 
 export default function useRamp() {
-  const rampInstant: Ref<RampInstantSDK | null> = ref(null)
   const config = useRuntimeConfig()
+  const { $consola } = useNuxtApp()
+
+  const rampInstant = ref<RampInstantSDK | null>(null)
   const rampApiKey = config.public.rampApiKey
 
   const initRampInstant = (params: InitRampParams) => {
@@ -40,7 +40,7 @@ export default function useRamp() {
         rampInstant.value.show()
       }
     } catch (e) {
-      consola.error('[RAMP SDK] Error initializing RampInstantSDK:', e)
+      $consola.error('[RAMP SDK] Error initializing RampInstantSDK:', e)
     }
   }
 
