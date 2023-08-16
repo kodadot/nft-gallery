@@ -68,7 +68,7 @@
 
 <script lang="ts" setup>
 import { TimeRange } from '@/components/series/types'
-import { calculateUsdFromKsm } from '~~/utils/calculation'
+import { calculateUsdFromToken } from '@/utils/calculation'
 import { CollectionEntityWithVolumes } from './utils/types'
 import { getChainNameByPrefix } from '@/utils/chain'
 import { useFiatStore } from '@/stores/fiat'
@@ -145,7 +145,7 @@ const diffPercentString = computed(() => {
 })
 
 const usdValue = computed(() =>
-  calculateUsdFromKsm(volume.value, fiatStore.getCurrentKSMValue as number)
+  calculateUsdFromToken(volume.value, fiatStore.getCurrentKSMValue as number)
 )
 
 const color = computed(() => {
