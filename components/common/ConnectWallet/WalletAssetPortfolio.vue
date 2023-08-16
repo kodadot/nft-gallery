@@ -3,10 +3,10 @@
     <div>
       <NeoButton
         v-if="isBasilisk"
+        v-safe-href="`/${urlPrefix}/assets`"
         no-shadow
         rounded
         tag="a"
-        :href="`/${urlPrefix}/assets`"
         icon="arrow-right-long">
         Portfolio View
       </NeoButton>

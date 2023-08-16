@@ -1,7 +1,5 @@
 import RedirectModal from './RedirectModal.vue'
 import { EXTERNAL_LINK_WHITELIST } from '@/utils/constants'
-import { ModalProgrammatic as Modal } from 'buefy'
-import { BModalConfig } from 'buefy/types/components'
 import VueI18n from 'vue-i18n/types'
 import {
   convertSingularCollectionUrlToKodadotUrl,
@@ -26,20 +24,20 @@ function isWhiteList(url: string) {
   })
 }
 
-const showModal = (url: string, i18n: VueI18n) => {
-  Modal.open({
+const showModal = (url: string, i18n: VueI18n, modal) => {
+  modal.open({
     component: RedirectModal,
     canCancel: ['outside', 'escape'],
-    customClass: 'redirect-modal',
+    rootClass: 'redirect-modal',
     props: {
       url,
       i18n,
     },
-  } as unknown as BModalConfig)
+  })
 }
 
 export const useRedirectModal = (target: string) => {
-  const { $i18n } = useNuxtApp()
+  const { $i18n, $neoModal } = useNuxtApp()
   const _dom = computed(() => document.querySelector(target) || document.body)
 
   const handleLink = (event: Event) => {
@@ -51,7 +49,7 @@ export const useRedirectModal = (target: string) => {
     const href = convertSingularCollectionUrlToKodadotUrl(ele.href)
 
     if (href && isExternal(href) && !isWhiteList(href)) {
-      showModal(href, $i18n)
+      showModal(href, $i18n, $neoModal)
     } else if (href) {
       window.open(href, '_blank')
     }

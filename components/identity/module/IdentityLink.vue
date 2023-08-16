@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a class="identity-name has-text-weight-bold" :href="explorerLink">
+    <a v-safe-href="explorerLink" class="identity-name has-text-weight-bold">
       {{ shortenedAddress }}
     </a>
     <a
