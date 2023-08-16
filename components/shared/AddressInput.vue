@@ -55,6 +55,7 @@ const clearIconClick = () => {
 }
 
 const handleInput = (value: string) => {
+  emit('input', value)
   if (props.strict) {
     const [, err] = checkAddress(value, correctFormat(ss58Format.value))
     error.value = value ? err : ''
