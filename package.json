@@ -59,6 +59,7 @@
   },
   "packageManager": "pnpm@8.6.0",
   "dependencies": {
+    "@braintree/sanitize-url": "^6.0.4",
     "@chenfengyuan/vue-qrcode": "1",
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
     "@fortawesome/free-brands-svg-icons": "^6.2.1",
