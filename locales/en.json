@@ -556,6 +556,7 @@
       "UNLIST": "UNLIST",
       "RELIST": "RELIST",
       "SEND": "GIFT",
+      "SELL": "SELL",
       "CONSUME": "BURN",
       "BUY": "BUY",
       "MAKE_OFFER": "MAKE OFFER",

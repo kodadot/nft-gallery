@@ -104,23 +104,15 @@
         <div
           class="is-flex is-justify-content-space-between pb-4 pt-5 is-align-content-center">
           <div class="is-flex">
-            <NeoButton
-              :active="listed"
-              no-shadow
-              rounded
-              label="Buy Now"
-              @click.native="toggleListed" />
-            <NeoButton
+            <FilterButton label="Buy Now" url-param="buy_now" />
+            <FilterButton
               v-if="activeTab === 'created'"
-              :active="sold"
-              no-shadow
-              rounded
               label="Sold"
-              class="ml-4"
-              @click.native="toggleSold" />
+              url-param="sold"
+              class="ml-4" />
           </div>
           <div class="is-hidden-mobile">
-            <ProfileGrid />
+            <ProfileGrid class="is-hidden-mobile" />
           </div>
         </div>
         <hr class="my-0" />
@@ -133,28 +125,22 @@
             issuer_eq: id,
           },
         ]" />
+      <Activity v-if="activeTab === 'activity'" :id="id" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { getExplorer, hasExplorer } from '@kodadot1/static'
-
-// import {
-//   CollectionWithMeta,
-//   Interaction,
-//   Pack,
-// } from '@/components/rmrk/service/scheme'
-// import { Offer } from '@/components/bsx/Offer/types'
-
-// import { CollectionChartData as ChartData } from '@/utils/chart'
-
 import { NeoButton, NeoModal } from '@kodadot1/brick'
 import TabItem from '../shared/TabItem.vue'
 import Identity from '../identity/IdentityIndex.vue'
 import CollectionList from '../collection/CollectionList.vue'
 import ItemsGrid from '../items/ItemsGrid/ItemsGrid.vue'
 import ProfileGrid from './ProfileGrid.vue'
+import Activity from './Activity.vue'
+import ProfileActivity from './ProfileActivity.vue'
+import FilterButton from './FilterButton.vue'
 
 const route = useRoute()
 // const router = useRouter()
@@ -251,85 +237,6 @@ const handleIdentity = (identityFields: Record<string, string>) => {
   web.value = identityFields?.web as string
   legal.value = identityFields?.legal as string
 }
-
-// export default class ProfileDetail extends mixins(
-//   PrefixMixin,
-//   InfiniteScrollMixin,
-//   ChainMixin,
-//   AuthMixin
-// ) {
-
-//   // Get collection query with NFT Events on it
-//   protected async fetchCollectionEvents() {
-//     try {
-//       const { data } = await this.$apollo.query<{ events: Interaction[] }>({
-//         query: allEventsByProfile,
-//         client: this.client,
-//         variables: {
-//           id: this.id,
-//           search: {
-//             caller_eq: this.id,
-//           },
-//         },
-//       })
-//       if (data && data.events && data.events.length) {
-//         let events: Interaction[] = data.events
-//         this.eventsOfNftCollection = [...sortedEventByDate(events, 'DESC')]
-//         this.checkTabLocate()
-//       }
-//     } catch (e) {
-//       showNotification(`${e}`, notificationTypes.warn)
-//     }
-//   }
-
-//   // Get Sales event of an creator
-//   protected async fetchSalesEventByCreator() {
-//     try {
-//       this.isFetchingData = true
-//       const { data } = await this.$apollo.query<{ events: Interaction[] }>({
-//         query: recentSalesForCreator,
-//         client: this.client,
-//         variables: {
-//           id: this.id,
-//           limit: this.first,
-//           offset: (this.currentPage - 1) * this.first,
-//         },
-//       })
-//       if (data && data.events && data.events.length) {
-//         let events: Interaction[] = data.events
-//         this.eventsOfSales = [...sortedEventByDate(events, 'DESC')]
-//         this.checkTabLocate()
-//       }
-//     } catch (e) {
-//       showNotification(`${e}`, notificationTypes.warn)
-//     }
-//   }
-
-//   // Get offers for user
-//   protected async fetchOfferEvents(isBurned = false) {
-//     try {
-//       const { data } = await this.$apollo.query<OfferResponse>({
-//         query: offerListUser,
-//         client: this.client,
-//         variables: {
-//           id: this.id,
-//           burned: isBurned,
-//         },
-//       })
-//       if (data?.offers?.length) {
-//         this.userOfferList = data.offers
-//       } else {
-//         this.userOfferList = []
-//       }
-//     } catch (e) {
-//       showNotification(`${e}`, notificationTypes.warn)
-//     }
-//   }
-
-//   public offersListUpdate(bool) {
-//     this.fetchOfferEvents(bool)
-//   }
-// }
 </script>
 
 <style lang="scss" scoped>
