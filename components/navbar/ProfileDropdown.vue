@@ -35,7 +35,6 @@
           class="button-connect-wallet px-4"
           variant="k-accent"
           no-shadow
-          :modal-toggle-disabled="true"
           @toggleConnectModal="toggleWalletConnectModal" />
       </div>
     </div>
@@ -72,13 +71,12 @@ import { useIdentityStore } from '@/stores/identity'
 import { useLangStore } from '@/stores/lang'
 import { langsFlags as langsFlagsList } from '@/utils/config/i18n'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
-import type { BModalConfig } from 'buefy/types/components'
-import { ModalProgrammatic as Modal } from 'buefy'
 
 const identityStore = useIdentityStore()
 const langStore = useLangStore()
 const instance = getCurrentInstance()
 const { isDarkMode } = useTheme()
+const { $neoModal } = useNuxtApp()
 
 const languageDropdown = ref(null)
 const modal = ref<{ close: () => void; isActive?: boolean } | null>(null)
@@ -95,18 +93,14 @@ const setUserLang = (value: string) => {
 }
 
 const toggleWalletConnectModal = () => {
+  $neoModal.closeAll()
+
   if (!document.querySelector('.connect-wallet-modal')) {
-    modal.value = Modal.open({
+    modal.value = $neoModal.open({
       parent: instance?.proxy,
       ...ConnectWalletModalConfig,
-    } as unknown as BModalConfig)
+    })
   }
-
-  // close all modal
-  document.querySelectorAll('.modal').forEach((modal) => {
-    modal.__vue__?.$vnode?.context?.close()
-    modal.remove()
-  })
 }
 
 const toggleLanguageMenu = () => {

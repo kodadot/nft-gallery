@@ -22,7 +22,7 @@
       <a
         v-for="target in targets"
         :key="target"
-        :href="addressExplorerUrl(target)"
+        v-safe-href="addressExplorerUrl(target)"
         target="_blank"
         rel="nofollow noopener noreferrer"
         class="has-text-weight-bold">

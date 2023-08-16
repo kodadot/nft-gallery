@@ -19,6 +19,9 @@ importers:
 
   .:
     dependencies:
+      '@braintree/sanitize-url':
+        specifier: ^6.0.4
+        version: 6.0.4
       '@chenfengyuan/vue-qrcode':
         specifier: '1'
         version: 1.0.0(vue@2.7.14)
@@ -2257,6 +2260,10 @@ packages:
     resolution: {integrity: sha512-JL19CHFL4DxO29LRrv9o7r7Au9TtY+8pwG4fMP8M6jq2/MkvWd7OQFn1lmEy58akntNrVReIkZPuP81MFKv9jg==}
     dependencies:
       '@open-web3/orml-type-definitions': 0.9.4-38
+    dev: false
+
+  /@braintree/sanitize-url@6.0.4:
+    resolution: {integrity: sha512-s3jaWicZd0pkP0jf5ysyHUI/RE7MHos6qlToFcGWXVp+ykHOy77OUMrfbgJ9it2C5bow7OIQwYYaHjk9XlBQ2A==}
     dev: false
 
   /@chenfengyuan/vue-qrcode@1.0.0(vue@2.7.14):

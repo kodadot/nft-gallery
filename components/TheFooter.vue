@@ -35,7 +35,7 @@
               class="footer-container-info-list-item">
               <a
                 v-if="item.external"
-                :href="item.url"
+                v-safe-href="item.url"
                 target="_blank"
                 rel="nofollow noopener noreferrer"
                 class="is-flex is-align-items-center">
@@ -62,7 +62,7 @@
               class="footer-container-info-list-item">
               <a
                 v-if="item.external"
-                :href="item.url"
+                v-safe-href="item.url"
                 target="_blank"
                 rel="nofollow noopener noreferrer"
                 class="is-flex is-align-items-center">
@@ -89,7 +89,7 @@
               class="footer-container-info-list-item">
               <a
                 v-if="item.external"
-                :href="item.url"
+                v-safe-href="item.url"
                 target="_blank"
                 rel="nofollow noopener noreferrer"
                 class="is-flex is-align-items-center">

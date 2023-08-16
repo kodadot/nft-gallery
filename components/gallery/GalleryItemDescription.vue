@@ -103,8 +103,8 @@
       <div class="is-flex is-justify-content-space-between">
         <p>{{ $t('tabs.tabDetails.metadata') }}</p>
         <a
+          v-safe-href="metadataURL"
           class="has-text-link"
-          :href="metadataURL"
           target="_blank"
           rel="nofollow noopener noreferrer"
           data-cy="metadata-link"
