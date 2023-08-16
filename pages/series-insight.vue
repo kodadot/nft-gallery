@@ -10,12 +10,12 @@
       <div class="column">
         <img
           v-if="urlPrefix === 'rmrk' || urlPrefix === 'ksm'"
-          src="~/assets/rmrk-logo-pink-faded.png"
+          src="/rmrk-logo-pink-faded.png"
           alt="RMRK"
           class="chain-logo is-hidden-mobile" />
         <img
           v-else-if="urlPrefix === 'bsx'"
-          src="~/assets/bsx-logo.png"
+          src="/bsx-logo.png"
           alt="BSX"
           class="chain-logo is-hidden-mobile" />
       </div>
