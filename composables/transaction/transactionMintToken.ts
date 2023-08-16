@@ -23,7 +23,7 @@ export function execMintToken({
       status,
     })
   }
-  if (item.urlPrefix === 'stmn' || item.urlPrefix === 'stt') {
+  if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
     return execMintStatemine({
       item,
       api,

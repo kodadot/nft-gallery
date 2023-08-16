@@ -47,3 +47,6 @@ export { default as NeoUpload } from './components/NeoUpload/NeoUpload.vue'
 export { default as NeoCollapse } from './components/NeoCollapse/NeoCollapse.vue'
 
 export { default as Neo } from '@oruga-ui/oruga'
+
+export { default as NeoModalExtend } from './components/NeoModalExtend/NeoModalExtend.vue'
+export { default as NeoModalExtendProgrammatic } from './components/NeoModalExtend/plugin'

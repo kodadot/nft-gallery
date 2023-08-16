@@ -1,4 +1,5 @@
-import { URL_PREFIXES } from '@kodadot1/vuex-options'
+import { chainPrefixes } from '@kodadot1/static'
+
 const withPrefix = /-/
 
 describe('PREFIX TEST', (): void => {
@@ -15,7 +16,7 @@ describe('PREFIX TEST', (): void => {
   }
 
   beforeAll(async () => {
-    prefixes = URL_PREFIXES.map((option) => option.value as string).map(
+    prefixes = chainPrefixes.map(
       // skipcq allowRegExp
       (value) => RegExp(`^${value}`)
     )
@@ -36,6 +37,6 @@ describe('PREFIX TEST', (): void => {
   it.skip('can correctly match /statemine/create', () => {
     const routeName = 'statemine-create'
     const result = prefixMatcher(routeName)
-    expect(result).toBe('stmn')
+    expect(result).toBe('ahk')
   })
 })

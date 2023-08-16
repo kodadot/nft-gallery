@@ -19,7 +19,7 @@
       </div>
       <a
         v-if="identity?.twitter"
-        :href="`https://twitter.com/${identity?.twitter}`"
+        v-safe-href="`https://twitter.com/${identity?.twitter}`"
         target="_blank"
         rel="nofollow noopener noreferrer"
         data-cy="identity-twitter">

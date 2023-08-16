@@ -30,7 +30,7 @@ const { urlPrefix } = usePrefix()
 const { accountId, isLogIn } = useAuth()
 const isLoading = ref(false)
 
-const { $buefy } = useNuxtApp()
+const { $neoModal } = useNuxtApp()
 const root = ref<Vue>()
 
 const Money = defineAsyncComponent(
@@ -38,7 +38,7 @@ const Money = defineAsyncComponent(
 )
 
 const getApi = () => {
-  const value = urlPrefix.value === 'stmn' ? 'ksm' : 'dot'
+  const value = urlPrefix.value === 'ahk' ? 'ksm' : 'dot'
 
   const endpoint = getChainEndpointByPrefix(value) as string
   return ApiFactory.useApiInstance(endpoint)
@@ -46,7 +46,7 @@ const getApi = () => {
 
 const handleTokenImport = async () => {
   if (!isLogIn.value) {
-    $buefy.modal.open({
+    $neoModal.open({
       parent: root?.value,
       ...ConnectWalletModalConfig,
     })
@@ -54,7 +54,7 @@ const handleTokenImport = async () => {
   }
 
   const api = await getApi()
-  const to = urlPrefix.value === 'stmn' ? 'Statemine' : 'Statemint'
+  const to = urlPrefix.value === 'ahk' ? 'Statemine' : 'Statemint'
   const call = Builder(api).to(to).amount(1e10).address(accountId.value).build()
 
   const transactionHandler = txCb(

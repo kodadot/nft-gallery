@@ -52,14 +52,14 @@ import { getMimeType } from '@/utils/gallery/media'
 import { getSanitizer, sanitizeIpfsUrl } from '@/utils/ipfs'
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'
-import { NeoIcon } from '@kodadot1/brick'
+
 const components = {
   LinkResolver: () => import('@/components/shared/LinkResolver.vue'),
   CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
   BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
   PreviewMediaResolver: () =>
     import('@/components/media/PreviewMediaResolver.vue'),
-  NeoIcon,
+  NeoIcon: () => import('@kodadot1/brick').then((m) => m.NeoIcon),
 }
 
 @Component({ components })

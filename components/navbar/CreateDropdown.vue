@@ -7,7 +7,7 @@
         </div>
       </template>
 
-      <NeoDropdownItem v-if="chain !== 'stmn'">
+      <NeoDropdownItem v-if="chain !== 'ahk'">
         <NeoTooltip
           position="left"
           full-width
@@ -19,7 +19,7 @@
         </NeoTooltip>
       </NeoDropdownItem>
 
-      <NeoDropdownItem v-if="chain === 'stmn'">
+      <NeoDropdownItem v-if="chain === 'ahk'">
         <NeoTooltip
           position="left"
           :label="$t('createDropdown.waifu')"
@@ -61,7 +61,7 @@
 
     <MobileExpandableSection v-else :no-padding="true" :title="$t('create')">
       <nuxt-link
-        v-if="chain !== 'stmn'"
+        v-if="chain !== 'ahk'"
         class="navbar-item"
         data-cy="classic"
         :to="`/${urlPrefix}/create`"
@@ -69,7 +69,7 @@
         {{ $t('classic') }}
       </nuxt-link>
       <nuxt-link
-        v-if="chain === 'stmn'"
+        v-if="chain === 'ahk'"
         class="navbar-item"
         data-cy="waifu"
         :to="`/${urlPrefix}/waifu`"

@@ -9,7 +9,7 @@ export const prefixToToken = {
   rmrk: 'KSM',
   bsx: 'KSM',
   snek: 'KSM',
-  stmn: 'KSM',
+  ahk: 'KSM',
   dot: 'DOT',
 }
 

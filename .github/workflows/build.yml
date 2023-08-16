@@ -29,3 +29,6 @@ jobs:
 
       - name: Run Build
         run: pnpm generate
+
+      - run: wc -l ./.nuxt/dist/server/client.manifest.mjs
+      - run: stat -c "%s" ./.nuxt/dist/server/client.manifest.mjs
