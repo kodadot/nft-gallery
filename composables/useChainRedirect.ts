@@ -25,11 +25,7 @@ export default function () {
         })
       }
 
-      if (
-        ['prefix-gallery-id', 'prefix-collection-id'].includes(
-          routeName as string
-        )
-      ) {
+      if (['prefix-gallery-id', 'prefix-collection-id'].includes(routeName)) {
         const routeNameToRiredrect = routeName?.includes('gallery')
           ? 'prefix-explore-items'
           : 'prefix-explore-collectibles'
