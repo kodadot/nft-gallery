@@ -2,9 +2,9 @@ import path from 'path'
 import * as fs from 'fs'
 import { defineNuxtConfig } from '@nuxt/bridge'
 import Mode from 'frontmatter-markdown-loader/mode'
-
 import { manifestIcons } from './utils/config/pwa'
 import { URLS, apolloClientConfig } from './utils/constants'
+import { fromNodeMiddleware } from 'h3'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
@@ -322,6 +322,16 @@ export default defineNuxtConfig({
   },
 
   hooks: {
+    ready(nuxt) {
+      // https://github.com/nuxt/bridge/issues/607
+      // translate nuxt 2 hook from @nuxt/webpack-edge to nuxt bridge hook
+      nuxt.hook('server:devMiddleware', async (devMiddleware) => {
+        await nuxt.callHook(
+          'server:devHandler',
+          fromNodeMiddleware(devMiddleware)
+        )
+      })
+    },
     sitemap: {
       generate: {
         done(nuxtInstance) {
