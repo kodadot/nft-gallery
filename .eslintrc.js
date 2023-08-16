@@ -49,10 +49,15 @@ module.exports = {
         'layouts/**/*.{js,ts,vue}',
         'pages/**/*.vue',
         'components/**/*.{js,ts,vue}',
+        'utils/**/*.ts',
+        'stores/**/*.ts',
+        'services/**/*.ts',
+        'plugins/**/*.ts',
+        'composables/**/*.ts',
       ],
       rules: {
         'no-restricted-imports': [
-          'warn',
+          'error',
           {
             patterns: [
               {
