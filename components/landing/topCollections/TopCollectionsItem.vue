@@ -68,7 +68,7 @@
 
 <script lang="ts" setup>
 import { TimeRange } from '@/components/series/types'
-import { calculateUsdFromToken } from '~~/utils/calculation'
+import { calculateUsdFromToken } from '@/utils/calculation'
 import { CollectionEntityWithVolumes } from './utils/types'
 import { getChainNameByPrefix } from '@/utils/chain'
 import { useFiatStore } from '@/stores/fiat'
