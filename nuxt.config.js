@@ -164,6 +164,7 @@ export default defineNuxtConfig({
     { src: '~/plugins/consola', mode: 'client' },
     { src: '~/plugins/piniaPersistedState', mode: 'client' },
     { src: '~/plugins/oruga-modal', mode: 'client' },
+    { src: '~/plugins/oruga-notification', mode: 'client' },
     '~/plugins/filters',
     '~/plugins/globalVariables',
     '~/plugins/pwa',
