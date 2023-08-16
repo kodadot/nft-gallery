@@ -29,6 +29,7 @@ export default function () {
         const routeNameToRiredrect = routeName?.includes('gallery')
           ? 'prefix-explore-items'
           : 'prefix-explore-collectibles'
+
         return router.push({
           name: routeNameToRiredrect,
           params: {
