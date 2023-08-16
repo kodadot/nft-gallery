@@ -1,7 +1,7 @@
 <template>
   <a
+    v-safe-href="href"
     class="article"
-    :href="href"
     target="_blank"
     rel="nofollow noopener noreferrer">
     <div

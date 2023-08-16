@@ -19,10 +19,10 @@
         <span> {{ numberOfItems }} {{ $t('items') }}</span>
 
         <NeoButton
+          v-safe-href="`/${urlPrefix}/explore/items`"
           :label="$t('shoppingCart.clearAll')"
           no-shadow
           variant="text"
-          :href="`/${urlPrefix}/explore/items`"
           @click.native="clearAllItems" />
       </div>
       <div v-if="numberOfItems" class="scroll-y">
@@ -73,11 +73,11 @@
             $t('shoppingCart.emptyCart.line2')
           }}</span>
           <NeoButton
+            v-safe-href="`/${urlPrefix}/explore/items`"
             :label="$t('shoppingCart.exploreNfts')"
             rounded
             no-shadow
             tag="a"
-            :href="`/${urlPrefix}/explore/items`"
             icon="magnifying-glass" />
         </div>
         <div class="pt-4">
