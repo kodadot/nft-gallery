@@ -10,7 +10,7 @@
         </div>
       </div>
     </NeoModal>
-    <div class="container is-fluid pb-8 border-bottom">
+    <div class="container is-fluid py-8 border-bottom">
       <div class="columns is-centered">
         <div class="column is-half has-text-centered">
           <div class="container image is-64x64 mb-2">
@@ -87,13 +87,28 @@
           <ProfileActivity :id="id" />
         </div>
       </div>
-      <div class="is-flex">
+      <div class="is-flex is-hidden-touch is-hidden-desktop-only">
         <TabItem
           v-for="tab in tabs"
           :key="tab"
           :active="activeTab === tab"
           :text="tab"
           @click.native="() => switchToTab(tab)" />
+        <ChainDropdown class="ml-6" />
+        <OrderByDropdown v-if="activeTab !== 'activity'" class="ml-6" />
+      </div>
+      <div class="is-flex is-flex-direction-row is-hidden-widescreen mobile">
+        <TabItem
+          v-for="tab in tabs"
+          :key="tab"
+          :active="activeTab === tab"
+          :text="tab"
+          class="set-width"
+          @click.native="() => switchToTab(tab)" />
+        <div class="is-flex mt-4">
+          <ChainDropdown />
+          <OrderByDropdown v-if="activeTab !== 'activity'" class="ml-4" />
+        </div>
       </div>
     </div>
 
@@ -118,13 +133,7 @@
         <hr class="my-0" />
         <ItemsGrid :search="itemsGridSearch" />
       </div>
-      <CollectionList
-        v-if="activeTab === 'collections'"
-        :search="[
-          {
-            issuer_eq: id,
-          },
-        ]" />
+      <CollectionList v-if="activeTab === 'collections'" :id="id" />
       <Activity v-if="activeTab === 'activity'" :id="id" />
     </div>
   </div>
@@ -141,9 +150,10 @@ import ProfileGrid from './ProfileGrid.vue'
 import Activity from './Activity.vue'
 import ProfileActivity from './ProfileActivity.vue'
 import FilterButton from './FilterButton.vue'
+import ChainDropdown from '../common/ChainDropdown.vue'
+import OrderByDropdown from './OrderByDropdown.vue'
 
 const route = useRoute()
-// const router = useRouter()
 const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
@@ -154,14 +164,6 @@ const switchToTab = (tab: string) => {
 }
 
 const id = computed(() => route.params.id || '')
-// const shortendId = ref('')
-// const eventsOfNftCollection = ref<Interaction[]>([])
-// const userOfferList = ref<Offer[]>([])
-// const eventsOfSales = ref<Interaction[]>([])
-// const priceChartData = ref<[Date, number][][]>([])
-// const priceData = ref<[ChartData[], ChartData[]] | []>([])
-// const packs = ref<Pack[]>([])
-// const name = ref('')
 const email = ref('')
 const twitter = ref('')
 const displayName = ref('')
@@ -197,29 +199,9 @@ const activeTab = computed({
   },
 })
 
-const listed = computed({
-  get() {
-    return route.query.buy_now === 'true'
-  },
-  set(val) {
-    replaceUrl({ buy_now: val })
-  },
-})
+const listed = computed(() => route.query.buy_now === 'true')
 
-const sold = computed({
-  get() {
-    return route.query.sold === 'true'
-  },
-  set(val) {
-    replaceUrl({ sold: val })
-  },
-})
-const toggleListed = () => {
-  listed.value = !listed.value
-}
-const toggleSold = () => {
-  sold.value = !sold.value
-}
+const sold = computed(() => route.query.sold === 'true')
 
 const isMyProfile = computed(() => id.value === accountId.value)
 const hasBlockExplorer = computed(() => hasExplorer(urlPrefix.value))
@@ -240,8 +222,28 @@ const handleIdentity = (identityFields: Record<string, string>) => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+
 .invisible-tab > nav.tabs {
   display: none;
+}
+
+.set-width {
+  @include until-widescreen {
+    width: 100%;
+  }
+}
+
+@include until-widescreen {
+  .mobile {
+    flex-wrap: wrap;
+    > * {
+      flex: 1 0 50%;
+    }
+    :deep .explore-tabs-button {
+      width: 100% !important;
+    }
+  }
 }
 
 .tab-counter::before {

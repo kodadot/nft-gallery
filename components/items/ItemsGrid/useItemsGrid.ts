@@ -26,11 +26,17 @@ export function useFetchSearch({
 
   const { searchParams } = useSearchParams()
 
-  async function fetchSearch(
-    page: number,
-    loadDirection: 'up' | 'down' = 'down',
+  interface FetchSearchParams {
+    page?: number
+    loadDirection?: 'up' | 'down'
     search?: { [key: string]: string | number }[]
-  ) {
+  }
+
+  async function fetchSearch({
+    page = 1,
+    loadDirection = 'down',
+    search,
+  }: FetchSearchParams) {
     if (isFetchingData.value) {
       return false
     }
@@ -48,7 +54,14 @@ export function useFetchSearch({
     }
 
     const variables = Boolean(search)
-      ? { search, first: first.value, offset: (page - 1) * first.value }
+      ? {
+          search,
+          first: first.value,
+          offset: (page - 1) * first.value,
+          orderBy: route.query.sort?.length
+            ? route.query.sort
+            : ['blockNumber_DESC'],
+        }
       : {
           denyList: getDenyList(urlPrefix.value),
           orderBy: route.query.sort?.length
@@ -87,7 +100,7 @@ export function useFetchSearch({
 
   const refetch = (search?: { [key: string]: string | number }[]) => {
     nfts.value = []
-    fetchSearch(1, 'down', search)
+    fetchSearch({ search })
   }
 
   watch(

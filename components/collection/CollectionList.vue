@@ -57,7 +57,7 @@ import { GRID_DEFAULT_WIDTH } from '@/components/collection/utils/constants'
 import { usePreferencesStore } from '@/stores/preferences'
 
 const props = defineProps<{
-  search?: Record<string, string>[]
+  id?: string
 }>()
 
 const route = useRoute()
@@ -108,11 +108,16 @@ const fetchPageData = async (page: number, loadDirection = 'down') => {
   }
   isFetchingData.value = true
 
-  const variables = Boolean(props.search)
+  const variables = Boolean(props.id)
     ? {
-        search: props.search,
+        search: [
+          {
+            issuer_eq: props.id,
+          },
+        ],
         first: first.value,
         offset: (page - 1) * first.value,
+        orderBy: searchQuery.value.sortBy,
       }
     : {
         denyList: getDenyList(urlPrefix.value),

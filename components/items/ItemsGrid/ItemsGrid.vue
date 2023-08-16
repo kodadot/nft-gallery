@@ -49,6 +49,7 @@ import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'
 import isEquel from 'lodash/isEqual'
 
+const route = useRoute()
 const props = defineProps<{
   search?: Record<string, string | number>
 }>()
@@ -64,10 +65,10 @@ const gotoPage = (page: number) => {
   isFetchingData.value = false
   isLoading.value = true
 
-  fetchSearch(page)
+  fetchSearch({ page, search: parseSearch(props.search) })
 }
 const fetchPageData = async (page: number, loadDirection) => {
-  return await fetchSearch(page, loadDirection)
+  return await fetchSearch({ page, loadDirection })
 }
 const {
   first,
@@ -126,8 +127,18 @@ watch(
   { deep: true }
 )
 
+watch(
+  () => route.query.sort,
+  () => {
+    refetch(parseSearch(props.search))
+  }
+)
+
 onBeforeMount(async () => {
-  await fetchSearch(startPage.value, 'down', parseSearch(props.search))
+  await fetchSearch({
+    page: startPage.value,
+    search: parseSearch(props.search),
+  })
   isLoading.value = false
 })
 </script>
