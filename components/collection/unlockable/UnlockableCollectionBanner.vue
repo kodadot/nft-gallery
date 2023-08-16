@@ -8,7 +8,7 @@
       <div class="container is-fluid collection-banner-content">
         <div class="is-flex is-flex-direction-column is-align-items-start">
           <div class="collection-banner-avatar">
-            <img :src="image" alt="avatar" />
+            <img :src="image" alt="avatar" class="object-fit-cover" />
           </div>
           <h1 class="collection-banner-name">{{ title }}</h1>
         </div>
