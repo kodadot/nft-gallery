@@ -38,7 +38,7 @@ import Identity from '@/components/identity/IdentityIndex.vue'
 
 const issuerId = (emotion: Emotion) => emotion.caller
 const DISPLAYED_EMOJI = 5
-const { $buefy } = useNuxtApp()
+const { $neoModal } = useNuxtApp()
 const instance = getCurrentInstance()
 
 const props = defineProps<{
@@ -60,7 +60,7 @@ const parseEmoji = (codepoint): string => {
 }
 
 const openEmotionModal = () => {
-  $buefy.modal.open({
+  $neoModal.open({
     parent: instance?.proxy,
     component: EmotionModal,
     canCancel: ['escape', 'outside'],
