@@ -16,12 +16,17 @@
 import { usePreferencesStore } from '@/stores/preferences'
 
 const { availableChains } = useChain()
-const { setUrlPrefix } = usePrefix()
+const { setUrlPrefix, urlPrefix } = usePrefix()
+const { redirectAfterChainChange } = useChainRedirect()
 const preferencesStore = usePreferencesStore()
 
-const changeChain = (value) => {
+const emits = defineEmits(['select'])
+
+const changeChain = (newChain) => {
   preferencesStore.setNotificationBoxCollapse(false)
-  setUrlPrefix(value)
-  navigateTo(`/${value}`)
+  const prevChain = urlPrefix.value
+  setUrlPrefix(newChain)
+  redirectAfterChainChange(newChain, prevChain)
+  emits('select')
 }
 </script>

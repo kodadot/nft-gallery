@@ -104,8 +104,8 @@ export function getApiCall(
 
 function getActionsByPrefix(prefix: string, legacy = false): CallDictionary {
   switch (prefix) {
-    case 'stmn':
-    case 'stt':
+    case 'ahk':
+    case 'ahp':
       return legacy ? uniqueActionResolver : nftActionResolver
     case 'bsx':
     case 'snek':

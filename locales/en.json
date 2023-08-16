@@ -98,6 +98,9 @@
     "addAddress": "Add recipient",
     "payMeLink": "Pay me link",
     "setSameAmount": "Set one amount that will be sent to all recipients",
+    "sendTo": "Sending to",
+    "recipients": "recipients",
+    "totalAmount": "Total Amount",
     "transferable": "Transferable"
   },
   "topCollections": {
@@ -1049,6 +1052,7 @@
       "tokenStandard": "Token Standard",
       "royalties": "Royalties",
       "media": "Media",
+      "animatedMedia": "Animated Media",
       "metadata": "Metadata"
     },
     "tabActivity": {
@@ -1235,6 +1239,7 @@
     },
     "exploreNfts": "Explore NFTs",
     "gotToCart": "Go To Cart",
-    "buyNow": "Buy Now"
+    "buyNow": "Buy Now",
+    "wallet": "Wallet"
   }
 }

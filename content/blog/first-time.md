@@ -15,7 +15,7 @@ We are using a `pnpm` workspace, as installing things via npm **will result in b
 ## Prerequisites 🎒
 
 ```MD
-node >=18
+node >= 18.17
 pnpm
 ```
 
@@ -53,6 +53,10 @@ docker-compose up --build
 ```bash
 docker ps
 ```
+
+- Getting couldn't find .env file error?
+
+In some cases, you may get an error similar to `ERROR: Couldn't find env file: /full/path/nft-gallery/.env`; This is because docker may be looking for a `.env` file when there is none. To fix this issue, create an empty `.env` file then build the docker image again.
 
 ### From next time
 

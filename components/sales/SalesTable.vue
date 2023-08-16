@@ -117,25 +117,34 @@ const parseDate = (ts: number) => {
   })
 }
 
-const { pending } = useLazyAsyncData('data', async () => {
-  const {
-    data: { salesFeed },
-  } = await $apollo.query({
-    query: salesFeedGql,
-    client: client.value,
-    variables: {},
-  })
-
-  salesFeed.forEach((nft, idx) => {
-    nft.idx = idx + 1
-    nft.image = sanitizeIpfsUrl(nft.image)
-    nft.date = parseDate(Number(nft.timestamp))
-    nft.relDate = formatDistanceToNow(Number(nft.timestamp), {
-      addSuffix: true,
+const { pending, refresh: refreshNftSales } = useLazyAsyncData(
+  'data',
+  async () => {
+    const {
+      data: { salesFeed },
+    } = await $apollo.query({
+      query: salesFeedGql,
+      client: client.value,
+      variables: {},
     })
-  })
 
-  sales.value = salesFeed
+    salesFeed.forEach((nft, idx) => {
+      nft.idx = idx + 1
+      nft.image = sanitizeIpfsUrl(nft.image)
+      nft.date = parseDate(Number(nft.timestamp))
+      nft.relDate = formatDistanceToNow(Number(nft.timestamp), {
+        addSuffix: true,
+      })
+    })
+
+    sales.value = salesFeed
+  }
+)
+
+watch(client, (value) => {
+  if (value) {
+    refreshNftSales()
+  }
 })
 </script>
 

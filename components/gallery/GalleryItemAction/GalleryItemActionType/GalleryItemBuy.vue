@@ -118,8 +118,8 @@ const balance = computed<string>(() => {
   switch (urlPrefix.value) {
     case 'rmrk':
     case 'ksm':
-    case 'stmn':
-    case 'stt':
+    case 'ahk':
+    case 'ahp':
       return identityStore.getAuthBalance
     case 'bsx':
       return identityStore.multiBalances.chains.basilisk?.ksm?.nativeBalance
@@ -152,7 +152,7 @@ function onClick() {
   if (btnStatus.value === BuyStatus.CART) {
     openShoppingCart(instance)
   } else {
-    doAfterLogin(openCompletePurcahseModal)
+    doAfterLogin({ onLoginSuccess: openCompletePurcahseModal })
   }
 }
 

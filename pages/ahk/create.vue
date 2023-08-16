@@ -37,7 +37,7 @@ export default {
       title,
       type: 'article',
       description: 'Create carbonless NFTs with low on-chain fees',
-      url: '/stmn/create',
+      url: '/ahk/create',
       image: `${this.$config.public.baseUrl}/k_card.png`,
     }
     return {
