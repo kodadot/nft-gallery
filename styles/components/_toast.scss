@@ -2,19 +2,6 @@
   top: 4.2rem;
 }
 
-.toast {
-  &.is-neo {
-    opacity: 1;
-    font-size: 12px;
-    border-radius: 0;
-    @include ktheme() {
-      border: 1px solid theme('border-color');
-      box-shadow: theme('primary-shadow');
-      -webkit-box-shadow: theme('primary-shadow');
-    }
-  }
-}
-
 .notices {
   .bar {
     height: 13px;
