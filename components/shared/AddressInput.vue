@@ -6,7 +6,6 @@
         :icon-right="iconRight"
         :placeholder="placeholder"
         icon-right-clickable
-        @input="emit('input', handleInput(inputValue))"
         @icon-right-click="clearIconClick" />
     </NeoField>
   </div>
