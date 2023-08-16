@@ -5,7 +5,7 @@
       <a
         v-for="menu in menus"
         :key="menu.label"
-        :href="menu.to"
+        v-safe-href="menu.to"
         class="wallet-asset-menu">
         <span>{{ menu.label }}</span>
         <NeoIcon icon="angle-right" class="has-text-grey" />

@@ -1,8 +1,8 @@
 <template>
   <Story>
     <CardArticle
+      v-safe-href="href"
       :description="description"
-      :href="href"
       :image="image"
       :title="title" />
   </Story>

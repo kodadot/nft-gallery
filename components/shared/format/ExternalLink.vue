@@ -1,6 +1,6 @@
 <template>
   <a
-    :href="id ? url + id : url"
+    v-safe-href="id ? url + id : url"
     target="_blank"
     rel="nofollow noopener noreferrer">
     <slot />
