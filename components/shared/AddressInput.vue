@@ -2,7 +2,6 @@
   <div>
     <NeoField :type="type" :message="error" :label="$t(label)">
       <NeoInput
-        ref="address"
         v-model="inputValue"
         :icon-right="iconRight"
         :placeholder="placeholder"
@@ -37,7 +36,6 @@ const props = withDefaults(
 )
 
 const { chainProperties } = useChain()
-const address = ref(null)
 const error = ref<string | null>('')
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
 const type = computed(() => (error.value ? 'is-danger' : ''))
@@ -54,6 +52,7 @@ const inputValue = computed({
 
 const clearIconClick = () => {
   inputValue.value = ''
+  emit('input', '')
 }
 
 const handleInput = (value: string) => {
