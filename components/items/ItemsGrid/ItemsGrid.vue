@@ -47,7 +47,7 @@ import { NeoNftCard } from '@kodadot1/brick'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'
-import isEquel from 'lodash/isEqual'
+import isEqual from 'lodash/isEqual'
 
 const route = useRoute()
 const props = defineProps<{
@@ -120,7 +120,7 @@ watch(
     if (newSearch === undefined || oldSearch === undefined) {
       return
     }
-    if (!isEquel(newSearch, oldSearch)) {
+    if (!isEqual(newSearch, oldSearch)) {
       refetch(parseSearch(props.search))
     }
   },
