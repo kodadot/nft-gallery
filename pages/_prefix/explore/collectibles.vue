@@ -13,11 +13,10 @@ export default {
 
   setup() {
     const { urlPrefix } = usePrefix()
-    const router = useRouter()
 
     const checkRouteAvailability = () => {
       if (!explorerVisible(urlPrefix.value)) {
-        router.push('/')
+        navigateTo('/')
       }
     }
 

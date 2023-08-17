@@ -53,11 +53,10 @@ const { $i18n } = useNuxtApp()
 const drops = useDrops(collectionId)
 const statemintDrops = useDrops(STT_COLLECTION_ID, 'ahp')
 const { urlPrefix } = usePrefix()
-const router = useRouter()
 
 const checkRouteAvailability = () => {
   if (!dropsVisible(urlPrefix.value)) {
-    router.push('/')
+    navigateTo('/')
   }
 }
 

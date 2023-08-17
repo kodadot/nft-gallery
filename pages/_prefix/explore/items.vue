@@ -20,14 +20,13 @@ export default {
   setup() {
     const preferencesStore = usePreferencesStore()
     const { urlPrefix } = usePrefix()
-    const router = useRouter()
     const isSidebarOpen = computed(
       () => preferencesStore.getsidebarFilterCollapse
     )
 
     const checkRouteAvailability = () => {
       if (!explorerVisible(urlPrefix.value)) {
-        router.push('/')
+        navigateTo('/')
       }
     }
 
