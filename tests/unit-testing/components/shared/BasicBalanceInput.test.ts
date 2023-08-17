@@ -1,11 +1,7 @@
-import { createLocalVue, mount } from '@vue/test-utils'
-import Buefy from 'buefy'
+import { mount } from '@vue/test-utils'
 import { expect, it, vi } from 'vitest'
 
 import BasicBalanceInput from '@/components/shared/form/BasicBalanceInput.vue'
-
-const localVue = createLocalVue()
-localVue.use(Buefy)
 
 let wrapper, input
 
@@ -44,7 +40,6 @@ describe('BalanceInput.vue', () => {
           prefix: 'rmrk',
         },
       },
-      localVue,
     })
     input = wrapper.find('[data-testid="balance-input"]')
   })

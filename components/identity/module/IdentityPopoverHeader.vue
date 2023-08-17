@@ -37,14 +37,7 @@ const shortenedAddress = inject('shortenedAddress')
 
 const identity = inject<{ [x: string]: string }>('identity')
 const { urlPrefix } = usePrefix()
-const { $buefy } = useNuxtApp()
-
-const toast = (message: string) => {
-  $buefy.toast.open({
-    message,
-    type: 'is-neo',
-  })
-}
+const { toast } = useToast()
 </script>
 
 <style lang="scss" scoped>
