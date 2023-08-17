@@ -33,7 +33,7 @@ const props = withDefaults(
   defineProps<{
     status: string
     value: boolean
-    canCancel: boolean
+    canCancel?: boolean
   }>(),
   {
     canCancel: true,
