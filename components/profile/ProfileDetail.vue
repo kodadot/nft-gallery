@@ -19,7 +19,7 @@
           <h1 class="title is-2" data-cy="user-identity">
             <a
               v-if="hasBlockExplorer"
-              :href="explorer"
+              v-safe-href="explorer"
               target="_blank"
               rel="nofollow noopener noreferrer">
               <Identity
@@ -40,21 +40,21 @@
           </nuxt-link>
           <div class="is-flex is-align-items-center is-justify-content-center">
             <NeoButton
+              v-safe-href="`https://subscan.io/account/${id}`"
               no-shadow
               variant="text"
               label="Subscan"
               tag="a"
-              :href="`https://subscan.io/account/${id}`"
               target="_blank"
               rel="nofollow noopener noreferrer" />
 
             <div class="divider" />
             <NeoButton
+              v-safe-href="`https://sub.id/#/${id}`"
               no-shadow
               variant="text"
               label="SubID"
               tag="a"
-              :href="`https://sub.id/#/${id}`"
               target="_blank"
               rel="nofollow noopener noreferrer" />
 
