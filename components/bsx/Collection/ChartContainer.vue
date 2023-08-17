@@ -4,10 +4,7 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-import ChainMixin from '@/utils/mixins/chainMixin'
+<script lang="ts" setup>
 import formatBalance from '@/utils/format/balance'
 
 // queries
@@ -15,64 +12,54 @@ import allCollectionSaleEvents from '@/queries/subsquid/bsx/allCollectionSaleEve
 
 // types
 import type { CollectionChartData as ChartData } from '@/utils/chart'
+import CollectionPriceChart from '@/components/shared/collection/PriceChart.vue'
 
-@Component({
-  components: {
-    CollectionPriceChart: () =>
-      import('@/components/shared/collection/PriceChart.vue'),
-  },
-})
-export default class ChartContainer extends mixins(PrefixMixin, ChainMixin) {
-  protected priceData: [ChartData[], ChartData[]] = [[], []]
+const { $apollo, $route } = useNuxtApp()
+const { decimals } = useChain()
+const { client } = usePrefix()
 
-  get id(): string {
-    return this.$route.params.id
-  }
+const priceData = ref<[ChartData[], ChartData[]]>([[], []])
+const id = computed(() => $route.params.id)
 
-  protected mounted() {
-    this.fetchEvents()
-  }
+useLazyAsyncData('priceData', async () => {
+  const data = await Promise.all([
+    queryAllCollectionSaleEvents({ interaction_eq: 'LIST' }),
+    queryAllCollectionSaleEvents({ interaction_eq: 'BUY' }),
+  ])
 
-  protected queryAllCollectionSaleEvents({ interaction_eq }) {
-    return this.$apollo.query({
-      query: allCollectionSaleEvents,
-      client: this.client,
-      variables: {
-        id: this.id,
-        and: {
-          interaction_eq,
-        },
-      },
-    })
-  }
+  for (const [index, element] of data.entries()) {
+    const items = element.data.events
 
-  protected formatValue(value: string): number {
-    return parseFloat(
-      formatBalance(value, this.decimals, false)
-        .replace(/,/g, '')
-        .replace('.0000', '')
-    )
-  }
+    for (const item of items) {
+      const value = formatValue(item.meta)
 
-  protected async fetchEvents() {
-    const data = await Promise.all([
-      this.queryAllCollectionSaleEvents({ interaction_eq: 'LIST' }),
-      this.queryAllCollectionSaleEvents({ interaction_eq: 'BUY' }),
-    ])
-
-    for (const [index, element] of data.entries()) {
-      const items = element.data.events
-
-      for (const item of items) {
-        const value = this.formatValue(item.meta)
-
-        this.priceData[index].push({
-          count: 1,
-          value,
-          date: item.timestamp,
-        })
-      }
+      priceData.value[index].push({
+        count: 1,
+        value,
+        date: item.timestamp,
+      })
     }
   }
+})
+
+const queryAllCollectionSaleEvents = ({ interaction_eq }) => {
+  return $apollo.query({
+    query: allCollectionSaleEvents,
+    client: client.value,
+    variables: {
+      id: id.value,
+      and: {
+        interaction_eq,
+      },
+    },
+  })
+}
+
+const formatValue = (value: string): number => {
+  return parseFloat(
+    formatBalance(value, decimals.value, false)
+      .replace(/,/g, '')
+      .replace('.0000', '')
+  )
 }
 </script>

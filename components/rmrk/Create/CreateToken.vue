@@ -51,7 +51,7 @@
       <template #footer>
         <NeoField key="advanced">
           <CollapseWrapper
-            v-if="base.edition > 1"
+            v-if="base.copies > 1"
             visible="mint.expert.show"
             hidden="mint.expert.hide"
             class="mt-3">
@@ -80,13 +80,12 @@
 <script lang="ts">
 import { BaseTokenType } from '@/components/base/types'
 import collectionForMint from '@/queries/subsquid/rmrk/collectionForMint.graphql'
-
+import { Location } from 'vue-router/types/router'
 import { DETAIL_TIMEOUT } from '@/utils/constants'
 import AuthMixin from '@/utils/mixins/authMixin'
 import ChainMixin from '@/utils/mixins/chainMixin'
 import MetaTransactionMixin from '@/utils/mixins/metaMixin'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
-import RmrkVersionMixin from '@/utils/mixins/rmrkVersionMixin'
 import UseApiMixin from '@/utils/mixins/useApiMixin'
 import {
   notificationTypes,
@@ -94,20 +93,20 @@ import {
   warningMessage,
 } from '@/utils/notification'
 import shouldUpdate from '@/utils/shouldUpdate'
-import {
-  CreatedNFT,
-  Interaction,
-  createInteraction,
-} from '@kodadot1/minimark/v1'
-import { Attribute, asSystemRemark } from '@kodadot1/minimark/common'
+import { CreatedNFT, Interaction } from '@kodadot1/minimark/v1'
+import { CreatedNFT as CreatedNFTV2 } from '@kodadot1/minimark/v2'
+import { Attribute } from '@kodadot1/minimark/common'
 import { formatBalance } from '@polkadot/util'
 import { Component, Prop, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { unwrapSafe } from '@/utils/uniquery'
 import { toNFTId } from '../service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'
 import { Ref as RefType } from 'vue'
-import { MintedCollectionKusama } from '@/composables/transaction/types'
 import { Royalty } from '@/utils/royalty'
+import {
+  MintedCollectionKusama,
+  TokenToList,
+} from '@/composables/transaction/types'
 import { NeoField, NeoMessage } from '@kodadot1/brick'
 
 const components = {
@@ -130,7 +129,6 @@ const components = {
 
 @Component({ components })
 export default class CreateToken extends mixins(
-  RmrkVersionMixin,
   MetaTransactionMixin,
   ChainMixin,
   PrefixMixin,
@@ -142,7 +140,7 @@ export default class CreateToken extends mixins(
     file: null,
     description: '',
     selectedCollection: null,
-    edition: 1,
+    copies: 1,
     secondFile: null,
   }
 
@@ -168,6 +166,10 @@ export default class CreateToken extends mixins(
 
   public updatePrice(value: string) {
     this.price = value
+  }
+
+  get version() {
+    return useRmrkVersion().version.value
   }
 
   get hasPrice() {
@@ -218,10 +220,6 @@ export default class CreateToken extends mixins(
     return balanceInputValid && baseTokenFormValid
   }
 
-  get arweaveUpload(): boolean {
-    return this.preferencesStore.arweaveUpload
-  }
-
   public async submit() {
     if (!this.base.selectedCollection) {
       throw ReferenceError('[MINT] Unable to mint without collection')
@@ -254,6 +252,7 @@ export default class CreateToken extends mixins(
         urlPrefix: urlPrefix.value,
         token: {
           ...this.base,
+          copies: Number(this.base.copies),
           tags: this.tags,
           nsfw: this.nsfw,
           postfix: this.postfix,
@@ -266,8 +265,18 @@ export default class CreateToken extends mixins(
       }
 
       watch([blockNumber, createdNFTs], () => {
-        if (this.hasPrice) {
-          if (blockNumber.value && createdNFTs.value) {
+        if (blockNumber.value && createdNFTs.value) {
+          const isJustNftMint = !this.listed
+          if (isJustNftMint) {
+            setTimeout(
+              () =>
+                this.handleCreatedNftsRedirect(
+                  createdNFTs.value,
+                  blockNumber.value as string
+                ),
+              300
+            )
+          } else if (this.hasPrice) {
             setTimeout(
               () =>
                 this.listForSale(
@@ -286,60 +295,97 @@ export default class CreateToken extends mixins(
     }
   }
 
-  public async listForSale(remarks: CreatedNFT[], originalBlockNumber: string) {
+  public async listForSale(
+    createdNFT: CreatedNFT[] | CreatedNFTV2[],
+    originalBlockNumber: string
+  ) {
     try {
-      const api = await this.useApi()
+      const { transaction, status, isLoading, blockNumber } = useTransaction()
 
-      const { price } = this
-      const balance = formatBalance(price, {
+      watch([isLoading, status], () => {
+        this.isLoading = isLoading.value
+        if (Boolean(status.value)) {
+          this.status = status.value
+        }
+      })
+
+      const balance = formatBalance(this.price, {
         decimals: this.decimals,
         withUnit: this.unit,
       })
-      showNotification(`[💰] Listing NFT to sale for ${balance}`)
 
-      const onlyNfts = remarks
-        .map((nft) => toNFTId(nft, originalBlockNumber))
-        .map((id) => createInteraction(Interaction.LIST, id, String(price)))
-
-      if (!onlyNfts.length) {
+      if (!createdNFT) {
         showNotification('Can not list empty NFTs', notificationTypes.warn)
         return
       }
 
-      const cb = api.tx.utility.batchAll
-      const args = onlyNfts.map((rmrk) => asSystemRemark(api, rmrk))
+      showNotification(`[💰] Listing NFT to sale for ${balance}`)
+      const list: TokenToList[] = createdNFT.map((nft) => ({
+        price: this.price.toString(),
+        nftId: toNFTId(nft, originalBlockNumber),
+      }))
 
       this.isLoading = true
-      await this.howAboutToExecute(
-        this.accountId,
-        cb,
-        [args],
-        (blockNumber) => {
-          showNotification(
-            `[💰] Listed ${this.base.name} for ${balance} in block ${blockNumber}`,
-            notificationTypes.success
-          )
-          this.navigateToDetail(remarks[0], originalBlockNumber)
+      transaction({
+        interaction: Interaction.LIST,
+        urlPrefix: this.urlPrefix,
+        token: list,
+
+        successMessage: (blockNumber) =>
+          `[💰] Listed ${this.base.name} for ${balance} in block ${blockNumber}`,
+      })
+
+      watch([isLoading, blockNumber], () => {
+        if (!isLoading.value && blockNumber.value) {
+          this.handleCreatedNftsRedirect(createdNFT, originalBlockNumber)
         }
-      )
+      })
     } catch (e) {
       showNotification((e as Error).message, notificationTypes.warn)
     }
+  }
+
+  protected handleCreatedNftsRedirect(
+    createdNFT: CreatedNFT[] | CreatedNFTV2[],
+    originalBlockNumber: string
+  ) {
+    const nfts = createdNFT.map((nft) => toNFTId(nft, originalBlockNumber))
+
+    const isSingle = nfts.length === 1
+
+    this.navigateToDetail({
+      pageId: isSingle ? nfts[0] : (this.base.selectedCollection?.id as string),
+      nftName: this.base.name,
+      toCollectionPage: !isSingle,
+    })
   }
 
   protected async estimateTx() {
     // TODO: implement
   }
 
-  protected navigateToDetail(nft: CreatedNFT, blockNumber: string) {
+  protected navigateToDetail({
+    pageId,
+    nftName,
+    toCollectionPage,
+  }: {
+    pageId: string
+    nftName: string
+    toCollectionPage: boolean
+  }) {
     showNotification(
       `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
     )
-    const go = () =>
-      this.$router.push({
-        path: `/rmrk/gallery/${toNFTId(nft, blockNumber)}`,
-        query: { congratsNft: nft.name },
-      })
+    const subPath = toCollectionPage ? 'collection' : 'gallery'
+    const go = () => {
+      const navigateTo: Location = {
+        path: `/${this.urlPrefix}/${subPath}/${pageId}`,
+      }
+      if (!toCollectionPage) {
+        navigateTo.query = { congratsNft: nftName }
+      }
+      return this.$router.push(navigateTo)
+    }
     setTimeout(go, DETAIL_TIMEOUT)
   }
 }

@@ -16,7 +16,7 @@
       href="https://kodadot.substack.com/"
       class="link"
       target="_blank"
-      rel="noopener noreferrer">
+      rel="nofollow noopener noreferrer">
       {{ $t('helper.seeMore') }} >
     </a>
   </div>

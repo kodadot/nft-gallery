@@ -85,9 +85,10 @@ typings/
 # nuxt build output
 .nuxt
 .output
+sitemap.xml
 
 ### its generated, this time is different
 ## service-worker.js
 
 # cypress
-cypress/screenshots/
+# cypress/screenshots/

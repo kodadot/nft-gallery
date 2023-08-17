@@ -26,6 +26,9 @@ function format(
 export function calculateBalance(value: number, decimals = 12): number {
   return Math.trunc(value * Math.pow(10, decimals))
 }
+export function calculateBalanceUsdValue(value: number, decimals = 12): number {
+  return parseFloat((value / Math.pow(10, decimals)).toFixed(4))
+}
 
 export function checkInvalidBalanceFilter(value) {
   if (value === Infinity) {
@@ -34,7 +37,11 @@ export function checkInvalidBalanceFilter(value) {
   return value
 }
 
-export function roundTo(value: number | string, limit: number) {
+export function withoutDigitSeparator(value: string) {
+  return value.replace(/,/g, '')
+}
+
+export function roundTo(value: number | string, limit = 2) {
   const number = Number(value.toLocaleString().replace(/,/g, ''))
   const hasDecimals = number % 1 !== 0
   // `undefined` params in toLocaleString() means use host default language

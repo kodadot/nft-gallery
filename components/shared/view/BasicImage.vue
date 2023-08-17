@@ -23,7 +23,7 @@ const { $consola } = useNuxtApp()
 const { placeholder } = useTheme()
 const props = withDefaults(
   defineProps<{
-    src: string
+    src?: string
     alt?: string
     customClass?: string
     rounded?: boolean
@@ -36,6 +36,10 @@ const props = withDefaults(
 )
 
 const imageSrc = ref(props.src)
+
+watchEffect(() => {
+  imageSrc.value = props.src
+})
 const loaded = ref(false)
 
 const onImageLoad = () => {

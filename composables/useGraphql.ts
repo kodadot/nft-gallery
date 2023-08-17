@@ -2,7 +2,7 @@ import resolveQueryPath from '@/utils/queryPathResolver'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import type { QueryOptions } from 'apollo-client'
 
-const useQueryParams = ({ queryPrefix, clientName }) => {
+export const useQueryParams = ({ queryPrefix, clientName }) => {
   const { client } = usePrefix()
 
   return {
@@ -26,15 +26,19 @@ export default function ({
 
   interface DoFetchParams {
     options?: Omit<QueryOptions, 'query'>
+    variables?: Record<string, unknown>
   }
-  async function doFetch({ options: extraOptions = {} }: DoFetchParams = {}) {
+  async function doFetch({
+    options: extraOptions = {},
+    variables: extraVariables = {},
+  }: DoFetchParams = {}) {
     const query = await resolveQueryPath(prefix, queryName)
 
     try {
       const response = await $apollo.query({
         query: query.default,
         client: client,
-        variables,
+        variables: { ...variables, ...extraVariables },
         ...options,
         ...extraOptions,
       })
@@ -48,11 +52,12 @@ export default function ({
     }
   }
 
-  async function refetch() {
+  async function refetch(variables: Record<string, unknown> = {}) {
     await doFetch({
       options: {
         fetchPolicy: 'network-only',
       },
+      variables,
     })
   }
 

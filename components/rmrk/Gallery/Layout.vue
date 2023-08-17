@@ -1,6 +1,6 @@
 <template>
   <div class="content is-hidden-mobile">
-    <NeoField :position="position">
+    <NeoField>
       <NeoTooltip :label="$t('tooltip.largeDisplay')">
         <NeoRadioButton
           v-model="preferenceLayout"
@@ -31,34 +31,23 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { RmrkType } from '@/components/rmrk/service/scheme'
+<script lang="ts" setup>
 import { usePreferencesStore } from '@/stores/preferences'
-
 import { NeoField, NeoIcon, NeoRadioButton, NeoTooltip } from '@kodadot1/brick'
 
-@Component({ components: { NeoIcon, NeoRadioButton, NeoTooltip, NeoField } })
-export default class Layout extends Vue {
-  @Prop({ default: 'nftDetail' }) public type!: string
-  @Prop({ default: 'rmrk/detail' }) public link!: string
-  @Prop({ type: Boolean, default: false }) public readonly disabled!: boolean
-  @Prop({ type: String, default: 'is-right' }) public readonly position!:
-    | 'is-left'
-    | 'is-right'
-  @Prop() public items!: RmrkType[]
-
-  get preferencesStore() {
-    return usePreferencesStore()
-  }
-
-  get preferenceLayout() {
-    return this.preferencesStore.getLayoutClass
-  }
-
-  set preferenceLayout(data) {
-    this.$emit('change')
-    this.preferencesStore.setLayoutClass(data)
-  }
-}
+defineProps({
+  type: { type: String, default: 'nftDetail' },
+  link: { type: String, default: 'rmrk/detail' },
+  disabled: { type: Boolean, default: false },
+  items: { type: Array, default: () => [] },
+})
+const emit = defineEmits(['change'])
+const preferencesStore = usePreferencesStore()
+const preferenceLayout = computed({
+  get: () => preferencesStore.getLayoutClass,
+  set: (value) => {
+    emit('change')
+    preferencesStore.setLayoutClass(value)
+  },
+})
 </script>

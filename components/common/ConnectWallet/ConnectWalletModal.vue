@@ -1,21 +1,19 @@
 <template>
   <div class="wallet-modal-container is-flex is-flex-direction-column">
-    <header class="modal-card-head mb-4">
-      <b-button
-        v-show="hasSelectedWalletProvider"
-        type="is-text"
-        class="mr-2 is-no-border"
-        icon-left="chevron-left"
-        @click="hasSelectedWalletProvider = !hasSelectedWalletProvider" />
+    <header class="modal-card-head">
       <span class="modal-card-title is-size-6 has-text-weight-bold">
-        {{ headerTitle }}
+        {{
+          showAccount
+            ? $i18n.t('profile.page')
+            : $i18n.t('walletConnect.walletHeading')
+        }}
       </span>
       <a class="is-flex is-align-items-center" @click="emit('close')">
         <NeoIcon icon="close" />
       </a>
     </header>
     <section v-if="showAccount">
-      <WalletAsset @back="setForceWalletSelect" />
+      <WalletAsset />
     </section>
     <section v-else-if="hasUserWalletAuth" class="modal-card-body">
       <div class="buttons m-0">
@@ -71,7 +69,7 @@
         class="is-size-7 has-text-link is-flex is-align-items-center"
         href="https://docs.kodadot.xyz/tutorial-overview.html"
         target="_blank"
-        rel="noopener noreferrer">
+        rel="nofollow noopener noreferrer">
         <NeoIcon class="mr-2" icon="circle-info" />
         {{ $i18n.t('walletConnect.walletLink') }}
       </a>
@@ -88,39 +86,21 @@ import { NeoField } from '@kodadot1/brick'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem.vue'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'
 
-const { redesign } = useExperiments()
-
 const { $i18n } = useNuxtApp()
 const selectedWalletProvider = ref<BaseDotsamaWallet>()
-const hasSelectedWalletProvider = ref(false)
 const forceWalletSelect = ref(false)
 const identityStore = useIdentityStore()
 const { urlPrefix } = usePrefix()
-
-const setForceWalletSelect = () => {
-  forceWalletSelect.value = true
-}
+const emit = defineEmits(['close', 'connect'])
 
 const account = computed(() => identityStore.auth.address)
-const showAccount = computed(() => account.value && !forceWalletSelect.value)
+const showAccount = computed(() => account.value)
 
 const wallets = SupportedWallets()
-const headerTitle = computed(() => {
-  if (redesign.value) {
-    return $i18n.t('profile.page')
-  }
-
-  return $i18n.t(
-    account.value
-      ? 'walletConnect.walletDetails'
-      : hasUserWalletAuth
-      ? 'walletConnect.walletHeading'
-      : 'walletConnect.warning'
-  )
-})
 const setAccount = (account: Auth) => {
   forceWalletSelect.value = false
   identityStore.setAuth(account)
+  emit('connect', account)
 
   if (selectedWalletProvider.value) {
     localStorage.setItem('wallet', selectedWalletProvider.value.extensionName)
@@ -140,7 +120,6 @@ const showUninstalledWallet = ref(!installedWallet.value.length)
 const hasUserWalletAuth = ref(
   Boolean(localStorage.getItem('user_auth_wallet_add'))
 )
-const emit = defineEmits(['close'])
 
 const toggleShowUninstalledWallet = () => {
   showUninstalledWallet.value = !showUninstalledWallet.value

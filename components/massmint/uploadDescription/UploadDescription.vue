@@ -1,12 +1,11 @@
 <template>
   <div>
-    <NeoCollapse :disabled="disabled">
+    <NeoCollapsible :disabled="disabled">
       <div class="is-flex">
         {{ $t('massmint.uploadDesc') }}
         <NeoIcon
           v-if="showCheckmark"
           icon="circle-check"
-          size="small"
           variant="success"
           class="ml-3" />
         <div v-else class="icon-placeholder ml-3" />
@@ -27,14 +26,14 @@
           </template>
         </DragDrop>
       </template>
-    </NeoCollapse>
+    </NeoCollapsible>
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
+import { NeoCollapsible, NeoIcon } from '@kodadot1/brick'
 import DragDrop from '@/components/shared/DragDrop.vue'
-import { useParseDescriptionFile } from './useParseDescriptionFile'
+import { useParseDescriptionFile } from '@/composables/massmint/useParseDescriptionFile'
 
 withDefaults(
   defineProps<{
@@ -56,7 +55,6 @@ const onFileSelected = (file: File) => {
   showCheckmark.value = false
   loading.value = true
 
-  // replace true with check for valid file type
   const { entries, error, loading: isLoading } = useParseDescriptionFile(file)
 
   watch(isLoading, (loadingDescFile) => {

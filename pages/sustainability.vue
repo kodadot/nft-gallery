@@ -104,26 +104,27 @@
     </ul>
   </div>
 </template>
+
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
 import { NeoIcon } from '@kodadot1/brick'
-@Component<Sustainibility>({
+
+export default {
+  name: 'Sustainibility',
+  components: {
+    NeoIcon,
+  },
+  layout: 'centered-half-layout',
   head() {
+    const runtimeConfig = useRuntimeConfig()
     const metaData = {
       type: 'article',
       description: 'KodaDot: Sustainibility mission',
       url: '/sustainibility',
-      image: `${this.$config.public.baseUrl}/k_card.png`,
+      image: `${runtimeConfig.public.baseUrl}/k_card.png`,
     }
     return {
       meta: [...this.$seoMeta(metaData)],
     }
   },
-  components: { NeoIcon },
-})
-export default class Sustainibility extends Vue {
-  layout() {
-    return 'centered-half-layout'
-  }
 }
 </script>

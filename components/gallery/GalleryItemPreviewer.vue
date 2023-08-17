@@ -28,14 +28,19 @@
 <script setup lang="ts">
 import { useVModel } from '@vueuse/core'
 import { MediaItem, NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
-import { useGalleryItem } from './useGalleryItem'
-const { nft, nftAnimation, nftMimeType } = useGalleryItem()
+import { GalleryItem } from './useGalleryItem'
 const { placeholder } = useTheme()
 
 const props = defineProps<{
   value: boolean
   itemSrc: string
+  galleryItem: GalleryItem
 }>()
+
+const nft = computed(() => props.galleryItem.nft.value)
+const nftMimeType = computed(() => props.galleryItem.nftMimeType.value)
+const nftAnimation = computed(() => props.galleryItem.nftAnimation.value)
+
 const emit = defineEmits(['input'])
 const isFullscreen = useVModel(props, 'value', emit)
 </script>
@@ -49,6 +54,7 @@ const isFullscreen = useVModel(props, 'value', emit)
     height: calc(100% - $navbar-desktop-min-height + 1px) !important;
     margin-top: calc($navbar-desktop-min-height - 1px) !important;
     border: none !important;
+    width: 100%;
     @include mobile {
       height: calc(100% - $navbar-mobile-min-height + 1px) !important;
       margin-top: calc($navbar-mobile-min-height - 1px) !important;
@@ -66,9 +72,12 @@ const isFullscreen = useVModel(props, 'value', emit)
   }
   .back-button {
     position: absolute;
-    right: 2rem;
+    left: 0.75rem;
     top: 2rem;
     z-index: 99;
+    @include desktop {
+      left: $fluid-container-padding;
+    }
   }
   &-container {
     @include ktheme() {

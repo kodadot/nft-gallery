@@ -1,5 +1,8 @@
-import type { ActionMintCollection, CollectionToMintKusama } from '../types'
-import { ExecuteTransactionParams } from '@/composables/useTransaction'
+import type {
+  ActionMintCollection,
+  CollectionToMintKusama,
+  ExecuteTransactionParams,
+} from '../types'
 import { constructMeta } from './constructMeta'
 import {
   Interaction,
@@ -59,6 +62,6 @@ export async function execMintCollectionRmrk(
         })),
     errorMessage:
       item.errorMessage ||
-      $i18n.t('mint.ErrorCreateNewNft', { name: item.collection.name }),
+      $i18n.t('mint.errorCreateNewNft', { name: item.collection.name }),
   })
 }

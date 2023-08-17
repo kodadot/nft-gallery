@@ -1,20 +1,28 @@
 <template>
   <section>
-    <StatsHeader :title="$t('hot.title')" :subtitle="$t('hot.subtitle')" />
+    <StatsHeader
+      :title="$t('hot.title')"
+      :subtitle="$t('hot.subtitle', { chain: urlPrefix })" />
     <HotTable />
   </section>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+export default {
+  name: 'HotDashboard',
+  setup() {
+    const { urlPrefix } = usePrefix()
 
-@Component<HotDashboard>({
+    return {
+      urlPrefix,
+    }
+  },
   head() {
     const title = 'Recently KUSAMA Sales'
     const metaData = {
       title,
       type: 'profile',
-      description: 'Featuring the hot NFTs on RMRK.',
-      url: '/hot.vue',
+      description: 'Featuring the hot NFTs on Kusama',
+      url: '/hot',
       image: `${this.$config.public.baseUrl}/k_card.png`,
     }
     return {
@@ -22,6 +30,5 @@ import { Component, Vue } from 'nuxt-property-decorator'
       meta: [...this.$seoMeta(metaData)],
     }
   },
-})
-export default class HotDashboard extends Vue {}
+}
 </script>

@@ -1,5 +1,4 @@
-import type { ActionMintCollection } from '../types'
-import { ExecuteTransactionParams } from '@/composables/useTransaction'
+import type { ActionMintCollection, ExecuteTransactionParams } from '../types'
 import { constructMeta } from './constructMeta'
 import { useNewCollectionId } from './useNewCollectionId'
 import { createArgs } from './utils'
@@ -31,7 +30,7 @@ export async function execMintCollectionBasilisk(
             })),
         errorMessage:
           item.errorMessage ||
-          $i18n.t('mint.ErrorCreateNewNft', { name: item.collection.name }),
+          $i18n.t('mint.errorCreateNewNft', { name: item.collection.name }),
       })
     }
   })

@@ -1,8 +1,36 @@
 import { Attribute } from '@kodadot1/minimark/common'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { ShoppingActions } from '@/utils/shoppingActions'
-import { BaseMintedCollection, BaseTokenType } from '@/components/base/types'
+import { BaseTokenType } from '@/components/base/types'
 import { Royalty } from '@/utils/royalty'
+import { Extrinsic } from '@/utils/transactionExecutor'
+import type { ApiPromise } from '@polkadot/api'
+import { Ref } from 'vue'
+
+export type ExecuteTransactionParams = {
+  cb: (...params: any[]) => Extrinsic
+  arg: any[]
+  successMessage?: string | ((blockNumber: string) => string)
+  errorMessage?: string | (() => string)
+}
+
+export interface MintTokenParams {
+  item: ActionMintToken
+  api: ApiPromise
+  executeTransaction: (p: ExecuteTransactionParams) => void
+  isLoading: Ref<boolean>
+  status: Ref<string>
+}
+
+export type NftCountType = {
+  nftCount: number
+}
+
+export type Max = { max: number }
+
+export type SymbolType = {
+  symbol: string
+}
 
 export type BaseCollectionType = {
   name: string
@@ -10,29 +38,35 @@ export type BaseCollectionType = {
   description: string
 }
 
-export type MintedCollectionKusama = BaseMintedCollection & {
-  max: number
-  symbol: string
+export type CollectionToMintKusama = BaseCollectionType &
+  NftCountType &
+  SymbolType
+
+export type CollectionToMintStatmine = BaseCollectionType & NftCountType
+
+export type CollectionToMintBasilisk = BaseCollectionType & {
+  tags: Attribute[]
 }
-export type MintedCollectionBasilisk = BaseMintedCollection & {
+
+export type MintedCollection = {
+  id: string
+  alreadyMinted: number
+  metadata: string
+  name?: string
   lastIndexUsed: number
 }
-export interface TokenToMint
-  extends BaseTokenType<MintedCollectionBasilisk | MintedCollectionKusama> {
+
+export type MintedCollectionKusama = MintedCollection & Max & SymbolType
+
+export type TokenToMint = BaseTokenType<
+  MintedCollection | MintedCollectionKusama
+> & {
   tags: Attribute[]
   nsfw: boolean
   postfix: boolean
-  price?: string
+  price?: string | number
   royalty?: Royalty
   hasRoyalty?: boolean
-}
-
-export interface CollectionToMintKusama extends BaseCollectionType {
-  nftCount: number
-  symbol: string
-}
-export interface CollectionToMintBasilisk extends BaseCollectionType {
-  tags: Attribute[]
 }
 
 export type ActionConsume = {
@@ -43,26 +77,34 @@ export type ActionConsume = {
   errorMessage?: string
 }
 
+export type TokenToBuy = {
+  id: string
+  price: string
+  currentOwner: string
+  royalty?: Royalty
+}
+
 export type ActionBuy = {
   interaction: Interaction.BUY
   urlPrefix: string
-  price: string
-  nftId: string
-  tokenId: string
-  currentOwner: string
+  nfts: TokenToBuy | TokenToBuy[]
   successMessage?: string
   errorMessage?: string
-  royalty?: number
-  recipient?: string
+}
+
+export type TokenToList = {
+  price: string
+  nftId: string
 }
 
 export type ActionList = {
   interaction: Interaction.LIST
   urlPrefix: string
-  price: string
-  nftId: string
-  successMessage?: string
+  token: TokenToList | TokenToList[]
+  successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
+  nftId?: string
+  price?: string
 }
 
 export type ActionSend = {
@@ -105,7 +147,7 @@ export type ActionAcceptOffer = {
 export interface ActionMintToken {
   interaction: Interaction.MINTNFT
   urlPrefix: string
-  token: TokenToMint
+  token: TokenToMint | TokenToMint[]
   successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
 }
@@ -113,7 +155,10 @@ export interface ActionMintToken {
 export interface ActionMintCollection {
   interaction: Interaction.MINT
   urlPrefix: string
-  collection: CollectionToMintBasilisk | CollectionToMintKusama
+  collection:
+    | CollectionToMintBasilisk
+    | CollectionToMintKusama
+    | CollectionToMintStatmine
   successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
 }

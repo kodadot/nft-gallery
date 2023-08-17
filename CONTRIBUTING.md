@@ -17,7 +17,7 @@ Before you being:
 - We utilize [**Node.js**](https://nodejs.org) as a development tool. To avoid potential compatibility issues, check if you're on the version of **Node.js we support.**
 - Make sure that you use [**pnpm**](https://pnpm.io/installation) as the package manager.
 - Please have a read the [code of conduct](CODE_OF_CONDUCT.md)
-- [Learn how to set up your environment for the first time](FIRST_TIME.md)
+- [Learn how to set up your environment for the first time](/content/blog/first-time.md)
 - Get familiar with our [coding conventions & recommendations](STYLE_GUIDE.md)
 - Read up on our [tech stack](https://medium.com/kodadot/the-tech-stack-at-kodadot-8a83880f8624) to get a better picture of the infrastructure we rely on
 - Familiarise yourself with our [contributor culture](https://medium.com/kodadot/contributor-culture-at-kodadot-665243d3d6a6) to better understand the dynamics by which we operate
@@ -114,7 +114,8 @@ When we merge those changes, they should be deployed to the live site within 24 
 
 ### Pull request template
 
-When you open a pull request, you must fill out the "Ready for review" template before we can review your PR. This template helps reviewers understand your changes and the purpose of your pull request.
+Please have a look before making PR for [a directory with PR templates](https://github.com/kodadot/nft-gallery/tree/main/.github/PULL_REQUEST_TEMPLATE). PRs ignoring our PR template will be closed.
+When you open a pull request, you must fill out one of our PR templates. This template helps reviewers understand your changes and the purpose of your pull request.
 When deciding if we merge in a pull request, we look at the following things:
 
 ### Does it state intent
@@ -176,14 +177,7 @@ For content changes, make sure that you:
 
 ### Keeping tests relevant🔬
 
-Since we're using [Cypress](https://www.cypress.io/) as our primary E2E tool for testing, we need to ensure that newly added features are not breaking tests we previously implemented. Tests run automatically as [GitHub action](https://github.com/features/actions) to catch bugs introduced by development. Still, it's essential to check whether the failing test broke something or whether the subject of the test changed.
-
-One of the main reasons tests will fail (except when bugs get introduced) is that we're using custom HTML tags to [select elements](https://docs.cypress.io/guides/references/best-practices#Selecting-Elements) within the testing suite. If your contribution touches components with these custom tags and you get failed tests, these selectors must be checked and usually adjusted.
-
-You can identify these kinds of problems by seeing similar-looking test reports:
-`Expected to find element: [data-cy="submit"], but never found it.`
-
-TL;DR: If you're touching components which include HTML tags such as `data-cy="submit"`, and the tests fail, make sure the tests still use the correct selector.
+We are currently in the process of installing [Playwright](https://playwright.dev/). Tests will run automatically as [GitHub actions](https://github.com/features/actions) to catch bugs introduced by development. Still, it's essential to do your part by manually testing your PR to see if you can find any errors and request a review from the @kodadot/qa-guild. 
 
 **Example:**
 
@@ -231,11 +225,11 @@ For crafting much better culture and Developer Experience, we reccomend some ext
 - [Refined Github](https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf)
 - [Github HoverCard](https://chrome.google.com/webstore/detail/github-hovercard/mmoahbbnojgkclgceahhakhnccimnplk)
 - [Gifs for Github](https://chrome.google.com/webstore/detail/gifs-for-github/dkgjnpbipbdaoaadbdhpiokaemhlphep)
-- Feel free add your extension which helps you organize and being productive on Github
+- Feel free to add your extension, which helps you organize and be productive on GitHub.
 
 ### Does it follow the contributor covenant
 
-This repository has a [code of conduct](CODE_OF_CONDUCT.md). This repository has a code of conduct, and I will remove things that do not respect it.
+This repository has a [code of conduct](CODE_OF_CONDUCT.md) and we will remove things that do not respect it.
 
 ## Follow us
 

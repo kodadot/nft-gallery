@@ -1,46 +1,63 @@
 <template>
-  <o-tabs
+  <NeoTabs
     v-model="activeTab"
+    type="toggle"
     expanded
     data-cy="gallery-item-tabs"
     content-class="o-tabs__content--fixed gallery-item-tab-panel">
     <!-- offers -->
-    <DisablableTab
+    <NeoTabItem
       value="0"
       data-cy="offer-list"
       :disabled="offersDisabled"
       :label="$t('tabs.offers')"
-      :disabled-tooltip="$t('tabs.offersDisabled')">
+      tag="div"
+      class="p-5">
+      <template #header>
+        <NeoTooltip
+          v-if="offersDisabled"
+          :label="$t('tabs.offersDisabled')"
+          stop-events
+          append-to-body>
+          {{ $t('tabs.offers') }}
+        </NeoTooltip>
+        <div v-else>
+          {{ $t('tabs.offers') }}
+        </div>
+      </template>
+
       <GalleryItemOffers
         v-if="isSnek && nft?.collection.id && nft?.id && nft.currentOwner"
         :collection-id="nft?.collection.id"
         :nft-id="nft?.id"
         :account="nft?.currentOwner" />
-    </DisablableTab>
+      <div v-else></div>
+    </NeoTabItem>
 
     <!-- activity -->
-    <o-tab-item value="1" :label="$t('tabs.activity')" data-cy="offer-activity">
+    <NeoTabItem value="1" :label="$t('tabs.activity')" data-cy="offer-activity">
       <GalleryItemActivity v-if="nft?.id" :nft-id="nft?.id" />
-    </o-tab-item>
+    </NeoTabItem>
 
     <!-- chart -->
-    <o-tab-item value="2" :label="$t('tabs.chart')" class="p-5">
+    <NeoTabItem value="2" :label="$t('tabs.chart')" class="p-5">
       <GalleryItemChart :nft-events="nft?.events" />
-    </o-tab-item>
-  </o-tabs>
+    </NeoTabItem>
+  </NeoTabs>
 </template>
 
 <script setup lang="ts">
-import { OTabItem, OTabs } from '@oruga-ui/oruga'
+import { NeoTabItem, NeoTabs, NeoTooltip } from '@kodadot1/brick'
 
-import { useGalleryItem } from '../useGalleryItem'
+import { GalleryItem } from '../useGalleryItem'
 import GalleryItemActivity from './GalleryItemActivity.vue'
 import GalleryItemChart from './GalleryItemChart.vue'
 import GalleryItemOffers from './GalleryItemOffers.vue'
-import { DisablableTab } from '@kodadot1/brick'
+
 const props = withDefaults(
   defineProps<{
     activeTab?: string
+    galleryItem: GalleryItem
   }>(),
   {
     activeTab: '0',
@@ -48,7 +65,7 @@ const props = withDefaults(
 )
 
 const { urlPrefix } = usePrefix()
-const { nft } = useGalleryItem()
+const nft = computed(() => props.galleryItem.nft.value)
 const { offersDisabled } = useChain()
 
 const activeTab = ref('0')

@@ -1,9 +1,17 @@
 import { defineStore } from 'pinia'
 
+type completePurchaseModalState = {
+  isOpen: boolean
+  mode: 'shopping-cart' | 'buy-now'
+}
+
 interface State {
   sidebarFilterCollapseOpen: boolean
   mobileFilterCollapseOpen: boolean
   notificationBoxCollapseOpen: boolean
+  shoppingCartCollapseOpen: boolean
+  completePurchaseModal: completePurchaseModalState
+  triggerBuySuccess: boolean
   layoutClass: string
   galleryLayoutClass: string
   advancedUI: boolean
@@ -23,7 +31,6 @@ interface State {
   // Minting
   hasSupport: boolean
   hasCarbonOffset: boolean
-  arweaveUpload: boolean
   // Mass Mint
   visitedOnboarding: boolean
 }
@@ -33,6 +40,12 @@ export const usePreferencesStore = defineStore('preferences', {
     sidebarFilterCollapseOpen: true,
     mobileFilterCollapseOpen: false,
     notificationBoxCollapseOpen: false,
+    shoppingCartCollapseOpen: false,
+    completePurchaseModal: {
+      isOpen: false,
+      mode: 'shopping-cart',
+    },
+    triggerBuySuccess: false,
     layoutClass: 'is-one-quarter-desktop is-one-third-tablet',
     galleryLayoutClass:
       'is-one-quarter-desktop is-one-third-tablet is-half-mobile',
@@ -49,7 +62,6 @@ export const usePreferencesStore = defineStore('preferences', {
     replaceBuyNowWithYolo: false,
     hasSupport: true,
     hasCarbonOffset: true,
-    arweaveUpload: false,
     enableAllArtwork: true,
     enableGyroEffect: false,
     gridSize: 'small',
@@ -59,6 +71,9 @@ export const usePreferencesStore = defineStore('preferences', {
     getsidebarFilterCollapse: (state) => state.sidebarFilterCollapseOpen,
     getMobileFilterCollapse: (state) => state.mobileFilterCollapseOpen,
     getNotificationBoxCollapse: (state) => state.notificationBoxCollapseOpen,
+    getShoppingCartCollapse: (state) => state.shoppingCartCollapseOpen,
+    getCompletePurchaseModal: (state) => state.completePurchaseModal,
+    getTriggerBuySuccess: (state) => state.triggerBuySuccess,
     getLayoutClass: (state) => state.layoutClass,
     getGalleryLayoutClass: (state) => state.galleryLayoutClass,
     getTheatreView: (state) => state.theatreView,
@@ -72,7 +87,6 @@ export const usePreferencesStore = defineStore('preferences', {
     getReplaceBuyNowWithYolo: (state) => state.replaceBuyNowWithYolo,
     getHasSupport: (state) => state.hasSupport,
     getHasCarbonOffset: (state) => state.hasCarbonOffset,
-    getArweaveUpload: (state) => state.arweaveUpload,
     getLoadAllArtwork: (state) => state.enableAllArtwork,
     getEnableGyroEffect: (state) => state.enableGyroEffect,
     getGridSize: (state) => state.gridSize,
@@ -87,6 +101,18 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     setNotificationBoxCollapse(payload) {
       this.notificationBoxCollapseOpen = payload
+    },
+    setShoppingCartCollapse(payload) {
+      this.shoppingCartCollapseOpen = payload
+    },
+    setCompletePurchaseModal(payload: completePurchaseModalState) {
+      this.completePurchaseModal = payload
+    },
+    setCompletePurchaseModalOpen(payload) {
+      this.completePurchaseModal.isOpen = payload
+    },
+    setTriggerBuySuccess(payload) {
+      this.triggerBuySuccess = payload
     },
     setLayoutClass(payload) {
       this.layoutClass = payload
@@ -143,9 +169,6 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     setHasCarbonOffset(payload) {
       this.hasCarbonOffset = payload
-    },
-    setArweaveUpload(payload) {
-      this.arweaveUpload = payload
     },
     setAllArtworkVisible(payload) {
       this.enableAllArtwork = payload

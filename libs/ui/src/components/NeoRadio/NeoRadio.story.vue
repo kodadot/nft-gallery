@@ -63,7 +63,7 @@
     </Variant>
 
     <Variant title="NeoRadioButton">
-      <OField>
+      <div class="field">
         <NeoRadioButton
           v-model="radioButton"
           native-value="Nope"
@@ -88,7 +88,7 @@
         <NeoRadioButton v-model="radioButton" native-value="Disabled" disabled>
           Disabled
         </NeoRadioButton>
-      </OField>
+      </div>
 
       <p class="content">
         <b>Selection:</b>
@@ -100,7 +100,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { OField } from '@oruga-ui/oruga'
 import NeoRadio from './NeoRadio.vue'
 import NeoRadioButton from './NeoRadioButton.vue'
 

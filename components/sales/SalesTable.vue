@@ -1,22 +1,18 @@
 <template>
   <div>
-    <Loader :value="$fetchState.pending" />
-    <b-table :data="data" hoverable class="series-sticky-header">
-      <b-table-column
-        v-slot="props"
-        cell-class="is-vcentered"
-        field="idx"
-        label="N°">
+    <Loader :value="pending" />
+    <NeoTable :data="sales" hoverable>
+      <NeoTableColumn v-slot="props" position="centered" field="idx" label="N°">
         {{ props.row.idx }}
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-slot="props"
         field="image"
         label=""
-        header-class="front-stack-layer"
-        cell-class="is-vcentered">
+        class="front-stack-layer"
+        position="centered">
         <div class="image is-48x48">
-          <nuxt-link :to="`/rmrk/gallery/${props.row.id}`">
+          <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.id}`">
             <BasicPopup placement="top">
               <template #trigger>
                 <BasicImage
@@ -33,146 +29,131 @@
             </BasicPopup>
           </nuxt-link>
         </div>
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered"
+        position="centered"
         field="name"
         :label="$t('name')">
         <nuxt-link :to="`/rmrk/gallery/${props.row.id}`">
           {{ props.row.name }}
         </nuxt-link>
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered"
+        position="centered"
         field="collectionId"
         label="Collection">
         <nuxt-link :to="`/rmrk/collection/${props.row.collectionId}`">
           {{ props.row.collectionName }}
         </nuxt-link>
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered"
+        position="centered"
         field="buyer"
         :label="$t('sales.buyer')">
         <nuxt-link :to="`/rmrk/u/${props.row.buyer}`">
           <Identity :address="props.row.buyer" />
         </nuxt-link>
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered"
+        position="centered"
         field="timestamp"
         :label="$t('sales.tableDate')">
         <div>
-          <NeoTooltip :label="props.row.date">
+          <NeoTooltip :label="props.row.date" position="left">
             <BlockExplorerLink
               :text="props.row.relDate"
               :block-id="props.row.blockNumber" />
           </NeoTooltip>
         </div>
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered"
+        position="centered"
         field="salePrice"
         :label="$t('sales.price')">
         <Money :value="props.row.salePrice" inline />
-      </b-table-column>
+      </NeoTableColumn>
 
       <template #empty>
-        <div v-if="!$fetchState.pending" class="has-text-centered">
+        <div v-if="!pending" class="w-100 has-text-centered">
           {{ $t('spotlight.empty') }}
         </div>
-        <NeoSkeleton :active="$fetchState.pending" />
+        <NeoSkeleton :active="pending" />
       </template>
-    </b-table>
+    </NeoTable>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
+<script setup lang="ts">
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
-import { NeoSkeleton, NeoTooltip } from '@kodadot1/brick'
-
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-import { sanitizeIpfsUrl } from '@/utils/ipfs'
-
-import salesFeedGql from '@/queries/rmrk/subsquid/salesFeed.graphql'
-
-import { RowSales } from './types'
-
-const components = {
-  Identity: () => import('@/components/identity/IdentityIndex.vue'),
-  Money: () => import('@/components/shared/format/Money.vue'),
-  Loader: () => import('@/components/shared/Loader.vue'),
-  BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
-  BasicPopup: () => import('@/components/shared/view/BasicPopup.vue'),
-  BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
+import {
   NeoSkeleton,
+  NeoTable,
+  NeoTableColumn,
   NeoTooltip,
+} from '@kodadot1/brick'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import salesFeedGql from '@/queries/rmrk/subsquid/salesFeed.graphql'
+import BasicImage from '@/components/shared/view/BasicImage.vue'
+import BasicPopup from '@/components/shared/view/BasicPopup.vue'
+import Identity from '@/components/identity/IdentityIndex.vue'
+import Money from '@/components/shared/format/Money.vue'
+
+const sales = ref([])
+const { $apollo } = useNuxtApp()
+const { client, urlPrefix } = usePrefix()
+
+const parseDate = (ts: number) => {
+  return new Date(ts).toLocaleString('en-GB', {
+    timeZone: 'UTC',
+    timeZoneName: 'short',
+  })
 }
 
-@Component({ components })
-export default class SalesTable extends mixins(PrefixMixin) {
-  protected data: RowSales[] = []
-
-  async fetch() {
-    await this.fetchSalesFeed()
-  }
-
-  protected parseDate(ts: number): string {
-    return new Date(ts).toLocaleString('en-GB', {
-      timeZone: 'UTC',
-      timeZoneName: 'short',
-    })
-  }
-
-  public async fetchSalesFeed() {
+const { pending, refresh: refreshNftSales } = useLazyAsyncData(
+  'data',
+  async () => {
     const {
       data: { salesFeed },
-    } = await this.$apollo.query({
+    } = await $apollo.query({
       query: salesFeedGql,
-      client: this.client,
+      client: client.value,
       variables: {},
     })
 
     salesFeed.forEach((nft, idx) => {
       nft.idx = idx + 1
       nft.image = sanitizeIpfsUrl(nft.image)
-      nft.date = this.parseDate(Number(nft.timestamp))
+      nft.date = parseDate(Number(nft.timestamp))
       nft.relDate = formatDistanceToNow(Number(nft.timestamp), {
         addSuffix: true,
       })
     })
 
-    this.data = salesFeed
+    sales.value = salesFeed
   }
-}
+)
+
+watch(client, (value) => {
+  if (value) {
+    refreshNftSales()
+  }
+})
 </script>
+
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
-
-.b-radio.is-selected {
-  color: #000;
-  background-color: $primary;
-}
 
 .history {
   width: 200px;
   height: 100px;
-}
-
-.series-sticky-header th {
-  top: 120px;
-  position: sticky;
-  background: $frosted-glass-background;
-  backdrop-filter: $frosted-glass-backdrop-filter;
 }
 
 .front-stack-layer {

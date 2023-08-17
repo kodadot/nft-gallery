@@ -9,14 +9,21 @@
         class="unloackable-icon"
         :src="unloackableIcon"
         alt="Unlockable Icon" />
-      <MediaItem
-        :key="nft.image"
-        class="nft-media"
-        :src="nft.image"
-        :animation-src="nft.animationUrl"
-        :mime-type="nft.mimeType"
-        :placeholder="placeholder"
-        :title="nft?.name" />
+      <div class="is-relative">
+        <MediaItem
+          :key="nft.image"
+          class="nft-media"
+          :src="nft.image"
+          :animation-src="nft.animationUrl"
+          :mime-type="nft.mimeType"
+          :placeholder="placeholder"
+          :title="nft?.name" />
+        <div
+          :class="[showActionOnHover ? 'show-on-hover' : 'show-always']"
+          class="w-full is-flex is-justify-content-center action-container">
+          <slot name="action" />
+        </div>
+      </div>
       <div
         class="nft-media-info is-flex is-flex-direction-column"
         :class="`nft-media-info__${variant}`">
@@ -24,7 +31,7 @@
           <span
             class="is-ellipsis has-text-weight-bold"
             data-cy="nft-name"
-            :title="name"
+            :title="nft.name"
             >{{ nft.name || '--' }}</span
           >
 
@@ -110,6 +117,7 @@ withDefaults(
     unloackableIcon?: string
     link?: string
     bindKey?: string
+    showActionOnHover?: boolean
   }>(),
   {
     collectionPopoverShowDelay: 500,
@@ -117,6 +125,7 @@ withDefaults(
     unloackableIcon: undefined,
     link: 'a',
     bindKey: 'href',
+    showActionOnHover: true,
   }
 )
 </script>

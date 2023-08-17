@@ -25,17 +25,15 @@
         </template>
 
         <template #content>
-          <div>
-            <input
-              v-model="price"
-              class="input-price pl-3"
-              type="number"
-              :placeholder="
-                isListed
-                  ? `${$i18n.t('transaction.price.new')}`
-                  : `${$i18n.t('transaction.price.list')}`
-              " />
-          </div>
+          <input
+            v-model="price"
+            class="input-price px-4"
+            type="number"
+            :placeholder="
+              isListed
+                ? `${$i18n.t('transaction.price.new')}`
+                : `${$i18n.t('transaction.price.list')}`
+            " />
         </template>
       </GalleryItemActionSlides>
     </GalleryItemPriceSection>
@@ -52,6 +50,7 @@ import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
 import { Interaction } from '@kodadot1/minimark/v1'
 
 const { transaction, status, isLoading } = useTransaction()
+const { decimals } = useChain()
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 
@@ -82,8 +81,11 @@ function updatePrice() {
     transaction({
       interaction: Interaction.LIST,
       urlPrefix: urlPrefix.value,
-      price: price.value && String(calculateBalance(price.value)),
-      nftId: props.nftId,
+      token: {
+        price:
+          price.value && String(calculateBalance(price.value, decimals.value)),
+        nftId: props.nftId,
+      },
       successMessage: $i18n.t('transaction.price.success') as string,
       errorMessage: $i18n.t('transaction.price.error') as string,
     })

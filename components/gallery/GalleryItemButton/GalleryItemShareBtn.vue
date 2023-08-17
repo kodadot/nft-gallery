@@ -1,21 +1,23 @@
 <template>
   <div>
-    <NeoDropdown>
-      <NeoButton
-        :class="isMobileDevice ? 'icon-action' : ''"
-        :label="label"
-        :icon="icon" />
-
-      <template #items>
-        <NeoDropdownItem
-          v-clipboard:copy="realworldFullPathShare"
-          item="Copy Link"
-          @click.native="toast(String($t('toast.urlCopy')))" />
-        <NeoDropdownItem item="QR Code" @click.native="isModalActive = true" />
-        <NeoDropdownItem
-          item="Share On Twitter"
-          @click.native="actionTwitterShare" />
+    <NeoDropdown position="bottom-left" :mobile-modal="false">
+      <template #trigger="{ active }">
+        <NeoButton
+          :class="isMobileDevice ? 'icon-action' : ''"
+          :label="label"
+          :icon="icon"
+          :active="active" />
       </template>
+
+      <NeoDropdownItem
+        v-clipboard:copy="realworldFullPathShare"
+        @click="toast(String($t('toast.urlCopy')))">
+        Copy Link
+      </NeoDropdownItem>
+      <NeoDropdownItem @click="isModalActive = true">QR Code</NeoDropdownItem>
+      <NeoDropdownItem @click="actionTwitterShare">
+        Share On Twitter
+      </NeoDropdownItem>
     </NeoDropdown>
 
     <NeoModal v-model="isModalActive" @close="isModalActive = false">

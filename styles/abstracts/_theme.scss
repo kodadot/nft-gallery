@@ -12,6 +12,7 @@ $themes: (
     'k-accentlight': #ffe5f3,
     'k-accentHover': #ffe5f3,
     'k-accentlight2': #ffe5f3,
+    'k-accentlight2-dark': #363234,
     'k-green': #04af00,
     'k-red': #ff5757,
     'k-orange': #cf9a10,
@@ -36,6 +37,7 @@ $themes: (
     'blue-accent-bg-color': #b6cbff,
     'blue-light-hover-color': #e8edfb,
     'card-hover-opacity': 0.85,
+    'separator-line-color': #cccccc,
   ),
   'dark-mode': (
     'white': #ffffff,
@@ -48,8 +50,9 @@ $themes: (
     'border-color': #ffffff,
     'k-accent': #191718,
     'k-accentlight': #ffe5f3,
-    'k-accentHover': #ff7ac3,
+    'k-accentHover': #363234,
     'k-accentlight2': #363234,
+    'k-accentlight2-dark': #ffffff,
     'k-green': #04af00,
     'k-red': #ff5757,
     'k-orange': #cf9a10,
@@ -74,6 +77,7 @@ $themes: (
     'blue-accent-bg-color': #363234,
     'blue-light-hover-color': #363234,
     'card-hover-opacity': 0.8,
+    'separator-line-color': #6b6b6b,
   ),
 );
 

@@ -1,27 +1,15 @@
 <template>
   <section>
-    <div class="columns">
-      <div class="column is-four-fifths">
-        <h1 class="title is-2">{{ $t('spotlight.title') }}</h1>
-        <p class="subtitle is-size-5">{{ $t('spotlight.subtitle') }}</p>
-      </div>
-      <div class="column">
-        <img
-          src="~/assets/rmrk-logo-pink-faded.png"
-          alt="RMRK"
-          class="chain-logo is-hidden-mobile" />
-      </div>
-    </div>
-
+    <StatsHeader
+      :title="$t('spotlight.title')"
+      :subtitle="$t('spotlight.subtitle')" />
     <SpotlightTable />
   </section>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
-
-@Component<Spotlight>({
+export default {
+  name: 'Spotlight',
   components: {
-    Identity: () => import('@/components/identity/IdentityIndex.vue'),
     SpotlightTable: () => import('@/components/spotlight/SpotlightTable.vue'),
   },
   head() {
@@ -38,6 +26,5 @@ import { Component, Vue } from 'nuxt-property-decorator'
       meta: [...this.$seoMeta(metaData)],
     }
   },
-})
-export default class Spotlight extends Vue {}
+}
 </script>

@@ -10,7 +10,7 @@
             v-if="hasBlockExplorer"
             :href="explorer"
             target="_blank"
-            rel="noopener noreferrer">
+            rel="nofollow noopener noreferrer">
             <Identity
               ref="identity"
               :address="id"
@@ -50,59 +50,58 @@
       <div class="column has-text-right">
         <div v-if="hasBlockExplorer" class="is-flex is-justify-content-right">
           <div v-for="network in networks" :key="network.alt" class="control">
-            <b-button class="share-button" type="is-bordered-light">
-              <a
-                :href="`${network.url}${id}`"
-                target="_blank"
-                rel="noopener noreferrer">
-                <figure class="image is-24x24">
+            <a
+              :href="`${network.url}${id}`"
+              target="_blank"
+              rel="nofollow noopener noreferrer">
+              <NeoButton class="share-button" no-shadow>
+                <figure class="image is-16x16">
                   <img :alt="network.alt" :src="network.img" />
                 </figure>
-              </a>
-            </b-button>
+              </NeoButton>
+            </a>
           </div>
         </div>
-        <Sharing
-          v-if="!sharingVisible"
-          class="mb-2"
-          :label="$t('sharing.profile')"
-          :iframe="iframeSettings">
+        <div class="is-flex is-justify-content-right">
+          <ShowQRModal
+            :address="realworldFullPath"
+            :title="$t('sharing.profile')" />
           <DonationButton :address="id" />
-        </Sharing>
+        </div>
       </div>
     </div>
 
     <section>
-      <b-tabs
+      <NeoTabs
         v-model="activeTab"
         :class="{ 'invisible-tab': sharingVisible }"
         class="tabs-container-mobile"
-        destroy-on-hide
         expanded>
-        <b-tab-item value="nft" :header-class="{ 'is-hidden': !totalCreated }">
+        <NeoTabItem value="nft" :header-class="{ 'is-hidden': !totalCreated }">
           <template #header>
             <NeoTooltip
               :label="`${$t('tooltip.created')} ${labelDisplayName}`"
-              append-to-body>
+              :append-to-body="!isMobile">
               {{ $t('profile.created') }}
               <span class="tab-counter">{{ totalCreated }}</span>
             </NeoTooltip>
           </template>
+
           <PaginatedCardList
             :id="id"
             :query="nftListByIssuer"
             :account="id"
             :show-search-bar="true"
             @change="totalCreated = $event" />
-        </b-tab-item>
-        <b-tab-item
+        </NeoTabItem>
+        <NeoTabItem
           :label="`Collections - ${totalCollections}`"
           value="collection"
           :header-class="{ 'is-hidden': !totalCollections }">
           <template #header>
             <NeoTooltip
               :label="`${$t('tooltip.collections')} ${labelDisplayName}`"
-              append-to-body>
+              :append-to-body="!isMobile">
               {{ $t('collections') }}
               <span class="tab-counter">{{ totalCollections }}</span>
             </NeoTooltip>
@@ -133,8 +132,8 @@
             @infinite="reachBottomHandler">
           </InfiniteLoading>
           <ScrollTopButton />
-        </b-tab-item>
-        <b-tab-item
+        </NeoTabItem>
+        <NeoTabItem
           :label="`History - ${totalHistory}`"
           value="history"
           :header-class="{ 'is-hidden': !totalHistory }">
@@ -144,8 +143,8 @@
             :open-on-default="isHistoryOpen"
             display-item
             hide-collapse />
-        </b-tab-item>
-        <b-tab-item
+        </NeoTabItem>
+        <NeoTabItem
           :label="`Sales - ${totalSales}`"
           value="sales"
           :header-class="{ 'is-hidden': !totalSales }">
@@ -156,12 +155,12 @@
             :events="eventsOfSales"
             :open-on-default="isHistoryOpen"
             hide-collapse />
-        </b-tab-item>
-        <b-tab-item value="sold" :header-class="{ 'is-hidden': !totalSold }">
+        </NeoTabItem>
+        <NeoTabItem value="sold" :header-class="{ 'is-hidden': !totalSold }">
           <template #header>
             <NeoTooltip
               :label="`${$t('tooltip.sold')} ${labelDisplayName}`"
-              append-to-body>
+              :append-to-body="!isMobile">
               {{ $t('profile.sold') }}
               <span class="tab-counter">{{ totalSold }}</span>
             </NeoTooltip>
@@ -172,14 +171,14 @@
             :account="id"
             show-search-bar
             @change="totalSold = $event" />
-        </b-tab-item>
-        <b-tab-item
+        </NeoTabItem>
+        <NeoTabItem
           value="collected"
           :header-class="{ 'is-hidden': !totalCollected }">
           <template #header>
             <NeoTooltip
               :label="`${$t('tooltip.collected')} ${labelDisplayName}`"
-              append-to-body>
+              :append-to-body="!isMobile">
               {{ $t('profile.collected') }}
               <span class="tab-counter">{{ totalCollected }}</span>
             </NeoTooltip>
@@ -190,36 +189,36 @@
             :account="id"
             show-search-bar
             @change="totalCollected = $event" />
-        </b-tab-item>
-        <b-tab-item
+        </NeoTabItem>
+        <NeoTabItem
           v-if="isMoonriver"
           value="holdings"
           :header-class="{ 'is-hidden': !totalHoldings }">
           <template #header>
             <NeoTooltip
               :label="`${$t('tooltip.holdings')} ${labelDisplayName}`"
-              append-to-body>
+              :append-to-body="!isMobile">
               {{ $t('profile.holdings') }}
               <span class="tab-counter">{{ totalHoldings }}</span>
             </NeoTooltip>
           </template>
           <Holding :account-id="id" />
-        </b-tab-item>
-        <b-tab-item
+        </NeoTabItem>
+        <NeoTabItem
           v-if="isMoonriver"
           value="gains"
           :header-class="{ 'is-hidden': !totalGains }">
           <template #header>
             <NeoTooltip
               :label="`${$t('tooltip.gains')} ${labelDisplayName}`"
-              append-to-body>
+              :append-to-body="!isMobile">
               {{ $t('profile.gains') }}
               <span class="tab-counter">{{ totalGains }}</span>
             </NeoTooltip>
           </template>
           <UserGainHistory :account-id="id" />
-        </b-tab-item>
-        <b-tab-item
+        </NeoTabItem>
+        <NeoTabItem
           v-if="isBsx || isSnek"
           :label="`Offers Made${
             userOfferList.length ? ' - ' + userOfferList.length : ''
@@ -230,8 +229,8 @@
             :owner-id="id"
             hide-collapse
             @offersListUpdate="offersListUpdate" />
-        </b-tab-item>
-      </b-tabs>
+        </NeoTabItem>
+      </NeoTabs>
     </section>
   </section>
 </template>
@@ -276,14 +275,13 @@ import recentSalesForCreator from '@/queries/rmrk/subsquid/recentSalesForCreator
 
 import { NftHolderEvent } from '../Gallery/Holder/Holder.vue'
 import { exist } from '@/utils/exist'
-import { NeoTooltip } from '@kodadot1/brick'
+import { NeoButton, NeoTabItem, NeoTabs, NeoTooltip } from '@kodadot1/brick'
 
 const tabNameWithoutCollections = ['holdings', 'gains']
 
 const components = {
   GalleryCardList: () =>
     import('@/components/rmrk/Gallery/GalleryCardList.vue'),
-  Sharing: () => import('@/components/shared/Sharing.vue'),
   Identity: () => import('@/components/identity/IdentityIndex.vue'),
   Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
   PaginatedCardList: () =>
@@ -302,7 +300,11 @@ const components = {
   OffersUserTable: () => import('@/components/bsx/Offer/OffersUserTable.vue'),
   Sales: () => import('@/components/rmrk/Profile/Sales.vue'),
   ScrollTopButton: () => import('@/components/shared/ScrollTopButton.vue'),
+  ShowQRModal: () => import('@/components/shared/modals/ShowQRModal.vue'),
+  NeoButton,
   NeoTooltip,
+  NeoTabs,
+  NeoTabItem,
 }
 
 @Component<ProfileDetail>({
@@ -364,24 +366,14 @@ export default class ProfileDetail extends mixins(
   private myNftCount = 0
   protected networks = [
     {
-      url: 'https://dotscanner.com/Kusama/account/',
-      als: 'dotscanner',
-      img: '/dotscanner.svg',
-    },
-    {
       url: 'https://sub.id/#/',
       als: 'subid',
       img: '/subid.svg',
     },
     {
-      url: 'https://kusama.subscan.io/account/',
+      url: 'https://subscan.io/account/',
       als: 'subscan',
       img: '/subscan.svg',
-    },
-    {
-      url: 'https://polkascan.io/kusama/account/',
-      als: 'polkascan',
-      img: '/polkascan.png',
     },
   ]
 
@@ -391,6 +383,8 @@ export default class ProfileDetail extends mixins(
   readonly recentSalesForCreator = recentSalesForCreator
   private openHistory = true
   private openSalesTab = true
+
+  public isMobile = window.innerWidth < 768
 
   created() {
     /*
@@ -557,6 +551,10 @@ export default class ProfileDetail extends mixins(
       this.id = this.$route.params.id
       this.shortendId = shortAddress(this.id)
     }
+  }
+
+  get realworldFullPath(): string {
+    return window.location.href
   }
 
   get isMoonriver(): boolean {

@@ -13,7 +13,7 @@ To create your DOT address in a safe and long-term manner, we recommend you get 
 
 After creating an account, you can visit [KodaDot Transfer](https://kodadot.xyz/dot/transfer) to make a payment link. Entering an amount like 100 USD and clicking the button **COPY REWARD ME LINK** will copy the link to your clipboard, and you can share it with us, like whenever you are filling up a bug report or submitting pull-request
 
-Your receiving address should be looks like this.
+Your receiving address should look like this.
 
 `https://kodadot.xyz/dot/transfer?target=${your address}&usdamount=100&donation=true`
 
@@ -36,9 +36,9 @@ Our typical payout structure for bounties is per label on the issue. Here is the
 > ⚠️ Make sure you can access your private keys and do not use one from a centralized exchange. We are not responsible for any loss of funds.
 
 
-|                              $                               |                          $$                           |                                $$$                                |                              $$$$                               |                                         $$$$$                                          |
-| :----------------------------------------------------------: | :---------------------------------------------------: | :---------------------------------------------------------------: | :-------------------------------------------------------------: | :------------------------------------------------------------------------------------: |
-|                            50-100                            |                        150-300                        |                              450-600                              |                           700 - 1000                            |                                         1000+                                          |
+|                               $                                |                          $$                           |                                $$$                                |                              $$$$                               |                                         $$$$$                                          |
+|:--------------------------------------------------------------:|:-----------------------------------------------------:|:-----------------------------------------------------------------:|:---------------------------------------------------------------:|:--------------------------------------------------------------------------------------:|
+|                              1-50                              |                        51-150                         |                              151-300                              |                            800-1000                             |                                       1000-1200                                        |
 | Beginner, few lines, <br /> a lot of comments/assistance on PR | Required brain use, <br /> smart solution, autonomous | Complex, delivered new shiny stuff, <br /> did not break anything | Dedicated, new feature, rework older stuff, quick delivery time | You seems reliable, responsible, we can trust you, and you have alignment with project |
 
 ### Which issue to pick?

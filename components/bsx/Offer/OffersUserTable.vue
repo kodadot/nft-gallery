@@ -1,13 +1,13 @@
 <template>
   <div>
-    <b-select v-if="!offersListed" v-model="selectedStatus">
+    <NeoSelect v-if="!offersListed" v-model="selectedStatus">
       <option
-        v-for="option in getUniqType(offers)"
+        v-for="option in getUniqType()"
         :key="option.type"
         :value="option.type">
         {{ option.value }}
       </option>
-    </b-select>
+    </NeoSelect>
     <BasicSwitch
       v-if="!hideToggle"
       v-model="offersListed"
@@ -17,10 +17,9 @@
       label-color="has-text-success"
       @input="updateList" />
     <Loader v-model="isLoading" :status="status" />
-    <b-table :data="displayOffers(offers)">
-      <b-table-column
+    <NeoTable :data="displayOffers(offers)">
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         field="nft.name"
         :label="$t('nft.offer.item')"
         sortable>
@@ -31,130 +30,149 @@
             {{ props.row.nft.name || props.row.nft.id }}
           </p>
         </nuxt-link>
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         field="status"
         :label="$t('nft.offer.status')"
         sortable>
         <p>{{ props.row.status || '-' }}</p>
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         field="formatPrice"
         :label="$t('offer.price')"
         sortable>
         <CommonTokenMoney :value="props.row.price" inline />
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         field="expirationBlock"
         :label="$t('offer.expiration')"
         sortable>
         {{ calcExpirationTime(props.row.expiration) }}
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-slot="props"
         field="createdAt"
-        cell-class="is-vcentered is-narrow"
         :label="$t('nft.offer.date')"
-        sortable
-        ><p>
+        sortable>
+        <p>
           {{ timestampOffer(props.row.createdAt) }}
-        </p></b-table-column
-      >
-      <b-table-column
+        </p>
+      </NeoTableColumn>
+      <NeoTableColumn
         v-if="accountId === ownerId"
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         :label="$t('offer.action')"
         width="120">
-        <b-button
+        <NeoButton
           v-if="props.row.status === 'ACTIVE'"
-          type="is-orange"
-          outlined
+          no-shadow
           icon-left="times"
-          @click="withdrawOffer(props.row)" />
-      </b-table-column>
-    </b-table>
+          @click.native="withdrawOffer(props.row)" />
+      </NeoTableColumn>
+    </NeoTable>
   </div>
 </template>
 
-<script lang="ts">
-import { emptyArray } from '@kodadot1/minimark/utils'
-import { Attribute } from '@kodadot1/minimark/common'
-import { Component, Emit, Prop, mixins } from 'nuxt-property-decorator'
-import { formatDistanceToNow } from 'date-fns'
+<script setup lang="ts">
+import { NeoButton, NeoSelect, NeoTable, NeoTableColumn } from '@kodadot1/brick'
 
 import { tokenIdToRoute } from '@/components/unique/utils'
-
-import AuthMixin from '@/utils/mixins/authMixin'
-import MetaTransactionMixin from '@/utils/mixins/metaMixin'
-import OfferMixin from '@/utils/mixins/offerMixin'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-import SubscribeMixin from '@/utils/mixins/subscribeMixin'
-
+import { formatBsxBalanceToNumber } from '@/utils/format/balance'
 import { notificationTypes, showNotification } from '@/utils/notification'
+import { AllOfferStatusType } from '@/utils/offerStatus'
 
+import { formatDistanceToNow } from 'date-fns'
 import { Offer } from './types'
 
-const components = {
-  Identity: () => import('@/components/identity/IdentityIndex.vue'),
-  CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
-  BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
+import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
+import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
+
+const { howAboutToExecute, initTransactionLoader, isLoading, status } =
+  useMetaTransaction()
+const { $consola } = useNuxtApp()
+const { urlPrefix } = usePrefix()
+const { accountId } = useAuth()
+
+const offersListed = ref(false)
+
+const selectedStatus = ref<AllOfferStatusType>(AllOfferStatusType.ALL)
+
+const emit = defineEmits(['offersListUpdate'])
+const updateList = (data) => {
+  emit('offersListUpdate', data)
 }
 
-@Component({ components, filters: { formatDistanceToNow } })
-export default class OffersUserTable extends mixins(
-  PrefixMixin,
-  AuthMixin,
-  OfferMixin,
-  MetaTransactionMixin,
-  SubscribeMixin
-) {
-  @Prop({ type: Array, default: () => emptyArray<Attribute>() })
-  public offers!: Offer[]
-  protected offersListed = false
+const prop = withDefaults(
+  defineProps<{
+    offers: Offer[]
+    ownerId: string
+    hideToggle: boolean
+  }>(),
+  {
+    ownerId: '',
+    hideToggle: false,
+  }
+)
 
-  @Prop({ type: String, default: '' }) public ownerId!: string
-  @Prop({ type: Boolean, default: false }) public hideToggle!: boolean
+const timestampOffer = (date) => {
+  return formatDistanceToNow(new Date(date), { addSuffix: true })
+}
 
-  @Emit('offersListUpdate')
-  public updateList(data) {
-    return data
+const displayOffers = (offers: Offer[]) => {
+  let filterOffers: Offer[]
+  if (selectedStatus.value === AllOfferStatusType.ALL) {
+    filterOffers = offers.concat()
+  } else {
+    filterOffers = offers.filter(
+      (offer) => offer.status === selectedStatus.value
+    )
   }
 
-  public timestampOffer(date) {
-    return formatDistanceToNow(new Date(date), { addSuffix: true })
-  }
+  return filterOffers.map((offer) => ({
+    ...offer,
+    formatPrice: formatBsxBalanceToNumber(offer.price),
+    expirationBlock: parseInt(offer.expiration),
+  }))
+}
 
-  async withdrawOffer(offer) {
-    const { caller, nft } = offer
-    try {
-      const api = await this.useApi()
-      this.initTransactionLoader()
-      const cb = api.tx.marketplace.withdrawOffer
-      const { id, item } = tokenIdToRoute(nft.id)
-      const args = [id, item, caller]
-      await this.howAboutToExecute(this.accountId, cb, args, (blockNumber) => {
-        const msg = 'your offer has been withdrawn'
-        showNotification(
-          `[OFFER] Since block ${blockNumber} ${msg}`,
-          notificationTypes.success
-        )
-      })
-    } catch (e: any) {
-      showNotification(`[OFFER::ERR] ${e}`, notificationTypes.warn)
-      this.$consola.error(e)
-      this.isLoading = false
-    }
+const withdrawOffer = async (offer) => {
+  const { caller, nft } = offer
+  try {
+    const { apiInstance } = useApi()
+    const api = await apiInstance.value
+    initTransactionLoader()
+    const cb = api.tx.marketplace.withdrawOffer
+    const { id, item } = tokenIdToRoute(nft.id)
+    const args = [id, item, caller]
+    await howAboutToExecute(accountId.value, cb, args, (blockNumber) => {
+      const msg = 'your offer has been withdrawn'
+      showNotification(
+        `[OFFER] Since block ${blockNumber} ${msg}`,
+        notificationTypes.success
+      )
+    })
+  } catch (e: any) {
+    showNotification(`[OFFER::ERR] ${e}`, notificationTypes.warn)
+    $consola.error(e)
+    isLoading.value = false
   }
+}
+
+const getUniqType = () => {
+  const statusSet = new Set(prop.offers.map((offer) => offer.status))
+  const singleEventList = Array.from(statusSet).map((type) => ({
+    type: type as AllOfferStatusType,
+    value: AllOfferStatusType[type],
+  }))
+
+  return [{ type: AllOfferStatusType.ALL, value: 'All' }, ...singleEventList]
 }
 </script>
+
 <style scoped>
 .limit-width-text {
   max-width: 20ch;

@@ -46,7 +46,6 @@ body {
 
   .input,
   select,
-  textarea,
   .taginput-container {
     @include ktheme() {
       background-color: theme('background-color') !important;
@@ -58,10 +57,17 @@ body {
   }
 
   .field {
-    .input,
-    select,
-    textarea {
-      border-color: #dbdbdb;
+    .input {
+      @include ktheme() {
+        border-radius: 0;
+        border: 1px solid theme('k-grey-fix');
+        background-color: theme('background-color');
+        color: theme('text-color');
+
+        &:focus {
+          border: 1px solid theme('text-color');
+        }
+      }
     }
   }
 
@@ -92,10 +98,6 @@ body {
 
   .orientation {
     perspective: 30em;
-  }
-
-  .b-tabs .tab-content {
-    padding: 1rem 0;
   }
 
   .money-cursor,
@@ -132,14 +134,6 @@ body {
   }
 }
 
-// global css for pagination
-.pagination-link {
-  border: none !important;
-  @include ktheme() {
-    border-top: 1px solid theme('k-primary') !important;
-  }
-}
-
 /* move to global */
 .is-ellipsis {
   overflow: hidden;
@@ -153,25 +147,6 @@ body {
 
 .w-100 {
   width: 100% !important;
-}
-
-.b-radio.radio.button.is-selected {
-  @include ktheme() {
-    background-color: theme('k-primary');
-  }
-}
-.b-radio.is-selected {
-  @include ktheme() {
-    background-color: theme('k-primary');
-    color: theme('black');
-  }
-}
-
-.collection-radio-btn .b-radio.radio.button {
-  border: none !important;
-  @include ktheme() {
-    border-top: 1px solid theme('k-primary') !important;
-  }
 }
 
 .short-identity__table {
@@ -238,22 +213,23 @@ hr {
   }
 }
 
-.dropdown-content {
-  border-radius: 0;
-  @include ktheme() {
-    box-shadow: theme('primary-shadow');
-    border: 1px solid theme('border-color');
-    background: theme('background-color');
-
-    .dropdown-item {
-      color: theme('text-color');
-    }
-  }
-}
-
 .has-text-grey {
   @include ktheme() {
     color: theme('k-grey') !important;
+  }
+}
+
+.has-text-inverse {
+  @include ktheme() {
+    color: theme('text-color-inverse');
+  }
+}
+
+a.has-text-grey {
+  @include ktheme() {
+    &:hover {
+      color: theme('text-color') !important;
+    }
   }
 }
 
@@ -324,6 +300,19 @@ hr {
   }
 }
 
+.card-border-color {
+  @include ktheme() {
+    border-color:theme('card-border-color');
+  }
+}
+
+.border-k-shade {
+  @include ktheme() {
+    border-color:  theme('k-shade');
+  }
+}
+
+
 //colors
 
 .has-text-k-green {
@@ -351,6 +340,18 @@ hr {
     @include ktheme() {
       color: theme('k-blue-hover');
     }
+  }
+}
+
+.has-text-color {
+  @include ktheme() {
+    color: theme('text-color') !important;
+  }
+}
+
+.has-background-inverse {
+  @include ktheme() {
+    background: theme('text-color');
   }
 }
 
@@ -420,4 +421,22 @@ hr {
 
 .is-flex-1 {
   flex: 1;
+}
+
+.has-z-index-1 {
+  z-index: 1;
+}
+
+.modal {
+  .modal-content {
+    border: none !important;
+    box-shadow: none !important;
+  }
+  .modal-background {
+    background-color: rgba(0, 0, 0, 0.17) !important;
+  }
+}
+
+.text-align-center {
+  text-align: center;
 }

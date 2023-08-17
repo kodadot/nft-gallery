@@ -11,7 +11,8 @@
       &:hover {
         border-color: theme('border-color');
         .carousel-media {
-          opacity: theme('card-hover-opacity');}
+          opacity: theme('card-hover-opacity');
+        }
       }
     }
   }
@@ -33,6 +34,11 @@
 
         display: block;
       }
+    }
+
+    &-wrapper {
+      box-shadow: none !important;
+      border: none !important;
     }
   }
 

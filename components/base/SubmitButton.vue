@@ -7,6 +7,7 @@
       :disabled="disabled"
       :loading="loading"
       :expanded="expanded"
+      icon-pack="far"
       outlined
       @click.native="$emit('click')">
       <slot>
@@ -29,7 +30,7 @@ export interface Props {
   size?: 'small' | 'medium' | 'large'
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   loading: false,
   disabled: false,
   type: 'is-primary',

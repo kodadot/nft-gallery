@@ -28,8 +28,8 @@
 </template>
 
 <script setup lang="ts">
-import format from '@/utils/format/balance'
-import { getKSMUSD } from '@/utils/coingecko'
+import { getApproximatePriceOf } from '@/utils/coingecko'
+import format, { withoutDigitSeparator } from '@/utils/format/balance'
 
 const { decimals, chainSymbol } = useChain()
 
@@ -42,11 +42,12 @@ const priceChain = ref('0')
 const priceUsd = ref('0')
 
 watchEffect(async () => {
-  const ksmPrice = localStorage.getItem('KSM') || (await getKSMUSD())
+  const tokenPrice = await getApproximatePriceOf(chainSymbol.value)
   const price = format(props.price || '0', decimals.value, '')
 
   priceChain.value = `${price} ${chainSymbol.value}`
-  priceUsd.value = `${Math.round(Number(price) * Number(ksmPrice))}`
+  const clearPrice = Number(withoutDigitSeparator(price))
+  priceUsd.value = `${Math.round(clearPrice * tokenPrice)}`
 })
 </script>
 

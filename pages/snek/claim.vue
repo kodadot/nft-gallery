@@ -3,10 +3,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
 import ClaimForm from '@/components/poap/claim/ClaimForm.vue'
 
-@Component({
+export default {
+  name: 'ClaimPage',
   components: {
     ClaimForm,
   },
@@ -27,6 +27,5 @@ import ClaimForm from '@/components/poap/claim/ClaimForm.vue'
       meta: [...this.$seoMeta(metaData)],
     }
   },
-})
-export default class SimpleMintPage extends Vue {}
+}
 </script>

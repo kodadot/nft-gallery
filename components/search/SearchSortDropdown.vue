@@ -1,27 +1,28 @@
 <template>
   <NeoField>
-    <b-dropdown
+    <NeoDropdown
       v-if="multipleSelect"
       v-model="selectedAction"
       multiple
       class="select-dropdown">
       <template #trigger>
-        <b-button
-          type="is-primary"
+        <NeoButton
+          type="primary"
+          no-shadow
           icon-right="caret-down"
           data-cy="gallery-sort-by">
           {{ $t('sort.collection.sortBy') }}
-        </b-button>
+        </NeoButton>
       </template>
-      <b-dropdown-item
+      <NeoDropdownItem
         v-for="action in actions"
         :key="action"
         :value="action"
         :data-cy="$t('sort.' + action)">
         {{ $t('sort.' + action) }}
-      </b-dropdown-item>
-    </b-dropdown>
-    <b-select
+      </NeoDropdownItem>
+    </NeoDropdown>
+    <NeoSelect
       v-else
       v-model="selectedAction"
       :placeholder="$t('sort.collection.sortBy')"
@@ -32,7 +33,7 @@
           isCollection ? $t('sort.collection.' + action) : $t('sort.' + action)
         }}
       </option>
-    </b-select>
+    </NeoSelect>
   </NeoField>
 </template>
 
@@ -43,11 +44,21 @@ import {
   NFT_SQUID_SORT_CONDITION_LIST_FOR_MOONRIVER,
 } from '@/utils/constants'
 import PrefixMixin from '@/utils/mixins/prefixMixin'
-import { NeoField } from '@kodadot1/brick'
+import {
+  NeoButton,
+  NeoDropdown,
+  NeoDropdownItem,
+  NeoField,
+  NeoSelect,
+} from '@kodadot1/brick'
 
 @Component({
   components: {
+    NeoButton,
     NeoField,
+    NeoSelect,
+    NeoDropdown,
+    NeoDropdownItem,
   },
 })
 export default class SearchSortDropdown extends mixins(PrefixMixin) {

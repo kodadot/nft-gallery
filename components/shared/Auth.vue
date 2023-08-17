@@ -10,40 +10,33 @@
   <ConnectWalletButton v-else label="general.connect_wallet" />
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
+import Avatar from '@/components/shared/Avatar.vue'
+import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
+import Identity from '@/components/identity/IdentityIndex.vue'
 import { useIdentityStore } from '@/stores/identity'
 
-const components = {
-  Avatar: () => import('@/components/shared/Avatar.vue'),
-  ConnectWalletButton: () =>
-    import('@/components/shared/ConnectWalletButton.vue'),
-  Identity: () => import('@/components/identity/IdentityIndex.vue'),
-  Money: () => import('@/components/shared/format/Money.vue'),
-}
+const emit = defineEmits(['input'])
+const identityStore = useIdentityStore()
+const account = computed({
+  get: () => identityStore.getAuthAddress,
+  set: (account: string) => identityStore.setAuth({ address: account }),
+})
 
-@Component({ components })
-export default class Auth extends Vue {
-  @Prop({ default: 24 }) public size!: number
-
-  public mounted() {
-    if (this.account) {
-      this.$emit('input', this.account)
-    }
+withDefaults(
+  defineProps<{
+    size?: number
+  }>(),
+  {
+    size: 24,
   }
+)
 
-  get identityStore() {
-    return useIdentityStore()
+onMounted(() => {
+  if (account.value) {
+    emit('input', account.value)
   }
-
-  set account(account: string) {
-    this.identityStore.setAuth({ address: account })
-  }
-
-  get account() {
-    return this.identityStore.getAuthAddress
-  }
-}
+})
 </script>
 
 <style scoped>

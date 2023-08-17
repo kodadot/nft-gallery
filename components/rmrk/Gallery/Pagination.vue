@@ -2,7 +2,7 @@
   <div
     v-if="total > perPage"
     class="is-align-self-flex-end is-flex is-justify-content-flex-end">
-    <b-pagination
+    <NeoPagination
       :total="total"
       :current.sync="current"
       :range-before="3"
@@ -14,131 +14,79 @@
       aria-previous-label="Previous page"
       aria-page-label="Page"
       aria-current-label="Current page"
-      @change="onPageChange">
-    </b-pagination>
-    <NeoTooltip :label="$t('tooltip.random') + ' (g+r)'">
-      <b-button
+      @change="onPageChange" />
+    <NeoTooltip :label="$t('tooltip.random') + ' (g+r)'" position="left">
+      <NeoButton
         v-if="hasMagicBtn"
-        class="ml-2 magicBtn is-bordered-light share-button"
+        class="ml-2 no-shadow"
         :title="$t('tooltip.random')"
-        type="is-primary"
         icon-left="dice"
-        @click="goToRandomPage">
-      </b-button>
+        @click.native="goToRandomPage">
+      </NeoButton>
     </NeoTooltip>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
-import { Debounce } from 'vue-debounce-decorator'
+<script setup lang="ts">
 import { getRandomIntInRange } from '../utils'
-import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
-import { NeoTooltip } from '@kodadot1/brick'
+import { NeoButton, NeoPagination, NeoTooltip } from '@kodadot1/brick'
 
-@Component({
-  components: {
-    NeoTooltip,
+const props = withDefaults(
+  defineProps<{
+    value: number
+    total: number
+    perPage?: number
+    simple?: boolean
+    replace: boolean
+    preserveScroll?: boolean
+    hasMagicBtn?: boolean
+    enableListenKeyboardEvent?: boolean
+  }>(),
+  {
+    perPage: 20,
+    hasMagicBtn: false,
+    simple: false,
+  }
+)
+const emit = defineEmits(['input'])
+
+const current = computed({
+  get: () => props.value,
+  set: (value: number) => {
+    emit('input', value)
+    replaceUrl(String(value))
   },
 })
-export default class Pagination extends mixins(KeyboardEventsMixin) {
-  @Prop() value!: number
-  @Prop() public total!: number
-  @Prop(Boolean) simple!: boolean
-  @Prop({ type: Number, default: 20 }) public perPage!: number
-  @Prop(Boolean) replace!: boolean
-  @Prop(Boolean) preserveScroll!: boolean
-  @Prop(Boolean) hasMagicBtn!: boolean
-  @Prop(Boolean) enableListenKeyboardEvent?: boolean
 
-  public created() {
-    if (this.enableKeyboardEvenHandler) {
-      this.initKeyboardEventHandler({
-        g: this.bindPaginationEvents,
+const scrollTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  })
+}
+
+const onPageChange = () => {
+  if (!props.preserveScroll) {
+    scrollTop()
+  }
+}
+
+const goToRandomPage = () => {
+  onPageChange()
+  const pageSize = Math.ceil(props.total / props.perPage)
+  let randomNumber = getRandomIntInRange(1, pageSize)
+  current.value = randomNumber
+}
+
+const replaceUrl = (value: string, key = 'page') => {
+  const { $route, $router, $consola } = useNuxtApp()
+  if ($route.query[key] !== value) {
+    $router
+      .replace({
+        path: String($route.path),
+        query: { ...$route.query, [key]: value },
       })
-    }
-  }
-
-  get enableKeyboardEvenHandler() {
-    return this.hasMagicBtn || this.enableListenKeyboardEvent
-  }
-
-  private bindPaginationEvents(event) {
-    switch (event.key) {
-      case 'n':
-        if (this.current < Math.ceil(this.total / this.perPage)) {
-          this.current = this.current + 1
-        }
-        break
-      case 'p':
-        if (this.current > 1) {
-          this.current = this.current - 1
-        }
-        break
-      case 'r':
-        this.goToRandomPage()
-        break
-    }
-  }
-
-  public onPageChange() {
-    if (!this.preserveScroll) {
-      this.scrollTop()
-    }
-  }
-
-  public goToRandomPage() {
-    this.onPageChange()
-    const pageSize = Math.ceil(this.total / this.perPage)
-    let randomNumber = getRandomIntInRange(1, pageSize)
-    this.current = randomNumber
-  }
-
-  public scrollTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    })
-  }
-
-  get current() {
-    return this.value
-  }
-
-  set current(value: number) {
-    this.$emit('input', value)
-    this.replace && this.replaceUrl(String(value))
-  }
-
-  @Watch('value')
-  watchPageValue(val) {
-    this.replace && this.replaceUrl(String(val))
-  }
-
-  @Debounce(100)
-  replaceUrl(value: string, key = 'page') {
-    if (this.$route.query[key] !== value) {
-      this.$router
-        .replace({
-          path: String(this.$route.path),
-          query: { ...this.$route.query, [key]: value },
-        })
-        .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
-    }
+      .catch($consola.warn /*Navigation Duplicate err fix later */)
   }
 }
 </script>
-<style lang="scss">
-.magicBtn {
-  border-width: 1px;
-}
-
-.info {
-  font-size: 12px;
-  margin: 0 0.25rem;
-  height: 40px;
-  width: 86px;
-  display: flex;
-  align-items: center;
-}
-</style>

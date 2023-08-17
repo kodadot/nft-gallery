@@ -1,27 +1,21 @@
 <template>
-  <div class="pt-4">
+  <div>
+    <Loader v-model="isMinting" :status="mintStatus" :can-cancel="false" />
     <div>
-      <section class="is-flex pb-8 is-flex-wrap-wrap row-gap">
-        <NeoButton class="mr-8" @click.native="toOnborading">
-          <NeoIcon icon="arrow-left" size="small" class="mr-1" />
+      <section class="is-flex controls">
+        <NeoButton class="left" @click.native="toOnborading">
+          <NeoIcon icon="arrow-left" class="mr-1" />
           {{ $t('massmint.backToOnbaording') }}
         </NeoButton>
-        <div class="is-flex">
-          <TabItem
-            v-for="tab in tabs"
-            :key="tab"
-            :active="tab === 'Mass Mint'"
-            :text="tab"
-            :to="route.path"
-            class="mobile-width" />
+        <div class="dropdown-container">
+          <div>
+            <p class="mb-4">{{ $t('massmint.chooseCollection') }}</p>
+            <ChooseCollectionDropdown
+              @selectedCollection="onCollectionSelected" />
+          </div>
         </div>
       </section>
-      <hr class="m-0" />
-      <section
-        class="pt-8 is-flex is-flex-direction-column is-align-items-center">
-        <p class="mb-4">{{ $t('massmint.chooseCollection') }}</p>
-        <ChooseCollectionDropdown @selectedCollection="onCollectionSelected" />
-      </section>
+
       <section class="border k-shadow mt-7">
         <UploadMediaZip
           :disabled="!selectedCollection"
@@ -90,17 +84,20 @@ import UploadDescription from './uploadDescription/UploadDescription.vue'
 import OverviewTable from './OverviewTable.vue'
 import ChooseCollectionDropdown from './ChooseCollectionDropdown.vue'
 import EditPanel from './EditPanel.vue'
-import { MintedCollection, NFT } from './types'
+import { NFT, NFTToMint } from './types'
 import MissingInfoModal from './modals/MissingInfoModal.vue'
 import ReviewModal from './modals/ReviewModal.vue'
 import DeleteModal from './modals/DeleteModal.vue'
 import MintingModal from './modals/MintingModal.vue'
-import { Entry } from './uploadDescription/parsers'
+import { MintedCollection } from '@/composables/transaction/types'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import { useMassMint } from '@/composables/massmint/useMassMint'
+import { Entry } from '@/composables/massmint/parsers/common'
+import { FileObject } from '@/composables/massmint/useZipValidator'
 
 const preferencesStore = usePreferencesStore()
-const { $consola } = useNuxtApp()
+const { $consola, $i18n } = useNuxtApp()
 const router = useRouter()
-const route = useRoute()
 const { urlPrefix } = usePrefix()
 
 const selectedCollection = ref<MintedCollection>()
@@ -114,7 +111,10 @@ const deleteModalOpen = ref(false)
 const missingInfoModalOpen = ref(false)
 const overViewModalOpen = ref(false)
 const mintModalOpen = ref(false)
+
 const isMinting = ref(false)
+const mintStatus = ref('')
+
 const numberOfMissingNames = computed(
   () => Object.values(NFTS.value).filter((nft) => !nft.name).length
 )
@@ -156,13 +156,36 @@ const startMint = () => {
   mintModalOpen.value = true
   isMinting.value = true
 
-  // fake mint
-  setTimeout(() => {
-    isMinting.value = false
-  }, 5000)
-}
+  const { isLoading, status, collectionUpdated, isError } = useMassMint(
+    Object.values(NFTS.value) as NFTToMint[],
+    selectedCollection.value as MintedCollection
+  )
 
-const tabs = ['Collection', 'NFT', 'Mass Mint']
+  watch(
+    [isLoading, status, collectionUpdated, isError],
+    ([isLoadingV, statusV], [isLoadingOldV]) => {
+      isMinting.value = isLoadingV
+      mintStatus.value = statusV
+
+      if (isLoadingOldV && !isLoadingV) {
+        mintModalOpen.value = false
+        if (!isError.value && statusV !== 'loader.sign') {
+          showNotification(
+            $i18n.t('massmint.continueToCollectionPage'),
+            notificationTypes.success
+          )
+        }
+      }
+
+      //redirect to collection page when collection is updated
+      if (collectionUpdated.value) {
+        navigateTo(
+          `/${urlPrefix.value}/collection/${selectedCollection.value?.id}`
+        )
+      }
+    }
+  )
+}
 
 const onCollectionSelected = (collection) => {
   selectedCollection.value = collection
@@ -193,21 +216,16 @@ const toOnborading = () => {
     .catch($consola.warn)
 }
 
-const onMediaZipLoaded = ({
-  validFiles,
-}: {
-  validFiles: { name: string; imageUrl: string }[]
-}) => {
+const onMediaZipLoaded = ({ validFiles }: { validFiles: FileObject[] }) => {
   NFTS.value = validFiles
-    .map(({ imageUrl, name }, i) => ({ imageUrl, fileName: name, id: i + 1 }))
+    .map((file, i) => ({ ...file, id: i + 1 }))
     .reduce((acc, nft) => ({ ...acc, [nft.id]: nft }), {})
   mediaLoaded.value = true
 }
-
 const onDescriptionLoaded = (entries: Record<string, Entry>) => {
   // create a map of nft filename to id
   const nftFileNameToId = Object.values(NFTS.value).reduce(
-    (acc, nft) => ({ ...acc, [nft.fileName]: nft.id }),
+    (acc, nft) => ({ ...acc, [nft.file.name]: nft.id }),
     {}
   )
   Object.values(entries).forEach((entry) => {
@@ -218,19 +236,52 @@ const onDescriptionLoaded = (entries: Record<string, Entry>) => {
     if (!nftId) {
       return
     }
+    const { file: _, ...restOfEntry } = entry
     NFTS.value[nftId] = {
       ...NFTS.value[nftId],
-      ...entry,
+      ...restOfEntry,
     }
   })
 }
 </script>
 <style lang="scss" scoped>
-.row-gap {
-  row-gap: 2rem;
+@import '@/styles/abstracts/variables.scss';
+
+.controls {
+  justify-content: center;
+  align-items: flex-end;
+
+  .left {
+    position: absolute;
+    left: 2.5rem;
+  }
+}
+
+@include touch {
+  .controls {
+    flex-direction: column;
+    gap: 2rem;
+    align-items: flex-start;
+
+    .dropdown-container {
+      align-self: center;
+    }
+    .left {
+      position: unset;
+    }
+  }
 }
 
 .limit-width {
   max-width: 45rem;
+}
+</style>
+
+<style lang="scss">
+.tab-nft {
+  .explore-tabs-button {
+    border-left: 0 !important;
+    border-right: 0 !important;
+  }
 }
 </style>

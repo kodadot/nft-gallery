@@ -4,7 +4,7 @@
     class="notification-modal-container theme-background-color border-left is-flex is-flex-direction-column">
     <header
       class="py-4 px-6 is-flex is-justify-content-space-between border-bottom mb-4">
-      <span class="control-label is-size-6 has-text-weight-bold">
+      <span class="modal-card-title is-size-6 has-text-weight-bold">
         {{ $t('notification.notifications') }}
       </span>
       <a class="is-flex is-align-items-center" @click="closeModal">
@@ -22,7 +22,7 @@
             class="rounded"
             @click.native="showFilter = !showFilter">
             {{ $t('notification.add') }}
-            <NeoIcon icon="plus" size="small" />
+            <NeoIcon icon="plus" />
           </NeoButton>
           <NeoButton
             v-else
@@ -30,7 +30,7 @@
             class="rounded"
             @click.native="showFilter = !showFilter">
             {{ $t('notification.done') }}
-            <NeoIcon icon="check" size="small" />
+            <NeoIcon icon="check" />
           </NeoButton>
         </div>
         <div v-if="showFilter" class="filter-option">

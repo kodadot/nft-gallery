@@ -2,6 +2,11 @@
   $side-y: 32px;
   $side-x: 55px;
 
+  &-small-size {
+    $side-y: 20px;
+    $side-x: 32px;
+  }
+
   width: $side-x;
   height: $side-x;
   position: absolute;

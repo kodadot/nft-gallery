@@ -1,32 +1,36 @@
 <template>
   <section>
-    <br />
-    <b-tabs v-model="activeTab" destroy-on-hide expanded>
-      <b-tab-item v-for="x in components" :key="x" :label="x">
+    <NeoTabs v-model="activeTab" expanded>
+      <NeoTabItem v-for="x in components" :key="x" :label="x">
         <component
           :is="x"
-          v-if="components[activeTab] === x"
-          :show-explainer-text="showExplainerText"
+          :show-explainer-text="false"
           @navigateToCreateNftTab="switchToNft" />
-      </b-tab-item>
-    </b-tabs>
+      </NeoTabItem>
+    </NeoTabs>
   </section>
 </template>
 
 <script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
-import CreateMixin from '~/utils/mixins/createMixin'
+import { NeoTabItem, NeoTabs } from '@kodadot1/brick'
 
 const Collection = () =>
   import('@/components/bsx/Create/CreateCollectionPage.vue')
 const NFT = () => import('@/components/bsx/Create/CreateToken.vue')
 
-const components = { Collection, NFT }
+const components = { Collection, NFT, NeoTabItem, NeoTabs }
 
-@Component<BsxCreatePage>({
+export default {
+  name: 'BsxCreatePage',
   components,
-  layout() {
-    return 'centered-half-layout'
+  layout: 'centered-half-layout',
+  setup() {
+    const { activeTab, components, switchToNft } = useCreate()
+    return {
+      activeTab,
+      components,
+      switchToNft,
+    }
   },
   head() {
     const title = 'KodaDot | Low fees and low carbon minting'
@@ -39,16 +43,15 @@ const components = { Collection, NFT }
     }
     return {
       title,
+      link: [
+        {
+          hid: 'canonical',
+          rel: 'canonical',
+          href: this.$root.$config.public.baseUrl + this.$route.path,
+        },
+      ],
       meta: [...this.$seoMeta(metaData)],
     }
   },
-})
-export default class BsxCreatePage extends mixins(CreateMixin) {
-  public showExplainerText = false
-
-  public switchToNft() {
-    this.switchToCreateNFT()
-    this.showExplainerText = true
-  }
 }
 </script>

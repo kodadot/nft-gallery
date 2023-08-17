@@ -18,10 +18,11 @@
           v-if="!unlimited"
           class="mt-1"
           :label="$t('Maximum NFTs in collection')">
-          <b-numberinput
+          <NeoInput
             v-model="max"
-            placeholder="1 is minumum"
-            :min="1"></b-numberinput>
+            type="number"
+            placeholder="1 is the minimum"
+            :min="1" />
         </NeoField>
         <BasicInput
           ref="symbolInput"
@@ -52,114 +53,104 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { generateId } from '@/components/rmrk/service/Consolidator'
-import AuthMixin from '@/utils/mixins/authMixin'
-import MetaTransactionMixin from '@/utils/mixins/metaMixin'
-import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { Interaction } from '@kodadot1/minimark/v1'
-import { Component, Ref, mixins } from 'nuxt-property-decorator'
+import Loader from '@/components/shared/Loader.vue'
+import BasicInput from '@/components/shared/form/BasicInput.vue'
+import BaseCollectionForm from '@/components/base/BaseCollectionForm.vue'
+import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
+import SubmitButton from '@/components/base/SubmitButton.vue'
+import { NeoField, NeoInput } from '@kodadot1/brick'
 import { BaseCollectionType } from '@/composables/transaction/types'
-import { NeoField } from '@kodadot1/brick'
+import useLoader from '@/composables/useLoader'
 
-const components = {
-  Loader: () => import('@/components/shared/Loader.vue'),
-  BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
-  BaseCollectionForm: () => import('@/components/base/BaseCollectionForm.vue'),
-  BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
-  SubmitButton: () => import('@/components/base/SubmitButton.vue'),
-  NeoField,
+interface ComponentWithCheckValidity extends Vue {
+  checkValidity(): boolean
 }
 
-@Component({ components })
-export default class CreateCollection extends mixins(
-  MetaTransactionMixin,
-  AuthMixin,
-  UseApiMixin
-) {
-  public base: BaseCollectionType = {
-    name: '',
-    file: null,
-    description: '',
-  }
-  public symbol = ''
-  public max = 1
-  public unlimited = true
-  protected hasSupport = true
-  protected balanceNotEnough = false
-  @Ref('collectionForm') readonly collectionForm
-  @Ref('symbolInput') readonly symbolInput
+const base = ref<BaseCollectionType>({
+  name: '',
+  file: null,
+  description: '',
+})
+const symbol = ref('')
+const max = ref(1)
+const unlimited = ref(true)
+const collectionForm = ref<ComponentWithCheckValidity>()
+const symbolInput = ref<ComponentWithCheckValidity>()
+const { accountId, balance, isLogIn } = useAuth()
+const { isLoading, status } = useLoader()
+const emit = defineEmits(['created'])
+const { $i18n } = useNuxtApp()
 
-  public checkValidity() {
-    return (
-      this.collectionForm.checkValidity() && this.symbolInput.checkValidity()
-    )
-  }
+const checkValidity = () => {
+  return (
+    collectionForm.value?.checkValidity() && symbolInput.value?.checkValidity()
+  )
+}
 
-  get rmrkId(): string {
-    return generateId(this.accountId, this.symbol)
-  }
+const rmrkId = computed(() => generateId(accountId.value, symbol.value))
 
-  get balanceNotEnoughMessage() {
-    return this.balanceNotEnough ? this.$t('tooltip.notEnoughBalance') : ''
-  }
+const balanceNotEnough = computed(() => Number(balance.value) <= 2)
+const balanceNotEnoughMessage = computed(() =>
+  balanceNotEnough.value ? $i18n.t('tooltip.notEnoughBalance') : ''
+)
+const isMintDisabled = computed(() => balanceNotEnough.value)
 
-  get balance(): string {
-    const { balance } = useAuth()
-    return balance.value
+const submit = async () => {
+  if (!checkValidity()) {
+    return
   }
 
-  get isMintDisabled(): boolean {
-    return Number(this.balance) <= 2
+  if (isMintDisabled.value) {
+    return
   }
 
-  public async submit() {
-    if (!this.checkValidity()) {
-      return
+  isLoading.value = true
+  status.value = 'loader.ipfs'
+
+  const {
+    transaction,
+    status: txStatus,
+    isLoading: txIsLoading,
+    blockNumber,
+  } = useTransaction()
+
+  watch([txIsLoading, txStatus], () => {
+    isLoading.value = txIsLoading.value
+    if (Boolean(txStatus.value)) {
+      status.value = txStatus.value
     }
+  })
 
-    if (this.isMintDisabled) {
-      this.balanceNotEnough = true
-      return
+  watch(blockNumber, (block) => {
+    if (block) {
+      emit('created')
     }
+  })
 
-    this.isLoading = true
-    this.status = 'loader.ipfs'
+  showNotification(
+    // Add your i18n integration if needed
+    `Creating collection ${base.value.name}`,
+    notificationTypes.info
+  )
 
-    const { transaction, status, isLoading, blockNumber } = useTransaction()
-
-    watch([isLoading, status], () => {
-      this.isLoading = isLoading.value
-      if (Boolean(status.value)) {
-        this.status = status.value
-      }
+  try {
+    transaction({
+      interaction: Interaction.MINT,
+      urlPrefix: usePrefix().urlPrefix.value,
+      collection: {
+        ...base.value,
+        nftCount: unlimited.value ? 0 : max.value,
+        symbol: symbol.value,
+      },
     })
-    watch(blockNumber, (block) => {
-      if (block) {
-        this.$emit('created')
-      }
-    })
-    showNotification(
-      this.$t('mint.creatingCollection', { name: this.base.name }),
-      notificationTypes.info
-    )
-
-    try {
-      transaction({
-        interaction: Interaction.MINT,
-        urlPrefix: usePrefix().urlPrefix.value,
-        collection: {
-          ...this.base,
-          nftCount: this.unlimited ? 0 : this.max,
-          symbol: this.symbol,
-        },
-      })
-    } catch (e: any) {
-      showNotification(`[ERR] ${e}`, notificationTypes.warn)
-      this.$consola.error(e)
-      this.isLoading = false
-    }
+  } catch (e) {
+    showNotification(`[ERR] ${e}`, notificationTypes.warn)
+    console.error(e)
+    isLoading.value = false
   }
 }
 </script>

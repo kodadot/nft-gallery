@@ -1,5 +1,5 @@
 <template>
-  <b-collapse
+  <NeoCollapse
     :open="expanded"
     animation="slide"
     class="border-bottom"
@@ -15,7 +15,7 @@
       </div>
     </template>
     <div v-if="collections.length > 0" class="p-4">
-      <o-field
+      <NeoField
         v-for="(collection, index) in collections"
         :key="`${collection.id}-${isCutArray[index].value}`"
         class="mb-2">
@@ -28,7 +28,8 @@
             class="is-flex is-align-items-center filter-container pl-2 is-flex-grow-1 min-width-0">
             <img
               :src="sanitizeIpfsUrl(collection.meta.image)"
-              class="image is-32x32 border mr-2" />
+              class="image is-32x32 border mr-2"
+              :alt="collection.meta.name || collection.id" />
             <div
               class="is-flex is-flex-direction-column is-flex-grow-1 min-width-0">
               <NeoTooltip
@@ -50,23 +51,27 @@
             </div>
           </div>
         </NeoCheckbox>
-      </o-field>
+      </NeoField>
     </div>
     <div v-else class="p-4 is-size-6 has-text-grey">
       {{ $t('general.noPopularCollections') }}
     </div>
-  </b-collapse>
+  </NeoCollapse>
 </template>
 
 <script lang="ts" setup>
-import { NeoCheckbox, NeoTooltip } from '@kodadot1/brick'
+import {
+  NeoCheckbox,
+  NeoCollapse,
+  NeoField,
+  NeoIcon,
+  NeoTooltip,
+} from '@kodadot1/brick'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
 import { Collection, usePopularCollections } from './usePopularCollections'
-import { OField } from '@oruga-ui/oruga'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { getCollectionIds } from '@/utils/queryParams'
 import { useTextOverflow } from '@/composables/useTextOverflow'
-import { NeoIcon } from '@kodadot1/brick'
 
 const exploreFiltersStore = useExploreFiltersStore()
 const route = useRoute()

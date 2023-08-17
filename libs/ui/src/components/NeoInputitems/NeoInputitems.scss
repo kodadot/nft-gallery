@@ -1,0 +1,51 @@
+@import '@oruga-ui/oruga/src/scss/utilities/expressions.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/variables.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
+
+$inputitems-border-width: 0;
+$inputitems-border-radius: 0;
+$inputitems-item-border-radius: 0;
+$autocomplete-menu-border-radius: 0;
+
+@import '../NeoInput/NeoInput.scss';
+@import '@oruga-ui/oruga/src/scss/components/autocomplete.scss';
+@import '@oruga-ui/oruga/src/scss/components/inputitems.scss';
+
+.o-inputit__container {
+  padding-top: 0;
+  @include ktheme() {
+    background-color: theme('background-color');
+  }
+  .o-input.neo-input {
+    outline: none;
+    box-shadow: none;
+    @include ktheme() {
+      border: 1px solid theme('k-grey-fix');
+      background-color: theme('background-color');
+      color: theme('text-color');
+
+      &:focus {
+        border: 1px solid theme('text-color');
+      }
+    }
+  }
+
+  .o-acp__menu {
+    width: 100% !important;
+    @include ktheme() {
+      box-shadow: theme('primary-shadow');
+      border: 1px solid theme('border-color');
+      background: theme('background-color');
+    }
+
+    .o-acp__item {
+      color: inherit;
+      &:hover {
+        @include ktheme() {
+          color: theme('k-hovergrey');
+        }
+      }
+    }
+  }
+}

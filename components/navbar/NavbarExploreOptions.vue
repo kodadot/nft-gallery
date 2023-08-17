@@ -1,19 +1,27 @@
 <template>
   <div>
-    <nuxt-link :to="`/${urlPrefix}/explore/items`" class="menu-item mr-2">
-      {{ $t('items') }}
-    </nuxt-link>
-    <nuxt-link
-      :to="`/${urlPrefix}/explore/collectibles`"
-      class="menu-item mr-2">
-      {{ $t('collections') }}
-    </nuxt-link>
-    <span class="menu-item is-disabled">
-      {{ $t('users') }}
-      <span class="small-size-text">
-        {{ $t('soon') }}
+    <div class="is-flex is-flex-wrap-nowrap">
+      <nuxt-link
+        :to="`/${urlPrefix}/explore/items`"
+        class="menu-item mr-2"
+        data-cy="explore-items"
+        @click.native="emit('closeMobileNavbar')">
+        {{ $t('items') }}
+      </nuxt-link>
+      <nuxt-link
+        :to="`/${urlPrefix}/explore/collectibles`"
+        class="menu-item mr-2"
+        @click.native="emit('closeMobileNavbar')">
+        {{ $t('collections') }}
+      </nuxt-link>
+      <span class="menu-item is-disabled">
+        {{ $t('users') }}
+        <span class="small-size-text">
+          {{ $t('soon') }}
+        </span>
       </span>
-    </span>
+    </div>
+
     <hr aria-role="menuitem" class="dropdown-divider my-4" />
     <div>
       <span
@@ -31,6 +39,8 @@
 <script lang="ts" setup>
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { availableChains } = useChain()
+
+const emit = defineEmits(['closeMobileNavbar'])
 
 const filteredChains = computed(() => {
   return availableChains?.value.filter((chain) => {

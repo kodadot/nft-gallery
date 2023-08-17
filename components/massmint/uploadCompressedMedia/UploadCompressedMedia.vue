@@ -1,12 +1,11 @@
 <template>
   <div>
-    <NeoCollapse :disabled="disabled">
+    <NeoCollapsible :disabled="disabled">
       <div class="is-flex">
         {{ $t('massmint.uploadPics') }}
         <NeoIcon
           v-if="showCheckmark"
           icon="circle-check"
-          size="small"
           variant="success"
           class="ml-3" />
         <div v-else class="icon-placeholder ml-3" />
@@ -27,15 +26,18 @@
           </template>
         </DragDrop>
       </template>
-    </NeoCollapse>
+    </NeoCollapsible>
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
-import { useZipFileValidator, validFormats } from './useZipValidator'
+import { NeoCollapsible, NeoIcon } from '@kodadot1/brick'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import DragDrop from '@/components/shared/DragDrop.vue'
+import {
+  useZipFileValidator,
+  validFormats,
+} from '@/composables/massmint/useZipValidator'
 
 const { $consola } = useNuxtApp()
 
@@ -60,7 +62,6 @@ const emit = defineEmits(['zipLoaded'])
 const onFileSelected = (file) => {
   const zipMimeTypes = ['application/zip', 'application/x-zip-compressed']
   showCheckmark.value = false
-
   if (file && zipMimeTypes.includes(file.type)) {
     loading.value = true
     const reader = new FileReader()
@@ -88,10 +89,7 @@ const onFileSelected = (file) => {
           }
           showCheckmark.value = true
           emit('zipLoaded', {
-            validFiles: validFiles.value.map(({ name, url }) => ({
-              name,
-              imageUrl: url,
-            })),
+            validFiles: validFiles.value,
             areAllFilesValid: allValid.value,
           })
         }

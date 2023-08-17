@@ -6,51 +6,31 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
-import shouldUpdate from '@/utils/shouldUpdate'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
+<script setup lang="ts">
 import nftSimpleListByAccount from '@/queries/nftSimpleListByAccount.graphql'
+import GalleryCard from '@/components/rmrk/Gallery/GalleryCard.vue'
 
-const components = {
-  GalleryCard: () => import('@/components/rmrk/Gallery/GalleryCard.vue'),
-}
+const props = defineProps<{
+  account: string
+}>()
 
-type NftSimpleView = {
-  id: string
-  name: string
-  metadata: string
-}
+const nfts = ref([])
+const { $apollo } = useNuxtApp()
+const { client } = usePrefix()
 
-@Component({ components })
-export default class SpotlightDetail extends mixins(PrefixMixin) {
-  @Prop(String) public account!: string
-  protected nfts: NftSimpleView[] = []
-  protected isLoading = true
+useLazyAsyncData('data', async () => {
+  const {
+    data: { nftEntities },
+  } = await $apollo.query({
+    query: nftSimpleListByAccount,
+    client: client.value,
+    variables: {
+      account: props.account,
+      first: 4,
+    },
+    fetchPolicy: 'network-only',
+  })
 
-  protected async fetchNFT(account: string) {
-    const nfts = await this.$apollo.query({
-      query: nftSimpleListByAccount,
-      client: 'rmrk',
-      variables: {
-        account,
-        first: 4,
-      },
-      fetchPolicy: 'network-only',
-    })
-
-    const {
-      data: { nftEntities },
-    } = nfts
-
-    this.nfts = nftEntities || []
-  }
-
-  @Watch('account', { immediate: true })
-  watchAccount(val: string, oldVal: string) {
-    if (shouldUpdate(val, oldVal)) {
-      this.fetchNFT(val)
-    }
-  }
-}
+  nfts.value = nftEntities || []
+})
 </script>

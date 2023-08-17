@@ -1,27 +1,27 @@
 <template>
   <div class="offer-table-container">
-    <b-table
+    <NeoTable
       :data="displayOffers(offers)"
       :paginated="displayOffers(offers).length > itemsPerPage"
       :per-page="itemsPerPage"
       :class="{ scrollable: offers.length > 0 }"
       :current-page.sync="currentPage"
+      td-class="is-vcentered is-narrow"
       pagination-position="top">
       <div v-if="headerText" class="has-text-centered offer-title mb-2">
         {{ headerText }}
       </div>
-      <b-select v-model="selectedStatus">
+      <NeoSelect v-model="selectedStatus">
         <option
           v-for="option in getUniqType(offers)"
           :key="option.type"
           :value="option.type">
           {{ option.value }}
         </option>
-      </b-select>
-      <b-table-column
+      </NeoSelect>
+      <NeoTableColumn
         v-if="displayCollection"
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         :label="$t('offer.collection')"
         field="nft.collection.name"
         sortable>
@@ -41,11 +41,10 @@
             }}
           </p>
         </nuxt-link>
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-if="isBsxStats"
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         :label="$t('offer.nftName')"
         field="nft.name"
         sortable>
@@ -56,29 +55,26 @@
             {{ props.row.nft.name ? props.row.nft.name : props.row.nft.id }}
           </p>
         </nuxt-link>
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         field="caller"
         :label="$t('offer.caller')"
         sortable>
         <nuxt-link :to="`/${urlPrefix}/u/${props.row.caller}`">
           <Identity :address="props.row.caller" />
         </nuxt-link>
-      </b-table-column>
+      </NeoTableColumn>
 
-      <b-table-column
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         field="formatPrice"
         :label="$t('offer.price')"
         sortable>
-        <Money :value="props.row.price" :token-id="assetId" inline />
-      </b-table-column>
-      <b-table-column
+        <Money :value="props.row.price" :token-id="tokenId" inline />
+      </NeoTableColumn>
+      <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         field="expirationBlock"
         :label="$t('offer.expiration')"
         sortable>
@@ -90,11 +86,10 @@
         <span v-else>
           {{ calcExpirationTime(props.row.expiration) }}
         </span>
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-if="!isBsxStats"
         v-slot="props"
-        cell-class="is-vcentered is-narrow"
         :label="$t('offer.action')"
         width="120"
         sortable>
@@ -104,111 +99,147 @@
             :label="$t('offer.expired')"
             :active="calcExpirationTime(props.row.expiration) === 'expired'"
             class="mr-2">
-            <b-button
-              type="is-success"
-              outlined
+            <NeoButton
+              variant="success"
+              no-shadow
               icon-left="money-bill"
               :disabled="calcExpirationTime(props.row.expiration) === 'expired'"
               @click="tellFrens(props.row.caller, false)" />
           </NeoTooltip>
-          <b-button
+          <NeoButton
             v-if="props.row.caller === accountId || isOwner"
-            type="is-orange"
-            outlined
+            variant="warning"
+            no-shadow
             icon-left="times"
             @click="tellFrens(props.row.caller, true)" />
         </div>
-      </b-table-column>
-      <b-table-column
+      </NeoTableColumn>
+      <NeoTableColumn
         v-if="isBsxStats"
         v-slot="props"
         field="status"
-        cell-class="is-vcentered is-narrow"
         :label="$t('nft.offer.status')"
         sortable>
-        <p>{{ props.row.status }}</p></b-table-column
-      >
-      <b-table-column
+        <p>{{ props.row.status }}</p>
+      </NeoTableColumn>
+      <NeoTableColumn
         v-if="isBsxStats"
         v-slot="props"
         field="createdAt"
-        cell-class="is-vcentered is-narrow"
         :label="$t('nft.offer.date')"
-        sortable
-        ><p>
-          {{ new Date(props.row.createdAt) | formatDistanceToNow }}
-        </p></b-table-column
-      >
+        sortable>
+        <p>
+          {{ timeAgo(new Date(props.row.createdAt).getTime()) }}
+        </p>
+      </NeoTableColumn>
       <template #empty>
-        <div class="has-text-centered">
+        <div class="w-100 has-text-centered">
           {{ $t('nft.offer.empty') }}
         </div>
       </template>
-    </b-table>
+    </NeoTable>
   </div>
 </template>
 
-<script lang="ts">
-import { emptyArray } from '@kodadot1/minimark/utils'
-import { Attribute } from '@kodadot1/minimark/common'
-import { Component, Emit, Prop, Watch, mixins } from 'nuxt-property-decorator'
-import { Debounce } from 'vue-debounce-decorator'
-import { formatDistanceToNow } from 'date-fns'
+<script setup lang="ts">
+import { AllOfferStatusType } from '@/utils/offerStatus'
+import { formatBsxBalanceToNumber } from '@/utils/format/balance'
+import { endDate, formatSecondsToDuration } from '@/utils/format/time'
+import { timeAgo } from '@/components/collection/utils/timeAgo'
 
 import { Offer } from './types'
-import OfferMixin from '@/utils/mixins/offerMixin'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-import { getKusamaAssetId } from '@/utils/api/bsx/query'
-import { NeoTooltip } from '@kodadot1/brick'
-
-const components = {
-  Identity: () => import('@/components/identity/IdentityIndex.vue'),
-  Money: () => import('@/components/bsx/format/TokenMoney.vue'),
-  Pagination: () => import('@/components/rmrk/Gallery/Pagination.vue'),
+import {
+  NeoButton,
+  NeoSelect,
+  NeoTable,
+  NeoTableColumn,
   NeoTooltip,
+} from '@kodadot1/brick'
+
+import Identity from '@/components/identity/IdentityIndex.vue'
+import Money from '@/components/bsx/format/TokenMoney.vue'
+
+withDefaults(
+  defineProps<{
+    offers: Offer[]
+    isOwner: boolean
+    isBsxStats: boolean
+    isCollection: boolean
+    displayCollection: boolean
+    headerText: string
+  }>(),
+  {
+    headerText: '',
+    displayCollection: false,
+  }
+)
+
+const { $route } = useNuxtApp()
+const { urlPrefix, tokenId } = usePrefix()
+const { accountId } = useAuth()
+const { replaceUrl } = useReplaceUrl()
+
+const itemsPerPage = ref(20)
+const currentPage = ref(parseInt($route.query?.page as string) || 1)
+const selectedStatus = ref<AllOfferStatusType>(AllOfferStatusType.ALL)
+
+const emit = defineEmits(['select'])
+const tellFrens = (caller: string, withdraw: boolean) => {
+  emit('select', { caller, withdraw })
 }
 
-@Component({ components, filters: { formatDistanceToNow } })
-export default class OfferTable extends mixins(OfferMixin, PrefixMixin) {
-  @Prop({ type: Array, default: () => emptyArray<Attribute>() })
-  public offers!: Offer[]
-  @Prop(Boolean) public isOwner!: boolean
-  @Prop(Boolean) public isBsxStats!: boolean
-  @Prop({ type: String, default: '' }) public headerText!: string
-  @Prop(Boolean) public isCollection!: boolean
-  @Prop({ type: Boolean, default: false }) public displayCollection!: boolean
-  public currentBlock = 0
-  public itemsPerPage = 20
-  public currentPage = parseInt(this.$route.query?.page as string) || 1
+watch(currentPage, (val) => {
+  replaceUrl({ page: String(val) })
+})
 
-  @Emit('select')
-  tellFrens(caller: string, withdraw: boolean) {
-    return {
-      caller,
-      withdraw,
-    }
-  }
+const currentBlock = ref(async () => {
+  const { apiInstance } = useApi()
+  const api = await apiInstance.value
+  const block = await api.rpc.chain.getHeader()
+  return block.number.toNumber()
+})
 
-  get assetId() {
-    return getKusamaAssetId(this.urlPrefix)
-  }
+const getUniqType = (offers: Offer[]) => {
+  const statusSet = new Set(offers.map((offer) => offer.status))
+  const singleEventList = Array.from(statusSet).map((type) => ({
+    type: type as AllOfferStatusType,
+    value: AllOfferStatusType[type],
+  }))
+  return [{ type: AllOfferStatusType.ALL, value: 'All' }, ...singleEventList]
+}
 
-  @Watch('currentPage')
-  watchPageValue(val) {
-    this.replaceUrl(String(val))
-  }
+const displayOffers = (offers: Offer[]) => {
+  return offers.map((offer) => ({
+    ...offer,
+    formatPrice: formatBsxBalanceToNumber(offer.price),
+    expirationBlock: parseInt(offer.expiration),
+  }))
+}
 
-  @Debounce(100)
-  replaceUrl(value: string, key = 'page') {
-    this.$router
-      .replace({
-        path: String(this.$route.path),
-        query: { ...this.$route.query, [key]: value },
-      })
-      .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
+const calcSecondsToBlock = (block: number): number => {
+  const secondsForEachBlock = 12
+  return secondsForEachBlock * (block - currentBlock.value)
+}
+
+const calcExpirationTime = (expirationBlock: number): string => {
+  if (currentBlock.value === 0) {
+    return 'computing'
   }
+  if (currentBlock.value > expirationBlock) {
+    return 'expired'
+  }
+  return formatSecondsToDuration(calcSecondsToBlock(expirationBlock))
+}
+
+const calcExpirationDate = (expirationBlock: number): string => {
+  return endDate(calcSecondsToBlock(expirationBlock))
+}
+
+const isExpired = (expirationBlock: number): boolean => {
+  return currentBlock.value >= expirationBlock
 }
 </script>
+
 <style lang="scss">
 .offer-table-container {
   .scrollable.table-wrapper {

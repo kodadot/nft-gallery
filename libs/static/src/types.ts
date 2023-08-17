@@ -5,9 +5,9 @@ export type Prefix =
   | 'movr'
   | 'ksm'
   | 'snek'
-  | 'stmn'
+  | 'ahk'
   | 'dot'
-  | 'stt'
+  | 'ahp'
 // | 'wst'
 
 export type Squid =

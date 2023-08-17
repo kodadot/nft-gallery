@@ -1,4 +1,9 @@
-import { bsxDenyList, denyList, statemineDenyList } from '@/utils/constants'
+import {
+  bsxDenyList,
+  denyList,
+  dotHubDenyList,
+  ksmHubDenyList,
+} from '@/utils/constants'
 
 export function getDenyList(prefix: string): string[] | undefined {
   switch (prefix) {
@@ -8,9 +13,11 @@ export function getDenyList(prefix: string): string[] | undefined {
     case 'bsx':
     case 'snek':
       return bsxDenyList
-    case 'stmn':
+    case 'ahk':
     case 'westmint':
-      return statemineDenyList
+      return ksmHubDenyList
+    case 'ahp':
+      return dotHubDenyList
     default:
       return undefined
   }

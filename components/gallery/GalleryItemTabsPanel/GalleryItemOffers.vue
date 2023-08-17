@@ -1,46 +1,46 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <o-table v-if="offers?.length" :data="offers" hoverable>
+    <NeoTable v-if="offers?.length" :data="offers" hoverable>
       <!-- token price -->
-      <o-table-column
+      <NeoTableColumn
         v-slot="props"
         field="id"
         :label="`${$t(`offer.price`)} (${chainSymbol})`">
         {{ getOffersDetails(props.row.id).token }}
-      </o-table-column>
+      </NeoTableColumn>
 
       <!-- usd price -->
-      <o-table-column v-slot="props" field="id" :label="$t('offer.usdPrice')">
+      <NeoTableColumn v-slot="props" field="id" :label="$t('offer.usdPrice')">
         {{ getOffersDetails(props.row.id).usd }}
-      </o-table-column>
+      </NeoTableColumn>
 
       <!-- floor difference -->
-      <o-table-column
+      <NeoTableColumn
         v-slot="props"
         field="id"
         :label="$t('offer.floorDifferences')">
         {{ getOffersDetails(props.row.id).floorDifference }}
-      </o-table-column>
+      </NeoTableColumn>
 
       <!-- expiration -->
-      <o-table-column
+      <NeoTableColumn
         v-slot="props"
         field="expiration"
         :label="$t('offer.expiration')">
         {{ expirationTime(props.row.expiration) }}
-      </o-table-column>
+      </NeoTableColumn>
 
       <!-- caller -->
-      <o-table-column v-slot="props" field="caller" :label="$t('offer.caller')">
+      <NeoTableColumn v-slot="props" field="caller" :label="$t('offer.caller')">
         <nuxt-link
           :to="`/${urlPrefix}/u/${props.row.caller}`"
           class="has-text-link">
           <Identity :address="props.row.caller" />
         </nuxt-link>
-      </o-table-column>
+      </NeoTableColumn>
       <!-- status -->
-      <o-table-column v-slot="props" field="status" :label="$t('offer.status')">
+      <NeoTableColumn v-slot="props" field="status" :label="$t('offer.status')">
         <span
           :class="{
             'has-text-danger': props.row.status === OfferStatusType.WITHDRAWN,
@@ -54,8 +54,8 @@
           }"
           >{{ formatOfferStatus(props.row.status, props.row.expiration) }}</span
         >
-      </o-table-column>
-      <o-table-column v-slot="props" field="action">
+      </NeoTableColumn>
+      <NeoTableColumn v-slot="props" field="action">
         <NeoSecondaryButton
           v-if="
             (props.row.caller === accountId || isOwner) && isActive(props.row)
@@ -70,20 +70,18 @@
           @click.native="onAcceptOffer(props.row.caller)"
           >Accept</NeoSecondaryButton
         >
-      </o-table-column>
-    </o-table>
+      </NeoTableColumn>
+    </NeoTable>
     <div v-else class="has-text-centered">{{ $t('nft.offer.empty') }}</div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { OTable, OTableColumn } from '@oruga-ui/oruga'
+import { NeoSecondaryButton, NeoTable, NeoTableColumn } from '@kodadot1/brick'
 import Identity from '@/components/identity/IdentityIndex.vue'
-
 import { getKSMUSD } from '@/utils/coingecko'
 import formatBalance from '@/utils/format/balance'
 import { formatSecondsToDuration } from '@/utils/format/time'
-import { NeoSecondaryButton } from '@kodadot1/brick'
 import type { Offer, OfferResponse } from '@/components/bsx/Offer/types'
 import type { CollectionEvents } from '@/components/rmrk/service/scheme'
 import { OfferStatusType } from '@/utils/offerStatus'

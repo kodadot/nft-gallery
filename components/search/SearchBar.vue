@@ -69,8 +69,8 @@ import {
 import { SearchQuery } from './types'
 import PrefixMixin from '~/utils/mixins/prefixMixin'
 import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
-import { useWindowSize } from '@vueuse/core'
 import { NeoAutocomplete } from '@kodadot1/brick'
+import { useCollectionSearch } from '@/components/search/utils/useCollectionSearch'
 
 @Component({
   components: {
@@ -93,20 +93,11 @@ export default class SearchBar extends mixins(
     this.initKeyboardEventHandler({
       k: this.bindSearchEvents,
     })
-  }
-
-  get isMobile() {
-    return useWindowSize().width.value < 1024
-  }
-
-  get isCollectionPage() {
-    return this.$route.name === 'prefix-collection-id'
+    this.onSearchInCollectionModeChanged()
   }
 
   get isSearchInCollectionMode() {
-    return (
-      this.enableSearchInCollection && this.isCollectionPage && !this.isMobile
-    )
+    return useCollectionSearch().isCollectionSearchMode.value
   }
 
   get placeholderContent() {
@@ -164,14 +155,9 @@ export default class SearchBar extends mixins(
     this.searchRef.isActive = false
   }
 
-  @Watch('isSearchInCollectionMode', { immediate: true })
+  @Watch('enableSearchInCollection', { immediate: true })
   private onSearchInCollectionModeChanged() {
-    const { replaceUrl } = useReplaceUrl()
-    replaceUrl({
-      collectionId: this.isSearchInCollectionMode
-        ? this.$route.params.id
-        : undefined,
-    })
+    useCollectionSearch().setCollectionSearchMode(this.enableSearchInCollection)
   }
 }
 </script>

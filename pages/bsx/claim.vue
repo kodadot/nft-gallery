@@ -3,12 +3,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
-import ClaimForm from '@/components/poap/claim/ClaimForm.vue'
-
-@Component({
+export default {
+  name: 'ClaimPage',
   components: {
-    ClaimForm,
+    ClaimForm: () => import('@/components/poap/claim/ClaimForm.vue'),
   },
   layout() {
     return 'centered-half-layout'
@@ -27,6 +25,5 @@ import ClaimForm from '@/components/poap/claim/ClaimForm.vue'
       meta: [...this.$seoMeta(metaData)],
     }
   },
-})
-export default class SimpleMintPage extends Vue {}
+}
 </script>

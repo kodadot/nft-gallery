@@ -1,5 +1,5 @@
 <template>
-  <component :is="is">
+  <div>
     <template v-if="profileMode">
       <slot name="extra" />
       <nuxt-link :to="`${route}/${param}`" :tag="tag">
@@ -7,31 +7,34 @@
       </nuxt-link>
     </template>
     <template v-else>
-      <a :href="hrefLink" target="_blank" rel="noopener noreferrer">
+      <a :href="hrefLink" target="_blank" rel="nofollow noopener noreferrer">
         <slot />
       </a>
     </template>
-  </component>
+  </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, mixins } from 'nuxt-property-decorator'
-import InlineMixin from '@/utils/mixins/inlineMixin'
+<script lang="ts" setup>
 import isShareMode from '@/utils/isShareMode'
 
-@Component
-export default class LinkResolver extends mixins(InlineMixin) {
-  @Prop({ default: '/rmrk/gallery' }) public route!: string
-  @Prop({ default: 'rmrk/gallery' }) public link!: string
-  @Prop({ default: 'a' }) public tag!: string
-  @Prop({}) public param!: string
-
-  get profileMode() {
-    return !isShareMode
+const props = withDefaults(
+  defineProps<{
+    route?: string
+    link?: string
+    tag?: string
+    param?: string
+  }>(),
+  {
+    route: '/rmrk/gallery',
+    link: 'rmrk/gallery',
+    tag: 'a',
+    param: '',
   }
+)
 
-  get hrefLink() {
-    return `${window.location.origin}/${this.link}/${this.param}`
-  }
-}
+const profileMode = !isShareMode
+
+const hrefLink = computed(
+  () => `${window.location.origin}/${props.link}/${props.param}`
+)
 </script>

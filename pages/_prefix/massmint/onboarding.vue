@@ -5,19 +5,24 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
 import OnBoarding from '@/components/massmint/OnBoarding.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 
-const components = { OnBoarding }
-
-@Component<OnBoardingPage>({
-  components,
+export default {
+  name: 'MassmintOnboardingPage',
+  components: {
+    OnBoarding,
+  },
   layout() {
     return 'full-width-layout'
   },
+  middleware({ redirect, params }) {
+    if (usePreferencesStore().getVisitedOnboarding) {
+      redirect(`/${params.prefix}/massmint`)
+    }
+  },
   head() {
-    const title = 'Low minting fees and carbonless NFTs'
+    const title = 'Kodadot | Massmint'
     const metaData = {
       title,
       type: 'profile',
@@ -30,13 +35,5 @@ const components = { OnBoarding }
       meta: [...this.$seoMeta(metaData)],
     }
   },
-  middleware() {
-    const { urlPrefix } = usePrefix()
-
-    if (usePreferencesStore().getVisitedOnboarding) {
-      navigateTo(`/${urlPrefix.value}/massmint`)
-    }
-  },
-})
-export default class OnBoardingPage extends Vue {}
+}
 </script>

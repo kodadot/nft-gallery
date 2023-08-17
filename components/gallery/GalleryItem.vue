@@ -25,11 +25,11 @@
 
           <!-- media item -->
           <div v-if="hasResources" class="gallery-item-carousel">
-            <o-carousel
+            <NeoCarousel
               v-model="activeCarousel"
               indicators-class="mt-4"
               indicator-item-class="mx-1">
-              <o-carousel-item
+              <NeoCarouselItem
                 v-for="resource in nftResources"
                 :key="resource.id">
                 <MediaItem
@@ -38,8 +38,8 @@
                   :mime-type="resource.mimeType"
                   :animation-src="resource.animation"
                   is-detail />
-              </o-carousel-item>
-            </o-carousel>
+              </NeoCarouselItem>
+            </NeoCarousel>
           </div>
           <MediaItem
             v-else
@@ -85,7 +85,9 @@
                   </CollectionDetailsPopover>
                 </h2>
               </div>
-              <GalleryItemButton v-if="!nft?.burned" />
+              <GalleryItemButton
+                v-if="!nft?.burned"
+                :gallery-item="galleryItem" />
             </div>
 
             <div
@@ -117,7 +119,7 @@
               class="mt-4" />
 
             <!-- price section -->
-            <GalleryItemAction :nft="nft" @buy-success="onNFTBought" />
+            <GalleryItemAction :nft="nft" />
             <UnlockableTag
               v-if="isUnlockable && !isMobile"
               :link="unlockLink"
@@ -130,11 +132,15 @@
 
     <div class="columns is-variable is-6 mt-5">
       <div class="column is-two-fifths">
-        <GalleryItemDescription ref="galleryDescriptionRef" />
+        <GalleryItemDescription
+          ref="galleryDescriptionRef"
+          :gallery-item="galleryItem" />
       </div>
 
       <div class="column is-three-fifths gallery-item-tabs-panel-wrapper">
-        <GalleryItemTabsPanel :active-tab="activeTab" />
+        <GalleryItemTabsPanel
+          :active-tab="activeTab"
+          :gallery-item="galleryItem" />
       </div>
     </div>
 
@@ -146,13 +152,20 @@
 
     <CarouselTypeVisited class="mt-8" />
 
-    <GalleryItemPreviewer v-model="isFullscreen" :item-src="previewItemSrc" />
+    <GalleryItemPreviewer
+      v-model="isFullscreen"
+      :item-src="previewItemSrc"
+      :gallery-item="galleryItem" />
   </section>
 </template>
 
 <script setup lang="ts">
-import { OCarousel, OCarouselItem } from '@oruga-ui/oruga'
-import { IdentityItem, MediaItem, NeoIcon } from '@kodadot1/brick'
+import {
+  MediaItem,
+  NeoCarousel,
+  NeoCarouselItem,
+  NeoIcon,
+} from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
 
@@ -161,7 +174,7 @@ import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'
 import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
 import GalleryItemPreviewer from './GalleryItemPreviewer.vue'
-
+import { convertMarkdownToText } from '@/utils/markdown'
 import { exist } from '@/utils/exist'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { generateNftImage } from '@/utils/seoImageGenerator'
@@ -170,6 +183,7 @@ import { MediaType } from '@/components/rmrk/types'
 import { resolveMedia } from '@/utils/gallery/media'
 import UnlockableTag from './UnlockableTag.vue'
 import { useWindowSize } from '@vueuse/core'
+import { usePreferencesStore } from '@/stores/preferences'
 
 const { urlPrefix } = usePrefix()
 const { $seoMeta } = useNuxtApp()
@@ -178,10 +192,14 @@ const router = useRouter()
 const { placeholder } = useTheme()
 const mediaItemRef = ref<{ isLewdBlurredLayer: boolean } | null>(null)
 const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
+const preferencesStore = usePreferencesStore()
 
+const galleryItem = useGalleryItem()
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType, nftResources } =
-  useGalleryItem()
+  galleryItem
 const collection = computed(() => nft.value?.collection)
+
+const triggerBuySuccess = computed(() => preferencesStore.triggerBuySuccess)
 
 const breakPointWidth = 930
 const isMobile = computed(() => useWindowSize().width.value < breakPointWidth)
@@ -224,6 +242,14 @@ const onNFTBought = () => {
   activeTab.value = tabs.activity
   showCongratsMessage.value = true
 }
+
+watch(triggerBuySuccess, (value, oldValue) => {
+  if (value && !oldValue) {
+    onNFTBought()
+    preferencesStore.setTriggerBuySuccess(false)
+  }
+})
+
 const congratsNewNft = ref('')
 
 const CarouselTypeRelated = defineAsyncComponent(
@@ -251,7 +277,7 @@ const meta = computed(() => {
   return [
     ...$seoMeta({
       title: title.value,
-      description: nftMetadata.value?.description,
+      description: convertMarkdownToText(nftMetadata.value?.description),
       image: generateNftImage(
         title.value,
         formatBalanceEmptyOnZero(nft.value?.price as string),

@@ -86,7 +86,7 @@
 
             @include ktheme() {
               box-shadow: theme('primary-shadow');
-              color: theme('black');
+              color: theme('text-color');
               background: theme('k-primary');
             }
           }
@@ -96,9 +96,6 @@
 
     .custom-navbar-item {
       margin-left: 0 !important;
-      .dropdown-trigger {
-        width: 100%;
-      }
     }
 
     #NavProfile {
@@ -112,16 +109,6 @@
       div {
         flex-grow: 1;
       }
-
-      .dropdown-trigger .button {
-        width: 40vw;
-      }
-    }
-
-    .dropdown.is-mobile-modal > .dropdown-menu {
-      -webkit-transform: translate3d(-50%, 10%, 0);
-      transform: translate3d(-50%, 10%, 0);
-      width: 100%;
     }
   }
 }
@@ -154,16 +141,6 @@
           height: 40px;
         }
       }
-    }
-  }
-
-  .dropdown .dropdown-menu .has-link a {
-    padding-top: 8px;
-    padding-bottom: 8px;
-    font-size: 16px;
-
-    @include ktheme() {
-      color: theme('text-color');
     }
   }
 
@@ -216,13 +193,9 @@
     box-shadow: none;
     width: min-content;
     min-width: 100px;
+
     @include ktheme() {
       color: theme('text-color');
-    }
-    .dropdown-menu {
-      > .dropdown-content {
-        width: 550px;
-      }
     }
   }
 
@@ -243,63 +216,6 @@
     border-radius: 0;
   }
 
-  .navbar-create,
-  .navbar-stats {
-    .dropdown-content {
-      width: 70%;
-    }
-  }
-
-  .dropdown-menu {
-    width: max-content;
-  }
-  .dropdown-content {
-    border-radius: 0;
-    user-select: none;
-    padding: 0;
-    width: 100%;
-    max-height: 600px;
-
-    .has-link:hover {
-      @include ktheme() {
-        background-color: theme('k-accentHover');
-        color: theme('black');
-      }
-    }
-    .is-active,
-    .is-active > a {
-      @include ktheme() {
-        color: theme('text-color-inverse') !important;
-        background: theme('text-color');
-        &:hover {
-          background: theme('text-color') !important;
-        }
-      }
-    }
-
-    .dropdown-item {
-      width: auto;
-    }
-  }
-
-  .dropdown .dropdown-menu .has-link {
-    border-radius: 0;
-    &:first-child {
-      border-top: none !important;
-    }
-
-    @include ktheme() {
-      border-top: 1px solid theme('border-color');
-    }
-
-    a:hover {
-      @include ktheme() {
-        background-color: theme('k-accentHover');
-        color: theme('black');
-      }
-    }
-  }
-
   .small-size-text {
     font-size: 0.5rem;
     vertical-align: text-bottom;
@@ -309,15 +225,11 @@
     height: 12px;
   }
   .navbar-explore {
-    .dropdown-menu {
-      max-width: 22.563rem;
-    }
-
-    .dropdown-item {
-      padding: 23px 32px;
-    }
     .menu-item {
       cursor: pointer;
+      @include ktheme() {
+        color: theme('text-color');
+      }
 
       &.is-active {
         font-weight: bold;
@@ -344,22 +256,6 @@
     }
   }
 
-  .navbar-chain {
-    .dropdown-item {
-      display: flex;
-      justify-content: center;
-      padding: 7px 0px;
-      font-size: 16px;
-      @include ktheme() {
-        border-bottom: 1px solid theme('border-color');
-        &:hover {
-          background-color: theme('k-accentHover');
-          color: theme('black');
-        }
-      }
-    }
-  }
-
   .fixed-stack {
     box-sizing: border-box;
     position: fixed;
@@ -376,22 +272,6 @@
       background: theme('background-color');
     }
 
-    .dropdown-menu {
-      $navbar-height: 70px;
-      position: fixed;
-      top: $navbar-height;
-      left: 0;
-      width: 100%;
-      padding-top: 0;
-
-      .dropdown-content {
-        height: 100vh;
-        max-height: 100vh;
-        border: none;
-        box-shadow: none;
-      }
-    }
-
     > .control {
       margin-right: auto !important;
 
@@ -405,42 +285,13 @@
     }
     @include touch {
       $touch-padding-x: 20px;
-      .dropdown-content .search-suggestion-container {
-        .link-item {
-          padding-right: $touch-padding-x;
-          padding-left: $touch-padding-x;
-        }
-
-        .loading-item {
-          padding-right: $touch-padding-x;
-          padding-left: $touch-padding-x;
-        }
-        .tabs:not(:last-child) {
-          padding-right: $touch-padding-x;
-          padding-left: $touch-padding-x;
-        }
-
-        .search-history-item {
-          padding-right: $touch-padding-x;
-          padding-left: $touch-padding-x;
-        }
-
-        .touch-mt-20 {
-          margin-top: 20px;
-        }
-      }
     }
   }
 
   .cancel-btn {
+    cursor: pointer;
     border: none;
     text-transform: capitalize;
-  }
-
-  .dropdown-divider {
-    @include ktheme() {
-      color: theme('k-grey');
-    }
   }
 
   .language-heading {

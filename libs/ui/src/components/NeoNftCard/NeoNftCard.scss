@@ -9,12 +9,25 @@
     &:not(.loading):hover {
       border: 1px solid theme('border-color');
       .nft-media {
-        opacity: theme('card-hover-opacity');}
+        opacity: theme('card-hover-opacity');
+      }
     }
+  }
+  .show-on-hover {
+    display: none !important;
   }
 
   a:hover {
     color: unset !important;
+
+    .show-on-hover, .show-always {
+      display: flex !important;
+    }
+  }
+
+  .action-container {
+    position: absolute;
+    bottom: 1rem;
   }
 }
 .unloackable-icon {
@@ -34,7 +47,7 @@
   padding: 13px;
   min-height: 102px;
   &__minimal {
-    padding:9px;
+    padding: 9px;
     min-height: 76px;
   }
   &-footer {

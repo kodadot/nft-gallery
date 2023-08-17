@@ -5,10 +5,14 @@
         {{ $t('createNftExplainer') }}
       </small>
     </div>
-    <NeoField
-      :label="$t('collection')"
-      :message="$t('Select collection where do you want mint your token')">
-      <b-select
+    <NeoField :label="$t('collection')">
+      <template #label>
+        <div>{{ $t('collection') }}</div>
+        <div class="has-text-weight-light is-size-7 mb-3">
+          {{ $t('Select collection where do you want mint your token') }}
+        </div>
+      </template>
+      <NeoSelect
         v-model="selectedCollection"
         placeholder="Select a collection"
         expanded>
@@ -16,25 +20,31 @@
         <option v-for="option in collections" :key="option.id" :value="option">
           {{ option.name || option.id }} ({{ option.totalCount }})
         </option>
-      </b-select>
+      </NeoSelect>
     </NeoField>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, VModel, mixins } from 'nuxt-property-decorator'
-import AuthMixin from '~/utils/mixins/authMixin'
+<script lang="ts" setup>
 import { BaseMintedCollection as MintedCollection } from './types'
-import { NeoField } from '@kodadot1/brick'
+import { NeoField, NeoSelect } from '@kodadot1/brick'
 
-@Component({
-  components: {
-    NeoField,
-  },
+const { isLogIn } = useAuth()
+const selectedCollection = ref()
+const emit = defineEmits(['changeSelectedCollection'])
+
+withDefaults(
+  defineProps<{
+    collections?: MintedCollection[]
+    showExplainerText?: boolean
+  }>(),
+  {
+    collections: () => [],
+    showExplainerText: false,
+  }
+)
+
+watch(selectedCollection, (value) => {
+  emit('changeSelectedCollection', value)
 })
-export default class CollectionSelect extends mixins(AuthMixin) {
-  @VModel({ default: null }) selectedCollection!: MintedCollection
-  @Prop({ type: Array, default: () => [] }) collections!: MintedCollection[]
-  @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
-}
 </script>

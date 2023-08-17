@@ -25,11 +25,14 @@ export default function () {
   const availableChains = computed(() => availablePrefixes())
 
   const chainSymbol = computed(() => {
-    return ['rmrk', 'ksm', 'stmn'].includes(urlPrefix.value)
+    return ['rmrk', 'ksm', 'ahk', 'ahp'].includes(urlPrefix.value)
       ? unit.value
       : symbol
   })
 
+  const blockExplorer = computed<string>(() => {
+    return chainProperties.value.blockExplorer ?? 'https://kusama.subscan.io/'
+  })
   return {
     decimals,
     unit,
@@ -37,5 +40,6 @@ export default function () {
     chainProperties,
     availableChains,
     chainSymbol,
+    blockExplorer,
   }
 }

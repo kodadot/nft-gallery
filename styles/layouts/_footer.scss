@@ -40,6 +40,11 @@
   &-info {
     @include mobile {
       align-items: center !important;
+      .footer-container-list {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
     }
 
     &-list {
@@ -77,7 +82,7 @@
           &:hover {
             background: theme('k-accentHover');
             .icon, .o-icon {
-              color: theme('black') !important;
+              color: theme('text-color') !important;
             }
           }
         }

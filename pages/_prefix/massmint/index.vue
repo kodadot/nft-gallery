@@ -2,17 +2,22 @@
   <Massmint />
 </template>
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
 import { usePreferencesStore } from '@/stores/preferences'
-import Massmint from '@/components/massmint/Massmint.vue'
-const components = { Massmint }
 
-@Component<MassmintPage>({
-  components,
-})
-export default class MassmintPage extends Vue {
+export default {
+  name: 'MassmintPage',
+
+  layout() {
+    return 'noFooter'
+  },
+  middleware({ redirect, params }) {
+    if (!usePreferencesStore().getVisitedOnboarding) {
+      setTimeout(() => redirect(`/${params.prefix}/massmint/onboarding`))
+    }
+  },
+
   head() {
-    const title = 'Low minting fees and carbonless NFTs'
+    const title = 'Kodadot | Massmint'
     const metaData = {
       title,
       type: 'profile',
@@ -24,14 +29,6 @@ export default class MassmintPage extends Vue {
       title,
       meta: [...this.$seoMeta(metaData)],
     }
-  }
-  layout() {
-    return 'noFooter'
-  }
-  middleware({ redirect, params }) {
-    if (!usePreferencesStore().getVisitedOnboarding) {
-      setTimeout(() => redirect(`/${params.prefix}/massmint/onboarding`))
-    }
-  }
+  },
 }
 </script>

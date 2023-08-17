@@ -1,17 +1,24 @@
 @import '../../scss/theme';
+
+@import '@oruga-ui/oruga/src/scss/utilities/_expressions.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/_variables.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/_animations.scss';
+@import '@oruga-ui/oruga/src/scss/utilities/_helpers.scss';
+@import '@oruga-ui/oruga/src/scss/components/_icon.scss';
+
 .o-icon--success {
   @include ktheme() {
     color: theme('k-green');
   }
 }
-
-.o-icon--small {
-  font-size: 16px;
+.o-icon--primary {
+  @include ktheme() {
+    color: theme('k-primary');
+  }
 }
 
-.o-icon--medium {
-  font-size: 24px;
-}
-.o-icon--large {
-  font-size: 32px;
+.o-icon--k-grey {
+  @include ktheme() {
+    color: theme('k-grey');
+  }
 }

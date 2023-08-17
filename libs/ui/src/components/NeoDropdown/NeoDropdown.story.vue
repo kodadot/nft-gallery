@@ -2,23 +2,21 @@
   <Story title="NeoDropdown" :layout="{ type: 'grid', width: '200px' }">
     <Variant title="With Text">
       {{ label }}
-      <template #items>
+      <NeoDropdownItem
+        v-for="(option, index) in options"
+        :key="index"
+        :item="option" />
+    </Variant>
+    <Variant title="With Button">
+      <NeoDropdown>
+        <template #trigger>
+          <NeoButton :label="label" />
+        </template>
+
         <NeoDropdownItem
           v-for="(option, index) in options"
           :key="index"
           :item="option" />
-      </template>
-    </Variant>
-    <Variant title="With Button">
-      <NeoDropdown>
-        <NeoButton :label="label" />
-
-        <template #items>
-          <NeoDropdownItem
-            v-for="(option, index) in options"
-            :key="index"
-            :item="option" />
-        </template>
       </NeoDropdown>
     </Variant>
   </Story>

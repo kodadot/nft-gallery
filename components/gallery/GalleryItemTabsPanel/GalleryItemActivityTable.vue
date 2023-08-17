@@ -1,21 +1,21 @@
 <template>
   <div class="gallery-item-activity-table is-flex is-flex-direction-column">
-    <o-table
+    <NeoTable
       v-if="events.length"
       :data="events"
       hoverable
       class="py-5 padding-top-mobile">
       <!-- event name -->
-      <o-table-column
+      <NeoTableColumn
         v-slot="props"
         width="20%"
         field="interaction"
         :label="$t('tabs.tabActivity.event')">
         {{ props.row.interaction.toLowerCase() }}
-      </o-table-column>
+      </NeoTableColumn>
 
       <!-- price -->
-      <o-table-column
+      <NeoTableColumn
         v-slot="props"
         width="20%"
         field="meta"
@@ -23,10 +23,10 @@
         <p v-if="Number(props.row.meta)">
           {{ formatPrice(props.row.meta) }}
         </p>
-      </o-table-column>
+      </NeoTableColumn>
 
       <!-- from -->
-      <o-table-column
+      <NeoTableColumn
         v-slot="props"
         width="20%"
         field="caller"
@@ -43,10 +43,10 @@
           class="has-text-link">
           <Identity :address="props.row.caller" />
         </nuxt-link>
-      </o-table-column>
+      </NeoTableColumn>
 
       <!-- to -->
-      <o-table-column
+      <NeoTableColumn
         v-slot="props"
         width="20%"
         field="currentOwner"
@@ -71,19 +71,19 @@
           class="has-text-link">
           <Identity :address="props.row.meta" />
         </nuxt-link>
-      </o-table-column>
+      </NeoTableColumn>
 
       <!-- date -->
-      <o-table-column
+      <NeoTableColumn
         v-slot="props"
         width="20%"
         field="timestamp"
         :label="$t('tabs.tabActivity.date')">
-        <o-tooltip :label="parseDate(props.row.timestamp)" position="left">
+        <NeoTooltip :label="parseDate(props.row.timestamp)" position="left">
           <span class="no-wrap">{{ formatToNow(props.row.timestamp) }}</span>
-        </o-tooltip>
-      </o-table-column>
-    </o-table>
+        </NeoTooltip>
+      </NeoTableColumn>
+    </NeoTable>
     <div v-else-if="loading" class="p-5">
       <NeoSkeleton animated size="large" :count="3"></NeoSkeleton>
     </div>
@@ -92,9 +92,13 @@
 </template>
 
 <script setup lang="ts">
-import { OTable, OTableColumn, OTooltip } from '@oruga-ui/oruga'
 import Identity from '@/components/identity/IdentityIndex.vue'
-import { NeoSkeleton } from '@kodadot1/brick'
+import {
+  NeoSkeleton,
+  NeoTable,
+  NeoTableColumn,
+  NeoTooltip,
+} from '@kodadot1/brick'
 import { formatToNow } from '@/utils/format/time'
 import formatBalance from '@/utils/format/balance'
 import { parseDate } from '@/utils/datetime'
@@ -165,6 +169,13 @@ const formatPrice = (price) => {
   overflow-y: auto;
 }
 
+@include touch {
+  .gallery-item-activity-table {
+    :deep .o-table__td {
+      border-bottom: inherit !important;
+    }
+  }
+}
 @include mobile {
   .padding-top-mobile {
     padding-top: 0 !important;

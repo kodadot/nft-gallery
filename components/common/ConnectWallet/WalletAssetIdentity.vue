@@ -18,11 +18,13 @@
 </template>
 
 <script setup lang="ts">
-import { IdentityItem, NeoIcon } from '@kodadot1/brick'
+import { NeoIcon } from '@kodadot1/brick'
 import { useIdentityStore } from '@/stores/identity'
+import { useShoppingCartStore } from '@/stores/shoppingCart'
 import useIdentity from '@/components/identity/utils/useIdentity'
 
 const identityStore = useIdentityStore()
+const shoppingCartStore = useShoppingCartStore()
 const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 const { display, shortenedAddress } = useIdentity({
@@ -35,5 +37,6 @@ const logout = () => {
   identityStore.resetAuth()
   sessionStorage.clear()
   localStorage.clear()
+  shoppingCartStore.clear()
 }
 </script>

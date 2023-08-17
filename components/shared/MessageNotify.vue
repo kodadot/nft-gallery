@@ -1,5 +1,9 @@
 <template>
-  <NeoMessage class="message-box" :duration="10000" auto-close>
+  <NeoMessage
+    class="message-box"
+    :duration="realDuration"
+    auto-close
+    @close="$emit('close')">
     <img src="/congrats-message-header.svg" class="congrats-message" />
     <div class="is-flex is-flex-direction-column">
       <div class="title is-3 mb-4">
@@ -11,7 +15,11 @@
         <span class="subtitle is-6 mb-0">
           {{ subtitle }}
         </span>
-        <Sharing btn-type="is-primary" :enable-download="enableDownload" />
+        <ShowQRModal
+          class="share-option"
+          :address="realworldFullPath"
+          :title="$t('sharing.nft')"
+          type="is-primary" />
       </div>
     </div>
   </NeoMessage>
@@ -20,11 +28,20 @@
 <script lang="ts" setup>
 import { NeoMessage } from '@kodadot1/brick'
 
-defineProps<{
+const route = useRoute()
+const props = defineProps<{
   title?: string
   subtitle?: string
-  enableDownload?: false
+  duration?: number
 }>()
+
+const realDuration = computed(() => {
+  return props.duration || 10000
+})
+
+const realworldFullPath = computed(() => {
+  return `${window.location.origin}${route.fullPath}`
+})
 </script>
 
 <style lang="scss">
@@ -35,7 +52,7 @@ defineProps<{
   max-width: 500px;
   position: absolute;
   border-radius: 0;
-  top: 0;
+  top: 100px;
   right: 0;
   margin-left: auto;
   margin-right: auto;
