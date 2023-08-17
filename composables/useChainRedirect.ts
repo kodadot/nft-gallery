@@ -1,5 +1,5 @@
 import { Prefix } from '@kodadot1/static'
-import { createVisible } from '@/utils/config/permision.config'
+import { assetsVisible, createVisible } from '@/utils/config/permision.config'
 
 const NO_REDIRECT_ROUTE_NAMES = ['hot', 'sales', 'series-insight', 'identity']
 
@@ -15,9 +15,14 @@ export default function () {
       return
     }
 
+    const isAssets = routeName.includes('-assets')
     const isSimpleCreate = routeName.includes('-create')
 
-    if (isSimpleCreate && createVisible(newChain)) {
+    if (isAssets && assetsVisible(newChain)) {
+      return router.push({
+        path: `/${newChain}/assets`,
+      })
+    } else if (isSimpleCreate && createVisible(newChain)) {
       return router.push({
         path: `/${newChain}/create`,
       })
