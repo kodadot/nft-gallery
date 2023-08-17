@@ -231,17 +231,6 @@ export default defineNuxtConfig({
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // https://go.nuxtjs.dev/buefy
-    [
-      'nuxt-buefy',
-      {
-        css: false,
-        defaultIconPack: 'fas',
-        defaultIconComponent: 'vue-fontawesome',
-        defaultFieldLabelPosition: 'inside',
-        materialDesignIcons: false,
-      },
-    ],
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
     '@kevinmarrec/nuxt-pwa',
