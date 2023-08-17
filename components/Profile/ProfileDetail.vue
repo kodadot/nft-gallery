@@ -10,7 +10,7 @@
         </div>
       </div>
     </NeoModal>
-    <div class="container is-fluid py-8 border-bottom">
+    <div class="container is-fluid py-7 border-bottom">
       <div class="columns is-centered">
         <div class="column is-half has-text-centered">
           <div class="container image is-64x64 mb-2">
@@ -87,7 +87,8 @@
           <ProfileActivity :id="id" />
         </div>
       </div>
-      <div class="is-flex is-hidden-touch is-hidden-desktop-only">
+      <div
+        class="is-flex is-hidden-touch is-hidden-desktop-only is-hidden-widescreen-only">
         <TabItem
           v-for="tab in tabs"
           :key="tab"
@@ -97,7 +98,7 @@
         <ChainDropdown class="ml-6" />
         <OrderByDropdown v-if="activeTab !== 'activity'" class="ml-6" />
       </div>
-      <div class="is-flex is-flex-direction-row is-hidden-widescreen mobile">
+      <div class="is-flex is-flex-direction-row is-hidden-fullhd mobile">
         <TabItem
           v-for="tab in tabs"
           :key="tab"
@@ -133,7 +134,10 @@
         <hr class="my-0" />
         <ItemsGrid :search="itemsGridSearch" />
       </div>
-      <CollectionList v-if="activeTab === 'collections'" :id="id" />
+      <CollectionGrid
+        v-if="activeTab === 'collections'"
+        :id="id"
+        class="pt-7" />
       <Activity v-if="activeTab === 'activity'" :id="id" />
     </div>
   </div>
@@ -144,7 +148,6 @@ import { getExplorer, hasExplorer } from '@kodadot1/static'
 import { NeoButton, NeoModal } from '@kodadot1/brick'
 import TabItem from '../shared/TabItem.vue'
 import Identity from '../identity/IdentityIndex.vue'
-import CollectionList from '../collection/CollectionList.vue'
 import ItemsGrid from '../items/ItemsGrid/ItemsGrid.vue'
 import ProfileGrid from './ProfileGrid.vue'
 import Activity from './Activity.vue'
@@ -152,6 +155,7 @@ import ProfileActivity from './ProfileActivity.vue'
 import FilterButton from './FilterButton.vue'
 import ChainDropdown from '../common/ChainDropdown.vue'
 import OrderByDropdown from './OrderByDropdown.vue'
+import CollectionGrid from '../collection/CollectionGrid.vue'
 
 const route = useRoute()
 const { replaceUrl } = useReplaceUrl()
@@ -228,13 +232,7 @@ const handleIdentity = (identityFields: Record<string, string>) => {
   display: none;
 }
 
-.set-width {
-  @include until-widescreen {
-    width: 100%;
-  }
-}
-
-@include until-widescreen {
+@include until(1440px) {
   .mobile {
     flex-wrap: wrap;
     > * {
