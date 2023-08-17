@@ -93,7 +93,7 @@ import {
   wrapEventNameWithIcon,
 } from '@/utils/historyEvent'
 
-import { Interaction as EventInteraction } from '../rmrk/service/scheme'
+import { Interaction as EventInteraction } from '@/components/rmrk/service/scheme'
 import { NeoTable, NeoTableColumn, NeoTooltip } from '@kodadot1/brick'
 
 import Identity from '@/components/identity/IdentityIndex.vue'
@@ -163,16 +163,6 @@ const isToColumnVisible = computed(() => {
 })
 const isPercentageColumnVisible = computed(() => {
   return [HistoryEventType.ALL, Interaction.BUY].includes(event.value)
-})
-const selectedEvent = computed({
-  get: () => event.value,
-  set: (value: HistoryEventType) => {
-    if (value) {
-      currentPage.value = 1
-      event.value = value
-      replaceUrl({ event: value })
-    }
-  },
 })
 
 const getEventDisplayName = (type: Interaction) => {

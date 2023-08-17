@@ -23,7 +23,7 @@ import { NeoSkeleton } from '@kodadot1/brick'
 
 import CollectionGrid from './CollectionGrid.vue'
 
-const props = defineProps<{
+defineProps<{
   id?: string
 }>()
 

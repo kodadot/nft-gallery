@@ -150,12 +150,12 @@ import TabItem from '../shared/TabItem.vue'
 import Identity from '../identity/IdentityIndex.vue'
 import ItemsGrid from '../items/ItemsGrid/ItemsGrid.vue'
 import ProfileGrid from './ProfileGrid.vue'
-import Activity from './Activity.vue'
 import ProfileActivity from './ProfileActivity.vue'
 import FilterButton from './FilterButton.vue'
 import ChainDropdown from '../common/ChainDropdown.vue'
 import OrderByDropdown from './OrderByDropdown.vue'
 import CollectionGrid from '../collection/CollectionGrid.vue'
+import Activity from './activityTab/Activity.vue'
 
 const route = useRoute()
 const { replaceUrl } = useReplaceUrl()

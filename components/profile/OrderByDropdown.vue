@@ -61,7 +61,6 @@ import ActiveCount from '../explore/ActiveCount.vue'
 const route = useRoute()
 const router = useRouter()
 const { $i18n } = useNuxtApp()
-const { urlPrefix } = usePrefix()
 
 const isCollectionsTab = computed(
   () => (route.query.tab as string) === 'collections'
