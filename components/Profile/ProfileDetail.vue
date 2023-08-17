@@ -63,17 +63,17 @@
               v-clipboard:copy="id"
               variant="text"
               no-shadow
-              label="Copy Address" />
+              :label="$t('share.copyAddress')" />
             <div class="divider" />
             <NeoButton
               variant="text"
               no-shadow
-              label="QR Code"
+              :label="$t('share.qrCode')"
               @click.native="isModalActive = true" />
             <div class="divider" />
             <NeoButton
               no-shadow
-              label="Transfer"
+              :label="$t('transfer')"
               variant="text"
               tag="nuxt-link"
               :to="`/${urlPrefix}/transfer?target=${id}&usdamount=10&donation=true`">
@@ -120,10 +120,10 @@
         <div
           class="is-flex is-justify-content-space-between pb-4 pt-5 is-align-content-center">
           <div class="is-flex">
-            <FilterButton label="Buy Now" url-param="buy_now" />
+            <FilterButton :label="$t('sort.listed')" url-param="buy_now" />
             <FilterButton
               v-if="activeTab === 'created'"
-              label="Sold"
+              :label="$t('activity.sold')"
               url-param="sold"
               class="ml-4" />
           </div>

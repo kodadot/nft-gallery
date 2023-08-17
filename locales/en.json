@@ -1013,7 +1013,8 @@
   "share": {
     "copyLink": "Copy Link",
     "qrCode": "QR Code",
-    "twitter": "Share on Twitter"
+    "twitter": "Share on Twitter",
+    "copyAddress": "Copy Address"
   },
   "moreActions": {
     "download": "Download",
