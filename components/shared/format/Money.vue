@@ -23,7 +23,7 @@ const props = withDefaults(
     inline: boolean
     hideUnit?: boolean
     unitSymbol?: string
-    round: number
+    round?: number
   }>(),
   {
     value: 0,
