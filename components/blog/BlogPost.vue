@@ -72,7 +72,7 @@ useNuxt2Meta({
     h2:nth-child(n + 2),
     h3:nth-child(n + 2),
     h4:nth-child(n + 2) {
-      margin-top: 3rem;
+      margin-top: 2.5rem;
     }
   }
 
@@ -81,7 +81,7 @@ useNuxt2Meta({
   h3,
   h4,
   p {
-    margin: 1rem 0;
+    margin: 0.75rem 0;
   }
 
   h1 {
@@ -118,9 +118,10 @@ useNuxt2Meta({
   @include ktheme() {
     .markdown-body {
       color: theme('k-accentlight2-dark');
-      p {
-        color: theme('k-accentlight2-dark-paragraph');
-      }
+    }
+
+    p {
+      color: theme('k-accentlight2-dark-paragraph');
     }
 
     img {
