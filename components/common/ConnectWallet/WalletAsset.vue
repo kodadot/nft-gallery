@@ -51,7 +51,7 @@ const account = computed(() => identityStore.getAuthAddress)
 const isSnek = computed(() => urlPrefix.value === 'snek')
 
 const { display } = useIdentity({
-  address: account.value,
+  address: account,
 })
 
 onMounted(async () => {

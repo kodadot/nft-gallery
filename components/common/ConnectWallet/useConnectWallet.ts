@@ -1,10 +1,9 @@
 import ConnectWalletModal from './ConnectWalletModal.vue'
-import { ModalProgrammatic as Modal } from 'buefy'
-import { BModalComponent, BModalConfig } from 'buefy/types/components'
+
 export const ConnectWalletModalConfig = {
   component: ConnectWalletModal,
   canCancel: ['escape', 'outside'],
-  customClass: 'connect-wallet-modal',
+  rootClass: 'connect-wallet-modal',
   autoFocus: false,
 }
 
@@ -18,13 +17,15 @@ export const openConnectWalletModal = (
   instance,
   { onConnect, closeAfterConnect, onCancel }: OpenWalletModalConfig = {}
 ) => {
-  const modal = ref<BModalComponent | null>()
+  const { $neoModal } = useNuxtApp()
+
+  const modal = ref()
 
   const closeModal = () => {
     modal.value?.close()
   }
 
-  modal.value = Modal.open({
+  modal.value = $neoModal.open({
     parent: instance?.proxy,
     onCancel: () => {
       if (onCancel) {
@@ -49,5 +50,5 @@ export const openConnectWalletModal = (
       },
     },
     ...ConnectWalletModalConfig,
-  } as unknown as BModalConfig)
+  })
 }

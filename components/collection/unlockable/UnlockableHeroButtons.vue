@@ -52,7 +52,7 @@ import {
   NeoModal,
 } from '@kodadot1/brick'
 
-const { $i18n, $buefy } = useNuxtApp()
+const { $i18n } = useNuxtApp()
 const currentUrl = computed(() => window.location.href)
 
 const QRModalActive = ref(false)
@@ -60,12 +60,7 @@ const QRModalActive = ref(false)
 const hashtags = 'KusamaNetwork,KodaDot'
 const sharingLabel = $i18n.t('sharing.collection')
 
-const toast = (message: string) => {
-  $buefy.toast.open({
-    message,
-    type: 'is-neo',
-  })
-}
+const { toast } = useToast()
 </script>
 
 <style lang="scss" scoped>

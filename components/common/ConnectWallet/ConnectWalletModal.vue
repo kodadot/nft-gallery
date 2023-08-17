@@ -80,9 +80,8 @@
 <script setup lang="ts">
 import { SupportedWallets } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoField, NeoIcon } from '@kodadot1/brick'
 import { Auth, useIdentityStore } from '@/stores/identity'
-import { NeoField } from '@kodadot1/brick'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem.vue'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'
 

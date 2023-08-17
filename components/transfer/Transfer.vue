@@ -207,7 +207,10 @@ import { ALTERNATIVE_ENDPOINT_MAP } from '@kodadot1/static'
 import { isAddress } from '@polkadot/util-crypto'
 import { DispatchError } from '@polkadot/types/interfaces'
 
-import { calculateKsmFromUsd, calculateUsdFromKsm } from '@/utils/calculation'
+import {
+  calculateTokenFromUsd,
+  calculateUsdFromToken,
+} from '@/utils/calculation'
 import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import {
@@ -312,7 +315,7 @@ const checkQueryParams = () => {
     }))
   } else if (query.usdamount) {
     const usdValue = Number(query.usdamount)
-    const tokenAmount = calculateKsmFromUsd(
+    const tokenAmount = calculateTokenFromUsd(
       Number(getCurrentTokenValue(unit.value)),
       usdValue
     )
@@ -344,7 +347,7 @@ const totalTokenAmount = computed(() =>
   )
 )
 const totalUsdValue = computed(() =>
-  calculateUsdFromKsm(totalTokenAmount.value, Number(currentTokenValue.value))
+  calculateUsdFromToken(totalTokenAmount.value, Number(currentTokenValue.value))
 )
 
 const currentTokenValue = computed(() => getCurrentTokenValue(unit.value))
@@ -359,7 +362,7 @@ const onAmountFieldChange = (target: TargetAddress) => {
   /* calculating usd value on the basis of price entered */
 
   target.usd = target.token
-    ? calculateUsdFromKsm(
+    ? calculateUsdFromToken(
         Number(getCurrentTokenValue(unit.value)),
         Number(target.token)
       )
@@ -376,7 +379,7 @@ const onAmountFieldChange = (target: TargetAddress) => {
 const onUsdFieldChange = (target: TargetAddress) => {
   /* calculating price value on the basis of usd entered */
   target.token = target.usd
-    ? calculateKsmFromUsd(
+    ? calculateTokenFromUsd(
         Number(getCurrentTokenValue(unit.value)),
         Number(target.usd)
       )

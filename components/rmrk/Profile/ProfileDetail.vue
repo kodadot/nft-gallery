@@ -8,7 +8,7 @@
         <h1 class="title is-2" data-cy="user-identity">
           <a
             v-if="hasBlockExplorer"
-            :href="explorer"
+            v-safe-href="explorer"
             target="_blank"
             rel="nofollow noopener noreferrer">
             <Identity
@@ -51,7 +51,7 @@
         <div v-if="hasBlockExplorer" class="is-flex is-justify-content-right">
           <div v-for="network in networks" :key="network.alt" class="control">
             <a
-              :href="`${network.url}${id}`"
+              v-safe-href="`${network.url}${id}`"
               target="_blank"
               rel="nofollow noopener noreferrer">
               <NeoButton class="share-button" no-shadow>

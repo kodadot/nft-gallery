@@ -190,7 +190,6 @@
 
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
-import { BModalConfig } from 'buefy/types/components'
 
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import ChainSelectDropdown from '@/components/navbar/ChainSelectDropdown.vue'
@@ -210,7 +209,7 @@ import { getChainNameByPrefix } from '@/utils/chain'
 import { createVisible, explorerVisible } from '@/utils/config/permision.config'
 import ShoppingCartButton from './navbar/ShoppingCartButton.vue'
 
-const { $buefy, $nextTick } = useNuxtApp()
+const { $nextTick, $neoModal } = useNuxtApp()
 const instance = getCurrentInstance()
 const showTopNavbar = ref(true)
 const openMobileSearchBar = ref(false)
@@ -248,15 +247,11 @@ const handleMobileChainSelect = () => {
 const openWalletConnectModal = (): void => {
   showMobileNavbar()
 
-  $buefy.modal.open({
+  $neoModal.closeAll()
+
+  $neoModal.open({
     parent: instance?.proxy,
     ...ConnectWalletModalConfig,
-  } as unknown as BModalConfig)
-
-  // close all modal
-  document.querySelectorAll('.modal').forEach((modal) => {
-    modal.__vue__?.$vnode?.context?.close()
-    modal.remove()
   })
 }
 
