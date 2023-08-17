@@ -21,10 +21,8 @@ const props = defineProps<{
 const urlParamName = computed(() => props.urlParam || props.label)
 
 const model = computed({
-  get() {
-    return route.query[urlParamName.value] === 'true'
-  },
-  set(val) {
+  get: () => route.query[urlParamName.value] === 'true',
+  set: (val) => {
     replaceUrl({ [urlParamName.value]: val })
   },
 })
