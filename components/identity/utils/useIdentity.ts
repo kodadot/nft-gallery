@@ -86,7 +86,7 @@ export default function useIdentity({
     isFetchingIdentity.value = false
   }
 
-  onMounted(() => address && whichIdentity(address.value))
+  onMounted(() => address.value && whichIdentity(address.value))
 
   return {
     identity,
