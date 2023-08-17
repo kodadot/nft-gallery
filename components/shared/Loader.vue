@@ -71,8 +71,8 @@ const isLoading = computed({
 })
 
 onMounted(() => {
-  setInterval(() => {
-    interval.value = randomNumber.value = randomIntegerBetween(1, 35)
+  interval.value = setInterval(() => {
+    randomNumber.value = randomIntegerBetween(1, 35)
   }, 8000)
 })
 
