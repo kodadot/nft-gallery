@@ -145,15 +145,15 @@
 <script lang="ts" setup>
 import { getExplorer, hasExplorer } from '@kodadot1/static'
 import { NeoButton, NeoModal } from '@kodadot1/brick'
-import TabItem from '@/componentsshared/TabItem.vue'
-import Identity from '@/componentsidentity/IdentityIndex.vue'
+import TabItem from '@/components/shared/TabItem.vue'
+import Identity from '@/components/identity/IdentityIndex.vue'
 import ItemsGrid from '@/componentsitems/ItemsGrid/ItemsGrid.vue'
 import ProfileGrid from './ProfileGrid.vue'
 import ProfileActivity from './ProfileActivitySummery.vue'
 import FilterButton from './FilterButton.vue'
-import ChainDropdown from '@/componentscommon/ChainDropdown.vue'
+import ChainDropdown from '@/components/common/ChainDropdown.vue'
 import OrderByDropdown from './OrderByDropdown.vue'
-import CollectionGrid from '@/componentscollection/CollectionGrid.vue'
+import CollectionGrid from '@/components/collection/CollectionGrid.vue'
 import Activity from './activityTab/Activity.vue'
 
 const route = useRoute()
