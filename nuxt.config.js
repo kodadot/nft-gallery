@@ -313,16 +313,6 @@ export default defineNuxtConfig({
   },
 
   hooks: {
-    ready(nuxt) {
-      // https://github.com/nuxt/bridge/issues/607
-      // translate nuxt 2 hook from @nuxt/webpack-edge to nuxt bridge hook
-      nuxt.hook('server:devMiddleware', async (devMiddleware) => {
-        await nuxt.callHook(
-          'server:devHandler',
-          fromNodeMiddleware(devMiddleware)
-        )
-      })
-    },
     sitemap: {
       generate: {
         done(nuxtInstance) {
