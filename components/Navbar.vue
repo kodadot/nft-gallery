@@ -221,6 +221,7 @@ const { urlPrefix } = usePrefix()
 const { isDarkMode } = useTheme()
 const identityStore = useIdentityStore()
 const isMobileNavbarOpen = ref(false)
+const updateAuthBalanceTimer = ref()
 
 const mobilSearchRef = ref<{ focusInput: () => void } | null>(null)
 
@@ -322,11 +323,16 @@ const handleResize = () => {
 
 const chainName = computed(() => getChainNameByPrefix(urlPrefix.value))
 
+const updateAuthBalance = () => {
+  account.value && identityStore.fetchBalance({ address: account.value })
+}
+
 onMounted(() => {
   window.addEventListener('scroll', onScroll)
   document.body.style.overflowY = 'initial'
   document.body.className = 'has-navbar-fixed-top has-spaced-navbar-fixed-top'
   window.addEventListener('resize', handleResize)
+  updateAuthBalanceTimer.value = setInterval(updateAuthBalance, 30000)
 })
 
 onBeforeUnmount(() => {
@@ -334,6 +340,7 @@ onBeforeUnmount(() => {
   setBodyScroll(true)
   document.documentElement.classList.remove('is-clipped-touch')
   window.removeEventListener('resize', handleResize)
+  clearInterval(updateAuthBalanceTimer.value)
 })
 </script>
 
