@@ -118,6 +118,9 @@ useNuxt2Meta({
   @include ktheme() {
     .markdown-body {
       color: theme('k-accentlight2-dark');
+      p {
+        color: theme('k-accentlight2-dark-paragraph');
+      }
     }
 
     img {
