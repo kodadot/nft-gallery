@@ -53,7 +53,7 @@ export function useFetchSearch({
       }
     }
 
-    const variables = Boolean(search)
+    const variables = search
       ? {
           search,
           first: first.value,

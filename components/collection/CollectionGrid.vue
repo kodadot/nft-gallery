@@ -97,7 +97,7 @@ const fetchPageData = async (page: number, loadDirection = 'down') => {
   }
   isFetchingData.value = true
 
-  const variables = Boolean(props.id)
+  const variables = props.id
     ? {
         search: [
           {

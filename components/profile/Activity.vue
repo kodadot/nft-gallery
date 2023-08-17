@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import History from '@/components/Profile/History.vue'
+import History from '@/components/profile/History.vue'
 import { Interaction } from '../rmrk/service/scheme'
 import { sortedEventByDate } from '@/utils/sorting'
 import FilterButton from './FilterButton.vue'

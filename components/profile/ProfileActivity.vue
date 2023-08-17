@@ -157,7 +157,7 @@ const getInvestorStatsEvents = (data: any) => {
 const getSellerEvents = (data: any) => {
   const soldEvents: Event[] = []
   data.sold.edges.forEach((e: any) => {
-    if (e.node && e.node.events && e.node.events.length > 0) {
+    if (e.node?.events && e.node.events.length > 0) {
       e.node.events.forEach((e: Event) => {
         if (BigInt(e.meta)) {
           soldEvents.push(e)
