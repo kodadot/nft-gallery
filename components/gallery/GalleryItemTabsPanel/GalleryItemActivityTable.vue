@@ -4,7 +4,7 @@
       v-if="events.length"
       :data="events"
       hoverable
-      class="py-5 padding-top-mobile">
+      class="py-5 padding-top-mobile px-5">
       <!-- event name -->
       <NeoTableColumn
         v-slot="props"
