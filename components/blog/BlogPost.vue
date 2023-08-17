@@ -120,6 +120,10 @@ useNuxt2Meta({
       color: theme('k-accentlight2-dark');
     }
 
+    h2 {
+      color: theme('k-accentlight2-dark-head');
+    }
+
     p {
       color: theme('k-accentlight2-dark-paragraph');
     }
