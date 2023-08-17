@@ -215,12 +215,12 @@ const isAllowSetIdentity = computed(() => {
 })
 
 const handleIdentity = (identityFields: Record<string, string>) => {
-  displayName.value = identityFields?.display as string
-  email.value = identityFields?.email as string
-  twitter.value = identityFields?.twitter as string
-  riot.value = identityFields?.riot as string
-  web.value = identityFields?.web as string
-  legal.value = identityFields?.legal as string
+  displayName.value = identityFields?.display
+  email.value = identityFields?.email
+  twitter.value = identityFields?.twitter
+  riot.value = identityFields?.riot
+  web.value = identityFields?.web
+  legal.value = identityFields?.legal
 }
 </script>
 
