@@ -177,6 +177,7 @@ withDefaults(
 const { $route } = useNuxtApp()
 const { urlPrefix, tokenId } = usePrefix()
 const { accountId } = useAuth()
+const { replaceUrl } = useReplaceUrl()
 
 const itemsPerPage = ref(20)
 const currentPage = ref(parseInt($route.query?.page as string) || 1)
@@ -188,20 +189,8 @@ const tellFrens = (caller: string, withdraw: boolean) => {
 }
 
 watch(currentPage, (val) => {
-  replaceUrl(String(val))
+  replaceUrl({ page: String(val) })
 })
-
-const replaceUrl = (value: string, key = 'page') => {
-  const { $route, $router, $consola } = useNuxtApp()
-  if ($route.query[key] !== value) {
-    $router
-      .replace({
-        path: String($route.path),
-        query: { ...$route.query, [key]: value },
-      })
-      .catch($consola.warn /*Navigation Duplicate err fix later */)
-  }
-}
 
 const currentBlock = ref(async () => {
   const { apiInstance } = useApi()

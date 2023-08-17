@@ -1,14 +1,6 @@
 import { isMobileDevice } from '~/utils/extension'
 
 // wallet logo
-import logoPolkadotjs from '@/assets/partners/logo-polkadot-js.png'
-import logoClover from '@/assets/partners/logo-clover.png'
-import logoLedger from '@/assets/partners/logo-ledger.svg'
-import logoMathWallet from '@/assets/partners/logo-mathwallet.png'
-import logoNova from '@/assets/partners/logo-nova.png'
-import logoSubWallet from '@/assets/partners/logo-subwallet.svg'
-import logoTalisman from '@/assets/partners/logo-talisman.svg'
-import logoEnkrypt from '@/assets/partners/logo-enkrypt.png'
 import { BaseDotsamaWallet } from './wallets/BaseDotsamaWallet'
 
 export interface WalletConfig {
@@ -69,7 +61,7 @@ const buildWalletConfig = (
 export const WalletConfigMap: IWalletConfigMap = {
   [SupportWalletExtension.PolkadotJs]: buildWalletConfig(
     SupportWalletExtension.PolkadotJs,
-    logoPolkadotjs,
+    '/partners/logo-polkadot-js.png',
     'Polkadot.js',
     'https://polkadot.js.org/extension/',
     'https://www.youtube.com/watch?v=r-fAy7Ta_vY',
@@ -77,7 +69,7 @@ export const WalletConfigMap: IWalletConfigMap = {
   ),
   [SupportWalletExtension.Clover]: buildWalletConfig(
     SupportWalletExtension.Clover,
-    logoClover,
+    '/partners/logo-clover.png',
     'CLV Wallet',
     'https://chrome.google.com/webstore/detail/clv-wallet/nhnkbkgjikgcigadomkphalanndcapjk',
     'https://docs.clv.org/use-clv-wallet/clv-extension-wallet',
@@ -85,14 +77,14 @@ export const WalletConfigMap: IWalletConfigMap = {
   ),
   [SupportWalletExtension.Ledger]: buildWalletConfig(
     SupportWalletExtension.Ledger,
-    logoLedger,
+    '/partners/logo-ledger.svg',
     'Ledger',
     'https://www.ledger.com/ledger-live',
     'https://www.ledger.com/ledger-live'
   ),
   [SupportWalletExtension.Math]: buildWalletConfig(
     SupportWalletExtension.Math,
-    logoMathWallet,
+    '/partners/logo-mathwallet.png',
     'Math Wallet',
     'https://mathwallet.org/en-us/',
     'https://blog.mathwallet.org/?p=540',
@@ -101,7 +93,7 @@ export const WalletConfigMap: IWalletConfigMap = {
   ),
   [SupportWalletExtension.Nova]: buildWalletConfig(
     SupportWalletExtension.Nova,
-    logoNova,
+    '/partners/logo-nova.png',
     'Nova',
     'https://novawallet.io/',
     'https://novawallet.io/',
@@ -110,7 +102,7 @@ export const WalletConfigMap: IWalletConfigMap = {
   ),
   [SupportWalletExtension.SubWallet]: buildWalletConfig(
     SupportWalletExtension.SubWallet,
-    logoSubWallet,
+    '/partners/logo-subwallet.svg',
     'SubWallet',
     'https://chrome.google.com/webstore/detail/subwallet/onhogfjeacnfoofkfgppdlbmlmnplgbn?hl=en&authuser=0',
     'https://connect.subwallet.app/#/welcome',
@@ -119,7 +111,7 @@ export const WalletConfigMap: IWalletConfigMap = {
   ),
   [SupportWalletExtension.Talisman]: buildWalletConfig(
     SupportWalletExtension.Talisman,
-    logoTalisman,
+    '/partners/logo-talisman.svg',
     'Talisman',
     'https://app.talisman.xyz/spiritkeys',
     'https://app.talisman.xyz/',
@@ -127,7 +119,7 @@ export const WalletConfigMap: IWalletConfigMap = {
   ),
   [SupportWalletExtension.Enkrypt]: buildWalletConfig(
     SupportWalletExtension.Enkrypt,
-    logoEnkrypt,
+    '/partners/logo-enkrypt.png',
     'Enkrypt',
     'https://www.enkrypt.com/#downloads',
     'https://www.enkrypt.com/',

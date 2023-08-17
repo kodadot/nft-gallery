@@ -3,7 +3,7 @@
     <NeoButton
       v-for="emoji in emotes.slice(0, DISPLAYED_EMOJI)"
       :key="emoji.key"
-      variant="is-outlined"
+      variant="secondary"
       no-shadow
       class="emoji-box mb-2"
       @click.native="$emit('selected', emoji.parsed)">
@@ -28,77 +28,60 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Provide, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import orderBy from 'lodash/orderBy'
 
 import { Emotion } from '../service/scheme'
 import EmotionModal from './EmotionModal.vue'
 import { NeoButton, NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import Identity from '@/components/identity/IdentityIndex.vue'
 
 const issuerId = (emotion: Emotion) => emotion.caller
+const DISPLAYED_EMOJI = 5
+const { $neoModal } = useNuxtApp()
+const instance = getCurrentInstance()
 
-interface GroupedEmotion {
-  [x: string]: Emotion[]
+const props = defineProps<{
+  emotions: []
+}>()
+
+/**
+ * parse emoji from codepoint to emoji
+ * @param codepoint Emoji Codepoint
+ * @returns Emoticon 👨🏻‍🌾
+ */
+const parseEmoji = (codepoint): string => {
+  if (codepoint) {
+    const toInt = codepoint.split('-').map((code) => parseInt(code, 16))
+    return String.fromCodePoint.apply(String, toInt)
+  }
+
+  return ''
 }
 
-interface Emoji {
-  key: string
-  count: number
-  issuers: string[]
-  parsed: string
+const openEmotionModal = () => {
+  $neoModal.open({
+    parent: instance?.proxy,
+    component: EmotionModal,
+    canCancel: ['escape', 'outside'],
+    hasModalCard: true,
+    props: {
+      emotes: emotes.value,
+    },
+  })
 }
 
-@Component({
-  components: {
-    Identity: () => import('@/components/identity/IdentityIndex.vue'),
-    NeoIcon,
-    NeoTooltip,
-    NeoButton,
-  },
+const emotes = computed(() => {
+  const mapping = Object.entries(props.emotions).map(([key, emotions]) => ({
+    key,
+    count: emotions.length,
+    issuers: emotions.map(issuerId),
+    parsed: parseEmoji(key),
+  }))
+  const orderByCount = orderBy(mapping, ['count'], ['desc'])
+
+  return orderByCount
 })
-export default class EmotionList extends Vue {
-  @Prop() public emotions!: GroupedEmotion
-  @Provide() DISPLAYED_EMOJI = 5
-
-  /**
-   * parse emoji from codepoint to emoji
-   * @param codepoint Emoji Codepoint
-   * @returns Emoticon 👨🏻‍🌾
-   */
-  parseEmoji(codepoint): string {
-    if (codepoint) {
-      const toInt = codepoint.split('-').map((code) => parseInt(code, 16))
-      return String.fromCodePoint.apply(String, toInt)
-    }
-
-    return ''
-  }
-
-  openEmotionModal(): void {
-    this.$buefy.modal.open({
-      parent: this,
-      component: EmotionModal,
-      canCancel: ['escape', 'outside'],
-      hasModalCard: true,
-      props: {
-        emotes: this.emotes,
-      },
-    })
-  }
-
-  get emotes(): Emoji[] {
-    const mapping = Object.entries(this.emotions).map(([key, emotions]) => ({
-      key,
-      count: emotions.length,
-      issuers: emotions.map(issuerId),
-      parsed: this.parseEmoji(key),
-    }))
-    const orderByCount = orderBy(mapping, ['count'], ['desc'])
-
-    return orderByCount
-  }
-}
 </script>
 
 <style lang="scss">

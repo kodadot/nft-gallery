@@ -7,8 +7,6 @@
 
 <script setup lang="ts">
 import { NeoIcon } from '@kodadot1/brick'
-import { ModalProgrammatic as Modal } from 'buefy'
-import { BModalConfig } from 'buefy/types/components'
 import { NotificationBoxModalConfig } from '@/components/common/NotificationBox/useNotificationBox'
 import { usePreferencesStore } from '@/stores/preferences'
 
@@ -20,26 +18,25 @@ const instance = getCurrentInstance()
 const emit = defineEmits(['closeBurgerMenu'])
 const isMobile = ref(window.innerWidth < 1024)
 
+const { $neoModal } = useNuxtApp()
+
 function toggleNotificationModal() {
   if (isMobile.value) {
     emit('closeBurgerMenu')
   }
 
+  $neoModal.closeAll()
+
   if (!document.querySelector('.notification-box-modal')) {
     preferencesStore.setNotificationBoxCollapse(true)
-    Modal.open({
+
+    $neoModal.open({
       parent: instance?.proxy,
       onCancel: () => {
         preferencesStore.setNotificationBoxCollapse(false)
       },
       ...NotificationBoxModalConfig,
-    } as unknown as BModalConfig)
+    })
   }
-
-  // close all modal
-  document.querySelectorAll('.modal').forEach((modal) => {
-    modal.__vue__?.$vnode?.context?.close()
-    modal.remove()
-  })
 }
 </script>
