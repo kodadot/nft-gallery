@@ -1,203 +1,218 @@
 <template>
-  <div class="transfer-card theme-background-color k-shadow border py-8 px-6">
-    <Loader v-model="isLoading" :status="status" />
+  <section class="is-flex is-justify-content-center">
     <div
-      class="is-flex is-justify-content-space-between is-align-items-center mb-2">
-      <p class="has-text-weight-bold is-size-3">
-        {{ $t('transfer') }} {{ unit }}
-      </p>
-      <NeoDropdown position="bottom-left" :mobile-modal="false">
-        <template #trigger="{ active }">
-          <NeoButton
-            icon="ellipsis-vertical"
-            class="square-32"
-            :active="active" />
-        </template>
+      :class="[
+        'transfer-card',
+        {
+          'theme-background-color k-shadow border py-8 px-6': !isMobile,
+        },
+      ]">
+      <Loader v-model="isLoading" :status="status" />
+      <div
+        class="is-flex is-justify-content-space-between is-align-items-center mb-2">
+        <p class="has-text-weight-bold is-size-3">
+          {{ $t('transfer') }} {{ unit }}
+        </p>
+        <NeoDropdown position="bottom-left" :mobile-modal="false">
+          <template #trigger="{ active }">
+            <NeoButton
+              icon="ellipsis-vertical"
+              class="square-32"
+              :active="active" />
+          </template>
 
-        <NeoDropdownItem
-          v-clipboard:copy="generatePaymentLink(accountId)"
-          @click="toast(`${$i18n.t('toast.urlCopy')}`)">
-          <NeoIcon icon="sack-dollar" pack="fa" class="mr-2" />{{
-            $t('transfers.payMeLink')
-          }}
-        </NeoDropdownItem>
-      </NeoDropdown>
-    </div>
-
-    <div class="is-flex mb-5">
-      <div class="token-price py-2 px-4 is-flex is-align-items-center">
-        <img class="mr-2 square-20" :src="tokenIcon" alt="token" />
-        {{ unit }} ${{ currentTokenValue }}
+          <NeoDropdownItem
+            v-clipboard:copy="generatePaymentLink(accountId)"
+            @click="toast(`${$i18n.t('toast.urlCopy')}`)">
+            <NeoIcon icon="sack-dollar" pack="fa" class="mr-2" />{{
+              $t('transfers.payMeLink')
+            }}
+          </NeoDropdownItem>
+        </NeoDropdown>
       </div>
-    </div>
 
-    <div class="is-flex is-justify-content-space-between">
-      <div class="is-flex is-flex-direction-column">
-        <span class="has-text-weight-bold is-size-6 mb-1">{{
-          $t('transfers.sender')
-        }}</span>
-        <div v-if="accountId" class="is-flex is-align-items-center">
-          <Avatar :value="accountId" :size="32" />
-          <span class="ml-2">
-            <Identity :address="accountId" hide-identity-popover />
-          </span>
-          <a
-            v-clipboard:copy="accountId"
-            class="ml-2"
-            @click="toast(`${$i18n.t('general.copyToClipboard')}`)">
-            <NeoIcon icon="copy" />
-          </a>
+      <div class="is-flex mb-5">
+        <div class="token-price py-2 px-4 is-flex is-align-items-center">
+          <img class="mr-2 square-20" :src="tokenIcon" alt="token" />
+          {{ unit }} ${{ currentTokenValue }}
         </div>
-        <Auth v-else />
       </div>
-      <div class="is-flex is-flex-direction-column is-align-items-end">
-        <span class="has-text-weight-bold is-size-6 mb-1">{{
-          $t('general.balance')
-        }}</span>
-        <div class="is-flex is-align-items-center">
-          <img class="mr-2 is-32x32" :src="tokenIcon" alt="token" />
-          <Money :value="balance" inline />
+
+      <div class="is-flex is-justify-content-space-between">
+        <div class="is-flex is-flex-direction-column">
+          <span class="has-text-weight-bold is-size-6 mb-1">{{
+            $t('transfers.sender')
+          }}</span>
+          <div v-if="accountId" class="is-flex is-align-items-center">
+            <Avatar :value="accountId" :size="32" />
+            <span class="ml-2">
+              <Identity :address="accountId" hide-identity-popover />
+            </span>
+            <a
+              v-clipboard:copy="accountId"
+              class="ml-2"
+              @click="toast(`${$i18n.t('general.copyToClipboard')}`)">
+              <NeoIcon icon="copy" />
+            </a>
+          </div>
+          <Auth v-else />
         </div>
+        <div class="is-flex is-flex-direction-column is-align-items-end">
+          <span class="has-text-weight-bold is-size-6 mb-1">{{
+            $t('general.balance')
+          }}</span>
+          <div class="is-flex is-align-items-center">
+            <img class="mr-2 is-32x32" :src="tokenIcon" alt="token" />
+            <Money :value="balance" inline />
+          </div>
 
-        <span class="has-text-grey">≈ ${{ balanceUsdValue }}</span>
+          <span class="has-text-grey">≈ ${{ balanceUsdValue }}</span>
+        </div>
       </div>
-    </div>
 
-    <hr />
+      <hr />
 
-    <div class="is-flex">
-      <div class="is-flex-grow-1 mr-2 is-flex is-flex-direction-column">
-        <div class="has-text-weight-bold is-size-6 mb-3">
+      <div v-if="!isMobile" class="is-flex">
+        <div class="has-text-weight-bold is-size-6 mb-3 is-flex-1 mr-2">
           {{ $t('transfers.recipient') }}
         </div>
-        <div
-          v-for="(destinationAddress, index) in targetAddresses"
-          :key="index"
-          class="mb-3">
-          <AddressInput
-            v-model="destinationAddress.address"
-            label=""
-            placeholder="Enter wallet address"
-            :strict="false" />
-        </div>
-      </div>
-
-      <div class="is-flex is-flex-direction-column">
-        <div class="has-text-weight-bold is-size-6 mb-3">
+        <div class="has-text-weight-bold is-size-6 mb-3 is-flex-1">
           {{ $t('amount') }}
         </div>
+      </div>
+      <div class="is-flex-grow-1 is-flex-direction-column">
         <div
           v-for="(destinationAddress, index) in targetAddresses"
           :key="index"
           class="mb-3">
-          <NeoInput
-            v-if="displayUnit === 'token'"
-            v-model="destinationAddress.token"
-            type="number"
-            placeholder="0"
-            step="0.01"
-            min="0"
-            icon-right-class="search"
-            @input="onAmountFieldChange(destinationAddress)" />
-          <NeoInput
-            v-else
-            v-model="destinationAddress.usd"
-            placeholder="0"
-            type="number"
-            step="0.01"
-            min="0"
-            icon-right-class="search"
-            @input="onUsdFieldChange(destinationAddress)" />
+          <div v-if="isMobile" class="has-text-weight-bold is-size-6 mb-3">
+            {{ $t('transfers.recipient') }} {{ index + 1 }}
+          </div>
+          <div
+            :class="[
+              'is-flex',
+              {
+                'is-flex-direction-column': isMobile,
+              },
+            ]">
+            <AddressInput
+              v-model="destinationAddress.address"
+              label=""
+              :class="[{ 'mr-2': !isMobile, 'mb-2': isMobile }]"
+              placeholder="Enter wallet address"
+              :strict="false" />
+            <NeoInput
+              v-if="displayUnit === 'token'"
+              v-model="destinationAddress.token"
+              type="number"
+              placeholder="0"
+              step="0.01"
+              min="0"
+              icon-right-class="search"
+              @input="onAmountFieldChange(destinationAddress)" />
+            <NeoInput
+              v-else
+              v-model="destinationAddress.usd"
+              placeholder="0"
+              type="number"
+              step="0.01"
+              min="0"
+              icon-right-class="search"
+              @input="onUsdFieldChange(destinationAddress)" />
+          </div>
         </div>
       </div>
-    </div>
 
-    <div
-      class="mb-5 is-flex is-justify-content-center is-clickable"
-      @click="addAddress">
-      {{ $t('transfers.addAddress') }}
-      <NeoIcon class="ml-2" icon="plus" pack="fas" />
-    </div>
-    <div
-      class="is-flex is-justify-content-space-between is-align-items-center mb-5">
       <div
-        class="is-flex is-justify-content-space-between is-align-items-center">
-        {{ $t('transfers.sendSameAmount')
-        }}<NeoTooltip :label="$t('transfers.setSameAmount')"
-          ><NeoIcon class="ml-2" icon="circle-info" pack="far"
-        /></NeoTooltip>
+        class="mb-5 is-flex is-justify-content-center is-clickable"
+        @click="addAddress">
+        {{ $t('transfers.addAddress') }}
+        <NeoIcon class="ml-2" icon="plus" pack="fas" />
       </div>
-      <NeoSwitch v-model="sendSameAmount" :rounded="false" />
-    </div>
-
-    <div
-      class="is-flex is-justify-content-space-between is-align-items-center mb-5">
-      <span class="has-text-weight-bold is-size-6">{{
-        $t('transfers.displayUnit')
-      }}</span>
-      <div class="is-flex is-align-items-center">
-        <span class="is-size-6 mr-1">{{ $t('transfers.transferable') }}: </span>
-        <span
-          v-if="displayUnit === 'token'"
-          class="has-text-weight-bold is-size-6">
-          <Money :value="balance" inline />
-        </span>
-        <span v-else class="has-text-weight-bold is-size-6"
-          >{{ balanceUsdValue }} USD</span
-        >
+      <div
+        class="is-flex is-justify-content-space-between is-align-items-center mb-5">
+        <div
+          class="is-flex is-justify-content-space-between is-align-items-center">
+          {{ $t('transfers.sendSameAmount')
+          }}<NeoTooltip :label="$t('transfers.setSameAmount')"
+            ><NeoIcon class="ml-2" icon="circle-info" pack="far"
+          /></NeoTooltip>
+        </div>
+        <NeoSwitch v-model="sendSameAmount" :rounded="false" />
       </div>
-    </div>
 
-    <div
-      class="is-flex field has-addons is-flex-grow-1 is-justify-content-center mb-4">
-      <TabItem
-        :active="displayUnit === 'token'"
-        :text="unit"
-        full-width
-        no-shadow
-        @click.native="displayUnit = 'token'" />
-      <TabItem
-        :active="displayUnit === 'usd'"
-        text="USD"
-        full-width
-        no-shadow
-        @click.native="displayUnit = 'usd'" />
-    </div>
-
-    <div
-      class="is-flex is-justify-content-space-between is-align-items-center mb-6">
-      <span class="has-text-weight-bold is-size-6">{{
-        $t('spotlight.total')
-      }}</span>
-      <div class="is-flex is-align-items-center">
-        <span class="is-size-7 has-text-grey mr-1"
-          >({{ displayTotalValue[0] }})</span
-        >
-
+      <div
+        class="is-flex is-justify-content-space-between is-align-items-center mb-5">
         <span class="has-text-weight-bold is-size-6">{{
-          displayTotalValue[1]
+          $t('transfers.displayUnit')
         }}</span>
+        <div class="is-flex is-align-items-center">
+          <span class="is-size-6 mr-1"
+            >{{ $t('transfers.transferable') }}:
+          </span>
+          <span
+            v-if="displayUnit === 'token'"
+            class="has-text-weight-bold is-size-6">
+            <Money :value="balance" inline />
+          </span>
+          <span v-else class="has-text-weight-bold is-size-6"
+            >{{ balanceUsdValue }} USD</span
+          >
+        </div>
       </div>
-    </div>
 
-    <div class="is-flex">
-      <NeoButton
-        class="is-flex is-flex-1 fixed-height"
-        variant="k-accent"
-        :disabled="disabled"
-        @click.native="handleOpenConfirmModal"
-        >{{ $t('redirect.continue') }}</NeoButton
-      >
+      <div
+        class="is-flex field has-addons is-flex-grow-1 is-justify-content-center mb-4">
+        <TabItem
+          :active="displayUnit === 'token'"
+          :text="unit"
+          full-width
+          no-shadow
+          @click.native="displayUnit = 'token'" />
+        <TabItem
+          :active="displayUnit === 'usd'"
+          text="USD"
+          full-width
+          no-shadow
+          @click.native="displayUnit = 'usd'" />
+      </div>
+
+      <div
+        class="is-flex is-justify-content-space-between is-align-items-center mb-6">
+        <span class="has-text-weight-bold is-size-6">{{
+          $t('spotlight.total')
+        }}</span>
+        <div class="is-flex is-align-items-center">
+          <span class="is-size-7 has-text-grey mr-1"
+            >({{ displayTotalValue[0] }})</span
+          >
+
+          <span class="has-text-weight-bold is-size-6">{{
+            displayTotalValue[1]
+          }}</span>
+        </div>
+      </div>
+
+      <div class="is-flex">
+        <NeoButton
+          class="is-flex is-flex-1 fixed-height"
+          variant="k-accent"
+          :disabled="disabled"
+          @click.native="handleOpenConfirmModal"
+          >{{ $t('redirect.continue') }}</NeoButton
+        >
+      </div>
+      <TransferConfirmModal
+        :is-modal-active="isTransferModalVisible"
+        :display-total-value="displayTotalValue"
+        :token-icon="tokenIcon"
+        :unit="unit"
+        :is-mobile="isMobile"
+        :target-addresses="targetAddresses"
+        @close="isTransferModalVisible = false"
+        @confirm="submit" />
     </div>
-    <TransferConfirmModal
-      :is-modal-active="isTransferModalVisible"
-      :display-total-value="displayTotalValue"
-      :token-icon="tokenIcon"
-      :unit="unit"
-      :target-addresses="targetAddresses"
-      @close="isTransferModalVisible = false"
-      @confirm="submit" />
-  </div>
+  </section>
 </template>
 
 <script lang="ts" setup>
@@ -256,6 +271,7 @@ export type TargetAddress = {
   usd?: number | string
   token?: number | string
 }
+const isMobile = computed(() => useWindowSize().width.value <= 1024)
 
 const transactionValue = ref('')
 const price = ref(0)
@@ -559,6 +575,9 @@ watch(
 .transfer-card {
   max-width: 41rem;
 
+  @include touch {
+    width: 100vw;
+  }
   .token-price {
     border-radius: 3rem;
 

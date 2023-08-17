@@ -8,16 +8,5 @@ export default {
   components: {
     Transfer: () => import('@/components/transfer/Transfer.vue'),
   },
-
-  layout() {
-    return 'centered-half-layout'
-  },
-  setup() {
-    const { redesign } = useExperiments()
-
-    return {
-      redesign,
-    }
-  },
 }
 </script>

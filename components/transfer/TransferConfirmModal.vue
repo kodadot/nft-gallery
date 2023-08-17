@@ -1,7 +1,21 @@
 <template>
-  <NeoModal v-model="isModalActive" scroll="clip" @close="emit('close')">
+  <NeoModal
+    v-model="isModalActive"
+    :no-shadow="isMobile"
+    :content-class="[
+      'transfer-confirm-modal',
+      isExpandList ? 'mobile-full-height' : '',
+    ]"
+    scroll="clip"
+    @close="emit('close')">
     <div
-      class="modal-width is-flex is-flex-direction-column is-justify-content-space-between">
+      :class="[
+        'is-flex is-flex-direction-column is-justify-content-space-between',
+        {
+          'modal-width': !isMobile,
+          'h-full pb-6': isMobile,
+        },
+      ]">
       <div>
         <header
           class="is-flex is-justify-content-center is-align-items-center header px-6 py-3">
@@ -20,7 +34,7 @@
         <div
           :class="[
             {
-              'is-bordered-top': isExpandList,
+              'is-bordered-top mobile-height': isExpandList,
             },
             'px-6 is-scrollable',
           ]">
@@ -121,7 +135,13 @@
         </div>
       </div>
 
-      <div class="is-flex is-flex-direction-column px-6 py-5 is-bordered-top">
+      <div
+        :class="[
+          'is-flex is-flex-direction-column px-6 py-5 is-bordered-top',
+          {
+            'pb-6': isMobile,
+          },
+        ]">
         <div
           class="is-flex is-justify-content-space-between is-align-items-center mb-3">
           <span class="has-text-weight-bold is-size-6">{{
@@ -158,6 +178,7 @@ const props = defineProps<{
   isModalActive: boolean
   tokenIcon: string
   unit: string
+  isMobile: boolean
   displayTotalValue: string[]
   targetAddresses: TargetAddress[]
 }>()
@@ -184,37 +205,51 @@ const network = computed(
 const isExpandList = ref(false)
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '@/styles/abstracts/variables';
 
-.modal-width {
-  width: 28rem;
-}
-.header {
-  position: relative;
-}
-.position-right {
-  position: absolute;
-  right: 0;
-}
+.transfer-confirm-modal {
+  @include touch {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 0.75rem 0.75rem 0 0;
 
-.fixed-height {
-  height: 10rem;
-}
+    &.mobile-full-height {
+      height: 80vh;
+    }
+  }
 
-.fixed-button-height {
-  min-height: 55px;
-}
-.is-small-size-text {
-  font-size: 14px;
-}
+  .modal-width {
+    width: 28rem;
+  }
+  .header {
+    position: relative;
+  }
+  .position-right {
+    position: absolute;
+    right: 0;
+  }
 
-.is-scrollable {
-  overflow-y: auto;
-}
-.is-bordered-top {
-  @include ktheme() {
-    border-top: 1px solid theme('k-shade');
+  .fixed-height {
+    height: 10rem;
+  }
+
+  .fixed-button-height {
+    min-height: 55px;
+  }
+  .is-small-size-text {
+    font-size: 14px;
+  }
+
+  .is-scrollable {
+    overflow-y: auto;
+  }
+  .is-bordered-top {
+    @include ktheme() {
+      border-top: 1px solid theme('k-shade');
+    }
   }
 }
 </style>
