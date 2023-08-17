@@ -56,7 +56,7 @@ import {
   NFT_SQUID_SORT_COLLECTIONS,
   NFT_SQUID_SORT_CONDITION_LIST,
 } from '@/utils/constants'
-import ActiveCount from '../explore/ActiveCount.vue'
+import ActiveCount from '@/components/explore/ActiveCount.vue'
 
 const route = useRoute()
 const router = useRouter()
