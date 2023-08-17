@@ -14,19 +14,19 @@ export default {
   name: 'Sales',
   setup() {
     const { urlPrefix } = usePrefix()
-    const router = useRouter()
 
     const checkRouteAvailability = () => {
       if (!salesVisible(urlPrefix.value)) {
-        router.push('/')
+        navigateTo('/')
       }
     }
 
     watch(urlPrefix, () => checkRouteAvailability())
 
+    checkRouteAvailability()
+
     return {
       urlPrefix,
-      checkRouteAvailability,
     }
   },
   head() {
@@ -42,9 +42,6 @@ export default {
       title,
       meta: [...this.$seoMeta(metaData)],
     }
-  },
-  beforeMount() {
-    this.checkRouteAvailability()
   },
 }
 </script>
