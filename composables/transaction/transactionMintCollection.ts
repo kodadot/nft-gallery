@@ -15,7 +15,7 @@ export function execMintCollection(
   if (item.urlPrefix === 'snek' || item.urlPrefix === 'bsx') {
     return execMintCollectionBasilisk(item, api, executeTransaction)
   }
-  if (item.urlPrefix === 'stmn' || item.urlPrefix === 'stt') {
+  if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
     return execMintCollectionStatemine(item, api, executeTransaction)
   }
 }

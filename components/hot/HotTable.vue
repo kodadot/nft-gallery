@@ -1,8 +1,8 @@
 <template>
   <div>
-    <Loader :value="$fetchState.pending" />
+    <Loader :value="pending" />
     <NeoTable
-      :data="data"
+      :data="hot"
       hoverable
       class="hot-sticky-header"
       td-class="is-vcentered">
@@ -10,7 +10,7 @@
         {{ props.row.id }}
       </NeoTableColumn>
       <NeoTableColumn v-slot="props" label="Series Name">
-        <nuxt-link :to="`/rmrk/collection/${props.row.collectionId}`">
+        <nuxt-link :to="`/${urlPrefix}/collection/${props.row.collectionId}`">
           {{ props.row.name }}
         </nuxt-link>
       </NeoTableColumn>
@@ -32,53 +32,40 @@
       </NeoTableColumn>
 
       <template #empty>
-        <div v-if="!$fetchState.pending" class="w-100 has-text-centered">
+        <div v-if="!pending" class="w-100 has-text-centered">
           {{ $t('spotlight.empty') }}
         </div>
-        <NeoSkeleton :active="$fetchState.pending" />
+        <NeoSkeleton :active="pending" />
       </template>
     </NeoTable>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
+<script setup lang="ts">
 import hotNfts from '@/queries/rmrk/subsquid/hotNfts.graphql'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import groupBy from 'lodash/groupBy'
 import sortBy from 'lodash/sortBy'
-import { RowHot, SubsquidHotNft } from './types'
 import { NeoSkeleton, NeoTable, NeoTableColumn } from '@kodadot1/brick'
-
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import ChainMixin from '@/utils/mixins/chainMixin'
 import formatBalance from '@/utils/format/balance'
 import { getVolume } from '@/utils/math'
 import { lastweekDate } from '@/components/series/utils'
 
-const components = {
-  NeoSkeleton,
-  NeoTable,
-  NeoTableColumn,
-}
+const hot = ref([])
+const { $apollo } = useNuxtApp()
+const { client, urlPrefix } = usePrefix()
+const { decimals } = useChain()
 
-@Component({
-  components,
-})
-export default class HotTable extends mixins(PrefixMixin, ChainMixin) {
-  protected data: RowHot[] = []
-  private toKSM(amount) {
-    return formatBalance(amount, this.decimals, '')
-  }
-
-  async fetch() {
-    const data = await this.fetchHotNfts()
+const { pending, refresh: refreshHotNfts } = useLazyAsyncData(
+  'data',
+  async () => {
+    const data = await fetchHotNfts()
     const collectionMap = groupBy(data, 'nft.collection.id')
     const sortOrder = [...new Set(data.map((e) => e.nft.collection.id))]
-    const result: RowHot[] = sortOrder.map((colId, idx) => {
+    const result = sortOrder.map((colId, idx) => {
       const collection = collectionMap[colId][0].nft.collection
       const nfts = sortBy(collectionMap[colId], 'timestamp').reverse()
-      const totalVolume = this.toKSM(getVolume(nfts))
+      const totalVolume = toKSM(getVolume(nfts))
       const buys = nfts.length
       const latestSale = nfts[0]
       const medianIdx = Math.floor(buys / 2)
@@ -88,29 +75,41 @@ export default class HotTable extends mixins(PrefixMixin, ChainMixin) {
         name: collection.name,
         totalVolume,
         buys,
-        latestSoldSize: this.toKSM(latestSale.meta),
+        latestSoldSize: toKSM(latestSale.meta),
         latestSoldTime: formatDistanceToNow(new Date(latestSale.timestamp)),
         medianDate: formatDistanceToNow(new Date(nfts[medianIdx].timestamp)),
         nfts,
       }
     })
-    this.data = result
-  }
 
-  public async fetchHotNfts(): Promise<[SubsquidHotNft]> {
-    const {
-      data: { result },
-    } = await this.$apollo.query({
-      query: hotNfts,
-      client: this.client,
-      variables: {
-        gte: lastweekDate,
-      },
-    })
-    return result
+    hot.value = result
   }
+)
+
+watch(client, (value) => {
+  if (value) {
+    refreshHotNfts()
+  }
+})
+
+const toKSM = (amount) => {
+  return formatBalance(amount, decimals.value, '')
+}
+
+const fetchHotNfts = async () => {
+  const {
+    data: { result },
+  } = await $apollo.query({
+    query: hotNfts,
+    client: client.value,
+    variables: {
+      gte: lastweekDate,
+    },
+  })
+  return result
 }
 </script>
+
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
 

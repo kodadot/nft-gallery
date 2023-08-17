@@ -37,6 +37,13 @@ $table-th-font-weight: 400;
     }
   }
 
+  &__detail {
+    @include ktheme() {
+      color: theme('text-color');
+      background-color: theme('background-color');
+    }
+  }
+
   @media (max-width: 1024px) {
     tbody tr {
       padding-top: 1.5rem;

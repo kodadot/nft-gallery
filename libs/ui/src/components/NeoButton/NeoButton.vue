@@ -4,6 +4,7 @@
       active: active,
       'is-fixed-width': fixedWidth,
       'no-shadow': noShadow,
+      'loading-with-label': loadingWithLabel,
     }"
     :size="size"
     :icon-right="icon"
@@ -37,6 +38,7 @@ defineProps<{
   variant?: NeoButtonVariant
   rounded?: boolean
   tag?: string
+  loadingWithLabel?: boolean
 }>()
 </script>
 

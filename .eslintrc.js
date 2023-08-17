@@ -5,7 +5,7 @@ module.exports = {
     node: true,
   },
   extends: [
-    'plugin:vue/recommended',
+    // 'plugin:vue/recommended',
     'plugin:@typescript-eslint/recommended',
     'prettier',
   ],
@@ -15,7 +15,7 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: 'module',
   },
-  plugins: ['vue', 'prettier', '@typescript-eslint', 'unicorn'],
+  plugins: ['prettier', '@typescript-eslint', 'unicorn'],
   rules: {
     'no-trailing-spaces': 'error',
     'unicorn/no-for-loop': 'error',
@@ -45,7 +45,38 @@ module.exports = {
   ignorePatterns: ['*.md'],
   overrides: [
     {
-      files: ['layouts/**/*.{js,ts,vue}', 'pages/**/*.vue'],
+      files: [
+        'layouts/**/*.{js,ts,vue}',
+        'pages/**/*.vue',
+        'components/**/*.{js,ts,vue}',
+        'utils/**/*.ts',
+        'stores/**/*.ts',
+        'services/**/*.ts',
+        'plugins/**/*.ts',
+        'composables/**/*.ts',
+      ],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            patterns: [
+              {
+                group: [
+                  '*.png',
+                  '*.jpg',
+                  '*.jpeg',
+                  '*.gif',
+                  '*.bmp',
+                  '*.svg',
+                  '*.webp',
+                ],
+                message:
+                  'It is recommended to utilize HTML tags and using a URL path, instead of directly importing images using JavaScript',
+              },
+            ],
+          },
+        ],
+      },
     },
   ],
 }

@@ -1,7 +1,7 @@
 ---
 date: 2023-06-30
 tags: Tokens
-image: "/blog/the-power-of-polkadot's-Asset-hub-Revolutionizing-asset-management.webp"
+image: '/blog/the-power-of-polkadots-Asset-hub-Revolutionizing-asset-management.webp'
 title: "The Power of Polkadot's Asset Hub: Revolutionizing Asset Management"
 subtitle: In the ever-evolving world of blockchain technology, the Polkadot Asset Hub stands tall as a beacon of innovation, offering an array of advantages for developers, social entrepreneurs, and digital artists alike. This powerful platform marries flexibility with functionality, enabling users to mint assets more affordably and efficiently than ever before.
 ---

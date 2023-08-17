@@ -30,18 +30,18 @@ export const ALTERNATIVE_ENDPOINT_MAP: Config<WS_URL[]> = {
   movr: ['wss://wss.api.moonriver.moonbeam.network'],
   ksm: KUSAMA_ENDPOINTS,
   snek: ['wss://basilisk-rococo-rpc.play.hydration.cloud'],
-  stmn: [
-    'wss://statemine-rpc.polkadot.io',
+  ahk: [
+    'wss://kusama-asset-hub-rpc.polkadot.io',
     'wss://statemine-rpc.dwellir.com',
     'wss://sys.ibp.network/statemine',
     'wss://sys.dotters.network/statemine',
-    'wss://rpc-statemine.luckyfriday.io',
+    'wss://rpc-asset-hub-kusama.luckyfriday.io',
     'wss://statemine.api.onfinality.io/public-ws',
     'wss://statemine.public.curie.radiumblock.co/ws',
   ],
   dot: POLKADOT_ENDPOINTS,
-  stt: [
-    'wss://statemint-rpc.polkadot.io',
+  ahp: [
+    'wss://polkadot-asset-hub-rpc.polkadot.io',
     'wss://statemint-rpc.dwellir.com',
     'wss://statemint-rpc-tn.dwellir.com',
     'wss://sys.ibp.network/statemint',
@@ -57,7 +57,7 @@ export const ENDPOINT_MAP: Config<WS_URL> = {
   movr: 'wss://wss.api.moonriver.moonbeam.network',
   ksm: KUSAMA_ENDPOINTS[0],
   snek: 'wss://basilisk-rococo-rpc.play.hydration.cloud',
-  stmn: 'wss://statemine-rpc.polkadot.io',
+  ahk: 'wss://kusama-asset-hub-rpc.polkadot.io',
   dot: POLKADOT_ENDPOINTS[0],
-  stt: 'wss://statemint-rpc.polkadot.io',
+  ahp: 'wss://polkadot-asset-hub-rpc.polkadot.io',
 }

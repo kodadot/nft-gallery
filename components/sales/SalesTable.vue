@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Loader :value="$fetchState.pending" />
-    <NeoTable :data="data" hoverable>
+    <Loader :value="pending" />
+    <NeoTable :data="sales" hoverable>
       <NeoTableColumn v-slot="props" position="centered" field="idx" label="N°">
         {{ props.row.idx }}
       </NeoTableColumn>
@@ -12,7 +12,7 @@
         class="front-stack-layer"
         position="centered">
         <div class="image is-48x48">
-          <nuxt-link :to="`/rmrk/gallery/${props.row.id}`">
+          <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.id}`">
             <BasicPopup placement="top">
               <template #trigger>
                 <BasicImage
@@ -82,17 +82,16 @@
       </NeoTableColumn>
 
       <template #empty>
-        <div v-if="!$fetchState.pending" class="w-100 has-text-centered">
+        <div v-if="!pending" class="w-100 has-text-centered">
           {{ $t('spotlight.empty') }}
         </div>
-        <NeoSkeleton :active="$fetchState.pending" />
+        <NeoSkeleton :active="pending" />
       </template>
     </NeoTable>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
+<script setup lang="ts">
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import {
   NeoSkeleton,
@@ -100,64 +99,55 @@ import {
   NeoTableColumn,
   NeoTooltip,
 } from '@kodadot1/brick'
-
-import PrefixMixin from '@/utils/mixins/prefixMixin'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-
 import salesFeedGql from '@/queries/rmrk/subsquid/salesFeed.graphql'
+import BasicImage from '@/components/shared/view/BasicImage.vue'
+import BasicPopup from '@/components/shared/view/BasicPopup.vue'
+import Identity from '@/components/identity/IdentityIndex.vue'
+import Money from '@/components/shared/format/Money.vue'
 
-import { RowSales } from './types'
+const sales = ref([])
+const { $apollo } = useNuxtApp()
+const { client, urlPrefix } = usePrefix()
 
-const components = {
-  Identity: () => import('@/components/identity/IdentityIndex.vue'),
-  Money: () => import('@/components/shared/format/Money.vue'),
-  Loader: () => import('@/components/shared/Loader.vue'),
-  BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
-  BasicPopup: () => import('@/components/shared/view/BasicPopup.vue'),
-  BlockExplorerLink: () => import('@/components/shared/BlockExplorerLink.vue'),
-  NeoSkeleton,
-  NeoTable,
-  NeoTableColumn,
-  NeoTooltip,
+const parseDate = (ts: number) => {
+  return new Date(ts).toLocaleString('en-GB', {
+    timeZone: 'UTC',
+    timeZoneName: 'short',
+  })
 }
 
-@Component({ components })
-export default class SalesTable extends mixins(PrefixMixin) {
-  public data: RowSales[] = []
-
-  async fetch() {
-    await this.fetchSalesFeed()
-  }
-
-  protected parseDate(ts: number): string {
-    return new Date(ts).toLocaleString('en-GB', {
-      timeZone: 'UTC',
-      timeZoneName: 'short',
-    })
-  }
-
-  public async fetchSalesFeed() {
+const { pending, refresh: refreshNftSales } = useLazyAsyncData(
+  'data',
+  async () => {
     const {
       data: { salesFeed },
-    } = await this.$apollo.query({
+    } = await $apollo.query({
       query: salesFeedGql,
-      client: this.client,
+      client: client.value,
       variables: {},
     })
 
     salesFeed.forEach((nft, idx) => {
       nft.idx = idx + 1
       nft.image = sanitizeIpfsUrl(nft.image)
-      nft.date = this.parseDate(Number(nft.timestamp))
+      nft.date = parseDate(Number(nft.timestamp))
       nft.relDate = formatDistanceToNow(Number(nft.timestamp), {
         addSuffix: true,
       })
     })
 
-    this.data = salesFeed
+    sales.value = salesFeed
   }
-}
+)
+
+watch(client, (value) => {
+  if (value) {
+    refreshNftSales()
+  }
+})
 </script>
+
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
 

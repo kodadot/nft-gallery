@@ -3,7 +3,7 @@
     <div
       class="shopping-cart-modal-container theme-background-color border-left is-flex is-flex-direction-column">
       <header
-        class="py-5 px-6 is-flex is-justify-content-space-between border-bottom">
+        class="py-4 px-6 is-flex is-justify-content-space-between border-bottom">
         <span class="modal-card-title is-size-6 has-text-weight-bold">
           {{ $t('shoppingCart.title') }}
         </span>
@@ -19,10 +19,10 @@
         <span> {{ numberOfItems }} {{ $t('items') }}</span>
 
         <NeoButton
+          v-safe-href="`/${urlPrefix}/explore/items`"
           :label="$t('shoppingCart.clearAll')"
           no-shadow
           variant="text"
-          :href="`/${urlPrefix}/explore/items`"
           @click.native="clearAllItems" />
       </div>
       <div v-if="numberOfItems" class="scroll-y">
@@ -61,7 +61,11 @@
         class="is-flex is-justify-content-space-between px-6 py-4 is-flex-direction-column h-full">
         <div
           class="is-flex is-align-items-center is-flex-direction-column pt-8">
-          <img :src="emptyCart" alt="empty cart" width="140px" class="mb-5" />
+          <img
+            src="/empty-cart.png"
+            alt="empty cart"
+            width="140px"
+            class="mb-5" />
           <span class="has-text-weight-bold mb-2">{{
             $t('shoppingCart.emptyCart.line1')
           }}</span>
@@ -69,11 +73,11 @@
             $t('shoppingCart.emptyCart.line2')
           }}</span>
           <NeoButton
+            v-safe-href="`/${urlPrefix}/explore/items`"
             :label="$t('shoppingCart.exploreNfts')"
             rounded
             no-shadow
             tag="a"
-            :href="`/${urlPrefix}/explore/items`"
             icon="magnifying-glass" />
         </div>
         <div class="pt-4">
@@ -97,15 +101,13 @@ import ShoppingCartItemRow from './ShoppingCartItemRow.vue'
 import { sum } from '@/utils/math'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 
-import emptyCart from '@/assets/empty-cart.png'
 import { totalPriceUsd } from './utils'
-import { openConnectWalletModal } from '../ConnectWallet/useConnectWallet'
 
 const prefrencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { urlPrefix } = usePrefix()
-const { isLogIn } = useAuth()
-const instance = getCurrentInstance()
+const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
+
 const emit = defineEmits(['close'])
 
 const items = computed(() =>
@@ -149,16 +151,15 @@ const closeShoppingCart = () => {
   document.body.classList.remove('is-clipped')
 }
 
-const onCompletePurchase = () => {
-  if (!isLogIn.value) {
-    openConnectWalletModal(instance)
-  } else {
-    prefrencesStore.setCompletePurchaseModal({
-      isOpen: true,
-      mode: 'shopping-cart',
-    })
-  }
+const openCompletePurcahseModal = () => {
+  prefrencesStore.setCompletePurchaseModal({
+    isOpen: true,
+    mode: 'shopping-cart',
+  })
+}
 
+const onCompletePurchase = () => {
+  doAfterLogin({ onLoginSuccess: openCompletePurcahseModal })
   closeShoppingCart()
 }
 </script>

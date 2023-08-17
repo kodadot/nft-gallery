@@ -91,4 +91,4 @@ sitemap.xml
 ## service-worker.js
 
 # cypress
-cypress/screenshots/
+# cypress/screenshots/

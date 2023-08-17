@@ -6,11 +6,11 @@
         {{ label }}
       </div>
       <NeoButton
+        v-safe-href="`/${prefix}/u/${account}`"
         no-shadow
         rounded
         tag="a"
         size="small"
-        :href="`/${prefix}/u/${account}`"
         icon="arrow-right-long">
         {{ buttonLabel }}
       </NeoButton>

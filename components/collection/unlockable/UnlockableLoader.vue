@@ -2,7 +2,7 @@
   <NeoLoading :active.sync="isLoading" is-full-page :can-cancel="canCancel">
     <div class="loading-container py-2">
       <NeoIcon class="close-icon" icon="close" @click.native="closeLoading" />
-      <img :src="unloackableLoaderImg" />
+      <img src="/unlockable-loader.svg" />
       <div
         class="is-flex is-flex-direction-column is-align-items-center px-5 has-text-centered is-capitalized">
         <div class="has-text-weight-bold mb-2">{{ $t('mint.success') }}</div>
@@ -24,7 +24,7 @@
         </div>
         <div class="mt-4">
           {{ $t('mint.unlockable.loader.shareSuccess') }}
-          <a :href="postTwitterUrl" target="_blank" class="has-text-link"
+          <a v-safe-href="postTwitterUrl" target="_blank" class="has-text-link"
             >{{ $t('mint.unlockable.loader.onTwitter') }}
           </a>
         </div>
@@ -42,7 +42,6 @@
 
 <script lang="ts" setup>
 import { NeoButton, NeoIcon, NeoLoading } from '@kodadot1/brick'
-import unloackableLoaderImg from '@/assets/unlockable-loader.svg'
 
 const props = withDefaults(
   defineProps<{
@@ -72,7 +71,7 @@ const displaySeconds = computed(() => {
 
 const twitterText = computed(
   () =>
-    'Just minted an exclusive NFT with unlockable items on @Kodadot! 🎉 So excited to add this unique collectible to my collection. Don\'t miss your chance! \n\n https://kodadot.xyz/stmn/drops/free-drop'
+    "Just minted an exclusive NFT with unlockable items on @Kodadot! 🎉 So excited to add this unique collectible to my collection. Don't miss your chance! \n\n https://kodadot.xyz/ahk/drops/free-drop"
 )
 const postTwitterUrl = computed(
   () =>

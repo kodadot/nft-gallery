@@ -80,9 +80,8 @@
 <script setup lang="ts">
 import { SupportedWallets } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoField, NeoIcon } from '@kodadot1/brick'
 import { Auth, useIdentityStore } from '@/stores/identity'
-import { NeoField } from '@kodadot1/brick'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem.vue'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'
 
@@ -91,6 +90,7 @@ const selectedWalletProvider = ref<BaseDotsamaWallet>()
 const forceWalletSelect = ref(false)
 const identityStore = useIdentityStore()
 const { urlPrefix } = usePrefix()
+const emit = defineEmits(['close', 'connect'])
 
 const account = computed(() => identityStore.auth.address)
 const showAccount = computed(() => account.value)
@@ -99,6 +99,7 @@ const wallets = SupportedWallets()
 const setAccount = (account: Auth) => {
   forceWalletSelect.value = false
   identityStore.setAuth(account)
+  emit('connect', account)
 
   if (selectedWalletProvider.value) {
     localStorage.setItem('wallet', selectedWalletProvider.value.extensionName)
@@ -118,7 +119,6 @@ const showUninstalledWallet = ref(!installedWallet.value.length)
 const hasUserWalletAuth = ref(
   Boolean(localStorage.getItem('user_auth_wallet_add'))
 )
-const emit = defineEmits(['close'])
 
 const toggleShowUninstalledWallet = () => {
   showUninstalledWallet.value = !showUninstalledWallet.value

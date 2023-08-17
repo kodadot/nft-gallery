@@ -31,7 +31,7 @@ export enum Chain {
 export const chainToPrefixMap: Record<Chain, Prefix> = {
   [Chain.KUSAMA]: 'rmrk',
   [Chain.BASILISK]: 'bsx',
-  [Chain.STATEMINE]: 'stmn',
+  [Chain.STATEMINE]: 'ahk',
 }
 
 export enum TeleprtType {

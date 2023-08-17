@@ -67,12 +67,21 @@ useNuxt2Meta({
     white-space: break-spaces;
   }
 
+  .markdown-body {
+    h1:nth-child(n + 2),
+    h2:nth-child(n + 2),
+    h3:nth-child(n + 2),
+    h4:nth-child(n + 2) {
+      margin-top: 2.5rem;
+    }
+  }
+
   h1,
   h2,
   h3,
   h4,
   p {
-    margin: 1rem 0;
+    margin: 0.75rem 0;
   }
 
   h1 {
@@ -111,8 +120,20 @@ useNuxt2Meta({
       color: theme('k-accentlight2-dark');
     }
 
+    h2 {
+      color: theme('k-accentlight2-dark-head');
+    }
+
+    p {
+      color: theme('k-accentlight2-dark-paragraph');
+    }
+
     img {
       border: 1px solid theme('border-color');
+    }
+
+    a {
+      color: theme('k-blue');
     }
   }
 

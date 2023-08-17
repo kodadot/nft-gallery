@@ -11,7 +11,7 @@ const api = Axios.create({
   withCredentials: false,
 })
 
-export const getPrice = async (id: string): Promise<void> => {
+export const getPrice = async (id: string): Promise<any> => {
   try {
     const { data } = await api.get('/simple/price', {
       params: {
@@ -23,7 +23,38 @@ export const getPrice = async (id: string): Promise<void> => {
     return data
   } catch (error) {
     console.log(error)
+    return undefined
   }
+}
+
+// tokenMap but reversed
+const tokenMap = {
+  KSM: 'kusama',
+  DOT: 'polkadot',
+  BSX: 'basilisk',
+}
+
+export const getApproximatePriceOf = async (
+  id: 'KSM' | 'DOT' | 'BSX'
+): Promise<number> => {
+  const coinId = tokenMap[id]
+  const stored = localStorage.getItem(id)
+
+  if (stored) {
+    return Number(stored)
+  }
+
+  console.log('Fetching price from coingecko', id, coinId)
+
+  const data = await getPrice(coinId)
+
+  if (data) {
+    const value: number = data[coinId]['usd']
+    localStorage.setItem(id, String(value))
+    return value
+  }
+
+  return 0
 }
 
 export const getKSMUSD = async (): Promise<number> => {
