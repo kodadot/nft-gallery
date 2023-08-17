@@ -195,10 +195,8 @@ const itemsGridSearch = computed(() => {
 const realworldFullPath = computed(() => window.location.href)
 
 const activeTab = computed({
-  get() {
-    return (route.query.tab as string) || 'owned'
-  },
-  set(val) {
+  get: () => (route.query.tab as string) || 'owned',
+  set: (val) => {
     replaceUrl({ tab: val })
   },
 })
