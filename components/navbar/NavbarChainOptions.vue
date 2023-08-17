@@ -16,7 +16,7 @@
 import { usePreferencesStore } from '@/stores/preferences'
 
 const { availableChains } = useChain()
-const { setUrlPrefix, urlPrefix } = usePrefix()
+const { setUrlPrefix } = usePrefix()
 const { redirectAfterChainChange } = useChainRedirect()
 const preferencesStore = usePreferencesStore()
 
