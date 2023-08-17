@@ -1,6 +1,7 @@
 import { Prefix } from '@kodadot1/static'
+import { createVisible } from '@/utils/config/permision.config'
 
-const DO_NOTHING_ROUTE_NAMES = ['hot', 'sales', 'series-insight', 'identity']
+const NO_REDIRECT_ROUTE_NAMES = ['hot', 'sales', 'series-insight', 'identity']
 
 export default function () {
   const route = useRoute()
@@ -10,11 +11,17 @@ export default function () {
   const redirectAfterChainChange = (newChain: Prefix) => {
     const routeName = route.name as string
 
-    if (DO_NOTHING_ROUTE_NAMES.includes(routeName)) {
+    if (NO_REDIRECT_ROUTE_NAMES.includes(routeName)) {
       return
     }
 
-    if (route.params.prefix) {
+    const isSimpleCreate = routeName.includes('-create')
+
+    if (isSimpleCreate && createVisible(newChain)) {
+      return router.push({
+        path: `/${newChain}/create`,
+      })
+    } else if (route.params.prefix) {
       if (routeName === 'prefix-u-id') {
         return router.push({
           params: {
