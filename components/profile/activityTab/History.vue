@@ -126,7 +126,6 @@ const emit = defineEmits(['setPriceChartData'])
 const { $i18n, $route } = useNuxtApp()
 const { decimals } = useChain()
 const { urlPrefix } = usePrefix()
-const { replaceUrl } = useReplaceUrl()
 
 const currentPage = ref(parseInt($route.query?.page) || 1)
 const event = ref<HistoryEventType>(HistoryEventType.BUY)
@@ -148,14 +147,7 @@ const showList = computed(() => {
   const endIndex = currentPage.value * itemsPerPage.value
   return data.value.slice(endIndex - itemsPerPage.value, endIndex)
 })
-const uniqType = computed(() => {
-  const eventSet = new Set(copyTableData.value.map((v) => v.Type))
-  const singleEventList = Array.from(eventSet).map((type) => ({
-    type,
-    value: getEventDisplayName(type as Interaction),
-  }))
-  return [{ type: HistoryEventType.ALL, value: 'All' }, ...singleEventList]
-})
+
 const isToColumnVisible = computed(() => {
   return [HistoryEventType.ALL, Interaction.BUY, Interaction.SEND].includes(
     event.value
