@@ -18,6 +18,7 @@ const ModalProgrammatic = {
 
     const defaultParam = {
       programmatic: { instances },
+      scroll: 'clip',
     }
     if (params.parent) {
       parent = params.parent
