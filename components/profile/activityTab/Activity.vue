@@ -19,7 +19,7 @@
 import History from './History.vue'
 import { Interaction } from '@/components/rmrk/service/scheme'
 import { sortedEventByDate } from '@/utils/sorting'
-import FilterButton from '../FilterButton.vue'
+import FilterButton from '@/components/profile/FilterButton.vue'
 import { Interaction as InteractionEnum } from '@kodadot1/minimark/v1'
 const route = useRoute()
 const { replaceUrl } = useReplaceUrl()
