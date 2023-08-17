@@ -171,6 +171,23 @@ const getUniqType = () => {
 
   return [{ type: AllOfferStatusType.ALL, value: 'All' }, ...singleEventList]
 }
+
+const currentBlock = ref(async () => {
+  const { apiInstance } = useApi()
+  const api = await apiInstance.value
+  const block = await api.rpc.chain.getHeader()
+  return block.number.toNumber()
+})
+
+const calcExpirationTime = (expirationBlock: number): string => {
+  if (currentBlock.value === 0) {
+    return 'computing'
+  }
+  if (currentBlock.value > expirationBlock) {
+    return 'expired'
+  }
+  return formatSecondsToDuration(calcSecondsToBlock(expirationBlock))
+}
 </script>
 
 <style scoped>

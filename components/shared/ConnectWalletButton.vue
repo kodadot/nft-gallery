@@ -1,45 +1,48 @@
 <template>
   <NeoButton
-    :label="$t(`${label}`)"
     :variant="variant"
     :no-shadow="noShadow"
-    @click.native="toggleWalletConnectModal" />
+    @click.native="toggleWalletConnectModal">
+    <slot>
+      {{ $t(`${label || 'general.connect'}`) }}
+    </slot>
+  </NeoButton>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import { NeoButton, NeoButtonVariant } from '@kodadot1/brick'
 import { ConnectWalletModalConfig } from '../common/ConnectWallet/useConnectWallet'
 
-@Component({
-  components: { NeoButton },
-})
-export default class ConnectWalletButton extends Vue {
-  @Prop({ default: 'general.connect' }) public label!: string // i18
-  @Prop({ default: 'primary' }) public variant!: NeoButtonVariant
-  @Prop({ default: false }) public noShadow!: boolean
-  @Prop({ default: false }) public modalToggleDisabled!: boolean
-  private modal: { close: () => void; isActive?: boolean } | null = null
-  private isMobile = ref(window.innerWidth < 1024)
+defineProps<{
+  label?: string
+  variant?: NeoButtonVariant
+  noShadow?: boolean
+}>()
 
-  public toggleWalletConnectModal(): void {
-    if (this.isMobile) {
-      this.$emit('closeBurgerMenu')
-    } else {
-      this.$emit('toggleConnectModal')
-    }
+const { $neoModal } = useNuxtApp()
+const instance = getCurrentInstance()
 
-    if (!this.modalToggleDisabled) {
-      if (this.modal?.isActive) {
-        this.modal.close()
-        this.modal = null
-        return
-      }
-      this.modal = this.$buefy.modal.open({
-        parent: this,
-        ...ConnectWalletModalConfig,
-      })
-    }
+const modal = ref<{ close: () => void; isActive?: boolean } | null>(null)
+const isMobile = ref(window.innerWidth < 1024)
+const emit = defineEmits(['closeBurgerMenu', 'toggleConnectModal'])
+
+const toggleWalletConnectModal = () => {
+  if (isMobile) {
+    emit('closeBurgerMenu')
+  } else {
+    emit('toggleConnectModal')
   }
+
+  $neoModal.closeAll()
+
+  if (modal.value?.isActive) {
+    modal.value = null
+    return
+  }
+
+  modal.value = $neoModal.open({
+    parent: instance?.proxy,
+    ...ConnectWalletModalConfig,
+  })
 }
 </script>

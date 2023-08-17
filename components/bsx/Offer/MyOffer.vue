@@ -34,9 +34,9 @@
       <NeoTableColumn
         v-slot="props"
         field="formatPrice"
-        :label="$t('myOffer.price')"
+        :label="`${$t(`offer.price`)} (${chainSymbol})`"
         sortable>
-        <Money :value="props.row.price" inline />
+        <Money :value="props.row.price" inline hide-unit :round="2" />
       </NeoTableColumn>
       <NeoTableColumn
         v-slot="props"
@@ -109,6 +109,7 @@ const { howAboutToExecute, initTransactionLoader, isLoading, status } =
 const { $apollo, $consola, $i18n } = useNuxtApp()
 const { urlPrefix, client } = usePrefix()
 const { accountId, isLogIn } = useAuth()
+const { chainSymbol } = useChain()
 
 const offers = ref<Offer[]>([])
 const destinationAddress = ref('')

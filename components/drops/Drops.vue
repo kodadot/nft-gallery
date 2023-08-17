@@ -52,10 +52,24 @@ import CreateDropCard from '@/components/drops/CreateDropCard.vue'
 import { collectionId } from '@/components/collection/unlockable/const'
 import { STT_COLLECTION_ID } from '@/components/collection/drop/const'
 import { useDrops } from './useDrops'
+import { dropsVisible } from '@/utils/config/permision.config'
 
 const { $i18n } = useNuxtApp()
 const drops = useDrops(collectionId)
 const statemintDrops = useDrops(STT_COLLECTION_ID, 'ahp')
+const { urlPrefix } = usePrefix()
+
+const checkRouteAvailability = () => {
+  if (!dropsVisible(urlPrefix.value)) {
+    navigateTo('/')
+  }
+}
+
+watch(urlPrefix, () => checkRouteAvailability())
+
+onBeforeMount(() => {
+  checkRouteAvailability()
+})
 
 console.log('drops', statemintDrops)
 </script>
