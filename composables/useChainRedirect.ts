@@ -54,15 +54,15 @@ export default function () {
         query: route.query,
       })
     } else if (isAssets && assetsVisible(newChain)) {
-      return router.push({
+      router.push({
         path: `/${newChain}/assets`,
       })
     } else if (isSimpleCreate && createVisible(newChain)) {
-      return router.push({
+      router.push({
         path: `/${newChain}/create`,
       })
     } else if (isIncomingOffers && incomingOfferssVisible(newChain)) {
-      return router.push({
+      router.push({
         path: `/${newChain}/incomingoffers`,
       })
     } else {
