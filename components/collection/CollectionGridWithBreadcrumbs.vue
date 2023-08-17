@@ -14,7 +14,7 @@
     <CollectionGrid
       :id="id"
       @total="(v) => (total = v)"
-      @isLoading="(l) => (isLoading = L)" />
+      @isLoading="(l) => (isLoading = l)" />
   </div>
 </template>
 
