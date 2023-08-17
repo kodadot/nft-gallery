@@ -5,7 +5,14 @@ import {
   incomingOfferssVisible,
 } from '@/utils/config/permision.config'
 
-const NO_REDIRECT_ROUTE_NAMES = ['hot', 'sales', 'series-insight', 'identity']
+const NO_REDIRECT_ROUTE_NAMES = [
+  'hot',
+  'sales',
+  'series-insight',
+  'identity',
+  'blog',
+  'blog-slug',
+]
 
 export default function () {
   const route = useRoute()
