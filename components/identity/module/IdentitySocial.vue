@@ -2,7 +2,7 @@
   <div>
     <a
       v-if="showTwitter && twitter"
-      :href="`https://twitter.com/${twitter}`"
+      v-safe-href="`https://twitter.com/${twitter}`"
       target="_blank"
       rel="nofollow noopener noreferrer">
       <NeoIcon pack="fab" icon="twitter" />

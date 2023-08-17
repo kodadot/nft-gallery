@@ -14,7 +14,7 @@
     <div class="is-flex is-align-items-center">
       <a
         v-if="isOwner && link"
-        :href="link"
+        v-safe-href="link"
         target="_blank"
         rel="nofollow noopener noreferrer"
         class="has-text-link">

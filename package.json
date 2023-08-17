@@ -59,6 +59,7 @@
   },
   "packageManager": "pnpm@8.6.0",
   "dependencies": {
+    "@braintree/sanitize-url": "^6.0.4",
     "@chenfengyuan/vue-qrcode": "1",
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
     "@fortawesome/free-brands-svg-icons": "^6.2.1",
@@ -103,7 +104,7 @@
     "lodash": "^4.17.21",
     "mingo": "^5.1.0",
     "nuxt-buefy": "^0.4.25",
-    "nuxt-edge": "2.16.0-27720022.54e852f",
+    "nuxt-edge": "2.17.2-28202417.20abbc1",
     "nuxt-property-decorator": "^2.9.1",
     "ohmyfetch": "^0.4.21",
     "pinia-plugin-persistedstate": "^3.2.0",
@@ -176,9 +177,6 @@
       "vue-server-renderer": "2.7.14",
       "vue-template-compiler": "2.7.14",
       "h3": "1.1.0"
-    },
-    "patchedDependencies": {
-      "@nuxt/webpack-edge@2.16.0-27720022.54e852f": "patches/@nuxt__webpack-edge@2.16.0-27720022.54e852f.patch"
     }
   }
 }
