@@ -7,6 +7,7 @@
 <script lang="ts">
 import OnBoarding from '@/components/massmint/OnBoarding.vue'
 import { usePreferencesStore } from '@/stores/preferences'
+import { massmintCreateVisible } from '@/utils/config/permision.config'
 
 export default {
   name: 'MassmintOnboardingPage',
@@ -19,6 +20,10 @@ export default {
   middleware({ redirect, params }) {
     if (usePreferencesStore().getVisitedOnboarding) {
       redirect(`/${params.prefix}/massmint`)
+    }
+
+    if (!massmintCreateVisible(params.prefix)) {
+      setTimeout(() => redirect('/'))
     }
   },
   head() {
