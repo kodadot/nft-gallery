@@ -121,7 +121,9 @@ import useIdentity from '@/components/identity/utils/useIdentity'
 const route = useRoute()
 const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
-const { $i18n, $buefy } = useNuxtApp()
+const { $i18n } = useNuxtApp()
+const { toast } = useToast()
+
 const collectionId = computed(() => route.params.id)
 const currentCollectionUrl = computed(
   () =>
@@ -155,13 +157,6 @@ const QRModalActive = ref(false)
 
 const hashtags = 'KusamaNetwork,KodaDot'
 const sharingLabel = $i18n.t('sharing.collection')
-
-const toast = (message: string) => {
-  $buefy.toast.open({
-    message,
-    type: 'is-neo',
-  })
-}
 </script>
 
 <style lang="scss" scoped>

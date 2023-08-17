@@ -164,6 +164,7 @@ export default defineNuxtConfig({
     { src: '~/plugins/consola', mode: 'client' },
     { src: '~/plugins/piniaPersistedState', mode: 'client' },
     { src: '~/plugins/oruga-modal', mode: 'client' },
+    { src: '~/plugins/oruga-notification', mode: 'client' },
     '~/plugins/filters',
     '~/plugins/globalVariables',
     '~/plugins/pwa',
@@ -230,17 +231,6 @@ export default defineNuxtConfig({
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // https://go.nuxtjs.dev/buefy
-    [
-      'nuxt-buefy',
-      {
-        css: false,
-        defaultIconPack: 'fas',
-        defaultIconComponent: 'vue-fontawesome',
-        defaultFieldLabelPosition: 'inside',
-        materialDesignIcons: false,
-      },
-    ],
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
     '@kevinmarrec/nuxt-pwa',

@@ -50,6 +50,7 @@ const declineCookies = () => {
 <style lang="scss">
 .cookie-banner {
   .snackbar {
+    align-self: flex-start;
     height: 2.188rem;
     max-width: 720px;
 
