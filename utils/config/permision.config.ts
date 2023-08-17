@@ -48,18 +48,6 @@ const hasSales: Config<boolean> = {
   ahp: false,
 }
 
-const hasHot: Config<boolean> = {
-  rmrk: true,
-  ksm: true,
-  bsx: true,
-  ahk: true,
-  movr: true,
-  glmr: true,
-  snek: true,
-  dot: true,
-  ahp: true,
-}
-
 const hasMassmintCreate: Config<boolean> = {
   rmrk: true,
   ksm: true,
@@ -69,91 +57,7 @@ const hasMassmintCreate: Config<boolean> = {
   glmr: false,
   snek: true,
   dot: false,
-  ahp: false,
-}
-
-const hasIdentity: Config<boolean> = {
-  rmrk: true,
-  ksm: true,
-  bsx: true,
-  ahk: true,
-  movr: true,
-  glmr: true,
-  snek: true,
-  dot: true,
   ahp: true,
-}
-
-const hasProfile: Config<boolean> = {
-  rmrk: true,
-  ksm: true,
-  bsx: true,
-  ahk: true,
-  movr: true,
-  glmr: true,
-  snek: true,
-  dot: true,
-  ahp: true,
-}
-
-const hasTransfer: Config<boolean> = {
-  rmrk: true,
-  ksm: true,
-  bsx: true,
-  ahk: true,
-  movr: true,
-  glmr: true,
-  snek: true,
-  dot: true,
-  ahp: true,
-}
-
-const hasTeleport: Config<boolean> = {
-  rmrk: true,
-  ksm: true,
-  bsx: true,
-  ahk: true,
-  movr: true,
-  glmr: true,
-  snek: true,
-  dot: true,
-  ahp: true,
-}
-
-const hasDrops: Config<boolean> = {
-  rmrk: false,
-  ksm: false,
-  bsx: false,
-  ahk: true,
-  movr: false,
-  glmr: false,
-  snek: false,
-  dot: false,
-  ahp: false,
-}
-
-const hasAssets: Config<boolean> = {
-  rmrk: false,
-  ksm: false,
-  bsx: true,
-  ahk: false,
-  movr: false,
-  glmr: false,
-  snek: true,
-  dot: false,
-  ahp: false,
-}
-
-const hasIncomingOffers: Config<boolean> = {
-  rmrk: false,
-  ksm: false,
-  bsx: true,
-  ahk: false,
-  movr: false,
-  glmr: false,
-  snek: true,
-  dot: false,
-  ahp: false,
 }
 
 export const createVisible = (prefix: Prefix | string): boolean => {
@@ -176,34 +80,14 @@ export const salesVisible = (prefix: Prefix | string) => {
   return hasSales[prefix]
 }
 
-export const hotVisible = (prefix: Prefix | string) => {
-  return hasHot[prefix]
-}
-
-export const identityVisible = (prefix: Prefix | string) => {
-  return hasIdentity[prefix]
-}
-
-export const profileVisible = (prefix: Prefix | string) => {
-  return hasProfile[prefix]
-}
-
-export const transferVisible = (prefix: Prefix | string) => {
-  return hasTransfer[prefix]
-}
-
-export const teleportVisible = (prefix: Prefix | string) => {
-  return hasTeleport[prefix]
-}
-
 export const dropsVisible = (prefix: Prefix | string) => {
-  return hasDrops[prefix]
+  return prefix === 'ahk'
 }
 
 export const assetsVisible = (prefix: Prefix | string) => {
-  return hasAssets[prefix]
+  return prefix === 'bsx' || prefix === 'snek'
 }
 
 export const incomingOfferssVisible = (prefix: Prefix | string) => {
-  return hasIncomingOffers[prefix]
+  return prefix === 'bsx' || prefix === 'snek'
 }
