@@ -11,20 +11,24 @@
 </template>
 
 <script lang="ts" setup>
-import { checkInvalidBalanceFilter, roundTo } from '@/utils/format/balance'
-import formatBalance from '@/utils/format/balance'
+import {
+  checkInvalidBalanceFilter,
+  default as formatBalance,
+  roundTo,
+} from '@/utils/format/balance'
 
 const props = withDefaults(
   defineProps<{
-    value?: number | string | undefined
+    value?: number | string
     inline: boolean
-    hideUnit: boolean
-    unitSymbol: string
+    hideUnit?: boolean
+    unitSymbol?: string
     round: number
   }>(),
   {
     value: 0,
     round: 4,
+    unitSymbol: '',
   }
 )
 
