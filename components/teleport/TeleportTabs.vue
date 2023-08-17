@@ -45,7 +45,7 @@ const emit = defineEmits(['select'])
       color: theme('text-color');
 
       &:hover {
-        color: $black;
+        color: theme('text-color');
       }
       &.active {
         color: theme('text-color-inverse');
