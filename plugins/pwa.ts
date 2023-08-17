@@ -1,4 +1,4 @@
-import { NotificationProgrammatic as Notification } from 'buefy'
+import { NeoNotificationProgrammatic as Notification } from '@kodadot1/brick'
 import consola from 'consola'
 
 import { clearSession } from '@/utils/cachingStrategy'

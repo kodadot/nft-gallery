@@ -17,12 +17,16 @@ export default {
 
 .o-notices {
   top: 4.5rem;
+
+  .o-notification {
+    padding: 1rem 2rem;
+  }
 }
 
 .is-neo-toast {
   font-size: 12px;
   border-radius: 0;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1rem !important;
 
   @include ktheme() {
     background-color: theme('background-color');
