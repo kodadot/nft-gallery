@@ -1,7 +1,6 @@
 import { Prefix } from '@kodadot1/static'
 import {
   createVisible,
-  explorerVisible,
   hotVisible,
   massmintCreateVisible,
   salesVisible,
@@ -64,10 +63,8 @@ const SpecialRedirectPageTypes: PageType[] = Object.keys(PageRedirectType)
   .filter(Boolean) as PageType[]
 
 const pageAvailabilityPerChain = {
-  [PageType.PREFIX_EXPLORE_ITEMS]: (chain: Prefix): boolean =>
-    explorerVisible(chain),
-  [PageType.PREFIX_EXPLORE_COLLECTIBLES]: (chain: Prefix): boolean =>
-    explorerVisible(chain),
+  [PageType.PREFIX_EXPLORE_ITEMS]: () => true,
+  [PageType.PREFIX_EXPLORE_COLLECTIBLES]: () => true,
   [PageType.SERIES_INSIGHT]: (chain: Prefix) => seriesInsightVisible(chain),
   [PageType.PREFIX_CLASSIC_CREATE]: (chain: Prefix) => createVisible(chain),
   [PageType.PREFIX_MASSMINT]: (chain: Prefix) => massmintCreateVisible(chain),
