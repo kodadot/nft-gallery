@@ -47,7 +47,7 @@ export const URLS = {
     keywise: 'https://keywise.kodadot.workers.dev/',
     netlify: 'https://beta.kodadot.xyz/.netlify/functions/',
     seoCard: 'https://og-image-green-seven.vercel.app/',
-    rubick: 'https://squid.subsquid.io/rubick/graphql',
+    rubick: 'https://squid.subsquid.io/rubick/v/v9/graphql',
     snek: 'https://squid.subsquid.io/snekk/graphql',
     snekRococo: 'https://squid.subsquid.io/sneck/graphql',
     click: 'https://squid.subsquid.io/click/v/002/graphql',
