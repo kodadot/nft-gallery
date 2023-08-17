@@ -1,6 +1,6 @@
 <template>
   <div class="container is-fluid">
-    <CollectionList />
+    <CollectionGridWithBreadcrumbs />
   </div>
 </template>
 
