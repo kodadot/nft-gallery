@@ -20,7 +20,7 @@ import ExploreSort from './ExploreSort.vue'
 import ExploreGrid from './ExploreGrid.vue'
 import ExploreOffer from './ExploreOffer.vue'
 import FilterMenuButton from './FilterMenuButton.vue'
-import ChainDropdown from '../common/ChainDropdown.vue'
+import ChainDropdown from '@/components/common/ChainDropdown.vue'
 
 const route = useRoute()
 
