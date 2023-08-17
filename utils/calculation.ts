@@ -1,5 +1,5 @@
-export function calculateUsdFromKsm(ksm: number, price: number): number {
-  return Number(Math.ceil(ksm * price))
+export function calculateUsdFromToken(amount: number, price: number): number {
+  return Math.floor(amount * price * 100) / 100
 }
 
 export function calculateExactUsdFromToken(
@@ -9,8 +9,8 @@ export function calculateExactUsdFromToken(
   return Number((token * price).toFixed(2))
 }
 
-export function calculateKsmFromUsd(ksm: number, usd: number): number {
-  return Math.ceil((usd / ksm) * 100) / 100
+export function calculateTokenFromUsd(tokenPrice: number, usd: number): number {
+  return Math.ceil((usd / tokenPrice) * 10000) / 10000
 }
 
 // function includes the lower bound, but excludes the upper bound
