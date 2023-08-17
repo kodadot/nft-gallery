@@ -1,5 +1,9 @@
 import { Prefix } from '@kodadot1/static'
-import { assetsVisible, createVisible } from '@/utils/config/permision.config'
+import {
+  assetsVisible,
+  createVisible,
+  incomingOfferssVisible,
+} from '@/utils/config/permision.config'
 
 const NO_REDIRECT_ROUTE_NAMES = ['hot', 'sales', 'series-insight', 'identity']
 
@@ -17,16 +21,9 @@ export default function () {
 
     const isAssets = routeName.includes('-assets')
     const isSimpleCreate = routeName.includes('-create')
+    const isIncomingOffers = routeName.includes('-incomingOffers')
 
-    if (isAssets && assetsVisible(newChain)) {
-      return router.push({
-        path: `/${newChain}/assets`,
-      })
-    } else if (isSimpleCreate && createVisible(newChain)) {
-      return router.push({
-        path: `/${newChain}/create`,
-      })
-    } else if (route.params.prefix) {
+    if (route.params.prefix) {
       if (routeName === 'prefix-u-id') {
         return router.push({
           params: {
@@ -55,6 +52,18 @@ export default function () {
           prefix: newChain,
         },
         query: route.query,
+      })
+    } else if (isAssets && assetsVisible(newChain)) {
+      return router.push({
+        path: `/${newChain}/assets`,
+      })
+    } else if (isSimpleCreate && createVisible(newChain)) {
+      return router.push({
+        path: `/${newChain}/create`,
+      })
+    } else if (isIncomingOffers && incomingOfferssVisible(newChain)) {
+      return router.push({
+        path: `/${newChain}/incomingoffers`,
       })
     } else {
       router.push({
