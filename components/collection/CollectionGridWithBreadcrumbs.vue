@@ -5,8 +5,8 @@
       <BreadcrumbsFilter />
 
       <div v-if="total">{{ total }} {{ $t('items') }}</div>
-      <div v-else-if="isLoading" class="skeleton-container-fixed-width">
-        <NeoSkeleton no-margin />
+      <div v-else-if="isLoading">
+        <NeoSkeleton no-margin :width="80" />
       </div>
     </div>
     <hr class="mt-0" />
@@ -30,9 +30,3 @@ defineProps<{
 const isLoading = ref(true)
 const total = ref(0)
 </script>
-
-<style lang="scss" scoped>
-.skeleton-container-fixed-width {
-  width: 80px;
-}
-</style>

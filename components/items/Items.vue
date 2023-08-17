@@ -6,8 +6,8 @@
         <div
           class="is-flex is-justify-content-space-between pb-4 pt-5 is-align-content-center">
           <BreadcrumbsFilter />
-          <div v-if="isLoading" class="skeleton-container-fixed-width">
-            <NeoSkeleton no-margin />
+          <div v-if="isLoading">
+            <NeoSkeleton no-margin :width="80" />
           </div>
           <div v-else-if="total">{{ total }} {{ $t('items') }}</div>
         </div>
@@ -32,9 +32,3 @@ import { NeoSkeleton } from '@kodadot1/brick'
 const total = ref(0)
 const isLoading = ref(false)
 </script>
-
-<style lang="scss" scoped>
-.skeleton-container-fixed-width {
-  width: 80px;
-}
-</style>
