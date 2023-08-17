@@ -4,7 +4,7 @@
       v-if="events.length"
       :data="events"
       hoverable
-      class="p-5 padding-top-mobile">
+      class="py-5 padding-top-mobile">
       <!-- event name -->
       <NeoTableColumn
         v-slot="props"
@@ -167,6 +167,9 @@ const formatPrice = (price) => {
 
 .gallery-item-activity-table {
   overflow-y: auto;
+  :deep table tr > *:first-child {
+    padding-left: 2rem;
+  }
 }
 
 @include touch {
