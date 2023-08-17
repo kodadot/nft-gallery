@@ -34,11 +34,10 @@ export default {
   },
   setup() {
     const { urlPrefix } = usePrefix()
-    const router = useRouter()
 
     const checkRouteAvailability = () => {
       if (!seriesInsightVisible(urlPrefix.value)) {
-        router.push('/')
+        navigateTo('/')
       }
     }
 
