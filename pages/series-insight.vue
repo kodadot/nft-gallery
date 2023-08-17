@@ -25,6 +25,8 @@
   </section>
 </template>
 <script lang="ts">
+import { seriesInsightVisible } from '@/utils/config/permision.config'
+
 export default {
   name: 'Series',
   components: {
@@ -32,6 +34,18 @@ export default {
   },
   setup() {
     const { urlPrefix } = usePrefix()
+    const router = useRouter()
+
+    const checkRouteAvailability = () => {
+      if (!seriesInsightVisible(urlPrefix.value)) {
+        router.push('/')
+      }
+    }
+
+    watch(urlPrefix, () => checkRouteAvailability())
+
+    onBeforeMount(() => checkRouteAvailability())
+
     return {
       urlPrefix,
     }
