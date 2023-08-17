@@ -69,7 +69,7 @@ import resolveQueryPath from '@/utils/queryPathResolver'
 
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import StatsColumn from '@/components/shared/format/StatsColumn.vue'
-import { Event } from '../rmrk/service/types'
+import { Event } from '@/components/rmrk/service/types'
 
 type Stats = {
   listedCount: number
