@@ -24,8 +24,7 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import { RmrkType } from '@/components/rmrk/service/scheme'
 import {
   INFINITE_SCROLL_CONTAINER_ID,
@@ -33,28 +32,28 @@ import {
 } from '~/utils/mixins/infiniteScrollMixin'
 import { usePreferencesStore } from '@/stores/preferences'
 
-const components = {
-  GalleryCard: () => import('./GalleryCard.vue'),
-  Layout: () => import('./Layout.vue'),
-}
+import GalleryCard from './GalleryCard.vue'
+import Layout from './Layout.vue'
 
-@Component({ components })
-export default class GalleryCardList extends Vue {
-  @Prop({ default: '/rmrk/gallery' }) public route!: string
-  @Prop({ default: 'rmrk/gallery' }) public link!: string
-  @Prop() public items!: RmrkType[]
-  @Prop(Boolean) public horizontalLayout!: boolean
-  @Prop(Boolean) public listed!: boolean
-  protected scrollContainerId = INFINITE_SCROLL_CONTAINER_ID
-  protected scrollItemClassName = INFINITE_SCROLL_ITEM_CLASS_NAME
-  private preferencesStore = usePreferencesStore()
-
-  get classLayout() {
-    return this.preferencesStore.getLayoutClass
+withDefaults(
+  defineProps<{
+    route?: string
+    link?: string
+    items: RmrkType[]
+    horizontalLayout: boolean
+    listed: boolean
+  }>(),
+  {
+    route: '/rmrk/gallery',
+    link: 'rmrk/gallery',
   }
+)
 
-  protected metadataOf(nft: any) {
-    return nft.metadata || nft.collection?.metadata
-  }
-}
+const preferencesStore = usePreferencesStore()
+const scrollContainerId = ref(INFINITE_SCROLL_CONTAINER_ID)
+const scrollItemClassName = ref(INFINITE_SCROLL_ITEM_CLASS_NAME)
+
+const classLayout = computed(() => preferencesStore.getLayoutClass)
+
+const metadataOf = (nft: any) => nft.metadata || nft.collection?.metadata
 </script>
