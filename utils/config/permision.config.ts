@@ -36,18 +36,6 @@ const hasSales: Config<boolean> = {
   ahp: false,
 }
 
-const hasHot: Config<boolean> = {
-  rmrk: true,
-  ksm: true,
-  bsx: true,
-  ahk: true,
-  movr: true,
-  glmr: true,
-  snek: true,
-  dot: true,
-  ahp: true,
-}
-
 const hasMassmintCreate: Config<boolean> = {
   rmrk: true,
   ksm: true,
@@ -57,7 +45,7 @@ const hasMassmintCreate: Config<boolean> = {
   glmr: false,
   snek: true,
   dot: false,
-  ahp: false,
+  ahp: true,
 }
 
 export const createVisible = (prefix: Prefix | string): boolean => {
@@ -76,6 +64,14 @@ export const salesVisible = (prefix: Prefix | string) => {
   return hasSales[prefix]
 }
 
-export const hotVisible = (prefix: Prefix | string) => {
-  return hasHot[prefix]
+export const dropsVisible = (prefix: Prefix | string) => {
+  return prefix === 'ahk'
+}
+
+export const assetsVisible = (prefix: Prefix | string) => {
+  return prefix === 'bsx' || prefix === 'snek'
+}
+
+export const incomingOfferssVisible = (prefix: Prefix | string) => {
+  return prefix === 'bsx' || prefix === 'snek'
 }

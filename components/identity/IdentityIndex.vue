@@ -59,8 +59,8 @@ const {
   name,
   whichIdentity,
 } = useIdentity({
-  address: props.address,
-  customNameOption: props.customNameOption,
+  address: computed(() => props.address),
+  customNameOption: props.customNameOption || '',
 })
 
 provide('address', props.address)
