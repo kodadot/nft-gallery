@@ -87,8 +87,7 @@
           <ProfileActivity :id="id" />
         </div>
       </div>
-      <div
-        class="is-flex is-hidden-touch is-hidden-desktop-only is-hidden-widescreen-only">
+      <div class="is-flex is-hidden-touch is-hidden-desktop-only">
         <TabItem
           v-for="tab in tabs"
           :key="tab"
@@ -98,7 +97,7 @@
         <ChainDropdown class="ml-6" />
         <OrderByDropdown v-if="activeTab !== 'activity'" class="ml-6" />
       </div>
-      <div class="is-flex is-flex-direction-row is-hidden-fullhd mobile">
+      <div class="is-flex is-flex-direction-row is-hidden-widescreen mobile">
         <TabItem
           v-for="tab in tabs"
           :key="tab"
@@ -232,7 +231,14 @@ const handleIdentity = (identityFields: Record<string, string>) => {
   display: none;
 }
 
-@include until(1440px) {
+:deep .control {
+  width: 12rem;
+}
+:deep .explore-tabs-button {
+  width: 12rem;
+}
+
+@include until-widescreen {
   .mobile {
     flex-wrap: wrap;
     > * {
