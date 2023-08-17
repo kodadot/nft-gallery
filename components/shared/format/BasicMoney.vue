@@ -15,7 +15,7 @@ const props = withDefaults(
   defineProps<{
     value?: number | string | undefined
     hideUnit?: boolean
-    inline: boolean
+    inline?: boolean
     round: number
   }>(),
   {
