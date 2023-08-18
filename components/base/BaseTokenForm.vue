@@ -75,7 +75,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineEmits, defineProps, ref } from 'vue'
 import { MediaType } from '../rmrk/types'
 import { resolveMedia } from '../rmrk/utils'
 import { BaseMintedCollection as MintedCollection } from './types'
