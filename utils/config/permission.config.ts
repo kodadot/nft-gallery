@@ -1,19 +1,19 @@
 import { PartialConfig, Prefix } from './types'
 
-const hasCreate: PartialConfig<boolean> = {
+const hasCreate: PartialConfig = {
   movr: false,
   glmr: false,
   dot: false,
 }
 
-const hasInsight: PartialConfig<boolean> = {
+const hasInsight: PartialConfig = {
   ahk: false,
   movr: false,
   glmr: false,
   ahp: false,
 }
 
-const hasSales: PartialConfig<boolean> = {
+const hasSales: PartialConfig = {
   ahk: false,
   movr: false,
   glmr: false,
@@ -21,13 +21,13 @@ const hasSales: PartialConfig<boolean> = {
   ahp: false,
 }
 
-const hasMassmintCreate: PartialConfig<boolean> = {
+const hasMassmintCreate: PartialConfig = {
   movr: false,
   glmr: false,
   dot: false,
 }
 
-const hasExplorer: PartialConfig<boolean> = {
+const hasExplorer: PartialConfig = {
   dot: false,
 }
 
