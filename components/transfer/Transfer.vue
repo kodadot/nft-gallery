@@ -597,11 +597,7 @@ const syncQueryToken = () => {
 
   const token = query.token?.toString()
 
-  if (!availableTokens.includes(token)) {
-    return
-  }
-
-  if (!token) {
+  if (!token || !availableTokens.includes(token)) {
     return
   }
 
@@ -639,7 +635,7 @@ watchDebounced(
       })
       .catch(() => null) // null to further not throw navigation errors
   },
-  { debounce: 200 }
+  { debounce: 300 }
 )
 </script>
 <style lang="scss" scoped>
