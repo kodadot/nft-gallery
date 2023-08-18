@@ -87,7 +87,7 @@
       <div
         v-if="nft?.recipient"
         class="is-flex is-justify-content-space-between">
-        <p>{{ $t('tabs.tabDetails.royaltyRecipient') }}</p>
+        <p>{{ $t('transfers.recipient') }}</p>
         <nuxt-link
           :to="`/${urlPrefix}/u/${nft?.recipient}`"
           class="has-text-link">
