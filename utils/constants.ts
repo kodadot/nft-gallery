@@ -53,7 +53,7 @@ export const URLS = {
     click: 'https://squid.subsquid.io/click/v/002/graphql',
     antick: 'https://squid.subsquid.io/antick/v/001-rc0/graphql',
     marck: 'https://squid.subsquid.io/marck/graphql',
-    stick: 'https://squid.subsquid.io/stick/graphql',
+    stick: 'https://squid.subsquid.io/stick/v/v4/graphql',
     speck: 'https://squid.subsquid.io/speck/v/v2/graphql',
     replicate: 'https://replicate.kodadot.workers.dev/',
     search: 'https://polysearch.w.kodadot.xyz',
