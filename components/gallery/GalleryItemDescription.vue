@@ -83,6 +83,18 @@
         <p>{{ $t('tabs.tabDetails.royalties') }}</p>
         <p>{{ nft?.royalty }}%</p>
       </div>
+
+      <div
+        v-if="nft?.recipient"
+        class="is-flex is-justify-content-space-between">
+        <p>{{ $t('tabs.tabDetails.royaltyRecipient') }}</p>
+        <nuxt-link
+          :to="`/${urlPrefix}/u/${nft?.recipient}`"
+          class="has-text-link">
+          <Identity ref="identity" :address="nft?.recipient" />
+        </nuxt-link>
+      </div>
+
       <hr class="my-2" />
       <div v-if="nftImage" class="is-flex is-justify-content-space-between">
         <p>{{ $t('tabs.tabDetails.media') }}</p>
