@@ -18,6 +18,7 @@ export default function useToken() {
   const availableChains = availablePrefixes().map(
     (item) => item.value as Prefix
   )
+
   const availableTokens = ['BSX', 'DOT', 'KSM']
 
   const chainsProperties = computed(() => {
@@ -67,6 +68,7 @@ export default function useToken() {
 
   return {
     tokens,
+    availableTokens,
     getPrefixByToken,
   }
 }

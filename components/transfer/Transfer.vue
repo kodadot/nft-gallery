@@ -151,12 +151,14 @@
       <TabItem
         :active="displayUnit === 'token'"
         :text="unit"
+        tag="button"
         full-width
         no-shadow
         @click.native="displayUnit = 'token'" />
       <TabItem
         :active="displayUnit === 'usd'"
         text="USD"
+        tag="button"
         full-width
         no-shadow
         @click.native="displayUnit = 'usd'" />
@@ -266,7 +268,7 @@ const usdValue = ref(0)
 const sendSameAmount = ref(false)
 const displayUnit = ref<'token' | 'usd'>('token')
 const { getTokenIconBySymbol } = useIcon()
-const { tokens, getPrefixByToken } = useToken()
+const { tokens, getPrefixByToken, availableTokens } = useToken()
 
 const selectedTabFirst = ref(true)
 const tokenIcon = computed(() => getTokenIconBySymbol(unit.value))
@@ -594,6 +596,10 @@ const syncQueryToken = () => {
   const { query } = route
 
   const token = query.token?.toString()
+
+  if (!availableTokens.includes(token)) {
+    return
+  }
 
   if (!token) {
     return
