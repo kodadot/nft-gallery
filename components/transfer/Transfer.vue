@@ -454,6 +454,24 @@ const unifyAddressAmount = (target: TargetAddress) => {
   }))
 }
 
+const updateTargetAdressesOnTokenSwitch = () => {
+  targetAddresses.value.forEach((targetAddress) => {
+    if (displayUnit.value === 'usd') {
+      onUsdFieldChange(targetAddress)
+    } else {
+      onAmountFieldChange(targetAddress)
+    }
+  })
+}
+
+watch(
+  unit,
+  () => {
+    updateTargetAdressesOnTokenSwitch()
+  },
+  { immediate: true }
+)
+
 const handleOpenConfirmModal = () => {
   if (!disabled.value) {
     targetAddresses.value = targetAddresses.value.filter(
