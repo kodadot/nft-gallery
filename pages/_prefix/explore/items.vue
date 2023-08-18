@@ -9,7 +9,7 @@
 <script lang="ts">
 import Items from '@/components/items/Items.vue'
 import { usePreferencesStore } from '@/stores/preferences'
-import { explorerVisible } from '~/utils/config/permission.config'
+import { explorerVisible } from '@/utils/config/permission.config'
 
 export default {
   name: 'ExploreItems',
