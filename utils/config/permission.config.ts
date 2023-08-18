@@ -11,6 +11,7 @@ const hasInsight: PartialConfig = {
   movr: false,
   glmr: false,
   ahp: false,
+  dot: false,
 }
 
 const hasSales: PartialConfig = {
