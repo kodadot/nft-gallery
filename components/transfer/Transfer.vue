@@ -244,7 +244,7 @@ const { unit, decimals } = useChain()
 const { apiInstance } = useApi()
 const { urlPrefix } = usePrefix()
 const { isLogIn, accountId } = useAuth()
-const { getAuthBalance } = useIdentityStore()
+const identityStore = useIdentityStore()
 const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
 const { initTransactionLoader, isLoading, resolveStatus, status } =
   useTransactionStatus()
@@ -278,7 +278,8 @@ const displayTotalValue = computed(() =>
     : [`${totalTokenAmount.value} ${unit.value}`, `$${totalUsdValue.value}`]
 )
 
-const balance = getAuthBalance
+const balance = computed(() => identityStore.getAuthBalance)
+
 const disabled = computed(
   () =>
     !isLogIn.value ||

@@ -94,16 +94,14 @@
                 variant="primary" />
             </div>
           </nuxt-link>
-          <template v-if="isExploreVisible">
-            <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
-              <NavbarExploreOptions @closeMobileNavbar="showMobileNavbar" />
-            </MobileExpandableSection>
 
-            <ExploreDropdown
-              v-else
-              class="navbar-explore custom-navbar-item"
-              data-cy="explore" />
-          </template>
+          <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
+            <NavbarExploreOptions @closeMobileNavbar="showMobileNavbar" />
+          </MobileExpandableSection>
+          <ExploreDropdown
+            v-else
+            class="navbar-explore custom-navbar-item"
+            data-cy="explore" />
 
           <a
             href="https://hello.kodadot.xyz"
@@ -206,7 +204,7 @@ import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
 
 import { useIdentityStore } from '@/stores/identity'
 import { getChainNameByPrefix } from '@/utils/chain'
-import { createVisible, explorerVisible } from '@/utils/config/permision.config'
+import { createVisible } from '@/utils/config/permision.config'
 import ShoppingCartButton from './navbar/ShoppingCartButton.vue'
 
 const { $nextTick, $neoModal } = useNuxtApp()
@@ -221,6 +219,7 @@ const { urlPrefix } = usePrefix()
 const { isDarkMode } = useTheme()
 const identityStore = useIdentityStore()
 const isMobileNavbarOpen = ref(false)
+const updateAuthBalanceTimer = ref()
 
 const mobilSearchRef = ref<{ focusInput: () => void } | null>(null)
 
@@ -229,7 +228,6 @@ const route = useRoute()
 const account = computed(() => identityStore.getAuthAddress)
 
 const isCreateVisible = computed(() => createVisible(urlPrefix.value))
-const isExploreVisible = computed(() => explorerVisible(urlPrefix.value))
 const isLandingPage = computed(() => route.name === 'index')
 
 const logoSrc = computed(() =>
@@ -322,11 +320,16 @@ const handleResize = () => {
 
 const chainName = computed(() => getChainNameByPrefix(urlPrefix.value))
 
+const updateAuthBalance = () => {
+  account.value && identityStore.fetchBalance({ address: account.value })
+}
+
 onMounted(() => {
   window.addEventListener('scroll', onScroll)
   document.body.style.overflowY = 'initial'
   document.body.className = 'has-navbar-fixed-top has-spaced-navbar-fixed-top'
   window.addEventListener('resize', handleResize)
+  updateAuthBalanceTimer.value = setInterval(updateAuthBalance, 30000)
 })
 
 onBeforeUnmount(() => {
@@ -334,6 +337,7 @@ onBeforeUnmount(() => {
   setBodyScroll(true)
   document.documentElement.classList.remove('is-clipped-touch')
   window.removeEventListener('resize', handleResize)
+  clearInterval(updateAuthBalanceTimer.value)
 })
 </script>
 

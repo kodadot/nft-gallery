@@ -14,56 +14,41 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Emit, Prop, mixins } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import { units as defaultUnits } from '@/params/constants'
 import { Unit } from '@/params/types'
-import { Debounce } from 'vue-debounce-decorator'
-import ChainMixin from '@/utils/mixins/chainMixin'
 import { NeoField, NeoInput } from '@kodadot1/brick'
 
-@Component({
-  components: {
-    NeoField,
-    NeoInput,
-  },
+const props = defineProps({
+  value: { type: [Number, String], default: 0 },
+  label: { type: String, default: 'USD' },
+  labelInput: { type: String, default: 'balance' },
 })
-export default class ReadOnlyBalanceInput extends mixins(ChainMixin) {
-  @Prop({ type: [Number, String], default: 0 }) value!: number
-  protected units: Unit[] = defaultUnits
-  private selectedUnit = 1
-  @Prop({ default: 'USD' }) public label!: string
-  @Prop({ default: 'balance' }) public labelInput!: string
 
-  get inputValue(): number {
-    return this.value
-  }
+const { unit } = useChain()
+const emit = defineEmits(['input'])
+const units = ref<Unit[]>(defaultUnits)
 
-  set inputValue(value: number) {
-    this.handleInput(value)
-  }
-
-  formatSelectedValue(value: number): number {
-    return value * 10 ** this.decimals * this.selectedUnit
-  }
-
-  protected mapper(unit: Unit) {
-    if (unit.name === '-') {
-      return { ...unit, name: this.unit }
-    }
-    return unit
-  }
-
-  public mounted() {
-    this.units = defaultUnits.map(this.mapper)
-  }
-
-  @Debounce(200)
-  @Emit('input')
-  public handleInput(value: number) {
-    return value
-  }
+const handleInput = (value) => {
+  emit('input', value)
+  return value
 }
+
+const inputValue = computed({
+  get: () => props.value,
+  set: (value) => handleInput(value),
+})
+
+const mapper = (newunit: Unit) => {
+  if (newunit.name === '-') {
+    return { ...newunit, name: unit.value }
+  }
+  return newunit
+}
+
+onMounted(() => {
+  units.value = defaultUnits.map(mapper)
+})
 </script>
 
 <style scoped lang="scss">

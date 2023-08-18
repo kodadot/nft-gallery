@@ -1,8 +1,7 @@
 import { hexToString, isHex } from '@polkadot/util'
-
 import { emptyObject } from '@/utils/empty'
 import shortAddress from '@/utils/shortAddress'
-
+import { ComputedRef } from 'vue/types'
 import type { NFT } from '@/components/rmrk/service/scheme'
 
 type IdentityFields = Record<string, string>
@@ -60,10 +59,16 @@ const displayName = ({
   return display || shortenedAddress.value
 }
 
-export default function useIdentity({ address = '', customNameOption = '' }) {
+export default function useIdentity({
+  address = computed(() => ''),
+  customNameOption = '',
+}: {
+  address: ComputedRef
+  customNameOption?: string
+}) {
   const identity = ref<IdentityFields>({})
   const isFetchingIdentity = ref(false)
-  const shortenedAddress = computed(() => shortAddress(address))
+  const shortenedAddress = computed(() => shortAddress(address.value))
   const twitter = computed(() => identity?.value?.twitter)
   const discord = computed(() => identity?.value?.discord)
   const instagram = computed(() => identity?.value?.instagram)
@@ -81,7 +86,7 @@ export default function useIdentity({ address = '', customNameOption = '' }) {
     isFetchingIdentity.value = false
   }
 
-  onMounted(() => address && whichIdentity(address))
+  onMounted(() => address.value && whichIdentity(address.value))
 
   return {
     identity,
