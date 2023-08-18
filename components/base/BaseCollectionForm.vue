@@ -44,7 +44,6 @@
 </template>
 
 <script setup lang="ts">
-import { Ref, ref, toRefs } from 'vue'
 import { NeoField } from '@kodadot1/brick'
 import Auth from '@/components/shared/Auth.vue'
 import MetadataUpload from '@/components/shared/DropUpload.vue'
