@@ -1,6 +1,5 @@
 import { useFiatStore } from '@/stores/fiat'
 import { type ChainProperties, type Prefix } from '@kodadot1/static'
-import { ComputedRef } from 'vue/types'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { groupByNestedProperty } from '@/utils/objects'
 import { availablePrefixes } from '@/utils/chain'
@@ -38,7 +37,7 @@ export default function useToken() {
   const getTokenChain = (token: string): Prefix[] =>
     groupedTokensByChains.value[token] || []
 
-  const tokens: ComputedRef<TokenDetails[]> = computed(() => {
+  const tokens = computed<TokenDetails[]>(() => {
     const filteredTokens = Object.keys(groupedTokensByChains.value).filter(
       (token) => availableTokens.includes(token)
     )

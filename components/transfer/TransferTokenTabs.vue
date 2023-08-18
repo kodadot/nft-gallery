@@ -3,7 +3,7 @@
     <div
       v-for="tab in tabs"
       :key="tab.value"
-      class="token-price py-2 px-4 is-flex is-align-items-center"
+      class="token-price py-2 px-4 is-flex is-align-items-center is-clickable"
       :class="{
         'token-price__active': value === tab.value,
       }"
@@ -42,10 +42,9 @@ const handleTabClick = (value: string) => {
   }
 
   .token-price {
-    cursor: pointer;
+    border-radius: 3rem;
 
     @include ktheme() {
-      border-radius: 3rem;
       background-color: theme('background-color');
       color: theme('text-color');
       border: 1px solid theme('card-border-color');
