@@ -275,8 +275,6 @@ export type TargetAddress = {
 const isMobile = computed(() => useWindowSize().width.value <= 1024)
 
 const transactionValue = ref('')
-const price = ref(0)
-const usdValue = ref(0)
 const sendSameAmount = ref(false)
 const displayUnit = ref<'token' | 'usd'>('token')
 const { getTokenIconBySymbol } = useIcon()
@@ -478,8 +476,6 @@ const submit = async (
           )
 
           targetAddresses.value = [{}]
-          price.value = 0
-          usdValue.value = 0
           if (route.query && !route.query.donation) {
             router.push(route.path)
           }
@@ -539,14 +535,9 @@ const onTxError = async (dispatchError: DispatchError): Promise<void> => {
   isLoading.value = false
 }
 
-const generatePaymentLink = (address?): string => {
-  let addressQueryString: string
-  if (address) {
-    addressQueryString = `target=${address}`
-  } else {
-    addressQueryString = new URLSearchParams(targets.value).toString()
-  }
-  return `${window.location.origin}/${urlPrefix.value}/transfer?${addressQueryString}&usdamount=${usdValue.value}&donation=true`
+const generatePaymentLink = (address): string => {
+  const addressQueryString = `target=${address}`
+  return `${window.location.origin}/${urlPrefix.value}/transfer?${addressQueryString}&usdamount=${totalUsdValue.value}&donation=true`
 }
 
 const addAddress = () => {
