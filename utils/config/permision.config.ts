@@ -48,6 +48,18 @@ const hasMassmintCreate: Config<boolean> = {
   ahp: true,
 }
 
+const hasExplorer: Config<boolean> = {
+  rmrk: true,
+  ksm: true,
+  bsx: true,
+  ahk: true,
+  movr: true,
+  glmr: true,
+  snek: true,
+  dot: false,
+  ahp: true,
+}
+
 export const createVisible = (prefix: Prefix | string): boolean => {
   return hasCreate[prefix]
 }
@@ -74,4 +86,8 @@ export const assetsVisible = (prefix: Prefix | string) => {
 
 export const incomingOfferssVisible = (prefix: Prefix | string) => {
   return prefix === 'bsx' || prefix === 'snek'
+}
+
+export const explorerVisible = (prefix: Prefix | string): boolean => {
+  return hasExplorer[prefix] ?? true
 }
