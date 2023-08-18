@@ -243,9 +243,6 @@ const isExpandList = ref(false)
   .fixed-button-height {
     min-height: 55px;
   }
-  .is-small-size-text {
-    font-size: 14px;
-  }
 
   .is-scrollable {
     overflow-y: auto;
