@@ -58,8 +58,6 @@ import MediaResolver from '@/components/media/MediaResolver.vue'
 import { MAX_UPLOADED_FILE_SIZE } from '@/utils/constants'
 import { NeoField, NeoIcon, NeoUpload } from '@kodadot1/brick'
 
-defineExpose({ checkValidity })
-
 const props = defineProps({
   label: {
     type: String,
@@ -143,4 +141,6 @@ onMounted(() => {
 onBeforeMount(() => {
   window.removeEventListener('paste', onPasteImage)
 })
+
+defineExpose({ checkValidity })
 </script>
