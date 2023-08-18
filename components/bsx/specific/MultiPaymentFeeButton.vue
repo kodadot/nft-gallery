@@ -4,49 +4,45 @@
   </nuxt-link>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { getAssetIdByAccount } from '@/utils/api/bsx/query'
-import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
-import UseApiMixin from '@/utils/mixins/useApiMixin'
-import AssetMixin from '@/utils/mixins/assetMixin'
 import shouldUpdate from '@/utils/shouldUpdate'
+const { $consola } = useNuxtApp()
 
-@Component({})
-export default class MultiPaymentFeeButton extends mixins(
-  AssetMixin,
-  UseApiMixin
-) {
-  @Prop({ type: String, required: false }) public accountId!: string
-  @Prop({ type: String, default: 'bsx', required: false })
-  public prefix!: string
-  protected tokenId = '0'
+const props = withDefaults(
+  defineProps<{
+    accountId: string
+    prefix?: string
+  }>(),
+  { prefix: 'bsx' }
+)
+const tokenId = ref('0')
+const { assets } = usePrefix()
 
-  get asset() {
-    return this.assetIdOf(this.tokenId)
-  }
+const asset = computed(() => assets(tokenId.value))
 
-  get unit() {
-    return this.asset.symbol
-  }
+const unit = computed(() => asset.value.symbol)
+const url = computed(() => `/${props.prefix}/assets`)
 
-  get url(): string {
-    return `/${this.prefix}/assets`
-  }
-
-  async fetchCurrency() {
-    try {
-      const api = await this.useApi()
-      this.tokenId = await getAssetIdByAccount(api, this.accountId)
-    } catch (e) {
-      this.$consola.log(e)
-    }
-  }
-
-  @Watch('accountId', { immediate: true })
-  onAccountIdChange(val: string, oldVal: string) {
-    if (shouldUpdate(val, oldVal)) {
-      this.fetchCurrency()
-    }
+const fetchCurrency = async () => {
+  try {
+    const { apiInstance } = useApi()
+    const api = await apiInstance.value
+    tokenId.value = await getAssetIdByAccount(api, props.accountId)
+  } catch (e) {
+    $consola.warn(e)
   }
 }
+
+watch(
+  () => props.accountId,
+  (val, oldVal) => {
+    if (shouldUpdate(val, oldVal)) {
+      fetchCurrency()
+    }
+  },
+  {
+    immediate: true,
+  }
+)
 </script>

@@ -94,16 +94,14 @@
                 variant="primary" />
             </div>
           </nuxt-link>
-          <template v-if="isExploreVisible">
-            <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
-              <NavbarExploreOptions @closeMobileNavbar="showMobileNavbar" />
-            </MobileExpandableSection>
 
-            <ExploreDropdown
-              v-else
-              class="navbar-explore custom-navbar-item"
-              data-cy="explore" />
-          </template>
+          <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
+            <NavbarExploreOptions @closeMobileNavbar="showMobileNavbar" />
+          </MobileExpandableSection>
+          <ExploreDropdown
+            v-else
+            class="navbar-explore custom-navbar-item"
+            data-cy="explore" />
 
           <a
             href="https://hello.kodadot.xyz"
@@ -190,7 +188,6 @@
 
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
-import { BModalConfig } from 'buefy/types/components'
 
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import ChainSelectDropdown from '@/components/navbar/ChainSelectDropdown.vue'
@@ -207,10 +204,10 @@ import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
 
 import { useIdentityStore } from '@/stores/identity'
 import { getChainNameByPrefix } from '@/utils/chain'
-import { createVisible, explorerVisible } from '@/utils/config/permision.config'
+import { createVisible } from '@/utils/config/permision.config'
 import ShoppingCartButton from './navbar/ShoppingCartButton.vue'
 
-const { $buefy, $nextTick } = useNuxtApp()
+const { $nextTick, $neoModal } = useNuxtApp()
 const instance = getCurrentInstance()
 const showTopNavbar = ref(true)
 const openMobileSearchBar = ref(false)
@@ -230,7 +227,6 @@ const route = useRoute()
 const account = computed(() => identityStore.getAuthAddress)
 
 const isCreateVisible = computed(() => createVisible(urlPrefix.value))
-const isExploreVisible = computed(() => explorerVisible(urlPrefix.value))
 const isLandingPage = computed(() => route.name === 'index')
 
 const logoSrc = computed(() =>
@@ -248,15 +244,11 @@ const handleMobileChainSelect = () => {
 const openWalletConnectModal = (): void => {
   showMobileNavbar()
 
-  $buefy.modal.open({
+  $neoModal.closeAll()
+
+  $neoModal.open({
     parent: instance?.proxy,
     ...ConnectWalletModalConfig,
-  } as unknown as BModalConfig)
-
-  // close all modal
-  document.querySelectorAll('.modal').forEach((modal) => {
-    modal.__vue__?.$vnode?.context?.close()
-    modal.remove()
   })
 }
 

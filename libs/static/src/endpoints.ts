@@ -8,7 +8,6 @@ const KUSAMA_ENDPOINTS: WS_URL[] = [
   'wss://rpc.ibp.network/kusama',
   'wss://rpc.dotters.network/kusama',
   'wss://1rpc.io/ksm',
-  'wss://kusama.api.onfinality.io/public-ws',
   'wss://kusama-rpc.dwellir.com',
 ]
 
@@ -18,7 +17,6 @@ const POLKADOT_ENDPOINTS: WS_URL[] = [
   'wss://rpc.ibp.network/polkadot',
   'wss://rpc.dotters.network/polkadot',
   'wss://1rpc.io/dot',
-  'wss://polkadot.api.onfinality.io/public-ws',
   'wss://polkadot-rpc.dwellir.com',
 ]
 
@@ -36,7 +34,6 @@ export const ALTERNATIVE_ENDPOINT_MAP: Config<WS_URL[]> = {
     'wss://sys.ibp.network/statemine',
     'wss://sys.dotters.network/statemine',
     'wss://rpc-asset-hub-kusama.luckyfriday.io',
-    'wss://statemine.api.onfinality.io/public-ws',
     'wss://statemine.public.curie.radiumblock.co/ws',
   ],
   dot: POLKADOT_ENDPOINTS,
@@ -46,7 +43,6 @@ export const ALTERNATIVE_ENDPOINT_MAP: Config<WS_URL[]> = {
     'wss://statemint-rpc-tn.dwellir.com',
     'wss://sys.ibp.network/statemint',
     'wss://sys.dotters.network/statemint',
-    'wss://statemint.api.onfinality.io/public-ws',
   ],
 }
 

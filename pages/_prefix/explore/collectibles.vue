@@ -5,9 +5,25 @@
 </template>
 
 <script lang="ts">
+import { explorerVisible } from '@/utils/config/permision.config'
+
 export default {
   name: 'ExploreCollectibles',
   layout: 'explore-layout',
+
+  setup() {
+    const { urlPrefix } = usePrefix()
+
+    const checkRouteAvailability = () => {
+      if (!explorerVisible(urlPrefix.value)) {
+        navigateTo('/')
+      }
+    }
+
+    watch(urlPrefix, () => checkRouteAvailability())
+
+    onBeforeMount(() => checkRouteAvailability())
+  },
   head() {
     const { $route } = useNuxtApp()
     const runtimeConfig = useRuntimeConfig()
