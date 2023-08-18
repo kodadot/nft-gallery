@@ -221,6 +221,10 @@ const isExpandList = ref(false)
     }
   }
 
+  .mobile-height {
+    height: 50vh;
+  }
+
   .modal-width {
     width: 28rem;
   }

@@ -17,6 +17,7 @@
           <template #trigger="{ active }">
             <NeoButton
               icon="ellipsis-vertical"
+              no-shadow
               class="square-32"
               :active="active" />
           </template>
