@@ -4,11 +4,12 @@
     no-shadow
     rounded
     :label="label"
+    :variant="variant"
     @click.native="model = !model" />
 </template>
 
 <script setup lang="ts">
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoButtonVariant } from '@kodadot1/brick'
 
 const route = useRoute()
 const { replaceUrl } = useReplaceUrl()
@@ -16,6 +17,7 @@ const { replaceUrl } = useReplaceUrl()
 const props = defineProps<{
   label: string
   urlParam?: string
+  variant?: NeoButtonVariant
 }>()
 
 const urlParamName = computed(() => props.urlParam || props.label)
@@ -27,3 +29,13 @@ const model = computed({
   },
 })
 </script>
+
+<style scoped lang="scss">
+@import '@/styles/abstracts/variables';
+
+.active {
+  @include ktheme() {
+    border-color: theme('text-color') !important;
+  }
+}
+</style>

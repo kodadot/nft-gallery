@@ -38,7 +38,8 @@
           <nuxt-link v-if="isAllowSetIdentity" to="/identity">
             + {{ $t('identity.set') }}
           </nuxt-link>
-          <div class="is-flex is-align-items-center is-justify-content-center">
+          <div
+            class="is-flex is-align-items-center is-justify-content-center is-flex-wrap-wrap">
             <NeoButton
               v-safe-href="`https://subscan.io/account/${id}`"
               no-shadow
@@ -103,7 +104,7 @@
           :key="tab"
           :active="activeTab === tab"
           :text="tab"
-          class="set-width"
+          class="is-capitalized"
           @click.native="() => switchToTab(tab)" />
         <div class="is-flex mt-4">
           <ChainDropdown />
@@ -112,7 +113,7 @@
       </div>
     </div>
 
-    <div class="container is-fluid">
+    <div class="container is-fluid pb-6">
       <div
         v-if="activeTab === 'owned' || activeTab === 'created'"
         class="is-flex-grow-1">
@@ -177,7 +178,7 @@ const isModalActive = ref(false)
 
 const itemsGridSearch = computed(() => {
   const tabKey = activeTab.value === 'owned' ? 'currentOwner_eq' : 'issuer_eq'
-  const query: Record<string, string | number> = {
+  const query: Record<string, unknown> = {
     [tabKey]: id.value,
   }
 
@@ -185,7 +186,10 @@ const itemsGridSearch = computed(() => {
     query['price_gt'] = 0
   }
   if (sold.value) {
-    query['currentOwner_not_eq'] = id.value
+    query['events_some'] = {
+      interaction_eq: 'BUY',
+      AND: { caller_not_eq: id.value },
+    }
   }
 
   return query
