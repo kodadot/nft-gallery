@@ -73,7 +73,7 @@ import type { PalletBalancesAccountData } from '@polkadot/types/lookup'
 
 const { accountId } = useAuth()
 const { isTestnet } = usePrefix()
-
+const refetchMultipleBalanceTimer = ref()
 const identityStore = useIdentityStore()
 const {
   multiBalances,
@@ -198,13 +198,8 @@ async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
   await wsProvider.disconnect()
 }
 
-onMounted(async () => {
+const fetchMultipleBalance = async () => {
   await fiatStore.fetchFiatPrice()
-
-  if (currentNetwork.value !== multiBalanceNetwork.value) {
-    identityStore.resetMultipleBalances()
-  }
-
   const assets = isTestnet.value
     ? multiBalanceAssetsTestnet.value
     : multiBalanceAssets.value
@@ -212,6 +207,21 @@ onMounted(async () => {
   assets.forEach((item) => {
     getBalance(item.chain, item.token, Number(item.tokenId))
   })
+}
+
+onMounted(async () => {
+  if (currentNetwork.value !== multiBalanceNetwork.value) {
+    identityStore.resetMultipleBalances()
+  }
+
+  fetchMultipleBalance()
+  refetchMultipleBalanceTimer.value = setInterval(() => {
+    fetchMultipleBalance()
+  }, 30000)
+})
+
+onBeforeUnmount(() => {
+  clearInterval(refetchMultipleBalanceTimer.value)
 })
 </script>
 

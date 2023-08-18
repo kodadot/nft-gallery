@@ -191,7 +191,7 @@ const { chainProperties, unit, decimals, blockExplorer } = useChain()
 const { apiInstance } = useApi()
 const { urlPrefix } = usePrefix()
 const { isLogIn, accountId } = useAuth()
-const { getAuthBalance } = useIdentityStore()
+const identityStore = useIdentityStore()
 const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
 const { initTransactionLoader, isLoading, resolveStatus, status } =
   useTransactionStatus()
@@ -212,7 +212,7 @@ const disabled = computed(
   () => !hasAddress.value || !price.value || !isLogIn.value
 )
 const hasBlockExplorer = computed(() => hasExplorer(urlPrefix.value))
-const balance = getAuthBalance
+const balance = computed(() => identityStore.getAuthBalance)
 
 const checkQueryParams = () => {
   const { query } = route
