@@ -63,8 +63,9 @@
             <NeoButton
               v-clipboard:copy="id"
               variant="text"
+              :label="$t('share.copyAddress')"
               no-shadow
-              :label="$t('share.copyAddress')" />
+              @click.native="toast(`${$i18n.t('general.copyToClipboard')}`)" />
             <div class="divider" />
             <NeoButton
               variant="text"
@@ -158,6 +159,7 @@ import CollectionGrid from '@/components/collection/CollectionGrid.vue'
 import Activity from './activityTab/Activity.vue'
 
 const route = useRoute()
+const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
