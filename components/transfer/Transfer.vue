@@ -223,7 +223,6 @@ import { useIdentityStore } from '@/stores/identity'
 import Avatar from '@/components/shared/Avatar.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import { getMovedItemToFront } from '@/utils/objects'
-import { emptyObject } from '@kodadot1/minimark/utils'
 import TransferConfirmModal from '@/components/transfer/TransferConfirmModal.vue'
 
 import {

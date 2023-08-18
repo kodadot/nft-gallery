@@ -8,7 +8,7 @@
         'token-price__active': value === tab.value,
       }"
       @click="() => handleTabClick(tab.value)">
-      <img class="mr-2 is-20x20" :src="tab.icon" alt="token" />
+      <img class="mr-2 image square-20" :src="tab.icon" alt="token" />
       {{ tab.label }}
     </div>
   </div>
@@ -33,6 +33,11 @@ const handleTabClick = (value: string) => {
 
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
+
+.square-20 {
+  width: 20px;
+  height: 20px;
+}
 
 .token-price-container {
   gap: 10px;
