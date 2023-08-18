@@ -83,7 +83,7 @@ const upload = ref()
 
 const mimeType = computed(() => {
   if (file.value) {
-    return file?.value.type
+    return file.value.type
   }
   //workaround for model media in chrome
   const fileExtension = file.value?.name.split('.').pop() || ''
