@@ -589,19 +589,51 @@ const addAddress = () => {
     address: '',
   })
 }
+
+const syncQueryToken = () => {
+  const { query } = route
+
+  const token = query.token?.toString()
+
+  if (!token) {
+    return
+  }
+
+  const chain = getPrefixByToken(token)
+
+  if (!chain) {
+    return
+  }
+
+  setUrlPrefix(chain)
+}
+
+watch(
+  route,
+  () => {
+    syncQueryToken()
+  },
+  { immediate: true, deep: true }
+)
+
 onMounted(() => {
   fetchFiatPrice().then(checkQueryParams)
 })
 
-watch(
+watchDebounced(
   () => targetAddresses.value[0].usd,
   (usdamount) => {
     router
       .replace({
-        query: { ...route.query, usdamount: (usdamount || 0).toString() },
+        query: {
+          ...route.query,
+          usdamount: (usdamount || 0).toString(),
+          token: unit.value,
+        },
       })
       .catch(() => null) // null to further not throw navigation errors
-  }
+  },
+  { debounce: 200 }
 )
 </script>
 <style lang="scss" scoped>
@@ -611,11 +643,6 @@ watch(
   .square-32 {
     width: 32px;
     height: 32px;
-  }
-
-  .square-20 {
-    width: 20px;
-    height: 20px;
   }
 
   .fixed-height {
