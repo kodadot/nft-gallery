@@ -202,7 +202,7 @@
 
 <script lang="ts" setup>
 import Connector from '@kodadot1/sub-api'
-import { ALTERNATIVE_ENDPOINT_MAP, chainList } from '@kodadot1/static'
+import { ALTERNATIVE_ENDPOINT_MAP } from '@kodadot1/static'
 
 import { isAddress } from '@polkadot/util-crypto'
 import { DispatchError } from '@polkadot/types/interfaces'
