@@ -153,6 +153,7 @@ html.dark-mode {
     pre {
       padding-left: 0;
       padding-right: 0;
+      font-size: 1rem;
       background-color: theme('background-color');
     }
   }
