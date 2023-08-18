@@ -65,7 +65,7 @@ const props = defineProps({
       'Drop your NFT here or click to upload or simply paste image from clipboard',
   },
   icon: { type: String, default: 'upload' },
-  required: { type: Boolean, default: true },
+  required: { type: Boolean, default: false },
   expanded: { type: Boolean },
   preview: { type: Boolean },
   accept: { type: Boolean },
