@@ -7,7 +7,7 @@
 <script lang="ts">
 import OnBoarding from '@/components/massmint/OnBoarding.vue'
 import { usePreferencesStore } from '@/stores/preferences'
-import { massmintCreateVisible } from '~/utils/config/permission.config'
+import { massmintCreateVisible } from '@/utils/config/permission.config'
 
 export default {
   name: 'MassmintOnboardingPage',

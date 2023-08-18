@@ -25,7 +25,7 @@
   </section>
 </template>
 <script lang="ts">
-import { seriesInsightVisible } from '@/utils/config/permision.config'
+import { seriesInsightVisible } from '@/utils/config/permission.config'
 
 export default {
   name: 'Series',

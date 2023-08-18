@@ -204,7 +204,7 @@ import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
 
 import { useIdentityStore } from '@/stores/identity'
 import { getChainNameByPrefix } from '@/utils/chain'
-import { createVisible } from '~/utils/config/permission.config'
+import { createVisible } from '@/utils/config/permission.config'
 import ShoppingCartButton from './navbar/ShoppingCartButton.vue'
 
 const { $nextTick, $neoModal } = useNuxtApp()
