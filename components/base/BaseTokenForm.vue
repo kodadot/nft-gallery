@@ -85,6 +85,7 @@ import MetadataUpload from '@/components/shared/DropUpload.vue'
 import BasicInput from '@/components/shared/form/BasicInput.vue'
 import BasicNumberInput from '@/components/shared/form/BasicNumberInput.vue'
 import CollectionSelect from '@/components/base/CollectionSelect.vue'
+import { useVModel } from '@vueuse/core'
 
 const props = defineProps({
   label: {
@@ -123,35 +124,17 @@ const emit = defineEmits([
 const nftName = ref<typeof BasicInput>()
 const upload = ref<typeof MetadataUpload>()
 
-const vName = computed({
-  get: () => props.name,
-  set: (value) => emit('update:name', value),
-})
+const vName = useVModel(props, 'name', emit)
 
-const vDescription = computed({
-  get: () => props.description,
-  set: (value) => emit('update:description', value),
-})
+const vDescription = useVModel(props, 'description', emit)
 
-const vFile = computed({
-  get: () => props.file,
-  set: (value) => emit('update:file', value),
-})
+const vFile = useVModel(props, 'file', emit)
 
-const vSelectedCollection = computed({
-  get: () => props.selectedCollection,
-  set: (value) => emit('update:selectedCollection', value),
-})
+const vSelectedCollection = useVModel(props, 'selectedCollection', emit)
 
-const vCopies = computed({
-  get: () => props.copies,
-  set: (value) => emit('update:copies', value),
-})
+const vCopies = useVModel(props, 'copies', emit)
 
-const vSecondFile = computed({
-  get: () => props.secondFile,
-  set: (value) => emit('update:secondFile', value),
-})
+const vSecondFile = useVModel(props, 'secondFile', emit)
 
 const checkValidity = () => {
   const nftNameValid = nftName.value?.checkValidity()
