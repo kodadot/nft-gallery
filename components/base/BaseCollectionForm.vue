@@ -43,32 +43,55 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, PropSync, Ref, Vue } from 'nuxt-property-decorator'
+<script setup lang="ts">
+import { Ref, ref, toRefs } from 'vue'
 import { NeoField } from '@kodadot1/brick'
+import Auth from '@/components/shared/Auth.vue'
+import MetadataUpload from '@/components/shared/DropUpload.vue'
+import BasicInput from '@/components/shared/form/BasicInput.vue'
 
-const components = {
-  Auth: () => import('@/components/shared/Auth.vue'),
-  MetadataUpload: () => import('@/components/shared/DropUpload.vue'),
-  BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
-  NeoField,
+const props = defineProps({
+  label: {
+    type: String,
+    default: 'mint.collection.create',
+  },
+  protectiveMargin: Boolean,
+  name: String,
+  description: String,
+  file: Blob,
+})
+const emit = defineEmits(['update:name', 'update:description', 'update:file'])
+
+const vName = computed({
+  get: () => props.name,
+  set: (value) => {
+    emit('update:name', value)
+  },
+})
+
+const vDescription = computed({
+  get: () => props.description,
+  set: (value) => {
+    emit('update:description', value)
+  },
+})
+
+const vFile = computed({
+  get: () => props.file,
+  set: (value) => {
+    emit('update:file', value)
+  },
+})
+
+const collectionName = ref<typeof BasicInput>()
+const collectionImage = ref<typeof MetadataUpload>()
+
+const checkValidity = () => {
+  return (
+    collectionImage.value?.checkValidity() &&
+    collectionName.value?.checkValidity()
+  )
 }
 
-@Component({ components })
-export default class BaseCollectionForm extends Vue {
-  @Prop({ type: String, default: 'mint.collection.create' }) label!: string
-  @Prop(Boolean) protectiveMargin!: boolean
-  @PropSync('name', { type: String }) vName!: string
-  @PropSync('description', { type: String }) vDescription!: string
-  @PropSync('file', { type: Blob }) vFile!: Blob | null
-
-  @Ref('collectionName') readonly collectionName
-  @Ref('collectionImage') readonly collectionImage
-  public checkValidity() {
-    return (
-      this.collectionImage.checkValidity() &&
-      this.collectionName.checkValidity()
-    )
-  }
-}
+defineExpose({ checkValidity })
 </script>
