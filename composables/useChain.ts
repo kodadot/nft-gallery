@@ -4,7 +4,7 @@ import { availablePrefixes } from '@/utils/chain'
 
 export default function () {
   const { urlPrefix, tokenId, assets } = usePrefix()
-  const { symbol } = assets(tokenId.value)
+  const symbol = computed(() => assets(tokenId.value).symbol)
 
   const chainProperties = computed<ChainProperties>(() => {
     return chainPropListOf(urlPrefix.value)
@@ -27,7 +27,7 @@ export default function () {
   const chainSymbol = computed(() => {
     return ['rmrk', 'ksm', 'ahk', 'ahp'].includes(urlPrefix.value)
       ? unit.value
-      : symbol
+      : symbol.value
   })
 
   const blockExplorer = computed<string>(() => {

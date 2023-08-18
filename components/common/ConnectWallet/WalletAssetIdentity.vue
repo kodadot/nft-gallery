@@ -27,11 +27,12 @@ const identityStore = useIdentityStore()
 const shoppingCartStore = useShoppingCartStore()
 const { urlPrefix } = usePrefix()
 const { toast } = useToast()
-const { display, shortenedAddress } = useIdentity({
-  address: identityStore.getAuthAddress,
-})
 
 const account = computed(() => identityStore.getAuthAddress)
+
+const { display, shortenedAddress } = useIdentity({
+  address: account,
+})
 
 const logout = () => {
   identityStore.resetAuth()
