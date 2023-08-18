@@ -123,10 +123,6 @@ const createInput = (inputFile: Blob): void | boolean => {
   fileSizeFailed.value = false
   checkFailed.value = false
   const reader = new FileReader()
-  reader.onload = () => {
-    // handleSelection(reader.result)
-    // $consola.log(reader.si);
-  }
   emit('input', inputFile)
   if (props.preview) {
     url.value = URL.createObjectURL(inputFile)
