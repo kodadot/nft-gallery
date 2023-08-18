@@ -48,6 +48,7 @@ import { NeoField } from '@kodadot1/brick'
 import Auth from '@/components/shared/Auth.vue'
 import MetadataUpload from '@/components/shared/DropUpload.vue'
 import BasicInput from '@/components/shared/form/BasicInput.vue'
+import { useVModel } from '@vueuse/core'
 
 const props = defineProps({
   label: {
@@ -61,26 +62,11 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:name', 'update:description', 'update:file'])
 
-const vName = computed({
-  get: () => props.name,
-  set: (value) => {
-    emit('update:name', value)
-  },
-})
+const vName = useVModel(props, 'name', emit)
 
-const vDescription = computed({
-  get: () => props.description,
-  set: (value) => {
-    emit('update:description', value)
-  },
-})
+const vDescription = useVModel(props, 'description', emit)
 
-const vFile = computed({
-  get: () => props.file,
-  set: (value) => {
-    emit('update:file', value)
-  },
-})
+const vFile = useVModel(props, 'file', emit)
 
 const collectionName = ref<typeof BasicInput>()
 const collectionImage = ref<typeof MetadataUpload>()
