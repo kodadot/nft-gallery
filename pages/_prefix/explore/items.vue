@@ -9,6 +9,7 @@
 <script lang="ts">
 import Items from '@/components/items/Items.vue'
 import { usePreferencesStore } from '@/stores/preferences'
+import { explorerVisible } from '@/utils/config/permision.config'
 
 export default {
   name: 'ExploreItems',
@@ -18,9 +19,20 @@ export default {
   layout: 'explore-layout',
   setup() {
     const preferencesStore = usePreferencesStore()
+    const { urlPrefix } = usePrefix()
     const isSidebarOpen = computed(
       () => preferencesStore.getsidebarFilterCollapse
     )
+
+    const checkRouteAvailability = () => {
+      if (!explorerVisible(urlPrefix.value)) {
+        navigateTo('/')
+      }
+    }
+
+    watch(urlPrefix, () => checkRouteAvailability())
+
+    onBeforeMount(() => checkRouteAvailability())
 
     return {
       isSidebarOpen,

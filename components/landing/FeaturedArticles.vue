@@ -5,7 +5,7 @@
     <div class="columns">
       <div v-for="article in articles" :key="article.title" class="column">
         <CardArticle
-          v-safe-href="article.link"
+          :link="article.link"
           :description="article.description"
           :image="article.image"
           :title="article.title" />

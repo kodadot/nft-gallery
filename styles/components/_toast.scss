@@ -1,23 +1,32 @@
-.notices.is-top {
-  top: 4.2rem;
-}
-
-.toast {
-  &.is-neo {
-    opacity: 1;
-    font-size: 12px;
-    border-radius: 0;
-    @include ktheme() {
-      border: 1px solid theme('border-color');
-      box-shadow: theme('primary-shadow');
-      -webkit-box-shadow: theme('primary-shadow');
-    }
-  }
-}
-
 .notices {
+  bottom: 0;
+  display: flex;
+  left: 0;
+  overflow: hidden;
+  padding: 2em;
+  pointer-events: none;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 1000;
+
+  &.is-bottom {
+    flex-direction: column-reverse;
+  }
+
+  .snackbar {
+    align-items: center;
+    animation-duration: 0.15s;
+    display: inline-flex;
+    justify-content: space-around;
+    margin: 0.5em 0;
+    min-height: 3em;
+    pointer-events: auto;
+  }
+
   .bar {
     height: 13px;
+
     @include ktheme() {
       border: 1px solid theme('k-shade');
     }

@@ -14,8 +14,8 @@ import formatBalance from '@/utils/format/balance'
 const props = withDefaults(
   defineProps<{
     value?: number | string | undefined
-    inline: boolean
-    hideUnit: boolean
+    hideUnit?: boolean
+    inline?: boolean
     round: number
   }>(),
   {

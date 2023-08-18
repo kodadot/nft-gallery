@@ -17,6 +17,7 @@ With a few exceptions, code and comments should be written in **English** only.
 - **Typescript**, **Javascript** and **GraphQL** files use **camelCase** (`globalVariables.ts`, `getKey.js`, `collectionById.graphql`)
 - **SCSS** files use **kebab-case** (`initial-variables.scss`)
 - **JSON** files use **snake_case** (`all_lang.json`) while **Markdown** files use **SCREAMING_SNAKE_CASE** (`CONTRIBUTING.md`)
+- **Image** files use **kebab-case** (`my-image.webp`) and **.webp** is the preffered image format
 
 ## SFC Conventions
 ### Skeleton
@@ -237,4 +238,24 @@ list.forEach(element => ...)
 for (const element of array) {
   // your statement
 }
+```
+
+### images
+
+When working with images, it is recommended to utilize HTML tags and using a URL path,
+instead of directly importing images using JavaScript
+
+❗ bad
+```js
+// bad
+import logo from './path/to/my-image.webp'
+```
+
+✅ good
+```html
+<img src="/my-image.webp" alt="my-image" />
+
+<!-- or -->
+
+<img src="https://cdn.com/my-image.webp" alt="my-image" />
 ```
