@@ -56,6 +56,12 @@ import { NeoButton } from '@kodadot1/brick'
     background-repeat: no-repeat;
   }
 }
+
+@media screen and (max-width: 600px) {
+  .drop-card {
+    width: 100%;
+  }
+}
 .light-mode .drop-card {
   background-color: rgba(255, 255, 255);
 }

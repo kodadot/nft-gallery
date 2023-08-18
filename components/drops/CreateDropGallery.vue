@@ -1,11 +1,11 @@
 <template>
   <div class="svg-icons">
-    <img src="@/assets/drops/create_drop1.svg" class="svg-one" />
-    <img src="@/assets/drops/create_drop2.svg" class="svg-two" />
-    <img src="@/assets/drops/BlueShade.svg" class="ellipse" />
-    <img src="@/assets/drops/create_drop3.svg" class="svg-three" />
-    <img src="@/assets/drops/PinkShade.svg" class="vector" />
-    <img src="@/assets/drops/create_drop4.svg" class="svg-four" />
+    <img src="/drops/create_drop1.svg" class="svg-one" />
+    <img src="/drops/create_drop2.svg" class="svg-two" />
+    <img src="/drops/BlueShade.svg" class="ellipse" />
+    <img src="/drops/create_drop3.svg" class="svg-three" />
+    <img src="/drops/PinkShade.svg" class="vector" />
+    <img src="/drops/create_drop4.svg" class="svg-four" />
   </div>
 </template>
 <style scoped lang="scss">
