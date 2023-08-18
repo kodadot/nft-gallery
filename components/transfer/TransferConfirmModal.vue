@@ -4,8 +4,10 @@
     :no-shadow="isMobile"
     :content-class="[
       'transfer-confirm-modal',
-      isExpandList ? 'mobile-full-height' : '',
+      isMobile ? 'only-top-border' : '',
+      isExpandList ? 'mobile-modal-height' : '',
     ]"
+    max-height="90vh"
     scroll="clip"
     @close="emit('close')">
     <div
@@ -34,7 +36,7 @@
         <div
           :class="[
             {
-              'is-bordered-top mobile-height': isExpandList,
+              'is-bordered-top scroll-height': isExpandList,
             },
             'px-6 is-scrollable',
           ]">
@@ -216,13 +218,22 @@ const isExpandList = ref(false)
     right: 0;
     border-radius: 0.75rem 0.75rem 0 0;
 
-    &.mobile-full-height {
-      height: 80vh;
+    &.mobile-modal-height {
+      height: 90vh;
     }
   }
 
-  .mobile-height {
+  &.only-top-border {
+    border-right: 0 !important;
+    border-left: 0 !important;
+    border-bottom: 0 !important;
+  }
+
+  .scroll-height {
     height: 50vh;
+    @include touch {
+      height: 60vh;
+    }
   }
 
   .modal-width {

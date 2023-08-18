@@ -369,7 +369,7 @@ const totalUsdValue = computed(() =>
 const currentTokenValue = computed(() => getCurrentTokenValue(unit.value))
 const balanceUsdValue = computed(() =>
   calculateBalanceUsdValue(
-    Number(balance) * Number(currentTokenValue.value),
+    Number(balance.value) * Number(currentTokenValue.value),
     decimals.value
   )
 )
