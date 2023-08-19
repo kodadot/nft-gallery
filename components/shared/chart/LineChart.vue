@@ -8,19 +8,11 @@ import ChartJS from 'chart.js/auto'
 import 'chartjs-adapter-date-fns'
 import zoomPlugin from 'chartjs-plugin-zoom'
 import annotationPlugin from 'chartjs-plugin-annotation'
+import { useEventListener } from '@vueuse/core'
 
 // register chart plugins
 ChartJS.register(zoomPlugin)
 ChartJS.register(annotationPlugin)
-
-onMounted(() => {
-  window.addEventListener('resize', onWindowResize)
-  renderChart()
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('resize', onWindowResize)
-})
 
 const props = defineProps<{
   labels?: string[]
@@ -29,6 +21,15 @@ const props = defineProps<{
 }>()
 
 const Chart = ref<ChartJS<'line', any, unknown>>()
+
+onMounted(() => {
+  renderChart()
+})
+
+const onWindowResize = () => {
+  Chart.value?.resize()
+}
+useEventListener(window, 'resize', onWindowResize)
 
 const renderChart = () => {
   Chart.value?.destroy()
@@ -56,10 +57,6 @@ const renderChart = () => {
     Chart.value.options = props.options
     Chart.value.update()
   }
-}
-
-const onWindowResize = () => {
-  Chart.value?.resize()
 }
 </script>
 

@@ -5,6 +5,7 @@ import {
   convertSingularCollectionUrlToKodadotUrl,
   isExternal,
 } from '@/utils/url'
+import { useEventListener } from '@vueuse/core'
 
 function isWhiteList(url: string) {
   const urlObj = new URL(url)
@@ -55,12 +56,7 @@ export const useRedirectModal = (target: string) => {
     }
   }
 
-  onMounted(() => {
-    _dom.value.addEventListener('click', handleLink)
-  })
-  onBeforeUnmount(() => {
-    _dom.value.removeEventListener('click', handleLink)
-  })
+  useEventListener(_dom.value, 'click', handleLink)
 }
 
 export default useRedirectModal
