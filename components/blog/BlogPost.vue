@@ -69,6 +69,11 @@ html.light-mode {
 }
 html.dark-mode {
   @include meta.load-css('highlight.js/styles/atom-one-dark');
+  .article p > code {
+    // color from them atom-one-dark theme
+    color: #abb2bf;
+    background: #282c34;
+  }
 }
 .article {
   margin: 0 auto;
