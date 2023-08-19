@@ -56,108 +56,93 @@
   </div>
 </template>
 
-<script lang="ts">
-import {
-  Component,
-  Emit,
-  Prop,
-  Ref,
-  VModel,
-  Watch,
-  mixins,
-} from 'nuxt-property-decorator'
-import { SearchQuery } from './types'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
+<script setup lang="ts">
 import { NeoAutocomplete } from '@kodadot1/brick'
 import { useCollectionSearch } from '@/components/search/utils/useCollectionSearch'
+import SearchSuggestion from '@/components/search/SearchSuggestion.vue'
 
-@Component({
-  components: {
-    SearchSuggestion: () => import('./SearchSuggestion.vue'),
-    NeoAutocomplete,
-  },
+const { query } = defineProps(['query'])
+const emits = defineEmits(['blur', 'enter', 'redirect'])
+const { $t } = useNuxtApp()
+const name = ref('')
+const searchRef = ref<typeof NeoAutocomplete>()
+const searchSuggestionRef = ref<typeof SearchSuggestion>()
+const enableSearchInCollection = ref(true)
+const inputFocused = ref(false)
+const { urlPrefix } = usePrefix()
+
+onMounted(() => {
+  useKeyboardEvents({
+    k: bindSearchEvents,
+  })
 })
-export default class SearchBar extends mixins(
-  PrefixMixin,
-  KeyboardEventsMixin
-) {
-  @Prop({ type: Object, required: false }) public query!: SearchQuery
-  @VModel({ type: String }) name!: string
-  @Ref('searchRef') readonly searchRef
-  @Ref('searchSuggestionRef') readonly searchSuggestionRef
-  private enableSearchInCollection = true
-  public inputFocused = false
 
-  public created() {
-    this.initKeyboardEventHandler({
-      k: this.bindSearchEvents,
-    })
-    this.onSearchInCollectionModeChanged()
-  }
+const isSearchInCollectionMode = computed(
+  () => useCollectionSearch().isCollectionSearchMode.value
+)
 
-  get isSearchInCollectionMode() {
-    return useCollectionSearch().isCollectionSearchMode.value
-  }
+const placeholderContent = computed(() =>
+  inputFocused.value || isSearchInCollectionMode.value
+    ? ''
+    : $t('general.searchPlaceholder')
+)
 
-  get placeholderContent() {
-    return this.inputFocused || this.isSearchInCollectionMode
-      ? ''
-      : this.$t('general.searchPlaceholder')
-  }
+const showDefaultSuggestions = computed(
+  () => urlPrefix.value === 'rmrk' || urlPrefix.value === 'bsx'
+)
 
-  get showDefaultSuggestions() {
-    return this.urlPrefix === 'rmrk' || this.urlPrefix === 'bsx'
-  }
-
-  public exitCollectionSearch() {
-    if (this.isSearchInCollectionMode && !this.name) {
-      this.enableSearchInCollection = false
-    }
-  }
-
-  @Emit('enter')
-  @Emit('redirect')
-  onEnter() {
-    this.closeDropDown()
-    this.searchRef?.$refs?.input?.$refs?.input?.blur()
-    // insert search term in history
-    this.searchSuggestionRef?.insertNewHistory()
-  }
-
-  public focusInput(): void {
-    this.searchRef?.focus()
-  }
-
-  public onInputFocus(): void {
-    this.inputFocused = true
-  }
-
-  public onInputBlur(): void {
-    this.$emit('blur')
-    this.inputFocused = false
-    if (!this.name) {
-      this.enableSearchInCollection = true
-    }
-  }
-
-  private bindSearchEvents(event) {
-    event.preventDefault()
-    if (
-      event.key === 'k' &&
-      this.searchRef?.$el?.getBoundingClientRect()?.top > 0
-    ) {
-      this.focusInput()
-    }
-  }
-
-  public closeDropDown() {
-    this.searchRef.isActive = false
-  }
-
-  @Watch('enableSearchInCollection', { immediate: true })
-  private onSearchInCollectionModeChanged() {
-    useCollectionSearch().setCollectionSearchMode(this.enableSearchInCollection)
+function exitCollectionSearch() {
+  if (isSearchInCollectionMode.value && !name.value) {
+    enableSearchInCollection.value = false
   }
 }
+
+function onEnter() {
+  closeDropDown()
+  searchRef.value?.$refs?.input?.$refs?.input?.blur()
+  // insert search term in history
+  searchSuggestionRef.value?.insertNewHistory()
+  emits('enter')
+  emits('redirect')
+}
+
+function focusInput() {
+  searchRef.value?.focus()
+}
+
+function onInputFocus() {
+  inputFocused.value = true
+}
+
+function onInputBlur() {
+  emits('blur')
+  inputFocused.value = false
+  if (!name.value) {
+    enableSearchInCollection.value = true
+  }
+}
+
+function bindSearchEvents(event: KeyboardEvent) {
+  event.preventDefault()
+  if (
+    event.key === 'k' &&
+    searchRef.value?.$el?.getBoundingClientRect()?.top > 0
+  ) {
+    focusInput()
+  }
+}
+
+function closeDropDown() {
+  searchRef.value.isActive = false
+}
+
+watch(
+  enableSearchInCollection,
+  () => {
+    useCollectionSearch().setCollectionSearchMode(
+      enableSearchInCollection.value
+    )
+  },
+  { immediate: true }
+)
 </script>
