@@ -41,7 +41,7 @@ const isSwitched = computed({
 })
 
 const componentName = computed(() => {
-  return props.message ? 'NeoTooltip' : 'span'
+  return props.message ? NeoTooltip : 'span'
 })
 
 const properLabel: TranslateResult = computed(() => {
