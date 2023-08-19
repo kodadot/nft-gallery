@@ -60,11 +60,26 @@
 import { NeoAutocomplete } from '@kodadot1/brick'
 import { useCollectionSearch } from '@/components/search/utils/useCollectionSearch'
 import SearchSuggestion from '@/components/search/SearchSuggestion.vue'
+import { SearchQuery } from './types'
 
-const { query } = defineProps(['query'])
-const emits = defineEmits(['blur', 'enter', 'redirect'])
+const props = defineProps({
+  value: {
+    type: String,
+    required: true,
+  },
+  query: Object as PropType<SearchQuery>,
+})
+
+const name = computed({
+  get: () => props.value,
+  set: (value) => {
+    emit('input', value)
+  },
+})
+
+const emits = defineEmits(['input', 'blur', 'enter', 'redirect'])
 const { $t } = useNuxtApp()
-const name = ref('')
+
 const searchRef = ref<typeof NeoAutocomplete>()
 const searchSuggestionRef = ref<typeof SearchSuggestion>()
 const enableSearchInCollection = ref(true)
