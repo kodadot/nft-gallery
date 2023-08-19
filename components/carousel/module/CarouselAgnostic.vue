@@ -70,7 +70,7 @@ const [wrapper, slider] = useKeenSlider(
         slides: { perView: 2.5, spacing: 32 },
       },
       '(min-width: 1280px)': {
-        slides: { perView: 3.5, spacing: 32 },
+        slides: { perView: 3, spacing: 32 },
       },
     },
     slides: { perView: 1.5, spacing: 32 },
