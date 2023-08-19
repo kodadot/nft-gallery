@@ -17,7 +17,7 @@
 
 <script lang="ts" setup>
 import { TranslateResult } from 'vue-i18n'
-import { NeoField, NeoSwitch } from '@kodadot1/brick'
+import { NeoField, NeoSwitch, NeoTooltip } from '@kodadot1/brick'
 
 const props = defineProps<{
   value: boolean
