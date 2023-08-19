@@ -22,11 +22,11 @@ import { NeoField, NeoSwitch, NeoTooltip } from '@kodadot1/brick'
 const props = defineProps<{
   value: boolean
   label: string
-  offLabel: string
-  size: string
-  type: string
-  labelColor: string
-  message: string
+  offLabel?: string
+  size?: string
+  type?: string
+  labelColor?: string
+  message?: string
   disabled?: boolean
 }>()
 
