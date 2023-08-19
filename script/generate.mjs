@@ -17,7 +17,11 @@ async function runScript() {
 
   console.log(pnpmPath)
 
-  const generate = spawn(pnpmPath, ['generate:script'])
+  const generate = spawn(pnpmPath, ['generate:script'], {
+    env: {
+      ...process.env,
+    },
+  })
 
   generate.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`)
