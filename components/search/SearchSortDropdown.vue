@@ -37,13 +37,11 @@
   </NeoField>
 </template>
 
-<script lang="ts">
-import { Component, Prop, VModel, mixins } from 'nuxt-property-decorator'
+<script setup lang="ts">
 import {
   NFT_SQUID_SORT_CONDITION_LIST,
   NFT_SQUID_SORT_CONDITION_LIST_FOR_MOONRIVER,
 } from '@/utils/constants'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
 import {
   NeoButton,
   NeoDropdown,
@@ -52,32 +50,43 @@ import {
   NeoSelect,
 } from '@kodadot1/brick'
 
-@Component({
-  components: {
-    NeoButton,
-    NeoField,
-    NeoSelect,
-    NeoDropdown,
-    NeoDropdownItem,
+const emit = defineEmits(['input'])
+const props = defineProps({
+  value: {
+    type: String,
+    required: true,
+  },
+  sortOption: Array,
+  multipleSelect: Boolean,
+  isCollection: {
+    type: Boolean,
+    default: false,
   },
 })
-export default class SearchSortDropdown extends mixins(PrefixMixin) {
-  @VModel({ type: [Array, String] }) selectedAction!: string | string[]
-  @Prop(Array) public sortOption?: string[]
-  @Prop(Boolean) public multipleSelect!: boolean
-  @Prop({ type: Boolean, default: false }) public isCollection?: boolean
 
-  get actions(): string[] {
-    return this.sortOption || this.sort
-  }
+const selectedAction = computed({
+  get: () => props.value,
+  set: (value) => {
+    emit('input', value)
+  },
+})
 
-  get sort(): string[] {
-    if (this.isMoonriver) {
-      return NFT_SQUID_SORT_CONDITION_LIST_FOR_MOONRIVER
-    }
-    return NFT_SQUID_SORT_CONDITION_LIST
+const { urlPrefix } = usePrefix()
+
+const isMoonriver = computed(() => {
+  return urlPrefix.value === 'moonr'
+})
+
+const actions = computed(() => {
+  return props.sortOption || sort.value
+})
+
+const sort = computed(() => {
+  if (isMoonriver.value) {
+    return NFT_SQUID_SORT_CONDITION_LIST_FOR_MOONRIVER
   }
-}
+  return NFT_SQUID_SORT_CONDITION_LIST
+})
 </script>
 
 <style lang="scss">
