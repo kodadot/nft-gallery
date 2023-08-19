@@ -23,6 +23,7 @@ import { format } from 'date-fns'
 import { convertMarkdownToText } from '@/utils/markdown'
 import { nextTick } from 'vue'
 import hljs from 'highlight.js'
+
 const { $seoMeta } = useNuxtApp()
 const route = useRoute()
 
