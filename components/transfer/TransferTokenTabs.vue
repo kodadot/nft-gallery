@@ -53,6 +53,10 @@ const handleTabClick = (value: string) => {
       background-color: theme('background-color');
       color: theme('text-color');
       border: 1px solid theme('card-border-color');
+
+      &:hover {
+        border: 1px solid theme('border-color');
+      }
     }
 
     &__active {
