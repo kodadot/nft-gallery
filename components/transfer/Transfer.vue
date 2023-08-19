@@ -236,7 +236,6 @@ import {
 } from '@kodadot1/brick'
 import TransferTokenTabs, { TransferTokenTab } from './TransferTokenTabs.vue'
 import { TokenDetails } from '@/composables/useToken'
-import { storeToRefs } from 'pinia'
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
 )
@@ -249,7 +248,6 @@ const { apiInstance } = useApi()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { isLogIn, accountId } = useAuth()
 const identityStore = useIdentityStore()
-const { getAuthBalance } = storeToRefs(identityStore)
 const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
 const { initTransactionLoader, isLoading, resolveStatus, status } =
   useTransactionStatus()
@@ -287,7 +285,8 @@ const displayTotalValue = computed(() =>
     : [`${totalTokenAmount.value} ${unit.value}`, `$${totalUsdValue.value}`]
 )
 
-const balance = getAuthBalance
+const balance = computed(() => identityStore.getAuthBalance)
+
 const disabled = computed(
   () =>
     !isLogIn.value ||
