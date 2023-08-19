@@ -1,7 +1,10 @@
 <template>
   <section class="landing-search is-flex is-align-items-center">
-    <img src="/landing-blurred-header-left.png" class="landing-search-left" />
-    <img :src="landingImage[0]" class="landing-shapes" />
+    <img
+      src="/landing-blurred-header-left.png"
+      class="landing-search-left"
+      alt="" />
+    <img :src="landingImage[0]" class="landing-shapes" alt="" />
     <div
       class="is-flex is-flex-direction-column is-align-items-center search-info">
       <h1
@@ -36,8 +39,11 @@
       </div>
       <UnlockableLandingTag />
     </div>
-    <img src="/landing-blurred-header-right.png" class="landing-search-right" />
-    <img :src="landingImage[1]" class="landing-shapes" />
+    <img
+      src="/landing-blurred-header-right.png"
+      class="landing-search-right"
+      alt="" />
+    <img :src="landingImage[1]" class="landing-shapes" alt="" />
   </section>
 </template>
 
