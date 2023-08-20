@@ -135,7 +135,7 @@
                   <path
                     fill-rule="evenodd"
                     clip-rule="evenodd"
-                    d="M0 0h248V62.804H0V0ZM0 229.083h248V511.471L223.954 385.808L0 511.471V229.083ZM0 114.541h248V177.345H0V114.541Z"
+                    d="M0 0H448V62.804H0V0ZM0 229.083H448V511.471L223.954 385.808L0 511.471V229.083ZM0 114.541H448V177.345H0V114.541Z"
                     fill="currentColor" />
                 </g>
                 <defs>
