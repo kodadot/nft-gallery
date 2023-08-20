@@ -4,17 +4,21 @@ import { useEventListener } from '@vueuse/core'
 export function useKeyboardEvents(primaryKeyEvents) {
   const keysPressed = ref({})
 
-  const onKeyDown = (event) => {
+  function handleKeyPress(event, keysPressed, primaryKeyEvents) {
     if (shouldIgnoreKeyDownEvent(event)) {
       return
     }
 
-    keysPressed.value[event.key] = true
+    keysPressed[event.key] = true
     for (const eventKey in primaryKeyEvents) {
-      if (keysPressed.value[eventKey]) {
+      if (keysPressed[eventKey]) {
         primaryKeyEvents[eventKey](event)
       }
     }
+  }
+
+  const onKeyDown = (event) => {
+    handleKeyPress(event, keysPressed.value, primaryKeyEvents)
   }
 
   const onKeyUp = (event) => {
