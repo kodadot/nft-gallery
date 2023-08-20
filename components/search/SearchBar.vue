@@ -32,7 +32,7 @@
       v-if="isSearchInCollectionMode"
       class="search-bar-collection-search is-flex is-align-items-center">
       <span class="is-flex is-align-items-center">{{
-        $t('search.searchCollection')
+        $i18n.t('search.searchCollection')
       }}</span>
       <svg
         width="7"
@@ -72,7 +72,7 @@ const props = defineProps({
 })
 
 const emits = defineEmits(['input', 'blur', 'enter', 'redirect'])
-const { $t, $i18n } = useNuxtApp()
+const { $i18n } = useNuxtApp()
 
 const name = computed({
   get: () => props.value,
@@ -100,7 +100,7 @@ const isSearchInCollectionMode = computed(
 const placeholderContent = computed(() =>
   inputFocused.value || isSearchInCollectionMode.value
     ? ''
-    : $t('general.searchPlaceholder')
+    : $i18n.t('general.searchPlaceholder')
 )
 
 const showDefaultSuggestions = computed(
