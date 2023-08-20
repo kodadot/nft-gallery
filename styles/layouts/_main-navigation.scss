@@ -95,6 +95,7 @@
       bottom: 0;
 
       @include mobile {
+        margin-bottom: env(safe-area-inset-bottom);
         padding: 1rem 1.25rem;
         bottom: 6px;
       }
