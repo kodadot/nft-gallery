@@ -1,6 +1,6 @@
 <template>
   <a
-    v-safe-href="href"
+    v-safe-href="link"
     class="article"
     target="_blank"
     rel="nofollow noopener noreferrer">
@@ -20,7 +20,7 @@
 
 <script lang="ts" setup>
 defineProps<{
-  href: string
+  link: string
   image: string
   title: string
   description: string
