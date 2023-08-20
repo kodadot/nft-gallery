@@ -90,14 +90,9 @@
       align-self: auto;
       width: 100%;
       padding: 24px 20px 0;
-      margin-bottom: 3.5rem;
-      position: absolute;
-      bottom: 0;
 
       @include mobile {
-        margin-bottom: env(safe-area-inset-bottom);
         padding: 1rem 1.25rem;
-        bottom: 6px;
       }
 
       .button-connect-wallet {
