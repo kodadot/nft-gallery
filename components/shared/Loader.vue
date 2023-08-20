@@ -1,5 +1,9 @@
 <template>
-  <NeoLoading :active.sync="isLoading" is-full-page :can-cancel="canCancel">
+  <NeoLoading
+    :active.sync="isLoading"
+    is-full-page
+    :can-cancel="canCancel"
+    :on-cancel="onCancel">
     <div class="loading-container">
       <figure>
         <img class="loading-icon" :src="placeholder" />
@@ -28,7 +32,7 @@
 import { randomIntegerBetween } from '@/utils/calculation'
 import { NeoLoading } from '@kodadot1/brick'
 
-const emit = defineEmits(['input'])
+const emit = defineEmits(['input', 'cancel'])
 const props = withDefaults(
   defineProps<{
     status: string
@@ -69,6 +73,10 @@ const isLoading = computed({
   get: () => props.value,
   set: (value) => emit('input', value),
 })
+
+const onCancel = () => {
+  emit('cancel')
+}
 
 onMounted(() => {
   interval.value = setInterval(() => {
