@@ -21,6 +21,8 @@
 <script setup>
 import { format } from 'date-fns'
 import { convertMarkdownToText } from '@/utils/markdown'
+import { nextTick } from 'vue'
+import hljs from 'highlight.js'
 
 const { $seoMeta } = useNuxtApp()
 const route = useRoute()
@@ -34,6 +36,10 @@ onMounted(async () => {
 
   attributes.value = post.attributes
   singlePostComponent.value = post.vue.component
+
+  // must wait the page finished render then highlight the code
+  await nextTick()
+  hljs.highlightAll()
 })
 
 const title = computed(() => attributes.value.title)
@@ -55,8 +61,21 @@ useNuxt2Meta({
 </script>
 
 <style lang="scss">
+@use 'sass:meta';
 @import '@/styles/abstracts/variables';
 
+// dynamic load highlight syntax theme based on page theme
+html.light-mode {
+  @include meta.load-css('highlight.js/styles/atom-one-light');
+}
+html.dark-mode {
+  @include meta.load-css('highlight.js/styles/atom-one-dark');
+  .article p > code {
+    // color from them atom-one-dark theme
+    color: #abb2bf;
+    background: #282c34;
+  }
+}
 .article {
   margin: 0 auto;
   max-width: 40rem;
@@ -134,6 +153,13 @@ useNuxt2Meta({
 
     a {
       color: theme('k-blue');
+    }
+
+    pre {
+      padding-left: 0;
+      padding-right: 0;
+      font-size: 1rem;
+      background-color: theme('background-color');
     }
   }
 
