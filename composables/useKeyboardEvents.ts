@@ -1,4 +1,5 @@
 import { shouldIgnoreKeyDownEvent } from '@/utils/keyboardEvents'
+import { useEventListener } from '@vueuse/core'
 
 export function useKeyboardEvents(primaryKeyEvents) {
   const keysPressed = ref({})
@@ -20,13 +21,9 @@ export function useKeyboardEvents(primaryKeyEvents) {
     delete keysPressed.value[event.key]
   }
 
-  // Attach event listeners
-  document.addEventListener('keydown', onKeyDown)
-  document.addEventListener('keyup', onKeyUp)
-
-  // Cleanup
-  onBeforeUnmount(() => {
-    document.removeEventListener('keydown', onKeyDown)
-    document.removeEventListener('keyup', onKeyUp)
+  onMounted(() => {
+    // Attach event listeners
+    useEventListener(document, 'keydown', onKeyDown)
+    useEventListener(document, 'keyup', onKeyUp)
   })
 }
