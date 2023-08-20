@@ -6,7 +6,7 @@ import {
   isExternal,
 } from '@/utils/url'
 import { useEventListener } from '@vueuse/core'
-import { Ref } from 'vue/types'
+import type { Ref } from 'vue/types'
 
 function isWhiteList(url: string) {
   const urlObj = new URL(url)
