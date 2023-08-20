@@ -6,6 +6,7 @@ import {
   isExternal,
 } from '@/utils/url'
 import { useEventListener } from '@vueuse/core'
+import type { Ref } from 'vue/types'
 
 function isWhiteList(url: string) {
   const urlObj = new URL(url)
@@ -29,7 +30,7 @@ const showModal = (url: string, i18n: VueI18n, modal) => {
   modal.open({
     component: RedirectModal,
     canCancel: ['outside', 'escape'],
-    rootClass: 'redirect-modal',
+    rootClass: 'redirect-modal neo-modal',
     props: {
       url,
       i18n,
@@ -37,9 +38,8 @@ const showModal = (url: string, i18n: VueI18n, modal) => {
   })
 }
 
-export const useRedirectModal = (target: string) => {
+export const useRedirectModal = (element: Ref<HTMLElement | null>) => {
   const { $i18n, $neoModal } = useNuxtApp()
-  const _dom = computed(() => document.querySelector(target) || document.body)
 
   const handleLink = (event: Event) => {
     let ele = event.target as HTMLLinkElement
@@ -56,7 +56,7 @@ export const useRedirectModal = (target: string) => {
     }
   }
 
-  useEventListener(_dom.value, 'click', handleLink)
+  useEventListener(element, 'click', handleLink)
 }
 
 export default useRedirectModal
