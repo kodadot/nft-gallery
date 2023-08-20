@@ -31,12 +31,12 @@ const props = defineProps<{
 }>()
 
 const { $i18n } = useNuxtApp()
-const emit = defineEmits(['update:value'])
+const emit = defineEmits(['input'])
 
 const isSwitched = computed({
   get: () => props.value,
   set: (value: boolean) => {
-    emit('update:value', value)
+    emit('input', value)
   },
 })
 
