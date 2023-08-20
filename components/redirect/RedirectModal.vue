@@ -69,7 +69,7 @@ const handleRedirect = () => {
 </style>
 
 <style lang="scss">
-.redirect-modal .modal-content {
-  width: auto;
+.redirect-modal {
+  z-index: 1000;
 }
 </style>
