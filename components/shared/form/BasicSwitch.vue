@@ -16,7 +16,8 @@
 </template>
 
 <script lang="ts" setup>
-import { TranslateResult } from 'vue-i18n'
+import type { ComputedRef } from 'vue'
+import type { TranslateResult } from 'vue-i18n/types'
 import { NeoField, NeoSwitch, NeoTooltip } from '@kodadot1/brick'
 
 const props = defineProps<{
@@ -44,7 +45,7 @@ const componentName = computed(() => {
   return props.message ? NeoTooltip : 'span'
 })
 
-const properLabel: TranslateResult = computed(() => {
+const properLabel: ComputedRef<TranslateResult> = computed(() => {
   const offLabel = props.offLabel || props.label
   return $i18n.t(props.value ? props.label : offLabel)
 })
