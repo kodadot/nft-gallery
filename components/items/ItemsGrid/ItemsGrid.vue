@@ -63,11 +63,6 @@ import { useFetchSearch } from './useItemsGrid'
 
 const isLoading = ref(true)
 
-const route = useRoute()
-if (route.query.listed == undefined) {
-  route.query.listed = 'true'
-}
-
 const gotoPage = (page: number) => {
   currentPage.value = page
   startPage.value = page
