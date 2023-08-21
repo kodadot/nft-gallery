@@ -10,6 +10,7 @@ export const prefixToToken = {
   bsx: 'KSM',
   snek: 'KSM',
   ahk: 'KSM',
+  ahp: 'DOT',
   dot: 'DOT',
 }
 

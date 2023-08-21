@@ -1,5 +1,6 @@
 <template>
   <VueMarkdown
+    ref="markdown"
     :source="source"
     :options="highlightOptions"
     class="content-markdown" />
@@ -10,11 +11,13 @@ import VueMarkdown from 'vue-markdown-render'
 import hljs from 'highlight.js'
 import { useRedirectModal } from '@/components/redirect/useRedirectModal'
 
+const markdown = ref<HTMLElement | null>(null)
+
 defineProps<{
   source: string
 }>()
 
-useRedirectModal('.content-markdown')
+useRedirectModal(markdown)
 
 const highlightOptions = {
   html: true,

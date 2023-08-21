@@ -2,9 +2,9 @@ import path from 'path'
 import * as fs from 'fs'
 import { defineNuxtConfig } from '@nuxt/bridge'
 import Mode from 'frontmatter-markdown-loader/mode'
-
 import { manifestIcons } from './utils/config/pwa'
 import { URLS, apolloClientConfig } from './utils/constants'
+import { fromNodeMiddleware } from 'h3'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
@@ -163,6 +163,8 @@ export default defineNuxtConfig({
     { src: '~/plugins/icons', mode: 'client' },
     { src: '~/plugins/consola', mode: 'client' },
     { src: '~/plugins/piniaPersistedState', mode: 'client' },
+    { src: '~/plugins/oruga-modal', mode: 'client' },
+    { src: '~/plugins/oruga-notification', mode: 'client' },
     '~/plugins/filters',
     '~/plugins/globalVariables',
     '~/plugins/pwa',
@@ -229,17 +231,6 @@ export default defineNuxtConfig({
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // https://go.nuxtjs.dev/buefy
-    [
-      'nuxt-buefy',
-      {
-        css: false,
-        defaultIconPack: 'fas',
-        defaultIconComponent: 'vue-fontawesome',
-        defaultFieldLabelPosition: 'inside',
-        materialDesignIcons: false,
-      },
-    ],
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
     '@kevinmarrec/nuxt-pwa',
@@ -321,6 +312,16 @@ export default defineNuxtConfig({
   },
 
   hooks: {
+    ready(nuxt) {
+      // https://github.com/nuxt/bridge/issues/607
+      // translate nuxt 2 hook from @nuxt/webpack-edge to nuxt bridge hook
+      nuxt.hook('server:devMiddleware', async (devMiddleware) => {
+        await nuxt.callHook(
+          'server:devHandler',
+          fromNodeMiddleware(devMiddleware)
+        )
+      })
+    },
     sitemap: {
       generate: {
         done(nuxtInstance) {
@@ -388,21 +389,8 @@ export default defineNuxtConfig({
       '@google/model-viewer', // TODO check to see if it works without transpilation in future nuxt releases
     ],
     extend(config) {
-      // if (
-      //   process.env.NODE_ENV !== 'development' &&
-      //   process.env.SENTRY_AUTH_TOKEN
-      // ) {
-      // https://community.cloudflare.com/t/recurring-deployment-issue-on-pages-which-works-on-preview-branch-but-doesnt-on-production-branch/540278/10
+      // for debugging
       // config.devtool = 'source-map'
-      // config.plugins.push(
-      //   new SentryWebpackPlugin({
-      //     org: 'kodadot',
-      //     project: 'nft-gallery',
-      //     include: './dist',
-      //     authToken: process.env.SENTRY_AUTH_TOKEN,
-      //   })
-      // )
-      // }
 
       // add frontmatter-markdown-loader
       config.module.rules.push({

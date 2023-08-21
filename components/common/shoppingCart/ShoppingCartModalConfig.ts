@@ -1,12 +1,10 @@
 import ShoppingCartModal from './ShoppingCartModal.vue'
-import { ModalProgrammatic as Modal } from 'buefy'
-import { BModalConfig } from 'buefy/types/components'
 import { usePreferencesStore } from '@/stores/preferences'
 
 export const ShoppingCartModalConfig = {
   component: ShoppingCartModal,
   canCancel: ['outside'],
-  customClass: 'shopping-cart-modal',
+  rootClass: 'shopping-cart-modal',
   autoFocus: false,
 }
 
@@ -15,13 +13,17 @@ export const isShoppingCartOpen = () =>
 
 export const openShoppingCart = (instance) => {
   const preferencesStore = usePreferencesStore()
+  const { $neoModal } = useNuxtApp()
 
   preferencesStore.setShoppingCartCollapse(true)
-  Modal.open({
+
+  $neoModal.closeAll()
+
+  $neoModal.open({
     parent: instance?.proxy,
     onCancel: () => {
       preferencesStore.setShoppingCartCollapse(false)
     },
     ...ShoppingCartModalConfig,
-  } as unknown as BModalConfig)
+  })
 }
