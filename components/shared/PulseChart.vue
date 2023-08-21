@@ -9,19 +9,12 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import Chart from 'chart.js/auto'
 
 function getGradient(ctx, chartArea) {
-  let width, height, gradient
-  const chartWidth = chartArea.right - chartArea.left
-  const chartHeight = chartArea.bottom - chartArea.top
-  if (!gradient || width !== chartWidth || height !== chartHeight) {
-    // Create the gradient because this is either the first render
-    // or the size of the chart has changed
-    width = chartWidth
-    height = chartHeight
-    gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top)
-    gradient.addColorStop(0, '#c8ff00')
-    // gradient.addColorStop(0.5, 'black')
-    gradient.addColorStop(1, '#414d19')
-  }
+  // Create the gradient because this is either the first render
+  // or the size of the chart has changed
+  let gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top)
+  gradient.addColorStop(0, '#c8ff00')
+  // gradient.addColorStop(0.5, 'black')
+  gradient.addColorStop(1, '#414d19')
   return gradient
 }
 
