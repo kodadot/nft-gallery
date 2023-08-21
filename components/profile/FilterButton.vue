@@ -35,7 +35,13 @@ const model = computed({
 
 .active {
   @include ktheme() {
-    border-color: theme('text-color') !important;
+    border-color: theme('background-color-inverse') !important;
+  }
+  &:hover {
+    @include ktheme() {
+      background-color: theme('background-color-inverse') !important;
+      color: theme('text-color-inverse') !important;
+    }
   }
 }
 </style>
