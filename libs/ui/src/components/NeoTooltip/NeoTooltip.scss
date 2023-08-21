@@ -62,8 +62,3 @@ $tooltip-arrow-margin: 1rem;
     height: inherit !important;
   }
 }
-
-/* trick to implement 'parent-selector' */
-div:has(> .neo-tooltip.append-to-body) {
-  z-index: auto !important;
-}

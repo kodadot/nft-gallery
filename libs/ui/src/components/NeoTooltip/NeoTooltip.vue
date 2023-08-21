@@ -1,6 +1,7 @@
 <template>
   <o-tooltip
     v-if="active"
+    ref="tooltipRef"
     :append-to-body="appendToBody"
     :auto-close="autoClose"
     :multiline="multiline"
@@ -15,6 +16,7 @@
     :position="position"
     :label="label"
     :delay="delay"
+    @open="handleOpen"
     @click.native="handleClick">
     <template #content>
       <slot name="content"></slot>
@@ -86,6 +88,16 @@ const multilineWidth = computed(() => {
   }
   return props.multilineWidth
 })
+
+const tooltipRef = ref<InstanceType<typeof OTooltip>>(null)
+const handleOpen = async () => {
+  // wrapper element of tooltip generated dynamic
+  // so we must manually set style when it opened
+  if (props.appendToBody) {
+    await nextTick()
+    tooltipRef.value.bodyEl.style.zIndex = 'auto'
+  }
+}
 
 const handleClick = (event: MouseEvent) => {
   if (props.stopEvents) {
