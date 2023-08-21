@@ -28,7 +28,7 @@ const requiredAmount =
 const learnMoreLink =
   token === 'KSM'
     ? 'https://hello.kodadot.xyz/multi-chain/fees/assethub-fees#polkadot-asset-hub-fees-prev.-statemint'
-    : 'https://hello.kodadot.xyz/multi-chain/fees/assethub-fees#polkadot-asset-hub-fees-prev.-statemint'
+    : 'https://hello.kodadot.xyz/multi-chain/fees/assethub-fees#polkadot-asset-hub-fees-prev.-statemint?'
 </script>
 
 <style lang="scss" scoped>

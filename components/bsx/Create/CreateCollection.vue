@@ -69,7 +69,6 @@ import { BaseCollectionType } from '@/composables/transaction/types'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { Token, getBalance, getDeposit, getFeesToken } from './utils'
 import { NeoField } from '@kodadot1/brick'
-import CollectionDeposit from '@/components/shared/CollectionDeposit.vue'
 import { COLLECTION_DEPOSIT_BSX } from '~~/utils/constants'
 
 const components = {
@@ -82,6 +81,7 @@ const components = {
   AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
   MultiPaymentFeeButton: () =>
     import('@/components/bsx/specific/MultiPaymentFeeButton.vue'),
+  CollectionDeposit: () => import('@/components/shared/CollectionDeposit.vue'),
   NeoField,
 }
 
