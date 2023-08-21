@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Loader v-model="isLoading" :status="status" :can-cancel="false" />
+    <Loader v-model="isLoading" :status="status" can-cancel />
     <BaseTokenForm
       ref="baseTokenForm"
       :show-explainer-text="showExplainerText"
