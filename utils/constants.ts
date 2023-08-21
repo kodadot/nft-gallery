@@ -110,4 +110,6 @@ export const MIN_OFFER_PRICE = 0.01
 
 export const EXTERNAL_LINK_WHITELIST = ['*.kodadot.xyz']
 
-export const COLLECTION_DEPOSIT = 0.1
+export const COLLECTION_DEPOSIT_KSM = 0.1
+
+export const COLLECTION_DEPOSIT_BSX = 0.0067
