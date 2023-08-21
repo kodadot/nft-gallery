@@ -72,6 +72,10 @@ export function useFetchSearch({
     if (loadDirection === 'up') {
       nfts.value = nFTEntities.concat(nfts.value)
     } else {
+      if (page === 1) {
+        // request the first page for the first time
+        nfts.value = []
+      }
       nfts.value = nfts.value.concat(nFTEntities)
     }
 
