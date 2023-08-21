@@ -643,11 +643,6 @@
     "totalSoldItems": "Σ verkaufter Artikel",
     "totalHoldingsBoughtValues": "Ausgegebene KSM für die NFTs im Konto"
   },
-  "tutorial": {
-    "create": "1. Erstelle ein polkadot.js Konto",
-    "ksm": "2. Besorge KSM",
-    "mint": "3. Minten"
-  },
   "general": {
     "apply": "Anwenden",
     "using": "benutzen",
