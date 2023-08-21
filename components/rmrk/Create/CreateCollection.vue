@@ -90,7 +90,6 @@ const symbolInput = ref<ComponentWithCheckValidity>()
 const { accountId, balance, isLogIn } = useAuth()
 const { isLoading, status } = useLoader()
 const emit = defineEmits(['created'])
-const { $i18n } = useNuxtApp()
 
 const checkValidity = () => {
   return (
