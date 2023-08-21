@@ -48,11 +48,13 @@
     <img
       class="search-bar-keyboard-icon"
       :class="{ 'is-invisible': name || inputFocused }"
-      src="/search-k-keyboard.svg" />
+      src="/search-k-keyboard.svg"
+      alt="press k to focus search input" />
     <img
       class="search-bar-keyboard-icon"
       :class="{ 'is-invisible': !name && !inputFocused }"
-      src="/k-search-enter.svg" />
+      src="/k-search-enter.svg"
+      alt="press enter to start search" />
   </div>
 </template>
 

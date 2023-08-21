@@ -152,7 +152,7 @@
         </ul>
       </div>
     </div>
-    <img src="/blurred-landing-footer.png" class="left-blurred-image" />
+    <img src="/blurred-landing-footer.png" class="left-blurred-image" alt="" />
   </footer>
 </template>
 

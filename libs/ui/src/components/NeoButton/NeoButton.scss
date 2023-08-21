@@ -18,6 +18,7 @@
   &:hover {
     @include ktheme() {
       background: theme('k-accentHover');
+      color: theme('text-color');
     }
   }
 
