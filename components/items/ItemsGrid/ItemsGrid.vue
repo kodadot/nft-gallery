@@ -1,18 +1,5 @@
 <template>
   <div class="is-flex-grow-1">
-    <div class="is-hidden-mobile">
-      <div
-        class="is-flex is-justify-content-space-between pb-4 pt-5 is-align-content-center">
-        <BreadcrumbsFilter />
-
-        <div v-if="total">{{ total }} {{ $t('items') }}</div>
-        <div v-else-if="isLoading" class="skeleton-container-fixed-width">
-          <NeoSkeleton no-margin />
-        </div>
-      </div>
-      <hr class="my-0" />
-    </div>
-
     <LoadPreviousPage
       v-if="startPage > 1 && !isLoading && total > 0"
       @click="reachTopHandler" />
@@ -56,10 +43,18 @@
 </template>
 
 <script setup lang="ts">
-import { NeoNftCard, NeoSkeleton } from '@kodadot1/brick'
+import { NeoNftCard } from '@kodadot1/brick'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'
+import isEqual from 'lodash/isEqual'
+
+const route = useRoute()
+const props = defineProps<{
+  search?: Record<string, string | number>
+}>()
+
+const emit = defineEmits(['total', 'loading'])
 
 const isLoading = ref(true)
 const gotoPage = (page: number) => {
@@ -70,10 +65,10 @@ const gotoPage = (page: number) => {
   isFetchingData.value = false
   isLoading.value = true
 
-  fetchSearch(page)
+  fetchSearch({ page, search: parseSearch(props.search) })
 }
 const fetchPageData = async (page: number, loadDirection) => {
-  return await fetchSearch(page, loadDirection)
+  return await fetchSearch({ page, loadDirection })
 }
 const {
   first,
@@ -97,7 +92,7 @@ const resetPage = useDebounceFn(() => {
   gotoPage(1)
 }, 500)
 
-const { nfts, fetchSearch } = useFetchSearch({
+const { nfts, fetchSearch, refetch } = useFetchSearch({
   first,
   total,
   isFetchingData,
@@ -107,16 +102,43 @@ const { nfts, fetchSearch } = useFetchSearch({
 
 watch(total, () => {
   prefetchNextPage()
+  emit('total', total.value)
 })
 
+watch(isLoading, () => {
+  emit('loading', isLoading.value)
+})
+
+const parseSearch = (
+  search?: Record<string, string | number>
+): Record<string, string | number>[] =>
+  Object.entries(search || {}).map(([key, value]) => ({ [key]: value }))
+
+watch(
+  () => props.search,
+  (newSearch, oldSearch) => {
+    if (newSearch === undefined || oldSearch === undefined) {
+      return
+    }
+    if (!isEqual(newSearch, oldSearch)) {
+      refetch(parseSearch(props.search))
+    }
+  },
+  { deep: true }
+)
+
+watch(
+  () => route.query.sort,
+  () => {
+    refetch(parseSearch(props.search))
+  }
+)
+
 onBeforeMount(async () => {
-  await fetchSearch(startPage.value)
+  await fetchSearch({
+    page: startPage.value,
+    search: parseSearch(props.search),
+  })
   isLoading.value = false
 })
 </script>
-
-<style lang="scss" scoped>
-.skeleton-container-fixed-width {
-  width: 80px;
-}
-</style>

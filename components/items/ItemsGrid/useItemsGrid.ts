@@ -26,10 +26,17 @@ export function useFetchSearch({
 
   const { searchParams } = useSearchParams()
 
-  async function fetchSearch(
-    page: number,
-    loadDirection: 'up' | 'down' = 'down'
-  ) {
+  interface FetchSearchParams {
+    page?: number
+    loadDirection?: 'up' | 'down'
+    search?: { [key: string]: string | number }[]
+  }
+
+  async function fetchSearch({
+    page = 1,
+    loadDirection = 'down',
+    search,
+  }: FetchSearchParams) {
     if (isFetchingData.value) {
       return false
     }
@@ -46,22 +53,33 @@ export function useFetchSearch({
       }
     }
 
+    const variables = search
+      ? {
+          search,
+          first: first.value,
+          offset: (page - 1) * first.value,
+          orderBy: route.query.sort?.length
+            ? route.query.sort
+            : ['blockNumber_DESC'],
+        }
+      : {
+          denyList: getDenyList(urlPrefix.value),
+          orderBy: route.query.sort?.length
+            ? route.query.sort
+            : ['blockNumber_DESC'],
+          search: searchParams.value,
+          priceMin: Number(route.query.min),
+          priceMax: Number(route.query.max),
+          first: first.value,
+          offset: (page - 1) * first.value,
+        }
+
     const queryPath = getQueryPath(client.value)
     const query = await resolveQueryPath(queryPath, 'nftListWithSearch')
     const result = await $apollo.query({
       query: query.default,
       client: client.value,
-      variables: {
-        denyList: getDenyList(urlPrefix.value),
-        orderBy: route.query.sort?.length
-          ? route.query.sort
-          : ['blockNumber_DESC'],
-        search: searchParams.value,
-        priceMin: Number(route.query.min),
-        priceMax: Number(route.query.max),
-        first: first.value,
-        offset: (page - 1) * first.value,
-      },
+      variables: variables,
     })
 
     // handle results
@@ -84,6 +102,11 @@ export function useFetchSearch({
     return true
   }
 
+  const refetch = (search?: { [key: string]: string | number }[]) => {
+    nfts.value = []
+    fetchSearch({ search })
+  }
+
   watch(
     [
       () => route.query.sort,
@@ -102,5 +125,6 @@ export function useFetchSearch({
   return {
     nfts,
     fetchSearch,
+    refetch,
   }
 }
