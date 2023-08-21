@@ -91,7 +91,7 @@
 </template>
 
 <script setup lang="ts">
-import ProfileLink from '@/components/rmrk/Profile/ProfileLink.vue'
+import ProfileLink from '@/components/profile/ProfileLink.vue'
 import { NeoIcon } from '@kodadot1/brick'
 import { format } from '@/components/collection/activity/utils'
 

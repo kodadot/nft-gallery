@@ -40,14 +40,17 @@ flowchart TD
 
 ## Pace of development
 
-## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Recent activity [![Time period](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/pGfAgBUKqY3G-v6I743PiFRW_UY1tmd-HKHy6d1ear4/IHNavWbCVC3MxqvOc_yKjOWxIPiZr3TlKUnZDbWuTG0_badge.svg)](https://repography.com)
-[![Issue status graph](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/pGfAgBUKqY3G-v6I743PiFRW_UY1tmd-HKHy6d1ear4/IHNavWbCVC3MxqvOc_yKjOWxIPiZr3TlKUnZDbWuTG0_issues.svg)](https://github.com/kodadot/nft-gallery/issues)
-[![Pull request status graph](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/pGfAgBUKqY3G-v6I743PiFRW_UY1tmd-HKHy6d1ear4/IHNavWbCVC3MxqvOc_yKjOWxIPiZr3TlKUnZDbWuTG0_prs.svg)](https://github.com/kodadot/nft-gallery/pulls)
-[![Timeline graph](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/pGfAgBUKqY3G-v6I743PiFRW_UY1tmd-HKHy6d1ear4/IHNavWbCVC3MxqvOc_yKjOWxIPiZr3TlKUnZDbWuTG0_timeline.svg)](https://github.com/kodadot/nft-gallery/commits)
-[![Top contributors](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/pGfAgBUKqY3G-v6I743PiFRW_UY1tmd-HKHy6d1ear4/IHNavWbCVC3MxqvOc_yKjOWxIPiZr3TlKUnZDbWuTG0_users.svg)](https://github.com/kodadot/nft-gallery/graphs/contributors)
+
+## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Recent activity [![Time period](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/1nMiB_aZjymZHZUDQ6R3hWGHqWUWahnU6VdRYYv2InU/ygTelP2NVzMzr-XPmCeXq2GzAIHSFlcUsZDXKY3Qrl4_badge.svg)](https://repography.com)
+[![Timeline graph](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/1nMiB_aZjymZHZUDQ6R3hWGHqWUWahnU6VdRYYv2InU/ygTelP2NVzMzr-XPmCeXq2GzAIHSFlcUsZDXKY3Qrl4_timeline.svg)](https://github.com/kodadot/nft-gallery/commits)
+[![Issue status graph](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/1nMiB_aZjymZHZUDQ6R3hWGHqWUWahnU6VdRYYv2InU/ygTelP2NVzMzr-XPmCeXq2GzAIHSFlcUsZDXKY3Qrl4_issues.svg)](https://github.com/kodadot/nft-gallery/issues)
+[![Pull request status graph](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/1nMiB_aZjymZHZUDQ6R3hWGHqWUWahnU6VdRYYv2InU/ygTelP2NVzMzr-XPmCeXq2GzAIHSFlcUsZDXKY3Qrl4_prs.svg)](https://github.com/kodadot/nft-gallery/pulls)
+[![Top contributors](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/1nMiB_aZjymZHZUDQ6R3hWGHqWUWahnU6VdRYYv2InU/ygTelP2NVzMzr-XPmCeXq2GzAIHSFlcUsZDXKY3Qrl4_users.svg)](https://github.com/kodadot/nft-gallery/graphs/contributors)
+
 
 ## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Top contributors
-[![Top contributors](https://images.repography.com/23713223/kodadot/nft-gallery/top-contributors/pGfAgBUKqY3G-v6I743PiFRW_UY1tmd-HKHy6d1ear4/IHNavWbCVC3MxqvOc_yKjOWxIPiZr3TlKUnZDbWuTG0_table.svg)](https://github.com/kodadot/nft-gallery/graphs/contributors)
+[![Top contributors](https://images.repography.com/23713223/kodadot/nft-gallery/top-contributors/1nMiB_aZjymZHZUDQ6R3hWGHqWUWahnU6VdRYYv2InU/ygTelP2NVzMzr-XPmCeXq2GzAIHSFlcUsZDXKY3Qrl4_table.svg)](https://github.com/kodadot/nft-gallery/graphs/contributors)
+
 
 ### RepoTracker
 

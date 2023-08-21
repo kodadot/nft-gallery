@@ -32,12 +32,10 @@
         </NeoDropdown>
       </div>
 
-      <div class="is-flex mb-5">
-        <div class="token-price py-2 px-4 is-flex is-align-items-center">
-          <img class="mr-2 square-20" :src="tokenIcon" alt="token" />
-          {{ unit }} ${{ currentTokenValue }}
-        </div>
-      </div>
+      <TransferTokenTabs
+        :tabs="tokenTabs"
+        :value="unit"
+        @select="handleTokenSelect" />
 
       <div class="is-flex is-justify-content-space-between">
         <div class="is-flex is-flex-direction-column">
@@ -99,7 +97,13 @@
             <AddressInput
               v-model="destinationAddress.address"
               label=""
-              :class="[{ 'mr-2': !isMobile, 'mb-2': isMobile }]"
+              class="is-flex-1"
+              :class="[
+                {
+                  'mr-2': !isMobile,
+                  'mb-2': isMobile,
+                },
+              ]"
               placeholder="Enter wallet address"
               :strict="false" />
             <NeoInput
@@ -110,6 +114,7 @@
               step="0.01"
               min="0"
               icon-right-class="search"
+              class="is-flex-1"
               @input="onAmountFieldChange(destinationAddress)" />
             <NeoInput
               v-else
@@ -119,6 +124,7 @@
               step="0.01"
               min="0"
               icon-right-class="search"
+              class="is-flex-1"
               @input="onUsdFieldChange(destinationAddress)" />
           </div>
         </div>
@@ -167,12 +173,14 @@
         <TabItem
           :active="displayUnit === 'token'"
           :text="unit"
+          tag="button"
           full-width
           no-shadow
           @click.native="displayUnit = 'token'" />
         <TabItem
           :active="displayUnit === 'usd'"
           text="USD"
+          tag="button"
           full-width
           no-shadow
           @click.native="displayUnit = 'usd'" />
@@ -238,7 +246,9 @@ import { useFiatStore } from '@/stores/fiat'
 import { useIdentityStore } from '@/stores/identity'
 import Avatar from '@/components/shared/Avatar.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
+import { getMovedItemToFront } from '@/utils/objects'
 import TransferConfirmModal from '@/components/transfer/TransferConfirmModal.vue'
+
 import {
   NeoButton,
   NeoDropdown,
@@ -248,7 +258,8 @@ import {
   NeoSwitch,
   NeoTooltip,
 } from '@kodadot1/brick'
-
+import TransferTokenTabs, { TransferTokenTab } from './TransferTokenTabs.vue'
+import { TokenDetails } from '@/composables/useToken'
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
 )
@@ -258,7 +269,7 @@ const router = useRouter()
 const { $consola, $i18n } = useNuxtApp()
 const { unit, decimals } = useChain()
 const { apiInstance } = useApi()
-const { urlPrefix } = usePrefix()
+const { urlPrefix, setUrlPrefix } = usePrefix()
 const { isLogIn, accountId } = useAuth()
 const identityStore = useIdentityStore()
 const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
@@ -278,8 +289,12 @@ const transactionValue = ref('')
 const sendSameAmount = ref(false)
 const displayUnit = ref<'token' | 'usd'>('token')
 const { getTokenIconBySymbol } = useIcon()
+const { tokens, getPrefixByToken, availableTokens } = useToken()
 
+const selectedTabFirst = ref(true)
 const tokenIcon = computed(() => getTokenIconBySymbol(unit.value))
+
+const tokenTabs = ref<TransferTokenTab[]>([])
 
 const targetAddresses = ref<TargetAddress[]>([{}])
 
@@ -300,6 +315,50 @@ const disabled = computed(
     !isLogIn.value ||
     balanceUsdValue.value < totalUsdValue.value ||
     !hasValidTarget.value
+)
+
+const handleTokenSelect = (newToken: string) => {
+  selectedTabFirst.value = false
+  const token = tokens.value.find((t) => t.symbol === newToken)
+
+  if (token) {
+    const chain = getPrefixByToken(token.symbol)
+
+    if (!chain) {
+      $consola.error(
+        `[ERR: INVALID TOKEN] Chain for token ${token.symbol} is not valid`
+      )
+      return
+    }
+
+    setUrlPrefix(chain)
+  }
+}
+
+const generateTokenTabs = (
+  items: TokenDetails[],
+  selectedToken: string,
+  sort = false
+) => {
+  items = sort ? getMovedItemToFront(items, 'symbol', selectedToken) : items
+
+  return items.map((availableToken) => ({
+    label: `${availableToken.symbol} $${availableToken.value || '0'}`,
+    icon: availableToken.icon,
+    value: availableToken.symbol,
+  }))
+}
+
+watch(
+  tokens,
+  (items) => {
+    tokenTabs.value = generateTokenTabs(
+      items,
+      unit.value,
+      selectedTabFirst.value
+    )
+  },
+  { immediate: true }
 )
 
 const checkQueryParams = () => {
@@ -416,6 +475,24 @@ const unifyAddressAmount = (target: TargetAddress) => {
     usd: target.usd,
   }))
 }
+
+const updateTargetAdressesOnTokenSwitch = () => {
+  targetAddresses.value.forEach((targetAddress) => {
+    if (displayUnit.value === 'usd') {
+      onUsdFieldChange(targetAddress)
+    } else {
+      onAmountFieldChange(targetAddress)
+    }
+  })
+}
+
+watch(
+  unit,
+  () => {
+    updateTargetAdressesOnTokenSwitch()
+  },
+  { immediate: true }
+)
 
 const handleOpenConfirmModal = () => {
   if (!disabled.value) {
@@ -547,19 +624,51 @@ const addAddress = () => {
     address: '',
   })
 }
+
+const syncQueryToken = () => {
+  const { query } = route
+
+  const token = query.token?.toString()
+
+  if (!token || !availableTokens.includes(token)) {
+    return
+  }
+
+  const chain = getPrefixByToken(token)
+
+  if (!chain) {
+    return
+  }
+
+  setUrlPrefix(chain)
+}
+
+watch(
+  route,
+  () => {
+    syncQueryToken()
+  },
+  { immediate: true, deep: true }
+)
+
 onMounted(() => {
   fetchFiatPrice().then(checkQueryParams)
 })
 
-watch(
+watchDebounced(
   () => targetAddresses.value[0].usd,
   (usdamount) => {
     router
       .replace({
-        query: { ...route.query, usdamount: (usdamount || 0).toString() },
+        query: {
+          ...route.query,
+          usdamount: (usdamount || 0).toString(),
+          token: unit.value,
+        },
       })
       .catch(() => null) // null to further not throw navigation errors
-  }
+  },
+  { debounce: 300 }
 )
 </script>
 <style lang="scss" scoped>
@@ -571,24 +680,12 @@ watch(
   @include touch {
     width: 100vw;
   }
-  .token-price {
-    border-radius: 3rem;
-
-    @include ktheme() {
-      background-color: theme('background-color-inverse');
-      color: theme('text-color-inverse');
-      border: 1px solid theme('background-color-inverse');
-    }
-  }
 
   .square-32 {
     width: 32px;
     height: 32px;
   }
-  .square-20 {
-    width: 20px;
-    height: 20px;
-  }
+
   .fixed-height {
     height: 51px;
   }
