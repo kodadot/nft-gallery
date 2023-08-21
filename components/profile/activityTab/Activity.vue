@@ -8,11 +8,11 @@
           rounded
           label="All"
           variant="text"
-          @click.native="all = !all" />
+          @click.native="activateAllFilter" />
         <FilterButton
-          v-for="{ label, urlParam } in filters"
+          v-for="urlParam in filters"
           :key="urlParam"
-          :label="label"
+          class="is-capitalized"
           :url-param="urlParam" />
       </div>
     </div>
@@ -37,30 +37,20 @@ const props = defineProps<{
   id: string
 }>()
 
-const filters = [
-  { label: 'Sale', urlParam: 'sale' },
-  { label: 'Gift', urlParam: 'gift' },
-  { label: 'Mint', urlParam: 'mint' },
-  { label: 'List', urlParam: 'list' },
-  { label: 'Buy', urlParam: 'buy' },
-]
+const filters = ['sale', 'buy', 'mint', 'gift', 'list']
 
-const all = computed({
-  get: () => route.query.all === 'true',
-  set: (val) => {
-    replaceUrl({ all: val })
-  },
-})
+const activateAllFilter = () => {
+  replaceUrl(
+    filters.reduce(
+      (queryParams, filter) => ({ ...queryParams, [filter]: true }),
+      {}
+    )
+  )
+}
 
-const activeFilters = computed(() => {
-  if (all.value) {
-    return ['all']
-  }
-
-  return filters
-    .filter((f) => route.query[f.urlParam] === 'true')
-    .map((f) => f.urlParam)
-})
+const activeFilters = computed(() =>
+  filters.filter((queryParam) => route.query[queryParam] === 'true')
+)
 
 const { data } = useGraphql({
   queryName: 'allEventsByProfile',
@@ -80,25 +70,19 @@ const interactionToFilterMap = {
   [InteractionEnum.SEND]: 'gift',
 }
 
-const filteredEvents = computed(() => {
-  if (activeFilters.value.includes('all')) {
-    return events.value
-  }
-
-  return events.value.filter(({ interaction, caller }) => {
+const filteredEvents = computed(() =>
+  events.value.filter(({ interaction, caller }) => {
     if (interaction === InteractionEnum.BUY) {
       return activeFilters.value.includes(caller === props.id ? 'buy' : 'sale')
     }
     return activeFilters.value.includes(interactionToFilterMap[interaction])
   })
-})
+)
 
 onMounted(() => {
-  const filterKeysPresentInUrl = filters.some(
-    (filter) => filter.urlParam in route.query
-  )
+  const noFiltersActive = activeFilters.value.length === 0
 
-  if (!filterKeysPresentInUrl) {
+  if (noFiltersActive) {
     // Activate 'buy' and 'sale' filters by default
     replaceUrl({
       buy: 'true',

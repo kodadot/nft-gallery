@@ -3,7 +3,7 @@
     :active="model"
     no-shadow
     rounded
-    :label="label"
+    :label="urlParam ?? label"
     @click.native="model = !model" />
 </template>
 
@@ -14,16 +14,14 @@ const route = useRoute()
 const { replaceUrl } = useReplaceUrl()
 
 const props = defineProps<{
-  label: string
-  urlParam?: string
+  label?: string
+  urlParam: string
 }>()
 
-const urlParamName = computed(() => props.urlParam || props.label)
-
 const model = computed({
-  get: () => route.query[urlParamName.value] === 'true',
+  get: () => route.query[props.urlParam] === 'true',
   set: (val) => {
-    replaceUrl({ [urlParamName.value]: val })
+    replaceUrl({ [props.urlParam]: val })
   },
 })
 </script>
