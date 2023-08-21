@@ -61,6 +61,9 @@ const { $apollo } = useNuxtApp()
 const { urlPrefix, client } = usePrefix()
 const preferencesStore = usePreferencesStore()
 
+const { setDefaultUrl } = useReplaceUrl()
+setDefaultUrl({ listed: true })
+
 const collections = ref<Collection[]>([])
 const isLoading = ref(true)
 const searchQuery = ref<SearchQuery>({

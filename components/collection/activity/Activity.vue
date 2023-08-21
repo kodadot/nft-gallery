@@ -47,6 +47,9 @@ const isBreadCrumbsShowing = computed(
   () => isAnyActivityFilterActive() && tablet.value
 )
 
+const { setDefaultUrl } = useReplaceUrl()
+setDefaultUrl({ listed: true })
+
 const collectionId = computed(() => route.params.id)
 const { events, flippers, owners, offers } = useCollectionActivity({
   collectionId: collectionId.value,

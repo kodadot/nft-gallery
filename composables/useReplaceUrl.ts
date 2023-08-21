@@ -51,7 +51,20 @@ export default function (
       .catch($consola.warn)
   }
 
+  const setDefaultUrl = (params: Record<string, string | boolean>) => {
+    if (route.path.includes('/explore/items')) {
+      params.default = 'true'
+      for (const [key] of Object.entries(params)) {
+        if (route.query[key] !== undefined) {
+          delete params[key]
+        }
+      }
+      replaceUrl(params)
+    }
+  }
+
   return {
     replaceUrl,
+    setDefaultUrl,
   }
 }

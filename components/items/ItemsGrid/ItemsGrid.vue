@@ -62,8 +62,9 @@ import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'
 
 const isLoading = ref(true)
-const route = useRoute()
-route.query.listed = 'true'
+
+const { setDefaultUrl } = useReplaceUrl()
+setDefaultUrl({ listed: true })
 
 const gotoPage = (page: number) => {
   currentPage.value = page
