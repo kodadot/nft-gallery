@@ -34,12 +34,7 @@ const props = defineProps<{
 const { $i18n } = useNuxtApp()
 const emit = defineEmits(['input'])
 
-const isSwitched = computed({
-  get: () => props.value,
-  set: (value: boolean) => {
-    emit('input', value)
-  },
-})
+const isSwitched = useVModel(props, 'value', emit, { eventName: 'input' })
 
 const componentName = computed(() => {
   return props.message ? NeoTooltip : 'span'
