@@ -3,7 +3,7 @@
 </template>
 <script lang="ts">
 import { usePreferencesStore } from '@/stores/preferences'
-import { massmintCreateVisible } from '@/utils/config/permision.config'
+import { massmintCreateVisible } from '@/utils/config/permission.config'
 
 export default {
   name: 'MassmintPage',

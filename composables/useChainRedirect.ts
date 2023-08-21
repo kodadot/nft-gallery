@@ -3,7 +3,7 @@ import {
   assetsVisible,
   createVisible,
   incomingOfferssVisible,
-} from '@/utils/config/permision.config'
+} from '@/utils/config/permission.config'
 import { RawLocation } from 'vue-router/types/router'
 
 const NO_REDIRECT_ROUTE_NAMES = [

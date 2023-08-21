@@ -205,7 +205,7 @@ import { useEventListener } from '@vueuse/core'
 
 import { useIdentityStore } from '@/stores/identity'
 import { getChainNameByPrefix } from '@/utils/chain'
-import { createVisible } from '@/utils/config/permision.config'
+import { createVisible } from '@/utils/config/permission.config'
 import ShoppingCartButton from './navbar/ShoppingCartButton.vue'
 
 const { $nextTick, $neoModal } = useNuxtApp()

@@ -26,6 +26,7 @@ export const eventToIconMap = {
   [Interaction.SEND]: '🎁',
   [Interaction.CONSUME]: '🔥',
   [Interaction.BUY]: '🤝',
+  SELL: '🤝',
   [InteractionBsxOnly.ROYALTY]: '👑',
   [InteractionBsxOnly.PAY_ROYALTY]: '💰',
 }
