@@ -77,11 +77,12 @@
                   :address="targetAddresses[0].address"
                   hide-identity-popover />
               </span>
-              <NeoIcon
-                icon="circle-info"
-                class="is-size-6"
-                pack="far"
-                :title="targetAddresses[0].address" />
+              <NeoTooltip
+                :label="targetAddresses[0].address"
+                append-to-body
+                root-class="parent-z-index-auto">
+                <NeoIcon icon="circle-info" class="is-size-6" pack="far" />
+              </NeoTooltip>
             </div>
             <div
               v-else
@@ -113,11 +114,15 @@
                         :address="address.address"
                         hide-identity-popover />
                     </span>
-                    <NeoIcon
-                      icon="circle-info"
-                      class="is-size-6"
-                      pack="far"
-                      :title="address.address" />
+                    <NeoTooltip
+                      :label="address.address"
+                      append-to-body
+                      root-class="parent-z-index-auto">
+                      <NeoIcon
+                        icon="circle-info"
+                        class="is-size-6"
+                        pack="far" />
+                    </NeoTooltip>
                   </div>
                 </div>
                 <div
@@ -171,7 +176,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
+import { NeoButton, NeoIcon, NeoModal, NeoTooltip } from '@kodadot1/brick'
 import { NAMES } from '@/libs/static/src/names'
 import Avatar from '@/components/shared/Avatar.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
@@ -263,5 +268,11 @@ const isExpandList = ref(false)
       border-top: 1px solid theme('k-shade');
     }
   }
+}
+</style>
+<style>
+/* trick to implement 'parent-selector' */
+div:has(> .parent-z-index-auto) {
+  z-index: auto !important;
 }
 </style>

@@ -6,6 +6,7 @@
     :multiline="multiline"
     class="neo-tooltip"
     :content-class="contentClass"
+    :root-class="rootClass"
     :style="{
       '--font-size': fontSize,
       '--multiline-width': multilineWidth,
@@ -46,6 +47,7 @@ export interface Props {
   stopEvents?: boolean
   autoClose?: string[] | boolean
   contentClass?: string
+  rootClass?: string
 }
 const props = withDefaults(defineProps<Props>(), {
   label: '',
@@ -60,6 +62,7 @@ const props = withDefaults(defineProps<Props>(), {
   stopEvents: false,
   autoClose: true,
   contentClass: '',
+  rootClass: '',
 })
 
 const fontSize = computed(() => {
