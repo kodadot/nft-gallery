@@ -65,6 +65,10 @@ export const URLS = {
     cloudflare: 'https://cloudflare-ipfs.com/ipfs/',
     pinata: 'https://api.pinata.cloud/',
   },
+  collection: {
+    learnMore:
+      'https://hello.kodadot.xyz/multi-chain/fees/assethub-fees#polkadot-asset-hub-fees-prev.-statemint',
+  },
 }
 
 export const apolloClientConfig = {
@@ -109,3 +113,5 @@ export const NFT_SQUID_SORT_COLLECTIONS: string[] = [
 export const MIN_OFFER_PRICE = 0.01
 
 export const EXTERNAL_LINK_WHITELIST = ['*.kodadot.xyz']
+
+export const COLLECTION_DEPOSIT = 0.1
