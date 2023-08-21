@@ -65,6 +65,14 @@ const props = withDefaults(defineProps<Props>(), {
   rootClass: '',
 })
 
+const rootClass = computed(() => {
+  let classStr = props.rootClass
+  if (props.appendToBody) {
+    classStr += ' append-to-body'
+  }
+  return classStr
+})
+
 const fontSize = computed(() => {
   if (typeof props.fontSize === 'number') {
     return `${props.fontSize}px`

@@ -80,7 +80,7 @@
               <NeoTooltip
                 :label="targetAddresses[0].address"
                 append-to-body
-                :root-class="`parent-z-index-auto ${isMobile ? 'mobile' : ''}`">
+                :content-class="`transfer-tooltip ${isMobile ? 'mobile' : ''}`">
                 <NeoIcon icon="circle-info" class="is-size-6" pack="far" />
               </NeoTooltip>
             </div>
@@ -117,7 +117,7 @@
                     <NeoTooltip
                       :label="address.address"
                       append-to-body
-                      :root-class="`parent-z-index-auto ${
+                      :content-class="`transfer-tooltip ${
                         isMobile ? 'mobile' : ''
                       }`">
                       <NeoIcon
@@ -273,17 +273,11 @@ const isExpandList = ref(false)
 }
 </style>
 <style lang="scss">
-/* trick to implement 'parent-selector' */
-div:has(> .parent-z-index-auto) {
-  z-index: auto !important;
-}
-
-div:has(> .parent-z-index-auto.mobile) {
-  .o-tip__content {
-    transform: translateX(calc(-100vw + 2rem));
-  }
+// manually calculated number, based on address length and container padding, not the best solution but it works :)
+.o-tip__content.transfer-tooltip {
+  transform: translateX(-22rem);
   .o-tip__arrow {
-    transform: translateX(calc(50vw - 2rem));
+    transform: translateX(10rem);
   }
 }
 </style>
