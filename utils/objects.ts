@@ -24,18 +24,39 @@ export const getMovedItemToFront = (
   return newArr
 }
 
-export const groupByNestedProperty = (obj, nestedKey) => {
-  const grouped = {}
+interface GroupedObject {
+  [key: string]: string[]
+}
+
+export const groupByNestedProperty = (
+  obj: { [key: string]: { [nestedKey: string]: string } },
+  nestedKey: string
+): GroupedObject => {
+  const grouped: GroupedObject = {}
 
   for (const outerKey in obj) {
-    if (obj[outerKey].hasOwnProperty(nestedKey)) {
-      const propertyValue = obj[outerKey][nestedKey]
-      if (!grouped[propertyValue]) {
-        grouped[propertyValue] = []
-      }
-      grouped[propertyValue].push(outerKey)
+    if (isValidProperty(obj[outerKey], nestedKey)) {
+      addToGroup(grouped, obj[outerKey][nestedKey], outerKey)
     }
   }
 
   return grouped
+}
+
+const isValidProperty = (
+  object: { [key: string]: string },
+  key: string
+): boolean => {
+  return object.hasOwnProperty(key)
+}
+
+const addToGroup = (
+  grouped: GroupedObject,
+  propertyValue: string,
+  outerKey: string
+): void => {
+  if (!grouped[propertyValue]) {
+    grouped[propertyValue] = []
+  }
+  grouped[propertyValue].push(outerKey)
 }
