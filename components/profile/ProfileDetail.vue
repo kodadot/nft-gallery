@@ -24,6 +24,7 @@
               rel="nofollow noopener noreferrer">
               <Identity
                 ref="identity"
+                hide-identity-popover
                 :address="id"
                 emit
                 @change="handleIdentity" />
