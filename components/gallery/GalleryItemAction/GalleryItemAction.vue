@@ -16,9 +16,9 @@
     <!-- change price as an owner -->
     <GalleryItemPriceRelist
       v-if="isOwner && nft?.id && nft?.price && nft?.collection.id"
-      :collection-id="nft?.collection.id"
-      :nft-id="nft?.id"
-      :nft-price="nft?.price"
+      :collection-id="nft.collection.id"
+      :nft-id="nft.id"
+      :nft-price="nft.price"
       class="mt-2" />
 
     <!-- transfer item as an owner -->
