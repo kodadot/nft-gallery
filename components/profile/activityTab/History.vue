@@ -1,17 +1,6 @@
 <template>
   <div class="block">
-    <div class="is-flex is-justify-content-space-between mb-4">
-      <NeoSelect
-        v-model="selectedEvent"
-        placeholder="Select an event"
-        data-cy="select-event">
-        <option
-          v-for="option in uniqType"
-          :key="option.type"
-          :value="option.type">
-          {{ option.value }}
-        </option>
-      </NeoSelect>
+    <div class="is-flex is-justify-content-flex-end my-4">
       <Pagination
         v-model="currentPage"
         :total="total"
@@ -104,13 +93,8 @@ import {
   wrapEventNameWithIcon,
 } from '@/utils/historyEvent'
 
-import { Interaction as EventInteraction } from '../service/scheme'
-import {
-  NeoSelect,
-  NeoTable,
-  NeoTableColumn,
-  NeoTooltip,
-} from '@kodadot1/brick'
+import { Interaction as EventInteraction } from '@/components/rmrk/service/scheme'
+import { NeoTable, NeoTableColumn, NeoTooltip } from '@kodadot1/brick'
 
 import Identity from '@/components/identity/IdentityIndex.vue'
 import Pagination from '@/components/rmrk/Gallery/Pagination.vue'
@@ -121,12 +105,14 @@ type ChartData = {
   buy: any[]
   list: any[]
 }
+
 const prop = withDefaults(
   defineProps<{
     events?: EventInteraction[]
     openOnDefault?: boolean
     hideCollapse?: boolean
     displayItem?: boolean
+    id: string
   }>(),
   {
     events: () => [],
@@ -140,7 +126,6 @@ const emit = defineEmits(['setPriceChartData'])
 const { $i18n, $route } = useNuxtApp()
 const { decimals } = useChain()
 const { urlPrefix } = usePrefix()
-const { replaceUrl } = useReplaceUrl()
 
 const currentPage = ref(parseInt($route.query?.page) || 1)
 const event = ref<HistoryEventType>(HistoryEventType.BUY)
@@ -162,14 +147,7 @@ const showList = computed(() => {
   const endIndex = currentPage.value * itemsPerPage.value
   return data.value.slice(endIndex - itemsPerPage.value, endIndex)
 })
-const uniqType = computed(() => {
-  const eventSet = new Set(copyTableData.value.map((v) => v.Type))
-  const singleEventList = Array.from(eventSet).map((type) => ({
-    type,
-    value: getEventDisplayName(type as Interaction),
-  }))
-  return [{ type: HistoryEventType.ALL, value: 'All' }, ...singleEventList]
-})
+
 const isToColumnVisible = computed(() => {
   return [HistoryEventType.ALL, Interaction.BUY, Interaction.SEND].includes(
     event.value
@@ -177,16 +155,6 @@ const isToColumnVisible = computed(() => {
 })
 const isPercentageColumnVisible = computed(() => {
   return [HistoryEventType.ALL, Interaction.BUY].includes(event.value)
-})
-const selectedEvent = computed({
-  get: () => event.value,
-  set: (value: HistoryEventType) => {
-    if (value) {
-      currentPage.value = 1
-      event.value = value
-      replaceUrl({ event: value })
-    }
-  },
 })
 
 const getEventDisplayName = (type: Interaction) => {
@@ -251,6 +219,9 @@ const createTable = (): void => {
         event['To'] = ''
         break
       case Interaction.BUY:
+        if (newEvent['caller'] !== prop.id) {
+          event['Type'] = 'SELL'
+        }
         event['From'] = newEvent['currentOwner']
         event['To'] = newEvent['caller']
         event['Amount'] = newEvent['meta']

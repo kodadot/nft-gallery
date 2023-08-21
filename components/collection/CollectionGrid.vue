@@ -1,16 +1,5 @@
 <template>
   <div class="collections">
-    <div
-      class="is-flex is-flex-direction-row is-justify-content-space-between py-5">
-      <BreadcrumbsFilter />
-
-      <div v-if="total">{{ total }} {{ $t('items') }}</div>
-      <div v-else-if="isLoading" class="skeleton-container-fixed-width">
-        <NeoSkeleton no-margin />
-      </div>
-    </div>
-    <hr class="mt-0" />
-
     <LoadPreviousPage
       v-if="startPage > 1 && !isLoading && total > 0"
       @click="reachTopHandler" />
@@ -46,7 +35,6 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoSkeleton } from '@kodadot1/brick'
 import { Collection } from '@/components/rmrk/service/scheme'
 import { SearchQuery } from '@/components/search/types'
 import 'lazysizes'
@@ -56,10 +44,15 @@ import CollectionCard from '@/components/collection/CollectionCard.vue'
 import { GRID_DEFAULT_WIDTH } from '@/components/collection/utils/constants'
 import { usePreferencesStore } from '@/stores/preferences'
 
+const props = defineProps<{
+  id?: string
+}>()
+
 const route = useRoute()
 const { $apollo } = useNuxtApp()
 const { urlPrefix, client } = usePrefix()
 const preferencesStore = usePreferencesStore()
+const emit = defineEmits(['total', 'isLoading'])
 
 const collections = ref<Collection[]>([])
 const isLoading = ref(true)
@@ -103,17 +96,32 @@ const fetchPageData = async (page: number, loadDirection = 'down') => {
     return false
   }
   isFetchingData.value = true
+
+  const variables = props.id
+    ? {
+        search: [
+          {
+            issuer_eq: props.id,
+          },
+        ],
+        first: first.value,
+        offset: (page - 1) * first.value,
+        orderBy: searchQuery.value.sortBy,
+      }
+    : {
+        denyList: getDenyList(urlPrefix.value),
+        orderBy: searchQuery.value.sortBy,
+        search: buildSearchParam(),
+        listed: searchQuery.value.listed
+          ? [{ price: { greaterThan: '0' } }]
+          : [],
+        first: first.value,
+        offset: (page - 1) * first.value,
+      }
   const result = await $apollo.query({
     query: collectionListWithSearch,
     client: client.value,
-    variables: {
-      denyList: getDenyList(urlPrefix.value),
-      orderBy: searchQuery.value.sortBy,
-      search: buildSearchParam(),
-      listed: searchQuery.value.listed ? [{ price: { greaterThan: '0' } }] : [],
-      first: first.value,
-      offset: (page - 1) * first.value,
-    },
+    variables,
   })
   await handleResult(result, loadDirection)
   isFetchingData.value = false
@@ -143,6 +151,9 @@ const {
   gotoPage,
   fetchPageData,
 })
+
+watch(total, (val) => emit('total', val))
+watch(isLoading, (val) => emit('isLoading', val))
 
 const skeletonCount = first.value
 

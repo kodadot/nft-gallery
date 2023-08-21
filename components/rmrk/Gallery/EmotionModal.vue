@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import ProfileLink from '@/components/rmrk/Profile/ProfileLink.vue'
+import ProfileLink from '@/components/profile/ProfileLink.vue'
 import { NeoButton } from '@kodadot1/brick'
 
 const props = defineProps<{

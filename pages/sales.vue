@@ -8,7 +8,7 @@
   </section>
 </template>
 <script lang="ts">
-import { salesVisible } from '@/utils/config/permision.config'
+import { salesVisible } from '@/utils/config/permission.config'
 
 export default {
   name: 'Sales',
