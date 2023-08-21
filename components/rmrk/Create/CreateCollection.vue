@@ -38,15 +38,21 @@
       </template>
 
       <template #footer>
-        <NeoField
-          v-if="isLogIn"
-          variant="danger"
-          :message="balanceNotEnoughMessage">
+        <NeoField v-if="isLogIn">
           <SubmitButton
             expanded
-            label="create collection"
+            :label="balanceNotEnough ? 'not enough funds' : 'create collection'"
             :loading="isLoading"
+            :icon="'false'"
+            variant="k-accent"
+            :disabled="balanceNotEnough"
             @click="submit" />
+          <template #message>
+            {{ $t('tooltip.deposit1') }}
+            <strong>{{ COLLECTION_DEPOSIT }} KSM</strong>
+            {{ $t('tooltip.deposit2') }}
+            <a :href="URLS.collection.learnMore">Learn more</a>
+          </template>
         </NeoField>
       </template>
     </BaseCollectionForm>
@@ -65,6 +71,7 @@ import SubmitButton from '@/components/base/SubmitButton.vue'
 import { NeoField, NeoInput } from '@kodadot1/brick'
 import { BaseCollectionType } from '@/composables/transaction/types'
 import useLoader from '@/composables/useLoader'
+import { COLLECTION_DEPOSIT, URLS } from '@/utils/constants'
 
 interface ComponentWithCheckValidity extends Vue {
   checkValidity(): boolean
@@ -93,9 +100,8 @@ const checkValidity = () => {
 
 const rmrkId = computed(() => generateId(accountId.value, symbol.value))
 
-const balanceNotEnough = computed(() => Number(balance.value) <= 2)
-const balanceNotEnoughMessage = computed(() =>
-  balanceNotEnough.value ? $i18n.t('tooltip.notEnoughBalance') : ''
+const balanceNotEnough = computed(
+  () => Number(balance.value) <= COLLECTION_DEPOSIT
 )
 const isMintDisabled = computed(() => balanceNotEnough.value)
 
@@ -154,3 +160,15 @@ const submit = async () => {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+
+a {
+  @include ktheme() {
+    color: theme('k-blue') !important;
+  }
+  text-decoration: underline;
+  white-space: nowrap;
+}
+</style>
