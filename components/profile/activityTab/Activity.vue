@@ -3,11 +3,16 @@
     <div
       class="is-flex is-justify-content-space-between pb-4 pt-5 is-align-content-center">
       <div class="is-flex gap-4">
+        <NeoButton
+          no-shadow
+          rounded
+          label="All"
+          variant="text"
+          @click.native="all = !all" />
         <FilterButton
-          v-for="{ label, urlParam, btnVariant } in filters"
+          v-for="{ label, urlParam } in filters"
           :key="urlParam"
           :label="label"
-          :variant="btnVariant"
           :url-param="urlParam" />
       </div>
     </div>
@@ -22,7 +27,7 @@ import { Interaction } from '@/components/rmrk/service/scheme'
 import { sortedEventByDate } from '@/utils/sorting'
 import FilterButton from '@/components/profile/FilterButton.vue'
 import { Interaction as InteractionEnum } from '@kodadot1/minimark/v1'
-import { NeoButtonVariant } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 const route = useRoute()
 const { replaceUrl } = useReplaceUrl()
 
@@ -33,7 +38,6 @@ const props = defineProps<{
 }>()
 
 const filters = [
-  { label: 'All', urlParam: 'all', btnVariant: 'text' as NeoButtonVariant },
   { label: 'Sale', urlParam: 'sale' },
   { label: 'Gift', urlParam: 'gift' },
   { label: 'Mint', urlParam: 'mint' },
@@ -41,10 +45,21 @@ const filters = [
   { label: 'Buy', urlParam: 'buy' },
 ]
 
+const all = computed({
+  get: () => route.query.all === 'true',
+  set: (val) => {
+    replaceUrl({ all: val })
+  },
+})
+
 const activeFilters = computed(() => {
+  if (all.value) {
+    return ['all']
+  }
+
   return filters
-    .filter((f) => route.query[f.urlParam || f.label] === 'true')
-    .map((f) => f.urlParam || f.label)
+    .filter((f) => route.query[f.urlParam] === 'true')
+    .map((f) => f.urlParam)
 })
 
 const { data } = useGraphql({
