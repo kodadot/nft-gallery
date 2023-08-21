@@ -97,7 +97,13 @@
             <AddressInput
               v-model="destinationAddress.address"
               label=""
-              :class="[{ 'mr-2': !isMobile, 'mb-2': isMobile }]"
+              class="is-flex-1"
+              :class="[
+                {
+                  'mr-2': !isMobile,
+                  'mb-2': isMobile,
+                },
+              ]"
               placeholder="Enter wallet address"
               :strict="false" />
             <NeoInput
@@ -108,6 +114,7 @@
               step="0.01"
               min="0"
               icon-right-class="search"
+              class="is-flex-1"
               @input="onAmountFieldChange(destinationAddress)" />
             <NeoInput
               v-else
@@ -117,6 +124,7 @@
               step="0.01"
               min="0"
               icon-right-class="search"
+              class="is-flex-1"
               @input="onUsdFieldChange(destinationAddress)" />
           </div>
         </div>
