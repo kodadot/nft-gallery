@@ -41,22 +41,18 @@
         <NeoField v-if="isLogIn">
           <SubmitButton
             expanded
-            :label="balanceNotEnough ? 'not enough funds' : 'create collection'"
+            :label="
+              balanceNotEnough
+                ? 'confirmPurchase.notEnoughFuns'
+                : 'create collection'
+            "
             :loading="isLoading"
             disabled-icon
             variant="k-accent"
             :disabled="balanceNotEnough"
             @click="submit" />
           <template #message>
-            {{ $t('tooltip.deposit1') }}
-            <strong>{{ COLLECTION_DEPOSIT }} KSM</strong>
-            {{ $t('tooltip.deposit2') }}
-            <a
-              v-safe-href="
-                'https://hello.kodadot.xyz/multi-chain/fees/assethub-fees#polkadot-asset-hub-fees-prev.-statemint'
-              "
-              >Learn more</a
-            >
+            <CollectionDeposit></CollectionDeposit>
           </template>
         </NeoField>
       </template>
@@ -76,7 +72,8 @@ import SubmitButton from '@/components/base/SubmitButton.vue'
 import { NeoField, NeoInput } from '@kodadot1/brick'
 import { BaseCollectionType } from '@/composables/transaction/types'
 import useLoader from '@/composables/useLoader'
-import { COLLECTION_DEPOSIT } from '@/utils/constants'
+import CollectionDeposit from '@/components/shared/CollectionDeposit.vue'
+import { COLLECTION_DEPOSIT_KSM } from '~~/utils/constants'
 
 interface ComponentWithCheckValidity extends Vue {
   checkValidity(): boolean
@@ -105,7 +102,7 @@ const checkValidity = () => {
 const rmrkId = computed(() => generateId(accountId.value, symbol.value))
 
 const balanceNotEnough = computed(
-  () => Number(balance.value) <= COLLECTION_DEPOSIT
+  () => Number(balance.value) <= COLLECTION_DEPOSIT_KSM
 )
 const isMintDisabled = computed(() => balanceNotEnough.value)
 
@@ -164,15 +161,3 @@ const submit = async () => {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
-
-a {
-  @include ktheme() {
-    color: theme('k-blue') !important;
-  }
-  text-decoration: underline;
-  white-space: nowrap;
-}
-</style>

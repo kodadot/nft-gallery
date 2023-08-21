@@ -25,12 +25,20 @@
         <NeoField>
           <MultiPaymentFeeButton :account-id="accountId" :prefix="urlPrefix" />
         </NeoField>
-        <NeoField variant="danger" :message="balanceNotEnoughMessage">
+        <NeoField>
           <SubmitButton
             expanded
-            label="create collection"
+            :label="
+              isBalanceNotEnough
+                ? 'confirmPurchase.notEnoughFuns'
+                : 'create collection'
+            "
             :loading="isLoading"
+            :disabled="isBalanceNotEnough"
             @click="submit" />
+          <template #message>
+            <CollectionDeposit></CollectionDeposit>
+          </template>
         </NeoField>
       </template>
     </BaseCollectionForm>
@@ -61,6 +69,8 @@ import { BaseCollectionType } from '@/composables/transaction/types'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { Token, getBalance, getDeposit, getFeesToken } from './utils'
 import { NeoField } from '@kodadot1/brick'
+import CollectionDeposit from '@/components/shared/CollectionDeposit.vue'
+import { COLLECTION_DEPOSIT_BSX } from '~~/utils/constants'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),
@@ -91,7 +101,7 @@ export default class CreateCollection extends mixins(
   public collectionDeposit = ''
   protected id = '0'
   protected attributes: Attribute[] = []
-  protected balanceNotEnough = false
+  protected balanceNotEnough = this.balanceOfToken <= COLLECTION_DEPOSIT_BSX
   public feesToken: Token = 'BSX'
   @Ref('collectionForm') readonly collectionForm
 
@@ -99,11 +109,8 @@ export default class CreateCollection extends mixins(
     return this.collectionForm.checkValidity()
   }
 
-  get balanceNotEnoughMessage() {
-    if (this.balanceNotEnough) {
-      return this.$t('tooltip.notEnoughBalance')
-    }
-    return ''
+  get isBalanceNotEnough() {
+    return this.balanceNotEnough
   }
 
   @Watch('accountId', { immediate: true })
