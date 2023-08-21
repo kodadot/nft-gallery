@@ -94,11 +94,14 @@ export function useFetchSearch({
     }
   )
 
-  watch([() => route.query.listed], (val, oldValue) => {
-    if (oldValue) {
-      resetSearch()
+  watch(
+    () => route.query.listed,
+    (val, oldValue) => {
+      if (oldValue) {
+        resetSearch()
+      }
     }
-  })
+  )
 
   return {
     nfts,
