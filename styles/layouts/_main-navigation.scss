@@ -23,7 +23,7 @@
           @include mobile {
             padding: 1rem 1.25rem;
           }
-          
+
           @include ktheme() {
             border-bottom: 1px solid theme('border-color');
           }
@@ -105,7 +105,7 @@
 
         @include ktheme() {
           box-shadow: theme('primary-shadow');
-          color: theme('text-color');
+          color: theme('black');
           background: theme('k-primary');
         }
 
