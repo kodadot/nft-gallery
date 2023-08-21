@@ -74,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import ProfileLink from '@/components/rmrk/Profile/ProfileLink.vue'
+import ProfileLink from '@/components/profile/ProfileLink.vue'
 import { Owners } from '@/composables/collectionActivity/types'
 import { NeoIcon } from '@kodadot1/brick'
 
