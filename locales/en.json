@@ -35,7 +35,6 @@
   "facts": "Facts",
   "computed id": "Computed id",
   "create collection": "Create Collection",
-  "not enough funds": "Not Enough Funds",
   "Select collection where do you want mint your token": "Select collection where do you want mint your token",
   "Maximum NFTs in collection": "Maximum NFTs in collection",
   "name": "Name",
@@ -540,8 +539,7 @@
     "largeDisplay": "Large Display",
     "emptyAddress": "Receiver address cannot be empty",
     "emptyListAmount": "Amount should be greater than 0",
-    "deposit1": "A deposit of",
-    "deposit2": "is required to create a collection. Please note, this initial deposit is refundable."
+    "deposit": "A deposit of {amount} {token} is required to create a collection. Please note, this initial deposit is refundable."
   },
   "nft": {
     "carbonless": "This NFT is carbonless",
