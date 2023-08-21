@@ -51,7 +51,7 @@ export default function (
       .catch($consola.warn)
   }
 
-  const setDefaultUrl = (params: Record<string, string | boolean>) => {
+  const setDefaultUrl = (params: Record<string, string | boolean | number>) => {
     if (route.path.includes('/explore/items')) {
       params.default = 'true'
       for (const [key] of Object.entries(params)) {
