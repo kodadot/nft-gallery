@@ -43,7 +43,6 @@ import { Unit } from '@/params/types'
 import { useDebounceFn } from '@vueuse/core'
 import { NeoField, NeoInput, NeoSelect } from '@kodadot1/brick'
 
-const { $t } = useNuxtApp()
 const props = defineProps({
   value: {
     type: Number,
