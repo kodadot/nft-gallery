@@ -4,6 +4,7 @@
     :class="{ 'carousel-media-collection': isCollection }">
     <nuxt-link
       :to="urlOf({ id: item.id, url, chain: item.chain })"
+      :aria-label="`slide ${index + 1} of ${length}`"
       rel="nofollow">
       <MediaItem
         class="carousel-media-wrapper"
@@ -24,6 +25,8 @@ import { useCarouselUrl } from '../utils/useCarousel'
 
 const props = defineProps<{
   item: CarouselNFT & NFTWithMetadata
+  index: number
+  length: number
 }>()
 
 const { urlOf } = useCarouselUrl()
