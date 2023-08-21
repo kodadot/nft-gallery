@@ -1,6 +1,6 @@
 <template>
   <BasicBalanceInput
-    ref="magicBalanceInput"
+    ref="balanceInputComponent"
     v-model="vValue"
     :decimals="decimals"
     :unit="unit"

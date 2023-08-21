@@ -52,7 +52,7 @@ import CreateDropCard from '@/components/drops/CreateDropCard.vue'
 import { collectionId } from '@/components/collection/unlockable/const'
 import { STT_COLLECTION_ID } from '@/components/collection/drop/const'
 import { useDrops } from './useDrops'
-import { dropsVisible } from '@/utils/config/permision.config'
+import { dropsVisible } from '@/utils/config/permission.config'
 
 const { $i18n } = useNuxtApp()
 const drops = useDrops(collectionId)
