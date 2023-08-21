@@ -74,7 +74,7 @@ import SubmitButton from '@/components/base/SubmitButton.vue'
 import { NeoField, NeoInput } from '@kodadot1/brick'
 import { BaseCollectionType } from '@/composables/transaction/types'
 import useLoader from '@/composables/useLoader'
-import { COLLECTION_DEPOSIT, URLS } from '@/utils/constants'
+import { COLLECTION_DEPOSIT } from '@/utils/constants'
 
 interface ComponentWithCheckValidity extends Vue {
   checkValidity(): boolean
