@@ -57,6 +57,7 @@
 import MediaResolver from '@/components/media/MediaResolver.vue'
 import { MAX_UPLOADED_FILE_SIZE } from '@/utils/constants'
 import { NeoField, NeoIcon, NeoUpload } from '@kodadot1/brick'
+import { useEventListener } from '@vueuse/core'
 
 const props = defineProps({
   label: {
@@ -131,12 +132,7 @@ const createInput = (inputFile: Blob): void | boolean => {
   reader.readAsText(inputFile)
 }
 
-onMounted(() => {
-  window.addEventListener('paste', onPasteImage)
-})
-onBeforeMount(() => {
-  window.removeEventListener('paste', onPasteImage)
-})
+useEventListener(window, 'paste', onPasteImage)
 
 defineExpose({ checkValidity })
 </script>
