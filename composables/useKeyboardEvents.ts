@@ -1,6 +1,5 @@
 import { shouldIgnoreKeyDownEvent } from '@/utils/keyboardEvents'
 import { useEventListener } from '@vueuse/core'
-import { onMounted, ref } from 'vue'
 
 export function useKeyboardEvents(primaryKeyEvents) {
   const keysPressed = ref({})
