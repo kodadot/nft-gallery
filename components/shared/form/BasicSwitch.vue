@@ -16,7 +16,6 @@
 </template>
 
 <script lang="ts" setup>
-import type { ComputedRef } from 'vue'
 import type { TranslateResult } from 'vue-i18n/types'
 import { NeoField, NeoSwitch, NeoTooltip } from '@kodadot1/brick'
 
