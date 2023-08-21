@@ -52,7 +52,9 @@
             <strong>{{ COLLECTION_DEPOSIT }} KSM</strong>
             {{ $t('tooltip.deposit2') }}
             <a
-              href="https://hello.kodadot.xyz/multi-chain/fees/assethub-fees#polkadot-asset-hub-fees-prev.-statemint"
+              v-safe-href="
+                'https://hello.kodadot.xyz/multi-chain/fees/assethub-fees#polkadot-asset-hub-fees-prev.-statemint'
+              "
               >Learn more</a
             >
           </template>
