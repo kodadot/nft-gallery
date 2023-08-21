@@ -65,14 +65,14 @@ const useChainEvents = (chain, type) => {
 
       // limit nft in same collection by 3
       if (totalCollection[nft.nft.collection.id] > 3) {
-        excludeCollectionId.value.push(nft.nft.collection.id)
-      } else {
-        pushNft(nft)
+        return excludeCollectionId.value.push(nft.nft.collection.id)
       }
-    } else {
-      totalCollection[nft.nft.collection.id] = 1
-      pushNft(nft)
+
+      return pushNft(nft)
     }
+
+    totalCollection[nft.nft.collection.id] = 1
+    pushNft(nft)
   }
 
   fetchLatestEvents(chain, type).then((response) => {
