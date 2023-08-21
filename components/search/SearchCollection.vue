@@ -75,6 +75,7 @@ const emit = defineEmits([
 ])
 
 const preferencesStore = usePreferencesStore()
+const { replaceUrl } = useReplaceUrl()
 
 const route = useRoute()
 const router = useRouter()
@@ -137,18 +138,18 @@ const replaceBuyNowWithYolo = preferencesStore.getReplaceBuyNowWithYolo
 
 const updateListed = useDebounceFn((value: string | boolean) => {
   const queryValue = String(value) === 'true'
-  replaceUrl(queryValue, 'listed')
+  replaceUrl({ listed: queryValue })
   emit('update:listed', queryValue)
 }, 50)
 
 const updateOwned = useDebounceFn((value: string | boolean) => {
   const queryValue = value ? String(value) : ''
-  replaceUrl(queryValue, 'owned')
+  replaceUrl({ owned: queryValue })
   emit('update:owned', Boolean(queryValue))
 }, 50)
 
 const updateType = useDebounceFn((value: string) => {
-  replaceUrl(value, 'type')
+  replaceUrl({ type: value })
   emit('update:type', value)
 }, 50)
 
@@ -158,29 +159,16 @@ const updateSortBy = useDebounceFn((value: string) => {
     vListed.value = true
   }
 
-  replaceUrl(value, 'sort')
+  replaceUrl({ sort: value })
   emit('update:sortBy', value)
 }, 400)
 
 const updateSearch = useDebounceFn((value: string) => {
   if (value !== searchQuery.value) {
-    replaceUrl(value)
+    replaceUrl({ search: value })
     emit('update:search', value)
   }
 }, 400)
-
-const replaceUrl = useDebounceFn((value: boolean | string, key = 'search') => {
-  const query = {
-    ...route.query,
-    search: searchQuery.value || undefined,
-    [key]: value ? String(value) : undefined,
-  }
-
-  router.replace({ path: String(route.path), query })
-  router
-    .replace({ query })
-    .catch($consola.warn /* Navigation Duplicate err fix later */)
-}, 100)
 </script>
 
 <style scoped lang="scss">
