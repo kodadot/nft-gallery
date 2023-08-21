@@ -48,11 +48,11 @@
     <img
       class="search-bar-keyboard-icon"
       :class="{ 'is-invisible': name || inputFocused }"
-      src="/search-k-keyboard.svg" />
+      src="/search-k-keyboard.svg" alt="keyboard" />
     <img
       class="search-bar-keyboard-icon"
       :class="{ 'is-invisible': !name && !inputFocused }"
-      src="/k-search-enter.svg" />
+      src="/k-search-enter.svg" alt="enter" />
   </div>
 </template>
 
