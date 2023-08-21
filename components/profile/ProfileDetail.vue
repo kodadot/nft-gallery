@@ -94,6 +94,7 @@
         <TabItem
           v-for="tab in tabs"
           :key="tab"
+          class="is-capitalized"
           :active="activeTab === tab"
           :text="tab"
           @click.native="() => switchToTab(tab)" />
