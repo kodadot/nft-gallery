@@ -84,7 +84,6 @@ export function useFetchSearch({
     [
       () => route.query.sort,
       () => route.query.search,
-      () => route.query.listed,
       () => route.query.min,
       () => route.query.max,
       () => route.query.owned,
@@ -94,6 +93,12 @@ export function useFetchSearch({
       resetSearch()
     }
   )
+
+  watch([() => route.query.listed], (val, oldValue) => {
+    if (oldValue) {
+      resetSearch()
+    }
+  })
 
   return {
     nfts,
