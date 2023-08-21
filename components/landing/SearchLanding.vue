@@ -29,8 +29,8 @@
         <a
           v-for="chain in availableChains"
           :key="chain.value"
+          v-safe-href="`/${chain.value}/explore/collectibles`"
           :class="['m-2', 'chain-option active']"
-          :href="`/${chain.value}/explore/collectibles`"
           @click="switchChain(chain.value, $event)">
           {{ chainText(chain.text) }}
           <sup v-if="chain.text.includes('[Beta]')" class="beta-text is-size-7">
