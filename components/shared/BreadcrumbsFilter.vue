@@ -71,6 +71,7 @@ const { replaceUrl } = useReplaceUrl({
   resetPage: !isCollectionActivityTab.value,
 })
 const { $i18n } = useNuxtApp()
+const isItemsExplore = computed(() => route.path.includes('/explore/items'))
 
 const breads = useActiveRouterFilters()
 
@@ -116,6 +117,12 @@ const queryMapTranslation = {
   mint: $i18n.t('filters.mint'),
   transfer: $i18n.t('filters.transfer'),
 }
+
+onMounted(() => {
+  if (isItemsExplore.value && route.query.listed == undefined) {
+    replaceUrl({ listed: 'true' })
+  }
+})
 
 const closeTag = (key: string) => {
   replaceUrl({ [key]: false })

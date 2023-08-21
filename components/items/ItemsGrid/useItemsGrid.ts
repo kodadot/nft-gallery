@@ -89,12 +89,9 @@ export function useFetchSearch({
       () => route.query.max,
       () => route.query.owned,
       () => route.query.collections,
-      () => route.query.default,
     ],
-    (val, oldVal) => {
-      if (!(!oldVal[7] && val[7] === 'true')) {
-        resetSearch()
-      }
+    () => {
+      resetSearch()
     }
   )
 
