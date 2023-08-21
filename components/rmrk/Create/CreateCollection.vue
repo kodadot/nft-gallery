@@ -43,7 +43,7 @@
             expanded
             :label="balanceNotEnough ? 'not enough funds' : 'create collection'"
             :loading="isLoading"
-            :icon="'false'"
+            disabled-icon
             variant="k-accent"
             :disabled="balanceNotEnough"
             @click="submit" />
