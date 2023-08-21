@@ -11,7 +11,7 @@ export default {
     ProfileDetail,
   },
   layout() {
-    return 'full-width-layout'
+    return 'noFooter'
   },
   setup() {
     const { redesign } = useExperiments()
