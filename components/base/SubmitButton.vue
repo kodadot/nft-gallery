@@ -3,7 +3,7 @@
     <NeoButton
       :size="size"
       :type="type"
-      :icon="disabledIcon ? '' : icon"
+      :icon="icon"
       :disabled="disabled"
       :loading="loading"
       :expanded="expanded"
@@ -25,7 +25,6 @@ import { NeoButtonVariant } from '@kodadot1/brick'
 export interface Props {
   disabled?: boolean
   expanded?: boolean
-  disabledIcon?: boolean
   icon?: string
   label: string
   loading?: boolean
@@ -39,7 +38,7 @@ withDefaults(defineProps<Props>(), {
   disabled: false,
   disabledIcon: false,
   type: 'is-primary',
-  icon: 'paper-plane',
+  icon: '',
   size: 'medium',
   variant: 'k-accent',
 })
