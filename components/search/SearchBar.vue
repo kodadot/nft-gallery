@@ -74,12 +74,7 @@ const props = defineProps({
 const emits = defineEmits(['input', 'blur', 'enter', 'redirect'])
 const { $i18n } = useNuxtApp()
 
-const name = computed({
-  get: () => props.value,
-  set: (value) => {
-    emits('input', value)
-  },
-})
+const name = useVModel(props, 'value', emits, { eventName: 'input' })
 
 const searchRef = ref<typeof NeoAutocomplete>()
 const searchSuggestionRef = ref<typeof SearchSuggestion>()
