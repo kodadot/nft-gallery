@@ -34,7 +34,6 @@ const unit = computed(() => asset.value.symbol)
 const decimals = computed(() => asset.value.decimals)
 
 function checkValidity() {
-  console.log('token balance validity')
   return balanceInputComponent.value?.checkValidity()
 }
 </script>
