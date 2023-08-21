@@ -7,6 +7,7 @@
       :disabled="disabled"
       :loading="loading"
       :expanded="expanded"
+      :variant="variant"
       icon-pack="far"
       outlined
       @click.native="$emit('click')">
@@ -19,6 +20,7 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoField } from '@kodadot1/brick'
+import { NeoButtonVariant } from '@kodadot1/brick'
 
 export interface Props {
   disabled?: boolean
@@ -28,6 +30,7 @@ export interface Props {
   loading?: boolean
   type?: string
   size?: 'small' | 'medium' | 'large'
+  variant?: NeoButtonVariant
 }
 
 withDefaults(defineProps<Props>(), {
@@ -36,5 +39,6 @@ withDefaults(defineProps<Props>(), {
   type: 'is-primary',
   icon: 'paper-plane',
   size: 'medium',
+  variant: 'k-accent',
 })
 </script>
