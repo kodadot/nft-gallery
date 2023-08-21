@@ -65,10 +65,6 @@ export const URLS = {
     cloudflare: 'https://cloudflare-ipfs.com/ipfs/',
     pinata: 'https://api.pinata.cloud/',
   },
-  collection: {
-    learnMore:
-      'https://hello.kodadot.xyz/multi-chain/fees/assethub-fees#polkadot-asset-hub-fees-prev.-statemint',
-  },
 }
 
 export const apolloClientConfig = {

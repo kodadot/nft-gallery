@@ -51,7 +51,10 @@
             {{ $t('tooltip.deposit1') }}
             <strong>{{ COLLECTION_DEPOSIT }} KSM</strong>
             {{ $t('tooltip.deposit2') }}
-            <a :href="URLS.collection.learnMore">Learn more</a>
+            <a
+              href="https://hello.kodadot.xyz/multi-chain/fees/assethub-fees#polkadot-asset-hub-fees-prev.-statemint"
+              >Learn more</a
+            >
           </template>
         </NeoField>
       </template>
