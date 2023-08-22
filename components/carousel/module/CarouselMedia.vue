@@ -4,11 +4,13 @@
     :class="{ 'carousel-media-collection': isCollection }">
     <nuxt-link
       :to="urlOf({ id: item.id, url, chain: item.chain })"
+      :aria-label="`slide ${index + 1} of ${length}`"
       rel="nofollow">
+      <!-- :animation-src removed until this is fixed:
+      https://github.com/kodadot/nft-gallery/issues/6237 -->
       <MediaItem
         class="carousel-media-wrapper"
         :src="imageSrc || ''"
-        :animation-src="item.animationUrl || ''"
         :title="item.name" />
     </nuxt-link>
   </div>
@@ -24,6 +26,8 @@ import { useCarouselUrl } from '../utils/useCarousel'
 
 const props = defineProps<{
   item: CarouselNFT & NFTWithMetadata
+  index: number
+  length: number
 }>()
 
 const { urlOf } = useCarouselUrl()

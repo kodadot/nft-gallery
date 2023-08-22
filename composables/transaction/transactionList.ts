@@ -103,16 +103,16 @@ export function execListTx(item: ActionList, api, executeTransaction) {
       const legacy = isLegacy(token.nftId)
       const paramResolver = assetHubParamResolver(legacy)
       executeTransaction({
-        cb: getApiCall(api, item.urlPrefix, Interaction.LIST),
+        cb: getApiCall(api, item.urlPrefix, Interaction.LIST, legacy),
         arg: paramResolver(token.nftId, Interaction.LIST, token.price),
         successMessage: item.successMessage,
         errorMessage: item.errorMessage,
       })
     } else {
       const tokens = item.token as TokenToList[]
-      const cb = getApiCall(api, item.urlPrefix, Interaction.LIST)
       const args = tokens.map((token) => {
         const legacy = isLegacy(token.nftId)
+        const cb = getApiCall(api, item.urlPrefix, Interaction.LIST, legacy)
         const paramResolver = assetHubParamResolver(legacy)
         return cb(...paramResolver(token.nftId, Interaction.LIST, token.price))
       })
