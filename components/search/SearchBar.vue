@@ -84,6 +84,7 @@ const enableSearchInCollection = ref(true)
 const inputFocused = ref(false)
 const { urlPrefix } = usePrefix()
 
+const collectionSearch = useCollectionSearch()
 onMounted(() => {
   useKeyboardEvents({
     k: bindSearchEvents,
@@ -91,7 +92,7 @@ onMounted(() => {
 })
 
 const isSearchInCollectionMode = computed(
-  () => useCollectionSearch().isCollectionSearchMode.value
+  () => collectionSearch.isCollectionSearchMode.value
 )
 
 const placeholderContent = computed(() =>
@@ -152,9 +153,7 @@ function closeDropDown() {
 watch(
   enableSearchInCollection,
   () => {
-    useCollectionSearch().setCollectionSearchMode(
-      enableSearchInCollection.value
-    )
+    collectionSearch.setCollectionSearchMode(enableSearchInCollection.value)
   },
   { immediate: true }
 )
