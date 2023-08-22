@@ -1,4 +1,5 @@
 import referendumVoteByAccount from '@/queries/referendumVoteByAccount.graphql'
+import { getss58AddressByPrefix } from '@/utils/account'
 
 export const useCheckReferenDumVote = () => {
   const { $apollo } = useNuxtApp()
@@ -22,7 +23,7 @@ export const useCheckReferenDumVote = () => {
       query: referendumVoteByAccount,
       client: 'polkassembly',
       variables: {
-        account: accountId.value,
+        account: getss58AddressByPrefix(accountId.value, 'dot'),
       },
     })
 

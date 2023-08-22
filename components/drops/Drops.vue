@@ -31,7 +31,7 @@
           :data-cy="index">
           <DropCard
             :drop="drop"
-            override-url-prefix="dot"
+            override-url-prefix="ahk"
             drop-url="vote-drop" />
         </div>
       </template>
@@ -63,13 +63,14 @@ import DropCard from '@/components/drops/DropCard.vue'
 import CreateDropCard from '@/components/drops/CreateDropCard.vue'
 import { collectionId } from '@/components/collection/unlockable/const'
 import { STT_COLLECTION_ID } from '@/components/collection/drop/const'
+import { VOTE_DROP_COLLECTION_ID } from '@/components/collection/voteDrop/const'
 import { useDrops } from './useDrops'
 import { dropsVisible } from '@/utils/config/permission.config'
 
 const { $i18n } = useNuxtApp()
 const drops = useDrops(collectionId)
 const statemintDrops = useDrops(STT_COLLECTION_ID, 'ahp')
-const voteDrop = useDrops(collectionId)
+const voteDrop = useDrops(VOTE_DROP_COLLECTION_ID, 'ahk')
 const { urlPrefix } = usePrefix()
 
 const checkRouteAvailability = () => {

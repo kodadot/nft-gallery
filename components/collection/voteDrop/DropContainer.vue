@@ -91,7 +91,7 @@
                   variant="k-accent"
                   :disabled="mintButtonDisabled"
                   :label="buttonLabel"
-                  @click.native="handleBuy" />
+                  @click.native="handleMint" />
                 <div class="is-flex is-align-items-center mt-2">
                   <svg
                     width="20"
@@ -111,7 +111,10 @@
           </div>
         </div>
         <div class="column pt-5 is-flex is-justify-content-center">
-          <ImageSlider v-if="imageList.length" :image-list="imageList" />
+          <ImageSlider
+            v-if="imageList.length"
+            :image-list="imageList"
+            :title="$t('mint.unlockable.onlyOneExample')" />
         </div>
       </div>
       <hr class="text-color my-4" />
@@ -184,8 +187,8 @@ import {
 } from '../unlockable/utils'
 import { useCountDown } from '../unlockable/utils/useCountDown'
 import {
-  COLLECTION_ID,
   VOTE_DROP_CAMPAIGN,
+  VOTE_DROP_COLLECTION_ID,
   VOTE_DROP_DESCRIPTION,
   countDownTime,
 } from './const'
@@ -197,8 +200,9 @@ const Loader = defineAsyncComponent(
 
 const { $buefy, $i18n } = useNuxtApp()
 const root = ref<Vue>()
+const { accountId } = useAuth()
 
-// const { toast } = useToast()
+const { toast } = useToast()
 
 const imageList = ref<string[]>([])
 const resultList = ref<any[]>([])
@@ -207,7 +211,7 @@ const { isLogIn } = useAuth()
 const { hours, minutes } = useCountDown(countDownTime)
 const justMinted = ref('')
 const isLoading = ref(false)
-const collectionId = COLLECTION_ID
+const collectionId = VOTE_DROP_COLLECTION_ID
 
 const actionLabel = $i18n.t('nft.action.buy')
 
@@ -263,75 +267,53 @@ const leftTime = computed(() => {
   return isFinish ? 'Finished' : `${hoursLeft}${minutesLeft}Left`
 })
 
-const { data: collectionData, refetch: tryAgain } = useGraphql({
+const { data: collectionData, refetch } = useGraphql({
   queryName: 'dropCollectionById',
   variables: {
     id: collectionId,
-    // price: pricePerMint,
-    // account: MINT_ADDRESS,
+    account: accountId.value,
   },
 })
 
-const totalCount = computed(
-  () => collectionData.value?.collectionEntity?.nftCount || 200
-)
+const totalCount = 200
+
 const totalAvailableMintCount = computed(
-  () => collectionData.value?.nftEntitiesConnection?.totalCount
+  () => totalCount - collectionData.value?.collectionEntity?.nftCount
 )
 
-// const { data, refetch } = useGraphql({
-//   queryName: 'nftIdListByCollection',
-//   clientName: urlPrefix.value,
-//   variables: {
-//     id: collectionId,
-//     search: [{ currentOwner_eq: MINT_ADDRESS }],
-//   },
-// })
+useSubscriptionGraphql({
+  query: `nftEntities(
+    orderBy: id_ASC,
+    where: { burned_eq: false, collection: { id_eq: "${collectionId}" }}
+    ) {
+      id
+  }`,
+  onChange: refetch,
+})
 
-const refetchData = async () => {
-  // await tryAgain()
-  // await refetch()
-}
-
-// useSubscriptionGraphql({
-//   query: `nftEntities(
-//     orderBy: id_ASC,
-//     where: { burned_eq: false, collection: { id_eq: "${collectionId}" }, currentOwner_eq: "${MINT_ADDRESS}" }
-//     ) {
-//       id
-//   }`,
-//   onChange: refetchData,
-// })
-
-// const toBuy = computed<string[]>(() => {
-//   return data.value?.nfts?.map((x) => x.id)
-// })
-
-const mintedCount = computed(
-  () => totalCount.value - totalAvailableMintCount.value
-)
+const mintedCount = computed(() => totalCount - totalAvailableMintCount.value)
 
 const mintedPercent = computed(() => {
-  const percent = (mintedCount.value / totalCount.value) * 100
+  const percent = (mintedCount.value / totalCount) * 100
   return Math.round(percent)
 })
 
-const mintCountAvailable = computed(() => mintedCount.value < totalCount.value)
+const hasUserMinted = computed(
+  () =>
+    Boolean(collectionData.value?.nftEntitiesConnection?.nftCount) ||
+    justMinted.value
+)
+
+const mintCountAvailable = computed(() => mintedCount.value < totalCount)
 
 const mintButtonDisabled = computed(
   () =>
-    Boolean(!mintCountAvailable.value || isEligibleUser.value) &&
-    !needCheckEligible.value
+    Boolean(
+      !mintCountAvailable.value || !isEligibleUser.value || hasUserMinted.value
+    ) && !needCheckEligible.value
 )
 
-// const scrollToTop = () => {
-//   window.scroll({
-//     top: 0,
-//     behavior: 'smooth',
-//   })
-// }
-
-const handleBuy = async () => {
+const handleMint = async () => {
   if (!isLogIn.value) {
     $buefy.modal.open({
       parent: root?.value,
@@ -344,43 +326,11 @@ const handleBuy = async () => {
     return false
   }
   isLoading.value = true
-
-  showNotification(
-    $i18n.t('nft.notification.info', { itemId: 'Waifu', action: actionLabel })
-  )
+  showNotification('coming soon')
+  // showNotification(
+  //   $i18n.t('nft.notification.info', { itemId: 'Waifu', action: actionLabel })
+  // )
 }
-
-// const handleSubmitMint = async (tokenId: string) => {
-//   const randomIndex = getRandomInt(imageList.value.length - 1)
-//   const image = resultList.value.at(randomIndex).image
-
-//   if (!image || !tokenId) {
-//     toast('no image')
-//     return
-//   }
-
-//   const hash = await createUnlockableMetadata(image, VOTE_DROP_DESCRIPTION)
-
-//   const { item: sn } = tokenIdToRoute(tokenId)
-
-//   try {
-//     await claimDropItem(
-//       {
-//         metadata: hash,
-//         sn,
-//       },
-//       VOTE_DROP_CAMPAIGN
-//     ).then((res) => {
-//       toast('mint success')
-//       justMinted.value = `${collectionId}-${res.result.sn}`
-//       scrollToTop()
-//     })
-//   } catch (error) {
-//     toast('failed to mint')
-//   } finally {
-//     isLoading.value = false
-//   }
-// }
 </script>
 
 <style scoped lang="scss">

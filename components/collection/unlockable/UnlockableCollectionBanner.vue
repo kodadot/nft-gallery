@@ -31,7 +31,7 @@ const { $seoMeta } = useNuxtApp()
 const title = computed(() => {
   switch (props.type) {
     case 'vote-drop':
-      return 'Aye Voters Exclusive Mint'
+      return 'Referendum Mint'
     case 'dot-drop':
       return 'Waifu 1 DOT Mint'
     default:

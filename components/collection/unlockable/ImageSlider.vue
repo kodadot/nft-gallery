@@ -2,7 +2,7 @@
   <div class="unlockable-image-slider mt-6">
     <div
       class="unlockable-image-tip border px-4 py-2 theme-background-color has-z-index-1 no-wrap">
-      {{ $t('mint.unlockable.imageTip') }}
+      {{ title || $t('mint.unlockable.imageTip') }}
     </div>
     <div ref="container" class="keen-slider">
       <img
@@ -37,6 +37,7 @@ const emit = defineEmits(['select'])
 
 const props = defineProps<{
   imageList: string[]
+  title?: string
 }>()
 
 function ThumbnailPlugin(main) {
