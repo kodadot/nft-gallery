@@ -50,6 +50,7 @@
             disabled-icon
             variant="k-accent"
             :disabled="balanceNotEnough"
+            font-size="16px"
             @click="submit" />
           <template #message>
             <CollectionDeposit></CollectionDeposit>

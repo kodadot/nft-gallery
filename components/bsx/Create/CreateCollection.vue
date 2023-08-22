@@ -35,6 +35,7 @@
             "
             :loading="isLoading"
             :disabled="isBalanceNotEnough"
+            font-size="16px"
             @click="submit" />
           <template #message>
             <CollectionDeposit></CollectionDeposit>

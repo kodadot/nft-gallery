@@ -12,7 +12,9 @@
       outlined
       @click.native="$emit('click')">
       <slot>
-        {{ $t(label) }}
+        <span :style="labelStyles">
+          {{ $t(label) }}
+        </span>
       </slot>
     </NeoButton>
   </NeoField>
@@ -31,14 +33,20 @@ export interface Props {
   type?: string
   size?: 'small' | 'medium' | 'large'
   variant?: NeoButtonVariant
+  fontSize: `${number}${'px' | 'rem' | 'em'}` | 'inherit'
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   loading: false,
   disabled: false,
   type: 'is-primary',
   icon: '',
   size: 'medium',
   variant: 'k-accent',
+  fontSize: 'inherit',
 })
+
+const labelStyles = {
+  'font-size': props.fontSize,
+}
 </script>
