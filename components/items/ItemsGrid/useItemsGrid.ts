@@ -57,7 +57,6 @@ export function useFetchSearch({
       ? { search }
       : {
           search: searchParams.value,
-          denyList: getDenyList(urlPrefix.value),
           priceMin: Number(route.query.min),
           priceMax: Number(route.query.max),
         }
@@ -71,6 +70,7 @@ export function useFetchSearch({
         ...variables,
         first: first.value,
         offset: (page - 1) * first.value,
+        denyList: getDenyList(urlPrefix.value),
         orderBy: route.query.sort?.length
           ? route.query.sort
           : ['blockNumber_DESC'],
