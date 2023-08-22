@@ -36,7 +36,6 @@ export interface Props {
 withDefaults(defineProps<Props>(), {
   loading: false,
   disabled: false,
-  disabledIcon: false,
   type: 'is-primary',
   icon: '',
   size: 'medium',

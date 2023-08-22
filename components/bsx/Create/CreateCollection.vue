@@ -69,7 +69,7 @@ import { BaseCollectionType } from '@/composables/transaction/types'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { Token, getBalance, getDeposit, getFeesToken } from './utils'
 import { NeoField } from '@kodadot1/brick'
-import { COLLECTION_DEPOSIT_BSX } from '~~/utils/constants'
+import { COLLECTION_DEPOSIT_BSX } from '@/utils/constants'
 
 const components = {
   Loader: () => import('@/components/shared/Loader.vue'),

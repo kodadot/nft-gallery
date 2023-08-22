@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <p>
     <i18n path="tooltip.deposit" tag="p">
       <template #amount>
         <strong>{{ requiredAmount }}</strong>
@@ -11,14 +11,14 @@
     <a v-safe-href="learnMoreLink" class="learn-more">{{
       $t('helper.learnMore')
     }}</a>
-  </div>
+  </p>
 </template>
 
 <script setup lang="ts">
 import {
   COLLECTION_DEPOSIT_BSX,
   COLLECTION_DEPOSIT_KSM,
-} from '~~/utils/constants'
+} from '@/utils/constants'
 
 const { urlPrefix } = usePrefix()
 

@@ -73,7 +73,7 @@ import { NeoField, NeoInput } from '@kodadot1/brick'
 import { BaseCollectionType } from '@/composables/transaction/types'
 import useLoader from '@/composables/useLoader'
 import CollectionDeposit from '@/components/shared/CollectionDeposit.vue'
-import { COLLECTION_DEPOSIT_KSM } from '~~/utils/constants'
+import { COLLECTION_DEPOSIT_KSM } from '@/utils/constants'
 
 interface ComponentWithCheckValidity extends Vue {
   checkValidity(): boolean
