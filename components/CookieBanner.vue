@@ -14,12 +14,12 @@
           </div>
           <div class="bar ml-4 mr-4" />
           <div class="action is-success">
-            <a @click="declineCookies">
+            <span @click="declineCookies">
               {{ $t('cookies.decline') }}
-            </a>
-            <a class="has-text-weight-bold ml-3" @click="acceptCookies">
+            </span>
+            <span class="has-text-weight-bold ml-3" @click="acceptCookies">
               {{ $t('cookies.accept') }}
-            </a>
+            </span>
           </div>
         </div>
       </div>
