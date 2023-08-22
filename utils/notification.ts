@@ -1,29 +1,19 @@
-import { NotificationProgrammatic as Notification } from 'buefy'
-import { captureMessage } from '@sentry/browser'
+import { NeoNotificationProgrammatic as Notif } from '@kodadot1/brick'
 import consola from 'consola'
 
-export type NotificationType = { type: string; actionText: string }
-export type AvailableNotification = 'success' | 'info' | 'danger' | 'warn'
-export type NotificationList = Record<AvailableNotification, NotificationType>
-
-export const notificationTypes: NotificationList = {
+export const notificationTypes = {
   success: {
-    type: 'is-success',
-    actionText: 'OK',
-    // onAction: () => window.open(this.explorer + this.tx, '_blank'),
+    variant: 'success',
   },
   info: {
-    type: 'is-info',
-    actionText: 'OK',
+    variant: 'info',
   },
   danger: {
-    type: 'is-danger',
-    actionText: 'Oh no!',
+    variant: 'danger',
     duration: 15000,
   },
   warn: {
-    type: 'is-warning',
-    actionText: 'Oh ok!',
+    variant: 'warning',
   },
 }
 
@@ -33,30 +23,15 @@ export const showNotification = (
 ): void => {
   if (params === notificationTypes.danger) {
     consola.error('[Notification Error]', message)
-    captureMessage(String(message))
     return
   }
-  Notification.open({
-    duration: 10000,
+
+  Notif.open({
     message,
-    type: 'is-success',
-    position: 'is-top-right',
-    actionText: 'OK',
-    queue: false,
+    duration: 10000,
+    closable: true,
     ...params,
   })
-}
-
-export const infiniteNotif = (message: string) => {
-  const notif = Notification.open({
-    indefinite: true,
-    message,
-    type: 'is-info is-light',
-    position: 'is-top',
-    queue: false,
-  })
-
-  return notif
 }
 
 export const infoMessage = (msg) =>

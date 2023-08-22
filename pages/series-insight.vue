@@ -10,12 +10,12 @@
       <div class="column">
         <img
           v-if="urlPrefix === 'rmrk' || urlPrefix === 'ksm'"
-          src="~/assets/rmrk-logo-pink-faded.png"
+          src="/rmrk-logo-pink-faded.png"
           alt="RMRK"
           class="chain-logo is-hidden-mobile" />
         <img
           v-else-if="urlPrefix === 'bsx'"
-          src="~/assets/bsx-logo.png"
+          src="/bsx-logo.png"
           alt="BSX"
           class="chain-logo is-hidden-mobile" />
       </div>
@@ -25,6 +25,8 @@
   </section>
 </template>
 <script lang="ts">
+import { seriesInsightVisible } from '@/utils/config/permission.config'
+
 export default {
   name: 'Series',
   components: {
@@ -32,6 +34,17 @@ export default {
   },
   setup() {
     const { urlPrefix } = usePrefix()
+
+    const checkRouteAvailability = () => {
+      if (!seriesInsightVisible(urlPrefix.value)) {
+        navigateTo('/')
+      }
+    }
+
+    watch(urlPrefix, () => checkRouteAvailability())
+
+    onBeforeMount(() => checkRouteAvailability())
+
     return {
       urlPrefix,
     }

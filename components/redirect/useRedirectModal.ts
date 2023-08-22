@@ -1,12 +1,12 @@
 import RedirectModal from './RedirectModal.vue'
 import { EXTERNAL_LINK_WHITELIST } from '@/utils/constants'
-import { ModalProgrammatic as Modal } from 'buefy'
-import { BModalConfig } from 'buefy/types/components'
 import VueI18n from 'vue-i18n/types'
 import {
   convertSingularCollectionUrlToKodadotUrl,
   isExternal,
 } from '@/utils/url'
+import { useEventListener } from '@vueuse/core'
+import type { Ref } from 'vue/types'
 
 function isWhiteList(url: string) {
   const urlObj = new URL(url)
@@ -26,21 +26,20 @@ function isWhiteList(url: string) {
   })
 }
 
-const showModal = (url: string, i18n: VueI18n) => {
-  Modal.open({
+const showModal = (url: string, i18n: VueI18n, modal) => {
+  modal.open({
     component: RedirectModal,
     canCancel: ['outside', 'escape'],
-    customClass: 'redirect-modal',
+    rootClass: 'redirect-modal neo-modal',
     props: {
       url,
       i18n,
     },
-  } as unknown as BModalConfig)
+  })
 }
 
-export const useRedirectModal = (target: string) => {
-  const { $i18n } = useNuxtApp()
-  const _dom = computed(() => document.querySelector(target) || document.body)
+export const useRedirectModal = (element: Ref<HTMLElement | null>) => {
+  const { $i18n, $neoModal } = useNuxtApp()
 
   const handleLink = (event: Event) => {
     let ele = event.target as HTMLLinkElement
@@ -51,18 +50,13 @@ export const useRedirectModal = (target: string) => {
     const href = convertSingularCollectionUrlToKodadotUrl(ele.href)
 
     if (href && isExternal(href) && !isWhiteList(href)) {
-      showModal(href, $i18n)
+      showModal(href, $i18n, $neoModal)
     } else if (href) {
       window.open(href, '_blank')
     }
   }
 
-  onMounted(() => {
-    _dom.value.addEventListener('click', handleLink)
-  })
-  onBeforeUnmount(() => {
-    _dom.value.removeEventListener('click', handleLink)
-  })
+  useEventListener(element, 'click', handleLink)
 }
 
 export default useRedirectModal

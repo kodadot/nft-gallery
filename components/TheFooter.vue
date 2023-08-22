@@ -2,10 +2,10 @@
   <footer class="footer-container section">
     <div
       class="footer-container-inner is-flex is-align-items-start is-justify-content-space-between">
-      <div class="footer-container-subs is-flex is-flex-direction-column">
-        <h4 class="subtitle is-5">
+      <section class="footer-container-subs is-flex is-flex-direction-column">
+        <h2 class="subtitle is-5">
           {{ $t('footer.subscribe') }}
-        </h4>
+        </h2>
         <div class="is-flex is-align-items-center footer-container-subs-items">
           <div id="custom-substack-embed"></div>
 
@@ -24,9 +24,9 @@
           </script>
           <script src="https://substackapi.com/widget.js" async></script>
         </div>
-      </div>
-      <div class="footer-container-info is-flex is-flex-direction-column">
-        <h4 class="subtitle is-5">Incentives</h4>
+      </section>
+      <section class="footer-container-info is-flex is-flex-direction-column">
+        <h2 class="subtitle is-5">Incentives</h2>
         <div>
           <ul class="footer-container-list">
             <li
@@ -35,7 +35,7 @@
               class="footer-container-info-list-item">
               <a
                 v-if="item.external"
-                :href="item.url"
+                v-safe-href="item.url"
                 target="_blank"
                 rel="nofollow noopener noreferrer"
                 class="is-flex is-align-items-center">
@@ -51,9 +51,9 @@
             </li>
           </ul>
         </div>
-      </div>
-      <div class="footer-container-info is-flex is-flex-direction-column">
-        <h4 class="subtitle is-5">Marketplace</h4>
+      </section>
+      <section class="footer-container-info is-flex is-flex-direction-column">
+        <h2 class="subtitle is-5">Marketplace</h2>
         <div>
           <ul class="footer-container-list">
             <li
@@ -62,7 +62,7 @@
               class="footer-container-info-list-item">
               <a
                 v-if="item.external"
-                :href="item.url"
+                v-safe-href="item.url"
                 target="_blank"
                 rel="nofollow noopener noreferrer"
                 class="is-flex is-align-items-center">
@@ -78,9 +78,9 @@
             </li>
           </ul>
         </div>
-      </div>
-      <div class="footer-container-info is-flex is-flex-direction-column">
-        <h4 class="subtitle is-5">KodaDot</h4>
+      </section>
+      <section class="footer-container-info is-flex is-flex-direction-column">
+        <h2 class="subtitle is-5">KodaDot</h2>
         <div>
           <ul class="footer-container-list">
             <li
@@ -89,7 +89,7 @@
               class="footer-container-info-list-item">
               <a
                 v-if="item.external"
-                :href="item.url"
+                v-safe-href="item.url"
                 target="_blank"
                 rel="nofollow noopener noreferrer"
                 class="is-flex is-align-items-center">
@@ -105,21 +105,24 @@
             </li>
           </ul>
         </div>
-      </div>
+      </section>
 
-      <div class="footer-container-socials is-flex is-flex-direction-column">
-        <h4 class="subtitle is-5">
+      <section
+        class="footer-container-socials is-flex is-flex-direction-column">
+        <h2 class="subtitle is-5">
           {{ $t('footer.join') }}
-        </h4>
+        </h2>
         <ul class="footer-container-socials-list is-flex">
           <li
             v-for="item in socials"
             :key="item.url"
-            class="footer-container-socials-list-item is-flex is-align-items-center is-justify-content-center mr-2"
-            @click="goToSocials(item.url)">
+            class="footer-container-socials-list-item is-flex is-align-items-center is-justify-content-center mr-2">
             <a
+              v-safe-href="item.url"
               class="is-flex icon"
               rel="nofollow noopener noreferrer"
+              target="_blank"
+              role="link"
               :aria-label="item.name">
               <!-- substack doesnt have a font awesome icon -->
               <svg
@@ -150,9 +153,9 @@
             </a>
           </li>
         </ul>
-      </div>
+      </section>
     </div>
-    <img src="/blurred-landing-footer.png" class="left-blurred-image" />
+    <img src="/blurred-landing-footer.png" class="left-blurred-image" alt="" />
   </footer>
 </template>
 
@@ -224,7 +227,7 @@ const menuKodadot: Menu[] = [
 
   {
     name: $i18n.t('press kit'),
-    url: 'https://github.com/kodadot/kodadot-presskit/tree/main/v3',
+    url: 'https://github.com/kodadot/kodadot-presskit/tree/main/pre-v4',
     external: true,
   },
   {
@@ -272,7 +275,4 @@ const socials = [
     icon: 'reddit-alien',
   },
 ]
-const goToSocials = (url): void => {
-  window.open(url, '_blank')
-}
 </script>

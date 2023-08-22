@@ -51,19 +51,40 @@
     <div v-else class="title is-4 has-text-grey has-text-centered">
       {{ $i18n.t('drops.noUpcoming') }}
     </div>
+    <hr />
+    <div>
+      <CreateDropCard />
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import DropCard from '@/components/drops/DropCard.vue'
+import CreateDropCard from '@/components/drops/CreateDropCard.vue'
 import { collectionId } from '@/components/collection/unlockable/const'
 import { STT_COLLECTION_ID } from '@/components/collection/drop/const'
 import { useDrops } from './useDrops'
+import { dropsVisible } from '@/utils/config/permission.config'
 
 const { $i18n } = useNuxtApp()
 const drops = useDrops(collectionId)
 const statemintDrops = useDrops(STT_COLLECTION_ID, 'ahp')
 const voteDrop = useDrops(collectionId)
+const { urlPrefix } = usePrefix()
+
+const checkRouteAvailability = () => {
+  if (!dropsVisible(urlPrefix.value)) {
+    navigateTo('/')
+  }
+}
+
+watch(urlPrefix, () => checkRouteAvailability())
+
+onBeforeMount(() => {
+  checkRouteAvailability()
+})
+
+console.log('drops', statemintDrops)
 </script>
 
 <style lang="scss" scoped>

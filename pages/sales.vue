@@ -8,10 +8,22 @@
   </section>
 </template>
 <script lang="ts">
+import { salesVisible } from '@/utils/config/permission.config'
+
 export default {
   name: 'Sales',
   setup() {
     const { urlPrefix } = usePrefix()
+
+    const checkRouteAvailability = () => {
+      if (!salesVisible(urlPrefix.value)) {
+        navigateTo('/')
+      }
+    }
+
+    watch(urlPrefix, () => checkRouteAvailability())
+
+    checkRouteAvailability()
 
     return {
       urlPrefix,

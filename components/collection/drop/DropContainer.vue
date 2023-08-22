@@ -148,7 +148,7 @@
           </NeoButton>
         </div>
         <div class="column">
-          <img :src="unloackableBanner" alt="Unlockable" />
+          <img src="/unlockable-introduce.svg" alt="Unlockable" />
         </div>
       </div>
     </div>
@@ -156,7 +156,6 @@
 </template>
 
 <script setup lang="ts">
-import unloackableBanner from '@/assets/unlockable-introduce.svg'
 import CountdownTimer from '@/components/collection/unlockable/CountdownTimer.vue'
 import ImageSlider from '@/components/collection/unlockable/ImageSlider.vue'
 import UnlockableCollectionInfo from '@/components/collection/unlockable/UnlockableCollectionInfo.vue'
@@ -200,7 +199,7 @@ const Money = defineAsyncComponent(
 const TokenImportButton = defineAsyncComponent(
   () => import('@/components/collection/drop/TokenImportButton.vue')
 )
-const { $buefy, $i18n } = useNuxtApp()
+const { $neoModal, $i18n } = useNuxtApp()
 const root = ref<Vue>()
 
 const { toast } = useToast()
@@ -303,7 +302,7 @@ const handleBuy = async () => {
   }
 
   if (!isLogIn.value) {
-    $buefy.modal.open({
+    $neoModal.open({
       parent: root?.value,
       ...ConnectWalletModalConfig,
     })

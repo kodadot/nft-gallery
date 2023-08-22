@@ -27,7 +27,7 @@
               ><span
                 v-if="mintCountAvailable"
                 class="is-flex is-align-items-center">
-                <img :src="unlockablePulse" />
+                <img src="/unlockable-pulse.svg" />
                 Open</span
               >
             </div>
@@ -127,7 +127,7 @@
           </NeoButton>
         </div>
         <div class="column">
-          <img :src="unloackableBanner" alt="Unlockable" />
+          <img src="/unlockable-introduce.svg" alt="Unlockable" />
         </div>
       </div>
     </div>
@@ -141,8 +141,6 @@ import CountdownTimer from '@/components/collection/unlockable/CountdownTimer.vu
 import ImageSlider from '@/components/collection/unlockable/ImageSlider.vue'
 import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import UnlockableSchedule from '@/components/collection/unlockable/UnlockableSchedule.vue'
-import unloackableBanner from '@/assets/unlockable-introduce.svg'
-import unlockablePulse from '@/assets/unlockable-pulse.svg'
 import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
 import { DISPLAY_SLIDE_IMAGE_COUNT, collectionId, countDownTime } from './const'
 import {
@@ -160,7 +158,7 @@ import { useCountDown } from './utils/useCountDown'
 const Loader = defineAsyncComponent(
   () => import('@/components/collection/unlockable/UnlockableLoader.vue')
 )
-const { $buefy } = useNuxtApp()
+const { $neoModal } = useNuxtApp()
 const root = ref<Vue<Record<string, string>>>()
 
 const { toast } = useToast()
@@ -275,7 +273,7 @@ const description = unlockableDesc(40)
 
 const handleSubmitMint = async () => {
   if (!isLogIn.value) {
-    $buefy.modal.open({
+    $neoModal.open({
       parent: root?.value,
       ...ConnectWalletModalConfig,
     })

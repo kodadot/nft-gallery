@@ -153,7 +153,7 @@
           </NeoButton>
         </div>
         <div class="column">
-          <img :src="unloackableBanner" alt="Unlockable" />
+          <img src="/unlockable-introduce.svg" alt="Unlockable" />
         </div>
       </div>
     </div>
@@ -161,7 +161,6 @@
 </template>
 
 <script setup lang="ts">
-import unloackableBanner from '@/assets/unlockable-introduce.svg'
 import CountdownTimer from '@/components/collection/unlockable/CountdownTimer.vue'
 import ImageSlider from '@/components/collection/unlockable/ImageSlider.vue'
 import UnlockableCollectionInfo from '@/components/collection/unlockable/UnlockableCollectionInfo.vue'

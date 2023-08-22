@@ -35,6 +35,7 @@
             <div
               class="fixed-stack is-flex is-align-items-center is-justify-content-space-between p-2">
               <Search
+                v-if="isMobile"
                 ref="mobilSearchRef"
                 hide-filter
                 class="is-flex-grow-1 mt-3" />
@@ -71,6 +72,7 @@
         <div class="navbar-start">
           <div v-if="showSearchOnNavbar" class="navbar-item is-expanded">
             <Search
+              v-if="!isMobile"
               class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
               hide-filter
               search-column-class="is-flex-grow-1" />
@@ -92,16 +94,14 @@
                 variant="primary" />
             </div>
           </nuxt-link>
-          <template v-if="isExploreVisible">
-            <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
-              <NavbarExploreOptions @closeMobileNavbar="showMobileNavbar" />
-            </MobileExpandableSection>
 
-            <ExploreDropdown
-              v-else
-              class="navbar-explore custom-navbar-item"
-              data-cy="explore" />
-          </template>
+          <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
+            <NavbarExploreOptions @closeMobileNavbar="showMobileNavbar" />
+          </MobileExpandableSection>
+          <ExploreDropdown
+            v-else
+            class="navbar-explore custom-navbar-item"
+            data-cy="explore" />
 
           <a
             href="https://hello.kodadot.xyz"
@@ -130,7 +130,7 @@
             v-if="isMobile"
             no-padding
             :title="$t('chainSelect', [chainName])">
-            <NavbarChainOptions />
+            <NavbarChainOptions @select="handleMobileChainSelect" />
           </MobileExpandableSection>
 
           <ChainSelectDropdown
@@ -188,10 +188,7 @@
 
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
-import { BModalConfig } from 'buefy/types/components'
 
-import KodaBeta from '@/assets/Koda_Beta.svg'
-import KodaBetaDark from '@/assets/Koda_Beta_dark.svg'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import ChainSelectDropdown from '@/components/navbar/ChainSelectDropdown.vue'
 import CreateDropdown from '@/components/navbar/CreateDropdown.vue'
@@ -204,13 +201,14 @@ import NotificationBoxButton from '@/components/navbar/NotificationBoxButton.vue
 import ProfileDropdown from '@/components/navbar/ProfileDropdown.vue'
 import Search from '@/components/search/Search.vue'
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
+import { useEventListener } from '@vueuse/core'
 
 import { useIdentityStore } from '@/stores/identity'
 import { getChainNameByPrefix } from '@/utils/chain'
-import { createVisible, explorerVisible } from '@/utils/config/permision.config'
+import { createVisible } from '@/utils/config/permission.config'
 import ShoppingCartButton from './navbar/ShoppingCartButton.vue'
 
-const { $buefy, $nextTick } = useNuxtApp()
+const { $nextTick, $neoModal } = useNuxtApp()
 const instance = getCurrentInstance()
 const showTopNavbar = ref(true)
 const openMobileSearchBar = ref(false)
@@ -222,6 +220,7 @@ const { urlPrefix } = usePrefix()
 const { isDarkMode } = useTheme()
 const identityStore = useIdentityStore()
 const isMobileNavbarOpen = ref(false)
+const updateAuthBalanceTimer = ref()
 
 const mobilSearchRef = ref<{ focusInput: () => void } | null>(null)
 
@@ -230,33 +229,37 @@ const route = useRoute()
 const account = computed(() => identityStore.getAuthAddress)
 
 const isCreateVisible = computed(() => createVisible(urlPrefix.value))
-const isExploreVisible = computed(() => explorerVisible(urlPrefix.value))
 const isLandingPage = computed(() => route.name === 'index')
 
-const logoSrc = computed(() => (isDarkMode.value ? KodaBetaDark : KodaBeta))
+const logoSrc = computed(() =>
+  isDarkMode.value ? '/Koda_Beta_dark.svg' : '/Koda_Beta.svg'
+)
 
 const showSearchOnNavbar = computed(
   () => !isLandingPage.value || !showTopNavbar.value || isBurgerMenuOpened.value
 )
 
+const handleMobileChainSelect = () => {
+  showMobileNavbar()
+}
+
 const openWalletConnectModal = (): void => {
   showMobileNavbar()
 
-  $buefy.modal.open({
+  $neoModal.closeAll()
+
+  $neoModal.open({
     parent: instance?.proxy,
     ...ConnectWalletModalConfig,
-  } as unknown as BModalConfig)
-
-  // close all modal
-  document.querySelectorAll('.modal').forEach((modal) => {
-    modal.__vue__?.$vnode?.context?.close()
-    modal.remove()
   })
 }
 
 const showMobileNavbar = () => {
   document.body.classList.toggle('is-clipped')
   isMobileNavbarOpen.value = !isMobileNavbarOpen.value
+  if (!isMobileNavbarOpen.value) {
+    document.documentElement.scrollTop = lastScrollPosition.value
+  }
 }
 
 const closeBurgerMenu = () => {
@@ -318,19 +321,23 @@ const handleResize = () => {
 
 const chainName = computed(() => getChainNameByPrefix(urlPrefix.value))
 
+const updateAuthBalance = () => {
+  account.value && identityStore.fetchBalance({ address: account.value })
+}
+
 onMounted(() => {
-  window.addEventListener('scroll', onScroll)
   document.body.style.overflowY = 'initial'
   document.body.className = 'has-navbar-fixed-top has-spaced-navbar-fixed-top'
-  window.addEventListener('resize', handleResize)
+  updateAuthBalanceTimer.value = setInterval(updateAuthBalance, 30000)
 })
 
 onBeforeUnmount(() => {
-  window.removeEventListener('scroll', onScroll)
   setBodyScroll(true)
   document.documentElement.classList.remove('is-clipped-touch')
-  window.removeEventListener('resize', handleResize)
+  clearInterval(updateAuthBalanceTimer.value)
 })
+useEventListener(window, 'scroll', onScroll)
+useEventListener(window, 'resize', handleResize)
 </script>
 
 <style lang="scss" scoped>

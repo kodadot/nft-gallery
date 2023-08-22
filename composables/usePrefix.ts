@@ -1,29 +1,54 @@
 import { DEFAULT_PREFIX } from '@kodadot1/static'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
+import { useIdentityStore } from '@/stores/identity'
 import { useAssetsStore } from '@/stores/assets'
 import { getAvailablePrefix } from '@/utils/chain'
+import { ss58Of } from '@/utils/config/chain.config'
 
 import type { Prefix } from '@kodadot1/static'
+
+const sharedPrefix = ref<Prefix>()
 
 export default function () {
   const route = useRoute()
   const storage = useLocalStorage('urlPrefix', { selected: DEFAULT_PREFIX })
   const initialPrefixFromPath = getAvailablePrefix(route.path.split('/')[1])
-  const validPrefixFromRoute = getAvailablePrefix(route.params.prefix)
+  const identityStore = useIdentityStore()
+
+  const validPrefixFromRoute = computed(() =>
+    getAvailablePrefix(route.params.prefix)
+  )
 
   const prefix = computed<Prefix>(
     () =>
-      (validPrefixFromRoute ||
+      (sharedPrefix.value ||
+        validPrefixFromRoute.value ||
         storage.value.selected ||
         initialPrefixFromPath) as Prefix
   )
+
+  const handlePrefixChange = (value: Prefix) => {
+    sharedPrefix.value = value
+    storage.value = { selected: value }
+    identityStore.setCorrectAddressFormat(ss58Of(value))
+  }
+
+  watch(
+    prefix,
+    (value) => {
+      if (value) {
+        handlePrefixChange(value)
+      }
+    },
+    { immediate: true }
+  )
+
   const urlPrefix = computed<Prefix>(() => {
-    storage.value = { selected: prefix.value }
     return prefix.value
   })
 
-  const setUrlPrefix = (prefix) => {
-    storage.value = { selected: prefix }
+  const setUrlPrefix = (prefix: Prefix) => {
+    handlePrefixChange(prefix)
   }
 
   const client = computed<string>(() => {

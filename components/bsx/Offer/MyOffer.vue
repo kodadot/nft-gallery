@@ -5,14 +5,21 @@
         {{ $t('myOffer.bsxTitle') }}
       </h1>
     </div>
-    <NeoSelect v-model="selectedStatus">
-      <option
-        v-for="option in getUniqType(offers)"
-        :key="option.type"
-        :value="option.type">
-        {{ option.value }}
-      </option>
-    </NeoSelect>
+    <div class="is-flex is-justify-content-space-between is-align-items-center">
+      <NeoSelect v-model="selectedStatus">
+        <option
+          v-for="option in getUniqType()"
+          :key="option.type"
+          :value="option.type">
+          {{ option.value }}
+        </option>
+      </NeoSelect>
+      <NeoButton
+        no-shadow
+        size="medium"
+        icon-left="refresh"
+        @click.native="refresh" />
+    </div>
     <Loader v-model="isLoading" :status="status" />
     <NeoTable :data="displayOffers(offers)">
       <NeoTableColumn v-slot="props" :label="$t('nft.offer.item')" sortable>
@@ -27,9 +34,9 @@
       <NeoTableColumn
         v-slot="props"
         field="formatPrice"
-        :label="$t('myOffer.price')"
+        :label="`${$t(`offer.price`)} (${chainSymbol})`"
         sortable>
-        <Money :value="props.row.price" inline />
+        <Money :value="props.row.price" inline hide-unit :round="2" />
       </NeoTableColumn>
       <NeoTableColumn
         v-slot="props"
@@ -70,10 +77,7 @@
         :label="$t('myOffer.date')"
         sortable>
         <p>
-          {{
-            new Date(props.row.createdAt) |
-              formatDistanceToNow({ addSuffix: true })
-          }}
+          {{ timeAgo(new Date(props.row.createdAt).getTime()) }}
         </p>
       </NeoTableColumn>
       <template #empty>
@@ -85,99 +89,164 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Emit, Prop, Watch, mixins } from 'nuxt-property-decorator'
-import { formatDistanceToNow } from 'date-fns'
-
+<script setup lang="ts">
 import { NeoButton, NeoSelect, NeoTable, NeoTableColumn } from '@kodadot1/brick'
+import Identity from '@/components/identity/IdentityIndex.vue'
+import Money from '@/components/shared/format/Money.vue'
 
+import { notificationTypes, showNotification } from '@/utils/notification'
 import { tokenIdToRoute } from '@/components/unique/utils'
-
-import OfferMixin from '@/utils/mixins/offerMixin'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
+import { timeAgo } from '@/components/collection/utils/timeAgo'
+import { formatBsxBalanceToNumber } from '@/utils/format/balance'
+import { AllOfferStatusType } from '@/utils/offerStatus'
 
 import acceptableOfferByCurrentOwner from '@/queries/subsquid/bsx/acceptableOfferByCurrentOwner.graphql'
 
 import { Offer, OfferResponse } from './types'
 
-const components = {
-  Identity: () => import('@/components/identity/IdentityIndex.vue'),
-  Money: () => import('@/components/shared/format/Money.vue'),
-  NeoTable,
-  NeoTableColumn,
-  NeoSelect,
-  NeoButton,
+const { howAboutToExecute, initTransactionLoader, isLoading, status } =
+  useMetaTransaction()
+const { $apollo, $consola, $i18n } = useNuxtApp()
+const { urlPrefix, client } = usePrefix()
+const { accountId, isLogIn } = useAuth()
+const { chainSymbol } = useChain()
+
+const offers = ref<Offer[]>([])
+const destinationAddress = ref('')
+const selectedStatus = ref<AllOfferStatusType>(AllOfferStatusType.ALL)
+
+withDefaults(
+  defineProps<{
+    address?: string
+    hideHeading?: boolean
+  }>(),
+  {
+    address: '',
+    hideHeading: false,
+  }
+)
+
+const targetAddress = computed(
+  () => destinationAddress.value || accountId.value
+)
+
+const getUniqType = () => {
+  const statusSet = new Set(offers.value.map((offer) => offer.status))
+  const singleEventList = Array.from(statusSet).map((type) => ({
+    type: type as AllOfferStatusType,
+    value: AllOfferStatusType[type],
+  }))
+
+  return [{ type: AllOfferStatusType.ALL, value: 'All' }, ...singleEventList]
 }
 
-@Component({
-  components,
-  filters: { formatDistanceToNow },
+const { refresh } = useLazyAsyncData('offers', async () => {
+  if (!targetAddress.value) {
+    return
+  }
+
+  try {
+    const { data } = await $apollo.query<OfferResponse>({
+      client: client.value,
+      query: acceptableOfferByCurrentOwner,
+      variables: {
+        id: targetAddress.value,
+      },
+    })
+    offers.value = data.offers
+  } catch (e) {
+    $consola.error(e)
+  }
 })
-export default class MyOffer extends mixins(PrefixMixin, OfferMixin) {
-  public offers: Offer[] = []
-  public destinationAddress = ''
-  @Prop({ type: String, default: '' }) public address!: string
-  @Prop({ type: Boolean, default: false }) public hideHeading!: boolean
 
-  get targetAddress() {
-    return this.destinationAddress || this.accountId
-  }
+// doesn't need emit?
+// const emit = defineEmits(['offersIncoming'])
+// const offersIncoming = (response: OfferResponse) => {
+//   emit('offersIncoming', (offers.value = response.offers))
+// }
 
-  mounted() {
-    if (this.targetAddress) {
-      this.$apollo.addSmartQuery<OfferResponse>('offers', {
-        client: this.urlPrefix,
-        query: acceptableOfferByCurrentOwner,
-        variables: { id: this.targetAddress },
-        manual: true,
-        result: ({ data }) => this.setResponse(data),
-        pollInterval: 10000,
-      })
-    }
-  }
+const submit = async (
+  maker: string,
+  nftId: string,
+  collectionId: string,
+  withdraw: boolean,
+  onSuccess?: () => void
+) => {
+  try {
+    const { apiInstance } = useApi()
+    const api = await apiInstance.value
+    initTransactionLoader()
+    const cb = !withdraw
+      ? api.tx.marketplace.acceptOffer
+      : api.tx.marketplace.withdrawOffer
+    const args = [collectionId, nftId, maker]
 
-  public onClick = async (offer: Offer, withdraw: boolean) => {
-    const { caller, nft } = offer
-    const { id: collectionId, item } = tokenIdToRoute(nft.id)
-    this.isLoading = true
-    await this.submit(caller, item, collectionId, withdraw, this.fetchMyOffers)
-  }
-
-  @Emit('offersIncoming')
-  protected setResponse(response: OfferResponse) {
-    this.offers = response.offers
-  }
-
-  protected async fetchMyOffers() {
-    if (!this.targetAddress) {
-      return
-    }
-
-    try {
-      const { data } = await this.$apollo.query<OfferResponse>({
-        client: this.urlPrefix,
-        query: acceptableOfferByCurrentOwner,
-        variables: {
-          id: this.targetAddress,
-        },
-      })
-      this.setResponse(data)
-    } catch (e) {
-      this.$consola.error(e)
-    }
-  }
-
-  @Watch('accountId', { immediate: true })
-  onAccountChange() {
-    this.fetchMyOffers()
-  }
-
-  @Watch('address', { immediate: true })
-  onAddressChange(value: string) {
-    this.destinationAddress = value
-    this.fetchMyOffers()
+    await howAboutToExecute(accountId.value, cb, args, (blockNumber) => {
+      const msg = !withdraw
+        ? $i18n.t('offer.accept')
+        : $i18n.t('offer.withdraw')
+      showNotification(
+        `[OFFER] Since block ${blockNumber}, ${msg}`,
+        notificationTypes.success
+      )
+      onSuccess && onSuccess()
+    })
+  } catch (e: any) {
+    showNotification(`[OFFER::ERR] ${e}`, notificationTypes.warn)
+    $consola.error(e)
+    isLoading.value = false
   }
 }
+
+const onClick = async (offer: Offer, withdraw: boolean) => {
+  const { caller, nft } = offer
+  const { id: collectionId, item } = tokenIdToRoute(nft.id)
+  isLoading.value = true
+  await submit(caller, item, collectionId, withdraw, refresh)
+}
+
+const displayOffers = (offers: Offer[]) => {
+  let filterOffers: Offer[]
+  if (selectedStatus.value === AllOfferStatusType.ALL) {
+    filterOffers = offers.concat()
+  } else {
+    filterOffers = offers.filter(
+      (offer) => offer.status === selectedStatus.value
+    )
+  }
+
+  return filterOffers.map((offer) => ({
+    ...offer,
+    formatPrice: formatBsxBalanceToNumber(offer.price),
+    expirationBlock: parseInt(offer.expiration),
+  }))
+}
+
+const currentBlock = ref(async () => {
+  const { apiInstance } = useApi()
+  const api = await apiInstance.value
+  const block = await api.rpc.chain.getHeader()
+  return block.number.toNumber()
+})
+
+const calcSecondsToBlock = (block: number): number => {
+  const secondsForEachBlock = 12
+  return secondsForEachBlock * (block - currentBlock.value)
+}
+
+const calcExpirationTime = (expirationBlock: number): string => {
+  if (currentBlock.value === 0) {
+    return 'computing'
+  }
+  if (currentBlock.value > expirationBlock) {
+    return 'expired'
+  }
+  return formatSecondsToDuration(calcSecondsToBlock(expirationBlock))
+}
+
+watch(accountId, () => {
+  refresh()
+})
 </script>
 
 <style scoped>

@@ -1,8 +1,8 @@
 <template>
   <Story>
     <CardArticle
+      :link="href"
       :description="description"
-      :href="href"
       :image="image"
       :title="title" />
   </Story>

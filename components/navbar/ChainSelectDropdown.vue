@@ -27,15 +27,16 @@ import { usePreferencesStore } from '@/stores/preferences'
 import { getChainNameByPrefix } from '@/utils/chain'
 
 const { availableChains } = useChain()
+const { redirectAfterChainChange } = useChainRedirect()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const prefrencesStore = usePreferencesStore()
 
 const selected = computed({
   get: () => urlPrefix.value,
-  set: (value) => {
+  set: (newChain) => {
     prefrencesStore.setNotificationBoxCollapse(false)
-    setUrlPrefix(value)
-    navigateTo(`/${value}`)
+    setUrlPrefix(newChain)
+    redirectAfterChainChange(newChain)
   },
 })
 

@@ -12,7 +12,7 @@
     </div>
 
     <div
-      v-for="post in featuredPost.slice(0, 1)"
+      v-for="post in posts.slice(0, 1)"
       :key="post.attributes.title"
       class="content-featured content-list">
       <div
@@ -32,10 +32,10 @@
 
         <div>
           <NeoButton
+            v-safe-href="getPermalink(post)"
             no-shadow
             rounded
             tag="a"
-            :href="getPermalink(post)"
             icon="arrow-right-long">
             View Article
           </NeoButton>
@@ -97,19 +97,16 @@ export default {
     const resolve = require.context('~/content/blog/', true, /\.md$/)
     const imports = resolve.keys().map((key) => resolve(key))
 
-    const featuredPost = imports.filter(
-      (post) => post.attributes.featured === true
+    const latestPosts = imports.sort(
+      (a, b) => +new Date(b.attributes.date) - +new Date(a.attributes.date)
     )
 
-    const latestPosts = imports.filter((post) => !post.attributes.featured)
-
-    const tokensPosts = imports.filter(
+    const tokensPosts = latestPosts.filter(
       (post) => post.attributes.tags === 'Tokens'
     )
 
     return {
       posts: latestPosts,
-      featuredPost,
       tokensPosts,
     }
   },

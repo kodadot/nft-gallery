@@ -1,11 +1,10 @@
 import path from 'path'
 import * as fs from 'fs'
 import { defineNuxtConfig } from '@nuxt/bridge'
-import SentryWebpackPlugin from '@sentry/webpack-plugin'
 import Mode from 'frontmatter-markdown-loader/mode'
-
 import { manifestIcons } from './utils/config/pwa'
 import { URLS, apolloClientConfig } from './utils/constants'
+import { fromNodeMiddleware } from 'h3'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
@@ -164,6 +163,8 @@ export default defineNuxtConfig({
     { src: '~/plugins/icons', mode: 'client' },
     { src: '~/plugins/consola', mode: 'client' },
     { src: '~/plugins/piniaPersistedState', mode: 'client' },
+    { src: '~/plugins/oruga-modal', mode: 'client' },
+    { src: '~/plugins/oruga-notification', mode: 'client' },
     '~/plugins/filters',
     '~/plugins/globalVariables',
     '~/plugins/pwa',
@@ -171,6 +172,7 @@ export default defineNuxtConfig({
     '~/plugins/vueClipboard',
     '~/plugins/vueSocialSharing',
     '~/plugins/vueTippy',
+    '~/plugins/safeHref',
   ],
 
   router: {
@@ -229,54 +231,14 @@ export default defineNuxtConfig({
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // https://go.nuxtjs.dev/buefy
-    [
-      'nuxt-buefy',
-      {
-        css: false,
-        defaultIconPack: 'fas',
-        defaultIconComponent: 'vue-fontawesome',
-        defaultFieldLabelPosition: 'inside',
-        materialDesignIcons: false,
-      },
-    ],
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
-    '@nuxtjs/sentry',
     '@kevinmarrec/nuxt-pwa',
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
-    ['@pinia/nuxt', { disableVuex: false }],
+    '@pinia/nuxt',
     '@nuxtjs/sitemap',
   ],
-
-  sentry: {
-    disabled: process.env.NODE_ENV === 'development',
-    lazy: true,
-    dsn: 'https://6fc80708bf024dc8b43c3058f8260dd6@o4503930691256320.ingest.sentry.io/4503930702331904', // Enter your project's DSN here
-    customClientIntegrations:
-      process.platform !== 'win32' ? '@/plugins/sentry' : undefined,
-    // Additional Module Options go here
-    // https://sentry.nuxtjs.org/sentry/options
-    config: {
-      // Add native Sentry config here
-      // https://docs.sentry.io/platforms/javascript/guides/vue/configuration/options/
-      sampleRate: 0.25,
-      whitelistUrls: [/kodadot\.xyz/],
-      beforeSend(event) {
-        if (window.navigator.userAgent.indexOf('prerender') !== -1) {
-          return null
-        }
-
-        if (window.navigator.userAgent.indexOf('Headless') !== -1) {
-          return null
-        }
-
-        return event
-      },
-    },
-    sourceMapStyle: 'hidden-source-map',
-  },
 
   pwa: {
     manifest: {
@@ -350,6 +312,16 @@ export default defineNuxtConfig({
   },
 
   hooks: {
+    ready(nuxt) {
+      // https://github.com/nuxt/bridge/issues/607
+      // translate nuxt 2 hook from @nuxt/webpack-edge to nuxt bridge hook
+      nuxt.hook('server:devMiddleware', async (devMiddleware) => {
+        await nuxt.callHook(
+          'server:devHandler',
+          fromNodeMiddleware(devMiddleware)
+        )
+      })
+    },
     sitemap: {
       generate: {
         done(nuxtInstance) {
@@ -358,6 +330,24 @@ export default defineNuxtConfig({
             'static/sitemap.xml'
           )
         },
+      },
+    },
+  },
+
+  buildModules: ['nuxt-webpack-optimisations'],
+
+  webpackOptimisations: {
+    features: {
+      esbuildLoader: process.env.NODE_ENV !== 'development',
+    },
+    // https://github.com/privatenumber/esbuild-loader#%EF%B8%8F-options
+    esbuildLoaderOptions: {
+      client: {
+        target: 'esnext',
+        legalComments: 'none',
+      },
+      modern: {
+        target: 'esnext',
       },
     },
   },
@@ -399,22 +389,8 @@ export default defineNuxtConfig({
       '@google/model-viewer', // TODO check to see if it works without transpilation in future nuxt releases
     ],
     extend(config) {
-      if (
-        process.env.NODE_ENV !== 'development' &&
-        process.env.SENTRY_AUTH_TOKEN
-      ) {
-        // https://community.cloudflare.com/t/recurring-deployment-issue-on-pages-which-works-on-preview-branch-but-doesnt-on-production-branch/540278/10
-        // config.devtool = 'source-map'
-
-        config.plugins.push(
-          new SentryWebpackPlugin({
-            org: 'kodadot',
-            project: 'nft-gallery',
-            include: './dist',
-            authToken: process.env.SENTRY_AUTH_TOKEN,
-          })
-        )
-      }
+      // for debugging
+      // config.devtool = 'source-map'
 
       // add frontmatter-markdown-loader
       config.module.rules.push({
@@ -440,7 +416,7 @@ export default defineNuxtConfig({
         include: [path.resolve(__dirname, 'node_modules')],
         use: [
           { loader: require.resolve('@open-wc/webpack-import-meta-loader') },
-          { loader: require.resolve('babel-loader') },
+          { loader: require.resolve('babel-loader'), query: { compact: true } },
         ],
       })
 
@@ -449,7 +425,12 @@ export default defineNuxtConfig({
         fs: 'empty',
       }
     },
-    postcss: null,
+
+    postcss: {
+      postcssOptions: {
+        plugins: {},
+      },
+    },
   },
 
   // env: {

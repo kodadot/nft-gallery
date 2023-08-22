@@ -49,7 +49,7 @@ export const URLS = {
     seoCard: 'https://og-image-green-seven.vercel.app/',
     rubick: 'https://squid.subsquid.io/rubick/graphql',
     snek: 'https://squid.subsquid.io/snekk/graphql',
-    snekRococo: 'https://squid.subsquid.io/snekk/v/004/graphql',
+    snekRococo: 'https://squid.subsquid.io/sneck/graphql',
     click: 'https://squid.subsquid.io/click/v/002/graphql',
     antick: 'https://squid.subsquid.io/antick/v/001-rc0/graphql',
     marck: 'https://squid.subsquid.io/marck/graphql',
