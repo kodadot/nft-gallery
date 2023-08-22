@@ -201,10 +201,11 @@ import NotificationBoxButton from '@/components/navbar/NotificationBoxButton.vue
 import ProfileDropdown from '@/components/navbar/ProfileDropdown.vue'
 import Search from '@/components/search/Search.vue'
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
+import { useEventListener } from '@vueuse/core'
 
 import { useIdentityStore } from '@/stores/identity'
 import { getChainNameByPrefix } from '@/utils/chain'
-import { createVisible } from '@/utils/config/permision.config'
+import { createVisible } from '@/utils/config/permission.config'
 import ShoppingCartButton from './navbar/ShoppingCartButton.vue'
 
 const { $nextTick, $neoModal } = useNuxtApp()
@@ -325,20 +326,18 @@ const updateAuthBalance = () => {
 }
 
 onMounted(() => {
-  window.addEventListener('scroll', onScroll)
   document.body.style.overflowY = 'initial'
   document.body.className = 'has-navbar-fixed-top has-spaced-navbar-fixed-top'
-  window.addEventListener('resize', handleResize)
   updateAuthBalanceTimer.value = setInterval(updateAuthBalance, 30000)
 })
 
 onBeforeUnmount(() => {
-  window.removeEventListener('scroll', onScroll)
   setBodyScroll(true)
   document.documentElement.classList.remove('is-clipped-touch')
-  window.removeEventListener('resize', handleResize)
   clearInterval(updateAuthBalanceTimer.value)
 })
+useEventListener(window, 'scroll', onScroll)
+useEventListener(window, 'resize', handleResize)
 </script>
 
 <style lang="scss" scoped>

@@ -1,11 +1,11 @@
 <template>
   <div class="container is-fluid">
-    <CollectionList />
+    <CollectionGridWithBreadcrumbs />
   </div>
 </template>
 
 <script lang="ts">
-import { explorerVisible } from '@/utils/config/permision.config'
+import { explorerVisible } from '@/utils/config/permission.config'
 
 export default {
   name: 'ExploreCollectibles',

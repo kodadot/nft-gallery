@@ -4,6 +4,7 @@
       v-if="account"
       class="navbar-item"
       role="button"
+      aria-label="open profile menu"
       @click="toggleWalletConnectModal">
       <Avatar :value="account" class="navbar__avatar-icon" :size="27" />
     </a>
