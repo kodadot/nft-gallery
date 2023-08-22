@@ -24,7 +24,7 @@ function useSearchPriceRange() {
 
     const defaultParams = {
       price_gt: '0',
-      price_gte: Number(minPrice),
+      price_gte: Number(minPrice) || undefined,
     }
 
     if (route.query.max) {
@@ -106,7 +106,7 @@ export function useSearchParams() {
   const { collectionId } = useSearchByCollectionId()
   const { userId } = useSearchByUserId()
   const { collections } = useSearchByCollections()
-
+  console.log(priceRange)
   const searchParams = computed(() => {
     return [
       ...keywords.value,
