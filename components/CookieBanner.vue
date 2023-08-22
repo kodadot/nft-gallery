@@ -54,6 +54,12 @@ const declineCookies = () => {
     height: 2.188rem;
     max-width: 720px;
 
+    .action {
+      span {
+        cursor: pointer;
+      }
+    }
+
     @media screen and (max-width: 768px) {
       height: auto;
       width: 11.875rem;
