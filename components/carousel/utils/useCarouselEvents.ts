@@ -27,7 +27,7 @@ const fetchLatestEvents = (chain, type, where = {}) => {
     query,
     client: chain,
     variables: {
-      limit: limit * 2, // buffer the limit
+      limit: limit,
       orderBy: 'timestamp_DESC',
       where: {
         ...nftEventVariables[type],
@@ -75,24 +75,25 @@ const useChainEvents = (chain, type) => {
     pushNft(nft)
   }
 
-  fetchLatestEvents(chain, type).then((response) => {
-    response.data.events.forEach((nft) => {
-      limitCollection(nft)
-    })
-
-    if (nfts.value.length <= limit) {
-      fetchLatestEvents(chain, type, {
-        nft: {
-          id_not_in: excludeNftId.value,
-          collection: {
-            id_not_in: excludeCollectionId.value,
-          },
+  const fetchEvents = () => {
+    fetchLatestEvents(chain, type, {
+      nft: {
+        ...(type === 'newestList' && { price_gt: 0 }),
+        id_not_in: [...new Set(excludeNftId.value)],
+        collection: {
+          id_not_in: [...new Set(excludeCollectionId.value)],
         },
-      }).then((res) => {
-        res.data.events.forEach((nft) => {
-          limitCollection(nft)
-        })
+      },
+    }).then((response) => {
+      response.data.events.forEach((nft) => {
+        limitCollection(nft)
       })
+    })
+  }
+
+  watchEffect(() => {
+    if (nfts.value.length < limit) {
+      fetchEvents()
     }
   })
 
@@ -139,6 +140,7 @@ export const useCarouselNftEvents = ({ type }: Types) => {
       ...flattenNFT(dataRmrk2.value, 'ksm'),
     ]
 
+    // show 30 nfts in carousel
     const sortedNfts = sortNftByTime(data).slice(0, 30)
 
     nfts.value = sortedNfts
