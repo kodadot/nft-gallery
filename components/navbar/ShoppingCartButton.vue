@@ -1,5 +1,5 @@
 <template>
-  <a
+  <div
     class="navbar-item is-flex is-align-items-center"
     @click="toggleShoppingCartModal">
     <span v-if="props.showLabel">{{ $t('shoppingCart.label') }}</span>
@@ -14,7 +14,7 @@
         rounded
         class="count-position is-size-7" />
     </div>
-  </a>
+  </div>
 </template>
 
 <script setup lang="ts">
