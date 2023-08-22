@@ -170,24 +170,12 @@ import UnlockableCollectionInfo from '@/components/collection/unlockable/Unlocka
 import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
-import { tokenIdToRoute } from '@/components/unique/utils'
-import { claimDropItem, getLatestWaifuImages } from '@/services/waifu'
-import {
-  notificationTypes,
-  showNotification,
-  warningMessage,
-} from '@/utils/notification'
-import { ShoppingActions } from '@/utils/shoppingActions'
+import { getLatestWaifuImages } from '@/services/waifu'
+import { showNotification } from '@/utils/notification'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import type Vue from 'vue'
-import {
-  createUnlockableMetadata,
-  getRandomInt,
-  unlockableDesc,
-} from '../unlockable/utils'
 import { useCountDown } from '../unlockable/utils/useCountDown'
 import {
-  VOTE_DROP_CAMPAIGN,
   VOTE_DROP_COLLECTION_ID,
   VOTE_DROP_DESCRIPTION,
   countDownTime,
@@ -202,8 +190,6 @@ const { $buefy, $i18n } = useNuxtApp()
 const root = ref<Vue>()
 const { accountId } = useAuth()
 
-const { toast } = useToast()
-
 const imageList = ref<string[]>([])
 const resultList = ref<any[]>([])
 // const { urlPrefix } = usePrefix()
@@ -212,8 +198,6 @@ const { hours, minutes } = useCountDown(countDownTime)
 const justMinted = ref('')
 const isLoading = ref(false)
 const collectionId = VOTE_DROP_COLLECTION_ID
-
-const actionLabel = $i18n.t('nft.action.buy')
 
 const { isEligibleUser } = useCheckReferenDumVote()
 
