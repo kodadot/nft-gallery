@@ -9,7 +9,7 @@
         }}
       </span>
       <a class="is-flex is-align-items-center" @click="emit('close')">
-        <NeoIcon icon="close" />
+        <NeoIcon icon="xmark" pack="fa-sharp" size="medium" />
       </a>
     </header>
     <section v-if="showAccount">

@@ -3,12 +3,12 @@
     v-if="isOpen"
     class="notification-modal-container theme-background-color border-left is-flex is-flex-direction-column">
     <header
-      class="py-4 px-6 is-flex is-justify-content-space-between border-bottom mb-4">
+      class="py-5 px-6 is-flex is-justify-content-space-between border-bottom mb-4">
       <span class="modal-card-title is-size-6 has-text-weight-bold">
         {{ $t('notification.notifications') }}
       </span>
       <a class="is-flex is-align-items-center" @click="closeModal">
-        <NeoIcon icon="close" />
+        <NeoIcon icon="xmark" pack="fa-sharp" size="medium" />
       </a>
     </header>
     <div class="px-0 pt-0 pb-3 theme-background-color">
