@@ -48,6 +48,8 @@ const declineCookies = () => {
 </script>
 
 <style lang="scss">
+@import '@/styles/abstracts/variables';
+
 .cookie-banner {
   .snackbar {
     align-self: flex-start;
@@ -57,6 +59,14 @@ const declineCookies = () => {
     .action {
       span {
         cursor: pointer;
+        @include ktheme() {
+          color: theme('text-color');
+        }
+        &:hover {
+          @include ktheme() {
+            color: theme('link-hover');
+          }
+        }
       }
     }
 
