@@ -53,25 +53,13 @@ export function useFetchSearch({
       }
     }
 
-    const variables = search
-      ? {
-          search,
-          first: first.value,
-          offset: (page - 1) * first.value,
-          orderBy: route.query.sort?.length
-            ? route.query.sort
-            : ['blockNumber_DESC'],
-        }
+    const variables = search?.length
+      ? { search }
       : {
-          denyList: getDenyList(urlPrefix.value),
-          orderBy: route.query.sort?.length
-            ? route.query.sort
-            : ['blockNumber_DESC'],
           search: searchParams.value,
+          denyList: getDenyList(urlPrefix.value),
           priceMin: Number(route.query.min),
           priceMax: Number(route.query.max),
-          first: first.value,
-          offset: (page - 1) * first.value,
         }
 
     const queryPath = getQueryPath(client.value)
@@ -79,7 +67,14 @@ export function useFetchSearch({
     const result = await $apollo.query({
       query: query.default,
       client: client.value,
-      variables: variables,
+      variables: {
+        ...variables,
+        first: first.value,
+        offset: (page - 1) * first.value,
+        orderBy: route.query.sort?.length
+          ? route.query.sort
+          : ['blockNumber_DESC'],
+      },
     })
 
     // handle results
