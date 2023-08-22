@@ -80,7 +80,7 @@
               <NeoTooltip
                 :label="targetAddresses[0].address"
                 append-to-body
-                :content-class="`transfer-tooltip ${isMobile ? 'mobile' : ''}`">
+                content-class="transfer-tooltip">
                 <NeoIcon icon="circle-info" class="is-size-6" pack="far" />
               </NeoTooltip>
             </div>
