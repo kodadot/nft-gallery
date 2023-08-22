@@ -116,11 +116,12 @@
           <li
             v-for="item in socials"
             :key="item.url"
-            class="footer-container-socials-list-item is-flex is-align-items-center is-justify-content-center mr-2"
-            @click="goToSocials(item.url)">
+            class="footer-container-socials-list-item is-flex is-align-items-center is-justify-content-center mr-2">
             <a
+              v-safe-href="item.url"
               class="is-flex icon"
               rel="nofollow noopener noreferrer"
+              target="_blank"
               role="link"
               :aria-label="item.name">
               <!-- substack doesnt have a font awesome icon -->
@@ -274,7 +275,4 @@ const socials = [
     icon: 'reddit-alien',
   },
 ]
-const goToSocials = (url): void => {
-  window.open(url, '_blank')
-}
 </script>

@@ -29,8 +29,9 @@
         <a
           v-for="chain in availableChains"
           :key="chain.value"
+          v-safe-href="`/${chain.value}/explore/collectibles`"
           :class="['m-2', 'chain-option active']"
-          @click="switchChain(chain.value)">
+          @click.prevent="switchChain(chain.value)">
           {{ chainText(chain.text) }}
           <sup v-if="chain.text.includes('[Beta]')" class="beta-text is-size-7">
             {{ $t('beta') }}</sup
@@ -74,7 +75,8 @@ const landingImage = computed(() => {
   }
 })
 
-const switchChain = (value) => {
+const switchChain = (value, event) => {
+  event.preventDefault()
   if (value !== urlPrefix.value) {
     setUrlPrefix(value)
   }
