@@ -54,7 +54,7 @@ export function useFetchSearch({
       }
     }
 
-    const variables = search?.length
+    const variables = search
       ? {
           search,
           first: first.value,
