@@ -78,8 +78,6 @@ const preferencesStore = usePreferencesStore()
 const { replaceUrl } = useReplaceUrl()
 
 const route = useRoute()
-const router = useRouter()
-const { $consola } = useNuxtApp()
 
 onMounted(() => {
   exist(route.query.search, updateSearch)
