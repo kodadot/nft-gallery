@@ -4,7 +4,7 @@
       <div class="level-item has-text-centered">
         <div>
           <p class="title">{{ listedCount }} ⊆ {{ totalSoldItems }}</p>
-          <p class="heading">
+          <p class="is-size-7 has-text-grey">
             {{ $t('profileStats.listed') }} /
             {{ $t('profileStats.totalSoldItems') }}
           </p>
@@ -25,11 +25,9 @@
         <div>
           <p class="title">
             <CommonTokenMoney :value="highestBuyPrice" inline /> ⊆
-          </p>
-          <p class="title">
             <CommonTokenMoney :value="totalAmountSpend" inline />
           </p>
-          <p class="heading">
+          <p class="is-size-7 has-text-grey">
             {{ $t('profileStats.highestBuy') }} /
             {{ $t('profileStats.totalAmountSpend') }}
           </p>
@@ -41,7 +39,7 @@
           <p class="title">
             <CommonTokenMoney :value="totalHoldingsBoughtValues" inline /> ⊆
           </p>
-          <p class="heading">
+          <p class="is-size-7 has-text-grey">
             {{ $t('profileStats.totalHoldingsBoughtValues') }}
           </p>
         </div>
@@ -53,7 +51,7 @@
             <CommonTokenMoney :value="maxSoldPrice" inline /> ⊆
             <CommonTokenMoney :value="totalSell" inline />
           </p>
-          <p class="heading">
+          <p class="is-size-7 has-text-grey">
             {{ $t('profileStats.maxSoldPrice') }} /
             {{ $t('profileStats.totalSellValues') }}
           </p>
@@ -66,10 +64,10 @@
 <script lang="ts" setup>
 import { getSum, getSumOfObjectField } from '@/utils/math'
 import resolveQueryPath from '@/utils/queryPathResolver'
-import { Event } from '../service/types'
 
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import StatsColumn from '@/components/shared/format/StatsColumn.vue'
+import { Event } from '@/components/rmrk/service/types'
 
 type Stats = {
   listedCount: number
@@ -157,7 +155,7 @@ const getInvestorStatsEvents = (data: any) => {
 const getSellerEvents = (data: any) => {
   const soldEvents: Event[] = []
   data.sold.edges.forEach((e: any) => {
-    if (e.node && e.node.events && e.node.events.length > 0) {
+    if (e.node?.events && e.node.events.length > 0) {
       e.node.events.forEach((e: Event) => {
         if (BigInt(e.meta)) {
           soldEvents.push(e)
