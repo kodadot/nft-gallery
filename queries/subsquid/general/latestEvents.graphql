@@ -1,0 +1,24 @@
+query latestEvents(
+  $limit: Int!
+  $orderBy: [EventOrderByInput!]
+  $where: EventWhereInput
+) {
+  events(limit: $limit, orderBy: $orderBy, where: $where) {
+    nft {
+      id
+      name
+      price
+      meta {
+        id
+        name
+        image
+        animationUrl
+      }
+      collection {
+        id
+        name
+      }
+    }
+    timestamp
+  }
+}
