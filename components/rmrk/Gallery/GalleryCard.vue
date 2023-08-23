@@ -84,7 +84,7 @@ const animatedUrl = ref('')
 const mimeType = ref('')
 const preferencesStore = usePreferencesStore()
 
-useLazyAsyncData(`gallery-card-metadata-${props.id}`, async () => {
+watchEffect(async () => {
   if (props.metadata) {
     const meta = await processSingleMetadata<NFTMetadata>(props.metadata)
 
