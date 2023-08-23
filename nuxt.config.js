@@ -321,7 +321,7 @@ export default defineNuxtConfig({
         done(nuxtInstance) {
           fs.copyFileSync(
             `${nuxtInstance.options.generate.dir}/sitemap.xml`,
-            'static/sitemap.xml'
+            'public/sitemap.xml'
           )
         },
       },
