@@ -44,13 +44,15 @@ export default function useToken() {
   const tokens = computed<TokenDetails[]>(() => {
     return availableTokensAcrossAllChains.value.map((tokenSymbol) => {
       const chains = getTokenChains(tokenSymbol)
+      const defaultChain = chains[0]
+
       return {
         symbol: tokenSymbol as string,
         value: getCurrentTokenValue(tokenSymbol),
         icon: getTokenIconBySymbol(tokenSymbol),
         chains: chains,
-        defaultChain: chains[0], // TODO temp,
-        tokenDecimals: CHAINS[chains[0]].tokenDecimals,
+        defaultChain: defaultChain,
+        tokenDecimals: CHAINS[defaultChain].tokenDecimals,
       }
     })
   })

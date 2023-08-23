@@ -283,6 +283,7 @@ const identityStore = useIdentityStore()
 const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
 const { initTransactionLoader, isLoading, resolveStatus, status } =
   useTransactionStatus()
+const { getBalance } = useBalance()
 const { toast } = useToast()
 const isTransferModalVisible = ref(false)
 
@@ -321,7 +322,7 @@ const displayTotalValue = computed(() =>
     : [`${totalTokenAmount.value} ${unit.value}`, `$${totalUsdValue.value}`]
 )
 
-const balance = computed(() => identityStore.getAuthBalance)
+const balance = computed(() => getBalance(urlPrefix.value, unit.value) || 0)
 
 const disabled = computed(
   () =>
