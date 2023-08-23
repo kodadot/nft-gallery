@@ -62,7 +62,11 @@
           }}</span>
           <div class="is-flex is-align-items-center">
             <img class="mr-2 is-32x32" :src="tokenIcon" alt="token" />
-            <Money :value="balance" inline />
+            <Money
+              :value="balance"
+              :unit-symbol="unit"
+              :decimals="decimals"
+              inline />
           </div>
 
           <span class="has-text-grey">≈ ${{ balanceUsdValue }}</span>
@@ -160,7 +164,11 @@
           <span
             v-if="displayUnit === 'token'"
             class="has-text-weight-bold is-size-6">
-            <Money :value="balance" inline />
+            <Money
+              :value="balance"
+              :unit-symbol="unit"
+              :decimals="decimals"
+              inline />
           </span>
           <span v-else class="has-text-weight-bold is-size-6"
             >{{ balanceUsdValue }} USD</span
@@ -267,7 +275,7 @@ const Money = defineAsyncComponent(
 const route = useRoute()
 const router = useRouter()
 const { $consola, $i18n } = useNuxtApp()
-const { unit, decimals } = useChain()
+const { unit: chainUnit } = useChain()
 const { apiInstance } = useApi()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { isLogIn, accountId } = useAuth()
@@ -289,7 +297,12 @@ const transactionValue = ref('')
 const sendSameAmount = ref(false)
 const displayUnit = ref<'token' | 'usd'>('token')
 const { getTokenIconBySymbol } = useIcon()
-const { tokens, getPrefixByToken, availableTokens } = useToken()
+
+const { tokens, isTokenValidForChain } = useToken()
+const unit = ref(chainUnit.value)
+const decimals = computed(
+  () => tokens.value.find((t) => t.symbol === unit.value)?.tokenDecimals
+)
 
 const selectedTabFirst = ref(true)
 const tokenIcon = computed(() => getTokenIconBySymbol(unit.value))
@@ -319,20 +332,25 @@ const disabled = computed(
 
 const handleTokenSelect = (newToken: string) => {
   selectedTabFirst.value = false
+
   const token = tokens.value.find((t) => t.symbol === newToken)
 
-  if (token) {
-    const chain = getPrefixByToken(token.symbol)
-
-    if (!chain) {
-      $consola.error(
-        `[ERR: INVALID TOKEN] Chain for token ${token.symbol} is not valid`
-      )
-      return
-    }
-
-    setUrlPrefix(chain)
+  if (!token) {
+    return
   }
+
+  const isTokenAvailableForCurrentChain = token.chains.includes(urlPrefix.value)
+
+  if (isTokenAvailableForCurrentChain) {
+    router.replace({ query: { ...route.query, token: token.symbol } })
+    return
+  }
+
+  setUrlPrefix(token.defaultChain)
+  router.replace({
+    params: { prefix: token.defaultChain },
+    query: { ...route.query, token: token.symbol },
+  })
 }
 
 const generateTokenTabs = (
@@ -626,21 +644,13 @@ const addAddress = () => {
 }
 
 const syncQueryToken = () => {
-  const { query } = route
+  const token = route.query.token?.toString()
 
-  const token = query.token?.toString()
-
-  if (!token || !availableTokens.includes(token)) {
+  if (!isTokenValidForChain(token, urlPrefix.value)) {
     return
   }
 
-  const chain = getPrefixByToken(token)
-
-  if (!chain) {
-    return
-  }
-
-  setUrlPrefix(chain)
+  unit.value = token
 }
 
 watch(

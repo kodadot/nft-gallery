@@ -23,6 +23,7 @@ const props = withDefaults(
     inline: boolean
     hideUnit?: boolean
     unitSymbol?: string
+    decimals?: number
     round?: number
   }>(),
   {
@@ -32,9 +33,11 @@ const props = withDefaults(
   }
 )
 
-const { decimals, unit } = useChain()
+const { decimals: chainDecimals, unit } = useChain()
 
 const displayUnit = computed(() => props.unitSymbol || unit.value)
+const decimals = computed(() => props.decimals || chainDecimals.value)
+
 const finalValue = computed(() =>
   round(
     formatBalance(checkInvalidBalanceFilter(props.value), decimals.value, ''),

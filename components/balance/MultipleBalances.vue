@@ -70,6 +70,7 @@ import { toDefaultAddress } from '@/utils/account'
 import { ChainToken, useIdentityStore } from '@/stores/identity'
 
 import type { PalletBalancesAccountData } from '@polkadot/types/lookup'
+import { networkToPrefix } from '@/utils/chain'
 
 const { accountId } = useAuth()
 const { isTestnet } = usePrefix()
@@ -81,15 +82,6 @@ const {
   multiBalanceAssetsTestnet,
   multiBalanceNetwork,
 } = storeToRefs(identityStore)
-
-const networkToPrefix = {
-  polkadot: 'dot',
-  kusama: 'ksm',
-  basilisk: 'bsx',
-  statemine: 'ahk',
-  'basilisk-testnet': 'snek',
-  statemint: 'ahp',
-}
 
 const isBalanceLoading = computed(
   () => identityStore.getStatusMultiBalances === 'loading'

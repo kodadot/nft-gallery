@@ -38,3 +38,12 @@ export const getAvailablePrefix = (prefix: string): string => {
     ? prefix
     : ''
 }
+
+export const networkToPrefix = {
+  polkadot: 'dot',
+  kusama: 'ksm',
+  basilisk: 'bsx',
+  statemine: 'ahk',
+  'basilisk-testnet': 'snek',
+  statemint: 'ahp',
+}
