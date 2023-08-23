@@ -2,7 +2,9 @@
   <div v-if="!rememberIdentity" class="set-identity">
     <div
       class="wallet-asset-container is-size-7 py-1 is-flex is-justify-content-space-between">
-      <a v-safe-href="'/identity'">Create Your Onchain Identity</a>
+      <nuxt-link to="/identity" @click.native="closeModal"
+        >Create Your Onchain Identity</nuxt-link
+      >
       <a @click="rememberIdentity = true">Close</a>
     </div>
   </div>
@@ -10,12 +12,10 @@
 
 <script setup lang="ts">
 import { useStorage } from '@vueuse/core'
-
-const emit = defineEmits(['close'])
+const { $neoModal } = useNuxtApp()
 
 const closeModal = () => {
-  console.log('close')
-  emit('close')
+  $neoModal.closeAll()
 }
 
 const rememberIdentity = useStorage('remember-identity', false)
