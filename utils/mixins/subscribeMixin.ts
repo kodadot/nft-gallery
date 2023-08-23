@@ -5,7 +5,6 @@ declare type Unsubscribe = () => void
 
 /*
  * refer to https://stackoverflow.com/questions/51873087/unable-to-use-mixins-in-vue-with-typescript
- * usage import Component, { mixins } from 'vue-class-component';
  * class ExtendedClass extends mixins(SubscribeMixin) {
  */
 @Component

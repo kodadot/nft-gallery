@@ -75,8 +75,7 @@ const landingImage = computed(() => {
   }
 })
 
-const switchChain = (value, event) => {
-  event.preventDefault()
+const switchChain = (value) => {
   if (value !== urlPrefix.value) {
     setUrlPrefix(value)
   }
