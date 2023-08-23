@@ -19,7 +19,6 @@
             @input="handleInput" />
           <p class="control balance">
             <NeoSelect
-              class="h-full"
               :value="selectedUnit"
               :disabled="!calculate"
               data-testid="balance-input-select"
@@ -146,11 +145,3 @@ defineExpose({
   checkValidity,
 })
 </script>
-
-<style scoped lang="scss">
-:deep .h-full {
-  * {
-    height: 100%;
-  }
-}
-</style>
