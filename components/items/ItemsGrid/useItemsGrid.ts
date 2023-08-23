@@ -2,6 +2,7 @@ import resolveQueryPath from '@/utils/queryPathResolver'
 import { getDenyList } from '@/utils/prefix'
 import { useSearchParams } from './utils/useSearchParams'
 import { Ref } from 'vue'
+import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
 
 import type { NFTWithMetadata } from '@/composables/useNft'
 
@@ -53,20 +54,26 @@ export function useFetchSearch({
       }
     }
 
+    const { sort } = route.query
+    let orderBy = ['blockNumber_DESC']
+    if (typeof sort === 'string') {
+      orderBy = [sort]
+    } else if (sort.length) {
+      orderBy = sort.filter(
+        (s) => s && NFT_SQUID_SORT_CONDITION_LIST.includes(s)
+      ) as string[]
+    }
+
     const variables = search
       ? {
           search,
           first: first.value,
           offset: (page - 1) * first.value,
-          orderBy: route.query.sort?.length
-            ? route.query.sort
-            : ['blockNumber_DESC'],
+          orderBy,
         }
       : {
           denyList: getDenyList(urlPrefix.value),
-          orderBy: route.query.sort?.length
-            ? route.query.sort
-            : ['blockNumber_DESC'],
+          orderBy,
           search: searchParams.value,
           priceMin: Number(route.query.min),
           priceMax: Number(route.query.max),
