@@ -171,7 +171,7 @@ const tabs = ['owned', 'created', 'collections', 'activity']
 
 const switchToTab = (tab: string) => {
   // Avoid redundant navigation to current location
-  if (!(tab === activeTab.value)) {
+  if (tab !== activeTab.value) {
     activeTab.value = tab
   }
 }
