@@ -3,9 +3,7 @@ import { CHAINS, type Prefix } from '@kodadot1/static'
 import { networkToPrefix, useIdentityStore } from '@/stores/identity'
 import { defultTokenChain } from '@/utils/config/chain.config'
 
-type TokenDecimals = {
-  [k in Prefix]: number
-}
+type TokenDecimals = Record<Prefix, number>
 export interface TokenDetails {
   symbol: string
   value: number | string | null
