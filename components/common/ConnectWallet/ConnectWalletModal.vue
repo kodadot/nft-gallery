@@ -8,9 +8,13 @@
             : $i18n.t('walletConnect.walletHeading')
         }}
       </span>
-      <a class="is-flex is-align-items-center" @click="emit('close')">
-        <NeoIcon icon="xmark" pack="fa-sharp" size="medium" />
-      </a>
+      <NeoButton
+        variant="text"
+        no-shadow
+        icon="xmark"
+        icon-pack="fa-sharp"
+        size="medium"
+        @click.native="emit('close')" />
     </header>
     <section v-if="showAccount">
       <WalletAsset />

@@ -7,9 +7,13 @@
       <span class="modal-card-title is-size-6 has-text-weight-bold">
         {{ $t('notification.notifications') }}
       </span>
-      <a class="is-flex is-align-items-center" @click="closeModal">
-        <NeoIcon icon="xmark" pack="fa-sharp" size="medium" />
-      </a>
+      <NeoButton
+        variant="text"
+        no-shadow
+        icon="xmark"
+        icon-pack="fa-sharp"
+        size="medium"
+        @click.native="closeModal" />
     </header>
     <div class="px-0 pt-0 pb-3 theme-background-color">
       <div class="notification-filter theme-background-color px-6 pb-5">
