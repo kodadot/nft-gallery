@@ -276,7 +276,7 @@ const router = useRouter()
 const { $consola, $i18n } = useNuxtApp()
 const { unit: chainUnit } = useChain()
 const { apiInstance } = useApi()
-const { urlPrefix, setUrlPrefix } = usePrefix()
+const { urlPrefix } = usePrefix()
 const { isLogIn, accountId } = useAuth()
 const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
 const { initTransactionLoader, isLoading, resolveStatus, status } =
@@ -300,7 +300,10 @@ const { getTokenIconBySymbol } = useIcon()
 const { tokens, isTokenValidForChain } = useToken()
 const unit = ref(chainUnit.value)
 const decimals = computed(
-  () => tokens.value.find((t) => t.symbol === unit.value)?.tokenDecimals
+  () =>
+    tokens.value.find((t) => t.symbol === unit.value)?.tokenDecimals[
+      urlPrefix.value
+    ]
 )
 
 const selectedTabFirst = ref(true)
