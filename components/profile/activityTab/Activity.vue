@@ -41,6 +41,10 @@ const props = defineProps<{
 const filters = ['sale', 'buy', 'mint', 'gift', 'list']
 
 const activateAllFilter = () => {
+  // Avoid redundant navigation to current location
+  if (activeFilters.value.length === filters.length) {
+    return
+  }
   replaceUrl(
     filters.reduce(
       (queryParams, filter) => ({ ...queryParams, [filter]: true }),

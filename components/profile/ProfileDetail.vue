@@ -97,6 +97,7 @@
           class="is-capitalized"
           :active="activeTab === tab"
           :text="tab"
+          :tag="tab"
           @click.native="() => switchToTab(tab)" />
         <ChainDropdown class="ml-6" />
         <OrderByDropdown v-if="activeTab !== 'activity'" class="ml-6" />
@@ -107,6 +108,7 @@
           :key="tab"
           :active="activeTab === tab"
           :text="tab"
+          :tag="tab"
           class="is-capitalized"
           @click.native="() => switchToTab(tab)" />
         <div class="is-flex mt-4">
@@ -168,7 +170,10 @@ const { urlPrefix } = usePrefix()
 const tabs = ['owned', 'created', 'collections', 'activity']
 
 const switchToTab = (tab: string) => {
-  activeTab.value = tab
+  // Avoid redundant navigation to current location
+  if (!(tab === activeTab.value)) {
+    activeTab.value = tab
+  }
 }
 
 const id = computed(() => route.params.id || '')
