@@ -45,7 +45,7 @@
 <script lang="ts" setup>
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { getMimeType } from '@/utils/gallery/media'
-import { getSanitizer, sanitizeIpfsUrl } from '@/utils/ipfs'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'
@@ -60,18 +60,21 @@ const props = withDefaults(
     route?: string
     link?: string
     id: string
-    name: string
-    emoteCount: string | number
-    imageType: string
-    price: string
+    name?: string
+    emoteCount?: string | number
+    price?: string
     metadata: string
     currentOwner: string
-    listed: boolean
+    listed?: boolean
     hideName: boolean
   }>(),
   {
     route: '/rmrk/gallery',
     link: 'rmrk/gallery',
+    name: '',
+    emoteCount: '',
+    listed: true,
+    price: '0',
   }
 )
 
@@ -81,11 +84,11 @@ const animatedUrl = ref('')
 const mimeType = ref('')
 const preferencesStore = usePreferencesStore()
 
-useLazyAsyncData('metadata', async () => {
+useLazyAsyncData(`gallery-card-metadata-${props.id}`, async () => {
   if (props.metadata) {
     const meta = await processSingleMetadata<NFTMetadata>(props.metadata)
 
-    image.value = getSanitizer(meta.image || '', 'image')(meta.image || '')
+    image.value = sanitizeIpfsUrl(meta.image || meta.thumbnailUri)
     title.value = meta.name
     animatedUrl.value = sanitizeIpfsUrl(
       meta.animation_url || meta.mediaUri || '',
