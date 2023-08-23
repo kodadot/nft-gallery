@@ -320,7 +320,7 @@ const displayTotalValue = computed(() =>
     : [`${totalTokenAmount.value} ${unit.value}`, `$${totalUsdValue.value}`]
 )
 
-const balance = computed(() => getBalance(urlPrefix.value, unit.value) || 0)
+const balance = computed(() => getBalance(unit.value) || 0)
 
 const disabled = computed(
   () =>
