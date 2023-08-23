@@ -113,7 +113,6 @@ export default {
         }
         if (post.attributes.tags === tags.tokens) {
           acc.tokensPosts.push(post)
-          return acc
         }
         acc.posts.push(post)
         return acc
