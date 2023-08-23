@@ -3,7 +3,7 @@
     <Loader
       v-model="isTransactionLoading"
       :status="transactionStatus"
-      :can-cancel="false" />
+      can-cancel />
     <BaseTokenForm
       ref="baseTokenForm"
       :show-explainer-text="showExplainerText"
