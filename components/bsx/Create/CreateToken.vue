@@ -119,7 +119,7 @@ const MultiPaymentFeeButton = () =>
 const TokenBalanceInput = () =>
   import('@/components/bsx/input/TokenBalanceInput.vue')
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     showExplainerText?: boolean
   }>(),
