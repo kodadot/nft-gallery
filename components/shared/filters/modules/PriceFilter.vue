@@ -157,7 +157,7 @@ const toggleInputFocused = (): void => {
 </script>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .input-container {
   @include ktheme() {

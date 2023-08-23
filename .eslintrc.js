@@ -17,6 +17,7 @@ module.exports = {
   },
   plugins: ['prettier', '@typescript-eslint', 'unicorn'],
   rules: {
+    'no-empty-function': 'warn',
     'no-trailing-spaces': 'error',
     'unicorn/no-for-loop': 'error',
     'brace-style': ['error', '1tbs', { allowSingleLine: false }],

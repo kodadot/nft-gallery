@@ -1,6 +1,6 @@
 <template>
   <NeoField grouped group-multiline class="filters-tag">
-    <template v-for="(value, key) in breads">
+    <!-- <template v-for="(value, key) in breads">
       <NeoTag
         v-if="key === 'search'"
         :key="key"
@@ -42,7 +42,7 @@
         @close="closeTag(String(key))">
         {{ queryMapTranslation[String(key)] }}
       </NeoTag>
-    </template>
+    </template> -->
     <div
       v-if="isAnyFilterActive"
       class="control py-1 is-clickable"

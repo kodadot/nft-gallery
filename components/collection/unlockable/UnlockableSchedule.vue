@@ -165,7 +165,7 @@ const isActive = (from: Date, to: Date) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/variables.scss';
 .hsa-border-left {
   @include ktheme() {
     border-left: 1px solid theme('k-shade');

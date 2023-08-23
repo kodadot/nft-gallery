@@ -56,7 +56,7 @@ const openMobileFilters = () => preferencesStore.setMobileFilterCollapse(true)
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 a.disabled {
   opacity: 0.3;
   cursor: not-allowed;

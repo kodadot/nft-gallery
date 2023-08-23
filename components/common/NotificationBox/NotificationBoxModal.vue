@@ -183,7 +183,7 @@ const displayedEvents = computed(() =>
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .rounded {
   border-radius: 2rem;
   overflow: hidden;

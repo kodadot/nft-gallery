@@ -165,7 +165,7 @@ const onClickShoppingCart = () => {
 }
 </script>
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 :deep .button-height {
   height: 55px !important;

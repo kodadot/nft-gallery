@@ -39,7 +39,7 @@ const displayText = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/variables.scss';
 .tag-container {
   border-radius: 2rem;
   @include ktheme() {

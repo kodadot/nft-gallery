@@ -1,4 +1,4 @@
-import { LocaleMessages } from 'vue-i18n'
+// import { LocaleMessages } from 'vue-i18n'
 import MarkdownIt from 'markdown-it'
 import commonData from '@/locales/all_lang.json'
 
@@ -29,7 +29,7 @@ const md = MarkdownIt({
   breaks: false,
 })
 
-function loadLocaleMessages(): LocaleMessages {
+function loadLocaleMessages() {
   // File containing data common to ALL languages
   const allLangDataFile = 'all_lang.json'
   const locales = require.context(
@@ -37,7 +37,7 @@ function loadLocaleMessages(): LocaleMessages {
     true,
     /[A-Za-z0-9-_,\s]+\.json$/i
   )
-  const messages: LocaleMessages = {}
+  const messages = {}
   locales.keys().forEach((key) => {
     if (key === allLangDataFile) {
       return

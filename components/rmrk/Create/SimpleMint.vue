@@ -1,4 +1,5 @@
-<template>
+<template></template>
+<!-- <template>
   <section>
     <Loader v-model="isLoading" :status="status" />
     <h1 class="title is-size-3">Create NFT Collectibles</h1>
@@ -883,4 +884,4 @@ export default class SimpleMint extends mixins(
     }
   }
 }
-</script>
+</script> -->

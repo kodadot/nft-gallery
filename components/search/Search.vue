@@ -1,4 +1,5 @@
-<template>
+<template></template>
+<!-- <template>
   <div>
     <div v-if="!isVisible && !hideSearchInput" class="row">
       <div v-if="priceRangeDirty && !hideFilter" class="is-size-7">
@@ -323,4 +324,4 @@ export default class Search extends mixins(
     this.query.priceMax = max
   }
 }
-</script>
+</script> -->

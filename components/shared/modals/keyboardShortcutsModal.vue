@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts" setup>
-import '@/styles/components/_keyboard-shortcut.scss'
+import '@/assets/styles/components/_keyboard-shortcut.scss'
 import { NeoTable, NeoTableColumn } from '@kodadot1/brick'
 import ModalWrapper from './ModalWrapper.vue'
 

@@ -16,6 +16,8 @@ import {
   default as formatBalance,
   roundTo,
 } from '@/utils/format/balance'
+import { chainPropListOf } from '@/utils/config/chain.config'
+import type { Prefix } from '@kodadot1/static'
 
 const props = withDefaults(
   defineProps<{
@@ -23,21 +25,30 @@ const props = withDefaults(
     inline: boolean
     hideUnit?: boolean
     unitSymbol?: string
+    prefix?: Prefix
     round?: number
   }>(),
   {
     value: 0,
     round: 4,
     unitSymbol: '',
+    prefix: undefined,
   }
 )
 
 const { decimals, unit } = useChain()
 
+const tokenDecimals = computed(() =>
+  props.prefix ? chainPropListOf(props.prefix).tokenDecimals : decimals.value
+)
 const displayUnit = computed(() => props.unitSymbol || unit.value)
 const finalValue = computed(() =>
   round(
-    formatBalance(checkInvalidBalanceFilter(props.value), decimals.value, ''),
+    formatBalance(
+      checkInvalidBalanceFilter(props.value),
+      tokenDecimals.value,
+      ''
+    ),
     props.round,
     false
   )

@@ -36,7 +36,7 @@ const emit = defineEmits(['select'])
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .teleport-tabs {
   .teleport-tabs-button {

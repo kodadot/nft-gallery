@@ -340,7 +340,7 @@ const sendXCM = async () => {
 }
 </script>
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/variables.scss';
 
 .teleport-container {
   max-width: 50rem;

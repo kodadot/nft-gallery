@@ -245,7 +245,7 @@ const onDescriptionLoaded = (entries: Record<string, Entry>) => {
 }
 </script>
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/variables.scss';
 
 .controls {
   justify-content: center;

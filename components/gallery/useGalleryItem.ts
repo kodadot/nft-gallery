@@ -96,9 +96,15 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     nft.value = nftEntity
 
     const resources = nftEntity.resources?.map((resource) => {
+      const imageSrc =
+        resource.meta?.animationUrl ||
+        resource.src ||
+        resource.meta?.image ||
+        resource.thumb
+
       return {
         ...resource,
-        src: sanitizeIpfsUrl(resource.meta?.animationUrl || resource.src),
+        src: sanitizeIpfsUrl(imageSrc),
         thumb: sanitizeIpfsUrl(resource.thumb || resource.meta?.image),
         animation: sanitizeIpfsUrl(resource.meta?.animationUrl),
       }

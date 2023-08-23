@@ -18,13 +18,12 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { format } from 'date-fns'
 import { convertMarkdownToText } from '@/utils/markdown'
-import { nextTick } from 'vue'
 import hljs from 'highlight.js'
 
-const { $seoMeta } = useNuxtApp()
+const { $nextTick, $seoMeta } = useNuxtApp()
 const route = useRoute()
 
 const slug = route.params.slug
@@ -32,13 +31,19 @@ const attributes = ref({})
 const singlePostComponent = ref('')
 
 onMounted(async () => {
-  const post = await import(`~/content/blog/${slug}.md`)
+  // const post = await import(`~/content/blog/${slug}.md`)
+  const post = {
+    attributes: 'test',
+    vue: {
+      component: {},
+    },
+  }
 
   attributes.value = post.attributes
   singlePostComponent.value = post.vue.component
 
   // must wait the page finished render then highlight the code
-  await nextTick()
+  await $nextTick()
   hljs.highlightAll()
 })
 
@@ -62,7 +67,7 @@ useNuxt2Meta({
 
 <style lang="scss">
 @use 'sass:meta';
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 // dynamic load highlight syntax theme based on page theme
 html.light-mode {

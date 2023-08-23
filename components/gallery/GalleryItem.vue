@@ -298,7 +298,7 @@ useNuxt2Meta({
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 $break-point-width: 930px;
 .title {
   font-size: 2.4375em;

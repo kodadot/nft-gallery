@@ -192,7 +192,7 @@ watch(() => route.query, syncFromUrl, { immediate: true })
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .is-fullheight {
   height: 100%;
 }
@@ -219,7 +219,7 @@ watch(() => route.query, syncFromUrl, { immediate: true })
 </style>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .background-color .o-side {
   &__content {
     @include ktheme() {

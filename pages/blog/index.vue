@@ -122,7 +122,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .content {
   margin: 0 auto;

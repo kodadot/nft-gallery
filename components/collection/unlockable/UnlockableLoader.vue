@@ -92,7 +92,7 @@ const buttonLabel = computed(() =>
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .loading-container {
   background: $white;

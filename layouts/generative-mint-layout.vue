@@ -47,7 +47,7 @@ useNuxt2Meta({
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .hero .subtitle {
   letter-spacing: -0.02em;
   @include ktheme() {

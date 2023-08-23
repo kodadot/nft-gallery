@@ -6,7 +6,7 @@
 @import "abstracts/theme";
 
 // FRAMEWORK (note: don't move this on top)
-@import "~bulma";
+@import "bulma/bulma.sass";
 
 // GLOBAL
 @import "./global.scss";

@@ -44,7 +44,7 @@ const handleRedirect = () => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .redirect-card {
   box-shadow: var(--card-box-shadow);

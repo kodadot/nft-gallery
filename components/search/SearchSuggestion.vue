@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="search-suggestion-container" @click="resetSelectedIndex">
     <NeoTabs
       v-show="name"
@@ -698,4 +698,4 @@ export default class SearchSuggestion extends mixins(PrefixMixin) {
     this.resetSelectedIndex()
   }
 }
-</script>
+</script> -->

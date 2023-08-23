@@ -46,7 +46,7 @@ const isFullscreen = useVModel(props, 'value', emit)
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .gallery-item-modal {
   position: fixed;
