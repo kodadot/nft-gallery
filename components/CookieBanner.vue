@@ -53,8 +53,6 @@ const declineCookies = () => {
 </script>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables';
-
 .cookie-banner {
   .snackbar {
     align-self: flex-start;
