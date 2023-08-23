@@ -1,7 +1,6 @@
 import { useFiatStore } from '@/stores/fiat'
 import { CHAINS, type Prefix } from '@kodadot1/static'
-import { useIdentityStore } from '@/stores/identity'
-import { networkToPrefix } from '@/utils/chain'
+import { networkToPrefix, useIdentityStore } from '@/stores/identity'
 
 export interface TokenDetails {
   symbol: string

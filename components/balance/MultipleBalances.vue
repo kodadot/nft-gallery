@@ -67,10 +67,13 @@ import { calculateExactUsdFromToken } from '@/utils/calculation'
 import { getAssetIdByAccount } from '@/utils/api/bsx/query'
 import { toDefaultAddress } from '@/utils/account'
 
-import { ChainToken, useIdentityStore } from '@/stores/identity'
+import {
+  ChainToken,
+  networkToPrefix,
+  useIdentityStore,
+} from '@/stores/identity'
 
 import type { PalletBalancesAccountData } from '@polkadot/types/lookup'
-import { networkToPrefix } from '@/utils/chain'
 
 const { accountId } = useAuth()
 const { isTestnet } = usePrefix()

@@ -1,4 +1,4 @@
-import type { Option, Prefix } from '@kodadot1/static'
+import type { Option } from '@kodadot1/static'
 import { ENDPOINT_MAP, chainList } from '@kodadot1/static'
 
 export const getChainEndpointByPrefix = (prefix: string) => {
@@ -37,26 +37,4 @@ export const getAvailablePrefix = (prefix: string): string => {
   return availablePrefixes().some((chain) => chain.value === prefix)
     ? prefix
     : ''
-}
-
-export enum Network {
-  KUSAMA = 'kusama',
-  BASILISK = 'basilisk',
-  BASILISK_TESTNET = 'basilisk-testnet',
-  STATEMINE = 'statemine',
-  STATEMINT = 'statemint',
-  POLKADOT = 'polkadot',
-  MOONRIVER = 'moonriver',
-  MOONBEAM = 'moonbeam',
-}
-
-export const networkToPrefix: Record<Network, Prefix> = {
-  [Network.POLKADOT]: 'dot',
-  [Network.KUSAMA]: 'ksm',
-  [Network.STATEMINT]: 'ahp',
-  [Network.BASILISK]: 'bsx',
-  [Network.BASILISK_TESTNET]: 'snek',
-  [Network.STATEMINE]: 'ahk',
-  [Network.MOONRIVER]: 'movr',
-  [Network.MOONBEAM]: 'glmr',
 }
