@@ -113,21 +113,20 @@ function onChange(selected) {
 watch(
   () => route.query.sort,
   (sort) => {
+    if (typeof sort === 'string') {
+      sort = [sort]
+    }
+    // Don't show filters unsupported filters e.g. 'Alphabetically' is not supported in 'Collections' tab
+    sort = sort.filter((s) => s && options.value.includes(s)) as string[]
+    if (!sort) {
+      sort = []
+    }
     selectedSort.value = sort as string[]
+  },
+  {
+    immediate: true,
   }
 )
-
-onMounted(() => {
-  const sort = route.query.sort
-
-  if (sort?.length) {
-    if (Array.isArray(sort)) {
-      selectedSort.value = sort as string[]
-    } else {
-      selectedSort.value = [sort] as string[]
-    }
-  }
-})
 </script>
 
 <style lang="scss" scoped>
