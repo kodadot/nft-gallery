@@ -106,14 +106,16 @@ export default {
     )
 
     return latestPosts.reduce(
-      (acc, obj, index) => {
+      (acc, post, index) => {
         if (index === 0) {
-          acc.featured.push(obj)
-        } else if (obj.attributes.tags === tags.tokens) {
-          acc.tokensPosts.push(obj)
-        } else {
-          acc.posts.push(obj)
+          acc.featured.push(post)
+          return acc
         }
+        if (post.attributes.tags === tags.tokens) {
+          acc.tokensPosts.push(post)
+          return acc
+        }
+        acc.posts.push(post)
         return acc
       },
       {
