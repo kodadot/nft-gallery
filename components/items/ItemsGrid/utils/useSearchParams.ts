@@ -16,7 +16,7 @@ function useSearchKeywords() {
 function useSearchPriceRange() {
   const route = useRoute()
   const priceRange = computed(() => {
-    const minPrice = route.query.min ?? 0
+    const minPrice = route.query.min ?? undefined
 
     if (route.query.listed !== 'true') {
       return {}
@@ -24,7 +24,7 @@ function useSearchPriceRange() {
 
     const defaultParams = {
       price_gt: '0',
-      price_gte: Number(minPrice),
+      price_gte: minPrice && Number(minPrice),
     }
 
     if (route.query.max) {
