@@ -12,7 +12,7 @@
     </div>
 
     <div
-      v-for="post in posts.slice(0, 1)"
+      v-for="post in featured.slice(0, 1)"
       :key="post.attributes.title"
       class="content-featured content-list">
       <div
