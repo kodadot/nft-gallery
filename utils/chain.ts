@@ -1,6 +1,5 @@
-import type { Option } from '@kodadot1/static'
+import type { Option, Prefix } from '@kodadot1/static'
 import { ENDPOINT_MAP, chainList } from '@kodadot1/static'
-import { Prefix } from '@kodadot1/static'
 
 export const getChainEndpointByPrefix = (prefix: string) => {
   const endpoint: string | undefined = ENDPOINT_MAP[prefix]
