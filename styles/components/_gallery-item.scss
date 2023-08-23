@@ -67,6 +67,9 @@
     // o-tip__content--top is for the mobile
     // calc base on the cart-icon and button padding
     transform: translateX(calc(-50% + 16px + 0.75rem));
+    .o-tip__arrow{
+      transform: translateX(calc(-50% - 16px - 0.75rem));
+    }
   }
   a {
     cursor: pointer;
