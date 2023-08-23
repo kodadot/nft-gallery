@@ -17,7 +17,8 @@
       </div>
     </div>
     <hr class="my-0" />
-    <History :id="id" :events="filteredEvents" />
+    <History v-if="filteredEvents.length" :id="id" :events="filteredEvents" />
+    <EmptyResult v-else />
   </div>
 </template>
 
