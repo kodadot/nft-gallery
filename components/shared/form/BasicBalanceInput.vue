@@ -21,72 +21,88 @@
   </NeoField>
 </template>
 
-<script lang="ts">
-import {
-  Component,
-  Emit,
-  Prop,
-  Ref,
-  VModel,
-  Vue,
-} from 'nuxt-property-decorator'
-
+<script setup lang="ts">
 import { balanceFrom, simpleDivision } from '@/utils/balance'
+import { useVModel } from '@vueuse/core'
 import { NeoField, NeoInput } from '@kodadot1/brick'
 
-@Component({
-  components: {
-    NeoField,
-    NeoInput,
+const props = defineProps({
+  value: {
+    type: [String, Number],
+    required: true,
+  },
+  unit: {
+    type: String,
+    default: '-',
+  },
+  decimals: {
+    type: Number,
+    default: 12,
+  },
+  min: {
+    type: Number,
+    default: 0,
+  },
+  max: {
+    type: Number,
+    default: Number.MAX_SAFE_INTEGER,
+  },
+  step: {
+    type: Number,
+    default: 0.001,
+  },
+  label: {
+    type: String,
+    default: 'amount',
+  },
+  placeholder: {
+    type: String,
+    default: '1',
+  },
+  expanded: {
+    type: Boolean,
+    default: false,
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
   },
 })
-export default class BasicBalanceInput extends Vue {
-  // Dev: make vValue required
-  @VModel() vValue!: string | number
-  @Prop({ type: String, default: '-' }) unit!: string
-  @Prop({ type: Number, default: 12 }) public decimals!: number
+const emit = defineEmits(['input'])
 
-  @Prop({ type: Number, default: 0 }) public min!: number
-  @Prop({ type: Number, default: Number.MAX_SAFE_INTEGER }) public max!: number
-  @Prop({ default: 0.001 }) public step!: number
+const vValue = useVModel(props, 'value', emit, { eventName: 'input' })
+const balance = ref<typeof NeoInput>()
 
-  // MISC
-  @Prop({ type: String, default: 'amount' }) label!: string
-  @Prop({ type: String, default: '1' }) placeholder!: string
-  @Prop({ type: Boolean, default: false }) expanded!: boolean
-  @Prop({ type: Boolean, default: false }) disabled!: boolean
+const metaValue = computed({
+  get: () => simpleDivision(vValue.value, props.decimals),
+  set: (value) => handleInput(value),
+})
 
-  @Ref('balance') readonly balance
-
-  get metaValue(): number {
-    return simpleDivision(this.vValue, this.decimals)
+function handleInput(value: number | string): string {
+  checkValidity()
+  let v = '0'
+  try {
+    v = balanceFrom(value, props.decimals)
+  } catch (e) {
+    console.warn(e)
   }
-
-  set metaValue(value: number | string) {
-    this.handleInput(value)
-  }
-
-  @Emit('input')
-  public handleInput(value: number | string): string {
-    this.checkValidity()
-    try {
-      return balanceFrom(value, this.decimals)
-    } catch (e) {
-      this.$consola.warn((e as Error).message)
-      return '0'
-    }
-  }
-
-  public onBlur() {
-    this.checkValidity()
-  }
-
-  public focusInput(): void {
-    this.balance?.focus()
-  }
-
-  public checkValidity() {
-    return this.balance.checkHtml5Validity()
-  }
+  emit('input', v)
 }
+
+function onBlur() {
+  checkValidity()
+}
+
+function focusInput() {
+  balance.value?.focus()
+}
+
+function checkValidity() {
+  return balance.value?.checkHtml5Validity()
+}
+
+defineExpose({
+  focusInput,
+  checkValidity,
+})
 </script>
