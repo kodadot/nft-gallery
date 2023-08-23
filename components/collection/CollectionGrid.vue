@@ -52,17 +52,18 @@ const route = useRoute()
 const { $apollo } = useNuxtApp()
 const { urlPrefix, client } = usePrefix()
 const preferencesStore = usePreferencesStore()
-const emit = defineEmits(['total', 'isLoading'])
+const emit = defineEmits(['total', 'isLoading', 'isError'])
 
 const collections = ref<Collection[]>([])
 const isLoading = ref(true)
+const isError = ref(false)
 const searchQuery = ref<SearchQuery>({
   search: route.query?.search?.toString() ?? '',
   type: route.query?.type?.toString() ?? '',
   sortBy:
     typeof route.query?.sort === 'string'
       ? [route.query?.sort]
-      : route.query?.sort,
+      : (route.query?.sort as string[]),
   listed: route.query?.listed?.toString() === 'true',
 })
 
@@ -118,12 +119,17 @@ const fetchPageData = async (page: number, loadDirection = 'down') => {
         first: first.value,
         offset: (page - 1) * first.value,
       }
-  const result = await $apollo.query({
-    query: collectionListWithSearch,
-    client: client.value,
-    variables,
-  })
-  await handleResult(result, loadDirection)
+  try {
+    const result = await $apollo.query({
+      query: collectionListWithSearch,
+      client: client.value,
+      variables,
+    })
+    await handleResult(result, loadDirection)
+  } catch (error) {
+    isError.value = true
+    isLoading.value = false
+  }
   isFetchingData.value = false
   return true
 }
@@ -154,6 +160,7 @@ const {
 
 watch(total, (val) => emit('total', val))
 watch(isLoading, (val) => emit('isLoading', val))
+watch(isError, (val) => emit('isError', val))
 
 const skeletonCount = first.value
 
