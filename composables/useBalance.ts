@@ -7,15 +7,23 @@ export default function () {
 
   const getBalance = (token: string) => {
     token = token.toLocaleLowerCase()
-    if (['rmrk', 'ksm', 'ahk', 'ahp', 'dot'].includes(urlPrefix.value)) {
-      return identityStore.getAuthBalance
-    } else if (urlPrefix.value === 'bsx') {
-      return identityStore.multiBalances.chains.basilisk?.[token]?.nativeBalance
-    } else if (urlPrefix.value === 'snek') {
-      return identityStore.multiBalances.chains['basilisk-testnet']?.[token]
-        ?.nativeBalance
-    } else {
-      return identityStore.getTokenBalanceOf(getKusamaAssetId(urlPrefix.value))
+    switch (urlPrefix.value) {
+      case 'rmrk':
+      case 'ksm':
+      case 'ahk':
+      case 'ahp':
+      case 'dot':
+        return identityStore.getAuthBalance
+      case 'bsx':
+        return identityStore.multiBalances.chains.basilisk?.[token]
+          ?.nativeBalance
+      case 'snek':
+        return identityStore.multiBalances.chains['basilisk-testnet']?.[token]
+          ?.nativeBalance
+      default:
+        return identityStore.getTokenBalanceOf(
+          getKusamaAssetId(urlPrefix.value)
+        )
     }
   }
 
