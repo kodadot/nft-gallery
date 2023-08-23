@@ -94,12 +94,12 @@ import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '@/utils/uniquery'
 import { Royalty } from '@/utils/royalty'
 import { fetchCollectionMetadata } from '@/utils/ipfs'
+import { CollectionMetadata } from '~/components/rmrk/types'
 import { Token, getBalance, getDeposit, getFeesToken } from './utils'
 import { MintedCollection } from '@/composables/transaction/types'
 import { NeoField } from '@kodadot1/brick'
 import type TokenBalanceInputComponent from '@/components/bsx/input/TokenBalanceInput.vue'
 import type BaseTokenFormComponent from '@/components/base/BaseTokenForm.vue'
-import { set } from 'vue'
 
 const { $i18n, $apollo, $consola, $router } = useNuxtApp()
 
@@ -190,9 +190,8 @@ const loadCollectionMeta = async () => {
   metadata.forEach(async (m, i) => {
     try {
       const meta = await fetchCollectionMetadata(collections[i])
-      set(collections.value, i, {
-        ...collections.value[i],
-        ...meta,
+      Object.keys(meta).forEach((key) => {
+        collections.value[i][key] = meta[key]
       })
     } catch (e) {
       $consola.warn('[ERR] unable to get metadata')
@@ -215,7 +214,16 @@ const fetchCollections = async () => {
     data: { collectionEntities },
   } = newCollections
 
+  const initialMeta: Partial<CollectionMetadata> = {
+    description: undefined,
+    attributes: undefined,
+    image: undefined,
+    image_data: undefined,
+    external_url: undefined,
+  }
+
   collections.value = unwrapSafe(collectionEntities)?.map((ce: any) => ({
+    ...initialMeta, // set initial meta to get reactivity
     ...ce,
     alreadyMinted: ce.nfts?.length,
     lastIndexUsed: Number(ce.nfts?.at(0)?.index || 0),
