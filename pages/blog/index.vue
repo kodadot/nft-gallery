@@ -97,18 +97,31 @@ export default {
     const resolve = require.context('~/content/blog/', true, /\.md$/)
     const imports = resolve.keys().map((key) => resolve(key))
 
+    const tags = {
+      tokens: 'Tokens',
+    }
+
     const latestPosts = imports.sort(
       (a, b) => +new Date(b.attributes.date) - +new Date(a.attributes.date)
     )
 
-    const tokensPosts = latestPosts.filter(
-      (post) => post.attributes.tags === 'Tokens'
+    return latestPosts.reduce(
+      (acc, obj, index) => {
+        if (index === 0) {
+          acc.featured.push(obj)
+        } else if (obj.attributes.tags === tags.tokens) {
+          acc.tokensPosts.push(obj)
+        } else {
+          acc.posts.push(obj)
+        }
+        return acc
+      },
+      {
+        featured: [],
+        posts: [],
+        tokensPosts: [],
+      }
     )
-
-    return {
-      posts: latestPosts,
-      tokensPosts,
-    }
   },
   methods: {
     getPermalink(post) {
