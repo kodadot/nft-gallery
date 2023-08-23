@@ -135,7 +135,7 @@ const { collection } = useCollectionMinimal({
 const collectionIssuer = computed(() => collection.value?.issuer)
 
 const { discord, twitter, instagram, whichIdentity } = useIdentity({
-  address: collectionIssuer.value,
+  address: collectionIssuer,
 })
 
 const openUrl = (url: string) => {

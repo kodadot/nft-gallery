@@ -10,20 +10,15 @@
 <script setup lang="ts">
 import { SHOW_SCROLL_TOP_BUTTON_HEIGHT } from '@/utils/constants'
 import { NeoIcon } from '@kodadot1/brick'
-
+import { useEventListener } from '@vueuse/core'
 const showBtn = ref(false)
-
-onMounted(() => {
-  window.addEventListener('scroll', onScroll)
-})
-onBeforeMount(() => {
-  window.removeEventListener('scroll', onScroll)
-})
 
 const onScroll = () => {
   showBtn.value =
     document.documentElement.scrollTop > SHOW_SCROLL_TOP_BUTTON_HEIGHT
 }
+
+useEventListener(window, 'scroll', onScroll)
 
 const scrollToTop = () => {
   window.scroll({

@@ -3,6 +3,12 @@ import { ODropdown } from '@oruga-ui/oruga-next'
 
 export default {
   mixins: [ODropdown],
+  props: {
+    mobileModal: {
+      type: Boolean,
+      default: false,
+    },
+  },
   computed: {
     rootClasses() {
       return [

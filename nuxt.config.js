@@ -238,7 +238,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
     '@pinia/nuxt',
-    '@nuxtjs/sitemap',
+    'nuxt-simple-sitemap',
   ],
 
   pwa: {
@@ -297,20 +297,23 @@ export default defineNuxtConfig({
   },
 
   apollo: {
+    clients: {
+      default: { httpEndpoint: 'https://squid.subsquid.io/snekk/graphql' },
+    },
     clientConfigs: apolloClientConfig,
     // https://github.com/nuxt-community/apollo-module#options
   },
 
-  sitemap: {
-    hostname: process.env.BASE_URL || 'http://localhost:9090',
-    routes() {
-      const posts = fs.readdirSync('content/blog')
+  // sitemap: {
+  //   hostname: process.env.BASE_URL || 'http://localhost:9090',
+  //   routes() {
+  //     const posts = fs.readdirSync('content/blog')
 
-      return posts
-        .map((post) => post.split('.')[0])
-        .map((post) => `/blog/${post}`)
-    },
-  },
+  //     return posts
+  //       .map((post) => post.split('.')[0])
+  //       .map((post) => `/blog/${post}`)
+  //   },
+  // },
 
   hooks: {
     sitemap: {

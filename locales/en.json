@@ -556,6 +556,7 @@
       "UNLIST": "UNLIST",
       "RELIST": "RELIST",
       "SEND": "GIFT",
+      "SELL": "SELL",
       "CONSUME": "BURN",
       "BUY": "BUY",
       "MAKE_OFFER": "MAKE OFFER",
@@ -1012,7 +1013,8 @@
   "share": {
     "copyLink": "Copy Link",
     "qrCode": "QR Code",
-    "twitter": "Share on Twitter"
+    "twitter": "Share on Twitter",
+    "copyAddress": "Copy Address"
   },
   "moreActions": {
     "download": "Download",

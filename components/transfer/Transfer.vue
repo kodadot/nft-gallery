@@ -1,203 +1,227 @@
 <template>
-  <div class="transfer-card theme-background-color k-shadow border py-8 px-6">
-    <Loader v-model="isLoading" :status="status" />
+  <section class="is-flex is-justify-content-center">
     <div
-      class="is-flex is-justify-content-space-between is-align-items-center mb-2">
-      <p class="has-text-weight-bold is-size-3">
-        {{ $t('transfer') }} {{ unit }}
-      </p>
-      <NeoDropdown position="bottom-left" :mobile-modal="false">
-        <template #trigger="{ active }">
-          <NeoButton
-            icon="ellipsis-vertical"
-            class="square-32"
-            :active="active" />
-        </template>
+      :class="[
+        'transfer-card',
+        {
+          'theme-background-color k-shadow border py-8 px-6': !isMobile,
+        },
+      ]">
+      <Loader v-model="isLoading" :status="status" />
+      <div
+        class="is-flex is-justify-content-space-between is-align-items-center mb-2">
+        <p class="has-text-weight-bold is-size-3">
+          {{ $t('transfer') }} {{ unit }}
+        </p>
+        <NeoDropdown position="bottom-left" :mobile-modal="false">
+          <template #trigger="{ active }">
+            <NeoButton
+              icon="ellipsis-vertical"
+              no-shadow
+              class="square-32"
+              :active="active" />
+          </template>
 
-        <NeoDropdownItem
-          v-clipboard:copy="generatePaymentLink(accountId)"
-          @click="toast(`${$i18n.t('toast.urlCopy')}`)">
-          <NeoIcon icon="sack-dollar" pack="fa" class="mr-2" />{{
-            $t('transfers.payMeLink')
-          }}
-        </NeoDropdownItem>
-      </NeoDropdown>
-    </div>
-
-    <div class="is-flex mb-5">
-      <div class="token-price py-2 px-4 is-flex is-align-items-center">
-        <img class="mr-2 square-20" :src="tokenIcon" alt="token" />
-        {{ unit }} ${{ currentTokenValue }}
+          <NeoDropdownItem
+            v-clipboard:copy="generatePaymentLink(accountId)"
+            @click="toast(`${$i18n.t('toast.urlCopy')}`)">
+            <NeoIcon icon="sack-dollar" pack="fa" class="mr-2" />{{
+              $t('transfers.payMeLink')
+            }}
+          </NeoDropdownItem>
+        </NeoDropdown>
       </div>
-    </div>
 
-    <div class="is-flex is-justify-content-space-between">
-      <div class="is-flex is-flex-direction-column">
-        <span class="has-text-weight-bold is-size-6 mb-1">{{
-          $t('transfers.sender')
-        }}</span>
-        <div v-if="accountId" class="is-flex is-align-items-center">
-          <Avatar :value="accountId" :size="32" />
-          <span class="ml-2">
-            <Identity :address="accountId" hide-identity-popover />
-          </span>
-          <a
-            v-clipboard:copy="accountId"
-            class="ml-2"
-            @click="toast(`${$i18n.t('general.copyToClipboard')}`)">
-            <NeoIcon icon="copy" />
-          </a>
+      <TransferTokenTabs
+        :tabs="tokenTabs"
+        :value="unit"
+        @select="handleTokenSelect" />
+
+      <div class="is-flex is-justify-content-space-between">
+        <div class="is-flex is-flex-direction-column">
+          <span class="has-text-weight-bold is-size-6 mb-1">{{
+            $t('transfers.sender')
+          }}</span>
+          <div v-if="accountId" class="is-flex is-align-items-center">
+            <Avatar :value="accountId" :size="32" />
+            <span class="ml-2">
+              <Identity :address="accountId" hide-identity-popover />
+            </span>
+            <a
+              v-clipboard:copy="accountId"
+              class="ml-2"
+              @click="toast(`${$i18n.t('general.copyToClipboard')}`)">
+              <NeoIcon icon="copy" />
+            </a>
+          </div>
+          <Auth v-else />
         </div>
-        <Auth v-else />
-      </div>
-      <div class="is-flex is-flex-direction-column is-align-items-end">
-        <span class="has-text-weight-bold is-size-6 mb-1">{{
-          $t('general.balance')
-        }}</span>
-        <div class="is-flex is-align-items-center">
-          <img class="mr-2 is-32x32" :src="tokenIcon" alt="token" />
-          <Money :value="balance" inline />
+        <div class="is-flex is-flex-direction-column is-align-items-end">
+          <span class="has-text-weight-bold is-size-6 mb-1">{{
+            $t('general.balance')
+          }}</span>
+          <div class="is-flex is-align-items-center">
+            <img class="mr-2 is-32x32" :src="tokenIcon" alt="token" />
+            <Money :value="balance" inline />
+          </div>
+
+          <span class="has-text-grey">≈ ${{ balanceUsdValue }}</span>
         </div>
-
-        <span class="has-text-grey">≈ ${{ balanceUsdValue }}</span>
       </div>
-    </div>
 
-    <hr />
+      <hr />
 
-    <div class="is-flex">
-      <div class="is-flex-grow-1 mr-2 is-flex is-flex-direction-column">
-        <div class="has-text-weight-bold is-size-6 mb-3">
+      <div v-if="!isMobile" class="is-flex">
+        <div class="has-text-weight-bold is-size-6 mb-3 is-flex-1 mr-2">
           {{ $t('transfers.recipient') }}
         </div>
-        <div
-          v-for="(destinationAddress, index) in targetAddresses"
-          :key="index"
-          class="mb-3">
-          <AddressInput
-            v-model="destinationAddress.address"
-            label=""
-            placeholder="Enter wallet address"
-            :strict="false" />
-        </div>
-      </div>
-
-      <div class="is-flex is-flex-direction-column">
-        <div class="has-text-weight-bold is-size-6 mb-3">
+        <div class="has-text-weight-bold is-size-6 mb-3 is-flex-1">
           {{ $t('amount') }}
         </div>
+      </div>
+      <div class="is-flex-grow-1 is-flex-direction-column">
         <div
           v-for="(destinationAddress, index) in targetAddresses"
           :key="index"
           class="mb-3">
-          <NeoInput
-            v-if="displayUnit === 'token'"
-            v-model="destinationAddress.token"
-            type="number"
-            placeholder="0"
-            step="0.01"
-            min="0"
-            icon-right-class="search"
-            @input="onAmountFieldChange(destinationAddress)" />
-          <NeoInput
-            v-else
-            v-model="destinationAddress.usd"
-            placeholder="0"
-            type="number"
-            step="0.01"
-            min="0"
-            icon-right-class="search"
-            @input="onUsdFieldChange(destinationAddress)" />
+          <div v-if="isMobile" class="has-text-weight-bold is-size-6 mb-3">
+            {{ $t('transfers.recipient') }} {{ index + 1 }}
+          </div>
+          <div
+            :class="[
+              'is-flex',
+              {
+                'is-flex-direction-column': isMobile,
+              },
+            ]">
+            <AddressInput
+              v-model="destinationAddress.address"
+              label=""
+              class="is-flex-1"
+              :class="[
+                {
+                  'mr-2': !isMobile,
+                  'mb-2': isMobile,
+                },
+              ]"
+              placeholder="Enter wallet address"
+              :strict="false" />
+            <NeoInput
+              v-if="displayUnit === 'token'"
+              v-model="destinationAddress.token"
+              type="number"
+              placeholder="0"
+              step="0.01"
+              min="0"
+              icon-right-class="search"
+              class="is-flex-1"
+              @input="onAmountFieldChange(destinationAddress)" />
+            <NeoInput
+              v-else
+              v-model="destinationAddress.usd"
+              placeholder="0"
+              type="number"
+              step="0.01"
+              min="0"
+              icon-right-class="search"
+              class="is-flex-1"
+              @input="onUsdFieldChange(destinationAddress)" />
+          </div>
         </div>
       </div>
-    </div>
 
-    <div
-      class="mb-5 is-flex is-justify-content-center is-clickable"
-      @click="addAddress">
-      {{ $t('transfers.addAddress') }}
-      <NeoIcon class="ml-2" icon="plus" pack="fas" />
-    </div>
-    <div
-      class="is-flex is-justify-content-space-between is-align-items-center mb-5">
       <div
-        class="is-flex is-justify-content-space-between is-align-items-center">
-        {{ $t('transfers.sendSameAmount')
-        }}<NeoTooltip :label="$t('transfers.setSameAmount')"
-          ><NeoIcon class="ml-2" icon="circle-info" pack="far"
-        /></NeoTooltip>
+        class="mb-5 is-flex is-justify-content-center is-clickable"
+        @click="addAddress">
+        {{ $t('transfers.addAddress') }}
+        <NeoIcon class="ml-2" icon="plus" pack="fas" />
       </div>
-      <NeoSwitch v-model="sendSameAmount" :rounded="false" />
-    </div>
-
-    <div
-      class="is-flex is-justify-content-space-between is-align-items-center mb-5">
-      <span class="has-text-weight-bold is-size-6">{{
-        $t('transfers.displayUnit')
-      }}</span>
-      <div class="is-flex is-align-items-center">
-        <span class="is-size-6 mr-1">{{ $t('transfers.transferable') }}: </span>
-        <span
-          v-if="displayUnit === 'token'"
-          class="has-text-weight-bold is-size-6">
-          <Money :value="balance" inline />
-        </span>
-        <span v-else class="has-text-weight-bold is-size-6"
-          >{{ balanceUsdValue }} USD</span
-        >
+      <div
+        class="is-flex is-justify-content-space-between is-align-items-center mb-5">
+        <div
+          class="is-flex is-justify-content-space-between is-align-items-center">
+          {{ $t('transfers.sendSameAmount')
+          }}<NeoTooltip :label="$t('transfers.setSameAmount')"
+            ><NeoIcon class="ml-2" icon="circle-info" pack="far"
+          /></NeoTooltip>
+        </div>
+        <NeoSwitch v-model="sendSameAmount" :rounded="false" />
       </div>
-    </div>
 
-    <div
-      class="is-flex field has-addons is-flex-grow-1 is-justify-content-center mb-4">
-      <TabItem
-        :active="displayUnit === 'token'"
-        :text="unit"
-        full-width
-        no-shadow
-        @click.native="displayUnit = 'token'" />
-      <TabItem
-        :active="displayUnit === 'usd'"
-        text="USD"
-        full-width
-        no-shadow
-        @click.native="displayUnit = 'usd'" />
-    </div>
-
-    <div
-      class="is-flex is-justify-content-space-between is-align-items-center mb-6">
-      <span class="has-text-weight-bold is-size-6">{{
-        $t('spotlight.total')
-      }}</span>
-      <div class="is-flex is-align-items-center">
-        <span class="is-size-7 has-text-grey mr-1"
-          >({{ displayTotalValue[0] }})</span
-        >
-
+      <div
+        class="is-flex is-justify-content-space-between is-align-items-center mb-5">
         <span class="has-text-weight-bold is-size-6">{{
-          displayTotalValue[1]
+          $t('transfers.displayUnit')
         }}</span>
+        <div class="is-flex is-align-items-center">
+          <span class="is-size-6 mr-1"
+            >{{ $t('transfers.transferable') }}:
+          </span>
+          <span
+            v-if="displayUnit === 'token'"
+            class="has-text-weight-bold is-size-6">
+            <Money :value="balance" inline />
+          </span>
+          <span v-else class="has-text-weight-bold is-size-6"
+            >{{ balanceUsdValue }} USD</span
+          >
+        </div>
       </div>
-    </div>
 
-    <div class="is-flex">
-      <NeoButton
-        class="is-flex is-flex-1 fixed-height"
-        variant="k-accent"
-        :disabled="disabled"
-        @click.native="handleOpenConfirmModal"
-        >{{ $t('redirect.continue') }}</NeoButton
-      >
+      <div
+        class="is-flex field has-addons is-flex-grow-1 is-justify-content-center mb-4">
+        <TabItem
+          :active="displayUnit === 'token'"
+          :text="unit"
+          tag="button"
+          full-width
+          no-shadow
+          @click.native="displayUnit = 'token'" />
+        <TabItem
+          :active="displayUnit === 'usd'"
+          text="USD"
+          tag="button"
+          full-width
+          no-shadow
+          @click.native="displayUnit = 'usd'" />
+      </div>
+
+      <div
+        class="is-flex is-justify-content-space-between is-align-items-center mb-6">
+        <span class="has-text-weight-bold is-size-6">{{
+          $t('spotlight.total')
+        }}</span>
+        <div class="is-flex is-align-items-center">
+          <span class="is-size-7 has-text-grey mr-1"
+            >({{ displayTotalValue[0] }})</span
+          >
+
+          <span class="has-text-weight-bold is-size-6">{{
+            displayTotalValue[1]
+          }}</span>
+        </div>
+      </div>
+
+      <div class="is-flex">
+        <NeoButton
+          class="is-flex is-flex-1 fixed-height"
+          variant="k-accent"
+          :disabled="disabled"
+          @click.native="handleOpenConfirmModal"
+          >{{ $t('redirect.continue') }}</NeoButton
+        >
+      </div>
+      <TransferConfirmModal
+        :is-modal-active="isTransferModalVisible"
+        :display-total-value="displayTotalValue"
+        :token-icon="tokenIcon"
+        :unit="unit"
+        :is-mobile="isMobile"
+        :target-addresses="targetAddresses"
+        @close="isTransferModalVisible = false"
+        @confirm="submit" />
     </div>
-    <TransferConfirmModal
-      :is-modal-active="isTransferModalVisible"
-      :display-total-value="displayTotalValue"
-      :token-icon="tokenIcon"
-      :unit="unit"
-      :target-addresses="targetAddresses"
-      @close="isTransferModalVisible = false"
-      @confirm="submit" />
-  </div>
+  </section>
 </template>
 
 <script lang="ts" setup>
@@ -222,7 +246,9 @@ import { useFiatStore } from '@/stores/fiat'
 import { useIdentityStore } from '@/stores/identity'
 import Avatar from '@/components/shared/Avatar.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
+import { getMovedItemToFront } from '@/utils/objects'
 import TransferConfirmModal from '@/components/transfer/TransferConfirmModal.vue'
+
 import {
   NeoButton,
   NeoDropdown,
@@ -232,7 +258,8 @@ import {
   NeoSwitch,
   NeoTooltip,
 } from '@kodadot1/brick'
-
+import TransferTokenTabs, { TransferTokenTab } from './TransferTokenTabs.vue'
+import { TokenDetails } from '@/composables/useToken'
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
 )
@@ -242,9 +269,9 @@ const router = useRouter()
 const { $consola, $i18n } = useNuxtApp()
 const { unit, decimals } = useChain()
 const { apiInstance } = useApi()
-const { urlPrefix } = usePrefix()
+const { urlPrefix, setUrlPrefix } = usePrefix()
 const { isLogIn, accountId } = useAuth()
-const { getAuthBalance } = useIdentityStore()
+const identityStore = useIdentityStore()
 const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
 const { initTransactionLoader, isLoading, resolveStatus, status } =
   useTransactionStatus()
@@ -256,15 +283,18 @@ export type TargetAddress = {
   usd?: number | string
   token?: number | string
 }
+const isMobile = computed(() => useWindowSize().width.value <= 1024)
 
 const transactionValue = ref('')
-const price = ref(0)
-const usdValue = ref(0)
 const sendSameAmount = ref(false)
 const displayUnit = ref<'token' | 'usd'>('token')
 const { getTokenIconBySymbol } = useIcon()
+const { tokens, getPrefixByToken, availableTokens } = useToken()
 
+const selectedTabFirst = ref(true)
 const tokenIcon = computed(() => getTokenIconBySymbol(unit.value))
+
+const tokenTabs = ref<TransferTokenTab[]>([])
 
 const targetAddresses = ref<TargetAddress[]>([{}])
 
@@ -278,12 +308,57 @@ const displayTotalValue = computed(() =>
     : [`${totalTokenAmount.value} ${unit.value}`, `$${totalUsdValue.value}`]
 )
 
-const balance = getAuthBalance
+const balance = computed(() => identityStore.getAuthBalance)
+
 const disabled = computed(
   () =>
     !isLogIn.value ||
     balanceUsdValue.value < totalUsdValue.value ||
     !hasValidTarget.value
+)
+
+const handleTokenSelect = (newToken: string) => {
+  selectedTabFirst.value = false
+  const token = tokens.value.find((t) => t.symbol === newToken)
+
+  if (token) {
+    const chain = getPrefixByToken(token.symbol)
+
+    if (!chain) {
+      $consola.error(
+        `[ERR: INVALID TOKEN] Chain for token ${token.symbol} is not valid`
+      )
+      return
+    }
+
+    setUrlPrefix(chain)
+  }
+}
+
+const generateTokenTabs = (
+  items: TokenDetails[],
+  selectedToken: string,
+  sort = false
+) => {
+  items = sort ? getMovedItemToFront(items, 'symbol', selectedToken) : items
+
+  return items.map((availableToken) => ({
+    label: `${availableToken.symbol} $${availableToken.value || '0'}`,
+    icon: availableToken.icon,
+    value: availableToken.symbol,
+  }))
+}
+
+watch(
+  tokens,
+  (items) => {
+    tokenTabs.value = generateTokenTabs(
+      items,
+      unit.value,
+      selectedTabFirst.value
+    )
+  },
+  { immediate: true }
 )
 
 const checkQueryParams = () => {
@@ -353,7 +428,7 @@ const totalUsdValue = computed(() =>
 const currentTokenValue = computed(() => getCurrentTokenValue(unit.value))
 const balanceUsdValue = computed(() =>
   calculateBalanceUsdValue(
-    Number(balance) * Number(currentTokenValue.value),
+    Number(balance.value) * Number(currentTokenValue.value),
     decimals.value
   )
 )
@@ -400,6 +475,24 @@ const unifyAddressAmount = (target: TargetAddress) => {
     usd: target.usd,
   }))
 }
+
+const updateTargetAdressesOnTokenSwitch = () => {
+  targetAddresses.value.forEach((targetAddress) => {
+    if (displayUnit.value === 'usd') {
+      onUsdFieldChange(targetAddress)
+    } else {
+      onAmountFieldChange(targetAddress)
+    }
+  })
+}
+
+watch(
+  unit,
+  () => {
+    updateTargetAdressesOnTokenSwitch()
+  },
+  { immediate: true }
+)
 
 const handleOpenConfirmModal = () => {
   if (!disabled.value) {
@@ -461,8 +554,6 @@ const submit = async (
           )
 
           targetAddresses.value = [{}]
-          price.value = 0
-          usdValue.value = 0
           if (route.query && !route.query.donation) {
             router.push(route.path)
           }
@@ -522,14 +613,9 @@ const onTxError = async (dispatchError: DispatchError): Promise<void> => {
   isLoading.value = false
 }
 
-const generatePaymentLink = (address?): string => {
-  let addressQueryString: string
-  if (address) {
-    addressQueryString = `target=${address}`
-  } else {
-    addressQueryString = new URLSearchParams(targets.value).toString()
-  }
-  return `${window.location.origin}/${urlPrefix.value}/transfer?${addressQueryString}&usdamount=${usdValue.value}&donation=true`
+const generatePaymentLink = (address): string => {
+  const addressQueryString = `target=${address}`
+  return `${window.location.origin}/${urlPrefix.value}/transfer?${addressQueryString}&usdamount=${totalUsdValue.value}&donation=true`
 }
 
 const addAddress = () => {
@@ -538,19 +624,51 @@ const addAddress = () => {
     address: '',
   })
 }
+
+const syncQueryToken = () => {
+  const { query } = route
+
+  const token = query.token?.toString()
+
+  if (!token || !availableTokens.includes(token)) {
+    return
+  }
+
+  const chain = getPrefixByToken(token)
+
+  if (!chain) {
+    return
+  }
+
+  setUrlPrefix(chain)
+}
+
+watch(
+  route,
+  () => {
+    syncQueryToken()
+  },
+  { immediate: true, deep: true }
+)
+
 onMounted(() => {
   fetchFiatPrice().then(checkQueryParams)
 })
 
-watch(
+watchDebounced(
   () => targetAddresses.value[0].usd,
   (usdamount) => {
     router
       .replace({
-        query: { ...route.query, usdamount: (usdamount || 0).toString() },
+        query: {
+          ...route.query,
+          usdamount: (usdamount || 0).toString(),
+          token: unit.value,
+        },
       })
       .catch(() => null) // null to further not throw navigation errors
-  }
+  },
+  { debounce: 300 }
 )
 </script>
 <style lang="scss" scoped>
@@ -559,24 +677,15 @@ watch(
 .transfer-card {
   max-width: 41rem;
 
-  .token-price {
-    border-radius: 3rem;
-
-    @include ktheme() {
-      background-color: theme('background-color-inverse');
-      color: theme('text-color-inverse');
-      border: 1px solid theme('background-color-inverse');
-    }
+  @include touch {
+    width: 100vw;
   }
 
   .square-32 {
     width: 32px;
     height: 32px;
   }
-  .square-20 {
-    width: 20px;
-    height: 20px;
-  }
+
   .fixed-height {
     height: 51px;
   }
