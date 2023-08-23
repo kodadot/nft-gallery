@@ -251,7 +251,6 @@ import {
 } from '@/utils/format/balance'
 import { getNumberSumOfObjectField } from '@/utils/math'
 import { useFiatStore } from '@/stores/fiat'
-import { useIdentityStore } from '@/stores/identity'
 import Avatar from '@/components/shared/Avatar.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import { getMovedItemToFront } from '@/utils/objects'
@@ -279,7 +278,6 @@ const { unit: chainUnit } = useChain()
 const { apiInstance } = useApi()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { isLogIn, accountId } = useAuth()
-const identityStore = useIdentityStore()
 const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
 const { initTransactionLoader, isLoading, resolveStatus, status } =
   useTransactionStatus()
@@ -340,14 +338,16 @@ const handleTokenSelect = (newToken: string) => {
     return
   }
 
-  const isTokenAvailableForCurrentChain = token.chains.includes(urlPrefix.value)
+  const isTokenAvailableForCurrentChain = isTokenValidForChain(
+    token.symbol,
+    urlPrefix.value
+  )
 
   if (isTokenAvailableForCurrentChain) {
-    router.replace({ query: { ...route.query, token: token.symbol } })
+    unit.value = token.symbol
     return
   }
 
-  setUrlPrefix(token.defaultChain)
   router.replace({
     params: { prefix: token.defaultChain },
     query: { ...route.query, token: token.symbol },
