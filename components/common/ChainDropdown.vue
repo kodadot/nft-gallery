@@ -32,6 +32,9 @@ const { setUrlPrefix } = usePrefix()
 const { availableChains } = useChain()
 
 const getAddress = (chain: string) => {
+  if (!accountId.value) {
+    return ''
+  }
   const publicKey = decodeAddress(accountId.value)
 
   return encodeAddress(publicKey, CHAINS[chain].ss58Format)
