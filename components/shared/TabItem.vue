@@ -6,8 +6,10 @@
       :no-shadow="noShadow"
       :active="active"
       :to="to"
-      :icon="active ? 'check' : ''">
-      <span> {{ text }}</span>
+      :icon="icon">
+      <slot>
+        <span> {{ text }}</span>
+      </slot>
     </NeoButton>
   </p>
 </template>
@@ -23,10 +25,12 @@ withDefaults(
     fullWidth?: boolean
     noShadow?: boolean
     tag: string
+    icon?: string
   }>(),
   {
     to: '',
     tag: 'nuxt-link',
+    icon: '',
   }
 )
 </script>
