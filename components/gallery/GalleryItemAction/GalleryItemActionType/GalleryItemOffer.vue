@@ -15,7 +15,7 @@
             class="full-width-action-button"
             data-cy="make-offer"
             no-shadow
-            @click.native="toggleActive" />
+            @click="toggleActive" />
         </template>
         <template #action>
           <NeoTooltip
@@ -35,7 +35,7 @@
               fixed-width
               variant="k-blue"
               no-shadow
-              @click.native="confirm1" />
+              @click="confirm1" />
           </NeoTooltip>
           <NeoButton
             v-if="confirm"
@@ -44,7 +44,7 @@
             fixed-width
             variant="k-blue"
             no-shadow
-            @click.native="confirm2" />
+            @click="confirm2" />
         </template>
 
         <template #content>

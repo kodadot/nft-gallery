@@ -8,7 +8,7 @@
           rounded
           label="All"
           variant="text"
-          @click.native="activateAllFilter" />
+          @click="activateAllFilter" />
         <FilterButton
           v-for="urlParam in filters"
           :key="urlParam"

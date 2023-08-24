@@ -1,7 +1,7 @@
 <template>
   <NeoLoading :active.sync="isLoading" is-full-page :can-cancel="canCancel">
     <div class="loading-container py-2">
-      <NeoIcon class="close-icon" icon="close" @click.native="closeLoading" />
+      <NeoIcon class="close-icon" icon="close" @click="closeLoading" />
       <img src="/unlockable-loader.svg" />
       <div
         class="is-flex is-flex-direction-column is-align-items-center px-5 has-text-centered is-capitalized">

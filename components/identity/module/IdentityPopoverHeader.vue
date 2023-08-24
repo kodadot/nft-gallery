@@ -15,7 +15,7 @@
           icon="copy"
           class="has-text-link is-clickable"
           data-cy="identity-clipboard"
-          @click.native="toast('Copied to clipboard')" />
+          @click="toast('Copied to clipboard')" />
       </div>
       <a
         v-if="identity?.twitter"

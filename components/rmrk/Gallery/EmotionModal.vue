@@ -27,7 +27,7 @@
         class="mt-4"
         no-shadow
         expanded
-        @click.native="showAllEmotes()">
+        @click="showAllEmotes()">
         Load More
       </NeoButton>
     </div>

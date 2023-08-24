@@ -1,7 +1,6 @@
-import path from 'path'
+// import path from 'path'
 import * as fs from 'fs'
-import { defineNuxtConfig } from '@nuxt/bridge'
-import Mode from 'frontmatter-markdown-loader/mode'
+// import Mode from 'frontmatter-markdown-loader/mode'
 import { manifestIcons } from './utils/config/pwa'
 import { URLS, apolloClientConfig } from './utils/constants'
 // import { fromNodeMiddleware } from 'h3'
@@ -25,9 +24,9 @@ export default defineNuxtConfig({
     host: '0.0.0.0',
   },
 
-  bridge: {
-    nitro: true,
-  },
+  // bridge: {
+  //   nitro: true,
+  // },
 
   nitro: {
     publicAssets: [],
@@ -367,7 +366,7 @@ export default defineNuxtConfig({
       },
     },
     transpile: [
-      '@kodadot1/sub-api',
+      // '@kodadot1/sub-api',
       '@polkadot/api',
       '@polkadot/rpc-core',
       '@polkadot/rpc-provider',

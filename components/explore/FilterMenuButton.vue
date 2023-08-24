@@ -12,10 +12,7 @@
         size="medium" />
     </a>
     <div class="is-hidden-tablet is-relative">
-      <NeoButton
-        :disabled="disabled"
-        icon="bars"
-        @click.native="openMobileFilters" />
+      <NeoButton :disabled="disabled" icon="bars" @click="openMobileFilters" />
       <ActiveCount v-if="numOfActiveFilters" :count="numOfActiveFilters" />
     </div>
   </div>

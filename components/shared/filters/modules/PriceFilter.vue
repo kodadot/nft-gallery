@@ -61,7 +61,7 @@
           no-shadow
           variant="k-accent"
           expanded
-          @click.native="apply">
+          @click="apply">
           {{ $t('general.apply') }}
         </NeoButton>
       </div>

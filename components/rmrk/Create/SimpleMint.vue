@@ -127,7 +127,7 @@
             no-shadow
             icon-left="sync"
             variant="warning"
-            @click.native="syncEdition">
+            @click="syncEdition">
             {{ $t('mint.expert.sync', [actualDistribution]) }}
           </NeoButton>
         </NeoField>

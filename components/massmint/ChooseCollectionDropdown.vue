@@ -24,7 +24,7 @@
         v-for="collection in collectionsEntites"
         :key="collection.id"
         class="dropdown-width"
-        @click.native="selectCollection(collection)">
+        @click="selectCollection(collection)">
         {{ collection.name || collection.id }}
       </NeoDropdownItem>
       <NeoDropdownItem class="dropdown-width">

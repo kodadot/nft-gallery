@@ -5,7 +5,6 @@ import { NftResources, getNftMetadata } from '@/composables/useNft'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import type { NFTWithMetadata } from '@/composables/useNft'
-import { Ref } from '@nuxt/bridge/dist/runtime/composables'
 
 interface NFTData {
   nftEntity?: NFTWithMetadata

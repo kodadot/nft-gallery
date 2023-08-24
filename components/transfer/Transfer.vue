@@ -176,14 +176,14 @@
           tag="button"
           full-width
           no-shadow
-          @click.native="displayUnit = 'token'" />
+          @click="displayUnit = 'token'" />
         <TabItem
           :active="displayUnit === 'usd'"
           text="USD"
           tag="button"
           full-width
           no-shadow
-          @click.native="displayUnit = 'usd'" />
+          @click="displayUnit = 'usd'" />
       </div>
 
       <div
@@ -207,7 +207,7 @@
           class="is-flex is-flex-1 fixed-height"
           variant="k-accent"
           :disabled="disabled"
-          @click.native="handleOpenConfirmModal"
+          @click="handleOpenConfirmModal"
           >{{ $t('redirect.continue') }}</NeoButton
         >
       </div>

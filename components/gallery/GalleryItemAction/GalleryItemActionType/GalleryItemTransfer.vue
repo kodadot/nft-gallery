@@ -16,7 +16,7 @@
               fixed-width
               :disabled="isTransferButtonDisabled"
               no-shadow
-              @click.native="sendItem" />
+              @click="sendItem" />
           </NeoTooltip>
         </template>
 

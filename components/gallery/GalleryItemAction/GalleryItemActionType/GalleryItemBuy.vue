@@ -36,14 +36,14 @@
               variant="k-accent"
               :disabled="disabled"
               data-cy="item-buy"
-              @click.native="onClick" />
+              @click="onClick" />
           </NeoTooltip>
         </div>
 
         <NeoButton
           class="button-height no-border-left"
           data-cy="item-add-to-cart"
-          @click.native="onClickShoppingCart">
+          @click="onClickShoppingCart">
           <img :src="cartIcon" class="image is-32x32" />
         </NeoButton>
       </div>

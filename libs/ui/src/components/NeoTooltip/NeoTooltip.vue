@@ -17,7 +17,7 @@
     :label="label"
     :delay="delay"
     @open="handleOpen"
-    @click.native="handleClick">
+    @click="handleClick">
     <template #content>
       <slot name="content"></slot>
     </template>

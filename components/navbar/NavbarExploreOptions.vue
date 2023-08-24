@@ -5,13 +5,13 @@
         :to="`/${urlPrefix}/explore/items`"
         class="menu-item mr-2"
         data-cy="explore-items"
-        @click.native="emit('closeMobileNavbar')">
+        @click="emit('closeMobileNavbar')">
         {{ $t('items') }}
       </nuxt-link>
       <nuxt-link
         :to="`/${urlPrefix}/explore/collectibles`"
         class="menu-item mr-2"
-        @click.native="emit('closeMobileNavbar')">
+        @click="emit('closeMobileNavbar')">
         {{ $t('collections') }}
       </nuxt-link>
       <span class="menu-item is-disabled">

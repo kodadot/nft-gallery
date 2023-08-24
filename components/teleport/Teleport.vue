@@ -74,7 +74,7 @@
         :loading="isLoading"
         :disabled="isDisabledButton"
         variant="k-accent"
-        @click.native="sendXCM" />
+        @click="sendXCM" />
     </div>
   </section>
 </template>

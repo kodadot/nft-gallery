@@ -12,7 +12,7 @@
       aria-close-label="clear filter"
       icon="xmark"
       class="ml-2 is-clickable cross-icon"
-      @click.native="onClose" />
+      @click="onClose" />
   </div>
 </template>
 

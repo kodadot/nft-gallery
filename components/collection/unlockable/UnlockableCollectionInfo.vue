@@ -16,7 +16,7 @@
           v-if="hasSeeAllDescriptionOption"
           class="no-shadow is-text has-text-left p-0"
           :label="seeAllDescription ? $t('showLess') : $t('showMore')"
-          @click.native="toggleSeeAllDescription" />
+          @click="toggleSeeAllDescription" />
         <div v-else />
 
         <NeoButton

@@ -48,7 +48,7 @@
                 variant="k-accent"
                 :disabled="mintButtonDisabled"
                 label="Mint"
-                @click.native="handleSubmitMint" />
+                @click="handleSubmitMint" />
               <div class="is-flex is-align-items-center mt-2">
                 <svg
                   width="20"

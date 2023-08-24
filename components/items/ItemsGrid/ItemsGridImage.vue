@@ -20,13 +20,13 @@
           :loading="showActionSection"
           class="is-flex-grow-1 btn-height"
           loading-with-label
-          @click.native.prevent="onClickBuy">
+          @click.prevent="onClickBuy">
         </NeoButton>
         <NeoButton
           data-cy="item-add-to-cart"
           no-shadow
           class="fixed-width p-1 no-border-left btn-height override-wrapper-width"
-          @click.native.prevent="onClickShoppingCart">
+          @click.prevent="onClickShoppingCart">
           <img :src="cartIcon" class="image is-16x16" />
         </NeoButton>
       </div>

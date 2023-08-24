@@ -61,13 +61,13 @@
             (props.row.caller === accountId || isOwner) && isActive(props.row)
           "
           variant="primary"
-          @click.native="onWithdrawOffer(props.row.caller)"
+          @click="onWithdrawOffer(props.row.caller)"
           >Cancel</NeoSecondaryButton
         >
         <NeoSecondaryButton
           v-if="isOwner && isActiveAndNotExpired(props.row)"
           variant="info"
-          @click.native="onAcceptOffer(props.row.caller)"
+          @click="onAcceptOffer(props.row.caller)"
           >Accept</NeoSecondaryButton
         >
       </NeoTableColumn>

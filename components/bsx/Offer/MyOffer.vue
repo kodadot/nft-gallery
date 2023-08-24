@@ -14,11 +14,7 @@
           {{ option.value }}
         </option>
       </NeoSelect>
-      <NeoButton
-        no-shadow
-        size="medium"
-        icon-left="refresh"
-        @click.native="refresh" />
+      <NeoButton no-shadow size="medium" icon-left="refresh" @click="refresh" />
     </div>
     <Loader v-model="isLoading" :status="status" />
     <NeoTable :data="displayOffers(offers)">
@@ -63,13 +59,13 @@
           v-if="props.row.caller === accountId"
           no-shadow
           icon-left="times"
-          @click.native="onClick(props.row, true)" />
+          @click="onClick(props.row, true)" />
         <NeoButton
           v-else
           variant="success"
           no-shadow
           icon-left="money-bill"
-          @click.native="onClick(props.row, false)" />
+          @click="onClick(props.row, false)" />
       </NeoTableColumn>
       <NeoTableColumn
         v-slot="props"

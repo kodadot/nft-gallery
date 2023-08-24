@@ -4,7 +4,7 @@
       <p class="label">
         {{ $t('Chart') }}
       </p>
-      <NeoButton variant="primary" no-shadow @click.native="emit('resetZoom')">
+      <NeoButton variant="primary" no-shadow @click="emit('resetZoom')">
         Reset zoom
       </NeoButton>
     </div>

@@ -83,7 +83,7 @@
                   variant="k-accent"
                   :disabled="mintButtonDisabled"
                   label="Mint"
-                  @click.native="handleBuy" />
+                  @click="handleBuy" />
                 <div class="is-flex is-align-items-center mt-2">
                   <svg
                     width="20"

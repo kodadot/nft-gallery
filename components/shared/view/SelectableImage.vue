@@ -6,7 +6,7 @@
     ]"
     :src="src"
     alt="Some Image"
-    @click.native="handleClick" />
+    @click="handleClick" />
 </template>
 
 <script setup lang="ts">

@@ -11,7 +11,7 @@
           variant="text"
           no-shadow
           icon="close"
-          @click.native="closeShoppingCart" />
+          @click="closeShoppingCart" />
       </header>
       <div
         v-if="numberOfItems"
@@ -23,7 +23,7 @@
           :label="$t('shoppingCart.clearAll')"
           no-shadow
           variant="text"
-          @click.native="clearAllItems" />
+          @click="clearAllItems" />
       </div>
       <div v-if="numberOfItems" class="scroll-y">
         <div
@@ -53,7 +53,7 @@
             class="w-full fixed-height"
             no-shadow
             variant="k-accent"
-            @click.native="onCompletePurchase" />
+            @click="onCompletePurchase" />
         </div>
       </div>
       <div

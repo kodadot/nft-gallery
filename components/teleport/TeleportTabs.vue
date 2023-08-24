@@ -10,7 +10,7 @@
         :variant="tab.disabled?.value ? 'disabled-secondary' : undefined"
         :active="value === tab.value"
         to=""
-        @click.native="emit('select', tab.value)">
+        @click="emit('select', tab.value)">
         <span> {{ tab.label }}</span>
         <img v-if="value === tab.value" src="/checkmark.svg" />
       </NeoButton>
@@ -20,7 +20,6 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import { ComputedRef } from '@nuxt/bridge/dist/runtime/composables'
 import { Chain } from '@/utils/teleport'
 
 type Tab = {

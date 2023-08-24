@@ -9,7 +9,7 @@
         :label="$t('massmint.onboarding.skip')"
         icon="arrow-right"
         icon-pack="fas"
-        @click.native="toMassMint" />
+        @click="toMassMint" />
     </div>
     <div class="is-relative">
       <div
@@ -58,7 +58,7 @@
         :label="btn.label"
         class="is-flex-grow-1 limit-width"
         :variant="btn.variant"
-        @click.native="btn.onClick" />
+        @click="btn.onClick" />
     </div>
   </div>
 </template>

@@ -7,7 +7,7 @@
     root-class="gallery-item-modal"
     content-class="gallery-item-modal-content"
     @close="isFullscreen = false">
-    <NeoButton class="back-button" @click.native="emit('input', false)">
+    <NeoButton class="back-button" @click="emit('input', false)">
       <NeoIcon icon="chevron-left" />
       {{ $t('go back') }}
     </NeoButton>

@@ -12,7 +12,7 @@
         v-if="isLogIn"
         icon-left="paper-plane"
         class="fill-button mt-6"
-        @click.native="fillUpAddress">
+        @click="fillUpAddress">
         Fill My Address
       </NeoButton>
     </div>

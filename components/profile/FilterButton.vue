@@ -4,7 +4,7 @@
     no-shadow
     rounded
     :label="urlParam ?? label"
-    @click.native="model = !model" />
+    @click="model = !model" />
 </template>
 
 <script setup lang="ts">
