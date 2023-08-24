@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { ZipEntry, unzip } from 'unzipit'
 import { MAX_UPLOADED_FILE_SIZE } from '@/utils/constants'
+import { mimeTypes } from '@kodadot1/static'
 export interface FileObject {
   imageUrl: string
   file: File
@@ -37,26 +38,6 @@ export const validFormats = [
   'mp3',
   'json',
 ]
-export const mimeTypes: { [key: string]: string } = {
-  bmp: 'image/bmp',
-  gif: 'image/gif',
-  jpg: 'image/jpeg',
-  jpeg: 'image/jpeg',
-  png: 'image/png',
-  svg: 'image/svg+xml',
-  tiff: 'image/tiff',
-  webp: 'image/webp',
-  mp4: 'video/mp4',
-  ogv: 'video/ogg',
-  mov: 'video/quicktime',
-  qt: 'video/quicktime',
-  webm: 'video/webm',
-  glb: 'model/gltf-binary',
-  gltf: 'model/gltf+json',
-  flac: 'audio/flac',
-  mp3: 'audio/mpeg',
-  json: 'application/json',
-}
 
 const toMegaBytes = (bytes: number) => bytes / Math.pow(1024, 2)
 
