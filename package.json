@@ -74,7 +74,7 @@
     "@kodadot1/sub-api": "^0.1.2",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
     "@nuxtjs/i18n": "^7.3.1",
-    "@nuxtjs/sitemap": "thisismydesign/sitemap-module#cd4dc22293b9b67e8ebb5b3c49840e67c108e312",
+    "@nuxtjs/sitemap": "https://github.com/thisismydesign/sitemap-module#cd4dc22293b9b67e8ebb5b3c49840e67c108e312",
     "@paraspell/sdk": "^2.0.5",
     "@pinia/nuxt": "^0.4.11",
     "@polkadot/api": "^10.6.1",

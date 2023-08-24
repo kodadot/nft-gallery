@@ -60,8 +60,8 @@ importers:
         specifier: ^7.3.1
         version: 7.3.1(vue@2.7.14)
       '@nuxtjs/sitemap':
-        specifier: thisismydesign/sitemap-module#cd4dc22293b9b67e8ebb5b3c49840e67c108e312
-        version: git@github.com+thisismydesign/sitemap-module/cd4dc22293b9b67e8ebb5b3c49840e67c108e312
+        specifier: https://github.com/thisismydesign/sitemap-module#cd4dc22293b9b67e8ebb5b3c49840e67c108e312
+        version: github.com/thisismydesign/sitemap-module/cd4dc22293b9b67e8ebb5b3c49840e67c108e312
       '@paraspell/sdk':
         specifier: ^2.0.5
         version: 2.0.5(@polkadot/api-base@10.6.1)(@polkadot/api@10.6.1)(@polkadot/apps-config@0.130.1)(@polkadot/types@10.6.1)
@@ -24287,8 +24287,8 @@ packages:
       readable-stream: 3.6.2
     dev: true
 
-  git@github.com+thisismydesign/sitemap-module/cd4dc22293b9b67e8ebb5b3c49840e67c108e312:
-    resolution: {commit: cd4dc22293b9b67e8ebb5b3c49840e67c108e312, repo: git@github.com:thisismydesign/sitemap-module.git, type: git}
+  github.com/thisismydesign/sitemap-module/cd4dc22293b9b67e8ebb5b3c49840e67c108e312:
+    resolution: {tarball: https://codeload.github.com/thisismydesign/sitemap-module/tar.gz/cd4dc22293b9b67e8ebb5b3c49840e67c108e312}
     name: '@nuxtjs/sitemap'
     version: 2.4.0
     engines: {node: '>=8.9.0', npm: '>=5.0.0'}
