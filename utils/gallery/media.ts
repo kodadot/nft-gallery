@@ -1,4 +1,4 @@
-import { $fetch } from 'ohmyfetch'
+import { $fetch } from 'ofetch'
 
 import { MediaType } from '~/components/rmrk/types'
 
@@ -15,8 +15,8 @@ export function isImageVisible(type: MediaType) {
 }
 
 export async function getMimeType(mediaUrl: string) {
-  const { type } = await $fetch(mediaUrl, { method: 'HEAD' })
-  return type
+  const { headers } = await $fetch.raw(mediaUrl, { method: 'HEAD' })
+  return headers.get('content-type') || ''
 }
 
 export async function processMedia(mediaUrl: string) {

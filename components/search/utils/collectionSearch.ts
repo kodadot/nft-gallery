@@ -1,15 +1,15 @@
-import Axios from 'axios'
+import { $fetch } from 'ofetch'
 import { URLS } from '~/utils/constants'
 import consola from 'consola'
 
 const BASE_URL = URLS.koda.search
 
-const api = Axios.create({
+const api = $fetch.create({
   baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: false,
+  credentials: 'omit',
 })
 export async function fetchCollectionSuggestion(key: string, limit?: number) {
   const object = {
@@ -19,9 +19,12 @@ export async function fetchCollectionSuggestion(key: string, limit?: number) {
   }
 
   try {
-    const res = await api.post('/search', object)
-    if (res?.data && Array.isArray(res?.data)) {
-      return res.data
+    const data = await api('/search', {
+      method: 'POST',
+      body: object,
+    })
+    if (data && Array.isArray(data)) {
+      return data
     }
     return []
   } catch (e) {
