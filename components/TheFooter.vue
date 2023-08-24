@@ -241,7 +241,7 @@ const socials = [
   {
     name: 'Twitter',
     url: 'https://twitter.com/KodaDot',
-    icon: 'twitter',
+    icon: 'x-twitter',
   },
   {
     name: 'Discord',
