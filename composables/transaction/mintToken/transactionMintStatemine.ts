@@ -1,9 +1,5 @@
 import { BaseMintedCollection } from '@/components/base/types'
-import type {
-  ActionMintToken,
-  MintTokenParams,
-  MintedCollection,
-} from '../types'
+import type { ActionMintToken, MintedCollection } from '../types'
 import { TokenToMint } from '../types'
 import { constructMeta } from './constructMeta'
 import { calculateFees, copiesToMint, transactionFactory } from './utils'
