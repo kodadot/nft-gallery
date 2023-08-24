@@ -43,14 +43,9 @@ import {
   getMetadataDeposit,
   getclassDeposit,
 } from '@/components/unique/apiConstants'
-import { hasEnoughToken } from '@/components/unique/utils'
-import formatBalance from '@/utils/format/balance'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { estimate } from '@/utils/transactionExecutor'
 import { Interaction } from '@kodadot1/minimark/v1'
-import { ApiFactory, onApiConnect } from '@kodadot1/sub-api'
-import { dummyIpfsCid } from '@/utils/ipfs'
-import { createArgs } from '@/composables/transaction/mintCollection/utils'
+import { onApiConnect } from '@kodadot1/sub-api'
 import { BaseCollectionType } from '@/composables/transaction/types'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { Token, getBalance, getDeposit, getFeesToken } from './utils'
@@ -59,9 +54,8 @@ import { NeoField } from '@kodadot1/brick'
 const emit = defineEmits(['created'])
 
 const { $i18n, $consola } = useNuxtApp()
-const { accountId, balance } = useAuth()
+const { accountId } = useAuth()
 const { apiUrl } = useApi()
-const { decimals, unit } = useChain()
 const { urlPrefix, tokenId } = usePrefix()
 const { status: transactionStatus, isLoading: isTransactionLoading } =
   useTransactionStatus()
@@ -108,31 +102,6 @@ const depositOfToken = computed(() =>
   getDeposit(feesToken.value, parseFloat(collectionDeposit.value))
 )
 
-async function tryToEstimateTx(): Promise<string> {
-  const api = await ApiFactory.useApiInstance(apiUrl.value)
-  const cb = api.tx.utility.batchAll
-  const metadata = dummyIpfsCid()
-  const randomId = 0
-  const args = [createArgs(randomId, metadata)]
-  return estimate(accountId.value, cb, args)
-}
-
-async function checkBalanceBeforeTx(): Promise<void> {
-  const estimated = await tryToEstimateTx()
-  const deposit = collectionDeposit.value
-  const hasTokens = hasEnoughToken(balance.value, estimated, deposit)
-  $consola.log('hasTokens', hasTokens)
-  if (!hasTokens) {
-    throw new Error(
-      `Not enough tokens: Currently have ${formatBalance(
-        balance.value,
-        decimals.value,
-        unit.value
-      )} tokens`
-    )
-  }
-}
-
 async function submit(): Promise<void> {
   // check fields
   if (!checkValidity()) {
@@ -163,7 +132,6 @@ async function submit(): Promise<void> {
   })
 
   try {
-    // await this.checkBalanceBeforeTx()
     showNotification(
       $i18n.t('mint.creatingCollection', { name: base.value.name }),
       notificationTypes.info
