@@ -54,7 +54,7 @@ const props = defineProps<{
   search?: Record<string, string | number>
 }>()
 
-const emit = defineEmits(['total', 'loading'])
+const emit = defineEmits(['total', 'loading', 'count'])
 
 const isLoading = ref(true)
 const gotoPage = (page: number) => {
@@ -131,6 +131,16 @@ watch(
   () => route.query.sort,
   () => {
     refetch(parseSearch(props.search))
+  }
+)
+
+watch(
+  nfts,
+  (nfts) => {
+    emit('count', nfts.length)
+  },
+  {
+    immediate: true,
   }
 )
 

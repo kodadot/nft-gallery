@@ -52,7 +52,7 @@ const route = useRoute()
 const { $apollo } = useNuxtApp()
 const { urlPrefix, client } = usePrefix()
 const preferencesStore = usePreferencesStore()
-const emit = defineEmits(['total', 'isLoading'])
+const emit = defineEmits(['total', 'isLoading', 'count'])
 
 const collections = ref<Collection[]>([])
 const isLoading = ref(true)
@@ -196,6 +196,16 @@ watch(
   () => searchQuery.value,
   () => {
     resetPage()
+  }
+)
+
+watch(
+  collections,
+  (cols) => {
+    emit('count', cols.length)
+  },
+  {
+    immediate: true,
   }
 )
 </script>

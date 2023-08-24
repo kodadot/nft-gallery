@@ -37,6 +37,8 @@ const props = defineProps<{
   id: string
 }>()
 
+const emit = defineEmits(['count'])
+
 const filters = ['sale', 'buy', 'mint', 'gift', 'list']
 
 const activateAllFilter = () => {
@@ -59,9 +61,16 @@ const { data } = useGraphql({
   },
 })
 
-watch(data, () => {
-  events.value = [...sortedEventByDate(data.value?.events || [], 'DESC')]
-})
+watch(
+  data,
+  () => {
+    events.value = [...sortedEventByDate(data.value?.events || [], 'DESC')]
+    emit('count', events.value.length)
+  },
+  {
+    immediate: true,
+  }
+)
 
 const interactionToFilterMap = {
   [InteractionEnum.MINT]: 'mint',
