@@ -1,7 +1,7 @@
 ---
 date: 2023-01-20
 tags: NFTs
-image: /blog/upcoming-nft-events-the-ultimate-guide-to-2023's-most-anticipated-gatherings.webp
+image: /blog/upcoming-nft-events-the-ultimate-guide-to-2023-most-anticipated-gatherings.webp
 title: "Upcoming NFT Events: The Ultimate Guide to 2023's Most Anticipated Gatherings"
 subtitle: The world of Non-Fungible Tokens (NFTs) is ever-evolving, with new projects, concepts, and trends bursting onto the scene at a seemingly relentless pace. For those wishing to stay abreast of these developments, attending upcoming nft events presents an unrivaled opportunity to immerse oneself in the latest happenings, network with like-minded enthusiasts, and glean insights from industry experts. As we look forward to 2023, a host of exciting NFT events are already on the horizon. This guide provides a comprehensive rundown of these must-attend gatherings, helping you plan your calendar and ensuring you don't miss out on the most significant happenings in the NFT universe.
 ---
