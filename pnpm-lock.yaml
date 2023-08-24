@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: false
@@ -24,8 +24,8 @@ importers:
         specifier: ^6.2.1
         version: 6.2.1
       '@fortawesome/free-brands-svg-icons':
-        specifier: ^6.2.1
-        version: 6.2.1
+        specifier: ^6.4.2
+        version: 6.4.2
       '@fortawesome/free-regular-svg-icons':
         specifier: ^6.2.1
         version: 6.2.1
@@ -231,6 +231,9 @@ importers:
       '@open-wc/webpack-import-meta-loader':
         specifier: ^0.4.7
         version: 0.4.7
+      '@playwright/test':
+        specifier: ^1.37.1
+        version: 1.37.1
       '@rollup/plugin-graphql':
         specifier: ^1.1.0
         version: 1.1.0(graphql@16.8.0)
@@ -393,7 +396,7 @@ importers:
         version: 0.16.4(sass@1.65.1)(vite@3.2.7)
       vite:
         specifier: ^3.2.7
-        version: 3.2.7(sass@1.65.1)(terser@5.17.7)
+        version: 3.2.7(@types/node@20.2.5)(sass@1.65.1)
       vue:
         specifier: 2.7.14
         version: 2.7.14
@@ -3697,6 +3700,12 @@ packages:
     requiresBuild: true
     dev: false
 
+  /@fortawesome/fontawesome-common-types@6.4.2:
+    resolution: {integrity: sha512-1DgP7f+XQIJbLFCTX1V2QnxVmpLdKdzzo2k8EmvDOePfchaIGQ9eCHj2up3/jNEbZuBqel5OxiaOJf37TWauRA==}
+    engines: {node: '>=6'}
+    requiresBuild: true
+    dev: false
+
   /@fortawesome/fontawesome-svg-core@6.2.1:
     resolution: {integrity: sha512-HELwwbCz6C1XEcjzyT1Jugmz2NNklMrSPjZOWMlc+ZsHIVk+XOvOXLGGQtFBwSyqfJDNgRq4xBCwWOaZ/d9DEA==}
     engines: {node: '>=6'}
@@ -3705,12 +3714,12 @@ packages:
       '@fortawesome/fontawesome-common-types': 6.2.1
     dev: false
 
-  /@fortawesome/free-brands-svg-icons@6.2.1:
-    resolution: {integrity: sha512-L8l4MfdHPmZlJ72PvzdfwOwbwcCAL0vx48tJRnI6u1PJXh+j2f3yDoKyQgO3qjEsgD5Fr2tQV/cPP8F/k6aUig==}
+  /@fortawesome/free-brands-svg-icons@6.4.2:
+    resolution: {integrity: sha512-LKOwJX0I7+mR/cvvf6qIiqcERbdnY+24zgpUSouySml+5w8B4BJOx8EhDR/FTKAu06W12fmUIcv6lzPSwYKGGg==}
     engines: {node: '>=6'}
     requiresBuild: true
     dependencies:
-      '@fortawesome/fontawesome-common-types': 6.2.1
+      '@fortawesome/fontawesome-common-types': 6.4.2
     dev: false
 
   /@fortawesome/free-regular-svg-icons@6.2.1:
@@ -4260,7 +4269,7 @@ packages:
       chokidar: 3.5.3
       pathe: 0.2.0
       picocolors: 1.0.0
-      vite: 3.2.7(sass@1.65.1)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.65.1)
     dev: true
 
   /@histoire/vendors@0.16.0:
@@ -5657,6 +5666,17 @@ packages:
       open: 9.1.0
       picocolors: 1.0.0
       tslib: 2.5.3
+    dev: true
+
+  /@playwright/test@1.37.1:
+    resolution: {integrity: sha512-bq9zTli3vWJo8S3LwB91U0qDNQDpEXnw7knhxLM0nwDvexQAwx9tO8iKDZSqqneVq+URd/WIoz+BALMqUTgdSg==}
+    engines: {node: '>=16'}
+    hasBin: true
+    dependencies:
+      '@types/node': 20.2.5
+      playwright-core: 1.37.1
+    optionalDependencies:
+      fsevents: 2.3.2
     dev: true
 
   /@polka/url@1.0.0-next.21:
@@ -9136,7 +9156,7 @@ packages:
       vite: ^3.0.0 || ^4.0.0
       vue: ^2.7.0-0
     dependencies:
-      vite: 3.2.7(sass@1.65.1)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.65.1)
       vue: 2.7.14
     dev: true
 
@@ -15705,7 +15725,7 @@ packages:
       sade: 1.8.1
       shiki-es: 0.2.0
       sirv: 2.0.3
-      vite: 3.2.7(sass@1.65.1)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.65.1)
       vite-node: 0.28.4(sass@1.65.1)
     transitivePeerDependencies:
       - '@types/node'
@@ -17639,7 +17659,7 @@ packages:
       esbuild: 0.17.19
       fs-extra: 11.1.1
       globby: 13.1.4
-      jiti: 1.19.1
+      jiti: 1.18.2
       mlly: 1.4.0
       mri: 1.2.0
       pathe: 1.1.1
@@ -17677,7 +17697,7 @@ packages:
       acorn: 8.10.0
       pathe: 1.1.1
       pkg-types: 1.0.3
-      ufo: 1.1.2
+      ufo: 1.2.0
     dev: true
 
   /mlly@1.4.0:
@@ -18820,6 +18840,12 @@ packages:
       jsonc-parser: 3.2.0
       mlly: 1.4.0
       pathe: 1.1.1
+
+  /playwright-core@1.37.1:
+    resolution: {integrity: sha512-17EuQxlSIYCmEMwzMqusJ2ztDgJePjrbttaefgdsiqeLWidjYz9BxXaTaZWxH1J95SHGk6tjE+dwgWILJoUZfA==}
+    engines: {node: '>=16'}
+    hasBin: true
+    dev: true
 
   /pluralize@8.0.0:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
@@ -22470,6 +22496,7 @@ packages:
 
   /ufo@1.1.2:
     resolution: {integrity: sha512-TrY6DsjTQQgyS3E3dBaOXf0TpPD8u9FVrVYmKVegJuFw51n/YB9XPt+U6ydzFG5ZIN7+DIjPbNmXoBj9esYhgQ==}
+    dev: false
 
   /ufo@1.2.0:
     resolution: {integrity: sha512-RsPyTbqORDNDxqAdQPQBpgqhWle1VcTSou/FraClYlHf6TZnQcGslpLcAphNR+sQW4q5lLWLbOsRlh9j24baQg==}
@@ -22992,7 +23019,7 @@ packages:
       picocolors: 1.0.0
       source-map: 0.6.1
       source-map-support: 0.5.21
-      vite: 3.2.7(sass@1.65.1)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.65.1)
     transitivePeerDependencies:
       - '@types/node'
       - less
