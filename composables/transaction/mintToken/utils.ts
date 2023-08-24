@@ -1,5 +1,11 @@
 import { usePreferencesStore } from '@/stores/preferences'
-import { Max, MintTokenParams, MintedCollection, TokenToMint } from '../types'
+import {
+  ActionMintToken,
+  Max,
+  MintTokenParams,
+  MintedCollection,
+  TokenToMint,
+} from '../types'
 
 export const copiesToMint = <T extends TokenToMint>(token: T): number => {
   const { copies, selectedCollection } = token
@@ -23,23 +29,22 @@ export const calculateFees = () => {
   return { enabledFees, feeMultiplier }
 }
 
+export const getNameInNotifications = (item: ActionMintToken) => {
+  return Array.isArray(item.token)
+    ? item.token.map((t) => t.name).join(', ')
+    : item.token.name
+}
+
 export const transactionFactory = (getArgs) => {
-  return async ({
-    item,
-    api,
-    executeTransaction,
-    isLoading,
-    status,
-  }: MintTokenParams) => {
+  return async (mintTokenParams: MintTokenParams) => {
+    const { item, api, executeTransaction, isLoading, status } = mintTokenParams
     const { $i18n } = useNuxtApp()
 
     isLoading.value = true
     status.value = 'loader.ipfs'
     const args = await getArgs(item, api)
 
-    const nameInNotifications = Array.isArray(item.token)
-      ? item.token.map((t) => t.name).join(', ')
-      : item.token.name
+    const nameInNotifications = getNameInNotifications(item)
 
     executeTransaction({
       cb: api.tx.utility.batchAll,
