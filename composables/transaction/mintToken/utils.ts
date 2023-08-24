@@ -1,5 +1,5 @@
 import { usePreferencesStore } from '@/stores/preferences'
-import { Max, MintedCollection, TokenToMint } from '../types'
+import { Max, MintTokenParams, MintedCollection, TokenToMint } from '../types'
 
 export const copiesToMint = <T extends TokenToMint>(token: T): number => {
   const { copies, selectedCollection } = token
@@ -21,4 +21,39 @@ export const calculateFees = () => {
     2 * Number(preferences.getHasCarbonOffset)
 
   return { enabledFees, feeMultiplier }
+}
+
+export const transactionFactory = (getArgs) => {
+  return async ({
+    item,
+    api,
+    executeTransaction,
+    isLoading,
+    status,
+  }: MintTokenParams) => {
+    const { $i18n } = useNuxtApp()
+
+    isLoading.value = true
+    status.value = 'loader.ipfs'
+    const args = await getArgs(item, api)
+
+    const nameInNotifications = Array.isArray(item.token)
+      ? item.token.map((t) => t.name).join(', ')
+      : item.token.name
+
+    executeTransaction({
+      cb: api.tx.utility.batchAll,
+      arg: args,
+      successMessage:
+        item.successMessage ||
+        ((blockNumber) =>
+          $i18n.t('mint.mintNFTSuccess', {
+            name: nameInNotifications,
+            block: blockNumber,
+          })),
+      errorMessage:
+        item.errorMessage ||
+        $i18n.t('mint.errorCreateNewNft', { name: nameInNotifications }),
+    })
+  }
 }

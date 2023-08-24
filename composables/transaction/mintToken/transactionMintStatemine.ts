@@ -6,7 +6,7 @@ import type {
 } from '../types'
 import { TokenToMint } from '../types'
 import { constructMeta } from './constructMeta'
-import { calculateFees, copiesToMint } from './utils'
+import { calculateFees, copiesToMint, transactionFactory } from './utils'
 import { canSupport } from '@/utils/support'
 
 type id = { id: number }
@@ -117,35 +117,4 @@ const getArgs = async (item: ActionMintToken, api) => {
   return [[...arg.flat(), ...supportInteraction]]
 }
 
-export async function execMintStatemine({
-  item,
-  api,
-  executeTransaction,
-  isLoading,
-  status,
-}: MintTokenParams) {
-  const { $i18n } = useNuxtApp()
-
-  isLoading.value = true
-  status.value = 'loader.ipfs'
-  const args = await getArgs(item, api)
-
-  const nameInNotifications = Array.isArray(item.token)
-    ? item.token.map((t) => t.name).join(', ')
-    : item.token.name
-
-  executeTransaction({
-    cb: api.tx.utility.batchAll,
-    arg: args,
-    successMessage:
-      item.successMessage ||
-      ((blockNumber) =>
-        $i18n.t('mint.mintNFTSuccess', {
-          name: nameInNotifications,
-          block: blockNumber,
-        })),
-    errorMessage:
-      item.errorMessage ||
-      $i18n.t('mint.errorCreateNewNft', { name: nameInNotifications }),
-  })
-}
+export const execMintStatemine = transactionFactory(getArgs)
