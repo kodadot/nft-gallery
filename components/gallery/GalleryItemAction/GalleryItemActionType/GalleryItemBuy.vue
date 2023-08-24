@@ -9,6 +9,7 @@
             content-class="buy-tooltip"
             :position="isMobileDevice ? 'top' : 'left'"
             :auto-close="['outside', 'escape']"
+            :triggers="[isMobileDevice ? 'click' : 'hover']"
             multiline>
             <template #content>
               <div class="is-size-6">
