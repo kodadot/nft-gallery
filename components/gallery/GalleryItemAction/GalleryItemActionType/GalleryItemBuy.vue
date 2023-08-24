@@ -8,7 +8,7 @@
             class="w-full"
             content-class="buy-tooltip"
             :position="isMobileDevice ? 'top' : 'left'"
-            :auto-close="!isMobileDevice ? ['outside', 'escape'] : []"
+            :auto-close="['outside', 'escape']"
             multiline>
             <template #content>
               <div class="is-size-6">
