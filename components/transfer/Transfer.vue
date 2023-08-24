@@ -299,11 +299,11 @@ const { getTokenIconBySymbol } = useIcon()
 
 const { tokens, isTokenValidForChain } = useToken()
 const unit = ref(chainUnit.value)
+const selectedToken = computed(() =>
+  tokens.value.find((t) => t.symbol === unit.value)
+)
 const decimals = computed(
-  () =>
-    tokens.value.find((t) => t.symbol === unit.value)?.tokenDecimals[
-      urlPrefix.value
-    ]
+  () => selectedToken.value?.tokenDecimals[urlPrefix.value]
 )
 
 const selectedTabFirst = ref(true)
@@ -525,6 +525,20 @@ const handleOpenConfirmModal = () => {
   }
 }
 
+const createTxArgs = (
+  target: TargetAddress,
+  tokenTransfer: boolean,
+  tokenId: string | undefined,
+  decimals: number
+): [string, string, string] | [string, string] => {
+  const amountToTransfer = String(
+    calculateBalance(Number(target.token), decimals)
+  )
+  return tokenTransfer && tokenId !== undefined
+    ? [target.address as string, tokenId, amountToTransfer]
+    : [target.address as string, amountToTransfer]
+}
+
 const submit = async (
   event: any,
   usedNodeUrls: string[] = []
@@ -535,29 +549,37 @@ const submit = async (
   try {
     const api = await apiInstance.value
 
+    const tokenId = selectedToken.value?.tokenIds[urlPrefix.value]
+    const tokenTransfer = !!tokenId
+
     const numOfTargetAddresses = targetAddresses.value.length
-    const cb =
-      numOfTargetAddresses > 1 ? api.tx.utility.batch : api.tx.balances.transfer
-    const arg =
-      numOfTargetAddresses > 1
-        ? [
-            targetAddresses.value.map((target) => {
-              const amountToTransfer = String(
-                calculateBalance(Number(target.token), decimals.value)
-              )
-              return api.tx.balances.transfer(
-                target.address as string,
-                amountToTransfer
-              )
-            }),
-          ]
-        : [
-            targetAddresses.value[0].address as string,
-            calculateBalance(
-              Number(targetAddresses.value[0].token),
-              decimals.value
-            ),
-          ]
+    const multipleAddresses = numOfTargetAddresses > 1
+    const cb = multipleAddresses
+      ? api.tx.utility.batch
+      : tokenTransfer
+      ? api.tx.tokens.transfer
+      : api.tx.balances.transfer
+
+    const arg = multipleAddresses
+      ? [
+          targetAddresses.value.map((target) => {
+            const txArgs = createTxArgs(
+              target,
+              tokenTransfer,
+              tokenId,
+              decimals.value as number
+            )
+            return tokenTransfer
+              ? api.tx.tokens.transfer(...txArgs)
+              : api.tx.balances.transfer(...(txArgs as [string, string]))
+          }),
+        ]
+      : createTxArgs(
+          targetAddresses.value[0],
+          tokenTransfer,
+          tokenId,
+          decimals.value as number
+        )
 
     const tx = await exec(
       accountId.value,

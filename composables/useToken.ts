@@ -4,6 +4,7 @@ import { networkToPrefix, useIdentityStore } from '@/stores/identity'
 import { defultTokenChain } from '@/utils/config/chain.config'
 
 type TokenDecimals = Record<Prefix, number>
+type TokenIds = Record<Prefix, string | undefined>
 export interface TokenDetails {
   symbol: string
   value: number | string | null
@@ -11,6 +12,7 @@ export interface TokenDetails {
   chains: Prefix[]
   defaultChain: Prefix
   tokenDecimals: TokenDecimals
+  tokenIds: TokenIds
 }
 
 const getAssetToken = (asset) => asset?.token || 'KSM'
@@ -26,32 +28,33 @@ export default function useToken() {
     getUniqueArrayItems(Object.values(availableAssets.value).map(getAssetToken))
   )
 
-  const getTokenChains = (token: string): Prefix[] => {
-    const chains = Object.values(availableAssets.value).reduce(
-      (reducer: Prefix[], asset) => {
-        const assetToken = getAssetToken(asset)
-        const chainName = asset.chain
-        if (token === assetToken) {
-          return [...reducer, networkToPrefix[chainName] as Prefix]
-        }
-        return reducer
-      },
-      []
+  const getMatchingAvailableAssetsByToken = (token: string) => {
+    return Object.values(availableAssets.value).filter(
+      (asset) => token === getAssetToken(asset)
     )
-    return chains
+  }
+
+  const getTokenChains = (token: string): Prefix[] => {
+    return getMatchingAvailableAssetsByToken(token).map(
+      (asset) => networkToPrefix[asset.chain] as Prefix
+    )
+  }
+
+  const getChainTokenIds = (token: string) => {
+    return getMatchingAvailableAssetsByToken(token).reduce((reducer, asset) => {
+      const chainPrefix = networkToPrefix[asset.chain]
+      return { ...reducer, [chainPrefix]: asset.tokenId }
+    }, {} as TokenIds)
   }
 
   const tokens = computed<TokenDetails[]>(() => {
     return availableTokensAcrossAllChains.value.map((tokenSymbol) => {
       const chains = getTokenChains(tokenSymbol)
       const defaultChain = defultTokenChain[tokenSymbol]
-      const tokenDecimals = chains.reduce(
-        (reducer, chain) => ({
-          ...reducer,
-          [chain]: CHAINS[chain].tokenDecimals,
-        }),
-        {} as TokenDecimals
-      )
+      const tokenDecimals = Object.fromEntries(
+        chains.map((chain) => [chain, CHAINS[chain].tokenDecimals])
+      ) as TokenDecimals
+      const tokenIds = getChainTokenIds(tokenSymbol)
 
       return {
         symbol: tokenSymbol as string,
@@ -60,6 +63,7 @@ export default function useToken() {
         chains: chains,
         defaultChain: defaultChain,
         tokenDecimals: tokenDecimals,
+        tokenIds: tokenIds,
       }
     })
   })
