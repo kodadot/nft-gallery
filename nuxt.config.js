@@ -30,6 +30,7 @@ export default defineNuxtConfig({
 
   nitro: {
     publicAssets: [],
+    preset: 'netlify',
   },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -293,10 +294,10 @@ export default defineNuxtConfig({
   //   ],
   //   strategy: 'no_prefix',
   // },
-  i18n: {
-    locales: ['en', 'fr', 'es'],
-    defaultLocale: 'en',
-  },
+  // i18n: {
+  //   locales: ['en', 'fr', 'es'],
+  //   defaultLocale: 'en',
+  // },
 
   apollo: {
     clients: {
