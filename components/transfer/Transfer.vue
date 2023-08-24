@@ -528,13 +528,13 @@ const handleOpenConfirmModal = () => {
 const createTxArgs = (
   target: TargetAddress,
   tokenTransfer: boolean,
-  tokenId: string | undefined,
+  tokenId: string | null,
   decimals: number
 ): [string, string, string] | [string, string] => {
   const amountToTransfer = String(
     calculateBalance(Number(target.token), decimals)
   )
-  return tokenTransfer && tokenId !== undefined
+  return tokenTransfer && tokenId !== null
     ? [target.address as string, tokenId, amountToTransfer]
     : [target.address as string, amountToTransfer]
 }
