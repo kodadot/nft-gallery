@@ -267,6 +267,7 @@ import {
 } from '@kodadot1/brick'
 import TransferTokenTabs, { TransferTokenTab } from './TransferTokenTabs.vue'
 import { TokenDetails } from '@/composables/useToken'
+import { ApiPromise } from '@polkadot/api'
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
 )
@@ -525,18 +526,67 @@ const handleOpenConfirmModal = () => {
   }
 }
 
-const createTxArgs = (
-  target: TargetAddress,
-  tokenTransfer: boolean,
-  tokenId: string | null,
+const getAmountToTransfer = (amount: number, decimals: number) =>
+  String(calculateBalance(Number(amount), decimals))
+
+interface TransferParams {
+  api: ApiPromise
   decimals: number
-): [string, string, string] | [string, string] => {
-  const amountToTransfer = String(
-    calculateBalance(Number(target.token), decimals)
+  tokenTransfer: boolean
+  tokenId: string
+}
+
+const getMultipleAddressesTransferParams = ({
+  api,
+  decimals,
+  tokenTransfer,
+  tokenId,
+}: TransferParams) => {
+  const arg = [
+    targetAddresses.value.map((target) => {
+      const amountToTransfer = getAmountToTransfer(
+        target.token as number,
+        decimals
+      )
+
+      if (tokenTransfer) {
+        return api.tx.tokens.transfer(target.address, tokenId, amountToTransfer)
+      }
+
+      return api.tx.balances.transfer(
+        target.address as string,
+        amountToTransfer
+      )
+    }),
+  ]
+
+  return [api.tx.utility.batch, arg]
+}
+
+const getSingleAddressTransferParams = ({
+  api,
+  decimals,
+  tokenTransfer,
+  tokenId,
+}: TransferParams) => {
+  const address = targetAddresses.value[0]
+
+  const amountToTransfer = getAmountToTransfer(
+    address.token as number,
+    decimals
   )
-  return tokenTransfer && tokenId !== null
-    ? [target.address as string, tokenId, amountToTransfer]
-    : [target.address as string, amountToTransfer]
+
+  if (tokenTransfer) {
+    return [
+      api.tx.tokens.transfer,
+      [address.address, tokenId, amountToTransfer],
+    ]
+  }
+
+  return [
+    api.tx.balances.transfer,
+    [address.address as string, amountToTransfer],
+  ]
 }
 
 const submit = async (
@@ -554,32 +604,24 @@ const submit = async (
 
     const numOfTargetAddresses = targetAddresses.value.length
     const multipleAddresses = numOfTargetAddresses > 1
-    const cb = multipleAddresses
-      ? api.tx.utility.batch
-      : tokenTransfer
-      ? api.tx.tokens.transfer
-      : api.tx.balances.transfer
 
-    const arg = multipleAddresses
-      ? [
-          targetAddresses.value.map((target) => {
-            const txArgs = createTxArgs(
-              target,
-              tokenTransfer,
-              tokenId,
-              decimals.value as number
-            )
-            return tokenTransfer
-              ? api.tx.tokens.transfer(...txArgs)
-              : api.tx.balances.transfer(...(txArgs as [string, string]))
-          }),
-        ]
-      : createTxArgs(
-          targetAddresses.value[0],
-          tokenTransfer,
-          tokenId,
-          decimals.value as number
-        )
+    let cb, arg
+
+    if (multipleAddresses) {
+      ;[cb, arg] = getMultipleAddressesTransferParams({
+        api,
+        tokenId: tokenId as string,
+        tokenTransfer,
+        decimals: decimals.value as number,
+      })
+    } else {
+      ;[cb, arg] = getSingleAddressTransferParams({
+        api,
+        tokenId: tokenId as string,
+        tokenTransfer,
+        decimals: decimals.value as number,
+      })
+    }
 
     const tx = await exec(
       accountId.value,
