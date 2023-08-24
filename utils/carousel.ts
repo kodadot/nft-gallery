@@ -17,7 +17,8 @@ export const formatNFT = (nfts, chain?: string): CarouselNFT[] => {
 
   return data.map((nft) => {
     const timestamp = nft.updatedAt || nft.timestamp
-    const metaImage = nft.meta.image
+    const metaImage =
+      nft.meta.image || nft.resources?.[0].thumb || nft.resources?.[0].src
     const metaAnimationUrl = nft.meta.animationUrl
     const name = nft.name || nft.meta.name
 

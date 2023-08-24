@@ -87,7 +87,6 @@
 
 <script lang="ts" setup>
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { onApiConnect } from '@kodadot1/sub-api'
 import { hexToString, isHex } from '@polkadot/util'
 import { Data } from '@polkadot/types'
 import { NeoField, NeoIcon, NeoInput, NeoTooltip } from '@kodadot1/brick'
@@ -111,8 +110,10 @@ type IdentityFields = Record<string, string>
 const { $i18n } = useNuxtApp()
 import { useIdentityStore } from '@/stores/identity'
 
-const { apiUrl, apiInstance } = useApi()
+const { apiInstance } = useApi()
 const { accountId, balance } = useAuth()
+const { urlPrefix } = usePrefix()
+const identityStore = useIdentityStore()
 const { howAboutToExecute, isLoading, initTransactionLoader, status } =
   useMetaTransaction()
 const identity = ref<Record<string, string>>({
@@ -127,16 +128,16 @@ const identity = ref<Record<string, string>>({
 const deposit = ref('0')
 const inputLengthLimit = ref(32)
 
-onBeforeMount(async () => {
-  onApiConnect(apiUrl.value, async (api) => {
-    deposit.value = api.consts.identity?.basicDeposit?.toString()
-    identity.value = await fetchIdentity(accountId.value)
-  })
-  const identityStore = useIdentityStore()
+const handleUrlPrefixChange = async () => {
+  ;[deposit.value, identity.value] = await Promise.all([
+    fetchDeposit(),
+    fetchIdentity(accountId.value),
+  ])
+
   if (Number(identityStore.getAuthBalance) === 0) {
     identityStore.fetchBalance({ address: accountId.value })
   }
-})
+}
 
 const enhanceIdentityData = (): Record<string, any> => {
   return Object.fromEntries(
@@ -159,6 +160,11 @@ const handleRaw = (display: Data): string => {
   }
 
   return display?.toString()
+}
+
+const fetchDeposit = async () => {
+  const api = await apiInstance.value
+  return api.consts.identity?.basicDeposit?.toString()
 }
 
 const fetchIdentity = async (address: string): Promise<IdentityFields> => {
@@ -192,5 +198,13 @@ const onSuccess = (block: string) => {
 
 const disabled = computed(
   () => Object.values(identity.value).filter((val) => val).length === 0
+)
+
+watch(
+  urlPrefix,
+  async () => {
+    handleUrlPrefixChange()
+  },
+  { immediate: true }
 )
 </script>

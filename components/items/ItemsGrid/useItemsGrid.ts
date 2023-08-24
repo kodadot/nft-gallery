@@ -26,10 +26,17 @@ export function useFetchSearch({
 
   const { searchParams } = useSearchParams()
 
-  async function fetchSearch(
-    page: number,
-    loadDirection: 'up' | 'down' = 'down'
-  ) {
+  interface FetchSearchParams {
+    page?: number
+    loadDirection?: 'up' | 'down'
+    search?: { [key: string]: string | number }[]
+  }
+
+  async function fetchSearch({
+    page = 1,
+    loadDirection = 'down',
+    search,
+  }: FetchSearchParams) {
     if (isFetchingData.value) {
       return false
     }
@@ -46,21 +53,27 @@ export function useFetchSearch({
       }
     }
 
+    const variables = search?.length
+      ? { search }
+      : {
+          search: searchParams.value,
+          priceMin: Number(route.query.min),
+          priceMax: Number(route.query.max),
+        }
+
     const queryPath = getQueryPath(client.value)
     const query = await resolveQueryPath(queryPath, 'nftListWithSearch')
     const result = await $apollo.query({
       query: query.default,
       client: client.value,
       variables: {
+        ...variables,
+        first: first.value,
+        offset: (page - 1) * first.value,
         denyList: getDenyList(urlPrefix.value),
         orderBy: route.query.sort?.length
           ? route.query.sort
           : ['blockNumber_DESC'],
-        search: searchParams.value,
-        priceMin: Number(route.query.min),
-        priceMax: Number(route.query.max),
-        first: first.value,
-        offset: (page - 1) * first.value,
       },
     })
 
@@ -78,6 +91,11 @@ export function useFetchSearch({
     isFetchingData.value = false
     isLoading.value = false
     return true
+  }
+
+  const refetch = (search?: { [key: string]: string | number }[]) => {
+    nfts.value = []
+    fetchSearch({ search })
   }
 
   watch(
@@ -98,5 +116,6 @@ export function useFetchSearch({
   return {
     nfts,
     fetchSearch,
+    refetch,
   }
 }

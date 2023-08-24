@@ -41,16 +41,6 @@ const emit = defineEmits(['select'])
 .teleport-tabs {
   .teleport-tabs-button {
     width: 15rem;
-    @include ktheme() {
-      color: theme('text-color');
-
-      &:hover {
-        color: $black;
-      }
-      &.active {
-        color: theme('text-color-inverse');
-      }
-    }
   }
 
   @include mobile {

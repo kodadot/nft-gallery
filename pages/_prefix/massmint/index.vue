@@ -3,6 +3,7 @@
 </template>
 <script lang="ts">
 import { usePreferencesStore } from '@/stores/preferences'
+import { massmintCreateVisible } from '@/utils/config/permission.config'
 
 export default {
   name: 'MassmintPage',
@@ -13,6 +14,10 @@ export default {
   middleware({ redirect, params }) {
     if (!usePreferencesStore().getVisitedOnboarding) {
       setTimeout(() => redirect(`/${params.prefix}/massmint/onboarding`))
+    }
+
+    if (!massmintCreateVisible(params.prefix)) {
+      setTimeout(() => redirect('/'))
     }
   },
 

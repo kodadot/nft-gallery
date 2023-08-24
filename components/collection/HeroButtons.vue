@@ -5,7 +5,7 @@
       <div class="is-flex">
         <NeoButton
           v-if="twitter"
-          icon="twitter"
+          icon="x-twitter"
           icon-pack="fab"
           class="square-32"
           @click.native="openUrl(`https://twitter.com/${twitter}`)" />
@@ -121,7 +121,9 @@ import useIdentity from '@/components/identity/utils/useIdentity'
 const route = useRoute()
 const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
-const { $i18n, $buefy } = useNuxtApp()
+const { $i18n } = useNuxtApp()
+const { toast } = useToast()
+
 const collectionId = computed(() => route.params.id)
 const currentCollectionUrl = computed(
   () =>
@@ -133,7 +135,7 @@ const { collection } = useCollectionMinimal({
 const collectionIssuer = computed(() => collection.value?.issuer)
 
 const { discord, twitter, instagram, whichIdentity } = useIdentity({
-  address: collectionIssuer.value,
+  address: collectionIssuer,
 })
 
 const openUrl = (url: string) => {
@@ -155,13 +157,6 @@ const QRModalActive = ref(false)
 
 const hashtags = 'KusamaNetwork,KodaDot'
 const sharingLabel = $i18n.t('sharing.collection')
-
-const toast = (message: string) => {
-  $buefy.toast.open({
-    message,
-    type: 'is-neo',
-  })
-}
 </script>
 
 <style lang="scss" scoped>
