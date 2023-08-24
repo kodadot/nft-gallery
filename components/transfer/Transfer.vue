@@ -549,7 +549,7 @@ const submit = async (
   try {
     const api = await apiInstance.value
 
-    const tokenId = selectedToken.value?.tokenIds[urlPrefix.value]
+    const tokenId = selectedToken.value?.tokenIds[urlPrefix.value] || null
     const tokenTransfer = !!tokenId
 
     const numOfTargetAddresses = targetAddresses.value.length
