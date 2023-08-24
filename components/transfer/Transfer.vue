@@ -569,23 +569,17 @@ const getSingleAddressTransferParams = ({
   tokenTransfer,
   tokenId,
 }: TransferParams) => {
-  const address = targetAddresses.value[0]
+  const target = targetAddresses.value[0]
 
-  const amountToTransfer = getAmountToTransfer(
-    address.token as number,
-    decimals
-  )
+  const amountToTransfer = getAmountToTransfer(target.token as number, decimals)
 
   if (tokenTransfer) {
-    return [
-      api.tx.tokens.transfer,
-      [address.address, tokenId, amountToTransfer],
-    ]
+    return [api.tx.tokens.transfer, [target.address, tokenId, amountToTransfer]]
   }
 
   return [
     api.tx.balances.transfer,
-    [address.address as string, amountToTransfer],
+    [target.address as string, amountToTransfer],
   ]
 }
 
