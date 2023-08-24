@@ -54,7 +54,7 @@ const props = defineProps<{
   search?: Record<string, string | number>
 }>()
 
-const emit = defineEmits(['total', 'loading', 'count'])
+const emit = defineEmits(['total', 'loading'])
 
 const isLoading = ref(true)
 const gotoPage = (page: number) => {
@@ -100,10 +100,16 @@ const { nfts, fetchSearch, refetch } = useFetchSearch({
   resetSearch: resetPage,
 })
 
-watch(total, () => {
-  prefetchNextPage()
-  emit('total', total.value)
-})
+watch(
+  total,
+  () => {
+    prefetchNextPage()
+    emit('total', total.value)
+  },
+  {
+    immediate: true,
+  }
+)
 
 watch(isLoading, () => {
   emit('loading', isLoading.value)
@@ -131,16 +137,6 @@ watch(
   () => route.query.sort,
   () => {
     refetch(parseSearch(props.search))
-  }
-)
-
-watch(
-  nfts,
-  (nfts) => {
-    emit('count', nfts.length)
-  },
-  {
-    immediate: true,
   }
 )
 

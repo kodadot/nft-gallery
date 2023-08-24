@@ -144,7 +144,7 @@
         <hr class="my-0" />
         <ItemsGrid
           :search="ownedItemsGridSearch"
-          @count="(c) => (counts['owned'] = c)" />
+          @total="(c) => (counts['owned'] = c)" />
       </div>
       <div v-show="activeTab === 'created'" class="is-flex-grow-1">
         <div
@@ -163,13 +163,13 @@
         <hr class="my-0" />
         <ItemsGrid
           :search="createdItemsGridSearch"
-          @count="(c) => (counts['created'] = c)" />
+          @total="(c) => (counts['created'] = c)" />
       </div>
       <CollectionGrid
         v-show="activeTab === 'collections'"
         :id="id"
         class="pt-7"
-        @count="(c) => (counts['collections'] = c)" />
+        @total="(c) => (counts['collections'] = c)" />
       <Activity
         v-show="activeTab === 'activity'"
         :id="id"

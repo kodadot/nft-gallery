@@ -52,7 +52,7 @@ const route = useRoute()
 const { $apollo } = useNuxtApp()
 const { urlPrefix, client } = usePrefix()
 const preferencesStore = usePreferencesStore()
-const emit = defineEmits(['total', 'isLoading', 'count'])
+const emit = defineEmits(['total', 'isLoading'])
 
 const collections = ref<Collection[]>([])
 const isLoading = ref(true)
@@ -152,7 +152,7 @@ const {
   fetchPageData,
 })
 
-watch(total, (val) => emit('total', val))
+watch(total, (val) => emit('total', val), { immediate: true })
 watch(isLoading, (val) => emit('isLoading', val))
 
 const skeletonCount = first.value
