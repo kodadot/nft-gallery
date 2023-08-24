@@ -35,7 +35,7 @@ import { NAME } from '@/components/generative/promptBuilder'
 const { $config } = useNuxtApp()
 const route = useRoute()
 
-useNuxt2Meta({
+useHead({
   link: [
     {
       hid: 'canonical',

@@ -1,3 +1,4 @@
+export default () => undefined
 // import Vue from 'vue'
 // import NotificationNotice from './NeoNotificationNotice.vue'
 

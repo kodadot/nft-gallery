@@ -1,3 +1,4 @@
+export default () => undefined
 // import Vue from 'vue'
 // import Modal from './NeoModalExtend.vue'
 

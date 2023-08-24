@@ -45,7 +45,7 @@ import Buy from '@/components/buy/Buy.vue'
 const { $config } = useNuxtApp()
 const route = useRoute()
 
-useNuxt2Meta({
+useHead({
   link: [
     {
       hid: 'canonical',

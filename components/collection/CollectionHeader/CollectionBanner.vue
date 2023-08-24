@@ -83,7 +83,7 @@ const meta = computed(() => {
     ),
   })
 })
-useNuxt2Meta({
+useHead({
   title: collectionName,
   meta,
 })
