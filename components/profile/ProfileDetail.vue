@@ -97,7 +97,14 @@
           class="is-capitalized"
           :active="activeTab === tab"
           :text="tab"
-          @click.native="() => switchToTab(tab)" />
+          @click.native="() => switchToTab(tab)">
+          <span>
+            {{ tab }}
+          </span>
+          <span class="tab__count">
+            {{ format(counts[tab]) }}
+          </span>
+        </TabItem>
         <ChainDropdown class="ml-6" />
         <OrderByDropdown v-if="activeTab !== 'activity'" class="ml-6" />
       </div>
@@ -108,7 +115,14 @@
           :active="activeTab === tab"
           :text="tab"
           class="is-capitalized"
-          @click.native="() => switchToTab(tab)" />
+          @click.native="() => switchToTab(tab)">
+          <span>
+            {{ tab }}
+          </span>
+          <span class="tab__count">
+            {{ format(counts[tab]) }}
+          </span>
+        </TabItem>
         <div class="is-flex mt-4">
           <ChainDropdown />
           <OrderByDropdown v-if="activeTab !== 'activity'" class="ml-4" />
@@ -117,15 +131,27 @@
     </div>
 
     <div class="container is-fluid pb-6">
-      <div
-        v-if="activeTab === 'owned' || activeTab === 'created'"
-        class="is-flex-grow-1">
+      <div v-show="activeTab === 'owned'" class="is-flex-grow-1">
+        <div
+          class="is-flex is-justify-content-space-between pb-4 pt-5 is-align-content-center">
+          <div class="is-flex">
+            <FilterButton :label="$t('sort.listed')" url-param="buy_now" />
+          </div>
+          <div class="is-hidden-mobile">
+            <ProfileGrid class="is-hidden-mobile" />
+          </div>
+        </div>
+        <hr class="my-0" />
+        <ItemsGrid
+          :search="ownedItemsGridSearch"
+          @count="(c) => (counts['owned'] = c)" />
+      </div>
+      <div v-show="activeTab === 'created'" class="is-flex-grow-1">
         <div
           class="is-flex is-justify-content-space-between pb-4 pt-5 is-align-content-center">
           <div class="is-flex">
             <FilterButton :label="$t('sort.listed')" url-param="buy_now" />
             <FilterButton
-              v-if="activeTab === 'created'"
               :label="$t('activity.sold')"
               url-param="sold"
               class="ml-4" />
@@ -135,13 +161,19 @@
           </div>
         </div>
         <hr class="my-0" />
-        <ItemsGrid :search="itemsGridSearch" />
+        <ItemsGrid
+          :search="createdItemsGridSearch"
+          @count="(c) => (counts['created'] = c)" />
       </div>
       <CollectionGrid
-        v-if="activeTab === 'collections'"
+        v-show="activeTab === 'collections'"
         :id="id"
-        class="pt-7" />
-      <Activity v-if="activeTab === 'activity'" :id="id" />
+        class="pt-7"
+        @count="(c) => (counts['collections'] = c)" />
+      <Activity
+        v-show="activeTab === 'activity'"
+        :id="id"
+        @count="(c) => (counts['activity'] = c)" />
     </div>
   </div>
 </template>
@@ -159,6 +191,7 @@ import ChainDropdown from '@/components/common/ChainDropdown.vue'
 import OrderByDropdown from './OrderByDropdown.vue'
 import CollectionGrid from '@/components/collection/CollectionGrid.vue'
 import Activity from './activityTab/Activity.vue'
+import { format } from '@/utils/format/count'
 
 const route = useRoute()
 const { toast } = useToast()
@@ -171,6 +204,8 @@ const switchToTab = (tab: string) => {
   activeTab.value = tab
 }
 
+const counts = ref([])
+
 const id = computed(() => route.params.id || '')
 const email = ref('')
 const twitter = ref('')
@@ -180,12 +215,7 @@ const legal = ref('')
 const riot = ref('')
 const isModalActive = ref(false)
 
-const itemsGridSearch = computed(() => {
-  const tabKey = activeTab.value === 'owned' ? 'currentOwner_eq' : 'issuer_eq'
-  const query: Record<string, unknown> = {
-    [tabKey]: id.value,
-  }
-
+const updateQuery = (query) => {
   if (listed.value) {
     query['price_gt'] = 0
   }
@@ -195,8 +225,21 @@ const itemsGridSearch = computed(() => {
       AND: { caller_not_eq: id.value },
     }
   }
-
   return query
+}
+
+const createdItemsGridSearch = computed(() => {
+  const query: Record<string, unknown> = {
+    ['issuer_eq']: id.value,
+  }
+  return updateQuery(query)
+})
+
+const ownedItemsGridSearch = computed(() => {
+  const query: Record<string, unknown> = {
+    ['currentOwner_eq']: id.value,
+  }
+  return updateQuery(query)
 })
 
 const realworldFullPath = computed(() => window.location.href)
@@ -271,5 +314,12 @@ const handleIdentity = (identityFields: Record<string, string>) => {
   height: 5px;
   background-color: grey;
   margin: 0 10px;
+}
+
+.tab__count {
+  @include ktheme {
+    color: theme('k-grey');
+  }
+  font-size: 16px;
 }
 </style>
