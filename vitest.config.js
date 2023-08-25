@@ -11,6 +11,7 @@ export default defineConfig({
       '**/node_modules/**',
       '**/dist/**',
       '**/.{idea,git,cache,output,temp}/**',
+      '**/tests/e2e/**',
     ],
     globals: true,
     environment: 'jsdom',
