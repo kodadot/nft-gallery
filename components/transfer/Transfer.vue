@@ -7,7 +7,14 @@
           'theme-background-color k-shadow border py-8 px-6': !isMobile,
         },
       ]">
-      <Loader v-model="isLoading" :status="status" />
+      <TransactionLoader
+        v-model="isLoaderModalVisible"
+        :status="status"
+        :total-token-amount="totalTokenAmount"
+        :token="unit"
+        :transaction-id="transactionValue"
+        :total-usd-value="totalUsdValue"
+        @close="isLoaderModalVisible = false" />
       <div
         class="is-flex is-justify-content-space-between is-align-items-center mb-2">
         <p class="has-text-weight-bold is-size-3">
@@ -261,7 +268,7 @@ import {
 import TransferTokenTabs, { TransferTokenTab } from './TransferTokenTabs.vue'
 import { TokenDetails } from '@/composables/useToken'
 import AddressInput from '../shared/AddressInput.vue'
-import Loader from '../shared/Loader.vue'
+import TransactionLoader from '../shared/TransactionLoader.vue'
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
 )
@@ -279,6 +286,15 @@ const { initTransactionLoader, isLoading, resolveStatus, status } =
   useTransactionStatus()
 const { toast } = useToast()
 const isTransferModalVisible = ref(false)
+const isLoaderModalVisible = ref(false)
+
+watch(isLoading, (newValue, oldValue) => {
+  // trigger modal only when loading change from false => true
+  // we watn to keep modal open when loading changes true => false
+  if (newValue && !oldValue) {
+    isLoaderModalVisible.value = isLoading.value
+  }
+})
 
 export type TargetAddress = {
   address: string
@@ -292,6 +308,10 @@ const sendSameAmount = ref(false)
 const displayUnit = ref<'token' | 'usd'>('token')
 const { getTokenIconBySymbol } = useIcon()
 const { tokens, getPrefixByToken, availableTokens } = useToken()
+
+watch(transactionValue, () => {
+  console.log('transactionValue', transactionValue.value)
+})
 
 const selectedTabFirst = ref(true)
 const tokenIcon = computed(() => getTokenIconBySymbol(unit.value))
@@ -509,7 +529,6 @@ const submit = async (
   event: any,
   usedNodeUrls: string[] = []
 ): Promise<void> => {
-  showNotification(`${route.query.target ? 'Sent for Sign' : 'Dispatched'}`)
   isTransferModalVisible.value = false
   initTransactionLoader()
   try {
@@ -547,11 +566,6 @@ const submit = async (
           const header = await api.rpc.chain.getHeader(blockHash)
           const blockNumber = header.number.toString()
 
-          showNotification(
-            `[${unit.value}] Transfered ${totalTokenAmount.value} ${unit.value} in block ${blockNumber}`,
-            notificationTypes.success
-          )
-
           targetAddresses.value = [{ address: '' }]
           if (route.query && !route.query.donation) {
             router.push(route.path)
@@ -571,6 +585,7 @@ const submit = async (
     if (e.message === 'Cancelled') {
       showNotification(e.message, notificationTypes.warn)
       isLoading.value = false
+      isLoaderModalVisible.value = false
       return
     }
 
