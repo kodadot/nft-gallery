@@ -32,36 +32,23 @@ export default function useToken() {
     getUniqueArrayItems(Object.values(availableAssets.value).map(getAssetToken))
   )
 
-  const getAvailableAssetByToken = (token: string) => {
-    return Object.values(availableAssets.value).find(
+  const getAvailableAssetByToken = (token: string) =>
+    Object.values(availableAssets.value).find(
       (asset) => token === getAssetToken(asset)
     )
-  }
-
-  const getChainTokenId = (token: string): string | undefined => {
-    const asset = getAvailableAssetByToken(token)
-    return asset?.tokenId
-  }
 
   const tokens = computed<TokenDetails[]>(() => {
-    return availableTokens.value.map((tokenSymbol) => {
-      const tokenId = getChainTokenId(tokenSymbol)
-      const chainProperties = CHAINS[urlPrefix.value]
-
-      return {
-        symbol: tokenSymbol as string,
-        value: getCurrentTokenValue(tokenSymbol),
-        icon: getTokenIconBySymbol(tokenSymbol),
-        tokenDecimals: chainProperties.tokenDecimals,
-        tokenId: tokenId,
-      }
-    })
+    return availableTokens.value.map((tokenSymbol) => ({
+      symbol: tokenSymbol as string,
+      value: getCurrentTokenValue(tokenSymbol),
+      icon: getTokenIconBySymbol(tokenSymbol),
+      tokenDecimals: CHAINS[urlPrefix.value].tokenDecimals,
+      tokenId: getAvailableAssetByToken(tokenSymbol)?.tokenId,
+    }))
   })
 
-  const isTokenValidForChain = (token: string) => {
-    const isValidToken = availableTokens.value.includes(token)
-    return !!token && isValidToken
-  }
+  const isTokenValidForChain = (token: string) =>
+    !!token && availableTokens.value.includes(token)
 
   return {
     tokens,
