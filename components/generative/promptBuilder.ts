@@ -1,4 +1,4 @@
-import { $fetch } from 'ohmyfetch'
+import { $fetch } from 'ofetch'
 import { PredictionStatus } from '@/services/replicate'
 import { pinImageSafe } from '@/utils/safePin'
 import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
