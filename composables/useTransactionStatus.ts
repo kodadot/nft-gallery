@@ -18,7 +18,6 @@ function useTransactionStatus() {
     omitFinalized?: boolean
   ): void => {
     if (extrinsicStatus.isReady) {
-      // status.value = 'loader.casting'
       status.value = TransactionStatus.Casting
       return
     }
