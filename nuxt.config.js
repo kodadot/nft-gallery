@@ -152,7 +152,10 @@ export default defineNuxtConfig({
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['@/assets/styles/index.scss'],
+  css: [
+    '@/assets/styles/index.scss',
+    '@fortawesome/fontawesome-svg-core/styles.css',
+  ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
@@ -160,7 +163,7 @@ export default defineNuxtConfig({
     // { src: '~/plugins/endpoint', mode: 'client' },
     // { src: '~/plugins/seoMetaGenerator', mode: 'client' },
     // { src: '~/plugins/keyboardEvents', mode: 'client' },
-    // { src: '~/plugins/icons', mode: 'client' },
+    // { src: '~/plugins/icons', mode: 'client' }, // done: auto imported
     // { src: '~/plugins/consola', mode: 'client' },
     // { src: '~/plugins/piniaPersistedState', mode: 'client' },
     // { src: '~/plugins/oruga-modal', mode: 'client' },
