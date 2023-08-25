@@ -174,7 +174,7 @@ const submit = async () => {
     [transactionIsLoading, transactionStatus],
     ([newTransactionIsLoading, newTransactionStatus]) => {
       isLoading.value = newTransactionIsLoading
-      if (Boolean(newTransactionStatus)) {
+      if (newTransactionStatus) {
         status.value = newTransactionStatus
       }
     }
