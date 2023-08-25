@@ -298,7 +298,7 @@ const sendSameAmount = ref(false)
 const displayUnit = ref<'token' | 'usd'>('token')
 const { getTokenIconBySymbol } = useIcon()
 
-const { tokens, isTokenValidForChain } = useToken()
+const { tokens, isTokenValidForChain } = useToken(true)
 const unit = ref(chainUnit.value)
 const selectedToken = computed(() =>
   tokens.value.find((t) => t.symbol === unit.value)

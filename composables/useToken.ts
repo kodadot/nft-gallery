@@ -18,12 +18,24 @@ export interface TokenDetails {
 const getAssetToken = (asset) => asset?.token || 'KSM'
 const getUniqueArrayItems = (items: string[]) => [...new Set(items)]
 
-export default function useToken() {
+export default function useToken(filterByCurrentChain = false) {
   const { getCurrentTokenValue } = useFiatStore()
   const { getTokenIconBySymbol } = useIcon()
   const { getAvailableAssets } = useIdentityStore()
+  const { urlPrefix } = usePrefix()
 
-  const availableAssets = computed(() => getAvailableAssets)
+  const availableAssets = computed(() => {
+    if (!filterByCurrentChain) {
+      return getAvailableAssets
+    }
+    return getAvailableAssets.filter((asset) => {
+      if (asset.chain === 'kusama') {
+        return ['rmrk', 'ksm'].includes(urlPrefix.value)
+      }
+      return urlPrefix.value === networkToPrefix[asset.chain]
+    })
+  })
+
   const availableTokensAcrossAllChains = computed(() =>
     getUniqueArrayItems(Object.values(availableAssets.value).map(getAssetToken))
   )
@@ -41,10 +53,12 @@ export default function useToken() {
   }
 
   const getChainTokenIds = (token: string) => {
-    return getMatchingAvailableAssetsByToken(token).reduce((reducer, asset) => {
-      const chainPrefix = networkToPrefix[asset.chain]
-      return { ...reducer, [chainPrefix]: asset.tokenId }
-    }, {} as TokenIds)
+    return Object.fromEntries(
+      getMatchingAvailableAssetsByToken(token).map((asset) => [
+        networkToPrefix[asset.chain],
+        asset.tokenId,
+      ])
+    ) as TokenIds
   }
 
   const tokens = computed<TokenDetails[]>(() => {
