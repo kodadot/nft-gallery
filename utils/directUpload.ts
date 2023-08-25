@@ -1,4 +1,4 @@
-import Axios from 'axios'
+import { $fetch } from 'ofetch'
 import consola from 'consola'
 
 import { secondaryFileVisible } from '@/utils/mintUtils'
@@ -7,7 +7,7 @@ import { URLS } from './constants'
 
 export const BASE_URL = URLS.koda.directUpload
 
-const api = Axios.create({
+const api = $fetch.create({
   baseURL: BASE_URL,
 })
 
@@ -34,13 +34,13 @@ type CdnUploadResponse = {
 
 export const getKey = async (
   validationKey: string
-): Promise<DirectUploadResult> => {
+): Promise<DirectUploadResult | undefined> => {
   try {
-    const { status, data } = await api.get<DirectUploadApiResponse>(
+    const { _data, status } = await api.raw<DirectUploadApiResponse>(
       `getKey/${validationKey}`
     )
     consola.log('[PINNING] Obtain', status)
-    return data.result
+    return _data?.result
   } catch (e) {
     consola.warn(e)
     throw e
@@ -51,19 +51,20 @@ export const upload = async (
   file: File,
   url: string,
   id?: string
-): Promise<CdnUploadResponse> => {
+): Promise<CdnUploadResponse | undefined> => {
   const formData = new FormData()
   formData.append('file', file)
   if (id) {
     formData.append('id', id)
   }
-  const { status, data } = await Axios.post<CdnUploadResponse>(url, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data;',
-    },
+
+  //FormData support: https://github.com/unjs/ofetch/issues/37
+  const { status, _data } = await $fetch.raw<CdnUploadResponse>(url, {
+    method: 'POST',
+    body: formData,
   })
   consola.log('[DIRECT UPLOAD] OK?', status)
-  return data
+  return _data
 }
 
 export const uploadDirect = async (
@@ -72,8 +73,10 @@ export const uploadDirect = async (
 ): Promise<void> => {
   try {
     const token = await getKey(ipfsHash)
-    const { result } = await upload(file, token.uploadURL, ipfsHash)
-    consola.log('[DIRECT UPLOAD] OK!', result.filename)
+    if (token) {
+      const res = await upload(file, token.uploadURL, ipfsHash)
+      consola.log('[DIRECT UPLOAD] OK!', res?.result.filename)
+    }
   } catch (e) {
     consola.warn('[DIRECT UPLOAD] ERR!', (e as Error).message)
   }
