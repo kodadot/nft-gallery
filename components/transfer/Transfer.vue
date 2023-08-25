@@ -260,6 +260,7 @@ import {
 } from '@kodadot1/brick'
 import TransferTokenTabs, { TransferTokenTab } from './TransferTokenTabs.vue'
 import { TokenDetails } from '@/composables/useToken'
+import AddressInput from '../shared/AddressInput.vue'
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
 )
@@ -279,7 +280,7 @@ const { toast } = useToast()
 const isTransferModalVisible = ref(false)
 
 export type TargetAddress = {
-  address?: string
+  address: string
   usd?: number | string
   token?: number | string
 }
@@ -296,7 +297,7 @@ const tokenIcon = computed(() => getTokenIconBySymbol(unit.value))
 
 const tokenTabs = ref<TransferTokenTab[]>([])
 
-const targetAddresses = ref<TargetAddress[]>([{}])
+const targetAddresses = ref<TargetAddress[]>([{ address: '' }])
 
 const hasValidTarget = computed(() =>
   targetAddresses.value.some((item) => isAddress(item.address) && item.token)
@@ -523,14 +524,11 @@ const submit = async (
               const amountToTransfer = String(
                 calculateBalance(Number(target.token), decimals.value)
               )
-              return api.tx.balances.transfer(
-                target.address as string,
-                amountToTransfer
-              )
+              return api.tx.balances.transfer(target.address, amountToTransfer)
             }),
           ]
         : [
-            targetAddresses.value[0].address as string,
+            targetAddresses.value[0].address,
             calculateBalance(
               Number(targetAddresses.value[0].token),
               decimals.value
@@ -553,7 +551,7 @@ const submit = async (
             notificationTypes.success
           )
 
-          targetAddresses.value = [{}]
+          targetAddresses.value = [{ address: '' }]
           if (route.query && !route.query.donation) {
             router.push(route.path)
           }
