@@ -1,5 +1,8 @@
 <template>
-  <div class="search-suggestion-container" @click="resetSelectedIndex">
+  <div
+    class="search-suggestion-container"
+    @click="resetSelectedIndex"
+    @keydown="onKeyDown">
     <NeoTabs
       v-show="name"
       v-model="activeSearchTab"
@@ -243,7 +246,7 @@
 
 <script setup lang="ts">
 import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
-import { SearchQuery } from './types'
+import type { SearchQuery } from './types'
 import { denyList } from '@/utils/constants'
 import {
   CollectionWithMeta,
@@ -271,6 +274,9 @@ const props = defineProps({
   },
   query: {
     type: Object,
+    default: () => {
+      return {} as SearchQuery
+    },
   },
 })
 
@@ -294,21 +300,6 @@ const showDefaultSuggestions = ref(false)
 
 onMounted(() => {
   getSearchHistory()
-})
-
-const fetch = () => {
-  fetchSuggestions()
-}
-
-const created = () => {
-  // Rewrite @keydown, @click
-  document.addEventListener('keydown', onKeyDown)
-  document.addEventListener('click', resetSelectedIndex)
-}
-
-onBeforeUnmount(() => {
-  document.removeEventListener('keydown', onKeyDown)
-  document.removeEventListener('click', resetSelectedIndex)
 })
 
 const onKeyDown = (event: KeyboardEvent) => {
@@ -492,7 +483,7 @@ const gotoCollectionItem = (item: CollectionWithMeta) => {
 }
 
 const buildSearchParam = (): Record<string, unknown>[] => {
-  const params: any[] = []
+  const params: { name_containsInsensitive?: string; price_gt?: string }[] = []
   if (query.value?.search) {
     params.push({ name_containsInsensitive: query.value?.search })
   }
@@ -502,10 +493,6 @@ const buildSearchParam = (): Record<string, unknown>[] => {
   }
 
   return params
-}
-
-const routeOf = (url: string) => {
-  return `${urlPrefix}-${url}`
 }
 
 const insertNewHistory = () => {
@@ -679,18 +666,6 @@ const fetchCollectionStats = async (
 
     resolve(collection)
   })
-}
-
-const getFloorPrice = (nfts: NFTWithMeta[] | undefined) => {
-  if (!nfts || !nfts.length) {
-    return 0
-  }
-  // floor price should be greater than zero.
-  const priceArr = nfts.filter((nft) => Number(nft.price) > 0)
-  if (priceArr.length === 0) {
-    return 0
-  }
-  return Math.min(...priceArr.map((nft) => Number(nft.price)))
 }
 
 watch(
