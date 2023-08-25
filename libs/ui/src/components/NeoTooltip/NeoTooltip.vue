@@ -16,6 +16,7 @@
     :position="position"
     :label="label"
     :delay="delay"
+    :triggers="triggers"
     @open="handleOpen"
     @click="handleClick">
     <template #content>
@@ -50,6 +51,7 @@ export interface Props {
   autoClose?: string[] | boolean
   contentClass?: string
   rootClass?: string
+  triggers?: string[]
 }
 const props = withDefaults(defineProps<Props>(), {
   label: '',
@@ -65,6 +67,7 @@ const props = withDefaults(defineProps<Props>(), {
   autoClose: true,
   contentClass: '',
   rootClass: '',
+  triggers: () => ['hover'],
 })
 
 const rootClass = computed(() => {

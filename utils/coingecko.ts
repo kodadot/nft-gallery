@@ -1,19 +1,19 @@
-import Axios from 'axios'
+import { $fetch } from 'ofetch'
 import { URLS } from './constants'
 
 export const BASE_URL = URLS.providers.coingecko
 
-const api = Axios.create({
+const api = $fetch.create({
   baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: false,
+  credentials: 'omit',
 })
 
 export const getPrice = async (id: string): Promise<any> => {
   try {
-    const { data } = await api.get('/simple/price', {
+    const data = await api('/simple/price', {
       params: {
         ids: id,
         vs_currencies: 'usd',
@@ -60,7 +60,7 @@ export const getApproximatePriceOf = async (
 export const getKSMUSD = async (): Promise<number> => {
   const coinId = 'kusama'
   try {
-    const { data } = await api.get('/simple/price', {
+    const data = await api('/simple/price', {
       params: {
         ids: coinId,
         vs_currencies: 'usd',

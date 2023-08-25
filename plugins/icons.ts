@@ -118,9 +118,9 @@ import {
   faRedditAlien,
   faTelegram,
   faTelegramPlane,
-  faTwitter,
   faWhatsapp,
   faWpexplorer,
+  faXTwitter,
   faYoutube,
 } from '@fortawesome/free-brands-svg-icons'
 
@@ -218,7 +218,7 @@ library.add(
   faCheck,
 
   // Social
-  faTwitter,
+  faXTwitter,
   faTelegram,
   faFacebook,
   faFacebookMessenger,

@@ -23,7 +23,7 @@
         target="_blank"
         rel="nofollow noopener noreferrer"
         data-cy="identity-twitter">
-        <NeoIcon pack="fab" icon="twitter" class="has-text-link" />
+        <NeoIcon pack="fab" icon="x-twitter" class="has-text-link" />
       </a>
     </div>
   </div>

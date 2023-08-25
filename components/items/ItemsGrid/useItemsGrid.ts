@@ -23,6 +23,7 @@ export function useFetchSearch({
   const route = useRoute()
 
   const nfts = ref<NFTWithMetadata[]>([])
+  const loadedPages = ref([] as number[])
 
   const { searchParams } = useSearchParams()
 
@@ -53,25 +54,12 @@ export function useFetchSearch({
       }
     }
 
-    const variables = search
-      ? {
-          search,
-          first: first.value,
-          offset: (page - 1) * first.value,
-          orderBy: route.query.sort?.length
-            ? route.query.sort
-            : ['blockNumber_DESC'],
-        }
+    const variables = search?.length
+      ? { search }
       : {
-          denyList: getDenyList(urlPrefix.value),
-          orderBy: route.query.sort?.length
-            ? route.query.sort
-            : ['blockNumber_DESC'],
           search: searchParams.value,
           priceMin: Number(route.query.min),
           priceMax: Number(route.query.max),
-          first: first.value,
-          offset: (page - 1) * first.value,
         }
 
     const queryPath = getQueryPath(client.value)
@@ -79,7 +67,15 @@ export function useFetchSearch({
     const result = await $apollo.query({
       query: query.default,
       client: client.value,
-      variables: variables,
+      variables: {
+        ...variables,
+        first: first.value,
+        offset: (page - 1) * first.value,
+        denyList: getDenyList(urlPrefix.value),
+        orderBy: route.query.sort?.length
+          ? route.query.sort
+          : ['blockNumber_DESC'],
+      },
     })
 
     // handle results
@@ -87,10 +83,13 @@ export function useFetchSearch({
 
     total.value = nftEntitiesConnection.totalCount
 
-    if (loadDirection === 'up') {
-      nfts.value = nFTEntities.concat(nfts.value)
-    } else {
-      nfts.value = nfts.value.concat(nFTEntities)
+    if (!loadedPages.value.includes(page)) {
+      if (loadDirection === 'up') {
+        nfts.value = nFTEntities.concat(nfts.value)
+      } else {
+        nfts.value = nfts.value.concat(nFTEntities)
+      }
+      loadedPages.value.push(page)
     }
 
     isFetchingData.value = false
@@ -114,6 +113,7 @@ export function useFetchSearch({
       () => route.query.collections,
     ],
     () => {
+      loadedPages.value = []
       resetSearch()
     }
   )
