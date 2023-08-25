@@ -57,11 +57,10 @@ export const upload = async (
   if (id) {
     formData.append('id', id)
   }
+
+  //FormData support: https://github.com/unjs/ofetch/issues/37
   const { status, _data } = await $fetch.raw<CdnUploadResponse>(url, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'multipart/form-data;',
-    },
     body: formData,
   })
   consola.log('[DIRECT UPLOAD] OK?', status)
