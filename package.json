@@ -88,6 +88,7 @@
     "@polkadot/vue-identicon": "^3.6.2",
     "@ramp-network/ramp-instant-sdk": "^3.2.3",
     "@types/node": "^20.5.4",
+    "@vitejs/plugin-vue": "^4.2.3",
     "apollo-boost": "^0.4.9",
     "axios": "^0.27.2",
     "chart.js": "^3.9.1",
