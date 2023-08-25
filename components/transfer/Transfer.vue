@@ -261,6 +261,7 @@ import {
 import TransferTokenTabs, { TransferTokenTab } from './TransferTokenTabs.vue'
 import { TokenDetails } from '@/composables/useToken'
 import AddressInput from '../shared/AddressInput.vue'
+import Loader from '../shared/Loader.vue'
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
 )

@@ -1,7 +1,16 @@
 import { ExtrinsicStatus } from '@polkadot/types/interfaces'
 
+export enum TransactionStatus {
+  Casting = 'loader.casting',
+  Sign = 'loader.sign',
+  Block = 'loader.block',
+  Finalized = 'loader.finalized',
+  Unkonwn = '',
+  IPFS = 'loader.ipfs',
+}
+
 function useTransactionStatus() {
-  const status = ref('')
+  const status = ref<TransactionStatus>(TransactionStatus.Unkonwn)
   const isLoading = ref(false)
 
   const resolveStatus = (
@@ -9,31 +18,34 @@ function useTransactionStatus() {
     omitFinalized?: boolean
   ): void => {
     if (extrinsicStatus.isReady) {
-      status.value = 'loader.casting'
+      // status.value = 'loader.casting'
+      status.value = TransactionStatus.Casting
       return
     }
 
     if (extrinsicStatus.isInBlock) {
-      status.value = 'loader.block'
+      status.value = TransactionStatus.Block
       return
     }
 
     if (extrinsicStatus.isFinalized) {
-      status.value = omitFinalized ? '' : 'loader.finalized'
+      status.value = omitFinalized
+        ? TransactionStatus.Unkonwn
+        : TransactionStatus.Finalized
       return
     }
 
-    status.value = ''
+    status.value = TransactionStatus.Unkonwn
   }
 
   const initTransactionLoader = (): void => {
     isLoading.value = true
-    status.value = 'loader.sign'
+    status.value = TransactionStatus.Unkonwn
   }
 
   const stopLoader = (): void => {
     isLoading.value = false
-    status.value = ''
+    status.value = TransactionStatus.Unkonwn
   }
   return {
     status,
