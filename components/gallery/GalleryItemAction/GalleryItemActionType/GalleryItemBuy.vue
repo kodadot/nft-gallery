@@ -8,7 +8,6 @@
             class="w-full"
             content-class="buy-tooltip"
             :position="isMobileDevice ? 'top' : 'left'"
-            :auto-close="['outside', 'escape']"
             :triggers="[isMobileDevice ? 'click' : 'hover']"
             multiline>
             <template #content>
