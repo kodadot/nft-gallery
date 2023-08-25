@@ -48,7 +48,7 @@ An event that is set to be a hub for NFT enthusiasts, [NFT Paris](https://www.nf
 ### Where: Miami, Florida, USA
 ### Price: $247 - $497
 
-[Miami NFT Week 2023](https://metaverse.miami/) is an opportunity to learn about non-fungible tokens (NFTs) and network with your online friends and Web3 communities in person.
+[Miami NFT Week 2023](https://miaminftweek.com/) is an opportunity to learn about non-fungible tokens (NFTs) and network with your online friends and Web3 communities in person.
 
 ## NFT.NYC 2023
 
