@@ -133,6 +133,7 @@
     "@nuxt/types": "^2.17.1",
     "@nuxtjs/color-mode": "^3.3.0",
     "@open-wc/webpack-import-meta-loader": "^0.4.7",
+    "@playwright/test": "^1.37.1",
     "@rollup/plugin-graphql": "^1.1.0",
     "@types/jest": "^27.5.2",
     "@types/markdown-it": "^12.2.3",

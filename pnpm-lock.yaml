@@ -231,6 +231,9 @@ importers:
       '@open-wc/webpack-import-meta-loader':
         specifier: ^0.4.7
         version: 0.4.7
+      '@playwright/test':
+        specifier: ^1.37.1
+        version: 1.37.1
       '@rollup/plugin-graphql':
         specifier: ^1.1.0
         version: 1.1.0(graphql@16.8.0)
@@ -393,7 +396,7 @@ importers:
         version: 0.16.4(sass@1.65.1)(vite@3.2.7)
       vite:
         specifier: ^3.2.7
-        version: 3.2.7(sass@1.65.1)(terser@5.17.7)
+        version: 3.2.7(@types/node@20.2.5)(sass@1.65.1)
       vue:
         specifier: 2.7.14
         version: 2.7.14
@@ -4266,7 +4269,7 @@ packages:
       chokidar: 3.5.3
       pathe: 0.2.0
       picocolors: 1.0.0
-      vite: 3.2.7(sass@1.65.1)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.65.1)
     dev: true
 
   /@histoire/vendors@0.16.0:
@@ -5663,6 +5666,17 @@ packages:
       open: 9.1.0
       picocolors: 1.0.0
       tslib: 2.5.3
+    dev: true
+
+  /@playwright/test@1.37.1:
+    resolution: {integrity: sha512-bq9zTli3vWJo8S3LwB91U0qDNQDpEXnw7knhxLM0nwDvexQAwx9tO8iKDZSqqneVq+URd/WIoz+BALMqUTgdSg==}
+    engines: {node: '>=16'}
+    hasBin: true
+    dependencies:
+      '@types/node': 20.2.5
+      playwright-core: 1.37.1
+    optionalDependencies:
+      fsevents: 2.3.2
     dev: true
 
   /@polka/url@1.0.0-next.21:
@@ -9142,7 +9156,7 @@ packages:
       vite: ^3.0.0 || ^4.0.0
       vue: ^2.7.0-0
     dependencies:
-      vite: 3.2.7(sass@1.65.1)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.65.1)
       vue: 2.7.14
     dev: true
 
@@ -15711,7 +15725,7 @@ packages:
       sade: 1.8.1
       shiki-es: 0.2.0
       sirv: 2.0.3
-      vite: 3.2.7(sass@1.65.1)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.65.1)
       vite-node: 0.28.4(sass@1.65.1)
     transitivePeerDependencies:
       - '@types/node'
@@ -17683,7 +17697,7 @@ packages:
       acorn: 8.10.0
       pathe: 1.1.1
       pkg-types: 1.0.3
-      ufo: 1.1.2
+      ufo: 1.2.0
     dev: true
 
   /mlly@1.4.0:
@@ -18826,6 +18840,12 @@ packages:
       jsonc-parser: 3.2.0
       mlly: 1.4.0
       pathe: 1.1.1
+
+  /playwright-core@1.37.1:
+    resolution: {integrity: sha512-17EuQxlSIYCmEMwzMqusJ2ztDgJePjrbttaefgdsiqeLWidjYz9BxXaTaZWxH1J95SHGk6tjE+dwgWILJoUZfA==}
+    engines: {node: '>=16'}
+    hasBin: true
+    dev: true
 
   /pluralize@8.0.0:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
@@ -22476,6 +22496,7 @@ packages:
 
   /ufo@1.1.2:
     resolution: {integrity: sha512-TrY6DsjTQQgyS3E3dBaOXf0TpPD8u9FVrVYmKVegJuFw51n/YB9XPt+U6ydzFG5ZIN7+DIjPbNmXoBj9esYhgQ==}
+    dev: false
 
   /ufo@1.2.0:
     resolution: {integrity: sha512-RsPyTbqORDNDxqAdQPQBpgqhWle1VcTSou/FraClYlHf6TZnQcGslpLcAphNR+sQW4q5lLWLbOsRlh9j24baQg==}
@@ -22998,7 +23019,7 @@ packages:
       picocolors: 1.0.0
       source-map: 0.6.1
       source-map-support: 0.5.21
-      vite: 3.2.7(sass@1.65.1)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.65.1)
     transitivePeerDependencies:
       - '@types/node'
       - less
