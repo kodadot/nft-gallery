@@ -124,9 +124,9 @@ export function execListTx(item: ActionList, api, executeTransaction) {
     ahk: execAhkOrAhp,
     ahp: execAhkOrAhp,
   }
-  const params = fnMap[item.urlPrefix]?.call(null, isSingle, item, api)
 
-  const { cb, arg } = params
+  const { cb, arg } =
+    fnMap[item.urlPrefix]?.call(null, isSingle, item, api) || {}
   if (cb && arg) {
     const { successMessage, errorMessage } = item
     executeTransaction({ cb, arg, successMessage, errorMessage })
