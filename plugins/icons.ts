@@ -245,14 +245,16 @@ config.autoAddCss = false
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component('font-awesome-icon', FontAwesomeIcon).use(Neo, {
-    iconPack: 'fa-sharp',
-    customIconPacks: {
-      'fa-sharp': {
-        iconPrefix: 'fa-',
-        sizes: {
-          default: 'fw fa-regular',
-        },
-      },
-    },
+    iconComponent: 'font-awesome-icon',
+    iconPack: 'fas',
+    // iconPack: 'fa-sharp',
+    // customIconPacks: {
+    //   'fa-sharp': {
+    //     iconPrefix: 'fa-',
+    //     sizes: {
+    //       default: 'fw fa-regular',
+    //     },
+    //   },
+    // },
   })
 })

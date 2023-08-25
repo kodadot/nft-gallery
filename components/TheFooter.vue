@@ -145,7 +145,6 @@
                   </clipPath>
                 </defs>
               </svg>
-
               <NeoIcon
                 v-else
                 :pack="item.name == 'Swag' ? 'fas' : 'fab'"
