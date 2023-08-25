@@ -497,11 +497,7 @@ const unifyAddressAmount = (target: TargetAddress) => {
 
 const updateTargetAdressesOnTokenSwitch = () => {
   targetAddresses.value.forEach((targetAddress) => {
-    if (displayUnit.value === 'usd') {
-      onUsdFieldChange(targetAddress)
-    } else {
-      onAmountFieldChange(targetAddress)
-    }
+    onUsdFieldChange(targetAddress)
   })
 }
 
