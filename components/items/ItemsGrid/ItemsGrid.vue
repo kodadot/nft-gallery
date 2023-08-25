@@ -68,7 +68,11 @@ const gotoPage = (page: number) => {
   fetchSearch({ page, search: parseSearch(props.search) })
 }
 const fetchPageData = async (page: number, loadDirection) => {
-  return await fetchSearch({ page, loadDirection })
+  return await fetchSearch({
+    page,
+    loadDirection,
+    search: parseSearch(props.search),
+  })
 }
 const {
   first,
@@ -121,6 +125,7 @@ watch(
       return
     }
     if (!isEqual(newSearch, oldSearch)) {
+      isLoading.value = true
       refetch(parseSearch(props.search))
     }
   },
