@@ -5,14 +5,14 @@
 @import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
 
 $steps-details-background-color: hsla(0, 0%, 0%, 0);
-$steps-details-padding: .5em !default;
-$steps-font-size: .85rem;
-$steps-active-color: #6188E7;
-$steps-previous-color: #6188E7;
+$steps-details-padding: 0.5em !default;
+$steps-font-size: var(--step-size, 0.85rem);
+$steps-active-color: #6188e7;
+$steps-previous-color: #6188e7;
 $steps-divider-height: 2px;
 
 $steps-marker-background: #fff;
-$steps-marker-border: .2em solid $grey-light !default;
+$steps-marker-border: 0.2em solid $grey-light !default;
 
 $steps-marker-color: $primary-invert !default;
 $steps-marker-font-weight: 700 !default;
@@ -24,3 +24,39 @@ $steps-link-color: hsl(0, 0%, 29%) !default;
 $steps-content-padding: 1rem !default;
 
 @import '@oruga-ui/oruga/src/scss/components/steps';
+
+.o-steps {
+  &__nav-item {
+    .o-steps__title {
+      @include ktheme() {
+        color: theme('k-grey');
+      }
+    }
+    &--last {
+      &.o-steps__nav-item-active {
+        .o-steps__marker {
+          background-color: $steps-active-color;
+          .o-icon {
+            color: $steps-marker-background;
+          }
+        }
+      }
+    }
+    &-active {
+      .o-steps__title {
+        color: $steps-link-color;
+      }
+    }
+    &-previous {
+      .o-steps__marker {
+        border-color: $steps-previous-color;
+      }
+      .o-steps__title {
+        color: $steps-previous-color;
+      }
+    }
+  }
+  &__title {
+    font-size: 0.75rem !important;
+  }
+}
