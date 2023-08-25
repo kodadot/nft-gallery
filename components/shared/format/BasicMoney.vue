@@ -24,9 +24,10 @@ const props = withDefaults(
   }
 )
 
-const { decimals, unit } = useChain()
+const { decimals, chainSymbol } = useChain()
 
-const realUnit = computed(() => (props.hideUnit ? '' : ' ' + unit.value))
+const realUnit = computed(() => (props.hideUnit ? '' : ' ' + chainSymbol.value))
+
 const finalValue = computed(() =>
   round(
     formatBalance(checkInvalidBalanceFilter(props.value), decimals.value, ''),
