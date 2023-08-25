@@ -1,7 +1,6 @@
 import { useFiatStore } from '@/stores/fiat'
 import { CHAINS, type Prefix } from '@kodadot1/static'
 import { networkToPrefix, useIdentityStore } from '@/stores/identity'
-import { defultTokenChain } from '@/utils/config/chain.config'
 
 type TokenDecimals = Record<Prefix, number>
 type TokenIds = Record<Prefix, string | undefined>
@@ -10,7 +9,6 @@ export interface TokenDetails {
   value: number | string | null
   icon: string
   chains: Prefix[]
-  defaultChain: Prefix
   tokenDecimals: TokenDecimals
   tokenIds: TokenIds
 }
@@ -64,7 +62,6 @@ export default function useToken(filterByCurrentChain = false) {
   const tokens = computed<TokenDetails[]>(() => {
     return availableTokensAcrossAllChains.value.map((tokenSymbol) => {
       const chains = getTokenChains(tokenSymbol)
-      const defaultChain = defultTokenChain[tokenSymbol]
       const tokenDecimals = Object.fromEntries(
         chains.map((chain) => [chain, CHAINS[chain].tokenDecimals])
       ) as TokenDecimals
@@ -75,7 +72,6 @@ export default function useToken(filterByCurrentChain = false) {
         value: getCurrentTokenValue(tokenSymbol),
         icon: getTokenIconBySymbol(tokenSymbol),
         chains: chains,
-        defaultChain: defaultChain,
         tokenDecimals: tokenDecimals,
         tokenIds: tokenIds,
       }

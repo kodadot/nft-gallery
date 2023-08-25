@@ -28,11 +28,3 @@ export const chainAssetOf = (prefix: Prefix): AssetItem => {
     decimals,
   }
 }
-
-export const defultTokenChain: Record<string, Prefix> = {
-  KSM: 'ksm',
-  DOT: 'dot',
-  BSX: 'bsx',
-  GLMR: 'glmr',
-  MOVR: 'movr',
-}

@@ -347,15 +347,11 @@ const handleTokenSelect = (newToken: string) => {
     urlPrefix.value
   )
 
-  if (isTokenAvailableForCurrentChain) {
-    unit.value = token.symbol
+  if (!isTokenAvailableForCurrentChain) {
     return
   }
 
-  router.replace({
-    params: { prefix: token.defaultChain },
-    query: { ...route.query, token: token.symbol },
-  })
+  unit.value = token.symbol
 }
 
 const generateTokenTabs = (
