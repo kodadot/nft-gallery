@@ -3,7 +3,7 @@
     :active="model"
     no-shadow
     rounded
-    :label="urlParam ?? label"
+    :label="label"
     @click.native="model = !model" />
 </template>
 
