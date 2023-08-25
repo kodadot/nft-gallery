@@ -714,29 +714,35 @@ onMounted(() => {
   fetchFiatPrice().then(checkQueryParams)
 })
 
-const pushQuery = (queryParams) => {
+const routerReplace = ({ params = {}, query }) => {
   router
     .replace({
+      params: params,
       query: {
         ...route.query,
-        ...queryParams,
+        ...query,
       },
     })
     .catch(() => null) // null to further not throw navigation errors
 }
 
 watch(unit, (newToken) => {
-  pushQuery({
-    token: newToken,
+  routerReplace({ query: { token: newToken } })
+})
+
+watch(urlPrefix, (chain) => {
+  routerReplace({
+    params: { prefix: chain },
+    query: {
+      token: undefined,
+    },
   })
 })
 
 watchDebounced(
   () => targetAddresses.value[0].usd,
   (usdamount) => {
-    pushQuery({
-      usdamount: (usdamount || 0).toString(),
-    })
+    routerReplace({ query: { usdamount: (usdamount || 0).toString() } })
   },
   { debounce: 300 }
 )
