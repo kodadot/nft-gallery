@@ -298,14 +298,12 @@ const sendSameAmount = ref(false)
 const displayUnit = ref<'token' | 'usd'>('token')
 const { getTokenIconBySymbol } = useIcon()
 
-const { tokens, isTokenValidForChain } = useToken(true)
+const { tokens, isTokenValidForChain } = useToken()
 const unit = ref(chainUnit.value)
 const selectedToken = computed(() =>
   tokens.value.find((t) => t.symbol === unit.value)
 )
-const decimals = computed(
-  () => selectedToken.value?.tokenDecimals[urlPrefix.value]
-)
+const decimals = computed(() => selectedToken.value?.tokenDecimals)
 
 const selectedTabFirst = ref(true)
 const tokenIcon = computed(() => getTokenIconBySymbol(unit.value))
@@ -342,10 +340,7 @@ const handleTokenSelect = (newToken: string) => {
     return
   }
 
-  const isTokenAvailableForCurrentChain = isTokenValidForChain(
-    token.symbol,
-    urlPrefix.value
-  )
+  const isTokenAvailableForCurrentChain = isTokenValidForChain(token.symbol)
 
   if (!isTokenAvailableForCurrentChain) {
     return
@@ -585,7 +580,7 @@ const submit = async (
   try {
     const api = await apiInstance.value
 
-    const tokenId = selectedToken.value?.tokenIds[urlPrefix.value] || null
+    const tokenId = selectedToken.value?.tokenId || null
     const tokenTransfer = !!tokenId
 
     const numOfTargetAddresses = targetAddresses.value.length
@@ -700,7 +695,7 @@ const addAddress = () => {
 const syncQueryToken = () => {
   const token = route.query.token?.toString()
 
-  if (!isTokenValidForChain(token, urlPrefix.value)) {
+  if (!isTokenValidForChain(token)) {
     return
   }
 
