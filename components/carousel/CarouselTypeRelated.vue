@@ -1,10 +1,9 @@
 <template>
-  <CarouselIndex :title="`${$t('nft.related')}`" :nfts="formatNFT(nfts)" />
+  <CarouselIndex :title="`${$t('nft.related')}`" :nfts="nfts" />
 </template>
 
 <script lang="ts" setup>
 import { useCarouselRelated } from './utils/useCarousel'
-import { formatNFT } from '@/utils/carousel'
 
 const props = defineProps<{
   collectionId: string
