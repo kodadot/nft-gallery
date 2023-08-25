@@ -60,7 +60,7 @@ export const getApproximatePriceOf = async (
 export const getKSMUSD = async (): Promise<number> => {
   const coinId = 'kusama'
   try {
-    const { data } = await api('/simple/price', {
+    const data = await api('/simple/price', {
       params: {
         ids: coinId,
         vs_currencies: 'usd',
