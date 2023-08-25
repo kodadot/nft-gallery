@@ -1,6 +1,7 @@
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { ChainProperties } from '@/utils/api/Query'
 import { availablePrefixes } from '@/utils/chain'
+import { Prefix } from '@kodadot1/static'
 
 export default function () {
   const { urlPrefix, tokenId, assets } = usePrefix()
@@ -33,6 +34,8 @@ export default function () {
   const blockExplorer = computed<string>(() => {
     return chainProperties.value.blockExplorer ?? 'https://kusama.subscan.io/'
   })
+
+  const chainPropertiesOf = (token: string) => chainPropListOf(token as Prefix)
   return {
     decimals,
     unit,
@@ -41,5 +44,6 @@ export default function () {
     availableChains,
     chainSymbol,
     blockExplorer,
+    chainPropertiesOf,
   }
 }
