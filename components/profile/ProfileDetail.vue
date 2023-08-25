@@ -101,7 +101,7 @@
           <span>
             {{ tab }}
           </span>
-          <span class="tab__count">
+          <span class="has-text-grey">
             {{ format(counts[tab]) }}
           </span>
         </TabItem>
@@ -119,7 +119,7 @@
           <span>
             {{ tab }}
           </span>
-          <span class="tab__count">
+          <span class="has-text-grey">
             {{ format(counts[tab]) }}
           </span>
         </TabItem>
@@ -314,12 +314,5 @@ const handleIdentity = (identityFields: Record<string, string>) => {
   height: 5px;
   background-color: grey;
   margin: 0 10px;
-}
-
-.tab__count {
-  @include ktheme {
-    color: theme('k-grey');
-  }
-  font-size: 16px;
 }
 </style>
