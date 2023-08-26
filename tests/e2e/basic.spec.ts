@@ -5,6 +5,6 @@ test('Check if RMRK2 shows Create Page', async ({ page }) => {
 
   // Expects page to have a heading with the name of Create Collection.
   await expect(
-    page.getByRole('heading', { name: 'Create collection' })
+    page.getByRole('heading', { name: 'Create New Collection' })
   ).toBeVisible()
 })
