@@ -33,7 +33,6 @@ export default function () {
   const blockExplorer = computed<string>(() => {
     return chainProperties.value.blockExplorer ?? 'https://kusama.subscan.io/'
   })
-
   return {
     decimals,
     unit,
