@@ -9,40 +9,12 @@ import useAPI from './useApi'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { DispatchError } from '@polkadot/types/interfaces'
 
-function useMetaTransaction() {
-  const { $i18n } = useNuxtApp()
-  const {
-    isLoading,
-    resolveStatus,
-    initTransactionLoader,
-    status,
-    stopLoader,
-  } = useTransactionStatus()
-  const { apiInstance } = useAPI()
-  const tx = ref<ExecResult>()
-  const isError = ref(false)
+const _successCb =
+  ({ isLoading, tx }) =>
+  (onSuccess) =>
+  async (blockHash) => {
+    const { apiInstance } = useAPI()
 
-  const howAboutToExecute = async (
-    account: string,
-    cb: (...params: any[]) => Extrinsic,
-    args: any[],
-    onSuccess?: (blockNumber: string) => void,
-    onError?: () => void
-  ): Promise<void> => {
-    try {
-      tx.value = await exec(
-        account,
-        '',
-        cb,
-        args,
-        txCb(successCb(onSuccess), errorCb(onError), onResult)
-      )
-    } catch (e) {
-      onCatchError(e)
-    }
-  }
-
-  const successCb = (onSuccess) => async (blockHash) => {
     const api = await apiInstance.value
 
     tx.value && execResultValue(tx.value)
@@ -57,7 +29,10 @@ function useMetaTransaction() {
     tx.value = undefined
   }
 
-  const errorCb = (onError) => (dispatchError) => {
+const _errorCb =
+  ({ isLoading, tx, isError, onTxError }) =>
+  (onError) =>
+  (dispatchError) => {
     tx.value && execResultValue(tx.value)
     onTxError(dispatchError)
     isLoading.value = false
@@ -67,12 +42,13 @@ function useMetaTransaction() {
     }
   }
 
-  const onResult = (res) => resolveStatus(res.status)
-
-  const onCatchError = (e) => {
+const _onCatchError =
+  ({ isLoading, tx }) =>
+  (e) => {
     if (e instanceof Error) {
       const isCancelled = e.message === 'Cancelled'
       if (isCancelled) {
+        const { $i18n } = useNuxtApp()
         showNotification(
           $i18n.t('general.tx.cancelled'),
           notificationTypes.warn
@@ -84,7 +60,11 @@ function useMetaTransaction() {
       tx.value = undefined
     }
   }
-  const onTxError = async (dispatchError: DispatchError): Promise<void> => {
+
+const _onTxError =
+  ({ isLoading, tx }) =>
+  async (dispatchError: DispatchError): Promise<void> => {
+    const { apiInstance } = useAPI()
     const api = await apiInstance.value
 
     if (dispatchError.isModule) {
@@ -104,8 +84,49 @@ function useMetaTransaction() {
     isLoading.value = false
     tx.value = undefined
   }
+
+const _howAboutToExecute =
+  ({ isLoading, tx, isError, onResult, onTxError }) =>
+  async (
+    account: string,
+    cb: (...params: any[]) => Extrinsic,
+    args: any[],
+    onSuccess?: (blockNumber: string) => void,
+    onError?: () => void
+  ): Promise<void> => {
+    const successCb = _successCb({ isLoading, tx })
+    const onCatchError = _onCatchError({ isLoading, tx })
+    const errorCb = _errorCb({ isLoading, tx, isError, onTxError })
+    try {
+      tx.value = await exec(
+        account,
+        '',
+        cb,
+        args,
+        txCb(successCb(onSuccess), errorCb(onError), onResult)
+      )
+    } catch (e) {
+      onCatchError(e)
+    }
+  }
+
+function useMetaTransaction() {
+  const {
+    isLoading,
+    resolveStatus,
+    initTransactionLoader,
+    status,
+    stopLoader,
+  } = useTransactionStatus()
+  const tx = ref<ExecResult>()
+  const isError = ref(false)
+
+  const onResult = (res) => resolveStatus(res.status)
+  const onTxError = _onTxError({ isLoading, tx })
+  const params = { isLoading, tx, isError, onResult, onTxError }
+
   return {
-    howAboutToExecute,
+    howAboutToExecute: _howAboutToExecute(params),
     onTxError,
     initTransactionLoader,
     status,
