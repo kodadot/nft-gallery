@@ -187,6 +187,17 @@
       </div>
 
       <div
+        class="is-flex is-justify-content-space-between is-align-items-center mb-2">
+        <span class="is-size-7">{{ $t('transfers.networkFee') }}</span>
+        <div class="is-flex is-align-items-center">
+          <span class="is-size-7 has-text-grey mr-1"
+            >({{ displayTxFeeValue[0] }})</span
+          >
+          <span class="is-size-7">{{ displayTxFeeValue[1] }}</span>
+        </div>
+      </div>
+
+      <div
         class="is-flex is-justify-content-space-between is-align-items-center mb-6">
         <span class="has-text-weight-bold is-size-6">{{
           $t('spotlight.total')
@@ -232,10 +243,15 @@ import { isAddress } from '@polkadot/util-crypto'
 import { DispatchError } from '@polkadot/types/interfaces'
 
 import {
+  calculateExactUsdFromToken,
   calculateTokenFromUsd,
   calculateUsdFromToken,
 } from '@/utils/calculation'
-import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
+import exec, {
+  estimate,
+  execResultValue,
+  txCb,
+} from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import {
   calculateBalance,
@@ -306,6 +322,18 @@ const displayTotalValue = computed(() =>
   displayUnit.value === 'token'
     ? [`$${totalUsdValue.value}`, `${totalTokenAmount.value} ${unit.value}`]
     : [`${totalTokenAmount.value} ${unit.value}`, `$${totalUsdValue.value}`]
+)
+
+const txFee = ref<number>(0)
+
+const txFeeUsdValue = computed(() =>
+  calculateExactUsdFromToken(txFee.value, Number(currentTokenValue.value))
+)
+
+const displayTxFeeValue = computed(() =>
+  displayUnit.value === 'token'
+    ? [`$${txFeeUsdValue.value}`, `${txFee.value} ${unit.value}`]
+    : [`${txFee.value} ${unit.value}`, `$${txFeeUsdValue.value}`]
 )
 
 const balance = computed(() => identityStore.getAuthBalance)
@@ -502,6 +530,29 @@ const handleOpenConfirmModal = () => {
     isTransferModalVisible.value = true
   }
 }
+
+const getTransactionFee = async () => {
+  const api = await apiInstance.value
+  const cb = api.tx.balances.transfer
+  return estimate(accountId.value, cb, [
+    accountId.value,
+    String('1234000000000'),
+  ])
+}
+
+const calculateTransactionFee = async () => {
+  txFee.value = 0
+  const fee = await getTransactionFee()
+  txFee.value = Number((Number(fee) / Math.pow(10, decimals.value)).toFixed(4))
+}
+
+watch(
+  urlPrefix,
+  async () => {
+    calculateTransactionFee()
+  },
+  { immediate: true }
+)
 
 const submit = async (
   event: any,

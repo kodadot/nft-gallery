@@ -101,7 +101,8 @@
     "sendTo": "Sending to",
     "recipients": "recipients",
     "totalAmount": "Total Amount",
-    "transferable": "Transferable"
+    "transferable": "Transferable",
+    "networkFee": "Network fee"
   },
   "topCollections": {
     "timeFrames": {
