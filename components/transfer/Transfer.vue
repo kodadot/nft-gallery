@@ -303,7 +303,10 @@ const unit = ref(chainUnit.value)
 const selectedToken = computed(() =>
   tokens.value.find((t) => t.symbol === unit.value)
 )
-const decimals = computed(() => selectedToken.value?.tokenDecimals)
+
+const decimals = computed(
+  () => selectedToken.value?.tokenDecimals[urlPrefix.value]
+)
 
 const selectedTabFirst = ref(true)
 const tokenIcon = computed(() => getTokenIconBySymbol(unit.value))
@@ -340,13 +343,19 @@ const handleTokenSelect = (newToken: string) => {
     return
   }
 
-  const isTokenAvailableForCurrentChain = isTokenValidForChain(token.symbol)
+  const isTokenAvailableForCurrentChain = isTokenValidForChain(
+    token.symbol,
+    urlPrefix.value
+  )
 
-  if (!isTokenAvailableForCurrentChain) {
+  if (isTokenAvailableForCurrentChain) {
+    unit.value = token.symbol
     return
   }
 
-  unit.value = token.symbol
+  routerReplace({
+    params: { prefix: token.defaultChain },
+  })
 }
 
 const generateTokenTabs = (
@@ -580,7 +589,7 @@ const submit = async (
   try {
     const api = await apiInstance.value
 
-    const tokenId = selectedToken.value?.tokenId || null
+    const tokenId = selectedToken.value?.tokenIds[urlPrefix.value] || null
     const tokenTransfer = !!tokenId
 
     const numOfTargetAddresses = targetAddresses.value.length
@@ -695,7 +704,7 @@ const addAddress = () => {
 const syncQueryToken = () => {
   const token = route.query.token?.toString()
 
-  if (!isTokenValidForChain(token)) {
+  if (!isTokenValidForChain(token, urlPrefix.value)) {
     return
   }
 
@@ -714,7 +723,7 @@ onMounted(() => {
   fetchFiatPrice().then(checkQueryParams)
 })
 
-const routerReplace = ({ params = {}, query }) => {
+const routerReplace = ({ params = {}, query = {} }) => {
   router
     .replace({
       params: params,

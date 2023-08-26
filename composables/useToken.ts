@@ -1,13 +1,18 @@
 import { useFiatStore } from '@/stores/fiat'
-import { CHAINS } from '@kodadot1/static'
+import { CHAINS, type Prefix } from '@kodadot1/static'
 import { networkToPrefix, useIdentityStore } from '@/stores/identity'
+import { defultTokenChain } from '@/utils/config/chain.config'
 
+type TokenDecimals = Record<Prefix, number>
+type TokenIds = Record<Prefix, string | undefined>
 export interface TokenDetails {
   symbol: string
   value: number | string | null
   icon: string
-  tokenDecimals: number
-  tokenId: string | undefined
+  chains: Prefix[]
+  defaultChain: Prefix
+  tokenDecimals: TokenDecimals
+  tokenIds: TokenIds
 }
 
 const getAssetToken = (asset) => asset?.token || 'KSM'
@@ -17,38 +22,57 @@ export default function useToken() {
   const { getCurrentTokenValue } = useFiatStore()
   const { getTokenIconBySymbol } = useIcon()
   const { getAvailableAssets } = useIdentityStore()
-  const { urlPrefix } = usePrefix()
 
-  const availableAssets = computed(() => {
-    return getAvailableAssets.filter((asset) => {
-      if (asset.chain === 'kusama') {
-        return ['rmrk', 'ksm'].includes(urlPrefix.value)
-      }
-      return urlPrefix.value === networkToPrefix[asset.chain]
-    })
-  })
-
-  const availableTokens = computed(() =>
+  const availableAssets = computed(() => getAvailableAssets)
+  const availableTokensAcrossAllChains = computed(() =>
     getUniqueArrayItems(Object.values(availableAssets.value).map(getAssetToken))
   )
 
-  const getAvailableAssetByToken = (token: string) =>
-    Object.values(availableAssets.value).find(
+  const getMatchingAvailableAssetsByToken = (token: string) => {
+    return Object.values(availableAssets.value).filter(
       (asset) => token === getAssetToken(asset)
     )
+  }
+
+  const getTokenChains = (token: string): Prefix[] => {
+    return getMatchingAvailableAssetsByToken(token).map(
+      (asset) => networkToPrefix[asset.chain] as Prefix
+    )
+  }
+
+  const getChainTokenIds = (token: string) => {
+    return getMatchingAvailableAssetsByToken(token).reduce((reducer, asset) => {
+      const chainPrefix = networkToPrefix[asset.chain]
+      return { ...reducer, [chainPrefix]: asset.tokenId }
+    }, {} as TokenIds)
+  }
 
   const tokens = computed<TokenDetails[]>(() => {
-    return availableTokens.value.map((tokenSymbol) => ({
-      symbol: tokenSymbol as string,
-      value: getCurrentTokenValue(tokenSymbol),
-      icon: getTokenIconBySymbol(tokenSymbol),
-      tokenDecimals: CHAINS[urlPrefix.value].tokenDecimals,
-      tokenId: getAvailableAssetByToken(tokenSymbol)?.tokenId,
-    }))
+    return availableTokensAcrossAllChains.value.map((tokenSymbol) => {
+      const chains = getTokenChains(tokenSymbol)
+      const tokenDecimals = Object.fromEntries(
+        chains.map((chain) => [chain, CHAINS[chain].tokenDecimals])
+      ) as TokenDecimals
+
+      return {
+        symbol: tokenSymbol as string,
+        value: getCurrentTokenValue(tokenSymbol),
+        icon: getTokenIconBySymbol(tokenSymbol),
+        chains: chains,
+        defaultChain: defultTokenChain[tokenSymbol],
+        tokenDecimals: tokenDecimals,
+        tokenIds: getChainTokenIds(tokenSymbol),
+      }
+    })
   })
 
-  const isTokenValidForChain = (token: string) =>
-    !!token && availableTokens.value.includes(token)
+  const isTokenValidForChain = (token: string, urlPrefix: Prefix) => {
+    const isValidToken = availableTokensAcrossAllChains.value.includes(token)
+    const isAvailableForCurrentChain = tokens.value
+      .map((t) => t.chains.includes(urlPrefix) && t.symbol === token)
+      .some(Boolean)
+    return !!token && isValidToken && isAvailableForCurrentChain
+  }
 
   return {
     tokens,
