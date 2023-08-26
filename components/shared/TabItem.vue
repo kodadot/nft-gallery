@@ -6,7 +6,7 @@
       :no-shadow="noShadow"
       :active="active"
       :to="to"
-      :icon="icon">
+      :icon="active && !slots ? 'check' : ''">
       <slot>
         <span> {{ text }}</span>
       </slot>
@@ -33,6 +33,9 @@ withDefaults(
     icon: '',
   }
 )
+
+const slots = useSlots()
+console.log(slots)
 </script>
 
 <style scoped lang="scss">
