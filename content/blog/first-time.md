@@ -73,7 +73,7 @@ KodaDot supports Hot Module Replacement on docker; any changes made will take ef
 
 To enhance your workflow with our repository, we suggest making use of the [GitHub CLI](https://cli.github.com/) to initiate a pull request. This is particularly beneficial since we offer a selection of predefined templates for your convenience.
 
-To get started ensure that you are authenticated on the github CLI and the remote repository has been set. You can find a quickstart guide [here](https://docs.github.com/en/github-cli/github-cli/quickstart).
+To get started ensure that you are authenticated on the GitHub CLI and the remote repository has been set. You can find a quickstart guide [here](https://docs.github.com/en/github-cli/github-cli/quickstart).
 
 1. To submit a new pull request use the command in your terminal:
 
@@ -99,7 +99,7 @@ Creating pull request for username:example-branch into main in kodadot/nft-galle
 
 4. Once you have edited the template, submit your pull request. 🚀
 
-Alternatively, if you cannot use GitHub Cli, you can find the templates [here](https://github.com/kodadot/nft-gallery/tree/main/.github/PULL_REQUEST_TEMPLATE) and create a pull request on github.
+Alternatively, if you cannot use GitHub CLI, you can find the templates [here](https://github.com/kodadot/nft-gallery/tree/main/.github/PULL_REQUEST_TEMPLATE) and create a pull request on github.
 
 ## Dev hacks (FAQ) 🦇
 
