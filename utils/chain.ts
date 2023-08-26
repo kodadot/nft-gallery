@@ -56,3 +56,23 @@ export const availablePrefixWithIcon = () => {
     }
   })
 }
+
+// https://hello.kodadot.xyz/multi-chain/fees/assethub-fees
+export const depositAmount = {
+  ahk: {
+    collection: 0.1,
+    nft: 0.001,
+  },
+  ahp: {
+    collection: 10,
+    nft: 0.01,
+  },
+  bsx: {
+    collection: 0.0067,
+    nft: 0.0067,
+  },
+  snek: {
+    collection: 0.0067,
+    nft: 0.0067,
+  },
+}

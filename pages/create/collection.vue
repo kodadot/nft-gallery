@@ -108,10 +108,10 @@
             </div>
           </NeoField>
 
-          <div v-if="isBasilisk">
+          <div v-if="isBasilisk || isAssetHub">
             <hr class="my-6" />
             <NeoField>
-              <div>
+              <div class="monospace">
                 <p class="has-text-weight-medium is-size-6 has-text-info">
                   <span>{{ $t('mint.deposit') }}:</span>
                   <span>{{ collectionDeposit }} {{ balanceSymbol }}</span>
@@ -127,11 +127,16 @@
           <hr class="my-6" />
 
           <!-- create collection button -->
-          <SubmitButton
-            expanded
-            label="create collection"
-            type="submit"
-            :loading="isLoading" />
+          <NeoField
+            variant="danger"
+            :message="`${canDeposit ? '' : $t('tooltip.notEnoughBalance')}`">
+            <SubmitButton
+              expanded
+              label="create collection"
+              type="submit"
+              :loading="isLoading"
+              :disabled="!canDeposit" />
+          </NeoField>
         </form>
       </div>
     </div>
@@ -157,13 +162,9 @@ import {
 } from '@kodadot1/brick'
 import DropUpload from '@/components/shared/DropUpload.vue'
 import SubmitButton from '@/components/base/SubmitButton.vue'
-import { availablePrefixWithIcon } from '@/utils/chain'
+import { availablePrefixWithIcon, depositAmount } from '@/utils/chain'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import {
-  getMetadataDeposit,
-  getclassDeposit,
-} from '@/components/unique/apiConstants'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
 import { balanceOf } from '@kodadot1/sub-api'
 import { CHAINS } from '@kodadot1/static'
@@ -187,6 +188,9 @@ const symbol = ref('')
 const balance = ref()
 const balanceSymbol = ref()
 const collectionDeposit = ref()
+const canDeposit = computed(() => {
+  return parseFloat(balance.value) >= parseFloat(collectionDeposit.value)
+})
 
 const menus = availablePrefixWithIcon().filter(
   (menu) => menu.value !== 'movr' && menu.value !== 'glmr'
@@ -202,6 +206,10 @@ const isKusama = computed(
 
 const isBasilisk = computed(
   () => currentChain.value === 'bsx' || currentChain.value === 'snek'
+)
+
+const isAssetHub = computed(
+  () => currentChain.value === 'ahk' || currentChain.value === 'ahp'
 )
 
 const createCollection = async () => {
@@ -223,6 +231,10 @@ const createCollection = async () => {
     collection['symbol'] = symbol.value
   }
 
+  if (collectionDeposit.value && canDeposit.value === false) {
+    return
+  }
+
   try {
     await transaction(
       {
@@ -239,15 +251,8 @@ const createCollection = async () => {
 }
 
 watchEffect(async () => {
-  const api = await apiInstanceByPrefix(currentChain.value)
   collectionDeposit.value = 0
-
-  if (isBasilisk.value) {
-    const classDeposit = getclassDeposit(api)
-    const metadataDeposit = getMetadataDeposit(api)
-
-    collectionDeposit.value = format(classDeposit + metadataDeposit, 12, false)
-  }
+  collectionDeposit.value = depositAmount[currentChain.value]?.collection || 0
 })
 
 watchEffect(async () => {
