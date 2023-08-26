@@ -93,7 +93,9 @@
           </NeoField>
 
           <!-- collection symbol -->
-          <NeoField v-if="isKusama" :label="$t('mint.collection.symbol.label')">
+          <NeoField
+            v-if="isKusama"
+            :label="`${$t('mint.collection.symbol.label')} *`">
             <div>
               <p>{{ $t('mint.collection.symbol.message') }}</p>
               <NeoInput
@@ -180,6 +182,10 @@ const createCollection = async () => {
 
   if (isBasilisk.value) {
     collection['tags'] = []
+  }
+
+  if (isKusama.value) {
+    collection['symbol'] = symbol.value
   }
 
   try {
