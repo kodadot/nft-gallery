@@ -55,14 +55,17 @@
             </div>
           </NeoStepItem>
         </NeoSteps>
+        <div v-if="activeStep === 2" class="text-align-center has-text-grey">
+          {{ `Est. waiting time ~ ${estmiatedTimeLeft}` }}
+        </div>
         <div class="is-flex is-justify-content-center">
           <NeoButton
             v-if="isFinalStep"
+            v-safe-href="explorerLink"
             tag="a"
             target="_blank"
             no-shadow
             rounded
-            :href="explorerLink"
             :label="$i18n.t('transactionLoader.showTransaction')" />
         </div>
       </div>
@@ -91,6 +94,18 @@ const props = withDefaults(
 const emit = defineEmits(['close'])
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
+const { blocktime } = useBlockTime()
+
+const estmiatedTimeLeft = computed(() => {
+  switch (props.status) {
+    case TransactionStatus.Broadcast:
+      return 3 * blocktime.value
+    case TransactionStatus.Block:
+      return 2 * blocktime.value
+    default:
+      return 0
+  }
+})
 
 const explorerLink = computed(() => {
   const explorerBaseUrl = chainPropListOf(urlPrefix.value).blockExplorer
@@ -130,7 +145,9 @@ const congrats = '/congrats-message-header.svg'
 const isFinalStep = computed(() => activeStep.value === steps.length)
 
 const checkIconForStep = (step: number) =>
-  activeStep.value > step || step === steps.length ? 'check' : undefined
+  activeStep.value > step || activeStep.value === steps.length
+    ? 'check'
+    : undefined
 </script>
 
 <style scoped lang="scss">

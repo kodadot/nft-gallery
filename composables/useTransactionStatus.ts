@@ -1,6 +1,7 @@
 import { ExtrinsicStatus } from '@polkadot/types/interfaces'
 
 export enum TransactionStatus {
+  Broadcast = 'loader.broadcast',
   Casting = 'loader.casting',
   Sign = 'loader.sign',
   Block = 'loader.block',
@@ -17,6 +18,10 @@ function useTransactionStatus() {
     extrinsicStatus: ExtrinsicStatus,
     omitFinalized?: boolean
   ): void => {
+    if (extrinsicStatus.isBroadcast) {
+      status.value = TransactionStatus.Broadcast
+      return
+    }
     if (extrinsicStatus.isReady) {
       status.value = TransactionStatus.Casting
       return
