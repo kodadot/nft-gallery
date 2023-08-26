@@ -35,7 +35,6 @@ export default function () {
     return chainProperties.value.blockExplorer ?? 'https://kusama.subscan.io/'
   })
 
-  const chainPropertiesOf = (token: string) => chainPropListOf(token as Prefix)
   return {
     decimals,
     unit,
@@ -44,6 +43,5 @@ export default function () {
     availableChains,
     chainSymbol,
     blockExplorer,
-    chainPropertiesOf,
   }
 }
