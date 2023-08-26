@@ -99,6 +99,19 @@ const depositOfToken = computed(() =>
   getDeposit(feesToken.value, parseFloat(collectionDeposit.value))
 )
 
+const { transaction, status, isLoading, blockNumber } = useTransaction()
+watch([isLoading, status], () => {
+  isTransactionLoading.value = isLoading.value
+  if (Boolean(status.value)) {
+    transactionStatus.value = status.value
+  }
+})
+watch(blockNumber, (block) => {
+  if (block) {
+    emit('created')
+  }
+})
+
 async function submit(): Promise<void> {
   // check fields
   if (!checkValidity()) {
@@ -114,19 +127,6 @@ async function submit(): Promise<void> {
   }
   isTransactionLoading.value = true
   transactionStatus.value = 'loader.checkBalance'
-
-  const { transaction, status, isLoading, blockNumber } = useTransaction()
-  watch([isLoading, status], () => {
-    isTransactionLoading.value = isLoading.value
-    if (Boolean(status.value)) {
-      transactionStatus.value = status.value
-    }
-  })
-  watch(blockNumber, (block) => {
-    if (block) {
-      emit('created')
-    }
-  })
 
   try {
     showNotification(
