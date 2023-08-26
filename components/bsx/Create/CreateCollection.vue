@@ -50,6 +50,12 @@ import { BaseCollectionType } from '@/composables/transaction/types'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { Token, getBalance, getDeposit, getFeesToken } from './utils'
 import { NeoField } from '@kodadot1/brick'
+import Loader from '@/components/shared/Loader.vue'
+import BaseCollectionForm from '@/components/base/BaseCollectionForm.vue'
+import SubmitButton from '@/components/base/SubmitButton.vue'
+import Money from '@/components/bsx/format/TokenMoney.vue'
+import AccountBalance from '@/components/shared/AccountBalance.vue'
+import MultiPaymentFeeButton from '@/components/bsx/specific/MultiPaymentFeeButton.vue'
 
 const emit = defineEmits(['created'])
 
@@ -59,15 +65,6 @@ const { apiUrl } = useApi()
 const { urlPrefix, tokenId } = usePrefix()
 const { status: transactionStatus, isLoading: isTransactionLoading } =
   useTransactionStatus()
-
-const Loader = () => import('@/components/shared/Loader.vue')
-const BaseCollectionForm = () =>
-  import('@/components/base/BaseCollectionForm.vue')
-const SubmitButton = () => import('@/components/base/SubmitButton.vue')
-const Money = () => import('@/components/bsx/format/TokenMoney.vue')
-const AccountBalance = () => import('@/components/shared/AccountBalance.vue')
-const MultiPaymentFeeButton = () =>
-  import('@/components/bsx/specific/MultiPaymentFeeButton.vue')
 
 const base = ref<BaseCollectionType>({
   name: '',
