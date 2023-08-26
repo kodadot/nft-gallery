@@ -21,8 +21,8 @@
         <span>Tx:</span>
         <div class="is-flex">
           <span>{{ `${$t('teleport.send')} ${totalUsdValue}$` }}</span>
-          <span class="has-text-grey ml-4">{{
-            `(${totalTokenAmount} ${token})`
+          <span class="has-text-grey ml-1 is-uppercase">{{
+            `(${totalTokenAmount} ${urlPrefix})`
           }}</span>
         </div>
 
@@ -73,7 +73,6 @@
 <script lang="ts" setup>
 import { NeoButton, NeoModal, NeoStepItem, NeoSteps } from '@kodadot1/brick'
 import { TransactionStatus } from '@/composables/useTransactionStatus'
-import { Prefix } from '@kodadot1/static'
 import { chainPropListOf } from '@/utils/config/chain.config'
 
 const props = withDefaults(
@@ -81,7 +80,6 @@ const props = withDefaults(
     status: TransactionStatus
     value: boolean
     totalTokenAmount: number
-    token: string
     totalUsdValue: number
     transactionId: string
     canCancel?: boolean
@@ -92,30 +90,10 @@ const props = withDefaults(
 )
 const emit = defineEmits(['close'])
 const { $i18n } = useNuxtApp()
-
-//  Transfer component reset the token to 'KSM' at the end of the transaction
-//  this causes the explorer url to become wrong
-//  this is a work around until
-//  https://github.com/kodadot/nft-gallery/issues/6944
-//  gets merged
-
-const internalToken = ref('')
-
-// preserve to token as it was before the transaction finalized
-watch(
-  () => props.token,
-  () => {
-    if (props.status !== TransactionStatus.Finalized) {
-      internalToken.value = props.token.toLocaleLowerCase()
-    }
-  },
-  { immediate: true }
-)
+const { urlPrefix } = usePrefix()
 
 const explorerLink = computed(() => {
-  const explorerBaseUrl = chainPropListOf(
-    internalToken.value as Prefix
-  ).blockExplorer
+  const explorerBaseUrl = chainPropListOf(urlPrefix.value).blockExplorer
   return `${explorerBaseUrl}extrinsic\\${props.transactionId}`
 })
 

@@ -11,7 +11,6 @@
         v-model="isLoaderModalVisible"
         :status="status"
         :total-token-amount="totalTokenAmount"
-        :token="unit"
         :transaction-id="transactionValue"
         :total-usd-value="totalUsdValue"
         @close="isLoaderModalVisible = false" />
@@ -309,10 +308,6 @@ const displayUnit = ref<'token' | 'usd'>('token')
 const { getTokenIconBySymbol } = useIcon()
 const { tokens, getPrefixByToken, availableTokens } = useToken()
 
-watch(transactionValue, () => {
-  console.log('transactionValue', transactionValue.value)
-})
-
 const selectedTabFirst = ref(true)
 const tokenIcon = computed(() => getTokenIconBySymbol(unit.value))
 
@@ -561,15 +556,20 @@ const submit = async (
       cb,
       arg,
       txCb(
-        async (blockHash) => {
+        () => {
           transactionValue.value = execResultValue(tx)
-          const header = await api.rpc.chain.getHeader(blockHash)
-          const blockNumber = header.number.toString()
 
           targetAddresses.value = [{ address: '' }]
-          if (route.query && !route.query.donation) {
-            router.push(route.path)
-          }
+
+          // not sure what is the purpose of this
+          // but it causes the explorer url in Transaction Loader to become wrong
+          // after the transaction is finalized
+          // also causes:
+          //https://github.com/kodadot/nft-gallery/issues/6944
+
+          // if (route.query && !route.query.donation) {
+          //    router.push(route.path)
+          // }
 
           isLoading.value = false
         },
