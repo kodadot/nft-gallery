@@ -2,8 +2,7 @@
   <section>
     <div class="container">
       <div class="columns is-centered">
-        <div class="column is-half">
-          {{ currentChain }}
+        <form class="column is-half" @submit.prevent="createCollection">
           <h2 class="title is-size-3">
             {{ $t('mint.collection.create') }}
           </h2>
@@ -73,7 +72,10 @@
           </NeoField>
 
           <!-- collection max nfts -->
-          <NeoField :label="$t('Maximum NFTs in collection')" required>
+          <NeoField
+            v-if="!isBasilisk"
+            :label="$t('Maximum NFTs in collection')"
+            required>
             <div class="w-full">
               <div class="is-flex is-justify-content-space-between">
                 <p>{{ $t('mint.unlimited') }}</p>
@@ -106,16 +108,20 @@
           <hr class="my-6" />
 
           <!-- create collection button -->
-          <NeoField variant="danger">
-            <SubmitButton expanded label="create collection" />
-          </NeoField>
-        </div>
+          <SubmitButton expanded label="create collection" type="submit" />
+        </form>
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import type {
+  CollectionToMintBasilisk,
+  CollectionToMintKusama,
+  CollectionToMintStatmine,
+} from '@/composables/transaction/types'
+
 import {
   NeoButton,
   NeoDropdown,
@@ -128,6 +134,8 @@ import {
 import DropUpload from '@/components/shared/DropUpload.vue'
 import SubmitButton from '@/components/base/SubmitButton.vue'
 import { availablePrefixWithIcon } from '@/utils/chain'
+import { Interaction } from '@kodadot1/minimark/v1'
+import { notificationTypes, showNotification } from '@/utils/notification'
 
 const logo = ref<File | null>(null)
 const name = ref('')
@@ -141,14 +149,50 @@ const menus = availablePrefixWithIcon().filter(
 )
 const selectBlockchain = ref(menus[0])
 const currentChain = computed(() => {
-  return selectBlockchain.value.value
+  return selectBlockchain.value.value as string
 })
 
 const isKusama = computed(
   () => currentChain.value === 'ksm' || currentChain.value === 'rmrk'
 )
 
-console.log(menus)
+const isBasilisk = computed(
+  () => currentChain.value === 'bsx' || currentChain.value === 'snek'
+)
+
+const createCollection = async () => {
+  const { transaction, status, isLoading, blockNumber } = useTransaction()
+
+  try {
+    let collection:
+      | CollectionToMintBasilisk
+      | CollectionToMintKusama
+      | CollectionToMintStatmine = {
+      file: logo.value,
+      name: name.value,
+      description: description.value,
+      nftCount: unlimited.value ? 0 : max.value,
+    }
+
+    if (isBasilisk.value) {
+      collection['tags'] = []
+    }
+
+    await transaction(
+      {
+        interaction: Interaction.MINT,
+        urlPrefix: currentChain.value,
+        collection: collection,
+      },
+      currentChain.value
+    )
+
+    console.log('done')
+  } catch (error) {
+    showNotification(`[ERR] ${error}`, notificationTypes.warn)
+    console.error(error)
+  }
+}
 </script>
 
 <style lang="scss">
