@@ -100,8 +100,9 @@ import {
   NeoTooltip,
 } from '@kodadot1/brick'
 import { formatToNow } from '@/utils/format/time'
-import formatBalance from '@/utils/format/balance'
+import formatBalance, { withoutDigitSeparator } from '@/utils/format/balance'
 import { parseDate } from '@/utils/datetime'
+import { getApproximatePriceOf } from '@/utils/coingecko'
 
 import type { Interaction } from '@/components/rmrk/service/scheme'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
@@ -113,6 +114,11 @@ const dprops = defineProps<{
 
 const { decimals, chainSymbol } = useChain()
 const { urlPrefix } = usePrefix()
+const tokenPrice = ref(0)
+
+onMounted(async () => {
+  tokenPrice.value = await getApproximatePriceOf(chainSymbol.value)
+})
 
 const interaction =
   urlPrefix.value === 'ksm'
@@ -159,7 +165,12 @@ watchEffect(() => {
 })
 
 const formatPrice = (price) => {
-  return formatBalance(price, decimals.value, false)
+  const tokenAmount = formatBalance(price, decimals.value, false)
+  const flatPrice = `${Math.round(
+    Number(withoutDigitSeparator(tokenAmount)) * tokenPrice.value
+  )}`
+
+  return `${tokenAmount}($${flatPrice})`
 }
 </script>
 <style lang="scss" scoped>
