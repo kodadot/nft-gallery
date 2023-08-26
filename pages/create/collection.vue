@@ -167,7 +167,7 @@ import { Interaction } from '@kodadot1/minimark/v1'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
 import { balanceOf } from '@kodadot1/sub-api'
-import { CHAINS } from '@kodadot1/static'
+import { CHAINS, Prefix } from '@kodadot1/static'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 import format from '@/utils/format/balance'
 
@@ -175,6 +175,7 @@ import format from '@/utils/format/balance'
 const { accountId } = useAuth()
 const { apiInstanceByPrefix } = useApi()
 const { transaction, status, isLoading } = useTransaction()
+const { urlPrefix, setUrlPrefix } = usePrefix()
 
 // form state
 const logo = ref<File | null>(null)
@@ -195,10 +196,14 @@ const canDeposit = computed(() => {
 const menus = availablePrefixWithIcon().filter(
   (menu) => menu.value !== 'movr' && menu.value !== 'glmr'
 )
-const selectBlockchain = ref(menus[0])
+const chainByPrefix = menus.find((menu) => menu.value === urlPrefix.value)
+const selectBlockchain = ref(chainByPrefix || menus[0])
+
 const currentChain = computed(() => {
   return selectBlockchain.value.value as string
 })
+
+watchEffect(() => setUrlPrefix(currentChain.value as Prefix))
 
 const isKusama = computed(
   () => currentChain.value === 'ksm' || currentChain.value === 'rmrk'
@@ -236,6 +241,12 @@ const createCollection = async () => {
   }
 
   try {
+    showNotification(
+      `Creating Collection: "${name.value}"`,
+      notificationTypes.info
+    )
+    isLoading.value = true
+
     await transaction(
       {
         interaction: Interaction.MINT,
