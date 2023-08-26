@@ -99,13 +99,14 @@ export const useTransaction = () => {
     useExecuteTransaction()
 
   const transaction = async (item: Actions, prefix = '') => {
+    isLoading.value = true
+    status.value = 'loader.sign'
+
     let api = await apiInstance.value
 
     if (prefix) {
       api = await apiInstanceByPrefix(prefix)
     }
-
-    console.log('api', api)
 
     const map = {
       [Interaction.BUY]: () =>

@@ -2,6 +2,7 @@
   <section>
     <div class="container">
       <div class="columns is-centered">
+        <Loader v-model="isLoading" :status="status" />
         <form class="column is-half" @submit.prevent="createCollection">
           <h2 class="title is-size-3">
             {{ $t('mint.collection.create') }}
@@ -108,7 +109,11 @@
           <hr class="my-6" />
 
           <!-- create collection button -->
-          <SubmitButton expanded label="create collection" type="submit" />
+          <SubmitButton
+            expanded
+            label="create collection"
+            type="submit"
+            :loading="isLoading" />
         </form>
       </div>
     </div>
@@ -144,6 +149,8 @@ const unlimited = ref(true)
 const max = ref(1)
 const symbol = ref('')
 
+const { transaction, status, isLoading } = useTransaction()
+
 const menus = availablePrefixWithIcon().filter(
   (menu) => menu.value !== 'movr' && menu.value !== 'glmr'
 )
@@ -161,23 +168,21 @@ const isBasilisk = computed(
 )
 
 const createCollection = async () => {
-  const { transaction, status, isLoading, blockNumber } = useTransaction()
+  let collection:
+    | CollectionToMintBasilisk
+    | CollectionToMintKusama
+    | CollectionToMintStatmine = {
+    file: logo.value,
+    name: name.value,
+    description: description.value,
+    nftCount: unlimited.value ? 0 : max.value,
+  }
+
+  if (isBasilisk.value) {
+    collection['tags'] = []
+  }
 
   try {
-    let collection:
-      | CollectionToMintBasilisk
-      | CollectionToMintKusama
-      | CollectionToMintStatmine = {
-      file: logo.value,
-      name: name.value,
-      description: description.value,
-      nftCount: unlimited.value ? 0 : max.value,
-    }
-
-    if (isBasilisk.value) {
-      collection['tags'] = []
-    }
-
     await transaction(
       {
         interaction: Interaction.MINT,
@@ -186,8 +191,6 @@ const createCollection = async () => {
       },
       currentChain.value
     )
-
-    console.log('done')
   } catch (error) {
     showNotification(`[ERR] ${error}`, notificationTypes.warn)
     console.error(error)
