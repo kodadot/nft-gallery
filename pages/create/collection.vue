@@ -3,6 +3,7 @@
     <div class="container">
       <div class="columns is-centered">
         <div class="column is-half">
+          {{ currentChain }}
           <h2 class="title is-size-3">
             {{ $t('mint.collection.create') }}
           </h2>
@@ -88,6 +89,20 @@
             </div>
           </NeoField>
 
+          <!-- collection symbol -->
+          <NeoField v-if="isKusama" :label="$t('mint.collection.symbol.label')">
+            <div>
+              <p>{{ $t('mint.collection.symbol.message') }}</p>
+              <NeoInput
+                ref="symbolInput"
+                v-model="symbol"
+                :placeholder="$t('mint.collection.symbol.placeholder')"
+                maxlength="10"
+                required
+                expanded />
+            </div>
+          </NeoField>
+
           <hr class="my-6" />
 
           <!-- create collection button -->
@@ -119,11 +134,19 @@ const name = ref('')
 const description = ref('')
 const unlimited = ref(true)
 const max = ref(1)
+const symbol = ref('')
 
-const menus = availablePrefixWithIcon().filter((menu) => {
-  return menu.icon
-})
+const menus = availablePrefixWithIcon().filter(
+  (menu) => menu.value !== 'movr' && menu.value !== 'glmr'
+)
 const selectBlockchain = ref(menus[0])
+const currentChain = computed(() => {
+  return selectBlockchain.value.value
+})
+
+const isKusama = computed(
+  () => currentChain.value === 'ksm' || currentChain.value === 'rmrk'
+)
 
 console.log(menus)
 </script>
