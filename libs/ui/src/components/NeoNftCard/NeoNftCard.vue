@@ -14,7 +14,7 @@
           :key="nft.image"
           class="nft-media"
           :src="nft.image"
-          :animation-src="nft.animationUrl || nft.animation_url"
+          :animation-src="nft.animationUrl"
           :mime-type="nft.mimeType"
           :placeholder="placeholder"
           :title="nft?.name" />
