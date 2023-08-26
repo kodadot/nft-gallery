@@ -1,7 +1,6 @@
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { ChainProperties } from '@/utils/api/Query'
 import { availablePrefixes } from '@/utils/chain'
-import { Prefix } from '@kodadot1/static'
 
 export default function () {
   const { urlPrefix, tokenId, assets } = usePrefix()
