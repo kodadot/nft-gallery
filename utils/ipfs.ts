@@ -119,9 +119,9 @@ export const fetchMetadata = async <T>(
       return emptyObject<T>()
     }
 
-    const { status, data } = await api.get(sanitizer(rmrk.metadata))
+    const { status, _data } = await api.raw(sanitizer(rmrk.metadata))
     if (status < 400) {
-      return data as T
+      return _data as T
     }
   } catch (e) {
     console.warn('IPFS Err', e)
@@ -143,8 +143,7 @@ export const fetchCollectionMetadata = (
 export const preheatFileFromIPFS = (ipfsUrl: string) => {
   const url = sanitizeIpfsUrl(ipfsUrl, 'image')
   const hash = fastExtract(url)
-  api
-    .get(url)
+  api(url)
     .then(() => consola.log(`[PREHEAT] ${hash}`))
     .catch((err) => consola.warn(`[PREHEAT] ${hash} ${err.message}`))
 }
