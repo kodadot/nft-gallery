@@ -5,7 +5,7 @@
       <div class="is-flex">
         <NeoButton
           v-if="twitter"
-          icon="twitter"
+          icon="x-twitter"
           icon-pack="fab"
           class="square-32"
           @click.native="openUrl(`https://twitter.com/${twitter}`)" />
