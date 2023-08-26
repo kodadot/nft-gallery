@@ -29,7 +29,7 @@
 import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { downloadImage } from '@/utils/download'
-import { ipfsToCf } from '@/utils/ipfs'
+import { toOriginalContentUrl } from '@/utils/ipfs'
 
 const { $route, $i18n } = useNuxtApp()
 const { accountId } = useAuth()
@@ -45,7 +45,8 @@ const props = defineProps<{
 }>()
 
 const downloadMedia = () => {
-  props.ipfsImage && downloadImage(ipfsToCf(props.ipfsImage), props.name)
+  props.ipfsImage &&
+    downloadImage(toOriginalContentUrl(props.ipfsImage), props.name)
 }
 
 const burn = () => {

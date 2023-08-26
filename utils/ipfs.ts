@@ -182,3 +182,10 @@ export function toCloudflareIpfsUrl(baseurl) {
   const url = new URL(baseurl)
   return `https://cloudflare-ipfs.com/${url.pathname}`
 }
+
+export function toOriginalContentUrl(baseurl: string) {
+  const hasQueryString = baseurl.includes('?')
+  const separator = hasQueryString ? '&' : '?'
+  const originalContentSuffix = `${separator}original=true`
+  return `${baseurl}${originalContentSuffix}`
+}
