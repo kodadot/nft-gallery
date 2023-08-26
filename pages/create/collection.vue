@@ -113,13 +113,13 @@
             <NeoField>
               <div>
                 <p class="has-text-weight-medium is-size-6 has-text-info">
-                  {{ $t('mint.deposit') }}:
-                  <Money
-                    :value="collectionDeposit"
-                    :token-id="tokenId"
-                    inline />
+                  <span>{{ $t('mint.deposit') }}:</span>
+                  <span>{{ collectionDeposit }} {{ balanceSymbol }}</span>
                 </p>
-                <AccountBalance />
+                <p>
+                  <span>{{ $t('general.balance') }}: </span>
+                  <span>{{ balance }} {{ balanceSymbol }}</span>
+                </p>
               </div>
             </NeoField>
           </div>
@@ -144,6 +144,7 @@ import type {
   CollectionToMintKusama,
   CollectionToMintStatmine,
 } from '@/composables/transaction/types'
+import type { PalletBalancesAccountData } from '@polkadot/types/lookup'
 
 import {
   NeoButton,
@@ -163,12 +164,16 @@ import {
   getMetadataDeposit,
   getclassDeposit,
 } from '@/components/unique/apiConstants'
-import Money from '@/components/bsx/format/TokenMoney.vue'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
+import { balanceOf } from '@kodadot1/sub-api'
+import { CHAINS } from '@kodadot1/static'
+import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
+import format from '@/utils/format/balance'
 
 // composables
-const { transaction, status, isLoading } = useTransaction()
+const { accountId } = useAuth()
 const { apiInstanceByPrefix } = useApi()
+const { transaction, status, isLoading } = useTransaction()
 
 // form state
 const logo = ref<File | null>(null)
@@ -179,7 +184,8 @@ const max = ref(1)
 const symbol = ref('')
 
 // balance state
-// const balance = ref()
+const balance = ref()
+const balanceSymbol = ref()
 const collectionDeposit = ref()
 
 const menus = availablePrefixWithIcon().filter(
@@ -197,8 +203,6 @@ const isKusama = computed(
 const isBasilisk = computed(
   () => currentChain.value === 'bsx' || currentChain.value === 'snek'
 )
-
-const tokenId = computed(() => getKusamaAssetId(currentChain.value))
 
 const createCollection = async () => {
   let collection:
@@ -235,13 +239,46 @@ const createCollection = async () => {
 }
 
 watchEffect(async () => {
+  const api = await apiInstanceByPrefix(currentChain.value)
+  collectionDeposit.value = 0
+
   if (isBasilisk.value) {
-    const api = await apiInstanceByPrefix(currentChain.value)
     const classDeposit = getclassDeposit(api)
     const metadataDeposit = getMetadataDeposit(api)
 
-    collectionDeposit.value = classDeposit + metadataDeposit
+    collectionDeposit.value = format(classDeposit + metadataDeposit, 12, false)
   }
+})
+
+watchEffect(async () => {
+  balance.value = 0
+
+  const api = await apiInstanceByPrefix(currentChain.value)
+  const currentAddress = accountId.value
+  const chain = CHAINS[currentChain.value]
+  const publicKey = decodeAddress(currentAddress)
+  const prefixAddress = encodeAddress(publicKey, chain.ss58Format)
+  const chainInfo = await api.registry.getChainProperties()
+
+  let tokenId
+
+  if (currentChain.value === 'bsx') {
+    tokenId = getKusamaAssetId(currentChain.value)
+  }
+
+  if (tokenId) {
+    balance.value = (
+      (await api.query.tokens.accounts(
+        prefixAddress,
+        tokenId
+      )) as PalletBalancesAccountData
+    ).free.toString()
+  } else {
+    balance.value = await balanceOf(api, prefixAddress)
+  }
+
+  balance.value = format(balance.value, chain.tokenDecimals, false)
+  balanceSymbol.value = chainInfo?.tokenSymbol?.toHuman()?.[0]
 })
 </script>
 
