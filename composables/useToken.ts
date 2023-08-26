@@ -41,10 +41,12 @@ export default function useToken() {
   }
 
   const getChainTokenIds = (token: string) => {
-    return getMatchingAvailableAssetsByToken(token).reduce((reducer, asset) => {
-      const chainPrefix = networkToPrefix[asset.chain]
-      return { ...reducer, [chainPrefix]: asset.tokenId }
-    }, {} as TokenIds)
+    return Object.fromEntries(
+      getMatchingAvailableAssetsByToken(token).map((asset) => [
+        networkToPrefix[asset.chain],
+        asset.tokenId,
+      ])
+    ) as TokenIds
   }
 
   const tokens = computed<TokenDetails[]>(() => {
