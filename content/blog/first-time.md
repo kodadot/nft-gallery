@@ -99,7 +99,7 @@ Creating pull request for username:example-branch into main in kodadot/nft-galle
 
 4. Once you have edited the template, submit your pull request. 🚀
 
-Alternatively, if you cannot use GitHub Cli, please you can find the templates [here](https://github.com/kodadot/nft-gallery/tree/main/.github/PULL_REQUEST_TEMPLATE) and create a pull request on github.
+Alternatively, if you cannot use GitHub Cli, you can find the templates [here](https://github.com/kodadot/nft-gallery/tree/main/.github/PULL_REQUEST_TEMPLATE) and create a pull request on github.
 
 ## Dev hacks (FAQ) 🦇
 
