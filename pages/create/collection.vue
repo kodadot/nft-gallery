@@ -108,6 +108,22 @@
             </div>
           </NeoField>
 
+          <div v-if="isBasilisk">
+            <hr class="my-6" />
+            <NeoField>
+              <div>
+                <p class="has-text-weight-medium is-size-6 has-text-info">
+                  {{ $t('mint.deposit') }}:
+                  <Money
+                    :value="collectionDeposit"
+                    :token-id="tokenId"
+                    inline />
+                </p>
+                <AccountBalance />
+              </div>
+            </NeoField>
+          </div>
+
           <hr class="my-6" />
 
           <!-- create collection button -->
@@ -143,7 +159,18 @@ import SubmitButton from '@/components/base/SubmitButton.vue'
 import { availablePrefixWithIcon } from '@/utils/chain'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { notificationTypes, showNotification } from '@/utils/notification'
+import {
+  getMetadataDeposit,
+  getclassDeposit,
+} from '@/components/unique/apiConstants'
+import Money from '@/components/bsx/format/TokenMoney.vue'
+import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
+// composables
+const { transaction, status, isLoading } = useTransaction()
+const { apiInstanceByPrefix } = useApi()
+
+// form state
 const logo = ref<File | null>(null)
 const name = ref('')
 const description = ref('')
@@ -151,7 +178,9 @@ const unlimited = ref(true)
 const max = ref(1)
 const symbol = ref('')
 
-const { transaction, status, isLoading } = useTransaction()
+// balance state
+// const balance = ref()
+const collectionDeposit = ref()
 
 const menus = availablePrefixWithIcon().filter(
   (menu) => menu.value !== 'movr' && menu.value !== 'glmr'
@@ -168,6 +197,8 @@ const isKusama = computed(
 const isBasilisk = computed(
   () => currentChain.value === 'bsx' || currentChain.value === 'snek'
 )
+
+const tokenId = computed(() => getKusamaAssetId(currentChain.value))
 
 const createCollection = async () => {
   let collection:
@@ -193,7 +224,7 @@ const createCollection = async () => {
       {
         interaction: Interaction.MINT,
         urlPrefix: currentChain.value,
-        collection: collection,
+        collection,
       },
       currentChain.value
     )
@@ -202,6 +233,16 @@ const createCollection = async () => {
     console.error(error)
   }
 }
+
+watchEffect(async () => {
+  if (isBasilisk.value) {
+    const api = await apiInstanceByPrefix(currentChain.value)
+    const classDeposit = getclassDeposit(api)
+    const metadataDeposit = getMetadataDeposit(api)
+
+    collectionDeposit.value = classDeposit + metadataDeposit
+  }
+})
 </script>
 
 <style lang="scss">
