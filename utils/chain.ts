@@ -41,12 +41,12 @@ export const getAvailablePrefix = (prefix: string): string => {
 
 export const availablePrefixWithIcon = () => {
   const menus = {
-    ahk: '/chain/kusama_asset_hub.svg',
-    ahp: '/chain/polkadot_asset_hub.svg',
-    bsx: '/chain/basilisk.png',
-    snek: '/chain/basilisk.png',
-    ksm: '/chain/kusama.svg',
-    rmrk: '/chain/kusama.svg',
+    ahk: '/token/kusama_asset_hub.svg',
+    ahp: '/token/polkadot_asset_hub.svg',
+    bsx: '/token/bsx.svg',
+    snek: '/token/bsx.svg',
+    ksm: '/token/ksm.svg',
+    rmrk: '/token/ksm.svg',
   }
 
   return availablePrefixes().map((chain) => {
