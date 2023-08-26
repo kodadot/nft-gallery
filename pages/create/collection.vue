@@ -112,7 +112,7 @@ import {
 } from '@kodadot1/brick'
 import DropUpload from '@/components/shared/DropUpload.vue'
 import SubmitButton from '@/components/base/SubmitButton.vue'
-import { availablePrefixes } from '@/utils/chain'
+import { availablePrefixWithIcon } from '@/utils/chain'
 
 const logo = ref<File | null>(null)
 const name = ref('')
@@ -120,13 +120,12 @@ const description = ref('')
 const unlimited = ref(true)
 const max = ref(1)
 
-const menus = [
-  { icon: '/kusama_asset_hub_icon.svg', text: 'Kusama Asset Hub' },
-  { icon: '/polkadot_asset_hub_icon.svg', text: 'Polkadot Asset Hub' },
-]
+const menus = availablePrefixWithIcon().filter((menu) => {
+  return menu.icon
+})
 const selectBlockchain = ref(menus[0])
 
-console.log(availablePrefixes())
+console.log(menus)
 </script>
 
 <style lang="scss">
