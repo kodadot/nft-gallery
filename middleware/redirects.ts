@@ -29,9 +29,9 @@ export default function ({ redirect, route }): void {
       replaceValue: () => window.location.href.replace('/rmrk2/', '/ksm/'),
     },
     {
-      cond: (val) => val.includes('/transfer'),
+      cond: (val) => val.startsWith('/transfer'),
       replaceValue: () =>
-        window.location.href.replace('/transfer/', '/ksm/transfer'),
+        window.location.href.replace('/transfer', '/ksm/transfer'),
     },
   ]
 
