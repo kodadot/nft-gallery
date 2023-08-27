@@ -8,7 +8,7 @@ If everything goes well, chances that you will be **rewarded are high**.
 
 We might give retro-active reward, where the bounty label wasn't present, **if we like your contribution.**
 
-**For better coordination, please join our [Development channel (#coordination) on Discord](https://discord.gg/4CeHXamhqB)**
+**For better coordination, please join our [Development channel (#coordination) on [KodaDot Ecosystem Telegram](https://t.me/kodadot_eco)**
 
 ## Getting started
 
