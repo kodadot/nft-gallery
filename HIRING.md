@@ -38,7 +38,7 @@ You can [check recent issues by labels **p1** or **p2**](https://github.com/koda
 
 Once you've crossed **10-20 merged pull requests**, which were successfully merged to the upstream `main` branch, you will be **eligible to join our closer team**.
 
-Feel free to reach out `yangwao` on our Discord.
+Feel free to reach out `yangwao` on our [KodaDot Ecosystem Telegram](https://t.me/kodadot_eco).
 We are happy to give you **one or two long-term tasks** to see how you can tackle more challenging and complex issues.
 
 ### Reasoning
@@ -57,4 +57,4 @@ Landing job at KodaDot could result getting payroll on range between **40k-160k$
 
 #### Questions?
 
-Head's up to our [Discord - channel #jobs](https://dsc.gg/kodadot)
+Head's up to our [KodaDot Ecosystem Telegram](https://t.me/kodadot_eco)  ~~[Discord - channel #jobs](https://dsc.gg/kodadot)~~

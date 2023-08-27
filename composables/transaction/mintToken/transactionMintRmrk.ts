@@ -26,7 +26,7 @@ import {
 } from '../types'
 import { constructMeta } from './constructMeta'
 import { isRoyaltyValid } from '@/utils/royalty'
-import { calculateFees, copiesToMint } from './utils'
+import { calculateFees, copiesToMint, getNameInNotifications } from './utils'
 
 const getOnChainProperties = ({ tags, royalty, hasRoyalty }: TokenToMint) => {
   let onChainProperties = convertAttributesToProperties(tags)
@@ -151,9 +151,7 @@ export async function execMintRmrk({
   status.value = 'loader.ipfs'
   const { args, createdNFTs } = await getArgs(item, api)
 
-  const nameInNotifications = Array.isArray(item.token)
-    ? item.token.map((t) => t.name).join(', ')
-    : item.token.name
+  const nameInNotifications = getNameInNotifications(item)
 
   const isSingle = args.length === 1
   const cb = isSingle ? api.tx.system.remark : api.tx.utility.batchAll

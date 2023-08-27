@@ -1,12 +1,8 @@
-import type {
-  ActionMintToken,
-  MintTokenParams,
-  MintedCollection,
-  TokenToMint,
-} from '../types'
+import type { ActionMintToken, MintedCollection, TokenToMint } from '../types'
 import { isRoyaltyValid } from '@/utils/royalty'
 import { constructMeta } from './constructMeta'
 import { BaseMintedCollection } from '@/components/base/types'
+import { transactionFactory } from './utils'
 
 const prepareTokenMintArgs = async (
   token: TokenToMint,
@@ -60,34 +56,4 @@ const getArgs = async (item: ActionMintToken, api) => {
   return [arg]
 }
 
-export async function execMintBasilisk({
-  item,
-  api,
-  executeTransaction,
-  isLoading,
-  status,
-}: MintTokenParams) {
-  const { $i18n } = useNuxtApp()
-  isLoading.value = true
-  status.value = 'loader.ipfs'
-  const args = await getArgs(item, api)
-
-  const nameInNotifications = Array.isArray(item.token)
-    ? item.token.map((t) => t.name).join(', ')
-    : item.token.name
-
-  executeTransaction({
-    cb: api.tx.utility.batchAll,
-    arg: args,
-    successMessage:
-      item.successMessage ||
-      ((blockNumber) =>
-        $i18n.t('mint.mintNFTSuccess', {
-          name: nameInNotifications,
-          block: blockNumber,
-        })),
-    errorMessage:
-      item.errorMessage ||
-      $i18n.t('mint.errorCreateNewNft', { name: nameInNotifications }),
-  })
-}
+export const execMintBasilisk = transactionFactory(getArgs)
