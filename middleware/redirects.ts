@@ -3,7 +3,6 @@ export default function ({ redirect, route }): void {
 
   let redirectValue
 
-  console.log(route.path)
 
   const paths = [
     {
