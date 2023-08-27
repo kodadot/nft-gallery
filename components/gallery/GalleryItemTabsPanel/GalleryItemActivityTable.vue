@@ -21,7 +21,10 @@
         field="meta"
         :label="`${$t(`tabs.tabActivity.price`)} (${chainSymbol})`">
         <p v-if="Number(props.row.meta)">
-          {{ formatPrice(props.row.meta) }}
+          {{ formatPrice(props.row.meta)[0] }}
+          <span class="has-text-grey">
+            (${{ formatPrice(props.row.meta)[1] }})</span
+          >
         </p>
       </NeoTableColumn>
 
@@ -169,8 +172,7 @@ const formatPrice = (price) => {
   const flatPrice = `${Math.round(
     Number(withoutDigitSeparator(tokenAmount)) * tokenPrice.value
   )}`
-
-  return `${tokenAmount}($${flatPrice})`
+  return [tokenAmount, flatPrice]
 }
 </script>
 <style lang="scss" scoped>
