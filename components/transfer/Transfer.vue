@@ -243,7 +243,6 @@ import {
 } from '@/utils/format/balance'
 import { getNumberSumOfObjectField } from '@/utils/math'
 import { useFiatStore } from '@/stores/fiat'
-import { useIdentityStore } from '@/stores/identity'
 import Avatar from '@/components/shared/Avatar.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import { getMovedItemToFront } from '@/utils/objects'
