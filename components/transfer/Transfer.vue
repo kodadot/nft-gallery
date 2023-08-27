@@ -275,7 +275,7 @@ const Money = defineAsyncComponent(
 const route = useRoute()
 const router = useRouter()
 const { $consola, $i18n } = useNuxtApp()
-const { unit: chainUnit } = useChain()
+const { unit, decimals } = useChain()
 const { apiInstance } = useApi()
 const { urlPrefix } = usePrefix()
 const { isLogIn, accountId } = useAuth()
@@ -299,14 +299,6 @@ const displayUnit = ref<'token' | 'usd'>('token')
 const { getTokenIconBySymbol } = useIcon()
 
 const { tokens } = useToken()
-const unit = ref(chainUnit.value)
-const selectedToken = computed(() =>
-  tokens.value.find((t) => t.symbol === unit.value)
-)
-
-const decimals = computed(
-  () => selectedToken.value?.tokenDecimals[urlPrefix.value]
-)
 
 const selectedTabFirst = ref(true)
 const tokenIcon = computed(() => getTokenIconBySymbol(unit.value))
@@ -518,15 +510,11 @@ const getAmountToTransfer = (amount: number, decimals: number) =>
 interface TransferParams {
   api: ApiPromise
   decimals: number
-  tokenTransfer: boolean
-  tokenId: string
 }
 
 const getMultipleAddressesTransferParams = ({
   api,
   decimals,
-  tokenTransfer,
-  tokenId,
 }: TransferParams) => {
   const arg = [
     targetAddresses.value.map((target) => {
@@ -534,10 +522,6 @@ const getMultipleAddressesTransferParams = ({
         target.token as number,
         decimals
       )
-
-      if (tokenTransfer) {
-        return api.tx.tokens.transfer(target.address, tokenId, amountToTransfer)
-      }
 
       return api.tx.balances.transfer(
         target.address as string,
@@ -549,19 +533,10 @@ const getMultipleAddressesTransferParams = ({
   return [api.tx.utility.batch, arg]
 }
 
-const getSingleAddressTransferParams = ({
-  api,
-  decimals,
-  tokenTransfer,
-  tokenId,
-}: TransferParams) => {
+const getSingleAddressTransferParams = ({ api, decimals }: TransferParams) => {
   const target = targetAddresses.value[0]
 
   const amountToTransfer = getAmountToTransfer(target.token as number, decimals)
-
-  if (tokenTransfer) {
-    return [api.tx.tokens.transfer, [target.address, tokenId, amountToTransfer]]
-  }
 
   return [
     api.tx.balances.transfer,
@@ -579,9 +554,6 @@ const submit = async (
   try {
     const api = await apiInstance.value
 
-    const tokenId = selectedToken.value?.tokenIds[urlPrefix.value] || null
-    const tokenTransfer = !!tokenId
-
     const numOfTargetAddresses = targetAddresses.value.length
     const multipleAddresses = numOfTargetAddresses > 1
 
@@ -590,15 +562,11 @@ const submit = async (
     if (multipleAddresses) {
       ;[cb, arg] = getMultipleAddressesTransferParams({
         api,
-        tokenId: tokenId as string,
-        tokenTransfer,
         decimals: decimals.value as number,
       })
     } else {
       ;[cb, arg] = getSingleAddressTransferParams({
         api,
-        tokenId: tokenId as string,
-        tokenTransfer,
         decimals: decimals.value as number,
       })
     }
