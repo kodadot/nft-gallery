@@ -298,7 +298,7 @@ const sendSameAmount = ref(false)
 const displayUnit = ref<'token' | 'usd'>('token')
 const { getTokenIconBySymbol } = useIcon()
 
-const { tokens, isTokenValidForChain } = useToken()
+const { tokens } = useToken()
 const unit = ref(chainUnit.value)
 const selectedToken = computed(() =>
   tokens.value.find((t) => t.symbol === unit.value)
@@ -340,16 +340,6 @@ const handleTokenSelect = (newToken: string) => {
   const token = tokens.value.find((t) => t.symbol === newToken)
 
   if (!token) {
-    return
-  }
-
-  const isTokenAvailableForCurrentChain = isTokenValidForChain(
-    token.symbol,
-    urlPrefix.value
-  )
-
-  if (isTokenAvailableForCurrentChain) {
-    unit.value = token.symbol
     return
   }
 
@@ -701,24 +691,6 @@ const addAddress = () => {
   })
 }
 
-const syncQueryToken = () => {
-  const token = route.query.token?.toString()
-
-  if (!isTokenValidForChain(token, urlPrefix.value)) {
-    return
-  }
-
-  unit.value = token
-}
-
-watch(
-  route,
-  () => {
-    syncQueryToken()
-  },
-  { immediate: true, deep: true }
-)
-
 onMounted(() => {
   fetchFiatPrice().then(checkQueryParams)
 })
@@ -734,19 +706,6 @@ const routerReplace = ({ params = {}, query = {} }) => {
     })
     .catch(() => null) // null to further not throw navigation errors
 }
-
-watch(unit, (newToken) => {
-  routerReplace({ query: { token: newToken } })
-})
-
-watch(urlPrefix, (chain) => {
-  routerReplace({
-    params: { prefix: chain },
-    query: {
-      token: undefined,
-    },
-  })
-})
 
 watchDebounced(
   () => targetAddresses.value[0].usd,
