@@ -14,7 +14,7 @@
         v-slot="props"
         field="Type"
         label="Type"
-        class="type-table">
+        class="is-white-space-nowrap">
         {{ getEventDisplayName(props.row.Type) }}
       </NeoTableColumn>
       <NeoTableColumn

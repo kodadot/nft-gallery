@@ -27,7 +27,7 @@
       <span
         v-for="option in filteredChains"
         :key="option.value"
-        class="menu-item mr-2"
+        class="menu-item mr-2 is-white-space-nowrap"
         :value="option.value"
         @click="setSelectedChain(option.value)">
         {{ option.text }}
@@ -43,13 +43,15 @@ const { availableChains } = useChain()
 const emit = defineEmits(['closeMobileNavbar'])
 
 const filteredChains = computed(() => {
-  return availableChains?.value.filter((chain) => {
-    return ['ksm', 'bsx', 'rmrk'].includes(chain.value as string)
-  })
+  return ['ahk', 'ahp', 'ksm']
+    .map((prefix) =>
+      availableChains?.value.find((chain) => chain.value === prefix)
+    )
+    .filter(Boolean)
 })
 
 const setSelectedChain = (value) => {
   setUrlPrefix(value)
-  navigateTo(`/${value}/explore`)
+  navigateTo(`/${value}/explore/collectibles`)
 }
 </script>
