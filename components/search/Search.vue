@@ -218,7 +218,6 @@ function updatePriceRangeByQuery(minValue?: string, maxValue?: string) {
 function nativeSearch() {
   redirectToGalleryPageIfNeed()
   searchQuery.value = name.value
-  updateSearch(name.value)
 }
 
 function redirectToGalleryPageIfNeed(params?: Record<string, string>) {
