@@ -19,17 +19,6 @@ const DEFAULT_BALANCE_STATE = {
   ahp: '0',
 }
 
-export const networkToPrefix: Record<ChainType, Prefix> = {
-  polkadot: 'dot',
-  kusama: 'ksm',
-  statemint: 'ahp',
-  basilisk: 'bsx',
-  'basilisk-testnet': 'snek',
-  statemine: 'ahk',
-  moonriver: 'movr',
-  moonbeam: 'glmr',
-}
-
 export interface IdentityMap {
   [address: string]: Registration
 }
@@ -48,8 +37,6 @@ type ChainType =
   | 'basilisk-testnet'
   | 'statemine'
   | 'statemint'
-  | 'moonriver'
-  | 'moonbeam'
 
 type ChainDetail = {
   balance: string

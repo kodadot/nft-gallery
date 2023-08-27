@@ -67,11 +67,7 @@ import { calculateExactUsdFromToken } from '@/utils/calculation'
 import { getAssetIdByAccount } from '@/utils/api/bsx/query'
 import { toDefaultAddress } from '@/utils/account'
 
-import {
-  ChainToken,
-  networkToPrefix,
-  useIdentityStore,
-} from '@/stores/identity'
+import { ChainToken, useIdentityStore } from '@/stores/identity'
 
 import type { PalletBalancesAccountData } from '@polkadot/types/lookup'
 
@@ -85,6 +81,15 @@ const {
   multiBalanceAssetsTestnet,
   multiBalanceNetwork,
 } = storeToRefs(identityStore)
+
+const networkToPrefix = {
+  polkadot: 'dot',
+  kusama: 'ksm',
+  basilisk: 'bsx',
+  statemine: 'ahk',
+  'basilisk-testnet': 'snek',
+  statemint: 'ahp',
+}
 
 const isBalanceLoading = computed(
   () => identityStore.getStatusMultiBalances === 'loading'
