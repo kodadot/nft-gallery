@@ -1,7 +1,5 @@
 <template>
-  <NeoDropdown
-    animation=""
-    :triggers="!isMobileDevice ? ['hover', 'click'] : []">
+  <NeoDropdown animation="" :triggers="!isMobileDevice ? ['hover'] : []">
     <template #trigger>
       <div>
         <nuxt-link :to="`/${urlPrefix}/explore/collectibles`">
