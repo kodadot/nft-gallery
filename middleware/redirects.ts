@@ -38,7 +38,6 @@ export default function ({ redirect, route }): void {
   for (const path of paths) {
     if (path.cond(route.path)) {
       redirectValue = path.replaceValue()
-      console.log(route.path, redirectValue)
       break
     }
   }
