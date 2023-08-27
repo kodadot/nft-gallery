@@ -27,16 +27,18 @@
       <span
         v-for="option in filteredChains"
         :key="option.value"
-        class="menu-item mr-2 is-white-space-nowrap"
+        class="menu-item mr-2 is-white-space-nowrap is-capitalized"
         :value="option.value"
         @click="setSelectedChain(option.value)">
-        {{ option.text }}
+        {{ getChainNameByPrefix(option.value) }}
       </span>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { getChainNameByPrefix } from '@/utils/chain'
+
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { availableChains } = useChain()
 
