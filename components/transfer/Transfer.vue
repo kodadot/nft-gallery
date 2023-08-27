@@ -266,8 +266,8 @@ import {
 } from '@kodadot1/brick'
 import TransferTokenTabs, { TransferTokenTab } from './TransferTokenTabs.vue'
 import { TokenDetails } from '@/composables/useToken'
-import AddressInput from '../shared/AddressInput.vue'
-import TransactionLoader from '../shared/TransactionLoader.vue'
+import AddressInput from '@/components/shared/AddressInput.vue'
+import TransactionLoader from '@/components/shared/TransactionLoader.vue'
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
 )
