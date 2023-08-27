@@ -62,11 +62,7 @@
           }}</span>
           <div class="is-flex is-align-items-center">
             <img class="mr-2 is-32x32" :src="tokenIcon" alt="token" />
-            <Money
-              :value="balance"
-              :unit-symbol="unit"
-              :decimals="decimals"
-              inline />
+            <Money :value="balance" inline />
           </div>
 
           <span class="has-text-grey">≈ ${{ balanceUsdValue }}</span>
@@ -164,11 +160,7 @@
           <span
             v-if="displayUnit === 'token'"
             class="has-text-weight-bold is-size-6">
-            <Money
-              :value="balance"
-              :unit-symbol="unit"
-              :decimals="decimals"
-              inline />
+            <Money :value="balance" inline />
           </span>
           <span v-else class="has-text-weight-bold is-size-6"
             >{{ balanceUsdValue }} USD</span
@@ -251,6 +243,7 @@ import {
 } from '@/utils/format/balance'
 import { getNumberSumOfObjectField } from '@/utils/math'
 import { useFiatStore } from '@/stores/fiat'
+import { useIdentityStore } from '@/stores/identity'
 import Avatar from '@/components/shared/Avatar.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import { getMovedItemToFront } from '@/utils/objects'
@@ -279,10 +272,10 @@ const { unit, decimals } = useChain()
 const { apiInstance } = useApi()
 const { urlPrefix } = usePrefix()
 const { isLogIn, accountId } = useAuth()
+const { balance } = useBalance()
 const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
 const { initTransactionLoader, isLoading, resolveStatus, status } =
   useTransactionStatus()
-const { getBalance } = useBalance()
 const { toast } = useToast()
 const isTransferModalVisible = ref(false)
 
@@ -316,8 +309,6 @@ const displayTotalValue = computed(() =>
     ? [`$${totalUsdValue.value}`, `${totalTokenAmount.value} ${unit.value}`]
     : [`${totalTokenAmount.value} ${unit.value}`, `$${totalUsdValue.value}`]
 )
-
-const balance = computed(() => getBalance(unit.value) || 0)
 
 const disabled = computed(
   () =>

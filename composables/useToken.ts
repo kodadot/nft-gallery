@@ -16,9 +16,9 @@ const getUniqueArrayItems = (items: string[]) => [...new Set(items)]
 export default function useToken() {
   const { getCurrentTokenValue } = useFiatStore()
   const { getTokenIconBySymbol } = useIcon()
-  const { getAvailableAssets } = useIdentityStore()
+  const { multiBalanceAssets } = useIdentityStore()
 
-  const availableAssets = computed(() => getAvailableAssets)
+  const availableAssets = computed(() => multiBalanceAssets)
   const availableTokensAcrossAllChains = computed(() =>
     getUniqueArrayItems(Object.values(availableAssets.value).map(getAssetToken))
   )

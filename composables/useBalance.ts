@@ -4,9 +4,7 @@ import { getKusamaAssetId } from '@/utils/api/bsx/query'
 export default function () {
   const { urlPrefix } = usePrefix()
   const identityStore = useIdentityStore()
-
-  const getBalance = (token: string) => {
-    token = token.toLocaleLowerCase()
+  const balance = computed(() => {
     switch (urlPrefix.value) {
       case 'rmrk':
       case 'ksm':
@@ -15,22 +13,18 @@ export default function () {
       case 'dot':
         return identityStore.getAuthBalance
       case 'bsx':
-        return identityStore.multiBalances.chains.basilisk?.[token]
-          ?.nativeBalance
+        return identityStore.multiBalances.chains.basilisk?.ksm?.nativeBalance
       case 'snek':
-        return identityStore.multiBalances.chains['basilisk-testnet']?.[token]
+        return identityStore.multiBalances.chains['basilisk-testnet']?.ksm
           ?.nativeBalance
       default:
         return identityStore.getTokenBalanceOf(
           getKusamaAssetId(urlPrefix.value)
         )
     }
-  }
-
-  const balance = computed(() => getBalance('KSM'))
+  })
 
   return {
     balance,
-    getBalance,
   }
 }

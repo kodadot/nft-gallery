@@ -172,12 +172,6 @@ export const useIdentityStore = defineStore('identity', {
 
       return totalAssets < assets.length ? 'loading' : 'done'
     },
-    getAvailableAssets: (state) => {
-      const { isTestnet } = usePrefix()
-      return isTestnet.value
-        ? state.multiBalanceAssetsTestnet
-        : state.multiBalanceAssets
-    },
   },
   actions: {
     resetAuth() {

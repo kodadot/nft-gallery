@@ -25,7 +25,6 @@ const props = withDefaults(
     inline: boolean
     hideUnit?: boolean
     unitSymbol?: string
-    decimals?: number
     prefix?: Prefix
     round?: number
   }>(),
@@ -37,14 +36,12 @@ const props = withDefaults(
   }
 )
 
-const { decimals: chainDecimals, unit } = useChain()
+const { decimals, unit } = useChain()
 
 const tokenDecimals = computed(() =>
   props.prefix ? chainPropListOf(props.prefix).tokenDecimals : decimals.value
 )
 const displayUnit = computed(() => props.unitSymbol || unit.value)
-const decimals = computed(() => props.decimals || chainDecimals.value)
-
 const finalValue = computed(() =>
   round(
     formatBalance(
