@@ -70,8 +70,6 @@ watch(urlPrefix, () => checkRouteAvailability())
 onBeforeMount(() => {
   checkRouteAvailability()
 })
-
-console.log('drops', statemintDrops)
 </script>
 
 <style lang="scss" scoped>
