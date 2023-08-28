@@ -347,30 +347,25 @@ const queryVariables = computed(() => {
   }
 })
 
-const selectedItemListMap = computed(() => {
-  return {
-    Trending: defaultCollectionSuggestions,
-    Collections: collectionSuggestion,
-    NFTs: nftSuggestion,
-  }
-})
+const selectedItemListMap = computed(() => ({
+  Trending: defaultCollectionSuggestions,
+  Collections: collectionSuggestion,
+  NFTs: nftSuggestion,
+}))
 
-const chainSymbol = computed(() => {
-  const { chainSymbol } = useChain()
-  return chainSymbol.value
-})
-
+const { chainSymbol } = useChain()
 const router = useRouter()
 const route = useRoute()
 const { $consola, $apollo } = useNuxtApp()
 
 const updateSearchUrl = () => {
-  if (props.name) {
+  const { name } = props
+  if (name) {
     router
       .replace({
         path: String(route.path),
         query: {
-          search: props.name,
+          search: name,
         },
       })
       .catch($consola.warn)
@@ -409,7 +404,7 @@ const nativeSearch = () => {
       gotoGalleryItem(selectedItemListMap.value['NFTs'][selectedIndex.value])
     } else {
       gotoCollectionItem(
-        selectedItemListMap['Collections'][selectedIndex.value]
+        selectedItemListMap.value['Collections'][selectedIndex.value]
       )
     }
   }
@@ -427,7 +422,7 @@ const resetSelectedIndex = () => {
 const { urlPrefix, client } = usePrefix()
 
 const gotoGalleryItem = (item: NFTWithMeta) => {
-  router.push(`/${urlPrefix}/gallery/${item.id}`)
+  router.push(`/${urlPrefix.value}/gallery/${item.id}`)
   emit('close', item)
 }
 
@@ -436,7 +431,7 @@ const gotoCollectionItem = (item: CollectionWithMeta) => {
   if (searchString.value) {
     insertNewHistory()
   }
-  const prefix = item.chain || urlPrefix
+  const prefix = item.chain || urlPrefix.value
   router.push(`/${prefix}/collection/${item.collection_id || item.id}`)
   emit('close', item)
 }
@@ -525,8 +520,8 @@ const updateSuggestion = useDebounceFn(async (value: string) => {
   isNFTResultLoading.value = true
   query.value.search = value
   searchString.value = value
-  updateNftSuggestion()
-  updateCollectionSuggestion(value)
+  await updateNftSuggestion()
+  await updateCollectionSuggestion(value)
 }, 200)
 
 const updateNftSuggestion = async () => {
@@ -557,11 +552,10 @@ const updateNftSuggestion = async () => {
       })
     })
     nftResult.value = result
-    isNFTResultLoading.value = false
   } catch (e) {
     logError(e, (msg) => $consola.warn('[PREFETCH] Unable fo fetch', msg))
-    isNFTResultLoading.value = false
   }
+  isNFTResultLoading.value = false
 }
 
 const updateCollectionSuggestion = async (value: string) => {
@@ -588,45 +582,41 @@ const updateCollectionSuggestion = async (value: string) => {
       fetchCollectionStats(collectionWithImages, i)
     })
     collectionResult.value = collectionWithImagesList
-    isCollectionResultLoading.value = false
   } catch (e) {
     logError(e, (msg) => $consola.warn('[PREFETCH] Unable fo fetch', msg))
-    isCollectionResultLoading.value = false
   }
+  isCollectionResultLoading.value = false
 }
 
 const fetchCollectionStats = async (
   collection: CollectionWithMeta,
   index: number
 ) => {
-  return new Promise(async (resolve) => {
-    const _client = collection.chain || client.value
-    const queryCollection = await resolveQueryPath(
-      _client === 'ksm' ? 'chain-rmrk' : 'subsquid',
-      'collectionStatsById'
-    )
-    const { data } = await $apollo.query({
-      query: queryCollection.default,
-      client: _client,
-      variables: {
-        id: collection.collection_id,
-      },
-    })
-
-    collection.totalCount = data.stats.base.length
-    collection.floorPrice = Math.min(
-      ...data.stats.listed.map((item) => parseInt(item.price))
-    )
-
-    if (
-      collectionResult.value[index]?.collection_id === collection.collection_id
-    ) {
-      // Vue.set(this.collectionResult, index, collection)
-      collectionResult.value[index] = collection
-    }
-
-    resolve(collection)
+  const _client = collection.chain || client.value
+  const queryCollection = await resolveQueryPath(
+    _client === 'ksm' ? 'chain-rmrk' : 'subsquid',
+    'collectionStatsById'
+  )
+  const { data } = await $apollo.query({
+    query: queryCollection.default,
+    client: _client,
+    variables: {
+      id: collection.collection_id,
+    },
   })
+
+  collection.totalCount = data.stats.base.length
+  collection.floorPrice = Math.min(
+    ...data.stats.listed.map((item) => parseInt(item.price))
+  )
+
+  if (
+    collectionResult.value[index]?.collection_id === collection.collection_id
+  ) {
+    collectionResult.value[index] = collection
+  }
+
+  return collection
 }
 
 watch(
