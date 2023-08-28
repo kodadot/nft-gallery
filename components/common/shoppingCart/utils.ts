@@ -17,8 +17,7 @@ export const prefixToToken = {
 
 const getTokenDecimal = (item: ShoppingCartItem) => {
   const token = prefixToToken[item.urlPrefix]
-  const tokenDecimal = chainPropListOf(token.toLowerCase()).tokenDecimals
-  return tokenDecimal
+return chainPropListOf(token.toLowerCase()).tokenDecimals
 }
 
 export const totalPriceUsd = (items: ShoppingCartItem[]) => {
