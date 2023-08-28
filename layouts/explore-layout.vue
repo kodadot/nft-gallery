@@ -27,7 +27,7 @@
             </div>
           </section>
           <hr class="text-color my-0" />
-          <Nuxt />
+          <NuxtPage />
         </div>
       </main>
     </div>

@@ -41,11 +41,11 @@ export default {
   head() {
     const { $route } = useNuxtApp()
     const runtimeConfig = useRuntimeConfig()
-    const title = 'Low minting fees and carbonless NFTs'
+    const title = 'Explore NFTs'
     const metaData = {
       title,
       type: 'profile',
-      description: 'Buy Carbonless NFTs on Kusama',
+      description: 'Buy Carbonless NFTs on KodaDot',
       url: `/${$route.params.prefix}/explore/items`,
       image: `${runtimeConfig.public.baseUrl}/k_card.png`,
     }
