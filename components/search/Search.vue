@@ -216,6 +216,7 @@ function updatePriceRangeByQuery(minValue?: string, maxValue?: string) {
 }
 
 function nativeSearch() {
+  redirectToGalleryPageIfNeed({ search: name.value })
   searchQuery.value = name.value
 }
 
