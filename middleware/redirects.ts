@@ -3,20 +3,19 @@ export default function ({ redirect, route }): void {
 
   let redirectValue
 
-
   const paths = [
     {
       cond: (val) => val === '/drops',
-      replaceValue: () => '/ahk/drops',
+      replaceValue: '/ahk/drops',
     },
     {
       replaceValue: () => `/${urlPrefix.value}/explore/collectibles`,
       cond: (val) =>
-        new RegExp(`^\\/${urlPrefix.value}\\/.*\\/collections$`).test(val),
+        val.startsWith(`/${urlPrefix.value}`) && val.endsWith('collections'),
     },
     {
       cond: (val) =>
-        new RegExp(`^\\/${urlPrefix.value}\\/.*\\/gallery$`).test(val),
+        val.startsWith(`/${urlPrefix.value}`) && val.endsWith('gallery'),
       replaceValue: () => `/${urlPrefix.value}/explore/items`,
     },
     {
@@ -36,7 +35,10 @@ export default function ({ redirect, route }): void {
 
   for (const path of paths) {
     if (path.cond(route.path)) {
-      redirectValue = path.replaceValue()
+      redirectValue =
+        typeof path.replaceValue === 'function'
+          ? path.replaceValue()
+          : path.replaceValue
       break
     }
   }
