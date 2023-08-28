@@ -383,43 +383,6 @@ const updateSearchUrl = () => {
   }
 }
 
-const fetchSuggestions = async () => {
-  if (showDefaultSuggestions.value) {
-    try {
-      const result = await $apollo.query({
-        query: seriesInsightList,
-        client: client.value,
-        variables: {
-          limit: searchSuggestionEachTypeMaxNum,
-          orderBy: 'volume_DESC',
-        },
-      })
-
-      const {
-        data: { collectionEntities: collections },
-      } = result
-
-      const collectionMetadataList = collections
-        .slice(0, searchSuggestionEachTypeMaxNum)
-        .map(mapNFTorCollectionMetadata)
-      const collectionResult: (CollectionWithMeta & RowSeries)[] = []
-      await processMetadata<CollectionWithMeta>(
-        collectionMetadataList,
-        (meta, i) => {
-          collectionResult.push({
-            ...collections[i],
-            ...meta,
-            image: sanitizeIpfsUrl(meta.image || meta.mediaUri || '', 'image'),
-          })
-        }
-      )
-      defaultCollectionSuggestions.value = collectionResult
-    } catch (e) {
-      $consola.warn(e, 'Error while fetching default suggestions')
-    }
-  }
-}
-
 const emit = defineEmits(['close', 'gotoGallery'])
 
 const seeAllButtonHandler = () => {
