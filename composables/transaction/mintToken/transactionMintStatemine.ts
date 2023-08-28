@@ -2,12 +2,7 @@ import { BaseMintedCollection } from '@/components/base/types'
 import type { ActionMintToken, MintedCollection } from '../types'
 import { TokenToMint } from '../types'
 import { constructMeta } from './constructMeta'
-import {
-  calculateFees,
-  copiesToMint,
-  expandCopies,
-  transactionFactory,
-} from './utils'
+import { calculateFees, expandCopies, transactionFactory } from './utils'
 import { canSupport } from '@/utils/support'
 
 type id = { id: number }
