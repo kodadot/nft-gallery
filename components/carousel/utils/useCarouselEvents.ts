@@ -90,6 +90,7 @@ const useChainEvents = (chain, type) => {
 
   onResult((result) =>
     result.data.events.forEach((nft) => {
+      console.log(nft)
       limitCollection(nft)
     })
   )
