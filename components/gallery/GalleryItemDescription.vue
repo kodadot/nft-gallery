@@ -85,14 +85,35 @@
       </div>
 
       <div
-        v-if="nft?.recipient"
-        class="is-flex is-justify-content-space-between">
-        <p>{{ $t('transfers.recipient') }}</p>
-        <nuxt-link
-          :to="`/${urlPrefix}/u/${nft?.recipient}`"
-          class="has-text-link">
-          <Identity ref="identity" :address="nft?.recipient" />
-        </nuxt-link>
+        v-if="recipient"
+        class="recipient is-flex is-justify-content-space-between">
+        <template v-if="Array.isArray(recipient) && recipient.length > 1">
+          <p>{{ $t('transfers.recipients') }}</p>
+          <ul>
+            <li v-for="([addr, percentile], idx) in recipient" :key="addr">
+              {{ idx + 1 }}.
+              <nuxt-link :to="`/${urlPrefix}/u/${addr}`" class="has-text-link">
+                <Identity ref="identity" :address="addr" />
+              </nuxt-link>
+              <span> ({{ percentile }}%) </span>
+            </li>
+          </ul>
+        </template>
+        <template
+          v-else-if="Array.isArray(recipient) && recipient.length === 1">
+          <p>{{ $t('transfers.recipient') }}</p>
+          <nuxt-link
+            :to="`/${urlPrefix}/u/${recipient[0][0]}`"
+            class="has-text-link">
+            <Identity ref="identity" :address="recipient[0][0]" />
+          </nuxt-link>
+        </template>
+        <template v-else>
+          <p>{{ $t('transfers.recipient') }}</p>
+          <nuxt-link :to="`/${urlPrefix}/u/${recipient}`" class="has-text-link">
+            <Identity ref="identity" :address="recipient" />
+          </nuxt-link>
+        </template>
       </div>
 
       <hr class="my-2" />
@@ -203,6 +224,16 @@ const isLewd = computed(() => {
   )
 })
 
+const recipient = computed(() => {
+  if (nft.value?.recipient) {
+    try {
+      return JSON.parse(nft.value?.recipient)
+    } catch (e) {
+      return nft.value?.recipient
+    }
+  }
+})
+
 defineExpose({ isLewd })
 
 const parentNftUrl = computed(() => {
@@ -257,3 +288,25 @@ const openLink = (link) => {
   window.open(toCloudflareIpfsUrl(link), '_blank')
 }
 </script>
+
+<style lang="scss">
+@import '../../styles/abstracts/variables.scss';
+.recipient {
+  text-transform: capitalize;
+
+  > ul > li {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: flex-end;
+
+    > span {
+      font-size: 0.8rem;
+      @include ktheme() {
+        color: theme('k-grey');
+      }
+    }
+  }
+}
+</style>
