@@ -33,7 +33,7 @@ export default {
     }
   },
   head() {
-    const title = 'KodaDot | Low fees and low carbon minting'
+    const title = 'Create carbonless NFTs'
     const metaData = {
       title,
       type: 'article',

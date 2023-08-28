@@ -85,11 +85,7 @@ const inputFocused = ref(false)
 const { urlPrefix } = usePrefix()
 
 const collectionSearch = useCollectionSearch()
-onMounted(() => {
-  useKeyboardEvents({
-    k: bindSearchEvents,
-  })
-})
+useKeyboardEvents({ k: bindSearchEvents })
 
 const isSearchInCollectionMode = computed(
   () => collectionSearch.isCollectionSearchMode.value

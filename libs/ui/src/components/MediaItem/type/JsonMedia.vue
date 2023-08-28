@@ -20,7 +20,7 @@ const items = ref<{ key: string; value: string }[]>([])
 
 onMounted(async () => {
   if (props.src) {
-    const { data } = await api.get(props.src)
+    const data = await api(props.src)
 
     items.value = Object.entries(data).map(([key, value]) => ({
       key,
