@@ -267,9 +267,6 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  showDefaultSuggestions: {
-    type: Boolean,
-  },
   query: {
     type: Object,
     default: () => {
