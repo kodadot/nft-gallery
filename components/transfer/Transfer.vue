@@ -271,7 +271,7 @@ const { unit, decimals } = useChain()
 const { apiInstance } = useApi()
 const { urlPrefix } = usePrefix()
 const { isLogIn, accountId } = useAuth()
-const { balance } = useBalance()
+const { getBalance } = useBalance()
 const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
 const { initTransactionLoader, isLoading, resolveStatus, status } =
   useTransactionStatus()
@@ -284,7 +284,7 @@ export type TargetAddress = {
   token?: number | string
 }
 const isMobile = computed(() => useWindowSize().width.value <= 1024)
-
+const balance = computed(() => getBalance(unit.value))
 const transactionValue = ref('')
 const sendSameAmount = ref(false)
 const displayUnit = ref<'token' | 'usd'>('token')
