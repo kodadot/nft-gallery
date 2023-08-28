@@ -41,7 +41,6 @@
         <NeoField key="advanced">
           <CollapseWrapper
             v-if="base.copies > 1"
-            \
             visible="mint.expert.show"
             hidden="mint.expert.hide"
             class="mt-3">
