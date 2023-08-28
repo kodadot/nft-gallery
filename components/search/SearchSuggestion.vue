@@ -246,6 +246,7 @@
 
 <script setup lang="ts">
 import { useDebounceFn } from '@vueuse/core'
+import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
 import { denyList } from '@/utils/constants'
 import {
   CollectionWithMeta,
@@ -290,9 +291,11 @@ const nftResult = ref([] as NFTWithMeta[])
 const collectionResult = ref([] as CollectionWithMeta[])
 const searched = ref([] as NFTWithMeta[])
 const searchString = ref('')
+const showDefaultSuggestions = ref(true)
 
-onMounted(() => {
+onMounted(async () => {
   getSearchHistory()
+  await fetchSuggestions()
 })
 
 const onKeyDown = (event: KeyboardEvent) => {
@@ -503,6 +506,43 @@ const goToExploreResults = (item) => {
   emit('gotoGallery', {
     search: item.name,
   })
+}
+
+const fetchSuggestions = async () => {
+  if (showDefaultSuggestions.value) {
+    try {
+      const result = await $apollo.query({
+        query: seriesInsightList,
+        client: client.value,
+        variables: {
+          limit: searchSuggestionEachTypeMaxNum,
+          orderBy: 'volume_DESC',
+        },
+      })
+
+      const {
+        data: { collectionEntities: collections },
+      } = result
+
+      const collectionMetadataList = collections
+        .slice(0, searchSuggestionEachTypeMaxNum)
+        .map(mapNFTorCollectionMetadata)
+      const collectionResult: (CollectionWithMeta & RowSeries)[] = []
+      await processMetadata<CollectionWithMeta>(
+        collectionMetadataList,
+        (meta, i) => {
+          collectionResult.push({
+            ...collections[i],
+            ...meta,
+            image: sanitizeIpfsUrl(meta.image || meta.mediaUri || '', 'image'),
+          })
+        }
+      )
+      defaultCollectionSuggestions.value = collectionResult
+    } catch (e) {
+      $consola.warn(e, 'Error while fetching default suggestions')
+    }
+  }
 }
 
 const updateSuggestion = useDebounceFn(async (value: string) => {
