@@ -56,4 +56,4 @@ const getArgs = async (item: ActionMintToken, api) => {
   return [arg]
 }
 
-export const execMintStatemine = transactionFactory(getArgs)
+export const execMintBasilisk = transactionFactory(getArgs)
