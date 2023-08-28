@@ -19,25 +19,8 @@ const nftEventVariables = {
 
 const disableChainsOnBeta = ['snek']
 
-const fetchLatestEvents = (chain, type, where = {}) => {
-  const { $apollo } = useNuxtApp()
-  const query = chain === 'ksm' ? latestEventsRmrkv2 : latestEvents
-
-  return $apollo.query({
-    query,
-    client: chain,
-    variables: {
-      limit: limit,
-      orderBy: 'timestamp_DESC',
-      where: {
-        ...nftEventVariables[type],
-        ...where,
-      },
-    },
-  })
-}
-
 const useChainEvents = (chain, type) => {
+  const query = chain === 'ksm' ? latestEventsRmrkv2 : latestEvents
   const nfts = ref<{ nft: NFTWithMetadata; timestamp: string }[]>([])
   const uniqueNftId = ref<string[]>([])
   const totalCollection = reactive({})
@@ -75,8 +58,26 @@ const useChainEvents = (chain, type) => {
     pushNft(nft)
   }
 
-  const fetchEvents = () => {
-    fetchLatestEvents(chain, type, {
+  // const { result, refetch } = useQuery(query, {
+  //   limit: limit,
+  //   orderBy: 'timestamp_DESC',
+  //   where: {
+  //     ...nftEventVariables[type],
+  //     nft: {
+  //       ...(type === 'newestList' && { price_gt: 0 }),
+  //       id_not_in: [...new Set(excludeNftId.value)],
+  //       collection: {
+  //         id_not_in: [...new Set(excludeCollectionId.value)],
+  //       },
+  //     },
+  //   },
+  // })
+
+  const { onResult, refetch } = useQuery(query, {
+    limit: limit,
+    orderBy: 'timestamp_DESC',
+    where: {
+      ...nftEventVariables[type],
       nft: {
         ...(type === 'newestList' && { price_gt: 0 }),
         id_not_in: [...new Set(excludeNftId.value)],
@@ -84,16 +85,18 @@ const useChainEvents = (chain, type) => {
           id_not_in: [...new Set(excludeCollectionId.value)],
         },
       },
-    }).then((response) => {
-      response.data.events.forEach((nft) => {
-        limitCollection(nft)
-      })
+    },
+  })
+
+  onResult((result) =>
+    result.data.events.forEach((nft) => {
+      limitCollection(nft)
     })
-  }
+  )
 
   watchEffect(() => {
     if (nfts.value.length < limit) {
-      fetchEvents()
+      refetch()
     }
   })
 
