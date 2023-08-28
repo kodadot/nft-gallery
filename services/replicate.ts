@@ -1,4 +1,4 @@
-import { $fetch, FetchError } from 'ohmyfetch'
+import { $fetch, FetchError } from 'ofetch'
 import { URLS } from '../utils/constants'
 // import consola from 'consola'
 
