@@ -163,7 +163,7 @@ export default {
     const metaData = {
       title,
       description:
-        "Join KodaDot in the quest for a carbon-negative future in digital art. Learn how we're pioneering eco-friendly NFT minting, collaborating with Offsetra, and empowering artists and collectors to make a positive environmental impact.",
+        'Join KodaDot in the quest for a carbon-negative future in digital art. Learn how we\'re pioneering eco-friendly NFT minting, collaborating with Offsetra, and empowering artists and collectors to make a positive environmental impact.',
       url: '/carbonless',
     }
     return {
