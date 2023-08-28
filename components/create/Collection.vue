@@ -93,12 +93,15 @@
           <div class="monospace">
             <p class="has-text-weight-medium is-size-6 has-text-info">
               <span>{{ $t('mint.deposit') }}:</span>
-              <span>{{ collectionDeposit }} {{ balanceSymbol }}</span>
+              <span>{{ collectionDeposit }} {{ depositAssetSymbol }}</span>
             </p>
             <p>
               <span>{{ $t('general.balance') }}: </span>
-              <span>{{ balance }} {{ balanceSymbol }}</span>
+              <span>{{ balance }} {{ depositAssetSymbol }}</span>
             </p>
+            <nuxt-link v-if="isBasilisk" :to="`/${currentChain}/assets`">
+              {{ $t('general.tx.feesPaidIn', [depositAssetSymbol]) }}
+            </nuxt-link>
           </div>
         </NeoField>
       </div>
@@ -134,7 +137,7 @@ import SubmitButton from '@/components/base/SubmitButton.vue'
 import { availablePrefixes, depositAmount } from '@/utils/chain'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { getKusamaAssetId } from '@/utils/api/bsx/query'
+import { getAssetIdByAccount, getKusamaAssetId } from '@/utils/api/bsx/query'
 import { balanceOf } from '@kodadot1/sub-api'
 import { CHAINS, Prefix } from '@kodadot1/static'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
@@ -144,7 +147,7 @@ import format from '@/utils/format/balance'
 const { accountId } = useAuth()
 const { apiInstanceByPrefix } = useApi()
 const { transaction, status, isLoading } = useTransaction()
-const { urlPrefix, setUrlPrefix } = usePrefix()
+const { urlPrefix, setUrlPrefix, assets } = usePrefix()
 
 // form state
 const logo = ref<File | null>(null)
@@ -156,11 +159,17 @@ const symbol = ref('')
 
 // balance state
 const balance = ref()
-const balanceSymbol = ref()
 const collectionDeposit = ref()
 const canDeposit = computed(() => {
   return parseFloat(balance.value) >= parseFloat(collectionDeposit.value)
 })
+
+const depositTokenId = ref()
+const depositSymbol = ref()
+const depositAsset = computed(() => assets(depositTokenId.value))
+const depositAssetSymbol = computed(
+  () => depositSymbol.value || depositAsset.value.symbol
+)
 
 const menus = availablePrefixes().filter(
   (menu) => menu.value !== 'movr' && menu.value !== 'glmr'
@@ -237,6 +246,8 @@ watchEffect(async () => {
 
 watchEffect(async () => {
   balance.value = 0
+  depositTokenId.value = 0
+  depositSymbol.value = ''
 
   const api = await apiInstanceByPrefix(currentChain.value)
   const currentAddress = accountId.value
@@ -245,25 +256,24 @@ watchEffect(async () => {
   const prefixAddress = encodeAddress(publicKey, chain.ss58Format)
   const chainInfo = await api.registry.getChainProperties()
 
-  let tokenId
+  balance.value = await balanceOf(api, prefixAddress)
 
-  if (currentChain.value === 'bsx') {
-    tokenId = getKusamaAssetId(currentChain.value)
-  }
+  if (isBasilisk.value) {
+    depositTokenId.value = await getAssetIdByAccount(api, accountId.value)
 
-  if (tokenId) {
-    balance.value = (
-      (await api.query.tokens.accounts(
-        prefixAddress,
-        tokenId
-      )) as PalletBalancesAccountData
-    ).free.toString()
+    if (depositAssetSymbol.value === 'KSM') {
+      balance.value = (
+        (await api.query.tokens.accounts(
+          prefixAddress,
+          getKusamaAssetId(currentChain.value)
+        )) as PalletBalancesAccountData
+      ).free.toString()
+    }
   } else {
-    balance.value = await balanceOf(api, prefixAddress)
+    depositSymbol.value = chainInfo?.tokenSymbol?.toHuman()?.[0]
   }
 
   balance.value = format(balance.value, chain.tokenDecimals, false)
-  balanceSymbol.value = chainInfo?.tokenSymbol?.toHuman()?.[0]
 })
 </script>
 
