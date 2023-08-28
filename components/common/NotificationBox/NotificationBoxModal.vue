@@ -3,7 +3,7 @@
     v-if="isOpen"
     class="notification-modal-container theme-background-color border-left is-flex is-flex-direction-column">
     <header
-      class="py-5 px-6 is-flex is-justify-content-space-between border-bottom mb-4">
+      class="py-5 px-6 is-flex is-justify-content-space-between border-bottom mb-4 is-align-items-center">
       <span class="modal-card-title is-size-6 has-text-weight-bold">
         {{ $t('notification.notifications') }}
       </span>
