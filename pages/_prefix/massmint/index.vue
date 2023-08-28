@@ -22,11 +22,11 @@ export default {
   },
 
   head() {
-    const title = 'Kodadot | Massmint'
+    const title = 'Massmint'
     const metaData = {
       title,
       type: 'profile',
-      description: 'Buy Carbonless NFTs on Kusama',
+      description: 'Mint multiple NFTs at once',
       url: `/${this.$route.params.prefix}/massmint`,
       image: `${this.$config.public.baseUrl}/k_card.png`,
     }
