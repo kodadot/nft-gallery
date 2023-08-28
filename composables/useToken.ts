@@ -1,74 +1,40 @@
 import { useFiatStore } from '@/stores/fiat'
-import { type ChainProperties, type Prefix } from '@kodadot1/static'
-import { chainPropListOf } from '@/utils/config/chain.config'
-import { groupByNestedProperty } from '@/utils/objects'
-import { availablePrefixes } from '@/utils/chain'
+import { type Prefix } from '@kodadot1/static'
+import { useIdentityStore } from '@/stores/identity'
+import { defultTokenChain } from '@/utils/config/chain.config'
 
 export interface TokenDetails {
   symbol: string
   value: number | string | null
   icon: string
-  chains: Prefix[]
+  defaultChain: Prefix
 }
+
+const getAssetToken = (asset) => asset?.token || 'KSM'
+const getUniqueArrayItems = (items: string[]) => [...new Set(items)]
 
 export default function useToken() {
   const { getCurrentTokenValue } = useFiatStore()
   const { getTokenIconBySymbol } = useIcon()
+  const { multiBalanceAssets } = useIdentityStore()
 
-  const availableChains = availablePrefixes().map(
-    (item) => item.value as Prefix
+  const availableAssets = computed(() => multiBalanceAssets)
+  const availableTokensAcrossAllChains = computed(() =>
+    getUniqueArrayItems(Object.values(availableAssets.value).map(getAssetToken))
   )
-
-  const availableTokens = ['BSX', 'DOT', 'KSM']
-
-  const chainsProperties = computed(() => {
-    return availableChains.reduce(
-      (reducer, chain: Prefix) => ({
-        ...reducer,
-        [chain]: chainPropListOf(chain),
-      }),
-      {}
-    ) as { [k in Prefix]: ChainProperties }[]
-  })
-
-  const groupedTokensByChains = computed(() =>
-    groupByNestedProperty(chainsProperties.value, 'tokenSymbol')
-  )
-
-  const getTokenChain = (token: string): Prefix[] =>
-    groupedTokensByChains.value[token] || []
 
   const tokens = computed<TokenDetails[]>(() => {
-    const filteredTokens = Object.keys(groupedTokensByChains.value).filter(
-      (token) => availableTokens.includes(token)
-    )
-
-    return filteredTokens.map((tokenSymbol) => {
+    return availableTokensAcrossAllChains.value.map((tokenSymbol) => {
       return {
         symbol: tokenSymbol as string,
         value: getCurrentTokenValue(tokenSymbol),
         icon: getTokenIconBySymbol(tokenSymbol),
-        chains: getTokenChain(tokenSymbol),
+        defaultChain: defultTokenChain[tokenSymbol],
       }
     })
   })
 
-  const getPrefixByToken = (token: string): Prefix | null => {
-    switch (token.toLowerCase()) {
-      case 'bsx':
-        return 'bsx'
-      case 'dot':
-        return 'dot'
-      case 'ksm':
-        return 'ksm'
-      default:
-        return null
-    }
-  }
-
   return {
     tokens,
-    availableTokens,
-    getPrefixByToken,
   }
 }
