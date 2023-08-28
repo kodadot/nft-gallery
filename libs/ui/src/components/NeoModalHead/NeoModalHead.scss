@@ -1,0 +1,25 @@
+@import '@/styles/abstracts/variables';
+@include touch {
+  .modal-card-head {
+    @include ktheme {
+      background: theme('background-color-inverse');
+      border-bottom: 1px solid theme('border-color');
+    }
+    .modal-card-title {
+      @include ktheme() {
+        color: theme('text-color-inverse');
+      }
+    }
+    &.is-mobile {
+      padding: 1.5rem 1.25rem;
+      @include mobile {
+        padding: 1rem 1.25rem;
+      }
+      .modal-card-title {
+        font-size: 1rem;
+        line-height: 1.5;
+        
+      }
+    }
+  }
+}

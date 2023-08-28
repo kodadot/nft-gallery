@@ -2,21 +2,11 @@
   <div
     v-if="isOpen"
     class="notification-modal-container theme-background-color border-left is-flex is-flex-direction-column">
-    <header
-      class="py-5 px-6 is-flex is-justify-content-space-between border-bottom mb-4">
-      <span class="modal-card-title is-size-6 has-text-weight-bold">
-        {{ $t('notification.notifications') }}
-      </span>
-      <NeoButton
-        variant="text"
-        no-shadow
-        icon="xmark"
-        icon-pack="fa-sharp"
-        size="medium"
-        @click.native="closeModal" />
-    </header>
+    <NeoModalHead
+      :title="$t('notification.notifications')"
+      @close="closeModal" />
     <div class="px-0 pt-0 pb-3 theme-background-color">
-      <div class="notification-filter theme-background-color px-6 pb-5">
+      <div class="notification-filter theme-background-color px-6 py-5">
         <div
           class="is-flex is-justify-content-space-between is-align-items-center pb-4">
           <span> {{ $t('notification.filters') }} </span>
@@ -114,7 +104,7 @@
 
 <script setup lang="ts">
 import { FilterOption } from './types'
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoIcon, NeoModalHead } from '@kodadot1/brick'
 import NeoTag from '@/components/shared/gallery/NeoTag.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 
@@ -201,13 +191,10 @@ const displayedEvents = computed(() =>
     padding-top: 83px;
     max-width: 360px;
     width: 100%;
+
     @include mobile {
       padding-top: 58px;
       max-width: 100vw;
-    }
-
-    .modal-card-head {
-      background: unset;
     }
 
     .notification-filter {
@@ -256,9 +243,6 @@ const displayedEvents = computed(() =>
   .modal-content {
     border: none !important;
     box-shadow: none !important;
-  }
-  .modal-background {
-    background-color: rgba(0, 0, 0, 0.17) !important;
   }
 }
 </style>
