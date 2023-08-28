@@ -284,7 +284,8 @@ export type TargetAddress = {
   token?: number | string
 }
 const isMobile = computed(() => useWindowSize().width.value <= 1024)
-const balance = computed(() => getBalance(unit.value))
+const balance = computed(() => getBalance(unit.value) || 0)
+
 const transactionValue = ref('')
 const sendSameAmount = ref(false)
 const displayUnit = ref<'token' | 'usd'>('token')
