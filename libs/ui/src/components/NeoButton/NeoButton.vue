@@ -5,6 +5,7 @@
       'is-fixed-width': fixedWidth,
       'no-shadow': noShadow,
       'loading-with-label': loadingWithLabel,
+      'is-close-btn': icon === 'xmark' || icon === 'close',
     }"
     :size="size"
     :icon-right="icon"
@@ -25,21 +26,21 @@
 import { OButton } from '@oruga-ui/oruga'
 import { NeoButtonVariant } from '@kodadot1/brick'
 
-  defineProps<{
-    size?: 'small' | 'medium' | 'large'
-    disabled?: boolean
-    expanded?: boolean
-    icon?: string
-    iconPack?: string
-    label?: string
-    active?: boolean
-    fixedWidth?: boolean
-    noShadow?: boolean
-    variant?: NeoButtonVariant
-    rounded?: boolean
-    tag?: string
-    loadingWithLabel?: boolean
-  }>()
+defineProps<{
+  size?: 'small' | 'medium' | 'large'
+  disabled?: boolean
+  expanded?: boolean
+  icon?: string
+  iconPack?: string
+  label?: string
+  active?: boolean
+  fixedWidth?: boolean
+  noShadow?: boolean
+  variant?: NeoButtonVariant
+  rounded?: boolean
+  tag?: string
+  loadingWithLabel?: boolean
+}>()
 </script>
 
 <style lang="scss">
