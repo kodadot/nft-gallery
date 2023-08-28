@@ -43,7 +43,7 @@ export default function ({ redirect, route }): void {
     }
   }
 
-  if (redirect) {
+  if (redirectValue) {
     return redirect(redirectValue)
   }
 }
