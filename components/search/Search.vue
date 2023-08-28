@@ -64,9 +64,11 @@ const emit = defineEmits<{
   (e: 'update:priceMax', value?: number): void
 }>()
 
-const { $route, $router, $consola } = useNuxtApp()
+const { $consola } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { decimals } = useChain()
+const route = useRoute()
+const router = useRouter()
 
 const searchRef = ref(null)
 const isVisible = ref(false)
@@ -77,13 +79,13 @@ const priceRange = ref<
 const priceRangeDirty = ref(false)
 
 const query = reactive<SearchQuery>({
-  search: $route.query?.search?.toString() ?? '',
-  type: $route.query?.type?.toString() ?? '',
+  search: route.query?.search?.toString() ?? '',
+  type: route.query?.type?.toString() ?? '',
   sortByMultiple: props.sortByMultiple ?? [],
-  listed: $route.query?.listed?.toString() === 'true',
+  listed: route.query?.listed?.toString() === 'true',
 })
 
-const urlSearchQuery = computed(() => $route.query.search)
+const urlSearchQuery = computed(() => route.query.search)
 const routePathList = computed(() =>
   searchPageRoutePathList.map((route) => `/${urlPrefix.value}/explore/${route}`)
 )
@@ -95,7 +97,7 @@ const searchQuery = computed({
     updateSearch(value)
   },
 })
-const isExplorePage = computed(() => routePathList.value.includes($route.path))
+const isExplorePage = computed(() => routePathList.value.includes(route.path))
 
 type Listed = boolean | { listed: boolean; min?: string; max?: string }
 const vListed = computed({
@@ -132,17 +134,16 @@ const updateListed = useDebounceFn((value: string | Listed): boolean => {
 
 const replaceUrl = useDebounceFn(
   (queryCondition: Record<string, any>, pathName?: string) => {
-    if (pathName && pathName !== $route.path) {
+    if (pathName && pathName !== route.path) {
       return
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { page, ...restQuery } = $route.query
-    $router
+    const { page, ...restQuery } = route.query
+    router
       .replace({
-        path: $route.path,
         query: {
           ...restQuery,
-          search: searchQuery.value || $route.query.search || undefined,
+          search: searchQuery.value || route.query.search || undefined,
           ...queryCondition,
         },
       })
@@ -171,13 +172,13 @@ const updateSortBy = useDebounceFn((value: string[] | string) => {
   return final
 }, 400)
 
-const updateSearch = useDebounceFn((value: string): string => {
-  if (value !== $route.query.search && value !== searchQuery.value) {
-    replaceUrl({ search: value ? value : undefined }, $route.path)
+const updateSearch = (value: string): string => {
+  if (value !== route.query.search && value !== searchQuery.value) {
+    replaceUrl({ search: value ? value : undefined }, route.path)
   }
   emit('update:search', value)
   return value
-}, 50)
+}
 
 function bindFilterEvents(event: KeyboardEvent) {
   switch (event.key) {
@@ -223,10 +224,10 @@ function nativeSearch() {
 function redirectToGalleryPageIfNeed(params?: Record<string, string>) {
   const { isCollectionSearchMode } = useCollectionSearch()
   if (!isExplorePage.value && !isCollectionSearchMode.value) {
-    $router.push({
+    router.push({
       path: `/${urlPrefix.value}/explore/items`,
       query: {
-        ...$route.query,
+        ...route.query,
         ...params,
       },
     })
@@ -259,14 +260,14 @@ watch(urlSearchQuery, (urlSearchQuery) => {
 useKeyboardEvents({ f: bindFilterEvents })
 
 onMounted(() => {
-  if (!name.value && $route.query.search) {
-    name.value = Array.isArray($route.query.search) ? '' : $route.query.search
+  if (!name.value && route.query.search) {
+    name.value = Array.isArray(route.query.search) ? '' : route.query.search
   }
 
-  exist($route.query.search, updateSearch)
-  exist($route.query.min, (v) => updatePriceRangeByQuery(v))
-  exist($route.query.max, (v) => updatePriceRangeByQuery(undefined, v))
-  existArray($route.query.sort as string[], updateSortBy)
-  exist($route.query.listed, updateListed)
+  exist(route.query.search, updateSearch)
+  exist(route.query.min, (v) => updatePriceRangeByQuery(v))
+  exist(route.query.max, (v) => updatePriceRangeByQuery(undefined, v))
+  existArray(route.query.sort as string[], updateSortBy)
+  exist(route.query.listed, updateListed)
 })
 </script>
