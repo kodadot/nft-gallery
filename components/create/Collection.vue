@@ -6,38 +6,6 @@
         {{ $t('mint.collection.create') }}
       </h2>
 
-      <!-- select blockchain -->
-      <NeoField :label="`${$t('mint.blockchain.label')} *`">
-        <div>
-          <p>{{ $t('mint.blockchain.message') }}</p>
-          <NeoDropdown v-model="selectBlockchain" class="mt-3" expanded>
-            <template #trigger>
-              <NeoButton variant="primary" type="button" expanded>
-                {{ selectBlockchain.text }}
-                <NeoIcon icon="caret-down"></NeoIcon>
-              </NeoButton>
-            </template>
-
-            <NeoDropdownItem
-              v-for="(menu, index) in menus"
-              :key="index"
-              :value="menu"
-              aria-role="listitem">
-              <div class="is-flex is-align-items-center">
-                <img
-                  :src="menu.icon"
-                  :alt="menu.text"
-                  width="32px"
-                  class="is-inline-block mr-2" />
-                <div>
-                  <span>{{ menu.text }}</span>
-                </div>
-              </div>
-            </NeoDropdownItem>
-          </NeoDropdown>
-        </div>
-      </NeoField>
-
       <!-- collection logo -->
       <NeoField :label="`${$t('mint.collection.logo.image')} *`">
         <div>
@@ -90,6 +58,18 @@
         </div>
       </NeoField>
 
+      <!-- select blockchain -->
+      <NeoField :label="`${$t('mint.blockchain.label')} *`">
+        <div>
+          <p>{{ $t('mint.blockchain.message') }}</p>
+          <NeoSelect v-model="selectBlockchain" class="mt-3" expanded>
+            <option v-for="menu in menus" :key="menu.value" :value="menu.value">
+              {{ menu.text }}
+            </option>
+          </NeoSelect>
+        </div>
+      </NeoField>
+
       <!-- collection symbol -->
       <NeoField
         v-if="isKusama"
@@ -106,6 +86,7 @@
         </div>
       </NeoField>
 
+      <!-- deposit -->
       <div v-if="isBasilisk || isAssetHub">
         <hr class="my-6" />
         <NeoField>
@@ -147,18 +128,10 @@ import type {
 } from '@/composables/transaction/types'
 import type { PalletBalancesAccountData } from '@polkadot/types/lookup'
 
-import {
-  NeoButton,
-  NeoDropdown,
-  NeoDropdownItem,
-  NeoField,
-  NeoIcon,
-  NeoInput,
-  NeoSwitch,
-} from '@kodadot1/brick'
+import { NeoField, NeoInput, NeoSelect, NeoSwitch } from '@kodadot1/brick'
 import DropUpload from '@/components/shared/DropUpload.vue'
 import SubmitButton from '@/components/base/SubmitButton.vue'
-import { availablePrefixWithIcon, depositAmount } from '@/utils/chain'
+import { availablePrefixes, depositAmount } from '@/utils/chain'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
@@ -189,14 +162,14 @@ const canDeposit = computed(() => {
   return parseFloat(balance.value) >= parseFloat(collectionDeposit.value)
 })
 
-const menus = availablePrefixWithIcon().filter(
+const menus = availablePrefixes().filter(
   (menu) => menu.value !== 'movr' && menu.value !== 'glmr'
 )
 const chainByPrefix = menus.find((menu) => menu.value === urlPrefix.value)
-const selectBlockchain = ref(chainByPrefix || menus[0])
+const selectBlockchain = ref(chainByPrefix?.value || menus[0].value)
 
 const currentChain = computed(() => {
-  return selectBlockchain.value.value as string
+  return selectBlockchain.value as string
 })
 
 watchEffect(() => setUrlPrefix(currentChain.value as Prefix))
