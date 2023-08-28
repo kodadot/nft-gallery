@@ -326,13 +326,14 @@ const nftSuggestion = computed(() =>
   nftResult.value.slice(0, searchSuggestionEachTypeMaxNum)
 )
 
-const loadMoreItemClassName = computed(() => {
-  let result = 'link-item'
-  if (selectedIndex.value === totalItemsAtCurrentTab.value) {
-    result += ' selected-item'
-  }
-  return result
-})
+const loadMoreItemClassName = computed(
+  () =>
+    `link-item${
+      selectedIndex.value === totalItemsAtCurrentTab.value
+        ? ' selected-item'
+        : ''
+    }`
+)
 
 const queryVariables = computed(() => {
   return {
