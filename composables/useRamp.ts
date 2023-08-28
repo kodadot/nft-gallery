@@ -34,6 +34,7 @@ export default function useRamp() {
         hostApiKey: rampApiKey,
         hostLogoUrl: HOST_LOGO_URL,
         variant,
+        url: 'https://app.demo.ramp.network',
       })
 
       if (showAfterInit) {
