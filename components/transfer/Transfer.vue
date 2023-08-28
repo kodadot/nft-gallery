@@ -289,7 +289,7 @@ const isLoaderModalVisible = ref(false)
 
 watch(isLoading, (newValue, oldValue) => {
   // trigger modal only when loading change from false => true
-  // we watn to keep modal open when loading changes true => false
+  // we want to keep modal open when loading changes true => false
   if (newValue && !oldValue) {
     isLoaderModalVisible.value = isLoading.value
   }
