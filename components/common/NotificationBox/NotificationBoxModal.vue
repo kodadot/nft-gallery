@@ -6,7 +6,7 @@
       :title="$t('notification.notifications')"
       @close="closeModal" />
     <div class="px-0 pt-0 pb-3 theme-background-color">
-      <div class="notification-filter theme-background-color px-6 py-5">
+      <div class="notification-filter theme-background-color px-6 pt-4 pb-5">
         <div
           class="is-flex is-justify-content-space-between is-align-items-center pb-4">
           <span> {{ $t('notification.filters') }} </span>
