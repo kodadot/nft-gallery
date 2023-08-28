@@ -331,7 +331,7 @@ const nftSuggestion = computed(() =>
 
 const loadMoreItemClassName = computed(() => {
   let result = 'link-item'
-  if (selectedIndex === totalItemsAtCurrentTab) {
+  if (selectedIndex.value === totalItemsAtCurrentTab.value) {
     result += ' selected-item'
   }
   return result
@@ -392,13 +392,13 @@ const nativeSearch = () => {
     return
   }
 
-  const isSeeMore = selectedIndex >= totalItemsAtCurrentTab
+  const isSeeMore = selectedIndex.value >= totalItemsAtCurrentTab.value
   // trending collection
   if (!props.name) {
     if (isSeeMore) {
       router.push({ name: 'series-insight' })
     } else {
-      gotoCollectionItem(selectedItemListMap['Trending'][selectedIndex])
+      gotoCollectionItem(selectedItemListMap['Trending'][selectedIndex.value])
     }
     return
   }
@@ -410,7 +410,9 @@ const nativeSearch = () => {
     if (activeSearchTab.value === 'NFTs') {
       gotoGalleryItem(selectedItemListMap.value['NFTs'][selectedIndex.value])
     } else {
-      gotoCollectionItem(selectedItemListMap['Collections'][selectedIndex])
+      gotoCollectionItem(
+        selectedItemListMap['Collections'][selectedIndex.value]
+      )
     }
   }
 }
@@ -433,7 +435,7 @@ const gotoGalleryItem = (item: NFTWithMeta) => {
 
 const gotoCollectionItem = (item: CollectionWithMeta) => {
   // if item is clicked when search term is there, insert to history
-  if (searchString) {
+  if (searchString.value) {
     insertNewHistory()
   }
   const prefix = item.chain || urlPrefix
@@ -463,7 +465,7 @@ const insertNewHistory = () => {
 
   const newResult = {
     type: 'History',
-    name: searchString,
+    name: searchString.value,
   } as unknown as NFTWithMeta
 
   searched.value.push(newResult)
@@ -472,7 +474,7 @@ const insertNewHistory = () => {
     searched.value = searched.value.slice(-3)
   }
 
-  localStorage.kodaDotSearchResult = JSON.stringify(searched)
+  localStorage.kodaDotSearchResult = JSON.stringify(searched.value)
 }
 
 const getSearchHistory = () => {
@@ -484,7 +486,7 @@ const getSearchHistory = () => {
 
 const removeSearchHistory = (value: string) => {
   searched.value = searched.value.filter((r) => r.name !== value)
-  localStorage.kodaDotSearchResult = JSON.stringify(searched)
+  localStorage.kodaDotSearchResult = JSON.stringify(searched.value)
 }
 
 const filterSearch = computed((): NFTWithMeta[] => {
@@ -545,9 +547,9 @@ const updateNftSuggestion = async () => {
       nFTEntities.slice(0, searchSuggestionEachTypeMaxNum)
     )
     const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)
-    const _nftResult: NFTWithMeta[] = []
+    const result: NFTWithMeta[] = []
     await processMetadata<NFTWithMeta>(metadataList, (meta, i) => {
-      _nftResult.push({
+      result.push({
         ...nftList[i],
         ...meta,
         image: sanitizeIpfsUrl(
@@ -556,7 +558,7 @@ const updateNftSuggestion = async () => {
         ),
       })
     })
-    nftResult.value = _nftResult
+    nftResult.value = result
     isNFTResultLoading.value = false
   } catch (e) {
     logError(e, (msg) => $consola.warn('[PREFETCH] Unable fo fetch', msg))
@@ -618,7 +620,9 @@ const fetchCollectionStats = async (
       ...data.stats.listed.map((item) => parseInt(item.price))
     )
 
-    if (collectionResult[index]?.collection_id === collection.collection_id) {
+    if (
+      collectionResult.value[index]?.collection_id === collection.collection_id
+    ) {
       // Vue.set(this.collectionResult, index, collection)
       collectionResult.value[index] = collection
     }
