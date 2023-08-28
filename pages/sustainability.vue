@@ -117,6 +117,7 @@ export default {
   head() {
     const runtimeConfig = useRuntimeConfig()
     const metaData = {
+      title: 'Sustainibility of KodaDot',
       type: 'article',
       description: 'KodaDot: Sustainibility mission',
       url: '/sustainibility',
