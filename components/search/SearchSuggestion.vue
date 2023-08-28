@@ -399,14 +399,12 @@ const nativeSearch = () => {
   // search result
   if (isSeeMore) {
     emit('gotoGallery')
+  } else if (activeSearchTab.value === 'NFTs') {
+    gotoGalleryItem(selectedItemListMap.value['NFTs'][selectedIndex.value])
   } else {
-    if (activeSearchTab.value === 'NFTs') {
-      gotoGalleryItem(selectedItemListMap.value['NFTs'][selectedIndex.value])
-    } else {
-      gotoCollectionItem(
-        selectedItemListMap.value['Collections'][selectedIndex.value]
-      )
-    }
+    gotoCollectionItem(
+      selectedItemListMap.value['Collections'][selectedIndex.value]
+    )
   }
 }
 
