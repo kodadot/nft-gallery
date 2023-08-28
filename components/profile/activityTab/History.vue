@@ -10,11 +10,7 @@
         preserve-scroll />
     </div>
     <NeoTable :data="showList" class="mb-4" hoverable custom-row-key="ID">
-      <NeoTableColumn
-        v-slot="props"
-        field="Type"
-        label="Type"
-        class="is-white-space-nowrap">
+      <NeoTableColumn v-slot="props" field="Type" label="Type" class="no-wrap">
         {{ getEventDisplayName(props.row.Type) }}
       </NeoTableColumn>
       <NeoTableColumn
