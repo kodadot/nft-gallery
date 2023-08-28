@@ -41,7 +41,7 @@ export default function ({
     },
     {
       next: (data) => {
-        // ws subscription: New change received
+        $consola.log(`ws subscription: New changes: ${JSON.stringify(data)}`)
         onChange(data)
       },
       error: (error) => {
