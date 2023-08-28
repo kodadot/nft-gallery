@@ -28,6 +28,7 @@ const showRampSDK = () => {
   initRampInstant({
     defaultAsset: 'KSM',
     address: accountId.value,
+    url: 'https://app.demo.ramp.network',
   })
 }
 </script>
