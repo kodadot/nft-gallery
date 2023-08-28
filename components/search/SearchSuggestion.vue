@@ -245,24 +245,22 @@
 </template>
 
 <script setup lang="ts">
-import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
-import type { SearchQuery } from './types'
+import { useDebounceFn } from '@vueuse/core'
 import { denyList } from '@/utils/constants'
 import {
   CollectionWithMeta,
   NFTWithMeta,
 } from '@/components/rmrk/service/scheme'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import { logError, mapNFTorCollectionMetadata } from '~/utils/mappers'
-import { processMetadata } from '~/utils/cachingStrategy'
+import { logError, mapNFTorCollectionMetadata } from '@/utils/mappers'
+import { processMetadata } from '@/utils/cachingStrategy'
 import resolveQueryPath from '@/utils/queryPathResolver'
-import { unwrapSafe } from '~/utils/uniquery'
-import { RowSeries } from '~/components/series/types'
+import { unwrapSafe } from '@/utils/uniquery'
+import { RowSeries } from '@/components/series/types'
 import { fetchCollectionSuggestion } from './utils/collectionSearch'
 import { NeoIcon, NeoSkeleton, NeoTabItem, NeoTabs } from '@kodadot1/brick'
 import Money from '@/components/shared/format/Money.vue'
-
-import { useDebounceFn } from '@vueuse/core'
+import type { SearchQuery } from './types'
 
 const props = defineProps({
   name: {
@@ -295,8 +293,6 @@ const nftResult = ref([] as NFTWithMeta[])
 const collectionResult = ref([] as CollectionWithMeta[])
 const searched = ref([] as NFTWithMeta[])
 const searchString = ref('')
-
-const showDefaultSuggestions = ref(false)
 
 onMounted(() => {
   getSearchHistory()
