@@ -109,15 +109,32 @@
       <hr class="my-6" />
 
       <!-- create collection button -->
-      <NeoField
-        variant="danger"
-        :message="`${canDeposit ? '' : $t('tooltip.notEnoughBalance')}`">
-        <SubmitButton
-          expanded
-          label="create collection"
-          type="submit"
-          :loading="isLoading"
-          :disabled="!canDeposit" />
+      <NeoField>
+        <div>
+          <NeoButton
+            expanded
+            :label="`${canDeposit ? 'Create Collection' : 'Not Enough Funds'}`"
+            type="submit"
+            size="medium"
+            :loading="isLoading"
+            :disabled="!canDeposit" />
+
+          <div v-if="isBasilisk || isAssetHub" class="p-4 is-flex">
+            <NeoIcon icon="circle-info" size="medium" class="mr-4" />
+            <p class="is-size-7">
+              A deposit of
+              <strong>{{ collectionDeposit }} {{ depositAssetSymbol }}</strong>
+              is required to create a collection. Please note, this initial
+              deposit is refundable.
+              <a
+                href="https://hello.kodadot.xyz/multi-chain/fees"
+                target="_blank"
+                class="has-text-link">
+                Learn more
+              </a>
+            </p>
+          </div>
+        </div>
       </NeoField>
     </form>
   </div>
@@ -131,9 +148,15 @@ import type {
 } from '@/composables/transaction/types'
 import type { PalletBalancesAccountData } from '@polkadot/types/lookup'
 
-import { NeoField, NeoInput, NeoSelect, NeoSwitch } from '@kodadot1/brick'
+import {
+  NeoButton,
+  NeoField,
+  NeoIcon,
+  NeoInput,
+  NeoSelect,
+  NeoSwitch,
+} from '@kodadot1/brick'
 import DropUpload from '@/components/shared/DropUpload.vue'
-import SubmitButton from '@/components/base/SubmitButton.vue'
 import { availablePrefixes, depositAmount } from '@/utils/chain'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { notificationTypes, showNotification } from '@/utils/notification'
@@ -277,7 +300,7 @@ watchEffect(async () => {
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .o-field:not(:last-child) {
   margin-bottom: 2rem;
 }
