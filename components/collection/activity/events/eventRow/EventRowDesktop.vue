@@ -83,7 +83,6 @@ import {
   blank,
   getAmount,
   getFromAddress,
-  getInteractionColor,
   getNFTAvatar,
   getToAddress,
   interactionNameMap,

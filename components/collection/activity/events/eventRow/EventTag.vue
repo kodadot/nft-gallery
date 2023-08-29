@@ -14,5 +14,3 @@ defineProps<{
   interactionName: string
 }>()
 </script>
-
-<style scoped></style>
