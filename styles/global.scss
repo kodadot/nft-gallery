@@ -155,7 +155,7 @@ body {
   text-overflow: ellipsis;
 }
 
-.type-table {
+.no-wrap {
   white-space: nowrap;
 }
 
@@ -315,6 +315,13 @@ a.has-text-grey {
     border-color:  theme('k-shade');
   }
 }
+
+.has-text-k-shade {
+  @include ktheme() {
+    color: theme('k-shade');
+  }  
+}
+
 
 
 //colors

@@ -27,10 +27,9 @@ export default {
   head() {
     const { $route } = useNuxtApp()
     const runtimeConfig = useRuntimeConfig()
-    const title = 'Low minting fees and carbonless NFTs'
+    const title = 'Explore NFT Collections'
     const metaData = {
       title,
-      type: 'profile',
       description: 'Buy Carbonless NFTs on Kusama',
       url: `/${$route.params.prefix}/explore/collectibles`,
       image: `${runtimeConfig.public.baseUrl}/k_card.png`,

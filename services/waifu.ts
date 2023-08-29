@@ -1,4 +1,4 @@
-import { $fetch, FetchError } from 'ohmyfetch'
+import { $fetch, FetchError } from 'ofetch'
 
 const BASE_URL = 'https://waifu-me.kodadot.workers.dev'
 

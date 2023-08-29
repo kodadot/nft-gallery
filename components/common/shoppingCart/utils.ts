@@ -3,6 +3,7 @@ import { ShoppingCartItem } from './types'
 import { useFiatStore } from '@/stores/fiat'
 import { sum } from '@/utils/math'
 import { NFT } from '@/components/rmrk/service/scheme'
+import { chainPropListOf } from '@/utils/config/chain.config'
 
 export const prefixToToken = {
   ksm: 'KSM',
@@ -14,12 +15,17 @@ export const prefixToToken = {
   dot: 'DOT',
 }
 
+const getTokenDecimal = (item: ShoppingCartItem) => {
+  const token = prefixToToken[item.urlPrefix]
+  return chainPropListOf(token.toLowerCase()).tokenDecimals
+}
+
 export const totalPriceUsd = (items: ShoppingCartItem[]) => {
   const fiatStore = useFiatStore()
 
   const nftSPrice = items.map((item) =>
     calculateExactUsdFromToken(
-      Number(item.price) * Math.pow(10, -12),
+      Number(item.price) * Math.pow(10, -getTokenDecimal(item)),
       Number(fiatStore.getCurrentTokenValue(prefixToToken[item.urlPrefix]))
     )
   )
@@ -27,7 +33,7 @@ export const totalPriceUsd = (items: ShoppingCartItem[]) => {
   const royalties = items.map((item) =>
     item.royalty
       ? calculateExactUsdFromToken(
-          Number(item.royalty.amount) * Math.pow(10, -12),
+          Number(item.royalty.amount) * Math.pow(10, -getTokenDecimal(item)),
           Number(fiatStore.getCurrentTokenValue(prefixToToken[item.urlPrefix]))
         )
       : 0
