@@ -51,6 +51,12 @@ describe('FORMAT BALANCE TEST', (): void => {
       [10000000, '10M'],
     ]
 
+    // string input
+    cases.forEach(([input, expected]) => {
+      expect(formatNumber(String(input))).toBe(expected)
+    })
+
+    // number input
     cases.forEach(([input, expected]) => {
       expect(formatNumber(input)).toBe(expected)
     })

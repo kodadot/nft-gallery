@@ -27,21 +27,26 @@ export function formatNumber(amount?: string | number): string {
   if (!amount) {
     return '0'
   }
-  const numStr = typeof amount === 'number' ? amount.toString() : amount
-  const number = Number(withoutDigitSeparator(numStr))
+  const number =
+    typeof amount === 'number' ? amount : Number(withoutDigitSeparator(amount))
 
+  let formattedNumber
   if (number >= 1000000) {
-    return (number / 1000000).toFixed(1).replace(/\.0$/, '') + 'M'
+    formattedNumber = (number / 1000000).toFixed(1).replace(/\.0$/, '') + 'M'
   } else if (number >= 1000) {
-    return (number / 1000).toFixed(1).replace(/\.0$/, '') + 'k'
+    formattedNumber = (number / 1000).toFixed(1).replace(/\.0$/, '') + 'k'
+  } else if (number === 0) {
+    formattedNumber = '0'
   } else if (number < 0.001) {
-    return number.toFixed(4)
+    formattedNumber = number.toFixed(4)
   } else if (number < 0.01) {
-    return number.toFixed(3)
+    formattedNumber = number.toFixed(3)
   } else if (number < 0.1) {
-    return number.toFixed(2)
+    formattedNumber = number.toFixed(2)
+  } else {
+    formattedNumber = number.toFixed(1).replace(/\.0$/, '')
   }
-  return number.toFixed(1).replace(/\.0$/, '')
+  return formattedNumber
 }
 
 export function calculateBalance(value: number, decimals = 12): number {
