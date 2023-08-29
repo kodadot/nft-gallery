@@ -2,7 +2,7 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <BaseTokenForm
-      v-bind.sync="base"
+      v-bind="base"
       ref="baseTokenForm"
       :collections="collections"
       :show-explainer-text="showExplainerText">
@@ -111,6 +111,14 @@ import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
 import SubmitButton from '@/components/base/SubmitButton.vue'
 import RoyaltyForm from '@/components/bsx/Create/RoyaltyForm.vue'
 
+const { isLoading, status } = useMetaTransaction()
+const { $i18n, $apollo } = useNuxtApp()
+const { accountId, isLogIn, balance } = useAuth()
+const { client } = usePrefix()
+const { urlPrefix } = usePrefix()
+const { unit, decimals } = useChain()
+const router = useRouter()
+
 const base: BaseTokenType<MintedCollectionKusama> = {
   name: '',
   file: null,
@@ -134,21 +142,15 @@ const royalty: Royalty = {
   address: '',
 }
 
-const isLoading = ref(false)
-const status = ref()
-
 const balanceInput = ref()
 const baseTokenForm = ref()
+
 defineProps({
   showExplainerText: {
     type: Boolean,
     default: false,
   },
 })
-
-const updatePrice = (value: string) => {
-  price.value = value
-}
 
 const version = computed(() => {
   return useRmrkVersion().version.value
@@ -158,13 +160,9 @@ const hasPrice = computed(() => {
   return Number(price.value)
 })
 
-const { $i18n, $apollo } = useNuxtApp()
-
 const balanceNotEnoughMessage = computed(() => {
   return balanceNotEnough ? $i18n.t('tooltip.notEnoughBalance') : ''
 })
-
-const { accountId, isLogIn, balance } = useAuth()
 
 watch(
   accountId,
@@ -178,7 +176,9 @@ watch(
   }
 )
 
-const { client } = usePrefix()
+const updatePrice = (value: string) => {
+  price.value = value
+}
 
 const fetchCollections = async () => {
   const _collections = await $apollo.query({
@@ -289,9 +289,6 @@ const submit = async () => {
   }
 }
 
-const { urlPrefix } = usePrefix()
-const { unit, decimals } = useChain()
-
 const listForSale = async (
   createdNFT: CreatedNFT[] | CreatedNFTV2[],
   originalBlockNumber: string
@@ -361,8 +358,6 @@ const handleCreatedNftsRedirect = (
     toCollectionPage: !isSingle,
   })
 }
-
-const router = useRouter()
 
 const navigateToDetail = ({
   pageId,
