@@ -40,9 +40,15 @@ const toggleWalletConnectModal = () => {
     return
   }
 
-  modal.value = $neoModal.open({
+  let modalInstance = $neoModal.open({
     parent: instance?.proxy,
     ...ConnectWalletModalConfig,
   })
+  modalInstance.$once('close', () => {
+    if (isMobile) {
+      emit('closeBurgerMenu')
+    }
+  })
+  modal.value = modalInstance
 }
 </script>

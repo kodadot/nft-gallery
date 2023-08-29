@@ -51,7 +51,12 @@ function toggleShoppingCartModal() {
 
   // can use the function in ShoppingCartModalConfig
   if (!isShoppingCartOpen()) {
-    openShoppingCart(instance)
+    let modalInstance = openShoppingCart(instance)
+    modalInstance.$once('close', () => {
+      if (isMobile.value) {
+        emit('closeBurgerMenu')
+      }
+    })
   }
 }
 </script>

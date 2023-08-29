@@ -30,12 +30,17 @@ function toggleNotificationModal() {
   if (!document.querySelector('.notification-box-modal')) {
     preferencesStore.setNotificationBoxCollapse(true)
 
-    $neoModal.open({
+    let modalInstance = $neoModal.open({
       parent: instance?.proxy,
       onCancel: () => {
         preferencesStore.setNotificationBoxCollapse(false)
       },
       ...NotificationBoxModalConfig,
+    })
+    modalInstance.$once('close', () => {
+      if (isMobile.value) {
+        emit('closeBurgerMenu')
+      }
     })
   }
 }

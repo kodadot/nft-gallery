@@ -5,7 +5,9 @@
       {{ title }}
     </div>
   </header>
-  <header v-else class="modal-card-head">
+  <header
+    v-else
+    class="modal-card-head py-5 px-6 is-flex is-justify-content-space-between border-bottom">
     <span class="modal-card-title is-size-6 has-text-weight-bold">
       {{ title }}
     </span>

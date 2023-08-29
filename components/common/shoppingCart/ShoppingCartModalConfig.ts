@@ -19,7 +19,7 @@ export const openShoppingCart = (instance) => {
 
   $neoModal.closeAll()
 
-  $neoModal.open({
+  return $neoModal.open({
     parent: instance?.proxy,
     onCancel: () => {
       preferencesStore.setShoppingCartCollapse(false)
