@@ -37,6 +37,7 @@ type ChainType =
   | 'basilisk-testnet'
   | 'statemine'
   | 'statemint'
+
 type ChainDetail = {
   balance: string
   nativeBalance: string
