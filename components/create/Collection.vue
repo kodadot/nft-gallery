@@ -80,7 +80,8 @@
             ref="symbolInput"
             v-model="symbol"
             :placeholder="$t('mint.collection.symbol.placeholder')"
-            maxlength="10"
+            minlength="3"
+            maxlength="5"
             required
             expanded />
         </div>
