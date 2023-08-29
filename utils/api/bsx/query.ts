@@ -1,6 +1,5 @@
 import type { ApiPromise } from '@polkadot/api'
 import type { Option, u32 } from '@polkadot/types'
-import type { Codec } from '@polkadot/types/types'
 import type { PalletBalancesAccountData } from '@polkadot/types/lookup'
 import { chainPropListOf } from '~/utils/config/chain.config'
 import { unwrapOrDefault } from '../format'
@@ -21,8 +20,7 @@ export function getAssetMetadataById(
   }
   return api.query.assetRegistry
     .assetMetadataMap(id)
-    .then((val) => unwrapOrDefault(val as Option<Codec>))
-    .then((val) => val.toJSON() as AssetRegistryMetadata)
+    .then((val) => val.toHuman() as AssetRegistryMetadata)
 }
 
 export function getAssetIdByAccount(

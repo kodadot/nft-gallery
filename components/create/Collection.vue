@@ -160,7 +160,11 @@ import DropUpload from '@/components/shared/DropUpload.vue'
 import { availablePrefixes, depositAmount } from '@/utils/chain'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { getAssetIdByAccount, getKusamaAssetId } from '@/utils/api/bsx/query'
+import {
+  getAssetIdByAccount,
+  getAssetMetadataById,
+  getKusamaAssetId,
+} from '@/utils/api/bsx/query'
 import { balanceOf } from '@kodadot1/sub-api'
 import { CHAINS, Prefix } from '@kodadot1/static'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
@@ -283,6 +287,9 @@ watchEffect(async () => {
 
   if (isBasilisk.value) {
     depositTokenId.value = await getAssetIdByAccount(api, accountId.value)
+    depositSymbol.value = (
+      await getAssetMetadataById(api, depositTokenId.value)
+    ).symbol
 
     if (depositAssetSymbol.value === 'KSM') {
       balance.value = (
