@@ -186,7 +186,6 @@ import { useWindowSize } from '@vueuse/core'
 import { usePreferencesStore } from '@/stores/preferences'
 
 const { urlPrefix } = usePrefix()
-const { $seoMeta } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
 const { placeholder } = useTheme()
@@ -275,7 +274,7 @@ const { isUnlockable, unlockLink } = useUnlockable(collection)
 const title = computed(() => nftMetadata.value?.name || '')
 const meta = computed(() => {
   return [
-    ...$seoMeta({
+    {
       title: title.value,
       description: convertMarkdownToText(nftMetadata.value?.description),
       image: generateNftImage(
@@ -287,7 +286,7 @@ const meta = computed(() => {
       mime: nftMimeType.value,
       url: route.path,
       video: sanitizeIpfsUrl(nftAnimation.value || ''),
-    }),
+    },
   ]
 })
 
