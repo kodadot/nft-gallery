@@ -18,7 +18,7 @@
       </div>
     </div>
     <hr class="my-0" />
-    <History :id="id" :events="filteredEvents" />
+    <History :id="id" :events="filteredEvents" display-item />
   </div>
 </template>
 
