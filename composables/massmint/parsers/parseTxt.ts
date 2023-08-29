@@ -87,10 +87,10 @@ const updateEntries = (entries, block) => {
   if (entry.file) {
     entries[entry.file] = {
       file: entry.file,
-      name: entry.name || undefined,
-      description: entry.description || undefined,
-      price: entry.price || undefined,
-      currency: entry.currency || undefined,
+      name: entry.name,
+      description: entry.description,
+      price: entry.price,
+      currency: entry.currency,
       valid: isValidEntry(entry),
     }
   } else {
@@ -111,7 +111,7 @@ export function parseTxt(
 
   if (Object.keys(entries).length === 0) {
     $consola.error('Invalid TXT file structure')
-    return undefined
+    return
   }
 
   return entries
