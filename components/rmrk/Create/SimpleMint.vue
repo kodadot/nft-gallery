@@ -10,7 +10,7 @@
 
     <Auth />
 
-    <MetadataUpload
+    <DropUpload
       ref="nftUpload"
       v-model="file"
       required
@@ -66,8 +66,8 @@
         :min="1" />
     </NeoField>
 
-    <MetadataUpload
-      v-if="secondaryFileVisible"
+    <DropUpload
+      v-if="isSecondaryFileVisible"
       v-model="secondFile"
       label="Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)"
       icon="file-image"
@@ -107,7 +107,7 @@
         </p>
         <NeoField :label="$t('mint.expert.batchSend')">
           <NeoInput
-            v-model="batchAdresses"
+            v-model="batchAddresses"
             type="textarea"
             :placeholder="'Distribute NFTs to multiple addresses like this:\n- HjshJ....3aJk\n- FswhJ....3aVC\n- HjW3J....9c3V'"
             spellcheck="true"
@@ -159,13 +159,13 @@
     <NeoField>
       <NeoIcon icon="calculator" />
       <span class="pr-2">{{ $t('mint.estimated') }}</span>
-      <Money :value="estimated" inline data-cy="fee" />
+      <BasicMoney :value="estimated" inline data-cy="fee" />
       <span class="pl-2"> ({{ getUsdFromKsm().toFixed(2) }} USD) </span>
     </NeoField>
   </section>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import {
   sendFunction,
   shuffleFunction,
@@ -179,7 +179,6 @@ import {
   secondaryFileVisible,
 } from '@/utils/mintUtils'
 import { generateId } from '@/components/rmrk/service/Consolidator'
-import Support from '@/components/shared/Support.vue'
 import collectionList from '@/queries/subsquid/rmrk/usedCollectionSymbolsByAccount.graphql'
 import {
   DETAIL_TIMEOUT,
@@ -187,11 +186,6 @@ import {
 } from '@/utils/constants'
 import { uploadDirectWhenMultiple } from '@/utils/directUpload'
 import { emptyObject } from '@/utils/empty'
-import ChainMixin from '@/utils/mixins/chainMixin'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-import SubscribeMixin from '@/utils/mixins/subscribeMixin'
-import TransactionMixin from '@/utils/mixins/txMixin'
-import UseApiMixin from '@/utils/mixins/useApiMixin'
 import { pinFileToIPFS, pinJson } from '@/services/nftStorage'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import correctFormat from '@/utils/ss58Format'
@@ -202,15 +196,12 @@ import exec, {
   txCb,
 } from '@/utils/transactionExecutor'
 import { Interaction, createInteraction } from '@kodadot1/minimark/v1'
-import { Attribute, mapAsSystemRemark } from '@kodadot1/minimark/common'
+import { mapAsSystemRemark } from '@kodadot1/minimark/common'
 import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
-
 import { findUniqueSymbol } from '@kodadot1/minimark/shared'
 import { DispatchError } from '@polkadot/types/interfaces'
 import { formatBalance } from '@polkadot/util'
 import { encodeAddress, isAddress } from '@polkadot/util-crypto'
-import { Component, Ref, Watch, mixins } from 'nuxt-property-decorator'
-import Vue from 'vue'
 import { unwrapSafe } from '@/utils/uniquery'
 import NFTUtils, { MintType } from '../service/NftUtils'
 import {
@@ -219,9 +210,7 @@ import {
   SimpleNFT,
   toNFTId,
 } from '../service/scheme'
-import { MediaType } from '../types'
 import { resolveMedia } from '../utils'
-import AuthMixin from '~/utils/mixins/authMixin'
 import { useFiatStore } from '@/stores/fiat'
 import { usePinningStore } from '@/stores/pinning'
 import { usePreferencesStore } from '@/stores/preferences'
@@ -233,654 +222,554 @@ import {
   NeoSlider,
   NeoSwitch,
 } from '@kodadot1/brick'
+import BasicInput from '@/components/shared/form/BasicInput.vue'
+import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
+import SubmitButton from '@/components/base/SubmitButton.vue'
+import BasicMoney from '@/components/shared/format/BasicMoney.vue'
+import AttributeTagInput from './AttributeTagInput.vue'
 import { useIdentityStore } from '@/stores/identity'
 
-const components = {
-  Auth: () => import('@/components/shared/Auth.vue'),
-  MetadataUpload: () => import('@/components/shared/DropUpload.vue'),
-  Support,
-  AttributeTagInput: () => import('./AttributeTagInput.vue'),
-  BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
-  Money: () => import('@/components/shared/format/BasicMoney.vue'),
-  Loader: () => import('@/components/shared/Loader.vue'),
-  CollapseWrapper: () =>
-    import('@/components/shared/collapse/CollapseWrapper.vue'),
-  BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
-  BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
-  SubmitButton: () => import('@/components/base/SubmitButton.vue'),
-  NeoIcon,
-  NeoSwitch,
-  NeoField,
-  NeoInput,
-  NeoSlider,
-  NeoButton,
-}
+const { $i18n, $router, $consola, $apollo } = useNuxtApp()
+const { apiInstance } = useApi()
+const { accountId } = useAuth()
+const { chainProperties, decimals, unit } = useChain()
+const { client } = usePrefix()
+const { isLoading, status, resolveStatus } = useTransactionStatus()
+const { isLogIn } = useAuth()
+const fiatStore = useFiatStore()
+const pinningStore = usePinningStore()
+const preferencesStore = usePreferencesStore()
+const identityStore = useIdentityStore()
+const { version } = useRmrkVersion()
 
-@Component<SimpleMint>({
-  components,
+const rmrkMint = ref({
+  ...emptyObject<SimpleNFT>(),
+  max: 1,
 })
-export default class SimpleMint extends mixins(
-  SubscribeMixin,
-  TransactionMixin,
-  ChainMixin,
-  PrefixMixin,
-  UseApiMixin,
-  AuthMixin
-) {
-  private rmrkMint: SimpleNFT = {
-    ...emptyObject<SimpleNFT>(),
-    max: 1,
-  }
-  private meta: NFTMetadata = emptyObject<NFTMetadata>()
-  private uploadMode = true
-  private file: File | null = null
-  private secondFile: File | null = null
-  private password = ''
-  private hasToS = false
-  private nsfw = false
-  private price = 0
-  private estimated = ''
-  protected batchAdresses = ''
-  protected postfix = true
-  protected random = false
-  protected distribution = 100
-  protected first = 100
-  protected usedCollectionSymbols: string[] = []
-  protected balanceNotEnough = false
-  protected haveNoToS = false
+const meta = ref(emptyObject<NFTMetadata>())
+const file = ref<File | null>(null)
+const secondFile = ref<File | null>(null)
+const hasToS = ref(false)
+const nsfw = ref(false)
+const price = ref(0)
+const estimated = ref('')
+const batchAddresses = ref('')
+const postfix = ref(true)
+const random = ref(false)
+const distribution = ref(100)
+const first = ref(100)
+const usedCollectionSymbols = ref<string[]>([])
+const balanceNotEnough = ref(false)
+const haveNoToS = ref(false)
+const nftUpload = ref()
+const nftNameInput = ref()
+const nftSymbolInput = ref()
 
-  @Ref('nftUpload') readonly nftUpload
-  @Ref('nftNameInput') readonly nftNameInput
-  @Ref('nftSymbolInput') readonly nftSymbolInput
+const balanceNotEnoughMessage = computed(() =>
+  balanceNotEnough.value ? $i18n.t('tooltip.notEnoughBalance') : ''
+)
+const haveNoToSMessage = computed(() =>
+  haveNoToS.value ? $i18n.t('tooltip.haveNoToS') : ''
+)
+const fileType = computed(() => resolveMedia(file.value?.type))
+const isSecondaryFileVisible = computed(
+  () =>
+    isFileWithoutType(file.value, fileType.value) ||
+    isSecondFileVisible(fileType.value)
+)
+const rmrkId = computed(() =>
+  generateId(accountId.value, rmrkMint.value?.symbol || '')
+)
+const canCalculateTransactionFees = computed(
+  () =>
+    !!(
+      price.value &&
+      rmrkMint.value.name &&
+      rmrkMint.value.symbol &&
+      rmrkMint.value.max
+    )
+)
+const hasSupport = computed(() => preferencesStore.hasSupport)
+const hasCarbonOffset = computed({
+  get: () => preferencesStore.getHasCarbonOffset,
+  set: (value: boolean) => preferencesStore.setHasCarbonOffset(value),
+})
 
-  layout() {
-    return 'centered-half-layout'
-  }
+const ss58Format = computed(() => chainProperties.value?.ss58Format)
+const parseAddresses = computed(() => {
+  const addresses = batchAddresses.value
+    .split('\n')
+    .map((x) => x.split('-'))
+    .filter((x) => x.length)
+    .map((x) => x[1])
+    .filter((x) => x)
+    .map((a) => a.trim())
+  const onlyValid = addresses
+    .filter((a) => isAddress(a))
+    .map((a) => encodeAddress(a, correctFormat(ss58Format.value)))
 
-  get fiatStore() {
-    return useFiatStore()
-  }
+  return onlyValid
+})
+const syncVisible = computed(
+  () => rmrkMint.value.max < actualDistribution.value
+)
+const actualDistribution = computed(() =>
+  toDistribute(parseAddresses.value.length, distribution.value)
+)
+const balance = computed(() => identityStore.getAuthBalance)
+const isMintDisabled = computed(
+  () => Number(balance.value) < Number(estimated.value)
+)
 
-  get pinningStore() {
-    return usePinningStore()
-  }
-
-  get preferencesStore() {
-    return usePreferencesStore()
-  }
-
-  get identityStore() {
-    return useIdentityStore()
-  }
-
-  get version() {
-    return useRmrkVersion().version.value
-  }
-
-  get balanceNotEnoughMessage() {
-    return this.balanceNotEnough ? this.$t('tooltip.notEnoughBalance') : ''
-  }
-
-  get haveNoToSMessage() {
-    return this.haveNoToS ? this.$t('tooltip.haveNoToS') : ''
-  }
-
-  // query for nfts information by accountId
-  public async created() {
-    this.$apollo.addSmartQuery('collections', {
-      query: collectionList,
-      client: this.client,
-      manual: true,
-      loadingKey: 'isLoading',
-      result: this.handleResult,
-      variables: () => {
-        return {
-          account: this.accountId,
-          first: this.first,
-        }
-      },
-      fetchPolicy: 'cache-and-network',
-    })
-  }
-
-  // handle query results
-  public handleResult(data: any) {
+// query for nfts information by accountId
+$apollo
+  .watchQuery({
+    query: collectionList,
+    client: client.value,
+    variables: {
+      account: accountId.value,
+      first: first.value,
+    },
+    fetchPolicy: 'cache-and-network',
+  })
+  .subscribe((data) => {
     const collectionEntities = data?.data?.collectionEntities
     if (collectionEntities) {
-      this.usedCollectionSymbols = unwrapSafe(collectionEntities).map(
+      usedCollectionSymbols.value = unwrapSafe(collectionEntities).map(
         ({ symbol }) => symbol
       )
     }
-  }
+  })
 
-  // set symbol name
-  private generateSymbol(): void {
-    if (!this.rmrkMint?.symbol && this.rmrkMint.name?.length) {
-      const symbol = this.generateSymbolCore(
-        this.rmrkMint.name,
-        this.usedCollectionSymbols
-      )
-      Vue.set(this.rmrkMint, 'symbol', symbol)
-    }
-  }
-
-  // core: to generate symbol
-  private generateSymbolCore(name: string, usedSymbols: string[]): string {
-    let symbol = name.replaceAll(' ', '_')
-    symbol = findUniqueSymbol(symbol, usedSymbols)
-    return symbol.slice(0, 10).toUpperCase() // symbol's length have to smaller than 10
-  }
-
-  protected updateMeta(value: number): void {
-    this.price = value
-
-    if (this.canCalculateTransactionFees) {
-      this.estimateTx()
-    }
-  }
-
-  get fileType(): MediaType {
-    return resolveMedia(this.file?.type)
-  }
-
-  get secondaryFileVisible(): boolean {
-    const fileType = this.fileType
-    return (
-      isFileWithoutType(this.file, fileType) || isSecondFileVisible(fileType)
+// set symbol name
+function generateSymbol(): void {
+  if (!rmrkMint.value?.symbol && rmrkMint.value.name?.length) {
+    const symbol = generateSymbolCore(
+      rmrkMint.value.name,
+      usedCollectionSymbols.value
     )
+
+    rmrkMint.value.symbol = symbol
+  }
+}
+
+// core: to generate symbol
+function generateSymbolCore(name: string, usedSymbols: string[]): string {
+  let symbol = name.replaceAll(' ', '_')
+  symbol = findUniqueSymbol(symbol, usedSymbols)
+  return symbol.slice(0, 10).toUpperCase() // symbol's length have to smaller than 10
+}
+
+function updateMeta(value: number): void {
+  price.value = value
+
+  if (canCalculateTransactionFees.value) {
+    estimateTx()
+  }
+}
+
+function checkValidity() {
+  return (
+    nftUpload.value.checkValidity() &&
+    nftNameInput.value.checkValidity() &&
+    nftSymbolInput.value.checkValidity()
+  )
+}
+
+async function estimateTx() {
+  if (!version.value) {
+    return
   }
 
-  get rmrkId(): string {
-    return generateId(this.accountId, this.rmrkMint?.symbol || '')
+  const api = await apiInstance.value
+  const toRemark = mapAsSystemRemark(api)
+  const result = NFTUtils.generateRemarks(
+    rmrkMint.value,
+    accountId.value,
+    version.value
+  )
+  const cb = api.tx.utility.batchAll
+  const remarks: string[] = Array.isArray(result)
+    ? result
+    : [
+        NFTUtils.toString(result.collection, version.value),
+        ...result.nfts.map((nft) => NFTUtils.toString(nft, version.value)),
+      ]
+
+  const args = !hasSupport.value
+    ? remarks.map(toRemark)
+    : [
+        ...remarks.map(toRemark),
+        ...(await canSupport(api, hasSupport.value, 3)),
+      ]
+
+  estimated.value = await estimate(accountId.value, cb, [args])
+}
+
+function syncEdition(): void {
+  rmrkMint.value.max = actualDistribution.value
+}
+
+async function sub(): Promise<void> {
+  if (!checkValidity()) {
+    return
+  }
+  if (!hasToS.value) {
+    haveNoToS.value = true
+    return
+  }
+  if (isMintDisabled.value) {
+    balanceNotEnough.value = true
+    return
+  }
+  isLoading.value = true
+  status.value = 'loader.ipfs'
+
+  if (!version.value) {
+    return
   }
 
-  get canCalculateTransactionFees(): boolean {
-    const { name, symbol, max } = this.rmrkMint
-    return !!(this.price && name && symbol && max)
-  }
+  rmrkMint.value.max = Number(rmrkMint.value.max)
+  const api = await apiInstance.value
+  const toRemark = mapAsSystemRemark(api)
 
-  get disabled(): boolean {
-    const { name, symbol, max } = this.rmrkMint
-    return (
-      !(
-        name &&
-        symbol &&
-        max &&
-        this.hasToS &&
-        this.accountId &&
-        this.file &&
-        !this.syncVisible
-      ) || this.isMintDisabled
-    )
-  }
+  try {
+    const meta = await constructMeta()
+    rmrkMint.value.metadata = meta || ''
 
-  get hasSupport(): boolean {
-    return this.preferencesStore.hasSupport
-  }
+    const result = NFTUtils.generateRemarks(
+      rmrkMint.value,
+      accountId.value,
+      version.value,
+      false,
+      postfix.value && rmrkMint.value.max > 1
+        ? (name: string, index: number) => `${name} #${index + 1}`
+        : undefined
+    ) as MintType
 
-  get hasCarbonOffset() {
-    return this.preferencesStore.getHasCarbonOffset
-  }
-
-  set hasCarbonOffset(value: boolean) {
-    this.preferencesStore.setHasCarbonOffset(value)
-  }
-
-  public checkValidity() {
-    return (
-      this.nftUpload.checkValidity() &&
-      this.nftNameInput.checkValidity() &&
-      this.nftSymbolInput.checkValidity()
-    )
-  }
-
-  protected async estimateTx() {
-    const { accountId, version } = this
-    if (!version) {
-      return
-    }
-    const api = await this.useApi()
-
-    const toRemark = mapAsSystemRemark(api)
-
-    const result = NFTUtils.generateRemarks(this.rmrkMint, accountId, version)
     const cb = api.tx.utility.batchAll
     const remarks: string[] = Array.isArray(result)
       ? result
       : [
-          NFTUtils.toString(result.collection, version),
-          ...result.nfts.map((nft) => NFTUtils.toString(nft, version)),
+          NFTUtils.toString(result.collection, version.value),
+          ...result.nfts.map((nft) => NFTUtils.toString(nft, version.value)),
         ]
 
-    const args = !this.hasSupport
+    const args = !hasSupport.value
       ? remarks.map(toRemark)
       : [
           ...remarks.map(toRemark),
-          ...(await canSupport(api, this.hasSupport, 3)),
+          ...(await canSupport(api, hasSupport.value, 3)),
         ]
 
-    this.estimated = await estimate(this.accountId, cb, [args])
-  }
+    const tx = await exec(
+      accountId.value,
+      '',
+      cb,
+      [args],
+      txCb(
+        async (blockHash) => {
+          execResultValue(tx)
+          const header = await api.rpc.chain.getHeader(blockHash)
+          const blockNumber = header.number.toString()
 
-  get enoughTokens(): boolean {
-    return this.parseAddresses.length <= this.rmrkMint.max
-  }
-
-  get ss58Format(): number {
-    return this.chainProperties?.ss58Format
-  }
-
-  get parseAddresses(): string[] {
-    const { batchAdresses } = this
-    const addresses = batchAdresses
-      .split('\n')
-      .map((x) => x.split('-'))
-      .filter((x) => x.length)
-      .map((x) => x[1])
-      .filter((x) => x)
-      .map((a) => a.trim())
-    const onlyValid = addresses
-      .filter((a) => isAddress(a))
-      .map((a) => encodeAddress(a, correctFormat(this.ss58Format)))
-
-    return onlyValid
-  }
-
-  get syncVisible(): boolean {
-    return this.rmrkMint.max < this.actualDistribution
-  }
-
-  get actualDistribution(): number {
-    return toDistribute(this.parseAddresses.length, this.distribution)
-  }
-
-  get balance(): string {
-    return this.identityStore.getAuthBalance
-  }
-
-  get isMintDisabled(): boolean {
-    return Number(this.balance) < Number(this.estimated)
-  }
-
-  protected syncEdition(): void {
-    this.rmrkMint.max = this.actualDistribution
-  }
-
-  protected async sub(): Promise<void> {
-    if (!this.checkValidity()) {
-      return
-    }
-    if (!this.hasToS) {
-      this.haveNoToS = true
-      return
-    }
-    if (this.isMintDisabled) {
-      this.balanceNotEnough = true
-      return
-    }
-    this.isLoading = true
-    this.status = 'loader.ipfs'
-    const { accountId, version } = this
-    if (!version) {
-      return
-    }
-    this.rmrkMint.max = Number(this.rmrkMint.max)
-    const api = await this.useApi()
-    const toRemark = mapAsSystemRemark(api)
-
-    try {
-      const meta = await this.constructMeta()
-      this.rmrkMint.metadata = meta || ''
-
-      const result = NFTUtils.generateRemarks(
-        this.rmrkMint,
-        accountId,
-        version,
-        false,
-        this.postfix && this.rmrkMint.max > 1
-          ? (name: string, index: number) => `${name} #${index + 1}`
-          : undefined
-      ) as MintType
-
-      const cb = api.tx.utility.batchAll
-      const remarks: string[] = Array.isArray(result)
-        ? result
-        : [
-            NFTUtils.toString(result.collection, version),
-            ...result.nfts.map((nft) => NFTUtils.toString(nft, version)),
-          ]
-
-      const args = !this.hasSupport
-        ? remarks.map(toRemark)
-        : [
-            ...remarks.map(toRemark),
-            ...(await canSupport(api, this.hasSupport, 3)),
-          ]
-
-      const tx = await exec(
-        this.accountId,
-        '',
-        cb,
-        [args],
-        txCb(
-          async (blockHash) => {
-            execResultValue(tx)
-            const header = await api.rpc.chain.getHeader(blockHash)
-            const blockNumber = header.number.toString()
-
-            if (this.batchAdresses) {
-              this.sendBatch(result.nfts, blockNumber)
-            } else if (this.price) {
-              this.listForSale(result.nfts, blockNumber)
-            } else {
-              this.navigateToDetail(result.nfts[0], blockNumber)
-            }
-
-            showNotification(
-              `[NFT] Saved ${this.rmrkMint.max} entries in block ${blockNumber}`,
-              notificationTypes.success
-            )
-
-            if (!this.batchAdresses || !this.price) {
-              this.isLoading = false
-            }
-          },
-          (dispatchError) => {
-            execResultValue(tx)
-            this.onTxError(dispatchError)
-            this.isLoading = false
-          },
-          (res) => this.resolveStatus(res.status)
-        )
-      )
-    } catch (e) {
-      if (e instanceof Error) {
-        showNotification(e.toString(), notificationTypes.warn)
-        this.isLoading = false
-      }
-    }
-  }
-
-  public async fetchRandomSeed(): Promise<number[]> {
-    const api = await this.useApi()
-    const random = await api.query.babe.randomness()
-    return Array.from(random)
-  }
-
-  protected async sendBatch(
-    remarks: RmrkCreatedNft[],
-    originalBlockNumber: string
-  ): Promise<void> {
-    try {
-      // TODO: WORK WITH V2
-      const { price } = this
-      const addresses = this.parseAddresses
-      showNotification(`[APP] Sending NFTs to ${addresses.length} adresses`)
-
-      const onlyNfts = remarks
-        .filter(NFTUtils.isNFT)
-        .map((nft) => ({ ...nft, id: toNFTId(nft, originalBlockNumber) }))
-      // .map(nft =>
-      //   NFTUtils.createInteraction('SEND', version, nft.id, String(price))
-      // )
-
-      if (!onlyNfts.length) {
-        showNotification('Can not send empty NFTs', notificationTypes.warn)
-        return
-      }
-
-      const api = await this.useApi()
-      const toRemark = mapAsSystemRemark(api)
-      const outOfTheNamesForTheRemarks = sendFunction(
-        addresses,
-        this.distribution,
-        this.random ? shuffleFunction(await this.fetchRandomSeed()) : undefined
-      )(onlyNfts.map((nft) => nft.id))
-      const restOfTheRemarks =
-        onlyNfts.length > addresses.length && this.price
-          ? onlyNfts
-              .slice(outOfTheNamesForTheRemarks.length)
-              .map((nft) =>
-                createInteraction(Interaction.LIST, nft.id, String(price))
-              )
-          : []
-
-      this.isLoading = true
-
-      const cb = api.tx.utility.batchAll
-      const args = [...outOfTheNamesForTheRemarks, ...restOfTheRemarks].map(
-        toRemark
-      )
-
-      const estimatedFee = await estimate(this.accountId, cb, [args])
-      const support = feeTx(api, estimatedFee)
-      args.push(support)
-
-      const tx = await exec(
-        this.accountId,
-        '',
-        cb,
-        [args],
-        txCb(
-          async (blockHash) => {
-            execResultValue(tx)
-            const header = await api.rpc.chain.getHeader(blockHash)
-            const blockNumber = header.number.toString()
-
-            showNotification(
-              `[SEND] Saved prices for ${
-                this.rmrkMint.max
-              } NFTs with tag ${formatBalance(price, {
-                decimals: this.decimals,
-                withUnit: this.unit,
-              })} in block ${blockNumber}`,
-              notificationTypes.success
-            )
-
-            this.isLoading = false
-            const firstNft = remarks.find(NFTUtils.isNFT)
-
-            if (firstNft) {
-              this.navigateToDetail(firstNft, originalBlockNumber)
-            }
-          },
-          (dispatchError) => {
-            execResultValue(tx)
-            this.onTxError(dispatchError)
-            this.isLoading = false
+          if (batchAddresses.value) {
+            sendBatch(result.nfts, blockNumber)
+          } else if (price.value) {
+            listForSale(result.nfts, blockNumber)
+          } else {
+            navigateToDetail(result.nfts[0], blockNumber)
           }
-        )
-      )
-    } catch (e) {
-      if (e instanceof Error) {
-        showNotification(e.message, notificationTypes.warn)
-        this.isLoading = false
-      }
-    }
-  }
 
-  protected async onTxError(dispatchError: DispatchError): Promise<void> {
-    const api = await this.useApi()
-    if (dispatchError.isModule) {
-      const decoded = api.registry.findMetaError(dispatchError.asModule)
-      const { docs, name, section } = decoded
-      showNotification(
-        `[ERR] ${section}.${name}: ${docs.join(' ')}`,
-        notificationTypes.warn
-      )
-    } else {
-      showNotification(
-        `[ERR] ${dispatchError.toString()}`,
-        notificationTypes.warn
-      )
-    }
+          showNotification(
+            `[NFT] Saved ${rmrkMint.value.max} entries in block ${blockNumber}`,
+            notificationTypes.success
+          )
 
-    this.isLoading = false
-  }
-
-  public async listForSale(
-    remarks: RmrkCreatedNft[],
-    originalBlockNumber: string
-  ) {
-    try {
-      const { price } = this
-      showNotification(
-        `[APP] Listing NFT to sale for ${formatBalance(price, {
-          decimals: this.decimals,
-          withUnit: this.unit,
-        })}`
-      )
-
-      const onlyNfts = remarks
-        .filter(NFTUtils.isNFT)
-        .map((nft) => ({ ...nft, id: toNFTId(nft, originalBlockNumber) }))
-        .map((nft) =>
-          createInteraction(Interaction.LIST, nft.id, String(price))
-        )
-
-      if (!onlyNfts.length) {
-        showNotification('Can not list empty NFTs', notificationTypes.warn)
-        return
-      }
-
-      this.isLoading = true
-      const api = await this.useApi()
-      const toRemark = mapAsSystemRemark(api)
-
-      const cb = api.tx.utility.batchAll
-      const args = onlyNfts.map(toRemark)
-
-      const tx = await exec(
-        this.accountId,
-        '',
-        cb,
-        [args],
-        txCb(
-          async (blockHash) => {
-            execResultValue(tx)
-            const header = await api.rpc.chain.getHeader(blockHash)
-            const blockNumber = header.number.toString()
-
-            showNotification(
-              `[LIST] Saved prices for ${
-                this.rmrkMint.max
-              } NFTs with tag ${formatBalance(price, {
-                decimals: this.decimals,
-                withUnit: this.unit,
-              })} in block ${blockNumber}`,
-              notificationTypes.success
-            )
-
-            this.isLoading = false
-            const firstNft = remarks.find(NFTUtils.isNFT)
-
-            if (firstNft) {
-              this.navigateToDetail(firstNft, originalBlockNumber)
-            }
-          },
-          (dispatchError) => {
-            execResultValue(tx)
-            this.onTxError(dispatchError)
-            this.isLoading = false
+          if (!batchAddresses.value || !price.value) {
+            isLoading.value = false
           }
-        )
+        },
+        (dispatchError) => {
+          execResultValue(tx)
+          onTxError(dispatchError)
+          isLoading.value = false
+        },
+        (res) => resolveStatus(res.status)
       )
-    } catch (e) {
-      if (e instanceof Error) {
-        showNotification(e.message, notificationTypes.warn)
-        this.isLoading = false
-      }
-    }
-  }
-
-  public nsfwAttribute(): Attribute[] {
-    if (!this.nsfw) {
-      return []
-    }
-
-    return [{ trait_type: 'NSFW', value: Number(this.nsfw) }]
-  }
-
-  public offsetAttribute(): Attribute[] {
-    if (!this.hasCarbonOffset) {
-      return []
-    }
-
-    return [{ trait_type: 'carbonless', value: Number(this.hasCarbonOffset) }]
-  }
-
-  public async constructMeta(): Promise<string | undefined> {
-    const { file, secondFile, rmrkMint, meta: m } = this
-    if (!file) {
-      throw new ReferenceError('No file found!')
-    }
-    const { token } = await this.pinningStore.fetchPinningKey(this.accountId)
-
-    const fileHash = await pinFileToIPFS(file, token)
-    const secondFileHash = secondFile
-      ? await pinFileToIPFS(secondFile, token)
-      : undefined
-
-    let imageHash: string | undefined = fileHash
-    let animationUrl: string | undefined = undefined
-
-    // if secondaryFileVisible(file) then assign secondaryFileHash to image and set animationUrl to fileHash
-    if (secondaryFileVisible(file)) {
-      animationUrl = fileHash
-      imageHash = secondFileHash || IPFS_KODADOT_IMAGE_PLACEHOLDER
-    }
-
-    const attributes = [
-      ...nsfwAttribute(this.nsfw),
-      ...offsetAttribute(this.hasCarbonOffset),
-    ]
-
-    const meta = createMetadata(
-      rmrkMint.name,
-      m.description || '',
-      imageHash,
-      animationUrl,
-      attributes,
-      'https://kodadot.xyz',
-      file.type
     )
-
-    const metaHash = await pinJson(meta, imageHash)
-
-    uploadDirectWhenMultiple(
-      [file, secondFile],
-      [fileHash, secondFileHash]
-    ).catch(this.$consola.warn)
-    return unSanitizeIpfsUrl(metaHash)
-  }
-
-  protected navigateToDetail(nft: RmrkCreatedNft, blockNumber: string) {
-    showNotification(
-      `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
-    )
-    const go = () =>
-      this.$router.push({
-        path: `/rmrk/gallery/${toNFTId(nft, blockNumber)}`,
-        query: { congratsNft: nft.name },
-      })
-    setTimeout(go, DETAIL_TIMEOUT)
-  }
-
-  protected getUsdFromKsm() {
-    const KSMVal = formatBalance(this.estimated, {
-      decimals: this.decimals,
-      withUnit: false,
-      forceUnit: '-',
-    })
-
-    return Number(this.fiatStore.getCurrentKSMValue) * Number(KSMVal)
-  }
-
-  @Watch('rmrkMint', { deep: true })
-  rmrkMintObjectChanged(): void {
-    if (this.canCalculateTransactionFees) {
-      this.estimateTx()
+  } catch (e) {
+    if (e instanceof Error) {
+      showNotification(e.toString(), notificationTypes.warn)
+      isLoading.value = false
     }
   }
 }
+
+async function fetchRandomSeed(): Promise<number[]> {
+  const api = await apiInstance.value
+  const random = await api.query.babe.randomness()
+  return Array.from(random)
+}
+
+async function sendBatch(
+  remarks: RmrkCreatedNft[],
+  originalBlockNumber: string
+): Promise<void> {
+  try {
+    // TODO: WORK WITH V2
+    const addresses = parseAddresses.value
+    showNotification(`[APP] Sending NFTs to ${addresses.length} addresses`)
+
+    const onlyNfts = remarks
+      .filter(NFTUtils.isNFT)
+      .map((nft) => ({ ...nft, id: toNFTId(nft, originalBlockNumber) }))
+    // .map(nft =>
+    //   NFTUtils.createInteraction('SEND', version, nft.id, String(price))
+    // )
+
+    if (!onlyNfts.length) {
+      showNotification('Can not send empty NFTs', notificationTypes.warn)
+      return
+    }
+
+    const api = await apiInstance.value
+    const toRemark = mapAsSystemRemark(api)
+    const outOfTheNamesForTheRemarks = sendFunction(
+      addresses,
+      distribution.value,
+      random.value ? shuffleFunction(await fetchRandomSeed()) : undefined
+    )(onlyNfts.map((nft) => nft.id))
+    const restOfTheRemarks =
+      onlyNfts.length > addresses.length && price.value
+        ? onlyNfts
+            .slice(outOfTheNamesForTheRemarks.length)
+            .map((nft) =>
+              createInteraction(Interaction.LIST, nft.id, String(price.value))
+            )
+        : []
+
+    isLoading.value = true
+
+    const cb = api.tx.utility.batchAll
+    const args = [...outOfTheNamesForTheRemarks, ...restOfTheRemarks].map(
+      toRemark
+    )
+
+    const estimatedFee = await estimate(accountId.value, cb, [args])
+    const support = feeTx(api, estimatedFee)
+    args.push(support)
+
+    const tx = await exec(
+      accountId.value,
+      '',
+      cb,
+      [args],
+      txCb(
+        async (blockHash) => {
+          execResultValue(tx)
+          const header = await api.rpc.chain.getHeader(blockHash)
+          const blockNumber = header.number.toString()
+
+          showNotification(
+            `[SEND] Saved prices for ${
+              rmrkMint.value.max
+            } NFTs with tag ${formatBalance(price.value, {
+              decimals: decimals.value,
+              withUnit: unit.value,
+            })} in block ${blockNumber}`,
+            notificationTypes.success
+          )
+
+          isLoading.value = false
+          const firstNft = remarks.find(NFTUtils.isNFT)
+
+          if (firstNft) {
+            navigateToDetail(firstNft, originalBlockNumber)
+          }
+        },
+        (dispatchError) => {
+          execResultValue(tx)
+          onTxError(dispatchError)
+          isLoading.value = false
+        }
+      )
+    )
+  } catch (e) {
+    if (e instanceof Error) {
+      showNotification(e.message, notificationTypes.warn)
+      isLoading.value = false
+    }
+  }
+}
+
+async function onTxError(dispatchError: DispatchError): Promise<void> {
+  const api = await apiInstance.value
+  if (dispatchError.isModule) {
+    const decoded = api.registry.findMetaError(dispatchError.asModule)
+    const { docs, name, section } = decoded
+    showNotification(
+      `[ERR] ${section}.${name}: ${docs.join(' ')}`,
+      notificationTypes.warn
+    )
+  } else {
+    showNotification(
+      `[ERR] ${dispatchError.toString()}`,
+      notificationTypes.warn
+    )
+  }
+
+  isLoading.value = false
+}
+
+async function listForSale(
+  remarks: RmrkCreatedNft[],
+  originalBlockNumber: string
+) {
+  try {
+    showNotification(
+      `[APP] Listing NFT to sale for ${formatBalance(price.value, {
+        decimals: decimals.value,
+        withUnit: unit.value,
+      })}`
+    )
+
+    const onlyNfts = remarks
+      .filter(NFTUtils.isNFT)
+      .map((nft) => ({ ...nft, id: toNFTId(nft, originalBlockNumber) }))
+      .map((nft) =>
+        createInteraction(Interaction.LIST, nft.id, String(price.value))
+      )
+
+    if (!onlyNfts.length) {
+      showNotification('Can not list empty NFTs', notificationTypes.warn)
+      return
+    }
+
+    isLoading.value = true
+    const api = await apiInstance.value
+    const toRemark = mapAsSystemRemark(api)
+
+    const cb = api.tx.utility.batchAll
+    const args = onlyNfts.map(toRemark)
+
+    const tx = await exec(
+      accountId.value,
+      '',
+      cb,
+      [args],
+      txCb(
+        async (blockHash) => {
+          execResultValue(tx)
+          const header = await api.rpc.chain.getHeader(blockHash)
+          const blockNumber = header.number.toString()
+
+          showNotification(
+            `[LIST] Saved prices for ${
+              rmrkMint.value.max
+            } NFTs with tag ${formatBalance(price.value, {
+              decimals: decimals.value,
+              withUnit: unit.value,
+            })} in block ${blockNumber}`,
+            notificationTypes.success
+          )
+
+          isLoading.value = false
+          const firstNft = remarks.find(NFTUtils.isNFT)
+
+          if (firstNft) {
+            navigateToDetail(firstNft, originalBlockNumber)
+          }
+        },
+        (dispatchError) => {
+          execResultValue(tx)
+          onTxError(dispatchError)
+          isLoading.value = false
+        }
+      )
+    )
+  } catch (e) {
+    if (e instanceof Error) {
+      showNotification(e.message, notificationTypes.warn)
+      isLoading.value = false
+    }
+  }
+}
+
+async function constructMeta(): Promise<string | undefined> {
+  const m = meta.value
+  if (!file.value) {
+    throw new ReferenceError('No file found!')
+  }
+  const { token } = await pinningStore.fetchPinningKey(accountId.value)
+
+  const fileHash = await pinFileToIPFS(file.value, token)
+  const secondFileHash = secondFile.value
+    ? await pinFileToIPFS(secondFile.value, token)
+    : undefined
+
+  let imageHash: string | undefined = fileHash
+  let animationUrl: string | undefined = undefined
+
+  // if secondaryFileVisible(file) then assign secondaryFileHash to image and set animationUrl to fileHash
+  if (secondaryFileVisible(file.value)) {
+    animationUrl = fileHash
+    imageHash = secondFileHash || IPFS_KODADOT_IMAGE_PLACEHOLDER
+  }
+
+  const attributes = [
+    ...nsfwAttribute(nsfw.value),
+    ...offsetAttribute(hasCarbonOffset.value),
+  ]
+
+  const newMeta = createMetadata(
+    rmrkMint.value.name,
+    m.description || '',
+    imageHash,
+    animationUrl,
+    attributes,
+    'https://kodadot.xyz',
+    file.value.type
+  )
+
+  const metaHash = await pinJson(newMeta, imageHash)
+
+  uploadDirectWhenMultiple(
+    [file.value, secondFile.value],
+    [fileHash, secondFileHash]
+  ).catch($consola.warn)
+  return unSanitizeIpfsUrl(metaHash)
+}
+
+function navigateToDetail(nft: RmrkCreatedNft, blockNumber: string) {
+  showNotification(
+    `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
+  )
+  const go = () =>
+    $router.push({
+      path: `/rmrk/gallery/${toNFTId(nft, blockNumber)}`,
+      query: { congratsNft: nft.name },
+    })
+  setTimeout(go, DETAIL_TIMEOUT)
+}
+
+function getUsdFromKsm() {
+  const KSMVal = formatBalance(estimated.value, {
+    decimals: decimals.value,
+    withUnit: false,
+    forceUnit: '-',
+  })
+
+  return Number(fiatStore.getCurrentKSMValue) * Number(KSMVal)
+}
+
+watch(
+  rmrkMint,
+  () => {
+    if (canCalculateTransactionFees.value) {
+      estimateTx()
+    }
+  },
+  { deep: true }
+)
 </script>
