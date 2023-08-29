@@ -86,16 +86,19 @@
 
       <div
         v-if="recipient"
-        class="recipient is-flex is-justify-content-space-between">
+        class="recipient is-flex is-justify-content-space-between is-capitalized">
         <template v-if="Array.isArray(recipient) && recipient.length > 1">
           <p>{{ $t('transfers.recipients') }}</p>
           <ul>
-            <li v-for="([addr, percentile], idx) in recipient" :key="addr">
+            <li
+              v-for="([addr, percentile], idx) in recipient"
+              :key="addr"
+              class="is-flex is-flex-direction-row is-justify-content-flex-end is-align-items-center">
               {{ idx + 1 }}.
               <nuxt-link :to="`/${urlPrefix}/u/${addr}`" class="has-text-link">
                 <Identity ref="identity" :address="addr" />
               </nuxt-link>
-              <span> ({{ percentile }}%) </span>
+              <span className="is-size-7">({{ percentile }}%)</span>
             </li>
           </ul>
         </template>
@@ -290,17 +293,10 @@ const openLink = (link) => {
 </script>
 
 <style lang="scss">
-@import '../../styles/abstracts/variables.scss';
+@import '@/styles/abstracts/variables.scss';
 .recipient {
-  text-transform: capitalize;
-
-  > ul > li {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-    align-items: center;
-    justify-content: flex-end;
-
+  li {
+    gap: 0.3rem;
     > span {
       font-size: 0.8rem;
       @include ktheme() {
