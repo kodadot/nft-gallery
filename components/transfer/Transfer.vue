@@ -337,10 +337,15 @@ const hasValidTarget = computed(() =>
 )
 
 const displayTotalValue = computed(() =>
-  displayUnit.value === 'token'
-    ? [`$${totalUsdValue.value}`, `${totalTokenAmount.value} ${unit.value}`]
-    : [`${totalTokenAmount.value} ${unit.value}`, `$${totalUsdValue.value}`]
+  getDisplayUnitSwitchedValues(
+    `$${totalUsdValue.value}`,
+    `${totalTokenAmount.value} ${unit.value}`
+  )
 )
+
+const getDisplayUnitSwitchedValues = (a: string, b: string) => {
+  return displayUnit.value === 'token' ? [a, b] : [b, a]
+}
 
 const txFee = ref<number>(0)
 
@@ -349,9 +354,10 @@ const txFeeUsdValue = computed(() =>
 )
 
 const displayTxFeeValue = computed(() =>
-  displayUnit.value === 'token'
-    ? [`$${txFeeUsdValue.value}`, `${txFee.value} ${unit.value}`]
-    : [`${txFee.value} ${unit.value}`, `$${txFeeUsdValue.value}`]
+  getDisplayUnitSwitchedValues(
+    `$${txFeeUsdValue.value}`,
+    `${txFee.value} ${unit.value}`
+  )
 )
 
 const disabled = computed(
