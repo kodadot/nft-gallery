@@ -1,11 +1,16 @@
 <template>
-  <section>
-    <div class="container">
-      <CreateCollection />
-    </div>
-  </section>
+  <CreateCollection />
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 import CreateCollection from '@/components/create/Collection.vue'
+
+export default {
+  components: {
+    CreateCollection,
+  },
+  layout() {
+    return 'background-layout'
+  },
+}
 </script>

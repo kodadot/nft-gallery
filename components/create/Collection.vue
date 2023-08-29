@@ -308,11 +308,40 @@ watchEffect(async () => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+
 .o-field:not(:last-child) {
   margin-bottom: 2rem;
 }
 
 .file {
   margin-bottom: 0;
+}
+
+.column {
+  max-width: 36rem;
+  padding: 4rem;
+
+  @include desktop() {
+    @include ktheme() {
+      background-color: theme('background-color');
+      box-shadow: theme('primary-shadow');
+    }
+  }
+
+  @include touch() {
+    padding: 0 1rem;
+    box-shadow: none !important;
+  }
+}
+
+@include desktop() {
+  .columns {
+    padding: 5.25rem 0;
+
+    @include ktheme() {
+      background-color: theme('k-primaryLight');
+    }
+  }
 }
 </style>
