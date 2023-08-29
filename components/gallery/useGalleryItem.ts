@@ -5,7 +5,7 @@ import { NftResources, getNftMetadata } from '@/composables/useNft'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import type { NFTWithMetadata } from '@/composables/useNft'
-import resolveQueryPath from '~/utils/queryPathResolver'
+import resolveQueryPath from '@/utils/queryPathResolver'
 
 interface NFTData {
   nftEntity?: NFTWithMetadata
@@ -41,7 +41,7 @@ const whichAsset = (data) => {
   }
 }
 
-export const useGalleryItem = (nftId?: string): Promise<GalleryItem> => {
+export const useGalleryItem = async (nftId?: string): Promise<GalleryItem> => {
   const { $consola } = useNuxtApp()
   const historyStore = useHistoryStore()
   const nft = ref<NFT>()
@@ -66,14 +66,15 @@ export const useGalleryItem = (nftId?: string): Promise<GalleryItem> => {
     queryPrefix: queryPath[urlPrefix.value],
     clientName: '',
   })
-  const query = () => resolveQueryPath(prefix, 'nftById')
-  const { onResult, refetch } = useQuery(query.default, { id })
-  // const { data, refresh } = useAsyncQuery(query.default, { id })
+  const query = await resolveQueryPath(prefix, 'nftById')
+  // const { onResult, refetch } = useQuery(query.default, { id })
+  const { data, refresh } = useAsyncQuery(query.default, { id })
+  console.log(data)
 
-  onResult((result) => {
-    console.log(result.data)
-    nft.value = result.data
-  })
+  // onResult((result) => {
+  //   console.log(result.data)
+  //   nft.value = result.data
+  // })
   // const { data, refetch } = useGraphql({
   //   queryName: 'nftById',
   //   queryPrefix: queryPath[urlPrefix.value],
