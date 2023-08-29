@@ -32,18 +32,14 @@ export function formatNumber(amount?: string | number): string {
 
   if (number >= 1000000) {
     return (number / 1000000).toFixed(1).replace(/\.0$/, '') + 'M'
-  }
-  if (number >= 1000) {
+  } else if (number >= 1000) {
     return (number / 1000).toFixed(1).replace(/\.0$/, '') + 'k'
-  }
-  if (number < 0.001) {
-    return number.toFixed(4).replace(/\0{1,}$/, '')
-  }
-  if (number < 0.01) {
-    return number.toFixed(3).replace(/\0{1,}$/, '')
-  }
-  if (number < 0.1) {
-    return number.toFixed(2).replace(/\0{1,}$/, '')
+  } else if (number < 0.001) {
+    return number.toFixed(4)
+  } else if (number < 0.01) {
+    return number.toFixed(3)
+  } else if (number < 0.1) {
+    return number.toFixed(2)
   }
   return number.toFixed(1).replace(/\.0$/, '')
 }
