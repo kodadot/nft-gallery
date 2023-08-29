@@ -5,7 +5,9 @@
       'is-fixed-width': fixedWidth,
       'no-shadow': noShadow,
       'loading-with-label': loadingWithLabel,
-      'is-close-btn': icon === 'xmark' || icon === 'close',
+      'p-2': size === 'small' && isCloseBtn,
+      'p-1': size === 'medium' && isCloseBtn,
+      'px-1': size === 'large' && isCloseBtn,
     }"
     :size="size"
     :icon-right="icon"
@@ -26,7 +28,7 @@
 import { OButton } from '@oruga-ui/oruga'
 import { NeoButtonVariant } from '@kodadot1/brick'
 
-defineProps<{
+const prop = defineProps<{
   size?: 'small' | 'medium' | 'large'
   disabled?: boolean
   expanded?: boolean
@@ -41,6 +43,8 @@ defineProps<{
   tag?: string
   loadingWithLabel?: boolean
 }>()
+
+const isCloseBtn = prop.icon === 'xmark' || prop.icon === 'close'
 </script>
 
 <style lang="scss">
