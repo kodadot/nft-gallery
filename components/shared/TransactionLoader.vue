@@ -116,7 +116,7 @@ const activeStep = computed(() => {
   switch (props.status) {
     case TransactionStatus.Finalized:
       return 3
-    case TransactionStatus.Unkonwn:
+    case TransactionStatus.Unknown:
       return 1
     default:
       return 2

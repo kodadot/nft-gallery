@@ -6,12 +6,12 @@ export enum TransactionStatus {
   Sign = 'loader.sign',
   Block = 'loader.block',
   Finalized = 'loader.finalized',
-  Unkonwn = '',
+  Unknown = '',
   IPFS = 'loader.ipfs',
 }
 
 function useTransactionStatus() {
-  const status = ref<TransactionStatus>(TransactionStatus.Unkonwn)
+  const status = ref<TransactionStatus>(TransactionStatus.Unknown)
   const isLoading = ref(false)
 
   const resolveStatus = (
@@ -34,22 +34,22 @@ function useTransactionStatus() {
 
     if (extrinsicStatus.isFinalized) {
       status.value = omitFinalized
-        ? TransactionStatus.Unkonwn
+        ? TransactionStatus.Unknown
         : TransactionStatus.Finalized
       return
     }
 
-    status.value = TransactionStatus.Unkonwn
+    status.value = TransactionStatus.Unknown
   }
 
   const initTransactionLoader = (): void => {
     isLoading.value = true
-    status.value = TransactionStatus.Unkonwn
+    status.value = TransactionStatus.Unknown
   }
 
   const stopLoader = (): void => {
     isLoading.value = false
-    status.value = TransactionStatus.Unkonwn
+    status.value = TransactionStatus.Unknown
   }
   return {
     status,
