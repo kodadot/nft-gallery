@@ -177,3 +177,22 @@
     </p>
   </section>
 </template>
+
+<script lang="ts">
+export default {
+  name: 'CookieNotice',
+
+  head() {
+    const title = 'Cookie Policy'
+    const metaData = {
+      title,
+      description: 'KodaDot Cookie Policy',
+      url: '/cookie-notice',
+    }
+    return {
+      title,
+      meta: [...this.$seoMeta(metaData)],
+    }
+  },
+}
+</script>

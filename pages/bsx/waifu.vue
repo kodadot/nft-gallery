@@ -12,13 +12,12 @@ export default {
     return 'generative-mint-layout'
   },
   head() {
-    const title = 'KodaDot | Low fees and low carbon minting'
+    const title = 'Mint Your Waifu'
     const metaData = {
       title,
       type: 'article',
-      description: 'Create carbonless NFTs with low on-chain fees',
-      url: '/mint',
-      image: `${this.$config.public.baseUrl}/k_card_mint.png`,
+      description: 'Create yourself a uique Waifu NFT',
+      url: 'bsx/mint',
     }
     return {
       title,

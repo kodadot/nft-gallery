@@ -249,7 +249,6 @@ import {
 } from '@/utils/format/balance'
 import { getNumberSumOfObjectField } from '@/utils/math'
 import { useFiatStore } from '@/stores/fiat'
-import { useIdentityStore } from '@/stores/identity'
 import Avatar from '@/components/shared/Avatar.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import { getMovedItemToFront } from '@/utils/objects'
@@ -268,6 +267,7 @@ import TransferTokenTabs, { TransferTokenTab } from './TransferTokenTabs.vue'
 import { TokenDetails } from '@/composables/useToken'
 import AddressInput from '@/components/shared/AddressInput.vue'
 import TransactionLoader from '@/components/shared/TransactionLoader.vue'
+import { ApiPromise } from '@polkadot/api'
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
 )
@@ -277,9 +277,9 @@ const router = useRouter()
 const { $consola, $i18n } = useNuxtApp()
 const { unit, decimals } = useChain()
 const { apiInstance } = useApi()
-const { urlPrefix, setUrlPrefix } = usePrefix()
+const { urlPrefix } = usePrefix()
 const { isLogIn, accountId } = useAuth()
-const identityStore = useIdentityStore()
+const { getBalance } = useBalance()
 const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
 const { initTransactionLoader, isLoading, resolveStatus, status } =
   useTransactionStatus()
@@ -301,12 +301,14 @@ export type TargetAddress = {
   token?: number | string
 }
 const isMobile = computed(() => useWindowSize().width.value <= 1024)
+const balance = computed(() => getBalance(unit.value) || 0)
 
 const transactionValue = ref('')
 const sendSameAmount = ref(false)
 const displayUnit = ref<'token' | 'usd'>('token')
 const { getTokenIconBySymbol } = useIcon()
-const { tokens, getPrefixByToken, availableTokens } = useToken()
+
+const { tokens } = useToken()
 
 const selectedTabFirst = ref(true)
 const tokenIcon = computed(() => getTokenIconBySymbol(unit.value))
@@ -325,8 +327,6 @@ const displayTotalValue = computed(() =>
     : [`${totalTokenAmount.value} ${unit.value}`, `$${totalUsdValue.value}`]
 )
 
-const balance = computed(() => identityStore.getAuthBalance)
-
 const disabled = computed(
   () =>
     !isLogIn.value ||
@@ -336,20 +336,16 @@ const disabled = computed(
 
 const handleTokenSelect = (newToken: string) => {
   selectedTabFirst.value = false
+
   const token = tokens.value.find((t) => t.symbol === newToken)
 
-  if (token) {
-    const chain = getPrefixByToken(token.symbol)
-
-    if (!chain) {
-      $consola.error(
-        `[ERR: INVALID TOKEN] Chain for token ${token.symbol} is not valid`
-      )
-      return
-    }
-
-    setUrlPrefix(chain)
+  if (!token) {
+    return
   }
+
+  routerReplace({
+    params: { prefix: token.defaultChain },
+  })
 }
 
 const generateTokenTabs = (
@@ -495,11 +491,7 @@ const unifyAddressAmount = (target: TargetAddress) => {
 
 const updateTargetAdressesOnTokenSwitch = () => {
   targetAddresses.value.forEach((targetAddress) => {
-    if (displayUnit.value === 'usd') {
-      onUsdFieldChange(targetAddress)
-    } else {
-      onAmountFieldChange(targetAddress)
-    }
+    onUsdFieldChange(targetAddress)
   })
 }
 
@@ -520,6 +512,46 @@ const handleOpenConfirmModal = () => {
   }
 }
 
+const getAmountToTransfer = (amount: number, decimals: number) =>
+  String(calculateBalance(Number(amount), decimals))
+
+interface TransferParams {
+  api: ApiPromise
+  decimals: number
+}
+
+const getMultipleAddressesTransferParams = ({
+  api,
+  decimals,
+}: TransferParams) => {
+  const arg = [
+    targetAddresses.value.map((target) => {
+      const amountToTransfer = getAmountToTransfer(
+        target.token as number,
+        decimals
+      )
+
+      return api.tx.balances.transfer(
+        target.address as string,
+        amountToTransfer
+      )
+    }),
+  ]
+
+  return [api.tx.utility.batch, arg]
+}
+
+const getSingleAddressTransferParams = ({ api, decimals }: TransferParams) => {
+  const target = targetAddresses.value[0]
+
+  const amountToTransfer = getAmountToTransfer(target.token as number, decimals)
+
+  return [
+    api.tx.balances.transfer,
+    [target.address as string, amountToTransfer],
+  ]
+}
+
 const submit = async (
   event: any,
   usedNodeUrls: string[] = []
@@ -530,25 +562,21 @@ const submit = async (
     const api = await apiInstance.value
 
     const numOfTargetAddresses = targetAddresses.value.length
-    const cb =
-      numOfTargetAddresses > 1 ? api.tx.utility.batch : api.tx.balances.transfer
-    const arg =
-      numOfTargetAddresses > 1
-        ? [
-            targetAddresses.value.map((target) => {
-              const amountToTransfer = String(
-                calculateBalance(Number(target.token), decimals.value)
-              )
-              return api.tx.balances.transfer(target.address, amountToTransfer)
-            }),
-          ]
-        : [
-            targetAddresses.value[0].address,
-            calculateBalance(
-              Number(targetAddresses.value[0].token),
-              decimals.value
-            ),
-          ]
+    const multipleAddresses = numOfTargetAddresses > 1
+
+    let cb, arg
+
+    if (multipleAddresses) {
+      ;[cb, arg] = getMultipleAddressesTransferParams({
+        api,
+        decimals: decimals.value as number,
+      })
+    } else {
+      ;[cb, arg] = getSingleAddressTransferParams({
+        api,
+        decimals: decimals.value as number,
+      })
+    }
 
     const tx = await exec(
       accountId.value,
@@ -639,48 +667,26 @@ const addAddress = () => {
   })
 }
 
-const syncQueryToken = () => {
-  const { query } = route
-
-  const token = query.token?.toString()
-
-  if (!token || !availableTokens.includes(token)) {
-    return
-  }
-
-  const chain = getPrefixByToken(token)
-
-  if (!chain) {
-    return
-  }
-
-  setUrlPrefix(chain)
-}
-
-watch(
-  route,
-  () => {
-    syncQueryToken()
-  },
-  { immediate: true, deep: true }
-)
-
 onMounted(() => {
   fetchFiatPrice().then(checkQueryParams)
 })
 
+const routerReplace = ({ params = {}, query = {} }) => {
+  router
+    .replace({
+      params: params,
+      query: {
+        ...route.query,
+        ...query,
+      },
+    })
+    .catch(() => null) // null to further not throw navigation errors
+}
+
 watchDebounced(
   () => targetAddresses.value[0].usd,
   (usdamount) => {
-    router
-      .replace({
-        query: {
-          ...route.query,
-          usdamount: (usdamount || 0).toString(),
-          token: unit.value,
-        },
-      })
-      .catch(() => null) // null to further not throw navigation errors
+    routerReplace({ query: { usdamount: (usdamount || 0).toString() } })
   },
   { debounce: 300 }
 )
