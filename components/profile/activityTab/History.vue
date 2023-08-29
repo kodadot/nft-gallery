@@ -30,7 +30,7 @@
         <div v-if="isToColumnVisible" class="column">
           <span>{{ $t('activity.event.to') }}</span>
         </div>
-        <div class="column">
+        <div v-if="isPercentageColumnVisible" class="column">
           <span>Percentage</span>
         </div>
         <div class="column">
@@ -38,12 +38,14 @@
         </div>
       </template>
 
-      <template #rows>
+      <template #rows="{ variant }">
         <HistoryRow
           v-for="item in showList"
           :key="item.ID"
           :event="item"
-          :with-to-column="isToColumnVisible" />
+          :variant="variant"
+          :with-to-column="isToColumnVisible"
+          :with-percentage="isPercentageColumnVisible" />
       </template>
     </ResponsiveTable>
   </div>
@@ -90,7 +92,7 @@ const prop = withDefaults(
 )
 const emit = defineEmits(['setPriceChartData'])
 
-const { $i18n, $route } = useNuxtApp()
+const { $route } = useNuxtApp()
 const { decimals } = useChain()
 
 const currentPage = ref(parseInt($route.query?.page) || 1)

@@ -1,5 +1,5 @@
 <template>
-  <div class="columns mb-2">
+  <div v-if="isDesktop" class="columns mb-2">
     <div class="column is-clipped">
       <div class="is-flex is-align-items-center">
         <nuxt-link
@@ -23,11 +23,9 @@
 
     <div class="column is-1">
       <div class="height-50px is-flex is-align-items-center">
-        <div
-          class="border is-size-7 is-justify-content-center py-1 my-2 is-flex is-align-items-center fixed-width fixed-height"
-          :class="getInteractionColor(event.Type)">
-          {{ $t(`nft.event.${event.Type}`) }}
-        </div>
+        <EventTag
+          :interaction="eventType"
+          :interaction-name="$t(`nft.event.${interactionName}`)" />
       </div>
     </div>
 
@@ -84,6 +82,65 @@
       </div>
     </div>
   </div>
+  <!-- Mobile -->
+  <div v-else class="mb-6 is-flex is-flex-direction-column gap-10px">
+    <div class="is-flex height-70px line-height-1">
+      <nuxt-link :to="`/${urlPrefix}/gallery/${event.Item.id}`">
+        <div class="mr-5">
+          <NeoAvatar
+            :avatar="avatar"
+            :placeholder="placeholder"
+            :name="event.Item.name"
+            :size="70" />
+        </div>
+      </nuxt-link>
+      <div
+        class="is-flex is-flex-direction-column is-justify-content-center gap-10px is-flex-grow-1">
+        <nuxt-link
+          class="is-ellipsis is-inline-block mobile-fixed-width"
+          :to="`/${urlPrefix}/gallery/${event.Item.id}`">
+          <span class="has-text-weight-bold">
+            {{ event.Item.name }}
+          </span>
+        </nuxt-link>
+
+        <EventTag
+          :interaction="eventType"
+          :interaction-name="$t(`nft.event.${interactionName}`)" />
+      </div>
+    </div>
+    <div class="is-flex">
+      <div class="is-flex is-justify-content-space-between is-flex-grow-1">
+        <div v-if="parseInt(event.Amount)">
+          <CommonTokenMoney :value="event.Amount" />
+        </div>
+        <div v-else>{{ blank }}</div>
+        <NeoTooltip :label="event.Date" position="left">
+          <BlockExplorerLink :block-id="event.Block" :text="event.Time" />
+        </NeoTooltip>
+      </div>
+    </div>
+
+    <div class="is-flex gap">
+      <div v-if="!!fromAddress" class="is-flex is-align-items-center">
+        <span class="is-size-7 mr-3">{{ $t('activity.event.from') }}:</span>
+        <nuxt-link
+          :to="`/${urlPrefix}/u/${fromAddress}`"
+          class="has-text-link is-ellipsis">
+          <IdentityIndex ref="identity" :address="fromAddress" show-clipboard />
+        </nuxt-link>
+      </div>
+
+      <div v-if="!!toAddress" class="is-flex is-align-items-center">
+        <span class="is-size-7 mr-3">{{ $t('activity.event.to') }}:</span>
+        <nuxt-link
+          :to="`/${urlPrefix}/u/${toAddress}`"
+          class="has-text-link is-ellipsis">
+          <IdentityIndex ref="identity" :address="toAddress" show-clipboard />
+        </nuxt-link>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -92,14 +149,17 @@ import { parseNftAvatar } from '@/utils/nft'
 import { Event } from './History.vue'
 import {
   blank,
-  getInteractionColor,
+  interactionNameMap,
 } from '@/components/collection/activity/events/eventRow/common'
+import EventTag from '@/components/collection/activity/events/eventRow/EventTag.vue'
 import BlockExplorerLink from '@/components/shared/BlockExplorerLink.vue'
 import { toPercent } from '@/utils/filters'
 
 const props = defineProps<{
   event: Event
   withToColumn: boolean
+  withPercentage: boolean
+  variant: 'Desktop' | 'Touch'
 }>()
 
 const { urlPrefix } = usePrefix()
@@ -108,6 +168,17 @@ const { placeholder } = useTheme()
 
 const fromAddress = computed(() => props.event.From)
 const toAddress = computed(() => props.event.To)
+const isDesktop = computed(() => props.variant === 'Desktop')
+const eventType = computed(() => {
+  if (props.event.Type === 'SELL') {
+    return 'BUY'
+  }
+  return props.event.Type
+})
+
+const interactionName = computed(
+  () => interactionNameMap[eventType.value] || eventType.value
+)
 
 onMounted(async () => {
   parseNftAvatar(props.event.Item).then((response) => (avatar.value = response))
@@ -123,7 +194,9 @@ const percentageTextClassName = (percentage: number) => {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '@/styles/abstracts/variables';
+
 .fixed-width {
   width: 66px;
 }
@@ -133,5 +206,27 @@ const percentageTextClassName = (percentage: number) => {
 }
 .height-50px {
   height: 50px;
+}
+
+.height-70px {
+  height: 70px;
+}
+
+.mobile-fixed-width {
+  @include mobile {
+    width: 240px;
+  }
+}
+
+.line-height-1 {
+  line-height: 1;
+}
+
+.gap-10px {
+  gap: 10px;
+}
+
+.gap {
+  gap: 1rem;
 }
 </style>
