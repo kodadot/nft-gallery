@@ -1,42 +1,38 @@
 <template>
-  <div ref="eventsContainer">
-    <div v-if="events.length > 0">
-      <div v-if="desktop" class="columns is-size-7 has-text-grey">
-        <div class="column">
-          <span>{{ $t('activity.event.item') }}</span>
-        </div>
-        <div class="column is-1">
-          <span>{{ $t('activity.event.event') }}</span>
-        </div>
-        <div class="column">
-          <span>{{ $t('activity.event.amount') }}</span>
-        </div>
-        <div class="column">
-          <span>{{ $t('activity.event.from') }}</span>
-        </div>
-        <div class="column">
-          <span>{{ $t('activity.event.to') }}</span>
-        </div>
-        <div class="column">
-          <span>{{ $t('activity.event.time') }}</span>
-        </div>
+  <ResponsiveTable
+    :items="events"
+    :no-results-main="$t('activity.noResults')"
+    :no-results-sub="$t('activity.noResultsSub')">
+    <template #columns>
+      <div class="column">
+        <span>{{ $t('activity.event.item') }}</span>
       </div>
-      <div
-        v-if="!displayedEvents.length"
-        class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center py-8">
-        <span class="has-text-weight-bold is-size-5 has-text-centered">{{
-          $t('activity.noResults')
-        }}</span>
-        <span class="has-text-grey">{{ $t('activity.noResultsSub') }}</span>
+      <div class="column is-1">
+        <span>{{ $t('activity.event.event') }}</span>
       </div>
+      <div class="column">
+        <span>{{ $t('activity.event.amount') }}</span>
+      </div>
+      <div class="column">
+        <span>{{ $t('activity.event.from') }}</span>
+      </div>
+      <div class="column">
+        <span>{{ $t('activity.event.to') }}</span>
+      </div>
+      <div class="column">
+        <span>{{ $t('activity.event.time') }}</span>
+      </div>
+    </template>
+
+    <template #rows="{ variant }">
       <EventRow
         v-for="(event, i) in displayedEvents"
         :key="i"
         :variant="variant"
         :event="event" />
       <div ref="sentinel" />
-    </div>
-  </div>
+    </template>
+  </ResponsiveTable>
 </template>
 
 <script setup lang="ts">
@@ -44,18 +40,13 @@ import EventRow from './EventRow.vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { isAnyActivityFilterActive } from '../utils'
-import { useResizeObserver } from '@vueuse/core'
 import { mintInteraction } from '@/composables/collectionActivity/helpers'
 import {
   InteractionWithNFT,
   Offer,
   OfferInteraction,
 } from '@/composables/collectionActivity/types'
-
-const desktop = ref(true)
-const desktopBreakPoint = 1024
-const eventsContainer = ref<HTMLDivElement | null>(null)
-const variant = computed(() => (desktop.value ? 'Desktop' : 'Touch'))
+import ResponsiveTable from '@/components/shared/ResponsiveTable.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -65,14 +56,6 @@ const props = withDefaults(
     events: () => [],
   }
 )
-
-useResizeObserver(eventsContainer, (entry) => {
-  if (entry[0].contentRect.width >= desktopBreakPoint) {
-    desktop.value = true
-  } else {
-    desktop.value = false
-  }
-})
 
 const offset = ref(10)
 

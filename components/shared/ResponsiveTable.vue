@@ -8,7 +8,7 @@
       <slot name="rows" :variant="variant" />
     </div>
     <div
-      v-else
+      v-if="!items.length"
       class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center py-8">
       <span class="has-text-weight-bold is-size-5 has-text-centered">{{
         noResultsMain
