@@ -568,7 +568,7 @@ const updateNftSuggestion = async () => {
     const nfts = $apollo.query({
       query: queryNft.default,
       client: client.value,
-      variables: queryVariables,
+      variables: queryVariables.value,
     })
 
     const {
