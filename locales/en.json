@@ -1206,7 +1206,8 @@
   "lewd": {
     "explicit": "Explicit/sensitive content",
     "explicitDesc": "Mature audiences only. Please confirm your age and consent to proceed.",
-    "showContent": "Show Content"
+    "showContent": "Show Content",
+    "hideContent": "Hide Content"
   },
   "unlockable": {
     "tooltip": "unlock-able content is revealed after purchase",
