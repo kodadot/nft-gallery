@@ -129,7 +129,8 @@
               <a
                 href="https://hello.kodadot.xyz/multi-chain/fees"
                 target="_blank"
-                class="has-text-link">
+                class="has-text-link"
+                rel="nofollow noopener noreferrer">
                 Learn more
               </a>
             </p>
