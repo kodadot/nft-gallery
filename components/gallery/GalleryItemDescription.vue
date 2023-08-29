@@ -87,24 +87,21 @@
       <div
         v-if="recipient"
         class="recipient is-flex is-justify-content-space-between is-capitalized">
+        <p>{{ $t('transfers.recipients') }}</p>
         <template v-if="Array.isArray(recipient) && recipient.length > 1">
-          <p>{{ $t('transfers.recipients') }}</p>
-          <ul>
-            <li
-              v-for="([addr, percentile], idx) in recipient"
-              :key="addr"
-              class="is-flex is-flex-direction-row is-justify-content-flex-end is-align-items-center">
-              {{ idx + 1 }}.
-              <nuxt-link :to="`/${urlPrefix}/u/${addr}`" class="has-text-link">
+          <ol>
+            <li v-for="[addr, percentile] in recipient" :key="addr" class="">
+              <nuxt-link
+                :to="`/${urlPrefix}/u/${addr}`"
+                class="has-text-link is-inline-block">
                 <Identity ref="identity" :address="addr" />
               </nuxt-link>
               <span className="is-size-7">({{ percentile }}%)</span>
             </li>
-          </ul>
+          </ol>
         </template>
         <template
           v-else-if="Array.isArray(recipient) && recipient.length === 1">
-          <p>{{ $t('transfers.recipient') }}</p>
           <nuxt-link
             :to="`/${urlPrefix}/u/${recipient[0][0]}`"
             class="has-text-link">
@@ -112,7 +109,6 @@
           </nuxt-link>
         </template>
         <template v-else>
-          <p>{{ $t('transfers.recipient') }}</p>
           <nuxt-link :to="`/${urlPrefix}/u/${recipient}`" class="has-text-link">
             <Identity ref="identity" :address="recipient" />
           </nuxt-link>
