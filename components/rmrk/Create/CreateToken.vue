@@ -94,7 +94,6 @@ import { Attribute } from '@kodadot1/minimark/common'
 import { formatBalance } from '@polkadot/util'
 import { unwrapSafe } from '@/utils/uniquery'
 import { toNFTId } from '../service/scheme'
-import { usePreferencesStore } from '@/stores/preferences'
 import { Ref as RefType } from 'vue'
 import { Royalty } from '@/utils/royalty'
 import {
@@ -137,8 +136,6 @@ const royalty: Royalty = {
 
 const isLoading = ref(false)
 const status = ref()
-
-const preferencesStore = usePreferencesStore()
 
 const balanceInput = ref()
 const baseTokenForm = ref()
@@ -363,11 +360,6 @@ const handleCreatedNftsRedirect = (
     nftName: base.name,
     toCollectionPage: !isSingle,
   })
-}
-
-const estimateTx = async () => {
-  // TODO: implement
-  throw new Error('Not implemented')
 }
 
 const router = useRouter()
