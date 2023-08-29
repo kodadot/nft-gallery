@@ -16,32 +16,42 @@
       <span class="heading-nsfw"> {{ $t('lewd.explicit') }} </span>
       <span class="nsfw-desc">{{ $t('lewd.explicitDesc') }}</span>
     </div>
-    <button
+    <NeoButton
       v-if="isLewd"
-      class="nsfw-action px-4 py-1"
+      rounded
+      no-shadow
+      class="nsfw-action px-4 py-1 is-size-6"
       :class="[isLewdBlurredLayer ? '' : 'hide']"
-      @click="toggleContent">
-      {{ isLewdBlurredLayer ? $t('lewd.showContent') : $t('lewd.hideContent') }}
-    </button>
+      :label="
+        isLewdBlurredLayer ? $t('lewd.showContent') : $t('lewd.hideContent')
+      "
+      @click.native="toggleContent" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent } from 'vue'
 import { getMimeType, resolveMedia } from '@/utils/gallery/media'
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import ImageMedia from './type/ImageMedia.vue'
+import VideoMedia from './type/VideoMedia.vue'
+import AudioMedia from './type/AudioMedia.vue'
+import ModelMedia from './type/ModelMedia.vue'
+import JsonMedia from './type/JsonMedia.vue'
+import IFrameMedia from './type/IFrameMedia.vue'
+import ObjectMedia from './type/ObjectMedia.vue'
+import Media from './type/UnknownMedia.vue'
 
 const SUFFIX = 'Media'
 const props = withDefaults(
   defineProps<{
-    src: string
-    animationSrc: string
-    mimeType: string
-    title: string
+    src?: string
+    animationSrc?: string
+    mimeType?: string
+    title?: string
     original?: boolean
     isLewd?: boolean
     isDetail?: boolean
-    placeholder: string
+    placeholder?: string
   }>(),
   {
     src: '',
@@ -55,26 +65,24 @@ const props = withDefaults(
   }
 )
 
-let defaultMimeType = ref('image')
+let fileType = ref('image')
 let isLewdBlurredLayer = ref<boolean>(props.isLewd)
 const components = {
-  ImageMedia: defineAsyncComponent(() => import('./type/ImageMedia.vue')),
-  VideoMedia: defineAsyncComponent(() => import('./type/VideoMedia.vue')),
-  AudioMedia: defineAsyncComponent(() => import('./type/AudioMedia.vue')),
-  ModelMedia: defineAsyncComponent(() => import('./type/ModelMedia.vue')),
-  JsonMedia: defineAsyncComponent(() => import('./type/JsonMedia.vue')),
-  IFrameMedia: defineAsyncComponent(() => import('./type/IFrameMedia.vue')),
-  ObjectMedia: defineAsyncComponent(() => import('./type/ObjectMedia.vue')),
-  Media: defineAsyncComponent(() => import('./type/UnknownMedia.vue')),
+  ImageMedia,
+  VideoMedia,
+  AudioMedia,
+  ModelMedia,
+  JsonMedia,
+  IFrameMedia,
+  ObjectMedia,
+  Media,
 }
 
 const resolveComponent = computed(() => {
-  const type = props.mimeType || defaultMimeType.value
+  const type = props.mimeType || fileType.value
   return components[resolveMedia(type) + SUFFIX]
 })
-const properSrc = computed(() => {
-  return props.src || props.placeholder
-})
+const properSrc = computed(() => props.src || props.placeholder)
 
 watch(
   () => props.animationSrc,
@@ -85,7 +93,7 @@ onMounted(() => {
 })
 const updateComponent = async () => {
   if (props.animationSrc && !props.mimeType) {
-    defaultMimeType.value = await getMimeType(props.animationSrc)
+    fileType.value = await getMimeType(props.animationSrc)
   }
 }
 const toggleContent = () => {
@@ -96,37 +104,39 @@ defineExpose({ isLewdBlurredLayer })
 </script>
 
 <style lang="scss" scoped>
-.nsfw-blur {
-  backdrop-filter: blur(60px);
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  color: #fff;
-  text-transform: capitalize;
-
-  .heading-nsfw {
-    font-weight: 700;
-  }
-  .nsfw-desc {
-    max-width: 18.75rem;
-    text-align: center;
-  }
-}
-.nsfw-action {
-  cursor: pointer;
-  bottom: 3.125rem;
-  left: 50%;
-  transform: translate(-50%);
-  font-size: 1rem;
-  position: absolute;
-  border-radius: 1.5rem;
-  border: none;
-  background: #fff;
-  color: #000;
-  &.hide {
-    background: #000;
+@import '@/styles/abstracts/variables';
+@import '@/styles/abstracts/mixins';
+.media-object {
+  .nsfw-blur {
+    backdrop-filter: blur(60px);
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
     color: #fff;
+    text-transform: capitalize;
+
+    .heading-nsfw {
+      font-weight: 700;
+    }
+    .nsfw-desc {
+      max-width: 18.75rem;
+      text-align: center;
+    }
+  }
+  .nsfw-action {
+    border: none;
+    @include set-position('bottom', 'center');
+    @include ktheme() {
+      color: theme('text-color') !important;
+      background: theme('background-color') !important;
+    }
+    &.hide {
+      @include ktheme() {
+        color: theme('background-color') !important;
+        background: theme('text-color') !important;
+      }
+    }
   }
 }
 </style>
