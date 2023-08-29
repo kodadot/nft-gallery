@@ -129,9 +129,14 @@ html.dark-mode {
     margin: 2.5rem 0;
   }
 
-  p {
+  p,
+  li {
     font-size: 20px;
     line-height: 30px;
+  }
+
+  li {
+    margin: 0 1.5rem;
   }
 
   @include ktheme() {
@@ -173,7 +178,8 @@ html.dark-mode {
     }
 
     h2,
-    p {
+    p,
+    li {
       font-size: 1rem;
     }
 
