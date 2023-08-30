@@ -1,4 +1,5 @@
-import { Prefix } from '@kodadot1/static'
+import { CHAINS, Prefix } from '@kodadot1/static'
+import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 import {
   assetsVisible,
   createVisible,
@@ -17,6 +18,11 @@ const NO_REDIRECT_ROUTE_NAMES = [
 
 function isNoRedirect(routeName: string): boolean {
   return NO_REDIRECT_ROUTE_NAMES.includes(routeName)
+}
+
+const getAddress = (chain: string, accountId: string) => {
+  const publicKey = decodeAddress(accountId)
+  return encodeAddress(publicKey, CHAINS[chain].ss58Format)
 }
 
 function getRedirectPathForPrefix({
@@ -64,10 +70,14 @@ function getRedirectPathForPrefix({
 export default function () {
   const route = useRoute()
   const router = useRouter()
-  const { accountId } = useAuth()
 
   const redirectAfterChainChange = (newChain: Prefix): void => {
     const routeName = route.name as string
+    let accountId = route.params?.id
+
+    if (accountId) {
+      accountId = getAddress(newChain, accountId)
+    }
 
     if (isNoRedirect(routeName)) {
       return
@@ -83,7 +93,7 @@ export default function () {
       redirectLocation = getRedirectPathForPrefix({
         routeName,
         chain: newChain,
-        accountId: accountId.value,
+        accountId,
         route,
       })
     } else if (isAssets && assetsVisible(newChain)) {
