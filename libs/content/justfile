@@ -1,0 +1,11 @@
+build:
+  pnpm build
+
+test:
+  pnpm test
+
+publish:
+  pnpm publish --access public
+
+c VERSION:
+  git commit -am ":bookmark: static@{{VERSION}}"
