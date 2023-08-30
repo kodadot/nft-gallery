@@ -34,15 +34,8 @@ import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
 const { $config, $i18n } = useNuxtApp()
 const route = useRoute()
-onMounted(() => {
-  $i18n.locale.value = 'es'
 
-  setTimeout(() => {
-    $i18n.locale.value = 'en'
-  }, 5000)
-})
-
-const lang = ref('es')
+const lang = ref('en')
 function changeLanguage() {
   $i18n.locale.value = lang.value
 }
