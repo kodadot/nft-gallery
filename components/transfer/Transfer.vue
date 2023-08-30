@@ -7,7 +7,13 @@
           'theme-background-color k-shadow border py-8 px-6': !isMobile,
         },
       ]">
-      <Loader v-model="isLoading" :status="status" />
+      <TransactionLoader
+        v-model="isLoaderModalVisible"
+        :status="status"
+        :total-token-amount="totalTokenAmount"
+        :transaction-id="transactionValue"
+        :total-usd-value="totalUsdValue"
+        @close="isLoaderModalVisible = false" />
       <div
         class="is-flex is-justify-content-space-between is-align-items-center mb-2">
         <p class="has-text-weight-bold is-size-3">
@@ -275,8 +281,11 @@ import {
 } from '@kodadot1/brick'
 import TransferTokenTabs, { TransferTokenTab } from './TransferTokenTabs.vue'
 import { TokenDetails } from '@/composables/useToken'
+import AddressInput from '@/components/shared/AddressInput.vue'
+import TransactionLoader from '@/components/shared/TransactionLoader.vue'
 import { KODADOT_DAO } from '@/utils/support'
 import { toDefaultAddress } from '@/utils/account'
+
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
 )
@@ -294,9 +303,18 @@ const { initTransactionLoader, isLoading, resolveStatus, status } =
   useTransactionStatus()
 const { toast } = useToast()
 const isTransferModalVisible = ref(false)
+const isLoaderModalVisible = ref(false)
+
+watch(isLoading, (newValue, oldValue) => {
+  // trigger modal only when loading change from false => true
+  // we want to keep modal open when loading changes true => false
+  if (newValue && !oldValue) {
+    isLoaderModalVisible.value = isLoading.value
+  }
+})
 
 export type TargetAddress = {
-  address?: string
+  address: string
   usd?: number | string
   token?: number | string
 }
@@ -316,7 +334,7 @@ const tokenIcon = computed(() => getTokenIconBySymbol(unit.value))
 
 const tokenTabs = ref<TransferTokenTab[]>([])
 
-const targetAddresses = ref<TargetAddress[]>([{}])
+const targetAddresses = ref<TargetAddress[]>([{ address: '' }])
 
 const hasValidTarget = computed(() =>
   targetAddresses.value.some((item) => isAddress(item.address) && item.token)
@@ -601,7 +619,6 @@ const submit = async (
   event: any,
   usedNodeUrls: string[] = []
 ): Promise<void> => {
-  showNotification(`${route.query.target ? 'Sent for Sign' : 'Dispatched'}`)
   isTransferModalVisible.value = false
   initTransactionLoader()
   try {
@@ -618,20 +635,20 @@ const submit = async (
       cb,
       arg,
       txCb(
-        async (blockHash) => {
+        () => {
           transactionValue.value = execResultValue(tx)
-          const header = await api.rpc.chain.getHeader(blockHash)
-          const blockNumber = header.number.toString()
 
-          showNotification(
-            `[${unit.value}] Transfered ${totalTokenAmount.value} ${unit.value} in block ${blockNumber}`,
-            notificationTypes.success
-          )
+          targetAddresses.value = [{ address: '' }]
 
-          targetAddresses.value = [{}]
-          if (route.query && !route.query.donation) {
-            router.push(route.path)
-          }
+          // not sure what is the purpose of this
+          // but it causes the explorer url in Transaction Loader to become wrong
+          // after the transaction is finalized
+          // also causes:
+          //https://github.com/kodadot/nft-gallery/issues/6944
+
+          // if (route.query && !route.query.donation) {
+          //    router.push(route.path)
+          // }
 
           isLoading.value = false
         },
@@ -647,6 +664,7 @@ const submit = async (
     if (e.message === 'Cancelled') {
       showNotification(e.message, notificationTypes.warn)
       isLoading.value = false
+      isLoaderModalVisible.value = false
       return
     }
 

@@ -78,6 +78,7 @@
   "showLess": "Show Less",
   "dropUpload": "Drop your file here or click to select.",
   "chainSelect": "Select Chain ({0})",
+  "success": "Success",
   "search": {
     "searchCollection": "Search Collection",
     "seeAll": "See All",
@@ -656,6 +657,15 @@
       "processing": "Predicting (wait around ~2 min)",
       "send": "Sending links to your email"
     }
+  },
+  "transactionLoader": {
+    "sign": "Sign",
+    "signTip": "Please sign the transaction in your wallet",
+    "pending": "Pending",
+    "pendingTip": "Your transaction is being confirmed",
+    "completed": "Completed",
+    "completedTip": "Your transfer was successful!",
+    "showTransaction": "Show Transaction"
   },
   "arweave": {
     "uploadYes": "Upload NFT image to Arweave",
