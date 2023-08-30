@@ -78,9 +78,7 @@
 </template>
 
 <script setup lang="ts">
-import { BaseTokenType } from '@/components/base/types'
 import collectionForMint from '@/queries/subsquid/rmrk/collectionForMint.graphql'
-import { Location } from 'vue-router/types/router'
 import { DETAIL_TIMEOUT } from '@/utils/constants'
 import {
   notificationTypes,
@@ -96,12 +94,7 @@ import { unwrapSafe } from '@/utils/uniquery'
 import { toNFTId } from '../service/scheme'
 import { Ref as RefType } from 'vue'
 import { Royalty } from '@/utils/royalty'
-import {
-  MintedCollectionKusama,
-  TokenToList,
-} from '@/composables/transaction/types'
 import { NeoField, NeoMessage } from '@kodadot1/brick'
-
 import CustomAttributeInput from '@/components/rmrk/Create/CustomAttributeInput.vue'
 import CollapseWrapper from '@/components/shared/collapse/CollapseWrapper.vue'
 import Loader from '@/components/shared/Loader.vue'
@@ -110,6 +103,13 @@ import BaseTokenForm from '@/components/base/BaseTokenForm.vue'
 import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
 import SubmitButton from '@/components/base/SubmitButton.vue'
 import RoyaltyForm from '@/components/bsx/Create/RoyaltyForm.vue'
+
+import type { BaseTokenType } from '@/components/base/types'
+import type { Location } from 'vue-router/types/router'
+import type {
+  MintedCollectionKusama,
+  TokenToList,
+} from '@/composables/transaction/types'
 
 const { isLoading, status } = useMetaTransaction()
 const { $i18n, $apollo } = useNuxtApp()
@@ -163,18 +163,6 @@ const hasPrice = computed(() => {
 const balanceNotEnoughMessage = computed(() => {
   return balanceNotEnough ? $i18n.t('tooltip.notEnoughBalance') : ''
 })
-
-watch(
-  accountId,
-  (value, oldVal) => {
-    if (shouldUpdate(value, oldVal)) {
-      fetchCollections()
-    }
-  },
-  {
-    immediate: true,
-  }
-)
 
 const updatePrice = (value: string) => {
   price.value = value
@@ -383,4 +371,16 @@ const navigateToDetail = ({
   }
   setTimeout(go, DETAIL_TIMEOUT)
 }
+
+watch(
+  accountId,
+  (value, oldVal) => {
+    if (shouldUpdate(value, oldVal)) {
+      fetchCollections()
+    }
+  },
+  {
+    immediate: true,
+  }
+)
 </script>
