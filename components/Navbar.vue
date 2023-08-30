@@ -89,7 +89,7 @@
               <NeoIcon
                 class="ml-1"
                 icon="fire-flame-curved"
-                custom-size="fa-solid"
+                size="small"
                 pack="fa-sharp"
                 variant="primary" />
             </div>
@@ -109,7 +109,7 @@
             target="_blank"
             class="navbar-item"
             data-cy="learn">
-            {{ $t('learn') }}
+            Learn
           </a>
           <CreateDropdown
             v-show="isCreateVisible"

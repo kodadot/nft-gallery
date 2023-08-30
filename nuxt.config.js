@@ -39,110 +39,112 @@ export default defineNuxtConfig({
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
-  // Global page headers: https://go.nuxtjs.dev/config-head
-  head: {
-    title: 'KodaDot - One Stop Shop for Polkadot NFTs',
-    titleTemplate: '%s | One Stop Shop for Polkadot NFTs',
-    htmlAttrs: {
-      lang: 'en',
-    },
-    meta: [
-      { name: 'name', content: 'KodaDot NFT Marketplace' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { name: 'format-detection', content: 'telephone=no' },
-      // { property: 'og:site_name', content: 'KodaDot' },
-      {
-        hid: 'description',
-        name: 'description',
-        content: 'One Stop NFT Shop on Polkadot',
+  // Global page headers: https://nuxt.com/docs/api/configuration/nuxt-config#head
+  app: {
+    head: {
+      title: 'KodaDot - One Stop Shop for Polkadot NFTs',
+      titleTemplate: '%s | One Stop Shop for Polkadot NFTs',
+      htmlAttrs: {
+        lang: 'en',
       },
-      { property: 'og:locale', content: 'en_US' },
-      { property: 'twitter:site', content: '@KodaDot' },
-      {
-        hid: 'twitter:card',
-        name: 'twitter:card',
-        content: 'summary_large_image',
-      },
-      { hid: 'og:type', property: 'og:type', content: 'website' },
-      { hid: 'og:url', property: 'og:url', content: baseUrl },
-      {
-        hid: 'og:title',
-        property: 'og:title',
-        content: 'KodaDot - NFT Market Explorer',
-      },
-      {
-        hid: 'og:description',
-        property: 'og:description',
-        content: 'One Stop NFT Shop on Polkadot',
-      },
-      {
-        hid: 'og:image',
-        property: 'og:image',
-        content: `${baseUrl}/k_card.png`,
-      },
-      {
-        hid: 'twitter:url',
-        property: 'twitter:url',
-        content: baseUrl,
-      },
-      {
-        hid: 'twitter:title',
-        property: 'twitter:title',
-        content: 'KodaDot - NFT Market Explorer',
-      },
-      {
-        hid: 'twitter:description',
-        property: 'twitter:description',
-        content: 'One Stop NFT Shop on Polkadot',
-      },
-      {
-        hid: 'twitter:image',
-        property: 'twitter:image',
-        content: `${baseUrl}/k_card.png`,
-      },
-      baseUrl === URLS.koda.baseUrl
-        ? {}
-        : {
-            hid: 'robots',
-            property: 'robots',
-            content: 'noindex',
-          },
-    ],
-    link: [
-      { rel: 'icon', href: '/favicon.svg' },
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      {
-        rel: 'apple-touch-icon',
-        sizes: '180x180',
-        href: '/apple-touch-icon.png',
-      },
-      { rel: 'icon', sizes: '32x32', href: '/favicon-32x32.png' },
-      { rel: 'icon', sizes: '16x16', href: '/favicon-16x16.png' },
-      {
-        rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Fira+Code:wght@600;700&display=swap',
-      },
-    ],
-    script: [
-      {
-        src: 'https://kit.fontawesome.com/54f29b7997.js',
-        crossorigin: 'anonymous',
-      },
-      {
-        src: `https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`,
-        async: true,
-      },
-      {
-        innerHTML: `
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      meta: [
+        { name: 'name', content: 'KodaDot NFT Marketplace' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'format-detection', content: 'telephone=no' },
+        // { property: 'og:site_name', content: 'KodaDot' },
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'One Stop NFT Shop on Polkadot',
+        },
+        { property: 'og:locale', content: 'en_US' },
+        { property: 'twitter:site', content: '@KodaDot' },
+        {
+          hid: 'twitter:card',
+          name: 'twitter:card',
+          content: 'summary_large_image',
+        },
+        { hid: 'og:type', property: 'og:type', content: 'website' },
+        { hid: 'og:url', property: 'og:url', content: baseUrl },
+        {
+          hid: 'og:title',
+          property: 'og:title',
+          content: 'KodaDot - NFT Market Explorer',
+        },
+        {
+          hid: 'og:description',
+          property: 'og:description',
+          content: 'One Stop NFT Shop on Polkadot',
+        },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: `${baseUrl}/k_card.png`,
+        },
+        {
+          hid: 'twitter:url',
+          property: 'twitter:url',
+          content: baseUrl,
+        },
+        {
+          hid: 'twitter:title',
+          property: 'twitter:title',
+          content: 'KodaDot - NFT Market Explorer',
+        },
+        {
+          hid: 'twitter:description',
+          property: 'twitter:description',
+          content: 'One Stop NFT Shop on Polkadot',
+        },
+        {
+          hid: 'twitter:image',
+          property: 'twitter:image',
+          content: `${baseUrl}/k_card.png`,
+        },
+        baseUrl === URLS.koda.baseUrl
+          ? {}
+          : {
+              hid: 'robots',
+              property: 'robots',
+              content: 'noindex',
+            },
+      ],
+      link: [
+        { rel: 'icon', href: '/favicon.svg' },
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        {
+          rel: 'apple-touch-icon',
+          sizes: '180x180',
+          href: '/apple-touch-icon.png',
+        },
+        { rel: 'icon', sizes: '32x32', href: '/favicon-32x32.png' },
+        { rel: 'icon', sizes: '16x16', href: '/favicon-16x16.png' },
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Fira+Code:wght@600;700&display=swap',
+        },
+      ],
+      script: [
+        {
+          src: 'https://kit.fontawesome.com/54f29b7997.js',
+          crossorigin: 'anonymous',
+        },
+        {
+          src: `https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`,
+          async: true,
+        },
+        {
+          innerHTML: `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-      gtag('config', '${process.env.GOOGLE_ANALYTICS_ID}');
-      `,
-        type: 'text/javascript',
-      },
-    ],
+        gtag('config', '${process.env.GOOGLE_ANALYTICS_ID}');
+        `,
+          type: 'text/javascript',
+        },
+      ],
+    },
   },
 
   loadingIndicator: {
