@@ -324,20 +324,15 @@ const hasValidTarget = computed(() =>
 
 const getDisplayUnitBasedValues = (
   usdValue: number,
-  tokenAmount: number,
-  tokenUnit: string
+  tokenAmount: number
 ): [string, string] => {
   return displayUnit.value === 'token'
-    ? [`$${usdValue}`, `${tokenAmount} ${tokenUnit}`]
-    : [`${tokenAmount} ${tokenUnit}`, `$${usdValue}`]
+    ? [`$${usdValue}`, `${tokenAmount} ${unit.value}`]
+    : [`${tokenAmount} ${unit.value}`, `$${usdValue}`]
 }
 
 const displayTotalValue = computed(() =>
-  getDisplayUnitBasedValues(
-    totalUsdValue.value,
-    totalTokenAmount.value,
-    unit.value
-  )
+  getDisplayUnitBasedValues(totalUsdValue.value, totalTokenAmount.value)
 )
 
 const txFee = ref<number>(0)
@@ -347,7 +342,7 @@ const txFeeUsdValue = computed(() =>
 )
 
 const displayTxFeeValue = computed(() =>
-  getDisplayUnitBasedValues(txFeeUsdValue.value, txFee.value, unit.value)
+  getDisplayUnitBasedValues(txFeeUsdValue.value, txFee.value)
 )
 
 const disabled = computed(
