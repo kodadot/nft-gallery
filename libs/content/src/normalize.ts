@@ -32,8 +32,9 @@ export function contentFrom(meta: PluralAssetMetadata): Content
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function contentFrom(meta: any): Content {
   const description = meta.description || ''
-  const image = meta.image || meta.thumbnailUri || meta.mediaUri
-  const animationUrl = meta.animation_url || meta.mediaUri
+  const thumbnail = meta.thumbnailUri || meta.thumbnail
+  const image = meta.image || meta.mediaUri || meta.displayUri || thumbnail
+  const animationUrl = meta.animation_url || meta.mediaUri || meta.artifactUri
   const attributes = meta.attributes?.map(attributeFrom) || []
   const name = meta.name
   const type = meta.type
@@ -49,6 +50,7 @@ export function contentFrom(meta: any): Content {
     type: MIME_TYPE.test(type) ? type : '',
     externalUrl,
     tags,
+    thumbnail,
   }
 }
 
