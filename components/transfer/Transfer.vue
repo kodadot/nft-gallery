@@ -275,7 +275,6 @@ import {
 } from '@kodadot1/brick'
 import TransferTokenTabs, { TransferTokenTab } from './TransferTokenTabs.vue'
 import { TokenDetails } from '@/composables/useToken'
-import { ApiPromise } from '@polkadot/api'
 import { KODADOT_DAO } from '@/utils/support'
 import { toDefaultAddress } from '@/utils/account'
 const Money = defineAsyncComponent(
@@ -302,19 +301,6 @@ export type TargetAddress = {
   token?: number | string
 }
 
-type BaseTransferParams = {
-  api: ApiPromise
-  decimals: number
-}
-
-type SingleTransferParams = {
-  target: TargetAddress
-} & BaseTransferParams
-
-type MultipleTransferParams = {
-  addresses: TargetAddress[]
-} & BaseTransferParams
-
 const isMobile = computed(() => useWindowSize().width.value <= 1024)
 const balance = computed(() => getBalance(unit.value) || 0)
 
@@ -337,15 +323,10 @@ const hasValidTarget = computed(() =>
 )
 
 const displayTotalValue = computed(() =>
-  getDisplayUnitSwitchedValues(
-    `$${totalUsdValue.value}`,
-    `${totalTokenAmount.value} ${unit.value}`
-  )
+  displayUnit.value === 'token'
+    ? [`$${totalUsdValue.value}`, `${totalTokenAmount.value} ${unit.value}`]
+    : [`${totalTokenAmount.value} ${unit.value}`, `$${totalUsdValue.value}`]
 )
-
-const getDisplayUnitSwitchedValues = (a: string, b: string) => {
-  return displayUnit.value === 'token' ? [a, b] : [b, a]
-}
 
 const txFee = ref<number>(0)
 
@@ -354,10 +335,9 @@ const txFeeUsdValue = computed(() =>
 )
 
 const displayTxFeeValue = computed(() =>
-  getDisplayUnitSwitchedValues(
-    `$${txFeeUsdValue.value}`,
-    `${txFee.value} ${unit.value}`
-  )
+  displayUnit.value === 'token'
+    ? [`$${txFeeUsdValue.value}`, `${txFee.value} ${unit.value}`]
+    : [`${txFee.value} ${unit.value}`, `$${txFeeUsdValue.value}`]
 )
 
 const disabled = computed(
@@ -546,11 +526,8 @@ const handleOpenConfirmModal = () => {
 }
 
 const getTransactionFee = async () => {
-  const api = await apiInstance.value
-  const [cb, params] = getTransferParmas({
-    api,
-    decimals: decimals.value as number,
-    addresses: targetAddresses.value.map(
+  const [cb, params] = await getTransferParmas(
+    targetAddresses.value.map(
       () =>
         ({
           address: toDefaultAddress(KODADOT_DAO),
@@ -558,7 +535,8 @@ const getTransactionFee = async () => {
           token: 1,
         } as TargetAddress)
     ),
-  })
+    decimals.value as number
+  )
 
   return estimate(accountId.value, cb as any, params as any)
 }
@@ -582,62 +560,36 @@ watchDebounced(
 const getAmountToTransfer = (amount: number, decimals: number) =>
   String(calculateBalance(Number(amount), decimals))
 
-const getMultipleAddressesTransferParams = ({
-  api,
-  decimals,
-  addresses,
-}: MultipleTransferParams) => {
-  const arg = [
-    addresses.map((target) => {
-      const amountToTransfer = getAmountToTransfer(
-        target.token as number,
-        decimals
-      )
+const getTransferParmas = async (
+  addresses: TargetAddress[],
+  decimals: number
+) => {
+  const api = await apiInstance.value
+  const isSingle = targetAddresses.value.length === 1
 
-      return api.tx.balances.transfer(
-        target.address as string,
-        amountToTransfer
-      )
-    }),
-  ]
+  const firstAddress = addresses[0]
 
-  return [api.tx.utility.batch, arg]
-}
+  const cb = isSingle ? api.tx.balances.transfer : api.tx.utility.batch
+  const arg = isSingle
+    ? [
+        firstAddress.address as string,
+        getAmountToTransfer(firstAddress.token as number, decimals),
+      ]
+    : [
+        addresses.map((target) => {
+          const amountToTransfer = getAmountToTransfer(
+            target.token as number,
+            decimals
+          )
 
-const getSingleAddressTransferParams = ({
-  api,
-  decimals,
-  target,
-}: SingleTransferParams) => {
-  const amountToTransfer = getAmountToTransfer(target.token as number, decimals)
+          return api.tx.balances.transfer(
+            target.address as string,
+            amountToTransfer
+          )
+        }),
+      ]
 
-  return [
-    api.tx.balances.transfer,
-    [target.address as string, amountToTransfer],
-  ]
-}
-
-const getTransferParmas = ({
-  api,
-  decimals,
-  addresses,
-}: MultipleTransferParams) => {
-  const numOfTargetAddresses = targetAddresses.value.length
-  const multipleAddresses = numOfTargetAddresses > 1
-
-  if (multipleAddresses) {
-    return getMultipleAddressesTransferParams({
-      api,
-      decimals: decimals,
-      addresses,
-    })
-  }
-
-  return getSingleAddressTransferParams({
-    api,
-    decimals: decimals,
-    target: addresses[0],
-  })
+  return [cb, arg]
 }
 
 const submit = async (
@@ -650,11 +602,10 @@ const submit = async (
   try {
     const api = await apiInstance.value
 
-    const [cb, arg] = getTransferParmas({
-      api,
-      decimals: decimals.value as number,
-      addresses: targetAddresses.value,
-    })
+    const [cb, arg] = await getTransferParmas(
+      targetAddresses.value,
+      decimals.value as number
+    )
 
     const tx = await exec(
       accountId.value,
