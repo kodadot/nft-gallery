@@ -622,8 +622,6 @@ const submit = async (
   isTransferModalVisible.value = false
   initTransactionLoader()
   try {
-    const api = await apiInstance.value
-
     const { cb, arg } = await getTransferParams(
       targetAddresses.value,
       decimals.value as number
