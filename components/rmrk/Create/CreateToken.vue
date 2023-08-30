@@ -227,7 +227,7 @@ const submit = async () => {
 
   watch([transactionIsLoading, transactionStatus], () => {
     isLoading.value = transactionIsLoading.value
-    if (Boolean(transactionStatus.value)) {
+    if (transactionStatus.value) {
       status.value = transactionStatus.value
     }
   })
@@ -291,7 +291,7 @@ const listForSale = async (
 
     watch([transactionIsLoading, transactionStatus], () => {
       isLoading.value = transactionIsLoading.value
-      if (Boolean(transactionStatus.value)) {
+      if (transactionStatus.value) {
         status.value = transactionStatus.value
       }
     })
