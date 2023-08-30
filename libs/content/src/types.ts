@@ -124,6 +124,7 @@ export type Content = {
   type?: string
   tags?: Tags
   externalUrl?: string
+  thumbnail?: string
 }
 
 export type Attribute = {
