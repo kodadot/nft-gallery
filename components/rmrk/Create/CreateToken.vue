@@ -129,18 +129,18 @@ const base: BaseTokenType<MintedCollectionKusama> = {
 }
 
 const collections = ref([] as MintedCollectionKusama[])
-const tags: Attribute[] = []
+const tags = ref([] as Attribute[])
 const price = ref(0 as string | number)
-const nsfw = false
-const listed = true
-const postfix = true
+const nsfw = ref(false)
+const listed = ref(true)
+const postfix = ref(true)
 const balanceNotEnough = ref(false)
 
-const hasRoyalty = true
-const royalty: Royalty = {
+const hasRoyalty = ref(true)
+const royalty = ref({
   amount: 0.15,
   address: '',
-}
+} as Royalty)
 
 const balanceInput = ref()
 const baseTokenForm = ref()
@@ -161,7 +161,7 @@ const hasPrice = computed(() => {
 })
 
 const balanceNotEnoughMessage = computed(() => {
-  return balanceNotEnough ? $i18n.t('tooltip.notEnoughBalance') : ''
+  return balanceNotEnough.value ? $i18n.t('tooltip.notEnoughBalance') : ''
 })
 
 const updatePrice = (value: string) => {
@@ -196,7 +196,7 @@ const fetchCollections = async () => {
 }
 
 const checkValidity = () => {
-  const balanceInputValid = !listed || balanceInput.value.checkValidity()
+  const balanceInputValid = !listed.value || balanceInput.value.checkValidity()
   const baseTokenFormValid = baseTokenForm.value.checkValidity()
   return balanceInputValid && baseTokenFormValid
 }
@@ -239,12 +239,12 @@ const submit = async () => {
       token: {
         ...base,
         copies: Number(base.copies),
-        tags: tags,
-        nsfw: nsfw,
-        postfix: postfix,
+        tags: tags.value,
+        nsfw: nsfw.value,
+        postfix: postfix.value,
         price: price.toString(),
-        royalty: royalty,
-        hasRoyalty: hasRoyalty,
+        royalty: royalty.value,
+        hasRoyalty: hasRoyalty.value,
       },
     })) as {
       createdNFTs: RefType<CreatedNFT[]>
@@ -252,7 +252,7 @@ const submit = async () => {
 
     watch([blockNumber, createdNFTs], () => {
       if (blockNumber.value && createdNFTs.value) {
-        const isJustNftMint = !listed
+        const isJustNftMint = !listed.value
         if (isJustNftMint) {
           setTimeout(
             () =>
@@ -262,7 +262,7 @@ const submit = async () => {
               ),
             300
           )
-        } else if (hasPrice) {
+        } else if (hasPrice.value) {
           setTimeout(
             () => listForSale(createdNFTs.value, blockNumber.value as string),
             300
@@ -322,8 +322,8 @@ const listForSale = async (
         `[💰] Listed ${base.name} for ${balance} in block ${blockNumber}`,
     })
 
-    watch([isLoading, blockNumber], () => {
-      if (!isLoading.value && blockNumber.value) {
+    watch([transactionIsLoading, blockNumber], () => {
+      if (!transactionIsLoading.value && blockNumber.value) {
         handleCreatedNftsRedirect(createdNFT, originalBlockNumber)
       }
     })
