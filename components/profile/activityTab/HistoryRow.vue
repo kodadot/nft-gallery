@@ -66,7 +66,7 @@
       </div>
     </div>
 
-    <div v-if="withToColumn" class="column">
+    <div v-if="withPercentage" class="column">
       <div class="height-50px is-flex is-align-items-center">
         <span :class="percentageTextClassName(event.Percentage)">
           {{ toPercent(event.Percentage, blank) }}
