@@ -11,10 +11,14 @@
       :is-detail="isDetail" />
     <div
       v-if="isLewd && isLewdBlurredLayer"
-      class="nsfw-blur is-flex is-align-items-center is-justify-content-center is-flex-direction-column">
+      class="nsfw-blur is-capitalized is-flex is-align-items-center is-justify-content-center is-flex-direction-column">
       <NeoIcon icon="eye-slash" class="mb-3" />
-      <span class="heading-nsfw"> {{ $t('lewd.explicit') }} </span>
-      <span class="nsfw-desc">{{ $t('lewd.explicitDesc') }}</span>
+      <span class="nsfw-heading has-text-weight-bold">
+        {{ $t('lewd.explicit') }}
+      </span>
+      <span class="nsfw-desc text-align-center">{{
+        $t('lewd.explicitDesc')
+      }}</span>
     </div>
     <NeoButton
       v-if="isLewd"
@@ -56,7 +60,7 @@ const props = withDefaults(
   {
     src: '',
     animationSrc: '',
-    mimeType: '',
+    mimeType: 'image/png',
     title: 'KodaDot NFT',
     original: false,
     isLewd: false,
@@ -64,9 +68,9 @@ const props = withDefaults(
     placeholder: '',
   }
 )
-
-let fileType = ref('image')
-let isLewdBlurredLayer = ref<boolean>(props.isLewd)
+// props.mimeType may be empty string
+let mimeType = ref(!!props.mimeType ? props.mimeType : 'image/png')
+let isLewdBlurredLayer = ref(props.isLewd)
 const components = {
   ImageMedia,
   VideoMedia,
@@ -79,23 +83,25 @@ const components = {
 }
 
 const resolveComponent = computed(() => {
-  const type = props.mimeType || fileType.value
+  const type = props.mimeType || mimeType.value
   return components[resolveMedia(type) + SUFFIX]
 })
 const properSrc = computed(() => props.src || props.placeholder)
 
-watch(
-  () => props.animationSrc,
-  () => updateComponent()
-)
-onMounted(() => {
-  updateComponent()
-})
 const updateComponent = async () => {
   if (props.animationSrc && !props.mimeType) {
-    fileType.value = await getMimeType(props.animationSrc)
+    mimeType.value = await getMimeType(props.animationSrc)
   }
 }
+
+watch(
+  () => props.animationSrc,
+  () => updateComponent(),
+  {
+    immediate: true,
+  }
+)
+
 const toggleContent = () => {
   isLewdBlurredLayer.value = !isLewdBlurredLayer.value
 }
@@ -105,7 +111,6 @@ defineExpose({ isLewdBlurredLayer })
 
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
-@import '@/styles/abstracts/mixins';
 .media-object {
   .nsfw-blur {
     backdrop-filter: blur(60px);
@@ -113,20 +118,20 @@ defineExpose({ isLewdBlurredLayer })
     top: 0;
     height: 100%;
     width: 100%;
-    color: #fff;
-    text-transform: capitalize;
-
-    .heading-nsfw {
-      font-weight: 700;
+    @include ktheme() {
+      color: theme('text-color');
     }
+
     .nsfw-desc {
       max-width: 18.75rem;
-      text-align: center;
     }
   }
   .nsfw-action {
     border: none;
-    @include set-position('bottom', 'center');
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 1.25rem;
     @include ktheme() {
       color: theme('text-color') !important;
       background: theme('background-color') !important;
