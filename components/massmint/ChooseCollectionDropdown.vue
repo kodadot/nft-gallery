@@ -24,7 +24,7 @@
         v-for="collection in collectionsEntites"
         :key="collection.id"
         class="dropdown-width"
-        @click.native="selectCollection(collection)">
+        @click="selectCollection(collection)">
         {{ collection.name || collection.id }}
       </NeoDropdownItem>
       <NeoDropdownItem class="dropdown-width">
@@ -79,7 +79,7 @@ const selectCollection = (collection) => {
 }
 </script>
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .dropdown-width {
   width: 30rem;

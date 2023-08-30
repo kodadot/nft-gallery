@@ -2,7 +2,7 @@
   <NeoButton
     :variant="variant"
     :no-shadow="noShadow"
-    @click.native="toggleWalletConnectModal">
+    @click="toggleWalletConnectModal">
     <slot>
       {{ $t(`${label || 'general.connect'}`) }}
     </slot>

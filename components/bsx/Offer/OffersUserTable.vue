@@ -71,7 +71,7 @@
           v-if="props.row.status === 'ACTIVE'"
           no-shadow
           icon-left="times"
-          @click.native="withdrawOffer(props.row)" />
+          @click="withdrawOffer(props.row)" />
       </NeoTableColumn>
     </NeoTable>
   </div>

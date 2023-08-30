@@ -42,13 +42,13 @@
             :variant="mintBtnVariant"
             no-shadow
             class="min-width btn-height is-flex is-flex-1"
-            @click.native="emit('mint')" />
+            @click="emit('mint')" />
           <NeoButton
             :label="$t('massmint.cancel')"
             :variant="cancelBtnVariant"
             no-shadow
             class="min-width ml-5 btn-height is-flex is-flex-1"
-            @click.native="emit('close')" />
+            @click="emit('close')" />
         </div>
       </div>
     </div>

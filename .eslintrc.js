@@ -5,7 +5,7 @@ module.exports = {
     node: true,
   },
   extends: [
-    'plugin:vue/recommended',
+    // 'plugin:vue/recommended',
     'plugin:@typescript-eslint/recommended',
     'prettier',
   ],
@@ -15,8 +15,9 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: 'module',
   },
-  plugins: ['vue', 'prettier', '@typescript-eslint', 'unicorn'],
+  plugins: ['prettier', '@typescript-eslint', 'unicorn'],
   rules: {
+    'no-empty-function': 'warn',
     'no-trailing-spaces': 'error',
     'unicorn/no-for-loop': 'error',
     'brace-style': ['error', '1tbs', { allowSingleLine: false }],

@@ -31,7 +31,7 @@
             icon="close"
             no-shadow
             icon-pack="fas"
-            @click.native="closeModal" />
+            @click="closeModal" />
         </header>
         <div
           :class="[
@@ -169,7 +169,7 @@
           variant="k-accent"
           no-shadow
           class="fixed-button-height is-flex is-flex-1"
-          @click.native="confirmTransfer" />
+          @click="confirmTransfer" />
       </div>
     </div>
   </NeoModal>
@@ -213,7 +213,7 @@ const isExpandList = ref(false)
 </script>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .transfer-confirm-modal {
   @include touch {

@@ -70,14 +70,14 @@ const meta = computed(() => {
     }),
   ]
 })
-useNuxt2Meta({
+useHead({
   title,
   meta,
 })
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .collection-banner {
   background-repeat: no-repeat;

@@ -16,7 +16,7 @@
           v-if="hasSeeAllDescriptionOption"
           class="no-shadow is-text has-text-left p-0"
           :label="seeAllDescription ? $t('showLess') : $t('showMore')"
-          @click.native="toggleSeeAllDescription" />
+          @click="toggleSeeAllDescription" />
         <div v-else />
 
         <NeoButton
@@ -73,7 +73,7 @@ const visibleDescription = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .max-width {
   max-width: 100%;
 }

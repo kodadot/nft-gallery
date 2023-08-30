@@ -14,15 +14,18 @@
 <script lang="ts">
 import { NeoTabItem, NeoTabs } from '@kodadot1/brick'
 
-const Collection = () => import('@/components/stmn/Create/CreateCollection.vue')
-const NFT = () => import('@/components/stmn/Create/CreateToken.vue')
+import Collection from '@/components/stmn/Create/CreateCollection.vue'
+import NFT from '@/components/stmn/Create/CreateToken.vue'
+
+definePageMeta({
+  layout: 'centered-half-layout',
+})
 
 const components = { Collection, NFT, NeoTabItem, NeoTabs }
 
 export default {
   name: 'StmnCreatePage',
   components,
-  layout: 'centered-half-layout',
   setup() {
     const { activeTab, components, switchToNft } = useCreate()
     return {
@@ -32,7 +35,7 @@ export default {
     }
   },
   head() {
-    const title = 'KodaDot | Low fees and low carbon minting'
+    const title = 'Create carbonless NFTs'
     const metaData = {
       title,
       type: 'article',

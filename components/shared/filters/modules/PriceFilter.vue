@@ -61,7 +61,7 @@
           no-shadow
           variant="k-accent"
           expanded
-          @click.native="apply">
+          @click="apply">
           {{ $t('general.apply') }}
         </NeoButton>
       </div>
@@ -157,7 +157,7 @@ const toggleInputFocused = (): void => {
 </script>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .input-container {
   @include ktheme() {

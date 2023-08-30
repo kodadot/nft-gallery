@@ -10,7 +10,7 @@
           'is-invisible': isButtonHidden,
         }"
         no-shadow
-        @click.native="handleOpen">
+        @click="handleOpen">
         <template v-if="label">{{ label }}</template>
       </NeoButton>
     </slot>

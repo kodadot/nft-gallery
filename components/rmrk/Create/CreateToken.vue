@@ -1,4 +1,5 @@
-<template>
+<template></template>
+<!-- <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
     <BaseTokenForm
@@ -389,4 +390,4 @@ export default class CreateToken extends mixins(
     setTimeout(go, DETAIL_TIMEOUT)
   }
 }
-</script>
+</script> -->

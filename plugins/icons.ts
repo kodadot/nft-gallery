@@ -1,10 +1,8 @@
-import Vue from 'vue'
+// import Vue from 'vue'
 import { Neo } from '@kodadot1/brick'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { config, library } from '@fortawesome/fontawesome-svg-core'
 
-// nuxt will handle css
-config.autoAddCss = false
+import { config, library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import {
   faAngleLeft,
@@ -14,6 +12,7 @@ import {
   faArrowUpRightFromSquare,
   faArrowsAlt,
   faBars,
+  faBell,
   faBookOpen,
   faBookmark,
   faCalculator,
@@ -51,6 +50,7 @@ import {
   faFileImage,
   faFilter,
   faFire,
+  faFireFlameCurved,
   faFlask,
   faGhost,
   faGift,
@@ -132,6 +132,7 @@ library.add(
   faArrowUpRightFromSquare,
   faSquareArrowUpRight,
   faBars,
+  faBell,
   faBookOpen,
   faPaperPlane,
   faFileImage,
@@ -203,6 +204,7 @@ library.add(
   faThLarge,
   faTh,
   faFire,
+  faFireFlameCurved,
   faMoneyBill,
   faMoneyBillAlt,
   faPalette,
@@ -242,14 +244,21 @@ library.add(
   faX
 )
 
-Vue.component('VueFontawesome', FontAwesomeIcon).use(Neo, {
-  iconPack: 'fa-sharp',
-  customIconPacks: {
-    'fa-sharp': {
-      iconPrefix: 'fa-',
-      sizes: {
-        default: 'fw fa-regular',
-      },
-    },
-  },
+// nuxt will handle css
+config.autoAddCss = false
+
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.vueApp.component('font-awesome-icon', FontAwesomeIcon).use(Neo, {
+    iconComponent: 'font-awesome-icon',
+    iconPack: 'fas',
+    // iconPack: 'fa-sharp',
+    // customIconPacks: {
+    //   'fa-sharp': {
+    //     iconPrefix: 'fa-',
+    //     sizes: {
+    //       default: 'fw fa-regular',
+    //     },
+    //   },
+    // },
+  })
 })

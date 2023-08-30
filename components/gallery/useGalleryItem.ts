@@ -5,7 +5,7 @@ import { NftResources, getNftMetadata } from '@/composables/useNft'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import type { NFTWithMetadata } from '@/composables/useNft'
-import { Ref } from '@nuxt/bridge/dist/runtime/composables'
+import resolveQueryPath from '@/utils/queryPathResolver'
 
 interface NFTData {
   nftEntity?: NFTWithMetadata
@@ -24,8 +24,8 @@ const whichMimeType = async (data) => {
   if (data?.type) {
     return data?.type
   }
-  if (data?.animation_url) {
-    return await getMimeType(sanitizeIpfsUrl(data.animation_url))
+  if (data?.animationUrl) {
+    return await getMimeType(sanitizeIpfsUrl(data.animationUrl))
   }
   if (data?.image || data?.mediaUri) {
     return await getMimeType(sanitizeIpfsUrl(data?.image || data?.mediaUri))
@@ -36,12 +36,12 @@ const whichMimeType = async (data) => {
 
 const whichAsset = (data) => {
   return {
-    animation_url: sanitizeIpfsUrl(data.animation_url || ''),
+    animation_url: sanitizeIpfsUrl(data.animationUrl || ''),
     image: sanitizeIpfsUrl(data.image || data.mediaUri || '', 'image'),
   }
 }
 
-export const useGalleryItem = (nftId?: string): GalleryItem => {
+export const useGalleryItem = async (nftId?: string): Promise<GalleryItem> => {
   const { $consola } = useNuxtApp()
   const historyStore = useHistoryStore()
   const nft = ref<NFT>()
@@ -62,16 +62,29 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
   }
 
   const { urlPrefix } = usePrefix()
-  const { data, refetch } = useGraphql({
-    queryName: 'nftById',
+  const { prefix } = useQueryParams({
     queryPrefix: queryPath[urlPrefix.value],
-    variables: {
-      id,
-    },
-    options: {
-      fetchPolicy: 'network-only',
-    },
+    clientName: '',
   })
+  const query = await resolveQueryPath(prefix, 'nftById')
+  // const { onResult, refetch } = useQuery(query.default, { id })
+  const { data, refresh } = useAsyncQuery(query.default, { id })
+  console.log(data)
+
+  // onResult((result) => {
+  //   console.log(result.data)
+  //   nft.value = result.data
+  // })
+  // const { data, refetch } = useGraphql({
+  //   queryName: 'nftById',
+  //   queryPrefix: queryPath[urlPrefix.value],
+  //   variables: {
+  //     id,
+  //   },
+  //   options: {
+  //     fetchPolicy: 'network-only',
+  //   },
+  // })
 
   useSubscriptionGraphql({
     query: `   nft: nftEntityById(id: "${id}") {
@@ -83,7 +96,7 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
         id
       }
     }`,
-    onChange: refetch,
+    onChange: refresh,
   })
 
   watch(data as unknown as NFTData, async (newData) => {

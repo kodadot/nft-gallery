@@ -513,7 +513,7 @@ watch(nbDays, (value: string) => {
 })
 </script>
 <style lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .history {
   width: 200px;

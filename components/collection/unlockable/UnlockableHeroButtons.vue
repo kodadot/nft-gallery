@@ -64,7 +64,7 @@ const { toast } = useToast()
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .hero-buttons {
   @include mobile {
     justify-content: space-between !important;

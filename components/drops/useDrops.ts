@@ -30,7 +30,7 @@ export function useDrops(collectionId: string, clientName?: string) {
   })
 
   watch(collectionData, () => {
-    if (collectionData.value) {
+    if (collectionData.value?.collectionEntity) {
       const { collectionEntity, nftEntitiesConnection } = collectionData.value
       const drops: Drop[] = []
       drops.push({

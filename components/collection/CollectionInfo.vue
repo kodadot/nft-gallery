@@ -16,7 +16,7 @@
         v-if="hasSeeAllDescriptionOption"
         class="no-shadow is-text is-underlined has-text-left p-0"
         :label="seeAllDescription ? $t('showLess') : $t('showMore')"
-        @click.native="toggleSeeAllDescription" />
+        @click="toggleSeeAllDescription" />
     </div>
     <div>
       <div class="is-flex gap mobile-flex-direction-column mobile-no-gap">
@@ -115,7 +115,7 @@ watch(collectionId, getData, { immediate: true })
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .max-width {
   max-width: 50%;
 }

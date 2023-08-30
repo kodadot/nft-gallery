@@ -3,6 +3,9 @@ import type { CarouselNFT } from '@/components/base/types'
 
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
+import collectionCuratedList from '@/queries/subsquid/general/collectionCuratedList.graphql'
+import collectionLastList from '@/queries/subsquid/general/collectionLastList.graphql'
+
 const curatedCollection = {
   bsx: [
     '1865909717', // 'Berliner'
@@ -62,13 +65,10 @@ export default function useCarouselSpotlight() {
   const variables = curatedCollection[urlPrefix.value]?.length
     ? { list: curatedCollection[urlPrefix.value] }
     : undefined
-  const { data } = useGraphql({
-    queryName: curatedCollection[urlPrefix.value]?.length
-      ? 'collectionCuratedList'
-      : 'collectionLastList',
-    queryPrefix: urlPrefix.value,
-    variables,
-  })
+  const query = curatedCollection[urlPrefix.value]?.length
+    ? collectionCuratedList
+    : collectionLastList
+  const { result: data } = useQuery(query, { ...variables })
 
   watch(data, () => {
     updateCollections(data.value)

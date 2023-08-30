@@ -6,7 +6,7 @@
     class="mb-2 mt-4 mint-button"
     variant="secondary"
     label="Teleport Token"
-    @click.native="handleTokenImport">
+    @click="handleTokenImport">
     <b
       >Missing <Money :value="displayPricePerMint" inline /> on AssetHub? Click
       here to teleport them from Relay Chain</b

@@ -14,14 +14,14 @@
           </div>
           <div class="bar ml-4 mr-4" />
           <div class="action is-success">
-            <NeoButton variant="text" no-shadow @click.native="declineCookies">
+            <NeoButton variant="text" no-shadow @click="declineCookies">
               {{ $t('cookies.decline') }}
             </NeoButton>
             <NeoButton
               variant="text"
               no-shadow
               class="has-text-weight-bold ml-3"
-              @click.native="acceptCookies">
+              @click="acceptCookies">
               {{ $t('cookies.accept') }}
             </NeoButton>
           </div>

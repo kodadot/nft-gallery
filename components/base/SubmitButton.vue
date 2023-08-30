@@ -9,7 +9,7 @@
       :expanded="expanded"
       icon-pack="far"
       outlined
-      @click.native="$emit('click')">
+      @click="$emit('click')">
       <slot>
         {{ $t(label) }}
       </slot>

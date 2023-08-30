@@ -3,22 +3,21 @@
 </template>
 
 <script lang="ts">
+definePageMeta({
+  layout: 'generative-mint-layout',
+})
 export default {
   name: 'GenerativeMintPage',
   components: {
     GenerativeMint: () => import('@/components/bsx/Create/GenerativeMint.vue'),
   },
-  layout() {
-    return 'generative-mint-layout'
-  },
   head() {
-    const title = 'KodaDot | Low fees and low carbon minting'
+    const title = 'Mint Your Waifu'
     const metaData = {
       title,
       type: 'article',
-      description: 'Create carbonless NFTs with low on-chain fees',
-      url: '/mint',
-      image: `${this.$config.public.baseUrl}/k_card_mint.png`,
+      description: 'Create yourself a uique Waifu NFT',
+      url: 'bsx/mint',
     }
     return {
       title,

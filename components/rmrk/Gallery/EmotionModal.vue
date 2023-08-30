@@ -27,7 +27,7 @@
         class="mt-4"
         no-shadow
         expanded
-        @click.native="showAllEmotes()">
+        @click="showAllEmotes()">
         Load More
       </NeoButton>
     </div>
@@ -50,7 +50,7 @@ const showAllEmotes = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .emotion {
   max-width: 400px;

@@ -176,7 +176,7 @@ import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
 import GalleryItemPreviewer from './GalleryItemPreviewer.vue'
 import { convertMarkdownToText } from '@/utils/markdown'
 import { exist } from '@/utils/exist'
-import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import { generateNftImage } from '@/utils/seoImageGenerator'
 import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
 import { MediaType } from '@/components/rmrk/types'
@@ -186,7 +186,6 @@ import { useWindowSize } from '@vueuse/core'
 import { usePreferencesStore } from '@/stores/preferences'
 
 const { urlPrefix } = usePrefix()
-const { $seoMeta } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
 const { placeholder } = useTheme()
@@ -234,9 +233,11 @@ const hasAnimatedResources = computed(
     nftResources.value[1].animation
 )
 
-const previewItemSrc = computed(
-  () => (hasResources.value && activeCarouselImage.value) || nftImage.value
-)
+const previewItemSrc = computed(() => {
+  const baseUrl =
+    (hasResources.value && activeCarouselImage.value) || nftImage.value
+  return baseUrl ? toOriginalContentUrl(baseUrl) : baseUrl
+})
 
 const onNFTBought = () => {
   activeTab.value = tabs.activity
@@ -275,7 +276,7 @@ const { isUnlockable, unlockLink } = useUnlockable(collection)
 const title = computed(() => nftMetadata.value?.name || '')
 const meta = computed(() => {
   return [
-    ...$seoMeta({
+    {
       title: title.value,
       description: convertMarkdownToText(nftMetadata.value?.description),
       image: generateNftImage(
@@ -287,18 +288,18 @@ const meta = computed(() => {
       mime: nftMimeType.value,
       url: route.path,
       video: sanitizeIpfsUrl(nftAnimation.value || ''),
-    }),
+    },
   ]
 })
 
-useNuxt2Meta({
+useHead({
   title,
   meta,
 })
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 $break-point-width: 930px;
 .title {
   font-size: 2.4375em;

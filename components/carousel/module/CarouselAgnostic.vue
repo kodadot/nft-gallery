@@ -7,6 +7,9 @@
           :key="`${item.id}-${index}`"
           class="keen-slider__slide carousel-item">
           <div class="h-full is-flex is-flex-direction-column">
+            <nuxt-link :to="`/bsx/collection/${item.id}`">
+              {{ item.id }}
+            </nuxt-link>
             <CarouselMedia :item="item" :index="index" :length="nfts.length" />
             <CarouselInfo :item="item" />
           </div>
@@ -29,6 +32,8 @@
 </template>
 
 <script lang="ts" setup>
+const CarouselMedia = defineAsyncComponent(() => import('./CarouselMedia.vue'))
+const CarouselInfo = defineAsyncComponent(() => import('./CarouselInfo.vue'))
 import type { CarouselNFT } from '@/components/base/types'
 
 import 'keen-slider/keen-slider.min.css'

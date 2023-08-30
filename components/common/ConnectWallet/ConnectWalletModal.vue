@@ -55,7 +55,7 @@
           size="medium"
           variant="k-accent"
           class="confirm-button"
-          @click.native="setUserAuthValue">
+          @click="setUserAuthValue">
           <span class="is-flex is-align-items-center is-justify-content-center">
             {{ $i18n.t('walletConnect.confirm') }}
             <NeoIcon class="ml-2" icon="chevron-right" />

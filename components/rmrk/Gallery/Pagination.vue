@@ -21,7 +21,7 @@
         class="ml-2 no-shadow"
         :title="$t('tooltip.random')"
         icon-left="dice"
-        @click.native="goToRandomPage">
+        @click="goToRandomPage">
       </NeoButton>
     </NeoTooltip>
   </div>

@@ -5,16 +5,17 @@
 <script lang="ts">
 import ClaimForm from '@/components/poap/claim/ClaimForm.vue'
 
+definePageMeta({
+  layout: 'centered-half-layout',
+})
+
 export default {
   name: 'ClaimPage',
   components: {
     ClaimForm,
   },
-  layout() {
-    return 'centered-half-layout'
-  },
   head() {
-    const title = 'KodaDot | Low fees and low carbon minting'
+    const title = 'Claim'
     const metaData = {
       title,
       type: 'article',
