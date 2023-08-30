@@ -164,7 +164,6 @@ export default defineNuxtConfig({
     { src: '~/plugins/piniaPersistedState', mode: 'client' },
     { src: '~/plugins/oruga-modal', mode: 'client' },
     { src: '~/plugins/oruga-notification', mode: 'client' },
-    '~/plugins/filters',
     '~/plugins/globalVariables',
     '~/plugins/pwa',
     '~/plugins/vueAudioVisual',

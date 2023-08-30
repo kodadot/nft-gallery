@@ -14,7 +14,7 @@
         </div>
         <div class="px-2 is-flex is-flex-direction-column">
           <div class="has-text-weight-bold no-wrap">
-            {{ collection.name | truncateStr(12) }}
+            {{ truncateStr(collection.name, 12) }}
           </div>
           <div class="is-flex is-justify-content-start">
             <div class="is-hidden-mobile">
@@ -72,6 +72,7 @@ import { calculateUsdFromToken } from '@/utils/calculation'
 import { CollectionEntityWithVolumes } from './utils/types'
 import { getChainNameByPrefix } from '@/utils/chain'
 import { useFiatStore } from '@/stores/fiat'
+import { truncateStr } from '@/utils/filters'
 
 const BasicImage = defineAsyncComponent(
   () => import('@/components/shared/view/BasicImage.vue')
