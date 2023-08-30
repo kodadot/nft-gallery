@@ -7,9 +7,6 @@
           :key="`${item.id}-${index}`"
           class="keen-slider__slide carousel-item">
           <div class="h-full is-flex is-flex-direction-column">
-            <nuxt-link :to="`/bsx/collection/${item.id}`">
-              {{ item.id }}
-            </nuxt-link>
             <CarouselMedia :item="item" :index="index" :length="nfts.length" />
             <CarouselInfo :item="item" />
           </div>

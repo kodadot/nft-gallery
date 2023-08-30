@@ -41,9 +41,9 @@
                 class="is-flex is-align-items-center">
                 {{ item.name }}
                 <NeoIcon
-                  icon="arrow-up-right"
+                  icon="arrow-up-right-from-square"
                   class="ml-1 has-text-grey"
-                  pack="fas" />
+                  pack="fa-sharp" />
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
@@ -68,9 +68,9 @@
                 class="is-flex is-align-items-center">
                 {{ item.name }}
                 <NeoIcon
-                  icon="arrow-up-right"
+                  icon="arrow-up-right-from-square"
                   class="ml-1 has-text-grey"
-                  pack="fas" />
+                  pack="fa-sharp" />
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
@@ -95,9 +95,9 @@
                 class="is-flex is-align-items-center">
                 {{ item.name }}
                 <NeoIcon
-                  icon="arrow-up-right"
+                  icon="arrow-up-right-from-square"
                   class="ml-1 has-text-grey"
-                  pack="fas" />
+                  pack="fa-sharp" />
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
