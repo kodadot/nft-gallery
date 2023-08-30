@@ -34,9 +34,7 @@ const tokenMap = {
   BSX: 'basilisk',
 }
 
-export const getApproximatePriceOf = async (
-  id: 'KSM' | 'DOT' | 'BSX'
-): Promise<number> => {
+export const getApproximatePriceOf = async (id: string): Promise<number> => {
   const coinId = tokenMap[id]
   const stored = localStorage.getItem(id)
 
