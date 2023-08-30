@@ -25,7 +25,7 @@
       <div class="height-50px is-flex is-align-items-center">
         <EventTag
           :interaction="eventType"
-          :interaction-name="$t(`nft.event.${interactionName}`)" />
+          :interaction-name="interactionName" />
       </div>
     </div>
 
@@ -106,7 +106,7 @@
 
         <EventTag
           :interaction="eventType"
-          :interaction-name="$t(`nft.event.${interactionName}`)" />
+          :interaction-name="interactionName" />
       </div>
     </div>
     <div class="is-flex">
