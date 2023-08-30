@@ -220,7 +220,6 @@ Current Indexers we have/use:
 - SubSquid
   - Basilisk: [snek](https://github.com/kodadot/snek)
   - Kusama: [rubick](https://github.com/kodadot/rubick)
-  - Basilisk: [snek](https://github.com/kodadot/snek)
   - AssetHub: [stick](https://github.com/kodadot/stick)
   - MoonRiver: [click](https://github.com/kodadot/click)
 
