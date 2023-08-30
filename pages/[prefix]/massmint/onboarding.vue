@@ -9,13 +9,14 @@ import OnBoarding from '@/components/massmint/OnBoarding.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 import { massmintCreateVisible } from '@/utils/config/permission.config'
 
+definePageMeta({
+  layout: 'full-width-layout',
+})
+
 export default {
   name: 'MassmintOnboardingPage',
   components: {
     OnBoarding,
-  },
-  layout() {
-    return 'full-width-layout'
   },
   middleware({ redirect, params }) {
     if (usePreferencesStore().getVisitedOnboarding) {

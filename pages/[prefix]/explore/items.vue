@@ -11,12 +11,15 @@ import Items from '@/components/items/Items.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 import { explorerVisible } from '@/utils/config/permission.config'
 
+definePageMeta({
+  layout: 'explore-layout',
+})
+
 export default {
   name: 'ExploreItems',
   components: {
     Items,
   },
-  layout: 'explore-layout',
   setup() {
     const preferencesStore = usePreferencesStore()
     const { urlPrefix } = usePrefix()
@@ -39,14 +42,14 @@ export default {
     }
   },
   head() {
-    const { $route } = useNuxtApp()
+    const route = useRoute()
     const runtimeConfig = useRuntimeConfig()
     const title = 'Explore NFTs'
     const metaData = {
       title,
       type: 'profile',
       description: 'Buy Carbonless NFTs on KodaDot',
-      url: `/${$route.params.prefix}/explore/items`,
+      url: `/${route.params.prefix}/explore/items`,
       image: `${runtimeConfig.public.baseUrl}/k_card.png`,
     }
     return {

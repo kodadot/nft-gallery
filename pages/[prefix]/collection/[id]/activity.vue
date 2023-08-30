@@ -12,12 +12,15 @@ import { useHistoryStore } from '@/stores/history'
 import { usePreferencesStore } from '@/stores/preferences'
 import { generateCollectionImage } from '@/utils/seoImageGenerator'
 
+definePageMeta({
+  layout: 'explore-layout',
+})
+
 export default {
   name: 'CollectionActivityPage',
   components: {
     Activity,
   },
-  layout: 'explore-layout',
   setup() {
     const preferencesStore = usePreferencesStore()
     const isSidebarOpen = computed(

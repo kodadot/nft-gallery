@@ -6,6 +6,7 @@
     <HotTable />
   </section>
 </template>
+
 <script lang="ts">
 export default {
   name: 'HotDashboard',

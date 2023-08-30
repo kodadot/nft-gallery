@@ -6,26 +6,16 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import Items from '@/components/items/Items.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 
-export default {
-  components: {
-    Items,
-  },
+definePageMeta({
   layout: 'explore-layout',
-  setup() {
-    const preferencesStore = usePreferencesStore()
-    const isSidebarOpen = computed(
-      () => preferencesStore.getsidebarFilterCollapse
-    )
+})
 
-    return {
-      isSidebarOpen,
-    }
-  },
-}
+const preferencesStore = usePreferencesStore()
+const isSidebarOpen = computed(() => preferencesStore.getsidebarFilterCollapse)
 </script>
 
 <style lang="scss" scoped>

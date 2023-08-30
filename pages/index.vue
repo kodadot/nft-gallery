@@ -3,13 +3,13 @@
 </template>
 
 <script lang="ts">
+import LandingPage from '@/components/landing/LandingPage.vue'
+
+definePageMeta({
+  layout: 'full-width-layout',
+})
+
 export default {
   name: 'HomePage',
-  components: {
-    LandingPage: () => import('@/components/landing/LandingPage.vue'),
-  },
-  layout() {
-    return 'full-width-layout'
-  },
 }
 </script>

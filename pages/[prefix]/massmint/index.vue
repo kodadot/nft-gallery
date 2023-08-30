@@ -5,12 +5,12 @@
 import { usePreferencesStore } from '@/stores/preferences'
 import { massmintCreateVisible } from '@/utils/config/permission.config'
 
+definePageMeta({
+  layout: 'no-footer',
+})
+
 export default {
   name: 'MassmintPage',
-
-  layout() {
-    return 'noFooter'
-  },
   middleware({ redirect, params }) {
     if (!usePreferencesStore().getVisitedOnboarding) {
       setTimeout(() => redirect(`/${params.prefix}/massmint/onboarding`))
