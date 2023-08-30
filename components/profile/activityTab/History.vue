@@ -13,7 +13,8 @@
     <ResponsiveTable
       :no-results-main="$t('activity.noResults')"
       :no-results-sub="$t('activity.noResultsSub')"
-      :items="showList">
+      :items="showList"
+      :show-no-results="!showList.length">
       <template #columns>
         <div class="column">
           <span>{{ $t('activity.event.item') }}</span>
@@ -31,7 +32,7 @@
           <span>{{ $t('activity.event.to') }}</span>
         </div>
         <div v-if="isPercentageColumnVisible" class="column">
-          <span>Percentage</span>
+          <span> {{ $t('profile.history.percentage') }}</span>
         </div>
         <div class="column">
           <span>{{ $t('activity.event.time') }}</span>
@@ -69,6 +70,7 @@ import { Interaction as EventInteraction } from '@/components/rmrk/service/schem
 import ResponsiveTable from '@/components/shared/ResponsiveTable.vue'
 import Pagination from '@/components/rmrk/Gallery/Pagination.vue'
 import HistoryRow from './HistoryRow.vue'
+import { emptyObject } from '@/utils/empty'
 
 type ChartData = {
   buy: any[]
@@ -160,7 +162,7 @@ const createTable = (): void => {
   const previousPriceMap = {}
 
   for (const newEvent of prop.events) {
-    const event: Event = {}
+    const event = emptyObject<Event>()
 
     const nftId = newEvent['nft'] ? newEvent['nft']['id'] : 'id'
     // Type

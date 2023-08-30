@@ -2,7 +2,8 @@
   <ResponsiveTable
     :items="events"
     :no-results-main="$t('activity.noResults')"
-    :no-results-sub="$t('activity.noResultsSub')">
+    :no-results-sub="$t('activity.noResultsSub')"
+    :show-no-results="events.length > 0 && !displayedEvents.length">
     <template #columns>
       <div class="column">
         <span>{{ $t('activity.event.item') }}</span>
