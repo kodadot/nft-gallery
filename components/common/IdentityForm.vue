@@ -2,7 +2,7 @@
   <section>
     <Loader v-model="isLoading" :status="status" />
     <form @submit.prevent>
-      <p class="title is-size-3">
+      <h1 class="title is-size-3">
         {{ $i18n.t('identity.set') }}
         <NeoTooltip
           :label="$i18n.t('identity.fundsReserve')"
@@ -10,7 +10,7 @@
           multiline>
           <NeoIcon icon="info-circle" pack="fas" />
         </NeoTooltip>
-      </p>
+      </h1>
 
       <p v-if="accountId" class="subtitle is-size-6">
         <Auth />
