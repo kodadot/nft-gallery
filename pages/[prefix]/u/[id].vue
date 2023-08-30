@@ -5,20 +5,14 @@
 <script lang="ts">
 import ProfileDetail from '@/components/profile/ProfileDetail.vue'
 
+definePageMeta({
+  layout: 'no-footer',
+})
+
 export default {
   name: 'Profile',
   components: {
     ProfileDetail,
-  },
-  layout() {
-    return 'noFooter'
-  },
-  setup() {
-    const { redesign } = useExperiments()
-
-    return {
-      redesign,
-    }
   },
   head() {
     const title = 'NFT Artist Profile on KodaDot'

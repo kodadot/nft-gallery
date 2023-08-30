@@ -3,13 +3,14 @@
 </template>
 
 <script lang="ts">
+definePageMeta({
+  layout: 'centered-half-layout',
+})
+
 export default {
   name: 'SimpleMintPage',
   components: {
     SimpleMint: () => import('@/components/rmrk/Create/SimpleMint.vue'),
-  },
-  layout() {
-    return 'centered-half-layout'
   },
   head() {
     const title = 'Mint a new NFT'

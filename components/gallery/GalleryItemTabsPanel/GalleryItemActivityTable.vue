@@ -103,7 +103,10 @@ import {
   NeoTooltip,
 } from '@kodadot1/brick'
 import { formatToNow } from '@/utils/format/time'
-import formatBalance, { withoutDigitSeparator } from '@/utils/format/balance'
+import formatBalance, {
+  formatNumber,
+  withoutDigitSeparator,
+} from '@/utils/format/balance'
 import { parseDate } from '@/utils/datetime'
 import { getApproximatePriceOf } from '@/utils/coingecko'
 
@@ -169,10 +172,10 @@ watchEffect(() => {
 
 const formatPrice = (price) => {
   const tokenAmount = formatBalance(price, decimals.value, false)
-  const flatPrice = `${Math.round(
+  const flatPrice = `${formatNumber(
     Number(withoutDigitSeparator(tokenAmount)) * tokenPrice.value
   )}`
-  return [tokenAmount, flatPrice]
+  return [formatNumber(tokenAmount), flatPrice]
 }
 </script>
 <style lang="scss" scoped>

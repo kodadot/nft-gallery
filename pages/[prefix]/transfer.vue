@@ -2,11 +2,6 @@
   <Transfer />
 </template>
 
-<script lang="ts">
-export default {
-  name: 'TransferPage',
-  components: {
-    Transfer: () => import('@/components/transfer/Transfer.vue'),
-  },
-}
+<script lang="ts" setup>
+import Transfer from '@/components/transfer/Transfer.vue'
 </script>
