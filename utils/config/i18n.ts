@@ -1,7 +1,7 @@
-import { defineI18nConfig } from '#i18n'
+import { LocaleMessage, VueMessageType, defineI18nConfig } from '#i18n'
 import commonData from '@/locales/all_lang.json'
 import MarkdownIt from 'markdown-it'
-
+const locales = import.meta.glob('../../locales/*.json', { eager: true })
 export const langsFlags = [
   {
     value: 'en',
@@ -28,6 +28,20 @@ export const langsFlags = [
 const md = MarkdownIt({
   breaks: false,
 })
+function getMessages() {
+  const messages: { [x: string]: LocaleMessage<VueMessageType> } = {}
+  for (const [key, value] of Object.entries(locales)) {
+    const matched = key.match(/([A-Za-z0-9-_]+)\./i)
+    if (matched && matched.length > 1) {
+      const locale = matched[1]
+      if (locale === 'all_lang') {
+        continue
+      }
+      messages[locale] = value.default
+    }
+  }
+  return messages
+}
 
 export default defineI18nConfig(() => ({
   locale: process.env.VUE_APP_I18N_LOCALE || 'en',
@@ -37,4 +51,5 @@ export default defineI18nConfig(() => ({
     md: (str) => md.renderInline(str),
     common: (str) => str.split('.').reduce((o, i) => o[i], commonData),
   },
+  messages: getMessages(),
 }))

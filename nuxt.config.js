@@ -264,7 +264,6 @@ export default defineNuxtConfig({
     skipSettingLocaleOnNavigate: true,
     vueI18nLoader: true,
     defaultLocale: 'en',
-    fallbackLocale: 'en',
     loadLanguagesAsync: true,
     detectBrowserLanguage: {
       useCookie: true,
