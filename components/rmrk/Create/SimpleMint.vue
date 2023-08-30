@@ -302,7 +302,7 @@ const parseAddresses = computed(() => {
     .map((x) => x.split('-'))
     .filter((x) => x.length)
     .map((x) => x[1])
-    .filter((x) => x)
+.filter(Boolean)
     .map((a) => a.trim())
   const onlyValid = addresses
     .filter((a) => isAddress(a))
