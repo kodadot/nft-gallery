@@ -322,10 +322,22 @@ const hasValidTarget = computed(() =>
   targetAddresses.value.some((item) => isAddress(item.address) && item.token)
 )
 
+const getDisplayUnitBasedValues = (
+  usdValue: number,
+  tokenAmount: number,
+  tokenUnit: string
+): [string, string] => {
+  return displayUnit.value === 'token'
+    ? [`$${usdValue}`, `${tokenAmount} ${tokenUnit}`]
+    : [`${tokenAmount} ${tokenUnit}`, `$${usdValue}`]
+}
+
 const displayTotalValue = computed(() =>
-  displayUnit.value === 'token'
-    ? [`$${totalUsdValue.value}`, `${totalTokenAmount.value} ${unit.value}`]
-    : [`${totalTokenAmount.value} ${unit.value}`, `$${totalUsdValue.value}`]
+  getDisplayUnitBasedValues(
+    totalUsdValue.value,
+    totalTokenAmount.value,
+    unit.value
+  )
 )
 
 const txFee = ref<number>(0)
@@ -335,9 +347,7 @@ const txFeeUsdValue = computed(() =>
 )
 
 const displayTxFeeValue = computed(() =>
-  displayUnit.value === 'token'
-    ? [`$${txFeeUsdValue.value}`, `${txFee.value} ${unit.value}`]
-    : [`${txFee.value} ${unit.value}`, `$${txFeeUsdValue.value}`]
+  getDisplayUnitBasedValues(txFeeUsdValue.value, txFee.value, unit.value)
 )
 
 const disabled = computed(
@@ -551,7 +561,7 @@ onMounted(() => calculateTransactionFee())
 
 watchDebounced(
   [urlPrefix, () => targetAddresses.value.length],
-  async () => {
+  () => {
     calculateTransactionFee()
   },
   { debounce: 500 }
