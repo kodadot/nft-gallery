@@ -40,7 +40,7 @@
       <template #footer>
         <NeoField key="advanced">
           <CollapseWrapper
-            v-if="base.edition > 1"
+            v-if="base.copies > 1"
             visible="mint.expert.show"
             hidden="mint.expert.hide"
             class="mt-3">
@@ -147,7 +147,7 @@ const base = ref<BaseTokenType>({
   file: null,
   description: '',
   selectedCollection: null,
-  edition: 1,
+  copies: 1,
   secondFile: null,
 })
 const collections = ref<MintedCollection[]>([])
@@ -161,7 +161,7 @@ const hasRoyalty = ref(true)
 const feesToken = ref<Token>('BSX')
 const royalty = ref<Royalty>({
   amount: 0.15,
-  address: '',
+  address: accountId.value,
 })
 const balanceNotEnough = ref(false)
 

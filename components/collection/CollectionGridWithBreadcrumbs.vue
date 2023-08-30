@@ -1,5 +1,5 @@
 <template>
-  <div class="collections">
+  <div class="collections pb-6">
     <div
       class="is-flex is-flex-direction-row is-justify-content-space-between py-5">
       <BreadcrumbsFilter />
@@ -13,6 +13,7 @@
 
     <CollectionGrid
       :id="id"
+      class="pb-8"
       @total="(v) => (total = v)"
       @isLoading="(l) => (isLoading = l)" />
   </div>

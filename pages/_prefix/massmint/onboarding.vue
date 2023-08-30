@@ -27,11 +27,12 @@ export default {
     }
   },
   head() {
-    const title = 'Kodadot | Massmint'
+    const title = 'Massmint - Onboarding'
     const metaData = {
       title,
       type: 'profile',
-      description: 'Buy Carbonless NFTs on Kusama',
+      description:
+        'onboarding and tutorial for minting multiple NFTs at once on KodaDot',
       url: `/${this.$route.params.prefix}/massmint/onboarding`,
       image: `${this.$config.public.baseUrl}/k_card.png`,
     }

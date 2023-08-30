@@ -227,9 +227,8 @@
     border-radius: 0;
   }
 
-  .small-size-text {
-    font-size: 0.5rem;
-    vertical-align: text-bottom;
+  .text-vertical-align-top {
+    vertical-align: top !important;
   }
   .color-mode-icon {
     width: 12px;

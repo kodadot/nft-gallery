@@ -41,3 +41,11 @@ export interface CarouselNFT extends ItemResources {
   collectionName?: string
   chain?: Prefix
 }
+
+export interface BaseNFTMeta {
+  id: string
+  image?: string
+  animationUrl?: string
+  name?: string
+  description?: string
+}

@@ -85,11 +85,7 @@ const inputFocused = ref(false)
 const { urlPrefix } = usePrefix()
 
 const collectionSearch = useCollectionSearch()
-onMounted(() => {
-  useKeyboardEvents({
-    k: bindSearchEvents,
-  })
-})
+useKeyboardEvents({ k: bindSearchEvents })
 
 const isSearchInCollectionMode = computed(
   () => collectionSearch.isCollectionSearchMode.value
@@ -117,7 +113,6 @@ function onEnter() {
   // insert search term in history
   searchSuggestionRef.value?.insertNewHistory()
   emits('enter')
-  emits('redirect')
 }
 
 function focusInput() {
