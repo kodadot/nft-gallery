@@ -7,6 +7,14 @@
         <font-awesome-icon icon="fa-solid fa-fire" />
         <NeoIcon icon="fire" />
         <NeoButton>Noice</NeoButton>
+        <form>
+          <label for="locale-select">{{ $t('language') }}: </label>
+          <select id="locale-select" v-model="lang" @change="changeLanguage">
+            <option value="en">en</option>
+            <option value="fr">fr</option>
+            <option value="es">es</option>
+          </select>
+        </form>
         <Error
           v-if="$nuxt.isOffline"
           :has-img="false"
@@ -24,9 +32,13 @@
 <script lang="ts" setup>
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
-const { $config } = useNuxtApp()
+const { $config, $i18n } = useNuxtApp()
 const route = useRoute()
 
+const lang = ref('en')
+function changeLanguage() {
+  $i18n.locale.value = lang.value
+}
 useHead({
   link: [
     {
