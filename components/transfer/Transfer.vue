@@ -531,7 +531,7 @@ const handleOpenConfirmModal = () => {
 }
 
 const getTransactionFee = async () => {
-  const [cb, params] = await getTransferParmas(
+  const { cb, arg } = await getTransferParams(
     targetAddresses.value.map(
       () =>
         ({
@@ -543,7 +543,7 @@ const getTransactionFee = async () => {
     decimals.value as number
   )
 
-  return estimate(accountId.value, cb as any, params as any)
+  return estimate(accountId.value, cb as any, arg as any)
 }
 
 const calculateTransactionFee = async () => {
@@ -565,7 +565,7 @@ watchDebounced(
 const getAmountToTransfer = (amount: number, decimals: number) =>
   String(calculateBalance(Number(amount), decimals))
 
-const getTransferParmas = async (
+const getTransferParams = async (
   addresses: TargetAddress[],
   decimals: number
 ) => {
@@ -594,7 +594,7 @@ const getTransferParmas = async (
         }),
       ]
 
-  return [cb, arg]
+  return { cb, arg }
 }
 
 const submit = async (
@@ -607,7 +607,7 @@ const submit = async (
   try {
     const api = await apiInstance.value
 
-    const [cb, arg] = await getTransferParmas(
+    const { cb, arg } = await getTransferParams(
       targetAddresses.value,
       decimals.value as number
     )
