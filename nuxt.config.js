@@ -167,7 +167,6 @@ export default defineNuxtConfig({
     '~/plugins/globalVariables',
     '~/plugins/pwa',
     '~/plugins/vueAudioVisual',
-    '~/plugins/vueClipboard',
     '~/plugins/vueSocialSharing',
     '~/plugins/vueTippy',
     '~/plugins/safeHref',

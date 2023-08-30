@@ -5,8 +5,10 @@
     </a>
     <a
       v-if="showClipboard"
-      v-clipboard:copy="address"
-      @click="toast('Copied to clipboard')">
+      @click="
+        toast('Copied to clipboard')
+        address ? copy(String(address)) : null
+      ">
       <svg
         width="13"
         height="13"
@@ -33,6 +35,8 @@ const props = defineProps<{
   address?: Address
   showClipboard?: boolean
 }>()
+
+const { copy } = useClipboard()
 const { toast } = useToast()
 const { urlPrefix } = usePrefix()
 

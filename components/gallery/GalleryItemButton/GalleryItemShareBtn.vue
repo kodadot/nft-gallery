@@ -10,8 +10,10 @@
       </template>
 
       <NeoDropdownItem
-        v-clipboard:copy="realworldFullPathShare"
-        @click="toast(String($t('toast.urlCopy')))">
+        @click="
+          toast(String($t('toast.urlCopy')))
+          copy(realworldFullPathShare)
+        ">
         Copy Link
       </NeoDropdownItem>
       <NeoDropdownItem @click="isModalActive = true">QR Code</NeoDropdownItem>
@@ -47,6 +49,7 @@ import { isMobileDevice } from '@/utils/extension'
 
 const QRCode = () => import('@/components/shared/QRCode.vue')
 
+const { copy } = useClipboard()
 const route = useRoute()
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()

@@ -62,11 +62,13 @@
 
             <div class="divider" />
             <NeoButton
-              v-clipboard:copy="id"
               variant="text"
               :label="$t('share.copyAddress')"
               no-shadow
-              @click.native="toast(`${$i18n.t('general.copyToClipboard')}`)" />
+              @click.native="
+                toast(`${$i18n.t('general.copyToClipboard')}`)
+                copy(id)
+              " />
             <div class="divider" />
             <NeoButton
               variant="text"
@@ -165,6 +167,8 @@ const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
+const { copy } = useClipboard()
+
 const tabs = ['owned', 'created', 'collections', 'activity']
 
 const switchToTab = (tab: string) => {

@@ -6,7 +6,11 @@
       :prefix="urlPrefix"
       variant="button" />
     <div class="is-flex is-flex-direction-column">
-      <a v-clipboard:copy="account" @click="toast('Copied to clipboard')">
+      <a
+        @click="
+          toast('Copied to clipboard')
+          copy(account)
+        ">
         <NeoIcon icon="copy" />
       </a>
       <hr class="my-1" />
@@ -23,6 +27,7 @@ import { useIdentityStore } from '@/stores/identity'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import useIdentity from '@/components/identity/utils/useIdentity'
 
+const { copy } = useClipboard()
 const identityStore = useIdentityStore()
 const shoppingCartStore = useShoppingCartStore()
 const { urlPrefix } = usePrefix()

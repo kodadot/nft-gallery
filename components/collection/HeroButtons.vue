@@ -43,8 +43,10 @@
           </template>
 
           <NeoDropdownItem
-            v-clipboard:copy="currentCollectionUrl"
-            @click="toast(`${$i18n.t('toast.urlCopy')}`)">
+            @click="
+              toast(`${$i18n.t('toast.urlCopy')}`)
+              copy(currentCollectionUrl)
+            ">
             {{ $i18n.t('share.copyLink') }}
           </NeoDropdownItem>
           <NeoDropdownItem @click="QRModalActive = true">
@@ -123,6 +125,8 @@ const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
+
+const { copy } = useClipboard()
 
 const collectionId = computed(() => route.params.id)
 const currentCollectionUrl = computed(

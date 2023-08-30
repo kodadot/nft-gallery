@@ -23,8 +23,10 @@
           </template>
 
           <NeoDropdownItem
-            v-clipboard:copy="generatePaymentLink(accountId)"
-            @click="toast(`${$i18n.t('toast.urlCopy')}`)">
+            @click="
+              toast(`${$i18n.t('toast.urlCopy')}`)
+              copy(generatePaymentLink(accountId))
+            ">
             <NeoIcon icon="sack-dollar" pack="fa" class="mr-2" />{{
               $t('transfers.payMeLink')
             }}
@@ -48,9 +50,11 @@
               <Identity :address="accountId" hide-identity-popover />
             </span>
             <a
-              v-clipboard:copy="accountId"
               class="ml-2"
-              @click="toast(`${$i18n.t('general.copyToClipboard')}`)">
+              @click="
+                toast(`${$i18n.t('general.copyToClipboard')}`)
+                copy(accountId)
+              ">
               <NeoIcon icon="copy" />
             </a>
           </div>
@@ -277,6 +281,8 @@ const { initTransactionLoader, isLoading, resolveStatus, status } =
   useTransactionStatus()
 const { toast } = useToast()
 const isTransferModalVisible = ref(false)
+
+const { copy } = useClipboard({ source: accountId })
 
 export type TargetAddress = {
   address?: string

@@ -11,11 +11,13 @@
           >
         </nuxt-link>
         <NeoIcon
-          v-clipboard:copy="address"
           icon="copy"
           class="has-text-link is-clickable"
           data-cy="identity-clipboard"
-          @click.native="toast('Copied to clipboard')" />
+          @click.native="
+            toast('Copied to clipboard')
+            copy(String(address))
+          " />
       </div>
       <a
         v-if="identity?.twitter"
@@ -36,6 +38,8 @@ const address = inject('address')
 const shortenedAddress = inject('shortenedAddress')
 
 const identity = inject<{ [x: string]: string }>('identity')
+
+const { copy } = useClipboard()
 const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 </script>

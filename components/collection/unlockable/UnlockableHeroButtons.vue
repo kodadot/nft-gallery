@@ -13,8 +13,10 @@
           </template>
 
           <NeoDropdownItem
-            v-clipboard:copy="currentUrl"
-            @click="toast(`${$i18n.t('toast.urlCopy')}`)">
+            @click="
+              toast(`${$i18n.t('toast.urlCopy')}`)
+              copy(currentUrl)
+            ">
             {{ $i18n.t('share.copyLink') }}
           </NeoDropdownItem>
           <NeoDropdownItem @click="QRModalActive = true">
@@ -52,6 +54,7 @@ import {
   NeoModal,
 } from '@kodadot1/brick'
 
+const { copy } = useClipboard()
 const { $i18n } = useNuxtApp()
 const currentUrl = computed(() => window.location.href)
 
