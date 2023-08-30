@@ -2,7 +2,7 @@ import type { ActionMintToken, MintedCollection, TokenToMint } from '../types'
 import { isRoyaltyValid } from '@/utils/royalty'
 import { constructMeta } from './constructMeta'
 import { BaseMintedCollection } from '@/components/base/types'
-import { transactionFactory } from './utils'
+import { expandCopies, transactionFactory } from './utils'
 
 const prepareTokenMintArgs = async (
   token: TokenToMint,
@@ -38,8 +38,9 @@ const prepareTokenMintArgs = async (
 const getArgs = async (item: ActionMintToken, api) => {
   const { $consola } = useNuxtApp()
 
-  const tokens = Array.isArray(item.token) ? item.token : [item.token]
-
+  const tokens = expandCopies(
+    Array.isArray(item.token) ? item.token : [item.token]
+  )
   const arg = (
     await Promise.all(
       tokens.map((token, i) => {
