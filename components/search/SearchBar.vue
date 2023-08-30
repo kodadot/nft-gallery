@@ -113,7 +113,6 @@ function onEnter() {
   // insert search term in history
   searchSuggestionRef.value?.insertNewHistory()
   emits('enter')
-  emits('redirect')
 }
 
 function focusInput() {
