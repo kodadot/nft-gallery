@@ -38,10 +38,10 @@
           </h1>
           <NeoButton
             v-if="isAllowSetIdentity"
-            href="/identity"
+            to="/identity"
             no-shadow
             rounded
-            tag="a"
+            tag="nuxt-link"
             size="small">
             + {{ $t('identity.set') }}
           </NeoButton>
