@@ -132,3 +132,11 @@ export type Attribute = {
   trait: string
   value: string
 }
+
+export type GenArt = {
+  uri: string
+  previewParam: string
+  previewHash: string
+  capture: Record<string, unknown>
+  settings: Record<string, unknown>
+}
