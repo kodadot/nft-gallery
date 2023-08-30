@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { Neo } from '@kodadot1/brick'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { config, library } from '@fortawesome/fontawesome-svg-core'
@@ -242,7 +241,7 @@ library.add(
   faX
 )
 
-Vue.component('VueFontawesome', FontAwesomeIcon).use(Neo, {
+FontAwesomeIcon.use(Neo, {
   iconPack: 'fa-sharp',
   customIconPacks: {
     'fa-sharp': {
@@ -252,4 +251,8 @@ Vue.component('VueFontawesome', FontAwesomeIcon).use(Neo, {
       },
     },
   },
+})
+
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.provide('VueFontAwesome', FontAwesomeIcon)
 })

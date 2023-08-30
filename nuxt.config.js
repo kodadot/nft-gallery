@@ -160,7 +160,6 @@ export default defineNuxtConfig({
     { src: '~/plugins/endpoint', mode: 'client' },
     { src: '~/plugins/seoMetaGenerator', mode: 'client' },
     { src: '~/plugins/keyboardEvents', mode: 'client' },
-    { src: '~/plugins/icons', mode: 'client' },
     { src: '~/plugins/consola', mode: 'client' },
     { src: '~/plugins/piniaPersistedState', mode: 'client' },
     { src: '~/plugins/oruga-modal', mode: 'client' },
