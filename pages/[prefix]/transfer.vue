@@ -2,6 +2,6 @@
   <Transfer />
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import Transfer from '@/components/transfer/Transfer.vue'
 </script>
