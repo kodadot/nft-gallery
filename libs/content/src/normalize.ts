@@ -38,6 +38,7 @@ export function contentFrom(meta: any): Content {
   const name = meta.name
   const type = meta.type
   const externalUrl = meta.external_url || meta.youtube_url || meta.externalUri
+  const tags = Array.isArray(meta.tags) ? meta.tags : []
 
   return {
     description,
@@ -47,6 +48,7 @@ export function contentFrom(meta: any): Content {
     name,
     type: MIME_TYPE.test(type) ? type : '',
     externalUrl,
+    tags,
   }
 }
 
