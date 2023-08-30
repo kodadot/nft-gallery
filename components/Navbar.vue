@@ -216,6 +216,7 @@ const fixedTitleNavAppearDistance = ref(85)
 const lastScrollPosition = ref(0)
 const isBurgerMenuOpened = ref(false)
 const isMobile = ref(window.innerWidth < 1024)
+const isMobileWithoutTablet = ref(window.innerWidth < 768)
 const { urlPrefix } = usePrefix()
 const { isDarkMode } = useTheme()
 const identityStore = useIdentityStore()
@@ -251,6 +252,7 @@ const openWalletConnectModal = (): void => {
   const modalInstance = $neoModal.open({
     parent: instance?.proxy,
     ...ConnectWalletModalConfig,
+    ...(isMobileWithoutTablet.value ? { animation: 'none' } : {}),
   })
   modalInstance.$once('close', () => {
     showMobileNavbar()

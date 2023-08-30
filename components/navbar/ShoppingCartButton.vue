@@ -41,6 +41,7 @@ const instance = getCurrentInstance()
 
 const emit = defineEmits(['closeBurgerMenu'])
 const isMobile = ref(window.innerWidth < 1024)
+const isMobileWithoutTablet = ref(window.innerWidth < 768)
 
 function toggleShoppingCartModal() {
   if (isMobile.value) {
@@ -51,7 +52,10 @@ function toggleShoppingCartModal() {
 
   // can use the function in ShoppingCartModalConfig
   if (!isShoppingCartOpen()) {
-    let modalInstance = openShoppingCart(instance)
+    let modalInstance = openShoppingCart(
+      instance,
+      isMobileWithoutTablet.value ? { animation: 'none' } : {}
+    )
     modalInstance.$once('close', () => {
       if (isMobile.value) {
         emit('closeBurgerMenu')

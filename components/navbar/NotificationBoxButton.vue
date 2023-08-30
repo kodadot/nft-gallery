@@ -17,6 +17,7 @@ const preferencesStore = usePreferencesStore()
 const instance = getCurrentInstance()
 const emit = defineEmits(['closeBurgerMenu'])
 const isMobile = ref(window.innerWidth < 1024)
+const isMobileWithoutTablet = ref(window.innerWidth < 768)
 
 const { $neoModal } = useNuxtApp()
 
@@ -36,6 +37,7 @@ function toggleNotificationModal() {
         preferencesStore.setNotificationBoxCollapse(false)
       },
       ...NotificationBoxModalConfig,
+      ...(isMobileWithoutTablet.value ? { animation: 'none' } : {}),
     })
     modalInstance.$once('close', () => {
       if (isMobile.value) {
