@@ -7,6 +7,7 @@
     :can-cancel="canCancel"
     :full-screen="fullScreen"
     :content-class="[...contentClassName, noShadow ? 'no-shadow' : '']"
+    :mobile-breakpoint="mobileBreakpoint"
     :root-class="rootClass"
     :style="{
       '--max-height': maxHeight,
@@ -29,6 +30,7 @@ const props = withDefaults(
     rootClass?: string
     noShadow?: boolean
     maxHeight?: string | number
+    mobileBreakpoint?: string
   }>(),
   {
     destroyOnHide: true,
@@ -38,6 +40,7 @@ const props = withDefaults(
     rootClass: '',
     noShadow: false,
     maxHeight: '80vh',
+    mobileBreakpoint: '768px',
   }
 )
 

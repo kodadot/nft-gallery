@@ -176,7 +176,7 @@ import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
 import GalleryItemPreviewer from './GalleryItemPreviewer.vue'
 import { convertMarkdownToText } from '@/utils/markdown'
 import { exist } from '@/utils/exist'
-import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import { generateNftImage } from '@/utils/seoImageGenerator'
 import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
 import { MediaType } from '@/components/rmrk/types'
@@ -234,9 +234,11 @@ const hasAnimatedResources = computed(
     nftResources.value[1].animation
 )
 
-const previewItemSrc = computed(
-  () => (hasResources.value && activeCarouselImage.value) || nftImage.value
-)
+const previewItemSrc = computed(() => {
+  const baseUrl =
+    (hasResources.value && activeCarouselImage.value) || nftImage.value
+  return baseUrl ? toOriginalContentUrl(baseUrl) : baseUrl
+})
 
 const onNFTBought = () => {
   activeTab.value = tabs.activity

@@ -98,9 +98,6 @@ importers:
       apollo-boost:
         specifier: ^0.4.9
         version: 0.4.9(graphql@16.8.0)
-      axios:
-        specifier: ^0.27.2
-        version: 0.27.2
       chart.js:
         specifier: ^3.9.1
         version: 3.9.1
@@ -10805,15 +10802,6 @@ packages:
     transitivePeerDependencies:
       - debug
     dev: true
-
-  /axios@0.27.2:
-    resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
-    dependencies:
-      follow-redirects: 1.15.2
-      form-data: 4.0.0
-    transitivePeerDependencies:
-      - debug
-    dev: false
 
   /babel-loader@8.3.0(@babel/core@7.22.10)(webpack@4.46.0):
     resolution: {integrity: sha512-H8SvsMF+m9t15HNLMipppzkC+Y2Yq+v3SonZyU70RBL/h1gxPkH08Ot8pEE9Z4Kd+czyWJClmFS8qzIP9OZ04Q==}

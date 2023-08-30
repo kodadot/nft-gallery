@@ -6,8 +6,6 @@
   command = "pnpm run generate"
   # This is the directory that you are publishing from.
   publish = "dist"
-  # This is where Netlify will look for your lambda functions.
-  functions = "src-functions"
 
 [functions]
   node_bundler = "esbuild"

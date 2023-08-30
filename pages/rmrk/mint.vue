@@ -12,11 +12,11 @@ export default {
     return 'centered-half-layout'
   },
   head() {
-    const title = 'KodaDot | Low fees and low carbon minting'
+    const title = 'Mint a new NFT'
     const metaData = {
       title,
       type: 'article',
-      description: 'Create carbonless NFTs with low on-chain fees',
+      description: 'Mint new NFT with low on-chain fees',
       url: '/mint',
       image: `${this.$config.public.baseUrl}/k_card.png`,
     }
