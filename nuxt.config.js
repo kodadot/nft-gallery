@@ -264,13 +264,14 @@ export default defineNuxtConfig({
     skipSettingLocaleOnNavigate: true,
     vueI18nLoader: true,
     defaultLocale: 'en',
+    fallbackLocale: 'en',
+    loadLanguagesAsync: true,
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'lang',
       fallbackLocale: 'en',
       alwaysRedirect: true,
     },
-    loadLanguagesAsync: true,
     langDir: 'locales',
     locales: [
       { code: 'en', iso: 'en-US', file: 'en.json' },
@@ -295,6 +296,7 @@ export default defineNuxtConfig({
       { code: 'vt', iso: 'vt', file: 'vt.json' },
     ],
     strategy: 'no_prefix',
+    vueI18n: './utils/config/i18n.ts',
   },
 
   apollo: {
