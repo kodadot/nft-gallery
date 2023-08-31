@@ -48,7 +48,10 @@ const ShoppingCartItemToTokenToBuy = (item: ShoppingCartItem): TokenToBuy => {
 }
 
 watchEffect(() => {
-  if (isLoading.value === false && status.value === 'loader.finalized') {
+  if (
+    isLoading.value === false &&
+    status.value === TransactionStatus.Finalized
+  ) {
     preferencesStore.setTriggerBuySuccess(true)
     shoppingCartStore.clear()
   }

@@ -1,7 +1,7 @@
 <template>
   <div class="is-flex is-align-self-flex-start">
     <SidebarFilter />
-    <div class="is-flex-grow-1">
+    <div class="is-flex-grow-1 pb-8">
       <div class="is-hidden-mobile">
         <div
           class="is-flex is-justify-content-space-between pb-4 pt-5 is-align-content-center">
