@@ -66,14 +66,6 @@
       </div>
     </div>
 
-    <div v-if="withPercentage" class="column">
-      <div class="height-50px is-flex is-align-items-center">
-        <span :class="percentageTextClassName(event.Percentage)">
-          {{ toPercent(event.Percentage, blank) }}
-        </span>
-      </div>
-    </div>
-
     <div class="column">
       <div class="height-50px is-flex is-align-items-center">
         <NeoTooltip :label="event.Date" position="left">
@@ -158,7 +150,6 @@ import { toPercent } from '@/utils/filters'
 const props = defineProps<{
   event: Event
   withToColumn: boolean
-  withPercentage: boolean
   variant: 'Desktop' | 'Touch'
 }>()
 

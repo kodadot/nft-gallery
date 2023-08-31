@@ -683,10 +683,7 @@
     "gains": "Gains",
     "showQr": "Show QR",
     "collectedFromCreator": "Collected {0} NFT(s) from this creator",
-    "highestSales": "Highest Sales",
-    "history": {
-      "percentage": "Percentage"
-    }
+    "highestSales": "Highest Sales"
   },
   "sales": {
     "page": "Sales",

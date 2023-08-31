@@ -31,9 +31,6 @@
         <div v-if="isToColumnVisible" class="column">
           <span>{{ $t('activity.event.to') }}</span>
         </div>
-        <div v-if="isPercentageColumnVisible" class="column">
-          <span> {{ $t('profile.history.percentage') }}</span>
-        </div>
         <div class="column">
           <span>{{ $t('activity.event.time') }}</span>
         </div>
@@ -45,8 +42,7 @@
           :key="item.ID"
           :event="item"
           :variant="variant"
-          :with-to-column="isToColumnVisible"
-          :with-percentage="isPercentageColumnVisible" />
+          :with-to-column="isToColumnVisible" />
       </template>
     </ResponsiveTable>
   </div>
@@ -122,9 +118,6 @@ const isToColumnVisible = computed(() => {
   return [HistoryEventType.ALL, Interaction.BUY, Interaction.SEND].includes(
     event.value
   )
-})
-const isPercentageColumnVisible = computed(() => {
-  return [HistoryEventType.ALL, Interaction.BUY].includes(event.value)
 })
 
 const updateDataByEvent = () => {
