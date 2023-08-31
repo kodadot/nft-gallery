@@ -1,8 +1,8 @@
 <template>
   <div>
-    <p class="title is-size-3">
+    <h1 class="title is-size-3">
       Claiming does not work yet another mail will come
-    </p>
+    </h1>
     <NeoField>
       <Auth />
     </NeoField>

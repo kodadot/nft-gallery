@@ -1,4 +1,4 @@
-import { $fetch, FetchError } from 'ohmyfetch'
+import { $fetch, FetchError } from 'ofetch'
 // import consola from 'consola'
 
 const BASE_URL = 'https://mtwfjfuiknglhfozmotu.functions.supabase.co/'

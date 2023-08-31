@@ -23,6 +23,7 @@ export function useFetchSearch({
   const route = useRoute()
 
   const nfts = ref<NFTWithMetadata[]>([])
+  const loadedPages = ref([] as number[])
 
   const { searchParams } = useSearchParams()
 
@@ -82,10 +83,13 @@ export function useFetchSearch({
 
     total.value = nftEntitiesConnection.totalCount
 
-    if (loadDirection === 'up') {
-      nfts.value = nFTEntities.concat(nfts.value)
-    } else {
-      nfts.value = nfts.value.concat(nFTEntities)
+    if (!loadedPages.value.includes(page)) {
+      if (loadDirection === 'up') {
+        nfts.value = nFTEntities.concat(nfts.value)
+      } else {
+        nfts.value = nfts.value.concat(nFTEntities)
+      }
+      loadedPages.value.push(page)
     }
 
     isFetchingData.value = false
@@ -95,6 +99,7 @@ export function useFetchSearch({
 
   const refetch = (search?: { [key: string]: string | number }[]) => {
     nfts.value = []
+    loadedPages.value = []
     fetchSearch({ search })
   }
 
@@ -109,6 +114,7 @@ export function useFetchSearch({
       () => route.query.collections,
     ],
     () => {
+      loadedPages.value = []
       resetSearch()
     }
   )

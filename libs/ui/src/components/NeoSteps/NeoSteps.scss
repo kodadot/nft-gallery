@@ -5,14 +5,14 @@
 @import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
 
 $steps-details-background-color: hsla(0, 0%, 0%, 0);
-$steps-details-padding: .5em !default;
-$steps-font-size: .85rem;
-$steps-active-color: #6188E7;
-$steps-previous-color: #6188E7;
+$steps-details-padding: 0.5em !default;
+$steps-font-size: var(--step-size, 0.85rem);
+$steps-active-color: #6188e7;
+$steps-previous-color: #6188e7;
 $steps-divider-height: 2px;
 
 $steps-marker-background: #fff;
-$steps-marker-border: .2em solid $grey-light !default;
+$steps-marker-border: 0.2em solid $grey-light !default;
 
 $steps-marker-color: $primary-invert !default;
 $steps-marker-font-weight: 700 !default;
@@ -24,3 +24,81 @@ $steps-link-color: hsl(0, 0%, 29%) !default;
 $steps-content-padding: 1rem !default;
 
 @import '@oruga-ui/oruga/src/scss/components/steps';
+
+.o-steps {
+  // Base styles - Themed
+  &__marker {
+    @include ktheme() {
+      background: theme('background-color');
+    }
+  }
+
+  .o-icon {
+    @include ktheme() {
+      color: theme('background-color');
+    }
+  }
+
+  &__divider {
+    @include ktheme() {
+      background: linear-gradient(
+        to left,
+        theme('k-shade') 50%,
+        $steps-active-color 50%
+      );
+      background-size: 200% 100%;
+      background-position: right bottom;
+    }
+  }
+
+  // oruga mixes the step size and the titlle font size together ($steps-font-size)
+  // we need to override the title font size to make it bigger (12px / 0.75rem
+  &__title {
+    font-size: 0.75rem !important;
+
+    @include ktheme() {
+      color: theme('k-grey');
+    }
+  }
+
+  // Navigation Items
+  &__nav-item {
+    // force active background color on last nav-item when active
+    &--last {
+      &.o-steps__nav-item-active {
+        .o-steps__marker {
+          background-color: $steps-active-color;
+        }
+      }
+    }
+
+    // Current nav-item styles
+    &-active {
+      .o-steps__title {
+        color: $steps-previous-color;
+      }
+      // move divider to right side (color it active)
+      // this is required becuase of the theme override above of the divider background
+      .o-steps__divider {
+        background-position: left bottom;
+      }
+    }
+
+    // Previous nav-item styles
+    &-previous {
+      .o-steps__marker {
+        border-color: $steps-previous-color;
+        background-color: $steps-previous-color;
+      }
+      .o-steps__title {
+        color: $steps-previous-color;
+      }
+
+      // move divider to right side (color it active)
+      // this is required becuase of the theme override above of the divider background
+      .o-steps__divider {
+        background-position: left bottom;
+      }
+    }
+  }
+}

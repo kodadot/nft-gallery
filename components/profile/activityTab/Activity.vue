@@ -10,10 +10,11 @@
           variant="text"
           @click.native="activateAllFilter" />
         <FilterButton
-          v-for="urlParam in filters"
-          :key="urlParam"
+          v-for="param in filters"
+          :key="param"
+          :label="param"
           class="is-capitalized"
-          :url-param="urlParam" />
+          :url-param="param" />
       </div>
     </div>
     <hr class="my-0" />

@@ -75,7 +75,7 @@ KodaDot offers paid interviews, valuing your time and contributions. You will be
 
 ## Next stage
 
-After completing 10-20 merged pull requests, you may be eligible to join our core team. Contact yangwao on Discord to discuss the next steps and potential long-term tasks.
+After completing 10-20 merged pull requests, you may be eligible to join our core team. Contact yangwao on [KodaDot Ecosystem Telegram](https://t.me/kodadot_eco) to discuss the next steps and potential long-term tasks.
 
 Our hiring process prioritizes cultural fit and teamwork. We are interested in character traits, problem-solving abilities, and your willingness to help others with their PRs. This approach ensures a strong, long-term team dynamic as our codebase grows in complexity.
 
