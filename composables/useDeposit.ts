@@ -10,13 +10,10 @@ import {
 } from '@/utils/api/bsx/query'
 import format from '@/utils/format/balance'
 
-type Props = {
-  prefix: ComputedRef<Prefix>
-}
-
-export default function ({ prefix }: Props) {
+export default function (prefix: ComputedRef<Prefix>) {
   const { apiInstanceByPrefix } = useApi()
   const { accountId } = useAuth()
+  const { isBasilisk, isAssetHub } = useIsChain(prefix)
 
   const balance = ref()
 
@@ -25,16 +22,6 @@ export default function ({ prefix }: Props) {
   const metadataDeposit = ref(0)
 
   const chainSymbol = ref('')
-
-  const isKusama = computed(
-    () => prefix.value === 'ksm' || prefix.value === 'rmrk'
-  )
-  const isBasilisk = computed(
-    () => prefix.value === 'bsx' || prefix.value === 'snek'
-  )
-  const isAssetHub = computed(
-    () => prefix.value === 'ahk' || prefix.value === 'ahp'
-  )
 
   watchEffect(async () => {
     if (prefix.value) {
@@ -91,9 +78,6 @@ export default function ({ prefix }: Props) {
   })
 
   return {
-    isKusama,
-    isBasilisk,
-    isAssetHub,
     balance,
     collectionDeposit,
     itemDeposit,

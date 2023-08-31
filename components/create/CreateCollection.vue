@@ -75,7 +75,7 @@
 
       <!-- collection symbol -->
       <NeoField
-        v-if="isKusama"
+        v-if="isRemark"
         :label="`${$t('mint.collection.symbol.label')} *`">
         <div>
           <p>{{ $t('mint.collection.symbol.message') }}</p>
@@ -147,6 +147,7 @@
 
 <script setup lang="ts">
 import type {
+  BaseCollectionType,
   CollectionToMintBasilisk,
   CollectionToMintKusama,
   CollectionToMintStatmine,
@@ -199,17 +200,9 @@ const currentChain = computed(() => {
   return selectBlockchain.value as Prefix
 })
 
-const {
-  isKusama,
-  isBasilisk,
-  isAssetHub,
-  balance,
-  collectionDeposit,
-  metadataDeposit,
-  chainSymbol,
-} = useDeposit({
-  prefix: currentChain,
-})
+const { isAssetHub, isBasilisk, isRemark } = useIsChain(currentChain)
+const { balance, collectionDeposit, metadataDeposit, chainSymbol } =
+  useDeposit(currentChain)
 
 // balance state
 const depositAmount = ref()
@@ -220,22 +213,23 @@ const canDeposit = computed(() => {
 watchEffect(() => setUrlPrefix(currentChain.value as Prefix))
 
 const createCollection = async () => {
-  let collection:
-    | CollectionToMintBasilisk
-    | CollectionToMintKusama
-    | CollectionToMintStatmine = {
+  let collection: BaseCollectionType = {
     file: logo.value,
     name: name.value,
     description: description.value,
-    nftCount: unlimited.value ? 0 : max.value,
+  }
+
+  if (isAssetHub.value) {
+    collection['nftCount'] = unlimited.value ? 0 : max.value
   }
 
   if (isBasilisk.value) {
     collection['tags'] = []
   }
 
-  if (isKusama.value) {
+  if (isRemark.value) {
     collection['symbol'] = symbol.value
+    collection['nftCount'] = unlimited.value ? 0 : max.value
   }
 
   if (depositAmount.value && canDeposit.value === false) {
@@ -253,7 +247,10 @@ const createCollection = async () => {
       {
         interaction: Interaction.MINT,
         urlPrefix: currentChain.value,
-        collection,
+        collection: collection as
+          | CollectionToMintBasilisk
+          | CollectionToMintKusama
+          | CollectionToMintStatmine,
       },
       currentChain.value
     )
