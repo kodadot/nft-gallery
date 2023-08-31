@@ -28,15 +28,15 @@ const getAddress = (chain: string, accountId: string) => {
 function getRedirectPathForPrefix({
   routeName,
   chain,
-  accountId,
   route,
 }: {
   routeName: string
   chain: Prefix
-  accountId: string
   route
 }): RawLocation {
   if (routeName === 'prefix-u-id') {
+    const accountId = getAddress(chain, route.params.id)
+
     return {
       params: {
         prefix: chain,
@@ -73,11 +73,6 @@ export default function () {
 
   const redirectAfterChainChange = (newChain: Prefix): void => {
     const routeName = route.name as string
-    let accountId = route.params?.id
-
-    if (accountId) {
-      accountId = getAddress(newChain, accountId)
-    }
 
     if (isNoRedirect(routeName)) {
       return
@@ -93,7 +88,6 @@ export default function () {
       redirectLocation = getRedirectPathForPrefix({
         routeName,
         chain: newChain,
-        accountId,
         route,
       })
     } else if (isAssets && assetsVisible(newChain)) {
