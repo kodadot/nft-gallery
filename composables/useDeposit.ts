@@ -1,5 +1,7 @@
 import type { Prefix } from '@kodadot1/static'
-import { ComputedRef } from 'vue/types'
+import type { ComputedRef } from 'vue/types'
+
+import { getAssetMetadataByAccount } from '@/utils/api/bsx/query'
 
 type Props = {
   prefix: ComputedRef<Prefix>
@@ -7,12 +9,15 @@ type Props = {
 
 export default function ({ prefix }: Props) {
   const { apiInstanceByPrefix } = useApi()
+  const { accountId } = useAuth()
 
   const balance = ref()
 
   const collectionDeposit = ref(0)
   const itemDeposit = ref(0)
   const metadataDeposit = ref(0)
+
+  const chainSymbol = ref('')
 
   const isKusama = computed(
     () => prefix.value === 'ksm' || prefix.value === 'rmrk'
@@ -43,13 +48,28 @@ export default function ({ prefix }: Props) {
           api.consts.uniques.metadataDepositBase.toNumber()
       }
 
-      // get chain default symbol
+      // get chain symbol
+      const chainInfo = await api.registry.getChainProperties()
+      chainSymbol.value = chainInfo?.tokenSymbol.toHuman()?.[0]
+
+      if (isBasilisk.value && accountId.value) {
+        const assetMetadata = await getAssetMetadataByAccount(
+          api,
+          accountId.value
+        )
+
+        chainSymbol.value = assetMetadata.symbol
+      }
     }
   })
 
   return {
+    isKusama,
+    isBasilisk,
+    isAssetHub,
     collectionDeposit,
     itemDeposit,
     metadataDeposit,
+    chainSymbol,
   }
 }

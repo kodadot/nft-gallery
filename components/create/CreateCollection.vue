@@ -97,14 +97,14 @@
           <div class="monospace">
             <p class="has-text-weight-medium is-size-6 has-text-info">
               <span>{{ $t('mint.deposit') }}:</span>
-              <span>{{ depositAmount }} {{ depositAssetSymbol }}</span>
+              <span>{{ depositAmount }} {{ chainSymbol }}</span>
             </p>
             <p>
               <span>{{ $t('general.balance') }}: </span>
-              <span>{{ balance }} {{ depositAssetSymbol }}</span>
+              <span>{{ balance }} {{ chainSymbol }}</span>
             </p>
             <nuxt-link v-if="isBasilisk" :to="`/${currentChain}/assets`">
-              {{ $t('general.tx.feesPaidIn', [depositAssetSymbol]) }}
+              {{ $t('general.tx.feesPaidIn', [chainSymbol]) }}
             </nuxt-link>
           </div>
         </NeoField>
@@ -127,7 +127,7 @@
             <NeoIcon icon="circle-info" size="medium" class="mr-4" />
             <p class="is-size-7">
               A deposit of
-              <strong>{{ depositAmount }} {{ depositAssetSymbol }}</strong>
+              <strong>{{ depositAmount }} {{ chainSymbol }}</strong>
               is required to create a collection. Please note, this initial
               deposit is refundable.
               <a
@@ -207,11 +207,8 @@ const canDeposit = computed(() => {
 })
 
 const depositTokenId = ref()
-const depositSymbol = ref()
 const depositAsset = computed(() => assets(depositTokenId.value))
-const depositAssetSymbol = computed(
-  () => depositSymbol.value || depositAsset.value.symbol
-)
+const depositAssetSymbol = computed(() => depositAsset.value.symbol)
 
 const menus = availablePrefixes().filter(
   (menu) => menu.value !== 'movr' && menu.value !== 'glmr'
@@ -223,23 +220,18 @@ const currentChain = computed(() => {
   return selectBlockchain.value as Prefix
 })
 
-const { collectionDeposit, metadataDeposit } = useDeposit({
+const {
+  isKusama,
+  isBasilisk,
+  isAssetHub,
+  collectionDeposit,
+  metadataDeposit,
+  chainSymbol,
+} = useDeposit({
   prefix: currentChain,
 })
 
 watchEffect(() => setUrlPrefix(currentChain.value as Prefix))
-
-const isKusama = computed(
-  () => currentChain.value === 'ksm' || currentChain.value === 'rmrk'
-)
-
-const isBasilisk = computed(
-  () => currentChain.value === 'bsx' || currentChain.value === 'snek'
-)
-
-const isAssetHub = computed(
-  () => currentChain.value === 'ahk' || currentChain.value === 'ahp'
-)
 
 const createCollection = async () => {
   let collection:
@@ -289,15 +281,10 @@ const createCollection = async () => {
 watchEffect(async () => {
   balance.value = 0
   depositTokenId.value = 0
-  depositSymbol.value = ''
 
   const api = await apiInstanceByPrefix(currentChain.value)
   const currentAddress = accountId.value
   const chain = CHAINS[currentChain.value]
-
-  // get default symbol
-  const chainInfo = await api.registry.getChainProperties()
-  depositSymbol.value = chainInfo?.tokenSymbol?.toHuman()?.[0]
 
   // sum up deposit amount
   depositAmount.value = format(
@@ -314,9 +301,6 @@ watchEffect(async () => {
 
     if (isBasilisk.value) {
       depositTokenId.value = await getAssetIdByAccount(api, accountId.value)
-      depositSymbol.value = (
-        await getAssetMetadataById(api, depositTokenId.value)
-      ).symbol
 
       if (depositAssetSymbol.value === 'KSM') {
         balance.value = (
