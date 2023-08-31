@@ -168,18 +168,15 @@ const interactionName = computed(
   () => interactionNameMap[eventType.value] || eventType.value
 )
 
-onMounted(async () => {
-  parseNftAvatar(props.event.Item).then((response) => (avatar.value = response))
-})
-
-const percentageTextClassName = (percentage: number) => {
-  if (percentage > 0) {
-    return 'has-text-success'
-  } else if (percentage < 0) {
-    return 'has-text-danger'
+const getAvatar = async () => {
+  if (props.event.Item) {
+    avatar.value = await parseNftAvatar(props.event.Item)
   }
-  return ''
 }
+
+onMounted(() => {
+  getAvatar()
+})
 </script>
 
 <style scoped lang="scss">
