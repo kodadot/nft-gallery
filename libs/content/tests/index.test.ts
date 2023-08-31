@@ -8,6 +8,7 @@ describe('attributeFrom', () => {
       value: 1,
     }
     expect(attributeFrom(attribute)).toStrictEqual({
+      display: '',
       trait: 'NSFW',
       value: '1',
     })
