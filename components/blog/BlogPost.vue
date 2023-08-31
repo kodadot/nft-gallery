@@ -49,9 +49,8 @@ import { convertMarkdownToText } from '@/utils/markdown'
 import { nextTick } from 'vue'
 import hljs from 'highlight.js'
 import { URLS } from '@/utils/constants'
-const { $seoMeta } = useNuxtApp()
-const route = useRoute()
 
+const route = useRoute()
 const slug = route.params.slug
 const attributes = ref<{
   image?: string
@@ -77,7 +76,7 @@ const openShareUrl = (platform: 'twitter' | 'linkedin') => {
 }
 
 onMounted(async () => {
-  const post = await import(`~/content/blog/${slug}.md`)
+  const post = await import(/* @vite-ignore */ `~/content/blog/${slug}.md`)
 
   attributes.value = post.attributes
   singlePostComponent.value = post.vue.component
