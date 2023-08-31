@@ -1,7 +1,13 @@
 <template>
   <NeoLoading :active.sync="isLoading" is-full-page :can-cancel="canCancel">
     <div class="loading-container py-2">
-      <NeoIcon class="close-icon" icon="close" @click.native="closeLoading" />
+      <NeoButton
+        class="close-icon"
+        no-shadow
+        no-border
+        size="small"
+        icon="x"
+        @click.native="closeLoading" />
       <img src="/unlockable-loader.svg" />
       <div
         class="is-flex is-flex-direction-column is-align-items-center px-5 has-text-centered is-capitalized">
@@ -108,9 +114,10 @@ const buttonLabel = computed(() =>
   }
   .close-icon {
     position: absolute;
-    right: 28px;
-    top: 17px;
+    right: 20px;
+    top: 10px;
     cursor: pointer;
+    background-color: transparent;
   }
   .loading-button {
     height: 35px;

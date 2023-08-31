@@ -27,10 +27,10 @@
           </span>
           <NeoButton
             class="position-right mr-6"
-            variant="text"
-            icon="close"
             no-shadow
-            icon-pack="fas"
+            no-border
+            size="small"
+            icon="x"
             @click.native="closeModal" />
         </header>
         <div
