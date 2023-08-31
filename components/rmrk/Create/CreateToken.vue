@@ -2,7 +2,7 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <BaseTokenForm
-      v-bind="base"
+      v-bind.sync="base"
       ref="baseTokenForm"
       :collections="collections"
       :show-explainer-text="showExplainerText">
@@ -119,14 +119,14 @@ const { urlPrefix } = usePrefix()
 const { unit, decimals } = useChain()
 const router = useRouter()
 
-const base: BaseTokenType<MintedCollectionKusama> = {
+const base = ref({
   name: '',
   file: null,
   description: '',
   selectedCollection: null,
   copies: 1,
   secondFile: null,
-}
+} as BaseTokenType<MintedCollectionKusama>)
 
 const collections = ref([] as MintedCollectionKusama[])
 const tags = ref([] as Attribute[])
@@ -202,7 +202,7 @@ const checkValidity = () => {
 }
 
 const submit = async () => {
-  if (!base.selectedCollection) {
+  if (!base.value.selectedCollection) {
     throw ReferenceError('[MINT] Unable to mint without collection')
   }
 
@@ -237,8 +237,8 @@ const submit = async () => {
       interaction: Interaction.MINTNFT,
       urlPrefix: urlPrefix.value,
       token: {
-        ...base,
-        copies: Number(base.copies),
+        ...base.value,
+        copies: Number(base.value.copies),
         tags: tags.value,
         nsfw: nsfw.value,
         postfix: postfix.value,
@@ -319,7 +319,7 @@ const listForSale = async (
       token: list,
 
       successMessage: (blockNumber) =>
-        `[💰] Listed ${base.name} for ${balance} in block ${blockNumber}`,
+        `[💰] Listed ${base.value.name} for ${balance} in block ${blockNumber}`,
     })
 
     watch([transactionIsLoading, blockNumber], () => {
@@ -341,8 +341,8 @@ const handleCreatedNftsRedirect = (
   const isSingle = nfts.length === 1
 
   navigateToDetail({
-    pageId: isSingle ? nfts[0] : (base.selectedCollection?.id as string),
-    nftName: base.name,
+    pageId: isSingle ? nfts[0] : (base.value.selectedCollection?.id as string),
+    nftName: base.value.name,
     toCollectionPage: !isSingle,
   })
 }
