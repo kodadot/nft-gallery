@@ -14,15 +14,18 @@
 <script lang="ts">
 import { NeoTabItem, NeoTabs } from '@kodadot1/brick'
 
-const Collection = () => import('@/components/rmrk/Create/Create.vue')
-const NFT = () => import('@/components/rmrk/Create/CreateToken.vue')
+import Collection from '@/components/rmrk/Create/Create.vue'
+import NFT from '@/components/rmrk/Create/CreateToken.vue'
 
 const components = { Collection, NFT, NeoTabItem, NeoTabs }
+
+definePageMeta({
+  layout: 'centered-half-layout',
+})
 
 export default {
   name: 'RmrkCreatePage',
   components,
-  layout: 'centered-half-layout',
   setup() {
     const { activeTab, components, switchToNft } = useCreate()
     return {

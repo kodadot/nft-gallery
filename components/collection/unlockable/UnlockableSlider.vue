@@ -21,7 +21,7 @@ const widthStyle = computed(() => ({ width: `${props.value * 100}%` }))
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/variables.scss';
 .unlockable-slider {
   position: relative;
   @include ktheme() {

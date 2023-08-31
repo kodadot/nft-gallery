@@ -1,7 +1,7 @@
 <template>
   <NeoLoading :active.sync="isLoading" is-full-page :can-cancel="canCancel">
     <div class="loading-container py-2">
-      <NeoIcon class="close-icon" icon="close" @click.native="closeLoading" />
+      <NeoIcon class="close-icon" icon="close" @click="closeLoading" />
       <img src="/unlockable-loader.svg" />
       <div
         class="is-flex is-flex-direction-column is-align-items-center px-5 has-text-centered is-capitalized">
@@ -71,7 +71,7 @@ const displaySeconds = computed(() => {
 
 const twitterText = computed(
   () =>
-    'Just minted an exclusive NFT with unlockable items on @Kodadot! 🎉 So excited to add this unique collectible to my collection. Don\'t miss your chance! \n\n https://kodadot.xyz/ahk/drops/free-drop'
+    "Just minted an exclusive NFT with unlockable items on @Kodadot! 🎉 So excited to add this unique collectible to my collection. Don't miss your chance! \n\n https://kodadot.xyz/ahk/drops/free-drop"
 )
 const postTwitterUrl = computed(
   () =>
@@ -92,7 +92,7 @@ const buttonLabel = computed(() =>
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .loading-container {
   background: $white;

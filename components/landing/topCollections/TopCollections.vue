@@ -10,7 +10,7 @@
           class="control column p-0 has-fixed-width px-4 mobile-padding"
           :active="state.timeRange === value"
           :label="`${$t(`topCollections.timeFrames.${label}`)}`"
-          @click.native="setTimeRange(value)" />
+          @click="setTimeRange(value)" />
       </div>
       <div></div>
     </div>

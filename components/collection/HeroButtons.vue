@@ -8,21 +8,21 @@
           icon="x-twitter"
           icon-pack="fab"
           class="square-32"
-          @click.native="openUrl(`https://twitter.com/${twitter}`)" />
+          @click="openUrl(`https://twitter.com/${twitter}`)" />
 
         <NeoButton
           v-if="instagram"
           icon="instagram"
           icon-pack="fab"
           class="square-32"
-          @click.native="openUrl(`https://instagram.com/${instagram}`)" />
+          @click="openUrl(`https://instagram.com/${instagram}`)" />
 
         <NeoButton
           v-if="discord"
           class="square-32"
           icon-pack="fab"
           icon="discord"
-          @click.native="openUrl(`https://discord.com/users/${discord}`)" />
+          @click="openUrl(`https://discord.com/users/${discord}`)" />
       </div>
 
       <div
@@ -164,7 +164,7 @@ const sharingLabel = $i18n.t('sharing.collection')
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .hero-buttons {
   @include mobile {
     justify-content: space-between !important;

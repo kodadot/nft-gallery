@@ -2,53 +2,56 @@
   <div
     class="container is-fluid"
     :class="{ 'sidebar-padding-left': isSidebarOpen }">
-    <Items />
+    <Activity />
   </div>
 </template>
 
 <script lang="ts">
-import Items from '@/components/items/Items.vue'
+import Activity from '@/components/collection/activity/Activity.vue'
+import { useHistoryStore } from '@/stores/history'
 import { usePreferencesStore } from '@/stores/preferences'
-import { explorerVisible } from '@/utils/config/permission.config'
+import { generateCollectionImage } from '@/utils/seoImageGenerator'
+
+definePageMeta({
+  layout: 'explore-layout',
+})
 
 export default {
-  name: 'ExploreItems',
+  name: 'CollectionActivityPage',
   components: {
-    Items,
+    Activity,
   },
-  layout: 'explore-layout',
   setup() {
     const preferencesStore = usePreferencesStore()
-    const { urlPrefix } = usePrefix()
     const isSidebarOpen = computed(
       () => preferencesStore.getsidebarFilterCollapse
     )
-
-    const checkRouteAvailability = () => {
-      if (!explorerVisible(urlPrefix.value)) {
-        navigateTo('/')
-      }
-    }
-
-    watch(urlPrefix, () => checkRouteAvailability())
-
-    onBeforeMount(() => checkRouteAvailability())
 
     return {
       isSidebarOpen,
     }
   },
   head() {
-    const { $route } = useNuxtApp()
-    const runtimeConfig = useRuntimeConfig()
-    const title = 'Explore NFTs'
+    const historyStore = useHistoryStore()
+    const currentlyViewedCollection = computed(
+      () => historyStore.getCurrentlyViewedCollection
+    )
+    const image = computed(() => {
+      return generateCollectionImage(
+        currentlyViewedCollection.value.name,
+        currentlyViewedCollection.value.numberOfItems,
+        currentlyViewedCollection.value.image
+      )
+    })
+    const title = currentlyViewedCollection.value.name
     const metaData = {
       title,
       type: 'profile',
-      description: 'Buy Carbonless NFTs on KodaDot',
-      url: `/${$route.params.prefix}/explore/items`,
-      image: `${runtimeConfig.public.baseUrl}/k_card.png`,
+      description: currentlyViewedCollection.value.description,
+      url: this.$route.path,
+      image: image.value,
     }
+
     return {
       title,
       meta: [...this.$seoMeta(metaData)],
@@ -58,7 +61,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .sidebar-padding-left {
   padding-left: 0;

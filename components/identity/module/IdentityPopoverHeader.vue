@@ -14,10 +14,14 @@
           icon="copy"
           class="has-text-link is-clickable"
           data-cy="identity-clipboard"
+<<<<<<< HEAD
           @click.native="
             toast('Copied to clipboard')
             copy(String(address))
           " />
+=======
+          @click="toast('Copied to clipboard')" />
+>>>>>>> nuxt
       </div>
       <a
         v-if="identity?.twitter"
@@ -45,7 +49,7 @@ const { toast } = useToast()
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .popover-image {
   min-width: 60px;

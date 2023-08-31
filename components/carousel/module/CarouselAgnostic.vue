@@ -29,6 +29,8 @@
 </template>
 
 <script lang="ts" setup>
+const CarouselMedia = defineAsyncComponent(() => import('./CarouselMedia.vue'))
+const CarouselInfo = defineAsyncComponent(() => import('./CarouselInfo.vue'))
 import type { CarouselNFT } from '@/components/base/types'
 
 import 'keen-slider/keen-slider.min.css'

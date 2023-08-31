@@ -9,27 +9,59 @@
 <script lang="ts">
 import Items from '@/components/items/Items.vue'
 import { usePreferencesStore } from '@/stores/preferences'
+import { explorerVisible } from '@/utils/config/permission.config'
+
+definePageMeta({
+  layout: 'explore-layout',
+})
 
 export default {
+  name: 'ExploreItems',
   components: {
     Items,
   },
-  layout: 'explore-layout',
   setup() {
     const preferencesStore = usePreferencesStore()
+    const { urlPrefix } = usePrefix()
     const isSidebarOpen = computed(
       () => preferencesStore.getsidebarFilterCollapse
     )
 
+    const checkRouteAvailability = () => {
+      if (!explorerVisible(urlPrefix.value)) {
+        navigateTo('/')
+      }
+    }
+
+    watch(urlPrefix, () => checkRouteAvailability())
+
+    onBeforeMount(() => checkRouteAvailability())
+
     return {
       isSidebarOpen,
+    }
+  },
+  head() {
+    const route = useRoute()
+    const runtimeConfig = useRuntimeConfig()
+    const title = 'Explore NFTs'
+    const metaData = {
+      title,
+      type: 'profile',
+      description: 'Buy Carbonless NFTs on KodaDot',
+      url: `/${route.params.prefix}/explore/items`,
+      image: `${runtimeConfig.public.baseUrl}/k_card.png`,
+    }
+    return {
+      title,
+      meta: [...this.$seoMeta(metaData)],
     }
   },
 }
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .sidebar-padding-left {
   padding-left: 0;

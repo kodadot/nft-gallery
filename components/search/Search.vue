@@ -1,4 +1,5 @@
-<template>
+<template></template>
+<!-- <template>
   <div>
     <div v-if="!isVisible && !hideSearchInput" class="row">
       <div v-if="priceRangeDirty && !hideFilter" class="is-size-7">
@@ -270,4 +271,4 @@ onMounted(() => {
   existArray(route.query.sort as string[], updateSortBy)
   exist(route.query.listed, updateListed)
 })
-</script>
+</script> -->

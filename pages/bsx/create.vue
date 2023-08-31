@@ -14,16 +14,18 @@
 <script lang="ts">
 import { NeoTabItem, NeoTabs } from '@kodadot1/brick'
 
-const Collection = () =>
-  import('@/components/bsx/Create/CreateCollectionPage.vue')
-const NFT = () => import('@/components/bsx/Create/CreateToken.vue')
+import Collection from '@/components/bsx/Create/CreateCollectionPage.vue'
+import NFT from '@/components/bsx/Create/CreateToken.vue'
 
 const components = { Collection, NFT, NeoTabItem, NeoTabs }
+
+definePageMeta({
+  layout: 'centered-half-layout',
+})
 
 export default {
   name: 'BsxCreatePage',
   components,
-  layout: 'centered-half-layout',
   setup() {
     const { activeTab, components, switchToNft } = useCreate()
     return {

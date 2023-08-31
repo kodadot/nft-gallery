@@ -64,22 +64,18 @@ export function useFetchSearch({
 
     const queryPath = getQueryPath(client.value)
     const query = await resolveQueryPath(queryPath, 'nftListWithSearch')
-    const result = await $apollo.query({
-      query: query.default,
-      client: client.value,
-      variables: {
-        ...variables,
-        first: first.value,
-        offset: (page - 1) * first.value,
-        denyList: getDenyList(urlPrefix.value),
-        orderBy: route.query.sort?.length
-          ? route.query.sort
-          : ['blockNumber_DESC'],
-      },
+    const { data: result } = await useAsyncQuery(query.default, {
+      ...variables,
+      first: first.value,
+      offset: (page - 1) * first.value,
+      denyList: getDenyList(urlPrefix.value),
+      orderBy: route.query.sort?.length
+        ? route.query.sort
+        : ['blockNumber_DESC'],
     })
 
     // handle results
-    const { nFTEntities, nftEntitiesConnection } = result.data
+    const { nFTEntities, nftEntitiesConnection } = result.value
 
     total.value = nftEntitiesConnection.totalCount
 

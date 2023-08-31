@@ -12,11 +12,7 @@
           {{ $t('confirmPurchase.action') }}
         </span>
 
-        <NeoButton
-          variant="text"
-          no-shadow
-          icon="close"
-          @click.native="onClose" />
+        <NeoButton variant="text" no-shadow icon="close" @click="onClose" />
       </header>
       <div class="px-6 pt-4">
         <div
@@ -69,7 +65,7 @@
           no-shadow
           :disabled="disabled"
           class="is-flex is-flex-grow-1 btn-height"
-          @click.native="confirm" />
+          @click="confirm" />
       </div>
     </div>
   </NeoModal>
@@ -149,7 +145,7 @@ const confirm = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .top {
   z-index: 1000;

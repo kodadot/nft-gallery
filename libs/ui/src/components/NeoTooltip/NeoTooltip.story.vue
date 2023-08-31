@@ -19,5 +19,5 @@
 import NeoTooltip from './NeoTooltip.vue'
 </script>
 <style lang="scss">
-@import '@oruga-ui/oruga/dist/oruga.min.css';
+@import '@oruga-ui/oruga-next/dist/oruga.min.css';
 </style>

@@ -20,7 +20,7 @@
               fixed-width
               :variant="isListed ? undefined : 'k-accent'"
               no-shadow
-              @click.native="updatePrice" />
+              @click="updatePrice" />
           </NeoTooltip>
         </template>
 

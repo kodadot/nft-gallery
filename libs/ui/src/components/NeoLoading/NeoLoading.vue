@@ -1,5 +1,5 @@
 <script lang="ts">
-import { OLoading } from '@oruga-ui/oruga'
+import { OLoading } from '@oruga-ui/oruga-next'
 
 export default {
   extends: OLoading,

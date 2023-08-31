@@ -89,7 +89,7 @@
               <NeoIcon
                 class="ml-1"
                 icon="fire-flame-curved"
-                custom-size="fa-solid"
+                size="small"
                 pack="fa-sharp"
                 variant="primary" />
             </div>
@@ -109,7 +109,7 @@
             target="_blank"
             class="navbar-item"
             data-cy="learn">
-            {{ $t('learn') }}
+            Learn
           </a>
           <CreateDropdown
             v-show="isCreateVisible"
@@ -188,7 +188,7 @@
 
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
-
+import { nextTick } from 'vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import ChainSelectDropdown from '@/components/navbar/ChainSelectDropdown.vue'
 import CreateDropdown from '@/components/navbar/CreateDropdown.vue'
@@ -208,7 +208,7 @@ import { getChainNameByPrefix } from '@/utils/chain'
 import { createVisible } from '@/utils/config/permission.config'
 import ShoppingCartButton from './navbar/ShoppingCartButton.vue'
 
-const { $nextTick, $neoModal } = useNuxtApp()
+const { $neoModal } = useNuxtApp()
 const instance = getCurrentInstance()
 const showTopNavbar = ref(true)
 const openMobileSearchBar = ref(false)
@@ -292,7 +292,7 @@ const onScroll = () => {
 }
 
 const setBodyScroll = (allowScroll: boolean) => {
-  $nextTick(() => {
+  nextTick(() => {
     const body = document.querySelector('body') as HTMLBodyElement
     if (allowScroll) {
       body.classList.remove('is-clipped')
@@ -304,7 +304,7 @@ const setBodyScroll = (allowScroll: boolean) => {
 
 const showMobileSearchBar = () => {
   openMobileSearchBar.value = true
-  $nextTick(() => {
+  nextTick(() => {
     mobilSearchRef.value?.focusInput()
   })
   setBodyScroll(false)

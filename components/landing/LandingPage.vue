@@ -1,7 +1,7 @@
 <template>
   <div>
     <section class="py-8 instance section-search">
-      <LazySearchLanding />
+      <LandingSearchLanding />
     </section>
 
     <template v-if="showCarousel">
@@ -15,17 +15,17 @@
       <!-- top collections -->
       <section v-if="showTopCollections" class="py-8 instance">
         <div class="container is-fluid">
-          <LazyTopCollections class="my-5" />
+          <LandingTopCollections class="my-5" />
         </div>
       </section>
 
       <section class="py-8 instance">
         <div class="container is-fluid">
           <!-- new listings -->
-          <LazyCarouselTypeNewestList />
+          <!-- <LazyCarouselTypeNewestList /> -->
 
           <!-- latest sales -->
-          <LazyCarouselTypeLatestSales class="mt-8" />
+          <!-- <LazyCarouselTypeLatestSales class="mt-8" /> -->
         </div>
       </section>
     </template>

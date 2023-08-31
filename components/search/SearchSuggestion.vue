@@ -1,4 +1,5 @@
-<template>
+<template></template>
+<!-- <template>
   <div
     class="search-suggestion-container"
     @click="resetSelectedIndex"
@@ -664,4 +665,4 @@ watch(
     resetSelectedIndex()
   }
 )
-</script>
+</script> -->

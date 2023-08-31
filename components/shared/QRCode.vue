@@ -1,4 +1,5 @@
-<template>
+<template></template>
+<!-- <template>
   <vue-qrcode
     :value="text"
     :options="{
@@ -26,4 +27,4 @@ withDefaults(
     bgColor: '#FFF',
   }
 )
-</script>
+</script> -->

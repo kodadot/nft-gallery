@@ -1,13 +1,13 @@
 @import '../../scss/variable.scss';
 @import '../../scss/animation.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/_expressions.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/_variables.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/_animations.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/_helpers.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_expressions.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_variables.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_animations.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_helpers.scss';
 
 $modal-content-border-radius: 0;
 
-@import '@oruga-ui/oruga/src/scss/components/_modal.scss';
+@import '@oruga-ui/oruga-next/src/scss/components/_modal.scss';
 
 
 .neo-modal {

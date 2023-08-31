@@ -1,5 +1,5 @@
 <script lang="ts">
-import { OTabItem } from '@oruga-ui/oruga'
+import { OTabItem } from '@oruga-ui/oruga-next'
 
 export default {
   extends: OTabItem,

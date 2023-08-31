@@ -91,6 +91,16 @@ const listenGlobalKeyboardEvents = (app) => {
   })
 }
 
+<<<<<<< HEAD:plugins/keyboardEvents.client.ts
 export default defineNuxtPlugin((nuxtApp) => {
   listenGlobalKeyboardEvents(nuxtApp.vueApp)
 })
+=======
+// export default ({ app }): void => {
+//   listenGlobalKeyboardEvents(app)
+// }
+
+export default defineNuxtPlugin(({ vueApp }) =>
+  listenGlobalKeyboardEvents(vueApp)
+)
+>>>>>>> nuxt:plugins/keyboardEvents.ts

@@ -1,5 +1,5 @@
 <script>
-import { ODropdownItem } from '@oruga-ui/oruga'
+import { ODropdownItem } from '@oruga-ui/oruga-next'
 
 export default {
   mixins: [ODropdownItem],

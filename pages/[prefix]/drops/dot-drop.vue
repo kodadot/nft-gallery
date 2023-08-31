@@ -2,16 +2,14 @@
   <UnlockableContainer />
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import UnlockableContainer from '@/components/collection/drop/DropContainer.vue'
-export default {
-  components: {
-    UnlockableContainer,
-  },
+
+definePageMeta({
   layout: 'unlockable-mint-layout',
-}
+})
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 </style>

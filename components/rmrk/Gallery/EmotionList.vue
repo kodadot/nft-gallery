@@ -6,7 +6,7 @@
       variant="secondary"
       no-shadow
       class="emoji-box mb-2"
-      @click.native="$emit('selected', emoji.parsed)">
+      @click="$emit('selected', emoji.parsed)">
       <NeoTooltip>
         {{ emoji.parsed }}
         <span class="ml-1">{{ emoji.count }}</span>
@@ -22,7 +22,7 @@
       v-if="emotes.length > 0"
       class="emoji-box mb-2"
       no-shadow
-      @click.native="openEmotionModal()">
+      @click="openEmotionModal()">
       <NeoIcon pack="fas" icon="info-circle" />
     </NeoButton>
   </div>
@@ -85,7 +85,7 @@ const emotes = computed(() => {
 </script>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .emoji-box {
   padding: 0 0.75rem;

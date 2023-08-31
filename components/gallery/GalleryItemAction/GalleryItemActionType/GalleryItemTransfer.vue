@@ -16,7 +16,7 @@
               fixed-width
               :disabled="isTransferButtonDisabled"
               no-shadow
-              @click.native="sendItem" />
+              @click="sendItem" />
           </NeoTooltip>
         </template>
 
@@ -75,7 +75,7 @@ onClickOutside(actionRef, () => (active.value = false))
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .gallery-item-transfer {
   justify-content: flex-end;
 }

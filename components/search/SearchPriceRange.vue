@@ -22,7 +22,7 @@
           variant="primary"
           :disabled="applyDisabled"
           data-cy="apply"
-          @click.native="rangeChange">
+          @click="rangeChange">
           {{ $t('general.apply') }}
         </NeoButton>
       </div>

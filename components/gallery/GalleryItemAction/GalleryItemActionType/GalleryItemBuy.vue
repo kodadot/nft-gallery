@@ -36,14 +36,14 @@
               variant="k-accent"
               :disabled="disabled"
               data-cy="item-buy"
-              @click.native="onClick" />
+              @click="onClick" />
           </NeoTooltip>
         </div>
 
         <NeoButton
           class="button-height no-border-left"
           data-cy="item-add-to-cart"
-          @click.native="onClickShoppingCart">
+          @click="onClickShoppingCart">
           <img :src="cartIcon" class="image is-32x32" />
         </NeoButton>
       </div>
@@ -165,7 +165,7 @@ const onClickShoppingCart = () => {
 }
 </script>
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 :deep .button-height {
   height: 55px !important;

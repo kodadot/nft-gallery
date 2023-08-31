@@ -27,7 +27,7 @@
             </div>
           </section>
           <hr class="text-color my-0" />
-          <Nuxt />
+          <NuxtPage />
         </div>
       </main>
     </div>
@@ -45,7 +45,7 @@ import Buy from '@/components/buy/Buy.vue'
 const { $config } = useNuxtApp()
 const route = useRoute()
 
-useNuxt2Meta({
+useHead({
   link: [
     {
       hid: 'canonical',
@@ -62,7 +62,7 @@ const isCollection = computed(() =>
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 hr {
   @include ktheme() {
     background: theme('k-grey');

@@ -1,4 +1,5 @@
-<template>
+<template></template>
+<!-- <template>
   <section>
     <Loader v-model="isLoading" :status="status" />
     <h1 class="title is-size-3">Create NFT Collectibles</h1>
@@ -126,7 +127,7 @@
             no-shadow
             icon-left="sync"
             variant="warning"
-            @click.native="syncEdition">
+            @click="syncEdition">
             {{ $t('mint.expert.sync', [actualDistribution]) }}
           </NeoButton>
         </NeoField>
@@ -883,4 +884,4 @@ export default class SimpleMint extends mixins(
     }
   }
 }
-</script>
+</script> -->

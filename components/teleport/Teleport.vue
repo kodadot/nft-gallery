@@ -1,12 +1,13 @@
-<template>
+<template></template>
+<!-- <template>
   <section class="is-flex is-justify-content-center">
     <div class="teleport-container">
       <Loader v-model="isLoading" />
-      <p class="is-size-3 has-text-weight-bold">
+      <h1 class="is-size-3 has-text-weight-bold">
         {{ $i18n.t('teleport.page') }}
-      </p>
+      </h1>
       <div class="mb-5">
-        <h1 class="has-text-weight-bold">{{ $i18n.t('teleport.from') }}</h1>
+        <h3 class="has-text-weight-bold">{{ $i18n.t('teleport.from') }}</h3>
         <TeleportTabs
           :tabs="fromTabs"
           :value="fromChain"
@@ -45,7 +46,7 @@
       </div>
 
       <div class="mb-5">
-        <h1 class="has-text-weight-bold">{{ $i18n.t('teleport.to') }}</h1>
+        <h3 class="has-text-weight-bold">{{ $i18n.t('teleport.to') }}</h3>
         <TeleportTabs
           :tabs="toTabs"
           :value="toChain"
@@ -74,7 +75,7 @@
         :loading="isLoading"
         :disabled="isDisabledButton"
         variant="k-accent"
-        @click.native="sendXCM" />
+        @click="sendXCM" />
     </div>
   </section>
 </template>
@@ -82,7 +83,7 @@
 <script setup lang="ts">
 import { web3Enable } from '@polkadot/extension-dapp'
 import '@polkadot/api-augment'
-import { toDefaultAddress } from '@/utils/account'
+import { getss58AddressByPrefix, toDefaultAddress } from '@/utils/account'
 import { getAddress } from '@/utils/extension'
 import {
   Chain,
@@ -101,7 +102,6 @@ import { getChainEndpointByPrefix } from '@/utils/chain'
 import { txCb } from '@/utils/transactionExecutor'
 import TeleportTabs from './TeleportTabs.vue'
 import { NeoButton } from '@kodadot1/brick'
-import { getss58AddressByPrefix } from '@/utils/account'
 import { blockExplorerOf } from '@/utils/config/chain.config'
 import { simpleDivision } from '@/utils/balance'
 import { useFiatStore } from '@/stores/fiat'
@@ -340,7 +340,7 @@ const sendXCM = async () => {
 }
 </script>
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/variables.scss';
 
 .teleport-container {
   max-width: 50rem;
@@ -399,4 +399,4 @@ const sendXCM = async () => {
     }
   }
 }
-</style>
+</style> -->

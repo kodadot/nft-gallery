@@ -7,9 +7,12 @@
 <script lang="ts">
 import { explorerVisible } from '@/utils/config/permission.config'
 
+definePageMeta({
+  layout: 'explore-layout',
+})
+
 export default {
   name: 'ExploreCollectibles',
-  layout: 'explore-layout',
 
   setup() {
     const { urlPrefix } = usePrefix()
@@ -25,13 +28,13 @@ export default {
     onBeforeMount(() => checkRouteAvailability())
   },
   head() {
-    const { $route } = useNuxtApp()
+    const route = useRoute()
     const runtimeConfig = useRuntimeConfig()
     const title = 'Explore NFT Collections'
     const metaData = {
       title,
       description: 'Buy Carbonless NFTs on Kusama',
-      url: `/${$route.params.prefix}/explore/collectibles`,
+      url: `/${route.params.prefix}/explore/collectibles`,
       image: `${runtimeConfig.public.baseUrl}/k_card.png`,
     }
     return {

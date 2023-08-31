@@ -65,16 +65,20 @@
               variant="text"
               :label="$t('share.copyAddress')"
               no-shadow
+<<<<<<< HEAD
               @click.native="
                 toast(`${$i18n.t('general.copyToClipboard')}`)
                 copy(id)
               " />
+=======
+              @click="toast(`${$i18n.t('general.copyToClipboard')}`)" />
+>>>>>>> nuxt
             <div class="divider" />
             <NeoButton
               variant="text"
               no-shadow
               :label="$t('share.qrCode')"
-              @click.native="isModalActive = true" />
+              @click="isModalActive = true" />
             <div class="divider" />
             <NeoButton
               no-shadow
@@ -99,7 +103,7 @@
           class="is-capitalized"
           :active="activeTab === tab"
           :text="tab"
-          @click.native="() => switchToTab(tab)" />
+          @click="() => switchToTab(tab)" />
         <ChainDropdown class="ml-6" />
         <OrderByDropdown v-if="activeTab !== 'activity'" class="ml-6" />
       </div>
@@ -110,7 +114,7 @@
           :active="activeTab === tab"
           :text="tab"
           class="is-capitalized"
-          @click.native="() => switchToTab(tab)" />
+          @click="() => switchToTab(tab)" />
         <div class="is-flex mt-4">
           <ChainDropdown />
           <OrderByDropdown v-if="activeTab !== 'activity'" class="ml-4" />
@@ -235,7 +239,7 @@ const handleIdentity = (identityFields: Record<string, string>) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .invisible-tab > nav.tabs {
   display: none;
