@@ -4,7 +4,6 @@ test('Check if RMRK2 shows Create Page', async ({ page }) => {
   await page.goto('/ksm/create')
 
   // Expects page to have a heading with the name of Create Collection.
-  expect(await page.locator('h1.title').textContent()).toContain(
-    'Create New Collection'
-  )
+  const heading = await await page.$('h1.title')
+  expect(await heading?.textContent()).toContain('Create New Collection')
 })
