@@ -33,7 +33,7 @@ export function contentFrom(meta: PluralAssetMetadata): Content
 export function contentFrom(meta: any): Content {
   const description = meta.description || ''
   const thumbnail = meta.thumbnailUri || meta.thumbnail
-  const image = meta.image || meta.mediaUri || meta.displayUri || thumbnail
+  const image = meta.image || thumbnail || meta.mediaUri || meta.displayUri
   const animationUrl = meta.animation_url || meta.mediaUri || meta.artifactUri
   const attributes = meta.attributes?.map(attributeFrom) || []
   const name = meta.name
