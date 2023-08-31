@@ -97,7 +97,7 @@
           <div class="monospace">
             <p class="has-text-weight-medium is-size-6 has-text-info">
               <span>{{ $t('mint.deposit') }}:</span>
-              <span>{{ collectionDeposit }} {{ depositAssetSymbol }}</span>
+              <span>{{ depositAmount }} {{ depositAssetSymbol }}</span>
             </p>
             <p>
               <span>{{ $t('general.balance') }}: </span>
@@ -127,7 +127,7 @@
             <NeoIcon icon="circle-info" size="medium" class="mr-4" />
             <p class="is-size-7">
               A deposit of
-              <strong>{{ collectionDeposit }} {{ depositAssetSymbol }}</strong>
+              <strong>{{ depositAmount }} {{ depositAssetSymbol }}</strong>
               is required to create a collection. Please note, this initial
               deposit is refundable.
               <a
@@ -162,7 +162,7 @@ import {
   NeoSwitch,
 } from '@kodadot1/brick'
 import DropUpload from '@/components/shared/DropUpload.vue'
-import { availablePrefixes, depositAmount } from '@/utils/chain'
+import { availablePrefixes } from '@/utils/chain'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import {
@@ -201,9 +201,9 @@ const symbol = ref('')
 
 // balance state
 const balance = ref()
-const collectionDeposit = ref()
+const depositAmount = ref()
 const canDeposit = computed(() => {
-  return parseFloat(balance.value) >= parseFloat(collectionDeposit.value)
+  return parseFloat(balance.value) >= parseFloat(depositAmount.value)
 })
 
 const depositTokenId = ref()
@@ -220,7 +220,11 @@ const chainByPrefix = menus.find((menu) => menu.value === urlPrefix.value)
 const selectBlockchain = ref(chainByPrefix?.value || menus[0].value)
 
 const currentChain = computed(() => {
-  return selectBlockchain.value as string
+  return selectBlockchain.value as Prefix
+})
+
+const { collectionDeposit, metadataDeposit } = useDeposit({
+  prefix: currentChain,
 })
 
 watchEffect(() => setUrlPrefix(currentChain.value as Prefix))
@@ -256,7 +260,7 @@ const createCollection = async () => {
     collection['symbol'] = symbol.value
   }
 
-  if (collectionDeposit.value && canDeposit.value === false) {
+  if (depositAmount.value && canDeposit.value === false) {
     return
   }
 
@@ -281,11 +285,6 @@ const createCollection = async () => {
   }
 }
 
-watchEffect(async () => {
-  collectionDeposit.value = 0
-  collectionDeposit.value = depositAmount[currentChain.value]?.collection || 0
-})
-
 // TODO: move to composables
 watchEffect(async () => {
   balance.value = 0
@@ -300,18 +299,12 @@ watchEffect(async () => {
   const chainInfo = await api.registry.getChainProperties()
   depositSymbol.value = chainInfo?.tokenSymbol?.toHuman()?.[0]
 
-  try {
-    // TODO: check deposit for asset hub and basilisk
-    const collectionDeposit = api.consts.nfts.collectionDeposit.toString()
-    const itemDeposit = api.consts.nfts.itemDeposit.toString()
-
-    console.log({
-      collectionDeposit: format(collectionDeposit, chain.tokenDecimals, false),
-      itemDeposit: format(itemDeposit, chain.tokenDecimals, false),
-    })
-  } catch (error) {
-    console.log({ error })
-  }
+  // sum up deposit amount
+  depositAmount.value = format(
+    metadataDeposit.value + collectionDeposit.value,
+    chain.tokenDecimals,
+    false
+  )
 
   if (currentAddress) {
     const publicKey = decodeAddress(currentAddress)
