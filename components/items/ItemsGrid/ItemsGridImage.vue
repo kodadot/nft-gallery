@@ -6,7 +6,11 @@
     :prefix="urlPrefix"
     :show-price="Number(nft?.price) > 0"
     :variant="variant"
-    :class="{ 'in-cart-border': shoppingCartStore.isItemInCart(nft.id) }"
+    :class="{
+      'in-cart-border':
+        shoppingCartStore.isItemInCart(nft.id) ||
+        listingCartStore.isItemInCart(nft.id),
+    }"
     :unloackable-icon="unlockableIcon"
     :show-action-on-hover="!showActionSection"
     link="nuxt-link"
@@ -33,7 +37,7 @@
       <div v-else-if="isOwner" class="is-flex">
         <NeoButton
           :label="`List For Sale ${
-            listingCartStore.isItemInCart(nft.id) ? '✔' : ''
+            listingCartStore.isItemInCart(nft.id) ? '✓' : ''
           }`"
           data-cy="item-buy"
           no-shadow
