@@ -13,7 +13,7 @@
       v-if="isLewd && isLewdBlurredLayer"
       class="nsfw-blur is-capitalized is-flex is-align-items-center is-justify-content-center is-flex-direction-column">
       <NeoIcon icon="eye-slash" class="mb-3" />
-      <span class="nsfw-heading has-text-weight-bold">
+      <span class="has-text-weight-bold">
         {{ $t('lewd.explicit') }}
       </span>
       <span class="nsfw-desc text-align-center">{{
@@ -24,8 +24,8 @@
       v-if="isLewd"
       rounded
       no-shadow
-      class="nsfw-action px-4 py-1 is-size-6"
-      :class="[isLewdBlurredLayer ? '' : 'hide']"
+      class="nsfw-action no-border px-4 py-1 is-size-6"
+      :class="{ hide: isLewdBlurredLayer }"
       :label="
         isLewdBlurredLayer ? $t('lewd.showContent') : $t('lewd.hideContent')
       "
@@ -127,7 +127,6 @@ defineExpose({ isLewdBlurredLayer })
     }
   }
   .nsfw-action {
-    border: none;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
