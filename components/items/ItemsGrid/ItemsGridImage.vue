@@ -36,9 +36,7 @@
       </div>
       <div v-else-if="isOwner" class="is-flex">
         <NeoButton
-          :label="`List For Sale ${
-            listingCartStore.isItemInCart(nft.id) ? '✓' : ''
-          }`"
+          :label="listLabel"
           data-cy="item-buy"
           no-shadow
           class="is-flex-grow-1 btn-height"
@@ -88,6 +86,13 @@ const buyLabel = computed(function () {
   )
 })
 
+const listLabel = computed(() => {
+  const label = Boolean(Number(props.nft.price))
+    ? 'Change Price'
+    : 'List For Sale'
+  return label + (listingCartStore.isItemInCart(props.nft.id) ? ' ✓' : '')
+})
+
 const { cartIcon } = useShoppingCartIcon(props.nft.id)
 
 const { nft } = useNft(props.nft)
@@ -124,6 +129,7 @@ const onClickShoppingCart = () => {
 }
 
 const onClickListingCart = () => {
+  console.log(listLabel)
   if (listingCartStore.isItemInCart(props.nft.id)) {
     listingCartStore.removeItem(props.nft.id)
   } else {
