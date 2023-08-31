@@ -201,8 +201,13 @@ const currentChain = computed(() => {
 })
 
 const { isAssetHub, isBasilisk, isRemark } = useIsChain(currentChain)
-const { balance, collectionDeposit, metadataDeposit, chainSymbol } =
-  useDeposit(currentChain)
+const {
+  balance,
+  collectionDeposit,
+  metadataDeposit,
+  existentialDeposit,
+  chainSymbol,
+} = useDeposit(currentChain)
 
 // balance state
 const depositAmount = ref()
@@ -265,7 +270,7 @@ watchEffect(async () => {
 
   // sum up deposit amount
   depositAmount.value = format(
-    metadataDeposit.value + collectionDeposit.value,
+    metadataDeposit.value + collectionDeposit.value + existentialDeposit.value,
     chain.tokenDecimals,
     false
   )

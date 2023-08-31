@@ -20,6 +20,7 @@ export default function (prefix: ComputedRef<Prefix>) {
   const collectionDeposit = ref(0)
   const itemDeposit = ref(0)
   const metadataDeposit = ref(0)
+  const existentialDeposit = ref(0)
 
   const chainSymbol = ref('')
 
@@ -28,6 +29,11 @@ export default function (prefix: ComputedRef<Prefix>) {
       const api = await apiInstanceByPrefix(prefix.value)
 
       // set deposit amount
+      if (isAssetHub.value || isBasilisk.value) {
+        existentialDeposit.value =
+          api.consts.balances.existentialDeposit.toNumber()
+      }
+
       if (isAssetHub.value) {
         collectionDeposit.value = api.consts.nfts.collectionDeposit.toNumber()
         itemDeposit.value = api.consts.nfts.itemDeposit.toNumber()
@@ -82,6 +88,7 @@ export default function (prefix: ComputedRef<Prefix>) {
     collectionDeposit,
     itemDeposit,
     metadataDeposit,
+    existentialDeposit,
     chainSymbol,
   }
 }
