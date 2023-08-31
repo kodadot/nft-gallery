@@ -19,18 +19,22 @@ export type TokenMetadata = {
 export type BaseMetadata = {
   name: string
   description: string
+}
+
+export type BaseOpenMetadata = {
   image: string
   animation_url?: string
 }
 
 export type Tags = string[]
 
-export type OpenSeaMetadata = BaseMetadata & {
-  attributes?: OpenSeaAttribute[]
-  external_url?: string
-  background_color?: string
-  youtube_url?: string
-}
+export type OpenSeaMetadata = BaseMetadata &
+  BaseOpenMetadata & {
+    attributes?: OpenSeaAttribute[]
+    external_url?: string
+    background_color?: string
+    youtube_url?: string
+  }
 
 export type TezosAttribute = {
   name: string
@@ -88,7 +92,8 @@ export type PluralAttribute = {
 
 // https://eips.ethereum.org/EIPS/eip-5773
 export type PluralAssetMetadata = BaseMetadata &
-  BaseTezosMetadata & {
+  BaseTezosMetadata &
+  BaseOpenMetadata & {
     mediaUri?: string
     attributes?: PluralAttribute[]
   }
