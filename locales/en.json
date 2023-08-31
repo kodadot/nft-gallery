@@ -78,6 +78,7 @@
   "showLess": "Show Less",
   "dropUpload": "Drop your file here or click to select.",
   "chainSelect": "Select Chain ({0})",
+  "success": "Success",
   "search": {
     "searchCollection": "Search Collection",
     "seeAll": "See All",
@@ -101,7 +102,8 @@
     "sendTo": "Sending to",
     "recipients": "recipients",
     "totalAmount": "Total Amount",
-    "transferable": "Transferable"
+    "transferable": "Transferable",
+    "networkFee": "Network fee"
   },
   "topCollections": {
     "timeFrames": {
@@ -639,6 +641,7 @@
     "empty": "There are currently no offers."
   },
   "loader": {
+    "broadcast": "Broadcating the tx to blockchain",
     "casting": "(1/3) Casting the tx to blockchain",
     "finalized": "(3/3) Finalized",
     "block": "(2/3) Transaction in block",
@@ -655,6 +658,15 @@
       "processing": "Predicting (wait around ~2 min)",
       "send": "Sending links to your email"
     }
+  },
+  "transactionLoader": {
+    "sign": "Sign",
+    "signTip": "Please sign the transaction in your wallet",
+    "pending": "Pending",
+    "pendingTip": "Your transaction is being confirmed",
+    "completed": "Completed",
+    "completedTip": "Your transfer was successful!",
+    "showTransaction": "Show Transaction"
   },
   "arweave": {
     "uploadYes": "Upload NFT image to Arweave",
