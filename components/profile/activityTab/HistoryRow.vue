@@ -2,9 +2,7 @@
   <div v-if="isDesktop" class="columns mb-2">
     <div class="column is-clipped">
       <div class="is-flex is-align-items-center">
-        <nuxt-link
-          :to="`/${urlPrefix}/gallery/${event.Item.id}`"
-          class="height-50px">
+        <nuxt-link :to="`/${urlPrefix}/gallery/${event.Item.id}`" class="h-50">
           <NeoAvatar
             :avatar="avatar"
             :placeholder="placeholder"
@@ -22,7 +20,7 @@
     </div>
 
     <div class="column is-1">
-      <div class="height-50px is-flex is-align-items-center">
+      <div class="h-50 is-flex is-align-items-center">
         <EventTag
           :interaction="eventType"
           :interaction-name="interactionName" />
@@ -30,7 +28,7 @@
     </div>
 
     <div class="column is-ellipsis">
-      <div class="height-50px is-flex is-align-items-center">
+      <div class="h-50 is-flex is-align-items-center">
         <div v-if="parseInt(event.Amount)">
           <CommonTokenMoney :value="event.Amount" />
         </div>
@@ -39,7 +37,7 @@
     </div>
 
     <div class="column">
-      <div class="height-50px is-flex is-align-items-center">
+      <div class="h-50 is-flex is-align-items-center">
         <nuxt-link
           v-if="!!fromAddress"
           :to="`/${urlPrefix}/u/${fromAddress}`"
@@ -53,7 +51,7 @@
     </div>
 
     <div v-if="withToColumn" class="column">
-      <div class="height-50px is-flex is-align-items-center">
+      <div class="h-50 is-flex is-align-items-center">
         <nuxt-link
           v-if="!!toAddress"
           :to="`/${urlPrefix}/u/${toAddress}`"
@@ -67,7 +65,7 @@
     </div>
 
     <div class="column">
-      <div class="height-50px is-flex is-align-items-center">
+      <div class="h-50 is-flex is-align-items-center">
         <NeoTooltip :label="event.Date" position="left">
           <BlockExplorerLink :block-id="event.Block" :text="event.Time" />
         </NeoTooltip>
@@ -76,7 +74,7 @@
   </div>
   <!-- Mobile -->
   <div v-else class="mb-6 is-flex is-flex-direction-column gap-10px">
-    <div class="is-flex height-70px line-height-1">
+    <div class="is-flex h-70 line-height-1">
       <nuxt-link :to="`/${urlPrefix}/gallery/${event.Item.id}`">
         <div class="mr-5">
           <NeoAvatar
@@ -145,7 +143,6 @@ import {
 } from '@/components/collection/activity/events/eventRow/common'
 import EventTag from '@/components/collection/activity/events/eventRow/EventTag.vue'
 import BlockExplorerLink from '@/components/shared/BlockExplorerLink.vue'
-import { toPercent } from '@/utils/filters'
 
 const props = defineProps<{
   event: Event
@@ -195,11 +192,11 @@ const percentageTextClassName = (percentage: number) => {
 .fixed-height {
   height: 22px;
 }
-.height-50px {
+.h-50 {
   height: 50px;
 }
 
-.height-70px {
+.h-70 {
   height: 70px;
 }
 
