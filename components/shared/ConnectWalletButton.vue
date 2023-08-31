@@ -24,6 +24,7 @@ const instance = getCurrentInstance()
 
 const modal = ref<{ close: () => void; isActive?: boolean } | null>(null)
 const isMobile = ref(window.innerWidth < 1024)
+const isMobileWithoutTablet = ref(window.innerWidth < 768)
 const emit = defineEmits(['closeBurgerMenu', 'toggleConnectModal'])
 
 const toggleWalletConnectModal = () => {
@@ -40,9 +41,16 @@ const toggleWalletConnectModal = () => {
     return
   }
 
-  modal.value = $neoModal.open({
+  let modalInstance = $neoModal.open({
     parent: instance?.proxy,
     ...ConnectWalletModalConfig,
+    ...(isMobileWithoutTablet.value ? { animation: 'none' } : {}),
   })
+  modalInstance.$once('close', () => {
+    if (isMobile) {
+      emit('closeBurgerMenu')
+    }
+  })
+  modal.value = modalInstance
 }
 </script>

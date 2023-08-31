@@ -9,8 +9,8 @@
     :class="{ 'in-cart-border': shoppingCartStore.isItemInCart(nft.id) }"
     :unloackable-icon="unlockableIcon"
     :show-action-on-hover="!showActionSection"
-    link="nuxt-link"
-    bind-key="to">
+    :link="NuxtLink"
+    bind-key="href">
     <template #action>
       <div v-if="!isOwner && Number(nft?.price)" class="is-flex">
         <NeoButton
@@ -35,6 +35,7 @@
 </template>
 
 <script setup lang="ts">
+// PLEASE FIX bind-key href => to
 import { NeoButton, NeoNftCard } from '@kodadot1/brick'
 import type { NftCardVariant } from '@kodadot1/brick'
 import type { NFTWithMetadata } from '@/composables/useNft'
