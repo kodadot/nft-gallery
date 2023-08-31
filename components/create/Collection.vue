@@ -2,9 +2,9 @@
   <div class="columns is-centered">
     <Loader v-model="isLoading" :status="status" />
     <form class="column is-half" @submit.prevent="createCollection">
-      <h2 class="title is-size-3">
+      <h1 class="title is-size-3">
         {{ $t('mint.collection.create') }}
-      </h2>
+      </h1>
 
       <!-- collection logo -->
       <NeoField :label="`${$t('mint.collection.logo.image')} *`">
