@@ -62,3 +62,21 @@ export const transactionFactory = (getArgs) => {
     })
   }
 }
+
+export const expandCopies = <T extends TokenToMint>(tokens: T[]): T[] => {
+  return tokens.flatMap((token) => {
+    const copies = copiesToMint(token)
+    if (copies === 1) {
+      return token
+    }
+
+    return Array(copies)
+      .fill(null)
+      .map((_, index) => {
+        return {
+          ...token,
+          name: token.postfix ? `${token.name} #${index + 1}` : token.name,
+        }
+      })
+  })
+}

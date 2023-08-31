@@ -2,7 +2,7 @@ import { BaseMintedCollection } from '@/components/base/types'
 import type { ActionMintToken, MintedCollection } from '../types'
 import { TokenToMint } from '../types'
 import { constructMeta } from './constructMeta'
-import { calculateFees, copiesToMint, transactionFactory } from './utils'
+import { calculateFees, expandCopies, transactionFactory } from './utils'
 import { canSupport } from '@/utils/support'
 
 type id = { id: number }
@@ -20,24 +20,6 @@ export const assignIds = <T extends TokenToMint>(tokens: T[]): (T & id)[] => {
       ...token,
       id: ++lastId,
     }
-  })
-}
-
-export const expandCopies = <T extends TokenToMint>(tokens: T[]): T[] => {
-  return tokens.flatMap((token) => {
-    const copies = copiesToMint(token)
-    if (copies === 1) {
-      return token
-    }
-
-    return Array(copies)
-      .fill(null)
-      .map((_, index) => {
-        return {
-          ...token,
-          name: token.postfix ? `${token.name} #${index + 1}` : token.name,
-        }
-      })
   })
 }
 

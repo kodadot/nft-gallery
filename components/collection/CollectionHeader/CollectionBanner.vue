@@ -30,16 +30,11 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import HeroButtons from '@/components/collection/HeroButtons.vue'
 import { generateCollectionImage } from '@/utils/seoImageGenerator'
 import { convertMarkdownToText } from '@/utils/markdown'
+import collectionById from '@/queries/subsquid/general/collectionById.graphql'
 
-const { $seoMeta } = useNuxtApp()
 const { placeholder } = useTheme()
 const route = useRoute()
-const { data } = useGraphql({
-  queryName: 'collectionById',
-  variables: {
-    id: route.params.id,
-  },
-})
+const { result: data } = useQuery(collectionById, { id: route.params.id })
 
 const collectionAvatar = ref('')
 const collectionName = ref('--')
@@ -67,25 +62,22 @@ watchEffect(async () => {
     }
   }
 })
-
-const meta = computed(() => {
-  return $seoMeta({
-    title: collectionName.value,
-    type: 'profile',
-    description: convertMarkdownToText(
-      data.value?.collectionEntity.meta?.description
-    ),
-    url: route.path,
-    image: generateCollectionImage(
-      collectionName.value,
-      data.value?.nftEntitiesConnection.totalCount,
-      collectionAvatar.value
-    ),
-  })
-})
-useHead({
-  title: collectionName,
-  meta,
+useSeoMeta({
+  title: collectionName.value,
+  description: convertMarkdownToText(
+    data.value?.collectionEntity.meta?.description
+  ),
+  ogUrl: route.path,
+  ogImage: generateCollectionImage(
+    collectionName.value,
+    data.value?.nftEntitiesConnection.totalCount,
+    collectionAvatar.value
+  ),
+  twitterImage: generateCollectionImage(
+    collectionName.value,
+    data.value?.nftEntitiesConnection.totalCount,
+    collectionAvatar.value
+  ),
 })
 </script>
 

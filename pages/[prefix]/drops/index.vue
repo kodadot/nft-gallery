@@ -2,25 +2,14 @@
   <Drops />
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import Drops from '@/components/drops/Drops.vue'
 
-export default {
-  name: 'DropsPage',
-  components: {
-    Drops,
-  },
-  head() {
-    const title = 'Drops'
-    const metaData = {
-      title,
-      description: 'View all drops',
-      url: '/drops',
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
-    }
-  },
-}
+const route = useRoute()
+
+useSeoMeta({
+  title: 'Drops',
+  description: 'View all drops',
+  ogUrl: route.path,
+})
 </script>
