@@ -84,7 +84,6 @@
             v-model="symbol"
             :placeholder="$t('mint.collection.symbol.placeholder')"
             minlength="3"
-            maxlength="5"
             required
             expanded />
         </div>
@@ -167,6 +166,7 @@ import { Interaction } from '@kodadot1/minimark/v1'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { CHAINS, Prefix } from '@kodadot1/static'
 import format from '@/utils/format/balance'
+import { makeSymbol } from '@kodadot1/minimark/shared'
 
 // props
 withDefaults(
@@ -274,6 +274,10 @@ watchEffect(async () => {
     chain.tokenDecimals,
     false
   )
+})
+
+onMounted(() => {
+  symbol.value = makeSymbol()
 })
 </script>
 
