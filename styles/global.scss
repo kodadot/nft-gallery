@@ -316,6 +316,13 @@ a.has-text-grey {
   }
 }
 
+.has-text-k-shade {
+  @include ktheme() {
+    color: theme('k-shade');
+  }  
+}
+
+
 
 //colors
 

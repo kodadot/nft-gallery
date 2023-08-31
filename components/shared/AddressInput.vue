@@ -21,7 +21,7 @@ const props = withDefaults(
   defineProps<{
     value: string
     label: string
-    emptyOnError: boolean
+    emptyOnError?: boolean
     strict: boolean
     icon?: string
     placeholder?: string
@@ -31,6 +31,7 @@ const props = withDefaults(
     strict: true,
     icon: '',
     placeholder: '',
+    emptyOnError: false,
   }
 )
 
