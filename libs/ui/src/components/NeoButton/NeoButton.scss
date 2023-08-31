@@ -173,6 +173,13 @@
     box-shadow: none;
   }
 
+  &.no-border {
+    box-shadow: none;
+    &:hover {
+      background: none;
+    }
+  }
+
   &--rounded {
     border-radius: 9999px;
     padding: 0.25rem 0.75rem;
