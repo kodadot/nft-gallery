@@ -181,6 +181,7 @@ withDefaults(
 // composables
 const { transaction, status, isLoading } = useTransaction()
 const { urlPrefix, setUrlPrefix } = usePrefix()
+const { $consola } = useNuxtApp()
 
 // form state
 const logo = ref<File | null>(null)
@@ -261,7 +262,7 @@ const createCollection = async () => {
     )
   } catch (error) {
     showNotification(`[ERR] ${error}`, notificationTypes.warn)
-    console.error(error)
+    $consola.error(error)
   }
 }
 
