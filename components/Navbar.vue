@@ -330,16 +330,24 @@ const updateAuthBalance = () => {
   account.value && identityStore.fetchBalance({ address: account.value })
 }
 
+const hideTopNavbar = () => {
+  if (isMobileWithoutTablet.value) {
+    showTopNavbar.value = true
+  }
+}
+
 onMounted(() => {
   document.body.style.overflowY = 'initial'
   document.body.className = 'has-navbar-fixed-top has-spaced-navbar-fixed-top'
   updateAuthBalanceTimer.value = setInterval(updateAuthBalance, 30000)
+  $neoModal.addOpenListener(hideTopNavbar)
 })
 
 onBeforeUnmount(() => {
   setBodyScroll(true)
   document.documentElement.classList.remove('is-clipped-touch')
   clearInterval(updateAuthBalanceTimer.value)
+  $neoModal.removeOpenListener(hideTopNavbar)
 })
 useEventListener(window, 'scroll', onScroll)
 useEventListener(window, 'resize', handleResize)
