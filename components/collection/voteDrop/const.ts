@@ -4,6 +4,7 @@ const now = new Date()
 export const countDownTime = endOfWeek(now).getTime()
 
 export const VOTE_DROP_COLLECTION_ID = '99'
+export const VOTE_DROP_AHP_COLLECTION_ID = '2'
 export const displayPricePerMint = 1e10
 export const VOTE_DROP_CAMPAIGN = 'copenhagen'
 

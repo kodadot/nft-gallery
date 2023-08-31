@@ -13,17 +13,17 @@
 
           <div
             class="is-flex is-justify-content-space-between is-align-items-center my-5">
-            <span class="">Total available items</span>
-            <span class=""
-              >{{ totalAvailableMintCount }} / {{ totalCount }}</span
-            >
+            <span> {{ $t('mint.unlockable.totalAvailableItem') }}</span>
+            <span>{{ totalAvailableMintCount }} / {{ totalCount }}</span>
           </div>
           <UnlockableTag />
 
           <div>
             <div
               class="is-flex is-justify-content-space-between is-align-items-center my-5">
-              <span class="has-text-weight-bold is-size-5">Mint Phase</span
+              <span class="has-text-weight-bold is-size-5">{{
+                $t('mint.unlockable.phase')
+              }}</span
               ><span
                 v-if="mintCountAvailable"
                 class="is-flex is-align-items-center"
@@ -58,14 +58,15 @@
                     </filter>
                   </defs>
                 </svg>
-                Open</span
+                {{ $t('mint.unlockable.open') }}</span
               >
             </div>
             <div
               class="is-flex is-justify-content-space-between is-align-items-center">
               <span>{{ mintedPercent }} %</span
               ><span class="has-text-weight-bold">
-                {{ mintedCount }} / {{ totalCount }} Minted</span
+                {{ mintedCount }} / {{ totalCount }}
+                {{ $t('statsOverview.minted') }}</span
               >
             </div>
           </div>
@@ -93,17 +94,7 @@
                   :label="buttonLabel"
                   @click.native="handleMint" />
                 <div class="is-flex is-align-items-center mt-2">
-                  <svg
-                    width="20"
-                    height="21"
-                    class="mr-2"
-                    viewBox="0 0 20 21"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M10 2.73016C14.4062 2.73016 18 6.32391 18 10.7302C18 15.1677 14.4062 18.7302 10 18.7302C5.5625 18.7302 2 15.1677 2 10.7302C2 9.07391 2.5 7.54266 3.375 6.26141L3.78125 5.63641L5.03125 6.48016L4.59375 7.10516C3.90625 8.13641 3.5 9.38641 3.5 10.7302C3.5 14.3239 6.40625 17.2302 10 17.2302C13.5625 17.2302 16.5 14.3239 16.5 10.7302C16.5 7.41766 13.9688 4.66766 10.75 4.29266V5.98016V6.73016H9.25V5.98016V3.48016V2.73016H10ZM8.03125 7.69891H8L10.5 10.1989L11.0312 10.7302L10 11.7927L9.46875 11.2614L6.96875 8.76141L6.4375 8.23016L7.5 7.16766L8.03125 7.69891Z"
-                      fill="currentColor" />
-                  </svg>
+                  <NeoIcon icon="timer" pak="far" class="mr-2" />
                   {{ leftTime }}
                 </div>
               </div>
@@ -123,18 +114,8 @@
           class="column is-half-desktop is-flex is-flex-direction-column is-justify-content-center order-1">
           <div
             class="is-flex is-align-items-center has-text-weight-bold is-size-6 mb-2">
-            <svg
-              class="mr-2"
-              width="20"
-              height="21"
-              viewBox="0 0 20 21"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M7.5 6.65137V8.65137H15.5H17V10.1514V17.1514V18.6514H15.5H4.5H3V17.1514V10.1514V8.65137H4.5H6V6.65137C6 4.46387 7.78125 2.65137 10 2.65137C11.7812 2.65137 13.2812 3.83887 13.7812 5.43262L12.375 5.90137C12.0312 4.90137 11.0938 4.15137 10 4.15137C8.59375 4.15137 7.5 5.27637 7.5 6.65137ZM4.5 17.1514H15.5V10.1514H4.5V17.1514Z"
-                fill="currentColor" />
-            </svg>
-            How unlockable item works
+            <NeoIcon icon="unlock" class="mr-2" pack="far" />
+            {{ $t('mint.unlockable.howItemWork') }}
           </div>
           <div>
             Experience the excitement of unlocking hidden rewards! Get your
@@ -170,16 +151,21 @@ import UnlockableCollectionInfo from '@/components/collection/unlockable/Unlocka
 import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
-import { getLatestWaifuImages } from '@/services/waifu'
-import { showNotification } from '@/utils/notification'
+import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import type Vue from 'vue'
 import { useCountDown } from '../unlockable/utils/useCountDown'
 import {
+  VOTE_DROP_AHP_COLLECTION_ID,
   VOTE_DROP_COLLECTION_ID,
   VOTE_DROP_DESCRIPTION,
   countDownTime,
 } from './const'
+
+import {
+  createUnlockableMetadata,
+  getRandomInt,
+} from '@/components/collection/unlockable/utils'
 import { useCheckReferenDumVote } from '@/composables/drop/useCheckReferenDumVote'
 
 const Loader = defineAsyncComponent(
@@ -192,12 +178,17 @@ const { accountId } = useAuth()
 
 const imageList = ref<string[]>([])
 const resultList = ref<any[]>([])
-// const { urlPrefix } = usePrefix()
+const { urlPrefix } = usePrefix()
 const { isLogIn } = useAuth()
 const { hours, minutes } = useCountDown(countDownTime)
 const justMinted = ref('')
 const isLoading = ref(false)
-const collectionId = VOTE_DROP_COLLECTION_ID
+const collectionId = computed(() =>
+  urlPrefix.value === 'ahk'
+    ? VOTE_DROP_COLLECTION_ID
+    : VOTE_DROP_AHP_COLLECTION_ID
+)
+const { toast } = useToast()
 
 const { isEligibleUser } = useCheckReferenDumVote()
 
@@ -216,7 +207,7 @@ const buttonLabel = computed(() => {
 const statusInformation = computed(() => {
   return needCheckEligible.value
     ? {
-        label: 'For Aye Voters Only',
+        label: $i18n.t('mint.unlockable.ayeVotersOnly'),
         icon: 'circle-info',
         iconClass: 'has-text-grey',
         labelClass: 'has-text-grey',
@@ -224,13 +215,13 @@ const statusInformation = computed(() => {
       }
     : isEligibleUser.value
     ? {
-        label: 'You Are Eligible',
+        label: $i18n.t('mint.unlockable.eligible'),
         icon: 'circle-check',
         iconPack: 'fas',
         iconClass: 'has-text-success',
       }
     : {
-        label: 'Exclusive Access Only',
+        label: $i18n.t('mint.unlockable.exclusive'),
         icon: 'circle-info',
         iconClass: 'has-text-grey',
         labelClass: 'has-text-grey',
@@ -254,12 +245,12 @@ const leftTime = computed(() => {
 const { data: collectionData, refetch } = useGraphql({
   queryName: 'dropCollectionById',
   variables: {
-    id: collectionId,
+    id: collectionId.value,
     account: accountId.value,
   },
 })
 
-const totalCount = 200
+const totalCount = 300
 
 const totalAvailableMintCount = computed(
   () => totalCount - collectionData.value?.collectionEntity?.nftCount
@@ -268,7 +259,7 @@ const totalAvailableMintCount = computed(
 useSubscriptionGraphql({
   query: `nftEntities(
     orderBy: id_ASC,
-    where: { burned_eq: false, collection: { id_eq: "${collectionId}" }}
+    where: { burned_eq: false, collection: { id_eq: "${collectionId.value}" }}
     ) {
       id
   }`,
@@ -284,7 +275,7 @@ const mintedPercent = computed(() => {
 
 const hasUserMinted = computed(
   () =>
-    Boolean(collectionData.value?.nftEntitiesConnection?.nftCount) ||
+    Boolean(collectionData.value?.nftEntitiesConnection?.totalCount) ||
     justMinted.value
 )
 
@@ -310,10 +301,37 @@ const handleMint = async () => {
     return false
   }
   isLoading.value = true
-  showNotification('coming soon')
-  // showNotification(
-  //   $i18n.t('nft.notification.info', { itemId: 'Waifu', action: actionLabel })
-  // )
+
+  const randomIndex = getRandomInt(imageList.value.length - 1)
+  const image = resultList.value.at(randomIndex).image
+
+  const hash = await createUnlockableMetadata(image, VOTE_DROP_DESCRIPTION)
+
+  const { accountId } = useAuth()
+
+  try {
+    const id = await doWaifu(
+      {
+        address: accountId.value,
+        metadata: hash,
+        image: image,
+      },
+      urlPrefix.value === 'ahk' ? 'aye-ahk' : 'aye'
+    ).then((res) => {
+      toast('mint success')
+      return `${collectionId.value}-${res.result.sn}`
+    })
+    // 40s timeout
+    setTimeout(() => {
+      isLoading.value = false
+      justMinted.value = id
+      toast('You will be redirected in few seconds')
+      return navigateTo(`/${urlPrefix.value}/gallery/${id}`)
+    }, 44000)
+  } catch (error) {
+    toast('failed to mint')
+    isLoading.value = false
+  }
 }
 </script>
 
