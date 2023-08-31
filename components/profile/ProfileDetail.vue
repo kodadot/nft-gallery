@@ -36,10 +36,12 @@
               emit
               @change="handleIdentity" />
           </h1>
+
           <NeoButton
             v-if="isAllowSetIdentity"
             to="/identity"
             no-shadow
+            class="mb-4"
             rounded
             tag="nuxt-link"
             size="small">
