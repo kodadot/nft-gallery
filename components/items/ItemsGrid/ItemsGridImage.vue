@@ -129,7 +129,6 @@ const onClickShoppingCart = () => {
 }
 
 const onClickListingCart = () => {
-  console.log(listLabel)
   if (listingCartStore.isItemInCart(props.nft.id)) {
     listingCartStore.removeItem(props.nft.id)
   } else {

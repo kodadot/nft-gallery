@@ -36,9 +36,9 @@
           (slotProps.isMobileVariant || slotProps.grid === 'small') && 'minimal'
         " />
     </DynamicGrid>
-
     <EmptyResult v-else />
     <ScrollTopButton />
+    <ListingCartMini />
   </div>
 </template>
 

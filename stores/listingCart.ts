@@ -13,7 +13,7 @@ export const useListingCartStore = defineStore('listingCart', {
     items: localStorage.value,
   }),
   getters: {
-    getItems: (state) => state.items,
+    count: (state) => state.items.length,
   },
   actions: {
     getItemsByPrefix(prefix: string) {
