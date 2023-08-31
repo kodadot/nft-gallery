@@ -162,7 +162,6 @@ export default defineNuxtConfig({
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/polkadot', mode: 'client' },
-<<<<<<< HEAD
     { src: '~/plugins/endpoint', mode: 'client' },
     { src: '~/plugins/seoMetaGenerator', mode: 'client' },
     { src: '~/plugins/keyboardEvents.client', mode: 'client' },
@@ -176,23 +175,6 @@ export default defineNuxtConfig({
     '~/plugins/vueSocialSharing',
     '~/plugins/vueTippy',
     '~/plugins/safeHref',
-=======
-    // { src: '~/plugins/endpoint', mode: 'client' },
-    // { src: '~/plugins/seoMetaGenerator', mode: 'client' },
-    // { src: '~/plugins/keyboardEvents', mode: 'client' },
-    // { src: '~/plugins/consola', mode: 'client' },
-    // { src: '~/plugins/piniaPersistedState', mode: 'client' },
-    // { src: '~/plugins/oruga-modal', mode: 'client' },
-    // { src: '~/plugins/oruga-notification', mode: 'client' },
-    // '~/plugins/filters',
-    // '~/plugins/globalVariables',
-    // '~/plugins/pwa',
-    // '~/plugins/vueAudioVisual',
-    // '~/plugins/vueClipboard',
-    // '~/plugins/vueSocialSharing',
-    // '~/plugins/vueTippy',
-    // '~/plugins/safeHref',
->>>>>>> nuxt
   ],
 
   router: {

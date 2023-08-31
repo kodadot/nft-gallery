@@ -65,14 +65,11 @@
               variant="text"
               :label="$t('share.copyAddress')"
               no-shadow
-<<<<<<< HEAD
               @click.native="
                 toast(`${$i18n.t('general.copyToClipboard')}`)
                 copy(id)
               " />
-=======
               @click="toast(`${$i18n.t('general.copyToClipboard')}`)" />
->>>>>>> nuxt
             <div class="divider" />
             <NeoButton
               variant="text"

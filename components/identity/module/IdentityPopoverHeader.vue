@@ -14,14 +14,11 @@
           icon="copy"
           class="has-text-link is-clickable"
           data-cy="identity-clipboard"
-<<<<<<< HEAD
           @click.native="
             toast('Copied to clipboard')
             copy(String(address))
           " />
-=======
           @click="toast('Copied to clipboard')" />
->>>>>>> nuxt
       </div>
       <a
         v-if="identity?.twitter"
