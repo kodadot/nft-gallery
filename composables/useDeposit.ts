@@ -1,7 +1,14 @@
-import type { Prefix } from '@kodadot1/static'
 import type { ComputedRef } from 'vue/types'
+import type { PalletBalancesAccountData } from '@polkadot/types/lookup'
 
-import { getAssetMetadataByAccount } from '@/utils/api/bsx/query'
+import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
+import { CHAINS, type Prefix } from '@kodadot1/static'
+import { balanceOf } from '@kodadot1/sub-api'
+import {
+  getAssetMetadataByAccount,
+  getKusamaAssetId,
+} from '@/utils/api/bsx/query'
+import format from '@/utils/format/balance'
 
 type Props = {
   prefix: ComputedRef<Prefix>
@@ -60,6 +67,26 @@ export default function ({ prefix }: Props) {
 
         chainSymbol.value = assetMetadata.symbol
       }
+
+      // set balance
+      if (accountId.value) {
+        const chain = CHAINS[prefix.value]
+        const publicKey = decodeAddress(accountId.value)
+        const prefixAddress = encodeAddress(publicKey, chain.ss58Format)
+
+        balance.value = await balanceOf(api, prefixAddress)
+
+        if (isBasilisk.value && chainSymbol.value === 'KSM') {
+          balance.value = (
+            (await api.query.tokens.accounts(
+              prefixAddress,
+              getKusamaAssetId(prefix.value)
+            )) as PalletBalancesAccountData
+          ).free.toString()
+        }
+
+        balance.value = format(balance.value, chain.tokenDecimals, false)
+      }
     }
   })
 
@@ -67,6 +94,7 @@ export default function ({ prefix }: Props) {
     isKusama,
     isBasilisk,
     isAssetHub,
+    balance,
     collectionDeposit,
     itemDeposit,
     metadataDeposit,

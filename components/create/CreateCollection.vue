@@ -151,7 +151,6 @@ import type {
   CollectionToMintKusama,
   CollectionToMintStatmine,
 } from '@/composables/transaction/types'
-import type { PalletBalancesAccountData } from '@polkadot/types/lookup'
 
 import {
   NeoButton,
@@ -165,14 +164,7 @@ import DropUpload from '@/components/shared/DropUpload.vue'
 import { availablePrefixes } from '@/utils/chain'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import {
-  getAssetIdByAccount,
-  getAssetMetadataById,
-  getKusamaAssetId,
-} from '@/utils/api/bsx/query'
-import { balanceOf } from '@kodadot1/sub-api'
 import { CHAINS, Prefix } from '@kodadot1/static'
-import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 import format from '@/utils/format/balance'
 
 // props
@@ -186,10 +178,8 @@ withDefaults(
 )
 
 // composables
-const { accountId } = useAuth()
-const { apiInstanceByPrefix } = useApi()
 const { transaction, status, isLoading } = useTransaction()
-const { urlPrefix, setUrlPrefix, assets } = usePrefix()
+const { urlPrefix, setUrlPrefix } = usePrefix()
 
 // form state
 const logo = ref<File | null>(null)
@@ -198,17 +188,6 @@ const description = ref('')
 const unlimited = ref(true)
 const max = ref(1)
 const symbol = ref('')
-
-// balance state
-const balance = ref()
-const depositAmount = ref()
-const canDeposit = computed(() => {
-  return parseFloat(balance.value) >= parseFloat(depositAmount.value)
-})
-
-const depositTokenId = ref()
-const depositAsset = computed(() => assets(depositTokenId.value))
-const depositAssetSymbol = computed(() => depositAsset.value.symbol)
 
 const menus = availablePrefixes().filter(
   (menu) => menu.value !== 'movr' && menu.value !== 'glmr'
@@ -224,11 +203,18 @@ const {
   isKusama,
   isBasilisk,
   isAssetHub,
+  balance,
   collectionDeposit,
   metadataDeposit,
   chainSymbol,
 } = useDeposit({
   prefix: currentChain,
+})
+
+// balance state
+const depositAmount = ref()
+const canDeposit = computed(() => {
+  return parseFloat(balance.value) >= parseFloat(depositAmount.value)
 })
 
 watchEffect(() => setUrlPrefix(currentChain.value as Prefix))
@@ -277,13 +263,7 @@ const createCollection = async () => {
   }
 }
 
-// TODO: move to composables
 watchEffect(async () => {
-  balance.value = 0
-  depositTokenId.value = 0
-
-  const api = await apiInstanceByPrefix(currentChain.value)
-  const currentAddress = accountId.value
   const chain = CHAINS[currentChain.value]
 
   // sum up deposit amount
@@ -292,28 +272,6 @@ watchEffect(async () => {
     chain.tokenDecimals,
     false
   )
-
-  if (currentAddress) {
-    const publicKey = decodeAddress(currentAddress)
-    const prefixAddress = encodeAddress(publicKey, chain.ss58Format)
-
-    balance.value = await balanceOf(api, prefixAddress)
-
-    if (isBasilisk.value) {
-      depositTokenId.value = await getAssetIdByAccount(api, accountId.value)
-
-      if (depositAssetSymbol.value === 'KSM') {
-        balance.value = (
-          (await api.query.tokens.accounts(
-            prefixAddress,
-            getKusamaAssetId(currentChain.value)
-          )) as PalletBalancesAccountData
-        ).free.toString()
-      }
-    }
-
-    balance.value = format(balance.value, chain.tokenDecimals, false)
-  }
 })
 </script>
 
