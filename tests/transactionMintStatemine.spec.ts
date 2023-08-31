@@ -1,10 +1,12 @@
 import {
   assignIds,
-  expandCopies,
   prepTokens,
 } from '@/composables/transaction/mintToken/transactionMintStatemine'
 import { TokenToMint } from '@/composables/transaction/types'
-import { copiesToMint } from '@/composables/transaction/mintToken/utils'
+import {
+  copiesToMint,
+  expandCopies,
+} from '@/composables/transaction/mintToken/utils'
 
 describe('transactionMintStatemine.ts functions', () => {
   describe('assignIds function', () => {
