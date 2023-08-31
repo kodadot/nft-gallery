@@ -7,6 +7,7 @@ import {
   OpenSeaMetadata,
   PluralAssetMetadata,
   PluralAttribute,
+  SanitizerFunc,
   TezosAttribute,
 } from './types'
 
@@ -44,7 +45,7 @@ export function contentFrom(meta: any): Content {
   return {
     description,
     image,
-    animationUrl,
+    animationUrl, // rename to media?
     attributes,
     name,
     type: MIME_TYPE.test(type) ? type : '',
@@ -54,17 +55,11 @@ export function contentFrom(meta: any): Content {
   }
 }
 
-// export function makeCompatibleMetadata(
-//   meta: AllMetadata,
-//   overrides?: Partial<Content>
-// ): Content {
-//   return {
-//     // id,
-//     description: meta.description || '',
-//     image: meta.image || meta.thumbnailUri || meta.mediaUri || '',
-//     animationUrl: meta.animation_url || meta.mediaUri,
-//     attributes: meta.attributes?.map(attributeFrom) || [],
-//     name: meta.name || '',
-//     type: meta.type || '',
-//   }
-// }
+export function normalize(content: Content, sanitizer: SanitizerFunc): Content {
+  return {
+    ...content,
+    image: sanitizer(content.image),
+    animationUrl: sanitizer(content.animationUrl),
+    thumbnail: sanitizer(content.thumbnail),
+  }
+}

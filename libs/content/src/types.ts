@@ -140,3 +140,5 @@ export type GenArt = {
   capture: Record<string, unknown>
   settings: Record<string, unknown>
 }
+
+export type SanitizerFunc = <T = string>(url: T | undefined) => T
