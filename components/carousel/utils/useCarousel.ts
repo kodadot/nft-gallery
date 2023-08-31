@@ -4,6 +4,9 @@ import type { RowSeries } from '@/components/series/types'
 import { formatNFT, setCarouselMetadata } from '@/utils/carousel'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { sortItemListByIds } from '@/utils/sorting'
+import resolveQueryPath from '@/utils/queryPathResolver'
+
+import nftEntitiesByIDs from '@/queries/subsquid/general/nftEntitiesByIDs.graphql'
 
 export const useCarouselUrl = () => {
   const { urlPrefix } = usePrefix()
@@ -59,17 +62,15 @@ interface Collections {
   }
 }
 
-export const useCarouselRelated = ({ collectionId }) => {
-  const { $route } = useNuxtApp()
+export const useCarouselRelated = async ({ collectionId }) => {
+  const route = useRoute()
   const { urlPrefix } = usePrefix()
-  const { data } = useGraphql({
-    queryName: 'collectionEntityById',
-    queryPrefix: urlPrefix.value === 'ksm' ? 'chain-ksm' : 'subsquid',
-    variables: {
-      id: collectionId,
-      nftId: $route.params.id,
-      limit: 60,
-    },
+  const query = await resolveQueryPath(urlPrefix.value, 'collectionEntityById')
+
+  const { result: data } = useQuery(query.default, {
+    id: collectionId,
+    nftId: route.params.id,
+    limit: 60,
   })
   const nfts = ref<CarouselNFT[]>([])
 
@@ -100,13 +101,7 @@ export const useCarouselVisited = ({ ids }) => {
     }
   }
 
-  const { data } = useGraphql({
-    queryPrefix: 'subsquid',
-    queryName: 'nftEntitiesByIDs',
-    variables: {
-      ids,
-    },
-  })
+  const { result: data } = useQuery(nftEntitiesByIDs, { ids })
 
   watch(data, async () => {
     if (data.value) {
