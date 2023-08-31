@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="title is-2 mb-7">
+    <h1 class="title is-2 mb-7">
       {{ $i18n.t('drops.title') }}
-    </div>
+    </h1>
     <div v-if="drops.drops.length" class="grid-container">
       <div
         v-for="(drop, index) in drops.drops"
@@ -84,8 +84,6 @@ watch(urlPrefix, () => checkRouteAvailability())
 onBeforeMount(() => {
   checkRouteAvailability()
 })
-
-console.log('drops', statemintDrops)
 </script>
 
 <style lang="scss" scoped>

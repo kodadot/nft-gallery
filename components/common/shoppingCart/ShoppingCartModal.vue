@@ -2,17 +2,9 @@
   <div>
     <div
       class="shopping-cart-modal-container theme-background-color border-left is-flex is-flex-direction-column">
-      <header
-        class="py-4 px-6 is-flex is-justify-content-space-between border-bottom">
-        <span class="modal-card-title is-size-6 has-text-weight-bold">
-          {{ $t('shoppingCart.title') }}
-        </span>
-        <NeoButton
-          variant="text"
-          no-shadow
-          icon="close"
-          @click.native="closeShoppingCart" />
-      </header>
+      <NeoModalHead
+        :title="$t('shoppingCart.title')"
+        @close="closeShoppingCart" />
       <div
         v-if="numberOfItems"
         class="mx-6 py-4 border-bottom border-k-shade is-flex is-justify-content-space-between is-align-items-center">
@@ -94,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoModalHead } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import ShoppingCartItemRow from './ShoppingCartItemRow.vue'

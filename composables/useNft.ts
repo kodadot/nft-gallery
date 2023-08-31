@@ -1,5 +1,6 @@
 import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import type { BaseNFTMeta } from '@/components/base/types'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { getMimeType } from '@/utils/gallery/media'
 import unionBy from 'lodash/unionBy'
@@ -9,6 +10,11 @@ export type NftResources = {
   thumb?: string
   mimeType?: string
   animation?: string
+  meta?: {
+    id: string
+    image?: string
+    animationUrl?: string
+  }
 }
 
 export type ItemResources = {
@@ -17,7 +23,7 @@ export type ItemResources = {
 }
 
 export type NFTWithMetadata = NFT &
-  NFTMetadata & { meta: NFTMetadata } & ItemResources
+  NFTMetadata & { meta: BaseNFTMeta } & ItemResources
 
 function getGeneralMetadata(nft: NFTWithMetadata) {
   return {
@@ -25,7 +31,7 @@ function getGeneralMetadata(nft: NFTWithMetadata) {
     name: nft.name || nft.meta.name || nft.id,
     description: nft.description || nft.meta.description || '',
     image: sanitizeIpfsUrl(nft.meta.image),
-    animation_url: sanitizeIpfsUrl(nft.meta.animation_url || ''),
+    animationUrl: sanitizeIpfsUrl(nft.meta.animation_url || ''),
     type: nft.meta.type || '',
   }
 }
@@ -48,7 +54,7 @@ async function getProcessMetadata(nft: NFTWithMetadata) {
     nft.metadata
   )) as NFTWithMetadata
   const image = sanitizeIpfsUrl(metadata.image || metadata.mediaUri || '')
-  const animation_url = sanitizeIpfsUrl(metadata.animation_url || '')
+  const animationUrl = sanitizeIpfsUrl(metadata.animation_url || '')
   const getAttributes = () => {
     const hasMetadataAttributes =
       metadata.attributes && metadata.attributes.length > 0
@@ -68,7 +74,7 @@ async function getProcessMetadata(nft: NFTWithMetadata) {
     name: nft.name || metadata.name || nft.id,
     description: nft.description || metadata.description || '',
     image,
-    animation_url,
+    animationUrl,
     type: metadata.type || '',
     attributes: getAttributes(),
   }

@@ -39,6 +39,7 @@
         v-if="showPrice"
         :value="item.price"
         inline
+        :prefix="item.chain"
         :unit-symbol="unitSymbol" />
       <p class="is-size-7 chain-name">{{ chainName }}</p>
     </div>

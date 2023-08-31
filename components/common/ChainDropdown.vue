@@ -21,21 +21,11 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
-import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
-import { CHAINS } from '@kodadot1/static'
 
 const route = useRoute()
-const router = useRouter()
-const { accountId } = useAuth()
-
 const { setUrlPrefix } = usePrefix()
 const { availableChains } = useChain()
-
-const getAddress = (chain: string) => {
-  const publicKey = decodeAddress(accountId.value)
-
-  return encodeAddress(publicKey, CHAINS[chain].ss58Format)
-}
+const { redirectAfterChainChange } = useChainRedirect()
 
 const selected = computed(() =>
   availableChains.value.find((chain) => chain.value === route.params.prefix)
@@ -43,16 +33,6 @@ const selected = computed(() =>
 
 function onSwitchChain(chain) {
   setUrlPrefix(chain)
-  const { ...restQuery } = route.query
-  router.push({
-    params: {
-      prefix: chain,
-      id: getAddress(chain),
-    },
-    query: {
-      ...restQuery,
-      collections: null,
-    },
-  })
+  redirectAfterChainChange(chain)
 }
 </script>
