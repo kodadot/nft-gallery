@@ -90,7 +90,7 @@
       </NeoField>
 
       <!-- deposit -->
-      <div v-if="isBasilisk || isAssetHub">
+      <div>
         <hr class="my-6" />
         <NeoField>
           <div class="monospace">
@@ -122,7 +122,7 @@
             :loading="isLoading"
             :disabled="!canDeposit" />
 
-          <div v-if="isBasilisk || isAssetHub" class="p-4 is-flex">
+          <div class="p-4 is-flex">
             <NeoIcon icon="circle-info" size="medium" class="mr-4" />
             <p class="is-size-7">
               A deposit of

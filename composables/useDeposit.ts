@@ -29,10 +29,8 @@ export default function (prefix: ComputedRef<Prefix>) {
       const api = await apiInstanceByPrefix(prefix.value)
 
       // set deposit amount
-      if (isAssetHub.value || isBasilisk.value) {
-        existentialDeposit.value =
-          api.consts.balances.existentialDeposit.toNumber()
-      }
+      existentialDeposit.value =
+        api.consts.balances.existentialDeposit.toNumber()
 
       if (isAssetHub.value) {
         collectionDeposit.value = api.consts.nfts.collectionDeposit.toNumber()
@@ -47,6 +45,12 @@ export default function (prefix: ComputedRef<Prefix>) {
         metadataDeposit.value =
           api.consts.uniques.metadataDepositBase.toNumber()
       }
+    }
+  })
+
+  watchEffect(async () => {
+    if (prefix.value) {
+      const api = await apiInstanceByPrefix(prefix.value)
 
       // get chain symbol
       const chainInfo = await api.registry.getChainProperties()
@@ -60,6 +64,12 @@ export default function (prefix: ComputedRef<Prefix>) {
 
         chainSymbol.value = assetMetadata.symbol
       }
+    }
+  })
+
+  watchEffect(async () => {
+    if (prefix.value) {
+      const api = await apiInstanceByPrefix(prefix.value)
 
       // set balance
       if (accountId.value) {
