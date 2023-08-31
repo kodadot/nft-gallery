@@ -22,11 +22,15 @@ export default function (prefix: ComputedRef<Prefix>) {
   const metadataDeposit = ref(0)
   const existentialDeposit = ref(0)
 
+  const totalCollectionDeposit = ref('0')
+  const totalItemDeposit = ref('0')
+
   const chainSymbol = ref('')
 
   watchEffect(async () => {
     if (prefix.value) {
       const api = await apiInstanceByPrefix(prefix.value)
+      const chain = CHAINS[prefix.value]
 
       // set deposit amount
       existentialDeposit.value =
@@ -45,6 +49,19 @@ export default function (prefix: ComputedRef<Prefix>) {
         metadataDeposit.value =
           api.consts.uniques.metadataDepositBase.toNumber()
       }
+
+      totalCollectionDeposit.value = format(
+        metadataDeposit.value +
+          collectionDeposit.value +
+          existentialDeposit.value,
+        chain.tokenDecimals,
+        false
+      )
+      totalItemDeposit.value = format(
+        metadataDeposit.value + itemDeposit.value + existentialDeposit.value,
+        chain.tokenDecimals,
+        false
+      )
     }
   })
 
@@ -99,6 +116,8 @@ export default function (prefix: ComputedRef<Prefix>) {
     itemDeposit,
     metadataDeposit,
     existentialDeposit,
+    totalCollectionDeposit,
+    totalItemDeposit,
     chainSymbol,
   }
 }

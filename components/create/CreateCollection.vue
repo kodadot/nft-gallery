@@ -96,7 +96,7 @@
           <div class="monospace">
             <p class="has-text-weight-medium is-size-6 has-text-info">
               <span>{{ $t('mint.deposit') }}:</span>
-              <span>{{ depositAmount }} {{ chainSymbol }}</span>
+              <span>{{ totalCollectionDeposit }} {{ chainSymbol }}</span>
             </p>
             <p>
               <span>{{ $t('general.balance') }}: </span>
@@ -126,7 +126,7 @@
             <NeoIcon icon="circle-info" size="medium" class="mr-4" />
             <p class="is-size-7">
               A deposit of
-              <strong>{{ depositAmount }} {{ chainSymbol }}</strong>
+              <strong>{{ totalCollectionDeposit }} {{ chainSymbol }}</strong>
               is required to create a collection. Please note, this initial
               deposit is refundable.
               <a
@@ -151,6 +151,7 @@ import type {
   CollectionToMintKusama,
   CollectionToMintStatmine,
 } from '@/composables/transaction/types'
+import type { Prefix } from '@kodadot1/static'
 
 import {
   NeoButton,
@@ -164,8 +165,6 @@ import DropUpload from '@/components/shared/DropUpload.vue'
 import { availablePrefixes } from '@/utils/chain'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { CHAINS, Prefix } from '@kodadot1/static'
-import format from '@/utils/format/balance'
 import { makeSymbol } from '@kodadot1/minimark/shared'
 
 // props
@@ -202,18 +201,12 @@ const currentChain = computed(() => {
 })
 
 const { isAssetHub, isBasilisk, isRemark } = useIsChain(currentChain)
-const {
-  balance,
-  collectionDeposit,
-  metadataDeposit,
-  existentialDeposit,
-  chainSymbol,
-} = useDeposit(currentChain)
+const { balance, totalCollectionDeposit, chainSymbol } =
+  useDeposit(currentChain)
 
 // balance state
-const depositAmount = ref()
 const canDeposit = computed(() => {
-  return parseFloat(balance.value) >= parseFloat(depositAmount.value)
+  return parseFloat(balance.value) >= parseFloat(totalCollectionDeposit.value)
 })
 
 watchEffect(() => setUrlPrefix(currentChain.value as Prefix))
@@ -238,7 +231,7 @@ const createCollection = async () => {
     collection['nftCount'] = unlimited.value ? 0 : max.value
   }
 
-  if (depositAmount.value && canDeposit.value === false) {
+  if (totalCollectionDeposit.value && canDeposit.value === false) {
     return
   }
 
@@ -265,17 +258,6 @@ const createCollection = async () => {
     $consola.error(error)
   }
 }
-
-watchEffect(async () => {
-  const chain = CHAINS[currentChain.value]
-
-  // sum up deposit amount
-  depositAmount.value = format(
-    metadataDeposit.value + collectionDeposit.value + existentialDeposit.value,
-    chain.tokenDecimals,
-    false
-  )
-})
 
 onMounted(() => {
   symbol.value = makeSymbol()
