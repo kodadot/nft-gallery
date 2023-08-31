@@ -156,7 +156,9 @@ import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import type Vue from 'vue'
 import { useCountDown } from '../unlockable/utils/useCountDown'
 import {
+  VOTE_DROP_AHP_CAMPAIGN,
   VOTE_DROP_AHP_COLLECTION_ID,
+  VOTE_DROP_CAMPAIGN,
   VOTE_DROP_COLLECTION_ID,
   VOTE_DROP_DESCRIPTION,
   countDownTime,
@@ -305,7 +307,11 @@ const handleMint = async () => {
   const randomIndex = getRandomInt(imageList.value.length - 1)
   const image = resultList.value.at(randomIndex).image
 
-  const hash = await createUnlockableMetadata(image, VOTE_DROP_DESCRIPTION)
+  const hash = await createUnlockableMetadata(
+    image,
+    VOTE_DROP_DESCRIPTION,
+    collectionData.value?.collectionEntity.name
+  )
 
   const { accountId } = useAuth()
 
@@ -316,7 +322,7 @@ const handleMint = async () => {
         metadata: hash,
         image: image,
       },
-      urlPrefix.value === 'ahk' ? 'aye-ahk' : 'aye'
+      urlPrefix.value === 'ahk' ? VOTE_DROP_CAMPAIGN : VOTE_DROP_AHP_CAMPAIGN
     ).then((res) => {
       toast('mint success')
       return `${collectionId.value}-${res.result.sn}`

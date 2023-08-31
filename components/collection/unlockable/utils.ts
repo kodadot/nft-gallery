@@ -17,10 +17,9 @@ export const unlockableDesc = (value: number) => `
 
 export async function createUnlockableMetadata(
   imageHash: string,
-  description: string
+  description: string,
+  name: string = UNLOCKABLE_NAME
 ) {
-  const name = UNLOCKABLE_NAME
-
   const meta = createMetadata(
     name,
     description,

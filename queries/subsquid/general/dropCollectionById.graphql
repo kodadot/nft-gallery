@@ -1,6 +1,7 @@
 query dropCollectionById($id: String!, $account: String, $price: BigInt) {
   collectionEntity: collectionEntityById(id: $id) {
     id
+    name
     max
     nftCount
     issuer

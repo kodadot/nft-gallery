@@ -30,8 +30,6 @@ export const useCheckReferenDumVote = () => {
     if (votes.length > 0) {
       isEligibleUser.value = true
     }
-
-    console.log('checkReferenDumVote', votes)
   }
 
   return {
