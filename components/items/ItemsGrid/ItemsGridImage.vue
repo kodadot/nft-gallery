@@ -30,6 +30,17 @@
           <img :src="cartIcon" class="image is-16x16" />
         </NeoButton>
       </div>
+      <div v-else-if="isOwner" class="is-flex">
+        <NeoButton
+          :label="`List For Sale ${
+            listingCartStore.isItemInCart(nft.id) ? '✔' : ''
+          }`"
+          data-cy="item-buy"
+          no-shadow
+          class="is-flex-grow-1 btn-height"
+          @click.native.prevent="onClickListingCart">
+        </NeoButton>
+      </div>
     </template>
   </NeoNftCard>
 </template>
@@ -39,6 +50,7 @@ import { NeoButton, NeoNftCard } from '@kodadot1/brick'
 import type { NftCardVariant } from '@kodadot1/brick'
 import type { NFTWithMetadata } from '@/composables/useNft'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
+import { useListingCartStore } from '@/stores/listingCart'
 import { usePreferencesStore } from '@/stores/preferences'
 import { nftToShoppingCardItem } from '@/components/common/shoppingCart/utils'
 import { isOwner as checkOwner } from '@/utils/account'
@@ -49,6 +61,7 @@ const { accountId, isLogIn } = useAuth()
 const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
 const { unlockableIcon } = useUnlockableIcon()
 const shoppingCartStore = useShoppingCartStore()
+const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 
@@ -103,6 +116,14 @@ const onClickShoppingCart = () => {
     shoppingCartStore.removeItem(props.nft.id)
   } else {
     shoppingCartStore.setItem(nftToShoppingCardItem(props.nft))
+  }
+}
+
+const onClickListingCart = () => {
+  if (listingCartStore.isItemInCart(props.nft.id)) {
+    listingCartStore.removeItem(props.nft.id)
+  } else {
+    listingCartStore.setItem(nftToShoppingCardItem(props.nft))
   }
 }
 </script>
