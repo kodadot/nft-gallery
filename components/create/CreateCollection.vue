@@ -1,7 +1,10 @@
 <template>
-  <div class="columns is-centered">
+  <div class="is-centered" :class="{ columns: classColumn }">
     <Loader v-model="isLoading" :status="status" />
-    <form class="column is-half" @submit.prevent="createCollection">
+    <form
+      class="is-half"
+      :class="{ column: classColumn }"
+      @submit.prevent="createCollection">
       <h1 class="title is-size-3">
         {{ $t('mint.collection.create') }}
       </h1>
@@ -172,6 +175,16 @@ import { CHAINS, Prefix } from '@kodadot1/static'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 import format from '@/utils/format/balance'
 
+// props
+withDefaults(
+  defineProps<{
+    classColumn?: boolean
+  }>(),
+  {
+    classColumn: true,
+  }
+)
+
 // composables
 const { accountId } = useAuth()
 const { apiInstanceByPrefix } = useApi()
@@ -281,31 +294,46 @@ watchEffect(async () => {
   const api = await apiInstanceByPrefix(currentChain.value)
   const currentAddress = accountId.value
   const chain = CHAINS[currentChain.value]
-  const publicKey = decodeAddress(currentAddress)
-  const prefixAddress = encodeAddress(publicKey, chain.ss58Format)
+
   const chainInfo = await api.registry.getChainProperties()
+  depositSymbol.value = chainInfo?.tokenSymbol?.toHuman()?.[0]
 
-  balance.value = await balanceOf(api, prefixAddress)
+  try {
+    const collectionDeposit = api.consts.nfts.collectionDeposit.toString()
+    const itemDeposit = api.consts.nfts.itemDeposit.toString()
 
-  if (isBasilisk.value) {
-    depositTokenId.value = await getAssetIdByAccount(api, accountId.value)
-    depositSymbol.value = (
-      await getAssetMetadataById(api, depositTokenId.value)
-    ).symbol
-
-    if (depositAssetSymbol.value === 'KSM') {
-      balance.value = (
-        (await api.query.tokens.accounts(
-          prefixAddress,
-          getKusamaAssetId(currentChain.value)
-        )) as PalletBalancesAccountData
-      ).free.toString()
-    }
-  } else {
-    depositSymbol.value = chainInfo?.tokenSymbol?.toHuman()?.[0]
+    console.log({
+      collectionDeposit: format(collectionDeposit, chain.tokenDecimals, false),
+      itemDeposit: format(itemDeposit, chain.tokenDecimals, false),
+    })
+  } catch (error) {
+    console.log({ error })
   }
 
-  balance.value = format(balance.value, chain.tokenDecimals, false)
+  if (currentAddress) {
+    const publicKey = decodeAddress(currentAddress)
+    const prefixAddress = encodeAddress(publicKey, chain.ss58Format)
+
+    balance.value = await balanceOf(api, prefixAddress)
+
+    if (isBasilisk.value) {
+      depositTokenId.value = await getAssetIdByAccount(api, accountId.value)
+      depositSymbol.value = (
+        await getAssetMetadataById(api, depositTokenId.value)
+      ).symbol
+
+      if (depositAssetSymbol.value === 'KSM') {
+        balance.value = (
+          (await api.query.tokens.accounts(
+            prefixAddress,
+            getKusamaAssetId(currentChain.value)
+          )) as PalletBalancesAccountData
+        ).free.toString()
+      }
+    }
+
+    balance.value = format(balance.value, chain.tokenDecimals, false)
+  }
 })
 </script>
 
@@ -314,10 +342,6 @@ watchEffect(async () => {
 
 .o-field:not(:last-child) {
   margin-bottom: 2rem;
-}
-
-.file {
-  margin-bottom: 0;
 }
 
 .column {

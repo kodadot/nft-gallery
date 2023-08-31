@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import CreateCollection from '@/components/create/Collection.vue'
+import CreateCollection from '@/components/create/CreateCollection.vue'
 
 export default {
   components: {
