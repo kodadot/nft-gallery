@@ -286,6 +286,7 @@ watchEffect(async () => {
   collectionDeposit.value = depositAmount[currentChain.value]?.collection || 0
 })
 
+// TODO: move to composables
 watchEffect(async () => {
   balance.value = 0
   depositTokenId.value = 0
@@ -295,10 +296,12 @@ watchEffect(async () => {
   const currentAddress = accountId.value
   const chain = CHAINS[currentChain.value]
 
+  // get default symbol
   const chainInfo = await api.registry.getChainProperties()
   depositSymbol.value = chainInfo?.tokenSymbol?.toHuman()?.[0]
 
   try {
+    // TODO: check deposit for asset hub and basilisk
     const collectionDeposit = api.consts.nfts.collectionDeposit.toString()
     const itemDeposit = api.consts.nfts.itemDeposit.toString()
 
