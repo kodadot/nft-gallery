@@ -8,26 +8,29 @@ interface State {
 }
 
 const localStorage = useLocalStorage<ShoppingCartItem[]>('listingCart', [])
-const items = () => localStorage.value
-
 export const useListingCartStore = defineStore('listingCart', {
   state: (): State => ({
-    items: items(),
+    items: localStorage.value,
   }),
   getters: {
-    getItems: () => items(),
-    getItemsByPrefix: () => (prefix: string) =>
-      items().filter((item) => item.urlPrefix === prefix),
-    getItem: () => (id: ID) => items().find((item) => item.id === id),
-    isItemInCart: () => (id: ID) =>
-      items().find((item) => item.id === id) !== undefined,
+    getItems: () => this.items,
   },
 
   actions: {
+    getItemsByPrefix(prefix: string) {
+      this.items.filter((item) => item.urlPrefix === prefix)
+    },
+    getItem(id: ID) {
+      return this.items.find((item) => item.id === id)
+    },
+    isItemInCart(id: ID) {
+      return this.existInItemIndex(id) !== -1
+    },
+    existInItemIndex(id: string) {
+      return this.items.findIndex((item) => item.id === id)
+    },
     setItem(payload: ShoppingCartItem) {
-      const existInItemIndex = this.items.findIndex(
-        (item) => item.id === payload.id
-      )
+      const existInItemIndex = this.existInItemIndex(payload.id)
       if (existInItemIndex === -1) {
         this.items.push(payload)
         localStorage.value = this.items
@@ -37,12 +40,8 @@ export const useListingCartStore = defineStore('listingCart', {
       }
     },
     updateItem(payload: ShoppingCartItem) {
-      const existInItemIndex = items().findIndex(
-        (item) => item.id === payload.id
-      )
-      if (existInItemIndex === -1) {
-        return
-      } else {
+      const existInItemIndex = this.existInItemIndex(payload.id)
+      if (existInItemIndex !== -1) {
         this.items[existInItemIndex] = {
           ...this.items[existInItemIndex],
           ...payload,
@@ -51,17 +50,15 @@ export const useListingCartStore = defineStore('listingCart', {
       }
     },
     removeItem(id: ID) {
-      const existInItemIndex = this.items.findIndex((item) => item.id === id)
-      if (existInItemIndex === -1) {
-        return
-      } else {
+      const existInItemIndex = this.existInItemIndex(id)
+      if (existInItemIndex !== -1) {
         this.items.splice(existInItemIndex, 1)
         localStorage.value = this.items
       }
     },
     clear() {
-      localStorage.value = []
       this.items = []
+      localStorage.value = []
     },
     setItems(payload: ShoppingCartItem[]) {
       this.items = payload
