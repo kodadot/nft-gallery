@@ -1,4 +1,4 @@
-# @kodadot1/static
+# @kodadot1/content
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
@@ -13,70 +13,47 @@ Install package:
 
 ```sh
 # npm
-npm install @kodadot1/static
+npm install @kodadot1/content
 
 # yarn
-yarn add @kodadot1/static
+yarn add @kodadot1/content
 
 # pnpm
-pnpm install @kodadot1/static
+pnpm install @kodadot1/content
 ```
 
 Import:
 
 ```js
 // ESM
-import * as static from "@kodadot1/static";
+import * as static from "@kodadot1/content";
 
 // CommonJS
-const static = require("@kodadot1/static");
+const static = require("@kodadot1/content");
 ```
 
-## Available config files
+## Available files
 
-### 🔧 chains
+### 🔧 normalize
 
-Static chain files such as decimals, symbol, ss58
+Unifying data structure into one format
 
-```js
-import { CHAINS } from "@kodadot1/static";
-```
+- attributeFrom - unify attribute to one format
+- contentFrom - unify metadata to one format
+- normalize - sanitize content fields to one format
 
-### 🔧 endpoints
+### 🔧 utils
 
-Map of RPC endpoints for each chain
-
-```js
-import { ENDPOINT_MAP } from "@kodadot1/static";
-```
-
-### 🔧 indexers
-
-Map of subsquid indexer endpoints for each chain
-
-```js
-import { INDEXERS, APOLLO_ENDPOINTS, toApolloEndpoint } from "@kodadot1/static";
-```
-
-### 🔧 names
-
-Map of chain names for each chain. Suitable for frontend
-
-```js
-import { NAMES } from "@kodadot1/static";
-```
-
-### 🔧 services
-
-Map of clodflare workers we use
-
-```js
-import { SERVICES } from "@kodadot1/static";
-```
+Misc utils for manipulating with data
 
 ### 🔧 types
 
-Misc types for each config
+Misc types for metadata namely:
+
+- OpenSea
+- FxHash
+- Tezos (TZIP-16)
+- ERC-5773
 
 ## License
 
@@ -86,11 +63,11 @@ Published under [MIT License](./LICENSE).
 
 <!-- Badges -->
 
-[npm-version-src]: https://img.shields.io/npm/v/@kodadot1/static?style=flat-square
-[npm-version-href]: https://npmjs.com/package/@kodadot1/static
-[npm-downloads-src]: https://img.shields.io/npm/dm/@kodadot1/static?style=flat-square
-[npm-downloads-href]: https://npmjs.com/package/@kodadot1/static
-[github-actions-src]: https://img.shields.io/github/actions/workflow/status/@kodadot1/static/ci.yml?branch=main&style=flat-square
-[github-actions-href]: https://github.com/@kodadot1/static/actions?query=workflow%3Aci
-[codecov-src]: https://img.shields.io/codecov/c/gh/@kodadot1/static/main?style=flat-square
-[codecov-href]: https://codecov.io/gh/@kodadot1/static
+[npm-version-src]: https://img.shields.io/npm/v/@kodadot1/content?style=flat-square
+[npm-version-href]: https://npmjs.com/package/@kodadot1/content
+[npm-downloads-src]: https://img.shields.io/npm/dm/@kodadot1/content?style=flat-square
+[npm-downloads-href]: https://npmjs.com/package/@kodadot1/content
+[github-actions-src]: https://img.shields.io/github/actions/workflow/status/@kodadot1/content/ci.yml?branch=main&style=flat-square
+[github-actions-href]: https://github.com/@kodadot1/content/actions?query=workflow%3Aci
+[codecov-src]: https://img.shields.io/codecov/c/gh/@kodadot1/content/main?style=flat-square
+[codecov-href]: https://codecov.io/gh/@kodadot1/content
