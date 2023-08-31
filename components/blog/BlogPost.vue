@@ -1,35 +1,80 @@
 <template>
-  <div class="article">
-    <div
-      class="is-flex is-justify-content-space-between has-text-grey is-size-5">
-      <div>{{ attributes.tags }}</div>
-      <div v-if="attributes.date">
-        {{ format(new Date(attributes.date), 'dd.MM.yyyy') }}
-      </div>
+  <div v-if="attributes.title" class="article">
+    <div class="is-flex is-align-items-center has-text-grey is-size-5 mb-1">
+      <nuxt-link class="has-text-grey" to="/blog">{{ $t('blog') }}</nuxt-link>
+      <NeoIcon icon="chevron-right" pack="far" class="mx-5" />
+      <span>{{ attributes.title?.slice(0, 15) }}...</span>
     </div>
     <h1>{{ attributes.title }}</h1>
     <p v-if="attributes.subtitle" class="subtitle">{{ attributes.subtitle }}</p>
+
+    <div
+      class="is-flex is-justify-content-space-between is-align-items-center has-text-grey mt-5">
+      <div
+        v-if="attributes.date"
+        class="border border-k-shade fixed-border-radius px-4 py-1">
+        {{ format(new Date(attributes.date), 'dd.MM.yyyy') }}
+      </div>
+
+      <div>
+        <NeoButton
+          icon="x-twitter"
+          icon-pack="fab"
+          no-shadow
+          class="no-border is-text is-size-4 p-0 mr-4"
+          @click.native="openShareUrl('twitter')" />
+
+        <NeoButton
+          icon="linkedin"
+          icon-pack="fab"
+          no-shadow
+          class="no-border is-text is-size-4 p-0"
+          @click.native="openShareUrl('linkedin')" />
+      </div>
+    </div>
     <img
       v-if="attributes.image"
       :src="attributes.image"
       :alt="attributes.title"
+      class="mt-5"
       width="100%" />
     <component :is="singlePostComponent" />
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { format } from 'date-fns'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { convertMarkdownToText } from '@/utils/markdown'
 import { nextTick } from 'vue'
 import hljs from 'highlight.js'
-
+import { URLS } from '@/utils/constants'
 const { $seoMeta } = useNuxtApp()
 const route = useRoute()
 
 const slug = route.params.slug
-const attributes = ref({})
+const attributes = ref<{
+  image?: string
+  title?: string
+  date?: string
+  subtitle?: string
+}>({})
 const singlePostComponent = ref('')
+
+const openShareUrl = (platform: 'twitter' | 'linkedin') => {
+  let shareUrl = ''
+  switch (platform) {
+    case 'twitter':
+      shareUrl = 'https://twitter.com/intent/tweet?text='
+      break
+    case 'linkedin':
+      shareUrl = 'https://www.linkedin.com/shareArticle?mini=true&url='
+      break
+  }
+  const currentUrl = `${URLS.koda.baseUrl}${location.pathname}`
+
+  window.open(`${shareUrl}${encodeURIComponent(currentUrl)}`, '_blank')
+}
 
 onMounted(async () => {
   const post = await import(`~/content/blog/${slug}.md`)
@@ -95,6 +140,10 @@ html.dark-mode {
     }
   }
 
+  .fixed-border-radius {
+    border-radius: 3rem;
+  }
+
   h1,
   h2,
   h3,
@@ -129,9 +178,14 @@ html.dark-mode {
     margin: 2.5rem 0;
   }
 
-  p {
+  p,
+  li {
     font-size: 20px;
     line-height: 30px;
+  }
+
+  li {
+    margin: 0 1.5rem;
   }
 
   @include ktheme() {
@@ -173,7 +227,8 @@ html.dark-mode {
     }
 
     h2,
-    p {
+    p,
+    li {
       font-size: 1rem;
     }
 

@@ -293,26 +293,23 @@ export const computeAndUpdateCollection = (
   }
 }
 
-export const mergeCollection = (
-  collection: Collection,
-  metadata: CollectionMetadata,
-  shouldSanitize = false
-): CollectionWithMeta => ({
-  ...collection,
-  ...metadata,
-  image: shouldSanitize
-    ? sanitizeIpfsUrl(metadata.image || '')
-    : metadata.image,
-})
+type MergedData<T> = T extends Collection
+  ? CollectionWithMeta
+  : T extends NFT
+  ? NFTWithMeta
+  : never
 
-export const mergeNFT = (
-  nft: NFT,
-  metadata: NFTMetadata,
+export const mergeNFTCollection = <T extends Collection | NFT>(
+  item: T,
+  metadata: T extends Collection ? CollectionMetadata : NFTMetadata,
   shouldSanitize = false
-): NFTWithMeta => ({
-  ...nft,
-  ...metadata,
-  image: shouldSanitize
-    ? sanitizeIpfsUrl(metadata.image || '')
-    : metadata.image,
-})
+): MergedData<T> => {
+  const merged = {
+    ...item,
+    ...metadata,
+    image: shouldSanitize
+      ? sanitizeIpfsUrl(metadata.image || '')
+      : metadata.image,
+  }
+  return merged as unknown as MergedData<T>
+}
