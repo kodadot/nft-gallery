@@ -13,9 +13,8 @@ export const useListingCartStore = defineStore('listingCart', {
     items: localStorage.value,
   }),
   getters: {
-    getItems: () => this.items,
+    getItems: (state) => state.items,
   },
-
   actions: {
     getItemsByPrefix(prefix: string) {
       this.items.filter((item) => item.urlPrefix === prefix)
