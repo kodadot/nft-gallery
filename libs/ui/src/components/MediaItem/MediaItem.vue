@@ -68,9 +68,9 @@ const props = withDefaults(
     placeholder: '',
   }
 )
-// props.mimeType may be empty string
-let mimeType = ref(!!props.mimeType ? props.mimeType : 'image/png')
-let isLewdBlurredLayer = ref(props.isLewd)
+// props.mimeType may be empty string "". Add `image/png` as fallback
+const mimeType = ref(!!props.mimeType ? props.mimeType : 'image/png')
+const isLewdBlurredLayer = ref(props.isLewd)
 const components = {
   ImageMedia,
   VideoMedia,
