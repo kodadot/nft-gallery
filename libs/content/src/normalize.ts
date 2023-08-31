@@ -9,6 +9,7 @@ import {
   PluralAttribute,
   SanitizerFunc,
   TezosAttribute,
+  TezosMetadata,
 } from './types'
 
 export function attributeFrom(attr: OpenSeaAttribute): Attribute
@@ -29,12 +30,13 @@ export function attributeFrom(attr: any): Attribute {
 
 export function contentFrom(meta: OpenSeaMetadata): Content
 export function contentFrom(meta: FXHashMetadata): Content
+export function contentFrom(meta: TezosMetadata): Content
 export function contentFrom(meta: PluralAssetMetadata): Content
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function contentFrom(meta: any): Content {
   const description = meta.description || ''
   const thumbnail = meta.thumbnailUri || meta.thumbnail
-  const image = meta.image || thumbnail || meta.mediaUri || meta.displayUri
+  const image = meta.image || meta.displayUri || thumbnail || meta.mediaUri
   const animationUrl = meta.animation_url || meta.mediaUri || meta.artifactUri
   const attributes = meta.attributes?.map(attributeFrom) || []
   const name = meta.name
