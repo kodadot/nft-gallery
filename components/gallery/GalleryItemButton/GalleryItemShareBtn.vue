@@ -9,11 +9,7 @@
           :active="active" />
       </template>
 
-      <NeoDropdownItem
-        v-clipboard:copy="realworldFullPathShare"
-        @click="toast(String($t('toast.urlCopy')))">
-        Copy Link
-      </NeoDropdownItem>
+      <NeoDropdownItem @click="handleCopy"> Copy Link </NeoDropdownItem>
       <NeoDropdownItem @click="isModalActive = true">QR Code</NeoDropdownItem>
       <NeoDropdownItem @click="actionTwitterShare">
         Share On Twitter
@@ -50,6 +46,7 @@ const QRCode = () => import('@/components/shared/QRCode.vue')
 const route = useRoute()
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
+const { copy, copied } = useCopyClipboard()
 
 const isModalActive = ref(false)
 const sharingTxt = $i18n.t('sharing.nft')
@@ -63,5 +60,12 @@ const icon = computed(() => (isMobileDevice ? 'share' : ''))
 
 const actionTwitterShare = (): void => {
   window.open(twitterUri.value, '_blank')
+}
+
+function handleCopy() {
+  copy(realworldFullPathShare.value)
+  if (copied) {
+    toast(`${$i18n.t('toast.urlCopy')}`)
+  }
 }
 </script>

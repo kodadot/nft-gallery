@@ -3,10 +3,7 @@
     <a v-safe-href="explorerLink" class="identity-name has-text-weight-bold">
       {{ shortenedAddress }}
     </a>
-    <a
-      v-if="showClipboard"
-      v-clipboard:copy="address"
-      @click="toast('Copied to clipboard')">
+    <a v-if="showClipboard" @click="handleCopy">
       <svg
         width="13"
         height="13"
@@ -35,8 +32,16 @@ const props = defineProps<{
 }>()
 const { toast } = useToast()
 const { urlPrefix } = usePrefix()
+const { copy, copied } = useCopyClipboard()
 
 const explorerLink = computed(() =>
   getExplorer(urlPrefix.value as Prefix, String(props.address))
 )
+
+function handleCopy() {
+  copy(String(props.address))
+  if (copied) {
+    toast('Copied to clipboard')
+  }
+}
 </script>

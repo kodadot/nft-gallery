@@ -12,9 +12,7 @@
               :active="active" />
           </template>
 
-          <NeoDropdownItem
-            v-clipboard:copy="currentUrl"
-            @click="toast(`${$i18n.t('toast.urlCopy')}`)">
+          <NeoDropdownItem @click="handleCopy">
             {{ $i18n.t('share.copyLink') }}
           </NeoDropdownItem>
           <NeoDropdownItem @click="QRModalActive = true">
@@ -61,6 +59,14 @@ const hashtags = 'KusamaNetwork,KodaDot'
 const sharingLabel = $i18n.t('sharing.collection')
 
 const { toast } = useToast()
+const { copy, copied } = useCopyClipboard()
+
+function handleCopy() {
+  copy(currentUrl.value)
+  if (copied) {
+    toast(`${$i18n.t('toast.urlCopy')}`)
+  }
+}
 </script>
 
 <style lang="scss" scoped>

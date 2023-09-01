@@ -28,9 +28,7 @@
               :active="active" />
           </template>
 
-          <NeoDropdownItem
-            v-clipboard:copy="generatePaymentLink(accountId)"
-            @click="toast(`${$i18n.t('toast.urlCopy')}`)">
+          <NeoDropdownItem @click="handleCopy">
             <NeoIcon icon="sack-dollar" pack="fa" class="mr-2" />{{
               $t('transfers.payMeLink')
             }}
@@ -53,10 +51,7 @@
             <span class="ml-2">
               <Identity :address="accountId" hide-identity-popover />
             </span>
-            <a
-              v-clipboard:copy="accountId"
-              class="ml-2"
-              @click="toast(`${$i18n.t('general.copyToClipboard')}`)">
+            <a class="ml-2" @click="handleCopyAccount">
               <NeoIcon icon="copy" />
             </a>
           </div>
@@ -302,6 +297,7 @@ const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
 const { initTransactionLoader, isLoading, resolveStatus, status } =
   useTransactionStatus()
 const { toast } = useToast()
+const { copy, copied } = useCopyClipboard()
 const isTransferModalVisible = ref(false)
 const isLoaderModalVisible = ref(false)
 
@@ -339,6 +335,20 @@ const targetAddresses = ref<TargetAddress[]>([{ address: '' }])
 const hasValidTarget = computed(() =>
   targetAddresses.value.some((item) => isAddress(item.address) && item.token)
 )
+
+function handleCopyAccount() {
+  copy(accountId.value)
+  if (copied) {
+    toast(`${$i18n.t('general.copyToClipboard')}`)
+  }
+}
+
+function handleCopy() {
+  copy(generatePaymentLink(accountId))
+  if (copied) {
+    toast(`${$i18n.t('toast.urlCopy')}`)
+  }
+}
 
 const getDisplayUnitBasedValues = (
   usdValue: number,

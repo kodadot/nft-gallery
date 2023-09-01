@@ -71,11 +71,10 @@
 
             <div class="divider" />
             <NeoButton
-              v-clipboard:copy="id"
               variant="text"
               :label="$t('share.copyAddress')"
               no-shadow
-              @click.native="toast(`${$i18n.t('general.copyToClipboard')}`)" />
+              @click.native="handleCopy" />
             <div class="divider" />
             <NeoButton
               variant="text"
@@ -174,6 +173,8 @@ const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
+const { $i18n } = useNuxtApp()
+const { copy, copied } = useCopyClipboard()
 const tabs = ['owned', 'created', 'collections', 'activity']
 
 const switchToTab = (tab: string) => {
@@ -236,6 +237,13 @@ const handleIdentity = (identityFields: Record<string, string>) => {
   riot.value = identityFields?.riot
   web.value = identityFields?.web
   legal.value = identityFields?.legal
+}
+
+function handleCopy() {
+  copy(id.value)
+  if (copied) {
+    toast(`${$i18n.t('general.copyToClipboard')}`)
+  }
 }
 </script>
 

@@ -41,10 +41,7 @@
               data-cy="share-button"
               :active="active" />
           </template>
-
-          <NeoDropdownItem
-            v-clipboard:copy="currentCollectionUrl"
-            @click="toast(`${$i18n.t('toast.urlCopy')}`)">
+          <NeoDropdownItem @click="handleCopy">
             {{ $i18n.t('share.copyLink') }}
           </NeoDropdownItem>
           <NeoDropdownItem @click="QRModalActive = true">
@@ -123,6 +120,7 @@ const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
+const { copy, copied } = useCopyClipboard()
 
 const collectionId = computed(() => route.params.id)
 const currentCollectionUrl = computed(
@@ -157,6 +155,13 @@ const QRModalActive = ref(false)
 
 const hashtags = 'KusamaNetwork,KodaDot'
 const sharingLabel = $i18n.t('sharing.collection')
+
+function handleCopy() {
+  copy(currentCollectionUrl.value)
+  if (copied) {
+    toast(`${$i18n.t('toast.urlCopy')}`)
+  }
+}
 </script>
 
 <style lang="scss" scoped>

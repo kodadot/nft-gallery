@@ -6,7 +6,7 @@
       :prefix="urlPrefix"
       variant="button" />
     <div class="is-flex is-flex-direction-column">
-      <a v-clipboard:copy="account" @click="toast('Copied to clipboard')">
+      <a @click="handleCopy">
         <NeoIcon icon="copy" />
       </a>
       <hr class="my-1" />
@@ -27,6 +27,7 @@ const identityStore = useIdentityStore()
 const shoppingCartStore = useShoppingCartStore()
 const { urlPrefix } = usePrefix()
 const { toast } = useToast()
+const { copy, copied } = useCopyClipboard()
 
 const account = computed(() => identityStore.getAuthAddress)
 
@@ -39,5 +40,12 @@ const logout = () => {
   sessionStorage.clear()
   localStorage.clear()
   shoppingCartStore.clear()
+}
+
+function handleCopy() {
+  copy(account.value)
+  if (copied) {
+    toast('Copied to clipboard')
+  }
 }
 </script>

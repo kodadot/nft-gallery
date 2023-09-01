@@ -69,15 +69,12 @@
             :label="$i18n.t('transactionLoader.showTransaction')" />
 
           <NeoButton
-            v-clipboard:copy="explorerLink"
             icon="copy"
             icon-pack="far"
             class="ml-4 px-4"
             rounded
             no-shadow
-            @click.native="
-              toast($i18n.t('transactionLoader.copyTransactionLink'))
-            " />
+            @click.native="handleCopy" />
         </div>
       </div>
     </div>
@@ -107,6 +104,7 @@ const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { blocktime } = useBlockTime()
 const { toast } = useToast()
+const { copy, copied } = useCopyClipboard()
 
 const estmiatedTimeLeft = computed(() => {
   switch (props.status) {
@@ -160,6 +158,13 @@ const checkIconForStep = (step: number) =>
   activeStep.value > step || activeStep.value === steps.length
     ? 'check'
     : undefined
+
+function handleCopy() {
+  copy(explorerLink.value)
+  if (copied) {
+    toast($i18n.t('transactionLoader.copyTransactionLink'))
+  }
+}
 </script>
 
 <style scoped lang="scss">
