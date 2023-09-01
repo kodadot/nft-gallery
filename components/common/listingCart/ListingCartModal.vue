@@ -153,7 +153,7 @@ async function confirm() {
       await transaction({
         interaction: Interaction.LIST,
         urlPrefix,
-        token: token[0],
+        token,
         successMessage: $i18n.t('transaction.price.success') as string,
         errorMessage: $i18n.t('transaction.price.error') as string,
       })
