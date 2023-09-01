@@ -87,8 +87,6 @@
 
 <script lang="ts" setup>
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { hexToString, isHex } from '@polkadot/util'
-import { Data } from '@polkadot/types'
 import { NeoField, NeoIcon, NeoInput, NeoTooltip } from '@kodadot1/brick'
 
 const Auth = defineAsyncComponent(() => import('@/components/shared/Auth.vue'))
@@ -105,8 +103,6 @@ const SubmitButton = defineAsyncComponent(
   () => import('@/components/base/SubmitButton.vue')
 )
 
-type IdentityFields = Record<string, string>
-
 const { $i18n } = useNuxtApp()
 import { useIdentityStore } from '@/stores/identity'
 
@@ -116,23 +112,16 @@ const { urlPrefix } = usePrefix()
 const identityStore = useIdentityStore()
 const { howAboutToExecute, isLoading, initTransactionLoader, status } =
   useMetaTransaction()
-const identity = ref<Record<string, string>>({
-  display: '',
-  email: '',
-  web: '',
-  twitter: '',
-  discord: '',
-  riot: '',
-  legal: '',
-})
+
 const deposit = ref('0')
 const inputLengthLimit = ref(32)
 
+const { identity } = useIdentity({
+  address: accountId,
+})
+
 const handleUrlPrefixChange = async () => {
-  ;[deposit.value, identity.value] = await Promise.all([
-    fetchDeposit(),
-    fetchIdentity(accountId.value),
-  ])
+  deposit.value = await fetchDeposit()
 
   if (Number(identityStore.getAuthBalance) === 0) {
     identityStore.fetchBalance({ address: accountId.value })
@@ -150,35 +139,9 @@ const enhanceIdentityData = (): Record<string, any> => {
   )
 }
 
-const handleRaw = (display: Data): string => {
-  if (display?.isRaw) {
-    return display.asRaw.toHuman() as string
-  }
-
-  if (isHex((display as any)?.Raw)) {
-    return hexToString((display as any)?.Raw)
-  }
-
-  return display?.toString()
-}
-
 const fetchDeposit = async () => {
   const api = await apiInstance.value
   return api.consts.identity?.basicDeposit?.toString()
-}
-
-const fetchIdentity = async (address: string): Promise<IdentityFields> => {
-  const api = await apiInstance.value
-  const optionIdentity = await api?.query.identity?.identityOf(address)
-  const identity = optionIdentity?.unwrapOrDefault()
-  const final = Array.from(identity?.info || {})
-    .filter(([, value]) => !Array.isArray(value) && !value.isEmpty)
-    .reduce((acc, [key, value]) => {
-      acc[key] = handleRaw(value as unknown as Data)
-      return acc
-    }, {} as IdentityFields)
-
-  return final
 }
 
 const submit = async (): Promise<void> => {
@@ -203,7 +166,7 @@ const disabled = computed(
 watch(
   urlPrefix,
   async () => {
-    handleUrlPrefixChange()
+    accountId.value && handleUrlPrefixChange()
   },
   { immediate: true }
 )

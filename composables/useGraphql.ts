@@ -17,6 +17,7 @@ export default function ({
   clientName = '',
   variables = {},
   options = {},
+  disabled = computed(() => false),
   data = ref(),
   error = ref(),
   loading = ref(true),
@@ -61,10 +62,12 @@ export default function ({
     })
   }
 
-  if (isRef(variables)) {
-    watchEffect(() => doFetch())
-  } else {
-    doFetch()
+  if (!disabled.value) {
+    if (isRef(variables)) {
+      watchEffect(() => doFetch())
+    } else {
+      doFetch()
+    }
   }
 
   return {

@@ -55,6 +55,8 @@ export const URLS = {
     marck: 'https://squid.subsquid.io/marck/graphql',
     stick: 'https://squid.subsquid.io/stick/graphql',
     speck: 'https://squid.subsquid.io/speck/v/v2/graphql',
+    gsPolkdot: 'https://squid.subsquid.io/gs-main-polkadot/graphql',
+    gsKusama: 'https://squid.subsquid.io/gs-main-kusama/graphql',
     replicate: 'https://replicate.kodadot.workers.dev/',
     search: 'https://polysearch.w.kodadot.xyz',
     baseUrl: 'https://kodadot.xyz',
@@ -77,6 +79,8 @@ export const apolloClientConfig = {
   rmrk2: toApolloEndpoint(URLS.koda.marck),
   ahk: toApolloEndpoint(URLS.koda.stick),
   ahp: toApolloEndpoint(URLS.koda.speck),
+  pid: toApolloEndpoint(URLS.koda.gsPolkdot),
+  kid: toApolloEndpoint(URLS.koda.gsKusama),
 }
 
 export const NFT_SQUID_SORT_CONDITION_LIST: string[] = [

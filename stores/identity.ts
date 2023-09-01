@@ -224,20 +224,6 @@ export const useIdentityStore = defineStore('identity', {
         consola.error('[FETCH BALANCE] Unable to get user balance', e)
       }
     },
-    async fetchIdentity(address: string) {
-      // useIdentity()
-      const { apiInstance } = useApi()
-      try {
-        const api = await apiInstance.value
-        const optionIdentity = await identityOf(api, address)
-        const identity = optionIdentity?.unwrapOr(null)
-        if (identity) {
-          this.identities[address] = identity
-        }
-      } catch (e) {
-        consola.error('[FETCH IDENTITY] Unable to get identity', e)
-      }
-    },
     setMultiBalances({ address, chains, chainName }) {
       this.multiBalances = {
         ...this.multiBalances,

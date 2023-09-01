@@ -1,0 +1,15 @@
+query identityById($id: String!) {
+  identity: identityById(id: $id) {
+    id
+    display
+    email
+    riot
+    twitter
+    image
+    web
+    additional {
+      name
+      value
+    }
+  }
+}

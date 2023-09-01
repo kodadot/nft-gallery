@@ -116,7 +116,6 @@ import {
 } from '@kodadot1/brick'
 import { isOwner as checkOwner } from '@/utils/account'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
-import useIdentity from '@/components/identity/utils/useIdentity'
 
 const route = useRoute()
 const { accountId } = useAuth()
@@ -134,17 +133,13 @@ const { collection } = useCollectionMinimal({
 })
 const collectionIssuer = computed(() => collection.value?.issuer)
 
-const { discord, twitter, instagram, whichIdentity } = useIdentity({
+const { discord, twitter, instagram } = useIdentity({
   address: collectionIssuer,
 })
 
 const openUrl = (url: string) => {
   window.open(url, '_blank')
 }
-
-watch(collectionIssuer, () => {
-  whichIdentity(collectionIssuer.value)
-})
 
 const displaySeperator = computed(
   () => discord.value || twitter.value || instagram.value
