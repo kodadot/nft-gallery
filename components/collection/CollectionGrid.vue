@@ -118,12 +118,11 @@ const fetchPageData = async (page: number, loadDirection = 'down') => {
         first: first.value,
         offset: (page - 1) * first.value,
       }
-  const result = await $apollo.query({
-    query: collectionListWithSearch,
-    client: client.value,
-    variables,
-  })
-  await handleResult(result, loadDirection)
+  const { data: result } = await useAsyncQuery(
+    collectionListWithSearch,
+    variables
+  )
+  handleResult(result.value, loadDirection)
   isFetchingData.value = false
   return true
 }
@@ -157,7 +156,7 @@ watch(isLoading, (val) => emit('isLoading', val))
 
 const skeletonCount = first.value
 
-const handleResult = async ({ data }: any, loadDirection = 'down') => {
+const handleResult = (data, loadDirection = 'down') => {
   total.value = data.stats.totalCount
   const newCollections = data.collectionEntities.map((e: any) => ({
     ...e,
