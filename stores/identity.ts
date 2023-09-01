@@ -1,4 +1,4 @@
-import { balanceOf, identityOf } from '@kodadot1/sub-api'
+import { balanceOf } from '@kodadot1/sub-api'
 import { Registration } from '@polkadot/types/interfaces/identity/types'
 import { defineStore } from 'pinia'
 import consola from 'consola'

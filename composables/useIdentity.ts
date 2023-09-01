@@ -12,8 +12,6 @@ export default function useIdentity({
   address: ComputedRef
   customNameOption?: string
 }) {
-  const isFetchingIdentity = ref(false)
-
   const { urlPrefix } = usePrefix()
 
   const publicKey = computed(
