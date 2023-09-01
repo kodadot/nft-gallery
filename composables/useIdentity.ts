@@ -1,4 +1,4 @@
-import { accountToPublicKey } from '@/utils/account'
+import { accountToPublicKey, getss58AddressByPrefix } from '@/utils/account'
 import { ComputedRef } from 'vue/types'
 
 import shortAddress from '@/utils/shortAddress'
@@ -13,18 +13,22 @@ export default function useIdentity({
   customNameOption?: string
 }) {
   const { urlPrefix } = usePrefix()
-
-  const publicKey = computed(
-    () => address.value && accountToPublicKey(address.value)
+  const isDotAddress = computed(() => ['dot', 'ahp'].includes(urlPrefix.value))
+  const id = computed(
+    () =>
+      address.value &&
+      (isDotAddress.value
+        ? accountToPublicKey(address.value)
+        : getss58AddressByPrefix(address.value, 'ksm'))
   )
 
   const identity = computed<IdentityFields>(() => data.value?.identity || {})
 
   const { data, refetch, loading } = useGraphql({
-    clientName: ['dot', 'ahp'].includes(urlPrefix.value) ? 'pid' : 'kid',
+    clientName: isDotAddress.value ? 'pid' : 'kid',
     queryName: 'identityById',
     variables: {
-      id: publicKey.value,
+      id: id.value,
     },
     disabled: computed(() => !address.value),
   })
