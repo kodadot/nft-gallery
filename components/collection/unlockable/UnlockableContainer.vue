@@ -156,7 +156,7 @@ import { useCountDown } from './utils/useCountDown'
 const Loader = defineAsyncComponent(
   () => import('@/components/collection/unlockable/UnlockableLoader.vue')
 )
-const { $neoModal } = useNuxtApp()
+const { neoModal } = useProgrammatic()
 const root = ref<Vue<Record<string, string>>>()
 
 const { toast } = useToast()
@@ -271,8 +271,7 @@ const description = unlockableDesc(40)
 
 const handleSubmitMint = async () => {
   if (!isLogIn.value) {
-    $neoModal.open({
-      parent: root?.value,
+    neoModal.open({
       ...ConnectWalletModalConfig,
     })
     return

@@ -251,13 +251,8 @@ const openWalletConnectModal = (): void => {
   neoModal.closeAll()
 
   const modalInstance = neoModal.open({
-    parent: instance?.proxy,
     ...ConnectWalletModalConfig,
     ...(isMobileWithoutTablet.value ? { animation: 'none' } : {}),
-  })
-
-  modalInstance.$once('close', () => {
-    showMobileNavbar()
   })
 }
 

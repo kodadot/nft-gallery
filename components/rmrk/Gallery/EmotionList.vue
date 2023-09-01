@@ -38,8 +38,7 @@ import Identity from '@/components/identity/IdentityIndex.vue'
 
 const issuerId = (emotion: Emotion) => emotion.caller
 const DISPLAYED_EMOJI = 5
-const { $neoModal } = useNuxtApp()
-const instance = getCurrentInstance()
+const { neoModal } = useProgrammatic()
 
 const props = defineProps<{
   emotions: []
@@ -60,8 +59,7 @@ const parseEmoji = (codepoint): string => {
 }
 
 const openEmotionModal = () => {
-  $neoModal.open({
-    parent: instance?.proxy,
+  neoModal.open({
     component: EmotionModal,
     canCancel: ['escape', 'outside'],
     hasModalCard: true,

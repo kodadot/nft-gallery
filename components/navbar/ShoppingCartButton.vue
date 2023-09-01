@@ -37,8 +37,6 @@ const props = defineProps<{
   showLabel: boolean
 }>()
 
-const instance = getCurrentInstance()
-
 const emit = defineEmits(['closeBurgerMenu'])
 const isMobile = ref(window.innerWidth < 1024)
 const isMobileWithoutTablet = ref(window.innerWidth < 768)
@@ -48,24 +46,11 @@ function toggleShoppingCartModal() {
     emit('closeBurgerMenu')
   }
 
-  console.log('test simple modal')
-  const vnode = h('p', { style: { 'text-align': 'center' } }, [
-    h('img', {
-      src: 'https://avatars2.githubusercontent.com/u/66300512?s=200&v=4',
-    }),
-  ])
-  neoModal.open({
-    content: [vnode],
-  })
-
   neoModal.closeAll()
 
   // can use the function in ShoppingCartModalConfig
   if (!isShoppingCartOpen()) {
-    openShoppingCart(
-      instance,
-      isMobileWithoutTablet.value ? { animation: 'none' } : {}
-    )
+    openShoppingCart(isMobileWithoutTablet.value ? { animation: 'none' } : {})
   }
 }
 </script>

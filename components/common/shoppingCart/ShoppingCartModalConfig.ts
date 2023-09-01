@@ -5,13 +5,13 @@ export const ShoppingCartModalConfig = {
   component: ShoppingCartModal,
   canCancel: ['outside'],
   rootClass: 'shopping-cart-modal',
-  autoFocus: false,
+  trapFocus: false,
 }
 
 export const isShoppingCartOpen = () =>
   Boolean(document.querySelector('.shopping-cart-modal'))
 
-export const openShoppingCart = (instance, config = {}) => {
+export const openShoppingCart = (config = {}) => {
   const preferencesStore = usePreferencesStore()
   const { neoModal } = useProgrammatic()
 
@@ -20,7 +20,6 @@ export const openShoppingCart = (instance, config = {}) => {
   neoModal.closeAll()
 
   return neoModal.open({
-    parent: instance?.proxy,
     onCancel: () => {
       preferencesStore.setShoppingCartCollapse(false)
     },

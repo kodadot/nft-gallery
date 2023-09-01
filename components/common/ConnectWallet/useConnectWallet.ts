@@ -26,7 +26,6 @@ export const openConnectWalletModal = (
   }
 
   modal.value = neoModal.open({
-    parent: instance?.proxy,
     onCancel: () => {
       if (onCancel) {
         onCancel()

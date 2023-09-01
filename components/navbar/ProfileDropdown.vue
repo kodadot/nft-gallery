@@ -77,7 +77,7 @@ const identityStore = useIdentityStore()
 const langStore = useLangStore()
 const instance = getCurrentInstance()
 const { isDarkMode } = useTheme()
-const { $neoModal } = useNuxtApp()
+const { neoModal } = useProgrammatic()
 
 const languageDropdown = ref(null)
 const modal = ref<{ close: () => void; isActive?: boolean } | null>(null)
@@ -94,11 +94,10 @@ const setUserLang = (value: string) => {
 }
 
 const toggleWalletConnectModal = () => {
-  $neoModal.closeAll()
+  neoModal.closeAll()
 
   if (!document.querySelector('.connect-wallet-modal')) {
-    modal.value = $neoModal.open({
-      parent: instance?.proxy,
+    modal.value = neoModal.open({
       ...ConnectWalletModalConfig,
     })
   }

@@ -32,7 +32,6 @@ function toggleNotificationModal() {
     preferencesStore.setNotificationBoxCollapse(true)
 
     neoModal.open({
-      parent: instance?.proxy,
       onCancel: () => {
         preferencesStore.setNotificationBoxCollapse(false)
       },
