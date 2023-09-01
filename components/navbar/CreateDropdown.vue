@@ -7,7 +7,7 @@
         </div>
       </template>
 
-      <NeoDropdownItem v-if="chain !== 'ahk'">
+      <NeoDropdownItem>
         <NeoTooltip
           position="left"
           full-width
