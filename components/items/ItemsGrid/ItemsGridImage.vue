@@ -10,7 +10,7 @@
     :unloackable-icon="unlockableIcon"
     :show-action-on-hover="!showActionSection"
     :link="NuxtLink"
-    bind-key="href">
+    bind-key="to">
     <template #action>
       <div v-if="!isOwner && Number(nft?.price)" class="is-flex">
         <NeoButton
@@ -36,6 +36,7 @@
 
 <script setup lang="ts">
 // PLEASE FIX bind-key href => to
+import { resolveComponent } from 'vue'
 import { NeoButton, NeoNftCard } from '@kodadot1/brick'
 import type { NftCardVariant } from '@kodadot1/brick'
 import type { NFTWithMetadata } from '@/composables/useNft'
@@ -52,6 +53,7 @@ const { unlockableIcon } = useUnlockableIcon()
 const shoppingCartStore = useShoppingCartStore()
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
+const NuxtLink = resolveComponent('NuxtLink')
 
 const props = defineProps<{
   nft: NFTWithMetadata
