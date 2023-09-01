@@ -102,7 +102,8 @@
     "sendTo": "Sending to",
     "recipients": "recipients",
     "totalAmount": "Total Amount",
-    "transferable": "Transferable"
+    "transferable": "Transferable",
+    "networkFee": "Network fee"
   },
   "topCollections": {
     "timeFrames": {
@@ -640,6 +641,7 @@
     "empty": "There are currently no offers."
   },
   "loader": {
+    "broadcast": "Broadcating the tx to blockchain",
     "casting": "(1/3) Casting the tx to blockchain",
     "finalized": "(3/3) Finalized",
     "block": "(2/3) Transaction in block",
@@ -664,7 +666,8 @@
     "pendingTip": "Your transaction is being confirmed",
     "completed": "Completed",
     "completedTip": "Your transfer was successful!",
-    "showTransaction": "Show Transaction"
+    "showTransaction": "Show Transaction",
+    "copyTransactionLink": "transaction link copied"
   },
   "arweave": {
     "uploadYes": "Upload NFT image to Arweave",
@@ -1216,7 +1219,8 @@
   "lewd": {
     "explicit": "Explicit/sensitive content",
     "explicitDesc": "Mature audiences only. Please confirm your age and consent to proceed.",
-    "showContent": "Show Content"
+    "showContent": "Show Content",
+    "hideContent": "Hide Content"
   },
   "unlockable": {
     "tooltip": "unlock-able content is revealed after purchase",
