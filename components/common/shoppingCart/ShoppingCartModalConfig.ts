@@ -11,7 +11,7 @@ export const ShoppingCartModalConfig = {
 export const isShoppingCartOpen = () =>
   Boolean(document.querySelector('.shopping-cart-modal'))
 
-export const openShoppingCart = (instance) => {
+export const openShoppingCart = (instance, config = {}) => {
   const preferencesStore = usePreferencesStore()
   const { $neoModal } = useNuxtApp()
 
@@ -19,11 +19,12 @@ export const openShoppingCart = (instance) => {
 
   $neoModal.closeAll()
 
-  $neoModal.open({
+  return $neoModal.open({
     parent: instance?.proxy,
     onCancel: () => {
       preferencesStore.setShoppingCartCollapse(false)
     },
     ...ShoppingCartModalConfig,
+    ...config,
   })
 }
