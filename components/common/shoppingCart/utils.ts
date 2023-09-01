@@ -1,4 +1,5 @@
 import { calculateExactUsdFromToken } from '@/utils/calculation'
+import { ListCartItem } from '~/stores/listingCart'
 import { ShoppingCartItem } from './types'
 import { useFiatStore } from '@/stores/fiat'
 import { sum } from '@/utils/math'
@@ -20,7 +21,7 @@ const getTokenDecimal = (item: ShoppingCartItem) => {
   return chainPropListOf(token.toLowerCase()).tokenDecimals
 }
 
-export const totalPriceUsd = (items: ShoppingCartItem[]) => {
+export const totalPriceUsd = (items: ShoppingCartItem[] | ListCartItem[]) => {
   const fiatStore = useFiatStore()
 
   const nftSPrice = items.map((item) =>

@@ -5,7 +5,7 @@ export type ListCartItem = {
   id: string
   name: string
   urlPrefix: string
-  price: number
+  price: string
   listPrice?: number
   collection: EntityWithId
 }
