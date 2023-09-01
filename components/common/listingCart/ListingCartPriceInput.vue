@@ -1,6 +1,10 @@
 <template>
   <div class="is-flex">
-    <input type="text" class="price-input height-40" placeholder="Price" />
+    <input
+      v-model="model"
+      type="text"
+      class="price-input height-40"
+      placeholder="Price" />
     <div
       class="border-top border-right border-bottom shade-border-color px-5 is-flex is-align-items-center">
       KSM
@@ -9,12 +13,16 @@
       v-if="check"
       no-shadow
       class="check-btn ml-2 shade-border-color height-40"
-      icon="check" />
+      icon="check"
+      @click.native="emit('confirm')" />
   </div>
 </template>
 <script setup lang="ts">
 import { NeoButton } from '@/libs/ui'
-defineProps<{ check?: boolean }>()
+import { useVModel } from '@vueuse/core'
+const props = defineProps<{ value?: number; check?: boolean }>()
+const emit = defineEmits(['confirm', 'input'])
+const model = useVModel(props, 'value', emit, { eventName: 'input' })
 </script>
 
 <style scoped lang="scss">

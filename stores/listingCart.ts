@@ -1,10 +1,19 @@
 import { defineStore } from 'pinia'
-import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
+import { EntityWithId } from '~/components/rmrk/service/scheme'
+
+export type ListCartItem = {
+  id: string
+  name: string
+  urlPrefix: string
+  price: string
+  listPrice?: string
+  collection: EntityWithId
+}
 
 type ID = string
 
 interface State {
-  items: ShoppingCartItem[]
+  items: ListCartItem[]
 }
 
 const localStorage = useLocalStorage<ShoppingCartItem[]>('listingCart', [])
@@ -31,7 +40,7 @@ export const useListingCartStore = defineStore('listingCart', {
     setItem(payload: ShoppingCartItem) {
       const existInItemIndex = this.existInItemIndex(payload.id)
       if (existInItemIndex === -1) {
-        this.items.push(payload)
+        this.items.push({ ...payload, listPrice: undefined })
         localStorage.value = this.items
       } else {
         this.items[existInItemIndex] = payload
@@ -46,6 +55,11 @@ export const useListingCartStore = defineStore('listingCart', {
           ...payload,
         }
         localStorage.value = this.items
+      }
+    },
+    setFixedPrice(price) {
+      for (const item of this.items) {
+        item.listPrice = price
       }
     },
     removeItem(id: ID) {

@@ -23,9 +23,8 @@
       </div>
 
       <NeoButton
-        class="has-text-grey pt-5"
+        class="has-text-grey pt-4"
         variant="text"
-        size="medium"
         no-shadow
         icon="trash"
         icon-pack="far"
@@ -38,7 +37,9 @@
       </div>
 
       <div class="is-flex is-align-items-end pt-2">
-        <ListingCartPriceInput style="height: 100%" />
+        <ListingCartPriceInput
+          v-model="listingCartStore.getItem(nft.id).listPrice"
+          style="height: 100%" />
       </div>
     </div>
   </div>
@@ -49,15 +50,14 @@ import { parseNftAvatar } from '@/utils/nft'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import ListingCartPriceInput from '~/components/common/listingCart/ListingCartPriceInput.vue'
 import { NeoButton } from '~/libs/ui'
-import { useListingCartStore } from '~/stores/listingCart'
-import { ShoppingCartItem } from '../shoppingCart/types'
+import { ListCartItem, useListingCartStore } from '~/stores/listingCart'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 const listingCartStore = useListingCartStore()
 
 const avatar = ref<string>()
 
 const props = defineProps<{
-  nft: ShoppingCartItem
+  nft: ListCartItem
 }>()
 
 const getAvatar = async () => {

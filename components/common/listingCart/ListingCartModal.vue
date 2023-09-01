@@ -40,7 +40,11 @@
         </div>
         <div class="pt-3 has-text-grey">-Or-</div>
         <div class="pt-3">Fixed Price</div>
-        <ListingCartPriceInput check class="pt-2" />
+        <ListingCartPriceInput
+          v-model="fixedPrice"
+          check
+          class="pt-2"
+          @confirm="setFixedPrice" />
       </div>
       <div class="py-2">
         <ListingCartItem
@@ -89,6 +93,12 @@ const { $i18n } = useNuxtApp()
 
 const confirm = () => {
   console.log('confirm')
+}
+
+const fixedPrice = ref()
+function setFixedPrice() {
+  listingCartStore.setFixedPrice(fixedPrice.value)
+  fixedPrice.value = undefined
 }
 
 const priceUSD = computed(() => {
