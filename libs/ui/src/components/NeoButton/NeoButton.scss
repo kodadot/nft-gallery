@@ -53,6 +53,12 @@
         color: theme('k-grey');
       }
     }
+    
+    .o-icon { 
+      &--medium {
+        margin-top: 3px;
+      }
+    }
   }
   &--k-accent {
     @include ktheme() {

@@ -7,7 +7,7 @@
         no-border
         size="small"
         @click.native="closeLoading">
-        <NeoIcon icon="x" custom-size="fa-lg" class="is-flex" />
+        <NeoIcon icon="xmark" pack="fa-sharp" size="medium" />
       </NeoButton>
       <img src="/unlockable-loader.svg" />
       <div

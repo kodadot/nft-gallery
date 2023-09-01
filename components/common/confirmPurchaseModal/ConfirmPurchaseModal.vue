@@ -13,7 +13,7 @@
         </span>
 
         <NeoButton no-shadow no-border size="small" @click.native="onClose">
-          <NeoIcon icon="x" custom-size="fa-lg" class="is-flex" />
+          <NeoIcon icon="xmark" pack="fa-sharp" size="medium" />
         </NeoButton>
       </header>
       <div class="px-6 pt-4">

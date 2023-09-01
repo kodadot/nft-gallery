@@ -31,7 +31,7 @@
             no-border
             size="small"
             @click.native="closeModal">
-            <NeoIcon icon="x" custom-size="fa-lg" class="is-flex" />
+            <NeoIcon icon="xmark" pack="fa-sharp" size="medium" />
           </NeoButton>
         </header>
         <div

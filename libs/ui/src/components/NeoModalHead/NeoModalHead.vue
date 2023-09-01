@@ -12,7 +12,7 @@
       {{ title }}
     </span>
     <NeoButton no-shadow no-border size="small" @click.native="emit('close')">
-      <NeoIcon icon="x" custom-size="fa-lg" class="is-flex" />
+      <NeoIcon icon="xmark" pack="fa-sharp" size="medium" />
     </NeoButton>
   </header>
 </template>
