@@ -108,7 +108,8 @@ const props = defineProps<{
 
 const { apiInstance } = useApi()
 const { urlPrefix, tokenId } = usePrefix()
-const { $route, $i18n, $neoModal } = useNuxtApp()
+const { neoModal } = useProgrammatic()
+const { $route, $i18n } = useNuxtApp()
 const { transaction, status, isLoading } = useTransaction()
 const { accountId } = useAuth()
 const { decimals } = useChain()
@@ -160,8 +161,7 @@ const disabledConfirmBtn = computed(
 
 function toggleActive() {
   if (!connected.value) {
-    $neoModal.open({
-      parent: root?.value,
+    neoModal.open({
       ...ConnectWalletModalConfig,
     })
     return

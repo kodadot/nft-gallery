@@ -197,7 +197,8 @@ const Money = defineAsyncComponent(
 const TokenImportButton = defineAsyncComponent(
   () => import('@/components/collection/drop/TokenImportButton.vue')
 )
-const { $neoModal, $i18n } = useNuxtApp()
+const { neoModal } = useProgrammatic()
+const { $i18n } = useNuxtApp()
 const root = ref<Vue>()
 
 const { toast } = useToast()
@@ -300,8 +301,7 @@ const handleBuy = async () => {
   }
 
   if (!isLogIn.value) {
-    $neoModal.open({
-      parent: root?.value,
+    neoModal.open({
       ...ConnectWalletModalConfig,
     })
     return

@@ -12,10 +12,10 @@
 
 <script setup lang="ts">
 import { useStorage } from '@vueuse/core'
-const { $neoModal } = useNuxtApp()
+const { neoModal } = useProgrammatic()
 
 const closeModal = () => {
-  $neoModal.closeAll()
+  neoModal.closeAll()
 }
 
 const rememberIdentity = useStorage('remember-identity', false)
