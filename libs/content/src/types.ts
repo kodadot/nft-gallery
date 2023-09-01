@@ -64,12 +64,20 @@ export type TezosMetadata = BaseMetadata &
 
 // https://www.fxhash.xyz/doc/fxhash/integration-guide
 export type GenerativeMetadata = {
-  generativeUri: string
-  generatorUri: string
+  generativeUri?: string
+  generatorUri?: string
   previewHash: string
 }
 
-export type FXHashMetadata = TezosMetadata & GenerativeMetadata
+type GenerativeFxHash = {
+  previewHash?: string
+  capture?: Record<string, unknown>
+  settings?: Record<string, unknown>
+}
+
+export type FXHashMetadata = TezosMetadata &
+  GenerativeMetadata &
+  GenerativeFxHash
 
 export type TezosFormat = {
   uri: string
@@ -138,12 +146,9 @@ export type Attribute = {
   value: string
 }
 
-export type GenArt = {
+export type GenArt = GenerativeFxHash & {
   uri: string
-  previewParam: string
-  previewHash: string
-  capture: Record<string, unknown>
-  settings: Record<string, unknown>
+  previewParam?: string
 }
 
 export type SanitizerFunc = <T = string>(url: T | undefined) => T
