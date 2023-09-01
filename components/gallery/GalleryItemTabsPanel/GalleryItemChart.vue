@@ -4,10 +4,10 @@
       class="mt-4"
       :price-chart-data="priceChartData"
       :chart-height="chartHeight" />
-    <LazyGalleryHistory
+    <!-- <LazyGalleryHistory
       class="is-hidden"
       :events="nftEvents"
-      @setPriceChartData="setPriceChartData" />
+      @setPriceChartData="setPriceChartData" /> -->
   </div>
 </template>
 
@@ -21,7 +21,7 @@ defineProps<{
 }>()
 const priceChartData = ref<[Date, number][][]>([])
 
-const setPriceChartData = (data: [Date, number][][]) => {
-  priceChartData.value = data
-}
+// const setPriceChartData = (data: [Date, number][][]) => {
+//   priceChartData.value = data
+// }
 </script>

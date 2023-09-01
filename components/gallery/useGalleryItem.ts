@@ -44,7 +44,7 @@ const whichAsset = (data) => {
 export const useGalleryItem = async (nftId?: string): Promise<GalleryItem> => {
   const { $consola } = useNuxtApp()
   const historyStore = useHistoryStore()
-  // const nft = ref<NFT>()
+  const nft = ref<NFT>()
   const nftImage = ref('')
   const nftAnimation = ref('')
   const nftMimeType = ref('')
@@ -67,7 +67,7 @@ export const useGalleryItem = async (nftId?: string): Promise<GalleryItem> => {
     clientName: '',
   })
   const query = await resolveQueryPath(prefix, 'nftById')
-  const { result: nft, refetch } = useQuery(query.default, { id })
+  const { result: nftEntity, refetch } = useQuery(query.default, { id })
 
   useSubscriptionGraphql({
     query: `   nft: nftEntityById(id: "${id}") {
@@ -82,7 +82,7 @@ export const useGalleryItem = async (nftId?: string): Promise<GalleryItem> => {
     onChange: refetch,
   })
 
-  watch(nft as unknown as NFTData, async (newData) => {
+  watch(nftEntity as unknown as NFTData, async (newData) => {
     const nftEntity = newData?.nftEntity
     if (!nftEntity) {
       $consola.log(`NFT with id ${id} not found. Fallback to RPC Node`)

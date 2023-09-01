@@ -8,7 +8,7 @@
         <NeoIcon icon="fire" />
         <NeoButton>Noice</NeoButton>
         <form>
-          <label for="locale-select">{{ $t('language') }}: </label>
+          <label for="locale-select">language: </label>
           <select id="locale-select" v-model="lang" @change="changeLanguage">
             <option value="en">en</option>
             <option value="fr">fr</option>
