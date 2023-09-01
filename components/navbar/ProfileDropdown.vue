@@ -75,7 +75,6 @@ import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useC
 
 const identityStore = useIdentityStore()
 const langStore = useLangStore()
-const instance = getCurrentInstance()
 const { isDarkMode } = useTheme()
 const { neoModal } = useProgrammatic()
 

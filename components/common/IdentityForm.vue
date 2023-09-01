@@ -3,9 +3,9 @@
     <Loader v-model="isLoading" :status="status" />
     <form @submit.prevent>
       <h1 class="title is-size-3">
-        {{ $i18n.t('identity.set') }}
+        {{ $t('identity.set') }}
         <NeoTooltip
-          :label="$i18n.t('identity.fundsReserve')"
+          :label="$t('identity.fundsReserve')"
           position="bottom"
           multiline>
           <NeoIcon icon="info-circle" pack="fas" />
@@ -14,31 +14,31 @@
 
       <p v-if="accountId" class="subtitle is-size-6">
         <Auth />
-        <span>{{ $i18n.t('general.balance') }}: </span>
+        <span>{{ $t('general.balance') }}: </span>
         <Money :value="balance" inline />
       </p>
 
       <NeoField label="Handle">
         <NeoInput
           v-model="identity.display"
-          :placeholder="$i18n.t('identity.onChainPlaceholder')"
+          :placeholder="$t('identity.onChainPlaceholder')"
           :maxlength="inputLengthLimit"
           required
-          :validation-message="$i18n.t('identity.handleRequired')" />
+          :validation-message="$t('identity.handleRequired')" />
       </NeoField>
 
       <BasicInput
         v-model="identity.legal"
-        :label="$i18n.t('name')"
+        :label="$t('name')"
         :maxlength="inputLengthLimit"
-        :placeholder="$i18n.t('identity.namePlaceholder')"
+        :placeholder="$t('identity.namePlaceholder')"
         expanded />
 
       <BasicInput
         v-model="identity.email"
         type="email"
         :maxlength="inputLengthLimit"
-        :label="$i18n.t('Email')"
+        :label="$t('Email')"
         placeholder="somebody@example.com"
         expanded />
 
@@ -71,12 +71,12 @@
         expanded />
 
       <p class="subtitle is-size-6">
-        {{ $i18n.t('identity.deposit') }}
+        {{ $t('identity.deposit') }}
         <Money :value="deposit" inline />
       </p>
 
       <SubmitButton
-        :label="$i18n.t('identity.click')"
+        :label="$t('identity.click')"
         :disabled="disabled"
         :loading="isLoading"
         expanded
@@ -90,6 +90,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import { hexToString, isHex } from '@polkadot/util'
 import { Data } from '@polkadot/types'
 import { NeoField, NeoIcon, NeoInput, NeoTooltip } from '@kodadot1/brick'
+import { useIdentityStore } from '@/stores/identity'
 
 const Auth = defineAsyncComponent(() => import('@/components/shared/Auth.vue'))
 const BasicInput = defineAsyncComponent(
@@ -106,9 +107,6 @@ const SubmitButton = defineAsyncComponent(
 )
 
 type IdentityFields = Record<string, string>
-
-const { $i18n } = useNuxtApp()
-import { useIdentityStore } from '@/stores/identity'
 
 const { apiInstance } = useApi()
 const { accountId, balance } = useAuth()

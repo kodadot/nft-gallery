@@ -159,6 +159,7 @@ import ChainDropdown from '@/components/common/ChainDropdown.vue'
 import OrderByDropdown from './OrderByDropdown.vue'
 import CollectionGrid from '@/components/collection/CollectionGrid.vue'
 import Activity from './activityTab/Activity.vue'
+import Avatar from '@/components/shared/Avatar.vue'
 
 const route = useRoute()
 const { toast } = useToast()
