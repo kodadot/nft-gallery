@@ -138,6 +138,7 @@ export type Content = {
   tags?: Tags
   externalUrl?: string
   thumbnail?: string
+  generative?: GenArt
 }
 
 export type Attribute = {
