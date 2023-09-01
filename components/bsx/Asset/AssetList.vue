@@ -30,7 +30,6 @@ import {
 } from '@/utils/api/bsx/query'
 import { mapToId } from '@/utils/mappers'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { AssetItem } from './types'
 import Loader from '@/components/shared/Loader.vue'
 import AssetTable from '@/components/bsx/Asset/AssetTable.vue'
 
