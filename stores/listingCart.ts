@@ -23,6 +23,8 @@ export const useListingCartStore = defineStore('listingCart', {
   }),
   getters: {
     count: (state) => state.items.length,
+    incompleteListPrices: (state) =>
+      state.items.filter((item) => !item.listPrice).length,
   },
   actions: {
     getItemsByPrefix(prefix: string) {
@@ -56,7 +58,7 @@ export const useListingCartStore = defineStore('listingCart', {
         localStorage.value = this.items
       }
     },
-    setFixedPrice(price) {
+    setFixedPrice(price: number) {
       for (const item of this.items) {
         set(item, 'listPrice', price)
       }

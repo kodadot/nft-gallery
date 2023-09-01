@@ -77,6 +77,7 @@
 
       <div class="is-flex is-justify-content-space-between pb-5 px-6">
         <NeoButton
+          :disabled="!!listingCartStore.incompleteListPrices"
           :label="confirmListingLabel"
           variant="k-accent"
           no-shadow
@@ -87,27 +88,24 @@
   </NeoModal>
 </template>
 <script setup lang="ts">
+import { Interaction } from '@kodadot1/minimark/v1'
 import ListingCartPriceInput from '~/components/common/listingCart/ListingCartPriceInput.vue'
 import { totalPriceUsd } from '~/components/common/shoppingCart/utils'
 import IdentityItem from '~/components/identity/IdentityItem.vue'
 import CommonTokenMoney from '~/components/shared/CommonTokenMoney.vue'
-import { TokenToBuy } from '~/composables/transaction/types'
 import { NeoButton, NeoModal } from '@/libs/ui'
 import { usePreferencesStore } from '@/stores/preferences'
+import { TokenToList } from '~/composables/transaction/types'
 import { useListingCartStore } from '~/stores/listingCart'
+import { calculateBalance } from '~/utils/format/balance'
 import { sum } from '~/utils/math'
 import { warningMessage } from '~/utils/notification'
-import { ShoppingActions } from '~/utils/shoppingActions'
 const { isLogIn, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
 const { transaction } = useTransaction()
 const { $i18n } = useNuxtApp()
-
-const confirm = () => {
-  console.log('confirm')
-}
 
 const fixedPrice = ref()
 function setFixedPrice() {
@@ -124,39 +122,48 @@ const totalNFTsPrice = computed(() =>
   sum(listingCartStore.items.map((nft) => Number(nft.price)))
 )
 
-const handleBuy = async (nfts: TokenToBuy | TokenToBuy[]) => {
+const confirmListingLabel = computed(() => {
+  switch (listingCartStore.incompleteListPrices) {
+    case 0:
+      return 'Complete Listing'
+    case 1:
+      return '1 Item Is Missing Price'
+    default:
+      return `${listingCartStore.incompleteListPrices} Items Are Missing Price`
+  }
+})
+async function confirm() {
+  const updateItems = {} as { [urlPrefix: string]: TokenToList[] }
+  for (const item of listingCartStore.items) {
+    if (item.listPrice) {
+      if (!updateItems[item.urlPrefix]) {
+        updateItems[item.urlPrefix] = []
+      }
+      updateItems[item.urlPrefix].push({
+        price: String(calculateBalance(item.listPrice)),
+        nftId: item.id,
+      })
+    }
+  }
   try {
-    await transaction({
-      interaction: ShoppingActions.BUY,
-      nfts,
-      urlPrefix: urlPrefix.value,
-      successMessage: $i18n.t('mint.successNewNfts'),
-      errorMessage: $i18n.t('transaction.buy.error'),
-    })
+    for (const [urlPrefix, token] of Object.entries(updateItems)) {
+      await transaction({
+        interaction: Interaction.LIST,
+        urlPrefix,
+        token,
+        successMessage: $i18n.t('transaction.price.success'),
+        errorMessage: $i18n.t('transaction.price.error'),
+      })
+    }
+    listingCartStore.clear()
+    preferencesStore.listingCartModalOpen = false
   } catch (error) {
     warningMessage(error)
   }
 }
-const confirmListingLabel = computed(() => 'Complete Listing')
-// const onConfirm = () => {
-//   if (preferencesStore.getCompletePurchaseModal.mode === 'shopping-cart') {
-//     handleBuy(listingCartStore.items.map(ShoppingCartItemToTokenToBuy))
-//   } else {
-//     handleBuy(
-//       ShoppingCartItemToTokenToBuy(
-//         shoppingCartStore.getItemToBuy as ShoppingCartItem
-//       )
-//     )
-//     shoppingCartStore.removeItemToBuy()
-//   }
-// }
 </script>
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
-
-.check-btn {
-  height: 3rem;
-}
 
 .height-100 {
   height: 100%;
@@ -165,6 +172,7 @@ const confirmListingLabel = computed(() => 'Complete Listing')
 .top {
   z-index: 1000;
 }
+
 .shade-border-color {
   @include ktheme() {
     border-color: theme('k-shade');
@@ -186,9 +194,5 @@ const confirmListingLabel = computed(() => 'Complete Listing')
   .identity-name {
     font-weight: unset !important;
   }
-}
-
-.pointer {
-  cursor: pointer;
 }
 </style>

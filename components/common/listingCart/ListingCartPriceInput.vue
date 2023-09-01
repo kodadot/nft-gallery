@@ -31,6 +31,7 @@ const model = useVModel(props, 'value', emit, { eventName: 'input' })
   border-right: none;
   outline: none;
   width: 5em;
+  text-indent: 10px;
 }
 
 .height-40 {

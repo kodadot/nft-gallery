@@ -70,10 +70,7 @@ onMounted(() => {
   getAvatar()
 })
 </script>
-
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
-
 .listing-border {
   border-top: 1px solid #ccc;
 }
