@@ -607,9 +607,14 @@ const updateCollectionSuggestion = async (value: string) => {
 
     const collectionWithImagesList: CollectionWithMeta[] = []
     await processMetadata<CollectionWithMeta>(metadataList, (meta, i) => {
+      const initialCollectionStats = {
+        totalCount: undefined,
+        floorPrice: undefined,
+      }
       const collectionWithImages = {
         ...collections[i],
         ...meta,
+        ...initialCollectionStats, // set initial stat fields to get reactivity
         image: sanitizeIpfsUrl(
           collections[i].image || collections[i].mediaUri || '',
           'image'
