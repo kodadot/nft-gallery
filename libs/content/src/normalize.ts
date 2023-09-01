@@ -64,6 +64,7 @@ export function contentFrom(meta: any, eager?: boolean): Content {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function generativeFrom(meta: any): GenArt | undefined {
   const uri = meta.generativeUri || meta.generatorUri
 
