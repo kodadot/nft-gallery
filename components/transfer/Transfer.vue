@@ -111,7 +111,7 @@
                 },
               ]"
               placeholder="Enter wallet address"
-              :strict="false" />
+              with-address-checker />
             <NeoInput
               v-if="displayUnit === 'token'"
               v-model="destinationAddress.token"
