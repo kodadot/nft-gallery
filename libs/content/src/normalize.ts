@@ -94,3 +94,35 @@ export function normalize(content: Content, sanitizer: SanitizerFunc): Content {
     thumbnail: sanitizer(content.thumbnail),
   }
 }
+
+export function mergeAttributes(
+  attrs: OpenSeaAttribute[],
+  overrides: Attribute[]
+): Attribute[]
+export function mergeAttributes(
+  attrs: TezosAttribute[],
+  overrides: Attribute[]
+): Attribute[]
+export function mergeAttributes(
+  attrs: PluralAttribute[],
+  overrides: Attribute[]
+): Attribute[]
+// export function mergeAttributes(attrs: Attribute[], overrides: Attribute[]): Attribute[]
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function mergeAttributes(
+  attrs: any[],
+  overrides: Attribute[]
+): Attribute[] {
+  const initial = new Map(
+    attrs.map(attributeFrom).map((a) => [a.trait, a.value])
+  )
+
+  for (const override of overrides) {
+    initial.set(override.trait, override.value)
+  }
+
+  return Array.from(initial.entries()).map(([trait, value]) => ({
+    trait,
+    value,
+  }))
+}
