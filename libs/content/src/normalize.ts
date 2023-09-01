@@ -29,12 +29,12 @@ export function attributeFrom(attr: any): Attribute {
   }
 }
 
-export function contentFrom(meta: OpenSeaMetadata): Content
-export function contentFrom(meta: FXHashMetadata): Content
-export function contentFrom(meta: TezosMetadata): Content
-export function contentFrom(meta: PluralAssetMetadata): Content
+export function contentFrom(meta: OpenSeaMetadata, eager?: boolean): Content
+export function contentFrom(meta: FXHashMetadata, eager?: boolean): Content
+export function contentFrom(meta: TezosMetadata, eager?: boolean): Content
+export function contentFrom(meta: PluralAssetMetadata, eager?: boolean): Content
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function contentFrom(meta: any): Content {
+export function contentFrom(meta: any, eager?: boolean): Content {
   const description = meta.description || ''
   const thumbnail = meta.thumbnailUri || meta.thumbnail
   const image = meta.image || meta.displayUri || thumbnail || meta.mediaUri
@@ -44,6 +44,11 @@ export function contentFrom(meta: any): Content {
   const type = meta.type
   const externalUrl = meta.external_url || meta.youtube_url || meta.externalUri
   const tags = Array.isArray(meta.tags) ? meta.tags : []
+  let generative: GenArt | undefined
+
+  if (eager) {
+    generative = generativeFrom(meta)
+  }
 
   return {
     description,
@@ -55,6 +60,7 @@ export function contentFrom(meta: any): Content {
     externalUrl,
     tags,
     thumbnail,
+    generative,
   }
 }
 
