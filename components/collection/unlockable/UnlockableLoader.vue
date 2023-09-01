@@ -6,8 +6,9 @@
         no-shadow
         no-border
         size="small"
-        icon="x"
-        @click.native="closeLoading" />
+        @click.native="closeLoading">
+        <NeoIcon icon="x" custom-size="fa-lg" class="is-flex" />
+      </NeoButton>
       <img src="/unlockable-loader.svg" />
       <div
         class="is-flex is-flex-direction-column is-align-items-center px-5 has-text-centered is-capitalized">

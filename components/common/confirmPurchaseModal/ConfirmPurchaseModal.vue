@@ -12,12 +12,9 @@
           {{ $t('confirmPurchase.action') }}
         </span>
 
-        <NeoButton
-          no-shadow
-          no-border
-          size="small"
-          icon="x"
-          @click.native="onClose" />
+        <NeoButton no-shadow no-border size="small" @click.native="onClose">
+          <NeoIcon icon="x" custom-size="fa-lg" class="is-flex" />
+        </NeoButton>
       </header>
       <div class="px-6 pt-4">
         <div
@@ -77,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoModal } from '@kodadot1/brick'
+import { NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
 import { sum } from '@/utils/math'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useShoppingCartStore } from '@/stores/shoppingCart'

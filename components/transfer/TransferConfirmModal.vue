@@ -30,8 +30,9 @@
             no-shadow
             no-border
             size="small"
-            icon="x"
-            @click.native="closeModal" />
+            @click.native="closeModal">
+            <NeoIcon icon="x" custom-size="fa-lg" class="is-flex" />
+          </NeoButton>
         </header>
         <div
           :class="[
