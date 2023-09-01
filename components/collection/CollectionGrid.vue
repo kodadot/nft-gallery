@@ -49,8 +49,7 @@ const props = defineProps<{
 }>()
 
 const route = useRoute()
-const { $apollo } = useNuxtApp()
-const { urlPrefix, client } = usePrefix()
+const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
 const emit = defineEmits(['total', 'isLoading'])
 
@@ -72,13 +71,13 @@ const resetPage = useDebounceFn(() => {
 
 const buildSearchParam = (): Record<string, unknown>[] => {
   const params: any[] = []
-  if (searchQuery.value.search) {
+  if (searchQuery.search) {
     params.push({
-      name_containsInsensitive: searchQuery.value.search,
+      name_containsInsensitive: searchQuery.search,
     })
   }
 
-  if (searchQuery.value.listed) {
+  if (searchQuery.listed) {
     params.push({ nfts_some: { price_gt: '0' } })
   }
 
@@ -106,15 +105,13 @@ const fetchPageData = async (page: number, loadDirection = 'down') => {
         ],
         first: first.value,
         offset: (page - 1) * first.value,
-        orderBy: searchQuery.value.sortBy,
+        orderBy: searchQuery.sortBy,
       }
     : {
         denyList: getDenyList(urlPrefix.value),
-        orderBy: searchQuery.value.sortBy,
+        orderBy: searchQuery.sortBy,
         search: buildSearchParam(),
-        listed: searchQuery.value.listed
-          ? [{ price: { greaterThan: '0' } }]
-          : [],
+        listed: searchQuery.listed ? [{ price: { greaterThan: '0' } }] : [],
         first: first.value,
         offset: (page - 1) * first.value,
       }
@@ -176,7 +173,7 @@ watch(
   (val, oldVal) => {
     if (val !== oldVal) {
       resetPage()
-      searchQuery.value.search = val === undefined ? val : String(val)
+      searchQuery.search = val === undefined ? val : String(val)
     }
   }
 )
@@ -186,13 +183,13 @@ watch(
   (val, oldVal) => {
     if (val !== oldVal) {
       resetPage()
-      searchQuery.value.sortBy = String(val) || ''
+      searchQuery.sortBy = String(val) || ''
     }
   }
 )
 
 watch(
-  () => searchQuery.value,
+  () => searchQuery,
   () => {
     resetPage()
   }
