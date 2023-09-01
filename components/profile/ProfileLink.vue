@@ -23,6 +23,7 @@
 
 <script setup lang="ts">
 import Identity from '@/components/identity/IdentityIndex.vue'
+import Avatar from '@/components/shared/Avatar.vue'
 
 const { urlPrefix } = usePrefix()
 

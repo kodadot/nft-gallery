@@ -32,12 +32,9 @@
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent } from 'vue'
 import { NeoButton } from '@kodadot1/brick'
-
-const Identity = defineAsyncComponent(
-  () => import('@/components/identity/IdentityIndex.vue')
-)
+import Avatar from '@/components/shared/Avatar.vue'
+import Identity from '@/components/identity/IdentityIndex.vue'
 
 withDefaults(
   defineProps<{

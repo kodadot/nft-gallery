@@ -67,6 +67,7 @@ import { formatAddress } from '@/utils/account'
 import shortAddress from '@/utils/shortAddress'
 import { useWalletStore } from '@/stores/wallet'
 import { NeoIcon } from '@kodadot1/brick'
+import Avatar from '@/components/shared/Avatar.vue'
 
 defineProps<{
   wallet: BaseDotsamaWallet
