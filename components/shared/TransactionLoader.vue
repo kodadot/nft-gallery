@@ -58,15 +58,26 @@
         <div v-if="activeStep === 2" class="text-align-center has-text-grey">
           {{ `Est. waiting time ~ ${estmiatedTimeLeft}` }}
         </div>
-        <div class="is-flex is-justify-content-center">
+        <div v-if="isFinalStep" class="is-flex is-justify-content-center mb-4">
           <NeoButton
-            v-if="isFinalStep"
             v-safe-href="explorerLink"
             tag="a"
             target="_blank"
+            class="px-4"
             no-shadow
             rounded
             :label="$i18n.t('transactionLoader.showTransaction')" />
+
+          <NeoButton
+            v-clipboard:copy="explorerLink"
+            icon="copy"
+            icon-pack="far"
+            class="ml-4 px-4"
+            rounded
+            no-shadow
+            @click.native="
+              toast($i18n.t('transactionLoader.copyTransactionLink'))
+            " />
         </div>
       </div>
     </div>
@@ -95,6 +106,7 @@ const emit = defineEmits(['close'])
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { blocktime } = useBlockTime()
+const { toast } = useToast()
 
 const estmiatedTimeLeft = computed(() => {
   switch (props.status) {
