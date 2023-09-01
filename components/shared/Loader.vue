@@ -32,7 +32,7 @@ const emit = defineEmits(['input'])
 const props = withDefaults(
   defineProps<{
     status: string
-    value: boolean
+    value?: boolean
     canCancel?: boolean
   }>(),
   {

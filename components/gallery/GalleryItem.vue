@@ -72,9 +72,7 @@
                   <span v-if="nft?.burned" class="has-text-danger">「🔥」</span>
                 </h1>
                 <h2 class="subtitle" data-cy="item-collection">
-                  <CollectionDetailsPopover
-                    v-if="nft?.collection.id"
-                    :nft="nft">
+                  <CollectionDetailsPopover v-if="nft" :nft="nft">
                     <template #trigger>
                       <nuxt-link
                         :to="`/${urlPrefix}/collection/${collection?.id}`"
@@ -144,8 +142,9 @@
       </div>
     </div>
 
+    {{ nft }}
     <CarouselTypeRelated
-      v-if="nft?.collection.id"
+      v-if="nft"
       class="mt-8"
       :collection-id="nft?.collection.id"
       data-cy="carousel-related" />
@@ -265,7 +264,7 @@ const CollectionDetailsPopover = defineAsyncComponent(
 )
 
 onMounted(() => {
-  exist(route.query.congratsNft, (val) => {
+  exist(route.query.congratsNft as string, (val) => {
     congratsNewNft.value = val ? val : ''
     router.replace({ query: {} })
   })
