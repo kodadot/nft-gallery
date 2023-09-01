@@ -142,7 +142,6 @@
       </div>
     </div>
 
-    {{ nft }}
     <CarouselTypeRelated
       v-if="nft"
       class="mt-8"

@@ -3,10 +3,6 @@
     <Navbar />
     <main class="is-flex-grow-1 py-8">
       <div class="container is-fluid">
-        <h1 class="title is-1">HELLO WORLD</h1>
-        <font-awesome-icon icon="fa-solid fa-fire" />
-        <NeoIcon icon="fire" />
-        <NeoButton>Noice</NeoButton>
         <form>
           <label for="locale-select">language: </label>
           <select id="locale-select" v-model="lang" @change="changeLanguage">
@@ -30,8 +26,6 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
-
 const { $config, $i18n } = useNuxtApp()
 const route = useRoute()
 

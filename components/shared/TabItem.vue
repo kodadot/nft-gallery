@@ -2,7 +2,7 @@
   <p class="control" :class="{ 'full-width': fullWidth }">
     <NeoButton
       class="explore-tabs-button"
-      :tag="tag"
+      :tag="NuxtLink || tag"
       :no-shadow="noShadow"
       :active="active"
       :to="to"
@@ -14,6 +14,9 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
+import { resolveComponent } from 'vue'
+
+const NuxtLink = resolveComponent('NuxtLink')
 
 withDefaults(
   defineProps<{
@@ -22,11 +25,10 @@ withDefaults(
     to?: string
     fullWidth?: boolean
     noShadow?: boolean
-    tag: string
+    tag: any
   }>(),
   {
     to: '',
-    tag: 'nuxt-link',
   }
 )
 </script>
