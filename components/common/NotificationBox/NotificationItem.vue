@@ -1,8 +1,7 @@
 <template>
   <nuxt-link
     :to="`/${urlPrefix}/gallery/${event.nft.id}`"
-    class="is-flex py-3 px-6"
-    @click.native="emit('click')">
+    class="is-flex py-3 px-6">
     <img
       v-if="avatar"
       :src="avatar"
@@ -66,7 +65,6 @@ const props = defineProps<{
   event: Event
 }>()
 const avatar = ref<string>()
-const emit = defineEmits(['click'])
 
 onMounted(() => {
   getAvatar()

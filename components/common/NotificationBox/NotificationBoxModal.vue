@@ -96,7 +96,7 @@
             v-for="(event, index) in displayedEvents"
             :key="`${event.id}-${index}`"
             :event="event"
-            @click="closeModal" />
+            @click.native="closeModal" />
         </div>
       </div>
     </div>
