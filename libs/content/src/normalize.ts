@@ -23,7 +23,7 @@ export function attributeFrom(attr: any): Attribute {
 
   return {
     display,
-    trait: trait?.toString() || '',
+    trait: trait?.toString() ?? '',
     value,
   }
 }
