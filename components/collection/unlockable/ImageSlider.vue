@@ -11,22 +11,23 @@
         :src="image"
         class="keen-slider__slide" />
     </div>
-
-    <Transition name="fade">
-      <div
-        class="arrow arrow-left arrow-small-size"
-        @click="slider?.moveToIdx(sliderSettings.leftCarouselIndex)" />
-    </Transition>
-    <Transition name="fade">
-      <div
-        class="arrow arrow-right arrow-small-size"
-        @click="slider?.moveToIdx(sliderSettings.rightCarouselIndex)" />
-    </Transition>
-    <div ref="thumbnail" class="keen-slider thumbnail">
-      <div v-for="image in imageList" :key="image" class="keen-slider__slide">
-        <img :src="image" />
+    <template v-if="imageList.length > 1">
+      <Transition name="fade">
+        <div
+          class="arrow arrow-left arrow-small-size"
+          @click="slider?.moveToIdx(sliderSettings.leftCarouselIndex)" />
+      </Transition>
+      <Transition name="fade">
+        <div
+          class="arrow arrow-right arrow-small-size"
+          @click="slider?.moveToIdx(sliderSettings.rightCarouselIndex)" />
+      </Transition>
+      <div ref="thumbnail" class="keen-slider thumbnail">
+        <div v-for="image in imageList" :key="image" class="keen-slider__slide">
+          <img :src="image" />
+        </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 

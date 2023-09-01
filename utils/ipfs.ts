@@ -121,7 +121,8 @@ export const fetchMetadata = async <T>(
 
     const { status, _data } = await api.raw(sanitizer(rmrk.metadata))
     if (status < 400) {
-      return _data as T
+      const data = typeof _data === 'string' ? JSON.parse(_data) : _data
+      return data as T
     }
   } catch (e) {
     console.warn('IPFS Err', e)

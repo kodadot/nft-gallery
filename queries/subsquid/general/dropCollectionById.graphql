@@ -3,6 +3,8 @@ query dropCollectionById($id: String!, $account: String, $price: BigInt) {
     id
     name
     max
+    metadata
+    image
     nftCount
     issuer
   }
@@ -12,6 +14,11 @@ query dropCollectionById($id: String!, $account: String, $price: BigInt) {
     where: { burned_eq: false, collection: { id_eq: $id }, price_eq: $price, currentOwner_eq: $account }
   ) {
     totalCount
+    edges {
+      node {
+        id
+      }
+    }
   }
 
 }

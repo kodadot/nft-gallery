@@ -74,7 +74,9 @@
             <UnlockableSlider :value="mintedCount / totalCount" />
           </div>
           <div class="my-5">
-            <div class="is-flex is-justify-content-space-between">
+            <div
+              v-if="!hasUserMinted"
+              class="is-flex is-justify-content-space-between">
               <div class="is-flex is-align-items-center">
                 <NeoIcon
                   :icon="statusInformation.icon"
@@ -99,6 +101,11 @@
                 </div>
               </div>
             </div>
+            <nuxt-link v-else :to="`/${urlPrefix}/gallery/${hasUserMinted}`">
+              <p class="title is-size-4">
+                [{{ $t('mint.unlockable.alreadyMinted') }}]
+              </p>
+            </nuxt-link>
           </div>
         </div>
         <div class="column pt-5 is-flex is-justify-content-center">
@@ -152,6 +159,7 @@ import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlide
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import type Vue from 'vue'
 import { useCountDown } from '../unlockable/utils/useCountDown'
@@ -179,7 +187,6 @@ const root = ref<Vue>()
 const { accountId } = useAuth()
 
 const imageList = ref<string[]>([])
-const resultList = ref<any[]>([])
 const { urlPrefix } = usePrefix()
 const { isLogIn } = useAuth()
 const { hours, minutes } = useCountDown(countDownTime)
@@ -231,12 +238,6 @@ const statusInformation = computed(() => {
       }
 })
 
-onMounted(async () => {
-  const res = await getLatestWaifuImages()
-  imageList.value = res.result.map((item) => item.output)
-  resultList.value = res.result
-})
-
 const leftTime = computed(() => {
   const hoursLeft = hours.value > 0 ? `${hours.value} Hour ` : ''
   const minutesLeft = minutes.value > 0 ? `${minutes.value} Minute ` : ''
@@ -250,6 +251,14 @@ const { data: collectionData, refetch } = useGraphql({
     id: collectionId.value,
     account: accountId.value,
   },
+})
+
+watch(collectionData, async () => {
+  if (collectionData.value) {
+    imageList.value = [
+      await sanitizeIpfsUrl(collectionData.value?.collectionEntity.image),
+    ]
+  }
 })
 
 const totalCount = 300
@@ -277,7 +286,7 @@ const mintedPercent = computed(() => {
 
 const hasUserMinted = computed(
   () =>
-    Boolean(collectionData.value?.nftEntitiesConnection?.totalCount) ||
+    collectionData.value?.nftEntitiesConnection?.edges?.[0]?.node?.id ||
     justMinted.value
 )
 
@@ -304,11 +313,9 @@ const handleMint = async () => {
   }
   isLoading.value = true
 
-  const randomIndex = getRandomInt(imageList.value.length - 1)
-  const image = resultList.value.at(randomIndex).image
-
+  const imageHash = collectionData.value.collectionEntity.image
   const hash = await createUnlockableMetadata(
-    image,
+    imageHash,
     VOTE_DROP_DESCRIPTION,
     collectionData.value?.collectionEntity.name
   )
@@ -320,7 +327,7 @@ const handleMint = async () => {
       {
         address: accountId.value,
         metadata: hash,
-        image: image,
+        image: imageHash,
       },
       urlPrefix.value === 'ahk' ? VOTE_DROP_CAMPAIGN : VOTE_DROP_AHP_CAMPAIGN
     ).then((res) => {
