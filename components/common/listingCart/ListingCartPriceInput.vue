@@ -3,7 +3,7 @@
     <input
       v-model="model"
       type="text"
-      class="price-input height-40"
+      class="price-input height-40 theme-background-color shade-border-color has-text-color"
       placeholder="Price" />
     <div
       class="border-top border-right border-bottom shade-border-color px-5 is-flex is-align-items-center">
@@ -20,7 +20,7 @@
 <script setup lang="ts">
 import { NeoButton } from '@/libs/ui'
 import { useVModel } from '@vueuse/core'
-const props = defineProps<{ value?: number; check?: boolean }>()
+const props = defineProps<{ value?: number | string; check?: boolean }>()
 const emit = defineEmits(['confirm', 'input'])
 const model = useVModel(props, 'value', emit, { eventName: 'input' })
 </script>

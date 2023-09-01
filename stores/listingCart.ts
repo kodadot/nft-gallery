@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
 import { EntityWithId } from '~/components/rmrk/service/scheme'
-
+import { set } from 'vue'
 export type ListCartItem = {
   id: string
   name: string
   urlPrefix: string
-  price: string
-  listPrice?: string
+  price: number
+  listPrice?: number
   collection: EntityWithId
 }
 
@@ -16,7 +16,7 @@ interface State {
   items: ListCartItem[]
 }
 
-const localStorage = useLocalStorage<ShoppingCartItem[]>('listingCart', [])
+const localStorage = useLocalStorage<ListCartItem[]>('listingCart', [])
 export const useListingCartStore = defineStore('listingCart', {
   state: (): State => ({
     items: localStorage.value,
@@ -37,17 +37,16 @@ export const useListingCartStore = defineStore('listingCart', {
     existInItemIndex(id: string) {
       return this.items.findIndex((item) => item.id === id)
     },
-    setItem(payload: ShoppingCartItem) {
+    setItem(payload: ListCartItem) {
       const existInItemIndex = this.existInItemIndex(payload.id)
       if (existInItemIndex === -1) {
-        this.items.push({ ...payload, listPrice: undefined })
+        this.items.push(payload)
         localStorage.value = this.items
       } else {
-        this.items[existInItemIndex] = payload
-        localStorage.value = this.items
+        this.updateItem(payload)
       }
     },
-    updateItem(payload: ShoppingCartItem) {
+    updateItem(payload: ListCartItem) {
       const existInItemIndex = this.existInItemIndex(payload.id)
       if (existInItemIndex !== -1) {
         this.items[existInItemIndex] = {
@@ -59,8 +58,20 @@ export const useListingCartStore = defineStore('listingCart', {
     },
     setFixedPrice(price) {
       for (const item of this.items) {
-        item.listPrice = price
+        set(item, 'listPrice', price)
       }
+    },
+    setFloorPrice(adjust = 1) {
+      for (const item of this.items) {
+        set(
+          item,
+          'listPrice',
+          this.round(Number(item.collection.floor ?? 0) * adjust)
+        )
+      }
+    },
+    round(number) {
+      return +(+number / 1000000000000).toFixed(12)
     },
     removeItem(id: ID) {
       const existInItemIndex = this.existInItemIndex(id)
@@ -73,7 +84,7 @@ export const useListingCartStore = defineStore('listingCart', {
       this.items = []
       localStorage.value = []
     },
-    setItems(payload: ShoppingCartItem[]) {
+    setItems(payload: ListCartItem[]) {
       this.items = payload
       localStorage.value = this.items
     },
