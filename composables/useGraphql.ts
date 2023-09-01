@@ -21,7 +21,7 @@ export default function ({
   error = ref(),
   loading = ref(true),
 }) {
-  const { $apollo, $consola } = useNuxtApp()
+  const { $consola } = useNuxtApp()
   const { prefix, client } = useQueryParams({ queryPrefix, clientName })
 
   interface DoFetchParams {
@@ -35,14 +35,14 @@ export default function ({
     const query = await resolveQueryPath(prefix, queryName)
 
     try {
-      const response = await $apollo.query({
-        query: query.default,
-        client: client,
-        variables: { ...variables, ...extraVariables },
-        ...options,
-        ...extraOptions,
-      })
-      data.value = response.data
+      const { data: result } = await useAsyncQuery(
+        query.default,
+        // client: client,
+        { ...variables, ...extraVariables }
+        // ...options,
+        // ...extraOptions,
+      )
+      data.value = result
     } catch (err) {
       ;(error.value as unknown) = err
       showNotification(`${err as string}`, notificationTypes.danger)
