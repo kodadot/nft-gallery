@@ -16,7 +16,7 @@
               Clear All
             </NeoButton>
             <div class="bar mx-4" />
-            <NeoButton variant="text" no-shadow @click.native="test">
+            <NeoButton variant="text" no-shadow @click.native="list">
               Select All
             </NeoButton>
           </div>
@@ -24,7 +24,7 @@
         <NeoButton
           class="height-100"
           :variant="'k-accent'"
-          @click.native="test">
+          @click.native="list">
           List Items
         </NeoButton>
       </div>
@@ -34,10 +34,12 @@
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 import { useListingCartStore } from '@/stores/listingCart'
+import { usePreferencesStore } from '~/stores/preferences'
 const listingCartStore = useListingCartStore()
+const preferencesStore = usePreferencesStore()
 
-function test() {
-  console.log('test')
+function list() {
+  preferencesStore.listingCartModalOpen = true
 }
 </script>
 <style scoped lang="scss">
