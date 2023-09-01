@@ -95,7 +95,8 @@
           <NotificationItem
             v-for="(event, index) in displayedEvents"
             :key="`${event.id}-${index}`"
-            :event="event" />
+            :event="event"
+            @click="closeModal" />
         </div>
       </div>
     </div>
