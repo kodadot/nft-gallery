@@ -14,12 +14,14 @@ type ID = string
 
 interface State {
   items: ListCartItem[]
+  owned: ListCartItem[]
 }
 
 const localStorage = useLocalStorage<ListCartItem[]>('listingCart', [])
 export const useListingCartStore = defineStore('listingCart', {
   state: (): State => ({
     items: localStorage.value,
+    owned: [],
   }),
   getters: {
     count: (state) => state.items.length,
@@ -46,6 +48,11 @@ export const useListingCartStore = defineStore('listingCart', {
         localStorage.value = this.items
       } else {
         this.updateItem(payload)
+      }
+    },
+    addAllToCart() {
+      for (const item of this.owned) {
+        this.setItem(item)
       }
     },
     updateItem(payload: ListCartItem) {

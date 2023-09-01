@@ -16,7 +16,10 @@
               Clear All
             </NeoButton>
             <div class="bar mx-4" />
-            <NeoButton variant="text" no-shadow @click.native="list">
+            <NeoButton
+              variant="text"
+              no-shadow
+              @click.native="listingCartStore.addAllToCart">
               Select All
             </NeoButton>
           </div>

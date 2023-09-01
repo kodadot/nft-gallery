@@ -44,6 +44,8 @@
 <script setup lang="ts">
 import { NeoNftCard } from '@kodadot1/brick'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
+import { nftToShoppingCardItem } from '~/components/common/shoppingCart/utils'
+import { useListingCartStore } from '~/stores/listingCart'
 import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'
 import isEqual from 'lodash/isEqual'
@@ -54,6 +56,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits(['total', 'loading'])
+const listingCartStore = useListingCartStore()
 
 const isLoading = ref(true)
 const gotoPage = (page: number) => {
@@ -101,6 +104,12 @@ const { nfts, fetchSearch, refetch } = useFetchSearch({
   isFetchingData,
   isLoading,
   resetSearch: resetPage,
+})
+
+watch(nfts, () => {
+  listingCartStore.owned = nfts.value
+    .filter((nft) => +(nft?.price ?? 0) === 0)
+    .map((nft) => nftToShoppingCardItem(nft))
 })
 
 watch(total, () => {
