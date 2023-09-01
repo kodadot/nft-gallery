@@ -21,6 +21,7 @@
 
 <script lang="ts" setup>
 import { NeoSkeleton } from '@kodadot1/brick'
+import BreadcrumbsFilter from '@/components/shared/BreadcrumbsFilter.vue'
 
 import CollectionGrid from './CollectionGrid.vue'
 

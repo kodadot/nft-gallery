@@ -43,6 +43,7 @@ import { getDenyList } from '~/utils/prefix'
 import CollectionCard from '@/components/collection/CollectionCard.vue'
 import { GRID_DEFAULT_WIDTH } from '@/components/collection/utils/constants'
 import { usePreferencesStore } from '@/stores/preferences'
+import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 
 const props = defineProps<{
   id?: string
