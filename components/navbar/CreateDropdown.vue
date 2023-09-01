@@ -7,7 +7,7 @@
         </div>
       </template>
 
-      <NeoDropdownItem v-if="chain !== 'ahk'">
+      <NeoDropdownItem>
         <NeoTooltip
           position="left"
           full-width
@@ -61,7 +61,6 @@
 
     <MobileExpandableSection v-else :no-padding="true" :title="$t('create')">
       <nuxt-link
-        v-if="chain !== 'ahk'"
         class="navbar-item"
         data-cy="classic"
         :to="`/${urlPrefix}/create`"
