@@ -65,7 +65,6 @@ const props = defineProps<{
   event: Event
 }>()
 const avatar = ref<string>()
-
 onMounted(() => {
   getAvatar()
 })
