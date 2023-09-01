@@ -34,13 +34,9 @@
         <div class="pt-4"><b>Set All To</b></div>
         <div class="pt-4">Collection Floor Price</div>
         <div class="py-2 is-flex is-justify-content-start is-flex-grow-1">
-          <div class="rounded border shade-border-color px-3 mr-2 pointer">
-            -5%
-          </div>
-          <div class="rounded border shade-border-color px-3 mr-2 pointer">
-            Floor Price
-          </div>
-          <div class="rounded border shade-border-color px-3 pointer">+5%</div>
+          <NeoButton class="mr-2" label="-5%" rounded no-shadow />
+          <NeoButton class="mr-2" label="Floor Price" rounded no-shadow />
+          <NeoButton label="+5%" rounded no-shadow />
         </div>
         <div class="pt-3 has-text-grey">-Or-</div>
         <div class="pt-3">Fixed Price</div>
