@@ -36,9 +36,18 @@
               emit
               @change="handleIdentity" />
           </h1>
-          <nuxt-link v-if="isAllowSetIdentity" to="/identity">
+
+          <NeoButton
+            v-if="isAllowSetIdentity"
+            to="/identity"
+            no-shadow
+            class="mb-4"
+            rounded
+            tag="nuxt-link"
+            size="small">
             + {{ $t('identity.set') }}
-          </nuxt-link>
+          </NeoButton>
+
           <div
             class="is-flex is-align-items-center is-justify-content-center is-flex-wrap-wrap">
             <NeoButton
