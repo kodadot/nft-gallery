@@ -34,7 +34,7 @@
     <div class="is-flex is-justify-content-space-between pt-2">
       <div class="is-flex is-flex-direction-column">
         <div class="has-text-grey"><small>Floor</small></div>
-        <CommonTokenMoney :value="nft.price" />
+        <CommonTokenMoney :value="nft.collection.floor" />
       </div>
 
       <div class="is-flex is-align-items-end pt-2">

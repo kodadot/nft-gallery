@@ -22,10 +22,11 @@ query nftListWithSearch(
   ) {
     ...nft
     ...nftDetails
-  
+
     collection {
       id
       name
+      floor
     }
     meta {
       ...baseMeta
