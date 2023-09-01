@@ -3,6 +3,7 @@ import {
   Attribute,
   Content,
   FXHashMetadata,
+  GenArt,
   OpenSeaAttribute,
   OpenSeaMetadata,
   PluralAssetMetadata,
@@ -54,6 +55,27 @@ export function contentFrom(meta: any): Content {
     externalUrl,
     tags,
     thumbnail,
+  }
+}
+
+export function generativeFrom(meta: any): GenArt | undefined {
+  const uri = meta.generativeUri || meta.generatorUri
+
+  if (!uri) {
+    return undefined
+  }
+
+  const previewHash = meta.previewHash
+  const previewParam = meta.previewParam || 'fxhash'
+  const capture = meta.capture
+  const settings = meta.settings
+
+  return {
+    uri,
+    previewHash,
+    previewParam,
+    capture,
+    settings,
   }
 }
 
