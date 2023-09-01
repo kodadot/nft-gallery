@@ -1,8 +1,15 @@
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import type { QueryOptions } from 'apollo-client'
+import { ComputedRef } from 'vue/types'
 
-export const useQueryParams = ({ queryPrefix, clientName }) => {
+export const useQueryParams = ({
+  queryPrefix,
+  clientName = '',
+}: {
+  queryPrefix: string
+  clientName: string | ComputedRef<string>
+}) => {
   const { client } = usePrefix()
 
   return {
@@ -14,7 +21,7 @@ export const useQueryParams = ({ queryPrefix, clientName }) => {
 export default function ({
   queryPrefix = '',
   queryName,
-  clientName = '',
+  clientName,
   variables = {},
   options = {},
   disabled = computed(() => false),
@@ -38,7 +45,7 @@ export default function ({
     try {
       const response = await $apollo.query({
         query: query.default,
-        client: client,
+        client: isRef(client) ? client.value : client,
         variables: { ...variables, ...extraVariables },
         ...options,
         ...extraOptions,
