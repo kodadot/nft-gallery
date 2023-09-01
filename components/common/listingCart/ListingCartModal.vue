@@ -31,13 +31,26 @@
             class="identity-name-font-weight-regular"
             data-cy="item-creator" />
         </div>
+        <div class="pt-4"><b>Set All To</b></div>
+        <div class="pt-4">Collection Floor Price</div>
+        <div class="py-2 is-flex is-justify-content-start is-flex-grow-1">
+          <div class="rounded border shade-border-color px-3 mr-2 pointer">
+            -5%
+          </div>
+          <div class="rounded border shade-border-color px-3 mr-2 pointer">
+            Floor Price
+          </div>
+          <div class="rounded border shade-border-color px-3 pointer">+5%</div>
+        </div>
+        <div class="pt-3 has-text-grey">-Or-</div>
+        <div class="pt-3">Fixed Price</div>
+        <ListingCartPriceInput check class="pt-2" />
       </div>
       <div class="py-2">
-        <ConfirmPurchaseItemRow
+        <ListingCartItem
           v-for="nft in listingCartStore.items"
           :key="nft.id"
-          :nft="nft"
-          class="py-2 px-6" />
+          :nft="nft" />
       </div>
       <div
         class="is-flex border-top is-justify-content-space-between py-4 px-6">
@@ -60,12 +73,12 @@
   </NeoModal>
 </template>
 <script setup lang="ts">
-import ConfirmPurchaseItemRow from '~/components/common/confirmPurchaseModal/ConfirmPurchaseItemRow.vue'
+import ListingCartPriceInput from '~/components/common/listingCart/ListingCartPriceInput.vue'
 import { totalPriceUsd } from '~/components/common/shoppingCart/utils'
 import IdentityItem from '~/components/identity/IdentityItem.vue'
 import CommonTokenMoney from '~/components/shared/CommonTokenMoney.vue'
 import { TokenToBuy } from '~/composables/transaction/types'
-import { NeoButton, NeoModal } from '~/libs/ui'
+import { NeoButton, NeoModal } from '@/libs/ui'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useListingCartStore } from '~/stores/listingCart'
 import { sum } from '~/utils/math'
@@ -121,6 +134,14 @@ const confirmListingLabel = computed(() => 'Complete Listing')
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
 
+.check-btn {
+  height: 3rem;
+}
+
+.height-100 {
+  height: 100%;
+}
+
 .top {
   z-index: 1000;
 }
@@ -145,5 +166,9 @@ const confirmListingLabel = computed(() => 'Complete Listing')
   .identity-name {
     font-weight: unset !important;
   }
+}
+
+.pointer {
+  cursor: pointer;
 }
 </style>

@@ -38,8 +38,6 @@
     </DynamicGrid>
     <EmptyResult v-else />
     <ScrollTopButton />
-    <ListingCartMini />
-    <ListingCartModal />
   </div>
 </template>
 
