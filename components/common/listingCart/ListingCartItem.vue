@@ -22,9 +22,14 @@
         </div>
       </div>
 
-      <div class="is-flex is-align-items-end no-wrap line-height-1">
-        <CommonTokenMoney :value="nft.price" />
-      </div>
+      <NeoButton
+        class="has-text-grey pt-5"
+        variant="text"
+        size="medium"
+        no-shadow
+        icon="trash"
+        icon-pack="far"
+        @click.native="listingCartStore.removeItem(nft.id)" />
     </div>
     <div class="is-flex is-justify-content-space-between pt-2">
       <div class="is-flex is-flex-direction-column">
@@ -43,8 +48,11 @@
 import { parseNftAvatar } from '@/utils/nft'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import ListingCartPriceInput from '~/components/common/listingCart/ListingCartPriceInput.vue'
+import { NeoButton } from '~/libs/ui'
+import { useListingCartStore } from '~/stores/listingCart'
 import { ShoppingCartItem } from '../shoppingCart/types'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
+const listingCartStore = useListingCartStore()
 
 const avatar = ref<string>()
 
