@@ -208,7 +208,7 @@ import { getChainNameByPrefix } from '@/utils/chain'
 import { createVisible } from '@/utils/config/permission.config'
 import ShoppingCartButton from './navbar/ShoppingCartButton.vue'
 
-// const { $neoModal } = useNuxtApp()
+const { neoModal } = useProgrammatic()
 const instance = getCurrentInstance()
 const showTopNavbar = ref(true)
 const openMobileSearchBar = ref(false)
@@ -247,13 +247,15 @@ const handleMobileChainSelect = () => {
 const openWalletConnectModal = (): void => {
   showMobileNavbar()
 
-  $neoModal.closeAll()
+  console.log('openWalletConnectModal')
+  neoModal.closeAll()
 
-  const modalInstance = $neoModal.open({
+  const modalInstance = neoModal.open({
     parent: instance?.proxy,
     ...ConnectWalletModalConfig,
     ...(isMobileWithoutTablet.value ? { animation: 'none' } : {}),
   })
+
   modalInstance.$once('close', () => {
     showMobileNavbar()
   })
@@ -340,14 +342,12 @@ onMounted(() => {
   document.body.style.overflowY = 'initial'
   document.body.className = 'has-navbar-fixed-top has-spaced-navbar-fixed-top'
   updateAuthBalanceTimer.value = setInterval(updateAuthBalance, 30000)
-  // $neoModal.addOpenListener(hideTopNavbar)
 })
 
 onBeforeUnmount(() => {
   setBodyScroll(true)
   document.documentElement.classList.remove('is-clipped-touch')
   clearInterval(updateAuthBalanceTimer.value)
-  // $neoModal.removeOpenListener(hideTopNavbar)
 })
 useEventListener(window, 'scroll', onScroll)
 useEventListener(window, 'resize', handleResize)

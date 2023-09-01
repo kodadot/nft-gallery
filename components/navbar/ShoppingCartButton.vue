@@ -27,7 +27,7 @@ import ActiveCount from '../explore/ActiveCount.vue'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 const { urlPrefix } = usePrefix()
 
-const { $neoModal } = useNuxtApp()
+const { neoModal } = useProgrammatic()
 const shoppingCartStore = useShoppingCartStore()
 const numberOfItems = computed(
   () => shoppingCartStore.getItemsByPrefix(urlPrefix.value).length
@@ -48,19 +48,24 @@ function toggleShoppingCartModal() {
     emit('closeBurgerMenu')
   }
 
-  $neoModal.closeAll()
+  console.log('test simple modal')
+  const vnode = h('p', { style: { 'text-align': 'center' } }, [
+    h('img', {
+      src: 'https://avatars2.githubusercontent.com/u/66300512?s=200&v=4',
+    }),
+  ])
+  neoModal.open({
+    content: [vnode],
+  })
+
+  neoModal.closeAll()
 
   // can use the function in ShoppingCartModalConfig
   if (!isShoppingCartOpen()) {
-    let modalInstance = openShoppingCart(
+    openShoppingCart(
       instance,
       isMobileWithoutTablet.value ? { animation: 'none' } : {}
     )
-    modalInstance.$once('close', () => {
-      if (isMobile.value) {
-        emit('closeBurgerMenu')
-      }
-    })
   }
 }
 </script>

@@ -13,13 +13,13 @@ export const isShoppingCartOpen = () =>
 
 export const openShoppingCart = (instance, config = {}) => {
   const preferencesStore = usePreferencesStore()
-  const { $neoModal } = useNuxtApp()
+  const { neoModal } = useProgrammatic()
 
   preferencesStore.setShoppingCartCollapse(true)
 
-  $neoModal.closeAll()
+  neoModal.closeAll()
 
-  return $neoModal.open({
+  return neoModal.open({
     parent: instance?.proxy,
     onCancel: () => {
       preferencesStore.setShoppingCartCollapse(false)
