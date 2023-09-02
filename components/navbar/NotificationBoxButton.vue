@@ -9,6 +9,7 @@
 import { NeoIcon } from '@kodadot1/brick'
 import { NotificationBoxModalConfig } from '@/components/common/NotificationBox/useNotificationBox'
 import { usePreferencesStore } from '@/stores/preferences'
+import { ModalCloseType } from './types'
 
 const props = defineProps<{
   showLabel: boolean
@@ -31,18 +32,18 @@ function toggleNotificationModal() {
   if (!document.querySelector('.notification-box-modal')) {
     preferencesStore.setNotificationBoxCollapse(true)
 
-    let modalInstance = $neoModal.open({
+    $neoModal.open({
       parent: instance?.proxy,
       onCancel: () => {
         preferencesStore.setNotificationBoxCollapse(false)
       },
+      onClose: (type: ModalCloseType) => {
+        if (isMobile.value && type === ModalCloseType.BACK) {
+          emit('closeBurgerMenu')
+        }
+      },
       ...NotificationBoxModalConfig,
       ...(isMobileWithoutTablet.value ? { animation: 'none' } : {}),
-    })
-    modalInstance.$once('close', () => {
-      if (isMobile.value) {
-        emit('closeBurgerMenu')
-      }
     })
   }
 }
