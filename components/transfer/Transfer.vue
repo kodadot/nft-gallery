@@ -111,7 +111,7 @@
                 },
               ]"
               placeholder="Enter wallet address"
-              empty-on-error />
+              disable-error />
             <NeoInput
               v-if="displayUnit === 'token'"
               v-model="destinationAddress.token"

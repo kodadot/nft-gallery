@@ -25,6 +25,7 @@ const props = withDefaults(
     strict: boolean
     icon?: string
     placeholder?: string
+    disableError?: boolean
   }>(),
   {
     label: 'Insert Address',
@@ -57,6 +58,11 @@ const clearIconClick = () => {
 
 const handleInput = (value: string) => {
   emit('input', value)
+
+  if (props.disableError) {
+    return value
+  }
+
   if (props.strict) {
     const [, err] = checkAddress(value, correctFormat(ss58Format.value))
     error.value = value ? err : ''
