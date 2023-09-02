@@ -99,6 +99,7 @@ export function useFetchSearch({
 
   const refetch = (search?: { [key: string]: string | number }[]) => {
     nfts.value = []
+    loadedPages.value = []
     fetchSearch({ search })
   }
 
