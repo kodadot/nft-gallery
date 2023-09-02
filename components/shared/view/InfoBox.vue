@@ -2,9 +2,15 @@
   <div class="info-box" :class="`info-box__${variant}`">
     <div class="header-container box-padding">
       <p class="is-size-6 title">{{ title }}</p>
-      <div class="cross">
-        <NeoIcon icon="x" @click.native="onClose" />
-      </div>
+
+      <NeoButton
+        variant="text"
+        no-shadow
+        icon="xmark"
+        icon-pack="fa-sharp"
+        size="medium"
+        class="cross"
+        @click.native="emit('close')" />
     </div>
     <div class="box-padding">
       <slot />
@@ -17,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 
 const emit = defineEmits(['close'])
 
@@ -52,10 +58,6 @@ $border_size: 1px;
       font-weight: bold;
       margin-bottom: 0;
     }
-
-    .cross {
-      cursor: pointer;
-    }
   }
 
   &__success {
@@ -64,6 +66,10 @@ $border_size: 1px;
     }
 
     background-color: #e6f7e6;
+
+    .cross {
+      background-color: #e6f7e6;
+    }
 
     .header-container {
       @include ktheme() {
@@ -78,6 +84,9 @@ $border_size: 1px;
     }
 
     background-color: #ffe6e6;
+    .cross {
+      background-color: #ffe6e6 !important;
+    }
 
     .header-container {
       @include ktheme() {
