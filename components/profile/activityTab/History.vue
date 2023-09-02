@@ -1,7 +1,16 @@
 <template>
-  <div class="block">
+  <div ref="container" class="block">
+    <slot
+      name="header"
+      :current-page="currentPage"
+      :total="total"
+      :per-page="itemsPerPage"
+      :desktop="desktop"
+      :update-current-page="updateCurrentPage" />
+
     <div class="is-flex is-justify-content-flex-end my-4">
       <Pagination
+        v-if="!desktop"
         v-model="currentPage"
         :total="total"
         :per-page="itemsPerPage"
@@ -93,6 +102,9 @@ const emit = defineEmits(['setPriceChartData'])
 const { $route } = useNuxtApp()
 const { decimals } = useChain()
 
+const container = ref<HTMLDivElement | null>(null)
+const { desktop } = useResponsive(container)
+
 const currentPage = ref(parseInt($route.query?.page) || 1)
 const event = ref<HistoryEventType>(HistoryEventType.BUY)
 const data = ref<Event[]>([])
@@ -106,6 +118,10 @@ onMounted(() => {
   })
   isOpen.value = prop.openOnDefault
 })
+
+const updateCurrentPage = (value) => {
+  currentPage.value = value
+}
 
 const total = computed(() => data.value.length)
 const itemsPerPage = computed(() => preferencesStore.getHistoryItemsPerPage)
