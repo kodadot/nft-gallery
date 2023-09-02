@@ -21,13 +21,13 @@
       variant="fail"
       :title="$t(`transfers.invalidAddress.${addressCheck.type}.title`)"
       @close="onClose">
-      <p
-        v-html="
+      <Markdown
+        :source="
           $t(`transfers.invalidAddress.${addressCheck.type}.content`, {
             addressChain: addressCheck.value,
             selectedChain: unit,
           })
-        "></p>
+        " />
 
       <template #footer>
         <NeoButton
