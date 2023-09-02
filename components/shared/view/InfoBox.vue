@@ -1,10 +1,12 @@
 <template>
   <div class="info-box" :class="`info-box__${variant}`">
-    <div class="title-container box-padding is-flex">
+    <div class="header-container box-padding">
       <p class="is-size-6 title">{{ title }}</p>
-      <NeoIcon icon="x" class="cursor" @click.native="onClose" />
+      <div class="cross">
+        <NeoIcon icon="x" @click.native="onClose" />
+      </div>
     </div>
-    <div class="content box-padding">
+    <div class="box-padding">
       <slot />
     </div>
 
@@ -41,9 +43,18 @@ $border_size: 1px;
 .info-box {
   width: 100%;
 
-  .title-container {
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
     .title {
       font-weight: bold;
+      margin-bottom: 0;
+    }
+
+    .cross {
+      cursor: pointer;
     }
   }
 
@@ -54,7 +65,7 @@ $border_size: 1px;
 
     background-color: #e6f7e6;
 
-    .title-container {
+    .header-container {
       @include ktheme() {
         border-bottom: $border_size solid theme('k-green');
       }
@@ -68,7 +79,7 @@ $border_size: 1px;
 
     background-color: #ffe6e6;
 
-    .title-container {
+    .header-container {
       @include ktheme() {
         border-bottom: $border_size solid theme('k-red');
       }
