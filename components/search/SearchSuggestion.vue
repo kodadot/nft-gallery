@@ -200,7 +200,7 @@
       v-show="!name"
       v-model="activeTrendingTab"
       expanded
-      nav-tabs-class="pt-2 pl-6 pr-6"
+      nav-tabs-class="pt-2 px-6"
       content-class="px-0 py-4">
       <NeoTabItem
         label="Trending"
