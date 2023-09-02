@@ -8,6 +8,7 @@
       :to="to"
       :icon="active && showIcon ? 'check' : ''">
       <slot>
+        {{ active && showIcon }}
         <span> {{ text }}</span>
       </slot>
     </NeoButton>
@@ -25,11 +26,12 @@ withDefaults(
     fullWidth?: boolean
     noShadow?: boolean
     tag: string
-    showIcon?: boolean
+    showIcon: boolean
   }>(),
   {
     to: '',
     tag: 'nuxt-link',
+    showIcon: true,
   }
 )
 </script>
