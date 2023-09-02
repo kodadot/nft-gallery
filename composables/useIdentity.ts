@@ -3,7 +3,7 @@ import { ComputedRef } from 'vue/types'
 
 import shortAddress from '@/utils/shortAddress'
 
-type IdentityFields = Record<string, string>
+export type IdentityFields = Record<string, string>
 
 export default function useIdentity({
   address = computed(() => ''),
@@ -34,8 +34,6 @@ export default function useIdentity({
   })
   const shortenedAddress = computed(() => shortAddress(address.value))
   const twitter = computed(() => identity?.value?.twitter)
-  const discord = computed(() => identity?.value?.discord)
-  const instagram = computed(() => identity?.value?.instagram)
   const display = computed(() => identity?.value?.display)
   const name = computed(() =>
     displayName({ customNameOption, identity, shortenedAddress })
@@ -49,8 +47,6 @@ export default function useIdentity({
     isFetchingIdentity: loading,
     shortenedAddress,
     twitter,
-    discord,
-    instagram,
     display,
     name,
   }

@@ -57,13 +57,6 @@
         expanded />
 
       <BasicInput
-        v-model="identity.discord"
-        label="Discord"
-        :maxlength="inputLengthLimit"
-        placeholder="Discord UserName#0000"
-        expanded />
-
-      <BasicInput
         v-model="identity.riot"
         label="Riot"
         :maxlength="inputLengthLimit"
@@ -88,7 +81,7 @@
 <script lang="ts" setup>
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { NeoField, NeoIcon, NeoInput, NeoTooltip } from '@kodadot1/brick'
-
+import type { IdentityFields } from '@/composables/useIdentity'
 const Auth = defineAsyncComponent(() => import('@/components/shared/Auth.vue'))
 const BasicInput = defineAsyncComponent(
   () => import('@/components/shared/form/BasicInput.vue')
@@ -112,12 +105,24 @@ const { urlPrefix } = usePrefix()
 const identityStore = useIdentityStore()
 const { howAboutToExecute, isLoading, initTransactionLoader, status } =
   useMetaTransaction()
-
+const identity = ref<IdentityFields>({})
 const deposit = ref('0')
 const inputLengthLimit = ref(32)
 
-const { identity } = useIdentity({
+const { identity: identityData } = useIdentity({
   address: accountId,
+})
+
+watch(identityData, () => {
+  const { display, legal, web, twitter, riot, email } = identityData.value
+  identity.value = {
+    display,
+    legal,
+    web,
+    twitter,
+    riot,
+    email,
+  }
 })
 
 const handleUrlPrefixChange = async () => {
@@ -130,12 +135,14 @@ const handleUrlPrefixChange = async () => {
 
 const enhanceIdentityData = (): Record<string, any> => {
   return Object.fromEntries(
-    Object.entries(identity.value).map(([key, val]: [string, string]) => {
-      if (val) {
-        return [key, { raw: val }]
-      }
-      return [key, { none: null }]
-    })
+    Object.entries(identity.value)
+      .filter(([, val]) => !!val)
+      .map(([key, val]: [string, string]) => {
+        if (val) {
+          return [key, { raw: val }]
+        }
+        return [key, { none: null }]
+      })
   )
 }
 
