@@ -8,9 +8,8 @@
       :desktop="desktop"
       :update-current-page="updateCurrentPage" />
 
-    <div class="is-flex is-justify-content-flex-end my-4">
+    <div v-if="!desktop" class="is-flex is-justify-content-flex-end my-5">
       <Pagination
-        v-if="!desktop"
         v-model="currentPage"
         :total="total"
         :per-page="itemsPerPage"
