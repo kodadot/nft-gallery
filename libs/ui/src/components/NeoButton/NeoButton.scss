@@ -175,6 +175,9 @@
 
   &.no-border {
     box-shadow: none;
+    &:hover {
+      background: none;
+    }
   }
 
   &--rounded {
@@ -217,8 +220,14 @@
   }
   
   .o-icon { 
-    &--medium {
-      margin-top: 3px;
+    @include ktheme() {
+      &--medium {
+        margin-top: 3px;
+      }
+      &:hover {
+        background: transparent;
+        color: theme('link-hover');
+      }
     }
   }
 }
