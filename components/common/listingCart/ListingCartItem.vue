@@ -49,7 +49,7 @@
 import { parseNftAvatar } from '@/utils/nft'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import ListingCartPriceInput from '@/components/common/listingCart/ListingCartPriceInput.vue'
-import { NeoButton } from '@/libs/ui'
+import { NeoButton } from '@kodadot1/brick'
 import { ListCartItem, useListingCartStore } from '@/stores/listingCart'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 const listingCartStore = useListingCartStore()
