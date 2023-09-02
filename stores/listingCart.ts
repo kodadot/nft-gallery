@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import { EntityWithId } from '~/components/rmrk/service/scheme'
 import { set } from 'vue'
+import type { Prefix } from '@kodadot1/static'
+
 export type ListCartItem = {
   id: string
   name: string
@@ -15,6 +17,7 @@ type ID = string
 interface State {
   items: ListCartItem[]
   owned: ListCartItem[]
+  chain: ComputedRef<Prefix>
 }
 
 const localStorage = useLocalStorage<ListCartItem[]>('listingCart', [])
@@ -22,16 +25,18 @@ export const useListingCartStore = defineStore('listingCart', {
   state: (): State => ({
     items: localStorage.value,
     owned: [],
+    chain: usePrefix().urlPrefix,
   }),
   getters: {
-    count: (state) => state.items.length,
+    itemsInChain: (state): ListCartItem[] =>
+      state.items.filter((item) => item.urlPrefix === state.chain),
+    count() {
+      return this.itemsInChain.length
+    },
     incompleteListPrices: (state) =>
       state.items.filter((item) => !item.listPrice).length,
   },
   actions: {
-    getItemsByPrefix(prefix: string) {
-      this.items.filter((item) => item.urlPrefix === prefix)
-    },
     getItem(id: ID) {
       return this.items.find((item) => item.id === id)
     },
@@ -66,12 +71,12 @@ export const useListingCartStore = defineStore('listingCart', {
       }
     },
     setFixedPrice(price: number) {
-      for (const item of this.items) {
+      for (const item of this.itemsInChain) {
         set(item, 'listPrice', price)
       }
     },
     setFloorPrice(adjust = 1) {
-      for (const item of this.items) {
+      for (const item of this.itemsInChain) {
         set(
           item,
           'listPrice',
@@ -90,12 +95,9 @@ export const useListingCartStore = defineStore('listingCart', {
       }
     },
     clear() {
-      this.items = []
-      localStorage.value = []
-    },
-    setItems(payload: ListCartItem[]) {
-      this.items = payload
-      localStorage.value = this.items
+      for (const item of this.itemsInChain) {
+        this.removeItem(item.id)
+      }
     },
   },
 })

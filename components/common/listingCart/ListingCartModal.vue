@@ -64,7 +64,7 @@
         </div>
         <div class="py-2">
           <ListingCartItem
-            v-for="nft in listingCartStore.items"
+            v-for="nft in listingCartStore.itemsInChain"
             :key="nft.id"
             :nft="nft" />
         </div>
@@ -117,12 +117,12 @@ function setFixedPrice() {
 }
 
 const priceUSD = computed(() => {
-  const { nfts, royalties } = totalPriceUsd(listingCartStore.items)
+  const { nfts, royalties } = totalPriceUsd(listingCartStore.itemsInChain)
   return (nfts + royalties).toFixed(2)
 })
 
 const totalNFTsPrice = computed(() =>
-  sum(listingCartStore.items.map((nft) => Number(nft.price)))
+  sum(listingCartStore.itemsInChain.map((nft) => Number(nft.price)))
 )
 
 const confirmListingLabel = computed(() => {
@@ -137,7 +137,7 @@ const confirmListingLabel = computed(() => {
 })
 async function confirm() {
   const updateItems = {} as { [urlPrefix: string]: TokenToList[] }
-  for (const item of listingCartStore.items) {
+  for (const item of listingCartStore.itemsInChain) {
     if (item.listPrice) {
       if (!updateItems[item.urlPrefix]) {
         updateItems[item.urlPrefix] = []
