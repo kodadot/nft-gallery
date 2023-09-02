@@ -75,7 +75,7 @@
           </div>
           <div class="my-5">
             <div
-              v-if="!hasUserMinted"
+              v-if="!userMintedId"
               class="is-flex is-justify-content-space-between">
               <div class="is-flex is-align-items-center">
                 <NeoIcon
@@ -101,7 +101,7 @@
                 </div>
               </div>
             </div>
-            <nuxt-link v-else :to="`/${urlPrefix}/gallery/${hasUserMinted}`">
+            <nuxt-link v-else :to="`/${urlPrefix}/gallery/${userMintedId}`">
               <p class="title is-size-4">
                 [{{ $t('mint.unlockable.alreadyMinted') }}]
               </p>
@@ -172,17 +172,13 @@ import {
   countDownTime,
 } from './const'
 
-import {
-  createUnlockableMetadata,
-  getRandomInt,
-} from '@/components/collection/unlockable/utils'
 import { useCheckReferenDumVote } from '@/composables/drop/useCheckReferenDumVote'
 
 const Loader = defineAsyncComponent(
   () => import('@/components/collection/unlockable/UnlockableLoader.vue')
 )
 
-const { $buefy, $i18n } = useNuxtApp()
+const { $neoModal, $i18n } = useNuxtApp()
 const root = ref<Vue>()
 const { accountId } = useAuth()
 
@@ -253,10 +249,10 @@ const { data: collectionData, refetch } = useGraphql({
   },
 })
 
-watch(collectionData, async () => {
+watch(collectionData, () => {
   if (collectionData.value) {
     imageList.value = [
-      await sanitizeIpfsUrl(collectionData.value?.collectionEntity.image),
+      sanitizeIpfsUrl(collectionData.value?.collectionEntity.image),
     ]
   }
 })
@@ -284,10 +280,11 @@ const mintedPercent = computed(() => {
   return Math.round(percent)
 })
 
-const hasUserMinted = computed(
+const userMintedId = computed(
   () =>
-    collectionData.value?.nftEntitiesConnection?.edges?.[0]?.node?.id ||
-    justMinted.value
+    Boolean(accountId.value) &&
+    (collectionData.value?.nftEntitiesConnection?.edges?.[0]?.node?.id ||
+      justMinted.value)
 )
 
 const mintCountAvailable = computed(() => mintedCount.value < totalCount)
@@ -295,13 +292,13 @@ const mintCountAvailable = computed(() => mintedCount.value < totalCount)
 const mintButtonDisabled = computed(
   () =>
     Boolean(
-      !mintCountAvailable.value || !isEligibleUser.value || hasUserMinted.value
+      !mintCountAvailable.value || !isEligibleUser.value || userMintedId.value
     ) && !needCheckEligible.value
 )
 
 const handleMint = async () => {
   if (!isLogIn.value) {
-    $buefy.modal.open({
+    $neoModal.open({
       parent: root?.value,
       ...ConnectWalletModalConfig,
     })
@@ -313,21 +310,14 @@ const handleMint = async () => {
   }
   isLoading.value = true
 
-  const imageHash = collectionData.value.collectionEntity.image
-  const hash = await createUnlockableMetadata(
-    imageHash,
-    VOTE_DROP_DESCRIPTION,
-    collectionData.value?.collectionEntity.name
-  )
-
   const { accountId } = useAuth()
 
   try {
     const id = await doWaifu(
       {
         address: accountId.value,
-        metadata: hash,
-        image: imageHash,
+        metadata: collectionData.value.collectionEntity.metadata,
+        image: collectionData.value.collectionEntity.image,
       },
       urlPrefix.value === 'ahk' ? VOTE_DROP_CAMPAIGN : VOTE_DROP_AHP_CAMPAIGN
     ).then((res) => {
