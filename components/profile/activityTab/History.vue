@@ -18,41 +18,46 @@
         preserve-scroll />
     </div>
 
-    <ResponsiveTable
-      :no-results-main="$t('activity.noResults')"
-      :no-results-sub="$t('activity.noResultsSub')"
-      :items="showList"
-      :show-no-results="!showList.length">
-      <template #columns>
-        <div class="column">
-          <span>{{ $t('activity.event.item') }}</span>
-        </div>
-        <div class="column is-1">
-          <span>{{ $t('activity.event.event') }}</span>
-        </div>
-        <div class="column">
-          <span>{{ $t('activity.event.amount') }}</span>
-        </div>
-        <div class="column">
-          <span>{{ $t('activity.event.from') }}</span>
-        </div>
-        <div v-if="isToColumnVisible" class="column">
-          <span>{{ $t('activity.event.to') }}</span>
-        </div>
-        <div class="column">
-          <span>{{ $t('activity.event.time') }}</span>
-        </div>
-      </template>
+    <div
+      :class="{
+        'mt-4': desktop,
+      }">
+      <ResponsiveTable
+        :no-results-main="$t('activity.noResults')"
+        :no-results-sub="$t('activity.noResultsSub')"
+        :items="showList"
+        :show-no-results="!showList.length">
+        <template #columns>
+          <div class="column">
+            <span>{{ $t('activity.event.item') }}</span>
+          </div>
+          <div class="column is-1">
+            <span>{{ $t('activity.event.event') }}</span>
+          </div>
+          <div class="column">
+            <span>{{ $t('activity.event.amount') }}</span>
+          </div>
+          <div class="column">
+            <span>{{ $t('activity.event.from') }}</span>
+          </div>
+          <div v-if="isToColumnVisible" class="column">
+            <span>{{ $t('activity.event.to') }}</span>
+          </div>
+          <div class="column">
+            <span>{{ $t('activity.event.time') }}</span>
+          </div>
+        </template>
 
-      <template #rows="{ variant }">
-        <HistoryRow
-          v-for="item in showList"
-          :key="item.ID"
-          :event="item"
-          :variant="variant"
-          :with-to-column="isToColumnVisible" />
-      </template>
-    </ResponsiveTable>
+        <template #rows="{ variant }">
+          <HistoryRow
+            v-for="item in showList"
+            :key="item.ID"
+            :event="item"
+            :variant="variant"
+            :with-to-column="isToColumnVisible" />
+        </template>
+      </ResponsiveTable>
+    </div>
   </div>
 </template>
 
