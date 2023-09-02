@@ -56,7 +56,7 @@ import { useListingCartStore } from '@/stores/listingCart'
 import { usePreferencesStore } from '@/stores/preferences'
 import { nftToShoppingCardItem } from '@/components/common/shoppingCart/utils'
 import { isOwner as checkOwner } from '@/utils/account'
-import { useCollectionDetails } from '~/components/collection/utils/useCollectionDetails'
+import { useCollectionDetails } from '@/components/collection/utils/useCollectionDetails'
 
 const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()

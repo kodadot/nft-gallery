@@ -37,7 +37,7 @@
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 import { useListingCartStore } from '@/stores/listingCart'
-import { usePreferencesStore } from '~/stores/preferences'
+import { usePreferencesStore } from '@/stores/preferences'
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
 

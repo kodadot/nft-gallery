@@ -44,8 +44,8 @@
 <script setup lang="ts">
 import { NeoNftCard } from '@kodadot1/brick'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
-import { nftToShoppingCardItem } from '~/components/common/shoppingCart/utils'
-import { useListingCartStore } from '~/stores/listingCart'
+import { nftToShoppingCardItem } from '@/components/common/shoppingCart/utils'
+import { useListingCartStore } from '@/stores/listingCart'
 import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'
 import isEqual from 'lodash/isEqual'

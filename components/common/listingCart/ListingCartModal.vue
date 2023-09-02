@@ -92,17 +92,17 @@
 </template>
 <script setup lang="ts">
 import { Interaction } from '@kodadot1/minimark/v1'
-import ListingCartPriceInput from '~/components/common/listingCart/ListingCartPriceInput.vue'
-import { totalPriceUsd } from '~/components/common/shoppingCart/utils'
-import IdentityItem from '~/components/identity/IdentityItem.vue'
-import CommonTokenMoney from '~/components/shared/CommonTokenMoney.vue'
+import ListingCartPriceInput from '@/components/common/listingCart/ListingCartPriceInput.vue'
+import { totalPriceUsd } from '@/components/common/shoppingCart/utils'
+import IdentityItem from '@/components/identity/IdentityItem.vue'
+import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { NeoButton, NeoModal } from '@/libs/ui'
 import { usePreferencesStore } from '@/stores/preferences'
-import { TokenToList } from '~/composables/transaction/types'
-import { useListingCartStore } from '~/stores/listingCart'
-import { calculateBalance } from '~/utils/format/balance'
-import { sum } from '~/utils/math'
-import { warningMessage } from '~/utils/notification'
+import { TokenToList } from '@/composables/transaction/types'
+import { useListingCartStore } from '@/stores/listingCart'
+import { calculateBalance } from '@/utils/format/balance'
+import { sum } from '@/utils/math'
+import { warningMessage } from '@/utils/notification'
 const { isLogIn, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
