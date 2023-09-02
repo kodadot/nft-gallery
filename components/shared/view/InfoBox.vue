@@ -10,7 +10,7 @@
         icon-pack="fa-sharp"
         size="medium"
         class="cross"
-        @click.native="emit('close')" />
+        @click.native="onClose" />
     </div>
     <div class="box-padding">
       <slot />
