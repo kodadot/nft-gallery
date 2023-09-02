@@ -6,7 +6,7 @@
       :no-shadow="noShadow"
       :active="active"
       :to="to"
-      :icon="active && !slots ? 'check' : ''">
+      :icon="active && showIcon ? 'check' : ''">
       <slot>
         <span> {{ text }}</span>
       </slot>
@@ -25,17 +25,13 @@ withDefaults(
     fullWidth?: boolean
     noShadow?: boolean
     tag: string
-    icon?: string
+    showIcon?: boolean
   }>(),
   {
     to: '',
     tag: 'nuxt-link',
-    icon: '',
   }
 )
-
-const slots = useSlots()
-console.log(slots)
 </script>
 
 <style scoped lang="scss">

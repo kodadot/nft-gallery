@@ -97,6 +97,7 @@
           class="is-capitalized"
           :active="activeTab === tab"
           :text="tab"
+          show-icon
           @click.native="() => switchToTab(tab)">
           <span>
             {{ tab }}
