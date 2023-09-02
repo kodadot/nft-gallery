@@ -201,13 +201,8 @@ const loadCollectionMeta = async () => {
 
 const fetchCollections = async () => {
   const query = await resolveQueryPath(urlPrefix.value, 'collectionForMint')
-  const newCollections = await $apollo.query({
-    query: query.default,
-    client: urlPrefix.value,
-    variables: {
-      account: accountId.value,
-    },
-    fetchPolicy: 'network-only',
+  const { data: newCollections } = await useAsyncQuery(query.default, {
+    account: accountId.value,
   })
 
   const {

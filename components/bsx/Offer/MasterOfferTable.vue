@@ -71,17 +71,18 @@ const accountIdChanged = ref('')
 const incomingOffers = ref([])
 const skipUserOffer = ref(false) // skip fetching with id when this variable is true
 
-const { $apollo, $i18n, $route, $router } = useNuxtApp()
+const { $i18n } = useNuxtApp()
 const { accountId, isLogIn } = useAuth()
-const { client } = usePrefix()
+const route = useRoute()
+const router = useRouter()
 
 const currentOfferType = ref(SelectedOfferType.ALL)
 
 const selectedOfferType = computed({
-  get: () => $route.query.tab || currentOfferType.value,
+  get: () => route.query.tab || currentOfferType.value,
   set: (value) => {
-    const { target } = $route.query
-    $router.push({
+    const { target } = route.query
+    router.push({
       query: { target, tab: value },
     })
     currentOfferType.value = value
@@ -106,14 +107,14 @@ const offerTypeOptions = ref([
 ])
 
 const handleAddressUpdate = (target: string) => {
-  const { tab } = $route.query
+  const { tab } = route.query
   if (target) {
     checkOfferForAddress()
-    $router.replace({ query: { target, tab } }).catch(() => null) // null to further not throw navigation errors
+    router.replace({ query: { target, tab } }).catch(() => null) // null to further not throw navigation errors
   } else {
     currentOfferType.value = SelectedOfferType.ALL
     checkOfferForAddress(true)
-    $router.replace({ query: { tab } }).catch(() => null) // null to further not throw navigation errors
+    router.replace({ query: { tab } }).catch(() => null) // null to further not throw navigation errors
   }
 }
 
@@ -127,7 +128,7 @@ const offersIncomingUpdate = (data) => {
 }
 
 const checkQueryParams = () => {
-  const { query } = $route
+  const { query } = route
   if (query.target) {
     const hasAddress = isAddress(query.target as string)
     if (hasAddress) {
@@ -156,12 +157,7 @@ const fetchCreatedOffers = async () => {
     if (!skipUserOffer.value) {
       variables.id = destinationAddress.value || accountId.value
     }
-
-    const { data } = await $apollo.query<OfferResponse>({
-      query: offerListUser,
-      client: client.value,
-      variables: variables,
-    })
+    const { data } = await useAsyncQuery(offerListUser, variables)
     if (data?.offers?.length) {
       createdOffers.value = data.offers
       if (!skipUserOffer.value) {
