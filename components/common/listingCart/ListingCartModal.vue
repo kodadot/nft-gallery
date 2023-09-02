@@ -136,7 +136,7 @@ const confirmListingLabel = computed(() => {
   }
 })
 async function confirm() {
-  const token = {} as TokenToList[]
+  const token = [] as TokenToList[]
   for (const item of listingCartStore.itemsInChain) {
     if (item.listPrice) {
       token.push({
