@@ -675,7 +675,8 @@
     "pendingTip": "Your transaction is being confirmed",
     "completed": "Completed",
     "completedTip": "Your transfer was successful!",
-    "showTransaction": "Show Transaction"
+    "showTransaction": "Show Transaction",
+    "copyTransactionLink": "transaction link copied"
   },
   "arweave": {
     "uploadYes": "Upload NFT image to Arweave",
