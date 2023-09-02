@@ -108,12 +108,8 @@ useLazyAsyncData('stats', async () => {
   }
 
   const query = await resolveQueryPath(client.value, 'profileStatsById')
-  const { data } = await $apollo.query({
-    query: query.default,
-    client: client.value,
-    variables: {
-      id: props.id,
-    },
+  const { result: data } = useQuery(query.default, {
+    id: props.id,
   })
 
   if (!data) {
@@ -122,12 +118,12 @@ useLazyAsyncData('stats', async () => {
   }
 
   stats.value = {
-    listedCount: data.listed.totalCount,
-    totalCollected: data.obtained.totalCount,
+    listedCount: data.value.listed.totalCount,
+    totalCollected: data.value.obtained.totalCount,
   }
 
-  getSellerEvents(data)
-  getInvestorStatsEvents(data)
+  getSellerEvents(data.value)
+  getInvestorStatsEvents(data.value)
 })
 
 // Collector stats: Invested and Spend Statistics

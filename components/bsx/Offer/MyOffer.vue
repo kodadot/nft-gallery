@@ -142,12 +142,8 @@ const { refresh } = useLazyAsyncData('offers', async () => {
   }
 
   try {
-    const { data } = await $apollo.query<OfferResponse>({
-      client: client.value,
-      query: acceptableOfferByCurrentOwner,
-      variables: {
-        id: targetAddress.value,
-      },
+    const { data } = await useAsyncQuery(acceptableOfferByCurrentOwner, {
+      id: targetAddress.value,
     })
     offers.value = data.offers
   } catch (e) {

@@ -354,18 +354,13 @@ const fetchCollectionEvents = async (ids: string[]) => {
     return []
   }
   try {
-    // const today = new Date()
-    const { data } = await $apollo.query<{ events }>({
-      query: collectionsEvents,
-      client: client.value,
-      variables: {
-        ids: ids,
-        and: {
-          interaction_eq: 'BUY',
-        },
-        lte: today,
-        gte: lastmonthDate,
+    const { data } = await useAsyncQuery(collectionsEvents, {
+      ids: ids,
+      and: {
+        interaction_eq: 'BUY',
       },
+      lte: today,
+      gte: lastmonthDate,
     })
     return data.events
   } catch (e) {
@@ -379,12 +374,10 @@ const fetchCollectionsSeries = async (
   sort: string = toSort(sortBy)
 ) => {
   isLoading.value = true
-  const collections = await $apollo.query({
-    query: seriesInsightList,
-    client: client.value,
-    variables: await seriesQueryParams(limit, sort),
-    fetchPolicy: 'cache-first',
-  })
+  const { data: collections } = await useAsyncQuery(
+    seriesInsightList,
+    await seriesQueryParams(limit, sort)
+  )
 
   const {
     data: { collectionEntities },
