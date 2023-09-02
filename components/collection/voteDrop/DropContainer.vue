@@ -158,7 +158,7 @@ import UnlockableCollectionInfo from '@/components/collection/unlockable/Unlocka
 import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
-import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
+import { doWaifu } from '@/services/waifu'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import type Vue from 'vue'
