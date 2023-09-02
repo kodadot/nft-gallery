@@ -219,12 +219,17 @@
     }
   }
   
-  .o-icon { 
-    @include ktheme() {
-      &--medium {
-        margin-top: 3px;
-      }
-      &:hover {
+  .o-icon {
+    &--medium {
+      margin-top: 3px;
+    }
+  }
+}
+
+.o-btn { 
+  @include ktheme() {
+    &:hover {
+      .o-icon {
         background: transparent;
         color: theme('link-hover');
       }
