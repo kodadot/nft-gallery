@@ -934,7 +934,7 @@
       We have collected the following categories of personal information in the
       past twelve (12) months:
     </p>
-    <table class="mb-4">
+    <table class="mb-4" aria-describedby="personal information collected">
       <thead>
         <tr>
           <th>Category</th>
