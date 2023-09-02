@@ -4,13 +4,12 @@
       v-if="showChanged"
       variant="success"
       :title="
-        $t(`transfers.invalidAddress.addressChanged`, getTranslationVariables())
+        $t(`transfers.invalidAddress.addressChanged`, { selectedChain: unit })
       "
       @close="onClose">
       <p>
         Address was successfully changed for
-        {{ getTranslationVariables().selectedChain }} network. You can double
-        check correctness
+        {{ chainName }} network. You can double check correctness
         <nuxt-link as="a" to="https://kusama.subscan.io/tools/format_transform"
           >here</nuxt-link
         >
@@ -24,10 +23,10 @@
       @close="onClose">
       <p
         v-html="
-          $t(
-            `transfers.invalidAddress.${addressCheck.type}.content`,
-            getTranslationVariables()
-          )
+          $t(`transfers.invalidAddress.${addressCheck.type}.content`, {
+            addressChain: addressCheck.value,
+            selectedChain: unit,
+          })
         "></p>
 
       <template #footer>
@@ -38,10 +37,10 @@
           size="small"
           @click.native="changeAddress">
           {{
-            $t(
-              `transfers.invalidAddress.changeToChainAddress`,
-              getTranslationVariables()
-            )
+            $t(`transfers.invalidAddress.changeToChainAddress`, {
+              addressChain: addressCheck.value,
+              selectedChain: unit,
+            })
           }}
         </NeoButton>
       </template>
@@ -57,19 +56,20 @@ import {
   isEthereumAddress,
 } from '@polkadot/util-crypto'
 import correctFormat from '@/utils/ss58Format'
-import { CHAINS, chainNames } from '@/libs/static/src/chains'
+import { CHAINS } from '@/libs/static/src/chains'
 import InfoBox from '@/components/shared/view/InfoBox.vue'
 import { NeoButton } from '@kodadot1/brick'
+import { type Prefix, chainNames } from '@kodadot1/static'
 
 const emit = defineEmits(['check', 'change'])
 const props = defineProps<{
   address: string
 }>()
 
-const { chainProperties } = useChain()
+const { chainProperties, unit } = useChain()
 const { urlPrefix } = usePrefix()
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
-
+const chainName = computed(() => chainNames[urlPrefix.value])
 const addressCheck = ref<AddressCheck | null>(null)
 const showChanged = ref(false)
 
@@ -86,8 +86,10 @@ const isWrongSubstrateNetworkAddress = computed(
 type AddressCheck = {
   valid: boolean
   type?: AddressType
-  value?: string[]
+  value?: string
 }
+
+const CHAINS_ADDRESS_CHECKS: Prefix[] = ['rmrk', 'bsx', 'movr', 'glmr', 'dot']
 
 const checkAddressByss58Format = (value: string, ss58: number) =>
   checkAddress(value, correctFormat(ss58))
@@ -106,16 +108,16 @@ const getAddressCheck = (value: string): AddressCheck => {
     return { valid: true }
   }
 
-  const validAddressesChains = Object.keys(CHAINS).filter((chain) => {
+  const [validAddressesChain] = CHAINS_ADDRESS_CHECKS.filter((chain) => {
     const [isValid] = checkAddressByss58Format(value, CHAINS[chain].ss58Format)
     return isValid
   })
 
-  if (validAddressesChains.length > 0) {
+  if (validAddressesChain) {
     return {
       valid: false,
       type: AddressType.WRONG_SUBSTRATE_NETWORK_ADDRESS,
-      value: validAddressesChains,
+      value: CHAINS[validAddressesChain].tokenSymbol,
     }
   }
 
@@ -123,7 +125,7 @@ const getAddressCheck = (value: string): AddressCheck => {
 }
 
 const onClose = () => {
-  addressCheck.value = null
+  showChanged.value = false
 }
 
 const changeAddress = () => {
@@ -132,11 +134,6 @@ const changeAddress = () => {
   showChanged.value = true
   emit('change', chainAddress)
 }
-
-const getTranslationVariables = () => ({
-  addressChain: addressCheck.value?.value, // TODO: TEMP
-  selectedChain: chainNames[urlPrefix.value],
-})
 
 watch(
   () => props.address,
@@ -150,6 +147,8 @@ watch(
 )
 
 watch(addressCheck, () => {
-  emit('check', addressCheck.value ? addressCheck.value.valid : false)
+  const isValid = addressCheck.value ? addressCheck.value.valid : false
+
+  emit('check', isValid)
 })
 </script>

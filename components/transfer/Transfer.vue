@@ -133,7 +133,7 @@
               class="is-flex-1"
               @input="onUsdFieldChange(destinationAddress)" />
           </div>
-          <div>
+          <div class="mt-2">
             <AddressChecker
               :address="destinationAddress.address"
               @check="
