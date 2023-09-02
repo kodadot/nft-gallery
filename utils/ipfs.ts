@@ -119,7 +119,9 @@ export const fetchMetadata = async <T>(
       return emptyObject<T>()
     }
 
-    const { status, _data } = await api.raw(sanitizer(rmrk.metadata))
+    const { status, _data } = await api.raw(sanitizer(rmrk.metadata), {
+      responseType: 'json',
+    })
     if (status < 400) {
       return _data as T
     }
