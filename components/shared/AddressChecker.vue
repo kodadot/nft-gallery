@@ -10,14 +10,16 @@
       <p>
         Address was successfully changed for
         {{ chainName }} network. You can double check correctness
-        <nuxt-link as="a" to="https://kusama.subscan.io/tools/format_transform"
+        <nuxt-link
+          target="_blank"
+          to="https://kusama.subscan.io/tools/format_transform"
           >here</nuxt-link
         >
       </p>
     </InfoBox>
 
     <InfoBox
-      v-else-if="addressCheck && !addressCheck.valid"
+      v-else-if="addressCheck && showAddressCheck"
       variant="fail"
       :title="$t(`transfers.invalidAddress.${addressCheck.type}.title`)"
       @close="onClose">
@@ -29,16 +31,10 @@
           })
         " />
 
-      <template #footer>
-        <NeoButton
-          v-if="isWrongSubstrateNetworkAddress"
-          no-shadow
-          rounded
-          size="small"
-          @click.native="changeAddress">
+      <template v-if="isWrongSubstrateNetworkAddress" #footer>
+        <NeoButton no-shadow rounded size="small" @click.native="changeAddress">
           {{
             $t(`transfers.invalidAddress.changeToChainAddress`, {
-              addressChain: addressCheck.value,
               selectedChain: unit,
             })
           }}
@@ -61,6 +57,20 @@ import InfoBox from '@/components/shared/view/InfoBox.vue'
 import { NeoButton } from '@kodadot1/brick'
 import { type Prefix, chainNames } from '@kodadot1/static'
 
+enum AddressType {
+  ETHEREUM = 'ethereum',
+  WRONG_SUBSTRATE_NETWORK_ADDRESS = 'wrong_substrate_network_address',
+  UNKNOWN = 'unknown',
+}
+
+type AddressCheck = {
+  valid: boolean
+  type?: AddressType
+  value?: string
+}
+
+const CHAINS_ADDRESS_CHECKS: Prefix[] = ['rmrk', 'bsx', 'movr', 'glmr', 'dot']
+
 const emit = defineEmits(['check', 'change'])
 const props = defineProps<{
   address: string
@@ -71,25 +81,12 @@ const { urlPrefix } = usePrefix()
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
 const chainName = computed(() => chainNames[urlPrefix.value])
 const addressCheck = ref<AddressCheck | null>(null)
+const showAddressCheck = ref(false)
 const showChanged = ref(false)
-
-enum AddressType {
-  ETHEREUM = 'ethereum',
-  WRONG_SUBSTRATE_NETWORK_ADDRESS = 'wrong_substrate_network_address',
-  UNKNOWN = 'unknown',
-}
 
 const isWrongSubstrateNetworkAddress = computed(
   () => addressCheck.value?.type === AddressType.WRONG_SUBSTRATE_NETWORK_ADDRESS
 )
-
-type AddressCheck = {
-  valid: boolean
-  type?: AddressType
-  value?: string
-}
-
-const CHAINS_ADDRESS_CHECKS: Prefix[] = ['rmrk', 'bsx', 'movr', 'glmr', 'dot']
 
 const checkAddressByss58Format = (value: string, ss58: number) =>
   checkAddress(value, correctFormat(ss58))
@@ -126,6 +123,7 @@ const getAddressCheck = (value: string): AddressCheck => {
 
 const onClose = () => {
   showChanged.value = false
+  showAddressCheck.value = false
 }
 
 const changeAddress = () => {
@@ -140,11 +138,19 @@ watch(
   (address) => {
     if (address !== '') {
       addressCheck.value = getAddressCheck(address)
+      showAddressCheck.value = !addressCheck.value.valid
     } else {
-      addressCheck.value = null
+      showAddressCheck.value = false
+      showChanged.value = false
     }
   }
 )
+
+watch(showAddressCheck, () => {
+  if (showAddressCheck.value) {
+    showChanged.value = false
+  }
+})
 
 watch(addressCheck, () => {
   const isValid = addressCheck.value ? addressCheck.value.valid : false
