@@ -8,7 +8,6 @@
       :to="to"
       :icon="active && showIcon ? 'check' : ''">
       <slot>
-        {{ active && showIcon }}
         <span> {{ text }}</span>
       </slot>
     </NeoButton>
