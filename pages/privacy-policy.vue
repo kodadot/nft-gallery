@@ -1449,7 +1449,10 @@
       info@kodadot.xyz or contact us by post at:
     </p>
     <p class="mb-4">
-      GenArt, Matej Nemček s.p. Proletarska cesta 4 Ljubljana 1000 Slovenia
+      GenArt, Matej Nemček s.p. <br />
+      Proletarska cesta 4 <br />
+      Ljubljana 1000 <br />
+      Slovenia
     </p>
     <h3 id="data" class="heading heading-is-2">
       16. HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM YOU?
@@ -1485,9 +1488,6 @@ export default {
 @import '@/styles/abstracts/variables';
 section {
   @include ktheme() {
-    a {
-      color: theme('k-blue');
-    }
     th,
     td {
       border: 1px solid theme('border-color');
