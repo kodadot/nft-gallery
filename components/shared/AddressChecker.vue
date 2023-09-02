@@ -44,7 +44,7 @@
             }}
           </NeoButton>
           <a
-            href="https://www.youtube.com/watch?v=3gPvGym8H7I"
+            v-safe-href="`https://www.youtube.com/watch?v=3gPvGym8H7I`"
             target="_blank"
             class="ml-2 is-size-7 is-blue">
             {{ $t('helper.learnMore') }}
