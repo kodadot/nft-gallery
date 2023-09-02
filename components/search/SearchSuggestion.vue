@@ -170,7 +170,7 @@
         </template>
       </NeoTabItem>
     </NeoTabs>
-    <div v-if="!name" class="search-history pt-5 mt-0">
+    <div v-if="!name" class="search-history pt-5">
       <div
         v-for="item in filterSearch"
         :key="item.id"
