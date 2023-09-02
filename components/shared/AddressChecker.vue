@@ -46,7 +46,7 @@
           <a
             href="https://www.youtube.com/watch?v=3gPvGym8H7I"
             target="_blank"
-            class="ml-2 is-size-7">
+            class="ml-2 is-size-7 is-blue">
             {{ $t('helper.learnMore') }}
           </a>
         </div>
@@ -90,7 +90,6 @@ const props = defineProps<{
 const { chainProperties, unit } = useChain()
 const { urlPrefix } = usePrefix()
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
-const chainName = computed(() => chainNames[urlPrefix.value])
 const addressCheck = ref<AddressCheck | null>(null)
 const showAddressCheck = ref(false)
 const showChanged = ref(false)
@@ -172,7 +171,7 @@ watch(addressCheck, () => {
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
 
-a {
+.is-blue {
   @include ktheme() {
     color: theme('k-blue') !important;
   }
