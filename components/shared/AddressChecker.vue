@@ -4,18 +4,17 @@
       v-if="showChanged"
       variant="success"
       :title="
-        $t(`transfers.invalidAddress.addressChanged`, { selectedChain: unit })
+        $t('transfers.invalidAddress.addressChanged.title', {
+          selectedChain: unit,
+        })
       "
       @close="onClose">
-      <p>
-        Address was successfully changed for
-        {{ chainName }} network. You can double check correctness
-        <nuxt-link
-          target="_blank"
-          to="https://kusama.subscan.io/tools/format_transform"
-          >here</nuxt-link
-        >
-      </p>
+      <Markdown
+        :source="
+          $t('transfers.invalidAddress.addressChanged.content', {
+            selectedChain: unit,
+          })
+        " />
     </InfoBox>
 
     <InfoBox
@@ -32,13 +31,25 @@
         " />
 
       <template v-if="isWrongSubstrateNetworkAddress" #footer>
-        <NeoButton no-shadow rounded size="small" @click.native="changeAddress">
-          {{
-            $t(`transfers.invalidAddress.changeToChainAddress`, {
-              selectedChain: unit,
-            })
-          }}
-        </NeoButton>
+        <div class="is-flex is-align-items-center">
+          <NeoButton
+            no-shadow
+            rounded
+            size="small"
+            @click.native="changeAddress">
+            {{
+              $t(`transfers.invalidAddress.changeToChainAddress`, {
+                selectedChain: unit,
+              })
+            }}
+          </NeoButton>
+          <a
+            href="https://www.youtube.com/watch?v=3gPvGym8H7I"
+            target="_blank"
+            class="ml-2 is-size-7">
+            {{ $t('helper.learnMore') }}
+          </a>
+        </div>
       </template>
     </InfoBox>
   </div>
@@ -158,3 +169,12 @@ watch(addressCheck, () => {
   emit('check', isValid)
 })
 </script>
+<style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+
+a {
+  @include ktheme() {
+    color: theme('k-blue') !important;
+  }
+}
+</style>
