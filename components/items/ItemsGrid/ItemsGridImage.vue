@@ -56,6 +56,7 @@ import { useListingCartStore } from '@/stores/listingCart'
 import { usePreferencesStore } from '@/stores/preferences'
 import { nftToShoppingCardItem } from '@/components/common/shoppingCart/utils'
 import { isOwner as checkOwner } from '@/utils/account'
+import { useCollectionDetails } from '~/components/collection/utils/useCollectionDetails'
 
 const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()
@@ -71,6 +72,10 @@ const props = defineProps<{
   nft: NFTWithMetadata
   variant?: NftCardVariant
 }>()
+
+let { stats } = useCollectionDetails({
+  collectionId: props.nft?.collection?.id || props.nft?.collectionId,
+})
 
 const showActionSection = computed(() => {
   return !isLogIn.value && shoppingCartStore.getItemToBuy?.id === nft.value.id
@@ -132,7 +137,9 @@ const onClickListingCart = () => {
   if (listingCartStore.isItemInCart(props.nft.id)) {
     listingCartStore.removeItem(props.nft.id)
   } else {
-    listingCartStore.setItem(nftToShoppingCardItem(props.nft))
+    const item = nftToShoppingCardItem(props.nft)
+    item.collection.floor = String(stats.value.collectionFloorPrice ?? '')
+    listingCartStore.setItem(item)
   }
 }
 </script>
