@@ -9,20 +9,6 @@
           icon-pack="fab"
           class="square-32"
           @click.native="openUrl(`https://twitter.com/${twitter}`)" />
-
-        <NeoButton
-          v-if="instagram"
-          icon="instagram"
-          icon-pack="fab"
-          class="square-32"
-          @click.native="openUrl(`https://instagram.com/${instagram}`)" />
-
-        <NeoButton
-          v-if="discord"
-          class="square-32"
-          icon-pack="fab"
-          icon="discord"
-          @click.native="openUrl(`https://discord.com/users/${discord}`)" />
       </div>
 
       <div
@@ -133,7 +119,7 @@ const { collection } = useCollectionMinimal({
 })
 const collectionIssuer = computed(() => collection.value?.issuer)
 
-const { discord, twitter, instagram } = useIdentity({
+const { twitter } = useIdentity({
   address: collectionIssuer,
 })
 
@@ -141,9 +127,7 @@ const openUrl = (url: string) => {
   window.open(url, '_blank')
 }
 
-const displaySeperator = computed(
-  () => discord.value || twitter.value || instagram.value
-)
+const displaySeperator = computed(() => twitter.value)
 const isOwner = computed(() =>
   checkOwner(collection.value?.currentOwner, accountId.value)
 )
