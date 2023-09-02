@@ -16,7 +16,7 @@ import correctFormat from '@/utils/ss58Format'
 import { checkAddress, isAddress } from '@polkadot/util-crypto'
 import { NeoField, NeoInput } from '@kodadot1/brick'
 
-const emit = defineEmits(['input', 'invalid'])
+const emit = defineEmits(['input'])
 const props = withDefaults(
   defineProps<{
     value: string
@@ -57,7 +57,6 @@ const clearIconClick = () => {
 
 const handleInput = (value: string) => {
   emit('input', value)
-
   if (props.strict) {
     const [, err] = checkAddress(value, correctFormat(ss58Format.value))
     error.value = value ? err : ''
