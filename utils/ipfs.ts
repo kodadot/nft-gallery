@@ -123,8 +123,7 @@ export const fetchMetadata = async <T>(
       responseType: 'json',
     })
     if (status < 400) {
-      const data = typeof _data === 'string' ? JSON.parse(_data) : _data
-      return data as T
+      return _data as T
     }
   } catch (e) {
     console.warn('IPFS Err', e)
