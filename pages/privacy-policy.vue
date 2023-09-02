@@ -21,17 +21,13 @@
     </p>
     <ul class="mb-4">
       <li class="mb-2">
-        <p>
-          • Visit our website at
-          <a href="https://kodadot.xyz/"> https://kodadot.xyz </a>
-          , or any website of ours that links to this privacy notice
-        </p>
+        • Visit our website at
+        <nuxt-link to="/"> https://kodadot.xyz </nuxt-link>
+        , or any website of ours that links to this privacy notice
       </li>
       <li class="mb-2">
-        <p>
-          • Engage with us in other related ways, including any sales,
-          marketing, or events
-        </p>
+        • Engage with us in other related ways, including any sales, marketing,
+        or events
       </li>
     </ul>
     <p class="mb-4">
@@ -39,9 +35,10 @@
       Reading this privacy notice will help you understand your privacy rights
       and choices. If you do not agree with our policies and practices, please
       do not use our Services. If you still have any questions or concerns,
-      please contact us at info@kodadot.xyz.
+      please contact us at
+      <a href="mailto:info@kodadot.xyz">info@kodadot.xyz</a>.
     </p>
-    <h3 class="heading heading-is-2">SUMMARY OF KEY POINTS</h3>
+    <h2 class="heading heading-is-2">SUMMARY OF KEY POINTS</h2>
     <p class="mb-4">
       <strong>
         <em>
@@ -50,11 +47,11 @@
           following each key point or by using our
         </em>
       </strong>
-      <a href="#toc">
+      <nuxt-link :to="{ path: '/privacy-policy', hash: '#toc' }">
         <strong>
           <em> table of contents </em>
         </strong>
-      </a>
+      </nuxt-link>
       <strong>
         <em> below to find the section you are looking for. </em>
       </strong>
@@ -64,7 +61,9 @@
       When you visit, use, or navigate our Services, we may process personal
       information depending on how you interact with us and the Services, the
       choices you make, and the products and features you use. Learn more about
-      <a href="#personalinfo"> personal information you disclose to us </a>
+      <nuxt-link :to="{ path: '/privacy-policy', hash: '#personalinfo' }">
+        personal information you disclose to us
+      </nuxt-link>
       .
     </p>
     <p class="mb-4">
@@ -82,7 +81,9 @@
       comply with law. We may also process your information for other purposes
       with your consent. We process your information only when we have a valid
       legal reason to do so. Learn more about
-      <a href="#infouse"> how we process your information </a>
+      <nuxt-link :to="{ path: '/privacy-policy', hash: '#infouse' }">
+        how we process your information
+      </nuxt-link>
       .
     </p>
     <p class="mb-4">
@@ -92,9 +93,9 @@
       </strong>
       We may share information in specific situations and with specific third
       parties. Learn more about
-      <a href="#whoshare">
+      <nuxt-link :to="{ path: '/privacy-policy', hash: '#whoshare' }">
         when and with whom we share your personal information
-      </a>
+      </nuxt-link>
       .
     </p>
     <p class="mb-4">
@@ -106,7 +107,9 @@
       cybercriminals, or other unauthorized third parties will not be able to
       defeat our security and improperly collect, access, steal, or modify your
       information. Learn more about
-      <a href="#infosafe"> how we keep your information safe </a>
+      <nuxt-link :to="{ path: '/privacy-policy', hash: '#infosafe' }">
+        how we keep your information safe
+      </nuxt-link>
       .
     </p>
     <p class="mb-4">
@@ -114,86 +117,114 @@
       Depending on where you are located geographically, the applicable privacy
       law may mean you have certain rights regarding your personal information.
       Learn more about
-      <a href="#privacyrights"> your privacy rights </a>
+      <nuxt-link :to="{ path: '/privacy-policy', hash: '#privacyrights' }">
+        your privacy rights
+      </nuxt-link>
       .
     </p>
     <p class="mb-4">
       <strong> How do you exercise your rights? </strong>
       The easiest way to exercise your rights is by submitting a data subject
-      access request to info@kodadot.xyz, or by contacting us. We will consider
-      and act upon any request in accordance with applicable data protection
-      laws.
+      access request to <a href="mailto:info@kodadot.xyz">info@kodadot.xyz</a>,
+      or by contacting us. We will consider and act upon any request in
+      accordance with applicable data protection laws.
     </p>
     <p class="mb-4">
       Want to learn more about what we do with any information we collect?
-      <a href="#toc"> Review the privacy notice in full </a>
+      <nuxt-link :to="{ path: '/privacy-policy', hash: '#toc' }">
+        Review the privacy notice in full
+      </nuxt-link>
       .
     </p>
-    <h3 id="toc" class="heading heading-is-2">TABLE OF CONTENTS</h3>
-    <p class="mb-4">
-      <a href="#infocollect"> 1. WHAT INFORMATION DO WE COLLECT? </a>
-    </p>
-    <p class="mb-4">
-      <a href="#infouse"> 2. HOW DO WE PROCESS YOUR INFORMATION? </a>
-    </p>
-    <p class="mb-4">
-      <a href="#legalbases">
-        3. WHAT LEGAL BASES DO WE RELY ON TO PROCESS YOUR PERSONAL INFORMATION?
-      </a>
-    </p>
-    <p class="mb-4">
-      <a href="#whoshare">
-        4. WHEN AND WITH WHOM DO WE SHARE YOUR PERSONAL INFORMATION?
-      </a>
-    </p>
-    <p class="mb-4">
-      <a href="#cookies">
-        5. DO WE USE COOKIES AND OTHER TRACKING TECHNOLOGIES?
-      </a>
-    </p>
-    <p class="mb-4">
-      <a href="#sociallogins"> 6. HOW DO WE HANDLE YOUR SOCIAL LOGINS? </a>
-    </p>
-    <p class="mb-4">
-      <a href="#inforetain"> 7. HOW LONG DO WE KEEP YOUR INFORMATION? </a>
-    </p>
-    <p class="mb-4">
-      <a href="#infosafe"> 8. HOW DO WE KEEP YOUR INFORMATION SAFE? </a>
-    </p>
-    <p class="mb-4">
-      <a href="#infominors"> 9. DO WE COLLECT INFORMATION FROM MINORS? </a>
-    </p>
-    <p class="mb-4">
-      <a href="#privacyrights"> 10. WHAT ARE YOUR PRIVACY RIGHTS? </a>
-    </p>
-    <p class="mb-4">
-      <a href="#DNT"> 11. CONTROLS FOR DO-NOT-TRACK FEATURES </a>
-    </p>
-    <p class="mb-4">
-      <a href="#caresidents">
-        12. DO CALIFORNIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?
-      </a>
-    </p>
-    <p class="mb-4">
-      <a href="#virginia">
-        13. DO VIRGINIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?
-      </a>
-    </p>
-    <p class="mb-4">
-      <a href="#update"> 14. DO WE MAKE UPDATES TO THIS NOTICE? </a>
-    </p>
-    <p class="mb-4">
-      <a href="#contact"> 15. HOW CAN YOU CONTACT US ABOUT THIS NOTICE? </a>
-    </p>
-    <p class="mb-4">
-      <a href="#update">
-        16. HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM YOU?
-      </a>
-    </p>
+    <h2 id="toc" class="heading heading-is-2">TABLE OF CONTENTS</h2>
+    <ol>
+      <li class="mb-4">
+        <nuxt-link :to="{ path: '/privacy-policy', hash: '#infocollect' }"
+          >1. WHAT INFORMATION DO WE COLLECT?
+        </nuxt-link>
+      </li>
+      <li class="mb-4">
+        <nuxt-link :to="{ path: '/privacy-policy', hash: '#infouse' }">
+          2. HOW DO WE PROCESS YOUR INFORMATION?
+        </nuxt-link>
+      </li>
+      <li class="mb-4">
+        <nuxt-link :to="{ path: '/privacy-policy', hash: '#legalbases' }">
+          3. WHAT LEGAL BASES DO WE RELY ON TO PROCESS YOUR PERSONAL
+          INFORMATION?
+        </nuxt-link>
+      </li>
+      <li class="mb-4">
+        <nuxt-link :to="{ path: '/privacy-policy', hash: '#whoshare' }">
+          4. WHEN AND WITH WHOM DO WE SHARE YOUR PERSONAL INFORMATION?
+        </nuxt-link>
+      </li>
+      <li class="mb-4">
+        <nuxt-link :to="{ path: '/privacy-policy', hash: '#cookies' }">
+          5. DO WE USE COOKIES AND OTHER TRACKING TECHNOLOGIES?
+        </nuxt-link>
+      </li>
+      <li class="mb-4">
+        <nuxt-link :to="{ path: '/privacy-policy', hash: '#sociallogins' }">
+          6. HOW DO WE HANDLE YOUR SOCIAL LOGINS?
+        </nuxt-link>
+      </li>
+      <li class="mb-4">
+        <nuxt-link :to="{ path: '/privacy-policy', hash: '#inforetain' }">
+          7. HOW LONG DO WE KEEP YOUR INFORMATION?
+        </nuxt-link>
+      </li>
+      <li class="mb-4">
+        <nuxt-link :to="{ path: '/privacy-policy', hash: '#infosafe' }">
+          8. HOW DO WE KEEP YOUR INFORMATION SAFE?
+        </nuxt-link>
+      </li>
+      <li class="mb-4">
+        <nuxt-link :to="{ path: '/privacy-policy', hash: '#infominors' }">
+          9. DO WE COLLECT INFORMATION FROM MINORS?
+        </nuxt-link>
+      </li>
+      <li class="mb-4">
+        <nuxt-link :to="{ path: '/privacy-policy', hash: '#privacyrights' }">
+          10. WHAT ARE YOUR PRIVACY RIGHTS?
+        </nuxt-link>
+      </li>
+      <li class="mb-4">
+        <nuxt-link :to="{ path: '/privacy-policy', hash: '#DNT' }">
+          11. CONTROLS FOR DO-NOT-TRACK FEATURES
+        </nuxt-link>
+      </li>
+      <li class="mb-4">
+        <nuxt-link :to="{ path: '/privacy-policy', hash: '#caresidents' }">
+          12. DO CALIFORNIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?
+        </nuxt-link>
+      </li>
+      <li class="mb-4">
+        <nuxt-link :to="{ path: '/privacy-policy', hash: '#virginia' }">
+          13. DO VIRGINIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?
+        </nuxt-link>
+      </li>
+      <li class="mb-4">
+        <nuxt-link :to="{ path: '/privacy-policy', hash: '#update' }">
+          14. DO WE MAKE UPDATES TO THIS NOTICE?
+        </nuxt-link>
+      </li>
+      <li class="mb-4">
+        <nuxt-link :to="{ path: '/privacy-policy', hash: '#contact' }">
+          15. HOW CAN YOU CONTACT US ABOUT THIS NOTICE?
+        </nuxt-link>
+      </li>
+      <li class="mb-4">
+        <nuxt-link :to="{ path: '/privacy-policy', hash: '#update' }">
+          16. HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM
+          YOU?
+        </nuxt-link>
+      </li>
+    </ol>
 
-    <h3 id="infocollect" class="heading heading-is-2">
+    <h2 id="infocollect" class="heading heading-is-2">
       1. WHAT INFORMATION DO WE COLLECT?
-    </h3>
+    </h2>
 
     <p class="mb-4">
       <strong> Personal information you disclose to us </strong>
@@ -222,12 +253,8 @@
     </p>
 
     <ul class="mb-4">
-      <li class="mb-2">
-        <p>• usernames</p>
-      </li>
-      <li class="mb-2">
-        <p>• email addresses</p>
-      </li>
+      <li class="mb-2">• usernames</li>
+      <li class="mb-2">• email addresses</li>
     </ul>
 
     <p class="mb-4">
@@ -257,7 +284,9 @@
       social media account details, like your Facebook, Twitter, or other social
       media account. If you choose to register in this way, we will collect the
       information described in the section called "
-      <a href="#sociallogins"> HOW DO WE HANDLE YOUR SOCIAL LOGINS? </a>
+      <nuxt-link :to="{ path: '/privacy-policy', hash: '#sociallogins' }">
+        HOW DO WE HANDLE YOUR SOCIAL LOGINS?
+      </nuxt-link>
       " below.
     </p>
 
@@ -294,9 +323,9 @@
       Like many businesses, we also collect information through cookies and
       similar technologies. You can find out more about this in our Cookie
       Notice:
-      <a href="https://kodadot.xyz/cookie-notice/">
+      <nuxt-link to="/cookie-notice">
         https://kodadot.xyz/cookie-notice/
-      </a>
+      </nuxt-link>
       .
     </p>
     <p class="mb-4">The information we collect includes:</p>
@@ -315,9 +344,9 @@
         hardware settings).
       </li>
     </ul>
-    <h3 id="infouse" class="heading heading-is-2">
+    <h2 id="infouse" class="heading heading-is-2">
       2. HOW DO WE PROCESS YOUR INFORMATION?
-    </h3>
+    </h2>
     <p class="mb-4">
       <strong>
         <em> In Short: </em>
@@ -337,77 +366,63 @@
     </p>
     <ul class="mb-4">
       <li class="mb-2">
-        <p>
-          •
-          <strong>
-            To facilitate account creation and authentication and otherwise
-            manage user accounts.
-          </strong>
-          We may process your information so you can create and log in to your
-          account, as well as keep your account in working order.
-        </p>
+        •
+        <strong>
+          To facilitate account creation and authentication and otherwise manage
+          user accounts.
+        </strong>
+        We may process your information so you can create and log in to your
+        account, as well as keep your account in working order.
       </li>
       <li class="mb-2">
-        <p>
-          •
-          <strong> To request feedback. </strong>
-          We may process your information when necessary to request feedback and
-          to contact you about your use of our Services.
-        </p>
+        •
+        <strong> To request feedback. </strong>
+        We may process your information when necessary to request feedback and
+        to contact you about your use of our Services.
       </li>
       <li class="mb-2">
-        <p>
-          •
-          <strong>
-            To send you marketing and promotional communications.
-          </strong>
-          We may process the personal information you send to us for our
-          marketing purposes, if this is in accordance with your marketing
-          preferences. You can opt out of our marketing emails at any time. For
-          more information, see "
-          <a href="#privacyrights"> WHAT ARE YOUR PRIVACY RIGHTS? </a>
-          " below.
-        </p>
+        •
+        <strong> To send you marketing and promotional communications. </strong>
+        We may process the personal information you send to us for our marketing
+        purposes, if this is in accordance with your marketing preferences. You
+        can opt out of our marketing emails at any time. For more information,
+        see "
+        <nuxt-link :to="{ path: '/privacy-policy', hash: '#privacyrights' }">
+          WHAT ARE YOUR PRIVACY RIGHTS?
+        </nuxt-link>
+        " below.
       </li>
       <li class="mb-2">
-        <p>
-          •
-          <strong> To protect our Services. </strong>
-          We may process your information as part of our efforts to keep our
-          Services safe and secure, including fraud monitoring and prevention.
-        </p>
+        •
+        <strong> To protect our Services. </strong>
+        We may process your information as part of our efforts to keep our
+        Services safe and secure, including fraud monitoring and prevention.
       </li>
       <li class="mb-2">
-        <p>
-          •
-          <strong> To identify usage trends. </strong>
-          We may process information about how you use our Services to better
-          understand how they are being used so we can improve them.
-        </p>
+        •
+        <strong> To identify usage trends. </strong>
+        We may process information about how you use our Services to better
+        understand how they are being used so we can improve them.
       </li>
       <li class="mb-2">
-        <p>
-          •
-          <strong>
-            To determine the effectiveness of our marketing and promotional
-            campaigns.
-          </strong>
-          We may process your information to better understand how to provide
-          marketing and promotional campaigns that are most relevant to you.
-        </p>
+        •
+        <strong>
+          To determine the effectiveness of our marketing and promotional
+          campaigns.
+        </strong>
+        We may process your information to better understand how to provide
+        marketing and promotional campaigns that are most relevant to you.
       </li>
       <li class="mb-2">
-        <p>
-          •
-          <strong> To save or protect an individual's vital interest. </strong>
-          We may process your information when necessary to save or protect an
-          individual’s vital interest, such as to prevent harm.
-        </p>
+        •
+        <strong> To save or protect an individual's vital interest. </strong>
+        We may process your information when necessary to save or protect an
+        individual’s vital interest, such as to prevent harm.
       </li>
     </ul>
-    <h3 id="legalbases" class="heading heading-is-2">
+    <h2 id="legalbases" class="heading heading-is-2">
       3. WHAT LEGAL BASES DO WE RELY ON TO PROCESS YOUR INFORMATION?
-    </h3>
+    </h2>
     <p class="mb-4">
       <em>
         <strong> In Short: </strong>
@@ -434,71 +449,57 @@
     </p>
     <ul class="mb-4">
       <li class="mb-2">
-        <p>
-          •
-          <strong> Consent. </strong>
-          We may process your information if you have given us permission (i.e.,
-          consent) to use your personal information for a specific purpose. You
-          can withdraw your consent at any time. Learn more about
-          <a href="#withdrawconsent"> withdrawing your consent </a>
-          .
-        </p>
+        •
+        <strong> Consent. </strong>
+        We may process your information if you have given us permission (i.e.,
+        consent) to use your personal information for a specific purpose. You
+        can withdraw your consent at any time. Learn more about
+        <nuxt-link :to="{ path: '/privacy-policy', hash: '#withdrawconsent' }">
+          withdrawing your consent
+        </nuxt-link>
+        .
       </li>
       <li class="mb-2">
-        <p>
-          •
-          <strong> Legitimate Interests. </strong>
-          We may process your information when we believe it is reasonably
-          necessary to achieve our legitimate business interests and those
-          interests do not outweigh your interests and fundamental rights and
-          freedoms. For example, we may process your personal information for
-          some of the purposes described in order to:
-        </p>
+        •
+        <strong> Legitimate Interests. </strong>
+        We may process your information when we believe it is reasonably
+        necessary to achieve our legitimate business interests and those
+        interests do not outweigh your interests and fundamental rights and
+        freedoms. For example, we may process your personal information for some
+        of the purposes described in order to:
       </li>
       <li class="mb-2">
-        <p>
-          • Send users information about special offers and discounts on our
-          products and services
-        </p>
+        • Send users information about special offers and discounts on our
+        products and services
       </li>
       <li class="mb-2">
-        <p>
-          • Analyze how our Services are used so we can improve them to engage
-          and retain users
-        </p>
+        • Analyze how our Services are used so we can improve them to engage and
+        retain users
+      </li>
+      <li class="mb-2">• Support our marketing activities</li>
+      <li class="mb-2">
+        • Diagnose problems and/or prevent fraudulent activities
       </li>
       <li class="mb-2">
-        <p>• Support our marketing activities</p>
+        • Understand how our users use our products and services so we can
+        improve user experience
       </li>
       <li class="mb-2">
-        <p>• Diagnose problems and/or prevent fraudulent activities</p>
+        •
+        <strong> Legal Obligations. </strong>
+        We may process your information where we believe it is necessary for
+        compliance with our legal obligations, such as to cooperate with a law
+        enforcement body or regulatory agency, exercise or defend our legal
+        rights, or disclose your information as evidence in litigation in which
+        we are involved.
       </li>
       <li class="mb-2">
-        <p>
-          • Understand how our users use our products and services so we can
-          improve user experience
-        </p>
-      </li>
-      <li class="mb-2">
-        <p>
-          •
-          <strong> Legal Obligations. </strong>
-          We may process your information where we believe it is necessary for
-          compliance with our legal obligations, such as to cooperate with a law
-          enforcement body or regulatory agency, exercise or defend our legal
-          rights, or disclose your information as evidence in litigation in
-          which we are involved.
-        </p>
-      </li>
-      <li class="mb-2">
-        <p>
-          •
-          <strong> Vital Interests. </strong>
-          We may process your information where we believe it is necessary to
-          protect your vital interests or the vital interests of a third party,
-          such as situations involving potential threats to the safety of any
-          person.
-        </p>
+        •
+        <strong> Vital Interests. </strong>
+        We may process your information where we believe it is necessary to
+        protect your vital interests or the vital interests of a third party,
+        such as situations involving potential threats to the safety of any
+        person.
       </li>
     </ul>
     <p class="mb-4">
@@ -511,7 +512,9 @@
       (i.e., express consent) to use your personal information for a specific
       purpose, or in situations where your permission can be inferred (i.e.,
       implied consent). You can
-      <a href="#withdrawconsent"> withdraw your consent </a>
+      <nuxt-link :to="{ path: '/privacy-policy', hash: '#withdrawconsent' }">
+        withdraw your consent
+      </nuxt-link>
       at any time.
     </p>
     <p class="mb-4">
@@ -521,73 +524,54 @@
     </p>
     <ul class="mb-4">
       <li class="mb-2">
-        <p>
-          • If collection is clearly in the interests of an individual and
-          consent cannot be obtained in a timely way
-        </p>
+        • If collection is clearly in the interests of an individual and consent
+        cannot be obtained in a timely way
       </li>
       <li class="mb-2">
-        <p>• For investigations and fraud detection and prevention</p>
+        • For investigations and fraud detection and prevention
       </li>
       <li class="mb-2">
-        <p>• For business transactions provided certain conditions are met</p>
+        • For business transactions provided certain conditions are met
       </li>
       <li class="mb-2">
-        <p>
-          • If it is contained in a witness statement and the collection is
-          necessary to assess, process, or settle an insurance claim
-        </p>
+        • If it is contained in a witness statement and the collection is
+        necessary to assess, process, or settle an insurance claim
       </li>
       <li class="mb-2">
-        <p>
-          • For identifying injured, ill, or deceased persons and communicating
-          with next of kin
-        </p>
+        • For identifying injured, ill, or deceased persons and communicating
+        with next of kin
       </li>
       <li class="mb-2">
-        <p>
-          • If we have reasonable grounds to believe an individual has been, is,
-          or may be victim of financial abuse
-        </p>
+        • If we have reasonable grounds to believe an individual has been, is,
+        or may be victim of financial abuse
       </li>
       <li class="mb-2">
-        <p>
-          • If it is reasonable to expect collection and use with consent would
-          compromise the availability or the accuracy of the information and the
-          collection is reasonable for purposes related to investigating a
-          breach of an agreement or a contravention of the laws of Canada or a
-          province
-        </p>
+        • If it is reasonable to expect collection and use with consent would
+        compromise the availability or the accuracy of the information and the
+        collection is reasonable for purposes related to investigating a breach
+        of an agreement or a contravention of the laws of Canada or a province
       </li>
       <li class="mb-2">
-        <p>
-          • If disclosure is required to comply with a subpoena, warrant, court
-          order, or rules of the court relating to the production of records
-        </p>
+        • If disclosure is required to comply with a subpoena, warrant, court
+        order, or rules of the court relating to the production of records
       </li>
       <li class="mb-2">
-        <p>
-          • If it was produced by an individual in the course of their
-          employment, business, or profession and the collection is consistent
-          with the purposes for which the information was produced
-        </p>
+        • If it was produced by an individual in the course of their employment,
+        business, or profession and the collection is consistent with the
+        purposes for which the information was produced
       </li>
       <li class="mb-2">
-        <p>
-          • If the collection is solely for journalistic, artistic, or literary
-          purposes
-        </p>
+        • If the collection is solely for journalistic, artistic, or literary
+        purposes
       </li>
       <li class="mb-2">
-        <p>
-          • If the information is publicly available and is specified by the
-          regulations
-        </p>
+        • If the information is publicly available and is specified by the
+        regulations
       </li>
     </ul>
-    <h3 id="whoshare" class="heading heading-is-2">
+    <h2 id="whoshare" class="heading heading-is-2">
       4. WHEN AND WITH WHOM DO WE SHARE YOUR PERSONAL INFORMATION?
-    </h3>
+    </h2>
     <p class="mb-4">
       <strong>
         <em> In Short: </em>
@@ -609,9 +593,9 @@
         acquisition of all or a portion of our business to another company.
       </li>
     </ul>
-    <h3 id="cookies" class="heading heading-is-2">
+    <h2 id="cookies" class="heading heading-is-2">
       5. DO WE USE COOKIES AND OTHER TRACKING TECHNOLOGIES?
-    </h3>
+    </h2>
     <p class="mb-4">
       <strong>
         <em> In Short: </em>
@@ -626,14 +610,14 @@
       pixels) to access or store information. Specific information about how we
       use such technologies and how you can refuse certain cookies is set out in
       our Cookie Notice:
-      <a href="https://kodadot.xyz/cookie-notice/">
+      <nuxt-link to="/cookie-notice">
         https://kodadot.xyz/cookie-notice/
-      </a>
+      </nuxt-link>
       .
     </p>
-    <h3 id="sociallogins" class="heading heading-is-2">
+    <h2 id="sociallogins" class="heading heading-is-2">
       6. HOW DO WE HANDLE YOUR SOCIAL LOGINS?
-    </h3>
+    </h2>
     <p class="mb-4">
       <strong>
         <em> In Short: </em>
@@ -663,9 +647,9 @@
       personal information, and how you can set your privacy preferences on
       their sites and apps.
     </p>
-    <h3 id="inforetain" class="heading heading-is-2">
+    <h2 id="inforetain" class="heading heading-is-2">
       7. HOW LONG DO WE KEEP YOUR INFORMATION?
-    </h3>
+    </h2>
     <p class="mb-4">
       <strong>
         <em> In Short: </em>
@@ -692,9 +676,9 @@
       information and isolate it from any further processing until deletion is
       possible.
     </p>
-    <h3 id="infosafe" class="heading heading-is-2">
+    <h2 id="infosafe" class="heading heading-is-2">
       8. HOW DO WE KEEP YOUR INFORMATION SAFE?
-    </h3>
+    </h2>
     <p class="mb-4">
       <strong>
         <em> In Short: </em>
@@ -717,9 +701,9 @@
       transmission of personal information to and from our Services is at your
       own risk. You should only access the Services within a secure environment.
     </p>
-    <h3 id="infominors" class="heading heading-is-2">
+    <h2 id="infominors" class="heading heading-is-2">
       9. DO WE COLLECT INFORMATION FROM MINORS?
-    </h3>
+    </h2>
     <p class="mb-4">
       <strong>
         <em> In Short: </em>
@@ -738,11 +722,11 @@
       will deactivate the account and take reasonable measures to promptly
       delete such data from our records. If you become aware of any data we may
       have collected from children under age 18, please contact us at
-      info@kodadot.xyz.
+      <a href="mailto:info@kodadot.xyz">info@kodadot.xyz</a>.
     </p>
-    <h3 id="privacyrights" class="heading heading-is-2">
+    <h2 id="privacyrights" class="heading heading-is-2">
       10. WHAT ARE YOUR PRIVACY RIGHTS?
-    </h3>
+    </h2>
     <p class="mb-4">
       <strong>
         <em> In Short: </em>
@@ -764,7 +748,9 @@
       certain circumstances, you may also have the right to object to the
       processing of your personal information. You can make such a request by
       contacting us by using the contact details provided in the section "
-      <a href="#contact"> HOW CAN YOU CONTACT US ABOUT THIS NOTICE? </a>
+      <nuxt-link :to="{ path: '/privacy-policy', hash: '#contact' }">
+        HOW CAN YOU CONTACT US ABOUT THIS NOTICE?
+      </nuxt-link>
       " below.
     </p>
     <p class="mb-4">
@@ -800,7 +786,9 @@
       law, you have the right to withdraw your consent at any time. You can
       withdraw your consent at any time by contacting us by using the contact
       details provided in the section "
-      <a href="#contact"> HOW CAN YOU CONTACT US ABOUT THIS NOTICE? </a>
+      <nuxt-link :to="{ path: '/privacy-policy', hash: '#contact' }">
+        HOW CAN YOU CONTACT US ABOUT THIS NOTICE?
+      </nuxt-link>
       " below.
     </p>
     <p class="mb-4">
@@ -814,7 +802,9 @@
       You can unsubscribe from our marketing and promotional communications at
       any time by clicking on the unsubscribe link in the emails that we send,
       or by contacting us using the details provided in the section "
-      <a href="#contact"> HOW CAN YOU CONTACT US ABOUT THIS NOTICE? </a>
+      <nuxt-link :to="{ path: '/privacy-policy', hash: '#contact' }">
+        HOW CAN YOU CONTACT US ABOUT THIS NOTICE?
+      </nuxt-link>
       " below. You will then be removed from the marketing lists. However, we
       may still communicate with you — for example, to send you service-related
       messages that are necessary for the administration and use of your
@@ -850,18 +840,18 @@
         opt out of interest-based advertising by advertisers
       </a>
       on our Services. For further information, please see our Cookie Notice:
-      <a href="https://kodadot.xyz/cookie-notice/">
+      <nuxt-link to="/cookie-notice">
         https://kodadot.xyz/cookie-notice/
-      </a>
+      </nuxt-link>
       .
     </p>
     <p class="mb-4">
       If you have questions or comments about your privacy rights, you may email
-      us at info@kodadot.xyz.
+      us at <a href="mailto:info@kodadot.xyz">info@kodadot.xyz</a>.
     </p>
-    <h3 id="DNT" class="heading heading-is-2">
+    <h2 id="DNT" class="heading heading-is-2">
       11. CONTROLS FOR DO-NOT-TRACK FEATURES
-    </h3>
+    </h2>
     <p class="mb-4">
       Most web browsers and some mobile operating systems and mobile
       applications include a Do-Not-Track ("DNT") feature or setting you can
@@ -874,9 +864,9 @@
       that we must follow in the future, we will inform you about that practice
       in a revised version of this privacy notice.
     </p>
-    <h3 id="caresidents" class="heading heading-is-2">
+    <h2 id="caresidents" class="heading heading-is-2">
       12. DO CALIFORNIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?
-    </h3>
+    </h2>
     <p class="mb-4">
       <strong>
         <em> In Short: </em>
@@ -1047,16 +1037,12 @@
     </p>
     <ul class="mb-4">
       <li class="mb-2">
-        <p>• Receiving help through our customer support channels;</p>
+        • Receiving help through our customer support channels;
       </li>
+      <li class="mb-2">• Participation in customer surveys or contests; and</li>
       <li class="mb-2">
-        <p>•Participation in customer surveys or contests; and</p>
-      </li>
-      <li class="mb-2">
-        <p>
-          • Facilitation in the delivery of our Services and to respond to your
-          inquiries.
-        </p>
+        • Facilitation in the delivery of our Services and to respond to your
+        inquiries.
       </li>
     </ul>
     <p class="mb-4">
@@ -1065,14 +1051,15 @@
     <p class="mb-4">
       More information about our data collection and sharing practices can be
       found in this privacy notice and our Cookie Notice:
-      <a href="https://kodadot.xyz/cookie-notice/">
+      <nuxt-link to="/cookie-notice">
         https://kodadot.xyz/cookie-notice/
-      </a>
+      </nuxt-link>
       .
     </p>
     <p class="mb-4">
-      You may contact us by email at info@kodadot.xyz, or by referring to the
-      contact details at the bottom of this document.
+      You may contact us by email at
+      <a href="mailto:info@kodadot.xyz">info@kodadot.xyz</a>, or by referring to
+      the contact details at the bottom of this document.
     </p>
     <p class="mb-4">
       If you are using an authorized agent to exercise your right to opt out we
@@ -1122,41 +1109,31 @@
     </p>
     <ul class="mb-4">
       <li class="mb-2">
-        <p>• whether we collect and use your personal information;</p>
+        • whether we collect and use your personal information;
       </li>
       <li class="mb-2">
-        <p>• the categories of personal information that we collect;</p>
+        • the categories of personal information that we collect;
       </li>
       <li class="mb-2">
-        <p>
-          • the purposes for which the collected personal information is used;
-        </p>
+        • the purposes for which the collected personal information is used;
       </li>
       <li class="mb-2">
-        <p>• whether we sell or share personal information to third parties;</p>
+        • whether we sell or share personal information to third parties;
       </li>
       <li class="mb-2">
-        <p>
-          • the categories of personal information that we sold, shared, or
-          disclosed for a business purpose;
-        </p>
+        • the categories of personal information that we sold, shared, or
+        disclosed for a business purpose;
       </li>
       <li class="mb-2">
-        <p>
-          • the categories of third parties to whom the personal information was
-          sold, shared, or disclosed for a business purpose;
-        </p>
+        • the categories of third parties to whom the personal information was
+        sold, shared, or disclosed for a business purpose;
       </li>
       <li class="mb-2">
-        <p>
-          • the business or commercial purpose for collecting, selling, or
-          sharing personal information; and
-        </p>
+        • the business or commercial purpose for collecting, selling, or sharing
+        personal information; and
       </li>
       <li class="mb-2">
-        <p>
-          • the specific pieces of personal information we collected about you.
-        </p>
+        • the specific pieces of personal information we collected about you.
       </li>
     </ul>
     <p class="mb-4">
@@ -1204,38 +1181,31 @@
     <p class="mb-4">Other privacy rights</p>
     <ul class="mb-4">
       <li class="mb-2">
-        <p>• You may object to the processing of your personal information.</p>
+        • You may object to the processing of your personal information.
       </li>
       <li class="mb-2">
-        <p>
-          • You may request correction of your personal data if it is incorrect
-          or no longer relevant, or ask to restrict the processing of the
-          information.
-        </p>
+        • You may request correction of your personal data if it is incorrect or
+        no longer relevant, or ask to restrict the processing of the
+        information.
       </li>
       <li class="mb-2">
-        <p>
-          • You can designate an authorized agent to make a request under the
-          CCPA on your behalf. We may deny a request from an authorized agent
-          that does not submit proof that they have been validly authorized to
-          act on your behalf in accordance with the CCPA.
-        </p>
+        • You can designate an authorized agent to make a request under the CCPA
+        on your behalf. We may deny a request from an authorized agent that does
+        not submit proof that they have been validly authorized to act on your
+        behalf in accordance with the CCPA.
       </li>
       <li class="mb-2">
-        <p>
-          • You may request to opt out from future selling or sharing of your
-          personal information to third parties. Upon receiving an opt-out
-          request, we will act upon the request as soon as feasibly possible,
-          but no later than fifteen (15) days from the date of the request
-          submission.
-        </p>
+        • You may request to opt out from future selling or sharing of your
+        personal information to third parties. Upon receiving an opt-out
+        request, we will act upon the request as soon as feasibly possible, but
+        no later than fifteen (15) days from the date of the request submission.
       </li>
     </ul>
     <p class="mb-4">
-      To exercise these rights, you can contact us by email at info@kodadot.xyz,
-      or by referring to the contact details at the bottom of this document. If
-      you have a complaint about how we handle your data, we would like to hear
-      from you.
+      To exercise these rights, you can contact us by email at
+      <a href="mailto:info@kodadot.xyz">info@kodadot.xyz</a>, or by referring to
+      the contact details at the bottom of this document. If you have a
+      complaint about how we handle your data, we would like to hear from you.
     </p>
     <p class="mb-4">
       <strong> Financial Incentives </strong>
@@ -1254,17 +1224,13 @@
     </p>
     <ul class="mb-4">
       <li class="mb-2">
-        <p>
-          • a good-faith estimate of the value of the consumer’s data that forms
-          the basis for offering the financial incentive or price or service
-          difference; and
-        </p>
+        • a good-faith estimate of the value of the consumer’s data that forms
+        the basis for offering the financial incentive or price or service
+        difference; and
       </li>
       <li class="mb-2">
-        <p>
-          • a description of the method the business used to calculate the value
-          of the consumer’s data.
-        </p>
+        • a description of the method the business used to calculate the value
+        of the consumer’s data.
       </li>
     </ul>
     <p class="mb-4">
@@ -1282,12 +1248,12 @@
     <p class="mb-4">
       If you choose to participate in the financial incentive you can withdraw
       from the financial incentive at any time by emailing us at
-      info@kodadot.xyz, or by referring to the contact details at the bottom of
-      this document.
+      <a href="mailto:info@kodadot.xyz">info@kodadot.xyz</a>, or by referring to
+      the contact details at the bottom of this document.
     </p>
-    <h3 id="virginia" class="heading heading-is-2">
+    <h2 id="virginia" class="heading heading-is-2">
       13. DO VIRGINIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?
-    </h3>
+    </h2>
     <p class="mb-4">
       <em>
         <strong> In Short: </strong>
@@ -1324,50 +1290,44 @@
     </p>
     <ul class="mb-4">
       <li class="mb-2">
-        <p>• <a href="#infocollect"> Personal data we collect </a></p>
+        •
+        <nuxt-link :to="{ path: '/privacy-policy', hash: '#infocollect' }">
+          Personal data we collect
+        </nuxt-link>
       </li>
       <li class="mb-2">
-        <p>• <a href="#infouse"> How we use your personal data </a></p>
+        •
+        <nuxt-link :to="{ path: '/privacy-policy', hash: '#infouse' }">
+          How we use your personal data
+        </nuxt-link>
       </li>
       <li class="mb-2">
-        <p>
-          •
-          <a href="#whoshare">
-            When and with whom we share your personal data
-          </a>
-        </p>
+        •
+        <nuxt-link :to="{ path: '/privacy-policy', hash: '#whoshare' }">
+          When and with whom we share your personal data
+        </nuxt-link>
       </li>
     </ul>
     <p class="mb-4">Your rights with respect to your personal data</p>
     <ul class="mb-4">
       <li class="mb-2">
-        <p>
-          • Right to be informed whether or not we are processing your personal
-          data
-        </p>
+        • Right to be informed whether or not we are processing your personal
+        data
+      </li>
+      <li class="mb-2">• Right to access your personal data</li>
+      <li class="mb-2">
+        • Right to correct inaccuracies in your personal data
+      </li>
+      <li class="mb-2">• Right to request deletion of your personal data</li>
+      <li class="mb-2">
+        • Right to obtain a copy of the personal data you previously shared with
+        us
       </li>
       <li class="mb-2">
-        <p>• Right to access your personal data</p>
-      </li>
-      <li class="mb-2">
-        <p>• Right to correct inaccuracies in your personal data</p>
-      </li>
-      <li class="mb-2">
-        <p>• Right to request deletion of your personal data</p>
-      </li>
-      <li class="mb-2">
-        <p>
-          • Right to obtain a copy of the personal data you previously shared
-          with us
-        </p>
-      </li>
-      <li class="mb-2">
-        <p>
-          • Right to opt out of the processing of your personal data if it is
-          used for targeted advertising, the sale of personal data, or profiling
-          in furtherance of decisions that produce legal or similarly
-          significant effects ("profiling")
-        </p>
+        • Right to opt out of the processing of your personal data if it is used
+        for targeted advertising, the sale of personal data, or profiling in
+        furtherance of decisions that produce legal or similarly significant
+        effects ("profiling")
       </li>
     </ul>
     <p class="mb-4">
@@ -1379,14 +1339,15 @@
     <p class="mb-4">
       More information about our data collection and sharing practices can be
       found in this privacy notice and our Cookie Notice:
-      <a href="https://kodadot.xyz/cookie-notice/">
+      <nuxt-link to="/cookie-notice">
         https://kodadot.xyz/cookie-notice/
-      </a>
+      </nuxt-link>
       .
     </p>
     <p class="mb-4">
-      You may contact us by email at info@kodadot.xyz, by submitting a data
-      subject access request, or by referring to the contact details at the
+      You may contact us by email at
+      <a href="mailto:info@kodadot.xyz">info@kodadot.xyz</a>, by submitting a
+      data subject access request, or by referring to the contact details at the
       bottom of this document.
     </p>
     <p class="mb-4">
@@ -1412,19 +1373,20 @@
     <p class="mb-4">
       If we decline to take action regarding your request, we will inform you of
       our decision and reasoning behind it. If you wish to appeal our decision,
-      please email us at info@kodadot.xyz. Within sixty (60) days of receipt of
-      an appeal, we will inform you in writing of any action taken or not taken
-      in response to the appeal, including a written explanation of the reasons
-      for the decisions. If your appeal if denied, you may contact the
+      please email us at <a href="mailto:info@kodadot.xyz">info@kodadot.xyz</a>.
+      Within sixty (60) days of receipt of an appeal, we will inform you in
+      writing of any action taken or not taken in response to the appeal,
+      including a written explanation of the reasons for the decisions. If your
+      appeal if denied, you may contact the
       <a
         href="https://www.oag.state.va.us/consumer-protection/index.php/file-a-complaint">
         Attorney General to submit a complaint
       </a>
       .
     </p>
-    <h3 id="update" class="heading heading-is-2">
+    <h2 id="update" class="heading heading-is-2">
       14. DO WE MAKE UPDATES TO THIS NOTICE?
-    </h3>
+    </h2>
     <p class="mb-4">
       <em>
         <strong> In Short: </strong>
@@ -1441,12 +1403,13 @@
       encourage you to review this privacy notice frequently to be informed of
       how we are protecting your information.
     </p>
-    <h3 id="contact" class="heading heading-is-2">
+    <h2 id="contact" class="heading heading-is-2">
       15. HOW CAN YOU CONTACT US ABOUT THIS NOTICE?
-    </h3>
+    </h2>
     <p class="mb-4">
       If you have questions or comments about this notice, you may email us at
-      info@kodadot.xyz or contact us by post at:
+      <a href="mailto:info@kodadot.xyz">info@kodadot.xyz</a> or contact us by
+      post at:
     </p>
     <p class="mb-4">
       GenArt, Matej Nemček s.p. <br />
@@ -1454,14 +1417,15 @@
       Ljubljana 1000 <br />
       Slovenia
     </p>
-    <h3 id="data" class="heading heading-is-2">
+    <h2 id="data" class="heading heading-is-2">
       16. HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM YOU?
-    </h3>
+    </h2>
     <p class="mb-4">
       Based on the applicable laws of your country, you may have the right to
       request access to the personal information we collect from you, change
       that information, or delete it. To request to review, update, or delete
-      your personal information, please email at info@kodadot.xyz
+      your personal information, please email at
+      <a href="mailto:info@kodadot.xyz">info@kodadot.xyz</a>
     </p>
   </section>
 </template>
@@ -1488,6 +1452,9 @@ export default {
 @import '@/styles/abstracts/variables';
 section {
   @include ktheme() {
+    ol {
+      list-style-type: none;
+    }
     th,
     td {
       border: 1px solid theme('border-color');
