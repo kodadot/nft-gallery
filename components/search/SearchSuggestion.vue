@@ -170,7 +170,7 @@
         </template>
       </NeoTabItem>
     </NeoTabs>
-    <div v-if="!name && filterSearch.length > 0" class="search-history">
+    <div v-if="!name" class="search-history pt-5 mt-0">
       <div
         v-for="item in filterSearch"
         :key="item.id"
@@ -200,7 +200,7 @@
       v-show="!name"
       v-model="activeTrendingTab"
       expanded
-      nav-tabs-class="pt-6 pl-6 pr-6"
+      nav-tabs-class="pt-2 pl-6 pr-6"
       content-class="px-0 py-4">
       <NeoTabItem
         label="Trending"
