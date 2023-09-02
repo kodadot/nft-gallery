@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { EntityWithId } from '~/components/rmrk/service/scheme'
-import { set } from 'vue'
+import { ComputedRef, set } from 'vue'
 import type { Prefix } from '@kodadot1/static'
 
 export type ListCartItem = {

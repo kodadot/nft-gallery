@@ -136,28 +136,23 @@ const confirmListingLabel = computed(() => {
   }
 })
 async function confirm() {
-  const updateItems = {} as { [urlPrefix: string]: TokenToList[] }
+  const token = {} as TokenToList[]
   for (const item of listingCartStore.itemsInChain) {
     if (item.listPrice) {
-      if (!updateItems[item.urlPrefix]) {
-        updateItems[item.urlPrefix] = []
-      }
-      updateItems[item.urlPrefix].push({
+      token.push({
         price: String(calculateBalance(item.listPrice)),
         nftId: item.id,
       })
     }
   }
   try {
-    for (const [urlPrefix, token] of Object.entries(updateItems)) {
-      await transaction({
-        interaction: Interaction.LIST,
-        urlPrefix,
-        token,
-        successMessage: $i18n.t('transaction.price.success') as string,
-        errorMessage: $i18n.t('transaction.price.error') as string,
-      })
-    }
+    await transaction({
+      interaction: Interaction.LIST,
+      urlPrefix: urlPrefix.value,
+      token,
+      successMessage: $i18n.t('transaction.price.success') as string,
+      errorMessage: $i18n.t('transaction.price.error') as string,
+    })
     listingCartStore.clear()
     preferencesStore.listingCartModalOpen = false
   } catch (error) {
