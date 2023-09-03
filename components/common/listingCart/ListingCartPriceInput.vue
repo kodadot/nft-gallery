@@ -1,13 +1,12 @@
 <template>
   <div class="is-flex">
-    <input
-      v-model="model"
-      type="text"
-      class="price-input height-40 theme-background-color shade-border-color has-text-color"
-      placeholder="Price" />
-    <div
-      class="border-top border-right border-bottom shade-border-color px-5 is-flex is-align-items-center">
-      KSM
+    <div class="is-flex price-input">
+      <input
+        v-model="model"
+        type="text"
+        class="price-input height-40 theme-background-color has-text-color"
+        placeholder="Price" />
+      <div class="px-5 is-flex is-align-items-center">KSM</div>
     </div>
     <NeoButton
       v-if="check"
@@ -26,22 +25,35 @@ const model = useVModel(props, 'value', emit, { eventName: 'input' })
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/abstracts/variables';
+
 .price-input {
-  border: 1px solid #ccc;
-  border-right: none;
-  outline: none;
-  width: 5em;
-  text-indent: 10px;
+  border: 1px solid;
+  @include ktheme() {
+    border-color: theme('k-shade');
+    &:focus-within {
+      border-color: theme('border-color');
+    }
+  }
+
+  input {
+    border: none;
+    outline: none;
+    width: 5em;
+    text-indent: 10px;
+  }
 }
 
 .height-40 {
   height: 40px;
 }
-@import '@/styles/abstracts/variables';
 
 .shade-border-color {
   @include ktheme() {
     border-color: theme('k-shade');
+    &:hover {
+      border-color: theme('border-color');
+    }
   }
 }
 </style>
