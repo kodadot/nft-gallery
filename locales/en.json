@@ -120,7 +120,7 @@
       },
       "wrong_network_address": {
         "title": "Wrong Network address",
-        "content": "Oops! You have entered {addressChain} address. Enter a <strong>{selectedChain} address </strong> to proceed with the transaction or allow us to change it for you."
+        "content": "Oops! You have entered a {addressChain} address. Enter a <strong>{selectedChain} address </strong> to proceed with the transaction or allow us to change it for you."
       }
     }
   },

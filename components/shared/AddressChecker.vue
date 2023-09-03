@@ -36,6 +36,7 @@
             no-shadow
             rounded
             size="small"
+            variant="k-pink"
             @click.native="changeAddress">
             {{
               $t(`transfers.invalidAddress.changeToChainAddress`, {
