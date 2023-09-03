@@ -1,11 +1,10 @@
 <template>
   <div>
-    <NeoField :type="type" :message="error" :label="$t(label)">
+    <NeoField :variant="variant" :message="error" :label="$t(label)">
       <NeoInput
         v-model="inputValue"
         :icon-right="iconRight"
         :placeholder="placeholder"
-        :variant="variant"
         icon-right-clickable
         @icon-right-click="clearIconClick" />
     </NeoField>
@@ -41,8 +40,7 @@ const props = withDefaults(
 const { chainProperties } = useChain()
 const error = ref<string | null>('')
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
-const variant = computed(() => (props.isInvalid ? 'danger' : ''))
-const type = computed(() => (error.value ? 'is-danger' : ''))
+const variant = computed(() => (props.isInvalid || error.value ? 'danger' : ''))
 const iconRight = computed(() => {
   if (inputValue.value && props.icon === 'close-circle') {
     return 'close-circle'
