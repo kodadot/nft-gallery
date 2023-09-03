@@ -216,7 +216,6 @@ const submit = async () => {
 
   isLoading.value = true
   status.value = 'loader.ipfs'
-  const { urlPrefix } = usePrefix()
   const {
     transaction,
     status: transactionStatus,
