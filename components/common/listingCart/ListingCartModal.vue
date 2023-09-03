@@ -147,11 +147,13 @@ const totalNFTsPrice = computed(() =>
 const confirmListingLabel = computed(() => {
   switch (listingCartStore.incompleteListPrices) {
     case 0:
-      return 'Complete Listing'
+      return $i18n.t('listingCart.complete')
     case 1:
-      return '1 Item Is Missing Price'
+      return $i18n.t('listingCart.missing1')
     default:
-      return `${listingCartStore.incompleteListPrices} Items Are Missing Price`
+      return `${listingCartStore.incompleteListPrices} ${$i18n.t(
+        'listingCart.missingMultiple'
+      )}`
   }
 })
 async function confirm() {

@@ -1255,5 +1255,10 @@
     "gotToCart": "Go To Cart",
     "buyNow": "Buy Now",
     "wallet": "Wallet"
+  },
+  "listingCart": {
+    "complete": "Complete Listing",
+    "missing1": "1 Item Is Missing Price",
+    "missingMultiple": "Items Are Missing Price"
   }
 }
