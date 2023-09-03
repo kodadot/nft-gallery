@@ -34,25 +34,39 @@
               data-cy="item-creator" />
           </div>
           <div class="pt-4"><b>Set All To</b></div>
-          <div class="pt-4">Collection Floor Price</div>
+          <div class="pt-4">
+            Collection Floor Price
+            <span v-if="floorPricePercentAdjustment !== 1" class="has-text-grey"
+              >{{ (floorPricePercentAdjustment * 100 - 100).toFixed(0) }}%</span
+            >
+          </div>
           <div class="py-2 is-flex is-justify-content-start is-flex-grow-1">
             <NeoButton
               class="mr-2"
               label="-5%"
               rounded
               no-shadow
-              @click.native="listingCartStore.setFloorPrice(0.95)" />
+              @click.native="
+                floorPricePercentAdjustment -= 0.05
+                listingCartStore.setFloorPrice(floorPricePercentAdjustment)
+              " />
             <NeoButton
               class="mr-2"
               label="Floor Price"
               rounded
               no-shadow
-              @click.native="listingCartStore.setFloorPrice(1)" />
+              @click.native="
+                floorPricePercentAdjustment = 1
+                listingCartStore.setFloorPrice(floorPricePercentAdjustment)
+              " />
             <NeoButton
               label="+5%"
               rounded
               no-shadow
-              @click.native="listingCartStore.setFloorPrice(1.05)" />
+              @click.native="
+                floorPricePercentAdjustment += 0.05
+                listingCartStore.setFloorPrice(floorPricePercentAdjustment)
+              " />
           </div>
           <div class="pt-3 has-text-grey">-Or-</div>
           <div class="pt-3">Fixed Price</div>
@@ -93,18 +107,13 @@
 <script setup lang="ts">
 import { Interaction } from '@kodadot1/minimark/v1'
 import ListingCartPriceInput from '@/components/common/listingCart/ListingCartPriceInput.vue'
-import {
-  prefixToToken,
-  totalPriceUsd,
-} from '@/components/common/shoppingCart/utils'
+import { prefixToToken } from '@/components/common/shoppingCart/utils'
 import IdentityItem from '@/components/identity/IdentityItem.vue'
-import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { NeoButton, NeoModal } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
 import { TokenToList } from '@/composables/transaction/types'
 import { useListingCartStore } from '@/stores/listingCart'
 import { calculateBalance } from '@/utils/format/balance'
-import { sum } from '@/utils/math'
 import { warningMessage } from '@/utils/notification'
 import { useFiatStore } from '~/stores/fiat'
 import { calculateExactUsdFromToken } from '~/utils/calculation'
@@ -116,6 +125,7 @@ const { transaction, isLoading, status } = useTransaction()
 const { $i18n } = useNuxtApp()
 
 const fixedPrice = ref()
+const floorPricePercentAdjustment = ref(1)
 function setFixedPrice() {
   listingCartStore.setFixedPrice(fixedPrice.value)
   fixedPrice.value = undefined

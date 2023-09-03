@@ -8,7 +8,7 @@ export type ListCartItem = {
   name: string
   urlPrefix: string
   price: string
-  listPrice?: number
+  listPrice: number | null
   collection: EntityWithId
   meta?: NFTMetadata
 }

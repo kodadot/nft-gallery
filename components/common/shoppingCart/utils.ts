@@ -77,7 +77,7 @@ export const nftToListingCartItem = (nft: NFT, floor = ''): ListCartItem => {
       ...nft.collection,
       floor,
     },
-    listPrice: undefined,
+    listPrice: null,
     meta: nft.meta,
   }
 }
