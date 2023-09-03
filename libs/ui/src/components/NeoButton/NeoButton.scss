@@ -139,7 +139,7 @@
 
   &--k-pink {    
     @include ktheme() {
-      border: 1px solid theme('black') !important;
+      border: 1px solid theme('border-color') !important;
 
       &:hover {
         background-color: theme('k-accentHover') !important;
