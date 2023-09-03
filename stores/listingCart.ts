@@ -76,10 +76,7 @@ export const useListingCartStore = defineStore('listingCart', {
     },
     setFixedPrice(price: number) {
       this.itemsInChain.forEach((item) => {
-        item.listPrice = +formatBalance(price, {
-          decimals: this.decimals,
-          withUnit: false,
-        })
+        item.listPrice = price
       })
     },
     setFloorPrice(adjust = 1) {
