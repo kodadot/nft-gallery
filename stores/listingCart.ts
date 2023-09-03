@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { EntityWithId, NFTMetadata } from '~/components/rmrk/service/scheme'
 import { ComputedRef } from 'vue'
 import type { Prefix } from '@kodadot1/static'
+import { formatBalance } from '@polkadot/util'
 
 export type ListCartItem = {
   id: string
@@ -19,6 +20,7 @@ interface State {
   items: ListCartItem[]
   owned: ListCartItem[]
   chain: ComputedRef<Prefix>
+  decimals: ComputedRef<number>
 }
 
 const localStorage = useLocalStorage<ListCartItem[]>('listingCart', [])
@@ -27,6 +29,7 @@ export const useListingCartStore = defineStore('listingCart', {
     items: localStorage.value,
     owned: [],
     chain: usePrefix().urlPrefix,
+    decimals: useChain().decimals,
   }),
   getters: {
     itemsInChain: (state): ListCartItem[] =>
@@ -73,18 +76,20 @@ export const useListingCartStore = defineStore('listingCart', {
     },
     setFixedPrice(price: number) {
       this.itemsInChain.forEach((item) => {
-        item.listPrice = price
+        item.listPrice = +formatBalance(price, {
+          decimals: this.decimals,
+          withUnit: false,
+        })
       })
     },
     setFloorPrice(adjust = 1) {
       this.itemsInChain.forEach((item) => {
-        item.listPrice = this.inTrillions(
-          (+item.collection.floor || 0) * adjust
-        )
+        const floor = (+item.collection.floor || 0) * adjust
+        item.listPrice = +formatBalance(floor, {
+          decimals: this.decimals,
+          withUnit: false,
+        })
       })
-    },
-    inTrillions(number: number) {
-      return +(+number / 1e12).toFixed(2)
     },
     removeItem(id: ID) {
       const existInItemIndex = this.existInItemIndex(id)

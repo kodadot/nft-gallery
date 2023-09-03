@@ -33,7 +33,7 @@
     <div class="is-flex is-justify-content-space-between pt-2">
       <div class="is-flex is-flex-direction-column">
         <div class="has-text-grey"><small>Floor</small></div>
-        <CommonTokenMoney round="2" :value="nft.collection.floor" />
+        <span>{{ floor }}</span>
       </div>
 
       <div class="is-flex is-align-items-end pt-2">
@@ -51,7 +51,9 @@ import BasicImage from '@/components/shared/view/BasicImage.vue'
 import ListingCartPriceInput from '@/components/common/listingCart/ListingCartPriceInput.vue'
 import { NeoButton } from '@kodadot1/brick'
 import { ListCartItem, useListingCartStore } from '@/stores/listingCart'
-import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
+import { formatBalance } from '@polkadot/util'
+const { decimals, chainSymbol } = useChain()
+
 const listingCartStore = useListingCartStore()
 
 const avatar = ref<string>()
@@ -65,6 +67,13 @@ const getAvatar = async () => {
     avatar.value = await parseNftAvatar(props.nft)
   }
 }
+
+const floor = computed(() =>
+  formatBalance(props.nft.collection.floor, {
+    decimals: decimals.value,
+    withUnit: chainSymbol.value,
+  })
+)
 
 onMounted(() => {
   getAvatar()

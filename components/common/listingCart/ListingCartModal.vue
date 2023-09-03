@@ -87,7 +87,7 @@
           Potential Earnings
           <div class="is-flex">
             <span class="ml-2 has-text-grey"
-              >{{ totalNFTsPrice.toFixed(2) }} KSM</span
+              >{{ totalNFTsPrice.toFixed(4) }} {{ chainSymbol }}</span
             >
             <span class="has-text-weight-bold ml-2"> ${{ priceUSD }} </span>
           </div>
@@ -126,6 +126,7 @@ const listingCartStore = useListingCartStore()
 const { transaction, isLoading, status } = useTransaction()
 const { $i18n } = useNuxtApp()
 
+const { chainSymbol } = useChain()
 const fixedPrice = ref()
 const floorPricePercentAdjustment = ref(1)
 function setFixedPrice() {

@@ -6,7 +6,7 @@
         type="text"
         class="price-input height-40 theme-background-color has-text-color"
         placeholder="Price" />
-      <div class="px-5 is-flex is-align-items-center">KSM</div>
+      <div class="px-5 is-flex is-align-items-center">{{ chainSymbol }}</div>
     </div>
     <NeoButton
       v-if="check"
@@ -22,6 +22,7 @@ import { useVModel } from '@vueuse/core'
 const props = defineProps<{ value?: number | string; check?: boolean }>()
 const emit = defineEmits(['confirm', 'input'])
 const model = useVModel(props, 'value', emit, { eventName: 'input' })
+const { chainSymbol } = useChain()
 </script>
 
 <style scoped lang="scss">
