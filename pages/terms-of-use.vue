@@ -71,48 +71,84 @@
     <h2 class="title is-4 mb-4">TABLE OF CONTENTS</h2>
 
     <ol class="mb-4">
-      <li class="mb-4 is-4"><a href="#services">OUR SERVICE</a></li>
-      <li class="mb-4 is-4"><a href="#ip">INTELLECTUAL PROPERTY RIGHTS</a></li>
-      <li class="mb-4 is-4"><a href="#userreps">USER REPRESENTATIONS</a></li>
-      <li class="mb-4 is-4"><a href="#userreg">USER REGISTRATION</a></li>
-      <li class="mb-4 is-4"><a href="#products">PRODUCTS</a></li>
-      <li class="mb-4 is-4"><a href="#purchases">PURCHASES AND PAYMENT</a></li>
-      <li class="mb-4 is-4"><a href="#returnno">REFUNDS POLICY</a></li>
-      <li class="mb-4 is-4"><a href="#prohibited">PROHIBITED ACTIVITIES</a></li>
-      <li class="mb-4 is-4"><a href="#ugc">USER GENERATED CONTRIBUTIONS</a></li>
-      <li class="mb-4 is-4"><a href="#license">CONTRIBUTION LICENSE</a></li>
-      <li class="mb-4 is-4"><a href="#socialmedia">SOCIAL MEDIA</a></li>
       <li class="mb-4 is-4">
-        <a href="#thirdparty">THIRD-PARTY WEBSITES AND CONTENT</a>
+        <nuxt-link to="#services">OUR SERVICE</nuxt-link>
       </li>
-      <li class="mb-4 is-4"><a href="#sitemanage">SERVICES MANAGEMENT</a></li>
-      <li class="mb-4 is-4"><a href="#ppyes">PRIVACY POLICY</a></li>
       <li class="mb-4 is-4">
-        <a href="#copyrightyes">COPYRIGHT INFRINGEMENTS</a>
+        <nuxt-link to="#ip">INTELLECTUAL PROPERTY RIGHTS</nuxt-link>
       </li>
-      <li class="mb-4 is-4"><a href="#terms">TERM AND TERMINATION</a></li>
       <li class="mb-4 is-4">
-        <a href="#modifications">MODIFICATIONS AND INTERRUPTIONS</a>
+        <nuxt-link to="#userreps">USER REPRESENTATIONS</nuxt-link>
       </li>
-      <li class="mb-4 is-4"><a href="#law">GOVERNING LAW</a></li>
-      <li class="mb-4 is-4"><a href="#disputes">DISPUTE RESOLUTION</a></li>
-      <li class="mb-4 is-4"><a href="#corrections">CORRECTIONS</a></li>
-      <li class="mb-4 is-4"><a href="#disclaimer">DISCLAIMER</a></li>
       <li class="mb-4 is-4">
-        <a href="#liability">LIMITATIONS OF LIABILITY</a>
+        <nuxt-link to="#userreg">USER REGISTRATION</nuxt-link>
       </li>
-      <li class="mb-4 is-4"><a href="#indemnification">INDEMNIFICATION</a></li>
-      <li class="mb-4 is-4"><a href="#userdata">USER DATA</a></li>
+      <li class="mb-4 is-4"><nuxt-link to="#products">PRODUCTS</nuxt-link></li>
       <li class="mb-4 is-4">
-        <a href="#eletronic"
-          >ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES</a
+        <nuxt-link to="#purchases">PURCHASES AND PAYMENT</nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#returnno">REFUNDS POLICY</nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#prohibited">PROHIBITED ACTIVITIES</nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#ugc">USER GENERATED CONTRIBUTIONS</nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#license">CONTRIBUTION LICENSE</nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#socialmedia">SOCIAL MEDIA</nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#thirdparty">THIRD-PARTY WEBSITES AND CONTENT</nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#sitemanage">SERVICES MANAGEMENT</nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#ppyes">PRIVACY POLICY</nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#copyrightyes">COPYRIGHT INFRINGEMENTS</nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#terms">TERM AND TERMINATION</nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#modifications"
+          >MODIFICATIONS AND INTERRUPTIONS</nuxt-link
+        >
+      </li>
+      <li class="mb-4 is-4"><nuxt-link to="#law">GOVERNING LAW</nuxt-link></li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#disputes">DISPUTE RESOLUTION</nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#corrections">CORRECTIONS</nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#disclaimer">DISCLAIMER</nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#liability">LIMITATIONS OF LIABILITY</nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#indemnification">INDEMNIFICATION</nuxt-link>
+      </li>
+      <li class="mb-4 is-4"><nuxt-link to="#userdata">USER DATA</nuxt-link></li>
+      <li class="mb-4 is-4">
+        <nuxt-link to="#eletronic"
+          >ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES</nuxt-link
         >
       </li>
       <li class="mb-4 is-4">
-        <a href="#california">CALIFORNIA USERS AND RESIDENTS</a>
+        <nuxt-link to="#california">CALIFORNIA USERS AND RESIDENTS</nuxt-link>
       </li>
-      <li class="mb-4 is-4"><a href="#misc">MISCELLANEOUS</a></li>
-      <li class="mb-4 is-4"><a href="#contact">CONTACT US</a></li>
+      <li class="mb-4 is-4"><nuxt-link to="#misc">MISCELLANEOUS</nuxt-link></li>
+      <li class="mb-4 is-4"><nuxt-link to="#contact">CONTACT US</nuxt-link></li>
     </ol>
 
     <div id="services" class="mb-2">
@@ -164,11 +200,10 @@
       <p class="has-text-weight-bold mb-4">Your use of our Services</p>
 
       <p class="mb-4">
-        Subject to your compliance with these Legal Terms, including the "<a
-          href="#prohibited"
-          >PROHIBITED ACTIVITIES</a
-        >" section below, we grant you a non-exclusive, non-transferable,
-        revocable license to:
+        Subject to your compliance with these Legal Terms, including the
+        "<nuxt-link to="#prohibited">PROHIBITED ACTIVITIES</nuxt-link>" section
+        below, we grant you a non-exclusive, non-transferable, revocable license
+        to:
       </p>
 
       <ul class="mb-4">
@@ -218,8 +253,8 @@
       </p>
 
       <p class="mb-4">
-        Please review this section and the "<a href="#prohibited"
-          >PROHIBITED ACTIVITIES</a
+        Please review this section and the "<nuxt-link to="#prohibited"
+          >PROHIBITED ACTIVITIES</nuxt-link
         >" section carefully prior to using our Services to understand the (a)
         rights you give us and (b) obligations you have when you post or upload
         any content through the Services.
@@ -288,8 +323,9 @@
 
       <ul class="mb-4">
         <li class="mb-2">
-          confirm that you have read and agree with our "<a href="#prohibited"
-            >PROHIBITED ACTIVITIES</a
+          confirm that you have read and agree with our "<nuxt-link
+            to="#prohibited"
+            >PROHIBITED ACTIVITIES</nuxt-link
           >" and will not post, send, publish, upload, or transmit through the
           Services any Submission nor post any Contribution that is illegal,
           harassing, hateful, harmful, defamatory, obscene, bullying, abusive,
@@ -337,10 +373,9 @@
       <p class="mb-4">
         We respect the intellectual property rights of others. If you believe
         that any material available on or through the Services infringes upon
-        any copyright you own or control, please immediately refer to the "<a
-          href="#copyrightyes"
-          >COPYRIGHT INFRINGEMENTS</a
-        >" section below.
+        any copyright you own or control, please immediately refer to the
+        "<nuxt-link to="#copyrightyes">COPYRIGHT INFRINGEMENTS</nuxt-link>"
+        section below.
       </p>
     </div>
 
@@ -1158,14 +1193,6 @@ export default {
 
 <style lang="scss" scoped>
 .terms {
-  [id]::before {
-    content: '';
-    display: block;
-    height: 100px;
-    margin-top: -100px;
-    visibility: hidden;
-  }
-
   ul {
     list-style-type: disc;
     list-style-position: outside;
