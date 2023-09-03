@@ -38,6 +38,10 @@ export const DETAIL_TIMEOUT = 3000
 
 export const MAX_UPLOADED_FILE_SIZE = 30
 
+export const INFINITE_SCROLL_CONTAINER_ID = 'infinite-scroll-container'
+
+export const INFINITE_SCROLL_ITEM_CLASS_NAME = 'infinite-scroll-item'
+
 export const URLS = {
   koda: {
     pinata: 'https://kodadot.mypinata.cloud/ipfs/',
