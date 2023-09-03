@@ -1,5 +1,6 @@
 import { calculateExactUsdFromToken } from '@/utils/calculation'
 import { ListCartItem } from '@/stores/listingCart'
+import { useCollectionDetails } from '~/components/collection/utils/useCollectionDetails'
 import { ShoppingCartItem } from './types'
 import { useFiatStore } from '@/stores/fiat'
 import { sum } from '@/utils/math'
@@ -61,5 +62,24 @@ export const nftToShoppingCardItem = (nft: NFT): ShoppingCartItem => {
     addedAt: new Date().getTime(),
     metadata: nft.metadata,
     meta: nft.meta,
+  }
+}
+
+export const nftToListingCartItem = (nft: NFT): ListCartItem => {
+  const { urlPrefix } = usePrefix()
+  const { stats } = useCollectionDetails({
+    collectionId: nft?.collection?.id || nft?.collectionId,
+  })
+
+  return {
+    id: nft.id,
+    name: nft.name,
+    price: nft.price ?? '0',
+    urlPrefix: urlPrefix.value,
+    collection: {
+      ...nft.collection,
+      floor: String(stats.value.collectionFloorPrice ?? ''),
+    },
+    listPrice: undefined,
   }
 }

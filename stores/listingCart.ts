@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { EntityWithId } from '~/components/rmrk/service/scheme'
-import { ComputedRef, set } from 'vue'
+import { ComputedRef } from 'vue'
 import type { Prefix } from '@kodadot1/static'
 
 export type ListCartItem = {
@@ -72,15 +72,13 @@ export const useListingCartStore = defineStore('listingCart', {
     },
     setFixedPrice(price: number) {
       this.itemsInChain.forEach((item) => {
-        set(item, 'listPrice', price)
+        item.listPrice = price
       })
     },
     setFloorPrice(adjust = 1) {
       this.itemsInChain.forEach((item) => {
-        set(
-          item,
-          'listPrice',
-          this.inTrillions(Number(item.collection.floor ?? 0) * adjust)
+        item.listPrice = this.inTrillions(
+          Number(item.collection.floor ?? 0) * adjust
         )
       })
     },

@@ -72,7 +72,7 @@
           class="is-flex border-top is-justify-content-space-between py-4 px-6">
           Potential Earnings
           <div class="is-flex">
-            <CommonTokenMoney :value="totalNFTsPrice" class="has-text-grey" />
+            <span class="ml-2 has-text-grey">{{ totalNFTsPrice }} KSM</span>
             <span class="has-text-weight-bold ml-2"> ${{ priceUSD }} </span>
           </div>
         </div>
@@ -93,7 +93,10 @@
 <script setup lang="ts">
 import { Interaction } from '@kodadot1/minimark/v1'
 import ListingCartPriceInput from '@/components/common/listingCart/ListingCartPriceInput.vue'
-import { totalPriceUsd } from '@/components/common/shoppingCart/utils'
+import {
+  prefixToToken,
+  totalPriceUsd,
+} from '@/components/common/shoppingCart/utils'
 import IdentityItem from '@/components/identity/IdentityItem.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { NeoButton, NeoModal } from '@kodadot1/brick'
@@ -103,6 +106,8 @@ import { useListingCartStore } from '@/stores/listingCart'
 import { calculateBalance } from '@/utils/format/balance'
 import { sum } from '@/utils/math'
 import { warningMessage } from '@/utils/notification'
+import { useFiatStore } from '~/stores/fiat'
+import { calculateExactUsdFromToken } from '~/utils/calculation'
 const { isLogIn, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
@@ -115,14 +120,18 @@ function setFixedPrice() {
   listingCartStore.setFixedPrice(fixedPrice.value)
   fixedPrice.value = undefined
 }
-
-const priceUSD = computed(() => {
-  const { nfts, royalties } = totalPriceUsd(listingCartStore.itemsInChain)
-  return (nfts + royalties).toFixed(2)
-})
+const fiatStore = useFiatStore()
+const priceUSD = computed(() =>
+  calculateExactUsdFromToken(
+    totalNFTsPrice.value,
+    Number(fiatStore.getCurrentTokenValue(prefixToToken[urlPrefix.value]))
+  )
+)
 
 const totalNFTsPrice = computed(() =>
-  sum(listingCartStore.itemsInChain.map((nft) => Number(nft.price)))
+  listingCartStore.itemsInChain.reduce((acc, nft) => {
+    return acc + Number(nft.listPrice ?? 0)
+  }, 0)
 )
 
 const confirmListingLabel = computed(() => {
