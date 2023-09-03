@@ -165,6 +165,7 @@ watch(
     } else {
       showAddressCheck.value = false
       showChanged.value = false
+      addressCheck.value = null
     }
   }
 )
@@ -175,8 +176,12 @@ watch(showAddressCheck, () => {
   }
 })
 
-watch(addressCheck, () => {
-  const isValid = addressCheck.value ? addressCheck.value.valid : false
+watch(addressCheck, (check) => {
+  let isValid = !check
+
+  if (!isValid) {
+    isValid = check ? check.valid : false
+  }
 
   emit('check', isValid)
 })

@@ -110,6 +110,7 @@
                   'mb-2': isMobile,
                 },
               ]"
+              :is-invalid="destinationAddress.isInvalid"
               placeholder="Enter wallet address"
               disable-error />
             <NeoInput
