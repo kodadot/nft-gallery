@@ -159,6 +159,15 @@ async function confirm() {
     warningMessage(error)
   }
 }
+
+watch(
+  () => listingCartStore.count,
+  () => {
+    if (listingCartStore.count === 0) {
+      preferencesStore.listingCartModalOpen = false
+    }
+  }
+)
 </script>
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
