@@ -90,10 +90,10 @@ const prop = withDefaults(
 )
 const emit = defineEmits(['setPriceChartData'])
 
-const $route = useRoute()
+const route = useRoute()
 const { decimals } = useChain()
 
-const currentPage = ref(parseInt($route.query?.page) || 1)
+const currentPage = ref(parseInt(route.query?.page) || 1)
 const event = ref<HistoryEventType>(HistoryEventType.BUY)
 const data = ref<Event[]>([])
 const copyTableData = ref([])
@@ -101,7 +101,7 @@ const isOpen = ref(false)
 const preferencesStore = usePreferencesStore()
 
 onMounted(() => {
-  exist($route.query.event, (val) => {
+  exist(route.query.event, (val) => {
     event.value = (val as HistoryEventType) ?? HistoryEventType.ALL
   })
   isOpen.value = prop.openOnDefault
@@ -260,7 +260,7 @@ watch(() => prop.events, createTable)
 watch(event, updateDataByEvent)
 
 watch(
-  () => $route.query?.page,
+  () => route.query?.page,
   (newPage) => {
     currentPage.value = parseInt(newPage as string) || 1
   }
