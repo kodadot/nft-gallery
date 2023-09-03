@@ -81,6 +81,8 @@ export const useListingCartStore = defineStore('listingCart', {
     setFloorPrice(adjust = 1) {
       this.itemsInChain.forEach((item) => {
         const floor = (+item.collection.floor || 0) * +adjust.toFixed(2)
+        console.log(this.decimals, floor, floor / Math.pow(10, this.decimals))
+
         item.listPrice = +(floor / Math.pow(10, this.decimals)).toFixed(4)
       })
     },
