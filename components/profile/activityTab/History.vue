@@ -90,7 +90,7 @@ const prop = withDefaults(
 )
 const emit = defineEmits(['setPriceChartData'])
 
-const { $route } = useNuxtApp()
+const $route = useRoute()
 const { decimals } = useChain()
 
 const currentPage = ref(parseInt($route.query?.page) || 1)
@@ -258,4 +258,11 @@ const createTable = (): void => {
 watch(() => prop.events, createTable)
 
 watch(event, updateDataByEvent)
+
+watch(
+  () => $route.query?.page,
+  (newPage) => {
+    currentPage.value = parseInt(newPage as string) || 1
+  }
+)
 </script>
