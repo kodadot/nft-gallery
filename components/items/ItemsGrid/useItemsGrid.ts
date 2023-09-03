@@ -97,9 +97,13 @@ export function useFetchSearch({
     return true
   }
 
-  const refetch = (search?: { [key: string]: string | number }[]) => {
+  function clearFetchResults() {
     nfts.value = []
     loadedPages.value = []
+  }
+
+  const refetch = (search?: { [key: string]: string | number }[]) => {
+    clearFetchResults()
     fetchSearch({ search })
   }
 
@@ -123,5 +127,6 @@ export function useFetchSearch({
     nfts,
     fetchSearch,
     refetch,
+    clearFetchResults,
   }
 }
