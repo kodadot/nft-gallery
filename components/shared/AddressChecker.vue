@@ -66,8 +66,7 @@ import correctFormat from '@/utils/ss58Format'
 import { CHAINS } from '@/libs/static/src/chains'
 import InfoBox from '@/components/shared/view/InfoBox.vue'
 import { NeoButton } from '@kodadot1/brick'
-import { type Prefix } from '@kodadot1/static'
-import { chainNames } from '@kodadot1/static'
+import { type Prefix, chainNames } from '@kodadot1/static'
 
 enum AddressType {
   ETHEREUM = 'ethereum',

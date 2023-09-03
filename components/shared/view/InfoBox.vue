@@ -12,7 +12,7 @@
         class="cross"
         @click.native="onClose" />
     </div>
-    <div class="box-padding">
+    <div class="box-padding body-container">
       <slot />
     </div>
 
@@ -57,23 +57,37 @@ $border_size: 1px;
     .title {
       font-weight: bold;
       margin-bottom: 0;
+
+      @include ktheme() {
+        color: theme('text-color');
+      }
+    }
+  }
+
+  .body-container {
+    @include ktheme() {
+      color: theme('text-color');
     }
   }
 
   &__success {
     @include ktheme() {
-      border: $border_size solid theme('k-green');
+      border: $border_size solid theme('green-border-color');
     }
 
-    background-color: #e6f7e6;
+    @include ktheme() {
+      background-color: theme('k-greenaccent2');
+    }
 
     .cross {
-      background-color: #e6f7e6;
+      @include ktheme() {
+        background-color: theme('k-greenaccent2') !important;
+      }
     }
 
     .header-container {
       @include ktheme() {
-        border-bottom: $border_size solid theme('k-green');
+        border-bottom: $border_size solid theme('green-border-color');
       }
     }
   }
@@ -83,9 +97,14 @@ $border_size: 1px;
       border: $border_size solid theme('k-red');
     }
 
-    background-color: #ffe6e6;
+    @include ktheme() {
+      background-color: theme('k-redaccent2');
+    }
+
     .cross {
-      background-color: #ffe6e6 !important;
+      @include ktheme() {
+        background-color: theme('k-redaccent2') !important;
+      }
     }
 
     .header-container {
