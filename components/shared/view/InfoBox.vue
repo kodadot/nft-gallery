@@ -73,9 +73,6 @@ $border_size: 1px;
   &__success {
     @include ktheme() {
       border: $border_size solid theme('green-border-color');
-    }
-
-    @include ktheme() {
       background-color: theme('k-greenaccent2');
     }
 
@@ -95,9 +92,6 @@ $border_size: 1px;
   &__fail {
     @include ktheme() {
       border: $border_size solid theme('k-red');
-    }
-
-    @include ktheme() {
       background-color: theme('k-redaccent2');
     }
 
