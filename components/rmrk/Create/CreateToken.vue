@@ -361,7 +361,7 @@ const navigateToDetail = ({
   )
   const subPath = toCollectionPage ? 'collection' : 'gallery'
   const go = () => {
-    const navigateTo: Location = {
+    const navigateTo = {
       path: `/${urlPrefix.value}/${subPath}/${pageId}`,
     }
     if (!toCollectionPage) {
