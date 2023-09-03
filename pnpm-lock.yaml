@@ -143,9 +143,6 @@ importers:
       nuxt-edge:
         specifier: 2.17.2-28202417.20abbc1
         version: 2.17.2-28202417.20abbc1(consola@3.2.3)(typescript@4.9.5)(vue@2.7.14)
-      nuxt-property-decorator:
-        specifier: ^2.9.1
-        version: 2.9.1(vue@2.7.14)
       ofetch:
         specifier: ^1.3.3
         version: 1.3.3
@@ -1080,6 +1077,7 @@ packages:
   /@babel/plugin-proposal-nullish-coalescing-operator@7.18.6(@babel/core@7.22.11):
     resolution: {integrity: sha512-wQxQzxYeJqHcfppzBDnm1yAY0jSRkUXR2z8RePZYrKwMKgMlE8+Z6LUno+bd6LvbGh8Gltvy74+9pIYkr+XkKA==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-nullish-coalescing-operator instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -4580,7 +4578,7 @@ packages:
       semver: 7.5.4
       std-env: 3.4.3
       terser: 5.17.7
-      ufo: 1.2.0
+      ufo: 1.3.0
       unctx: 2.3.1
       unimport: 1.3.0(rollup@2.79.1)
       unplugin: 1.3.1
@@ -18160,18 +18158,6 @@ packages:
       - whiskers
     dev: false
 
-  /nuxt-property-decorator@2.9.1(vue@2.7.14):
-    resolution: {integrity: sha512-dE2GrrGKZMhv0dHAr+Lmj+JOQfjIouINgF58QNRDFNOZXMJrXxKO5zGqvCRwmx3hxqqwht7TXHdz9w1AnvL2IA==}
-    dependencies:
-      vue-class-component: 7.2.6(vue@2.7.14)
-      vue-property-decorator: 9.1.2(vue-class-component@7.2.6)(vue@2.7.14)
-      vuex-class: 0.3.2(vue-class-component@7.2.6)(vue@2.7.14)
-      vuex-module-decorators: 1.2.0(vue@2.7.14)
-    transitivePeerDependencies:
-      - vue
-      - vuex
-    dev: false
-
   /nuxt-webpack-optimisations@2.2.8:
     resolution: {integrity: sha512-A28+R0cKmJpoo+7HwMXQSjKavHafkDEpcu12oKgv5+TKGzGfpf1Y2rWUd/9FI76zhWVW16ciArxNFpqH9oZHRA==}
     peerDependencies:
@@ -22388,10 +22374,6 @@ packages:
     resolution: {integrity: sha512-fk6CmUgwKCfX79EzcDQQpSCMxrHstvbLswFChHS0Vump+kFkw7nJBfTZoC1j0bOGoY9I7R3n2DGek5ajbcYnOw==}
     dev: false
 
-  /ufo@1.2.0:
-    resolution: {integrity: sha512-RsPyTbqORDNDxqAdQPQBpgqhWle1VcTSou/FraClYlHf6TZnQcGslpLcAphNR+sQW4q5lLWLbOsRlh9j24baQg==}
-    dev: true
-
   /ufo@1.3.0:
     resolution: {integrity: sha512-bRn3CsoojyNStCZe0BG0Mt4Nr/4KF+rhFlnNXybgqt5pXHNFRlqinSoQaTrGyzE4X8aHplSb+TorH+COin9Yxw==}
 
@@ -23221,14 +23203,6 @@ packages:
     resolution: {integrity: sha512-cH208IoM+jgZyEf/g7mnFyofwPDJTM/QvBNhYMjqGB8fCsRyTf68rH2ISw/G20tJv+5mIThQ3upKwoL4jLTr1A==}
     dev: true
 
-  /vue-class-component@7.2.6(vue@2.7.14):
-    resolution: {integrity: sha512-+eaQXVrAm/LldalI272PpDe3+i4mPis0ORiMYxF6Ae4hyuCh15W8Idet7wPUEs4N4YptgFHGys4UrgNQOMyO6w==}
-    peerDependencies:
-      vue: ^2.0.0
-    dependencies:
-      vue: 2.7.14
-    dev: false
-
   /vue-cli-plugin-apollo@0.22.2(graphql-ws@5.14.0)(typescript@4.9.5):
     resolution: {integrity: sha512-HatlgKTChTnaSFTU2rdYDlL6Ui8t8Lzl9aqWiEd4vpbylZA/OlMFSbuNH33UoIgyJl783yo1WFod7FqNTj2zsg==}
     peerDependencies:
@@ -23471,16 +23445,6 @@ packages:
     resolution: {integrity: sha512-ZMjqRpWabMPqPc7gIrG0Nw6vRf1+itwf0Itft7LbMXs2g3Zs/NFmevjZGN1x7K3Q95GmIjWbQZTVerxiBxI+0g==}
     dev: false
 
-  /vue-property-decorator@9.1.2(vue-class-component@7.2.6)(vue@2.7.14):
-    resolution: {integrity: sha512-xYA8MkZynPBGd/w5QFJ2d/NM0z/YeegMqYTphy7NJQXbZcuU6FC6AOdUAcy4SXP+YnkerC6AfH+ldg7PDk9ESQ==}
-    peerDependencies:
-      vue: '*'
-      vue-class-component: '*'
-    dependencies:
-      vue: 2.7.14
-      vue-class-component: 7.2.6(vue@2.7.14)
-    dev: false
-
   /vue-router@3.6.5(vue@2.7.14):
     resolution: {integrity: sha512-VYXZQLtjuvKxxcshuRAwjHnciqZVoXAjTjcqBTz4rKc8qih9g9pI3hbDjmqXaHdgL3v8pV6P8Z335XvHzESxLQ==}
     peerDependencies:
@@ -23564,28 +23528,6 @@ packages:
     dependencies:
       '@vue/compiler-sfc': 2.7.14
       csstype: 3.1.2
-
-  /vuex-class@0.3.2(vue-class-component@7.2.6)(vue@2.7.14):
-    resolution: {integrity: sha512-m0w7/FMsNcwJgunJeM+wcNaHzK2KX1K1rw2WUQf7Q16ndXHo7pflRyOV/E8795JO/7fstyjH3EgqBI4h4n4qXQ==}
-    peerDependencies:
-      vue: ^2.5.0
-      vue-class-component: ^6.0.0 || ^7.0.0
-      vuex: ^3.0.0
-    dependencies:
-      vue: 2.7.14
-      vue-class-component: 7.2.6(vue@2.7.14)
-    dev: false
-
-  /vuex-module-decorators@1.2.0(vue@2.7.14):
-    resolution: {integrity: sha512-3lHp75qVgrNXUpFKs4J4eRnrxjY3BYUkHwR+ZKvvIycw/7tDwlL0RPuiYLwrHEUBTvJePSZaehZJ0BMTw1/ugQ==}
-    engines: {node: '>= 8', npm: '>= 5', yarn: '>= 1'}
-    requiresBuild: true
-    peerDependencies:
-      vue: '>=2'
-      vuex: '>=3'
-    dependencies:
-      vue: 2.7.14
-    dev: false
 
   /vuex@3.6.2(vue@2.7.14):
     resolution: {integrity: sha512-ETW44IqCgBpVomy520DT5jf8n0zoCac+sxWnn+hMe/CzaSejb/eVw2YToiXYX+Ex/AuHHia28vWTq4goAexFbw==}
