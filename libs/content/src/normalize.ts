@@ -108,8 +108,8 @@ export function mergeAttributes(
   overrides: Attribute[]
 ): Attribute[]
 // export function mergeAttributes(attrs: Attribute[], overrides: Attribute[]): Attribute[]
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function mergeAttributes(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   attrs: any[],
   overrides: Attribute[]
 ): Attribute[] {
