@@ -71,21 +71,21 @@ export const useListingCartStore = defineStore('listingCart', {
       }
     },
     setFixedPrice(price: number) {
-      for (const item of this.itemsInChain) {
+      this.itemsInChain.forEach((item) => {
         set(item, 'listPrice', price)
-      }
+      })
     },
     setFloorPrice(adjust = 1) {
-      for (const item of this.itemsInChain) {
+      this.itemsInChain.forEach((item) => {
         set(
           item,
           'listPrice',
-          this.round(Number(item.collection.floor ?? 0) * adjust)
+          this.inTrillions(Number(item.collection.floor ?? 0) * adjust)
         )
-      }
+      })
     },
-    round(number) {
-      return +(+number / 1000000000000).toFixed(12)
+    inTrillions(number: number) {
+      return +(+number / 1e12).toFixed(2)
     },
     removeItem(id: ID) {
       const existInItemIndex = this.existInItemIndex(id)
@@ -95,9 +95,9 @@ export const useListingCartStore = defineStore('listingCart', {
       }
     },
     clear() {
-      for (const item of this.itemsInChain) {
+      this.itemsInChain.forEach((item) => {
         this.removeItem(item.id)
-      }
+      })
     },
   },
 })

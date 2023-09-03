@@ -18,7 +18,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { NeoButton } from '@/libs/ui'
+import { NeoButton } from '@kodadot1/brick'
 import { useVModel } from '@vueuse/core'
 const props = defineProps<{ value?: number | string; check?: boolean }>()
 const emit = defineEmits(['confirm', 'input'])

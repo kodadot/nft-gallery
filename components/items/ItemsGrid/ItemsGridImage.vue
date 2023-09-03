@@ -73,7 +73,7 @@ const props = defineProps<{
   variant?: NftCardVariant
 }>()
 
-let { stats } = useCollectionDetails({
+const { stats } = useCollectionDetails({
   collectionId: props.nft?.collection?.id || props.nft?.collectionId,
 })
 

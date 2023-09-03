@@ -83,7 +83,7 @@
             :label="confirmListingLabel"
             variant="k-accent"
             no-shadow
-            class="is-flex is-flex-grow-1 btn-height"
+            class="is-flex is-flex-grow-1 py-5"
             @click.native="confirm" />
         </div>
       </div>
@@ -96,7 +96,7 @@ import ListingCartPriceInput from '@/components/common/listingCart/ListingCartPr
 import { totalPriceUsd } from '@/components/common/shoppingCart/utils'
 import IdentityItem from '@/components/identity/IdentityItem.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
-import { NeoButton, NeoModal } from '@/libs/ui'
+import { NeoButton, NeoModal } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
 import { TokenToList } from '@/composables/transaction/types'
 import { useListingCartStore } from '@/stores/listingCart'
@@ -137,14 +137,14 @@ const confirmListingLabel = computed(() => {
 })
 async function confirm() {
   const token = [] as TokenToList[]
-  for (const item of listingCartStore.itemsInChain) {
+  listingCartStore.itemsInChain.forEach((item) => {
     if (item.listPrice) {
       token.push({
         price: String(calculateBalance(item.listPrice)),
         nftId: item.id,
       })
     }
-  }
+  })
   try {
     await transaction({
       interaction: Interaction.LIST,
@@ -163,10 +163,6 @@ async function confirm() {
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
 
-.height-100 {
-  height: 100%;
-}
-
 .top {
   z-index: 1000;
 }
@@ -182,10 +178,7 @@ async function confirm() {
 }
 
 .modal-width {
-  width: 25rem;
-}
-.btn-height {
-  height: 3.5rem;
+  max-width: 25rem;
 }
 
 :deep .identity-name-font-weight-regular {

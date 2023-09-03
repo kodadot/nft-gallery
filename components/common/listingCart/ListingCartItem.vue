@@ -13,10 +13,10 @@
         <div
           class="is-flex is-flex-direction-column is-justify-content-space-between ml-4 limit-width">
           <div
-            class="has-text-weight-bold has-text-color line-height-1 no-wrap is-clipped ellipsis">
+            class="has-text-weight-bold has-text-color line-height-1 no-wrap is-clipped is-ellipsis">
             {{ nft.name }}
           </div>
-          <div class="line-height-1 no-wrap is-clipped ellipsis">
+          <div class="line-height-1 no-wrap is-clipped is-ellipsis">
             {{ nft.collection?.name || nft.collection.id }}
           </div>
         </div>
@@ -76,10 +76,6 @@ onMounted(() => {
 }
 .limit-width {
   max-width: 170px;
-}
-
-.ellipsis {
-  text-overflow: ellipsis;
 }
 
 .line-height-1 {

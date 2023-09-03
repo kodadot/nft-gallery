@@ -5,7 +5,7 @@
         <div class="k-shadow theme-background-color border py-2">
           <div class="is-inline-flex is-align-items-center mx-5">
             <div>
-              <b>{{ listingCartStore.count }}</b> items
+              <b>{{ listingCartStore.count }}</b> {{ $t('items') }}
             </div>
             <div class="bar mx-4" />
             <NeoButton
@@ -13,7 +13,7 @@
               variant="text"
               no-shadow
               @click.native="listingCartStore.clear">
-              Clear All
+              {{ $t('sort.ClearAll') }}
             </NeoButton>
             <div class="bar mx-4" />
             <NeoButton
@@ -25,9 +25,9 @@
           </div>
         </div>
         <NeoButton
-          class="height-100"
+          class="h-full"
           :variant="'k-accent'"
-          @click.native="list">
+          @click.native="preferencesStore.listingCartModalOpen = true">
           List Items
         </NeoButton>
       </div>
@@ -40,10 +40,6 @@ import { useListingCartStore } from '@/stores/listingCart'
 import { usePreferencesStore } from '@/stores/preferences'
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
-
-function list() {
-  preferencesStore.listingCartModalOpen = true
-}
 </script>
 <style scoped lang="scss">
 .listing-container {
@@ -51,9 +47,5 @@ function list() {
   right: 80px;
   bottom: 50px;
   z-index: 998;
-}
-
-.height-100 {
-  height: 100%;
 }
 </style>
