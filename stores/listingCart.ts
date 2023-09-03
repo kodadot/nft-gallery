@@ -79,7 +79,7 @@ export const useListingCartStore = defineStore('listingCart', {
     setFloorPrice(adjust = 1) {
       this.itemsInChain.forEach((item) => {
         item.listPrice = this.inTrillions(
-          Number(item.collection.floor ?? 0) * adjust
+          (+item.collection.floor || 0) * adjust
         )
       })
     },

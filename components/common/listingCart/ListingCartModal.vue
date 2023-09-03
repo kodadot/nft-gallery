@@ -86,7 +86,9 @@
           class="is-flex border-top is-justify-content-space-between py-4 px-6">
           Potential Earnings
           <div class="is-flex">
-            <span class="ml-2 has-text-grey">{{ totalNFTsPrice }} KSM</span>
+            <span class="ml-2 has-text-grey"
+              >{{ totalNFTsPrice.toFixed(2) }} KSM</span
+            >
             <span class="has-text-weight-bold ml-2"> ${{ priceUSD }} </span>
           </div>
         </div>
@@ -208,7 +210,8 @@ watch(
 }
 
 .modal-width {
-  max-width: 25rem;
+  width: 25rem;
+  max-width: 30rem;
 }
 
 :deep .identity-name-font-weight-regular {
