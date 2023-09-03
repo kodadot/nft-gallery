@@ -192,6 +192,20 @@ watch(addressCheck, (check) => {
 .is-blue {
   @include ktheme() {
     color: theme('k-blue') !important;
+    &:hover {
+      color: theme('k-blue-hover') !important;
+    }
+  }
+}
+
+.content-markdown {
+  :deep a {
+    @include ktheme() {
+      color: theme('k-blue') !important;
+      &:hover {
+        color: theme('k-blue-hover') !important;
+      }
+    }
   }
 }
 </style>
