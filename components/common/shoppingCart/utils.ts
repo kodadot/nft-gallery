@@ -65,11 +65,8 @@ export const nftToShoppingCardItem = (nft: NFT): ShoppingCartItem => {
   }
 }
 
-export const nftToListingCartItem = (nft: NFT): ListCartItem => {
+export const nftToListingCartItem = (nft: NFT, floor = ''): ListCartItem => {
   const { urlPrefix } = usePrefix()
-  const { stats } = useCollectionDetails({
-    collectionId: nft?.collection?.id || nft?.collectionId,
-  })
 
   return {
     id: nft.id,
@@ -78,8 +75,9 @@ export const nftToListingCartItem = (nft: NFT): ListCartItem => {
     urlPrefix: urlPrefix.value,
     collection: {
       ...nft.collection,
-      floor: String(stats.value.collectionFloorPrice ?? ''),
+      floor,
     },
     listPrice: undefined,
+    meta: nft.meta,
   }
 }

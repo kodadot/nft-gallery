@@ -76,6 +76,10 @@ const props = defineProps<{
   variant?: NftCardVariant
 }>()
 
+const { stats } = useCollectionDetails({
+  collectionId: props.nft?.collection?.id || props.nft?.collectionId,
+})
+
 const showActionSection = computed(() => {
   return !isLogIn.value && shoppingCartStore.getItemToBuy?.id === nft.value.id
 })
@@ -136,7 +140,12 @@ const onClickListingCart = () => {
   if (listingCartStore.isItemInCart(props.nft.id)) {
     listingCartStore.removeItem(props.nft.id)
   } else {
-    listingCartStore.setItem(nftToListingCartItem(props.nft))
+    listingCartStore.setItem(
+      nftToListingCartItem(
+        props.nft,
+        String(stats.value.collectionFloorPrice ?? '')
+      )
+    )
   }
 }
 </script>

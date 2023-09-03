@@ -13,7 +13,7 @@
               variant="text"
               no-shadow
               @click.native="listingCartStore.clear">
-              {{ $t('sort.ClearAll') }}
+              {{ $t('sort.clearAll') }}
             </NeoButton>
             <div class="bar mx-4" />
             <NeoButton

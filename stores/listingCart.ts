@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { EntityWithId } from '~/components/rmrk/service/scheme'
+import { EntityWithId, NFTMetadata } from '~/components/rmrk/service/scheme'
 import { ComputedRef } from 'vue'
 import type { Prefix } from '@kodadot1/static'
 
@@ -10,6 +10,7 @@ export type ListCartItem = {
   price: string
   listPrice?: number
   collection: EntityWithId
+  meta?: NFTMetadata
 }
 
 type ID = string
