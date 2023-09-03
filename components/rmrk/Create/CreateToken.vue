@@ -105,7 +105,6 @@ import SubmitButton from '@/components/base/SubmitButton.vue'
 import RoyaltyForm from '@/components/bsx/Create/RoyaltyForm.vue'
 
 import type { BaseTokenType } from '@/components/base/types'
-import type { Location } from 'vue-router/types/router'
 import type {
   MintedCollectionKusama,
   TokenToList,
