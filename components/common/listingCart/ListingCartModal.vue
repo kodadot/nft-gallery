@@ -47,7 +47,8 @@
               rounded
               no-shadow
               @click.native="
-                floorPricePercentAdjustment -= 0.05
+                floorPricePercentAdjustment > 0.05 &&
+                  (floorPricePercentAdjustment -= 0.05)
                 listingCartStore.setFloorPrice(floorPricePercentAdjustment)
               " />
             <NeoButton

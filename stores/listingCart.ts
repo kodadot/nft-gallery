@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import { EntityWithId, NFTMetadata } from '~/components/rmrk/service/scheme'
 import { ComputedRef } from 'vue'
 import type { Prefix } from '@kodadot1/static'
-import { formatBalance } from '@polkadot/util'
 
 export type ListCartItem = {
   id: string
@@ -81,11 +80,8 @@ export const useListingCartStore = defineStore('listingCart', {
     },
     setFloorPrice(adjust = 1) {
       this.itemsInChain.forEach((item) => {
-        const floor = (+item.collection.floor || 0) * adjust
-        item.listPrice = +formatBalance(floor, {
-          decimals: this.decimals,
-          withUnit: false,
-        })
+        const floor = (+item.collection.floor || 0) * +adjust.toFixed(2)
+        item.listPrice = floor / Math.pow(10, this.decimals)
       })
     },
     removeItem(id: ID) {
