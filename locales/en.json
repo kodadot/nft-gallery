@@ -118,8 +118,8 @@
         "title": "Not Polkadot ecosystem address",
         "content": "Oops! The address you entered is not supported by Polkadot ecosystem. Please enter Polkadot supported address to proceed with the transaction."
       },
-      "wrong_substrate_network_address": {
-        "title": "Wrong polkadot Network address",
+      "wrong_network_address": {
+        "title": "Wrong Network address",
         "content": "Oops! You have entered {addressChain} address. Enter a <strong>{selectedChain} address </strong> to proceed with the transaction or allow us to change it for you."
       }
     }

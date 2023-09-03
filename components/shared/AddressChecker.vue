@@ -5,14 +5,14 @@
       variant="success"
       :title="
         $t('transfers.invalidAddress.addressChanged.title', {
-          selectedChain: unit,
+          selectedChain: currentChainName,
         })
       "
       @close="onClose">
       <Markdown
         :source="
           $t('transfers.invalidAddress.addressChanged.content', {
-            selectedChain: unit,
+            selectedChain: currentChainName,
           })
         " />
     </InfoBox>
@@ -26,11 +26,11 @@
         :source="
           $t(`transfers.invalidAddress.${addressCheck.type}.content`, {
             addressChain: addressCheck.value,
-            selectedChain: unit,
+            selectedChain: currentChainName,
           })
         " />
 
-      <template v-if="isWrongSubstrateNetworkAddress" #footer>
+      <template v-if="isWrongNetworkAddress" #footer>
         <div class="is-flex is-align-items-center">
           <NeoButton
             no-shadow
@@ -39,7 +39,7 @@
             @click.native="changeAddress">
             {{
               $t(`transfers.invalidAddress.changeToChainAddress`, {
-                selectedChain: unit,
+                selectedChain: currentChainName,
               })
             }}
           </NeoButton>
@@ -67,10 +67,11 @@ import { CHAINS } from '@/libs/static/src/chains'
 import InfoBox from '@/components/shared/view/InfoBox.vue'
 import { NeoButton } from '@kodadot1/brick'
 import { type Prefix } from '@kodadot1/static'
+import { chainNames } from '@kodadot1/static'
 
 enum AddressType {
   ETHEREUM = 'ethereum',
-  WRONG_SUBSTRATE_NETWORK_ADDRESS = 'wrong_substrate_network_address',
+  WRONG_NETWORK_ADDRESS = 'wrong_network_address',
   UNKNOWN = 'unknown',
 }
 
@@ -87,25 +88,29 @@ const props = defineProps<{
   address: string
 }>()
 
-const { chainProperties, unit } = useChain()
+const { chainProperties } = useChain()
+const { urlPrefix } = usePrefix()
+const currentChainName = computed(() => chainNames[urlPrefix.value])
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
 const addressCheck = ref<AddressCheck | null>(null)
 const showAddressCheck = ref(false)
 const showChanged = ref(false)
 
-const isWrongSubstrateNetworkAddress = computed(
-  () => addressCheck.value?.type === AddressType.WRONG_SUBSTRATE_NETWORK_ADDRESS
+const isWrongNetworkAddress = computed(
+  () => addressCheck.value?.type === AddressType.WRONG_NETWORK_ADDRESS
 )
 
-const checkAddressByss58Format = (value: string, ss58: number) =>
-  checkAddress(value, correctFormat(ss58))
+const checkAddressByss58Format = (value: string, ss58: number) => {
+  const [isValid] = checkAddress(value, correctFormat(ss58))
+  return isValid
+}
 
 const getAddressCheck = (value: string): AddressCheck => {
   if (isEthereumAddress(value)) {
     return { valid: false, type: AddressType.ETHEREUM }
   }
 
-  const [isValidCurrentChainAddress] = checkAddressByss58Format(
+  const isValidCurrentChainAddress = checkAddressByss58Format(
     value,
     ss58Format.value
   )
@@ -114,16 +119,25 @@ const getAddressCheck = (value: string): AddressCheck => {
     return { valid: true }
   }
 
-  const [validAddressesChain] = CHAINS_ADDRESS_CHECKS.filter((chain) => {
-    const [isValid] = checkAddressByss58Format(value, CHAINS[chain].ss58Format)
-    return isValid
-  })
+  const GENERIC_SUBSTRATE_SS58_FORMAT = 42
+  const isValidGeneric = checkAddressByss58Format(
+    value,
+    GENERIC_SUBSTRATE_SS58_FORMAT
+  )
+
+  if (isValidGeneric) {
+    return { valid: true }
+  }
+
+  const [validAddressesChain] = CHAINS_ADDRESS_CHECKS.filter((chain) =>
+    checkAddressByss58Format(value, CHAINS[chain].ss58Format)
+  )
 
   if (validAddressesChain) {
     return {
       valid: false,
-      type: AddressType.WRONG_SUBSTRATE_NETWORK_ADDRESS,
-      value: CHAINS[validAddressesChain].tokenSymbol,
+      type: AddressType.WRONG_NETWORK_ADDRESS,
+      value: chainNames[validAddressesChain],
     }
   }
 
