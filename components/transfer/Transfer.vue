@@ -110,7 +110,7 @@
                   'mb-2': isMobile,
                 },
               ]"
-              :is-invalid="destinationAddress.isInvalid"
+              :is-invalid="isTargetAddressInvalid(destinationAddress)"
               placeholder="Enter wallet address"
               disable-error />
             <NeoInput
@@ -542,6 +542,10 @@ const handleAddressChange = (target: TargetAddress, newAddress: string) => {
   target.address = newAddress
 
   targetAddresses.value = [...targetAddresses.value]
+}
+
+const isTargetAddressInvalid = (target: TargetAddress) => {
+  return target.isInvalid === undefined ? false : target.isInvalid
 }
 
 const unifyAddressAmount = (target: TargetAddress) => {
