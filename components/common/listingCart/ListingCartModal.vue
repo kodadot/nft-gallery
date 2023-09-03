@@ -144,7 +144,7 @@ const priceUSD = computed(() =>
 
 const totalNFTsPrice = computed(() =>
   listingCartStore.itemsInChain.reduce((acc, nft) => {
-    return acc + Number(nft.listPrice ?? 0)
+    return +(acc + Number(nft.listPrice || 0)).toFixed(4)
   }, 0)
 )
 

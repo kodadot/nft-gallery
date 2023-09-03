@@ -23,6 +23,12 @@ const props = defineProps<{ value?: number | string; check?: boolean }>()
 const emit = defineEmits(['confirm', 'input'])
 const model = useVModel(props, 'value', emit, { eventName: 'input' })
 const { chainSymbol } = useChain()
+watch(model, (newValue) => {
+  const sanitizedValue = (newValue?.toString() ?? '').replace(/[^0-9]/g, '')
+  if (sanitizedValue !== newValue) {
+    model.value = sanitizedValue
+  }
+})
 </script>
 
 <style scoped lang="scss">
