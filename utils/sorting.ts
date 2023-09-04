@@ -29,6 +29,7 @@ export const sortItemListByIds = (
   let count = 0
   const dataMap = new Map(itemList.map((item) => [item.id, item]))
   const sortedList: { id: string }[] = []
+  // eslint-disable-next-line no-restricted-syntax
   for (let i = 0; i < ids.length && count < limit; i++) {
     const item = dataMap.get(ids[i])
     if (item) {
