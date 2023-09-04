@@ -21,13 +21,13 @@
     </p>
     <ul class="mb-4">
       <li class="mb-2">
-        • Visit our website at
+        Visit our website at
         <nuxt-link to="/"> https://kodadot.xyz </nuxt-link>
         , or any website of ours that links to this privacy notice
       </li>
       <li class="mb-2">
-        • Engage with us in other related ways, including any sales, marketing,
-        or events
+        Engage with us in other related ways, including any sales, marketing, or
+        events
       </li>
     </ul>
     <p class="mb-4">
@@ -47,7 +47,7 @@
           following each key point or by using our
         </em>
       </strong>
-      <nuxt-link :to="{ path: '/privacy-policy', hash: '#toc' }">
+      <nuxt-link to="#toc">
         <strong>
           <em> table of contents </em>
         </strong>
@@ -61,7 +61,7 @@
       When you visit, use, or navigate our Services, we may process personal
       information depending on how you interact with us and the Services, the
       choices you make, and the products and features you use. Learn more about
-      <nuxt-link :to="{ path: '/privacy-policy', hash: '#personalinfo' }">
+      <nuxt-link to="#personalinfo">
         personal information you disclose to us
       </nuxt-link>
       .
@@ -81,9 +81,7 @@
       comply with law. We may also process your information for other purposes
       with your consent. We process your information only when we have a valid
       legal reason to do so. Learn more about
-      <nuxt-link :to="{ path: '/privacy-policy', hash: '#infouse' }">
-        how we process your information
-      </nuxt-link>
+      <nuxt-link to="#infouse"> how we process your information </nuxt-link>
       .
     </p>
     <p class="mb-4">
@@ -93,7 +91,7 @@
       </strong>
       We may share information in specific situations and with specific third
       parties. Learn more about
-      <nuxt-link :to="{ path: '/privacy-policy', hash: '#whoshare' }">
+      <nuxt-link to="#whoshare">
         when and with whom we share your personal information
       </nuxt-link>
       .
@@ -107,9 +105,7 @@
       cybercriminals, or other unauthorized third parties will not be able to
       defeat our security and improperly collect, access, steal, or modify your
       information. Learn more about
-      <nuxt-link :to="{ path: '/privacy-policy', hash: '#infosafe' }">
-        how we keep your information safe
-      </nuxt-link>
+      <nuxt-link to="#infosafe"> how we keep your information safe </nuxt-link>
       .
     </p>
     <p class="mb-4">
@@ -117,9 +113,7 @@
       Depending on where you are located geographically, the applicable privacy
       law may mean you have certain rights regarding your personal information.
       Learn more about
-      <nuxt-link :to="{ path: '/privacy-policy', hash: '#privacyrights' }">
-        your privacy rights
-      </nuxt-link>
+      <nuxt-link to="#privacyrights"> your privacy rights </nuxt-link>
       .
     </p>
     <p class="mb-4">
@@ -131,93 +125,85 @@
     </p>
     <p class="mb-4">
       Want to learn more about what we do with any information we collect?
-      <nuxt-link :to="{ path: '/privacy-policy', hash: '#toc' }">
-        Review the privacy notice in full
-      </nuxt-link>
+      <nuxt-link to="#toc"> Review the privacy notice in full </nuxt-link>
       .
     </p>
     <h2 id="toc" class="heading heading-is-2">TABLE OF CONTENTS</h2>
     <ol>
       <li class="mb-4">
-        <nuxt-link :to="{ path: '/privacy-policy', hash: '#infocollect' }"
-          >1. WHAT INFORMATION DO WE COLLECT?
+        <nuxt-link to="#infocollect"
+          >WHAT INFORMATION DO WE COLLECT?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :to="{ path: '/privacy-policy', hash: '#infouse' }">
-          2. HOW DO WE PROCESS YOUR INFORMATION?
+        <nuxt-link to="#infouse">
+          HOW DO WE PROCESS YOUR INFORMATION?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :to="{ path: '/privacy-policy', hash: '#legalbases' }">
-          3. WHAT LEGAL BASES DO WE RELY ON TO PROCESS YOUR PERSONAL
-          INFORMATION?
+        <nuxt-link to="#legalbases">
+          WHAT LEGAL BASES DO WE RELY ON TO PROCESS YOUR PERSONAL INFORMATION?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :to="{ path: '/privacy-policy', hash: '#whoshare' }">
-          4. WHEN AND WITH WHOM DO WE SHARE YOUR PERSONAL INFORMATION?
+        <nuxt-link to="#whoshare">
+          WHEN AND WITH WHOM DO WE SHARE YOUR PERSONAL INFORMATION?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :to="{ path: '/privacy-policy', hash: '#cookies' }">
-          5. DO WE USE COOKIES AND OTHER TRACKING TECHNOLOGIES?
+        <nuxt-link to="#cookies">
+          DO WE USE COOKIES AND OTHER TRACKING TECHNOLOGIES?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :to="{ path: '/privacy-policy', hash: '#sociallogins' }">
-          6. HOW DO WE HANDLE YOUR SOCIAL LOGINS?
+        <nuxt-link to="#sociallogins">
+          HOW DO WE HANDLE YOUR SOCIAL LOGINS?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :to="{ path: '/privacy-policy', hash: '#inforetain' }">
-          7. HOW LONG DO WE KEEP YOUR INFORMATION?
+        <nuxt-link to="#inforetain">
+          HOW LONG DO WE KEEP YOUR INFORMATION?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :to="{ path: '/privacy-policy', hash: '#infosafe' }">
-          8. HOW DO WE KEEP YOUR INFORMATION SAFE?
+        <nuxt-link to="#infosafe">
+          HOW DO WE KEEP YOUR INFORMATION SAFE?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :to="{ path: '/privacy-policy', hash: '#infominors' }">
-          9. DO WE COLLECT INFORMATION FROM MINORS?
+        <nuxt-link to="#infominors">
+          DO WE COLLECT INFORMATION FROM MINORS?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :to="{ path: '/privacy-policy', hash: '#privacyrights' }">
-          10. WHAT ARE YOUR PRIVACY RIGHTS?
+        <nuxt-link to="#privacyrights">
+          WHAT ARE YOUR PRIVACY RIGHTS?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :to="{ path: '/privacy-policy', hash: '#DNT' }">
-          11. CONTROLS FOR DO-NOT-TRACK FEATURES
+        <nuxt-link to="#DNT"> CONTROLS FOR DO-NOT-TRACK FEATURES </nuxt-link>
+      </li>
+      <li class="mb-4">
+        <nuxt-link to="#caresidents">
+          DO CALIFORNIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :to="{ path: '/privacy-policy', hash: '#caresidents' }">
-          12. DO CALIFORNIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?
+        <nuxt-link to="#virginia">
+          DO VIRGINIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :to="{ path: '/privacy-policy', hash: '#virginia' }">
-          13. DO VIRGINIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?
+        <nuxt-link to="#update"> DO WE MAKE UPDATES TO THIS NOTICE? </nuxt-link>
+      </li>
+      <li class="mb-4">
+        <nuxt-link to="#contact">
+          HOW CAN YOU CONTACT US ABOUT THIS NOTICE?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :to="{ path: '/privacy-policy', hash: '#update' }">
-          14. DO WE MAKE UPDATES TO THIS NOTICE?
-        </nuxt-link>
-      </li>
-      <li class="mb-4">
-        <nuxt-link :to="{ path: '/privacy-policy', hash: '#contact' }">
-          15. HOW CAN YOU CONTACT US ABOUT THIS NOTICE?
-        </nuxt-link>
-      </li>
-      <li class="mb-4">
-        <nuxt-link :to="{ path: '/privacy-policy', hash: '#update' }">
-          16. HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM
-          YOU?
+        <nuxt-link to="#update">
+          HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM YOU?
         </nuxt-link>
       </li>
     </ol>
@@ -253,8 +239,8 @@
     </p>
 
     <ul class="mb-4">
-      <li class="mb-2">• usernames</li>
-      <li class="mb-2">• email addresses</li>
+      <li class="mb-2">usernames</li>
+      <li class="mb-2">email addresses</li>
     </ul>
 
     <p class="mb-4">
@@ -284,7 +270,7 @@
       social media account details, like your Facebook, Twitter, or other social
       media account. If you choose to register in this way, we will collect the
       information described in the section called "
-      <nuxt-link :to="{ path: '/privacy-policy', hash: '#sociallogins' }">
+      <nuxt-link to="#sociallogins">
         HOW DO WE HANDLE YOUR SOCIAL LOGINS?
       </nuxt-link>
       " below.
@@ -331,7 +317,7 @@
     <p class="mb-4">The information we collect includes:</p>
     <ul class="mb-4">
       <li class="mb-2">
-        • <em> Log and Usage Data. </em>
+        <em> Log and Usage Data. </em>
         Log and usage data is service-related, diagnostic, usage, and
         performance information our servers automatically collect when you
         access or use our Services and which we record in log files. Depending
@@ -387,7 +373,7 @@
         purposes, if this is in accordance with your marketing preferences. You
         can opt out of our marketing emails at any time. For more information,
         see "
-        <nuxt-link :to="{ path: '/privacy-policy', hash: '#privacyrights' }">
+        <nuxt-link to="#privacyrights">
           WHAT ARE YOUR PRIVACY RIGHTS?
         </nuxt-link>
         " below.
@@ -454,9 +440,7 @@
         We may process your information if you have given us permission (i.e.,
         consent) to use your personal information for a specific purpose. You
         can withdraw your consent at any time. Learn more about
-        <nuxt-link :to="{ path: '/privacy-policy', hash: '#withdrawconsent' }">
-          withdrawing your consent
-        </nuxt-link>
+        <nuxt-link to="#withdrawconsent"> withdrawing your consent </nuxt-link>
         .
       </li>
       <li class="mb-2">
@@ -469,20 +453,20 @@
         of the purposes described in order to:
       </li>
       <li class="mb-2">
-        • Send users information about special offers and discounts on our
+        Send users information about special offers and discounts on our
         products and services
       </li>
       <li class="mb-2">
-        • Analyze how our Services are used so we can improve them to engage and
+        Analyze how our Services are used so we can improve them to engage and
         retain users
       </li>
-      <li class="mb-2">• Support our marketing activities</li>
+      <li class="mb-2">Support our marketing activities</li>
       <li class="mb-2">
-        • Diagnose problems and/or prevent fraudulent activities
+        Diagnose problems and/or prevent fraudulent activities
       </li>
       <li class="mb-2">
-        • Understand how our users use our products and services so we can
-        improve user experience
+        Understand how our users use our products and services so we can improve
+        user experience
       </li>
       <li class="mb-2">
         •
@@ -512,9 +496,7 @@
       (i.e., express consent) to use your personal information for a specific
       purpose, or in situations where your permission can be inferred (i.e.,
       implied consent). You can
-      <nuxt-link :to="{ path: '/privacy-policy', hash: '#withdrawconsent' }">
-        withdraw your consent
-      </nuxt-link>
+      <nuxt-link to="#withdrawconsent"> withdraw your consent </nuxt-link>
       at any time.
     </p>
     <p class="mb-4">
@@ -524,48 +506,48 @@
     </p>
     <ul class="mb-4">
       <li class="mb-2">
-        • If collection is clearly in the interests of an individual and consent
+        If collection is clearly in the interests of an individual and consent
         cannot be obtained in a timely way
       </li>
       <li class="mb-2">
-        • For investigations and fraud detection and prevention
+        For investigations and fraud detection and prevention
       </li>
       <li class="mb-2">
-        • For business transactions provided certain conditions are met
+        For business transactions provided certain conditions are met
       </li>
       <li class="mb-2">
-        • If it is contained in a witness statement and the collection is
+        If it is contained in a witness statement and the collection is
         necessary to assess, process, or settle an insurance claim
       </li>
       <li class="mb-2">
-        • For identifying injured, ill, or deceased persons and communicating
-        with next of kin
+        For identifying injured, ill, or deceased persons and communicating with
+        next of kin
       </li>
       <li class="mb-2">
-        • If we have reasonable grounds to believe an individual has been, is,
-        or may be victim of financial abuse
+        If we have reasonable grounds to believe an individual has been, is, or
+        may be victim of financial abuse
       </li>
       <li class="mb-2">
-        • If it is reasonable to expect collection and use with consent would
+        If it is reasonable to expect collection and use with consent would
         compromise the availability or the accuracy of the information and the
         collection is reasonable for purposes related to investigating a breach
         of an agreement or a contravention of the laws of Canada or a province
       </li>
       <li class="mb-2">
-        • If disclosure is required to comply with a subpoena, warrant, court
+        If disclosure is required to comply with a subpoena, warrant, court
         order, or rules of the court relating to the production of records
       </li>
       <li class="mb-2">
-        • If it was produced by an individual in the course of their employment,
+        If it was produced by an individual in the course of their employment,
         business, or profession and the collection is consistent with the
         purposes for which the information was produced
       </li>
       <li class="mb-2">
-        • If the collection is solely for journalistic, artistic, or literary
+        If the collection is solely for journalistic, artistic, or literary
         purposes
       </li>
       <li class="mb-2">
-        • If the information is publicly available and is specified by the
+        If the information is publicly available and is specified by the
         regulations
       </li>
     </ul>
@@ -587,7 +569,7 @@
     </p>
     <ul class="mb-4">
       <li class="mb-2">
-        • <strong> Business Transfers. </strong>
+        <strong> Business Transfers. </strong>
         We may share or transfer your information in connection with, or during
         negotiations of, any merger, sale of company assets, financing, or
         acquisition of all or a portion of our business to another company.
@@ -748,7 +730,7 @@
       certain circumstances, you may also have the right to object to the
       processing of your personal information. You can make such a request by
       contacting us by using the contact details provided in the section "
-      <nuxt-link :to="{ path: '/privacy-policy', hash: '#contact' }">
+      <nuxt-link to="#contact">
         HOW CAN YOU CONTACT US ABOUT THIS NOTICE?
       </nuxt-link>
       " below.
@@ -786,7 +768,7 @@
       law, you have the right to withdraw your consent at any time. You can
       withdraw your consent at any time by contacting us by using the contact
       details provided in the section "
-      <nuxt-link :to="{ path: '/privacy-policy', hash: '#contact' }">
+      <nuxt-link to="#contact">
         HOW CAN YOU CONTACT US ABOUT THIS NOTICE?
       </nuxt-link>
       " below.
@@ -802,7 +784,7 @@
       You can unsubscribe from our marketing and promotional communications at
       any time by clicking on the unsubscribe link in the emails that we send,
       or by contacting us using the details provided in the section "
-      <nuxt-link :to="{ path: '/privacy-policy', hash: '#contact' }">
+      <nuxt-link to="#contact">
         HOW CAN YOU CONTACT US ABOUT THIS NOTICE?
       </nuxt-link>
       " below. You will then be removed from the marketing lists. However, we
@@ -820,7 +802,7 @@
     </p>
     <ul class="mb-4">
       <li class="mb-2">
-        • Log in to your account settings and update your user account.
+        Log in to your account settings and update your user account.
       </li>
     </ul>
     <p class="mb-4">
@@ -1037,11 +1019,11 @@
     </p>
     <ul class="mb-4">
       <li class="mb-2">
-        • Receiving help through our customer support channels;
+        Receiving help through our customer support channels;
       </li>
-      <li class="mb-2">• Participation in customer surveys or contests; and</li>
+      <li class="mb-2">Participation in customer surveys or contests; and</li>
       <li class="mb-2">
-        • Facilitation in the delivery of our Services and to respond to your
+        Facilitation in the delivery of our Services and to respond to your
         inquiries.
       </li>
     </ul>
@@ -1109,31 +1091,31 @@
     </p>
     <ul class="mb-4">
       <li class="mb-2">
-        • whether we collect and use your personal information;
+        whether we collect and use your personal information;
       </li>
       <li class="mb-2">
-        • the categories of personal information that we collect;
+        the categories of personal information that we collect;
       </li>
       <li class="mb-2">
-        • the purposes for which the collected personal information is used;
+        the purposes for which the collected personal information is used;
       </li>
       <li class="mb-2">
-        • whether we sell or share personal information to third parties;
+        whether we sell or share personal information to third parties;
       </li>
       <li class="mb-2">
-        • the categories of personal information that we sold, shared, or
+        the categories of personal information that we sold, shared, or
         disclosed for a business purpose;
       </li>
       <li class="mb-2">
-        • the categories of third parties to whom the personal information was
+        the categories of third parties to whom the personal information was
         sold, shared, or disclosed for a business purpose;
       </li>
       <li class="mb-2">
-        • the business or commercial purpose for collecting, selling, or sharing
+        the business or commercial purpose for collecting, selling, or sharing
         personal information; and
       </li>
       <li class="mb-2">
-        • the specific pieces of personal information we collected about you.
+        the specific pieces of personal information we collected about you.
       </li>
     </ul>
     <p class="mb-4">
@@ -1181,21 +1163,21 @@
     <p class="mb-4">Other privacy rights</p>
     <ul class="mb-4">
       <li class="mb-2">
-        • You may object to the processing of your personal information.
+        You may object to the processing of your personal information.
       </li>
       <li class="mb-2">
-        • You may request correction of your personal data if it is incorrect or
+        You may request correction of your personal data if it is incorrect or
         no longer relevant, or ask to restrict the processing of the
         information.
       </li>
       <li class="mb-2">
-        • You can designate an authorized agent to make a request under the CCPA
+        You can designate an authorized agent to make a request under the CCPA
         on your behalf. We may deny a request from an authorized agent that does
         not submit proof that they have been validly authorized to act on your
         behalf in accordance with the CCPA.
       </li>
       <li class="mb-2">
-        • You may request to opt out from future selling or sharing of your
+        You may request to opt out from future selling or sharing of your
         personal information to third parties. Upon receiving an opt-out
         request, we will act upon the request as soon as feasibly possible, but
         no later than fifteen (15) days from the date of the request submission.
@@ -1224,13 +1206,13 @@
     </p>
     <ul class="mb-4">
       <li class="mb-2">
-        • a good-faith estimate of the value of the consumer’s data that forms
-        the basis for offering the financial incentive or price or service
+        a good-faith estimate of the value of the consumer’s data that forms the
+        basis for offering the financial incentive or price or service
         difference; and
       </li>
       <li class="mb-2">
-        • a description of the method the business used to calculate the value
-        of the consumer’s data.
+        a description of the method the business used to calculate the value of
+        the consumer’s data.
       </li>
     </ul>
     <p class="mb-4">
@@ -1291,19 +1273,15 @@
     <ul class="mb-4">
       <li class="mb-2">
         •
-        <nuxt-link :to="{ path: '/privacy-policy', hash: '#infocollect' }">
-          Personal data we collect
-        </nuxt-link>
+        <nuxt-link to="#infocollect"> Personal data we collect </nuxt-link>
       </li>
       <li class="mb-2">
         •
-        <nuxt-link :to="{ path: '/privacy-policy', hash: '#infouse' }">
-          How we use your personal data
-        </nuxt-link>
+        <nuxt-link to="#infouse"> How we use your personal data </nuxt-link>
       </li>
       <li class="mb-2">
         •
-        <nuxt-link :to="{ path: '/privacy-policy', hash: '#whoshare' }">
+        <nuxt-link to="#whoshare">
           When and with whom we share your personal data
         </nuxt-link>
       </li>
@@ -1311,20 +1289,17 @@
     <p class="mb-4">Your rights with respect to your personal data</p>
     <ul class="mb-4">
       <li class="mb-2">
-        • Right to be informed whether or not we are processing your personal
-        data
+        Right to be informed whether or not we are processing your personal data
       </li>
-      <li class="mb-2">• Right to access your personal data</li>
+      <li class="mb-2">Right to access your personal data</li>
+      <li class="mb-2">Right to correct inaccuracies in your personal data</li>
+      <li class="mb-2">Right to request deletion of your personal data</li>
       <li class="mb-2">
-        • Right to correct inaccuracies in your personal data
-      </li>
-      <li class="mb-2">• Right to request deletion of your personal data</li>
-      <li class="mb-2">
-        • Right to obtain a copy of the personal data you previously shared with
+        Right to obtain a copy of the personal data you previously shared with
         us
       </li>
       <li class="mb-2">
-        • Right to opt out of the processing of your personal data if it is used
+        Right to opt out of the processing of your personal data if it is used
         for targeted advertising, the sale of personal data, or profiling in
         furtherance of decisions that produce legal or similarly significant
         effects ("profiling")
@@ -1452,8 +1427,13 @@ export default {
 @import '@/styles/abstracts/variables';
 section {
   @include ktheme() {
+    ul {
+      list-style-type: disc;
+      list-style-position: inside;
+    }
     ol {
-      list-style-type: none;
+      list-style-type: symbols;
+      list-style-position: inside;
     }
     th,
     td {
