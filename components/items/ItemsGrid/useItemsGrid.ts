@@ -1,5 +1,6 @@
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { getDenyList } from '@/utils/prefix'
+import isEqual from 'lodash/isEqual'
 import { useSearchParams } from './utils/useSearchParams'
 import { Ref } from 'vue'
 
@@ -117,7 +118,10 @@ export function useFetchSearch({
       () => route.query.owned,
       () => route.query.collections,
     ],
-    () => {
+    ([currentSort], [prevSort]) => {
+      if (isEqual(currentSort, prevSort)) {
+        return
+      }
       loadedPages.value = []
       resetSearch()
     }
