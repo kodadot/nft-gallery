@@ -733,7 +733,7 @@ const routerReplace = ({ params = {}, query = {} }) => {
 }
 
 watchDebounced(
-  () => targetAddresses.value[0].usd,
+  () => targetAddresses.value[0]?.usd,
   (usdamount) => {
     routerReplace({ query: { usdamount: (usdamount || 0).toString() } })
   },
