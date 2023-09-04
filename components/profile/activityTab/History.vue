@@ -103,7 +103,7 @@ const prop = withDefaults(
 )
 const emit = defineEmits(['setPriceChartData'])
 
-const { $route } = useNuxtApp()
+const route = useRoute()
 const { decimals } = useChain()
 
 const container = ref<HTMLDivElement | null>(null)
@@ -117,7 +117,7 @@ const isOpen = ref(false)
 const preferencesStore = usePreferencesStore()
 
 onMounted(() => {
-  exist($route.query.event, (val) => {
+  exist(route.query.event, (val) => {
     event.value = (val as HistoryEventType) ?? HistoryEventType.ALL
   })
   isOpen.value = prop.openOnDefault
@@ -278,4 +278,11 @@ const createTable = (): void => {
 watch(() => prop.events, createTable)
 
 watch(event, updateDataByEvent)
+
+watch(
+  () => route.query?.page,
+  (newPage) => {
+    currentPage.value = parseInt(newPage as string) || 1
+  }
+)
 </script>

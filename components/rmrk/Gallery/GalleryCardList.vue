@@ -29,7 +29,7 @@ import { RmrkType } from '@/components/rmrk/service/scheme'
 import {
   INFINITE_SCROLL_CONTAINER_ID,
   INFINITE_SCROLL_ITEM_CLASS_NAME,
-} from '~/utils/mixins/infiniteScrollMixin'
+} from '@/utils/constants'
 import { usePreferencesStore } from '@/stores/preferences'
 
 import GalleryCard from './GalleryCard.vue'
