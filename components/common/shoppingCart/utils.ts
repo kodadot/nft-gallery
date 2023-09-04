@@ -1,6 +1,5 @@
 import { calculateExactUsdFromToken } from '@/utils/calculation'
 import { ListCartItem } from '@/stores/listingCart'
-import { useCollectionDetails } from '~/components/collection/utils/useCollectionDetails'
 import { ShoppingCartItem } from './types'
 import { useFiatStore } from '@/stores/fiat'
 import { sum } from '@/utils/math'
