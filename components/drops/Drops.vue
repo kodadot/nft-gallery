@@ -55,7 +55,7 @@ import { useDrops } from './useDrops'
 import { dropsVisible } from '@/utils/config/permission.config'
 
 const { $i18n } = useNuxtApp()
-const drops = useDrops(collectionId)
+const drops = useDrops(collectionId, 'ahk')
 const statemintDrops = useDrops(STT_COLLECTION_ID, 'ahp')
 const { urlPrefix } = usePrefix()
 

@@ -101,7 +101,8 @@ import { NeoField } from '@kodadot1/brick'
 import type TokenBalanceInputComponent from '@/components/bsx/input/TokenBalanceInput.vue'
 import type BaseTokenFormComponent from '@/components/base/BaseTokenForm.vue'
 
-const { $i18n, $apollo, $consola, $router } = useNuxtApp()
+const { $i18n, $consola } = useNuxtApp()
+const router = useRouter()
 
 const CustomAttributeInput = () =>
   import('@/components/rmrk/Create/CustomAttributeInput.vue')
@@ -239,7 +240,7 @@ const navigateToDetail = (collection: string, id: string): void => {
     `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
   )
   const go = () =>
-    $router.push({
+    router.push({
       path: `/${urlPrefix.value}/gallery/${createTokenId(collection, id)}`,
       query: { congratsNft: base.value.name },
     })

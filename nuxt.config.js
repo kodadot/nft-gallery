@@ -278,9 +278,7 @@ export default defineNuxtConfig({
   },
 
   apollo: {
-    clients: {
-      default: { httpEndpoint: 'https://squid.subsquid.io/snekk/graphql' },
-    },
+    clients: apolloClientConfig,
     clientConfigs: apolloClientConfig,
     // https://github.com/nuxt-community/apollo-module#options
   },

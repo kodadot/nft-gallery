@@ -61,13 +61,22 @@ export const useGalleryItem = async (nftId?: string): Promise<GalleryItem> => {
     ahk: 'chain-ahk',
   }
 
-  const { urlPrefix } = usePrefix()
+  const { urlPrefix, client } = usePrefix()
   const { prefix } = useQueryParams({
     queryPrefix: queryPath[urlPrefix.value],
     clientName: '',
   })
+  console.log(prefix)
   const query = await resolveQueryPath(prefix, 'nftById')
-  const { result: nftEntity, refetch } = useQuery(query.default, { id })
+  // const { result: nftEntity, refetch } = useQuery(query.default, { id })
+
+  const { data: nftEntity, refresh } = useAsyncQuery({
+    query: query.default,
+    variables: {
+      id: id,
+    },
+    clientId: client.value,
+  })
 
   useSubscriptionGraphql({
     query: `   nft: nftEntityById(id: "${id}") {
@@ -79,7 +88,7 @@ export const useGalleryItem = async (nftId?: string): Promise<GalleryItem> => {
         id
       }
     }`,
-    onChange: refetch,
+    onChange: refresh,
   })
 
   watch(nftEntity as unknown as NFTData, async (newData) => {

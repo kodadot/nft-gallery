@@ -30,17 +30,23 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import HeroButtons from '@/components/collection/HeroButtons.vue'
 import { generateCollectionImage } from '@/utils/seoImageGenerator'
 import { convertMarkdownToText } from '@/utils/markdown'
-import collectionById from '@/queries/subsquid/general/collectionById.graphql'
 
-const { placeholder } = useTheme()
 const route = useRoute()
-const { result: data } = useQuery(collectionById, { id: route.params.id })
+const { client } = usePrefix()
+const { placeholder } = useTheme()
+const { data } = useGraphql({
+  queryName: 'collectionById',
+  clientName: client.value,
+  variables: {
+    id: route.params.id,
+  },
+})
 
 const collectionAvatar = ref('')
 const collectionName = ref('--')
 
 watchEffect(async () => {
-  const collection = data.value?.collectionEntity
+  const collection = data.value?.value.collectionEntity
   const metadata = collection?.metadata
   const image = collection?.meta?.image
   const name = collection?.name

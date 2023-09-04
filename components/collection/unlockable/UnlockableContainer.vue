@@ -148,7 +148,6 @@ import {
   unlockableDesc,
 } from './utils'
 import { endOfHour, startOfHour } from 'date-fns'
-import type Vue from 'vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { NeoButton } from '@kodadot1/brick'
 import { useCountDown } from './utils/useCountDown'
@@ -157,7 +156,6 @@ const Loader = defineAsyncComponent(
   () => import('@/components/collection/unlockable/UnlockableLoader.vue')
 )
 const { neoModal } = useProgrammatic()
-const root = ref<Vue<Record<string, string>>>()
 
 const { toast } = useToast()
 
@@ -165,7 +163,7 @@ const imageList = ref<string[]>([])
 const resultList = ref<any[]>([])
 const selectedImage = ref('')
 const MAX_PER_WINDOW = 10
-const { urlPrefix } = usePrefix()
+const { urlPrefix, client } = usePrefix()
 
 const isLoading = ref(false)
 const { accountId, isLogIn } = useAuth()
@@ -195,8 +193,10 @@ const handleSelectImage = (image: string) => {
   selectedImage.value = image
 }
 
+console.log(client)
 const { data: collectionData } = useGraphql({
   queryName: 'unlockableCollectionById',
+  clientName: client.value,
   variables: {
     id: collectionId,
   },
@@ -204,6 +204,7 @@ const { data: collectionData } = useGraphql({
 
 const { data: stats, refetch: tryAgain } = useGraphql({
   queryName: 'firstNftOwnedByAccountAndCollectionId',
+  clientName: client,
   variables: {
     id: collectionId,
     account: accountId.value,

@@ -50,7 +50,7 @@ const props = defineProps<{
 }>()
 
 const route = useRoute()
-const { urlPrefix } = usePrefix()
+const { urlPrefix, client } = usePrefix()
 const preferencesStore = usePreferencesStore()
 const emit = defineEmits(['total', 'isLoading'])
 
@@ -116,10 +116,11 @@ const fetchPageData = async (page: number, loadDirection = 'down') => {
         first: first.value,
         offset: (page - 1) * first.value,
       }
-  const { data: result } = await useAsyncQuery(
-    collectionListWithSearch,
-    variables
-  )
+  const { data: result } = await useAsyncQuery({
+    query: collectionListWithSearch,
+    variables: variables,
+    clientId: client.value,
+  })
   handleResult(result.value, loadDirection)
   isFetchingData.value = false
   return true

@@ -4,13 +4,6 @@ import { NFTListSold } from '@/components/identity/utils/useIdentity'
 import { chainsSupportingOffers } from './useCollectionDetails.config'
 import { Stats } from './types'
 
-import collectionByIdMinimal from '@/queries/subsquid/general/collectionByIdMinimal.graphql'
-import nftListSoldByCollection from '@/queries/subsquid/general/nftListSoldByCollection.graphql'
-import collectionBuyEventStatsById from '@/queries/subsquid/general/collectionBuyEventStatsById.graphql'
-
-import collectionStatsById from '@/queries/subsquid/general/collectionStatsById.graphql'
-import collectionStatsByIdWithOffers from '@/queries/subsquid/general/collectionStatsByIdWithOffers.graphql'
-
 const differentOwner = (nft: {
   issuer: string
   currentOwner: string
@@ -19,13 +12,17 @@ const differentOwner = (nft: {
 }
 
 export const useCollectionDetails = ({ collectionId }) => {
-  const { urlPrefix } = usePrefix()
-  const { result: data } = useQuery(
-    chainsSupportingOffers.includes(urlPrefix.value)
-      ? collectionStatsByIdWithOffers
-      : collectionStatsById,
-    { id: collectionId }
-  )
+  const { urlPrefix, client } = usePrefix()
+  const { data } = useGraphql({
+    queryPrefix: 'subsquid',
+    clientName: client.value,
+    queryName: chainsSupportingOffers.includes(urlPrefix.value)
+      ? 'collectionStatsByIdWithOffers'
+      : 'collectionStatsById',
+    variables: {
+      id: collectionId,
+    },
+  })
   const stats = ref<Stats>({})
 
   watch(data, () => {
@@ -75,8 +72,14 @@ export const useCollectionDetails = ({ collectionId }) => {
 }
 
 export const useBuyEvents = ({ collectionId }) => {
-  const { result: data } = useQuery(collectionBuyEventStatsById, {
-    id: collectionId,
+  const { client } = usePrefix()
+  const { data } = useGraphql({
+    queryPrefix: 'subsquid',
+    clientName: client.value,
+    queryName: 'collectionBuyEventStatsById',
+    variables: {
+      id: collectionId,
+    },
   })
   const highestBuyPrice = ref<number>(0)
   watch(data, () => {
@@ -90,14 +93,18 @@ export const useBuyEvents = ({ collectionId }) => {
 
 export function useCollectionSoldData({ address, collectionId }) {
   const nftEntities = ref<NFT[]>([])
-
-  const { result: data } = useQuery(nftListSoldByCollection, {
-    account: address,
-    limit: 3,
-    orderBy: 'price_DESC',
-    collectionId,
-    where: {
-      collection: { id_eq: collectionId },
+  const { client } = usePrefix()
+  const { data } = useGraphql({
+    queryName: 'nftListSoldByCollection',
+    clientName: client.value,
+    variables: {
+      account: address,
+      limit: 3,
+      orderBy: 'price_DESC',
+      collectionId,
+      where: {
+        collection: { id_eq: collectionId },
+      },
     },
   })
 
@@ -111,8 +118,15 @@ export function useCollectionSoldData({ address, collectionId }) {
 }
 
 export const useCollectionMinimal = ({ collectionId }) => {
+  const { client } = usePrefix()
   const collection = ref()
-  const { result: data } = useQuery(collectionByIdMinimal, { id: collectionId })
+  const { data } = useGraphql({
+    queryName: 'collectionByIdMinimal',
+    clientName: client.value,
+    variables: {
+      id: collectionId,
+    },
+  })
 
   watch(data, (result) => {
     if (result?.collectionEntityById) {

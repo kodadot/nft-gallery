@@ -20,7 +20,7 @@
         {{ label }}
       </div>
       <component
-        :is="disableIdentityLink ? 'div' : 'nuxt-link'"
+        :is="disableIdentityLink ? 'div' : NuxtLink"
         class="identity-name has-text-weight-bold"
         :to="`/${prefix}/u/${account}`">
         <Identity
@@ -35,6 +35,9 @@
 import { NeoButton } from '@kodadot1/brick'
 import Avatar from '@/components/shared/Avatar.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
+import { resolveComponent } from 'vue'
+
+const NuxtLink = resolveComponent('NuxtLink')
 
 withDefaults(
   defineProps<{
