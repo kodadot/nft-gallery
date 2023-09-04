@@ -43,4 +43,5 @@ export const POPULAR_COLLECTIONS = {
     '2334273319', //Guardians and Creatures
     '1635680444', //KODACHAINS
   ],
+  ahk: ['u-2024', 'u-2023', '110', '30', '14', 'u-117', 'u-2022', 'u-31848'],
 }
