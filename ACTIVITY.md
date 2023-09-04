@@ -83,12 +83,25 @@ We're constantly growing
 
 [![Monthly Active Contributors](https://contributor-overtime-api.git-contributor.com/contributors-svg?chart=contributorMonthlyActivity&repo=kodadot/nft-gallery)](https://git-contributor.com?chart=contributorMonthlyActivity&repo=kodadot/nft-gallery)
 
+Repotrends - new issues and pull requests
+--
+- [repotrends.com/kodadot/nft-gallery](https://www.repotrends.com/kodadot/nft-gallery)
+
+![image](https://github.com/kodadot/nft-gallery/assets/5887929/49ce2716-c207-4b8a-a58c-1317fb62ec5b)
+
+
 Recent Contributors ✨
 ---
 
 <img src="https://contrib.rocks/image?repo=kodadot/nft-gallery" />
 
 Check out KodaDot's [monthly statistics](https://github.com/kodadot/nft-gallery/pulse/monthly) and each contributors [activity]((https://github.com/kodadot/nft-gallery/graphs/contributors))
+
+Star history ⭐️
+---
+
+[![Star History Chart](https://api.star-history.com/svg?repos=kodadot/nft-gallery&type=Date)](https://star-history.com/#kodadot/nft-gallery&Date)
+
 
 Brief code structure
 ---
@@ -108,16 +121,5 @@ Open Bounties sorted by bounty size
 [![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24+)
 [![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$$$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24%24+)
 [![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$$$$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24%24%24+)
-
-Star history 
----
-
-[![Star History Chart](https://api.star-history.com/svg?repos=kodadot/nft-gallery&type=Date)](https://star-history.com/#kodadot/nft-gallery&Date)
-
-New Issues and pull requests in KodaDot
---
-- [repotrends.com/kodadot/nft-gallery](https://www.repotrends.com/kodadot/nft-gallery)
-
-![image](https://user-images.githubusercontent.com/5887929/232562963-f7f42c34-89ea-4783-8dad-a426dd91c262.png)
 
 
