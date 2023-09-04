@@ -28,7 +28,8 @@ module.exports = {
       },
       {
         selector: 'ForStatement',
-        message: 'Use `forEach` for loop, please check STYLE_GUIDE.md',
+        message:
+          'Use `forEach` or `for-of` for loop, please check STYLE_GUIDE.md',
       },
     ],
     'no-useless-catch': 1,
