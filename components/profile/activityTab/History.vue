@@ -13,6 +13,8 @@
         v-model="currentPage"
         :total="total"
         :per-page="itemsPerPage"
+        :range-before="2"
+        :range-after="2"
         replace
         enable-listen-keyboard-event
         preserve-scroll />
