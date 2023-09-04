@@ -189,8 +189,8 @@ importers:
         specifier: ^3.0.9
         version: 3.0.9(vue@3.3.4)
       vue-tippy:
-        specifier: ^4.16.1
-        version: 4.16.1(vue@3.3.4)
+        specifier: ^6.3.1
+        version: 6.3.1(vue@3.3.4)
       workbox-window:
         specifier: ^6.6.0
         version: 6.6.0
@@ -5223,6 +5223,10 @@ packages:
     resolution: {integrity: sha512-wGexzpZ4IdrwReQGSH7ViCN+kyoKMQcQC5exATgeG+1cZxOtcbxp+1LWP9xTrnw7R5+PYWPzIl+f71gMkSDD5A==}
     dev: false
 
+  /@popperjs/core@2.11.8:
+    resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
+    dev: false
+
   /@ramp-network/ramp-instant-sdk@3.2.3:
     resolution: {integrity: sha512-va2oky7y+e6Gm+3aRmSUcRUmJhpytjhIMptSZOMuZU+oJRflRgbEwVj/EBohSrHwZCAO/94OTulgFdW4q+TyfA==}
     engines: {node: '>=6.0.0'}
@@ -9605,10 +9609,6 @@ packages:
     resolution: {integrity: sha512-AXcZb6vzzrFAUE61HnN4mpLqd/cSIwNQjtNWR0euPm6y0iqx3G4gOXaIDdtdDwZmhwe82LA6+zinmW4UBWVePQ==}
     engines: {node: '>=16.17.0'}
 
-  /humps@2.0.1:
-    resolution: {integrity: sha512-E0eIbrFWUhwfXJmsbdjRQFQPrl5pTEoKlz163j1mTqqUnU9PgR4AgB8AIITzuB3vLBdxZXyZ9TDIrwB2OASz4g==}
-    dev: false
-
   /husky@7.0.4:
     resolution: {integrity: sha512-vbaCKN2QLtP/vD4yvs6iz6hBEo6wkSzs8HpRah1Z6aGmF2KW5PdYuAd7uX5a+OyBZHBhd+TFLqgjUgytQr4RvQ==}
     engines: {node: '>=12'}
@@ -11557,11 +11557,6 @@ packages:
       - '@polkadot/util-crypto'
     dev: false
 
-  /popper.js@1.16.1:
-    resolution: {integrity: sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ==}
-    deprecated: You can find the new Popper v2 at @popperjs/core, this package is dedicated to the legacy v1
-    dev: false
-
   /postcss-calc@9.0.1(postcss@8.4.28):
     resolution: {integrity: sha512-TipgjGyzP5QzEhsOZUaIkeO5mKeMFpebWzRogWG/ysonUlnHcq5aJe0jOjpfzUU8PeSaBQnrE8ehR0QA5vs8PQ==}
     engines: {node: ^14 || ^16 || >=18.0}
@@ -12897,10 +12892,10 @@ packages:
     engines: {node: '>=14.0.0'}
     dev: true
 
-  /tippy.js@4.3.5:
-    resolution: {integrity: sha512-NDq3efte8nGK6BOJ1dDN1/WelAwfmh3UtIYXXck6+SxLzbIQNZE/cmRSnwScZ/FyiKdIcvFHvYUgqmoGx8CcyA==}
+  /tippy.js@6.3.7:
+    resolution: {integrity: sha512-E1d3oP2emgJ9dRQZdf3Kkn0qJgI6ZLpyS5z6ZkY1DF3kaQaBsGZsndEpHwx+eC+tYM41HaSNvNtLx8tU57FzTQ==}
     dependencies:
-      popper.js: 1.16.1
+      '@popperjs/core': 2.11.8
     dev: false
 
   /titleize@3.0.0:
@@ -13954,13 +13949,12 @@ packages:
       vue: 3.3.4
     dev: false
 
-  /vue-tippy@4.16.1(vue@3.3.4):
-    resolution: {integrity: sha512-mukSw8B+soZuDIrv3N6f1jpQpUH1OVemMHxjmHmz3NktSUrdJ2uLn6ziAMDD/ThFn5rOQ8LbeVu51+dawSPGWA==}
+  /vue-tippy@6.3.1(vue@3.3.4):
+    resolution: {integrity: sha512-U2jpGwmwg+u/a36/XDnGlOF+W944xHGlVELsrTNWmZ0nUi2E/VW0c/buBkzntFUwRh6BHwFWcKL8BHcyG2mogQ==}
     peerDependencies:
-      vue: ^2.5.9
+      vue: ^3.2.0
     dependencies:
-      humps: 2.0.1
-      tippy.js: 4.3.5
+      tippy.js: 6.3.7
       vue: 3.3.4
     dev: false
 

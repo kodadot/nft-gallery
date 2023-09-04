@@ -16,4 +16,9 @@
 
 // Vue.use(VueTippy)
 // Vue.component('VTippy', TippyComponent)
-export default defineNuxtPlugin(() => undefined)
+
+import VueTippy from 'vue-tippy'
+
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.vueApp.use(VueTippy, {})
+})

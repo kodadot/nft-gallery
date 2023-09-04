@@ -1,5 +1,5 @@
 <template>
-  <v-tippy
+  <tippy
     class="is-flex"
     interactive
     :animate-fill="false"
@@ -14,7 +14,7 @@
     <div class="popover-container">
       <CollectionDetailsPopoverContent v-if="show" :nft="nft" />
     </div>
-  </v-tippy>
+  </tippy>
 </template>
 
 <script lang="ts" setup>

@@ -1,5 +1,5 @@
 <template>
-  <v-tippy
+  <tippy
     class="tippy-container"
     interactive
     :animate-fill="false"
@@ -11,7 +11,7 @@
     <div class="popover-content-container p-4">
       <slot name="content" />
     </div>
-  </v-tippy>
+  </tippy>
 </template>
 
 <script lang="ts" setup>
