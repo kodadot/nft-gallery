@@ -118,8 +118,8 @@ export function useFetchSearch({
       () => route.query.owned,
       () => route.query.collections,
     ],
-    ([currentSort], [prevSort]) => {
-      if (isEqual(currentSort, prevSort)) {
+    (currentQuery, prevQuery) => {
+      if (isEqual(currentQuery, prevQuery)) {
         return
       }
       loadedPages.value = []
