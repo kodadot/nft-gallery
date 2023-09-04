@@ -2,7 +2,13 @@ import resolveQueryPath from '@/utils/queryPathResolver'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import type { QueryOptions } from 'apollo-client'
 
-export const useQueryParams = ({ queryPrefix, clientName }) => {
+export const useQueryParams = ({
+  queryPrefix,
+  clientName = '',
+}: {
+  queryPrefix: string
+  clientName: string | ComputedRef<string>
+}) => {
   const { client } = usePrefix()
 
   return {
@@ -14,9 +20,10 @@ export const useQueryParams = ({ queryPrefix, clientName }) => {
 export default function ({
   queryPrefix = '',
   queryName,
-  clientName = '',
+  clientName,
   variables = {},
   options = {},
+  disabled = computed(() => false),
   data = ref(),
   error = ref(),
   loading = ref(true),
@@ -61,10 +68,12 @@ export default function ({
     })
   }
 
-  if (isRef(variables)) {
-    watchEffect(() => doFetch())
-  } else {
-    doFetch()
+  if (!disabled.value) {
+    if (isRef(variables)) {
+      watchEffect(() => doFetch())
+    } else {
+      doFetch()
+    }
   }
 
   return {
