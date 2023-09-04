@@ -135,7 +135,6 @@
 
 <script setup lang="ts">
 import { NeoAvatar, NeoTooltip } from '@kodadot1/brick'
-import { parseNftAvatar } from '@/utils/nft'
 import { Event } from './History.vue'
 import {
   blank,
@@ -143,17 +142,16 @@ import {
 } from '@/components/collection/activity/events/eventRow/common'
 import EventTag from '@/components/collection/activity/events/eventRow/EventTag.vue'
 import BlockExplorerLink from '@/components/shared/BlockExplorerLink.vue'
-
+import { useGalleryItem } from '@/components/gallery/useGalleryItem'
 const props = defineProps<{
   event: Event
   withToColumn: boolean
   variant: 'Desktop' | 'Touch'
 }>()
 
+const { nftResources, nftImage } = useGalleryItem(props.event.Item.id)
 const { urlPrefix } = usePrefix()
-const avatar = ref()
 const { placeholder } = useTheme()
-
 const fromAddress = computed(() => props.event.From)
 const toAddress = computed(() => props.event.To)
 const isDesktop = computed(() => props.variant === 'Desktop')
@@ -168,15 +166,14 @@ const interactionName = computed(
   () => interactionNameMap[eventType.value] || eventType.value
 )
 
-const getAvatar = async () => {
-  if (props.event.Item) {
-    avatar.value = await parseNftAvatar(props.event.Item)
-  }
-}
-
-onMounted(() => {
-  getAvatar()
-})
+const avatar = computed(
+  () =>
+    (nftResources.value &&
+      nftResources.value?.length > 1 &&
+      nftResources.value[0].src) ||
+    nftImage.value ||
+    ''
+)
 </script>
 
 <style scoped lang="scss">
