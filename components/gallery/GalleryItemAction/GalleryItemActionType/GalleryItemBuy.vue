@@ -7,6 +7,7 @@
             :active="disabled"
             class="w-full"
             content-class="buy-tooltip"
+            :auto-close="isMobileDevice ? true : ['outside']"
             :position="isMobileDevice ? 'top' : 'left'"
             :triggers="[isMobileDevice ? 'click' : 'hover']"
             multiline>
