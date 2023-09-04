@@ -49,7 +49,6 @@ import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'
 import isEqual from 'lodash/isEqual'
 
-const route = useRoute()
 const props = defineProps<{
   search?: Record<string, string | number>
 }>()
@@ -130,13 +129,6 @@ watch(
     }
   },
   { deep: true }
-)
-
-watch(
-  () => route.query.sort,
-  () => {
-    refetch(parseSearch(props.search))
-  }
 )
 
 onBeforeMount(async () => {
