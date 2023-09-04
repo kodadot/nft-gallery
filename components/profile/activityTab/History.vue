@@ -109,7 +109,7 @@ const { decimals } = useChain()
 const container = ref<HTMLDivElement | null>(null)
 const { desktop } = useResponsive(container)
 
-const currentPage = ref(parseInt($route.query?.page) || 1)
+const currentPage = ref(parseInt(route.query?.page) || 1)
 const event = ref<HistoryEventType>(HistoryEventType.BUY)
 const data = ref<Event[]>([])
 const copyTableData = ref([])
