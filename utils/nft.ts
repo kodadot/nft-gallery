@@ -9,6 +9,6 @@ export const parseNftAvatar = async (
     return sanitizeIpfsUrl(entity.meta.image)
   } else {
     const meta = (await processSingleMetadata(entity.metadata)) as NFTMetadata
-    return sanitizeIpfsUrl(meta?.image)
+    return sanitizeIpfsUrl(meta?.image || meta?.mediaUri)
   }
 }
