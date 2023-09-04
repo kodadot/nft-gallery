@@ -22,16 +22,11 @@ export function useDrops(collectionId: string, clientName?: string) {
     futureDrops: [],
   })
 
-  // const { data: collectionData } = useGraphql({
-  //   queryName: 'unlockableCollectionById',
-  //   clientName,
-  //   variables: {
-  //     id: collectionId,
-  //   },
-  // })
-  const { result: collectionData } = useQuery(unlockableCollectionById, {
-    id: collectionId,
-  })
+  const { result: collectionData } = useQuery(
+    unlockableCollectionById,
+    { id: collectionId },
+    { clientId: clientName }
+  )
 
   watch(collectionData, () => {
     if (collectionData.value?.collectionEntity) {

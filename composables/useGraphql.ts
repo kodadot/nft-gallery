@@ -7,7 +7,7 @@ export const useQueryParams = ({
   clientName = '',
 }: {
   queryPrefix: string
-  clientName: string | ComputedRef<string>
+  clientName: string
 }) => {
   const { client } = usePrefix()
 
@@ -42,13 +42,16 @@ export default function ({
     const query = await resolveQueryPath(prefix, queryName)
 
     try {
-      const { data: result } = await useAsyncQuery(
-        query.default,
-        // client: client,
-        { ...variables, ...extraVariables }
+      const { data: result } = await useAsyncQuery({
+        query: query.default,
+        variables: {
+          ...variables,
+          ...extraVariables,
+        },
+        clientId: isRef(client) ? String(client.value) : client,
         // ...options,
         // ...extraOptions,
-      )
+      })
       data.value = result
     } catch (err) {
       ;(error.value as unknown) = err
