@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h2 class="title is-size-3">
+    <h1 class="title is-size-3">
       {{ $t(label) }}
-    </h2>
+    </h1>
     <slot name="header"></slot>
     <NeoField>
       <Auth />
