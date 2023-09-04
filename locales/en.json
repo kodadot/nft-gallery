@@ -425,6 +425,7 @@
     "command": "List of commands for mass mint",
     "transform": "Transform commands in NFT",
     "deposit": "Deposit",
+    "requiredDeposit": "A deposit of <strong>{0}</strong> is required to create a collection. Please note, this initial deposit is refundable.",
     "expert": {
       "show": "Show advanced settings",
       "hide": "Hide advanced settings",

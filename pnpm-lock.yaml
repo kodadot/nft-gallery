@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: false
@@ -179,6 +179,9 @@ importers:
       vue-markdown-render:
         specifier: ^1.1.3
         version: 1.1.3
+      vue-safe-html:
+        specifier: ^2.2.0
+        version: 2.2.0
       vue-social-sharing:
         specifier: ^3.0.9
         version: 3.0.9(vue@2.7.14)
@@ -334,7 +337,7 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
 
-  libs/content:
+  libs/hyperdata:
     devDependencies:
       '@kodadot1/minipfs':
         specifier: 0.4.0-rc.0
@@ -344,7 +347,7 @@ importers:
         version: 0.33.0(vitest@0.34.3)
       changelogen:
         specifier: ^0.5.4
-        version: 0.5.5
+        version: 0.5.4
       eslint:
         specifier: ^8.47.0
         version: 8.48.0
@@ -423,7 +426,7 @@ importers:
         version: 0.17.0(sass@1.66.1)(vite@3.2.7)
       vite:
         specifier: ^3.2.7
-        version: 3.2.7(sass@1.66.1)(terser@5.17.7)
+        version: 3.2.7(@types/node@20.2.5)(sass@1.66.1)
       vue:
         specifier: 2.7.14
         version: 2.7.14
@@ -1025,7 +1028,7 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
     dependencies:
-      '@babel/types': 7.22.10
+      '@babel/types': 7.22.11
 
   /@babel/parser@7.22.14:
     resolution: {integrity: sha512-1KucTHgOvaw/LzCVrEOAyXkr9rQlp0A1HiHRYnSUE9dmb8PvPW7o5sscg+5169r54n3vGlbx6GevTE/Iw/P3AQ==}
@@ -1046,7 +1049,7 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
     dependencies:
-      '@babel/types': 7.22.10
+      '@babel/types': 7.22.11
     dev: true
 
   /@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression@7.22.5(@babel/core@7.22.11):
@@ -1110,6 +1113,7 @@ packages:
   /@babel/plugin-proposal-nullish-coalescing-operator@7.18.6(@babel/core@7.22.11):
     resolution: {integrity: sha512-wQxQzxYeJqHcfppzBDnm1yAY0jSRkUXR2z8RePZYrKwMKgMlE8+Z6LUno+bd6LvbGh8Gltvy74+9pIYkr+XkKA==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-nullish-coalescing-operator instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -4229,7 +4233,7 @@ packages:
       chokidar: 3.5.3
       pathe: 0.2.0
       picocolors: 1.0.0
-      vite: 3.2.7(sass@1.66.1)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.66.1)
     dev: true
 
   /@histoire/vendors@0.17.0:
@@ -5932,7 +5936,7 @@ packages:
       '@polkadot/api-augment': 10.8.1
       '@polkadot/api-base': 10.8.1
       '@polkadot/api-derive': 10.8.1
-      '@polkadot/keyring': 12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
       '@polkadot/rpc-augment': 10.8.1
       '@polkadot/rpc-core': 10.8.1
       '@polkadot/rpc-provider': 10.8.1
@@ -5959,7 +5963,7 @@ packages:
       '@polkadot/api-augment': 10.9.1
       '@polkadot/api-base': 10.9.1
       '@polkadot/api-derive': 10.9.1
-      '@polkadot/keyring': 12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
       '@polkadot/rpc-augment': 10.9.1
       '@polkadot/rpc-core': 10.9.1
       '@polkadot/rpc-provider': 10.9.1
@@ -6139,12 +6143,11 @@ packages:
       tslib: 2.5.3
     dev: false
 
-  /@polkadot/keyring@12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2):
+  /@polkadot/keyring@12.3.2(@polkadot/util@12.3.2):
     resolution: {integrity: sha512-NTdtDeI0DP9l/45hXynNABeP5VB8piw5YR+CbUxK2e36xpJWVXwbcOepzslg5ghE9rs8UKJb30Z/HqTU4sBY0Q==}
     engines: {node: '>=16'}
     peerDependencies:
       '@polkadot/util': 12.3.2
-      '@polkadot/util-crypto': 12.3.2
     dependencies:
       '@polkadot/util': 12.3.2
       '@polkadot/util-crypto': 12.3.2(@polkadot/util@12.3.2)
@@ -6461,7 +6464,7 @@ packages:
     resolution: {integrity: sha512-4QzT2QzD+320+eT6b79sGAA85Tt3Bb8fQvse4r5Mom2iiBd2SO81vOhxSAOaIe4GUsw25VzFJmsbe7+OObItdg==}
     engines: {node: '>=16'}
     dependencies:
-      '@polkadot/keyring': 12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
       '@polkadot/types': 10.9.1
       '@polkadot/types-support': 10.9.1
       '@polkadot/util': 12.3.2
@@ -6804,7 +6807,7 @@ packages:
     resolution: {integrity: sha512-m6UvsvQOZ7sRGbonb6QLs4mZ6TmYKdAXAcHakiJl2xArqsgOghJsKhgaTqcigPkSq4947MXtIkEzdrwFEnkYkQ==}
     engines: {node: '>=16'}
     dependencies:
-      '@polkadot/keyring': 12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
       '@polkadot/types-augment': 10.8.1
       '@polkadot/types-codec': 10.8.1
       '@polkadot/types-create': 10.8.1
@@ -6818,7 +6821,7 @@ packages:
     resolution: {integrity: sha512-AG33i2ZGGfq7u+5rkAdGrXAQHHl844/Yv+junH5ZzX69xiCoWO1bH/yzDUNBdpki2GlACWvF9nLYh3F2tVF93w==}
     engines: {node: '>=16'}
     dependencies:
-      '@polkadot/keyring': 12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
       '@polkadot/types-augment': 10.9.1
       '@polkadot/types-codec': 10.9.1
       '@polkadot/types-create': 10.9.1
@@ -8985,7 +8988,7 @@ packages:
       vite: ^3.0.0 || ^4.0.0
       vue: ^2.7.0-0
     dependencies:
-      vite: 3.2.7(sass@1.66.1)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.66.1)
       vue: 2.7.14
     dev: true
 
@@ -11335,6 +11338,29 @@ packages:
       snake-case: 3.0.4
       tslib: 2.5.3
 
+  /changelogen@0.5.4:
+    resolution: {integrity: sha512-ady7TjLW3ZKMWzVF8MG3vJRqLVctNTGIZnO5XoFbMbcC59BVNTZXNXL8tovB+OK6DHLk4NeTHUWzdwMaKmFyUA==}
+    hasBin: true
+    dependencies:
+      c12: 1.4.2
+      colorette: 2.0.20
+      consola: 3.2.3
+      convert-gitmoji: 0.1.3
+      execa: 7.1.1
+      mri: 1.2.0
+      node-fetch-native: 1.4.0
+      ofetch: 1.3.3
+      open: 9.1.0
+      pathe: 1.1.1
+      pkg-types: 1.0.3
+      scule: 1.0.0
+      semver: 7.5.4
+      std-env: 3.4.3
+      yaml: 2.3.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /changelogen@0.5.5:
     resolution: {integrity: sha512-IzgToIJ/R9NhVKmL+PW33ozYkv53bXvufDNUSH3GTKXq1iCHGgkbgbtqEWbo8tnWNnt7nPDpjL8PwSG2iS8RVw==}
     hasBin: true
@@ -11746,7 +11772,7 @@ packages:
     dev: false
 
   /concat-map@0.0.1:
-    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
+    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
   /concat-stream@1.6.2:
     resolution: {integrity: sha512-27HBghJxjiZtIk3Ycvn/4kbJk/1uZuJFfuPEns6LaEvpvG1f0hTea8lilrouyo9mVc2GWdcEZ8OLoGmSADlrCw==}
@@ -14049,7 +14075,7 @@ packages:
     dependencies:
       acorn: 8.10.0
       acorn-jsx: 5.3.2(acorn@8.10.0)
-      eslint-visitor-keys: 3.4.1
+      eslint-visitor-keys: 3.4.3
     dev: true
 
   /espree@9.6.1:
@@ -15516,7 +15542,7 @@ packages:
       sade: 1.8.1
       shiki-es: 0.2.0
       sirv: 2.0.3
-      vite: 3.2.7(sass@1.66.1)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.66.1)
       vite-node: 0.28.4(sass@1.66.1)
     transitivePeerDependencies:
       - '@types/node'
@@ -22759,7 +22785,7 @@ packages:
       picocolors: 1.0.0
       source-map: 0.6.1
       source-map-support: 0.5.21
-      vite: 3.2.7(sass@1.66.1)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.66.1)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -23350,6 +23376,10 @@ packages:
       vue: ^2
     dependencies:
       vue: 2.7.14
+    dev: false
+
+  /vue-safe-html@2.2.0:
+    resolution: {integrity: sha512-c36p3zMXU8Sp9j3wD/A4NzjsHLDDHeW2yanc+P0im3u/74V3j1QhSnu8Ybcxm8JPekF7RIetcv/E1qdCiDFTyw==}
     dev: false
 
   /vue-server-renderer@2.7.14:

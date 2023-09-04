@@ -173,6 +173,7 @@ export default defineNuxtConfig({
     '~/plugins/vueSocialSharing',
     '~/plugins/vueTippy',
     '~/plugins/safeHref',
+    '~/plugins/vueHtmlSecure',
   ],
 
   router: {

@@ -125,16 +125,18 @@
           <div class="p-4 is-flex">
             <NeoIcon icon="circle-info" size="medium" class="mr-4" />
             <p class="is-size-7">
-              A deposit of
-              <strong>{{ totalCollectionDeposit }} {{ chainSymbol }}</strong>
-              is required to create a collection. Please note, this initial
-              deposit is refundable.
+              <span
+                v-safe-html="
+                  $t('mint.requiredDeposit', [
+                    `${totalCollectionDeposit} ${chainSymbol}`,
+                  ])
+                " />
               <a
                 href="https://hello.kodadot.xyz/multi-chain/fees"
                 target="_blank"
                 class="has-text-link"
                 rel="nofollow noopener noreferrer">
-                Learn more
+                {{ $t('helper.learnMore') }}
               </a>
             </p>
           </div>
