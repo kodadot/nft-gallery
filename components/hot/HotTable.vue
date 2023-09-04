@@ -52,7 +52,6 @@ import { getVolume } from '@/utils/math'
 import { lastweekDate } from '@/components/series/utils'
 
 const hot = ref([])
-const { $apollo } = useNuxtApp()
 const { client, urlPrefix } = usePrefix()
 const { decimals } = useChain()
 
@@ -97,16 +96,15 @@ const toKSM = (amount) => {
 }
 
 const fetchHotNfts = async () => {
-  const {
-    data: { result },
-  } = await $apollo.query({
+  const { data } = await useAsyncQuery({
     query: hotNfts,
-    client: client.value,
     variables: {
       gte: lastweekDate,
     },
+    clientId: client.value,
   })
-  return result
+
+  return data.value.result
 }
 </script>
 

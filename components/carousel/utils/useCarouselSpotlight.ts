@@ -61,17 +61,21 @@ function updateCollections(data) {
 
 export default function useCarouselSpotlight() {
   const collections = useSpotlightNft()
-  const { urlPrefix } = usePrefix()
+  const { urlPrefix, client } = usePrefix()
   const variables = curatedCollection[urlPrefix.value]?.length
     ? { list: curatedCollection[urlPrefix.value] }
     : undefined
-  const query = curatedCollection[urlPrefix.value]?.length
-    ? collectionCuratedList
-    : collectionLastList
-  const { result: data } = useQuery(query, { ...variables })
+  const { data } = useGraphql({
+    clientName: client,
+    queryName: curatedCollection[urlPrefix.value]?.length
+      ? 'collectionCuratedList'
+      : 'collectionLastList',
+    queryPrefix: urlPrefix.value,
+    variables,
+  })
 
   watch(data, () => {
-    updateCollections(data.value)
+    updateCollections(data.value.value)
   })
 
   return {

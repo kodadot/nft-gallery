@@ -46,6 +46,7 @@
 </template>
 <script setup lang="ts">
 import HeroButtons from '@/components/collection/unlockable/UnlockableHeroButtons.vue'
+import Markdown from '@/components/shared/Markdown.vue'
 import { NeoButton } from '@kodadot1/brick'
 import { unlockableDesc } from './utils'
 

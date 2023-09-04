@@ -80,7 +80,7 @@ export default function ({
   }
 
   return {
-    data,
+    data: data,
     error,
     refetch,
     loading,
