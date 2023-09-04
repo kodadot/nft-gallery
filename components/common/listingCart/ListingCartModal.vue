@@ -32,7 +32,7 @@
               class="identity-name-font-weight-regular"
               data-cy="item-creator" />
           </div>
-          <div class="pt-4"><b>Set All To</b></div>
+          <div class="pt-4 has-text-weight-bold">Set All To</div>
           <div class="pt-4">
             Collection Floor Price
             <span v-if="floorPricePercentAdjustment !== 1" class="has-text-grey"
@@ -160,15 +160,13 @@ const confirmListingLabel = computed(() => {
   }
 })
 async function confirm() {
-  const token = [] as TokenToList[]
-  listingCartStore.itemsInChain.forEach((item) => {
-    if (item.listPrice) {
-      token.push({
-        price: String(calculateBalance(item.listPrice)),
-        nftId: item.id,
-      })
-    }
-  })
+  const token = listingCartStore.itemsInChain
+    .filter((item) => item.listPrice)
+    .map((item) => ({
+      price: String(calculateBalance(item.listPrice ?? 0)),
+      nftId: item.id,
+    })) as TokenToList[]
+
   try {
     await transaction({
       interaction: Interaction.LIST,
