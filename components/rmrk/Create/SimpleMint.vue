@@ -229,7 +229,8 @@ import BasicMoney from '@/components/shared/format/BasicMoney.vue'
 import AttributeTagInput from './AttributeTagInput.vue'
 import { useIdentityStore } from '@/stores/identity'
 
-const { $i18n, $router, $consola, $apollo } = useNuxtApp()
+const { $i18n, $consola, $apollo } = useNuxtApp()
+const router = useRouter()
 const { apiInstance } = useApi()
 const { accountId } = useAuth()
 const { chainProperties, decimals, unit } = useChain()
@@ -746,7 +747,7 @@ function navigateToDetail(nft: RmrkCreatedNft, blockNumber: string) {
     `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
   )
   const go = () =>
-    $router.push({
+    router.push({
       path: `/rmrk/gallery/${toNFTId(nft, blockNumber)}`,
       query: { congratsNft: nft.name },
     })

@@ -52,7 +52,8 @@ interface DifferentTypeName {
   filters: string
 }
 
-const { $i18n, $route } = useNuxtApp()
+const { $i18n } = useNuxtApp()
+const route = useRoute()
 const title = ref('Keyboard Shortcuts')
 const data = ref<DifferentTypeShortCuts>({
   navigation: [
@@ -166,7 +167,7 @@ const addShortcuts = (shortcuts): DifferentTypeShortCuts => {
 }
 
 const updateData = computed(() => {
-  const routeName = $route.name
+  const routeName = route.name
 
   if (routeName?.includes('collections')) {
     return addShortcuts([

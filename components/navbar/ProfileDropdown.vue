@@ -72,6 +72,7 @@ import { useIdentityStore } from '@/stores/identity'
 import { useLangStore } from '@/stores/lang'
 import { langsFlags as langsFlagsList } from '@/utils/config/i18n'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
+import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
 
 const identityStore = useIdentityStore()
 const langStore = useLangStore()
