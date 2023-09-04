@@ -5,7 +5,6 @@
       v-model="preferencesStore.listingCartModalOpen"
       :can-cancel="['outside', 'escape']"
       scroll="clip"
-      class="top"
       @close="preferencesStore.listingCartModalOpen = false">
       <div class="modal-width">
         <header
@@ -22,7 +21,7 @@
         </header>
         <div class="px-6 pt-4">
           <div
-            class="rounded border shade-border-color is-flex is-justify-content-start is-flex-grow-1 pl-3">
+            class="rounded border border-k-shade is-flex is-justify-content-start is-flex-grow-1 pl-3">
             <IdentityItem
               v-if="isLogIn"
               :label="$t('confirmPurchase.connectedWith')"
@@ -96,7 +95,7 @@
 
         <div class="is-flex is-justify-content-space-between pb-5 px-6">
           <NeoButton
-            :disabled="!!listingCartStore.incompleteListPrices"
+            :disabled="Boolean(listingCartStore.incompleteListPrices)"
             :label="confirmListingLabel"
             variant="k-accent"
             no-shadow
@@ -118,8 +117,8 @@ import { TokenToList } from '@/composables/transaction/types'
 import { useListingCartStore } from '@/stores/listingCart'
 import { calculateBalance } from '@/utils/format/balance'
 import { warningMessage } from '@/utils/notification'
-import { useFiatStore } from '~/stores/fiat'
-import { calculateExactUsdFromToken } from '~/utils/calculation'
+import { useFiatStore } from '@/stores/fiat'
+import { calculateExactUsdFromToken } from '@/utils/calculation'
 const { isLogIn, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
@@ -196,16 +195,6 @@ watch(
 </script>
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
-
-.top {
-  z-index: 1000;
-}
-
-.shade-border-color {
-  @include ktheme() {
-    border-color: theme('k-shade');
-  }
-}
 
 .rounded {
   border-radius: 10rem;

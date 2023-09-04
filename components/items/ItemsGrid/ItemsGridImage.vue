@@ -81,7 +81,7 @@ const { stats } = useCollectionDetails({
 })
 
 const showActionSection = computed(() => {
-  return !isLogIn.value && shoppingCartStore.getItemToBuy?.id === nft.value.id
+  return !isLogIn.value && shoppingCartStore.getItemToBuy?.id === props.nft.id
 })
 
 const buyLabel = computed(function () {
@@ -128,6 +128,16 @@ const onClickBuy = () => {
   })
 }
 
+// Set unlisted owned nft to the store
+if (+(props.nft?.price || 0) === 0 && isOwner.value) {
+  listingCartStore.setItem(
+    nftToListingCartItem(
+      props.nft,
+      String(stats.value.collectionFloorPrice ?? '')
+    ),
+    true
+  )
+}
 const onClickShoppingCart = () => {
   if (shoppingCartStore.isItemInCart(props.nft.id)) {
     shoppingCartStore.removeItem(props.nft.id)

@@ -17,7 +17,7 @@ type ID = string
 
 interface State {
   items: ListCartItem[]
-  owned: ListCartItem[]
+  unlistedOwned: ListCartItem[]
   chain: ComputedRef<Prefix>
   decimals: ComputedRef<number>
 }
@@ -26,7 +26,7 @@ const localStorage = useLocalStorage<ListCartItem[]>('listingCart', [])
 export const useListingCartStore = defineStore('listingCart', {
   state: (): State => ({
     items: localStorage.value,
-    owned: [],
+    unlistedOwned: [],
     chain: usePrefix().urlPrefix,
     decimals: useChain().decimals,
   }),
@@ -46,31 +46,23 @@ export const useListingCartStore = defineStore('listingCart', {
     isItemInCart(id: ID) {
       return this.existInItemIndex(id) !== -1
     },
-    existInItemIndex(id: string) {
-      return this.items.findIndex((item) => item.id === id)
+    existInItemIndex(id: string, items?: ListCartItem[]) {
+      return (items ?? this.items).findIndex((item) => item.id === id)
     },
-    setItem(payload: ListCartItem) {
-      const existInItemIndex = this.existInItemIndex(payload.id)
+    setItem(payload: ListCartItem, toUnlistedOwned = false) {
+      const items = toUnlistedOwned ? this.unlistedOwned : this.items
+      const existInItemIndex = this.existInItemIndex(payload.id, items)
+
       if (existInItemIndex === -1) {
-        this.items.push(payload)
-        localStorage.value = this.items
-      } else {
-        this.updateItem(payload)
+        items.push(payload)
+        if (!toUnlistedOwned) {
+          localStorage.value = items
+        }
       }
     },
     addAllToCart() {
-      for (const item of this.owned) {
+      for (const item of this.unlistedOwned) {
         this.setItem(item)
-      }
-    },
-    updateItem(payload: ListCartItem) {
-      const existInItemIndex = this.existInItemIndex(payload.id)
-      if (existInItemIndex !== -1) {
-        this.items[existInItemIndex] = {
-          ...this.items[existInItemIndex],
-          ...payload,
-        }
-        localStorage.value = this.items
       }
     },
     setFixedPrice(price: number) {

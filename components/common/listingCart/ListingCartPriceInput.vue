@@ -1,6 +1,6 @@
 <template>
   <div class="is-flex">
-    <div class="is-flex price-input">
+    <div class="is-flex price-input border border-k-shade">
       <input
         v-model="model"
         type="text"
@@ -11,7 +11,7 @@
     <NeoButton
       v-if="check"
       no-shadow
-      class="check-btn ml-2 shade-border-color height-40"
+      class="shade-border-color ml-2 height-40"
       icon="check"
       @click.native="emit('confirm')" />
   </div>
@@ -35,9 +35,7 @@ watch(model, (newValue) => {
 @import '@/styles/abstracts/variables';
 
 .price-input {
-  border: 1px solid;
   @include ktheme() {
-    border-color: theme('k-shade');
     &:focus-within {
       border-color: theme('border-color');
     }
