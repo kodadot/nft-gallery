@@ -7,13 +7,25 @@ import {
 import { parseNftAvatar } from '@/utils/nft'
 import { mintInteraction } from '@/composables/collectionActivity/helpers'
 
-export const interactionNameMap = {
-  BUY: 'Sale',
-  LIST: 'List',
-  MINTNFT: 'Mint',
-  MINT: 'Mint',
-  SEND: 'Transfer',
-  Offer: 'Offer',
+export const interactionNameMap = (
+  {
+    distinguishBuyAndSell,
+  }: {
+    distinguishBuyAndSell: boolean
+  } = { distinguishBuyAndSell: false }
+) => {
+  const map = {
+    LIST: 'List',
+    MINTNFT: 'Mint',
+    MINT: 'Mint',
+    SEND: 'Transfer',
+    Offer: 'Offer',
+  }
+
+  if (distinguishBuyAndSell) {
+    return { ...map, BUY: 'Buy', SELL: 'Sale' }
+  }
+  return { ...map, BUY: 'Sale' }
 }
 export const blank = '--'
 
@@ -24,6 +36,7 @@ export const getInteractionColor = (interaction: string) =>
     [Interaction.BUY]: 'k-pink',
     [OfferInteraction]: 'k-greenaccent',
     [Interaction.SEND]: 'theme-background-color',
+    SELL: 'k-aqua-blue',
   }[interaction])
 
 export const getAmount = (
