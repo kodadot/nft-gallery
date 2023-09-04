@@ -73,5 +73,6 @@ export default defineConfig({
     command: process.env.CI ? 'pnpm start:static' : 'pnpm run dev',
     url: 'http://localhost:9090',
     reuseExistingServer: !process.env.CI,
+    timeout: 5 * 60 * 1000,
   },
 })
