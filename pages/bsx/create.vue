@@ -5,6 +5,7 @@
         <component
           :is="x"
           :show-explainer-text="false"
+          :class-column="false"
           @navigateToCreateNftTab="switchToNft" />
       </NeoTabItem>
     </NeoTabs>
@@ -14,7 +15,7 @@
 <script lang="ts">
 import { NeoTabItem, NeoTabs } from '@kodadot1/brick'
 
-import Collection from '@/components/bsx/Create/CreateCollectionPage.vue'
+import Collection from '@/components/create/CreateCollection.vue'
 import NFT from '@/components/bsx/Create/CreateToken.vue'
 
 const components = { Collection, NFT, NeoTabItem, NeoTabs }

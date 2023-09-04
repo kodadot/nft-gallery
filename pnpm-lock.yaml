@@ -182,15 +182,15 @@ importers:
       vue-infinite-loading:
         specifier: ^2.4.5
         version: 2.4.5(vue@3.3.4)
-      vue-markdown-render:
-        specifier: ^1.1.3
-        version: 1.1.3
+      vue-safe-html:
+        specifier: ^2.2.0
+        version: 2.2.0
       vue-social-sharing:
         specifier: ^3.0.9
         version: 3.0.9(vue@3.3.4)
       vue-tippy:
-        specifier: ^4.16.1
-        version: 4.16.1(vue@3.3.4)
+        specifier: ^6.3.1
+        version: 6.3.1(vue@3.3.4)
       workbox-window:
         specifier: ^6.6.0
         version: 6.6.0
@@ -5223,6 +5223,10 @@ packages:
     resolution: {integrity: sha512-wGexzpZ4IdrwReQGSH7ViCN+kyoKMQcQC5exATgeG+1cZxOtcbxp+1LWP9xTrnw7R5+PYWPzIl+f71gMkSDD5A==}
     dev: false
 
+  /@popperjs/core@2.11.8:
+    resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
+    dev: false
+
   /@ramp-network/ramp-instant-sdk@3.2.3:
     resolution: {integrity: sha512-va2oky7y+e6Gm+3aRmSUcRUmJhpytjhIMptSZOMuZU+oJRflRgbEwVj/EBohSrHwZCAO/94OTulgFdW4q+TyfA==}
     engines: {node: '>=6.0.0'}
@@ -8038,6 +8042,7 @@ packages:
 
   /entities@2.1.0:
     resolution: {integrity: sha512-hCx1oky9PFrJ611mf0ifBLBRW8lUUVRlFolb5gWRfIELabBlbp9xZvrqZLZAs+NxFnbfQoeGd8wDkygjg7U85w==}
+    dev: true
 
   /entities@4.5.0:
     resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
@@ -9604,10 +9609,6 @@ packages:
     resolution: {integrity: sha512-AXcZb6vzzrFAUE61HnN4mpLqd/cSIwNQjtNWR0euPm6y0iqx3G4gOXaIDdtdDwZmhwe82LA6+zinmW4UBWVePQ==}
     engines: {node: '>=16.17.0'}
 
-  /humps@2.0.1:
-    resolution: {integrity: sha512-E0eIbrFWUhwfXJmsbdjRQFQPrl5pTEoKlz163j1mTqqUnU9PgR4AgB8AIITzuB3vLBdxZXyZ9TDIrwB2OASz4g==}
-    dev: false
-
   /husky@7.0.4:
     resolution: {integrity: sha512-vbaCKN2QLtP/vD4yvs6iz6hBEo6wkSzs8HpRah1Z6aGmF2KW5PdYuAd7uX5a+OyBZHBhd+TFLqgjUgytQr4RvQ==}
     engines: {node: '>=12'}
@@ -10242,6 +10243,7 @@ packages:
     resolution: {integrity: sha512-ynTsyrFSdE5oZ/O9GEf00kPngmOfVwazR5GKDq6EYfhlpFug3J2zybX56a2PRRpc9P+FuSoGNAwjlbDs9jJBPQ==}
     dependencies:
       uc.micro: 1.0.6
+    dev: true
 
   /lint-staged@12.5.0:
     resolution: {integrity: sha512-BKLUjWDsKquV/JuIcoQW4MSAI3ggwEImF1+sB4zaKvyVx1wBk3FsG7UK9bpnmBTN1pm7EH2BBcMwINJzCRv12g==}
@@ -10539,6 +10541,7 @@ packages:
       linkify-it: 3.0.3
       mdurl: 1.0.1
       uc.micro: 1.0.6
+    dev: true
 
   /md5.js@1.3.5:
     resolution: {integrity: sha512-xitP+WxNPcTTOgnTJcrhM0xvdPepipPSf3I8EIpGKeFLjt3PlJLIDG3u8EX53ZIubkb+5U2+3rELYpEhHhzdkg==}
@@ -10556,6 +10559,7 @@ packages:
 
   /mdurl@1.0.1:
     resolution: {integrity: sha512-/sKlQJCBYVY9Ers9hqzKou4H6V5UWc/M59TH2dvkt+84itfnq7uFOMLpOiOS4ujvHP4etln18fmIxA5R5fll0g==}
+    dev: true
 
   /memory-fs@0.5.0:
     resolution: {integrity: sha512-jA0rdU5KoQMC0e6ppoNRtpp6vjFq6+NY7r8hywnC7V+1Xj/MtHwGIbB1QaK/dunyjWteJzmkpd7ooeWg10T7GA==}
@@ -11551,11 +11555,6 @@ packages:
     transitivePeerDependencies:
       - '@polkadot/util'
       - '@polkadot/util-crypto'
-    dev: false
-
-  /popper.js@1.16.1:
-    resolution: {integrity: sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ==}
-    deprecated: You can find the new Popper v2 at @popperjs/core, this package is dedicated to the legacy v1
     dev: false
 
   /postcss-calc@9.0.1(postcss@8.4.28):
@@ -12893,10 +12892,10 @@ packages:
     engines: {node: '>=14.0.0'}
     dev: true
 
-  /tippy.js@4.3.5:
-    resolution: {integrity: sha512-NDq3efte8nGK6BOJ1dDN1/WelAwfmh3UtIYXXck6+SxLzbIQNZE/cmRSnwScZ/FyiKdIcvFHvYUgqmoGx8CcyA==}
+  /tippy.js@6.3.7:
+    resolution: {integrity: sha512-E1d3oP2emgJ9dRQZdf3Kkn0qJgI6ZLpyS5z6ZkY1DF3kaQaBsGZsndEpHwx+eC+tYM41HaSNvNtLx8tU57FzTQ==}
     dependencies:
-      popper.js: 1.16.1
+      '@popperjs/core': 2.11.8
     dev: false
 
   /titleize@3.0.0:
@@ -13098,6 +13097,7 @@ packages:
 
   /uc.micro@1.0.6:
     resolution: {integrity: sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==}
+    dev: true
 
   /ufo@1.2.0:
     resolution: {integrity: sha512-RsPyTbqORDNDxqAdQPQBpgqhWle1VcTSou/FraClYlHf6TZnQcGslpLcAphNR+sQW4q5lLWLbOsRlh9j24baQg==}
@@ -13929,13 +13929,6 @@ packages:
       vue: 3.3.4
     dev: false
 
-  /vue-markdown-render@1.1.3:
-    resolution: {integrity: sha512-Q9nI2dKlGbpt6OyvDiU8MQ/fpRtPFDJbLjafJ9PzckN732vTnh5KTXNDGSdVhAIOI77V8R5tlYYHZD6YLYyq0w==}
-    dependencies:
-      markdown-it: 12.3.2
-      vue: 2.7.14
-    dev: false
-
   /vue-router@4.2.4(vue@3.3.4):
     resolution: {integrity: sha512-9PISkmaCO02OzPVOMq2w82ilty6+xJmQrarYZDkjZBfl4RvYAlt4PKnEX21oW4KTtWfa9OuO/b3qk1Od3AEdCQ==}
     peerDependencies:
@@ -13943,6 +13936,10 @@ packages:
     dependencies:
       '@vue/devtools-api': 6.5.0
       vue: 3.3.4
+
+  /vue-safe-html@2.2.0:
+    resolution: {integrity: sha512-c36p3zMXU8Sp9j3wD/A4NzjsHLDDHeW2yanc+P0im3u/74V3j1QhSnu8Ybcxm8JPekF7RIetcv/E1qdCiDFTyw==}
+    dev: false
 
   /vue-social-sharing@3.0.9(vue@3.3.4):
     resolution: {integrity: sha512-Yg4oz5cSkr7ieMAgumwoRLnFhAaoUGCsN8lZE9yUkuQzbKid8yBOn4mLjfx/DA/E8nxYjunAfIUFs7eKIkBjPA==}
@@ -13952,13 +13949,12 @@ packages:
       vue: 3.3.4
     dev: false
 
-  /vue-tippy@4.16.1(vue@3.3.4):
-    resolution: {integrity: sha512-mukSw8B+soZuDIrv3N6f1jpQpUH1OVemMHxjmHmz3NktSUrdJ2uLn6ziAMDD/ThFn5rOQ8LbeVu51+dawSPGWA==}
+  /vue-tippy@6.3.1(vue@3.3.4):
+    resolution: {integrity: sha512-U2jpGwmwg+u/a36/XDnGlOF+W944xHGlVELsrTNWmZ0nUi2E/VW0c/buBkzntFUwRh6BHwFWcKL8BHcyG2mogQ==}
     peerDependencies:
-      vue: ^2.5.9
+      vue: ^3.2.0
     dependencies:
-      humps: 2.0.1
-      tippy.js: 4.3.5
+      tippy.js: 6.3.7
       vue: 3.3.4
     dev: false
 

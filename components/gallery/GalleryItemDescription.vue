@@ -179,13 +179,14 @@ import {
   NeoTooltip,
 } from '@kodadot1/brick'
 import Identity from '@/components/identity/IdentityIndex.vue'
+import Markdown from '@/components/shared/Markdown.vue'
+
 import { sanitizeIpfsUrl, toCloudflareIpfsUrl } from '@/utils/ipfs'
 
 import { GalleryItem, useGalleryItem } from './useGalleryItem'
 
 import { MediaType } from '@/components/rmrk/types'
 import { getMimeType, resolveMedia } from '@/utils/gallery/media'
-
 import { replaceSingularCollectionUrlByText } from '@/utils/url'
 
 const { urlPrefix } = usePrefix()

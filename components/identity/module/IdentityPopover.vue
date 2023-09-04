@@ -1,5 +1,5 @@
 <template>
-  <v-tippy
+  <tippy
     class="tippy-container"
     interactive
     :animate-fill="false"
@@ -14,7 +14,7 @@
       <IdentityPopoverHeader />
       <IdentityPopoverFooter :sold-items="nftEntities" />
     </div>
-  </v-tippy>
+  </tippy>
 </template>
 
 <script lang="ts" setup>
