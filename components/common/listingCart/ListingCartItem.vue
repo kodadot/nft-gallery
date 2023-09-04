@@ -1,6 +1,6 @@
 <template>
   <div class="py-2 px-6">
-    <div class="py-2 listing-border" />
+    <div class="py-2 border-top border-k-shade" />
     <div class="is-flex is-justify-content-space-between">
       <div class="is-flex">
         <div>
@@ -32,14 +32,13 @@
     </div>
     <div class="is-flex is-justify-content-space-between pt-2">
       <div class="is-flex is-flex-direction-column">
-        <div class="has-text-grey"><small>Floor</small></div>
+        <div class="has-text-grey is-size-7">Floor</div>
         <span>{{ floor }}</span>
       </div>
 
       <div class="is-flex is-align-items-end pt-2">
         <ListingCartPriceInput
-          v-model="listingCartStore.getItem(nft.id).listPrice"
-          style="height: 100%" />
+          v-model="listingCartStore.getItem(nft.id).listPrice" />
       </div>
     </div>
   </div>
@@ -80,9 +79,6 @@ onMounted(() => {
 })
 </script>
 <style scoped lang="scss">
-.listing-border {
-  border-top: 1px solid #ccc;
-}
 .limit-width {
   max-width: 170px;
 }

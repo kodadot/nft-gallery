@@ -7,7 +7,7 @@
             <div>
               <b>{{ listingCartStore.count }}</b> {{ $t('items') }}
             </div>
-            <div class="bar mx-4" />
+            <div class="mx-4" />
             <NeoButton
               :disabled="!listingCartStore.count"
               variant="text"
@@ -15,7 +15,7 @@
               @click.native="listingCartStore.clear">
               {{ $t('sort.clearAll') }}
             </NeoButton>
-            <div class="bar mx-4" />
+            <div class="mx-4" />
             <NeoButton
               variant="text"
               no-shadow
