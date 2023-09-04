@@ -38,6 +38,10 @@ export const DETAIL_TIMEOUT = 3000
 
 export const MAX_UPLOADED_FILE_SIZE = 30
 
+export const INFINITE_SCROLL_CONTAINER_ID = 'infinite-scroll-container'
+
+export const INFINITE_SCROLL_ITEM_CLASS_NAME = 'infinite-scroll-item'
+
 export const URLS = {
   koda: {
     pinata: 'https://kodadot.mypinata.cloud/ipfs/',
@@ -56,6 +60,8 @@ export const URLS = {
     stick: 'https://squid.subsquid.io/stick/graphql',
     speck: 'https://squid.subsquid.io/speck/v/v2/graphql',
     polkassembly: 'https://squid.subsquid.io/polkadot-polkassembly/graphql',
+    gsPolkdot: 'https://squid.subsquid.io/gs-main-polkadot/graphql',
+    gsKusama: 'https://squid.subsquid.io/gs-main-kusama/graphql',
     replicate: 'https://replicate.kodadot.workers.dev/',
     search: 'https://polysearch.w.kodadot.xyz',
     baseUrl: 'https://kodadot.xyz',
@@ -79,6 +85,8 @@ export const apolloClientConfig = {
   ahk: toApolloEndpoint(URLS.koda.stick),
   ahp: toApolloEndpoint(URLS.koda.speck),
   polkassembly: toApolloEndpoint(URLS.koda.polkassembly),
+  pid: toApolloEndpoint(URLS.koda.gsPolkdot),
+  kid: toApolloEndpoint(URLS.koda.gsKusama),
 }
 
 export const NFT_SQUID_SORT_CONDITION_LIST: string[] = [
