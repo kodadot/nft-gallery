@@ -67,6 +67,7 @@
 import { NeoButton, NeoButtonVariant } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
 import { SwipeDirection, useSwipe } from '@vueuse/core'
+import Markdown from '@/components/shared/Markdown.vue'
 
 const router = useRouter()
 const { urlPrefix } = usePrefix()
