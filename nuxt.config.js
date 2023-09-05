@@ -445,7 +445,7 @@ export default defineNuxtConfig({
       googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || '',
       dev: process.env.NODE_ENV === 'development',
       transakApiKey: process.env.TRANSAK_API_KEY || '',
-      transakEnvironment: process.env.TRANSAK_ENV || '',
+      transakEnvironment: process.env.TRANSAK_ENV || 'PRODUCTION',
     },
   },
   // In case of using ssr
