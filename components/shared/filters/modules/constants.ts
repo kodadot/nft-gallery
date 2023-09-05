@@ -43,4 +43,14 @@ export const POPULAR_COLLECTIONS = {
     '2334273319', //Guardians and Creatures
     '1635680444', //KODACHAINS
   ],
+  ahk: [
+    'u-2024', // The Decoded Hybrid Collection
+    'u-2023', // The Decoded Hybrid Collection: Gold Edition
+    '110', // Proof Of Chaos Sendout #0
+    '30', //  Copenhagen (Unlockable) Waifus
+    '14', // Zenuko #1
+    'u-117', // InvArch Access Passes
+    'u-2022', // Polkadot Decoded 2022 POAPs
+    'u-31848', // Ajuna Network Promo Collection
+  ],
 }

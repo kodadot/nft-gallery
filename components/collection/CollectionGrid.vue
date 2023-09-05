@@ -39,6 +39,7 @@ import { Collection } from '@/components/rmrk/service/scheme'
 import { SearchQuery } from '@/components/search/types'
 import 'lazysizes'
 import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
+import isEqual from 'lodash/isEqual'
 import { getDenyList } from '~/utils/prefix'
 import CollectionCard from '@/components/collection/CollectionCard.vue'
 import { GRID_DEFAULT_WIDTH } from '@/components/collection/utils/constants'
@@ -185,7 +186,7 @@ watch(
 watch(
   () => route.query.sort,
   (val, oldVal) => {
-    if (val !== oldVal) {
+    if (!isEqual(val, oldVal)) {
       resetPage()
       searchQuery.value.sortBy = String(val) || undefined
     }

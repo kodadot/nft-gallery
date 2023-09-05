@@ -126,7 +126,7 @@
             <NeoIcon icon="circle-info" size="medium" class="mr-4" />
             <p class="is-size-7">
               <span
-                v-safe-html="
+                v-dompurify-html="
                   $t('mint.requiredDeposit', [
                     `${totalCollectionDeposit} ${chainSymbol}`,
                   ])
