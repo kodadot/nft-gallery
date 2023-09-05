@@ -216,7 +216,7 @@ const isExpandList = ref(false)
 @import '@/styles/abstracts/variables';
 
 .transfer-confirm-modal {
-  @include touch {
+  @include mobile {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -236,7 +236,7 @@ const isExpandList = ref(false)
 
   .scroll-height {
     height: 50vh;
-    @include touch {
+    @include mobile {
       height: 60vh;
     }
   }
