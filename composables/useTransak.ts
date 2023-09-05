@@ -1,4 +1,6 @@
 import transakSDK from '@transak/transak-sdk'
+import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
+import { CHAINS } from '~~/libs/static/dist'
 
 interface InitParams {
   address: string
@@ -9,13 +11,18 @@ interface InitParams {
 export default function useTransak() {
   const config = useRuntimeConfig()
 
+  const getKsmAddress = (address: string) => {
+    const publicKey = decodeAddress(address)
+    return encodeAddress(publicKey, CHAINS['ksm'].ss58Format)
+  }
+
   const init = ({ address, onSuccess, onClose }: InitParams) => {
     const transak = new transakSDK({
       apiKey: config.public.transakApiKey,
       environment: config.public.transakEnvironment,
       widgetHeight: '70%',
       defaultCryptoCurrency: 'KSM',
-      walletAddress: address,
+      walletAddress: getKsmAddress(address),
     })
 
     transak.init()
