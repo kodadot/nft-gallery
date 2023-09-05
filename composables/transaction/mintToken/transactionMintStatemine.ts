@@ -12,7 +12,6 @@ export const assignIds = <T extends TokenToMint>(tokens: T[]): (T & id)[] => {
   return tokens.map((token) => {
     const { lastIndexUsed } = token.selectedCollection as MintedCollection
 
-    // Use the maximum value between lastId and alreadyMinted or lastIndexUsed
     lastId = Math.max(lastIndexUsed, lastId)
 
     return {
