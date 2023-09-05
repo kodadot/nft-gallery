@@ -67,6 +67,7 @@ const gotoPage = (page: number) => {
 
   fetchSearch({ page, search: parseSearch(props.search) })
 }
+
 const fetchPageData = async (page: number, loadDirection) => {
   return await fetchSearch({
     page,
@@ -74,6 +75,7 @@ const fetchPageData = async (page: number, loadDirection) => {
     search: parseSearch(props.search),
   })
 }
+
 const {
   first,
   total,
@@ -106,8 +108,8 @@ const { nfts, fetchSearch, refetch } = useFetchSearch({
 
 watch(
   total,
-  () => {
-    prefetchNextPage()
+  async () => {
+    await prefetchNextPage()
     emit('total', total.value)
   },
   {
