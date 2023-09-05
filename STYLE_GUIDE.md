@@ -88,35 +88,6 @@ onMounted(() => {
 ```
 For more details make sure to checkout [Vue's official documentation](https://vuejs.org/guide/introduction.html).
 
-
-### Property Decorators DEPRECATED! (only use this syntax for maintenance reasons)
-We rely on the package 'nuxt-property-decorator', hence, we urge you to comply with the [Nuxt Class Component Syntax](https://github.com/nuxt-community/nuxt-property-decorator/)
-```typescript
-import {
-  Component,
-  Inject,
-  Model,
-  Prop,
-  Provide,
-  Vue,
-  Watch,
-} from "nuxt-property-decorator"
-
-@Component({})
-export class MyComponent extends Vue {
-  @Inject() foo!: string
-
-  @Model("change") checked!: boolean
-
-  @Prop() propA!: number
-
-  @Provide() foo = "foo"
-
-  @Watch("child")
-  onChildChanged(val: string, oldVal: string) {}
-}
-```
-
 ### Using Components In Templates
 Custom components and prop bindings should be used like this
 ```vue
