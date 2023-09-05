@@ -110,8 +110,9 @@
                   'mb-2': isMobile,
                 },
               ]"
+              :is-invalid="isTargetAddressInvalid(destinationAddress)"
               placeholder="Enter wallet address"
-              :strict="false" />
+              disable-error />
             <NeoInput
               v-if="displayUnit === 'token'"
               v-model="destinationAddress.token"
@@ -132,6 +133,16 @@
               icon-right-class="search"
               class="is-flex-1"
               @input="onUsdFieldChange(destinationAddress)" />
+          </div>
+          <div class="mt-2">
+            <AddressChecker
+              :address="destinationAddress.address"
+              @check="
+                (isValid) => handleAddressCheck(destinationAddress, isValid)
+              "
+              @change="
+                (address) => handleAddressChange(destinationAddress, address)
+              " />
           </div>
         </div>
       </div>
@@ -285,6 +296,7 @@ import AddressInput from '@/components/shared/AddressInput.vue'
 import TransactionLoader from '@/components/shared/TransactionLoader.vue'
 import { KODADOT_DAO } from '@/utils/support'
 import { toDefaultAddress } from '@/utils/account'
+import AddressChecker from '@/components/shared/AddressChecker.vue'
 
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
@@ -317,6 +329,7 @@ export type TargetAddress = {
   address: string
   usd?: number | string
   token?: number | string
+  isInvalid?: boolean
 }
 
 const isMobile = computed(() => useWindowSize().width.value <= 1024)
@@ -337,7 +350,9 @@ const tokenTabs = ref<TransferTokenTab[]>([])
 const targetAddresses = ref<TargetAddress[]>([{ address: '' }])
 
 const hasValidTarget = computed(() =>
-  targetAddresses.value.some((item) => isAddress(item.address) && item.token)
+  targetAddresses.value.some(
+    (item) => isAddress(item.address) && !item.isInvalid && item.token
+  )
 )
 
 const getDisplayUnitBasedValues = (
@@ -515,6 +530,22 @@ const onUsdFieldChange = (target: TargetAddress) => {
   if (sendSameAmount.value) {
     unifyAddressAmount(target)
   }
+}
+
+const handleAddressCheck = (target: TargetAddress, isValid: boolean) => {
+  target.isInvalid = !isValid
+
+  targetAddresses.value = [...targetAddresses.value]
+}
+
+const handleAddressChange = (target: TargetAddress, newAddress: string) => {
+  target.address = newAddress
+
+  targetAddresses.value = [...targetAddresses.value]
+}
+
+const isTargetAddressInvalid = (target: TargetAddress) => {
+  return target.isInvalid === undefined ? false : target.isInvalid
 }
 
 const unifyAddressAmount = (target: TargetAddress) => {
@@ -733,7 +764,7 @@ const routerReplace = ({ params = {}, query = {} }) => {
 }
 
 watchDebounced(
-  () => targetAddresses.value[0].usd,
+  () => targetAddresses.value[0]?.usd,
   (usdamount) => {
     routerReplace({ query: { usdamount: (usdamount || 0).toString() } })
   },

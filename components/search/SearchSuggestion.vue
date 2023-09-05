@@ -170,7 +170,7 @@
         </template>
       </NeoTabItem>
     </NeoTabs>
-    <div v-if="!name" class="search-history">
+    <div v-if="!name" class="search-history pt-5">
       <div
         v-for="item in filterSearch"
         :key="item.id"
@@ -196,8 +196,16 @@
         </div>
       </div>
     </div>
-    <NeoTabs v-show="!name" v-model="activeTrendingTab" expanded>
-      <NeoTabItem label="Trending" value="Trending">
+    <NeoTabs
+      v-show="!name"
+      v-model="activeTrendingTab"
+      expanded
+      nav-tabs-class="pt-2 px-6"
+      content-class="px-0 py-4">
+      <NeoTabItem
+        label="Trending"
+        value="Trending"
+        item-header-class="has-text-left is-block mb-0 pb-4 px-0 pt-0">
         <div
           v-for="(item, idx) in defaultCollectionSuggestions"
           :key="item.id"
@@ -206,7 +214,7 @@
           @click="gotoCollectionItem(item)">
           <SearchResultItem :image="item.image">
             <template #content>
-              <div class="pr-2">
+              <div class="pr-2 pt-2">
                 <span class="main-title name">{{ item.name }}</span>
               </div>
               <div
