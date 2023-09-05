@@ -165,6 +165,7 @@ export default defineNuxtConfig({
     { src: '~/plugins/piniaPersistedState', mode: 'client' },
     { src: '~/plugins/oruga-modal', mode: 'client' },
     { src: '~/plugins/oruga-notification', mode: 'client' },
+    { src: '~/plugins/vueHtmlSecure', mode: 'client' },
     '~/plugins/filters',
     '~/plugins/globalVariables',
     '~/plugins/pwa',
@@ -173,7 +174,6 @@ export default defineNuxtConfig({
     '~/plugins/vueSocialSharing',
     '~/plugins/vueTippy',
     '~/plugins/safeHref',
-    '~/plugins/vueHtmlSecure',
   ],
 
   router: {
