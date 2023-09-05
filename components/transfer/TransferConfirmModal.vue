@@ -26,13 +26,13 @@
             <span class="is-uppercase">{{ unit }}</span>
           </span>
           <NeoButton
-            class="position-right mr-6"
+            class="position-right mr-6 py-1 px-2"
+            variant="text"
             no-shadow
-            no-border
-            size="small"
-            @click.native="closeModal">
-            <NeoIcon icon="xmark" pack="fa-sharp" size="medium" />
-          </NeoButton>
+            icon="xmark"
+            icon-pack="fa-sharp"
+            size="medium"
+            @click.native="closeModal" />
         </header>
         <div
           :class="[

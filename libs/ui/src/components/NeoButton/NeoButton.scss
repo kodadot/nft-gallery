@@ -173,13 +173,6 @@
     box-shadow: none;
   }
 
-  &.no-border {
-    box-shadow: none;
-    &:hover {
-      background: none;
-    }
-  }
-
   &--rounded {
     border-radius: 9999px;
     padding: 0.25rem 0.75rem;
@@ -215,23 +208,6 @@
         margin: 0 3px;
         height: 1em !important;
         width: 1em !important;
-      }
-    }
-  }
-  
-  .o-icon {
-    &--medium {
-      margin-top: 3px;
-    }
-  }
-}
-
-.o-btn { 
-  @include ktheme() {
-    &:hover {
-      .o-icon {
-        background: transparent;
-        color: theme('link-hover');
       }
     }
   }

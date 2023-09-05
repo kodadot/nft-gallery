@@ -11,9 +11,14 @@
     <span class="modal-card-title is-size-6 has-text-weight-bold">
       {{ title }}
     </span>
-    <NeoButton no-shadow no-border size="small" @click.native="emit('close')">
-      <NeoIcon icon="xmark" pack="fa-sharp" size="medium" />
-    </NeoButton>
+    <NeoButton
+      class="py-1 px-2"
+      variant="text"
+      no-shadow
+      icon="xmark"
+      icon-pack="fa-sharp"
+      size="medium"
+      @click.native="emit('close')" />
   </header>
 </template>
 

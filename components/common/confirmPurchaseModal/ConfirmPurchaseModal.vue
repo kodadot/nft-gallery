@@ -12,9 +12,14 @@
           {{ $t('confirmPurchase.action') }}
         </span>
 
-        <NeoButton no-shadow no-border size="small" @click.native="onClose">
-          <NeoIcon icon="xmark" pack="fa-sharp" size="medium" />
-        </NeoButton>
+        <NeoButton
+          class="py-1 px-2"
+          variant="text"
+          no-shadow
+          icon="xmark"
+          icon-pack="fa-sharp"
+          size="medium"
+          @click.native="onClose" />
       </header>
       <div class="px-6 pt-4">
         <div

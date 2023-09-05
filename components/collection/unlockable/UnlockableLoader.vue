@@ -2,13 +2,13 @@
   <NeoLoading :active.sync="isLoading" is-full-page :can-cancel="canCancel">
     <div class="loading-container py-2">
       <NeoButton
-        class="close-icon"
+        class="close-icon py-1 px-2"
+        variant="text"
         no-shadow
-        no-border
-        size="small"
-        @click.native="closeLoading">
-        <NeoIcon icon="xmark" pack="fa-sharp" size="medium" />
-      </NeoButton>
+        icon="xmark"
+        icon-pack="fa-sharp"
+        size="medium"
+        @click.native="closeLoading" />
       <img src="/unlockable-loader.svg" />
       <div
         class="is-flex is-flex-direction-column is-align-items-center px-5 has-text-centered is-capitalized">
@@ -117,8 +117,6 @@ const buttonLabel = computed(() =>
     position: absolute;
     right: 20px;
     top: 10px;
-    cursor: pointer;
-    background-color: transparent;
   }
   .loading-button {
     height: 35px;

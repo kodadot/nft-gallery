@@ -4,7 +4,6 @@
       active: active,
       'is-fixed-width': fixedWidth,
       'no-shadow': noShadow,
-      'no-border': noBorder,
       'loading-with-label': loadingWithLabel,
     }"
     :size="size"
@@ -36,7 +35,6 @@ defineProps<{
   active?: boolean
   fixedWidth?: boolean
   noShadow?: boolean
-  noBorder?: boolean
   variant?: NeoButtonVariant
   rounded?: boolean
   tag?: string
