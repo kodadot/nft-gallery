@@ -79,11 +79,11 @@ export const getMovingAverage = (data: RenderedChartData = []): number[] => {
   const movingAverageArray: number[] = []
   const average = 3
 
-  for (let i = 0; i < dataset.length - 2; i++) {
+  dataset.forEach((item, i) => {
     const datapoints = dataset.slice(i, average + i)
     const movingAverage = datapoints.reduce((total, num) => total + num, 0) / 3
     movingAverageArray.push(movingAverage)
-  }
+  })
 
   return movingAverageArray
 }
