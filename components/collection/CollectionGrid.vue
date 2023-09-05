@@ -187,7 +187,7 @@ watch(
   (val, oldVal) => {
     if (val !== oldVal) {
       resetPage()
-      searchQuery.value.sortBy = String(val) || ''
+      searchQuery.value.sortBy = String(val) || undefined
     }
   }
 )
