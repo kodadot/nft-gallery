@@ -5,6 +5,7 @@
         <component
           :is="x"
           :show-explainer-text="false"
+          :class-column="false"
           @navigateToCreateNftTab="switchToNft" />
       </NeoTabItem>
     </NeoTabs>
@@ -14,7 +15,7 @@
 <script lang="ts">
 import { NeoTabItem, NeoTabs } from '@kodadot1/brick'
 
-const Collection = () => import('@/components/rmrk/Create/Create.vue')
+const Collection = () => import('@/components/create/CreateCollection.vue')
 const NFT = () => import('@/components/rmrk/Create/CreateToken.vue')
 
 const components = { Collection, NFT, NeoTabItem, NeoTabs }
@@ -32,7 +33,7 @@ export default {
     }
   },
   head() {
-    const title = 'KodaDot | Low fees and low carbon minting'
+    const title = 'Create carbonless NFTs'
     const metaData = {
       title,
       type: 'article',

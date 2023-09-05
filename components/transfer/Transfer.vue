@@ -7,7 +7,13 @@
           'theme-background-color k-shadow border py-8 px-6': !isMobile,
         },
       ]">
-      <Loader v-model="isLoading" :status="status" />
+      <TransactionLoader
+        v-model="isLoaderModalVisible"
+        :status="status"
+        :total-token-amount="totalTokenAmount"
+        :transaction-id="transactionValue"
+        :total-usd-value="totalUsdValue"
+        @close="isLoaderModalVisible = false" />
       <div
         class="is-flex is-justify-content-space-between is-align-items-center mb-2">
         <p class="has-text-weight-bold is-size-3">
@@ -187,6 +193,17 @@
       </div>
 
       <div
+        class="is-flex is-justify-content-space-between is-align-items-center mb-2">
+        <span class="is-size-7">{{ $t('transfers.networkFee') }}</span>
+        <div class="is-flex is-align-items-center">
+          <span class="is-size-7 has-text-grey mr-1"
+            >({{ displayTxFeeValue[0] }})</span
+          >
+          <span class="is-size-7">{{ displayTxFeeValue[1] }}</span>
+        </div>
+      </div>
+
+      <div
         class="is-flex is-justify-content-space-between is-align-items-center mb-6">
         <span class="has-text-weight-bold is-size-6">{{
           $t('spotlight.total')
@@ -232,10 +249,15 @@ import { isAddress } from '@polkadot/util-crypto'
 import { DispatchError } from '@polkadot/types/interfaces'
 
 import {
+  calculateExactUsdFromToken,
   calculateTokenFromUsd,
   calculateUsdFromToken,
 } from '@/utils/calculation'
-import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
+import exec, {
+  estimate,
+  execResultValue,
+  txCb,
+} from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import {
   calculateBalance,
@@ -243,7 +265,6 @@ import {
 } from '@/utils/format/balance'
 import { getNumberSumOfObjectField } from '@/utils/math'
 import { useFiatStore } from '@/stores/fiat'
-import { useIdentityStore } from '@/stores/identity'
 import Avatar from '@/components/shared/Avatar.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import { getMovedItemToFront } from '@/utils/objects'
@@ -260,6 +281,11 @@ import {
 } from '@kodadot1/brick'
 import TransferTokenTabs, { TransferTokenTab } from './TransferTokenTabs.vue'
 import { TokenDetails } from '@/composables/useToken'
+import AddressInput from '@/components/shared/AddressInput.vue'
+import TransactionLoader from '@/components/shared/TransactionLoader.vue'
+import { KODADOT_DAO } from '@/utils/support'
+import { toDefaultAddress } from '@/utils/account'
+
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
 )
@@ -269,46 +295,73 @@ const router = useRouter()
 const { $consola, $i18n } = useNuxtApp()
 const { unit, decimals } = useChain()
 const { apiInstance } = useApi()
-const { urlPrefix, setUrlPrefix } = usePrefix()
+const { urlPrefix } = usePrefix()
 const { isLogIn, accountId } = useAuth()
-const identityStore = useIdentityStore()
+const { getBalance } = useBalance()
 const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
 const { initTransactionLoader, isLoading, resolveStatus, status } =
   useTransactionStatus()
 const { toast } = useToast()
 const isTransferModalVisible = ref(false)
+const isLoaderModalVisible = ref(false)
+
+watch(isLoading, (newValue, oldValue) => {
+  // trigger modal only when loading change from false => true
+  // we want to keep modal open when loading changes true => false
+  if (newValue && !oldValue) {
+    isLoaderModalVisible.value = isLoading.value
+  }
+})
 
 export type TargetAddress = {
-  address?: string
+  address: string
   usd?: number | string
   token?: number | string
 }
+
 const isMobile = computed(() => useWindowSize().width.value <= 1024)
+const balance = computed(() => getBalance(unit.value) || 0)
 
 const transactionValue = ref('')
 const sendSameAmount = ref(false)
 const displayUnit = ref<'token' | 'usd'>('token')
 const { getTokenIconBySymbol } = useIcon()
-const { tokens, getPrefixByToken, availableTokens } = useToken()
+
+const { tokens } = useToken()
 
 const selectedTabFirst = ref(true)
 const tokenIcon = computed(() => getTokenIconBySymbol(unit.value))
 
 const tokenTabs = ref<TransferTokenTab[]>([])
 
-const targetAddresses = ref<TargetAddress[]>([{}])
+const targetAddresses = ref<TargetAddress[]>([{ address: '' }])
 
 const hasValidTarget = computed(() =>
   targetAddresses.value.some((item) => isAddress(item.address) && item.token)
 )
 
+const getDisplayUnitBasedValues = (
+  usdValue: number,
+  tokenAmount: number
+): [string, string] => {
+  return displayUnit.value === 'token'
+    ? [`$${usdValue}`, `${tokenAmount} ${unit.value}`]
+    : [`${tokenAmount} ${unit.value}`, `$${usdValue}`]
+}
+
 const displayTotalValue = computed(() =>
-  displayUnit.value === 'token'
-    ? [`$${totalUsdValue.value}`, `${totalTokenAmount.value} ${unit.value}`]
-    : [`${totalTokenAmount.value} ${unit.value}`, `$${totalUsdValue.value}`]
+  getDisplayUnitBasedValues(totalUsdValue.value, totalTokenAmount.value)
 )
 
-const balance = computed(() => identityStore.getAuthBalance)
+const txFee = ref<number>(0)
+
+const txFeeUsdValue = computed(() =>
+  calculateExactUsdFromToken(txFee.value, Number(currentTokenValue.value))
+)
+
+const displayTxFeeValue = computed(() =>
+  getDisplayUnitBasedValues(txFeeUsdValue.value, txFee.value)
+)
 
 const disabled = computed(
   () =>
@@ -319,20 +372,16 @@ const disabled = computed(
 
 const handleTokenSelect = (newToken: string) => {
   selectedTabFirst.value = false
+
   const token = tokens.value.find((t) => t.symbol === newToken)
 
-  if (token) {
-    const chain = getPrefixByToken(token.symbol)
-
-    if (!chain) {
-      $consola.error(
-        `[ERR: INVALID TOKEN] Chain for token ${token.symbol} is not valid`
-      )
-      return
-    }
-
-    setUrlPrefix(chain)
+  if (!token) {
+    return
   }
+
+  routerReplace({
+    params: { prefix: token.defaultChain },
+  })
 }
 
 const generateTokenTabs = (
@@ -478,11 +527,7 @@ const unifyAddressAmount = (target: TargetAddress) => {
 
 const updateTargetAdressesOnTokenSwitch = () => {
   targetAddresses.value.forEach((targetAddress) => {
-    if (displayUnit.value === 'usd') {
-      onUsdFieldChange(targetAddress)
-    } else {
-      onAmountFieldChange(targetAddress)
-    }
+    onUsdFieldChange(targetAddress)
   })
 }
 
@@ -503,39 +548,84 @@ const handleOpenConfirmModal = () => {
   }
 }
 
+const getTransactionFee = async () => {
+  const { cb, arg } = await getTransferParams(
+    targetAddresses.value.map(
+      () =>
+        ({
+          address: toDefaultAddress(KODADOT_DAO),
+          usd: 1,
+          token: 1,
+        } as TargetAddress)
+    ),
+    decimals.value as number
+  )
+
+  return estimate(accountId.value, cb as any, arg as any)
+}
+
+const calculateTransactionFee = async () => {
+  txFee.value = 0
+  const fee = await getTransactionFee()
+  txFee.value = Number((Number(fee) / Math.pow(10, decimals.value)).toFixed(4))
+}
+
+onMounted(() => calculateTransactionFee())
+
+watchDebounced(
+  [urlPrefix, () => targetAddresses.value.length],
+  () => {
+    calculateTransactionFee()
+  },
+  { debounce: 500 }
+)
+
+const getAmountToTransfer = (amount: number, decimals: number) =>
+  String(calculateBalance(Number(amount), decimals))
+
+const getTransferParams = async (
+  addresses: TargetAddress[],
+  decimals: number
+) => {
+  const api = await apiInstance.value
+  const isSingle = targetAddresses.value.length === 1
+
+  const firstAddress = addresses[0]
+
+  const cb = isSingle ? api.tx.balances.transfer : api.tx.utility.batch
+  const arg = isSingle
+    ? [
+        firstAddress.address as string,
+        getAmountToTransfer(firstAddress.token as number, decimals),
+      ]
+    : [
+        addresses.map((target) => {
+          const amountToTransfer = getAmountToTransfer(
+            target.token as number,
+            decimals
+          )
+
+          return api.tx.balances.transfer(
+            target.address as string,
+            amountToTransfer
+          )
+        }),
+      ]
+
+  return { cb, arg }
+}
+
 const submit = async (
   event: any,
   usedNodeUrls: string[] = []
 ): Promise<void> => {
-  showNotification(`${route.query.target ? 'Sent for Sign' : 'Dispatched'}`)
   isTransferModalVisible.value = false
   initTransactionLoader()
   try {
-    const api = await apiInstance.value
-
-    const numOfTargetAddresses = targetAddresses.value.length
-    const cb =
-      numOfTargetAddresses > 1 ? api.tx.utility.batch : api.tx.balances.transfer
-    const arg =
-      numOfTargetAddresses > 1
-        ? [
-            targetAddresses.value.map((target) => {
-              const amountToTransfer = String(
-                calculateBalance(Number(target.token), decimals.value)
-              )
-              return api.tx.balances.transfer(
-                target.address as string,
-                amountToTransfer
-              )
-            }),
-          ]
-        : [
-            targetAddresses.value[0].address as string,
-            calculateBalance(
-              Number(targetAddresses.value[0].token),
-              decimals.value
-            ),
-          ]
+    const { cb, arg } = await getTransferParams(
+      targetAddresses.value,
+      decimals.value as number
+    )
 
     const tx = await exec(
       accountId.value,
@@ -543,20 +633,20 @@ const submit = async (
       cb,
       arg,
       txCb(
-        async (blockHash) => {
+        () => {
           transactionValue.value = execResultValue(tx)
-          const header = await api.rpc.chain.getHeader(blockHash)
-          const blockNumber = header.number.toString()
 
-          showNotification(
-            `[${unit.value}] Transfered ${totalTokenAmount.value} ${unit.value} in block ${blockNumber}`,
-            notificationTypes.success
-          )
+          targetAddresses.value = [{ address: '' }]
 
-          targetAddresses.value = [{}]
-          if (route.query && !route.query.donation) {
-            router.push(route.path)
-          }
+          // not sure what is the purpose of this
+          // but it causes the explorer url in Transaction Loader to become wrong
+          // after the transaction is finalized
+          // also causes:
+          //https://github.com/kodadot/nft-gallery/issues/6944
+
+          // if (route.query && !route.query.donation) {
+          //    router.push(route.path)
+          // }
 
           isLoading.value = false
         },
@@ -572,6 +662,7 @@ const submit = async (
     if (e.message === 'Cancelled') {
       showNotification(e.message, notificationTypes.warn)
       isLoading.value = false
+      isLoaderModalVisible.value = false
       return
     }
 
@@ -625,48 +716,26 @@ const addAddress = () => {
   })
 }
 
-const syncQueryToken = () => {
-  const { query } = route
-
-  const token = query.token?.toString()
-
-  if (!token || !availableTokens.includes(token)) {
-    return
-  }
-
-  const chain = getPrefixByToken(token)
-
-  if (!chain) {
-    return
-  }
-
-  setUrlPrefix(chain)
-}
-
-watch(
-  route,
-  () => {
-    syncQueryToken()
-  },
-  { immediate: true, deep: true }
-)
-
 onMounted(() => {
   fetchFiatPrice().then(checkQueryParams)
 })
 
+const routerReplace = ({ params = {}, query = {} }) => {
+  router
+    .replace({
+      params: params,
+      query: {
+        ...route.query,
+        ...query,
+      },
+    })
+    .catch(() => null) // null to further not throw navigation errors
+}
+
 watchDebounced(
   () => targetAddresses.value[0].usd,
   (usdamount) => {
-    router
-      .replace({
-        query: {
-          ...route.query,
-          usdamount: (usdamount || 0).toString(),
-          token: unit.value,
-        },
-      })
-      .catch(() => null) // null to further not throw navigation errors
+    routerReplace({ query: { usdamount: (usdamount || 0).toString() } })
   },
   { debounce: 300 }
 )

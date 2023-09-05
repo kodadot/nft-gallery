@@ -85,14 +85,34 @@
       </div>
 
       <div
-        v-if="nft?.recipient"
-        class="is-flex is-justify-content-space-between">
-        <p>{{ $t('transfers.recipient') }}</p>
-        <nuxt-link
-          :to="`/${urlPrefix}/u/${nft?.recipient}`"
-          class="has-text-link">
-          <Identity ref="identity" :address="nft?.recipient" />
-        </nuxt-link>
+        v-if="recipient"
+        class="recipient is-flex is-justify-content-space-between is-capitalized">
+        <p>{{ $t('transfers.recipients') }}</p>
+        <template v-if="Array.isArray(recipient) && recipient.length > 1">
+          <ol>
+            <li v-for="[addr, percentile] in recipient" :key="addr" class="">
+              <nuxt-link
+                :to="`/${urlPrefix}/u/${addr}`"
+                class="has-text-link is-inline-block">
+                <Identity ref="identity" :address="addr" />
+              </nuxt-link>
+              <span className="is-size-7">({{ percentile }}%)</span>
+            </li>
+          </ol>
+        </template>
+        <template
+          v-else-if="Array.isArray(recipient) && recipient.length === 1">
+          <nuxt-link
+            :to="`/${urlPrefix}/u/${recipient[0][0]}`"
+            class="has-text-link">
+            <Identity ref="identity" :address="recipient[0][0]" />
+          </nuxt-link>
+        </template>
+        <template v-else>
+          <nuxt-link :to="`/${urlPrefix}/u/${recipient}`" class="has-text-link">
+            <Identity ref="identity" :address="recipient" />
+          </nuxt-link>
+        </template>
       </div>
 
       <hr class="my-2" />
@@ -150,7 +170,6 @@
 </template>
 
 <script setup lang="ts">
-import { obtainMimeType } from '@kodadot1/minipfs'
 import {
   MediaItem,
   NeoTabItem,
@@ -165,7 +184,7 @@ import { sanitizeIpfsUrl, toCloudflareIpfsUrl } from '@/utils/ipfs'
 import { GalleryItem, useGalleryItem } from './useGalleryItem'
 
 import { MediaType } from '@/components/rmrk/types'
-import { resolveMedia } from '@/utils/gallery/media'
+import { getMimeType, resolveMedia } from '@/utils/gallery/media'
 
 import { replaceSingularCollectionUrlByText } from '@/utils/url'
 
@@ -202,6 +221,16 @@ const isLewd = computed(() => {
       return item.trait_type === 'NSFW'
     })
   )
+})
+
+const recipient = computed(() => {
+  if (nft.value?.recipient) {
+    try {
+      return JSON.parse(nft.value?.recipient)
+    } catch (e) {
+      return nft.value?.recipient
+    }
+  }
 })
 
 defineExpose({ isLewd })
@@ -250,7 +279,7 @@ watchEffect(async () => {
   }
 
   if (nftAnimation.value) {
-    animationMediaMimeType.value = await obtainMimeType(nftAnimation.value)
+    animationMediaMimeType.value = await getMimeType(nftAnimation.value)
   }
 })
 
@@ -258,3 +287,18 @@ const openLink = (link) => {
   window.open(toCloudflareIpfsUrl(link), '_blank')
 }
 </script>
+
+<style lang="scss">
+@import '@/styles/abstracts/variables.scss';
+.recipient {
+  li {
+    gap: 0.3rem;
+    > span {
+      font-size: 0.8rem;
+      @include ktheme() {
+        color: theme('k-grey');
+      }
+    }
+  }
+}
+</style>

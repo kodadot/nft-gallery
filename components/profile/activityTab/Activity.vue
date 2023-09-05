@@ -10,14 +10,15 @@
           variant="text"
           @click.native="activateAllFilter" />
         <FilterButton
-          v-for="urlParam in filters"
-          :key="urlParam"
+          v-for="param in filters"
+          :key="param"
+          :label="param"
           class="is-capitalized"
-          :url-param="urlParam" />
+          :url-param="param" />
       </div>
     </div>
     <hr class="my-0" />
-    <History :id="id" :events="filteredEvents" />
+    <History :id="id" :events="filteredEvents" display-item />
   </div>
 </template>
 
@@ -37,7 +38,7 @@ const props = defineProps<{
   id: string
 }>()
 
-const filters = ['sale', 'buy', 'mint', 'gift', 'list']
+const filters = ['sale', 'buy', 'mint', 'transfer', 'list']
 
 const activateAllFilter = () => {
   replaceUrl(
@@ -67,7 +68,7 @@ const interactionToFilterMap = {
   [InteractionEnum.MINT]: 'mint',
   [InteractionEnum.MINTNFT]: 'mint',
   [InteractionEnum.LIST]: 'list',
-  [InteractionEnum.SEND]: 'gift',
+  [InteractionEnum.SEND]: 'transfer',
 }
 
 const filteredEvents = computed(() =>

@@ -7,8 +7,9 @@
             :active="disabled"
             class="w-full"
             content-class="buy-tooltip"
+            :auto-close="isMobileDevice ? true : ['outside']"
             :position="isMobileDevice ? 'top' : 'left'"
-            :auto-close="!isMobileDevice ? ['outside', 'escape'] : []"
+            :triggers="[isMobileDevice ? 'click' : 'hover']"
             multiline>
             <template #content>
               <div class="is-size-6">

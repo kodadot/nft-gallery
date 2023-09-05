@@ -26,7 +26,7 @@ import {
 } from '../types'
 import { constructMeta } from './constructMeta'
 import { isRoyaltyValid } from '@/utils/royalty'
-import { calculateFees, copiesToMint } from './utils'
+import { calculateFees, copiesToMint, getNameInNotifications } from './utils'
 
 const getOnChainProperties = ({ tags, royalty, hasRoyalty }: TokenToMint) => {
   let onChainProperties = convertAttributesToProperties(tags)
@@ -92,7 +92,7 @@ const processSingleTokenToMint = async (
   token: TokenToMint,
   api
 ): Promise<{
-  arg: string | Extrinsic[]
+  arg: Extrinsic[]
   createdNFTs: CreatedNFT[] | NewCreatedNFT[]
 }> => {
   const metadata = await constructMeta(token, { enableCarbonOffset: true })
@@ -102,15 +102,11 @@ const processSingleTokenToMint = async (
 
   const { enabledFees, feeMultiplier } = calculateFees()
 
-  const isSingle = mintInteraction.length === 1 && !enabledFees
-
   return {
-    arg: isSingle
-      ? mintInteraction[0]
-      : [
-          ...mintInteraction.map((nft) => asSystemRemark(api, nft)),
-          ...(await canSupport(api, enabledFees, feeMultiplier)),
-        ],
+    arg: [
+      ...mintInteraction.map((nft) => asSystemRemark(api, nft)),
+      ...(await canSupport(api, enabledFees, feeMultiplier)),
+    ],
     createdNFTs: mint,
   }
 }
@@ -151,22 +147,17 @@ export async function execMintRmrk({
   status.value = 'loader.ipfs'
   const { args, createdNFTs } = await getArgs(item, api)
 
-  const nameInNotifications = Array.isArray(item.token)
-    ? item.token.map((t) => t.name).join(', ')
-    : item.token.name
+  const nameInNotifications = getNameInNotifications(item)
 
-  const isSingle = args.length === 1
-  const cb = isSingle ? api.tx.system.remark : api.tx.utility.batchAll
+  const cb = api.tx.utility.batchAll
 
-  const arg = isSingle
-    ? args
-    : [args.filter(Boolean).map((arg) => asSystemRemark(api, arg as string))]
+  const arg = [args]
 
   executeTransaction({
     cb,
     arg,
     successMessage:
-      item.successMessage ||
+      item.successMessage ??
       ((blockNumber) =>
         $i18n.t('mint.mintNFTSuccess', {
           name: nameInNotifications,

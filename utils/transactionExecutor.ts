@@ -38,7 +38,7 @@ const exec = async (
       : extractFromKeyring(address, password)
 
     const tx = await transfer.signAsync(signer, options)
-    const hash = hasCallback ? await tx.send(statusCb) : await transfer.send()
+    const hash = await getHash(hasCallback, tx, transfer, statusCb)
     return typeof hash === 'function'
       ? constructCallback(hash, tx.hash.toHex())
       : hash.toHex()
@@ -46,6 +46,10 @@ const exec = async (
     console.warn(err)
     throw err
   }
+}
+
+const getHash = async (hasCallback, tx, transfer, statusCb) => {
+  return hasCallback ? await tx.send(statusCb) : await transfer.send()
 }
 
 const extractFromKeyring = (address: string, password: string | null) => {
