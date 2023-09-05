@@ -170,7 +170,7 @@ const getAvatar = async () => {
   if (props.event.Item) {
     avatar.value = (
       await getNftMetadata(props.event.Item, urlPrefix.value)
-    )?.image
+    ).image
   }
 }
 
