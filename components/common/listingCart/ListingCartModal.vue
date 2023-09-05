@@ -3,7 +3,6 @@
     <Loader v-model="isLoading" :status="status" />
     <NeoModal
       v-model="preferencesStore.listingCartModalOpen"
-      :can-cancel="['outside', 'escape']"
       scroll="clip"
       @close="preferencesStore.listingCartModalOpen = false">
       <div class="modal-width">
@@ -127,11 +126,11 @@ const { transaction, isLoading, status } = useTransaction()
 const { $i18n } = useNuxtApp()
 
 const { chainSymbol } = useChain()
-const fixedPrice = ref()
+const fixedPrice = ref<number | null>(null)
 const floorPricePercentAdjustment = ref(1)
 function setFixedPrice() {
   listingCartStore.setFixedPrice(fixedPrice.value)
-  fixedPrice.value = undefined
+  fixedPrice.value = null
 }
 const fiatStore = useFiatStore()
 const priceUSD = computed(() =>
@@ -143,7 +142,7 @@ const priceUSD = computed(() =>
 
 const totalNFTsPrice = computed(() =>
   listingCartStore.itemsInChain.reduce((acc, nft) => {
-    return +(acc + Number(nft.listPrice || 0)).toFixed(4)
+    return Number((acc + Number(nft.listPrice || 0)).toFixed(4))
   }, 0)
 )
 

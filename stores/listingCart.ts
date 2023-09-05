@@ -65,7 +65,7 @@ export const useListingCartStore = defineStore('listingCart', {
         this.setItem(item)
       }
     },
-    setFixedPrice(price: number) {
+    setFixedPrice(price: number | null) {
       this.itemsInChain.forEach((item) => {
         item.listPrice = price
       })

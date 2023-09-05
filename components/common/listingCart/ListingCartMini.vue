@@ -25,7 +25,7 @@
           </div>
         </div>
         <NeoButton
-          class="height-100"
+          class="h-full"
           :variant="'k-accent'"
           @click.native="preferencesStore.listingCartModalOpen = true">
           List Items
@@ -47,9 +47,5 @@ const preferencesStore = usePreferencesStore()
   right: 80px;
   bottom: 50px;
   z-index: 998;
-}
-
-.height-100 {
-  height: 100%;
 }
 </style>
