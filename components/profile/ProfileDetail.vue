@@ -118,9 +118,9 @@
           :text="tab"
           class="is-capitalized"
           @click.native="() => switchToTab(tab)" />
-        <div class="is-flex mt-4">
-          <ChainDropdown />
-          <OrderByDropdown v-if="activeTab !== 'activity'" class="ml-4" />
+        <div class="is-flex mt-4 is-flex-wrap-wrap">
+          <ChainDropdown class="mr-4" />
+          <OrderByDropdown v-if="activeTab !== 'activity'" />
         </div>
       </div>
     </div>
