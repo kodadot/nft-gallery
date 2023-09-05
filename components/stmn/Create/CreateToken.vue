@@ -217,7 +217,6 @@ const navigateToDetail = () => {
   const nftId = `${selectedCollection.id}-${
     selectedCollection.lastIndexUsed + 1
   }`
-  debugger
   const go = () => {
     router.push({
       path: `/${urlPrefix.value}/gallery/${nftId}`,
