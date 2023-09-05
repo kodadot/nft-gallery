@@ -214,9 +214,9 @@ const navigateToDetail = () => {
 
   const selectedCollection = base.value
     .selectedCollection as BaseMintedCollection
-  const nftId = `${selectedCollection.id}-${
-    selectedCollection.lastIndexUsed + 1
-  }`
+
+  const nftIndex = Math.max(selectedCollection.lastIndexUsed, 0) + 1
+  const nftId = `${selectedCollection.id}-${nftIndex}`
   const go = () => {
     router.push({
       path: `/${urlPrefix.value}/gallery/${nftId}`,
