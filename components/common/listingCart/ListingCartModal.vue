@@ -113,7 +113,7 @@ import IdentityItem from '@/components/identity/IdentityItem.vue'
 import { NeoButton, NeoModal } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
 import { TokenToList } from '@/composables/transaction/types'
-import { useListingCartStore } from '@/stores/listingCart'
+import { ListCartItem, useListingCartStore } from '@/stores/listingCart'
 import { calculateBalance } from '@/utils/format/balance'
 import { warningMessage } from '@/utils/notification'
 import { useFiatStore } from '@/stores/fiat'
@@ -163,9 +163,11 @@ const confirmListingLabel = computed(() => {
 })
 async function confirm() {
   const token = listingCartStore.itemsInChain
-    .filter((item) => Boolean(item.listPrice))
+    .filter((item): item is ListCartItem & { listPrice: number } =>
+      Boolean(item.listPrice)
+    )
     .map((item) => ({
-      price: String(calculateBalance(item.listPrice ?? 0)),
+      price: String(calculateBalance(item.listPrice)),
       nftId: item.id,
     })) as TokenToList[]
 
