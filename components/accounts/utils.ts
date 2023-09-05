@@ -84,6 +84,7 @@ export function shuffle(array: string[], seed: number[]): string[] {
   const copy = array.slice(0)
   const len = seed.length - 1
   const total = array.length - 1
+  // eslint-disable-next-line no-restricted-syntax
   for (let i = copy.length - 1; i > 0; i--) {
     const j = Math.floor(seed[i % len] * (i + 1)) % total
     const temp = copy[i]
