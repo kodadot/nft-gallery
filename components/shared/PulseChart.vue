@@ -68,8 +68,8 @@ onMounted(() => {
         animation: false,
         scales: { x: { display: false }, y: { display: false } },
         plugins: {
-          legend: false,
-          tooltip: { enabled: false, hover: { mode: null } },
+          legend: { display: false },
+          tooltip: { enabled: false },
         },
       },
     })

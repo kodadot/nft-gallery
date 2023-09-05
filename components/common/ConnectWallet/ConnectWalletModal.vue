@@ -1,21 +1,12 @@
 <template>
   <div class="wallet-modal-container is-flex is-flex-direction-column">
-    <header class="modal-card-head">
-      <span class="modal-card-title is-size-6 has-text-weight-bold">
-        {{
-          showAccount
-            ? $i18n.t('profile.page')
-            : $i18n.t('walletConnect.walletHeading')
-        }}
-      </span>
-      <NeoButton
-        variant="text"
-        no-shadow
-        icon="xmark"
-        icon-pack="fa-sharp"
-        size="medium"
-        @click.native="emit('close')" />
-    </header>
+    <NeoModalHead
+      :title="
+        showAccount
+          ? $i18n.t('profile.page')
+          : $i18n.t('walletConnect.walletHeading')
+      "
+      @close="emit('close', ModalCloseType.BACK)" />
     <section v-if="showAccount">
       <WalletAsset />
     </section>
@@ -84,11 +75,11 @@
 <script setup lang="ts">
 import { SupportedWallets } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
-import { NeoButton, NeoField, NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoField, NeoIcon, NeoModalHead } from '@kodadot1/brick'
 import { Auth, useIdentityStore } from '@/stores/identity'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem.vue'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'
-
+import { ModalCloseType } from '@/components/navbar/types'
 const { $i18n } = useNuxtApp()
 const selectedWalletProvider = ref<BaseDotsamaWallet>()
 const forceWalletSelect = ref(false)
@@ -133,6 +124,6 @@ watch(account, (account) => {
 })
 
 watch([urlPrefix], () => {
-  emit('close')
+  emit('close', ModalCloseType.NAVIGATION)
 })
 </script>

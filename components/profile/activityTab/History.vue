@@ -9,67 +9,42 @@
         enable-listen-keyboard-event
         preserve-scroll />
     </div>
-    <NeoTable :data="showList" class="mb-4" hoverable custom-row-key="ID">
-      <NeoTableColumn v-slot="props" field="Type" label="Type" class="no-wrap">
-        {{ getEventDisplayName(props.row.Type) }}
-      </NeoTableColumn>
-      <NeoTableColumn
-        v-if="displayItem"
-        v-slot="props"
-        class="short-identity__table"
-        field="Item"
-        label="Item">
-        <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.Item.id}`">
-          {{ props.row.Item.name || props.row.Item.id }}
-        </nuxt-link>
-      </NeoTableColumn>
-      <NeoTableColumn
-        v-slot="props"
-        class="short-identity__table"
-        field="From"
-        label="From">
-        <nuxt-link :to="`/${urlPrefix}/u/${props.row.From}`">
-          <Identity :address="props.row.From" />
-        </nuxt-link>
-      </NeoTableColumn>
-      <NeoTableColumn
-        v-slot="props"
-        :visible="isToColumnVisible"
-        class="short-identity__table"
-        field="To"
-        label="To">
-        <nuxt-link :to="`/${urlPrefix}/u/${props.row.To}`">
-          <Identity :address="props.row.To" />
-        </nuxt-link>
-      </NeoTableColumn>
-      <NeoTableColumn
-        v-slot="props"
-        class="short-identity__table"
-        field="Amount"
-        label="Amount">
-        <div v-if="parseInt(props.row.Amount)">
-          <CommonTokenMoney :value="props.row.Amount" />
+
+    <ResponsiveTable
+      :no-results-main="$t('activity.noResults')"
+      :no-results-sub="$t('activity.noResultsSub')"
+      :items="showList"
+      :show-no-results="!showList.length">
+      <template #columns>
+        <div class="column">
+          <span>{{ $t('activity.event.item') }}</span>
         </div>
-        <div v-else>-</div>
-      </NeoTableColumn>
-      <NeoTableColumn
-        v-slot="props"
-        class="short-identity__table"
-        :visible="isPercentageColumnVisible"
-        field="Percentage"
-        label="Percentage">
-        <span :class="percentageTextClassName(props.row.Percentage)">
-          {{ toPercent(props.row.Percentage, '-') }}
-        </span>
-      </NeoTableColumn>
-      <NeoTableColumn v-slot="props" field="Date" label="Date">
-        <NeoTooltip :label="props.row.Date" position="left">
-          <BlockExplorerLink
-            :block-id="props.row.Block"
-            :text="props.row.Time" />
-        </NeoTooltip>
-      </NeoTableColumn>
-    </NeoTable>
+        <div class="column is-1">
+          <span>{{ $t('activity.event.event') }}</span>
+        </div>
+        <div class="column">
+          <span>{{ $t('activity.event.amount') }}</span>
+        </div>
+        <div class="column">
+          <span>{{ $t('activity.event.from') }}</span>
+        </div>
+        <div v-if="isToColumnVisible" class="column">
+          <span>{{ $t('activity.event.to') }}</span>
+        </div>
+        <div class="column">
+          <span>{{ $t('activity.event.time') }}</span>
+        </div>
+      </template>
+
+      <template #rows="{ variant }">
+        <HistoryRow
+          v-for="item in showList"
+          :key="item.ID"
+          :event="item"
+          :variant="variant"
+          :with-to-column="isToColumnVisible" />
+      </template>
+    </ResponsiveTable>
   </div>
 </template>
 
@@ -78,29 +53,19 @@ import { Interaction } from '@kodadot1/minimark/v1'
 import { formatDistanceToNow } from 'date-fns'
 
 import { exist } from '@/utils/exist'
-import { toPercent } from '@/utils/filters'
 import { usePreferencesStore } from '@/stores/preferences'
 
 import {
   HistoryEventType,
   InteractionBsxOnly,
-  parseChartAmount,
   parseDate,
-  wrapEventNameWithIcon,
 } from '@/utils/historyEvent'
 
 import { Interaction as EventInteraction } from '@/components/rmrk/service/scheme'
-import { NeoTable, NeoTableColumn, NeoTooltip } from '@kodadot1/brick'
-
-import Identity from '@/components/identity/IdentityIndex.vue'
+import ResponsiveTable from '@/components/shared/ResponsiveTable.vue'
 import Pagination from '@/components/rmrk/Gallery/Pagination.vue'
-import BlockExplorerLink from '@/components/shared/BlockExplorerLink.vue'
-import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
-
-type ChartData = {
-  buy: any[]
-  list: any[]
-}
+import HistoryRow from './HistoryRow.vue'
+import { emptyObject } from '@/utils/empty'
 
 const prop = withDefaults(
   defineProps<{
@@ -117,21 +82,18 @@ const prop = withDefaults(
     displayItem: false,
   }
 )
-const emit = defineEmits(['setPriceChartData'])
 
-const { $i18n, $route } = useNuxtApp()
-const { decimals } = useChain()
-const { urlPrefix } = usePrefix()
+const route = useRoute()
 
-const currentPage = ref(parseInt($route.query?.page) || 1)
+const currentPage = ref(parseInt(route.query?.page) || 1)
 const event = ref<HistoryEventType>(HistoryEventType.BUY)
-const data = ref([])
+const data = ref<Event[]>([])
 const copyTableData = ref([])
 const isOpen = ref(false)
 const preferencesStore = usePreferencesStore()
 
 onMounted(() => {
-  exist($route.query.event, (val) => {
+  exist(route.query.event, (val) => {
     event.value = (val as HistoryEventType) ?? HistoryEventType.ALL
   })
   isOpen.value = prop.openOnDefault
@@ -149,22 +111,6 @@ const isToColumnVisible = computed(() => {
     event.value
   )
 })
-const isPercentageColumnVisible = computed(() => {
-  return [HistoryEventType.ALL, Interaction.BUY].includes(event.value)
-})
-
-const getEventDisplayName = (type: Interaction) => {
-  return wrapEventNameWithIcon(type, $i18n.t(`nft.event.${type}`) as string)
-}
-
-const percentageTextClassName = (percentage: number) => {
-  if (percentage > 0) {
-    return 'has-text-success'
-  } else if (percentage < 0) {
-    return 'has-text-danger'
-  }
-  return ''
-}
 
 const updateDataByEvent = () => {
   data.value =
@@ -173,22 +119,27 @@ const updateDataByEvent = () => {
       : [...new Set(copyTableData.value.filter((v) => v.Type === event))]
 }
 
-const pushChartData = (array, date, amount) => {
-  array.push([date, parseChartAmount(amount, decimals.value)])
+export interface Event {
+  ID: string
+  Type: string
+  From: string
+  To: string
+  Amount: string
+  Date: string
+  Time: string
+  Block: string
+  Item?: any
+  Percentage?: number
 }
 
 const createTable = (): void => {
   data.value = []
   copyTableData.value = []
 
-  const chartData: ChartData = {
-    buy: [],
-    list: [],
-  }
   const previousPriceMap = {}
 
   for (const newEvent of prop.events) {
-    const event: any = {}
+    const event = emptyObject<Event>()
 
     const nftId = newEvent['nft'] ? newEvent['nft']['id'] : 'id'
     // Type
@@ -268,13 +219,6 @@ const createTable = (): void => {
     // ID for table: Use a unique key of your data Object for each row.
     event['ID'] = newEvent['timestamp'] + newEvent['id']
 
-    // Push to chart data
-    if (newEvent['interaction'] === Interaction.LIST) {
-      pushChartData(chartData.list, date, event['Amount'])
-    } else if (newEvent['interaction'] === Interaction.BUY) {
-      pushChartData(chartData.buy, date, event['Amount'])
-    }
-
     copyTableData.value.push(event)
   }
 
@@ -284,11 +228,16 @@ const createTable = (): void => {
   if (!data.value.length) {
     event.value = HistoryEventType.ALL
   }
-
-  emit('setPriceChartData', [chartData.buy, chartData.list])
 }
 
 watch(() => prop.events, createTable)
 
 watch(event, updateDataByEvent)
+
+watch(
+  () => route.query?.page,
+  (newPage) => {
+    currentPage.value = parseInt(newPage as string) || 1
+  }
+)
 </script>

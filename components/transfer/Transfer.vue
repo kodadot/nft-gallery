@@ -111,8 +111,9 @@
                   'mb-2': isMobile,
                 },
               ]"
+              :is-invalid="isTargetAddressInvalid(destinationAddress)"
               placeholder="Enter wallet address"
-              :strict="false" />
+              disable-error />
             <NeoInput
               v-if="displayUnit === 'token'"
               v-model="destinationAddress.token"
@@ -133,6 +134,16 @@
               icon-right-class="search"
               class="is-flex-1"
               @input="onUsdFieldChange(destinationAddress)" />
+          </div>
+          <div class="mt-2">
+            <AddressChecker
+              :address="destinationAddress.address"
+              @check="
+                (isValid) => handleAddressCheck(destinationAddress, isValid)
+              "
+              @change="
+                (address) => handleAddressChange(destinationAddress, address)
+              " />
           </div>
         </div>
       </div>
@@ -194,6 +205,17 @@
       </div>
 
       <div
+        class="is-flex is-justify-content-space-between is-align-items-center mb-2">
+        <span class="is-size-7">{{ $t('transfers.networkFee') }}</span>
+        <div class="is-flex is-align-items-center">
+          <span class="is-size-7 has-text-grey mr-1"
+            >({{ displayTxFeeValue[0] }})</span
+          >
+          <span class="is-size-7">{{ displayTxFeeValue[1] }}</span>
+        </div>
+      </div>
+
+      <div
         class="is-flex is-justify-content-space-between is-align-items-center mb-6">
         <span class="has-text-weight-bold is-size-6">{{
           $t('spotlight.total')
@@ -239,10 +261,15 @@ import { isAddress } from '@polkadot/util-crypto'
 import { DispatchError } from '@polkadot/types/interfaces'
 
 import {
+  calculateExactUsdFromToken,
   calculateTokenFromUsd,
   calculateUsdFromToken,
 } from '@/utils/calculation'
-import exec, { execResultValue, txCb } from '@/utils/transactionExecutor'
+import exec, {
+  estimate,
+  execResultValue,
+  txCb,
+} from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import {
   calculateBalance,
@@ -268,7 +295,10 @@ import TransferTokenTabs, { TransferTokenTab } from './TransferTokenTabs.vue'
 import { TokenDetails } from '@/composables/useToken'
 import AddressInput from '@/components/shared/AddressInput.vue'
 import TransactionLoader from '@/components/shared/TransactionLoader.vue'
-import { ApiPromise } from '@polkadot/api'
+import { KODADOT_DAO } from '@/utils/support'
+import { toDefaultAddress } from '@/utils/account'
+import AddressChecker from '@/components/shared/AddressChecker.vue'
+
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
 )
@@ -300,6 +330,7 @@ export type TargetAddress = {
   address: string
   usd?: number | string
   token?: number | string
+  isInvalid?: boolean
 }
 const isMobile = computed(() => useWindowSize().width.value <= 764)
 const balance = computed(() => getBalance(unit.value) || 0)
@@ -319,13 +350,32 @@ const tokenTabs = ref<TransferTokenTab[]>([])
 const targetAddresses = ref<TargetAddress[]>([{ address: '' }])
 
 const hasValidTarget = computed(() =>
-  targetAddresses.value.some((item) => isAddress(item.address) && item.token)
+  targetAddresses.value.some(
+    (item) => isAddress(item.address) && !item.isInvalid && item.token
+  )
 )
 
+const getDisplayUnitBasedValues = (
+  usdValue: number,
+  tokenAmount: number
+): [string, string] => {
+  return displayUnit.value === 'token'
+    ? [`$${usdValue}`, `${tokenAmount} ${unit.value}`]
+    : [`${tokenAmount} ${unit.value}`, `$${usdValue}`]
+}
+
 const displayTotalValue = computed(() =>
-  displayUnit.value === 'token'
-    ? [`$${totalUsdValue.value}`, `${totalTokenAmount.value} ${unit.value}`]
-    : [`${totalTokenAmount.value} ${unit.value}`, `$${totalUsdValue.value}`]
+  getDisplayUnitBasedValues(totalUsdValue.value, totalTokenAmount.value)
+)
+
+const txFee = ref<number>(0)
+
+const txFeeUsdValue = computed(() =>
+  calculateExactUsdFromToken(txFee.value, Number(currentTokenValue.value))
+)
+
+const displayTxFeeValue = computed(() =>
+  getDisplayUnitBasedValues(txFeeUsdValue.value, txFee.value)
 )
 
 const disabled = computed(
@@ -482,6 +532,22 @@ const onUsdFieldChange = (target: TargetAddress) => {
   }
 }
 
+const handleAddressCheck = (target: TargetAddress, isValid: boolean) => {
+  target.isInvalid = !isValid
+
+  targetAddresses.value = [...targetAddresses.value]
+}
+
+const handleAddressChange = (target: TargetAddress, newAddress: string) => {
+  target.address = newAddress
+
+  targetAddresses.value = [...targetAddresses.value]
+}
+
+const isTargetAddressInvalid = (target: TargetAddress) => {
+  return target.isInvalid === undefined ? false : target.isInvalid
+}
+
 const unifyAddressAmount = (target: TargetAddress) => {
   targetAddresses.value = targetAddresses.value.map((address) => ({
     ...address,
@@ -513,44 +579,71 @@ const handleOpenConfirmModal = () => {
   }
 }
 
+const getTransactionFee = async () => {
+  const { cb, arg } = await getTransferParams(
+    targetAddresses.value.map(
+      () =>
+        ({
+          address: toDefaultAddress(KODADOT_DAO),
+          usd: 1,
+          token: 1,
+        } as TargetAddress)
+    ),
+    decimals.value as number
+  )
+
+  return estimate(accountId.value, cb as any, arg as any)
+}
+
+const calculateTransactionFee = async () => {
+  txFee.value = 0
+  const fee = await getTransactionFee()
+  txFee.value = Number((Number(fee) / Math.pow(10, decimals.value)).toFixed(4))
+}
+
+onMounted(() => calculateTransactionFee())
+
+watchDebounced(
+  [urlPrefix, () => targetAddresses.value.length],
+  () => {
+    calculateTransactionFee()
+  },
+  { debounce: 500 }
+)
+
 const getAmountToTransfer = (amount: number, decimals: number) =>
   String(calculateBalance(Number(amount), decimals))
 
-interface TransferParams {
-  api: ApiPromise
+const getTransferParams = async (
+  addresses: TargetAddress[],
   decimals: number
-}
+) => {
+  const api = await apiInstance.value
+  const isSingle = targetAddresses.value.length === 1
 
-const getMultipleAddressesTransferParams = ({
-  api,
-  decimals,
-}: TransferParams) => {
-  const arg = [
-    targetAddresses.value.map((target) => {
-      const amountToTransfer = getAmountToTransfer(
-        target.token as number,
-        decimals
-      )
+  const firstAddress = addresses[0]
 
-      return api.tx.balances.transfer(
-        target.address as string,
-        amountToTransfer
-      )
-    }),
-  ]
+  const cb = isSingle ? api.tx.balances.transfer : api.tx.utility.batch
+  const arg = isSingle
+    ? [
+        firstAddress.address as string,
+        getAmountToTransfer(firstAddress.token as number, decimals),
+      ]
+    : [
+        addresses.map((target) => {
+          const amountToTransfer = getAmountToTransfer(
+            target.token as number,
+            decimals
+          )
 
-  return [api.tx.utility.batch, arg]
-}
+          return api.tx.balances.transfer(
+            target.address as string,
+            amountToTransfer
+          )
+        }),
+      ]
 
-const getSingleAddressTransferParams = ({ api, decimals }: TransferParams) => {
-  const target = targetAddresses.value[0]
-
-  const amountToTransfer = getAmountToTransfer(target.token as number, decimals)
-
-  return [
-    api.tx.balances.transfer,
-    [target.address as string, amountToTransfer],
-  ]
+  return { cb, arg }
 }
 
 const submit = async (
@@ -560,24 +653,10 @@ const submit = async (
   isTransferModalVisible.value = false
   initTransactionLoader()
   try {
-    const api = await apiInstance.value
-
-    const numOfTargetAddresses = targetAddresses.value.length
-    const multipleAddresses = numOfTargetAddresses > 1
-
-    let cb, arg
-
-    if (multipleAddresses) {
-      ;[cb, arg] = getMultipleAddressesTransferParams({
-        api,
-        decimals: decimals.value as number,
-      })
-    } else {
-      ;[cb, arg] = getSingleAddressTransferParams({
-        api,
-        decimals: decimals.value as number,
-      })
-    }
+    const { cb, arg } = await getTransferParams(
+      targetAddresses.value,
+      decimals.value as number
+    )
 
     const tx = await exec(
       accountId.value,
@@ -685,7 +764,7 @@ const routerReplace = ({ params = {}, query = {} }) => {
 }
 
 watchDebounced(
-  () => targetAddresses.value[0].usd,
+  () => targetAddresses.value[0]?.usd,
   (usdamount) => {
     routerReplace({ query: { usdamount: (usdamount || 0).toString() } })
   },

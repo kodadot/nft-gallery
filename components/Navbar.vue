@@ -202,12 +202,12 @@ import ProfileDropdown from '@/components/navbar/ProfileDropdown.vue'
 import Search from '@/components/search/Search.vue'
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
 import { useEventListener } from '@vueuse/core'
+import { ModalCloseType } from '@/components/navbar/types'
 
 import { useIdentityStore } from '@/stores/identity'
 import { getChainNameByPrefix } from '@/utils/chain'
 import { createVisible } from '@/utils/config/permission.config'
 import ShoppingCartButton from './navbar/ShoppingCartButton.vue'
-
 const { $nextTick, $neoModal } = useNuxtApp()
 const instance = getCurrentInstance()
 const showTopNavbar = ref(true)
@@ -216,6 +216,7 @@ const fixedTitleNavAppearDistance = ref(85)
 const lastScrollPosition = ref(0)
 const isBurgerMenuOpened = ref(false)
 const isMobile = ref(window.innerWidth < 1024)
+const isMobileWithoutTablet = ref(window.innerWidth < 768)
 const { urlPrefix } = usePrefix()
 const { isDarkMode } = useTheme()
 const identityStore = useIdentityStore()
@@ -247,10 +248,15 @@ const openWalletConnectModal = (): void => {
   showMobileNavbar()
 
   $neoModal.closeAll()
-
   $neoModal.open({
     parent: instance?.proxy,
     ...ConnectWalletModalConfig,
+    ...(isMobileWithoutTablet.value ? { animation: 'none' } : {}),
+    onClose: (type: ModalCloseType) => {
+      if (type === ModalCloseType.BACK) {
+        showMobileNavbar()
+      }
+    },
   })
 }
 
@@ -325,16 +331,24 @@ const updateAuthBalance = () => {
   account.value && identityStore.fetchBalance({ address: account.value })
 }
 
+const hideTopNavbar = () => {
+  if (isMobileWithoutTablet.value) {
+    showTopNavbar.value = true
+  }
+}
+
 onMounted(() => {
   document.body.style.overflowY = 'initial'
   document.body.className = 'has-navbar-fixed-top has-spaced-navbar-fixed-top'
   updateAuthBalanceTimer.value = setInterval(updateAuthBalance, 30000)
+  $neoModal.addOpenListener(hideTopNavbar)
 })
 
 onBeforeUnmount(() => {
   setBodyScroll(true)
   document.documentElement.classList.remove('is-clipped-touch')
   clearInterval(updateAuthBalanceTimer.value)
+  $neoModal.removeOpenListener(hideTopNavbar)
 })
 useEventListener(window, 'scroll', onScroll)
 useEventListener(window, 'resize', handleResize)

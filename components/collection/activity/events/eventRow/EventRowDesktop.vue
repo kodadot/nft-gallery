@@ -23,11 +23,9 @@
 
     <div class="column is-1">
       <div class="height-50px is-flex is-align-items-center">
-        <div
-          class="border is-size-7 is-justify-content-center py-1 my-2 is-flex is-align-items-center fixed-width fixed-height"
-          :class="getInteractionColor(event.interaction)">
-          {{ interactionName }}
-        </div>
+        <EventTag
+          :interaction="event.interaction"
+          :interaction-name="interactionName" />
       </div>
     </div>
 
@@ -85,12 +83,11 @@ import {
   blank,
   getAmount,
   getFromAddress,
-  getInteractionColor,
   getNFTAvatar,
   getToAddress,
   interactionNameMap,
 } from './common'
-
+import EventTag from './EventTag.vue'
 import { NeoAvatar } from '@kodadot1/brick'
 
 const { urlPrefix } = usePrefix()
@@ -102,7 +99,7 @@ const avatar = ref<string>()
 const { placeholder } = useTheme()
 
 const interactionName = computed(
-  () => interactionNameMap[props.event.interaction] || props.event.interaction
+  () => interactionNameMap()[props.event.interaction] || props.event.interaction
 )
 const amount = computed(() => getAmount(props.event))
 

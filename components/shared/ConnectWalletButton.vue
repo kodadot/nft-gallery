@@ -12,6 +12,7 @@
 <script lang="ts" setup>
 import { NeoButton, NeoButtonVariant } from '@kodadot1/brick'
 import { ConnectWalletModalConfig } from '../common/ConnectWallet/useConnectWallet'
+import { ModalCloseType } from '../navbar/types'
 
 defineProps<{
   label?: string
@@ -24,6 +25,7 @@ const instance = getCurrentInstance()
 
 const modal = ref<{ close: () => void; isActive?: boolean } | null>(null)
 const isMobile = ref(window.innerWidth < 1024)
+const isMobileWithoutTablet = ref(window.innerWidth < 768)
 const emit = defineEmits(['closeBurgerMenu', 'toggleConnectModal'])
 
 const toggleWalletConnectModal = () => {
@@ -40,9 +42,16 @@ const toggleWalletConnectModal = () => {
     return
   }
 
-  modal.value = $neoModal.open({
+  let modalInstance = $neoModal.open({
     parent: instance?.proxy,
     ...ConnectWalletModalConfig,
+    ...(isMobileWithoutTablet.value ? { animation: 'none' } : {}),
+    onClose: (type: ModalCloseType) => {
+      if (isMobile && type === ModalCloseType.BACK) {
+        emit('closeBurgerMenu')
+      }
+    },
   })
+  modal.value = modalInstance
 }
 </script>
