@@ -179,9 +179,6 @@ importers:
       vue-markdown-render:
         specifier: ^1.1.3
         version: 1.1.3
-      vue-safe-html:
-        specifier: ^2.2.0
-        version: 2.2.0
       vue-social-sharing:
         specifier: ^3.0.9
         version: 3.0.9(vue@2.7.14)
@@ -23473,10 +23470,6 @@ packages:
       vue: ^2
     dependencies:
       vue: 2.7.14
-    dev: false
-
-  /vue-safe-html@2.2.0:
-    resolution: {integrity: sha512-c36p3zMXU8Sp9j3wD/A4NzjsHLDDHeW2yanc+P0im3u/74V3j1QhSnu8Ybcxm8JPekF7RIetcv/E1qdCiDFTyw==}
     dev: false
 
   /vue-server-renderer@2.7.14:
