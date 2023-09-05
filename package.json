@@ -85,7 +85,6 @@
     "@polkadot/types": "^10.6.1",
     "@polkadot/ui-keyring": "^3.3.1",
     "@polkadot/vue-identicon": "^3.3.1",
-    "@ramp-network/ramp-instant-sdk": "^3.2.3",
     "@transak/transak-sdk": "^1.3.0",
     "apollo-boost": "^0.4.9",
     "chart.js": "^3.9.1",

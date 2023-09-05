@@ -62,7 +62,6 @@ import { openConnectWalletModal } from '@/components/common/ConnectWallet/useCon
 import { useIdentityStore } from '@/stores/identity'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'
-import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
 import { showNotification } from '@/utils/notification'
 
 import { openShoppingCart } from '@/components/common/shoppingCart/ShoppingCartModalConfig'
