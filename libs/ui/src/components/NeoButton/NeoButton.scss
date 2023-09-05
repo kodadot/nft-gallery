@@ -137,6 +137,16 @@
     }
   }
 
+  &--k-pink {    
+    @include ktheme() {
+      border: 1px solid theme('border-color') !important;
+
+      &:hover {
+        background-color: theme('k-accentHover') !important;
+      }
+    }
+  }
+
   &--secondary{
     height: 22px;
     line-height: 100%;
