@@ -23,7 +23,8 @@
       <div class="h-50 is-flex is-align-items-center">
         <EventTag
           :interaction="event.Type"
-          :interaction-name="interactionName" />
+          :interaction-name="interactionName"
+          distinguish-buy-and-sell />
       </div>
     </div>
 
@@ -96,7 +97,8 @@
 
         <EventTag
           :interaction="event.Type"
-          :interaction-name="interactionName" />
+          :interaction-name="interactionName"
+          distinguish-buy-and-sell />
       </div>
     </div>
     <div class="is-flex">
