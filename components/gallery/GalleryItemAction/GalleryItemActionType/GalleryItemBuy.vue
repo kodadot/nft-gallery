@@ -81,7 +81,6 @@ const { $i18n } = useNuxtApp()
 const preferencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { cartIcon } = useShoppingCartIcon(props.nft.id)
-const { transak } = useExperiments()
 const { init: initTransak } = useTransak()
 
 const instance = getCurrentInstance()
@@ -108,27 +107,12 @@ const label = computed(() => {
 })
 
 const addFunds = () => {
-  if (transak.value) {
-    initTransak({
-      address: accountId.value,
-      onSuccess: () => {
-        showNotification($i18n.t('general.successfullyAddedFunds'))
-      },
-    })
-  } else {
-    showRampSDK()
-  }
-}
-
-const showRampSDK = () => {
-  new RampInstantSDK({
-    defaultAsset: 'KSM',
-    userAddress: accountId.value,
-    hostAppName: 'KodaDot',
-    hostApiKey: 'a99bfvomhhbvzy6thaycxbawz7d3pssuz2a8hsrc', // env
-    hostLogoUrl: 'https://kodadot.xyz/apple-touch-icon.png',
-    variant: 'desktop',
-  }).show()
+  initTransak({
+    address: accountId.value,
+    onSuccess: () => {
+      showNotification($i18n.t('general.successfullyAddedFunds'))
+    },
+  })
 }
 
 const balance = computed<string>(() => {
