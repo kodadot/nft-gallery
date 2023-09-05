@@ -20,7 +20,7 @@
               variant="text"
               no-shadow
               @click.native="listingCartStore.addAllToCart">
-              Select All
+              {{ $t('listingCart.selectAll') }}
             </NeoButton>
           </div>
         </div>
@@ -28,7 +28,7 @@
           class="h-full"
           :variant="'k-accent'"
           @click.native="preferencesStore.listingCartModalOpen = true">
-          List Items
+          {{ $t('listingCart.listItem') }}
         </NeoButton>
       </div>
     </div>

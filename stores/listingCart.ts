@@ -11,6 +11,7 @@ export type ListCartItem = {
   listPrice: number | null
   collection: EntityWithId
   meta?: NFTMetadata
+  metadata?: string
 }
 
 type ID = string

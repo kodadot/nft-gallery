@@ -33,7 +33,7 @@
           </div>
           <div class="pt-4 has-text-weight-bold">Set All To</div>
           <div class="pt-4">
-            Collection Floor Price
+            {{ $t('listingCart.collectionFloorPrice') }}
             <span v-if="floorPricePercentAdjustment !== 1" class="has-text-grey"
               >{{ (floorPricePercentAdjustment * 100 - 100).toFixed(0) }}%</span
             >
@@ -68,7 +68,7 @@
               " />
           </div>
           <div class="pt-3 has-text-grey">-Or-</div>
-          <div class="pt-3">Fixed Price</div>
+          <div class="pt-3">{{ $t('listingCart.fixedPrice') }}</div>
           <ListingCartPriceInput
             v-model="fixedPrice"
             check

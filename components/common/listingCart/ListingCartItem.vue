@@ -32,7 +32,7 @@
     </div>
     <div class="is-flex is-justify-content-space-between pt-2">
       <div class="is-flex is-flex-direction-column">
-        <div class="has-text-grey is-size-7">Floor</div>
+        <div class="has-text-grey is-size-7">{{ $t('activity.floor') }}</div>
         <span>{{ floor }}</span>
       </div>
 
