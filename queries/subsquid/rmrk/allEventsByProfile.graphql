@@ -1,5 +1,5 @@
-query allEventsByProfile($id: String, $search: [EventWhereInput!]) {
-  events(where: {caller_eq : $id, AND: $search }) {
+query allEventsByProfile($id: String) {
+  events(where: {caller_eq: $id, OR: {currentOwner_eq: $id}}) {
     meta
     interaction
     blockNumber
@@ -17,7 +17,9 @@ query allEventsByProfile($id: String, $search: [EventWhereInput!]) {
         __typename
       }
       meta {
+        id
         image
+        __typename
       }
       resources {
         id
@@ -25,10 +27,12 @@ query allEventsByProfile($id: String, $search: [EventWhereInput!]) {
           id
           image
           animationUrl
+          __typename
         }
         metadata
         src
         thumb
+        __typename
       }
       __typename
     }

@@ -18,7 +18,9 @@ query allEventsByProfile($id: String) {
       }
 
       meta {
+        id
         image
+        __typename
       }
       __typename
     }
