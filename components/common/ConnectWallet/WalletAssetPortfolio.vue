@@ -12,7 +12,7 @@
       </NeoButton>
     </div>
 
-    <a class="has-text-grey is-size-7" @click="showRampSDK">+ Add Funds</a>
+    <a class="has-text-grey is-size-7" @click="addFunds">+ Add Funds</a>
   </div>
 </template>
 
@@ -23,6 +23,16 @@ import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
 const { urlPrefix } = usePrefix()
 const { isBasilisk } = useIsChain(urlPrefix)
 const { accountId } = useAuth()
+const { transak } = useExperiments()
+const { init: initTransak } = useTransak()
+
+const addFunds = () => {
+  if (transak) {
+    initTransak({ address: accountId.value })
+  } else {
+    showRampSDK()
+  }
+}
 
 const showRampSDK = () => {
   new RampInstantSDK({
