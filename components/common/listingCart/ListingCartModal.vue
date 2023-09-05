@@ -9,7 +9,7 @@
         <header
           class="py-5 px-6 is-flex is-justify-content-space-between border-bottom">
           <span class="modal-card-title is-size-6 has-text-weight-bold">
-            List {{ listingCartStore.count }} Items
+            List {{ listingCartStore.count }} {{ $t('items') }}
           </span>
 
           <NeoButton
@@ -51,7 +51,7 @@
               " />
             <NeoButton
               class="mr-2"
-              label="Floor Price"
+              :label="$t('statsOverview.floorPrice')"
               rounded
               no-shadow
               @click.native="
@@ -83,7 +83,7 @@
         </div>
         <div
           class="is-flex border-top is-justify-content-space-between py-4 px-6">
-          Potential Earnings
+          {{ $t('listingCart.potentialEarnings') }}
           <div class="is-flex">
             <span class="ml-2 has-text-grey"
               >{{ totalNFTsPrice.toFixed(4) }} {{ chainSymbol }}</span
