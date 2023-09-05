@@ -62,9 +62,7 @@ export const useListingCartStore = defineStore('listingCart', {
       }
     },
     addAllToCart() {
-      for (const item of this.unlistedOwned) {
-        this.setItem(item)
-      }
+      this.unlistedOwned.forEach((item) => this.setItem(item))
     },
     setFixedPrice(price: number | null) {
       this.itemsInChain.forEach((item) => {

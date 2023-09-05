@@ -96,8 +96,8 @@ const buyLabel = computed(function () {
 
 const listLabel = computed(() => {
   const label = Boolean(Number(props.nft.price))
-    ? 'Change Price'
-    : 'List For Sale'
+    ? $i18n.t('transaction.price.change')
+    : $i18n.t('listingCart.listForSale')
   return label + (listingCartStore.isItemInCart(props.nft.id) ? ' ✓' : '')
 })
 
