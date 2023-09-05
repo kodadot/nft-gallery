@@ -34,14 +34,13 @@
 </template>
 
 <script lang="ts" setup>
-import { flattenNFT, useCarouselNftEvents } from './utils/useCarouselEvents'
+import { flattenNFT } from './utils/useCarouselEvents'
 import { useCarouselUrl } from './utils/useCarousel'
-
-const { urlOf } = useCarouselUrl()
-
 const CarouselList = defineAsyncComponent(
   () => import('./module/CarouselAgnostic.vue')
 )
+
+const { urlOf } = useCarouselUrl()
 const { urlPrefix } = usePrefix()
 
 const props = withDefaults(
