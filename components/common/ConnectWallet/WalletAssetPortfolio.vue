@@ -27,7 +27,7 @@ const { transak } = useExperiments()
 const { init: initTransak } = useTransak()
 
 const addFunds = () => {
-  if (transak) {
+  if (transak.value) {
     initTransak({ address: accountId.value })
   } else {
     showRampSDK()

@@ -8,13 +8,13 @@ interface InitParams {
   onClose?: (data) => void
 }
 
+const getKsmAddress = (address: string) => {
+  const publicKey = decodeAddress(address)
+  return encodeAddress(publicKey, CHAINS['ksm'].ss58Format)
+}
+
 export default function useTransak() {
   const config = useRuntimeConfig()
-
-  const getKsmAddress = (address: string) => {
-    const publicKey = decodeAddress(address)
-    return encodeAddress(publicKey, CHAINS['ksm'].ss58Format)
-  }
 
   const init = ({ address, onSuccess, onClose }: InitParams) => {
     const transak = new transakSDK({
