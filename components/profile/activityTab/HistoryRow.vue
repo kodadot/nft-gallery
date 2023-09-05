@@ -142,6 +142,7 @@ import {
 } from '@/components/collection/activity/events/eventRow/common'
 import EventTag from '@/components/collection/activity/events/eventRow/EventTag.vue'
 import BlockExplorerLink from '@/components/shared/BlockExplorerLink.vue'
+import { parseNftAvatar } from '@/utils/nft'
 
 const props = defineProps<{
   event: Event
@@ -168,9 +169,7 @@ const interactionName = computed(
 
 const getAvatar = async () => {
   if (props.event.Item) {
-    avatar.value = (
-      await getNftMetadata(props.event.Item, urlPrefix.value)
-    ).image
+    avatar.value = await parseNftAvatar(props.event.Item)
   }
 }
 
