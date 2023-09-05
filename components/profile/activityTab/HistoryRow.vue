@@ -142,15 +142,15 @@ import {
 } from '@/components/collection/activity/events/eventRow/common'
 import EventTag from '@/components/collection/activity/events/eventRow/EventTag.vue'
 import BlockExplorerLink from '@/components/shared/BlockExplorerLink.vue'
-import { useGalleryItem } from '@/components/gallery/useGalleryItem'
+
 const props = defineProps<{
   event: Event
   withToColumn: boolean
   variant: 'Desktop' | 'Touch'
 }>()
 
-const { nftResources, nftImage } = useGalleryItem(props.event.Item.id)
 const { urlPrefix } = usePrefix()
+const avatar = ref()
 const { placeholder } = useTheme()
 const fromAddress = computed(() => props.event.From)
 const toAddress = computed(() => props.event.To)
@@ -166,14 +166,17 @@ const interactionName = computed(
   () => interactionNameMap[eventType.value] || eventType.value
 )
 
-const avatar = computed(
-  () =>
-    (nftResources.value &&
-      nftResources.value?.length > 1 &&
-      nftResources.value[0].src) ||
-    nftImage.value ||
-    ''
-)
+const getAvatar = async () => {
+  if (props.event.Item) {
+    avatar.value = (
+      await getNftMetadata(props.event.Item, urlPrefix.value)
+    )?.image
+  }
+}
+
+onMounted(() => {
+  getAvatar()
+})
 </script>
 
 <style scoped lang="scss">
