@@ -170,6 +170,9 @@ importers:
       vue-clipboard2:
         specifier: ^0.3.3
         version: 0.3.3
+      vue-dompurify-html:
+        specifier: ^4.1.4
+        version: 4.1.4(vue@2.7.14)
       vue-infinite-loading:
         specifier: ^2.4.5
         version: 2.4.5(vue@2.7.14)
@@ -393,7 +396,7 @@ importers:
         version: 0.17.0(sass@1.66.1)(vite@3.2.7)
       vite:
         specifier: ^3.2.7
-        version: 3.2.7(sass@1.66.1)(terser@5.17.7)
+        version: 3.2.7(@types/node@20.2.5)(sass@1.66.1)
       vue:
         specifier: 2.7.14
         version: 2.7.14
@@ -4200,7 +4203,7 @@ packages:
       chokidar: 3.5.3
       pathe: 0.2.0
       picocolors: 1.0.0
-      vite: 3.2.7(sass@1.66.1)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.66.1)
     dev: true
 
   /@histoire/vendors@0.17.0:
@@ -5904,7 +5907,7 @@ packages:
       '@polkadot/api-augment': 10.8.1
       '@polkadot/api-base': 10.8.1
       '@polkadot/api-derive': 10.8.1
-      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2)
       '@polkadot/rpc-augment': 10.8.1
       '@polkadot/rpc-core': 10.8.1
       '@polkadot/rpc-provider': 10.8.1
@@ -5931,7 +5934,7 @@ packages:
       '@polkadot/api-augment': 10.9.1
       '@polkadot/api-base': 10.9.1
       '@polkadot/api-derive': 10.9.1
-      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2)
       '@polkadot/rpc-augment': 10.9.1
       '@polkadot/rpc-core': 10.9.1
       '@polkadot/rpc-provider': 10.9.1
@@ -6111,11 +6114,12 @@ packages:
       tslib: 2.5.3
     dev: false
 
-  /@polkadot/keyring@12.3.2(@polkadot/util@12.3.2):
+  /@polkadot/keyring@12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2):
     resolution: {integrity: sha512-NTdtDeI0DP9l/45hXynNABeP5VB8piw5YR+CbUxK2e36xpJWVXwbcOepzslg5ghE9rs8UKJb30Z/HqTU4sBY0Q==}
     engines: {node: '>=16'}
     peerDependencies:
       '@polkadot/util': 12.3.2
+      '@polkadot/util-crypto': 12.3.2
     dependencies:
       '@polkadot/util': 12.3.2
       '@polkadot/util-crypto': 12.3.2(@polkadot/util@12.3.2)
@@ -6432,7 +6436,7 @@ packages:
     resolution: {integrity: sha512-4QzT2QzD+320+eT6b79sGAA85Tt3Bb8fQvse4r5Mom2iiBd2SO81vOhxSAOaIe4GUsw25VzFJmsbe7+OObItdg==}
     engines: {node: '>=16'}
     dependencies:
-      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2)
       '@polkadot/types': 10.9.1
       '@polkadot/types-support': 10.9.1
       '@polkadot/util': 12.3.2
@@ -6775,7 +6779,7 @@ packages:
     resolution: {integrity: sha512-m6UvsvQOZ7sRGbonb6QLs4mZ6TmYKdAXAcHakiJl2xArqsgOghJsKhgaTqcigPkSq4947MXtIkEzdrwFEnkYkQ==}
     engines: {node: '>=16'}
     dependencies:
-      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2)
       '@polkadot/types-augment': 10.8.1
       '@polkadot/types-codec': 10.8.1
       '@polkadot/types-create': 10.8.1
@@ -6789,7 +6793,7 @@ packages:
     resolution: {integrity: sha512-AG33i2ZGGfq7u+5rkAdGrXAQHHl844/Yv+junH5ZzX69xiCoWO1bH/yzDUNBdpki2GlACWvF9nLYh3F2tVF93w==}
     engines: {node: '>=16'}
     dependencies:
-      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2)
       '@polkadot/types-augment': 10.9.1
       '@polkadot/types-codec': 10.9.1
       '@polkadot/types-create': 10.9.1
@@ -9086,7 +9090,7 @@ packages:
       vite: ^3.0.0 || ^4.0.0
       vue: ^2.7.0-0
     dependencies:
-      vite: 3.2.7(sass@1.66.1)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.66.1)
       vue: 2.7.14
     dev: true
 
@@ -13148,6 +13152,10 @@ packages:
       domelementtype: 2.3.0
     dev: false
 
+  /dompurify@3.0.5:
+    resolution: {integrity: sha512-F9e6wPGtY+8KNMRAVfxeCOHU0/NPWMSENNq4pQctuXRqqdEPW7q3CrLbR5Nse044WwacyjHGOMlvNsBe1y6z9A==}
+    dev: false
+
   /domutils@2.8.0:
     resolution: {integrity: sha512-w96Cjofp72M5IIhpjgobBimYEfoPjx1Vx0BSX9P30WBdZW2WIKU0T1Bd0kz2eNZ9ikjKgHbEyKx8BB6H1L3h3A==}
     dependencies:
@@ -15633,7 +15641,7 @@ packages:
       sade: 1.8.1
       shiki-es: 0.2.0
       sirv: 2.0.3
-      vite: 3.2.7(sass@1.66.1)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.66.1)
       vite-node: 0.28.4(sass@1.66.1)
     transitivePeerDependencies:
       - '@types/node'
@@ -22880,7 +22888,7 @@ packages:
       picocolors: 1.0.0
       source-map: 0.6.1
       source-map-support: 0.5.21
-      vite: 3.2.7(sass@1.66.1)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.66.1)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -23284,6 +23292,18 @@ packages:
         optional: true
     dependencies:
       vue: 2.7.14
+
+  /vue-dompurify-html@4.1.4(vue@2.7.14):
+    resolution: {integrity: sha512-K0XDSZA4dmMMvAgW8yaCx1kAYQldmgXeHJaLPS0mlSKOu8B+onE06X4KfB5LGyX4jR3rlVosyWJczRBzR0sZ/g==}
+    peerDependencies:
+      vue: ^2.7.0 || ^3.0.0
+    dependencies:
+      dompurify: 3.0.5
+      vue: 2.7.14
+      vue-demi: 0.14.5(vue@2.7.14)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+    dev: false
 
   /vue-eslint-parser@8.3.0(eslint@8.48.0):
     resolution: {integrity: sha512-dzHGG3+sYwSf6zFBa0Gi9ZDshD7+ad14DGOdTLjruRVgZXe2J+DcZ9iUhyR48z5g1PqRa20yt3Njna/veLJL/g==}

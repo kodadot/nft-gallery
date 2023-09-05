@@ -9,12 +9,13 @@
         })
       "
       @close="onClose">
-      <Markdown
-        :source="
+      <div
+        v-dompurify-html="
           $t('transfers.invalidAddress.addressChanged.content', {
             selectedChain: currentChainName,
           })
-        " />
+        "
+        class="address-changed" />
     </InfoBox>
 
     <InfoBox
@@ -22,8 +23,8 @@
       variant="fail"
       :title="$t(`transfers.invalidAddress.${addressCheck.type}.title`)"
       @close="onClose">
-      <Markdown
-        :source="
+      <div
+        v-dompurify-html="
           $t(`transfers.invalidAddress.${addressCheck.type}.content`, {
             addressChain: addressCheck.value,
             selectedChain: currentChainName,
@@ -198,7 +199,7 @@ watch(addressCheck, (check) => {
   }
 }
 
-.content-markdown {
+.address-changed {
   :deep a {
     @include ktheme() {
       color: theme('k-blue') !important;
