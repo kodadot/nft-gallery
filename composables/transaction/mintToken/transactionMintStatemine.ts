@@ -10,11 +10,10 @@ type id = { id: number }
 export const assignIds = <T extends TokenToMint>(tokens: T[]): (T & id)[] => {
   let lastId = 0
   return tokens.map((token) => {
-    const { alreadyMinted, lastIndexUsed } =
-      token.selectedCollection as MintedCollection
+    const { lastIndexUsed } = token.selectedCollection as MintedCollection
 
     // Use the maximum value between lastId and alreadyMinted or lastIndexUsed
-    lastId = Math.max(lastIndexUsed, alreadyMinted, lastId)
+    lastId = Math.max(lastIndexUsed, lastId)
 
     return {
       ...token,
