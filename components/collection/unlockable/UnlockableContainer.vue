@@ -129,7 +129,7 @@
         </div>
       </div>
 
-      <div>
+      <div class="my-4">
         <CarouselTypeLatestMints
           :collection-id="collectionId"
           interaction="SEND" />

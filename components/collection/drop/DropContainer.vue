@@ -149,7 +149,7 @@
           <img src="/unlockable-introduce.svg" alt="Unlockable" />
         </div>
       </div>
-      <div>
+      <div class="my-4">
         <CarouselTypeLatestMints
           :collection-id="collectionId"
           interaction="BUY" />
