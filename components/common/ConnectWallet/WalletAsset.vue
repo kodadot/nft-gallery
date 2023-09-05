@@ -30,7 +30,6 @@
 
 <script lang="ts" setup>
 import { useIdentityStore } from '@/stores/identity'
-import useIdentity from '@/components/identity/utils/useIdentity'
 import WalletAssetIdentity from './WalletAssetIdentity.vue'
 import WalletAssetNfts from './WalletAssetNfts.vue'
 import WalletAssetPortfolio from './WalletAssetPortfolio.vue'
