@@ -5,7 +5,6 @@ import { CHAINS } from '~~/libs/static/dist'
 interface InitParams {
   address: string
   onSuccess?: (data) => void
-  onClose?: (data) => void
 }
 
 const getKsmAddress = (address: string) => {
@@ -16,7 +15,7 @@ const getKsmAddress = (address: string) => {
 export default function useTransak() {
   const config = useRuntimeConfig()
 
-  const init = ({ address, onSuccess, onClose }: InitParams) => {
+  const init = ({ address, onSuccess }: InitParams) => {
     const transak = new transakSDK({
       apiKey: config.public.transakApiKey,
       environment: config.public.transakEnvironment,
@@ -26,13 +25,6 @@ export default function useTransak() {
     })
 
     transak.init()
-
-    transak.on(transak.EVENTS.TRANSAK_WIDGET_CLOSE, (orderData) => {
-      if (onClose) {
-        onClose(orderData)
-      }
-      transak.close()
-    })
 
     transak.on(transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (orderData) => {
       if (onSuccess) {

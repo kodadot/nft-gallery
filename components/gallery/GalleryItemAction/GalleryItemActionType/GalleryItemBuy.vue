@@ -26,7 +26,7 @@
 
                   {{ $t('or') }}
 
-                  <a @click="showRampSDK"> {{ $t('addFunds') }}</a>
+                  <a @click="addFunds"> {{ $t('addFunds') }}</a>
                 </div>
               </div>
             </template>
@@ -63,6 +63,7 @@ import { useIdentityStore } from '@/stores/identity'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
+import { showNotification } from '@/utils/notification'
 
 import { openShoppingCart } from '@/components/common/shoppingCart/ShoppingCartModalConfig'
 import { NFT } from '@/components/rmrk/service/scheme'
@@ -80,6 +81,8 @@ const { $i18n } = useNuxtApp()
 const preferencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { cartIcon } = useShoppingCartIcon(props.nft.id)
+const { transak } = useExperiments()
+const { init: initTransak } = useTransak()
 
 const instance = getCurrentInstance()
 const { doAfterLogin } = useDoAfterlogin(instance)
@@ -103,6 +106,19 @@ const label = computed(() => {
     preferencesStore.getReplaceBuyNowWithYolo ? 'YOLO' : 'nft.action.buy'
   )
 })
+
+const addFunds = () => {
+  if (transak.value) {
+    initTransak({
+      address: accountId.value,
+      onSuccess: () => {
+        showNotification($i18n.t('general.successfullyAddedFunds'))
+      },
+    })
+  } else {
+    showRampSDK()
+  }
+}
 
 const showRampSDK = () => {
   new RampInstantSDK({
