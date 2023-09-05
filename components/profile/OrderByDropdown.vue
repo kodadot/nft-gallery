@@ -118,7 +118,7 @@ function calcDropdownPosition() {
   // calc the dropdown position based on the button postion
   // if the button is in the right side of the screen,
   // make the dropdown position to bottom-left
-  const ele = buttonRef.value?.$el as unknown as HTMLElement
+  const ele = buttonRef.value?.$el as HTMLElement
   dropdownPosition.value =
     ele.getBoundingClientRect().left < window.innerWidth / 2
       ? 'bottom-right'
