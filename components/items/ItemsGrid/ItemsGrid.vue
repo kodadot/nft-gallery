@@ -106,12 +106,6 @@ const { nfts, fetchSearch, refetch } = useFetchSearch({
   resetSearch: resetPage,
 })
 
-watch(nfts, () => {
-  listingCartStore.owned = nfts.value
-    .filter((nft) => +(nft?.price ?? 0) === 0)
-    .map((nft) => nftToShoppingCardItem(nft))
-})
-
 watch(total, () => {
   prefetchNextPage()
   emit('total', total.value)

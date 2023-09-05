@@ -118,6 +118,7 @@ import { calculateBalance } from '@/utils/format/balance'
 import { warningMessage } from '@/utils/notification'
 import { useFiatStore } from '@/stores/fiat'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
+import { sum } from '@/utils/math'
 const { isLogIn, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
@@ -141,9 +142,11 @@ const priceUSD = computed(() =>
 )
 
 const totalNFTsPrice = computed(() =>
-  listingCartStore.itemsInChain.reduce((acc, nft) => {
-    return Number((acc + Number(nft.listPrice || 0)).toFixed(4))
-  }, 0)
+  Number(
+    sum(
+      listingCartStore.itemsInChain.map((nft) => Number(nft.listPrice))
+    ).toFixed(4)
+  )
 )
 
 const confirmListingLabel = computed(() => {
@@ -160,7 +163,7 @@ const confirmListingLabel = computed(() => {
 })
 async function confirm() {
   const token = listingCartStore.itemsInChain
-    .filter((item) => item.listPrice)
+    .filter((item) => Boolean(item.listPrice))
     .map((item) => ({
       price: String(calculateBalance(item.listPrice ?? 0)),
       nftId: item.id,

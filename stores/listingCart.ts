@@ -18,7 +18,7 @@ type ID = string
 
 interface State {
   items: ListCartItem[]
-  unlistedOwned: ListCartItem[]
+  allUnlisted: ListCartItem[]
   chain: ComputedRef<Prefix>
   decimals: ComputedRef<number>
 }
@@ -27,7 +27,7 @@ const localStorage = useLocalStorage<ListCartItem[]>('listingCart', [])
 export const useListingCartStore = defineStore('listingCart', {
   state: (): State => ({
     items: localStorage.value,
-    unlistedOwned: [],
+    allUnlisted: [],
     chain: usePrefix().urlPrefix,
     decimals: useChain().decimals,
   }),
@@ -45,40 +45,41 @@ export const useListingCartStore = defineStore('listingCart', {
       return this.items.find((item) => item.id === id)
     },
     isItemInCart(id: ID) {
-      return this.existInItemIndex(id) !== -1
+      return existInItemIndex(id, this.items) !== -1
     },
-    existInItemIndex(id: string, items?: ListCartItem[]) {
-      return (items ?? this.items).findIndex((item) => item.id === id)
+    setItem(payload: ListCartItem) {
+      const itemIndex = existInItemIndex(payload.id, this.items)
+      if (itemIndex === -1) {
+        this.items.push(payload)
+        localStorage.value = this.items
+      }
     },
-    setItem(payload: ListCartItem, toUnlistedOwned = false) {
-      const items = toUnlistedOwned ? this.unlistedOwned : this.items
-      const existInItemIndex = this.existInItemIndex(payload.id, items)
-
-      if (existInItemIndex === -1) {
-        items.push(payload)
-        if (!toUnlistedOwned) {
-          localStorage.value = items
-        }
+    setUnlistedItem(payload: ListCartItem) {
+      const itemIndex = existInItemIndex(payload.id, this.allUnlisted)
+      if (itemIndex === -1) {
+        this.allUnlisted.push(payload)
       }
     },
     addAllToCart() {
-      this.unlistedOwned.forEach((item) => this.setItem(item))
+      this.allUnlisted.forEach((item) => this.setItem(item))
     },
     setFixedPrice(price: number | null) {
       this.itemsInChain.forEach((item) => {
         item.listPrice = price
       })
     },
-    setFloorPrice(adjust = 1) {
+    setFloorPrice(rate = 1) {
       this.itemsInChain.forEach((item) => {
-        const floor = (+item.collection.floor || 0) * +adjust.toFixed(2)
-        item.listPrice = +(floor / Math.pow(10, this.decimals)).toFixed(4)
+        const floor = (Number(item.collection.floor) || 0) * +rate.toFixed(2)
+        item.listPrice = Number(
+          (floor / Math.pow(10, this.decimals)).toFixed(4)
+        )
       })
     },
     removeItem(id: ID) {
-      const existInItemIndex = this.existInItemIndex(id)
-      if (existInItemIndex !== -1) {
-        this.items.splice(existInItemIndex, 1)
+      const itemIndex = existInItemIndex(id, this.items)
+      if (itemIndex !== -1) {
+        this.items.splice(itemIndex, 1)
         localStorage.value = this.items
       }
     },
@@ -89,3 +90,7 @@ export const useListingCartStore = defineStore('listingCart', {
     },
   },
 })
+
+function existInItemIndex(id: string, items: ListCartItem[]) {
+  return items.findIndex((item) => item.id === id)
+}
