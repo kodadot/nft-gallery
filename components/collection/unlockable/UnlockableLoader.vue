@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoIcon, NeoLoading } from '@kodadot1/brick'
+import { NeoButton, NeoLoading } from '@kodadot1/brick'
 
 const props = withDefaults(
   defineProps<{
