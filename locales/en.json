@@ -443,7 +443,8 @@
     "mass": "NFT mass minter",
     "command": "List of commands for mass mint",
     "transform": "Transform commands in NFT",
-    "deposit": "Current deposit",
+    "deposit": "Deposit",
+    "requiredDeposit": "A deposit of <strong>{0}</strong> is required to create a collection. Please note, this initial deposit is refundable.",
     "expert": {
       "show": "Show advanced settings",
       "hide": "Hide advanced settings",
@@ -459,12 +460,12 @@
     },
     "collection": {
       "name": {
-        "label": "Collection name",
+        "label": "Collection Name",
         "placeholder": "Enter collection name",
         "message": "Name of your collection. It will be visible in the gallery"
       },
       "description": {
-        "label": "Collection description",
+        "label": "Collection Description",
         "placeholder": "Enter collection description",
         "message": "Description of your collection. Markdown is supported"
       },
@@ -474,6 +475,7 @@
         "message": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM"
       },
       "logo": {
+        "image": "Logo Image",
         "label": "Collection logo",
         "message": "This image will also be used for navigation. Image with size 300 x 300 recommended "
       },
@@ -481,7 +483,7 @@
         "label": "Collection banner",
         "message": "Name of your collection. It will be visible in the gallery"
       },
-      "create": "Create collection",
+      "create": "Create New Collection",
       "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
     },
     "nft": {
@@ -532,6 +534,10 @@
         "viewNFTLater2": " will be visible in",
         "viewNFTLater3": "seconds."
       }
+    },
+    "blockchain": {
+      "label": "Blockchain",
+      "message": "Select the blockchain to which NFTs will be minted by default."
     }
   },
   "tooltip": {

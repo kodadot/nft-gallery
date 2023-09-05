@@ -69,7 +69,10 @@ const props = defineProps({
   required: { type: Boolean, default: false },
   expanded: { type: Boolean },
   preview: { type: Boolean },
-  accept: { type: String },
+  accept: {
+    type: String,
+    default: 'image/png, image/jpeg, image/gif, image/svg+xml, image/svg',
+  },
 })
 
 const emit = defineEmits(['input'])
