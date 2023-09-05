@@ -38,3 +38,21 @@ export const getAvailablePrefix = (prefix: string): string => {
     ? prefix
     : ''
 }
+
+export const availablePrefixWithIcon = () => {
+  const menus = {
+    ahk: '/token/kusama_asset_hub.svg',
+    ahp: '/token/polkadot_asset_hub.svg',
+    bsx: '/token/bsx.svg',
+    snek: '/token/bsx.svg',
+    ksm: '/token/ksm.svg',
+    rmrk: '/token/ksm.svg',
+  }
+
+  return availablePrefixes().map((chain) => {
+    return {
+      ...chain,
+      icon: menus[chain.value] || '',
+    }
+  })
+}

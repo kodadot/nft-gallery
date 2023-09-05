@@ -1,4 +1,4 @@
-import { balanceOf, identityOf } from '@kodadot1/sub-api'
+import { balanceOf } from '@kodadot1/sub-api'
 import { Registration } from '@polkadot/types/interfaces/identity/types'
 import { defineStore } from 'pinia'
 import consola from 'consola'
@@ -222,20 +222,6 @@ export const useIdentityStore = defineStore('identity', {
         }
       } catch (e) {
         consola.error('[FETCH BALANCE] Unable to get user balance', e)
-      }
-    },
-    async fetchIdentity(address: string) {
-      // useIdentity()
-      const { apiInstance } = useApi()
-      try {
-        const api = await apiInstance.value
-        const optionIdentity = await identityOf(api, address)
-        const identity = optionIdentity?.unwrapOr(null)
-        if (identity) {
-          this.identities[address] = identity
-        }
-      } catch (e) {
-        consola.error('[FETCH IDENTITY] Unable to get identity', e)
       }
     },
     setMultiBalances({ address, chains, chainName }) {
