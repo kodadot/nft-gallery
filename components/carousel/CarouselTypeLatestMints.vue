@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="title is-3">Recent NFT Mints</h3>
+    <h3 class="title is-3">{{ $t('drops.recentMints') }}</h3>
 
     <CarouselList v-if="showCarousel" :nfts="nfts" :step="3">
       <template #card-info="{ item }">
@@ -15,7 +15,7 @@
           <div class="is-flex is-flex-direction-column is-align-items-start">
             <div
               class="is-flex is-justify-content-space-between is-align-items-center">
-              <p class="is-size-7 chain-name">Minted By</p>
+              <p class="is-size-7 chain-name">{{ $t('drops.mintedBy') }}</p>
               <nuxt-link
                 :to="`/${urlPrefix}/u/${item.currentOwner}`"
                 class="has-text-link ml-2">
