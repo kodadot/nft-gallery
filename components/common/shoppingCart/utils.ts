@@ -21,7 +21,7 @@ const getTokenDecimal = (item: ShoppingCartItem) => {
   return chainPropListOf(token.toLowerCase()).tokenDecimals
 }
 
-export const totalPriceUsd = (items: ShoppingCartItem[] | ListCartItem[]) => {
+export const totalPriceUsd = (items: ShoppingCartItem[]) => {
   const fiatStore = useFiatStore()
 
   const nftSPrice = items.map((item) =>

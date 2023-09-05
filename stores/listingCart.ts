@@ -18,7 +18,7 @@ type ID = string
 
 interface State {
   items: ListCartItem[]
-  allUnlisted: ListCartItem[]
+  allUnlistedItems: ListCartItem[]
   chain: ComputedRef<Prefix>
   decimals: ComputedRef<number>
 }
@@ -27,7 +27,7 @@ const localStorage = useLocalStorage<ListCartItem[]>('listingCart', [])
 export const useListingCartStore = defineStore('listingCart', {
   state: (): State => ({
     items: localStorage.value,
-    allUnlisted: [],
+    allUnlistedItems: [],
     chain: usePrefix().urlPrefix,
     decimals: useChain().decimals,
   }),
@@ -55,13 +55,13 @@ export const useListingCartStore = defineStore('listingCart', {
       }
     },
     setUnlistedItem(payload: ListCartItem) {
-      const itemIndex = existInItemIndex(payload.id, this.allUnlisted)
+      const itemIndex = existInItemIndex(payload.id, this.allUnlistedItems)
       if (itemIndex === -1) {
-        this.allUnlisted.push(payload)
+        this.allUnlistedItems.push(payload)
       }
     },
     addAllToCart() {
-      this.allUnlisted.forEach((item) => this.setItem(item))
+      this.allUnlistedItems.forEach((item) => this.setItem(item))
     },
     setFixedPrice(price: number | null) {
       this.itemsInChain.forEach((item) => {
