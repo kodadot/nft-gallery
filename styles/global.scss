@@ -374,6 +374,12 @@ a.has-text-grey {
     background-color: theme('k-pink');
   }
 }
+
+.k-aqua-blue {
+  @include ktheme() {
+    background-color: theme('k-aqua-blue');
+  }
+}
 .k-greenaccent {
   @include ktheme() {
     background-color: theme('k-greenaccent');
@@ -453,4 +459,18 @@ a.has-text-grey {
 
 .text-align-center {
   text-align: center;
+}
+
+// Transak
+
+.transak_modal-overlay {
+  z-index: 999 !important;
+}
+
+.transak_modal {
+  z-index: 1000 !important;
+}
+
+#transakOnOffRampWidget {
+  height: 100% !important;
 }

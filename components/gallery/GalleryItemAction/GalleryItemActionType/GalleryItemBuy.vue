@@ -26,7 +26,7 @@
 
                   {{ $t('or') }}
 
-                  <a @click="showRampSDK"> {{ $t('addFunds') }}</a>
+                  <a @click="addFunds"> {{ $t('addFunds') }}</a>
                 </div>
               </div>
             </template>
@@ -62,7 +62,7 @@ import { openConnectWalletModal } from '@/components/common/ConnectWallet/useCon
 import { useIdentityStore } from '@/stores/identity'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'
-import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
+import { showNotification } from '@/utils/notification'
 
 import { openShoppingCart } from '@/components/common/shoppingCart/ShoppingCartModalConfig'
 import { NFT } from '@/components/rmrk/service/scheme'
@@ -80,6 +80,7 @@ const { $i18n } = useNuxtApp()
 const preferencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { cartIcon } = useShoppingCartIcon(props.nft.id)
+const { init: initTransak } = useTransak()
 
 const instance = getCurrentInstance()
 const { doAfterLogin } = useDoAfterlogin(instance)
@@ -104,15 +105,13 @@ const label = computed(() => {
   )
 })
 
-const showRampSDK = () => {
-  new RampInstantSDK({
-    defaultAsset: 'KSM',
-    userAddress: accountId.value,
-    hostAppName: 'KodaDot',
-    hostApiKey: 'a99bfvomhhbvzy6thaycxbawz7d3pssuz2a8hsrc', // env
-    hostLogoUrl: 'https://kodadot.xyz/apple-touch-icon.png',
-    variant: 'desktop',
-  }).show()
+const addFunds = () => {
+  initTransak({
+    address: accountId.value,
+    onSuccess: () => {
+      showNotification($i18n.t('general.successfullyAddedFunds'))
+    },
+  })
 }
 
 const balance = computed<string>(() => {
