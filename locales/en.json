@@ -1258,7 +1258,9 @@
     "title": "Drops",
     "upcoming": "Upcoming",
     "noUpcoming": "Nothing  here yet...",
-    "mintingLive": "Minting Live"
+    "mintingLive": "Minting Live",
+    "mintedBy": "Minted By",
+    "recentMints": "Recent NFT Mints"
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
