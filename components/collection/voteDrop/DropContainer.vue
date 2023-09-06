@@ -27,7 +27,7 @@
               ><span
                 v-if="mintCountAvailable"
                 class="is-flex is-align-items-center">
-                <img src="/unlockable-pulse.svg" alt="open" />
+                <img src="/drop/unlockable-pulse.svg" alt="open" />
                 {{ $t('mint.unlockable.open') }}</span
               >
             </div>
