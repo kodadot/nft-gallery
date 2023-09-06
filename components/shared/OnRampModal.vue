@@ -16,38 +16,38 @@
           class="cross"
           @click.native="onClose" />
       </div>
-      <div class="px-6 py-3">
-        <div
-          v-for="(provider, index) in providers"
-          :key="provider.value"
-          class="provider is-flex is-justify-content-center py-4 is-align-items-start is-flex-direction-column"
-          @click="onSelect(provider.value)">
-          <div class="is-flex is-justify-content-center">
-            <img
-              :src="provider.image"
-              class="provider-logo"
-              :class="{
-                'provider-logo__disabled': provider.disabled,
-              }" />
-            <p v-if="provider.disabled" class="ml-2 small-text has-text-grey">
-              {{ $t('soon') }}
-            </p>
-          </div>
-
+      <div class="px-6 py-2">
+        <div v-for="(provider, index) in providers" :key="provider.value">
           <div
-            class="mt-4 is-flex is-align-items-center is-justify-content-space-between w-full">
-            <div class="small-text has-text-grey">
-              {{ $t('general.supports') }}
+            class="provider is-flex is-justify-content-center is-align-items-start is-flex-direction-column my-4"
+            @click="onSelect(provider.value)">
+            <div class="is-flex is-justify-content-center">
+              <img
+                :src="provider.image"
+                class="provider-logo"
+                :class="{
+                  'provider-logo__disabled': provider.disabled,
+                }" />
+              <p v-if="provider.disabled" class="ml-2 small-text has-text-grey">
+                {{ $t('soon') }}
+              </p>
             </div>
 
-            <div class="small-text has-text-grey">
-              {{ getSupportedTokensToText(provider.supports) }}
+            <div
+              class="mt-4 is-flex is-align-items-center is-justify-content-space-between w-full">
+              <div class="small-text has-text-grey">
+                {{ $t('general.supports') }}
+              </div>
+
+              <div class="small-text has-text-grey">
+                {{ getSupportedTokensToText(provider.supports) }}
+              </div>
             </div>
           </div>
 
           <hr
             v-if="index !== providers.length - 1"
-            class="devider my-0 has-text-grey w-full mt-4" />
+            class="devider my-0 has-text-grey w-full" />
         </div>
       </div>
     </div>
