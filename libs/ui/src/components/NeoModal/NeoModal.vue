@@ -72,6 +72,6 @@ const updateClose = () => {
 @import './NeoModal.scss';
 
 .top {
-  z-index: 1000;
+  z-index: 1000 !important;
 }
 </style>

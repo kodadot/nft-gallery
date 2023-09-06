@@ -3,7 +3,6 @@
     v-model="isModalActive"
     :can-cancel="['outside', 'escape']"
     scroll="clip"
-    class="top"
     @close="onClose">
     <div class="modal-width">
       <header
