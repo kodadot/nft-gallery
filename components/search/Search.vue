@@ -1,5 +1,4 @@
-<template></template>
-<!-- <template>
+<template>
   <div>
     <div v-if="!isVisible && !hideSearchInput" class="row">
       <div v-if="priceRangeDirty && !hideFilter" class="is-size-7">
@@ -33,6 +32,7 @@ import { SearchQuery } from './types'
 import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
 import { NeoField } from '@kodadot1/brick'
 import PriceRange from '@/components/shared/format/PriceRange.vue'
+import SearchBar from '@/components/search/SearchBar.vue'
 import { useCollectionSearch } from '@/components/search/utils/useCollectionSearch'
 
 const searchPageRoutePathList = ['collectibles', 'items']
@@ -271,4 +271,4 @@ onMounted(() => {
   existArray(route.query.sort as string[], updateSortBy)
   exist(route.query.listed, updateListed)
 })
-</script> -->
+</script>
