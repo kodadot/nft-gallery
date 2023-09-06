@@ -26,38 +26,8 @@
               }}</span
               ><span
                 v-if="mintCountAvailable"
-                class="is-flex is-align-items-center"
-                ><svg
-                  width="42"
-                  height="43"
-                  viewBox="0 0 42 43"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="21" cy="21.2302" r="6" fill="#FF7AC3" />
-                  <g filter="url(#filter0_f_394_6126)">
-                    <circle cx="21" cy="21.7302" r="6" fill="#FF7AC3" />
-                  </g>
-                  <defs>
-                    <filter
-                      id="filter0_f_394_6126"
-                      x="0"
-                      y="0.730164"
-                      width="42"
-                      height="42"
-                      filterUnits="userSpaceOnUse"
-                      color-interpolation-filters="sRGB">
-                      <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                      <feBlend
-                        mode="normal"
-                        in="SourceGraphic"
-                        in2="BackgroundImageFix"
-                        result="shape" />
-                      <feGaussianBlur
-                        stdDeviation="7.5"
-                        result="effect1_foregroundBlur_394_6126" />
-                    </filter>
-                  </defs>
-                </svg>
+                class="is-flex is-align-items-center">
+                <img src="/unlockable-pulse.svg" />
                 {{ $t('mint.unlockable.open') }}</span
               >
             </div>
@@ -288,6 +258,13 @@ const userMintedId = computed(
 )
 
 const mintCountAvailable = computed(() => mintedCount.value < totalCount)
+
+watch(accountId, (id) => {
+  justMinted.value = ''
+  refetch({
+    account: id,
+  })
+})
 
 const mintButtonDisabled = computed(
   () =>
