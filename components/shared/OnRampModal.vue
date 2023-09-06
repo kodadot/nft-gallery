@@ -3,7 +3,7 @@
     <div class="modal-width">
       <div
         class="border-bottom border-grey is-flex is-align-items-center is-justify-content-space-between px-6">
-        <p class="py-5 is-size-5 has-text-weight-bold">
+        <p class="py-5 is-size-6 has-text-weight-bold">
           {{ $t('general.chooseProvider') }}
         </p>
 
@@ -16,9 +16,9 @@
           class="cross"
           @click.native="onClose" />
       </div>
-      <div class="px-6 py-2">
+      <div class="px-6 py-3">
         <div
-          v-for="provider in providers"
+          v-for="(provider, index) in providers"
           :key="provider.value"
           class="provider is-flex is-justify-content-center py-4 is-align-items-start is-flex-direction-column"
           @click="onSelect(provider.value)">
@@ -45,7 +45,9 @@
             </div>
           </div>
 
-          <hr class="devider my-0 has-text-grey w-full mt-4" />
+          <hr
+            v-if="index !== providers.length - 1"
+            class="devider my-0 has-text-grey w-full mt-4" />
         </div>
       </div>
     </div>
@@ -100,13 +102,12 @@ const providers = computed(() => [
   {
     image: getImage('paybis'),
     disabled: true,
-    supports: ['DOT', 'KSM'],
+    supports: ['DOT'],
     value: Provider.PAYBIS,
   },
 ])
 
 const onClose = () => {
-  console.log('closing')
   emit('close')
 }
 
