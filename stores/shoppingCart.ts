@@ -27,7 +27,8 @@ export const useShoppingCartStore = defineStore('shoppingCart', {
     setItem(payload: ShoppingCartItem) {
       const itemIndex = existInItemIndex(payload.id, this.items)
       if (itemIndex === -1) {
-        localStorage.value = [...localStorage.value, payload]
+        this.items.push(payload)
+        localStorage.value = this.items
       }
     },
     setItemToBuy(payload: ShoppingCartItem) {
@@ -41,12 +42,11 @@ export const useShoppingCartStore = defineStore('shoppingCart', {
       if (itemIndex === -1) {
         return
       } else {
-        const items = [...localStorage.value]
-        items[itemIndex] = {
+        this.items[itemIndex] = {
           ...this.items[itemIndex],
           ...payload,
         }
-        localStorage.value = items
+        localStorage.value = this.items
       }
     },
     removeItem(id: ID) {
@@ -54,9 +54,8 @@ export const useShoppingCartStore = defineStore('shoppingCart', {
       if (itemIndex === -1) {
         return
       } else {
-        const items = [...localStorage.value]
-        items.splice(itemIndex, 1)
-        localStorage.value = items
+        this.items.splice(itemIndex, 1)
+        localStorage.value = this.items
       }
     },
     clear() {
@@ -65,7 +64,8 @@ export const useShoppingCartStore = defineStore('shoppingCart', {
       this.items = []
     },
     setItems(payload: ShoppingCartItem[]) {
-      localStorage.value = payload
+      this.items = payload
+      localStorage.value = this.items
     },
   },
 })
