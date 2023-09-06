@@ -29,10 +29,6 @@ export const useShoppingCartStore = defineStore('shoppingCart', {
       )
       if (existinItemIndex === -1) {
         localStorage.value = [...localStorage.value, payload]
-      } else {
-        const items = [...localStorage.value]
-        items[existinItemIndex] = payload
-        localStorage.value = items
       }
     },
     setItemToBuy(payload: ShoppingCartItem) {
