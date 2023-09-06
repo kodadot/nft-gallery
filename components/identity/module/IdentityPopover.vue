@@ -7,25 +7,22 @@
     placement="bottom"
     :delay="0"
     data-cy="identity">
-    <template #trigger>
-      <slot name="trigger" />
+    <slot name="content" />
+
+    <template #content>
+      <div class="popover-content-container p-5">
+        <IdentityPopoverHeader />
+        <IdentityPopoverFooter :sold-items="nftEntities" />
+      </div>
     </template>
-    <div class="popover-content-container p-5">
-      <IdentityPopoverHeader />
-      <IdentityPopoverFooter :sold-items="nftEntities" />
-    </div>
   </tippy>
 </template>
 
 <script lang="ts" setup>
 import { useIdentitySoldData } from '../utils/useIdentity'
 
-const IdentityPopoverHeader = defineAsyncComponent(
-  () => import('./IdentityPopoverHeader.vue')
-)
-const IdentityPopoverFooter = defineAsyncComponent(
-  () => import('./IdentityPopoverFooter.vue')
-)
+import IdentityPopoverHeader from './IdentityPopoverHeader.vue'
+import IdentityPopoverFooter from './IdentityPopoverFooter.vue'
 
 const address = inject('address')
 
@@ -45,6 +42,7 @@ const { nftEntities } = useIdentitySoldData({
   width: 300px;
 
   @include ktheme() {
+    background: theme('background-color');
     box-shadow: theme('primary-shadow');
     border: 1px solid theme('border-color');
   }

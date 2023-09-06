@@ -5,12 +5,13 @@
     :animate-fill="false"
     :placement="placement"
     :delay="delay">
-    <template #trigger>
-      <slot name="trigger" />
+    <slot name="content" />
+
+    <template #content>
+      <div class="popover-content-container p-4">
+        <slot />
+      </div>
     </template>
-    <div class="popover-content-container p-4">
-      <slot name="content" />
-    </div>
   </tippy>
 </template>
 

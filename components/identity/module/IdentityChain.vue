@@ -16,7 +16,7 @@
     </span>
     <template v-else-if="!hideIdentityPopover && !isMobileDevice">
       <IdentityPopover v-if="address">
-        <template #trigger>
+        <template #content>
           <span>{{ name }}</span>
         </template>
       </IdentityPopover>
@@ -30,13 +30,10 @@
 <script lang="ts" setup>
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { isMobileDevice } from '@/utils/extension'
+import IdentityPopover from './IdentityPopover.vue'
 
 type IdentityFields = Record<string, string>
 type Address = string | GenericAccountId | undefined
-
-const IdentityPopover = defineAsyncComponent(
-  () => import('./IdentityPopover.vue')
-)
 
 defineProps<{
   showOnchainIdentity?: boolean
