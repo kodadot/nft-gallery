@@ -27,7 +27,7 @@
               ><span
                 v-if="mintCountAvailable"
                 class="is-flex is-align-items-center">
-                <img src="/unlockable-pulse.svg" />
+                <img src="/unlockable-pulse.svg" alt="open" />
                 Open</span
               >
             </div>
