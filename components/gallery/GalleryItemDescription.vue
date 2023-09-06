@@ -16,7 +16,10 @@
         </nuxt-link>
       </div>
 
-      <Markdown :source="descSource" class="gallery-item-desc-markdown" />
+      <Markdown
+        v-if="nft"
+        :source="descSource"
+        class="gallery-item-desc-markdown" />
     </NeoTabItem>
 
     <!-- properties tab -->
@@ -275,7 +278,7 @@ watchEffect(async () => {
     })
 
     metadataMimeType.value =
-      response.headers.get('content-type') || 'application/json'
+      response?.headers.get('content-type') || 'application/json'
     metadataURL.value = sanitizeMetadata
   }
 

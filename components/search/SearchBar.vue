@@ -1,4 +1,5 @@
-<template>
+<template></template>
+<!-- <template>
   <div class="search-bar-container">
     <NeoAutocomplete
       ref="searchRef"
@@ -152,4 +153,4 @@ watch(
   },
   { immediate: true }
 )
-</script>
+</script> -->

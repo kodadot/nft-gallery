@@ -16,8 +16,8 @@ import EventTypeFilter from '@/components/shared/filters/modules/EventTypeFilter
 import PriceFilter from '@/components/shared/filters/modules/PriceFilter.vue'
 import PopularCollections from '@/components/shared/filters/modules/PopularCollections.vue'
 import { usePreferencesStore } from '@/stores/preferences'
-const route = useRoute()
 
+const route = useRoute()
 const preferencesStore = usePreferencesStore()
 const open = computed(() => preferencesStore.getsidebarFilterCollapse)
 const isCollectionActivityTab = computed(

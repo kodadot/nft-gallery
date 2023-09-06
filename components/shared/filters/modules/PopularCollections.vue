@@ -21,7 +21,6 @@
         class="mb-2">
         <NeoCheckbox
           :value="checkedCollections.includes(collection.id)"
-          class="mr-0 w-100"
           label-class="is-flex-grow-1"
           @input="toggleCollection(collection)">
           <div

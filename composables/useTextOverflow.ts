@@ -1,5 +1,6 @@
+import { nextTick } from 'vue'
+
 export function useTextOverflow() {
-  const { $nextTick } = useNuxtApp()
   const isTextCut = ref<boolean>(false)
 
   const assignRef = (el: Element | null) => {
@@ -9,7 +10,7 @@ export function useTextOverflow() {
   }
 
   const updateIsTextCutShort = (el: HTMLElement) => {
-    $nextTick(() => {
+    nextTick(() => {
       if (el && el.scrollWidth && el.clientWidth) {
         isTextCut.value = el.scrollWidth > el.clientWidth
       }
