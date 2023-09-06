@@ -59,9 +59,9 @@ import { NeoButton, NeoModal } from '@kodadot1/brick'
 import { showNotification } from '@/utils/notification'
 
 enum Provider {
-  TRANSAK = 'transak',
-  PAYBIS = 'paybis',
-  RAMP = 'ramp',
+  TRANSAK,
+  PAYBIS,
+  RAMP,
 }
 
 const emit = defineEmits(['close'])
