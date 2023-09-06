@@ -20,7 +20,7 @@
       </header>
       <div class="px-6 pt-4">
         <div
-          class="rounded border shade-border-color is-flex is-justify-content-start is-flex-grow-1 pl-3">
+          class="rounded border border-k-shade is-flex is-justify-content-start is-flex-grow-1 pl-3">
           <IdentityItem
             v-if="isLogIn"
             :label="$t('confirmPurchase.connectedWith')"
@@ -68,7 +68,7 @@
           variant="k-accent"
           no-shadow
           :disabled="disabled"
-          class="is-flex is-flex-grow-1 btn-height"
+          class="is-flex is-flex-grow-1 py-5"
           @click.native="confirm" />
       </div>
     </div>
@@ -151,24 +151,12 @@ const confirm = () => {
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
 
-.top {
-  z-index: 1000;
-}
-.shade-border-color {
-  @include ktheme() {
-    border-color: theme('k-shade');
-  }
-}
-
 .rounded {
   border-radius: 10rem;
 }
 
 .modal-width {
   width: 25rem;
-}
-.btn-height {
-  height: 3.5rem;
 }
 
 :deep .identity-name-font-weight-regular {
