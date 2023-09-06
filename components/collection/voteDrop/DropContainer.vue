@@ -110,7 +110,7 @@
             target="_blank"
             variant="secondary"
             class="mt-2">
-            Learn More
+            {{ $t('helper.learnMore') }}
           </NeoButton>
         </div>
         <div class="column">
