@@ -24,6 +24,7 @@ import {
   openShoppingCart,
 } from '@/components/common/shoppingCart/ShoppingCartModalConfig'
 import ActiveCount from '../explore/ActiveCount.vue'
+import { ModalCloseType } from './types'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 const { urlPrefix } = usePrefix()
 
@@ -50,7 +51,14 @@ function toggleShoppingCartModal() {
 
   // can use the function in ShoppingCartModalConfig
   if (!isShoppingCartOpen()) {
-    openShoppingCart(isMobileWithoutTablet.value ? { animation: 'none' } : {})
+    openShoppingCart(instance, {
+      onClose: (type: ModalCloseType) => {
+        if (isMobile.value && type === ModalCloseType.BACK) {
+          emit('closeBurgerMenu')
+        }
+      },
+      ...(isMobileWithoutTablet.value ? { animation: 'none' } : {}),
+    })
   }
 }
 </script>

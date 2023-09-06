@@ -189,8 +189,6 @@ function foo() {
 ### for loops
 
 Try to use more functional approaches since loop is really hard to maintain.
-Beside if you really need using `for` loop, you should using `for-of` loop
-since by doing so we can avoid off-by-one errors
 
 ❗ bad
 ```js
@@ -202,13 +200,8 @@ for (let x = 0; x < 10; x++) {
 
 ✅ good
 ```js
-// Best
+// Best es6 forEach loop
 list.forEach(element => ...)
-
-// Good
-for (const element of array) {
-  // your statement
-}
 ```
 
 ### images

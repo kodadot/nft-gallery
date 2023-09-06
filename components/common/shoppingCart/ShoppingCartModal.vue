@@ -4,7 +4,7 @@
       class="shopping-cart-modal-container theme-background-color border-left is-flex is-flex-direction-column">
       <NeoModalHead
         :title="$t('shoppingCart.title')"
-        @close="closeShoppingCart" />
+        @close="closeShoppingCart(ModalCloseType.BACK)" />
       <div
         v-if="numberOfItems"
         class="mx-6 py-4 border-bottom border-k-shade is-flex is-justify-content-space-between is-align-items-center">
@@ -92,6 +92,7 @@ import { useShoppingCartStore } from '@/stores/shoppingCart'
 import ShoppingCartItemRow from './ShoppingCartItemRow.vue'
 import { sum } from '@/utils/math'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
+import { ModalCloseType } from '@/components/navbar/types'
 
 import { totalPriceUsd } from './utils'
 
@@ -137,8 +138,10 @@ watch(isOpen, (newValue, oldValue) => {
   }
 })
 
-const closeShoppingCart = () => {
-  emit('close')
+const closeShoppingCart = (
+  type: ModalCloseType = ModalCloseType.NAVIGATION
+) => {
+  emit('close', type)
   isOpen.value = false
   document.body.classList.remove('is-clipped')
 }

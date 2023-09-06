@@ -8,7 +8,8 @@
           class="keen-slider__slide carousel-item">
           <div class="h-full is-flex is-flex-direction-column">
             <CarouselMedia :item="item" :index="index" :length="nfts.length" />
-            <CarouselInfo :item="item" />
+            <CarouselInfo v-if="!slots['card-info']" :item="item" />
+            <slot name="card-info" :item="item" />
           </div>
         </div>
       </div>
@@ -37,6 +38,7 @@ import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/vue.es'
 import { wheelControls } from '../utils/useCarousel'
 
+const slots = useSlots()
 const props = defineProps<{
   nfts: CarouselNFT[]
   step: number

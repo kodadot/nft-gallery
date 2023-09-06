@@ -202,6 +202,7 @@ import ProfileDropdown from '@/components/navbar/ProfileDropdown.vue'
 import Search from '@/components/search/Search.vue'
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
 import { useEventListener } from '@vueuse/core'
+import { ModalCloseType } from '@/components/navbar/types'
 
 import { useIdentityStore } from '@/stores/identity'
 import { getChainNameByPrefix } from '@/utils/chain'
@@ -247,10 +248,8 @@ const handleMobileChainSelect = () => {
 const openWalletConnectModal = (): void => {
   showMobileNavbar()
 
-  console.log('openWalletConnectModal')
   neoModal.closeAll()
-
-  const modalInstance = neoModal.open({
+  neoModal.open({
     ...ConnectWalletModalConfig,
     ...(isMobileWithoutTablet.value ? { animation: 'none' } : {}),
   })
@@ -325,12 +324,6 @@ const chainName = computed(() => getChainNameByPrefix(urlPrefix.value))
 
 const updateAuthBalance = () => {
   account.value && identityStore.fetchBalance({ address: account.value })
-}
-
-const hideTopNavbar = () => {
-  if (isMobileWithoutTablet.value) {
-    showTopNavbar.value = true
-  }
 }
 
 onMounted(() => {

@@ -126,17 +126,26 @@ onMounted(async () => {
   tokenPrice.value = await getApproximatePriceOf(chainSymbol.value)
 })
 
-const interaction =
-  urlPrefix.value === 'ksm'
-    ? dprops.interactions.filter((i) => i !== 'MINTNFT' && i !== 'CONSUME')
-    : dprops.interactions
+const interaction = computed(() =>
+  dprops.interactions.map((key) => {
+    if (['ksm', 'ahk', 'ahp'].includes(urlPrefix.value)) {
+      switch (key) {
+        case 'MINTNFT':
+          return 'MINT'
+        case 'CONSUME':
+          return 'BURN'
+      }
+    }
+    return key
+  })
+)
 
 const { data, loading, refetch } = useGraphql({
   queryName: 'itemEvents',
   clientName: urlPrefix.value,
   variables: {
     id: dprops.nftId,
-    interaction,
+    interaction: interaction.value,
     limit: 100,
   },
 })
@@ -144,7 +153,7 @@ const { data, loading, refetch } = useGraphql({
 useSubscriptionGraphql({
   query: `
   events (
-    where: { nft: { id_eq: "${dprops.nftId}" }, interaction_in: [${interaction}] }
+    where: { nft: { id_eq: "${dprops.nftId}" }, interaction_in: [${interaction.value}] }
     orderBy: timestamp_DESC
     limit: 5
   ) {
