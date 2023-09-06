@@ -165,13 +165,11 @@ const toggleInputFocused = (): void => {
   }
 
   .input-sidebar {
-    input {
+    border: none !important;
+    height: 2.5rem;
+    &:focus {
       border: none !important;
-      height: 2.5rem;
-      &:focus {
-        border: none !important;
-        box-shadow: none !important;
-      }
+      box-shadow: none !important;
     }
   }
 }
