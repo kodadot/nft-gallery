@@ -99,7 +99,7 @@ const items = computed(() => {
   if (mode.value === 'shopping-cart') {
     return shoppingCartStore.getItemsByPrefix(urlPrefix.value)
   }
-  return shoppingCartStore.getItemToBuy ? [shoppingCartStore.getItemToBuy] : []
+  return shoppingCartStore.itemToBuy ? [shoppingCartStore.itemToBuy] : []
 })
 
 const isModalActive = computed(

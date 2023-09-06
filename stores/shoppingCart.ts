@@ -16,17 +16,13 @@ export const useShoppingCartStore = defineStore('shoppingCart', {
     items: items(),
     itemToBuy: undefined,
   }),
-  getters: {
-    getItems: () => items(),
-    getItemsByPrefix: () => (prefix: string) =>
-      items().filter((item) => item.urlPrefix === prefix),
-    getItem: () => (id: ID) => items().find((item) => item.id === id),
-    isItemInCart: () => (id: ID) =>
-      items().find((item) => item.id === id) !== undefined,
-    getItemToBuy: ({ itemToBuy }) => itemToBuy,
-  },
-
   actions: {
+    getItemsByPrefix(prefix: string) {
+      return items().filter((item) => item.urlPrefix === prefix)
+    },
+    isItemInCart(id: ID) {
+      return items().find((item) => item.id === id) !== undefined
+    },
     setItem(payload: ShoppingCartItem) {
       const existinItemIndex = items().findIndex(
         (item) => item.id === payload.id

@@ -81,7 +81,7 @@ const { stats } = useCollectionDetails({
 })
 
 const showActionSection = computed(() => {
-  return !isLogIn.value && shoppingCartStore.getItemToBuy?.id === props.nft.id
+  return !isLogIn.value && shoppingCartStore.itemToBuy?.id === props.nft.id
 })
 
 const buyLabel = computed(function () {

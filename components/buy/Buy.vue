@@ -63,7 +63,7 @@ const onConfirm = () => {
   } else {
     handleBuy(
       ShoppingCartItemToTokenToBuy(
-        shoppingCartStore.getItemToBuy as ShoppingCartItem
+        shoppingCartStore.itemToBuy as ShoppingCartItem
       )
     )
     shoppingCartStore.removeItemToBuy()
