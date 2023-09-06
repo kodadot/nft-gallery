@@ -106,7 +106,7 @@ const useChainEvents = (chain, type) => {
   }
 }
 
-const flattenNFT = (data, chain) => {
+export const flattenNFT = (data, chain) => {
   if (!data?.length) {
     return []
   }

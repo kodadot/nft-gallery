@@ -128,6 +128,12 @@
           <img src="/unlockable-introduce.svg" alt="Unlockable" />
         </div>
       </div>
+
+      <div class="my-4">
+        <CarouselTypeLatestMints
+          :collection-id="collectionId"
+          interaction="SEND" />
+      </div>
     </div>
   </div>
 </template>
@@ -151,6 +157,7 @@ import { endOfHour, startOfHour } from 'date-fns'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { NeoButton } from '@kodadot1/brick'
 import { useCountDown } from './utils/useCountDown'
+import CarouselTypeLatestMints from '@/components/carousel/CarouselTypeLatestMints.vue'
 
 const Loader = defineAsyncComponent(
   () => import('@/components/collection/unlockable/UnlockableLoader.vue')

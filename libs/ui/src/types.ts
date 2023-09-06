@@ -6,6 +6,7 @@ export type NeoButtonVariant =
   | 'danger'
   | 'k-accent'
   | 'k-blue'
+  | 'k-pink'
   | 'connect'
   | 'connect-dropdown'
   | 'icon'

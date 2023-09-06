@@ -27,6 +27,11 @@ module.exports = {
         selector: 'IfStatement > :not(BlockStatement).consequent',
         message: 'Use blockstatement after if, please check STYLE_GUIDE.md',
       },
+      {
+        selector: 'ForStatement',
+        message:
+          'Use `forEach` or `for-of` for loop, please check STYLE_GUIDE.md',
+      },
     ],
     'no-useless-catch': 1,
     'no-var': 'error',

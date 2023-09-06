@@ -49,7 +49,6 @@ import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'
 import isEqual from 'lodash/isEqual'
 
-const route = useRoute()
 const props = defineProps<{
   search?: Record<string, string | number>
 }>()
@@ -61,10 +60,10 @@ const gotoPage = (page: number) => {
   currentPage.value = page
   startPage.value = page
   endPage.value = page
-  nfts.value = []
   isFetchingData.value = false
   isLoading.value = true
 
+  clearFetchResults()
   fetchSearch({ page, search: parseSearch(props.search) })
 }
 const fetchPageData = async (page: number, loadDirection) => {
@@ -96,7 +95,7 @@ const resetPage = useDebounceFn(() => {
   gotoPage(1)
 }, 500)
 
-const { nfts, fetchSearch, refetch } = useFetchSearch({
+const { nfts, fetchSearch, refetch, clearFetchResults } = useFetchSearch({
   first,
   total,
   isFetchingData,
@@ -130,13 +129,6 @@ watch(
     }
   },
   { deep: true }
-)
-
-watch(
-  () => route.query.sort,
-  () => {
-    refetch(parseSearch(props.search))
-  }
 )
 
 onBeforeMount(async () => {
