@@ -2,9 +2,10 @@
   <NeoModal
     v-model="isModalActive"
     :can-cancel="canCancel"
-    mobile-breakpoint="400px"
+    :no-shadow="isMobile"
+    :content-class="[isMobile ? 'mobile-modal' : '']"
     @close="emit('close')">
-    <div class="transaction-loader-container">
+    <div :class="{ 'desktop-width': !isMobile }">
       <div v-if="isFinalStep" class="is-flex py-5 px-6 is-align-items-center">
         <div class="is-flex-grow-1 text-align-center">{{ $t('success') }}</div>
         <NeoButton
@@ -97,9 +98,11 @@ const props = withDefaults(
     totalUsdValue: number
     transactionId: string
     canCancel?: boolean
+    isMobile?: boolean
   }>(),
   {
     canCancel: true,
+    isMobile: false,
   }
 )
 const emit = defineEmits(['close'])
@@ -163,7 +166,17 @@ const checkIconForStep = (step: number) =>
 </script>
 
 <style scoped lang="scss">
-.transaction-loader-container {
+.desktop-width {
   width: 27rem;
+}
+:deep .mobile-modal {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 0.75rem 0.75rem 0 0;
+  border-right: 0 !important;
+  border-left: 0 !important;
+  border-bottom: 0 !important;
 }
 </style>
