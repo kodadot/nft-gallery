@@ -15,7 +15,7 @@ const getKsmAddress = (address: string) => {
 export default function useTransak() {
   const config = useRuntimeConfig()
 
-  const init = ({ address, onSuccess, onClose }: InitParams) => {
+  const init = ({ address, onSuccess }: InitParams) => {
     const transak = new transakSDK({
       apiKey: config.public.transakApiKey,
       environment: config.public.transakEnvironment,

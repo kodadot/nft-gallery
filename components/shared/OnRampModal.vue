@@ -60,8 +60,8 @@ import { showNotification } from '@/utils/notification'
 
 enum Provider {
   TRANSAK = 'transak',
-  PAYBIS = 'PAYBIS',
-  RAMP = 'RAMP',
+  PAYBIS = 'paybis',
+  RAMP = 'ramp',
 }
 
 const emit = defineEmits(['close'])
@@ -139,7 +139,7 @@ const transakInit = () => {
 @import '@/styles/abstracts/variables';
 
 .small-text {
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 .provider-logo {
