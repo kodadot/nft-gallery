@@ -30,7 +30,9 @@
           data-cy="item-add-to-cart"
           no-shadow
           class="fixed-width p-1 no-border-left btn-height override-wrapper-width"
-          @click.native.prevent="onClickShoppingCart">
+          @click.native.prevent="
+            shoppingCartStore.toggleItemInCart(nftToShoppingCardItem(nft))
+          ">
           <img :src="cartIcon" class="image is-16x16" />
         </NeoButton>
       </div>
@@ -136,13 +138,6 @@ if (!Number(props.nft?.price) && isOwner.value) {
       String(stats.value.collectionFloorPrice ?? '')
     )
   )
-}
-const onClickShoppingCart = () => {
-  if (shoppingCartStore.isItemInCart(props.nft.id)) {
-    shoppingCartStore.removeItem(props.nft.id)
-  } else {
-    shoppingCartStore.setItem(nftToShoppingCardItem(props.nft))
-  }
 }
 
 const onClickListingCart = () => {

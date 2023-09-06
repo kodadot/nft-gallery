@@ -59,9 +59,12 @@ export const useShoppingCartStore = defineStore('shoppingCart', {
       this.itemToBuy = undefined
       this.items = []
     },
-    setItems(payload: ShoppingCartItem[]) {
-      this.items = payload
-      localStorage.value = this.items
+    toggleItemInCart(nft: ShoppingCartItem) {
+      if (this.isItemInCart(nft.id)) {
+        this.removeItem(nft.id)
+      } else {
+        this.setItem(nft)
+      }
     },
   },
 })

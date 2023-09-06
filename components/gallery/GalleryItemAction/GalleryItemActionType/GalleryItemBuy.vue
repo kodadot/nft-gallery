@@ -44,7 +44,9 @@
         <NeoButton
           class="button-height no-border-left"
           data-cy="item-add-to-cart"
-          @click.native="onClickShoppingCart">
+          @click.native="
+            shoppingCartStore.toggleItemInCart(nftToShoppingCardItem(nft))
+          ">
           <img :src="cartIcon" class="image is-32x32" />
         </NeoButton>
       </div>
@@ -153,14 +155,6 @@ function onClick() {
     openShoppingCart(instance)
   } else {
     doAfterLogin({ onLoginSuccess: openCompletePurcahseModal })
-  }
-}
-
-const onClickShoppingCart = () => {
-  if (shoppingCartStore.isItemInCart(props.nft.id)) {
-    shoppingCartStore.removeItem(props.nft.id)
-  } else {
-    shoppingCartStore.setItem(nftToShoppingCardItem(props.nft))
   }
 }
 </script>
