@@ -23,6 +23,7 @@
             @click="onSelect(provider.value)">
             <div class="is-flex is-justify-content-center">
               <img
+                :alt="`${provider.value} provider logo`"
                 :src="provider.image"
                 class="provider-logo"
                 :class="{
