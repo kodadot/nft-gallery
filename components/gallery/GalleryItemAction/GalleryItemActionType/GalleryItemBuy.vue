@@ -45,7 +45,7 @@
           class="button-height no-border-left"
           data-cy="item-add-to-cart"
           @click.native="
-            shoppingCartStore.toggleItemInCart(nftToShoppingCardItem(nft))
+            shoppingCartStore.toggleItemInCart(nftToShoppingCartItem(nft))
           ">
           <img :src="cartIcon" class="image is-32x32" />
         </NeoButton>
@@ -67,7 +67,7 @@ import { showNotification } from '@/utils/notification'
 
 import { openShoppingCart } from '@/components/common/shoppingCart/ShoppingCartModalConfig'
 import { NFT } from '@/components/rmrk/service/scheme'
-import { nftToShoppingCardItem } from '@/components/common/shoppingCart/utils'
+import { nftToShoppingCartItem } from '@/components/common/shoppingCart/utils'
 import { chainNames } from '@/libs/static/src/chains'
 
 import { useWindowSize } from '@vueuse/core'
@@ -142,7 +142,7 @@ const disabled = computed(() => {
 })
 
 const openCompletePurcahseModal = () => {
-  shoppingCartStore.setItemToBuy(nftToShoppingCardItem(props.nft))
+  shoppingCartStore.setItemToBuy(nftToShoppingCartItem(props.nft))
   preferencesStore.setCompletePurchaseModal({
     isOpen: true,
     mode: 'buy-now',

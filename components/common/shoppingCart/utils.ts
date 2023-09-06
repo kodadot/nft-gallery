@@ -46,7 +46,7 @@ export const totalPriceUsd = (items: ShoppingCartItem[]) => {
   }
 }
 
-export const nftToShoppingCardItem = (nft: NFT): ShoppingCartItem => {
+export const nftToShoppingCartItem = (nft: NFT): ShoppingCartItem => {
   const { urlPrefix } = usePrefix()
   return {
     id: nft.id,

@@ -31,7 +31,7 @@
           no-shadow
           class="fixed-width p-1 no-border-left btn-height override-wrapper-width"
           @click.native.prevent="
-            shoppingCartStore.toggleItemInCart(nftToShoppingCardItem(nft))
+            shoppingCartStore.toggleItemInCart(nftToShoppingCartItem(nft))
           ">
           <img :src="cartIcon" class="image is-16x16" />
         </NeoButton>
@@ -58,7 +58,7 @@ import { useListingCartStore } from '@/stores/listingCart'
 import { usePreferencesStore } from '@/stores/preferences'
 import {
   nftToListingCartItem,
-  nftToShoppingCardItem,
+  nftToShoppingCartItem,
 } from '@/components/common/shoppingCart/utils'
 import { isOwner as checkOwner } from '@/utils/account'
 import { useCollectionDetails } from '@/components/collection/utils/useCollectionDetails'
@@ -123,7 +123,7 @@ const onCancelPurchase = () => {
 }
 
 const onClickBuy = () => {
-  shoppingCartStore.setItemToBuy(nftToShoppingCardItem(props.nft))
+  shoppingCartStore.setItemToBuy(nftToShoppingCartItem(props.nft))
   doAfterLogin({
     onLoginSuccess: openCompletePurcahseModal,
     onCancel: onCancelPurchase,
