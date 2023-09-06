@@ -39,9 +39,7 @@ export const useShoppingCartStore = defineStore('shoppingCart', {
     },
     updateItem(payload: ShoppingCartItem) {
       const itemIndex = existInItemIndex(payload.id, this.items)
-      if (itemIndex === -1) {
-        return
-      } else {
+      if (itemIndex !== -1) {
         this.items[itemIndex] = {
           ...this.items[itemIndex],
           ...payload,
@@ -51,9 +49,7 @@ export const useShoppingCartStore = defineStore('shoppingCart', {
     },
     removeItem(id: ID) {
       const itemIndex = existInItemIndex(id, this.items)
-      if (itemIndex === -1) {
-        return
-      } else {
+      if (itemIndex !== -1) {
         this.items.splice(itemIndex, 1)
         localStorage.value = this.items
       }
