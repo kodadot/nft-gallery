@@ -58,7 +58,6 @@ import MediaResolver from '@/components/media/MediaResolver.vue'
 import { MAX_UPLOADED_FILE_SIZE } from '@/utils/constants'
 import { NeoField, NeoIcon, NeoUpload } from '@kodadot1/brick'
 import { useEventListener } from '@vueuse/core'
-import { mimeTypes } from '@kodadot1/static'
 
 const props = defineProps({
   label: {
@@ -72,7 +71,7 @@ const props = defineProps({
   preview: { type: Boolean },
   accept: {
     type: String,
-    default: Object.values(mimeTypes).toString(),
+    default: '',
   },
 })
 
