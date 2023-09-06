@@ -108,8 +108,10 @@ useLazyAsyncData('stats', async () => {
   }
 
   const query = await resolveQueryPath(client.value, 'profileStatsById')
-  const { result: data } = useQuery(query.default, {
-    id: props.id,
+  const { data } = await useAsyncQuery({
+    query: query.default,
+    variables: { id: props.id },
+    clientId: client.value,
   })
 
   if (!data) {
@@ -118,8 +120,8 @@ useLazyAsyncData('stats', async () => {
   }
 
   stats.value = {
-    listedCount: data.value.listed.totalCount,
-    totalCollected: data.value.obtained.totalCount,
+    listedCount: data.value?.listed.totalCount,
+    totalCollected: data.value?.obtained.totalCount,
   }
 
   getSellerEvents(data.value)
