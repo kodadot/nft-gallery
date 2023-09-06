@@ -1,6 +1,7 @@
 <template>
   <o-modal
-    class="neo-modal"
+    class="neo-modal top"
+    :class="{ top: !disableTop }"
     scroll="clip"
     :active.sync="isModalActive"
     :destroy-on-hide="destroyOnHide"
@@ -31,6 +32,7 @@ const props = withDefaults(
     noShadow?: boolean
     maxHeight?: string | number
     mobileBreakpoint?: string
+    disableTop?: boolean
   }>(),
   {
     destroyOnHide: true,
@@ -68,4 +70,8 @@ const updateClose = () => {
 
 <style lang="scss">
 @import './NeoModal.scss';
+
+.top {
+  z-index: 1000;
+}
 </style>
