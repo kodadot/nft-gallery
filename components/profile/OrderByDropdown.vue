@@ -7,7 +7,7 @@
       multiple
       :mobile-modal="false"
       aria-role="list"
-      :position="dropdownPosition"
+      position="bottom-auto"
       @change="onChange">
       <template #trigger="{ active }">
         <NeoButton
@@ -111,20 +111,6 @@ function onChange(selected) {
   })
 }
 
-const dropdownPosition = ref('bottom-left')
-const buttonRef = ref<Vue | null>(null)
-
-function calcDropdownPosition() {
-  // calc the dropdown position based on the button postion
-  // if the button is in the right side of the screen,
-  // make the dropdown position to bottom-left
-  const ele = buttonRef.value?.$el as HTMLElement
-  dropdownPosition.value =
-    ele.getBoundingClientRect().left < window.innerWidth / 2
-      ? 'bottom-right'
-      : 'bottom-left'
-}
-
 watch(
   () => route.query.sort,
   (sort) => {
@@ -142,7 +128,6 @@ onMounted(() => {
       selectedSort.value = [sort] as string[]
     }
   }
-  calcDropdownPosition()
 })
 </script>
 
