@@ -7,13 +7,13 @@
     :delay="[showDelay, hideDelay]"
     data-cy="identity"
     :on-show="() => (show = true)">
-    <template #content>
-      <slot name="content" />
-    </template>
+    <slot name="trigger" />
 
-    <div class="popover-container">
-      <CollectionDetailsPopoverContent v-if="show" :nft="nft" />
-    </div>
+    <template #content>
+      <div class="popover-container">
+        <CollectionDetailsPopoverContent v-if="show" :nft="nft" />
+      </div>
+    </template>
   </tippy>
 </template>
 
@@ -37,7 +37,12 @@ const show = ref(false)
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/abstracts/variables';
+
 .popover-container {
   min-height: 12.5rem;
+  @include ktheme() {
+    background: theme('background-color');
+  }
 }
 </style>

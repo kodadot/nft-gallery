@@ -1,5 +1,9 @@
 <template>
-  <ProfileDetail />
+  <div>
+    <ProfileDetail />
+    <ListingCartMini />
+    <ListingCartModal />
+  </div>
 </template>
 
 <script lang="ts">
