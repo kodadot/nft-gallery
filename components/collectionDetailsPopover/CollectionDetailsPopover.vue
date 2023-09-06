@@ -7,8 +7,8 @@
     :delay="[showDelay, hideDelay]"
     data-cy="identity"
     :on-show="() => (show = true)">
-    <template #trigger>
-      <slot name="trigger" />
+    <template #content>
+      <slot name="content" />
     </template>
 
     <div class="popover-container">

@@ -167,6 +167,10 @@ import {
 
 import { useGalleryItem } from './useGalleryItem'
 
+import CarouselTypeRelated from '@/components/carousel/CarouselTypeRelated.vue'
+import CarouselTypeVisited from '@/components/carousel/CarouselTypeVisited.vue'
+import CollectionDetailsPopover from '@/components/collectionDetailsPopover/CollectionDetailsPopover.vue'
+
 import GalleryItemButton from './GalleryItemButton/GalleryItemButton.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'
@@ -250,17 +254,6 @@ watch(triggerBuySuccess, (value, oldValue) => {
 })
 
 const congratsNewNft = ref('')
-
-const CarouselTypeRelated = defineAsyncComponent(
-  () => import('@/components/carousel/CarouselTypeRelated.vue')
-)
-const CarouselTypeVisited = defineAsyncComponent(
-  () => import('@/components/carousel/CarouselTypeVisited.vue')
-)
-const CollectionDetailsPopover = defineAsyncComponent(
-  () =>
-    import('@/components/collectionDetailsPopover/CollectionDetailsPopover.vue')
-)
 
 onMounted(() => {
   exist(route.query.congratsNft as string, (val) => {
