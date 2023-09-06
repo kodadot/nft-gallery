@@ -14,7 +14,7 @@ const ModalProgrammatic = {
   removeOpenListener(callback) {
     for (const listener of openListener) {
       if (listener === callback) {
-        openListener.splice(i, 1)
+        openListener.splice(openListener.indexOf(listener), 1)
         break
       }
     }

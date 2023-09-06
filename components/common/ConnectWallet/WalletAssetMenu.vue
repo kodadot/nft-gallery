@@ -44,7 +44,10 @@
       </div>
 
       <!-- settings -->
-      <nuxt-link to="/settings" class="has-text-grey is-align-items-center">
+      <nuxt-link
+        to="/settings"
+        class="has-text-grey is-align-items-center"
+        @click.native="closeModal">
         <NeoIcon icon="gear" custom-size="fa-2x" />
         <span>{{ $t('settings') }}</span>
       </nuxt-link>
@@ -60,6 +63,7 @@ import { useLangStore } from '@/stores/lang'
 const { urlPrefix } = usePrefix()
 const { isBasilisk } = useIsChain(urlPrefix)
 const { toggleColorMode, isDarkMode } = useTheme()
+const { $neoModal } = useNuxtApp()
 
 const langStore = useLangStore()
 
@@ -91,6 +95,10 @@ onMounted(() => {
     })
   }
 })
+
+const closeModal = () => {
+  $neoModal.closeAll()
+}
 </script>
 
 <style lang="scss" scoped>
