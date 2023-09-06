@@ -12,30 +12,21 @@
       </NeoButton>
     </div>
 
-    <a class="has-text-grey is-size-7" @click="addFunds"
+    <a class="has-text-grey is-size-7" @click="rampActive = true"
       >+ {{ $t('addFunds') }}</a
     >
+
+    <OnRampModal v-model="rampActive" @close="rampActive = false" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import { showNotification } from '@/utils/notification'
+import OnRampModal from '@/components/shared/OnRampModal.vue'
 
 const { urlPrefix } = usePrefix()
 const { isBasilisk } = useIsChain(urlPrefix)
-const { accountId } = useAuth()
-const { init: initTransak } = useTransak()
-const { $i18n } = useNuxtApp()
-
-const addFunds = () => {
-  initTransak({
-    address: accountId.value,
-    onSuccess: () => {
-      showNotification($i18n.t('general.successfullyAddedFunds'))
-    },
-  })
-}
+const rampActive = ref(false)
 </script>
 
 <style scoped></style>
