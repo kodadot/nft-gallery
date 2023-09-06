@@ -165,6 +165,7 @@ export default defineNuxtConfig({
     { src: '~/plugins/piniaPersistedState', mode: 'client' },
     { src: '~/plugins/oruga-modal', mode: 'client' },
     { src: '~/plugins/oruga-notification', mode: 'client' },
+    { src: '~/plugins/vueHtmlSecure', mode: 'client' },
     '~/plugins/filters',
     '~/plugins/globalVariables',
     '~/plugins/pwa',
@@ -443,6 +444,8 @@ export default defineNuxtConfig({
       baseUrl: process.env.BASE_URL || 'http://localhost:9090',
       googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || '',
       dev: process.env.NODE_ENV === 'development',
+      transakApiKey: process.env.TRANSAK_API_KEY || '',
+      transakEnvironment: process.env.TRANSAK_ENV || 'PRODUCTION',
     },
   },
   // In case of using ssr

@@ -151,6 +151,11 @@
           <img src="/unlockable-introduce.svg" alt="Unlockable" />
         </div>
       </div>
+      <div class="my-4">
+        <CarouselTypeLatestMints
+          :collection-id="collectionId"
+          interaction="BUY" />
+      </div>
     </div>
   </div>
 </template>
@@ -163,6 +168,7 @@ import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlide
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { tokenIdToRoute } from '@/components/unique/utils'
+import CarouselTypeLatestMints from '@/components/carousel/CarouselTypeLatestMints.vue'
 import { claimDropItem, getLatestWaifuImages } from '@/services/waifu'
 import {
   notificationTypes,

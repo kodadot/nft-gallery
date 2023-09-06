@@ -1,5 +1,6 @@
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { getDenyList } from '@/utils/prefix'
+import isEqual from 'lodash/isEqual'
 import { useSearchParams } from './utils/useSearchParams'
 import { Ref } from 'vue'
 
@@ -97,9 +98,13 @@ export function useFetchSearch({
     return true
   }
 
-  const refetch = (search?: { [key: string]: string | number }[]) => {
+  function clearFetchResults() {
     nfts.value = []
     loadedPages.value = []
+  }
+
+  const refetch = (search?: { [key: string]: string | number }[]) => {
+    clearFetchResults()
     fetchSearch({ search })
   }
 
@@ -113,7 +118,10 @@ export function useFetchSearch({
       () => route.query.owned,
       () => route.query.collections,
     ],
-    () => {
+    (currentQuery, prevQuery) => {
+      if (isEqual(currentQuery, prevQuery)) {
+        return
+      }
       loadedPages.value = []
       resetSearch()
     }
@@ -123,5 +131,6 @@ export function useFetchSearch({
     nfts,
     fetchSearch,
     refetch,
+    clearFetchResults,
   }
 }
