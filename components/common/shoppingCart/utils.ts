@@ -81,3 +81,6 @@ export const nftToListingCartItem = (nft: NFT, floor = ''): ListCartItem => {
     meta: nft.meta,
   }
 }
+
+export const existInItemIndex = (id: string, items: { id: string }[]) =>
+  items.findIndex((item) => item.id === id)

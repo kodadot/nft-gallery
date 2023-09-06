@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { EntityWithId, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { ComputedRef } from 'vue'
 import type { Prefix } from '@kodadot1/static'
+import { existInItemIndex } from '@/components/common/shoppingCart/utils'
 
 export type ListCartItem = {
   id: string
@@ -90,7 +91,3 @@ export const useListingCartStore = defineStore('listingCart', {
     },
   },
 })
-
-function existInItemIndex(id: string, items: ListCartItem[]) {
-  return items.findIndex((item) => item.id === id)
-}

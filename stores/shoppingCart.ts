@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
+import { existInItemIndex } from '@/components/common/shoppingCart/utils'
 
 type ID = string
 
@@ -18,16 +19,14 @@ export const useShoppingCartStore = defineStore('shoppingCart', {
   }),
   actions: {
     getItemsByPrefix(prefix: string) {
-      return items().filter((item) => item.urlPrefix === prefix)
+      return this.items.filter((item) => item.urlPrefix === prefix)
     },
     isItemInCart(id: ID) {
-      return items().find((item) => item.id === id) !== undefined
+      return this.items.find((item) => item.id === id) !== undefined
     },
     setItem(payload: ShoppingCartItem) {
-      const existinItemIndex = items().findIndex(
-        (item) => item.id === payload.id
-      )
-      if (existinItemIndex === -1) {
+      const itemIndex = existInItemIndex(payload.id, this.items)
+      if (itemIndex === -1) {
         localStorage.value = [...localStorage.value, payload]
       }
     },
@@ -38,27 +37,25 @@ export const useShoppingCartStore = defineStore('shoppingCart', {
       this.itemToBuy = undefined
     },
     updateItem(payload: ShoppingCartItem) {
-      const existinItemIndex = items().findIndex(
-        (item) => item.id === payload.id
-      )
-      if (existinItemIndex === -1) {
+      const itemIndex = existInItemIndex(payload.id, this.items)
+      if (itemIndex === -1) {
         return
       } else {
         const items = [...localStorage.value]
-        items[existinItemIndex] = {
-          ...this.items[existinItemIndex],
+        items[itemIndex] = {
+          ...this.items[itemIndex],
           ...payload,
         }
         localStorage.value = items
       }
     },
     removeItem(id: ID) {
-      const existinItemIndex = items().findIndex((item) => item.id === id)
-      if (existinItemIndex === -1) {
+      const itemIndex = existInItemIndex(id, this.items)
+      if (itemIndex === -1) {
         return
       } else {
         const items = [...localStorage.value]
-        items.splice(existinItemIndex, 1)
+        items.splice(itemIndex, 1)
         localStorage.value = items
       }
     },
