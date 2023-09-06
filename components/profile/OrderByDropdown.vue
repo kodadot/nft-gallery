@@ -11,7 +11,6 @@
       @change="onChange">
       <template #trigger="{ active }">
         <NeoButton
-          ref="buttonRef"
           :active="active"
           type="button"
           :icon="active ? 'chevron-up' : 'chevron-down'"
