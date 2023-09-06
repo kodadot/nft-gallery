@@ -16,7 +16,7 @@
           class="cross"
           @click.native="onClose" />
       </div>
-      <div class="px-6 py-2">
+      <div class="px-6 py-3">
         <div v-for="(provider, index) in providers" :key="provider.value">
           <div
             class="provider is-flex is-justify-content-center is-align-items-start is-flex-direction-column my-4"
