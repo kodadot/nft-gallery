@@ -60,7 +60,6 @@
 import { NeoButton, NeoTooltip } from '@kodadot1/brick'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
-import { openConnectWalletModal } from '@/components/common/ConnectWallet/useConnectWallet'
 import { useIdentityStore } from '@/stores/identity'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'
