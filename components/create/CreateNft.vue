@@ -267,7 +267,8 @@ watchEffect(() => {
 })
 
 // deposit stuff
-const { balance, totalItemDeposit, chainSymbol } = useDeposit(currentChain)
+const { balance, totalItemDeposit, chainSymbol, chainDecimals } =
+  useDeposit(currentChain)
 const canDeposit = computed(() => {
   return parseFloat(balance.value) >= parseFloat(totalItemDeposit.value)
 })
@@ -319,7 +320,7 @@ const createNft = async () => {
           copies: form.copies,
           nsfw: form.nsfw,
           postfix: form.postfix,
-          price: balanceFrom(form.salePrice),
+          price: balanceFrom(form.salePrice, chainDecimals.value),
           tags: form.tags,
           secondFile: null,
           hasRoyalty: Boolean(form.royalty.amount),

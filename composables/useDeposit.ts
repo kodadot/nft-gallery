@@ -26,6 +26,7 @@ export default function (prefix: ComputedRef<Prefix>) {
   const totalItemDeposit = ref('0')
 
   const chainSymbol = ref('')
+  const chainDecimals = ref(0)
 
   watchEffect(async () => {
     if (prefix.value) {
@@ -69,9 +70,10 @@ export default function (prefix: ComputedRef<Prefix>) {
     if (prefix.value) {
       const api = await apiInstanceByPrefix(prefix.value)
 
-      // get chain symbol
+      // get chain symbol and decimals
       const chainInfo = await api.registry.getChainProperties()
       chainSymbol.value = chainInfo?.tokenSymbol.toHuman()?.[0]
+      chainDecimals.value = chainInfo?.tokenDecimals.toHuman()?.[0]
 
       if (isBasilisk.value && accountId.value) {
         const assetMetadata = await getAssetMetadataByAccount(
@@ -81,12 +83,6 @@ export default function (prefix: ComputedRef<Prefix>) {
 
         chainSymbol.value = assetMetadata.symbol
       }
-    }
-  })
-
-  watchEffect(async () => {
-    if (prefix.value) {
-      const api = await apiInstanceByPrefix(prefix.value)
 
       // set balance
       if (accountId.value) {
@@ -119,5 +115,6 @@ export default function (prefix: ComputedRef<Prefix>) {
     totalCollectionDeposit,
     totalItemDeposit,
     chainSymbol,
+    chainDecimals,
   }
 }
