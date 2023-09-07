@@ -57,17 +57,17 @@ export function getVolume(events: Interaction[]): bigint {
     .reduce((acc, cur) => acc + cur, BigInt(0))
 }
 
-export const after =
-  (date: Date) =>
+const checkBeforeOrAfter =
+  (date: Date, before = true) =>
   (event: Interaction): boolean =>
-    isAfter(parseISO(event.timestamp), date) ||
+    (before
+      ? isBefore(parseISO(event.timestamp), date)
+      : isAfter(parseISO(event.timestamp), date)) ||
     isEqual(parseISO(event.timestamp), date)
 
-export const before =
-  (date: Date) =>
-  (event: Interaction): boolean =>
-    isBefore(parseISO(event.timestamp), date) ||
-    isEqual(parseISO(event.timestamp), date)
+export const after = (date: Date) => checkBeforeOrAfter(date, false)
+
+export const before = (date: Date) => checkBeforeOrAfter(date)
 
 export const between =
   (dateA: Date, dateB: Date) =>
