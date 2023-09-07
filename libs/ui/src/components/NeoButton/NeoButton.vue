@@ -17,7 +17,9 @@
     :rounded="rounded"
     :tag="tag"
     v-bind="$attrs">
-    <slot />
+    <template v-if="$slots.default" #default>
+      <slot />
+    </template>
   </o-button>
 </template>
 
