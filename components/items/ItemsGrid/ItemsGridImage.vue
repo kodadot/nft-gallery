@@ -6,7 +6,11 @@
     :prefix="urlPrefix"
     :show-price="Number(nft?.price) > 0"
     :variant="variant"
-    :class="{ 'in-cart-border': shoppingCartStore.isItemInCart(nft.id) }"
+    :class="{
+      'in-cart-border':
+        shoppingCartStore.isItemInCart(nft.id) ||
+        listingCartStore.isItemInCart(nft.id),
+    }"
     :unloackable-icon="unlockableIcon"
     :show-action-on-hover="!showActionSection"
     link="nuxt-link"
@@ -30,6 +34,15 @@
           <img :src="cartIcon" class="image is-16x16" />
         </NeoButton>
       </div>
+      <div v-else-if="isOwner" class="is-flex">
+        <NeoButton
+          :label="listLabel"
+          data-cy="item-buy"
+          no-shadow
+          class="is-flex-grow-1 btn-height"
+          @click.native.prevent="onClickListingCart">
+        </NeoButton>
+      </div>
     </template>
   </NeoNftCard>
 </template>
@@ -39,9 +52,14 @@ import { NeoButton, NeoNftCard } from '@kodadot1/brick'
 import type { NftCardVariant } from '@kodadot1/brick'
 import type { NFTWithMetadata } from '@/composables/useNft'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
+import { useListingCartStore } from '@/stores/listingCart'
 import { usePreferencesStore } from '@/stores/preferences'
-import { nftToShoppingCardItem } from '@/components/common/shoppingCart/utils'
+import {
+  nftToListingCartItem,
+  nftToShoppingCardItem,
+} from '@/components/common/shoppingCart/utils'
 import { isOwner as checkOwner } from '@/utils/account'
+import { useCollectionDetails } from '@/components/collection/utils/useCollectionDetails'
 
 const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()
@@ -49,6 +67,7 @@ const { accountId, isLogIn } = useAuth()
 const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
 const { unlockableIcon } = useUnlockableIcon()
 const shoppingCartStore = useShoppingCartStore()
+const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 
@@ -57,8 +76,12 @@ const props = defineProps<{
   variant?: NftCardVariant
 }>()
 
+const { stats } = useCollectionDetails({
+  collectionId: props.nft?.collection?.id || props.nft?.collectionId,
+})
+
 const showActionSection = computed(() => {
-  return !isLogIn.value && shoppingCartStore.getItemToBuy?.id === nft.value.id
+  return !isLogIn.value && shoppingCartStore.getItemToBuy?.id === props.nft.id
 })
 
 const buyLabel = computed(function () {
@@ -69,6 +92,13 @@ const buyLabel = computed(function () {
   return $i18n.t(
     preferencesStore.getReplaceBuyNowWithYolo ? 'YOLO' : 'shoppingCart.buyNow'
   )
+})
+
+const listLabel = computed(() => {
+  const label = Boolean(Number(props.nft.price))
+    ? $i18n.t('transaction.price.change')
+    : $i18n.t('listingCart.listForSale')
+  return label + (listingCartStore.isItemInCart(props.nft.id) ? ' ✓' : '')
 })
 
 const { cartIcon } = useShoppingCartIcon(props.nft.id)
@@ -98,11 +128,33 @@ const onClickBuy = () => {
   })
 }
 
+// Set unlisted owned nft to the store
+if (!Number(props.nft?.price) && isOwner.value) {
+  listingCartStore.setUnlistedItem(
+    nftToListingCartItem(
+      props.nft,
+      String(stats.value.collectionFloorPrice ?? '')
+    )
+  )
+}
 const onClickShoppingCart = () => {
   if (shoppingCartStore.isItemInCart(props.nft.id)) {
     shoppingCartStore.removeItem(props.nft.id)
   } else {
     shoppingCartStore.setItem(nftToShoppingCardItem(props.nft))
+  }
+}
+
+const onClickListingCart = () => {
+  if (listingCartStore.isItemInCart(props.nft.id)) {
+    listingCartStore.removeItem(props.nft.id)
+  } else {
+    listingCartStore.setItem(
+      nftToListingCartItem(
+        props.nft,
+        String(stats.value.collectionFloorPrice ?? '')
+      )
+    )
   }
 }
 </script>
