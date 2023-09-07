@@ -60,9 +60,11 @@
 
       <!-- list for sale -->
       <NeoField :label="$t('List For Sale On Marketplace')" required>
-        <p>
-          {{ $t('Choose a collection to which you want to mint your NFT.') }}
-        </p>
+        <div class="w-full">
+          <p>
+            {{ $t('Choose a collection to which you want to mint your NFT.') }}
+          </p>
+        </div>
         <NeoSwitch v-model="form.sale" :rounded="false" />
       </NeoField>
 
@@ -160,7 +162,7 @@
         <hr class="my-6" />
       </div>
 
-      <!-- create collection button -->
+      <!-- create nft button -->
       <NeoField>
         <div>
           <NeoButton
@@ -289,6 +291,7 @@ watchEffect(async () => {
     fetchPolicy: 'network-only',
   })
 
+  // TODO: what if the creator has so many nfts?
   listOfCollection.value = collections?.data?.collectionEntities
     .map((ce) => ({
       ...ce,
