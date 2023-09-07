@@ -2,6 +2,14 @@
   <div class="is-centered columns">
     <Loader v-model="isLoading" :status="status" />
     <form class="is-half column" @submit.prevent="createNft">
+      <CreateNftPreview
+        :name="form.name"
+        :collection="selectedCollection?.name"
+        :price="form.salePrice"
+        :symbol="chainSymbol"
+        :chain="currentChain"
+        :image="imagePreview" />
+
       <h1 class="title is-size-3">
         {{ $t('mint.nft.create') }}
       </h1>
@@ -215,6 +223,7 @@ import {
 import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
 import CustomAttributeInput from '@/components/rmrk/Create/CustomAttributeInput.vue'
 import RoyaltyForm from '@/components/bsx/Create/RoyaltyForm.vue'
+import CreateNftPreview from './CreateNftPreview.vue'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { availablePrefixes } from '@/utils/chain'
 import { notificationTypes, showNotification } from '@/utils/notification'
@@ -246,6 +255,12 @@ const form = reactive({
     amount: 0,
     address: accountId.value,
   },
+})
+
+const imagePreview = computed(() => {
+  if (form.file) {
+    return URL?.createObjectURL(form.file)
+  }
 })
 
 // select available blockchain
