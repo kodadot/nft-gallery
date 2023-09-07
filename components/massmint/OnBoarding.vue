@@ -17,11 +17,12 @@
         class="carousel is-flex is-flex-wrap-nowrap"
         :class="`slide-${currentSlide}`">
         <OnBoardingCard
-          :title="cards[0].title"
-          :content="cards[0].content"
-          :active="0 === currentSlide" />
-        <OnBoardingCard :title="cards[1].title" :active="1 === currentSlide">
-          <div>
+          v-for="(card, index) in cards"
+          :key="index"
+          :title="card.title"
+          :content="card.content"
+          :active="index === currentSlide">
+          <div v-if="index === 1">
             <p class="is-size-6 has-text-weight-bold mb-3">
               {{ $t('massmint.onboarding.cards.1.subtitle') }}:
             </p>
@@ -30,9 +31,9 @@
             </p>
             <div
               class="is-flex is-justify-content-space-between is-align-items-center mb-4 column-mobile">
-              <span class="is-size-6 has-text-weight-bold"
-                >{{ $t('massmint.onboarding.cards.1.codeStructure') }}:</span
-              >
+              <span class="is-size-6 has-text-weight-bold">
+                {{ $t('massmint.onboarding.cards.1.codeStructure') }}:
+              </span>
               <div class="is-flex tab-gap">
                 <NeoButton
                   v-for="tab in descriptionTabs"
@@ -52,11 +53,6 @@
               class="fixed-height white-space-break-spaces-mobile" />
           </div>
         </OnBoardingCard>
-
-        <OnBoardingCard
-          :title="cards[2].title"
-          :content="cards[2].content"
-          :active="2 === currentSlide" />
       </div>
       <Transition name="fade">
         <div
@@ -74,10 +70,10 @@
 
     <div class="is-flex is-justify-content-center my-8">
       <span
-        v-for="(_, index) in cards"
+        v-for="index in numOfCards"
         :key="index"
         class="carousel-dot mx-2"
-        :class="{ 'is-active': index === currentSlide }"></span>
+        :class="{ 'is-active': index === currentSlide + 1 }" />
     </div>
     <div class="is-flex is-justify-content-center">
       <NeoButton
