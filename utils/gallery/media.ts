@@ -29,7 +29,7 @@ export async function processMedia(mediaUrl: string) {
   }
 }
 
-const tests = [
+const defaultTests = [
   {
     checkFn: (mimeType) => /^application\/json/.test(mimeType),
     returnVal: MediaType.JSON,
@@ -56,7 +56,10 @@ const tests = [
   },
 ]
 
-export function resolveMedia(mimeType?: string): MediaType {
+export function resolveMedia(
+  mimeType?: string,
+  tests = defaultTests
+): MediaType {
   if (!mimeType) {
     return MediaType.UNKNOWN
   }

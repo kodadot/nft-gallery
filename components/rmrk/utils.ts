@@ -3,6 +3,7 @@ import { Interaction as EventInteraction } from './service/scheme'
 import { NFT, NFTWithMeta } from './service/scheme'
 import { before } from '@/utils/math'
 import { Interaction } from '@kodadot1/minimark/v1'
+import { resolveMedia as rm } from '~~/utils/gallery/media'
 
 export type PriceDataType = [date: Date, value: number]
 
@@ -55,36 +56,7 @@ const tests = [
   },
 ]
 
-export const resolveMedia = (mimeType?: string): MediaType => {
-  if (!mimeType) {
-    return MediaType.UNKNOWN
-  }
-
-  tests.forEach(({ checkFn, returnVal }) => {
-    if (checkFn(mimeType)) {
-      return returnVal
-    }
-  })
-
-  const match = mimeType.match(/^[a-z]+/)
-
-  if (!match) {
-    return MediaType.UNKNOWN
-  }
-
-  const prefix = match[0].toUpperCase()
-
-  let result = MediaType.UNKNOWN
-
-  Object.entries(MediaType).forEach(([type, value]) => {
-    if (type === prefix) {
-      result = value
-      return
-    }
-  })
-
-  return result
-}
+export const resolveMedia = (mimeType?: string) => rm(mimeType, tests)
 
 export const onlyEvents = (nft: NFT): EventInteraction[] => nft.events
 export const onlyPriceEvents = (e: { interaction: string }): boolean =>
