@@ -105,6 +105,7 @@
     </NeoModal>
   </div>
 </template>
+
 <script setup lang="ts">
 import { Interaction } from '@kodadot1/minimark/v1'
 import ListingCartPriceInput from '@/components/common/listingCart/ListingCartPriceInput.vue'
@@ -119,6 +120,7 @@ import { warningMessage } from '@/utils/notification'
 import { useFiatStore } from '@/stores/fiat'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
 import { sum } from '@/utils/math'
+
 const { isLogIn, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
@@ -195,8 +197,9 @@ watch(
   }
 )
 </script>
+
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .rounded {
   border-radius: 10rem;
