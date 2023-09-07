@@ -12,7 +12,7 @@
       <div
         v-for="(nft, index) in nfts"
         :key="`${nft.id}=${index}`"
-        :data-cy="index"
+        :data-testid="index"
         :class="scrollItemClassName">
         <ItemsGridImage
           :nft="nft"

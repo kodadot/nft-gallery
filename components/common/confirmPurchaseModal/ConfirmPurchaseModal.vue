@@ -29,7 +29,7 @@
             :prefix="urlPrefix"
             :account="accountId"
             class="identity-name-font-weight-regular"
-            data-cy="item-creator" />
+            data-testid="item-creator" />
         </div>
       </div>
       <div class="py-2">

@@ -3,12 +3,12 @@
     v-model="activeTab"
     type="toggle"
     expanded
-    data-cy="gallery-item-tabs"
+    data-testid="gallery-item-tabs"
     content-class="o-tabs__content--fixed gallery-item-tab-panel">
     <!-- offers -->
     <NeoTabItem
       value="0"
-      data-cy="offer-list"
+      data-testid="offer-list"
       :disabled="offersDisabled"
       :label="$t('tabs.offers')"
       tag="div"
@@ -36,7 +36,10 @@
     </NeoTabItem>
 
     <!-- activity -->
-    <NeoTabItem value="1" :label="$t('tabs.activity')" data-cy="offer-activity">
+    <NeoTabItem
+      value="1"
+      :label="$t('tabs.activity')"
+      data-testid="offer-activity">
       <GalleryItemActivity v-if="nft?.id" :nft-id="nft?.id" />
     </NeoTabItem>
 

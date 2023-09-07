@@ -8,7 +8,7 @@
         v-for="(drop, index) in drops.drops"
         :key="`${drop.collection.id}=${index}`"
         class="w-full h-full"
-        :data-cy="index">
+        :data-testid="index">
         <DropCard :drop="drop" />
       </div>
       <template v-if="statemintDrops.drops.length">
@@ -16,7 +16,7 @@
           v-for="(drop, index) in statemintDrops.drops"
           :key="`${drop.collection.id}=${index}`"
           class="w-full h-full"
-          :data-cy="index">
+          :data-testid="index">
           <DropCard
             :drop="drop"
             override-url-prefix="ahp"
@@ -32,7 +32,7 @@
         v-for="(drop, index) in drops.futureDrops"
         :key="`${drop.collection.id}=${index}`"
         class="w-full h-full"
-        :data-cy="index">
+        :data-testid="index">
         <DropCard :drop="drop" />
       </div>
     </div>

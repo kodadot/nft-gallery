@@ -5,7 +5,7 @@
     :animate-fill="false"
     placement="bottom"
     :delay="[showDelay, hideDelay]"
-    data-cy="identity"
+    data-testid="identity"
     :on-show="() => (show = true)">
     <template #trigger>
       <slot name="trigger" />

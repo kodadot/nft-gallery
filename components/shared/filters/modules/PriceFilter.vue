@@ -25,7 +25,7 @@
           min="0"
           step="any"
           placeholder="MIN"
-          data-cy="input-min"
+          data-testid="input-min"
           @focus="toggleInputFocused"
           @blur="toggleInputFocused" />
         <div class="is-flex is-align-items-center">
@@ -47,7 +47,7 @@
           step="any"
           type="number"
           placeholder="MAX"
-          data-cy="input-max"
+          data-testid="input-max"
           @focus="toggleInputFocused"
           @blur="toggleInputFocused" />
       </div>
@@ -56,7 +56,7 @@
           {{ unit }}
         </div>
         <NeoButton
-          data-cy="apply"
+          data-testid="apply"
           :disabled="!isValidFilter(range.min, range.max)"
           no-shadow
           variant="k-accent"

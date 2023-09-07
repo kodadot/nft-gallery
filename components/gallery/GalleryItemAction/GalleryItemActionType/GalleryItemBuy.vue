@@ -1,5 +1,5 @@
 <template>
-  <div data-cy="item-section-buy">
+  <div data-testid="item-section-buy">
     <GalleryItemPriceSection v-if="nft.price" title="Price" :price="nft.price">
       <div v-if="Number(nft.price)" class="is-flex desktop-full-w">
         <div class="is-flex buy-button-width">
@@ -36,14 +36,14 @@
               class="button-height w-full"
               variant="k-accent"
               :disabled="disabled"
-              data-cy="item-buy"
+              data-testid="item-buy"
               @click.native="onClick" />
           </NeoTooltip>
         </div>
 
         <NeoButton
           class="button-height no-border-left"
-          data-cy="item-add-to-cart"
+          data-testid="item-add-to-cart"
           @click.native="onClickShoppingCart">
           <img :src="cartIcon" class="image is-32x32" />
         </NeoButton>

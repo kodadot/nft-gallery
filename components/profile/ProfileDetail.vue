@@ -16,7 +16,7 @@
           <div class="container image is-64x64 mb-2">
             <Avatar :value="id" />
           </div>
-          <h1 class="title is-2" data-cy="user-identity">
+          <h1 class="title is-2" data-testid="user-identity">
             <a
               v-if="hasBlockExplorer"
               v-safe-href="explorer"

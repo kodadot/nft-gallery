@@ -21,7 +21,7 @@
       </div>
 
       <!-- language -->
-      <div data-cy="sidebar-language">
+      <div data-testid="sidebar-language">
         <NeoDropdown position="top-left" aria-role="menu" mobile-modal>
           <template #trigger>
             <div class="is-flex is-align-items-center">
@@ -34,7 +34,7 @@
             v-for="lang in langsFlags"
             :key="lang.value"
             aria-role="listitem"
-            :data-cy="`sidebar-language-${lang.value}`"
+            :data-testid="`sidebar-language-${lang.value}`"
             :value="lang.value"
             :class="{ 'is-active': langStore.getUserLang === lang.value }"
             @click="langStore.setLanguage({ userLang: lang.value })">
