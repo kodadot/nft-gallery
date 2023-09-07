@@ -179,7 +179,7 @@
             <NeoIcon icon="circle-info" size="medium" class="mr-4" />
             <p class="is-size-7">
               <span
-                v-safe-html="
+                v-dompurify-html="
                   $t('mint.requiredDeposit', [
                     `${totalItemDeposit} ${chainSymbol}`,
                   ])
@@ -258,6 +258,7 @@ const currentChain = computed(() => selectChain.value as Prefix)
 const { isBasilisk } = useIsChain(currentChain)
 watchEffect(() => {
   // reset some state on chain change
+  form.salePrice = 0
   form.royalty.amount = 0
 
   setUrlPrefix(currentChain.value as Prefix)
@@ -331,26 +332,36 @@ const createNft = async () => {
 }
 
 // navigate to gallery detail page after success create nft
+const retry = ref(10) // max retry 10 times
+
+async function getNftId() {
+  const query = await resolveQueryPath(currentChain.value, 'nftByBlockNumber')
+  const { data } = await $apollo.query({
+    query: query.default,
+    client: currentChain.value,
+    variables: {
+      limit: 1,
+      blockNumber: blockNumber.value,
+    },
+    fetchPolicy: 'network-only',
+  })
+
+  return data?.nftEntities?.[0]?.id
+}
+
 watchEffect(async () => {
-  if (blockNumber.value) {
+  if (blockNumber.value && retry.value) {
     await delay(DETAIL_TIMEOUT)
+    const nftId = await getNftId()
 
-    const query = await resolveQueryPath(currentChain.value, 'nftByBlockNumber')
-    const { data } = await $apollo.query({
-      query: query.default,
-      client: currentChain.value,
-      variables: {
-        limit: 1,
-        blockNumber: blockNumber.value,
-      },
-      fetchPolicy: 'network-only',
-    })
-    const nftId = data?.nftEntities?.[0]?.id
-
-    router.push({
-      path: `/${urlPrefix.value}/gallery/${nftId}`,
-      query: { congratsNft: form.name },
-    })
+    if (nftId) {
+      router.push({
+        path: `/${urlPrefix.value}/gallery/${nftId}`,
+        query: { congratsNft: form.name },
+      })
+    } else {
+      retry.value -= 1
+    }
   }
 })
 </script>
