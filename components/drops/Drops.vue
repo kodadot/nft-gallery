@@ -9,7 +9,7 @@
         :key="`${drop.collection?.id}=${index}`"
         class="w-full h-full"
         :data-cy="index">
-        <DropCard :drop="drop" />
+        <DropCard :drop="drop" override-url-prefix="ahp" />
       </div>
       <template v-if="statemintDrops.drops.length">
         <div
@@ -83,7 +83,7 @@ import { useDrops } from './useDrops'
 import { dropsVisible } from '@/utils/config/permission.config'
 
 const { $i18n } = useNuxtApp()
-const drops = useDrops(collectionId)
+const drops = useDrops(collectionId, 'ahp')
 const statemintDrops = useDrops(STT_COLLECTION_ID, 'ahp')
 const voteDrop = useDrops(VOTE_DROP_COLLECTION_ID, 'ahk')
 const voteDropAhp = useDrops(VOTE_DROP_AHP_COLLECTION_ID, 'ahp')

@@ -42,7 +42,7 @@
           <div class="my-5">
             <UnlockableSlider :value="currentMintedCount / MAX_PER_WINDOW" />
           </div>
-          <div class="my-5">
+          <div v-if="!currentMintedLoading" class="my-5">
             <template v-if="!hasUserMinted">
               <NeoButton
                 ref="root"
@@ -211,7 +211,11 @@ const { data: collectionData } = useGraphql({
   },
 })
 
-const { data: stats, refetch: tryAgain } = useGraphql({
+const {
+  data: stats,
+  loading: currentMintedLoading,
+  refetch: tryAgain,
+} = useGraphql({
   queryName: 'firstNftOwnedByAccountAndCollectionId',
   variables: {
     id: collectionId,
