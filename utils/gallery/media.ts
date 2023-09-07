@@ -29,34 +29,43 @@ export async function processMedia(mediaUrl: string) {
   }
 }
 
+const tests = [
+  {
+    checkFn: (mimeType) => /^application\/json/.test(mimeType),
+    returnVal: MediaType.JSON,
+  },
+  {
+    checkFn: (mimeType) => /^model\/gltf-binary/.test(mimeType),
+    returnVal: MediaType.MODEL,
+  },
+  {
+    checkFn: (mimeType) => /^text\/html/.test(mimeType),
+    returnVal: MediaType.IFRAME,
+  },
+  {
+    checkFn: (mimeType) => /^image\/svg\+xml/.test(mimeType),
+    returnVal: MediaType.IMAGE,
+  },
+  {
+    checkFn: (mimeType) => /^application\/pdf/.test(mimeType),
+    returnVal: MediaType.OBJECT,
+  },
+  {
+    checkFn: (mimeType) => /^audio/.test(mimeType),
+    returnVal: MediaType.AUDIO,
+  },
+]
+
 export function resolveMedia(mimeType?: string): MediaType {
   if (!mimeType) {
     return MediaType.UNKNOWN
   }
 
-  if (/^application\/json/.test(mimeType)) {
-    return MediaType.JSON
-  }
-
-  if (/^model\/gltf-binary/.test(mimeType)) {
-    return MediaType.MODEL
-  }
-
-  if (/^text\/html/.test(mimeType)) {
-    return MediaType.IFRAME
-  }
-
-  if (/^image\/svg\+xml/.test(mimeType)) {
-    return MediaType.IMAGE
-  }
-
-  if (/^application\/pdf/.test(mimeType)) {
-    return MediaType.OBJECT
-  }
-
-  if (/^audio/.test(mimeType)) {
-    return MediaType.AUDIO
-  }
+  tests.forEach(({ checkFn, returnVal }) => {
+    if (checkFn(mimeType)) {
+      return returnVal
+    }
+  })
 
   const match = mimeType.match(/^[a-z]+/)
 
