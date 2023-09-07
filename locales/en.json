@@ -468,8 +468,12 @@
       "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
     },
     "nft": {
+      "art": {
+        "label": "Your Awesome Art",
+        "message": "This can be image, video, audio, 3D model"
+      },
       "name": {
-        "label": "name",
+        "label": "Name",
         "placeholder": "Enter NFT name",
         "message": "Name of your NFT. It will be visible in the gallery"
       },
@@ -477,6 +481,10 @@
         "label": "NFT description",
         "placeholder": "Enter NFT description",
         "message": "Description of your NFT. Markdown is supported"
+      },
+      "collection": {
+        "label": "Select Collection",
+        "message": "Choose a collection to which you want to mint your NFT."
       },
       "edition": {
         "label": "Copies",
@@ -491,6 +499,7 @@
         "placeholder": "Enter your email",
         "message": "Enter your email to receive a notification when your request is done"
       },
+      "create": "Create New NFT",
       "creativeDrop": "Drop your NFT here, click to upload or paste the image from the clipboard. AI model limits our support for Creative Minting to only JPEG, PNG, GIF or BMP image files. The file size must be less than 4MB, and the image's dimensions must be greater than 50x50 pixels. Realistic photographs will achieve the best results.",
       "cover": "Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)",
       "creativeFailDesc": "Generating the title and description failed. Please check whether the uploaded file fits the limits of Creative Minting: JPEG, PNG, GIF or BMP with a size less than 4MB and dimensions greater than 50x50 pixels.",
@@ -517,7 +526,7 @@
       }
     },
     "blockchain": {
-      "label": "Blockchain",
+      "label": "Select Blockchain",
       "message": "Select the blockchain to which NFTs will be minted by default."
     }
   },
