@@ -204,7 +204,7 @@ body {
 }
 
 .h-full {
-  height: 100%;
+  height: 100% !important;
 }
 
 .w-full {
@@ -309,23 +309,21 @@ a.has-text-grey {
 
 .card-border-color {
   @include ktheme() {
-    border-color:theme('card-border-color');
+    border-color: theme('card-border-color');
   }
 }
 
 .border-k-shade {
   @include ktheme() {
-    border-color:  theme('k-shade');
+    border-color: theme('k-shade');
   }
 }
 
 .has-text-k-shade {
   @include ktheme() {
     color: theme('k-shade');
-  }  
+  }
 }
-
-
 
 //colors
 
@@ -372,6 +370,12 @@ a.has-text-grey {
 .k-pink {
   @include ktheme() {
     background-color: theme('k-pink');
+  }
+}
+
+.k-aqua-blue {
+  @include ktheme() {
+    background-color: theme('k-aqua-blue');
   }
 }
 .k-greenaccent {
@@ -453,4 +457,18 @@ a.has-text-grey {
 
 .text-align-center {
   text-align: center;
+}
+
+// Transak
+
+.transak_modal-overlay {
+  z-index: 999 !important;
+}
+
+.transak_modal {
+  z-index: 1000 !important;
+}
+
+#transakOnOffRampWidget {
+  height: 100% !important;
 }

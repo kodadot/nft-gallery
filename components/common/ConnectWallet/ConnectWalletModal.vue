@@ -6,7 +6,7 @@
           ? $i18n.t('profile.page')
           : $i18n.t('walletConnect.walletHeading')
       "
-      @close="emit('close')" />
+      @close="emit('close', ModalCloseType.BACK)" />
     <section v-if="showAccount">
       <WalletAsset />
     </section>
@@ -79,7 +79,7 @@ import { NeoButton, NeoField, NeoIcon, NeoModalHead } from '@kodadot1/brick'
 import { Auth, useIdentityStore } from '@/stores/identity'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem.vue'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'
-
+import { ModalCloseType } from '@/components/navbar/types'
 const { $i18n } = useNuxtApp()
 const selectedWalletProvider = ref<BaseDotsamaWallet>()
 const forceWalletSelect = ref(false)
@@ -124,6 +124,6 @@ watch(account, (account) => {
 })
 
 watch([urlPrefix], () => {
-  emit('close')
+  emit('close', ModalCloseType.NAVIGATION)
 })
 </script>
