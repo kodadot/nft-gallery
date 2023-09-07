@@ -25,7 +25,7 @@ withDefaults(
     to?: string
     fullWidth?: boolean
     noShadow?: boolean
-    tag: any
+    tag?: string
   }>(),
   {
     to: '',
