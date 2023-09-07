@@ -3,33 +3,18 @@ import { execMintBasilisk } from './mintToken/transactionMintBasilisk'
 import { MintTokenParams } from './types'
 import { execMintStatemine } from './mintToken/transactionMintStatemine'
 
-export function execMintToken({
-  item,
-  api,
-  executeTransaction,
-  isLoading,
-  status,
-}: MintTokenParams) {
+export function execMintToken(mintParams: MintTokenParams) {
+  const { item } = mintParams
+
   if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'ksm') {
-    return execMintRmrk({ item, api, executeTransaction, isLoading, status })
+    return execMintRmrk(mintParams)
   }
 
   if (item.urlPrefix === 'snek' || item.urlPrefix === 'bsx') {
-    return execMintBasilisk({
-      item,
-      api,
-      executeTransaction,
-      isLoading,
-      status,
-    })
+    return execMintBasilisk(mintParams)
   }
+
   if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
-    return execMintStatemine({
-      item,
-      api,
-      executeTransaction,
-      isLoading,
-      status,
-    })
+    return execMintStatemine(mintParams)
   }
 }
