@@ -89,7 +89,6 @@ const resolveComponent = computed(() => {
 const properSrc = computed(() => props.src || props.placeholder)
 
 const updateComponent = async () => {
-  console.log('animationSrc: ', props)
   if (props.animationSrc && !props.mimeType) {
     mimeType.value = await getMimeType(props.animationSrc)
   }
