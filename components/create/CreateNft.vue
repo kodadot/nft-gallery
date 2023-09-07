@@ -67,11 +67,9 @@
       </NeoField>
 
       <!-- list for sale -->
-      <NeoField :label="$t('List For Sale On Marketplace')" required>
+      <NeoField :label="$t('mint.nft.sale.label')" required>
         <div class="w-full">
-          <p>
-            {{ $t('Choose a collection to which you want to mint your NFT.') }}
-          </p>
+          <p>{{ $t('mint.nft.sale.message') }}</p>
         </div>
         <NeoSwitch v-model="form.sale" :rounded="false" />
       </NeoField>
@@ -81,7 +79,7 @@
         v-if="form.sale"
         required
         :error="!form.salePrice"
-        :label="`${$t('Price')} *`">
+        :label="`${$t('price')} *`">
         <div class="w-full">
           <div
             class="is-flex is-justify-content-space-between is-align-items-center">
@@ -109,11 +107,9 @@
       </NeoField>
 
       <!-- no of copies -->
-      <NeoField :label="`${$t('No of Copies')} (optional)`">
+      <NeoField :label="`${$t('mint.nft.copies.label')} (optional)`">
         <div>
-          <p>
-            {{ $t('Amount of the same NFT tokens that will be created.') }}
-          </p>
+          <p>{{ $t('mint.nft.copies.message') }}</p>
           <NeoInput
             v-model="form.copies"
             class="mt-3"
@@ -129,7 +125,7 @@
       </NeoField>
 
       <!-- nft properties -->
-      <NeoField :label="`${$t('Properties (optional)')}`">
+      <NeoField :label="`${$t('tabs.properties')} (optional)`">
         <CustomAttributeInput v-model="form.tags" :max="10" />
       </NeoField>
 
@@ -139,11 +135,9 @@
       </NeoField>
 
       <!-- explicit content -->
-      <NeoField :label="`${$t('Explicit Content')}`">
+      <NeoField :label="`${$t('mint.nfsw')}`">
         <div class="w-full">
-          <p>
-            {{ $t('Set your collection as explicit and sensitive content.') }}
-          </p>
+          <p>{{ $t('mint.nfswMessage') }}</p>
         </div>
         <NeoSwitch v-model="form.nsfw" :rounded="false" />
       </NeoField>

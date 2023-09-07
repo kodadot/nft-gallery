@@ -1,20 +1,20 @@
 <template>
   <div class="container">
-    <h1 class="title is-size-2">What do you wish to create?</h1>
+    <h1 class="title is-size-2">{{ $t('mint.landing.heading') }}</h1>
 
     <div v-if="select === 'landing'" class="pack">
       <nuxt-link class="pack-box" to="/create/collection">
         <div class="pack-content">
           <NeoIcon icon="image-polaroid" size="large" />
           <p class="is-size-4 has-text-weight-bold mt-4">Collection</p>
-          <p>Create a collection for your NFTs</p>
+          <p>{{ $t('mint.landing.collection') }}</p>
         </div>
       </nuxt-link>
       <a class="pack-box" @click="select = 'nft'">
         <div class="pack-content">
           <NeoIcon icon="gem" size="large" />
           <p class="is-size-4 has-text-weight-bold mt-4">NFT</p>
-          <p>Create awesome NFTs from your art</p>
+          <p>{{ $t('mint.landing.nft') }}</p>
         </div>
       </a>
     </div>
@@ -23,15 +23,19 @@
       <nuxt-link class="pack-box" to="/create/nft">
         <div class="pack-content">
           <NeoIcon icon="image" size="large" />
-          <p class="is-size-4 has-text-weight-bold mt-4">Single NFT</p>
-          <p>Create and mint a single original NFT (can have more copies)</p>
+          <p class="is-size-4 has-text-weight-bold mt-4">
+            {{ $t('mint.landing.singleNft') }}
+          </p>
+          <p>{{ $t('mint.landing.singleNftDesc') }}</p>
         </div>
       </nuxt-link>
       <nuxt-link class="pack-box" :to="`/${urlPrefix}/massmint`">
         <div class="pack-content">
           <NeoIcon icon="photo-film" size="large" />
-          <p class="is-size-4 has-text-weight-bold mt-4">Multiple NFTs</p>
-          <p>Create and mint multiple different NFTs at once</p>
+          <p class="is-size-4 has-text-weight-bold mt-4">
+            {{ $t('mint.landing.massNft') }}
+          </p>
+          <p>{{ $t('mint.landing.massNftDesc') }}</p>
         </div>
       </nuxt-link>
     </div>

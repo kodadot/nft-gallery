@@ -104,7 +104,7 @@
     "totalAmount": "Total Amount",
     "transferable": "Transferable",
     "networkFee": "Network fee",
-    "invalidAddress":{
+    "invalidAddress": {
       "changeToChainAddress": "Change to {selectedChain} address",
       "addressChanged": {
         "title": "Changed to {selectedChain} address",
@@ -438,6 +438,7 @@
     "shareWithFriends": "Share {0} with your friends",
     "unlimited": "Unlimited items in your collection",
     "nfsw": "Explicit content (NSFW)",
+    "nfswMessage": "Set your collection as explicit and sensitive content.",
     "listForSale": "List NFT for sale",
     "listWithRoyalty": "Add royalty",
     "mass": "NFT mass minter",
@@ -445,6 +446,15 @@
     "transform": "Transform commands in NFT",
     "deposit": "Deposit",
     "requiredDeposit": "A deposit of <strong>{0}</strong> is required to create a collection. Please note, this initial deposit is refundable.",
+    "landing": {
+      "heading": "What Do You Wish To Create?",
+      "collection": "Create A Collection For Your NFTs",
+      "nft": "Create Awesome NFTs From Your Art",
+      "singleNft": "Single NFT",
+      "singleNftDesc": "Create and mint a single original NFT (can have more copies)",
+      "massNft": "Multiple NFTs",
+      "massNftDesc": "Create and mint multiple different NFTs at once"
+    },
     "expert": {
       "show": "Show advanced settings",
       "hide": "Hide advanced settings",
@@ -517,6 +527,19 @@
         "label": "email",
         "placeholder": "Enter your email",
         "message": "Enter your email to receive a notification when your request is done"
+      },
+      "sale": {
+        "label": "List For Sale On Marketplace",
+        "message": "Choose a collection to which you want to mint your NFT."
+      },
+      "copies": {
+        "label": "No of Copies",
+        "message": "Amount of the same NFT tokens that will be created."
+      },
+      "preview": {
+        "title": "Preview",
+        "uploadArt": "Upload your art to see a preview of your NFT here",
+        "noCollection": "No Collection"
       },
       "create": "Create New NFT",
       "creativeDrop": "Drop your NFT here, click to upload or paste the image from the clipboard. AI model limits our support for Creative Minting to only JPEG, PNG, GIF or BMP image files. The file size must be less than 4MB, and the image's dimensions must be greater than 50x50 pixels. Realistic photographs will achieve the best results.",

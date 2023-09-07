@@ -1,16 +1,16 @@
 <template>
   <div class="preview">
-    <p class="has-text-weight-bold">Preview</p>
+    <p class="has-text-weight-bold">{{ $t('mint.nft.preview.title') }}</p>
 
     <div class="preview-card">
       <div class="preview-image" :style="{ backgroundImage: `url(${image})` }">
-        <p v-if="!image" class="p-4">
-          Upload your art to see a preview of your NFT here
-        </p>
+        <p v-if="!image" class="p-4">{{ $t('mint.nft.preview.uploadArt') }}</p>
       </div>
       <div class="preview-content">
         <p class="has-text-weight-bold is-ellipsis">{{ name || 'Untitled' }}</p>
-        <p class="is-size-7 is-ellipsis">{{ collection || 'No Collection' }}</p>
+        <p class="is-size-7 is-ellipsis">
+          {{ collection || $t('mint.nft.preview.noCollection') }}
+        </p>
 
         <div
           class="is-flex is-justify-content-space-between is-align-items-center mt-4">
@@ -56,6 +56,7 @@ defineProps<{
   &-image {
     background-color: #d7d7d7;
     background-size: cover;
+    background-position: center;
     display: flex;
     align-items: center;
     height: 17.5rem;
