@@ -60,7 +60,7 @@ const props = withDefaults(
   {
     src: '',
     animationSrc: '',
-    mimeType: 'image/png',
+    mimeType: '',
     title: 'KodaDot NFT',
     original: false,
     isLewd: false,
@@ -89,6 +89,7 @@ const resolveComponent = computed(() => {
 const properSrc = computed(() => props.src || props.placeholder)
 
 const updateComponent = async () => {
+  console.log('animationSrc: ', props)
   if (props.animationSrc && !props.mimeType) {
     mimeType.value = await getMimeType(props.animationSrc)
   }
