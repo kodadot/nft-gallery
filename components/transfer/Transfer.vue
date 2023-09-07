@@ -20,7 +20,10 @@
         <p class="has-text-weight-bold is-size-3">
           {{ $t('transfer') }} {{ unit }}
         </p>
-        <NeoDropdown position="bottom-left" :mobile-modal="false">
+        <NeoDropdown
+          position="bottom-left"
+          :mobile-modal="false"
+          menu-class="is-shadowless">
           <template #trigger="{ active }">
             <NeoButton
               icon="ellipsis-vertical"
@@ -233,7 +236,7 @@
 
       <div class="is-flex">
         <NeoButton
-          class="is-flex is-flex-1 fixed-height"
+          class="is-flex is-flex-1 fixed-height is-shadowless"
           variant="k-accent"
           :disabled="disabled"
           @click.native="handleOpenConfirmModal"
@@ -775,7 +778,7 @@ watchDebounced(
 @import '@/styles/abstracts/variables';
 
 .transfer-card {
-  max-width: 41rem;
+  max-width: 660px;
 
   @include touch {
     width: 100vw;
