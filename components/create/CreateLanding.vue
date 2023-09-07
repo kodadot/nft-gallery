@@ -60,7 +60,7 @@ const select = ref<'landing' | 'nft'>('landing')
   flex-direction: column;
   height: calc(100vh - 5.25rem);
   margin: 0;
-  max-width: 100%;
+  max-width: 100% !important;
 
   @include ktheme() {
     background-color: theme('k-primaryLight');
