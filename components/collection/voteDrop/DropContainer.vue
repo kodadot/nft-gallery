@@ -64,7 +64,7 @@
                   variant="k-accent"
                   :disabled="mintButtonDisabled"
                   :label="buttonLabel"
-                  @click.native="handleMint" />
+                  @click="handleMint" />
                 <div class="is-flex is-align-items-center mt-2">
                   <NeoIcon icon="timer" pak="far" class="mr-2" />
                   {{ leftTime }}

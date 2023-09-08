@@ -232,7 +232,7 @@
         <nuxt-link
           class="search-footer-link"
           :to="{ name: 'series-insight' }"
-          @click.native="$emit('close')">
+          @click="$emit('close')">
           <div :class="loadMoreItemClassName">
             {{ $t('search.rankings') }}
             <svg

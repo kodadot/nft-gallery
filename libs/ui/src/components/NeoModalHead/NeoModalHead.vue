@@ -18,7 +18,7 @@
       icon="xmark"
       icon-pack="fa-sharp"
       size="medium"
-      @click.native="emit('close')" />
+      @click="emit('close')" />
   </header>
 </template>
 

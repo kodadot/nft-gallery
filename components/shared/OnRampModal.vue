@@ -14,7 +14,7 @@
           icon-pack="fa-sharp"
           size="medium"
           class="cross"
-          @click.native="onClose" />
+          @click="onClose" />
       </div>
       <div class="px-6 py-3">
         <div v-for="(provider, index) in providers" :key="provider.value">

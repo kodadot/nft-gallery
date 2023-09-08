@@ -40,7 +40,7 @@
           data-testid="item-buy"
           no-shadow
           class="is-flex-grow-1 btn-height"
-          @click.native.prevent="onClickListingCart">
+          @click.prevent="onClickListingCart">
         </NeoButton>
       </div>
     </template>

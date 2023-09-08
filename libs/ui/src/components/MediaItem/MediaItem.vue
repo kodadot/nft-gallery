@@ -29,7 +29,7 @@
       :label="
         isLewdBlurredLayer ? $t('lewd.showContent') : $t('lewd.hideContent')
       "
-      @click.native="toggleContent" />
+      @click="toggleContent" />
   </div>
 </template>
 

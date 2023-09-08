@@ -22,14 +22,14 @@
           icon-pack="fab"
           no-shadow
           class="no-border is-text is-size-4 p-0 mr-4"
-          @click.native="openShareUrl('twitter')" />
+          @click="openShareUrl('twitter')" />
 
         <NeoButton
           icon="linkedin"
           icon-pack="fab"
           no-shadow
           class="no-border is-text is-size-4 p-0"
-          @click.native="openShareUrl('linkedin')" />
+          @click="openShareUrl('linkedin')" />
       </div>
     </div>
     <img

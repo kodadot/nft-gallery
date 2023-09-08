@@ -13,7 +13,7 @@
       no-shadow
       class="shade-border-color ml-2 height-40"
       icon="check"
-      @click.native="emit('confirm')" />
+      @click="emit('confirm')" />
   </div>
 </template>
 

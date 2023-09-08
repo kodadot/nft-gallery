@@ -47,7 +47,7 @@
       <nuxt-link
         to="/settings"
         class="has-text-grey is-align-items-center"
-        @click.native="closeModal">
+        @click="closeModal">
         <NeoIcon icon="gear" custom-size="fa-2x" />
         <span>{{ $t('settings') }}</span>
       </nuxt-link>

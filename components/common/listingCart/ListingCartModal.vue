@@ -16,7 +16,7 @@
             variant="text"
             no-shadow
             icon="close"
-            @click.native="preferencesStore.listingCartModalOpen = false" />
+            @click="preferencesStore.listingCartModalOpen = false" />
         </header>
         <div class="px-6 pt-4">
           <div
@@ -44,7 +44,7 @@
               label="-5%"
               rounded
               no-shadow
-              @click.native="
+              @click="
                 floorPricePercentAdjustment > 0.05 &&
                   (floorPricePercentAdjustment -= 0.05)
                 listingCartStore.setFloorPrice(floorPricePercentAdjustment)
@@ -54,7 +54,7 @@
               :label="$t('statsOverview.floorPrice')"
               rounded
               no-shadow
-              @click.native="
+              @click="
                 floorPricePercentAdjustment = 1
                 listingCartStore.setFloorPrice(floorPricePercentAdjustment)
               " />
@@ -62,7 +62,7 @@
               label="+5%"
               rounded
               no-shadow
-              @click.native="
+              @click="
                 floorPricePercentAdjustment += 0.05
                 listingCartStore.setFloorPrice(floorPricePercentAdjustment)
               " />
@@ -99,7 +99,7 @@
             variant="k-accent"
             no-shadow
             class="is-flex is-flex-grow-1 py-5"
-            @click.native="confirm" />
+            @click="confirm" />
         </div>
       </div>
     </NeoModal>
