@@ -29,18 +29,18 @@
                 :alt="`${provider.value} provider logo`"
                 :src="provider.image"
                 class="provider-logo" />
-              <p v-if="provider.disabled" class="ml-2 small-text has-text-grey">
+              <p v-if="provider.disabled" class="ml-2 is-size-7 has-text-grey">
                 {{ $t('soon') }}
               </p>
             </div>
 
             <div
               class="mt-4 is-flex is-align-items-center is-justify-content-space-between w-full">
-              <div class="small-text has-text-grey">
+              <div class="is-size-7 has-text-grey">
                 {{ $t('general.supports') }}
               </div>
 
-              <div class="small-text has-text-grey">
+              <div class="is-size-7 has-text-grey">
                 {{ getSupportedTokensToText(provider.supports) }}
               </div>
             </div>
@@ -138,10 +138,6 @@ const transakInit = () => {
 
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
-
-.small-text {
-  font-size: 0.75rem;
-}
 
 .provider {
   cursor: pointer;
