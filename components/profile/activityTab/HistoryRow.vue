@@ -137,7 +137,6 @@
 
 <script setup lang="ts">
 import { NeoAvatar, NeoTooltip } from '@kodadot1/brick'
-import { parseNftAvatar } from '@/utils/nft'
 import { Event } from './History.vue'
 import {
   blank,
@@ -145,6 +144,7 @@ import {
 } from '@/components/collection/activity/events/eventRow/common'
 import EventTag from '@/components/collection/activity/events/eventRow/EventTag.vue'
 import BlockExplorerLink from '@/components/shared/BlockExplorerLink.vue'
+import { parseNftAvatar } from '@/utils/nft'
 
 const props = defineProps<{
   event: Event
@@ -155,7 +155,6 @@ const props = defineProps<{
 const { urlPrefix } = usePrefix()
 const avatar = ref()
 const { placeholder } = useTheme()
-
 const fromAddress = computed(() => props.event.From)
 const toAddress = computed(() => props.event.To)
 const isDesktop = computed(() => props.variant === 'Desktop')

@@ -10,7 +10,7 @@
       muted
       :src="animationSrc || src"
       controlslist="nodownload"
-      data-cy="type-video"
+      data-testid="type-video"
       :title="alt" />
   </div>
 </template>

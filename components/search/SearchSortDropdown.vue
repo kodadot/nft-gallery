@@ -10,7 +10,7 @@
           type="primary"
           no-shadow
           icon-right="caret-down"
-          data-cy="gallery-sort-by">
+          data-testid="gallery-sort-by">
           {{ $t('sort.collection.sortBy') }}
         </NeoButton>
       </template>
@@ -18,7 +18,7 @@
         v-for="action in actions"
         :key="action"
         :value="action"
-        :data-cy="$t('sort.' + action)">
+        :data-testid="$t('sort.' + action)">
         {{ $t('sort.' + action) }}
       </NeoDropdownItem>
     </NeoDropdown>
@@ -27,7 +27,7 @@
       v-model="selectedAction"
       :placeholder="$t('sort.collection.sortBy')"
       class="select-dropdown"
-      data-cy="collection-sort-by">
+      data-testid="collection-sort-by">
       <option v-for="action in actions" :key="action" :value="action">
         {{
           isCollection ? $t('sort.collection.' + action) : $t('sort.' + action)

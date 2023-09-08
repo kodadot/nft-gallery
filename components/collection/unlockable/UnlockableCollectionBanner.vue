@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="collection-banner"
-    :style="{ backgroundImage: `url('/unlockable-banner.svg')` }">
+  <div class="collection-banner" :style="{ backgroundImage: `url(${banner})` }">
     <div class="collection-banner-shadow"></div>
 
     <section class="h-full py-8">
@@ -21,6 +19,7 @@
 <script setup lang="ts">
 import HeroButtons from '@/components/collection/unlockable/UnlockableHeroButtons.vue'
 import { unlockableDesc } from '../unlockable/utils'
+import { VOTE_DROP_DESCRIPTION } from '../voteDrop/const'
 import { generateDropImage } from '@/utils/seoImageGenerator'
 
 const props = defineProps<{
@@ -31,6 +30,8 @@ const { $seoMeta } = useNuxtApp()
 
 const title = computed(() => {
   switch (props.type) {
+    case 'vote-drop':
+      return 'Referendum Mint'
     case 'dot-drop':
       return 'Waifu 1 DOT Mint'
     default:
@@ -38,8 +39,19 @@ const title = computed(() => {
   }
 })
 
+const banner = computed(() => {
+  switch (props.type) {
+    case 'vote-drop':
+      return '/drop/vote-drop-banner.webp'
+    default:
+      return '/unlockable-banner.svg'
+  }
+})
+
 const image = computed(() => {
   switch (props.type) {
+    case 'vote-drop':
+      return '/drop/vote-drop-avatar.webp'
     case 'dot-drop':
       return 'https://replicate.delivery/pbxt/te3utBZeR4kbi0u1Xrsrz6VhZScDhElj9ZFTKQ3fRPRYHTUiA/out-0.png'
     case 'free-drop':
@@ -51,6 +63,8 @@ const image = computed(() => {
 
 const description = computed(() => {
   switch (props.type) {
+    case 'vote-drop':
+      return VOTE_DROP_DESCRIPTION
     case 'dot-drop':
       return unlockableDesc(50)
     case 'free-drop':

@@ -6,7 +6,9 @@
     <div class="container is-fluid">
       <div class="columns is-desktop">
         <div class="column is-half-desktop mobile-padding">
-          <UnlockableCollectionInfo :collection-id="collectionId" />
+          <UnlockableCollectionInfo
+            :collection-id="collectionId"
+            :description="description" />
           <hr class="mb-4" />
 
           <div
@@ -25,7 +27,7 @@
               ><span
                 v-if="mintCountAvailable"
                 class="is-flex is-align-items-center">
-                <img src="/unlockable-pulse.svg" />
+                <img src="/drop/unlockable-pulse.svg" alt="open" />
                 Open</span
               >
             </div>
@@ -40,7 +42,7 @@
           <div class="my-5">
             <UnlockableSlider :value="currentMintedCount / MAX_PER_WINDOW" />
           </div>
-          <div class="my-5">
+          <div v-if="!currentMintedLoading" class="my-5">
             <template v-if="!hasUserMinted">
               <NeoButton
                 ref="root"
@@ -209,7 +211,11 @@ const { data: collectionData } = useGraphql({
   },
 })
 
-const { data: stats, refetch: tryAgain } = useGraphql({
+const {
+  data: stats,
+  loading: currentMintedLoading,
+  refetch: tryAgain,
+} = useGraphql({
   queryName: 'firstNftOwnedByAccountAndCollectionId',
   variables: {
     id: collectionId,
