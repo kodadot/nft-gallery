@@ -109,18 +109,6 @@ useNuxt2Meta({
 @use 'sass:meta';
 @import '@/styles/abstracts/variables';
 
-// dynamic load highlight syntax theme based on page theme
-html.light-mode {
-  @include meta.load-css('highlight.js/styles/atom-one-light');
-}
-html.dark-mode {
-  @include meta.load-css('highlight.js/styles/atom-one-dark');
-  .article p > code {
-    // color from them atom-one-dark theme
-    color: #abb2bf;
-    background: #282c34;
-  }
-}
 .article {
   margin: 0 auto;
   max-width: 40rem;
