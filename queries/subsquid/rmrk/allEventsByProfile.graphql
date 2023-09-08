@@ -16,10 +16,22 @@ query allEventsByProfile($id: String) {
         name
         __typename
       }
-
       meta {
         id
         image
+        __typename
+      }
+      resources {
+        id
+        meta {
+          id
+          image
+          animationUrl
+          __typename
+        }
+        metadata
+        src
+        thumb
         __typename
       }
       __typename
