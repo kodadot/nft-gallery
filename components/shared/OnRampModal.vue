@@ -20,15 +20,15 @@
         <div v-for="(provider, index) in providers" :key="provider.value">
           <div
             class="provider is-flex is-justify-content-center is-align-items-start is-flex-direction-column my-4"
+            :class="{
+              provider__disabled: provider.disabled,
+            }"
             @click="onSelect(provider.value)">
             <div class="is-flex is-justify-content-center">
               <img
                 :alt="`${provider.value} provider logo`"
                 :src="provider.image"
-                class="provider-logo"
-                :class="{
-                  'provider-logo__disabled': provider.disabled,
-                }" />
+                class="provider-logo" />
               <p v-if="provider.disabled" class="ml-2 small-text has-text-grey">
                 {{ $t('soon') }}
               </p>
@@ -143,16 +143,19 @@ const transakInit = () => {
   font-size: 0.75rem;
 }
 
-.provider-logo {
-  width: 122px;
-
-  &__disabled {
-    opacity: 30%;
-  }
-}
-
 .provider {
   cursor: pointer;
+
+  .provider-logo {
+    width: 122px;
+  }
+
+  &__disabled {
+    cursor: default;
+    .provider-logo {
+      opacity: 30%;
+    }
+  }
 
   .devider {
     @include ktheme() {
