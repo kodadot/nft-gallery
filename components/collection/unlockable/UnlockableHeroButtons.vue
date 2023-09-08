@@ -8,7 +8,7 @@
             <NeoButton
               icon="share-alt"
               class="square-32 mr-3"
-              data-cy="share-button"
+              data-testid="share-button"
               :active="active" />
           </template>
 

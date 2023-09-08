@@ -6,21 +6,45 @@
     <div v-if="drops.drops.length" class="grid-container">
       <div
         v-for="(drop, index) in drops.drops"
-        :key="`${drop.collection.id}=${index}`"
+        :key="`${drop.collection?.id}=${index}`"
         class="w-full h-full"
-        :data-cy="index">
-        <DropCard :drop="drop" />
+        :data-testid="index">
+        <DropCard :drop="drop" override-url-prefix="ahp" />
       </div>
       <template v-if="statemintDrops.drops.length">
         <div
           v-for="(drop, index) in statemintDrops.drops"
-          :key="`${drop.collection.id}=${index}`"
+          :key="`${drop.collection?.id}=${index}`"
+          class="w-full h-full"
+          :data-testid="index">
+          <DropCard
+            :drop="drop"
+            override-url-prefix="ahp"
+            drop-url="dot-drop" />
+        </div>
+      </template>
+      <template v-if="voteDrop?.drops?.length">
+        <div
+          v-for="(drop, index) in voteDrop.drops"
+          :key="`${drop.collection?.id}=${index}`"
+          class="w-full h-full"
+          :data-cy="index">
+          <DropCard
+            :drop="drop"
+            override-url-prefix="ahk"
+            drop-url="vote-drop" />
+        </div>
+      </template>
+      <template v-if="voteDropAhp?.drops?.length">
+        <div
+          v-for="(drop, index) in voteDropAhp.drops"
+          :key="`${drop.collection?.id}=${index}`"
           class="w-full h-full"
           :data-cy="index">
           <DropCard
             :drop="drop"
             override-url-prefix="ahp"
-            drop-url="dot-drop" />
+            drop-url="vote-drop" />
         </div>
       </template>
     </div>
@@ -30,9 +54,9 @@
     <div v-if="drops.futureDrops.length" class="grid-container">
       <div
         v-for="(drop, index) in drops.futureDrops"
-        :key="`${drop.collection.id}=${index}`"
+        :key="`${drop.collection?.id}=${index}`"
         class="w-full h-full"
-        :data-cy="index">
+        :data-testid="index">
         <DropCard :drop="drop" />
       </div>
     </div>
@@ -51,12 +75,18 @@ import DropCard from '@/components/drops/DropCard.vue'
 import CreateDropCard from '@/components/drops/CreateDropCard.vue'
 import { collectionId } from '@/components/collection/unlockable/const'
 import { STT_COLLECTION_ID } from '@/components/collection/drop/const'
+import {
+  VOTE_DROP_AHP_COLLECTION_ID,
+  VOTE_DROP_COLLECTION_ID,
+} from '@/components/collection/voteDrop/const'
 import { useDrops } from './useDrops'
 import { dropsVisible } from '@/utils/config/permission.config'
 
 const { $i18n } = useNuxtApp()
-const drops = useDrops(collectionId)
+const drops = useDrops(collectionId, 'ahp')
 const statemintDrops = useDrops(STT_COLLECTION_ID, 'ahp')
+const voteDrop = useDrops(VOTE_DROP_COLLECTION_ID, 'ahk')
+const voteDropAhp = useDrops(VOTE_DROP_AHP_COLLECTION_ID, 'ahp')
 const { urlPrefix } = usePrefix()
 
 const checkRouteAvailability = () => {

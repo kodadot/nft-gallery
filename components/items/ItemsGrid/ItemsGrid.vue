@@ -12,7 +12,7 @@
       <div
         v-for="(nft, index) in nfts"
         :key="`${nft.id}=${index}`"
-        :data-cy="index"
+        :data-testid="index"
         :class="scrollItemClassName">
         <ItemsGridImage
           :nft="nft"
@@ -36,7 +36,6 @@
           (slotProps.isMobileVariant || slotProps.grid === 'small') && 'minimal'
         " />
     </DynamicGrid>
-
     <EmptyResult v-else />
     <ScrollTopButton />
   </div>
@@ -45,6 +44,8 @@
 <script setup lang="ts">
 import { NeoNftCard } from '@kodadot1/brick'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
+import { nftToShoppingCardItem } from '@/components/common/shoppingCart/utils'
+import { useListingCartStore } from '@/stores/listingCart'
 import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'
 import isEqual from 'lodash/isEqual'
@@ -54,6 +55,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits(['total', 'loading'])
+const listingCartStore = useListingCartStore()
 
 const isLoading = ref(true)
 const gotoPage = (page: number) => {

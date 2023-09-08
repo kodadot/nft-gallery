@@ -204,7 +204,7 @@ body {
 }
 
 .h-full {
-  height: 100%;
+  height: 100% !important;
 }
 
 .w-full {
@@ -309,23 +309,21 @@ a.has-text-grey {
 
 .card-border-color {
   @include ktheme() {
-    border-color:theme('card-border-color');
+    border-color: theme('card-border-color');
   }
 }
 
 .border-k-shade {
   @include ktheme() {
-    border-color:  theme('k-shade');
+    border-color: theme('k-shade');
   }
 }
 
 .has-text-k-shade {
   @include ktheme() {
     color: theme('k-shade');
-  }  
+  }
 }
-
-
 
 //colors
 
@@ -469,6 +467,7 @@ a.has-text-grey {
 
 .transak_modal {
   z-index: 1000 !important;
+  max-height: 600px !important;
 }
 
 #transakOnOffRampWidget {
