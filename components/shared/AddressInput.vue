@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NeoField :type="type" :message="error" :label="$t(label)">
+    <NeoField :variant="variant" :message="error" :label="$t(label)">
       <NeoInput
         v-model="inputValue"
         :icon-right="iconRight"
@@ -25,6 +25,8 @@ const props = withDefaults(
     strict: boolean
     icon?: string
     placeholder?: string
+    disableError?: boolean
+    isInvalid?: boolean
   }>(),
   {
     label: 'Insert Address',
@@ -38,7 +40,7 @@ const props = withDefaults(
 const { chainProperties } = useChain()
 const error = ref<string | null>('')
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
-const type = computed(() => (error.value ? 'is-danger' : ''))
+const variant = computed(() => (props.isInvalid || error.value ? 'danger' : ''))
 const iconRight = computed(() => {
   if (inputValue.value && props.icon === 'close-circle') {
     return 'close-circle'
@@ -57,6 +59,11 @@ const clearIconClick = () => {
 
 const handleInput = (value: string) => {
   emit('input', value)
+
+  if (props.disableError) {
+    return value
+  }
+
   if (props.strict) {
     const [, err] = checkAddress(value, correctFormat(ss58Format.value))
     error.value = value ? err : ''

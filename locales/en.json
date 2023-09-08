@@ -103,7 +103,26 @@
     "recipients": "recipients",
     "totalAmount": "Total Amount",
     "transferable": "Transferable",
-    "networkFee": "Network fee"
+    "networkFee": "Network fee",
+    "invalidAddress":{
+      "changeToChainAddress": "Change to {selectedChain} address",
+      "addressChanged": {
+        "title": "Changed to {selectedChain} address",
+        "content": "Address was successfully changed for {selectedChain} network. You can double check correctness <a href='https://kusama.subscan.io/tools/format_transform' target='_blank'>here</a>."
+      },
+      "ethereum": {
+        "title": "Not Polkadot ecosystem address",
+        "content": "Oops! You have entered ETH address which <strong>is not supported by Polkadot ecosystem.</strong> Please enter Polkadot supported address to proceed with the transaction."
+      },
+      "unknown": {
+        "title": "Not Polkadot ecosystem address",
+        "content": "Oops! The address you entered is not supported by Polkadot ecosystem. Please enter Polkadot supported address to proceed with the transaction."
+      },
+      "wrong_network_address": {
+        "title": "Wrong Network address",
+        "content": "Oops! You have entered a {addressChain} address. Enter a <strong>{selectedChain} address </strong> to proceed with the transaction or allow us to change it for you."
+      }
+    }
   },
   "topCollections": {
     "timeFrames": {
@@ -424,7 +443,8 @@
     "mass": "NFT mass minter",
     "command": "List of commands for mass mint",
     "transform": "Transform commands in NFT",
-    "deposit": "Current deposit",
+    "deposit": "Deposit",
+    "requiredDeposit": "A deposit of <strong>{0}</strong> is required to create a collection. Please note, this initial deposit is refundable.",
     "expert": {
       "show": "Show advanced settings",
       "hide": "Hide advanced settings",
@@ -440,12 +460,12 @@
     },
     "collection": {
       "name": {
-        "label": "Collection name",
+        "label": "Collection Name",
         "placeholder": "Enter collection name",
         "message": "Name of your collection. It will be visible in the gallery"
       },
       "description": {
-        "label": "Collection description",
+        "label": "Collection Description",
         "placeholder": "Enter collection description",
         "message": "Description of your collection. Markdown is supported"
       },
@@ -455,6 +475,7 @@
         "message": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM"
       },
       "logo": {
+        "image": "Logo Image",
         "label": "Collection logo",
         "message": "This image will also be used for navigation. Image with size 300 x 300 recommended "
       },
@@ -462,7 +483,7 @@
         "label": "Collection banner",
         "message": "Name of your collection. It will be visible in the gallery"
       },
-      "create": "Create collection",
+      "create": "Create New Collection",
       "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
     },
     "nft": {
@@ -513,6 +534,10 @@
         "viewNFTLater2": " will be visible in",
         "viewNFTLater3": "seconds."
       }
+    },
+    "blockchain": {
+      "label": "Blockchain",
+      "message": "Select the blockchain to which NFTs will be minted by default."
     }
   },
   "tooltip": {
@@ -850,7 +875,8 @@
     "tagsAdd": "Type and press enter to add your own",
     "chooseWallet": "Choose your",
     "noAssets": "There are currently no assets in this wallet.",
-    "noPopularCollections": "There are no popular collections now."
+    "noPopularCollections": "There are no popular collections now.",
+    "successfullyAddedFunds": "Successfully added funds. Your funds will arrive shortly."
   },
   "helper": {
     "seeMore": "See More",
@@ -1233,7 +1259,9 @@
     "title": "Drops",
     "upcoming": "Upcoming",
     "noUpcoming": "Nothing  here yet...",
-    "mintingLive": "Minting Live"
+    "mintingLive": "Minting Live",
+    "mintedBy": "Minted By",
+    "recentMints": "Recent NFT Mints"
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
@@ -1257,5 +1285,16 @@
     "gotToCart": "Go To Cart",
     "buyNow": "Buy Now",
     "wallet": "Wallet"
+  },
+  "listingCart": {
+    "complete": "Complete Listing",
+    "missing1": "1 Item Is Missing Price",
+    "missingMultiple": "Items Are Missing Price",
+    "selectAll": "Select All",
+    "listItem": "List Item",
+    "fixedPrice": "Fixed Price",
+    "collectionFloorPrice": "Collection Floor Price",
+    "potentialEarnings": "Potential Earnings",
+    "listForSale": "List For Sale"
   }
 }

@@ -69,7 +69,10 @@ const props = defineProps({
   required: { type: Boolean, default: false },
   expanded: { type: Boolean },
   preview: { type: Boolean },
-  accept: { type: Boolean },
+  accept: {
+    type: String,
+    default: '',
+  },
 })
 
 const emit = defineEmits(['input'])

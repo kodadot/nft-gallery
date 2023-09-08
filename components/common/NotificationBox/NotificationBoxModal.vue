@@ -95,7 +95,8 @@
           <NotificationItem
             v-for="(event, index) in displayedEvents"
             :key="`${event.id}-${index}`"
-            :event="event" />
+            :event="event"
+            @click.native="closeModal(ModalCloseType.NAVIGATION)" />
         </div>
       </div>
     </div>
@@ -107,6 +108,7 @@ import { FilterOption } from './types'
 import { NeoButton, NeoIcon, NeoModalHead } from '@kodadot1/brick'
 import NeoTag from '@/components/shared/gallery/NeoTag.vue'
 import { usePreferencesStore } from '@/stores/preferences'
+import { ModalCloseType } from '@/components/navbar/types'
 
 import NotificationItem from './NotificationItem.vue'
 import {
@@ -137,9 +139,9 @@ watch(isOpen, (newValue, oldValue) => {
   }
 })
 
-const closeModal = () => {
+const closeModal = (type: ModalCloseType = ModalCloseType.BACK) => {
   isOpen.value = false
-  emit('close')
+  emit('close', type)
 }
 
 const { collections, events: allEvents, loading } = useNotification()

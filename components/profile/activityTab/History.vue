@@ -73,7 +73,6 @@ import { usePreferencesStore } from '@/stores/preferences'
 import {
   HistoryEventType,
   InteractionBsxOnly,
-  parseChartAmount,
   parseDate,
 } from '@/utils/historyEvent'
 
@@ -82,11 +81,6 @@ import ResponsiveTable from '@/components/shared/ResponsiveTable.vue'
 import Pagination from '@/components/rmrk/Gallery/Pagination.vue'
 import HistoryRow from './HistoryRow.vue'
 import { emptyObject } from '@/utils/empty'
-
-type ChartData = {
-  buy: any[]
-  list: any[]
-}
 
 const prop = withDefaults(
   defineProps<{
@@ -103,10 +97,8 @@ const prop = withDefaults(
     displayItem: false,
   }
 )
-const emit = defineEmits(['setPriceChartData'])
 
 const route = useRoute()
-const { decimals } = useChain()
 
 const container = ref<HTMLDivElement | null>(null)
 const { desktop } = useResponsive(container)
@@ -149,10 +141,6 @@ const updateDataByEvent = () => {
       : [...new Set(copyTableData.value.filter((v) => v.Type === event))]
 }
 
-const pushChartData = (array, date, amount) => {
-  array.push([date, parseChartAmount(amount, decimals.value)])
-}
-
 export interface Event {
   ID: string
   Type: string
@@ -170,10 +158,6 @@ const createTable = (): void => {
   data.value = []
   copyTableData.value = []
 
-  const chartData: ChartData = {
-    buy: [],
-    list: [],
-  }
   const previousPriceMap = {}
 
   for (const newEvent of prop.events) {
@@ -257,13 +241,6 @@ const createTable = (): void => {
     // ID for table: Use a unique key of your data Object for each row.
     event['ID'] = newEvent['timestamp'] + newEvent['id']
 
-    // Push to chart data
-    if (newEvent['interaction'] === Interaction.LIST) {
-      pushChartData(chartData.list, date, event['Amount'])
-    } else if (newEvent['interaction'] === Interaction.BUY) {
-      pushChartData(chartData.buy, date, event['Amount'])
-    }
-
     copyTableData.value.push(event)
   }
 
@@ -273,8 +250,6 @@ const createTable = (): void => {
   if (!data.value.length) {
     event.value = HistoryEventType.ALL
   }
-
-  emit('setPriceChartData', [chartData.buy, chartData.list])
 }
 
 watch(() => prop.events, createTable)
