@@ -80,6 +80,7 @@ const twitterText = computed(
   () =>
     `Just minted an exclusive NFT with unlockable items on @Kodadot! 🎉 So excited to add this unique collectible to my collection. Do not miss your chance! \n\n ${location.href}`
 )
+
 const postTwitterUrl = computed(
   () =>
     `https://twitter.com/intent/tweet?text=${encodeURIComponent(
