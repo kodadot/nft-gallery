@@ -22,8 +22,9 @@
     <div class="column is-1">
       <div class="h-50 is-flex is-align-items-center">
         <EventTag
-          :interaction="eventType"
-          :interaction-name="interactionName" />
+          :interaction="event.Type"
+          :interaction-name="interactionName"
+          distinguish-buy-and-sell />
       </div>
     </div>
 
@@ -95,8 +96,9 @@
         </nuxt-link>
 
         <EventTag
-          :interaction="eventType"
-          :interaction-name="interactionName" />
+          :interaction="event.Type"
+          :interaction-name="interactionName"
+          distinguish-buy-and-sell />
       </div>
     </div>
     <div class="is-flex">
@@ -156,15 +158,11 @@ const { placeholder } = useTheme()
 const fromAddress = computed(() => props.event.From)
 const toAddress = computed(() => props.event.To)
 const isDesktop = computed(() => props.variant === 'Desktop')
-const eventType = computed(() => {
-  if (props.event.Type === 'SELL') {
-    return 'BUY'
-  }
-  return props.event.Type
-})
 
 const interactionName = computed(
-  () => interactionNameMap[eventType.value] || eventType.value
+  () =>
+    interactionNameMap({ distinguishBuyAndSell: true })[props.event.Type] ||
+    props.event.Type
 )
 
 const getAvatar = async () => {

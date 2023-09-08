@@ -13,6 +13,7 @@
         :total-token-amount="totalTokenAmount"
         :transaction-id="transactionValue"
         :total-usd-value="totalUsdValue"
+        :is-mobile="isMobile"
         @close="isLoaderModalVisible = false" />
       <div
         class="is-flex is-justify-content-space-between is-align-items-center mb-2">
@@ -331,8 +332,7 @@ export type TargetAddress = {
   token?: number | string
   isInvalid?: boolean
 }
-
-const isMobile = computed(() => useWindowSize().width.value <= 1024)
+const isMobile = computed(() => useWindowSize().width.value <= 764)
 const balance = computed(() => getBalance(unit.value) || 0)
 
 const transactionValue = ref('')
@@ -764,7 +764,7 @@ const routerReplace = ({ params = {}, query = {} }) => {
 }
 
 watchDebounced(
-  () => targetAddresses.value[0].usd,
+  () => targetAddresses.value[0]?.usd,
   (usdamount) => {
     routerReplace({ query: { usdamount: (usdamount || 0).toString() } })
   },

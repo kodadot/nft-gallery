@@ -133,7 +133,7 @@ watch(collectionsData, (newData) => {
       ?.map((ce) => ({
         ...ce,
         alreadyMinted: ce.nfts?.length,
-        lastIndexUsed: Number(ce.nfts?.at(0)?.index || 0),
+        lastIndexUsed: Math.max(...ce.nfts.map((nft) => nft.index)),
         totalCount: ce.nfts?.filter((nft) => !nft.burned).length,
       }))
       .filter((ce) => (ce.max || Infinity) - ce.alreadyMinted > 0)
@@ -214,14 +214,15 @@ const navigateToDetail = () => {
 
   const selectedCollection = base.value
     .selectedCollection as BaseMintedCollection
-  const nftId = `${selectedCollection.id}-${
-    selectedCollection.lastIndexUsed + 1
-  }`
-  const go = () =>
+
+  const nftIndex = Math.max(selectedCollection.lastIndexUsed, 0) + 1
+  const nftId = `${selectedCollection.id}-${nftIndex}`
+  const go = () => {
     router.push({
       path: `/${urlPrefix.value}/gallery/${nftId}`,
       query: { congratsNft: base.value.name },
     })
+  }
   setTimeout(go, DETAIL_TIMEOUT)
 }
 </script>

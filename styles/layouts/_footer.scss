@@ -1,6 +1,7 @@
 .footer-container {
   position: relative;
   border-top: 1px solid;
+  overflow-y: hidden;
   @include ktheme() {
     background: theme('background-color');
   }
