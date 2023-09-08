@@ -62,7 +62,7 @@ export default {
       this.autoPosition = this.position
     }
   },
-  beforeDestroy() {
+  onBeforeUnmount() {
     window.removeEventListener('resize', this.calcDropdownPosition)
   },
   methods: {
