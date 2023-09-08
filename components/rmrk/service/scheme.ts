@@ -188,6 +188,7 @@ export interface NFT extends ItemResources {
 export type EntityWithId = {
   id: string
   name: string
+  floor: string
 }
 
 interface BaseInteraction {

@@ -1287,5 +1287,16 @@
     "gotToCart": "Go To Cart",
     "buyNow": "Buy Now",
     "wallet": "Wallet"
+  },
+  "listingCart": {
+    "complete": "Complete Listing",
+    "missing1": "1 Item Is Missing Price",
+    "missingMultiple": "Items Are Missing Price",
+    "selectAll": "Select All",
+    "listItem": "List Item",
+    "fixedPrice": "Fixed Price",
+    "collectionFloorPrice": "Collection Floor Price",
+    "potentialEarnings": "Potential Earnings",
+    "listForSale": "List For Sale"
   }
 }

@@ -71,7 +71,7 @@ const props = defineProps({
   preview: { type: Boolean },
   accept: {
     type: String,
-    default: 'image/png, image/jpeg, image/gif, image/svg+xml, image/svg',
+    default: '',
   },
 })
 
