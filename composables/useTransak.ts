@@ -1,6 +1,6 @@
 import transakSDK from '@transak/transak-sdk'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
-import { CHAINS } from '@/libs/static/src/chains'
+import { CHAINS } from '@kodadot1/static'
 
 interface InitParams {
   address: string

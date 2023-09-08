@@ -46,9 +46,7 @@
             </div>
           </div>
 
-          <hr
-            v-if="index !== providers.length - 1"
-            class="devider my-0 has-text-grey w-full" />
+          <hr v-if="index !== providers.length - 1" class="my-0" />
         </div>
       </div>
     </div>
@@ -148,12 +146,6 @@ const transakInit = () => {
     cursor: default !important;
     .provider-logo {
       opacity: 30%;
-    }
-  }
-
-  .devider {
-    @include ktheme() {
-      border: 1px solid theme('k-shade');
     }
   }
 }
