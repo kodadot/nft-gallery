@@ -19,7 +19,7 @@
       <div class="px-6 py-3">
         <div v-for="(provider, index) in providers" :key="provider.value">
           <div
-            class="provider is-flex is-justify-content-center is-align-items-start is-flex-direction-column my-4"
+            class="provider is-clickable is-flex is-justify-content-center is-align-items-start is-flex-direction-column my-4"
             :class="{
               provider__disabled: provider.disabled,
             }"
@@ -140,14 +140,12 @@ const transakInit = () => {
 @import '@/styles/abstracts/variables';
 
 .provider {
-  cursor: pointer;
-
   .provider-logo {
     width: 122px;
   }
 
   &__disabled {
-    cursor: default;
+    cursor: default !important;
     .provider-logo {
       opacity: 30%;
     }
