@@ -7,7 +7,7 @@
       :disabled="disabled"
       :class="labelColor"
       :type="type"
-      data-cy="buy-now">
+      data-testid="buy-now">
       <component :is="componentName" :label="message">
         {{ properLabel }}
       </component>

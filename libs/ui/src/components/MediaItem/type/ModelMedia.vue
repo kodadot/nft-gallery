@@ -9,7 +9,7 @@
       shadow-intensity="1"
       autoplay
       camera-controls
-      data-cy="type-3d" />
+      data-testid="type-3d" />
   </div>
 </template>
 
