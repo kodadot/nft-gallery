@@ -83,7 +83,7 @@
         <!-- NAV END -->
         <div class="navbar-end">
           <nuxt-link to="/ahk/drops" rel="nofollow">
-            <div class="navbar-item" data-cy="drops">
+            <div class="navbar-item" data-testid="drops">
               {{ $t('drops.title') }}
 
               <NeoIcon
@@ -101,20 +101,20 @@
           <ExploreDropdown
             v-else
             class="navbar-explore custom-navbar-item"
-            data-cy="explore" />
+            data-testid="explore" />
 
           <a
             href="https://hello.kodadot.xyz"
             rel="nofollow noopener noreferrer"
             target="_blank"
             class="navbar-item"
-            data-cy="learn">
-            Learn
+            data-testid="learn">
+            {{ $t('learn') }}
           </a>
           <CreateDropdown
             v-show="isCreateVisible"
             class="navbar-create custom-navbar-item ml-0"
-            data-cy="create"
+            data-testid="create"
             :is-mobile="isMobile"
             :chain="urlPrefix"
             @closeMobileNavbar="showMobileNavbar" />
@@ -122,7 +122,7 @@
           <!-- commenting as part of #5889-->
           <!-- <StatsDropdown
           class="navbar-stats custom-navbar-item"
-          data-cy="stats"
+          data-testid="stats"
           :is-mobile="isMobile"
           :chain="urlPrefix" /> -->
 
@@ -137,7 +137,7 @@
             v-else
             id="NavChainSelect"
             class="navbar-chain custom-navbar-item"
-            data-cy="chain-select" />
+            data-testid="chain-select" />
 
           <NotificationBoxButton
             v-if="account"
@@ -176,7 +176,7 @@
             v-if="!isMobile"
             id="NavProfile"
             :chain="urlPrefix"
-            data-cy="profileDropdown"
+            data-testid="profileDropdown"
             @closeBurgerMenu="closeBurgerMenu" />
         </div>
         <!-- END NAV END -->

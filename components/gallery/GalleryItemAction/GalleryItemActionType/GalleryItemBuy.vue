@@ -1,5 +1,5 @@
 <template>
-  <div data-cy="item-section-buy">
+  <div data-testid="item-section-buy">
     <GalleryItemPriceSection v-if="nft.price" title="Price" :price="nft.price">
       <div v-if="Number(nft.price)" class="is-flex desktop-full-w">
         <div class="is-flex buy-button-width">
@@ -36,14 +36,14 @@
               class="button-height w-full"
               variant="k-accent"
               :disabled="disabled"
-              data-cy="item-buy"
+              data-testid="item-buy"
               @click="onClick" />
           </NeoTooltip>
         </div>
 
         <NeoButton
           class="button-height no-border-left"
-          data-cy="item-add-to-cart"
+          data-testid="item-add-to-cart"
           @click="onClickShoppingCart">
           <img :src="cartIcon" class="image is-32x32" />
         </NeoButton>
@@ -51,6 +51,8 @@
 
       <div v-else>{{ $t('nft.notListed') }}</div>
     </GalleryItemPriceSection>
+
+    <OnRampModal v-model="showRampModal" @close="showRampModal = false" />
   </div>
 </template>
 
@@ -58,12 +60,10 @@
 import { NeoButton, NeoTooltip } from '@kodadot1/brick'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
-import { openConnectWalletModal } from '@/components/common/ConnectWallet/useConnectWallet'
 import { useIdentityStore } from '@/stores/identity'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'
-import { showNotification } from '@/utils/notification'
-
+import OnRampModal from '@/components/shared/OnRampModal.vue'
 import { openShoppingCart } from '@/components/common/shoppingCart/ShoppingCartModalConfig'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { nftToShoppingCardItem } from '@/components/common/shoppingCart/utils'
@@ -80,12 +80,12 @@ const { $i18n } = useNuxtApp()
 const preferencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { cartIcon } = useShoppingCartIcon(props.nft.id)
-const { init: initTransak } = useTransak()
 
 const instance = getCurrentInstance()
 const { doAfterLogin } = useDoAfterlogin(instance)
 const identityStore = useIdentityStore()
 const connected = computed(() => Boolean(accountId.value))
+const showRampModal = ref(false)
 
 enum BuyStatus {
   BUY,
@@ -106,12 +106,7 @@ const label = computed(() => {
 })
 
 const addFunds = () => {
-  initTransak({
-    address: accountId.value,
-    onSuccess: () => {
-      showNotification($i18n.t('general.successfullyAddedFunds'))
-    },
-  })
+  showRampModal.value = true
 }
 
 const balance = computed<string>(() => {

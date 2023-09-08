@@ -17,7 +17,7 @@
       :label="$t('mint.nft.drop')"
       expanded
       preview
-      data-cy="input-upload" />
+      data-testid="input-upload" />
 
     <BasicInput
       ref="nftNameInput"
@@ -28,7 +28,7 @@
       :placeholder="$t('mint.nft.name.placeholder')"
       expanded
       spellcheck="true"
-      data-cy="input-name"
+      data-testid="input-name"
       @blur.native.capture="generateSymbol" />
 
     <BasicInput
@@ -40,7 +40,7 @@
       :placeholder="$t('mint.collection.symbol.placeholder')"
       maxlength="10"
       expanded
-      data-cy="input-symbol"
+      data-testid="input-symbol"
       @keydown.native.space.prevent />
 
     <BasicInput
@@ -52,12 +52,12 @@
       :label="$t('mint.nft.description.label')"
       :message="$t('mint.nft.description.message')"
       :placeholder="$t('mint.nft.description.placeholder')"
-      data-cy="input-description" />
+      data-testid="input-description" />
 
     <NeoField
       :label="$t('mint.nft.edition.label')"
       class="mt-5"
-      data-cy="input-edition">
+      data-testid="input-edition">
       <NeoInput
         v-model="rmrkMint.max"
         type="number"
@@ -78,13 +78,13 @@
     <AttributeTagInput
       v-model="rmrkMint.tags"
       placeholder="Get discovered easier through tags"
-      data-cy="input-tags" />
+      data-testid="input-tags" />
 
     <BalanceInput
       :step="0.1"
       label="Price"
       expanded
-      data-cy="input-price"
+      data-testid="input-price"
       @input="updateMeta" />
 
     <div class="content mt-3">
@@ -98,8 +98,8 @@
         v-if="rmrkMint.max > 1"
         visible="mint.expert.show"
         hidden="mint.expert.hide"
-        data-cy="input-advance-settings">
-        <p class="title is-6" data-cy="input-valid-address">
+        data-testid="input-advance-settings">
+        <p class="title is-6" data-testid="input-valid-address">
           {{ $t('mint.expert.count', [parseAddresses.length]) }}
         </p>
         <p v-show="syncVisible" class="sub-title is-6 has-text-warning">
@@ -111,13 +111,13 @@
             type="textarea"
             :placeholder="'Distribute NFTs to multiple addresses like this:\n- HjshJ....3aJk\n- FswhJ....3aVC\n- HjW3J....9c3V'"
             spellcheck="true"
-            data-cy="input-batch-address" />
+            data-testid="input-batch-address" />
         </NeoField>
 
         <NeoField class="mt-4" :label="$t('action.distributionCount')">
           <NeoSlider
             v-model="distribution"
-            data-cy="input-distribution"
+            data-testid="input-distribution"
             :min="0"
             :max="100" />
         </NeoField>
@@ -133,16 +133,16 @@
         <BasicSwitch
           v-model="random"
           label="action.random"
-          data-cy="input-random" />
+          data-testid="input-random" />
         <BasicSwitch
           v-model="postfix"
           label="mint.expert.postfix"
-          data-cy="input-hashtag" />
+          data-testid="input-hashtag" />
       </CollapseWrapper>
     </NeoField>
-    <BasicSwitch v-model="nsfw" label="mint.nfsw" data-cy="input-nsfw" />
+    <BasicSwitch v-model="nsfw" label="mint.nfsw" data-testid="input-nsfw" />
     <NeoField variant="danger" :message="haveNoToSMessage">
-      <NeoSwitch v-model="hasToS" :rounded="false" data-cy="input-tos">
+      <NeoSwitch v-model="hasToS" :rounded="false" data-testid="input-tos">
         {{ $t('termOfService.accept') }}
       </NeoSwitch>
     </NeoField>
@@ -159,7 +159,7 @@
     <NeoField>
       <NeoIcon icon="calculator" />
       <span class="pr-2">{{ $t('mint.estimated') }}</span>
-      <BasicMoney :value="estimated" inline data-cy="fee" />
+      <BasicMoney :value="estimated" inline data-testid="fee" />
       <span class="pl-2"> ({{ getUsdFromKsm().toFixed(2) }} USD) </span>
     </NeoField>
   </section>

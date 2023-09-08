@@ -6,10 +6,10 @@
       </div>
       <div
         class="is-flex gallery-action-section-price-box"
-        data-cy="item-price">
+        data-testid="item-price">
         <div
           v-if="Number(price)"
-          data-cy="money"
+          data-testid="money"
           class="gallery-action-section-price has-text-weight-bold">
           {{ priceChain }}
         </div>

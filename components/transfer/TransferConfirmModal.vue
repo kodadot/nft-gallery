@@ -26,11 +26,12 @@
             <span class="is-uppercase">{{ unit }}</span>
           </span>
           <NeoButton
-            class="position-right mr-6"
+            class="position-right mr-6 py-1 px-2"
             variant="text"
-            icon="close"
             no-shadow
-            icon-pack="fas"
+            icon="xmark"
+            icon-pack="fa-sharp"
+            size="medium"
             @click="closeModal" />
         </header>
         <div

@@ -9,6 +9,11 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      autoPosition: '',
+    }
+  },
   computed: {
     rootClasses() {
       return [
@@ -28,6 +33,48 @@ export default {
             this.isMobileModal && this.isMatchMedia && !this.hoverable,
         },
       ]
+    },
+    menuClasses() {
+      return [
+        this.computedClass('menuClass', 'o-drop__menu'),
+        {
+          [this.computedClass(
+            'menuPositionClass',
+            'o-drop__menu--',
+            this.autoPosition
+          )]: this.autoPosition,
+        },
+        {
+          [this.computedClass('menuActiveClass', 'o-drop__menu--active')]:
+            this.isActive || this.inline,
+        },
+      ]
+    },
+    isAutoPosition() {
+      return this.position?.includes('auto')
+    },
+  },
+  mounted() {
+    if (this.isAutoPosition) {
+      this.calcDropdownPosition()
+      window.addEventListener('resize', this.calcDropdownPosition)
+    } else {
+      this.autoPosition = this.position
+    }
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.calcDropdownPosition)
+  },
+  methods: {
+    calcDropdownPosition() {
+      // support pass `position` type of `top-auto` or `bottom-auto`
+      // calc the dropdown position based on the trigger position
+      const ele = this.$refs.trigger
+      const side =
+        ele.getBoundingClientRect().left < window.innerWidth / 2
+          ? 'right'
+          : 'left'
+      this.autoPosition = this.position.replace('auto', side)
     },
   },
 }

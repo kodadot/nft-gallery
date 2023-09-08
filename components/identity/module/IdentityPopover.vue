@@ -6,7 +6,7 @@
     boundary="viewport"
     placement="bottom"
     :delay="0"
-    data-cy="identity">
+    data-testid="identity">
     <slot name="content" />
 
     <template #content>

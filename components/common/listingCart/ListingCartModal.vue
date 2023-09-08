@@ -29,7 +29,7 @@
               :prefix="urlPrefix"
               :account="accountId"
               class="identity-name-font-weight-regular"
-              data-cy="item-creator" />
+              data-testid="item-creator" />
           </div>
           <div class="pt-4 has-text-weight-bold">Set All To</div>
           <div class="pt-4">

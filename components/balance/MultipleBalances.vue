@@ -41,7 +41,7 @@
 
       <NeoSkeleton
         v-if="isBalanceLoading"
-        data-cy="skeleton-multiple-balances"
+        data-testid="skeleton-multiple-balances"
         animated />
     </div>
 

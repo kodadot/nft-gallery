@@ -14,7 +14,7 @@
         v-for="(collection, index) in collections"
         :key="collection.id"
         :class="scrollItemClassName"
-        :data-cy="`collection-index-${index}`">
+        :data-testid="`collection-index-${index}`">
         <CollectionCard :collection="collection" />
       </div>
     </DynamicGrid>

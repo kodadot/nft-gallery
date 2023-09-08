@@ -60,7 +60,7 @@ const props = withDefaults(
   {
     src: '',
     animationSrc: '',
-    mimeType: 'image/png',
+    mimeType: '',
     title: 'KodaDot NFT',
     original: false,
     isLewd: false,
@@ -83,8 +83,7 @@ const components = {
 }
 
 const resolveComponent = computed(() => {
-  const type = props.mimeType || mimeType.value
-  return components[resolveMedia(type) + SUFFIX]
+  return components[resolveMedia(mimeType.value) + SUFFIX]
 })
 const properSrc = computed(() => props.src || props.placeholder)
 

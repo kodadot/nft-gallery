@@ -49,7 +49,7 @@ export const salesVisible = (prefix: Prefix | string) => {
 }
 
 export const dropsVisible = (prefix: Prefix | string) => {
-  return prefix === 'ahk'
+  return prefix === 'ahk' || prefix === 'ahp'
 }
 
 export const assetsVisible = (prefix: Prefix | string) => {

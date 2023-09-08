@@ -30,7 +30,7 @@
         <div class="is-flex is-flex-direction-column">
           <span
             class="is-ellipsis has-text-weight-bold"
-            data-cy="nft-name"
+            data-testid="nft-name"
             :title="nft.name"
             >{{ nft.name || '--' }}</span
           >
@@ -43,7 +43,7 @@
             :show-delay="collectionPopoverShowDelay"
             :nft="nft"
             class="is-ellipsis">
-            <template #trigger>
+            <template #content>
               <a
                 v-safe-href="`/${prefix}/collection/${nft.collection.id}`"
                 :title="nft.collectionName || nft.collection.name"
@@ -64,7 +64,7 @@
           <CommonTokenMoney
             v-if="showPrice"
             :value="nft.price"
-            data-cy="card-money" />
+            data-testid="card-money" />
           <span
             v-if="variant !== 'minimal'"
             class="chain-name is-capitalized is-size-7"
