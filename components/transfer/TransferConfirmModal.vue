@@ -26,11 +26,12 @@
             <span class="is-uppercase">{{ unit }}</span>
           </span>
           <NeoButton
-            class="position-right mr-6"
+            class="position-right mr-6 py-1 px-2"
             variant="text"
-            icon="close"
             no-shadow
-            icon-pack="fas"
+            icon="xmark"
+            icon-pack="fa-sharp"
+            size="medium"
             @click.native="closeModal" />
         </header>
         <div
@@ -216,7 +217,7 @@ const isExpandList = ref(false)
 @import '@/styles/abstracts/variables';
 
 .transfer-confirm-modal {
-  @include touch {
+  @include mobile {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -236,7 +237,7 @@ const isExpandList = ref(false)
 
   .scroll-height {
     height: 50vh;
-    @include touch {
+    @include mobile {
       height: 60vh;
     }
   }
