@@ -525,6 +525,7 @@
       "preparing": "Preparing Your Item...",
       "alreadyMinted": "🎉 You already have this NFT, check it here",
       "imageTip": "Examples Of Possible Drop",
+      "onlyOneExample": "Example Of Drop",
       "loader": {
         "shareSuccess": "Share your success",
         "onTwitter": "on Twitter",
@@ -533,7 +534,14 @@
         "viewNFTNow3": "visible now.",
         "viewNFTLater2": " will be visible in",
         "viewNFTLater3": "seconds."
-      }
+      },
+      "open": "Open",
+      "phase": "Mint Phase",
+      "totalAvailableItem":"Total available items",
+      "ayeVotersOnly": "For Aye Voters Only",
+      "eligible": "You Are Eligible",
+      "exclusive":"Exclusive Access Only",
+      "howItemWork": "How unlockable item works"
     },
     "blockchain": {
       "label": "Blockchain",
@@ -876,7 +884,9 @@
     "chooseWallet": "Choose your",
     "noAssets": "There are currently no assets in this wallet.",
     "noPopularCollections": "There are no popular collections now.",
-    "successfullyAddedFunds": "Successfully added funds. Your funds will arrive shortly."
+    "successfullyAddedFunds": "Successfully added funds. Your funds will arrive shortly.",
+    "supports": "Supports",
+    "chooseProvider": "Choose A Provider"
   },
   "helper": {
     "seeMore": "See More",

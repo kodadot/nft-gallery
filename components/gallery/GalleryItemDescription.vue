@@ -119,7 +119,7 @@
       <div v-if="nftImage" class="is-flex is-justify-content-space-between">
         <p>{{ $t('tabs.tabDetails.media') }}</p>
         <div @click="openLink(nftImage)">
-          <a class="has-text-link" data-cy="media-link">
+          <a class="has-text-link" data-testid="media-link">
             {{ nftMimeType }}
           </a>
         </div>
@@ -139,7 +139,7 @@
           class="has-text-link"
           target="_blank"
           rel="nofollow noopener noreferrer"
-          data-cy="metadata-link"
+          data-testid="metadata-link"
           >{{ metadataMimeType }}</a
         >
       </div>

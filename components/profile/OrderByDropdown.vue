@@ -7,7 +7,7 @@
       multiple
       :mobile-modal="false"
       aria-role="list"
-      position="bottom-left"
+      position="bottom-auto"
       @change="onChange">
       <template #trigger="{ active }">
         <NeoButton
@@ -15,7 +15,7 @@
           type="button"
           :icon="active ? 'chevron-up' : 'chevron-down'"
           class="has-text-left"
-          data-cy="explore-sort">
+          data-testid="explore-sort">
           {{ $i18n.t('sort.collection.sortBy') }}
         </NeoButton>
 
@@ -27,7 +27,7 @@
         :key="option"
         aria-role="listitem"
         class="is-flex"
-        :data-cy="option"
+        :data-testid="option"
         :value="option">
         <span>
           {{
