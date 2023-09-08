@@ -876,7 +876,9 @@
     "chooseWallet": "Choose your",
     "noAssets": "There are currently no assets in this wallet.",
     "noPopularCollections": "There are no popular collections now.",
-    "successfullyAddedFunds": "Successfully added funds. Your funds will arrive shortly."
+    "successfullyAddedFunds": "Successfully added funds. Your funds will arrive shortly.",
+    "supports": "Supports",
+    "chooseProvider": "Choose A Provider"
   },
   "helper": {
     "seeMore": "See More",
