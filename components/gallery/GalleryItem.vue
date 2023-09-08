@@ -67,13 +67,15 @@
           <div class="pb-4">
             <div class="is-flex is-justify-content-space-between">
               <div class="name-container">
-                <h1 class="title" data-cy="item-title">
+                <h1 class="title" data-testid="item-title">
                   {{ nftMetadata?.name }}
                   <span v-if="nft?.burned" class="has-text-danger">「🔥」</span>
                 </h1>
-                <h2 class="subtitle" data-cy="item-collection">
-                  <CollectionDetailsPopover v-if="nft" :nft="nft">
-                    <template #trigger>
+                <h2 class="subtitle" data-testid="item-collection">
+                  <CollectionDetailsPopover
+                    v-if="nft?.collection.id"
+                    :nft="nft">
+                    <template #content>
                       <nuxt-link
                         :to="`/${urlPrefix}/collection/${collection?.id}`"
                         class="has-text-link">
@@ -96,14 +98,14 @@
                 :label="$t('Creator')"
                 :prefix="urlPrefix"
                 :account="nft?.issuer"
-                data-cy="item-creator" />
+                data-testid="item-creator" />
               <IdentityItem
                 v-if="nft?.currentOwner !== nft?.issuer"
                 class="gallery-avatar"
                 :label="$t('Owner')"
                 :prefix="urlPrefix"
                 :account="nft?.currentOwner || ''"
-                data-cy="item-owner" />
+                data-testid="item-owner" />
             </div>
           </div>
 
@@ -146,7 +148,7 @@
       v-if="nft"
       class="mt-8"
       :collection-id="nft?.collection.id"
-      data-cy="carousel-related" />
+      data-testid="carousel-related" />
 
     <CarouselTypeVisited class="mt-8" />
 

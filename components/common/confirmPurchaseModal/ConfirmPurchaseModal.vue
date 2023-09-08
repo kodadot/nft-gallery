@@ -7,12 +7,19 @@
     @close="onClose">
     <div class="modal-width">
       <header
-        class="py-5 px-6 is-flex is-justify-content-space-between border-bottom">
+        class="modal-card-head is-flex is-justify-content-space-between is-align-items-center border-bottom">
         <span class="modal-card-title is-size-6 has-text-weight-bold">
           {{ $t('confirmPurchase.action') }}
         </span>
 
-        <NeoButton variant="text" no-shadow icon="close" @click="onClose" />
+        <NeoButton
+          class="py-1 px-2"
+          variant="text"
+          no-shadow
+          icon="xmark"
+          icon-pack="fa-sharp"
+          size="medium"
+          @click="onClose" />
       </header>
       <div class="px-6 pt-4">
         <div
@@ -25,7 +32,7 @@
             :prefix="urlPrefix"
             :account="accountId"
             class="identity-name-font-weight-regular"
-            data-cy="item-creator" />
+            data-testid="item-creator" />
         </div>
       </div>
       <div class="py-2">

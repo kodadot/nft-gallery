@@ -12,14 +12,14 @@
               :disabled="!listingCartStore.count"
               variant="text"
               no-shadow
-              @click.native="listingCartStore.clear">
+              @click="listingCartStore.clear">
               {{ $t('sort.clearAll') }}
             </NeoButton>
             <div class="mx-4" />
             <NeoButton
               variant="text"
               no-shadow
-              @click.native="listingCartStore.addAllToCart">
+              @click="listingCartStore.addAllToCart">
               {{ $t('listingCart.selectAll') }}
             </NeoButton>
           </div>
@@ -27,7 +27,7 @@
         <NeoButton
           class="h-full"
           :variant="'k-accent'"
-          @click.native="preferencesStore.listingCartModalOpen = true">
+          @click="preferencesStore.listingCartModalOpen = true">
           {{ $t('listingCart.listItem') }}
         </NeoButton>
       </div>

@@ -7,17 +7,18 @@
   </header>
   <header
     v-else
-    class="modal-card-head py-5 px-6 is-flex is-justify-content-space-between border-bottom">
+    class="modal-card-head is-flex is-justify-content-space-between border-bottom">
     <span class="modal-card-title is-size-6 has-text-weight-bold">
       {{ title }}
     </span>
     <NeoButton
+      class="py-1 px-2"
       variant="text"
       no-shadow
       icon="xmark"
       icon-pack="fa-sharp"
       size="medium"
-      @click.native="emit('close')" />
+      @click="emit('close')" />
   </header>
 </template>
 

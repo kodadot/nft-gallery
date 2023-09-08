@@ -16,7 +16,7 @@
           <div class="container image is-64x64 mb-2">
             <Avatar :value="id" />
           </div>
-          <h1 class="title is-2" data-cy="user-identity">
+          <h1 class="title is-2" data-testid="user-identity">
             <a
               v-if="hasBlockExplorer"
               v-safe-href="explorer"
@@ -118,9 +118,9 @@
           :text="tab"
           class="is-capitalized"
           @click="() => switchToTab(tab)" />
-        <div class="is-flex mt-4">
-          <ChainDropdown />
-          <OrderByDropdown v-if="activeTab !== 'activity'" class="ml-4" />
+        <div class="is-flex mt-4 is-flex-wrap-wrap">
+          <ChainDropdown class="mr-4" />
+          <OrderByDropdown v-if="activeTab !== 'activity'" />
         </div>
       </div>
     </div>

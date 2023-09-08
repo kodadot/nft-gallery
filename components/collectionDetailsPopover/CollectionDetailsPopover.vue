@@ -5,9 +5,9 @@
     :animate-fill="false"
     placement="bottom"
     :delay="[showDelay, hideDelay]"
-    data-cy="identity"
+    data-testid="identity"
     :on-show="() => (show = true)">
-    <slot name="trigger" />
+    <slot name="content" />
 
     <template #content>
       <div class="popover-container">
