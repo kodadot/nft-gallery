@@ -3,6 +3,7 @@
     <div
       :class="[
         'transfer-card',
+        'w-100',
         {
           'theme-background-color k-shadow border py-8 px-6': !isMobile,
         },
@@ -82,10 +83,12 @@
       <hr />
 
       <div v-if="!isMobile" class="is-flex">
-        <div class="has-text-weight-bold is-size-6 mb-3 is-flex-1 mr-2">
+        <div
+          class="has-text-weight-bold is-size-6 mb-3 is-flex-1 mr-2 is-flex-grow-2">
           {{ $t('transfers.recipient') }}
         </div>
-        <div class="has-text-weight-bold is-size-6 mb-3 is-flex-1">
+        <div
+          class="has-text-weight-bold is-size-6 mb-3 is-flex-1 is-flex-grow-1">
           {{ $t('amount') }}
         </div>
       </div>
@@ -94,8 +97,13 @@
           v-for="(destinationAddress, index) in targetAddresses"
           :key="index"
           class="mb-3">
-          <div v-if="isMobile" class="has-text-weight-bold is-size-6 mb-3">
+          <div
+            v-if="isMobile"
+            class="has-text-weight-bold is-size-6 mb-3 is-flex is-align-items-center is-justify-content-space-between">
             {{ $t('transfers.recipient') }} {{ index + 1 }}
+            <a v-if="targetAddresses.length > 1" @click="deleteAddress(index)">
+              <NeoIcon class="p-3" icon="fa-trash" pack="fa-regular" />
+            </a>
           </div>
           <div
             :class="[
@@ -107,7 +115,7 @@
             <AddressInput
               v-model="destinationAddress.address"
               label=""
-              class="is-flex-1"
+              class="is-flex-1 is-flex-grow-2"
               :class="[
                 {
                   'mr-2': !isMobile,
@@ -125,7 +133,8 @@
               step="0.01"
               min="0"
               icon-right-class="search"
-              class="is-flex-1"
+              class="is-flex-1 is-flex-grow-1"
+              @focus="onAmountFieldFocus(destinationAddress, 'token')"
               @input="onAmountFieldChange(destinationAddress)" />
             <NeoInput
               v-else
@@ -134,9 +143,17 @@
               type="number"
               step="0.01"
               min="0"
-              icon-right-class="search"
-              class="is-flex-1"
+              icon-right="usd"
+              icon-right-class="has-text-grey"
+              class="is-flex-1 is-flex-grow-1"
+              @focus="onAmountFieldFocus(destinationAddress, 'usd')"
               @input="onUsdFieldChange(destinationAddress)" />
+            <a
+              v-if="!isMobile && targetAddresses.length > 1"
+              class="is-flex"
+              @click="deleteAddress(index)">
+              <NeoIcon class="p-3" icon="fa-trash" pack="fa-regular" />
+            </a>
           </div>
           <div class="mt-2">
             <AddressChecker
@@ -518,6 +535,12 @@ const onAmountFieldChange = (target: TargetAddress) => {
   }
 }
 
+const onAmountFieldFocus = (target: TargetAddress, field: 'usd' | 'token') => {
+  if (Number(target[field]) === 0) {
+    target[field] = ''
+  }
+}
+
 const onUsdFieldChange = (target: TargetAddress) => {
   /* calculating price value on the basis of usd entered */
   target.token = target.usd
@@ -748,6 +771,10 @@ const addAddress = () => {
     ...(sendSameAmount.value ? targetAddresses.value[0] : {}),
     address: '',
   })
+}
+
+const deleteAddress = (index: number) => {
+  targetAddresses.value.splice(index, 1)
 }
 
 onMounted(() => {
