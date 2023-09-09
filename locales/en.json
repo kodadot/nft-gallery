@@ -94,6 +94,7 @@
   "transfers": {
     "recipient": "Recipient",
     "sender": "Sender",
+    "tooltip": "You are sending <strong>{0}</strong> on <strong>{1}</strong>",
     "sendSameAmount": "Send same amount",
     "displayUnit": "Displayed units",
     "addAddress": "Add recipient",
@@ -104,7 +105,7 @@
     "totalAmount": "Total Amount",
     "transferable": "Transferable",
     "networkFee": "Network fee",
-    "invalidAddress":{
+    "invalidAddress": {
       "changeToChainAddress": "Change to {selectedChain} address",
       "addressChanged": {
         "title": "Changed to {selectedChain} address",

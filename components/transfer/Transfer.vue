@@ -47,7 +47,13 @@
         :tabs="tokenTabs"
         :value="unit"
         @select="handleTokenSelect" />
-
+      <div class="mb-5">
+        <NeoIcon class="ml-2" icon="circle-info" pack="far" />
+        <span
+          v-dompurify-html="
+            $t('transfers.tooltip', [unit, chainNames[unit.toLowerCase()]])
+          "></span>
+      </div>
       <div class="is-flex is-justify-content-space-between">
         <div class="is-flex is-flex-direction-column">
           <span class="has-text-weight-bold is-size-6 mb-1">{{
@@ -279,6 +285,7 @@ import { ALTERNATIVE_ENDPOINT_MAP } from '@kodadot1/static'
 
 import { isAddress } from '@polkadot/util-crypto'
 import { DispatchError } from '@polkadot/types/interfaces'
+import { chainNames } from '@kodadot1/static'
 
 import {
   calculateExactUsdFromToken,
