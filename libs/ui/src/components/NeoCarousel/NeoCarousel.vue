@@ -11,5 +11,8 @@ export default {
 @import '@oruga-ui/oruga/src/scss/utilities/variables.scss';
 @import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
 @import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
+
+$carousel-indicators-background: inherit;
+
 @import '@oruga-ui/oruga/src/scss/components/_carousel.scss';
 </style>

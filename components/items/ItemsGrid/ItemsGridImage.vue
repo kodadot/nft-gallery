@@ -19,7 +19,7 @@
       <div v-if="!isOwner && Number(nft?.price)" class="is-flex">
         <NeoButton
           :label="buyLabel"
-          data-cy="item-buy"
+          data-testid="item-buy"
           no-shadow
           :loading="showActionSection"
           class="is-flex-grow-1 btn-height"
@@ -27,7 +27,7 @@
           @click.native.prevent="onClickBuy">
         </NeoButton>
         <NeoButton
-          data-cy="item-add-to-cart"
+          data-testid="item-add-to-cart"
           no-shadow
           class="fixed-width p-1 no-border-left btn-height override-wrapper-width"
           @click.native.prevent="onClickShoppingCart">
@@ -37,7 +37,7 @@
       <div v-else-if="isOwner" class="is-flex">
         <NeoButton
           :label="listLabel"
-          data-cy="item-buy"
+          data-testid="item-buy"
           no-shadow
           class="is-flex-grow-1 btn-height"
           @click.native.prevent="onClickListingCart">

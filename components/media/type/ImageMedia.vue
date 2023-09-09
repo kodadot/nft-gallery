@@ -4,7 +4,7 @@
       class="image-media__image"
       :src="src"
       :alt="mimeType"
-      data-cy="type-image" />
+      data-testid="type-image" />
   </figure>
 </template>
 

@@ -187,7 +187,7 @@ We are currently in the process of installing [Playwright](https://playwright.de
   class="btn btn-large"
   name="submission"
   role="button"
-  data-cy="submit">
+  data-testid="submit">
   Submit
 </button>
 ```

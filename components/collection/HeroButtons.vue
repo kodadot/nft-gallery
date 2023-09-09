@@ -24,7 +24,7 @@
             <NeoButton
               icon="share-alt"
               class="square-32 mr-3"
-              data-cy="share-button"
+              data-testid="share-button"
               :active="active" />
           </template>
 
@@ -58,7 +58,7 @@
             <NeoButton
               icon="ellipsis-vertical"
               class="square-32"
-              data-cy="more-actions-button"
+              data-testid="more-actions-button"
               :active="active" />
           </template>
 
