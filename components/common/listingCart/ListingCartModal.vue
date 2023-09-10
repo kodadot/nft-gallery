@@ -18,6 +18,7 @@
             icon="close"
             @click.native="preferencesStore.listingCartModalOpen = false" />
         </header>
+
         <div class="px-6 pt-4">
           <div
             class="rounded border border-k-shade is-flex is-justify-content-start is-flex-grow-1 pl-3">
@@ -31,56 +32,11 @@
               class="identity-name-font-weight-regular"
               data-testid="item-creator" />
           </div>
-          <div class="pt-4 has-text-weight-bold">Set All To</div>
-          <div class="pt-4">
-            {{ $t('listingCart.collectionFloorPrice') }}
-            <span v-if="floorPricePercentAdjustment !== 1" class="has-text-grey"
-              >{{ (floorPricePercentAdjustment * 100 - 100).toFixed(0) }}%</span
-            >
-          </div>
-          <div class="py-2 is-flex is-justify-content-start is-flex-grow-1">
-            <NeoButton
-              class="mr-2"
-              label="-5%"
-              rounded
-              no-shadow
-              @click.native="
-                floorPricePercentAdjustment > 0.05 &&
-                  (floorPricePercentAdjustment -= 0.05)
-                listingCartStore.setFloorPrice(floorPricePercentAdjustment)
-              " />
-            <NeoButton
-              class="mr-2"
-              :label="$t('statsOverview.floorPrice')"
-              rounded
-              no-shadow
-              @click.native="
-                floorPricePercentAdjustment = 1
-                listingCartStore.setFloorPrice(floorPricePercentAdjustment)
-              " />
-            <NeoButton
-              label="+5%"
-              rounded
-              no-shadow
-              @click.native="
-                floorPricePercentAdjustment += 0.05
-                listingCartStore.setFloorPrice(floorPricePercentAdjustment)
-              " />
-          </div>
-          <div class="pt-3 has-text-grey">-Or-</div>
-          <div class="pt-3">{{ $t('listingCart.fixedPrice') }}</div>
-          <ListingCartPriceInput
-            v-model="fixedPrice"
-            check
-            class="pt-2"
-            @confirm="setFixedPrice" />
+
+          <ListingCartSingleItemCart v-if="listingCartStore.count === 1" />
+          <ListingCartMultipleItemsCart v-else />
         </div>
-        <div class="py-2">
-          <ListingCartItem
-            v-for="nft in listingCartStore.itemsInChain"
-            :key="nft.id"
-            :nft="nft" />
-        </div>
+
         <div
           class="is-flex border-top is-justify-content-space-between py-4 px-6">
           {{ $t('listingCart.potentialEarnings') }}
@@ -107,7 +63,6 @@
 </template>
 <script setup lang="ts">
 import { Interaction } from '@kodadot1/minimark/v1'
-import ListingCartPriceInput from '@/components/common/listingCart/ListingCartPriceInput.vue'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
 import IdentityItem from '@/components/identity/IdentityItem.vue'
 import { NeoButton, NeoModal } from '@kodadot1/brick'
@@ -119,6 +74,9 @@ import { warningMessage } from '@/utils/notification'
 import { useFiatStore } from '@/stores/fiat'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
 import { sum } from '@/utils/math'
+import ListingCartSingleItemCart from './singleItemCart/ListingCartSingleItemCart.vue'
+import ListingCartMultipleItemsCart from './multipleItemsCart/ListingCartMultipleItemsCart.vue'
+
 const { isLogIn, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
@@ -127,12 +85,7 @@ const { transaction, isLoading, status } = useTransaction()
 const { $i18n } = useNuxtApp()
 
 const { chainSymbol } = useChain()
-const fixedPrice = ref<number | null>(null)
-const floorPricePercentAdjustment = ref(1)
-function setFixedPrice() {
-  listingCartStore.setFixedPrice(fixedPrice.value)
-  fixedPrice.value = null
-}
+
 const fiatStore = useFiatStore()
 const priceUSD = computed(() =>
   calculateExactUsdFromToken(
