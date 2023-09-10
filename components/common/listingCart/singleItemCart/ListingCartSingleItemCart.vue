@@ -1,5 +1,5 @@
 <template>
-  <div class="pb-5 py-3">
+  <div class="py-5">
     <ListingCartItemDetails :nft="item">
       <template #right>
         <div class="is-flex is-align-items-end">
