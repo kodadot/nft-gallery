@@ -50,4 +50,12 @@ onMounted(() => {
 })
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.limit-width {
+  max-width: 170px;
+}
+
+.line-height-1 {
+  line-height: 1;
+}
+</style>
