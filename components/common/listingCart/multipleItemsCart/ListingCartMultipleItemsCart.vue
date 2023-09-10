@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="pt-4 has-text-weight-bold">Set All To</div>
+    <div class="mt-5 has-text-weight-bold">Set All To</div>
 
     <ListingCartFloorPrice
       v-model="floorPricePercentAdjustment"
@@ -15,7 +15,7 @@
       check
       @confirm="setFixedPrice" />
 
-    <div class="py-2">
+    <div class="mt-5">
       <ListingCartItem
         v-for="nft in listingCartStore.itemsInChain"
         :key="nft.id"

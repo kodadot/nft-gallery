@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div class="py-2" />
     <div class="is-flex is-justify-content-space-between">
       <div class="is-flex">
         <div>

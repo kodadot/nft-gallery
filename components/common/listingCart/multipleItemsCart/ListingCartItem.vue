@@ -1,33 +1,32 @@
 <template>
-  <div class="py-2">
-    <div class="border-top border-k-shade">
-      <ListingCartItemDetails :nft="nft">
-        <template #right>
-          <NeoButton
-            class="has-text-grey pt-4"
-            variant="text"
-            no-shadow
-            icon="trash"
-            icon-pack="far"
-            @click.native="listingCartStore.removeItem(nft.id)" />
-        </template>
-        <template #footer>
-          <div class="mt-2 is-flex is-justify-content-space-between">
-            <div class="is-flex is-flex-direction-column">
-              <div class="has-text-grey is-size-7">
-                {{ $t('activity.floor') }}
-              </div>
-              <span>{{ floor }}</span>
+  <div class="border-top border-k-shade py-5">
+    <ListingCartItemDetails :nft="nft">
+      <template #right>
+        <NeoButton
+          class="has-text-grey pt-4"
+          variant="text"
+          no-shadow
+          icon="trash"
+          icon-pack="far"
+          @click.native="listingCartStore.removeItem(nft.id)" />
+      </template>
+      <template #footer>
+        <div
+          class="mt-4 is-flex is-justify-content-space-between is-align-items-start">
+          <div class="is-flex is-flex-direction-column">
+            <div class="has-text-grey is-size-7">
+              {{ $t('activity.floor') }}
             </div>
-
-            <div class="is-flex is-align-items-end pt-2">
-              <ListingCartPriceInput
-                v-model="listingCartStore.getItem(nft.id).listPrice" />
-            </div>
+            <span>{{ floor }}</span>
           </div>
-        </template>
-      </ListingCartItemDetails>
-    </div>
+
+          <div class="is-flex is-align-items-end">
+            <ListingCartPriceInput
+              v-model="listingCartStore.getItem(nft.id).listPrice" />
+          </div>
+        </div>
+      </template>
+    </ListingCartItemDetails>
   </div>
 </template>
 
