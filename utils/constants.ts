@@ -58,7 +58,7 @@ export const URLS = {
     antick: 'https://squid.subsquid.io/antick/v/001-rc0/graphql',
     marck: 'https://squid.subsquid.io/marck/graphql',
     stick: 'https://squid.subsquid.io/stick/graphql',
-    speck: 'https://squid.subsquid.io/speck/v/v2/graphql',
+    speck: 'https://squid.subsquid.io/speck/v/v3/graphql',
     polkassembly: 'https://squid.subsquid.io/polkadot-polkassembly/graphql',
     gsPolkdot: 'https://squid.subsquid.io/gs-main-polkadot/graphql',
     gsKusama: 'https://squid.subsquid.io/gs-main-kusama/graphql',

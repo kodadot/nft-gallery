@@ -4,7 +4,7 @@
       <nuxt-link
         :to="`/${urlPrefix}/explore/items`"
         class="menu-item mr-6"
-        data-cy="explore-items"
+        data-testid="explore-items"
         @click.native="emit('closeMobileNavbar')">
         {{ $t('items') }}
       </nuxt-link>

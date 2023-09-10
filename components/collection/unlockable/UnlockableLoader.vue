@@ -1,7 +1,14 @@
 <template>
   <NeoLoading :active.sync="isLoading" is-full-page :can-cancel="canCancel">
     <div class="loading-container py-2">
-      <NeoIcon class="close-icon" icon="close" @click.native="closeLoading" />
+      <NeoButton
+        class="close-icon py-1 px-2"
+        variant="text"
+        no-shadow
+        icon="xmark"
+        icon-pack="fa-sharp"
+        size="medium"
+        @click.native="closeLoading" />
       <img src="/unlockable-loader.svg" />
       <div
         class="is-flex is-flex-direction-column is-align-items-center px-5 has-text-centered is-capitalized">
@@ -41,7 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoIcon, NeoLoading } from '@kodadot1/brick'
+import { NeoButton, NeoLoading } from '@kodadot1/brick'
 
 const props = withDefaults(
   defineProps<{
@@ -109,9 +116,8 @@ const buttonLabel = computed(() =>
   }
   .close-icon {
     position: absolute;
-    right: 28px;
-    top: 17px;
-    cursor: pointer;
+    right: 20px;
+    top: 10px;
   }
   .loading-button {
     height: 35px;

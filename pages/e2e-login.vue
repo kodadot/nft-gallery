@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p data-cy="mockAddress">{{ mockAddress }}</p>
+    <p data-testid="mockAddress">{{ mockAddress }}</p>
   </div>
 </template>
 

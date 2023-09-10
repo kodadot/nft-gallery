@@ -10,7 +10,7 @@
             :to="`/${urlPrefix}/collection/${
               nft?.collection?.id || nft.collectionId
             }`">
-            <span data-cy="identity-display">
+            <span data-testid="identity-display">
               {{ nft?.collection?.name || nft?.collectionName || '--' }}</span
             >
           </nuxt-link>
@@ -24,7 +24,7 @@
           class="is-flex is-align-items-center is-justify-content-space-between">
           <span class="is-size-6">{{ $t('statsOverview.uniqueOwners') }}</span>
 
-          <p class="is-size-6" data-cy="identity-collected">
+          <p class="is-size-6" data-testid="identity-collected">
             {{ stats.uniqueOwnersPercent }}
           </p>
         </div>
@@ -32,7 +32,7 @@
           class="is-flex is-align-items-center is-justify-content-space-between">
           <span class="is-size-6">{{ $t('statsOverview.highestSale') }}</span>
 
-          <p class="is-size-6" data-cy="identity-collected">
+          <p class="is-size-6" data-testid="identity-collected">
             <CommonTokenMoney :value="highestBuyPrice" inline />
           </p>
         </div>
@@ -40,7 +40,7 @@
           class="is-flex is-align-items-center is-justify-content-space-between">
           <span class="is-size-6">{{ $t('statsOverview.floorPrice') }}</span>
 
-          <p class="is-size-6" data-cy="identity-collected">
+          <p class="is-size-6" data-testid="identity-collected">
             <CommonTokenMoney :value="stats.collectionFloorPrice" inline />
           </p>
         </div>
@@ -48,7 +48,7 @@
           class="is-flex is-align-items-center is-justify-content-space-between">
           <span class="is-size-6">{{ $t('statsOverview.totalVolume') }}</span>
 
-          <p class="is-size-6" data-cy="identity-collected">
+          <p class="is-size-6" data-testid="identity-collected">
             <CommonTokenMoney
               :value="stats.collectionTradedVolumeNumber"
               inline />
@@ -67,7 +67,7 @@
               :metadata="nftItem.metadata"
               :current-owner="nftItem.currentOwner"
               :route="`/${urlPrefix}/gallery`"
-              :data-cy="soldItems.indexOf(nftItem)" />
+              :data-testid="soldItems.indexOf(nftItem)" />
           </div>
         </div>
       </div>
