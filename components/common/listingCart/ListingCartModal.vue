@@ -33,8 +33,11 @@
               data-testid="item-creator" />
           </div>
 
-          <ListingCartSingleItemCart v-if="listingCartStore.count === 1" />
-          <ListingCartMultipleItemsCart v-else />
+          <ListingCartSingleItemCart
+            v-if="listingCartStore.count === 1"
+            v-bind.sync="cartData" />
+
+          <ListingCartMultipleItemsCart v-else v-bind.sync="cartData" />
         </div>
 
         <div
@@ -85,6 +88,34 @@ const { transaction, isLoading, status } = useTransaction()
 const { $i18n } = useNuxtApp()
 
 const { chainSymbol } = useChain()
+
+// const fixedPrice = ref<number | null>(null)
+
+const cartData = ref<{
+  fixedPrice: number | null
+  floorPricePercentAdjustment: number
+}>({
+  fixedPrice: null,
+  floorPricePercentAdjustment: 1,
+})
+
+watch(
+  () => cartData.value.fixedPrice,
+  (value) => {
+    listingCartStore.setFixedPrice(value)
+  }
+)
+
+watch(
+  () => cartData.value.floorPricePercentAdjustment,
+  (rate) => {
+    listingCartStore.setFloorPrice(rate)
+  }
+)
+
+// function setFixedPrice(price) {
+//   cartData.value.fixedPrice = null
+// }
 
 const fiatStore = useFiatStore()
 const priceUSD = computed(() =>

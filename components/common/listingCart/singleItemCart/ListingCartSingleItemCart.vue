@@ -23,13 +23,9 @@
 
     <div class="has-text-weight-bold">{{ $t('listingCart.chooseAPrice') }}</div>
 
-    <ListingCartFloorPrice show-current-floor-price @change="setFloorPrice" />
+    <ListingCartFloorPrice v-model="floorPricePercentAdjustment" />
 
-    <ListingCartPriceInput
-      v-model="fixedPrice"
-      class="pt-2"
-      full-width
-      @confirm="setFixedPrice" />
+    <ListingCartPriceInput v-model="fixedPrice" class="pt-2" full-width />
   </div>
 </template>
 
@@ -39,10 +35,29 @@ import ListingCartItemDetails from '../shared/ListingCartItemDetails.vue'
 import ListingCartFloorPrice from '../shared/ListingCartFloorPrice.vue'
 import ListingCartPriceInput from '../shared/ListingCartPriceInput.vue'
 
+const emit = defineEmits([
+  'update:fixedPrice',
+  'update:floorPricePercentAdjustment',
+])
+
+const props = defineProps<{
+  fixedPrice: number | null
+  floorPricePercentAdjustment: number
+}>()
+
+const fixedPrice = useVModel(props, 'fixedPrice', emit, {
+  eventName: 'update:fixedPrice',
+})
+const floorPricePercentAdjustment = useVModel(
+  props,
+  'floorPricePercentAdjustment',
+  emit,
+  { eventName: 'update:floorPricePercentAdjustment' }
+)
+
 const listingCartStore = useListingCartStore()
 const { chainSymbol } = useChain()
 
-const fixedPrice = ref<number | null>(null)
 const item = computed(() => listingCartStore.itemsInChain[0])
 
 const itemPrice = computed(() =>
@@ -53,13 +68,4 @@ const collectionPrice = computed(() =>
     ? `${item.value.collection.floor} ${chainSymbol.value}`
     : '--'
 )
-
-function setFixedPrice() {
-  listingCartStore.setFixedPrice(fixedPrice.value)
-  fixedPrice.value = null
-}
-
-function setFloorPrice(value?: number) {
-  listingCartStore.setFloorPrice(value)
-}
 </script>

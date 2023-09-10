@@ -2,13 +2,15 @@
   <div>
     <div class="pt-4 has-text-weight-bold">Set All To</div>
 
-    <ListingCartFloorPrice show-current-floor-price @change="setFloorPrice" />
+    <ListingCartFloorPrice
+      v-model="floorPricePercentAdjustment"
+      show-current-floor-price />
 
     <div class="pt-3 has-text-grey">-Or-</div>
     <div class="pt-3">{{ $t('listingCart.fixedPrice') }}</div>
 
     <ListingCartPriceInput
-      v-model="fixedPrice"
+      :value="fixedPrice"
       check
       class="pt-2"
       @confirm="setFixedPrice" />
@@ -28,17 +30,27 @@ import ListingCartItem from './ListingCartItem.vue'
 import ListingCartPriceInput from '../shared/ListingCartPriceInput.vue'
 import ListingCartFloorPrice from '../shared/ListingCartFloorPrice.vue'
 
+const emit = defineEmits([
+  'update:fixedPrice',
+  'update:floorPricePercentAdjustment',
+])
+
 const listingCartStore = useListingCartStore()
 
-const fixedPrice = ref<number | null>(null)
+const props = defineProps<{
+  fixedPrice: number | null
+  floorPricePercentAdjustment: number
+}>()
 
-function setFixedPrice() {
-  listingCartStore.setFixedPrice(fixedPrice.value)
-  fixedPrice.value = null
-}
+const floorPricePercentAdjustment = useVModel(
+  props,
+  'floorPricePercentAdjustment',
+  emit,
+  { eventName: 'update:floorPricePercentAdjustment' }
+)
 
-function setFloorPrice(value?: number) {
-  listingCartStore.setFloorPrice(value)
+function setFixedPrice(value) {
+  emit('update:fixedPrice', value)
 }
 </script>
 

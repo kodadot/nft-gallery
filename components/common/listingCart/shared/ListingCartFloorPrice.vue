@@ -15,25 +15,18 @@
         @click.native="
           floorPricePercentAdjustment > 0.05 &&
             (floorPricePercentAdjustment -= 0.05)
-          setFloorPrice(floorPricePercentAdjustment)
         " />
       <NeoButton
         class="mr-2"
         :label="$t('statsOverview.floorPrice')"
         rounded
         no-shadow
-        @click.native="
-          floorPricePercentAdjustment = 1
-          setFloorPrice(floorPricePercentAdjustment)
-        " />
+        @click.native="floorPricePercentAdjustment = 1" />
       <NeoButton
         label="+5%"
         rounded
         no-shadow
-        @click.native="
-          floorPricePercentAdjustment += 0.05
-          setFloorPrice(floorPricePercentAdjustment)
-        " />
+        @click.native="floorPricePercentAdjustment += 0.05" />
     </div>
   </div>
 </template>
@@ -41,17 +34,14 @@
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 
-const emit = defineEmits(['change'])
+const emit = defineEmits(['input'])
 
-defineProps<{
+const props = defineProps<{
+  value: number
   showCurrentFloorPrice?: boolean
 }>()
 
-const floorPricePercentAdjustment = ref(1)
-
-const setFloorPrice = (value) => {
-  emit('change', value)
-}
+const floorPricePercentAdjustment = useVModel(props, 'value', emit, {
+  eventName: 'input',
+})
 </script>
-
-<style scoped></style>
