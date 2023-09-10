@@ -281,11 +281,10 @@
 
 <script lang="ts" setup>
 import Connector from '@kodadot1/sub-api'
-import { ALTERNATIVE_ENDPOINT_MAP } from '@kodadot1/static'
+import { ALTERNATIVE_ENDPOINT_MAP, chainNames } from '@kodadot1/static'
 
 import { isAddress } from '@polkadot/util-crypto'
 import { DispatchError } from '@polkadot/types/interfaces'
-import { chainNames } from '@kodadot1/static'
 
 import {
   calculateExactUsdFromToken,
