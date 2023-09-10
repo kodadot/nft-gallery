@@ -1,4 +1,5 @@
 import { $fetch, FetchError } from 'ofetch'
+import type { Prefix } from '@kodadot1/static'
 
 const BASE_URL = 'https://waifu-me.kodadot.workers.dev'
 
@@ -9,10 +10,25 @@ const api = $fetch.create({
   baseURL: BASE_URL,
 })
 
+type DropItem = {
+  id: string
+  chain: Prefix
+  collection: string
+  image: string
+  name: string
+  alisa: string
+}
+
 type MintResponse = Response<any>
 type ClaimResponse = Response<any>
 type Response<T> = {
   result: T
+}
+
+export const getDrops = async () => {
+  return await api<DropItem[]>('drops', {
+    method: 'GET',
+  })
 }
 
 // URL should be sanitized ipfs://ipfs/Qm...

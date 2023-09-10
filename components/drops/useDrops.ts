@@ -1,52 +1,46 @@
 import { CollectionWithMeta } from '../rmrk/service/scheme'
+import { getDrops } from '@/services/waifu'
 
 export interface Drop {
   collection: CollectionWithMeta
+  chain: string
   minted: number
   max: number
   dropStartTime: Date
 }
 
-interface DropsData {
-  drops: Drop[]
-  futureDrops: Drop[]
-}
-
 const futureDate = new Date()
 futureDate.setDate(futureDate.getDate() * 7) // i weeks in the future
 
-export function useDrops(collectionId: string, clientName?: string) {
-  const dropsData = ref<DropsData>({
-    drops: [],
-    futureDrops: [],
-  })
+export function useDrops() {
+  const drops = ref<Drop[]>([])
+  onMounted(async () => {
+    const dropsList = await getDrops()
 
-  const { data: collectionData } = useGraphql({
-    queryName: 'unlockableCollectionById',
-    clientName,
-    variables: {
-      id: collectionId,
-    },
-  })
-
-  watch(collectionData, () => {
-    if (collectionData.value?.collectionEntity) {
-      const { collectionEntity, nftEntitiesConnection } = collectionData.value
-      const drops: Drop[] = []
-      drops.push({
-        collection: collectionEntity,
-        minted: nftEntitiesConnection.totalCount,
-        max: collectionEntity?.max ?? 300,
-        dropStartTime: new Date(2023, 5, 6),
+    dropsList.forEach((drop) => {
+      const { data: collectionData } = useGraphql({
+        queryName: 'unlockableCollectionById',
+        clientName: drop.chain,
+        variables: {
+          id: drop.collection,
+        },
       })
-      const futureDrops: Drop[] = []
 
-      dropsData.value = {
-        ...dropsData.value,
-        drops,
-        futureDrops,
-      }
-    }
+      watch(collectionData, () => {
+        if (collectionData.value?.collectionEntity) {
+          const { collectionEntity, nftEntitiesConnection } =
+            collectionData.value
+          drops.value.push({
+            collection: collectionEntity,
+            minted: nftEntitiesConnection.totalCount,
+            max: collectionEntity?.max ?? 300,
+            dropStartTime: new Date(2023, 5, 6),
+            chain: drop.chain,
+          })
+        }
+      })
+    }, [])
   })
-  return dropsData
+
+  return drops
 }
