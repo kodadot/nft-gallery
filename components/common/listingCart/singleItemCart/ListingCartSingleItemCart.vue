@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-4">
+  <div class="pb-5 py-3">
     <ListingCartItemDetails :nft="item">
       <template #right>
         <div class="is-flex is-align-items-end">
@@ -8,7 +8,7 @@
       </template>
 
       <template #footer>
-        <div class="mt-4 is-flex is-justify-content-space-between">
+        <div class="mt-5 is-flex is-justify-content-space-between">
           <div>
             {{ $t('listingCart.floorPrice') }}
           </div>
@@ -19,7 +19,7 @@
       </template>
     </ListingCartItemDetails>
 
-    <hr class="my-4" />
+    <hr class="my-5" />
 
     <div class="has-text-weight-bold">{{ $t('listingCart.chooseAPrice') }}</div>
 
