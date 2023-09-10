@@ -59,5 +59,3 @@ function setFixedPrice(value) {
   emit('update:fixedPrice', '')
 }
 </script>
-
-<style scoped></style>
