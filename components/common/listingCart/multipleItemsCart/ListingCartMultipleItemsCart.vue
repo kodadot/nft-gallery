@@ -10,9 +10,9 @@
     <div class="pt-3">{{ $t('listingCart.fixedPrice') }}</div>
 
     <ListingCartPriceInput
-      :value="fixedPrice"
-      check
+      v-model.number="fixedPrice"
       class="pt-2"
+      check
       @confirm="setFixedPrice" />
 
     <div class="py-2">
@@ -33,12 +33,13 @@ import ListingCartFloorPrice from '../shared/ListingCartFloorPrice.vue'
 const emit = defineEmits([
   'update:fixedPrice',
   'update:floorPricePercentAdjustment',
+  'setFixedPrice',
 ])
 
 const listingCartStore = useListingCartStore()
 
 const props = defineProps<{
-  fixedPrice: number | null
+  fixedPrice?: number | string
   floorPricePercentAdjustment: number
 }>()
 
@@ -49,8 +50,13 @@ const floorPricePercentAdjustment = useVModel(
   { eventName: 'update:floorPricePercentAdjustment' }
 )
 
+const fixedPrice = useVModel(props, 'fixedPrice', emit, {
+  eventName: 'update:fixedPrice',
+})
+
 function setFixedPrice(value) {
-  emit('update:fixedPrice', value)
+  emit('setFixedPrice', value)
+  emit('update:fixedPrice', '')
 }
 </script>
 

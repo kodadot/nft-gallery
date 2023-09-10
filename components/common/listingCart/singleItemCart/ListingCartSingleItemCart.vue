@@ -25,7 +25,10 @@
 
     <ListingCartFloorPrice v-model="floorPricePercentAdjustment" />
 
-    <ListingCartPriceInput v-model="fixedPrice" class="pt-2" full-width />
+    <ListingCartPriceInput
+      v-model.number="fixedPrice"
+      class="pt-2"
+      full-width />
   </div>
 </template>
 
@@ -38,16 +41,18 @@ import ListingCartPriceInput from '../shared/ListingCartPriceInput.vue'
 const emit = defineEmits([
   'update:fixedPrice',
   'update:floorPricePercentAdjustment',
+  'setFixedPrice',
 ])
 
 const props = defineProps<{
-  fixedPrice: number | null
+  fixedPrice?: number | string
   floorPricePercentAdjustment: number
 }>()
 
 const fixedPrice = useVModel(props, 'fixedPrice', emit, {
   eventName: 'update:fixedPrice',
 })
+
 const floorPricePercentAdjustment = useVModel(
   props,
   'floorPricePercentAdjustment',
@@ -67,5 +72,10 @@ const collectionPrice = computed(() =>
   !!item.value.collection.floor
     ? `${item.value.collection.floor} ${chainSymbol.value}`
     : '--'
+)
+
+watch(
+  () => props.fixedPrice,
+  (value) => emit('setFixedPrice', value)
 )
 </script>

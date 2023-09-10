@@ -35,9 +35,13 @@
 
           <ListingCartSingleItemCart
             v-if="listingCartStore.count === 1"
-            v-bind.sync="cartData" />
+            v-bind.sync="cartData"
+            @setFixedPrice="setFixedPrice" />
 
-          <ListingCartMultipleItemsCart v-else v-bind.sync="cartData" />
+          <ListingCartMultipleItemsCart
+            v-else
+            v-bind.sync="cartData"
+            @setFixedPrice="setFixedPrice" />
         </div>
 
         <div
@@ -89,22 +93,24 @@ const { $i18n } = useNuxtApp()
 
 const { chainSymbol } = useChain()
 
-// const fixedPrice = ref<number | null>(null)
-
 const cartData = ref<{
-  fixedPrice: number | null
+  fixedPrice?: number | string
   floorPricePercentAdjustment: number
 }>({
-  fixedPrice: null,
+  fixedPrice: undefined,
   floorPricePercentAdjustment: 1,
 })
 
-watch(
-  () => cartData.value.fixedPrice,
-  (value) => {
-    listingCartStore.setFixedPrice(value)
-  }
-)
+function setFixedPrice() {
+  const fixedPrice = cartData.value.fixedPrice
+
+  const rate =
+    fixedPrice === undefined || fixedPrice === null || fixedPrice === ''
+      ? null
+      : Number(fixedPrice)
+
+  listingCartStore.setFixedPrice(rate)
+}
 
 watch(
   () => cartData.value.floorPricePercentAdjustment,
@@ -112,10 +118,6 @@ watch(
     listingCartStore.setFloorPrice(rate)
   }
 )
-
-// function setFixedPrice(price) {
-//   cartData.value.fixedPrice = null
-// }
 
 const fiatStore = useFiatStore()
 const priceUSD = computed(() =>
