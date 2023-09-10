@@ -37,6 +37,7 @@ import { useListingCartStore } from '@/stores/listingCart'
 import ListingCartItemDetails from '../shared/ListingCartItemDetails.vue'
 import ListingCartFloorPrice from '../shared/ListingCartFloorPrice.vue'
 import ListingCartPriceInput from '../shared/ListingCartPriceInput.vue'
+import { formatBalance } from '@polkadot/util'
 
 const emit = defineEmits([
   'update:fixedPrice',
@@ -61,17 +62,21 @@ const floorPricePercentAdjustment = useVModel(
 )
 
 const listingCartStore = useListingCartStore()
-const { chainSymbol } = useChain()
+const { chainSymbol, decimals } = useChain()
 
 const item = computed(() => listingCartStore.itemsInChain[0])
 
 const itemPrice = computed(() =>
-  !item.value.price ? `${item.value.price} ${chainSymbol.value}` : '--'
+  formatBalance(item.value.price, {
+    decimals: decimals.value,
+    withUnit: chainSymbol.value,
+  })
 )
 const collectionPrice = computed(() =>
-  !!item.value.collection.floor
-    ? `${item.value.collection.floor} ${chainSymbol.value}`
-    : '--'
+  formatBalance(item.value.collection.floor, {
+    decimals: decimals.value,
+    withUnit: chainSymbol.value,
+  })
 )
 
 watch(
