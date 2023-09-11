@@ -1,20 +1,25 @@
 <template>
   <div>
-    <div class="border-top pt-4 mb-4 card-border-color is-flex is-size-7">
-      <div class="k-grey mr-1">Fee Breakdown</div>
-      <NeoIcon
-        class="k-grey transition"
-        :class="[rotate && 'overturn']"
-        icon="chevron-down"
-        @click.native="toggle" />
+    <div class="border-top pt-4 card-border-color is-flex is-size-7">
+      <template v-if="extraFees">
+        <div class="k-grey mr-1 mb-4">Fee Breakdown</div>
+        <NeoIcon
+          class="k-grey transition"
+          :class="[rotate && 'overturn']"
+          icon="chevron-down"
+          @click.native="toggle" />
+      </template>
     </div>
     <div v-if="rotate" class="is-size-7">
       <div
         class="is-flex mb-2 is-align-items-center is-justify-content-space-between">
         <div>Network Fee</div>
       </div>
-      <div class="is-flex mb-2 k-grey">
-        <div>existential deposit</div>
+      <div class="is-flex mb-2">
+        <div>
+          existential deposit
+          <NeoIcon icon="circle-question" class="fa-light" />
+        </div>
       </div>
       <div class="is-flex mb-2 k-grey">
         <div>Kodadot Fee</div>
@@ -53,6 +58,16 @@ import { NeoIcon } from '@kodadot1/brick'
 const props = defineProps<{ nft: NftInformation }>()
 
 const rotate = ref(false)
+
+const extraFees = computed(() => false)
+
+watch(
+  extraFees,
+  () => {
+    rotate.value = !extraFees.value
+  },
+  { immediate: true }
+)
 
 const toggle = () => {
   rotate.value = !rotate.value
