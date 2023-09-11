@@ -42,6 +42,10 @@
                 </div>
               </div>
             </div>
+
+            <div class="is-flex is-align-items-end">
+              {{ nftPrice }}
+            </div>
           </div>
 
           <hr class="my-4" />
@@ -90,7 +94,7 @@ import BasicImage from '@/components/shared/view/BasicImage.vue'
 import { parseNftAvatar } from '@/utils/nft'
 import AddressInput from '@/components/shared/AddressInput.vue'
 import { Interaction } from '@kodadot1/minimark/v1'
-
+import formatBalance from '@/utils/format/balance'
 const emit = defineEmits(['close'])
 const props = defineProps<{
   nft: NFT
@@ -100,10 +104,11 @@ const props = defineProps<{
 const { $route, $i18n } = useNuxtApp()
 const { transaction, status, isLoading } = useTransaction()
 const { urlPrefix } = usePrefix()
+const { decimals, chainSymbol } = useChain()
 
 const isModalActive = useVModel(props, 'value')
 const avatar = ref<string>()
-const address = ref()
+const address = ref('')
 const isAddressValid = ref(false)
 
 const transferItemLabel = computed(() => {
@@ -117,6 +122,12 @@ const transferItemLabel = computed(() => {
 })
 
 const isDisabled = computed(() => !address.value || !isAddressValid.value)
+
+const nftPrice = computed(() =>
+  !!Number(props.nft.price)
+    ? formatBalance(Number(props.nft.price), decimals.value, chainSymbol.value)
+    : '--'
+)
 
 const getAvatar = async () => {
   if (props.nft) {
