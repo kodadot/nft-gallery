@@ -9,9 +9,6 @@ import {
   subscribeToCollectionLengthUpdates,
 } from './massMintHelpers'
 
-const { urlPrefix } = usePrefix()
-const { isRemark } = useIsChain(urlPrefix)
-
 export const statusTranslation = (status?: Status): string => {
   const { $i18n } = useNuxtApp()
   const statusTranslationMap: Record<Status, string> = {
@@ -108,6 +105,7 @@ export const useMassMint = (
     useTransaction()
   const collectionUpdated = ref(false)
   const { urlPrefix } = usePrefix()
+  const { isRemark } = useIsChain(urlPrefix)
 
   const tokens = createTokensToMint(nfts, collection)
 
