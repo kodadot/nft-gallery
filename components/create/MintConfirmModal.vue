@@ -36,10 +36,10 @@
       </div>
       <div class="px-6 mt-4 has-text-weight-bold">Mint Collection</div>
       <div class="py-4">
-        <ConfirmMintItem :nft="nftInformation" class="px-6" />
+        <ConfirmMintItem :nft="extendedInformation" class="px-6" />
       </div>
       <div class="px-6">
-        <PriceItem :nft="nftInformation" />
+        <PriceItem :nft="extendedInformation" />
       </div>
       <div class="is-flex is-justify-content-space-between py-5 px-6">
         <NeoButton
@@ -63,7 +63,8 @@ import IdentityItem from '@/components/identity/IdentityItem.vue'
 import ConfirmMintItem from './ConfirmMintItem.vue'
 import PriceItem from './PriceItem.vue'
 import { BaseMintedCollection } from '../base/types'
-import { availablePrefixes } from '~~/utils/chain'
+import { availablePrefixes } from '@/utils/chain'
+import { Royalty } from '@/utils/royalty'
 
 export type NftInformation = {
   file: Blob
@@ -71,6 +72,12 @@ export type NftInformation = {
   name: string
   price: string | number
   urlPrefix: string
+  hasRoyalty: boolean
+  royalty: Royalty
+}
+
+export type ExtendedInformation = NftInformation & {
+  chainSymbol: string
 }
 
 const props = withDefaults(
@@ -91,6 +98,11 @@ const { $i18n } = useNuxtApp()
 const { balance } = useBalance()
 const { chainSymbol } = useChain()
 const emit = defineEmits(['confirm', 'input'])
+
+const extendedInformation = computed(() => ({
+  ...props.nftInformation,
+  chainSymbol: chainSymbol.value,
+}))
 
 const mode = computed(() => prefrencesStore.getCompletePurchaseModal.mode)
 
@@ -141,7 +153,6 @@ const onClose = () => {
 
 const confirm = () => {
   emit('confirm')
-  prefrencesStore.setCompletePurchaseModalOpen(false)
 }
 </script>
 

@@ -171,10 +171,6 @@ const balanceNotEnoughMessage = computed(() => {
 
 const nftInformation = computed(() => ({
   ...base.value,
-  copies: Number(base.value.copies),
-  tags: tags.value,
-  nsfw: nsfw.value,
-  postfix: postfix.value,
   price: price.toString(),
   royalty: royalty.value,
   hasRoyalty: hasRoyalty.value,

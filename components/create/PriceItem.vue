@@ -21,8 +21,11 @@
           <NeoIcon icon="circle-question" class="fa-light" />
         </div>
       </div>
-      <div class="is-flex mb-2 k-grey">
-        <div>Kodadot Fee</div>
+      <div
+        v-if="nft.hasRoyalty"
+        class="is-flex mb-2 k-grey is-align-items-center is-justify-content-space-between">
+        <div>Royalty Rate</div>
+        <div>{{ nft.royalty.amount }}% {{ nft.chainSymbol }}</div>
       </div>
       <div class="is-flex mb-2 is-align-items-center">
         <div class="is-flex k-green is-align-items-center">
@@ -52,10 +55,10 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { NftInformation } from './MintConfirmModal.vue'
+import { ExtendedInformation } from './MintConfirmModal.vue'
 import { NeoIcon } from '@kodadot1/brick'
 
-const props = defineProps<{ nft: NftInformation }>()
+const props = defineProps<{ nft: ExtendedInformation }>()
 
 const rotate = ref(false)
 
