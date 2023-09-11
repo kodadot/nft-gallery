@@ -44,7 +44,6 @@ const ModalProgrammatic = {
     return vnode.component?.proxy as InstanceType<typeof Modal>
   },
   closeAll() {
-    console.log(instances)
     instances.walk((entry) => {
       // eslint-disable-next-line prefer-rest-params
       entry.close(...arguments)
