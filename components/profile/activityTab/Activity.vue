@@ -53,9 +53,10 @@ const activeFilters = computed(() =>
   filters.filter((queryParam) => route.query[queryParam] === 'true')
 )
 
-const { urlPrefix } = usePrefix()
+const { client, urlPrefix } = usePrefix()
 const queryPrefix = urlPrefix.value === 'ksm' ? 'chain-rmrk' : ''
 const { data } = useGraphql({
+  clientName: client.value,
   queryName: 'allEventsByProfile',
   queryPrefix,
   variables: {
@@ -64,7 +65,7 @@ const { data } = useGraphql({
 })
 
 watch(data, () => {
-  events.value = [...sortedEventByDate(data.value?.events || [], 'DESC')]
+  events.value = [...sortedEventByDate(data.value?.value.events || [], 'DESC')]
 })
 
 const interactionToFilterMap = {
