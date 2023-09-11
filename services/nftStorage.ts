@@ -2,7 +2,7 @@ import { $fetch, FetchError } from 'ofetch'
 import { URLS } from '../utils/constants'
 import consola from 'consola'
 import { Metadata } from '@kodadot1/minimark/common'
-import { addToQueue, processQueue } from '~~/utils/queueProcessor'
+import { addToQueue, processQueue } from '@/utils/queueProcessor'
 
 const BASE_URL = URLS.koda.nftStorage
 
