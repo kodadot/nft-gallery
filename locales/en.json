@@ -1126,6 +1126,10 @@
     "list": "List",
     "transfer": "Transfer",
     "transferTo": "Transfer to",
+    "transferNft": "Transfer NFT",
+    "inputAddressFirst": "Input address first",
+    "addressIncorrect": "Address Incorrect",
+    "wrongAddressCannotRecoveredWarning": "Items sent to the wrong address cannot be recovered.",
     "price": {
       "change": "Change Price",
       "new": "Your New Price",

@@ -19,18 +19,8 @@
             @click.native="preferencesStore.listingCartModalOpen = false" />
         </header>
         <div class="px-6 pt-4">
-          <div
-            class="rounded border border-k-shade is-flex is-justify-content-start is-flex-grow-1 pl-3">
-            <IdentityItem
-              v-if="isLogIn"
-              :label="$t('confirmPurchase.connectedWith')"
-              hide-identity-popover
-              disable-identity-link
-              :prefix="urlPrefix"
-              :account="accountId"
-              class="identity-name-font-weight-regular"
-              data-testid="item-creator" />
-          </div>
+          <ModalIdentityItem />
+
           <div class="pt-4 has-text-weight-bold">Set All To</div>
           <div class="pt-4">
             {{ $t('listingCart.collectionFloorPrice') }}
@@ -119,6 +109,8 @@ import { warningMessage } from '@/utils/notification'
 import { useFiatStore } from '@/stores/fiat'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
 import { sum } from '@/utils/math'
+import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
+
 const { isLogIn, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()

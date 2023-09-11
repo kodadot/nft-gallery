@@ -1,77 +1,41 @@
 <template>
   <div>
-    <Loader v-model="isLoading" :status="status" />
-    <div class="is-flex gallery-item-transfer">
-      <GalleryItemActionSlides ref="actionRef" :active="active">
-        <template #action>
-          <NeoTooltip
-            :active="isTransferButtonDisabled"
-            append-to-body
-            multiline
-            position="bottom"
-            :label="$t('tooltip.emptyAddress')">
-            <NeoButton
-              :label="`${$i18n.t('transaction.transfer')}`"
-              size="large"
-              fixed-width
-              :disabled="isTransferButtonDisabled"
-              no-shadow
-              @click.native="sendItem" />
-          </NeoTooltip>
-        </template>
+    <NeoButton
+      :label="`${$i18n.t('transaction.transfer')}`"
+      size="large"
+      fixed-width
+      :disabled="isTransferButtonDisabled"
+      no-shadow
+      @click.native="sendItem" />
 
-        <template #content>
-          <input
-            v-model="address"
-            type="text"
-            class="px-4"
-            :placeholder="`${$i18n.t('transaction.transferTo')}:`" />
-        </template>
-      </GalleryItemActionSlides>
-    </div>
+    <ItemTransferModal v-model="isModalActive" :nft="nft" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { onClickOutside } from '@vueuse/core'
-import { NeoButton, NeoTooltip } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 
-import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
-import { Interaction } from '@kodadot1/minimark/v1'
+import ItemTransferModal from '@/components/common/itemTransfer/ItemTransferModal.vue'
+import { NFT } from '@/components/rmrk/service/scheme'
 
-const { transaction, status, isLoading } = useTransaction()
-const { $route, $i18n } = useNuxtApp()
-const { urlPrefix } = usePrefix()
-
-const props = defineProps<{
-  nftId: string
+defineProps<{
+  nft: NFT
 }>()
 
-const active = ref(false)
+const isModalActive = ref(false)
 const address = ref()
 
 const isTransferButtonDisabled = computed(() => {
-  return active.value && !address.value
+  return isModalActive.value && !address.value
 })
 
 function sendItem() {
-  if (active.value === false) {
-    active.value = true
-  } else {
-    transaction({
-      interaction: Interaction.SEND,
-      urlPrefix: urlPrefix.value,
-      address: address.value,
-      tokenId: $route.params.id,
-      nftId: props.nftId,
-      successMessage: $i18n.t('transaction.item.success') as string,
-      errorMessage: $i18n.t('transaction.item.error') as string,
-    })
-  }
+  isModalActive.value = true
 }
 
 const actionRef = ref(null)
-onClickOutside(actionRef, () => (active.value = false))
+onClickOutside(actionRef, () => (isModalActive.value = false))
 </script>
 
 <style lang="scss" scoped>

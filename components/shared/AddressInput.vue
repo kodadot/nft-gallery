@@ -8,6 +8,13 @@
         icon-right-clickable
         @icon-right-click="clearIconClick" />
     </NeoField>
+
+    <div v-if="withAddressCheck" class="mt-4">
+      <AddressChecker
+        :address="inputValue"
+        @check="handleAddressCheck"
+        @change="handleAddressChange" />
+    </div>
   </div>
 </template>
 
@@ -15,8 +22,9 @@
 import correctFormat from '@/utils/ss58Format'
 import { checkAddress, isAddress } from '@polkadot/util-crypto'
 import { NeoField, NeoInput } from '@kodadot1/brick'
+import AddressChecker from '@/components/shared/AddressChecker.vue'
 
-const emit = defineEmits(['input'])
+const emit = defineEmits(['input', 'check'])
 const props = withDefaults(
   defineProps<{
     value: string
@@ -27,6 +35,7 @@ const props = withDefaults(
     placeholder?: string
     disableError?: boolean
     isInvalid?: boolean
+    withAddressCheck?: boolean
   }>(),
   {
     label: 'Insert Address',
@@ -39,8 +48,23 @@ const props = withDefaults(
 
 const { chainProperties } = useChain()
 const error = ref<string | null>('')
+const addressCheckError = ref<boolean>(false)
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
-const variant = computed(() => (props.isInvalid || error.value ? 'danger' : ''))
+const variant = computed(() => {
+  if (props.isInvalid || error.value || addressCheckError.value) {
+    return 'danger'
+  }
+
+  if (
+    props.withAddressCheck &&
+    (!props.isInvalid || !addressCheckError.value) &&
+    !!inputValue.value
+  ) {
+    return 'success'
+  }
+
+  return ''
+})
 const iconRight = computed(() => {
   if (inputValue.value && props.icon === 'close-circle') {
     return 'close-circle'
@@ -60,7 +84,7 @@ const clearIconClick = () => {
 const handleInput = (value: string) => {
   emit('input', value)
 
-  if (props.disableError) {
+  if (props.disableError || props.withAddressCheck) {
     return value
   }
 
@@ -76,5 +100,14 @@ const handleInput = (value: string) => {
   }
 
   return props.emptyOnError && error.value ? '' : value
+}
+
+const handleAddressCheck = (isValid: boolean) => {
+  emit('check', isValid)
+  addressCheckError.value = !isValid
+}
+
+const handleAddressChange = (value: string) => {
+  handleInput(value)
 }
 </script>

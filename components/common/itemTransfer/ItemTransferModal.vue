@@ -1,0 +1,164 @@
+<template>
+  <div>
+    <Loader v-model="isLoading" :status="status" />
+    <NeoModal v-model="isModalActive" scroll="clip" @close="onClose">
+      <div class="modal-width">
+        <header
+          class="border-bottom border-grey is-flex is-align-items-center is-justify-content-space-between px-6">
+          <p class="py-5 is-size-6 has-text-weight-bold">
+            {{ $t('transaction.transferNft') }}
+          </p>
+
+          <NeoButton
+            variant="text"
+            no-shadow
+            icon="xmark"
+            icon-pack="fa-sharp"
+            size="medium"
+            class="cross"
+            @click.native="onClose" />
+        </header>
+
+        <div class="px-6 pt-3 pb-5">
+          <ModalIdentityItem />
+
+          <div class="mt-4 is-flex is-justify-content-space-between">
+            <div class="is-flex">
+              <div>
+                <BasicImage
+                  :src="avatar"
+                  :alt="nft?.name"
+                  class="border image is-48x48" />
+              </div>
+
+              <div
+                class="is-flex is-flex-direction-column is-justify-content-space-between ml-4 limit-width">
+                <div
+                  class="has-text-weight-bold has-text-color line-height-1 no-wrap is-clipped is-ellipsis">
+                  {{ nft.name }}
+                </div>
+                <div class="line-height-1 no-wrap is-clipped is-ellipsis">
+                  {{ nft.collection?.name || nft.collection.id }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr class="my-4" />
+
+          <h2 class="mb-2 has-text-weight-bold has-text-color is-capitalized">
+            {{ $t('transaction.transferTo') }}
+          </h2>
+
+          <AddressInput
+            v-model="address"
+            label=""
+            class="is-flex-1"
+            placeholder="Enter wallet address"
+            with-address-check
+            @check="handleAddressCheck" />
+        </div>
+
+        <div class="px-6 pb-4 is-flex is-flex-direction-column">
+          <NeoButton
+            :disabled="isDisabled"
+            :label="transferItemLabel"
+            variant="k-accent"
+            no-shadow
+            class="is-flex is-flex-grow-1 py-5"
+            @click.native="transfer" />
+
+          <div
+            class="mt-3 is-flex is-justify-items-space-between is-size-7 has-text-grey">
+            <NeoIcon icon="circle-info" size="small" class="mr-4" />
+
+            <p>
+              {{ $t('transaction.wrongAddressCannotRecoveredWarning') }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </NeoModal>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
+import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
+import { NFT } from '@/components/rmrk/service/scheme'
+import BasicImage from '@/components/shared/view/BasicImage.vue'
+import { parseNftAvatar } from '@/utils/nft'
+import AddressInput from '@/components/shared/AddressInput.vue'
+import { Interaction } from '@kodadot1/minimark/v1'
+
+const emit = defineEmits(['close'])
+const props = defineProps<{
+  nft: NFT
+  value: boolean
+}>()
+
+const { $route, $i18n } = useNuxtApp()
+const { transaction, status, isLoading } = useTransaction()
+const { urlPrefix } = usePrefix()
+
+const isModalActive = useVModel(props, 'value')
+const avatar = ref<string>()
+const address = ref()
+const isAddressValid = ref(false)
+
+const transferItemLabel = computed(() => {
+  if (!address.value) {
+    return $i18n.t('transaction.inputAddressFirst')
+  }
+  if (!isAddressValid.value) {
+    return $i18n.t('transaction.addressIncorrect')
+  }
+  return $i18n.t('transaction.transferNft')
+})
+
+const isDisabled = computed(() => !address.value || !isAddressValid.value)
+
+const getAvatar = async () => {
+  if (props.nft) {
+    avatar.value = await parseNftAvatar(props.nft)
+  }
+}
+
+const onClose = () => {
+  emit('close')
+}
+
+const handleAddressCheck = (isValid) => {
+  isAddressValid.value = isValid
+}
+
+const transfer = () => {
+  transaction({
+    interaction: Interaction.SEND,
+    urlPrefix: urlPrefix.value,
+    address: address.value,
+    tokenId: $route.params.id,
+    nftId: props.nft.id,
+    successMessage: $i18n.t('transaction.item.success') as string,
+    errorMessage: $i18n.t('transaction.item.error') as string,
+  })
+}
+
+onMounted(() => {
+  getAvatar()
+})
+</script>
+
+<style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+
+.modal-width {
+  width: 25rem;
+}
+
+@include touch() {
+  .modal-width {
+    width: unset;
+  }
+}
+</style>
