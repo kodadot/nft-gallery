@@ -2,6 +2,7 @@ import { $fetch, FetchError } from 'ofetch'
 import { URLS } from '../utils/constants'
 import consola from 'consola'
 import { Metadata } from '@kodadot1/minimark/common'
+import { addToQueue, processQueue } from '~~/utils/queueProcessor'
 
 const BASE_URL = URLS.koda.nftStorage
 
@@ -48,7 +49,18 @@ export const getKey = async (address: string): Promise<PinningKey> => {
   return { expiry, token }
 }
 
-export const pinFileToIPFS = async (file: Blob, _: string): Promise<string> => {
+export const rateLimitedPinFileToIPFS = (
+  file: File,
+  batchSize = 5,
+  gap = 100
+): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    addToQueue(() => pinFileToIPFS(file).then(resolve).catch(reject))
+    processQueue(batchSize, gap)
+  })
+}
+
+export const pinFileToIPFS = async (file: Blob): Promise<string> => {
   const { value } = await nftStorageApi<StorageApiResponse>('/pinFile', {
     method: 'POST',
     body: file,
