@@ -72,14 +72,6 @@
               </p>
             </nuxt-link>
           </div>
-
-          <div class="my-5">
-            <span class="has-text-weight-bold is-size-5">Schedule</span>
-          </div>
-          <div>
-            <span> {{ $t('mint.unlockable.phaseIntroduction') }}</span>
-          </div>
-          <UnlockableSchedule />
         </div>
         <div class="column pt-5 is-flex is-justify-content-center">
           <ImageSlider
@@ -146,7 +138,6 @@ import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
 import CountdownTimer from '@/components/collection/unlockable/CountdownTimer.vue'
 import ImageSlider from '@/components/collection/unlockable/ImageSlider.vue'
 import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
-import UnlockableSchedule from '@/components/collection/unlockable/UnlockableSchedule.vue'
 import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
 import { DISPLAY_SLIDE_IMAGE_COUNT, collectionId, countDownTime } from './const'
 import {

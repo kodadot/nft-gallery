@@ -2,9 +2,6 @@
 @import '@/assets/styles/abstracts/variables';
 
 .content-markdown {
-  pre.hljs {
-    background: $black;
-  }
   code {
     font-family: monospace;
   }
