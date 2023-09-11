@@ -11,7 +11,7 @@
 
     <AddressChecker
       v-if="withAddressCheck"
-      class="mt-4"
+      :class="{ 'mt-4': !!inputValue }"
       :address="inputValue"
       @check="handleAddressCheck"
       @change="handleAddressChange" />
