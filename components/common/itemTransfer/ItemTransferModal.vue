@@ -19,7 +19,7 @@
             @click.native="onClose" />
         </header>
 
-        <div class="px-6 pt-3 pb-5">
+        <div class="px-6 pt-4 pb-5">
           <ModalIdentityItem />
 
           <div class="mt-4 is-flex is-justify-content-space-between">
