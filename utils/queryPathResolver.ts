@@ -3,7 +3,9 @@ function resolveQueryPath(
   queryName: string
 ): Promise<typeof import('*.graphql')> {
   const path = getPath(prefix)
-  return import(/* @vite-ignore */ `../queries/${path}${queryName}.graphql`)
+  const MODULES = import.meta.glob('../queries/**/*.graphql')
+  return MODULES[`../queries/${path}${queryName}.graphql`]()
+  // return import(/* @vite-ignore */ `../queries/${path}${queryName}.graphql`)
 }
 
 function getPath(prefix: string) {

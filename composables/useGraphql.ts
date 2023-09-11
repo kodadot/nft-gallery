@@ -40,6 +40,7 @@ export default function ({
     variables: extraVariables = {},
   }: DoFetchParams = {}) {
     const query = await resolveQueryPath(prefix, queryName)
+    console.log(query)
 
     try {
       const { data: result } = await useAsyncQuery({
