@@ -1,5 +1,5 @@
-// import Vue from 'vue'
-// import VueSocialSharing from 'vue-social-sharing'
+import VueSocialSharing from 'vue-social-sharing'
 
-// Vue.use(VueSocialSharing)
-export default defineNuxtPlugin(() => undefined)
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.vueApp.use(VueSocialSharing)
+})
