@@ -99,7 +99,6 @@
 import { Interaction } from '@kodadot1/minimark/v1'
 import ListingCartPriceInput from '@/components/common/listingCart/ListingCartPriceInput.vue'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
-import IdentityItem from '@/components/identity/IdentityItem.vue'
 import { NeoButton, NeoModal } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
 import { TokenToList } from '@/composables/transaction/types'
@@ -111,7 +110,6 @@ import { calculateExactUsdFromToken } from '@/utils/calculation'
 import { sum } from '@/utils/math'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 
-const { isLogIn, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()

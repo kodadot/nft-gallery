@@ -14,6 +14,8 @@
 </template>
 
 <script setup lang="ts">
+import IdentityItem from '@/components/identity/IdentityItem.vue'
+
 const { isLogIn, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 </script>

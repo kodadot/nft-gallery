@@ -124,7 +124,7 @@ const transferItemLabel = computed(() => {
 const isDisabled = computed(() => !address.value || !isAddressValid.value)
 
 const nftPrice = computed(() =>
-  !!Number(props.nft.price)
+  Number(props.nft.price)
     ? formatBalance(Number(props.nft.price), decimals.value, chainSymbol.value)
     : '--'
 )
