@@ -1,14 +1,15 @@
 <template>
-  <div>
+  <div class="is-flex is-justify-content-end">
     <NeoButton
       :label="`${$i18n.t('transaction.transfer')}`"
       size="large"
-      fixed-width
-      :disabled="isTransferButtonDisabled"
-      no-shadow
+      variant="k-accent"
       @click.native="sendItem" />
 
-    <ItemTransferModal v-model="isModalActive" :nft="nft" />
+    <ItemTransferModal
+      v-model="isModalActive"
+      :nft="nft"
+      @close="isModalActive = false" />
   </div>
 </template>
 
@@ -24,11 +25,6 @@ defineProps<{
 }>()
 
 const isModalActive = ref(false)
-const address = ref()
-
-const isTransferButtonDisabled = computed(() => {
-  return isModalActive.value && !address.value
-})
 
 function sendItem() {
   isModalActive.value = true
