@@ -183,8 +183,8 @@ importers:
         specifier: ^2.4.5
         version: 2.4.5(vue@3.3.4)
       vue-social-sharing:
-        specifier: ^3.0.9
-        version: 3.0.9(vue@3.3.4)
+        specifier: 4.0.0-alpha4
+        version: 4.0.0-alpha4(vue@3.3.4)
       vue-tippy:
         specifier: ^6.3.1
         version: 6.3.1(vue@3.3.4)
@@ -13887,10 +13887,10 @@ packages:
       '@vue/devtools-api': 6.5.0
       vue: 3.3.4
 
-  /vue-social-sharing@3.0.9(vue@3.3.4):
-    resolution: {integrity: sha512-Yg4oz5cSkr7ieMAgumwoRLnFhAaoUGCsN8lZE9yUkuQzbKid8yBOn4mLjfx/DA/E8nxYjunAfIUFs7eKIkBjPA==}
+  /vue-social-sharing@4.0.0-alpha4(vue@3.3.4):
+    resolution: {integrity: sha512-hMbgpZkY5aRAiznSB/sgzdMVgdSbkmIHEaELX7pUbuUd6KS1Z/GAi7a/q0Qn+GFn0+6qMMvwyp3ZOE0+WYPQ1w==}
     peerDependencies:
-      vue: ^2.6.10
+      vue: ^3.0.0
     dependencies:
       vue: 3.3.4
     dev: false

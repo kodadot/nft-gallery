@@ -63,7 +63,7 @@ import { useLangStore } from '@/stores/lang'
 const { urlPrefix } = usePrefix()
 const { isBasilisk } = useIsChain(urlPrefix)
 const { toggleColorMode, isDarkMode } = useTheme()
-const { $neoModal } = useNuxtApp()
+const { neoModal } = useProgrammatic()
 
 const langStore = useLangStore()
 
@@ -97,7 +97,7 @@ onMounted(() => {
 })
 
 const closeModal = () => {
-  $neoModal.closeAll()
+  neoModal.closeAll()
 }
 </script>
 
