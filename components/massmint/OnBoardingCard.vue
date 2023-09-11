@@ -24,7 +24,7 @@ defineProps<{
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 $card-width-percents: 54%;
 $max-card-width: 760px;

@@ -56,7 +56,7 @@
           <img
             :src="emptyCartPlaceholder"
             alt="empty cart"
-            width="140px"
+            width="140"
             class="mb-5" />
           <span class="has-text-weight-bold mb-2">{{
             $t('shoppingCart.emptyCart.line1')
