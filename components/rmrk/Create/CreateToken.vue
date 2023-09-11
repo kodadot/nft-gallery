@@ -1,5 +1,9 @@
 <template>
   <div>
+    <MintConfirmModal
+      v-model="modalShowStatus"
+      :nft-information="nftInformation"
+      @confirm="submit" />
     <Loader v-model="isLoading" :status="status" />
     <BaseTokenForm
       v-bind.sync="base"
@@ -9,7 +13,6 @@
       <template #main>
         <BasicSwitch key="nsfw" v-model="nsfw" label="mint.nfsw" />
         <BasicSwitch key="listed" v-model="listed" label="mint.listForSale" />
-
         <BalanceInput
           v-if="listed"
           ref="balanceInput"
@@ -70,7 +73,7 @@
             expanded
             label="mint.submit"
             :loading="isLoading"
-            @click="submit()" />
+            @click="showConfirm" />
         </NeoField>
       </template>
     </BaseTokenForm>
@@ -109,6 +112,7 @@ import type {
   MintedCollectionKusama,
   TokenToList,
 } from '@/composables/transaction/types'
+import MintConfirmModal from '~~/components/create/MintConfirmModal.vue'
 
 const { isLoading, status } = useMetaTransaction()
 const { $i18n, $apollo } = useNuxtApp()
@@ -144,6 +148,8 @@ const royalty = ref({
 const balanceInput = ref()
 const baseTokenForm = ref()
 
+const modalShowStatus = ref(false)
+
 defineProps({
   showExplainerText: {
     type: Boolean,
@@ -162,6 +168,18 @@ const hasPrice = computed(() => {
 const balanceNotEnoughMessage = computed(() => {
   return balanceNotEnough.value ? $i18n.t('tooltip.notEnoughBalance') : ''
 })
+
+const nftInformation = computed(() => ({
+  ...base.value,
+  copies: Number(base.value.copies),
+  tags: tags.value,
+  nsfw: nsfw.value,
+  postfix: postfix.value,
+  price: price.toString(),
+  royalty: royalty.value,
+  hasRoyalty: hasRoyalty.value,
+  urlPrefix: urlPrefix.value,
+}))
 
 const updatePrice = (value: string) => {
   price.value = value
@@ -200,20 +218,30 @@ const checkValidity = () => {
   return balanceInputValid && baseTokenFormValid
 }
 
-const submit = async () => {
+const showConfirm = () => {
+  if (preCheck()) {
+    console.log('show modal')
+    modalShowStatus.value = true
+  }
+}
+
+const preCheck = () => {
   if (!base.value.selectedCollection) {
     throw ReferenceError('[MINT] Unable to mint without collection')
   }
 
   if (!checkValidity()) {
-    return
+    return false
   }
 
   if (parseFloat(balance.value) === 0) {
     balanceNotEnough.value = true
-    return
+    return false
   }
+  return true
+}
 
+const submit = async () => {
   isLoading.value = true
   status.value = 'loader.ipfs'
   const {

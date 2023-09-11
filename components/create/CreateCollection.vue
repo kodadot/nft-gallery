@@ -1,10 +1,11 @@
 <template>
   <div class="is-centered" :class="{ columns: classColumn }">
+    <MintConfirmModal v-model="modalShowStatus" @confirm="createCollection" />
     <Loader v-model="isLoading" :status="status" />
     <form
       class="is-half"
       :class="{ column: classColumn }"
-      @submit.prevent="createCollection">
+      @submit.prevent="showConfirm">
       <h1 class="title is-size-3">
         {{ $t('mint.collection.create') }}
       </h1>
@@ -168,6 +169,7 @@ import { availablePrefixes } from '@/utils/chain'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { makeSymbol } from '@kodadot1/minimark/shared'
+import MintConfirmModal from './MintConfirmModal.vue'
 
 // props
 withDefaults(
@@ -192,6 +194,8 @@ const unlimited = ref(true)
 const max = ref(1)
 const symbol = ref('')
 
+const modalShowStatus = ref(false)
+
 const menus = availablePrefixes().filter(
   (menu) => menu.value !== 'movr' && menu.value !== 'glmr'
 )
@@ -212,6 +216,11 @@ const canDeposit = computed(() => {
 })
 
 watchEffect(() => setUrlPrefix(currentChain.value as Prefix))
+
+const showConfirm = () => {
+  console.log('show confirm')
+  modalShowStatus.value = true
+}
 
 const createCollection = async () => {
   let collection: BaseCollectionType = {
