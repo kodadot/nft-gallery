@@ -24,7 +24,7 @@
         <NeoDropdown
           position="bottom-left"
           :mobile-modal="false"
-          menu-class="is-shadowless">
+          menu-class="is-shadowless no-border-bottom">
           <template #trigger="{ active }">
             <NeoButton
               icon="ellipsis-vertical"
@@ -825,5 +825,8 @@ watchDebounced(
   .fixed-height {
     height: 51px;
   }
+}
+:deep(.o-drop__menu.no-border-bottom) {
+  border-bottom: none;
 }
 </style>
