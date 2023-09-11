@@ -69,7 +69,7 @@
             :label="transferItemLabel"
             variant="k-accent"
             no-shadow
-            class="is-flex is-flex-grow-1 py-5"
+            class="is-flex is-flex-grow-1 py-5 is-capitalized"
             @click.native="transfer" />
 
           <div
