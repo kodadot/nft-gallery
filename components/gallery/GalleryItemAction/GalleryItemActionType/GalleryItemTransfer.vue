@@ -48,7 +48,7 @@ onClickOutside(actionRef, () => (isModalActive.value = false))
 
 @include until-widescreen {
   .gallery-item-transfer {
-    margin-top: 0.5rem;
+    margin-top: 1rem !important;
 
     button {
       width: 100%;
