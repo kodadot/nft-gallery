@@ -43,7 +43,7 @@
                   :label="tab.label"
                   :active="activeDescriptionTab === tab.label"
                   class="filter-tag"
-                  @click.native="activeDescriptionTab = tab.label" />
+                  @click="activeDescriptionTab = tab.label" />
               </div>
             </div>
             <Markdown
