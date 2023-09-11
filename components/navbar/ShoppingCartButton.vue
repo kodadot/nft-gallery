@@ -18,17 +18,17 @@
 </template>
 
 <script setup lang="ts">
-const { shoppingCartIcon } = useShoppingCartIcon()
+import ActiveCount from '../explore/ActiveCount.vue'
+import { ModalCloseType } from './types'
+import { useShoppingCartStore } from '@/stores/shoppingCart'
 import {
   isShoppingCartOpen,
   openShoppingCart,
 } from '@/components/common/shoppingCart/ShoppingCartModalConfig'
-import ActiveCount from '../explore/ActiveCount.vue'
-import { ModalCloseType } from './types'
-import { useShoppingCartStore } from '@/stores/shoppingCart'
-const { urlPrefix } = usePrefix()
 
+const { urlPrefix } = usePrefix()
 const { neoModal } = useProgrammatic()
+const { shoppingCartIcon } = useShoppingCartIcon()
 const shoppingCartStore = useShoppingCartStore()
 const numberOfItems = computed(
   () => shoppingCartStore.getItemsByPrefix(urlPrefix.value).length
@@ -42,7 +42,7 @@ const emit = defineEmits(['closeBurgerMenu'])
 const isMobile = ref(window.innerWidth < 1024)
 const isMobileWithoutTablet = ref(window.innerWidth < 768)
 
-function toggleShoppingCartModal() {
+const toggleShoppingCartModal = () => {
   if (isMobile.value) {
     emit('closeBurgerMenu')
   }
@@ -51,7 +51,7 @@ function toggleShoppingCartModal() {
 
   // can use the function in ShoppingCartModalConfig
   if (!isShoppingCartOpen()) {
-    openShoppingCart(instance, {
+    openShoppingCart({
       onClose: (type: ModalCloseType) => {
         if (isMobile.value && type === ModalCloseType.BACK) {
           emit('closeBurgerMenu')

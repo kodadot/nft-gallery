@@ -145,7 +145,7 @@ const openCompletePurcahseModal = () => {
 
 function onClick() {
   if (btnStatus.value === BuyStatus.CART) {
-    openShoppingCart(instance)
+    openShoppingCart()
   } else {
     doAfterLogin({ onLoginSuccess: openCompletePurcahseModal })
   }

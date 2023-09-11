@@ -16,21 +16,43 @@
         ref="carouselRef"
         class="carousel is-flex is-flex-wrap-nowrap"
         :class="`slide-${currentSlide}`">
-        <div
+        <OnBoardingCard
           v-for="(card, index) in cards"
           :key="index"
-          class="carousel-card p-5 mobile-padding"
-          :class="{ 'not-active': index !== currentSlide }">
-          <div class="card__content">
-            <p
-              class="title is-size-2-desktop is-size-3-tablet is-size-5-mobile is-capitalized">
-              {{ card.title }}
+          :title="card.title"
+          :content="card.content"
+          :active="index === currentSlide">
+          <div v-if="index === 1">
+            <p class="is-size-6 has-text-weight-bold mb-3">
+              {{ $t('massmint.onboarding.cards.1.subtitle') }}:
             </p>
-            <div class="content is-size-4-tablet is-size-5-mobile">
-              <Markdown :source="card.content" />
+            <p class="is-size-6 mb-5">
+              {{ $t('massmint.onboarding.cards.1.instructions') }}
+            </p>
+            <div
+              class="is-flex is-justify-content-space-between is-align-items-center mb-4 column-mobile">
+              <span class="is-size-6 has-text-weight-bold">
+                {{ $t('massmint.onboarding.cards.1.codeStructure') }}:
+              </span>
+              <div class="is-flex tab-gap">
+                <NeoButton
+                  v-for="tab in descriptionTabs"
+                  :key="tab"
+                  rounded
+                  no-shadow
+                  :label="tab.label"
+                  :active="activeDescriptionTab === tab.label"
+                  class="filter-tag"
+                  @click="activeDescriptionTab = tab.label" />
+              </div>
             </div>
+            <Markdown
+              :source="
+                descriptionTabs[activeDescriptionTab].fileStructureDescription
+              "
+              class="fixed-height white-space-break-spaces-mobile" />
           </div>
-        </div>
+        </OnBoardingCard>
       </div>
       <Transition name="fade">
         <div
@@ -48,10 +70,10 @@
 
     <div class="is-flex is-justify-content-center my-8">
       <span
-        v-for="(card, index) in cards"
+        v-for="index in numOfCards"
         :key="index"
         class="carousel-dot mx-2"
-        :class="{ 'is-active': index === currentSlide }"></span>
+        :class="{ 'is-active': index === currentSlide + 1 }" />
     </div>
     <div class="is-flex is-justify-content-center">
       <NeoButton
@@ -65,7 +87,9 @@
 
 <script lang="ts" setup>
 import { NeoButton, NeoButtonVariant } from '@kodadot1/brick'
+import OnBoardingCard from './OnBoardingCard.vue'
 import { usePreferencesStore } from '@/stores/preferences'
+import { descriptionTabs } from './descriptionTabs'
 import { SwipeDirection, useSwipe } from '@vueuse/core'
 import Markdown from '@/components/shared/Markdown.vue'
 
@@ -79,6 +103,8 @@ const currentSlide = ref(0)
 const swipeThreshold = 40
 const carouselRef = ref<HTMLElement | null>(null)
 
+const activeDescriptionTab = ref('JSON')
+
 useSwipe(carouselRef, {
   threshold: swipeThreshold,
   onSwipeEnd: (_, direction) => {
@@ -91,8 +117,7 @@ useSwipe(carouselRef, {
 })
 
 const cards = computed(() => {
-  const indices = Array.from({ length: numOfCards }, (_, i) => i + 1)
-  return indices.map((i: number) => ({
+  return Array.from({ length: numOfCards }, (_, i) => ({
     title: $i18n.t(`massmint.onboarding.cards.${i}.title`),
     content: $i18n.t(`massmint.onboarding.cards.${i}.content`),
   }))
@@ -167,33 +192,42 @@ $base-shift: calc((100% - $card-width) / 2);
   }
 }
 
-.carousel-card {
-  flex: 0 0 #{$card-width};
-  min-height: $card-height;
+:deep .white-space-break-spaces-mobile {
+  pre {
+    @include touch {
+      width: 50vw;
+      white-space: break-spaces;
+    }
+  }
+}
 
-  &.mobile-padding {
-    @include mobile {
-      padding: 0.75rem !important;
-    }
+.column-mobile {
+  @include mobile {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 0.75rem;
   }
-  @include ktheme() {
-    box-shadow: theme('primary-shadow');
-    background: theme('background-color');
-    border: 1px solid theme('border-color');
+}
+.filter-tag {
+  &:hover {
+    background-color: unset;
   }
-  &__content {
+  &.active {
     @include ktheme() {
-      color: theme('text-color') !important;
+      background-color: theme('k-shade');
+      color: theme('black');
     }
-    .content {
+    &:hover {
       @include ktheme() {
-        color: theme('text-color') !important;
+        background-color: theme('k-shade') !important;
       }
     }
   }
-  &.not-active {
-    opacity: 0.5;
-  }
+}
+
+.fixed-height {
+  height: 180px;
+  overflow-y: auto;
 }
 
 .carousel-dot {
@@ -224,5 +258,9 @@ $base-shift: calc((100% - $card-width) / 2);
   &-right {
     right: 30px;
   }
+}
+
+.tab-gap {
+  gap: 0.75rem;
 }
 </style>

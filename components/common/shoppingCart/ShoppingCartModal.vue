@@ -54,9 +54,9 @@
         <div
           class="is-flex is-align-items-center is-flex-direction-column pt-8">
           <img
-            src="/empty-cart.png"
+            :src="emptyCartPlaceholder"
             alt="empty cart"
-            width="140px"
+            width="140"
             class="mb-5" />
           <span class="has-text-weight-bold mb-2">{{
             $t('shoppingCart.emptyCart.line1')
@@ -100,11 +100,16 @@ const prefrencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { urlPrefix } = usePrefix()
 const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
+const { isDarkMode } = useTheme()
 
 const emit = defineEmits(['close'])
 
 const items = computed(() =>
   shoppingCartStore.getItemsByPrefix(urlPrefix.value)
+)
+
+const emptyCartPlaceholder = computed(() =>
+  isDarkMode.value ? '/cart/empty-cart-dark.png' : '/cart/empty-cart.png'
 )
 
 const numberOfItems = computed(() => items.value.length)

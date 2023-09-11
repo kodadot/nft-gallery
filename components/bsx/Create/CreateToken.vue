@@ -129,7 +129,7 @@ withDefaults(
 )
 
 const { apiUrl } = useApi()
-const { urlPrefix, tokenId } = usePrefix()
+const { client, urlPrefix, tokenId } = usePrefix()
 const { accountId } = useAuth()
 const {
   status: transactionStatus,
@@ -202,13 +202,14 @@ const loadCollectionMeta = async () => {
 
 const fetchCollections = async () => {
   const query = await resolveQueryPath(urlPrefix.value, 'collectionForMint')
-  const { data: newCollections } = await useAsyncQuery(query.default, {
-    account: accountId.value,
+  const { data: newCollections } = await useAsyncQuery({
+    query: query.default,
+    variables: {
+      account: accountId.value,
+    },
+    clientId: client.value,
   })
-
-  const {
-    data: { collectionEntities },
-  } = newCollections
+  const { collectionEntities } = newCollections.value
 
   const initialMeta: Partial<CollectionMetadata> = {
     description: undefined,

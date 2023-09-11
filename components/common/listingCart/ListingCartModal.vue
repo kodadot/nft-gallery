@@ -42,6 +42,7 @@
             <NeoButton
               class="mr-2"
               label="-5%"
+              :disabled="setFloorPriceButtonDisabled"
               rounded
               no-shadow
               @click="
@@ -52,6 +53,7 @@
             <NeoButton
               class="mr-2"
               :label="$t('statsOverview.floorPrice')"
+              :disabled="setFloorPriceButtonDisabled"
               rounded
               no-shadow
               @click="
@@ -60,6 +62,7 @@
               " />
             <NeoButton
               label="+5%"
+              :disabled="setFloorPriceButtonDisabled"
               rounded
               no-shadow
               @click="
@@ -141,6 +144,13 @@ const priceUSD = computed(() =>
     totalNFTsPrice.value,
     Number(fiatStore.getCurrentTokenValue(prefixToToken[urlPrefix.value]))
   )
+)
+
+const setFloorPriceButtonDisabled = computed(
+  () =>
+    !listingCartStore.itemsInChain
+      .map((item) => item.collection.floor || 0)
+      .some(Boolean)
 )
 
 const totalNFTsPrice = computed(() =>
