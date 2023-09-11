@@ -206,8 +206,6 @@ const fetchCollections = async () => {
     account: accountId.value,
   })
 
-  console.log(newCollections)
-
   const {
     data: { collectionEntities },
   } = newCollections
