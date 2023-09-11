@@ -122,7 +122,7 @@ const estmiatedTimeLeft = computed(() => {
 
 const explorerLink = computed(() => {
   const explorerBaseUrl = chainPropListOf(urlPrefix.value).blockExplorer
-  return `${explorerBaseUrl}extrinsic\\${props.transactionId}`
+  return `${explorerBaseUrl}extrinsic/${props.transactionId}`
 })
 
 const activeStep = computed(() => {
