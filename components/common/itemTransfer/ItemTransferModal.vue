@@ -69,10 +69,10 @@
             @click.native="transfer" />
 
           <div
-            class="mt-3 is-flex is-justify-items-space-between is-size-7 has-text-grey">
+            class="mt-3 is-flex is-justify-items-space-between has-text-grey">
             <NeoIcon icon="circle-info" size="small" class="mr-4" />
 
-            <p>
+            <p class="is-size-7">
               {{ $t('transaction.wrongAddressCannotRecoveredWarning') }}
             </p>
           </div>
