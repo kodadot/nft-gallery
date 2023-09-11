@@ -2,9 +2,12 @@ function resolveQueryPath(
   prefix: string,
   queryName: string
 ): Promise<typeof import('*.graphql')> {
+  // TODO: find a better way?
   const path = getPath(prefix)
   const MODULES = import.meta.glob('../queries/**/*.graphql')
-  return MODULES[`../queries/${path}${queryName}.graphql`]()
+  return MODULES[`../queries/${path}${queryName}.graphql`]() as Promise<
+    typeof import('*.graphql')
+  >
   // return import(/* @vite-ignore */ `../queries/${path}${queryName}.graphql`)
 }
 
