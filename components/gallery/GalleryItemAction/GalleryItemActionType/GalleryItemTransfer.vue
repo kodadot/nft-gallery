@@ -1,9 +1,10 @@
 <template>
-  <div class="is-flex is-justify-content-end">
+  <div class="is-flex is-justify-content-end gallery-item-transfer">
     <NeoButton
       :label="`${$i18n.t('transaction.transfer')}`"
       size="large"
-      variant="k-accent"
+      variant="k-pink"
+      fixed-width
       @click.native="sendItem" />
 
     <ItemTransferModal
@@ -37,12 +38,22 @@ onClickOutside(actionRef, () => (isModalActive.value = false))
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
 .gallery-item-transfer {
-  justify-content: flex-end;
+  display: flex;
+
+  button {
+    font-size: 1rem;
+    height: 3.375rem;
+  }
 }
+
 @include until-widescreen {
   .gallery-item-transfer {
     margin-top: 0.5rem;
-    justify-content: flex-start;
+
+    button {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 </style>

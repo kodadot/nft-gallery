@@ -9,12 +9,12 @@
         @icon-right-click="clearIconClick" />
     </NeoField>
 
-    <div v-if="withAddressCheck" class="mt-4">
-      <AddressChecker
-        :address="inputValue"
-        @check="handleAddressCheck"
-        @change="handleAddressChange" />
-    </div>
+    <AddressChecker
+      v-if="withAddressCheck"
+      class="mt-4"
+      :address="inputValue"
+      @check="handleAddressCheck"
+      @change="handleAddressChange" />
   </div>
 </template>
 
