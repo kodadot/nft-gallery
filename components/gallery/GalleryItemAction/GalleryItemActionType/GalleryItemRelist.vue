@@ -56,7 +56,7 @@ const openListCartModal = () => {
 const onListingModalClose = () => {
   setTimeout(() => {
     listingCartStore.clear()
-  }, 500)
+  }, 500) // wait for modal animation
 }
 
 const isListed = computed(() => Boolean(Number(nftPrice.value)))
