@@ -1,5 +1,11 @@
-import { NeoModalExtendProgrammatic } from '@kodadot1/brick'
+import {
+  NeoModalExtendProgrammatic,
+  NeoNotificationProgrammatic,
+} from '@kodadot1/brick'
 
 export default function () {
-  return { neoModal: NeoModalExtendProgrammatic }
+  return {
+    neoModal: NeoModalExtendProgrammatic,
+    neoNotification: NeoNotificationProgrammatic,
+  }
 }
