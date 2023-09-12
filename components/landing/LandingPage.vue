@@ -40,6 +40,12 @@
 
 <script lang="ts" setup>
 import type { Prefix } from '@kodadot1/static'
+import {
+  dangerMessage,
+  infoMessage,
+  successMessage,
+  warningMessage,
+} from '@/utils/notification'
 
 const hiddenCarrouselPrefixes: Prefix[] = ['movr', 'glmr', 'dot']
 const forbiddenPrefixesForTopCollections: Prefix[] = [
@@ -50,6 +56,16 @@ const forbiddenPrefixesForTopCollections: Prefix[] = [
 ]
 
 const { urlPrefix } = usePrefix()
+
+// test toast here
+const { toast } = useToast()
+onMounted(() => {
+  toast('test toast', { position: 'top-right', duration: 10000 })
+  infoMessage('test info')
+  successMessage('test success')
+  warningMessage('test warning')
+  dangerMessage('test danger')
+})
 
 // currently only supported on rmrk and snek
 const showCarousel = computed(
