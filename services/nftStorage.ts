@@ -50,7 +50,7 @@ export const getKey = async (address: string): Promise<PinningKey> => {
   return { expiry, token }
 }
 
-export const PinFileToIPFSwithRetries = (file: Blob) =>
+export const pinFileToIPFSWithRetries = (file: Blob) =>
   exponentialBackoff(() => pinFileToIPFS(file))
 
 export const rateLimitedPinFileToIPFS = (
@@ -59,7 +59,7 @@ export const rateLimitedPinFileToIPFS = (
   gap = 100
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
-    addToQueue(() => PinFileToIPFSwithRetries(file).then(resolve).catch(reject))
+    addToQueue(() => pinFileToIPFSWithRetries(file).then(resolve).catch(reject))
     processQueue(batchSize, gap)
   })
 }
