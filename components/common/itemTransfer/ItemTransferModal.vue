@@ -96,6 +96,8 @@ import { parseNftAvatar } from '@/utils/nft'
 import AddressInput from '@/components/shared/AddressInput.vue'
 import { Interaction } from '@kodadot1/minimark/v1'
 import formatBalance from '@/utils/format/balance'
+import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
+
 const emit = defineEmits(['close'])
 const props = defineProps<{
   nft: NFT
@@ -105,7 +107,8 @@ const props = defineProps<{
 const { $route, $i18n } = useNuxtApp()
 const { transaction, status, isLoading } = useTransaction()
 const { urlPrefix } = usePrefix()
-const { decimals, chainSymbol } = useChain()
+const { decimals, chainSymbol, chainProperties } = useChain()
+const ss58Format = computed(() => chainProperties.value?.ss58Format)
 const { accountId } = useAuth()
 
 const isModalActive = useVModel(props, 'value')
@@ -126,7 +129,10 @@ const transferItemLabel = computed(() => {
   return $i18n.t('transaction.transferNft')
 })
 
-const isYourAddress = computed(() => accountId.value === address.value)
+const isYourAddress = computed(
+  () => accountId.value === getChainAddress(address.value)
+)
+
 const isDisabled = computed(
   () => !address.value || !isAddressValid.value || isYourAddress.value
 )
@@ -149,6 +155,14 @@ const onClose = () => {
 
 const handleAddressCheck = (isValid) => {
   isAddressValid.value = isValid
+}
+
+const getChainAddress = (value: string) => {
+  if (!value) {
+    return null
+  }
+  const publicKey = decodeAddress(value)
+  return encodeAddress(publicKey, ss58Format.value)
 }
 
 const transfer = () => {
