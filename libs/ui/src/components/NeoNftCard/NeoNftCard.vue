@@ -9,10 +9,13 @@
         class="unloackable-icon"
         :src="unloackableIcon"
         alt="Unlockable Icon" />
-      <div class="is-relative">
+      <div
+        class="is-relative"
+        :class="{ 'border border-k-shade ml-5 mt-5 mr-2': isStacked }">
         <MediaItem
           :key="nft.image"
           class="nft-media"
+          :class="{ 'stacked-shadow is-relative ': isStacked }"
           :src="nft.image"
           :animation-src="nft.animationUrl"
           :mime-type="nft.mimeType"
@@ -25,6 +28,7 @@
         </div>
       </div>
       <div
+        v-if="!isStacked"
         class="nft-media-info is-flex is-flex-direction-column"
         :class="`nft-media-info__${variant}`">
         <div class="is-flex is-flex-direction-column">
@@ -65,11 +69,33 @@
             v-if="showPrice"
             :value="nft.price"
             data-testid="card-money" />
-          <span
-            v-if="variant !== 'minimal'"
-            class="chain-name is-capitalized is-size-7"
-            >{{ getChainNameByPrefix(prefix) }}</span
-          >
+          <span v-if="!isMinimal" class="chain-name is-capitalized is-size-7">{{
+            getChainNameByPrefix(prefix)
+          }}</span>
+        </div>
+      </div>
+
+      <div
+        v-else
+        class="nft-media-info is-flex is-flex-direction-column p-0"
+        :class="`nft-media-info__${variant}`">
+        <div class="is-flex is-flex-direction-column border-bottom p-3">
+          <div class="is-flex is-justify-content-space-between">
+            <span
+              class="is-ellipsis has-text-weight-bold"
+              data-testid="nft-name"
+              :title="nft.name"
+              >{{ nft.name || '--' }}
+            </span>
+            <span v-if="!isMinimal">X{{ nft.count }}</span>
+          </div>
+
+          <div v-if="!isMinimal" class="is-size-7 has-text-grey">
+            Floor:
+            <CommonTokenMoney
+              :value="nft.floorPrice"
+              data-testid="card-money" />
+          </div>
         </div>
       </div>
     </component>
@@ -82,7 +108,7 @@
       </div>
       <div class="nft-media-info" :class="`nft-media-info__${variant}`">
         <NeoSkeleton size="medium" no-margin />
-        <div v-if="variant !== 'minimal'" class="is-flex mt-2">
+        <div v-if="!isMinimal" class="is-flex mt-2">
           <NeoSkeleton
             size="small"
             position="centered"
@@ -100,14 +126,14 @@
 <script lang="ts" setup>
 import MediaItem from '../MediaItem/MediaItem.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
-import type { NFT } from '@/components/rmrk/service/scheme'
 import { getChainNameByPrefix } from '@/utils/chain'
 import { NeoSkeleton, NftCardVariant } from '@kodadot1/brick'
+import { NFTWithMetadata } from '@/composables/useNft'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     isLoading?: boolean
-    nft?: NFT
+    nft?: NFTWithMetadata
     prefix?: string
     showPrice?: boolean
     collectionPopoverShowDelay?: number
@@ -128,6 +154,20 @@ withDefaults(
     showActionOnHover: true,
   }
 )
+
+const isStacked = computed(() => {
+  if (props.variant) {
+    return props.variant.includes('stacked')
+  }
+  return false
+})
+
+const isMinimal = computed(() => {
+  if (props.variant) {
+    return props.variant.includes('minimal')
+  }
+  return false
+})
 </script>
 
 <style lang="scss" scoped>

@@ -80,6 +80,10 @@ const { stats } = useCollectionDetails({
   collectionId: props.nft?.collection?.id || props.nft?.collectionId,
 })
 
+const variant = computed(() =>
+  props.nft?.count ? `stacked-${props.variant}` : props.variant
+)
+
 const showActionSection = computed(() => {
   return !isLogIn.value && shoppingCartStore.getItemToBuy?.id === props.nft.id
 })

@@ -29,7 +29,7 @@ export type Stack = {
 
 export type NFTWithMetadata = NFT &
   NFTMetadata & { meta: BaseNFTMeta } & ItemResources &
-  DuplicatesCount
+  Stack
 
 function getGeneralMetadata(nft: NFTWithMetadata) {
   return {

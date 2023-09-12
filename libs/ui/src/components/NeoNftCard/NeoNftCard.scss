@@ -20,7 +20,8 @@
   a:hover {
     color: unset !important;
 
-    .show-on-hover, .show-always {
+    .show-on-hover,
+    .show-always {
       display: flex !important;
     }
   }
@@ -28,6 +29,14 @@
   .action-container {
     position: absolute;
     bottom: 1rem;
+  }
+
+  .stacked-shadow {
+    @include ktheme() {
+      box-shadow: 5px 5px theme('k-shade');
+      bottom: 10px;
+      right: 10px;
+    }
   }
 }
 .unloackable-icon {

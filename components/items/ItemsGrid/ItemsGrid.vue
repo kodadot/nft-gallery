@@ -17,8 +17,9 @@
         <ItemsGridImage
           :nft="nft"
           :variant="
-            (slotProps.isMobileVariant || slotProps.grid === 'small') &&
-            'minimal'
+            slotProps.isMobileVariant || slotProps.grid === 'small'
+              ? 'minimal'
+              : 'primary'
           " />
       </div>
     </DynamicGrid>
