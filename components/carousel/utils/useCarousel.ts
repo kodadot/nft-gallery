@@ -4,7 +4,6 @@ import type { RowSeries } from '@/components/series/types'
 import { formatNFT, setCarouselMetadata } from '@/utils/carousel'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { sortItemListByIds } from '@/utils/sorting'
-import resolveQueryPath from '@/utils/queryPathResolver'
 
 export const useCarouselUrl = () => {
   const { urlPrefix } = usePrefix()
