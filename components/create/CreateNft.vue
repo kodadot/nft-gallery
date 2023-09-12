@@ -87,7 +87,6 @@
               v-model="form.salePrice"
               type="number"
               placeholder="1 is the minimum"
-              :min="1"
               expanded />
             <div class="form-addons">{{ chainSymbol }}</div>
           </div>
@@ -261,13 +260,15 @@ const imagePreview = computed(() => {
 const menus = availablePrefixes().filter(
   (menu) => menu.value !== 'movr' && menu.value !== 'glmr'
 )
-const chainByPrefix = menus.find((menu) => menu.value === urlPrefix.value)
+const chainByPrefix = computed(() =>
+  menus.find((menu) => menu.value === urlPrefix.value)
+)
 const selectChain = ref(chainByPrefix?.value || menus[0].value)
 
 // get/set current chain/prefix
 const currentChain = computed(() => selectChain.value as Prefix)
 const { isBasilisk } = useIsChain(currentChain)
-watchEffect(() => {
+watch(currentChain, () => {
   // reset some state on chain change
   form.salePrice = 0
   form.royalty.amount = 0
@@ -315,8 +316,6 @@ watchEffect(async () => {
 // create nft
 const createNft = async () => {
   try {
-    isLoading.value = true
-
     await transaction(
       {
         interaction: Interaction.MINTNFT,

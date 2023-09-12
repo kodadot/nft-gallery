@@ -2,7 +2,7 @@
   <div class="preview">
     <p class="has-text-weight-bold">{{ $t('mint.nft.preview.title') }}</p>
 
-    <div class="preview-card">
+    <div class="preview-card border k-shadow theme-background-color">
       <div class="preview-image" :style="{ backgroundImage: `url(${image})` }">
         <p v-if="!image" class="p-4">{{ $t('mint.nft.preview.uploadArt') }}</p>
       </div>
@@ -45,12 +45,6 @@ defineProps<{
 
   &-card {
     width: 15rem;
-
-    @include ktheme() {
-      background-color: theme('background-color');
-      border: 1px solid theme('border-color');
-      box-shadow: theme('primary-shadow');
-    }
   }
 
   &-image {
