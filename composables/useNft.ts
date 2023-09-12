@@ -22,8 +22,14 @@ export type ItemResources = {
   resources?: NftResources[]
 }
 
+export type Stack = {
+  count?: number
+  floorPrice?: string
+}
+
 export type NFTWithMetadata = NFT &
-  NFTMetadata & { meta: BaseNFTMeta } & ItemResources
+  NFTMetadata & { meta: BaseNFTMeta } & ItemResources &
+  DuplicatesCount
 
 function getGeneralMetadata(nft: NFTWithMetadata) {
   return {

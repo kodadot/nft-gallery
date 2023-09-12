@@ -50,6 +50,8 @@ export function useFetchSearch({
           return 'chain-rmrk'
         case 'ksm':
           return 'chain-ksm'
+        case 'ahk':
+          return 'chain-ahk'
         default:
           return prefix
       }
@@ -78,17 +80,42 @@ export function useFetchSearch({
           : ['blockNumber_DESC'],
       },
     })
+    const extractBaseName = (input: string): string => {
+      const regex = / #\d+$/
+      return input.replace(regex, '')
+    }
+
+    const handleToken = (token: any) => {
+      if (token.count === 1) {
+        return token.nfts[0]
+      }
+
+      return {
+        ...token.nfts[0],
+        name: extractBaseName(token.nfts[0].name),
+        count: token.count,
+        floorPrice: Math.min(
+          ...token.nfts.map((nft: any) => Number(nft.price))
+        ).toString(),
+      }
+    }
 
     // handle results
-    const { nFTEntities, nftEntitiesConnection } = result.data
+    const { isAssetHub } = useIsChain(urlPrefix)
+    const nftEntities = isAssetHub.value
+      ? result.data.tokenEntities.map(handleToken)
+      : result.data.nFTEntities
+    const nftEntitiesConnection = isAssetHub.value
+      ? result.data.tokenEntitiesConnection
+      : result.data.nftEntitiesConnection
 
     total.value = nftEntitiesConnection.totalCount
 
     if (!loadedPages.value.includes(page)) {
       if (loadDirection === 'up') {
-        nfts.value = nFTEntities.concat(nfts.value)
+        nfts.value = nftEntities.concat(nfts.value)
       } else {
-        nfts.value = nfts.value.concat(nFTEntities)
+        nfts.value = nfts.value.concat(nftEntities)
       }
       loadedPages.value.push(page)
     }
