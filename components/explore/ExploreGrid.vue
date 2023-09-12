@@ -2,7 +2,6 @@
   <NeoField addons-class="mb-0" class="mb-0">
     <NeoButton
       icon-left="grid-2"
-      icon-pack="fa"
       :active="gridSize === 'large'"
       @click="changeGridLayout(smallGridLayout, 'large')" />
     <NeoButton
