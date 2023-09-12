@@ -144,7 +144,7 @@
               </svg>
               <NeoIcon
                 v-else
-                :pack="item.name == 'Swag' ? 'fasr' : 'fab'"
+                :pack="item.name == 'Swag' ? 'fass' : 'fab'"
                 :icon="item.icon" />
             </a>
           </li>

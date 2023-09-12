@@ -160,7 +160,7 @@
                 {{ $t('profile.page') }}
                 <NeoIcon icon="user-circle" />
               </span>
-              <NeoIcon class="icon--right" icon="chevron-right" />
+              <NeoIcon class="icon--right" icon="chevron-right" pack="fass" />
             </div>
 
             <div v-if="!account" id="NavProfile">
