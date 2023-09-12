@@ -22,23 +22,24 @@
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 import { NFT } from '@/components/rmrk/service/scheme'
-
+import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
+import { useCollectionDetails } from '@/components/collection/utils/useCollectionDetails'
 import ListingCartModal from '@/components/common/listingCart/ListingCartModal.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useListingCartStore } from '@/stores/listingCart'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 
-import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
-
-const preferencesStore = usePreferencesStore()
-const listingCartStore = useListingCartStore()
-
-const { $i18n } = useNuxtApp()
-
 const props = defineProps<{
   nft: NFT
 }>()
 
+const preferencesStore = usePreferencesStore()
+const listingCartStore = useListingCartStore()
+const { $i18n } = useNuxtApp()
+
+const { stats } = useCollectionDetails({
+  collectionId: props.nft.collection.id,
+})
 const nftPrice = computed(() => props.nft.price || '')
 
 const openListCartModal = () => {
@@ -46,8 +47,7 @@ const openListCartModal = () => {
   listingCartStore.setItem(
     nftToListingCartItem(
       props.nft,
-      ''
-      // String(stats.value.collectionFloorPrice ?? '')
+      String(stats.value.collectionFloorPrice ?? '')
     )
   )
   preferencesStore.listingCartModalOpen = true
