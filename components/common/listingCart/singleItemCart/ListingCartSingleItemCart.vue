@@ -66,13 +66,13 @@ const { chainSymbol, decimals } = useChain()
 
 const item = computed(() => listingCartStore.itemsInChain[0])
 
-const itemPrice = computed(() => formatWithBlank(item.value.price))
+const itemPrice = computed(() => formatWithBlank(Number(item.value.price)))
 
 const collectionPrice = computed(() =>
-  formatWithBlank(item.value.collection.floor)
+  formatWithBlank(Number(item.value.collection.floor))
 )
 
-const formatWithBlank = (value) => {
+const formatWithBlank = (value: number) => {
   return value
     ? formatBalance(value, {
         decimals: decimals.value,
