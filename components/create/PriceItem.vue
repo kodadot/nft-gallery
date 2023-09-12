@@ -1,35 +1,57 @@
 <template>
   <div>
-    <div class="border-top pt-4 card-border-color is-flex is-size-7">
-      <template v-if="extraFees">
-        <div class="k-grey mr-1 mb-4">Fee Breakdown</div>
-        <NeoIcon
-          class="k-grey transition"
-          :class="[rotate && 'overturn']"
-          icon="chevron-down"
-          @click.native="toggle" />
+    <div class="border-top pt-4 card-border-color is-size-7">
+      <template v-if="hasMultipleFees">
+        <div class="k-grey mb-4 is-flex is-align-items-center">
+          <div class="mr-1">Fee Breakdown</div>
+          <NeoIcon
+            class="transition"
+            :class="[rotate && 'overturn']"
+            icon="chevron-down"
+            @click.native="toggle" />
+        </div>
       </template>
     </div>
     <div v-if="rotate" class="is-size-7">
       <div
         class="is-flex mb-2 is-align-items-center is-justify-content-space-between">
-        <div>Network Fee</div>
+        <div>{{ $t('mint.nft.modal.networkFee') }}</div>
+        <div>0.02 {{ nft.chainSymbol }}</div>
       </div>
-      <div class="is-flex mb-2">
+      <div
+        class="k-grey is-flex mb-2 is-align-items-center is-justify-content-space-between">
         <div>
-          existential deposit
-          <NeoIcon icon="circle-question" class="fa-light" />
+          {{ $t('mint.nft.modal.existentialDeposit') }}
+          <NeoTooltip
+            position="top"
+            multiline-width="14rem"
+            label="A deposit of 0.1 KSM is required to create a collection. Please note, this initial deposit is refundable. "
+            multiline>
+            <NeoIcon icon="circle-question" />
+          </NeoTooltip>
         </div>
+        <div>0.01 {{ nft.chainSymbol }}</div>
       </div>
       <div
         v-if="nft.hasRoyalty"
         class="is-flex mb-2 k-grey is-align-items-center is-justify-content-space-between">
-        <div>Royalty Rate</div>
-        <div>{{ nft.royalty.amount }}% {{ nft.chainSymbol }}</div>
+        <div>
+          {{ $t('mint.nft.modal.kodadotFee') }}
+          <NeoTooltip
+            position="top"
+            multiline-width="14rem"
+            label="By keeping this option active, you're contributing to initial costs borne by Kodadot for storing your JPEGs on your behalf. You may change this preference anytime in the settings. "
+            multiline>
+            <NeoIcon icon="circle-question" />
+          </NeoTooltip>
+        </div>
+        <div>0.1% {{ nft.chainSymbol }}</div>
       </div>
-      <div class="is-flex mb-2 is-align-items-center">
+      <div
+        v-if="hasCarbonOffset"
+        class="is-flex mb-2 is-align-items-center is-justify-content-space-between">
         <div class="is-flex k-green is-align-items-center">
-          Carbonless
+          {{ $t('mint.nft.modal.carbonless') }}
           <svg
             class="ml-2"
             xmlns="http://www.w3.org/2000/svg"
@@ -42,32 +64,42 @@
               fill="#04AF00" />
           </svg>
         </div>
+        <div class="k-grey">1 USD ~ 0.1 {{ nft.chainSymbol }}</div>
       </div>
     </div>
     <div
       class="mt-4 pt-4 pb-5 border-top card-border-color is-flex is-justify-content-space-between">
-      <div class="">Fees Total</div>
+      <div class="">{{ $t('mint.nft.modal.totalFee') }}:</div>
       <div class="is-flex is-align-items-end">
         <div class="k-grey is-size-7 mr-2">$0.98</div>
-        <div>59KSM</div>
+        <div>59 {{ nft.chainSymbol }}</div>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { ExtendedInformation } from './MintConfirmModal.vue'
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import { usePreferencesStore } from '@/stores/preferences'
 
 const props = defineProps<{ nft: ExtendedInformation }>()
 
+const preferencesStore = usePreferencesStore()
+
+const hasSupport = computed(() => preferencesStore.hasSupport)
+
+const hasCarbonOffset = computed(() => preferencesStore.hasCarbonOffset)
+
 const rotate = ref(false)
 
-const extraFees = computed(() => false)
+const hasMultipleFees = computed(
+  () => [hasCarbonOffset.value, hasSupport.value].filter((e) => e).length > 0
+)
 
 watch(
-  extraFees,
+  hasMultipleFees,
   () => {
-    rotate.value = !extraFees.value
+    rotate.value = !hasMultipleFees.value
   },
   { immediate: true }
 )

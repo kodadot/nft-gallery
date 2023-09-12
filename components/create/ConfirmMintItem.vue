@@ -14,16 +14,24 @@
             {{ nft.name }}
           </div>
           <div class="line-height-1 no-wrap k-grey is-clipped ellipsis">
-            Network:
+            {{ label }}:
           </div>
         </div>
       </div>
       <div class="is-flex is-align-items-end no-wrap k-grey line-height-1">
-        {{ blockchain }}
+        <template v-if="isNFT">
+          <template v-if="showPrice">
+            <CommonTokenMoney :value="price" />
+          </template>
+          <template v-else> Not Listed </template>
+        </template>
+        <template v-else>
+          {{ blockchain }}
+        </template>
       </div>
     </div>
-    <div class="is-flex mt-4 is-align-items-center">
-      <div class="k-grey mr-2">Into Collection</div>
+    <div v-if="isNFT" class="is-flex mt-4 is-align-items-center">
+      <div class="k-grey mr-2">{{ $t('mint.nft.modal.intoCollection') }}</div>
       <NeoIcon pack="fa-sharp" icon="arrow-right-long" class="k-grey mr-4" />
       <div class="">{{ nft.selectedCollection.name }}</div>
     </div>
@@ -32,14 +40,23 @@
 
 <script setup lang="ts">
 import BasicImage from '@/components/shared/view/BasicImage.vue'
-import { NftInformation } from './MintConfirmModal.vue'
+import { ExtendedInformation } from './MintConfirmModal.vue'
 import { availablePrefixes } from '@/utils/chain'
 import { NeoIcon } from '@kodadot1/brick'
+import { CreateComponent } from '@/composables/useCreate'
+import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 
-const props = defineProps<{ nft: NftInformation }>()
+const { $i18n } = useNuxtApp()
 
+const props = defineProps<{ nft: ExtendedInformation }>()
 const avatar = ref<string>()
 
+const isNFT = computed(() => props.nft.type === CreateComponent.NFT)
+const label = computed(() =>
+  isNFT ? $i18n.t('mint.nft.modal.price') : $i18n.t('mint.nft.modal.network')
+)
+const price = computed(() => props.nft.price)
+const showPrice = computed(() => props.nft.listForSale)
 watch(
   () => props.nft.file,
   () => {

@@ -34,22 +34,36 @@
             data-testid="item-creator" />
         </div>
       </div>
-      <div class="px-6 mt-4 has-text-weight-bold">Mint Collection</div>
+      <div class="px-6 mt-4 has-text-weight-bold">
+        {{ $t('mint.nft.modal.title') }}
+      </div>
       <div class="py-4">
         <ConfirmMintItem :nft="extendedInformation" class="px-6" />
       </div>
       <div class="px-6">
         <PriceItem :nft="extendedInformation" />
       </div>
-      <div class="is-flex is-justify-content-space-between py-5 px-6">
-        <NeoButton
-          :label="btnLabel"
-          variant="k-accent"
-          no-shadow
-          :disabled="disabled"
-          class="is-flex is-flex-grow-1 btn-height"
-          @click.native="confirm" />
+      <div class="py-5">
+        <div class="is-flex is-justify-content-space-between px-6">
+          <NeoButton
+            :label="btnLabel"
+            variant="k-accent"
+            no-shadow
+            :disabled="disabled"
+            class="is-flex is-flex-grow-1 btn-height"
+            @click.native="confirm" />
+        </div>
+        <div v-if="disabled" class="is-flex mt-2 is-justify-content-center">
+          <a class="mr-1 has-text-k-blue" @click="openRampModal"
+            >+ {{ $t('mint.nft.modal.addFunds') }}</a
+          >
+          Or Use
+          <a v-safe-href="teleportLink" class="ml-1 has-text-k-blue">{{
+            $t('mint.nft.modal.teleport')
+          }}</a>
+        </div>
       </div>
+      <OnRampModal v-model="rampActive" @close="closeRampModal" />
     </div>
   </NeoModal>
 </template>
@@ -65,12 +79,15 @@ import PriceItem from './PriceItem.vue'
 import { BaseMintedCollection } from '../base/types'
 import { availablePrefixes } from '@/utils/chain'
 import { Royalty } from '@/utils/royalty'
+import OnRampModal from '@/components/shared/OnRampModal.vue'
+import { CreateComponent } from '@/composables/useCreate'
 
 export type NftInformation = {
   file: Blob
   selectedCollection: BaseMintedCollection
   name: string
-  price: string | number
+  listForSale: boolean
+  price: string
   urlPrefix: string
   hasRoyalty: boolean
   royalty: Royalty
@@ -78,6 +95,7 @@ export type NftInformation = {
 
 export type ExtendedInformation = NftInformation & {
   chainSymbol: string
+  type: CreateComponent
 }
 
 const props = withDefaults(
@@ -90,62 +108,52 @@ const props = withDefaults(
   }
 )
 
-const prefrencesStore = usePreferencesStore()
-const shoppingCartStore = useShoppingCartStore()
 const { isLogIn, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
+const route = useRoute()
 const { $i18n } = useNuxtApp()
 const { balance } = useBalance()
 const { chainSymbol } = useChain()
+
 const emit = defineEmits(['confirm', 'input'])
+
+const rampActive = ref(false)
 
 const extendedInformation = computed(() => ({
   ...props.nftInformation,
   chainSymbol: chainSymbol.value,
+  type: route.query.tab,
 }))
-
-const mode = computed(() => prefrencesStore.getCompletePurchaseModal.mode)
-
-const items = computed(() => {
-  if (mode.value === 'shopping-cart') {
-    return shoppingCartStore.getItemsByPrefix(urlPrefix.value)
-  }
-  return shoppingCartStore.getItemToBuy ? [shoppingCartStore.getItemToBuy] : []
-})
-
-const totalNFTsPrice = computed(() =>
-  sum(items.value.map((nft) => Number(nft.price)))
-)
-const totalRoyalties = computed(() =>
-  sum(
-    items.value.map(
-      ({ price, royalty }) =>
-        (Number(price ?? '0') * (royalty?.amount ?? 0)) / 100
-    )
-  )
-)
-
+const totalNFTsPrice = computed(() => 0)
+const totalRoyalties = computed(() => 0)
 const balanceIsEnough = computed(
   () => totalNFTsPrice.value + totalRoyalties.value < balance.value
 )
-
 const blockchain = computed(
   () =>
     availablePrefixes().filter((e) => e.value === urlPrefix.value)[0].text || ''
 )
-
 const btnLabel = computed(() => {
+  if (!isLogIn.value) {
+    return $i18n.t('mint.nft.modal.login')
+  }
   if (balanceIsEnough.value) {
-    return $i18n.t('mint.nft.confirm.notEnoughFund', [
+    return $i18n.t('mint.nft.modal.notEnoughFund', [
       chainSymbol.value,
       blockchain.value,
     ])
   }
-
-  return $i18n.t('confirmPurchase.notEnoughFuns')
+  return $i18n.t('mint.nft.modal.process')
 })
+const disabled = computed(() => !(balanceIsEnough && isLogIn))
+const teleportLink = computed(() => `/${urlPrefix.value}/teleport`)
+const openRampModal = () => {
+  rampActive.value = true
+}
 
-const disabled = computed(() => !balanceIsEnough.value || !isLogIn.value)
+const closeRampModal = () => {
+  rampActive.value = false
+}
 
 const onClose = () => {
   emit('input', false)
