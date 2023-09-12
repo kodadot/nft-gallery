@@ -124,7 +124,7 @@ const transferItemLabel = computed(() => {
     return $i18n.t('transaction.addressIncorrect')
   }
   if (isYourAddress.value) {
-    return $i18n.t('transaction.cantTransferToYourself')
+    return $i18n.t('transaction.selfTransfer')
   }
   return $i18n.t('transaction.transferNft')
 })
@@ -158,11 +158,12 @@ const handleAddressCheck = (isValid) => {
 }
 
 const getChainAddress = (value: string) => {
-  if (!value) {
+  try {
+    const publicKey = decodeAddress(value)
+    return encodeAddress(publicKey, ss58Format.value)
+  } catch (error) {
     return null
   }
-  const publicKey = decodeAddress(value)
-  return encodeAddress(publicKey, ss58Format.value)
 }
 
 const transfer = () => {

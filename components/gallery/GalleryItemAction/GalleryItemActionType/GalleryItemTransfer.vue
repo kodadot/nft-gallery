@@ -34,8 +34,6 @@ function sendItem() {
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
 .gallery-item-transfer {
-  display: flex;
-
   button {
     font-size: 1rem;
     height: 3.375rem;

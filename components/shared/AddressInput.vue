@@ -48,16 +48,17 @@ const props = withDefaults(
 
 const { chainProperties } = useChain()
 const error = ref<string | null>('')
-const addressCheckError = ref<boolean>(false)
+const isAddressCheckValid = ref<boolean>(true)
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
+
 const variant = computed(() => {
-  if (props.isInvalid || error.value || addressCheckError.value) {
+  if (props.isInvalid || error.value || !isAddressCheckValid.value) {
     return 'danger'
   }
 
   if (
     props.withAddressCheck &&
-    (!props.isInvalid || !addressCheckError.value) &&
+    (!props.isInvalid || isAddressCheckValid.value) &&
     !!inputValue.value
   ) {
     return 'success'
@@ -104,7 +105,7 @@ const handleInput = (value: string) => {
 
 const handleAddressCheck = (isValid: boolean) => {
   emit('check', isValid)
-  addressCheckError.value = !isValid
+  isAddressCheckValid.value = isValid
 }
 
 const handleAddressChange = (value: string) => {
