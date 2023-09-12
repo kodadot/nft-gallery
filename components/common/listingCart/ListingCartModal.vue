@@ -9,7 +9,7 @@
         <header
           class="py-5 px-6 is-flex is-justify-content-space-between border-bottom">
           <span class="modal-card-title is-size-6 has-text-weight-bold">
-            List {{ listingCartStore.count }} {{ $t('items') }}
+            {{ title }}
           </span>
 
           <NeoButton
@@ -135,10 +135,24 @@ const totalNFTsPrice = computed(() =>
   )
 )
 
+const cartHasNFTsWithPrice = computed(() =>
+  listingCartStore.itemsInChain.map((nft) => Number(nft.price)).some(Boolean)
+)
+const showChangePriceModal = computed(
+  () => cartHasNFTsWithPrice.value && listingCartStore.count === 1
+)
+const title = computed(() =>
+  showChangePriceModal.value
+    ? $i18n.t('transaction.price.change')
+    : `List ${listingCartStore.count} ${$i18n.t('items')}`
+)
+
 const confirmListingLabel = computed(() => {
   switch (listingCartStore.incompleteListPrices) {
     case 0:
-      return $i18n.t('listingCart.complete')
+      return showChangePriceModal.value
+        ? $i18n.t('transaction.price.change')
+        : $i18n.t('listingCart.complete')
     case 1:
       return $i18n.t('listingCart.missing1')
     default:
