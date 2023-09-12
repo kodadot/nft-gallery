@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="mt-5 has-text-weight-bold">Set All To</div>
+    <div class="mt-5 has-text-weight-bold">
+      {{ $t('listingCart.setAllTo') }}
+    </div>
 
     <ListingCartFloorPrice
       v-model="floorPricePercentAdjustment"
