@@ -1,50 +1,65 @@
 <template>
-  <div class="block">
-    <div class="is-flex is-justify-content-flex-end my-4">
+  <div ref="container" class="block">
+    <slot
+      name="header"
+      :current-page="currentPage"
+      :total="total"
+      :per-page="itemsPerPage"
+      :desktop="desktop"
+      :update-current-page="updateCurrentPage" />
+
+    <div v-if="!desktop" class="is-flex is-justify-content-flex-end my-5">
       <Pagination
         v-model="currentPage"
         :total="total"
         :per-page="itemsPerPage"
+        :range-before="2"
+        :range-after="2"
         replace
         enable-listen-keyboard-event
         preserve-scroll />
     </div>
 
-    <ResponsiveTable
-      :no-results-main="$t('activity.noResults')"
-      :no-results-sub="$t('activity.noResultsSub')"
-      :items="showList"
-      :show-no-results="!showList.length">
-      <template #columns>
-        <div class="column">
-          <span>{{ $t('activity.event.item') }}</span>
-        </div>
-        <div class="column is-1">
-          <span>{{ $t('activity.event.event') }}</span>
-        </div>
-        <div class="column">
-          <span>{{ $t('activity.event.amount') }}</span>
-        </div>
-        <div class="column">
-          <span>{{ $t('activity.event.from') }}</span>
-        </div>
-        <div v-if="isToColumnVisible" class="column">
-          <span>{{ $t('activity.event.to') }}</span>
-        </div>
-        <div class="column">
-          <span>{{ $t('activity.event.time') }}</span>
-        </div>
-      </template>
+    <div
+      :class="{
+        'mt-4': desktop,
+      }">
+      <ResponsiveTable
+        :no-results-main="$t('activity.noResults')"
+        :no-results-sub="$t('activity.noResultsSub')"
+        :items="showList"
+        :show-no-results="!showList.length">
+        <template #columns>
+          <div class="column">
+            <span>{{ $t('activity.event.item') }}</span>
+          </div>
+          <div class="column is-1">
+            <span>{{ $t('activity.event.event') }}</span>
+          </div>
+          <div class="column">
+            <span>{{ $t('activity.event.amount') }}</span>
+          </div>
+          <div class="column">
+            <span>{{ $t('activity.event.from') }}</span>
+          </div>
+          <div v-if="isToColumnVisible" class="column">
+            <span>{{ $t('activity.event.to') }}</span>
+          </div>
+          <div class="column">
+            <span>{{ $t('activity.event.time') }}</span>
+          </div>
+        </template>
 
-      <template #rows="{ variant }">
-        <HistoryRow
-          v-for="item in showList"
-          :key="item.ID"
-          :event="item"
-          :variant="variant"
-          :with-to-column="isToColumnVisible" />
-      </template>
-    </ResponsiveTable>
+        <template #rows="{ variant }">
+          <HistoryRow
+            v-for="item in showList"
+            :key="item.ID"
+            :event="item"
+            :variant="variant"
+            :with-to-column="isToColumnVisible" />
+        </template>
+      </ResponsiveTable>
+    </div>
   </div>
 </template>
 
@@ -85,6 +100,9 @@ const prop = withDefaults(
 
 const route = useRoute()
 
+const container = ref<HTMLDivElement | null>(null)
+const { desktop } = useResponsive(container)
+
 const currentPage = ref(parseInt(route.query?.page) || 1)
 const event = ref<HistoryEventType>(HistoryEventType.BUY)
 const data = ref<Event[]>([])
@@ -98,6 +116,10 @@ onMounted(() => {
   })
   isOpen.value = prop.openOnDefault
 })
+
+const updateCurrentPage = (value) => {
+  currentPage.value = value
+}
 
 const total = computed(() => data.value.length)
 const itemsPerPage = computed(() => preferencesStore.getHistoryItemsPerPage)

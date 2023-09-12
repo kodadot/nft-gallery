@@ -17,7 +17,7 @@
       </div>
 
       <Markdown
-        v-if="nft"
+        v-if="nftMetadata"
         :source="descSource"
         class="gallery-item-desc-markdown" />
     </NeoTabItem>

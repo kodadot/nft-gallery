@@ -43,7 +43,7 @@
             no-shadow
             class="mb-4"
             rounded
-            tag="nuxt-link"
+            :tag="NuxtLink"
             size="small">
             + {{ $t('identity.set') }}
           </NeoButton>
@@ -87,7 +87,7 @@
               no-shadow
               :label="$t('transfer')"
               variant="text"
-              tag="nuxt-link"
+              :tag="NuxtLink"
               :to="`/${urlPrefix}/transfer?target=${id}&usdamount=10&donation=true`">
             </NeoButton>
           </div>
@@ -169,7 +169,9 @@ import OrderByDropdown from './OrderByDropdown.vue'
 import CollectionGrid from '@/components/collection/CollectionGrid.vue'
 import Activity from './activityTab/Activity.vue'
 import Avatar from '@/components/shared/Avatar.vue'
+import { resolveComponent } from 'vue'
 
+const NuxtLink = resolveComponent('NuxtLink')
 const route = useRoute()
 const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
