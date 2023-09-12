@@ -76,8 +76,11 @@ const activeFilters = computed(() =>
   filters.filter((queryParam) => route.query[queryParam] === 'true')
 )
 
+const { urlPrefix } = usePrefix()
+const queryPrefix = urlPrefix.value === 'ksm' ? 'chain-rmrk' : ''
 const { data } = useGraphql({
   queryName: 'allEventsByProfile',
+  queryPrefix,
   variables: {
     id: props.id,
   },

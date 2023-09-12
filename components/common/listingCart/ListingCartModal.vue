@@ -29,7 +29,7 @@
               :prefix="urlPrefix"
               :account="accountId"
               class="identity-name-font-weight-regular"
-              data-cy="item-creator" />
+              data-testid="item-creator" />
           </div>
           <div class="pt-4 has-text-weight-bold">Set All To</div>
           <div class="pt-4">
@@ -42,6 +42,7 @@
             <NeoButton
               class="mr-2"
               label="-5%"
+              :disabled="setFloorPriceButtonDisabled"
               rounded
               no-shadow
               @click.native="
@@ -52,6 +53,7 @@
             <NeoButton
               class="mr-2"
               :label="$t('statsOverview.floorPrice')"
+              :disabled="setFloorPriceButtonDisabled"
               rounded
               no-shadow
               @click.native="
@@ -60,6 +62,7 @@
               " />
             <NeoButton
               label="+5%"
+              :disabled="setFloorPriceButtonDisabled"
               rounded
               no-shadow
               @click.native="
@@ -139,6 +142,13 @@ const priceUSD = computed(() =>
     totalNFTsPrice.value,
     Number(fiatStore.getCurrentTokenValue(prefixToToken[urlPrefix.value]))
   )
+)
+
+const setFloorPriceButtonDisabled = computed(
+  () =>
+    !listingCartStore.itemsInChain
+      .map((item) => item.collection.floor || 0)
+      .some(Boolean)
 )
 
 const totalNFTsPrice = computed(() =>

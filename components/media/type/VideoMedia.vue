@@ -12,7 +12,7 @@
       :poster="poster"
       :type="mimeType"
       controlslist="nodownload"
-      data-cy="type-video" />
+      data-testid="type-video" />
   </div>
 </template>
 

@@ -6,7 +6,9 @@
     <div class="container is-fluid">
       <div class="columns is-desktop">
         <div class="column is-half-desktop mobile-padding">
-          <UnlockableCollectionInfo :collection-id="collectionId" />
+          <UnlockableCollectionInfo
+            :collection-id="collectionId"
+            :description="description" />
           <hr class="mb-4" />
 
           <div
@@ -25,7 +27,7 @@
               ><span
                 v-if="mintCountAvailable"
                 class="is-flex is-align-items-center">
-                <img src="/unlockable-pulse.svg" />
+                <img src="/drop/unlockable-pulse.svg" alt="open" />
                 Open</span
               >
             </div>
@@ -70,14 +72,6 @@
               </p>
             </nuxt-link>
           </div>
-
-          <div class="my-5">
-            <span class="has-text-weight-bold is-size-5">Schedule</span>
-          </div>
-          <div>
-            <span> {{ $t('mint.unlockable.phaseIntroduction') }}</span>
-          </div>
-          <UnlockableSchedule />
         </div>
         <div class="column pt-5 is-flex is-justify-content-center">
           <ImageSlider
@@ -144,7 +138,6 @@ import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
 import CountdownTimer from '@/components/collection/unlockable/CountdownTimer.vue'
 import ImageSlider from '@/components/collection/unlockable/ImageSlider.vue'
 import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
-import UnlockableSchedule from '@/components/collection/unlockable/UnlockableSchedule.vue'
 import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
 import { DISPLAY_SLIDE_IMAGE_COUNT, collectionId, countDownTime } from './const'
 import {
