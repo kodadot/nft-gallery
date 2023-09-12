@@ -292,7 +292,11 @@ const selectedCollection = computed(() => {
 })
 
 watchEffect(async () => {
-  const query = await resolveQueryPath(currentChain.value, 'collectionForMint')
+  const queryPath = {
+    ksm: 'chain-rmrk',
+  }
+  const prefix = queryPath[currentChain.value] || currentChain.value
+  const query = await resolveQueryPath(prefix, 'collectionForMint')
   const collections = await $apollo.query({
     query: query.default,
     client: currentChain.value,
