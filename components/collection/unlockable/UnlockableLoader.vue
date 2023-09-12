@@ -38,7 +38,7 @@
         <NeoButton
           class="mb-2 mt-4 loading-button is-size-6"
           variant="secondary"
-          tag="nuxt-link"
+          :tag="NuxtLink"
           :to="`/${urlPrefix}/gallery/${minted}`"
           :disabled="!minted"
           :label="buttonLabel" />
@@ -49,7 +49,9 @@
 
 <script lang="ts" setup>
 import { NeoButton, NeoLoading } from '@kodadot1/brick'
+import { resolveComponent } from 'vue'
 
+const NuxtLink = resolveComponent('NuxtLink')
 const props = withDefaults(
   defineProps<{
     value: boolean

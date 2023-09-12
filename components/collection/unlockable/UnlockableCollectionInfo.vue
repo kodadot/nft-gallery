@@ -21,7 +21,7 @@
 
         <NeoButton
           variant="secondary"
-          tag="nuxt-link"
+          :tag="NuxtLink"
           :to="`/${urlPrefix}/collection/${collectionId}`"
           target="_blank"
           class="has-text-left is-flex is-align-items-center">
@@ -48,7 +48,9 @@
 import HeroButtons from '@/components/collection/unlockable/UnlockableHeroButtons.vue'
 import Markdown from '@/components/shared/Markdown.vue'
 import { NeoButton } from '@kodadot1/brick'
+import { resolveComponent } from 'vue'
 
+const NuxtLink = resolveComponent('NuxtLink')
 const props = defineProps<{ collectionId: string; description?: string }>()
 
 const seeAllDescription = ref(false)

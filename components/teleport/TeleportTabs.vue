@@ -5,7 +5,7 @@
         v-for="tab in tabs"
         :key="tab.value"
         class="teleport-tabs-button"
-        tag="nuxt-link"
+        :tag="NuxtLink"
         :disabled="tab.disabled?.value"
         :variant="tab.disabled?.value ? 'disabled-secondary' : undefined"
         :active="value === tab.value"
@@ -21,7 +21,9 @@
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 import { Chain } from '@/utils/teleport'
+import { resolveComponent } from 'vue'
 
+const NuxtLink = resolveComponent('NuxtLink')
 type Tab = {
   label: string
   value: Chain
