@@ -85,4 +85,11 @@ watch(
   () => props.fixedPrice,
   (value) => emit('setFixedPrice', value)
 )
+
+watch(
+  () => item.value.listPrice,
+  (value) => {
+    fixedPrice.value = Number(value)
+  }
+)
 </script>
