@@ -198,4 +198,8 @@ onMounted(() => {
 .btn-height {
   height: 3.5rem;
 }
+
+.limit-width {
+  max-width: 170px;
+}
 </style>
