@@ -143,15 +143,17 @@ const cartHasNFTsWithPrice = computed(() =>
 const showChangePriceModal = computed(
   () => cartHasNFTsWithPrice.value && listingCartStore.count === 1
 )
-const title = computed(() =>
-  showChangePriceModal.value
+
+const title = computed(() => {
+  const items =
+    listingCartStore.count === 1
+      ? 'NFT'
+      : `${listingCartStore.count} ${$i18n.t('items')}`
+
+  return showChangePriceModal.value
     ? $i18n.t('transaction.price.change')
-    : `List ${
-        listingCartStore.count === 1
-          ? 'NFT'
-          : `${listingCartStore.count} ${$i18n.t('items')}`
-      }`
-)
+    : `List ${items}`
+})
 
 const confirmListingLabel = computed(() => {
   switch (listingCartStore.incompleteListPrices) {
