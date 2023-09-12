@@ -70,13 +70,10 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoModal } from '@kodadot1/brick'
-import { sum } from '@/utils/math'
-import { usePreferencesStore } from '@/stores/preferences'
-import { useShoppingCartStore } from '@/stores/shoppingCart'
 import IdentityItem from '@/components/identity/IdentityItem.vue'
 import ConfirmMintItem from './ConfirmMintItem.vue'
 import PriceItem from './PriceItem.vue'
-import { BaseMintedCollection } from '../base/types'
+import { BaseMintedCollection } from '@/components/base/types'
 import { availablePrefixes } from '@/utils/chain'
 import { Royalty } from '@/utils/royalty'
 import OnRampModal from '@/components/shared/OnRampModal.vue'
@@ -137,7 +134,7 @@ const btnLabel = computed(() => {
   if (!isLogIn.value) {
     return $i18n.t('mint.nft.modal.login')
   }
-  if (balanceIsEnough.value) {
+  if (!balanceIsEnough.value) {
     return $i18n.t('mint.nft.modal.notEnoughFund', [
       chainSymbol.value,
       blockchain.value,
@@ -145,8 +142,9 @@ const btnLabel = computed(() => {
   }
   return $i18n.t('mint.nft.modal.process')
 })
-const disabled = computed(() => !(balanceIsEnough && isLogIn))
+const disabled = computed(() => !(balanceIsEnough.value && isLogIn.value))
 const teleportLink = computed(() => `/${urlPrefix.value}/teleport`)
+
 const openRampModal = () => {
   rampActive.value = true
 }
