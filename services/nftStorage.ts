@@ -55,8 +55,8 @@ export const pinFileToIPFSWithRetries = (file: Blob) =>
 
 export const rateLimitedPinFileToIPFS = (
   file: File,
-  batchSize = 5,
-  gap = 100
+  batchSize = 2,
+  gap = 300
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
     addToQueue(() => pinFileToIPFSWithRetries(file).then(resolve).catch(reject))
