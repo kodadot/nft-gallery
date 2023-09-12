@@ -1130,6 +1130,7 @@
     "inputAddressFirst": "Input address first",
     "addressIncorrect": "Address Incorrect",
     "wrongAddressCannotRecoveredWarning": "Items sent to the wrong address cannot be recovered.",
+    "cantTransferToYourself": "Can't transfer to yourself",
     "price": {
       "change": "Change Price",
       "new": "Your New Price",

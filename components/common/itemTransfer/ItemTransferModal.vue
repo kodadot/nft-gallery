@@ -56,6 +56,7 @@
 
           <AddressInput
             v-model="address"
+            :is-invalid="isYourAddress"
             label=""
             class="is-flex-1"
             placeholder="Enter wallet address"
@@ -105,6 +106,7 @@ const { $route, $i18n } = useNuxtApp()
 const { transaction, status, isLoading } = useTransaction()
 const { urlPrefix } = usePrefix()
 const { decimals, chainSymbol } = useChain()
+const { accountId } = useAuth()
 
 const isModalActive = useVModel(props, 'value')
 const avatar = ref<string>()
@@ -118,10 +120,16 @@ const transferItemLabel = computed(() => {
   if (!isAddressValid.value) {
     return $i18n.t('transaction.addressIncorrect')
   }
+  if (isYourAddress.value) {
+    return $i18n.t('transaction.cantTransferToYourself')
+  }
   return $i18n.t('transaction.transferNft')
 })
 
-const isDisabled = computed(() => !address.value || !isAddressValid.value)
+const isYourAddress = computed(() => accountId.value === address.value)
+const isDisabled = computed(
+  () => !address.value || !isAddressValid.value || isYourAddress.value
+)
 
 const nftPrice = computed(() =>
   Number(props.nft.price)
