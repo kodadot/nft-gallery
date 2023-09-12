@@ -19,7 +19,7 @@
         class="title is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered">
         {{ $t('search.landingTitle3') }}
       </h1>
-      <LazySearch
+      <Search
         hide-filter
         class="landing-search-bar"
         search-column-class="is-flex-grow-1" />
@@ -50,6 +50,8 @@
 
 <script lang="ts" setup>
 import UnlockableLandingTag from '@/components/collection/unlockable/UnlockableLandingTag.vue'
+import Search from '@/components/search/Search.vue'
+
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { isDarkMode } = useTheme()
 const { availableChains } = useChain()
