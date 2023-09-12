@@ -42,8 +42,7 @@
                 {{ item.name }}
                 <NeoIcon
                   icon="arrow-up-right-from-square"
-                  class="ml-1 has-text-grey"
-                  pack="fa-sharp" />
+                  class="ml-1 has-text-grey" />
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
@@ -69,8 +68,7 @@
                 {{ item.name }}
                 <NeoIcon
                   icon="arrow-up-right-from-square"
-                  class="ml-1 has-text-grey"
-                  pack="fa-sharp" />
+                  class="ml-1 has-text-grey" />
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
@@ -96,8 +94,7 @@
                 {{ item.name }}
                 <NeoIcon
                   icon="arrow-up-right-from-square"
-                  class="ml-1 has-text-grey"
-                  pack="fa-sharp" />
+                  class="ml-1 has-text-grey" />
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
@@ -147,7 +144,7 @@
               </svg>
               <NeoIcon
                 v-else
-                :pack="item.name == 'Swag' ? 'fas' : 'fab'"
+                :pack="item.name == 'Swag' ? 'fasr' : 'fab'"
                 :icon="item.icon" />
             </a>
           </li>

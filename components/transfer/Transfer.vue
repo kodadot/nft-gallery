@@ -152,7 +152,7 @@
         class="mb-5 is-flex is-justify-content-center is-clickable"
         @click="addAddress">
         {{ $t('transfers.addAddress') }}
-        <NeoIcon class="ml-2" icon="plus" pack="fas" />
+        <NeoIcon class="ml-2" icon="plus" pack="fass" />
       </div>
       <div
         class="is-flex is-justify-content-space-between is-align-items-center mb-5">

@@ -89,8 +89,7 @@
               <NeoIcon
                 class="ml-1"
                 icon="fire-flame-curved"
-                size="small"
-                pack="fa-sharp"
+                pack="fass"
                 variant="primary" />
             </div>
           </nuxt-link>
@@ -161,7 +160,7 @@
                 {{ $t('profile.page') }}
                 <NeoIcon icon="user-circle" />
               </span>
-              <NeoIcon class="icon--right" icon="chevron-right" pack="fas" />
+              <NeoIcon class="icon--right" icon="chevron-right" />
             </div>
 
             <div v-if="!account" id="NavProfile">
