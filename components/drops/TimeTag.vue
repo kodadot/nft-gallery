@@ -2,7 +2,7 @@
   <div
     class="tag-container is-flex border py-1 px-2 is-justify-content-space-between is-align-items-center">
     <div class="image is-24x24 has-text-centered">
-      <img v-if="isMintingLive" src="/unlockable-pulse.svg" />
+      <img v-if="isMintingLive" src="/drop/unlockable-pulse.svg" />
       <NeoIcon v-else icon="calendar-day" pack="far" variant="k-grey" />
     </div>
 

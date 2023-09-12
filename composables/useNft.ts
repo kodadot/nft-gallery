@@ -31,7 +31,9 @@ function getGeneralMetadata(nft: NFTWithMetadata) {
     name: nft.name || nft.meta.name || nft.id,
     description: nft.description || nft.meta.description || '',
     image: sanitizeIpfsUrl(nft.meta.image),
-    animationUrl: sanitizeIpfsUrl(nft.meta.animation_url || ''),
+    animationUrl: sanitizeIpfsUrl(
+      nft.meta.animation_url || nft.meta.animationUrl || ''
+    ),
     type: nft.meta.type || '',
   }
 }

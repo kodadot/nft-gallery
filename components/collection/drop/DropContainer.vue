@@ -6,7 +6,9 @@
     <div class="container is-fluid">
       <div class="columns is-desktop">
         <div class="column is-half-desktop mobile-padding">
-          <UnlockableCollectionInfo :collection-id="collectionId" />
+          <UnlockableCollectionInfo
+            :collection-id="collectionId"
+            :description="description" />
           <hr class="mb-4" />
 
           <div
@@ -24,39 +26,9 @@
               <span class="has-text-weight-bold is-size-5">Mint Phase</span
               ><span
                 v-if="mintCountAvailable"
-                class="is-flex is-align-items-center"
-                ><svg
-                  width="42"
-                  height="43"
-                  viewBox="0 0 42 43"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="21" cy="21.2302" r="6" fill="#FF7AC3" />
-                  <g filter="url(#filter0_f_394_6126)">
-                    <circle cx="21" cy="21.7302" r="6" fill="#FF7AC3" />
-                  </g>
-                  <defs>
-                    <filter
-                      id="filter0_f_394_6126"
-                      x="0"
-                      y="0.730164"
-                      width="42"
-                      height="42"
-                      filterUnits="userSpaceOnUse"
-                      color-interpolation-filters="sRGB">
-                      <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                      <feBlend
-                        mode="normal"
-                        in="SourceGraphic"
-                        in2="BackgroundImageFix"
-                        result="shape" />
-                      <feGaussianBlur
-                        stdDeviation="7.5"
-                        result="effect1_foregroundBlur_394_6126" />
-                    </filter>
-                  </defs>
-                </svg>
-                Open</span
+                class="is-flex is-align-items-center">
+                <img src="/drop/unlockable-pulse.svg" alt="open" />
+                {{ $t('mint.unlockable.open') }}</span
               >
             </div>
             <div

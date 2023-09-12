@@ -13,7 +13,10 @@
           full-width
           :label="$t('createDropdown.start')"
           multiline>
-          <nuxt-link data-cy="classic" :to="`/${urlPrefix}/create`" tag="div">
+          <nuxt-link
+            data-testid="classic"
+            :to="`/${urlPrefix}/create`"
+            tag="div">
             {{ $t('classic') }}
           </nuxt-link>
         </NeoTooltip>
@@ -24,7 +27,7 @@
           position="left"
           :label="$t('createDropdown.waifu')"
           multiline>
-          <nuxt-link data-cy="waifu" :to="`/${urlPrefix}/waifu`" tag="div">
+          <nuxt-link data-testid="waifu" :to="`/${urlPrefix}/waifu`" tag="div">
             {{ $t('navbar.create.waifu') }}
           </nuxt-link>
         </NeoTooltip>
@@ -37,7 +40,7 @@
           :label="$t('createDropdown.massmint')"
           multiline>
           <nuxt-link
-            data-cy="massmint"
+            data-testid="massmint"
             :to="`/${urlPrefix}/massmint`"
             tag="div">
             {{ $t('multipleNFTS') }}
@@ -49,7 +52,7 @@
     <MobileExpandableSection v-else :no-padding="true" :title="$t('create')">
       <nuxt-link
         class="navbar-item"
-        data-cy="classic"
+        data-testid="classic"
         :to="`/${urlPrefix}/create`"
         @click.native="emit('closeMobileNavbar')">
         {{ $t('classic') }}
@@ -57,7 +60,7 @@
       <nuxt-link
         v-if="chain === 'ahk'"
         class="navbar-item"
-        data-cy="waifu"
+        data-testid="waifu"
         :to="`/${urlPrefix}/waifu`"
         @click.native="emit('closeMobileNavbar')">
         {{ $t('waifu') }}
@@ -65,7 +68,7 @@
       <template v-if="chain === 'rmrk'">
         <nuxt-link
           class="navbar-item"
-          data-cy="simple"
+          data-testid="simple"
           :to="`/${urlPrefix}/mint`"
           @click.native="emit('closeMobileNavbar')">
           {{ $t('simple') }}
@@ -73,7 +76,7 @@
       </template>
       <nuxt-link
         class="navbar-item"
-        data-cy="massmint"
+        data-testid="massmint"
         :to="`/${urlPrefix}/massmint`"
         @click.native="emit('closeMobileNavbar')">
         {{ $t('multipleNFTS') }}

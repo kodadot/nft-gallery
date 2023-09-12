@@ -557,6 +557,7 @@
       "preparing": "Preparing Your Item...",
       "alreadyMinted": "🎉 You already have this NFT, check it here",
       "imageTip": "Examples Of Possible Drop",
+      "onlyOneExample": "Example Of Drop",
       "loader": {
         "shareSuccess": "Share your success",
         "onTwitter": "on Twitter",
@@ -565,7 +566,14 @@
         "viewNFTNow3": "visible now.",
         "viewNFTLater2": " will be visible in",
         "viewNFTLater3": "seconds."
-      }
+      },
+      "open": "Open",
+      "phase": "Mint Phase",
+      "totalAvailableItem":"Total available items",
+      "ayeVotersOnly": "For Aye Voters Only",
+      "eligible": "You Are Eligible",
+      "exclusive":"Exclusive Access Only",
+      "howItemWork": "How unlockable item works"
     },
     "blockchain": {
       "label": "Select Blockchain",
@@ -908,7 +916,9 @@
     "chooseWallet": "Choose your",
     "noAssets": "There are currently no assets in this wallet.",
     "noPopularCollections": "There are no popular collections now.",
-    "successfullyAddedFunds": "Successfully added funds. Your funds will arrive shortly."
+    "successfullyAddedFunds": "Successfully added funds. Your funds will arrive shortly.",
+    "supports": "Supports",
+    "chooseProvider": "Choose A Provider"
   },
   "helper": {
     "seeMore": "See More",
@@ -1196,15 +1206,17 @@
       "next": "Next",
       "done": "Done",
       "cards": {
+        "0": {
+          "title": "description for your NFTs",
+          "content": "Each NFT has a name, description and price.\nYou can prepare this up front in a separate file\nso that you don’t have to do it manually for all of your NFTs."
+        },
         "1": {
-          "title": "How to Name your NFTs",
-          "content": "instructions:\n* **File Name:** the file name of your assets should be **numeric** and **consecutive**\n e.g.\n * '1.png', '2.png', '3.png', or\n* 'awesome_art_1', 'awesome_art_2' and so on..."
+          "title": "Description file structure",
+          "subtitle": "Instructions",
+          "instructions": "Please ensure that the file field corresponds to the image file name (e.g., set \"file\": img1.jpg in the file field if the image has a file name of \"img1.jpg\").",
+          "codeStructure": "Code Structure"
         },
         "2": {
-          "title": "description for your NFTs",
-          "content": "Each NFT has a name, description and price.\nYou can prepare this up front in a separate file\nso that you don’t have to do it manually for all of your NFTs.\n\nInstructions:\n* File type: .TXT, .JSON or CSV"
-        },
-        "3": {
           "title": "You need to have A collection",
           "content": "In order to use the Mass Mint feature **you need to have an NFT collection created**\nto which you will mint all of your NFTs.\n\nIf you don’t have a collection created yet, you will be able to create one in the Miss Mint."
         }
