@@ -8,7 +8,6 @@
       @click="toggleSidebarFilters">
       <NeoIcon
         :icon="isSidebarFiltersOpen && !disabled ? 'times' : 'bars'"
-        pack="fa-sharp"
         size="medium" />
     </a>
     <div class="is-hidden-tablet is-relative">

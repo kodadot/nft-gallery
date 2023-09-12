@@ -162,6 +162,7 @@ export default defineNuxtConfig({
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/polkadot', mode: 'client' },
+    { src: '~/plugins/icons', mode: 'client' },
     // { src: '~/plugins/seoMetaGenerator', mode: 'client' },
     // { src: '~/plugins/keyboardEvents', mode: 'client' },
     // { src: '~/plugins/consola', mode: 'client' },

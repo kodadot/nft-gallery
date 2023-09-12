@@ -32,6 +32,7 @@ const NotificationProgrammatic = {
       closable:
         params.closable ||
         getValueByPath(getOptions(), 'notification.closable', false),
+      iconPack: 'fasr',
     }
     let slot
     if (Array.isArray(newParams.message)) {
