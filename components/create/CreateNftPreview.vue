@@ -61,5 +61,9 @@ defineProps<{
   &-content {
     padding: 0.5rem 1rem;
   }
+
+  @include touch() {
+    display: none;
+  }
 }
 </style>

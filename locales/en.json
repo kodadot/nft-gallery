@@ -533,7 +533,7 @@
         "message": "Choose a collection to which you want to mint your NFT."
       },
       "copies": {
-        "label": "No of Copies",
+        "label": "Number of Copies",
         "message": "Amount of the same NFT tokens that will be created."
       },
       "preview": {
@@ -569,10 +569,10 @@
       },
       "open": "Open",
       "phase": "Mint Phase",
-      "totalAvailableItem":"Total available items",
+      "totalAvailableItem": "Total available items",
       "ayeVotersOnly": "For Aye Voters Only",
       "eligible": "You Are Eligible",
-      "exclusive":"Exclusive Access Only",
+      "exclusive": "Exclusive Access Only",
       "howItemWork": "How unlockable item works"
     },
     "blockchain": {
