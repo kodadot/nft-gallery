@@ -95,13 +95,15 @@ const { $i18n } = useNuxtApp()
 
 const { chainSymbol } = useChain()
 
+const defaultCartData = {
+  fixedPrice: undefined,
+  floorPricePercentAdjustment: 1,
+}
+
 const cartData = ref<{
   fixedPrice?: number | string
   floorPricePercentAdjustment: number
-}>({
-  fixedPrice: undefined,
-  floorPricePercentAdjustment: 1,
-})
+}>(defaultCartData)
 
 function setFixedPrice() {
   const fixedPrice = cartData.value.fixedPrice
@@ -191,6 +193,7 @@ async function confirm() {
     })
     listingCartStore.clear()
     preferencesStore.listingCartModalOpen = false
+    resetCartData()
   } catch (error) {
     warningMessage(error)
   }
@@ -199,6 +202,11 @@ async function confirm() {
 const onClose = () => {
   preferencesStore.listingCartModalOpen = false
   emit('close')
+  resetCartData()
+}
+
+const resetCartData = () => {
+  cartData.value = defaultCartData
 }
 
 watch(
