@@ -30,6 +30,7 @@
           </template>
 
           <NeoDropdownItem
+            v-if="accountId"
             v-clipboard:copy="generatePaymentLink([accountId])"
             @click="toast(`${$i18n.t('toast.urlCopy')}`)">
             <NeoIcon icon="sack-dollar" pack="fa" class="mr-2" />{{
