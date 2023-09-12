@@ -98,6 +98,7 @@
     "displayUnit": "Displayed units",
     "addAddress": "Add recipient",
     "payMeLink": "Pay me link",
+    "recurringPaymentLink": "Recurring payment link",
     "setSameAmount": "Set one amount that will be sent to all recipients",
     "sendTo": "Sending to",
     "recipients": "recipients",
