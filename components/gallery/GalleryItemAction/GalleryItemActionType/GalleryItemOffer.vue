@@ -1,7 +1,7 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <GalleryItemPriceSection ref="root" title="Highest Offer" :price="price">
+    <GalleryItemPriceSection title="Highest Offer" :price="price">
       <GalleryItemActionSlides
         ref="actionRef"
         :active="active"
@@ -35,7 +35,7 @@
               fixed-width
               variant="k-blue"
               no-shadow
-              @click="confirm1" />
+              @click="confirm.value = true" />
           </NeoTooltip>
           <NeoButton
             v-if="confirm"
@@ -92,12 +92,8 @@ import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { MIN_OFFER_PRICE } from '@/utils/constants'
-import Vue from 'vue'
 import { getAsssetBalance } from '@/utils/api/bsx/query'
-
-const Loader = defineAsyncComponent(
-  () => import('@/components/shared/Loader.vue')
-)
+import Loader from '@/components/shared/Loader.vue'
 
 const props = defineProps<{
   nftId: string
@@ -107,13 +103,13 @@ const props = defineProps<{
 }>()
 
 const { apiInstance } = useApi()
-const { urlPrefix, tokenId } = usePrefix()
+const route = useRoute()
+const { client, urlPrefix, tokenId } = usePrefix()
 const { neoModal } = useProgrammatic()
-const { $route, $i18n } = useNuxtApp()
+const { $i18n } = useNuxtApp()
 const { transaction, status, isLoading } = useTransaction()
 const { accountId } = useAuth()
 const { decimals } = useChain()
-const root = ref<Vue<Record<string, string>>>()
 const connected = computed(() => Boolean(accountId.value))
 
 const balance = ref<string>('0')
@@ -130,6 +126,7 @@ const fetchBalance = async () => {
 }
 
 const { data } = useGraphql({
+  clientName: client.value,
   queryName: 'offerHighest',
   queryPrefix: 'chain-bsx',
   variables: {
@@ -169,10 +166,6 @@ function toggleActive() {
   active.value = !active.value
 }
 
-function confirm1() {
-  confirm.value = true
-}
-
 async function confirm2() {
   try {
     transaction({
@@ -180,7 +173,7 @@ async function confirm2() {
       currentOwner: props.currentOwner,
       day: selectedDay.value,
       price: offerPrice.value || 0,
-      tokenId: $route.params.id,
+      tokenId: route.params.id,
       urlPrefix: urlPrefix.value,
       successMessage: $i18n.t('transaction.offer.success') as string,
       errorMessage: $i18n.t('transaction.item.error') as string,
@@ -201,10 +194,12 @@ async function currentBlock() {
 
 watchEffect(async () => {
   const blockNumber = await currentBlock()
-  price.value =
-    blockNumber < data.value?.offers[0]?.expiration
-      ? data.value?.offers[0]?.price
-      : ''
+  if (data.value.offers) {
+    price.value =
+      blockNumber < data.value?.offers[0]?.expiration
+        ? data.value?.offers[0]?.price
+        : ''
+  }
 })
 
 const actionRef = ref(null)

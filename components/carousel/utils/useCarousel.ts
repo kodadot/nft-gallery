@@ -62,24 +62,24 @@ interface Collections {
 
 export const useCarouselRelated = async ({ collectionId }) => {
   const route = useRoute()
-  const { client, urlPrefix } = usePrefix()
+  const { client } = usePrefix()
   const nfts = ref<CarouselNFT[]>([])
 
-  const query = await resolveQueryPath(urlPrefix.value, 'collectionEntityById')
-  const { data } = await useAsyncQuery({
-    query: query.default,
+  const { data } = useGraphql({
+    queryPrefix: 'subsquid',
+    queryName: 'collectionEntityById',
+    clientName: client.value,
     variables: {
       id: collectionId,
       nftId: route.params.id,
       limit: 60,
     },
-    clientId: client.value,
   })
 
   watch(data, async () => {
     if (data.value) {
       const listOfRelatedNFTs = formatNFT(
-        (data.value as Collections).collection.nfts
+        (data.value.value as Collections).collection.nfts
       )
       nfts.value = await setCarouselMetadata(listOfRelatedNFTs)
     }
