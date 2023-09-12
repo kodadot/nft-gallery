@@ -4,7 +4,7 @@
     <NeoModal
       v-model="preferencesStore.listingCartModalOpen"
       scroll="clip"
-      @close="preferencesStore.listingCartModalOpen = false">
+      @close="onClose">
       <div class="modal-width">
         <header
           class="py-5 px-6 is-flex is-justify-content-space-between border-bottom">
@@ -16,7 +16,7 @@
             variant="text"
             no-shadow
             icon="close"
-            @click.native="preferencesStore.listingCartModalOpen = false" />
+            @click.native="onClose" />
         </header>
 
         <div class="px-6 pt-4">
@@ -84,6 +84,8 @@ import { sum } from '@/utils/math'
 import ListingCartSingleItemCart from './singleItemCart/ListingCartSingleItemCart.vue'
 import ListingCartMultipleItemsCart from './multipleItemsCart/ListingCartMultipleItemsCart.vue'
 
+const emit = defineEmits(['close'])
+
 const { isLogIn, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
@@ -144,7 +146,11 @@ const showChangePriceModal = computed(
 const title = computed(() =>
   showChangePriceModal.value
     ? $i18n.t('transaction.price.change')
-    : `List ${listingCartStore.count} ${$i18n.t('items')}`
+    : `List ${
+        listingCartStore.count === 1
+          ? 'NFT'
+          : `${listingCartStore.count} ${$i18n.t('items')}`
+      }`
 )
 
 const confirmListingLabel = computed(() => {
@@ -154,7 +160,9 @@ const confirmListingLabel = computed(() => {
         ? $i18n.t('transaction.price.change')
         : $i18n.t('listingCart.complete')
     case 1:
-      return $i18n.t('listingCart.missing1')
+      return listingCartStore.count === 1
+        ? $i18n.t('listingCart.inputPriceFirst')
+        : $i18n.t('listingCart.missing1')
     default:
       return `${listingCartStore.incompleteListPrices} ${$i18n.t(
         'listingCart.missingMultiple'
@@ -184,6 +192,11 @@ async function confirm() {
   } catch (error) {
     warningMessage(error)
   }
+}
+
+const onClose = () => {
+  preferencesStore.listingCartModalOpen = false
+  emit('close')
 }
 
 watch(

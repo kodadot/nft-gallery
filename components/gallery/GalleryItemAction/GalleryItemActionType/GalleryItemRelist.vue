@@ -15,7 +15,7 @@
       </div>
     </GalleryItemPriceSection>
 
-    <ListingCartModal />
+    <ListingCartModal @close="onListingModalClose" />
   </div>
 </template>
 
@@ -51,6 +51,12 @@ const openListCartModal = () => {
     )
   )
   preferencesStore.listingCartModalOpen = true
+}
+
+const onListingModalClose = () => {
+  setTimeout(() => {
+    listingCartStore.clear()
+  }, 500)
 }
 
 const isListed = computed(() => Boolean(Number(nftPrice.value)))

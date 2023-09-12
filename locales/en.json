@@ -1309,6 +1309,7 @@
     "potentialEarnings": "Potential Earnings",
     "listForSale": "List For Sale",
     "chooseAPrice": "Choose a price",
-    "floorPrice": "Floor Price"
+    "floorPrice": "Floor Price",
+    "inputPriceFirst": "Input Price First"
   }
 }
