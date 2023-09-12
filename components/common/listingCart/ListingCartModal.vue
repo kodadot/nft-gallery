@@ -127,6 +127,13 @@ const priceUSD = computed(() =>
   )
 )
 
+const setFloorPriceButtonDisabled = computed(
+  () =>
+    !listingCartStore.itemsInChain
+      .map((item) => item.collection.floor || 0)
+      .some(Boolean)
+)
+
 const totalNFTsPrice = computed(() =>
   Number(
     sum(
