@@ -190,7 +190,7 @@ const statusInformation = computed(() => {
     ? {
         label: $i18n.t('mint.unlockable.eligible'),
         icon: 'circle-check',
-        iconPack: 'fas',
+        iconPack: 'fass',
         iconClass: 'has-text-success',
       }
     : {
