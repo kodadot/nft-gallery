@@ -231,6 +231,7 @@ const { urlPrefix, setUrlPrefix } = usePrefix()
 const { accountId } = useAuth()
 const { transaction, status, isLoading, blockNumber } = useTransaction()
 const router = useRouter()
+const { decimals } = useChain()
 
 // form state
 const form = reactive({
@@ -263,7 +264,7 @@ const menus = availablePrefixes().filter(
 const chainByPrefix = computed(() =>
   menus.find((menu) => menu.value === urlPrefix.value)
 )
-const selectChain = ref(chainByPrefix?.value || menus[0].value)
+const selectChain = ref(chainByPrefix.value?.value || menus[0].value)
 
 // get/set current chain/prefix
 const currentChain = computed(() => selectChain.value as Prefix)
@@ -277,8 +278,7 @@ watch(currentChain, () => {
 })
 
 // deposit stuff
-const { balance, totalItemDeposit, chainSymbol, chainDecimals } =
-  useDeposit(currentChain)
+const { balance, totalItemDeposit, chainSymbol } = useDeposit(currentChain)
 const canDeposit = computed(() => {
   return parseFloat(balance.value) >= parseFloat(totalItemDeposit.value)
 })
@@ -328,7 +328,7 @@ const createNft = async () => {
           copies: form.copies,
           nsfw: form.nsfw,
           postfix: form.postfix,
-          price: balanceFrom(form.salePrice, chainDecimals.value),
+          price: balanceFrom(form.salePrice, decimals.value),
           tags: form.tags,
           secondFile: null,
           hasRoyalty: Boolean(form.royalty.amount),

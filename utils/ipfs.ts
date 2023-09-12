@@ -1,5 +1,3 @@
-import { $fetch } from 'ofetch'
-
 import { emptyObject } from '@/utils/empty'
 import { CollectionMetadata } from '@/components/rmrk/types'
 import api from '@/utils/fetch'
