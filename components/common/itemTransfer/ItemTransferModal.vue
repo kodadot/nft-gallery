@@ -70,7 +70,7 @@
             :label="transferItemLabel"
             variant="k-accent"
             no-shadow
-            class="is-flex is-flex-grow-1 py-5 is-capitalized"
+            class="is-flex is-flex-grow-1 py-5 is-capitalized btn-height"
             @click.native="transfer" />
 
           <div
@@ -179,5 +179,8 @@ onMounted(() => {
   .modal-width {
     width: unset;
   }
+}
+.btn-height {
+  height: 3.5rem;
 }
 </style>
