@@ -3,6 +3,7 @@ import { URLS } from '../utils/constants'
 import consola from 'consola'
 import { Metadata } from '@kodadot1/minimark/common'
 import { addToQueue, processQueue } from '@/utils/queueProcessor'
+import { exponentialBackoff } from '@/utils/exponentialBackoff'
 
 const BASE_URL = URLS.koda.nftStorage
 
@@ -49,13 +50,16 @@ export const getKey = async (address: string): Promise<PinningKey> => {
   return { expiry, token }
 }
 
+export const PinFileToIPFSwithRetries = (file: Blob) =>
+  exponentialBackoff(() => pinFileToIPFS(file))
+
 export const rateLimitedPinFileToIPFS = (
   file: File,
   batchSize = 5,
   gap = 100
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
-    addToQueue(() => pinFileToIPFS(file).then(resolve).catch(reject))
+    addToQueue(() => PinFileToIPFSwithRetries(file).then(resolve).catch(reject))
     processQueue(batchSize, gap)
   })
 }
