@@ -1,18 +1,14 @@
-<template></template>
-<!-- <template>
-  <vue-qrcode
+<template>
+  <qrcode-vue
     :value="text"
-    :options="{
-      width: size,
-      color: {
-        dark: color,
-        light: bgColor,
-      },
-    }" />
+    :size="size"
+    :level="level"
+    :background="bgColor"
+    :foreground="color" />
 </template>
 
 <script setup lang="ts">
-import VueQrcode from '@chenfengyuan/vue-qrcode'
+import QrcodeVue, { Level } from 'qrcode.vue'
 
 withDefaults(
   defineProps<{
@@ -20,11 +16,13 @@ withDefaults(
     size?: number
     color?: string
     bgColor?: string
+    level?: Level
   }>(),
   {
     size: 256,
     color: '#000',
     bgColor: '#FFF',
+    level: 'M',
   }
 )
-</script> -->
+</script>

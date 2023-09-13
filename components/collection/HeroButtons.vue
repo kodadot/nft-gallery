@@ -77,7 +77,7 @@
         </NeoDropdown>
       </div>
     </div>
-    <NeoModal v-model="QRModalActive" @close="QRModalActive = false">
+    <NeoModal :value="QRModalActive" @close="QRModalActive = false">
       <div class="card">
         <header class="card-header">
           <p class="card-header-title">{{ collection?.name }}</p>
