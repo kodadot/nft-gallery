@@ -48,7 +48,7 @@ export const getKey = async (address: string): Promise<PinningKey> => {
   return { expiry, token }
 }
 
-export const pinFileToIPFS = async (file: Blob, _: string): Promise<string> => {
+export const pinFileToIPFS = async (file: Blob): Promise<string> => {
   const { value } = await nftStorageApi<StorageApiResponse>('/pinFile', {
     method: 'POST',
     body: file,

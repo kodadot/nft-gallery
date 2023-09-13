@@ -429,6 +429,7 @@ const checkQueryParams = () => {
   const { query } = route
   const targets = Object.entries(query)
     .filter(([key]) => key.startsWith('target'))
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .filter(([_, address]) => {
       if (isAddress(address as string)) {
         return true
@@ -439,6 +440,7 @@ const checkQueryParams = () => {
       )
       return false
     })
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .map(([_, address]) => address as string)
   if (targets.length > 0) {
     targetAddresses.value = targets.map((address) => ({
