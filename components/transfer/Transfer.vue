@@ -131,35 +131,35 @@
               :is-invalid="isTargetAddressInvalid(destinationAddress)"
               placeholder="Enter wallet address"
               disable-error />
-            <NeoInput
-              v-if="displayUnit === 'token'"
-              v-model="destinationAddress.token"
-              type="number"
-              placeholder="0"
-              step="0.01"
-              min="0"
-              icon-right-class="search"
-              class="is-flex-1 is-flex-grow-1"
-              @focus="onAmountFieldFocus(destinationAddress, 'token')"
-              @input="onAmountFieldChange(destinationAddress)" />
-            <NeoInput
-              v-else
-              v-model="destinationAddress.usd"
-              placeholder="0"
-              type="number"
-              step="0.01"
-              min="0"
-              icon-right="usd"
-              icon-right-class="has-text-grey"
-              class="is-flex-1 is-flex-grow-1"
-              @focus="onAmountFieldFocus(destinationAddress, 'usd')"
-              @input="onUsdFieldChange(destinationAddress)" />
-            <a
-              v-if="!isMobile && targetAddresses.length > 1"
-              class="is-flex"
-              @click="deleteAddress(index)">
-              <NeoIcon class="p-3" icon="fa-trash" pack="fa-regular" />
-            </a>
+            <div class="is-flex is-flex-1 is-flex-grow-1">
+              <NeoInput
+                v-if="displayUnit === 'token'"
+                v-model="destinationAddress.token"
+                type="number"
+                placeholder="0"
+                step="0.01"
+                min="0"
+                icon-right-class="search"
+                @focus="onAmountFieldFocus(destinationAddress, 'token')"
+                @input="onAmountFieldChange(destinationAddress)" />
+              <NeoInput
+                v-else
+                v-model="destinationAddress.usd"
+                placeholder="0"
+                type="number"
+                step="0.01"
+                min="0"
+                icon-right="usd"
+                icon-right-class="has-text-grey"
+                @focus="onAmountFieldFocus(destinationAddress, 'usd')"
+                @input="onUsdFieldChange(destinationAddress)" />
+              <a
+                v-if="!isMobile && targetAddresses.length > 1"
+                class="is-flex"
+                @click="deleteAddress(index)">
+                <NeoIcon class="p-3" icon="fa-trash" pack="fa-regular" />
+              </a>
+            </div>
           </div>
           <div class="mt-2">
             <AddressChecker
