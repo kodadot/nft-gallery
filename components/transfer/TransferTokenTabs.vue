@@ -1,5 +1,5 @@
 <template>
-  <div class="is-flex mb-5 token-price-container">
+  <div class="is-flex mb-2 token-price-container">
     <div
       v-for="tab in tabs"
       :key="tab.value"

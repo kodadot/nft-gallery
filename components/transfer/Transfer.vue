@@ -3,8 +3,9 @@
     <div
       :class="[
         'transfer-card',
+        'w-100',
         {
-          'theme-background-color k-shadow border py-8 px-6': !isMobile,
+          'theme-background-color k-shadow border py-8 px-7': !isMobile,
         },
       ]">
       <TransactionLoader
@@ -20,7 +21,10 @@
         <p class="has-text-weight-bold is-size-3">
           {{ $t('transfer') }} {{ unit }}
         </p>
-        <NeoDropdown position="bottom-left" :mobile-modal="false">
+        <NeoDropdown
+          position="bottom-left"
+          :mobile-modal="false"
+          menu-class="is-shadowless no-border-bottom">
           <template #trigger="{ active }">
             <NeoButton
               icon="ellipsis-vertical"
@@ -53,7 +57,13 @@
         :tabs="tokenTabs"
         :value="unit"
         @select="handleTokenSelect" />
-
+      <div class="mb-5">
+        <NeoIcon class="ml-2" icon="circle-info" pack="far" />
+        <span
+          v-dompurify-html="
+            $t('transfers.tooltip', [unit, chainNames[unit.toLowerCase()]])
+          "></span>
+      </div>
       <div class="is-flex is-justify-content-space-between">
         <div class="is-flex is-flex-direction-column">
           <span class="has-text-weight-bold is-size-6 mb-1">{{
@@ -89,10 +99,12 @@
       <hr />
 
       <div v-if="!isMobile" class="is-flex">
-        <div class="has-text-weight-bold is-size-6 mb-3 is-flex-1 mr-2">
+        <div
+          class="has-text-weight-bold is-size-6 mb-3 is-flex-1 mr-2 is-flex-grow-2">
           {{ $t('transfers.recipient') }}
         </div>
-        <div class="has-text-weight-bold is-size-6 mb-3 is-flex-1">
+        <div
+          class="has-text-weight-bold is-size-6 mb-3 is-flex-1 is-flex-grow-1">
           {{ $t('amount') }}
         </div>
       </div>
@@ -101,8 +113,13 @@
           v-for="(destinationAddress, index) in targetAddresses"
           :key="index"
           class="mb-3">
-          <div v-if="isMobile" class="has-text-weight-bold is-size-6 mb-3">
+          <div
+            v-if="isMobile"
+            class="has-text-weight-bold is-size-6 mb-3 is-flex is-align-items-center is-justify-content-space-between">
             {{ $t('transfers.recipient') }} {{ index + 1 }}
+            <a v-if="targetAddresses.length > 1" @click="deleteAddress(index)">
+              <NeoIcon class="p-3" icon="fa-trash" pack="fa-regular" />
+            </a>
           </div>
           <div
             :class="[
@@ -114,7 +131,7 @@
             <AddressInput
               v-model="destinationAddress.address"
               label=""
-              class="is-flex-1"
+              class="is-flex-1 is-flex-grow-2"
               :class="[
                 {
                   'mr-2': !isMobile,
@@ -124,26 +141,37 @@
               :is-invalid="isTargetAddressInvalid(destinationAddress)"
               placeholder="Enter wallet address"
               disable-error />
-            <NeoInput
-              v-if="displayUnit === 'token'"
-              v-model="destinationAddress.token"
-              type="number"
-              placeholder="0"
-              step="0.01"
-              min="0"
-              icon-right-class="search"
+            <div
               class="is-flex-1"
-              @input="onAmountFieldChange(destinationAddress)" />
-            <NeoInput
-              v-else
-              v-model="destinationAddress.usd"
-              placeholder="0"
-              type="number"
-              step="0.01"
-              min="0"
-              icon-right-class="search"
-              class="is-flex-1"
-              @input="onUsdFieldChange(destinationAddress)" />
+              :class="{ 'is-flex is-flex-grow-1': !isMobile }">
+              <NeoInput
+                v-if="displayUnit === 'token'"
+                v-model="destinationAddress.token"
+                type="number"
+                placeholder="0"
+                step="0.01"
+                min="0"
+                icon-right-class="search"
+                @focus="onAmountFieldFocus(destinationAddress, 'token')"
+                @input="onAmountFieldChange(destinationAddress)" />
+              <NeoInput
+                v-else
+                v-model="destinationAddress.usd"
+                placeholder="0"
+                type="number"
+                step="0.01"
+                min="0"
+                icon-right="usd"
+                icon-right-class="has-text-grey"
+                @focus="onAmountFieldFocus(destinationAddress, 'usd')"
+                @input="onUsdFieldChange(destinationAddress)" />
+              <a
+                v-if="!isMobile && targetAddresses.length > 1"
+                class="is-flex"
+                @click="deleteAddress(index)">
+                <NeoIcon class="p-3" icon="fa-trash" pack="fa-regular" />
+              </a>
+            </div>
           </div>
           <div class="mt-2">
             <AddressChecker
@@ -168,9 +196,11 @@
         class="is-flex is-justify-content-space-between is-align-items-center mb-5">
         <div
           class="is-flex is-justify-content-space-between is-align-items-center">
-          {{ $t('transfers.sendSameAmount')
-          }}<NeoTooltip :label="$t('transfers.setSameAmount')"
-            ><NeoIcon class="ml-2" icon="circle-info" pack="far"
+          {{ $t('transfers.sendSameAmount') }}
+          <!-- tips: don't use `margin` or `padding` directly on the tooltip trigger, it will cause misalignment of the tooltip -->
+          <span class="mr-2" />
+          <NeoTooltip :label="$t('transfers.setSameAmount')"
+            ><NeoIcon icon="circle-info" pack="far"
           /></NeoTooltip>
         </div>
         <NeoSwitch v-model="sendSameAmount" :rounded="false" />
@@ -243,7 +273,7 @@
 
       <div class="is-flex">
         <NeoButton
-          class="is-flex is-flex-1 fixed-height"
+          class="is-flex is-flex-1 fixed-height is-shadowless"
           variant="k-accent"
           :disabled="disabled"
           @click.native="handleOpenConfirmModal"
@@ -265,7 +295,7 @@
 
 <script lang="ts" setup>
 import Connector from '@kodadot1/sub-api'
-import { ALTERNATIVE_ENDPOINT_MAP } from '@kodadot1/static'
+import { ALTERNATIVE_ENDPOINT_MAP, chainNames } from '@kodadot1/static'
 
 import { isAddress } from '@polkadot/util-crypto'
 import { DispatchError } from '@polkadot/types/interfaces'
@@ -525,6 +555,12 @@ const onAmountFieldChange = (target: TargetAddress) => {
   }
 }
 
+const onAmountFieldFocus = (target: TargetAddress, field: 'usd' | 'token') => {
+  if (Number(target[field]) === 0) {
+    target[field] = ''
+  }
+}
+
 const onUsdFieldChange = (target: TargetAddress) => {
   /* calculating price value on the basis of usd entered */
   target.token = target.usd
@@ -771,6 +807,10 @@ const addAddress = () => {
   })
 }
 
+const deleteAddress = (index: number) => {
+  targetAddresses.value.splice(index, 1)
+}
+
 onMounted(() => {
   fetchFiatPrice().then(checkQueryParams)
 })
@@ -799,7 +839,7 @@ watchDebounced(
 @import '@/styles/abstracts/variables';
 
 .transfer-card {
-  max-width: 41rem;
+  max-width: 660px;
 
   @include touch {
     width: 100vw;
@@ -813,5 +853,8 @@ watchDebounced(
   .fixed-height {
     height: 51px;
   }
+}
+:deep(.o-drop__menu.no-border-bottom) {
+  border-bottom: none;
 }
 </style>
