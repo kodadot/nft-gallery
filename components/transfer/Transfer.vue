@@ -131,7 +131,9 @@
               :is-invalid="isTargetAddressInvalid(destinationAddress)"
               placeholder="Enter wallet address"
               disable-error />
-            <div class="is-flex is-flex-1 is-flex-grow-1">
+            <div
+              class="is-flex-1"
+              :class="{ 'is-flex is-flex-grow-1': !isMobile }">
               <NeoInput
                 v-if="displayUnit === 'token'"
                 v-model="destinationAddress.token"
@@ -184,9 +186,11 @@
         class="is-flex is-justify-content-space-between is-align-items-center mb-5">
         <div
           class="is-flex is-justify-content-space-between is-align-items-center">
-          {{ $t('transfers.sendSameAmount')
-          }}<NeoTooltip :label="$t('transfers.setSameAmount')"
-            ><NeoIcon class="ml-2" icon="circle-info" pack="far"
+          {{ $t('transfers.sendSameAmount') }}
+          <!-- tips: don't use `margin` or `padding` directly on the tooltip trigger, it will cause misalignment of the tooltip -->
+          <span class="mr-2" />
+          <NeoTooltip :label="$t('transfers.setSameAmount')"
+            ><NeoIcon icon="circle-info" pack="far"
           /></NeoTooltip>
         </div>
         <NeoSwitch v-model="sendSameAmount" :rounded="false" />
