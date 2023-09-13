@@ -12,7 +12,6 @@
           variant="text"
           no-shadow
           icon="xmark"
-          icon-pack="fa-sharp"
           size="medium"
           @click="emit('close')" />
       </div>
@@ -31,7 +30,6 @@
           variant="text"
           no-shadow
           icon="xmark"
-          icon-pack="fa-sharp"
           size="medium"
           @click="emit('close')" />
       </div>

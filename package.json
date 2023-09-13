@@ -61,9 +61,6 @@
   "dependencies": {
     "@braintree/sanitize-url": "^6.0.4",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
-    "@fortawesome/free-brands-svg-icons": "^6.4.2",
-    "@fortawesome/free-regular-svg-icons": "^6.4.2",
-    "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "@google/model-viewer": "^1.12.1",
     "@kodadot1/brick": "workspace:*",

@@ -3,7 +3,7 @@
     style="width: 40px"
     no-shadow
     icon-left="gift"
-    icon-pack="fas"
+    icon-pack="fass"
     :tag="NuxtLink"
     :to="`/${urlPrefix}/transfer?target=${props.address}&usdamount=10&donation=true`">
   </NeoButton>

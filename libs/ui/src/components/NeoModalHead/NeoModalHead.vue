@@ -1,7 +1,7 @@
 <template>
   <header v-if="isMobile" class="modal-card-head">
     <div class="modal-card-title" @click.stop="emit('close')">
-      <NeoIcon icon="chevron-left" pack="fas" />
+      <NeoIcon icon="chevron-left" pack="fass" />
       {{ title }}
     </div>
   </header>
@@ -16,7 +16,6 @@
       variant="text"
       no-shadow
       icon="xmark"
-      icon-pack="fa-sharp"
       size="medium"
       @click="emit('close')" />
   </header>
