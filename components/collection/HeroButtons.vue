@@ -83,10 +83,10 @@
           <p class="card-header-title">{{ collection?.name }}</p>
         </header>
         <div class="card-content">
-          <!-- <QRCode
+          <QRCode
             :text="currentCollectionUrl"
             color="#db2980"
-            bg-color="#000" /> -->
+            bg-color="#000" />
         </div>
       </div>
     </NeoModal>
