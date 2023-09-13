@@ -319,15 +319,9 @@ import {
   NeoTableColumn,
 } from '@kodadot1/brick'
 
-const Money = defineAsyncComponent(
-  () => import('@/components/shared/format/Money.vue')
-)
-const BasicImage = defineAsyncComponent(
-  () => import('@/components/shared/view/BasicImage.vue')
-)
-const Loader = defineAsyncComponent(
-  () => import('@/components/shared/Loader.vue')
-)
+import Money from '@/components/shared/format/Money.vue'
+import BasicImage from '@/components/shared/view/BasicImage.vue'
+import Loader from '@/components/shared/Loader.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -354,15 +348,19 @@ const fetchCollectionEvents = async (ids: string[]) => {
     return []
   }
   try {
-    const { data } = await useAsyncQuery(collectionsEvents, {
-      ids: ids,
-      and: {
-        interaction_eq: 'BUY',
+    const { data } = await useAsyncQuery({
+      clientId: client.value,
+      query: collectionsEvents,
+      variables: {
+        ids: ids,
+        and: {
+          interaction_eq: 'BUY',
+        },
+        lte: today,
+        gte: lastmonthDate,
       },
-      lte: today,
-      gte: lastmonthDate,
     })
-    return data.events
+    return data.value.events
   } catch (e) {
     $consola.error(e)
     return []
@@ -374,14 +372,13 @@ const fetchCollectionsSeries = async (
   sort: string = toSort(sortBy)
 ) => {
   isLoading.value = true
-  const { data: collections } = await useAsyncQuery(
-    seriesInsightList,
-    await seriesQueryParams(limit, sort)
-  )
+  const { data: collections } = await useAsyncQuery({
+    clientId: client.value,
+    query: seriesInsightList,
+    variables: await seriesQueryParams(limit, sort),
+  })
 
-  const {
-    data: { collectionEntities },
-  } = collections
+  const { collectionEntities } = collections.value
 
   const defaultBuyEvents = getDateArray(lastmonthDate, today).reduce(
     (res, date) => {
