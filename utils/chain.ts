@@ -1,5 +1,5 @@
-import type { Option } from '@kodadot1/static'
-import { ENDPOINT_MAP, chainList } from '@kodadot1/static'
+import type { Option, Prefix } from '@kodadot1/static'
+import { ENDPOINT_MAP, NAMES, chainList } from '@kodadot1/static'
 
 export const getChainEndpointByPrefix = (prefix: string) => {
   const endpoint: string | undefined = ENDPOINT_MAP[prefix]
@@ -13,6 +13,10 @@ export const getChainNameByPrefix = (prefix: string) => {
   }
 
   return prefix
+}
+
+export const getChainName = (prefix: Prefix) => {
+  return NAMES[prefix].split(' [Beta]').join('')
 }
 
 export const isProduction = window.location.hostname === 'kodadot.xyz'
