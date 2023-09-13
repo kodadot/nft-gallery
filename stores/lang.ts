@@ -23,13 +23,11 @@ export const useLangStore = defineStore('lang', {
     setLanguage({ userLang }) {
       const { $i18n } = useNuxtApp()
       const { setLocale } = useI18n()
-      console.log(userLang)
-      // console.log($i18n.locale)
+      $i18n.locale.value = userLang
       setLocale(userLang)
       this.language = {
         userLang,
       }
-      // console.log($i18n.locale)
     },
   },
 })
