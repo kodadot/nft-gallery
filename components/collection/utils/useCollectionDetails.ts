@@ -49,7 +49,7 @@ export const useCollectionDetails = ({ collectionId }) => {
         return highestOffer
       })
 
-      const listedNfts = data.value.stats.listed
+      const listedNfts = data.value.value.stats.listed
 
       stats.value = {
         listedCount: data.value.value.stats.listed.length,

@@ -3,14 +3,6 @@
     <Navbar />
     <main class="is-flex-grow-1 py-8">
       <div class="container is-fluid">
-        <form>
-          <label for="locale-select">language: </label>
-          <select id="locale-select" v-model="lang" @change="changeLanguage">
-            <option value="en">en</option>
-            <option value="fr">fr</option>
-            <option value="es">es</option>
-          </select>
-        </form>
         <Error
           v-if="$nuxt.isOffline"
           :has-img="false"
@@ -26,13 +18,9 @@
 </template>
 
 <script lang="ts" setup>
-const { $config, $i18n } = useNuxtApp()
+const { $config } = useNuxtApp()
 const route = useRoute()
 
-const lang = ref('en')
-function changeLanguage() {
-  $i18n.locale.value = lang.value
-}
 useHead({
   link: [
     {
