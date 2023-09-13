@@ -26,7 +26,6 @@ const props = defineProps<{
   type: string | undefined
 }>()
 const route = useRoute()
-const { $seoMeta } = useNuxtApp()
 
 const title = computed(() => {
   switch (props.type) {
@@ -76,14 +75,15 @@ const description = computed(() => {
 
 const meta = computed(() => {
   return [
-    ...$seoMeta({
+    {
       title: title.value,
       url: route.path,
       image: generateDropImage(title.value, image.value),
       description: description.value,
-    }),
+    },
   ]
 })
+
 useHead({
   title,
   meta,
