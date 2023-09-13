@@ -27,8 +27,9 @@
           <slot name="action" />
         </div>
       </div>
+      <NeoNftStackedCard v-if="isStacked" :nft="nft" :variant="variant" />
       <div
-        v-if="!isStacked"
+        v-else
         class="nft-media-info is-flex is-flex-direction-column"
         :class="`nft-media-info__${variant}`">
         <div class="is-flex is-flex-direction-column">
@@ -74,30 +75,6 @@
           }}</span>
         </div>
       </div>
-
-      <div
-        v-else
-        class="nft-media-info is-flex is-flex-direction-column p-0"
-        :class="`nft-media-info__${variant}`">
-        <div class="is-flex is-flex-direction-column border-bottom p-3">
-          <div class="is-flex is-justify-content-space-between">
-            <span
-              class="is-ellipsis has-text-weight-bold"
-              data-testid="nft-name"
-              :title="nft.name"
-              >{{ nft.name || '--' }}
-            </span>
-            <span v-if="!isMinimal">X{{ nft.count }}</span>
-          </div>
-
-          <div v-if="!isMinimal" class="is-size-7 has-text-grey">
-            Floor:
-            <CommonTokenMoney
-              :value="nft.floorPrice"
-              data-testid="card-money" />
-          </div>
-        </div>
-      </div>
     </component>
 
     <template v-else>
@@ -129,6 +106,7 @@ import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { getChainNameByPrefix } from '@/utils/chain'
 import { NeoSkeleton, NftCardVariant } from '@kodadot1/brick'
 import { NFTWithMetadata } from '@/composables/useNft'
+import NeoNftStackedCard from './NeoNftStackedCard.vue'
 
 const props = withDefaults(
   defineProps<{
