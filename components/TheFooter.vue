@@ -40,9 +40,7 @@
                 rel="nofollow noopener noreferrer"
                 class="is-flex is-align-items-center">
                 {{ item.name }}
-                <NeoIcon
-                  icon="arrow-up-right-from-square"
-                  class="ml-1 has-text-grey" />
+                <NeoIcon icon="arrow-up-right" class="ml-1 has-text-grey" />
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
@@ -66,9 +64,7 @@
                 rel="nofollow noopener noreferrer"
                 class="is-flex is-align-items-center">
                 {{ item.name }}
-                <NeoIcon
-                  icon="arrow-up-right-from-square"
-                  class="ml-1 has-text-grey" />
+                <NeoIcon icon="arrow-up-right" class="ml-1 has-text-grey" />
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
@@ -92,9 +88,7 @@
                 rel="nofollow noopener noreferrer"
                 class="is-flex is-align-items-center">
                 {{ item.name }}
-                <NeoIcon
-                  icon="arrow-up-right-from-square"
-                  class="ml-1 has-text-grey" />
+                <NeoIcon icon="arrow-up-right" class="ml-1 has-text-grey" />
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}

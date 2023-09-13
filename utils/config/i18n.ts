@@ -1,4 +1,4 @@
-import { LocaleMessage, VueMessageType, defineI18nConfig } from '#i18n'
+import { LocaleMessages, VueMessageType, defineI18nConfig } from '#i18n'
 import commonData from '@/locales/all_lang.json'
 import MarkdownIt from 'markdown-it'
 const locales = import.meta.glob('../../locales/*.json', { eager: true })
@@ -29,7 +29,7 @@ const md = MarkdownIt({
   breaks: false,
 })
 function getMessages() {
-  const messages: { [x: string]: LocaleMessage<VueMessageType> } = {}
+  const messages: { [x: string]: LocaleMessages<VueMessageType> } = {}
   for (const [key, value] of Object.entries(locales)) {
     const matched = key.match(/([A-Za-z0-9-_]+)\./i)
     if (matched && matched.length > 1) {

@@ -36,8 +36,8 @@
             aria-role="listitem"
             :data-testid="`sidebar-language-${lang.value}`"
             :value="lang.value"
-            :class="{ 'is-active': langStore.getUserLang === lang.value }"
-            @click="langStore.setLanguage({ userLang: lang.value })">
+            :class="{ 'is-active': $i18n.locale === lang.value }"
+            @click="$i18n.locale = lang.value">
             <span>{{ lang.flag }} {{ lang.label }}</span>
           </NeoDropdownItem>
         </NeoDropdown>
@@ -58,14 +58,11 @@
 <script setup lang="ts">
 import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
 import { langsFlags } from '@/utils/config/i18n'
-import { useLangStore } from '@/stores/lang'
 
 const { urlPrefix } = usePrefix()
 const { isBasilisk } = useIsChain(urlPrefix)
 const { toggleColorMode, isDarkMode } = useTheme()
 const { neoModal } = useProgrammatic()
-
-const langStore = useLangStore()
 
 const menus = ref([
   {
