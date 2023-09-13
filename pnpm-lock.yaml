@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: false
@@ -282,6 +282,9 @@ importers:
       eslint-plugin-vue:
         specifier: ^8.7.1
         version: 8.7.1(eslint@8.48.0)
+      eslint-plugin-vue-scoped-css:
+        specifier: ^2.5.0
+        version: 2.5.0(eslint@8.48.0)(vue-eslint-parser@9.3.1)
       frontmatter-markdown-loader:
         specifier: ^3.7.0
         version: 3.7.0
@@ -393,7 +396,7 @@ importers:
         version: 0.17.0(sass@1.66.1)(vite@3.2.7)
       vite:
         specifier: ^3.2.7
-        version: 3.2.7(sass@1.66.1)(terser@5.17.7)
+        version: 3.2.7(@types/node@20.2.5)(sass@1.66.1)
       vue:
         specifier: 2.7.14
         version: 2.7.14
@@ -4200,7 +4203,7 @@ packages:
       chokidar: 3.5.3
       pathe: 0.2.0
       picocolors: 1.0.0
-      vite: 3.2.7(sass@1.66.1)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.66.1)
     dev: true
 
   /@histoire/vendors@0.17.0:
@@ -9088,7 +9091,7 @@ packages:
       vite: ^3.0.0 || ^4.0.0
       vue: ^2.7.0-0
     dependencies:
-      vite: 3.2.7(sass@1.66.1)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.66.1)
       vue: 2.7.14
     dev: true
 
@@ -9317,7 +9320,7 @@ packages:
     resolution: {integrity: sha512-udMmmF1ts3zwxUJEIAj5ziioR900reDrt6C9H3XpWPsLBx2lpHKoA4BTdd9HNIYbkGltWw+JjWJ+5O6QBwiyEw==}
     peerDependencies:
       vue: 2.x
-      vue-template-compiler: ^2.x
+      vue-template-compiler: 2.7.14
     dependencies:
       dom-event-types: 1.1.0
       lodash: 4.17.21
@@ -12638,6 +12641,14 @@ packages:
     engines: {node: '>= 6'}
     dev: false
 
+  /css@3.0.0:
+    resolution: {integrity: sha512-DG9pFfwOrzc+hawpmqX/dHYHJG+Bsdb0klhyi1sDneOgGOXy9wQIC8hzyVp1e4NRYDBdxcylvywPkkXCHAzTyQ==}
+    dependencies:
+      inherits: 2.0.4
+      source-map: 0.6.1
+      source-map-resolve: 0.6.0
+    dev: true
+
   /cssdb@7.7.0:
     resolution: {integrity: sha512-1hN+I3r4VqSNQ+OmMXxYexnumbOONkSil0TWMebVXHtzYW4tRRPovUNHPHj2d4nrgOuYJ8Vs3XwvywsuwwXNNA==}
 
@@ -14067,6 +14078,26 @@ packages:
       safe-regex: 2.1.1
       semver: 7.5.4
       strip-indent: 3.0.0
+    dev: true
+
+  /eslint-plugin-vue-scoped-css@2.5.0(eslint@8.48.0)(vue-eslint-parser@9.3.1):
+    resolution: {integrity: sha512-vR+raYNE1aQ69lS1lZGiKoz8rXFI3MWf2fxrfns/XCQ0XT5sIguhDtQS+9JmUQJClenLDEe2CQx7P+eeSdF4cA==}
+    engines: {node: ^12.22 || ^14.17 || >=16}
+    peerDependencies:
+      eslint: '>=5.0.0'
+      vue-eslint-parser: '>=7.1.0'
+    dependencies:
+      eslint: 8.48.0
+      eslint-utils: 3.0.0(eslint@8.48.0)
+      lodash: 4.17.21
+      postcss: 8.4.28
+      postcss-safe-parser: 6.0.0(postcss@8.4.28)
+      postcss-scss: 4.0.8(postcss@8.4.28)
+      postcss-selector-parser: 6.0.13
+      postcss-styl: 0.12.3
+      vue-eslint-parser: 9.3.1(eslint@8.48.0)
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /eslint-plugin-vue@8.7.1(eslint@8.48.0):
@@ -15724,7 +15755,7 @@ packages:
       sade: 1.8.1
       shiki-es: 0.2.0
       sirv: 2.0.3
-      vite: 3.2.7(sass@1.66.1)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.66.1)
       vite-node: 0.28.4(sass@1.66.1)
     transitivePeerDependencies:
       - '@types/node'
@@ -17171,6 +17202,10 @@ packages:
   /lodash.sortby@4.7.0:
     resolution: {integrity: sha512-HDWXG8isMntAyRF5vZ7xKuEvOhT4AhlRt/3czTSjvGUxjYCBVRQY48ViDHyfYz9VIoBkW4TMGQNapx+l3RUwdA==}
     dev: false
+
+  /lodash.sortedlastindex@4.1.0:
+    resolution: {integrity: sha512-s8xEQdsp2Tu5zUqVdFSe9C0kR8YlnAJYLqMdkh+pIRBRxF6/apWseLdHl3/+jv2I61dhPwtI/Ff+EqvCpc+N8w==}
+    dev: true
 
   /lodash.template@4.5.0:
     resolution: {integrity: sha512-84vYFxIkmidUiFxidA/KjjH9pAycqW+h980j7Fuz5qxRtO9pgB7MDFTdys1N7A5mcucRiDyEq4fusljItR1T/A==}
@@ -20095,6 +20130,24 @@ packages:
     dependencies:
       postcss: 8.4.28
 
+  /postcss-safe-parser@6.0.0(postcss@8.4.28):
+    resolution: {integrity: sha512-FARHN8pwH+WiS2OPCxJI8FuRJpTVnn6ZNFiqAM2aeW2LwTHWWmWgIyKC6cUo0L8aeKiF/14MNvnpls6R2PBeMQ==}
+    engines: {node: '>=12.0'}
+    peerDependencies:
+      postcss: ^8.3.3
+    dependencies:
+      postcss: 8.4.28
+    dev: true
+
+  /postcss-scss@4.0.8(postcss@8.4.28):
+    resolution: {integrity: sha512-Cr0X8Eu7xMhE96PJck6ses/uVVXDtE5ghUTKNUYgm8ozgP2TkgV3LWs3WgLV1xaSSLq8ZFiXaUrj0LVgG1fGEA==}
+    engines: {node: '>=12.0'}
+    peerDependencies:
+      postcss: ^8.4.29
+    dependencies:
+      postcss: 8.4.28
+    dev: true
+
   /postcss-selector-not@6.0.1(postcss@8.4.28):
     resolution: {integrity: sha512-1i9affjAe9xu/y9uqWH+tD4r6/hDaXJruk8xn2x1vzxC2U3J3LKO3zJW4CyxlNhA56pADJ/djpEwpH1RClI2rQ==}
     engines: {node: ^12 || ^14 || >=16}
@@ -20121,6 +20174,19 @@ packages:
     dependencies:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
+
+  /postcss-styl@0.12.3:
+    resolution: {integrity: sha512-8I7Cd8sxiEITIp32xBK4K/Aj1ukX6vuWnx8oY/oAH35NfQI4OZaY5nd68Yx8HeN5S49uhQ6DL0rNk0ZBu/TaLg==}
+    engines: {node: ^8.10.0 || ^10.13.0 || ^11.10.1 || >=12.13.0}
+    dependencies:
+      debug: 4.3.4(supports-color@8.1.1)
+      fast-diff: 1.3.0
+      lodash.sortedlastindex: 4.1.0
+      postcss: 8.4.28
+      stylus: 0.57.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
 
   /postcss-svgo@5.1.0(postcss@8.4.28):
     resolution: {integrity: sha512-D75KsH1zm5ZrHyxPakAxJWtkyXew5qwS70v56exwvw542d9CRtTo78K0WeFxZB4G7JXKKMbEZtZayTGdIky/eA==}
@@ -21074,7 +21140,7 @@ packages:
       neo-async: 2.6.2
       sass: 1.66.1
       schema-utils: 3.1.2
-      semver: 7.5.1
+      semver: 7.5.4
     dev: true
 
   /sass@1.66.1:
@@ -21089,7 +21155,6 @@ packages:
 
   /sax@1.2.4:
     resolution: {integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==}
-    dev: false
 
   /saxes@5.0.1:
     resolution: {integrity: sha512-5LBh1Tls8c9xgGjw3QrMwETmTMVk0oFgvrFSvWx62llR2hcEInrKNZ2GZCCuuy2lvWrdl5jhbpeqc5hRYKFOcw==}
@@ -21551,6 +21616,14 @@ packages:
       source-map-url: 0.4.1
       urix: 0.1.0
 
+  /source-map-resolve@0.6.0:
+    resolution: {integrity: sha512-KXBr9d/fO/bWo97NXsPIAW1bFSBOuCnjbNTBMO7N59hsv5i9yzRDfcYwwt0l04+VqnKC+EwzvJZIP/qkuMgR/w==}
+    deprecated: See https://github.com/lydell/source-map-resolve#deprecated
+    dependencies:
+      atob: 2.1.2
+      decode-uri-component: 0.2.2
+    dev: true
+
   /source-map-support@0.5.21:
     resolution: {integrity: sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==}
     dependencies:
@@ -21926,6 +21999,20 @@ packages:
       postcss: 8.4.28
       postcss-selector-parser: 6.0.13
     dev: false
+
+  /stylus@0.57.0:
+    resolution: {integrity: sha512-yOI6G8WYfr0q8v8rRvE91wbxFU+rJPo760Va4MF6K0I6BZjO4r+xSynkvyPBP9tV1CIEUeRsiidjIs2rzb1CnQ==}
+    hasBin: true
+    dependencies:
+      css: 3.0.0
+      debug: 4.3.4(supports-color@8.1.1)
+      glob: 7.2.3
+      safer-buffer: 2.1.2
+      sax: 1.2.4
+      source-map: 0.7.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
 
   /subscriptions-transport-ws@0.9.19(graphql@15.8.0):
     resolution: {integrity: sha512-dxdemxFFB0ppCLg10FTtRqH/31FNRL1y1BQv8209MK5I4CwALb7iihQg+7p65lFcIl8MHatINWBLOqpgU4Kyyw==}
@@ -23078,7 +23165,7 @@ packages:
       picocolors: 1.0.0
       source-map: 0.6.1
       source-map-support: 0.5.21
-      vite: 3.2.7(sass@1.66.1)(terser@5.17.7)
+      vite: 3.2.7(@types/node@20.2.5)(sass@1.66.1)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -23114,7 +23201,7 @@ packages:
     resolution: {integrity: sha512-t3Tu93GWsMHbpeIv66MTO5e/rRAo8/+/eWoUtFYuAdKDMyEnn1dqsrXh+CfG+SJAlxJvcTP8U0eXkzhLjKNyMg==}
     peerDependencies:
       vite: ^2.0.0 || ^3.0.0 || ^4.0.0
-      vue-template-compiler: ^2.2.0
+      vue-template-compiler: 2.7.14
     dependencies:
       '@babel/core': 7.22.11
       '@babel/parser': 7.22.4
@@ -23697,7 +23784,7 @@ packages:
     resolution: {integrity: sha512-CScBSX1/wCdmmZ/Lvj/63p2CCVTS0FMj0F69VRBo73CuJrjvPAPGmeNJ7D/cwt/VS2PduowRWbO8N4Zh4Z3b0g==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
-      vue-template-compiler: ^2.6.0
+      vue-template-compiler: 2.7.14
     dependencies:
       '@babel/core': 7.22.11
       '@babel/plugin-proposal-nullish-coalescing-operator': 7.18.6(@babel/core@7.22.11)
