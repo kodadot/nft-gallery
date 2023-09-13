@@ -84,8 +84,6 @@ import { sum } from '@/utils/math'
 import ListingCartSingleItemCart from './singleItemCart/ListingCartSingleItemCart.vue'
 import ListingCartMultipleItemsCart from './multipleItemsCart/ListingCartMultipleItemsCart.vue'
 
-const emit = defineEmits(['close'])
-
 const { isLogIn, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
@@ -103,7 +101,7 @@ const defaultCartData = {
 const cartData = ref<{
   fixedPrice?: number | string
   floorPricePercentAdjustment: number
-}>(defaultCartData)
+}>({ ...defaultCartData })
 
 function setFixedPrice() {
   const fixedPrice = cartData.value.fixedPrice
@@ -200,13 +198,12 @@ async function confirm() {
 }
 
 const onClose = () => {
-  preferencesStore.listingCartModalOpen = false
-  emit('close')
   resetCartData()
+  preferencesStore.listingCartModalOpen = false
 }
 
 const resetCartData = () => {
-  cartData.value = defaultCartData
+  cartData.value = { ...defaultCartData }
 }
 
 watch(
@@ -217,6 +214,10 @@ watch(
     }
   }
 )
+
+onUnmounted(() => {
+  preferencesStore.listingCartModalOpen = false
+})
 </script>
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';

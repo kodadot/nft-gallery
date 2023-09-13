@@ -15,7 +15,7 @@
       </div>
     </GalleryItemPriceSection>
 
-    <ListingCartModal @close="onListingModalClose" />
+    <ListingCartModal />
   </div>
 </template>
 
@@ -52,6 +52,15 @@ const openListCartModal = () => {
   )
   preferencesStore.listingCartModalOpen = true
 }
+
+watch(
+  () => preferencesStore.listingCartModalOpen,
+  (isOpen) => {
+    if (!isOpen) {
+      onListingModalClose()
+    }
+  }
+)
 
 const onListingModalClose = () => {
   setTimeout(() => {
