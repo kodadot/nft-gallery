@@ -5,8 +5,8 @@
     <NeoPagination
       :total="total"
       :current.sync="current"
-      :range-before="3"
-      :range-after="3"
+      :range-before="rangeBefore"
+      :range-after="rangeAfter"
       :simple="simple"
       :per-page="perPage"
       tag="a"
@@ -39,6 +39,8 @@ const props = withDefaults(
     simple?: boolean
     replace: boolean
     preserveScroll?: boolean
+    rangeBefore?: number
+    rangeAfter?: number
     hasMagicBtn?: boolean
     enableListenKeyboardEvent?: boolean
   }>(),
@@ -46,6 +48,8 @@ const props = withDefaults(
     perPage: 20,
     hasMagicBtn: false,
     simple: false,
+    rangeBefore: 3,
+    rangeAfter: 3,
   }
 )
 const emit = defineEmits(['input'])
