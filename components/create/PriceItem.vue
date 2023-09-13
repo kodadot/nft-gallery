@@ -14,11 +14,13 @@
     </div>
     <div v-if="rotate" class="is-size-7">
       <div
+        v-if="networkFee"
         class="is-flex mb-2 is-align-items-center is-justify-content-space-between">
         <div>{{ $t('mint.nft.modal.networkFee') }}</div>
-        <div>0.02 {{ nft.chainSymbol }}</div>
+        <div>{{ networkFee }} {{ nft.chainSymbol }}</div>
       </div>
       <div
+        v-if="existentialDeposit"
         class="k-grey is-flex mb-2 is-align-items-center is-justify-content-space-between">
         <div>
           {{ $t('mint.nft.modal.existentialDeposit') }}
@@ -30,7 +32,7 @@
             <NeoIcon icon="circle-question" />
           </NeoTooltip>
         </div>
-        <div>0.01 {{ nft.chainSymbol }}</div>
+        <div>{{ existentialDeposit }} {{ nft.chainSymbol }}</div>
       </div>
       <div
         v-if="nft.hasRoyalty"
@@ -82,18 +84,25 @@ import { ExtendedInformation } from './MintConfirmModal.vue'
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
 
-const props = defineProps<{ nft: ExtendedInformation }>()
-
 const preferencesStore = usePreferencesStore()
 
-const hasSupport = computed(() => preferencesStore.hasSupport)
-
-const hasCarbonOffset = computed(() => preferencesStore.hasCarbonOffset)
+const props = defineProps<{ nft: ExtendedInformation }>()
 
 const rotate = ref(false)
 
+const existentialDeposit = computed(() => props.nft.existentialDeposit)
+const networkFee = computed(() => props.nft.networkFee)
+const hasSupport = computed(() => preferencesStore.hasSupport)
+const hasCarbonOffset = computed(() => preferencesStore.hasCarbonOffset)
+
 const hasMultipleFees = computed(
-  () => [hasCarbonOffset.value, hasSupport.value].filter((e) => e).length > 0
+  () =>
+    [
+      hasCarbonOffset.value,
+      hasSupport.value,
+      existentialDeposit.value,
+      networkFee.value,
+    ].filter((e) => !!e).length > 0
 )
 
 watch(

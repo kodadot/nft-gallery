@@ -78,6 +78,12 @@ import { availablePrefixes } from '@/utils/chain'
 import { Royalty } from '@/utils/royalty'
 import OnRampModal from '@/components/shared/OnRampModal.vue'
 import { CreateComponent } from '@/composables/useCreate'
+import { getTransitionFee } from '@/utils/transactionExecutor'
+import {
+  getInstanceDeposit,
+  getMetadataDeposit,
+} from '@/components/unique/apiConstants'
+import { onApiConnect } from '@kodadot1/sub-api'
 
 export type NftInformation = {
   file: Blob
@@ -93,6 +99,9 @@ export type NftInformation = {
 export type ExtendedInformation = NftInformation & {
   chainSymbol: string
   type: CreateComponent
+  networkFee: number
+  existentialDeposit?: number
+  deposit: number
 }
 
 const props = withDefaults(
@@ -106,20 +115,25 @@ const props = withDefaults(
 )
 
 const { isLogIn, accountId } = useAuth()
-const { urlPrefix } = usePrefix()
+const { urlPrefix, tokenId } = usePrefix()
 const route = useRoute()
 const { $i18n } = useNuxtApp()
 const { balance } = useBalance()
-const { chainSymbol } = useChain()
+const { chainSymbol, decimals } = useChain()
+const { apiUrl } = useApi()
 
 const emit = defineEmits(['confirm', 'input'])
 
 const rampActive = ref(false)
+const networkFee = ref(0)
+const deposit = ref(0)
 
 const extendedInformation = computed(() => ({
   ...props.nftInformation,
   chainSymbol: chainSymbol.value,
   type: route.query.tab,
+  networkFee: networkFee.value,
+  existentialDeposit: deposit.value,
 }))
 const totalNFTsPrice = computed(() => 0)
 const totalRoyalties = computed(() => 0)
@@ -160,6 +174,27 @@ const onClose = () => {
 const confirm = () => {
   emit('confirm')
 }
+
+const calculateNetworkFee = async () => {
+  networkFee.value = 0
+  const fee = await getTransitionFee(accountId.value, [''], decimals.value)
+  networkFee.value = Number(
+    (Number(fee) / Math.pow(10, decimals.value)).toFixed(4)
+  )
+}
+
+onApiConnect(apiUrl.value, (api) => {
+  const instanceDeposit = getInstanceDeposit(api)
+  const metadataDeposit = getMetadataDeposit(api)
+
+  deposit.value = Number(instanceDeposit + metadataDeposit)
+  console.log(instanceDeposit, metadataDeposit)
+  console.log('deposit: ', deposit.value)
+})
+
+onMounted(() => {
+  calculateNetworkFee()
+})
 </script>
 
 <style lang="scss" scoped>
