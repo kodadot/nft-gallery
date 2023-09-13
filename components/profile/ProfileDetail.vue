@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NeoModal v-model="isModalActive" @close="isModalActive = false">
+    <NeoModal :value="isModalActive" @close="isModalActive = false">
       <div class="card">
         <header class="card-header">
           <p class="card-header-title">{{ $t('sharing.profile') }}</p>

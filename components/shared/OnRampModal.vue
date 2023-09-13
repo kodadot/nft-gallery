@@ -1,5 +1,5 @@
 <template>
-  <NeoModal v-model="isModalActive" scroll="clip" @close="onClose">
+  <NeoModal :value="isModalActive" scroll="clip" @close="onClose">
     <div class="modal-width">
       <div
         class="border-bottom border-grey is-flex is-align-items-center is-justify-content-space-between px-6">

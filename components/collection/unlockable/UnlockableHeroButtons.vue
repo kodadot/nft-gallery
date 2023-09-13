@@ -34,7 +34,7 @@
         </NeoDropdown>
       </div>
     </div>
-    <NeoModal v-model="QRModalActive" @close="QRModalActive = false">
+    <NeoModal :value="QRModalActive" @close="QRModalActive = false">
       <div class="card">
         <div class="card-content">
           <QRCode :text="currentUrl" color="#db2980" bg-color="#000" />
