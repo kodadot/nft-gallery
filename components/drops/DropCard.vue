@@ -3,7 +3,6 @@
     <component
       :is="externalUrl ? 'a' : NuxtLink"
       v-if="drop.collection && !isLoadingMeta"
-      v-safe-href="externalUrl"
       rel="nofollow noopener noreferrer"
       :to="`/${correctUrlPrefix}/drops/${correctDropUrl}`">
       <div
@@ -90,7 +89,7 @@ interface Props {
 
 const props = defineProps<Props>()
 const image = ref('')
-const externalUrl = ref('')
+const externalUrl = ref()
 
 const correctUrlPrefix = computed(() => {
   return props.overrideUrlPrefix || urlPrefix.value
