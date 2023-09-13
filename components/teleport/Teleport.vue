@@ -53,7 +53,7 @@
       </div>
 
       <div class="mb-5">
-        {{ $i18n.t('teleport.receiveValue', [amount || 0, toChain]) }}
+        {{ $i18n.t('teleport.receiveValue', [amount || 0, toChainLabel]) }}
         <a
           v-safe-href="explorerUrl"
           target="_blank"
@@ -178,6 +178,10 @@ const toTabs = [
     disabled: computed(() => isDisabled(Chain.STATEMINE)),
   },
 ]
+
+const toChainLabel = computed(() =>
+  getChainName(chainToPrefixMap[toChain.value])
+)
 
 const ksmTokenDecimals = computed(() => assets(5).decimals)
 
