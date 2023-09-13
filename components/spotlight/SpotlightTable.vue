@@ -203,7 +203,6 @@ import Money from '@/components/shared/format/Money.vue'
 import SpotlightDetail from './SpotlightDetail.vue'
 import Loader from '@/components/shared/Loader.vue'
 
-const { $apollo } = useNuxtApp()
 const { client, urlPrefix } = usePrefix()
 const route = useRoute()
 
@@ -243,11 +242,8 @@ const fetchSpotlightData = async (sort: string = toSort(sortBy.value)) => {
     orderBy: sort || 'sold_DESC',
   }
 
-  const { result: collections } = useQuery(spotlightList, queryVars)
-
-  const {
-    data: { collectionEntities },
-  } = collections
+  const { data: collections } = await useAsyncQuery(spotlightList, queryVars)
+  const { collectionEntities } = collections.value
 
   spotlight.value = collectionEntities.map(
     (e): Row => ({
@@ -300,18 +296,17 @@ const updateSoldHistory = async () => {
 }
 
 const fetchSpotlightSoldHistory = async () => {
-  const data = await $apollo.query({
+  const { data: result } = await useAsyncQuery({
     query: spotlightSoldHistory,
-    client: client.value,
+    clientId: client.value,
     variables: {
       ids: ids.value,
       lte: today,
       gte: lastmonthDate,
     },
   })
-  const {
-    data: { nftEntities },
-  } = data
+
+  const { nftEntities } = result.value
   return nftEntities
 }
 

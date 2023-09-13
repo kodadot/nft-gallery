@@ -78,7 +78,7 @@ const props = defineProps({
   id: { type: String, default: '' },
 })
 
-const { $apollo, $consola } = useNuxtApp()
+const { $consola } = useNuxtApp()
 const { client } = usePrefix()
 
 const profileStats = ref({

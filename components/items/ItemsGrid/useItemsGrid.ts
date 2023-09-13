@@ -19,7 +19,6 @@ export function useFetchSearch({
   isLoading: Ref<boolean>
   resetSearch: () => void
 }) {
-  const { $apollo } = useNuxtApp()
   const { client, urlPrefix } = usePrefix()
   const route = useRoute()
 

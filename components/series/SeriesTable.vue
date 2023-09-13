@@ -331,7 +331,7 @@ const Loader = defineAsyncComponent(
 
 const route = useRoute()
 const router = useRouter()
-const { $apollo, $consola } = useNuxtApp()
+const { $consola } = useNuxtApp()
 const { client, urlPrefix } = usePrefix()
 const nbRows = ref('50')
 const nbDays = ref('7')

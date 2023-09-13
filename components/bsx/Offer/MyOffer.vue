@@ -102,7 +102,7 @@ import { Offer, OfferResponse } from './types'
 
 const { howAboutToExecute, initTransactionLoader, isLoading, status } =
   useMetaTransaction()
-const { $apollo, $consola, $i18n } = useNuxtApp()
+const { $consola, $i18n } = useNuxtApp()
 const { urlPrefix, client } = usePrefix()
 const { accountId, isLogIn } = useAuth()
 const { chainSymbol } = useChain()
@@ -142,10 +142,12 @@ const { refresh } = useLazyAsyncData('offers', async () => {
   }
 
   try {
-    const { data } = await useAsyncQuery(acceptableOfferByCurrentOwner, {
-      id: targetAddress.value,
+    const { data } = await useAsyncQuery({
+      query: acceptableOfferByCurrentOwner,
+      variables: { id: targetAddress.value },
+      clientId: client.value,
     })
-    offers.value = data.offers
+    offers.value = data.value.offers
   } catch (e) {
     $consola.error(e)
   }
