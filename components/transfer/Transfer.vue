@@ -30,10 +30,20 @@
           </template>
 
           <NeoDropdownItem
-            v-clipboard:copy="generatePaymentLink(accountId)"
+            v-if="accountId"
+            v-clipboard:copy="generatePaymentLink([accountId])"
             @click="toast(`${$i18n.t('toast.urlCopy')}`)">
             <NeoIcon icon="sack-dollar" pack="fa" class="mr-2" />{{
               $t('transfers.payMeLink')
+            }}
+          </NeoDropdownItem>
+
+          <NeoDropdownItem
+            v-clipboard:copy="generateRecurringPaymentLink()"
+            class="no-wrap"
+            @click="toast(`${$i18n.t('toast.urlCopy')}`)">
+            <NeoIcon icon="rotate" pack="fas" class="mr-2" />{{
+              $t('transfers.recurringPaymentLink')
             }}
           </NeoDropdownItem>
         </NeoDropdown>
@@ -735,9 +745,23 @@ const onTxError = async (dispatchError: DispatchError): Promise<void> => {
   isLoading.value = false
 }
 
-const generatePaymentLink = (address): string => {
-  const addressQueryString = `target=${address}`
-  return `${window.location.origin}/${urlPrefix.value}/transfer?${addressQueryString}&usdamount=${totalUsdValue.value}&donation=true`
+const generateRecurringPaymentLink = () => {
+  const addressList = targetAddresses.value
+    .filter((item) => isAddress(item.address) && !item.isInvalid)
+    .map((item) => item.address)
+
+  return generatePaymentLink(addressList)
+}
+
+const generatePaymentLink = (addressList: string[]): string => {
+  const url = new URL(`${location.origin}${location.pathname}`)
+
+  url.searchParams.set('usdamount', String(targetAddresses.value[0]?.usd || 0))
+
+  addressList.forEach((addr, i) => {
+    url.searchParams.append(`target${i == 0 ? '' : i}`, addr)
+  })
+  return url.toString()
 }
 
 const addAddress = () => {
