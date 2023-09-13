@@ -108,7 +108,7 @@
             target="_blank"
             class="navbar-item"
             data-testid="learn">
-            {{ $t('learn') }}
+            Learn
           </a>
           <CreateDropdown
             v-show="isCreateVisible"

@@ -4,9 +4,10 @@ import {
   useResizeObserver,
   useScroll,
 } from '@vueuse/core'
-
-export const INFINITE_SCROLL_CONTAINER_ID = 'infinite-scroll-container'
-export const INFINITE_SCROLL_ITEM_CLASS_NAME = 'infinite-scroll-item'
+import {
+  INFINITE_SCROLL_CONTAINER_ID,
+  INFINITE_SCROLL_ITEM_CLASS_NAME,
+} from '@/utils/constants'
 
 type LoadDirection = 'up' | 'down'
 
