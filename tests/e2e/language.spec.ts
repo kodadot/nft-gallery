@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test'
 
 test('Check Language translations', async ({ page }) => {
   await page.goto('/e2e-login')
-  await page.waitForTimeout(5000)
+  await page.waitForTimeout(10000)
   await expect(page.getByTestId('mockAddress')).toHaveText('true')
   await page.goto('/')
   //DE
