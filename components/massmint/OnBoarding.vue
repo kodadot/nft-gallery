@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="is-flex is-align-items-center mb-8 px-8">
+    <div class="is-flex is-align-items-center mb-7 px-8">
       <div
-        class="is-size-1-desktop is-size-2-tablet is-size-3-mobile is-flex is-flex-grow-1 is-justify-content-center has-text-weight-bold">
+        class="is-size-2-desktop is-size-2-tablet is-size-3-mobile is-flex is-flex-grow-1 is-justify-content-center has-text-weight-bold">
         {{ $t('massmint.onboarding.pageTitle') }}
       </div>
       <NeoButton
@@ -11,7 +11,7 @@
         icon-pack="fas"
         @click.native="toMassMint" />
     </div>
-    <div class="is-relative mb-8">
+    <div class="is-relative mb-6">
       <div
         ref="carouselRef"
         class="carousel is-flex is-flex-wrap-nowrap"
