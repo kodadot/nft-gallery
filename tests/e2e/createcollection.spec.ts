@@ -26,19 +26,18 @@ test('Collection Creation', async ({ page }) => {
     ).toHaveCount(1)
     // defines a variable containing the collection name data-testid
     const collectionName = page.getByTestId('collection-name')
-    // Fill and check if Collection Name works properly
+    // Fill and check if Collection Name works properly by cheking warning
     await collectionName.locator('input').fill('Kodadot Automatic Collection')
     await collectionName.locator('input').fill('')
+    await page.getByTestId('collection-desc').click()
+    await expect(collectionName.locator('.o-icon')).toBeVisible()
+    await expect(collectionName.locator('.o-field__message')).toBeVisible()
     // Fill collection Description
     await page
       .getByTestId('collection-desc')
       .fill('Best Collection Ever Created')
-    // Collection name warning
-    await page.getByTestId('collection-desc').click()
-    await expect(collectionName.locator('.o-icon')).toBeVisible()
-    await expect(collectionName.locator('.o-field__message')).toBeVisible()
-    const collectionAmount = page.getByTestId('collection-maxAmount')
     //active unlimited items switch
+    const collectionAmount = page.getByTestId('collection-maxAmount')
     await collectionAmount.locator('.o-switch').click()
     await expect(collectionName.locator('.o-input')).toBeVisible()
     await collectionAmount.locator('.o-switch').click()
