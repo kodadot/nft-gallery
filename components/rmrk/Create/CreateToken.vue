@@ -112,7 +112,7 @@ import type {
   MintedCollectionKusama,
   TokenToList,
 } from '@/composables/transaction/types'
-import MintConfirmModal from '~~/components/create/MintConfirmModal.vue'
+import MintConfirmModal from '@/components/create/MintConfirmModal.vue'
 
 const { isLoading, status } = useMetaTransaction()
 const { $i18n, $apollo } = useNuxtApp()

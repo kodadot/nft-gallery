@@ -70,6 +70,7 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoModal } from '@kodadot1/brick'
+import type { Option } from '@kodadot1/static'
 import IdentityItem from '@/components/identity/IdentityItem.vue'
 import ConfirmMintItem from './ConfirmMintItem.vue'
 import PriceItem from './PriceItem.vue'
@@ -79,11 +80,9 @@ import { Royalty } from '@/utils/royalty'
 import OnRampModal from '@/components/shared/OnRampModal.vue'
 import { CreateComponent } from '@/composables/useCreate'
 import { getTransitionFee } from '@/utils/transactionExecutor'
-import {
-  getInstanceDeposit,
-  getMetadataDeposit,
-} from '@/components/unique/apiConstants'
-import { onApiConnect } from '@kodadot1/sub-api'
+import { useFiatStore } from '@/stores/fiat'
+import { usePreferencesStore } from '@/stores/preferences'
+import { calculateBalanceUsdValue } from '@/utils/format/balance'
 
 export type NftInformation = {
   file: Blob
@@ -94,14 +93,20 @@ export type NftInformation = {
   urlPrefix: string
   hasRoyalty: boolean
   royalty: Royalty
+  mintType: CreateComponent
 }
 
 export type ExtendedInformation = NftInformation & {
   chainSymbol: string
-  type: CreateComponent
+  blockchain: Option
   networkFee: number
   existentialDeposit?: number
-  deposit: number
+  kodadotFee: number
+  kodadotUSDFee: number
+  carbonlessFee: number
+  carbonlessUSDFee: number
+  totalFee: number
+  totalUSDFee: number
 }
 
 const props = withDefaults(
@@ -115,35 +120,75 @@ const props = withDefaults(
 )
 
 const { isLogIn, accountId } = useAuth()
-const { urlPrefix, tokenId } = usePrefix()
+const { urlPrefix } = usePrefix()
 const route = useRoute()
 const { $i18n } = useNuxtApp()
 const { balance } = useBalance()
 const { chainSymbol, decimals } = useChain()
-const { apiUrl } = useApi()
+const fiatStore = useFiatStore()
+const preferencesStore = usePreferencesStore()
+
+const {
+  totalCollectionDeposit,
+  collectionDeposit,
+  metadataDeposit,
+  existentialDeposit,
+} = useDeposit(urlPrefix)
 
 const emit = defineEmits(['confirm', 'input'])
 
 const rampActive = ref(false)
+
 const networkFee = ref(0)
-const deposit = ref(0)
+const tokenPrice = computed(() =>
+  Number(fiatStore.getCurrentTokenValue(chainSymbol.value) ?? 0)
+)
+const kodadotFee = computed(
+  () =>
+    ((preferencesStore.hasSupport ? 1 : 0) / tokenPrice.value) *
+    Math.pow(10, decimals.value)
+)
+const carbonlessFee = computed(
+  () =>
+    ((preferencesStore.hasCarbonOffset ? 1 : 0) / tokenPrice.value) *
+    Math.pow(10, decimals.value)
+)
 
 const extendedInformation = computed(() => ({
   ...props.nftInformation,
   chainSymbol: chainSymbol.value,
   type: route.query.tab,
   networkFee: networkFee.value,
-  existentialDeposit: deposit.value,
+  existentialDeposit: totalCollectionDeposit.value,
+  kodadotFee: kodadotFee.value,
+  kodadotUSDFee: 0.5,
+  carbonlessFee: carbonlessFee.value,
+  carbonlessUSDFee: 1,
+  totalFee: totalFee.value,
+  totalUSDFee: totalUSDFee.value,
+  blockchain: blockchain.value,
 }))
-const totalNFTsPrice = computed(() => 0)
-const totalRoyalties = computed(() => 0)
-const balanceIsEnough = computed(
-  () => totalNFTsPrice.value + totalRoyalties.value < balance.value
+
+const totalFee = computed(() => {
+  return (
+    collectionDeposit.value +
+    metadataDeposit.value +
+    existentialDeposit.value +
+    carbonlessFee.value +
+    kodadotFee.value +
+    networkFee.value
+  )
+})
+
+const totalUSDFee = computed(() =>
+  calculateBalanceUsdValue(totalFee.value * tokenPrice.value, decimals.value)
 )
-const blockchain = computed(
-  () =>
-    availablePrefixes().filter((e) => e.value === urlPrefix.value)[0].text || ''
+
+const balanceIsEnough = computed(() => totalFee.value < balance.value)
+const blockchain = computed(() =>
+  availablePrefixes().find((prefix) => prefix.value === urlPrefix.value)
 )
+
 const btnLabel = computed(() => {
   if (!isLogIn.value) {
     return $i18n.t('mint.nft.modal.login')
@@ -151,7 +196,7 @@ const btnLabel = computed(() => {
   if (!balanceIsEnough.value) {
     return $i18n.t('mint.nft.modal.notEnoughFund', [
       chainSymbol.value,
-      blockchain.value,
+      blockchain.value?.text,
     ])
   }
   return $i18n.t('mint.nft.modal.process')
@@ -182,15 +227,6 @@ const calculateNetworkFee = async () => {
     (Number(fee) / Math.pow(10, decimals.value)).toFixed(4)
   )
 }
-
-onApiConnect(apiUrl.value, (api) => {
-  const instanceDeposit = getInstanceDeposit(api)
-  const metadataDeposit = getMetadataDeposit(api)
-
-  deposit.value = Number(instanceDeposit + metadataDeposit)
-  console.log(instanceDeposit, metadataDeposit)
-  console.log('deposit: ', deposit.value)
-})
 
 onMounted(() => {
   calculateNetworkFee()

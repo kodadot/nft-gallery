@@ -26,7 +26,7 @@
           <template v-else> Not Listed </template>
         </template>
         <template v-else>
-          {{ blockchain }}
+          {{ blockchain.text }}
         </template>
       </div>
     </div>
@@ -41,7 +41,6 @@
 <script setup lang="ts">
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 import { ExtendedInformation } from './MintConfirmModal.vue'
-import { availablePrefixes } from '@/utils/chain'
 import { NeoIcon } from '@kodadot1/brick'
 import { CreateComponent } from '@/composables/useCreate'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
@@ -51,12 +50,15 @@ const { $i18n } = useNuxtApp()
 const props = defineProps<{ nft: ExtendedInformation }>()
 const avatar = ref<string>()
 
-const isNFT = computed(() => props.nft.type === CreateComponent.NFT)
+const isNFT = computed(() => props.nft.mintType === CreateComponent.NFT)
 const label = computed(() =>
-  isNFT ? $i18n.t('mint.nft.modal.price') : $i18n.t('mint.nft.modal.network')
+  isNFT.value
+    ? $i18n.t('mint.nft.modal.price')
+    : $i18n.t('mint.nft.modal.network')
 )
 const price = computed(() => props.nft.price)
 const showPrice = computed(() => props.nft.listForSale)
+const blockchain = computed(() => props.nft.blockchain)
 watch(
   () => props.nft.file,
   () => {
@@ -68,11 +70,6 @@ watch(
   {
     immediate: true,
   }
-)
-
-const blockchain = computed(
-  () =>
-    availablePrefixes().filter((e) => e.value === props.nft.urlPrefix)[0]?.text
 )
 </script>
 

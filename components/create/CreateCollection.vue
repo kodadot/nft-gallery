@@ -1,6 +1,9 @@
 <template>
   <div class="is-centered" :class="{ columns: classColumn }">
-    <MintConfirmModal v-model="modalShowStatus" @confirm="createCollection" />
+    <MintConfirmModal
+      v-model="modalShowStatus"
+      :nft-information="collectionInformation"
+      @confirm="createCollection" />
     <Loader v-model="isLoading" :status="status" />
     <form
       class="is-half"
@@ -116,12 +119,12 @@
       <NeoField>
         <div>
           <NeoButton
+            class="is-size-6"
             expanded
-            :label="`${canDeposit ? 'Create Collection' : 'Not Enough Funds'}`"
+            :label="$t('mint.collection.submit')"
             type="submit"
             size="medium"
-            :loading="isLoading"
-            :disabled="!canDeposit" />
+            :loading="isLoading" />
 
           <div class="p-4 is-flex">
             <NeoIcon icon="circle-info" size="medium" class="mr-4" />
@@ -170,6 +173,7 @@ import { Interaction } from '@kodadot1/minimark/v1'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { makeSymbol } from '@kodadot1/minimark/shared'
 import MintConfirmModal from './MintConfirmModal.vue'
+import { useFiatStore } from '@/stores/fiat'
 
 // props
 withDefaults(
@@ -206,14 +210,36 @@ const currentChain = computed(() => {
   return selectBlockchain.value as Prefix
 })
 
+const { decimals } = useChain()
 const { isAssetHub, isBasilisk, isRemark } = useIsChain(currentChain)
 const { balance, totalCollectionDeposit, chainSymbol } =
   useDeposit(currentChain)
+const fiatStore = useFiatStore()
 
 // balance state
 const canDeposit = computed(() => {
   return parseFloat(balance.value) >= parseFloat(totalCollectionDeposit.value)
 })
+
+const collectionInformation = computed(() => ({
+  file: logo.value,
+  name: name.value,
+  chainSymbol: chainSymbol.value,
+  mintType: CreateComponent.Collection,
+  existentialDeposit: depositFee.value,
+  totalFee: depositFee.value,
+  totalUSDFee: totalUSDFee.value,
+}))
+
+const depositFee = computed(
+  () => Number(totalCollectionDeposit.value) * Math.pow(10, decimals.value)
+)
+
+const tokenPrice = computed(() =>
+  Number(fiatStore.getCurrentTokenValue(chainSymbol.value) ?? 0)
+)
+
+const totalUSDFee = computed(() => depositFee.value * tokenPrice.value)
 
 watchEffect(() => setUrlPrefix(currentChain.value as Prefix))
 

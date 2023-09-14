@@ -485,6 +485,7 @@
       },
       "create": "Create New Collection",
       "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)",
+      "submit": "Create Collection",
       "confirm": {
         "action": "",
         "notEnoughFund":"Not Enough {0} in {1}"
@@ -531,7 +532,9 @@
         "intoCollection": "Into Collection",
         "networkFee": "Network Fee",
         "existentialDeposit": "Existential Deposit",
+        "depositTooltip": "A deposit of {0} {1} is required to create a collection. Please note, this initial deposit is refundable. ",
         "kodadotFee": "KodaDot Fee",
+        "kodadotTooltip": "By keeping this option active, you're contributing to initial costs borne by Kodadot for storing your JPEGs on your behalf. You may change this preference anytime in the settings. ",
         "carbonless": "Carbonless",
         "totalFee": "Fees Total"
       }

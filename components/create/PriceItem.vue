@@ -17,7 +17,7 @@
         v-if="networkFee"
         class="is-flex mb-2 is-align-items-center is-justify-content-space-between">
         <div>{{ $t('mint.nft.modal.networkFee') }}</div>
-        <div>{{ networkFee }} {{ nft.chainSymbol }}</div>
+        <div>{{ networkFee }} {{ chainSymbol }}</div>
       </div>
       <div
         v-if="existentialDeposit"
@@ -27,30 +27,35 @@
           <NeoTooltip
             position="top"
             multiline-width="14rem"
-            label="A deposit of 0.1 KSM is required to create a collection. Please note, this initial deposit is refundable. "
+            :label="
+              $t('mint.nft.modal.depositTooltip', [
+                existentialDeposit,
+                chainSymbol,
+              ])
+            "
             multiline>
             <NeoIcon icon="circle-question" />
           </NeoTooltip>
         </div>
-        <div>{{ existentialDeposit }} {{ nft.chainSymbol }}</div>
+        <div>{{ existentialDeposit }} {{ chainSymbol }}</div>
       </div>
       <div
-        v-if="nft.hasRoyalty"
+        v-if="kodadotFee"
         class="is-flex mb-2 k-grey is-align-items-center is-justify-content-space-between">
         <div>
           {{ $t('mint.nft.modal.kodadotFee') }}
           <NeoTooltip
             position="top"
             multiline-width="14rem"
-            label="By keeping this option active, you're contributing to initial costs borne by Kodadot for storing your JPEGs on your behalf. You may change this preference anytime in the settings. "
+            :label="$t('mint.nft.modal.kodadotTooltip')"
             multiline>
             <NeoIcon icon="circle-question" />
           </NeoTooltip>
         </div>
-        <div>0.1% {{ nft.chainSymbol }}</div>
+        <Money :value="kodadotFee" inline />
       </div>
       <div
-        v-if="hasCarbonOffset"
+        v-if="carbonlessFee"
         class="is-flex mb-2 is-align-items-center is-justify-content-space-between">
         <div class="is-flex k-green is-align-items-center">
           {{ $t('mint.nft.modal.carbonless') }}
@@ -66,15 +71,18 @@
               fill="#04AF00" />
           </svg>
         </div>
-        <div class="k-grey">1 USD ~ 0.1 {{ nft.chainSymbol }}</div>
+        <div class="k-grey">
+          {{ nft.carbonlessUSDFee }} USD ~
+          <Money :value="carbonlessFee" inline />
+        </div>
       </div>
     </div>
     <div
       class="mt-4 pt-4 pb-5 border-top card-border-color is-flex is-justify-content-space-between">
       <div class="">{{ $t('mint.nft.modal.totalFee') }}:</div>
       <div class="is-flex is-align-items-end">
-        <div class="k-grey is-size-7 mr-2">$0.98</div>
-        <div>59 {{ nft.chainSymbol }}</div>
+        <div class="k-grey is-size-7 mr-2">$ {{ nft.totalUSDFee }}</div>
+        <Money :value="nft.totalFee" inline />
       </div>
     </div>
   </div>
@@ -82,9 +90,7 @@
 <script lang="ts" setup>
 import { ExtendedInformation } from './MintConfirmModal.vue'
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
-import { usePreferencesStore } from '@/stores/preferences'
-
-const preferencesStore = usePreferencesStore()
+import Money from '@/components/shared/format/Money.vue'
 
 const props = defineProps<{ nft: ExtendedInformation }>()
 
@@ -92,16 +98,17 @@ const rotate = ref(false)
 
 const existentialDeposit = computed(() => props.nft.existentialDeposit)
 const networkFee = computed(() => props.nft.networkFee)
-const hasSupport = computed(() => preferencesStore.hasSupport)
-const hasCarbonOffset = computed(() => preferencesStore.hasCarbonOffset)
+const kodadotFee = computed(() => props.nft.kodadotFee)
+const carbonlessFee = computed(() => props.nft.carbonlessFee)
+const chainSymbol = computed(() => props.nft.chainSymbol)
 
 const hasMultipleFees = computed(
   () =>
     [
-      hasCarbonOffset.value,
-      hasSupport.value,
-      existentialDeposit.value,
       networkFee.value,
+      existentialDeposit.value,
+      kodadotFee.value,
+      carbonlessFee.value,
     ].filter((e) => !!e).length > 0
 )
 
