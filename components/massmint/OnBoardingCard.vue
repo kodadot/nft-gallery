@@ -26,16 +26,9 @@ defineProps<{
 <style scoped lang="scss">
 @import '@/styles/abstracts/variables';
 
-$card-width-percents: 54%;
-$max-card-width: 760px;
-$min-card-width: 225px;
-$card-height: 464px;
-
-$card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
-
 .carousel-card {
-  flex: 0 0 #{$card-width};
-  min-height: $card-height;
+  flex: 0 0 var(--card-width);
+  min-height: var(--card-height);
 
   &.mobile-padding {
     @include mobile {

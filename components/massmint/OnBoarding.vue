@@ -159,35 +159,44 @@ $gap-percents: 5.5%;
 
 $max-card-width: 760px;
 $min-card-width: 225px;
-$card-height: 464px;
 $max-gap: 80px;
 
 $gap: min($gap-percents, $max-gap);
 $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
 
-$base-shift: calc((100% - $card-width) / 2);
-
 .carousel {
   transition: transform 0.5s ease-in-out;
-  gap: #{$gap};
+  --card-gap: #{$gap};
+  --card-width: #{$card-width};
+  --card-height: 464px;
+  --base-shift: calc((100% - var(--card-width)) / 2);
+  gap: var(--card-gap);
+  @include mobile {
+    --card-width: 90vw;
+    --card-gap: 2.5%;
+  }
 
   &.slide-0 {
-    transform: translateX($base-shift);
+    transform: translateX(var(--base-shift));
   }
 
   &.slide-1 {
-    transform: translateX(calc($base-shift + (-1 * ($card-width + $gap))));
+    transform: translateX(
+      calc(var(--base-shift) + (-1 * (var(--card-width) + var(--card-gap))))
+    );
   }
 
   &.slide-2 {
-    transform: translateX(calc($base-shift + (-2 * ($card-width + $gap))));
+    transform: translateX(
+      calc(var(--base-shift) + (-2 * (var(--card-width) + var(--card-gap))))
+    );
   }
 }
 
 :deep .white-space-break-spaces-mobile {
   pre {
     @include touch {
-      width: 50vw;
+      width: 100%;
       white-space: break-spaces;
     }
   }
