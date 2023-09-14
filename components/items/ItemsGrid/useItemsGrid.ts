@@ -25,7 +25,6 @@ export function useFetchSearch({
 }) {
   const { $apollo } = useNuxtApp()
   const { client, urlPrefix } = usePrefix()
-  const { isAssetHub } = useIsChain(urlPrefix)
   const route = useRoute()
 
   const nfts = ref<ItemsGridEntity[]>([])
@@ -72,7 +71,7 @@ export function useFetchSearch({
 
     const queryPathBase = getQueryPath(client.value)
     const usingTokenEntities = computed(
-      () => isExploreItems.value && isAssetHub.value
+      () => isExploreItems.value && queryPathBase === 'ahk'
     )
 
     const queryPath = usingTokenEntities.value ? 'chain-ahk' : queryPathBase
