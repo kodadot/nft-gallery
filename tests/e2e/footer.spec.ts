@@ -53,16 +53,18 @@ const footerLinks = [
   //},
 ]
 
-test('Check Footer links and Subscription', async ({ page }) => {
+test('Check Footer Subscription', async ({ page }) => {
   await page.goto('/')
-  const footer = page.getByTestId('entire-footer')
-  //checks subscribe functionality
   const footerSubscribe = page.getByTestId('footer-subscribe')
   await page.getByPlaceholder('jane.doe@kodadot.xyz').fill('a')
   await footerSubscribe.locator('button').click()
   await expect(footerSubscribe.locator('.error')).toBeVisible()
-  //check footer links
+})
+
+test('Check Footer links', async ({ page }) => {
+  await page.goto('/')
   for (const data of footerLinks) {
+    const footer = page.getByTestId('footer-container')
     const newTabPromise = page.waitForEvent('popup')
     await footer.getByRole('link', { name: footerLinks[i].linkName }).click()
     const newTab = await newTabPromise
