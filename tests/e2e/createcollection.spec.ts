@@ -63,7 +63,5 @@ test('Show warning message on field when collection name empty', async ({
   await collectionName.locator('input').fill('Kodadot Warning Test')
   await collectionName.locator('input').fill('')
   await page.getByTestId('collection-desc').click()
-  await expect(collectionName.locator('.o-icon')).toBeVisible()
-  await expect(collectionName.locator('.o-input')).toBeVisible()
-  await expect(collectionName.locator('.o-field__message')).toBeVisible()
+  await expect(collectionName.locator('.o-field__message-danger')).toBeVisible()
 })
