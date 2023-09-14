@@ -22,28 +22,26 @@
         <div class="px-6 pt-4 pb-5">
           <ModalIdentityItem />
 
-          <div class="mt-4 is-flex is-justify-content-space-between">
-            <div class="is-flex">
-              <div>
-                <BasicImage
-                  :src="avatar"
-                  :alt="nft?.name"
-                  class="border image is-48x48" />
-              </div>
+          <div class="mt-4 is-flex">
+            <div>
+              <BasicImage
+                :src="avatar"
+                :alt="nft?.name"
+                class="border image is-48x48" />
+            </div>
 
+            <div
+              class="is-flex is-flex-direction-column is-justify-content-space-between ml-4 limit-width w-full is-clipped">
               <div
-                class="is-flex is-flex-direction-column is-justify-content-space-between ml-4 limit-width">
-                <div
-                  class="has-text-weight-bold has-text-color line-height-1 no-wrap is-clipped is-ellipsis">
-                  {{ nft.name }}
-                </div>
-                <div class="line-height-1 no-wrap is-clipped is-ellipsis">
-                  {{ nft.collection?.name || nft.collection.id }}
-                </div>
+                class="has-text-weight-bold has-text-color line-height-1 no-wrap is-ellipsis">
+                {{ nft.name }}
+              </div>
+              <div class="line-height-1 no-wrap is-ellipsis">
+                {{ nft.collection?.name || nft.collection.id }}
               </div>
             </div>
 
-            <div class="is-flex is-align-items-end">
+            <div class="ml-4 is-flex is-align-items-end no-wrap">
               {{ nftPrice }}
             </div>
           </div>
@@ -200,6 +198,6 @@ onMounted(() => {
 }
 
 .limit-width {
-  max-width: 170px;
+  max-width: 100%;
 }
 </style>
