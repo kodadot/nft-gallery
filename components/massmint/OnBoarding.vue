@@ -11,7 +11,7 @@
         icon-pack="fas"
         @click.native="toMassMint" />
     </div>
-    <div class="is-relative">
+    <div class="is-relative mb-8">
       <div
         ref="carouselRef"
         class="carousel is-flex is-flex-wrap-nowrap"
@@ -68,13 +68,6 @@
       </Transition>
     </div>
 
-    <div class="is-flex is-justify-content-center my-8">
-      <span
-        v-for="index in numOfCards"
-        :key="index"
-        class="carousel-dot mx-2"
-        :class="{ 'is-active': index === currentSlide + 1 }" />
-    </div>
     <div class="is-flex is-justify-content-center">
       <NeoButton
         :label="btn.label"
@@ -252,10 +245,10 @@ $base-shift: calc((100% - $card-width) / 2);
 
 .arrow {
   &-left {
-    left: 30px;
+    left: calc((100% - $card-width) / 2 - 32px);
   }
   &-right {
-    right: 30px;
+    right: calc((100% - $card-width) / 2 - 32px);
   }
 }
 
