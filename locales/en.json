@@ -94,10 +94,12 @@
   "transfers": {
     "recipient": "Recipient",
     "sender": "Sender",
+    "tooltip": "You are sending <strong>{0}</strong> on <strong>{1}</strong>",
     "sendSameAmount": "Send same amount",
     "displayUnit": "Displayed units",
     "addAddress": "Add recipient",
     "payMeLink": "Pay me link",
+    "recurringPaymentLink": "Recurring payment link",
     "setSameAmount": "Set one amount that will be sent to all recipients",
     "sendTo": "Sending to",
     "recipients": "recipients",
