@@ -227,8 +227,6 @@ const collectionInformation = computed(() => ({
   chainSymbol: chainSymbol.value,
   mintType: CreateComponent.Collection,
   existentialDeposit: depositFee.value,
-  totalFee: depositFee.value,
-  totalUSDFee: totalUSDFee.value,
 }))
 
 const depositFee = computed(

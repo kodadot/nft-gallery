@@ -94,10 +94,10 @@ export type NftInformation = {
   hasRoyalty: boolean
   royalty: Royalty
   mintType: CreateComponent
+  chainSymbol: string
 }
 
 export type ExtendedInformation = NftInformation & {
-  chainSymbol: string
   blockchain: Option
   networkFee: number
   existentialDeposit?: number
@@ -124,7 +124,7 @@ const { urlPrefix } = usePrefix()
 const route = useRoute()
 const { $i18n } = useNuxtApp()
 const { balance } = useBalance()
-const { chainSymbol, decimals } = useChain()
+const { decimals } = useChain()
 const fiatStore = useFiatStore()
 const preferencesStore = usePreferencesStore()
 
@@ -140,12 +140,14 @@ const emit = defineEmits(['confirm', 'input'])
 const rampActive = ref(false)
 
 const networkFee = ref(0)
+
+const chainSymbol = computed(() => props.nftInformation.chainSymbol)
 const tokenPrice = computed(() =>
   Number(fiatStore.getCurrentTokenValue(chainSymbol.value) ?? 0)
 )
 const kodadotFee = computed(
   () =>
-    ((preferencesStore.hasSupport ? 1 : 0) / tokenPrice.value) *
+    ((preferencesStore.hasSupport ? 0.5 : 0) / tokenPrice.value) *
     Math.pow(10, decimals.value)
 )
 const carbonlessFee = computed(
@@ -156,7 +158,6 @@ const carbonlessFee = computed(
 
 const extendedInformation = computed(() => ({
   ...props.nftInformation,
-  chainSymbol: chainSymbol.value,
   type: route.query.tab,
   networkFee: networkFee.value,
   existentialDeposit: totalCollectionDeposit.value,
