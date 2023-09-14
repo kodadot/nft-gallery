@@ -2,7 +2,7 @@
   <div class="is-flex">
     <div
       class="is-flex price-input border border-k-shade"
-      :class="{ 'full-width': fullWidth }">
+      :class="{ 'price-input__fullwidth': fullWidth }">
       <input
         v-model="model"
         type="text"
@@ -57,11 +57,11 @@ watch(model, (newValue) => {
   }
 }
 
-.full-width {
-  width: 100% !important;
+.price-input__fullwidth {
+  width: 100%;
 
   input {
-    width: 100% !important;
+    width: 100%;
   }
 }
 
