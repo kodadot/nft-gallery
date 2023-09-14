@@ -4,7 +4,11 @@ import isEqual from 'lodash/isEqual'
 import { useSearchParams } from './utils/useSearchParams'
 import { Ref } from 'vue'
 
-import type { NFTWithMetadata } from '@/composables/useNft'
+import type { NFTWithMetadata, Stack } from '@/composables/useNft'
+
+export type NFTStack = NFTWithMetadata & Stack
+
+export type ItemsGridEntity = NFTWithMetadata | NFTStack
 
 export function useFetchSearch({
   first,
@@ -23,7 +27,7 @@ export function useFetchSearch({
   const { client, urlPrefix } = usePrefix()
   const route = useRoute()
 
-  const nfts = ref<NFTWithMetadata[]>([])
+  const nfts = ref<ItemsGridEntity[]>([])
   const loadedPages = ref([] as number[])
 
   const { searchParams } = useSearchParams()
@@ -50,12 +54,12 @@ export function useFetchSearch({
           return 'chain-rmrk'
         case 'ksm':
           return 'chain-ksm'
-        case 'ahk':
-          return 'chain-ahk'
+
         default:
           return prefix
       }
     }
+    const isExploreItems = computed(() => route.name === 'prefix-explore-items')
 
     const variables = search?.length
       ? { search }
@@ -65,7 +69,13 @@ export function useFetchSearch({
           priceMax: Number(route.query.max),
         }
 
-    const queryPath = getQueryPath(client.value)
+    const queryPathBase = getQueryPath(client.value)
+    const usingTokenEntities = computed(
+      () => isExploreItems.value && queryPathBase === 'ahk'
+    )
+
+    const queryPath = usingTokenEntities.value ? 'chain-ahk' : queryPathBase
+
     const query = await resolveQueryPath(queryPath, 'nftListWithSearch')
     const result = await $apollo.query({
       query: query.default,
@@ -97,15 +107,15 @@ export function useFetchSearch({
         floorPrice: Math.min(
           ...token.nfts.map((nft: any) => Number(nft.price))
         ).toString(),
+        nfts: token.nfts,
       }
     }
 
     // handle results
-    const { isAssetHub } = useIsChain(urlPrefix)
-    const nftEntities = isAssetHub.value
+    const nftEntities = usingTokenEntities.value
       ? result.data.tokenEntities.map(handleToken)
       : result.data.nFTEntities
-    const nftEntitiesConnection = isAssetHub.value
+    const nftEntitiesConnection = usingTokenEntities.value
       ? result.data.tokenEntitiesConnection
       : result.data.nftEntitiesConnection
 
