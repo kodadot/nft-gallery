@@ -56,10 +56,16 @@ const variant = computed(() => {
     return 'danger'
   }
 
+  const isNotEmpty = !!inputValue.value
+  const isValidAddress = isAddress(inputValue.value)
+  const isSuccessWithAddressCheck =
+    props.withAddressCheck && (!props.isInvalid || isAddressCheckValid.value)
+  const isSuccesssWithoutAddressCheck =
+    !props.withAddressCheck && isValidAddress
+
   if (
-    (props.withAddressCheck &&
-      (!props.isInvalid || isAddressCheckValid.value)) ||
-    (isAddress(inputValue.value) && !!inputValue.value)
+    isNotEmpty &&
+    (isSuccessWithAddressCheck || isSuccesssWithoutAddressCheck)
   ) {
     return 'success'
   }
