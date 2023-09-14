@@ -71,7 +71,7 @@
     <div class="is-flex is-justify-content-center">
       <NeoButton
         :label="btn.label"
-        class="is-flex-grow-1 limit-width"
+        class="is-flex-grow-1 limit-width h-auto py-3"
         :variant="btn.variant"
         @click.native="btn.onClick" />
     </div>
@@ -239,8 +239,12 @@ $base-shift: calc((100% - $card-width) / 2);
 }
 
 .limit-width {
-  max-width: $card-width;
+  max-width: 290px;
   min-width: $min-card-width;
+}
+
+.h-auto {
+  height: auto;
 }
 
 .arrow {
