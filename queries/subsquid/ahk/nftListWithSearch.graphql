@@ -1,88 +1,69 @@
-query tokenListWithSearch($first: Int!, $offset: Int, $denyList: [String!], $search: [NFTEntityWhereInput!], $orderBy: [TokenEntityOrderByInput!]) {
+query tokenListWithSearch(
+  $first: Int!
+  $offset: Int
+  $denyList: [String!]
+  $search: [NFTEntityWhereInput!]
+  $orderBy: [TokenEntityOrderByInput!]
+) {
   tokenEntities: tokenEntities(
     orderBy: $orderBy
     limit: $first
     offset: $offset
     where: {
       nfts_some: {
-        burned_eq: false,
-        issuer_not_in: $denyList,
-        metadata_not_eq: "",
+        burned_eq: false
+        issuer_not_in: $denyList
+        metadata_not_eq: ""
         AND: $search
       }
     }
   ) {
-    ...token
+    id
+    blockNumber
+    hash
+    image
+    media
+    name
+    updatedAt
+    createdAt
+    count
     nfts {
-      ...nft
-      ...nftDetails
+      id
+      metadata
+      issuer
+      currentOwner
+      blockNumber
+      burned
+      name
+      sn
+      price
       royalty
       recipient
       collection {
         id
         name
         floor
-        __typename
       }
       meta {
-        ...baseMeta
-        __typename
+        id
+        image
+        animationUrl
+        name
+        description
       }
-      __typename
     }
-    __typename
   }
   tokenEntitiesConnection(
     where: {
       nfts_some: {
-        burned_eq: false,
-        issuer_not_in: $denyList,
-        metadata_not_eq: "",
+        burned_eq: false
+        issuer_not_in: $denyList
+        metadata_not_eq: ""
         AND: $search
       }
     }
     orderBy: blockNumber_DESC
   ) {
     totalCount
-    __typename
   }
-}
-
-fragment token on TokenEntity {
-  id
-  blockNumber
-  hash
-  image
-  media
-  name
-  updatedAt
-  createdAt
-  count
-  __typename
-}
-
-fragment nft on NFTEntity {
-  id
-  metadata
-  issuer
-  currentOwner
-  blockNumber
-  burned
-  __typename
-}
-
-fragment nftDetails on NFTEntity {
-  name
-  sn
-  price
-  __typename
-}
-
-fragment baseMeta on MetadataEntity {
-  id
-  image
-  animationUrl
-  name
-  description
-  __typename
 }
