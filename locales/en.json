@@ -55,7 +55,7 @@
   "referralProgram": "Referral Program",
   "theatre": "theatre",
   "view": "view",
-  "price": "price",
+  "price": "Price",
   "royalty": "royalty",
   "Instance_tooltip": "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
   "Minting Settings": "Minting Settings",
@@ -530,7 +530,7 @@
       },
       "sale": {
         "label": "List For Sale On Marketplace",
-        "message": "Choose a collection to which you want to mint your NFT."
+        "message": "People will be able to buy your NFT."
       },
       "copies": {
         "label": "Number of Copies",

@@ -67,7 +67,11 @@
       </NeoField>
 
       <!-- list for sale -->
-      <NeoField :label="$t('mint.nft.sale.label')" required>
+      <NeoField
+        :label="$t('mint.nft.sale.label')"
+        required
+        class="sale"
+        :class="{ 'sale-on': form.sale }">
         <div class="w-full">
           <p>{{ $t('mint.nft.sale.message') }}</p>
         </div>
