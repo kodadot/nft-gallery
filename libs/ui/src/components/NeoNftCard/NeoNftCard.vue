@@ -19,7 +19,7 @@
         <MediaItem
           :key="nft.image"
           class="nft-media"
-          :class="{ 'stacked-shadow is-relative ': isStacked }"
+          :class="{ 'stacked-shadow is-relative theme-background': isStacked }"
           :src="nft.image"
           :animation-src="nft.animationUrl"
           :mime-type="nft.mimeType"
