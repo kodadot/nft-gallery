@@ -57,15 +57,16 @@ const variant = computed(() => {
   }
 
   if (
-    props.withAddressCheck &&
-    (!props.isInvalid || isAddressCheckValid.value) &&
-    !!inputValue.value
+    (props.withAddressCheck &&
+      (!props.isInvalid || isAddressCheckValid.value)) ||
+    (isAddress(inputValue.value) && !!inputValue.value)
   ) {
     return 'success'
   }
 
   return ''
 })
+
 const iconRight = computed(() => {
   if (inputValue.value && props.icon === 'close-circle') {
     return 'close-circle'
