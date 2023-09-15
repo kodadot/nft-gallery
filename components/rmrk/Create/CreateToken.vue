@@ -64,11 +64,7 @@
               label="mint.expert.postfix" />
           </CollapseWrapper>
         </NeoField>
-        <NeoField
-          v-if="isLogIn"
-          key="submit"
-          variant="danger"
-          :message="balanceNotEnoughMessage">
+        <NeoField key="submit" variant="danger">
           <SubmitButton
             expanded
             label="mint.submit"
@@ -115,12 +111,13 @@ import type {
 import MintConfirmModal from '@/components/create/MintConfirmModal.vue'
 
 const { isLoading, status } = useMetaTransaction()
-const { $i18n, $apollo } = useNuxtApp()
-const { accountId, isLogIn, balance } = useAuth()
+const { $apollo } = useNuxtApp()
+const { accountId } = useAuth()
 const { client } = usePrefix()
 const { urlPrefix } = usePrefix()
 const { unit, decimals } = useChain()
 const router = useRouter()
+const { chain } = useDeposit(urlPrefix)
 
 const base = ref({
   name: '',
@@ -137,7 +134,6 @@ const price = ref(0 as string | number)
 const nsfw = ref(false)
 const listed = ref(true)
 const postfix = ref(true)
-const balanceNotEnough = ref(false)
 
 const hasRoyalty = ref(true)
 const royalty = ref({
@@ -165,17 +161,14 @@ const hasPrice = computed(() => {
   return Number(price.value)
 })
 
-const balanceNotEnoughMessage = computed(() => {
-  return balanceNotEnough.value ? $i18n.t('tooltip.notEnoughBalance') : ''
-})
-
 const nftInformation = computed(() => ({
   ...base.value,
   price: price.value.toString(),
   royalty: royalty.value,
   hasRoyalty: hasRoyalty.value,
-  urlPrefix: urlPrefix.value,
   listForSale: listed.value,
+  paidToken: chain.value,
+  mintType: CreateComponent.NFT,
 }))
 
 const updatePrice = (value: string) => {
@@ -231,15 +224,12 @@ const preCheck = () => {
     return false
   }
 
-  if (parseFloat(balance.value) === 0) {
-    balanceNotEnough.value = true
-    return false
-  }
   return true
 }
 
 const submit = async () => {
   isLoading.value = true
+  modalShowStatus.value = false
   status.value = 'loader.ipfs'
   const {
     transaction,

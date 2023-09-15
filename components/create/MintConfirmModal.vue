@@ -76,7 +76,6 @@ import ConfirmMintItem from './ConfirmMintItem.vue'
 import PriceItem from './PriceItem.vue'
 import { BaseMintedCollection } from '@/components/base/types'
 import { availablePrefixes } from '@/utils/chain'
-import { Royalty } from '@/utils/royalty'
 import OnRampModal from '@/components/shared/OnRampModal.vue'
 import { CreateComponent } from '@/composables/useCreate'
 import { getTransitionFee } from '@/utils/transactionExecutor'
@@ -87,13 +86,10 @@ import { BASE_FEE } from '@/utils/support'
 
 export type NftInformation = {
   file: Blob
-  selectedCollection: BaseMintedCollection
+  selectedCollection?: BaseMintedCollection
   name: string
-  listForSale: boolean
-  price: string
-  urlPrefix: string
-  hasRoyalty: boolean
-  royalty: Royalty
+  listForSale?: boolean
+  price?: string
   mintType: CreateComponent
   paidToken: ChainProperties
 }
