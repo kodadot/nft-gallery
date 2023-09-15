@@ -53,13 +53,13 @@ export const whichTeleportType = ({
 }): TeleprtType => {
   switch (from) {
     case Chain.KUSAMA:
-    case Chain.DOT:
+    case Chain.POLKADOT:
       return TeleprtType.RelayToPara
 
     case Chain.BASILISK:
     case Chain.STATEMINE:
     case Chain.STATEMINT:
-      return [Chain.KUSAMA, Chain.DOT].includes(to)
+      return [Chain.KUSAMA, Chain.POLKADOT].includes(to)
         ? TeleprtType.ParaToRelay
         : TeleprtType.ParaToPara
 
