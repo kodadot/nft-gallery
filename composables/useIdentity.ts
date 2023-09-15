@@ -22,7 +22,9 @@ export default function useIdentity({
         : getss58AddressByPrefix(address.value, 'ksm'))
   )
 
-  const identity = computed<IdentityFields>(() => data.value?.identity || {})
+  const identity = computed<IdentityFields>(
+    () => data.value?.value.identity || {}
+  )
 
   const { data, refetch, loading } = useGraphql({
     clientName: computed(() => (isDotAddress.value ? 'pid' : 'kid')),
