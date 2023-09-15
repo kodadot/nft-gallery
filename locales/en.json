@@ -486,7 +486,8 @@
         "message": "Name of your collection. It will be visible in the gallery"
       },
       "create": "Create New Collection",
-      "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
+      "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)",
+      "submit": "Create Collection"
     },
     "nft": {
       "name": {
