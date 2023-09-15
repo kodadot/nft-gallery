@@ -2,7 +2,7 @@
   <div id="custom-substack-embed"></div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 useHead({
   script: [{ src: 'https://substackapi.com/widget.js', async: true }],
 })
