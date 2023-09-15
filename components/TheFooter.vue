@@ -7,22 +7,7 @@
           {{ $t('footer.subscribe') }}
         </h2>
         <div class="is-flex is-align-items-center footer-container-subs-items">
-          <div id="custom-substack-embed"></div>
-
-          <!-- <script>
-            window.CustomSubstackWidget = {
-              substackUrl: 'kodadot.substack.com',
-              placeholder: 'jane.doe@kodadot.xyz',
-              theme: 'custom',
-              colors: {
-                primary: '#FF7AC3',
-                input: '#FFFFFF',
-                email: '#000000',
-                text: '#000000',
-              },
-            }
-          </script>
-          <script src="https://substackapi.com/widget.js" async></script> -->
+          <CustomSubstackEmbed />
         </div>
       </section>
       <section class="footer-container-info is-flex is-flex-direction-column">
