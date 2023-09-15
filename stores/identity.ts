@@ -30,7 +30,7 @@ type ChangeAddressRequest = {
   apiUrl?: string
 }
 
-type ChainType =
+export type ChainType =
   | 'polkadot'
   | 'kusama'
   | 'basilisk'
