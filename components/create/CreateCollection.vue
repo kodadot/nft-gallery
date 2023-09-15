@@ -173,7 +173,7 @@ import { Interaction } from '@kodadot1/minimark/v1'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { makeSymbol } from '@kodadot1/minimark/shared'
 import MintConfirmModal from './MintConfirmModal.vue'
-import { useFiatStore } from '@/stores/fiat'
+import { chainPropListOf } from '@/utils/config/chain.config'
 
 // props
 withDefaults(
@@ -210,11 +210,9 @@ const currentChain = computed(() => {
   return selectBlockchain.value as Prefix
 })
 
-const { decimals } = useChain()
 const { isAssetHub, isBasilisk, isRemark } = useIsChain(currentChain)
 const { balance, totalCollectionDeposit, chainSymbol } =
   useDeposit(currentChain)
-const fiatStore = useFiatStore()
 
 // balance state
 const canDeposit = computed(() => {
@@ -224,20 +222,13 @@ const canDeposit = computed(() => {
 const collectionInformation = computed(() => ({
   file: logo.value,
   name: name.value,
-  chainSymbol: chainSymbol.value,
+  paidToken: paidToken.value,
   mintType: CreateComponent.Collection,
-  existentialDeposit: depositFee.value,
 }))
 
-const depositFee = computed(
-  () => Number(totalCollectionDeposit.value) * Math.pow(10, decimals.value)
+const paidToken = computed(() =>
+  chainPropListOf(chainSymbol.value.toLowerCase() as Prefix)
 )
-
-const tokenPrice = computed(() =>
-  Number(fiatStore.getCurrentTokenValue(chainSymbol.value) ?? 0)
-)
-
-const totalUSDFee = computed(() => depositFee.value * tokenPrice.value)
 
 watchEffect(() => setUrlPrefix(currentChain.value as Prefix))
 
@@ -276,6 +267,7 @@ const createCollection = async () => {
       notificationTypes.info
     )
     isLoading.value = true
+    modalShowStatus.value = false
 
     await transaction(
       {

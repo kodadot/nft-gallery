@@ -9,7 +9,7 @@
       <header
         class="modal-card-head is-flex is-justify-content-space-between is-align-items-center border-bottom">
         <span class="modal-card-title is-size-6 has-text-weight-bold">
-          {{ $t('mint.nft.confirm.action') }}
+          {{ $t('mint.nft.modal.action') }}
         </span>
         <NeoButton
           class="py-1 px-2"
@@ -70,7 +70,7 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoModal } from '@kodadot1/brick'
-import type { Option } from '@kodadot1/static'
+import type { ChainProperties, Option } from '@kodadot1/static'
 import IdentityItem from '@/components/identity/IdentityItem.vue'
 import ConfirmMintItem from './ConfirmMintItem.vue'
 import PriceItem from './PriceItem.vue'
@@ -83,6 +83,7 @@ import { getTransitionFee } from '@/utils/transactionExecutor'
 import { useFiatStore } from '@/stores/fiat'
 import { usePreferencesStore } from '@/stores/preferences'
 import { calculateBalanceUsdValue } from '@/utils/format/balance'
+import { BASE_FEE } from '@/utils/support'
 
 export type NftInformation = {
   file: Blob
@@ -94,7 +95,7 @@ export type NftInformation = {
   hasRoyalty: boolean
   royalty: Royalty
   mintType: CreateComponent
-  chainSymbol: string
+  paidToken: ChainProperties
 }
 
 export type ExtendedInformation = NftInformation & {
@@ -124,7 +125,6 @@ const { urlPrefix } = usePrefix()
 const route = useRoute()
 const { $i18n } = useNuxtApp()
 const { balance } = useBalance()
-const { decimals } = useChain()
 const fiatStore = useFiatStore()
 const preferencesStore = usePreferencesStore()
 
@@ -141,18 +141,23 @@ const rampActive = ref(false)
 
 const networkFee = ref(0)
 
-const chainSymbol = computed(() => props.nftInformation.chainSymbol)
+const isNFT = computed(
+  () => props.nftInformation.mintType === CreateComponent.NFT
+)
+const chainSymbol = computed(() => props.nftInformation.paidToken?.tokenSymbol)
+const decimals = computed(() => props.nftInformation.paidToken?.tokenDecimals)
 const tokenPrice = computed(() =>
   Number(fiatStore.getCurrentTokenValue(chainSymbol.value) ?? 0)
 )
 const kodadotFee = computed(
   () =>
-    ((preferencesStore.hasSupport ? 0.5 : 0) / tokenPrice.value) *
+    ((preferencesStore.hasSupport ? BASE_FEE : 0) / tokenPrice.value) *
     Math.pow(10, decimals.value)
 )
 const carbonlessFee = computed(
   () =>
-    ((preferencesStore.hasCarbonOffset ? 1 : 0) / tokenPrice.value) *
+    ((preferencesStore.hasCarbonOffset && isNFT.value ? BASE_FEE * 2 : 0) /
+      tokenPrice.value) *
     Math.pow(10, decimals.value)
 )
 
@@ -162,9 +167,9 @@ const extendedInformation = computed(() => ({
   networkFee: networkFee.value,
   existentialDeposit: totalCollectionDeposit.value,
   kodadotFee: kodadotFee.value,
-  kodadotUSDFee: 0.5,
+  kodadotUSDFee: BASE_FEE,
   carbonlessFee: carbonlessFee.value,
-  carbonlessUSDFee: 1,
+  carbonlessUSDFee: BASE_FEE * 2,
   totalFee: totalFee.value,
   totalUSDFee: totalUSDFee.value,
   blockchain: blockchain.value,
@@ -222,16 +227,21 @@ const confirm = () => {
 }
 
 const calculateNetworkFee = async () => {
+  console.log('decimals.value: ', decimals.value)
   networkFee.value = 0
   const fee = await getTransitionFee(accountId.value, [''], decimals.value)
-  networkFee.value = Number(
-    (Number(fee) / Math.pow(10, decimals.value)).toFixed(4)
-  )
+  networkFee.value = Number(fee)
 }
 
-onMounted(() => {
-  calculateNetworkFee()
-})
+watch(
+  () => chainSymbol.value,
+  () => {
+    calculateNetworkFee()
+  },
+  {
+    immediate: true,
+  }
+)
 </script>
 
 <style lang="scss" scoped>

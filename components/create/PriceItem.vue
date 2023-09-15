@@ -17,7 +17,7 @@
         v-if="networkFee"
         class="is-flex mb-2 is-align-items-center is-justify-content-space-between">
         <div>{{ $t('mint.nft.modal.networkFee') }}</div>
-        <div>{{ networkFee }} {{ chainSymbol }}</div>
+        <Money :value="networkFee" :unit-symbol="chainSymbol" inline />
       </div>
       <div
         v-if="existentialDeposit"
@@ -52,7 +52,10 @@
             <NeoIcon icon="circle-question" />
           </NeoTooltip>
         </div>
-        <Money :value="kodadotFee" inline />
+        <div>
+          {{ nft.kodadotUSDFee }} USD ~
+          <Money :value="kodadotFee" :unit-symbol="chainSymbol" inline />
+        </div>
       </div>
       <div
         v-if="carbonlessFee"
@@ -73,7 +76,7 @@
         </div>
         <div class="k-grey">
           {{ nft.carbonlessUSDFee }} USD ~
-          <Money :value="carbonlessFee" inline />
+          <Money :value="carbonlessFee" :unit-symbol="chainSymbol" inline />
         </div>
       </div>
     </div>
@@ -82,7 +85,7 @@
       <div class="">{{ $t('mint.nft.modal.totalFee') }}:</div>
       <div class="is-flex is-align-items-end">
         <div class="k-grey is-size-7 mr-2">$ {{ nft.totalUSDFee }}</div>
-        <Money :value="nft.totalFee" inline />
+        <Money :value="nft.totalFee" :unit-symbol="chainSymbol" inline />
       </div>
     </div>
   </div>
@@ -100,7 +103,7 @@ const existentialDeposit = computed(() => props.nft.existentialDeposit)
 const networkFee = computed(() => props.nft.networkFee)
 const kodadotFee = computed(() => props.nft.kodadotFee)
 const carbonlessFee = computed(() => props.nft.carbonlessFee)
-const chainSymbol = computed(() => props.nft.chainSymbol)
+const chainSymbol = computed(() => props.nft.paidToken.tokenSymbol)
 
 const hasMultipleFees = computed(
   () =>
