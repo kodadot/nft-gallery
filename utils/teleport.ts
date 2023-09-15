@@ -26,12 +26,16 @@ export enum Chain {
   KUSAMA = 'Kusama',
   BASILISK = 'Basilisk',
   STATEMINE = 'Statemine',
+  STATEMINT = 'Statemint',
+  DOT = 'Dot',
 }
 
 export const chainToPrefixMap: Record<Chain, Prefix> = {
   [Chain.KUSAMA]: 'rmrk',
   [Chain.BASILISK]: 'bsx',
   [Chain.STATEMINE]: 'ahk',
+  [Chain.STATEMINT]: 'ahp',
+  [Chain.DOT]: 'dot',
 }
 
 export enum TeleprtType {
@@ -49,11 +53,13 @@ export const whichTeleportType = ({
 }): TeleprtType => {
   switch (from) {
     case Chain.KUSAMA:
+    case Chain.DOT:
       return TeleprtType.RelayToPara
 
     case Chain.BASILISK:
     case Chain.STATEMINE:
-      return to === Chain.KUSAMA
+    case Chain.STATEMINT:
+      return [Chain.KUSAMA, Chain.DOT].includes(to)
         ? TeleprtType.ParaToRelay
         : TeleprtType.ParaToPara
 
