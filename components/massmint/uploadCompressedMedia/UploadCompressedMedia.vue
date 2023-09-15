@@ -103,4 +103,3 @@ const onFileSelected = (file) => {
   }
 }
 </script>
-<style lang="scss" scoped></style>
