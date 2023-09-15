@@ -155,7 +155,7 @@ export const mintKusama = (tokens) => {
 }
 
 export const kusamaMintAndList = (tokens) => {
-  const status = ref('')
+  const status = ref(TransactionStatus.Unknown)
   const isLoading = ref(true)
   const collectionUpdated = ref(false)
   const blockNumber = ref<string>()
