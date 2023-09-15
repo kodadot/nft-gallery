@@ -40,13 +40,18 @@ defineProps<{
     background: theme('background-color');
     border: 1px solid theme('border-color');
   }
-  &__content {
+  .card__content {
     @include ktheme() {
       color: theme('text-color') !important;
     }
     .content {
       @include ktheme() {
         color: theme('text-color') !important;
+      }
+      :deep a {
+        @include ktheme() {
+          color: theme('k-blue') !important;
+        }
       }
     }
   }
