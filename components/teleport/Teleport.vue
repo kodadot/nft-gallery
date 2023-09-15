@@ -36,7 +36,7 @@
           class="is-size-7 is-flex is-justify-content-end is-align-items-center">
           <span class="is-flex is-align-items-center">
             <span class="mr-2">{{ $i18n.t('balance') }}:</span
-            ><Money :value="myBalance" hide-unit />{{ currency }}
+            >{{ myBalanceWithoutDivision.toFixed(4) }}{{ currency }}
           </span>
           <a class="max-button ml-2" @click="handleMaxClick">{{
             $i18n.t('teleport.max')
