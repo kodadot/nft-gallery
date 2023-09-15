@@ -173,7 +173,6 @@ import { Interaction } from '@kodadot1/minimark/v1'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { makeSymbol } from '@kodadot1/minimark/shared'
 import MintConfirmModal from './MintConfirmModal.vue'
-import { chainPropListOf } from '@/utils/config/chain.config'
 
 // props
 withDefaults(
@@ -211,7 +210,7 @@ const currentChain = computed(() => {
 })
 
 const { isAssetHub, isBasilisk, isRemark } = useIsChain(currentChain)
-const { balance, totalCollectionDeposit, chainSymbol } =
+const { balance, totalCollectionDeposit, chainSymbol, chain } =
   useDeposit(currentChain)
 
 // balance state
@@ -222,13 +221,9 @@ const canDeposit = computed(() => {
 const collectionInformation = computed(() => ({
   file: logo.value,
   name: name.value,
-  paidToken: paidToken.value,
+  paidToken: chain.value,
   mintType: CreateComponent.Collection,
 }))
-
-const paidToken = computed(() =>
-  chainPropListOf(chainSymbol.value.toLowerCase() as Prefix)
-)
 
 watchEffect(() => setUrlPrefix(currentChain.value as Prefix))
 

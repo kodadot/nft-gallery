@@ -64,13 +64,13 @@
               label="mint.expert.postfix" />
           </CollapseWrapper>
         </NeoField>
-        <NeoField key="submit" variant="danger">
-          <SubmitButton
-            expanded
-            label="mint.submit"
-            :loading="isLoading"
-            @click="showConfirm" />
-        </NeoField>
+        <SubmitButton
+          key="submit"
+          class="is-size-6"
+          expanded
+          label="mint.submit"
+          :loading="isLoading"
+          @click="showConfirm" />
       </template>
     </BaseTokenForm>
   </div>
@@ -164,8 +164,6 @@ const hasPrice = computed(() => {
 const nftInformation = computed(() => ({
   ...base.value,
   price: price.value.toString(),
-  royalty: royalty.value,
-  hasRoyalty: hasRoyalty.value,
   listForSale: listed.value,
   paidToken: chain.value,
   mintType: CreateComponent.NFT,
@@ -210,7 +208,6 @@ const checkValidity = () => {
 
 const showConfirm = () => {
   if (preCheck()) {
-    console.log('show modal')
     modalShowStatus.value = true
   }
 }
@@ -223,7 +220,6 @@ const preCheck = () => {
   if (!checkValidity()) {
     return false
   }
-
   return true
 }
 
