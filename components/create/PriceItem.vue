@@ -37,7 +37,7 @@
             <NeoIcon icon="circle-question" />
           </NeoTooltip>
         </div>
-        <div>{{ existentialDeposit }} {{ chainSymbol }}</div>
+        <Money :value="existentialDeposit" :unit-symbol="chainSymbol" inline />
       </div>
       <div
         v-if="kodadotFee"

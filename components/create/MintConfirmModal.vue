@@ -124,12 +124,8 @@ const { balance } = useBalance()
 const fiatStore = useFiatStore()
 const preferencesStore = usePreferencesStore()
 
-const {
-  totalCollectionDeposit,
-  collectionDeposit,
-  metadataDeposit,
-  existentialDeposit,
-} = useDeposit(urlPrefix)
+const { metadataDeposit, collectionDeposit, existentialDeposit, itemDeposit } =
+  useDeposit(urlPrefix)
 
 const emit = defineEmits(['confirm', 'input'])
 
@@ -161,7 +157,7 @@ const extendedInformation = computed(() => ({
   ...props.nftInformation,
   type: route.query.tab,
   networkFee: networkFee.value,
-  existentialDeposit: totalCollectionDeposit.value,
+  existentialDeposit: deposit.value,
   kodadotFee: kodadotFee.value,
   kodadotUSDFee: BASE_FEE,
   carbonlessFee: carbonlessFee.value,
@@ -173,14 +169,16 @@ const extendedInformation = computed(() => ({
 
 const totalFee = computed(() => {
   return (
-    collectionDeposit.value +
-    metadataDeposit.value +
-    existentialDeposit.value +
-    carbonlessFee.value +
-    kodadotFee.value +
-    networkFee.value
+    deposit.value + carbonlessFee.value + kodadotFee.value + networkFee.value
   )
 })
+
+const deposit = computed(
+  () =>
+    metadataDeposit.value +
+    existentialDeposit.value +
+    (isNFT ? itemDeposit.value : collectionDeposit.value)
+)
 
 const totalUSDFee = computed(() =>
   calculateBalanceUsdValue(totalFee.value * tokenPrice.value, decimals.value)
