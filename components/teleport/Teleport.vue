@@ -133,7 +133,7 @@ const currency = computed(() => {
     case Chain.BASILISK:
     case Chain.STATEMINE:
       return 'KSM'
-    case Chain.DOT:
+    case Chain.POLKADOT:
     case Chain.STATEMINT:
       return 'DOT'
   }
@@ -153,8 +153,8 @@ const allowedTransitiosn = {
   [Chain.KUSAMA]: [Chain.BASILISK, Chain.STATEMINE],
   [Chain.BASILISK]: [Chain.KUSAMA],
   [Chain.STATEMINE]: [Chain.KUSAMA],
-  [Chain.DOT]: [Chain.STATEMINT],
-  [Chain.STATEMINT]: [Chain.DOT],
+  [Chain.POLKADOT]: [Chain.STATEMINT],
+  [Chain.STATEMINT]: [Chain.POLKADOT],
 }
 const chainBalances = {
   [Chain.KUSAMA]: () =>
@@ -163,7 +163,7 @@ const chainBalances = {
     identityStore.multiBalances.chains.basilisk?.ksm?.nativeBalance,
   [Chain.STATEMINE]: () =>
     identityStore.multiBalances.chains.statemine?.ksm?.nativeBalance,
-  [Chain.DOT]: () =>
+  [Chain.POLKADOT]: () =>
     identityStore.multiBalances.chains.polkadot?.dot?.nativeBalance,
   [Chain.STATEMINT]: () =>
     identityStore.multiBalances.chains.statemint?.dot?.nativeBalance,
@@ -187,8 +187,8 @@ const fromTabs = [
     value: Chain.STATEMINE,
   },
   {
-    label: Chain.DOT,
-    value: Chain.DOT,
+    label: Chain.POLKADOT,
+    value: Chain.POLKADOT,
   },
   {
     label: Chain.STATEMINT,
@@ -212,9 +212,9 @@ const toTabs = [
     disabled: computed(() => isDisabled(Chain.STATEMINE)),
   },
   {
-    label: Chain.DOT,
-    value: Chain.DOT,
-    disabled: computed(() => isDisabled(Chain.DOT)),
+    label: Chain.POLKADOT,
+    value: Chain.POLKADOT,
+    disabled: computed(() => isDisabled(Chain.POLKADOT)),
   },
   {
     label: Chain.STATEMINT,
@@ -229,7 +229,7 @@ const currentTokenDecimals = computed(() => {
     case Chain.BASILISK:
     case Chain.STATEMINE:
       return assets(5).decimals
-    case Chain.DOT:
+    case Chain.POLKADOT:
       return decimalsOf('dot')
     case Chain.STATEMINT:
       return decimalsOf('ahp')
