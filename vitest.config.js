@@ -17,6 +17,7 @@ export default defineConfig({
     environment: 'jsdom',
     alias: [{ find: /^vue$/, replacement: 'vue/dist/vue.runtime.common.js' }],
     coverage: {
+      provider: 'istanbul',
       reporter: ['text', 'json', 'html'],
     },
   },

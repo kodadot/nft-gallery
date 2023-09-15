@@ -32,7 +32,7 @@
 
     <section class="py-8 instance instance-accent">
       <div class="container is-fluid footer-landing-container">
-        <LazyFeaturedArticles />
+        <LandingFeaturedArticles />
       </div>
     </section>
   </div>

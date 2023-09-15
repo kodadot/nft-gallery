@@ -212,7 +212,6 @@ import {
 } from '../service/scheme'
 import { resolveMedia } from '../utils'
 import { useFiatStore } from '@/stores/fiat'
-import { usePinningStore } from '@/stores/pinning'
 import { usePreferencesStore } from '@/stores/preferences'
 import {
   NeoButton,
@@ -238,7 +237,6 @@ const { client } = usePrefix()
 const { isLoading, status, resolveStatus } = useTransactionStatus()
 const { isLogIn } = useAuth()
 const fiatStore = useFiatStore()
-const pinningStore = usePinningStore()
 const preferencesStore = usePreferencesStore()
 const identityStore = useIdentityStore()
 const { version } = useRmrkVersion()
@@ -702,11 +700,10 @@ async function constructMeta(): Promise<string | undefined> {
   if (!file.value) {
     throw new ReferenceError('No file found!')
   }
-  const { token } = await pinningStore.fetchPinningKey(accountId.value)
 
-  const fileHash = await pinFileToIPFS(file.value, token)
+  const fileHash = await pinFileToIPFS(file.value)
   const secondFileHash = secondFile.value
-    ? await pinFileToIPFS(secondFile.value, token)
+    ? await pinFileToIPFS(secondFile.value)
     : undefined
 
   let imageHash: string | undefined = fileHash
