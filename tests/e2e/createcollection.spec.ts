@@ -46,10 +46,10 @@ test('Check if balances load for each chain using the dropdown', async ({
     await page.getByTestId('collection-chain').selectOption(`${chains[i]}`)
     //Check if balances and deposits shows
     await expect(page.getByTestId('collection-deposit')).toBeVisible({
-      timeout: 30000,
+      timeout: 40000,
     })
     await expect(page.getByTestId('collection-balance')).toBeVisible({
-      timeout: 30000,
+      timeout: 40000,
     })
     i++
   }

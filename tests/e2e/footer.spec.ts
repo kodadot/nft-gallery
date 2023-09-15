@@ -1,7 +1,5 @@
 import { expect, test } from '@playwright/test'
 
-let i = 0
-
 const footerLinks = [
   {
     linkName: 'Ambassador Program',
@@ -43,14 +41,41 @@ const footerLinks = [
     linkName: 'Press Kit',
     linkAddress: 'https://github.com/kodadot/kodadot-presskit/tree/main/pre-v4',
   },
+  {
+    linkName: 'MerchShop',
+    linkAddress: 'https://shop.kodadot.xyz/',
+  },
+]
+
+const footerSocialMediaLinks = [
+  {
+    linkName: 'Twitter',
+    linkAddress: 'https://twitter.com/KodaDot',
+  },
+  {
+    linkName: 'Discord',
+    linkAddress: 'https://discord.com/invite/u6ymnbz4PR',
+  },
+  {
+    linkName: 'Substack',
+    linkAddress: 'https://kodadot.substack.com',
+  },
   //{
-  //    linkName: 'MerchShop',
-  //    linkAddress: 'https://shop.kodadot.xyz/',
-  //}
-  //{
-  //    linkName: 'Blog',
-  //    linkAddress: 'https://localhost:9090/blog',
+  //  linkName: 'Medium',
+  //  linkAddress: 'https://medium.com/kodadot',
   //},
+  {
+    linkName: 'Youtube',
+    linkAddress: 'https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA',
+  },
+  //{
+  //  linkName: 'Instagram',
+  //  linkAddress: 'https://instagram.com/kodadot.xyz',
+  // },
+  {
+    linkName: 'Reddit',
+    linkAddress: 'https://www.reddit.com/r/KodaDot/',
+  },
 ]
 
 test('Check Footer Subscription', async ({ page }) => {
@@ -62,6 +87,7 @@ test('Check Footer Subscription', async ({ page }) => {
 })
 
 test('Check Footer links', async ({ page }) => {
+  let i = 0
   await page.goto('/')
   for (const data of footerLinks) {
     const footer = page.getByTestId('footer-container')
@@ -70,6 +96,30 @@ test('Check Footer links', async ({ page }) => {
     const newTab = await newTabPromise
     await newTab.waitForLoadState()
     await expect(newTab).toHaveURL(footerLinks[i].linkAddress)
+    await newTab.close()
+    i++
+  }
+})
+
+test('Check blog link', async ({ page }) => {
+  await page.goto('/')
+  const footer = page.getByTestId('footer-container')
+  await footer.getByRole('link', { name: 'Blog' }).click()
+  await expect(page).toHaveURL('http://localhost:9090/blog')
+})
+
+test('Check Social Media Links', async ({ page }) => {
+  let i = 0
+  await page.goto('/')
+  for (const data of footerSocialMediaLinks) {
+    const socialMedia = page.locator('.footer-container-socials-list')
+    const newTabPromise = page.waitForEvent('popup')
+    await socialMedia
+      .locator(`[aria-label="${footerSocialMediaLinks[i].linkName}"]`)
+      .click()
+    const newTab = await newTabPromise
+    await newTab.waitForLoadState()
+    await expect(newTab).toHaveURL(footerSocialMediaLinks[i].linkAddress)
     await newTab.close()
     i++
   }
