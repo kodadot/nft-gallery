@@ -16,7 +16,7 @@ export const getChainNameByPrefix = (prefix: string) => {
 }
 
 export const getChainName = (prefix: Prefix) => {
-  return NAMES[prefix].split(' [Beta]').join('')
+  return NAMES[prefix].replace(' [Beta]', '')
 }
 
 export const isProduction = window.location.hostname === 'kodadot.xyz'
