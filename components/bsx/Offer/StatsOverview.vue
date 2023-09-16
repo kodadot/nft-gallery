@@ -43,6 +43,7 @@ import statsForBsx from '~/queries/subsquid/bsx/statsForBsx.graphql'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 
 const { $consola } = useNuxtApp()
+const { client } = usePrefix()
 
 const statsResponse = ref<StatsResponse>()
 const offerStats = ref<OfferStats>()
@@ -58,7 +59,11 @@ const returnTotalCounts = (key, statsResponse) => {
 
 watchEffect(() => {
   try {
-    const { result: data } = useQuery<StatsResponse>(statsForBsx, {})
+    const { result: data } = useQuery<StatsResponse>(
+      statsForBsx,
+      {},
+      { clientId: client.value }
+    )
 
     statsResponse.value = data.value
     offerStats.value = data.value.offerStats

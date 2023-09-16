@@ -22,10 +22,10 @@
       <section class="py-8 instance">
         <div class="container is-fluid">
           <!-- new listings -->
-          <LazyCarouselTypeNewestList />
+          <!-- <LazyCarouselTypeNewestList /> -->
 
           <!-- latest sales -->
-          <LazyCarouselTypeLatestSales class="mt-8" />
+          <!-- <LazyCarouselTypeLatestSales class="mt-8" /> -->
         </div>
       </section>
     </template>

@@ -41,9 +41,11 @@ const { howAboutToExecute, initTransactionLoader, isLoading, status } =
   useMetaTransaction()
 const currentAsset = ref<string>('0')
 
-const { result: assets } = useQuery(assetListByIdList, {
-  ids: ['0', getKusamaAssetId(client.value), '6'],
-})
+const { result: assets } = useQuery(
+  assetListByIdList,
+  { ids: ['0', getKusamaAssetId(client.value), '6'] },
+  { clientId: client.value }
+)
 
 const fetchAccountBalance = async () => {
   const { apiInstance } = useApi()

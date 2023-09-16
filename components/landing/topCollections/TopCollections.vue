@@ -69,7 +69,7 @@ const { urlPrefix } = usePrefix()
 const fiatStore = useFiatStore()
 
 const limit = 12
-const { data, loading } = useTopCollections(limit)
+const { data, loading } = await useTopCollections(limit)
 
 const state = reactive<{ timeRange: TimeRange }>({ timeRange: 'All' })
 

@@ -16,6 +16,7 @@ import CollectionPriceChart from '@/components/shared/collection/PriceChart.vue'
 
 const route = useRoute()
 const { decimals } = useChain()
+const { client } = usePrefix()
 
 const priceData = ref<[ChartData[], ChartData[]]>([[], []])
 const id = computed(() => route.params.id)
@@ -42,12 +43,16 @@ useLazyAsyncData('priceData', async () => {
 })
 
 const queryAllCollectionSaleEvents = ({ interaction_eq }) => {
-  return useQuery(allCollectionSaleEvents, {
-    id: id.value,
-    and: {
-      interaction_eq,
+  return useQuery(
+    allCollectionSaleEvents,
+    {
+      id: id.value,
+      and: {
+        interaction_eq,
+      },
     },
-  })
+    { clientId: client.value }
+  )
 }
 
 const formatValue = (value: string): number => {
