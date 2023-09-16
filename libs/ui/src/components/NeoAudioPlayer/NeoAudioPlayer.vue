@@ -11,15 +11,15 @@
       class="px-6 py-5 is-flex is-justify-items-center is-align-items-center">
       <div>
         <NeoButton
-          :loading="!canPlay"
-          :disabled="!canPlay"
+          :loading="playDisabled"
+          :disabled="playDisabled"
           class="button-size"
           no-shadow
           rounded
           variant="border-icon"
           @click.native="togglePlay">
           <NeoIcon
-            v-if="canPlay"
+            v-if="!playDisabled"
             :icon="playing ? 'pause' : 'play'"
             custom-size="fa-solid"
             pack="fa-sharp" />
@@ -70,11 +70,14 @@ const props = defineProps<{
 
 const player = ref()
 const audio = ref()
+const loading = ref(false)
+const canPlay = ref(false)
 
 const { playing, currentTime, duration, muted } = useMediaControls(audio, {
   src: props.src,
 })
-const canPlay = ref(false)
+
+const playDisabled = computed(() => !canPlay.value || loading.value)
 
 const formattedDuration = computed(() =>
   new Date(currentTime.value * 1000).toISOString().slice(14, 19)
@@ -97,8 +100,10 @@ const pause = async () => {
 }
 
 const playTime = async (time: number) => {
+  loading.value = true
   audio.value.currentTime = time
   await play()
+  loading.value = false
 }
 
 const change = (time: number) => {
@@ -135,7 +140,7 @@ defineExpose({ play, pause })
 
 .duration {
   display: inline-block;
-  min-width: 60px;
+  min-width: 40px;
 }
 
 .bar {
