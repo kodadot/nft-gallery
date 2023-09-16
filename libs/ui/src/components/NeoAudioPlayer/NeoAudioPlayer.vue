@@ -1,10 +1,5 @@
 <template>
   <div ref="player">
-    <!-- <av-waveform ref-link="player" class="media-audio__player is-flex is-flex-direction-column-reverse"
-            :audio-src="animationSrc" audio-class="media-audio__audio" canv-class="media-audio__canvas"
-            played-line-color="black" noplayed-line-color="#a3a3a3" :audio-controls="false" :playtime="false"
-            data-testid="type-audio" /> -->
-
     <audio ref="audio" />
 
     <div
@@ -129,15 +124,6 @@ defineExpose({ play, pause })
 </script>
 
 <style>
-/* div.media-audio__player {
-    height: 100%;
-  }
-  
-  div.media-audio__player div>canvas.media-audio__canvas,
-  div.media-audio__player>div>audio.media-audio__audio {
-    width: 100% !important;
-  } */
-
 .duration {
   display: inline-block;
   min-width: 40px;
