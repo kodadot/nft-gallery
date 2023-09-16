@@ -18,7 +18,6 @@
             @click="toggleActive" />
         </template>
         <template #action>
-          {{ balance }}
           <NeoTooltip
             v-if="!confirm"
             :active="insufficientBalance || offerPriceInvalid"
@@ -36,7 +35,7 @@
               fixed-width
               variant="k-blue"
               no-shadow
-              @click="confirm.value = true" />
+              @click="confirm = true" />
           </NeoTooltip>
           <NeoButton
             v-if="confirm"
@@ -126,15 +125,6 @@ const fetchBalance = async () => {
   })
 }
 
-const { data } = useGraphql({
-  clientName: client.value,
-  queryName: 'offerHighest',
-  queryPrefix: 'chain-bsx',
-  variables: {
-    id: props.nftId,
-  },
-})
-
 const price = ref('')
 const offerPrice = ref<number>()
 const active = ref(false)
@@ -156,6 +146,15 @@ const offerPriceInvalid = computed(() => {
 const disabledConfirmBtn = computed(
   () => offerPriceInvalid.value || insufficientBalance.value
 )
+
+const { data: highestOffer } = useGraphql({
+  clientName: client.value,
+  queryName: 'offerHighest',
+  queryPrefix: 'chain-bsx',
+  variables: {
+    id: props.nftId,
+  },
+})
 
 function toggleActive() {
   if (!connected.value) {
@@ -193,12 +192,12 @@ async function currentBlock() {
   return block.number.toNumber()
 }
 
-watchEffect(async () => {
+watch(highestOffer, async () => {
   const blockNumber = await currentBlock()
-  if (data.value.offers) {
+  if (highestOffer.value) {
     price.value =
-      blockNumber < data.value?.offers[0]?.expiration
-        ? data.value?.offers[0]?.price
+      blockNumber < Number(highestOffer.value.value.offers[0]?.expiration)
+        ? highestOffer.value.value.offers[0]?.price
         : ''
   }
 })
