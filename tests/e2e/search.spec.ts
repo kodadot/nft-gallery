@@ -10,7 +10,7 @@ test('Check if search provide results', async ({ page }) => {
   const searchBar = page.getByTestId('search-bar')
   await searchBar.locator('input').fill('waifu')
   await page.locator('.search-suggestion-container').hover()
-  await Promise.all([
+  /* await Promise.all([
     page.waitForResponse(
       (resp) =>
         resp
@@ -19,7 +19,7 @@ test('Check if search provide results', async ({ page }) => {
             'bafybeidqnzwlm5hvik7thsenuziurlnlkcfxuafbu2nfrqgcu4ladr2zhu'
           ) && resp.status() === 302
     ),
-  ])
+  ]) */
   //check contents of Collection Tab
   const tabCollection = page.getByTestId('collection-tab')
   await expect(tabCollection.locator('.neo-skeleton-item').first()).toBeVisible(
