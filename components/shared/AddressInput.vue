@@ -40,7 +40,15 @@ const props = withDefaults(
 const { chainProperties } = useChain()
 const error = ref<string | null>('')
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
-const variant = computed(() => (props.isInvalid || error.value ? 'danger' : ''))
+const variant = computed(() => {
+  if (props.isInvalid || error.value) {
+    return 'danger'
+  }
+  if (isAddress(inputValue.value)) {
+    return 'success'
+  }
+  return ''
+})
 const iconRight = computed(() => {
   if (inputValue.value && props.icon === 'close-circle') {
     return 'close-circle'
