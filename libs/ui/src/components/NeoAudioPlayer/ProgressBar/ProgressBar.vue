@@ -6,7 +6,9 @@
       progressbar__rounded: rounded,
     }"
     @click="onClick">
-    <div class="progressbar-progress" :style="{ width: `${actualPercent}%` }" />
+    <div
+      class="progressbar-progress"
+      :style="{ width: `${currentPercent}%` }" />
   </div>
 </template>
 
@@ -24,7 +26,7 @@ const props = defineProps<{
 const progressbar = ref()
 const progressbarWidth = ref(0)
 
-const actualPercent = computed(
+const currentPercent = computed(
   () => (props.currentTime / props.totalTime) * 100
 )
 
