@@ -11,21 +11,27 @@
       class="px-6 py-5 is-flex is-justify-items-center is-align-items-center">
       <div>
         <NeoButton
+          :loading="!canPlay"
           :disabled="!canPlay"
-          rounded
+          class="button-size"
           no-shadow
-          class="p-2"
+          rounded
+          variant="border-icon"
           @click.native="togglePlay">
           <NeoIcon
-            class="ml-1 has-text-color"
+            v-if="canPlay"
             :icon="playing ? 'pause' : 'play'"
             custom-size="fa-solid"
-            pack="fa-sharp"
-            variant="primary" />
+            pack="fa-sharp" />
         </NeoButton>
       </div>
 
-      <div class="ml-4 duration">{{ formattedDuration }}</div>
+      <div
+        class="ml-4 duration"
+        :class="{ 'is-clickable': canPlay }"
+        @click="goToEnd">
+        {{ formattedDuration }}
+      </div>
 
       <div class="ml-4 bar w-full">
         <ProgressBar
@@ -36,13 +42,16 @@
       </div>
 
       <div class="ml-4">
-        <NeoButton rounded no-shadow @click.native="toggleMute">
+        <NeoButton
+          class="button-size ml-1"
+          no-shadow
+          rounded
+          variant="border-icon"
+          @click.native="toggleMute">
           <NeoIcon
-            class="ml-1 has-text-color"
             :icon="muted ? 'volume' : 'volume-slash'"
             custom-size="fa-solid"
-            pack="fa-sharp"
-            variant="primary" />
+            pack="fa-sharp" />
         </NeoButton>
       </div>
     </div>
@@ -87,13 +96,24 @@ const pause = async () => {
   await audio.value.pause()
 }
 
-const change = (time: number) => {
+const playTime = async (time: number) => {
   audio.value.currentTime = time
-  audio.value.play()
+  await play()
+}
+
+const change = (time: number) => {
+  playTime(time)
 }
 
 const toggleMute = () => {
   audio.value.muted = !muted.value
+}
+
+const goToEnd = () => {
+  if (!canPlay.value) {
+    return
+  }
+  playTime(duration.value)
 }
 
 useEventListener(audio, 'canplaythrough', () => {
@@ -119,6 +139,11 @@ defineExpose({ play, pause })
 }
 
 .bar {
-  height: 1rem;
+  height: 0.8rem;
+}
+
+.button-size {
+  height: 33px;
+  width: 33px;
 }
 </style>
