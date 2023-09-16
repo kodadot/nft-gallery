@@ -18,6 +18,7 @@
             @click="toggleActive" />
         </template>
         <template #action>
+          {{ balance }}
           <NeoTooltip
             v-if="!confirm"
             :active="insufficientBalance || offerPriceInvalid"
