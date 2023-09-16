@@ -37,7 +37,18 @@
                   :src="resource.src"
                   :mime-type="resource.mimeType"
                   :animation-src="resource.animation"
-                  is-detail />
+                  is-detail>
+                  <template #default="{ mimeType }">
+                    <div v-if="isAudio(mimeType)">
+                      <MediaItem
+                        :src="galleryItem.nftImage.value"
+                        :mime-type="galleryItem.nftMimeType.value"
+                        :animation-src="galleryItem.nftAnimation.value"
+                        is-detail
+                        clear />
+                    </div>
+                  </template>
+                </MediaItem>
               </NeoCarouselItem>
             </NeoCarousel>
           </div>
@@ -184,6 +195,7 @@ import { resolveMedia } from '@/utils/gallery/media'
 import UnlockableTag from './UnlockableTag.vue'
 import { useWindowSize } from '@vueuse/core'
 import { usePreferencesStore } from '@/stores/preferences'
+import { mimeTypes } from '@kodadot1/static'
 
 const { urlPrefix } = usePrefix()
 const { $seoMeta } = useNuxtApp()
@@ -243,6 +255,10 @@ const previewItemSrc = computed(() => {
 const onNFTBought = () => {
   activeTab.value = tabs.activity
   showCongratsMessage.value = true
+}
+
+const isAudio = (mimeType) => {
+  return [mimeTypes['mp3']].includes(mimeType)
 }
 
 watch(triggerBuySuccess, (value, oldValue) => {

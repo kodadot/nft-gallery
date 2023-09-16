@@ -1,5 +1,9 @@
 <template>
-  <div class="media-object" style="height: 100%">
+  <div
+    class="media-object"
+    style="height: fit-content"
+    :class="{ 'media-object__clear': clear }">
+    <slot :mime-type="mimeType" />
     <component
       :is="resolveComponent"
       :src="properSrc"
@@ -56,6 +60,7 @@ const props = withDefaults(
     isLewd?: boolean
     isDetail?: boolean
     placeholder?: string
+    clear?: boolean
   }>(),
   {
     src: '',
@@ -140,6 +145,11 @@ defineExpose({ isLewdBlurredLayer })
         background: theme('text-color') !important;
       }
     }
+  }
+
+  &__clear {
+    box-shadow: none !important;
+    border: none !important;
   }
 }
 </style>
