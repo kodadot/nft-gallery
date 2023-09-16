@@ -13,7 +13,6 @@
 <script lang="ts" setup>
 import Money from '@/components/shared/format/Money.vue'
 import TokenMoney from '@/components/bsx/format/TokenMoney.vue'
-import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
 defineProps({
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -33,6 +32,5 @@ defineProps({
   },
 })
 
-const { urlPrefix } = usePrefix()
-const tokenId = computed(() => getKusamaAssetId(urlPrefix.value))
+const { urlPrefix, tokenId } = usePrefix()
 </script>

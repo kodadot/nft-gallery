@@ -14,8 +14,13 @@ const props = defineProps<{
   account: string
 }>()
 
-const { result: nfts } = useQuery(nftSimpleListByAccount, {
-  account: props.account,
-  first: 4,
-})
+const { client } = usePrefix()
+const { result: nfts } = useQuery(
+  nftSimpleListByAccount,
+  {
+    account: props.account,
+    first: 4,
+  },
+  { clientId: client.value }
+)
 </script>

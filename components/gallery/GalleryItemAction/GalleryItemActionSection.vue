@@ -38,17 +38,11 @@ const props = defineProps<{
   price: string
 }>()
 
-const priceChain = ref('0')
-const priceUsd = ref('0')
-
-watchEffect(async () => {
-  const tokenPrice = await getApproximatePriceOf(chainSymbol.value)
-  const price = format(props.price || '0', decimals.value, '')
-
-  priceChain.value = `${price} ${chainSymbol.value}`
-  const clearPrice = Number(withoutDigitSeparator(price))
-  priceUsd.value = `${Math.round(clearPrice * tokenPrice)}`
-})
+const tokenPrice = await getApproximatePriceOf(chainSymbol.value)
+const price = computed(() => format(props.price || '0', decimals.value, ''))
+const clearPrice = computed(() => Number(withoutDigitSeparator(price.value)))
+const priceUsd = computed(() => `${Math.round(clearPrice.value * tokenPrice)}`)
+const priceChain = computed(() => `${price.value} ${chainSymbol.value}`)
 </script>
 
 <style lang="scss" scoped>

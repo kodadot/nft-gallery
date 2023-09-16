@@ -45,6 +45,7 @@ const proccessData = (
 }
 
 export const useTopCollections = (limit: number) => {
+  const { client } = usePrefix()
   const topCollectionWithVolumeList = useState<CollectionEntityWithVolumes[]>(
     'topCollectionWithVolumeList',
     () => []
@@ -53,10 +54,11 @@ export const useTopCollections = (limit: number) => {
   // const loading = ref(false)
   const collectionsSalesResults = ref<CollectionsSalesResult>()
 
-  const { result: topCollections, loading } = useQuery(topCollectionList, {
-    orderBy: 'volume_DESC',
-    limit,
-  })
+  const { result: topCollections, loading } = useQuery(
+    topCollectionList,
+    { orderBy: 'volume_DESC', limit },
+    { clientId: client.value }
+  )
 
   watch([topCollections, error], () => {
     if (error.value) {
@@ -68,7 +70,11 @@ export const useTopCollections = (limit: number) => {
         topCollections.value as TopCollectionListResult
       ).collectionEntities.map((c) => c.id)
 
-      const { onResult } = useQuery(collectionsSales, { ids })
+      const { onResult } = useQuery(
+        collectionsSales,
+        { ids },
+        { clientId: client.value }
+      )
       onResult((result) => (collectionsSalesResults.value = result.data))
     }
   })
