@@ -38,19 +38,18 @@ const props = defineProps<{
 
 const cover = ref()
 const audioPlayer = ref()
-const isPlaying = computed(() => audioPlayer.value?.playing)
 
 const coverHovering = useElementHover(cover, { delayEnter: 1000 })
 
 if (props.hoverOnCoverPlay) {
-  watch([coverHovering, isPlaying], () => handleCoverHover())
+  watch(coverHovering, () => handleCoverHover())
 }
 
 const handleCoverHover = async () => {
   try {
     if (coverHovering.value) {
       await audioPlayer.value.play()
-    } else if (!coverHovering.value && isPlaying.value) {
+    } else {
       await audioPlayer.value.pause()
     }
   } catch (error) {

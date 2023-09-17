@@ -67,6 +67,10 @@ const audio = ref()
 const loading = ref(false)
 const canPlay = ref(false)
 
+const actionStack = ref<
+  { promise: Promise<void>; reject: (reason?: any) => void }[]
+>([])
+
 const { playing, currentTime, duration, muted } = useMediaControls(audio, {
   src: props.src,
 })
@@ -85,12 +89,30 @@ const togglePlay = async () => {
   }
 }
 
-const play = async () => {
-  await audio.value.play()
+const flushPreviouseActions = async () => {
+  await actionStack.value.map((action) => action.reject())
+  actionStack.value = []
+}
+
+const pushToActionStack = ({ promise, reject }) => {
+  actionStack.value.push({
+    promise,
+    reject,
+  })
+}
+
+const play = () => {
+  return new Promise(async (resolve, reject) => {
+    await flushPreviouseActions()
+    const playPromise = audio.value.play()
+    playPromise.then(resolve)
+    pushToActionStack({ promise: playPromise, reject })
+  })
 }
 
 const pause = async () => {
-  await audio.value.pause()
+  await flushPreviouseActions()
+  audio.value.pause()
 }
 
 const playTime = async (time: number) => {
@@ -119,10 +141,10 @@ useEventListener(audio, 'canplaythrough', () => {
   canPlay.value = true
 })
 
-defineExpose({ play, pause, playing })
+defineExpose({ play, pause })
 </script>
 
-<style>
+<style scoped lang="scss">
 .duration {
   display: inline-block;
   min-width: 40px;
