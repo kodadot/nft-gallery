@@ -58,7 +58,6 @@ const props = withDefaults(
     isLewd?: boolean
     isDetail?: boolean
     placeholder?: string
-    clear?: boolean
     audioPlayerCover?: string
     audioHoverOnCoverPlay?: boolean
   }>(),
@@ -145,11 +144,6 @@ defineExpose({ isLewdBlurredLayer })
         background: theme('text-color') !important;
       }
     }
-  }
-
-  &__clear {
-    box-shadow: none !important;
-    border: none !important;
   }
 }
 </style>
