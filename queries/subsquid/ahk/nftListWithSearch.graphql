@@ -1,3 +1,7 @@
+#import "../../fragments/nft.graphql"
+#import "../../fragments/nftDetails.graphql"
+#import "../../fragments/baseMeta.graphql"
+
 query tokenListWithSearch(
   $first: Int!
   $offset: Int
@@ -28,15 +32,8 @@ query tokenListWithSearch(
     createdAt
     count
     nfts {
-      id
-      metadata
-      issuer
-      currentOwner
-      blockNumber
-      burned
-      name
-      sn
-      price
+      ...nft
+      ...nftDetails
       royalty
       recipient
       collection {
@@ -45,11 +42,7 @@ query tokenListWithSearch(
         floor
       }
       meta {
-        id
-        image
-        animationUrl
-        name
-        description
+        ...baseMeta
       }
     }
   }
