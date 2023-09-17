@@ -40,7 +40,23 @@ function getGeneralMetadata(nft: NFTWithMetadata) {
   }
 }
 
-export function useNftMimeType(nft?: Ref<NFT>) {
+export function useNftIcon(nft: Ref<NFTWithMetadata>) {
+  const { isAudio } = useNftMimeType(nft)
+  const { unlockableIcon } = useUnlockableIcon()
+
+  const showCardIcon = computed(() => isAudio.value)
+
+  const cardIcon = computed(() => {
+    if (isAudio.value) {
+      return '/sound.svg'
+    }
+    return unlockableIcon.value
+  })
+
+  return { showCardIcon, cardIcon }
+}
+
+export function useNftMimeType(nft?: Ref<NFTWithMetadata>) {
   const isAudio = ref(false)
 
   watch(

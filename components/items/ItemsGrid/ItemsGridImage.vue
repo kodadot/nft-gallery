@@ -11,8 +11,8 @@
         shoppingCartStore.isItemInCart(nft.id) ||
         listingCartStore.isItemInCart(nft.id),
     }"
-    :card-icon="cardIcon"
-    :card-icon-src="cardIconSrc"
+    :card-icon="showCardIcon"
+    :card-icon-src="cardIcon"
     :show-action-on-hover="!showActionSection"
     link="nuxt-link"
     bind-key="to"
@@ -69,7 +69,6 @@ const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()
 const { accountId, isLogIn } = useAuth()
 const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
-const { unlockableIcon } = useUnlockableIcon()
 const shoppingCartStore = useShoppingCartStore()
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
@@ -80,20 +79,13 @@ const props = defineProps<{
   variant?: NftCardVariant
 }>()
 
+const { showCardIcon, cardIcon } = useNftIcon(computed(() => props.nft))
+
 const { stats } = useCollectionDetails({
   collectionId: props.nft?.collection?.id || props.nft?.collectionId,
 })
 
-const { isAudio } = useNftMimeType(computed(() => props.nft))
 const { nft: nftMetadata } = useNftMetadata(props.nft)
-
-const cardIcon = computed(() => isAudio.value)
-const cardIconSrc = computed(() => {
-  if (isAudio.value) {
-    return '/sound.svg'
-  }
-  return unlockableIcon.value
-})
 
 const mediaPlayerCover = computed(() => nftMetadata.value?.image)
 
