@@ -126,7 +126,7 @@ withDefaults(
   {
     collectionPopoverShowDelay: 500,
     variant: 'primary',
-    unloackableIcon: undefined,
+    cardIconSrc: undefined,
     link: 'a',
     bindKey: 'href',
     showActionOnHover: true,
