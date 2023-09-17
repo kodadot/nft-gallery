@@ -102,9 +102,9 @@ const pushToActionStack = ({ promise, reject }) => {
   })
 }
 
-const play = () => {
-  return new Promise(async (resolve, reject) => {
-    await flushPreviouseActions()
+const play = async () => {
+  await flushPreviouseActions()
+  return new Promise((resolve, reject) => {
     const playPromise = audio.value.play()
     playPromise.then(resolve)
     pushToActionStack({ promise: playPromise, reject })
