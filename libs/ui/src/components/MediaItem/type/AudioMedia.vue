@@ -14,7 +14,7 @@
       v-show="!hoverOnCoverPlay"
       ref="audioPlayer"
       :src="animationSrc"
-      class="w-full" />
+      class="w-full border-top" />
   </div>
 </template>
 
@@ -40,7 +40,7 @@ const cover = ref()
 const audioPlayer = ref()
 const isPlaying = computed(() => audioPlayer.value?.playing)
 
-const coverHovering = useElementHover(cover, { delayEnter: 2000 })
+const coverHovering = useElementHover(cover, { delayEnter: 1000 })
 
 if (props.hoverOnCoverPlay) {
   watch([coverHovering, isPlaying], () => handleCoverHover())
