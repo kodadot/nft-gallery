@@ -40,7 +40,7 @@ function getGeneralMetadata(nft: NFTWithMetadata) {
   }
 }
 
-export function useNftIcon(nft: Ref<NFTWithMetadata>) {
+export function useNftCardIcon(nft: Ref<NFTWithMetadata>) {
   const { isAudio } = useNftMimeType(nft)
   const { unlockableIcon } = useUnlockableIcon()
 

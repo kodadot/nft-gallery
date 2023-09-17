@@ -42,7 +42,7 @@ const isCollection = inject('isCollection', false)
 
 const { urlPrefix } = usePrefix()
 const imageSrc = ref(props.item.image)
-const { showCardIcon, cardIcon } = useNftIcon(computed(() => props.item))
+const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.item))
 
 onMounted(async () => {
   if (!props.item.image) {
