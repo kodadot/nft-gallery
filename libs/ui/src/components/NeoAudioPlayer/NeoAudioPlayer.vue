@@ -54,7 +54,6 @@
 </template>
 
 <script lang="ts" setup>
-// import AvWaveform from 'vue-audio-visual/src/components/AvWaveform'
 import { useEventListener, useMediaControls } from '@vueuse/core'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import ProgressBar from './ProgressBar/ProgressBar.vue'
@@ -120,7 +119,20 @@ useEventListener(audio, 'canplaythrough', () => {
   canPlay.value = true
 })
 
-defineExpose({ play, pause })
+defineExpose({ play, pause, playing })
+
+// useEventListener(audio, 'timeupdate',  function() {
+//   if (audio.value.buffered.length > 0) {
+//     const bufferedEnd = audio.value.buffered.end(0); // Get the end time of the buffered range
+//     if (bufferedEnd >= audio.value.currentTime) {
+//       // The audio is not buffering anymore; it has started playing
+//       console.log('Audio is playing');
+//     } else {
+//       // The audio is still buffering
+//       console.log('Audio is buffering');
+//     }
+//   }
+// })
 </script>
 
 <style>

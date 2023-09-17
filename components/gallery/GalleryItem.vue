@@ -37,18 +37,8 @@
                   :src="resource.src"
                   :mime-type="resource.mimeType"
                   :animation-src="resource.animation"
-                  is-detail>
-                  <template #default="{ mimeType }">
-                    <div v-if="isAudio(mimeType)">
-                      <MediaItem
-                        :src="galleryItem.nftImage.value"
-                        :mime-type="galleryItem.nftMimeType.value"
-                        :animation-src="galleryItem.nftAnimation.value"
-                        is-detail
-                        clear />
-                    </div>
-                  </template>
-                </MediaItem>
+                  :audio-player-cover="galleryItem.nftImage.value"
+                  is-detail />
               </NeoCarouselItem>
             </NeoCarousel>
           </div>
@@ -56,10 +46,6 @@
             v-else
             :key="nftImage"
             ref="mediaItemRef"
-            :class="{
-              'is-flex is-align-items-center is-justify-content-center h-audio':
-                resolveMedia(nftMimeType) == MediaType.AUDIO,
-            }"
             class="gallery-item-media"
             :src="nftImage"
             :animation-src="nftAnimation"
@@ -67,7 +53,8 @@
             :title="nftMetadata?.name"
             is-detail
             :is-lewd="galleryDescriptionRef?.isLewd"
-            :placeholder="placeholder" />
+            :placeholder="placeholder"
+            :audio-player-cover="nftImage" />
         </div>
       </div>
 
@@ -195,7 +182,6 @@ import { resolveMedia } from '@/utils/gallery/media'
 import UnlockableTag from './UnlockableTag.vue'
 import { useWindowSize } from '@vueuse/core'
 import { usePreferencesStore } from '@/stores/preferences'
-import { mimeTypes } from '@kodadot1/static'
 
 const { urlPrefix } = usePrefix()
 const { $seoMeta } = useNuxtApp()
@@ -255,10 +241,6 @@ const previewItemSrc = computed(() => {
 const onNFTBought = () => {
   activeTab.value = tabs.activity
   showCongratsMessage.value = true
-}
-
-const isAudio = (mimeType) => {
-  return [mimeTypes['mp3']].includes(mimeType)
 }
 
 watch(triggerBuySuccess, (value, oldValue) => {

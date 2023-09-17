@@ -11,10 +11,13 @@
         shoppingCartStore.isItemInCart(nft.id) ||
         listingCartStore.isItemInCart(nft.id),
     }"
-    :unloackable-icon="unlockableIcon"
+    :card-icon="cardIcon"
+    :card-icon-src="cardIconSrc"
     :show-action-on-hover="!showActionSection"
     link="nuxt-link"
-    bind-key="to">
+    bind-key="to"
+    :media-player-cover="mediaPlayerCover"
+    media-hover-on-cover-play>
     <template #action>
       <div v-if="!isOwner && Number(nft?.price)" class="is-flex">
         <NeoButton
@@ -60,6 +63,7 @@ import {
 } from '@/components/common/shoppingCart/utils'
 import { isOwner as checkOwner } from '@/utils/account'
 import { useCollectionDetails } from '@/components/collection/utils/useCollectionDetails'
+import useNftMetadata from '@/composables/useNft'
 
 const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()
@@ -79,6 +83,19 @@ const props = defineProps<{
 const { stats } = useCollectionDetails({
   collectionId: props.nft?.collection?.id || props.nft?.collectionId,
 })
+
+const { isAudio } = useNftMimeType(computed(() => props.nft))
+const { nft: nftMetadata } = useNftMetadata(props.nft)
+
+const cardIcon = computed(() => isAudio.value)
+const cardIconSrc = computed(() => {
+  if (isAudio.value) {
+    return '/sound.svg'
+  }
+  return unlockableIcon.value
+})
+
+const mediaPlayerCover = computed(() => nftMetadata.value?.image)
 
 const showActionSection = computed(() => {
   return !isLogIn.value && shoppingCartStore.getItemToBuy?.id === props.nft.id

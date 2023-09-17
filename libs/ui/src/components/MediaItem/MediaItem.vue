@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="media-object"
-    style="height: fit-content"
-    :class="{ 'media-object__clear': clear }">
-    <slot :mime-type="mimeType" />
+  <div class="media-object" style="height: fit-content">
     <component
       :is="resolveComponent"
       :src="properSrc"
@@ -12,7 +8,9 @@
       :placeholder="placeholder"
       :original="original"
       :is-lewd="isLewd"
-      :is-detail="isDetail" />
+      :is-detail="isDetail"
+      :player-cover="audioPlayerCover"
+      :hover-on-cover-play="audioHoverOnCoverPlay" />
     <div
       v-if="isLewd && isLewdBlurredLayer"
       class="nsfw-blur is-capitalized is-flex is-align-items-center is-justify-content-center is-flex-direction-column">
@@ -61,6 +59,8 @@ const props = withDefaults(
     isDetail?: boolean
     placeholder?: string
     clear?: boolean
+    audioPlayerCover?: string
+    audioHoverOnCoverPlay?: boolean
   }>(),
   {
     src: '',

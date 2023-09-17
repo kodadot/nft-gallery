@@ -5,10 +5,10 @@
       v-if="!isLoading && nft"
       :[bindKey]="`/${prefix}/gallery/${nft.id}`">
       <img
-        v-if="unlockable && unloackableIcon"
-        class="unloackable-icon"
-        :src="unloackableIcon"
-        alt="Unlockable Icon" />
+        v-if="cardIcon && cardIconSrc"
+        class="card-icon"
+        :src="cardIconSrc"
+        alt="Card Icon" />
       <div class="is-relative">
         <MediaItem
           :key="nft.image"
@@ -17,7 +17,9 @@
           :animation-src="nft.animationUrl"
           :mime-type="nft.mimeType"
           :placeholder="placeholder"
-          :title="nft?.name" />
+          :title="nft?.name"
+          :audio-player-cover="mediaPlayerCover"
+          :audio-hover-on-cover-play="mediaHoverOnCoverPlay" />
         <div
           :class="[showActionOnHover ? 'show-on-hover' : 'show-always']"
           class="w-full is-flex is-justify-content-center action-container">
@@ -113,11 +115,13 @@ withDefaults(
     collectionPopoverShowDelay?: number
     variant?: NftCardVariant
     placeholder?: string
-    unlockable?: boolean
-    unloackableIcon?: string
+    cardIcon?: boolean
+    cardIconSrc?: string
     link?: string
     bindKey?: string
     showActionOnHover?: boolean
+    mediaPlayerCover?: string
+    mediaHoverOnCoverPlay?: boolean
   }>(),
   {
     collectionPopoverShowDelay: 500,

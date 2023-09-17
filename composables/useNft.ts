@@ -2,8 +2,10 @@ import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import type { BaseNFTMeta } from '@/components/base/types'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
-import { getMimeType } from '@/utils/gallery/media'
+import { getMimeType, isAudio as isAudioMimeType } from '@/utils/gallery/media'
 import unionBy from 'lodash/unionBy'
+import type { Ref } from 'vue/types'
+
 export type NftResources = {
   id: string
   src?: string
@@ -36,6 +38,24 @@ function getGeneralMetadata(nft: NFTWithMetadata) {
     ),
     type: nft.meta.type || '',
   }
+}
+
+export function useNftMimeType(nft?: Ref<NFT>) {
+  const isAudio = ref(false)
+
+  watch(
+    () => nft?.value,
+    async () => {
+      const mimeType = await getMimeType(
+        sanitizeIpfsUrl(nft?.value.meta?.animationUrl || '')
+      )
+
+      isAudio.value = isAudioMimeType(mimeType)
+    },
+    { immediate: true }
+  )
+
+  return { isAudio }
 }
 
 async function getRmrk2Resources(nft: NFTWithMetadata) {

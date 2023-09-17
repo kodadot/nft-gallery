@@ -1,11 +1,60 @@
 <template>
-  <NeoAudioPlayer :src="animationSrc" />
+  <div data-testid="type-audio">
+    <ImageMedia
+      v-if="playerCover"
+      ref="cover"
+      :src="playerCover"
+      :placeholder="placeholder"
+      :alt="alt"
+      :is-detail="isDetail"
+      :original="original"
+      :is-dark-mode="isDarkMode" />
+
+    <NeoAudioPlayer
+      v-show="!hoverOnCoverPlay"
+      ref="audioPlayer"
+      :src="animationSrc"
+      class="w-full" />
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { NeoAudioPlayer } from '@kodadot1/brick'
+import ImageMedia from './ImageMedia.vue'
+import { useElementHover } from '@vueuse/core'
 
-defineProps<{
+const props = defineProps<{
   animationSrc?: string
+  playerCover?: string
+  hoverOnCoverPlay?: boolean
+
+  // image media props
+  alt?: string
+  original: boolean
+  placeholder: string
+  isDetail?: boolean
+  isDarkMode?: boolean
 }>()
+
+const cover = ref()
+const audioPlayer = ref()
+const isPlaying = computed(() => audioPlayer.value?.playing)
+
+const coverHovering = useElementHover(cover, { delayEnter: 2000 })
+
+if (props.hoverOnCoverPlay) {
+  watch([coverHovering, isPlaying], () => handleCoverHover())
+}
+
+const handleCoverHover = async () => {
+  try {
+    if (coverHovering.value) {
+      await audioPlayer.value.play()
+    } else if (!coverHovering.value && isPlaying.value) {
+      await audioPlayer.value.pause()
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
 </script>
