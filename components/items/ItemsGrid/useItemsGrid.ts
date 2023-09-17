@@ -59,7 +59,9 @@ export function useFetchSearch({
           return prefix
       }
     }
-    const isExploreItems = computed(() => route.name === 'prefix-explore-items')
+    const notCollectionPage = computed(
+      () => route.name !== 'prefix-collection-id'
+    )
 
     const variables = search?.length
       ? { search }
@@ -71,7 +73,7 @@ export function useFetchSearch({
 
     const queryPathBase = getQueryPath(client.value)
     const usingTokenEntities = computed(
-      () => isExploreItems.value && queryPathBase === 'ahk'
+      () => notCollectionPage.value && queryPathBase === 'ahk'
     )
 
     const queryPath = usingTokenEntities.value ? 'chain-ahk' : queryPathBase
@@ -96,18 +98,22 @@ export function useFetchSearch({
     }
 
     const handleToken = (token: any) => {
-      if (token.count === 1) {
+      const nfts = token.nfts.filter(({ burned }) => !burned)
+      if (nfts.length <= 1) {
+        // if there is only one nft, return it
+        // if all nfts are burned, still return the first one,
+        // it get's filtered out later
         return token.nfts[0]
       }
 
       return {
-        ...token.nfts[0],
-        name: extractBaseName(token.nfts[0].name),
-        count: token.count,
+        ...nfts[0],
+        name: extractBaseName(nfts[0].name),
+        count: nfts.length,
         floorPrice: Math.min(
-          ...token.nfts.map((nft: any) => Number(nft.price))
+          ...nfts.map((nft) => Number(nft.price))
         ).toString(),
-        nfts: token.nfts,
+        nfts,
       }
     }
 
