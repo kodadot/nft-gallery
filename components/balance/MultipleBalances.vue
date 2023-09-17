@@ -26,7 +26,7 @@
           :key="token.name"
           class="balance-row">
           <div class="is-capitalized is-flex-grow-3">
-            {{ networkToDisplayName(key) }}
+            {{ key }}
           </div>
           <div class="has-text-right is-flex-grow-1">
             {{ token.name.toUpperCase() }}
@@ -70,7 +70,7 @@ import { calculateExactUsdFromToken } from '@/utils/calculation'
 import { getAssetIdByAccount } from '@/utils/api/bsx/query'
 import { toDefaultAddress } from '@/utils/account'
 
-import { ChainToken, type ChainType, useIdentityStore } from '@/stores/identity'
+import { ChainToken, useIdentityStore } from '@/stores/identity'
 import type { PalletBalancesAccountData } from '@polkadot/types/lookup'
 
 const { accountId } = useAuth()
@@ -88,17 +88,9 @@ const networkToPrefix = {
   polkadot: 'dot',
   kusama: 'ksm',
   basilisk: 'bsx',
-  statemine: 'ahk',
+  kusamaHub: 'ahk',
   'basilisk-testnet': 'snek',
-  statemint: 'ahp',
-}
-
-const networkToDisplayName = (chain: ChainType) => {
-  const networkToName = {
-    statemine: 'KusamaHub',
-    statemint: 'PolkadotHub',
-  }
-  return networkToName[chain] || chain
+  polkadotHub: 'ahp',
 }
 
 const isBalanceLoading = computed(
