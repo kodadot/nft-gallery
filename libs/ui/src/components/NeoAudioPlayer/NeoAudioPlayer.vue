@@ -77,9 +77,10 @@ const { playing, currentTime, duration, muted } = useMediaControls(audio, {
 
 const playDisabled = computed(() => !canPlay.value || loading.value)
 
-const formattedDuration = computed(() =>
-  new Date(currentTime.value * 1000).toISOString().slice(14, 19)
-)
+const formattedDuration = computed(() => {
+  const time = new Date(currentTime.value * 1000).toISOString().slice(14, 19)
+  return time.startsWith('0') ? time.slice(1, 5) : time
+})
 
 const togglePlay = async () => {
   if (playing.value) {
