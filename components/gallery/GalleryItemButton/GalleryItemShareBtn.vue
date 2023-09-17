@@ -26,10 +26,7 @@
           <p class="card-header-title">QR Code</p>
         </header>
         <div class="card-content">
-          <QRCode
-            :text="realworldFullPathShare"
-            color="#db2980"
-            bg-color="#000" />
+          <QRCode :text="realworldFullPathShare" />
         </div>
       </div>
     </NeoModal>
