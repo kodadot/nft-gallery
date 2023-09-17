@@ -52,8 +52,6 @@ const handleCoverHover = async () => {
     } else {
       await audioPlayer.value.pause()
     }
-  } catch (error) {
-    console.log(error)
-  }
+  } catch (error) {}
 }
 </script>
