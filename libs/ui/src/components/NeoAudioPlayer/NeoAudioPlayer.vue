@@ -23,7 +23,7 @@
 
       <div
         class="ml-4 duration"
-        :class="{ 'is-clickable': canPlay }"
+        :class="{ 'is-clickable': canStartPlaying }"
         @click="goToEnd">
         {{ formattedDuration }}
       </div>
@@ -65,7 +65,7 @@ const props = defineProps<{
 const player = ref()
 const audio = ref()
 const loading = ref(false)
-const canPlay = ref(false)
+const canStartPlaying = ref(false)
 
 const actionStack = ref<
   { promise: Promise<void>; reject: (reason?: any) => void }[]
@@ -75,7 +75,9 @@ const { playing, currentTime, duration, muted } = useMediaControls(audio, {
   src: props.src,
 })
 
-const playDisabled = computed(() => !canPlay.value || loading.value)
+const playDisabled = computed(() => !canStartPlaying.value || loading.value)
+const canPause = computed(() => !audio.value.paused || playing.value)
+const canPlay = computed(() => audio.value.paused || !playing.value)
 
 const formattedDuration = computed(() => {
   const time = new Date(currentTime.value * 1000).toISOString().slice(14, 19)
@@ -91,8 +93,10 @@ const togglePlay = async () => {
 }
 
 const flushPreviouseActions = async () => {
-  await actionStack.value.map((action) => action.reject())
-  actionStack.value = []
+  try {
+    await actionStack.value.map((action) => action.reject())
+    actionStack.value = []
+  } catch (error) {}
 }
 
 const pushToActionStack = ({ promise, reject }) => {
@@ -102,18 +106,35 @@ const pushToActionStack = ({ promise, reject }) => {
   })
 }
 
-const play = async () => {
-  await flushPreviouseActions()
+const play = () => {
   return new Promise((resolve, reject) => {
-    const playPromise = audio.value.play()
-    playPromise.then(resolve)
-    pushToActionStack({ promise: playPromise, reject })
+    if (!canPlay.value) {
+      return reject("Player: Can't play")
+    }
+
+    flushPreviouseActions()
+      .then(() => {
+        const playPromise = audio.value.play()
+        playPromise.then(resolve)
+        pushToActionStack({ promise: playPromise, reject })
+      })
+      .catch(reject)
   })
 }
 
 const pause = async () => {
-  await flushPreviouseActions()
-  audio.value.pause()
+  return new Promise((resolve, reject) => {
+    if (!canPause.value) {
+      reject("Player: Can't pause")
+    }
+
+    flushPreviouseActions()
+      .then(() => {
+        audio.value.pause()
+        resolve(true)
+      })
+      .catch(reject)
+  })
 }
 
 const playTime = async (time: number) => {
@@ -132,14 +153,14 @@ const toggleMute = () => {
 }
 
 const goToEnd = () => {
-  if (!canPlay.value) {
+  if (!canStartPlaying.value) {
     return
   }
   playTime(duration.value)
 }
 
 useEventListener(audio, 'canplaythrough', () => {
-  canPlay.value = true
+  canStartPlaying.value = true
 })
 
 defineExpose({ play, pause })
