@@ -12,9 +12,9 @@
       expanded
       @blur="onInputBlur"
       @focus="onInputFocus"
-      @keydown.native.delete="exitCollectionSearch"
-      @keydown.native.backSpace="exitCollectionSearch"
-      @keydown.native.enter="onEnter">
+      @keydown.delete="exitCollectionSearch"
+      @keydown.backSpace="exitCollectionSearch"
+      @keydown.enter="onEnter">
       <template #header>
         <SearchSuggestion
           v-if="!isSearchInCollectionMode"
@@ -65,7 +65,7 @@ import SearchSuggestion from '@/components/search/SearchSuggestion.vue'
 import { SearchQuery } from './types'
 import type { PropType } from 'vue'
 
-const props = defineProps({
+defineProps({
   value: {
     type: String,
     required: true,
