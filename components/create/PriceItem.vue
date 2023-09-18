@@ -2,13 +2,12 @@
   <div>
     <div class="border-top pt-4 card-border-color is-size-7">
       <template v-if="hasMultipleFees">
-        <div class="k-grey mb-4 is-flex is-align-items-center">
+        <div class="k-grey mb-4 is-flex is-align-items-center" @click="toggle">
           <div class="mr-1">Fee Breakdown</div>
           <NeoIcon
             class="transition"
             :class="[rotate && 'overturn']"
-            icon="chevron-down"
-            @click.native="toggle" />
+            icon="chevron-down" />
         </div>
       </template>
     </div>
@@ -27,13 +26,13 @@
           <NeoTooltip
             position="top"
             multiline-width="14rem"
+            multiline
             :label="
               $t('mint.nft.modal.depositTooltip', [
-                existentialDeposit,
+                format(existentialDeposit),
                 chainSymbol,
               ])
-            "
-            multiline>
+            ">
             <NeoIcon icon="circle-question" />
           </NeoTooltip>
         </div>
@@ -94,6 +93,10 @@
 import { ExtendedInformation } from './MintConfirmModal.vue'
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import Money from '@/components/shared/format/Money.vue'
+import formatBalance, {
+  checkInvalidBalanceFilter,
+  roundTo,
+} from '@/utils/format/balance'
 
 const props = defineProps<{ nft: ExtendedInformation }>()
 
@@ -104,6 +107,7 @@ const networkFee = computed(() => props.nft.networkFee)
 const kodadotFee = computed(() => props.nft.kodadotFee)
 const carbonlessFee = computed(() => props.nft.carbonlessFee)
 const chainSymbol = computed(() => props.nft.paidToken.tokenSymbol)
+const tokenDecimals = computed(() => props.nft.paidToken.tokenDecimals)
 
 const hasMultipleFees = computed(
   () =>
@@ -114,6 +118,13 @@ const hasMultipleFees = computed(
       carbonlessFee.value,
     ].filter((e) => !!e).length > 0
 )
+
+const format = (value: number) => {
+  return roundTo(
+    formatBalance(checkInvalidBalanceFilter(value), tokenDecimals.value),
+    4
+  )
+}
 
 watch(
   hasMultipleFees,

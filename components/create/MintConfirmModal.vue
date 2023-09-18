@@ -177,7 +177,7 @@ const deposit = computed(
   () =>
     metadataDeposit.value +
     existentialDeposit.value +
-    (isNFT ? itemDeposit.value : collectionDeposit.value)
+    (isNFT.value ? itemDeposit.value : collectionDeposit.value)
 )
 
 const totalUSDFee = computed(() =>
