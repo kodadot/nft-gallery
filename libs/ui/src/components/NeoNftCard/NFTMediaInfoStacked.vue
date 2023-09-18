@@ -10,7 +10,7 @@
           :title="nftStack.name">
           {{ nftStack.name || '--' }}
         </span>
-        <span v-if="!isMinimal">X{{ nftStack.count }}</span>
+        <span v-if="!isMinimal">x{{ nftStack.count }}</span>
       </div>
 
       <div v-if="!isMinimal" class="is-size-7 has-text-grey">
@@ -25,7 +25,7 @@
       class="is-flex is-justify-content-space-between is-align-items-center px-3"
       :class="isMinimal ? '' : 'border-top card-border-color pt-3'">
       <template v-if="!isMinimal">
-        <nuxt-link :to="collectionUrl">
+        <nuxt-link class="is-ellipsis" :to="collectionUrl">
           {{ collectionNameLabel }}
         </nuxt-link>
         <NeoButton
@@ -39,10 +39,12 @@
       </template>
 
       <template v-else>
-        <nuxt-link class="is-size-7 has-text-grey" :to="collectionUrl">
+        <nuxt-link
+          class="is-size-7 has-text-grey is-ellipsis"
+          :to="collectionUrl">
           {{ collectionNameLabel }}
         </nuxt-link>
-        <span>X{{ nftStack.count }}</span>
+        <span>x{{ nftStack.count }}</span>
       </template>
     </div>
   </div>
