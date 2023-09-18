@@ -44,10 +44,10 @@ jobs:
       run: npm install -g pnpm@latest
 
     - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+      run: pnpm exec playwright install --with-deps
 
     - name: Run Playwright tests
-      run: npx playwright test
+      run: pnpm exec playwright test
     - uses: actions/upload-artifact@v3
 
       if: always()
