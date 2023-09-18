@@ -25,7 +25,7 @@
       class="is-flex is-justify-content-space-between is-align-items-center px-3"
       :class="isMinimal ? '' : 'border-top card-border-color pt-3'">
       <template v-if="!isMinimal">
-        <nuxt-link class="is-ellipsis" :to="collectionUrl">
+        <nuxt-link class="is-ellipsis pr-1" :to="collectionUrl">
           {{ collectionNameLabel }}
         </nuxt-link>
         <NeoButton
@@ -40,7 +40,7 @@
 
       <template v-else>
         <nuxt-link
-          class="is-size-7 has-text-grey is-ellipsis"
+          class="is-size-7 has-text-grey is-ellipsis pr-1"
           :to="collectionUrl">
           {{ collectionNameLabel }}
         </nuxt-link>
