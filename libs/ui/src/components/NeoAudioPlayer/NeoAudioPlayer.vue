@@ -106,7 +106,7 @@ const pushToActionStack = ({ promise, reject }) => {
   })
 }
 
-const play = () => {
+const play = (time?: number) => {
   return new Promise((resolve, reject) => {
     if (!canPlay.value) {
       return reject(new Error("Player: Can't play"))
@@ -114,8 +114,21 @@ const play = () => {
 
     flushPreviouseActions()
       .then(() => {
-        const playPromise = audio.value.play()
-        playPromise.then(resolve)
+        loading.value = true
+
+        if (time) {
+          audio.value.currentTime = time
+        }
+
+        const playPromise: Promise<any> = audio.value.play()
+
+        playPromise
+          .then(resolve)
+          .catch(reject)
+          .finally(() => {
+            loading.value = false
+          })
+
         pushToActionStack({ promise: playPromise, reject })
       })
       .catch(reject)
@@ -137,15 +150,8 @@ const pause = async () => {
   })
 }
 
-const playTime = async (time: number) => {
-  loading.value = true
-  audio.value.currentTime = time
-  await play()
-  loading.value = false
-}
-
 const change = (time: number) => {
-  playTime(time)
+  play(time)
 }
 
 const toggleMute = () => {
@@ -156,7 +162,7 @@ const goToEnd = () => {
   if (!canStartPlaying.value) {
     return
   }
-  playTime(duration.value)
+  play(duration.value)
 }
 
 useEventListener(audio, 'canplaythrough', () => {
