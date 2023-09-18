@@ -138,6 +138,7 @@
                   'mb-2': isMobile,
                 },
               ]"
+              :strict="false"
               :is-invalid="isTargetAddressInvalid(destinationAddress)"
               placeholder="Enter wallet address"
               disable-error />
@@ -487,6 +488,8 @@ const checkQueryParams = () => {
   }
 
   if (query.amount) {
+    console.log('in')
+
     sendSameAmount.value = true
     targetAddresses.value = targetAddresses.value.map((address) => ({
       ...address,
