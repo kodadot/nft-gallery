@@ -34,6 +34,7 @@ jobs:
       - run: stat -c "%s" ./.nuxt/dist/server/client.manifest.mjs
       
   playwright-test:
+    needs: build
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
