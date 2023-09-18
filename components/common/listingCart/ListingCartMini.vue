@@ -2,8 +2,8 @@
   <transition v-if="listingCartStore.count" name="slide">
     <div class="listing-container">
       <div class="is-inline-flex is-align-items-center">
-        <div class="k-shadow theme-background-color border py-2">
-          <div class="is-inline-flex is-align-items-center mx-5">
+        <div class="k-shadow theme-background-color border py-4 px-6">
+          <div class="is-inline-flex is-align-items-center">
             <div>
               <b>{{ listingCartStore.count }}</b> {{ $t('items') }}
             </div>
@@ -27,7 +27,7 @@
           </div>
         </div>
         <NeoButton
-          class="h-full no-border-left"
+          class="h-full no-border-left py-4 px-7"
           :variant="'k-accent'"
           @click.native="preferencesStore.listingCartModalOpen = true">
           {{ $t('listingCart.listItem') }}
@@ -49,8 +49,5 @@ const preferencesStore = usePreferencesStore()
   right: 96px;
   bottom: 36px;
   z-index: 998;
-}
-.no-border-left {
-  border-left: none;
 }
 </style>
