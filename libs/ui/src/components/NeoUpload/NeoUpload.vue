@@ -3,14 +3,25 @@ import { OUpload } from '@oruga-ui/oruga'
 
 export default {
   extends: OUpload,
+  computed: {
+    rootClasses() {
+      return [
+        this.computedClass('rootClass', 'o-upl'),
+        {
+          [this.computedClass('expandedClass', 'o-upl--expanded')]:
+            this.expanded,
+        },
+        {
+          [this.computedClass('disabledClass', 'o-upl--disabled')]:
+            this.disabled,
+        },
+        { 'o-upl--rounded': this.rounded },
+      ]
+    },
+  },
 }
 </script>
 
 <style lang="scss">
-@import '../../scss/_theme.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/_expressions.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/_variables.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/_animations.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/_helpers.scss';
-@import '@oruga-ui/oruga/src/scss/components/_upload.scss';
+@import './NeoUpload.scss';
 </style>

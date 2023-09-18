@@ -1,28 +1,46 @@
 <template>
-  <div class="is-flex mb-2 token-price-container">
+  <div class="is-flex mb-2 pill-tabs-container">
     <div
       v-for="tab in tabs"
       :key="tab.value"
-      class="token-price py-2 px-4 is-flex is-align-items-center is-clickable"
+      class="tab py-2 px-4 is-flex is-align-items-center is-clickable"
       :class="{
-        'token-price__active': value === tab.value,
+        tab__active: tab.active,
       }"
       @click="() => handleTabClick(tab.value)">
-      <img class="mr-2 image square-20" :src="tab.icon" alt="token" />
+      <img
+        v-if="tab.image"
+        class="mr-2 image square-20"
+        :src="tab.image"
+        alt="tab" />
+
+      <NeoIcon
+        v-else-if="tab.icon"
+        class="mr-2"
+        :icon="tab.icon.name"
+        :pack="tab.icon.pack" />
+
       {{ tab.label }}
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-export type TransferTokenTab = {
+import { NeoIcon } from '@kodadot1/brick'
+
+export type PillTab = {
   label: string
   value: string
-  icon: string
+  icon?: {
+    name: string
+    pack: string
+  }
+  image?: string
+  active?: boolean
 }
 defineProps<{
-  tabs: TransferTokenTab[]
-  value: string
+  tabs: PillTab[]
+  showSelected?: boolean
 }>()
 const emit = defineEmits(['select'])
 
@@ -39,14 +57,14 @@ const handleTabClick = (value: string) => {
   height: 20px;
 }
 
-.token-price-container {
+.pill-tabs-container {
   gap: 10px;
 
   @media screen and (max-width: 1216px) {
     flex-wrap: wrap !important;
   }
 
-  .token-price {
+  .tab {
     border-radius: 3rem;
 
     @include ktheme() {

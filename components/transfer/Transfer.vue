@@ -53,10 +53,8 @@
         </NeoDropdown>
       </div>
 
-      <TransferTokenTabs
-        :tabs="tokenTabs"
-        :value="unit"
-        @select="handleTokenSelect" />
+      <PillTabs :tabs="tokenTabs" @select="handleTokenSelect" />
+
       <div class="mb-5">
         <NeoIcon class="ml-2" icon="circle-info" pack="far" />
         <span
@@ -331,7 +329,7 @@ import {
   NeoSwitch,
   NeoTooltip,
 } from '@kodadot1/brick'
-import TransferTokenTabs, { TransferTokenTab } from './TransferTokenTabs.vue'
+import PillTabs, { PillTab } from '@/components/shared/PillTabs.vue'
 import { TokenDetails } from '@/composables/useToken'
 import AddressInput from '@/components/shared/AddressInput.vue'
 import TransactionLoader from '@/components/shared/TransactionLoader.vue'
@@ -385,7 +383,7 @@ const { tokens } = useToken()
 const selectedTabFirst = ref(true)
 const tokenIcon = computed(() => getTokenIconBySymbol(unit.value))
 
-const tokenTabs = ref<TransferTokenTab[]>([])
+const tokenTabs = ref<PillTab[]>([])
 
 const targetAddresses = ref<TargetAddress[]>([{ address: '' }])
 
@@ -446,11 +444,15 @@ const generateTokenTabs = (
 ) => {
   items = sort ? getMovedItemToFront(items, 'symbol', selectedToken) : items
 
-  return items.map((availableToken) => ({
-    label: `${availableToken.symbol} $${availableToken.value || '0'}`,
-    icon: availableToken.icon,
-    value: availableToken.symbol,
-  }))
+  return items.map(
+    (availableToken) =>
+      ({
+        label: `${availableToken.symbol} $${availableToken.value || '0'}`,
+        image: availableToken.icon,
+        value: availableToken.symbol,
+        active: unit.value === availableToken.symbol,
+      } as PillTab)
+  )
 }
 
 watch(

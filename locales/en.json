@@ -920,7 +920,7 @@
   },
   "identity": {
     "page": "Identity",
-    "set": "Create on-chain identity",
+    "set": "Create on-chain identity on {0}",
     "click": "Click to create identity",
     "handleRequired": "Your handle is required",
     "deposit": "Deposit",
