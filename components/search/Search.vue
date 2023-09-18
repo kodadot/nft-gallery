@@ -1,28 +1,21 @@
 <template>
   <div>
-    <div v-if="!isVisible && !hideSearchInput" class="row">
-      <div v-if="priceRangeDirty && !hideFilter" class="is-size-7">
-        <PriceRange inline />
-      </div>
-    </div>
-    <div class="columns mb-0">
-      <NeoField class="column is-8 mb-0 mr-2" :class="searchColumnClass">
-        <slot name="next-filter"></slot>
-        <SearchBar
-          v-if="!hideSearchInput"
-          ref="searchRef"
-          v-model="name"
-          :query="query"
-          @redirect="redirectToGalleryPageIfNeed"
-          @enter="nativeSearch"
-          @blur="onBlur" />
-        <div v-if="!isVisible && hideSearchInput">
-          <div v-if="priceRangeDirty" class="is-size-7">
-            <PriceRange inline />
-          </div>
+    <NeoField :class="searchColumnClass">
+      <slot name="next-filter"></slot>
+      <SearchBar
+        v-if="!hideSearchInput"
+        ref="searchRef"
+        v-model="name"
+        :query="query"
+        @redirect="redirectToGalleryPageIfNeed"
+        @enter="nativeSearch"
+        @blur="onBlur" />
+      <div v-if="!isVisible && hideSearchInput">
+        <div v-if="priceRangeDirty" class="is-size-7">
+          <PriceRange inline />
         </div>
-      </NeoField>
-    </div>
+      </div>
+    </NeoField>
   </div>
 </template>
 

@@ -1,5 +1,4 @@
-<template></template>
-<!-- <template>
+<template>
   <div
     class="search-suggestion-container"
     @click="resetSelectedIndex"
@@ -368,7 +367,7 @@ const selectedItemListMap = computed(() => ({
 const { chainSymbol } = useChain()
 const router = useRouter()
 const route = useRoute()
-const { $consola, $apollo } = useNuxtApp()
+const { $consola } = useNuxtApp()
 
 const updateSearchUrl = () => {
   const { name } = props
@@ -520,33 +519,27 @@ const goToExploreResults = (item) => {
 const fetchSuggestions = async () => {
   if (showDefaultSuggestions.value) {
     try {
-      const result = await $apollo.query({
+      const { data: result } = await useAsyncQuery({
         query: seriesInsightList,
-        client: client.value,
+        clientId: client.value,
         variables: {
           limit: searchSuggestionEachTypeMaxNum,
           orderBy: 'volume_DESC',
         },
       })
-
-      const {
-        data: { collectionEntities: collections },
-      } = result
-
+      const { collectionEntities: collections } = result.value
       const collectionMetadataList = collections
         .slice(0, searchSuggestionEachTypeMaxNum)
         .map(mapNFTorCollectionMetadata)
       const collectionResult: (CollectionWithMeta & RowSeries)[] = []
-      await processMetadata<CollectionWithMeta>(
-        collectionMetadataList,
-        (meta, i) => {
-          collectionResult.push({
-            ...collections[i],
-            ...meta,
-            image: sanitizeIpfsUrl(meta.image || meta.mediaUri || '', 'image'),
-          })
-        }
-      )
+
+      processMetadata<CollectionWithMeta>(collectionMetadataList, (meta, i) => {
+        collectionResult.push({
+          ...collections[i],
+          ...meta,
+          image: sanitizeIpfsUrl(meta.image || meta.mediaUri || '', 'image'),
+        })
+      })
       defaultCollectionSuggestions.value = collectionResult
     } catch (e) {
       $consola.warn(e, 'Error while fetching default suggestions')
@@ -574,21 +567,18 @@ const updateSuggestion = useDebounceFn(async (value: string) => {
 const updateNftSuggestion = async () => {
   try {
     const queryNft = await resolveQueryPath(client.value, 'nftListWithSearch')
-    const nfts = $apollo.query({
+    const { data } = await useAsyncQuery({
       query: queryNft.default,
-      client: client.value,
+      clientId: client.value,
       variables: queryVariables.value,
     })
-
-    const {
-      data: { nFTEntities },
-    } = await nfts
+    const { nFTEntities } = data.value
     const nftList = unwrapSafe(
-      nFTEntities.slice(0, searchSuggestionEachTypeMaxNum)
+      nFTEntities.value.slice(0, searchSuggestionEachTypeMaxNum)
     )
     const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)
     const result: NFTWithMeta[] = []
-    await processMetadata<NFTWithMeta>(metadataList, (meta, i) => {
+    processMetadata<NFTWithMeta>(metadataList, (meta, i) => {
       result.push({
         ...nftList[i],
         ...meta,
@@ -611,11 +601,10 @@ const updateCollectionSuggestion = async (value: string) => {
       value,
       searchSuggestionEachTypeMaxNum
     )
-
     const metadataList: string[] = collections.map(mapNFTorCollectionMetadata)
-
     const collectionWithImagesList: CollectionWithMeta[] = []
-    await processMetadata<CollectionWithMeta>(metadataList, (meta, i) => {
+
+    processMetadata<CollectionWithMeta>(metadataList, (meta, i) => {
       const initialCollectionStats = {
         totalCount: undefined,
         floorPrice: undefined,
@@ -649,17 +638,17 @@ const fetchCollectionStats = async (
     _client === 'ksm' ? 'chain-rmrk' : 'subsquid',
     'collectionStatsById'
   )
-  const { data } = await $apollo.query({
+  const { data } = await useAsyncQuery({
     query: queryCollection.default,
-    client: _client,
+    clientId: _client,
     variables: {
       id: collection.collection_id,
     },
   })
 
-  collection.totalCount = data.stats.base.length
+  collection.totalCount = data.value.stats.base.length
   collection.floorPrice = Math.min(
-    ...data.stats.listed.map((item) => parseInt(item.price))
+    ...data.value.stats.listed.map((item) => parseInt(item.price))
   )
 
   if (
@@ -678,4 +667,4 @@ watch(
     resetSelectedIndex()
   }
 )
-</script> -->
+</script>

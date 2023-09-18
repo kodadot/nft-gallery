@@ -1,10 +1,9 @@
-<template></template>
-<!-- <template>
+<template>
   <div class="search-bar-container">
     <NeoAutocomplete
       ref="searchRef"
       v-model="name"
-      class="gallery-search"
+      root-class="gallery-search"
       :class="{ 'is-collection-search': isSearchInCollectionMode }"
       :placeholder="placeholderContent"
       icon="search"
@@ -77,7 +76,8 @@ const props = defineProps({
 const emits = defineEmits(['input', 'blur', 'enter', 'redirect'])
 const { $i18n } = useNuxtApp()
 
-const name = useVModel(props, 'value', emits, { eventName: 'input' })
+// const name = useVModel(props, 'value', emits, { eventName: 'input' })
+const name = ref('')
 
 const searchRef = ref<typeof NeoAutocomplete>()
 const searchSuggestionRef = ref<typeof SearchSuggestion>()
@@ -153,4 +153,4 @@ watch(
   },
   { immediate: true }
 )
-</script> -->
+</script>
