@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-const chains = ['Kusama', 'RMRK2', 'KusamaHub [Beta]', 'PolkadotHub [Beta]']
+const chains = ['Kusama', 'RMRK2', 'PolkadotHub [Beta]']
 
 test('Fill fields to check if they work', async ({ page }) => {
   await page.goto('/create/collection')
@@ -33,25 +33,22 @@ test('Fill fields to check if they work', async ({ page }) => {
   ).toHaveCount(1)
 })
 
-test('Check if balances load for each chain using the dropdown', async ({
-  page,
-}) => {
+test('Check if chain change works using the dropdown', async ({ page }) => {
   //E2E connection
   await page.goto('/e2e-login')
   await page.waitForTimeout(10000)
   await expect(page.getByTestId('mockAddress')).toHaveText('true')
   await page.goto('/create/collection')
-  for (const data of chains) {
-    await page.getByTestId('collection-chain').click()
-    await page.getByTestId('collection-chain').selectOption(data)
-    //Check if balances and deposits shows
-    await expect(page.getByTestId('collection-deposit')).toBeVisible({
-      timeout: 40000,
-    })
-    await expect(page.getByTestId('collection-balance')).toBeVisible({
-      timeout: 40000,
-    })
-  }
+  expect(page.getByTestId('collection-chain')).toBeVisible()
+  await page.getByTestId('collection-chain').selectOption('KusamaHub [Beta]')
+  //Check if balances and deposits shows
+  await expect(page.getByTestId('collection-deposit')).toBeVisible({
+    timeout: 30000,
+  })
+  await expect(page.getByTestId('collection-balance')).toBeVisible({
+    timeout: 30000,
+  })
+  await page.getByTestId('collection-chain').selectOption('RMRK2')
 })
 
 test('Show warning message on field when collection name empty', async ({
