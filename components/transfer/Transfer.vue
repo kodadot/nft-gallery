@@ -488,12 +488,17 @@ const checkQueryParams = () => {
   }
 
   if (query.amount) {
-    console.log('in')
+    const tokenAmount = Number(query.amount)
+    const usdValue = calculateUsdFromToken(
+      tokenAmount,
+      Number(currentTokenValue.value)
+    )
 
     sendSameAmount.value = true
     targetAddresses.value = targetAddresses.value.map((address) => ({
       ...address,
-      token: Number(query.amount),
+      usd: usdValue,
+      token: tokenAmount,
     }))
   } else if (query.usdamount) {
     const usdValue = Number(query.usdamount)
