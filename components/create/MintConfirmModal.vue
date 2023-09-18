@@ -20,11 +20,10 @@
           size="medium"
           @click.native="onClose" />
       </header>
-      <div class="px-6 pt-4">
+      <div v-if="isLogIn" class="px-6 pt-4">
         <div
           class="rounded border shade-border-color is-flex is-justify-content-start is-flex-grow-1 pl-3">
           <IdentityItem
-            v-if="isLogIn"
             :label="$t('confirmPurchase.connectedWith')"
             hide-identity-popover
             disable-identity-link
@@ -35,7 +34,7 @@
         </div>
       </div>
       <div class="px-6 mt-4 has-text-weight-bold">
-        {{ $t('mint.nft.modal.title') }}
+        {{ title }}
       </div>
       <div class="py-4">
         <ConfirmMintItem :nft="extendedInformation" class="px-6" />
@@ -57,7 +56,7 @@
           <a class="mr-1 has-text-k-blue" @click="openRampModal"
             >+ {{ $t('mint.nft.modal.addFunds') }}</a
           >
-          Or Use
+          {{ $t('mint.nft.modal.conjunction') }}
           <a v-safe-href="teleportLink" class="ml-1 has-text-k-blue">{{
             $t('mint.nft.modal.teleport')
           }}</a>
@@ -71,18 +70,18 @@
 <script setup lang="ts">
 import { NeoButton, NeoModal } from '@kodadot1/brick'
 import type { ChainProperties, Option } from '@kodadot1/static'
-import IdentityItem from '@/components/identity/IdentityItem.vue'
-import ConfirmMintItem from './ConfirmMintItem.vue'
-import PriceItem from './PriceItem.vue'
 import { BaseMintedCollection } from '@/components/base/types'
-import { availablePrefixes } from '@/utils/chain'
+import IdentityItem from '@/components/identity/IdentityItem.vue'
 import OnRampModal from '@/components/shared/OnRampModal.vue'
 import { CreateComponent } from '@/composables/useCreate'
-import { getTransitionFee } from '@/utils/transactionExecutor'
 import { useFiatStore } from '@/stores/fiat'
 import { usePreferencesStore } from '@/stores/preferences'
+import { availablePrefixes } from '@/utils/chain'
+import { getTransitionFee } from '@/utils/transactionExecutor'
 import { calculateBalanceUsdValue } from '@/utils/format/balance'
 import { BASE_FEE } from '@/utils/support'
+import ConfirmMintItem from './ConfirmMintItem.vue'
+import PriceItem from './PriceItem.vue'
 
 export type NftInformation = {
   file: Blob
@@ -130,11 +129,13 @@ const { metadataDeposit, collectionDeposit, existentialDeposit, itemDeposit } =
 const emit = defineEmits(['confirm', 'input'])
 
 const rampActive = ref(false)
-
 const networkFee = ref(0)
 
 const isNFT = computed(
   () => props.nftInformation.mintType === CreateComponent.NFT
+)
+const blockchain = computed(() =>
+  availablePrefixes().find((prefix) => prefix.value === urlPrefix.value)
 )
 const chainSymbol = computed(() => props.nftInformation.paidToken?.tokenSymbol)
 const decimals = computed(() => props.nftInformation.paidToken?.tokenDecimals)
@@ -152,43 +153,26 @@ const carbonlessFee = computed(
       tokenPrice.value) *
     Math.pow(10, decimals.value)
 )
-
-const extendedInformation = computed(() => ({
-  ...props.nftInformation,
-  type: route.query.tab,
-  networkFee: networkFee.value,
-  existentialDeposit: deposit.value,
-  kodadotFee: kodadotFee.value,
-  kodadotUSDFee: BASE_FEE,
-  carbonlessFee: carbonlessFee.value,
-  carbonlessUSDFee: BASE_FEE * 2,
-  totalFee: totalFee.value,
-  totalUSDFee: totalUSDFee.value,
-  blockchain: blockchain.value,
-}))
-
 const totalFee = computed(() => {
   return (
     deposit.value + carbonlessFee.value + kodadotFee.value + networkFee.value
   )
 })
-
 const deposit = computed(
   () =>
     metadataDeposit.value +
     existentialDeposit.value +
     (isNFT.value ? itemDeposit.value : collectionDeposit.value)
 )
-
 const totalUSDFee = computed(() =>
   calculateBalanceUsdValue(totalFee.value * tokenPrice.value, decimals.value)
 )
-
-const balanceIsEnough = computed(() => totalFee.value < balance.value)
-const blockchain = computed(() =>
-  availablePrefixes().find((prefix) => prefix.value === urlPrefix.value)
+const title = computed(() =>
+  isNFT.value
+    ? $i18n.t('mint.nft.modal.title')
+    : $i18n.t('mint.collection.modal.title')
 )
-
+const balanceIsEnough = computed(() => totalFee.value < balance.value)
 const btnLabel = computed(() => {
   if (!isLogIn.value) {
     return $i18n.t('mint.nft.modal.login')
@@ -203,6 +187,19 @@ const btnLabel = computed(() => {
 })
 const disabled = computed(() => !(balanceIsEnough.value && isLogIn.value))
 const teleportLink = computed(() => `/${urlPrefix.value}/teleport`)
+const extendedInformation = computed(() => ({
+  ...props.nftInformation,
+  type: route.query.tab,
+  networkFee: networkFee.value,
+  existentialDeposit: deposit.value,
+  kodadotFee: kodadotFee.value,
+  kodadotUSDFee: BASE_FEE,
+  carbonlessFee: carbonlessFee.value,
+  carbonlessUSDFee: BASE_FEE * 2,
+  totalFee: totalFee.value,
+  totalUSDFee: totalUSDFee.value,
+  blockchain: blockchain.value,
+}))
 
 const openRampModal = () => {
   rampActive.value = true
@@ -221,7 +218,6 @@ const confirm = () => {
 }
 
 const calculateNetworkFee = async () => {
-  console.log('decimals.value: ', decimals.value)
   networkFee.value = 0
   const fee = await getTransitionFee(accountId.value, [''], decimals.value)
   networkFee.value = Number(fee)

@@ -1,5 +1,9 @@
 <template>
   <div>
+    <MintConfirmModal
+      v-model="modalShowStatus"
+      :nft-information="nftInformation"
+      @confirm="submit" />
     <Loader
       v-model="isTransactionLoading"
       :status="transactionStatus"
@@ -62,16 +66,12 @@
         <NeoField key="token">
           <MultiPaymentFeeButton :account-id="accountId" :prefix="urlPrefix" />
         </NeoField>
-        <NeoField
+        <SubmitButton
           key="submit"
-          variant="danger"
-          :message="balanceNotEnoughMessage">
-          <SubmitButton
-            expanded
-            label="mint.submit"
-            :loading="isTransactionLoading"
-            @click="submit()" />
-        </NeoField>
+          expanded
+          label="mint.submit"
+          :loading="isTransactionLoading"
+          @click="showConfirm" />
       </template>
     </BaseTokenForm>
   </div>
@@ -95,13 +95,14 @@ import { unwrapSafe } from '@/utils/uniquery'
 import { Royalty } from '@/utils/royalty'
 import { fetchCollectionMetadata } from '@/utils/ipfs'
 import { CollectionMetadata } from '@/components/rmrk/types'
-import { Token, getBalance, getDeposit, getFeesToken } from './utils'
 import { MintedCollection } from '@/composables/transaction/types'
 import { NeoField } from '@kodadot1/brick'
 import type TokenBalanceInputComponent from '@/components/bsx/input/TokenBalanceInput.vue'
 import type BaseTokenFormComponent from '@/components/base/BaseTokenForm.vue'
+import MintConfirmModal from '@/components/create/MintConfirmModal.vue'
+import { CreateComponent } from '@/composables/useCreate'
 
-const { $i18n, $apollo, $consola, $router } = useNuxtApp()
+const { $apollo, $consola, $router } = useNuxtApp()
 
 const CustomAttributeInput = () =>
   import('@/components/rmrk/Create/CustomAttributeInput.vue')
@@ -130,6 +131,7 @@ withDefaults(
 const { apiUrl } = useApi()
 const { urlPrefix, tokenId } = usePrefix()
 const { accountId } = useAuth()
+const { chain } = useDeposit(urlPrefix)
 const {
   status: transactionStatus,
   isLoading: isTransactionLoading,
@@ -158,30 +160,26 @@ const nsfw = ref(false)
 const price = ref('0')
 const listed = ref(false)
 const hasRoyalty = ref(true)
-const feesToken = ref<Token>('BSX')
 const royalty = ref<Royalty>({
   amount: 0.15,
   address: accountId.value,
 })
-const balanceNotEnough = ref(false)
+const modalShowStatus = ref(false)
 
 const balanceInput = ref<typeof TokenBalanceInputComponent | null>(null)
 const baseTokenForm = ref<typeof BaseTokenFormComponent | null>(null)
 
+const nftInformation = computed(() => ({
+  ...base.value,
+  price: price.value.toString(),
+  listForSale: listed.value,
+  paidToken: chain.value,
+  mintType: CreateComponent.NFT,
+}))
+
 watch(price, (value) => {
   price.value = value
   balanceInput.value?.checkValidity()
-})
-
-const balanceOfToken = computed(() => getBalance(feesToken.value))
-const depositOfToken = computed(() =>
-  getDeposit(feesToken.value, parseFloat(deposit.value))
-)
-const balanceNotEnoughMessage = computed(() => {
-  if (balanceNotEnough.value) {
-    return $i18n.t('tooltip.notEnoughBalance')
-  }
-  return ''
 })
 
 const loadCollectionMeta = async () => {
@@ -251,20 +249,25 @@ const navigateToDetail = (collection: string, id: string): void => {
   setTimeout(go, DETAIL_TIMEOUT)
 }
 
-const submit = async (retryCount = 0): Promise<void> => {
+const showConfirm = () => {
+  if (preCheck()) {
+    modalShowStatus.value = true
+  }
+}
+
+const preCheck = () => {
   if (!base.value.selectedCollection) {
     throw ReferenceError('[MINT] Unable to mint without collection')
   }
   // check fields
   if (!checkValidity()) {
-    return
+    return false
   }
-  // check balance
-  if (!!deposit.value && balanceOfToken.value < depositOfToken.value) {
-    balanceNotEnough.value = true
-    return
-  }
+  return true
+}
 
+const submit = async (retryCount = 0): Promise<void> => {
+  modalShowStatus.value = false
   isTransactionLoading.value = true
   transactionStatus.value = 'loader.ipfs'
   const {
@@ -322,7 +325,6 @@ watch(
   async (value, oldVal) => {
     if (shouldUpdate(value, oldVal)) {
       await fetchCollections()
-      feesToken.value = await getFeesToken()
     }
   },
   { immediate: true }

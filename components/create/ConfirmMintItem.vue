@@ -33,7 +33,7 @@
     <div v-if="isNFT" class="is-flex mt-4 is-align-items-center">
       <div class="k-grey mr-2">{{ $t('mint.nft.modal.intoCollection') }}</div>
       <NeoIcon pack="fa-sharp" icon="arrow-right-long" class="k-grey mr-4" />
-      <div class="">{{ nft.selectedCollection.name }}</div>
+      <div>{{ nft.selectedCollection.name }}</div>
     </div>
   </div>
 </template>

@@ -1,5 +1,9 @@
 <template>
   <div>
+    <MintConfirmModal
+      v-model="modalShowStatus"
+      :nft-information="nftInformation"
+      @confirm="submit" />
     <Loader v-model="isLoading" :status="status" />
     <BaseTokenForm
       v-bind.sync="base"
@@ -44,17 +48,12 @@
               label="mint.expert.postfix" />
           </CollapseWrapper>
         </NeoField>
-        <NeoField
-          v-if="isLogIn"
+        <SubmitButton
           key="submit"
-          variant="danger"
-          :message="balanceNotEnoughMessage">
-          <SubmitButton
-            expanded
-            label="mint.submit"
-            :loading="isLoading"
-            @click="submit()" />
-        </NeoField>
+          expanded
+          label="mint.submit"
+          :loading="isLoading"
+          @click="showConfirm" />
       </template>
     </BaseTokenForm>
   </div>
@@ -73,12 +72,14 @@ import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
 import CustomAttributeInput from '@/components/rmrk/Create/CustomAttributeInput.vue'
 import CollapseWrapper from '@/components/shared/collapse/CollapseWrapper.vue'
 import SubmitButton from '@/components/base/SubmitButton.vue'
+import MintConfirmModal from '@/components/create/MintConfirmModal.vue'
+import { CreateComponent } from '@/composables/useCreate'
 
 const { isLoading, status } = useLoader()
-const { $i18n } = useNuxtApp()
 const router = useRouter()
 const { urlPrefix } = usePrefix()
-const { balance, isLogIn, accountId } = useAuth()
+const { accountId } = useAuth()
+const { chain } = useDeposit(urlPrefix)
 
 withDefaults(
   defineProps<{
@@ -104,8 +105,7 @@ const price = ref(0)
 const nsfw = ref(false)
 const listed = ref(true)
 const postfix = ref(true)
-const balanceNotEnough = ref(false)
-
+const modalShowStatus = ref(false)
 //TODO: implement royalty in mintTokenStatemine
 
 // const hasRoyalty = ref(true)
@@ -118,9 +118,13 @@ const updatePrice = (value) => {
   price.value = value
 }
 
-const balanceNotEnoughMessage = computed(() => {
-  return balanceNotEnough.value ? $i18n.t('tooltip.notEnoughBalance') : ''
-})
+const nftInformation = computed(() => ({
+  ...base.value,
+  price: price.value.toString(),
+  listForSale: listed.value,
+  paidToken: chain.value,
+  mintType: CreateComponent.NFT,
+}))
 
 const { data: collectionsData, refetch: refetchCollections } = useGraphql({
   queryName: 'collectionForMint',
@@ -153,19 +157,24 @@ const checkValidity = () => {
   return balanceInputValid && baseTokenFormValid && validCopies
 }
 
-const submit = () => {
+const showConfirm = () => {
+  if (preCheck()) {
+    modalShowStatus.value = true
+  }
+}
+
+const preCheck = () => {
   if (!base.value.selectedCollection) {
     throw ReferenceError('[MINT] Unable to mint without collection')
   }
   if (!base.value.selectedCollection || !checkValidity()) {
-    return
+    return false
   }
+  return true
+}
 
-  if (parseFloat(balance.value) === 0) {
-    balanceNotEnough.value = true
-    return
-  }
-
+const submit = () => {
+  modalShowStatus.value = false
   isLoading.value = true
   status.value = 'loader.ipfs'
 

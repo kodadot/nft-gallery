@@ -121,7 +121,7 @@ const hasMultipleFees = computed(
 
 const format = (value: number) => {
   return roundTo(
-    formatBalance(checkInvalidBalanceFilter(value), tokenDecimals.value),
+    formatBalance(checkInvalidBalanceFilter(value), tokenDecimals.value, ''),
     4
   )
 }

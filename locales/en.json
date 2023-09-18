@@ -487,7 +487,10 @@
       },
       "create": "Create New Collection",
       "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)",
-      "submit": "Create Collection"
+      "submit": "Create Collection",
+      "modal": {
+        "title": "Mint Collection"
+      }
     },
     "nft": {
       "name": {
@@ -519,12 +522,13 @@
       "drop": "Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)",
       "modal": {
         "action": "Confirm Mint",
-        "title": "Mint Collection",
+        "title": "Mint NFT",
         "addFunds": "Add Funds",
         "teleport": "Teleport",
         "login": "Continue To Signing",
         "process": "Continue with Minting",
         "notEnoughFund":"Not Enough {0} in {1}",
+        "conjunction": "Or Use",
         "price": "Price",
         "network": "Network",
         "intoCollection": "Into Collection",
