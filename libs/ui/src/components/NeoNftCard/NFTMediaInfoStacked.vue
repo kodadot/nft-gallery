@@ -70,7 +70,9 @@ const props = withDefaults(
   }
 )
 
-const isMinimal = computed(() => props.variant.includes('minimal'))
+const isMinimal = computed(() =>
+  props.variant ? props.variant.includes('minimal') : false
+)
 const nftStack = computed(() => props.nft as NFTStack)
 
 const collectionUrl = computed(
