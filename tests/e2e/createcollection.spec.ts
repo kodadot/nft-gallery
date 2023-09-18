@@ -41,9 +41,8 @@ test('Check if balances load for each chain using the dropdown', async ({
   await page.waitForTimeout(10000)
   await expect(page.getByTestId('mockAddress')).toHaveText('true')
   await page.goto('/create/collection')
-  let i = 0
   for (const data of chains) {
-    await page.getByTestId('collection-chain').selectOption(`${chains[i]}`)
+    await page.getByTestId('collection-chain').selectOption(`${data}`)
     //Check if balances and deposits shows
     await expect(page.getByTestId('collection-deposit')).toBeVisible({
       timeout: 40000,
@@ -51,7 +50,6 @@ test('Check if balances load for each chain using the dropdown', async ({
     await expect(page.getByTestId('collection-balance')).toBeVisible({
       timeout: 40000,
     })
-    i++
   }
 })
 

@@ -87,17 +87,15 @@ test('Check Footer Subscription', async ({ page }) => {
 })
 
 test('Check Footer links', async ({ page }) => {
-  let i = 0
   await page.goto('/')
   for (const data of footerLinks) {
     const footer = page.getByTestId('footer-container')
     const newTabPromise = page.waitForEvent('popup')
-    await footer.getByRole('link', { name: footerLinks[i].linkName }).click()
+    await footer.getByRole('link', { name: data.linkName }).click()
     const newTab = await newTabPromise
     await newTab.waitForLoadState()
-    await expect(newTab).toHaveURL(footerLinks[i].linkAddress)
+    await expect(newTab).toHaveURL(data.linkAddress)
     await newTab.close()
-    i++
   }
 })
 
@@ -109,18 +107,14 @@ test('Check blog link', async ({ page }) => {
 })
 
 test('Check Social Media Links', async ({ page }) => {
-  let i = 0
   await page.goto('/')
   for (const data of footerSocialMediaLinks) {
     const socialMedia = page.locator('.footer-container-socials-list')
     const newTabPromise = page.waitForEvent('popup')
-    await socialMedia
-      .locator(`[aria-label="${footerSocialMediaLinks[i].linkName}"]`)
-      .click()
+    await socialMedia.locator(`[aria-label="${data.linkName}"]`).click()
     const newTab = await newTabPromise
     await newTab.waitForLoadState()
-    await expect(newTab).toHaveURL(footerSocialMediaLinks[i].linkAddress)
+    await expect(newTab).toHaveURL(data.linkAddress)
     await newTab.close()
-    i++
   }
 })
