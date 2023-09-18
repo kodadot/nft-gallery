@@ -138,7 +138,7 @@ const play = (time?: number) => {
 const pause = async () => {
   return new Promise((resolve, reject) => {
     if (!canPause.value) {
-      reject(new Error("Player: Can't pause"))
+      return reject(new Error("Player: Can't pause"))
     }
 
     flushPreviouseActions()
