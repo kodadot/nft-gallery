@@ -51,8 +51,8 @@ import { NftCardVariant } from '@kodadot1/brick'
 import { NFTWithMetadata } from '@/composables/useNft'
 const props = withDefaults(
   defineProps<{
-    nft?: NFTWithMetadata
-    prefix?: string
+    nft: NFTWithMetadata
+    prefix: string
     showPrice?: boolean
     collectionPopoverShowDelay?: number
     variant?: NftCardVariant
@@ -63,12 +63,7 @@ const props = withDefaults(
   }
 )
 
-const isMinimal = computed(() => {
-  if (props.variant) {
-    return props.variant.includes('minimal')
-  }
-  return false
-})
+const isMinimal = computed(() => props.variant.includes('minimal'))
 </script>
 
 <style lang="scss" scoped>

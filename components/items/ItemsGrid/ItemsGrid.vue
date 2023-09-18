@@ -32,7 +32,9 @@
       <NeoNftCard
         v-for="n in skeletonCount"
         :key="n"
+        :nft="nfts[n]"
         is-loading
+        :prefix="urlPrefix"
         :variant="
           (slotProps.isMobileVariant || slotProps.grid === 'small') && 'minimal'
         " />
@@ -48,6 +50,8 @@ import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'
 import isEqual from 'lodash/isEqual'
+
+const { urlPrefix } = usePrefix()
 
 const props = defineProps<{
   search?: Record<string, string | number>

@@ -74,14 +74,14 @@
 <script lang="ts" setup>
 import MediaItem from '../MediaItem/MediaItem.vue'
 import { NeoSkeleton, NftCardVariant } from '@kodadot1/brick'
-import { NFTWithMetadata } from '@/composables/useNft'
 import NFTMediaInfoStacked from './NFTMediaInfoStacked.vue'
 import NFTMediaInfo from './NFTMediaInfo.vue'
+import { ItemsGridEntity } from '@/components/items/ItemsGrid/useItemsGrid'
 const props = withDefaults(
   defineProps<{
     isLoading?: boolean
-    nft?: NFTWithMetadata
-    prefix?: string
+    nft: ItemsGridEntity
+    prefix: string
     showPrice?: boolean
     collectionPopoverShowDelay?: number
     variant?: NftCardVariant
@@ -102,19 +102,9 @@ const props = withDefaults(
   }
 )
 
-const isStacked = computed(() => {
-  if (props.variant) {
-    return props.variant.includes('stacked')
-  }
-  return false
-})
+const isStacked = computed(() => props.variant.includes('stacked'))
 
-const isMinimal = computed(() => {
-  if (props.variant) {
-    return props.variant.includes('minimal')
-  }
-  return false
-})
+const isMinimal = computed(() => props.variant.includes('minimal'))
 </script>
 
 <style lang="scss" scoped>
