@@ -116,36 +116,32 @@
       <hr class="my-6" />
 
       <!-- create collection button -->
-      <NeoField>
-        <div>
-          <NeoButton
-            class="is-size-6"
-            expanded
-            :label="$t('mint.collection.submit')"
-            type="submit"
-            size="medium"
-            :loading="isLoading" />
+      <NeoButton
+        class="is-size-6"
+        expanded
+        :label="$t('mint.collection.submit')"
+        type="submit"
+        size="medium"
+        :loading="isLoading" />
 
-          <div class="p-4 is-flex">
-            <NeoIcon icon="circle-info" size="medium" class="mr-4" />
-            <p class="is-size-7">
-              <span
-                v-dompurify-html="
-                  $t('mint.requiredDeposit', [
-                    `${totalCollectionDeposit} ${chainSymbol}`,
-                  ])
-                " />
-              <a
-                href="https://hello.kodadot.xyz/multi-chain/fees"
-                target="_blank"
-                class="has-text-link"
-                rel="nofollow noopener noreferrer">
-                {{ $t('helper.learnMore') }}
-              </a>
-            </p>
-          </div>
-        </div>
-      </NeoField>
+      <div class="p-4 is-flex">
+        <NeoIcon icon="circle-info" size="medium" class="mr-4" />
+        <p class="is-size-7">
+          <span
+            v-dompurify-html="
+              $t('mint.requiredDeposit', [
+                `${totalCollectionDeposit} ${chainSymbol}`,
+              ])
+            " />
+          <a
+            href="https://hello.kodadot.xyz/multi-chain/fees"
+            target="_blank"
+            class="has-text-link"
+            rel="nofollow noopener noreferrer">
+            {{ $t('helper.learnMore') }}
+          </a>
+        </p>
+      </div>
     </form>
   </div>
 </template>

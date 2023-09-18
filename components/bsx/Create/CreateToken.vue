@@ -69,6 +69,7 @@
         <SubmitButton
           key="submit"
           expanded
+          custom-class="is-size-6"
           label="mint.submit"
           :loading="isTransactionLoading"
           @click="showConfirm" />

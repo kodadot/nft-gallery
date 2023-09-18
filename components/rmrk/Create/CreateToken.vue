@@ -66,7 +66,7 @@
         </NeoField>
         <SubmitButton
           key="submit"
-          class="is-size-6"
+          custom-class="is-size-6"
           expanded
           label="mint.submit"
           :loading="isLoading"

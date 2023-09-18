@@ -52,6 +52,7 @@
           key="submit"
           expanded
           label="mint.submit"
+          custom-class="is-size-6"
           :loading="isLoading"
           @click="showConfirm" />
       </template>
