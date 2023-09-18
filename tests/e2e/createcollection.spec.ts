@@ -1,7 +1,5 @@
 import { expect, test } from '@playwright/test'
 
-const chains = ['Kusama', 'RMRK2', 'PolkadotHub [Beta]']
-
 test('Fill fields to check if they work', async ({ page }) => {
   await page.goto('/create/collection')
   //upload image logo
