@@ -47,7 +47,7 @@ jobs:
 
     - name: Run Playwright tests
       run: npx playwright test
-      working-directory: tests/e2e
+      working-directory: ./tests/e2e
     - uses: actions/upload-artifact@v3
       if: always()
       with:
