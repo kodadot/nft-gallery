@@ -13,12 +13,13 @@
           <div class="has-text-color line-height-1 no-wrap is-clipped ellipsis">
             {{ nft.name }}
           </div>
-          <div class="line-height-1 no-wrap k-grey is-clipped ellipsis">
+          <div class="line-height-1 no-wrap has-text-grey is-clipped ellipsis">
             {{ label }}:
           </div>
         </div>
       </div>
-      <div class="is-flex is-align-items-end no-wrap k-grey line-height-1">
+      <div
+        class="is-flex is-align-items-end no-wrap has-text-grey line-height-1">
         <template v-if="isNFT">
           <template v-if="showPrice">
             <CommonTokenMoney :value="price" />
@@ -31,7 +32,9 @@
       </div>
     </div>
     <div v-if="isNFT" class="is-flex mt-4 is-align-items-center">
-      <div class="k-grey mr-2">{{ $t('mint.nft.modal.intoCollection') }}</div>
+      <div class="has-text-grey mr-2">
+        {{ $t('mint.nft.modal.intoCollection') }}
+      </div>
       <NeoIcon pack="fa-sharp" icon="arrow-right-long" class="k-grey mr-4" />
       <div>{{ nft.selectedCollection.name }}</div>
     </div>
@@ -86,11 +89,5 @@ watch(
 
 .line-height-1 {
   line-height: 1;
-}
-
-.k-grey {
-  @include ktheme() {
-    color: theme('k-grey');
-  }
 }
 </style>

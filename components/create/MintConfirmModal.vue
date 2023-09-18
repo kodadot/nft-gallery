@@ -96,7 +96,7 @@ export type NftInformation = {
 export type ExtendedInformation = NftInformation & {
   blockchain: Option
   networkFee: number
-  existentialDeposit?: number
+  existentialDeposit: number
   kodadotFee: number
   kodadotUSDFee: number
   carbonlessFee: number
@@ -117,7 +117,6 @@ const props = withDefaults(
 
 const { isLogIn, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
-const route = useRoute()
 const { $i18n } = useNuxtApp()
 const { balance } = useBalance()
 const fiatStore = useFiatStore()
@@ -189,7 +188,6 @@ const disabled = computed(() => !(balanceIsEnough.value && isLogIn.value))
 const teleportLink = computed(() => `/${urlPrefix.value}/teleport`)
 const extendedInformation = computed(() => ({
   ...props.nftInformation,
-  type: route.query.tab,
   networkFee: networkFee.value,
   existentialDeposit: deposit.value,
   kodadotFee: kodadotFee.value,

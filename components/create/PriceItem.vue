@@ -2,7 +2,9 @@
   <div>
     <div class="border-top pt-4 card-border-color is-size-7">
       <template v-if="hasMultipleFees">
-        <div class="k-grey mb-4 is-flex is-align-items-center" @click="toggle">
+        <div
+          class="has-text-grey mb-4 is-flex is-align-items-center k-cursor-pointer"
+          @click="toggle">
           <div class="mr-1">Fee Breakdown</div>
           <NeoIcon
             class="transition"
@@ -20,11 +22,12 @@
       </div>
       <div
         v-if="existentialDeposit"
-        class="k-grey is-flex mb-2 is-align-items-center is-justify-content-space-between">
+        class="has-text-grey is-flex mb-2 is-align-items-center is-justify-content-space-between">
         <div>
           {{ $t('mint.nft.modal.existentialDeposit') }}
           <NeoTooltip
             position="top"
+            class="k-cursor-pointer"
             multiline-width="14rem"
             multiline
             :label="
@@ -40,10 +43,11 @@
       </div>
       <div
         v-if="kodadotFee"
-        class="is-flex mb-2 k-grey is-align-items-center is-justify-content-space-between">
+        class="is-flex mb-2 has-text-grey is-align-items-center is-justify-content-space-between">
         <div>
           {{ $t('mint.nft.modal.kodadotFee') }}
           <NeoTooltip
+            class="k-cursor-pointer"
             position="top"
             multiline-width="14rem"
             :label="$t('mint.nft.modal.kodadotTooltip')"
@@ -140,12 +144,6 @@ const toggle = () => {
 </script>
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
-.k-grey {
-  @include ktheme() {
-    color: theme('k-grey');
-  }
-}
-
 .k-green {
   @include ktheme {
     color: theme('k-green');
