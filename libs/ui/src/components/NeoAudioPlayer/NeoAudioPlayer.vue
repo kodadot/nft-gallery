@@ -109,7 +109,7 @@ const pushToActionStack = ({ promise, reject }) => {
 const play = () => {
   return new Promise((resolve, reject) => {
     if (!canPlay.value) {
-      return reject("Player: Can't play")
+      return reject(new Error("Player: Can't play"))
     }
 
     flushPreviouseActions()
@@ -125,7 +125,7 @@ const play = () => {
 const pause = async () => {
   return new Promise((resolve, reject) => {
     if (!canPause.value) {
-      reject("Player: Can't pause")
+      reject(new Error("Player: Can't pause"))
     }
 
     flushPreviouseActions()
