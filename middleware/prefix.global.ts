@@ -5,7 +5,7 @@ import consola from 'consola'
 
 export const rmrk2ChainPrefixesInHostname = ['rmrk2', 'rmrk']
 
-export default function ({ route }): void {
+export default defineNuxtRouteMiddleware((route) => {
   const identityStore = useIdentityStore()
   const prefixInPath = route.params.prefix || route.path.split('/')[1]
   const { setUrlPrefix, urlPrefix } = usePrefix()
@@ -43,4 +43,4 @@ export default function ({ route }): void {
   } catch {
     consola.warn('Invalid chain prefix')
   }
-}
+})

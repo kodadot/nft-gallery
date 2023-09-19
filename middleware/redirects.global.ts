@@ -1,4 +1,4 @@
-export default function ({ redirect, route }): void {
+export default defineNuxtRouteMiddleware((route) => {
   const { urlPrefix } = usePrefix()
 
   let redirectValue
@@ -44,6 +44,6 @@ export default function ({ redirect, route }): void {
   }
 
   if (redirectValue) {
-    return redirect(redirectValue)
+    return navigateTo(redirectValue, { external: true })
   }
-}
+})
