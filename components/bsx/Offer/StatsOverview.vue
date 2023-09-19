@@ -66,8 +66,8 @@ watchEffect(() => {
     )
 
     statsResponse.value = data.value
-    offerStats.value = data.value.offerStats
-    keysObject.value = Object.keys(data.value).filter(
+    offerStats.value = data.value?.offerStats
+    keysObject.value = Object.keys(data.value as object).filter(
       (key) => key !== 'offerStats'
     )
   } catch (e) {

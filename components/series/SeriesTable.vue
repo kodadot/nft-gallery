@@ -360,7 +360,7 @@ const fetchCollectionEvents = async (ids: string[]) => {
         gte: lastmonthDate,
       },
     })
-    return data.value.events
+    return data.value?.events
   } catch (e) {
     $consola.error(e)
     return []
