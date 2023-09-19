@@ -1,5 +1,5 @@
 <template>
-  <div ref="audioMedia" data-testid="type-audio">
+  <div data-testid="type-audio">
     <ImageMedia
       v-if="playerCover"
       ref="cover"
@@ -36,7 +36,6 @@ const props = defineProps<{
   isDarkMode?: boolean
 }>()
 
-const audioMedia = ref()
 const cover = ref()
 const audioPlayer = ref()
 
