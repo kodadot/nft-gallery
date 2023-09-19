@@ -1,6 +1,6 @@
 <template>
   <NeoModal
-    v-model="isModalActive"
+    :value="isModalActive"
     scroll="clip"
     :can-cancel="!loading"
     @close="emit('close')">
