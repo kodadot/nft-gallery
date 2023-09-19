@@ -310,7 +310,7 @@ watchEffect(async () => {
     fetchPolicy: 'network-only',
   })
 
-  // TODO: what if the creator has so many nfts?
+  // https://github.com/kodadot/nft-gallery/issues/7298
   listOfCollection.value = collections?.data?.collectionEntities
     .map((ce) => ({
       ...ce,
