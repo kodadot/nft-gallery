@@ -11,7 +11,7 @@
             <div class="mx-4" />
             <NeoButton
               :disabled="!listingCartStore.count"
-              class="has-text-grey"
+              class="has-text-grey selection-button"
               variant="text"
               no-shadow
               @click.native="listingCartStore.clear">
@@ -20,7 +20,7 @@
             <div class="mx-4 divider k-grey" />
             <NeoButton
               variant="text"
-              class="has-text-grey"
+              class="has-text-grey selection-button"
               no-shadow
               @click.native="listingCartStore.addAllToCart">
               {{ $t('listingCart.selectAll') }}
@@ -45,11 +45,18 @@ const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
 </script>
 <style scoped lang="scss">
+@import '@/styles/abstracts/variables.scss';
+
 .listing-container {
   position: fixed;
   right: 96px;
   bottom: 36px;
   z-index: 998;
+  .selection-button:not([disabled='disabled']):hover {
+    @include ktheme() {
+      color: theme('text-color') !important;
+    }
+  }
   .divider {
     width: 1px;
     height: 1rem;
