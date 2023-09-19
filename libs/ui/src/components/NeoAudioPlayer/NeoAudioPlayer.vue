@@ -57,15 +57,20 @@
 import { useEventListener, useMediaControls } from '@vueuse/core'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import ProgressBar from './ProgressBar/ProgressBar.vue'
+import { getRandomValues } from '@/components/unique/utils'
 
 const props = defineProps<{
   src?: string
 }>()
 
+const { eventBus: playerEventBus, unsubscribe: unsubscribePlayerEventBus } =
+  usePlayerEventBus()
+
 const player = ref()
 const audio = ref()
 const loading = ref(false)
 const canStartPlaying = ref(false)
+const id = ref(getRandomValues(1)[0])
 
 const actionStack = ref<
   { promise: Promise<void>; reject: (reason?: any) => void }[]
@@ -111,7 +116,6 @@ const play = (time?: number) => {
     if (!canPlay.value) {
       return reject(new Error("Player: Can't play"))
     }
-
     flushPreviouseActions()
       .then(() => {
         loading.value = true
@@ -123,7 +127,10 @@ const play = (time?: number) => {
         const playPromise: Promise<any> = audio.value.play()
 
         playPromise
-          .then(resolve)
+          .then(() => {
+            playerEventBus.emit(PlayerEvent.PLAY, { id: id.value })
+            resolve(true)
+          })
           .catch(reject)
           .finally(() => {
             loading.value = false
@@ -169,7 +176,14 @@ useEventListener(audio, 'canplaythrough', () => {
   canStartPlaying.value = true
 })
 
-defineExpose({ play, pause, playing })
+playerEventBus.emit(PlayerEvent.ADD_PLAYER, { id: id.value, pause })
+
+onBeforeUnmount(() => {
+  playerEventBus.emit(PlayerEvent.REMOVE_PLAYER, { id: id.value })
+  unsubscribePlayerEventBus()
+})
+
+defineExpose({ play, pause })
 </script>
 
 <style scoped lang="scss">

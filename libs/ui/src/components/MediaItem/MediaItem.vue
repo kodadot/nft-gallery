@@ -10,8 +10,7 @@
       :is-lewd="isLewd"
       :is-detail="isDetail"
       :player-cover="audioPlayerCover"
-      :hover-on-cover-play="audioHoverOnCoverPlay"
-      :pause-on-horizontal-hidden="audioPauseOnHorizontalHidden" />
+      :hover-on-cover-play="audioHoverOnCoverPlay" />
     <div
       v-if="isLewd && isLewdBlurredLayer"
       class="nsfw-blur is-capitalized is-flex is-align-items-center is-justify-content-center is-flex-direction-column">
@@ -61,7 +60,6 @@ const props = withDefaults(
     placeholder?: string
     audioPlayerCover?: string
     audioHoverOnCoverPlay?: boolean
-    audioPauseOnHorizontalHidden?: boolean
   }>(),
   {
     src: '',

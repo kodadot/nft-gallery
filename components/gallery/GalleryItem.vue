@@ -38,7 +38,6 @@
                   :mime-type="resource.mimeType"
                   :animation-src="resource.animation"
                   :audio-player-cover="galleryItem.nftImage.value"
-                  audio-pause-on-horizontal-hidden
                   is-detail />
               </NeoCarouselItem>
             </NeoCarousel>
