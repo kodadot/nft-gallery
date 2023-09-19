@@ -386,4 +386,4 @@ watchEffect(async () => {
 })
 </script>
 
-<style lang="scss" scoped src="./create.scss"></style>
+<style lang="scss" scoped src="@/styles/pages/create.scss"></style>
