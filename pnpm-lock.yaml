@@ -51,8 +51,8 @@ importers:
         specifier: workspace:*
         version: link:libs/static
       '@kodadot1/sub-api':
-        specifier: ^0.1.2
-        version: 0.1.2
+        specifier: 0.2.0-rc.0
+        version: 0.2.0-rc.0
       '@nuxtjs/apollo':
         specifier: ^4.0.1-rc.5
         version: 4.0.1-rc.5(graphql-tag@2.12.6)(graphql-ws@5.14.0)(typescript@4.9.5)
@@ -4364,11 +4364,16 @@ packages:
       ofetch: 1.3.3
     dev: false
 
-  /@kodadot1/sub-api@0.1.2:
-    resolution: {integrity: sha512-I6iumNz4A2HakAkNS7dUfEJxoXCMN0Ke2M6ruXHk8+BGj3yw1e46R71bigRp4XK4GYW8wvIEN3rwVp/eniqlNQ==}
+  /@kodadot1/static@0.0.2:
+    resolution: {integrity: sha512-SS+g9xVCQ6GmdjHoQvn3aplhbLJMyOGBOyOycydFmS33JHoabSEH/KZvBAmsVQUGP7slKHqJ0ZRu3HS9pi0imQ==}
+    dev: false
+
+  /@kodadot1/sub-api@0.2.0-rc.0:
+    resolution: {integrity: sha512-noEwHKBLzJAj/6pZqjqX44d7j/K8sF30uKAzfmbH8vdVdAkvNIQe4XqcxqwgYGirUyT0nD5dNhDaJ/gF1EZYvQ==}
     dependencies:
-      '@polkadot/api': 10.6.1
-      '@polkadot/types-codec': 10.8.1
+      '@kodadot1/static': 0.0.2
+      '@polkadot/api': 10.9.1
+      '@polkadot/types-codec': 10.9.1
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -5920,7 +5925,7 @@ packages:
       '@polkadot/api-augment': 10.8.1
       '@polkadot/api-base': 10.8.1
       '@polkadot/api-derive': 10.8.1
-      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2)
       '@polkadot/rpc-augment': 10.8.1
       '@polkadot/rpc-core': 10.8.1
       '@polkadot/rpc-provider': 10.8.1
@@ -5947,7 +5952,7 @@ packages:
       '@polkadot/api-augment': 10.9.1
       '@polkadot/api-base': 10.9.1
       '@polkadot/api-derive': 10.9.1
-      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2)
       '@polkadot/rpc-augment': 10.9.1
       '@polkadot/rpc-core': 10.9.1
       '@polkadot/rpc-provider': 10.9.1
@@ -6127,11 +6132,12 @@ packages:
       tslib: 2.5.3
     dev: false
 
-  /@polkadot/keyring@12.3.2(@polkadot/util@12.3.2):
+  /@polkadot/keyring@12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2):
     resolution: {integrity: sha512-NTdtDeI0DP9l/45hXynNABeP5VB8piw5YR+CbUxK2e36xpJWVXwbcOepzslg5ghE9rs8UKJb30Z/HqTU4sBY0Q==}
     engines: {node: '>=16'}
     peerDependencies:
       '@polkadot/util': 12.3.2
+      '@polkadot/util-crypto': 12.3.2
     dependencies:
       '@polkadot/util': 12.3.2
       '@polkadot/util-crypto': 12.3.2(@polkadot/util@12.3.2)
@@ -6448,7 +6454,7 @@ packages:
     resolution: {integrity: sha512-4QzT2QzD+320+eT6b79sGAA85Tt3Bb8fQvse4r5Mom2iiBd2SO81vOhxSAOaIe4GUsw25VzFJmsbe7+OObItdg==}
     engines: {node: '>=16'}
     dependencies:
-      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2)
       '@polkadot/types': 10.9.1
       '@polkadot/types-support': 10.9.1
       '@polkadot/util': 12.3.2
@@ -6791,7 +6797,7 @@ packages:
     resolution: {integrity: sha512-m6UvsvQOZ7sRGbonb6QLs4mZ6TmYKdAXAcHakiJl2xArqsgOghJsKhgaTqcigPkSq4947MXtIkEzdrwFEnkYkQ==}
     engines: {node: '>=16'}
     dependencies:
-      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2)
       '@polkadot/types-augment': 10.8.1
       '@polkadot/types-codec': 10.8.1
       '@polkadot/types-create': 10.8.1
@@ -6805,7 +6811,7 @@ packages:
     resolution: {integrity: sha512-AG33i2ZGGfq7u+5rkAdGrXAQHHl844/Yv+junH5ZzX69xiCoWO1bH/yzDUNBdpki2GlACWvF9nLYh3F2tVF93w==}
     engines: {node: '>=16'}
     dependencies:
-      '@polkadot/keyring': 12.3.2(@polkadot/util@12.3.2)
+      '@polkadot/keyring': 12.3.2(@polkadot/util-crypto@12.3.2)(@polkadot/util@12.3.2)
       '@polkadot/types-augment': 10.9.1
       '@polkadot/types-codec': 10.9.1
       '@polkadot/types-create': 10.9.1
