@@ -1,7 +1,7 @@
 // import path from 'path'
 // import * as fs from 'fs'
 // import Mode from 'frontmatter-markdown-loader/mode'
-import { manifestIcons } from './utils/config/pwa'
+import { pwa } from './utils/config/pwa'
 import { URLS, apolloClientConfig } from './utils/constants'
 // import { fromNodeMiddleware } from 'h3'
 
@@ -233,29 +233,14 @@ export default defineNuxtConfig({
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
     // '@nuxtjs/sentry',
-    // '@kevinmarrec/nuxt-pwa',
+    '@vite-pwa/nuxt',
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
     '@pinia/nuxt',
     'nuxt-simple-sitemap',
   ],
 
-  pwa: {
-    manifest: {
-      name: 'KodaDot - Polkadot NFT explorer',
-      short_name: 'KodaDot',
-      background_color: '#ffffff',
-      theme_color: '#ffffff',
-      start_url: '/',
-      icons: manifestIcons,
-    },
-    workbox: {
-      // enabled: true, // enable this to use workbox in localhost
-      autoRegister: true,
-      workboxVersion: '6.5.4',
-    },
-    icon: false,
-  },
+  pwa,
 
   i18n: {
     skipSettingLocaleOnNavigate: true,
