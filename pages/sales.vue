@@ -25,22 +25,18 @@ export default {
 
     checkRouteAvailability()
 
+    useHead({
+      title: 'Latest KUSAMA Sales',
+      meta: [
+        {
+          name: 'description',
+          content: 'Featuring the most recently sold NFTs on Kusama',
+        },
+      ],
+    })
+
     return {
       urlPrefix,
-    }
-  },
-  head() {
-    const title = 'Latest KUSAMA Sales'
-    const metaData = {
-      title,
-      type: 'profile',
-      description: 'Featuring the most recently sold NFTs on Kusama',
-      url: '/sales',
-      image: `${this.$config.public.baseUrl}/k_card.png`,
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
     }
   },
 }

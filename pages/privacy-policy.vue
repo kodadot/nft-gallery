@@ -1409,17 +1409,16 @@
 export default {
   name: 'PrivacyPolicy',
 
-  head() {
-    const title = 'Privacy Policy'
-    const metaData = {
-      title,
-      description: 'KodaDot Privacy Policy',
-      url: '/privacy-policy',
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
-    }
+  setup() {
+    useHead({
+      title: 'Privacy Policy',
+      meta: [
+        {
+          name: 'description',
+          content: 'KodaDot Privacy Policy',
+        },
+      ],
+    })
   },
 }
 </script>
@@ -1433,10 +1432,12 @@ section {
       list-style-type: disc;
       list-style-position: inside;
     }
+
     ol {
       list-style-type: symbols;
       list-style-position: inside;
     }
+
     th,
     td {
       border: 1px solid theme('border-color');

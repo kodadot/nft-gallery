@@ -13,22 +13,18 @@ export default {
   setup() {
     const { urlPrefix } = usePrefix()
 
+    useHead({
+      title: 'Recently KUSAMA Sales',
+      meta: [
+        {
+          name: 'description',
+          content: 'Featuring the hot NFTs on Kusama',
+        },
+      ],
+    })
+
     return {
       urlPrefix,
-    }
-  },
-  head() {
-    const title = 'Recently KUSAMA Sales'
-    const metaData = {
-      title,
-      type: 'profile',
-      description: 'Featuring the hot NFTs on Kusama',
-      url: '/hot',
-      image: `${this.$config.public.baseUrl}/k_card.png`,
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
     }
   },
 }
