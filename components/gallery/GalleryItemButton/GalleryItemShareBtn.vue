@@ -14,7 +14,11 @@
         @click="toast(String($t('toast.urlCopy')))">
         Copy Link
       </NeoDropdownItem>
-      <NeoDropdownItem @click="isModalActive = true">QR Code</NeoDropdownItem>
+      <NeoDropdownItem
+        data-testid="gallery-item-share-dropdown-qrcode"
+        @click="isModalActive = true"
+        >QR Code</NeoDropdownItem
+      >
       <NeoDropdownItem @click="actionTwitterShare">
         Share On Twitter
       </NeoDropdownItem>
