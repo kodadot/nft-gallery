@@ -169,7 +169,7 @@ useEventListener(audio, 'canplaythrough', () => {
   canStartPlaying.value = true
 })
 
-defineExpose({ play, pause })
+defineExpose({ play, pause, playing })
 </script>
 
 <style scoped lang="scss">

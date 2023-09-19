@@ -1,5 +1,5 @@
 <template>
-  <div data-testid="type-audio">
+  <div ref="audioMedia" data-testid="type-audio">
     <ImageMedia
       v-if="playerCover"
       ref="cover"
@@ -21,12 +21,13 @@
 <script lang="ts" setup>
 import { NeoAudioPlayer } from '@kodadot1/brick'
 import ImageMedia from './ImageMedia.vue'
-import { useElementHover } from '@vueuse/core'
+import { useElementHover, useIntersectionObserver } from '@vueuse/core'
 
 const props = defineProps<{
   animationSrc?: string
   playerCover?: string
   hoverOnCoverPlay?: boolean
+  pauseOnHorizontalHidden?: boolean
 
   // image media props
   alt?: string
@@ -36,13 +37,30 @@ const props = defineProps<{
   isDarkMode?: boolean
 }>()
 
+const audioMedia = ref()
 const cover = ref()
 const audioPlayer = ref()
+const playing = computed(() => audioPlayer.value?.playing)
 
 const coverHovering = useElementHover(cover, { delayEnter: 1000 })
 
 if (props.hoverOnCoverPlay) {
   watch(coverHovering, () => handleCoverHover())
+}
+
+if (props.pauseOnHorizontalHidden) {
+  useIntersectionObserver(
+    audioMedia,
+    async ([entry]: IntersectionObserverEntry[]) => {
+      if (
+        playing.value &&
+        !entry.isIntersecting &&
+        entry.intersectionRect.width < entry.intersectionRect.height
+      ) {
+        await audioPlayer.value.pause()
+      }
+    }
+  )
 }
 
 const handleCoverHover = async () => {
