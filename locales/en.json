@@ -478,7 +478,7 @@
       },
       "description": {
         "label": "Collection Description",
-        "placeholder": "Enter collection description",
+        "placeholder": "Tell us more about your collection",
         "message": "Description of your collection. Markdown is supported"
       },
       "symbol": {

@@ -5,7 +5,7 @@
       class="is-half"
       :class="{ column: classColumn }"
       @submit.prevent="createCollection">
-      <h1 class="title is-size-3">
+      <h1 class="title is-size-3 mb-7">
         {{ $t('mint.collection.create') }}
       </h1>
 
@@ -27,7 +27,10 @@
         :label="`${$t('mint.collection.name.label')} *`"
         required
         :error="!name">
-        <NeoInput v-model="name" required />
+        <NeoInput
+          v-model="name"
+          required
+          :placeholder="$t('mint.collection.name.placeholder')" />
       </NeoField>
 
       <!-- collection description -->
@@ -38,7 +41,8 @@
           type="textarea"
           has-counter
           maxlength="1000"
-          height="10rem" />
+          height="10rem"
+          :placeholder="$t('mint.collection.description.placeholder')" />
       </NeoField>
 
       <!-- collection max nfts -->
@@ -49,7 +53,7 @@
         <div class="w-full">
           <div class="is-flex is-justify-content-space-between">
             <p>{{ $t('mint.unlimited') }}</p>
-            <NeoSwitch v-model="unlimited" />
+            <NeoSwitch v-model="unlimited" position="left" />
           </div>
           <NeoInput
             v-if="!unlimited"

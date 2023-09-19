@@ -1,52 +1,54 @@
 <template>
   <div
     class="container is-flex is-align-items-center is-justify-content-center is-flex-direction-column">
-    <h1 class="title is-size-2">{{ $t('mint.landing.heading') }}</h1>
+    <div>
+      <h1 class="title is-size-2 mb-7">{{ $t('mint.landing.heading') }}</h1>
 
-    <div v-if="select === 'landing'" class="pack">
-      <nuxt-link class="pack-box" to="/create/collection">
-        <div class="pack-content">
-          <NeoIcon icon="image-polaroid" size="large" />
-          <div class="pack-content-text">
-            <p class="is-size-4 has-text-weight-bold">Collection</p>
-            <p>{{ $t('mint.landing.collection') }}</p>
+      <div v-if="select === 'landing'" class="pack">
+        <nuxt-link class="pack-box" to="/create/collection">
+          <div class="pack-content">
+            <NeoIcon icon="image-polaroid" size="large" />
+            <div class="pack-content-text">
+              <p class="is-size-4 has-text-weight-bold">Collection</p>
+              <p>{{ $t('mint.landing.collection') }}</p>
+            </div>
           </div>
-        </div>
-      </nuxt-link>
-      <a class="pack-box" @click="select = 'nft'">
-        <div class="pack-content">
-          <NeoIcon icon="gem" size="large" />
-          <div class="pack-content-text">
-            <p class="is-size-4 has-text-weight-bold">NFT</p>
-            <p>{{ $t('mint.landing.nft') }}</p>
+        </nuxt-link>
+        <a class="pack-box" @click="select = 'nft'">
+          <div class="pack-content">
+            <NeoIcon icon="gem" size="large" />
+            <div class="pack-content-text">
+              <p class="is-size-4 has-text-weight-bold">NFT</p>
+              <p>{{ $t('mint.landing.nft') }}</p>
+            </div>
           </div>
-        </div>
-      </a>
-    </div>
+        </a>
+      </div>
 
-    <div v-if="select === 'nft'" class="pack">
-      <nuxt-link class="pack-box" to="/create/nft">
-        <div class="pack-content">
-          <NeoIcon icon="image" size="large" />
-          <div class="pack-content-text">
-            <p class="is-size-4 has-text-weight-bold">
-              {{ $t('mint.landing.singleNft') }}
-            </p>
-            <p>{{ $t('mint.landing.singleNftDesc') }}</p>
+      <div v-if="select === 'nft'" class="pack">
+        <nuxt-link class="pack-box" to="/create/nft">
+          <div class="pack-content">
+            <NeoIcon icon="image" size="large" />
+            <div class="pack-content-text">
+              <p class="is-size-4 has-text-weight-bold">
+                {{ $t('mint.landing.singleNft') }}
+              </p>
+              <p>{{ $t('mint.landing.singleNftDesc') }}</p>
+            </div>
           </div>
-        </div>
-      </nuxt-link>
-      <nuxt-link class="pack-box" :to="`/${urlPrefix}/massmint`">
-        <div class="pack-content">
-          <NeoIcon icon="photo-film" size="large" />
-          <div class="pack-content-text">
-            <p class="is-size-4 has-text-weight-bold">
-              {{ $t('mint.landing.massNft') }}
-            </p>
-            <p>{{ $t('mint.landing.massNftDesc') }}</p>
+        </nuxt-link>
+        <nuxt-link class="pack-box" :to="`/${urlPrefix}/massmint`">
+          <div class="pack-content">
+            <NeoIcon icon="photo-film" size="large" />
+            <div class="pack-content-text">
+              <p class="is-size-4 has-text-weight-bold">
+                {{ $t('mint.landing.massNft') }}
+              </p>
+              <p>{{ $t('mint.landing.massNftDesc') }}</p>
+            </div>
           </div>
-        </div>
-      </nuxt-link>
+        </nuxt-link>
+      </div>
     </div>
   </div>
 </template>
@@ -94,6 +96,11 @@ const select = ref<'landing' | 'nft'>('landing')
     @include ktheme() {
       background-color: theme('background-color');
       border: 1px solid theme('card-border-color');
+
+      &:hover {
+        color: theme('text-color');
+        border-color: theme('text-color');
+      }
     }
   }
 

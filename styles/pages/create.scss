@@ -1,5 +1,9 @@
 @import '@/styles/abstracts/variables';
 
+:deep(.o-field__label) {
+  margin-bottom: 4px;
+}
+
 .o-field:not(:last-child) {
   margin-bottom: 2rem;
 }

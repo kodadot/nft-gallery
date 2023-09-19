@@ -10,7 +10,7 @@
         :chain="currentChain"
         :image="imagePreview" />
 
-      <h1 class="title is-size-3">
+      <h1 class="title is-size-3 mb-7">
         {{ $t('mint.nft.create') }}
       </h1>
 
