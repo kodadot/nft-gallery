@@ -27,7 +27,6 @@
         variant="text"
         no-shadow
         icon="trash"
-        icon-pack="far"
         @click.native="listingCartStore.removeItem(nft.id)" />
     </div>
     <div class="is-flex is-justify-content-space-between pt-2">
