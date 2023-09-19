@@ -80,7 +80,7 @@ const props = defineProps<{
 const { stats } = useCollectionDetails({
   collectionId: props.nft?.collection?.id || props.nft?.collectionId,
 })
-const isStack = computed(() => Boolean((props.nft as NFTStack).count))
+const isStack = computed(() => (props.nft as NFTStack).count > 1)
 
 const variant = computed(() =>
   isStack.value ? `stacked-${props.variant}` : props.variant
