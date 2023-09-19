@@ -207,6 +207,7 @@ const leftTime = computed(() => {
 
 const { data: collectionData, refetch: tryAgain } = useGraphql({
   queryName: 'dropCollectionById',
+  clientName: urlPrefix.value,
   variables: {
     id: collectionId,
     price: pricePerMint,

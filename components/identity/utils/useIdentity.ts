@@ -19,8 +19,11 @@ export function useIdentitySoldData({ address }, collectionId?) {
     }
   }
 
+  const { client } = usePrefix()
+
   const { data } = useGraphql({
     queryName: 'nftListSold',
+    clientName: client.value,
     variables: {
       account: address,
       limit: 3,

@@ -64,9 +64,9 @@ export const useGalleryItem = async (nftId?: string): Promise<GalleryItem> => {
   const { urlPrefix, client } = usePrefix()
   const { prefix } = useQueryParams({
     queryPrefix: queryPath[urlPrefix.value],
-    clientName: '',
+    clientName: client.value,
   })
-  console.log(prefix)
+
   const query = await resolveQueryPath(prefix, 'nftById')
   // const { result: nftEntity, refetch } = useQuery(query.default, { id })
 

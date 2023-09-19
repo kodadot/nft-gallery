@@ -5,9 +5,11 @@ import { unwrapSafe } from '@/utils/uniquery'
 export function useNewCollectionId() {
   const newCollectionId = ref<number>()
   const randomNumbers = getRandomValues(10).map(String)
+  const { client } = usePrefix()
 
   const { data, error, loading, refetch } = useGraphql({
     queryName: 'existingCollectionList',
+    clientName: client.value,
     variables: {
       ids: randomNumbers,
     },

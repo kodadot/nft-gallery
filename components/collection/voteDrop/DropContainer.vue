@@ -209,8 +209,11 @@ const leftTime = computed(() => {
   return isFinish ? 'Finished' : `${hoursLeft}${minutesLeft}Left`
 })
 
+const { client } = usePrefix()
+
 const { data: collectionData, refetch } = useGraphql({
   queryName: 'dropCollectionById',
+  clientName: client.value,
   variables: {
     id: collectionId.value,
     account: accountId.value,

@@ -17,9 +17,12 @@ export const useCarouselUrl = () => {
   }
 }
 
+const { client } = usePrefix()
+
 const popularCollectionsGraphql = {
   queryPrefix: 'subsquid',
   queryName: 'popularCollectionList',
+  clientName: client.value,
   variables: {
     orderDirection: 'ASC',
     limit: 10,

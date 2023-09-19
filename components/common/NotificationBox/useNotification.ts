@@ -42,8 +42,11 @@ export const useNotification = () => {
     return block.number.toNumber()
   }
 
+  const { client } = usePrefix()
+
   const { data: collectionData } = useGraphql({
     queryName: 'collectionByAccount',
+    clientName: client.value,
     variables: {
       account: accountId.value,
     },
@@ -54,6 +57,7 @@ export const useNotification = () => {
         ? 'chain-bsx'
         : 'subsquid',
     queryName: 'notificationsByAccount',
+    clientName: client.value,
     variables: {
       account: accountId.value,
     },

@@ -122,8 +122,11 @@ const balanceNotEnoughMessage = computed(() => {
   return balanceNotEnough.value ? $i18n.t('tooltip.notEnoughBalance') : ''
 })
 
+const { client } = usePrefix()
+
 const { data: collectionsData, refetch: refetchCollections } = useGraphql({
   queryName: 'collectionForMint',
+  clientName: client.value,
   variables: { account: accountId.value },
 })
 

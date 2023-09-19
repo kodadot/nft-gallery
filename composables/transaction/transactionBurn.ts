@@ -43,8 +43,10 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
       ''
     )
     const hasOffers = ref(false)
+    const { client } = usePrefix()
     const { data } = useGraphql({
       queryName: 'acceptableOfferListByNftId',
+      clientName: client.value,
       queryPrefix: 'chain-bsx',
       variables: {
         id: item.nftId,
