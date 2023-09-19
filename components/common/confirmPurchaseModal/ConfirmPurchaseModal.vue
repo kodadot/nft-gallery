@@ -1,6 +1,6 @@
 <template>
   <NeoModal
-    v-model="isModalActive"
+    :value="isModalActive"
     :can-cancel="['outside', 'escape']"
     scroll="clip"
     class="top"

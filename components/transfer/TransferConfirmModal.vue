@@ -1,6 +1,6 @@
 <template>
   <NeoModal
-    v-model="isModalActive"
+    :value="isModalActive"
     :no-shadow="isMobile"
     :content-class="[
       'transfer-confirm-modal',

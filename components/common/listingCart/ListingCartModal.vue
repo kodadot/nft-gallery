@@ -2,7 +2,7 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <NeoModal
-      v-model="preferencesStore.listingCartModalOpen"
+      :value="preferencesStore.listingCartModalOpen"
       scroll="clip"
       @close="preferencesStore.listingCartModalOpen = false">
       <div class="modal-width">

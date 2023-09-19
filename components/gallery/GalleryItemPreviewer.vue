@@ -1,6 +1,6 @@
 <template>
   <NeoModal
-    v-model="isFullscreen"
+    :value="isFullscreen"
     :destroy-on-hide="false"
     :can-cancel="false"
     full-screen
