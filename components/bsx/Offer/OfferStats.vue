@@ -33,7 +33,7 @@ const { pending } = useLazyAsyncData('data', async () => {
   try {
     const { data } = await useAsyncQuery(offerList, {})
 
-    offers.value = data.offers
+    offers.value = data.value?.offers
   } catch (e) {
     $consola.error(e)
   }

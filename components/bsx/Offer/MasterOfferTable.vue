@@ -157,9 +157,10 @@ const fetchCreatedOffers = async () => {
     if (!skipUserOffer.value) {
       variables.id = destinationAddress.value || accountId.value
     }
-    const { data } = await useAsyncQuery(offerListUser, variables)
-    if (data?.offers?.length) {
-      createdOffers.value = data.offers
+    const { client } = usePrefix()
+    const { data } = await useAsyncQuery(offerListUser, client.value)
+    if (data.value?.offers?.length) {
+      createdOffers.value = data.value?.offers
       if (!skipUserOffer.value) {
         incomingOffers.value = []
       }

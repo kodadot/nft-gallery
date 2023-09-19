@@ -28,8 +28,8 @@ const { refresh } = useLazyAsyncData('ownerEventsOfNft', async () => {
       clientId: client.value,
     })
 
-    if (data && data.value.events && data.value.events.length) {
-      ownerEventsOfNft.value = sortedEventByDate(data.value.events, 'ASC')
+    if (data.value && data.value?.events && data.value?.events.length) {
+      ownerEventsOfNft.value = sortedEventByDate(data.value?.events, 'ASC')
     }
   } catch (e) {
     showNotification(`${e}`, notificationTypes.warn)

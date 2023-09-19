@@ -114,7 +114,7 @@ useLazyAsyncData('stats', async () => {
     clientId: client.value,
   })
 
-  if (!data) {
+  if (!data.value) {
     $consola.log('stats is null')
     return
   }

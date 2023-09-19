@@ -29,7 +29,11 @@ const { refresh } = useLazyAsyncData('ownerEventsOfNft', async () => {
     const { data } = await useAsyncQuery(allNftSaleEventsByAccountId, {
       id: props.accountId,
     })
-    if (data && data.nftEntities && data.nftEntities.length) {
+    if (
+      data.value &&
+      data.value?.nftEntities &&
+      data.value?.nftEntities.length
+    ) {
       const events: NftHolderEvent[] = []
       data.nftEntities.forEach((item) => {
         const nftEvents = item.events.map((event: Interaction) => ({
