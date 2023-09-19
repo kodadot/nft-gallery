@@ -44,7 +44,7 @@
           variant="border-icon"
           @click.native="toggleMute">
           <NeoIcon
-            :icon="muted ? 'volume' : 'volume-slash'"
+            :icon="muted ? 'volume-slash' : 'volume'"
             custom-size="fa-solid"
             pack="fa-sharp" />
         </NeoButton>
