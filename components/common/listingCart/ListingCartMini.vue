@@ -5,7 +5,8 @@
         <div class="k-shadow theme-background-color border py-4 px-6">
           <div class="is-inline-flex is-align-items-center">
             <div>
-              <b>{{ listingCartStore.count }}</b> {{ $t('items') }}
+              <b>{{ listingCartStore.count }}</b>
+              {{ $tc('listingCart.item', listingCartStore.count) }}
             </div>
             <div class="mx-4" />
             <NeoButton
@@ -16,7 +17,7 @@
               @click.native="listingCartStore.clear">
               {{ $t('sort.clearAll') }}
             </NeoButton>
-            <div class="mx-4" />
+            <div class="mx-4 divider k-grey" />
             <NeoButton
               variant="text"
               class="has-text-grey"
@@ -30,7 +31,7 @@
           class="h-full no-border-left py-4 px-7"
           :variant="'k-accent'"
           @click.native="preferencesStore.listingCartModalOpen = true">
-          {{ $t('listingCart.listItem') }}
+          {{ $tc('listingCart.listItem', listingCartStore.count) }}
         </NeoButton>
       </div>
     </div>
@@ -49,5 +50,9 @@ const preferencesStore = usePreferencesStore()
   right: 96px;
   bottom: 36px;
   z-index: 998;
+  .divider {
+    width: 1px;
+    height: 1rem;
+  }
 }
 </style>
