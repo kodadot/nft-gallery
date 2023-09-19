@@ -131,10 +131,10 @@
 
     @include ktheme() {
       border: 1px solid theme('border-color') !important;
+      background: theme('background-color');
 
       &:hover {
-        background: transparent;
-        color: theme('link-hover');
+        background-color: theme('k-accentHover') !important;
       }
     }
 
