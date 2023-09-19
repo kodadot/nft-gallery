@@ -31,7 +31,14 @@ query tokenListWithSearch(
     updatedAt
     createdAt
     count
-    nfts {
+    nfts(
+      where: {
+        burned_eq: false
+        issuer_not_in: $denyList
+        metadata_not_eq: ""
+        AND: $search
+      }
+    ) {
       ...nft
       ...nftDetails
       royalty

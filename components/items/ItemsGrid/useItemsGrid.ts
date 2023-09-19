@@ -100,22 +100,14 @@ export function useFetchSearch({
     }
 
     const handleToken = (token: any) => {
-      const nfts = token.nfts.filter(({ burned }) => !burned)
-      if (nfts.length <= 1) {
-        // if there is only one nft, return it
-        // if all nfts are burned, still return the first one,
-        // it get's filtered out later
-        return token.nfts[0]
-      }
-
       return {
-        ...nfts[0],
-        name: extractBaseName(nfts[0].name),
-        count: nfts.length,
+        ...token.nfts[0],
+        name: extractBaseName(token.nfts[0].name),
+        count: token.nfts.length,
         floorPrice: Math.min(
-          ...nfts.map((nft) => Number(nft.price))
+          ...token.nfts.map((nft) => Number(nft.price))
         ).toString(),
-        nfts,
+        nfts: token.nfts,
       }
     }
 
