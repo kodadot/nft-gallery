@@ -1,13 +1,13 @@
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import type { QueryOptions } from 'apollo-client'
-
+import type { ComputedRef } from 'vue'
 export const useQueryParams = ({
   queryPrefix,
   clientName = '',
 }: {
   queryPrefix: string
-  clientName: string
+  clientName?: string | ComputedRef<string>
 }) => {
   const { client } = usePrefix()
 
