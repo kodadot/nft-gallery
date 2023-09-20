@@ -1,6 +1,5 @@
 <template>
   <section>
-    <Loader v-model="isLoading" :status="status" />
     <form @submit.prevent>
       <h1 class="title is-size-3 mb-8">
         {{ $i18n.t('identity.set', ['asd']) }}
@@ -24,12 +23,14 @@
           rounded
           expanded
           class="avatar-upload"
-          full-preview>
+          full-preview
+          accept="image/*"
+          @fileSelected="handleImageSelect">
           <template #drop> + </template>
         </DragDrop>
       </div>
 
-      <NeoField label="Handle *" class="mb-5">
+      <NeoField :label="`${$i18n.t('handle')} *`" class="mb-5">
         <NeoInput
           v-model="identity.display"
           :placeholder="$i18n.t('identity.onChainPlaceholder')"
@@ -51,24 +52,21 @@
         type="email"
         class="mb-5"
         :maxlength="inputLengthLimit"
-        :label="$i18n.t('Email')"
+        :label="$i18n.t('email')"
         placeholder="somebody@example.com"
         expanded />
 
       <BasicInput
         v-model="identity.web"
         class="mb-4"
-        label="Website"
+        :label="$i18n.t('website')"
         :maxlength="inputLengthLimit"
         placeholder="https://example.com"
         expanded />
 
       <NeoField label="Any Socials?" class="mb-5">
         <div class="is-flex is-flex-direction-column">
-          <p>
-            Socials will appear on your profile page so that people can easily
-            connect with you.
-          </p>
+          <p>{{ $t('identity.socialsDescription') }}</p>
 
           <PillTabs
             class="mt-4"
@@ -106,27 +104,65 @@
         <Money :value="deposit" inline />
       </p>
 
-      <SubmitButton
-        :label="$i18n.t('identity.click')"
+      <NeoButton
+        class="fixed-button-height is-flex is-flex-1"
+        variant="k-accent"
+        size="medium"
+        :label="$t('identity.create')"
         :disabled="disabled"
         :loading="isLoading"
         expanded
-        @click="submit" />
+        @click.native="openConfirmModal" />
     </form>
+
+    <IdentityConfirmModal
+      v-model="isConfirmModalActive"
+      :deposit="deposit"
+      :identity="identity"
+      :image="image"
+      :is-mobile="isMobile"
+      @confirm="submit"
+      @close="isConfirmModalActive = false" />
+
+    <TransactionLoader
+      v-model="isLoaderModalVisible"
+      :status="status"
+      :total-token-amount="0"
+      :transaction-id="transactionValue"
+      :total-usd-value="0"
+      :is-mobile="isMobile"
+      @close="isLoaderModalVisible = false" />
   </section>
 </template>
 
 <script lang="ts" setup>
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { NeoField, NeoIcon, NeoInput, NeoTooltip } from '@kodadot1/brick'
+import { NeoButton, NeoField, NeoInput } from '@kodadot1/brick'
 import type { IdentityFields } from '@/composables/useIdentity'
 import DragDrop from '@/components/shared/DragDrop.vue'
 import PillTabs, { PillTab } from '@/components/shared/PillTabs.vue'
+import IdentityConfirmModal from '@/components/common/identity/IdentityConfirmModal.vue'
+import TransactionLoader from '@/components/shared/TransactionLoader.vue'
 
 enum Social {
   Riot = 'riot',
   Twitter = 'twitter',
 }
+
+const { howAboutToExecute, isLoading, initTransactionLoader, status } =
+  useMetaTransaction()
+const isMobile = computed(() => useWindowSize().width.value <= 764)
+
+const image = ref<File>()
+const isConfirmModalActive = ref(false)
+const isLoaderModalVisible = ref(false)
+const transactionValue = ref('')
+
+watch(isLoading, (newValue, oldValue) => {
+  if (newValue && !oldValue) {
+    isLoaderModalVisible.value = isLoading.value
+  }
+})
 
 const socialTabs = ref<PillTab[]>([
   {
@@ -145,29 +181,38 @@ const showTab = (value: Social) => {
   return socialTabs.value.find((tab) => tab.value === value)?.active
 }
 
-const Auth = defineAsyncComponent(() => import('@/components/shared/Auth.vue'))
+const openConfirmModal = () => {
+  isConfirmModalActive.value = true
+}
+
+const handleImageSelect = (file: File) => {
+  image.value = file
+}
+
+const submit = async (): Promise<void> => {
+  isConfirmModalActive.value = false
+  const api = await apiInstance.value
+  initTransactionLoader()
+  const cb = api.tx.identity.setIdentity
+  const args = [enhanceIdentityData()]
+  howAboutToExecute(accountId.value, cb, args, onSuccess)
+}
+
 const BasicInput = defineAsyncComponent(
   () => import('@/components/shared/form/BasicInput.vue')
 )
-const Loader = defineAsyncComponent(
-  () => import('@/components/shared/Loader.vue')
-)
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
-)
-const SubmitButton = defineAsyncComponent(
-  () => import('@/components/base/SubmitButton.vue')
 )
 
 const { $i18n } = useNuxtApp()
 import { useIdentityStore } from '@/stores/identity'
 
 const { apiInstance } = useApi()
-const { accountId, balance } = useAuth()
+const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const identityStore = useIdentityStore()
-const { howAboutToExecute, isLoading, initTransactionLoader, status } =
-  useMetaTransaction()
+
 const identity = ref<IdentityFields>({})
 const deposit = ref('0')
 const inputLengthLimit = ref(32)
@@ -177,7 +222,8 @@ const { identity: identityData } = useIdentity({
 })
 
 watch(identityData, () => {
-  const { display, legal, web, twitter, riot, email } = identityData.value
+  const { display, legal, web, twitter, riot, email, image } =
+    identityData.value
   identity.value = {
     display,
     legal,
@@ -185,6 +231,7 @@ watch(identityData, () => {
     twitter,
     riot,
     email,
+    image,
   }
 })
 
@@ -212,14 +259,6 @@ const enhanceIdentityData = (): Record<string, any> => {
 const fetchDeposit = async () => {
   const api = await apiInstance.value
   return api.consts.identity?.basicDeposit?.toString()
-}
-
-const submit = async (): Promise<void> => {
-  const api = await apiInstance.value
-  initTransactionLoader()
-  const cb = api.tx.identity.setIdentity
-  const args = [enhanceIdentityData()]
-  howAboutToExecute(accountId.value, cb, args, onSuccess)
 }
 
 const onSuccess = (block: string) => {
