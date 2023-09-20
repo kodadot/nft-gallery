@@ -27,7 +27,7 @@ export default function useIdentity({
   )
 
   const { data, refetch, loading } = useGraphql({
-    clientName: computed(() => (isDotAddress.value ? 'pid' : 'kid')).value,
+    clientName: computed(() => (isDotAddress.value ? 'pid' : 'kid')),
     queryName: 'identityById',
     variables: {
       id: id.value,
