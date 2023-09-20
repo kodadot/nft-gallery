@@ -46,24 +46,19 @@ export default {
 
     onBeforeMount(() => checkRouteAvailability())
 
+    useHead({
+      title: 'NFT artist rank',
+      meta: [
+        {
+          name: 'description',
+          content: 'Discover new artists based on ranking',
+        },
+      ],
+    })
     return {
       urlPrefix,
       isRemark,
       isBasilisk,
-    }
-  },
-  head() {
-    const title = 'NFT artist rank'
-    const metaData = {
-      title,
-      type: 'profile',
-      description: 'Discover new artists based on ranking',
-      url: '/series-insight',
-      image: `${this.$config.public.baseUrl}/k_card.png`,
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
     }
   },
 }
