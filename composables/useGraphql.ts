@@ -1,13 +1,19 @@
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import type { QueryOptions } from 'apollo-client'
+import { ComputedRef } from 'vue/types'
+
+interface DoFetchParams {
+  options?: Omit<QueryOptions, 'query'>
+  variables?: Record<string, unknown>
+}
 
 export const useQueryParams = ({
   queryPrefix,
   clientName = '',
 }: {
   queryPrefix: string
-  clientName: string
+  clientName?: string | ComputedRef<string>
 }) => {
   const { client } = usePrefix()
 
@@ -20,7 +26,7 @@ export const useQueryParams = ({
 export default function ({
   queryPrefix = '',
   queryName,
-  clientName,
+  clientName = '',
   variables = {},
   options = {},
   disabled = computed(() => false),
@@ -31,10 +37,6 @@ export default function ({
   const { $consola } = useNuxtApp()
   const { prefix, client } = useQueryParams({ queryPrefix, clientName })
 
-  interface DoFetchParams {
-    options?: Omit<QueryOptions, 'query'>
-    variables?: Record<string, unknown>
-  }
   async function doFetch({
     options: extraOptions = {},
     variables: extraVariables = {},

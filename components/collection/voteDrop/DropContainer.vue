@@ -220,7 +220,7 @@ const { data: collectionData, refetch } = useGraphql({
 watch(collectionData, () => {
   if (collectionData.value) {
     imageList.value = [
-      sanitizeIpfsUrl(collectionData.value?.collectionEntity.image),
+      sanitizeIpfsUrl(collectionData.value?.value.collectionEntity.image),
     ]
   }
 })
