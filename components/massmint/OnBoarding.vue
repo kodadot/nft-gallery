@@ -20,6 +20,7 @@
           v-for="(card, index) in cards"
           :key="index"
           :title="card.title"
+          :count="`${index + 1}/${cards.length}`"
           :content="card.content"
           :active="index === currentSlide">
           <div v-if="index === 1">

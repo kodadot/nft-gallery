@@ -3,10 +3,13 @@
     class="carousel-card p-5 mobile-padding"
     :class="{ 'not-active': !active }">
     <div class="card__content">
-      <p
-        class="title is-size-3-desktop is-size-3-tablet is-size-5-mobile is-capitalized">
-        {{ title }}
-      </p>
+      <div class="is-flex is-justify-content-space-between">
+        <p
+          class="title is-size-3-desktop is-size-3-tablet is-size-5-mobile is-capitalized">
+          {{ title }}
+        </p>
+        <span class="is-size-4">{{ count }}</span>
+      </div>
       <slot>
         <div class="content is-size-4-tablet is-size-5-mobile">
           <Markdown :source="content" />
@@ -18,6 +21,7 @@
 <script setup lang="ts">
 defineProps<{
   title: string
+  count?: string
   content?: string
   active?: boolean
 }>()
