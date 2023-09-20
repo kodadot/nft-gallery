@@ -4,14 +4,11 @@ import { useIdentityMintStore } from '@/stores/identityMint'
 import { formatToNow } from '@/utils/format/time'
 import { Interaction } from '@/components/rmrk/service/scheme'
 
-const { client } = usePrefix()
-
 const useLastBought = ({ address }) => {
   const lastBoughtDate = ref(new Date())
 
   const { data } = useGraphql({
     queryName: 'buyEventByProfile',
-    clientName: client,
     variables: {
       id: address,
     },
@@ -75,7 +72,6 @@ export default function useIdentityStats({ address }) {
   const { lastBoughtDate } = useLastBought({ address })
   const { data: stats } = useGraphql({
     queryName: 'userStatsByAccount',
-    clientName: client,
     variables: {
       account: address,
     },

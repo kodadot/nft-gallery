@@ -147,7 +147,6 @@ import {
 } from '@/utils/notification'
 import { ShoppingActions } from '@/utils/shoppingActions'
 import { NeoButton } from '@kodadot1/brick'
-import type Vue from 'vue'
 import {
   createUnlockableMetadata,
   getRandomInt,
@@ -177,7 +176,7 @@ const TokenImportButton = defineAsyncComponent(
 )
 const { neoModal } = useProgrammatic()
 const { $i18n } = useNuxtApp()
-const root = ref<Vue>()
+const root = ref()
 
 const { toast } = useToast()
 
@@ -223,7 +222,6 @@ const totalAvailableMintCount = computed(
 
 const { data, refetch } = useGraphql({
   queryName: 'nftIdListByCollection',
-  clientName: urlPrefix.value,
   variables: {
     id: collectionId,
     search: [{ price_eq: pricePerMint }, { currentOwner_eq: MINT_ADDRESS }],

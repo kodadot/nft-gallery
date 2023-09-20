@@ -2,7 +2,7 @@ import { Flippers, InteractionWithNFT, Offer, Owners } from './types'
 import { getFlippers, getOffers, getOwners } from './helpers'
 
 export const useCollectionActivity = ({ collectionId }) => {
-  const { client, urlPrefix } = usePrefix()
+  const { urlPrefix } = usePrefix()
   const events = ref<InteractionWithNFT[]>([])
   const owners = ref<Owners>()
   const flippers = ref<Flippers>()
@@ -11,7 +11,6 @@ export const useCollectionActivity = ({ collectionId }) => {
   const queryPrefix = urlPrefix.value === 'bsx' ? 'chain-bsx' : 'subsquid'
 
   const { data } = useGraphql({
-    clientName: client.value,
     queryPrefix,
     queryName: 'collectionActivityEvents',
     variables: {

@@ -92,7 +92,7 @@ import { ShoppingActions } from '@/utils/shoppingActions'
 const { $i18n, $consola } = useNuxtApp()
 
 const { apiInstance } = useApi()
-const { urlPrefix, client } = usePrefix()
+const { urlPrefix } = usePrefix()
 const { decimals, chainSymbol } = useChain()
 
 const { transaction, status, isLoading } = useTransaction()
@@ -115,7 +115,6 @@ const { accountId } = useAuth()
 const { data, refetch } = useGraphql({
   queryName: 'offerListByNftId',
   queryPrefix: 'chain-bsx',
-  clientName: client.value,
   variables: {
     id: dprops.nftId,
     orderBy: ['expiration_DESC', 'price_DESC'],
@@ -138,7 +137,6 @@ useSubscriptionGraphql({
 
 const { data: dataCollection } = useGraphql({
   queryName: 'collectionById',
-  clientName: client.value,
   variables: {
     id: dprops.collectionId,
     first: 1,

@@ -56,7 +56,6 @@ const props = withDefaults(
 
 const { data: latestEvents } = useGraphql({
   queryName: 'latestEvents',
-  clientName: urlPrefix.value,
   variables: {
     limit: props.limit,
     orderBy: 'timestamp_DESC',

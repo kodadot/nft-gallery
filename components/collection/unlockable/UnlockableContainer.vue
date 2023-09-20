@@ -151,19 +151,16 @@ import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useC
 import { NeoButton } from '@kodadot1/brick'
 import { useCountDown } from './utils/useCountDown'
 import CarouselTypeLatestMints from '@/components/carousel/CarouselTypeLatestMints.vue'
+import Loader from '@/components/collection/unlockable/UnlockableLoader.vue'
 
-const Loader = defineAsyncComponent(
-  () => import('@/components/collection/unlockable/UnlockableLoader.vue')
-)
 const { neoModal } = useProgrammatic()
-
 const { toast } = useToast()
+const { urlPrefix } = usePrefix()
 
 const imageList = ref<string[]>([])
 const resultList = ref<any[]>([])
 const selectedImage = ref('')
 const MAX_PER_WINDOW = 10
-const { urlPrefix, client } = usePrefix()
 
 const isLoading = ref(false)
 const { accountId, isLogIn } = useAuth()
@@ -193,10 +190,8 @@ const handleSelectImage = (image: string) => {
   selectedImage.value = image
 }
 
-console.log(client)
 const { data: collectionData } = useGraphql({
   queryName: 'unlockableCollectionById',
-  clientName: client.value,
   variables: {
     id: collectionId,
   },
@@ -208,7 +203,6 @@ const {
   refetch: tryAgain,
 } = useGraphql({
   queryName: 'firstNftOwnedByAccountAndCollectionId',
-  clientName: client,
   variables: {
     id: collectionId,
     account: accountId.value,
@@ -230,7 +224,6 @@ const totalAvailableMintCount = computed(
 
 const { data, refetch } = useGraphql({
   queryName: 'collectionMintedBetween',
-  clientName: urlPrefix.value,
   variables: {
     id: collectionId,
     from: windowRange[0],
