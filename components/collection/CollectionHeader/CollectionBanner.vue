@@ -32,11 +32,9 @@ import { generateCollectionImage } from '@/utils/seoImageGenerator'
 import { convertMarkdownToText } from '@/utils/markdown'
 
 const route = useRoute()
-const { client } = usePrefix()
 const { placeholder } = useTheme()
 const { data } = useGraphql({
   queryName: 'collectionById',
-  clientName: client.value,
   variables: {
     id: route.params.id,
   },
