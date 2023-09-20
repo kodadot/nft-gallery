@@ -1,8 +1,14 @@
+@use 'sass:meta';
+
 html {
   height: 100%;
   background-color: $white;
+  // code mardkown style
+  @include meta.load-css('highlight.js/styles/atom-one-light');
   &.dark-mode {
     background-color: $scheme-main;
+    // code mardkown style
+    @include meta.load-css('highlight.js/styles/atom-one-dark');
   }
 }
 

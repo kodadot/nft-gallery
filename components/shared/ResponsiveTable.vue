@@ -18,13 +18,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps, ref, withDefaults } from 'vue'
-import { useResizeObserver } from '@vueuse/core'
+import { defineProps, ref, withDefaults } from 'vue'
 
-const desktop = ref(true)
-const desktopBreakPoint = 1024
 const container = ref<HTMLDivElement | null>(null)
-const variant = computed(() => (desktop.value ? 'Desktop' : 'Touch'))
+const { variant, desktop } = useResponsive(container)
 
 withDefaults(
   defineProps<{
@@ -40,12 +37,4 @@ withDefaults(
     showNoResults: false,
   }
 )
-
-useResizeObserver(container, (entry) => {
-  if (entry[0].contentRect.width >= desktopBreakPoint) {
-    desktop.value = true
-  } else {
-    desktop.value = false
-  }
-})
 </script>

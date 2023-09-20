@@ -17,6 +17,6 @@ defineProps<{
 
 <style scoped>
 figure > img.image-media__image {
-  object-fit: cover;
+  object-fit: contain;
 }
 </style>

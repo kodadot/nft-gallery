@@ -86,7 +86,7 @@ const fileSizeFailed = ref(false)
 const upload = ref()
 
 const mimeType = computed(() => {
-  if (file.value) {
+  if (file.value?.type) {
     return file.value.type
   }
   //workaround for model media in chrome
