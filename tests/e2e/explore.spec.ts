@@ -1,4 +1,4 @@
-import { test } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 const SORT_SAMPLES = ['blockNumber_DESC', 'updatedAt_ASC']
 
@@ -62,12 +62,18 @@ const testItems = async (page) => {
     btnApply.click(),
   ])
 
+  await page.waitForResponse(
+    (resp) => resp.url().includes('image') && resp.ok()
+  )
+
   const exploreSort = await page.getByTestId('explore-sort')
   await exploreSort.nth(2).click()
 
   const btnAsc = await page.$('[value="price_ASC"]')
   await btnAsc?.click()
 
-  const firstItem = await page.getByTestId('0')
-  await firstItem.getByText(/\d+(\.\d+)?\s+[A-Z]{1,4}/)
+  const firstItem = (await page.getByTestId('card-money')).first()
+  const moneyStr = await firstItem.innerText()
+  const money = +moneyStr.split(' ')[0]
+  expect(money).toBeGreaterThanOrEqual(100)
 }
