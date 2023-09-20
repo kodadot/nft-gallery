@@ -61,12 +61,11 @@ function updateCollections(data) {
 
 export default function useCarouselSpotlight() {
   const collections = useSpotlightNft()
-  const { urlPrefix, client } = usePrefix()
+  const { urlPrefix } = usePrefix()
   const variables = curatedCollection[urlPrefix.value]?.length
     ? { list: curatedCollection[urlPrefix.value] }
     : undefined
   const { data } = useGraphql({
-    clientName: client,
     queryName: curatedCollection[urlPrefix.value]?.length
       ? 'collectionCuratedList'
       : 'collectionLastList',
