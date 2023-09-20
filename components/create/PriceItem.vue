@@ -24,18 +24,13 @@
         v-if="existentialDeposit"
         class="has-text-grey is-flex mb-2 is-align-items-center is-justify-content-space-between">
         <div>
-          {{ $t('mint.nft.modal.existentialDeposit') }}
+          {{ depositText }}
           <NeoTooltip
             position="top"
             class="k-cursor-pointer"
             multiline-width="14rem"
             multiline
-            :label="
-              $t('mint.nft.modal.depositTooltip', [
-                format(existentialDeposit),
-                chainSymbol,
-              ])
-            ">
+            :label="depositTooltip">
             <NeoIcon icon="circle-question" />
           </NeoTooltip>
         </div>
@@ -102,11 +97,29 @@ import formatBalance, {
   roundTo,
 } from '@/utils/format/balance'
 
+const { $i18n } = useNuxtApp()
+
 const props = defineProps<{ nft: ExtendedInformation }>()
 
 const rotate = ref(false)
-
+const isNFT = computed(() => props.nft.mintType === CreateComponent.NFT)
 const existentialDeposit = computed(() => props.nft.existentialDeposit)
+const depositText = computed(() =>
+  isNFT.value
+    ? $i18n.t('mint.nft.modal.existentialDeposit')
+    : $i18n.t('mint.collection.modal.existentialDeposit')
+)
+const depositTooltip = computed(() =>
+  isNFT.value
+    ? $i18n.t('mint.nft.modal.depositTooltip', [
+        format(existentialDeposit.value),
+        chainSymbol.value,
+      ])
+    : $i18n.t('mint.collection.modal.depositTooltip', [
+        format(existentialDeposit.value),
+        chainSymbol.value,
+      ])
+)
 const networkFee = computed(() => props.nft.networkFee)
 const kodadotFee = computed(() => props.nft.kodadotFee)
 const carbonlessFee = computed(() => props.nft.carbonlessFee)

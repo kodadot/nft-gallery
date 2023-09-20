@@ -489,7 +489,9 @@
       "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)",
       "submit": "Create Collection",
       "modal": {
-        "title": "Mint Collection"
+        "title": "Mint Collection",
+        "existentialDeposit": "Collection Existential Deposit",
+        "depositTooltip": "A deposit of {0} {1} is required to create a collection. Please note, this initial deposit is refundable. "
       }
     },
     "nft": {
@@ -533,8 +535,8 @@
         "network": "Network",
         "intoCollection": "Into Collection",
         "networkFee": "Network Fee",
-        "existentialDeposit": "Existential Deposit",
-        "depositTooltip": "A deposit of {0} {1} is required to create a collection. Please note, this initial deposit is refundable. ",
+        "existentialDeposit": "NFT Existential Deposit",
+        "depositTooltip": "A deposit of {0} {1} is required to create an item. Please note, this initial deposit is refundable. ",
         "kodadotFee": "KodaDot Fee",
         "kodadotTooltip": "By keeping this option active, you're contributing to initial costs borne by Kodadot for storing your JPEGs on your behalf. You may change this preference anytime in the settings. ",
         "carbonless": "Carbonless",
