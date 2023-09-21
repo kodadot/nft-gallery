@@ -1,34 +1,9 @@
 <template>
   <section>
     <form @submit.prevent>
-      <h1 class="title is-size-3 mb-8">
-        {{ $i18n.t('identity.set', ['asd']) }}
-        <!-- <NeoTooltip
-          :label="$i18n.t('identity.fundsReserve')"
-          position="bottom"
-          multiline>
-          <NeoIcon icon="info-circle" pack="fas" />
-        </NeoTooltip> -->
+      <h1 class="title is-size-3 mb-8 is-capitalized">
+        {{ $i18n.t('identity.set', ['chain name']) }}
       </h1>
-
-      <!-- <p v-if="accountId" class="subtitle is-size-6">
-        <Auth />
-        <span>{{ $i18n.t('general.balance') }}: </span>
-        <Money :value="balance" inline />
-      </p> -->
-
-      <div class="is-flex is-justify-content-center">
-        <DragDrop
-          v-model="identity.image"
-          rounded
-          expanded
-          class="avatar-upload"
-          full-preview
-          accept="image/*"
-          @fileSelected="handleImageSelect">
-          <template #drop> + </template>
-        </DragDrop>
-      </div>
 
       <NeoField :label="`${$i18n.t('handle')} *`" class="mb-5">
         <NeoInput
@@ -71,6 +46,7 @@
           <PillTabs
             class="mt-4"
             :tabs="socialTabs"
+            show-selected
             @select="handleSocialSelect" />
         </div>
       </NeoField>
@@ -102,6 +78,13 @@
       <p class="subtitle is-size-6">
         {{ $i18n.t('identity.deposit') }}
         <Money :value="deposit" inline />
+
+        <NeoTooltip
+          :label="$i18n.t('identity.fundsReserve')"
+          position="right"
+          multiline>
+          <NeoIcon icon="fa-info-circle" pack="fa-regular" class="ml" />
+        </NeoTooltip>
       </p>
 
       <NeoButton
@@ -119,7 +102,6 @@
       v-model="isConfirmModalActive"
       :deposit="deposit"
       :identity="identity"
-      :image="image"
       :is-mobile="isMobile"
       @confirm="submit"
       @close="isConfirmModalActive = false" />
@@ -127,9 +109,8 @@
     <TransactionLoader
       v-model="isLoaderModalVisible"
       :status="status"
-      :total-token-amount="0"
+      :action-title="$t('identity.create')"
       :transaction-id="transactionValue"
-      :total-usd-value="0"
       :is-mobile="isMobile"
       @close="isLoaderModalVisible = false" />
   </section>
@@ -137,37 +118,48 @@
 
 <script lang="ts" setup>
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { NeoButton, NeoField, NeoInput } from '@kodadot1/brick'
+import {
+  NeoButton,
+  NeoField,
+  NeoIcon,
+  NeoInput,
+  NeoTooltip,
+} from '@kodadot1/brick'
 import type { IdentityFields } from '@/composables/useIdentity'
-import DragDrop from '@/components/shared/DragDrop.vue'
 import PillTabs, { PillTab } from '@/components/shared/PillTabs.vue'
 import IdentityConfirmModal from '@/components/common/identity/IdentityConfirmModal.vue'
 import TransactionLoader from '@/components/shared/TransactionLoader.vue'
+import { useIdentityStore } from '@/stores/identity'
+import BasicInput from '@/components/shared/form/BasicInput.vue'
+import Money from '@/components/shared/format/Money.vue'
+
+const { $i18n } = useNuxtApp()
+const { apiInstance } = useApi()
+const { accountId } = useAuth()
+const { urlPrefix } = usePrefix()
+const identityStore = useIdentityStore()
+const { identity: identityData } = useIdentity({
+  address: accountId,
+})
+const { howAboutToExecute, isLoading, initTransactionLoader, status } =
+  useMetaTransaction()
+
+const identity = ref<IdentityFields>({})
+const deposit = ref('0')
+const inputLengthLimit = ref(32)
+
+const isConfirmModalActive = ref(false)
+const isLoaderModalVisible = ref(false)
+const transactionValue = ref('')
 
 enum Social {
   Riot = 'riot',
   Twitter = 'twitter',
 }
 
-const { howAboutToExecute, isLoading, initTransactionLoader, status } =
-  useMetaTransaction()
-const isMobile = computed(() => useWindowSize().width.value <= 764)
-
-const image = ref<File>()
-const isConfirmModalActive = ref(false)
-const isLoaderModalVisible = ref(false)
-const transactionValue = ref('')
-
-watch(isLoading, (newValue, oldValue) => {
-  if (newValue && !oldValue) {
-    isLoaderModalVisible.value = isLoading.value
-  }
-})
-
 const socialTabs = ref<PillTab[]>([
   {
     label: 'Riot',
-    icon: { name: 'fa-discord', pack: 'fa-brands' },
     value: Social.Riot,
   },
   {
@@ -177,6 +169,13 @@ const socialTabs = ref<PillTab[]>([
   },
 ])
 
+const isMobile = computed(() => useWindowSize().width.value <= 764)
+const disabled = computed(
+  () =>
+    Object.values(identity.value).filter((val) => val).length === 0 ||
+    isLoading.value
+)
+
 const showTab = (value: Social) => {
   return socialTabs.value.find((tab) => tab.value === value)?.active
 }
@@ -185,41 +184,14 @@ const openConfirmModal = () => {
   isConfirmModalActive.value = true
 }
 
-const handleImageSelect = (file: File) => {
-  image.value = file
-}
-
 const submit = async (): Promise<void> => {
   isConfirmModalActive.value = false
   const api = await apiInstance.value
   initTransactionLoader()
   const cb = api.tx.identity.setIdentity
   const args = [enhanceIdentityData()]
-  howAboutToExecute(accountId.value, cb, args, onSuccess)
+  howAboutToExecute(accountId.value, cb, args, onSuccess, onError)
 }
-
-const BasicInput = defineAsyncComponent(
-  () => import('@/components/shared/form/BasicInput.vue')
-)
-const Money = defineAsyncComponent(
-  () => import('@/components/shared/format/Money.vue')
-)
-
-const { $i18n } = useNuxtApp()
-import { useIdentityStore } from '@/stores/identity'
-
-const { apiInstance } = useApi()
-const { accountId } = useAuth()
-const { urlPrefix } = usePrefix()
-const identityStore = useIdentityStore()
-
-const identity = ref<IdentityFields>({})
-const deposit = ref('0')
-const inputLengthLimit = ref(32)
-
-const { identity: identityData } = useIdentity({
-  address: accountId,
-})
 
 watch(identityData, () => {
   const { display, legal, web, twitter, riot, email, image } =
@@ -268,6 +240,10 @@ const onSuccess = (block: string) => {
   )
 }
 
+const onError = () => {
+  isLoaderModalVisible.value = false
+}
+
 const handleSocialSelect = (value: string) => {
   socialTabs.value = socialTabs.value.map((tab) => {
     if (tab.value !== value) {
@@ -277,9 +253,22 @@ const handleSocialSelect = (value: string) => {
   })
 }
 
-const disabled = computed(
-  () => Object.values(identity.value).filter((val) => val).length === 0
-)
+watch(identity, (value) => {
+  if (value) {
+    socialTabs.value = socialTabs.value.map((tab) => {
+      if (value[tab.value]) {
+        return { ...tab, active: true }
+      }
+      return tab
+    })
+  }
+})
+
+watch(isLoading, (newValue, oldValue) => {
+  if (newValue && !oldValue) {
+    isLoaderModalVisible.value = isLoading.value
+  }
+})
 
 watch(
   urlPrefix,

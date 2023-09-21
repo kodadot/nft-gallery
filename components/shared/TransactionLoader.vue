@@ -21,10 +21,14 @@
         class="is-flex is-justify-content-space-between is-align-items-center py-5 px-6 border-bottom border-k-shade">
         <span>Tx:</span>
         <div class="is-flex">
-          <span>{{ `${$t('teleport.send')} ${totalUsdValue}$` }}</span>
-          <span class="has-text-grey ml-1 is-uppercase">{{
-            `(${totalTokenAmount} ${urlPrefix})`
-          }}</span>
+          <span v-if="actionTitle"> {{ actionTitle }}</span>
+
+          <template v-else>
+            <span>{{ `${$t('teleport.send')} ${totalUsdValue}$` }}</span>
+            <span class="has-text-grey ml-1 is-uppercase">{{
+              `(${totalTokenAmount} ${urlPrefix})`
+            }}</span>
+          </template>
         </div>
 
         <NeoButton
@@ -94,8 +98,9 @@ const props = withDefaults(
   defineProps<{
     status: TransactionStatus
     value: boolean
-    totalTokenAmount: number
-    totalUsdValue: number
+    actionTitle?: string
+    totalTokenAmount?: number
+    totalUsdValue?: number
     transactionId: string
     canCancel?: boolean
     isMobile?: boolean

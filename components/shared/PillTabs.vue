@@ -20,7 +20,13 @@
         :icon="tab.icon.name"
         :pack="tab.icon.pack" />
 
-      {{ tab.label }}
+      <span>{{ tab.label }}</span>
+
+      <NeoIcon
+        v-if="tab.active && showSelected"
+        class="ml-2"
+        icon="fa-check"
+        pack="fa-solid" />
     </div>
   </div>
 </template>

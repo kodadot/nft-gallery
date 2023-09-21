@@ -102,6 +102,7 @@ const identityFields = computed(() => ({
   email: props.identity.email,
   website: props.identity.web,
   riot: props.identity.riot,
+  twitter: props.identity.twitter,
 }))
 
 const imageUrl = computed(() =>
