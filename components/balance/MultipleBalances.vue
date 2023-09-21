@@ -7,7 +7,7 @@
     </div>
     <div v-else class="balance">
       <div class="balance-row has-text-grey is-size-7">
-        <div class="is-flex-grow-2">{{ $t('general.chain') }}</div>
+        <div class="is-flex-grow-3">{{ $t('general.chain') }}</div>
         <div class="has-text-right is-flex-grow-1">
           {{ $t('general.token') }}
         </div>
@@ -25,7 +25,9 @@
           v-for="token in filterEmptyBalanceChains(chain)"
           :key="token.name"
           class="balance-row">
-          <div class="is-capitalized is-flex-grow-2">{{ key }}</div>
+          <div class="is-capitalized is-flex-grow-3">
+            {{ key }}
+          </div>
           <div class="has-text-right is-flex-grow-1">
             {{ token.name.toUpperCase() }}
           </div>
@@ -69,7 +71,6 @@ import { getAssetIdByAccount } from '@/utils/api/bsx/query'
 import { toDefaultAddress } from '@/utils/account'
 
 import { ChainToken, useIdentityStore } from '@/stores/identity'
-
 import type { PalletBalancesAccountData } from '@polkadot/types/lookup'
 
 const { accountId } = useAuth()
@@ -87,9 +88,9 @@ const networkToPrefix = {
   polkadot: 'dot',
   kusama: 'ksm',
   basilisk: 'bsx',
-  statemine: 'ahk',
+  kusamaHub: 'ahk',
   'basilisk-testnet': 'snek',
-  statemint: 'ahp',
+  polkadotHub: 'ahp',
 }
 
 const isBalanceLoading = computed(
