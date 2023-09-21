@@ -2,7 +2,7 @@
   <section>
     <form @submit.prevent>
       <h1 class="title is-size-3 mb-8 is-capitalized">
-        {{ $i18n.t('identity.set', ['chain name']) }}
+        {{ $i18n.t('identity.set', [chainName]) }}
       </h1>
 
       <NeoField :label="`${$i18n.t('handle')} *`" class="mb-5">
@@ -141,7 +141,7 @@ import format from '@/utils/format/balance'
 const { $i18n } = useNuxtApp()
 const { apiInstance } = useApi()
 const { accountId } = useAuth()
-const { decimals, unit } = useChain()
+const { decimals, unit, name: chainName } = useChain()
 const { urlPrefix } = usePrefix()
 const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
 const identityStore = useIdentityStore()
