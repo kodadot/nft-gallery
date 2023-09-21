@@ -231,7 +231,7 @@ onUnmounted(() => {
   max-width: 30rem;
 }
 
-:deep .identity-name-font-weight-regular {
+:deep(.identity-name-font-weight-regular) {
   .identity-name {
     font-weight: unset !important;
   }

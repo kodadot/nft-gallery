@@ -28,7 +28,9 @@
           <p class="card-header-title">QR Code</p>
         </header>
         <div class="card-content">
-          <QRCode :text="realworldFullPathShare" data-testid="gallery-item-share-dropdown-qrcode" />
+          <QRCode
+            :text="realworldFullPathShare"
+            data-testid="gallery-item-share-dropdown-qrcode" />
         </div>
       </div>
     </NeoModal>
