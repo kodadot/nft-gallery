@@ -31,6 +31,7 @@ export default defineNuxtConfig({
   nitro: {
     publicAssets: [],
     preset: 'netlify',
+    // preset: 'service-worker'
   },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -237,6 +238,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
     '@pinia/nuxt',
+    '@nuxt/content',
     'nuxt-simple-sitemap',
   ],
 
