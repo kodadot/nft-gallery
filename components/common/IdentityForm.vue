@@ -331,9 +331,3 @@ watch(
   { immediate: true }
 )
 </script>
-<style lang="scss" scoped>
-.avatar-upload {
-  height: 200px;
-  width: 200px;
-}
-</style>
