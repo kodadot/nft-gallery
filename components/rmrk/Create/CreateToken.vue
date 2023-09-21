@@ -2,7 +2,7 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <BaseTokenForm
-      v-bind.sync="base"
+      v-model="base"
       ref="baseTokenForm"
       :collections="collections"
       :show-explainer-text="showExplainerText">
@@ -45,7 +45,7 @@
             key="hasRoyalty"
             v-model="hasRoyalty"
             label="mint.listWithRoyalty" />
-          <RoyaltyForm v-if="hasRoyalty" key="royalty" v-bind.sync="royalty" />
+          <RoyaltyForm v-if="hasRoyalty" key="royalty" v-model="royalty" />
         </template>
       </template>
       <template #footer>

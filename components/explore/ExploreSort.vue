@@ -7,7 +7,7 @@
       multiple
       :mobile-modal="false"
       aria-role="list"
-      position="bottom-left"
+      position="bottom-auto"
       @change="onChange">
       <template #trigger="{ active }">
         <NeoButton

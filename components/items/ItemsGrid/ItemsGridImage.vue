@@ -168,7 +168,7 @@ const onClickListingCart = () => {
 .w-half {
   width: 50%;
 }
-:deep .override-wrapper-width {
+:deep(.override-wrapper-width) {
   .o-btn__wrapper {
     width: unset !important;
   }

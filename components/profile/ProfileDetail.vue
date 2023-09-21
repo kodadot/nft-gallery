@@ -6,7 +6,7 @@
           <p class="card-header-title">{{ $t('sharing.profile') }}</p>
         </header>
         <div class="card-content has-text-centered">
-          <QRCode :text="realworldFullPath" color="#db2980" bg-color="#000" />
+          <QRCode :text="realworldFullPath" />
         </div>
       </div>
     </NeoModal>
@@ -249,10 +249,10 @@ const handleIdentity = (identityFields: Record<string, string>) => {
   display: none;
 }
 
-:deep .control {
+:deep(.control) {
   width: 12rem;
 }
-:deep .explore-tabs-button {
+:deep(.explore-tabs-button) {
   width: 12rem;
 }
 
@@ -262,7 +262,7 @@ const handleIdentity = (identityFields: Record<string, string>) => {
     > * {
       flex: 1 0 50%;
     }
-    :deep .explore-tabs-button {
+    :deep(.explore-tabs-button) {
       width: 100% !important;
     }
   }

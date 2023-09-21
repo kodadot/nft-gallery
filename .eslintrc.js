@@ -7,6 +7,7 @@ module.exports = {
   extends: [
     // 'plugin:vue/recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:vue-scoped-css/recommended',
     'prettier',
   ],
   parser: 'vue-eslint-parser',
@@ -47,6 +48,11 @@ module.exports = {
       },
     ],
     'vue/multi-word-component-names': 'off',
+    'vue-scoped-css/v-deep-pseudo-style': ['error', ':deep'],
+    'vue-scoped-css/no-deprecated-deep-combinator': 'error',
+    'vue-scoped-css/require-v-deep-argument': 'error',
+    'vue-scoped-css/no-unused-selector': 'off',
+    'vue-scoped-css/enforce-style-type': 'off',
   },
   ignorePatterns: ['*.md'],
   overrides: [
