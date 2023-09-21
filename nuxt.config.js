@@ -35,6 +35,7 @@ export default defineNuxtConfig({
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
+  nitro: { preset: 'service-worker' },
 
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
@@ -237,6 +238,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
     '@pinia/nuxt',
+    '@nuxt/content',
     'nuxt-simple-sitemap',
   ],
 
