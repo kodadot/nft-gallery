@@ -35,7 +35,7 @@
       <div>
         <div
           :class="[
-            { 'is-bordered-top scroll-height': isExpanded },
+            { 'border-top-k-shade scroll-height': isExpanded },
             'px-6 is-scrollable',
           ]">
           <slot name="body" />
@@ -44,7 +44,7 @@
 
       <div
         :class="[
-          'is-flex is-flex-direction-column px-6 py-5 is-bordered-top',
+          'is-flex is-flex-direction-column px-6 py-5 border-top-k-shade',
           {
             'pb-6': isMobile,
           },
@@ -116,32 +116,8 @@ const closeModal = () => {
     right: 0;
   }
 
-  .fixed-height {
-    height: 10rem;
-  }
-
-  .fixed-button-height {
-    min-height: 55px;
-  }
-
   .is-scrollable {
     overflow-y: auto;
-  }
-
-  .is-bordered-top {
-    @include ktheme() {
-      border-top: 1px solid theme('k-shade');
-    }
-  }
-}
-</style>
-<style lang="scss">
-// manually calculated number, based on address length and container padding, not the best solution but it works :)
-.o-tip__content.transfer-tooltip {
-  transform: translateX(-22rem);
-
-  .o-tip__arrow {
-    transform: translateX(10rem);
   }
 }
 </style>

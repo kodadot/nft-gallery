@@ -1,62 +1,60 @@
 <template>
-  <div>
-    <ResponsiveModal
-      v-model="isModalActive"
-      :is-mobile="isMobile"
-      @close="onClose">
-      <template #header>
-        <span class="is-size-5 has-text-weight-bold">
-          {{ $t('identity.create') }}
-        </span>
-      </template>
+  <ResponsiveModal
+    v-model="isModalActive"
+    :is-mobile="isMobile"
+    @close="onClose">
+    <template #header>
+      <span class="is-size-5 has-text-weight-bold">
+        {{ $t('identity.create') }}
+      </span>
+    </template>
 
-      <template #body>
-        <div>
-          <template v-for="(value, key, index) in identityFields">
-            <div
-              v-if="value"
-              :key="key"
-              class="is-flex is-justify-content-space-between is-align-items-center py-4"
-              :class="{ 'is-bordered-top': index !== 0 }">
-              <span
-                class="has-text-weight-bold is-size-6 is-capitalized is-flex is-justify-content-center">
-                <NeoIcon
-                  v-if="getIcon(key)"
-                  class="mr-2"
-                  :icon="getIcon(key)?.name"
-                  :pack="getIcon(key)?.pack" />
-                <span>{{ $t(key) }}</span>
+    <template #body>
+      <div>
+        <template v-for="(value, key, index) in identityFields">
+          <div
+            v-if="value"
+            :key="key"
+            class="is-flex is-justify-content-space-between is-align-items-center py-4"
+            :class="{ 'is-bordered-top': index !== 0 }">
+            <span
+              class="has-text-weight-bold is-size-6 is-capitalized is-flex is-justify-content-center">
+              <NeoIcon
+                v-if="getIcon(key)"
+                class="mr-2"
+                :icon="getIcon(key)?.name"
+                :pack="getIcon(key)?.pack" />
+              <span>{{ $t(key) }}</span>
+            </span>
+            <span class="is-flex is-align-items-center">
+              <span class="ml-2 is-size-6">
+                {{ value }}
               </span>
-              <span class="is-flex is-align-items-center">
-                <span class="ml-2 is-size-6">
-                  {{ value }}
-                </span>
-              </span>
-            </div>
-          </template>
-        </div>
-      </template>
-
-      <template #footer>
-        <div
-          class="is-flex is-justify-content-space-between is-align-items-center mb-3">
-          <span class="has-text-weight-bold is-size-6">{{
-            $t('identity.deposit')
-          }}</span>
-          <div class="is-flex is-align-items-center">
-            <span class="has-text-grey mr-1 is-size-7">({{ depositUsd }})</span>
-            <span class="has-text-weight-bold is-size-5"> {{ deposit }}</span>
+            </span>
           </div>
-        </div>
+        </template>
+      </div>
+    </template>
 
-        <NeoButton
-          :label="$t('identity.create')"
-          variant="k-accent"
-          class="fixed-button-height is-flex is-flex-1"
-          @click.native="emit('confirm')" />
-      </template>
-    </ResponsiveModal>
-  </div>
+    <template #footer>
+      <div
+        class="is-flex is-justify-content-space-between is-align-items-center mb-3">
+        <span class="has-text-weight-bold is-size-6">{{
+          $t('identity.deposit')
+        }}</span>
+        <div class="is-flex is-align-items-center">
+          <span class="has-text-grey mr-1 is-size-7">({{ depositUsd }})</span>
+          <span class="has-text-weight-bold is-size-5"> {{ deposit }}</span>
+        </div>
+      </div>
+
+      <NeoButton
+        :label="$t('identity.create')"
+        variant="k-accent"
+        class="fixed-button-height is-flex is-flex-1"
+        @click.native="emit('confirm')" />
+    </template>
+  </ResponsiveModal>
 </template>
 
 <script setup lang="ts">
