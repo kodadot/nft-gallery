@@ -25,7 +25,7 @@ export const useCollectionDetails = ({ collectionId }) => {
   const stats = ref<Stats>({})
 
   watch(data, () => {
-    if (data) {
+    if (data.value.value.stats) {
       const uniqueOwnerCount = [
         ...new Set(
           data.value.value.stats?.base.map((item) => item.currentOwner)
