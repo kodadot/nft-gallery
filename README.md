@@ -1,6 +1,7 @@
 # One Stop Shop for your Polkadot NFTs
 
-![](https://github.com/kodadot/kodadot-presskit/blob/main/v3/KODA_v3.png?raw=true)
+![Frame 819](https://github.com/kodadot/nft-gallery/assets/90852205/70989633-9c78-47ee-9e23-4a60c12d8d76)
+
 
 # Contributing
 
