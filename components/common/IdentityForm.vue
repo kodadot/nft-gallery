@@ -270,7 +270,7 @@ const handleSocialSelect = (value: string) => {
 }
 
 const isValidTwitterHandle = (handle: string) => {
-  const pattern = /^@[A-Za-z0-9_]{1,15}$/
+  const pattern = /^@\w{1,15}$/
   return pattern.test(handle)
 }
 
