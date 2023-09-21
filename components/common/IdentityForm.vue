@@ -80,7 +80,7 @@
         <Money :value="deposit" inline />
 
         <NeoTooltip
-          :label="$i18n.t('identity.fundsReserve')"
+          :label="$i18n.t('identity.fundsReserve', [depositFormatted])"
           position="right"
           multiline>
           <NeoIcon icon="fa-info-circle" pack="fa-regular" class="ml" />
@@ -100,8 +100,10 @@
 
     <IdentityConfirmModal
       v-model="isConfirmModalActive"
-      :deposit="deposit"
+      :deposit="depositFormatted"
+      :deposit-usd="depositUsd"
       :identity="identity"
+      :socials="socialTabs"
       :is-mobile="isMobile"
       @confirm="submit"
       @close="isConfirmModalActive = false" />
@@ -132,11 +134,16 @@ import TransactionLoader from '@/components/shared/TransactionLoader.vue'
 import { useIdentityStore } from '@/stores/identity'
 import BasicInput from '@/components/shared/form/BasicInput.vue'
 import Money from '@/components/shared/format/Money.vue'
+import { useFiatStore } from '@/stores/fiat'
+import { calculateUsdFromToken } from '@/utils/calculation'
+import format from '@/utils/format/balance'
 
 const { $i18n } = useNuxtApp()
 const { apiInstance } = useApi()
 const { accountId } = useAuth()
+const { decimals, unit } = useChain()
 const { urlPrefix } = usePrefix()
+const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
 const identityStore = useIdentityStore()
 const { identity: identityData } = useIdentity({
   address: accountId,
@@ -175,6 +182,19 @@ const disabled = computed(
     Object.values(identity.value).filter((val) => val).length === 0 ||
     isLoading.value
 )
+
+const depositFormatted = computed(() =>
+  format(deposit.value, decimals.value, unit.value)
+)
+
+const currentTokenValue = computed(() => getCurrentTokenValue(unit.value))
+const depositUsd = computed(() => {
+  const value = calculateUsdFromToken(
+    Number(deposit.value) * Math.pow(10, -decimals.value),
+    Number(currentTokenValue.value)
+  )
+  return `$${value}`
+})
 
 const showTab = (value: Social) => {
   return socialTabs.value.find((tab) => tab.value === value)?.active
@@ -252,6 +272,10 @@ const handleSocialSelect = (value: string) => {
     return { ...tab, active: !tab.active }
   })
 }
+
+onMounted(async () => {
+  await fetchFiatPrice()
+})
 
 watch(identity, (value) => {
   if (value) {

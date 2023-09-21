@@ -24,7 +24,7 @@
 
       <NeoIcon
         v-if="tab.active && showSelected"
-        class="ml-2"
+        class="ml-2 has-text-k-green"
         icon="fa-check"
         pack="fa-solid" />
     </div>
