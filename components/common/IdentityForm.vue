@@ -212,8 +212,7 @@ const submit = async (): Promise<void> => {
 }
 
 watch(identityData, () => {
-  const { display, legal, web, twitter, riot, email, image } =
-    identityData.value
+  const { display, legal, web, twitter, riot, email } = identityData.value
   identity.value = {
     display,
     legal,
@@ -221,7 +220,6 @@ watch(identityData, () => {
     twitter,
     riot,
     email,
-    image,
   }
 })
 
