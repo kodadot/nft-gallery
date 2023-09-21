@@ -94,17 +94,19 @@
   "transfers": {
     "recipient": "Recipient",
     "sender": "Sender",
+    "tooltip": "You are sending <strong>{0}</strong> on <strong>{1}</strong>",
     "sendSameAmount": "Send same amount",
     "displayUnit": "Displayed units",
     "addAddress": "Add recipient",
     "payMeLink": "Pay me link",
+    "recurringPaymentLink": "Recurring payment link",
     "setSameAmount": "Set one amount that will be sent to all recipients",
     "sendTo": "Sending to",
     "recipients": "recipients",
     "totalAmount": "Total Amount",
     "transferable": "Transferable",
     "networkFee": "Network fee",
-    "invalidAddress":{
+    "invalidAddress": {
       "changeToChainAddress": "Change to {selectedChain} address",
       "addressChanged": {
         "title": "Changed to {selectedChain} address",
@@ -1307,6 +1309,10 @@
     "fixedPrice": "Fixed Price",
     "collectionFloorPrice": "Collection Floor Price",
     "potentialEarnings": "Potential Earnings",
-    "listForSale": "List For Sale"
+    "listForSale": "List For Sale",
+    "chooseAPrice": "Choose a price",
+    "floorPrice": "Floor Price",
+    "inputPriceFirst": "Input Price First",
+    "setAllTo": "Set All To"
   }
 }

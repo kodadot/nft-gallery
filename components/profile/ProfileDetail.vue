@@ -6,7 +6,7 @@
           <p class="card-header-title">{{ $t('sharing.profile') }}</p>
         </header>
         <div class="card-content has-text-centered">
-          <QRCode :text="realworldFullPath" color="#db2980" bg-color="#000" />
+          <QRCode :text="realworldFullPath" />
         </div>
       </div>
     </NeoModal>
