@@ -53,7 +53,7 @@
 
       <Transition name="fade">
         <BasicInput
-          v-if="showTab(Social.Twitter)"
+          v-if="isTabVisible(IdentitySocialField.Twitter)"
           v-model="identity.twitter"
           class="mb-4"
           label="Twitter"
@@ -64,7 +64,7 @@
 
       <Transition name="fade">
         <BasicInput
-          v-if="showTab(Social.Riot)"
+          v-if="isTabVisible(IdentitySocialField.Riot)"
           v-model="identity.riot"
           class="mb-4"
           label="Riot"
@@ -159,7 +159,7 @@ const isConfirmModalActive = ref(false)
 const isLoaderModalVisible = ref(false)
 const transactionValue = ref('')
 
-enum Social {
+enum IdentitySocialField {
   Riot = 'riot',
   Twitter = 'twitter',
 }
@@ -167,12 +167,12 @@ enum Social {
 const socialTabs = ref<PillTab[]>([
   {
     label: 'Riot',
-    value: Social.Riot,
+    value: IdentitySocialField.Riot,
   },
   {
     label: 'Twitter',
     icon: { name: 'fa-x-twitter', pack: 'fa-brands' },
-    value: Social.Twitter,
+    value: IdentitySocialField.Twitter,
   },
 ])
 
@@ -194,7 +194,7 @@ const depositUsd = computed(() => {
   return `$${value}`
 })
 
-const showTab = (value: Social) => {
+const isTabVisible = (value: IdentitySocialField) => {
   return socialTabs.value.find((tab) => tab.value === value)?.active
 }
 
