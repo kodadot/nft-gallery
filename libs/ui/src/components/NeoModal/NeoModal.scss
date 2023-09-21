@@ -12,7 +12,7 @@ $modal-content-border-radius: 0;
 
 .neo-modal {
   .o-modal__content {
-    width: auto;
+    width: auto !important;
     max-height: var(--max-height);
     @include ktheme() {
       box-shadow: theme('primary-shadow');

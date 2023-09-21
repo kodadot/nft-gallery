@@ -34,7 +34,7 @@
           maxlength="10"
           required
           expanded
-          @keydown.native.space.prevent />
+          @keydown.space.prevent />
       </template>
 
       <template #footer>

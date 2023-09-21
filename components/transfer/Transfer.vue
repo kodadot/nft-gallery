@@ -138,6 +138,7 @@
                   'mb-2': isMobile,
                 },
               ]"
+              :strict="false"
               :is-invalid="isTargetAddressInvalid(destinationAddress)"
               placeholder="Enter wallet address"
               disable-error />
@@ -487,10 +488,17 @@ const checkQueryParams = () => {
   }
 
   if (query.amount) {
+    const tokenAmount = Number(query.amount)
+    const usdValue = calculateUsdFromToken(
+      tokenAmount,
+      Number(currentTokenValue.value)
+    )
+
     sendSameAmount.value = true
     targetAddresses.value = targetAddresses.value.map((address) => ({
       ...address,
-      token: Number(query.amount),
+      usd: usdValue,
+      token: tokenAmount,
     }))
   } else if (query.usdamount) {
     const usdValue = Number(query.usdamount)

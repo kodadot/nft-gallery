@@ -165,7 +165,7 @@ const checkIconForStep = (step: number) =>
 .desktop-width {
   width: 27rem;
 }
-:deep .mobile-modal {
+:deep(.mobile-modal) {
   position: fixed;
   bottom: 0;
   left: 0;
