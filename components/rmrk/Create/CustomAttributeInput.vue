@@ -5,7 +5,7 @@
       :key="index"
       class="custom-attribute-input my-4">
       <AttributeInput
-        v-bind.sync="attributes[index]"
+        v-model="attributes[index]"
         :index="index"
         @remove="removeAttribute" />
     </div>

@@ -31,12 +31,12 @@
 
           <ListingCartSingleItemCart
             v-if="listingCartStore.count === 1"
-            v-bind.sync="cartData"
+            v-model="cartData"
             @setFixedPrice="setFixedPrice" />
 
           <ListingCartMultipleItemsCart
             v-else
-            v-bind.sync="cartData"
+            v-model="cartData"
             @setFixedPrice="setFixedPrice" />
         </div>
 
