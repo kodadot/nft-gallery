@@ -74,7 +74,7 @@ export const useCarouselRelated = async ({ collectionId }) => {
   })
 
   watch(data, async () => {
-    if (data.value) {
+    if (data.value.value.collection) {
       const listOfRelatedNFTs = formatNFT(
         (data.value.value as Collections).collection.nfts
       )
