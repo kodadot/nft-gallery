@@ -18,15 +18,15 @@
               :key="key"
               class="is-flex is-justify-content-space-between is-align-items-center py-4"
               :class="{ 'is-bordered-top': index !== 0 }">
-              <span class="has-text-weight-bold is-size-6 is-capitalized">
+              <span
+                class="has-text-weight-bold is-size-6 is-capitalized is-flex is-justify-content-center">
                 <NeoIcon
                   v-if="getIcon(key)"
-                  class="mr-1"
+                  class="mr-2"
                   :icon="getIcon(key)?.name"
                   :pack="getIcon(key)?.pack" />
-
-                {{ $t(key) }}</span
-              >
+                <span>{{ $t(key) }}</span>
+              </span>
               <span class="is-flex is-align-items-center">
                 <span class="ml-2 is-size-6">
                   {{ value }}
@@ -95,12 +95,3 @@ const onClose = () => {
   emit('close')
 }
 </script>
-
-<style lang="scss" scoped>
-.image-wrapper {
-  border-radius: 100%;
-
-  height: 100px;
-  width: 100px;
-}
-</style>
