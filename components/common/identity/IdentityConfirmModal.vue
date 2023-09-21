@@ -10,26 +10,28 @@
     </template>
 
     <template #body>
-      <div
-        v-for="(value, key, index) in identityFields"
-        :key="key"
-        class="is-flex is-justify-content-space-between is-align-items-center py-4"
-        :class="{ 'border-top-k-shade': index !== 0 }">
-        <span
-          class="has-text-weight-bold is-size-6 is-capitalized is-flex is-justify-content-center">
-          <NeoIcon
-            v-if="isActiveSocial(key) && getIcon(key)"
-            class="mr-2"
-            :icon="getIcon(key)?.name"
-            :pack="getIcon(key)?.pack" />
-          <span>{{ $t(key) }}</span>
-        </span>
-        <span class="is-flex is-align-items-center">
-          <span class="ml-2 is-size-6">
-            {{ value || '--' }}
+      <template v-for="(value, key, index) in identityFields">
+        <div
+          v-if="showField(key)"
+          :key="key"
+          class="is-flex is-justify-content-space-between is-align-items-center py-4"
+          :class="{ 'border-top-k-shade': index !== 0 }">
+          <span
+            class="has-text-weight-bold is-size-6 is-capitalized is-flex is-justify-content-center">
+            <NeoIcon
+              v-if="isActiveSocial(key) && getIcon(key)"
+              class="mr-2"
+              :icon="getIcon(key)?.name"
+              :pack="getIcon(key)?.pack" />
+            <span>{{ $t(key) }}</span>
           </span>
-        </span>
-      </div>
+          <span class="is-flex is-align-items-center">
+            <span class="ml-2 is-size-6">
+              {{ value || '--' }}
+            </span>
+          </span>
+        </div>
+      </template>
     </template>
 
     <template #footer>
@@ -87,6 +89,16 @@ const getSocial = (key: string) =>
 const isActiveSocial = (key: string) => getSocial(key)?.active
 
 const getIcon = (key: string) => getSocial(key)?.icon
+
+const showField = (key: string) => {
+  const social = getSocial(key)
+
+  if (social) {
+    return social.active
+  }
+
+  return true
+}
 
 const onClose = () => {
   emit('close')
