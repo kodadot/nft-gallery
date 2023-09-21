@@ -8,6 +8,10 @@ jobs:
   test:
     timeout-minutes: 10
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1/4, 2/4, 3/4, 4/4]
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
@@ -24,7 +28,7 @@ jobs:
       run: pnpm exec playwright install --with-deps
 
     - name: Run Playwright tests
-      run: pnpm exec playwright test
+      run: pnpm exec playwright test --shard ${{ matrix.shard }}
     - uses: actions/upload-artifact@v3
       if: always()
       with:
