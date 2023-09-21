@@ -269,20 +269,53 @@ const handleSocialSelect = (value: string) => {
   })
 }
 
+const isValidTwitterHandle = (handle: string) => {
+  const pattern = /^@[A-Za-z0-9_]{1,15}$/
+  return pattern.test(handle)
+}
+
+const isValidRiotHandle = (handle: string) => {
+  const pattern = /^@[A-Za-z0-9]+:matrix\.org$/
+  return pattern.test(handle)
+}
+
+const socialCheck = {
+  [IdentitySocialField.Riot]: isValidRiotHandle,
+  [IdentitySocialField.Twitter]: isValidTwitterHandle,
+}
+
+const isValidSocial = (
+  socialIdentityKey: IdentitySocialField,
+  value?: string
+) => {
+  return socialCheck[socialIdentityKey](value || '')
+}
+
 onMounted(async () => {
   await fetchFiatPrice()
 })
 
-watch(identity, (value) => {
-  if (value) {
-    socialTabs.value = socialTabs.value.map((tab) => {
-      if (value[tab.value]) {
-        return { ...tab, active: true }
-      }
-      return tab
-    })
-  }
-})
+watch(
+  identity,
+  (value) => {
+    if (value) {
+      socialTabs.value = socialTabs.value.map((tab) => {
+        if (value[tab.value]) {
+          return {
+            ...tab,
+            active: true,
+            ticked: isValidSocial(
+              tab.value as IdentitySocialField,
+              value[tab.value]
+            ),
+          }
+        }
+        return tab
+      })
+    }
+  },
+  { deep: true }
+)
 
 watch(isLoading, (newValue, oldValue) => {
   if (newValue && !oldValue) {

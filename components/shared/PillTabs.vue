@@ -23,7 +23,7 @@
       <span>{{ tab.label }}</span>
 
       <NeoIcon
-        v-if="tab.active && showSelected"
+        v-if="tab.ticked"
         class="ml-2 has-text-k-green"
         icon="fa-check"
         pack="fa-solid" />
@@ -43,11 +43,13 @@ export type PillTab = {
   }
   image?: string
   active?: boolean
+  ticked?: boolean
 }
+
 defineProps<{
   tabs: PillTab[]
-  showSelected?: boolean
 }>()
+
 const emit = defineEmits(['select'])
 
 const handleTabClick = (value: string) => {
