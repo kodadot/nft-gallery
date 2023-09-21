@@ -31,11 +31,11 @@ export default defineNuxtConfig({
   nitro: {
     publicAssets: [],
     preset: 'netlify',
+    // preset: 'service-worker'
   },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
-  nitro: { preset: 'service-worker' },
 
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
