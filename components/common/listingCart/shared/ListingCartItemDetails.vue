@@ -1,6 +1,5 @@
 <template>
-  <div class="py-2 px-6">
-    <div class="py-2 border-top border-k-shade" />
+  <div>
     <div class="is-flex is-justify-content-space-between">
       <div class="is-flex">
         <div>
@@ -22,38 +21,16 @@
         </div>
       </div>
 
-      <NeoButton
-        class="has-text-grey pt-4"
-        variant="text"
-        no-shadow
-        icon="trash"
-        icon-pack="far"
-        @click.native="listingCartStore.removeItem(nft.id)" />
+      <slot name="right" />
     </div>
-    <div class="is-flex is-justify-content-space-between pt-2">
-      <div class="is-flex is-flex-direction-column">
-        <div class="has-text-grey is-size-7">{{ $t('activity.floor') }}</div>
-        <span>{{ floor }}</span>
-      </div>
-
-      <div class="is-flex is-align-items-end pt-2">
-        <ListingCartPriceInput
-          v-model="listingCartStore.getItem(nft.id).listPrice" />
-      </div>
-    </div>
+    <slot name="footer" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { parseNftAvatar } from '@/utils/nft'
+import { ListCartItem } from '@/stores/listingCart'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
-import ListingCartPriceInput from '@/components/common/listingCart/ListingCartPriceInput.vue'
-import { NeoButton } from '@kodadot1/brick'
-import { ListCartItem, useListingCartStore } from '@/stores/listingCart'
-import { formatBalance } from '@polkadot/util'
-const { decimals, chainSymbol } = useChain()
-
-const listingCartStore = useListingCartStore()
 
 const avatar = ref<string>()
 
@@ -67,17 +44,11 @@ const getAvatar = async () => {
   }
 }
 
-const floor = computed(() =>
-  formatBalance(props.nft.collection.floor, {
-    decimals: decimals.value,
-    withUnit: chainSymbol.value,
-  })
-)
-
 onMounted(() => {
   getAvatar()
 })
 </script>
+
 <style scoped lang="scss">
 .limit-width {
   max-width: 170px;
