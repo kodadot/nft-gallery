@@ -178,9 +178,7 @@ const socialTabs = ref<PillTab[]>([
 
 const isMobile = computed(() => useWindowSize().width.value <= 764)
 const disabled = computed(
-  () =>
-    Object.values(identity.value).filter((val) => val).length === 0 ||
-    isLoading.value
+  () => identity.value.display === '' || isLoading.value
 )
 
 const depositFormatted = computed(() =>
