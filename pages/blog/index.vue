@@ -117,8 +117,6 @@ const { data: posts } = useAsyncData('posts', async () => {
     }
   )
 
-  console.log(reduce)
-
   return reduce
 })
 </script>
