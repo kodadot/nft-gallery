@@ -36,7 +36,7 @@ jobs:
           node-version: 18
          
       - name: Run Playwright tests
-        run: pnpm exec playwright test --shard ${{ matrix.shard }}
+        run: npx playwright test --shard ${{ matrix.shard }}
       - uses: actions/upload-artifact@v3
         if: always()
         with:
