@@ -8,11 +8,7 @@ jobs:
   test:
     timeout-minutes: 15
     runs-on: ubuntu-latest
-    if: github.event_name == 'deploy/netlify' && github.event.deployment_status.state == 'success'
-    strategy:
-      fail-fast: false
-      matrix:
-        shard: [1/5, 2/5, 3/5, 4/5, 5/5]
+    if: github.event.deployment_status.state == 'success'
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
@@ -26,7 +22,7 @@ jobs:
       run: pnpm exec playwright install --with-deps
 
     - name: Run Playwright tests
-      run: pnpm exec playwright test --shard ${{ matrix.shard }}
+      run: pnpm exec playwright test
       env:
         PLAYWRIGHT_TEST_BASE_URL: ${{ github.event.deployment_status.target_url }}
     - uses: actions/upload-artifact@v3
