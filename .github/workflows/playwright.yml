@@ -22,9 +22,6 @@ jobs:
     - name: Install dependencies
       uses: ./.github/actions/pnpm-install
 
-    - name: Run Build
-      run: pnpm generate
-
     - name: Install Playwright Browsers
       run: pnpm exec playwright install --with-deps
 
