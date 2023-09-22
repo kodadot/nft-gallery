@@ -22,7 +22,7 @@
     <!-- transfer item as an owner -->
     <GalleryItemPriceTransfer
       v-if="isOwner && nft?.id"
-      :nft-id="nft.id"
+      :nft="nft"
       class="mt-2" />
   </div>
 </template>
