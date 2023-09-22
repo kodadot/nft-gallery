@@ -291,9 +291,7 @@ const isValidSocial = (
   return socialCheck[socialIdentityKey](value || '')
 }
 
-onMounted(async () => {
-  await fetchFiatPrice()
-})
+onMounted(fetchFiatPrice)
 
 watch(
   identity,
@@ -326,9 +324,7 @@ watch(socialTabs, (tabs) => {
 })
 
 watch(isLoading, (newValue, oldValue) => {
-  const startsLoading = newValue && !oldValue
-  const stopsLoading = oldValue && !newValue
-  if (startsLoading || stopsLoading) {
+  if (newValue !== oldValue) {
     isLoaderModalVisible.value = isLoading.value
   }
 })
