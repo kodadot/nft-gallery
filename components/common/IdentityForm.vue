@@ -326,7 +326,9 @@ watch(socialTabs, (tabs) => {
 })
 
 watch(isLoading, (newValue, oldValue) => {
-  if (newValue && !oldValue) {
+  const startsLoading = newValue && !oldValue
+  const stopsLoading = oldValue && !newValue
+  if (startsLoading || stopsLoading) {
     isLoaderModalVisible.value = isLoading.value
   }
 })
