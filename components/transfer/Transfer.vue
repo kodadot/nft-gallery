@@ -295,7 +295,7 @@
 </template>
 
 <script lang="ts" setup>
-import Connector from '@kodadot1/sub-api'
+import { ApiFactory } from '@kodadot1/sub-api'
 import { ALTERNATIVE_ENDPOINT_MAP, chainNames } from '@kodadot1/static'
 
 import { isAddress } from '@polkadot/util-crypto'
@@ -756,9 +756,8 @@ const submit = async (
       const nextTryUrls = availableUrls.filter(
         (url) => !usedNodeUrls.includes(url)
       )
-      const { getInstance: Api } = Connector
       // try to connect next possible url
-      await Api().connect(nextTryUrls[0])
+      await ApiFactory.useApiInstance(nextTryUrls[0])
       submit(event, [nextTryUrls[0], ...usedNodeUrls])
     }
 
