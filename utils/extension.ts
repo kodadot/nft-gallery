@@ -1,5 +1,5 @@
 import { web3Enable } from '@polkadot/extension-dapp'
-import { getWalletBySource, WalletAccount } from '@/utils/config/wallets'
+import { WalletAccount, getWalletBySource } from '@/utils/config/wallets'
 import consola from 'consola'
 
 export const enableExtension = async () => await web3Enable('KodaDot')

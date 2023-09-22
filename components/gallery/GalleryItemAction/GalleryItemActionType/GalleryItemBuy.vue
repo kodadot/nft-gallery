@@ -162,7 +162,7 @@ const onClickShoppingCart = () => {
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
 
-:deep .button-height {
+:deep(.button-height) {
   height: 55px !important;
 }
 .buy-button-width {
