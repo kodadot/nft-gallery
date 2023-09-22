@@ -297,25 +297,33 @@ onMounted(async () => {
 
 watch(
   identity,
-  (value) => {
+  (value, prevValue) => {
     if (value) {
       socialTabs.value = socialTabs.value.map((tab) => {
-        if (value[tab.value]) {
-          return {
-            ...tab,
-            active: true,
-            ticked: isValidSocial(
-              tab.value as IdentitySocialField,
-              value[tab.value]
-            ),
-          }
+        const socialIdentityFieldValue = value[tab.value]
+        const prevSocialIdentityFieldValue = prevValue[tab.value]
+        const isInit = prevSocialIdentityFieldValue === undefined
+        return {
+          ...tab,
+          active: (isInit && Boolean(socialIdentityFieldValue)) || tab.active,
+          ticked: isValidSocial(
+            tab.value as IdentitySocialField,
+            socialIdentityFieldValue
+          ),
         }
-        return tab
       })
     }
   },
   { deep: true }
 )
+
+watch(socialTabs, (tabs) => {
+  tabs.forEach((tab) => {
+    if (!tab.active && identity.value[tab.value]) {
+      identity.value[tab.value] = ''
+    }
+  })
+})
 
 watch(isLoading, (newValue, oldValue) => {
   if (newValue && !oldValue) {
