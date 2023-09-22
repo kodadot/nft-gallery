@@ -34,13 +34,15 @@
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
 
+export type Icon = {
+  name: string
+  pack: string
+}
+
 export type PillTab = {
   label: string
   value: string
-  icon?: {
-    name: string
-    pack: string
-  }
+  icon?: Icon
   image?: string
   active?: boolean
   ticked?: boolean

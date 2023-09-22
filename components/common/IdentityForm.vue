@@ -7,7 +7,7 @@
 
       <NeoField :label="`${$i18n.t('handle')} *`" class="mb-5">
         <NeoInput
-          v-model="identity.display"
+          v-model="identity.display.value"
           :placeholder="$i18n.t('identity.onChainPlaceholder')"
           :maxlength="inputLengthLimit"
           required
@@ -15,7 +15,7 @@
       </NeoField>
 
       <BasicInput
-        v-model="identity.legal"
+        v-model="identity.legal.value"
         class="mb-4"
         :label="$i18n.t('name')"
         :maxlength="inputLengthLimit"
@@ -23,7 +23,7 @@
         expanded />
 
       <BasicInput
-        v-model="identity.email"
+        v-model="identity.email.value"
         type="email"
         class="mb-5"
         :maxlength="inputLengthLimit"
@@ -32,7 +32,7 @@
         expanded />
 
       <BasicInput
-        v-model="identity.web"
+        v-model="identity.web.value"
         class="mb-4"
         :label="$i18n.t('website')"
         :maxlength="inputLengthLimit"
@@ -54,7 +54,7 @@
       <Transition name="fade">
         <BasicInput
           v-if="isTabVisible(IdentitySocialField.Twitter)"
-          v-model="identity.twitter"
+          v-model="identity.twitter.value"
           class="mb-4"
           label="Twitter"
           :maxlength="inputLengthLimit"
@@ -65,7 +65,7 @@
       <Transition name="fade">
         <BasicInput
           v-if="isTabVisible(IdentitySocialField.Riot)"
-          v-model="identity.riot"
+          v-model="identity.riot.value"
           class="mb-4"
           label="Riot"
           :maxlength="inputLengthLimit"
@@ -103,7 +103,7 @@
       :deposit="depositFormatted"
       :deposit-usd="depositUsd"
       :identity="identity"
-      :socials="socialTabs"
+      :identity-active-socials="activeSocials"
       :is-mobile="isMobile"
       @confirm="submit"
       @close="isConfirmModalActive = false" />
@@ -130,8 +130,7 @@ import {
   NeoInput,
   NeoTooltip,
 } from '@kodadot1/brick'
-import type { IdentityFields } from '@/composables/useIdentity'
-import PillTabs, { PillTab } from '@/components/shared/PillTabs.vue'
+import PillTabs, { Icon, PillTab } from '@/components/shared/PillTabs.vue'
 import IdentityConfirmModal from '@/components/common/identity/IdentityConfirmModal.vue'
 import TransactionLoader from '@/components/shared/TransactionLoader.vue'
 import { useIdentityStore } from '@/stores/identity'
@@ -154,7 +153,62 @@ const { identity: identityData } = useIdentity({
 const { howAboutToExecute, isLoading, initTransactionLoader, status } =
   useMetaTransaction()
 
-const identity = ref<IdentityFields>({})
+export type IdentityField = {
+  label: string
+  value: string
+  icon?: Icon
+  isSocial?: boolean
+}
+
+enum IdentitySocialField {
+  Riot = 'riot',
+  Twitter = 'twitter',
+}
+
+export type IdentityForm = Record<string, IdentityField>
+
+const identity = ref<IdentityForm>({
+  display: {
+    label: $i18n.t('handle'),
+    value: '',
+  },
+  legal: {
+    label: $i18n.t('name'),
+    value: '',
+  },
+  email: {
+    label: $i18n.t('email'),
+    value: '',
+  },
+  web: {
+    label: $i18n.t('website'),
+    value: '',
+  },
+  [IdentitySocialField.Twitter]: {
+    label: 'Twitter',
+    icon: { name: 'fa-x-twitter', pack: 'fa-brands' },
+    isSocial: true,
+    value: '',
+  },
+  [IdentitySocialField.Riot]: {
+    label: 'Riot',
+    isSocial: true,
+    value: '',
+  },
+})
+
+const socialTabs = ref<PillTab[]>([
+  {
+    label: identity.value[IdentitySocialField.Riot].label,
+    value: IdentitySocialField.Riot,
+  },
+  {
+    label: identity.value[IdentitySocialField.Twitter].label,
+    icon: identity.value[IdentitySocialField.Twitter].icon,
+    value: IdentitySocialField.Twitter,
+  },
+])
+
 const deposit = ref('0')
 const inputLengthLimit = ref(32)
 
@@ -162,26 +216,16 @@ const isConfirmModalActive = ref(false)
 const isLoaderModalVisible = ref(false)
 const transactionValue = ref('')
 
-enum IdentitySocialField {
-  Riot = 'riot',
-  Twitter = 'twitter',
-}
-
-const socialTabs = ref<PillTab[]>([
-  {
-    label: 'Riot',
-    value: IdentitySocialField.Riot,
-  },
-  {
-    label: 'Twitter',
-    icon: { name: 'fa-x-twitter', pack: 'fa-brands' },
-    value: IdentitySocialField.Twitter,
-  },
-])
+const activeSocials = computed(() => {
+  return socialTabs.value.reduce(
+    (reducer, tab) => ({ ...reducer, [tab.value]: tab.active }),
+    {}
+  )
+})
 
 const isMobile = computed(() => useWindowSize().width.value <= 764)
 const disabled = computed(
-  () => identity.value.display === '' || isLoading.value
+  () => identity.value.display.value === '' || isLoading.value
 )
 
 const depositFormatted = computed(() =>
@@ -216,15 +260,20 @@ const submit = async (): Promise<void> => {
 
 watch(identityData, () => {
   const { display, legal, web, twitter, riot, email } = identityData.value
-  identity.value = {
-    display,
-    legal,
-    web,
-    twitter,
-    riot,
-    email,
-  }
+  setIdentityValue({ display, legal, web, twitter, riot, email })
 })
+
+const setIdentityValue = (values: Record<string, string>) => {
+  identity.value = Object.keys(values).reduce((reducer, field) => {
+    return {
+      ...reducer,
+      [field]: {
+        ...identity.value[field],
+        value: values[field] || '',
+      },
+    }
+  }, identity.value)
+}
 
 const handleUrlPrefixChange = async () => {
   deposit.value = await fetchDeposit()
@@ -237,10 +286,10 @@ const handleUrlPrefixChange = async () => {
 const enhanceIdentityData = (): Record<string, any> => {
   return Object.fromEntries(
     Object.entries(identity.value)
-      .filter(([, val]) => !!val)
-      .map(([key, val]: [string, string]) => {
-        if (val) {
-          return [key, { raw: val }]
+      .filter(([, field]) => !!field.value)
+      .map(([key, field]: [string, IdentityField]) => {
+        if (field.value) {
+          return [key, { raw: field.value }]
         }
         return [key, { none: null }]
       })
@@ -301,8 +350,8 @@ watch(
   (value, prevValue) => {
     if (value) {
       socialTabs.value = socialTabs.value.map((tab) => {
-        const socialIdentityFieldValue = value[tab.value]
-        const prevSocialIdentityFieldValue = prevValue[tab.value]
+        const socialIdentityFieldValue = value[tab.value].value
+        const prevSocialIdentityFieldValue = prevValue[tab.value].value
         const isInit = prevSocialIdentityFieldValue === undefined
         return {
           ...tab,
@@ -321,7 +370,7 @@ watch(
 watch(socialTabs, (tabs) => {
   tabs.forEach((tab) => {
     if (!tab.active && identity.value[tab.value]) {
-      identity.value[tab.value] = ''
+      identity.value[tab.value].value = ''
     }
   })
 })

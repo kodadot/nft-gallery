@@ -10,24 +10,24 @@
     </template>
 
     <template #body>
-      <template v-for="(value, key, index) in identityFields">
+      <template v-for="(field, key, index) in identity">
         <div
-          v-if="showField(key)"
+          v-if="showField(key, field)"
           :key="key"
           class="is-flex is-justify-content-space-between is-align-items-center py-4"
           :class="{ 'border-top-k-shade': index !== 0 }">
           <span
             class="has-text-weight-bold is-size-6 is-capitalized is-flex is-justify-content-center">
             <NeoIcon
-              v-if="isActiveSocial(key) && getIcon(key)"
+              v-if="field.icon"
               class="mr-2"
-              :icon="getIcon(key)?.name"
-              :pack="getIcon(key)?.pack" />
-            <span>{{ $t(key) }}</span>
+              :icon="field.icon?.name"
+              :pack="field.icon?.pack" />
+            <span>{{ field.label }}</span>
           </span>
           <span class="is-flex is-align-items-center">
             <span class="ml-2 is-size-6">
-              {{ value || '--' }}
+              {{ field.value || '--' }}
             </span>
           </span>
         </div>
@@ -58,8 +58,7 @@
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import ResponsiveModal from '@/components/shared/ResponsiveModal.vue'
-import type { IdentityFields } from '@/composables/useIdentity'
-import { PillTab } from '@/components/shared/PillTabs.vue'
+import { IdentityField, IdentityForm } from '../IdentityForm.vue'
 
 const emit = defineEmits(['confirm', 'close'])
 
@@ -67,38 +66,15 @@ const props = defineProps<{
   value: boolean
   deposit: string
   depositUsd: string
-  identity: IdentityFields
+  identity: IdentityForm
+  identityActiveSocials: Record<string, boolean>
   isMobile: boolean
-  socials: PillTab[]
 }>()
 
 const isModalActive = useVModel(props, 'value')
 
-const identityFields = computed(() => ({
-  handle: props.identity.display,
-  name: props.identity.legal,
-  email: props.identity.email,
-  website: props.identity.web,
-  riot: props.identity.riot,
-  twitter: props.identity.twitter,
-}))
-
-const getSocial = (key: string) =>
-  props.socials.find((social) => social.value === key)
-
-const isActiveSocial = (key: string) => getSocial(key)?.active
-
-const getIcon = (key: string) => getSocial(key)?.icon
-
-const showField = (key: string) => {
-  const social = getSocial(key)
-
-  if (social) {
-    return social.active
-  }
-
-  return true
-}
+const showField = (key: string, field: IdentityField) =>
+  field.isSocial ? props.identityActiveSocials[key] : true
 
 const onClose = () => {
   emit('close')
