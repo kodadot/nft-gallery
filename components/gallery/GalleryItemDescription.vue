@@ -3,10 +3,15 @@
     v-model="activeTab"
     expanded
     content-class="o-tabs__content--fixed"
-    type="toggle">
+    type="toggle"
+    data-testid="gallery-item-description-neotabs">
     <!-- description tab -->
-    <NeoTabItem value="0" :label="$t('tabs.description')" class="p-5">
-      <div class="mb-3 is-flex">
+    <NeoTabItem
+      value="0"
+      :label="$t('tabs.description')"
+      class="p-5"
+      data-testid="gallery-item-description-tab-content">
+      <div class="mb-3 is-flex" data-testid="gallery-item-description-tab">
         <span class="mr-2">{{ $t('tabs.tabDescription.made') }}:</span>
         <nuxt-link
           v-if="nft?.issuer"
@@ -53,7 +58,11 @@
     </NeoTabItem>
 
     <!-- details tab -->
-    <NeoTabItem value="2" :label="$t('tabs.details')" class="p-5">
+    <NeoTabItem
+      value="2"
+      :label="$t('tabs.details')"
+      class="p-5"
+      data-testid="gallery-item-details-tab-content">
       <!-- <div class="is-flex is-justify-content-space-between">
         <p>Contract Address</p>
         <p>--</p>

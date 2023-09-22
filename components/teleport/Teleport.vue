@@ -53,7 +53,7 @@
       </div>
 
       <div class="mb-5">
-        {{ $i18n.t('teleport.receiveValue', [amount || 0, toChain]) }}
+        {{ $i18n.t('teleport.receiveValue', [amount || 0, toChainLabel]) }}
         <a
           v-safe-href="explorerUrl"
           target="_blank"
@@ -97,7 +97,7 @@ import * as paraspell from '@paraspell/sdk'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
 import shortAddress from '@/utils/shortAddress'
 import Money from '@/components/shared/format/Money.vue'
-import { getChainEndpointByPrefix } from '@/utils/chain'
+import { getChainEndpointByPrefix, getChainName } from '@/utils/chain'
 import { txCb } from '@/utils/transactionExecutor'
 import TeleportTabs from './TeleportTabs.vue'
 import { NeoButton } from '@kodadot1/brick'
@@ -149,35 +149,39 @@ const isDisabled = (chain: Chain) => {
 
 const fromTabs = [
   {
-    label: Chain.KUSAMA,
+    label: getChainName('rmrk'),
     value: Chain.KUSAMA,
   },
   {
-    label: Chain.BASILISK,
+    label: getChainName('bsx'),
     value: Chain.BASILISK,
   },
   {
-    label: Chain.STATEMINE,
+    label: getChainName('ahk'),
     value: Chain.STATEMINE,
   },
 ]
 const toTabs = [
   {
-    label: Chain.KUSAMA,
+    label: getChainName('rmrk'),
     value: Chain.KUSAMA,
     disabled: computed(() => isDisabled(Chain.KUSAMA)),
   },
   {
-    label: Chain.BASILISK,
+    label: getChainName('bsx'),
     value: Chain.BASILISK,
     disabled: computed(() => isDisabled(Chain.BASILISK)),
   },
   {
-    label: Chain.STATEMINE,
+    label: getChainName('ahk'),
     value: Chain.STATEMINE,
     disabled: computed(() => isDisabled(Chain.STATEMINE)),
   },
 ]
+
+const toChainLabel = computed(() =>
+  getChainName(chainToPrefixMap[toChain.value])
+)
 
 const ksmTokenDecimals = computed(() => assets(5).decimals)
 
