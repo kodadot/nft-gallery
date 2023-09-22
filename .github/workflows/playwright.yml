@@ -8,7 +8,7 @@ jobs:
   test:
     timeout-minutes: 15
     runs-on: ubuntu-latest
-    if: github.event.deployment_status.state == 'success'
+    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
     strategy:
       fail-fast: false
       matrix:
