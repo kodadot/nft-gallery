@@ -1,5 +1,5 @@
 <template>
-  <div class="common-price-chart">
+  <div class="common-price-chart" data-testid="gallery-item-chart">
     <span class="chart-y-description is-size-7">
       Price ({{ chainSymbol }})
     </span>
