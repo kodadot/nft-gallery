@@ -191,7 +191,7 @@ $base-shift: calc((100% - $card-width) / 2);
   }
 }
 
-:deep .white-space-break-spaces-mobile {
+:deep(.white-space-break-spaces-mobile) {
   pre {
     @include touch {
       width: 50vw;
