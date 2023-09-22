@@ -201,7 +201,7 @@ watch(addressCheck, (check) => {
 }
 
 .address-changed {
-  :deep a {
+  :deep(a) {
     @include ktheme() {
       color: theme('k-blue') !important;
       &:hover {
