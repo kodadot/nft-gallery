@@ -1,6 +1,8 @@
 <template>
   <div class="is-flex">
-    <div class="is-flex price-input border border-k-shade">
+    <div
+      class="is-flex price-input border border-k-shade"
+      :class="{ 'price-input__fullwidth': fullWidth }">
       <input
         v-model="model"
         type="text"
@@ -19,10 +21,16 @@
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 import { useVModel } from '@vueuse/core'
-const props = defineProps<{ value?: number | string; check?: boolean }>()
+
+const props = defineProps<{
+  value?: number | string
+  check?: boolean
+  fullWidth?: boolean
+}>()
 const emit = defineEmits(['confirm', 'input'])
 const model = useVModel(props, 'value', emit, { eventName: 'input' })
 const { chainSymbol } = useChain()
+
 watch(model, (newValue) => {
   const sanitizedValue = (newValue?.toString() ?? '').replace(/[^0-9.]/g, '')
   if (sanitizedValue !== newValue) {
@@ -46,6 +54,14 @@ watch(model, (newValue) => {
     outline: none;
     width: 5em;
     text-indent: 10px;
+  }
+}
+
+.price-input__fullwidth {
+  width: 100%;
+
+  input {
+    width: 100%;
   }
 }
 
