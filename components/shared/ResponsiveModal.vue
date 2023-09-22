@@ -19,7 +19,7 @@
         },
       ]">
       <header
-        class="is-flex is-justify-content-center is-align-items-center header px-6 py-3">
+        class="is-flex is-justify-content-center is-align-items-center is-relative px-6 py-3">
         <slot name="header" />
 
         <NeoButton
@@ -105,10 +105,6 @@ const closeModal = () => {
 
   .modal-width {
     width: 28rem;
-  }
-
-  .header {
-    position: relative;
   }
 
   .position-right {
