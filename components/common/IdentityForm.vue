@@ -111,10 +111,13 @@
     <TransactionLoader
       v-model="isLoaderModalVisible"
       :status="status"
-      :action-title="$t('identity.create')"
       :transaction-id="transactionValue"
       :is-mobile="isMobile"
-      @close="isLoaderModalVisible = false" />
+      @close="isLoaderModalVisible = false">
+      <template #action-title>
+        <span>{{ $t('identity.create') }}</span>
+      </template>
+    </TransactionLoader>
   </section>
 </template>
 
