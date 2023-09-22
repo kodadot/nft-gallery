@@ -184,14 +184,14 @@ const identity = ref<IdentityForm>({
     label: $i18n.t('website'),
     value: '',
   },
-  [IdentitySocialField.Twitter]: {
-    label: 'Twitter',
-    icon: { name: 'fa-x-twitter', pack: 'fa-brands' },
+  [IdentitySocialField.Riot]: {
+    label: 'Riot',
     isSocial: true,
     value: '',
   },
-  [IdentitySocialField.Riot]: {
-    label: 'Riot',
+  [IdentitySocialField.Twitter]: {
+    label: 'Twitter',
+    icon: { name: 'fa-x-twitter', pack: 'fa-brands' },
     isSocial: true,
     value: '',
   },
