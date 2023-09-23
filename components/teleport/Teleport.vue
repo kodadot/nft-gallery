@@ -459,6 +459,7 @@ const sendXCM = async () => {
     &::-webkit-inner-spin-button {
       -webkit-appearance: none !important;
     }
+    -moz-appearance: textfield;
   }
 }
 </style>
