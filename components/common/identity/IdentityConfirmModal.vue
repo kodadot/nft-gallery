@@ -1,5 +1,5 @@
 <template>
-  <ResponsiveModal
+  <NeoStickyModal
     v-model="isModalActive"
     :is-mobile="isMobile"
     @close="onClose">
@@ -52,12 +52,11 @@
         class="fixed-button-height is-flex is-flex-1"
         @click.native="emit('confirm')" />
     </template>
-  </ResponsiveModal>
+  </NeoStickyModal>
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import ResponsiveModal from '@/components/shared/ResponsiveModal.vue'
+import { NeoButton, NeoIcon, NeoStickyModal } from '@kodadot1/brick'
 import { IdentityField, IdentityForm } from '../IdentityForm.vue'
 
 const emit = defineEmits(['confirm', 'close'])

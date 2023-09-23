@@ -1,0 +1,44 @@
+@import '../../scss/variable.scss';
+// mobile mixin
+@import "bulma/sass/utilities/_all";
+
+.confirm-modal {
+  @include mobile {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    border-radius: 0.75rem 0.75rem 0 0 !important;
+
+    &.mobile-modal-height {
+      height: 90vh;
+    }
+  }
+
+  &.only-top-border {
+    border-right: 0 !important;
+    border-left: 0 !important;
+    border-bottom: 0 !important;
+  }
+
+  .scroll-height {
+    height: 50vh;
+
+    @include mobile {
+      height: 60vh;
+    }
+  }
+
+  .modal-width {
+    width: 28rem;
+  }
+
+  .position-right {
+    position: absolute;
+    right: 0;
+  }
+
+  .is-scrollable {
+    overflow-y: auto;
+  }
+}

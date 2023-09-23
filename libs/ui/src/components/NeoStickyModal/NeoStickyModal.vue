@@ -56,7 +56,9 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoModal } from '@kodadot1/brick'
+import NeoModal from '../NeoModal/NeoModal.vue'
+import NeoButton from '../NeoButton/NeoButton.vue'
+import { useVModel } from '@vueuse/core'
 
 const emit = defineEmits(['close', 'confirm'])
 
@@ -74,46 +76,5 @@ const closeModal = () => {
 </script>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables';
-
-.confirm-modal {
-  @include mobile {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border-radius: 0.75rem 0.75rem 0 0;
-
-    &.mobile-modal-height {
-      height: 90vh;
-    }
-  }
-
-  &.only-top-border {
-    border-right: 0 !important;
-    border-left: 0 !important;
-    border-bottom: 0 !important;
-  }
-
-  .scroll-height {
-    height: 50vh;
-
-    @include mobile {
-      height: 60vh;
-    }
-  }
-
-  .modal-width {
-    width: 28rem;
-  }
-
-  .position-right {
-    position: absolute;
-    right: 0;
-  }
-
-  .is-scrollable {
-    overflow-y: auto;
-  }
-}
+@import './NeoStickyModal.scss';
 </style>

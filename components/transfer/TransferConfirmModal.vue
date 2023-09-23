@@ -1,5 +1,5 @@
 <template>
-  <ResponsiveModal
+  <NeoStickyModal
     v-model="isModalActive"
     :is-mobile="isMobile"
     :is-expanded="isExpandList"
@@ -131,13 +131,11 @@
         class="fixed-button-height is-flex is-flex-1"
         @click.native="confirmTransfer" />
     </template>
-  </ResponsiveModal>
+  </NeoStickyModal>
 </template>
 
 <script setup lang="ts">
-import ResponsiveModal from '@/components/shared/ResponsiveModal.vue'
-
-import { NeoButton, NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import { NeoButton, NeoIcon, NeoStickyModal, NeoTooltip } from '@kodadot1/brick'
 import { NAMES } from '@/libs/static/src/names'
 import Avatar from '@/components/shared/Avatar.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
