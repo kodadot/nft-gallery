@@ -11,6 +11,7 @@
 
       <NeoDropdownItem
         v-if="mimeType?.includes('image') && ipfsImage"
+        data-testid="gallery-item-more-dropdown-download"
         @click="downloadMedia">
         Download
       </NeoDropdownItem>
@@ -63,8 +64,10 @@ const unlist = () => {
   transaction({
     interaction: Interaction.LIST,
     urlPrefix: urlPrefix.value,
-    nftId: $route.params.id,
-    price: '0',
+    token: {
+      nftId: $route.params.id,
+      price: '0',
+    },
     successMessage: $i18n.t('transaction.unlist.success') as string,
     errorMessage: $i18n.t('transaction.unlist.error') as string,
   })
