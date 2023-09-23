@@ -53,7 +53,13 @@
       </div>
 
       <div class="mb-5">
-        {{ $i18n.t('teleport.receiveValue', [amount || 0, currency, toChain]) }}
+        {{
+          $i18n.t('teleport.receiveValue', [
+            amount || 0,
+            currency,
+            toChainLabel,
+          ])
+        }}
         <a
           v-safe-href="explorerUrl"
           target="_blank"
@@ -96,7 +102,7 @@ import Loader from '@/components/shared/Loader.vue'
 import * as paraspell from '@paraspell/sdk'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
 import shortAddress from '@/utils/shortAddress'
-import { getChainEndpointByPrefix } from '@/utils/chain'
+import { getChainEndpointByPrefix, getChainName } from '@/utils/chain'
 import { txCb } from '@/utils/transactionExecutor'
 import TeleportTabs from './TeleportTabs.vue'
 import { NeoButton } from '@kodadot1/brick'
@@ -162,11 +168,11 @@ const chainBalances = {
   [Chain.BASILISK]: () =>
     identityStore.multiBalances.chains.basilisk?.ksm?.nativeBalance,
   [Chain.STATEMINE]: () =>
-    identityStore.multiBalances.chains.statemine?.ksm?.nativeBalance,
+    identityStore.multiBalances.chains.kusamaHub?.ksm?.nativeBalance,
   [Chain.POLKADOT]: () =>
     identityStore.multiBalances.chains.polkadot?.dot?.nativeBalance,
   [Chain.STATEMINT]: () =>
-    identityStore.multiBalances.chains.statemint?.dot?.nativeBalance,
+    identityStore.multiBalances.chains.polkadotHub?.dot?.nativeBalance,
 }
 
 const isDisabled = (chain: Chain) => {
@@ -175,49 +181,49 @@ const isDisabled = (chain: Chain) => {
 
 const fromTabs = [
   {
-    label: Chain.KUSAMA,
+    label: getChainName('rmrk'),
     value: Chain.KUSAMA,
   },
   {
-    label: Chain.BASILISK,
+    label: getChainName('bsx'),
     value: Chain.BASILISK,
   },
   {
-    label: Chain.STATEMINE,
+    label: getChainName('ahk'),
     value: Chain.STATEMINE,
   },
   {
-    label: Chain.POLKADOT,
+    label: getChainName('dot'),
     value: Chain.POLKADOT,
   },
   {
-    label: Chain.STATEMINT,
+    label: getChainName('ahp'),
     value: Chain.STATEMINT,
   },
 ]
 const toTabs = [
   {
-    label: Chain.KUSAMA,
+    label: getChainName('rmrk'),
     value: Chain.KUSAMA,
     disabled: computed(() => isDisabled(Chain.KUSAMA)),
   },
   {
-    label: Chain.BASILISK,
+    label: getChainName('bsx'),
     value: Chain.BASILISK,
     disabled: computed(() => isDisabled(Chain.BASILISK)),
   },
   {
-    label: Chain.STATEMINE,
+    label: getChainName('ahk'),
     value: Chain.STATEMINE,
     disabled: computed(() => isDisabled(Chain.STATEMINE)),
   },
   {
-    label: Chain.POLKADOT,
+    label: getChainName('dot'),
     value: Chain.POLKADOT,
     disabled: computed(() => isDisabled(Chain.POLKADOT)),
   },
   {
-    label: Chain.STATEMINT,
+    label: getChainName('ahp'),
     value: Chain.STATEMINT,
     disabled: computed(() => isDisabled(Chain.STATEMINT)),
   },
@@ -235,6 +241,11 @@ const currentTokenDecimals = computed(() => {
       return decimalsOf('ahp')
   }
 })
+const toChainLabel = computed(() =>
+  getChainName(chainToPrefixMap[toChain.value])
+)
+
+const ksmTokenDecimals = computed(() => assets(5).decimals)
 
 const myBalance = computed(() => {
   const getBalance = chainBalances[fromChain.value]

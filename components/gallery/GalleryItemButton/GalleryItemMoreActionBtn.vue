@@ -11,6 +11,7 @@
 
       <NeoDropdownItem
         v-if="mimeType?.includes('image') && ipfsImage"
+        data-testid="gallery-item-more-dropdown-download"
         @click="downloadMedia">
         Download
       </NeoDropdownItem>
