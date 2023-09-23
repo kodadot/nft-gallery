@@ -89,9 +89,9 @@ const { data } = useGraphql({
 })
 
 watch(data, () => {
-  const events = data.value?.events || []
-  emit('total', events.length || 0)
-  events.value = [...sortedEventByDate(events, 'DESC')]
+  const dataEvents = data.value?.events || []
+  emit('total', dataEvents.length || 0)
+  events.value = [...sortedEventByDate(dataEvents, 'DESC')]
 })
 
 const interactionToFilterMap = {
