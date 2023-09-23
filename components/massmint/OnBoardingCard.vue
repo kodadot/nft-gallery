@@ -1,6 +1,6 @@
 <template>
   <div
-    class="carousel-card p-5 mobile-padding"
+    class="carousel-card p-7 mobile-padding"
     :class="{ 'not-active': !active }">
     <div class="card__content">
       <div class="is-flex is-justify-content-space-between">
@@ -11,7 +11,7 @@
         <span class="is-size-4">{{ count }}</span>
       </div>
       <slot>
-        <div class="content is-size-4-tablet is-size-5-mobile">
+        <div class="content is-size-5-mobile">
           <Markdown :source="content" />
         </div>
       </slot>
@@ -52,6 +52,10 @@ defineProps<{
       @include ktheme() {
         color: theme('text-color') !important;
       }
+      @include tablet {
+        font-size: 1.25rem !important;
+      }
+
       :deep a {
         @include ktheme() {
           color: theme('k-blue') !important;

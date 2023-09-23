@@ -51,7 +51,7 @@
               :source="
                 descriptionTabs[activeDescriptionTab].fileStructureDescription
               "
-              class="fixed-height white-space-break-spaces-mobile" />
+              class="fixed-height white-space-break-spaces-mobile code" />
           </div>
         </OnBoardingCard>
       </div>
@@ -230,6 +230,10 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
 .fixed-height {
   height: 180px;
   overflow-y: auto;
+}
+
+.code :deep pre {
+  font-size: 1rem !important;
 }
 
 .carousel-dot {
