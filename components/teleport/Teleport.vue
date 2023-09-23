@@ -245,8 +245,6 @@ const toChainLabel = computed(() =>
   getChainName(chainToPrefixMap[toChain.value])
 )
 
-const ksmTokenDecimals = computed(() => assets(5).decimals)
-
 const myBalance = computed(() => {
   const getBalance = chainBalances[fromChain.value]
   if (!getBalance) {
