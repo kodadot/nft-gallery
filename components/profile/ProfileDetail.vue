@@ -105,6 +105,8 @@
           :key="tab"
           class="is-capitalized"
           :active="activeTab === tab"
+          :count="counts[tab]"
+          :show-active-check="false"
           :text="tab"
           @click.native="() => switchToTab(tab)" />
         <ChainDropdown class="ml-6" />
@@ -116,6 +118,8 @@
           :key="tab"
           :active="activeTab === tab"
           :text="tab"
+          :count="counts[tab]"
+          :show-active-check="false"
           class="is-capitalized"
           @click.native="() => switchToTab(tab)" />
         <div class="is-flex mt-4 is-flex-wrap-wrap">
@@ -126,9 +130,7 @@
     </div>
 
     <div class="container is-fluid pb-6">
-      <div
-        v-if="activeTab === 'owned' || activeTab === 'created'"
-        class="is-flex-grow-1">
+      <div v-show="showItemTabs" class="is-flex-grow-1">
         <div
           class="is-flex is-justify-content-space-between pb-4 pt-5 is-align-content-center">
           <div class="is-flex">
@@ -144,13 +146,25 @@
           </div>
         </div>
         <hr class="my-0" />
-        <ItemsGrid :search="itemsGridSearch" />
+        <template v-for="tab in itemTabs">
+          <ItemsGrid
+            v-show="activeTab === tab"
+            :key="tab"
+            :search="getItemGridSearch(tab)"
+            @total="(count) => handleItemTotal(count, tab)" />
+        </template>
       </div>
+
       <CollectionGrid
-        v-if="activeTab === 'collections'"
+        v-show="activeTab === Tab.COLLECTIONS"
         :id="id"
-        class="pt-7" />
-      <Activity v-if="activeTab === 'activity'" :id="id" />
+        class="pt-7"
+        @total="(count) => handleItemTotal(count, Tab.COLLECTIONS)" />
+
+      <Activity
+        v-show="activeTab === Tab.ACTIVITY"
+        :id="id"
+        @total="(count) => handleItemTotal(count, Tab.ACTIVITY)" />
     </div>
   </div>
 </template>
@@ -174,12 +188,24 @@ const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
-const tabs = ['owned', 'created', 'collections', 'activity']
 
-const switchToTab = (tab: string) => {
+enum Tab {
+  OWNED = 'owned',
+  CREATED = 'created',
+  COLLECTIONS = 'collections',
+  ACTIVITY = 'activity',
+}
+
+const itemTabs = [Tab.OWNED, Tab.CREATED]
+const tabs = [...itemTabs, Tab.COLLECTIONS, Tab.ACTIVITY]
+
+const showItemTabs = computed(() => itemTabs.includes(activeTab.value))
+
+const switchToTab = (tab: Tab) => {
   activeTab.value = tab
 }
 
+const counts = ref({})
 const id = computed(() => route.params.id || '')
 const email = ref('')
 const twitter = ref('')
@@ -189,8 +215,9 @@ const legal = ref('')
 const riot = ref('')
 const isModalActive = ref(false)
 
-const itemsGridSearch = computed(() => {
-  const tabKey = activeTab.value === 'owned' ? 'currentOwner_eq' : 'issuer_eq'
+const getTabGridSearch = (tab: Tab) => {
+  const tabKey = tab === Tab.OWNED ? 'currentOwner_eq' : 'issuer_eq'
+
   const query: Record<string, unknown> = {
     [tabKey]: id.value,
   }
@@ -206,12 +233,23 @@ const itemsGridSearch = computed(() => {
   }
 
   return query
-})
+}
+
+const handleItemTotal = (count: number, tab: string) => {
+  counts.value = {
+    ...counts.value,
+    [tab]: count,
+  }
+}
+
+const getItemGridSearch = (tab: Tab) => {
+  return getTabGridSearch(tab)
+}
 
 const realworldFullPath = computed(() => window.location.href)
 
 const activeTab = computed({
-  get: () => (route.query.tab as string) || 'owned',
+  get: () => (route.query.tab as Tab) || Tab.OWNED,
   set: (val) => {
     replaceUrl({ tab: val })
   },

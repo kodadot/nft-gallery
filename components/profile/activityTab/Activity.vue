@@ -57,6 +57,7 @@ const { replaceUrl } = useReplaceUrl()
 
 const events = ref<Interaction[]>([])
 
+const emit = defineEmits(['total'])
 const props = defineProps<{
   id: string
 }>()
@@ -87,7 +88,9 @@ const { data } = useGraphql({
 })
 
 watch(data, () => {
-  events.value = [...sortedEventByDate(data.value?.events || [], 'DESC')]
+  const events = data.value?.events || []
+  emit('total', events.length || 0)
+  events.value = [...sortedEventByDate(events, 'DESC')]
 })
 
 const interactionToFilterMap = {
