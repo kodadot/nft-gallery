@@ -325,7 +325,7 @@ watch(
       socialTabs.value = socialTabs.value.map((tab) => {
         const socialIdentityFieldValue = value[tab.value].value
         const prevSocialIdentityFieldValue = prevValue[tab.value].value
-        const isInit = prevSocialIdentityFieldValue === undefined
+        const isInit = prevSocialIdentityFieldValue === ''
         return {
           ...tab,
           active: (isInit && Boolean(socialIdentityFieldValue)) || tab.active,
