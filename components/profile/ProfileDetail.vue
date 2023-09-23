@@ -151,7 +151,7 @@
             v-show="activeTab === tab"
             :key="tab"
             :search="getItemGridSearch(tab)"
-            @total="(count) => handleItemTotal(count, tab)" />
+            @total="(count) => handleTabTotal(count, tab)" />
         </template>
       </div>
 
@@ -159,12 +159,12 @@
         v-show="activeTab === Tab.COLLECTIONS"
         :id="id"
         class="pt-7"
-        @total="(count) => handleItemTotal(count, Tab.COLLECTIONS)" />
+        @total="(count) => handleTabTotal(count, Tab.COLLECTIONS)" />
 
       <Activity
         v-show="activeTab === Tab.ACTIVITY"
         :id="id"
-        @total="(count) => handleItemTotal(count, Tab.ACTIVITY)" />
+        @total="(count) => handleTabTotal(count, Tab.ACTIVITY)" />
     </div>
   </div>
 </template>
@@ -235,10 +235,10 @@ const getTabGridSearch = (tab: Tab) => {
   return query
 }
 
-const handleItemTotal = (count: number, tab: string) => {
+const handleTabTotal = (amount: number, tab: string) => {
   counts.value = {
     ...counts.value,
-    [tab]: count,
+    [tab]: amount,
   }
 }
 
