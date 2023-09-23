@@ -10,6 +10,8 @@ const api = $fetch.create({
   baseURL: BASE_URL,
 })
 
+type DropType = 'paid' | 'generative' | 'drop' | 'vote'
+
 type DropItem = {
   id: string
   chain: Prefix
@@ -17,6 +19,8 @@ type DropItem = {
   image: string
   name: string
   alisa: string
+  type: DropType
+  meta: string
 }
 
 type MintResponse = Response<any>

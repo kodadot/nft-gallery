@@ -7,6 +7,8 @@ export interface Drop {
   minted: number
   max: number
   dropStartTime: Date
+  price: string
+  alias: string
 }
 
 const futureDate = new Date()
@@ -36,6 +38,8 @@ export function useDrops() {
             max: collectionEntity?.max ?? 300,
             dropStartTime: new Date(2023, 5, 6),
             chain: drop.chain,
+            price: drop.type === 'paid' ? drop.meta : '0',
+            alias: drop.id, // todo: get alias from api result
           })
         }
       })
