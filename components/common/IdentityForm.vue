@@ -62,17 +62,6 @@
           expanded />
       </Transition>
 
-      <Transition name="fade">
-        <BasicInput
-          v-if="isTabVisible(IdentitySocialField.Riot)"
-          v-model="identity.riot.value"
-          class="mb-4"
-          label="Riot"
-          :maxlength="inputLengthLimit"
-          placeholder="@yourname:matrix.org"
-          expanded />
-      </Transition>
-
       <hr />
 
       <p class="subtitle is-size-6">
@@ -161,7 +150,6 @@ export type IdentityField = {
 }
 
 enum IdentitySocialField {
-  Riot = 'riot',
   Twitter = 'twitter',
 }
 
@@ -184,11 +172,6 @@ const identity = ref<IdentityForm>({
     label: $i18n.t('website'),
     value: '',
   },
-  [IdentitySocialField.Riot]: {
-    label: 'Riot',
-    isSocial: true,
-    value: '',
-  },
   [IdentitySocialField.Twitter]: {
     label: 'Twitter',
     icon: { name: 'fa-x-twitter', pack: 'fa-brands' },
@@ -198,10 +181,6 @@ const identity = ref<IdentityForm>({
 })
 
 const socialTabs = ref<PillTab[]>([
-  {
-    label: identity.value[IdentitySocialField.Riot].label,
-    value: IdentitySocialField.Riot,
-  },
   {
     label: identity.value[IdentitySocialField.Twitter].label,
     icon: identity.value[IdentitySocialField.Twitter].icon,
@@ -259,8 +238,8 @@ const submit = async (): Promise<void> => {
 }
 
 watch(identityData, () => {
-  const { display, legal, web, twitter, riot, email } = identityData.value
-  setIdentityValue({ display, legal, web, twitter, riot, email })
+  const { display, legal, web, twitter, email } = identityData.value
+  setIdentityValue({ display, legal, web, twitter, email })
 })
 
 const setIdentityValue = (values: Record<string, string>) => {
@@ -303,7 +282,7 @@ const fetchDeposit = async () => {
 
 const onSuccess = (block: string) => {
   showNotification(
-    `[Identity] You are known as ${identity.value.display} since block ${block}`,
+    `[Identity] You are known as ${identity.value.display.value} since block ${block}`,
     notificationTypes.success
   )
 }
@@ -326,13 +305,7 @@ const isValidTwitterHandle = (handle: string) => {
   return pattern.test(handle)
 }
 
-const isValidRiotHandle = (handle: string) => {
-  const pattern = /^@[A-Za-z0-9]+:matrix\.org$/
-  return pattern.test(handle)
-}
-
 const socialCheck = {
-  [IdentitySocialField.Riot]: isValidRiotHandle,
   [IdentitySocialField.Twitter]: isValidTwitterHandle,
 }
 
