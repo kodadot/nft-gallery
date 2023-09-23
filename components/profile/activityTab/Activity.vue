@@ -52,9 +52,10 @@ import FilterButton from '@/components/profile/FilterButton.vue'
 import { Interaction as InteractionEnum } from '@kodadot1/minimark/v1'
 import Pagination from '@/components/rmrk/Gallery/Pagination.vue'
 import { NeoButton } from '@kodadot1/brick'
+import { ProfileTab } from '../types'
+
 const route = useRoute()
 const { replaceUrl } = useReplaceUrl()
-
 const events = ref<Interaction[]>([])
 
 const emit = defineEmits(['total'])
@@ -109,17 +110,24 @@ const filteredEvents = computed(() =>
   })
 )
 
-onMounted(() => {
-  const noFiltersActive = activeFilters.value.length === 0
+// We are using v-show need to watch profile tab changes this way
+watch(
+  () => route.query.tab,
+  (tab) => {
+    if (tab === ProfileTab.ACTIVITY) {
+      const noFiltersActive = activeFilters.value.length === 0
 
-  if (noFiltersActive) {
-    // Activate 'buy' and 'sale' filters by default
-    replaceUrl({
-      buy: 'true',
-      sale: 'true',
-    })
-  }
-})
+      if (noFiltersActive) {
+        // Activate 'buy' and 'sale' filters by default
+        replaceUrl({
+          buy: 'true',
+          sale: 'true',
+        })
+      }
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <style scoped lang="scss">

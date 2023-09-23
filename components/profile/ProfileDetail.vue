@@ -156,15 +156,15 @@
       </div>
 
       <CollectionGrid
-        v-show="activeTab === Tab.COLLECTIONS"
+        v-show="activeTab === ProfileTab.COLLECTIONS"
         :id="id"
         class="pt-7"
-        @total="(count) => handleTabTotal(count, Tab.COLLECTIONS)" />
+        @total="(count) => handleTabTotal(count, ProfileTab.COLLECTIONS)" />
 
       <Activity
-        v-show="activeTab === Tab.ACTIVITY"
+        v-show="activeTab === ProfileTab.ACTIVITY"
         :id="id"
-        @total="(count) => handleTabTotal(count, Tab.ACTIVITY)" />
+        @total="(count) => handleTabTotal(count, ProfileTab.ACTIVITY)" />
     </div>
   </div>
 </template>
@@ -182,6 +182,7 @@ import ChainDropdown from '@/components/common/ChainDropdown.vue'
 import OrderByDropdown from './OrderByDropdown.vue'
 import CollectionGrid from '@/components/collection/CollectionGrid.vue'
 import Activity from './activityTab/Activity.vue'
+import { ProfileTab } from './types'
 
 const route = useRoute()
 const { toast } = useToast()
@@ -189,19 +190,12 @@ const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 
-enum Tab {
-  OWNED = 'owned',
-  CREATED = 'created',
-  COLLECTIONS = 'collections',
-  ACTIVITY = 'activity',
-}
-
-const itemTabs = [Tab.OWNED, Tab.CREATED]
-const tabs = [...itemTabs, Tab.COLLECTIONS, Tab.ACTIVITY]
+const itemTabs = [ProfileTab.OWNED, ProfileTab.CREATED]
+const tabs = [...itemTabs, ProfileTab.COLLECTIONS, ProfileTab.ACTIVITY]
 
 const showItemTabs = computed(() => itemTabs.includes(activeTab.value))
 
-const switchToTab = (tab: Tab) => {
+const switchToTab = (tab: ProfileTab) => {
   activeTab.value = tab
 }
 
@@ -215,8 +209,8 @@ const legal = ref('')
 const riot = ref('')
 const isModalActive = ref(false)
 
-const getTabGridSearch = (tab: Tab) => {
-  const tabKey = tab === Tab.OWNED ? 'currentOwner_eq' : 'issuer_eq'
+const getTabGridSearch = (tab: ProfileTab) => {
+  const tabKey = tab === ProfileTab.OWNED ? 'currentOwner_eq' : 'issuer_eq'
 
   const query: Record<string, unknown> = {
     [tabKey]: id.value,
@@ -242,14 +236,14 @@ const handleTabTotal = (amount: number, tab: string) => {
   }
 }
 
-const getItemGridSearch = (tab: Tab) => {
+const getItemGridSearch = (tab: ProfileTab) => {
   return getTabGridSearch(tab)
 }
 
 const realworldFullPath = computed(() => window.location.href)
 
 const activeTab = computed({
-  get: () => (route.query.tab as Tab) || Tab.OWNED,
+  get: () => (route.query.tab as ProfileTab) || ProfileTab.OWNED,
   set: (val) => {
     replaceUrl({ tab: val })
   },
