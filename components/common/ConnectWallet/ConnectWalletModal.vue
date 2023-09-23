@@ -56,7 +56,7 @@
       </NeoField>
     </section>
 
-    <footer v-if="!showAccount" class="px-5 py-4">
+    <footer v-if="!showAccount" class="px-6 py-4">
       <div>{{ $i18n.t('walletConnect.walletQuestion') }}</div>
       <div class="is-size-7">
         {{ $i18n.t('walletConnect.walletAnswer') }}
