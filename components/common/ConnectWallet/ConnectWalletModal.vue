@@ -37,7 +37,7 @@
           :wallet="wallet" />
       </div>
     </section>
-    <section v-else class="modal-card-body p-4">
+    <section v-else class="modal-card-body px-6 py-4">
       <div class="mb-5">
         {{ $i18n.t('walletConnect.authText') }}
       </div>
@@ -46,6 +46,7 @@
           size="medium"
           variant="k-accent"
           class="confirm-button"
+          no-shadow
           @click.native="setUserAuthValue">
           <span class="is-flex is-align-items-center is-justify-content-center">
             {{ $i18n.t('walletConnect.confirm') }}
