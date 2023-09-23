@@ -35,6 +35,12 @@ export const getDrops = async () => {
   })
 }
 
+export const getDropById = async (id: string) => {
+  return await api<DropItem>(`/drops/${id}`, {
+    method: 'GET',
+  })
+}
+
 // URL should be sanitized ipfs://ipfs/Qm...
 export const sendWaifu = async (
   email: string,

@@ -1,5 +1,5 @@
 import { CollectionWithMeta } from '../rmrk/service/scheme'
-import { getDrops } from '@/services/waifu'
+import { getDropById, getDrops } from '@/services/waifu'
 
 export interface Drop {
   collection: CollectionWithMeta
@@ -47,4 +47,11 @@ export function useDrops() {
   })
 
   return drops
+}
+
+export async function useDrop(id: string) {
+  const drops = ref<Drop[]>([])
+  const drop = await getDropById(id)
+
+  return drop
 }
