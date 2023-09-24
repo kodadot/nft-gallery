@@ -45,7 +45,10 @@
 import { NeoNftCard } from '@kodadot1/brick'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import ItemsGridImage from './ItemsGridImage.vue'
-import { useFetchSearch } from './useItemsGrid'
+import {
+  updatePotentialNftsForListingCart,
+  useFetchSearch,
+} from './useItemsGrid'
 import isEqual from 'lodash/isEqual'
 
 const props = defineProps<{
@@ -53,6 +56,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits(['total', 'loading'])
+const route = useRoute()
 
 const isLoading = ref(true)
 const gotoPage = (page: number) => {
@@ -101,6 +105,16 @@ const { nfts, fetchSearch, refetch, clearFetchResults } = useFetchSearch({
   isLoading,
   resetSearch: resetPage,
 })
+
+watch(
+  total,
+  () => {
+    if (route.name === 'prefix-u-id') {
+      updatePotentialNftsForListingCart(nfts.value)
+    }
+  },
+  { immediate: true }
+)
 
 watch(total, () => {
   prefetchNextPage()

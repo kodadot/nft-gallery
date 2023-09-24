@@ -60,6 +60,9 @@ export const useListingCartStore = defineStore('listingCart', {
         this.allUnlistedItems.push(payload)
       }
     },
+    setUnlistedItems(payload: ListCartItem[]) {
+      this.allUnlistedItems = payload
+    },
     addAllToCart() {
       this.allUnlistedItems.forEach((item) => this.setItem(item))
     },
