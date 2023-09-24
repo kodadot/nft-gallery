@@ -56,7 +56,7 @@ defineProps<{
         font-size: 1.25rem !important;
       }
 
-      :deep a {
+      :deep(a) {
         @include ktheme() {
           color: theme('k-blue') !important;
         }

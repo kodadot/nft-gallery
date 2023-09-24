@@ -232,7 +232,7 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
   overflow-y: auto;
 }
 
-.code :deep pre {
+.code :deep(pre) {
   font-size: 1rem !important;
 }
 
