@@ -216,10 +216,6 @@ const onClickListingCart = () => {
   height: 35px;
 }
 
-.no-border-left {
-  border-left: none !important;
-}
-
 .hover-color {
   &:hover {
     @include ktheme() {

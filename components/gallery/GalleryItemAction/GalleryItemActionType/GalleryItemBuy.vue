@@ -176,9 +176,6 @@ const onClickShoppingCart = () => {
     width: 100%;
   }
 }
-.no-border-left {
-  border-left: none !important;
-}
 
 .desktop-full-w {
   @include until-widescreen {
