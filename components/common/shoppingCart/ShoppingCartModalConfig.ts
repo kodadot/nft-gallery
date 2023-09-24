@@ -5,6 +5,7 @@ export const ShoppingCartModalConfig = {
   component: ShoppingCartModal,
   canCancel: ['outside'],
   rootClass: 'shopping-cart-modal',
+  scroll: 'clip',
   autoFocus: false,
 }
 
