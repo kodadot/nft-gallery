@@ -30,13 +30,13 @@ type ChangeAddressRequest = {
   apiUrl?: string
 }
 
-type ChainType =
+export type ChainType =
   | 'polkadot'
   | 'kusama'
   | 'basilisk'
   | 'basilisk-testnet'
-  | 'statemine'
-  | 'statemint'
+  | 'kusamaHub'
+  | 'polkadotHub'
 
 type ChainDetail = {
   balance: string
@@ -102,9 +102,9 @@ export const useIdentityStore = defineStore('identity', {
     multiBalanceNetwork: 'main-network',
     multiBalanceAssets: [
       { chain: 'kusama' },
-      { chain: 'statemine' },
+      { chain: 'kusamaHub' },
       { chain: 'polkadot', token: 'DOT' },
-      { chain: 'statemint', token: 'DOT' },
+      { chain: 'polkadotHub', token: 'DOT' },
       { chain: 'basilisk', token: 'BSX' },
       { chain: 'basilisk', token: 'KSM', tokenId: getKusamaAssetId('bsx') },
     ],
@@ -238,5 +238,4 @@ export const useIdentityStore = defineStore('identity', {
       }
     },
   },
-  persist: true,
 })

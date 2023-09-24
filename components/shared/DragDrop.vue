@@ -99,7 +99,7 @@ const onFileSelected = (file: File) => {
 .limit-width {
   max-width: 25rem;
 }
-.hover-color:deep .o-upl__draggable--hovered {
+.hover-color:deep(.o-upl__draggable--hovered) {
   @include ktheme() {
     background-color: theme('k-primaryLight');
   }

@@ -155,6 +155,7 @@ const changeAddress = () => {
   const chainAddress = encodeAddress(publicKey, ss58Format.value)
   showChanged.value = true
   emit('change', chainAddress)
+  emit('check', true)
 }
 
 watch(
@@ -200,7 +201,7 @@ watch(addressCheck, (check) => {
 }
 
 .address-changed {
-  :deep a {
+  :deep(a) {
     @include ktheme() {
       color: theme('k-blue') !important;
       &:hover {

@@ -194,7 +194,7 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
   }
 }
 
-:deep .white-space-break-spaces-mobile {
+:deep(.white-space-break-spaces-mobile) {
   pre {
     @include touch {
       width: 100%;
