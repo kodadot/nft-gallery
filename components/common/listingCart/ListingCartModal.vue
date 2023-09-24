@@ -19,7 +19,7 @@
             @click.native="onClose" />
         </header>
 
-        <div class="px-6 pt-4">
+        <div class="px-6 pt-4 limit-height">
           <ModalIdentityItem />
 
           <ListingCartSingleItemCart
@@ -213,6 +213,11 @@ onUnmounted(() => {
 
 .rounded {
   border-radius: 10rem;
+}
+
+.limit-height {
+  max-height: 50vh;
+  overflow-y: auto;
 }
 
 .modal-width {
