@@ -17,8 +17,9 @@
         <ItemsGridImage
           :nft="nft"
           :variant="
-            (slotProps.isMobileVariant || slotProps.grid === 'small') &&
-            'minimal'
+            slotProps.isMobileVariant || slotProps.grid === 'small'
+              ? 'minimal'
+              : 'primary'
           " />
       </div>
     </DynamicGrid>
@@ -31,7 +32,9 @@
       <NeoNftCard
         v-for="n in skeletonCount"
         :key="n"
+        :nft="nfts[n]"
         is-loading
+        :prefix="urlPrefix"
         :variant="
           (slotProps.isMobileVariant || slotProps.grid === 'small') && 'minimal'
         " />
@@ -44,18 +47,17 @@
 <script setup lang="ts">
 import { NeoNftCard } from '@kodadot1/brick'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
-import { nftToShoppingCardItem } from '@/components/common/shoppingCart/utils'
-import { useListingCartStore } from '@/stores/listingCart'
 import ItemsGridImage from './ItemsGridImage.vue'
 import { useFetchSearch } from './useItemsGrid'
 import isEqual from 'lodash/isEqual'
+
+const { urlPrefix } = usePrefix()
 
 const props = defineProps<{
   search?: Record<string, string | number>
 }>()
 
 const emit = defineEmits(['total', 'loading'])
-const listingCartStore = useListingCartStore()
 
 const isLoading = ref(true)
 const gotoPage = (page: number) => {
