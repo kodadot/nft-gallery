@@ -36,11 +36,11 @@
     height: fit-content;
     @include ktheme() {
       color: theme('text-color');
-      background: theme('background-color');
+      background: inherit;
       border: none;
       &:hover {
         color: theme('link-hover');
-        background: theme('background-color');
+        background: inherit;
 
       }
     }
