@@ -38,7 +38,6 @@
     }
 
     .more-option-button {
-      margin: 0 34px;
       &:hover {
         @include ktheme() {
           color: theme('k-hovergrey') !important;
