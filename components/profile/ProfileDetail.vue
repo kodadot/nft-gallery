@@ -241,8 +241,10 @@ const handleIdentity = (identityFields: Record<string, string>) => {
   legal.value = identityFields?.legal
 }
 
-watch(itemsGridSearch, listingCartStore.clear, {
-  deep: true,
+watch(itemsGridSearch, (searchTerm, prevSearchTerm) => {
+  if (JSON.stringify(searchTerm) !== JSON.stringify(prevSearchTerm)) {
+    listingCartStore.clear()
+  }
 })
 </script>
 
