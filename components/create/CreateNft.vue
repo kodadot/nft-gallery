@@ -298,6 +298,7 @@ const selectedCollection = computed(() => {
 watchEffect(async () => {
   const queryPath = {
     ksm: 'chain-rmrk',
+    rmrk: 'chain-rmrk',
   }
   const prefix = queryPath[currentChain.value] || currentChain.value
   const query = await resolveQueryPath(prefix, 'collectionForMint')
