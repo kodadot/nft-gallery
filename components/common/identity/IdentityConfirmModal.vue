@@ -57,7 +57,10 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoIcon, NeoStickyModal } from '@kodadot1/brick'
-import { IdentityField, IdentityForm } from '../IdentityForm.vue'
+import {
+  IdentityField,
+  IdentityForm,
+} from '@/components/common/IdentityForm.vue'
 
 const emit = defineEmits(['confirm', 'close'])
 

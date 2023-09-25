@@ -21,9 +21,13 @@
         class="is-flex is-justify-content-space-between is-align-items-center py-5 px-6 border-bottom border-k-shade">
         <span>Tx:</span>
         <div class="is-flex">
-          <slot name="action-title" />
+          <slot name="action-title">
+            <!-- here goes whatever you want in
+             the case of slot content not supplied.
+             i.e. default value -->
+          </slot>
 
-          <template v-if="!slots['action-title']">
+          <template v-if="!$slots['action-title']">
             <span>{{ `${$t('teleport.send')} ${totalUsdValue}$` }}</span>
             <span class="has-text-grey ml-1 is-uppercase">{{
               `(${totalTokenAmount} ${urlPrefix})`
@@ -94,7 +98,6 @@ import { NeoButton, NeoModal, NeoStepItem, NeoSteps } from '@kodadot1/brick'
 import { TransactionStatus } from '@/composables/useTransactionStatus'
 import { chainPropListOf } from '@/utils/config/chain.config'
 
-const slots = useSlots()
 const props = withDefaults(
   defineProps<{
     status: TransactionStatus
