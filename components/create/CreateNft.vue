@@ -92,7 +92,9 @@
               type="number"
               placeholder="1 is the minimum"
               expanded />
-            <div class="form-addons">{{ chainSymbol }}</div>
+            <div class="form-addons">
+              {{ isBasilisk ? 'KSM' : chainSymbol }}
+            </div>
           </div>
         </div>
       </NeoField>
