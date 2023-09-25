@@ -24,17 +24,20 @@
 <script lang="ts" setup>
 import { NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
+import { useListingCartStore } from '@/stores/listingCart'
 import { getChainNameByPrefix } from '@/utils/chain'
 
 const { availableChains } = useChain()
 const { redirectAfterChainChange } = useChainRedirect()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const prefrencesStore = usePreferencesStore()
+const listingCartStore = useListingCartStore()
 
 const selected = computed({
   get: () => urlPrefix.value,
   set: (newChain) => {
     prefrencesStore.setNotificationBoxCollapse(false)
+    listingCartStore.clear()
     setUrlPrefix(newChain)
     redirectAfterChainChange(newChain)
   },
