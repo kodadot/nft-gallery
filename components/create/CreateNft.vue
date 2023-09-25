@@ -235,7 +235,7 @@ import { DETAIL_TIMEOUT } from '@/utils/constants'
 import { delay } from '@/utils/fetch'
 
 // composables
-const { $apollo } = useNuxtApp()
+const { $apollo, $consola } = useNuxtApp()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { accountId } = useAuth()
 const { transaction, status, isLoading, blockNumber } = useTransaction()
@@ -358,7 +358,7 @@ const createNft = async () => {
     )
   } catch (error) {
     showNotification(`[ERR] ${error}`, notificationTypes.warn)
-    console.error(error)
+    $consola.error(error)
   }
 }
 

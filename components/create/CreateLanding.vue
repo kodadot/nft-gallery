@@ -4,7 +4,7 @@
     <div>
       <h1 class="title is-size-2 mb-7">{{ $t('mint.landing.heading') }}</h1>
 
-      <div v-if="select === 'landing'" class="pack">
+      <div v-if="route.query?.select !== 'nft'" class="pack">
         <nuxt-link class="pack-box" to="/create/collection">
           <div class="pack-content">
             <NeoIcon icon="image-polaroid" size="large" />
@@ -14,7 +14,9 @@
             </div>
           </div>
         </nuxt-link>
-        <a class="pack-box" @click="select = 'nft'">
+        <button
+          class="pack-box"
+          @click="router.push({ query: { select: 'nft' } })">
           <div class="pack-content">
             <NeoIcon icon="gem" size="large" />
             <div class="pack-content-text">
@@ -22,10 +24,10 @@
               <p>{{ $t('mint.landing.nft') }}</p>
             </div>
           </div>
-        </a>
+        </button>
       </div>
 
-      <div v-if="select === 'nft'" class="pack">
+      <div v-else class="pack">
         <nuxt-link class="pack-box" to="/create/nft">
           <div class="pack-content">
             <NeoIcon icon="image" size="large" />
@@ -57,8 +59,8 @@
 import { NeoIcon } from '@kodadot1/brick'
 
 const { urlPrefix } = usePrefix()
-
-const select = ref<'landing' | 'nft'>('landing')
+const route = useRoute()
+const router = useRouter()
 </script>
 
 <style scoped lang="scss">
@@ -91,6 +93,7 @@ const select = ref<'landing' | 'nft'>('landing')
   gap: 1.5rem;
 
   &-box {
+    cursor: pointer;
     padding: 4rem 2rem;
 
     @include ktheme() {
