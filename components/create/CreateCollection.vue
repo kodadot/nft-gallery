@@ -26,6 +26,7 @@
       <NeoField
         :label="`${$t('mint.collection.name.label')} *`"
         required
+        data-testid="collection-name"
         :error="!name">
         <NeoInput
           v-model="name"
@@ -42,13 +43,15 @@
           has-counter
           maxlength="1000"
           height="10rem"
-          :placeholder="$t('mint.collection.description.placeholder')" />
+          :placeholder="$t('mint.collection.description.placeholder')"
+          data-testid="collection-desc" />
       </NeoField>
 
       <!-- collection max nfts -->
       <NeoField
         v-if="!isBasilisk"
         :label="$t('Maximum NFTs in collection')"
+        data-testid="collection-maxAmount"
         required>
         <div class="w-full">
           <div class="is-flex is-justify-content-space-between">
@@ -69,7 +72,11 @@
       <NeoField :label="`${$t('mint.blockchain.label')} *`">
         <div>
           <p>{{ $t('mint.blockchain.message') }}</p>
-          <NeoSelect v-model="selectBlockchain" class="mt-3" expanded>
+          <NeoSelect
+            v-model="selectBlockchain"
+            class="mt-3"
+            data-testid="collection-chain"
+            expanded>
             <option v-for="menu in menus" :key="menu.value" :value="menu.value">
               {{ menu.text }}
             </option>
@@ -100,11 +107,15 @@
           <div class="monospace">
             <p class="has-text-weight-medium is-size-6 has-text-info">
               <span>{{ $t('mint.deposit') }}:</span>
-              <span>{{ totalCollectionDeposit }} {{ chainSymbol }}</span>
+              <span data-testid="collection-deposit"
+                >{{ totalCollectionDeposit }} {{ chainSymbol }}</span
+              >
             </p>
             <p>
               <span>{{ $t('general.balance') }}: </span>
-              <span>{{ balance }} {{ chainSymbol }}</span>
+              <span data-testid="collection-balance"
+                >{{ balance }} {{ chainSymbol }}</span
+              >
             </p>
             <nuxt-link v-if="isBasilisk" :to="`/${currentChain}/assets`">
               {{ $t('general.tx.feesPaidIn', [chainSymbol]) }}
@@ -123,6 +134,7 @@
             :label="`${canDeposit ? 'Create Collection' : 'Not Enough Funds'}`"
             type="submit"
             size="medium"
+            data-testid="collection-create"
             :loading="isLoading"
             :disabled="!canDeposit" />
 

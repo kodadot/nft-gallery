@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="is-flex is-align-items-center mb-8 px-8">
+    <div class="is-flex is-align-items-center mb-7 px-8">
       <div
-        class="is-size-1-desktop is-size-2-tablet is-size-3-mobile is-flex is-flex-grow-1 is-justify-content-center has-text-weight-bold">
+        class="is-size-2-desktop is-size-2-tablet is-size-3-mobile is-flex is-flex-grow-1 is-justify-content-center has-text-weight-bold">
         {{ $t('massmint.onboarding.pageTitle') }}
       </div>
       <NeoButton
@@ -11,7 +11,7 @@
         icon-pack="fas"
         @click.native="toMassMint" />
     </div>
-    <div class="is-relative">
+    <div class="is-relative mb-6">
       <div
         ref="carouselRef"
         class="carousel is-flex is-flex-wrap-nowrap"
@@ -20,6 +20,7 @@
           v-for="(card, index) in cards"
           :key="index"
           :title="card.title"
+          :count="`${index + 1}/${cards.length}`"
           :content="card.content"
           :active="index === currentSlide">
           <div v-if="index === 1">
@@ -50,7 +51,7 @@
               :source="
                 descriptionTabs[activeDescriptionTab].fileStructureDescription
               "
-              class="fixed-height white-space-break-spaces-mobile" />
+              class="fixed-height white-space-break-spaces-mobile code" />
           </div>
         </OnBoardingCard>
       </div>
@@ -68,17 +69,10 @@
       </Transition>
     </div>
 
-    <div class="is-flex is-justify-content-center my-8">
-      <span
-        v-for="index in numOfCards"
-        :key="index"
-        class="carousel-dot mx-2"
-        :class="{ 'is-active': index === currentSlide + 1 }" />
-    </div>
     <div class="is-flex is-justify-content-center">
       <NeoButton
         :label="btn.label"
-        class="is-flex-grow-1 limit-width"
+        class="is-flex-grow-1 limit-width h-auto py-3"
         :variant="btn.variant"
         @click.native="btn.onClick" />
     </div>
@@ -166,35 +160,44 @@ $gap-percents: 5.5%;
 
 $max-card-width: 760px;
 $min-card-width: 225px;
-$card-height: 464px;
 $max-gap: 80px;
 
 $gap: min($gap-percents, $max-gap);
 $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
 
-$base-shift: calc((100% - $card-width) / 2);
-
 .carousel {
   transition: transform 0.5s ease-in-out;
-  gap: #{$gap};
+  --card-gap: #{$gap};
+  --card-width: #{$card-width};
+  --card-height: 464px;
+  --base-shift: calc((100% - var(--card-width)) / 2);
+  gap: var(--card-gap);
+  @include mobile {
+    --card-width: 90vw;
+    --card-gap: 2.5%;
+  }
 
   &.slide-0 {
-    transform: translateX($base-shift);
+    transform: translateX(var(--base-shift));
   }
 
   &.slide-1 {
-    transform: translateX(calc($base-shift + (-1 * ($card-width + $gap))));
+    transform: translateX(
+      calc(var(--base-shift) + (-1 * (var(--card-width) + var(--card-gap))))
+    );
   }
 
   &.slide-2 {
-    transform: translateX(calc($base-shift + (-2 * ($card-width + $gap))));
+    transform: translateX(
+      calc(var(--base-shift) + (-2 * (var(--card-width) + var(--card-gap))))
+    );
   }
 }
 
-:deep .white-space-break-spaces-mobile {
+:deep(.white-space-break-spaces-mobile) {
   pre {
     @include touch {
-      width: 50vw;
+      width: 100%;
       white-space: break-spaces;
     }
   }
@@ -229,6 +232,10 @@ $base-shift: calc((100% - $card-width) / 2);
   overflow-y: auto;
 }
 
+.code :deep(pre) {
+  font-size: 1rem !important;
+}
+
 .carousel-dot {
   width: 10px;
   height: 10px;
@@ -246,16 +253,20 @@ $base-shift: calc((100% - $card-width) / 2);
 }
 
 .limit-width {
-  max-width: $card-width;
+  max-width: 290px;
   min-width: $min-card-width;
+}
+
+.h-auto {
+  height: auto;
 }
 
 .arrow {
   &-left {
-    left: 30px;
+    left: calc((100% - $card-width) / 2 - 32px);
   }
   &-right {
-    right: 30px;
+    right: calc((100% - $card-width) / 2 - 32px);
   }
 }
 
