@@ -193,6 +193,7 @@
                 v-dompurify-html="
                   $t('mint.requiredDeposit', [
                     `${totalItemDeposit} ${chainSymbol}`,
+                    'NFT',
                   ])
                 " />
               <a

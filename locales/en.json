@@ -447,7 +447,7 @@
     "command": "List of commands for mass mint",
     "transform": "Transform commands in NFT",
     "deposit": "Deposit",
-    "requiredDeposit": "A deposit of <strong>{0}</strong> is required to create a collection. Please note, this initial deposit is refundable.",
+    "requiredDeposit": "A deposit of <strong>{0}</strong> is required to create a {1}. Please note, this initial deposit is refundable.",
     "landing": {
       "heading": "What Do You Wish To Create?",
       "collection": "Create A Collection For Your NFTs",

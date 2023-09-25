@@ -145,6 +145,7 @@
                 v-dompurify-html="
                   $t('mint.requiredDeposit', [
                     `${totalCollectionDeposit} ${chainSymbol}`,
+                    'collection',
                   ])
                 " />
               <a
