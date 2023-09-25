@@ -70,6 +70,7 @@
 
       <!-- list for sale -->
       <NeoField
+        :key="currentChain"
         :label="$t('mint.nft.sale.label')"
         required
         class="sale"
