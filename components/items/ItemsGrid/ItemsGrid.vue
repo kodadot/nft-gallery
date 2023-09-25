@@ -17,8 +17,9 @@
         <ItemsGridImage
           :nft="nft"
           :variant="
-            (slotProps.isMobileVariant || slotProps.grid === 'small') &&
-            'minimal'
+            slotProps.isMobileVariant || slotProps.grid === 'small'
+              ? 'minimal'
+              : 'primary'
           " />
       </div>
     </DynamicGrid>
@@ -31,7 +32,9 @@
       <NeoNftCard
         v-for="n in skeletonCount"
         :key="n"
+        :nft="nfts[n]"
         is-loading
+        :prefix="urlPrefix"
         :variant="
           (slotProps.isMobileVariant || slotProps.grid === 'small') && 'minimal'
         " />
@@ -50,6 +53,8 @@ import {
   useFetchSearch,
 } from './useItemsGrid'
 import isEqual from 'lodash/isEqual'
+
+const { urlPrefix } = usePrefix()
 
 const props = defineProps<{
   search?: Record<string, string | number>
