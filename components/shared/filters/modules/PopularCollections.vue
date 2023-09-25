@@ -172,7 +172,7 @@ watch(
 .min-width-0 {
   min-width: 0;
 }
-:deep .neo-checkbox > span {
+:deep(.neo-checkbox > span) {
   max-width: calc(100% - 1rem);
   .o-tip__trigger {
     max-width: 100%;

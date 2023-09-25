@@ -27,7 +27,6 @@ query nftListWithSearch(
     collection {
       id
       name
-      floor
     }
     meta {
       ...baseMeta

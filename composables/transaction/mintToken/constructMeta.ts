@@ -4,7 +4,7 @@ import {
   offsetAttribute,
   secondaryFileVisible,
 } from '@/utils/mintUtils'
-import { pinFileToIPFS, pinJson } from '@/services/nftStorage'
+import { pinJson, rateLimitedPinFileToIPFS } from '@/services/nftStorage'
 import { usePreferencesStore } from '@/stores/preferences'
 import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '@/utils/constants'
 import { uploadDirectWhenMultiple } from '@/utils/directUpload'
@@ -25,9 +25,9 @@ export async function constructMeta(
     throw new ReferenceError('No file found!')
   }
 
-  const fileHash = await pinFileToIPFS(file)
+  const fileHash = await rateLimitedPinFileToIPFS(file)
   const secondFileHash = secondFile
-    ? await pinFileToIPFS(secondFile)
+    ? await rateLimitedPinFileToIPFS(secondFile)
     : undefined
 
   let imageHash: string | undefined = fileHash

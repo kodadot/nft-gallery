@@ -15,7 +15,9 @@
         Copy Link
       </NeoDropdownItem>
       <NeoDropdownItem @click="isModalActive = true">QR Code</NeoDropdownItem>
-      <NeoDropdownItem @click="actionTwitterShare">
+      <NeoDropdownItem
+        data-testid="gallery-item-share-dropdown-twitter"
+        @click="actionTwitterShare">
         Share On Twitter
       </NeoDropdownItem>
     </NeoDropdown>
@@ -28,8 +30,7 @@
         <div class="card-content">
           <QRCode
             :text="realworldFullPathShare"
-            color="#db2980"
-            bg-color="#000" />
+            data-testid="gallery-item-share-dropdown-qrcode" />
         </div>
       </div>
     </NeoModal>

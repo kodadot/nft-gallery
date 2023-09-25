@@ -2,6 +2,8 @@ import { $fetch, FetchError } from 'ofetch'
 import { URLS } from '../utils/constants'
 import consola from 'consola'
 import { Metadata } from '@kodadot1/minimark/common'
+import { addToQueue, processQueue } from '@/utils/queueProcessor'
+import { exponentialBackoff } from '@/utils/exponentialBackoff'
 
 const BASE_URL = URLS.koda.nftStorage
 
@@ -46,6 +48,20 @@ export const getKey = async (address: string): Promise<PinningKey> => {
     )
   })
   return { expiry, token }
+}
+
+export const pinFileToIPFSWithRetries = (file: Blob) =>
+  exponentialBackoff(() => pinFileToIPFS(file))
+
+export const rateLimitedPinFileToIPFS = (
+  file: File,
+  batchSize = 4,
+  gap = 300
+): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    addToQueue(() => pinFileToIPFSWithRetries(file).then(resolve).catch(reject))
+    processQueue(batchSize, gap)
+  })
 }
 
 export const pinFileToIPFS = async (file: Blob): Promise<string> => {
