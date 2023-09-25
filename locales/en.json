@@ -920,8 +920,11 @@
   },
   "identity": {
     "page": "Identity",
-    "set": "Create on-chain identity",
+    "set": "Create On-Chain identity on {0}",
     "click": "Click to create identity",
+    "clear": "Clear (burn)",
+    "existing" : "Existing Onchain Identity",
+    "establishedIdentity": "It appears you already established an onchain identity. Update it as needed (no new deposit needed) or delete to reclaim your deposit.",
     "handleRequired": "Your handle is required",
     "deposit": "Deposit",
     "fundsReserve": "0.0333 KSM will be reserved. These funds are returned when the identity is cleared.",

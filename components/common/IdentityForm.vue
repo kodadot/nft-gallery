@@ -2,21 +2,34 @@
   <section>
     <Loader v-model="isLoading" :status="status" />
     <form @submit.prevent>
-      <h1 class="title is-size-3">
-        {{ $i18n.t('identity.set') }}
-        <NeoTooltip
-          :label="$i18n.t('identity.fundsReserve')"
-          position="bottom"
-          multiline>
-          <NeoIcon icon="info-circle" pack="fas" />
-        </NeoTooltip>
+      <h1 class="title is-size-3 is-capitalized">
+        {{ $i18n.t('identity.set', [getChainName(identityPrefix)]) }}
       </h1>
 
-      <p v-if="accountId" class="subtitle is-size-6">
-        <Auth />
-        <span>{{ $i18n.t('general.balance') }}: </span>
-        <Money :value="balance" inline />
-      </p>
+      <div v-if="hasIdentity" class="is-size-6">
+        <hr class="my-7" />
+        <div class="mb-4">
+          {{ $t('identity.establishedIdentity') }}
+        </div>
+        <div
+          class="is-flex is-justify-content-space-between is-align-items-flex-end">
+          <div
+            class="is-flex is-justify-content-space-between is-align-items-center">
+            <Avatar :value="accountId" :size="34" />
+            <div class="ml-4">
+              <div class="has-text-grey">{{ $t('identity.existing') }}</div>
+              <div>{{ identityData.display }}</div>
+            </div>
+          </div>
+          <NeoButton
+            :label="$i18n.t('identity.clear')"
+            variant="text"
+            class="border-k-shade border-radius mb-1"
+            no-shadow
+            @click.native="submit(true)" />
+        </div>
+        <hr class="my-7" />
+      </div>
 
       <NeoField label="Handle">
         <NeoInput
@@ -73,14 +86,20 @@
         :disabled="disabled"
         :loading="isLoading"
         expanded
-        @click="submit" />
+        @click="submit()" />
     </form>
   </section>
 </template>
 
 <script lang="ts" setup>
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { NeoField, NeoIcon, NeoInput, NeoTooltip } from '@kodadot1/brick'
+import {
+  NeoButton,
+  NeoField,
+  NeoIcon,
+  NeoInput,
+  NeoTooltip,
+} from '@kodadot1/brick'
 import type { IdentityFields } from '@/composables/useIdentity'
 const Auth = defineAsyncComponent(() => import('@/components/shared/Auth.vue'))
 const BasicInput = defineAsyncComponent(
@@ -98,8 +117,8 @@ const SubmitButton = defineAsyncComponent(
 
 const { $i18n } = useNuxtApp()
 import { useIdentityStore } from '@/stores/identity'
+import { getChainName } from '@/utils/chain'
 
-const { apiInstance } = useApi()
 const { accountId, balance } = useAuth()
 const { urlPrefix } = usePrefix()
 const identityStore = useIdentityStore()
@@ -109,7 +128,12 @@ const identity = ref<IdentityFields>({})
 const deposit = ref('0')
 const inputLengthLimit = ref(32)
 
-const { identity: identityData } = useIdentity({
+const {
+  identity: identityData,
+  identityApi,
+  identityPrefix,
+  refetchIdentity,
+} = useIdentity({
   address: accountId,
 })
 
@@ -123,6 +147,14 @@ watch(identityData, () => {
     riot,
     email,
   }
+})
+
+const hasIdentity = computed(() => {
+  const { display, legal, web, twitter, riot, email } = identityData.value
+  return (
+    accountId.value &&
+    Boolean(display || legal || web || twitter || riot || email)
+  )
 })
 
 const handleUrlPrefixChange = async () => {
@@ -147,23 +179,29 @@ const enhanceIdentityData = (): Record<string, any> => {
 }
 
 const fetchDeposit = async () => {
-  const api = await apiInstance.value
+  const api = await identityApi.value
   return api.consts.identity?.basicDeposit?.toString()
 }
 
-const submit = async (): Promise<void> => {
-  const api = await apiInstance.value
+const submit = async (isDelete?: boolean): Promise<void> => {
+  const api = await identityApi.value
   initTransactionLoader()
-  const cb = api.tx.identity.setIdentity
-  const args = [enhanceIdentityData()]
-  howAboutToExecute(accountId.value, cb, args, onSuccess)
-}
-
-const onSuccess = (block: string) => {
-  showNotification(
-    `[Identity] You are known as ${identity.value.display} since block ${block}`,
-    notificationTypes.success
-  )
+  const cb = isDelete
+    ? api.tx.identity.clearIdentity
+    : api.tx.identity.setIdentity
+  const args = isDelete ? [] : [enhanceIdentityData()]
+  howAboutToExecute(accountId.value, cb, args, (block: string) => {
+    if (isDelete) {
+      identity.value = {}
+      refetchIdentity()
+    }
+    showNotification(
+      isDelete
+        ? `[Identity] You have cleared your account's identity since block ${block}`
+        : `[Identity] You are known as ${identity.value.display} since block ${block}`,
+      notificationTypes.success
+    )
+  })
 }
 
 const disabled = computed(
@@ -178,3 +216,8 @@ watch(
   { immediate: true }
 )
 </script>
+<style scoped>
+.border-radius {
+  border-radius: 6rem;
+}
+</style>

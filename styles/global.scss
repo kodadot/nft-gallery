@@ -309,6 +309,11 @@ a.has-text-grey {
     border: 1px solid theme('border-color');
   }
 }
+.border-k-shade {
+  @include ktheme() {
+    border: 1px solid theme('k-shade');
+  }
+}
 .no-border {
   border: none !important;
 }
