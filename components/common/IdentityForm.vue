@@ -93,15 +93,8 @@
 
 <script lang="ts" setup>
 import { notificationTypes, showNotification } from '@/utils/notification'
-import {
-  NeoButton,
-  NeoField,
-  NeoIcon,
-  NeoInput,
-  NeoTooltip,
-} from '@kodadot1/brick'
+import { NeoButton, NeoField, NeoInput } from '@kodadot1/brick'
 import type { IdentityFields } from '@/composables/useIdentity'
-const Auth = defineAsyncComponent(() => import('@/components/shared/Auth.vue'))
 const BasicInput = defineAsyncComponent(
   () => import('@/components/shared/form/BasicInput.vue')
 )
@@ -119,7 +112,7 @@ const { $i18n } = useNuxtApp()
 import { useIdentityStore } from '@/stores/identity'
 import { getChainName } from '@/utils/chain'
 
-const { accountId, balance } = useAuth()
+const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const identityStore = useIdentityStore()
 const { howAboutToExecute, isLoading, initTransactionLoader, status } =
