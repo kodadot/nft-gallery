@@ -15,7 +15,7 @@
       class="wallet-asset-footer is-flex is-justify-content-space-between py-5 is-size-7 has-text-grey">
       <!-- light/dark mode -->
       <div class="is-align-items-center" @click="toggleColorMode">
-        <NeoIcon icon="circle-half-stroke" />
+        <NeoIcon icon="circle-half-stroke" custom-size="fa-2x" />
         <span v-if="isDarkMode">{{ $t('profileMenu.lightMode') }}</span>
         <span v-else>{{ $t('profileMenu.darkMode') }}</span>
       </div>
@@ -25,7 +25,7 @@
         <NeoDropdown position="top-left" aria-role="menu" mobile-modal>
           <template #trigger>
             <div class="is-flex is-align-items-center">
-              <NeoIcon icon="globe" class="mr-1" />
+              <NeoIcon icon="globe" custom-size="fa-2x" class="mr-1" />
               <span>{{ $t('profileMenu.language') }}</span>
             </div>
           </template>
@@ -48,7 +48,7 @@
         to="/settings"
         class="has-text-grey is-align-items-center"
         @click.native="closeModal">
-        <NeoIcon icon="gear" />
+        <NeoIcon icon="gear" custom-size="fa-2x" />
         <span>{{ $t('settings') }}</span>
       </nuxt-link>
     </div>
