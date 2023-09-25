@@ -24,7 +24,7 @@
           <NeoButton
             :label="$i18n.t('identity.clear')"
             variant="text"
-            class="border-k-shade border-radius mb-1"
+            class="border border-k-shade border-radius mb-1 px-2"
             no-shadow
             @click.native="submit(true)" />
         </div>

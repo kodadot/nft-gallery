@@ -306,14 +306,10 @@ a.has-text-grey {
 }
 .border {
   @include ktheme() {
-    border: 1px solid theme('border-color');
+    border: 1px solid theme('border-color') !important;
   }
 }
-.border-k-shade {
-  @include ktheme() {
-    border: 1px solid theme('k-shade');
-  }
-}
+
 .no-border {
   border: none !important;
 }
@@ -326,7 +322,7 @@ a.has-text-grey {
 
 .border-k-shade {
   @include ktheme() {
-    border-color: theme('k-shade');
+    border-color: theme('k-shade') !important;;
   }
 }
 
