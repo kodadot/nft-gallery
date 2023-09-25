@@ -50,7 +50,9 @@
       </NeoField>
 
       <!-- select collections -->
-      <NeoField :label="`${$t('mint.nft.collection.label')} *`">
+      <NeoField
+        :key="currentChain"
+        :label="`${$t('mint.nft.collection.label')} *`">
         <div>
           <p>{{ $t('mint.nft.collection.message') }}</p>
           <NeoSelect v-model="form.collections" class="mt-3" expanded required>
@@ -298,6 +300,11 @@ const selectedCollection = computed(() => {
 })
 
 watchEffect(async () => {
+  if (!accountId.value) {
+    listOfCollection.value = []
+    return
+  }
+
   const queryPath = {
     ksm: 'chain-rmrk',
     rmrk: 'chain-rmrk',
