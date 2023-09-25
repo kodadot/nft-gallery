@@ -17,7 +17,8 @@
         <NeoIcon
           :icon="icon"
           class="icon-size has-text-grey py-3"
-          size="large" />
+          custom-size="fa-2x"
+          pack="fass" />
         <p class="has-text-grey mt-8">
           {{ subtitle }}
         </p>

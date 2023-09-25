@@ -7,6 +7,7 @@
       :class="{ 'is-collection-search': isSearchInCollectionMode }"
       :placeholder="placeholderContent"
       icon="search"
+      icon-pack="fasr"
       :open-on-focus="showDefaultSuggestions"
       menu-position="bottom"
       expanded
