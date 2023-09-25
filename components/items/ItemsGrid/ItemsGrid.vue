@@ -112,7 +112,7 @@ const { nfts, fetchSearch, refetch, clearFetchResults } = useFetchSearch({
 })
 
 watch(
-  total,
+  () => nfts.value.length,
   () => {
     if (route.name === 'prefix-u-id') {
       updatePotentialNftsForListingCart(nfts.value)
