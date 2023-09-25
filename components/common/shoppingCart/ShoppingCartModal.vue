@@ -159,8 +159,12 @@ const openCompletePurcahseModal = () => {
 }
 
 const onCompletePurchase = () => {
-  doAfterLogin({ onLoginSuccess: openCompletePurcahseModal })
   closeShoppingCart()
+
+  // fix: scroll clip mode not working
+  setTimeout(() => {
+    doAfterLogin({ onLoginSuccess: openCompletePurcahseModal })
+  }, 100)
 }
 </script>
 
