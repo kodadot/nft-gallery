@@ -354,7 +354,7 @@ useEventListener(window, 'resize', handleResize)
 </script>
 
 <style lang="scss" scoped>
-:deep .navbar-explore {
+:deep(.navbar-explore) {
   .navbar-item {
     height: 4.5rem;
   }
