@@ -19,7 +19,7 @@
               !hasAnimatedResources
             "
             class="fullscreen-button is-justify-content-center is-align-items-center"
-            @click="isFullscreen = true">
+            @click="toggleFullscreen()">
             <NeoIcon icon="expand" />
           </a>
 
@@ -153,9 +153,8 @@
     <CarouselTypeVisited class="mt-8" />
 
     <GalleryItemPreviewer
-      v-model="isFullscreen"
-      :item-src="previewItemSrc"
-      :gallery-item="galleryItem" />
+      :fullscreen="isFullscreen"
+      :toggle-fullscreen="toggleFullscreen" />
   </section>
 </template>
 
@@ -197,6 +196,10 @@ const preferencesStore = usePreferencesStore()
 const galleryItem = useGalleryItem()
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType, nftResources } =
   galleryItem
+provide('nft', readonly(nft))
+provide('nftMimeType', readonly(nftMimeType))
+provide('nftAnimation', readonly(nftAnimation))
+
 const collection = computed(() => nft.value?.collection)
 
 const triggerBuySuccess = computed(() => preferencesStore.triggerBuySuccess)
@@ -213,6 +216,9 @@ const activeTab = ref(tabs.offers)
 const showCongratsMessage = ref(false)
 
 const isFullscreen = ref(false)
+const toggleFullscreen = () => {
+  isFullscreen.value = !isFullscreen.value
+}
 const canPreview = computed(() =>
   [MediaType.VIDEO, MediaType.IMAGE, MediaType.OBJECT].includes(
     resolveMedia(nftMimeType.value)
@@ -239,6 +245,7 @@ const previewItemSrc = computed(() => {
     (hasResources.value && activeCarouselImage.value) || nftImage.value
   return baseUrl ? toOriginalContentUrl(baseUrl) : baseUrl
 })
+provide('previewItemSrc', readonly(previewItemSrc))
 
 const onNFTBought = () => {
   activeTab.value = tabs.activity

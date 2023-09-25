@@ -1,13 +1,12 @@
 <template>
-  <NeoModal
-    v-model="isFullscreen"
+  <NeoModalExtend
+    :active="fullscreen"
     :destroy-on-hide="false"
     :can-cancel="false"
     full-screen
-    root-class="gallery-item-modal"
-    content-class="gallery-item-modal-content"
-    @close="isFullscreen = false">
-    <NeoButton class="back-button" @click.native="emit('input', false)">
+    root-class="neo-modal gallery-item-modal"
+    content-class="gallery-item-modal-content">
+    <NeoButton class="back-button" @click.native="toggleFullscreen()">
       <NeoIcon icon="chevron-left" />
       {{ $t('go back') }}
     </NeoButton>
@@ -15,34 +14,30 @@
     <div class="gallery-item-modal-container">
       <MediaItem
         class="gallery-item-media"
-        :src="itemSrc"
+        :src="previewItemSrc"
         :placeholder="placeholder"
         :animation-src="nftAnimation"
         :mime-type="nftMimeType"
         :title="nft?.name || nft?.id"
         original />
     </div>
-  </NeoModal>
+  </NeoModalExtend>
 </template>
 
 <script setup lang="ts">
-import { useVModel } from '@vueuse/core'
-import { MediaItem, NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
-import { GalleryItem } from './useGalleryItem'
+import type { NFT } from '@/components/rmrk/service/scheme'
+import { MediaItem, NeoButton, NeoIcon, NeoModalExtend } from '@kodadot1/brick'
 const { placeholder } = useTheme()
 
-const props = defineProps<{
-  value: boolean
-  itemSrc: string
-  galleryItem: GalleryItem
+defineProps<{
+  fullscreen: boolean
+  toggleFullscreen: () => void
 }>()
 
-const nft = computed(() => props.galleryItem.nft.value)
-const nftMimeType = computed(() => props.galleryItem.nftMimeType.value)
-const nftAnimation = computed(() => props.galleryItem.nftAnimation.value)
-
-const emit = defineEmits(['input'])
-const isFullscreen = useVModel(props, 'value', emit)
+const nft = inject<NFT>('nft')
+const nftMimeType = inject<string>('nftMimeType')
+const nftAnimation = inject<string>('nftAnimation')
+const previewItemSrc = inject<string>('previewItemSrc')
 </script>
 
 <style lang="scss" scoped>
@@ -51,11 +46,12 @@ const isFullscreen = useVModel(props, 'value', emit)
 .gallery-item-modal {
   position: fixed;
 
-  :deep(&-content) {
+  :deep(.gallery-item-modal-content) {
     height: calc(100% - $navbar-desktop-min-height + 1px) !important;
     margin-top: calc($navbar-desktop-min-height - 1px) !important;
-    border: none !important;
     width: 100%;
+    max-height: 80vh;
+
     @include mobile {
       height: calc(100% - $navbar-mobile-min-height + 1px) !important;
       margin-top: calc($navbar-mobile-min-height - 1px) !important;
@@ -71,6 +67,7 @@ const isFullscreen = useVModel(props, 'value', emit)
       left: $fluid-container-padding;
     }
   }
+
   &-container {
     @include ktheme() {
       background-color: theme('background-color');
