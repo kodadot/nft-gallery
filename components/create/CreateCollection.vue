@@ -235,7 +235,6 @@ const collectionInformation = computed(() => ({
 watchEffect(() => setUrlPrefix(currentChain.value as Prefix))
 
 const showConfirm = () => {
-  console.log('show confirm')
   modalShowStatus.value = true
 }
 
