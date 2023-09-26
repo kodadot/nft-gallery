@@ -38,7 +38,7 @@
       <NeoIcon
         pack="fa-sharp"
         icon="arrow-right-long"
-        class="k-text-grey mr-4" />
+        class="has-text-k-grey mr-4" />
       <div>{{ nft.selectedCollection.name }}</div>
     </div>
   </div>

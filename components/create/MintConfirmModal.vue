@@ -4,7 +4,7 @@
     :can-cancel="['outside', 'escape']"
     scroll="clip"
     class="top"
-    max-height="78vh"
+    max-height="calc(100vh - 180px)"
     @close="onClose">
     <div class="modal-width">
       <header

@@ -433,7 +433,7 @@ a.has-text-grey {
   }
 }
 
-.k-text-grey {
+.has-text-k-grey {
   @include ktheme() {
     color: theme('k-grey');
   }

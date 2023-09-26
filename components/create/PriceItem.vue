@@ -72,7 +72,7 @@
               fill="#04AF00" />
           </svg>
         </div>
-        <div class="k-text-grey">
+        <div class="has-text-k-grey">
           {{ nft.carbonlessUSDFee }} USD ~
           <Money :value="carbonlessFee" :unit-symbol="chainSymbol" inline />
         </div>
@@ -82,7 +82,9 @@
       class="mt-4 pt-4 pb-5 border-top card-border-color is-flex is-justify-content-space-between">
       <div class="">{{ $t('mint.nft.modal.totalFee') }}:</div>
       <div class="is-flex is-align-items-end">
-        <div class="k-text-grey is-size-7 mr-2">$ {{ nft.totalUSDFee }}</div>
+        <div class="has-text-k-grey is-size-7 mr-2">
+          $ {{ nft.totalUSDFee }}
+        </div>
         <Money :value="nft.totalFee" :unit-symbol="chainSymbol" inline />
       </div>
     </div>
