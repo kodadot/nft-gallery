@@ -322,7 +322,7 @@ a.has-text-grey {
 
 .border-k-shade {
   @include ktheme() {
-    border-color: theme('k-shade') !important;;
+    border-color: theme('k-shade');;
   }
 }
 

@@ -23,9 +23,10 @@
           </div>
           <NeoButton
             :label="$i18n.t('identity.clear')"
-            variant="text"
-            class="border border-k-shade border-radius is-size-7 mb-1 px-3"
+            class="mb-1"
             no-shadow
+            rounded
+            size="small"
             @click.native="submit(true)" />
         </div>
         <hr class="my-7" />
@@ -209,8 +210,3 @@ watch(
   { immediate: true }
 )
 </script>
-<style scoped>
-.border-radius {
-  border-radius: 6rem;
-}
-</style>
