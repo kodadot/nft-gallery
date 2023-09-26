@@ -172,7 +172,13 @@ import ChainDropdown from '@/components/common/ChainDropdown.vue'
 import OrderByDropdown from './OrderByDropdown.vue'
 import CollectionGrid from '@/components/collection/CollectionGrid.vue'
 import Activity from './activityTab/Activity.vue'
-import { ProfileTab } from './types'
+
+enum ProfileTab {
+  OWNED = 'owned',
+  CREATED = 'created',
+  COLLECTIONS = 'collections',
+  ACTIVITY = 'activity',
+}
 
 const route = useRoute()
 const { toast } = useToast()
