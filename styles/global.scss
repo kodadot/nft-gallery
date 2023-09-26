@@ -426,6 +426,13 @@ a.has-text-grey {
 .k-cursor-pointer {
   cursor: pointer !important;
 }
+
+.k-grey {
+  @include ktheme() {
+    background-color: theme('k-grey');
+  }
+}
+
 //hover
 
 .is-hoverable-item {
@@ -481,4 +488,8 @@ a.has-text-grey {
 
 #transakOnOffRampWidget {
   height: 100% !important;
+}
+
+.no-border-left {
+  border-left: none !important;
 }
