@@ -36,11 +36,11 @@
     height: fit-content;
     @include ktheme() {
       color: theme('text-color');
-      background: theme('background-color');
+      background: inherit;
       border: none;
       &:hover {
         color: theme('link-hover');
-        background: theme('background-color');
+        background: inherit;
 
       }
     }
@@ -137,7 +137,7 @@
     }
   }
 
-  &--k-pink {    
+  &--k-pink {
     @include ktheme() {
       border: 1px solid theme('border-color') !important;
 
@@ -180,7 +180,7 @@
   }
 
   &.no-shadow {
-    box-shadow: none;
+    box-shadow: none !important;
   }
 
   &--rounded {
@@ -233,11 +233,11 @@
   &.loading-with-label.o-btn--loading {
     @include ktheme() {
       color: theme('k-grey') !important;
-  
+
       :deep .o-btn__label {
         margin: 0 3px !important;
       }
-  
+
       &::after {
         position: relative !important;
         left: 0px !important ;
