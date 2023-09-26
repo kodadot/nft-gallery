@@ -424,7 +424,7 @@ a.has-text-grey {
   }
 }
 
-.k-grey {
+.has-background-k-grey {
   @include ktheme() {
     background-color: theme('k-grey');
   }

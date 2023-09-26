@@ -2,8 +2,14 @@
   <section>
     <Loader v-model="isLoading" :status="status" />
     <form @submit.prevent>
-      <h1 class="title is-size-3 is-capitalized">
+      <h1 class="title is-size-3">
         {{ $i18n.t('identity.set', [getChainName(identityPrefix)]) }}
+        <NeoTooltip
+          :label="$i18n.t('identity.fundsReserve')"
+          position="bottom"
+          multiline>
+          <NeoIcon icon="info-circle" />
+        </NeoTooltip>
       </h1>
 
       <div v-if="hasIdentity" class="is-size-6">
