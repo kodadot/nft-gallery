@@ -7,7 +7,6 @@
       :disabled="disabled"
       :loading="loading"
       :expanded="expanded"
-      icon-pack="far"
       outlined
       @click="$emit('click')">
       <slot>

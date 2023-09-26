@@ -70,7 +70,6 @@
           <NeoButton
             v-clipboard:copy="explorerLink"
             icon="copy"
-            icon-pack="far"
             class="ml-4 px-4"
             rounded
             no-shadow

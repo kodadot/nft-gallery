@@ -9,7 +9,7 @@
         },
       ]">
       <TransactionLoader
-        v-model="isLoaderModalVisible"
+        :value="isLoaderModalVisible"
         :status="status"
         :total-token-amount="totalTokenAmount"
         :transaction-id="transactionValue"
@@ -37,7 +37,7 @@
             v-if="accountId"
             v-clipboard:copy="generatePaymentLink([accountId])"
             @click="toast(`${$i18n.t('toast.urlCopy')}`)">
-            <NeoIcon icon="sack-dollar" pack="fa" class="mr-2" />{{
+            <NeoIcon icon="sack-dollar" class="mr-2" />{{
               $t('transfers.payMeLink')
             }}
           </NeoDropdownItem>
@@ -46,7 +46,7 @@
             v-clipboard:copy="generateRecurringPaymentLink()"
             class="no-wrap"
             @click="toast(`${$i18n.t('toast.urlCopy')}`)">
-            <NeoIcon icon="rotate" pack="fas" class="mr-2" />{{
+            <NeoIcon icon="rotate" class="mr-2" />{{
               $t('transfers.recurringPaymentLink')
             }}
           </NeoDropdownItem>
@@ -58,7 +58,7 @@
         :value="unit"
         @select="handleTokenSelect" />
       <div class="mb-5">
-        <NeoIcon class="ml-2" icon="circle-info" pack="far" />
+        <NeoIcon class="ml-2" icon="circle-info" />
         <span
           v-dompurify-html="
             $t('transfers.tooltip', [unit, chainNames[unit.toLowerCase()]])
@@ -118,7 +118,7 @@
             class="has-text-weight-bold is-size-6 mb-3 is-flex is-align-items-center is-justify-content-space-between">
             {{ $t('transfers.recipient') }} {{ index + 1 }}
             <a v-if="targetAddresses.length > 1" @click="deleteAddress(index)">
-              <NeoIcon class="p-3" icon="fa-trash" pack="fa-regular" />
+              <NeoIcon class="p-3" icon="trash" />
             </a>
           </div>
           <div
@@ -170,7 +170,7 @@
                 v-if="!isMobile && targetAddresses.length > 1"
                 class="is-flex"
                 @click="deleteAddress(index)">
-                <NeoIcon class="p-3" icon="fa-trash" pack="fa-regular" />
+                <NeoIcon class="p-3" icon="trash" />
               </a>
             </div>
           </div>
@@ -191,7 +191,7 @@
         class="mb-5 is-flex is-justify-content-center is-clickable"
         @click="addAddress">
         {{ $t('transfers.addAddress') }}
-        <NeoIcon class="ml-2" icon="plus" pack="fass" />
+        <NeoIcon class="ml-2" icon="plus" />
       </div>
       <div
         class="is-flex is-justify-content-space-between is-align-items-center mb-5">
@@ -201,7 +201,7 @@
           <!-- tips: don't use `margin` or `padding` directly on the tooltip trigger, it will cause misalignment of the tooltip -->
           <span class="mr-2" />
           <NeoTooltip :label="$t('transfers.setSameAmount')"
-            ><NeoIcon icon="circle-info" pack="far"
+            ><NeoIcon icon="circle-info"
           /></NeoTooltip>
         </div>
         <NeoSwitch v-model="sendSameAmount" :rounded="false" />
@@ -295,7 +295,7 @@
 </template>
 
 <script lang="ts" setup>
-// import Connector from '@kodadot1/sub-api'
+import { ApiFactory } from '@kodadot1/sub-api'
 import { ALTERNATIVE_ENDPOINT_MAP, chainNames } from '@kodadot1/static'
 
 import { isAddress } from '@polkadot/util-crypto'
@@ -756,9 +756,8 @@ const submit = async (
       const nextTryUrls = availableUrls.filter(
         (url) => !usedNodeUrls.includes(url)
       )
-      // const { getInstance: Api } = Connector
       // try to connect next possible url
-      // await Api().connect(nextTryUrls[0])
+      await ApiFactory.useApiInstance(nextTryUrls[0])
       submit(event, [nextTryUrls[0], ...usedNodeUrls])
     }
 

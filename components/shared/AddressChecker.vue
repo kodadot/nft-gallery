@@ -155,6 +155,7 @@ const changeAddress = () => {
   const chainAddress = encodeAddress(publicKey, ss58Format.value)
   showChanged.value = true
   emit('change', chainAddress)
+  emit('check', true)
 }
 
 watch(

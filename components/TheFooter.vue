@@ -123,7 +123,7 @@
               </svg>
               <NeoIcon
                 v-else
-                :pack="item.name == 'Swag' ? 'fass' : 'fab'"
+                :pack="item.name == 'Swag' ? 'fasr' : 'fab'"
                 :icon="item.icon" />
             </a>
           </li>

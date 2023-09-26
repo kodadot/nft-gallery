@@ -22,6 +22,12 @@ export type ItemResources = {
   resources?: NftResources[]
 }
 
+export type Stack = {
+  count: number
+  floorPrice: string
+  nfts: NFTWithMetadata[]
+}
+
 export type NFTWithMetadata = NFT &
   NFTMetadata & { meta: BaseNFTMeta } & ItemResources
 
@@ -52,9 +58,7 @@ async function getRmrk2Resources(nft: NFTWithMetadata) {
 }
 
 async function getProcessMetadata(nft: NFTWithMetadata) {
-  const metadata = (await processSingleMetadata(
-    nft.metadata
-  )) as NFTWithMetadata
+  const metadata = await processSingleMetadata<NFTWithMetadata>(nft.metadata)
   const image = sanitizeIpfsUrl(metadata.image || metadata.mediaUri || '')
   const animationUrl = sanitizeIpfsUrl(metadata.animation_url || '')
   const getAttributes = () => {

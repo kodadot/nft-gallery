@@ -81,7 +81,7 @@
                 :label="targetAddresses[0].address"
                 append-to-body
                 content-class="transfer-tooltip">
-                <NeoIcon icon="circle-info" class="is-size-6" pack="far" />
+                <NeoIcon icon="circle-info" class="is-size-6" />
               </NeoTooltip>
             </div>
             <div
@@ -91,9 +91,7 @@
               <span class="mx-2 is-size-6">
                 {{ targetAddresses.length }} {{ $t('transfers.recipients') }}
               </span>
-              <NeoIcon
-                :icon="isExpandList ? 'angle-up' : 'angle-down'"
-                pack="far" />
+              <NeoIcon :icon="isExpandList ? 'angle-up' : 'angle-down'" />
             </div>
           </div>
           <div class="fixed-height">
@@ -118,10 +116,7 @@
                       :label="address.address"
                       append-to-body
                       content-class="transfer-tooltip">
-                      <NeoIcon
-                        icon="circle-info"
-                        class="is-size-6"
-                        pack="far" />
+                      <NeoIcon icon="circle-info" class="is-size-6" />
                     </NeoTooltip>
                   </div>
                 </div>
