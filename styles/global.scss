@@ -433,6 +433,11 @@ a.has-text-grey {
   }
 }
 
+.k-text-grey {
+  @include ktheme() {
+    background-color: theme('k-grey');
+  }
+}
 //hover
 
 .is-hoverable-item {
