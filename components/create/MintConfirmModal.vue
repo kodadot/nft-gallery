@@ -255,12 +255,12 @@ watch(
 .btn-height {
   height: 3.5rem;
 }
-:deep .identity-name-font-weight-regular {
+:deep(.identity-name-font-weight-regular) {
   .identity-name {
     font-weight: unset !important;
   }
 }
-:deep .o-modal__content {
+:deep(.o-modal__content) {
   width: unset;
 }
 </style>
