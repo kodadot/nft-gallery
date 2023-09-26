@@ -2,7 +2,6 @@
   <div :id="id">
     <slot name="trigger" :handle-open="handleOpen">
       <NeoButton
-        icon-pack="fas"
         :icon-left="icon"
         :expanded="expanded"
         :class="{

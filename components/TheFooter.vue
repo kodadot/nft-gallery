@@ -40,10 +40,7 @@
                 rel="nofollow noopener noreferrer"
                 class="is-flex is-align-items-center">
                 {{ item.name }}
-                <NeoIcon
-                  icon="arrow-up-right"
-                  class="ml-1 has-text-grey"
-                  pack="fas" />
+                <NeoIcon icon="arrow-up-right" class="ml-1 has-text-grey" />
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
@@ -67,10 +64,7 @@
                 rel="nofollow noopener noreferrer"
                 class="is-flex is-align-items-center">
                 {{ item.name }}
-                <NeoIcon
-                  icon="arrow-up-right"
-                  class="ml-1 has-text-grey"
-                  pack="fas" />
+                <NeoIcon icon="arrow-up-right" class="ml-1 has-text-grey" />
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
@@ -94,10 +88,7 @@
                 rel="nofollow noopener noreferrer"
                 class="is-flex is-align-items-center">
                 {{ item.name }}
-                <NeoIcon
-                  icon="arrow-up-right"
-                  class="ml-1 has-text-grey"
-                  pack="fas" />
+                <NeoIcon icon="arrow-up-right" class="ml-1 has-text-grey" />
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
@@ -148,7 +139,7 @@
 
               <NeoIcon
                 v-else
-                :pack="item.name == 'Swag' ? 'fas' : 'fab'"
+                :pack="item.name == 'Swag' ? 'fasr' : 'fab'"
                 :icon="item.icon" />
             </a>
           </li>

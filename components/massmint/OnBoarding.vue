@@ -8,7 +8,6 @@
       <NeoButton
         :label="$t('massmint.onboarding.skip')"
         icon="arrow-right"
-        icon-pack="fas"
         @click.native="toMassMint" />
     </div>
     <div class="is-relative mb-6">
