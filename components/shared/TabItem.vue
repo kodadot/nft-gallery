@@ -8,7 +8,7 @@
       :to="to"
       :icon="icon">
       <span> {{ text }}</span>
-      <span v-if="count" class="ml-2 has-text-grey">{{
+      <span v-if="count" class="ml-2 has-text-grey-fix">{{
         formatLargeNumber(count)
       }}</span>
     </NeoButton>
