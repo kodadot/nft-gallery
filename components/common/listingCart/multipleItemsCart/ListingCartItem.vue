@@ -34,7 +34,7 @@
 import ListingCartPriceInput from '../shared/ListingCartPriceInput.vue'
 import { NeoButton } from '@kodadot1/brick'
 import { ListCartItem, useListingCartStore } from '@/stores/listingCart'
-import { formatBalance } from '@polkadot/util'
+import formatBalance from '@/utils/format/balance'
 import ListingCartItemDetails from '../shared/ListingCartItemDetails.vue'
 const { decimals, chainSymbol } = useChain()
 
@@ -45,9 +45,6 @@ const props = defineProps<{
 }>()
 
 const floor = computed(() =>
-  formatBalance(props.nft.collection.floor, {
-    decimals: decimals.value,
-    withUnit: chainSymbol.value,
-  })
+  formatBalance(props.nft.collection.floor, decimals.value, chainSymbol.value)
 )
 </script>

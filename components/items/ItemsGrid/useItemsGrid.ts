@@ -4,7 +4,11 @@ import isEqual from 'lodash/isEqual'
 import { useSearchParams } from './utils/useSearchParams'
 import { Ref } from 'vue'
 
-import type { NFTWithMetadata } from '@/composables/useNft'
+import type { NFTWithMetadata, Stack } from '@/composables/useNft'
+
+export type NFTStack = NFTWithMetadata & Stack
+
+export type ItemsGridEntity = NFTWithMetadata | NFTStack
 
 export function useFetchSearch({
   first,
@@ -20,9 +24,11 @@ export function useFetchSearch({
   resetSearch: () => void
 }) {
   const { client, urlPrefix } = usePrefix()
+  const { isAssetHub } = useIsChain(urlPrefix)
+
   const route = useRoute()
 
-  const nfts = ref<NFTWithMetadata[]>([])
+  const nfts = ref<ItemsGridEntity[]>([])
   const loadedPages = ref([] as number[])
 
   const { searchParams } = useSearchParams()
@@ -49,10 +55,14 @@ export function useFetchSearch({
           return 'chain-rmrk'
         case 'ksm':
           return 'chain-ksm'
+
         default:
           return prefix
       }
     }
+    const notCollectionPage = computed(
+      () => route.name !== 'prefix-collection-id'
+    )
 
     const variables = search?.length
       ? { search }
@@ -62,7 +72,13 @@ export function useFetchSearch({
           priceMax: Number(route.query.max),
         }
 
-    const queryPath = getQueryPath(client.value)
+    const queryPathBase = getQueryPath(client.value)
+    const usingTokenEntities = computed(
+      () => notCollectionPage.value && isAssetHub.value
+    )
+
+    const queryPath = usingTokenEntities.value ? 'chain-ahk' : queryPathBase
+
     const query = await resolveQueryPath(queryPath, 'nftListWithSearch')
     const { data: result } = await useAsyncQuery({
       query: query.default,
@@ -77,17 +93,38 @@ export function useFetchSearch({
       },
       clientId: client.value,
     })
+    const extractBaseName = (input: string): string => {
+      const regex = / #\d+$/
+      return input.replace(regex, '')
+    }
+
+    const handleToken = (token: any) => {
+      return {
+        ...token.nfts[0],
+        name: extractBaseName(token.nfts[0].name),
+        count: token.nfts.length,
+        floorPrice: Math.min(
+          ...token.nfts.map((nft) => Number(nft.price))
+        ).toString(),
+        nfts: token.nfts,
+      }
+    }
 
     // handle results
-    const { nFTEntities, nftEntitiesConnection } = result.value
+    const nftEntities = usingTokenEntities.value
+      ? result.value.tokenEntities.map(handleToken)
+      : result.value.nFTEntities
+    const nftEntitiesConnection = usingTokenEntities.value
+      ? result.value.tokenEntitiesConnection
+      : result.value.nftEntitiesConnection
 
     total.value = nftEntitiesConnection.totalCount
 
     if (!loadedPages.value.includes(page)) {
       if (loadDirection === 'up') {
-        nfts.value = nFTEntities.concat(nfts.value)
+        nfts.value = nftEntities.concat(nfts.value)
       } else {
-        nfts.value = nfts.value.concat(nFTEntities)
+        nfts.value = nfts.value.concat(nftEntities)
       }
       loadedPages.value.push(page)
     }

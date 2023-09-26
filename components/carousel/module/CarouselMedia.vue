@@ -24,7 +24,7 @@ import type { NFTWithMetadata } from '@/composables/useNft'
 import { useCarouselUrl } from '../utils/useCarousel'
 
 const props = defineProps<{
-  item: CarouselNFT & NFTWithMetadata
+  item: CarouselNFT | NFTWithMetadata
   index: number
   length: number
 }>()
@@ -36,10 +36,17 @@ const isCollection = inject('isCollection', false)
 const { urlPrefix } = usePrefix()
 const imageSrc = ref(props.item.image)
 
-onMounted(async () => {
-  if (!props.item.image) {
+watch(
+  () => props.item.image,
+  async () => {
     const nft = await getNftMetadata(props.item, urlPrefix.value)
     imageSrc.value = nft.image
   }
-})
+)
+
+// onMounted(async () => {
+//   if (!props.item.image) {
+
+//   }
+// })
 </script>

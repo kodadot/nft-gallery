@@ -8,7 +8,7 @@
           :label="$t('identity.fundsReserve')"
           position="bottom"
           multiline>
-          <NeoIcon icon="info-circle" pack="fass" />
+          <NeoIcon icon="info-circle" />
         </NeoTooltip>
       </h1>
 

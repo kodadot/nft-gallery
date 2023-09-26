@@ -23,7 +23,7 @@
       class="emoji-box mb-2"
       no-shadow
       @click="openEmotionModal()">
-      <NeoIcon pack="fass" icon="info-circle" />
+      <NeoIcon icon="info-circle" />
     </NeoButton>
   </div>
 </template>

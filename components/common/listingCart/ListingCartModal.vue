@@ -15,19 +15,8 @@
           <NeoButton variant="text" no-shadow icon="close" @click="onClose" />
         </header>
 
-        <div class="px-6 pt-4">
-          <div
-            class="rounded border border-k-shade is-flex is-justify-content-start is-flex-grow-1 pl-3">
-            <IdentityItem
-              v-if="isLogIn"
-              :label="$t('confirmPurchase.connectedWith')"
-              hide-identity-popover
-              disable-identity-link
-              :prefix="urlPrefix"
-              :account="accountId"
-              class="identity-name-font-weight-regular"
-              data-testid="item-creator" />
-          </div>
+        <div class="px-6 pt-4 limit-height">
+          <ModalIdentityItem />
 
           <ListingCartSingleItemCart
             v-if="listingCartStore.count === 1"
@@ -68,7 +57,6 @@
 <script setup lang="ts">
 import { Interaction } from '@kodadot1/minimark/v1'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
-import IdentityItem from '@/components/identity/IdentityItem.vue'
 import { NeoButton, NeoModal } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
 import { TokenToList } from '@/composables/transaction/types'
@@ -78,17 +66,18 @@ import { warningMessage } from '@/utils/notification'
 import { useFiatStore } from '@/stores/fiat'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
 import { sum } from '@/utils/math'
+import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
+
 import ListingCartSingleItemCart from './singleItemCart/ListingCartSingleItemCart.vue'
 import ListingCartMultipleItemsCart from './multipleItemsCart/ListingCartMultipleItemsCart.vue'
 
-const { isLogIn, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
 const { transaction, isLoading, status } = useTransaction()
 const { $i18n } = useNuxtApp()
 
-const { chainSymbol } = useChain()
+const { chainSymbol, decimals } = useChain()
 
 const defaultCartData = {
   fixedPrice: undefined,
@@ -174,7 +163,7 @@ async function confirm() {
       Boolean(item.listPrice)
     )
     .map((item) => ({
-      price: String(calculateBalance(item.listPrice)),
+      price: String(calculateBalance(item.listPrice, decimals.value)),
       nftId: item.id,
     })) as TokenToList[]
 
@@ -222,6 +211,11 @@ onUnmounted(() => {
 
 .rounded {
   border-radius: 10rem;
+}
+
+.limit-height {
+  max-height: 50vh;
+  overflow-y: auto;
 }
 
 .modal-width {

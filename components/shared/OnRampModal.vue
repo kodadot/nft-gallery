@@ -16,11 +16,26 @@
           @click="onClose" />
       </div>
       <div class="px-6 py-3">
+        <div class="mb-4 is-flex">
+          <NeoCheckbox
+            v-model="agreeTos"
+            class="is-align-self-flex-start pt-1" />
+          <div>
+            {{ $t('fiatOnRamp.agree') }}
+            <a
+              href="/terms-of-use"
+              target="_blank"
+              rel="nofollow noopener noreferrer"
+              class="has-text-link"
+              >{{ $t('fiatOnRamp.tos') }}</a
+            >
+          </div>
+        </div>
         <div v-for="(provider, index) in providers" :key="provider.value">
           <div
             class="provider is-clickable is-flex is-justify-content-center is-align-items-start is-flex-direction-column my-4"
             :class="{
-              provider__disabled: provider.disabled,
+              provider__disabled: provider.disabled || !agreeTos,
             }"
             @click="onSelect(provider.value)">
             <div class="is-flex is-justify-content-center">
@@ -53,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoModal } from '@kodadot1/brick'
+import { NeoButton, NeoCheckbox, NeoModal } from '@kodadot1/brick'
 import { showNotification } from '@/utils/notification'
 
 enum Provider {
@@ -71,6 +86,7 @@ const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
 
 const isModalActive = useVModel(props, 'value')
+const agreeTos = ref<boolean>(false)
 
 const { init: initTransak } = useTransak()
 const { isDarkMode } = useTheme()
@@ -112,7 +128,7 @@ const onClose = () => {
 const onSelect = (provider: Provider) => {
   const selectedProvider = providers.value.find((p) => p.value === provider)
 
-  if (selectedProvider?.disabled) {
+  if (selectedProvider?.disabled || !agreeTos.value) {
     return
   }
 
