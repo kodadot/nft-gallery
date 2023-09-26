@@ -5,9 +5,9 @@
 .confirm-modal {
   @include mobile {
     position: fixed !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
+    bottom: 0;
+    left: 0;
+    right: 0;
     border-radius: 0.75rem 0.75rem 0 0 !important;
 
     &.mobile-modal-height {

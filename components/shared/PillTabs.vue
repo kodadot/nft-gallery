@@ -1,13 +1,11 @@
 <template>
   <div class="is-flex mb-2 pill-tabs-container">
-    <div
+    <NeoButton
       v-for="tab in tabs"
       :key="tab.value"
-      class="tab py-2 px-4 is-flex is-align-items-center is-clickable"
-      :class="{
-        tab__active: tab.active,
-      }"
-      @click="() => handleTabClick(tab.value)">
+      :active="tab.active"
+      variant="pill"
+      @click.native="() => handleTabClick(tab.value)">
       <img
         v-if="tab.image"
         class="mr-2 image square-20"
@@ -27,12 +25,12 @@
         class="ml-2 has-text-k-green"
         icon="fa-check"
         pack="fa-solid" />
-    </div>
+    </NeoButton>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
 export type Icon = {
   name: string
@@ -72,28 +70,6 @@ const handleTabClick = (value: string) => {
 
   @media screen and (max-width: 1216px) {
     flex-wrap: wrap !important;
-  }
-
-  .tab {
-    border-radius: 3rem;
-
-    @include ktheme() {
-      background-color: theme('background-color');
-      color: theme('text-color');
-      border: 1px solid theme('card-border-color');
-
-      &:hover {
-        border: 1px solid theme('border-color');
-      }
-    }
-
-    &__active {
-      @include ktheme() {
-        background-color: theme('background-color-inverse');
-        color: theme('text-color-inverse');
-        border: 1px solid theme('background-color-inverse');
-      }
-    }
   }
 }
 </style>
