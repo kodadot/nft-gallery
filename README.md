@@ -42,7 +42,7 @@ You'll find our goals for KodaDot upcoming future!
 - Read up on our efforts to be a [public good](https://medium.com/kodadot/on-sustaining-open-source-as-a-public-good-a3e8c36e67d6)
 - Get a glimpse into our [contributor culture](https://medium.com/kodadot/contributor-culture-at-kodadot-665243d3d6a6)
 - Read about keyboard shortcuts [keyboard shortcuts](https://medium.com/@ashutoshrishi844101/quick-guide-for-using-keyboard-shortcuts-on-kodadot-83b427d60145)
-- Read about minting NFT using Subwallet Mobile app [Mint NFT on Kodadot using Smartphone](https://m.youtube.com/watch?si=xFml5y4vyxoXZhOS&v=EcglGqW0fmM&feature=youtu.be)
+- Read about minting NFT using Subwallet Mobile app [Mint NFT on Kodadot using Smartphone](https://youtu.be/WUjT1srjh0k?si=jYz6t3WjEE6t5xef)
 # Support KodaDot
 
 #### Please ⭐️ **star** and **share** this repository! This exposes us to other builders and creators in the space.
