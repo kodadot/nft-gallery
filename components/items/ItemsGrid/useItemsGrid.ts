@@ -110,7 +110,6 @@ export function useFetchSearch({
       }
     }
 
-    console.log(result.value)
     // handle results
     const nftEntities = usingTokenEntities.value
       ? result.value.tokenEntities.map(handleToken)

@@ -153,7 +153,7 @@
     <!-- <CarouselTypeVisited class="mt-8" /> -->
 
     <GalleryItemPreviewer
-      v-model="isFullscreen"
+      :value="isFullscreen"
       :item-src="previewItemSrc"
       :gallery-item="galleryItem" />
   </section>
