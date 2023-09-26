@@ -435,7 +435,7 @@ a.has-text-grey {
 
 .k-text-grey {
   @include ktheme() {
-    background-color: theme('k-grey');
+    color: theme('k-grey');
   }
 }
 //hover
