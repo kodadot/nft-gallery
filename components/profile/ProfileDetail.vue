@@ -96,7 +96,7 @@
       <div class="columns is-centered is-align-items-center">
         <div
           class="column is-12-mobile is-6-tablet is-7-desktop is-8-widescreen">
-          <ProfileActivity :id="id" />
+          <ProfileActivity :id="id" @count="handleProfileCount" />
         </div>
       </div>
       <div class="is-flex is-hidden-touch is-hidden-desktop-only">
@@ -146,25 +146,15 @@
           </div>
         </div>
         <hr class="my-0" />
-        <template v-for="tab in itemTabs">
-          <ItemsGrid
-            v-show="activeTab === tab"
-            :key="tab"
-            :search="getItemGridSearch(tab)"
-            @total="(count) => handleTabTotal(count, tab)" />
-        </template>
+        <ItemsGrid :search="getItemGridSearch(activeTab)" />
       </div>
 
       <CollectionGrid
-        v-show="activeTab === ProfileTab.COLLECTIONS"
+        v-if="activeTab === ProfileTab.COLLECTIONS"
         :id="id"
-        class="pt-7"
-        @total="(count) => handleTabTotal(count, ProfileTab.COLLECTIONS)" />
+        class="pt-7" />
 
-      <Activity
-        v-show="activeTab === ProfileTab.ACTIVITY"
-        :id="id"
-        @total="(count) => handleTabTotal(count, ProfileTab.ACTIVITY)" />
+      <Activity v-if="activeTab === ProfileTab.ACTIVITY" :id="id" />
     </div>
   </div>
 </template>
@@ -229,13 +219,6 @@ const getTabGridSearch = (tab: ProfileTab) => {
   return query
 }
 
-const handleTabTotal = (amount: number, tab: string) => {
-  counts.value = {
-    ...counts.value,
-    [tab]: amount,
-  }
-}
-
 const getItemGridSearch = (tab: ProfileTab) => {
   return getTabGridSearch(tab)
 }
@@ -268,6 +251,15 @@ const handleIdentity = (identityFields: Record<string, string>) => {
   riot.value = identityFields?.riot
   web.value = identityFields?.web
   legal.value = identityFields?.legal
+}
+
+const handleProfileCount = (data) => {
+  counts.value = {
+    [ProfileTab.OWNED]: data.owned,
+    [ProfileTab.CREATED]: data.created,
+    [ProfileTab.ACTIVITY]: data.events,
+    [ProfileTab.COLLECTIONS]: data.collections,
+  }
 }
 </script>
 

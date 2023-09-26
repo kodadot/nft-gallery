@@ -107,14 +107,6 @@ watch(total, () => {
   emit('total', total.value)
 })
 
-watch(
-  total,
-  () => {
-    emit('total', total.value)
-  },
-  { immediate: true }
-)
-
 watch(isLoading, () => {
   emit('loading', isLoading.value)
 })

@@ -52,13 +52,11 @@ import FilterButton from '@/components/profile/FilterButton.vue'
 import { Interaction as InteractionEnum } from '@kodadot1/minimark/v1'
 import Pagination from '@/components/rmrk/Gallery/Pagination.vue'
 import { NeoButton } from '@kodadot1/brick'
-import { ProfileTab } from '../types'
-
 const route = useRoute()
 const { replaceUrl } = useReplaceUrl()
+
 const events = ref<Interaction[]>([])
 
-const emit = defineEmits(['total'])
 const props = defineProps<{
   id: string
 }>()
@@ -89,9 +87,7 @@ const { data } = useGraphql({
 })
 
 watch(data, () => {
-  const dataEvents = data.value?.events || []
-  emit('total', dataEvents.length || 0)
-  events.value = [...sortedEventByDate(dataEvents, 'DESC')]
+  events.value = [...sortedEventByDate(data.value?.events || [], 'DESC')]
 })
 
 const interactionToFilterMap = {
@@ -110,24 +106,17 @@ const filteredEvents = computed(() =>
   })
 )
 
-// We are using v-show need to watch profile tab changes this way
-watch(
-  () => route.query.tab,
-  (tab) => {
-    if (tab === ProfileTab.ACTIVITY) {
-      const noFiltersActive = activeFilters.value.length === 0
+onMounted(() => {
+  const noFiltersActive = activeFilters.value.length === 0
 
-      if (noFiltersActive) {
-        // Activate 'buy' and 'sale' filters by default
-        replaceUrl({
-          buy: 'true',
-          sale: 'true',
-        })
-      }
-    }
-  },
-  { immediate: true }
-)
+  if (noFiltersActive) {
+    // Activate 'buy' and 'sale' filters by default
+    replaceUrl({
+      buy: 'true',
+      sale: 'true',
+    })
+  }
+})
 </script>
 
 <style scoped lang="scss">

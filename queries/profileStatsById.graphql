@@ -58,4 +58,35 @@ query profileStatsById($id: String!) {
       ...nftSubsquid
     }
   }
+
+  created: nftEntitiesConnection(
+    where: {
+      issuer_eq: $id,
+      burned_eq: false
+      metadata_not_eq: ""
+    }
+    orderBy: blockNumber_DESC
+  ) {
+    totalCount
+  }
+
+  events: eventsConnection(
+    where: {
+      caller_eq: $id
+    }
+    orderBy: blockNumber_DESC
+  ) {
+    totalCount
+  }
+
+  collections: collectionEntitiesConnection(
+    where: {
+      nfts_some: { burned_eq: false }
+      issuer_eq: $id
+    }
+    orderBy: blockNumber_DESC
+  ) {
+    totalCount
+  }
+
 }
