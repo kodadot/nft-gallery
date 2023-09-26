@@ -236,6 +236,7 @@ const onDescriptionLoaded = (entries: Record<string, Entry>) => {
     if (!nftId) {
       return
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { file: _, ...restOfEntry } = entry
     NFTS.value[nftId] = {
       ...NFTS.value[nftId],

@@ -132,7 +132,7 @@ useLazyAsyncData('stats', async () => {
 const getInvestorStatsEvents = (data: any) => {
   const investedEvents: Event[] = data.invested
   const maxPriceInvested = Math.max(
-    ...investedEvents.map((n: Event, i: number) => {
+    ...investedEvents.map((n: Event) => {
       return parseInt(n.meta)
     })
   )
