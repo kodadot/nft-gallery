@@ -68,7 +68,7 @@ const handleTabClick = (value: string) => {
 .pill-tabs-container {
   gap: 10px;
 
-  @media screen and (max-width: 1216px) {
+  @include touch {
     flex-wrap: wrap !important;
   }
 }
