@@ -110,13 +110,14 @@ export function useFetchSearch({
       }
     }
 
+    console.log(result.value)
     // handle results
     const nftEntities = usingTokenEntities.value
-      ? result.value.data.tokenEntities.map(handleToken)
-      : result.value.data.nFTEntities
+      ? result.value.tokenEntities.map(handleToken)
+      : result.value.nFTEntities
     const nftEntitiesConnection = usingTokenEntities.value
-      ? result.value.data.tokenEntitiesConnection
-      : result.value.data.nftEntitiesConnection
+      ? result.value.tokenEntitiesConnection
+      : result.value.nftEntitiesConnection
 
     total.value = nftEntitiesConnection.totalCount
 
