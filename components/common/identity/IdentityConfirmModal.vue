@@ -4,7 +4,7 @@
     :is-mobile="isMobile"
     @close="onClose">
     <template #header>
-      <span class="modal-card-title is-size-6 has-text-weight-bold">
+      <span>
         {{ $t('identity.create') }}
       </span>
     </template>

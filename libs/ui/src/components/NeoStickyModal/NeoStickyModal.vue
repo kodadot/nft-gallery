@@ -18,18 +18,30 @@
           'h-full pb-6': isMobile,
         },
       ]">
-      <slot name="custom-header" />
-
       <header
-        v-if="!$slots['custom-header']"
-        class="py-5 px-6 is-flex is-justify-content-space-between border-bottom">
-        <slot name="header" />
+        :class="{
+          'is-flex is-justify-content-center is-align-items-center is-relative px-6 py-3':
+            !isBoxedHeader,
+          'py-5 px-6 is-flex is-justify-content-space-between border-bottom':
+            isBoxedHeader,
+        }">
+        <div
+          :class="{
+            'modal-card-title is-size-6 has-text-weight-bold': isBoxedHeader,
+            'is-size-5 has-text-weight-bold': !isBoxedHeader,
+          }">
+          <slot name="header" />
+        </div>
 
         <NeoButton
+          :class="{
+            'position-right mr-6 py-1 px-2': !isBoxedHeader,
+          }"
           variant="text"
           no-shadow
           icon="xmark"
           icon-pack="fa-sharp"
+          :size="isBoxedHeader ? undefined : 'medium'"
           @click.native="closeModal" />
       </header>
 
@@ -63,13 +75,20 @@ import { useVModel } from '@vueuse/core'
 
 const emit = defineEmits(['close', 'confirm'])
 
-const props = defineProps<{
-  value: boolean
-  isMobile: boolean
-  isExpanded?: boolean
-}>()
+const props = withDefaults(
+  defineProps<{
+    value: boolean
+    isMobile: boolean
+    isExpanded?: boolean
+    withBoxedHeader?: boolean
+  }>(),
+  {
+    withBoxedHeader: true,
+  }
+)
 
 const isModalActive = useVModel(props, 'value')
+const isBoxedHeader = computed(() => !props.isMobile && props.withBoxedHeader)
 
 const closeModal = () => {
   emit('close')

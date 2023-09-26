@@ -4,24 +4,13 @@
     :is-mobile="isMobile"
     :is-expanded="isExpandList"
     class="transfer-confirm-modal"
+    :with-boxed-header="false"
     @close="onClose">
-    <template #custom-header>
-      <header
-        class="is-flex is-justify-content-center is-align-items-center is-relative px-6 py-3">
-        <span class="is-size-5 has-text-weight-bold">
-          {{ $t('teleport.send') }}
-          <span class="is-uppercase">{{ unit }}</span>
-        </span>
-
-        <NeoButton
-          class="position-right mr-6 py-1 px-2"
-          variant="text"
-          no-shadow
-          icon="xmark"
-          icon-pack="fa-sharp"
-          size="medium"
-          @click.native="closeModal" />
-      </header>
+    <template #header>
+      <span>
+        {{ $t('teleport.send') }}
+        <span class="is-uppercase">{{ unit }}</span>
+      </span>
     </template>
 
     <template #body>
