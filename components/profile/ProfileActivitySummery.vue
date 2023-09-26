@@ -74,7 +74,7 @@ type Stats = {
   totalCollected: number
 }
 
-const emit = defineEmits(['count'])
+const emit = defineEmits(['total'])
 const props = defineProps({
   id: { type: String, default: '' },
 })
@@ -130,7 +130,7 @@ useLazyAsyncData('stats', async () => {
   getSellerEvents(data)
   getInvestorStatsEvents(data)
 
-  emit('count', {
+  emit('total', {
     owned: data.obtained.totalCount,
     created: data.created.totalCount,
     events: data.events.totalCount,

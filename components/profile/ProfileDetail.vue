@@ -96,7 +96,7 @@
       <div class="columns is-centered is-align-items-center">
         <div
           class="column is-12-mobile is-6-tablet is-7-desktop is-8-widescreen">
-          <ProfileActivity :id="id" @count="handleProfileCount" />
+          <ProfileActivity :id="id" @total="handleProfileStatsTotal" />
         </div>
       </div>
       <div class="is-flex is-hidden-touch is-hidden-desktop-only">
@@ -146,7 +146,7 @@
           </div>
         </div>
         <hr class="my-0" />
-        <ItemsGrid :search="getItemGridSearch(activeTab)" />
+        <ItemsGrid :search="itemsGridSearch" />
       </div>
 
       <CollectionGrid
@@ -199,9 +199,9 @@ const legal = ref('')
 const riot = ref('')
 const isModalActive = ref(false)
 
-const getTabGridSearch = (tab: ProfileTab) => {
-  const tabKey = tab === ProfileTab.OWNED ? 'currentOwner_eq' : 'issuer_eq'
-
+const itemsGridSearch = computed(() => {
+  const tabKey =
+    activeTab.value === ProfileTab.OWNED ? 'currentOwner_eq' : 'issuer_eq'
   const query: Record<string, unknown> = {
     [tabKey]: id.value,
   }
@@ -217,11 +217,7 @@ const getTabGridSearch = (tab: ProfileTab) => {
   }
 
   return query
-}
-
-const getItemGridSearch = (tab: ProfileTab) => {
-  return getTabGridSearch(tab)
-}
+})
 
 const realworldFullPath = computed(() => window.location.href)
 
@@ -253,7 +249,7 @@ const handleIdentity = (identityFields: Record<string, string>) => {
   legal.value = identityFields?.legal
 }
 
-const handleProfileCount = (data) => {
+const handleProfileStatsTotal = (data) => {
   counts.value = {
     [ProfileTab.OWNED]: data.owned,
     [ProfileTab.CREATED]: data.created,
