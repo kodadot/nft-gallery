@@ -130,7 +130,7 @@
     </div>
 
     <div class="container is-fluid pb-6">
-      <div v-show="showItemTabs" class="is-flex-grow-1">
+      <div v-if="showItemTabs" class="is-flex-grow-1">
         <div
           class="is-flex is-justify-content-space-between pb-4 pt-5 is-align-content-center">
           <div class="is-flex">
