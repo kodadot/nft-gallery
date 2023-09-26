@@ -33,7 +33,7 @@
             no-shadow
             rounded
             size="small"
-            @click.native="submit(true)" />
+            @click.native="deleteIdentity" />
         </div>
         <hr class="my-7" />
       </div>
@@ -93,7 +93,7 @@
         :disabled="disabled"
         :loading="isLoading"
         expanded
-        @click="submit()" />
+        @click="setIdentity" />
     </form>
   </section>
 </template>
@@ -183,22 +183,28 @@ const fetchDeposit = async () => {
   return api.consts.identity?.basicDeposit?.toString()
 }
 
-const submit = async (isDelete?: boolean): Promise<void> => {
+const deleteIdentity = async (): Promise<void> => {
   const api = await identityApi.value
   initTransactionLoader()
-  const cb = isDelete
-    ? api.tx.identity.clearIdentity
-    : api.tx.identity.setIdentity
-  const args = isDelete ? [] : [enhanceIdentityData()]
-  howAboutToExecute(accountId.value, cb, args, (block: string) => {
-    if (isDelete) {
-      identity.value = {}
-      refetchIdentity()
-    }
+  const cb = api.tx.identity.clearIdentity
+  howAboutToExecute(accountId.value, cb, [], (block: string) => {
+    identity.value = {}
+    refetchIdentity()
+
     showNotification(
-      isDelete
-        ? `[Identity] You have cleared your account's identity since block ${block}`
-        : `[Identity] You are known as ${identity.value.display} since block ${block}`,
+      `[Identity] You have cleared your account's identity since block ${block}`,
+      notificationTypes.success
+    )
+  })
+}
+const setIdentity = async (): Promise<void> => {
+  const api = await identityApi.value
+  initTransactionLoader()
+  const cb = api.tx.identity.setIdentity
+  const args = [enhanceIdentityData()]
+  howAboutToExecute(accountId.value, cb, args, (block: string) => {
+    showNotification(
+      `[Identity] You are known as ${identity.value.display} since block ${block}`,
       notificationTypes.success
     )
   })
