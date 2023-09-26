@@ -890,6 +890,10 @@
     "supports": "Supports",
     "chooseProvider": "Choose A Provider"
   },
+  "fiatOnRamp": {
+    "agree": "I agree to the",
+    "tos": "KodaDot's Terms and Conditions"
+  },
   "helper": {
     "seeMore": "See More",
     "learnMore": "Learn More",
