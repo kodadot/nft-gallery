@@ -4,6 +4,7 @@
     :can-cancel="['outside', 'escape']"
     scroll="clip"
     class="top"
+    max-height="78vh"
     @close="onClose">
     <div class="modal-width">
       <header
@@ -258,5 +259,8 @@ watch(
   .identity-name {
     font-weight: unset !important;
   }
+}
+:deep .o-modal__content {
+  width: unset;
 }
 </style>
