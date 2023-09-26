@@ -4,7 +4,7 @@
     :is-mobile="isMobile"
     @close="onClose">
     <template #header>
-      <span class="is-size-5 has-text-weight-bold">
+      <span class="modal-card-title is-size-6 has-text-weight-bold">
         {{ $t('identity.create') }}
       </span>
     </template>
@@ -49,7 +49,8 @@
       <NeoButton
         :label="$t('identity.create')"
         variant="k-accent"
-        class="fixed-button-height is-flex is-flex-1"
+        no-shadow
+        class="is-flex is-flex-grow-1 btn-height"
         @click.native="emit('confirm')" />
     </template>
   </NeoStickyModal>
@@ -82,3 +83,8 @@ const onClose = () => {
   emit('close')
 }
 </script>
+<style lang="scss" scoped>
+.btn-height {
+  height: 3.5rem;
+}
+</style>

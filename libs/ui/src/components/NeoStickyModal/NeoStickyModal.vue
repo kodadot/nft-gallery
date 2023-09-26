@@ -18,17 +18,18 @@
           'h-full pb-6': isMobile,
         },
       ]">
+      <slot name="custom-header" />
+
       <header
-        class="is-flex is-justify-content-center is-align-items-center is-relative px-6 py-3">
+        v-if="!$slots['custom-header']"
+        class="py-5 px-6 is-flex is-justify-content-space-between border-bottom">
         <slot name="header" />
 
         <NeoButton
-          class="position-right mr-6 py-1 px-2"
           variant="text"
           no-shadow
           icon="xmark"
           icon-pack="fa-sharp"
-          size="medium"
           @click.native="closeModal" />
       </header>
 

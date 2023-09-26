@@ -222,6 +222,12 @@
         border: 1px solid theme('background-color-inverse');
       }
     }
+
+    .o-btn__wrapper .o-btn__label {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 
   &.loading-with-label.o-btn--loading {

@@ -77,9 +77,8 @@
       </p>
 
       <NeoButton
-        class="fixed-button-height is-flex is-flex-1"
+        class="is-flex is-flex-grow-1 fixed-height"
         variant="k-accent"
-        size="medium"
         :label="$t('identity.create')"
         :disabled="disabled"
         :loading="isLoading"
@@ -362,3 +361,8 @@ watch(
   { immediate: true }
 )
 </script>
+<style lang="scss" scoped>
+.fixed-height {
+  height: 3.188rem !important;
+}
+</style>
