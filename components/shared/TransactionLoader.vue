@@ -22,17 +22,11 @@
         <span>Tx:</span>
         <div class="is-flex">
           <slot name="action-title">
-            <!-- here goes whatever you want in
-             the case of slot content not supplied.
-             i.e. default value -->
-          </slot>
-
-          <template v-if="!$slots['action-title']">
             <span>{{ `${$t('teleport.send')} ${totalUsdValue}$` }}</span>
             <span class="has-text-grey ml-1 is-uppercase">{{
               `(${totalTokenAmount} ${urlPrefix})`
             }}</span>
-          </template>
+          </slot>
         </div>
 
         <NeoButton
