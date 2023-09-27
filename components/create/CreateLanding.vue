@@ -7,7 +7,7 @@
       <div v-if="route.query?.select !== 'nft'" class="pack">
         <nuxt-link class="pack-box" to="/create/collection">
           <div class="pack-content">
-            <NeoIcon icon="image-polaroid" size="large" />
+            <NeoIcon icon="image-polaroid" custom-size="fa-3x" />
             <div class="pack-content-text">
               <p class="is-size-4 has-text-weight-bold">Collection</p>
               <p>{{ $t('mint.landing.collection') }}</p>
@@ -18,7 +18,7 @@
           class="pack-box"
           @click="router.push({ query: { select: 'nft' } })">
           <div class="pack-content">
-            <NeoIcon icon="gem" size="large" />
+            <NeoIcon icon="gem" custom-size="fa-3x" />
             <div class="pack-content-text">
               <p class="is-size-4 has-text-weight-bold">NFT</p>
               <p>{{ $t('mint.landing.nft') }}</p>
@@ -30,7 +30,7 @@
       <div v-else class="pack">
         <nuxt-link class="pack-box" to="/create/nft">
           <div class="pack-content">
-            <NeoIcon icon="image" size="large" />
+            <NeoIcon icon="image" custom-size="fa-3x" />
             <div class="pack-content-text">
               <p class="is-size-4 has-text-weight-bold">
                 {{ $t('mint.landing.singleNft') }}
@@ -41,7 +41,7 @@
         </nuxt-link>
         <nuxt-link class="pack-box" :to="`/${urlPrefix}/massmint`">
           <div class="pack-content">
-            <NeoIcon icon="photo-film" size="large" />
+            <NeoIcon icon="photo-film" custom-size="fa-3x" />
             <div class="pack-content-text">
               <p class="is-size-4 has-text-weight-bold">
                 {{ $t('mint.landing.massNft') }}
@@ -94,6 +94,7 @@ const router = useRouter()
 
   &-box {
     cursor: pointer;
+    font-size: unset;
     padding: 4rem 2rem;
 
     @include ktheme() {
