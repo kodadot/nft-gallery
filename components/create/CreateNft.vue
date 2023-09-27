@@ -51,7 +51,7 @@
 
       <!-- select collections -->
       <NeoField
-        :key="currentChain"
+        :key="`collection-${currentChain}`"
         :label="`${$t('mint.nft.collection.label')} *`">
         <div>
           <p>{{ $t('mint.nft.collection.message') }}</p>
@@ -214,6 +214,8 @@
 
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
+import type { Ref } from 'vue/types'
+import type { TokenToList } from '@/composables/transaction/types'
 
 import {
   NeoButton,
@@ -230,10 +232,11 @@ import CreateNftPreview from './CreateNftPreview.vue'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { availablePrefixes } from '@/utils/chain'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { Interaction } from '@kodadot1/minimark/v1'
+import { CreatedNFT, Interaction } from '@kodadot1/minimark/v1'
 import { balanceFrom } from '@/utils/balance'
 import { DETAIL_TIMEOUT } from '@/utils/constants'
 import { delay } from '@/utils/fetch'
+import { toNFTId } from '@/components/rmrk/service/scheme'
 
 // composables
 const { $apollo, $consola } = useNuxtApp()
@@ -278,7 +281,7 @@ const selectChain = ref(chainByPrefix.value?.value || menus[0].value)
 
 // get/set current chain/prefix
 const currentChain = computed(() => selectChain.value as Prefix)
-const { isBasilisk } = useIsChain(currentChain)
+const { isBasilisk, isRemark } = useIsChain(currentChain)
 watch(currentChain, () => {
   // reset some state on chain change
   form.salePrice = 0
@@ -334,9 +337,15 @@ watchEffect(async () => {
 })
 
 // create nft
+const transactionStatus = ref<
+  'list' | 'checkListed' | 'mint' | 'done' | 'idle'
+>('idle')
+const createdNFTs = ref()
+const mintedBlockNumber = ref()
+
 const createNft = async () => {
   try {
-    await transaction(
+    const { createdNFTs: minted } = (await transaction(
       {
         interaction: Interaction.MINTNFT,
         urlPrefix: currentChain.value,
@@ -356,12 +365,83 @@ const createNft = async () => {
         },
       },
       currentChain.value
-    )
+    )) as unknown as {
+      createdNFTs: Ref<CreatedNFT[]>
+    }
+
+    if (isRemark.value && form.sale && form.salePrice) {
+      console.log('minted', minted.value)
+      createdNFTs.value = minted.value
+      transactionStatus.value = 'list'
+    } else {
+      transactionStatus.value = 'mint'
+    }
   } catch (error) {
     showNotification(`[ERR] ${error}`, notificationTypes.warn)
     $consola.error(error)
   }
 }
+
+// currently, on rmrk we need to list it manually
+watchEffect(async () => {
+  if (
+    blockNumber.value &&
+    createdNFTs.value &&
+    transactionStatus.value === 'list'
+  ) {
+    try {
+      console.log('start listing')
+      console.log(createdNFTs.value)
+      const list: TokenToList[] = createdNFTs.value.map((nft) => ({
+        price: balanceFrom(form.salePrice, decimals.value),
+        nftId: toNFTId(nft, String(blockNumber.value)),
+      }))
+      console.log('list', list)
+      console.log(
+        `preparing: [💰] Listed ${form.name} for ${form.salePrice} ${chainSymbol.value}`,
+        currentChain.value
+      )
+
+      await transaction(
+        {
+          interaction: Interaction.LIST,
+          urlPrefix: currentChain.value,
+          token: list,
+          successMessage: `[💰] Listed ${form.name} for ${form.salePrice} ${chainSymbol.value}`,
+        },
+        currentChain.value
+      )
+
+      transactionStatus.value = 'checkListed'
+    } catch (error) {
+      showNotification(`[ERR] ${error}`, notificationTypes.warn)
+      $consola.error(error)
+    }
+  }
+})
+
+watchEffect(() => {
+  console.log('--- status ---', status.value)
+  console.log('--- transactionStatus ---', transactionStatus.value)
+  console.log('--- blockNumber ---', blockNumber.value)
+  // prepare nft blockNumber for redirect to detail page
+  if (
+    (transactionStatus.value === 'mint' ||
+      transactionStatus.value === 'list') &&
+    status.value === 'loader.finalized' &&
+    blockNumber.value
+  ) {
+    mintedBlockNumber.value = blockNumber.value
+  }
+
+  // if listed is done, then we can redirect to detail page
+  if (
+    transactionStatus.value === 'checkListed' &&
+    status.value === 'loader.finalized'
+  ) {
+    transactionStatus.value = 'done'
+  }
+})
 
 // navigate to gallery detail page after success create nft
 const retry = ref(10) // max retry 10 times
@@ -373,7 +453,7 @@ async function getNftId() {
     client: currentChain.value,
     variables: {
       limit: 1,
-      blockNumber: blockNumber.value,
+      blockNumber: mintedBlockNumber.value,
     },
     fetchPolicy: 'network-only',
   })
@@ -382,7 +462,17 @@ async function getNftId() {
 }
 
 watchEffect(async () => {
-  if (blockNumber.value && retry.value) {
+  if (
+    mintedBlockNumber.value &&
+    retry.value &&
+    transactionStatus.value === 'done'
+  ) {
+    showNotification(
+      `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`,
+      notificationTypes.info,
+      DETAIL_TIMEOUT
+    )
+
     await delay(DETAIL_TIMEOUT)
     const nftId = await getNftId()
 
