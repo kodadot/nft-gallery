@@ -26,7 +26,7 @@ import { NeoField, NeoInput } from '@kodadot1/brick'
 
 const props = withDefaults(
   defineProps<{
-    value: number
+    value: number | string
     label: string
     placeholder?: string
     expanded?: boolean

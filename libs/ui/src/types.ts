@@ -14,4 +14,8 @@ export type NeoButtonVariant =
   | 'disabled-secondary'
   | 'text'
 
-export type NftCardVariant = 'primary' | 'minimal'
+export type NftCardVariant =
+  | 'primary'
+  | 'minimal'
+  | 'stacked-primary'
+  | 'stacked-minimal'

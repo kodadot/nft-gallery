@@ -72,8 +72,7 @@ export const uniqueParamResolver = (
 export const nftParamResolver = (
   id: string,
   selectedAction: string,
-  meta: string | number,
-  _currentOwner?: string
+  meta: string | number
 ): any[] => {
   const sanitized = correctId(id)
   const [collectionId, tokenId] = sanitized.split('-')

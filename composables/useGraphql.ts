@@ -21,7 +21,7 @@ export const useQueryParams = ({
 export default function ({
   queryPrefix = '',
   queryName,
-  clientName,
+  clientName = '',
   variables = {},
   options = {},
   disabled = computed(() => false),

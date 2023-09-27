@@ -39,7 +39,7 @@
             v-clipboard:copy="generatePaymentLink([accountId])"
             data-testid="transfer-dropdown-pay-me"
             @click="toast(`${$i18n.t('toast.urlCopy')}`)">
-            <NeoIcon icon="sack-dollar" pack="fa" class="mr-2" />{{
+            <NeoIcon icon="sack-dollar" class="mr-2" />{{
               $t('transfers.payMeLink')
             }}
           </NeoDropdownItem>
@@ -49,7 +49,7 @@
             class="no-wrap"
             data-testid="transfer-dropdown-recurring"
             @click="toast(`${$i18n.t('toast.urlCopy')}`)">
-            <NeoIcon icon="rotate" pack="fas" class="mr-2" />{{
+            <NeoIcon icon="rotate" class="mr-2" />{{
               $t('transfers.recurringPaymentLink')
             }}
           </NeoDropdownItem>
@@ -62,7 +62,7 @@
         data-testid="transfer-token-tabs-container"
         @select="handleTokenSelect" />
       <div class="mb-5">
-        <NeoIcon class="ml-2" icon="circle-info" pack="far" />
+        <NeoIcon class="ml-2" icon="circle-info" />
         <span
           v-dompurify-html="
             $t('transfers.tooltip', [unit, chainNames[unit.toLowerCase()]])
@@ -128,7 +128,7 @@
             class="has-text-weight-bold is-size-6 mb-3 is-flex is-align-items-center is-justify-content-space-between">
             {{ $t('transfers.recipient') }} {{ index + 1 }}
             <a v-if="targetAddresses.length > 1" @click="deleteAddress(index)">
-              <NeoIcon class="p-3" icon="fa-trash" pack="fa-regular" />
+              <NeoIcon class="p-3" icon="trash" />
             </a>
           </div>
           <div
@@ -184,8 +184,7 @@
                 @click="deleteAddress(index)">
                 <NeoIcon
                   class="p-3"
-                  icon="fa-trash"
-                  pack="fa-regular"
+                  icon="trash"
                   data-testid="transfer-remove-recipient" />
               </a>
             </div>
@@ -221,7 +220,7 @@
           <!-- tips: don't use `margin` or `padding` directly on the tooltip trigger, it will cause misalignment of the tooltip -->
           <span class="mr-2" />
           <NeoTooltip :label="$t('transfers.setSameAmount')"
-            ><NeoIcon icon="circle-info" pack="far"
+            ><NeoIcon icon="circle-info"
           /></NeoTooltip>
         </div>
         <NeoSwitch
@@ -501,6 +500,7 @@ const checkQueryParams = () => {
   const { query } = route
   const targets = Object.entries(query)
     .filter(([key]) => key.startsWith('target'))
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .filter(([_, address]) => {
       if (isAddress(address as string)) {
         return true
@@ -511,6 +511,7 @@ const checkQueryParams = () => {
       )
       return false
     })
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .map(([_, address]) => address as string)
   if (targets.length > 0) {
     targetAddresses.value = targets.map((address) => ({
@@ -829,12 +830,14 @@ const generateRecurringPaymentLink = () => {
 
 const generatePaymentLink = (addressList: string[]): string => {
   const url = new URL(`${location.origin}${location.pathname}`)
-
-  url.searchParams.set('usdamount', String(targetAddresses.value[0]?.usd || 0))
-
   addressList.forEach((addr, i) => {
     url.searchParams.append(`target${i == 0 ? '' : i}`, addr)
   })
+  url.searchParams.append(
+    'usdamount',
+    String(targetAddresses.value[0]?.usd || 0)
+  )
+
   return url.toString()
 }
 
