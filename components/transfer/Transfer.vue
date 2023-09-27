@@ -30,12 +30,14 @@
               icon="ellipsis-vertical"
               no-shadow
               class="square-32"
+              data-testid="transfer-button-options"
               :active="active" />
           </template>
 
           <NeoDropdownItem
             v-if="accountId"
             v-clipboard:copy="generatePaymentLink([accountId])"
+            data-testid="transfer-dropdown-pay-me"
             @click="toast(`${$i18n.t('toast.urlCopy')}`)">
             <NeoIcon icon="sack-dollar" pack="fa" class="mr-2" />{{
               $t('transfers.payMeLink')
@@ -45,6 +47,7 @@
           <NeoDropdownItem
             v-clipboard:copy="generateRecurringPaymentLink()"
             class="no-wrap"
+            data-testid="transfer-dropdown-recurring"
             @click="toast(`${$i18n.t('toast.urlCopy')}`)">
             <NeoIcon icon="rotate" pack="fas" class="mr-2" />{{
               $t('transfers.recurringPaymentLink')
@@ -56,6 +59,7 @@
       <TransferTokenTabs
         :tabs="tokenTabs"
         :value="unit"
+        data-testid="transfer-token-tabs-container"
         @select="handleTokenSelect" />
       <div class="mb-5">
         <NeoIcon class="ml-2" icon="circle-info" pack="far" />
@@ -70,15 +74,21 @@
             $t('transfers.sender')
           }}</span>
           <div v-if="accountId" class="is-flex is-align-items-center">
-            <Avatar :value="accountId" :size="32" />
+            <Avatar
+              :value="accountId"
+              :size="32"
+              data-testid="transfer-sender-full-address" />
             <span class="ml-2">
-              <Identity :address="accountId" hide-identity-popover />
+              <Identity
+                :address="accountId"
+                hide-identity-popover
+                data-testid="transfer-sender-address" />
             </span>
             <a
               v-clipboard:copy="accountId"
               class="ml-2"
               @click="toast(`${$i18n.t('general.copyToClipboard')}`)">
-              <NeoIcon icon="copy" />
+              <NeoIcon icon="copy" data-testid="transfer-copy-sender-address" />
             </a>
           </div>
           <Auth v-else />
@@ -153,6 +163,7 @@
                 step="0.01"
                 min="0"
                 icon-right-class="search"
+                data-testid="transfer-input-amount-token"
                 @focus="onAmountFieldFocus(destinationAddress, 'token')"
                 @input="onAmountFieldChange(destinationAddress)" />
               <NeoInput
@@ -164,13 +175,18 @@
                 min="0"
                 icon-right="usd"
                 icon-right-class="has-text-grey"
+                data-testid="transfer-input-amount-usd"
                 @focus="onAmountFieldFocus(destinationAddress, 'usd')"
                 @input="onUsdFieldChange(destinationAddress)" />
               <a
                 v-if="!isMobile && targetAddresses.length > 1"
                 class="is-flex"
                 @click="deleteAddress(index)">
-                <NeoIcon class="p-3" icon="fa-trash" pack="fa-regular" />
+                <NeoIcon
+                  class="p-3"
+                  icon="fa-trash"
+                  pack="fa-regular"
+                  data-testid="transfer-remove-recipient" />
               </a>
             </div>
           </div>
@@ -191,7 +207,11 @@
         class="mb-5 is-flex is-justify-content-center is-clickable"
         @click="addAddress">
         {{ $t('transfers.addAddress') }}
-        <NeoIcon class="ml-2" icon="plus" pack="fas" />
+        <NeoIcon
+          class="ml-2"
+          icon="plus"
+          pack="fas"
+          data-testid="transfer-button-add-recipient" />
       </div>
       <div
         class="is-flex is-justify-content-space-between is-align-items-center mb-5">
@@ -204,7 +224,10 @@
             ><NeoIcon icon="circle-info" pack="far"
           /></NeoTooltip>
         </div>
-        <NeoSwitch v-model="sendSameAmount" :rounded="false" />
+        <NeoSwitch
+          v-model="sendSameAmount"
+          :rounded="false"
+          data-testid="transfer-switch-same" />
       </div>
 
       <div
@@ -235,6 +258,7 @@
           tag="button"
           full-width
           no-shadow
+          data-testid="transfer-button-token"
           @click.native="displayUnit = 'token'" />
         <TabItem
           :active="displayUnit === 'usd'"
@@ -242,6 +266,7 @@
           tag="button"
           full-width
           no-shadow
+          data-testid="transfer-button-usd"
           @click.native="displayUnit = 'usd'" />
       </div>
 
@@ -249,10 +274,14 @@
         class="is-flex is-justify-content-space-between is-align-items-center mb-2">
         <span class="is-size-7">{{ $t('transfers.networkFee') }}</span>
         <div class="is-flex is-align-items-center">
-          <span class="is-size-7 has-text-grey mr-1"
+          <span
+            class="is-size-7 has-text-grey mr-1"
+            data-testid="transfer-network-fee-1"
             >({{ displayTxFeeValue[0] }})</span
           >
-          <span class="is-size-7">{{ displayTxFeeValue[1] }}</span>
+          <span class="is-size-7" data-testid="transfer-network-fee-2">{{
+            displayTxFeeValue[1]
+          }}</span>
         </div>
       </div>
 
@@ -266,9 +295,11 @@
             >({{ displayTotalValue[0] }})</span
           >
 
-          <span class="has-text-weight-bold is-size-6">{{
-            displayTotalValue[1]
-          }}</span>
+          <span
+            class="has-text-weight-bold is-size-6"
+            data-testid="transfer-total-amount"
+            >{{ displayTotalValue[1] }}</span
+          >
         </div>
       </div>
 
