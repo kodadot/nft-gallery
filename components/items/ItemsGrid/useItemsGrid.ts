@@ -9,6 +9,13 @@ import type { NFTWithMetadata, Stack } from '@/composables/useNft'
 export type NFTStack = NFTWithMetadata & Stack
 
 export type ItemsGridEntity = NFTWithMetadata | NFTStack
+import { NFT } from '@/components/rmrk/service/scheme'
+import { Stats } from '@/components/collection/utils/types'
+import { useCollectionDetails } from '@/components/collection/utils/useCollectionDetails'
+import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
+
+import { isOwner as checkOwner } from '@/utils/account'
+import { useListingCartStore } from '@/stores/listingCart'
 
 export function useFetchSearch({
   first,
@@ -169,4 +176,55 @@ export function useFetchSearch({
     refetch,
     clearFetchResults,
   }
+}
+
+export const updatePotentialNftsForListingCart = async (nfts: NFT[]) => {
+  const listingCartStore = useListingCartStore()
+  const { accountId } = useAuth()
+
+  //  Get unique collection IDs
+  const uniqueCollectionIds = Array.from(
+    new Set(nfts.map((nft) => nft.collection?.id || nft.collectionId))
+  )
+
+  // Wrap useCollectionDetails in a promise to watch for the stats
+  const fetchStatsForCollection = (
+    collectionId
+  ): Promise<{ id: string; stats: Stats }> =>
+    new Promise((resolve) => {
+      const { stats } = useCollectionDetails({ collectionId })
+      watch(stats, (newStats) => {
+        if (newStats && Object.keys(newStats).length) {
+          resolve({ id: collectionId, stats: newStats })
+        }
+      })
+    })
+
+  // Fetch stats for all unique collection IDs.
+  const allStats = await Promise.all(
+    uniqueCollectionIds.map(fetchStatsForCollection)
+  )
+
+  const statsById = allStats.reduce(
+    (acc, { id, stats }) => ({
+      ...acc,
+      [id]: stats,
+    }),
+    {}
+  )
+
+  const potentialNfts = nfts
+    .filter(
+      (nft) =>
+        !Number(nft.price) && checkOwner(nft.currentOwner, accountId.value)
+    )
+    .map((nft) => {
+      const collectionId = nft.collection?.id ?? nft.collectionId ?? ''
+      return nftToListingCartItem(
+        nft,
+        String(statsById[collectionId]?.collectionFloorPrice ?? '')
+      )
+    })
+
+  listingCartStore.setUnlistedItems(potentialNfts)
 }

@@ -44,6 +44,10 @@ import { useListingCartStore } from '@/stores/listingCart'
 import { usePreferencesStore } from '@/stores/preferences'
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
+
+onBeforeUnmount(() => {
+  listingCartStore.clear()
+})
 </script>
 
 <style scoped lang="scss">
