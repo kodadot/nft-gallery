@@ -118,6 +118,7 @@ const onPasteImage = (pasteEvent: ClipboardEvent) => {
 }
 
 const createInput = (inputFile: Blob): void | boolean => {
+  // console.log(inputFile.target.files)
   const fileSize = inputFile.size / Math.pow(1024, 2)
   if (fileSize > fileSizeLimit.value) {
     fileSizeFailed.value = true

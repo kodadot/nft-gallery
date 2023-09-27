@@ -129,7 +129,7 @@
               },
             ]">
             <AddressInput
-              v-model="destinationAddress.address"
+              :value="destinationAddress.address"
               label=""
               class="is-flex-1 is-flex-grow-2"
               :class="[
@@ -339,6 +339,8 @@ import TransactionLoader from '@/components/shared/TransactionLoader.vue'
 import { KODADOT_DAO } from '@/utils/support'
 import { toDefaultAddress } from '@/utils/account'
 import AddressChecker from '@/components/shared/AddressChecker.vue'
+import TabItem from '@/components/shared/TabItem.vue'
+import Auth from '@/components/shared/Auth.vue'
 
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
