@@ -89,6 +89,7 @@
 import { NeoButton, NeoSelect, NeoTable, NeoTableColumn } from '@kodadot1/brick'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import Money from '@/components/shared/format/Money.vue'
+import Loader from '@/components/shared/Loader.vue'
 
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { tokenIdToRoute } from '@/components/unique/utils'
@@ -98,7 +99,7 @@ import { AllOfferStatusType } from '@/utils/offerStatus'
 
 import acceptableOfferByCurrentOwner from '@/queries/subsquid/bsx/acceptableOfferByCurrentOwner.graphql'
 
-import { Offer, OfferResponse } from './types'
+import { Offer } from './types'
 
 const { howAboutToExecute, initTransactionLoader, isLoading, status } =
   useMetaTransaction()

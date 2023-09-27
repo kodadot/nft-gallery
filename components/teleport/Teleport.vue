@@ -1,5 +1,4 @@
-<template></template>
-<!-- <template>
+<template>
   <section class="is-flex is-justify-content-center">
     <div class="teleport-container">
       <Loader v-model="isLoading" />
@@ -461,4 +460,4 @@ const sendXCM = async () => {
     -moz-appearance: textfield;
   }
 }
-</style> -->
+</style>
