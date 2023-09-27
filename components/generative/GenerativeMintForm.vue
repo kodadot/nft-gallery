@@ -76,7 +76,6 @@ import {
   filmTypes,
   framing,
   gender,
-  inspiredBy,
   lights,
   styles,
 } from './options'

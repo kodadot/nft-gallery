@@ -17,7 +17,6 @@
           variant="text"
           no-shadow
           icon="xmark"
-          icon-pack="fa-sharp"
           size="medium"
           @click.native="onClose" />
       </header>

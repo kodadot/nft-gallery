@@ -12,7 +12,6 @@
           variant="text"
           no-shadow
           icon="xmark"
-          icon-pack="fa-sharp"
           size="medium"
           @click.native="emit('close')" />
       </div>
@@ -33,7 +32,6 @@
           variant="text"
           no-shadow
           icon="xmark"
-          icon-pack="fa-sharp"
           size="medium"
           @click.native="emit('close')" />
       </div>
@@ -74,7 +72,6 @@
           <NeoButton
             v-clipboard:copy="explorerLink"
             icon="copy"
-            icon-pack="far"
             class="ml-4 px-4"
             rounded
             no-shadow
