@@ -2,7 +2,7 @@
   <div v-if="attributes.title" class="article">
     <div class="is-flex is-align-items-center has-text-grey is-size-5 mb-1">
       <nuxt-link class="has-text-grey" to="/blog">{{ $t('blog') }}</nuxt-link>
-      <NeoIcon icon="chevron-right" pack="far" class="mx-5" />
+      <NeoIcon icon="chevron-right" class="mx-5" />
       <span>{{ attributes.title?.slice(0, 15) }}...</span>
     </div>
     <h1>{{ attributes.title }}</h1>

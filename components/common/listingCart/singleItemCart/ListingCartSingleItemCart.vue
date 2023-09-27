@@ -37,7 +37,7 @@ import { useListingCartStore } from '@/stores/listingCart'
 import ListingCartItemDetails from '../shared/ListingCartItemDetails.vue'
 import ListingCartFloorPrice from '../shared/ListingCartFloorPrice.vue'
 import ListingCartPriceInput from '../shared/ListingCartPriceInput.vue'
-import { formatBalance } from '@polkadot/util'
+import formatBalance from '@/utils/format/balance'
 
 const emit = defineEmits([
   'update:fixedPrice',
@@ -73,12 +73,7 @@ const collectionPrice = computed(() =>
 )
 
 const formatWithBlank = (value: number) => {
-  return value
-    ? formatBalance(value, {
-        decimals: decimals.value,
-        withUnit: chainSymbol.value,
-      })
-    : '--'
+  return value ? formatBalance(value, decimals.value, chainSymbol.value) : '--'
 }
 
 watch(
