@@ -2,7 +2,6 @@
   <TokenMoney
     v-if="tokenId"
     :value="value"
-    :token-id="tokenId"
     :data-testid="dataCy"
     :round="round"
     inline />
