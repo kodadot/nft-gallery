@@ -131,9 +131,10 @@
         <div>
           <NeoButton
             expanded
-            :label="`${canDeposit ? 'Create Collection' : 'Not Enough Funds'}`"
+            :label="submitButtonLabel"
             type="submit"
             size="medium"
+            class="is-size-6"
             data-testid="collection-create"
             :loading="isLoading"
             :disabled="!canDeposit" />
@@ -208,10 +209,20 @@ const description = ref('')
 const unlimited = ref(true)
 const max = ref(1)
 const symbol = ref('')
-
+const { isLogIn } = useAuth()
 const menus = availablePrefixes()
+const { $i18n } = useNuxtApp()
+
 const chainByPrefix = menus.find((menu) => menu.value === urlPrefix.value)
 const selectBlockchain = ref(chainByPrefix?.value || menus[0].value)
+
+const submitButtonLabel = computed(() => {
+  return !isLogIn.value
+    ? $i18n.t('mint.nft.connect')
+    : canDeposit.value
+    ? $i18n.t('mint.nft.create')
+    : $i18n.t('confirmPurchase.notEnoughFuns')
+})
 
 const currentChain = computed(() => {
   return selectBlockchain.value as Prefix
@@ -223,7 +234,10 @@ const { balance, totalCollectionDeposit, chainSymbol } =
 
 // balance state
 const canDeposit = computed(() => {
-  return parseFloat(balance.value) >= parseFloat(totalCollectionDeposit.value)
+  return (
+    isLogIn.value &&
+    parseFloat(balance.value) >= parseFloat(totalCollectionDeposit.value)
+  )
 })
 
 watchEffect(() => setUrlPrefix(currentChain.value as Prefix))

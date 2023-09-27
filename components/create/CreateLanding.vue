@@ -70,7 +70,7 @@ const router = useRouter()
 const gotoPathAfterLogin = (path: RawLocation) => {
   doAfterLogin({
     onLoginSuccess: () => {
-      router.push(path)
+      navigateTo(path)
     },
   })
 }
