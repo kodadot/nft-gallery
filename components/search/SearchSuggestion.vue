@@ -54,7 +54,7 @@
                     <Money
                       v-else
                       :value="item.floorPrice"
-                      :unit-symbol="chainSymbol"
+                      :prefix="item.chain"
                       inline />
                   </span>
                   <NeoSkeleton
@@ -128,10 +128,7 @@
                   <span class="name">{{ item.collection?.name }}</span>
                   <span v-if="item.price && parseFloat(item.price) > 0">
                     {{ $t('offer.price') }}:
-                    <Money
-                      :value="item.price"
-                      :unit-symbol="chainSymbol"
-                      inline />
+                    <Money :value="item.price" :prefix="item.chain" inline />
                   </span>
                 </div>
               </template>
@@ -366,7 +363,6 @@ const selectedItemListMap = computed(() => ({
   NFTs: nftSuggestion,
 }))
 
-const { chainSymbol } = useChain()
 const router = useRouter()
 const route = useRoute()
 const { $consola, $apollo } = useNuxtApp()
