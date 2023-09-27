@@ -33,22 +33,6 @@
         </NeoTooltip>
       </NeoDropdownItem>
 
-      <template v-if="chain === 'rmrk'">
-        <NeoDropdownItem>
-          <NeoTooltip
-            position="left"
-            full-width
-            :label="$t('createDropdown.simplifiedNft')"
-            multiline>
-            <nuxt-link
-              data-testid="simple"
-              :to="`/${urlPrefix}/mint`"
-              tag="div">
-              {{ $t('simple') }}
-            </nuxt-link>
-          </NeoTooltip>
-        </NeoDropdownItem>
-      </template>
       <NeoDropdownItem>
         <NeoTooltip
           position="left"
