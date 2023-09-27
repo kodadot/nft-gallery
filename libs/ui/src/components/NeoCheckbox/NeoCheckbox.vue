@@ -1,11 +1,11 @@
 <template>
   <o-checkbox
-    v-model="checkboxValue"
+    :model-value="checkboxValue"
     class="neo-checkbox"
     :native-value="checkboxValue"
     :disabled="disabled"
     :label-class="labelClass"
-    @input="updateValue">
+    @update:modelValue="updateValue">
     <slot />
   </o-checkbox>
 </template>
