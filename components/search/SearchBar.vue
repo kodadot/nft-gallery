@@ -113,7 +113,7 @@ function onEnter() {
   closeDropDown()
   searchRef.value?.$refs?.input?.$refs?.input?.blur()
   // insert search term in history
-  searchSuggestionRef.value?.insertNewHistory()
+  // searchSuggestionRef.value?.insertNewHistory()
   emits('enter')
 }
 

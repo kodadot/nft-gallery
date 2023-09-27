@@ -1,13 +1,6 @@
 import { Interaction } from '@kodadot1/minimark/v1'
 import { hasMarketplace } from './prefix'
 
-enum UniqueActions {
-  DELEGATE = 'DELEGATE',
-  FREEZE = 'FREEZE',
-  REVOKE = 'REVOKE',
-  UNFREEZE = 'UNFREEZE',
-}
-
 enum BasiliskActions {
   MAKE_OFFER = 'MAKE_OFFER',
   SET_ROYALTY = 'SET_ROYALTY',
@@ -76,17 +69,13 @@ export const getActionList = (
     ...baseActions,
     ...getMarketplaceActions(prefix, isOwner, hasPrice),
   ]
-  const specific = getChainSpecificActions(prefix, isOwner, hasPrice)
+  const specific = getChainSpecificActions(prefix, isOwner)
 
   baseActions = [...baseActions, ...specific]
   return [...new Set(baseActions)]
 }
 
-export const getChainSpecificActions = (
-  prefix: string,
-  isOwner: boolean,
-  hasPrice: boolean
-) => {
+export const getChainSpecificActions = (prefix: string, isOwner: boolean) => {
   if (prefix === 'bsx') {
     return !isOwner ? makeOfferActions : []
   }

@@ -53,7 +53,6 @@
 </template>
 
 <script lang="ts" setup>
-import { OfferResponse } from './types'
 import offerListUser from '@/queries/subsquid/bsx/offerListUser.graphql'
 import { notificationTypes, showNotification } from '~/utils/notification'
 import { isAddress } from '@polkadot/util-crypto'
@@ -73,6 +72,7 @@ const skipUserOffer = ref(false) // skip fetching with id when this variable is 
 
 const { $i18n } = useNuxtApp()
 const { accountId, isLogIn } = useAuth()
+const { client } = usePrefix()
 const route = useRoute()
 const router = useRouter()
 
@@ -157,9 +157,13 @@ const fetchCreatedOffers = async () => {
     if (!skipUserOffer.value) {
       variables.id = destinationAddress.value || accountId.value
     }
-    const { data } = await useAsyncQuery(offerListUser, variables)
-    if (data?.offers?.length) {
-      createdOffers.value = data.offers
+    const { data } = await useAsyncQuery({
+      query: offerListUser,
+      variables,
+      clientId: client.value,
+    })
+    if (data.value?.offers?.length) {
+      createdOffers.value = data.value.offers
       if (!skipUserOffer.value) {
         incomingOffers.value = []
       }

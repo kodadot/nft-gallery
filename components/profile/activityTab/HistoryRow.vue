@@ -144,6 +144,7 @@ import {
 } from '@/components/collection/activity/events/eventRow/common'
 import EventTag from '@/components/collection/activity/events/eventRow/EventTag.vue'
 import BlockExplorerLink from '@/components/shared/BlockExplorerLink.vue'
+import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { parseNftAvatar } from '@/utils/nft'
 
 const props = defineProps<{

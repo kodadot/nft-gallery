@@ -79,7 +79,7 @@ const menus = ref([
   },
 ])
 
-onMounted(() => {
+watchEffect(() => {
   if (isBasilisk.value) {
     menus.value.push({
       label: 'Incoming Offers',

@@ -204,7 +204,7 @@
     @include ktheme() {
       color: theme('k-grey') !important;
 
-      :deep .o-btn__label {
+      :deep(.o-btn__label) {
         margin: 0 3px !important;
       }
 

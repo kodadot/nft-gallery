@@ -52,7 +52,7 @@
       <div v-else>{{ $t('nft.notListed') }}</div>
     </GalleryItemPriceSection>
 
-    <OnRampModal v-model="showRampModal" @close="showRampModal = false" />
+    <OnRampModal :value="showRampModal" @close="showRampModal = false" />
   </div>
 </template>
 

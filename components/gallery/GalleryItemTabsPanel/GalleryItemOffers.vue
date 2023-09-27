@@ -88,6 +88,7 @@ import { OfferStatusType } from '@/utils/offerStatus'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { isOwner as checkOwner } from '@/utils/account'
 import { ShoppingActions } from '@/utils/shoppingActions'
+import Loader from '@/components/shared/Loader.vue'
 
 const { $i18n, $consola } = useNuxtApp()
 

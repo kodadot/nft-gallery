@@ -129,7 +129,7 @@
               },
             ]">
             <AddressInput
-              v-model="destinationAddress.address"
+              :value="destinationAddress.address"
               label=""
               class="is-flex-1 is-flex-grow-2"
               :class="[
@@ -339,6 +339,8 @@ import TransactionLoader from '@/components/shared/TransactionLoader.vue'
 import { KODADOT_DAO } from '@/utils/support'
 import { toDefaultAddress } from '@/utils/account'
 import AddressChecker from '@/components/shared/AddressChecker.vue'
+import TabItem from '@/components/shared/TabItem.vue'
+import Auth from '@/components/shared/Auth.vue'
 
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
@@ -470,6 +472,7 @@ const checkQueryParams = () => {
   const { query } = route
   const targets = Object.entries(query)
     .filter(([key]) => key.startsWith('target'))
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .filter(([_, address]) => {
       if (isAddress(address as string)) {
         return true
@@ -480,6 +483,7 @@ const checkQueryParams = () => {
       )
       return false
     })
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .map(([_, address]) => address as string)
   if (targets.length > 0) {
     targetAddresses.value = targets.map((address) => ({
