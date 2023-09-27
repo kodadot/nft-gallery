@@ -150,12 +150,13 @@
       :collection-id="nft?.collection.id"
       data-testid="carousel-related" />
 
-    <!-- <CarouselTypeVisited class="mt-8" /> -->
+    <CarouselTypeVisited class="mt-8" />
 
     <GalleryItemPreviewer
       :value="isFullscreen"
       :item-src="previewItemSrc"
-      :gallery-item="galleryItem" />
+      :gallery-item="galleryItem"
+      @input="isFullscreen = false" />
   </section>
 </template>
 
