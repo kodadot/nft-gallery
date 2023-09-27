@@ -84,9 +84,9 @@ export const useListingCartStore = defineStore('listingCart', {
       }
     },
     clear() {
-      this.itemsInChain.forEach((item) => {
-        this.removeItem(item.id)
-      })
+      localStorage.value = []
+      this.items = []
+      this.allUnlistedItems = []
     },
   },
 })
