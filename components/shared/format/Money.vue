@@ -17,24 +17,35 @@ import {
   roundTo,
 } from '@/utils/format/balance'
 import { chainPropListOf } from '@/utils/config/chain.config'
-import type { Prefix } from '@kodadot1/static'
 
-const props = withDefaults(
-  defineProps<{
-    value?: number | string
-    inline: boolean
-    hideUnit?: boolean
-    unitSymbol?: string
-    prefix?: Prefix
-    round?: number
-  }>(),
-  {
-    value: 0,
-    round: 4,
-    unitSymbol: '',
-    prefix: undefined,
-  }
-)
+const props = defineProps({
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  value: {
+    type: [Number, String, BigInt],
+    default: '0',
+  },
+  inline: {
+    type: Boolean,
+    default: false,
+  },
+  hideUnit: {
+    type: Boolean,
+    default: false,
+  },
+  unitSymbol: {
+    type: String,
+    default: '',
+  },
+  prefix: {
+    type: String,
+    default: undefined,
+  },
+  round: {
+    type: Number,
+    default: 4,
+  },
+})
 
 const { decimals, unit } = useChain()
 

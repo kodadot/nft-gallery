@@ -4,10 +4,10 @@
     :value="value"
     :token-id="tokenId"
     :prefix="urlPrefix"
-    :data-testid="money"
+    data-testid="money"
     :round="round"
     inline />
-  <Money v-else :value="value" :data-testid="money" inline :round="round" />
+  <Money v-else :value="value" data-testid="money" inline :round="round" />
 </template>
 
 <script lang="ts" setup>
