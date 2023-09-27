@@ -99,6 +99,7 @@ const router = useRouter()
     @include ktheme() {
       background-color: theme('background-color');
       border: 1px solid theme('card-border-color');
+      color: theme('text-color');
 
       &:hover {
         color: theme('text-color');
