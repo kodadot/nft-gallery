@@ -60,7 +60,7 @@ test('Transfer Page Functionality', async ({ page, Commands }) => {
     await page.getByTestId('transfer-button-options').click()
     await page.getByTestId('transfer-dropdown-recurring').click()
     Commands.copyText(
-      `http://localhost:9090/dot/transfer?usdamount=5&target=${UserAddress}&target1=${UserAddress}`
+      `http://localhost:9090/dot/transfer?target=${UserAddress}&target1=${UserAddress}&usdamount=5`
     )
   })
   //removes last transfer recipient
@@ -70,7 +70,7 @@ test('Transfer Page Functionality', async ({ page, Commands }) => {
     await page.getByTestId('transfer-button-options').click()
     await page.getByTestId('transfer-dropdown-pay-me').click()
     Commands.copyText(
-      `http://localhost:9090/dot/transfer?usdamount=4&target=${UserAddress}`
+      `http://localhost:9090/dot/transfer?&target=${UserAddress}&usdamount=4`
     )
   })
   //verify if network fee is present
