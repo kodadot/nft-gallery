@@ -139,7 +139,7 @@
 
       <!-- royalty -->
       <NeoField v-if="isBasilisk">
-        <RoyaltyForm v-bind.sync="form.royalty" />
+        <RoyaltyForm v-model="form.royalty" />
       </NeoField>
 
       <!-- explicit content -->
