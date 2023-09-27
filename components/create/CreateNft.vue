@@ -370,7 +370,6 @@ const createNft = async () => {
     }
 
     if (isRemark.value && form.sale && form.salePrice) {
-      console.log('minted', minted.value)
       createdNFTs.value = minted.value
       transactionStatus.value = 'list'
     } else {
@@ -382,7 +381,7 @@ const createNft = async () => {
   }
 }
 
-// currently, on rmrk we need to list it manually
+// currently, on rmrk we need to list price manually
 watchEffect(async () => {
   if (
     blockNumber.value &&
@@ -390,17 +389,10 @@ watchEffect(async () => {
     transactionStatus.value === 'list'
   ) {
     try {
-      console.log('start listing')
-      console.log(createdNFTs.value)
       const list: TokenToList[] = createdNFTs.value.map((nft) => ({
         price: balanceFrom(form.salePrice, decimals.value),
         nftId: toNFTId(nft, String(blockNumber.value)),
       }))
-      console.log('list', list)
-      console.log(
-        `preparing: [💰] Listed ${form.name} for ${form.salePrice} ${chainSymbol.value}`,
-        currentChain.value
-      )
 
       await transaction(
         {
@@ -421,9 +413,6 @@ watchEffect(async () => {
 })
 
 watchEffect(() => {
-  console.log('--- status ---', status.value)
-  console.log('--- transactionStatus ---', transactionStatus.value)
-  console.log('--- blockNumber ---', blockNumber.value)
   // prepare nft blockNumber for redirect to detail page
   if (
     (transactionStatus.value === 'mint' ||
@@ -434,7 +423,7 @@ watchEffect(() => {
     mintedBlockNumber.value = blockNumber.value
   }
 
-  // if listed is done, then we can redirect to detail page
+  // if listing price is done, then redirect to detail page
   if (
     transactionStatus.value === 'checkListed' &&
     status.value === 'loader.finalized'
