@@ -36,5 +36,5 @@ const cprops = withDefaults(
   }
 )
 const isOpen = ref(false)
-const position = computed(() => (cprops.bottom ? 'is-bottom' : 'is-top'))
+const position = computed(() => (cprops.bottom ? 'bottom' : 'top'))
 </script>

@@ -29,7 +29,7 @@ const { accountId } = useAuth()
 
 const props = defineProps({
   amount: {
-    type: Number,
+    type: [Number, String],
     required: true,
   },
   address: {
