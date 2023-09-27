@@ -8,7 +8,6 @@
       :disabled="disabled"
       :loading="loading"
       :expanded="expanded"
-      icon-pack="far"
       outlined
       @click.native="$emit('click')">
       <slot>

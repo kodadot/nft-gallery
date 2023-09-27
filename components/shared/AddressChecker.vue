@@ -82,7 +82,7 @@ type AddressCheck = {
   value?: string
 }
 
-const CHAINS_ADDRESS_CHECKS: Prefix[] = ['rmrk', 'bsx', 'movr', 'glmr', 'dot']
+const CHAINS_ADDRESS_CHECKS: Prefix[] = ['rmrk', 'bsx', 'dot']
 
 const emit = defineEmits(['check', 'change'])
 const props = defineProps<{

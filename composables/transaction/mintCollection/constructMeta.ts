@@ -1,7 +1,6 @@
 import { ActionMintCollection, CollectionToMintBasilisk } from '../types'
 import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
 import { pinJson } from '@/services/nftStorage'
-import { usePinningStore } from '@/stores/pinning'
 import { uploadDirect } from '@/utils/directUpload'
 import { getImageTypeSafe, pinImageSafe } from '@/utils/safePin'
 
@@ -22,11 +21,8 @@ const createAttributes = (item: ActionMintCollection) => {
 export async function constructMeta(item: ActionMintCollection) {
   const { file, name, description } = item.collection
 
-  const pinningStore = usePinningStore()
-  const { accountId } = useAuth()
   const { $consola } = useNuxtApp()
-  const pinningKey = await pinningStore.fetchPinningKey(accountId.value)
-  const imageHash = await pinImageSafe(file, pinningKey.token)
+  const imageHash = await pinImageSafe(file)
   const type = getImageTypeSafe(file)
   const attributes = createAttributes(item)
 
