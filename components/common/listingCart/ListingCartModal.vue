@@ -80,7 +80,7 @@ const listingCartStore = useListingCartStore()
 const { transaction, isLoading, status } = useTransaction()
 const { $i18n } = useNuxtApp()
 
-const { chainSymbol } = useChain()
+const { chainSymbol, decimals } = useChain()
 
 const defaultCartData = {
   fixedPrice: undefined,
@@ -166,7 +166,7 @@ async function confirm() {
       Boolean(item.listPrice)
     )
     .map((item) => ({
-      price: String(calculateBalance(item.listPrice)),
+      price: String(calculateBalance(item.listPrice, decimals.value)),
       nftId: item.id,
     })) as TokenToList[]
 

@@ -109,7 +109,7 @@ const items = computed(() =>
 )
 
 const emptyCartPlaceholder = computed(() =>
-  isDarkMode.value ? '/cart/empty-cart-dark.png' : '/cart/empty-cart.png'
+  isDarkMode.value ? '/cart/empty-cart-dark.svg' : '/cart/empty-cart.svg'
 )
 
 const numberOfItems = computed(() => items.value.length)
@@ -159,8 +159,12 @@ const openCompletePurcahseModal = () => {
 }
 
 const onCompletePurchase = () => {
-  doAfterLogin({ onLoginSuccess: openCompletePurcahseModal })
   closeShoppingCart()
+
+  // fix: scroll clip mode not working
+  setTimeout(() => {
+    doAfterLogin({ onLoginSuccess: openCompletePurcahseModal })
+  }, 100)
 }
 </script>
 

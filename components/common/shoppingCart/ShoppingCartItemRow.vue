@@ -40,7 +40,6 @@
         class="inherit-background-color"
         no-shadow
         icon="trash"
-        icon-pack="far"
         @click.native="emit('delete', nft.id)" />
     </div>
   </div>
