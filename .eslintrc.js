@@ -13,7 +13,7 @@ module.exports = {
   parser: 'vue-eslint-parser',
   parserOptions: {
     parser: '@typescript-eslint/parser',
-    ecmaVersion: 2020,
+    ecmaVersion: 2022,
     sourceType: 'module',
   },
   plugins: ['vue', 'prettier', '@typescript-eslint', 'unicorn'],
@@ -47,6 +47,7 @@ module.exports = {
       },
     ],
     'vue/multi-word-component-names': 'off',
+    '@typescript-eslint/no-unused-vars': 'error',
     'vue-scoped-css/v-deep-pseudo-style': ['error', ':deep'],
     'vue-scoped-css/no-deprecated-deep-combinator': 'error',
     'vue-scoped-css/require-v-deep-argument': 'error',

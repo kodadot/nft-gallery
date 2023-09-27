@@ -209,9 +209,7 @@ const unlimited = ref(true)
 const max = ref(1)
 const symbol = ref('')
 
-const menus = availablePrefixes().filter(
-  (menu) => menu.value !== 'movr' && menu.value !== 'glmr'
-)
+const menus = availablePrefixes()
 const chainByPrefix = menus.find((menu) => menu.value === urlPrefix.value)
 const selectBlockchain = ref(chainByPrefix?.value || menus[0].value)
 
