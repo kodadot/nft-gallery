@@ -33,6 +33,6 @@ const isMobile = ref(window.innerWidth < 1024)
 const emit = defineEmits(['close'])
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import './NeoModalHead.scss';
 </style>
