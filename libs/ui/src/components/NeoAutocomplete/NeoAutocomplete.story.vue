@@ -3,7 +3,7 @@
     <Variant title="Autocomplete">
       {{ label }}
       <template #items>
-        <NeoAutocomplete placeholder="Search..." icon="search">
+        <NeoAutocomplete placeholder="Search..." icon="search" icon-pack="fasr">
           <template #header>header</template>
         </NeoAutocomplete>
       </template>
