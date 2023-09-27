@@ -40,7 +40,6 @@
           variant="text"
           no-shadow
           icon="xmark"
-          icon-pack="fa-sharp"
           :size="isBoxedHeader ? undefined : 'medium'"
           @click.native="closeModal" />
       </header>
