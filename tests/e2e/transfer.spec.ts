@@ -52,6 +52,7 @@ test('Transfer Page Functionality', async ({ page, Commands }) => {
       .getByTestId('transfer-input-amount-usd')
       .nth(1)
       .inputValue()
+    await expect(page.getByTestId('transfer-input-amount-usd')).toBeDefined()
     expect(+usdValue1).toBeGreaterThanOrEqual(0.1)
     expect(+usdValue2).toBeGreaterThanOrEqual(0.1)
   })
@@ -70,7 +71,7 @@ test('Transfer Page Functionality', async ({ page, Commands }) => {
     await page.getByTestId('transfer-button-options').click()
     await page.getByTestId('transfer-dropdown-pay-me').click()
     Commands.copyText(
-      `http://localhost:9090/dot/transfer?&target=${UserAddress}&usdamount=4`
+      `http://localhost:9090/dot/transfer?target=${UserAddress}&usdamount=4`
     )
   })
   //verify if network fee is present
