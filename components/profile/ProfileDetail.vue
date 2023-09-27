@@ -168,12 +168,15 @@ import ChainDropdown from '@/components/common/ChainDropdown.vue'
 import OrderByDropdown from './OrderByDropdown.vue'
 import CollectionGrid from '@/components/collection/CollectionGrid.vue'
 import Activity from './activityTab/Activity.vue'
+import { useListingCartStore } from '@/stores/listingCart'
 
 const route = useRoute()
 const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
+const listingCartStore = useListingCartStore()
+
 const tabs = ['owned', 'created', 'collections', 'activity']
 
 const switchToTab = (tab: string) => {
@@ -237,6 +240,12 @@ const handleIdentity = (identityFields: Record<string, string>) => {
   web.value = identityFields?.web
   legal.value = identityFields?.legal
 }
+
+watch(itemsGridSearch, (searchTerm, prevSearchTerm) => {
+  if (JSON.stringify(searchTerm) !== JSON.stringify(prevSearchTerm)) {
+    listingCartStore.clear()
+  }
+})
 </script>
 
 <style lang="scss" scoped>
