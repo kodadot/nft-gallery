@@ -289,9 +289,6 @@ const props = defineProps({
 const query = toRef(props, 'query', {})
 
 const searchSuggestionEachTypeMaxNum = 5
-const defaultCollectionSuggestions = ref(
-  [] as (CollectionWithMeta & RowSeries)[]
-)
 const activeSearchTab = ref('Collections')
 const activeTrendingTab = ref('Trending')
 const selectedIndex = ref(-1)
@@ -303,9 +300,8 @@ const searched = ref([] as NFTWithMeta[])
 const searchString = ref('')
 const showDefaultSuggestions = ref(true)
 
-onMounted(async () => {
+onMounted(() => {
   getSearchHistory()
-  await fetchSuggestions()
 })
 
 const onKeyDown = (event: KeyboardEvent) => {
@@ -518,37 +514,37 @@ const goToExploreResults = (item) => {
     search: item.name,
   })
 }
-
-const fetchSuggestions = async () => {
-  if (showDefaultSuggestions.value) {
-    try {
-      const { data: result } = await useAsyncQuery({
-        query: seriesInsightList,
-        clientId: client.value,
-        variables: {
-          limit: searchSuggestionEachTypeMaxNum,
-          orderBy: 'volume_DESC',
-        },
-      })
-      const { collectionEntities: collections } = result.value
-      const collectionMetadataList = collections
-        .slice(0, searchSuggestionEachTypeMaxNum)
-        .map(mapNFTorCollectionMetadata)
-      const collectionResult: (CollectionWithMeta & RowSeries)[] = []
-
-      processMetadata<CollectionWithMeta>(collectionMetadataList, (meta, i) => {
-        collectionResult.push({
-          ...collections[i],
-          ...meta,
-          image: sanitizeIpfsUrl(meta.image || meta.mediaUri || '', 'image'),
+const { data: defaultCollectionSuggestions } = await useAsyncData(
+  'defaultCollectionSuggestions',
+  async () => {
+    if (showDefaultSuggestions.value) {
+      try {
+        const { data: result } = await useAsyncQuery({
+          query: seriesInsightList,
+          clientId: client.value,
+          variables: {
+            limit: searchSuggestionEachTypeMaxNum,
+            orderBy: 'volume_DESC',
+          },
         })
-      })
-      defaultCollectionSuggestions.value = collectionResult
-    } catch (e) {
-      $consola.warn(e, 'Error while fetching default suggestions')
+        const { collectionEntities: collections } = result.value
+        const collectionResult: (CollectionWithMeta & RowSeries)[] =
+          collections.map((data) => {
+            return {
+              ...data,
+              image: sanitizeIpfsUrl(
+                data.image || data.mediaUri || '',
+                'image'
+              ),
+            }
+          })
+        return collectionResult
+      } catch (e) {
+        $consola.warn(e, 'Error while fetching default suggestions')
+      }
     }
   }
-}
+)
 
 const updateSuggestion = useDebounceFn(async (value: string) => {
   //To handle empty string
