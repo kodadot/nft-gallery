@@ -158,15 +158,6 @@ const onClickBuy = () => {
   }
 }
 
-// Set unlisted owned nft to the store
-if (!Number(props.nft?.price) && isOwner.value) {
-  listingCartStore.setUnlistedItem(
-    nftToListingCartItem(
-      props.nft,
-      String(stats.value.collectionFloorPrice ?? '')
-    )
-  )
-}
 const onClickShoppingCart = () => {
   if (shoppingCartStore.isItemInCart(nftForShoppingCart.value.id)) {
     shoppingCartStore.removeItem(nftForShoppingCart.value.id)

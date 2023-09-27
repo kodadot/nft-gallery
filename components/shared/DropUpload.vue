@@ -15,8 +15,7 @@
           :required="required"
           drag-drop
           :expanded="expanded"
-          :accept="accept"
-          @input="createInput">
+          :accept="accept">
           <section class="section">
             <div class="content has-text-centered">
               <NeoIcon v-if="!file && !url" :icon="icon" custom-size="fa-2x" />
@@ -118,7 +117,6 @@ const onPasteImage = (pasteEvent: ClipboardEvent) => {
 }
 
 const createInput = (inputFile: Blob): void | boolean => {
-  // console.log(inputFile.target.files)
   const fileSize = inputFile.size / Math.pow(1024, 2)
   if (fileSize > fileSizeLimit.value) {
     fileSizeFailed.value = true
@@ -135,6 +133,12 @@ const createInput = (inputFile: Blob): void | boolean => {
   }
   reader.readAsText(inputFile)
 }
+
+watch(file, () => {
+  if (file.value) {
+    createInput(file.value)
+  }
+})
 
 useEventListener(window, 'paste', onPasteImage)
 
