@@ -208,7 +208,7 @@
 import type { Prefix } from '@kodadot1/static'
 import type { Ref } from 'vue/types'
 import type { TokenToList } from '@/composables/transaction/types'
-import ChooseCollectionDropdown from '@/components/massmint/ChooseCollectionDropdown.vue'
+import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
 import {
   NeoButton,
   NeoField,
