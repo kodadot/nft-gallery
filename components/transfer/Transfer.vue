@@ -800,12 +800,14 @@ const generateRecurringPaymentLink = () => {
 
 const generatePaymentLink = (addressList: string[]): string => {
   const url = new URL(`${location.origin}${location.pathname}`)
-
-  url.searchParams.set('usdamount', String(targetAddresses.value[0]?.usd || 0))
-
   addressList.forEach((addr, i) => {
     url.searchParams.append(`target${i == 0 ? '' : i}`, addr)
   })
+  url.searchParams.append(
+    'usdamount',
+    String(targetAddresses.value[0]?.usd || 0)
+  )
+
   return url.toString()
 }
 
