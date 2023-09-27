@@ -13,9 +13,9 @@
           <p class="card-header-title">
             {{ $t(label) }}
           </p>
-          <a class="card-header-icon">
+          <span class="card-header-icon is-clickable">
             <NeoIcon :icon="props.open ? 'chevron-up' : 'chevron-down'" />
-          </a>
+          </span>
         </div>
       </template>
       <div class="card-content">

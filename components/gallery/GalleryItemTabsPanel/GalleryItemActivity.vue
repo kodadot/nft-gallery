@@ -4,11 +4,11 @@
       <div
         class="events-filter is-flex is-flex-wrap-wrap"
         data-testid="events-filter">
-        <a
-          class="is-capitalized is-flex is-align-items-center"
+        <span
+          class="is-clickable is-capitalized is-flex is-align-items-center"
           @click="checkAll">
           {{ $t('tabs.tabActivity.all') }}
-        </a>
+        </span>
 
         <label
           v-for="(value, name) in filters"

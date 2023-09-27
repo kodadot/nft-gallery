@@ -12,16 +12,16 @@
       <div class="column is-two-fifths">
         <div class="is-relative">
           <!-- preview button -->
-          <a
+          <span
             v-if="
               canPreview &&
               !mediaItemRef?.isLewdBlurredLayer &&
               !hasAnimatedResources
             "
-            class="fullscreen-button is-justify-content-center is-align-items-center"
+            class="fullscreen-button is-justify-content-center is-align-items-center is-clickable"
             @click="isFullscreen = true">
             <NeoIcon icon="expand" />
-          </a>
+          </span>
 
           <!-- media item -->
           <div v-if="hasResources" class="gallery-item-carousel">

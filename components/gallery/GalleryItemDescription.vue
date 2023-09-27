@@ -121,11 +121,13 @@
       <hr class="my-2" />
       <div v-if="nftImage" class="is-flex is-justify-content-space-between">
         <p>{{ $t('tabs.tabDetails.media') }}</p>
-        <div @click="openLink(nftImage)">
-          <a class="has-text-link" data-testid="media-link">
-            {{ nftMimeType }}
-          </a>
-        </div>
+        <a
+          class="has-text-link"
+          data-testid="media-link"
+          :href="toCloudflareIpfsUrl(nftImage)"
+          target="_blank">
+          {{ nftMimeType }}
+        </a>
       </div>
       <div v-if="nftAnimation" class="is-flex is-justify-content-space-between">
         <p>{{ $t('tabs.tabDetails.animatedMedia') }}</p>

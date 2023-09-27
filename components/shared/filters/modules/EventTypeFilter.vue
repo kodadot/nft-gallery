@@ -7,9 +7,9 @@
     <template #trigger="{ open }">
       <div class="is-flex" role="button" :aria-expanded="open">
         <p class="card-header-title has-text-weight-normal">Event Type</p>
-        <a class="card-header-icon">
+        <span class="card-header-icon is-clickable">
           <NeoIcon :icon="open ? 'minus' : 'plus'" />
-        </a>
+        </span>
       </div>
     </template>
     <div class="p-4">

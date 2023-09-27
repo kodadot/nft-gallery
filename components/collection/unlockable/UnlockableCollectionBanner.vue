@@ -76,6 +76,7 @@ const description = computed(() => {
 const meta = computed(() => {
   return [
     {
+      name: 'description',
       title: title.value,
       url: route.path,
       image: generateDropImage(title.value, image.value),

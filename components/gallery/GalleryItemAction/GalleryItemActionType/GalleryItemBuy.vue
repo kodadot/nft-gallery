@@ -45,7 +45,7 @@
           class="button-height no-border-left"
           data-testid="item-add-to-cart"
           @click="onClickShoppingCart">
-          <img :src="cartIcon" class="image is-32x32" />
+          <img :src="cartIcon" :alt="cartIconAlt" class="image is-32x32" />
         </NeoButton>
       </div>
 
@@ -80,6 +80,10 @@ const { $i18n } = useNuxtApp()
 const preferencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { cartIcon } = useShoppingCartIcon(props.nft.id)
+
+const cartIconAlt = useShoppingCartStore().isItemInCart(props.nft.id)
+  ? 'shopping-cart'
+  : 'shopping-cart-striked-out'
 
 const instance = getCurrentInstance()
 const { doAfterLogin } = useDoAfterlogin(instance)

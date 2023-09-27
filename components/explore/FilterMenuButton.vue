@@ -1,15 +1,15 @@
 <template>
   <div class="has-addons is-flex is-align-items-center" data-testid="tabs">
-    <a
+    <span
       :class="[
         { disabled: disabled },
-        'is-hidden-mobile is-flex is-align-items-center',
+        'is-clickable is-hidden-mobile is-flex is-align-items-center',
       ]"
       @click="toggleSidebarFilters">
       <NeoIcon
         :icon="isSidebarFiltersOpen && !disabled ? 'times' : 'bars'"
         size="medium" />
-    </a>
+    </span>
     <div class="is-hidden-tablet is-relative">
       <NeoButton :disabled="disabled" icon="bars" @click="openMobileFilters" />
       <ActiveCount v-if="numOfActiveFilters" :count="numOfActiveFilters" />

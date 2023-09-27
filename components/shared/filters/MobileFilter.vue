@@ -14,9 +14,9 @@
           <p class="card-header-title has-text-weight-bold">
             {{ $t('general.filters') }}
           </p>
-          <a class="card-header-icon">
+          <span class="card-header-icon is-clickable">
             <NeoIcon icon="x" @click="onClose" />
-          </a>
+          </span>
         </div>
         <EventTypeFilter
           v-if="isCollectionActivityTab"

@@ -9,9 +9,9 @@
         <p class="card-header-title has-text-weight-normal">
           {{ $t('tabs.tabActivity.price') }}
         </p>
-        <a class="card-header-icon">
+        <span class="card-header-icon is-clickable">
           <NeoIcon :icon="open ? 'minus' : 'plus'" />
-        </a>
+        </span>
       </div>
     </template>
     <form class="p-4" @submit.prevent="apply">
