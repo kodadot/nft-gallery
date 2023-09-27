@@ -9,9 +9,22 @@
 <script lang="ts" setup>
 import Items from '@/components/items/Items.vue'
 import { usePreferencesStore } from '@/stores/preferences'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 
 definePageMeta({
   layout: 'explore-layout',
+})
+
+useHead({
+  title: `Collection #${route.params.slug}`,
+  meta: [
+    {
+      name: 'description',
+      content: `Collection #${route.params.slug}`,
+    },
+  ],
 })
 
 const preferencesStore = usePreferencesStore()

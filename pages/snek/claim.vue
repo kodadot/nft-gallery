@@ -14,19 +14,16 @@ export default {
   components: {
     ClaimForm,
   },
-  head() {
-    const title = 'Claim'
-    const metaData = {
-      title,
-      type: 'article',
-      description: 'Create carbonless NFTs with low on-chain fees',
-      url: '/claim',
-      image: `${this.$config.public.baseUrl}/k_card_mint.png`,
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
-    }
+  setup() {
+    useHead({
+      title: 'Claim',
+      meta: [
+        {
+          name: 'description',
+          content: 'Create carbonless NFTs with low on-chain fees',
+        },
+      ],
+    })
   },
 }
 </script>

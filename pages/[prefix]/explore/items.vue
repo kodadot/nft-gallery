@@ -37,24 +37,18 @@ export default {
 
     onBeforeMount(() => checkRouteAvailability())
 
+    useHead({
+      title: 'Explore NFTs',
+      meta: [
+        {
+          name: 'description',
+          content: 'Buy Carbonless NFTs on KodaDot',
+        },
+      ],
+    })
+
     return {
       isSidebarOpen,
-    }
-  },
-  head() {
-    const route = useRoute()
-    const runtimeConfig = useRuntimeConfig()
-    const title = 'Explore NFTs'
-    const metaData = {
-      title,
-      type: 'profile',
-      description: 'Buy Carbonless NFTs on KodaDot',
-      url: `/${route.params.prefix}/explore/items`,
-      image: `${runtimeConfig.public.baseUrl}/k_card.png`,
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
     }
   },
 }

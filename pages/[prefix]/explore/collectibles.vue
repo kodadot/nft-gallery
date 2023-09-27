@@ -26,21 +26,16 @@ export default {
     watch(urlPrefix, () => checkRouteAvailability())
 
     onBeforeMount(() => checkRouteAvailability())
-  },
-  head() {
-    const route = useRoute()
-    const runtimeConfig = useRuntimeConfig()
-    const title = 'Explore NFT Collections'
-    const metaData = {
-      title,
-      description: 'Buy Carbonless NFTs on Kusama',
-      url: `/${route.params.prefix}/explore/collectibles`,
-      image: `${runtimeConfig.public.baseUrl}/k_card.png`,
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
-    }
+
+    useHead({
+      title: 'Explore NFT Collections',
+      meta: [
+        {
+          name: 'description',
+          content: 'Buy Carbonless NFTs on Kusama',
+        },
+      ],
+    })
   },
 }
 </script>

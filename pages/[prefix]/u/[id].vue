@@ -18,19 +18,16 @@ export default {
   components: {
     ProfileDetail,
   },
-  head() {
-    const title = 'NFT Artist Profile on KodaDot'
-    const metaData = {
-      title,
-      type: 'profile',
-      description: 'Find more NFTs from this creator',
-      url: this.$route.path,
-      // image: this.firstNFTData.image || this.defaultNFTImage,
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
-    }
+  setup() {
+    const title = useHead({
+      title: 'NFT Artist Profile on KodaDot',
+      meta: [
+        {
+          name: 'description',
+          content: 'Find more NFTs from this creator',
+        },
+      ],
+    })
   },
 }
 </script>

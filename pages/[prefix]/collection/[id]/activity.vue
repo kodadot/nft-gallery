@@ -27,11 +27,6 @@ export default {
       () => preferencesStore.getsidebarFilterCollapse
     )
 
-    return {
-      isSidebarOpen,
-    }
-  },
-  head() {
     const historyStore = useHistoryStore()
     const currentlyViewedCollection = computed(
       () => historyStore.getCurrentlyViewedCollection
@@ -43,18 +38,21 @@ export default {
         currentlyViewedCollection.value.image
       )
     })
-    const title = currentlyViewedCollection.value.name
-    const metaData = {
-      title,
-      type: 'profile',
-      description: currentlyViewedCollection.value.description,
-      url: this.$route.path,
-      image: image.value,
-    }
-
+    useHead({
+      title: currentlyViewedCollection.value.name,
+      meta: [
+        {
+          name: 'description',
+          content: currentlyViewedCollection.value.description,
+        },
+        {
+          name: 'image',
+          content: image.value,
+        },
+      ],
+    })
     return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
+      isSidebarOpen,
     }
   },
 }

@@ -11,17 +11,15 @@ export default {
   components: {
     GenerativeMint: () => import('@/components/bsx/Create/GenerativeMint.vue'),
   },
-  head() {
-    const title = 'Mint Your Waifu'
-    const metaData = {
-      title,
-      type: 'article',
-      description: 'Create yourself a uique Waifu NFT',
-      url: 'bsx/mint',
-    }
+  setup() {
     return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
+      title: 'Mint Your Waifu',
+      meta: [
+        {
+          name: 'description',
+          content: 'Create yourself a uique Waifu NFT',
+        },
+      ],
     }
   },
 }

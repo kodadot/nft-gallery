@@ -1174,19 +1174,16 @@
 <script lang="ts">
 export default {
   name: 'TermsOfUse',
-  head() {
-    const runtimeConfig = useRuntimeConfig()
-    const title = 'Terms of Use'
-    const metaData = {
-      title,
-      description: 'KodaDot: Terms of Use',
-      url: '/terms-of-use',
-      image: `${runtimeConfig.public.baseUrl}/k_card.png`,
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
-    }
+  setup() {
+    useHead({
+      title: 'Terms of Use',
+      meta: [
+        {
+          name: 'description',
+          content: 'KodaDot: Terms of Use',
+        },
+      ],
+    })
   },
 }
 </script>

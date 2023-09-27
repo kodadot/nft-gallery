@@ -12,19 +12,16 @@ export default {
   components: {
     SimpleMint: () => import('@/components/rmrk/Create/SimpleMint.vue'),
   },
-  head() {
-    const title = 'Mint a new NFT'
-    const metaData = {
-      title,
-      type: 'article',
-      description: 'Mint new NFT with low on-chain fees',
-      url: '/mint',
-      image: `${this.$config.public.baseUrl}/k_card.png`,
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
-    }
+  setup() {
+    useHead({
+      title: 'Mint a new NFT',
+      meta: [
+        {
+          name: 'description',
+          content: 'Mint new NFT with low on-chain fees',
+        },
+      ],
+    })
   },
 }
 </script>

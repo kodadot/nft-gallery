@@ -46,20 +46,17 @@ export default {
         })
       },
     })
+    useHead({
+      title: 'Settings',
+      meta: [
+        {
+          name: 'description',
+          content: 'Configure your KodaDot experience',
+        },
+      ],
+    })
     return {
       activeTab,
-    }
-  },
-  head() {
-    const title = 'Settings'
-    const metaData = {
-      title,
-      description: 'Configure your KodaDot experience',
-      url: '/settings',
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
     }
   },
 }

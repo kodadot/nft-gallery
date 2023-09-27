@@ -10,17 +10,16 @@ export default {
   components: {
     Teleport,
   },
-  head() {
-    const title = 'Teleport'
-    const metaData = {
-      title,
-      description: 'Teleport your assets between chains',
-      url: '/teleport',
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
-    }
+  setup() {
+    useHead({
+      title: 'Teleport',
+      meta: [
+        {
+          name: 'description',
+          content: 'Teleport your assets between chains',
+        },
+      ],
+    })
   },
 }
 </script>

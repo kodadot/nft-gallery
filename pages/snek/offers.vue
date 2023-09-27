@@ -9,17 +9,16 @@ export default {
     MasterOfferTable: () =>
       import('@/components/bsx/Offer/MasterOfferTable.vue'),
   },
-  head() {
-    const title = 'Marketplace Offers'
-    const metaData = {
-      title,
-      description: 'See all the offers on Basilisk network',
-      url: '/snek/offers',
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
-    }
+  setup() {
+    useHead({
+      title: 'Marketplace Offers',
+      meta: [
+        {
+          name: 'description',
+          content: 'See all the offers on Basilisk network',
+        },
+      ],
+    })
   },
 }
 </script>

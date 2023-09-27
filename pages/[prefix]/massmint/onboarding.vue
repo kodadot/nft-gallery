@@ -27,20 +27,17 @@ export default {
       setTimeout(() => redirect('/'))
     }
   },
-  head() {
-    const title = 'Massmint - Onboarding'
-    const metaData = {
-      title,
-      type: 'profile',
-      description:
-        'onboarding and tutorial for minting multiple NFTs at once on KodaDot',
-      url: `/${this.$route.params.prefix}/massmint/onboarding`,
-      image: `${this.$config.public.baseUrl}/k_card.png`,
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
-    }
+  setup() {
+    useHead({
+      title: 'Massmint - Onboarding',
+      meta: [
+        {
+          name: 'description',
+          content:
+            'onboarding and tutorial for minting multiple NFTs at once on KodaDot',
+        },
+      ],
+    })
   },
 }
 </script>

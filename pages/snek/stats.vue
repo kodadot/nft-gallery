@@ -8,18 +8,17 @@ export default {
   components: {
     OfferStats: () => import('@/components/bsx/Offer/OfferStats.vue'),
   },
-  head() {
-    const title = 'Marketplace Statistics'
-    const metaData = {
-      title,
-      description:
-        'Marketplace activity and statistics for on Basilisk network',
-      url: '/snek/stats',
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
-    }
+  setup() {
+    useHead({
+      title: 'Marketplace Statistics',
+      meta: [
+        {
+          name: 'description',
+          content:
+            'Marketplace activity and statistics for on Basilisk network',
+        },
+      ],
+    })
   },
 }
 </script>
