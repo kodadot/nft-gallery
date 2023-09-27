@@ -43,7 +43,7 @@ test('Transfer Page Functionality', async ({ page, Commands }) => {
   //at this moment the two fields will have 1 as Amount
   await test.step('Changes to USD and check if input value got converted', async () => {
     await page.getByTestId('transfer-button-usd').click()
-    await page.waitForTimeout(3000)
+    await page.waitForTimeout(5000)
     const usdValue1 = await page
       .getByTestId('transfer-input-amount-usd')
       .nth(0)
