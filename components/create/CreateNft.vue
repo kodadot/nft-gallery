@@ -55,16 +55,11 @@
         :label="`${$t('mint.nft.collection.label')} *`">
         <div>
           <p>{{ $t('mint.nft.collection.message') }}</p>
-          <NeoSelect v-model="form.collections" class="mt-3" expanded required>
-            <option
-              v-for="collection in listOfCollection"
-              :key="collection.id"
-              :value="collection.id">
-              {{ collection.name || collection.id }} - ({{
-                collection.totalCount
-              }})
-            </option>
-          </NeoSelect>
+          <ChooseCollectionDropdown
+            full-width
+            no-shadow
+            class="mt-3"
+            @selectedCollection="onCollectionSelected" />
         </div>
       </NeoField>
 
@@ -177,13 +172,10 @@
         <div>
           <NeoButton
             expanded
-            :label="`${
-              canDeposit
-                ? $t('mint.nft.create')
-                : $t('confirmPurchase.notEnoughFuns')
-            }`"
+            :label="submitButtonLabel"
             type="submit"
             size="medium"
+            class="is-size-6"
             :loading="isLoading"
             :disabled="!canDeposit" />
 
@@ -216,7 +208,7 @@
 import type { Prefix } from '@kodadot1/static'
 import type { Ref } from 'vue/types'
 import type { TokenToList } from '@/composables/transaction/types'
-
+import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
 import {
   NeoButton,
   NeoField,
@@ -263,6 +255,22 @@ const form = reactive({
     address: accountId.value,
   },
 })
+const { isLogIn } = useAuth()
+const { $i18n } = useNuxtApp()
+// select collections
+const selectedCollection = ref()
+
+const submitButtonLabel = computed(() => {
+  return !isLogIn.value
+    ? $i18n.t('mint.nft.connect')
+    : canDeposit.value
+    ? $i18n.t('mint.nft.create')
+    : $i18n.t('confirmPurchase.notEnoughFuns')
+})
+
+const onCollectionSelected = (collection) => {
+  selectedCollection.value = collection
+}
 
 const imagePreview = computed(() => {
   if (form.file) {
@@ -293,47 +301,10 @@ watch(currentChain, () => {
 // deposit stuff
 const { balance, totalItemDeposit, chainSymbol } = useDeposit(currentChain)
 const canDeposit = computed(() => {
-  return parseFloat(balance.value) >= parseFloat(totalItemDeposit.value)
-})
-
-// select collections
-const listOfCollection = ref()
-const selectedCollection = computed(() => {
-  return listOfCollection.value?.find(
-    (collection) => collection.id === form.collections
+  return (
+    isLogIn.value &&
+    parseFloat(balance.value) >= parseFloat(totalItemDeposit.value)
   )
-})
-
-watchEffect(async () => {
-  if (!accountId.value) {
-    listOfCollection.value = []
-    return
-  }
-
-  const queryPath = {
-    ksm: 'chain-rmrk',
-    rmrk: 'chain-rmrk',
-  }
-  const prefix = queryPath[currentChain.value] || currentChain.value
-  const query = await resolveQueryPath(prefix, 'collectionForMint')
-  const collections = await $apollo.query({
-    query: query.default,
-    client: currentChain.value,
-    variables: {
-      account: accountId.value,
-    },
-    fetchPolicy: 'network-only',
-  })
-
-  // https://github.com/kodadot/nft-gallery/issues/7298
-  listOfCollection.value = collections?.data?.collectionEntities
-    .map((ce) => ({
-      ...ce,
-      alreadyMinted: ce.nfts?.length,
-      lastIndexUsed: Number(ce.nfts?.at(0)?.index || 0),
-      totalCount: ce.nfts?.filter((nft) => !nft.burned).length,
-    }))
-    .filter((ce) => (ce.max || Infinity) - ce.alreadyMinted > 0)
 })
 
 // create nft
