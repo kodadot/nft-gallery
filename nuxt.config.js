@@ -33,6 +33,10 @@ export default defineNuxtConfig({
     publicAssets: [],
   },
 
+  dir: {
+    static: 'public',
+  },
+
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
@@ -328,7 +332,7 @@ export default defineNuxtConfig({
         done(nuxtInstance) {
           fs.copyFileSync(
             `${nuxtInstance.options.generate.dir}/sitemap.xml`,
-            'static/sitemap.xml'
+            'public/sitemap.xml'
           )
         },
       },
