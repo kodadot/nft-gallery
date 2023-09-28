@@ -14,11 +14,13 @@
       <NeoButton
         v-if="!selectedCollection"
         class="dropdown-width"
+        :no-shadow="noShadow"
         :label="$t('massmint.selectCollection')"
         :icon="active ? 'chevron-up' : 'chevron-down'" />
       <NeoButton
         v-else
         class="dropdown-width"
+        :no-shadow="noShadow"
         :icon="active ? 'chevron-up' : 'chevron-down'">
         {{ selectedCollection.name || selectedCollection.id }}
         <NeoIcon
