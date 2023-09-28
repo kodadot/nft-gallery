@@ -14,14 +14,14 @@
 import { OCheckbox } from '@oruga-ui/oruga-next'
 const props = defineProps<{
   disabled?: boolean
-  value: boolean
+  modelValue: boolean
   labelClass?: string
 }>()
 
-const emit = defineEmits(['input'])
-const checkboxValue = useVModel(props, 'value')
+const emit = defineEmits(['update:modelValue'])
+const checkboxValue = useVModel(props, 'modelValue')
 const updateValue = (event) => {
-  emit('input', event)
+  emit('update:modelValue', event)
 }
 </script>
 
