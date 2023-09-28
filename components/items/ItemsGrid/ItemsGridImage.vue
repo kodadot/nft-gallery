@@ -64,7 +64,7 @@ import {
 import { isOwner as checkOwner } from '@/utils/account'
 import { useCollectionDetails } from '@/components/collection/utils/useCollectionDetails'
 import { ItemsGridEntity, NFTStack } from './useItemsGrid'
-import useNftMetadata from '@/composables/useNft'
+import useNftMetadata, { useNftCardIcon } from '@/composables/useNft'
 
 const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()
