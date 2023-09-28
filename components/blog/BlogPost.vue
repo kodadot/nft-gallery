@@ -107,7 +107,7 @@ useNuxt2Meta({
 
 <style lang="scss">
 @use 'sass:meta';
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .article {
   margin: 0 auto;

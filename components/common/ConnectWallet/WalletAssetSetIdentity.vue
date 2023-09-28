@@ -22,7 +22,7 @@ const rememberIdentity = useStorage('remember-identity', false)
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .set-identity {
   @include ktheme() {

@@ -45,7 +45,7 @@ const realworldFullPath = computed(() => {
 </script>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .message-box {
   z-index: 10;

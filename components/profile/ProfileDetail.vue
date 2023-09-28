@@ -249,7 +249,7 @@ watch(itemsGridSearch, (searchTerm, prevSearchTerm) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .invisible-tab > nav.tabs {
   display: none;

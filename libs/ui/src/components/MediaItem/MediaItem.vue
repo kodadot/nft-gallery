@@ -109,7 +109,7 @@ defineExpose({ isLewdBlurredLayer })
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .media-object {
   .nsfw-blur {
     backdrop-filter: blur(60px);

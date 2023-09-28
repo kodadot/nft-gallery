@@ -28,7 +28,7 @@ withDefaults(
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .tippy-container {
   width: 100%;

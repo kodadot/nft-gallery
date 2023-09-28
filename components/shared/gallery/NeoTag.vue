@@ -30,7 +30,7 @@ const onClose = () => {
 </script>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .neo-tag {
   border-radius: 0 !important;

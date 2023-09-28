@@ -170,7 +170,7 @@ useIntersectionObserver(sentinel, handleIntersection, { threshold: 0.66 })
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .border-k-grey {
   @include ktheme() {

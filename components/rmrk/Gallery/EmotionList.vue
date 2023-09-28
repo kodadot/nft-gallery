@@ -85,7 +85,7 @@ const emotes = computed(() => {
 </script>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .emoji-box {
   padding: 0 0.75rem;

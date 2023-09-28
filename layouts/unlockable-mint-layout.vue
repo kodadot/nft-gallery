@@ -22,7 +22,7 @@ const type = computed(() => route.path.split('/').reverse().at(0))
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 hr {
   @include ktheme() {
     background: theme('k-grey');

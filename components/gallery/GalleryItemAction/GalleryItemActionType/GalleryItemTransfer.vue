@@ -32,7 +32,7 @@ function sendItem() {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .gallery-item-transfer {
   button {
     font-size: 1rem;

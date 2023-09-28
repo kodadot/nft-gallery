@@ -40,7 +40,7 @@ watch(model, (newValue) => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .price-input {
   @include ktheme() {

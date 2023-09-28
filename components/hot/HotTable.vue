@@ -111,7 +111,7 @@ const fetchHotNfts = async () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .hot-sticky-header th {
   top: 120px;

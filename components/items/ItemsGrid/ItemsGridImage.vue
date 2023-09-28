@@ -180,7 +180,7 @@ const onClickListingCart = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .w-half {
   width: 50%;

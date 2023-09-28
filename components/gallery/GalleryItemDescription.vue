@@ -298,7 +298,7 @@ const openLink = (link) => {
 </script>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/variables.scss';
 .recipient {
   li {
     gap: 0.3rem;

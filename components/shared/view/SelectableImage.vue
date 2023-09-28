@@ -28,7 +28,7 @@ const handleClick = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/_variables';
+@import '@/assets/styles/abstracts/_variables';
 .is-selected {
   border: 4px $link solid;
 }

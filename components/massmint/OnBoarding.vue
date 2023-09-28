@@ -151,8 +151,8 @@ const btn = computed(() =>
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
-@import '@/styles/components/carousel-arrows';
+@import '@/assets/styles/abstracts/variables';
+@import '@/assets/styles/components/carousel-arrows';
 
 $card-width-percents: 54%;
 $gap-percents: 5.5%;

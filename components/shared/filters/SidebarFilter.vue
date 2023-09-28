@@ -30,7 +30,7 @@ const isExploreItems = computed(() => route.name === 'prefix-explore-items')
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .bordered {
   border-right: 1px solid;
 }

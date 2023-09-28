@@ -208,7 +208,7 @@ const isExpandList = ref(false)
 </script>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .transfer-confirm-modal {
   @include mobile {

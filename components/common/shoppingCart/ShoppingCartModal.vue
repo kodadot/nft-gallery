@@ -169,7 +169,7 @@ const onCompletePurchase = () => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .shopping-cart-modal {
   .shopping-cart-modal-container {
     position: fixed;

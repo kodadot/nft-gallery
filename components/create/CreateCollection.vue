@@ -281,4 +281,4 @@ onMounted(() => {
 })
 </script>
 
-<style lang="scss" scoped src="@/styles/pages/create.scss"></style>
+<style lang="scss" scoped src="@/assets/styles/pages/create.scss"></style>
