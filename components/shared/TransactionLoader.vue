@@ -12,7 +12,6 @@
           variant="text"
           no-shadow
           icon="xmark"
-          icon-pack="fa-sharp"
           size="medium"
           @click.native="emit('close')" />
       </div>
@@ -31,7 +30,6 @@
           variant="text"
           no-shadow
           icon="xmark"
-          icon-pack="fa-sharp"
           size="medium"
           @click.native="emit('close')" />
       </div>
@@ -72,7 +70,6 @@
           <NeoButton
             v-clipboard:copy="explorerLink"
             icon="copy"
-            icon-pack="far"
             class="ml-4 px-4"
             rounded
             no-shadow
@@ -169,7 +166,7 @@ const checkIconForStep = (step: number) =>
 .desktop-width {
   width: 27rem;
 }
-:deep .mobile-modal {
+:deep(.mobile-modal) {
   position: fixed;
   bottom: 0;
   left: 0;

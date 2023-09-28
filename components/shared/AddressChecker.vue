@@ -82,7 +82,7 @@ type AddressCheck = {
   value?: string
 }
 
-const CHAINS_ADDRESS_CHECKS: Prefix[] = ['rmrk', 'bsx', 'movr', 'glmr', 'dot']
+const CHAINS_ADDRESS_CHECKS: Prefix[] = ['rmrk', 'bsx', 'dot']
 
 const emit = defineEmits(['check', 'change'])
 const props = defineProps<{
@@ -155,6 +155,7 @@ const changeAddress = () => {
   const chainAddress = encodeAddress(publicKey, ss58Format.value)
   showChanged.value = true
   emit('change', chainAddress)
+  emit('check', true)
 }
 
 watch(
@@ -200,7 +201,7 @@ watch(addressCheck, (check) => {
 }
 
 .address-changed {
-  :deep a {
+  :deep(a) {
     @include ktheme() {
       color: theme('k-blue') !important;
       &:hover {

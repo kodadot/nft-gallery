@@ -5,7 +5,7 @@
       class="is-half"
       :class="{ column: classColumn }"
       @submit.prevent="createCollection">
-      <h1 class="title is-size-3">
+      <h1 class="title is-size-3 mb-7">
         {{ $t('mint.collection.create') }}
       </h1>
 
@@ -26,8 +26,12 @@
       <NeoField
         :label="`${$t('mint.collection.name.label')} *`"
         required
+        data-testid="collection-name"
         :error="!name">
-        <NeoInput v-model="name" required />
+        <NeoInput
+          v-model="name"
+          required
+          :placeholder="$t('mint.collection.name.placeholder')" />
       </NeoField>
 
       <!-- collection description -->
@@ -38,18 +42,21 @@
           type="textarea"
           has-counter
           maxlength="1000"
-          height="10rem" />
+          height="10rem"
+          :placeholder="$t('mint.collection.description.placeholder')"
+          data-testid="collection-desc" />
       </NeoField>
 
       <!-- collection max nfts -->
       <NeoField
         v-if="!isBasilisk"
         :label="$t('Maximum NFTs in collection')"
+        data-testid="collection-maxAmount"
         required>
         <div class="w-full">
           <div class="is-flex is-justify-content-space-between">
             <p>{{ $t('mint.unlimited') }}</p>
-            <NeoSwitch v-model="unlimited" />
+            <NeoSwitch v-model="unlimited" position="left" />
           </div>
           <NeoInput
             v-if="!unlimited"
@@ -65,7 +72,11 @@
       <NeoField :label="`${$t('mint.blockchain.label')} *`">
         <div>
           <p>{{ $t('mint.blockchain.message') }}</p>
-          <NeoSelect v-model="selectBlockchain" class="mt-3" expanded>
+          <NeoSelect
+            v-model="selectBlockchain"
+            class="mt-3"
+            data-testid="collection-chain"
+            expanded>
             <option v-for="menu in menus" :key="menu.value" :value="menu.value">
               {{ menu.text }}
             </option>
@@ -96,11 +107,15 @@
           <div class="monospace">
             <p class="has-text-weight-medium is-size-6 has-text-info">
               <span>{{ $t('mint.deposit') }}:</span>
-              <span>{{ totalCollectionDeposit }} {{ chainSymbol }}</span>
+              <span data-testid="collection-deposit"
+                >{{ totalCollectionDeposit }} {{ chainSymbol }}</span
+              >
             </p>
             <p>
               <span>{{ $t('general.balance') }}: </span>
-              <span>{{ balance }} {{ chainSymbol }}</span>
+              <span data-testid="collection-balance"
+                >{{ balance }} {{ chainSymbol }}</span
+              >
             </p>
             <nuxt-link v-if="isBasilisk" :to="`/${currentChain}/assets`">
               {{ $t('general.tx.feesPaidIn', [chainSymbol]) }}
@@ -119,6 +134,7 @@
             :label="`${canDeposit ? 'Create Collection' : 'Not Enough Funds'}`"
             type="submit"
             size="medium"
+            data-testid="collection-create"
             :loading="isLoading"
             :disabled="!canDeposit" />
 
@@ -129,6 +145,7 @@
                 v-dompurify-html="
                   $t('mint.requiredDeposit', [
                     `${totalCollectionDeposit} ${chainSymbol}`,
+                    'collection',
                   ])
                 " />
               <a
@@ -192,9 +209,7 @@ const unlimited = ref(true)
 const max = ref(1)
 const symbol = ref('')
 
-const menus = availablePrefixes().filter(
-  (menu) => menu.value !== 'movr' && menu.value !== 'glmr'
-)
+const menus = availablePrefixes()
 const chainByPrefix = menus.find((menu) => menu.value === urlPrefix.value)
 const selectBlockchain = ref(chainByPrefix?.value || menus[0].value)
 
@@ -266,37 +281,4 @@ onMounted(() => {
 })
 </script>
 
-<style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
-
-.o-field:not(:last-child) {
-  margin-bottom: 2rem;
-}
-
-.column {
-  max-width: 36rem;
-  padding: 4rem;
-
-  @include desktop() {
-    @include ktheme() {
-      background-color: theme('background-color');
-      box-shadow: theme('primary-shadow');
-    }
-  }
-
-  @include touch() {
-    padding: 0 1rem;
-    box-shadow: none !important;
-  }
-}
-
-@include desktop() {
-  .columns {
-    padding: 5.25rem 0;
-
-    @include ktheme() {
-      background-color: theme('k-primaryLight');
-    }
-  }
-}
-</style>
+<style lang="scss" scoped src="@/styles/pages/create.scss"></style>

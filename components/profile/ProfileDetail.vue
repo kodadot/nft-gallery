@@ -6,7 +6,7 @@
           <p class="card-header-title">{{ $t('sharing.profile') }}</p>
         </header>
         <div class="card-content has-text-centered">
-          <QRCode :text="realworldFullPath" color="#db2980" bg-color="#000" />
+          <QRCode :text="realworldFullPath" />
         </div>
       </div>
     </NeoModal>
@@ -168,12 +168,15 @@ import ChainDropdown from '@/components/common/ChainDropdown.vue'
 import OrderByDropdown from './OrderByDropdown.vue'
 import CollectionGrid from '@/components/collection/CollectionGrid.vue'
 import Activity from './activityTab/Activity.vue'
+import { useListingCartStore } from '@/stores/listingCart'
 
 const route = useRoute()
 const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
+const listingCartStore = useListingCartStore()
+
 const tabs = ['owned', 'created', 'collections', 'activity']
 
 const switchToTab = (tab: string) => {
@@ -237,6 +240,12 @@ const handleIdentity = (identityFields: Record<string, string>) => {
   web.value = identityFields?.web
   legal.value = identityFields?.legal
 }
+
+watch(itemsGridSearch, (searchTerm, prevSearchTerm) => {
+  if (JSON.stringify(searchTerm) !== JSON.stringify(prevSearchTerm)) {
+    listingCartStore.clear()
+  }
+})
 </script>
 
 <style lang="scss" scoped>
@@ -246,10 +255,10 @@ const handleIdentity = (identityFields: Record<string, string>) => {
   display: none;
 }
 
-:deep .control {
+:deep(.control) {
   width: 12rem;
 }
-:deep .explore-tabs-button {
+:deep(.explore-tabs-button) {
   width: 12rem;
 }
 
@@ -259,7 +268,7 @@ const handleIdentity = (identityFields: Record<string, string>) => {
     > * {
       flex: 1 0 50%;
     }
-    :deep .explore-tabs-button {
+    :deep(.explore-tabs-button) {
       width: 100% !important;
     }
   }

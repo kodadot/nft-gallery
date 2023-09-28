@@ -17,8 +17,9 @@
         <ItemsGridImage
           :nft="nft"
           :variant="
-            (slotProps.isMobileVariant || slotProps.grid === 'small') &&
-            'minimal'
+            slotProps.isMobileVariant || slotProps.grid === 'small'
+              ? 'minimal'
+              : 'primary'
           " />
       </div>
     </DynamicGrid>
@@ -31,7 +32,9 @@
       <NeoNftCard
         v-for="n in skeletonCount"
         :key="n"
+        :nft="nfts[n]"
         is-loading
+        :prefix="urlPrefix"
         :variant="
           (slotProps.isMobileVariant || slotProps.grid === 'small') && 'minimal'
         " />
@@ -45,14 +48,20 @@
 import { NeoNftCard } from '@kodadot1/brick'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import ItemsGridImage from './ItemsGridImage.vue'
-import { useFetchSearch } from './useItemsGrid'
+import {
+  updatePotentialNftsForListingCart,
+  useFetchSearch,
+} from './useItemsGrid'
 import isEqual from 'lodash/isEqual'
+
+const { urlPrefix } = usePrefix()
 
 const props = defineProps<{
   search?: Record<string, string | number>
 }>()
 
 const emit = defineEmits(['total', 'loading'])
+const route = useRoute()
 
 const isLoading = ref(true)
 const gotoPage = (page: number) => {
@@ -101,6 +110,16 @@ const { nfts, fetchSearch, refetch, clearFetchResults } = useFetchSearch({
   isLoading,
   resetSearch: resetPage,
 })
+
+watch(
+  () => nfts.value.length,
+  () => {
+    if (route.name === 'prefix-u-id') {
+      updatePotentialNftsForListingCart(nfts.value)
+    }
+  },
+  { immediate: true }
+)
 
 watch(total, () => {
   prefetchNextPage()

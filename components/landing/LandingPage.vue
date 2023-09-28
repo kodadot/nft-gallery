@@ -41,7 +41,7 @@
 <script lang="ts" setup>
 import type { Prefix } from '@kodadot1/static'
 
-const hiddenCarrouselPrefixes: Prefix[] = ['movr', 'glmr', 'dot']
+const hiddenCarrouselPrefixes: Prefix[] = ['dot']
 const forbiddenPrefixesForTopCollections: Prefix[] = [
   'ksm',
   'ahk',

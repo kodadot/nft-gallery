@@ -19,7 +19,7 @@
           @input="createInput">
           <section class="section">
             <div class="content has-text-centered">
-              <NeoIcon v-if="!file && !url" :icon="icon" size="large" />
+              <NeoIcon v-if="!file && !url" :icon="icon" custom-size="fa-2x" />
               <div v-if="url && !isModelMedia" @click.prevent>
                 <MediaResolver
                   :src="url"
@@ -27,7 +27,7 @@
                   :preview="false"
                   @error="hasError = true" />
               </div>
-              <NeoIcon v-if="hasError" icon="eye-slash" size="large" />
+              <NeoIcon v-if="hasError" icon="eye-slash" custom-size="fa-2x" />
               <p v-if="!file">
                 {{ label }}
               </p>

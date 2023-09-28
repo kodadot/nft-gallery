@@ -45,7 +45,7 @@ export function resolveMedia(mimeType?: string): MediaType {
   }
 
   if (/^text\/html/.test(mimeType)) {
-    return MediaType.IFRAME
+    return MediaType.IMAGE
   }
 
   if (/^image\/svg\+xml/.test(mimeType)) {

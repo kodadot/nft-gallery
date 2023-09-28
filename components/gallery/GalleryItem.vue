@@ -365,18 +365,18 @@ $break-point-width: 930px;
 }
 
 .gallery-item-carousel {
-  :deep .o-car {
-    &__item {
+  :deep(.o-car) {
+    .o-car__item {
       overflow: hidden;
     }
 
-    &__overlay {
+    .o-car__overlay {
       @include ktheme() {
         background: theme('background-color');
       }
     }
 
-    &__indicator {
+    .o-car__indicator {
       &__item {
         @include ktheme() {
           background: theme('background-color-inverse');

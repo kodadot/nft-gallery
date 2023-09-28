@@ -69,7 +69,7 @@ export default function (prefix: ComputedRef<Prefix>) {
     if (prefix.value) {
       const api = await apiInstanceByPrefix(prefix.value)
 
-      // get chain symbol
+      // get chain symbol and decimals
       const chainInfo = await api.registry.getChainProperties()
       chainSymbol.value = chainInfo?.tokenSymbol.toHuman()?.[0]
 
@@ -81,12 +81,6 @@ export default function (prefix: ComputedRef<Prefix>) {
 
         chainSymbol.value = assetMetadata.symbol
       }
-    }
-  })
-
-  watchEffect(async () => {
-    if (prefix.value) {
-      const api = await apiInstanceByPrefix(prefix.value)
 
       // set balance
       if (accountId.value) {

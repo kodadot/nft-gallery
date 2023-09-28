@@ -19,7 +19,7 @@
     :media-player-cover="mediaPlayerCover"
     media-hover-on-cover-play>
     <template #action>
-      <div v-if="!isOwner && Number(nft?.price)" class="is-flex">
+      <div v-if="!isOwner && isAvailbleToBuy" class="is-flex">
         <NeoButton
           :label="buyLabel"
           data-testid="item-buy"
@@ -63,6 +63,7 @@ import {
 } from '@/components/common/shoppingCart/utils'
 import { isOwner as checkOwner } from '@/utils/account'
 import { useCollectionDetails } from '@/components/collection/utils/useCollectionDetails'
+import { ItemsGridEntity, NFTStack } from './useItemsGrid'
 import useNftMetadata from '@/composables/useNft'
 
 const { urlPrefix } = usePrefix()
@@ -75,7 +76,7 @@ const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 
 const props = defineProps<{
-  nft: NFTWithMetadata
+  nft: ItemsGridEntity
   variant?: NftCardVariant
 }>()
 
@@ -84,6 +85,11 @@ const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.nft))
 const { stats } = useCollectionDetails({
   collectionId: props.nft?.collection?.id || props.nft?.collectionId,
 })
+const isStack = computed(() => (props.nft as NFTStack).count > 1)
+
+const variant = computed(() =>
+  isStack.value ? `stacked-${props.variant}` : props.variant
+)
 
 const { nft: nftMetadata } = useNftMetadata(props.nft)
 
@@ -103,10 +109,27 @@ const buyLabel = computed(function () {
   )
 })
 
+const nftStack = computed(() =>
+  isStack.value ? (props.nft as NFTStack).nfts : [props.nft]
+)
+
+const isAvailbleToBuy = computed(() =>
+  nftStack.value.some((nft) => Number(nft.price) > 0)
+)
+const anyAvailableForListing = computed(() =>
+  nftStack.value.some((nft) => !Number(nft.price))
+)
+
+const nftForShoppingCart = computed(() => {
+  return nftStack.value
+    .toSorted((a, b) => Number(a.price) - Number(b.price))
+    .find((nft) => Number(nft.price) > 0) as NFTWithMetadata
+})
+
 const listLabel = computed(() => {
-  const label = Boolean(Number(props.nft.price))
-    ? $i18n.t('transaction.price.change')
-    : $i18n.t('listingCart.listForSale')
+  const label = anyAvailableForListing.value
+    ? $i18n.t('listingCart.listForSale')
+    : $i18n.t('transaction.price.change')
   return label + (listingCartStore.isItemInCart(props.nft.id) ? ' ✓' : '')
 })
 
@@ -130,41 +153,38 @@ const onCancelPurchase = () => {
 }
 
 const onClickBuy = () => {
-  shoppingCartStore.setItemToBuy(nftToShoppingCardItem(props.nft))
-  doAfterLogin({
-    onLoginSuccess: openCompletePurcahseModal,
-    onCancel: onCancelPurchase,
-  })
+  if (isAvailbleToBuy.value) {
+    shoppingCartStore.setItemToBuy(
+      nftToShoppingCardItem(nftForShoppingCart.value)
+    )
+    doAfterLogin({
+      onLoginSuccess: openCompletePurcahseModal,
+      onCancel: onCancelPurchase,
+    })
+  }
 }
 
-// Set unlisted owned nft to the store
-if (!Number(props.nft?.price) && isOwner.value) {
-  listingCartStore.setUnlistedItem(
-    nftToListingCartItem(
-      props.nft,
-      String(stats.value.collectionFloorPrice ?? '')
-    )
-  )
-}
 const onClickShoppingCart = () => {
-  if (shoppingCartStore.isItemInCart(props.nft.id)) {
-    shoppingCartStore.removeItem(props.nft.id)
+  if (shoppingCartStore.isItemInCart(nftForShoppingCart.value.id)) {
+    shoppingCartStore.removeItem(nftForShoppingCart.value.id)
   } else {
-    shoppingCartStore.setItem(nftToShoppingCardItem(props.nft))
+    shoppingCartStore.setItem(nftToShoppingCardItem(nftForShoppingCart.value))
   }
 }
 
 const onClickListingCart = () => {
-  if (listingCartStore.isItemInCart(props.nft.id)) {
-    listingCartStore.removeItem(props.nft.id)
-  } else {
-    listingCartStore.setItem(
-      nftToListingCartItem(
-        props.nft,
-        String(stats.value.collectionFloorPrice ?? '')
+  nftStack.value.forEach((nft) => {
+    if (listingCartStore.isItemInCart(nft.id)) {
+      listingCartStore.removeItem(nft.id)
+    } else {
+      listingCartStore.setItem(
+        nftToListingCartItem(
+          nft,
+          String(stats.value.collectionFloorPrice ?? '')
+        )
       )
-    )
-  }
+    }
+  })
 }
 </script>
 
@@ -174,7 +194,7 @@ const onClickListingCart = () => {
 .w-half {
   width: 50%;
 }
-:deep .override-wrapper-width {
+:deep(.override-wrapper-width) {
   .o-btn__wrapper {
     width: unset !important;
   }
@@ -194,10 +214,6 @@ const onClickListingCart = () => {
 
 .btn-height {
   height: 35px;
-}
-
-.no-border-left {
-  border-left: none !important;
 }
 
 .hover-color {

@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer-container section">
+  <footer class="footer-container section" data-testid="footer-container">
     <div
       class="footer-container-inner is-flex is-align-items-start is-justify-content-space-between">
       <section class="footer-container-subs is-flex is-flex-direction-column">
@@ -7,7 +7,7 @@
           {{ $t('footer.subscribe') }}
         </h2>
         <div class="is-flex is-align-items-center footer-container-subs-items">
-          <div id="custom-substack-embed"></div>
+          <div id="custom-substack-embed" data-testid="footer-subscribe"></div>
 
           <script>
             window.CustomSubstackWidget = {
@@ -40,10 +40,7 @@
                 rel="nofollow noopener noreferrer"
                 class="is-flex is-align-items-center">
                 {{ item.name }}
-                <NeoIcon
-                  icon="arrow-up-right"
-                  class="ml-1 has-text-grey"
-                  pack="fas" />
+                <NeoIcon icon="arrow-up-right" class="ml-1 has-text-grey" />
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
@@ -67,10 +64,7 @@
                 rel="nofollow noopener noreferrer"
                 class="is-flex is-align-items-center">
                 {{ item.name }}
-                <NeoIcon
-                  icon="arrow-up-right"
-                  class="ml-1 has-text-grey"
-                  pack="fas" />
+                <NeoIcon icon="arrow-up-right" class="ml-1 has-text-grey" />
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
@@ -94,10 +88,7 @@
                 rel="nofollow noopener noreferrer"
                 class="is-flex is-align-items-center">
                 {{ item.name }}
-                <NeoIcon
-                  icon="arrow-up-right"
-                  class="ml-1 has-text-grey"
-                  pack="fas" />
+                <NeoIcon icon="arrow-up-right" class="ml-1 has-text-grey" />
               </a>
               <nuxt-link v-else :to="item.url">
                 {{ item.name }}
@@ -148,7 +139,7 @@
 
               <NeoIcon
                 v-else
-                :pack="item.name == 'Swag' ? 'fas' : 'fab'"
+                :pack="item.name == 'Swag' ? 'fasr' : 'fab'"
                 :icon="item.icon" />
             </a>
           </li>

@@ -89,8 +89,7 @@
               <NeoIcon
                 class="ml-1"
                 icon="fire-flame-curved"
-                custom-size="fa-solid"
-                pack="fa-sharp"
+                pack="fass"
                 variant="primary" />
             </div>
           </nuxt-link>
@@ -161,7 +160,7 @@
                 {{ $t('profile.page') }}
                 <NeoIcon icon="user-circle" />
               </span>
-              <NeoIcon class="icon--right" icon="chevron-right" pack="fas" />
+              <NeoIcon class="icon--right" icon="chevron-right" />
             </div>
 
             <div v-if="!account" id="NavProfile">
@@ -355,7 +354,7 @@ useEventListener(window, 'resize', handleResize)
 </script>
 
 <style lang="scss" scoped>
-:deep .navbar-explore {
+:deep(.navbar-explore) {
   .navbar-item {
     height: 4.5rem;
   }
