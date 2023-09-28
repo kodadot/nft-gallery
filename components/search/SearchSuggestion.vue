@@ -284,6 +284,10 @@ const props = defineProps({
       return {} as SearchQuery
     },
   },
+  showDefaultSuggestions: {
+    type: Boolean,
+    required: false,
+  },
 })
 
 const query = toRef(props, 'query', {})
@@ -301,7 +305,6 @@ const nftResult = ref([] as NFTWithMeta[])
 const collectionResult = ref([] as CollectionWithMeta[])
 const searched = ref([] as NFTWithMeta[])
 const searchString = ref('')
-const showDefaultSuggestions = ref(true)
 
 onMounted(async () => {
   getSearchHistory()
@@ -519,7 +522,7 @@ const goToExploreResults = (item) => {
 }
 
 const fetchSuggestions = async () => {
-  if (showDefaultSuggestions.value) {
+  if (props.showDefaultSuggestions) {
     try {
       const result = await $apollo.query({
         query: seriesInsightList,
