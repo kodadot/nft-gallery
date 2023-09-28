@@ -15,7 +15,7 @@
       </h1>
 
       <!-- nft art -->
-      <NeoField :label="`${$t('mint.nft.art.label')} *`">
+      <NeoField :label="`${$t('mint.nft.art.label')} *`" :addons="false">
         <div>
           <p>{{ $t('mint.nft.art.message') }}</p>
           <DropUpload
@@ -226,6 +226,7 @@ import {
   NeoSwitch,
 } from '@kodadot1/brick'
 import DropUpload from '@/components/shared/DropUpload.vue'
+import Loader from '@/components/shared/Loader.vue'
 import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
 import CustomAttributeInput from '@/components/rmrk/Create/CustomAttributeInput.vue'
 import RoyaltyForm from '@/components/bsx/Create/RoyaltyForm.vue'
