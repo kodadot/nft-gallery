@@ -5,11 +5,14 @@
 <script lang="ts">
 import CreateLanding from '@/components/create/CreateLanding.vue'
 
+definePageMeta({
+  layout: 'background-layout',
+})
+
 export default {
   components: {
     CreateLanding,
   },
-  layout: 'background-layout',
   head() {
     const title = 'Create carbonless NFTs'
     const metaData = {
