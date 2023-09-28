@@ -5,10 +5,6 @@
     background: theme('background-color');
   }
 
-  .subtitle {
-    font-weight: 700;
-  }
-
   .container {
     z-index: 1;
     @include mobile {
@@ -157,6 +153,7 @@
   }
 
   .subtitle {
+    font-weight: 700;
     @include ktheme() {
       color: theme('text-color');
     }
