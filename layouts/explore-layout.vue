@@ -32,6 +32,10 @@
       </main>
     </div>
     <Buy />
+    <template v-if="listingCartEnabled">
+      <ListingCartMini />
+      <ListingCartModal />
+    </template>
   </div>
 </template>
 
@@ -44,6 +48,7 @@ import Buy from '@/components/buy/Buy.vue'
 
 const { $config } = useNuxtApp()
 const route = useRoute()
+const { listingCartEnabled } = useListingCartConfig()
 
 useNuxt2Meta({
   link: [
