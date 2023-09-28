@@ -5,12 +5,13 @@
 <script lang="ts">
 import CreateNft from '@/components/create/CreateNft.vue'
 
+definePageMeta({
+  layout: 'background-layout',
+})
+
 export default {
   components: {
     CreateNft,
-  },
-  layout() {
-    return 'background-layout'
   },
   head() {
     const title = 'Create carbonless NFTs'
