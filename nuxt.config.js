@@ -180,54 +180,52 @@ export default defineNuxtConfig({
   },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: {
-    dirs: [
-      {
-        path: '~/components',
-        extensions: ['vue'],
-      },
-      {
-        path: '~/components/common',
-        extensions: ['vue'],
-      },
-      {
-        path: '~/components/landing',
-        extensions: ['vue'],
-      },
-      {
-        path: '~/components/metadata',
-        extensions: ['vue'],
-      },
-      {
-        path: '~/components/rmrk',
-        extensions: ['vue'],
-      },
-      {
-        path: '~/components/series',
-        extensions: ['vue'],
-      },
-      {
-        path: '~/components/settings',
-        extensions: ['vue'],
-      },
-      {
-        path: '~/components/shared',
-        extensions: ['vue'],
-      },
-      {
-        path: '~/components/spotlight',
-        extensions: ['vue'],
-      },
-      {
-        path: '~/components/transfer',
-        extensions: ['vue'],
-      },
-      {
-        path: '~/components/unique',
-        extensions: ['vue'],
-      },
-    ],
-  },
+  components: [
+    {
+      path: '~/components/common',
+      extensions: ['vue'],
+    },
+    {
+      path: '~/components/landing',
+      extensions: ['vue'],
+    },
+    {
+      path: '~/components/metadata',
+      extensions: ['vue'],
+    },
+    {
+      path: '~/components/rmrk',
+      extensions: ['vue'],
+    },
+    {
+      path: '~/components/series',
+      extensions: ['vue'],
+    },
+    {
+      path: '~/components/settings',
+      extensions: ['vue'],
+    },
+    {
+      path: '~/components/shared',
+      extensions: ['vue'],
+    },
+    {
+      path: '~/components/spotlight',
+      extensions: ['vue'],
+    },
+    {
+      path: '~/components/transfer',
+      extensions: ['vue'],
+    },
+    {
+      path: '~/components/unique',
+      extensions: ['vue'],
+    },
+    {
+      path: '~/components',
+      extensions: ['vue'],
+    },
+  ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
