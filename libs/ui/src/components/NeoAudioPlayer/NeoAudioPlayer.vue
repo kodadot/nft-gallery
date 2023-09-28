@@ -99,7 +99,7 @@ const togglePlay = async () => {
 
 const flushPreviouseActions = async () => {
   try {
-    await actionStack.value.map((action) => action.reject())
+    await Promise.allSettled(actionStack.value.map((action) => action.reject()))
     actionStack.value = []
   } catch (error) {}
 }
