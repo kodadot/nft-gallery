@@ -11,7 +11,6 @@
       <Nuxt v-else />
     </main>
 
-    <LazyTheFooter />
     <LazyCookieBanner />
     <Buy />
   </div>

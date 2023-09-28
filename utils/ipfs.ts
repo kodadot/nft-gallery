@@ -146,7 +146,12 @@ export const preheatFileFromIPFS = (ipfsUrl: string) => {
   const url = sanitizeIpfsUrl(ipfsUrl, 'image')
   const hash = fastExtract(url)
   api(url)
-    .then(() => consola.log(`[PREHEAT] ${hash}`))
+    .then(async () => {
+      consola.log(`[PREHEAT] ${hash}`)
+
+      // preheat to r2/cfi
+      await $fetch(hash)
+    })
     .catch((err) => consola.warn(`[PREHEAT] ${hash} ${err.message}`))
 }
 
