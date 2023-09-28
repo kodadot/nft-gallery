@@ -53,7 +53,7 @@
       <NeoField
         :key="`collection-${currentChain}`"
         :label="`${$t('mint.nft.collection.label')} *`">
-        <div>
+        <div class="w-100">
           <p>{{ $t('mint.nft.collection.message') }}</p>
           <NeoSelect v-model="form.collections" class="mt-3" expanded required>
             <option
@@ -225,6 +225,7 @@ import {
   NeoSelect,
   NeoSwitch,
 } from '@kodadot1/brick'
+import DropUpload from '@/components/shared/DropUpload.vue'
 import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
 import CustomAttributeInput from '@/components/rmrk/Create/CustomAttributeInput.vue'
 import RoyaltyForm from '@/components/bsx/Create/RoyaltyForm.vue'
@@ -239,7 +240,7 @@ import { delay } from '@/utils/fetch'
 import { toNFTId } from '@/components/rmrk/service/scheme'
 
 // composables
-const { $apollo, $consola } = useNuxtApp()
+const { $consola } = useNuxtApp()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { accountId } = useAuth()
 const { transaction, status, isLoading, blockNumber } = useTransaction()
@@ -316,17 +317,16 @@ watchEffect(async () => {
   }
   const prefix = queryPath[currentChain.value] || currentChain.value
   const query = await resolveQueryPath(prefix, 'collectionForMint')
-  const collections = await $apollo.query({
+  const { data: collections } = await useAsyncQuery({
     query: query.default,
-    client: currentChain.value,
+    clientId: currentChain.value,
     variables: {
       account: accountId.value,
     },
-    fetchPolicy: 'network-only',
   })
 
   // https://github.com/kodadot/nft-gallery/issues/7298
-  listOfCollection.value = collections?.data?.collectionEntities
+  listOfCollection.value = collections?.value?.collectionEntities
     .map((ce) => ({
       ...ce,
       alreadyMinted: ce.nfts?.length,
@@ -437,17 +437,16 @@ const retry = ref(10) // max retry 10 times
 
 async function getNftId() {
   const query = await resolveQueryPath(currentChain.value, 'nftByBlockNumber')
-  const { data } = await $apollo.query({
+  const { data } = await useAsyncQuery({
     query: query.default,
-    client: currentChain.value,
+    clientId: currentChain.value,
     variables: {
       limit: 1,
       blockNumber: mintedBlockNumber.value,
     },
-    fetchPolicy: 'network-only',
   })
 
-  return data?.nftEntities?.[0]?.id
+  return data?.value.nftEntities?.[0]?.id
 }
 
 watchEffect(async () => {
