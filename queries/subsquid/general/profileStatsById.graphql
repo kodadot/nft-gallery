@@ -72,7 +72,10 @@ query profileStatsById($id: String!) {
 
   events: eventsConnection(
     where: {
-      caller_eq: $id
+      caller_eq: $id,
+      OR: {
+        currentOwner_eq: $id,
+      }
     }
     orderBy: blockNumber_DESC
   ) {

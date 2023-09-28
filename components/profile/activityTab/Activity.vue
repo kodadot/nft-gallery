@@ -2,13 +2,7 @@
   <div>
     <History :id="id" :events="filteredEvents" display-item>
       <template
-        #header="{
-          currentPage,
-          total,
-          itemsPerPage,
-          desktop,
-          updateCurrentPage,
-        }">
+        #header="{ currentPage, total, perPage, desktop, updateCurrentPage }">
         <div
           class="is-flex is-justify-content-space-between pb-4 pt-5 is-align-content-center">
           <div class="is-flex gap-4 is-flex-wrap-wrap">
@@ -29,7 +23,7 @@
             <Pagination
               :value="currentPage"
               :total="total"
-              :per-page="itemsPerPage"
+              :per-page="perPage"
               :range-before="2"
               :range-after="2"
               replace
