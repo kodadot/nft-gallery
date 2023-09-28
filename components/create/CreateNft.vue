@@ -1,7 +1,11 @@
 <template>
   <div class="is-centered columns">
+    <MintConfirmModal
+      v-model="modalShowStatus"
+      :nft-information="nftInformation"
+      @confirm="createNft" />
     <Loader v-model="isLoading" :status="status" />
-    <form class="is-half column" @submit.prevent="createNft">
+    <form class="is-half column" @submit.prevent="showConfirm">
       <CreateNftPreview
         :name="form.name"
         :collection="selectedCollection?.name"
@@ -173,41 +177,32 @@
       </div>
 
       <!-- create nft button -->
-      <NeoField>
-        <div>
-          <NeoButton
-            expanded
-            :label="`${
-              canDeposit
-                ? $t('mint.nft.create')
-                : $t('confirmPurchase.notEnoughFuns')
-            }`"
-            type="submit"
-            size="medium"
-            :loading="isLoading"
-            :disabled="!canDeposit" />
-
-          <div class="p-4 is-flex">
-            <NeoIcon icon="circle-info" size="medium" class="mr-4" />
-            <p class="is-size-7">
-              <span
-                v-dompurify-html="
-                  $t('mint.requiredDeposit', [
-                    `${totalItemDeposit} ${chainSymbol}`,
-                    'NFT',
-                  ])
-                " />
-              <a
-                href="https://hello.kodadot.xyz/multi-chain/fees"
-                target="_blank"
-                class="has-text-link"
-                rel="nofollow noopener noreferrer">
-                {{ $t('helper.learnMore') }}
-              </a>
-            </p>
-          </div>
-        </div>
-      </NeoField>
+      <NeoButton
+        expanded
+        :label="$t('mint.nft.create')"
+        class="is-size-6"
+        type="submit"
+        size="medium"
+        :loading="isLoading" />
+      <div class="p-4 is-flex">
+        <NeoIcon icon="circle-info" size="medium" class="mr-4" />
+        <p class="is-size-7">
+          <span
+            v-dompurify-html="
+              $t('mint.requiredDeposit', [
+                `${totalItemDeposit} ${chainSymbol}`,
+                'NFT',
+              ])
+            " />
+          <a
+            href="https://hello.kodadot.xyz/multi-chain/fees"
+            target="_blank"
+            class="has-text-link"
+            rel="nofollow noopener noreferrer">
+            {{ $t('helper.learnMore') }}
+          </a>
+        </p>
+      </div>
     </form>
   </div>
 </template>
@@ -229,6 +224,7 @@ import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
 import CustomAttributeInput from '@/components/rmrk/Create/CustomAttributeInput.vue'
 import RoyaltyForm from '@/components/bsx/Create/RoyaltyForm.vue'
 import CreateNftPreview from './CreateNftPreview.vue'
+import MintConfirmModal from '@/components/create/MintConfirmModal.vue'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { availablePrefixes } from '@/utils/chain'
 import { notificationTypes, showNotification } from '@/utils/notification'
@@ -264,6 +260,18 @@ const form = reactive({
   },
 })
 
+const modalShowStatus = ref(false)
+
+const nftInformation = computed(() => ({
+  file: form.file,
+  name: form.name,
+  selectedCollection: selectedCollection.value,
+  price: balanceFrom(form.salePrice, decimals.value),
+  listForSale: form.sale,
+  paidToken: chain.value,
+  mintType: CreateComponent.NFT,
+}))
+
 const imagePreview = computed(() => {
   if (form.file) {
     return URL?.createObjectURL(form.file)
@@ -291,10 +299,8 @@ watch(currentChain, () => {
 })
 
 // deposit stuff
-const { balance, totalItemDeposit, chainSymbol } = useDeposit(currentChain)
-const canDeposit = computed(() => {
-  return parseFloat(balance.value) >= parseFloat(totalItemDeposit.value)
-})
+const { balance, totalItemDeposit, chainSymbol, chain } =
+  useDeposit(currentChain)
 
 // select collections
 const listOfCollection = ref()
@@ -342,6 +348,10 @@ const transactionStatus = ref<
 >('idle')
 const createdNFTs = ref()
 const mintedBlockNumber = ref()
+
+const showConfirm = () => {
+  modalShowStatus.value = true
+}
 
 const createNft = async () => {
   try {

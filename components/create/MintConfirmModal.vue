@@ -84,7 +84,7 @@ import ConfirmMintItem from './ConfirmMintItem.vue'
 import PriceItem from './PriceItem.vue'
 
 export type NftInformation = {
-  file: Blob
+  file: Blob | null
   selectedCollection?: BaseMintedCollection
   name: string
   listForSale?: boolean
