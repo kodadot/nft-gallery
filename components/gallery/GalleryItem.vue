@@ -37,6 +37,7 @@
                   :src="resource.src"
                   :mime-type="resource.mimeType"
                   :animation-src="resource.animation"
+                  :audio-player-cover="galleryItem.nftImage.value"
                   is-detail />
               </NeoCarouselItem>
             </NeoCarousel>
@@ -45,10 +46,6 @@
             v-else
             :key="nftImage"
             ref="mediaItemRef"
-            :class="{
-              'is-flex is-align-items-center is-justify-content-center h-audio':
-                resolveMedia(nftMimeType) == MediaType.AUDIO,
-            }"
             class="gallery-item-media"
             :src="nftImage"
             :animation-src="nftAnimation"
@@ -56,7 +53,8 @@
             :title="nftMetadata?.name"
             is-detail
             :is-lewd="galleryDescriptionRef?.isLewd"
-            :placeholder="placeholder" />
+            :placeholder="placeholder"
+            :audio-player-cover="nftImage" />
         </div>
       </div>
 

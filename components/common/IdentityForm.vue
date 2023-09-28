@@ -3,7 +3,7 @@
     <Loader v-model="isLoading" :status="status" />
     <form @submit.prevent>
       <h1 class="title is-size-3">
-        {{ $t('identity.set') }}
+        {{ $t('identity.set', [getChainName(identityPrefix)]) }}
         <NeoTooltip
           :label="$t('identity.fundsReserve')"
           position="bottom"
@@ -12,11 +12,31 @@
         </NeoTooltip>
       </h1>
 
-      <p v-if="accountId" class="subtitle is-size-6">
-        <Auth />
-        <span>{{ $t('general.balance') }}: </span>
-        <Money :value="balance" inline />
-      </p>
+      <div v-if="hasIdentity" class="is-size-6">
+        <hr class="my-7" />
+        <div class="mb-4">
+          {{ $t('identity.establishedIdentity') }}
+        </div>
+        <div
+          class="is-flex is-justify-content-space-between is-align-items-flex-end">
+          <div
+            class="is-flex is-justify-content-space-between is-align-items-center">
+            <Avatar :value="accountId" :size="34" />
+            <div class="ml-4">
+              <div class="has-text-grey">{{ $t('identity.existing') }}</div>
+              <div>{{ identityData.display }}</div>
+            </div>
+          </div>
+          <NeoButton
+            :label="$t('identity.clear')"
+            class="mb-1"
+            no-shadow
+            rounded
+            size="small"
+            @click="deleteIdentity" />
+        </div>
+        <hr class="my-7" />
+      </div>
 
       <NeoField label="Handle">
         <NeoInput
@@ -73,18 +93,18 @@
         :disabled="disabled"
         :loading="isLoading"
         expanded
-        @click="submit" />
+        @click="setIdentity" />
     </form>
   </section>
 </template>
 
 <script lang="ts" setup>
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { NeoField, NeoIcon, NeoInput, NeoTooltip } from '@kodadot1/brick'
+import { NeoButton, NeoField, NeoInput } from '@kodadot1/brick'
 import type { IdentityFields } from '@/composables/useIdentity'
 import { useIdentityStore } from '@/stores/identity'
+import { getChainName } from '@/utils/chain'
 
-const Auth = defineAsyncComponent(() => import('@/components/shared/Auth.vue'))
 const BasicInput = defineAsyncComponent(
   () => import('@/components/shared/form/BasicInput.vue')
 )
@@ -98,8 +118,7 @@ const SubmitButton = defineAsyncComponent(
   () => import('@/components/base/SubmitButton.vue')
 )
 
-const { apiInstance } = useApi()
-const { accountId, balance } = useAuth()
+const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const identityStore = useIdentityStore()
 const { howAboutToExecute, isLoading, initTransactionLoader, status } =
@@ -108,7 +127,12 @@ const identity = ref<IdentityFields>({})
 const deposit = ref('0')
 const inputLengthLimit = ref(32)
 
-const { identity: identityData } = useIdentity({
+const {
+  identity: identityData,
+  identityApi,
+  identityPrefix,
+  refetchIdentity,
+} = useIdentity({
   address: accountId,
 })
 
@@ -122,6 +146,14 @@ watch(identityData, () => {
     riot,
     email,
   }
+})
+
+const hasIdentity = computed(() => {
+  const { display, legal, web, twitter, riot, email } = identityData.value
+  return (
+    accountId.value &&
+    Boolean(display || legal || web || twitter || riot || email)
+  )
 })
 
 const handleUrlPrefixChange = async () => {
@@ -146,23 +178,35 @@ const enhanceIdentityData = (): Record<string, any> => {
 }
 
 const fetchDeposit = async () => {
-  const api = await apiInstance.value
+  const api = await identityApi.value
   return api.consts.identity?.basicDeposit?.toString()
 }
 
-const submit = async (): Promise<void> => {
-  const api = await apiInstance.value
+const deleteIdentity = async (): Promise<void> => {
+  const api = await identityApi.value
+  initTransactionLoader()
+  const cb = api.tx.identity.clearIdentity
+  howAboutToExecute(accountId.value, cb, [], (block: string) => {
+    identity.value = {}
+    refetchIdentity()
+
+    showNotification(
+      `[Identity] You have cleared your account's identity since block ${block}`,
+      notificationTypes.success
+    )
+  })
+}
+const setIdentity = async (): Promise<void> => {
+  const api = await identityApi.value
   initTransactionLoader()
   const cb = api.tx.identity.setIdentity
   const args = [enhanceIdentityData()]
-  howAboutToExecute(accountId.value, cb, args, onSuccess)
-}
-
-const onSuccess = (block: string) => {
-  showNotification(
-    `[Identity] You are known as ${identity.value.display} since block ${block}`,
-    notificationTypes.success
-  )
+  howAboutToExecute(accountId.value, cb, args, (block: string) => {
+    showNotification(
+      `[Identity] You are known as ${identity.value.display} since block ${block}`,
+      notificationTypes.success
+    )
+  })
 }
 
 const disabled = computed(
