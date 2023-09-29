@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Offer, OfferResponse } from './types'
+import { Offer } from './types'
 import offerList from '@/queries/subsquid/bsx/offerList.graphql'
 
 import Loader from '@/components/shared/Loader.vue'
@@ -26,16 +26,12 @@ import StatsOverview from '@/components/bsx/Offer/StatsOverview.vue'
 
 const offers = ref<Offer[]>([])
 
-const { $apollo, $consola } = useNuxtApp()
-const { client } = usePrefix()
+const { $consola } = useNuxtApp()
 const { accountId } = useAuth()
 
 const { pending } = useLazyAsyncData('data', async () => {
   try {
-    const { data } = await $apollo.query<OfferResponse>({
-      client: client.value,
-      query: offerList,
-    })
+    const { data } = await useAsyncQuery(offerList, {})
 
     offers.value = data.offers
   } catch (e) {

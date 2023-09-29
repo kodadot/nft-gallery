@@ -14,7 +14,7 @@
             v-if="!showFilter"
             no-shadow
             class="rounded"
-            @click.native="showFilter = !showFilter">
+            @click="showFilter = !showFilter">
             {{ $t('notification.add') }}
             <NeoIcon icon="plus" />
           </NeoButton>
@@ -22,7 +22,7 @@
             v-else
             no-shadow
             class="rounded"
-            @click.native="showFilter = !showFilter">
+            @click="showFilter = !showFilter">
             {{ $t('notification.done') }}
             <NeoIcon icon="check" />
           </NeoButton>
@@ -96,7 +96,7 @@
             v-for="(event, index) in displayedEvents"
             :key="`${event.id}-${index}`"
             :event="event"
-            @click.native="closeModal(ModalCloseType.NAVIGATION)" />
+            @click="closeModal(ModalCloseType.NAVIGATION)" />
         </div>
       </div>
     </div>
@@ -179,7 +179,7 @@ const displayedEvents = computed(() =>
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .rounded {
   border-radius: 2rem;
   overflow: hidden;

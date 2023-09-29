@@ -1,7 +1,7 @@
-@import '@oruga-ui/oruga/src/scss/utilities/expressions.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/variables.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/expressions.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/variables.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/animations.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/helpers.scss';
 
 $sidebar-box-shadow: 0;
 $sidebar-content-background-color: transparent;
@@ -10,7 +10,7 @@ $sidebar-width: 320px;
 $sidebar-zindex: 100;
 $sidebar-overlay: rgba(0, 0, 0, 0.17);
 
-@import '@oruga-ui/oruga/src/scss/components/sidebar.scss';
+@import '@oruga-ui/oruga-next/src/scss/components/sidebar.scss';
 
 // to fix safari issue: https://github.com/kodadot/nft-gallery/issues/5227
 .is-hidden-mobile > .o-side {

@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import '@/styles/components/_keyboard-shortcut.scss'
+import '@/assets/styles/components/_keyboard-shortcut.scss'
 import { NeoCollapsible, NeoTable, NeoTableColumn } from '@kodadot1/brick'
 
 const isOpen = ref(0)

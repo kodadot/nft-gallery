@@ -34,8 +34,8 @@ export const processMetadata = <T>(
 ): void => {
   const metadata = metadataList.map((meta) => meta || '')
 
-  metadata.forEach(async (m, i) => {
-    const meta = await cacheOrFetchMetadata(metadataCache[m], m)
+  metadata.forEach((m, i) => {
+    const meta = cacheOrFetchMetadata(metadataCache[m], m)
 
     if (cb && meta !== undefined) {
       metadataCache[m] = meta

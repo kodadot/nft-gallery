@@ -1,6 +1,6 @@
 <template>
   <NeoModal
-    v-model="isModalActive"
+    :value="isModalActive"
     scroll="clip"
     :can-cancel="!loading"
     @close="emit('close')">
@@ -22,7 +22,7 @@
             variant="k-accent"
             no-shadow
             class="is-flex is-flex-grow-1 btn-height"
-            @click.native="emit('close')" />
+            @click="emit('close')" />
         </div>
       </div>
     </div>

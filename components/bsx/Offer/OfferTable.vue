@@ -174,13 +174,13 @@ withDefaults(
   }
 )
 
-const { $route } = useNuxtApp()
+const route = useRoute()
 const { urlPrefix, tokenId } = usePrefix()
 const { accountId } = useAuth()
 const { replaceUrl } = useReplaceUrl()
 
 const itemsPerPage = ref(20)
-const currentPage = ref(parseInt($route.query?.page as string) || 1)
+const currentPage = ref(parseInt(route.query?.page as string) || 1)
 const selectedStatus = ref<AllOfferStatusType>(AllOfferStatusType.ALL)
 
 const emit = defineEmits(['select'])

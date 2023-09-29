@@ -28,7 +28,7 @@ defineProps<{
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .carousel-card {
   flex: 0 0 var(--card-width);

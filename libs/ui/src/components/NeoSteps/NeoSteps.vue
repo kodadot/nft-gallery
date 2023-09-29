@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { OSteps } from '@oruga-ui/oruga'
+import { OSteps } from '@oruga-ui/oruga-next'
 
 const props = withDefaults(
   defineProps<{

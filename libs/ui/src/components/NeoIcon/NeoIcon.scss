@@ -1,10 +1,10 @@
 @import '../../scss/theme';
 
-@import '@oruga-ui/oruga/src/scss/utilities/_expressions.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/_variables.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/_animations.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/_helpers.scss';
-@import '@oruga-ui/oruga/src/scss/components/_icon.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_expressions.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_variables.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_animations.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_helpers.scss';
+@import '@oruga-ui/oruga-next/src/scss/components/_icon.scss';
 
 .o-icon--success {
   @include ktheme() {

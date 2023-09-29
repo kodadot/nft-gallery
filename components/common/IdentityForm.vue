@@ -3,9 +3,9 @@
     <Loader v-model="isLoading" :status="status" />
     <form @submit.prevent>
       <h1 class="title is-size-3">
-        {{ $i18n.t('identity.set', [getChainName(identityPrefix)]) }}
+        {{ $t('identity.set', [getChainName(identityPrefix)]) }}
         <NeoTooltip
-          :label="$i18n.t('identity.fundsReserve')"
+          :label="$t('identity.fundsReserve')"
           position="bottom"
           multiline>
           <NeoIcon icon="info-circle" />
@@ -28,12 +28,12 @@
             </div>
           </div>
           <NeoButton
-            :label="$i18n.t('identity.clear')"
+            :label="$t('identity.clear')"
             class="mb-1"
             no-shadow
             rounded
             size="small"
-            @click.native="deleteIdentity" />
+            @click="deleteIdentity" />
         </div>
         <hr class="my-7" />
       </div>
@@ -41,24 +41,24 @@
       <NeoField label="Handle">
         <NeoInput
           v-model="identity.display"
-          :placeholder="$i18n.t('identity.onChainPlaceholder')"
+          :placeholder="$t('identity.onChainPlaceholder')"
           :maxlength="inputLengthLimit"
           required
-          :validation-message="$i18n.t('identity.handleRequired')" />
+          :validation-message="$t('identity.handleRequired')" />
       </NeoField>
 
       <BasicInput
         v-model="identity.legal"
-        :label="$i18n.t('name')"
+        :label="$t('name')"
         :maxlength="inputLengthLimit"
-        :placeholder="$i18n.t('identity.namePlaceholder')"
+        :placeholder="$t('identity.namePlaceholder')"
         expanded />
 
       <BasicInput
         v-model="identity.email"
         type="email"
         :maxlength="inputLengthLimit"
-        :label="$i18n.t('Email')"
+        :label="$t('Email')"
         placeholder="somebody@example.com"
         expanded />
 
@@ -84,12 +84,12 @@
         expanded />
 
       <p class="subtitle is-size-6">
-        {{ $i18n.t('identity.deposit') }}
+        {{ $t('identity.deposit') }}
         <Money :value="deposit" inline />
       </p>
 
       <SubmitButton
-        :label="$i18n.t('identity.click')"
+        :label="$t('identity.click')"
         :disabled="disabled"
         :loading="isLoading"
         expanded
@@ -102,6 +102,9 @@
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { NeoButton, NeoField, NeoInput } from '@kodadot1/brick'
 import type { IdentityFields } from '@/composables/useIdentity'
+import { useIdentityStore } from '@/stores/identity'
+import { getChainName } from '@/utils/chain'
+
 const BasicInput = defineAsyncComponent(
   () => import('@/components/shared/form/BasicInput.vue')
 )
@@ -114,10 +117,6 @@ const Money = defineAsyncComponent(
 const SubmitButton = defineAsyncComponent(
   () => import('@/components/base/SubmitButton.vue')
 )
-
-const { $i18n } = useNuxtApp()
-import { useIdentityStore } from '@/stores/identity'
-import { getChainName } from '@/utils/chain'
 
 const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()

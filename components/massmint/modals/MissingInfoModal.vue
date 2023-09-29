@@ -1,5 +1,5 @@
 <template>
-  <NeoModal v-model="isModalActive" scroll="clip" @close="emit('close')">
+  <NeoModal :value="isModalActive" scroll="clip" @close="emit('close')">
     <div class="p-6 modal-width">
       <div class="border-bottom border-grey">
         <p
@@ -47,7 +47,7 @@
           variant="k-accent"
           no-shadow
           class="is-flex is-flex-grow-1 btn-height"
-          @click.native="emit('close')" />
+          @click="emit('close')" />
       </div>
     </div>
   </NeoModal>

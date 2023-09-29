@@ -5,10 +5,10 @@ import { secondaryFileVisible } from '@/utils/mintUtils'
 
 import { URLS } from './constants'
 
-export const BASE_URL = URLS.koda.directUpload
+export const DIRECTUPLOAD_BASE_URL = URLS.koda.directUpload
 
 const api = $fetch.create({
-  baseURL: BASE_URL,
+  baseURL: DIRECTUPLOAD_BASE_URL,
 })
 
 export type DirectUploadResult = {

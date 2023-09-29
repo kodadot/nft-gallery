@@ -15,7 +15,6 @@
 <script lang="ts" setup>
 import { useWindowSize } from '@vueuse/core'
 import type { CarouselNFT } from '@/components/base/types'
-import type { RowSeries } from '@/components/series/types'
 
 const CarouselList = defineAsyncComponent(
   () => import('./module/CarouselAgnostic.vue')
@@ -24,7 +23,7 @@ const CarouselList = defineAsyncComponent(
 const props = defineProps<{
   title?: string
   subtitle?: string
-  nfts: CarouselNFT[] | RowSeries[]
+  nfts: CarouselNFT[]
   loading?: boolean
   actionType?: 'pagination' | 'link'
   linkUrl?: string

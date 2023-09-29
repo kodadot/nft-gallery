@@ -1,12 +1,12 @@
 import { $fetch, FetchError } from 'ofetch'
 
-const BASE_URL = 'https://waifu-me.kodadot.workers.dev'
+const WAIFU_BASE_URL = 'https://waifu-me.kodadot.workers.dev'
 
 const table = 'mints'
 // const campaign = 'corn'
 
 const api = $fetch.create({
-  baseURL: BASE_URL,
+  baseURL: WAIFU_BASE_URL,
 })
 
 type MintResponse = Response<any>

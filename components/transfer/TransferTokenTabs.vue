@@ -32,7 +32,7 @@ const handleTabClick = (value: string) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .square-20 {
   width: 20px;

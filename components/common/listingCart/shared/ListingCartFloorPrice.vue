@@ -13,7 +13,7 @@
         rounded
         :disabled="isDisabled"
         no-shadow
-        @click.native="
+        @click="
           floorPricePercentAdjustment > 0.05 &&
             (floorPricePercentAdjustment -= 0.05)
         " />
@@ -23,13 +23,13 @@
         :disabled="isDisabled"
         rounded
         no-shadow
-        @click.native="floorPricePercentAdjustment = 1" />
+        @click="floorPricePercentAdjustment = 1" />
       <NeoButton
         label="+5%"
         :disabled="isDisabled"
         rounded
         no-shadow
-        @click.native="floorPricePercentAdjustment += 0.05" />
+        @click="floorPricePercentAdjustment += 0.05" />
     </div>
   </div>
 </template>

@@ -7,22 +7,7 @@
           {{ $t('footer.subscribe') }}
         </h2>
         <div class="is-flex is-align-items-center footer-container-subs-items">
-          <div id="custom-substack-embed" data-testid="footer-subscribe"></div>
-
-          <script>
-            window.CustomSubstackWidget = {
-              substackUrl: 'kodadot.substack.com',
-              placeholder: 'jane.doe@kodadot.xyz',
-              theme: 'custom',
-              colors: {
-                primary: '#FF7AC3',
-                input: '#FFFFFF',
-                email: '#000000',
-                text: '#000000',
-              },
-            }
-          </script>
-          <script src="https://substackapi.com/widget.js" async></script>
+          <CustomSubstackEmbed />
         </div>
       </section>
       <section class="footer-container-info is-flex is-flex-direction-column">
@@ -136,7 +121,6 @@
                   </clipPath>
                 </defs>
               </svg>
-
               <NeoIcon
                 v-else
                 :pack="item.name == 'Swag' ? 'fasr' : 'fab'"
@@ -151,11 +135,11 @@
 </template>
 
 <script lang="ts" setup>
-import { TranslateResult } from 'vue-i18n/types'
+// import { TranslateResult } from 'vue-i18n/types'
 import { NeoIcon } from '@kodadot1/brick'
 
 interface Menu {
-  name: TranslateResult
+  name: string
   url: string
   external?: boolean
 }
@@ -188,7 +172,7 @@ const menuMarketplace: Menu[] = [
     external: true,
   },
   {
-    name: $i18n.t('FAQ'),
+    name: 'FAQ',
     url: 'https://hello.kodadot.xyz/ecosystem/faq',
     external: true,
   },

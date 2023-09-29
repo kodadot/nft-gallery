@@ -54,7 +54,7 @@
         class="navbar-item"
         data-testid="classic"
         :to="`/${urlPrefix}/create`"
-        @click.native="emit('closeMobileNavbar')">
+        @click="emit('closeMobileNavbar')">
         {{ $t('classic') }}
       </nuxt-link>
       <nuxt-link
@@ -62,7 +62,7 @@
         class="navbar-item"
         data-testid="waifu"
         :to="`/${urlPrefix}/waifu`"
-        @click.native="emit('closeMobileNavbar')">
+        @click="emit('closeMobileNavbar')">
         {{ $t('waifu') }}
       </nuxt-link>
       <template v-if="chain === 'rmrk'">
@@ -70,7 +70,7 @@
           class="navbar-item"
           data-testid="simple"
           :to="`/${urlPrefix}/mint`"
-          @click.native="emit('closeMobileNavbar')">
+          @click="emit('closeMobileNavbar')">
           {{ $t('simple') }}
         </nuxt-link>
       </template>
@@ -78,7 +78,7 @@
         class="navbar-item"
         data-testid="massmint"
         :to="`/${urlPrefix}/massmint`"
-        @click.native="emit('closeMobileNavbar')">
+        @click="emit('closeMobileNavbar')">
         {{ $t('multipleNFTS') }}
       </nuxt-link>
     </MobileExpandableSection>

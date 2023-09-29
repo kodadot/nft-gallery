@@ -80,7 +80,7 @@
         :loading="isLoading"
         :disabled="isDisabledButton"
         variant="k-accent"
-        @click.native="sendXCM" />
+        @click="sendXCM" />
     </div>
   </section>
 </template>
@@ -400,7 +400,7 @@ const sendXCM = async () => {
 }
 </script>
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/variables.scss';
 
 .teleport-container {
   max-width: 50rem;

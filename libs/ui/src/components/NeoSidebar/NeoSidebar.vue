@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { OSidebar } from '@oruga-ui/oruga'
+import { OSidebar } from '@oruga-ui/oruga-next'
 
 defineProps<{
   mobile?: string

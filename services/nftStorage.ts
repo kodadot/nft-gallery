@@ -5,10 +5,10 @@ import { Metadata } from '@kodadot1/minimark/common'
 import { addToQueue, processQueue } from '@/utils/queueProcessor'
 import { exponentialBackoff } from '@/utils/exponentialBackoff'
 
-const BASE_URL = URLS.koda.nftStorage
+const NFT_STORAGE_BASE_URL = URLS.koda.nftStorage
 
 const nftStorageApi = $fetch.create({
-  baseURL: BASE_URL,
+  baseURL: NFT_STORAGE_BASE_URL,
 })
 
 export type PinningKey = {

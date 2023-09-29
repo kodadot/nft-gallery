@@ -2,10 +2,10 @@ import { $fetch } from 'ofetch'
 import { URLS } from '~/utils/constants'
 import consola from 'consola'
 
-const BASE_URL = URLS.koda.search
+const SEARCH_BASE_URL = URLS.koda.search
 
 const api = $fetch.create({
-  baseURL: BASE_URL,
+  baseURL: SEARCH_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },

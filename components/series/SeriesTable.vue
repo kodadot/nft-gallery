@@ -319,19 +319,13 @@ import {
   NeoTableColumn,
 } from '@kodadot1/brick'
 
-const Money = defineAsyncComponent(
-  () => import('@/components/shared/format/Money.vue')
-)
-const BasicImage = defineAsyncComponent(
-  () => import('@/components/shared/view/BasicImage.vue')
-)
-const Loader = defineAsyncComponent(
-  () => import('@/components/shared/Loader.vue')
-)
+import Money from '@/components/shared/format/Money.vue'
+import BasicImage from '@/components/shared/view/BasicImage.vue'
+import Loader from '@/components/shared/Loader.vue'
 
 const route = useRoute()
 const router = useRouter()
-const { $apollo, $consola } = useNuxtApp()
+const { $consola } = useNuxtApp()
 const { client, urlPrefix } = usePrefix()
 const nbRows = ref('50')
 const nbDays = ref('7')
@@ -354,10 +348,9 @@ const fetchCollectionEvents = async (ids: string[]) => {
     return []
   }
   try {
-    // const today = new Date()
-    const { data } = await $apollo.query<{ events }>({
+    const { data } = await useAsyncQuery({
+      clientId: client.value,
       query: collectionsEvents,
-      client: client.value,
       variables: {
         ids: ids,
         and: {
@@ -367,7 +360,7 @@ const fetchCollectionEvents = async (ids: string[]) => {
         gte: lastmonthDate,
       },
     })
-    return data.events
+    return data.value.events
   } catch (e) {
     $consola.error(e)
     return []
@@ -379,16 +372,13 @@ const fetchCollectionsSeries = async (
   sort: string = toSort(sortBy)
 ) => {
   isLoading.value = true
-  const collections = await $apollo.query({
+  const { data: collections } = await useAsyncQuery({
+    clientId: client.value,
     query: seriesInsightList,
-    client: client.value,
     variables: await seriesQueryParams(limit, sort),
-    fetchPolicy: 'cache-first',
   })
 
-  const {
-    data: { collectionEntities },
-  } = collections
+  const { collectionEntities } = collections.value
 
   const defaultBuyEvents = getDateArray(lastmonthDate, today).reduce(
     (res, date) => {
@@ -513,7 +503,7 @@ watch(nbDays, (value: string) => {
 })
 </script>
 <style lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .history {
   width: 200px;

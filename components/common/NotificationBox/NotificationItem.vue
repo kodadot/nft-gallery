@@ -81,7 +81,7 @@ const displayName = computed(
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .max-width {
   max-width: 8rem;

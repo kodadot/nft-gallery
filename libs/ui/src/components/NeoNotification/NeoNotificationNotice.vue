@@ -1,18 +1,15 @@
 <template>
-  <NeoNotification
-    v-bind="$options.propsData"
-    ref="notification"
-    @close="close">
+  <NeoNotification v-bind="propsNotification" ref="notification" @close="close">
     <slot />
   </NeoNotification>
 </template>
 
 <script>
-// extend https://github.com/oruga-ui/oruga/blob/4915c4dbcb1a6c2cd39bc7660d41916b330bc0cd/packages/oruga/src/components/notification/NotificationNotice.vue#L18C12-L18C31 implementation
+// extend https://github.com/oruga-ui/oruga/blob/ef46040e7cea02595afd198257d2eb5a4b49d11d/packages/oruga-next/src/components/notification/NotificationNotice.vue implementation
 /* eslint-disable vue/require-default-prop */
 import NeoNotification from './NeoNotification.vue'
-import NoticeMixin from '@oruga-ui/oruga/src/utils/NoticeMixin'
-import BaseComponentMixin from '@oruga-ui/oruga/src/utils/BaseComponentMixin'
+import NoticeMixin from '@oruga-ui/oruga-next/src/utils/NoticeMixin'
+import BaseComponentMixin from '@oruga-ui/oruga-next/src/utils/BaseComponentMixin'
 
 /**
  * @displayName Notification Notice
@@ -25,10 +22,12 @@ export default {
   },
   mixins: [BaseComponentMixin, NoticeMixin],
   props: {
+    propsNotification: Object,
     noticeClass: [String, Function, Array],
     noticePositionClass: [String, Function, Array],
     noticeCustomContainerClass: [String, Function, Array],
   },
+  emits: ['update:active', 'close'],
   methods: {
     rootClasses() {
       return [this.computedClass('noticeClass', 'o-notices')]
