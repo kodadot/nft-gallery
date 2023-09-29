@@ -18,7 +18,11 @@ query profileStatsById($id: String!, $interactionIn: [Interaction!]) {
   }
 
   obtained: nftEntitiesConnection(
-    where: { currentOwner_eq: $id, burned_eq: false }
+    where: { 
+      currentOwner_eq: $id,
+      burned_eq: false,
+      metadata_not_eq: ""
+     }
     orderBy: name_ASC
   ) {
     totalCount
@@ -91,6 +95,7 @@ query profileStatsById($id: String!, $interactionIn: [Interaction!]) {
     where: {
       nfts_some: { burned_eq: false }
       issuer_eq: $id
+      metadata_isNull: false
     }
     orderBy: blockNumber_DESC
   ) {
