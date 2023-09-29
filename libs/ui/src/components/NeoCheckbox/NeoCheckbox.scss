@@ -1,9 +1,9 @@
 @import '../../scss/variable.scss';
 @import '../../scss/theme.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/expressions.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/variables.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/expressions.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/variables.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/animations.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/helpers.scss';
 
 $checkbox-checkmark-color: #000;
 
@@ -27,4 +27,4 @@ $checkbox-checkmark-color: #000;
   }
 }
 
-@import '@oruga-ui/oruga/src/scss/components/checkbox.scss';
+@import '@oruga-ui/oruga-next/src/scss/components/checkbox.scss';

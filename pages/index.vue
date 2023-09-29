@@ -2,14 +2,10 @@
   <LandingPage />
 </template>
 
-<script lang="ts">
-export default {
-  name: 'HomePage',
-  components: {
-    LandingPage: () => import('@/components/landing/LandingPage.vue'),
-  },
-  layout() {
-    return 'full-width-layout'
-  },
-}
+<script lang="ts" setup>
+import LandingPage from '@/components/landing/LandingPage.vue'
+
+definePageMeta({
+  layout: 'full-width-layout',
+})
 </script>

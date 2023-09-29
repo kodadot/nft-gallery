@@ -12,7 +12,8 @@
     </div>
     <Loader v-model="isLoading" :status="status" />
     <AssetTable
-      :asset-list="assetList"
+      v-if="assets"
+      :asset-list="assets.assetList"
       :account-id="accountId"
       :current-asset="currentAsset"
       @select="handleTokenSelect" />
@@ -27,52 +28,35 @@ import {
   getAsssetBalance,
   getKusamaAssetId,
 } from '@/utils/api/bsx/query'
-import { useApollo } from '@/utils/config/useApollo'
 import { mapToId } from '@/utils/mappers'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { AssetItem, AssetListQueryResponse } from './types'
 import Loader from '@/components/shared/Loader.vue'
 import AssetTable from '@/components/bsx/Asset/AssetTable.vue'
 
 const { accountId } = useAuth()
 
-const { urlPrefix, client } = usePrefix()
-const { $apollo, $consola, $set } = useNuxtApp()
+const { client } = usePrefix()
 
 const { howAboutToExecute, initTransactionLoader, isLoading, status } =
   useMetaTransaction()
-const assetList = ref<AssetItem[]>([])
 const currentAsset = ref<string>('0')
 
-const loadAssets = async () => {
-  try {
-    const { assetList: newAssetList } = await useApollo<
-      any,
-      AssetListQueryResponse
-    >($apollo as any, urlPrefix.value, assetListByIdList, {
-      ids: ['0', getKusamaAssetId(client.value), '6'],
-    })
-    assetList.value = newAssetList
-    fetchAccountBalance()
-  } catch (e) {
-    $consola.warn(e)
-    showNotification('Unable to load assets')
-  }
-}
+const { result: assets } = useQuery(
+  assetListByIdList,
+  { ids: ['0', getKusamaAssetId(client.value), '6'] },
+  { clientId: client.value }
+)
 
 const fetchAccountBalance = async () => {
   const { apiInstance } = useApi()
   const api = await apiInstance.value
   const mapper = (id: string) => getAsssetBalance(api, accountId.value, id)
-  assetList.value.map(mapToId).map(mapper).forEach(updatedBalanceFor)
+  assets.value.assetList.map(mapToId).map(mapper).forEach(updatedBalanceFor)
 }
 
 const updatedBalanceFor = async (balance: Promise<string>, index: number) => {
   try {
-    $set(assetList.value, index, {
-      ...assetList.value[index],
-      balance: await balance,
-    })
+    assets.value.assetList[index].balance = await balance
   } catch (e) {
     console.warn('Unable to fetch balance', e)
   }
@@ -103,8 +87,11 @@ const handleTokenSelect = async (id: string) => {
 watch(
   () => accountId.value,
   async () => {
-    await loadAssets()
-    await fetchCurrentToken()
+    if (assets.value) {
+      console.log(assets.value)
+      await fetchAccountBalance()
+      await fetchCurrentToken()
+    }
   },
   { immediate: true }
 )

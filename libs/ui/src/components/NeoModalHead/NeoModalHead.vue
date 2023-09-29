@@ -17,7 +17,7 @@
       no-shadow
       icon="xmark"
       size="medium"
-      @click.native="emit('close')" />
+      @click="emit('close')" />
   </header>
 </template>
 

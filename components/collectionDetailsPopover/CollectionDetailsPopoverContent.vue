@@ -112,7 +112,7 @@ const { nftEntities: soldItems } = useCollectionSoldData({
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .popover-content-container {
   @include ktheme() {

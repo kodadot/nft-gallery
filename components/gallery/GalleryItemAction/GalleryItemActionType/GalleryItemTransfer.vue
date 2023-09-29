@@ -5,10 +5,10 @@
       size="large"
       variant="k-pink"
       fixed-width
-      @click.native="sendItem" />
+      @click="sendItem" />
 
     <ItemTransferModal
-      v-model="isModalActive"
+      :value="isModalActive"
       :nft="nft"
       @close="isModalActive = false" />
   </div>
@@ -32,7 +32,7 @@ function sendItem() {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .gallery-item-transfer {
   button {
     font-size: 1rem;

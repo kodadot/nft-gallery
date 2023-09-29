@@ -9,7 +9,7 @@
         },
       ]">
       <TransactionLoader
-        v-model="isLoaderModalVisible"
+        :value="isLoaderModalVisible"
         :status="status"
         :total-token-amount="totalTokenAmount"
         :transaction-id="transactionValue"
@@ -140,7 +140,7 @@
               },
             ]">
             <AddressInput
-              v-model="destinationAddress.address"
+              :value="destinationAddress.address"
               label=""
               class="is-flex-1 is-flex-grow-2"
               :class="[
@@ -206,7 +206,7 @@
         data-testid="transfer-icon-add-recipient"
         @click="addAddress">
         {{ $t('transfers.addAddress') }}
-        <NeoIcon class="ml-2" icon="plus" pack="fas" />
+        <NeoIcon class="ml-2" icon="plus" />
       </div>
       <div
         class="is-flex is-justify-content-space-between is-align-items-center mb-5">
@@ -254,7 +254,7 @@
           full-width
           no-shadow
           data-testid="transfer-tab-token"
-          @click.native="displayUnit = 'token'" />
+          @click="displayUnit = 'token'" />
         <TabItem
           :active="displayUnit === 'usd'"
           text="USD"
@@ -262,7 +262,7 @@
           full-width
           no-shadow
           data-testid="transfer-tab-usd"
-          @click.native="displayUnit = 'usd'" />
+          @click="displayUnit = 'usd'" />
       </div>
 
       <div
@@ -301,7 +301,7 @@
           class="is-flex is-flex-1 fixed-height is-shadowless"
           variant="k-accent"
           :disabled="disabled"
-          @click.native="handleOpenConfirmModal"
+          @click="handleOpenConfirmModal"
           >{{ $t('redirect.continue') }}</NeoButton
         >
       </div>
@@ -363,6 +363,8 @@ import TransactionLoader from '@/components/shared/TransactionLoader.vue'
 import { KODADOT_DAO } from '@/utils/support'
 import { toDefaultAddress } from '@/utils/account'
 import AddressChecker from '@/components/shared/AddressChecker.vue'
+import TabItem from '@/components/shared/TabItem.vue'
+import Auth from '@/components/shared/Auth.vue'
 
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
@@ -871,7 +873,7 @@ watchDebounced(
 )
 </script>
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .transfer-card {
   max-width: 660px;

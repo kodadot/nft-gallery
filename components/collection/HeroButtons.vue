@@ -8,7 +8,7 @@
           icon="x-twitter"
           icon-pack="fab"
           class="square-32"
-          @click.native="openUrl(`https://twitter.com/${twitter}`)" />
+          @click="openUrl(`https://twitter.com/${twitter}`)" />
       </div>
 
       <div
@@ -77,7 +77,7 @@
         </NeoDropdown>
       </div>
     </div>
-    <NeoModal v-model="QRModalActive" @close="QRModalActive = false">
+    <NeoModal :value="QRModalActive" @close="QRModalActive = false">
       <div class="card">
         <header class="card-header">
           <p class="card-header-title">{{ collection?.name }}</p>
@@ -136,7 +136,7 @@ const sharingLabel = $i18n.t('sharing.collection')
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .hero-buttons {
   @include mobile {
     justify-content: space-between !important;

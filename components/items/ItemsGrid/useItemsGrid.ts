@@ -30,7 +30,6 @@ export function useFetchSearch({
   isLoading: Ref<boolean>
   resetSearch: () => void
 }) {
-  const { $apollo } = useNuxtApp()
   const { client, urlPrefix } = usePrefix()
   const { isAssetHub } = useIsChain(urlPrefix)
 
@@ -88,9 +87,8 @@ export function useFetchSearch({
     const queryPath = usingTokenEntities.value ? 'chain-ahk' : queryPathBase
 
     const query = await resolveQueryPath(queryPath, 'nftListWithSearch')
-    const result = await $apollo.query({
+    const { data: result } = await useAsyncQuery({
       query: query.default,
-      client: client.value,
       variables: {
         ...variables,
         first: first.value,
@@ -100,6 +98,7 @@ export function useFetchSearch({
           ? route.query.sort
           : ['blockNumber_DESC'],
       },
+      clientId: client.value,
     })
     const extractBaseName = (input: string): string => {
       const regex = / #\d+$/
@@ -120,11 +119,11 @@ export function useFetchSearch({
 
     // handle results
     const nftEntities = usingTokenEntities.value
-      ? result.data.tokenEntities.map(handleToken)
-      : result.data.nFTEntities
+      ? result.value.tokenEntities.map(handleToken)
+      : result.value.nFTEntities
     const nftEntitiesConnection = usingTokenEntities.value
-      ? result.data.tokenEntitiesConnection
-      : result.data.nftEntitiesConnection
+      ? result.value.tokenEntitiesConnection
+      : result.value.nftEntitiesConnection
 
     total.value = nftEntitiesConnection.totalCount
 

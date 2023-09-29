@@ -3,7 +3,7 @@
     class="is-flex is-justify-content-space-between mobile-flex-direction-column gap">
     <div class="is-flex is-flex-direction-column is-flex-grow-1 max-width">
       <HeroButtons class="is-hidden-tablet" />
-      <div v-if="collectionInfo?.currentOwner" class="is-flex mb-2">
+      <div v-if="collectionInfo" class="is-flex mb-2">
         <div class="mr-2">{{ $t('activity.creator') }}</div>
         <nuxt-link :to="`/${urlPrefix}/u/${address}`" class="has-text-link">
           <IdentityIndex ref="identity" :address="address" show-clipboard />
@@ -16,7 +16,7 @@
         v-if="hasSeeAllDescriptionOption"
         class="no-shadow is-text is-underlined has-text-left p-0"
         :label="seeAllDescription ? $t('showLess') : $t('showMore')"
-        @click.native="toggleSeeAllDescription" />
+        @click="toggleSeeAllDescription" />
     </div>
     <div>
       <div class="is-flex gap mobile-flex-direction-column mobile-no-gap">
@@ -55,15 +55,13 @@ import CollectionInfoLine from './collectionInfoLine.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
 import HeroButtons from '@/components/collection/HeroButtons.vue'
+import Markdown from '@/components/shared/Markdown.vue'
 import { NeoButton } from '@kodadot1/brick'
 
 import {
   useCollectionDetails,
   useCollectionMinimal,
 } from './utils/useCollectionDetails'
-
-const stats = ref()
-const collectionInfo = ref()
 
 const route = useRoute()
 const { urlPrefix } = usePrefix()
@@ -100,22 +98,18 @@ const visibleDescription = computed(() => {
   )
 })
 
-const getData = () => {
-  const { stats: statsData } = useCollectionDetails({
-    collectionId: collectionId.value,
-  })
-  stats.value = statsData
-  const { collection: collectionData } = useCollectionMinimal({
-    collectionId: collectionId.value,
-  })
-  collectionInfo.value = collectionData
-}
+// watch(collectionId, getData, { immediate: true })
 
-watch(collectionId, getData, { immediate: true })
+const { collection: collectionInfo } = useCollectionMinimal({
+  collectionId: collectionId.value,
+})
+const { stats: stats } = useCollectionDetails({
+  collectionId: collectionId.value,
+})
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .max-width {
   max-width: 50%;
 }

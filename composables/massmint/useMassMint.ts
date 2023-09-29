@@ -36,9 +36,9 @@ export const statusClass = (status?: Status) => {
 export const useCollectionForMint = () => {
   const collectionsEntites = ref<MintedCollection[]>()
   const collections = ref()
-  const { $consola, $apollo } = useNuxtApp()
+  const { $consola } = useNuxtApp()
   const { accountId, isLogIn } = useAuth()
-  const { urlPrefix } = usePrefix()
+  const { client, urlPrefix } = usePrefix()
   const queryPath = {
     rmrk: 'chain-rmrk',
     ksm: 'chain-rmrk',
@@ -51,20 +51,15 @@ export const useCollectionForMint = () => {
 
     const prefix = queryPath[urlPrefix.value] || urlPrefix.value
     const query = await resolveQueryPath(prefix, 'collectionForMint')
-    const data = await $apollo.query({
+    const { data } = await useAsyncQuery({
       query: query.default,
-      client: urlPrefix.value,
       variables: {
         account: accountId.value,
       },
-      fetchPolicy: 'network-only',
+      clientId: client.value,
     })
 
-    const {
-      data: { collectionEntities },
-    } = data
-
-    // collections.value = collectionEntities
+    const { collectionEntities } = data.value
 
     collections.value = collectionEntities
       .map((collection) => ({

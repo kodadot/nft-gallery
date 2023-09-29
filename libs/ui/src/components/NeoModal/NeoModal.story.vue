@@ -1,7 +1,7 @@
 <template>
   <Story title="NeoNftCard">
     <Variant title="Nft Card">
-      <NeoModal v-model="modalActive" @close="modalActive = false">
+      <NeoModal :value="modalActive" @close="modalActive = false">
         Modal Content
       </NeoModal>
     </Variant>

@@ -39,7 +39,8 @@ const showModal = (url: string, i18n: VueI18n, modal) => {
 }
 
 export const useRedirectModal = (element: Ref<HTMLElement | null>) => {
-  const { $i18n, $neoModal } = useNuxtApp()
+  const { neoModal } = useProgrammatic()
+  const { $i18n } = useNuxtApp()
 
   const handleLink = (event: Event) => {
     let ele = event.target as HTMLLinkElement
@@ -50,7 +51,7 @@ export const useRedirectModal = (element: Ref<HTMLElement | null>) => {
     const href = convertSingularCollectionUrlToKodadotUrl(ele.href)
 
     if (href && isExternal(href) && !isWhiteList(href)) {
-      showModal(href, $i18n, $neoModal)
+      showModal(href, $i18n, neoModal)
     } else if (href) {
       window.open(href, '_blank')
     }

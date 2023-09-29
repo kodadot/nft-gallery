@@ -5,7 +5,9 @@ import type { Prefix } from '@kodadot1/static'
 
 export default function () {
   const { urlPrefix, tokenId, assets } = usePrefix()
-  const symbol = computed(() => assets(tokenId.value).symbol)
+  const symbol = computed(
+    () => assets(urlPrefix.value === 'snek' ? '1' : tokenId.value).symbol
+  )
 
   const chainProperties = computed<ChainProperties>(() => {
     return chainPropListOf(urlPrefix.value)

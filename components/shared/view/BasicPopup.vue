@@ -1,17 +1,18 @@
 <template>
-  <v-tippy
+  <tippy
     class="tippy-container"
     interactive
     :animate-fill="false"
     :placement="placement"
     :delay="delay">
-    <template #trigger>
-      <slot name="trigger" />
+    <slot name="content" />
+
+    <template #content>
+      <div class="popover-content-container p-4">
+        <slot />
+      </div>
     </template>
-    <div class="popover-content-container p-4">
-      <slot name="content" />
-    </div>
-  </v-tippy>
+  </tippy>
 </template>
 
 <script lang="ts" setup>
@@ -28,7 +29,7 @@ withDefaults(
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .tippy-container {
   width: 100%;

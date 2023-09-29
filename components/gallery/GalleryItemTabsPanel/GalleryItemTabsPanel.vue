@@ -90,7 +90,7 @@ watchEffect(() => {
 </script>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .o-tabs__content--fixed.gallery-item-tab-panel {
   @include mobile {

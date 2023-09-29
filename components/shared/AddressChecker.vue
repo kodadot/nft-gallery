@@ -41,7 +41,7 @@
             size="small"
             variant="k-pink"
             data-testid="addresschecker-button-change-to"
-            @click.native="changeAddress">
+            @click="changeAddress">
             {{
               $t(`transfers.invalidAddress.changeToChainAddress`, {
                 selectedChain: currentChainName,
@@ -204,7 +204,7 @@ watch(addressCheck, (check) => {
 })
 </script>
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .is-blue {
   @include ktheme() {

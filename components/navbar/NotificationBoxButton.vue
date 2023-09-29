@@ -14,26 +14,25 @@ import { ModalCloseType } from './types'
 const props = defineProps<{
   showLabel: boolean
 }>()
+
 const preferencesStore = usePreferencesStore()
-const instance = getCurrentInstance()
 const emit = defineEmits(['closeBurgerMenu'])
 const isMobile = ref(window.innerWidth < 1024)
 const isMobileWithoutTablet = ref(window.innerWidth < 768)
 
-const { $neoModal } = useNuxtApp()
+const { neoModal } = useProgrammatic()
 
 function toggleNotificationModal() {
   if (isMobile.value) {
     emit('closeBurgerMenu')
   }
 
-  $neoModal.closeAll()
+  neoModal.closeAll()
 
   if (!document.querySelector('.notification-box-modal')) {
     preferencesStore.setNotificationBoxCollapse(true)
 
-    $neoModal.open({
-      parent: instance?.proxy,
+    neoModal.open({
       onCancel: () => {
         preferencesStore.setNotificationBoxCollapse(false)
       },

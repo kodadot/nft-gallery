@@ -3,7 +3,7 @@
     <template v-for="(value, key) in breads">
       <NeoTag
         v-if="key === 'search'"
-        :key="key"
+        key="search"
         class="control"
         :is-blue-tag="isCollectionSearchMode"
         @close="removeBread('search')">
@@ -11,7 +11,7 @@
       </NeoTag>
       <NeoTag
         v-else-if="key === 'min'"
-        :key="key"
+        key="min"
         class="control"
         @close="removeBread('min')">
         {{ `${$t('Min')}:` }}
@@ -19,7 +19,7 @@
       </NeoTag>
       <NeoTag
         v-else-if="key === 'max'"
-        :key="key"
+        key="max"
         class="control"
         @close="removeBread('max')">
         {{ `${$t('Max')}:` }}
@@ -35,11 +35,7 @@
         </NeoTag>
       </template>
 
-      <NeoTag
-        v-else
-        :key="key"
-        class="control d"
-        @close="closeTag(String(key))">
+      <NeoTag v-else :key="key" class="control" @close="closeTag(String(key))">
         {{ queryMapTranslation[String(key)] }}
       </NeoTag>
     </template>

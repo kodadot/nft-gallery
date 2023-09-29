@@ -11,7 +11,7 @@
                 :has-img="false"
                 error-title="Offline Detected"
                 error-subtitle="Please check your network connections" />
-              <Nuxt v-else />
+              <NuxtPage v-else />
             </div>
           </div>
         </div>
@@ -27,7 +27,7 @@
 const { $config } = useNuxtApp()
 const route = useRoute()
 
-useNuxt2Meta({
+useHead({
   link: [
     {
       hid: 'canonical',

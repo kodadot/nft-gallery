@@ -9,7 +9,7 @@
     <CollectionSelect
       :collections="collections"
       :show-explainer-text="showExplainerText"
-      @changeSelectedCollection="onCollectionSelected" />
+      @change-selected-collection="onCollectionSelected" />
 
     <transition-group name="fade">
       <template v-if="vSelectedCollection">
@@ -129,7 +129,8 @@ const vDescription = useVModel(props, 'description', emit)
 
 const vFile = useVModel(props, 'file', emit)
 
-const vSelectedCollection = useVModel(props, 'selectedCollection', emit)
+// const vSelectedCollection = useVModel(props, 'selectedCollection', emit)
+const vSelectedCollection = ref()
 
 const vCopies = useVModel(props, 'copies', emit)
 

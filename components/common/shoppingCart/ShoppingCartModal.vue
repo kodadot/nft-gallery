@@ -15,7 +15,7 @@
           :label="$t('shoppingCart.clearAll')"
           no-shadow
           variant="text"
-          @click.native="clearAllItems" />
+          @click="clearAllItems" />
       </div>
       <div v-if="numberOfItems" class="scroll-y">
         <div
@@ -45,7 +45,7 @@
             class="w-full fixed-height"
             no-shadow
             variant="k-accent"
-            @click.native="onCompletePurchase" />
+            @click="onCompletePurchase" />
         </div>
       </div>
       <div
@@ -56,7 +56,7 @@
           <img
             :src="emptyCartPlaceholder"
             alt="empty cart"
-            width="140px"
+            width="140"
             class="mb-5" />
           <span class="has-text-weight-bold mb-2">{{
             $t('shoppingCart.emptyCart.line1')
@@ -169,7 +169,7 @@ const onCompletePurchase = () => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .shopping-cart-modal {
   .shopping-cart-modal-container {
     position: fixed;

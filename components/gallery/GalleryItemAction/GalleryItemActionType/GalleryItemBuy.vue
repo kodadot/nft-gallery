@@ -37,14 +37,14 @@
               variant="k-accent"
               :disabled="disabled"
               data-testid="item-buy"
-              @click.native="onClick" />
+              @click="onClick" />
           </NeoTooltip>
         </div>
 
         <NeoButton
           class="button-height no-border-left"
           data-testid="item-add-to-cart"
-          @click.native="onClickShoppingCart">
+          @click="onClickShoppingCart">
           <img :src="cartIcon" class="image is-32x32" />
         </NeoButton>
       </div>
@@ -52,7 +52,7 @@
       <div v-else>{{ $t('nft.notListed') }}</div>
     </GalleryItemPriceSection>
 
-    <OnRampModal v-model="showRampModal" @close="showRampModal = false" />
+    <OnRampModal :value="showRampModal" @close="showRampModal = false" />
   </div>
 </template>
 
@@ -145,7 +145,7 @@ const openCompletePurcahseModal = () => {
 
 function onClick() {
   if (btnStatus.value === BuyStatus.CART) {
-    openShoppingCart(instance)
+    openShoppingCart()
   } else {
     doAfterLogin({ onLoginSuccess: openCompletePurcahseModal })
   }
@@ -160,7 +160,7 @@ const onClickShoppingCart = () => {
 }
 </script>
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 :deep(.button-height) {
   height: 55px !important;

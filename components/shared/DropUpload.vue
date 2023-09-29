@@ -8,15 +8,14 @@
         @error="hasError = true" />
     </div>
     <div class="field">
-      <NeoField class="file is-primary">
+      <NeoField class="file is-primary" :addons="false">
         <NeoUpload
           ref="upload"
           v-model="file"
           :required="required"
           drag-drop
           :expanded="expanded"
-          :accept="accept"
-          @input="createInput">
+          :accept="accept">
           <section class="section">
             <div class="content has-text-centered">
               <NeoIcon v-if="!file && !url" :icon="icon" custom-size="fa-2x" />
@@ -134,6 +133,12 @@ const createInput = (inputFile: Blob): void | boolean => {
   }
   reader.readAsText(inputFile)
 }
+
+watch(file, () => {
+  if (file.value) {
+    createInput(file.value)
+  }
+})
 
 useEventListener(window, 'paste', onPasteImage)
 

@@ -2,7 +2,7 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <BaseTokenForm
-      v-bind.sync="base"
+      v-model="base"
       ref="baseTokenForm"
       :collections="collections"
       :show-explainer-text="showExplainerText">
@@ -45,7 +45,7 @@
             key="hasRoyalty"
             v-model="hasRoyalty"
             label="mint.listWithRoyalty" />
-          <RoyaltyForm v-if="hasRoyalty" key="royalty" v-bind.sync="royalty" />
+          <RoyaltyForm v-if="hasRoyalty" key="royalty" v-model="royalty" />
         </template>
       </template>
       <template #footer>
@@ -111,7 +111,7 @@ import type {
 } from '@/composables/transaction/types'
 
 const { isLoading, status } = useMetaTransaction()
-const { $i18n, $apollo } = useNuxtApp()
+const { $i18n } = useNuxtApp()
 const { accountId, isLogIn, balance } = useAuth()
 const { client } = usePrefix()
 const { urlPrefix } = usePrefix()
@@ -168,18 +168,14 @@ const updatePrice = (value: string) => {
 }
 
 const fetchCollections = async () => {
-  const _collections = await $apollo.query({
+  const { data: _collections } = await useAsyncQuery({
     query: collectionForMint,
-    client: client.value,
     variables: {
       account: accountId.value,
     },
-    fetchPolicy: 'network-only',
+    clientId: client.value,
   })
-
-  const {
-    data: { collectionEntities },
-  } = _collections
+  const { collectionEntities } = _collections.value
 
   collections.value = unwrapSafe(collectionEntities)
     ?.map((ce: any) => ({

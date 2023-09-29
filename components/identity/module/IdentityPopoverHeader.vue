@@ -15,7 +15,7 @@
           icon="copy"
           class="has-text-link is-clickable"
           data-testid="identity-clipboard"
-          @click.native="toast('Copied to clipboard')" />
+          @click="toast('Copied to clipboard')" />
       </div>
       <a
         v-if="identity?.twitter"
@@ -41,7 +41,7 @@ const { toast } = useToast()
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .popover-image {
   min-width: 60px;

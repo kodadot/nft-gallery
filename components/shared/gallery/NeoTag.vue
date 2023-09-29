@@ -12,7 +12,7 @@
       aria-close-label="clear filter"
       icon="xmark"
       class="ml-2 is-clickable cross-icon"
-      @click.native="onClose" />
+      @click="onClose" />
   </div>
 </template>
 
@@ -30,7 +30,7 @@ const onClose = () => {
 </script>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .neo-tag {
   border-radius: 0 !important;
