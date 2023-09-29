@@ -107,6 +107,7 @@
     "transferable": "Transferable",
     "networkFee": "Network fee",
     "invalidAddress": {
+      "wrongNetwork": "wrong network",
       "changeToChainAddress": "Change to {selectedChain} address",
       "addressChanged": {
         "title": "Changed to {selectedChain} address",
