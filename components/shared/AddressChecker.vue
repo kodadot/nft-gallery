@@ -89,6 +89,7 @@ const props = defineProps<{
   address: string
 }>()
 
+const { $i18n } = useNuxtApp()
 const { chainProperties } = useChain()
 const { urlPrefix } = usePrefix()
 const currentChainName = computed(() => chainNames[urlPrefix.value])
@@ -104,6 +105,15 @@ const isWrongNetworkAddress = computed(
 const checkAddressByss58Format = (value: string, ss58: number) => {
   const [isValid] = checkAddress(value, correctFormat(ss58))
   return isValid
+}
+
+const isValidUnsupportedPolkadotAddress = (address: string) => {
+  try {
+    encodeAddress(decodeAddress(address))
+    return true
+  } catch (error) {
+    return false
+  }
 }
 
 const getAddressCheck = (value: string): AddressCheck => {
@@ -139,6 +149,16 @@ const getAddressCheck = (value: string): AddressCheck => {
       valid: false,
       type: AddressType.WRONG_NETWORK_ADDRESS,
       value: chainNames[validAddressesChain],
+    }
+  }
+
+  const isValid = isValidUnsupportedPolkadotAddress(value)
+
+  if (isValid) {
+    return {
+      valid: false,
+      type: AddressType.WRONG_NETWORK_ADDRESS,
+      value: $i18n.t('transfers.invalidAddress.wrongNetwork'),
     }
   }
 
