@@ -32,10 +32,10 @@
 
         <div>
           <NeoButton
-            :v-safe-href="post._path"
+            :tag="NuxtLink"
+            :to="post._path"
             no-shadow
             rounded
-            tag="a"
             icon="arrow-right-long">
             View Article
           </NeoButton>
@@ -87,7 +87,9 @@
 
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
+import { resolveComponent } from 'vue'
 
+const NuxtLink = resolveComponent('NuxtLink')
 const { data: posts } = useAsyncData('posts', async () => {
   const contents = await queryContent('/').find()
   const tags = {
