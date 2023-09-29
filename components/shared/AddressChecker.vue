@@ -65,6 +65,7 @@ import {
   isEthereumAddress,
 } from '@polkadot/util-crypto'
 import correctFormat from '@/utils/ss58Format'
+import { isValidAddress } from '@/utils/account'
 import { CHAINS } from '@/libs/static/src/chains'
 import InfoBox from '@/components/shared/view/InfoBox.vue'
 import { NeoButton } from '@kodadot1/brick'
@@ -107,15 +108,6 @@ const checkAddressByss58Format = (value: string, ss58: number) => {
   return isValid
 }
 
-const isValidUnsupportedPolkadotAddress = (address: string) => {
-  try {
-    encodeAddress(decodeAddress(address))
-    return true
-  } catch (error) {
-    return false
-  }
-}
-
 const getAddressCheck = (value: string): AddressCheck => {
   if (isEthereumAddress(value)) {
     return { valid: false, type: AddressType.ETHEREUM }
@@ -152,7 +144,7 @@ const getAddressCheck = (value: string): AddressCheck => {
     }
   }
 
-  const isValid = isValidUnsupportedPolkadotAddress(value)
+  const isValid = isValidAddress(value)
 
   if (isValid) {
     return {
