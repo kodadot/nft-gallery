@@ -87,8 +87,9 @@
             <a
               v-clipboard:copy="accountId"
               class="ml-2"
+              data-testid="transfer-copy-sender-address"
               @click="toast(`${$i18n.t('general.copyToClipboard')}`)">
-              <NeoIcon icon="copy" data-testid="transfer-copy-sender-address" />
+              <NeoIcon icon="copy" />
             </a>
           </div>
           <Auth v-else />
