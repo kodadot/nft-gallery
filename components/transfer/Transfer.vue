@@ -210,7 +210,7 @@
           class="ml-2"
           icon="plus"
           pack="fas"
-          data-testid="transfer-button-add-recipient" />
+          data-testid="transfer-icon-add-recipient" />
       </div>
       <div
         class="is-flex is-justify-content-space-between is-align-items-center mb-5">
@@ -257,7 +257,7 @@
           tag="button"
           full-width
           no-shadow
-          data-testid="transfer-button-token"
+          data-testid="transfer-tab-token"
           @click.native="displayUnit = 'token'" />
         <TabItem
           :active="displayUnit === 'usd'"
@@ -265,22 +265,20 @@
           tag="button"
           full-width
           no-shadow
-          data-testid="transfer-button-usd"
+          data-testid="transfer-tab-usd"
           @click.native="displayUnit = 'usd'" />
       </div>
 
       <div
         class="is-flex is-justify-content-space-between is-align-items-center mb-2">
         <span class="is-size-7">{{ $t('transfers.networkFee') }}</span>
-        <div class="is-flex is-align-items-center">
-          <span
-            class="is-size-7 has-text-grey mr-1"
-            data-testid="transfer-network-fee-1"
+        <div
+          class="is-flex is-align-items-center"
+          data-testid="transfer-network-fee">
+          <span class="is-size-7 has-text-grey mr-1"
             >({{ displayTxFeeValue[0] }})</span
           >
-          <span class="is-size-7" data-testid="transfer-network-fee-2">{{
-            displayTxFeeValue[1]
-          }}</span>
+          <span class="is-size-7">{{ displayTxFeeValue[1] }}</span>
         </div>
       </div>
 

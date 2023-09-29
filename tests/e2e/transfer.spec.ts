@@ -19,7 +19,7 @@ test('Transfer Page Functionality', async ({ page, Commands }) => {
       .fill(`${UserAddress}`)
     await page.getByTestId('transfer-input-amount-token').nth(0).fill('1')
     //add recipient
-    await page.getByTestId('transfer-button-add-recipient').click()
+    await page.getByTestId('transfer-icon-add-recipient').click()
     //fill polkadot Address and amount on last field
     await page
       .getByPlaceholder('Enter wallet address')
@@ -39,63 +39,68 @@ test('Transfer Page Functionality', async ({ page, Commands }) => {
     ).valueOf()
     const totalNumber = +total.split(' ')[0]
     expect(totalNumber).toBeGreaterThan(0)
+    await test.step('Recurring Payment Button', async () => {
+      await page.getByTestId('transfer-tab-usd').click()
+      await page.getByTestId('transfer-input-amount-usd').nth(0).fill('5')
+      await page.getByTestId('transfer-button-options').click()
+      await page.getByTestId('transfer-dropdown-recurring').click()
+      Commands.copyText(
+        `http://localhost:9090/dot/transfer?target=${UserAddress}&target1=${UserAddress}&usdamount=5`
+      )
+    })
+    //removes last transfer recipient
+    await page.getByTestId('transfer-remove-recipient').last().click()
+    await test.step('Pay me Button', async () => {
+      await page.getByTestId('transfer-input-amount-usd').fill('4')
+      await page.getByTestId('transfer-button-options').click()
+      await page.getByTestId('transfer-dropdown-pay-me').click()
+      Commands.copyText(
+        `http://localhost:9090/dot/transfer?target=${UserAddress}&usdamount=4`
+      )
+    })
+    //verify if network fee is present
+    await expect(page.getByTestId('transfer-network-fee')).toBeVisible()
+    //last step
+    await test.step('Switch to KSM and convert address to proper chain', async () => {
+      //change to KSM chain
+      await page
+        .getByTestId('transfer-token-tabs-container')
+        .getByText('KSM')
+        .click()
+      //hard timeout because next step won't work without it
+      await page.waitForTimeout(5000)
+      await page
+        .getByPlaceholder('Enter wallet address')
+        .nth(0)
+        .fill(`${UserAddress}`)
+      await expect(
+        page.getByTestId('addresschecker-infobox-invalid')
+      ).toBeVisible()
+      await page.getByTestId('addresschecker-button-change-to').click()
+      await expect(
+        page.getByTestId('addresschecker-infobox-convertion-success')
+      ).toBeVisible()
+    })
   })
-  //at this moment the two fields will have 1 as Amount
-  await test.step('Changes to USD and check if input value got converted', async () => {
-    await page.getByTestId('transfer-button-usd').click()
-    await page.waitForTimeout(5000)
-    const usdValue1 = await page
-      .getByTestId('transfer-input-amount-usd')
-      .nth(0)
-      .inputValue()
-    const usdValue2 = await page
-      .getByTestId('transfer-input-amount-usd')
-      .nth(1)
-      .inputValue()
-    await expect(page.getByTestId('transfer-input-amount-usd')).toBeDefined()
-    expect(+usdValue1).toBeGreaterThanOrEqual(0.1)
-    expect(+usdValue2).toBeGreaterThanOrEqual(0.1)
-  })
-  await test.step('Recurring Payment Button', async () => {
-    await page.getByTestId('transfer-input-amount-usd').nth(0).fill('5')
-    await page.getByTestId('transfer-button-options').click()
-    await page.getByTestId('transfer-dropdown-recurring').click()
-    Commands.copyText(
-      `http://localhost:9090/dot/transfer?target=${UserAddress}&target1=${UserAddress}&usdamount=5`
-    )
-  })
-  //removes last transfer recipient
-  await page.getByTestId('transfer-remove-recipient').last().click()
-  await test.step('Pay me Button', async () => {
-    await page.getByTestId('transfer-input-amount-usd').fill('4')
-    await page.getByTestId('transfer-button-options').click()
-    await page.getByTestId('transfer-dropdown-pay-me').click()
-    Commands.copyText(
-      `http://localhost:9090/dot/transfer?target=${UserAddress}&usdamount=4`
-    )
-  })
-  //verify if network fee is present
-  await expect(page.getByTestId('transfer-network-fee-1')).toBeVisible()
-  await expect(page.getByTestId('transfer-network-fee-2')).toBeVisible()
-  //last step
-  await test.step('Switch to KSM and convert address to proper chain', async () => {
-    //change to KSM chain
-    await page
-      .getByTestId('transfer-token-tabs-container')
-      .getByText('KSM')
-      .click()
-    //hard timeout because next step won't work without it
-    await page.waitForTimeout(5000)
-    await page
-      .getByPlaceholder('Enter wallet address')
-      .nth(0)
-      .fill(`${UserAddress}`)
-    await expect(
-      page.getByTestId('addresschecker-infobox-invalid')
-    ).toBeVisible()
-    await page.getByTestId('addresschecker-button-change-to').click()
-    await expect(
-      page.getByTestId('addresschecker-infobox-convertion-success')
-    ).toBeVisible()
-  })
+})
+
+test('Changes to from Dot to USD and check if input value got converted', async ({
+  page,
+  Commands,
+}) => {
+  await Commands.e2elogin()
+  await page.goto('/dot/transfer')
+  await Promise.all([
+    page.waitForResponse(
+      (resp) => resp.url().includes('polkadot') && resp.status() === 200
+    ),
+  ])
+  await page.getByTestId('transfer-input-amount-token').fill('5')
+  await page.getByTestId('transfer-tab-usd').click()
+  const usdValue1 = await page
+    .getByTestId('transfer-input-amount-usd')
+    .first()
+    .inputValue()
+  const usdConverted = parseFloat(usdValue1)
+  expect(usdConverted).toBeGreaterThan(0)
 })
