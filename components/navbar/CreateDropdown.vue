@@ -16,7 +16,6 @@
           <nuxt-link
             data-testid="classic"
             :to="`/${urlPrefix}/create`"
-            tag="div"
             class="is-flex">
             {{ $t('classic') }}
           </nuxt-link>
@@ -31,7 +30,6 @@
           <nuxt-link
             data-testid="waifu"
             :to="`/${urlPrefix}/waifu`"
-            tag="div"
             class="is-flex">
             {{ $t('navbar.create.waifu') }}
           </nuxt-link>
@@ -47,7 +45,6 @@
           <nuxt-link
             data-testid="massmint"
             :to="`/${urlPrefix}/massmint`"
-            tag="div"
             class="is-flex">
             {{ $t('multipleNFTS') }}
           </nuxt-link>
