@@ -64,7 +64,7 @@
 <script lang="ts" setup>
 import { getSum, getSumOfObjectField } from '@/utils/math'
 import resolveQueryPath from '@/utils/queryPathResolver'
-
+import { Interaction } from '@kodadot1/minimark/v1'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import StatsColumn from '@/components/shared/format/StatsColumn.vue'
 import { Event } from '@/components/rmrk/service/types'
@@ -80,7 +80,7 @@ const props = defineProps({
 })
 
 const { $apollo, $consola } = useNuxtApp()
-const { client } = usePrefix()
+const { client, urlPrefix } = usePrefix()
 
 const profileStats = ref({
   totalBuys: 'profileStats.totalBuys',
@@ -102,6 +102,16 @@ const totalSell = ref<bigint | number>(BigInt(0))
 const totalHoldingsNfts = computed(() => stats.value.totalCollected)
 const listedCount = computed(() => stats.value.listedCount)
 
+const interactionIn = computed(() => {
+  const interactions = [Interaction.LIST, Interaction.SEND, Interaction.BUY]
+
+  if (!['ksm', 'ahp', 'ahk'].includes(urlPrefix.value)) {
+    interactions.push(Interaction.MINTNFT)
+  }
+
+  return interactions
+})
+
 useLazyAsyncData('stats', async () => {
   if (!props.id) {
     $consola.warn('ProfilActivity: id is not defined')
@@ -114,6 +124,7 @@ useLazyAsyncData('stats', async () => {
     client: client.value,
     variables: {
       id: props.id,
+      interactionIn: interactionIn.value,
     },
   })
 

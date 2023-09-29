@@ -1,7 +1,7 @@
 #import "../../fragments/event.graphql"
 #import "../../fragments/nftSubsquid.graphql"
 
-query profileStatsById($id: String!) {
+query profileStatsById($id: String!, $interactionIn: [Interaction!]) {
   listed: nftEntitiesConnection(
     where: {
       currentOwner_eq: $id
@@ -72,10 +72,15 @@ query profileStatsById($id: String!) {
 
   events: eventsConnection(
     where: {
-      caller_eq: $id,
-      OR: {
-        currentOwner_eq: $id,
-      }
+      AND: [ 
+        {
+          caller_eq: $id,
+          OR: {
+            currentOwner_eq: $id, 
+          }
+        },
+      ],
+      interaction_in: $interactionIn
     }
     orderBy: blockNumber_DESC
   ) {
