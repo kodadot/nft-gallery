@@ -5,9 +5,9 @@
       <SearchBar
         v-if="!hideSearchInput"
         ref="searchRef"
-        v-model="name"
+        v-model:value="name"
         :query="query"
-        data-testid="search-bar"
+        data-test-id="search-bar"
         @redirect="redirectToGalleryPageIfNeed"
         @enter="nativeSearch"
         @blur="onBlur" />
