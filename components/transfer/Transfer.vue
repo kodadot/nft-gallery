@@ -181,11 +181,9 @@
               <a
                 v-if="!isMobile && targetAddresses.length > 1"
                 class="is-flex"
+                data-testid="transfer-remove-recipient"
                 @click="deleteAddress(index)">
-                <NeoIcon
-                  class="p-3"
-                  icon="trash"
-                  data-testid="transfer-remove-recipient" />
+                <NeoIcon class="p-3" icon="trash" />
               </a>
             </div>
           </div>
@@ -204,13 +202,10 @@
 
       <div
         class="mb-5 is-flex is-justify-content-center is-clickable"
+        data-testid="transfer-icon-add-recipient"
         @click="addAddress">
         {{ $t('transfers.addAddress') }}
-        <NeoIcon
-          class="ml-2"
-          icon="plus"
-          pack="fas"
-          data-testid="transfer-icon-add-recipient" />
+        <NeoIcon class="ml-2" icon="plus" pack="fas" />
       </div>
       <div
         class="is-flex is-justify-content-space-between is-align-items-center mb-5">
