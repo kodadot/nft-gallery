@@ -16,7 +16,7 @@
           <nuxt-link
             data-testid="classic"
             :to="`/${urlPrefix}/create`"
-            tag="div">
+            class="is-flex">
             {{ $t('classic') }}
           </nuxt-link>
         </NeoTooltip>
@@ -27,7 +27,10 @@
           position="left"
           :label="$t('createDropdown.waifu')"
           multiline>
-          <nuxt-link data-testid="waifu" :to="`/${urlPrefix}/waifu`" tag="div">
+          <nuxt-link
+            data-testid="waifu"
+            :to="`/${urlPrefix}/waifu`"
+            class="is-flex">
             {{ $t('navbar.create.waifu') }}
           </nuxt-link>
         </NeoTooltip>
@@ -42,7 +45,7 @@
           <nuxt-link
             data-testid="massmint"
             :to="`/${urlPrefix}/massmint`"
-            tag="div">
+            class="is-flex">
             {{ $t('multipleNFTS') }}
           </nuxt-link>
         </NeoTooltip>
