@@ -1,6 +1,6 @@
 <template>
   <div class="unlockable-container">
-    <Loader v-model="isLoading" :minted="justMinted" />
+    <Loader v-model:value="isLoading" :minted="justMinted" />
     <CountdownTimer />
     <hr class="text-color my-0" />
     <div class="container is-fluid">

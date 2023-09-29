@@ -47,7 +47,7 @@ const props = withDefaults(
   defineProps<{
     collectionId: string
     interaction: string
-    limit: number
+    limit?: number
   }>(),
   {
     limit: 10,
