@@ -180,6 +180,12 @@ export default defineNuxtConfig({
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: {
     dirs: [
+      // ordering matters
+      {
+        path: '~/components/shared',
+        extensions: ['vue'],
+        pathPrefix: false,
+      },
       {
         path: '~/components',
         extensions: ['vue'],
@@ -206,10 +212,6 @@ export default defineNuxtConfig({
       },
       {
         path: '~/components/settings',
-        extensions: ['vue'],
-      },
-      {
-        path: '~/components/shared',
         extensions: ['vue'],
       },
       {

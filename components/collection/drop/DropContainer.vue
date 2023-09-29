@@ -23,8 +23,8 @@
           <div>
             <div
               class="is-flex is-justify-content-space-between is-align-items-center my-5">
-              <span class="has-text-weight-bold is-size-5">Mint Phase</span
-              ><span
+              <span class="has-text-weight-bold is-size-5">Mint Phase</span>
+              <span
                 v-if="mintCountAvailable"
                 class="is-flex is-align-items-center">
                 <img src="/unlockable-pulse.svg" alt="open" />
@@ -33,8 +33,8 @@
             </div>
             <div
               class="is-flex is-justify-content-space-between is-align-items-center">
-              <span>{{ mintedPercent }} %</span
-              ><span class="has-text-weight-bold">
+              <span>{{ mintedPercent }} %</span>
+              <span class="has-text-weight-bold">
                 {{ mintedCount }} / {{ totalCount }} Minted</span
               >
             </div>
@@ -214,7 +214,7 @@ const { data: collectionData, refetch: tryAgain } = useGraphql({
 })
 
 const totalCount = computed(
-  () => collectionData.value?.collectionEntity.nftCount || 200
+  () => collectionData.value?.collectionEntity?.nftCount || 200
 )
 const totalAvailableMintCount = computed(
   () => collectionData.value?.nftEntitiesConnection?.totalCount
