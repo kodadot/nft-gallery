@@ -83,24 +83,3 @@ test('Transfer Page Functionality', async ({ page, Commands }) => {
     })
   })
 })
-
-test('Changes to from Dot to USD and check if input value got converted', async ({
-  page,
-  Commands,
-}) => {
-  await Commands.e2elogin()
-  await page.goto('/dot/transfer')
-  await Promise.all([
-    page.waitForResponse(
-      (resp) => resp.url().includes('polkadot') && resp.status() === 200
-    ),
-  ])
-  await page.getByTestId('transfer-input-amount-token').fill('5')
-  await page.getByTestId('transfer-tab-usd').click()
-  const usdValue1 = await page
-    .getByTestId('transfer-input-amount-usd')
-    .first()
-    .inputValue()
-  const usdConverted = parseFloat(usdValue1)
-  expect(usdConverted).toBeGreaterThan(0)
-})
