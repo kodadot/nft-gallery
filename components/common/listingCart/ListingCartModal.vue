@@ -20,12 +20,18 @@
 
           <ListingCartSingleItemCart
             v-if="listingCartStore.count === 1"
-            v-model="cartData"
+            v-model:fixed-price="cartData.fixedPrice"
+            v-model:floor-price-percent-adjustment="
+              cartData.floorPricePercentAdjustment
+            "
             @setFixedPrice="setFixedPrice" />
 
           <ListingCartMultipleItemsCart
             v-else
-            v-model="cartData"
+            v-model:fixed-price="cartData.fixedPrice"
+            v-model:floor-price-percent-adjustment="
+              cartData.floorPricePercentAdjustment
+            "
             @setFixedPrice="setFixedPrice" />
         </div>
 

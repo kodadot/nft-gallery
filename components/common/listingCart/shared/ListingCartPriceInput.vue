@@ -21,15 +21,16 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import { useVModel } from '@vueuse/core'
 
 const props = defineProps<{
-  value?: number | string
+  modelValue?: number | string
   check?: boolean
   fullWidth?: boolean
 }>()
-const emit = defineEmits(['confirm', 'input'])
-const model = useVModel(props, 'value', emit, { eventName: 'input' })
+const emit = defineEmits(['confirm', 'update:modelValue'])
+const model = useVModel(props, 'modelValue', emit, {
+  eventName: 'update:modelValue',
+})
 const { chainSymbol } = useChain()
 
 watch(model, (newValue) => {
