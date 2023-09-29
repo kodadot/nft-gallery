@@ -205,7 +205,7 @@
         data-testid="transfer-icon-add-recipient"
         @click="addAddress">
         {{ $t('transfers.addAddress') }}
-        <NeoIcon class="ml-2" icon="plus" pack="fas" />
+        <NeoIcon class="ml-2" icon="plus" />
       </div>
       <div
         class="is-flex is-justify-content-space-between is-align-items-center mb-5">
