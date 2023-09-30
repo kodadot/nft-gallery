@@ -1,9 +1,22 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './fixtures'
 
-test('Check if RMRK2 shows Create Page', async ({ page }) => {
-  await page.goto('/ksm/create')
+const chains = [
+  'chain-dropdown-bsx',
+  'chain-dropdown-ksm',
+  'chain-dropdown-ahp',
+  'chain-dropdown-ahk',
+  'chain-dropdown-rmrk',
+]
 
-  // Expects page to have a heading with the name of Create Collection.
-  const heading = await page.$('h1.title')
-  expect(await heading?.textContent()).toContain('What Do You Wish To Create?')
+test('Landing Elements', async ({ page }) => {
+  await page.goto('')
+  for (const data of chains) {
+    await page.getByTestId('chain-select').click()
+    await page.getByTestId(data).click()
+    await expect(page.getByTestId('drops')).toBeVisible()
+    await expect(page.getByTestId('explore').last()).toBeVisible()
+    await expect(page.getByTestId('search-bar')).toBeVisible()
+    await expect(page.getByTestId('footer-container')).toBeVisible()
+    await expect(page.getByTestId('profileDropdown')).toBeVisible()
+  }
 })

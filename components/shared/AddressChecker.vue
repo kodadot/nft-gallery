@@ -8,6 +8,7 @@
           selectedChain: currentChainName,
         })
       "
+      data-testid="addresschecker-infobox-convertion-success"
       @close="onClose">
       <div
         v-dompurify-html="
@@ -22,6 +23,7 @@
       v-else-if="addressCheck && showAddressCheck"
       variant="fail"
       :title="$t(`transfers.invalidAddress.${addressCheck.type}.title`)"
+      data-testid="addresschecker-infobox-invalid"
       @close="onClose">
       <div
         v-dompurify-html="
@@ -38,6 +40,7 @@
             rounded
             size="small"
             variant="k-pink"
+            data-testid="addresschecker-button-change-to"
             @click="changeAddress">
             {{
               $t(`transfers.invalidAddress.changeToChainAddress`, {
