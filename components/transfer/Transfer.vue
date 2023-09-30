@@ -129,7 +129,7 @@
               },
             ]">
             <AddressInput
-              :value="destinationAddress.address"
+              v-model="destinationAddress.address"
               label=""
               class="is-flex-1 is-flex-grow-2"
               :class="[
