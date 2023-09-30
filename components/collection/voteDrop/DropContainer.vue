@@ -27,7 +27,7 @@
               ><span
                 v-if="mintCountAvailable"
                 class="is-flex is-align-items-center">
-                <img src="/drop/unlockable-pulse.svg" alt="open" />
+                <img src="/unlockable-pulse.svg" alt="open" />
                 {{ $t('mint.unlockable.open') }}</span
               >
             </div>
@@ -59,12 +59,11 @@
               </div>
               <div>
                 <NeoButton
-                  ref="root"
                   class="mb-2 mt-4 mint-button"
                   variant="k-accent"
                   :disabled="mintButtonDisabled"
                   :label="buttonLabel"
-                  @click.native="handleMint" />
+                  @click="handleMint" />
                 <div class="is-flex is-align-items-center mt-2">
                   <NeoIcon icon="timer" class="mr-2" />
                   {{ leftTime }}
@@ -131,7 +130,6 @@ import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useC
 import { doWaifu } from '@/services/waifu'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import type Vue from 'vue'
 import { useCountDown } from '../unlockable/utils/useCountDown'
 import {
   VOTE_DROP_AHP_CAMPAIGN,
@@ -148,8 +146,8 @@ const Loader = defineAsyncComponent(
   () => import('@/components/collection/unlockable/UnlockableLoader.vue')
 )
 
-const { $neoModal, $i18n } = useNuxtApp()
-const root = ref<Vue>()
+const { $i18n } = useNuxtApp()
+const { neoModal } = useProgrammatic()
 const { accountId } = useAuth()
 
 const imageList = ref<string[]>([])
@@ -222,7 +220,7 @@ const { data: collectionData, refetch } = useGraphql({
 watch(collectionData, () => {
   if (collectionData.value) {
     imageList.value = [
-      sanitizeIpfsUrl(collectionData.value?.collectionEntity.image),
+      sanitizeIpfsUrl(collectionData.value?.value.collectionEntity.image),
     ]
   }
 })
@@ -275,8 +273,7 @@ const mintButtonDisabled = computed(
 
 const handleMint = async () => {
   if (!isLogIn.value) {
-    $neoModal.open({
-      parent: root?.value,
+    neoModal.open({
       ...ConnectWalletModalConfig,
     })
     return
@@ -316,7 +313,7 @@ const handleMint = async () => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .unlockable-container {
   .mint-button {

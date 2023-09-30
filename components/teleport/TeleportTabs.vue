@@ -5,12 +5,12 @@
         v-for="tab in tabs"
         :key="tab.value"
         class="teleport-tabs-button"
-        tag="nuxt-link"
+        :tag="NuxtLink"
         :disabled="tab.disabled?.value"
         :variant="tab.disabled?.value ? 'disabled-secondary' : undefined"
         :active="value === tab.value"
         to=""
-        @click.native="emit('select', tab.value)">
+        @click="emit('select', tab.value)">
         <span> {{ tab.label }}</span>
         <img v-if="value === tab.value" src="/checkmark.svg" />
       </NeoButton>
@@ -20,9 +20,10 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import { ComputedRef } from '@nuxt/bridge/dist/runtime/composables'
 import { Chain } from '@/utils/teleport'
+import { resolveComponent } from 'vue'
 
+const NuxtLink = resolveComponent('NuxtLink')
 type Tab = {
   label: string
   value: Chain
@@ -36,7 +37,7 @@ const emit = defineEmits(['select'])
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .teleport-tabs {
   .teleport-tabs-button {

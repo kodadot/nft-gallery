@@ -1,5 +1,5 @@
 <template>
-  <NeoModal v-model="isModalActive" scroll="clip" @close="emit('close')">
+  <NeoModal :value="isModalActive" scroll="clip" @close="emit('close')">
     <div class="p-6 modal-width">
       <div class="border-bottom border-grey">
         <p class="is-flex is-justify-content-center pb-4 is-size-5">
@@ -42,13 +42,13 @@
             :variant="mintBtnVariant"
             no-shadow
             class="min-width btn-height is-flex is-flex-1"
-            @click.native="emit('mint')" />
+            @click="emit('mint')" />
           <NeoButton
             :label="$t('massmint.cancel')"
             :variant="cancelBtnVariant"
             no-shadow
             class="min-width ml-5 btn-height is-flex is-flex-1"
-            @click.native="emit('close')" />
+            @click="emit('close')" />
         </div>
       </div>
     </div>

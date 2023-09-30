@@ -17,12 +17,14 @@
     :rounded="rounded"
     :tag="tag"
     v-bind="$attrs">
-    <slot />
+    <template v-if="$slots.default" #default>
+      <slot />
+    </template>
   </o-button>
 </template>
 
 <script lang="ts" setup>
-import { OButton } from '@oruga-ui/oruga'
+import { OButton } from '@oruga-ui/oruga-next'
 import { NeoButtonVariant } from '@kodadot1/brick'
 
 defineProps<{

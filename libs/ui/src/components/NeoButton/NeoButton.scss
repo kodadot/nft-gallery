@@ -1,4 +1,4 @@
-@import '@oruga-ui/oruga/src/scss/oruga-full.scss';
+@import '@oruga-ui/oruga-next/src/scss/oruga-full.scss';
 @import '../../scss/variable.scss';
 @import '../../scss/theme.scss';
 
@@ -273,7 +273,7 @@
     @include ktheme() {
       color: theme('k-grey') !important;
 
-      :deep .o-btn__label {
+      :deep(.o-btn__label) {
         margin: 0 3px !important;
       }
 

@@ -3,7 +3,7 @@
     <NeoAutocomplete
       ref="searchRef"
       v-model="name"
-      class="gallery-search"
+      root-class="gallery-search"
       :class="{ 'is-collection-search': isSearchInCollectionMode }"
       :placeholder="placeholderContent"
       icon="search"
@@ -13,9 +13,9 @@
       expanded
       @blur="onInputBlur"
       @focus="onInputFocus"
-      @keydown.native.delete="exitCollectionSearch"
-      @keydown.native.backSpace="exitCollectionSearch"
-      @keydown.native.enter="onEnter">
+      @keydown.delete="exitCollectionSearch"
+      @keydown.backSpace="exitCollectionSearch"
+      @keydown.enter="onEnter">
       <template #header>
         <SearchSuggestion
           v-if="!isSearchInCollectionMode"
@@ -66,7 +66,7 @@ import SearchSuggestion from '@/components/search/SearchSuggestion.vue'
 import { SearchQuery } from './types'
 import type { PropType } from 'vue'
 
-const props = defineProps({
+defineProps({
   value: {
     type: String,
     required: true,
@@ -77,7 +77,8 @@ const props = defineProps({
 const emits = defineEmits(['input', 'blur', 'enter', 'redirect'])
 const { $i18n } = useNuxtApp()
 
-const name = useVModel(props, 'value', emits, { eventName: 'input' })
+// const name = useVModel(props, 'value', emits, { eventName: 'input' })
+const name = ref('')
 
 const searchRef = ref<typeof NeoAutocomplete>()
 const searchSuggestionRef = ref<typeof SearchSuggestion>()
@@ -112,7 +113,7 @@ function onEnter() {
   closeDropDown()
   searchRef.value?.$refs?.input?.$refs?.input?.blur()
   // insert search term in history
-  searchSuggestionRef.value?.insertNewHistory()
+  // searchSuggestionRef.value?.insertNewHistory()
   emits('enter')
 }
 

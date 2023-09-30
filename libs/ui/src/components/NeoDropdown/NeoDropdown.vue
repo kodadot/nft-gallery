@@ -1,5 +1,5 @@
 <script>
-import { ODropdown } from '@oruga-ui/oruga'
+import { ODropdown } from '@oruga-ui/oruga-next'
 
 export default {
   mixins: [ODropdown],
@@ -69,7 +69,7 @@ export default {
       this.autoPosition = this.position
     }
   },
-  beforeDestroy() {
+  onBeforeUnmount() {
     window.removeEventListener('resize', this.calcDropdownPosition)
   },
   methods: {

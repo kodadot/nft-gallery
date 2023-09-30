@@ -11,7 +11,7 @@
       <span v-if="isCollection" class="carousel-info-arrow">----></span>
     </nuxt-link>
     <CollectionDetailsPopover v-if="item?.collectionId" :nft="item">
-      <template #trigger>
+      <template #content>
         <nuxt-link
           v-if="!isCollection && item.collectionId"
           :to="

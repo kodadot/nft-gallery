@@ -1,9 +1,9 @@
-import { ComponentPublicInstance, Ref, nextTick, ref } from 'vue'
+import { nextTick } from 'vue'
 
 export function useTextOverflow() {
-  const isTextCut: Ref<boolean> = ref(false)
+  const isTextCut = ref<boolean>(false)
 
-  const assignRef = (el: Element | ComponentPublicInstance | null) => {
+  const assignRef = (el: Element | null) => {
     if (el && el instanceof HTMLElement) {
       updateIsTextCutShort(el)
     }

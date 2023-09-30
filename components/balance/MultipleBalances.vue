@@ -49,7 +49,7 @@
 
     <hr class="my-2" />
     <p class="is-flex is-justify-content-space-between is-align-items-flex-end">
-      <span class="is-size-7"> {{ $i18n.t('spotlight.total') }}: </span>
+      <span class="is-size-7"> {{ $t('spotlight.total') }}: </span>
       <span class="is-size-6"
         >${{ formatNumber(identityStore.getTotalUsd) }}</span
       >

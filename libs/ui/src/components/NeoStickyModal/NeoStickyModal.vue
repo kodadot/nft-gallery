@@ -1,6 +1,6 @@
 <template>
   <NeoModal
-    v-model="isModalActive"
+    :value="isModalActive"
     :no-shadow="isMobile"
     :content-class="[
       'confirm-modal',
@@ -41,7 +41,7 @@
           no-shadow
           icon="xmark"
           :size="isBoxedHeader ? undefined : 'medium'"
-          @click.native="closeModal" />
+          @click="closeModal" />
       </header>
 
       <div>

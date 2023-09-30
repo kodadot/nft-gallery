@@ -111,8 +111,8 @@ const sliderSettings = computed(() => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
-@import '@/styles/components/carousel-arrows';
+@import '@/assets/styles/abstracts/variables';
+@import '@/assets/styles/components/carousel-arrows';
 
 .unlockable-image-slider {
   width: 580px;

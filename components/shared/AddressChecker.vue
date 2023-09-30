@@ -38,7 +38,7 @@
             rounded
             size="small"
             variant="k-pink"
-            @click.native="changeAddress">
+            @click="changeAddress">
             {{
               $t(`transfers.invalidAddress.changeToChainAddress`, {
                 selectedChain: currentChainName,
@@ -201,7 +201,7 @@ watch(addressCheck, (check) => {
 })
 </script>
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .is-blue {
   @include ktheme() {

@@ -130,7 +130,7 @@
         variant="k-accent"
         no-shadow
         class="fixed-button-height is-flex is-flex-1"
-        @click.native="confirmTransfer" />
+        @click="confirmTransfer" />
     </template>
   </NeoStickyModal>
 </template>
@@ -177,7 +177,7 @@ const onClose = () => {
 </script>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .transfer-confirm-modal {
   .fixed-height {

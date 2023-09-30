@@ -1,16 +1,16 @@
 @import '../../scss/variable.scss';
 @import '../../scss/theme.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/expressions.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/variables.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/expressions.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/variables.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/animations.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/helpers.scss';
 
 $input-border-radius: 0;
 $input-height: 3rem;
 $input-padding: 0.75rem 1rem;
 $input-textarea-padding: 0.75rem 1rem;
 
-@import '@oruga-ui/oruga/src/scss/components/input.scss';
+@import '@oruga-ui/oruga-next/src/scss/components/input.scss';
 
 .neo-input {
   .o-input {

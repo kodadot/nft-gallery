@@ -2,7 +2,7 @@
   <section>
     <form @submit.prevent>
       <h1 class="title is-size-3 mb-8 is-capitalized">
-        {{ $i18n.t('identity.set', [getChainName(identityPrefix)]) }}
+        {{ $t('identity.set', [getChainName(identityPrefix)]) }}
       </h1>
 
       <div v-if="hasIdentity" class="is-size-6">
@@ -21,12 +21,12 @@
             </div>
           </div>
           <NeoButton
-            :label="$i18n.t('identity.clear')"
+            :label="$t('identity.clear')"
             class="mb-1"
             no-shadow
             rounded
             size="small"
-            @click.native="deleteIdentity" />
+            @click="deleteIdentity" />
         </div>
         <hr class="my-7" />
       </div>
@@ -34,18 +34,18 @@
       <NeoField label="Handle">
         <NeoInput
           v-model="identity.display.value"
-          :placeholder="$i18n.t('identity.onChainPlaceholder')"
+          :placeholder="$t('identity.onChainPlaceholder')"
           :maxlength="inputLengthLimit"
           required
-          :validation-message="$i18n.t('identity.handleRequired')" />
+          :validation-message="$t('identity.handleRequired')" />
       </NeoField>
 
       <BasicInput
         v-model="identity.legal.value"
         class="mb-4"
-        :label="$i18n.t('name')"
+        :label="$t('name')"
         :maxlength="inputLengthLimit"
-        :placeholder="$i18n.t('identity.namePlaceholder')"
+        :placeholder="$t('identity.namePlaceholder')"
         expanded />
 
       <BasicInput
@@ -53,7 +53,7 @@
         type="email"
         class="mb-5"
         :maxlength="inputLengthLimit"
-        :label="$i18n.t('email')"
+        :label="$t('email')"
         placeholder="somebody@example.com"
         expanded />
 
@@ -91,7 +91,7 @@
       <hr />
 
       <p class="subtitle is-size-6">
-        {{ $i18n.t('identity.deposit') }}
+        {{ $t('identity.deposit') }}
         <Money :value="deposit" inline />
 
         <NeoTooltip

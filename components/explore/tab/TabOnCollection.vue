@@ -12,6 +12,8 @@
 </template>
 
 <script setup lang="ts">
+import TabItem from '@/components/shared/TabItem.vue'
+
 const route = useRoute()
 
 const toItem = computed(

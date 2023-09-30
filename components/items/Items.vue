@@ -28,6 +28,7 @@
 import SidebarFilter from '@/components/shared/filters/SidebarFilter.vue'
 import ItemsGrid from './ItemsGrid/ItemsGrid.vue'
 import { NeoSkeleton } from '@kodadot1/brick'
+import BreadcrumbsFilter from '@/components/shared/BreadcrumbsFilter.vue'
 
 const total = ref(0)
 const isLoading = ref(false)

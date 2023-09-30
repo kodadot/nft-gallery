@@ -19,9 +19,9 @@ export const useCollectionActivity = ({ collectionId }) => {
   })
 
   watch(data, (result) => {
-    if (result?.collection) {
+    if (result.value?.collection) {
       // flat events for chart
-      const interactions: InteractionWithNFT[] = result.collection.nfts
+      const interactions: InteractionWithNFT[] = result.value.collection.nfts
         .map((nft) =>
           nft.events.map((e) => ({
             ...e,
@@ -33,11 +33,11 @@ export const useCollectionActivity = ({ collectionId }) => {
       events.value = interactions
 
       if (urlPrefix.value === 'bsx') {
-        offers.value = getOffers(result.collection.nfts)
+        offers.value = getOffers(result.value.collection.nfts)
       }
 
       // not to repeat ref names
-      const ownersTemp = getOwners(result.collection.nfts)
+      const ownersTemp = getOwners(result.value.collection.nfts)
       const flippersTemp = getFlippers(interactions)
 
       const flipperdIds = Object.keys(flippersTemp)

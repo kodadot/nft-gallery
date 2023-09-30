@@ -13,7 +13,7 @@
           no-shadow
           icon="xmark"
           size="medium"
-          @click.native="emit('close')" />
+          @click="emit('close')" />
       </div>
       <div
         v-else
@@ -33,7 +33,7 @@
           no-shadow
           icon="xmark"
           size="medium"
-          @click.native="emit('close')" />
+          @click="emit('close')" />
       </div>
       <figure class="px-6 pb-4">
         <img
@@ -75,9 +75,7 @@
             class="ml-4 px-4"
             rounded
             no-shadow
-            @click.native="
-              toast($i18n.t('transactionLoader.copyTransactionLink'))
-            " />
+            @click="toast($i18n.t('transactionLoader.copyTransactionLink'))" />
         </div>
       </div>
     </div>

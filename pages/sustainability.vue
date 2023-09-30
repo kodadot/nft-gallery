@@ -105,29 +105,20 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
 
-export default {
-  name: 'Sustainibility',
-  components: {
-    NeoIcon,
-  },
+const config = useRuntimeConfig()
+
+definePageMeta({
   layout: 'centered-half-layout',
-  head() {
-    const runtimeConfig = useRuntimeConfig()
-    const title = 'Sustainibility of KodaDot'
-    const metaData = {
-      title,
-      type: 'article',
-      description: 'KodaDot: Sustainibility mission',
-      url: '/sustainibility',
-      image: `${runtimeConfig.public.baseUrl}/k_card.png`,
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
-    }
-  },
-}
+})
+
+useSeoMeta({
+  title: 'Sustainibility of KodaDot',
+  description: 'KodaDot: Sustainibility mission',
+  ogUrl: '/sustainibility',
+  ogImage: config.public.baseUrl + '/k_card.png',
+  twitterImage: config.public.baseUrl + '/k_card.png',
+})
 </script>
