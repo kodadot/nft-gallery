@@ -31,7 +31,7 @@
         <hr class="my-7" />
       </div>
 
-      <NeoField label="Handle">
+      <NeoField label="Handle" class="mb-5">
         <NeoInput
           v-model="identity.display.value"
           :placeholder="$t('identity.onChainPlaceholder')"
@@ -40,32 +40,29 @@
           :validation-message="$t('identity.handleRequired')" />
       </NeoField>
 
-      <BasicInput
-        v-model="identity.legal.value"
-        class="mb-4"
-        :label="$t('name')"
-        :maxlength="inputLengthLimit"
-        :placeholder="$t('identity.namePlaceholder')"
-        expanded />
+      <NeoField :label="$t('name')" class="mb-5">
+        <NeoInput
+          v-model="identity.legal.value"
+          :placeholder="$t('identity.namePlaceholder')"
+          :maxlength="inputLengthLimit" />
+      </NeoField>
 
-      <BasicInput
-        v-model="identity.email.value"
-        type="email"
-        class="mb-5"
-        :maxlength="inputLengthLimit"
-        :label="$t('email')"
-        placeholder="somebody@example.com"
-        expanded />
+      <NeoField :label="$t('email')" class="mb-5">
+        <NeoInput
+          type="email"
+          v-model="identity.email.value"
+          placeholder="somebody@example.com"
+          :maxlength="inputLengthLimit" />
+      </NeoField>
 
-      <BasicInput
-        v-model="identity.web.value"
-        class="mb-4"
-        :label="$t('website')"
-        :maxlength="inputLengthLimit"
-        placeholder="https://example.com"
-        expanded />
+      <NeoField :label="$t('website')" class="mb-5">
+        <NeoInput
+          v-model="identity.web.value"
+          placeholder="https://example.com"
+          :maxlength="inputLengthLimit" />
+      </NeoField>
 
-      <NeoField label="Any Socials?" class="mb-5">
+      <NeoField label="Any Socials?" class="mb-4">
         <div class="is-flex is-flex-direction-column">
           <p>{{ $t('identity.socialsDescription') }}</p>
 
@@ -78,14 +75,15 @@
       </NeoField>
 
       <Transition name="fade">
-        <BasicInput
+        <NeoField
           v-if="isTabVisible(IdentitySocialField.Twitter)"
-          v-model="identity.twitter.value"
-          class="mb-4"
           label="Twitter"
-          :maxlength="inputLengthLimit"
-          placeholder="@YourTwitterName"
-          expanded />
+          class="mb-4">
+          <NeoInput
+            v-model="identity.twitter.value"
+            placeholder="@YourTwitterName"
+            :maxlength="inputLengthLimit" />
+        </NeoField>
       </Transition>
 
       <hr />
@@ -148,7 +146,6 @@ import PillTabs, { Icon, PillTab } from '@/components/shared/PillTabs.vue'
 import IdentityConfirmModal from '@/components/common/identity/IdentityConfirmModal.vue'
 import TransactionLoader from '@/components/shared/TransactionLoader.vue'
 import { useIdentityStore } from '@/stores/identity'
-import BasicInput from '@/components/shared/form/BasicInput.vue'
 import Money from '@/components/shared/format/Money.vue'
 import { useFiatStore } from '@/stores/fiat'
 import { calculateUsdFromToken } from '@/utils/calculation'
