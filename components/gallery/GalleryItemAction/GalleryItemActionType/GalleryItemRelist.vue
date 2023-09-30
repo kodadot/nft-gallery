@@ -4,9 +4,7 @@
       <div class="is-flex gallery-item-relist">
         <NeoButton
           :label="
-            isListed
-              ? `${$i18n.t('transaction.price.change')}`
-              : `${$i18n.t('transaction.list')}`
+            isListed ? $t('transaction.price.change') : $t('transaction.list')
           "
           size="large"
           fixed-width
@@ -35,7 +33,6 @@ const props = defineProps<{
 
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
-const { $i18n } = useNuxtApp()
 
 const { stats } = useCollectionDetails({
   collectionId: props.nft.collection.id,

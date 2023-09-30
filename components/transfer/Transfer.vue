@@ -38,7 +38,7 @@
             v-if="accountId"
             v-clipboard:copy="generatePaymentLink([accountId])"
             data-testid="transfer-dropdown-pay-me"
-            @click="toast(`${$i18n.t('toast.urlCopy')}`)">
+            @click="toast($t('toast.urlCopy'))">
             <NeoIcon icon="sack-dollar" class="mr-2" />{{
               $t('transfers.payMeLink')
             }}
@@ -48,7 +48,7 @@
             v-clipboard:copy="generateRecurringPaymentLink()"
             class="no-wrap"
             data-testid="transfer-dropdown-recurring"
-            @click="toast(`${$i18n.t('toast.urlCopy')}`)">
+            @click="toast($t('toast.urlCopy'))">
             <NeoIcon icon="rotate" class="mr-2" />{{
               $t('transfers.recurringPaymentLink')
             }}
@@ -88,7 +88,7 @@
               v-clipboard:copy="accountId"
               class="ml-2"
               data-testid="transfer-copy-sender-address"
-              @click="toast(`${$i18n.t('general.copyToClipboard')}`)">
+              @click="toast($t('general.copyToClipboard'))">
               <NeoIcon icon="copy" />
             </a>
           </div>
@@ -372,7 +372,7 @@ const Money = defineAsyncComponent(
 
 const route = useRoute()
 const router = useRouter()
-const { $consola, $i18n } = useNuxtApp()
+const { $consola } = useNuxtApp()
 const { unit, decimals } = useChain()
 const { apiInstance } = useApi()
 const { urlPrefix } = usePrefix()
