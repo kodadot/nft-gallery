@@ -1,14 +1,26 @@
 <template>
-  <NeoDropdown class="dropdown-width" :disabled="!isLogIn">
+  <NeoDropdown
+    required
+    :class="[
+      'dropdown-width',
+      {
+        'full-width': fullWidth,
+        'no-shadow': noShadow,
+      },
+    ]"
+    :no-shadow="noShadow"
+    :disabled="!isLogIn">
     <template #trigger="{ active }">
       <NeoButton
         v-if="!selectedCollection"
         class="dropdown-width"
+        :no-shadow="noShadow"
         :label="$t('massmint.selectCollection')"
         :icon="active ? 'chevron-up' : 'chevron-down'" />
       <NeoButton
         v-else
         class="dropdown-width"
+        :no-shadow="noShadow"
         :icon="active ? 'chevron-up' : 'chevron-down'">
         {{ selectedCollection.name || selectedCollection.id }}
         <NeoIcon
@@ -25,10 +37,10 @@
         :key="collection.id"
         class="dropdown-width"
         @click.native="selectCollection(collection)">
-        {{ collection.name || collection.id }}
+        {{ collection.name || collection.id }} - ({{ collection.totalCount }})
       </NeoDropdownItem>
       <NeoDropdownItem class="dropdown-width">
-        <nuxt-link :to="`/${urlPrefix}/create`" class="w-full">
+        <nuxt-link to="/create/collection" class="w-full">
           <div class="w-full">
             <NeoIcon icon="plus" class="mr-1" />
             {{ $t('massmint.createNewCollection') }}
@@ -41,7 +53,7 @@
         {{ $t('massmint.noCollection') }}
       </NeoDropdownItem>
       <NeoDropdownItem class="dropdown-width">
-        <nuxt-link :to="`/${urlPrefix}/create`" class="w-full">
+        <nuxt-link to="/create/collection" class="w-full">
           <div class="w-full">
             <NeoIcon icon="plus" class="mr-1" />
             {{ $t('massmint.createNewCollection') }}
@@ -62,7 +74,11 @@ import {
 import { MintedCollection } from '@/composables/transaction/types'
 import { useCollectionForMint } from '@/composables/massmint/useMassMint'
 
-const { urlPrefix } = usePrefix()
+defineProps({
+  fullWidth: { type: Boolean, default: false },
+  noShadow: { type: Boolean, default: false },
+})
+
 const { isLogIn, accountId } = useAuth()
 
 const { collectionsEntites } = useCollectionForMint()
@@ -83,6 +99,14 @@ const selectCollection = (collection) => {
 
 .dropdown-width {
   width: 30rem;
+}
+
+.full-width {
+  width: 100%;
+  .dropdown-width,
+  :deep(.o-drop__menu) {
+    width: 100%;
+  }
 }
 
 @include mobile {

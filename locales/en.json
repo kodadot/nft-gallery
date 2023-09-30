@@ -55,7 +55,7 @@
   "referralProgram": "Referral Program",
   "theatre": "theatre",
   "view": "view",
-  "price": "price",
+  "price": "Price",
   "royalty": "royalty",
   "Instance_tooltip": "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
   "Minting Settings": "Minting Settings",
@@ -107,6 +107,7 @@
     "transferable": "Transferable",
     "networkFee": "Network fee",
     "invalidAddress": {
+      "wrongNetwork": "wrong network",
       "changeToChainAddress": "Change to {selectedChain} address",
       "addressChanged": {
         "title": "Changed to {selectedChain} address",
@@ -440,13 +441,23 @@
     "shareWithFriends": "Share {0} with your friends",
     "unlimited": "Unlimited items in your collection",
     "nfsw": "Explicit content (NSFW)",
+    "nfswMessage": "Set your collection as explicit and sensitive content.",
     "listForSale": "List NFT for sale",
     "listWithRoyalty": "Add royalty",
     "mass": "NFT mass minter",
     "command": "List of commands for mass mint",
     "transform": "Transform commands in NFT",
     "deposit": "Deposit",
-    "requiredDeposit": "A deposit of <strong>{0}</strong> is required to create a collection. Please note, this initial deposit is refundable.",
+    "requiredDeposit": "A deposit of <strong>{0}</strong> is required to create a {1}. Please note, this initial deposit is refundable.",
+    "landing": {
+      "heading": "What Do You Wish To Create?",
+      "collection": "Create A Collection For Your NFTs",
+      "nft": "Create Awesome NFTs From Your Art",
+      "singleNft": "Single NFT",
+      "singleNftDesc": "Create and mint a single original NFT (can have more copies)",
+      "massNft": "Multiple NFTs",
+      "massNftDesc": "Create and mint multiple different NFTs at once"
+    },
     "expert": {
       "show": "Show advanced settings",
       "hide": "Hide advanced settings",
@@ -468,7 +479,7 @@
       },
       "description": {
         "label": "Collection Description",
-        "placeholder": "Enter collection description",
+        "placeholder": "Tell us more about your collection",
         "message": "Description of your collection. Markdown is supported"
       },
       "symbol": {
@@ -489,8 +500,12 @@
       "drop": "Drop collection logo here or click to upload or simple paste the image from the clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
     },
     "nft": {
+      "art": {
+        "label": "Your Awesome Art",
+        "message": "This can be image, video, audio, 3D model"
+      },
       "name": {
-        "label": "name",
+        "label": "Name",
         "placeholder": "Enter NFT name",
         "message": "Name of your NFT. It will be visible in the gallery"
       },
@@ -498,6 +513,10 @@
         "label": "NFT description",
         "placeholder": "Enter NFT description",
         "message": "Description of your NFT. Markdown is supported"
+      },
+      "collection": {
+        "label": "Select Collection",
+        "message": "Choose a collection to which you want to mint your NFT."
       },
       "edition": {
         "label": "Copies",
@@ -512,6 +531,21 @@
         "placeholder": "Enter your email",
         "message": "Enter your email to receive a notification when your request is done"
       },
+      "sale": {
+        "label": "List For Sale On Marketplace",
+        "message": "People will be able to buy your NFT."
+      },
+      "copies": {
+        "label": "Number of Copies",
+        "message": "Amount of the same NFT tokens that will be created."
+      },
+      "preview": {
+        "title": "Preview",
+        "uploadArt": "Upload your art to see a preview of your NFT here",
+        "noCollection": "No Collection"
+      },
+      "create": "Create New NFT",
+      "connect": "Please Connect Your Wallet",
       "creativeDrop": "Drop your NFT here, click to upload or paste the image from the clipboard. AI model limits our support for Creative Minting to only JPEG, PNG, GIF or BMP image files. The file size must be less than 4MB, and the image's dimensions must be greater than 50x50 pixels. Realistic photographs will achieve the best results.",
       "cover": "Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)",
       "creativeFailDesc": "Generating the title and description failed. Please check whether the uploaded file fits the limits of Creative Minting: JPEG, PNG, GIF or BMP with a size less than 4MB and dimensions greater than 50x50 pixels.",
@@ -539,14 +573,14 @@
       },
       "open": "Open",
       "phase": "Mint Phase",
-      "totalAvailableItem":"Total available items",
+      "totalAvailableItem": "Total available items",
       "ayeVotersOnly": "For Aye Voters Only",
       "eligible": "You Are Eligible",
-      "exclusive":"Exclusive Access Only",
+      "exclusive": "Exclusive Access Only",
       "howItemWork": "How unlockable item works"
     },
     "blockchain": {
-      "label": "Blockchain",
+      "label": "Select Blockchain",
       "message": "Select the blockchain to which NFTs will be minted by default."
     }
   },
@@ -924,8 +958,11 @@
   },
   "identity": {
     "page": "Identity",
-    "set": "Create on-chain identity",
+    "set": "Create On-Chain identity on {0}",
     "click": "Click to create identity",
+    "clear": "Clear (burn)",
+    "existing" : "Existing Onchain Identity",
+    "establishedIdentity": "It appears you already established an onchain identity. Update it as needed (no new deposit needed) or delete to reclaim your deposit.",
     "handleRequired": "Your handle is required",
     "deposit": "Deposit",
     "fundsReserve": "0.0333 KSM will be reserved. These funds are returned when the identity is cleared.",
