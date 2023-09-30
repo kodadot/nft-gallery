@@ -5,12 +5,12 @@ it('should render correct twitter opengraph on item page', () => {
   cy.getCy('media-link').should(
     'have.attr',
     'href',
-    'https://image-beta.w.kodadot.xyz/ipfs/bafybeicybs6ew352zb7ze5tsvc72zh4bp57k3dgikzhxfhpcfd5ebt3wc4'
+    'https://kodadot-ultra.myfilebase.com/ipfs/bafybeicybs6ew352zb7ze5tsvc72zh4bp57k3dgikzhxfhpcfd5ebt3wc4'
   )
   cy.getCy('metadata-link').should(
     'have.attr',
     'href',
-    'https://image-beta.w.kodadot.xyz/ipfs/bafkreih2u3pxsdtqid7owzwn6wpyfwfpgi6jg65onz4tae7snybamyds54'
+    'https://kodadot-ultra.myfilebase.com/ipfs/bafkreih2u3pxsdtqid7owzwn6wpyfwfpgi6jg65onz4tae7snybamyds54'
   )
 
   cy.get('meta[property="og:site_name"]').should(
@@ -46,7 +46,7 @@ it('should render correct twitter opengraph on item page', () => {
   cy.get('meta[property="twitter:image"]').should(
     'have.attr',
     'content',
-    'https://og-image-green-seven.vercel.app/Luna%20Witches%20%231.jpeg?price=0.7500KSM&image=https%3A%2F%2Fimage-beta.w.kodadot.xyz%2Fipfs%2Fbafybeicybs6ew352zb7ze5tsvc72zh4bp57k3dgikzhxfhpcfd5ebt3wc4&mime=image%2Fjpeg'
+    'https://og-image-green-seven.vercel.app/Luna%20Witches%20%231.jpeg?price=0.7500KSM&image=https%3A%2F%2Fkodadot-ultra.myfilebase.com%2Fipfs%2Fbafybeicybs6ew352zb7ze5tsvc72zh4bp57k3dgikzhxfhpcfd5ebt3wc4&mime=image%2Fjpeg'
   )
 
   // make sure no duplicate tag

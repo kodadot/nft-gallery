@@ -5,8 +5,8 @@ export const SERVICES: Record<string, string> = {
   nftStorage: 'https://nft-storage.w.kodadot.xyz/',
   seoCard: 'https://og-image-green-seven.vercel.app/',
   replicate: 'https://replicate.w.kodadot.xyz/',
-  image: 'https://image.w.kodadot.xyz/',
-  imageBeta: 'https://image-beta.w.kodadot.xyz/',
+  image: 'https://kodadot-ultra.myfilebase.com/',
+  imageBeta: 'https://kodadot-ultra.myfilebase.com/',
 }
 
 export const EXPLORERS: Record<Prefix, string> = {
