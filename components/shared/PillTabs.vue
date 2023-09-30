@@ -5,7 +5,7 @@
       :key="tab.value"
       :active="tab.active"
       variant="pill"
-      @click.native="() => handleTabClick(tab.value)">
+      @click="() => handleTabClick(tab.value)">
       <img
         v-if="tab.image"
         class="mr-2 image square-20"
@@ -58,7 +58,7 @@ const handleTabClick = (value: string) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .square-20 {
   width: 20px;
