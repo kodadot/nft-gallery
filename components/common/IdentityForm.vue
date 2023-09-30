@@ -96,7 +96,7 @@
           :label="$t('identity.fundsReserve', [depositFormatted])"
           position="right"
           multiline>
-          <NeoIcon icon="fa-info-circle" pack="fa-regular" class="ml" />
+          <NeoIcon icon="fa-info-circle" pack="fa-regular" class="ml-2" />
         </NeoTooltip>
       </p>
 
