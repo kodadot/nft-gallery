@@ -2,7 +2,7 @@ export default function useSearchNfts({
   search,
   first = 10,
   prefix = '',
-  orderBy = '',
+  orderBy = 'blockNumber_DESC',
 }) {
   const { client } = usePrefix()
   const chainPrefix = prefix || client.value
