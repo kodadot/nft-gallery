@@ -23,7 +23,7 @@
 import { NeoButton } from '@kodadot1/brick'
 
 const props = defineProps<{
-  modelValue?: number | string
+  modelValue?: number
   check?: boolean
   fullWidth?: boolean
 }>()
@@ -34,7 +34,9 @@ const model = useVModel(props, 'modelValue', emit, {
 const { chainSymbol } = useChain()
 
 watch(model, (newValue) => {
-  const sanitizedValue = (newValue?.toString() ?? '').replace(/[^0-9.]/g, '')
+  const sanitizedValue = Number(
+    (newValue?.toString() ?? '').replace(/[^0-9.]/g, '')
+  )
   if (sanitizedValue !== newValue) {
     model.value = sanitizedValue
   }

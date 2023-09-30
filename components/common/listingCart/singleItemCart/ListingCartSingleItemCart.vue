@@ -46,7 +46,7 @@ const emit = defineEmits([
 ])
 
 const props = defineProps<{
-  fixedPrice?: number | string
+  fixedPrice?: number
   floorPricePercentAdjustment: number
 }>()
 

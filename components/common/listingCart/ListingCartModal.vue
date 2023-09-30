@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Loader v-model="isLoading" :status="status" />
+    <Loader v-model:active="isLoading" :status="status" />
     <NeoModal
       :value="preferencesStore.listingCartModalOpen"
       scroll="clip"
@@ -91,17 +91,14 @@ const defaultCartData = {
 }
 
 const cartData = ref<{
-  fixedPrice?: number | string
+  fixedPrice?: number
   floorPricePercentAdjustment: number
 }>({ ...defaultCartData })
 
 function setFixedPrice() {
   const fixedPrice = cartData.value.fixedPrice
 
-  const rate =
-    fixedPrice === undefined || fixedPrice === null || fixedPrice === ''
-      ? null
-      : Number(fixedPrice)
+  const rate = Number(fixedPrice)
 
   listingCartStore.setFixedPrice(rate)
 }

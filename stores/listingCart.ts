@@ -8,7 +8,7 @@ export type ListCartItem = {
   name: string
   urlPrefix: string
   price: string
-  listPrice: number | null
+  listPrice: number
   collection: EntityWithId
   meta?: NFTMetadata
   metadata?: string
@@ -54,6 +54,13 @@ export const useListingCartStore = defineStore('listingCart', {
         localStorage.value = this.items
       }
     },
+    setItemPrice({ id, price }: { id: ID; price: number }) {
+      const itemIndex = existInItemIndex(id, this.items)
+      if (itemIndex !== -1) {
+        this.items[itemIndex].listPrice = price
+        localStorage.value = this.items
+      }
+    },
     setUnlistedItem(payload: ListCartItem) {
       const itemIndex = existInItemIndex(payload.id, this.allUnlistedItems)
       if (itemIndex === -1) {
@@ -66,7 +73,7 @@ export const useListingCartStore = defineStore('listingCart', {
     addAllToCart() {
       this.allUnlistedItems.forEach((item) => this.setItem(item))
     },
-    setFixedPrice(price: number | null) {
+    setFixedPrice(price: number) {
       this.itemsInChain.forEach((item) => {
         item.listPrice = price
       })

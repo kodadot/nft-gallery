@@ -1,5 +1,9 @@
 <template>
-  <NeoLoading :active.sync="isLoading" is-full-page :can-cancel="canCancel">
+  <NeoLoading
+    :active.sync="isLoading"
+    is-full-page
+    :can-cancel="canCancel"
+    @active="emit">
     <div class="loading-container">
       <figure>
         <img class="loading-icon" :src="placeholder" />
