@@ -140,7 +140,7 @@
               },
             ]">
             <AddressInput
-              :value="destinationAddress.address"
+              v-model="destinationAddress.address"
               label=""
               class="is-flex-1 is-flex-grow-2"
               :class="[
@@ -166,7 +166,7 @@
                 icon-right-class="search"
                 data-testid="transfer-input-amount-token"
                 @focus="onAmountFieldFocus(destinationAddress, 'token')"
-                @input="onAmountFieldChange(destinationAddress)" />
+                @update:modelValue="onAmountFieldChange(destinationAddress)" />
               <NeoInput
                 v-else
                 v-model="destinationAddress.usd"
@@ -178,7 +178,7 @@
                 icon-right-class="has-text-grey"
                 data-testid="transfer-input-amount-usd"
                 @focus="onAmountFieldFocus(destinationAddress, 'usd')"
-                @input="onUsdFieldChange(destinationAddress)" />
+                @update:modelValue="onUsdFieldChange(destinationAddress)" />
               <a
                 v-if="!isMobile && targetAddresses.length > 1"
                 class="is-flex"
