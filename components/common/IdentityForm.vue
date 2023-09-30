@@ -90,7 +90,7 @@
 
       <p class="subtitle is-size-6">
         {{ $t('identity.deposit') }}
-        <Money :value="deposit" inline />
+        <Money :value="deposit" :unit-symbol="identityUnit" inline />
 
         <NeoTooltip
           :label="$t('identity.fundsReserve', [depositFormatted])"
@@ -155,7 +155,7 @@ import { getChainName } from '@/utils/chain'
 const { $i18n } = useNuxtApp()
 
 const { accountId } = useAuth()
-const { decimals, unit } = useChain()
+const { decimals } = useChain()
 const { urlPrefix } = usePrefix()
 const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
 const identityStore = useIdentityStore()
@@ -215,6 +215,7 @@ const {
   identity: identityData,
   identityApi,
   identityPrefix,
+  identityUnit,
   refetchIdentity,
 } = useIdentity({
   address: accountId,
@@ -237,10 +238,12 @@ const disabled = computed(
 )
 
 const depositFormatted = computed(() =>
-  format(deposit.value, decimals.value, unit.value)
+  format(deposit.value, decimals.value, identityUnit.value)
 )
 
-const currentTokenValue = computed(() => getCurrentTokenValue(unit.value))
+const currentTokenValue = computed(() =>
+  getCurrentTokenValue(identityUnit.value)
+)
 const depositUsd = computed(() => {
   const value = calculateUsdFromToken(
     Number(deposit.value) * Math.pow(10, -decimals.value),
