@@ -21,10 +21,10 @@
           <div>
             <div
               class="is-flex is-justify-content-space-between is-align-items-center my-5">
-              <span class="has-text-weight-bold is-size-5">{{
-                $t('mint.unlockable.phase')
-              }}</span
-              ><span
+              <div class="has-text-weight-bold is-size-5">
+                {{ $t('mint.unlockable.phase') }}
+              </div>
+              <span
                 v-if="mintCountAvailable"
                 class="is-flex is-align-items-center">
                 <img src="/unlockable-pulse.svg" alt="open" />
@@ -228,7 +228,7 @@ watch(collectionData, () => {
 const totalCount = 300
 
 const totalAvailableMintCount = computed(
-  () => totalCount - collectionData.value?.collectionEntity?.nftCount
+  () => totalCount - collectionData.value?.value.collectionEntity?.nftCount
 )
 
 useSubscriptionGraphql({
@@ -251,7 +251,7 @@ const mintedPercent = computed(() => {
 const userMintedId = computed(
   () =>
     Boolean(accountId.value) &&
-    (collectionData.value?.nftEntitiesConnection?.edges?.[0]?.node?.id ||
+    (collectionData.value?.value.nftEntitiesConnection?.edges?.[0]?.node?.id ||
       justMinted.value)
 )
 
@@ -290,8 +290,8 @@ const handleMint = async () => {
     const id = await doWaifu(
       {
         address: accountId.value,
-        metadata: collectionData.value.collectionEntity.metadata,
-        image: collectionData.value.collectionEntity.image,
+        metadata: collectionData.value.value.collectionEntity.metadata,
+        image: collectionData.value.value.collectionEntity.image,
       },
       urlPrefix.value === 'ahk' ? VOTE_DROP_CAMPAIGN : VOTE_DROP_AHP_CAMPAIGN
     ).then((res) => {
