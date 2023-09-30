@@ -61,7 +61,7 @@ const chartData = computed(() => {
   ])
   const binnedListEvents = listBins.map(({ timestamp, value }) => [
     new Date(timestamp),
-    displayValue(value, 10),
+    displayValue(value, decimals.value),
   ])
 
   return [binnedBuyEvents, binnedListEvents]
