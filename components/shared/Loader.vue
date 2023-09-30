@@ -1,9 +1,5 @@
 <template>
-  <NeoLoading
-    :active.sync="isLoading"
-    is-full-page
-    :can-cancel="canCancel"
-    @active="emit">
+  <NeoLoading v-model:active="isLoading" is-full-page :can-cancel="canCancel">
     <div class="loading-container">
       <figure>
         <img class="loading-icon" :src="placeholder" />
