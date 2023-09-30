@@ -239,6 +239,36 @@
     }
   }
 
+  &--pill {
+    border-radius: 3rem;
+    box-shadow: none !important;
+    padding: 0.5rem  1rem;
+
+    @include ktheme() {
+      background-color: theme('background-color');
+      color: theme('text-color');
+      border: 1px solid theme('card-border-color');
+
+      &:hover {
+        border: 1px solid theme('border-color');
+      }
+    }
+
+    &__active {
+      @include ktheme() {
+        background-color: theme('background-color-inverse');
+        color: theme('text-color-inverse');
+        border: 1px solid theme('background-color-inverse');
+      }
+    }
+
+    .o-btn__wrapper .o-btn__label {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
   &.loading-with-label.o-btn--loading {
     @include ktheme() {
       color: theme('k-grey') !important;

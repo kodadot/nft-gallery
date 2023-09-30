@@ -7,7 +7,7 @@
         ref="searchRef"
         v-model:value="name"
         :query="query"
-        data-test-id="search-bar"
+        data-testid="search-bar"
         @redirect="redirectToGalleryPageIfNeed"
         @enter="nativeSearch"
         @blur="onBlur" />

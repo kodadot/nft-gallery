@@ -75,7 +75,7 @@
               variant="text"
               :label="$t('share.copyAddress')"
               no-shadow
-              @click="toast(`${$i18n.t('general.copyToClipboard')}`)" />
+              @click="toast($t('general.copyToClipboard'))" />
             <div class="divider" />
             <NeoButton
               variant="text"
