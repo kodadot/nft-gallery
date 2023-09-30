@@ -66,21 +66,33 @@ function millisToBinSize(millis: number): BinSize {
     minutes: minutes || undefined,
   }
 }
-interface BinSizeParams {
-  firstTimestamp: number
-  lastTimestamp: number
-  datasetLength: number
-  sampleRate?: number
-}
 
 export const getBinSizeForRange = ({
-  firstTimestamp,
-  lastTimestamp,
-  datasetLength,
+  timestamps,
   sampleRate = 2,
-}: BinSizeParams): BinSize => {
-  const totalMillis = lastTimestamp - firstTimestamp
-  const idealBinSizeMillis = totalMillis / (datasetLength * sampleRate)
+  sort = false,
+}: {
+  timestamps: number[]
+  sampleRate?: number
+  sort?: boolean
+}): BinSize => {
+  if (timestamps.length < 2) {
+    return { minutes: 1 }
+  }
+  if (sort) {
+    timestamps = timestamps.sort((a, b) => a - b)
+  }
+
+  const uniqueTimestamps = Array.from(new Set(timestamps))
+
+  // Calculate intervals between each timestamp.
+  const intervals = uniqueTimestamps
+    .slice(1)
+    .map((time, index) => time - timestamps[index])
+
+  const minInterval = Math.min(...intervals)
+
+  const idealBinSizeMillis = minInterval / sampleRate
 
   return millisToBinSize(idealBinSizeMillis)
 }

@@ -47,14 +47,10 @@ const listEvents = computed(() => {
 
 const chartData = computed(() => {
   const buyBinSize = getBinSizeForRange({
-    firstTimestamp: buyEvents.value[0].timestamp,
-    lastTimestamp: buyEvents.value[buyEvents.value.length - 1].timestamp,
-    datasetLength: buyEvents.value.length,
+    timestamps: buyEvents.value.map((e) => e.timestamp),
   })
   const listBinSize = getBinSizeForRange({
-    firstTimestamp: listEvents.value[0].timestamp,
-    lastTimestamp: listEvents.value[listEvents.value.length - 1].timestamp,
-    datasetLength: listEvents.value.length,
+    timestamps: listEvents.value.map((e) => e.timestamp),
   })
   const buyBins = bin(buyEvents.value, buyBinSize)
   const listBins = bin(listEvents.value, listBinSize)
