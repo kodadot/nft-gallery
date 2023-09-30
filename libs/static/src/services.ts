@@ -6,7 +6,6 @@ export const SERVICES: Record<string, string> = {
   seoCard: 'https://og-image-green-seven.vercel.app/',
   replicate: 'https://replicate.w.kodadot.xyz/',
   image: 'https://kodadot-ultra.myfilebase.com/',
-  imageBeta: 'https://kodadot-ultra.myfilebase.com/',
 }
 
 export const EXPLORERS: Record<Prefix, string> = {
