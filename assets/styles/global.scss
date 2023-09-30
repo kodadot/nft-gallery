@@ -325,6 +325,12 @@ a.has-text-grey {
   }
 }
 
+.border-top-k-shade {
+  @include ktheme() {
+    border-top: 1px solid theme('k-shade');
+  }
+}
+
 .has-text-k-shade {
   @include ktheme() {
     color: theme('k-shade');
