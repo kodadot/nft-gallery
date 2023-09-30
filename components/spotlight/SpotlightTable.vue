@@ -1,6 +1,6 @@
 <template>
   <div class="spotlight">
-    <Loader :value="isLoading" />
+    <Loader :modelValue="isLoading" />
     <NeoTable
       :data="computedData"
       :current-page="currentPage"
