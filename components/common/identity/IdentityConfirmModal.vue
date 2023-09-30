@@ -1,8 +1,5 @@
 <template>
-  <NeoStickyModal
-    v-model="isModalActive"
-    :is-mobile="isMobile"
-    @close="onClose">
+  <NeoStickyModal :value="isModalActive" :is-mobile="isMobile" @close="onClose">
     <template #header>
       <span>
         {{ $t('identity.create') }}

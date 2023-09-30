@@ -60,7 +60,7 @@
       <BasicInput
         v-model="identity.web.value"
         class="mb-4"
-        :label="$i18n.t('website')"
+        :label="$t('website')"
         :maxlength="inputLengthLimit"
         placeholder="https://example.com"
         expanded />
@@ -95,7 +95,7 @@
         <Money :value="deposit" inline />
 
         <NeoTooltip
-          :label="$i18n.t('identity.fundsReserve', [depositFormatted])"
+          :label="$t('identity.fundsReserve', [depositFormatted])"
           position="right"
           multiline>
           <NeoIcon icon="fa-info-circle" pack="fa-regular" class="ml" />
@@ -113,7 +113,7 @@
     </form>
 
     <IdentityConfirmModal
-      v-model="isConfirmModalActive"
+      :value="isConfirmModalActive"
       :deposit="depositFormatted"
       :deposit-usd="depositUsd"
       :identity="identity"
@@ -123,7 +123,7 @@
       @close="isConfirmModalActive = false" />
 
     <TransactionLoader
-      v-model="isLoaderModalVisible"
+      :value="isLoaderModalVisible"
       :status="status"
       :transaction-id="transactionValue"
       :is-mobile="isMobile"

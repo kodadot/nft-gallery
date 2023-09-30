@@ -1,6 +1,6 @@
 <template>
   <NeoModal
-    v-model="isModalActive"
+    :value="isModalActive"
     :can-cancel="canCancel"
     :no-shadow="isMobile"
     :content-class="[isMobile ? 'mobile-modal' : '']"
