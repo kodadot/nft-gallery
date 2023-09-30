@@ -9,7 +9,7 @@
         },
       ]">
       <TransactionLoader
-        :value="isLoaderModalVisible"
+        v-model="isLoaderModalVisible"
         :status="status"
         :total-token-amount="totalTokenAmount"
         :transaction-id="transactionValue"

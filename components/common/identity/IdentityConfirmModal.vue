@@ -1,5 +1,8 @@
 <template>
-  <NeoStickyModal :value="isModalActive" :is-mobile="isMobile" @close="onClose">
+  <NeoStickyModal
+    v-model="isModalActive"
+    :is-mobile="isMobile"
+    @close="onClose">
     <template #header>
       <span>
         {{ $t('identity.create') }}
@@ -63,7 +66,7 @@ import {
 const emit = defineEmits(['confirm', 'close'])
 
 const props = defineProps<{
-  value: boolean
+  modelValue: boolean
   deposit: string
   depositUsd: string
   identity: IdentityForm
@@ -71,7 +74,7 @@ const props = defineProps<{
   isMobile: boolean
 }>()
 
-const isModalActive = useVModel(props, 'value')
+const isModalActive = useVModel(props, 'modelValue')
 
 const showField = (key: string, field: IdentityField) =>
   field.isSocial ? props.identityActiveSocials[key] : true

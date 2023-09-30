@@ -1,6 +1,6 @@
 <template>
   <NeoModal
-    :value="isModalActive"
+    :value="modelValue"
     :no-shadow="isMobile"
     :content-class="[
       'confirm-modal',
@@ -9,7 +9,8 @@
     ]"
     max-height="90vh"
     scroll="clip"
-    @close="closeModal">
+    @close="closeModal"
+    @update:active="updateActive">
     <div
       :class="[
         'is-flex is-flex-direction-column is-justify-content-space-between',
@@ -70,13 +71,12 @@
 <script setup lang="ts">
 import NeoModal from '../NeoModal/NeoModal.vue'
 import NeoButton from '../NeoButton/NeoButton.vue'
-import { useVModel } from '@vueuse/core'
 
-const emit = defineEmits(['close', 'confirm'])
+const emit = defineEmits(['close', 'confirm', 'update:modelValue'])
 
 const props = withDefaults(
   defineProps<{
-    value: boolean
+    modelValue: boolean
     isMobile: boolean
     isExpanded?: boolean
     withBoxedHeader?: boolean
@@ -86,7 +86,10 @@ const props = withDefaults(
   }
 )
 
-const isModalActive = useVModel(props, 'value')
+const updateActive = (value: boolean) => {
+  emit('update:modelValue', value)
+}
+
 const isBoxedHeader = computed(() => !props.isMobile && props.withBoxedHeader)
 
 const closeModal = () => {

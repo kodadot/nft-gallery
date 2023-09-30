@@ -1,10 +1,11 @@
 <template>
   <NeoModal
-    :value="isModalActive"
+    :value="modelValue"
     :can-cancel="canCancel"
     :no-shadow="isMobile"
     :content-class="[isMobile ? 'mobile-modal' : '']"
-    @close="emit('close')">
+    @close="emit('close')"
+    @update:active="updateActive">
     <div :class="{ 'desktop-width': !isMobile }">
       <div v-if="isFinalStep" class="is-flex py-5 px-6 is-align-items-center">
         <div class="is-flex-grow-1 text-align-center">{{ $t('success') }}</div>
@@ -90,7 +91,7 @@ import { chainPropListOf } from '@/utils/config/chain.config'
 const props = withDefaults(
   defineProps<{
     status: TransactionStatus
-    value: boolean
+    modelValue: boolean
     totalTokenAmount?: number
     totalUsdValue?: number
     transactionId: string
@@ -102,7 +103,7 @@ const props = withDefaults(
     isMobile: false,
   }
 )
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'update:modelValue'])
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { blocktime } = useBlockTime()
@@ -135,7 +136,10 @@ const activeStep = computed(() => {
   }
 })
 
-const isModalActive = useVModel(props, 'value')
+const updateActive = (value: boolean) => {
+  emit('update:modelValue', value)
+}
+
 const steps = [
   {
     label: $i18n.t('transactionLoader.sign'),

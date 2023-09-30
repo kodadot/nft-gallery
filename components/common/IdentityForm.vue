@@ -111,7 +111,7 @@
     </form>
 
     <IdentityConfirmModal
-      :value="isConfirmModalActive"
+      v-model="isConfirmModalActive"
       :deposit="depositFormatted"
       :deposit-usd="depositUsd"
       :identity="identity"
@@ -121,7 +121,7 @@
       @close="isConfirmModalActive = false" />
 
     <TransactionLoader
-      :value="isLoaderModalVisible"
+      v-model="isLoaderModalVisible"
       :status="status"
       :transaction-id="transactionValue"
       :is-mobile="isMobile"
