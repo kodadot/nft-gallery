@@ -59,7 +59,7 @@
         <NeoIcon class="ml-2" icon="circle-info" />
         <span
           v-dompurify-html="
-            $t('transfers.tooltip', [unit, chainNames[unit.toLowerCase()]])
+            $t('transfers.tooltip', [unit, chainNames[urlPrefix]])
           "></span>
       </div>
       <div class="is-flex is-justify-content-space-between">
@@ -802,12 +802,14 @@ const generateRecurringPaymentLink = () => {
 
 const generatePaymentLink = (addressList: string[]): string => {
   const url = new URL(`${location.origin}${location.pathname}`)
-
-  url.searchParams.set('usdamount', String(targetAddresses.value[0]?.usd || 0))
-
   addressList.forEach((addr, i) => {
     url.searchParams.append(`target${i == 0 ? '' : i}`, addr)
   })
+  url.searchParams.append(
+    'usdamount',
+    String(targetAddresses.value[0]?.usd || 0)
+  )
+
   return url.toString()
 }
 

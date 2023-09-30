@@ -2,10 +2,36 @@
   <section>
     <form @submit.prevent>
       <h1 class="title is-size-3 mb-8 is-capitalized">
-        {{ $i18n.t('identity.set', [chainName]) }}
+        {{ $i18n.t('identity.set', [getChainName(identityPrefix)]) }}
       </h1>
 
-      <NeoField :label="`${$i18n.t('handle')} *`" class="mb-5">
+      <div v-if="hasIdentity" class="is-size-6">
+        <hr class="my-7" />
+        <div class="mb-4">
+          {{ $t('identity.establishedIdentity') }}
+        </div>
+        <div
+          class="is-flex is-justify-content-space-between is-align-items-flex-end">
+          <div
+            class="is-flex is-justify-content-space-between is-align-items-center">
+            <Avatar :value="accountId" :size="34" />
+            <div class="ml-4">
+              <div class="has-text-grey">{{ $t('identity.existing') }}</div>
+              <div>{{ identityData.display }}</div>
+            </div>
+          </div>
+          <NeoButton
+            :label="$i18n.t('identity.clear')"
+            class="mb-1"
+            no-shadow
+            rounded
+            size="small"
+            @click.native="deleteIdentity" />
+        </div>
+        <hr class="my-7" />
+      </div>
+
+      <NeoField label="Handle">
         <NeoInput
           v-model="identity.display.value"
           :placeholder="$i18n.t('identity.onChainPlaceholder')"
@@ -93,7 +119,7 @@
       :identity="identity"
       :identity-active-socials="activeSocials"
       :is-mobile="isMobile"
-      @confirm="submit"
+      @confirm="setIdentity"
       @close="isConfirmModalActive = false" />
 
     <TransactionLoader
@@ -127,17 +153,15 @@ import Money from '@/components/shared/format/Money.vue'
 import { useFiatStore } from '@/stores/fiat'
 import { calculateUsdFromToken } from '@/utils/calculation'
 import format from '@/utils/format/balance'
+import { getChainName } from '@/utils/chain'
 
 const { $i18n } = useNuxtApp()
-const { apiInstance } = useApi()
+
 const { accountId } = useAuth()
-const { decimals, unit, name: chainName } = useChain()
+const { decimals, unit } = useChain()
 const { urlPrefix } = usePrefix()
 const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
 const identityStore = useIdentityStore()
-const { identity: identityData } = useIdentity({
-  address: accountId,
-})
 const { howAboutToExecute, isLoading, initTransactionLoader, status } =
   useMetaTransaction()
 
@@ -190,6 +214,15 @@ const socialTabs = ref<PillTab[]>([
 const deposit = ref('0')
 const inputLengthLimit = ref(32)
 
+const {
+  identity: identityData,
+  identityApi,
+  identityPrefix,
+  refetchIdentity,
+} = useIdentity({
+  address: accountId,
+})
+
 const isConfirmModalActive = ref(false)
 const isLoaderModalVisible = ref(false)
 const transactionValue = ref('')
@@ -227,15 +260,6 @@ const openConfirmModal = () => {
   isConfirmModalActive.value = true
 }
 
-const submit = async (): Promise<void> => {
-  isConfirmModalActive.value = false
-  const api = await apiInstance.value
-  initTransactionLoader()
-  const cb = api.tx.identity.setIdentity
-  const args = [enhanceIdentityData()]
-  howAboutToExecute(accountId.value, cb, args, onSuccess, onError)
-}
-
 watch(identityData, () => {
   const { display, legal, web, twitter, email } = identityData.value
   setIdentityValue({ display, legal, web, twitter, email })
@@ -252,6 +276,14 @@ const setIdentityValue = (values: Record<string, string>) => {
     }
   }, identity.value)
 }
+
+const hasIdentity = computed(() => {
+  const { display, legal, web, twitter, riot, email } = identityData.value
+  return (
+    accountId.value &&
+    Boolean(display || legal || web || twitter || riot || email)
+  )
+})
 
 const handleUrlPrefixChange = async () => {
   deposit.value = await fetchDeposit()
@@ -275,14 +307,42 @@ const enhanceIdentityData = (): Record<string, any> => {
 }
 
 const fetchDeposit = async () => {
-  const api = await apiInstance.value
+  const api = await identityApi.value
   return api.consts.identity?.basicDeposit?.toString()
 }
 
-const onSuccess = (block: string) => {
-  showNotification(
-    `[Identity] You are known as ${identity.value.display.value} since block ${block}`,
-    notificationTypes.success
+const deleteIdentity = async (): Promise<void> => {
+  const api = await identityApi.value
+  initTransactionLoader()
+  const cb = api.tx.identity.clearIdentity
+  howAboutToExecute(accountId.value, cb, [], (block: string) => {
+    identity.value = {}
+    refetchIdentity()
+
+    showNotification(
+      `[Identity] You have cleared your account's identity since block ${block}`,
+      notificationTypes.success
+    )
+  })
+}
+
+const setIdentity = async (): Promise<void> => {
+  isConfirmModalActive.value = false
+  const api = await identityApi.value
+  initTransactionLoader()
+  const cb = api.tx.identity.setIdentity
+  const args = [enhanceIdentityData()]
+  howAboutToExecute(
+    accountId.value,
+    cb,
+    args,
+    (block: string) => {
+      showNotification(
+        `[Identity] You are known as ${identity.value.display} since block ${block}`,
+        notificationTypes.success
+      )
+    },
+    onError
   )
 }
 

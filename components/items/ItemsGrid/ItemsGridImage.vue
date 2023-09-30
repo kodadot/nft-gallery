@@ -11,10 +11,13 @@
         shoppingCartStore.isItemInCart(nft.id) ||
         listingCartStore.isItemInCart(nft.id),
     }"
-    :unloackable-icon="unlockableIcon"
+    :card-icon="showCardIcon"
+    :card-icon-src="cardIcon"
     :show-action-on-hover="!showActionSection"
     link="nuxt-link"
-    bind-key="to">
+    bind-key="to"
+    :media-player-cover="mediaPlayerCover"
+    media-hover-on-cover-play>
     <template #action>
       <div v-if="!isOwner && isAvailbleToBuy" class="is-flex">
         <NeoButton
@@ -61,12 +64,12 @@ import {
 import { isOwner as checkOwner } from '@/utils/account'
 import { useCollectionDetails } from '@/components/collection/utils/useCollectionDetails'
 import { ItemsGridEntity, NFTStack } from './useItemsGrid'
+import useNftMetadata, { useNftCardIcon } from '@/composables/useNft'
 
 const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()
 const { accountId, isLogIn } = useAuth()
 const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
-const { unlockableIcon } = useUnlockableIcon()
 const shoppingCartStore = useShoppingCartStore()
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
@@ -77,6 +80,8 @@ const props = defineProps<{
   variant?: NftCardVariant
 }>()
 
+const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.nft))
+
 const { stats } = useCollectionDetails({
   collectionId: props.nft?.collection?.id || props.nft?.collectionId,
 })
@@ -85,6 +90,10 @@ const isStack = computed(() => (props.nft as NFTStack).count > 1)
 const variant = computed(() =>
   isStack.value ? `stacked-${props.variant}` : props.variant
 )
+
+const { nft: nftMetadata } = useNftMetadata(props.nft)
+
+const mediaPlayerCover = computed(() => nftMetadata.value?.image)
 
 const showActionSection = computed(() => {
   return !isLogIn.value && shoppingCartStore.getItemToBuy?.id === props.nft.id
@@ -155,15 +164,6 @@ const onClickBuy = () => {
   }
 }
 
-// Set unlisted owned nft to the store
-if (!Number(props.nft?.price) && isOwner.value) {
-  listingCartStore.setUnlistedItem(
-    nftToListingCartItem(
-      props.nft,
-      String(stats.value.collectionFloorPrice ?? '')
-    )
-  )
-}
 const onClickShoppingCart = () => {
   if (shoppingCartStore.isItemInCart(nftForShoppingCart.value.id)) {
     shoppingCartStore.removeItem(nftForShoppingCart.value.id)
