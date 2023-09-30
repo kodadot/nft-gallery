@@ -154,7 +154,7 @@
                 min="0"
                 icon-right-class="search"
                 @focus="onAmountFieldFocus(destinationAddress, 'token')"
-                @input="onAmountFieldChange(destinationAddress)" />
+                @update:modelValue="onAmountFieldChange(destinationAddress)" />
               <NeoInput
                 v-else
                 v-model="destinationAddress.usd"
@@ -165,7 +165,7 @@
                 icon-right="usd"
                 icon-right-class="has-text-grey"
                 @focus="onAmountFieldFocus(destinationAddress, 'usd')"
-                @input="onUsdFieldChange(destinationAddress)" />
+                @update:modelValue="onUsdFieldChange(destinationAddress)" />
               <a
                 v-if="!isMobile && targetAddresses.length > 1"
                 class="is-flex"
