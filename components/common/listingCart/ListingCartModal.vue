@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Loader v-model:active="isLoading" :status="status" />
+    <Loader v-model="isLoading" :status="status" />
     <NeoModal
       :value="preferencesStore.listingCartModalOpen"
       scroll="clip"
