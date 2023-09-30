@@ -54,6 +54,7 @@ export type MintedCollection = {
   metadata: string
   name?: string
   lastIndexUsed: number
+  totalCount: number
 }
 
 export type MintedCollectionKusama = MintedCollection & Max & SymbolType

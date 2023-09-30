@@ -47,4 +47,10 @@ $dropdown-item-hover-background-color: #ffe5f3;
     color: theme('text-color');
     background: theme('background-color');
   }
+
+  &.no-shadow {
+    box-shadow: none !important;
+  }
+
 }
+

@@ -5,7 +5,7 @@
       class="is-half"
       :class="{ column: classColumn }"
       @submit.prevent="createCollection">
-      <h1 class="title is-size-3">
+      <h1 class="title is-size-3 mb-7">
         {{ $t('mint.collection.create') }}
       </h1>
 
@@ -28,7 +28,10 @@
         required
         data-testid="collection-name"
         :error="!name">
-        <NeoInput v-model="name" required />
+        <NeoInput
+          v-model="name"
+          required
+          :placeholder="$t('mint.collection.name.placeholder')" />
       </NeoField>
 
       <!-- collection description -->
@@ -40,6 +43,7 @@
           has-counter
           maxlength="1000"
           height="10rem"
+          :placeholder="$t('mint.collection.description.placeholder')"
           data-testid="collection-desc" />
       </NeoField>
 
@@ -52,7 +56,7 @@
         <div class="w-full">
           <div class="is-flex is-justify-content-space-between">
             <p>{{ $t('mint.unlimited') }}</p>
-            <NeoSwitch v-model="unlimited" />
+            <NeoSwitch v-model="unlimited" position="left" />
           </div>
           <NeoInput
             v-if="!unlimited"
@@ -127,9 +131,10 @@
         <div>
           <NeoButton
             expanded
-            :label="`${canDeposit ? 'Create Collection' : 'Not Enough Funds'}`"
+            :label="submitButtonLabel"
             type="submit"
             size="medium"
+            class="is-size-6"
             data-testid="collection-create"
             :loading="isLoading"
             :disabled="!canDeposit" />
@@ -141,6 +146,7 @@
                 v-dompurify-html="
                   $t('mint.requiredDeposit', [
                     `${totalCollectionDeposit} ${chainSymbol}`,
+                    'collection',
                   ])
                 " />
               <a
@@ -203,10 +209,20 @@ const description = ref('')
 const unlimited = ref(true)
 const max = ref(1)
 const symbol = ref('')
-
+const { isLogIn } = useAuth()
 const menus = availablePrefixes()
+const { $i18n } = useNuxtApp()
+
 const chainByPrefix = menus.find((menu) => menu.value === urlPrefix.value)
 const selectBlockchain = ref(chainByPrefix?.value || menus[0].value)
+
+const submitButtonLabel = computed(() => {
+  return !isLogIn.value
+    ? $i18n.t('mint.nft.connect')
+    : canDeposit.value
+    ? $i18n.t('mint.collection.create')
+    : $i18n.t('confirmPurchase.notEnoughFuns')
+})
 
 const currentChain = computed(() => {
   return selectBlockchain.value as Prefix
@@ -218,7 +234,10 @@ const { balance, totalCollectionDeposit, chainSymbol } =
 
 // balance state
 const canDeposit = computed(() => {
-  return parseFloat(balance.value) >= parseFloat(totalCollectionDeposit.value)
+  return (
+    isLogIn.value &&
+    parseFloat(balance.value) >= parseFloat(totalCollectionDeposit.value)
+  )
 })
 
 watchEffect(() => setUrlPrefix(currentChain.value as Prefix))
@@ -276,37 +295,4 @@ onMounted(() => {
 })
 </script>
 
-<style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
-
-.o-field:not(:last-child) {
-  margin-bottom: 2rem;
-}
-
-.column {
-  max-width: 36rem;
-  padding: 4rem;
-
-  @include desktop() {
-    @include ktheme() {
-      background-color: theme('background-color');
-      box-shadow: theme('primary-shadow');
-    }
-  }
-
-  @include touch() {
-    padding: 0 1rem;
-    box-shadow: none !important;
-  }
-}
-
-@include desktop() {
-  .columns {
-    padding: 5.25rem 0;
-
-    @include ktheme() {
-      background-color: theme('k-primaryLight');
-    }
-  }
-}
-</style>
+<style lang="scss" scoped src="@/styles/pages/create.scss"></style>
