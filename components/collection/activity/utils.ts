@@ -79,20 +79,14 @@ export const getBinSizeForRange = ({
   if (timestamps.length < 2) {
     return { minutes: 1 }
   }
-  if (sort) {
-    timestamps = timestamps.sort((a, b) => a - b)
-  }
 
-  const uniqueTimestamps = Array.from(new Set(timestamps))
+  const minTimestamp = sort ? Math.min(...timestamps) : timestamps[0]
+  const maxTimestamp = sort
+    ? Math.max(...timestamps)
+    : timestamps[timestamps.length - 1]
 
-  // Calculate intervals between each timestamp.
-  const intervals = uniqueTimestamps
-    .slice(1)
-    .map((time, index) => time - uniqueTimestamps[index])
-
-  const minInterval = Math.min(...intervals)
-
-  const idealBinSizeMillis = minInterval / sampleRate
+  const totalMillis = maxTimestamp - minTimestamp
+  const idealBinSizeMillis = totalMillis / (timestamps.length * sampleRate)
 
   return millisToBinSize(idealBinSizeMillis)
 }
