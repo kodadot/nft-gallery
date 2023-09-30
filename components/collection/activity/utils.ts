@@ -88,7 +88,7 @@ export const getBinSizeForRange = ({
   // Calculate intervals between each timestamp.
   const intervals = uniqueTimestamps
     .slice(1)
-    .map((time, index) => time - timestamps[index])
+    .map((time, index) => time - uniqueTimestamps[index])
 
   const minInterval = Math.min(...intervals)
 
