@@ -56,7 +56,7 @@ export const URLS = {
     snekRococo: 'https://squid.subsquid.io/sneck/graphql',
     marck: 'https://squid.subsquid.io/marck/graphql',
     stick: 'https://squid.subsquid.io/stick/graphql',
-    speck: 'https://squid.subsquid.io/speck/v/v3/graphql',
+    speck: 'https://squid.subsquid.io/speck/graphql',
     polkassembly: 'https://squid.subsquid.io/polkadot-polkassembly/graphql',
     gsPolkdot: 'https://squid.subsquid.io/gs-main-polkadot/graphql',
     gsKusama: 'https://squid.subsquid.io/gs-main-kusama/graphql',
