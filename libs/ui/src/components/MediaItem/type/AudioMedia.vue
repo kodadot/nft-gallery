@@ -1,29 +1,57 @@
 <template>
-  <av-waveform
-    class="media-audio__player is-flex is-flex-direction-column-reverse"
-    :audio-src="animationSrc"
-    audio-class="media-audio__audio"
-    canv-class="media-audio__canvas"
-    played-line-color="rgba(0,0,0,0.74)"
-    noplayed-line-color="#d32e79"
-    playtime-font-color="rgba(0,0,0,0.74)"
-    data-testid="type-audio" />
+  <div data-testid="type-audio">
+    <ImageMedia
+      v-if="playerCover"
+      ref="cover"
+      :src="playerCover"
+      :placeholder="placeholder"
+      :alt="alt"
+      :is-detail="isDetail"
+      :original="original"
+      :is-dark-mode="isDarkMode" />
+
+    <NeoAudioPlayer
+      v-show="!hoverOnCoverPlay"
+      ref="audioPlayer"
+      :src="animationSrc"
+      class="w-full border-top" />
+  </div>
 </template>
 
 <script lang="ts" setup>
-import AvWaveform from 'vue-audio-visual/src/components/AvWaveform'
+import { NeoAudioPlayer } from '@kodadot1/brick'
+import ImageMedia from './ImageMedia.vue'
+import { useElementHover } from '@vueuse/core'
 
-defineProps<{
+const props = defineProps<{
   animationSrc?: string
-}>()
-</script>
+  playerCover?: string
+  hoverOnCoverPlay?: boolean
 
-<style>
-div.media-audio__player {
-  height: 100%;
+  // image media props
+  alt?: string
+  original: boolean
+  placeholder: string
+  isDetail?: boolean
+  isDarkMode?: boolean
+}>()
+
+const cover = ref()
+const audioPlayer = ref()
+
+const coverHovering = useElementHover(cover, { delayEnter: 1000 })
+
+if (props.hoverOnCoverPlay) {
+  watch(coverHovering, () => handleCoverHover())
 }
-div.media-audio__player div > canvas.media-audio__canvas,
-div.media-audio__player > div > audio.media-audio__audio {
-  width: 100% !important;
+
+const handleCoverHover = async () => {
+  try {
+    if (coverHovering.value) {
+      await audioPlayer.value.play()
+    } else {
+      await audioPlayer.value.pause()
+    }
+  } catch (error) {}
 }
-</style>
+</script>

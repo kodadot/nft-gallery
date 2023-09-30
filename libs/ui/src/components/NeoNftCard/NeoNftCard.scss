@@ -35,6 +35,7 @@
     .show-on-hover,
     .show-always {
       display: flex !important;
+      z-index: 1;
     }
   }
 
@@ -56,7 +57,7 @@
     }
   }
 }
-.unloackable-icon {
+.card-icon {
   position: absolute;
   top: 1rem;
   right: 1rem;

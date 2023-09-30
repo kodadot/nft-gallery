@@ -6,11 +6,18 @@
       :to="urlOf({ id: item.id, url, chain: item.chain })"
       :aria-label="`slide ${index + 1} of ${length}`"
       rel="nofollow">
+      <img
+        v-if="showCardIcon"
+        class="card-icon"
+        :src="cardIcon"
+        alt="Card Icon" />
       <MediaItem
         class="carousel-media-wrapper"
         :src="imageSrc || ''"
         :animation-src="item.animationUrl || ''"
-        :title="item.name" />
+        :title="item.name"
+        :audio-player-cover="imageSrc || ''"
+        audio-hover-on-cover-play />
     </nuxt-link>
   </div>
 </template>
@@ -35,6 +42,7 @@ const isCollection = inject('isCollection', false)
 
 const { urlPrefix } = usePrefix()
 const imageSrc = ref(props.item.image)
+const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.item))
 
 onMounted(async () => {
   if (!props.item.image) {
@@ -43,3 +51,11 @@ onMounted(async () => {
   }
 })
 </script>
+<style lang="scss" scoped>
+.card-icon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1;
+}
+</style>

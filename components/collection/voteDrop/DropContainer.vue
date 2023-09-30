@@ -66,7 +66,7 @@
                   :label="buttonLabel"
                   @click.native="handleMint" />
                 <div class="is-flex is-align-items-center mt-2">
-                  <NeoIcon icon="timer" pak="far" class="mr-2" />
+                  <NeoIcon icon="timer" class="mr-2" />
                   {{ leftTime }}
                 </div>
               </div>
@@ -91,7 +91,7 @@
           class="column is-half-desktop is-flex is-flex-direction-column is-justify-content-center order-1">
           <div
             class="is-flex is-align-items-center has-text-weight-bold is-size-6 mb-2">
-            <NeoIcon icon="unlock" class="mr-2" pack="far" />
+            <NeoIcon icon="unlock" class="mr-2" />
             {{ $t('mint.unlockable.howItemWork') }}
           </div>
           <div>
@@ -186,13 +186,13 @@ const statusInformation = computed(() => {
         icon: 'circle-info',
         iconClass: 'has-text-grey',
         labelClass: 'has-text-grey',
-        iconPack: 'far',
+        iconPack: 'fasr',
       }
     : isEligibleUser.value
     ? {
         label: $i18n.t('mint.unlockable.eligible'),
         icon: 'circle-check',
-        iconPack: 'fas',
+        iconPack: 'fasr',
         iconClass: 'has-text-success',
       }
     : {
@@ -200,7 +200,7 @@ const statusInformation = computed(() => {
         icon: 'circle-info',
         iconClass: 'has-text-grey',
         labelClass: 'has-text-grey',
-        iconPack: 'far',
+        iconPack: 'fasr',
       }
 })
 

@@ -312,9 +312,10 @@ a.has-text-grey {
 }
 .border {
   @include ktheme() {
-    border: 1px solid theme('border-color');
+    border: 1px solid theme('border-color') !important;
   }
 }
+
 .no-border {
   border: none !important;
 }
@@ -429,7 +430,7 @@ a.has-text-grey {
   }
 }
 
-.k-grey {
+.has-background-k-grey {
   @include ktheme() {
     background-color: theme('k-grey');
   }

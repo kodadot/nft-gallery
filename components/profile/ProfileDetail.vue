@@ -172,6 +172,7 @@ import ChainDropdown from '@/components/common/ChainDropdown.vue'
 import OrderByDropdown from './OrderByDropdown.vue'
 import CollectionGrid from '@/components/collection/CollectionGrid.vue'
 import Activity from './activityTab/Activity.vue'
+import { useListingCartStore } from '@/stores/listingCart'
 
 enum ProfileTab {
   OWNED = 'owned',
@@ -185,6 +186,7 @@ const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
+const listingCartStore = useListingCartStore()
 
 const itemTabs = [ProfileTab.OWNED, ProfileTab.CREATED]
 const tabs = [...itemTabs, ProfileTab.COLLECTIONS, ProfileTab.ACTIVITY]
@@ -263,6 +265,12 @@ const handleProfileStatsTotal = (data) => {
     [ProfileTab.COLLECTIONS]: data.collections,
   }
 }
+
+watch(itemsGridSearch, (searchTerm, prevSearchTerm) => {
+  if (JSON.stringify(searchTerm) !== JSON.stringify(prevSearchTerm)) {
+    listingCartStore.clear()
+  }
+})
 </script>
 
 <style lang="scss" scoped>

@@ -11,7 +11,7 @@
     :variant="variant"
     :disabled="disabled"
     :expanded="expanded"
-    :icon-pack="iconPack || 'fas'"
+    :icon-pack="iconPack || 'fasr'"
     :label="label"
     class="is-neo"
     :rounded="rounded"
