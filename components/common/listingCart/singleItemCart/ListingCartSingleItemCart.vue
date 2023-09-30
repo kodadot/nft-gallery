@@ -82,9 +82,11 @@ watch(
 )
 
 watch(
-  () => item.value.listPrice,
+  () => item.value?.listPrice,
   (value) => {
-    fixedPrice.value = Number(value)
+    if (value) {
+      fixedPrice.value = Number(value)
+    }
   }
 )
 </script>

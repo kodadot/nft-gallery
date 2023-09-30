@@ -320,7 +320,7 @@ const onKeyDown = (event: KeyboardEvent) => {
 
 const totalItemsAtCurrentTab = computed(() => {
   if (!props.name) {
-    return defaultCollectionSuggestions.value?.length
+    return defaultCollectionSuggestions.value.length
   }
   return activeSearchTab.value === 'NFTs'
     ? nftSuggestion.value.length
