@@ -29,7 +29,7 @@ export default function ({
   const route = useRoute()
   const router = useRouter()
   const { $consola } = useNuxtApp()
-  const currentPage = ref(parseInt(route.query.page as string) || 1)
+  const currentPage = ref(parseInt(route.query?.page as string) || 1)
   const startPage = ref(currentPage.value)
   const endPage = ref(startPage.value)
   const scrollItemHeight = ref(300)
