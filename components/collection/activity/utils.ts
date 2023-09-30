@@ -24,8 +24,8 @@ export const toDataPoint = (e: {
 export const sortAsc = (events: DataPoint[]) =>
   events.sort((a, b) => a.timestamp - b.timestamp)
 
-export const displayValue = (val: number) =>
-  Number((val * Math.pow(10, -12)).toFixed(4))
+export const displayValue = (val: number, decimals: number) =>
+  Number((val * Math.pow(10, -1 * decimals)).toFixed(4))
 
 const binSizeToMillis = (binSize: BinSize): number => {
   const millisInMinute = 60 * 1000
@@ -40,6 +40,49 @@ const binSizeToMillis = (binSize: BinSize): number => {
     (binSize.minutes ?? 0) * millisInMinute
 
   return millis || millisInDay // Default bin size is one day
+}
+
+function millisToBinSize(millis: number): BinSize {
+  const minuteMillis = 60000
+  const hourMillis = 60 * minuteMillis
+  const dayMillis = 24 * hourMillis
+  const weekMillis = 7 * dayMillis
+
+  const weeks = Math.floor(millis / weekMillis)
+  millis -= weeks * weekMillis
+
+  const days = Math.floor(millis / dayMillis)
+  millis -= days * dayMillis
+
+  const hours = Math.floor(millis / hourMillis)
+  millis -= hours * hourMillis
+
+  const minutes = Math.ceil(millis / minuteMillis)
+
+  return {
+    weeks: weeks || undefined,
+    days: days || undefined,
+    hours: hours || undefined,
+    minutes: minutes || undefined,
+  }
+}
+interface BinSizeParams {
+  firstTimestamp: number
+  lastTimestamp: number
+  datasetLength: number
+  sampleRate?: number
+}
+
+export const getBinSizeForRange = ({
+  firstTimestamp,
+  lastTimestamp,
+  datasetLength,
+  sampleRate = 2,
+}: BinSizeParams): BinSize => {
+  const totalMillis = lastTimestamp - firstTimestamp
+  const idealBinSizeMillis = totalMillis / (datasetLength * sampleRate)
+
+  return millisToBinSize(idealBinSizeMillis)
 }
 
 const mean = (arr: DataPoint[]): number => {
