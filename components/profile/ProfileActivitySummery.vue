@@ -68,6 +68,7 @@ import { Interaction } from '@kodadot1/minimark/v1'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import StatsColumn from '@/components/shared/format/StatsColumn.vue'
 import { Event } from '@/components/rmrk/service/types'
+import { getDenyList } from '@/utils/prefix'
 
 type Stats = {
   listedCount: number
@@ -125,6 +126,7 @@ useLazyAsyncData('stats', async () => {
     variables: {
       id: props.id,
       interactionIn: interactionIn.value,
+      denyList: getDenyList(urlPrefix.value),
     },
   })
 
