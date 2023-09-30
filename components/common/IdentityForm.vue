@@ -107,7 +107,7 @@
         :disabled="disabled"
         :loading="isLoading"
         expanded
-        @click.native="openConfirmModal" />
+        @click="openConfirmModal" />
     </form>
 
     <IdentityConfirmModal

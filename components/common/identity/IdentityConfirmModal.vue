@@ -48,7 +48,7 @@
         variant="k-accent"
         no-shadow
         class="is-flex is-flex-grow-1 btn-height"
-        @click.native="emit('confirm')" />
+        @click="emit('confirm')" />
     </template>
   </NeoStickyModal>
 </template>
