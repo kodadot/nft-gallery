@@ -1,7 +1,7 @@
 <template>
   <div class="is-flex is-justify-content-end gallery-item-transfer">
     <NeoButton
-      :label="`${$i18n.t('transaction.transfer')}`"
+      :label="$t('transaction.transfer')"
       size="large"
       variant="k-pink"
       fixed-width
