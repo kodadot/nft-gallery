@@ -27,7 +27,10 @@
 
     <template #rows="{ variant }">
       <EventRow
-        v-for="(event, i) in displayedEvents.slice(0, displayedEvents.length)"
+        v-for="(event, i) in displayedEvents.slice(
+          0,
+          displayedEvents.length - 1
+        )"
         :key="i"
         :variant="variant"
         :event="event" />
