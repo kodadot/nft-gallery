@@ -11,7 +11,10 @@ export type IPFSProviders =
   | 'kodadot'
   | 'image'
 
-const kodaImage = 'https://kodadot-ultra.myfilebase.com/'
+const kodaImage =
+  window.location.host === 'kodadot.xyz'
+    ? 'https://image.w.kodadot.xyz/'
+    : 'https://image-beta.w.kodadot.xyz/'
 
 const ipfsProviders: Partial<Record<IPFSProviders, string>> = {
   pinata: 'https://kodadot.mypinata.cloud/',
