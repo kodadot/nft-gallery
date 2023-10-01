@@ -9,7 +9,7 @@
       :icon="icon">
       <span> {{ text }}</span>
       <span v-if="count" class="ml-2 has-text-grey-fix">{{
-        formatLargeNumber(count)
+        formatNumber(count)
       }}</span>
     </NeoButton>
   </p>
@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import { formatLargeNumber } from '@/utils/format/number'
+import { formatNumber } from '@/utils/format/balance'
 
 const props = withDefaults(
   defineProps<{
