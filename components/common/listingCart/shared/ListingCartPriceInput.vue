@@ -45,7 +45,7 @@ watch(model, (newValue) => {
 .price-input {
   @include ktheme() {
     &:focus-within {
-      border-color: theme('border-color');
+      border-color: theme('border-color') !important;
     }
   }
 
