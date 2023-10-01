@@ -173,7 +173,7 @@ const goToEnd = () => {
   play(duration.value)
 }
 
-const creaetWaveSurfer = () => {
+const initWaveform = () => {
   wavesurfer.value = WaveSurfer.create({
     container: `#${id.value}`,
     waveColor: '#939393',
@@ -193,9 +193,7 @@ const creaetWaveSurfer = () => {
   })
 }
 
-onMounted(() => {
-  creaetWaveSurfer()
-})
+onMounted(initWaveform)
 
 useEventListener(audio, 'canplay', () => {
   canStartPlaying.value = true
