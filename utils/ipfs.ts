@@ -6,6 +6,7 @@ import consola from 'consola'
 import {
   ArweaveProviders,
   CF_IMAGE_URL,
+  IPFSProviders,
   ProviderKeyType,
   arweaveProviders,
   getIPFSProvider,
@@ -70,7 +71,10 @@ export const isIpfsCid = (url: string): boolean => {
   return /^[0-9a-zA-Z]{44,}$/.test(url)
 }
 
-export type SanitizerFunc = (url: string) => string
+export type SanitizerFunc = (
+  url: string,
+  ipfsProvider?: IPFSProviders
+) => string
 
 const resolveProvider = (key: ProviderKeyType = 'image'): string =>
   getIPFSProvider(key)
@@ -112,16 +116,20 @@ export const sanitizeIpfsUrl = (
 }
 export const fetchMetadata = async <T>(
   rmrk: SomethingWithMeta,
-  sanitizer: SanitizerFunc = sanitizeIpfsUrl
+  sanitizer: SanitizerFunc = sanitizeIpfsUrl,
+  ipfsProvider?: ProviderKeyType
 ): Promise<T> => {
   try {
     if (!rmrk.metadata) {
       return emptyObject<T>()
     }
 
-    const { status, _data } = await api.raw(sanitizer(rmrk.metadata), {
-      responseType: 'json',
-    })
+    const { status, _data } = await api.raw(
+      sanitizer(rmrk.metadata, ipfsProvider),
+      {
+        responseType: 'json',
+      }
+    )
     if (status < 400) {
       return _data as T
     }

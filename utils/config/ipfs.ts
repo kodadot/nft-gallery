@@ -10,6 +10,7 @@ export type IPFSProviders =
   | 'dweb'
   | 'kodadot'
   | 'image'
+  | 'filebase'
 
 const kodaImage =
   window.location.host === 'kodadot.xyz'
@@ -22,6 +23,7 @@ const ipfsProviders: Partial<Record<IPFSProviders, string>> = {
   ipfs: DEFAULT_IPFS_PROVIDER,
   dweb: 'https://dweb.link/',
   image: kodaImage,
+  filebase: 'https://kodadot-ultra.myfilebase.com/',
 }
 export const getIPFSProvider = (providerName: IPFSProviders): string => {
   return ipfsProviders[providerName] || (ipfsProviders['image'] as string)

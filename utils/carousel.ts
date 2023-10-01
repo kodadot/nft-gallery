@@ -48,7 +48,10 @@ export const setCarouselMetadata = async (nfts): Promise<CarouselNFT[]> => {
         return nft
       }
 
-      const meta = await fetchNFTMetadata(nft, getSanitizer(nft.metadata))
+      const meta = await fetchNFTMetadata(
+        nft,
+        getSanitizer(nft.metadata, 'filebase')
+      )
       const image = meta.image || ''
       const imageSanitizer = getSanitizer(image, 'image')
       return {

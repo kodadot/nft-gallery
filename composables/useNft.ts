@@ -94,7 +94,10 @@ async function getRmrk2Resources(nft: NFTWithMetadata) {
 }
 
 async function getProcessMetadata(nft: NFTWithMetadata) {
-  const metadata = await processSingleMetadata<NFTWithMetadata>(nft.metadata)
+  const metadata = await processSingleMetadata<NFTWithMetadata>(
+    nft.metadata,
+    'filebase'
+  )
   const image = sanitizeIpfsUrl(metadata.image || metadata.mediaUri || '')
   const animationUrl = sanitizeIpfsUrl(metadata.animation_url || '')
   const getAttributes = () => {

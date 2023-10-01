@@ -2,7 +2,8 @@
 import { isEmpty } from '@kodadot1/minimark/utils'
 import { fetchMetadata, getSanitizer } from '@/utils/ipfs'
 import { emptyObject } from './empty'
-import { fastExtract } from './ipfs'
+import { fastExtract, sanitizeIpfsUrl } from './ipfs'
+import { IPFSProviders } from './config/ipfs'
 
 type P<T> = Promise<T>
 type KeyValue = Record<string, string>
@@ -10,22 +11,30 @@ const metadataCache = {}
 
 export const cacheOrFetchMetadata = async <T>(
   fromCache: T | undefined,
-  metadata: string
+  metadata: string,
+  ipfsProvider: IPFSProviders = 'image'
 ): P<T> => {
   if (fromCache && !isEmpty(fromCache)) {
     return fromCache
   }
 
   try {
-    return await fetchMetadata<T>({ metadata })
+    return await fetchMetadata<T>({ metadata }, sanitizeIpfsUrl, ipfsProvider)
   } catch (e) {
     console.warn('[ERR] unable to get metadata', e)
     return emptyObject<T>()
   }
 }
 
-export const processSingleMetadata = <T>(metadata: string): P<T> => {
-  return cacheOrFetchMetadata<T>(metadataCache[metadata], metadata)
+export const processSingleMetadata = <T>(
+  metadata: string,
+  ipfsProvider: IPFSProviders = 'image'
+): P<T> => {
+  return cacheOrFetchMetadata<T>(
+    metadataCache[metadata],
+    metadata,
+    ipfsProvider
+  )
 }
 
 export const processMetadata = <T>(
