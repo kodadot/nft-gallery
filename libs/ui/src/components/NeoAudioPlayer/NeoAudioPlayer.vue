@@ -69,6 +69,18 @@ defineProps<{
 
 const { eventBus: playerEventBus, unsubscribe: unsubscribePlayerEventBus } =
   usePlayerEventBus()
+const { isDarkMode } = useTheme()
+
+const colors = {
+  light: {
+    waveColor: '#999999', // k-grey
+    progressColor: '#000000', // black
+  },
+  dark: {
+    waveColor: '#cccccc',
+    progressColor: '#ffffff',
+  },
+}
 
 const player = ref()
 const audio = ref()
@@ -173,15 +185,18 @@ const goToEnd = () => {
   play(duration.value)
 }
 
+const getWaveformColors = () => {
+  return isDarkMode.value ? colors.dark : colors.light
+}
+
 const initWaveform = () => {
   wavesurfer.value = WaveSurfer.create({
     container: `#${id.value}`,
-    waveColor: '#939393',
-    progressColor: '#252525',
     height: 33,
     barWidth: 1,
     cursorWidth: 0,
     media: audio.value,
+    ...getWaveformColors(),
   })
 
   wavesurfer.value.on('interaction', () => {
@@ -194,6 +209,12 @@ const initWaveform = () => {
 }
 
 onMounted(initWaveform)
+
+watch(isDarkMode, () => {
+  const newColors = getWaveformColors()
+
+  wavesurfer.value?.setOptions(newColors)
+})
 
 useEventListener(audio, 'canplay', () => {
   canStartPlaying.value = true
