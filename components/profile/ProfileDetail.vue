@@ -110,7 +110,9 @@
           :text="tab"
           @click.native="() => switchToTab(tab)" />
         <ChainDropdown class="ml-6" />
-        <OrderByDropdown v-if="activeTab !== 'activity'" class="ml-6" />
+        <OrderByDropdown
+          v-if="activeTab !== ProfileTab.ACTIVITY"
+          class="ml-6" />
       </div>
       <div class="is-flex is-flex-direction-row is-hidden-widescreen mobile">
         <TabItem
@@ -124,7 +126,7 @@
           @click.native="() => switchToTab(tab)" />
         <div class="is-flex mt-4 is-flex-wrap-wrap">
           <ChainDropdown class="mr-4" />
-          <OrderByDropdown v-if="activeTab !== 'activity'" />
+          <OrderByDropdown v-if="activeTab !== ProfileTab.ACTIVITY" />
         </div>
       </div>
     </div>
