@@ -28,8 +28,19 @@
         {{ formattedDuration }}
       </div>
 
-      <div class="ml-4 w-full" :class="{ 'is-clickable': canStartPlaying }">
-        <div :id="id" />
+      <div
+        class="ml-4 w-full"
+        :class="{
+          'is-flex is-align-items-center is-justify-items-center':
+            !isWaveformReady,
+        }">
+        <div
+          v-show="isWaveformReady"
+          :id="id"
+          :class="{
+            'is-clickable': canStartPlaying,
+          }" />
+        <NeoSkeleton v-if="!isWaveformReady" no-margin rounded height="100%" />
       </div>
 
       <div class="ml-4">
@@ -48,7 +59,7 @@
 
 <script lang="ts" setup>
 import { useEventListener, useMediaControls } from '@vueuse/core'
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoIcon, NeoSkeleton } from '@kodadot1/brick'
 import { getRandomValues } from '@/components/unique/utils'
 import WaveSurfer from 'wavesurfer.js'
 
@@ -64,6 +75,7 @@ const audio = ref()
 const loading = ref(false)
 const wavesurfer = ref<WaveSurfer>()
 const canStartPlaying = ref(false)
+const isWaveformReady = ref(false)
 
 const id = ref(`player_${getRandomValues(1)[0]}`)
 
@@ -166,7 +178,7 @@ const creaetWaveSurfer = () => {
     container: `#${id.value}`,
     waveColor: '#939393',
     progressColor: '#252525',
-    height: 36,
+    height: 33,
     barWidth: 1,
     cursorWidth: 0,
     media: audio.value,
@@ -174,6 +186,10 @@ const creaetWaveSurfer = () => {
 
   wavesurfer.value.on('interaction', () => {
     play()
+  })
+
+  wavesurfer.value.on('ready', () => {
+    isWaveformReady.value = true
   })
 }
 
@@ -188,6 +204,7 @@ useEventListener(audio, 'canplay', () => {
 
 useEventListener(audio, 'waiting', () => {
   loading.value = true
+  canStartPlaying.value = false
 })
 
 playerEventBus.emit(PlayerEvent.ADD_PLAYER, { id: id.value, pause })
