@@ -1,6 +1,6 @@
 <template>
   <div ref="player">
-    <audio ref="audio" />
+    <audio ref="audio" :src="src" />
 
     <div
       class="px-6 py-5 is-flex is-justify-items-center is-align-items-center">
@@ -17,7 +17,7 @@
             v-if="!playDisabled"
             :icon="playing ? 'pause' : 'play'"
             custom-size="fa-solid"
-            pack="fa-sharp" />
+            pack="fass" />
         </NeoButton>
       </div>
 
@@ -28,12 +28,8 @@
         {{ formattedDuration }}
       </div>
 
-      <div class="ml-4 bar w-full">
-        <ProgressBar
-          :current-time="currentTime"
-          :total-time="duration"
-          rounded
-          @change="change" />
+      <div class="ml-4 w-full" :class="{ 'is-clickable': canStartPlaying }">
+        <div :id="id" />
       </div>
 
       <div class="ml-4">
@@ -43,10 +39,7 @@
           rounded
           variant="border-icon"
           @click="toggleMute">
-          <NeoIcon
-            :icon="muted ? 'volume-slash' : 'volume'"
-            custom-size="fa-solid"
-            pack="fa-sharp" />
+          <NeoIcon :icon="muted ? 'volume-slash' : 'volume'" pack="fass" />
         </NeoButton>
       </div>
     </div>
@@ -56,10 +49,10 @@
 <script lang="ts" setup>
 import { useEventListener, useMediaControls } from '@vueuse/core'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import ProgressBar from './ProgressBar/ProgressBar.vue'
 import { getRandomValues } from '@/components/unique/utils'
+import WaveSurfer from 'wavesurfer.js'
 
-const props = defineProps<{
+defineProps<{
   src?: string
 }>()
 
@@ -69,16 +62,16 @@ const { eventBus: playerEventBus, unsubscribe: unsubscribePlayerEventBus } =
 const player = ref()
 const audio = ref()
 const loading = ref(false)
+const wavesurfer = ref<WaveSurfer>()
 const canStartPlaying = ref(false)
-const id = ref(getRandomValues(1)[0])
+
+const id = ref(`player_${getRandomValues(1)[0]}`)
 
 const actionStack = ref<
   { promise: Promise<void>; reject: (reason?: any) => void }[]
 >([])
 
-const { playing, currentTime, duration, muted } = useMediaControls(audio, {
-  src: props.src,
-})
+const { playing, currentTime, duration, muted } = useMediaControls(audio)
 
 const playDisabled = computed(() => !canStartPlaying.value || loading.value)
 const canPause = computed(() => !audio.value.paused || playing.value)
@@ -157,10 +150,6 @@ const pause = async () => {
   })
 }
 
-const change = (time: number) => {
-  play(time)
-}
-
 const toggleMute = () => {
   audio.value.muted = !muted.value
 }
@@ -172,8 +161,33 @@ const goToEnd = () => {
   play(duration.value)
 }
 
-useEventListener(audio, 'canplaythrough', () => {
+const creaetWaveSurfer = () => {
+  wavesurfer.value = WaveSurfer.create({
+    container: `#${id.value}`,
+    waveColor: '#939393',
+    progressColor: '#252525',
+    height: 36,
+    barWidth: 1,
+    cursorWidth: 0,
+    media: audio.value,
+  })
+
+  wavesurfer.value.on('interaction', () => {
+    play()
+  })
+}
+
+onMounted(() => {
+  creaetWaveSurfer()
+})
+
+useEventListener(audio, 'canplay', () => {
   canStartPlaying.value = true
+  loading.value = false
+})
+
+useEventListener(audio, 'waiting', () => {
+  loading.value = true
 })
 
 playerEventBus.emit(PlayerEvent.ADD_PLAYER, { id: id.value, pause })
@@ -190,10 +204,6 @@ defineExpose({ play, pause })
 .duration {
   display: inline-block;
   min-width: 40px;
-}
-
-.bar {
-  height: 0.8rem;
 }
 
 .button-size {
