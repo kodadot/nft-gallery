@@ -77,8 +77,8 @@ const colors = {
     progressColor: '#000000', // black
   },
   dark: {
-    waveColor: '#cccccc',
-    progressColor: '#ffffff',
+    waveColor: '#cccccc', // k-grey
+    progressColor: '#ffffff', // white
   },
 }
 
