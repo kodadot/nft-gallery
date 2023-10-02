@@ -98,7 +98,7 @@ const cartData = ref<{
 function setFixedPrice() {
   const fixedPrice = cartData.value.fixedPrice
 
-  const rate = Number(fixedPrice)
+  const rate = Number(fixedPrice) || 0
 
   listingCartStore.setFixedPrice(rate)
 }

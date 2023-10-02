@@ -27,16 +27,17 @@
 <script lang="ts" setup>
 import { randomIntegerBetween } from '@/utils/calculation'
 import { NeoLoading } from '@kodadot1/brick'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 const emit = defineEmits(['update:modelValue'])
 const props = withDefaults(
   defineProps<{
-    status: string
+    status: TransactionStatus
     modelValue?: boolean
     canCancel?: boolean
   }>(),
   {
-    status: '',
+    status: TransactionStatus.Unknown,
     modelValue: false,
     canCancel: true,
   }

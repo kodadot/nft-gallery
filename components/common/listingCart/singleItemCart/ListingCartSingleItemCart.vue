@@ -85,7 +85,7 @@ watch(
   () => item.value?.listPrice,
   (value) => {
     if (value) {
-      fixedPrice.value = Number(value)
+      fixedPrice.value = value
     }
   }
 )
