@@ -11,17 +11,17 @@
   },
   "devDependencies": {
     "@histoire/plugin-vue": "^0.16.1",
+    "@oruga-ui/oruga-next": "^0.7.0",
     "@vitejs/plugin-vue": "^4.2.3",
-    "@oruga-ui/oruga-next": "^0.6.0",
     "eslint": "^8.49.0",
     "eslint-plugin-vue": "^8.7.1",
     "histoire": "^0.16.2",
     "vite": "^4.2.0"
   },
   "dependencies": {
+    "@google/model-viewer": "^1.12.1",
     "bulma": "0.9.4",
     "vue": "^3.2.47",
-    "vue-audio-visual": "2.5.0",
-    "@google/model-viewer": "^1.12.1"
+    "vue-audio-visual": "2.5.0"
   }
 }

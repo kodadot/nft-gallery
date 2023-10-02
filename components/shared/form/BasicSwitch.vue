@@ -19,7 +19,7 @@
 import { NeoField, NeoSwitch, NeoTooltip } from '@kodadot1/brick'
 
 const props = defineProps<{
-  value: boolean
+  modelValue: boolean
   label: string
   offLabel?: string
   size?: string
@@ -32,7 +32,7 @@ const props = defineProps<{
 const { $i18n } = useNuxtApp()
 const emit = defineEmits(['input'])
 
-const isSwitched = useVModel(props, 'value', emit, { eventName: 'input' })
+const isSwitched = useVModel(props, 'modelValue', emit, { eventName: 'input' })
 
 const componentName = computed(() => {
   return props.message ? NeoTooltip : 'span'
@@ -40,6 +40,6 @@ const componentName = computed(() => {
 
 const properLabel = computed(() => {
   const offLabel = props.offLabel || props.label
-  return $i18n.t(props.value ? props.label : offLabel)
+  return $i18n.t(props.modelValue ? props.label : offLabel)
 })
 </script>

@@ -132,7 +132,7 @@
           <NeoButton
             expanded
             :label="submitButtonLabel"
-            type="submit"
+            nativeType="submit"
             size="medium"
             class="is-size-6"
             data-testid="collection-create"

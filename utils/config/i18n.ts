@@ -52,4 +52,6 @@ export default defineI18nConfig(() => ({
     common: (str) => str.split('.').reduce((o, i) => o[i], commonData),
   },
   messages: getMessages(),
+  warnHtmlInMessage: false,
+  warnHtmlMessage: false,
 }))

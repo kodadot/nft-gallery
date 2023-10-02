@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: false
@@ -368,8 +368,8 @@ importers:
         specifier: ^0.16.1
         version: 0.16.1(histoire@0.16.2)(vite@4.4.9)(vue@3.3.4)
       '@oruga-ui/oruga-next':
-        specifier: ^0.6.0
-        version: 0.6.0(vue@3.3.4)
+        specifier: ^0.7.0
+        version: 0.7.0(vue@3.3.4)
       '@vitejs/plugin-vue':
         specifier: ^4.2.3
         version: 4.2.3(vite@4.4.9)(vue@3.3.4)
@@ -3759,8 +3759,8 @@ packages:
       lodash.merge: 4.6.2
     dev: false
 
-  /@oruga-ui/oruga-next@0.6.0(vue@3.3.4):
-    resolution: {integrity: sha512-M1Y5PgCWBUDmQGH74cgzrp3vKaRFdHVtGNr0DwejeJGScB7Q6jodW4xgCz6K4hajLgHW6zxz/3ukpC4ZczlfaQ==}
+  /@oruga-ui/oruga-next@0.7.0(vue@3.3.4):
+    resolution: {integrity: sha512-T2KnNhGzgqv/Xzu4Efx3wnYahANcP6Z7Yc8DHOFIOLrM+ZDdTS9OjL3gofBVDrDBRg1DQv6EvsSsNkwMR88LpA==}
     peerDependencies:
       vue: ^3.0.0
     dependencies:
