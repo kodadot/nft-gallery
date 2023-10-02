@@ -2,12 +2,10 @@
   <TokenMoney
     v-if="tokenId"
     :value="value"
-    :token-id="tokenId"
-    :prefix="urlPrefix"
-    :data-testid="money"
+    :data-testid="dataCy"
     :round="round"
     inline />
-  <Money v-else :value="value" :data-testid="money" inline :round="round" />
+  <Money v-else :value="value" :data-testid="dataCy" inline :round="round" />
 </template>
 
 <script lang="ts" setup>
@@ -32,5 +30,5 @@ defineProps({
   },
 })
 
-const { urlPrefix, tokenId } = usePrefix()
+const { tokenId } = usePrefix()
 </script>

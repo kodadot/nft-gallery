@@ -2,8 +2,10 @@ import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import type { BaseNFTMeta } from '@/components/base/types'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
-import { getMimeType } from '@/utils/gallery/media'
+import { getMimeType, isAudio as isAudioMimeType } from '@/utils/gallery/media'
 import unionBy from 'lodash/unionBy'
+import type { Ref } from 'vue/types'
+
 export type NftResources = {
   id: string
   src?: string
@@ -22,6 +24,12 @@ export type ItemResources = {
   resources?: NftResources[]
 }
 
+export type Stack = {
+  count: number
+  floorPrice: string
+  nfts: NFTWithMetadata[]
+}
+
 export type NFTWithMetadata = NFT &
   NFTMetadata & { meta: BaseNFTMeta } & ItemResources
 
@@ -38,6 +46,40 @@ function getGeneralMetadata(nft: NFTWithMetadata) {
   }
 }
 
+export function useNftCardIcon(nft: Ref<NFTWithMetadata>) {
+  const { isAudio } = useNftMimeType(nft)
+  const { unlockableIcon } = useUnlockableIcon()
+
+  const showCardIcon = computed(() => isAudio.value)
+
+  const cardIcon = computed(() => {
+    if (isAudio.value) {
+      return '/sound.svg'
+    }
+    return unlockableIcon.value
+  })
+
+  return { showCardIcon, cardIcon }
+}
+
+export function useNftMimeType(nft?: Ref<NFTWithMetadata>) {
+  const isAudio = ref(false)
+
+  watch(
+    () => nft?.value,
+    async () => {
+      const mimeType = await getMimeType(
+        sanitizeIpfsUrl(nft?.value.meta?.animationUrl || '')
+      )
+
+      isAudio.value = isAudioMimeType(mimeType)
+    },
+    { immediate: true }
+  )
+
+  return { isAudio }
+}
+
 async function getRmrk2Resources(nft: NFTWithMetadata) {
   const thumb = nft.resources && nft.resources[0].thumb
   const src = nft.resources && nft.resources[0].src
@@ -52,9 +94,7 @@ async function getRmrk2Resources(nft: NFTWithMetadata) {
 }
 
 async function getProcessMetadata(nft: NFTWithMetadata) {
-  const metadata = (await processSingleMetadata(
-    nft.metadata
-  )) as NFTWithMetadata
+  const metadata = await processSingleMetadata<NFTWithMetadata>(nft.metadata)
   const image = sanitizeIpfsUrl(metadata.image || metadata.mediaUri || '')
   const animationUrl = sanitizeIpfsUrl(metadata.animation_url || '')
   const getAttributes = () => {

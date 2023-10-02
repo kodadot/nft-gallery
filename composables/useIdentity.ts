@@ -1,5 +1,6 @@
 import { accountToPublicKey, getss58AddressByPrefix } from '@/utils/account'
 import { ComputedRef } from 'vue/types'
+import { chainPropListOf } from '@/utils/config/chain.config'
 
 import shortAddress from '@/utils/shortAddress'
 
@@ -13,14 +14,23 @@ export default function useIdentity({
   customNameOption?: string
 }) {
   const { urlPrefix } = usePrefix()
+  const { apiInstanceByPrefix } = useApi()
   const isDotAddress = computed(() => ['dot', 'ahp'].includes(urlPrefix.value))
   const id = computed(
     () =>
       address.value &&
       (isDotAddress.value
         ? accountToPublicKey(address.value)
-        : getss58AddressByPrefix(address.value, 'ksm'))
+        : getss58AddressByPrefix(address.value, 'rmrk'))
   )
+
+  const identityPrefix = computed(() => (isDotAddress.value ? 'dot' : 'rmrk'))
+
+  const identityUnit = computed(
+    () => chainPropListOf(identityPrefix.value)?.tokenSymbol
+  )
+
+  const identityApi = computed(() => apiInstanceByPrefix(identityPrefix.value))
 
   const identity = computed<IdentityFields>(
     () => data.value?.value.identity || {}
@@ -51,6 +61,10 @@ export default function useIdentity({
     twitter,
     display,
     name,
+    identityApi,
+    identityPrefix,
+    identityUnit,
+    refetchIdentity: refetch,
   }
 }
 

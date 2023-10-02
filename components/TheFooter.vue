@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer-container section">
+  <footer class="footer-container section" data-testid="footer-container">
     <div
       class="footer-container-inner is-flex is-align-items-start is-justify-content-space-between">
       <section class="footer-container-subs is-flex is-flex-direction-column">
@@ -123,7 +123,7 @@
               </svg>
               <NeoIcon
                 v-else
-                :pack="item.name == 'Swag' ? 'fass' : 'fab'"
+                :pack="item.name == 'Swag' ? 'fasr' : 'fab'"
                 :icon="item.icon" />
             </a>
           </li>

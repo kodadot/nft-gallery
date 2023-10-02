@@ -7,6 +7,7 @@
       :class="{ 'is-collection-search': isSearchInCollectionMode }"
       :placeholder="placeholderContent"
       icon="search"
+      icon-pack="fasr"
       :open-on-focus="showDefaultSuggestions"
       menu-position="bottom"
       expanded
@@ -112,7 +113,7 @@ function onEnter() {
   closeDropDown()
   searchRef.value?.$refs?.input?.$refs?.input?.blur()
   // insert search term in history
-  searchSuggestionRef.value?.insertNewHistory()
+  // searchSuggestionRef.value?.insertNewHistory()
   emits('enter')
 }
 

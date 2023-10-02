@@ -17,8 +17,9 @@
         <ItemsGridImage
           :nft="nft"
           :variant="
-            (slotProps.isMobileVariant || slotProps.grid === 'small') &&
-            'minimal'
+            slotProps.isMobileVariant || slotProps.grid === 'small'
+              ? 'minimal'
+              : 'primary'
           " />
       </div>
     </DynamicGrid>
@@ -31,7 +32,9 @@
       <NeoNftCard
         v-for="n in skeletonCount"
         :key="n"
+        :nft="nfts[n]"
         is-loading
+        :prefix="urlPrefix"
         :variant="
           (slotProps.isMobileVariant || slotProps.grid === 'small') && 'minimal'
         " />
@@ -45,8 +48,16 @@
 import { NeoNftCard } from '@kodadot1/brick'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import ItemsGridImage from './ItemsGridImage.vue'
-import { useFetchSearch } from './useItemsGrid'
+import {
+  updatePotentialNftsForListingCart,
+  useFetchSearch,
+} from './useItemsGrid'
 import isEqual from 'lodash/isEqual'
+import { useListingCartStore } from '@/stores/listingCart'
+
+const { urlPrefix } = usePrefix()
+const { listingCartEnabled } = useListingCartConfig()
+const listingCartStore = useListingCartStore()
 
 const props = defineProps<{
   search?: Record<string, string | number>
@@ -102,6 +113,16 @@ const { nfts, fetchSearch, refetch, clearFetchResults } = useFetchSearch({
   resetSearch: resetPage,
 })
 
+watch(
+  () => nfts.value.length,
+  () => {
+    if (listingCartEnabled.value) {
+      updatePotentialNftsForListingCart(nfts.value)
+    }
+  },
+  { immediate: true }
+)
+
 watch(total, () => {
   prefetchNextPage()
   emit('total', total.value)
@@ -130,11 +151,16 @@ watch(
   { deep: true }
 )
 
-onBeforeMount(async () => {
-  await fetchSearch({
+onBeforeMount(() => {
+  if (listingCartEnabled.value) {
+    listingCartStore.clear()
+  }
+
+  fetchSearch({
     page: startPage.value,
     search: parseSearch(props.search),
+  }).then(() => {
+    isLoading.value = false
   })
-  isLoading.value = false
 })
 </script>

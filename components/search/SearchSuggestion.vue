@@ -13,6 +13,7 @@
       <NeoTabItem
         label="Collections"
         value="Collections"
+        data-testid="collection-tab"
         item-header-class="has-text-left is-block mb-0 pb-4 px-0 pt-0">
         <div v-if="isCollectionResultLoading">
           <SearchResultItem
@@ -53,7 +54,7 @@
                     <Money
                       v-else
                       :value="item.floorPrice"
-                      :unit-symbol="chainSymbol"
+                      :prefix="item.chain"
                       inline />
                   </span>
                   <NeoSkeleton
@@ -97,7 +98,8 @@
       <NeoTabItem
         label="NFTs"
         value="NFTs"
-        item-header-class="has-text-left is-block mb-0 pb-4 px-0 pt-0">
+        item-header-class="has-text-left is-block mb-0 pb-4 px-0 pt-0"
+        data-testid="nft-tab">
         <div v-if="isNFTResultLoading">
           <SearchResultItem
             v-for="item in searchSuggestionEachTypeMaxNum"
@@ -126,10 +128,7 @@
                   <span class="name">{{ item.collection?.name }}</span>
                   <span v-if="item.price && parseFloat(item.price) > 0">
                     {{ $t('offer.price') }}:
-                    <Money
-                      :value="item.price"
-                      :unit-symbol="chainSymbol"
-                      inline />
+                    <Money :value="item.price" :prefix="item.chain" inline />
                   </span>
                 </div>
               </template>
@@ -282,14 +281,15 @@ const props = defineProps({
       return {} as SearchQuery
     },
   },
+  showDefaultSuggestions: {
+    type: Boolean,
+    required: false,
+  },
 })
 
 const query = toRef(props, 'query', {})
 
 const searchSuggestionEachTypeMaxNum = 5
-const defaultCollectionSuggestions = ref(
-  [] as (CollectionWithMeta & RowSeries)[]
-)
 const activeSearchTab = ref('Collections')
 const activeTrendingTab = ref('Trending')
 const selectedIndex = ref(-1)
@@ -299,11 +299,9 @@ const nftResult = ref([] as NFTWithMeta[])
 const collectionResult = ref([] as CollectionWithMeta[])
 const searched = ref([] as NFTWithMeta[])
 const searchString = ref('')
-const showDefaultSuggestions = ref(true)
 
-onMounted(async () => {
+onMounted(() => {
   getSearchHistory()
-  await fetchSuggestions()
 })
 
 const onKeyDown = (event: KeyboardEvent) => {
@@ -322,7 +320,7 @@ const onKeyDown = (event: KeyboardEvent) => {
 
 const totalItemsAtCurrentTab = computed(() => {
   if (!props.name) {
-    return defaultCollectionSuggestions.value.length
+    return defaultCollectionSuggestions.value?.length
   }
   return activeSearchTab.value === 'NFTs'
     ? nftSuggestion.value.length
@@ -364,7 +362,6 @@ const selectedItemListMap = computed(() => ({
   NFTs: nftSuggestion,
 }))
 
-const { chainSymbol } = useChain()
 const router = useRouter()
 const route = useRoute()
 const { $consola } = useNuxtApp()
@@ -391,6 +388,7 @@ const seeAllButtonHandler = () => {
 }
 
 const nativeSearch = () => {
+  console.log('native')
   // not selected
   if (selectedIndex.value === -1) {
     return
@@ -515,37 +513,37 @@ const goToExploreResults = (item) => {
     search: item.name,
   })
 }
-
-const fetchSuggestions = async () => {
-  if (showDefaultSuggestions.value) {
-    try {
-      const { data: result } = await useAsyncQuery({
-        query: seriesInsightList,
-        clientId: client.value,
-        variables: {
-          limit: searchSuggestionEachTypeMaxNum,
-          orderBy: 'volume_DESC',
-        },
-      })
-      const { collectionEntities: collections } = result.value
-      const collectionMetadataList = collections
-        .slice(0, searchSuggestionEachTypeMaxNum)
-        .map(mapNFTorCollectionMetadata)
-      const collectionResult: (CollectionWithMeta & RowSeries)[] = []
-
-      processMetadata<CollectionWithMeta>(collectionMetadataList, (meta, i) => {
-        collectionResult.push({
-          ...collections[i],
-          ...meta,
-          image: sanitizeIpfsUrl(meta.image || meta.mediaUri || '', 'image'),
+const { data: defaultCollectionSuggestions } = await useAsyncData(
+  'defaultCollectionSuggestions',
+  async () => {
+    if (showDefaultSuggestions.value) {
+      try {
+        const { data: result } = await useAsyncQuery({
+          query: seriesInsightList,
+          clientId: client.value,
+          variables: {
+            limit: searchSuggestionEachTypeMaxNum,
+            orderBy: 'volume_DESC',
+          },
         })
-      })
-      defaultCollectionSuggestions.value = collectionResult
-    } catch (e) {
-      $consola.warn(e, 'Error while fetching default suggestions')
+        const { collectionEntities: collections } = result.value
+        const collectionResult: (CollectionWithMeta & RowSeries)[] =
+          collections.map((data) => {
+            return {
+              ...data,
+              image: sanitizeIpfsUrl(
+                data.image || data.mediaUri || '',
+                'image'
+              ),
+            }
+          })
+        return collectionResult
+      } catch (e) {
+        $consola.warn(e, 'Error while fetching default suggestions')
+      }
     }
   }
-}
+)
 
 const updateSuggestion = useDebounceFn(async (value: string) => {
   //To handle empty string

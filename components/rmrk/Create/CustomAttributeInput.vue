@@ -5,7 +5,7 @@
       :key="index"
       class="custom-attribute-input my-4">
       <AttributeInput
-        v-bind.sync="attributes[index]"
+        v-model="attributes[index]"
         :index="index"
         @remove="removeAttribute" />
     </div>
@@ -28,8 +28,8 @@ import AttributeInput from './AttributeInput.vue'
 const props = withDefaults(
   defineProps<{
     max: number
-    visible: string
-    hidden: string
+    visible?: string
+    hidden?: string
   }>(),
   {
     max: 0,

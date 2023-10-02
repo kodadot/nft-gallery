@@ -79,7 +79,7 @@ const menus = ref([
   },
 ])
 
-onMounted(() => {
+watchEffect(() => {
   if (isBasilisk.value) {
     menus.value.push({
       label: 'Incoming Offers',
@@ -136,7 +136,7 @@ const closeModal = () => {
 
   @include tablet {
     // manually center dropdown menu, because no props "postition" to center it
-    :deep .o-drop__menu {
+    :deep(.o-drop__menu) {
       transform: translateX(50px);
     }
   }

@@ -158,18 +158,17 @@ export default {
   components: {
     NeoIcon,
   },
-  head() {
-    const title = 'Carbonless NFT Movement'
-    const metaData = {
-      title,
-      description:
-        'Join KodaDot in the quest for a carbon-negative future in digital art. Learn how we are pioneering eco-friendly NFT minting, collaborating with Offsetra, and empowering artists and collectors to make a positive environmental impact.',
-      url: '/carbonless',
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
-    }
+  setup() {
+    useHead({
+      title: 'Carbonless NFT Movement',
+      meta: [
+        {
+          name: 'description',
+          content:
+            'Join KodaDot in the quest for a carbon-negative future in digital art. Learn how we are pioneering eco-friendly NFT minting, collaborating with Offsetra, and empowering artists and collectors to make a positive environmental impact.',
+        },
+      ],
+    })
   },
 }
 </script>

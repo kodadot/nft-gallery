@@ -5,12 +5,13 @@
 <script lang="ts">
 import CreateCollection from '@/components/create/CreateCollection.vue'
 
+definePageMeta({
+  layout: 'background-layout',
+})
+
 export default {
   components: {
     CreateCollection,
-  },
-  layout() {
-    return 'background-layout'
   },
   head() {
     const title = 'Create carbonless NFTs'

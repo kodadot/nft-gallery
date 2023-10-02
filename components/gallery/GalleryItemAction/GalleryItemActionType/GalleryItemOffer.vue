@@ -104,7 +104,7 @@ const props = defineProps<{
 
 const { apiInstance } = useApi()
 const route = useRoute()
-const { client, urlPrefix, tokenId } = usePrefix()
+const { urlPrefix, tokenId } = usePrefix()
 const { neoModal } = useProgrammatic()
 const { $i18n } = useNuxtApp()
 const { transaction, status, isLoading } = useTransaction()
@@ -148,7 +148,6 @@ const disabledConfirmBtn = computed(
 )
 
 const { data: highestOffer } = useGraphql({
-  clientName: client.value,
   queryName: 'offerHighest',
   queryPrefix: 'chain-bsx',
   variables: {

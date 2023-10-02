@@ -7,7 +7,7 @@
     <BaseTokenForm
       ref="baseTokenForm"
       :show-explainer-text="showExplainerText"
-      v-bind.sync="base"
+      v-model="base"
       :collections="collections"
       :has-edition="false">
       <template #main>
@@ -35,7 +35,7 @@
           key="hasRoyalty"
           v-model="hasRoyalty"
           label="mint.listWithRoyalty" />
-        <RoyaltyForm v-if="hasRoyalty" key="royalty" v-bind.sync="royalty" />
+        <RoyaltyForm v-if="hasRoyalty" key="royalty" v-model="royalty" />
       </template>
       <template #footer>
         <NeoField key="advanced">

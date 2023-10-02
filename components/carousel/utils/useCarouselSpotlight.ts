@@ -39,6 +39,15 @@ const curatedCollection = {
     '7092505797a30ccf48-NEON BABES', // Neon Babes
     'B9F14D738824A41D42-TOKUNFT', // Toku NFT
   ],
+  ahk: [
+    '150', // MyGenArt
+    '134', // Rad Panda
+    '132', // Experience the scenic canyon drive
+    '136', // Emotional Devastation
+    '148', // threads (koda)
+    '138', // Season 23
+    '131', // Forgive me not
+  ],
 }
 
 type Collections = CarouselNFT & SomethingWithMeta
@@ -61,12 +70,11 @@ function updateCollections(data) {
 
 export default function useCarouselSpotlight() {
   const collections = useSpotlightNft()
-  const { urlPrefix, client } = usePrefix()
+  const { urlPrefix } = usePrefix()
   const variables = curatedCollection[urlPrefix.value]?.length
     ? { list: curatedCollection[urlPrefix.value] }
     : undefined
   const { data } = useGraphql({
-    clientName: client,
     queryName: curatedCollection[urlPrefix.value]?.length
       ? 'collectionCuratedList'
       : 'collectionLastList',

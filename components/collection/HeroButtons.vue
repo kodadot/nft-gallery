@@ -30,7 +30,7 @@
 
           <NeoDropdownItem
             v-clipboard:copy="currentCollectionUrl"
-            @click="toast(`${$i18n.t('toast.urlCopy')}`)">
+            @click="toast($t('toast.urlCopy'))">
             {{ $i18n.t('share.copyLink') }}
           </NeoDropdownItem>
           <NeoDropdownItem @click="QRModalActive = true">
@@ -83,10 +83,7 @@
           <p class="card-header-title">{{ collection?.name }}</p>
         </header>
         <div class="card-content">
-          <QRCode
-            :text="currentCollectionUrl"
-            color="#db2980"
-            bg-color="#000" />
+          <QRCode :text="currentCollectionUrl" />
         </div>
       </div>
     </NeoModal>

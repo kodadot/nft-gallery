@@ -20,7 +20,7 @@
       </div>
 
       <a
-        class="is-flex is-align-items-center pt-4 pb-3 is-size-7 has-text-grey more-option-button"
+        class="is-flex is-align-items-center pt-4 pb-3 is-size-7 has-text-grey more-option-button mx-6 my-0"
         @click="toggleShowUninstalledWallet">
         {{ $i18n.t('walletConnect.moreOption') }}
         <NeoIcon
@@ -37,7 +37,7 @@
           :wallet="wallet" />
       </div>
     </section>
-    <section v-else class="modal-card-body p-4">
+    <section v-else class="modal-card-body px-6 py-4">
       <div class="mb-5">
         {{ $i18n.t('walletConnect.authText') }}
       </div>
@@ -46,6 +46,7 @@
           size="medium"
           variant="k-accent"
           class="confirm-button"
+          no-shadow
           @click="setUserAuthValue">
           <span class="is-flex is-align-items-center is-justify-content-center">
             {{ $i18n.t('walletConnect.confirm') }}
@@ -55,7 +56,7 @@
       </NeoField>
     </section>
 
-    <footer v-if="!showAccount" class="px-5 py-4">
+    <footer v-if="!showAccount" class="px-6 py-4">
       <div>{{ $i18n.t('walletConnect.walletQuestion') }}</div>
       <div class="is-size-7">
         {{ $i18n.t('walletConnect.walletAnswer') }}

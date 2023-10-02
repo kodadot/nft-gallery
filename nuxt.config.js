@@ -31,6 +31,7 @@ export default defineNuxtConfig({
   nitro: {
     publicAssets: [],
     preset: 'netlify',
+    // preset: 'service-worker'
   },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -162,10 +163,8 @@ export default defineNuxtConfig({
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/polkadot', mode: 'client' },
-    { src: '~/plugins/icons', mode: 'client' },
     // { src: '~/plugins/seoMetaGenerator', mode: 'client' },
     // { src: '~/plugins/keyboardEvents', mode: 'client' },
-    // { src: '~/plugins/consola', mode: 'client' },
     // { src: '~/plugins/piniaPersistedState', mode: 'client' },
     // '~/plugins/filters',
     // '~/plugins/pwa',
@@ -181,6 +180,12 @@ export default defineNuxtConfig({
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: {
     dirs: [
+      // ordering matters
+      {
+        path: '~/components/shared',
+        extensions: ['vue'],
+        pathPrefix: false,
+      },
       {
         path: '~/components',
         extensions: ['vue'],
@@ -210,10 +215,6 @@ export default defineNuxtConfig({
         extensions: ['vue'],
       },
       {
-        path: '~/components/shared',
-        extensions: ['vue'],
-      },
-      {
         path: '~/components/spotlight',
         extensions: ['vue'],
       },
@@ -237,6 +238,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
     '@pinia/nuxt',
+    '@nuxt/content',
     'nuxt-simple-sitemap',
   ],
 

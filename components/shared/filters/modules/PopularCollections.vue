@@ -20,9 +20,9 @@
         :key="`${collection.id}-${isCutArray[index].value}`"
         class="mb-2">
         <NeoCheckbox
-          :value="checkedCollections.includes(collection.id)"
+          :model-value="checkedCollections.includes(collection.id)"
           label-class="is-flex-grow-1"
-          @input="toggleCollection(collection)">
+          @update:modelValue="toggleCollection(collection)">
           <div
             class="is-flex is-align-items-center filter-container pl-2 is-flex-grow-1 min-width-0">
             <img
@@ -171,7 +171,7 @@ watch(
 .min-width-0 {
   min-width: 0;
 }
-:deep .neo-checkbox > span {
+:deep(.neo-checkbox > span) {
   max-width: calc(100% - 1rem);
   .o-tip__trigger {
     max-width: 100%;

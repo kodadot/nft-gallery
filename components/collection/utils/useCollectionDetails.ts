@@ -12,10 +12,9 @@ const differentOwner = (nft: {
 }
 
 export const useCollectionDetails = ({ collectionId }) => {
-  const { urlPrefix, client } = usePrefix()
+  const { urlPrefix } = usePrefix()
   const { data } = useGraphql({
     queryPrefix: 'subsquid',
-    clientName: client.value,
     queryName: chainsSupportingOffers.includes(urlPrefix.value)
       ? 'collectionStatsByIdWithOffers'
       : 'collectionStatsById',
@@ -26,7 +25,7 @@ export const useCollectionDetails = ({ collectionId }) => {
   const stats = ref<Stats>({})
 
   watch(data, () => {
-    if (data) {
+    if (data.value.value.stats) {
       const uniqueOwnerCount = [
         ...new Set(
           data.value.value.stats?.base.map((item) => item.currentOwner)
@@ -79,10 +78,8 @@ export const useCollectionDetails = ({ collectionId }) => {
 }
 
 export const useBuyEvents = ({ collectionId }) => {
-  const { client } = usePrefix()
   const { data } = useGraphql({
     queryPrefix: 'subsquid',
-    clientName: client.value,
     queryName: 'collectionBuyEventStatsById',
     variables: {
       id: collectionId,
@@ -100,10 +97,8 @@ export const useBuyEvents = ({ collectionId }) => {
 
 export function useCollectionSoldData({ address, collectionId }) {
   const nftEntities = ref<NFT[]>([])
-  const { client } = usePrefix()
   const { data } = useGraphql({
     queryName: 'nftListSoldByCollection',
-    clientName: client.value,
     variables: {
       account: address,
       limit: 3,
@@ -126,10 +121,8 @@ export function useCollectionSoldData({ address, collectionId }) {
 
 export const useCollectionMinimal = ({ collectionId }) => {
   const collection = ref()
-  const { client } = usePrefix()
   const { data } = useGraphql({
     queryName: 'collectionByIdMinimal',
-    clientName: client.value,
     variables: {
       id: collectionId,
     },

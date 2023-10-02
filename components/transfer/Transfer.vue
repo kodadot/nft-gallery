@@ -30,14 +30,16 @@
               icon="ellipsis-vertical"
               no-shadow
               class="square-32"
+              data-testid="transfer-button-options"
               :active="active" />
           </template>
 
           <NeoDropdownItem
             v-if="accountId"
             v-clipboard:copy="generatePaymentLink([accountId])"
-            @click="toast(`${$i18n.t('toast.urlCopy')}`)">
-            <NeoIcon icon="sack-dollar" pack="fa" class="mr-2" />{{
+            data-testid="transfer-dropdown-pay-me"
+            @click="toast($t('toast.urlCopy'))">
+            <NeoIcon icon="sack-dollar" class="mr-2" />{{
               $t('transfers.payMeLink')
             }}
           </NeoDropdownItem>
@@ -45,23 +47,22 @@
           <NeoDropdownItem
             v-clipboard:copy="generateRecurringPaymentLink()"
             class="no-wrap"
-            @click="toast(`${$i18n.t('toast.urlCopy')}`)">
-            <NeoIcon icon="rotate" pack="fas" class="mr-2" />{{
+            data-testid="transfer-dropdown-recurring"
+            @click="toast($t('toast.urlCopy'))">
+            <NeoIcon icon="rotate" class="mr-2" />{{
               $t('transfers.recurringPaymentLink')
             }}
           </NeoDropdownItem>
         </NeoDropdown>
       </div>
 
-      <TransferTokenTabs
-        :tabs="tokenTabs"
-        :value="unit"
-        @select="handleTokenSelect" />
+      <PillTabs :tabs="tokenTabs" @select="handleTokenSelect" />
+
       <div class="mb-5">
-        <NeoIcon class="ml-2" icon="circle-info" pack="far" />
+        <NeoIcon class="ml-2" icon="circle-info" />
         <span
           v-dompurify-html="
-            $t('transfers.tooltip', [unit, chainNames[unit.toLowerCase()]])
+            $t('transfers.tooltip', [unit, chainNames[urlPrefix]])
           "></span>
       </div>
       <div class="is-flex is-justify-content-space-between">
@@ -70,14 +71,21 @@
             $t('transfers.sender')
           }}</span>
           <div v-if="accountId" class="is-flex is-align-items-center">
-            <Avatar :value="accountId" :size="32" />
+            <Avatar
+              :value="accountId"
+              :size="32"
+              data-testid="transfer-sender-full-address" />
             <span class="ml-2">
-              <Identity :address="accountId" hide-identity-popover />
+              <Identity
+                :address="accountId"
+                hide-identity-popover
+                data-testid="transfer-sender-address" />
             </span>
             <a
               v-clipboard:copy="accountId"
               class="ml-2"
-              @click="toast(`${$i18n.t('general.copyToClipboard')}`)">
+              data-testid="transfer-copy-sender-address"
+              @click="toast($t('general.copyToClipboard'))">
               <NeoIcon icon="copy" />
             </a>
           </div>
@@ -118,7 +126,7 @@
             class="has-text-weight-bold is-size-6 mb-3 is-flex is-align-items-center is-justify-content-space-between">
             {{ $t('transfers.recipient') }} {{ index + 1 }}
             <a v-if="targetAddresses.length > 1" @click="deleteAddress(index)">
-              <NeoIcon class="p-3" icon="fa-trash" pack="fa-regular" />
+              <NeoIcon class="p-3" icon="trash" />
             </a>
           </div>
           <div
@@ -138,6 +146,7 @@
                   'mb-2': isMobile,
                 },
               ]"
+              :strict="false"
               :is-invalid="isTargetAddressInvalid(destinationAddress)"
               placeholder="Enter wallet address"
               disable-error />
@@ -152,8 +161,9 @@
                 step="0.01"
                 min="0"
                 icon-right-class="search"
+                data-testid="transfer-input-amount-token"
                 @focus="onAmountFieldFocus(destinationAddress, 'token')"
-                @input="onAmountFieldChange(destinationAddress)" />
+                @update:modelValue="onAmountFieldChange(destinationAddress)" />
               <NeoInput
                 v-else
                 v-model="destinationAddress.usd"
@@ -163,13 +173,15 @@
                 min="0"
                 icon-right="usd"
                 icon-right-class="has-text-grey"
+                data-testid="transfer-input-amount-usd"
                 @focus="onAmountFieldFocus(destinationAddress, 'usd')"
-                @input="onUsdFieldChange(destinationAddress)" />
+                @update:modelValue="onUsdFieldChange(destinationAddress)" />
               <a
                 v-if="!isMobile && targetAddresses.length > 1"
                 class="is-flex"
+                data-testid="transfer-remove-recipient"
                 @click="deleteAddress(index)">
-                <NeoIcon class="p-3" icon="fa-trash" pack="fa-regular" />
+                <NeoIcon class="p-3" icon="trash" />
               </a>
             </div>
           </div>
@@ -188,9 +200,10 @@
 
       <div
         class="mb-5 is-flex is-justify-content-center is-clickable"
+        data-testid="transfer-icon-add-recipient"
         @click="addAddress">
         {{ $t('transfers.addAddress') }}
-        <NeoIcon class="ml-2" icon="plus" pack="fass" />
+        <NeoIcon class="ml-2" icon="plus" />
       </div>
       <div
         class="is-flex is-justify-content-space-between is-align-items-center mb-5">
@@ -200,10 +213,13 @@
           <!-- tips: don't use `margin` or `padding` directly on the tooltip trigger, it will cause misalignment of the tooltip -->
           <span class="mr-2" />
           <NeoTooltip :label="$t('transfers.setSameAmount')"
-            ><NeoIcon icon="circle-info" pack="far"
+            ><NeoIcon icon="circle-info"
           /></NeoTooltip>
         </div>
-        <NeoSwitch v-model="sendSameAmount" :rounded="false" />
+        <NeoSwitch
+          v-model="sendSameAmount"
+          :rounded="false"
+          data-testid="transfer-switch-same" />
       </div>
 
       <div
@@ -234,6 +250,7 @@
           tag="button"
           full-width
           no-shadow
+          data-testid="transfer-tab-token"
           @click="displayUnit = 'token'" />
         <TabItem
           :active="displayUnit === 'usd'"
@@ -241,13 +258,16 @@
           tag="button"
           full-width
           no-shadow
+          data-testid="transfer-tab-usd"
           @click="displayUnit = 'usd'" />
       </div>
 
       <div
         class="is-flex is-justify-content-space-between is-align-items-center mb-2">
         <span class="is-size-7">{{ $t('transfers.networkFee') }}</span>
-        <div class="is-flex is-align-items-center">
+        <div
+          class="is-flex is-align-items-center"
+          data-testid="transfer-network-fee">
           <span class="is-size-7 has-text-grey mr-1"
             >({{ displayTxFeeValue[0] }})</span
           >
@@ -265,9 +285,11 @@
             >({{ displayTotalValue[0] }})</span
           >
 
-          <span class="has-text-weight-bold is-size-6">{{
-            displayTotalValue[1]
-          }}</span>
+          <span
+            class="has-text-weight-bold is-size-6"
+            data-testid="transfer-total-amount"
+            >{{ displayTotalValue[1] }}</span
+          >
         </div>
       </div>
 
@@ -294,7 +316,7 @@
 </template>
 
 <script lang="ts" setup>
-// import Connector from '@kodadot1/sub-api'
+import { ApiFactory } from '@kodadot1/sub-api'
 import { ALTERNATIVE_ENDPOINT_MAP, chainNames } from '@kodadot1/static'
 
 import { isAddress } from '@polkadot/util-crypto'
@@ -331,13 +353,15 @@ import {
   NeoSwitch,
   NeoTooltip,
 } from '@kodadot1/brick'
-import TransferTokenTabs, { TransferTokenTab } from './TransferTokenTabs.vue'
+import PillTabs, { PillTab } from '@/components/shared/PillTabs.vue'
 import { TokenDetails } from '@/composables/useToken'
 import AddressInput from '@/components/shared/AddressInput.vue'
 import TransactionLoader from '@/components/shared/TransactionLoader.vue'
 import { KODADOT_DAO } from '@/utils/support'
 import { toDefaultAddress } from '@/utils/account'
 import AddressChecker from '@/components/shared/AddressChecker.vue'
+import TabItem from '@/components/shared/TabItem.vue'
+import Auth from '@/components/shared/Auth.vue'
 
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
@@ -345,7 +369,7 @@ const Money = defineAsyncComponent(
 
 const route = useRoute()
 const router = useRouter()
-const { $consola, $i18n } = useNuxtApp()
+const { $consola } = useNuxtApp()
 const { unit, decimals } = useChain()
 const { apiInstance } = useApi()
 const { urlPrefix } = usePrefix()
@@ -385,7 +409,7 @@ const { tokens } = useToken()
 const selectedTabFirst = ref(true)
 const tokenIcon = computed(() => getTokenIconBySymbol(unit.value))
 
-const tokenTabs = ref<TransferTokenTab[]>([])
+const tokenTabs = ref<PillTab[]>([])
 
 const targetAddresses = ref<TargetAddress[]>([{ address: '' }])
 
@@ -446,11 +470,15 @@ const generateTokenTabs = (
 ) => {
   items = sort ? getMovedItemToFront(items, 'symbol', selectedToken) : items
 
-  return items.map((availableToken) => ({
-    label: `${availableToken.symbol} $${availableToken.value || '0'}`,
-    icon: availableToken.icon,
-    value: availableToken.symbol,
-  }))
+  return items.map(
+    (availableToken) =>
+      ({
+        label: `${availableToken.symbol} $${availableToken.value || '0'}`,
+        image: availableToken.icon,
+        value: availableToken.symbol,
+        active: unit.value === availableToken.symbol,
+      } as PillTab)
+  )
 }
 
 watch(
@@ -469,6 +497,7 @@ const checkQueryParams = () => {
   const { query } = route
   const targets = Object.entries(query)
     .filter(([key]) => key.startsWith('target'))
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .filter(([_, address]) => {
       if (isAddress(address as string)) {
         return true
@@ -479,6 +508,7 @@ const checkQueryParams = () => {
       )
       return false
     })
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .map(([_, address]) => address as string)
   if (targets.length > 0) {
     targetAddresses.value = targets.map((address) => ({
@@ -487,10 +517,17 @@ const checkQueryParams = () => {
   }
 
   if (query.amount) {
+    const tokenAmount = Number(query.amount)
+    const usdValue = calculateUsdFromToken(
+      tokenAmount,
+      Number(currentTokenValue.value)
+    )
+
     sendSameAmount.value = true
     targetAddresses.value = targetAddresses.value.map((address) => ({
       ...address,
-      token: Number(query.amount),
+      usd: usdValue,
+      token: tokenAmount,
     }))
   } else if (query.usdamount) {
     const usdValue = Number(query.usdamount)
@@ -748,9 +785,8 @@ const submit = async (
       const nextTryUrls = availableUrls.filter(
         (url) => !usedNodeUrls.includes(url)
       )
-      // const { getInstance: Api } = Connector
       // try to connect next possible url
-      // await Api().connect(nextTryUrls[0])
+      await ApiFactory.useApiInstance(nextTryUrls[0])
       submit(event, [nextTryUrls[0], ...usedNodeUrls])
     }
 
@@ -791,12 +827,14 @@ const generateRecurringPaymentLink = () => {
 
 const generatePaymentLink = (addressList: string[]): string => {
   const url = new URL(`${location.origin}${location.pathname}`)
-
-  url.searchParams.set('usdamount', String(targetAddresses.value[0]?.usd || 0))
-
   addressList.forEach((addr, i) => {
     url.searchParams.append(`target${i == 0 ? '' : i}`, addr)
   })
+  url.searchParams.append(
+    'usdamount',
+    String(targetAddresses.value[0]?.usd || 0)
+  )
+
   return url.toString()
 }
 

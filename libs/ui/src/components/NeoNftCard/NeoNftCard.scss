@@ -1,6 +1,10 @@
 @import '../../scss/variable.scss';
 @import '../../scss/animation.scss';
 
+@function hex-to-rgba($hex, $alpha: 1) {
+  @return rgba(red($hex), green($hex), blue($hex), $alpha);
+}
+
 .nft-card {
   position: relative;
   @include ktheme() {
@@ -8,8 +12,16 @@
     border: 1px solid theme('card-border-color');
     &:not(.loading):hover {
       border: 1px solid theme('border-color');
-      .nft-media {
-        opacity: theme('card-hover-opacity');
+
+      .nft-media::after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: hex-to-rgba(theme('background-color'), 0.2);
       }
     }
   }
@@ -20,8 +32,10 @@
   a:hover {
     color: unset !important;
 
-    .show-on-hover, .show-always {
+    .show-on-hover,
+    .show-always {
       display: flex !important;
+      z-index: 1;
     }
   }
 
@@ -29,8 +43,21 @@
     position: absolute;
     bottom: 1rem;
   }
+
+  .stacked-shadow {
+    @include ktheme() {
+      box-shadow: 5px 5px theme('k-shade');
+      bottom: 10px;
+      right: 10px;
+    }
+  }
+  .theme-background {
+    @include ktheme() {
+      background: theme('background-color');
+    }
+  }
 }
-.unloackable-icon {
+.card-icon {
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -38,12 +65,12 @@
 }
 .nft-media {
   box-shadow: none;
-  @include ktheme() {
-    border-bottom: 1px solid theme('card-border-color');
-  }
 }
 
 .nft-media-info {
+  @include ktheme() {
+    border-top: 1px solid theme('card-border-color');
+  }
   padding: 13px;
   min-height: 102px;
   &__minimal {

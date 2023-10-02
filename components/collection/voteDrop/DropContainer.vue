@@ -21,10 +21,10 @@
           <div>
             <div
               class="is-flex is-justify-content-space-between is-align-items-center my-5">
-              <span class="has-text-weight-bold is-size-5">{{
-                $t('mint.unlockable.phase')
-              }}</span
-              ><span
+              <div class="has-text-weight-bold is-size-5">
+                {{ $t('mint.unlockable.phase') }}
+              </div>
+              <span
                 v-if="mintCountAvailable"
                 class="is-flex is-align-items-center">
                 <img src="/unlockable-pulse.svg" alt="open" />
@@ -65,7 +65,7 @@
                   :label="buttonLabel"
                   @click="handleMint" />
                 <div class="is-flex is-align-items-center mt-2">
-                  <NeoIcon icon="timer" pak="far" class="mr-2" />
+                  <NeoIcon icon="timer" class="mr-2" />
                   {{ leftTime }}
                 </div>
               </div>
@@ -90,7 +90,7 @@
           class="column is-half-desktop is-flex is-flex-direction-column is-justify-content-center order-1">
           <div
             class="is-flex is-align-items-center has-text-weight-bold is-size-6 mb-2">
-            <NeoIcon icon="unlock" class="mr-2" pack="far" />
+            <NeoIcon icon="unlock" class="mr-2" />
             {{ $t('mint.unlockable.howItemWork') }}
           </div>
           <div>
@@ -184,13 +184,13 @@ const statusInformation = computed(() => {
         icon: 'circle-info',
         iconClass: 'has-text-grey',
         labelClass: 'has-text-grey',
-        iconPack: 'far',
+        iconPack: 'fasr',
       }
     : isEligibleUser.value
     ? {
         label: $i18n.t('mint.unlockable.eligible'),
         icon: 'circle-check',
-        iconPack: 'fass',
+        iconPack: 'fasr',
         iconClass: 'has-text-success',
       }
     : {
@@ -198,7 +198,7 @@ const statusInformation = computed(() => {
         icon: 'circle-info',
         iconClass: 'has-text-grey',
         labelClass: 'has-text-grey',
-        iconPack: 'far',
+        iconPack: 'fasr',
       }
 })
 
@@ -220,7 +220,7 @@ const { data: collectionData, refetch } = useGraphql({
 watch(collectionData, () => {
   if (collectionData.value) {
     imageList.value = [
-      sanitizeIpfsUrl(collectionData.value?.collectionEntity.image),
+      sanitizeIpfsUrl(collectionData.value?.value.collectionEntity.image),
     ]
   }
 })
@@ -228,7 +228,7 @@ watch(collectionData, () => {
 const totalCount = 300
 
 const totalAvailableMintCount = computed(
-  () => totalCount - collectionData.value?.collectionEntity?.nftCount
+  () => totalCount - collectionData.value?.value.collectionEntity?.nftCount
 )
 
 useSubscriptionGraphql({
@@ -251,7 +251,7 @@ const mintedPercent = computed(() => {
 const userMintedId = computed(
   () =>
     Boolean(accountId.value) &&
-    (collectionData.value?.nftEntitiesConnection?.edges?.[0]?.node?.id ||
+    (collectionData.value?.value.nftEntitiesConnection?.edges?.[0]?.node?.id ||
       justMinted.value)
 )
 
@@ -290,8 +290,8 @@ const handleMint = async () => {
     const id = await doWaifu(
       {
         address: accountId.value,
-        metadata: collectionData.value.collectionEntity.metadata,
-        image: collectionData.value.collectionEntity.image,
+        metadata: collectionData.value.value.collectionEntity.metadata,
+        image: collectionData.value.value.collectionEntity.image,
       },
       urlPrefix.value === 'ahk' ? VOTE_DROP_CAMPAIGN : VOTE_DROP_AHP_CAMPAIGN
     ).then((res) => {

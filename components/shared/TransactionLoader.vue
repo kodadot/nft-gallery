@@ -1,10 +1,11 @@
 <template>
   <NeoModal
-    v-model="isModalActive"
+    :value="modelValue"
     :can-cancel="canCancel"
     :no-shadow="isMobile"
     :content-class="[isMobile ? 'mobile-modal' : '']"
-    @close="emit('close')">
+    @close="emit('close')"
+    @update:active="updateActive">
     <div :class="{ 'desktop-width': !isMobile }">
       <div v-if="isFinalStep" class="is-flex py-5 px-6 is-align-items-center">
         <div class="is-flex-grow-1 text-align-center">{{ $t('success') }}</div>
@@ -20,10 +21,12 @@
         class="is-flex is-justify-content-space-between is-align-items-center py-5 px-6 border-bottom border-k-shade">
         <span>Tx:</span>
         <div class="is-flex">
-          <span>{{ `${$t('teleport.send')} ${totalUsdValue}$` }}</span>
-          <span class="has-text-grey ml-1 is-uppercase">{{
-            `(${totalTokenAmount} ${urlPrefix})`
-          }}</span>
+          <slot name="action-title">
+            <span>{{ `${$t('teleport.send')} ${totalUsdValue}$` }}</span>
+            <span class="has-text-grey ml-1 is-uppercase">{{
+              `(${totalTokenAmount} ${urlPrefix})`
+            }}</span>
+          </slot>
         </div>
 
         <NeoButton
@@ -70,7 +73,6 @@
           <NeoButton
             v-clipboard:copy="explorerLink"
             icon="copy"
-            icon-pack="far"
             class="ml-4 px-4"
             rounded
             no-shadow
@@ -89,9 +91,9 @@ import { chainPropListOf } from '@/utils/config/chain.config'
 const props = withDefaults(
   defineProps<{
     status: TransactionStatus
-    value: boolean
-    totalTokenAmount: number
-    totalUsdValue: number
+    modelValue: boolean
+    totalTokenAmount?: number
+    totalUsdValue?: number
     transactionId: string
     canCancel?: boolean
     isMobile?: boolean
@@ -101,7 +103,7 @@ const props = withDefaults(
     isMobile: false,
   }
 )
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'update:modelValue'])
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { blocktime } = useBlockTime()
@@ -134,7 +136,10 @@ const activeStep = computed(() => {
   }
 })
 
-const isModalActive = useVModel(props, 'value')
+const updateActive = (value: boolean) => {
+  emit('update:modelValue', value)
+}
+
 const steps = [
   {
     label: $i18n.t('transactionLoader.sign'),
@@ -165,7 +170,7 @@ const checkIconForStep = (step: number) =>
 .desktop-width {
   width: 27rem;
 }
-:deep .mobile-modal {
+:deep(.mobile-modal) {
   position: fixed;
   bottom: 0;
   left: 0;

@@ -305,9 +305,10 @@ a.has-text-grey {
 }
 .border {
   @include ktheme() {
-    border: 1px solid theme('border-color');
+    border: 1px solid theme('border-color') !important;
   }
 }
+
 .no-border {
   border: none !important;
 }
@@ -321,6 +322,12 @@ a.has-text-grey {
 .border-k-shade {
   @include ktheme() {
     border-color: theme('k-shade');
+  }
+}
+
+.border-top-k-shade {
+  @include ktheme() {
+    border-top: 1px solid theme('k-shade');
   }
 }
 
@@ -422,6 +429,12 @@ a.has-text-grey {
   }
 }
 
+.has-background-k-grey {
+  @include ktheme() {
+    background-color: theme('k-grey');
+  }
+}
+
 //hover
 
 .is-hoverable-item {
@@ -477,4 +490,8 @@ a.has-text-grey {
 
 #transakOnOffRampWidget {
   height: 100% !important;
+}
+
+.no-border-left {
+  border-left: none !important;
 }

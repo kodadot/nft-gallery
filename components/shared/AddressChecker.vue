@@ -8,6 +8,7 @@
           selectedChain: currentChainName,
         })
       "
+      data-testid="addresschecker-infobox-convertion-success"
       @close="onClose">
       <div
         v-dompurify-html="
@@ -22,6 +23,7 @@
       v-else-if="addressCheck && showAddressCheck"
       variant="fail"
       :title="$t(`transfers.invalidAddress.${addressCheck.type}.title`)"
+      data-testid="addresschecker-infobox-invalid"
       @close="onClose">
       <div
         v-dompurify-html="
@@ -38,6 +40,7 @@
             rounded
             size="small"
             variant="k-pink"
+            data-testid="addresschecker-button-change-to"
             @click="changeAddress">
             {{
               $t(`transfers.invalidAddress.changeToChainAddress`, {
@@ -65,6 +68,7 @@ import {
   isEthereumAddress,
 } from '@polkadot/util-crypto'
 import correctFormat from '@/utils/ss58Format'
+import { isValidAddress } from '@/utils/account'
 import { CHAINS } from '@/libs/static/src/chains'
 import InfoBox from '@/components/shared/view/InfoBox.vue'
 import { NeoButton } from '@kodadot1/brick'
@@ -82,13 +86,14 @@ type AddressCheck = {
   value?: string
 }
 
-const CHAINS_ADDRESS_CHECKS: Prefix[] = ['rmrk', 'bsx', 'movr', 'glmr', 'dot']
+const CHAINS_ADDRESS_CHECKS: Prefix[] = ['rmrk', 'bsx', 'dot']
 
 const emit = defineEmits(['check', 'change'])
 const props = defineProps<{
   address: string
 }>()
 
+const { $i18n } = useNuxtApp()
 const { chainProperties } = useChain()
 const { urlPrefix } = usePrefix()
 const currentChainName = computed(() => chainNames[urlPrefix.value])
@@ -142,6 +147,16 @@ const getAddressCheck = (value: string): AddressCheck => {
     }
   }
 
+  const isValid = isValidAddress(value)
+
+  if (isValid) {
+    return {
+      valid: false,
+      type: AddressType.WRONG_NETWORK_ADDRESS,
+      value: $i18n.t('transfers.invalidAddress.wrongNetwork'),
+    }
+  }
+
   return { valid: false, type: AddressType.UNKNOWN }
 }
 
@@ -155,6 +170,7 @@ const changeAddress = () => {
   const chainAddress = encodeAddress(publicKey, ss58Format.value)
   showChanged.value = true
   emit('change', chainAddress)
+  emit('check', true)
 }
 
 watch(
@@ -200,7 +216,7 @@ watch(addressCheck, (check) => {
 }
 
 .address-changed {
-  :deep a {
+  :deep(a) {
     @include ktheme() {
       color: theme('k-blue') !important;
       &:hover {

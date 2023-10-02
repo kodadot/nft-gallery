@@ -13,30 +13,28 @@
 
           <div
             class="is-flex is-justify-content-space-between is-align-items-center my-5">
-            <span class="">Total available items</span>
-            <span class=""
-              >{{ totalAvailableMintCount }} / {{ totalCount }}</span
-            >
+            <div>Total available items</div>
+            <div>{{ totalAvailableMintCount }} / {{ totalCount }}</div>
           </div>
           <UnlockableTag />
 
           <div>
             <div
               class="is-flex is-justify-content-space-between is-align-items-center my-5">
-              <span class="has-text-weight-bold is-size-5">Mint Phase</span
-              ><span
+              <div class="has-text-weight-bold is-size-5">Mint Phase</div>
+              <div
                 v-if="mintCountAvailable"
                 class="is-flex is-align-items-center">
                 <img src="/unlockable-pulse.svg" alt="open" />
-                {{ $t('mint.unlockable.open') }}</span
-              >
+                {{ $t('mint.unlockable.open') }}
+              </div>
             </div>
             <div
               class="is-flex is-justify-content-space-between is-align-items-center">
-              <span>{{ mintedPercent }} %</span
-              ><span class="has-text-weight-bold">
-                {{ mintedCount }} / {{ totalCount }} Minted</span
-              >
+              <div>{{ mintedPercent }} %</div>
+              <div class="has-text-weight-bold">
+                {{ mintedCount }} / {{ totalCount }} Minted
+              </div>
             </div>
           </div>
           <div class="my-5">
@@ -45,9 +43,9 @@
           <div class="my-5">
             <div
               class="is-flex is-justify-content-space-between is-align-items-center">
-              <span class="title is-size-4"
-                ><Money :value="displayPricePerMint" inline
-              /></span>
+              <div class="title is-size-4">
+                <Money :value="displayPricePerMint" inline />
+              </div>
               <div>
                 <NeoButton
                   ref="root"
@@ -147,7 +145,6 @@ import {
 } from '@/utils/notification'
 import { ShoppingActions } from '@/utils/shoppingActions'
 import { NeoButton } from '@kodadot1/brick'
-import type Vue from 'vue'
 import {
   createUnlockableMetadata,
   getRandomInt,
@@ -177,7 +174,7 @@ const TokenImportButton = defineAsyncComponent(
 )
 const { neoModal } = useProgrammatic()
 const { $i18n } = useNuxtApp()
-const root = ref<Vue>()
+const root = ref()
 
 const { toast } = useToast()
 
@@ -215,15 +212,14 @@ const { data: collectionData, refetch: tryAgain } = useGraphql({
 })
 
 const totalCount = computed(
-  () => collectionData.value?.collectionEntity.nftCount || 200
+  () => collectionData.value?.value.collectionEntity?.nftCount || 200
 )
 const totalAvailableMintCount = computed(
-  () => collectionData.value?.nftEntitiesConnection?.totalCount
+  () => collectionData.value?.value.nftEntitiesConnection?.totalCount
 )
 
 const { data, refetch } = useGraphql({
   queryName: 'nftIdListByCollection',
-  clientName: urlPrefix.value,
   variables: {
     id: collectionId,
     search: [{ price_eq: pricePerMint }, { currentOwner_eq: MINT_ADDRESS }],

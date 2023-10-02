@@ -1,5 +1,5 @@
 <template>
-  <div class="media-object" style="height: 100%">
+  <div class="media-object" style="height: fit-content">
     <component
       :is="resolveComponent"
       :src="properSrc"
@@ -9,7 +9,9 @@
       :original="original"
       :is-lewd="isLewd"
       :is-detail="isDetail"
-      :disable-operation="disableOperation" />
+      :disable-operation="disableOperation"
+      :player-cover="audioPlayerCover"
+      :hover-on-cover-play="audioHoverOnCoverPlay" />
     <div
       v-if="isLewd && isLewdBlurredLayer"
       class="nsfw-blur is-capitalized is-flex is-align-items-center is-justify-content-center is-flex-direction-column">
@@ -58,6 +60,8 @@ const props = withDefaults(
     isDetail?: boolean
     placeholder?: string
     disableOperation?: boolean
+    audioPlayerCover?: string
+    audioHoverOnCoverPlay?: boolean
   }>(),
   {
     src: '',

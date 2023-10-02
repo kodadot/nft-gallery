@@ -1,5 +1,5 @@
 <template>
-  <div id="custom-substack-embed"></div>
+  <div id="custom-substack-embed" data-testid="footer-subscribe"></div>
 </template>
 
 <script lang="ts" setup>
