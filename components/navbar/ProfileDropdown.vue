@@ -15,7 +15,7 @@
         menu-class="mt-0"
         :triggers="['hover']">
         <template #trigger>
-          <a class="navbar-item navbar-height" role="button">
+          <a class="navbar-item my-4" role="button">
             <img :src="profileIcon" alt="profile" />
           </a>
         </template>
@@ -103,9 +103,3 @@ const toggleLanguageMenu = () => {
   languageDropdown.value?.toggle()
 }
 </script>
-
-<style lang="scss" scoped>
-.navbar-height {
-  height: 4.5rem;
-}
-</style>
