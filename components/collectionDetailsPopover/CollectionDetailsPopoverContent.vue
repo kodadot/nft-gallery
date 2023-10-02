@@ -109,8 +109,6 @@ const { nftEntities: soldItems } = useCollectionSoldData({
   address: props.nft?.issuer,
   collectionId: props.nft?.collection?.id || props.nft?.collectionId,
 })
-
-console.log(soldItems)
 </script>
 
 <style lang="scss" scoped>
