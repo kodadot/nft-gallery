@@ -34,12 +34,15 @@
           'is-flex is-align-items-center is-justify-items-center':
             !isWaveformReady,
         }">
-        <div
+        <Waveform
           v-show="isWaveformReady"
-          :id="id"
           :class="{
             'is-clickable': canStartPlaying,
-          }" />
+          }"
+          :getMedia="() => $refs.audio"
+          @play="play"
+          @ready="isWaveformReady = true"
+          />
         <NeoSkeleton v-if="!isWaveformReady" no-margin rounded height="100%" />
       </div>
 
@@ -61,7 +64,7 @@
 import { useEventListener, useMediaControls } from '@vueuse/core'
 import { NeoButton, NeoIcon, NeoSkeleton } from '@kodadot1/brick'
 import { getRandomValues } from '@/components/unique/utils'
-import WaveSurfer from 'wavesurfer.js'
+import Waveform from "./Waveform/Waveform.vue"
 
 defineProps<{
   src?: string
@@ -69,23 +72,10 @@ defineProps<{
 
 const { eventBus: playerEventBus, unsubscribe: unsubscribePlayerEventBus } =
   usePlayerEventBus()
-const { isDarkMode } = useTheme()
 
-const colors = {
-  light: {
-    waveColor: '#999999', // k-grey
-    progressColor: '#000000', // black
-  },
-  dark: {
-    waveColor: '#cccccc', // k-grey
-    progressColor: '#ffffff', // white
-  },
-}
-
-const player = ref()
 const audio = ref()
+const player = ref()
 const loading = ref(false)
-const wavesurfer = ref<WaveSurfer>()
 const canStartPlaying = ref(false)
 const isWaveformReady = ref(false)
 
@@ -184,37 +174,6 @@ const goToEnd = () => {
   }
   play(duration.value)
 }
-
-const getWaveformColors = () => {
-  return isDarkMode.value ? colors.dark : colors.light
-}
-
-const initWaveform = () => {
-  wavesurfer.value = WaveSurfer.create({
-    container: `#${id.value}`,
-    height: 33,
-    barWidth: 1,
-    cursorWidth: 0,
-    media: audio.value,
-    ...getWaveformColors(),
-  })
-
-  wavesurfer.value.on('interaction', () => {
-    play()
-  })
-
-  wavesurfer.value.on('ready', () => {
-    isWaveformReady.value = true
-  })
-}
-
-onMounted(initWaveform)
-
-watch(isDarkMode, () => {
-  const newColors = getWaveformColors()
-
-  wavesurfer.value?.setOptions(newColors)
-})
 
 useEventListener(audio, 'canplay', () => {
   canStartPlaying.value = true
