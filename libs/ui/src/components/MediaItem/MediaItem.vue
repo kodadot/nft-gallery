@@ -72,6 +72,7 @@ const props = withDefaults(
     isLewd: false,
     isDetail: false,
     placeholder: '',
+    disableOperation: undefined,
   }
 )
 // props.mimeType may be empty string "". Add `image/png` as fallback

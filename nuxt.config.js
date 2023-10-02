@@ -17,6 +17,9 @@ export default defineNuxtConfig({
       productionTip: false,
       runtimeCompiler: true,
     },
+    compilerOptions: {
+      isCustomElement: (tag) => ['model-viewer'].includes(tag),
+    },
   },
 
   server: {

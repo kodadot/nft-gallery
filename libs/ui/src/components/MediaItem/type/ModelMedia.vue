@@ -16,7 +16,6 @@
 
 <script lang="ts" setup>
 import '@google/model-viewer'
-
 defineProps<{
   animationSrc: string
   disableOperation?: boolean
