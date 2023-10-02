@@ -230,7 +230,7 @@
         <nuxt-link
           class="search-footer-link"
           :to="{ name: 'series-insight' }"
-          @click.native="$emit('close')">
+          @click="$emit('close')">
           <div :class="loadMoreItemClassName">
             {{ $t('search.rankings') }}
             <svg
@@ -290,9 +290,6 @@ const props = defineProps({
 const query = toRef(props, 'query', {})
 
 const searchSuggestionEachTypeMaxNum = 5
-const defaultCollectionSuggestions = ref(
-  [] as (CollectionWithMeta & RowSeries)[]
-)
 const activeSearchTab = ref('Collections')
 const activeTrendingTab = ref('Trending')
 const selectedIndex = ref(-1)
@@ -303,9 +300,8 @@ const collectionResult = ref([] as CollectionWithMeta[])
 const searched = ref([] as NFTWithMeta[])
 const searchString = ref('')
 
-onMounted(async () => {
+onMounted(() => {
   getSearchHistory()
-  await fetchSuggestions()
 })
 
 const onKeyDown = (event: KeyboardEvent) => {
@@ -324,7 +320,7 @@ const onKeyDown = (event: KeyboardEvent) => {
 
 const totalItemsAtCurrentTab = computed(() => {
   if (!props.name) {
-    return defaultCollectionSuggestions.value.length
+    return defaultCollectionSuggestions.value?.length
   }
   return activeSearchTab.value === 'NFTs'
     ? nftSuggestion.value.length
@@ -368,7 +364,7 @@ const selectedItemListMap = computed(() => ({
 
 const router = useRouter()
 const route = useRoute()
-const { $consola, $apollo } = useNuxtApp()
+const { $consola } = useNuxtApp()
 
 const updateSearchUrl = () => {
   const { name } = props
@@ -392,6 +388,7 @@ const seeAllButtonHandler = () => {
 }
 
 const nativeSearch = () => {
+  console.log('native')
   // not selected
   if (selectedIndex.value === -1) {
     return
@@ -516,43 +513,37 @@ const goToExploreResults = (item) => {
     search: item.name,
   })
 }
-
-const fetchSuggestions = async () => {
-  if (props.showDefaultSuggestions) {
-    try {
-      const result = await $apollo.query({
-        query: seriesInsightList,
-        client: client.value,
-        variables: {
-          limit: searchSuggestionEachTypeMaxNum,
-          orderBy: 'volume_DESC',
-        },
-      })
-
-      const {
-        data: { collectionEntities: collections },
-      } = result
-
-      const collectionMetadataList = collections
-        .slice(0, searchSuggestionEachTypeMaxNum)
-        .map(mapNFTorCollectionMetadata)
-      const collectionResult: (CollectionWithMeta & RowSeries)[] = []
-      await processMetadata<CollectionWithMeta>(
-        collectionMetadataList,
-        (meta, i) => {
-          collectionResult.push({
-            ...collections[i],
-            ...meta,
-            image: sanitizeIpfsUrl(meta.image || meta.mediaUri || '', 'image'),
+const { data: defaultCollectionSuggestions } = await useAsyncData(
+  'defaultCollectionSuggestions',
+  async () => {
+    if (showDefaultSuggestions.value) {
+      try {
+        const { data: result } = await useAsyncQuery({
+          query: seriesInsightList,
+          clientId: client.value,
+          variables: {
+            limit: searchSuggestionEachTypeMaxNum,
+            orderBy: 'volume_DESC',
+          },
+        })
+        const { collectionEntities: collections } = result.value
+        const collectionResult: (CollectionWithMeta & RowSeries)[] =
+          collections.map((data) => {
+            return {
+              ...data,
+              image: sanitizeIpfsUrl(
+                data.image || data.mediaUri || '',
+                'image'
+              ),
+            }
           })
-        }
-      )
-      defaultCollectionSuggestions.value = collectionResult
-    } catch (e) {
-      $consola.warn(e, 'Error while fetching default suggestions')
+        return collectionResult
+      } catch (e) {
+        $consola.warn(e, 'Error while fetching default suggestions')
+      }
     }
   }
-}
+)
 
 const updateSuggestion = useDebounceFn(async (value: string) => {
   //To handle empty string
@@ -574,22 +565,19 @@ const updateSuggestion = useDebounceFn(async (value: string) => {
 const updateNftSuggestion = async () => {
   try {
     const queryNft = await resolveQueryPath(client.value, 'nftListWithSearch')
-    const nfts = $apollo.query({
+    const { data } = await useAsyncQuery({
       query: queryNft.default,
-      client: client.value,
+      clientId: client.value,
       variables: queryVariables.value,
     })
-
-    const {
-      data: { nFTEntities },
-    } = await nfts
+    const { nFTEntities } = data.value
     const nftList = unwrapSafe(
       nFTEntities.slice(0, searchSuggestionEachTypeMaxNum)
     )
     const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)
-    const result: NFTWithMeta[] = []
-    await processMetadata<NFTWithMeta>(metadataList, (meta, i) => {
-      result.push({
+    const result: Ref<NFTWithMeta[]> = ref([])
+    processMetadata<NFTWithMeta>(metadataList, (meta, i) => {
+      result.value.push({
         ...nftList[i],
         ...meta,
         image: sanitizeIpfsUrl(
@@ -598,7 +586,7 @@ const updateNftSuggestion = async () => {
         ),
       })
     })
-    nftResult.value = result
+    nftResult.value = result.value
   } catch (e) {
     logError(e, (msg) => $consola.warn('[PREFETCH] Unable fo fetch', msg))
   }
@@ -611,16 +599,15 @@ const updateCollectionSuggestion = async (value: string) => {
       value,
       searchSuggestionEachTypeMaxNum
     )
-
     const metadataList: string[] = collections.map(mapNFTorCollectionMetadata)
-
     const collectionWithImagesList: CollectionWithMeta[] = []
-    await processMetadata<CollectionWithMeta>(metadataList, (meta, i) => {
+
+    processMetadata<CollectionWithMeta>(metadataList, (meta, i) => {
       const initialCollectionStats = {
         totalCount: undefined,
         floorPrice: undefined,
       }
-      const collectionWithImages = {
+      const collectionWithImages = reactive({
         ...collections[i],
         ...meta,
         ...initialCollectionStats, // set initial stat fields to get reactivity
@@ -628,7 +615,7 @@ const updateCollectionSuggestion = async (value: string) => {
           collections[i].image || collections[i].mediaUri || '',
           'image'
         ),
-      }
+      })
       collectionWithImagesList.push(collectionWithImages)
 
       fetchCollectionStats(collectionWithImages, i)
@@ -649,17 +636,17 @@ const fetchCollectionStats = async (
     _client === 'ksm' ? 'chain-rmrk' : 'subsquid',
     'collectionStatsById'
   )
-  const { data } = await $apollo.query({
+  const { data } = await useAsyncQuery({
     query: queryCollection.default,
-    client: _client,
+    clientId: _client,
     variables: {
       id: collection.collection_id,
     },
   })
 
-  collection.totalCount = data.stats.base.length
+  collection.totalCount = data.value.stats.base.length
   collection.floorPrice = Math.min(
-    ...data.stats.listed.map((item) => parseInt(item.price))
+    ...data.value.stats.listed.map((item) => parseInt(item.price))
   )
 
   if (

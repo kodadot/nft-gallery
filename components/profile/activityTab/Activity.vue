@@ -11,7 +11,7 @@
               rounded
               label="All"
               variant="text"
-              @click.native="activateAllFilter" />
+              @click="activateAllFilter" />
             <FilterButton
               v-for="param in filters"
               :key="param"
@@ -39,17 +39,17 @@
 </template>
 
 <script lang="ts" setup>
-import History from './History.vue'
-import { Interaction } from '@/components/rmrk/service/scheme'
 import { sortedEventByDate } from '@/utils/sorting'
-import FilterButton from '@/components/profile/FilterButton.vue'
 import { Interaction as InteractionEnum } from '@kodadot1/minimark/v1'
-import Pagination from '@/components/rmrk/Gallery/Pagination.vue'
 import { NeoButton } from '@kodadot1/brick'
+import History from './History.vue'
+import FilterButton from '@/components/profile/FilterButton.vue'
+import Pagination from '@/components/rmrk/Gallery/Pagination.vue'
+
 const route = useRoute()
 const { replaceUrl } = useReplaceUrl()
 
-const events = ref<Interaction[]>([])
+const events = ref<InteractionEnum[]>([])
 
 const props = defineProps<{
   id: string
@@ -81,7 +81,7 @@ const { data } = useGraphql({
 })
 
 watch(data, () => {
-  events.value = [...sortedEventByDate(data.value?.events || [], 'DESC')]
+  events.value = [...sortedEventByDate(data.value?.value.events || [], 'DESC')]
 })
 
 const interactionToFilterMap = {

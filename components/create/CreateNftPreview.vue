@@ -36,7 +36,7 @@ defineProps<{
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .preview {
   position: fixed;

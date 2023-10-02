@@ -4,7 +4,7 @@ export const ConnectWalletModalConfig = {
   component: ConnectWalletModal,
   canCancel: ['escape', 'outside'],
   rootClass: 'connect-wallet-modal',
-  autoFocus: false,
+  trapFocus: false,
 }
 
 export interface OpenWalletModalConfig {
@@ -17,7 +17,7 @@ export const openConnectWalletModal = (
   instance,
   { onConnect, closeAfterConnect, onCancel }: OpenWalletModalConfig = {}
 ) => {
-  const { $neoModal } = useNuxtApp()
+  const { neoModal } = useProgrammatic()
 
   const modal = ref()
 
@@ -25,8 +25,7 @@ export const openConnectWalletModal = (
     modal.value?.close()
   }
 
-  modal.value = $neoModal.open({
-    parent: instance?.proxy,
+  modal.value = neoModal.open({
     onCancel: () => {
       if (onCancel) {
         onCancel()

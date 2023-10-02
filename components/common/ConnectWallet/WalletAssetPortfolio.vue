@@ -16,7 +16,7 @@
       >+ {{ $t('addFunds') }}</a
     >
 
-    <OnRampModal v-model="rampActive" @close="rampActive = false" />
+    <OnRampModal :value="rampActive" @close="rampActive = false" />
   </div>
 </template>
 

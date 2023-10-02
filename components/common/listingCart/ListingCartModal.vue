@@ -2,7 +2,7 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <NeoModal
-      v-model="preferencesStore.listingCartModalOpen"
+      :value="preferencesStore.listingCartModalOpen"
       scroll="clip"
       @close="onClose">
       <div class="modal-width">
@@ -12,11 +12,7 @@
             {{ title }}
           </span>
 
-          <NeoButton
-            variant="text"
-            no-shadow
-            icon="close"
-            @click.native="onClose" />
+          <NeoButton variant="text" no-shadow icon="close" @click="onClose" />
         </header>
 
         <div class="px-6 pt-4 limit-height">
@@ -24,12 +20,12 @@
 
           <ListingCartSingleItemCart
             v-if="listingCartStore.count === 1"
-            v-bind.sync="cartData"
+            v-model="cartData"
             @setFixedPrice="setFixedPrice" />
 
           <ListingCartMultipleItemsCart
             v-else
-            v-bind.sync="cartData"
+            v-model="cartData"
             @setFixedPrice="setFixedPrice" />
         </div>
 
@@ -51,12 +47,13 @@
             variant="k-accent"
             no-shadow
             class="is-flex is-flex-grow-1 py-5"
-            @click.native="confirm" />
+            @click="confirm" />
         </div>
       </div>
     </NeoModal>
   </div>
 </template>
+
 <script setup lang="ts">
 import { Interaction } from '@kodadot1/minimark/v1'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
@@ -208,8 +205,9 @@ onUnmounted(() => {
   preferencesStore.listingCartModalOpen = false
 })
 </script>
+
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .rounded {
   border-radius: 10rem;

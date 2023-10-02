@@ -6,7 +6,7 @@
       <div class="is-flex">
         <nuxt-link
           :to="`/${urlPrefix}/gallery/${nft.id}`"
-          @click.native="emit('click-item')">
+          @click="emit('click-item')">
           <BasicImage
             :src="avatar"
             :alt="nft?.name"
@@ -17,7 +17,7 @@
           <nuxt-link
             :to="`/${urlPrefix}/gallery/${nft.id}`"
             class="has-text-weight-bold has-text-color no-wrap is-clipped ellipsis"
-            @click.native="emit('click-item')">
+            @click="emit('click-item')">
             {{ nft.name }}
           </nuxt-link>
           <div class="is-flex is-justify-content-space-between w-full">
@@ -40,7 +40,7 @@
         class="inherit-background-color"
         no-shadow
         icon="trash"
-        @click.native="emit('delete', nft.id)" />
+        @click="emit('delete', nft.id)" />
     </div>
   </div>
 </template>
@@ -75,7 +75,7 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .background-hover {
   &:hover {

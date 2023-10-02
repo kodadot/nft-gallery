@@ -3,15 +3,15 @@
     <NeoButton
       icon-left="grid-2"
       :active="gridSize === 'large'"
-      @click.native="changeGridLayout(smallGridLayout, 'large')" />
+      @click="changeGridLayout(smallGridLayout, 'large')" />
     <NeoButton
       icon-left="grid"
       :active="gridSize === 'medium'"
-      @click.native="changeGridLayout(smallGridLayout, 'medium')" />
+      @click="changeGridLayout(smallGridLayout, 'medium')" />
     <NeoButton
       icon-left="grid-4"
       :active="gridSize === 'small'"
-      @click.native="changeGridLayout(largeGridLayout, 'small')" />
+      @click="changeGridLayout(largeGridLayout, 'small')" />
   </NeoField>
 </template>
 

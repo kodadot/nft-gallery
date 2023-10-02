@@ -1,10 +1,10 @@
 import { $fetch } from 'ofetch'
 import { URLS } from './constants'
 
-export const BASE_URL = URLS.providers.coingecko
+export const COINGECKO_BASE_URL = URLS.providers.coingecko
 
 const api = $fetch.create({
-  baseURL: BASE_URL,
+  baseURL: COINGECKO_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },

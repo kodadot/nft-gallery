@@ -2,7 +2,7 @@
   <p class="control" :class="{ 'full-width': fullWidth }">
     <NeoButton
       class="explore-tabs-button"
-      :tag="tag"
+      :tag="NuxtLink || tag"
       :no-shadow="noShadow"
       :active="active"
       :to="to"
@@ -18,6 +18,9 @@
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 import { formatNumber } from '@/utils/format/balance'
+import { resolveComponent } from 'vue'
+
+const NuxtLink = resolveComponent('NuxtLink')
 
 const props = withDefaults(
   defineProps<{
@@ -32,7 +35,6 @@ const props = withDefaults(
   }>(),
   {
     to: '',
-    tag: 'nuxt-link',
     showActiveCheck: true,
   }
 )
@@ -43,7 +45,7 @@ const icon = computed(() =>
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .control,
 .explore-tabs-button {

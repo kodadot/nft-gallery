@@ -1,14 +1,14 @@
-@import '@oruga-ui/oruga/src/scss/utilities/expressions.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/variables.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/expressions.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/variables.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/animations.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/helpers.scss';
 @import '../../scss/variable.scss';
 
 $select-padding: 0.5rem;
 $select-height: 3rem;
 $select-border-radius: 0;
 
-@import '@oruga-ui/oruga/src/scss/components/select.scss';
+@import '@oruga-ui/oruga-next/src/scss/components/select.scss';
 .neo-select.o-ctrl-sel {
   display: inline-block;
   max-width: 100%;

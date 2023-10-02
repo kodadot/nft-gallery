@@ -30,13 +30,15 @@
               icon="ellipsis-vertical"
               no-shadow
               class="square-32"
+              data-testid="transfer-button-options"
               :active="active" />
           </template>
 
           <NeoDropdownItem
             v-if="accountId"
             v-clipboard:copy="generatePaymentLink([accountId])"
-            @click="toast(`${$i18n.t('toast.urlCopy')}`)">
+            data-testid="transfer-dropdown-pay-me"
+            @click="toast($t('toast.urlCopy'))">
             <NeoIcon icon="sack-dollar" class="mr-2" />{{
               $t('transfers.payMeLink')
             }}
@@ -45,7 +47,8 @@
           <NeoDropdownItem
             v-clipboard:copy="generateRecurringPaymentLink()"
             class="no-wrap"
-            @click="toast(`${$i18n.t('toast.urlCopy')}`)">
+            data-testid="transfer-dropdown-recurring"
+            @click="toast($t('toast.urlCopy'))">
             <NeoIcon icon="rotate" class="mr-2" />{{
               $t('transfers.recurringPaymentLink')
             }}
@@ -53,10 +56,8 @@
         </NeoDropdown>
       </div>
 
-      <TransferTokenTabs
-        :tabs="tokenTabs"
-        :value="unit"
-        @select="handleTokenSelect" />
+      <PillTabs :tabs="tokenTabs" @select="handleTokenSelect" />
+
       <div class="mb-5">
         <NeoIcon class="ml-2" icon="circle-info" />
         <span
@@ -70,14 +71,21 @@
             $t('transfers.sender')
           }}</span>
           <div v-if="accountId" class="is-flex is-align-items-center">
-            <Avatar :value="accountId" :size="32" />
+            <Avatar
+              :value="accountId"
+              :size="32"
+              data-testid="transfer-sender-full-address" />
             <span class="ml-2">
-              <Identity :address="accountId" hide-identity-popover />
+              <Identity
+                :address="accountId"
+                hide-identity-popover
+                data-testid="transfer-sender-address" />
             </span>
             <a
               v-clipboard:copy="accountId"
               class="ml-2"
-              @click="toast(`${$i18n.t('general.copyToClipboard')}`)">
+              data-testid="transfer-copy-sender-address"
+              @click="toast($t('general.copyToClipboard'))">
               <NeoIcon icon="copy" />
             </a>
           </div>
@@ -153,8 +161,9 @@
                 step="0.01"
                 min="0"
                 icon-right-class="search"
+                data-testid="transfer-input-amount-token"
                 @focus="onAmountFieldFocus(destinationAddress, 'token')"
-                @input="onAmountFieldChange(destinationAddress)" />
+                @update:modelValue="onAmountFieldChange(destinationAddress)" />
               <NeoInput
                 v-else
                 v-model="destinationAddress.usd"
@@ -164,11 +173,13 @@
                 min="0"
                 icon-right="usd"
                 icon-right-class="has-text-grey"
+                data-testid="transfer-input-amount-usd"
                 @focus="onAmountFieldFocus(destinationAddress, 'usd')"
-                @input="onUsdFieldChange(destinationAddress)" />
+                @update:modelValue="onUsdFieldChange(destinationAddress)" />
               <a
                 v-if="!isMobile && targetAddresses.length > 1"
                 class="is-flex"
+                data-testid="transfer-remove-recipient"
                 @click="deleteAddress(index)">
                 <NeoIcon class="p-3" icon="trash" />
               </a>
@@ -189,6 +200,7 @@
 
       <div
         class="mb-5 is-flex is-justify-content-center is-clickable"
+        data-testid="transfer-icon-add-recipient"
         @click="addAddress">
         {{ $t('transfers.addAddress') }}
         <NeoIcon class="ml-2" icon="plus" />
@@ -204,7 +216,10 @@
             ><NeoIcon icon="circle-info"
           /></NeoTooltip>
         </div>
-        <NeoSwitch v-model="sendSameAmount" :rounded="false" />
+        <NeoSwitch
+          v-model="sendSameAmount"
+          :rounded="false"
+          data-testid="transfer-switch-same" />
       </div>
 
       <div
@@ -235,20 +250,24 @@
           tag="button"
           full-width
           no-shadow
-          @click.native="displayUnit = 'token'" />
+          data-testid="transfer-tab-token"
+          @click="displayUnit = 'token'" />
         <TabItem
           :active="displayUnit === 'usd'"
           text="USD"
           tag="button"
           full-width
           no-shadow
-          @click.native="displayUnit = 'usd'" />
+          data-testid="transfer-tab-usd"
+          @click="displayUnit = 'usd'" />
       </div>
 
       <div
         class="is-flex is-justify-content-space-between is-align-items-center mb-2">
         <span class="is-size-7">{{ $t('transfers.networkFee') }}</span>
-        <div class="is-flex is-align-items-center">
+        <div
+          class="is-flex is-align-items-center"
+          data-testid="transfer-network-fee">
           <span class="is-size-7 has-text-grey mr-1"
             >({{ displayTxFeeValue[0] }})</span
           >
@@ -266,9 +285,11 @@
             >({{ displayTotalValue[0] }})</span
           >
 
-          <span class="has-text-weight-bold is-size-6">{{
-            displayTotalValue[1]
-          }}</span>
+          <span
+            class="has-text-weight-bold is-size-6"
+            data-testid="transfer-total-amount"
+            >{{ displayTotalValue[1] }}</span
+          >
         </div>
       </div>
 
@@ -277,7 +298,7 @@
           class="is-flex is-flex-1 fixed-height is-shadowless"
           variant="k-accent"
           :disabled="disabled"
-          @click.native="handleOpenConfirmModal"
+          @click="handleOpenConfirmModal"
           >{{ $t('redirect.continue') }}</NeoButton
         >
       </div>
@@ -332,13 +353,15 @@ import {
   NeoSwitch,
   NeoTooltip,
 } from '@kodadot1/brick'
-import TransferTokenTabs, { TransferTokenTab } from './TransferTokenTabs.vue'
+import PillTabs, { PillTab } from '@/components/shared/PillTabs.vue'
 import { TokenDetails } from '@/composables/useToken'
 import AddressInput from '@/components/shared/AddressInput.vue'
 import TransactionLoader from '@/components/shared/TransactionLoader.vue'
 import { KODADOT_DAO } from '@/utils/support'
 import { toDefaultAddress } from '@/utils/account'
 import AddressChecker from '@/components/shared/AddressChecker.vue'
+import TabItem from '@/components/shared/TabItem.vue'
+import Auth from '@/components/shared/Auth.vue'
 
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue')
@@ -346,7 +369,7 @@ const Money = defineAsyncComponent(
 
 const route = useRoute()
 const router = useRouter()
-const { $consola, $i18n } = useNuxtApp()
+const { $consola } = useNuxtApp()
 const { unit, decimals } = useChain()
 const { apiInstance } = useApi()
 const { urlPrefix } = usePrefix()
@@ -386,7 +409,7 @@ const { tokens } = useToken()
 const selectedTabFirst = ref(true)
 const tokenIcon = computed(() => getTokenIconBySymbol(unit.value))
 
-const tokenTabs = ref<TransferTokenTab[]>([])
+const tokenTabs = ref<PillTab[]>([])
 
 const targetAddresses = ref<TargetAddress[]>([{ address: '' }])
 
@@ -447,11 +470,15 @@ const generateTokenTabs = (
 ) => {
   items = sort ? getMovedItemToFront(items, 'symbol', selectedToken) : items
 
-  return items.map((availableToken) => ({
-    label: `${availableToken.symbol} $${availableToken.value || '0'}`,
-    icon: availableToken.icon,
-    value: availableToken.symbol,
-  }))
+  return items.map(
+    (availableToken) =>
+      ({
+        label: `${availableToken.symbol} $${availableToken.value || '0'}`,
+        image: availableToken.icon,
+        value: availableToken.symbol,
+        active: unit.value === availableToken.symbol,
+      } as PillTab)
+  )
 }
 
 watch(
@@ -847,7 +874,7 @@ watchDebounced(
 )
 </script>
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .transfer-card {
   max-width: 660px;

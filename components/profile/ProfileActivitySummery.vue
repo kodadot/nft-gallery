@@ -81,7 +81,7 @@ const props = defineProps({
   id: { type: String, default: '' },
 })
 
-const { $apollo, $consola } = useNuxtApp()
+const { $consola } = useNuxtApp()
 const { client, urlPrefix } = usePrefix()
 
 const profileStats = ref({
@@ -121,9 +121,9 @@ useLazyAsyncData('stats', async () => {
   }
 
   const query = await resolveQueryPath(client.value, 'profileStatsById')
-  const { data } = await $apollo.query({
+  const { data } = await useAsyncQuery({
     query: query.default,
-    client: client.value,
+    clientId: client.value,
     variables: {
       id: props.id,
       interactionIn: interactionIn.value,
@@ -131,24 +131,24 @@ useLazyAsyncData('stats', async () => {
     },
   })
 
-  if (!data) {
+  if (!data.value) {
     $consola.log('stats is null')
     return
   }
 
   stats.value = {
-    listedCount: data.listed.totalCount,
-    totalCollected: data.obtained.totalCount,
+    listedCount: data.value?.listed.totalCount,
+    totalCollected: data.value?.obtained.totalCount,
   }
 
-  getSellerEvents(data)
-  getInvestorStatsEvents(data)
+  getSellerEvents(data.value)
+  getInvestorStatsEvents(data.value)
 
   emit('total', {
-    owned: data.obtained.totalCount,
-    created: data.created.totalCount,
-    events: data.events.totalCount,
-    collections: data.collections.totalCount,
+    owned: data.value?.obtained.totalCount,
+    created: data.value?.created.totalCount,
+    events: data.value?.events.totalCount,
+    collections: data.value?.collections.totalCount,
   })
 })
 

@@ -1,29 +1,22 @@
 <template>
   <div>
-    <div v-if="!isVisible && !hideSearchInput" class="row">
-      <div v-if="priceRangeDirty && !hideFilter" class="is-size-7">
-        <PriceRange inline />
-      </div>
-    </div>
-    <div class="columns mb-0">
-      <NeoField class="column is-8 mb-0 mr-2" :class="searchColumnClass">
-        <slot name="next-filter"></slot>
-        <SearchBar
-          v-if="!hideSearchInput"
-          ref="searchRef"
-          v-model="name"
-          :query="query"
-          data-testid="search-bar"
-          @redirect="redirectToGalleryPageIfNeed"
-          @enter="nativeSearch"
-          @blur="onBlur" />
-        <div v-if="!isVisible && hideSearchInput">
-          <div v-if="priceRangeDirty" class="is-size-7">
-            <PriceRange inline />
-          </div>
+    <NeoField :class="searchColumnClass">
+      <slot name="next-filter"></slot>
+      <SearchBar
+        v-if="!hideSearchInput"
+        ref="searchRef"
+        v-model:value="name"
+        :query="query"
+        data-testid="search-bar"
+        @redirect="redirectToGalleryPageIfNeed"
+        @enter="nativeSearch"
+        @blur="onBlur" />
+      <div v-if="!isVisible && hideSearchInput">
+        <div v-if="priceRangeDirty" class="is-size-7">
+          <PriceRange inline />
         </div>
-      </NeoField>
-    </div>
+      </div>
+    </NeoField>
   </div>
 </template>
 
@@ -33,6 +26,7 @@ import { SearchQuery } from './types'
 import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
 import { NeoField } from '@kodadot1/brick'
 import PriceRange from '@/components/shared/format/PriceRange.vue'
+import SearchBar from '@/components/search/SearchBar.vue'
 import { useCollectionSearch } from '@/components/search/utils/useCollectionSearch'
 
 const searchPageRoutePathList = ['collectibles', 'items']

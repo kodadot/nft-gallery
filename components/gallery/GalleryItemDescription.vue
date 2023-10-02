@@ -21,7 +21,10 @@
         </nuxt-link>
       </div>
 
-      <Markdown :source="descSource" class="gallery-item-desc-markdown" />
+      <Markdown
+        v-if="nftMetadata"
+        :source="descSource"
+        class="gallery-item-desc-markdown" />
     </NeoTabItem>
 
     <!-- properties tab -->
@@ -188,13 +191,14 @@ import {
   NeoTooltip,
 } from '@kodadot1/brick'
 import Identity from '@/components/identity/IdentityIndex.vue'
+import Markdown from '@/components/shared/Markdown.vue'
+
 import { sanitizeIpfsUrl, toCloudflareIpfsUrl } from '@/utils/ipfs'
 
 import { GalleryItem, useGalleryItem } from './useGalleryItem'
 
 import { MediaType } from '@/components/rmrk/types'
 import { getMimeType, resolveMedia } from '@/utils/gallery/media'
-
 import { replaceSingularCollectionUrlByText } from '@/utils/url'
 
 const { urlPrefix } = usePrefix()
@@ -283,7 +287,7 @@ watchEffect(async () => {
     })
 
     metadataMimeType.value =
-      response.headers.get('content-type') || 'application/json'
+      response?.headers.get('content-type') || 'application/json'
     metadataURL.value = sanitizeMetadata
   }
 
@@ -298,7 +302,8 @@ const openLink = (link) => {
 </script>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/variables';
+
 .recipient {
   li {
     gap: 0.3rem;

@@ -17,12 +17,12 @@
         class="mr-2"
         no-shadow
         :label="props.i18n.t('redirect.continue')"
-        @click.native="handleRedirect" />
+        @click="handleRedirect" />
       <NeoButton
         no-shadow
         :label="props.i18n.t('redirect.stay')"
         variant="k-accent"
-        @click.native="emit('close')" />
+        @click="emit('close')" />
     </div>
   </div>
 </template>
@@ -44,7 +44,7 @@ const handleRedirect = () => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .redirect-card {
   box-shadow: var(--card-box-shadow);

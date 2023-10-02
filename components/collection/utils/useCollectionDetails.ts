@@ -25,19 +25,21 @@ export const useCollectionDetails = ({ collectionId }) => {
   const stats = ref<Stats>({})
 
   watch(data, () => {
-    if (data.value.stats) {
+    if (data.value.value.stats) {
       const uniqueOwnerCount = [
-        ...new Set(data.value.stats?.base.map((item) => item.currentOwner)),
+        ...new Set(
+          data.value.value.stats?.base.map((item) => item.currentOwner)
+        ),
       ].length
 
       const differentOwnerCount =
-        data.value.stats.base.filter(differentOwner).length
+        data.value.value.stats.base.filter(differentOwner).length
 
       const maxOffer = computed(() => {
         if (!chainsSupportingOffers.includes(urlPrefix.value)) {
           return undefined
         }
-        const offresPerNft = data.value.stats.base.map((nft) =>
+        const offresPerNft = data.value.value.stats.base.map((nft) =>
           nft.offers.map((offer) => Number(offer.price))
         )
         const highestOffer = Math.max(
@@ -46,11 +48,11 @@ export const useCollectionDetails = ({ collectionId }) => {
         return highestOffer
       })
 
-      const listedNfts = data.value.stats.listed
+      const listedNfts = data.value.value.stats.listed
 
       stats.value = {
-        listedCount: listedNfts.length,
-        collectionLength: data.value.stats.base.length,
+        listedCount: data.value.value.stats.listed.length,
+        collectionLength: data.value.value.stats.base.length,
         collectionFloorPrice:
           listedNfts.length > 0
             ? Math.min(...listedNfts.map((item) => parseInt(item.price)))
@@ -61,8 +63,10 @@ export const useCollectionDetails = ({ collectionId }) => {
           (uniqueOwnerCount / (uniqueOwnerCount + differentOwnerCount)) *
           100
         ).toFixed(2)}%`,
-        collectionTradedVolumeNumber: getVolume(
-          data.value.stats.sales.map((nft) => nft.events).flat()
+        collectionTradedVolumeNumber: Number(
+          getVolume(
+            data.value.value.stats.sales.map((nft) => nft.events).flat()
+          )
         ),
       }
     }
@@ -82,7 +86,7 @@ export const useBuyEvents = ({ collectionId }) => {
     },
   })
   const highestBuyPrice = ref<number>(0)
-  watch(data, () => {
+  watch(data, (data) => {
     if (data && data.value.stats && data.value.stats[0]) {
       const { max } = data.value.stats[0]
       highestBuyPrice.value = parseInt(max)
@@ -93,7 +97,6 @@ export const useBuyEvents = ({ collectionId }) => {
 
 export function useCollectionSoldData({ address, collectionId }) {
   const nftEntities = ref<NFT[]>([])
-
   const { data } = useGraphql({
     queryName: 'nftListSoldByCollection',
     variables: {
@@ -108,8 +111,8 @@ export function useCollectionSoldData({ address, collectionId }) {
   })
 
   watch(data as unknown as NFTListSold, (list) => {
-    if (list.nftEntities?.length) {
-      nftEntities.value = list.nftEntities
+    if (list.value.nftEntities?.length) {
+      nftEntities.value = list.value.nftEntities
     }
   })
 
@@ -117,8 +120,7 @@ export function useCollectionSoldData({ address, collectionId }) {
 }
 
 export const useCollectionMinimal = ({ collectionId }) => {
-  const collection = ref<CollectionEntityMinimal>()
-
+  const collection = ref()
   const { data } = useGraphql({
     queryName: 'collectionByIdMinimal',
     variables: {
@@ -127,9 +129,10 @@ export const useCollectionMinimal = ({ collectionId }) => {
   })
 
   watch(data, (result) => {
-    if (result?.collectionEntityById) {
-      collection.value = result.collectionEntityById
+    if (result?.value.collectionEntityById) {
+      collection.value = result.value.collectionEntityById
     }
   })
+
   return { collection }
 }

@@ -16,7 +16,7 @@
           <nuxt-link
             data-testid="classic"
             :to="`/${urlPrefix}/create`"
-            tag="div">
+            class="is-flex">
             {{ $t('classic') }}
           </nuxt-link>
         </NeoTooltip>
@@ -27,7 +27,10 @@
           position="left"
           :label="$t('createDropdown.waifu')"
           multiline>
-          <nuxt-link data-testid="waifu" :to="`/${urlPrefix}/waifu`" tag="div">
+          <nuxt-link
+            data-testid="waifu"
+            :to="`/${urlPrefix}/waifu`"
+            class="is-flex">
             {{ $t('navbar.create.waifu') }}
           </nuxt-link>
         </NeoTooltip>
@@ -42,7 +45,7 @@
           <nuxt-link
             data-testid="massmint"
             :to="`/${urlPrefix}/massmint`"
-            tag="div">
+            class="is-flex">
             {{ $t('multipleNFTS') }}
           </nuxt-link>
         </NeoTooltip>
@@ -54,7 +57,7 @@
         class="navbar-item"
         data-testid="classic"
         :to="`/${urlPrefix}/create`"
-        @click.native="emit('closeMobileNavbar')">
+        @click="emit('closeMobileNavbar')">
         {{ $t('classic') }}
       </nuxt-link>
       <nuxt-link
@@ -62,7 +65,7 @@
         class="navbar-item"
         data-testid="waifu"
         :to="`/${urlPrefix}/waifu`"
-        @click.native="emit('closeMobileNavbar')">
+        @click="emit('closeMobileNavbar')">
         {{ $t('waifu') }}
       </nuxt-link>
       <template v-if="chain === 'rmrk'">
@@ -70,7 +73,7 @@
           class="navbar-item"
           data-testid="simple"
           :to="`/${urlPrefix}/mint`"
-          @click.native="emit('closeMobileNavbar')">
+          @click="emit('closeMobileNavbar')">
           {{ $t('simple') }}
         </nuxt-link>
       </template>
@@ -78,7 +81,7 @@
         class="navbar-item"
         data-testid="massmint"
         :to="`/${urlPrefix}/massmint`"
-        @click.native="emit('closeMobileNavbar')">
+        @click="emit('closeMobileNavbar')">
         {{ $t('multipleNFTS') }}
       </nuxt-link>
     </MobileExpandableSection>

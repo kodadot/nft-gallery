@@ -3,7 +3,7 @@
     <Loader v-model="isMinting" :status="mintStatus" :can-cancel="false" />
     <div>
       <section class="is-flex controls">
-        <NeoButton class="left" @click.native="toOnborading">
+        <NeoButton class="left" @click="toOnborading">
           <NeoIcon icon="arrow-left" class="mr-1" />
           {{ $t('massmint.backToOnbaording') }}
         </NeoButton>
@@ -41,7 +41,7 @@
         variant="k-accent"
         size="large"
         :disabled="!mediaLoaded"
-        @click.native="openReviewModal">
+        @click="openReviewModal">
         <span class="is-size-5"
           >{{ $t('massmint.mintNFTs') }}
           <span v-if="numOfValidNFTs" class="has-text-weight-bold">
@@ -246,7 +246,7 @@ const onDescriptionLoaded = (entries: Record<string, Entry>) => {
 }
 </script>
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/variables.scss';
 
 .controls {
   justify-content: center;

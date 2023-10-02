@@ -55,7 +55,7 @@ watchEffect(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .nfts {
   display: grid;

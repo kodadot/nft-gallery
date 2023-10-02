@@ -1,5 +1,5 @@
 <script>
-import { OField } from '@oruga-ui/oruga'
+import { OField } from '@oruga-ui/oruga-next'
 
 export default {
   mixins: [OField],
