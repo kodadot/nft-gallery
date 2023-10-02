@@ -69,6 +69,7 @@ import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import StatsColumn from '@/components/shared/format/StatsColumn.vue'
 import { Event } from '@/components/rmrk/service/types'
 import { getDenyList } from '@/utils/prefix'
+import { chainsWithMintInteraction } from '@/composables/collectionActivity/helpers'
 
 type Stats = {
   listedCount: number
@@ -106,7 +107,7 @@ const listedCount = computed(() => stats.value.listedCount)
 const interactionIn = computed(() => {
   const interactions = [Interaction.LIST, Interaction.SEND, Interaction.BUY]
 
-  if (!['ksm', 'ahp', 'ahk'].includes(urlPrefix.value)) {
+  if (!chainsWithMintInteraction.includes(urlPrefix.value)) {
     interactions.push(Interaction.MINTNFT)
   }
 
