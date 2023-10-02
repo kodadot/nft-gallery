@@ -1079,7 +1079,8 @@
   },
   "toast": {
     "urlCopy": "URL copied to clipboard ✓",
-    "paymentLinkCopy": "Payment link copied to clipboard"
+    "paymentLinkCopy": "Payment link copied to clipboard",
+    "downloadError": "Unable to download image"
   },
   "profileMenu": {
     "darkMode": "Dark Mode",
