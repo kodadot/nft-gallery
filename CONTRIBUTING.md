@@ -74,6 +74,7 @@ When the issue is **converted to a draft, and you don't reply within 48h**, we w
 
 ## Rewards
 Setup Wallet [Wallets.md](Wallets.md)
+
 Continue to [REWARDS.md](REWARDS.md)
 
 ## Hiring process
