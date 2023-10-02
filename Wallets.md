@@ -23,6 +23,7 @@ Nova wallet is the Best Polkadot based Mobile wallet it currently supports NFTs 
 Sub wallet has Both wallet Extension and Mobile app you can choose any of them in Mobile app version Sub-wallet Provides the same Features as they provide in wallet Extension  [Download Sub-wallet Mobile app](https://www.subwallet.app/download.html) Youtube Tutorial on How to setup [Sub wallet by kryptoschain](https://youtu.be/9-yp6eKXTaQ?si=L5vj8iBZO7ylcEtv)
 
 
-
+once You have a wallet go to [Kodadot transfer](https://kodadot.xyz/dot/transfer) then choose Dot or Ksm then input you Dot or ksm Address then 
+<img width="694" alt="Screenshot 2023-10-02 at 7 23 30 PM" src="https://github.com/AshutoshSingh72/nft-gallery/assets/78789916/e603b88a-deb7-49ad-b392-53bf6f3137f3">
 Now you have a Polkadot wallet then you can just copy your address from whatever wallet you are using then follow this Guide [Rewards.md](REWARDS.md#switching-accountnetwork)
 
