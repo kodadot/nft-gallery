@@ -175,7 +175,7 @@
           <NeoButton
             expanded
             :label="submitButtonLabel"
-            nativeType="submit"
+            native-type="submit"
             size="medium"
             class="is-size-6"
             :loading="isLoading"
