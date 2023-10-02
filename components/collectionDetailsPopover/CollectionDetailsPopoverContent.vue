@@ -97,11 +97,11 @@ const GalleryCard = defineAsyncComponent(
 
 const { urlPrefix } = usePrefix()
 
-let { stats } = useCollectionDetails({
+const { stats } = useCollectionDetails({
   collectionId: props.nft?.collection?.id || props.nft?.collectionId,
 })
 
-let { highestBuyPrice } = useBuyEvents({
+const { highestBuyPrice } = useBuyEvents({
   collectionId: props.nft?.collection?.id || props.nft?.collectionId,
 })
 
@@ -109,6 +109,8 @@ const { nftEntities: soldItems } = useCollectionSoldData({
   address: props.nft?.issuer,
   collectionId: props.nft?.collection?.id || props.nft?.collectionId,
 })
+
+console.log(soldItems)
 </script>
 
 <style lang="scss" scoped>
