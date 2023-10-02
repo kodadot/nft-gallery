@@ -34,6 +34,10 @@ withDefaults(
 <style scoped lang="scss">
 @import '@/styles/abstracts/variables';
 
+.control:not(:last-of-type) .explore-tabs-button {
+  border-right: none;
+}
+
 .control,
 .explore-tabs-button {
   width: 15rem;
