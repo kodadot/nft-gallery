@@ -961,7 +961,8 @@
   },
   "identity": {
     "page": "Identity",
-    "set": "Create On-Chain identity on {0}",
+    "set": "Create On-Chain identity",
+    "setOn": "Create On-Chain identity on {0}",
     "click": "Click to create identity",
     "clear": "Clear (burn)",
     "existing" : "Existing Onchain Identity",
