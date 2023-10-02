@@ -86,7 +86,7 @@ export const useBuyEvents = ({ collectionId }) => {
     },
   })
   const highestBuyPrice = ref<number>(0)
-  watch(data, () => {
+  watch(data, (data) => {
     if (data && data.value.stats && data.value.stats[0]) {
       const { max } = data.value.stats[0]
       highestBuyPrice.value = parseInt(max)
@@ -111,8 +111,8 @@ export function useCollectionSoldData({ address, collectionId }) {
   })
 
   watch(data as unknown as NFTListSold, (list) => {
-    if (list.nftEntities?.length) {
-      nftEntities.value = list.nftEntities
+    if (list.value.nftEntities?.length) {
+      nftEntities.value = list.value.nftEntities
     }
   })
 

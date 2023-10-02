@@ -16,7 +16,7 @@
     class="is-neo"
     :rounded="rounded"
     :tag="tag"
-    v-bind="$attrs">
+    v-bind="$props">
     <template v-if="$slots.default" #default>
       <slot />
     </template>

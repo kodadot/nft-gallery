@@ -134,7 +134,9 @@
 
       <!-- royalty -->
       <NeoField v-if="isBasilisk">
-        <RoyaltyForm v-model="form.royalty" />
+        <RoyaltyForm
+          :amount="form.royalty.amount"
+          :address="form.royalty.address" />
       </NeoField>
 
       <!-- explicit content -->
@@ -173,7 +175,7 @@
           <NeoButton
             expanded
             :label="submitButtonLabel"
-            type="submit"
+            native-type="submit"
             size="medium"
             class="is-size-6"
             :loading="isLoading"
@@ -206,7 +208,7 @@
 
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
-import type { Ref } from 'vue/types'
+import type { Ref } from 'vue'
 import type { TokenToList } from '@/composables/transaction/types'
 import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
 import {
