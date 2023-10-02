@@ -41,7 +41,14 @@ const { decimals, unit } = useChain()
 const tokenDecimals = computed(() =>
   props.prefix ? chainPropListOf(props.prefix).tokenDecimals : decimals.value
 )
-const displayUnit = computed(() => props.unitSymbol || unit.value)
+const displayUnit = computed(() => {
+  if (props.unitSymbol) {
+    return props.unitSymbol
+  }
+
+  return props.prefix ? chainPropListOf(props.prefix).tokenSymbol : unit.value
+})
+
 const finalValue = computed(() =>
   round(
     formatBalance(

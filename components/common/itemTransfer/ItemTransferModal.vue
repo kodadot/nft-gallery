@@ -53,7 +53,7 @@
           </h2>
 
           <AddressInput
-            :value="address"
+            v-model="address"
             :is-invalid="isYourAddress"
             label=""
             class="is-flex-1"

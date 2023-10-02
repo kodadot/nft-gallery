@@ -8,7 +8,7 @@
         @error="hasError = true" />
     </div>
     <div class="field">
-      <NeoField class="file is-primary">
+      <NeoField class="file is-primary" :addons="false">
         <NeoUpload
           ref="upload"
           v-model="file"

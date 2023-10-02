@@ -54,7 +54,7 @@
                     <Money
                       v-else
                       :value="item.floorPrice"
-                      :unit-symbol="chainSymbol"
+                      :prefix="item.chain"
                       inline />
                   </span>
                   <NeoSkeleton
@@ -128,10 +128,7 @@
                   <span class="name">{{ item.collection?.name }}</span>
                   <span v-if="item.price && parseFloat(item.price) > 0">
                     {{ $t('offer.price') }}:
-                    <Money
-                      :value="item.price"
-                      :unit-symbol="chainSymbol"
-                      inline />
+                    <Money :value="item.price" :prefix="item.chain" inline />
                   </span>
                 </div>
               </template>
@@ -284,6 +281,10 @@ const props = defineProps({
       return {} as SearchQuery
     },
   },
+  showDefaultSuggestions: {
+    type: Boolean,
+    required: false,
+  },
 })
 
 const query = toRef(props, 'query', {})
@@ -298,7 +299,6 @@ const nftResult = ref([] as NFTWithMeta[])
 const collectionResult = ref([] as CollectionWithMeta[])
 const searched = ref([] as NFTWithMeta[])
 const searchString = ref('')
-const showDefaultSuggestions = ref(true)
 
 onMounted(() => {
   getSearchHistory()
@@ -320,7 +320,7 @@ const onKeyDown = (event: KeyboardEvent) => {
 
 const totalItemsAtCurrentTab = computed(() => {
   if (!props.name) {
-    return defaultCollectionSuggestions.value.length
+    return defaultCollectionSuggestions.value?.length
   }
   return activeSearchTab.value === 'NFTs'
     ? nftSuggestion.value.length
@@ -362,7 +362,6 @@ const selectedItemListMap = computed(() => ({
   NFTs: nftSuggestion,
 }))
 
-const { chainSymbol } = useChain()
 const router = useRouter()
 const route = useRoute()
 const { $consola } = useNuxtApp()
@@ -573,12 +572,12 @@ const updateNftSuggestion = async () => {
     })
     const { nFTEntities } = data.value
     const nftList = unwrapSafe(
-      nFTEntities.value.slice(0, searchSuggestionEachTypeMaxNum)
+      nFTEntities.slice(0, searchSuggestionEachTypeMaxNum)
     )
     const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)
-    const result: NFTWithMeta[] = []
+    const result: Ref<NFTWithMeta[]> = ref([])
     processMetadata<NFTWithMeta>(metadataList, (meta, i) => {
-      result.push({
+      result.value.push({
         ...nftList[i],
         ...meta,
         image: sanitizeIpfsUrl(
@@ -587,7 +586,7 @@ const updateNftSuggestion = async () => {
         ),
       })
     })
-    nftResult.value = result
+    nftResult.value = result.value
   } catch (e) {
     logError(e, (msg) => $consola.warn('[PREFETCH] Unable fo fetch', msg))
   }
@@ -608,7 +607,7 @@ const updateCollectionSuggestion = async (value: string) => {
         totalCount: undefined,
         floorPrice: undefined,
       }
-      const collectionWithImages = {
+      const collectionWithImages = reactive({
         ...collections[i],
         ...meta,
         ...initialCollectionStats, // set initial stat fields to get reactivity
@@ -616,7 +615,7 @@ const updateCollectionSuggestion = async (value: string) => {
           collections[i].image || collections[i].mediaUri || '',
           'image'
         ),
-      }
+      })
       collectionWithImagesList.push(collectionWithImages)
 
       fetchCollectionStats(collectionWithImages, i)
