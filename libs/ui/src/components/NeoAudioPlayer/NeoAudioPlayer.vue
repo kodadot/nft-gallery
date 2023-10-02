@@ -39,10 +39,9 @@
           :class="{
             'is-clickable': canStartPlaying,
           }"
-          :getMedia="() => $refs.audio"
+          :get-media="() => $refs.audio"
           @play="play"
-          @ready="isWaveformReady = true"
-          />
+          @ready="isWaveformReady = true" />
         <NeoSkeleton v-if="!isWaveformReady" no-margin rounded height="100%" />
       </div>
 
@@ -64,7 +63,7 @@
 import { useEventListener, useMediaControls } from '@vueuse/core'
 import { NeoButton, NeoIcon, NeoSkeleton } from '@kodadot1/brick'
 import { getRandomValues } from '@/components/unique/utils'
-import Waveform from "./Waveform/Waveform.vue"
+import Waveform from './Waveform/Waveform.vue'
 
 defineProps<{
   src?: string
@@ -79,7 +78,7 @@ const loading = ref(false)
 const canStartPlaying = ref(false)
 const isWaveformReady = ref(false)
 
-const id = ref(`player_${getRandomValues(1)[0]}`)
+const id = ref(getRandomValues(1)[0])
 
 const actionStack = ref<
   { promise: Promise<void>; reject: (reason?: any) => void }[]

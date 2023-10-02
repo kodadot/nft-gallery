@@ -3,7 +3,7 @@ import { useEventBus } from '@vueuse/core'
 type Pause = () => Promise<any>
 
 type PayloadWithId = {
-  id: string
+  id: number
 }
 
 type AddPlayerEventPayload = {
