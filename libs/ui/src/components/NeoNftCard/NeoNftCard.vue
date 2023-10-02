@@ -17,7 +17,8 @@
           :animation-src="nft.animationUrl"
           :mime-type="nft.mimeType"
           :placeholder="placeholder"
-          :title="nft?.name" />
+          :title="nft?.name"
+          disable-operation />
         <div
           :class="[showActionOnHover ? 'show-on-hover' : 'show-always']"
           class="w-full is-flex is-justify-content-center action-container">

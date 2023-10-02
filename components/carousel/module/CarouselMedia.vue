@@ -10,7 +10,8 @@
         class="carousel-media-wrapper"
         :src="imageSrc || ''"
         :animation-src="item.animationUrl || ''"
-        :title="item.name" />
+        :title="item.name"
+        disable-operation />
     </nuxt-link>
   </div>
 </template>

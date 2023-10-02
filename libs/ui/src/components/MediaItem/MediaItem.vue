@@ -8,7 +8,8 @@
       :placeholder="placeholder"
       :original="original"
       :is-lewd="isLewd"
-      :is-detail="isDetail" />
+      :is-detail="isDetail"
+      :disable-operation="disableOperation" />
     <div
       v-if="isLewd && isLewdBlurredLayer"
       class="nsfw-blur is-capitalized is-flex is-align-items-center is-justify-content-center is-flex-direction-column">
@@ -56,6 +57,7 @@ const props = withDefaults(
     isLewd?: boolean
     isDetail?: boolean
     placeholder?: string
+    disableOperation?: boolean
   }>(),
   {
     src: '',
