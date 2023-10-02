@@ -1,4 +1,4 @@
-Now you have decided to become a contributor at kodadot so to receive your rewards you will need a polkadot wallet
+To receive your rewards you will need a polkadot wallet
 Basically there are two types of Polkadot wallet Browser Extension wallet and Mobile Wallet
 
 ## Browser Extension based wallets
