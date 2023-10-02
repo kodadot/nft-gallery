@@ -27,11 +27,17 @@
 
     <template #rows="{ variant }">
       <EventRow
-        v-for="(event, i) in displayedEvents"
+        v-for="(event, i) in displayedEvents.slice(
+          0,
+          displayedEvents.length - 1
+        )"
         :key="i"
         :variant="variant"
         :event="event" />
       <div ref="sentinel" />
+      <EventRow
+        :variant="variant"
+        :event="displayedEvents[displayedEvents.length - 1]" />
     </template>
   </ResponsiveTable>
 </template>
@@ -97,11 +103,13 @@ watch(
 
 const handleIntersection = (entries: IntersectionObserverEntry[]) => {
   const target = entries[0]
-  if (target.isIntersecting) {
+  if (
+    target.isIntersecting &&
+    displayedEvents.value.length < filteredEvents.value.length
+  ) {
     displayMoreEvents()
   }
 }
-
 const sentinel = ref<HTMLDivElement | null>(null)
 useIntersectionObserver(sentinel, handleIntersection, { threshold: 0.66 })
 </script>
