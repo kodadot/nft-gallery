@@ -12,9 +12,10 @@
       <NeoDropdown
         position="bottom-left"
         aria-role="menu"
+        class="menu-mt-0"
         :triggers="['hover']">
         <template #trigger>
-          <a class="navbar-item" role="button">
+          <a class="navbar-item navbar-height" role="button">
             <img :src="profileIcon" alt="profile" />
           </a>
         </template>
@@ -102,3 +103,15 @@ const toggleLanguageMenu = () => {
   languageDropdown.value?.toggle()
 }
 </script>
+
+<style lang="scss" scoped>
+.menu-mt-0 {
+  :deep(.o-drop__menu) {
+    margin-top: 0;
+  }
+}
+
+.navbar-height {
+  height: 4.5rem;
+}
+</style>
