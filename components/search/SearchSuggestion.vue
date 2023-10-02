@@ -575,9 +575,9 @@ const updateNftSuggestion = async () => {
       nFTEntities.slice(0, searchSuggestionEachTypeMaxNum)
     )
     const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)
-    const result: NFTWithMeta[] = reactive([])
+    const result: Ref<NFTWithMeta[]> = ref([])
     processMetadata<NFTWithMeta>(metadataList, (meta, i) => {
-      result.push({
+      result.value.push({
         ...nftList[i],
         ...meta,
         image: sanitizeIpfsUrl(
@@ -586,7 +586,7 @@ const updateNftSuggestion = async () => {
         ),
       })
     })
-    nftResult.value = result
+    nftResult.value = result.value
   } catch (e) {
     logError(e, (msg) => $consola.warn('[PREFETCH] Unable fo fetch', msg))
   }
