@@ -21,3 +21,5 @@ Nova wallet is the Best Polkadot based Mobile wallet it currently supports NFTs 
 Sub wallet has Both wallet Extension and Mobile app you can choose any of them in Mobile app version Sub-wallet Provides the same Features as they provide in wallet Extension  [Download Sub-wallet Mobile app](https://www.subwallet.app/download.html)
 
 
+Now you have a Polkadot wallet then you can just copy your address from whatever wallet you are using then [Rewards.md](REWARDS.md#switching-accountnetwork)
+
