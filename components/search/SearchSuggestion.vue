@@ -572,10 +572,10 @@ const updateNftSuggestion = async () => {
     })
     const { nFTEntities } = data.value
     const nftList = unwrapSafe(
-      nFTEntities.value.slice(0, searchSuggestionEachTypeMaxNum)
+      nFTEntities.slice(0, searchSuggestionEachTypeMaxNum)
     )
     const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)
-    const result: NFTWithMeta[] = []
+    const result: NFTWithMeta[] = reactive([])
     processMetadata<NFTWithMeta>(metadataList, (meta, i) => {
       result.push({
         ...nftList[i],
