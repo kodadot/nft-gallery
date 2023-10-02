@@ -1107,7 +1107,9 @@
   "footer": {
     "subscribe": "Get The Latest KodaDot Updates",
     "join": "Join Our Community",
-    "subscribeLabel": "Subscribe"
+    "subscribeLabel": "Subscribe",
+    "toc": "Terms of Use",
+    "privacyPolicy": "Privacy Policy"
   },
   "share": {
     "copyLink": "Copy Link",
