@@ -607,7 +607,7 @@ const updateCollectionSuggestion = async (value: string) => {
         totalCount: undefined,
         floorPrice: undefined,
       }
-      const collectionWithImages = {
+      const collectionWithImages = reactive({
         ...collections[i],
         ...meta,
         ...initialCollectionStats, // set initial stat fields to get reactivity
@@ -615,7 +615,7 @@ const updateCollectionSuggestion = async (value: string) => {
           collections[i].image || collections[i].mediaUri || '',
           'image'
         ),
-      }
+      })
       collectionWithImagesList.push(collectionWithImages)
 
       fetchCollectionStats(collectionWithImages, i)
