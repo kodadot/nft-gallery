@@ -572,12 +572,12 @@ const updateNftSuggestion = async () => {
     })
     const { nFTEntities } = data.value
     const nftList = unwrapSafe(
-      nFTEntities.value.slice(0, searchSuggestionEachTypeMaxNum)
+      nFTEntities.slice(0, searchSuggestionEachTypeMaxNum)
     )
     const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)
-    const result: NFTWithMeta[] = []
+    const result: Ref<NFTWithMeta[]> = ref([])
     processMetadata<NFTWithMeta>(metadataList, (meta, i) => {
-      result.push({
+      result.value.push({
         ...nftList[i],
         ...meta,
         image: sanitizeIpfsUrl(
@@ -586,7 +586,7 @@ const updateNftSuggestion = async () => {
         ),
       })
     })
-    nftResult.value = result
+    nftResult.value = result.value
   } catch (e) {
     logError(e, (msg) => $consola.warn('[PREFETCH] Unable fo fetch', msg))
   }
@@ -607,7 +607,7 @@ const updateCollectionSuggestion = async (value: string) => {
         totalCount: undefined,
         floorPrice: undefined,
       }
-      const collectionWithImages = {
+      const collectionWithImages = reactive({
         ...collections[i],
         ...meta,
         ...initialCollectionStats, // set initial stat fields to get reactivity
@@ -615,7 +615,7 @@ const updateCollectionSuggestion = async (value: string) => {
           collections[i].image || collections[i].mediaUri || '',
           'image'
         ),
-      }
+      })
       collectionWithImagesList.push(collectionWithImages)
 
       fetchCollectionStats(collectionWithImages, i)
