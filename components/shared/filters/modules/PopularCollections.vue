@@ -21,13 +21,14 @@
         class="mb-2">
         <NeoCheckbox
           :model-value="checkedCollections.includes(collection.id)"
+          class="w-full"
           label-class="is-flex-grow-1"
           @update:modelValue="toggleCollection(collection)">
           <div
             class="is-flex is-align-items-center filter-container pl-2 is-flex-grow-1 min-width-0">
             <img
               :src="sanitizeIpfsUrl(collection.meta.image)"
-              class="image is-32x32 border mr-2"
+              class="image is-32x32 is-flex-shrink-0 border mr-2"
               :alt="collection.meta.name || collection.id" />
             <div
               class="is-flex is-flex-direction-column is-flex-grow-1 min-width-0">
