@@ -12,10 +12,13 @@ import PriceChart from '@/components/chart/PriceChart.vue'
 import {
   bin,
   displayValue,
+  getBinSizeForRange,
   removeOutliers,
   sortAsc,
   toDataPoint,
 } from './utils'
+
+const { decimals } = useChain()
 
 const props = withDefaults(
   defineProps<{
@@ -43,16 +46,22 @@ const listEvents = computed(() => {
 })
 
 const chartData = computed(() => {
-  const buyBins = bin(buyEvents.value, { days: 1 })
-  const listBins = bin(listEvents.value, { days: 1 })
+  const buyBinSize = getBinSizeForRange({
+    timestamps: buyEvents.value.map((e) => e.timestamp),
+  })
+  const listBinSize = getBinSizeForRange({
+    timestamps: listEvents.value.map((e) => e.timestamp),
+  })
+  const buyBins = bin(buyEvents.value, buyBinSize)
+  const listBins = bin(listEvents.value, listBinSize)
 
   const binnedBuyEvents = buyBins.map(({ timestamp, value }) => [
     new Date(timestamp),
-    displayValue(value),
+    displayValue(value, decimals.value),
   ])
   const binnedListEvents = listBins.map(({ timestamp, value }) => [
     new Date(timestamp),
-    displayValue(value),
+    displayValue(value, decimals.value),
   ])
 
   return [binnedBuyEvents, binnedListEvents]
