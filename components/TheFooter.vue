@@ -226,6 +226,16 @@ const menuKodadot: Menu[] = [
     url: '/blog',
     external: false,
   },
+  {
+    name: $i18n.t('footer.privacyPolicy'),
+    url: '/privacy-policy',
+    external: false,
+  },
+  {
+    name: $i18n.t('footer.toc'),
+    url: '/terms-of-use',
+    external: false,
+  },
 ]
 
 const socials = [
