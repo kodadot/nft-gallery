@@ -18,6 +18,6 @@ These are are Three Main Wallet Extensions which are currently working without a
 Nova wallet is the Best Polkadot based Mobile wallet it currently supports NFTs , Tokens , Staking and Governance and many more because of this many Mobile users prefer Nova wallet and it's really user Friendly with Kodadot so you can intract easily [Download Nova Wallet](https://docs.novawallet.io/nova-wallet-wiki/welcome-to-nova-wallet/download-nova-wallet) 
 
 ## <img src="https://github.com/AshutoshSingh72/nft-gallery/assets/78789916/cb3a6b00-d1db-435a-a11b-11917a8bd423" alt="image" width="20" height="auto"> Sub-wallet Mobile app
-Sub wallet has Both wallet Extension and Mobile app you can choose any of them in Mobile app version Sub-wallet Provides the same Features as they provide in wallet Extension  [Download Sub-wallet-Extension](https://www.subwallet.app/download.html)
+Sub wallet has Both wallet Extension and Mobile app you can choose any of them in Mobile app version Sub-wallet Provides the same Features as they provide in wallet Extension  [Download Sub-wallet Mobile app](https://www.subwallet.app/download.html)
 
 
