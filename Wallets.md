@@ -25,6 +25,17 @@ Sub wallet has Both wallet Extension and Mobile app you can choose any of them i
 
 once You have a wallet go to [Kodadot transfer](https://kodadot.xyz/dot/transfer) then choose Dot or Ksm then input you Dot or ksm Address then 
 <img width="694" alt="Screenshot 2023-10-02 at 7 23 30 PM" src="https://github.com/AshutoshSingh72/nft-gallery/assets/78789916/e603b88a-deb7-49ad-b392-53bf6f3137f3">
+
+
+
+
+
+
+
+
+
+
+
 Copy Pay me link and make sure to provide that link when you're making pull request in Reward section
 
 Follow more Guide on  [Rewards.md](REWARDS.md#switching-accountnetwork)
