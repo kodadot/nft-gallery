@@ -20,12 +20,18 @@
 
           <ListingCartSingleItemCart
             v-if="listingCartStore.count === 1"
-            v-model="cartData"
+            v-model:fixed-price="cartData.fixedPrice"
+            v-model:floor-price-percent-adjustment="
+              cartData.floorPricePercentAdjustment
+            "
             @setFixedPrice="setFixedPrice" />
 
           <ListingCartMultipleItemsCart
             v-else
-            v-model="cartData"
+            v-model:fixed-price="cartData.fixedPrice"
+            v-model:floor-price-percent-adjustment="
+              cartData.floorPricePercentAdjustment
+            "
             @setFixedPrice="setFixedPrice" />
         </div>
 
@@ -85,17 +91,14 @@ const defaultCartData = {
 }
 
 const cartData = ref<{
-  fixedPrice?: number | string
+  fixedPrice?: number
   floorPricePercentAdjustment: number
 }>({ ...defaultCartData })
 
 function setFixedPrice() {
   const fixedPrice = cartData.value.fixedPrice
 
-  const rate =
-    fixedPrice === undefined || fixedPrice === null || fixedPrice === ''
-      ? null
-      : Number(fixedPrice)
+  const rate = Number(fixedPrice) || 0
 
   listingCartStore.setFixedPrice(rate)
 }
