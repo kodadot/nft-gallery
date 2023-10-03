@@ -47,6 +47,10 @@ const icon = computed(() =>
 <style scoped lang="scss">
 @import '@/assets/styles/abstracts/variables';
 
+.control:not(:last-of-type) .explore-tabs-button {
+  border-right: none;
+}
+
 .control,
 .explore-tabs-button {
   width: 15rem;
