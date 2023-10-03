@@ -14,7 +14,7 @@
               class="has-text-grey selection-button"
               variant="text"
               no-shadow
-              @click="listingCartStore.clear">
+              @click="listingCartStore.clearListedItems">
               {{ $t('sort.clearAll') }}
             </NeoButton>
             <div class="mx-4 divider has-background-k-grey" />

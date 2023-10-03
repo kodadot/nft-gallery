@@ -87,6 +87,10 @@ export const useListingCartStore = defineStore('listingCart', {
         localStorage.value = this.items
       }
     },
+    clearListedItems() {
+      localStorage.value = []
+      this.items = []
+    },
     clear() {
       localStorage.value = []
       this.items = []
