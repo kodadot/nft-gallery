@@ -6,9 +6,9 @@
       <NeoButton
         variant="text"
         no-shadow
+        icon-pack="fasr"
         icon="xmark"
         size="medium"
-        class="cross"
         @click="onClose" />
     </div>
     <div class="box-padding body-container">
@@ -75,12 +75,6 @@ $border_size: 1px;
       background-color: theme('k-greenaccent2');
     }
 
-    .cross {
-      @include ktheme() {
-        background-color: theme('k-greenaccent2') !important;
-      }
-    }
-
     .header-container {
       @include ktheme() {
         border-bottom: $border_size solid theme('green-border-color');
@@ -92,12 +86,6 @@ $border_size: 1px;
     @include ktheme() {
       border: $border_size solid theme('k-red');
       background-color: theme('k-redaccent2');
-    }
-
-    .cross {
-      @include ktheme() {
-        background-color: theme('k-redaccent2') !important;
-      }
     }
 
     .header-container {
