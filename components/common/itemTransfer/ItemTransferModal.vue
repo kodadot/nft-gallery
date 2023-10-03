@@ -1,7 +1,7 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <NeoModal v-model="isModalActive" scroll="clip" @close="onClose">
+    <NeoModal :value="isModalActive" scroll="clip" @close="onClose">
       <div class="modal-width">
         <header
           class="border-bottom border-grey is-flex is-align-items-center is-justify-content-space-between px-6">
@@ -13,7 +13,7 @@
             variant="text"
             no-shadow
             icon="xmark"
-            icon-pack="fa-sharp"
+            icon-pack="fasr"
             size="medium"
             class="cross"
             @click="onClose" />

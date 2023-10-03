@@ -12,7 +12,13 @@
             {{ title }}
           </span>
 
-          <NeoButton variant="text" no-shadow icon="close" @click="onClose" />
+          <NeoButton
+            variant="text"
+            no-shadow
+            icon="xmark"
+            icon-pack="fasr"
+            size="medium"
+            @click="onClose" />
         </header>
 
         <div class="px-6 pt-4 limit-height">
