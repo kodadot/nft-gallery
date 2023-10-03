@@ -27,19 +27,8 @@
     <DynamicGrid
       v-if="isLoading || isFetchingData"
       :id="scrollContainerId"
-      v-slot="slotProps"
       class="my-5">
-      <NeoNftCard
-        v-for="n in skeletonCount"
-        :key="n"
-        :nft="nfts[n]"
-        is-loading
-        :prefix="urlPrefix"
-        :variant="
-          slotProps.isMobileVariant || slotProps.grid === 'small'
-            ? 'minimal'
-            : undefined
-        " />
+      <NeoNftCardSkeleton v-for="n in skeletonCount" :key="n" />
     </DynamicGrid>
     <EmptyResult v-if="total === 0" />
     <ScrollTopButton />
@@ -47,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoNftCard } from '@kodadot1/brick'
+import { NeoNftCardSkeleton } from '@kodadot1/brick'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import ItemsGridImage from './ItemsGridImage.vue'
 import {
@@ -57,7 +46,6 @@ import {
 import isEqual from 'lodash/isEqual'
 import { useListingCartStore } from '@/stores/listingCart'
 
-const { urlPrefix } = usePrefix()
 const { listingCartEnabled } = useListingCartConfig()
 const listingCartStore = useListingCartStore()
 
