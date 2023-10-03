@@ -1,9 +1,11 @@
-<template><div></div></template>
+<template>
+  <LandingPage />
+</template>
 
-<script setup lang="ts">
-const router = useRouter()
+<script lang="ts" setup>
+import LandingPage from '@/components/landing/LandingPage.vue'
 
-onBeforeMount(() => {
-  router.replace('/')
+definePageMeta({
+  layout: 'full-width-layout',
 })
 </script>
