@@ -191,10 +191,6 @@ export const updatePotentialNftsForListingCart = async (nfts: NFT[]) => {
     )
     .map((nft) => {
       const collectionId = nft.collection?.id ?? nft.collectionId ?? ''
-      console.log(
-        'collection floor price',
-        statsById[collectionId]?.collectionFloorPrice
-      )
       return nftToListingCartItem(
         nft,
         String(statsById[collectionId]?.collectionFloorPrice ?? '')
