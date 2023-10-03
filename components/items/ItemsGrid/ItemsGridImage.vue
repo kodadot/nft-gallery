@@ -59,7 +59,7 @@ import { useListingCartStore } from '@/stores/listingCart'
 import { usePreferencesStore } from '@/stores/preferences'
 import {
   nftToListingCartItem,
-  nftToShoppingCardItem,
+  nftToShoppingCartItem,
 } from '@/components/common/shoppingCart/utils'
 import { isOwner as checkOwner } from '@/utils/account'
 import { useCollectionDetails } from '@/components/collection/utils/useCollectionDetails'
@@ -155,7 +155,7 @@ const onCancelPurchase = () => {
 const onClickBuy = () => {
   if (isAvailbleToBuy.value) {
     shoppingCartStore.setItemToBuy(
-      nftToShoppingCardItem(nftForShoppingCart.value)
+      nftToShoppingCartItem(nftForShoppingCart.value)
     )
     doAfterLogin({
       onLoginSuccess: openCompletePurcahseModal,
@@ -168,7 +168,7 @@ const onClickShoppingCart = () => {
   if (shoppingCartStore.isItemInCart(nftForShoppingCart.value.id)) {
     shoppingCartStore.removeItem(nftForShoppingCart.value.id)
   } else {
-    shoppingCartStore.setItem(nftToShoppingCardItem(nftForShoppingCart.value))
+    shoppingCartStore.setItem(nftToShoppingCartItem(nftForShoppingCart.value))
   }
 }
 
