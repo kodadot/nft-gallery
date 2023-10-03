@@ -1,13 +1,12 @@
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk'
-import { AllWidgetVariants } from '@ramp-network/ramp-instant-sdk/dist/types/types'
 
 const HOST_APP_NAME = 'KodaDot'
 const HOST_LOGO_URL = 'https://kodadot.xyz/apple-touch-icon.png'
 
 interface InitRampParams {
   address: string
-  defaultAsset: string
-  variant?: AllWidgetVariants
+  onSuccess?: () => void
+  defaultAsset?: string
   showAfterInit?: boolean
 }
 
@@ -18,13 +17,8 @@ export default function useRamp() {
   const rampInstant = ref<RampInstantSDK | null>(null)
   const rampApiKey = config.public.rampApiKey
 
-  const initRampInstant = (params: InitRampParams) => {
-    const {
-      address,
-      defaultAsset,
-      variant = 'desktop',
-      showAfterInit = true,
-    } = params
+  const init = (params: InitRampParams) => {
+    const { address, defaultAsset = 'KSM', onSuccess } = params
 
     try {
       rampInstant.value = new RampInstantSDK({
@@ -33,19 +27,22 @@ export default function useRamp() {
         hostAppName: HOST_APP_NAME,
         hostApiKey: rampApiKey,
         hostLogoUrl: HOST_LOGO_URL,
-        variant,
-        url: 'https://app.demo.ramp.network',
+        variant: 'desktop',
       })
 
-      if (showAfterInit) {
-        rampInstant.value.show()
-      }
+      rampInstant.value.on('PURCHASE_CREATED', () => {
+        if (onSuccess) {
+          onSuccess()
+        }
+      })
+
+      rampInstant.value.show()
     } catch (e) {
       $consola.error('[RAMP SDK] Error initializing RampInstantSDK:', e)
     }
   }
 
   return {
-    initRampInstant,
+    init,
   }
 }
