@@ -1090,7 +1090,8 @@
   },
   "toast": {
     "urlCopy": "URL copied to clipboard ✓",
-    "paymentLinkCopy": "Payment link copied to clipboard"
+    "paymentLinkCopy": "Payment link copied to clipboard",
+    "downloadError": "Unable to download image"
   },
   "profileMenu": {
     "darkMode": "Dark Mode",
@@ -1106,7 +1107,9 @@
   "footer": {
     "subscribe": "Get The Latest KodaDot Updates",
     "join": "Join Our Community",
-    "subscribeLabel": "Subscribe"
+    "subscribeLabel": "Subscribe",
+    "toc": "Terms of Use",
+    "privacyPolicy": "Privacy Policy"
   },
   "share": {
     "copyLink": "Copy Link",
