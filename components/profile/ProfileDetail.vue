@@ -302,6 +302,22 @@ watch(itemsGridSearch, (searchTerm, prevSearchTerm) => {
     flex-wrap: wrap;
     > * {
       flex: 1 0 50%;
+      &:nth-child(2) {
+        :deep(.explore-tabs-button) {
+          border-right: solid;
+        }
+      }
+      &:nth-child(1),
+      &:nth-child(2) {
+        :deep(.explore-tabs-button) {
+          border-bottom: none;
+        }
+      }
+      &:nth-child(2n + 1) {
+        :deep(.explore-tabs-button) {
+          border-right: none;
+        }
+      }
     }
     :deep(.explore-tabs-button) {
       width: 100% !important;
