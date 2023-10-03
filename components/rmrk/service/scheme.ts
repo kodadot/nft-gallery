@@ -167,7 +167,7 @@ export interface NFT extends ItemResources {
   name: string
   instance: string
   transferable: number
-  collection: EntityWithId
+  collection: EntityWithId & { floorPrice: { price: string }[] }
   collectionId?: string
   sn: string
   _id: string
