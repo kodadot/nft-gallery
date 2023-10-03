@@ -39,26 +39,18 @@ import ListingCartFloorPrice from '../shared/ListingCartFloorPrice.vue'
 import ListingCartPriceInput from '../shared/ListingCartPriceInput.vue'
 import formatBalance from '@/utils/format/balance'
 
-const emit = defineEmits([
-  'update:fixedPrice',
-  'update:floorPricePercentAdjustment',
-  'setFixedPrice',
-])
+const emit = defineEmits(['setFixedPrice'])
 
 const props = defineProps<{
   fixedPrice?: number | string
   floorPricePercentAdjustment: number
 }>()
 
-const fixedPrice = useVModel(props, 'fixedPrice', emit, {
-  eventName: 'update:fixedPrice',
-})
+const fixedPrice = useVModel(props, 'fixedPrice')
 
 const floorPricePercentAdjustment = useVModel(
   props,
-  'floorPricePercentAdjustment',
-  emit,
-  { eventName: 'update:floorPricePercentAdjustment' }
+  'floorPricePercentAdjustment'
 )
 
 const listingCartStore = useListingCartStore()
