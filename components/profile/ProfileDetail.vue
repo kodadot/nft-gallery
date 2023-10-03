@@ -281,7 +281,7 @@ const interactionIn = computed(() => {
 })
 
 useAsyncData('tabs-count', async () => {
-  const query = await resolveQueryPath(client.value, 'profileTabCounts')
+  const query = await resolveQueryPath(client.value, 'profileTabsCount')
   const { data } = await useAsyncQuery({
     query: query.default,
     clientId: client.value,
