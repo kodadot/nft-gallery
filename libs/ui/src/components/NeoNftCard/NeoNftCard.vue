@@ -28,6 +28,7 @@
           :mime-type="nft.mimeType"
           :placeholder="placeholder"
           :title="nft?.name"
+          disable-operation
           :audio-player-cover="mediaPlayerCover"
           :audio-hover-on-cover-play="mediaHoverOnCoverPlay" />
         <div

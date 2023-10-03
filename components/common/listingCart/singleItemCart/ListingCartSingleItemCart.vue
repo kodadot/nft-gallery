@@ -46,7 +46,7 @@ const emit = defineEmits([
 ])
 
 const props = defineProps<{
-  fixedPrice?: number | string
+  fixedPrice?: number
   floorPricePercentAdjustment: number
 }>()
 
@@ -82,9 +82,11 @@ watch(
 )
 
 watch(
-  () => item.value.listPrice,
+  () => item.value?.listPrice,
   (value) => {
-    fixedPrice.value = Number(value)
+    if (value) {
+      fixedPrice.value = value
+    }
   },
 )
 </script>

@@ -9,6 +9,7 @@
       :original="original"
       :is-lewd="isLewd"
       :is-detail="isDetail"
+      :disable-operation="disableOperation"
       :player-cover="audioPlayerCover"
       :hover-on-cover-play="audioHoverOnCoverPlay" />
     <div
@@ -58,6 +59,7 @@ const props = withDefaults(
     isLewd?: boolean
     isDetail?: boolean
     placeholder?: string
+    disableOperation?: boolean
     audioPlayerCover?: string
     audioHoverOnCoverPlay?: boolean
   }>(),
@@ -70,6 +72,7 @@ const props = withDefaults(
     isLewd: false,
     isDetail: false,
     placeholder: '',
+    disableOperation: undefined,
   },
 )
 // props.mimeType may be empty string "". Add `image/png` as fallback

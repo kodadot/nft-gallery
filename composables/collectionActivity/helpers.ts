@@ -9,11 +9,14 @@ import {
   OfferInteraction,
   Owners,
 } from './types'
+import type { Prefix } from '@kodadot1/static'
+
+export const chainsWithMintInteraction: Prefix[] = ['ksm', 'ahk', 'ahp']
 
 export const mintInteraction = () => {
   const { urlPrefix } = usePrefix()
   // https://github.com/kodadot/snek/issues/183
-  return ['ksm', 'ahk', 'ahp'].includes(urlPrefix.value)
+  return chainsWithMintInteraction.includes(urlPrefix.value)
     ? Interaction.MINT
     : Interaction.MINTNFT
 }

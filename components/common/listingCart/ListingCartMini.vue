@@ -6,7 +6,7 @@
           <div class="is-inline-flex is-align-items-center">
             <div>
               <b>{{ listingCartStore.count }}</b>
-              {{ $tc('listingCart.item', listingCartStore.count) }}
+              {{ $t('listingCart.item', listingCartStore.count) }}
             </div>
             <div class="mx-4" />
             <NeoButton
@@ -14,7 +14,7 @@
               class="has-text-grey selection-button"
               variant="text"
               no-shadow
-              @click="listingCartStore.clear">
+              @click="listingCartStore.clearListedItems">
               {{ $t('sort.clearAll') }}
             </NeoButton>
             <div class="mx-4 divider has-background-k-grey" />
@@ -31,7 +31,7 @@
           class="h-full no-border-left py-4 px-7"
           :variant="'k-accent'"
           @click="preferencesStore.listingCartModalOpen = true">
-          {{ $tc('listingCart.listItem', listingCartStore.count) }}
+          {{ $t('listingCart.listItem', listingCartStore.count) }}
         </NeoButton>
       </div>
     </div>

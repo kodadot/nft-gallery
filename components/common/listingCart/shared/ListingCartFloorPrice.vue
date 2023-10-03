@@ -38,17 +38,17 @@
 import { NeoButton } from '@kodadot1/brick'
 import { useListingCartStore } from '@/stores/listingCart'
 
-const emit = defineEmits(['input'])
+const emit = defineEmits(['update:modelValue'])
 
 const props = defineProps<{
-  value: number
+  modelValue: number
   showCurrentFloorPrice?: boolean
 }>()
 
 const listingCartStore = useListingCartStore()
 
-const floorPricePercentAdjustment = useVModel(props, 'value', emit, {
-  eventName: 'input',
+const floorPricePercentAdjustment = useVModel(props, 'modelValue', emit, {
+  eventName: 'update:modelValue',
 })
 
 const isDisabled = computed(

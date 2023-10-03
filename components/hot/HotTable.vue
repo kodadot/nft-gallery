@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Loader :value="pending" />
+    <Loader :model-value="pending" />
     <NeoTable
       :data="hot"
       hoverable

@@ -27,15 +27,18 @@
 <script lang="ts" setup>
 import { randomIntegerBetween } from '@/utils/calculation'
 import { NeoLoading } from '@kodadot1/brick'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
-const emit = defineEmits(['input'])
+const emit = defineEmits(['update:modelValue'])
 const props = withDefaults(
   defineProps<{
-    status: string
-    value?: boolean
+    status: TransactionStatus
+    modelValue?: boolean
     canCancel?: boolean
   }>(),
   {
+    status: TransactionStatus.Unknown,
+    modelValue: false,
     canCancel: true,
   },
 )
@@ -46,7 +49,7 @@ const randomNumber = ref(randomIntegerBetween(1, 35))
 const interval = ref()
 
 watch(
-  () => props.value,
+  () => props.modelValue,
   (newValue) => {
     if (newValue) {
       let newRandomNumber = randomNumber.value
@@ -66,8 +69,8 @@ const randomFunFactQuestion = computed(() =>
   $i18n.t(`funfacts.${randomNumber.value}.question`),
 )
 const isLoading = computed({
-  get: () => props.value,
-  set: (value) => emit('input', value),
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value),
 })
 
 onMounted(() => {

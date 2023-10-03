@@ -9,15 +9,16 @@
       shadow-intensity="1"
       autoplay
       camera-controls
+      :disable-zoom="disableOperation"
       data-testid="type-3d" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import '@google/model-viewer'
-
 defineProps<{
   animationSrc: string
+  disableOperation?: boolean
 }>()
 </script>
 
