@@ -13,7 +13,6 @@
             variant="text"
             no-shadow
             icon="xmark"
-            icon-pack="fasr"
             size="medium"
             class="cross"
             @click="onClose" />

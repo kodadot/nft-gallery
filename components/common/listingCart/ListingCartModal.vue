@@ -171,20 +171,20 @@ async function confirm() {
       successMessage: $i18n.t('transaction.price.success') as string,
       errorMessage: $i18n.t('transaction.price.error') as string,
     })
-    listingCartStore.clear()
     preferencesStore.listingCartModalOpen = false
-    resetCartData()
+    listingCartStore.clear()
+    resetCartToDefaults()
   } catch (error) {
     warningMessage(error)
   }
 }
 
 const onClose = () => {
-  resetCartData()
+  resetCartToDefaults()
   preferencesStore.listingCartModalOpen = false
 }
 
-const resetCartData = () => {
+const resetCartToDefaults = () => {
   fixedPrice.value = undefined
   floorPricePercentAdjustment.value = undefined
 }
