@@ -90,10 +90,7 @@ const fixedPrice = ref()
 const floorPricePercentAdjustment = ref()
 
 function setFixedPrice() {
-  const price = fixedPrice.value
-
-  const rate =
-    price === undefined || price === null || price === '' ? null : Number(price)
+  const rate = Number(fixedPrice.value) || 0
 
   listingCartStore.setFixedPrice(rate)
 }
@@ -170,8 +167,8 @@ async function confirm() {
       successMessage: $i18n.t('transaction.price.success') as string,
       errorMessage: $i18n.t('transaction.price.error') as string,
     })
+    listingCartStore.clearListedItems()
     preferencesStore.listingCartModalOpen = false
-    listingCartStore.clear()
     resetCartToDefaults()
   } catch (error) {
     warningMessage(error)

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Loader :model-value="isLoading" />
+    <Loader :modelValue="isLoading" />
     <NeoField grouped>
       <NeoField class="has-text-right" expanded>
         <NeoSelect v-model="nbRows">

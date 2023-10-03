@@ -1,5 +1,5 @@
 <template>
-  <NeoLoading :active.sync="isLoading" is-full-page :can-cancel="canCancel">
+  <NeoLoading v-model:active="isLoading" is-full-page :can-cancel="canCancel">
     <div class="loading-container">
       <figure>
         <img class="loading-icon" :src="placeholder" />
@@ -27,15 +27,18 @@
 <script lang="ts" setup>
 import { randomIntegerBetween } from '@/utils/calculation'
 import { NeoLoading } from '@kodadot1/brick'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
 const emit = defineEmits(['update:modelValue'])
 const props = withDefaults(
   defineProps<{
-    status: string
+    status: TransactionStatus
     modelValue?: boolean
     canCancel?: boolean
   }>(),
   {
+    status: TransactionStatus.Unknown,
+    modelValue: false,
     canCancel: true,
   }
 )
@@ -46,7 +49,7 @@ const randomNumber = ref(randomIntegerBetween(1, 35))
 const interval = ref()
 
 watch(
-  () => props.value,
+  () => props.modelValue,
   (newValue) => {
     if (newValue) {
       let newRandomNumber = randomNumber.value

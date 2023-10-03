@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Loader :model-value="pending" />
+    <Loader :modelValue="pending" />
     <NeoTable :data="sales" hoverable>
       <NeoTableColumn v-slot="props" position="centered" field="idx" label="N°">
         {{ props.row.idx }}

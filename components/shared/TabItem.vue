@@ -6,30 +6,41 @@
       :no-shadow="noShadow"
       :active="active"
       :to="to"
-      :icon="active ? 'check' : ''">
+      :icon="icon">
       <span> {{ text }}</span>
+      <span v-if="count" class="ml-2 has-text-grey-fix">{{
+        formatNumber(count)
+      }}</span>
     </NeoButton>
   </p>
 </template>
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
+import { formatNumber } from '@/utils/format/balance'
 import { resolveComponent } from 'vue'
 
 const NuxtLink = resolveComponent('NuxtLink')
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     active: boolean
     text: string
+    count?: number
     to?: string
     fullWidth?: boolean
     noShadow?: boolean
     tag?: string
+    showActiveCheck?: boolean
   }>(),
   {
     to: '',
+    showActiveCheck: true,
   }
+)
+
+const icon = computed(() =>
+  props.showActiveCheck && props.active ? 'check' : ''
 )
 </script>
 

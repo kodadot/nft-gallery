@@ -17,6 +17,9 @@ export default defineNuxtConfig({
       productionTip: false,
       runtimeCompiler: true,
     },
+    compilerOptions: {
+      isCustomElement: (tag) => ['model-viewer'].includes(tag),
+    },
   },
 
   server: {
@@ -187,11 +190,12 @@ export default defineNuxtConfig({
         pathPrefix: false,
       },
       {
-        path: '~/components',
+        path: '~/components/common',
         extensions: ['vue'],
+        pathPrefix: false,
       },
       {
-        path: '~/components/common',
+        path: '~/components',
         extensions: ['vue'],
       },
       {

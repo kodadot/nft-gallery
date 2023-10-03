@@ -42,7 +42,7 @@ import formatBalance from '@/utils/format/balance'
 const emit = defineEmits(['setFixedPrice'])
 
 const props = defineProps<{
-  fixedPrice?: number | string
+  fixedPrice?: number
   floorPricePercentAdjustment: number
 }>()
 
@@ -77,7 +77,7 @@ watch(
   () => item.value?.listPrice,
   (value) => {
     if (value) {
-      fixedPrice.value = Number(value)
+      fixedPrice.value = value
     }
   }
 )

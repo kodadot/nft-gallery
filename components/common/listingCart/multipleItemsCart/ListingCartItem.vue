@@ -21,8 +21,7 @@
           </div>
 
           <div class="is-flex is-align-items-end">
-            <ListingCartPriceInput
-              v-model="listingCartStore.getItem(nft.id).listPrice" />
+            <ListingCartPriceInput v-model="listingCartItem" />
           </div>
         </div>
       </template>
@@ -47,4 +46,9 @@ const props = defineProps<{
 const floor = computed(() =>
   formatBalance(props.nft.collection.floor, decimals.value, chainSymbol.value)
 )
+
+const listingCartItem = computed({
+  get: () => listingCartStore.getItem(props.nft.id).listPrice,
+  set: (price) => listingCartStore.setItemPrice({ id: props.nft.id, price }),
+})
 </script>

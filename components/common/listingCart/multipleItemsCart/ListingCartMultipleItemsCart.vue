@@ -37,7 +37,7 @@ const emit = defineEmits(['update:fixedPrice', 'setFixedPrice'])
 const listingCartStore = useListingCartStore()
 
 const props = defineProps<{
-  fixedPrice?: number | string
+  fixedPrice?: number
   floorPricePercentAdjustment: number
 }>()
 
