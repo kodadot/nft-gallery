@@ -88,7 +88,7 @@ const { $i18n } = useNuxtApp()
 const { chainSymbol, decimals } = useChain()
 
 const fixedPrice = ref()
-const floorPricePercentAdjustment = ref(1)
+const floorPricePercentAdjustment = ref()
 
 function setFixedPrice() {
   const price = fixedPrice.value
@@ -173,13 +173,20 @@ async function confirm() {
     })
     listingCartStore.clear()
     preferencesStore.listingCartModalOpen = false
+    resetCartData()
   } catch (error) {
     warningMessage(error)
   }
 }
 
 const onClose = () => {
+  resetCartData()
   preferencesStore.listingCartModalOpen = false
+}
+
+const resetCartData = () => {
+  fixedPrice.value = undefined
+  floorPricePercentAdjustment.value = undefined
 }
 
 watch(

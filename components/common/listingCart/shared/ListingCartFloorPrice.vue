@@ -36,12 +36,20 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import { useListingCartStore } from '@/stores/listingCart'
+import {
+  DEFAULT_FLOOR_PRICE_RATE,
+  useListingCartStore,
+} from '@/stores/listingCart'
 
-const props = defineProps<{
-  modelValue: number
-  showCurrentFloorPrice?: boolean
-}>()
+const props = withDefaults(
+  defineProps<{
+    modelValue: number
+    showCurrentFloorPrice?: boolean
+  }>(),
+  {
+    modelValue: DEFAULT_FLOOR_PRICE_RATE,
+  }
+)
 
 const listingCartStore = useListingCartStore()
 
