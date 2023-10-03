@@ -1,4 +1,4 @@
-query profileTabsCount($id: String!, $interactionIn: [Interaction!], $denyList: [String!]) {
+query profileActivitySummery($id: String!, $interactionIn: [Interaction!], $denyList: [String!]) {
 
   owned: nftEntitiesConnection(
     where: { 
