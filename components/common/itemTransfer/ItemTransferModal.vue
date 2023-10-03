@@ -169,7 +169,7 @@ const transfer = () => {
     interaction: Interaction.SEND,
     urlPrefix: urlPrefix.value,
     address: address.value,
-    tokenId: route.params.id,
+    tokenId: route.params.id.toString(),
     nftId: props.nft.id,
     successMessage: $i18n.t('transaction.item.success') as string,
     errorMessage: $i18n.t('transaction.item.error') as string,
