@@ -163,7 +163,10 @@
                   min="0"
                   icon-right-class="search"
                   data-testid="transfer-input-amount-token"
-                  @focus="onAmountFieldFocus(destinationAddress, 'token')" />
+                  @focus="onAmountFieldFocus(destinationAddress, 'token')"
+                  @update:modelValue="
+                    onAmountFieldChange(destinationAddress)
+                  " />
                 <div class="is-absolute-right has-text-grey">
                   {{ unit }}
                 </div>
