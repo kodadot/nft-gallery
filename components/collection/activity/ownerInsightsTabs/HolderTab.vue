@@ -74,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import ProfileLink from '@/components/rmrk/Profile/ProfileLink.vue'
+import ProfileLink from '@/components/profile/ProfileLink.vue'
 import { Owners } from '@/composables/collectionActivity/types'
 import { NeoIcon } from '@kodadot1/brick'
 
@@ -110,6 +110,7 @@ const displayedHolders = computed(() => holders.value.slice(0, offset.value))
 // {id0: false, id1: true, id3: false, ...}
 const isNFTDetailsOpen = ref(
   holders.value.reduce(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     (isOpen, [holderId, _]) => ({
       ...isOpen,
       [holderId]: false,

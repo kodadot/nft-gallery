@@ -33,7 +33,7 @@
 
 #### Community participation
 
-- [ ] [Are you at KodaDot Discord?](https://discord.gg/35hzy2dXXh)
+- [ ] [Are you at KodaDot Ecosystem Telegram?](https://t.me/kodadot_eco)
 
 ## Screenshot 📸
 

@@ -7,7 +7,7 @@
     </div>
     <div v-else class="balance">
       <div class="balance-row has-text-grey is-size-7">
-        <div class="is-flex-grow-2">{{ $t('general.chain') }}</div>
+        <div class="is-flex-grow-3">{{ $t('general.chain') }}</div>
         <div class="has-text-right is-flex-grow-1">
           {{ $t('general.token') }}
         </div>
@@ -25,30 +25,34 @@
           v-for="token in filterEmptyBalanceChains(chain)"
           :key="token.name"
           class="balance-row">
-          <div class="is-capitalized is-flex-grow-2">{{ key }}</div>
+          <div class="is-capitalized is-flex-grow-3">
+            {{ key }}
+          </div>
           <div class="has-text-right is-flex-grow-1">
             {{ token.name.toUpperCase() }}
           </div>
 
           <div class="has-text-right is-flex-grow-2">
-            {{ token.details?.balance }}
+            {{ formatNumber(token.details?.balance) }}
           </div>
           <div class="has-text-right is-flex-grow-2">
-            ${{ delimiter(token.details?.usd || '0') }}
+            ${{ formatNumber(token.details?.usd || '0') }}
           </div>
         </div>
       </div>
 
       <NeoSkeleton
         v-if="isBalanceLoading"
-        data-cy="skeleton-multiple-balances"
+        data-testid="skeleton-multiple-balances"
         animated />
     </div>
 
     <hr class="my-2" />
     <p class="is-flex is-justify-content-space-between is-align-items-flex-end">
       <span class="is-size-7"> {{ $i18n.t('spotlight.total') }}: </span>
-      <span class="is-size-6">${{ delimiter(identityStore.getTotalUsd) }}</span>
+      <span class="is-size-6"
+        >${{ formatNumber(identityStore.getTotalUsd) }}</span
+      >
     </p>
   </div>
 </template>
@@ -60,20 +64,18 @@ import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 import { CHAINS, ENDPOINT_MAP } from '@kodadot1/static'
 import { NeoSkeleton } from '@kodadot1/brick'
 import { balanceOf } from '@kodadot1/sub-api'
-
-import format from '@/utils/format/balance'
+import format, { formatNumber } from '@/utils/format/balance'
 import { useFiatStore } from '@/stores/fiat'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
 import { getAssetIdByAccount } from '@/utils/api/bsx/query'
 import { toDefaultAddress } from '@/utils/account'
 
 import { ChainToken, useIdentityStore } from '@/stores/identity'
-
 import type { PalletBalancesAccountData } from '@polkadot/types/lookup'
 
 const { accountId } = useAuth()
 const { isTestnet } = usePrefix()
-
+const refetchMultipleBalanceTimer = ref()
 const identityStore = useIdentityStore()
 const {
   multiBalances,
@@ -86,9 +88,9 @@ const networkToPrefix = {
   polkadot: 'dot',
   kusama: 'ksm',
   basilisk: 'bsx',
-  statemine: 'ahk',
+  kusamaHub: 'ahk',
   'basilisk-testnet': 'snek',
-  statemint: 'ahp',
+  polkadotHub: 'ahp',
 }
 
 const isBalanceLoading = computed(
@@ -114,16 +116,6 @@ const isEmptyBalanceOnAllChains = computed(() => {
 const currentNetwork = computed(() =>
   isTestnet.value ? 'test-network' : 'main-network'
 )
-
-function delimiter(amount: string | number) {
-  const formatAmount = typeof amount === 'number' ? amount.toString() : amount
-  const number = parseFloat(formatAmount.replace(/,/g, ''))
-
-  return number.toLocaleString('en-US', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2,
-  })
-}
 
 const fiatStore = useFiatStore()
 function calculateUsd(amount: string, token = 'KSM') {
@@ -174,8 +166,7 @@ async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
     selectedTokenId = await getAssetIdByAccount(api, prefixAddress)
   }
 
-  const balance = delimiter(currentBalance)
-  const usd = calculateUsd(balance, token)
+  const usd = calculateUsd(currentBalance, token)
 
   identityStore.setMultiBalances({
     address: defaultAddress,
@@ -183,7 +174,7 @@ async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
       [chainName]: {
         [token.toLowerCase()]: {
           address: prefixAddress,
-          balance,
+          balance: currentBalance,
           nativeBalance,
           usd,
           selected: selectedTokenId === String(tokenId),
@@ -198,13 +189,8 @@ async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
   await wsProvider.disconnect()
 }
 
-onMounted(async () => {
+const fetchMultipleBalance = async () => {
   await fiatStore.fetchFiatPrice()
-
-  if (currentNetwork.value !== multiBalanceNetwork.value) {
-    identityStore.resetMultipleBalances()
-  }
-
   const assets = isTestnet.value
     ? multiBalanceAssetsTestnet.value
     : multiBalanceAssets.value
@@ -212,6 +198,21 @@ onMounted(async () => {
   assets.forEach((item) => {
     getBalance(item.chain, item.token, Number(item.tokenId))
   })
+}
+
+onMounted(async () => {
+  if (currentNetwork.value !== multiBalanceNetwork.value) {
+    identityStore.resetMultipleBalances()
+  }
+
+  fetchMultipleBalance()
+  refetchMultipleBalanceTimer.value = setInterval(() => {
+    fetchMultipleBalance()
+  }, 30000)
+})
+
+onBeforeUnmount(() => {
+  clearInterval(refetchMultipleBalanceTimer.value)
 })
 </script>
 

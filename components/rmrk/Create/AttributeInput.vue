@@ -21,26 +21,30 @@
   </NeoField>
 </template>
 
-<script lang="ts">
-import { Component, Emit, Prop, PropSync, Vue } from 'nuxt-property-decorator'
+<script setup lang="ts">
 import { NeoButton, NeoField, NeoInput } from '@kodadot1/brick'
+import { useVModel } from '@vueuse/core'
 
-@Component({
-  components: {
-    NeoButton,
-    NeoField,
-    NeoInput,
+const props = defineProps({
+  index: Number,
+  disabled: Boolean,
+  trait_type: {
+    type: String,
+    default: '',
+  },
+  value: {
+    type: [String, Number],
+    default: '',
   },
 })
-export default class AttributeInput extends Vue {
-  @Prop(Number) index!: number
-  @Prop(Boolean) disabled!: boolean
-  @PropSync('trait_type', { type: String }) vKey!: string
-  @PropSync('value', { type: [String, Number] }) vValue!: string | number
 
-  @Emit('remove')
-  protected remove() {
-    return this.index
-  }
+const emit = defineEmits(['remove', 'update:trait_type', 'update:value'])
+
+const vKey = useVModel(props, 'trait_type', emit)
+
+const vValue = useVModel(props, 'value', emit)
+
+const remove = () => {
+  emit('remove', props.index)
 }
 </script>

@@ -2,8 +2,9 @@ import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
 import { preheatFileFromIPFS } from '@/utils/ipfs'
 import { pinJson } from '@/services/nftStorage'
 
-export const UNLOCKABLE_CAMPAIGN = 'sha'
-export const UNLOCKABLE_NAME = 'Shanghai Waifu'
+export const UNLOCKABLE_CAMPAIGN = 'bbw2023'
+export const UNLOCKABLE_NAME = 'Berlin (Blockchain) Waifus'
+
 export const unlockableDesc = (value: number) => `
   This anime waifu is a demonstration of unlockables at [KodaDot](https://kodadot.xyz)
 
@@ -17,10 +18,9 @@ export const unlockableDesc = (value: number) => `
 
 export async function createUnlockableMetadata(
   imageHash: string,
-  description: string
+  description: string,
+  name: string = UNLOCKABLE_NAME
 ) {
-  const name = UNLOCKABLE_NAME
-
   const meta = createMetadata(
     name,
     description,

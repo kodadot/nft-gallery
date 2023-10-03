@@ -11,11 +11,13 @@ export default defineConfig({
       '**/node_modules/**',
       '**/dist/**',
       '**/.{idea,git,cache,output,temp}/**',
+      '**/tests/e2e/**',
     ],
     globals: true,
     environment: 'jsdom',
     alias: [{ find: /^vue$/, replacement: 'vue/dist/vue.runtime.common.js' }],
     coverage: {
+      provider: 'istanbul',
       reporter: ['text', 'json', 'html'],
     },
   },

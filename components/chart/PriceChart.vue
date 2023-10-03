@@ -1,5 +1,5 @@
 <template>
-  <div class="common-price-chart">
+  <div class="common-price-chart" data-testid="gallery-item-chart">
     <span class="chart-y-description is-size-7">
       Price ({{ chainSymbol }})
     </span>
@@ -36,7 +36,7 @@ import zoomPlugin from 'chartjs-plugin-zoom'
 import { getChartData } from '@/utils/chart'
 import { format } from 'date-fns'
 import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
-
+import { useEventListener } from '@vueuse/core'
 ChartJS.register(zoomPlugin)
 const { $i18n } = useNuxtApp()
 const { chainSymbol } = useChain()
@@ -78,13 +78,13 @@ const heightStyle = computed(() =>
 )
 let Chart: ChartJS<'line', any, unknown>
 
-onMounted(() => {
-  window.addEventListener('resize', onWindowResize)
-  getPriceChartData()
-})
+const onWindowResize = () => {
+  Chart?.resize()
+}
+useEventListener(window, 'resize', onWindowResize)
 
-onBeforeUnmount(() => {
-  window.removeEventListener('resize', onWindowResize)
+onMounted(() => {
+  getPriceChartData()
 })
 
 const lineColor = computed(() => {
@@ -295,10 +295,6 @@ watch(
 watch([isDarkMode, selectedTimeRange], () => {
   getPriceChartData()
 })
-
-const onWindowResize = () => {
-  Chart?.resize()
-}
 </script>
 
 <style scoped>

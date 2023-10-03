@@ -10,6 +10,7 @@ query allEventsByProfile($id: String, $search: [EventWhereInput!]) {
     nft {
       id
       name
+      metadata
       collection {
         id
         name

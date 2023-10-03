@@ -19,7 +19,7 @@
           @input="createInput">
           <section class="section">
             <div class="content has-text-centered">
-              <NeoIcon v-if="!file && !url" :icon="icon" size="large" />
+              <NeoIcon v-if="!file && !url" :icon="icon" custom-size="fa-2x" />
               <div v-if="url && !isModelMedia" @click.prevent>
                 <MediaResolver
                   :src="url"
@@ -27,7 +27,7 @@
                   :preview="false"
                   @error="hasError = true" />
               </div>
-              <NeoIcon v-if="hasError" icon="eye-slash" size="large" />
+              <NeoIcon v-if="hasError" icon="eye-slash" custom-size="fa-2x" />
               <p v-if="!file">
                 {{ label }}
               </p>
@@ -53,107 +53,89 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Emit, Prop, Ref, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import MediaResolver from '@/components/media/MediaResolver.vue'
 import { MAX_UPLOADED_FILE_SIZE } from '@/utils/constants'
 import { NeoField, NeoIcon, NeoUpload } from '@kodadot1/brick'
+import { useEventListener } from '@vueuse/core'
 
-@Component({
-  components: {
-    MediaResolver,
-    NeoField,
-    NeoIcon,
-    NeoUpload,
-  },
-})
-export default class DropUpload extends Vue {
-  @Prop({
+const props = defineProps({
+  label: {
+    type: String,
     default:
       'Drop your NFT here or click to upload or simply paste image from clipboard',
-  })
-  public label!: string
-  @Prop({ default: 'upload' }) public icon!: string
-  @Prop({ type: Boolean, default: false }) public required!: boolean
-  @Prop(Boolean) public expanded!: boolean
-  @Prop(Boolean) public preview!: boolean
-  @Prop(String) public accept!: string
-  public file: File | null = null
-  public fileSizeLimit = MAX_UPLOADED_FILE_SIZE
-  public url = ''
-  public hasError = false
-  public checkFailed = false
-  public fileSizeFailed = false
-  public supportedModelMediaFileExtensions = ['glb']
-  @Ref('upload') readonly upload
+  },
+  icon: { type: String, default: 'upload' },
+  required: { type: Boolean, default: false },
+  expanded: { type: Boolean },
+  preview: { type: Boolean },
+  accept: {
+    type: String,
+    default: '',
+  },
+})
 
-  public checkValidity() {
-    this.checkFailed = !this.file
-    return !this.checkFailed
+const emit = defineEmits(['input'])
+
+const file = ref<File | null>(null)
+const fileSizeLimit = ref(MAX_UPLOADED_FILE_SIZE)
+const url = ref('')
+const hasError = ref(false)
+const checkFailed = ref(false)
+const fileSizeFailed = ref(false)
+const upload = ref()
+
+const mimeType = computed(() => {
+  if (file.value?.type) {
+    return file.value.type
   }
-
-  get mimeType() {
-    if (this.file?.type) {
-      return this.file?.type
-    }
-    //workaround for model media in chrome
-    const fileExtension = this.file?.name.split('.').pop() || ''
-    const extensionToMimeType = {
-      glb: 'model/gltf-binary',
-    }
-    if (fileExtension in extensionToMimeType) {
-      return extensionToMimeType[fileExtension]
-    }
-    return ''
+  //workaround for model media in chrome
+  const fileExtension = file.value?.name.split('.').pop() || ''
+  const extensionToMimeType = {
+    glb: 'model/gltf-binary',
   }
-
-  get isModelMedia() {
-    return this.mimeType.startsWith('model')
+  if (fileExtension in extensionToMimeType) {
+    return extensionToMimeType[fileExtension]
   }
+  return ''
+})
 
-  public created() {
-    document.addEventListener('paste', this.onPasteImage)
-  }
+const isModelMedia = computed(() => mimeType.value.startsWith('model'))
 
-  public beforeDestroy() {
-    document.removeEventListener('paste', this.onPasteImage)
-  }
+const checkValidity = () => {
+  checkFailed.value = !file.value
+  return !checkFailed.value
+}
 
-  public onPasteImage(pasteEvent: ClipboardEvent) {
-    /* handling paste logic */
-    const item: DataTransferItem | any = pasteEvent?.clipboardData?.items[0]
-    if (item?.type.indexOf('image') === 0) {
-      const blob = item.getAsFile()
-      this.file = blob
-      this.createInput(blob)
-    }
-  }
-
-  public createInput(file: Blob): void | boolean {
-    const fileSize = file.size / Math.pow(1024, 2)
-    if (fileSize > this.fileSizeLimit) {
-      this.fileSizeFailed = true
-      this.file = null
-      return false
-    }
-    this.fileSizeFailed = false
-    this.checkFailed = false
-    const reader = new FileReader()
-    reader.onload = () => {
-      // this.handleSelection(reader.result)
-      // this.$consola.log(reader.si);
-    }
-    this.$emit('input', file)
-    if (this.preview) {
-      this.url = URL.createObjectURL(file)
-      this.hasError = false
-    }
-    reader.readAsText(file)
-  }
-
-  @Emit('change')
-  public handleSelection(value: string | ArrayBuffer | null) {
-    return value
+const onPasteImage = (pasteEvent: ClipboardEvent) => {
+  /* handling paste logic */
+  const item: DataTransferItem | any = pasteEvent?.clipboardData?.items[0]
+  if (item?.type.indexOf('image') === 0) {
+    const blob = item.getAsFile()
+    file.value = blob
+    createInput(blob)
   }
 }
+
+const createInput = (inputFile: Blob): void | boolean => {
+  const fileSize = inputFile.size / Math.pow(1024, 2)
+  if (fileSize > fileSizeLimit.value) {
+    fileSizeFailed.value = true
+    file.value = null
+    return false
+  }
+  fileSizeFailed.value = false
+  checkFailed.value = false
+  const reader = new FileReader()
+  emit('input', inputFile)
+  if (props.preview) {
+    url.value = URL.createObjectURL(inputFile)
+    hasError.value = false
+  }
+  reader.readAsText(inputFile)
+}
+
+useEventListener(window, 'paste', onPasteImage)
+
+defineExpose({ checkValidity })
 </script>

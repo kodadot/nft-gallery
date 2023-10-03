@@ -21,30 +21,32 @@
   </NeoField>
 </template>
 
-<script lang="ts">
-import { Component, Prop, VModel, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import { NeoField, NeoInput } from '@kodadot1/brick'
 
-@Component({
-  components: {
-    NeoField,
-    NeoInput,
-  },
-})
-export default class BasicNumberInput extends Vue {
-  // Dev: make vValue required
-  @VModel({ type: Number }) vValue!: number
-  @Prop({ type: String, required: true }) label!: string
-  @Prop({ type: String, required: false }) placeholder!: string
-  @Prop({ type: Boolean, default: false }) expanded!: boolean
-  @Prop({ type: String }) message!: string
-  @Prop({ type: Number, required: false }) max!: number
-  @Prop({ type: Number, required: false, default: 1 }) min!: number
-  @Prop({ type: Number, required: false, default: 1 }) step!: number
-  @Prop({ type: Number, required: false }) minStep!: number
+const props = withDefaults(
+  defineProps<{
+    value: number | string
+    label: string
+    placeholder?: string
+    expanded?: boolean
+    message?: string
+    max?: number
+    min?: number
+    step?: number
+    minStep?: number
+  }>(),
+  {
+    expanded: false,
+    min: 1,
+    step: 1,
+  }
+)
+const emit = defineEmits(['input'])
 
-  public hasFocus = false
-}
+const vValue = useVModel(props, 'value', emit, { eventName: 'input' })
+
+const hasFocus = ref(false)
 </script>
 
 <style scoped>

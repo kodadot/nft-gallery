@@ -45,162 +45,128 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Emit, Prop, mixins } from 'nuxt-property-decorator'
-import { Debounce } from 'vue-debounce-decorator'
+<script setup lang="ts">
 import { exist } from '@/utils/exist'
-import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
 import { usePreferencesStore } from '@/stores/preferences'
 import { NeoField, NeoInput } from '@kodadot1/brick'
+import Sort from './SearchSortDropdown.vue'
+import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
+import { useDebounceFn } from '@vueuse/core'
 
-@Component({
-  components: {
-    Sort: () => import('./SearchSortDropdown.vue'),
-    BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
-    NeoField,
-    NeoInput,
-  },
+const props = defineProps({
+  search: { type: String, default: '' },
+  type: { type: String, default: '' },
+  sortBy: { type: String, default: 'blockNumber_DESC' },
+  listed: { type: Boolean, default: false },
+  owned: { type: Boolean, default: false },
+  disableToggle: Boolean,
+  hideSearch: Boolean,
+  isMoonRiver: Boolean,
+  showOwnerSwitch: Boolean,
+  sortOption: Array as () => string[] | undefined,
 })
-export default class SearchCollection extends mixins(KeyboardEventsMixin) {
-  @Prop(String) public search!: string
-  @Prop(String) public type!: string
-  @Prop({ type: String, default: 'blockNumber_DESC' }) public sortBy!: string
-  @Prop({ type: Boolean, default: false }) public listed!: boolean
-  @Prop({ type: Boolean, default: false }) public owned!: boolean
-  @Prop(Boolean) public disableToggle!: boolean
-  @Prop(Boolean) public hideSearch!: boolean
-  @Prop(Boolean) public isMoonRiver!: boolean
-  @Prop(Boolean) public showOwnerSwitch!: boolean
-  @Prop(Array) public sortOption?: string[]
-  protected isVisible = false
-  private preferencesStore = usePreferencesStore()
 
-  public mounted(): void {
-    exist(this.$route.query.search, this.updateSearch)
-    exist(this.$route.query.type, this.updateType)
-    exist(this.$route.query.sort, this.updateSortBy)
-    exist(this.$route.query.listed, this.updateListed)
-    exist(this.$route.query.owned, this.updateOwned)
-  }
+const emit = defineEmits([
+  'update:listed',
+  'update:owned',
+  'update:type',
+  'update:sortBy',
+  'update:search',
+])
 
-  public created() {
-    this.initKeyboardEventHandler({
-      f: this.bindFilterEvents,
-    })
-  }
+const preferencesStore = usePreferencesStore()
+const { replaceUrl } = useReplaceUrl()
 
-  private bindFilterEvents(event) {
-    switch (event.key) {
-      case 'b':
-        this.updateListed(!this.vListed)
-        break
-      case 'n':
-        this.updateSortBy(this.sortOption?.[0] || '')
-        break
-      case 'o':
-        this.updateSortBy(this.sortOption?.[1] || '')
-        break
-      case 'a':
-        this.updateSortBy(this.sortOption?.[2] || '')
-        break
-      case 'e':
-        this.updateSortBy(this.sortOption?.[3] || '')
-        break
-    }
-  }
+const route = useRoute()
 
-  get vListed(): boolean {
-    return this.listed
-  }
+onMounted(() => {
+  exist(route.query.search, updateSearch)
+  exist(route.query.type, updateType)
+  exist(route.query.sortBy, updateSortBy)
+  exist(route.query.listed, updateListed)
+  exist(route.query.owned, updateOwned)
 
-  set vListed(listed: boolean) {
-    this.updateListed(listed)
-  }
+  useKeyboardEvents({
+    f: bindFilterEvents,
+  })
+})
 
-  get vOwned(): boolean {
-    return this.owned
-  }
-
-  set vOwned(owned: boolean) {
-    this.updateOwned(owned)
-  }
-
-  get searchQuery(): string {
-    return this.search
-  }
-
-  set searchQuery(value: string) {
-    this.updateSearch(value)
-  }
-
-  get typeQuery(): string {
-    return this.type
-  }
-
-  set typeQuery(value: string) {
-    this.updateType(value)
-  }
-
-  get replaceBuyNowWithYolo(): boolean {
-    return this.preferencesStore.getReplaceBuyNowWithYolo
-  }
-
-  @Emit('update:listed')
-  @Debounce(50)
-  updateListed(value: string | boolean): boolean {
-    const queryValue = String(value) === 'true'
-    this.replaceUrl(queryValue, 'listed')
-    return queryValue
-  }
-
-  @Emit('update:owned')
-  @Debounce(50)
-  updateOwned(value: string | boolean): boolean {
-    const queryValue = value ? String(value) : ''
-    this.replaceUrl(queryValue, 'owned')
-    return Boolean(queryValue)
-  }
-
-  @Emit('update:type')
-  @Debounce(50)
-  updateType(value: string): string {
-    this.replaceUrl(value, 'type')
-    return value
-  }
-
-  @Emit('update:sortBy')
-  @Debounce(400)
-  updateSortBy(value: string): string {
-    const listed = Boolean(value?.toLowerCase().indexOf('price') > -1)
-    if (listed && !this.vListed) {
-      this.vListed = true
-    }
-
-    this.replaceUrl(value, 'sort')
-    return value
-  }
-
-  @Emit('update:search')
-  @Debounce(400)
-  updateSearch(value: string): string {
-    value !== this.searchQuery && this.replaceUrl(value)
-    return value
-  }
-
-  @Debounce(100)
-  replaceUrl(value: boolean | string, key = 'search'): void {
-    this.$router
-      .replace({
-        path: String(this.$route.path),
-        query: {
-          ...this.$route.query,
-          search: this.searchQuery || undefined,
-          [key]: value ? String(value) : undefined,
-        },
-      })
-      .catch(this.$consola.warn /*Navigation Duplicate err fix later */)
+const bindFilterEvents = (event: KeyboardEvent) => {
+  switch (event.key) {
+    case 'b':
+      updateListed(!vListed.value)
+      break
+    case 'n':
+      updateSortBy(props.sortOption?.[0] || '')
+      break
+    case 'o':
+      updateSortBy(props.sortOption?.[1] || '')
+      break
+    case 'a':
+      updateSortBy(props.sortOption?.[2] || '')
+      break
+    case 'e':
+      updateSortBy(props.sortOption?.[3] || '')
+      break
   }
 }
+
+const vListed = computed({
+  get: () => props.listed,
+  set: (value: boolean) => {
+    updateListed(value)
+  },
+})
+
+const vOwned = computed({
+  get: () => props.owned,
+  set: (value: boolean) => {
+    updateOwned(value)
+  },
+})
+
+const searchQuery = computed({
+  get: (): string => props.search,
+  set: (value: string) => {
+    updateSearch(value)
+  },
+})
+
+const replaceBuyNowWithYolo = preferencesStore.getReplaceBuyNowWithYolo
+
+const updateListed = useDebounceFn((value: string | boolean) => {
+  const queryValue = String(value) === 'true'
+  replaceUrl({ listed: queryValue })
+  emit('update:listed', queryValue)
+}, 50)
+
+const updateOwned = useDebounceFn((value: string | boolean) => {
+  const queryValue = value ? String(value) : ''
+  replaceUrl({ owned: queryValue })
+  emit('update:owned', Boolean(queryValue))
+}, 50)
+
+const updateType = useDebounceFn((value: string) => {
+  replaceUrl({ type: value })
+  emit('update:type', value)
+}, 50)
+
+const updateSortBy = useDebounceFn((value: string) => {
+  const listed = Boolean(value?.toLowerCase().indexOf('price') > -1)
+  if (listed && !vListed.value) {
+    vListed.value = true
+  }
+
+  replaceUrl({ sort: value })
+  emit('update:sortBy', value)
+}, 400)
+
+const updateSearch = useDebounceFn((value: string) => {
+  if (value !== searchQuery.value) {
+    replaceUrl({ search: value })
+    emit('update:search', value)
+  }
+}, 400)
 </script>
 
 <style scoped lang="scss">

@@ -1,5 +1,5 @@
 <template>
-  <div class="teleport-tabs field has-addons is-flex" data-cy="tabs">
+  <div class="teleport-tabs field has-addons is-flex" data-testid="tabs">
     <p class="control">
       <NeoButton
         v-for="tab in tabs"
@@ -41,16 +41,6 @@ const emit = defineEmits(['select'])
 .teleport-tabs {
   .teleport-tabs-button {
     width: 15rem;
-    @include ktheme() {
-      color: theme('text-color');
-
-      &:hover {
-        color: $black;
-      }
-      &.active {
-        color: theme('text-color-inverse');
-      }
-    }
   }
 
   @include mobile {

@@ -8,5 +8,18 @@ export default {
   components: {
     MyOffer: () => import('@/components/bsx/Offer/MyOffer.vue'),
   },
+  head() {
+    const title = 'Incoming Offers'
+    const metaData = {
+      title,
+      description:
+        'See all the offers you have received for your NFTs on KodaDot',
+      url: '/snek/incomingOffers',
+    }
+    return {
+      title,
+      meta: [...this.$seoMeta(metaData)],
+    }
+  },
 }
 </script>

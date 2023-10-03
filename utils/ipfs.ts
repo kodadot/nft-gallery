@@ -119,9 +119,11 @@ export const fetchMetadata = async <T>(
       return emptyObject<T>()
     }
 
-    const { status, data } = await api.get(sanitizer(rmrk.metadata))
+    const { status, _data } = await api.raw(sanitizer(rmrk.metadata), {
+      responseType: 'json',
+    })
     if (status < 400) {
-      return data as T
+      return _data as T
     }
   } catch (e) {
     console.warn('IPFS Err', e)
@@ -143,9 +145,13 @@ export const fetchCollectionMetadata = (
 export const preheatFileFromIPFS = (ipfsUrl: string) => {
   const url = sanitizeIpfsUrl(ipfsUrl, 'image')
   const hash = fastExtract(url)
-  api
-    .get(url)
-    .then(() => consola.log(`[PREHEAT] ${hash}`))
+  api(url)
+    .then(async () => {
+      consola.log(`[PREHEAT] ${hash}`)
+
+      // preheat to r2/cfi
+      await $fetch(hash)
+    })
     .catch((err) => consola.warn(`[PREHEAT] ${hash} ${err.message}`))
 }
 
@@ -182,4 +188,10 @@ export type EntityWithMeta = {
 export function toCloudflareIpfsUrl(baseurl) {
   const url = new URL(baseurl)
   return `https://cloudflare-ipfs.com/${url.pathname}`
+}
+
+export function toOriginalContentUrl(baseurl: string) {
+  const url = new URL(baseurl)
+  url.searchParams.append('original', 'true')
+  return url.toString()
 }

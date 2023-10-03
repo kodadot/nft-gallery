@@ -4,9 +4,9 @@
       <p class="label">
         {{ $t('Chart') }}
       </p>
-      <NeoButton variant="primary" no-shadow @click.native="resetZoom"
-        >Reset zoom</NeoButton
-      >
+      <NeoButton variant="primary" no-shadow @click.native="emit('resetZoom')">
+        Reset zoom
+      </NeoButton>
     </div>
     <div class="chart-container mt-5">
       <LineChart
@@ -18,10 +18,7 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Watch, mixins } from 'nuxt-property-decorator'
-import ChainMixin from '@/utils/mixins/chainMixin'
-
+<script lang="ts" setup>
 const baseLineOptions = {
   tension: 0.3,
   pointBackgroundColor: 'white',
@@ -41,136 +38,128 @@ import {
 
 // types
 import type { ChartDataset } from 'chart.js'
+import LineChart from '@/components/shared/chart/LineChart.vue'
 
-@Component({
-  components: {
-    LineChart: () => import('@/components/shared/chart/LineChart.vue'),
-  },
+const props = defineProps<{
+  priceData: [ChartData[], ChartData[]] // [listings, buys]
+}>()
+const emit = defineEmits(['resetZoom'])
+
+const { unit } = useChain()
+
+const labels = ref<Date[]>([])
+const datasets = ref<ChartDataset[]>([])
+const options = ref({})
+
+onMounted(() => {
+  priceChart()
 })
-export default class PriceChart extends mixins(ChainMixin) {
-  @Prop({ type: Array, required: true }) public priceData!: [
-    ChartData[],
-    ChartData[]
-  ] // [listings, buys]
 
-  protected labels: Date[] = []
-  protected datasets: ChartDataset[] = []
-  protected options = {}
+watch(
+  () => props.priceData,
+  () => priceChart
+)
 
-  protected resetZoom() {
-    this.$emit('resetZoom')
-  }
+const priceChart = () => {
+  if (props.priceData[0]?.length || props.priceData[1]?.length) {
+    const median = getCollectionMedian(props.priceData[1])
+    const labelsListing = props.priceData[0].map(getLabel)
+    const labelsBuy = props.priceData[1].map(getLabel)
 
-  protected async mounted() {
-    this.priceChart()
-  }
+    labels.value = [...new Set([...labelsListing, ...labelsBuy])]
+    datasets.value = [
+      {
+        label: 'Floor Price',
+        data: getCollectionChartData(props.priceData[0]) as any,
+        borderColor: '#d32e79',
+        ...baseLineOptions,
+      },
+      {
+        label: 'Sold NFT Price',
+        data: getCollectionChartData(props.priceData[1]),
+        borderColor: '#00BB7F',
+        ...baseLineOptions,
+      },
+    ]
 
-  protected priceChart() {
-    if (this.priceData[0]?.length || this.priceData[1]?.length) {
-      const median = getCollectionMedian(this.priceData[1])
-      const labelsListing = this.priceData[0].map(getLabel)
-      const labelsBuy = this.priceData[1].map(getLabel)
+    if (props.priceData[1][0]?.average) {
+      datasets.value.push({
+        label: 'Trailing Average',
+        data: getMovingAverage(
+          getCollectionChartData(props.priceData[1], mapToAverage)
+        ),
+        borderColor: 'yellow',
+        ...baseLineOptions,
+      })
+    }
 
-      this.labels = [...new Set([...labelsListing, ...labelsBuy])]
-      this.datasets = [
-        {
-          label: 'Floor Price',
-          data: getCollectionChartData(this.priceData[0]) as any,
-          borderColor: '#d32e79',
-          ...baseLineOptions,
-        },
-        {
-          label: 'Sold NFT Price',
-          data: getCollectionChartData(this.priceData[1]),
-          borderColor: '#00BB7F',
-          ...baseLineOptions,
-        },
-      ]
-
-      if (this.priceData[1][0]?.average) {
-        this.datasets.push({
-          label: 'Trailing Average',
-          data: getMovingAverage(
-            getCollectionChartData(this.priceData[1], mapToAverage)
-          ),
-          borderColor: 'yellow',
-          ...baseLineOptions,
-        })
-      }
-
-      this.options = {
-        maintainAspectRatio: false,
-        plugins: {
-          tooltip: {
-            callbacks: {
-              afterLabel: ({ dataIndex, dataset }) => {
-                return `Count: ${dataset.data[dataIndex]?.count || 0}`
-              },
+    options.value = {
+      maintainAspectRatio: false,
+      plugins: {
+        tooltip: {
+          callbacks: {
+            afterLabel: ({ dataIndex, dataset }) => {
+              return `Count: ${dataset.data[dataIndex]?.count || 0}`
             },
           },
-          annotation: {
-            annotations: {
-              median: {
-                type: 'line',
-                yMin: median,
-                yMax: median,
-                borderColor: '#00BB7F',
-                borderWidth: 2,
-                borderDash: [10, 5],
-              },
+        },
+        annotation: {
+          annotations: {
+            median: {
+              type: 'line',
+              yMin: median,
+              yMax: median,
+              borderColor: '#00BB7F',
+              borderWidth: 2,
+              borderDash: [10, 5],
             },
+          },
+        },
+        zoom: {
+          pan: {
+            enabled: false,
           },
           zoom: {
-            pan: {
-              enabled: false,
+            drag: {
+              enabled: true,
+              backgroundColor: '',
             },
-            zoom: {
-              drag: {
-                enabled: true,
-                backgroundColor: '',
-              },
-              pinch: {
-                enabled: true,
-              },
-              mode: 'xy',
-              onZoomComplete({ chart }) {
-                chart.update('none')
-              },
+            pinch: {
+              enabled: true,
+            },
+            mode: 'xy',
+            onZoomComplete({ chart }) {
+              chart.update('none')
             },
           },
         },
-        scales: {
-          x: {
-            type: 'time',
-            time: {
-              unit: 'day',
-            },
-            ticks: {
-              maxRotation: 0,
-              minRotation: 0,
-              color: '#fff',
-            },
+      },
+      scales: {
+        x: {
+          type: 'time',
+          time: {
+            unit: 'day',
           },
-          y: {
-            ticks: {
-              callback: (value) => {
-                return `${Number(value).toFixed(2)} ${this.unit}`
-              },
-              maxTicksLimit: 7,
-              color: '#fff',
-            },
-            grid: {
-              color: '#3a3a3a',
-            },
+          ticks: {
+            maxRotation: 0,
+            minRotation: 0,
+            color: '#fff',
           },
         },
-      }
+        y: {
+          ticks: {
+            callback: (value) => {
+              return `${Number(value).toFixed(2)} ${unit.value}`
+            },
+            maxTicksLimit: 7,
+            color: '#fff',
+          },
+          grid: {
+            color: '#3a3a3a',
+          },
+        },
+      },
     }
-  }
-
-  @Watch('priceData')
-  watchData() {
-    this.priceChart()
   }
 }
 </script>

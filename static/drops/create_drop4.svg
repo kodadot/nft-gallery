@@ -1,0 +1,60 @@
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="66"
+        height="76"
+        viewBox="0 0 66 76"
+        fill="none"
+        >
+        <rect
+          x="17.2878"
+          y="0.750779"
+          width="49.2441"
+          height="63.8953"
+          transform="rotate(15 17.2878 0.750779)"
+          fill="#F6F5F5"
+          stroke="black"
+          stroke-width="0.406976" />
+        <rect
+          x="17.4316"
+          y="1"
+          width="48.8372"
+          height="48.8372"
+          transform="rotate(15 17.4316 1)"
+          fill="#A6B7F4" />
+        <rect
+          opacity="0.54"
+          x="7.19922"
+          y="51.7675"
+          width="17.093"
+          height="4.47674"
+          transform="rotate(15 7.19922 51.7675)"
+          fill="#A6B7F4" />
+        <rect
+          opacity="0.54"
+          x="5.61914"
+          y="57.6641"
+          width="17.093"
+          height="2.03488"
+          transform="rotate(15 5.61914 57.6641)"
+          fill="#A6B7F4" />
+        <g style="mix-blend-mode: overlay">
+          <rect
+            x="23.3904"
+            y="16.5006"
+            width="13.0232"
+            height="13.0232"
+            rx="6.51162"
+            transform="rotate(15 23.3904 16.5006)"
+            fill="black" />
+        </g>
+        <g style="mix-blend-mode: overlay">
+          <rect
+            x="28.5212"
+            y="22.5101"
+            width="22.3837"
+            height="22.3837"
+            rx="11.1919"
+            transform="rotate(15 28.5212 22.5101)"
+            fill="black" />
+        </g>
+      </svg>

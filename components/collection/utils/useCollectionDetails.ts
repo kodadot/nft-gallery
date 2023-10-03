@@ -46,12 +46,15 @@ export const useCollectionDetails = ({ collectionId }) => {
         return highestOffer
       })
 
+      const listedNfts = data.value.stats.listed
+
       stats.value = {
-        listedCount: data.value.stats.listed.length,
+        listedCount: listedNfts.length,
         collectionLength: data.value.stats.base.length,
-        collectionFloorPrice: Math.min(
-          ...data.value.stats.listed.map((item) => parseInt(item.price))
-        ),
+        collectionFloorPrice:
+          listedNfts.length > 0
+            ? Math.min(...listedNfts.map((item) => parseInt(item.price)))
+            : undefined,
         uniqueOwners: uniqueOwnerCount,
         bestOffer: maxOffer.value,
         uniqueOwnersPercent: `${(

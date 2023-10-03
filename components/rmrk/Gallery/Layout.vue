@@ -8,7 +8,7 @@
           class="collection-radio-btn"
           native-value="is-half-desktop is-half-tablet"
           :disabled="disabled"
-          data-cy="large-display">
+          data-testid="large-display">
           <span>
             <NeoIcon icon="th-large" />
           </span>
@@ -21,7 +21,7 @@
           class="collection-radio-btn"
           native-value="is-one-quarter-desktop is-one-third-tablet"
           :disabled="disabled"
-          data-cy="small-display">
+          data-testid="small-display">
           <span>
             <NeoIcon icon="th" />
           </span>

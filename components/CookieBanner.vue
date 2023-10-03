@@ -14,12 +14,16 @@
           </div>
           <div class="bar ml-4 mr-4" />
           <div class="action is-success">
-            <a @click="declineCookies">
+            <NeoButton variant="text" no-shadow @click.native="declineCookies">
               {{ $t('cookies.decline') }}
-            </a>
-            <a class="has-text-weight-bold ml-3" @click="acceptCookies">
+            </NeoButton>
+            <NeoButton
+              variant="text"
+              no-shadow
+              class="has-text-weight-bold ml-3"
+              @click.native="acceptCookies">
               {{ $t('cookies.accept') }}
-            </a>
+            </NeoButton>
           </div>
         </div>
       </div>
@@ -28,6 +32,7 @@
 </template>
 
 <script lang="ts" setup>
+import { NeoButton } from '@kodadot1/brick'
 // import { useState } from 'vue-gtag-next'
 
 // const { isEnabled } = useState()
@@ -50,6 +55,7 @@ const declineCookies = () => {
 <style lang="scss">
 .cookie-banner {
   .snackbar {
+    align-self: flex-start;
     height: 2.188rem;
     max-width: 720px;
 

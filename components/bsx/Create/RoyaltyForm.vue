@@ -20,37 +20,37 @@
   </div>
 </template>
 
-<script lang="ts">
-import {
-  Component,
-  Emit,
-  PropSync,
-  Watch,
-  mixins,
-} from 'nuxt-property-decorator'
-import AuthMixin from '~/utils/mixins/authMixin'
+<script setup lang="ts">
+import { useVModel } from '@vueuse/core'
+import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
+import BasicNumberInput from '@/components/shared/form/BasicNumberInput.vue'
 
-const components = {
-  BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
-  BasicNumberInput: () =>
-    import('@/components/shared/form/BasicNumberInput.vue'),
-}
+const { accountId } = useAuth()
 
-@Component({ components })
-export default class RoyaltyForm extends mixins(AuthMixin) {
-  @PropSync('amount', { type: Number, required: true }) vRoyalty!: number
-  @PropSync('address', { type: String, required: true }) vAddress!: string
-  protected isMine = true
-  protected destinationAddress = ''
+const props = defineProps({
+  amount: {
+    type: [Number, String],
+    required: true,
+  },
+  address: {
+    type: String,
+    required: true,
+  },
+})
 
-  @Watch('isMine', { immediate: true })
-  protected onIsMineChange(value: boolean) {
-    this.handleAddressUpdate(value ? this.accountId : this.destinationAddress)
-  }
+const emit = defineEmits(['update:amount', 'update:address'])
 
-  @Emit('update:address')
-  protected handleAddressUpdate(value: string) {
-    return value
-  }
+const vRoyalty = useVModel(props, 'amount', emit)
+const vAddress = useVModel(props, 'address', emit)
+
+const isMine = ref(true)
+const destinationAddress = ref('')
+
+watch(isMine, (value: boolean) => {
+  handleAddressUpdate(value ? accountId.value : destinationAddress.value)
+})
+
+function handleAddressUpdate(value: string) {
+  vAddress.value = value
 }
 </script>

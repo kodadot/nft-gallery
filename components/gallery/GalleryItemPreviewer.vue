@@ -50,7 +50,8 @@ const isFullscreen = useVModel(props, 'value', emit)
 
 .gallery-item-modal {
   position: fixed;
-  :deep &-content {
+
+  :deep(&-content) {
     height: calc(100% - $navbar-desktop-min-height + 1px) !important;
     margin-top: calc($navbar-desktop-min-height - 1px) !important;
     border: none !important;
@@ -60,16 +61,7 @@ const isFullscreen = useVModel(props, 'value', emit)
       margin-top: calc($navbar-mobile-min-height - 1px) !important;
     }
   }
-  :deep {
-    figure,
-    img {
-      height: 100%;
-      width: 100%;
-    }
-    img {
-      object-fit: contain;
-    }
-  }
+
   .back-button {
     position: absolute;
     left: 0.75rem;
@@ -92,5 +84,16 @@ const isFullscreen = useVModel(props, 'value', emit)
       border: none;
     }
   }
+}
+
+.gallery-item-media :deep(figure) {
+  height: 100%;
+  width: 100%;
+}
+
+.gallery-item-media :deep(img) {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
 }
 </style>

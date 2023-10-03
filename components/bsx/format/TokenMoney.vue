@@ -20,7 +20,7 @@ const props = withDefaults(
     tokenId: string
     inline: boolean
     hideUnit?: boolean
-    round: number
+    round?: number
   }>(),
   {
     value: '0',

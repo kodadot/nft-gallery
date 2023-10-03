@@ -3,11 +3,11 @@
     class="explore is-flex is-flex-wrap-wrap"
     :class="{ 'has-gap': !isActivityTab }">
     <ExploreTabs />
-    <div class="explore-menu is-flex">
+    <div class="explore-menu is-flex is-flex-wrap-wrap">
       <FilterFloatButton v-if="isActivityTab" />
       <FilterMenuButton v-else />
       <ExploreOffer v-if="!isActivityTab" class="is-flex-grow-1" />
-      <ExploreChain
+      <ChainDropdown
         v-if="!route.name?.includes('prefix-collection-id')"
         class="flex-grow-1" />
       <ExploreSort v-if="!isActivityTab" />
@@ -18,10 +18,10 @@
 <script setup lang="ts">
 import ExploreTabs from './ExploreTabs.vue'
 import ExploreSort from './ExploreSort.vue'
-import ExploreChain from './ExploreChain.vue'
 import ExploreOffer from './ExploreOffer.vue'
 import FilterMenuButton from './FilterMenuButton.vue'
 import FilterFloatButton from '@/components/collection/activity/FilterFloatButton.vue'
+import ChainDropdown from '@/components/common/ChainDropdown.vue'
 
 const route = useRoute()
 

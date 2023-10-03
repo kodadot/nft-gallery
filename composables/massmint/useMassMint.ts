@@ -66,11 +66,17 @@ export const useCollectionForMint = () => {
 
     // collections.value = collectionEntities
 
-    collections.value = collectionEntities.map((collection) => ({
-      ...collection,
-      lastIndexUsed: Number(collection.nfts?.at(0)?.index || 0),
-      alreadyMinted: collection.nfts?.length,
-    }))
+    collections.value = collectionEntities
+      .map((collection) => ({
+        ...collection,
+        lastIndexUsed: Number(collection.nfts?.at(0)?.index || 0),
+        alreadyMinted: collection.nfts?.length,
+        totalCount: collection.nfts?.filter((nft) => !nft.burned).length,
+      }))
+      .filter(
+        (collection) =>
+          (collection.max || Infinity) - collection.alreadyMinted > 0
+      )
   }
 
   const doFetchWithErrorHandling = () =>
@@ -105,6 +111,7 @@ export const useMassMint = (
     useTransaction()
   const collectionUpdated = ref(false)
   const { urlPrefix } = usePrefix()
+  const { isRemark } = useIsChain(urlPrefix)
 
   const tokens = createTokensToMint(nfts, collection)
 
@@ -123,26 +130,17 @@ export const useMassMint = (
   const willItList = tokens.some(
     (token) => token.price && Number(token.price) > 0
   )
-  const isBsx = computed(
-    () => urlPrefix.value === 'bsx' || urlPrefix.value === 'snek'
-  )
 
-  if (willItList) {
-    if (isBsx.value) {
-      simpleMint()
-    } else {
-      // kusama
-      const mintAndListResults = kusamaMintAndList(tokens)
-      watchEffect(() => {
-        collectionUpdated.value = mintAndListResults.collectionUpdated.value
-        isLoading.value = mintAndListResults.isLoading.value
-        status.value = mintAndListResults.status.value
-        blockNumber.value = mintAndListResults.blockNumber.value
-        isError.value = mintAndListResults.isError.value
-      })
-    }
+  if (willItList && isRemark.value) {
+    const mintAndListResults = kusamaMintAndList(tokens)
+    watchEffect(() => {
+      collectionUpdated.value = mintAndListResults.collectionUpdated.value
+      isLoading.value = mintAndListResults.isLoading.value
+      status.value = mintAndListResults.status.value
+      blockNumber.value = mintAndListResults.blockNumber.value
+      isError.value = mintAndListResults.isError.value
+    })
   } else {
-    //nothing to list, just mint
     simpleMint()
   }
   return {

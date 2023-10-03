@@ -6,7 +6,7 @@ export default {
   props: {
     iconPack: {
       type: String,
-      default: 'fas',
+      default: 'fasr',
     },
   },
   computed: {

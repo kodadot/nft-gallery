@@ -37,108 +37,111 @@
   </div>
 </template>
 
-<script lang="ts">
-import {
-  Component,
-  Emit,
-  Prop,
-  Ref,
-  Watch,
-  mixins,
-} from 'nuxt-property-decorator'
+<script setup lang="ts">
 import { units as defaultUnits } from '@/params/constants'
 import { Unit } from '@/params/types'
-import { Debounce } from 'vue-debounce-decorator'
-import ChainMixin from '@/utils/mixins/chainMixin'
+import { useDebounceFn } from '@vueuse/core'
 import { NeoField, NeoInput, NeoSelect } from '@kodadot1/brick'
 
-@Component({
-  components: {
-    NeoField,
-    NeoInput,
-    NeoSelect,
+const props = defineProps({
+  value: {
+    type: Number,
+    default: 0,
+  },
+  label: {
+    type: String,
+    default: 'amount',
+  },
+  calculate: {
+    type: Boolean,
+    default: true,
+  },
+  expanded: Boolean,
+  step: {
+    type: Number,
+    default: 0.001,
+  },
+  min: {
+    type: Number,
+    default: 0,
+  },
+  max: {
+    type: Number,
+    default: Number.MAX_SAFE_INTEGER,
+  },
+  required: {
+    type: Boolean,
+    default: false,
+  },
+  hasToLargerThanZero: {
+    type: Boolean,
+    default: false,
   },
 })
-export default class BalanceInput extends mixins(ChainMixin) {
-  @Prop({ type: Number, default: 0 }) value!: number
-  @Prop({ default: 'amount' }) public label!: string
-  @Prop({ default: true }) public calculate!: boolean
-  @Prop(Boolean) public expanded!: boolean
-  @Prop({ default: 0.001 }) public step!: number
-  @Prop(Number) public min!: number
-  @Prop({ type: Number, default: Number.MAX_SAFE_INTEGER }) public max!: number
-  @Prop({ type: Boolean, default: false }) public required!: boolean
-  @Prop({ type: Boolean, default: false }) public hasToLargerThanZero!: boolean
-  protected checkZeroFailed = false
-  protected units: Unit[] = defaultUnits
-  private selectedUnit = 1
-  private internalValue = this.value || 0
 
-  get minWithUnit(): number {
-    return this.min / this.selectedUnit
+const emits = defineEmits(['input'])
+const selectedUnit = ref(1)
+const internalValue = ref(props.value || 0)
+const checkZeroFailed = ref(false)
+const { decimals, unit: chainUnit } = useChain()
+
+const mapper = (unit: Unit) => {
+  if (unit.name === '-') {
+    return { ...unit, name: chainUnit.value }
   }
-
-  get maxWithUnit(): number {
-    return this.max / this.selectedUnit
-  }
-
-  @Watch('value') onValueChange(newValue) {
-    this.internalValue = newValue
-  }
-
-  @Ref('balance') readonly balance
-
-  get inputValue(): number {
-    return this.internalValue
-  }
-
-  set inputValue(value: number) {
-    this.handleInput(value)
-  }
-
-  public focusInput(): void {
-    this.balance?.focus()
-  }
-
-  formatSelectedValue(value: number): string {
-    return value ? String(value * 10 ** this.decimals * this.selectedUnit) : '0'
-  }
-
-  protected mapper(unit: Unit) {
-    if (unit.name === '-') {
-      return { ...unit, name: this.unit }
-    }
-    return unit
-  }
-
-  public mounted() {
-    this.units = defaultUnits.map(this.mapper)
-    this.internalValue = this.value
-  }
-
-  @Debounce(200)
-  @Emit('input')
-  public handleInput(value: number) {
-    this.internalValue = value
-    const valueInBaseUnit = this.internalValue * this.selectedUnit
-    return this.calculate
-      ? this.formatSelectedValue(valueInBaseUnit)
-      : valueInBaseUnit
-  }
-
-  handleUnitChange(unit) {
-    const valueInBaseUnit = this.internalValue * this.selectedUnit
-    this.internalValue = valueInBaseUnit ? valueInBaseUnit / unit : 0
-    this.selectedUnit = unit
-    this.balance.focus()
-  }
-
-  public checkValidity() {
-    const valueEqualZero = this.inputValue.toString() === '0'
-    this.checkZeroFailed =
-      this.hasToLargerThanZero && valueEqualZero ? true : false
-    const balanceInputValid = this.balance.checkHtml5Validity()
-    return balanceInputValid && !this.checkZeroFailed
-  }
+  return unit
 }
+
+const units = ref<Unit[]>(defaultUnits.map(mapper))
+
+const minWithUnit = computed(() => props.min / selectedUnit.value)
+const maxWithUnit = computed(() => props.max / selectedUnit.value)
+
+watch(
+  () => props.value,
+  (newValue) => {
+    internalValue.value = newValue
+  }
+)
+
+const balance = ref(null)
+const inputValue = computed({
+  get: () => internalValue.value,
+  set: (value) => {
+    handleInput(value)
+  },
+})
+
+const formatSelectedValue = (value: number): string => {
+  return value ? String(value * 10 ** decimals.value * selectedUnit.value) : '0'
+}
+
+const handleInput = useDebounceFn((value: number) => {
+  internalValue.value = value
+  const valueInBaseUnit = internalValue.value * selectedUnit.value
+  const formattedValue = props.calculate
+    ? formatSelectedValue(valueInBaseUnit)
+    : valueInBaseUnit
+
+  emits('input', formattedValue)
+  return formattedValue
+}, 200)
+
+const handleUnitChange = (unit: number) => {
+  const valueInBaseUnit = internalValue.value * selectedUnit.value
+  internalValue.value = valueInBaseUnit ? valueInBaseUnit / unit : 0
+  selectedUnit.value = unit
+  balance.value?.focus()
+}
+
+const checkValidity = () => {
+  const valueEqualZero = inputValue.value.toString() === '0'
+  checkZeroFailed.value = props.hasToLargerThanZero && valueEqualZero
+  const balanceInputValid = balance.value?.checkHtml5Validity() ?? false
+  return balanceInputValid && !checkZeroFailed.value
+}
+
+defineExpose({
+  checkValidity,
+})
 </script>

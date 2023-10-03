@@ -1,15 +1,16 @@
-import Axios from 'axios'
+import { $fetch } from 'ofetch'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { logError } from '@/utils/mappers'
+import { getMimeType } from '@/utils/gallery/media'
 
 export const BASE_URL = 'https://ipfs.io/'
 
-const api = Axios.create({
+const api = $fetch.create({
   baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: false,
+  credentials: 'omit',
 })
 
 export const fetchMimeType = async (
@@ -22,8 +23,7 @@ export const fetchMimeType = async (
   const assetUrl = sanitizeIpfsUrl(ipfsLink, 'image')
 
   try {
-    const { headers } = await api.head(assetUrl)
-    return headers['content-type']
+    return await getMimeType(assetUrl)
   } catch (e: any) {
     logError(e, (msg) => {
       console.warn(
@@ -33,5 +33,7 @@ export const fetchMimeType = async (
     return undefined
   }
 }
+
+export const delay = (ms) => new Promise((res) => setTimeout(res, ms))
 
 export default api

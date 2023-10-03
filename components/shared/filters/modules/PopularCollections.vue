@@ -46,7 +46,7 @@
               <div
                 class="is-flex is-justify-content-space-between is-size-7 has-text-grey">
                 <div>{{ $t('search.owners') }}: {{ collection.owners }}</div>
-                <div>{{ getChainName(collection.chain) }}</div>
+                <div class="is-capitalized">{{ collection.chain }}</div>
               </div>
             </div>
           </div>
@@ -77,13 +77,9 @@ const exploreFiltersStore = useExploreFiltersStore()
 const route = useRoute()
 const router = useRouter()
 const { replaceUrl: replaceURL } = useReplaceUrl()
-const { availableChains } = useChain()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { collections } = usePopularCollections(urlPrefix.value)
 
-const getChainName = (chain: string): string => {
-  return availableChains.value.find((item) => item.value === chain)?.text || ''
-}
 const isCutArray = computed(() => collections.value.map(() => ref(false)))
 
 const assignRefAndUpdateArray = (el, index) => {
@@ -176,7 +172,7 @@ watch(
 .min-width-0 {
   min-width: 0;
 }
-:deep .neo-checkbox > span {
+:deep(.neo-checkbox > span) {
   max-width: calc(100% - 1rem);
   .o-tip__trigger {
     max-width: 100%;

@@ -1,5 +1,5 @@
 <template>
-  <div data-cy="item-section-buy">
+  <div data-testid="item-section-buy">
     <GalleryItemPriceSection v-if="nft.price" title="Price" :price="nft.price">
       <div v-if="Number(nft.price)" class="is-flex desktop-full-w">
         <div class="is-flex buy-button-width">
@@ -7,8 +7,9 @@
             :active="disabled"
             class="w-full"
             content-class="buy-tooltip"
+            :auto-close="isMobileDevice ? true : ['outside']"
             :position="isMobileDevice ? 'top' : 'left'"
-            :auto-close="!isMobileDevice ? ['outside', 'escape'] : []"
+            :triggers="[isMobileDevice ? 'click' : 'hover']"
             multiline>
             <template #content>
               <div class="is-size-6">
@@ -25,7 +26,7 @@
 
                   {{ $t('or') }}
 
-                  <a @click="showRampSDK"> {{ $t('addFunds') }}</a>
+                  <a @click="addFunds"> {{ $t('addFunds') }}</a>
                 </div>
               </div>
             </template>
@@ -35,14 +36,14 @@
               class="button-height w-full"
               variant="k-accent"
               :disabled="disabled"
-              data-cy="item-buy"
+              data-testid="item-buy"
               @click.native="onClick" />
           </NeoTooltip>
         </div>
 
         <NeoButton
           class="button-height no-border-left"
-          data-cy="item-add-to-cart"
+          data-testid="item-add-to-cart"
           @click.native="onClickShoppingCart">
           <img :src="cartIcon" class="image is-32x32" />
         </NeoButton>
@@ -50,6 +51,8 @@
 
       <div v-else>{{ $t('nft.notListed') }}</div>
     </GalleryItemPriceSection>
+
+    <OnRampModal v-model="showRampModal" @close="showRampModal = false" />
   </div>
 </template>
 
@@ -57,11 +60,10 @@
 import { NeoButton, NeoTooltip } from '@kodadot1/brick'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
-import { openConnectWalletModal } from '@/components/common/ConnectWallet/useConnectWallet'
 import { useIdentityStore } from '@/stores/identity'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'
-
+import OnRampModal from '@/components/shared/OnRampModal.vue'
 import { openShoppingCart } from '@/components/common/shoppingCart/ShoppingCartModalConfig'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { nftToShoppingCardItem } from '@/components/common/shoppingCart/utils'
@@ -84,6 +86,7 @@ const instance = getCurrentInstance()
 const { doAfterLogin } = useDoAfterlogin(instance)
 const identityStore = useIdentityStore()
 const connected = computed(() => Boolean(accountId.value))
+const showRampModal = ref(false)
 
 enum BuyStatus {
   BUY,
@@ -103,11 +106,8 @@ const label = computed(() => {
   )
 })
 
-const showRampSDK = () => {
-  initRampInstant({
-    defaultAsset: 'KSM',
-    address: accountId.value,
-  })
+const addFunds = () => {
+  showRampModal.value = true
 }
 
 const balance = computed<string>(() => {
@@ -163,7 +163,7 @@ const onClickShoppingCart = () => {
 <style lang="scss" scoped>
 @import '@/styles/abstracts/variables';
 
-:deep .button-height {
+:deep(.button-height) {
   height: 55px !important;
 }
 
@@ -178,10 +178,6 @@ const onClickShoppingCart = () => {
   .wrapper {
     width: 100%;
   }
-}
-
-.no-border-left {
-  border-left: none !important;
 }
 
 .desktop-full-w {

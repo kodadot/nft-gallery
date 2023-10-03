@@ -1,6 +1,6 @@
 <template>
   <o-icon
-    :pack="pack || 'fas'"
+    :pack="pack || 'fasr'"
     :icon="icon"
     :size="size || 'default'"
     :custom-size="customSize"

@@ -47,9 +47,8 @@
 <script setup lang="ts">
 import HeroButtons from '@/components/collection/unlockable/UnlockableHeroButtons.vue'
 import { NeoButton } from '@kodadot1/brick'
-import { unlockableDesc } from './utils'
 
-defineProps<{ collectionId: string }>()
+const props = defineProps<{ collectionId: string; description?: string }>()
 
 const seeAllDescription = ref(false)
 const DESCRIPTION_MAX_LENGTH = 210
@@ -57,16 +56,18 @@ const { urlPrefix } = usePrefix()
 const toggleSeeAllDescription = () => {
   seeAllDescription.value = !seeAllDescription.value
 }
-const source = unlockableDesc(40)
+const source = computed(() => {
+  return props.description
+})
 const hasSeeAllDescriptionOption = computed(() => {
-  return (source.length || 0) > DESCRIPTION_MAX_LENGTH
+  return (source.value?.length || 0) > DESCRIPTION_MAX_LENGTH
 })
 
 const visibleDescription = computed(() => {
   return (
     (!hasSeeAllDescriptionOption.value || seeAllDescription.value
-      ? source
-      : source.slice(0, DESCRIPTION_MAX_LENGTH)
+      ? source.value
+      : source.value?.slice(0, DESCRIPTION_MAX_LENGTH)
     )?.replaceAll('\n', '  \n') || ''
   )
 })

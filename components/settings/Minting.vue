@@ -9,7 +9,7 @@
         :label="$i18n.t('support.tooltip')"
         position="bottom"
         multiline>
-        <NeoIcon icon="info-circle" pack="fas" />
+        <NeoIcon icon="info-circle" />
       </NeoTooltip>
     </div>
     <div class="py-2 is-flex">
@@ -22,7 +22,7 @@
         :label="$i18n.t('carbonOffset.tooltip')"
         position="bottom"
         multiline>
-        <NeoIcon icon="info-circle" pack="fas" />
+        <NeoIcon icon="info-circle" />
       </NeoTooltip>
     </div>
   </div>

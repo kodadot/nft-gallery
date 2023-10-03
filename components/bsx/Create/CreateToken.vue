@@ -1,6 +1,9 @@
 <template>
   <div>
-    <Loader v-model="isLoading" :status="status" :can-cancel="false" />
+    <Loader
+      v-model="isTransactionLoading"
+      :status="transactionStatus"
+      can-cancel />
     <BaseTokenForm
       ref="baseTokenForm"
       :show-explainer-text="showExplainerText"
@@ -37,7 +40,7 @@
       <template #footer>
         <NeoField key="advanced">
           <CollapseWrapper
-            v-if="base.edition > 1"
+            v-if="base.copies > 1"
             visible="mint.expert.show"
             hidden="mint.expert.hide"
             class="mt-3">
@@ -66,7 +69,7 @@
           <SubmitButton
             expanded
             label="mint.submit"
-            :loading="isLoading"
+            :loading="isTransactionLoading"
             @click="submit()" />
         </NeoField>
       </template>
@@ -74,15 +77,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import ChainMixin from '@/utils/mixins/chainMixin'
+<script lang="ts" setup>
 import { notificationTypes, showNotification } from '@/utils/notification'
 import shouldUpdate from '@/utils/shouldUpdate'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { Attribute } from '@kodadot1/minimark/common'
-
 import { onApiConnect } from '@kodadot1/sub-api'
-import { Component, Prop, Ref, Watch, mixins } from 'nuxt-property-decorator'
 import { BaseTokenType } from '@/components/base/types'
 import {
   getInstanceDeposit,
@@ -90,234 +90,241 @@ import {
 } from '@/components/unique/apiConstants'
 import { createTokenId } from '@/components/unique/utils'
 import { DETAIL_TIMEOUT } from '@/utils/constants'
-import AuthMixin from '@/utils/mixins/authMixin'
-import MetaTransactionMixin from '@/utils/mixins/metaMixin'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '@/utils/uniquery'
 import { Royalty } from '@/utils/royalty'
 import { fetchCollectionMetadata } from '@/utils/ipfs'
-import ApiUrlMixin from '@/utils/mixins/apiUrlMixin'
-import { usePreferencesStore } from '@/stores/preferences'
+import { CollectionMetadata } from '@/components/rmrk/types'
 import { Token, getBalance, getDeposit, getFeesToken } from './utils'
 import { MintedCollection } from '@/composables/transaction/types'
 import { NeoField } from '@kodadot1/brick'
+import type TokenBalanceInputComponent from '@/components/bsx/input/TokenBalanceInput.vue'
+import type BaseTokenFormComponent from '@/components/base/BaseTokenForm.vue'
 
-const components = {
-  CustomAttributeInput: () =>
-    import('@/components/rmrk/Create/CustomAttributeInput.vue'),
-  CollapseWrapper: () =>
-    import('@/components/shared/collapse/CollapseWrapper.vue'),
-  Loader: () => import('@/components/shared/Loader.vue'),
-  BalanceInput: () => import('@/components/shared/BalanceInput.vue'),
-  BaseTokenForm: () => import('@/components/base/BaseTokenForm.vue'),
-  BasicSwitch: () => import('@/components/shared/form/BasicSwitch.vue'),
-  RoyaltyForm: () => import('@/components/bsx/Create/RoyaltyForm.vue'),
-  Money: () => import('@/components/bsx/format/TokenMoney.vue'),
-  SubmitButton: () => import('@/components/base/SubmitButton.vue'),
-  AccountBalance: () => import('@/components/shared/AccountBalance.vue'),
-  MultiPaymentFeeButton: () =>
-    import('@/components/bsx/specific/MultiPaymentFeeButton.vue'),
-  TokenBalanceInput: () =>
-    import('@/components/bsx/input/TokenBalanceInput.vue'),
-  NeoField,
-}
+const { $i18n, $apollo, $consola, $router } = useNuxtApp()
 
-@Component({ components })
-export default class CreateToken extends mixins(
-  MetaTransactionMixin,
-  ChainMixin,
-  PrefixMixin,
-  AuthMixin,
-  ApiUrlMixin
-) {
-  @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
-  private preferencesStore = usePreferencesStore()
+const CustomAttributeInput = () =>
+  import('@/components/rmrk/Create/CustomAttributeInput.vue')
+const CollapseWrapper = () =>
+  import('@/components/shared/collapse/CollapseWrapper.vue')
+const Loader = () => import('@/components/shared/Loader.vue')
+const BasicSwitch = () => import('@/components/shared/form/BasicSwitch.vue')
+const RoyaltyForm = () => import('@/components/bsx/Create/RoyaltyForm.vue')
+const Money = () => import('@/components/bsx/format/TokenMoney.vue')
+const SubmitButton = () => import('@/components/base/SubmitButton.vue')
+const AccountBalance = () => import('@/components/shared/AccountBalance.vue')
+const MultiPaymentFeeButton = () =>
+  import('@/components/bsx/specific/MultiPaymentFeeButton.vue')
+const TokenBalanceInput = () =>
+  import('@/components/bsx/input/TokenBalanceInput.vue')
 
-  public base: BaseTokenType = {
-    name: '',
-    file: null,
-    description: '',
-    selectedCollection: null,
-    edition: 1,
-    secondFile: null,
+withDefaults(
+  defineProps<{
+    showExplainerText?: boolean
+  }>(),
+  {
+    showExplainerText: false,
   }
-  public collections: MintedCollection[] = []
-  public postfix = true
-  public deposit = '0'
-  public attributes: Attribute[] = []
-  public nsfw = false
-  public price = '0'
-  public listed = false
-  public hasRoyalty = true
-  public feesToken: Token = 'BSX'
-  public royalty: Royalty = {
-    amount: 0.15,
-    address: '',
+)
+
+const { apiUrl } = useApi()
+const { urlPrefix, tokenId } = usePrefix()
+const { accountId } = useAuth()
+const {
+  status: transactionStatus,
+  isLoading: isTransactionLoading,
+  stopLoader: stopTransactionLoader,
+} = useTransactionStatus()
+
+onApiConnect(apiUrl.value, (api) => {
+  const instanceDeposit = getInstanceDeposit(api)
+  const metadataDeposit = getMetadataDeposit(api)
+  deposit.value = (instanceDeposit + metadataDeposit).toString()
+})
+
+const base = ref<BaseTokenType>({
+  name: '',
+  file: null,
+  description: '',
+  selectedCollection: null,
+  copies: 1,
+  secondFile: null,
+})
+const collections = ref<MintedCollection[]>([])
+const postfix = ref(true)
+const deposit = ref('0')
+const attributes = ref<Attribute[]>([])
+const nsfw = ref(false)
+const price = ref('0')
+const listed = ref(false)
+const hasRoyalty = ref(true)
+const feesToken = ref<Token>('BSX')
+const royalty = ref<Royalty>({
+  amount: 0.15,
+  address: accountId.value,
+})
+const balanceNotEnough = ref(false)
+
+const balanceInput = ref<typeof TokenBalanceInputComponent | null>(null)
+const baseTokenForm = ref<typeof BaseTokenFormComponent | null>(null)
+
+watch(price, (value) => {
+  price.value = value
+  balanceInput.value?.checkValidity()
+})
+
+const balanceOfToken = computed(() => getBalance(feesToken.value))
+const depositOfToken = computed(() =>
+  getDeposit(feesToken.value, parseFloat(deposit.value))
+)
+const balanceNotEnoughMessage = computed(() => {
+  if (balanceNotEnough.value) {
+    return $i18n.t('tooltip.notEnoughBalance')
   }
-  protected metadata = ''
-  protected balanceNotEnough = false
-  @Ref('balanceInput') readonly balanceInput
-  @Ref('baseTokenForm') readonly baseTokenForm
+  return ''
+})
 
-  @Watch('price')
-  protected updatePrice(value: string) {
-    this.price = value
-    this.balanceInput.checkValidity()
-  }
+const loadCollectionMeta = async () => {
+  const metadata = collections.value.map(({ metadata }) => metadata)
 
-  get balanceOfToken() {
-    return getBalance(this.feesToken)
-  }
-  get depositOfToken() {
-    return getDeposit(this.feesToken, parseFloat(this.deposit))
-  }
-
-  get balanceNotEnoughMessage() {
-    if (this.balanceNotEnough) {
-      return this.$t('tooltip.notEnoughBalance')
-    }
-    return ''
-  }
-
-  public async created() {
-    onApiConnect(this.apiUrl, (api) => {
-      const instanceDeposit = getInstanceDeposit(api)
-      const metadataDeposit = getMetadataDeposit(api)
-      this.deposit = (instanceDeposit + metadataDeposit).toString()
-    })
-  }
-
-  @Watch('accountId', { immediate: true })
-  async hasAccount(value: string, oldVal: string) {
-    if (shouldUpdate(value, oldVal)) {
-      this.fetchCollections()
-      this.feesToken = await getFeesToken()
-    }
-  }
-
-  public async fetchCollections() {
-    const query = await resolveQueryPath(this.urlPrefix, 'collectionForMint')
-    const collections = await this.$apollo.query({
-      query: query.default,
-      client: this.urlPrefix,
-      variables: {
-        account: this.accountId,
-      },
-      fetchPolicy: 'network-only',
-    })
-
-    const {
-      data: { collectionEntities },
-    } = collections
-
-    this.collections = unwrapSafe(collectionEntities)?.map((ce: any) => ({
-      ...ce,
-      alreadyMinted: ce.nfts?.length,
-      lastIndexUsed: Number(ce.nfts?.at(0)?.index || 0),
-      totalCount: ce.nfts?.filter((nft) => !nft.burned).length,
-    }))
-
-    this.loadCollectionMeta()
-  }
-
-  protected async loadCollectionMeta() {
-    const metadata = this.collections.map(({ metadata }) => metadata)
-
-    metadata.forEach(async (m, i) => {
-      try {
-        const meta = await fetchCollectionMetadata(this.collections[i])
-        this.$set(this.collections, i, {
-          ...this.collections[i],
-          ...meta,
-        })
-      } catch (e) {
-        this.$consola.warn('[ERR] unable to get metadata')
-      }
-    })
-  }
-
-  public checkValidity() {
-    const balanceInputValid = !this.listed || this.balanceInput?.checkValidity()
-    const baseTokenFormValid = this.baseTokenForm?.checkValidity()
-    return balanceInputValid && baseTokenFormValid
-  }
-
-  public async submit(retryCount = 0): Promise<void> {
-    if (!this.base.selectedCollection) {
-      throw ReferenceError('[MINT] Unable to mint without collection')
-    }
-    // check fields
-    if (!this.checkValidity()) {
-      return
-    }
-    // check balance
-    if (!!this.deposit && this.balanceOfToken < this.depositOfToken) {
-      this.balanceNotEnough = true
-      return
-    }
-    this.isLoading = true
-    this.status = 'loader.ipfs'
-    const {
-      alreadyMinted,
-      id: collectionId,
-      lastIndexUsed,
-    } = this.base.selectedCollection
-    const nextId = Math.max(lastIndexUsed + 1, alreadyMinted + 1)
-
-    const { transaction, status, isLoading, blockNumber } = useTransaction()
-    watch([isLoading, status], () => {
-      this.isLoading = isLoading.value
-      if (Boolean(status.value)) {
-        this.status = status.value
-      }
-    })
-    watch(blockNumber, (block) => {
-      if (block) {
-        this.navigateToDetail(collectionId, String(nextId))
-      }
-    })
-
+  metadata.forEach(async (m, i) => {
     try {
-      transaction({
-        interaction: Interaction.MINTNFT,
-        urlPrefix: usePrefix().urlPrefix.value,
-        token: {
-          ...this.base,
-          nsfw: this.nsfw,
-          price: this.price,
-          postfix: this.postfix,
-          tags: this.attributes,
-          royalty: this.royalty,
-          hasRoyalty: this.hasRoyalty,
-        },
+      const meta = await fetchCollectionMetadata(collections[i])
+      Object.keys(meta).forEach((key) => {
+        collections.value[i][key] = meta[key]
       })
     } catch (e) {
-      if (e instanceof Error) {
-        this.stopLoader()
+      $consola.warn('[ERR] unable to get metadata')
+    }
+  })
+}
 
-        if (retryCount < 3) {
-          // retry
-          showNotification('Retrying to complete minting process.')
-          this.submit(retryCount + 1)
-        } else {
-          // finally fail
-          showNotification(e.toString(), notificationTypes.warn)
-        }
+const fetchCollections = async () => {
+  const query = await resolveQueryPath(urlPrefix.value, 'collectionForMint')
+  const newCollections = await $apollo.query({
+    query: query.default,
+    client: urlPrefix.value,
+    variables: {
+      account: accountId.value,
+    },
+    fetchPolicy: 'network-only',
+  })
+
+  const {
+    data: { collectionEntities },
+  } = newCollections
+
+  const initialMeta: Partial<CollectionMetadata> = {
+    description: undefined,
+    attributes: undefined,
+    image: undefined,
+    image_data: undefined,
+    external_url: undefined,
+  }
+
+  collections.value = unwrapSafe(collectionEntities)?.map((ce: any) => ({
+    ...initialMeta, // set initial meta to get reactivity
+    ...ce,
+    alreadyMinted: ce.nfts?.length,
+    lastIndexUsed: Number(ce.nfts?.at(0)?.index || 0),
+    totalCount: ce.nfts?.filter((nft) => !nft.burned).length,
+  }))
+
+  loadCollectionMeta()
+}
+
+const checkValidity = () => {
+  const balanceInputValid = !listed.value || balanceInput.value?.checkValidity()
+  const baseTokenFormValid = baseTokenForm.value?.checkValidity()
+  return balanceInputValid && baseTokenFormValid
+}
+
+const navigateToDetail = (collection: string, id: string): void => {
+  showNotification(
+    `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
+  )
+  const go = () =>
+    $router.push({
+      path: `/${urlPrefix.value}/gallery/${createTokenId(collection, id)}`,
+      query: { congratsNft: base.value.name },
+    })
+  setTimeout(go, DETAIL_TIMEOUT)
+}
+
+const submit = async (retryCount = 0): Promise<void> => {
+  if (!base.value.selectedCollection) {
+    throw ReferenceError('[MINT] Unable to mint without collection')
+  }
+  // check fields
+  if (!checkValidity()) {
+    return
+  }
+  // check balance
+  if (!!deposit.value && balanceOfToken.value < depositOfToken.value) {
+    balanceNotEnough.value = true
+    return
+  }
+
+  isTransactionLoading.value = true
+  transactionStatus.value = 'loader.ipfs'
+  const {
+    alreadyMinted,
+    id: collectionId,
+    lastIndexUsed,
+  } = base.value.selectedCollection
+  const nextId = Math.max(lastIndexUsed + 1, alreadyMinted + 1)
+
+  const { transaction, status, isLoading, blockNumber } = useTransaction()
+  watch([isLoading, status], () => {
+    isTransactionLoading.value = isLoading.value
+    if (Boolean(status.value)) {
+      transactionStatus.value = status.value
+    }
+  })
+  watch(blockNumber, (block) => {
+    if (block) {
+      navigateToDetail(collectionId, String(nextId))
+    }
+  })
+
+  try {
+    transaction({
+      interaction: Interaction.MINTNFT,
+      urlPrefix: usePrefix().urlPrefix.value,
+      token: {
+        ...base.value,
+        nsfw: nsfw.value,
+        price: price.value,
+        postfix: postfix.value,
+        tags: attributes.value,
+        royalty: royalty.value,
+        hasRoyalty: hasRoyalty.value,
+      },
+    })
+  } catch (e) {
+    if (e instanceof Error) {
+      stopTransactionLoader()
+
+      if (retryCount < 3) {
+        // retry
+        showNotification('Retrying to complete minting process.')
+        submit(retryCount + 1)
+      } else {
+        // finally fail
+        showNotification(e.toString(), notificationTypes.warn)
       }
     }
   }
-
-  protected navigateToDetail(collection: string, id: string): void {
-    showNotification(
-      `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
-    )
-    const go = () =>
-      this.$router.push({
-        path: `/${this.urlPrefix}/gallery/${createTokenId(collection, id)}`,
-        query: { congratsNft: this.base.name },
-      })
-    setTimeout(go, DETAIL_TIMEOUT)
-  }
 }
+
+watch(
+  accountId,
+  async (value, oldVal) => {
+    if (shouldUpdate(value, oldVal)) {
+      await fetchCollections()
+      feesToken.value = await getFeesToken()
+    }
+  },
+  { immediate: true }
+)
 </script>

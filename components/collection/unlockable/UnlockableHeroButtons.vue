@@ -8,7 +8,7 @@
             <NeoButton
               icon="share-alt"
               class="square-32 mr-3"
-              data-cy="share-button"
+              data-testid="share-button"
               :active="active" />
           </template>
 
@@ -37,7 +37,7 @@
     <NeoModal v-model="QRModalActive" @close="QRModalActive = false">
       <div class="card">
         <div class="card-content">
-          <QRCode :text="currentUrl" color="#db2980" bg-color="#000" />
+          <QRCode :text="currentUrl" />
         </div>
       </div>
     </NeoModal>
@@ -52,7 +52,7 @@ import {
   NeoModal,
 } from '@kodadot1/brick'
 
-const { $i18n, $buefy } = useNuxtApp()
+const { $i18n } = useNuxtApp()
 const currentUrl = computed(() => window.location.href)
 
 const QRModalActive = ref(false)
@@ -60,12 +60,7 @@ const QRModalActive = ref(false)
 const hashtags = 'KusamaNetwork,KodaDot'
 const sharingLabel = $i18n.t('sharing.collection')
 
-const toast = (message: string) => {
-  $buefy.toast.open({
-    message,
-    type: 'is-neo',
-  })
-}
+const { toast } = useToast()
 </script>
 
 <style lang="scss" scoped>

@@ -37,6 +37,7 @@
                   :src="resource.src"
                   :mime-type="resource.mimeType"
                   :animation-src="resource.animation"
+                  :audio-player-cover="galleryItem.nftImage.value"
                   is-detail />
               </NeoCarouselItem>
             </NeoCarousel>
@@ -45,10 +46,6 @@
             v-else
             :key="nftImage"
             ref="mediaItemRef"
-            :class="{
-              'is-flex is-align-items-center is-justify-content-center h-audio':
-                resolveMedia(nftMimeType) == MediaType.AUDIO,
-            }"
             class="gallery-item-media"
             :src="nftImage"
             :animation-src="nftAnimation"
@@ -56,7 +53,8 @@
             :title="nftMetadata?.name"
             is-detail
             :is-lewd="galleryDescriptionRef?.isLewd"
-            :placeholder="placeholder" />
+            :placeholder="placeholder"
+            :audio-player-cover="nftImage" />
         </div>
       </div>
 
@@ -67,11 +65,11 @@
           <div class="pb-4">
             <div class="is-flex is-justify-content-space-between">
               <div class="name-container">
-                <h1 class="title" data-cy="item-title">
+                <h1 class="title" data-testid="item-title">
                   {{ nftMetadata?.name }}
                   <span v-if="nft?.burned" class="has-text-danger">「🔥」</span>
                 </h1>
-                <h2 class="subtitle" data-cy="item-collection">
+                <h2 class="subtitle" data-testid="item-collection">
                   <CollectionDetailsPopover
                     v-if="nft?.collection.id"
                     :nft="nft">
@@ -98,14 +96,14 @@
                 :label="$t('Creator')"
                 :prefix="urlPrefix"
                 :account="nft?.issuer"
-                data-cy="item-creator" />
+                data-testid="item-creator" />
               <IdentityItem
                 v-if="nft?.currentOwner !== nft?.issuer"
                 class="gallery-avatar"
                 :label="$t('Owner')"
                 :prefix="urlPrefix"
                 :account="nft?.currentOwner || ''"
-                data-cy="item-owner" />
+                data-testid="item-owner" />
             </div>
           </div>
 
@@ -148,7 +146,7 @@
       v-if="nft?.collection.id"
       class="mt-8"
       :collection-id="nft?.collection.id"
-      data-cy="carousel-related" />
+      data-testid="carousel-related" />
 
     <CarouselTypeVisited class="mt-8" />
 
@@ -176,7 +174,7 @@ import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
 import GalleryItemPreviewer from './GalleryItemPreviewer.vue'
 import { convertMarkdownToText } from '@/utils/markdown'
 import { exist } from '@/utils/exist'
-import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import { generateNftImage } from '@/utils/seoImageGenerator'
 import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
 import { MediaType } from '@/components/rmrk/types'
@@ -234,9 +232,11 @@ const hasAnimatedResources = computed(
     nftResources.value[1].animation
 )
 
-const previewItemSrc = computed(
-  () => (hasResources.value && activeCarouselImage.value) || nftImage.value
-)
+const previewItemSrc = computed(() => {
+  const baseUrl =
+    (hasResources.value && activeCarouselImage.value) || nftImage.value
+  return baseUrl ? toOriginalContentUrl(baseUrl) : baseUrl
+})
 
 const onNFTBought = () => {
   activeTab.value = tabs.activity
@@ -365,18 +365,18 @@ $break-point-width: 930px;
 }
 
 .gallery-item-carousel {
-  :deep .o-car {
-    &__item {
+  :deep(.o-car) {
+    .o-car__item {
       overflow: hidden;
     }
 
-    &__overlay {
+    .o-car__overlay {
       @include ktheme() {
         background: theme('background-color');
       }
     }
 
-    &__indicator {
+    .o-car__indicator {
       &__item {
         @include ktheme() {
           background: theme('background-color-inverse');

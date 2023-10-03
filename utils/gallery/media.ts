@@ -1,4 +1,4 @@
-import { $fetch } from 'ohmyfetch'
+import { $fetch } from 'ofetch'
 
 import { MediaType } from '~/components/rmrk/types'
 
@@ -15,8 +15,8 @@ export function isImageVisible(type: MediaType) {
 }
 
 export async function getMimeType(mediaUrl: string) {
-  const { type } = await $fetch(mediaUrl, { method: 'HEAD' })
-  return type
+  const { headers } = await $fetch.raw(mediaUrl, { method: 'HEAD' })
+  return headers.get('content-type') || ''
 }
 
 export async function processMedia(mediaUrl: string) {
@@ -28,6 +28,8 @@ export async function processMedia(mediaUrl: string) {
     imageVisible: isImageVisible(type),
   }
 }
+
+export const isAudio = (mimeType: string): boolean => /^audio/.test(mimeType)
 
 export function resolveMedia(mimeType?: string): MediaType {
   if (!mimeType) {
@@ -43,7 +45,7 @@ export function resolveMedia(mimeType?: string): MediaType {
   }
 
   if (/^text\/html/.test(mimeType)) {
-    return MediaType.IFRAME
+    return MediaType.IMAGE
   }
 
   if (/^image\/svg\+xml/.test(mimeType)) {
@@ -54,7 +56,7 @@ export function resolveMedia(mimeType?: string): MediaType {
     return MediaType.OBJECT
   }
 
-  if (/^audio/.test(mimeType)) {
+  if (isAudio(mimeType)) {
     return MediaType.AUDIO
   }
 

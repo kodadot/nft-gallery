@@ -95,26 +95,20 @@ export const useHistoryStore = defineStore('history', {
   actions: {
     addHistoryItem(payload) {
       this.currentlyViewedItem = payload
-      const { id, title, image, collection, date, prefix } = payload
-      const historyItem = { id, title, image, collection, date, prefix }
+      const { id } = payload
+      const existingIndex = this.visitedNFTs.findIndex((item) => item.id === id)
 
-      if (typeof historyItem === 'string') {
-        this.visitedNFTs = this.visitedNFTs.filter(
-          (item) => item.id !== historyItem
-        )
-      } else {
-        // check if nft was visited before -> in that case delete it from history first
-        if (this.visitedNFTs.find((item) => item.id === historyItem.id)) {
-          this.visitedNFTs = this.visitedNFTs.filter(
-            (item) => item.id !== historyItem.id
-          )
-        }
-        // save a maximum of 30 items
-        if (this.visitedNFTs.length > 30) {
-          this.visitedNFTs.pop()
-        }
-        this.visitedNFTs.unshift(historyItem)
+      // check if nft was visited before -> in that case delete it from history first
+      if (existingIndex !== -1) {
+        this.visitedNFTs.splice(existingIndex, 1)
       }
+
+      // save a maximum of 30 items
+      if (this.visitedNFTs.length > 30) {
+        this.visitedNFTs.pop()
+      }
+
+      this.visitedNFTs.unshift(payload)
 
       storage.value = { history: { visitedNFTs: this.visitedNFTs } }
     },

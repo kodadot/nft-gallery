@@ -35,22 +35,24 @@
           ? 'is-justify-content-space-between'
           : 'is-justify-content-end',
       ]">
-      <CommonTokenMoney
+      <Money
         v-if="showPrice"
-        :custom-token-id="getTokenId(item.chain)"
-        :value="item.price" />
+        :value="item.price"
+        inline
+        :prefix="item.chain"
+        :unit-symbol="unitSymbol" />
       <p class="is-size-7 chain-name">{{ chainName }}</p>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
+import Money from '@/components/shared/format/Money.vue'
 import type { CarouselNFT } from '@/components/base/types'
-import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
 import { useCarouselUrl } from '../utils/useCarousel'
 import { NAMES } from '@/libs/static/src/names'
+import { prefixToToken } from '@/components/common/shoppingCart/utils'
 
 const CollectionDetailsPopover = defineAsyncComponent(
   () =>
@@ -71,7 +73,6 @@ const chainName = computed(() => {
 const showPrice = computed((): boolean => {
   return Number(props.item.price) > 0 && !isCollection
 })
-const getTokenId = (chain?: string) => {
-  return chain && getKusamaAssetId(chain)
-}
+
+const unitSymbol = computed(() => prefixToToken[props.item.chain || 'ksm'])
 </script>

@@ -1,11 +1,12 @@
 <template>
   <div class="gallery-activity-events-wrapper is-flex is-flex-direction-column">
-    <div class="events p-5 is-flex is-flex-direction-column">
+    <div class="events py-5 px-6 is-flex is-flex-direction-column">
       <div
         class="events-filter is-flex is-flex-wrap-wrap"
-        data-cy="events-filter">
+        data-testid="events-filter">
         <a
           class="is-capitalized is-flex is-align-items-center"
+          data-testid="gallery-item-activity-filter-all"
           @click="checkAll">
           {{ $t('tabs.tabActivity.all') }}
         </a>
@@ -14,7 +15,7 @@
           v-for="(value, name) in filters"
           :key="name"
           class="is-clickable is-capitalized events-checkbox-container"
-          :data-cy="name"
+          :data-testid="name"
           :class="cssActive(value)">
           <input
             :id="name"

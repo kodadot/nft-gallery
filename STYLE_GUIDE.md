@@ -17,6 +17,7 @@ With a few exceptions, code and comments should be written in **English** only.
 - **Typescript**, **Javascript** and **GraphQL** files use **camelCase** (`globalVariables.ts`, `getKey.js`, `collectionById.graphql`)
 - **SCSS** files use **kebab-case** (`initial-variables.scss`)
 - **JSON** files use **snake_case** (`all_lang.json`) while **Markdown** files use **SCREAMING_SNAKE_CASE** (`CONTRIBUTING.md`)
+- **Image** files use **kebab-case** (`my-image.webp`) and **.webp** is the preffered image format
 
 ## SFC Conventions
 ### Skeleton
@@ -86,35 +87,6 @@ onMounted(() => {
 
 ```
 For more details make sure to checkout [Vue's official documentation](https://vuejs.org/guide/introduction.html).
-
-
-### Property Decorators DEPRECATED! (only use this syntax for maintenance reasons)
-We rely on the package 'nuxt-property-decorator', hence, we urge you to comply with the [Nuxt Class Component Syntax](https://github.com/nuxt-community/nuxt-property-decorator/)
-```typescript
-import {
-  Component,
-  Inject,
-  Model,
-  Prop,
-  Provide,
-  Vue,
-  Watch,
-} from "nuxt-property-decorator"
-
-@Component({})
-export class MyComponent extends Vue {
-  @Inject() foo!: string
-
-  @Model("change") checked!: boolean
-
-  @Prop() propA!: number
-
-  @Provide() foo = "foo"
-
-  @Watch("child")
-  onChildChanged(val: string, oldVal: string) {}
-}
-```
 
 ### Using Components In Templates
 Custom components and prop bindings should be used like this
@@ -217,8 +189,6 @@ function foo() {
 ### for loops
 
 Try to use more functional approaches since loop is really hard to maintain.
-Beside if you really need using `for` loop, you should using `for-of` loop
-since by doing so we can avoid off-by-one errors
 
 ❗ bad
 ```js
@@ -230,11 +200,26 @@ for (let x = 0; x < 10; x++) {
 
 ✅ good
 ```js
-// Best
+// Best es6 forEach loop
 list.forEach(element => ...)
+```
 
-// Good
-for (const element of array) {
-  // your statement
-}
+### images
+
+When working with images, it is recommended to utilize HTML tags and using a URL path,
+instead of directly importing images using JavaScript
+
+❗ bad
+```js
+// bad
+import logo from './path/to/my-image.webp'
+```
+
+✅ good
+```html
+<img src="/my-image.webp" alt="my-image" />
+
+<!-- or -->
+
+<img src="https://cdn.com/my-image.webp" alt="my-image" />
 ```

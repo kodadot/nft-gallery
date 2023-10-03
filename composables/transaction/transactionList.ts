@@ -51,78 +51,84 @@ const createKusamaInteraction = (item: ActionList) => {
     .filter((interaction): interaction is string => interaction !== undefined)
 }
 
+const execKsm = (isSingle: boolean, item: ActionList, api) => {
+  const interaction = createKusamaInteraction(item)
+  if (!interaction) {
+    return
+  }
+  const args = isSingle
+    ? interaction
+    : (interaction as string[]).map((interaction) =>
+        api.tx.system.remark(interaction)
+      )
+  const cb = isSingle ? api.tx.system.remark : api.tx.utility.batchAll
+  return {
+    cb,
+    arg: [args],
+  }
+}
+
+const execBsx = (isSingle: boolean, item: ActionList, api) => {
+  if (isSingle) {
+    const token = item.token as TokenToList
+    return {
+      cb: getApiCall(api, item.urlPrefix, Interaction.LIST),
+      arg: bsxParamResolver(token.nftId, Interaction.LIST, token.price),
+    }
+  } else {
+    const tokens = item.token as TokenToList[]
+    const cb = getApiCall(api, item.urlPrefix, Interaction.LIST)
+    const args = tokens.map((token) =>
+      cb(...bsxParamResolver(token.nftId, Interaction.LIST, token.price))
+    )
+    return {
+      cb: api.tx.utility.batchAll,
+      arg: [args],
+    }
+  }
+}
+const execAhkOrAhp = (isSingle: boolean, item: ActionList, api) => {
+  const getParams = (token: TokenToList) => {
+    const legacy = isLegacy(token.nftId)
+    const paramResolver = assetHubParamResolver(legacy)
+    return { legacy, paramResolver }
+  }
+
+  if (isSingle) {
+    const token = item.token as TokenToList
+    const { legacy, paramResolver } = getParams(token)
+    return {
+      cb: getApiCall(api, item.urlPrefix, Interaction.LIST, legacy),
+      arg: paramResolver(token.nftId, Interaction.LIST, token.price),
+    }
+  } else {
+    const tokens = item.token as TokenToList[]
+    const args = tokens.map((token) => {
+      const { legacy, paramResolver } = getParams(token)
+      const cb = getApiCall(api, item.urlPrefix, Interaction.LIST, legacy)
+      return cb(...paramResolver(token.nftId, Interaction.LIST, token.price))
+    })
+
+    return { cb: api.tx.utility.batchAll, arg: [args] }
+  }
+}
+
 export function execListTx(item: ActionList, api, executeTransaction) {
   const isSingle = !Array.isArray(item.token)
 
-  if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'ksm') {
-    const interaction = createKusamaInteraction(item)
-    if (!interaction) {
-      return
-    }
-    const args = isSingle
-      ? interaction
-      : (interaction as string[]).map((interaction) =>
-          api.tx.system.remark(interaction)
-        )
-    const cb = isSingle ? api.tx.system.remark : api.tx.utility.batchAll
-    executeTransaction({
-      cb,
-      arg: [args],
-      successMessage: item.successMessage,
-      errorMessage: item.errorMessage,
-    })
+  const fnMap = {
+    rmrk: execKsm,
+    ksm: execKsm,
+    snek: execBsx,
+    bsx: execBsx,
+    ahk: execAhkOrAhp,
+    ahp: execAhkOrAhp,
   }
 
-  if (item.urlPrefix === 'snek' || item.urlPrefix === 'bsx') {
-    if (isSingle) {
-      const token = item.token as TokenToList
-      executeTransaction({
-        cb: getApiCall(api, item.urlPrefix, Interaction.LIST),
-        arg: bsxParamResolver(token.nftId, Interaction.LIST, token.price),
-        successMessage: item.successMessage,
-        errorMessage: item.errorMessage,
-      })
-    } else {
-      const tokens = item.token as TokenToList[]
-      const cb = getApiCall(api, item.urlPrefix, Interaction.LIST)
-      const args = tokens.map((token) =>
-        cb(...bsxParamResolver(token.nftId, Interaction.LIST, token.price))
-      )
-      executeTransaction({
-        cb: api.tx.utility.batchAll,
-        arg: [args],
-        successMessage: item.successMessage,
-        errorMessage: item.errorMessage,
-      })
-    }
-  }
-
-  if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
-    if (isSingle) {
-      const token = item.token as TokenToList
-      const legacy = isLegacy(token.nftId)
-      const paramResolver = assetHubParamResolver(legacy)
-      executeTransaction({
-        cb: getApiCall(api, item.urlPrefix, Interaction.LIST),
-        arg: paramResolver(token.nftId, Interaction.LIST, token.price),
-        successMessage: item.successMessage,
-        errorMessage: item.errorMessage,
-      })
-    } else {
-      const tokens = item.token as TokenToList[]
-      const cb = getApiCall(api, item.urlPrefix, Interaction.LIST)
-      const args = tokens.map((token) => {
-        const legacy = isLegacy(token.nftId)
-        const paramResolver = assetHubParamResolver(legacy)
-        return cb(...paramResolver(token.nftId, Interaction.LIST, token.price))
-      })
-
-      executeTransaction({
-        cb: api.tx.utility.batchAll,
-        arg: [args],
-        successMessage: item.successMessage,
-        errorMessage: item.errorMessage,
-      })
-    }
+  const { cb, arg } =
+    fnMap[item.urlPrefix]?.call(null, isSingle, item, api) || {}
+  if (cb && arg) {
+    const { successMessage, errorMessage } = item
+    executeTransaction({ cb, arg, successMessage, errorMessage })
   }
 }

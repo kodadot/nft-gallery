@@ -79,6 +79,7 @@ export const getMovingAverage = (data: RenderedChartData = []): number[] => {
   const movingAverageArray: number[] = []
   const average = 3
 
+  // eslint-disable-next-line no-restricted-syntax
   for (let i = 0; i < dataset.length - 2; i++) {
     const datapoints = dataset.slice(i, average + i)
     const movingAverage = datapoints.reduce((total, num) => total + num, 0) / 3

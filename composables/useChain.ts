@@ -1,10 +1,11 @@
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { ChainProperties } from '@/utils/api/Query'
 import { availablePrefixes } from '@/utils/chain'
+import type { Prefix } from '@kodadot1/static'
 
 export default function () {
   const { urlPrefix, tokenId, assets } = usePrefix()
-  const { symbol } = assets(tokenId.value)
+  const symbol = computed(() => assets(tokenId.value).symbol)
 
   const chainProperties = computed<ChainProperties>(() => {
     return chainPropListOf(urlPrefix.value)
@@ -13,6 +14,10 @@ export default function () {
   const decimals = computed<number>(() => {
     return chainProperties.value.tokenDecimals
   })
+
+  const decimalsOf = (urlPrefix: Prefix) => {
+    return chainPropListOf(urlPrefix).tokenDecimals
+  }
 
   const unit = computed<string>(() => {
     return chainProperties.value.tokenSymbol
@@ -27,7 +32,7 @@ export default function () {
   const chainSymbol = computed(() => {
     return ['rmrk', 'ksm', 'ahk', 'ahp'].includes(urlPrefix.value)
       ? unit.value
-      : symbol
+      : symbol.value
   })
 
   const blockExplorer = computed<string>(() => {
@@ -35,6 +40,7 @@ export default function () {
   })
   return {
     decimals,
+    decimalsOf,
     unit,
     offersDisabled,
     chainProperties,

@@ -1,16 +1,16 @@
-import { $fetch, FetchError } from 'ohmyfetch'
+import { $fetch, FetchError } from 'ofetch'
 
 const BASE_URL = 'https://waifu-me.kodadot.workers.dev'
 
 const table = 'mints'
-const campaign = 'corn'
+// const campaign = 'corn'
 
 const api = $fetch.create({
   baseURL: BASE_URL,
 })
 
 type MintResponse = Response<any>
-type ClaimResponse = Response<any>
+// type ClaimResponse = Response<any>
 type Response<T> = {
   result: T
 }

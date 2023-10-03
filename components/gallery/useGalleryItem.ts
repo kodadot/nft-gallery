@@ -24,8 +24,8 @@ const whichMimeType = async (data) => {
   if (data?.type) {
     return data?.type
   }
-  if (data?.animation_url) {
-    return await getMimeType(sanitizeIpfsUrl(data.animation_url))
+  if (data?.animationUrl) {
+    return await getMimeType(sanitizeIpfsUrl(data.animationUrl))
   }
   if (data?.image || data?.mediaUri) {
     return await getMimeType(sanitizeIpfsUrl(data?.image || data?.mediaUri))
@@ -36,7 +36,7 @@ const whichMimeType = async (data) => {
 
 const whichAsset = (data) => {
   return {
-    animation_url: sanitizeIpfsUrl(data.animation_url || ''),
+    animation_url: sanitizeIpfsUrl(data.animationUrl || ''),
     image: sanitizeIpfsUrl(data.image || data.mediaUri || '', 'image'),
   }
 }
@@ -96,9 +96,15 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     nft.value = nftEntity
 
     const resources = nftEntity.resources?.map((resource) => {
+      const imageSrc =
+        resource.meta?.animationUrl ||
+        resource.src ||
+        resource.meta?.image ||
+        resource.thumb
+
       return {
         ...resource,
-        src: sanitizeIpfsUrl(resource.meta?.animationUrl || resource.src),
+        src: sanitizeIpfsUrl(imageSrc),
         thumb: sanitizeIpfsUrl(resource.thumb || resource.meta?.image),
         animation: sanitizeIpfsUrl(resource.meta?.animationUrl),
       }

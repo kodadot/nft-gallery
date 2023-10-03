@@ -7,7 +7,7 @@
       :disabled="disabled"
       :class="labelColor"
       :type="type"
-      data-cy="buy-now">
+      data-testid="buy-now">
       <component :is="componentName" :label="message">
         {{ properLabel }}
       </component>
@@ -15,29 +15,32 @@
   </NeoField>
 </template>
 
-<script lang="ts">
-import { TranslateResult } from 'vue-i18n'
-import { Component, Prop, VModel, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
+import type { TranslateResult } from 'vue-i18n/types'
 import { NeoField, NeoSwitch, NeoTooltip } from '@kodadot1/brick'
 
-@Component({ components: { NeoSwitch, NeoTooltip, NeoField } })
-export default class BasicSwitch extends Vue {
-  @VModel({ type: Boolean, required: true }) isSwitched!: string
-  @Prop({ type: String, required: true }) label!: string
-  @Prop({ type: String }) offLabel!: string
-  @Prop({ type: String }) size!: string
-  @Prop({ type: String }) type!: string
-  @Prop({ type: String }) labelColor!: string
-  @Prop({ type: String }) message!: string
-  @Prop(Boolean) public disabled!: boolean
+const props = defineProps<{
+  value: boolean
+  label: string
+  offLabel?: string
+  size?: string
+  type?: string
+  labelColor?: string
+  message?: string
+  disabled?: boolean
+}>()
 
-  get componentName(): string {
-    return this.message ? 'NeoTooltip' : 'span'
-  }
+const { $i18n } = useNuxtApp()
+const emit = defineEmits(['input'])
 
-  get properLabel(): TranslateResult {
-    const offLabel = this.offLabel || this.label
-    return this.$t(this.isSwitched ? this.label : offLabel)
-  }
-}
+const isSwitched = useVModel(props, 'value', emit, { eventName: 'input' })
+
+const componentName = computed(() => {
+  return props.message ? NeoTooltip : 'span'
+})
+
+const properLabel = computed<TranslateResult>(() => {
+  const offLabel = props.offLabel || props.label
+  return $i18n.t(props.value ? props.label : offLabel)
+})
 </script>

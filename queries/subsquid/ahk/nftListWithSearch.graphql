@@ -1,0 +1,69 @@
+#import "../../fragments/nft.graphql"
+#import "../../fragments/nftDetails.graphql"
+#import "../../fragments/baseMeta.graphql"
+
+query tokenListWithSearch(
+  $first: Int!
+  $offset: Int
+  $denyList: [String!]
+  $search: [NFTEntityWhereInput!]
+  $orderBy: [TokenEntityOrderByInput!]
+) {
+  tokenEntities: tokenEntities(
+    orderBy: $orderBy
+    limit: $first
+    offset: $offset
+    where: {
+      nfts_some: {
+        burned_eq: false
+        issuer_not_in: $denyList
+        metadata_not_eq: ""
+        AND: $search
+      }
+    }
+  ) {
+    id
+    blockNumber
+    hash
+    image
+    media
+    name
+    updatedAt
+    createdAt
+    count
+    nfts(
+      where: {
+        burned_eq: false
+        issuer_not_in: $denyList
+        metadata_not_eq: ""
+        AND: $search
+      }
+    ) {
+      ...nft
+      ...nftDetails
+      royalty
+      recipient
+      collection {
+        id
+        name
+        floor
+      }
+      meta {
+        ...baseMeta
+      }
+    }
+  }
+  tokenEntitiesConnection(
+    where: {
+      nfts_some: {
+        burned_eq: false
+        issuer_not_in: $denyList
+        metadata_not_eq: ""
+        AND: $search
+      }
+    }
+    orderBy: blockNumber_DESC
+  ) {
+    totalCount
+  }
+}

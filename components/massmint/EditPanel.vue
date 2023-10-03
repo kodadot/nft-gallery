@@ -139,7 +139,7 @@ const save = () => {
   object-fit: cover;
 }
 
-.sidebar-width:deep .o-side__content {
+.sidebar-width:deep(.o-side__content) {
   width: 30%;
 }
 </style>

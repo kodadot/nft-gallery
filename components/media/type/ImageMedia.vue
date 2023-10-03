@@ -4,7 +4,7 @@
       class="image-media__image"
       :src="src"
       :alt="mimeType"
-      data-cy="type-image" />
+      data-testid="type-image" />
   </figure>
 </template>
 
@@ -17,6 +17,6 @@ defineProps<{
 
 <style scoped>
 figure > img.image-media__image {
-  object-fit: cover;
+  object-fit: contain;
 }
 </style>

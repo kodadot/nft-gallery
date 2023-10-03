@@ -3,7 +3,7 @@
     <template #trigger>
       <div>
         <nuxt-link :to="`/${urlPrefix}/explore/collectibles`">
-          <div class="navbar-item" data-cy="explore">
+          <div class="navbar-item" data-testid="explore">
             {{ $t('explore') }}
             <svg
               v-if="!isMobileDevice"

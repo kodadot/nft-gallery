@@ -18,7 +18,12 @@
         flex-direction: column;
 
         .navbar-item {
-          padding: 24px 20px;
+          padding: 1.5rem 1.25rem;
+
+          @include mobile {
+            padding: 1rem 1.25rem;
+          }
+
           @include ktheme() {
             border-bottom: 1px solid theme('border-color');
           }
@@ -74,23 +79,6 @@
             padding: 0;
           }
         }
-
-        #NavProfile {
-          .button-connect-wallet {
-            width: 80%;
-            height: 67px;
-            border-radius: 0;
-            display: block;
-            margin: 0 auto 20px;
-            text-transform: capitalize;
-
-            @include ktheme() {
-              box-shadow: theme('primary-shadow');
-              color: theme('text-color');
-              background: theme('k-primary');
-            }
-          }
-        }
       }
     }
 
@@ -102,9 +90,32 @@
       align-self: auto;
       width: 100%;
       padding: 24px 20px 0;
-      margin-bottom: 3.5rem;
-      position: absolute;
-      bottom: 0;
+
+      @include mobile {
+        padding: 1rem 1.25rem;
+      }
+
+      .button-connect-wallet {
+        width: 80%;
+        height: 67px;
+        border-radius: 0;
+        display: block;
+        margin: 0 auto 20px;
+        text-transform: capitalize;
+
+        @include ktheme() {
+          box-shadow: theme('primary-shadow');
+          color: theme('black');
+          background: theme('k-primary');
+        }
+
+        @include mobile {
+          margin: 0;
+          padding: 0.75rem;
+          height: 100%;
+          width: 100%;
+        }
+      }
 
       div {
         flex-grow: 1;
@@ -216,9 +227,8 @@
     border-radius: 0;
   }
 
-  .small-size-text {
-    font-size: 0.5rem;
-    vertical-align: text-bottom;
+  .text-vertical-align-top {
+    vertical-align: top !important;
   }
   .color-mode-icon {
     width: 12px;

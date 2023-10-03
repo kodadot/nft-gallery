@@ -1,44 +1,46 @@
 <template>
   <div :class="['money', { 'is-inline-block': inline }]">
     <div>
-      {{
-        value |
-          checkInvalidBalance |
-          formatBalance(decimals, '') |
-          round(round)
-      }}{{ realUnit }}
+      {{ finalValue }}
+      {{ realUnit }}
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import {
-  checkInvalidBalanceFilter as checkInvalidBalance,
-  roundTo,
-} from '@/utils/format/balance'
+<script lang="ts" setup>
+import { checkInvalidBalanceFilter, roundTo } from '@/utils/format/balance'
+import formatBalance from '@/utils/format/balance'
 
-@Component({
-  filters: {
-    checkInvalidBalance,
-    round: roundTo,
-  },
-})
-export default class BasicMoney extends Vue {
-  @Prop({ default: '0' }) readonly value!: number | string | undefined
-  @Prop({ type: Number, default: 12 }) readonly decimals!: number
-  @Prop({ type: String, default: 'KSM' }) readonly unit!: string
-  @Prop({ type: Number, default: 4 }) readonly round!: number
-
-  // MISC
-  @Prop(Boolean) readonly inline!: boolean
-  @Prop(Boolean) readonly hideUnit!: boolean
-  checkInvalidBalance: string | number | undefined
-
-  // TODO: Format not properly implemented: ref #3868
-
-  get realUnit(): undefined | string {
-    return this.hideUnit ? '' : ' ' + this.unit
+const props = withDefaults(
+  defineProps<{
+    value?: number | string | undefined
+    hideUnit?: boolean
+    inline?: boolean
+    round: number
+  }>(),
+  {
+    value: 0,
+    round: 4,
   }
+)
+
+const { decimals, chainSymbol } = useChain()
+
+const realUnit = computed(() => (props.hideUnit ? '' : ' ' + chainSymbol.value))
+
+const finalValue = computed(() =>
+  round(
+    formatBalance(checkInvalidBalanceFilter(props.value), decimals.value, ''),
+    props.round,
+    false
+  )
+)
+
+const round = (value: string, limit: number, disableFilter: boolean) => {
+  const number = Number(value.replace(/,/g, ''))
+  if (disableFilter) {
+    return parseFloat(number.toString())
+  }
+  return roundTo(value, limit)
 }
 </script>

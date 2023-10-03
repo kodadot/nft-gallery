@@ -5,7 +5,7 @@
         class="is-flex is-align-items-center is-justify-content-space-between">
         <span class="is-size-6">{{ $t('profile.collected') }}</span>
 
-        <p class="is-size-6" data-cy="identity-collected">
+        <p class="is-size-6" data-testid="identity-collected">
           {{ totalCollected }}
         </p>
       </div>
@@ -13,7 +13,7 @@
         class="is-flex is-align-items-center is-justify-content-space-between">
         <span class="is-size-6">{{ $t('profile.created') }}</span>
 
-        <p class="is-size-6" data-cy="identity-created">
+        <p class="is-size-6" data-testid="identity-created">
           {{ totalCreated }}
         </p>
       </div>
@@ -21,7 +21,7 @@
         class="is-flex is-align-items-center is-justify-content-space-between">
         <span class="is-size-6">{{ $t('profile.sold') }}</span>
 
-        <p class="is-size-6" data-cy="identity-sold">
+        <p class="is-size-6" data-testid="identity-sold">
           {{ totalSold }}
         </p>
       </div>
@@ -38,7 +38,7 @@
             :metadata="nft.metadata"
             :current-owner="nft.currentOwner"
             :route="`/${urlPrefix}/gallery`"
-            :data-cy="soldItems.indexOf(nft)" />
+            :data-testid="soldItems.indexOf(nft)" />
         </div>
       </div>
     </div>

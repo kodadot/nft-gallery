@@ -4,8 +4,7 @@ import {
   offsetAttribute,
   secondaryFileVisible,
 } from '@/utils/mintUtils'
-import { pinFileToIPFS, pinJson } from '@/services/nftStorage'
-import { usePinningStore } from '@/stores/pinning'
+import { pinJson, rateLimitedPinFileToIPFS } from '@/services/nftStorage'
 import { usePreferencesStore } from '@/stores/preferences'
 import { IPFS_KODADOT_IMAGE_PLACEHOLDER } from '@/utils/constants'
 import { uploadDirectWhenMultiple } from '@/utils/directUpload'
@@ -18,9 +17,7 @@ export async function constructMeta(
     enableCarbonOffset?: boolean
   }
 ): Promise<string> {
-  const pinningStore = usePinningStore()
   const preferencesStore = usePreferencesStore()
-  const { accountId } = useAuth()
   const { $consola } = useNuxtApp()
   const { file, name, description, secondFile, tags, nsfw } = tokenToMint
   const { enableCarbonOffset = false } = options || {}
@@ -28,10 +25,9 @@ export async function constructMeta(
     throw new ReferenceError('No file found!')
   }
 
-  const { token } = await pinningStore.fetchPinningKey(accountId.value)
-  const fileHash = await pinFileToIPFS(file, token)
+  const fileHash = await rateLimitedPinFileToIPFS(file)
   const secondFileHash = secondFile
-    ? await pinFileToIPFS(secondFile, token)
+    ? await rateLimitedPinFileToIPFS(secondFile)
     : undefined
 
   let imageHash: string | undefined = fileHash

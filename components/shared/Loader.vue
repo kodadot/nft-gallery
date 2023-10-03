@@ -24,62 +24,61 @@
   </NeoLoading>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import { randomIntegerBetween } from '@/utils/calculation'
 import { NeoLoading } from '@kodadot1/brick'
 
-@Component({ components: { NeoLoading } })
-export default class Loader extends Vue {
-  @Prop(String) public status!: string
-  @Prop(Boolean) public value!: boolean
-  @Prop({ type: Boolean, default: true }) public canCancel
+const emit = defineEmits(['input'])
+const props = withDefaults(
+  defineProps<{
+    status: string
+    value: boolean
+    canCancel?: boolean
+  }>(),
+  {
+    canCancel: true,
+  }
+)
 
-  // seed new funfact each time loader is used
-  @Watch('value')
-  private handleLoadingStateChange(newValue) {
+const { $i18n } = useNuxtApp()
+const placeholder = '/preloader.svg'
+const randomNumber = ref(randomIntegerBetween(1, 35))
+const interval = ref()
+
+watch(
+  () => props.value,
+  (newValue) => {
     if (newValue) {
-      let newRandomNumber = this.randomNumber
+      let newRandomNumber = randomNumber.value
       // make sure same quote isn't fetched again
-      while (newRandomNumber === this.randomNumber) {
+      while (newRandomNumber === randomNumber.value) {
         newRandomNumber = randomIntegerBetween(1, 35)
       }
-      this.randomNumber = newRandomNumber
+      randomNumber.value = newRandomNumber
     }
   }
+)
 
-  protected placeholder = '/preloader.svg'
+const randomFunFactHeading = computed(() =>
+  $i18n.t(`funfacts.${randomNumber.value}.heading`)
+)
+const randomFunFactQuestion = computed(() =>
+  $i18n.t(`funfacts.${randomNumber.value}.question`)
+)
+const isLoading = computed({
+  get: () => props.value,
+  set: (value) => emit('input', value),
+})
 
-  protected randomNumber = randomIntegerBetween(1, 35)
+onMounted(() => {
+  interval.value = setInterval(() => {
+    randomNumber.value = randomIntegerBetween(1, 35)
+  }, 8000)
+})
 
-  public interval
-
-  get randomFunFactHeading() {
-    return this.$t(`funfacts.${this.randomNumber}.heading`)
-  }
-
-  get randomFunFactQuestion() {
-    return this.$t(`funfacts.${this.randomNumber}.question`)
-  }
-
-  get isLoading() {
-    return this.value
-  }
-
-  set isLoading(value: boolean) {
-    this.$emit('input', value)
-  }
-
-  public created(): void {
-    setInterval(() => {
-      this.interval = this.randomNumber = randomIntegerBetween(1, 35)
-    }, 8000)
-  }
-
-  public beforeDestroy() {
-    clearInterval(this.interval)
-  }
-}
+onBeforeMount(() => {
+  clearInterval(interval.value)
+})
 </script>
 
 <style scoped lang="scss">

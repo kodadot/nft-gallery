@@ -17,8 +17,8 @@
         <NeoIcon
           :icon="icon"
           class="icon-size has-text-grey py-3"
-          size="large"
-          pack="fas" />
+          custom-size="fa-2x"
+          pack="fass" />
         <p class="has-text-grey mt-8">
           {{ subtitle }}
         </p>
@@ -99,7 +99,7 @@ const onFileSelected = (file: File) => {
 .limit-width {
   max-width: 25rem;
 }
-.hover-color:deep .o-upl__draggable--hovered {
+.hover-color:deep(.o-upl__draggable--hovered) {
   @include ktheme() {
     background-color: theme('k-primaryLight');
   }

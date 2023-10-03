@@ -1,12 +1,13 @@
 <template>
   <div class="buttons is-align-content-start gallery-button">
-    <GalleryItemShareBtn />
+    <GalleryItemShareBtn data-testid="gallery-item-share-button" />
     <GalleryItemMoreActionBtn
       :ipfs-image="nftMetadata?.image"
       :mime-type="nftMimeType"
       :name="nft?.name"
       :current-owner="nft?.currentOwner"
-      :price="nft?.price" />
+      :price="nft?.price"
+      data-testid="gallery-item-more-button" />
   </div>
 </template>
 

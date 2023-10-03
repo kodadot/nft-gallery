@@ -1,36 +1,58 @@
 <template>
   <div>
-    <div class="is-flex is-align-items-center mb-8 px-8">
+    <div class="is-flex is-align-items-center mb-7 px-8">
       <div
-        class="is-size-1-desktop is-size-2-tablet is-size-3-mobile is-flex is-flex-grow-1 is-justify-content-center has-text-weight-bold">
+        class="is-size-2-desktop is-size-2-tablet is-size-3-mobile is-flex is-flex-grow-1 is-justify-content-center has-text-weight-bold">
         {{ $t('massmint.onboarding.pageTitle') }}
       </div>
       <NeoButton
         :label="$t('massmint.onboarding.skip')"
         icon="arrow-right"
-        icon-pack="fas"
         @click.native="toMassMint" />
     </div>
-    <div class="is-relative">
+    <div class="is-relative mb-6">
       <div
         ref="carouselRef"
         class="carousel is-flex is-flex-wrap-nowrap"
         :class="`slide-${currentSlide}`">
-        <div
+        <OnBoardingCard
           v-for="(card, index) in cards"
           :key="index"
-          class="carousel-card p-5 mobile-padding"
-          :class="{ 'not-active': index !== currentSlide }">
-          <div class="card__content">
-            <p
-              class="title is-size-2-desktop is-size-3-tablet is-size-5-mobile is-capitalized">
-              {{ card.title }}
+          :title="card.title"
+          :count="`${index + 1}/${cards.length}`"
+          :content="card.content"
+          :active="index === currentSlide">
+          <div v-if="index === 1">
+            <p class="is-size-6 has-text-weight-bold mb-3">
+              {{ $t('massmint.onboarding.cards.1.subtitle') }}:
             </p>
-            <div class="content is-size-4-tablet is-size-5-mobile">
-              <Markdown :source="card.content" />
+            <p class="is-size-6 mb-5">
+              {{ $t('massmint.onboarding.cards.1.instructions') }}
+            </p>
+            <div
+              class="is-flex is-justify-content-space-between is-align-items-center mb-4 column-mobile">
+              <span class="is-size-6 has-text-weight-bold">
+                {{ $t('massmint.onboarding.cards.1.codeStructure') }}:
+              </span>
+              <div class="is-flex tab-gap">
+                <NeoButton
+                  v-for="tab in descriptionTabs"
+                  :key="tab"
+                  rounded
+                  no-shadow
+                  :label="tab.label"
+                  :active="activeDescriptionTab === tab.label"
+                  class="filter-tag"
+                  @click.native="activeDescriptionTab = tab.label" />
+              </div>
             </div>
+            <Markdown
+              :source="
+                descriptionTabs[activeDescriptionTab].fileStructureDescription
+              "
+              class="fixed-height white-space-break-spaces-mobile code" />
           </div>
-        </div>
+        </OnBoardingCard>
       </div>
       <Transition name="fade">
         <div
@@ -46,17 +68,10 @@
       </Transition>
     </div>
 
-    <div class="is-flex is-justify-content-center my-8">
-      <span
-        v-for="(card, index) in cards"
-        :key="index"
-        class="carousel-dot mx-2"
-        :class="{ 'is-active': index === currentSlide }"></span>
-    </div>
     <div class="is-flex is-justify-content-center">
       <NeoButton
         :label="btn.label"
-        class="is-flex-grow-1 limit-width"
+        class="is-flex-grow-1 limit-width h-auto py-3"
         :variant="btn.variant"
         @click.native="btn.onClick" />
     </div>
@@ -65,7 +80,9 @@
 
 <script lang="ts" setup>
 import { NeoButton, NeoButtonVariant } from '@kodadot1/brick'
+import OnBoardingCard from './OnBoardingCard.vue'
 import { usePreferencesStore } from '@/stores/preferences'
+import { descriptionTabs } from './descriptionTabs'
 import { SwipeDirection, useSwipe } from '@vueuse/core'
 
 const router = useRouter()
@@ -77,6 +94,8 @@ const preferencesStore = usePreferencesStore()
 const currentSlide = ref(0)
 const swipeThreshold = 40
 const carouselRef = ref<HTMLElement | null>(null)
+
+const activeDescriptionTab = ref('JSON')
 
 useSwipe(carouselRef, {
   threshold: swipeThreshold,
@@ -90,8 +109,7 @@ useSwipe(carouselRef, {
 })
 
 const cards = computed(() => {
-  const indices = Array.from({ length: numOfCards }, (_, i) => i + 1)
-  return indices.map((i: number) => ({
+  return Array.from({ length: numOfCards }, (_, i) => ({
     title: $i18n.t(`massmint.onboarding.cards.${i}.title`),
     content: $i18n.t(`massmint.onboarding.cards.${i}.content`),
   }))
@@ -141,58 +159,80 @@ $gap-percents: 5.5%;
 
 $max-card-width: 760px;
 $min-card-width: 225px;
-$card-height: 464px;
 $max-gap: 80px;
 
 $gap: min($gap-percents, $max-gap);
 $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
 
-$base-shift: calc((100% - $card-width) / 2);
-
 .carousel {
   transition: transform 0.5s ease-in-out;
-  gap: #{$gap};
+  --card-gap: #{$gap};
+  --card-width: #{$card-width};
+  --card-height: 464px;
+  --base-shift: calc((100% - var(--card-width)) / 2);
+  gap: var(--card-gap);
+  @include mobile {
+    --card-width: 90vw;
+    --card-gap: 2.5%;
+  }
 
   &.slide-0 {
-    transform: translateX($base-shift);
+    transform: translateX(var(--base-shift));
   }
 
   &.slide-1 {
-    transform: translateX(calc($base-shift + (-1 * ($card-width + $gap))));
+    transform: translateX(
+      calc(var(--base-shift) + (-1 * (var(--card-width) + var(--card-gap))))
+    );
   }
 
   &.slide-2 {
-    transform: translateX(calc($base-shift + (-2 * ($card-width + $gap))));
+    transform: translateX(
+      calc(var(--base-shift) + (-2 * (var(--card-width) + var(--card-gap))))
+    );
   }
 }
 
-.carousel-card {
-  flex: 0 0 #{$card-width};
-  min-height: $card-height;
+:deep(.white-space-break-spaces-mobile) {
+  pre {
+    @include touch {
+      width: 100%;
+      white-space: break-spaces;
+    }
+  }
+}
 
-  &.mobile-padding {
-    @include mobile {
-      padding: 0.75rem !important;
-    }
+.column-mobile {
+  @include mobile {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 0.75rem;
   }
-  @include ktheme() {
-    box-shadow: theme('primary-shadow');
-    background: theme('background-color');
-    border: 1px solid theme('border-color');
+}
+.filter-tag {
+  &:hover {
+    background-color: unset;
   }
-  &__content {
+  &.active {
     @include ktheme() {
-      color: theme('text-color') !important;
+      background-color: theme('k-shade');
+      color: theme('black');
     }
-    .content {
+    &:hover {
       @include ktheme() {
-        color: theme('text-color') !important;
+        background-color: theme('k-shade') !important;
       }
     }
   }
-  &.not-active {
-    opacity: 0.5;
-  }
+}
+
+.fixed-height {
+  height: 180px;
+  overflow-y: auto;
+}
+
+.code :deep(pre) {
+  font-size: 1rem !important;
 }
 
 .carousel-dot {
@@ -212,16 +252,24 @@ $base-shift: calc((100% - $card-width) / 2);
 }
 
 .limit-width {
-  max-width: $card-width;
+  max-width: 290px;
   min-width: $min-card-width;
+}
+
+.h-auto {
+  height: auto;
 }
 
 .arrow {
   &-left {
-    left: 30px;
+    left: calc((100% - $card-width) / 2 - 32px);
   }
   &-right {
-    right: 30px;
+    right: calc((100% - $card-width) / 2 - 32px);
   }
+}
+
+.tab-gap {
+  gap: 0.75rem;
 }
 </style>

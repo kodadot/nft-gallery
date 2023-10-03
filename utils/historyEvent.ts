@@ -19,22 +19,6 @@ export const HistoryEventType = {
   ...Interaction,
 }
 
-export const eventToIconMap = {
-  [Interaction.MINTNFT]: '🖼',
-  [Interaction.LIST]: '📰',
-  [Interaction.UNLIST]: '🗞',
-  [Interaction.SEND]: '🎁',
-  [Interaction.CONSUME]: '🔥',
-  [Interaction.BUY]: '🤝',
-  [InteractionBsxOnly.ROYALTY]: '👑',
-  [InteractionBsxOnly.PAY_ROYALTY]: '💰',
-}
-
-export const wrapEventNameWithIcon = (
-  type: Interaction | InteractionBsxOnly,
-  eventName: string
-): string => `${eventToIconMap[type]} ${eventName}`
-
 export const parseDate = (date: Date): string => {
   return date.toLocaleString('en-GB', {
     timeZone: 'UTC',

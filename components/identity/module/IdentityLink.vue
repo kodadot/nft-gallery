@@ -33,17 +33,10 @@ const props = defineProps<{
   address?: Address
   showClipboard?: boolean
 }>()
-const { $buefy } = useNuxtApp()
+const { toast } = useToast()
 const { urlPrefix } = usePrefix()
 
 const explorerLink = computed(() =>
   getExplorer(urlPrefix.value as Prefix, String(props.address))
 )
-
-const toast = (message: string) => {
-  $buefy.toast.open({
-    message,
-    type: 'is-neo',
-  })
-}
 </script>

@@ -1,20 +1,22 @@
 import {
   assignIds,
-  expandCopies,
   prepTokens,
 } from '@/composables/transaction/mintToken/transactionMintStatemine'
 import { TokenToMint } from '@/composables/transaction/types'
-import { copiesToMint } from '@/composables/transaction/mintToken/utils'
+import {
+  copiesToMint,
+  expandCopies,
+} from '@/composables/transaction/mintToken/utils'
 
 describe('transactionMintStatemine.ts functions', () => {
   describe('assignIds function', () => {
     it('should assign id correctly for a single token', () => {
       const tokens: TokenToMint[] = [
-        { selectedCollection: { alreadyMinted: 5, lastIndexUsed: 4 } },
+        { selectedCollection: { lastIndexUsed: 4 } },
       ]
       const result = assignIds(tokens)
       expect(result).toEqual([
-        { selectedCollection: { alreadyMinted: 5, lastIndexUsed: 4 }, id: 6 },
+        { selectedCollection: { lastIndexUsed: 4 }, id: 5 },
       ])
     })
 
@@ -235,7 +237,7 @@ describe('transactionMintStatemine.ts functions', () => {
     it('should correctly prepare a single token with unique id', () => {
       const token: TokenToMint = {
         name: 'test',
-        selectedCollection: { alreadyMinted: 5, lastIndexUsed: 4 },
+        selectedCollection: { alreadyMinted: 4, lastIndexUsed: 4 },
       }
 
       const item = {
@@ -247,8 +249,8 @@ describe('transactionMintStatemine.ts functions', () => {
       const expectedResult = [
         {
           name: 'test',
-          selectedCollection: { alreadyMinted: 5, lastIndexUsed: 4 },
-          id: 6,
+          selectedCollection: { alreadyMinted: 4, lastIndexUsed: 4 },
+          id: 5,
         },
       ]
       expect(result).toEqual(expectedResult)
@@ -259,7 +261,7 @@ describe('transactionMintStatemine.ts functions', () => {
         name: 'test',
         copies: 3,
         postfix: true,
-        selectedCollection: { alreadyMinted: 5, lastIndexUsed: 4 },
+        selectedCollection: { alreadyMinted: 4, lastIndexUsed: 4 },
       }
 
       const item = {
@@ -273,22 +275,22 @@ describe('transactionMintStatemine.ts functions', () => {
           name: 'test #1',
           copies: 3,
           postfix: true,
-          selectedCollection: { alreadyMinted: 5, lastIndexUsed: 4 },
-          id: 6,
+          selectedCollection: { alreadyMinted: 4, lastIndexUsed: 4 },
+          id: 5,
         },
         {
           name: 'test #2',
           copies: 3,
           postfix: true,
-          selectedCollection: { alreadyMinted: 5, lastIndexUsed: 4 },
-          id: 7,
+          selectedCollection: { alreadyMinted: 4, lastIndexUsed: 4 },
+          id: 6,
         },
         {
           name: 'test #3',
           copies: 3,
           postfix: true,
-          selectedCollection: { alreadyMinted: 5, lastIndexUsed: 4 },
-          id: 8,
+          selectedCollection: { alreadyMinted: 4, lastIndexUsed: 4 },
+          id: 7,
         },
       ]
 

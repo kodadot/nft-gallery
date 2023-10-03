@@ -34,10 +34,6 @@
   min-width: 98px;
 }
 
-.no-wrap {
-  white-space: nowrap;
-}
-
 @include tablet {
   .w-160 {
     width: 160px;

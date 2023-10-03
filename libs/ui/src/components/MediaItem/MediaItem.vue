@@ -1,5 +1,5 @@
 <template>
-  <div class="media-object" style="height: 100%">
+  <div class="media-object" style="height: fit-content">
     <component
       :is="resolveComponent"
       :src="properSrc"
@@ -8,141 +8,142 @@
       :placeholder="placeholder"
       :original="original"
       :is-lewd="isLewd"
-      :is-detail="isDetail" />
+      :is-detail="isDetail"
+      :player-cover="audioPlayerCover"
+      :hover-on-cover-play="audioHoverOnCoverPlay" />
     <div
       v-if="isLewd && isLewdBlurredLayer"
-      class="nsfw-blur is-flex is-align-items-center is-justify-content-center is-flex-direction-column">
+      class="nsfw-blur is-capitalized is-flex is-align-items-center is-justify-content-center is-flex-direction-column">
       <NeoIcon icon="eye-slash" class="mb-3" />
-      <span class="heading-nsfw"> {{ $t('lewd.explicit') }} </span>
-      <span class="nsfw-desc">{{ $t('lewd.explicitDesc') }}</span>
-      <span class="nsfw-content" @click="showContent()">{{
-        $t('lewd.showContent')
+      <span class="has-text-weight-bold">
+        {{ $t('lewd.explicit') }}
+      </span>
+      <span class="nsfw-desc text-align-center">{{
+        $t('lewd.explicitDesc')
       }}</span>
     </div>
+    <NeoButton
+      v-if="isLewd"
+      rounded
+      no-shadow
+      class="nsfw-action no-border px-4 py-1 is-size-6"
+      :class="{ hide: isLewdBlurredLayer }"
+      :label="
+        isLewdBlurredLayer ? $t('lewd.showContent') : $t('lewd.hideContent')
+      "
+      @click.native="toggleContent" />
   </div>
 </template>
 
-<script lang="ts">
-import { defineAsyncComponent } from 'vue'
-
+<script lang="ts" setup>
 import { getMimeType, resolveMedia } from '@/utils/gallery/media'
-import NeoIcon from './../NeoIcon/NeoIcon.vue'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import ImageMedia from './type/ImageMedia.vue'
+import VideoMedia from './type/VideoMedia.vue'
+import AudioMedia from './type/AudioMedia.vue'
+import ModelMedia from './type/ModelMedia.vue'
+import JsonMedia from './type/JsonMedia.vue'
+import IFrameMedia from './type/IFrameMedia.vue'
+import ObjectMedia from './type/ObjectMedia.vue'
+import Media from './type/UnknownMedia.vue'
 
 const SUFFIX = 'Media'
-
-export default {
-  components: {
-    NeoIcon,
-  },
-  props: {
-    src: {
-      // for mimeType image please use this props
-      type: String,
-      default: '',
-    },
-    animationSrc: {
-      // other than image please use this props instead
-      type: String,
-      default: '',
-    },
-    mimeType: {
-      type: String,
-      default: '',
-    },
-    title: {
-      type: String,
-      default: 'KodaDot NFT',
-    },
-    original: {
-      // original size of the image
-      type: Boolean,
-      default: false,
-    },
-    isLewd: {
-      type: Boolean,
-      default: false,
-    },
-    isDetail: {
-      type: Boolean,
-      default: false,
-    },
-    placeholder: {
-      type: String,
-      default: '',
-    },
-  },
-  data() {
-    return {
-      defaultMimeType: 'image',
-      components: {
-        ImageMedia: defineAsyncComponent(() => import('./type/ImageMedia.vue')),
-        VideoMedia: defineAsyncComponent(() => import('./type/VideoMedia.vue')),
-        AudioMedia: defineAsyncComponent(() => import('./type/AudioMedia.vue')),
-        ModelMedia: defineAsyncComponent(() => import('./type/ModelMedia.vue')),
-        JsonMedia: defineAsyncComponent(() => import('./type/JsonMedia.vue')),
-        IFrameMedia: defineAsyncComponent(
-          () => import('./type/IFrameMedia.vue')
-        ),
-        ObjectMedia: defineAsyncComponent(
-          () => import('./type/ObjectMedia.vue')
-        ),
-        Media: defineAsyncComponent(() => import('./type/UnknownMedia.vue')),
-      },
-      isLewdBlurredLayer: this.isLewd,
-    }
-  },
-  computed: {
-    resolveComponent() {
-      const type = this.mimeType || this.defaultMimeType
-      return this.components[resolveMedia(type) + SUFFIX]
-    },
-    properSrc() {
-      return this.src || this.placeholder
-    },
-  },
-  watch: {
-    animationSrc() {
-      this.updateComponent()
-    },
-  },
-  mounted() {
-    this.updateComponent()
-  },
-  methods: {
-    async updateComponent() {
-      if (this.animationSrc && !this.mimeType) {
-        this.defaultMimeType = await getMimeType(this.animationSrc)
-      }
-    },
-    showContent() {
-      this.isLewdBlurredLayer = false
-    },
-  },
+const props = withDefaults(
+  defineProps<{
+    src?: string
+    animationSrc?: string
+    mimeType?: string
+    title?: string
+    original?: boolean
+    isLewd?: boolean
+    isDetail?: boolean
+    placeholder?: string
+    audioPlayerCover?: string
+    audioHoverOnCoverPlay?: boolean
+  }>(),
+  {
+    src: '',
+    animationSrc: '',
+    mimeType: '',
+    title: 'KodaDot NFT',
+    original: false,
+    isLewd: false,
+    isDetail: false,
+    placeholder: '',
+  }
+)
+// props.mimeType may be empty string "". Add `image/png` as fallback
+const mimeType = ref(!!props.mimeType ? props.mimeType : 'image/png')
+const isLewdBlurredLayer = ref(props.isLewd)
+const components = {
+  ImageMedia,
+  VideoMedia,
+  AudioMedia,
+  ModelMedia,
+  JsonMedia,
+  IFrameMedia,
+  ObjectMedia,
+  Media,
 }
+
+const resolveComponent = computed(() => {
+  return components[resolveMedia(mimeType.value) + SUFFIX]
+})
+const properSrc = computed(() => props.src || props.placeholder)
+
+const updateComponent = async () => {
+  if (props.animationSrc && !props.mimeType) {
+    mimeType.value = await getMimeType(props.animationSrc)
+  }
+}
+
+watch(
+  () => props.animationSrc,
+  () => updateComponent(),
+  {
+    immediate: true,
+  }
+)
+
+const toggleContent = () => {
+  isLewdBlurredLayer.value = !isLewdBlurredLayer.value
+}
+
+defineExpose({ isLewdBlurredLayer })
 </script>
 
 <style lang="scss" scoped>
-.nsfw-blur {
-  backdrop-filter: blur(60px);
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  color: #fff;
-  text-transform: capitalize;
-
-  .heading-nsfw {
-    font-weight: 700;
-  }
-  .nsfw-desc {
-    max-width: 18.75rem;
-    text-align: center;
-  }
-
-  .nsfw-content {
-    cursor: pointer;
-    bottom: 3.125rem;
+@import '@/styles/abstracts/variables';
+.media-object {
+  .nsfw-blur {
+    backdrop-filter: blur(60px);
     position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    @include ktheme() {
+      color: theme('text-color');
+    }
+
+    .nsfw-desc {
+      max-width: 18.75rem;
+    }
+  }
+  .nsfw-action {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 1.25rem;
+    @include ktheme() {
+      color: theme('text-color') !important;
+      background: theme('background-color') !important;
+    }
+    &.hide {
+      @include ktheme() {
+        color: theme('background-color') !important;
+        background: theme('text-color') !important;
+      }
+    }
   }
 }
 </style>

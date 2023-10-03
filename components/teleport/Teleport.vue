@@ -2,11 +2,11 @@
   <section class="is-flex is-justify-content-center">
     <div class="teleport-container">
       <Loader v-model="isLoading" />
-      <p class="is-size-3 has-text-weight-bold">
+      <h1 class="is-size-3 has-text-weight-bold">
         {{ $i18n.t('teleport.page') }}
-      </p>
+      </h1>
       <div class="mb-5">
-        <h1 class="has-text-weight-bold">{{ $i18n.t('teleport.from') }}</h1>
+        <h3 class="has-text-weight-bold">{{ $i18n.t('teleport.from') }}</h3>
         <TeleportTabs
           :tabs="fromTabs"
           :value="fromChain"
@@ -24,19 +24,19 @@
             :min="0" />
           <div
             class="token is-flex is-align-items-center is-justify-content-center">
-            <span v-if="ksmValue" class="token-value is-size-7"
-              >~{{ ksmValue }} usd</span
+            <span v-if="totalFiatValue" class="token-value is-size-7"
+              >~{{ totalFiatValue }} usd</span
             >
-            KSM
+            {{ currency }}
           </div>
         </div>
 
         <div
-          v-if="myKsmBalance !== undefined"
+          v-if="myBalance !== undefined"
           class="is-size-7 is-flex is-justify-content-end is-align-items-center">
           <span class="is-flex is-align-items-center">
             <span class="mr-2">{{ $i18n.t('balance') }}:</span
-            ><Money :value="myKsmBalance" hide-unit />KSM
+            >{{ myBalanceWithoutDivision.toFixed(4) }}{{ currency }}
           </span>
           <a class="max-button ml-2" @click="handleMaxClick">{{
             $i18n.t('teleport.max')
@@ -45,7 +45,7 @@
       </div>
 
       <div class="mb-5">
-        <h1 class="has-text-weight-bold">{{ $i18n.t('teleport.to') }}</h1>
+        <h3 class="has-text-weight-bold">{{ $i18n.t('teleport.to') }}</h3>
         <TeleportTabs
           :tabs="toTabs"
           :value="toChain"
@@ -53,7 +53,13 @@
       </div>
 
       <div class="mb-5">
-        {{ $i18n.t('teleport.receiveValue', [amount || 0, toChain]) }}
+        {{
+          $i18n.t('teleport.receiveValue', [
+            amount || 0,
+            currency,
+            toChainLabel,
+          ])
+        }}
         <a
           v-safe-href="explorerUrl"
           target="_blank"
@@ -82,7 +88,7 @@
 <script setup lang="ts">
 import { web3Enable } from '@polkadot/extension-dapp'
 import '@polkadot/api-augment'
-import { toDefaultAddress } from '@/utils/account'
+import { getss58AddressByPrefix, toDefaultAddress } from '@/utils/account'
 import { getAddress } from '@/utils/extension'
 import {
   Chain,
@@ -96,12 +102,10 @@ import Loader from '@/components/shared/Loader.vue'
 import * as paraspell from '@paraspell/sdk'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
 import shortAddress from '@/utils/shortAddress'
-import Money from '@/components/shared/format/Money.vue'
-import { getChainEndpointByPrefix } from '@/utils/chain'
+import { getChainEndpointByPrefix, getChainName } from '@/utils/chain'
 import { txCb } from '@/utils/transactionExecutor'
 import TeleportTabs from './TeleportTabs.vue'
 import { NeoButton } from '@kodadot1/brick'
-import { getss58AddressByPrefix } from '@/utils/account'
 import { blockExplorerOf } from '@/utils/config/chain.config'
 import { simpleDivision } from '@/utils/balance'
 import { useFiatStore } from '@/stores/fiat'
@@ -118,11 +122,10 @@ const { assets } = usePrefix()
 const { $i18n } = useNuxtApp()
 const fiatStore = useFiatStore()
 const identityStore = useIdentityStore()
-
+const { decimalsOf } = useChain()
 const fromChain = ref(Chain.KUSAMA) //Selected origin parachain
 const toChain = ref(Chain.BASILISK) //Selected destination parachain
 const amount = ref() //Required amount to be transfered is stored here
-const currency = ref('KSM') //Selected currency is stored here
 const isLoading = ref(false)
 const unsubscribeKusamaBalance = ref()
 const resetStatus = () => {
@@ -130,10 +133,34 @@ const resetStatus = () => {
   isLoading.value = false
 }
 
+const currency = computed(() => {
+  switch (fromChain.value) {
+    case Chain.KUSAMA:
+    case Chain.BASILISK:
+    case Chain.STATEMINE:
+      return 'KSM'
+    case Chain.POLKADOT:
+    case Chain.STATEMINT:
+      return 'DOT'
+  }
+})
+
+const tokenFiatValue = computed(() => {
+  switch (currency.value) {
+    case 'KSM':
+      return fiatStore.getCurrentKSMValue
+    case 'DOT':
+      return fiatStore.getCurrentDOTValue
+  }
+  return 0
+})
+
 const allowedTransitiosn = {
   [Chain.KUSAMA]: [Chain.BASILISK, Chain.STATEMINE],
   [Chain.BASILISK]: [Chain.KUSAMA],
   [Chain.STATEMINE]: [Chain.KUSAMA],
+  [Chain.POLKADOT]: [Chain.STATEMINT],
+  [Chain.STATEMINT]: [Chain.POLKADOT],
 }
 const chainBalances = {
   [Chain.KUSAMA]: () =>
@@ -141,7 +168,11 @@ const chainBalances = {
   [Chain.BASILISK]: () =>
     identityStore.multiBalances.chains.basilisk?.ksm?.nativeBalance,
   [Chain.STATEMINE]: () =>
-    identityStore.multiBalances.chains.statemine?.ksm?.nativeBalance,
+    identityStore.multiBalances.chains.kusamaHub?.ksm?.nativeBalance,
+  [Chain.POLKADOT]: () =>
+    identityStore.multiBalances.chains.polkadot?.dot?.nativeBalance,
+  [Chain.STATEMINT]: () =>
+    identityStore.multiBalances.chains.polkadotHub?.dot?.nativeBalance,
 }
 
 const isDisabled = (chain: Chain) => {
@@ -150,39 +181,71 @@ const isDisabled = (chain: Chain) => {
 
 const fromTabs = [
   {
-    label: Chain.KUSAMA,
+    label: getChainName('rmrk'),
     value: Chain.KUSAMA,
   },
   {
-    label: Chain.BASILISK,
+    label: getChainName('bsx'),
     value: Chain.BASILISK,
   },
   {
-    label: Chain.STATEMINE,
+    label: getChainName('ahk'),
     value: Chain.STATEMINE,
+  },
+  {
+    label: getChainName('dot'),
+    value: Chain.POLKADOT,
+  },
+  {
+    label: getChainName('ahp'),
+    value: Chain.STATEMINT,
   },
 ]
 const toTabs = [
   {
-    label: Chain.KUSAMA,
+    label: getChainName('rmrk'),
     value: Chain.KUSAMA,
     disabled: computed(() => isDisabled(Chain.KUSAMA)),
   },
   {
-    label: Chain.BASILISK,
+    label: getChainName('bsx'),
     value: Chain.BASILISK,
     disabled: computed(() => isDisabled(Chain.BASILISK)),
   },
   {
-    label: Chain.STATEMINE,
+    label: getChainName('ahk'),
     value: Chain.STATEMINE,
     disabled: computed(() => isDisabled(Chain.STATEMINE)),
   },
+  {
+    label: getChainName('dot'),
+    value: Chain.POLKADOT,
+    disabled: computed(() => isDisabled(Chain.POLKADOT)),
+  },
+  {
+    label: getChainName('ahp'),
+    value: Chain.STATEMINT,
+    disabled: computed(() => isDisabled(Chain.STATEMINT)),
+  },
 ]
 
-const ksmTokenDecimals = computed(() => assets(5).decimals)
+const currentTokenDecimals = computed(() => {
+  switch (fromChain.value) {
+    case Chain.KUSAMA:
+    case Chain.BASILISK:
+    case Chain.STATEMINE:
+      return assets(5).decimals
+    case Chain.POLKADOT:
+      return decimalsOf('dot')
+    case Chain.STATEMINT:
+      return decimalsOf('ahp')
+  }
+})
+const toChainLabel = computed(() =>
+  getChainName(chainToPrefixMap[toChain.value])
+)
 
-const myKsmBalance = computed(() => {
+const myBalance = computed(() => {
   const getBalance = chainBalances[fromChain.value]
   if (!getBalance) {
     throw new Error(`Unsupported chain: ${fromChain.value}`)
@@ -223,19 +286,16 @@ const getAddressByChain = (chain) => {
 const fromAddress = computed(() => getAddressByChain(fromChain.value))
 const toAddress = computed(() => getAddressByChain(toChain.value))
 
-const ksmValue = computed(() =>
-  calculateExactUsdFromToken(
-    amount.value,
-    fiatStore.getCurrentKSMValue as number
-  )
+const totalFiatValue = computed(() =>
+  calculateExactUsdFromToken(amount.value, Number(tokenFiatValue.value))
 )
 
 const insufficientBalance = computed(
-  () => Number(amount.value) > myKsmBalanceWithoutDivision.value
+  () => Number(amount.value) > myBalanceWithoutDivision.value
 )
 
-const myKsmBalanceWithoutDivision = computed(() =>
-  simpleDivision(myKsmBalance.value, 12)
+const myBalanceWithoutDivision = computed(() =>
+  simpleDivision(myBalance.value, currentTokenDecimals.value)
 )
 
 const isDisabledButton = computed(() => {
@@ -244,7 +304,7 @@ const isDisabledButton = computed(() => {
 
 const handleMaxClick = () => {
   amount.value =
-    Math.floor((myKsmBalanceWithoutDivision.value || 0) * 10 ** 4) / 10 ** 4
+    Math.floor((myBalanceWithoutDivision.value || 0) * 10 ** 4) / 10 ** 4
 }
 
 onBeforeUnmount(() => {
@@ -252,7 +312,7 @@ onBeforeUnmount(() => {
 })
 
 const getTransaction = async () => {
-  const amountValue = amount.value * Math.pow(10, ksmTokenDecimals.value)
+  const amountValue = amount.value * Math.pow(10, currentTokenDecimals.value)
 
   const api = await getApi(getFromChain())
   const telportType = whichTeleportType({
@@ -281,7 +341,7 @@ const getTransaction = async () => {
       .Builder(api)
       .from(Chain[fromChain.value.toUpperCase()])
       .to(Chain[toChain.value.toUpperCase()])
-      .currency('KSM')
+      .currency(currency.value)
       .amount(amountValue)
       .address(toAddress.value)
       .build()
@@ -397,6 +457,7 @@ const sendXCM = async () => {
     &::-webkit-inner-spin-button {
       -webkit-appearance: none !important;
     }
+    -moz-appearance: textfield;
   }
 }
 </style>

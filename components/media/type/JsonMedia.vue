@@ -20,7 +20,7 @@ const data = ref<{ key: string; value: string }[]>([])
 
 onMounted(async () => {
   if (props.src) {
-    const { data } = await api.get(props.src)
+    const data = await api(props.src)
     $consola.log('data', data)
     data.forEach(([key, value]) => {
       data.push({

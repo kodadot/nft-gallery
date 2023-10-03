@@ -28,8 +28,6 @@
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { defineEmits } from '#app'
 
-import useIdentity from './utils/useIdentity'
-
 type Address = string | GenericAccountId | undefined
 
 const IdentitySocial = defineAsyncComponent(
@@ -57,10 +55,9 @@ const {
   twitter,
   discord,
   name,
-  whichIdentity,
 } = useIdentity({
-  address: props.address,
-  customNameOption: props.customNameOption,
+  address: computed(() => props.address),
+  customNameOption: props.customNameOption || '',
 })
 
 provide('address', props.address)
@@ -80,10 +77,4 @@ watch(identity, () => {
     emit('change', identity.value)
   }
 })
-watch(
-  () => props.address,
-  (newAddress) => {
-    whichIdentity(newAddress as string)
-  }
-)
 </script>

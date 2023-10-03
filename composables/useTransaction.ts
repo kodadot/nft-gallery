@@ -94,12 +94,17 @@ const useExecuteTransaction = () => {
 }
 
 export const useTransaction = () => {
-  const { apiInstance } = useApi()
+  const { apiInstance, apiInstanceByPrefix } = useApi()
   const { isLoading, status, executeTransaction, blockNumber, isError } =
     useExecuteTransaction()
 
-  const transaction = async (item: Actions) => {
-    const api = await apiInstance.value
+  const transaction = async (item: Actions, prefix = '') => {
+    let api = await apiInstance.value
+
+    if (prefix) {
+      api = await apiInstanceByPrefix(prefix)
+    }
+
     const map = {
       [Interaction.BUY]: () =>
         execBuyTx(item as ActionBuy, api, executeTransaction),

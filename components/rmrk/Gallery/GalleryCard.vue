@@ -42,79 +42,72 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, mixins } from 'nuxt-property-decorator'
-
+<script lang="ts" setup>
 import { processSingleMetadata } from '@/utils/cachingStrategy'
-import AuthMixin from '@/utils/mixins/authMixin'
-
 import { getMimeType } from '@/utils/gallery/media'
-import { getSanitizer, sanitizeIpfsUrl } from '@/utils/ipfs'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
+
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'
 
-const components = {
-  LinkResolver: () => import('@/components/shared/LinkResolver.vue'),
-  CommonTokenMoney: () => import('@/components/shared/CommonTokenMoney.vue'),
-  BasicImage: () => import('@/components/shared/view/BasicImage.vue'),
-  PreviewMediaResolver: () =>
-    import('@/components/media/PreviewMediaResolver.vue'),
-  NeoIcon: () => import('@kodadot1/brick').then((m) => m.NeoIcon),
-}
+import LinkResolver from '@/components/shared/LinkResolver.vue'
+import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
+import BasicImage from '@/components/shared/view/BasicImage.vue'
+import PreviewMediaResolver from '@/components/media/PreviewMediaResolver.vue'
 
-@Component({ components })
-export default class GalleryCard extends mixins(AuthMixin) {
-  @Prop({ type: String, default: '/rmrk/gallery' })
-  public route!: string
-  @Prop({ type: String, default: 'rmrk/gallery' })
-  public link!: string
-  @Prop(String) public id!: string
-  @Prop(String) public name!: string
-  @Prop([String, Number]) public emoteCount!: string | number
-  @Prop(String) public imageType!: string
-  @Prop(String) public price!: string
-  @Prop(String) public metadata!: string
-  @Prop(String) public currentOwner!: string
-  @Prop(Boolean) public listed!: boolean
-  @Prop(Boolean) public hideName!: boolean
-  public image = ''
-  public title = ''
-  public animatedUrl = ''
-  public mimeType = ''
-  private preferencesStore = usePreferencesStore()
-
-  async fetch() {
-    if (this.metadata) {
-      const meta = await processSingleMetadata<NFTMetadata>(this.metadata)
-
-      this.image = getSanitizer(meta.image || '', 'image')(meta.image || '')
-      this.title = meta.name
-      this.animatedUrl = sanitizeIpfsUrl(
-        meta.animation_url || meta.mediaUri || '',
-        'image'
-      )
-      this.mimeType = (await getMimeType(this.animatedUrl || this.image)) || ''
-    }
+const props = withDefaults(
+  defineProps<{
+    route?: string
+    link?: string
+    id: string
+    name?: string
+    emoteCount?: string | number
+    price?: string
+    metadata: string
+    currentOwner: string
+    listed?: boolean
+    hideName: boolean
+  }>(),
+  {
+    route: '/rmrk/gallery',
+    link: 'rmrk/gallery',
+    name: '',
+    emoteCount: '',
+    listed: true,
+    price: '0',
   }
+)
 
-  get isBasicImage() {
-    return !this.animatedUrl || (this.image && this.mimeType.includes('audio'))
-  }
+const image = ref('')
+const title = ref('')
+const animatedUrl = ref('')
+const mimeType = ref('')
+const preferencesStore = usePreferencesStore()
 
-  get showPriceValue(): boolean {
-    return this.listed || this.preferencesStore.getShowPriceValue
-  }
+watchEffect(async () => {
+  if (props.metadata) {
+    const meta = await processSingleMetadata<NFTMetadata>(props.metadata)
 
-  get nftName(): string {
-    return this.name || this.title || '--'
-  }
-
-  get largeDisplay(): boolean {
-    return (
-      this.preferencesStore.getLayoutClass === 'is-half-desktop is-half-tablet'
+    image.value = sanitizeIpfsUrl(meta.image || meta.thumbnailUri)
+    title.value = meta.name
+    animatedUrl.value = sanitizeIpfsUrl(
+      meta.animation_url || meta.mediaUri || '',
+      'image'
     )
+    mimeType.value = (await getMimeType(animatedUrl.value || image.value)) || ''
   }
-}
+})
+
+const isBasicImage = computed(
+  () => !animatedUrl.value || (image.value && mimeType.value.includes('audio'))
+)
+const showPriceValue = computed(
+  () => props.listed || preferencesStore.getShowPriceValue
+)
+const nftName = computed(() => props.name || title.value || '--')
+const largeDisplay = computed(
+  () => preferencesStore.getLayoutClass === 'is-half-desktop is-half-tablet'
+)
 </script>
 
 <style scoped lang="scss">

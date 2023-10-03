@@ -74,61 +74,85 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, PropSync, Ref, Vue } from 'nuxt-property-decorator'
+<script setup lang="ts">
 import { MediaType } from '../rmrk/types'
 import { resolveMedia } from '../rmrk/utils'
 import { BaseMintedCollection as MintedCollection } from './types'
 import { NeoField } from '@kodadot1/brick'
+import Auth from '@/components/shared/Auth.vue'
+import MetadataUpload from '@/components/shared/DropUpload.vue'
+import BasicInput from '@/components/shared/form/BasicInput.vue'
+import BasicNumberInput from '@/components/shared/form/BasicNumberInput.vue'
+import CollectionSelect from '@/components/base/CollectionSelect.vue'
+import { useVModel } from '@vueuse/core'
 
-const components = {
-  Auth: () => import('@/components/shared/Auth.vue'),
-  MetadataUpload: () => import('@/components/shared/DropUpload.vue'),
-  BasicInput: () => import('@/components/shared/form/BasicInput.vue'),
-  BasicNumberInput: () =>
-    import('@/components/shared/form/BasicNumberInput.vue'),
-  CollectionSelect: () => import('@/components/base/CollectionSelect.vue'),
-  NeoField,
+const props = defineProps({
+  label: {
+    type: String,
+    default: 'context',
+  },
+  collections: {
+    type: Array,
+    default: () => [],
+  },
+  hasCopies: {
+    type: Boolean,
+    default: true,
+  },
+  showExplainerText: {
+    type: Boolean,
+    default: false,
+  },
+  name: String,
+  description: String,
+  file: Blob,
+  selectedCollection: Object,
+  copies: Number,
+  secondFile: Blob,
+})
+
+const emit = defineEmits([
+  'update:name',
+  'update:description',
+  'update:file',
+  'update:selectedCollection',
+  'update:copies',
+  'update:secondFile',
+])
+
+const nftName = ref<typeof BasicInput>()
+const upload = ref<typeof MetadataUpload>()
+
+const vName = useVModel(props, 'name', emit)
+
+const vDescription = useVModel(props, 'description', emit)
+
+const vFile = useVModel(props, 'file', emit)
+
+const vSelectedCollection = useVModel(props, 'selectedCollection', emit)
+
+const vCopies = useVModel(props, 'copies', emit)
+
+const vSecondFile = useVModel(props, 'secondFile', emit)
+
+const checkValidity = () => {
+  const nftNameValid = nftName.value?.checkValidity()
+  const uploadValid = upload.value?.checkValidity()
+  return nftNameValid && uploadValid
 }
 
-@Component({ components })
-export default class BaseTokenForm extends Vue {
-  @Prop({ type: String, default: 'context' }) label!: string
-  @Prop({ type: Array, default: () => [] }) collections!: MintedCollection[]
-  @Prop({ type: Boolean, default: true }) hasCopies!: boolean
-  @Prop({ type: Boolean, default: false }) showExplainerText!: boolean
-
-  @PropSync('name', { type: String }) vName!: string
-  @PropSync('description', { type: String }) vDescription!: string
-  @PropSync('file', { type: Blob }) vFile!: Blob | null
-  @PropSync('selectedCollection') vSelectedCollection!: MintedCollection | null
-  @PropSync('copies', { type: Number }) vCopies!: number
-  @PropSync('secondFile', { type: Blob }) vSecondFile!: Blob | null
-  @Ref('nftName') readonly nftName
-  @Ref('upload') readonly upload
-
-  public checkValidity() {
-    const nftNameValid = this.nftName.checkValidity()
-    const uploadValid = this.upload.checkValidity()
-    return nftNameValid && uploadValid
-  }
-
-  public onCollectionSelected(collection) {
-    this.vSelectedCollection = collection
-  }
-
-  get clickableMax() {
-    return Infinity
-    // return (this.max || Infinity) - this.alreadyMinted
-  }
-
-  get fileType() {
-    return resolveMedia(this.vFile?.type)
-  }
-
-  get secondaryFileVisible() {
-    const fileType = this.fileType
-    return ![MediaType.UNKNOWN, MediaType.IMAGE].some((t) => t === fileType)
-  }
+const onCollectionSelected = (collection: MintedCollection) => {
+  vSelectedCollection.value = collection
 }
+
+const clickableMax = ref(Infinity)
+
+const fileType = computed(() => resolveMedia(vFile.value?.type))
+
+const secondaryFileVisible = computed(() => {
+  const ft = fileType.value
+  return ![MediaType.UNKNOWN, MediaType.IMAGE].some((t) => t === ft)
+})
+
+defineExpose({ checkValidity })
 </script>

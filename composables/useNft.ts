@@ -1,14 +1,22 @@
 import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import type { BaseNFTMeta } from '@/components/base/types'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
-import { getMimeType } from '@/utils/gallery/media'
+import { getMimeType, isAudio as isAudioMimeType } from '@/utils/gallery/media'
 import unionBy from 'lodash/unionBy'
+import type { Ref } from 'vue/types'
+
 export type NftResources = {
   id: string
   src?: string
   thumb?: string
   mimeType?: string
   animation?: string
+  meta?: {
+    id: string
+    image?: string
+    animationUrl?: string
+  }
 }
 
 export type ItemResources = {
@@ -16,8 +24,14 @@ export type ItemResources = {
   resources?: NftResources[]
 }
 
+export type Stack = {
+  count: number
+  floorPrice: string
+  nfts: NFTWithMetadata[]
+}
+
 export type NFTWithMetadata = NFT &
-  NFTMetadata & { meta: NFTMetadata } & ItemResources
+  NFTMetadata & { meta: BaseNFTMeta } & ItemResources
 
 function getGeneralMetadata(nft: NFTWithMetadata) {
   return {
@@ -25,9 +39,45 @@ function getGeneralMetadata(nft: NFTWithMetadata) {
     name: nft.name || nft.meta.name || nft.id,
     description: nft.description || nft.meta.description || '',
     image: sanitizeIpfsUrl(nft.meta.image),
-    animation_url: sanitizeIpfsUrl(nft.meta.animation_url || ''),
+    animationUrl: sanitizeIpfsUrl(
+      nft.meta.animation_url || nft.meta.animationUrl || ''
+    ),
     type: nft.meta.type || '',
   }
+}
+
+export function useNftCardIcon(nft: Ref<NFTWithMetadata>) {
+  const { isAudio } = useNftMimeType(nft)
+  const { unlockableIcon } = useUnlockableIcon()
+
+  const showCardIcon = computed(() => isAudio.value)
+
+  const cardIcon = computed(() => {
+    if (isAudio.value) {
+      return '/sound.svg'
+    }
+    return unlockableIcon.value
+  })
+
+  return { showCardIcon, cardIcon }
+}
+
+export function useNftMimeType(nft?: Ref<NFTWithMetadata>) {
+  const isAudio = ref(false)
+
+  watch(
+    () => nft?.value,
+    async () => {
+      const mimeType = await getMimeType(
+        sanitizeIpfsUrl(nft?.value.meta?.animationUrl || '')
+      )
+
+      isAudio.value = isAudioMimeType(mimeType)
+    },
+    { immediate: true }
+  )
+
+  return { isAudio }
 }
 
 async function getRmrk2Resources(nft: NFTWithMetadata) {
@@ -44,11 +94,9 @@ async function getRmrk2Resources(nft: NFTWithMetadata) {
 }
 
 async function getProcessMetadata(nft: NFTWithMetadata) {
-  const metadata = (await processSingleMetadata(
-    nft.metadata
-  )) as NFTWithMetadata
+  const metadata = await processSingleMetadata<NFTWithMetadata>(nft.metadata)
   const image = sanitizeIpfsUrl(metadata.image || metadata.mediaUri || '')
-  const animation_url = sanitizeIpfsUrl(metadata.animation_url || '')
+  const animationUrl = sanitizeIpfsUrl(metadata.animation_url || '')
   const getAttributes = () => {
     const hasMetadataAttributes =
       metadata.attributes && metadata.attributes.length > 0
@@ -68,7 +116,7 @@ async function getProcessMetadata(nft: NFTWithMetadata) {
     name: nft.name || metadata.name || nft.id,
     description: nft.description || metadata.description || '',
     image,
-    animation_url,
+    animationUrl,
     type: metadata.type || '',
     attributes: getAttributes(),
   }

@@ -14,11 +14,11 @@ export const EXPLORERS: Record<Prefix, string> = {
   ksm: 'https://kusama.subscan.io/account/',
   bsx: 'https://basilisk.subscan.io/account/',
   snek: 'https://calamar.play.hydration.cloud/rococo%20basilisk/search?query=',
-  movr: 'https://moonriver.subscan.io/account/',
-  glmr: 'https://moonbeam.subscan.io/account/',
   ahk: 'https://assethub-kusama.subscan.io/account/',
   dot: 'https://polkadot.subscan.io/account/',
   ahp: 'https://assethub-polkadot.subscan.io/account/',
+  // movr: 'https://moonriver.subscan.io/account/',
+  // glmr: 'https://moonbeam.subscan.io/account/',
 }
 
 export const hasExplorer = (prefix: Prefix): boolean => {

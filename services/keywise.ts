@@ -1,4 +1,4 @@
-import { $fetch, FetchError } from 'ohmyfetch'
+import { $fetch, FetchError } from 'ofetch'
 import consola from 'consola'
 import { URLS } from '../utils/constants'
 
@@ -24,9 +24,9 @@ export const getValue = async (
 
   const { url } = await keywiseApi<KeyValue>(
     `resolve/${prefix}-${nftId}`
-  ).catch((error: FetchError) => {
+  ).catch((error: FetchError<{ message: string }>) => {
     consola.error(
-      `[WORKER::KEYWISE] Unable to GET KEY for reasons ${error.data}`
+      `[WORKER::KEYWISE] Unable to GET KEY for reasons ${error?.data?.message}`
     )
     return { url: '' }
   })

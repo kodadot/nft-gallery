@@ -38,7 +38,6 @@
     }
 
     .more-option-button {
-      margin: 0 34px;
       &:hover {
         @include ktheme() {
           color: theme('k-hovergrey') !important;
@@ -49,13 +48,6 @@
       }
     }
 
-    .modal-card-head {
-      background: unset;
-      padding: 1rem 2rem;
-      @include ktheme() {
-        border-bottom: 1px solid theme('border-color');
-      }
-    }
 
     .modal-card-body {
       padding: 0;

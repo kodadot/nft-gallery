@@ -112,22 +112,12 @@ export class BaseDotsamaWallet implements Wallet {
     }
     const unsubscribe = this._extension.accounts.subscribe(
       (accounts: InjectedAccount[]) => {
-        const accountsWithWallet = accounts.map((account) => {
-          account.address = formatAccount(account.address)
-          return {
-            ...account,
-            source: this._extension?.name as string,
-            // Added extra fields here for convenience
-            wallet: this,
-            signer: this._extension?.signer,
-          }
-        })
+        const accountsWithWallet = this.accountMap(accounts)
         callback(accountsWithWallet)
       }
     )
     return unsubscribe
   }
-
   getAccounts = async () => {
     if (!this._extension) {
       await this.enable()
@@ -139,7 +129,10 @@ export class BaseDotsamaWallet implements Wallet {
 
     const accounts = await this._extension.accounts.get()
 
-    return accounts.map((account) => {
+    return this.accountMap(accounts)
+  }
+  accountMap = (accounts: InjectedAccount[]) =>
+    accounts.map((account) => {
       account.address = formatAccount(account.address)
       return {
         ...account,
@@ -149,5 +142,4 @@ export class BaseDotsamaWallet implements Wallet {
         signer: this._extension?.signer,
       }
     })
-  }
 }

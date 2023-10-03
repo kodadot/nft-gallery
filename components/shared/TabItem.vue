@@ -2,7 +2,7 @@
   <p class="control" :class="{ 'full-width': fullWidth }">
     <NeoButton
       class="explore-tabs-button"
-      tag="nuxt-link"
+      :tag="tag"
       :no-shadow="noShadow"
       :active="active"
       :to="to"
@@ -22,9 +22,11 @@ withDefaults(
     to?: string
     fullWidth?: boolean
     noShadow?: boolean
+    tag?: string
   }>(),
   {
     to: '',
+    tag: 'nuxt-link',
   }
 )
 </script>

@@ -1,8 +1,8 @@
 <template>
   <section class="mb-5">
-    <h2 class="heading heading-is-4 has-text-weight-bold is-uppercase">
+    <h1 class="heading heading-is-4 has-text-weight-bold is-uppercase">
       Cookie Policy
-    </h2>
+    </h1>
 
     <time class="mb-6">Last updated May 16, 2023</time>
 
@@ -177,3 +177,22 @@
     </p>
   </section>
 </template>
+
+<script lang="ts">
+export default {
+  name: 'CookieNotice',
+
+  head() {
+    const title = 'Cookie Policy'
+    const metaData = {
+      title,
+      description: 'KodaDot Cookie Policy',
+      url: '/cookie-notice',
+    }
+    return {
+      title,
+      meta: [...this.$seoMeta(metaData)],
+    }
+  },
+}
+</script>

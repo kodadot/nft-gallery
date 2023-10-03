@@ -36,7 +36,7 @@ const handleSelectImage = (image: string) => {
   emit('select', image)
 }
 
-const props = defineProps<{
+defineProps<{
   predicion: PredictionStatus
   selected: string
 }>()

@@ -1,7 +1,23 @@
 <template>
-  <NeoModal v-model="isModalActive" scroll="clip" @close="emit('close')">
+  <NeoModal
+    v-model="isModalActive"
+    :no-shadow="isMobile"
+    :content-class="[
+      'transfer-confirm-modal',
+      isMobile ? 'only-top-border' : '',
+      isExpandList ? 'mobile-modal-height' : '',
+    ]"
+    max-height="90vh"
+    scroll="clip"
+    @close="emit('close')">
     <div
-      class="modal-width is-flex is-flex-direction-column is-justify-content-space-between">
+      :class="[
+        'is-flex is-flex-direction-column is-justify-content-space-between',
+        {
+          'modal-width': !isMobile,
+          'h-full pb-6': isMobile,
+        },
+      ]">
       <div>
         <header
           class="is-flex is-justify-content-center is-align-items-center header px-6 py-3">
@@ -10,17 +26,17 @@
             <span class="is-uppercase">{{ unit }}</span>
           </span>
           <NeoButton
-            class="position-right mr-6"
+            class="position-right mr-6 py-1 px-2"
             variant="text"
-            icon="close"
             no-shadow
-            icon-pack="fas"
+            icon="xmark"
+            size="medium"
             @click.native="closeModal" />
         </header>
         <div
           :class="[
             {
-              'is-bordered-top': isExpandList,
+              'is-bordered-top scroll-height': isExpandList,
             },
             'px-6 is-scrollable',
           ]">
@@ -61,11 +77,12 @@
                   :address="targetAddresses[0].address"
                   hide-identity-popover />
               </span>
-              <NeoIcon
-                icon="circle-info"
-                class="is-size-6"
-                pack="far"
-                :title="targetAddresses[0].address" />
+              <NeoTooltip
+                :label="targetAddresses[0].address"
+                append-to-body
+                content-class="transfer-tooltip">
+                <NeoIcon icon="circle-info" class="is-size-6" />
+              </NeoTooltip>
             </div>
             <div
               v-else
@@ -74,9 +91,7 @@
               <span class="mx-2 is-size-6">
                 {{ targetAddresses.length }} {{ $t('transfers.recipients') }}
               </span>
-              <NeoIcon
-                :icon="isExpandList ? 'angle-up' : 'angle-down'"
-                pack="far" />
+              <NeoIcon :icon="isExpandList ? 'angle-up' : 'angle-down'" />
             </div>
           </div>
           <div class="fixed-height">
@@ -97,11 +112,12 @@
                         :address="address.address"
                         hide-identity-popover />
                     </span>
-                    <NeoIcon
-                      icon="circle-info"
-                      class="is-size-6"
-                      pack="far"
-                      :title="address.address" />
+                    <NeoTooltip
+                      :label="address.address"
+                      append-to-body
+                      content-class="transfer-tooltip">
+                      <NeoIcon icon="circle-info" class="is-size-6" />
+                    </NeoTooltip>
                   </div>
                 </div>
                 <div
@@ -121,7 +137,13 @@
         </div>
       </div>
 
-      <div class="is-flex is-flex-direction-column px-6 py-5 is-bordered-top">
+      <div
+        :class="[
+          'is-flex is-flex-direction-column px-6 py-5 is-bordered-top',
+          {
+            'pb-6': isMobile,
+          },
+        ]">
         <div
           class="is-flex is-justify-content-space-between is-align-items-center mb-3">
           <span class="has-text-weight-bold is-size-6">{{
@@ -149,7 +171,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
+import { NeoButton, NeoIcon, NeoModal, NeoTooltip } from '@kodadot1/brick'
 import { NAMES } from '@/libs/static/src/names'
 import Avatar from '@/components/shared/Avatar.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
@@ -158,6 +180,7 @@ const props = defineProps<{
   isModalActive: boolean
   tokenIcon: string
   unit: string
+  isMobile: boolean
   displayTotalValue: string[]
   targetAddresses: TargetAddress[]
 }>()
@@ -184,37 +207,70 @@ const network = computed(
 const isExpandList = ref(false)
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '@/styles/abstracts/variables';
 
-.modal-width {
-  width: 28rem;
-}
-.header {
-  position: relative;
-}
-.position-right {
-  position: absolute;
-  right: 0;
-}
+.transfer-confirm-modal {
+  @include mobile {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 0.75rem 0.75rem 0 0;
 
-.fixed-height {
-  height: 10rem;
-}
+    &.mobile-modal-height {
+      height: 90vh;
+    }
+  }
 
-.fixed-button-height {
-  min-height: 55px;
-}
-.is-small-size-text {
-  font-size: 14px;
-}
+  &.only-top-border {
+    border-right: 0 !important;
+    border-left: 0 !important;
+    border-bottom: 0 !important;
+  }
 
-.is-scrollable {
-  overflow-y: auto;
+  .scroll-height {
+    height: 50vh;
+    @include mobile {
+      height: 60vh;
+    }
+  }
+
+  .modal-width {
+    width: 28rem;
+  }
+  .header {
+    position: relative;
+  }
+  .position-right {
+    position: absolute;
+    right: 0;
+  }
+
+  .fixed-height {
+    height: 10rem;
+  }
+
+  .fixed-button-height {
+    min-height: 55px;
+  }
+
+  .is-scrollable {
+    overflow-y: auto;
+  }
+  .is-bordered-top {
+    @include ktheme() {
+      border-top: 1px solid theme('k-shade');
+    }
+  }
 }
-.is-bordered-top {
-  @include ktheme() {
-    border-top: 1px solid theme('k-shade');
+</style>
+<style lang="scss">
+// manually calculated number, based on address length and container padding, not the best solution but it works :)
+.o-tip__content.transfer-tooltip {
+  transform: translateX(-22rem);
+  .o-tip__arrow {
+    transform: translateX(10rem);
   }
 }
 </style>

@@ -24,9 +24,8 @@ function processCsvLine(line: string, csvHeaders: string[]): Partial<Entry> {
 function parseCsvWithHeaders(lines, csvHeaders): Record<string, Entry> {
   const entries: Record<string, Entry> = {}
 
-  for (let i = 1; i < lines.length; i++) {
-    const line = lines[i].trim()
-    const entry = processCsvLine(line, csvHeaders)
+  for (const line of lines) {
+    const entry = processCsvLine(line.trim(), csvHeaders)
 
     entry.valid = isValidEntry(entry)
     entries[entry.file as string] = entry as Entry

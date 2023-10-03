@@ -10,6 +10,7 @@ interface State {
   mobileFilterCollapseOpen: boolean
   notificationBoxCollapseOpen: boolean
   shoppingCartCollapseOpen: boolean
+  listingCartModalOpen: boolean
   completePurchaseModal: completePurchaseModalState
   triggerBuySuccess: boolean
   layoutClass: string
@@ -40,6 +41,7 @@ export const usePreferencesStore = defineStore('preferences', {
     sidebarFilterCollapseOpen: true,
     mobileFilterCollapseOpen: false,
     notificationBoxCollapseOpen: false,
+    listingCartModalOpen: false,
     shoppingCartCollapseOpen: false,
     completePurchaseModal: {
       isOpen: false,

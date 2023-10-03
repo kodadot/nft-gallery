@@ -21,17 +21,17 @@
 import { NeoIcon } from '@kodadot1/brick'
 import { useIdentityStore } from '@/stores/identity'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
-import useIdentity from '@/components/identity/utils/useIdentity'
 
 const identityStore = useIdentityStore()
 const shoppingCartStore = useShoppingCartStore()
 const { urlPrefix } = usePrefix()
 const { toast } = useToast()
-const { display, shortenedAddress } = useIdentity({
-  address: identityStore.getAuthAddress,
-})
 
 const account = computed(() => identityStore.getAuthAddress)
+
+const { display, shortenedAddress } = useIdentity({
+  address: account,
+})
 
 const logout = () => {
   identityStore.resetAuth()

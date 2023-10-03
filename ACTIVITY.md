@@ -40,45 +40,71 @@ flowchart TD
 
 ## Pace of development
 
-## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Recent activity [![Time period](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/pGfAgBUKqY3G-v6I743PiFRW_UY1tmd-HKHy6d1ear4/IHNavWbCVC3MxqvOc_yKjOWxIPiZr3TlKUnZDbWuTG0_badge.svg)](https://repography.com)
-[![Issue status graph](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/pGfAgBUKqY3G-v6I743PiFRW_UY1tmd-HKHy6d1ear4/IHNavWbCVC3MxqvOc_yKjOWxIPiZr3TlKUnZDbWuTG0_issues.svg)](https://github.com/kodadot/nft-gallery/issues)
-[![Pull request status graph](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/pGfAgBUKqY3G-v6I743PiFRW_UY1tmd-HKHy6d1ear4/IHNavWbCVC3MxqvOc_yKjOWxIPiZr3TlKUnZDbWuTG0_prs.svg)](https://github.com/kodadot/nft-gallery/pulls)
-[![Timeline graph](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/pGfAgBUKqY3G-v6I743PiFRW_UY1tmd-HKHy6d1ear4/IHNavWbCVC3MxqvOc_yKjOWxIPiZr3TlKUnZDbWuTG0_timeline.svg)](https://github.com/kodadot/nft-gallery/commits)
-[![Top contributors](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/pGfAgBUKqY3G-v6I743PiFRW_UY1tmd-HKHy6d1ear4/IHNavWbCVC3MxqvOc_yKjOWxIPiZr3TlKUnZDbWuTG0_users.svg)](https://github.com/kodadot/nft-gallery/graphs/contributors)
+
+## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Recent activity [![Time period](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/1nMiB_aZjymZHZUDQ6R3hWGHqWUWahnU6VdRYYv2InU/ygTelP2NVzMzr-XPmCeXq2GzAIHSFlcUsZDXKY3Qrl4_badge.svg)](https://repography.com)
+[![Timeline graph](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/1nMiB_aZjymZHZUDQ6R3hWGHqWUWahnU6VdRYYv2InU/ygTelP2NVzMzr-XPmCeXq2GzAIHSFlcUsZDXKY3Qrl4_timeline.svg)](https://github.com/kodadot/nft-gallery/commits)
+[![Issue status graph](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/1nMiB_aZjymZHZUDQ6R3hWGHqWUWahnU6VdRYYv2InU/ygTelP2NVzMzr-XPmCeXq2GzAIHSFlcUsZDXKY3Qrl4_issues.svg)](https://github.com/kodadot/nft-gallery/issues)
+[![Pull request status graph](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/1nMiB_aZjymZHZUDQ6R3hWGHqWUWahnU6VdRYYv2InU/ygTelP2NVzMzr-XPmCeXq2GzAIHSFlcUsZDXKY3Qrl4_prs.svg)](https://github.com/kodadot/nft-gallery/pulls)
+[![Top contributors](https://images.repography.com/23713223/kodadot/nft-gallery/recent-activity/1nMiB_aZjymZHZUDQ6R3hWGHqWUWahnU6VdRYYv2InU/ygTelP2NVzMzr-XPmCeXq2GzAIHSFlcUsZDXKY3Qrl4_users.svg)](https://github.com/kodadot/nft-gallery/graphs/contributors)
+
 
 ## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Top contributors
-[![Top contributors](https://images.repography.com/23713223/kodadot/nft-gallery/top-contributors/pGfAgBUKqY3G-v6I743PiFRW_UY1tmd-HKHy6d1ear4/IHNavWbCVC3MxqvOc_yKjOWxIPiZr3TlKUnZDbWuTG0_table.svg)](https://github.com/kodadot/nft-gallery/graphs/contributors)
+[![Top contributors](https://images.repography.com/23713223/kodadot/nft-gallery/top-contributors/1nMiB_aZjymZHZUDQ6R3hWGHqWUWahnU6VdRYYv2InU/ygTelP2NVzMzr-XPmCeXq2GzAIHSFlcUsZDXKY3Qrl4_table.svg)](https://github.com/kodadot/nft-gallery/graphs/contributors)
 
-### RepoTracker
+
+RepoTracker
+---
 
 [Peak on recent activity over KodaDot](https://repo-tracker.com/r/gh/kodadot/nft-gallery)
 
-![image](https://user-images.githubusercontent.com/5887929/232563230-85fcda10-2cd8-46a2-b4aa-a0f1261a0660.png)
+![image](https://github.com/kodadot/nft-gallery/assets/5887929/7c8db5f6-3c8b-40c1-a6e8-fa5e0155227c)
 
-![image](https://user-images.githubusercontent.com/5887929/232563299-39e84aa1-19c8-4031-9488-6813f74f65f3.png)
+![image](https://github.com/kodadot/nft-gallery/assets/5887929/75a99f4c-54c0-4848-955a-828ba82ab401)
 
-### Axiom - Repobeats
+![image](https://github.com/kodadot/nft-gallery/assets/5887929/1611f8f3-21aa-4f52-a9a8-f4166d8619ab)
+
+![image](https://github.com/kodadot/nft-gallery/assets/5887929/1e7a6ffa-f938-4c08-97cf-98e89eee1e13)
+
+Axiom - Repobeats
+---
 
 ![Alt](https://repobeats.axiom.co/api/embed/0fb5819705db8bf2be040d140b66f04aaf529a30.svg "Repobeats analytics image")
 
 
-### Crowd.dev - AnalyzeMyRepo
+Crowd.dev - AnalyzeMyRepo
+---
 
 [Verbose version from AnalyzeMyRepo](https://analyzemyrepo.com/analyze/kodadot/nft-gallery)
 
-## We're constantly growing!
+We're constantly growing
+---
 
 [![Contributors Over Time](https://contributor-overtime-api.git-contributor.com/contributors-svg?chart=contributorOverTime&repo=kodadot/nft-gallery)](https://git-contributor.com?chart=contributorOverTime&repo=kodadot/nft-gallery)
 
 [![Monthly Active Contributors](https://contributor-overtime-api.git-contributor.com/contributors-svg?chart=contributorMonthlyActivity&repo=kodadot/nft-gallery)](https://git-contributor.com?chart=contributorMonthlyActivity&repo=kodadot/nft-gallery)
 
-## Recent Contributors ✨
+Repotrends - new issues and pull requests
+--
+- [repotrends.com/kodadot/nft-gallery](https://www.repotrends.com/kodadot/nft-gallery)
+
+![image](https://github.com/kodadot/nft-gallery/assets/5887929/49ce2716-c207-4b8a-a58c-1317fb62ec5b)
+
+
+Recent Contributors ✨
+---
 
 <img src="https://contrib.rocks/image?repo=kodadot/nft-gallery" />
 
 Check out KodaDot's [monthly statistics](https://github.com/kodadot/nft-gallery/pulse/monthly) and each contributors [activity]((https://github.com/kodadot/nft-gallery/graphs/contributors))
 
-## Brief code structure
+Star history ⭐️
+---
+
+[![Star History Chart](https://api.star-history.com/svg?repos=kodadot/nft-gallery&type=Date)](https://star-history.com/#kodadot/nft-gallery&Date)
+
+
+Brief code structure
+---
 
 ![Visualization of this repo](.github/diagram.svg)
 [Interactive visualization](https://octo-repo-visualization.vercel.app/?repo=kodadot%2Fnft-gallery)
@@ -87,21 +113,13 @@ Check out KodaDot's [monthly statistics](https://github.com/kodadot/nft-gallery/
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/kodadot/nft-gallery.svg)](http://isitmaintained.com/project/kodadot/nft-gallery "Percentage of issues still open") -->
 
-## Open Bounties sorted by bounty size
+Open Bounties sorted by bounty size
+---
 
 [![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24)
 [![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24+)
 [![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24+)
 [![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$$$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24%24+)
 [![Rewards](https://flat.badgen.net/github/label-issues/kodadot/nft-gallery/$$$$$/open?scale=2)](https://github.com/kodadot/nft-gallery/issues?q=is%3Aopen+is%3Aissue+label%3A%24%24%24%24%24+)
-
-## Star history 
-
-[![Star History Chart](https://api.star-history.com/svg?repos=kodadot/nft-gallery&type=Date)](https://star-history.com/#kodadot/nft-gallery&Date)
-
-### New Issues and pull requests 
-- https://www.repotrends.com/kodadot/nft-gallery
-
-![image](https://user-images.githubusercontent.com/5887929/232562963-f7f42c34-89ea-4783-8dad-a426dd91c262.png)
 
 

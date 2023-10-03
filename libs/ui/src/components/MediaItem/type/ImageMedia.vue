@@ -9,7 +9,7 @@
       :src="src"
       class="is-block image-media__image"
       :alt="alt"
-      data-cy="type-image"
+      data-testid="type-image"
       @error="onError" />
   </figure>
 </template>

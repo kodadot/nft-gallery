@@ -26,5 +26,6 @@ query nftById($id: String!) {
       }
     }
     royalty
+    recipient
   }
 }

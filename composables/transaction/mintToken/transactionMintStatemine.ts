@@ -1,12 +1,8 @@
 import { BaseMintedCollection } from '@/components/base/types'
-import type {
-  ActionMintToken,
-  MintTokenParams,
-  MintedCollection,
-} from '../types'
+import type { ActionMintToken, MintedCollection } from '../types'
 import { TokenToMint } from '../types'
 import { constructMeta } from './constructMeta'
-import { calculateFees, copiesToMint } from './utils'
+import { calculateFees, expandCopies, transactionFactory } from './utils'
 import { canSupport } from '@/utils/support'
 
 type id = { id: number }
@@ -14,34 +10,14 @@ type id = { id: number }
 export const assignIds = <T extends TokenToMint>(tokens: T[]): (T & id)[] => {
   let lastId = 0
   return tokens.map((token) => {
-    const { alreadyMinted, lastIndexUsed } =
-      token.selectedCollection as MintedCollection
+    const { lastIndexUsed } = token.selectedCollection as MintedCollection
 
-    // Use the maximum value between lastId and alreadyMinted or lastIndexUsed
-    lastId = Math.max(lastIndexUsed, alreadyMinted, lastId)
+    lastId = Math.max(lastIndexUsed, lastId)
 
     return {
       ...token,
       id: ++lastId,
     }
-  })
-}
-
-export const expandCopies = <T extends TokenToMint>(tokens: T[]): T[] => {
-  return tokens.flatMap((token) => {
-    const copies = copiesToMint(token)
-    if (copies === 1) {
-      return token
-    }
-
-    return Array(copies)
-      .fill(null)
-      .map((_, index) => {
-        return {
-          ...token,
-          name: token.postfix ? `${token.name} #${index + 1}` : token.name,
-        }
-      })
   })
 }
 
@@ -117,35 +93,4 @@ const getArgs = async (item: ActionMintToken, api) => {
   return [[...arg.flat(), ...supportInteraction]]
 }
 
-export async function execMintStatemine({
-  item,
-  api,
-  executeTransaction,
-  isLoading,
-  status,
-}: MintTokenParams) {
-  const { $i18n } = useNuxtApp()
-
-  isLoading.value = true
-  status.value = 'loader.ipfs'
-  const args = await getArgs(item, api)
-
-  const nameInNotifications = Array.isArray(item.token)
-    ? item.token.map((t) => t.name).join(', ')
-    : item.token.name
-
-  executeTransaction({
-    cb: api.tx.utility.batchAll,
-    arg: args,
-    successMessage:
-      item.successMessage ||
-      ((blockNumber) =>
-        $i18n.t('mint.mintNFTSuccess', {
-          name: nameInNotifications,
-          block: blockNumber,
-        })),
-    errorMessage:
-      item.errorMessage ||
-      $i18n.t('mint.errorCreateNewNft', { name: nameInNotifications }),
-  })
-}
+export const execMintStatemine = transactionFactory(getArgs)

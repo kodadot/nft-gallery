@@ -82,7 +82,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 import UploadMediaZip from './uploadCompressedMedia/UploadCompressedMedia.vue'
 import UploadDescription from './uploadDescription/UploadDescription.vue'
 import OverviewTable from './OverviewTable.vue'
-import ChooseCollectionDropdown from './ChooseCollectionDropdown.vue'
+import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
 import EditPanel from './EditPanel.vue'
 import { NFT, NFTToMint } from './types'
 import MissingInfoModal from './modals/MissingInfoModal.vue'
@@ -169,7 +169,7 @@ const startMint = () => {
 
       if (isLoadingOldV && !isLoadingV) {
         mintModalOpen.value = false
-        if (!isError.value && statusV !== 'loader.sign') {
+        if (!isError.value && statusV !== TransactionStatus.Sign) {
           showNotification(
             $i18n.t('massmint.continueToCollectionPage'),
             notificationTypes.success
@@ -236,6 +236,7 @@ const onDescriptionLoaded = (entries: Record<string, Entry>) => {
     if (!nftId) {
       return
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { file: _, ...restOfEntry } = entry
     NFTS.value[nftId] = {
       ...NFTS.value[nftId],

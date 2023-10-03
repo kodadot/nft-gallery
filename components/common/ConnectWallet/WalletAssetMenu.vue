@@ -8,31 +8,33 @@
         v-safe-href="menu.to"
         class="wallet-asset-menu">
         <span>{{ menu.label }}</span>
-        <NeoIcon icon="angle-right" class="has-text-grey" />
+        <NeoIcon icon="angle-right" size="medium" class="has-text-grey" />
       </a>
     </div>
     <div
-      class="wallet-asset-footer is-flex is-justify-content-space-between py-4 is-size-7 has-text-grey">
+      class="wallet-asset-footer is-flex is-justify-content-space-between py-5 is-size-7 has-text-grey">
       <!-- light/dark mode -->
-      <div @click="toggleColorMode">
-        <NeoIcon icon="circle-half-stroke" />
+      <div class="is-align-items-center" @click="toggleColorMode">
+        <NeoIcon icon="circle-half-stroke" custom-size="fa-2x" />
         <span v-if="isDarkMode">{{ $t('profileMenu.lightMode') }}</span>
         <span v-else>{{ $t('profileMenu.darkMode') }}</span>
       </div>
 
       <!-- language -->
-      <div data-cy="sidebar-language">
+      <div data-testid="sidebar-language">
         <NeoDropdown position="top-left" aria-role="menu" mobile-modal>
           <template #trigger>
-            <NeoIcon icon="globe" />
-            <span>{{ $t('profileMenu.language') }}</span>
+            <div class="is-flex is-align-items-center">
+              <NeoIcon icon="globe" custom-size="fa-2x" class="mr-1" />
+              <span>{{ $t('profileMenu.language') }}</span>
+            </div>
           </template>
 
           <NeoDropdownItem
             v-for="lang in langsFlags"
             :key="lang.value"
             aria-role="listitem"
-            :data-cy="`sidebar-language-${lang.value}`"
+            :data-testid="`sidebar-language-${lang.value}`"
             :value="lang.value"
             :class="{ 'is-active': langStore.getUserLang === lang.value }"
             @click="langStore.setLanguage({ userLang: lang.value })">
@@ -42,10 +44,13 @@
       </div>
 
       <!-- settings -->
-      <a href="/settings" class="has-text-grey">
-        <NeoIcon icon="gear" />
+      <nuxt-link
+        to="/settings"
+        class="has-text-grey is-align-items-center"
+        @click.native="closeModal">
+        <NeoIcon icon="gear" custom-size="fa-2x" />
         <span>{{ $t('settings') }}</span>
-      </a>
+      </nuxt-link>
     </div>
   </div>
 </template>
@@ -58,6 +63,7 @@ import { useLangStore } from '@/stores/lang'
 const { urlPrefix } = usePrefix()
 const { isBasilisk } = useIsChain(urlPrefix)
 const { toggleColorMode, isDarkMode } = useTheme()
+const { $neoModal } = useNuxtApp()
 
 const langStore = useLangStore()
 
@@ -89,6 +95,10 @@ onMounted(() => {
     })
   }
 })
+
+const closeModal = () => {
+  $neoModal.closeAll()
+}
 </script>
 
 <style lang="scss" scoped>
@@ -129,7 +139,7 @@ onMounted(() => {
 
   @include tablet {
     // manually center dropdown menu, because no props "postition" to center it
-    :deep .o-drop__menu {
+    :deep(.o-drop__menu) {
       transform: translateX(50px);
     }
   }

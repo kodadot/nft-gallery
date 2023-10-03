@@ -1,5 +1,8 @@
 <template>
-  <div class="search-suggestion-container" @click="resetSelectedIndex">
+  <div
+    class="search-suggestion-container"
+    @click="resetSelectedIndex"
+    @keydown="onKeyDown">
     <NeoTabs
       v-show="name"
       v-model="activeSearchTab"
@@ -10,6 +13,7 @@
       <NeoTabItem
         label="Collections"
         value="Collections"
+        data-testid="collection-tab"
         item-header-class="has-text-left is-block mb-0 pb-4 px-0 pt-0">
         <div v-if="isCollectionResultLoading">
           <SearchResultItem
@@ -50,7 +54,7 @@
                     <Money
                       v-else
                       :value="item.floorPrice"
-                      :unit-symbol="chainSymbol"
+                      :prefix="item.chain"
                       inline />
                   </span>
                   <NeoSkeleton
@@ -94,7 +98,8 @@
       <NeoTabItem
         label="NFTs"
         value="NFTs"
-        item-header-class="has-text-left is-block mb-0 pb-4 px-0 pt-0">
+        item-header-class="has-text-left is-block mb-0 pb-4 px-0 pt-0"
+        data-testid="nft-tab">
         <div v-if="isNFTResultLoading">
           <SearchResultItem
             v-for="item in searchSuggestionEachTypeMaxNum"
@@ -123,10 +128,7 @@
                   <span class="name">{{ item.collection?.name }}</span>
                   <span v-if="item.price && parseFloat(item.price) > 0">
                     {{ $t('offer.price') }}:
-                    <Money
-                      :value="item.price"
-                      :unit-symbol="chainSymbol"
-                      inline />
+                    <Money :value="item.price" :prefix="item.chain" inline />
                   </span>
                 </div>
               </template>
@@ -167,7 +169,7 @@
         </template>
       </NeoTabItem>
     </NeoTabs>
-    <div v-if="!name" class="search-history">
+    <div v-if="!name" class="search-history pt-5">
       <div
         v-for="item in filterSearch"
         :key="item.id"
@@ -193,8 +195,16 @@
         </div>
       </div>
     </div>
-    <NeoTabs v-show="!name" v-model="activeTrendingTab" expanded>
-      <NeoTabItem label="Trending" value="Trending">
+    <NeoTabs
+      v-show="!name"
+      v-model="activeTrendingTab"
+      expanded
+      nav-tabs-class="pt-2 px-6"
+      content-class="px-0 py-4">
+      <NeoTabItem
+        label="Trending"
+        value="Trending"
+        item-header-class="has-text-left is-block mb-0 pb-4 px-0 pt-0">
         <div
           v-for="(item, idx) in defaultCollectionSuggestions"
           :key="item.id"
@@ -203,7 +213,7 @@
           @click="gotoCollectionItem(item)">
           <SearchResultItem :image="item.image">
             <template #content>
-              <div class="pr-2">
+              <div class="pr-2 pt-2">
                 <span class="main-title name">{{ item.name }}</span>
               </div>
               <div
@@ -241,461 +251,431 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Emit, Prop, Watch, mixins } from 'nuxt-property-decorator'
-import { Debounce } from 'vue-debounce-decorator'
+<script setup lang="ts">
+import { useDebounceFn } from '@vueuse/core'
 import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
-import { SearchQuery } from './types'
 import { denyList } from '@/utils/constants'
 import {
   CollectionWithMeta,
   NFTWithMeta,
 } from '@/components/rmrk/service/scheme'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import { logError, mapNFTorCollectionMetadata } from '~/utils/mappers'
-import { processMetadata } from '~/utils/cachingStrategy'
+import { logError, mapNFTorCollectionMetadata } from '@/utils/mappers'
+import { processMetadata } from '@/utils/cachingStrategy'
 import resolveQueryPath from '@/utils/queryPathResolver'
-import { unwrapSafe } from '~/utils/uniquery'
-import { RowSeries } from '~/components/series/types'
+import { unwrapSafe } from '@/utils/uniquery'
+import { RowSeries } from '@/components/series/types'
 import { fetchCollectionSuggestion } from './utils/collectionSearch'
 import { NeoIcon, NeoSkeleton, NeoTabItem, NeoTabs } from '@kodadot1/brick'
+import Money from '@/components/shared/format/Money.vue'
+import type { SearchQuery } from './types'
 
-import Vue from 'vue'
-
-@Component({
-  components: {
-    Money: () => import('@/components/shared/format/Money.vue'),
-    NeoIcon,
-    NeoSkeleton,
-    NeoTabItem,
-    NeoTabs,
+const props = defineProps({
+  name: {
+    type: String,
+    required: true,
+  },
+  query: {
+    type: Object,
+    default: () => {
+      return {} as SearchQuery
+    },
+  },
+  showDefaultSuggestions: {
+    type: Boolean,
+    required: false,
   },
 })
-export default class SearchSuggestion extends mixins(PrefixMixin) {
-  @Prop(String) public name!: string
-  @Prop(Boolean) public showDefaultSuggestions!: boolean
-  @Prop({ type: Object, required: false }) public query!: SearchQuery
-  public searchSuggestionEachTypeMaxNum = 5
-  public defaultCollectionSuggestions: (CollectionWithMeta & RowSeries)[] = []
-  public activeSearchTab = 'Collections'
-  public activeTrendingTab = 'Trending'
-  public selectedIndex = -1
-  public isCollectionResultLoading = false
-  public isNFTResultLoading = false
-  private nftResult: NFTWithMeta[] = []
-  private collectionResult: CollectionWithMeta[] = []
-  private searched: NFTWithMeta[] = []
-  private searchString = ''
 
-  public mounted(): void {
-    this.getSearchHistory()
+const query = toRef(props, 'query', {})
+
+const searchSuggestionEachTypeMaxNum = 5
+const defaultCollectionSuggestions = ref(
+  [] as (CollectionWithMeta & RowSeries)[]
+)
+const activeSearchTab = ref('Collections')
+const activeTrendingTab = ref('Trending')
+const selectedIndex = ref(-1)
+const isCollectionResultLoading = ref(false)
+const isNFTResultLoading = ref(false)
+const nftResult = ref([] as NFTWithMeta[])
+const collectionResult = ref([] as CollectionWithMeta[])
+const searched = ref([] as NFTWithMeta[])
+const searchString = ref('')
+
+onMounted(async () => {
+  getSearchHistory()
+  await fetchSuggestions()
+})
+
+const onKeyDown = (event: KeyboardEvent) => {
+  switch (event.key) {
+    case 'ArrowUp':
+      onKeydownSelected(-1)
+      break
+    case 'ArrowDown':
+      onKeydownSelected(+1)
+      break
+    case 'Enter':
+      nativeSearch()
+      break
+  }
+}
+
+const totalItemsAtCurrentTab = computed(() => {
+  if (!props.name) {
+    return defaultCollectionSuggestions.value.length
+  }
+  return activeSearchTab.value === 'NFTs'
+    ? nftSuggestion.value.length
+    : collectionSuggestion.value.length
+})
+
+const collectionSuggestion = computed(() =>
+  collectionResult.value.slice(0, searchSuggestionEachTypeMaxNum)
+)
+
+const nftSuggestion = computed(() =>
+  nftResult.value.slice(0, searchSuggestionEachTypeMaxNum)
+)
+
+const loadMoreItemClassName = computed(
+  () =>
+    `link-item${
+      selectedIndex.value === totalItemsAtCurrentTab.value
+        ? ' selected-item'
+        : ''
+    }`
+)
+
+const queryVariables = computed(() => {
+  return {
+    first: searchSuggestionEachTypeMaxNum,
+    offset: 0,
+    denyList,
+    orderBy: query.value.sortByMultiple?.length
+      ? query.value.sortByMultiple
+      : undefined,
+    search: buildSearchParam(),
+  }
+})
+
+const selectedItemListMap = computed(() => ({
+  Trending: defaultCollectionSuggestions,
+  Collections: collectionSuggestion,
+  NFTs: nftSuggestion,
+}))
+
+const router = useRouter()
+const route = useRoute()
+const { $consola, $apollo } = useNuxtApp()
+
+const updateSearchUrl = () => {
+  const { name } = props
+  if (name) {
+    router
+      .replace({
+        path: String(route.path),
+        query: {
+          search: name,
+        },
+      })
+      .catch($consola.warn)
+  }
+}
+
+const emit = defineEmits(['close', 'gotoGallery'])
+
+const seeAllButtonHandler = () => {
+  emit('close')
+  updateSearchUrl()
+}
+
+const nativeSearch = () => {
+  // not selected
+  if (selectedIndex.value === -1) {
+    return
   }
 
-  fetch() {
-    this.fetchSuggestions()
-  }
-
-  public created() {
-    document.addEventListener('keydown', this.onKeyDown)
-    document.addEventListener('click', this.resetSelectedIndex)
-  }
-
-  beforeDestroy() {
-    document.removeEventListener('keydown', this.onKeyDown)
-    document.removeEventListener('click', this.resetSelectedIndex)
-  }
-
-  private onKeyDown(event: KeyboardEvent) {
-    switch (event.key) {
-      case 'ArrowUp':
-        this.onKeydownSelected(-1)
-        break
-      case 'ArrowDown':
-        this.onKeydownSelected(+1)
-        break
-      case 'Enter':
-        this.nativeSearch()
-        break
-    }
-  }
-
-  get totalItemsAtCurrentTab() {
-    if (!this.name) {
-      return this.defaultCollectionSuggestions.length
-    }
-    return this.activeSearchTab === 'NFTs'
-      ? this.nftSuggestion.length
-      : this.collectionSuggestion.length
-  }
-
-  get collectionSuggestion() {
-    return this.collectionResult.slice(0, this.searchSuggestionEachTypeMaxNum)
-  }
-
-  get nftSuggestion() {
-    return this.nftResult.slice(0, this.searchSuggestionEachTypeMaxNum)
-  }
-
-  get loadMoreItemClassName() {
-    let result = 'link-item'
-    if (this.selectedIndex === this.totalItemsAtCurrentTab) {
-      result += ' selected-item'
-    }
-    return result
-  }
-
-  get queryVariables() {
-    return {
-      first: this.searchSuggestionEachTypeMaxNum,
-      offset: 0,
-      denyList,
-      orderBy: this.query.sortByMultiple?.length
-        ? this.query.sortByMultiple
-        : undefined,
-      search: this.buildSearchParam(),
-    }
-  }
-
-  get selectedItemListMap() {
-    return {
-      Trending: this.defaultCollectionSuggestions,
-      Collections: this.collectionSuggestion,
-      NFTs: this.nftSuggestion,
-    }
-  }
-
-  get chainSymbol() {
-    const { chainSymbol } = useChain()
-    return chainSymbol.value
-  }
-
-  public updateSearchUrl() {
-    if (this.name) {
-      this.$router
-        .replace({
-          path: String(this.$route.path),
-          query: {
-            search: this.name,
-          },
-        })
-        .catch(this.$consola.warn)
-    }
-  }
-
-  public async fetchSuggestions() {
-    if (this.showDefaultSuggestions) {
-      try {
-        const result = await this.$apollo.query({
-          query: seriesInsightList,
-          client: this.client,
-          variables: {
-            limit: this.searchSuggestionEachTypeMaxNum,
-            orderBy: 'volume_DESC',
-          },
-        })
-
-        const {
-          data: { collectionEntities: collections },
-        } = result
-
-        const collectionMetadataList = collections
-          .slice(0, this.searchSuggestionEachTypeMaxNum)
-          .map(mapNFTorCollectionMetadata)
-        const collectionResult: (CollectionWithMeta & RowSeries)[] = []
-        await processMetadata<CollectionWithMeta>(
-          collectionMetadataList,
-          (meta, i) => {
-            collectionResult.push({
-              ...collections[i],
-              ...meta,
-              image: sanitizeIpfsUrl(
-                meta.image || meta.mediaUri || '',
-                'image'
-              ),
-            })
-          }
-        )
-        this.defaultCollectionSuggestions = collectionResult
-      } catch (e) {
-        this.$consola.warn(e, 'Error while fetching default suggestions')
-      }
-    }
-  }
-
-  seeAllButtonHandler() {
-    this.$emit('close')
-    this.updateSearchUrl()
-  }
-
-  nativeSearch() {
-    // not selected
-    if (this.selectedIndex === -1) {
-      return
-    }
-
-    const isSeeMore = this.selectedIndex >= this.totalItemsAtCurrentTab
-    // trending collection
-    if (!this.name) {
-      if (isSeeMore) {
-        this.$router.push({ name: 'series-insight' })
-      } else {
-        this.gotoCollectionItem(
-          this.selectedItemListMap['Trending'][this.selectedIndex]
-        )
-      }
-      return
-    }
-
-    // search result
+  const isSeeMore = selectedIndex.value >= totalItemsAtCurrentTab.value
+  // trending collection
+  if (!props.name) {
     if (isSeeMore) {
-      this.$emit('gotoGallery')
+      router.push({ name: 'series-insight' })
     } else {
-      if (this.activeSearchTab === 'NFTs') {
-        this.gotoGalleryItem(
-          this.selectedItemListMap['NFTs'][this.selectedIndex]
-        )
-      } else {
-        this.gotoCollectionItem(
-          this.selectedItemListMap['Collections'][this.selectedIndex]
-        )
-      }
+      gotoCollectionItem(selectedItemListMap['Trending'][selectedIndex.value])
     }
+    return
   }
 
-  onKeydownSelected(step: 1 | -1) {
-    const total = this.totalItemsAtCurrentTab + 1
-    this.selectedIndex = (total + this.selectedIndex + step) % total
+  // search result
+  if (isSeeMore) {
+    emit('gotoGallery')
+  } else if (activeSearchTab.value === 'NFTs') {
+    gotoGalleryItem(selectedItemListMap.value['NFTs'][selectedIndex.value])
+  } else {
+    gotoCollectionItem(
+      selectedItemListMap.value['Collections'][selectedIndex.value]
+    )
+  }
+}
+
+const onKeydownSelected = (step: 1 | -1) => {
+  const total = totalItemsAtCurrentTab.value + 1
+  selectedIndex.value = (total + selectedIndex.value + step) % total
+}
+
+const resetSelectedIndex = () => {
+  selectedIndex.value = -1
+}
+
+const { urlPrefix, client } = usePrefix()
+
+const gotoGalleryItem = (item: NFTWithMeta) => {
+  router.push(`/${urlPrefix.value}/gallery/${item.id}`)
+  emit('close', item)
+}
+
+const gotoCollectionItem = (item: CollectionWithMeta) => {
+  // if item is clicked when search term is there, insert to history
+  if (searchString.value) {
+    insertNewHistory()
+  }
+  const prefix = item.chain || urlPrefix.value
+  router.push(`/${prefix}/collection/${item.collection_id || item.id}`)
+  emit('close', item)
+}
+
+const buildSearchParam = (): Record<string, unknown>[] => {
+  const params: { name_containsInsensitive?: string; price_gt?: string }[] = []
+  if (query.value?.search) {
+    params.push({ name_containsInsensitive: query.value?.search })
   }
 
-  resetSelectedIndex() {
-    this.selectedIndex = -1
+  if (query.value?.listed) {
+    params.push({ price_gt: '0' })
   }
 
-  @Emit('close')
-  public gotoGalleryItem(item: NFTWithMeta) {
-    this.$router.push(`/${this.urlPrefix}/gallery/${item.id}`)
-  }
+  return params
+}
 
-  @Emit('close')
-  public gotoCollectionItem(item: CollectionWithMeta) {
-    // if item is clicked when search term is there, insert to history
-    if (this.searchString) {
-      this.insertNewHistory()
-    }
-    const prefix = item.chain || this.urlPrefix
-    this.$router.push(`/${prefix}/collection/${item.collection_id || item.id}`)
-  }
-
-  private buildSearchParam(): Record<string, unknown>[] {
-    const params: any[] = []
-    if (this.query.search) {
-      params.push({ name_containsInsensitive: this.query.search })
-    }
-
-    if (this.query.listed) {
-      params.push({ price_gt: '0' })
-    }
-
-    return params
-  }
-
-  public routeOf(url: string): string {
-    return `${this.urlPrefix}-${url}`
-  }
-
-  insertNewHistory() {
-    for (const s of this.searched) {
-      if (s.name === this.searchString) {
-        return
-      }
-    }
-
-    const newResult = {
-      type: 'History',
-      name: this.searchString,
-    } as unknown as NFTWithMeta
-
-    this.searched.push(newResult)
-
-    if (this.searched.length > 3) {
-      this.searched = this.searched.slice(-3)
-    }
-
-    localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
-  }
-
-  private getSearchHistory() {
-    const cacheResult = localStorage.kodaDotSearchResult
-    if (cacheResult) {
-      this.searched = JSON.parse(cacheResult)
-    }
-  }
-
-  public removeSearchHistory(value: string): void {
-    this.searched = this.searched.filter((r) => r.name !== value)
-    localStorage.kodaDotSearchResult = JSON.stringify(this.searched)
-  }
-
-  public get filterSearch(): NFTWithMeta[] {
-    // filter the history search which is not similar to searchString
-    if (!this.searched.length) {
-      return []
-    }
-
-    return this.searched.filter((option) => {
-      if (!option.name.trim()) {
-        return false
-      }
-      return (
-        option.name
-          .toString()
-          .toLowerCase()
-          .indexOf((this.searchString || '').toLowerCase()) >= 0
-      )
-    })
-  }
-
-  public goToExploreResults(item) {
-    this.$emit('gotoGallery', {
-      search: item.name,
-    })
-  }
-
-  @Debounce(200)
-  async updateSuggestion(value: string) {
-    //To handle empty string
-    if (!value) {
-      // reset query-based search results once searchString is empty
-      this.collectionResult = []
-      this.nftResult = []
+const insertNewHistory = () => {
+  for (const s of searched.value) {
+    if (s.name === searchString.value) {
       return
     }
-
-    this.isCollectionResultLoading = true
-    this.isNFTResultLoading = true
-    this.query.search = value
-    this.searchString = value
-    this.updateNftSuggestion()
-    this.updateCollectionSuggestion(value)
   }
 
-  async updateNftSuggestion() {
-    try {
-      const queryNft = await resolveQueryPath(this.client, 'nftListWithSearch')
-      const nfts = this.$apollo.query({
-        query: queryNft.default,
-        client: this.client,
-        variables: this.queryVariables,
-      })
+  const newResult = {
+    type: 'History',
+    name: searchString.value,
+  } as unknown as NFTWithMeta
 
-      const {
-        data: { nFTEntities },
-      } = await nfts
-      const nftList = unwrapSafe(
-        nFTEntities.slice(0, this.searchSuggestionEachTypeMaxNum)
-      )
-      const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)
-      const nftResult: NFTWithMeta[] = []
-      await processMetadata<NFTWithMeta>(metadataList, (meta, i) => {
-        nftResult.push({
-          ...nftList[i],
-          ...meta,
-          image: sanitizeIpfsUrl(
-            meta.image || meta.animation_url || meta.mediaUri || '',
-            'image'
-          ),
-        })
-      })
-      this.nftResult = nftResult
-      this.isNFTResultLoading = false
-    } catch (e) {
-      logError(e, (msg) =>
-        this.$consola.warn('[PREFETCH] Unable fo fetch', msg)
-      )
-      this.isNFTResultLoading = false
+  searched.value.push(newResult)
+
+  if (searched.value.length > 3) {
+    searched.value = searched.value.slice(-3)
+  }
+
+  localStorage.kodaDotSearchResult = JSON.stringify(searched.value)
+}
+
+const getSearchHistory = () => {
+  const cacheResult = localStorage.kodaDotSearchResult
+  if (cacheResult) {
+    searched.value = JSON.parse(cacheResult)
+  }
+}
+
+const removeSearchHistory = (value: string) => {
+  searched.value = searched.value.filter((r) => r.name !== value)
+  localStorage.kodaDotSearchResult = JSON.stringify(searched.value)
+}
+
+const filterSearch = computed((): NFTWithMeta[] => {
+  // filter the history search which is not similar to searchString
+  if (!searched.value.length) {
+    return []
+  }
+
+  return searched.value.filter((option) => {
+    if (!option.name.trim()) {
+      return false
     }
-  }
+    return (
+      option.name
+        .toString()
+        .toLowerCase()
+        .indexOf((searchString.value || '').toLowerCase()) >= 0
+    )
+  })
+})
 
-  async updateCollectionSuggestion(value: string) {
+const goToExploreResults = (item) => {
+  emit('gotoGallery', {
+    search: item.name,
+  })
+}
+
+const fetchSuggestions = async () => {
+  if (props.showDefaultSuggestions) {
     try {
-      const collections = await fetchCollectionSuggestion(
-        value,
-        this.searchSuggestionEachTypeMaxNum
-      )
-
-      const metadataList: string[] = collections.map(mapNFTorCollectionMetadata)
-
-      const collectionWithImagesList: CollectionWithMeta[] = []
-      await processMetadata<CollectionWithMeta>(metadataList, (meta, i) => {
-        const collectionWithImages = {
-          ...collections[i],
-          ...meta,
-          image: sanitizeIpfsUrl(
-            collections[i].image || collections[i].mediaUri || '',
-            'image'
-          ),
-        }
-        collectionWithImagesList.push(collectionWithImages)
-
-        this.fetchCollectionStats(collectionWithImages, i)
-      })
-      this.collectionResult = collectionWithImagesList
-      this.isCollectionResultLoading = false
-    } catch (e) {
-      logError(e, (msg) =>
-        this.$consola.warn('[PREFETCH] Unable fo fetch', msg)
-      )
-      this.isCollectionResultLoading = false
-    }
-  }
-
-  async fetchCollectionStats(collection: CollectionWithMeta, index: number) {
-    return new Promise(async (resolve) => {
-      const client = collection.chain || this.client
-      const queryCollection = await resolveQueryPath(
-        client === 'ksm' ? 'chain-rmrk' : 'subsquid',
-        'collectionStatsById'
-      )
-      const { data } = await this.$apollo.query({
-        query: queryCollection.default,
-        client,
+      const result = await $apollo.query({
+        query: seriesInsightList,
+        client: client.value,
         variables: {
-          id: collection.collection_id,
+          limit: searchSuggestionEachTypeMaxNum,
+          orderBy: 'volume_DESC',
         },
       })
 
-      collection.totalCount = data.stats.base.length
-      collection.floorPrice = Math.min(
-        ...data.stats.listed.map((item) => parseInt(item.price))
+      const {
+        data: { collectionEntities: collections },
+      } = result
+
+      const collectionMetadataList = collections
+        .slice(0, searchSuggestionEachTypeMaxNum)
+        .map(mapNFTorCollectionMetadata)
+      const collectionResult: (CollectionWithMeta & RowSeries)[] = []
+      await processMetadata<CollectionWithMeta>(
+        collectionMetadataList,
+        (meta, i) => {
+          collectionResult.push({
+            ...collections[i],
+            ...meta,
+            image: sanitizeIpfsUrl(meta.image || meta.mediaUri || '', 'image'),
+          })
+        }
       )
-
-      if (
-        this.collectionResult[index]?.collection_id === collection.collection_id
-      ) {
-        Vue.set(this.collectionResult, index, collection)
-      }
-
-      resolve(collection)
-    })
-  }
-
-  getFloorPrice(nfts: NFTWithMeta[] | undefined) {
-    if (!nfts || !nfts.length) {
-      return 0
+      defaultCollectionSuggestions.value = collectionResult
+    } catch (e) {
+      $consola.warn(e, 'Error while fetching default suggestions')
     }
-    // floor price should be greater than zero.
-    const priceArr = nfts.filter((nft) => Number(nft.price) > 0)
-    if (priceArr.length === 0) {
-      return 0
-    }
-    return Math.min(...priceArr.map((nft) => Number(nft.price)))
-  }
-
-  @Watch('name')
-  onValueChange(value) {
-    this.updateSuggestion(value)
-    this.resetSelectedIndex()
   }
 }
+
+const updateSuggestion = useDebounceFn(async (value: string) => {
+  //To handle empty string
+  if (!value) {
+    // reset query-based search results once searchString is empty
+    collectionResult.value = []
+    nftResult.value = []
+    return
+  }
+
+  isCollectionResultLoading.value = true
+  isNFTResultLoading.value = true
+  query.value.search = value
+  searchString.value = value
+  await updateNftSuggestion()
+  await updateCollectionSuggestion(value)
+}, 200)
+
+const updateNftSuggestion = async () => {
+  try {
+    const queryNft = await resolveQueryPath(client.value, 'nftListWithSearch')
+    const nfts = $apollo.query({
+      query: queryNft.default,
+      client: client.value,
+      variables: queryVariables.value,
+    })
+
+    const {
+      data: { nFTEntities },
+    } = await nfts
+    const nftList = unwrapSafe(
+      nFTEntities.slice(0, searchSuggestionEachTypeMaxNum)
+    )
+    const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)
+    const result: NFTWithMeta[] = []
+    await processMetadata<NFTWithMeta>(metadataList, (meta, i) => {
+      result.push({
+        ...nftList[i],
+        ...meta,
+        image: sanitizeIpfsUrl(
+          meta.image || meta.animation_url || meta.mediaUri || '',
+          'image'
+        ),
+      })
+    })
+    nftResult.value = result
+  } catch (e) {
+    logError(e, (msg) => $consola.warn('[PREFETCH] Unable fo fetch', msg))
+  }
+  isNFTResultLoading.value = false
+}
+
+const updateCollectionSuggestion = async (value: string) => {
+  try {
+    const collections = await fetchCollectionSuggestion(
+      value,
+      searchSuggestionEachTypeMaxNum
+    )
+
+    const metadataList: string[] = collections.map(mapNFTorCollectionMetadata)
+
+    const collectionWithImagesList: CollectionWithMeta[] = []
+    await processMetadata<CollectionWithMeta>(metadataList, (meta, i) => {
+      const initialCollectionStats = {
+        totalCount: undefined,
+        floorPrice: undefined,
+      }
+      const collectionWithImages = {
+        ...collections[i],
+        ...meta,
+        ...initialCollectionStats, // set initial stat fields to get reactivity
+        image: sanitizeIpfsUrl(
+          collections[i].image || collections[i].mediaUri || '',
+          'image'
+        ),
+      }
+      collectionWithImagesList.push(collectionWithImages)
+
+      fetchCollectionStats(collectionWithImages, i)
+    })
+    collectionResult.value = collectionWithImagesList
+  } catch (e) {
+    logError(e, (msg) => $consola.warn('[PREFETCH] Unable fo fetch', msg))
+  }
+  isCollectionResultLoading.value = false
+}
+
+const fetchCollectionStats = async (
+  collection: CollectionWithMeta,
+  index: number
+) => {
+  const _client = collection.chain || client.value
+  const queryCollection = await resolveQueryPath(
+    _client === 'ksm' ? 'chain-rmrk' : 'subsquid',
+    'collectionStatsById'
+  )
+  const { data } = await $apollo.query({
+    query: queryCollection.default,
+    client: _client,
+    variables: {
+      id: collection.collection_id,
+    },
+  })
+
+  collection.totalCount = data.stats.base.length
+  collection.floorPrice = Math.min(
+    ...data.stats.listed.map((item) => parseInt(item.price))
+  )
+
+  if (
+    collectionResult.value[index]?.collection_id === collection.collection_id
+  ) {
+    collectionResult.value[index] = collection
+  }
+
+  return collection
+}
+
+watch(
+  () => props.name,
+  (value) => {
+    updateSuggestion(value)
+    resetSelectedIndex()
+  }
+)
 </script>

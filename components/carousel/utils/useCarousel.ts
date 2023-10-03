@@ -1,15 +1,9 @@
 import type { CarouselNFT } from '@/components/base/types'
 import type { RowSeries } from '@/components/series/types'
 
-import {
-  convertLastEventFlatNft,
-  formatNFT,
-  setCarouselMetadata,
-} from '@/utils/carousel'
+import { formatNFT, setCarouselMetadata } from '@/utils/carousel'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { sortItemListByIds } from '@/utils/sorting'
-import { correctPrefix } from '@/utils/uniquery'
-import { isBeta, isProduction } from '@/utils/chain'
 
 export const useCarouselUrl = () => {
   const { urlPrefix } = usePrefix()
@@ -20,98 +14,6 @@ export const useCarouselUrl = () => {
 
   return {
     urlOf,
-  }
-}
-
-interface Types {
-  type: 'latestSales' | 'newestList'
-}
-
-const limit = isProduction ? 15 : 8
-const nftEventVariables = {
-  latestSales: {
-    limit,
-    event: 'BUY',
-  },
-  newestList: {
-    limit,
-    event: 'LIST',
-  },
-}
-
-const disableChainsOnProduction = ['snek']
-const disableChainsOnBeta = ['snek']
-
-const useChainEvents = (chain, type) => {
-  if (isProduction && disableChainsOnProduction.includes(chain)) {
-    return {
-      data: ref(undefined),
-    }
-  }
-
-  if (isBeta && disableChainsOnBeta.includes(chain)) {
-    return {
-      data: ref(undefined),
-    }
-  }
-
-  const { data } = useGraphql({
-    queryPrefix: 'subsquid',
-    queryName: 'lastNftListByEvent',
-    variables: nftEventVariables[type],
-    clientName: correctPrefix(chain),
-  })
-
-  return {
-    data,
-  }
-}
-
-const sortNftByTime = (data) => data.sort((a, b) => b.unixTime - a.unixTime)
-
-const flattenNFT = async (data, chain) => {
-  if (!data?.events.length) {
-    return []
-  }
-
-  const events = data.events.map(convertLastEventFlatNft)
-  const listOfNfts = await formatNFT(events, chain)
-  const listOfNftsWithMetadata = await setCarouselMetadata(listOfNfts)
-  return sortNftByTime(listOfNftsWithMetadata)
-}
-
-export const useCarouselNftEvents = ({ type }: Types) => {
-  const { data: dataBsx } = useChainEvents('bsx', type)
-  const { data: dataRmrk } = useChainEvents('rmrk', type)
-  const { data: dataSnek } = useChainEvents('snek', type)
-  const { data: dataRmrk2 } = useChainEvents('ksm', type)
-  const { data: dataStmn } = useChainEvents('ahk', type)
-
-  const nfts = ref<CarouselNFT[]>([])
-
-  // currently only support rmrk and snek
-  // moonriver: https://github.com/kodadot/nft-gallery/issues/3891
-  watch([dataRmrk, dataSnek, dataBsx, dataRmrk2, dataStmn], async () => {
-    const rmrkNfts = await flattenNFT(dataRmrk.value, 'rmrk')
-    const snekNfts = await flattenNFT(dataSnek.value, 'snek')
-    const bsxNfts = await flattenNFT(dataBsx.value, 'bsx')
-    const rmrk2Nfts = await flattenNFT(dataRmrk2.value, 'ksm')
-    const ahkNfts = await flattenNFT(dataStmn.value, 'ahk')
-
-    const data = [
-      ...ahkNfts,
-      ...rmrk2Nfts,
-      ...snekNfts,
-      ...bsxNfts,
-      ...rmrkNfts,
-    ]
-
-    nfts.value = data.slice(0, 30)
-  })
-
-  return {
-    nfts,
-    ids: computed(() => nfts.value.map((nft) => nft.id).join()),
   }
 }
 
@@ -173,7 +75,7 @@ export const useCarouselRelated = ({ collectionId }) => {
 
   watch(data, async () => {
     if (data.value) {
-      const listOfRelatedNFTs = await formatNFT(
+      const listOfRelatedNFTs = formatNFT(
         (data.value as Collections).collection.nfts
       )
       nfts.value = await setCarouselMetadata(listOfRelatedNFTs)
@@ -215,7 +117,7 @@ export const useCarouselVisited = ({ ids }) => {
 
       if (filteredNftsNullMeta.length) {
         const sortedNftList = sortItemListByIds(filteredNftsNullMeta, ids, 30)
-        nfts.value = await formatNFT(sortedNftList)
+        nfts.value = formatNFT(sortedNftList)
       }
     }
   })

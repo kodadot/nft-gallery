@@ -265,12 +265,12 @@ const fetchSpotlightData = async (sort: string = toSort(sortBy.value)) => {
     })
   )
 
-  for (let index = 0; index < spotlight.value.length; index++) {
-    const result = resolveAddress(spotlight.value[index].id)
+  spotlight.value.forEach((item) => {
+    const result = resolveAddress(item.id)
     if (result) {
-      spotlight.value[index]['hasIdentity'] = true
+      item['hasIdentity'] = true
     }
-  }
+  })
 
   await updateSoldHistory()
 

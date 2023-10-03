@@ -3,7 +3,7 @@ import { AssetListQueryResponse } from '@/components/bsx/Asset/types'
 import assetListQuery from '@/queries/subsquid/bsx/assetList.graphql'
 import { chainAssetOf } from '@/utils/config/chain.config'
 import { useApollo } from '@/utils/config/useApollo'
-import { emptyObject } from '@kodadot1/minimark/utils'
+import type { Prefix } from '@kodadot1/static'
 
 export type TokenProperty = {
   id: string
@@ -14,8 +14,9 @@ export type TokenProperty = {
 type TokenMap = Record<string, TokenProperty>
 
 export const useAssetsStore = defineStore('assets', {
-  state: (): TokenMap => ({
-    tokenMap: emptyObject<TokenProperty>(),
+  state: (): { tokenMap: TokenMap; localPrefix: Prefix | null } => ({
+    tokenMap: {},
+    localPrefix: null,
   }),
   getters: {
     getAssetList: (state) => state.tokenMap,
@@ -24,11 +25,18 @@ export const useAssetsStore = defineStore('assets', {
   },
   actions: {
     setAssetList(payload) {
-      this.tokenMap = Object.assign(this.tokenMap, payload)
+      this.tokenMap = Object.assign({}, this.tokenMap, payload)
+    },
+    setLocalPrefix(payload: Prefix) {
+      this.localPrefix = payload
     },
     async fetchAssetList() {
       const { $apollo } = useNuxtApp()
       const { urlPrefix } = usePrefix()
+      if (this.localPrefix === urlPrefix.value) {
+        return
+      }
+      this.setLocalPrefix(urlPrefix.value)
       const { assetList } = await useApollo<any, AssetListQueryResponse>(
         $apollo as any,
         urlPrefix.value,
@@ -44,7 +52,7 @@ export const useAssetsStore = defineStore('assets', {
         ])
       )
       this.setAssetList(tokenMap)
-      return tokenMap
+      return
     },
   },
 })

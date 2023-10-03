@@ -6,7 +6,8 @@
     :destroy-on-hide="destroyOnHide"
     :can-cancel="canCancel"
     :full-screen="fullScreen"
-    :content-class="[contentClass, noShadow ? 'no-shadow' : '']"
+    :content-class="[...contentClassName, noShadow ? 'no-shadow' : '']"
+    :mobile-breakpoint="mobileBreakpoint"
     :root-class="rootClass"
     :style="{
       '--max-height': maxHeight,
@@ -25,10 +26,11 @@ const props = withDefaults(
     destroyOnHide?: boolean
     canCancel?: boolean | string[]
     fullScreen?: boolean
-    contentClass?: string
+    contentClass?: string | string[]
     rootClass?: string
     noShadow?: boolean
     maxHeight?: string | number
+    mobileBreakpoint?: string
   }>(),
   {
     destroyOnHide: true,
@@ -38,6 +40,7 @@ const props = withDefaults(
     rootClass: '',
     noShadow: false,
     maxHeight: '80vh',
+    mobileBreakpoint: '768px',
   }
 )
 
@@ -52,6 +55,12 @@ const maxHeight = computed(() => {
 
 const isModalActive = useVModel(props, 'value')
 
+const contentClassName = computed(() => {
+  if (Array.isArray(props.contentClass)) {
+    return [...props.contentClass]
+  }
+  return [props.contentClass]
+})
 const updateClose = () => {
   emit('close', false)
 }

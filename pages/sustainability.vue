@@ -116,13 +116,16 @@ export default {
   layout: 'centered-half-layout',
   head() {
     const runtimeConfig = useRuntimeConfig()
+    const title = 'Sustainibility of KodaDot'
     const metaData = {
+      title,
       type: 'article',
       description: 'KodaDot: Sustainibility mission',
       url: '/sustainibility',
       image: `${runtimeConfig.public.baseUrl}/k_card.png`,
     }
     return {
+      title,
       meta: [...this.$seoMeta(metaData)],
     }
   },

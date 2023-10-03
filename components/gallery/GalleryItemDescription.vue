@@ -3,10 +3,15 @@
     v-model="activeTab"
     expanded
     content-class="o-tabs__content--fixed"
-    type="toggle">
+    type="toggle"
+    data-testid="gallery-item-description-neotabs">
     <!-- description tab -->
-    <NeoTabItem value="0" :label="$t('tabs.description')" class="p-5">
-      <div class="mb-3 is-flex">
+    <NeoTabItem
+      value="0"
+      :label="$t('tabs.description')"
+      class="p-5"
+      data-testid="gallery-item-description-tab-content">
+      <div class="mb-3 is-flex" data-testid="gallery-item-description-tab">
         <span class="mr-2">{{ $t('tabs.tabDescription.made') }}:</span>
         <nuxt-link
           v-if="nft?.issuer"
@@ -53,7 +58,11 @@
     </NeoTabItem>
 
     <!-- details tab -->
-    <NeoTabItem value="2" :label="$t('tabs.details')" class="p-5">
+    <NeoTabItem
+      value="2"
+      :label="$t('tabs.details')"
+      class="p-5"
+      data-testid="gallery-item-details-tab-content">
       <!-- <div class="is-flex is-justify-content-space-between">
         <p>Contract Address</p>
         <p>--</p>
@@ -83,11 +92,43 @@
         <p>{{ $t('tabs.tabDetails.royalties') }}</p>
         <p>{{ nft?.royalty }}%</p>
       </div>
+
+      <div
+        v-if="recipient"
+        class="recipient is-flex is-justify-content-space-between is-capitalized">
+        <p>{{ $t('transfers.recipients') }}</p>
+        <template v-if="Array.isArray(recipient) && recipient.length > 1">
+          <ol>
+            <li v-for="[addr, percentile] in recipient" :key="addr" class="">
+              <nuxt-link
+                :to="`/${urlPrefix}/u/${addr}`"
+                class="has-text-link is-inline-block">
+                <Identity ref="identity" :address="addr" />
+              </nuxt-link>
+              <span className="is-size-7">({{ percentile }}%)</span>
+            </li>
+          </ol>
+        </template>
+        <template
+          v-else-if="Array.isArray(recipient) && recipient.length === 1">
+          <nuxt-link
+            :to="`/${urlPrefix}/u/${recipient[0][0]}`"
+            class="has-text-link">
+            <Identity ref="identity" :address="recipient[0][0]" />
+          </nuxt-link>
+        </template>
+        <template v-else>
+          <nuxt-link :to="`/${urlPrefix}/u/${recipient}`" class="has-text-link">
+            <Identity ref="identity" :address="recipient" />
+          </nuxt-link>
+        </template>
+      </div>
+
       <hr class="my-2" />
       <div v-if="nftImage" class="is-flex is-justify-content-space-between">
         <p>{{ $t('tabs.tabDetails.media') }}</p>
         <div @click="openLink(nftImage)">
-          <a class="has-text-link" data-cy="media-link">
+          <a class="has-text-link" data-testid="media-link">
             {{ nftMimeType }}
           </a>
         </div>
@@ -107,7 +148,7 @@
           class="has-text-link"
           target="_blank"
           rel="nofollow noopener noreferrer"
-          data-cy="metadata-link"
+          data-testid="metadata-link"
           >{{ metadataMimeType }}</a
         >
       </div>
@@ -138,7 +179,6 @@
 </template>
 
 <script setup lang="ts">
-import { obtainMimeType } from '@kodadot1/minipfs'
 import {
   MediaItem,
   NeoTabItem,
@@ -153,7 +193,7 @@ import { sanitizeIpfsUrl, toCloudflareIpfsUrl } from '@/utils/ipfs'
 import { GalleryItem, useGalleryItem } from './useGalleryItem'
 
 import { MediaType } from '@/components/rmrk/types'
-import { resolveMedia } from '@/utils/gallery/media'
+import { getMimeType, resolveMedia } from '@/utils/gallery/media'
 
 import { replaceSingularCollectionUrlByText } from '@/utils/url'
 
@@ -190,6 +230,16 @@ const isLewd = computed(() => {
       return item.trait_type === 'NSFW'
     })
   )
+})
+
+const recipient = computed(() => {
+  if (nft.value?.recipient) {
+    try {
+      return JSON.parse(nft.value?.recipient)
+    } catch (e) {
+      return nft.value?.recipient
+    }
+  }
 })
 
 defineExpose({ isLewd })
@@ -238,7 +288,7 @@ watchEffect(async () => {
   }
 
   if (nftAnimation.value) {
-    animationMediaMimeType.value = await obtainMimeType(nftAnimation.value)
+    animationMediaMimeType.value = await getMimeType(nftAnimation.value)
   }
 })
 
@@ -246,3 +296,18 @@ const openLink = (link) => {
   window.open(toCloudflareIpfsUrl(link), '_blank')
 }
 </script>
+
+<style lang="scss">
+@import '@/styles/abstracts/variables.scss';
+.recipient {
+  li {
+    gap: 0.3rem;
+    > span {
+      font-size: 0.8rem;
+      @include ktheme() {
+        color: theme('k-grey');
+      }
+    }
+  }
+}
+</style>

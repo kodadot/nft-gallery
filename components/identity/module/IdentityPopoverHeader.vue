@@ -6,7 +6,7 @@
         <nuxt-link
           class="is-size-6 break-word mr-2 has-text-link"
           :to="`/${urlPrefix}/u/${address}`">
-          <span data-cy="identity-display">
+          <span data-testid="identity-display">
             {{ identity?.display || shortenedAddress }}</span
           >
         </nuxt-link>
@@ -14,7 +14,7 @@
           v-clipboard:copy="address"
           icon="copy"
           class="has-text-link is-clickable"
-          data-cy="identity-clipboard"
+          data-testid="identity-clipboard"
           @click.native="toast('Copied to clipboard')" />
       </div>
       <a
@@ -22,8 +22,8 @@
         v-safe-href="`https://twitter.com/${identity?.twitter}`"
         target="_blank"
         rel="nofollow noopener noreferrer"
-        data-cy="identity-twitter">
-        <NeoIcon pack="fab" icon="twitter" class="has-text-link" />
+        data-testid="identity-twitter">
+        <NeoIcon pack="fab" icon="x-twitter" class="has-text-link" />
       </a>
     </div>
   </div>
@@ -37,14 +37,7 @@ const shortenedAddress = inject('shortenedAddress')
 
 const identity = inject<{ [x: string]: string }>('identity')
 const { urlPrefix } = usePrefix()
-const { $buefy } = useNuxtApp()
-
-const toast = (message: string) => {
-  $buefy.toast.open({
-    message,
-    type: 'is-neo',
-  })
-}
+const { toast } = useToast()
 </script>
 
 <style lang="scss" scoped>

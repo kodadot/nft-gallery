@@ -14,8 +14,14 @@ export default function () {
     ApiFactory.useApiInstance(apiUrl.value)
   )
 
+  const apiInstanceByPrefix = (prefix: string) => {
+    const endpoint: string = getChainEndpointByPrefix(prefix) || ''
+    return ApiFactory.useApiInstance(endpoint)
+  }
+
   return {
     apiUrl,
     apiInstance,
+    apiInstanceByPrefix,
   }
 }

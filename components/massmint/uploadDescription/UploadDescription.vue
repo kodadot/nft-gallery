@@ -8,7 +8,6 @@
           icon="circle-check"
           variant="success"
           class="ml-3" />
-        <div v-else class="icon-placeholder ml-3" />
       </div>
       <template #content>
         <DragDrop
@@ -66,8 +65,3 @@ const onFileSelected = (file: File) => {
   })
 }
 </script>
-<style lang="scss" scoped>
-.icon-placeholder {
-  width: 1rem;
-}
-</style>

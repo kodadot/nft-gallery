@@ -2,7 +2,7 @@
   <div class="unlockable-image-slider mt-6">
     <div
       class="unlockable-image-tip border px-4 py-2 theme-background-color has-z-index-1 no-wrap">
-      {{ $t('mint.unlockable.imageTip') }}
+      {{ title || $t('mint.unlockable.imageTip') }}
     </div>
     <div ref="container" class="keen-slider">
       <img
@@ -11,22 +11,23 @@
         :src="image"
         class="keen-slider__slide" />
     </div>
-
-    <Transition name="fade">
-      <div
-        class="arrow arrow-left arrow-small-size"
-        @click="slider?.moveToIdx(sliderSettings.leftCarouselIndex)" />
-    </Transition>
-    <Transition name="fade">
-      <div
-        class="arrow arrow-right arrow-small-size"
-        @click="slider?.moveToIdx(sliderSettings.rightCarouselIndex)" />
-    </Transition>
-    <div ref="thumbnail" class="keen-slider thumbnail">
-      <div v-for="image in imageList" :key="image" class="keen-slider__slide">
-        <img :src="image" />
+    <template v-if="imageList.length > 1">
+      <Transition name="fade">
+        <div
+          class="arrow arrow-left arrow-small-size"
+          @click="slider?.moveToIdx(sliderSettings.leftCarouselIndex)" />
+      </Transition>
+      <Transition name="fade">
+        <div
+          class="arrow arrow-right arrow-small-size"
+          @click="slider?.moveToIdx(sliderSettings.rightCarouselIndex)" />
+      </Transition>
+      <div ref="thumbnail" class="keen-slider thumbnail">
+        <div v-for="image in imageList" :key="image" class="keen-slider__slide">
+          <img :src="image" />
+        </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -37,6 +38,7 @@ const emit = defineEmits(['select'])
 
 const props = defineProps<{
   imageList: string[]
+  title?: string
 }>()
 
 function ThumbnailPlugin(main) {

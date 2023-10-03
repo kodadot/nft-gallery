@@ -1,46 +1,39 @@
 <template>
   <BasicBalanceInput
-    ref="magicBalanceInput"
+    ref="balanceInputComponent"
     v-model="vValue"
     :decimals="decimals"
     :unit="unit"
     expanded />
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import BasicBalanceInput from '@/components/shared/form/BasicBalanceInput.vue'
-import AssetMixin from '@/utils/mixins/assetMixin'
-import { Component, Prop, VModel, mixins } from 'nuxt-property-decorator'
+const balanceInputComponent = ref<BasicBalanceInput>()
+const emit = defineEmits(['input'])
 
-@Component({
-  components: {
-    BasicBalanceInput,
+defineExpose({
+  checkValidity,
+})
+
+const props = defineProps({
+  value: { type: String || Number, required: true },
+  tokenId: { type: String || Number, required: false, default: '5' },
+})
+
+const vValue = computed({
+  get: () => props.value,
+  set: (value) => {
+    emit('input', value)
   },
 })
-export default class TokenBalanceInput extends mixins(AssetMixin) {
-  @VModel() vValue!: string | number
-  @Prop({ type: String, required: false, default: '5' }) tokenId!:
-    | string
-    | number
-  // @Prop({ type: Number, default: '0' }) min!: number
-  // @Prop({ type: Number, default: undefined }) max!: number
 
-  get asset() {
-    return this.assetIdOf(this.tokenId)
-  }
+const { assets } = usePrefix()
+const asset = computed(() => assets(props.tokenId))
+const unit = computed(() => asset.value.symbol)
+const decimals = computed(() => asset.value.decimals)
 
-  get unit() {
-    return this.asset.symbol
-  }
-
-  get decimals() {
-    return this.asset.decimals
-  }
-
-  public checkValidity() {
-    const balanceInputComponent = this.$refs
-      .magicBalanceInput as BasicBalanceInput
-    return balanceInputComponent.checkValidity()
-  }
+function checkValidity() {
+  return balanceInputComponent.value?.checkValidity()
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <CarouselIndex
     :key="ids"
-    data-cy="latest-sales"
+    data-testid="latest-sales"
     :title="$t('general.latestSales')"
     :subtitle="`${$t('general.latestSalesheading')} ${urlPrefix}`"
     :nfts="nfts"
@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useCarouselNftEvents } from './utils/useCarousel'
+import { useCarouselNftEvents } from './utils/useCarouselEvents'
 
 const { urlPrefix } = usePrefix()
 const { nfts, ids } = useCarouselNftEvents({ type: 'latestSales' })

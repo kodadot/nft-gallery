@@ -1,0 +1,29 @@
+query allEventsByProfile($id: String) {
+  events(where: {caller_eq: $id, OR: {currentOwner_eq: $id}}) {
+    meta
+    interaction
+    blockNumber
+    timestamp
+    currentOwner
+    caller
+    id
+    nft {
+      id
+      name
+      metadata
+      collection {
+        id
+        name
+        __typename
+      }
+
+      meta {
+        id
+        image
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+}

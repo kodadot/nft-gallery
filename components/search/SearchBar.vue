@@ -7,6 +7,7 @@
       :class="{ 'is-collection-search': isSearchInCollectionMode }"
       :placeholder="placeholderContent"
       icon="search"
+      icon-pack="fasr"
       :open-on-focus="showDefaultSuggestions"
       menu-position="bottom"
       expanded
@@ -32,7 +33,7 @@
       v-if="isSearchInCollectionMode"
       class="search-bar-collection-search is-flex is-align-items-center">
       <span class="is-flex is-align-items-center">{{
-        $t('search.searchCollection')
+        $i18n.t('search.searchCollection')
       }}</span>
       <svg
         width="7"
@@ -48,116 +49,108 @@
     <img
       class="search-bar-keyboard-icon"
       :class="{ 'is-invisible': name || inputFocused }"
-      src="/search-k-keyboard.svg" />
+      src="/search-k-keyboard.svg"
+      alt="press k to focus search input" />
     <img
       class="search-bar-keyboard-icon"
       :class="{ 'is-invisible': !name && !inputFocused }"
-      src="/k-search-enter.svg" />
+      src="/k-search-enter.svg"
+      alt="press enter to start search" />
   </div>
 </template>
 
-<script lang="ts">
-import {
-  Component,
-  Emit,
-  Prop,
-  Ref,
-  VModel,
-  Watch,
-  mixins,
-} from 'nuxt-property-decorator'
-import { SearchQuery } from './types'
-import PrefixMixin from '~/utils/mixins/prefixMixin'
-import KeyboardEventsMixin from '~/utils/mixins/keyboardEventsMixin'
+<script setup lang="ts">
 import { NeoAutocomplete } from '@kodadot1/brick'
 import { useCollectionSearch } from '@/components/search/utils/useCollectionSearch'
+import SearchSuggestion from '@/components/search/SearchSuggestion.vue'
+import { SearchQuery } from './types'
+import type { PropType } from 'vue'
 
-@Component({
-  components: {
-    SearchSuggestion: () => import('./SearchSuggestion.vue'),
-    NeoAutocomplete,
+const props = defineProps({
+  value: {
+    type: String,
+    required: true,
   },
+  query: Object as PropType<SearchQuery>,
 })
-export default class SearchBar extends mixins(
-  PrefixMixin,
-  KeyboardEventsMixin
-) {
-  @Prop({ type: Object, required: false }) public query!: SearchQuery
-  @VModel({ type: String }) name!: string
-  @Ref('searchRef') readonly searchRef
-  @Ref('searchSuggestionRef') readonly searchSuggestionRef
-  private enableSearchInCollection = true
-  public inputFocused = false
 
-  public created() {
-    this.initKeyboardEventHandler({
-      k: this.bindSearchEvents,
-    })
-    this.onSearchInCollectionModeChanged()
-  }
+const emits = defineEmits(['input', 'blur', 'enter', 'redirect'])
+const { $i18n } = useNuxtApp()
 
-  get isSearchInCollectionMode() {
-    return useCollectionSearch().isCollectionSearchMode.value
-  }
+const name = useVModel(props, 'value', emits, { eventName: 'input' })
 
-  get placeholderContent() {
-    return this.inputFocused || this.isSearchInCollectionMode
-      ? ''
-      : this.$t('general.searchPlaceholder')
-  }
+const searchRef = ref<typeof NeoAutocomplete>()
+const searchSuggestionRef = ref<typeof SearchSuggestion>()
+const enableSearchInCollection = ref(true)
+const inputFocused = ref(false)
+const { urlPrefix } = usePrefix()
 
-  get showDefaultSuggestions() {
-    return this.urlPrefix === 'rmrk' || this.urlPrefix === 'bsx'
-  }
+const collectionSearch = useCollectionSearch()
+useKeyboardEvents({ k: bindSearchEvents })
 
-  public exitCollectionSearch() {
-    if (this.isSearchInCollectionMode && !this.name) {
-      this.enableSearchInCollection = false
-    }
-  }
+const isSearchInCollectionMode = computed(
+  () => collectionSearch.isCollectionSearchMode.value
+)
 
-  @Emit('enter')
-  @Emit('redirect')
-  onEnter() {
-    this.closeDropDown()
-    this.searchRef?.$refs?.input?.$refs?.input?.blur()
-    // insert search term in history
-    this.searchSuggestionRef?.insertNewHistory()
-  }
+const placeholderContent = computed(() =>
+  inputFocused.value || isSearchInCollectionMode.value
+    ? ''
+    : $i18n.t('general.searchPlaceholder')
+)
 
-  public focusInput(): void {
-    this.searchRef?.focus()
-  }
+const showDefaultSuggestions = computed(
+  () => urlPrefix.value === 'rmrk' || urlPrefix.value === 'bsx'
+)
 
-  public onInputFocus(): void {
-    this.inputFocused = true
-  }
-
-  public onInputBlur(): void {
-    this.$emit('blur')
-    this.inputFocused = false
-    if (!this.name) {
-      this.enableSearchInCollection = true
-    }
-  }
-
-  private bindSearchEvents(event) {
-    event.preventDefault()
-    if (
-      event.key === 'k' &&
-      this.searchRef?.$el?.getBoundingClientRect()?.top > 0
-    ) {
-      this.focusInput()
-    }
-  }
-
-  public closeDropDown() {
-    this.searchRef.isActive = false
-  }
-
-  @Watch('enableSearchInCollection', { immediate: true })
-  private onSearchInCollectionModeChanged() {
-    useCollectionSearch().setCollectionSearchMode(this.enableSearchInCollection)
+function exitCollectionSearch() {
+  if (isSearchInCollectionMode.value && !name.value) {
+    enableSearchInCollection.value = false
   }
 }
+
+function onEnter() {
+  closeDropDown()
+  searchRef.value?.$refs?.input?.$refs?.input?.blur()
+  // insert search term in history
+  searchSuggestionRef.value?.insertNewHistory()
+  emits('enter')
+}
+
+function focusInput() {
+  searchRef.value?.focus()
+}
+
+function onInputFocus() {
+  inputFocused.value = true
+}
+
+function onInputBlur() {
+  emits('blur')
+  inputFocused.value = false
+  if (!name.value) {
+    enableSearchInCollection.value = true
+  }
+}
+
+function bindSearchEvents(event: KeyboardEvent) {
+  event.preventDefault()
+  if (
+    event.key === 'k' &&
+    searchRef.value?.$el?.getBoundingClientRect()?.top > 0
+  ) {
+    focusInput()
+  }
+}
+
+function closeDropDown() {
+  searchRef.value.isActive = false
+}
+
+watch(
+  enableSearchInCollection,
+  () => {
+    collectionSearch.setCollectionSearchMode(enableSearchInCollection.value)
+  },
+  { immediate: true }
+)
 </script>

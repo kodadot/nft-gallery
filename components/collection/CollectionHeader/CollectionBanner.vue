@@ -1,7 +1,7 @@
 <template>
   <div
     class="collection-banner"
-    :style="{ backgroundImage: `url(${collectionAvatar})` }">
+    :style="{ backgroundImage: `url(${bannerImageUrl})` }">
     <div class="collection-banner-shadow"></div>
 
     <section class="h-full py-8">
@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import type { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
-import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import HeroButtons from '@/components/collection/HeroButtons.vue'
 import { generateCollectionImage } from '@/utils/seoImageGenerator'
 import { convertMarkdownToText } from '@/utils/markdown'
@@ -43,6 +43,10 @@ const { data } = useGraphql({
 
 const collectionAvatar = ref('')
 const collectionName = ref('--')
+
+const bannerImageUrl = computed(
+  () => collectionAvatar.value && toOriginalContentUrl(collectionAvatar.value)
+)
 
 watchEffect(async () => {
   const collection = data.value?.collectionEntity

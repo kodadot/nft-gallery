@@ -25,5 +25,15 @@ $input-textarea-padding: 0.75rem 1rem;
         border: 1px solid theme('text-color');
       }
     }
+
+    &--danger {
+      @include ktheme() {
+        border: 1px solid theme('k-red');
+
+        &:focus {
+          border: 1px solid theme('k-red');
+        }
+      }
+    }
   }
 }

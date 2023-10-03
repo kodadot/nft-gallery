@@ -1,182 +1,104 @@
-import { Prefix } from '@kodadot1/static'
+import { CHAINS, Prefix } from '@kodadot1/static'
+import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 import {
+  assetsVisible,
   createVisible,
-  explorerVisible,
-  hotVisible,
-  massmintCreateVisible,
-  salesVisible,
-  seriesInsightVisible,
-} from '@/utils/config/permision.config'
+  incomingOfferssVisible,
+} from '@/utils/config/permission.config'
+import { RawLocation } from 'vue-router/types/router'
 
-enum RedirectTypes {
-  CHAIN_PREFIX_CHANGE = 'chain-prefix-change',
-  STAY = 'stay',
+const NO_REDIRECT_ROUTE_NAMES = [
+  'hot',
+  'sales',
+  'series-insight',
+  'identity',
+  'blog',
+  'blog-slug',
+]
+
+function isNoRedirect(routeName: string): boolean {
+  return NO_REDIRECT_ROUTE_NAMES.includes(routeName)
 }
 
-/**
- * Enum representing different page types for routing and matching.
- * You can use placeholders using curly braces {} for dynamic parts.
- * For example, '{prefix}-explore-items' contains a '{prefix}' placeholder
- * that {prefix} will be treated as any value for exmaple rmrk-explore-items
- */
-enum PageType {
-  PREFIX_EXPLORE_ITEMS = '{prefix}-explore-items',
-  PREFIX_EXPLORE_COLLECTIBLES = '{prefix}-explore-collectibles',
-  SALES = 'sales',
-  HOT = 'hot',
-  SERIES_INSIGHT = 'series-insight',
-  BLOG = 'blog',
-  BLOG_SLUG = 'blog-slug',
-  PREFIX_MASSMINT = '{prefix}-massmint',
-  PREFIX_MASSMINT_ONBOARDING = '{prefix}-massmint-onboarding',
-  PREFIX_CLASSIC_CREATE = '{prefix}-create',
+const getAddress = (chain: string, accountId: string) => {
+  const publicKey = decodeAddress(accountId)
+  return encodeAddress(publicKey, CHAINS[chain].ss58Format)
 }
 
-type RedirectPath = {
-  path: string
-  query?: {
-    [key: string]: any
+function getRedirectPathForPrefix({
+  routeName,
+  chain,
+  route,
+}: {
+  routeName: string
+  chain: Prefix
+  route
+}): RawLocation {
+  if (routeName === 'prefix-u-id') {
+    const accountId = getAddress(chain, route.params.id)
+
+    return {
+      params: {
+        prefix: chain,
+        id: accountId,
+      },
+      query: route.query,
+    }
   }
-}
 
-const PageRedirectType: { [key in PageType]?: RedirectTypes } = {
-  [PageType.PREFIX_EXPLORE_ITEMS]: RedirectTypes.CHAIN_PREFIX_CHANGE,
-  [PageType.PREFIX_EXPLORE_COLLECTIBLES]: RedirectTypes.CHAIN_PREFIX_CHANGE,
-  [PageType.SALES]: RedirectTypes.STAY,
-  [PageType.HOT]: RedirectTypes.STAY,
-  [PageType.SERIES_INSIGHT]: RedirectTypes.STAY,
-  [PageType.BLOG]: RedirectTypes.STAY,
-  [PageType.BLOG_SLUG]: RedirectTypes.STAY,
-  [PageType.PREFIX_MASSMINT]: RedirectTypes.CHAIN_PREFIX_CHANGE,
-  [PageType.PREFIX_MASSMINT_ONBOARDING]: RedirectTypes.CHAIN_PREFIX_CHANGE,
-  [PageType.PREFIX_CLASSIC_CREATE]: RedirectTypes.CHAIN_PREFIX_CHANGE,
-}
+  if (['prefix-gallery-id', 'prefix-collection-id'].includes(routeName)) {
+    const routeNameToRedirect = routeName.includes('gallery')
+      ? 'prefix-explore-items'
+      : 'prefix-explore-collectibles'
 
-function getEnumKeyByValue<
-  T extends { [key: string]: string },
-  K extends keyof T
->(enumObject: T, value: string): K | undefined {
-  return Object.keys(enumObject).find((key) => enumObject[key] === value) as K
-}
+    return {
+      name: routeNameToRedirect,
+      params: {
+        prefix: chain,
+      },
+    }
+  }
 
-const SpecialRedirectPageTypes: PageType[] = Object.keys(PageRedirectType)
-  .map<PageType>((value) => getEnumKeyByValue(PageType, value) as PageType)
-  .filter(Boolean) as PageType[]
-
-const pageAvailabilityPerChain = {
-  [PageType.PREFIX_EXPLORE_ITEMS]: (chain: Prefix): boolean =>
-    explorerVisible(chain),
-  [PageType.PREFIX_EXPLORE_COLLECTIBLES]: (chain: Prefix): boolean =>
-    explorerVisible(chain),
-  [PageType.SERIES_INSIGHT]: (chain: Prefix) => seriesInsightVisible(chain),
-  [PageType.PREFIX_CLASSIC_CREATE]: (chain: Prefix) => createVisible(chain),
-  [PageType.PREFIX_MASSMINT]: (chain: Prefix) => massmintCreateVisible(chain),
-  [PageType.PREFIX_MASSMINT_ONBOARDING]: (chain: Prefix) =>
-    massmintCreateVisible(chain),
-  [PageType.SALES]: (chain: Prefix) => salesVisible(chain),
-  [PageType.HOT]: (chain: Prefix) => hotVisible(chain),
-  [PageType.BLOG]: () => true,
-  [PageType.BLOG_SLUG]: () => true,
-}
-
-const generateRouteRegexPattern = (pattern: string): string => {
-  const patternWithPlaceholderReplaced = pattern.replace(
-    /\{[^}]{1,30}\}/g,
-    '.+'
-  )
-  const patternWithHyphensEscaped = patternWithPlaceholderReplaced.replace(
-    /-/g,
-    '\\-'
-  )
-  return `^${patternWithHyphensEscaped}$`
-}
-
-const getPageType = (routeName: string): PageType => {
-  const matchingKey = Object.keys(PageType).find((key) => {
-    const pagePattern = PageType[key]
-    const regexPattern = generateRouteRegexPattern(pagePattern)
-    return new RegExp(regexPattern).test(routeName)
-  })
-
-  return matchingKey as PageType
-}
-
-export default function (allowRedirectIfCheckNotPresent = false) {
-  const route = useRoute()
-
-  const getChangedChainPrefixFromPath = (
-    chain: Prefix,
-    prevChain: Prefix
-  ): RedirectPath => ({
-    path: route.path.replace(prevChain, chain),
+  return {
+    params: {
+      prefix: chain,
+    },
     query: route.query,
-  })
-
-  const checkIfPageHasSpecialRedirect = (pageType: PageType): boolean => {
-    return SpecialRedirectPageTypes.includes(pageType as PageType)
   }
+}
 
-  const getPageRedirectPath = (
-    newChain: Prefix,
-    prevChain: Prefix,
-    defaultRedirectPath: string
-  ): RedirectPath | null => {
-    const routeName = route.name || ''
+export default function () {
+  const route = useRoute()
+  const router = useRouter()
 
-    const defaultRedirect: RedirectPath = {
-      path: defaultRedirectPath,
-    }
+  const redirectAfterChainChange = (newChain: Prefix): void => {
+    const routeName = route.name as string
 
-    const pageType = getPageType(routeName)
-
-    const hasSpecialRedirect = checkIfPageHasSpecialRedirect(pageType)
-
-    if (!hasSpecialRedirect) {
-      return defaultRedirect
-    }
-
-    const pageTypeValue = PageType[pageType]
-    const pageRedirectType = PageRedirectType[pageTypeValue]
-    const isStayRedirect = pageRedirectType === RedirectTypes.STAY
-
-    let isPageAvailableForChain = allowRedirectIfCheckNotPresent
-    const pageAvailabilityCheck = pageAvailabilityPerChain[pageTypeValue]
-
-    if (pageAvailabilityCheck) {
-      isPageAvailableForChain = pageAvailabilityCheck(newChain)
-    }
-
-    if (isStayRedirect) {
-      if (isPageAvailableForChain) {
-        return null
-      } else {
-        return defaultRedirect
-      }
-    }
-
-    if (pageRedirectType === RedirectTypes.CHAIN_PREFIX_CHANGE) {
-      return getChangedChainPrefixFromPath(newChain, prevChain)
-    }
-
-    return null
-  }
-
-  const redirectAfterChainChange = (
-    newChain: Prefix,
-    prevChain: Prefix,
-    defaultRedirect = `/${newChain}`
-  ) => {
-    const redirectPath = getPageRedirectPath(
-      newChain,
-      prevChain,
-      defaultRedirect
-    )
-
-    if (!redirectPath) {
+    if (isNoRedirect(routeName)) {
       return
     }
 
-    navigateTo(redirectPath)
+    const isAssets = routeName.includes('-assets')
+    const isSimpleCreate = routeName.includes('-create')
+    const isIncomingOffers = routeName.includes('-incomingOffers')
+
+    let redirectLocation: RawLocation = { path: `/${newChain}` }
+
+    if (route.params.prefix) {
+      redirectLocation = getRedirectPathForPrefix({
+        routeName,
+        chain: newChain,
+        route,
+      })
+    } else if (isAssets && assetsVisible(newChain)) {
+      redirectLocation = { path: `/${newChain}/assets` }
+    } else if (isSimpleCreate && createVisible(newChain)) {
+      redirectLocation = { path: `/${newChain}/create` }
+    } else if (isIncomingOffers && incomingOfferssVisible(newChain)) {
+      redirectLocation = { path: `/${newChain}/incomingoffers` }
+    }
+
+    router.push(redirectLocation)
   }
 
   return {

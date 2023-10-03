@@ -83,40 +83,37 @@
         <!-- NAV END -->
         <div class="navbar-end">
           <nuxt-link to="/ahk/drops" rel="nofollow">
-            <div class="navbar-item" data-cy="drops">
+            <div class="navbar-item" data-testid="drops">
               {{ $t('drops.title') }}
 
               <NeoIcon
                 class="ml-1"
                 icon="fire-flame-curved"
-                custom-size="fa-solid"
-                pack="fa-sharp"
+                pack="fass"
                 variant="primary" />
             </div>
           </nuxt-link>
-          <template v-if="isExploreVisible">
-            <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
-              <NavbarExploreOptions @closeMobileNavbar="showMobileNavbar" />
-            </MobileExpandableSection>
 
-            <ExploreDropdown
-              v-else
-              class="navbar-explore custom-navbar-item"
-              data-cy="explore" />
-          </template>
+          <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
+            <NavbarExploreOptions @closeMobileNavbar="showMobileNavbar" />
+          </MobileExpandableSection>
+          <ExploreDropdown
+            v-else
+            class="navbar-explore custom-navbar-item"
+            data-testid="explore" />
 
           <a
             href="https://hello.kodadot.xyz"
             rel="nofollow noopener noreferrer"
             target="_blank"
             class="navbar-item"
-            data-cy="learn">
+            data-testid="learn">
             {{ $t('learn') }}
           </a>
           <CreateDropdown
             v-show="isCreateVisible"
             class="navbar-create custom-navbar-item ml-0"
-            data-cy="create"
+            data-testid="create"
             :is-mobile="isMobile"
             :chain="urlPrefix"
             @closeMobileNavbar="showMobileNavbar" />
@@ -124,7 +121,7 @@
           <!-- commenting as part of #5889-->
           <!-- <StatsDropdown
           class="navbar-stats custom-navbar-item"
-          data-cy="stats"
+          data-testid="stats"
           :is-mobile="isMobile"
           :chain="urlPrefix" /> -->
 
@@ -139,7 +136,7 @@
             v-else
             id="NavChainSelect"
             class="navbar-chain custom-navbar-item"
-            data-cy="chain-select" />
+            data-testid="chain-select" />
 
           <NotificationBoxButton
             v-if="account"
@@ -163,7 +160,7 @@
                 {{ $t('profile.page') }}
                 <NeoIcon icon="user-circle" />
               </span>
-              <NeoIcon class="icon--right" icon="chevron-right" pack="fas" />
+              <NeoIcon class="icon--right" icon="chevron-right" />
             </div>
 
             <div v-if="!account" id="NavProfile">
@@ -178,7 +175,7 @@
             v-if="!isMobile"
             id="NavProfile"
             :chain="urlPrefix"
-            data-cy="profileDropdown"
+            data-testid="profileDropdown"
             @closeBurgerMenu="closeBurgerMenu" />
         </div>
         <!-- END NAV END -->
@@ -203,12 +200,13 @@ import NotificationBoxButton from '@/components/navbar/NotificationBoxButton.vue
 import ProfileDropdown from '@/components/navbar/ProfileDropdown.vue'
 import Search from '@/components/search/Search.vue'
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
+import { useEventListener } from '@vueuse/core'
+import { ModalCloseType } from '@/components/navbar/types'
 
 import { useIdentityStore } from '@/stores/identity'
 import { getChainNameByPrefix } from '@/utils/chain'
-import { createVisible, explorerVisible } from '@/utils/config/permision.config'
+import { createVisible } from '@/utils/config/permission.config'
 import ShoppingCartButton from './navbar/ShoppingCartButton.vue'
-
 const { $nextTick, $neoModal } = useNuxtApp()
 const instance = getCurrentInstance()
 const showTopNavbar = ref(true)
@@ -217,10 +215,12 @@ const fixedTitleNavAppearDistance = ref(85)
 const lastScrollPosition = ref(0)
 const isBurgerMenuOpened = ref(false)
 const isMobile = ref(window.innerWidth < 1024)
+const isMobileWithoutTablet = ref(window.innerWidth < 768)
 const { urlPrefix } = usePrefix()
 const { isDarkMode } = useTheme()
 const identityStore = useIdentityStore()
 const isMobileNavbarOpen = ref(false)
+const updateAuthBalanceTimer = ref()
 
 const mobilSearchRef = ref<{ focusInput: () => void } | null>(null)
 
@@ -229,7 +229,6 @@ const route = useRoute()
 const account = computed(() => identityStore.getAuthAddress)
 
 const isCreateVisible = computed(() => createVisible(urlPrefix.value))
-const isExploreVisible = computed(() => explorerVisible(urlPrefix.value))
 const isLandingPage = computed(() => route.name === 'index')
 
 const logoSrc = computed(() =>
@@ -248,10 +247,15 @@ const openWalletConnectModal = (): void => {
   showMobileNavbar()
 
   $neoModal.closeAll()
-
   $neoModal.open({
     parent: instance?.proxy,
     ...ConnectWalletModalConfig,
+    ...(isMobileWithoutTablet.value ? { animation: 'none' } : {}),
+    onClose: (type: ModalCloseType) => {
+      if (type === ModalCloseType.BACK) {
+        showMobileNavbar()
+      }
+    },
   })
 }
 
@@ -322,23 +326,35 @@ const handleResize = () => {
 
 const chainName = computed(() => getChainNameByPrefix(urlPrefix.value))
 
+const updateAuthBalance = () => {
+  account.value && identityStore.fetchBalance({ address: account.value })
+}
+
+const hideTopNavbar = () => {
+  if (isMobileWithoutTablet.value) {
+    showTopNavbar.value = true
+  }
+}
+
 onMounted(() => {
-  window.addEventListener('scroll', onScroll)
   document.body.style.overflowY = 'initial'
   document.body.className = 'has-navbar-fixed-top has-spaced-navbar-fixed-top'
-  window.addEventListener('resize', handleResize)
+  updateAuthBalanceTimer.value = setInterval(updateAuthBalance, 30000)
+  $neoModal.addOpenListener(hideTopNavbar)
 })
 
 onBeforeUnmount(() => {
-  window.removeEventListener('scroll', onScroll)
   setBodyScroll(true)
   document.documentElement.classList.remove('is-clipped-touch')
-  window.removeEventListener('resize', handleResize)
+  clearInterval(updateAuthBalanceTimer.value)
+  $neoModal.removeOpenListener(hideTopNavbar)
 })
+useEventListener(window, 'scroll', onScroll)
+useEventListener(window, 'resize', handleResize)
 </script>
 
 <style lang="scss" scoped>
-:deep .navbar-explore {
+:deep(.navbar-explore) {
   .navbar-item {
     height: 4.5rem;
   }

@@ -1,4 +1,4 @@
-import { balanceOf, identityOf } from '@kodadot1/sub-api'
+import { balanceOf } from '@kodadot1/sub-api'
 import { Registration } from '@polkadot/types/interfaces/identity/types'
 import { defineStore } from 'pinia'
 import consola from 'consola'
@@ -13,10 +13,10 @@ const DEFAULT_BALANCE_STATE = {
   rmrk: '0',
   snek: '0',
   ahk: '0',
-  glmr: '0',
-  movr: '0',
   dot: '0',
   ahp: '0',
+  // glmr: '0',
+  // movr: '0',
 }
 
 export interface IdentityMap {
@@ -30,13 +30,14 @@ type ChangeAddressRequest = {
   apiUrl?: string
 }
 
-type ChainType =
+export type ChainType =
   | 'polkadot'
   | 'kusama'
   | 'basilisk'
   | 'basilisk-testnet'
-  | 'statemine'
-  | 'statemint'
+  | 'kusamaHub'
+  | 'polkadotHub'
+
 type ChainDetail = {
   balance: string
   nativeBalance: string
@@ -101,9 +102,9 @@ export const useIdentityStore = defineStore('identity', {
     multiBalanceNetwork: 'main-network',
     multiBalanceAssets: [
       { chain: 'kusama' },
-      { chain: 'statemine' },
+      { chain: 'kusamaHub' },
       { chain: 'polkadot', token: 'DOT' },
-      { chain: 'statemint', token: 'DOT' },
+      { chain: 'polkadotHub', token: 'DOT' },
       { chain: 'basilisk', token: 'BSX' },
       { chain: 'basilisk', token: 'KSM', tokenId: getKusamaAssetId('bsx') },
     ],
@@ -223,20 +224,6 @@ export const useIdentityStore = defineStore('identity', {
         consola.error('[FETCH BALANCE] Unable to get user balance', e)
       }
     },
-    async fetchIdentity(address: string) {
-      // useIdentity()
-      const { apiInstance } = useApi()
-      try {
-        const api = await apiInstance.value
-        const optionIdentity = await identityOf(api, address)
-        const identity = optionIdentity?.unwrapOr(null)
-        if (identity) {
-          this.identities[address] = identity
-        }
-      } catch (e) {
-        consola.error('[FETCH IDENTITY] Unable to get identity', e)
-      }
-    },
     setMultiBalances({ address, chains, chainName }) {
       this.multiBalances = {
         ...this.multiBalances,
@@ -251,5 +238,4 @@ export const useIdentityStore = defineStore('identity', {
       }
     },
   },
-  persist: true,
 })

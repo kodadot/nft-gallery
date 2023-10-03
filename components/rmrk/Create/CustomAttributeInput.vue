@@ -28,8 +28,8 @@ import AttributeInput from './AttributeInput.vue'
 const props = withDefaults(
   defineProps<{
     max: number
-    visible: string
-    hidden: string
+    visible?: string
+    hidden?: string
   }>(),
   {
     max: 0,

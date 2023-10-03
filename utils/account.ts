@@ -7,6 +7,8 @@ import {
   decodeAddress,
   encodeAddress,
 } from '@polkadot/util-crypto'
+import { u8aToHex } from '@polkadot/util'
+
 import { Prefix } from '@polkadot/util-crypto/address/types'
 import { ss58Of } from './config/chain.config'
 import { useChainStore } from '@/stores/chain'
@@ -91,6 +93,20 @@ export const getss58AddressByPrefix = (address: string, prefix: string) => {
   const ss58Format = ss58Of(prefix)
   const decodedAddress = decodeAddress(address)
   return encodeAddress(decodedAddress, ss58Format)
+}
+
+export function accountToPublicKey(account: string): `0x${string}` {
+  const decoded = decodeAddress(account)
+  return u8aToHex(decoded)
+}
+
+export const isValidAddress = (address: string): boolean => {
+  try {
+    encodeAddress(decodeAddress(address))
+    return true
+  } catch (error) {
+    return false
+  }
 }
 
 export default passwordRequired

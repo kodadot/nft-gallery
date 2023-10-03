@@ -117,8 +117,6 @@
 </template>
 
 <script lang="ts" setup>
-import { isAfter, isBefore } from 'date-fns'
-
 const phaseList = ref<
   {
     title: string
@@ -157,10 +155,6 @@ const getStatusName = (status: 'close' | 'open' | 'upcoming') => {
     case 'upcoming':
       return 'Upcoming'
   }
-}
-
-const isActive = (from: Date, to: Date) => {
-  const now = new Date(Date.now())
 }
 </script>
 

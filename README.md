@@ -1,6 +1,7 @@
 # One Stop Shop for your Polkadot NFTs
 
-![](https://github.com/kodadot/kodadot-presskit/blob/main/v3/KODA_v3.png?raw=true)
+![Frame 819](https://github.com/kodadot/nft-gallery/assets/90852205/70989633-9c78-47ee-9e23-4a60c12d8d76)
+
 
 # Contributing
 
@@ -52,6 +53,6 @@ You'll find our goals for KodaDot upcoming future!
 # Stay Tuned for Updates!
 
 - Follow us on [Twitter](https://twitter.com/KodaDot), [Youtube](https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA), [SubStack](https://kodadot.substack.com/) and [Medium](https://blog.kodadot.xyz), [Instagram](https://instagram.com/kodadot.xyz),
-- Join our [Telegram KodaDot Ecosystem](https://t.me/kodadot_eco), [Discord](https://discord.gg/u6ymnbz4PR)
+- Join our [Telegram KodaDot Ecosystem](https://t.me/kodadot_eco), ~~[Discord](https://discord.gg/u6ymnbz4PR)~~
 - [Pick your T-shirt in KodaDot Swag Shop](https://shop.kodadot.xyz), use voucher `readme100` to get 100% OFF, first 10 redemptions only.
 

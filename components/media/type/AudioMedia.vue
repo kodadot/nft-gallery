@@ -8,7 +8,7 @@
       played-line-color="rgba(0,0,0,0.74)"
       noplayed-line-color="#d32e79"
       playtime-font-color="rgba(0,0,0,0.74)"
-      data-cy="type-audio" />
+      data-testid="type-audio" />
   </div>
 </template>
 

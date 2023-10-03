@@ -1,17 +1,12 @@
 <template>
   <div class="wallet-modal-container is-flex is-flex-direction-column">
-    <header class="modal-card-head">
-      <span class="modal-card-title is-size-6 has-text-weight-bold">
-        {{
-          showAccount
-            ? $i18n.t('profile.page')
-            : $i18n.t('walletConnect.walletHeading')
-        }}
-      </span>
-      <a class="is-flex is-align-items-center" @click="emit('close')">
-        <NeoIcon icon="close" />
-      </a>
-    </header>
+    <NeoModalHead
+      :title="
+        showAccount
+          ? $i18n.t('profile.page')
+          : $i18n.t('walletConnect.walletHeading')
+      "
+      @close="emit('close', ModalCloseType.BACK)" />
     <section v-if="showAccount">
       <WalletAsset />
     </section>
@@ -25,7 +20,7 @@
       </div>
 
       <a
-        class="is-flex is-align-items-center pt-4 pb-3 is-size-7 has-text-grey more-option-button"
+        class="is-flex is-align-items-center pt-4 pb-3 is-size-7 has-text-grey more-option-button mx-6 my-0"
         @click="toggleShowUninstalledWallet">
         {{ $i18n.t('walletConnect.moreOption') }}
         <NeoIcon
@@ -42,7 +37,7 @@
           :wallet="wallet" />
       </div>
     </section>
-    <section v-else class="modal-card-body p-4">
+    <section v-else class="modal-card-body px-6 py-4">
       <div class="mb-5">
         {{ $i18n.t('walletConnect.authText') }}
       </div>
@@ -51,6 +46,7 @@
           size="medium"
           variant="k-accent"
           class="confirm-button"
+          no-shadow
           @click.native="setUserAuthValue">
           <span class="is-flex is-align-items-center is-justify-content-center">
             {{ $i18n.t('walletConnect.confirm') }}
@@ -60,7 +56,7 @@
       </NeoField>
     </section>
 
-    <footer v-if="!showAccount" class="px-5 py-4">
+    <footer v-if="!showAccount" class="px-6 py-4">
       <div>{{ $i18n.t('walletConnect.walletQuestion') }}</div>
       <div class="is-size-7">
         {{ $i18n.t('walletConnect.walletAnswer') }}
@@ -80,11 +76,11 @@
 <script setup lang="ts">
 import { SupportedWallets } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
-import { NeoButton, NeoField, NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoField, NeoIcon, NeoModalHead } from '@kodadot1/brick'
 import { Auth, useIdentityStore } from '@/stores/identity'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem.vue'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'
-
+import { ModalCloseType } from '@/components/navbar/types'
 const { $i18n } = useNuxtApp()
 const selectedWalletProvider = ref<BaseDotsamaWallet>()
 const forceWalletSelect = ref(false)
@@ -129,6 +125,6 @@ watch(account, (account) => {
 })
 
 watch([urlPrefix], () => {
-  emit('close')
+  emit('close', ModalCloseType.NAVIGATION)
 })
 </script>

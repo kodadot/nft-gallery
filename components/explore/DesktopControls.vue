@@ -8,7 +8,7 @@
     <div v-if="!isActivityTab" class="explore-menu is-flex">
       <ExploreSort />
       <ExploreOffer class="is-flex-grow-1" />
-      <ExploreChain v-if="!route.name?.includes('prefix-collection-id')" />
+      <ChainDropdown v-if="!route.name?.includes('prefix-collection-id')" />
       <ExploreGrid v-if="!isCollection" />
     </div>
   </div>
@@ -17,10 +17,10 @@
 <script setup lang="ts">
 import ExploreTabs from './ExploreTabs.vue'
 import ExploreSort from './ExploreSort.vue'
-import ExploreChain from './ExploreChain.vue'
 import ExploreGrid from './ExploreGrid.vue'
 import ExploreOffer from './ExploreOffer.vue'
 import FilterMenuButton from './FilterMenuButton.vue'
+import ChainDropdown from '@/components/common/ChainDropdown.vue'
 
 const route = useRoute()
 

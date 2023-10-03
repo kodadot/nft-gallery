@@ -4,8 +4,7 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import Chart from 'chart.js/auto'
 
 function getGradient(ctx, chartArea) {
@@ -25,66 +24,59 @@ function getGradient(ctx, chartArea) {
   return gradient
 }
 
-@Component({})
-export default class PulseChart extends Vue {
-  protected Chart!: Chart<'line', any, unknown>
-  @Prop({ type: String }) protected id
-  @Prop() protected labels: string[]
-  @Prop() protected values: number[]
+const props = defineProps<{
+  id?: string
+  labels?: string[]
+  values?: number[]
+}>()
 
-  public async mounted() {
-    this.renderChart()
-  }
+const pulseChart = ref()
+const chartId = ref(`pulse-chart-${props.id}`)
 
-  get chartId() {
-    return `pulse-chart-${this.id}`
-  }
+onMounted(() => {
+  const ctx = (
+    document?.getElementById(chartId.value) as HTMLCanvasElement
+  )?.getContext('2d')
 
-  renderChart() {
-    const ctx = (
-      document?.getElementById(this.chartId) as HTMLCanvasElement
-    )?.getContext('2d')
+  const data = {
+    labels: props.labels,
+    datasets: [
+      {
+        data: props.values,
+        fill: false,
+        // borderColor: 'rgb(75, 192, 192)',
+        borderColor: function (context) {
+          const chart = context.chart
+          const { ctx, chartArea } = chart
 
-    const data = {
-      labels: this.labels,
-      datasets: [
-        {
-          data: this.values,
-          fill: false,
-          // borderColor: 'rgb(75, 192, 192)',
-          borderColor: function (context) {
-            const chart = context.chart
-            const { ctx, chartArea } = chart
-
-            if (!chartArea) {
-              // This case happens on initial chart load
-              return
-            }
-            return getGradient(ctx, chartArea)
-          },
-          tension: 0.6,
-          pointRadius: 0,
+          if (!chartArea) {
+            // This case happens on initial chart load
+            return
+          }
+          return getGradient(ctx, chartArea)
         },
-      ],
-    }
-    if (ctx) {
-      const chart = new Chart(ctx, {
-        type: 'line',
-        data: data,
-        options: {
-          animation: false,
-          scales: { x: { display: false }, y: { display: false } },
-          plugins: {
-            legend: false,
-            tooltip: { enabled: false, hover: { mode: null } },
-          },
-        },
-      })
-
-      this.Chart = chart
-    }
+        tension: 0.6,
+        pointRadius: 0,
+      },
+    ],
   }
-}
+  if (ctx) {
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: {
+        animation: false,
+        scales: { x: { display: false }, y: { display: false } },
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: false },
+        },
+      },
+    })
+
+    pulseChart.value = chart
+  }
+})
 </script>
 
 <style lang="scss">

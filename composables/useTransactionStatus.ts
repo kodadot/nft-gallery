@@ -1,39 +1,55 @@
 import { ExtrinsicStatus } from '@polkadot/types/interfaces'
 
+export enum TransactionStatus {
+  Broadcast = 'loader.broadcast',
+  Casting = 'loader.casting',
+  Sign = 'loader.sign',
+  Block = 'loader.block',
+  Finalized = 'loader.finalized',
+  Unknown = '',
+  IPFS = 'loader.ipfs',
+}
+
 function useTransactionStatus() {
-  const status = ref('')
+  const status = ref<TransactionStatus>(TransactionStatus.Unknown)
   const isLoading = ref(false)
 
   const resolveStatus = (
     extrinsicStatus: ExtrinsicStatus,
     omitFinalized?: boolean
   ): void => {
+    if (extrinsicStatus.isBroadcast) {
+      status.value = TransactionStatus.Broadcast
+      return
+    }
     if (extrinsicStatus.isReady) {
-      status.value = 'loader.casting'
+      status.value = TransactionStatus.Casting
       return
     }
 
     if (extrinsicStatus.isInBlock) {
-      status.value = 'loader.block'
+      status.value = TransactionStatus.Block
       return
     }
 
     if (extrinsicStatus.isFinalized) {
-      status.value = omitFinalized ? '' : 'loader.finalized'
+      status.value = omitFinalized
+        ? TransactionStatus.Unknown
+        : TransactionStatus.Finalized
       return
     }
 
-    status.value = ''
+    status.value = TransactionStatus.Unknown
   }
 
   const initTransactionLoader = (): void => {
     isLoading.value = true
-    status.value = 'loader.sign'
+    status.value = TransactionStatus.Unknown
   }
 
   const stopLoader = (): void => {
     isLoading.value = false
-    status.value = ''
+    status.value = TransactionStatus.Unknown
   }
   return {
     status,

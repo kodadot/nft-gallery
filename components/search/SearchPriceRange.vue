@@ -8,7 +8,7 @@
         step="any"
         class="column is-2"
         :placeholder="$t('query.priceRange.minPrice')"
-        data-cy="input-min" />
+        data-testid="input-min" />
       <NeoInput
         v-model="vrange[1]"
         min="0"
@@ -16,12 +16,12 @@
         type="number"
         class="column is-2"
         :placeholder="$t('query.priceRange.maxPrice')"
-        data-cy="input-max" />
+        data-testid="input-max" />
       <div class="column is-1">
         <NeoButton
           variant="primary"
           :disabled="applyDisabled"
-          data-cy="apply"
+          data-testid="apply"
           @click.native="rangeChange">
           {{ $t('general.apply') }}
         </NeoButton>

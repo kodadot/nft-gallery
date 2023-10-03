@@ -5,24 +5,10 @@
       <div class="is-flex">
         <NeoButton
           v-if="twitter"
-          icon="twitter"
+          icon="x-twitter"
           icon-pack="fab"
           class="square-32"
           @click.native="openUrl(`https://twitter.com/${twitter}`)" />
-
-        <NeoButton
-          v-if="instagram"
-          icon="instagram"
-          icon-pack="fab"
-          class="square-32"
-          @click.native="openUrl(`https://instagram.com/${instagram}`)" />
-
-        <NeoButton
-          v-if="discord"
-          class="square-32"
-          icon-pack="fab"
-          icon="discord"
-          @click.native="openUrl(`https://discord.com/users/${discord}`)" />
       </div>
 
       <div
@@ -38,7 +24,7 @@
             <NeoButton
               icon="share-alt"
               class="square-32 mr-3"
-              data-cy="share-button"
+              data-testid="share-button"
               :active="active" />
           </template>
 
@@ -72,7 +58,7 @@
             <NeoButton
               icon="ellipsis-vertical"
               class="square-32"
-              data-cy="more-actions-button"
+              data-testid="more-actions-button"
               :active="active" />
           </template>
 
@@ -97,10 +83,7 @@
           <p class="card-header-title">{{ collection?.name }}</p>
         </header>
         <div class="card-content">
-          <QRCode
-            :text="currentCollectionUrl"
-            color="#db2980"
-            bg-color="#000" />
+          <QRCode :text="currentCollectionUrl" />
         </div>
       </div>
     </NeoModal>
@@ -116,12 +99,13 @@ import {
 } from '@kodadot1/brick'
 import { isOwner as checkOwner } from '@/utils/account'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
-import useIdentity from '@/components/identity/utils/useIdentity'
 
 const route = useRoute()
 const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
-const { $i18n, $buefy } = useNuxtApp()
+const { $i18n } = useNuxtApp()
+const { toast } = useToast()
+
 const collectionId = computed(() => route.params.id)
 const currentCollectionUrl = computed(
   () =>
@@ -132,21 +116,15 @@ const { collection } = useCollectionMinimal({
 })
 const collectionIssuer = computed(() => collection.value?.issuer)
 
-const { discord, twitter, instagram, whichIdentity } = useIdentity({
-  address: collectionIssuer.value,
+const { twitter } = useIdentity({
+  address: collectionIssuer,
 })
 
 const openUrl = (url: string) => {
   window.open(url, '_blank')
 }
 
-watch(collectionIssuer, () => {
-  whichIdentity(collectionIssuer.value)
-})
-
-const displaySeperator = computed(
-  () => discord.value || twitter.value || instagram.value
-)
+const displaySeperator = computed(() => twitter.value)
 const isOwner = computed(() =>
   checkOwner(collection.value?.currentOwner, accountId.value)
 )
@@ -155,13 +133,6 @@ const QRModalActive = ref(false)
 
 const hashtags = 'KusamaNetwork,KodaDot'
 const sharingLabel = $i18n.t('sharing.collection')
-
-const toast = (message: string) => {
-  $buefy.toast.open({
-    message,
-    type: 'is-neo',
-  })
-}
 </script>
 
 <style lang="scss" scoped>

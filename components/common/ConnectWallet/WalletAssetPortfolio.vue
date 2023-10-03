@@ -12,24 +12,21 @@
       </NeoButton>
     </div>
 
-    <a class="has-text-grey is-size-7" @click="showRampSDK">+ Add Funds</a>
+    <a class="has-text-grey is-size-7" @click="rampActive = true"
+      >+ {{ $t('addFunds') }}</a
+    >
+
+    <OnRampModal v-model="rampActive" @close="rampActive = false" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
+import OnRampModal from '@/components/shared/OnRampModal.vue'
 
 const { urlPrefix } = usePrefix()
 const { isBasilisk } = useIsChain(urlPrefix)
-const { accountId } = useAuth()
-const { initRampInstant } = useRamp()
-
-const showRampSDK = () => {
-  initRampInstant({
-    defaultAsset: 'KSM',
-    address: accountId.value,
-  })
-}
+const rampActive = ref(false)
 </script>
 
 <style scoped></style>

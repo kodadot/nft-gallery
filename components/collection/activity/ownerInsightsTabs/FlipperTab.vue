@@ -91,7 +91,7 @@
 </template>
 
 <script setup lang="ts">
-import ProfileLink from '@/components/rmrk/Profile/ProfileLink.vue'
+import ProfileLink from '@/components/profile/ProfileLink.vue'
 import { NeoIcon } from '@kodadot1/brick'
 import { format } from '@/components/collection/activity/utils'
 
@@ -125,6 +125,7 @@ const displayedFlippers = computed(() => flippers.value.slice(0, offset.value))
 // map of flipper id to bolean, is the NFT details section of that flipper open or nor
 // {id0: false, id1: true, id3: false, ...}
 const isFlipperMoreNFTSectionOpen = flippers.value.reduce(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   (accumelator, [flipperId, _]) => ({
     ...accumelator,
     [flipperId]: false,

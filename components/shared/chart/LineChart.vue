@@ -1,38 +1,61 @@
 <template>
-  <canvas ref="canvas" />
+  <canvas id="lineChart" ref="canvas" />
 </template>
 
-<script lang="ts">
-import { Component, mixins } from 'nuxt-property-decorator'
-import { Debounce } from 'vue-debounce-decorator'
-import Chart from 'chart.js/auto'
+<script lang="ts" setup>
+import type { ChartDataset } from 'chart.js'
+import ChartJS from 'chart.js/auto'
 import 'chartjs-adapter-date-fns'
 import zoomPlugin from 'chartjs-plugin-zoom'
 import annotationPlugin from 'chartjs-plugin-annotation'
-
-// mixins
-import ChartMixin from './chartMixin'
+import { useEventListener } from '@vueuse/core'
 
 // register chart plugins
-Chart.register(zoomPlugin)
-Chart.register(annotationPlugin)
+ChartJS.register(zoomPlugin)
+ChartJS.register(annotationPlugin)
 
-@Component
-export default class LineChart extends mixins(ChartMixin) {
-  @Debounce(200)
-  protected resetZoom() {
-    this.chart.resetZoom()
+const props = defineProps<{
+  labels?: string[]
+  datasets?: ChartDataset[]
+  options?: []
+}>()
+
+const Chart = ref<ChartJS<'line', any, unknown>>()
+
+onMounted(() => {
+  renderChart()
+})
+
+const onWindowResize = () => {
+  Chart.value?.resize()
+}
+useEventListener(window, 'resize', onWindowResize)
+
+const renderChart = () => {
+  Chart.value?.destroy()
+  // const ctx = (this.$refs.canvas as HTMLCanvasElement)?.getContext('2d')
+  const ctx = (
+    document?.getElementById('lineChart') as HTMLCanvasElement
+  )?.getContext('2d')
+
+  // first render
+  if (ctx && !Chart.value) {
+    Chart.value = new ChartJS(ctx, {
+      type: 'line',
+      data: {
+        labels: props.labels,
+        datasets: props.datasets,
+      },
+      options: props.options,
+    })
   }
 
-  protected onWindowResize() {
-    if (this.chart) {
-      this.chart.resize()
-    }
-  }
-
-  public async created() {
-    window.addEventListener('resize', this.onWindowResize)
-    this.$parent.$on('resetZoom', this.resetZoom)
+  // update chart
+  if (ctx && Chart.value) {
+    Chart.value.data.labels = props.labels
+    Chart.value.data.datasets = props.datasets
+    Chart.value.options = props.options
+    Chart.value.update()
   }
 }
 </script>

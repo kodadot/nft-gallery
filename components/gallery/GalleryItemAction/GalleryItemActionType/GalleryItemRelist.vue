@@ -1,96 +1,94 @@
 <template>
   <div>
-    <Loader v-model="isLoading" :status="status" />
     <GalleryItemPriceSection title="Price" :price="nftPrice">
-      <GalleryItemActionSlides ref="actionRef" :active="active">
-        <template #action>
-          <NeoTooltip
-            :active="isListDisabled"
-            :label="$t('tooltip.emptyListAmount')"
-            append-to-body
-            multiline>
-            <NeoButton
-              :label="
-                isListed
-                  ? `${$i18n.t('transaction.price.change')}`
-                  : `${$i18n.t('transaction.list')}`
-              "
-              size="large"
-              :disabled="isListDisabled"
-              fixed-width
-              :variant="isListed ? undefined : 'k-accent'"
-              no-shadow
-              @click.native="updatePrice" />
-          </NeoTooltip>
-        </template>
-
-        <template #content>
-          <input
-            v-model="price"
-            class="input-price px-4"
-            type="number"
-            :placeholder="
-              isListed
-                ? `${$i18n.t('transaction.price.new')}`
-                : `${$i18n.t('transaction.price.list')}`
-            " />
-        </template>
-      </GalleryItemActionSlides>
+      <div class="is-flex gallery-item-relist">
+        <NeoButton
+          :label="
+            isListed
+              ? `${$i18n.t('transaction.price.change')}`
+              : `${$i18n.t('transaction.list')}`
+          "
+          size="large"
+          fixed-width
+          :variant="isListed ? undefined : 'k-accent'"
+          @click.native="openListCartModal" />
+      </div>
     </GalleryItemPriceSection>
+
+    <ListingCartModal />
   </div>
 </template>
 
 <script setup lang="ts">
-import { onClickOutside } from '@vueuse/core'
-import { NeoButton, NeoTooltip } from '@kodadot1/brick'
-import { calculateBalance } from '@/utils/format/balance'
-
+import { NeoButton } from '@kodadot1/brick'
+import { NFT } from '@/components/rmrk/service/scheme'
+import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
+import { useCollectionDetails } from '@/components/collection/utils/useCollectionDetails'
+import ListingCartModal from '@/components/common/listingCart/ListingCartModal.vue'
+import { usePreferencesStore } from '@/stores/preferences'
+import { useListingCartStore } from '@/stores/listingCart'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
-import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
-import { Interaction } from '@kodadot1/minimark/v1'
-
-const { transaction, status, isLoading } = useTransaction()
-const { decimals } = useChain()
-const { urlPrefix } = usePrefix()
-const { $i18n } = useNuxtApp()
 
 const props = defineProps<{
-  collectionId: string
-  nftId: string
-  nftPrice: string
+  nft: NFT
 }>()
 
-const active = ref(false)
-const price = ref()
-const isListed = computed(() => Boolean(Number(props.nftPrice)))
-const isListDisabled = computed(() => {
-  return (
-    active.value &&
-    (price.value === undefined ||
-      price.value === '' ||
-      Number(price.value) <= 0)
-  )
-})
-const actionRef = ref(null)
-onClickOutside(actionRef, () => (active.value = false))
+const preferencesStore = usePreferencesStore()
+const listingCartStore = useListingCartStore()
+const { $i18n } = useNuxtApp()
 
-function updatePrice() {
-  if (active.value === false) {
-    active.value = true
-  } else {
-    transaction({
-      interaction: Interaction.LIST,
-      urlPrefix: urlPrefix.value,
-      token: {
-        price:
-          price.value && String(calculateBalance(price.value, decimals.value)),
-        nftId: props.nftId,
-      },
-      successMessage: $i18n.t('transaction.price.success') as string,
-      errorMessage: $i18n.t('transaction.price.error') as string,
-    })
-  }
+const { stats } = useCollectionDetails({
+  collectionId: props.nft.collection.id,
+})
+const nftPrice = computed(() => props.nft.price || '')
+
+const openListCartModal = () => {
+  listingCartStore.clear()
+  listingCartStore.setItem(
+    nftToListingCartItem(
+      props.nft,
+      String(stats.value.collectionFloorPrice ?? '')
+    )
+  )
+  preferencesStore.listingCartModalOpen = true
 }
+
+watch(
+  () => preferencesStore.listingCartModalOpen,
+  (isOpen) => {
+    if (!isOpen) {
+      onListingModalClose()
+    }
+  }
+)
+
+const onListingModalClose = () => {
+  setTimeout(() => {
+    listingCartStore.clear()
+  }, 500) // wait for modal animation
+}
+
+const isListed = computed(() => Boolean(Number(nftPrice.value)))
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import '@/styles/abstracts/variables';
+
+.gallery-item-relist {
+  button {
+    font-size: 1rem;
+    height: 3.375rem;
+  }
+}
+
+@include until-widescreen {
+  .gallery-item-relist {
+    width: 100%;
+    margin-top: 1rem !important;
+    button {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+</style>

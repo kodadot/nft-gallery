@@ -6,7 +6,7 @@
     </div>
     <div class="column">
       <img
-        src="~/assets/rmrk-logo-pink-faded.png"
+        src="/rmrk-logo-pink-faded.png"
         alt="RMRK"
         class="chain-logo is-hidden-mobile" />
     </div>

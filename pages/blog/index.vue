@@ -12,7 +12,7 @@
     </div>
 
     <div
-      v-for="post in featuredPost.slice(0, 1)"
+      v-for="post in featured.slice(0, 1)"
       :key="post.attributes.title"
       class="content-featured content-list">
       <div
@@ -97,21 +97,32 @@ export default {
     const resolve = require.context('~/content/blog/', true, /\.md$/)
     const imports = resolve.keys().map((key) => resolve(key))
 
-    const featuredPost = imports.filter(
-      (post) => post.attributes.featured === true
-    )
-
-    const latestPosts = imports.filter((post) => !post.attributes.featured)
-
-    const tokensPosts = imports.filter(
-      (post) => post.attributes.tags === 'Tokens'
-    )
-
-    return {
-      posts: latestPosts,
-      featuredPost,
-      tokensPosts,
+    const tags = {
+      tokens: 'Tokens',
     }
+
+    const latestPosts = imports.sort(
+      (a, b) => +new Date(b.attributes.date) - +new Date(a.attributes.date)
+    )
+
+    return latestPosts.reduce(
+      (acc, post, index) => {
+        if (index === 0) {
+          acc.featured.push(post)
+          return acc
+        }
+        if (post.attributes.tags === tags.tokens) {
+          acc.tokensPosts.push(post)
+        }
+        acc.posts.push(post)
+        return acc
+      },
+      {
+        featured: [],
+        posts: [],
+        tokensPosts: [],
+      }
+    )
   },
   methods: {
     getPermalink(post) {

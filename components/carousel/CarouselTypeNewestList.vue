@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useCarouselNftEvents } from './utils/useCarousel'
+import { useCarouselNftEvents } from './utils/useCarouselEvents'
 
 const { urlPrefix } = usePrefix()
 const { nfts, ids } = useCarouselNftEvents({ type: 'newestList' })

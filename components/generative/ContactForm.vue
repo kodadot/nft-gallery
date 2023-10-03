@@ -12,7 +12,7 @@
       expanded
       type="email"
       spellcheck="true"
-      data-cy="input-name" />
+      data-testid="input-name" />
 
     <SubmitButton
       label="submit"

@@ -12,7 +12,7 @@ export default {
     return 'centered-half-layout'
   },
   head() {
-    const title = 'KodaDot | Low fees and low carbon minting'
+    const title = 'Claim'
     const metaData = {
       title,
       type: 'article',

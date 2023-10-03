@@ -35,7 +35,7 @@
   "facts": "Facts",
   "computed id": "Computed id",
   "create collection": "Create Collection",
-  "Select collection where do you want mint your token": "Select collection where do you want mint your token",
+  "Select collection where do you want mint your token": "Select the collection where do you want to mint your token",
   "Maximum NFTs in collection": "Maximum NFTs in collection",
   "name": "Name",
   "simple": "Simple",
@@ -55,7 +55,7 @@
   "referralProgram": "Referral Program",
   "theatre": "theatre",
   "view": "view",
-  "price": "price",
+  "price": "Price",
   "royalty": "royalty",
   "Instance_tooltip": "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
   "Minting Settings": "Minting Settings",
@@ -78,6 +78,7 @@
   "showLess": "Show Less",
   "dropUpload": "Drop your file here or click to select.",
   "chainSelect": "Select Chain ({0})",
+  "success": "Success",
   "search": {
     "searchCollection": "Search Collection",
     "seeAll": "See All",
@@ -87,21 +88,44 @@
     "landingTitle1": "Go To",
     "landingTitle2": "Polkadot NFT",
     "landingTitle3": "Marketplace",
-    "collectionNotFound": "Our search agents did not found anything with \"{0}\" in collection name",
-    "nftNotFound": "Our search agents did not found anything with \"{0}\" in NFT name"
+    "collectionNotFound": "Our search agents have not found anything with \"{0}\" in collection name",
+    "nftNotFound": "Our search agents have not found anything with \"{0}\" in NFT name"
   },
   "transfers": {
     "recipient": "Recipient",
     "sender": "Sender",
+    "tooltip": "You are sending <strong>{0}</strong> on <strong>{1}</strong>",
     "sendSameAmount": "Send same amount",
     "displayUnit": "Displayed units",
     "addAddress": "Add recipient",
     "payMeLink": "Pay me link",
+    "recurringPaymentLink": "Recurring payment link",
     "setSameAmount": "Set one amount that will be sent to all recipients",
     "sendTo": "Sending to",
     "recipients": "recipients",
     "totalAmount": "Total Amount",
-    "transferable": "Transferable"
+    "transferable": "Transferable",
+    "networkFee": "Network fee",
+    "invalidAddress": {
+      "wrongNetwork": "wrong network",
+      "changeToChainAddress": "Change to {selectedChain} address",
+      "addressChanged": {
+        "title": "Changed to {selectedChain} address",
+        "content": "Address was successfully changed for {selectedChain} network. You can double check correctness <a href='https://kusama.subscan.io/tools/format_transform' target='_blank'>here</a>."
+      },
+      "ethereum": {
+        "title": "Not Polkadot ecosystem address",
+        "content": "Oops! You have entered ETH address which <strong>is not supported by Polkadot ecosystem.</strong> Please enter Polkadot supported address to proceed with the transaction."
+      },
+      "unknown": {
+        "title": "Not Polkadot ecosystem address",
+        "content": "Oops! The address you entered is not supported by Polkadot ecosystem. Please enter Polkadot supported address to proceed with the transaction."
+      },
+      "wrong_network_address": {
+        "title": "Wrong Network address",
+        "content": "Oops! You have entered a {addressChain} address. Enter a <strong>{selectedChain} address </strong> to proceed with the transaction or allow us to change it for you."
+      }
+    }
   },
   "topCollections": {
     "timeFrames": {
@@ -254,11 +278,11 @@
     },
     "36": {
       "heading:": "Did you know ...",
-      "question": "KodaDot has added support for Basilisk NFT marketplace recently?"
+      "question": "KodaDot has added support for Asset Hub NFT marketplace recently?"
     },
     "37": {
       "heading:": "Did you know ...",
-      "question": "KodaDot will be adding auctions for Basilisk NFT marketplace?"
+      "question": "KodaDot will be adding atomic swaps for Asset Hub NFT marketplace?"
     },
     "38": {
       "heading:": "Did you know ...",
@@ -417,12 +441,23 @@
     "shareWithFriends": "Share {0} with your friends",
     "unlimited": "Unlimited items in your collection",
     "nfsw": "Explicit content (NSFW)",
+    "nfswMessage": "Set your collection as explicit and sensitive content.",
     "listForSale": "List NFT for sale",
     "listWithRoyalty": "Add royalty",
     "mass": "NFT mass minter",
     "command": "List of commands for mass mint",
     "transform": "Transform commands in NFT",
-    "deposit": "Current deposit",
+    "deposit": "Deposit",
+    "requiredDeposit": "A deposit of <strong>{0}</strong> is required to create a {1}. Please note, this initial deposit is refundable.",
+    "landing": {
+      "heading": "What Do You Wish To Create?",
+      "collection": "Create A Collection For Your NFTs",
+      "nft": "Create Awesome NFTs From Your Art",
+      "singleNft": "Single NFT",
+      "singleNftDesc": "Create and mint a single original NFT (can have more copies)",
+      "massNft": "Multiple NFTs",
+      "massNftDesc": "Create and mint multiple different NFTs at once"
+    },
     "expert": {
       "show": "Show advanced settings",
       "hide": "Hide advanced settings",
@@ -438,13 +473,13 @@
     },
     "collection": {
       "name": {
-        "label": "Collection name",
+        "label": "Collection Name",
         "placeholder": "Enter collection name",
         "message": "Name of your collection. It will be visible in the gallery"
       },
       "description": {
-        "label": "Collection description",
-        "placeholder": "Enter collection description",
+        "label": "Collection Description",
+        "placeholder": "Tell us more about your collection",
         "message": "Description of your collection. Markdown is supported"
       },
       "symbol": {
@@ -453,6 +488,7 @@
         "message": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM"
       },
       "logo": {
+        "image": "Logo Image",
         "label": "Collection logo",
         "message": "This image will also be used for navigation. Image with size 300 x 300 recommended "
       },
@@ -460,12 +496,16 @@
         "label": "Collection banner",
         "message": "Name of your collection. It will be visible in the gallery"
       },
-      "create": "Create collection",
-      "drop": "Drop collection logo here or click to upload or simple paste image from clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
+      "create": "Create New Collection",
+      "drop": "Drop collection logo here or click to upload or simple paste the image from the clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
     },
     "nft": {
+      "art": {
+        "label": "Your Awesome Art",
+        "message": "This can be image, video, audio, 3D model"
+      },
       "name": {
-        "label": "name",
+        "label": "Name",
         "placeholder": "Enter NFT name",
         "message": "Name of your NFT. It will be visible in the gallery"
       },
@@ -473,6 +513,10 @@
         "label": "NFT description",
         "placeholder": "Enter NFT description",
         "message": "Description of your NFT. Markdown is supported"
+      },
+      "collection": {
+        "label": "Select Collection",
+        "message": "Choose a collection to which you want to mint your NFT."
       },
       "edition": {
         "label": "Copies",
@@ -487,6 +531,21 @@
         "placeholder": "Enter your email",
         "message": "Enter your email to receive a notification when your request is done"
       },
+      "sale": {
+        "label": "List For Sale On Marketplace",
+        "message": "People will be able to buy your NFT."
+      },
+      "copies": {
+        "label": "Number of Copies",
+        "message": "Amount of the same NFT tokens that will be created."
+      },
+      "preview": {
+        "title": "Preview",
+        "uploadArt": "Upload your art to see a preview of your NFT here",
+        "noCollection": "No Collection"
+      },
+      "create": "Create New NFT",
+      "connect": "Please Connect Your Wallet",
       "creativeDrop": "Drop your NFT here, click to upload or paste the image from the clipboard. AI model limits our support for Creative Minting to only JPEG, PNG, GIF or BMP image files. The file size must be less than 4MB, and the image's dimensions must be greater than 50x50 pixels. Realistic photographs will achieve the best results.",
       "cover": "Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)",
       "creativeFailDesc": "Generating the title and description failed. Please check whether the uploaded file fits the limits of Creative Minting: JPEG, PNG, GIF or BMP with a size less than 4MB and dimensions greater than 50x50 pixels.",
@@ -502,6 +561,7 @@
       "preparing": "Preparing Your Item...",
       "alreadyMinted": "🎉 You already have this NFT, check it here",
       "imageTip": "Examples Of Possible Drop",
+      "onlyOneExample": "Example Of Drop",
       "loader": {
         "shareSuccess": "Share your success",
         "onTwitter": "on Twitter",
@@ -510,11 +570,22 @@
         "viewNFTNow3": "visible now.",
         "viewNFTLater2": " will be visible in",
         "viewNFTLater3": "seconds."
-      }
+      },
+      "open": "Open",
+      "phase": "Mint Phase",
+      "totalAvailableItem": "Total available items",
+      "ayeVotersOnly": "For Aye Voters Only",
+      "eligible": "You Are Eligible",
+      "exclusive": "Exclusive Access Only",
+      "howItemWork": "How unlockable item works"
+    },
+    "blockchain": {
+      "label": "Select Blockchain",
+      "message": "Select the blockchain to which NFTs will be minted by default."
     }
   },
   "tooltip": {
-    "symbol": "The symbol which is attributed to the NFT: for an example, Kusama is labeled as KSM",
+    "symbol": "The symbol which is attributed to the NFT: for example, Kusama is labeled as KSM",
     "name": "NFT will be visible under this name in gallery",
     "edition": "Number of copies",
     "created": "Created by",
@@ -530,7 +601,7 @@
     "makeOfferDisabled": "You have already made an offer for this NFT",
     "needToUploadNFTFile": "You need to upload NFT file",
     "failedMaxSize": "Your File is too large",
-    "needToSetValidPrice": "In order to list NFT, price has to be more than 0",
+    "needToSetValidPrice": "To list NFT, price has to be more than 0",
     "notEnoughBalance": "Insufficient funds",
     "notEnoughBalanceChain": "Insufficient funds on {chain} chain",
     "invalidAmount": "Amount must be higher than 0.01 KSM",
@@ -556,6 +627,7 @@
       "UNLIST": "UNLIST",
       "RELIST": "RELIST",
       "SEND": "GIFT",
+      "SELL": "SELL",
       "CONSUME": "BURN",
       "BUY": "BUY",
       "MAKE_OFFER": "MAKE OFFER",
@@ -638,6 +710,7 @@
     "empty": "There are currently no offers."
   },
   "loader": {
+    "broadcast": "Broadcasting the tx to blockchain",
     "casting": "(1/3) Casting the tx to blockchain",
     "finalized": "(3/3) Finalized",
     "block": "(2/3) Transaction in block",
@@ -654,6 +727,16 @@
       "processing": "Predicting (wait around ~2 min)",
       "send": "Sending links to your email"
     }
+  },
+  "transactionLoader": {
+    "sign": "Sign",
+    "signTip": "Please sign the transaction in your wallet",
+    "pending": "Pending",
+    "pendingTip": "Your transaction is being confirmed",
+    "completed": "Completed",
+    "completedTip": "Your transfer was successful!",
+    "showTransaction": "Show Transaction",
+    "copyTransactionLink": "transaction link copied"
   },
   "arweave": {
     "uploadYes": "Upload NFT image to Arweave",
@@ -836,14 +919,21 @@
     "tagsAdd": "Type and press enter to add your own",
     "chooseWallet": "Choose your",
     "noAssets": "There are currently no assets in this wallet.",
-    "noPopularCollections": "There are no popular collections now."
+    "noPopularCollections": "There are no popular collections now.",
+    "successfullyAddedFunds": "Successfully added funds. Your funds will arrive shortly.",
+    "supports": "Supports",
+    "chooseProvider": "Choose A Provider"
+  },
+  "fiatOnRamp": {
+    "agree": "I agree to the",
+    "tos": "KodaDot's Terms and Conditions"
   },
   "helper": {
     "seeMore": "See More",
     "learnMore": "Learn More",
     "noCollections": "You have no collections",
     "noInfinityCollections": "You have no collections with unlimited NFTs",
-    "indexerReadOnly": "App is in read only mode, try reload app or visit Discord",
+    "indexerReadOnly": "App is in read-only mode, try reload app or visit Discord",
     "clickToCreate": "Click here to create collection",
     "urlToTransform": {
       "label": "URL to transform",
@@ -868,8 +958,11 @@
   },
   "identity": {
     "page": "Identity",
-    "set": "Create on-chain identity",
+    "set": "Create On-Chain identity on {0}",
     "click": "Click to create identity",
+    "clear": "Clear (burn)",
+    "existing" : "Existing Onchain Identity",
+    "establishedIdentity": "It appears you already established an onchain identity. Update it as needed (no new deposit needed) or delete to reclaim your deposit.",
     "handleRequired": "Your handle is required",
     "deposit": "Deposit",
     "fundsReserve": "0.0333 KSM will be reserved. These funds are returned when the identity is cleared.",
@@ -903,7 +996,7 @@
     "to": "To",
     "max": "Max",
     "send": "Send",
-    "receiveValue": "You will receive {0} KSM on {1} to",
+    "receiveValue": "You will receive {0} {1} on {2} to",
     "insufficientBalance": "Insufficient {0} Balance",
     "artistProfile": "Go to artist's profile",
     "usdInput": "USD Value (approx)",
@@ -954,7 +1047,7 @@
   "landing": {
     "newNftHeading": "New to NFTs?",
     "ksmArtistHeading": "KSM for artists",
-    "socials": "Got any questions or would like to stay in touch? Drop us a line via socials.",
+    "socials": "Got any questions or want to stay in touch? Drop us a line via socials.",
     "newNft": {
       "click": "Click {0} for a step by step guide!",
       "here": "here"
@@ -981,11 +1074,11 @@
       "balance": "Balance",
       "empty": "There are currently no assets for this user."
     },
-    "emptyAsset": "You've got zero balance on this address across chains we are monitoring. If you want to buy small amount of crypto, click on Add funds through our verified on-ramp partner."
+    "emptyAsset": "You've got zero balance on this address across chains we monitor. If you want to buy small amount of crypto, click on Add funds through our verified on-ramp partner."
   },
   "ramp": {
     "selectAccount": "Select your account and click on buy.",
-    "redirect": "You will be redirected to hosted mode of Ramp.network to top-up your address.",
+    "redirect": "You will be redirected to a hosted mode of Ramp.network to top-up your address.",
     "kyc": "KYC might be required, but you can verify with your Revolut card.",
     "buyKsm": "Buy Kusama"
   },
@@ -1007,12 +1100,15 @@
   "footer": {
     "subscribe": "Get The Latest KodaDot Updates",
     "join": "Join Our Community",
-    "subscribeLabel": "Subscribe"
+    "subscribeLabel": "Subscribe",
+    "toc": "Terms of Use",
+    "privacyPolicy": "Privacy Policy"
   },
   "share": {
     "copyLink": "Copy Link",
     "qrCode": "QR Code",
-    "twitter": "Share on Twitter"
+    "twitter": "Share on Twitter",
+    "copyAddress": "Copy Address"
   },
   "moreActions": {
     "download": "Download",
@@ -1075,6 +1171,11 @@
     "list": "List",
     "transfer": "Transfer",
     "transferTo": "Transfer to",
+    "transferNft": "Transfer NFT",
+    "inputAddressFirst": "Input address first",
+    "addressIncorrect": "Address Incorrect",
+    "wrongAddressCannotRecoveredWarning": "Items sent to the wrong address cannot be recovered.",
+    "selfTransfer": "You can't transfer to yourself",
     "price": {
       "change": "Change Price",
       "new": "Your New Price",
@@ -1123,17 +1224,19 @@
       "next": "Next",
       "done": "Done",
       "cards": {
+        "0": {
+          "title": "Prepare all your files",
+          "content": "Start your mass minting by compressing all your art files into a **.ZIP for upload**. Aside from your artwork, each NFT requires a name, description, and price. \n\nTo streamline the process, prepare these details in advance in a separate file. This avoids manually entering information for each NFT. Further guidance on formatting this file will follow in the next step."
+        },
         "1": {
           "title": "How to Name your NFTs",
-          "content": "instructions:\n* **File Name:** the file name of your assets should be **numeric** and **consecutive**\n e.g.\n * '1.png', '2.png', '3.png', or\n* 'awesome_art_1', 'awesome_art_2' and so on..."
+          "subtitle": "Instructions",
+          "instructions": "Please ensure that the file field corresponds to the image file name (e.g., set \"file\": img1.jpg in the file field if the image has a file name of \"img1.jpg\").",
+          "codeStructure": "Code Structure"
         },
         "2": {
-          "title": "description for your NFTs",
-          "content": "Each NFT has a name, description and price.\nYou can prepare this up front in a separate file\nso that you don’t have to do it manually for all of your NFTs.\n\nInstructions:\n* File type: .TXT, .JSON or CSV"
-        },
-        "3": {
           "title": "You need to have A collection",
-          "content": "In order to use the Mass Mint feature **you need to have an NFT collection created**\nto which you will mint all of your NFTs.\n\nIf you don’t have a collection created yet, you will be able to create one in the Miss Mint."
+          "content": "In order to use the Mass Mint feature you need to have an NFT **collection created** to which you will mint all of your NFTs. If you do not have a collection created yet, you can create one in Mass Mint.\n\nDon't have a collection?&emsp;[Create One](/create/collection)"
         }
       }
     },
@@ -1165,13 +1268,13 @@
     "goBack": "Go Back",
     "missingRequiredInfo": "Some Images are missing required information",
     "incompleteNfts": "Incomplete: {count} NFTs",
-    "cantMintNote": "NOTE: You cannot mint unless you fill in the required information ordelete incomplete files.",
+    "cantMintNote": "NOTE: You cannot mint unless you fill in the required information or delete incomplete files.",
     "reviewTtile": "Final Mass Mint Overview",
     "willBeMinted": "Will Be Minted",
     "reallyProcceed": "Do You Really Want To Proceed?",
     "yesMint": "Yes, Mint NFTS",
     "mintingYourNFTs": "Minting Your NFTs...",
-    "mintDone": "All of your NFTs were successfuly minted.",
+    "mintDone": "All of your NFTs were successfully minted.",
     "done": "Done"
   },
   "filters": {
@@ -1185,7 +1288,7 @@
   },
   "redirect": {
     "title": "Leaving Kodadot",
-    "leavingTips": "You are going outside KodaDot to external website",
+    "leavingTips": "You are going outside KodaDot to an external website",
     "safetyTips": "Be sure that it's safe!",
     "continue": "Continue",
     "stay": "Stay"
@@ -1204,7 +1307,8 @@
   "lewd": {
     "explicit": "Explicit/sensitive content",
     "explicitDesc": "Mature audiences only. Please confirm your age and consent to proceed.",
-    "showContent": "Show Content"
+    "showContent": "Show Content",
+    "hideContent": "Hide Content"
   },
   "unlockable": {
     "tooltip": "unlock-able content is revealed after purchase",
@@ -1217,7 +1321,9 @@
     "title": "Drops",
     "upcoming": "Upcoming",
     "noUpcoming": "Nothing  here yet...",
-    "mintingLive": "Minting Live"
+    "mintingLive": "Minting Live",
+    "mintedBy": "Minted By",
+    "recentMints": "Recent NFT Mints"
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
@@ -1241,5 +1347,21 @@
     "gotToCart": "Go To Cart",
     "buyNow": "Buy Now",
     "wallet": "Wallet"
+  },
+  "listingCart": {
+    "complete": "Complete Listing",
+    "missing1": "1 Item Is Missing Price",
+    "missingMultiple": "Items Are Missing Price",
+    "selectAll": "Select All",
+    "item": "Item | Items",
+    "listItem": "List Item | List Items",
+    "fixedPrice": "Fixed Price",
+    "collectionFloorPrice": "Collection Floor Price",
+    "potentialEarnings": "Potential Earnings",
+    "listForSale": "List For Sale",
+    "chooseAPrice": "Choose a price",
+    "floorPrice": "Floor Price",
+    "inputPriceFirst": "Input Price First",
+    "setAllTo": "Set All To"
   }
 }

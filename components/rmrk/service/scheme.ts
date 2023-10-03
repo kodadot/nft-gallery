@@ -6,6 +6,7 @@ import {
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { ItemResources } from '@/composables/useNft'
 import { Attribute } from '@kodadot1/minimark/common'
+import type { Prefix } from '@kodadot1/static'
 
 export interface CompletePack extends BasePack {
   collections: Collection[]
@@ -61,7 +62,7 @@ export interface Metadata {
   type?: string
   thumbnailUri?: string
   mediaUri?: string
-  chain?: string
+  chain?: Prefix
 }
 
 export interface NFTMetadata extends Metadata, ItemResources {
@@ -188,6 +189,7 @@ export interface NFT extends ItemResources {
 export type EntityWithId = {
   id: string
   name: string
+  floor: string
 }
 
 interface BaseInteraction {
@@ -293,26 +295,23 @@ export const computeAndUpdateCollection = (
   }
 }
 
-export const mergeCollection = (
-  collection: Collection,
-  metadata: CollectionMetadata,
-  shouldSanitize = false
-): CollectionWithMeta => ({
-  ...collection,
-  ...metadata,
-  image: shouldSanitize
-    ? sanitizeIpfsUrl(metadata.image || '')
-    : metadata.image,
-})
+type MergedData<T> = T extends Collection
+  ? CollectionWithMeta
+  : T extends NFT
+  ? NFTWithMeta
+  : never
 
-export const mergeNFT = (
-  nft: NFT,
-  metadata: NFTMetadata,
+export const mergeNFTCollection = <T extends Collection | NFT>(
+  item: T,
+  metadata: T extends Collection ? CollectionMetadata : NFTMetadata,
   shouldSanitize = false
-): NFTWithMeta => ({
-  ...nft,
-  ...metadata,
-  image: shouldSanitize
-    ? sanitizeIpfsUrl(metadata.image || '')
-    : metadata.image,
-})
+): MergedData<T> => {
+  const merged = {
+    ...item,
+    ...metadata,
+    image: shouldSanitize
+      ? sanitizeIpfsUrl(metadata.image || '')
+      : metadata.image,
+  }
+  return merged as unknown as MergedData<T>
+}

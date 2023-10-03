@@ -1,91 +1,121 @@
 <template>
   <div>
-    <NeoField :type="type" :message="err" :label="$t(label)">
+    <NeoField :variant="variant" :message="error" :label="$t(label)">
       <NeoInput
-        ref="address"
         v-model="inputValue"
         :icon-right="iconRight"
         :placeholder="placeholder"
         icon-right-clickable
-        @input="handleInput"
         @icon-right-click="clearIconClick" />
     </NeoField>
+
+    <AddressChecker
+      v-if="withAddressCheck"
+      :class="{ 'mt-4': !!inputValue }"
+      :address="inputValue"
+      @check="handleAddressCheck"
+      @change="handleAddressChange" />
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import correctFormat from '@/utils/ss58Format'
 import { checkAddress, isAddress } from '@polkadot/util-crypto'
-import { Debounce } from 'vue-debounce-decorator'
-import { Component, Emit, Prop, Ref, mixins } from 'nuxt-property-decorator'
-import PrefixMixin from '@/utils/mixins/prefixMixin'
-import { ss58Of } from '@/utils/config/chain.config'
 import { NeoField, NeoInput } from '@kodadot1/brick'
+import AddressChecker from '@/components/shared/AddressChecker.vue'
 
-@Component({
-  components: {
-    NeoField,
-    NeoInput,
-  },
+const emit = defineEmits(['input', 'check'])
+const props = withDefaults(
+  defineProps<{
+    value: string
+    label: string
+    emptyOnError?: boolean
+    strict: boolean
+    icon?: string
+    placeholder?: string
+    disableError?: boolean
+    isInvalid?: boolean
+    withAddressCheck?: boolean
+  }>(),
+  {
+    label: 'Insert Address',
+    strict: true,
+    icon: '',
+    placeholder: '',
+    emptyOnError: false,
+  }
+)
+
+const { chainProperties } = useChain()
+const error = ref<string | null>('')
+const isAddressCheckValid = ref<boolean>(true)
+const ss58Format = computed(() => chainProperties.value?.ss58Format)
+
+const variant = computed(() => {
+  if (props.isInvalid || error.value || !isAddressCheckValid.value) {
+    return 'danger'
+  }
+
+  const isNotEmpty = !!inputValue.value
+  const isValidAddress = isAddress(inputValue.value)
+  const isSuccessWithAddressCheck =
+    props.withAddressCheck && (!props.isInvalid || isAddressCheckValid.value)
+  const isSuccesssWithoutAddressCheck =
+    !props.withAddressCheck && isValidAddress
+
+  if (
+    isNotEmpty &&
+    (isSuccessWithAddressCheck || isSuccesssWithoutAddressCheck)
+  ) {
+    return 'success'
+  }
+
+  return ''
 })
-export default class AddressInput extends mixins(PrefixMixin) {
-  @Prop(String) public value!: string
-  private err: string | null = ''
-  @Prop({ type: String, default: 'Insert Address' }) public label!: string
-  @Prop(Boolean) public emptyOnError!: boolean
-  @Prop({ type: Boolean, default: true }) public strict!: boolean
-  @Prop({ type: String, default: '' }) public icon?: string
-  @Prop({ type: String, default: '' }) public placeholder?: string
 
-  @Ref('address') readonly address
+const iconRight = computed(() => {
+  if (inputValue.value && props.icon === 'close-circle') {
+    return 'close-circle'
+  }
+  return ''
+})
+const inputValue = computed({
+  get: () => props.value,
+  set: (value) => handleInput(value),
+})
 
-  get inputValue(): string {
-    return this.value
+const clearIconClick = () => {
+  inputValue.value = ''
+  emit('input', '')
+}
+
+const handleInput = (value: string) => {
+  emit('input', value)
+
+  if (props.disableError || props.withAddressCheck) {
+    return value
   }
 
-  set inputValue(value: string) {
-    this.handleInput(value)
-  }
-
-  // hide close-circle if nothing was input
-  get iconRight(): string {
-    if (this.inputValue && this.icon === 'close-circle') {
-      return 'close-circle'
-    }
-    return ''
-  }
-
-  get type(): string {
-    return this.err ? 'is-danger' : ''
-  }
-
-  public focusInput(): void {
-    this.address?.focus()
-  }
-
-  private clearIconClick() {
-    this.inputValue = ''
-  }
-
-  @Debounce(300)
-  @Emit('input')
-  protected handleInput(value: string) {
-    if (this.strict) {
-      const [, err] = checkAddress(value, correctFormat(this.ss58Format))
-      this.err = value ? err : ''
+  if (props.strict) {
+    const [, err] = checkAddress(value, correctFormat(ss58Format.value))
+    error.value = value ? err : ''
+  } else {
+    if (!props.emptyOnError && !value) {
+      error.value = ''
     } else {
-      if (!this.emptyOnError && !value) {
-        this.err = ''
-      } else {
-        this.err = isAddress(value) ? '' : 'Invalid address'
-      }
+      error.value = isAddress(value) ? '' : 'Invalid address'
     }
-
-    return this.emptyOnError && this.err ? '' : value
   }
 
-  get ss58Format(): number {
-    return ss58Of(this.urlPrefix)
-  }
+  return props.emptyOnError && error.value ? '' : value
+}
+
+const handleAddressCheck = (isValid: boolean) => {
+  emit('check', isValid)
+  isAddressCheckValid.value = isValid
+}
+
+const handleAddressChange = (value: string) => {
+  handleInput(value)
 }
 </script>

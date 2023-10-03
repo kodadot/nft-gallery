@@ -1,4 +1,5 @@
 import { ItemResources } from '@/composables/useNft'
+import type { Prefix } from '@kodadot1/static'
 
 export type BaseMintedCollection = {
   id: string
@@ -38,5 +39,13 @@ export interface CarouselNFT extends ItemResources {
   }
   collectionId?: string
   collectionName?: string
-  chain?: string
+  chain?: Prefix
+}
+
+export interface BaseNFTMeta {
+  id: string
+  image?: string
+  animationUrl?: string
+  name?: string
+  description?: string
 }

@@ -7,12 +7,13 @@ module.exports = {
   extends: [
     'plugin:vue/recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:vue-scoped-css/recommended',
     'prettier',
   ],
   parser: 'vue-eslint-parser',
   parserOptions: {
     parser: '@typescript-eslint/parser',
-    ecmaVersion: 2020,
+    ecmaVersion: 2022,
     sourceType: 'module',
   },
   plugins: ['vue', 'prettier', '@typescript-eslint', 'unicorn'],
@@ -25,6 +26,11 @@ module.exports = {
       {
         selector: 'IfStatement > :not(BlockStatement).consequent',
         message: 'Use blockstatement after if, please check STYLE_GUIDE.md',
+      },
+      {
+        selector: 'ForStatement',
+        message:
+          'Use `forEach` or `for-of` for loop, please check STYLE_GUIDE.md',
       },
     ],
     'no-useless-catch': 1,
@@ -41,11 +47,48 @@ module.exports = {
       },
     ],
     'vue/multi-word-component-names': 'off',
+    '@typescript-eslint/no-unused-vars': 'error',
+    'vue-scoped-css/v-deep-pseudo-style': ['error', ':deep'],
+    'vue-scoped-css/no-deprecated-deep-combinator': 'error',
+    'vue-scoped-css/require-v-deep-argument': 'error',
+    'vue-scoped-css/no-unused-selector': 'off',
+    'vue-scoped-css/enforce-style-type': 'off',
   },
   ignorePatterns: ['*.md'],
   overrides: [
     {
-      files: ['layouts/**/*.{js,ts,vue}', 'pages/**/*.vue'],
+      files: [
+        'layouts/**/*.{js,ts,vue}',
+        'pages/**/*.vue',
+        'components/**/*.{js,ts,vue}',
+        'utils/**/*.ts',
+        'stores/**/*.ts',
+        'services/**/*.ts',
+        'plugins/**/*.ts',
+        'composables/**/*.ts',
+      ],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            patterns: [
+              {
+                group: [
+                  '*.png',
+                  '*.jpg',
+                  '*.jpeg',
+                  '*.gif',
+                  '*.bmp',
+                  '*.svg',
+                  '*.webp',
+                ],
+                message:
+                  'It is recommended to utilize HTML tags and using a URL path, instead of directly importing images using JavaScript',
+              },
+            ],
+          },
+        ],
+      },
     },
   ],
 }
