@@ -7,6 +7,7 @@
         no-shadow
         rounded
         tag="a"
+        size="small"
         icon="arrow-right-long">
         Portfolio View
       </NeoButton>
