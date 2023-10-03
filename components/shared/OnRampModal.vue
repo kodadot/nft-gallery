@@ -73,7 +73,6 @@ import { showNotification } from '@/utils/notification'
 
 enum Provider {
   TRANSAK,
-  PAYBIS,
   RAMP,
 }
 
@@ -112,12 +111,6 @@ const providers = computed(() => [
     disabled: true,
     supports: ['DOT', 'KSM'],
     value: Provider.RAMP,
-  },
-  {
-    image: getImage('paybis'),
-    disabled: true,
-    supports: ['DOT'],
-    value: Provider.PAYBIS,
   },
 ])
 
