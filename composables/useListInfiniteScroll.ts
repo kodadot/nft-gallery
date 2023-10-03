@@ -50,7 +50,7 @@ export default function ({
       }
     },
     {
-      distance: 1600,
+      distance: 1000,
     },
   )
 
