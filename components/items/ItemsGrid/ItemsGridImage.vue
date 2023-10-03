@@ -64,7 +64,6 @@ import {
   nftToShoppingCartItem,
 } from '@/components/common/shoppingCart/utils'
 import { isOwner as checkOwner } from '@/utils/account'
-import { useCollectionDetails } from '@/components/collection/utils/useCollectionDetails'
 import { ItemsGridEntity, NFTStack } from './useItemsGrid'
 import useNftMetadata, { useNftCardIcon } from '@/composables/useNft'
 
@@ -85,9 +84,6 @@ const props = defineProps<{
 
 const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.nft))
 
-const { stats } = useCollectionDetails({
-  collectionId: props.nft?.collection?.id || props.nft?.collectionId,
-})
 const isStack = computed(() => (props.nft as NFTStack).count > 1)
 
 const variant = computed(() =>
@@ -180,12 +176,8 @@ const onClickListingCart = () => {
     if (listingCartStore.isItemInCart(nft.id)) {
       listingCartStore.removeItem(nft.id)
     } else {
-      listingCartStore.setItem(
-        nftToListingCartItem(
-          nft,
-          String(stats.value.collectionFloorPrice ?? '')
-        )
-      )
+      const floorPrice = nft.collection.floorPrice[0]?.price || '0'
+      listingCartStore.setItem(nftToListingCartItem(nft, floorPrice))
     }
   })
 }
