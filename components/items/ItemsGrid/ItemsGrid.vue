@@ -30,7 +30,7 @@
       class="my-5">
       <NeoNftCardSkeleton v-for="n in skeletonCount" :key="n" />
     </DynamicGrid>
-    <EmptyResult v-if="total === 0" />
+    <EmptyResult v-if="total === 0 && (isLoading || isFetchingData)" />
     <ScrollTopButton />
   </div>
 </template>
