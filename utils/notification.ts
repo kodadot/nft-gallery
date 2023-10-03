@@ -20,7 +20,7 @@ export const notificationTypes = {
 export const showNotification = (
   message: string | null,
   params: any = notificationTypes.info,
-  duration = 10000
+  duration = 10000,
 ): void => {
   if (params === notificationTypes.danger) {
     consola.error('[Notification Error]', message)

@@ -134,7 +134,7 @@ const { pending, refresh: refreshNftSales } = useLazyAsyncData(
     })
 
     sales.value = salesFeed
-  }
+  },
 )
 
 watch(client, (value) => {

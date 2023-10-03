@@ -33,11 +33,11 @@ type CdnUploadResponse = {
 }
 
 export const getKey = async (
-  validationKey: string
+  validationKey: string,
 ): Promise<DirectUploadResult | undefined> => {
   try {
     const { _data, status } = await api.raw<DirectUploadApiResponse>(
-      `getKey/${validationKey}`
+      `getKey/${validationKey}`,
     )
     consola.log('[PINNING] Obtain', status)
     return _data?.result
@@ -50,7 +50,7 @@ export const getKey = async (
 export const upload = async (
   file: File,
   url: string,
-  id?: string
+  id?: string,
 ): Promise<CdnUploadResponse | undefined> => {
   const formData = new FormData()
   formData.append('file', file)
@@ -69,7 +69,7 @@ export const upload = async (
 
 export const uploadDirect = async (
   file: File,
-  ipfsHash: string
+  ipfsHash: string,
 ): Promise<void> => {
   try {
     const token = await getKey(ipfsHash)
@@ -84,7 +84,7 @@ export const uploadDirect = async (
 
 export const uploadDirectWhenMultiple = async (
   files: [File, undefined | null] | [File, File],
-  ipfsHashes: [string, string] | [string, undefined | null]
+  ipfsHashes: [string, string] | [string, undefined | null],
 ): Promise<void> => {
   const [file, secondFile] = files
   const [ipfsHash, secondIpfsHash] = ipfsHashes

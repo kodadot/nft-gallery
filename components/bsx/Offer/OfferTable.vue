@@ -1,11 +1,11 @@
 <template>
   <div class="offer-table-container">
     <NeoTable
+      v-model:current-page="currentPage"
       :data="displayOffers(offers)"
       :paginated="displayOffers(offers).length > itemsPerPage"
       :per-page="itemsPerPage"
       :class="{ scrollable: offers.length > 0 }"
-      :current-page.sync="currentPage"
       td-class="is-vcentered is-narrow"
       pagination-position="top">
       <div v-if="headerText" class="has-text-centered offer-title mb-2">
@@ -171,7 +171,7 @@ withDefaults(
   {
     headerText: '',
     displayCollection: false,
-  }
+  },
 )
 
 const route = useRoute()

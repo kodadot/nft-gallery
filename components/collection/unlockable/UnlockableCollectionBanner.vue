@@ -152,10 +152,15 @@ useHead({
 
     @include ktheme() {
       color: theme('text-color-inverse');
-      text-shadow: 1px 1px 0 theme('text-color'), 1px -1px 0 theme('text-color'),
-        -1px 1px 0 theme('text-color'), -1px -1px 0 theme('text-color'),
-        1px 0px 0 theme('text-color'), 0px 1px 0 theme('text-color'),
-        -1px 0px 0 theme('text-color'), 0px -1px 0 theme('text-color'),
+      text-shadow:
+        1px 1px 0 theme('text-color'),
+        1px -1px 0 theme('text-color'),
+        -1px 1px 0 theme('text-color'),
+        -1px -1px 0 theme('text-color'),
+        1px 0px 0 theme('text-color'),
+        0px 1px 0 theme('text-color'),
+        -1px 0px 0 theme('text-color'),
+        0px -1px 0 theme('text-color'),
         4px 4px theme('text-color');
     }
   }

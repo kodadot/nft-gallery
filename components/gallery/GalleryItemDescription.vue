@@ -220,7 +220,7 @@ const { version } = useRmrkVersion()
 
 const descSource = computed(() => {
   return replaceSingularCollectionUrlByText(
-    nftMetadata.value?.description?.replaceAll('\n', '  \n') || ''
+    nftMetadata.value?.description?.replaceAll('\n', '  \n') || '',
   )
 })
 const parent = computed(() => {
@@ -232,7 +232,7 @@ const isLewd = computed(() => {
   return Boolean(
     properties.value?.find((item) => {
       return item.trait_type === 'NSFW'
-    })
+    }),
   )
 })
 

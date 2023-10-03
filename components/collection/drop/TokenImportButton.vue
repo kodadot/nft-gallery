@@ -34,7 +34,7 @@ const { neoModal } = useProgrammatic()
 const root = ref<Vue>()
 
 const Money = defineAsyncComponent(
-  () => import('@/components/shared/format/Money.vue')
+  () => import('@/components/shared/format/Money.vue'),
 )
 
 const getApi = () => {
@@ -60,7 +60,7 @@ const handleTokenImport = async () => {
     (blockHash) => {
       showNotification(
         `Transaction finalized at blockHash ${blockHash}`,
-        notificationTypes.success
+        notificationTypes.success,
       )
 
       isLoading.value = false
@@ -68,7 +68,7 @@ const handleTokenImport = async () => {
     (dispatchError) => {
       showNotification(dispatchError.toString(), notificationTypes.warn)
       isLoading.value = false
-    }
+    },
   )
 
   const errorHandler = () => {
@@ -83,7 +83,7 @@ const handleTokenImport = async () => {
     .signAndSend(
       accountId.value,
       { signer: injector.signer },
-      transactionHandler
+      transactionHandler,
     )
     .catch(errorHandler)
 }

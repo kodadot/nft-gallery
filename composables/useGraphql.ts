@@ -1,7 +1,7 @@
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import type { QueryOptions } from 'apollo-client'
-import { ComputedRef } from 'vue/types'
+import { ComputedRef } from 'vue'
 
 interface DoFetchParams {
   options?: Omit<QueryOptions, 'query'>
@@ -28,7 +28,7 @@ export default function ({
   queryName,
   clientName = '',
   variables = {},
-  options = {},
+  // options = {},
   disabled = computed(() => false),
   data = ref(),
   error = ref(),
@@ -38,7 +38,7 @@ export default function ({
   const { prefix, client } = useQueryParams({ queryPrefix, clientName })
 
   async function doFetch({
-    options: extraOptions = {},
+    // options: extraOptions = {},
     variables: extraVariables = {},
   }: DoFetchParams = {}) {
     const query = await resolveQueryPath(prefix, queryName)

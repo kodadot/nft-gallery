@@ -88,7 +88,7 @@ const props = withDefaults(
     expanded: false,
     dataModel: 'query',
     fluidPadding: false,
-  }
+  },
 )
 
 const route = useRoute()
@@ -141,7 +141,7 @@ const applyToQuery = () => {
 }
 const isValidFilter = (
   min: number | string | undefined,
-  max: number | string | undefined
+  max: number | string | undefined,
 ): boolean => {
   const minValue = typeof min === 'string' ? min.trim() : min
   const maxValue = typeof max === 'string' ? max.trim() : max

@@ -6,8 +6,8 @@
       can-cancel />
     <BaseTokenForm
       ref="baseTokenForm"
-      :show-explainer-text="showExplainerText"
       v-model="base"
+      :show-explainer-text="showExplainerText"
       :collections="collections"
       :has-edition="false">
       <template #main>
@@ -118,7 +118,7 @@ withDefaults(
   }>(),
   {
     showExplainerText: false,
-  }
+  },
 )
 
 const { $i18n, $consola } = useNuxtApp()
@@ -171,7 +171,7 @@ watch(price, (value) => {
 
 const balanceOfToken = computed(() => getBalance(feesToken.value))
 const depositOfToken = computed(() =>
-  getDeposit(feesToken.value, parseFloat(deposit.value))
+  getDeposit(feesToken.value, parseFloat(deposit.value)),
 )
 const balanceNotEnoughMessage = computed(() => {
   if (balanceNotEnough.value) {
@@ -233,7 +233,7 @@ const checkValidity = () => {
 
 const navigateToDetail = (collection: string, id: string): void => {
   showNotification(
-    `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
+    `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`,
   )
   const go = () =>
     router.push({
@@ -317,6 +317,6 @@ watch(
       feesToken.value = await getFeesToken()
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 </script>

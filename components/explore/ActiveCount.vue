@@ -16,7 +16,7 @@ withDefaults(
   {
     rounded: false,
     count: 0,
-  }
+  },
 )
 </script>
 

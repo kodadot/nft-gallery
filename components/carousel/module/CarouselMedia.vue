@@ -49,7 +49,7 @@ watch(
   async () => {
     const nft = await getNftMetadata(props.item, urlPrefix.value)
     imageSrc.value = nft.image
-  }
+  },
 )
 
 // onMounted(async () => {

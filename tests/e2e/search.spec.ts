@@ -23,10 +23,10 @@ test('Check if search provide results', async ({ page }) => {
   //check contents of Collection Tab
   const tabCollection = page.getByTestId('collection-tab')
   await expect(tabCollection.locator('.neo-skeleton-item').first()).toBeVisible(
-    { timeout: 30000 }
+    { timeout: 30000 },
   )
   await expect(
-    tabCollection.locator('.search-result-item').first()
+    tabCollection.locator('.search-result-item').first(),
   ).toBeVisible({ timeout: 30000 })
   await expect(tabCollection.locator('.link-item').first()).toBeVisible({
     timeout: 30000,

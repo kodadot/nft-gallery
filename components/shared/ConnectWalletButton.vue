@@ -21,7 +21,6 @@ defineProps<{
 }>()
 
 const { neoModal } = useProgrammatic()
-const instance = getCurrentInstance()
 
 const modal = ref<{ close: () => void; isActive?: boolean } | null>(null)
 const isMobile = ref(window.innerWidth < 1024)

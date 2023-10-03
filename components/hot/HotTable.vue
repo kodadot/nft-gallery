@@ -82,7 +82,7 @@ const { pending, refresh: refreshHotNfts } = useLazyAsyncData(
     })
 
     hot.value = result
-  }
+  },
 )
 
 watch(client, (value) => {

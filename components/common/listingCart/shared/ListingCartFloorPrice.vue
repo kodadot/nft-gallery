@@ -55,6 +55,6 @@ const isDisabled = computed(
   () =>
     !listingCartStore.itemsInChain
       .map((item) => item.collection.floor || 0)
-      .some(Boolean)
+      .some(Boolean),
 )
 </script>

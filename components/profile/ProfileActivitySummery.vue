@@ -134,13 +134,13 @@ const getInvestorStatsEvents = (data: any) => {
   const maxPriceInvested = Math.max(
     ...investedEvents.map((n: Event) => {
       return parseInt(n.meta)
-    })
+    }),
   )
   highestBuyPrice.value = maxPriceInvested
   totalPurchases.value = investedEvents.length
 
   const holdingsEvents = investedEvents.filter(
-    (x) => x.nft.currentOwner == props.id
+    (x) => x.nft.currentOwner == props.id,
   )
 
   totalAmountSpend.value = getSumOfObjectField(investedEvents, 'meta')

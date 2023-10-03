@@ -178,7 +178,7 @@ watch(
       resetPage()
       searchQuery.search = val === undefined ? val : String(val)
     }
-  }
+  },
 )
 
 watch(
@@ -188,14 +188,14 @@ watch(
       resetPage()
       searchQuery.sortBy = String(val) || undefined
     }
-  }
+  },
 )
 
 watch(
   () => searchQuery,
   () => {
     resetPage()
-  }
+  },
 )
 </script>
 

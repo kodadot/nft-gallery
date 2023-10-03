@@ -1,5 +1,5 @@
 <template>
-  <NeoLoading :active.sync="isLoading" is-full-page :can-cancel="canCancel">
+  <NeoLoading v-model:active="isLoading" is-full-page :can-cancel="canCancel">
     <div class="loading-container">
       <figure>
         <img class="loading-icon" :src="placeholder" />
@@ -37,7 +37,7 @@ const props = withDefaults(
   }>(),
   {
     canCancel: true,
-  }
+  },
 )
 
 const { $i18n } = useNuxtApp()
@@ -56,14 +56,14 @@ watch(
       }
       randomNumber.value = newRandomNumber
     }
-  }
+  },
 )
 
 const randomFunFactHeading = computed(() =>
-  $i18n.t(`funfacts.${randomNumber.value}.heading`)
+  $i18n.t(`funfacts.${randomNumber.value}.heading`),
 )
 const randomFunFactQuestion = computed(() =>
-  $i18n.t(`funfacts.${randomNumber.value}.question`)
+  $i18n.t(`funfacts.${randomNumber.value}.question`),
 )
 const isLoading = computed({
   get: () => props.value,

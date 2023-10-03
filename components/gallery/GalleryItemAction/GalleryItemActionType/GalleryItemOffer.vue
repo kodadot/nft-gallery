@@ -133,7 +133,8 @@ const days = [7, 14, 30]
 const selectedDay = ref(14)
 
 const insufficientBalance = computed(
-  () => Number(offerPrice.value) > simpleDivision(balance.value, decimals.value)
+  () =>
+    Number(offerPrice.value) > simpleDivision(balance.value, decimals.value),
 )
 
 const offerPriceInvalid = computed(() => {
@@ -144,7 +145,7 @@ const offerPriceInvalid = computed(() => {
 })
 
 const disabledConfirmBtn = computed(
-  () => offerPriceInvalid.value || insufficientBalance.value
+  () => offerPriceInvalid.value || insufficientBalance.value,
 )
 
 const { data: highestOffer } = useGraphql({

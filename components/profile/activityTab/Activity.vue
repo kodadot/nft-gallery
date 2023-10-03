@@ -67,13 +67,13 @@ const activateAllFilter = () => {
   replaceUrl(
     filters.reduce(
       (queryParams, filter) => ({ ...queryParams, [filter]: true }),
-      {}
-    )
+      {},
+    ),
   )
 }
 
 const activeFilters = computed(() =>
-  filters.filter((queryParam) => route.query[queryParam] === 'true')
+  filters.filter((queryParam) => route.query[queryParam] === 'true'),
 )
 
 const { urlPrefix } = usePrefix()
@@ -103,7 +103,7 @@ const filteredEvents = computed(() =>
       return activeFilters.value.includes(caller === props.id ? 'buy' : 'sale')
     }
     return activeFilters.value.includes(interactionToFilterMap[interaction])
-  })
+  }),
 )
 
 onMounted(() => {

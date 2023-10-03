@@ -82,7 +82,7 @@ const modal = ref<{ close: () => void; isActive?: boolean } | null>(null)
 
 const account = computed(() => identityStore.getAuthAddress)
 const profileIcon = computed(() =>
-  isDarkMode.value ? '/profile-dark.svg' : '/profile.svg'
+  isDarkMode.value ? '/profile-dark.svg' : '/profile.svg',
 )
 const langsFlags = computed(() => langsFlagsList)
 

@@ -14,7 +14,7 @@ export default defineNuxtPlugin(async () => {
     workbox.addEventListener('installed', (event) => {
       consola.info(
         'App is being served from cache by a service worker.\n' +
-          'For more details, visit https://pwa.nuxtjs.org/'
+          'For more details, visit https://pwa.nuxtjs.org/',
       )
 
       if (event.isUpdate) {

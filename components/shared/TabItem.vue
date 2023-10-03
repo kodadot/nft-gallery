@@ -29,7 +29,7 @@ withDefaults(
   }>(),
   {
     to: '',
-  }
+  },
 )
 </script>
 

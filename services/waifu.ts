@@ -19,7 +19,7 @@ type Response<T> = {
 export const sendWaifu = async (
   email: string,
   url: string,
-  image: string
+  image: string,
 ): Promise<MintResponse> => {
   const body = {
     address: email,
@@ -59,7 +59,7 @@ export const getLatestWaifuImages = async () => {
     method: 'GET',
   }).catch((error: FetchError) => {
     throw new Error(
-      `[WAIFU::IMAGE] Unable to fetch image for reasons ${error.data}`
+      `[WAIFU::IMAGE] Unable to fetch image for reasons ${error.data}`,
     )
   })
 
@@ -96,14 +96,14 @@ type UpdateMetadataRequest = {
 
 export const claimDropItem = async (
   body: UpdateMetadataRequest,
-  claim: string
+  claim: string,
 ) => {
   const value = await api<Response<typeof body>>(`claim/${claim}`, {
     method: 'POST',
     body,
   }).catch((error: FetchError) => {
     throw new Error(
-      `[WAIFU::UPDATEMETADATA] Unable to CLAIM for reasons ${error.data}`
+      `[WAIFU::UPDATEMETADATA] Unable to CLAIM for reasons ${error.data}`,
     )
   })
 

@@ -104,30 +104,30 @@ watch(
   () => cartData.value.floorPricePercentAdjustment,
   (rate) => {
     listingCartStore.setFloorPrice(rate)
-  }
+  },
 )
 
 const fiatStore = useFiatStore()
 const priceUSD = computed(() =>
   calculateExactUsdFromToken(
     totalNFTsPrice.value,
-    Number(fiatStore.getCurrentTokenValue(prefixToToken[urlPrefix.value]))
-  )
+    Number(fiatStore.getCurrentTokenValue(prefixToToken[urlPrefix.value])),
+  ),
 )
 
 const totalNFTsPrice = computed(() =>
   Number(
     sum(
-      listingCartStore.itemsInChain.map((nft) => Number(nft.listPrice))
-    ).toFixed(4)
-  )
+      listingCartStore.itemsInChain.map((nft) => Number(nft.listPrice)),
+    ).toFixed(4),
+  ),
 )
 
 const cartHasNFTsWithPrice = computed(() =>
-  listingCartStore.itemsInChain.map((nft) => Number(nft.price)).some(Boolean)
+  listingCartStore.itemsInChain.map((nft) => Number(nft.price)).some(Boolean),
 )
 const showChangePriceModal = computed(
-  () => cartHasNFTsWithPrice.value && listingCartStore.count === 1
+  () => cartHasNFTsWithPrice.value && listingCartStore.count === 1,
 )
 
 const title = computed(() => {
@@ -153,14 +153,14 @@ const confirmListingLabel = computed(() => {
         : $i18n.t('listingCart.missing1')
     default:
       return `${listingCartStore.incompleteListPrices} ${$i18n.t(
-        'listingCart.missingMultiple'
+        'listingCart.missingMultiple',
       )}`
   }
 })
 async function confirm() {
   const token = listingCartStore.itemsInChain
     .filter((item): item is ListCartItem & { listPrice: number } =>
-      Boolean(item.listPrice)
+      Boolean(item.listPrice),
     )
     .map((item) => ({
       price: String(calculateBalance(item.listPrice, decimals.value)),
@@ -198,7 +198,7 @@ watch(
     if (listingCartStore.count === 0) {
       preferencesStore.listingCartModalOpen = false
     }
-  }
+  },
 )
 
 onUnmounted(() => {

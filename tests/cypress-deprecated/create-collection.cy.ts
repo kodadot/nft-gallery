@@ -24,7 +24,7 @@ chains.forEach((chain) => {
 
     // input collection description
     cy.get('textarea[placeholder="Enter collection description"]').type(
-      'Test Description'
+      'Test Description',
     )
 
     if (chain === 'rmrk') {

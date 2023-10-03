@@ -103,15 +103,15 @@ const props = withDefaults(
     link: 'a',
     bindKey: 'href',
     showActionOnHover: true,
-  }
+  },
 )
 
 const isStacked = computed(() =>
-  props.variant ? props.variant.includes('stacked') : false
+  props.variant ? props.variant.includes('stacked') : false,
 )
 
 const isMinimal = computed(() =>
-  props.variant ? props.variant.includes('minimal') : false
+  props.variant ? props.variant.includes('minimal') : false,
 )
 </script>
 

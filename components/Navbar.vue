@@ -231,11 +231,12 @@ const isCreateVisible = computed(() => createVisible(urlPrefix.value))
 const isLandingPage = computed(() => route.name === 'index')
 
 const logoSrc = computed(() =>
-  isDarkMode.value ? '/Koda_Beta_dark.svg' : '/Koda_Beta.svg'
+  isDarkMode.value ? '/Koda_Beta_dark.svg' : '/Koda_Beta.svg',
 )
 
 const showSearchOnNavbar = computed(
-  () => !isLandingPage.value || !showTopNavbar.value || isBurgerMenuOpened.value
+  () =>
+    !isLandingPage.value || !showTopNavbar.value || isBurgerMenuOpened.value,
 )
 
 const handleMobileChainSelect = () => {

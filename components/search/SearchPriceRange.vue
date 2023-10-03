@@ -44,7 +44,7 @@ const props = withDefaults(
   }>(),
   {
     range: () => [undefined, undefined],
-  }
+  },
 )
 
 const vrange = computed(() => props.range)

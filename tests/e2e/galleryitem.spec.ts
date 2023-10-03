@@ -9,7 +9,7 @@ test('Element existance verification', async ({ page }) => {
     .click()
   await page.getByTestId('gallery-item-activity-filter-all').click()
   await expect(
-    page.getByTestId('gallery-item-activity-table').locator('td').first()
+    page.getByTestId('gallery-item-activity-table').locator('td').first(),
   ).toBeVisible()
   //details tab
   await page
@@ -17,7 +17,7 @@ test('Element existance verification', async ({ page }) => {
     .locator('[aria-controls="2-content"]')
     .click()
   await expect(
-    page.getByTestId('gallery-item-details-tab-content')
+    page.getByTestId('gallery-item-details-tab-content'),
   ).toBeVisible()
   //chart tab
   await page
@@ -45,14 +45,14 @@ test('Share Button Functionality', async ({ page }) => {
   const newTab = await newTabPromise
   await newTab.waitForLoadState()
   await expect(newTab).toHaveURL(
-    'https://twitter.com/i/flow/login?redirect_after_login=%2Fintent%2Ftweet%3Ftext%3DCheck%2520out%2520this%2520awesome%2520NFT%2520on%2520KodaDot%26via%3DKodaDot%26url%3Dhttp%3A%2F%2Flocalhost%3A9090%2Fahk%2Fgallery%2F6-10'
+    'https://twitter.com/i/flow/login?redirect_after_login=%2Fintent%2Ftweet%3Ftext%3DCheck%2520out%2520this%2520awesome%2520NFT%2520on%2520KodaDot%26via%3DKodaDot%26url%3Dhttp%3A%2F%2Flocalhost%3A9090%2Fahk%2Fgallery%2F6-10',
   )
   await newTab.close()
   //QR Code
   await shareBtn.click()
   await shareBtn.getByText('QR Code').click()
   await expect(
-    page.getByTestId('gallery-item-share-dropdown-qrcode')
+    page.getByTestId('gallery-item-share-dropdown-qrcode'),
   ).toBeVisible()
 })
 
@@ -72,9 +72,9 @@ test('Description tab', async ({ page }) => {
     .locator('[aria-controls="0-content"]')
     .click()
   await expect(
-    page.getByTestId('gallery-item-description-tab-content')
+    page.getByTestId('gallery-item-description-tab-content'),
   ).toBeVisible()
   await expect(
-    page.getByTestId('gallery-item-description-tab-content')
+    page.getByTestId('gallery-item-description-tab-content'),
   ).toContainText('This anime waifu loves')
 })

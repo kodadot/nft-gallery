@@ -94,23 +94,23 @@ const items = computed(() => {
 })
 
 const isModalActive = computed(
-  () => prefrencesStore.getCompletePurchaseModal.isOpen
+  () => prefrencesStore.getCompletePurchaseModal.isOpen,
 )
 
 const totalNFTsPrice = computed(() =>
-  sum(items.value.map((nft) => Number(nft.price)))
+  sum(items.value.map((nft) => Number(nft.price))),
 )
 const totalRoyalties = computed(() =>
   sum(
     items.value.map(
       ({ price, royalty }) =>
-        (Number(price ?? '0') * (royalty?.amount ?? 0)) / 100
-    )
-  )
+        (Number(price ?? '0') * (royalty?.amount ?? 0)) / 100,
+    ),
+  ),
 )
 
 const balanceIsEnough = computed(
-  () => totalNFTsPrice.value + totalRoyalties.value < balance.value
+  () => totalNFTsPrice.value + totalRoyalties.value < balance.value,
 )
 
 const btnLabel = computed(() => {

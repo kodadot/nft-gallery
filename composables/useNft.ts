@@ -40,7 +40,7 @@ function getGeneralMetadata(nft: NFTWithMetadata) {
     description: nft.description || nft.meta.description || '',
     image: sanitizeIpfsUrl(nft.meta.image),
     animationUrl: sanitizeIpfsUrl(
-      nft.meta.animation_url || nft.meta.animationUrl || ''
+      nft.meta.animation_url || nft.meta.animationUrl || '',
     ),
     type: nft.meta.type || '',
   }
@@ -69,12 +69,12 @@ export function useNftMimeType(nft?: Ref<NFTWithMetadata>) {
     () => nft?.value,
     async () => {
       const mimeType = await getMimeType(
-        sanitizeIpfsUrl(nft?.value.meta?.animationUrl || '')
+        sanitizeIpfsUrl(nft?.value.meta?.animationUrl || ''),
       )
 
       isAudio.value = isAudioMimeType(mimeType)
     },
-    { immediate: true }
+    { immediate: true },
   )
 
   return { isAudio }
@@ -102,7 +102,7 @@ async function getProcessMetadata(nft: NFTWithMetadata) {
       metadata.attributes && metadata.attributes.length > 0
     const attr = unionBy(
       nft?.attributes?.concat(...(nft?.meta?.attributes || [])),
-      (item) => item.trait_type || item.key
+      (item) => item.trait_type || item.key,
     )
     const hasEmptyNftAttributes = attr.length === 0
 

@@ -59,9 +59,9 @@ const { urlPrefix } = usePrefix()
 
 // currently only supported on rmrk and snek
 const showCarousel = computed(
-  () => !hiddenCarrouselPrefixes.includes(urlPrefix.value)
+  () => !hiddenCarrouselPrefixes.includes(urlPrefix.value),
 )
 const showTopCollections = computed(
-  () => !forbiddenPrefixesForTopCollections.includes(urlPrefix.value)
+  () => !forbiddenPrefixesForTopCollections.includes(urlPrefix.value),
 )
 </script>

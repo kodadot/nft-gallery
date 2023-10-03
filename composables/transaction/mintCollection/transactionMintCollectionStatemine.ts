@@ -10,7 +10,7 @@ import { createArgsForNftPallet } from './utils'
 export async function execMintCollectionStatemine(
   item: ActionMintCollection,
   api,
-  executeTransaction: (p: ExecuteTransactionParams) => void
+  executeTransaction: (p: ExecuteTransactionParams) => void,
 ) {
   const { $i18n } = useNuxtApp()
   const metadata = await constructMeta(item)

@@ -115,7 +115,7 @@ const prop = withDefaults(
   {
     ownerId: '',
     hideToggle: false,
-  }
+  },
 )
 
 const timestampOffer = (date) => {
@@ -128,7 +128,7 @@ const displayOffers = (offers: Offer[]) => {
     filterOffers = offers.concat()
   } else {
     filterOffers = offers.filter(
-      (offer) => offer.status === selectedStatus.value
+      (offer) => offer.status === selectedStatus.value,
     )
   }
 
@@ -152,7 +152,7 @@ const withdrawOffer = async (offer) => {
       const msg = 'your offer has been withdrawn'
       showNotification(
         `[OFFER] Since block ${blockNumber} ${msg}`,
-        notificationTypes.success
+        notificationTypes.success,
       )
     })
   } catch (e: any) {

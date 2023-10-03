@@ -68,7 +68,7 @@ export function useFetchSearch({
       }
     }
     const notCollectionPage = computed(
-      () => route.name !== 'prefix-collection-id'
+      () => route.name !== 'prefix-collection-id',
     )
 
     const variables = search?.length
@@ -81,7 +81,7 @@ export function useFetchSearch({
 
     const queryPathBase = getQueryPath(client.value)
     const usingTokenEntities = computed(
-      () => notCollectionPage.value && isAssetHub.value
+      () => notCollectionPage.value && isAssetHub.value,
     )
 
     const queryPath = usingTokenEntities.value ? 'chain-ahk' : queryPathBase
@@ -111,7 +111,7 @@ export function useFetchSearch({
         name: extractBaseName(token.nfts[0].name),
         count: token.nfts.length,
         floorPrice: Math.min(
-          ...token.nfts.map((nft) => Number(nft.price))
+          ...token.nfts.map((nft) => Number(nft.price)),
         ).toString(),
         nfts: token.nfts,
       }
@@ -167,7 +167,7 @@ export function useFetchSearch({
       }
       loadedPages.value = []
       resetSearch()
-    }
+    },
   )
 
   return {
@@ -184,12 +184,12 @@ export const updatePotentialNftsForListingCart = async (nfts: NFT[]) => {
 
   //  Get unique collection IDs
   const uniqueCollectionIds = Array.from(
-    new Set(nfts.map((nft) => nft.collection?.id || nft.collectionId))
+    new Set(nfts.map((nft) => nft.collection?.id || nft.collectionId)),
   )
 
   // Wrap useCollectionDetails in a promise to watch for the stats
   const fetchStatsForCollection = (
-    collectionId
+    collectionId,
   ): Promise<{ id: string; stats: Stats }> =>
     new Promise((resolve) => {
       const { stats } = useCollectionDetails({ collectionId })
@@ -202,7 +202,7 @@ export const updatePotentialNftsForListingCart = async (nfts: NFT[]) => {
 
   // Fetch stats for all unique collection IDs.
   const allStats = await Promise.all(
-    uniqueCollectionIds.map(fetchStatsForCollection)
+    uniqueCollectionIds.map(fetchStatsForCollection),
   )
 
   const statsById = allStats.reduce(
@@ -210,19 +210,19 @@ export const updatePotentialNftsForListingCart = async (nfts: NFT[]) => {
       ...acc,
       [id]: stats,
     }),
-    {}
+    {},
   )
 
   const potentialNfts = nfts
     .filter(
       (nft) =>
-        !Number(nft.price) && checkOwner(nft.currentOwner, accountId.value)
+        !Number(nft.price) && checkOwner(nft.currentOwner, accountId.value),
     )
     .map((nft) => {
       const collectionId = nft.collection?.id ?? nft.collectionId ?? ''
       return nftToListingCartItem(
         nft,
-        String(statsById[collectionId]?.collectionFloorPrice ?? '')
+        String(statsById[collectionId]?.collectionFloorPrice ?? ''),
       )
     })
 

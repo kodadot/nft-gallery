@@ -254,7 +254,7 @@ const fetchSpotlightData = async (sort: string = toSort(sortBy.value)) => {
       uniqueCollectors: e.uniqueCollectors,
       volume: BigInt(e.volume),
       soldHistory: axisLize(defaultEvents(lastmonthDate, today)),
-    })
+    }),
   )
 
   spotlight.value.forEach((item) => {

@@ -2,8 +2,8 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <BaseTokenForm
-      v-model="base"
       ref="baseTokenForm"
+      v-model="base"
       :collections="collections"
       :show-explainer-text="showExplainerText">
       <template #main>
@@ -86,7 +86,7 @@ withDefaults(
   }>(),
   {
     showExplainerText: false,
-  }
+  },
 )
 
 const base = ref<BaseTokenType>({
@@ -209,7 +209,7 @@ const submit = () => {
 
 const navigateToDetail = () => {
   showNotification(
-    `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
+    `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`,
   )
 
   const selectedCollection = base.value

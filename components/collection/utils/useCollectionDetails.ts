@@ -28,7 +28,7 @@ export const useCollectionDetails = ({ collectionId }) => {
     if (data.value.value.stats) {
       const uniqueOwnerCount = [
         ...new Set(
-          data.value.value.stats?.base.map((item) => item.currentOwner)
+          data.value.value.stats?.base.map((item) => item.currentOwner),
         ),
       ].length
 
@@ -40,10 +40,10 @@ export const useCollectionDetails = ({ collectionId }) => {
           return undefined
         }
         const offresPerNft = data.value.value.stats.base.map((nft) =>
-          nft.offers.map((offer) => Number(offer.price))
+          nft.offers.map((offer) => Number(offer.price)),
         )
         const highestOffer = Math.max(
-          ...offresPerNft.map((nftOffers) => Math.max(...nftOffers))
+          ...offresPerNft.map((nftOffers) => Math.max(...nftOffers)),
         )
         return highestOffer
       })
@@ -65,8 +65,8 @@ export const useCollectionDetails = ({ collectionId }) => {
         ).toFixed(2)}%`,
         collectionTradedVolumeNumber: Number(
           getVolume(
-            data.value.value.stats.sales.map((nft) => nft.events).flat()
-          )
+            data.value.value.stats.sales.map((nft) => nft.events).flat(),
+          ),
         ),
       }
     }

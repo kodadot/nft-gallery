@@ -9,7 +9,7 @@ export default function () {
 
   return {
     listingCartEnabled: computed(() =>
-      displayOnPages.includes(route.name ?? '')
+      displayOnPages.includes(route.name ?? ''),
     ),
   }
 }

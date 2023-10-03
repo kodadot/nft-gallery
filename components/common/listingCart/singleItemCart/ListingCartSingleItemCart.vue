@@ -58,7 +58,7 @@ const floorPricePercentAdjustment = useVModel(
   props,
   'floorPricePercentAdjustment',
   emit,
-  { eventName: 'update:floorPricePercentAdjustment' }
+  { eventName: 'update:floorPricePercentAdjustment' },
 )
 
 const listingCartStore = useListingCartStore()
@@ -69,7 +69,7 @@ const item = computed(() => listingCartStore.itemsInChain[0])
 const itemPrice = computed(() => formatWithBlank(Number(item.value.price)))
 
 const collectionPrice = computed(() =>
-  formatWithBlank(Number(item.value.collection.floor))
+  formatWithBlank(Number(item.value.collection.floor)),
 )
 
 const formatWithBlank = (value: number) => {
@@ -78,13 +78,13 @@ const formatWithBlank = (value: number) => {
 
 watch(
   () => props.fixedPrice,
-  (value) => emit('setFixedPrice', value)
+  (value) => emit('setFixedPrice', value),
 )
 
 watch(
   () => item.value.listPrice,
   (value) => {
     fixedPrice.value = Number(value)
-  }
+  },
 )
 </script>

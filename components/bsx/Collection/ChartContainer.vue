@@ -51,7 +51,7 @@ const queryAllCollectionSaleEvents = ({ interaction_eq }) => {
         interaction_eq,
       },
     },
-    { clientId: client.value }
+    { clientId: client.value },
   )
 }
 
@@ -59,7 +59,7 @@ const formatValue = (value: string): number => {
   return parseFloat(
     formatBalance(value, decimals.value, false)
       .replace(/,/g, '')
-      .replace('.0000', '')
+      .replace('.0000', ''),
   )
 }
 </script>

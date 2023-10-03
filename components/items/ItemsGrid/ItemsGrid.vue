@@ -120,7 +120,7 @@ watch(
       updatePotentialNftsForListingCart(nfts.value)
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 watch(total, () => {
@@ -133,7 +133,7 @@ watch(isLoading, () => {
 })
 
 const parseSearch = (
-  search?: Record<string, string | number>
+  search?: Record<string, string | number>,
 ): Record<string, string | number>[] =>
   Object.entries(search || {}).map(([key, value]) => ({ [key]: value }))
 
@@ -148,7 +148,7 @@ watch(
       refetch(parseSearch(props.search))
     }
   },
-  { deep: true }
+  { deep: true },
 )
 
 onBeforeMount(() => {

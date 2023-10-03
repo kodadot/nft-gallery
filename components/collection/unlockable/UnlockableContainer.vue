@@ -210,16 +210,16 @@ const {
 })
 
 const hasUserMinted = computed(
-  () => stats.value?.collection.nfts?.at(0)?.id || justMinted.value
+  () => stats.value?.collection.nfts?.at(0)?.id || justMinted.value,
 )
 
 const totalCount = computed(
-  () => collectionData.value?.collectionEntity?.max || 300
+  () => collectionData.value?.collectionEntity?.max || 300,
 )
 const totalAvailableMintCount = computed(
   () =>
     totalCount.value -
-    (collectionData.value?.nftEntitiesConnection?.totalCount || 0)
+    (collectionData.value?.nftEntitiesConnection?.totalCount || 0),
 )
 
 const { data, refetch } = useGraphql({
@@ -247,15 +247,15 @@ useSubscriptionGraphql({
 const mintedCount = computed(() => data.value?.minted?.count || 0)
 
 const currentMintedCount = computed(() =>
-  Math.min(mintedCount.value, MAX_PER_WINDOW)
+  Math.min(mintedCount.value, MAX_PER_WINDOW),
 )
 
 const mintCountAvailable = computed(
-  () => currentMintedCount.value < MAX_PER_WINDOW
+  () => currentMintedCount.value < MAX_PER_WINDOW,
 )
 
 const mintButtonDisabled = computed(() =>
-  Boolean(!mintCountAvailable.value || hasUserMinted.value)
+  Boolean(!mintCountAvailable.value || hasUserMinted.value),
 )
 
 const scrollToTop = () => {
@@ -293,7 +293,7 @@ const handleSubmitMint = async () => {
         metadata: hash,
         image: image,
       },
-      UNLOCKABLE_CAMPAIGN
+      UNLOCKABLE_CAMPAIGN,
     ).then((res) => {
       toast('mint success', 'is-neo', 20000)
       scrollToTop()

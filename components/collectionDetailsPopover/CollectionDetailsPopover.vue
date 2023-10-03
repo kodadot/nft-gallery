@@ -33,7 +33,7 @@ withDefaults(
   {
     showDelay: 0,
     hideDelay: 0,
-  }
+  },
 )
 
 const show = ref(false)

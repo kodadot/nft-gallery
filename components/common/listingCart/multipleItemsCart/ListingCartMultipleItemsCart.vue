@@ -49,7 +49,7 @@ const floorPricePercentAdjustment = useVModel(
   props,
   'floorPricePercentAdjustment',
   emit,
-  { eventName: 'update:floorPricePercentAdjustment' }
+  { eventName: 'update:floorPricePercentAdjustment' },
 )
 
 const fixedPrice = useVModel(props, 'fixedPrice', emit, {

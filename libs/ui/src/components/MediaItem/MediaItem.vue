@@ -70,7 +70,7 @@ const props = withDefaults(
     isLewd: false,
     isDetail: false,
     placeholder: '',
-  }
+  },
 )
 // props.mimeType may be empty string "". Add `image/png` as fallback
 const mimeType = ref(!!props.mimeType ? props.mimeType : 'image/png')
@@ -102,7 +102,7 @@ watch(
   () => updateComponent(),
   {
     immediate: true,
-  }
+  },
 )
 
 const toggleContent = () => {
