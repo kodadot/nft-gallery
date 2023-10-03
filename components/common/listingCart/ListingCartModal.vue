@@ -175,7 +175,7 @@ async function confirm() {
       successMessage: $i18n.t('transaction.price.success') as string,
       errorMessage: $i18n.t('transaction.price.error') as string,
     })
-    listingCartStore.clear()
+    listingCartStore.clearListedItems()
     preferencesStore.listingCartModalOpen = false
     resetCartData()
   } catch (error) {
