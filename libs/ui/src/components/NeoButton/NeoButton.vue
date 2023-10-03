@@ -11,7 +11,7 @@
     :variant="variant"
     :disabled="disabled"
     :expanded="expanded"
-    :icon-pack="iconPack || 'fasr'"
+    :icon-pack="iconPack"
     :label="label"
     class="is-neo"
     :rounded="rounded"
@@ -27,21 +27,26 @@
 import { OButton } from '@oruga-ui/oruga-next'
 import { NeoButtonVariant } from '@kodadot1/brick'
 
-defineProps<{
-  size?: 'small' | 'medium' | 'large'
-  disabled?: boolean
-  expanded?: boolean
-  icon?: string
-  iconPack?: string
-  label?: string
-  active?: boolean
-  fixedWidth?: boolean
-  noShadow?: boolean
-  variant?: NeoButtonVariant
-  rounded?: boolean
-  tag?: string
-  loadingWithLabel?: boolean
-}>()
+withDefaults(
+  defineProps<{
+    size?: 'small' | 'medium' | 'large'
+    disabled?: boolean
+    expanded?: boolean
+    icon?: string
+    iconPack?: string
+    label?: string
+    active?: boolean
+    fixedWidth?: boolean
+    noShadow?: boolean
+    variant?: NeoButtonVariant
+    rounded?: boolean
+    tag?: string
+    loadingWithLabel?: boolean
+  }>(),
+  {
+    iconPack: 'fasr',
+  }
+)
 </script>
 
 <style lang="scss">
