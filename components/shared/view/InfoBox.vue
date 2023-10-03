@@ -6,7 +6,6 @@
       <NeoButton
         variant="text"
         no-shadow
-        icon-pack="fasr"
         icon="xmark"
         size="medium"
         @click="onClose" />
