@@ -28,6 +28,7 @@
           :mime-type="nft.mimeType"
           :placeholder="placeholder"
           :title="nft?.name"
+          disable-operation
           :audio-player-cover="mediaPlayerCover"
           :audio-hover-on-cover-play="mediaHoverOnCoverPlay" />
         <div
@@ -110,7 +111,7 @@ const props = withDefaults(
     showActionOnHover: true,
     placeholder: undefined,
     mediaPlayerCover: undefined,
-  },
+  }
 )
 
 const isStacked = props.variant.includes('stacked')

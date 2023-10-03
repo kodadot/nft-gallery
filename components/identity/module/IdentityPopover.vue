@@ -3,6 +3,7 @@
     class="tippy-container"
     interactive
     :animate-fill="false"
+    :append-to="body"
     boundary="viewport"
     placement="bottom"
     :delay="0"
@@ -25,7 +26,7 @@ import IdentityPopoverHeader from './IdentityPopoverHeader.vue'
 import IdentityPopoverFooter from './IdentityPopoverFooter.vue'
 
 const address = inject('address')
-
+const body = ref(document.body)
 const { nftEntities } = useIdentitySoldData({
   address,
 })

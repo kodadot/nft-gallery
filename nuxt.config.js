@@ -17,6 +17,9 @@ export default defineNuxtConfig({
       productionTip: false,
       runtimeCompiler: true,
     },
+    compilerOptions: {
+      isCustomElement: (tag) => ['model-viewer'].includes(tag),
+    },
   },
 
   server: {
@@ -283,7 +286,7 @@ export default defineNuxtConfig({
         done(nuxtInstance) {
           fs.copyFileSync(
             `${nuxtInstance.options.generate.dir}/sitemap.xml`,
-            'public/sitemap.xml',
+            'public/sitemap.xml'
           )
         },
       },
