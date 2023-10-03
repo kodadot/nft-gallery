@@ -102,7 +102,8 @@ const props = defineProps<{
   value: boolean
 }>()
 
-const { $route, $i18n } = useNuxtApp()
+const { $i18n } = useNuxtApp()
+const route = useRoute()
 const { transaction, status, isLoading } = useTransaction()
 const { urlPrefix } = usePrefix()
 const { decimals, chainSymbol, chainProperties } = useChain()
@@ -169,7 +170,7 @@ const transfer = () => {
     interaction: Interaction.SEND,
     urlPrefix: urlPrefix.value,
     address: address.value,
-    tokenId: $route.params.id,
+    tokenId: route.params.id,
     nftId: props.nft.id,
     successMessage: $i18n.t('transaction.item.success') as string,
     errorMessage: $i18n.t('transaction.item.error') as string,
