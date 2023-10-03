@@ -14,6 +14,7 @@
       v-if="check"
       no-shadow
       class="shade-border-color ml-2 height-40"
+      icon-pack="fas"
       icon="check"
       @click="emit('confirm')" />
   </div>
