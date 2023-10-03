@@ -74,12 +74,12 @@
 </template>
 
 <script lang="ts" setup>
+import type { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
 import MediaItem from '../MediaItem/MediaItem.vue'
 import { NeoSkeleton, NftCardVariant } from '@kodadot1/brick'
 import NFTMediaInfoStacked from './NFTMediaInfoStacked.vue'
 import NFTMediaInfo from './NFTMediaInfo.vue'
 import { ItemsGridEntity } from '@/components/items/ItemsGrid/useItemsGrid'
-import { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
 
 const props = withDefaults(
   defineProps<{
