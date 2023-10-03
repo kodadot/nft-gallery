@@ -42,11 +42,17 @@ export default function ({
 
   const containerRef = ref<Window>(window)
 
-  useInfiniteScroll(containerRef, () => {
-    if (canLoadNextPage.value) {
-      reachBottomHandler()
-    }
-  })
+  useInfiniteScroll(
+    containerRef,
+    () => {
+      if (canLoadNextPage.value) {
+        reachBottomHandler()
+      }
+    },
+    {
+      distance: 1600,
+    },
+  )
 
   const scrollContainerId = ref(
     defaultScrollContainerId ?? INFINITE_SCROLL_CONTAINER_ID,
