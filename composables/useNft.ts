@@ -24,12 +24,6 @@ export type ItemResources = {
   resources?: NftResources[]
 }
 
-export type Stack = {
-  count: number
-  floorPrice: string
-  nfts: NFTWithMetadata[]
-}
-
 export type NFTWithMetadata = NFT &
   NFTMetadata & { meta: BaseNFTMeta } & ItemResources
 
