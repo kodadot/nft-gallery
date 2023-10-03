@@ -28,11 +28,11 @@
 import { randomIntegerBetween } from '@/utils/calculation'
 import { NeoLoading } from '@kodadot1/brick'
 
-const emit = defineEmits(['input'])
+const emit = defineEmits(['update:modelValue'])
 const props = withDefaults(
   defineProps<{
     status: string
-    value?: boolean
+    modelValue?: boolean
     canCancel?: boolean
   }>(),
   {
@@ -66,8 +66,8 @@ const randomFunFactQuestion = computed(() =>
   $i18n.t(`funfacts.${randomNumber.value}.question`)
 )
 const isLoading = computed({
-  get: () => props.value,
-  set: (value) => emit('input', value),
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value),
 })
 
 onMounted(() => {
