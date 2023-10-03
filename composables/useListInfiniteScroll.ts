@@ -24,7 +24,7 @@ export default function ({
   gotoPage: (page: number) => void
   fetchPageData: (
     page: number,
-    loadDirection?: LoadDirection
+    loadDirection?: LoadDirection,
   ) => Promise<boolean>
 }) {
   const route = useRoute()
@@ -49,19 +49,19 @@ export default function ({
   })
 
   const scrollContainerId = ref(
-    defaultScrollContainerId ?? INFINITE_SCROLL_CONTAINER_ID
+    defaultScrollContainerId ?? INFINITE_SCROLL_CONTAINER_ID,
   )
   const scrollItemClassName = ref(
-    defaultScrollItemClassName ?? INFINITE_SCROLL_ITEM_CLASS_NAME
+    defaultScrollItemClassName ?? INFINITE_SCROLL_ITEM_CLASS_NAME,
   )
 
   const canLoadNextPage = computed(
     () =>
-      endPage.value < Math.ceil(total.value / first.value) && total.value > 0
+      endPage.value < Math.ceil(total.value / first.value) && total.value > 0,
   )
 
   const pageHeight = computed(
-    (): number => scrollItemHeight.value * (first.value / itemsPerRow.value)
+    (): number => scrollItemHeight.value * (first.value / itemsPerRow.value),
   )
 
   const updateCurrentPage = () => {
@@ -78,13 +78,13 @@ export default function ({
     try {
       const container = document.getElementById(scrollContainerId.value)
       const scrollItem = document.body.querySelector(
-        `.${scrollItemClassName.value}`
+        `.${scrollItemClassName.value}`,
       )
       if (scrollItem && container) {
         scrollItemHeight.value = scrollItem.clientHeight
         itemsPerRow.value = Math.max(
           Math.floor(container.clientWidth / scrollItem.clientWidth),
-          1
+          1,
         )
         scrollItemSizeInit.value = true
       }
@@ -120,7 +120,7 @@ export default function ({
   const fetchDataCallback = async (
     page: number,
     direction: LoadDirection,
-    successCb: () => void
+    successCb: () => void,
   ) => {
     return await fetchPageData(page, direction).then((isSuccess) => {
       if (isSuccess) {
@@ -153,7 +153,6 @@ export default function ({
     await fetchDataCallback(nextPage, 'down', () => {
       endPage.value = nextPage
       checkAfterFetchDataSuccess()
-      prefetchNextPage()
     })
   }
 

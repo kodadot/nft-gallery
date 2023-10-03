@@ -187,11 +187,12 @@ export default defineNuxtConfig({
         pathPrefix: false,
       },
       {
-        path: '~/components',
+        path: '~/components/common',
         extensions: ['vue'],
+        pathPrefix: false,
       },
       {
-        path: '~/components/common',
+        path: '~/components',
         extensions: ['vue'],
       },
       {
@@ -282,7 +283,7 @@ export default defineNuxtConfig({
         done(nuxtInstance) {
           fs.copyFileSync(
             `${nuxtInstance.options.generate.dir}/sitemap.xml`,
-            'public/sitemap.xml'
+            'public/sitemap.xml',
           )
         },
       },

@@ -25,7 +25,7 @@
     </DynamicGrid>
 
     <DynamicGrid
-      v-else-if="isLoading"
+      v-if="isLoading || isFetchingData"
       :id="scrollContainerId"
       v-slot="slotProps"
       class="my-5">
@@ -36,10 +36,12 @@
         is-loading
         :prefix="urlPrefix"
         :variant="
-          (slotProps.isMobileVariant || slotProps.grid === 'small') && 'minimal'
+          slotProps.isMobileVariant || slotProps.grid === 'small'
+            ? 'minimal'
+            : undefined
         " />
     </DynamicGrid>
-    <EmptyResult v-else />
+    <EmptyResult v-if="total === 0" />
     <ScrollTopButton />
   </div>
 </template>
@@ -93,7 +95,6 @@ const {
   isFetchingData,
   scrollContainerId,
   reachTopHandler,
-  prefetchNextPage,
 } = useListInfiniteScroll({
   gotoPage,
   fetchPageData,
@@ -120,11 +121,10 @@ watch(
       updatePotentialNftsForListingCart(nfts.value)
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 watch(total, () => {
-  prefetchNextPage()
   emit('total', total.value)
 })
 
@@ -133,7 +133,7 @@ watch(isLoading, () => {
 })
 
 const parseSearch = (
-  search?: Record<string, string | number>
+  search?: Record<string, string | number>,
 ): Record<string, string | number>[] =>
   Object.entries(search || {}).map(([key, value]) => ({ [key]: value }))
 
@@ -148,7 +148,7 @@ watch(
       refetch(parseSearch(props.search))
     }
   },
-  { deep: true }
+  { deep: true },
 )
 
 onBeforeMount(() => {
