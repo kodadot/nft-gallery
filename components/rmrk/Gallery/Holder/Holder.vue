@@ -246,7 +246,7 @@ const prop = withDefaults(
   }
 )
 
-const { $route } = useNuxtApp()
+const route = useRoute()
 const preferencesStore = usePreferencesStore()
 const { decimals, unit } = useChain()
 const { urlPrefix } = usePrefix()
@@ -254,7 +254,7 @@ const { replaceUrl } = useReplaceUrl()
 
 const isOpen = ref(false)
 const showDetailIcon = ref(true)
-const currentPage = ref(parseInt($route.query?.page) || 1)
+const currentPage = ref(parseInt(route.query?.page) || 1)
 const customGroups = ref<TableRow[]>([])
 const columnsVisible = ref({
   Name: { title: 'Name', display: true },

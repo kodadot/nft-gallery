@@ -14,18 +14,16 @@
         <div class="image is-48x48">
           <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.id}`">
             <BasicPopup placement="top">
-              <template #trigger>
+              <template #content>
                 <BasicImage
                   :src="props.row.image"
                   :alt="props.row.name"
                   :rounded="true" />
               </template>
-              <template #content>
-                <BasicImage
-                  :src="props.row.image"
-                  :alt="props.row.name"
-                  class="popup-image" />
-              </template>
+              <BasicImage
+                :src="props.row.image"
+                :alt="props.row.name"
+                class="popup-image" />
             </BasicPopup>
           </nuxt-link>
         </div>
@@ -36,7 +34,7 @@
         position="centered"
         field="name"
         :label="$t('name')">
-        <nuxt-link :to="`/rmrk/gallery/${props.row.id}`">
+        <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.id}`">
           {{ props.row.name }}
         </nuxt-link>
       </NeoTableColumn>
@@ -45,7 +43,7 @@
         position="centered"
         field="collectionId"
         label="Collection">
-        <nuxt-link :to="`/rmrk/collection/${props.row.collectionId}`">
+        <nuxt-link :to="`/${urlPrefix}/collection/${props.row.collectionId}`">
           {{ props.row.collectionName }}
         </nuxt-link>
       </NeoTableColumn>
@@ -54,7 +52,7 @@
         position="centered"
         field="buyer"
         :label="$t('sales.buyer')">
-        <nuxt-link :to="`/rmrk/u/${props.row.buyer}`">
+        <nuxt-link :to="`/${urlPrefix}/u/${props.row.buyer}`">
           <Identity :address="props.row.buyer" />
         </nuxt-link>
       </NeoTableColumn>
@@ -107,7 +105,6 @@ import Identity from '@/components/identity/IdentityIndex.vue'
 import Money from '@/components/shared/format/Money.vue'
 
 const sales = ref([])
-const { $apollo } = useNuxtApp()
 const { client, urlPrefix } = usePrefix()
 
 const parseDate = (ts: number) => {
@@ -120,15 +117,14 @@ const parseDate = (ts: number) => {
 const { pending, refresh: refreshNftSales } = useLazyAsyncData(
   'data',
   async () => {
-    const {
-      data: { salesFeed },
-    } = await $apollo.query({
+    const { data: result } = await useAsyncQuery({
       query: salesFeedGql,
-      client: client.value,
       variables: {},
+      clientId: client.value,
     })
 
-    salesFeed.forEach((nft, idx) => {
+    let salesFeed = result.value?.salesFeed
+    result.value?.salesFeed?.forEach((nft, idx) => {
       nft.idx = idx + 1
       nft.image = sanitizeIpfsUrl(nft.image)
       nft.date = parseDate(Number(nft.timestamp))
@@ -149,7 +145,7 @@ watch(client, (value) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .history {
   width: 200px;

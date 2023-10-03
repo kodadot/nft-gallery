@@ -15,9 +15,10 @@
       no-shadow
       class="shade-border-color ml-2 height-40"
       icon="check"
-      @click.native="emit('confirm')" />
+      @click="emit('confirm')" />
   </div>
 </template>
+
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 import { useVModel } from '@vueuse/core'
@@ -40,12 +41,12 @@ watch(model, (newValue) => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .price-input {
   @include ktheme() {
     &:focus-within {
-      border-color: theme('border-color');
+      border-color: theme('border-color') !important;
     }
   }
 

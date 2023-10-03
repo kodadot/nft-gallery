@@ -2,18 +2,15 @@
   <TokenMoney
     v-if="tokenId"
     :value="value"
-    :token-id="tokenId"
-    :prefix="urlPrefix"
-    :data-testid="money"
+    :data-testid="dataCy"
     :round="round"
     inline />
-  <Money v-else :value="value" :data-testid="money" inline :round="round" />
+  <Money v-else :value="value" :data-testid="dataCy" inline :round="round" />
 </template>
 
 <script lang="ts" setup>
 import Money from '@/components/shared/format/Money.vue'
 import TokenMoney from '@/components/bsx/format/TokenMoney.vue'
-import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
 defineProps({
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -33,6 +30,5 @@ defineProps({
   },
 })
 
-const { urlPrefix } = usePrefix()
-const tokenId = computed(() => getKusamaAssetId(urlPrefix.value))
+const { tokenId } = usePrefix()
 </script>

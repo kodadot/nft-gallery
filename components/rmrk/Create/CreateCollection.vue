@@ -1,10 +1,7 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <BaseCollectionForm
-      v-bind.sync="base"
-      ref="collectionForm"
-      protective-margin>
+    <BaseCollectionForm v-model="base" ref="collectionForm" protective-margin>
       <template #header>
         <NeoField>
           <div>
@@ -34,7 +31,7 @@
           maxlength="10"
           required
           expanded
-          @keydown.native.space.prevent />
+          @keydown.space.prevent />
       </template>
 
       <template #footer>

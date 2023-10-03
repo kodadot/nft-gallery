@@ -8,7 +8,7 @@
           no-shadow
           icon="trash"
           icon-pack="far"
-          @click.native="listingCartStore.removeItem(nft.id)" />
+          @click="listingCartStore.removeItem(nft.id)" />
       </template>
       <template #footer>
         <div

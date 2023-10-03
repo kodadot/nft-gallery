@@ -14,12 +14,12 @@ import allCollectionSaleEvents from '@/queries/subsquid/bsx/allCollectionSaleEve
 import type { CollectionChartData as ChartData } from '@/utils/chart'
 import CollectionPriceChart from '@/components/shared/collection/PriceChart.vue'
 
-const { $apollo, $route } = useNuxtApp()
+const route = useRoute()
 const { decimals } = useChain()
 const { client } = usePrefix()
 
 const priceData = ref<[ChartData[], ChartData[]]>([[], []])
-const id = computed(() => $route.params.id)
+const id = computed(() => route.params.id)
 
 useLazyAsyncData('priceData', async () => {
   const data = await Promise.all([
@@ -43,16 +43,16 @@ useLazyAsyncData('priceData', async () => {
 })
 
 const queryAllCollectionSaleEvents = ({ interaction_eq }) => {
-  return $apollo.query({
-    query: allCollectionSaleEvents,
-    client: client.value,
-    variables: {
+  return useQuery(
+    allCollectionSaleEvents,
+    {
       id: id.value,
       and: {
         interaction_eq,
       },
     },
-  })
+    { clientId: client.value }
+  )
 }
 
 const formatValue = (value: string): number => {

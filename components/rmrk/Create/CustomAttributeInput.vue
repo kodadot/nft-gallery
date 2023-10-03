@@ -5,7 +5,7 @@
       :key="index"
       class="custom-attribute-input my-4">
       <AttributeInput
-        v-bind.sync="attributes[index]"
+        v-model="attributes[index]"
         :index="index"
         @remove="removeAttribute" />
     </div>
@@ -14,7 +14,7 @@
       class="my-4"
       :disabled="disabled"
       icon-left="plus"
-      @click.native="addAttribute">
+      @click="addAttribute">
       Add Attribute
     </NeoButton>
   </CollapseWrapper>

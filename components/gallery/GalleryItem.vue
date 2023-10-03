@@ -73,7 +73,7 @@
                   <CollectionDetailsPopover
                     v-if="nft?.collection.id"
                     :nft="nft">
-                    <template #trigger>
+                    <template #content>
                       <nuxt-link
                         :to="`/${urlPrefix}/collection/${collection?.id}`"
                         class="has-text-link">
@@ -93,14 +93,14 @@
               <IdentityItem
                 v-if="nft?.issuer"
                 class="gallery-avatar mr-4"
-                :label="$t('Creator')"
+                :label="$t('creator')"
                 :prefix="urlPrefix"
                 :account="nft?.issuer"
                 data-testid="item-creator" />
               <IdentityItem
                 v-if="nft?.currentOwner !== nft?.issuer"
                 class="gallery-avatar"
-                :label="$t('Owner')"
+                :label="$t('owner')"
                 :prefix="urlPrefix"
                 :account="nft?.currentOwner || ''"
                 data-testid="item-owner" />
@@ -143,7 +143,7 @@
     </div>
 
     <CarouselTypeRelated
-      v-if="nft?.collection.id"
+      v-if="nft"
       class="mt-8"
       :collection-id="nft?.collection.id"
       data-testid="carousel-related" />
@@ -151,9 +151,10 @@
     <CarouselTypeVisited class="mt-8" />
 
     <GalleryItemPreviewer
-      v-model="isFullscreen"
+      :value="isFullscreen"
       :item-src="previewItemSrc"
-      :gallery-item="galleryItem" />
+      :gallery-item="galleryItem"
+      @input="isFullscreen = false" />
   </section>
 </template>
 
@@ -166,6 +167,10 @@ import {
 } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
+
+import CarouselTypeRelated from '@/components/carousel/CarouselTypeRelated.vue'
+import CarouselTypeVisited from '@/components/carousel/CarouselTypeVisited.vue'
+import CollectionDetailsPopover from '@/components/collectionDetailsPopover/CollectionDetailsPopover.vue'
 
 import GalleryItemButton from './GalleryItemButton/GalleryItemButton.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
@@ -184,7 +189,6 @@ import { useWindowSize } from '@vueuse/core'
 import { usePreferencesStore } from '@/stores/preferences'
 
 const { urlPrefix } = usePrefix()
-const { $seoMeta } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
 const { placeholder } = useTheme()
@@ -192,7 +196,7 @@ const mediaItemRef = ref<{ isLewdBlurredLayer: boolean } | null>(null)
 const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 const preferencesStore = usePreferencesStore()
 
-const galleryItem = useGalleryItem()
+const galleryItem = await useGalleryItem()
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType, nftResources } =
   galleryItem
 const collection = computed(() => nft.value?.collection)
@@ -252,19 +256,8 @@ watch(triggerBuySuccess, (value, oldValue) => {
 
 const congratsNewNft = ref('')
 
-const CarouselTypeRelated = defineAsyncComponent(
-  () => import('@/components/carousel/CarouselTypeRelated.vue')
-)
-const CarouselTypeVisited = defineAsyncComponent(
-  () => import('@/components/carousel/CarouselTypeVisited.vue')
-)
-const CollectionDetailsPopover = defineAsyncComponent(
-  () =>
-    import('@/components/collectionDetailsPopover/CollectionDetailsPopover.vue')
-)
-
 onMounted(() => {
-  exist(route.query.congratsNft, (val) => {
+  exist(route.query.congratsNft as string, (val) => {
     congratsNewNft.value = val ? val : ''
     router.replace({ query: {} })
   })
@@ -275,7 +268,7 @@ const { isUnlockable, unlockLink } = useUnlockable(collection)
 const title = computed(() => nftMetadata.value?.name || '')
 const meta = computed(() => {
   return [
-    ...$seoMeta({
+    {
       title: title.value,
       description: convertMarkdownToText(nftMetadata.value?.description),
       image: generateNftImage(
@@ -287,18 +280,18 @@ const meta = computed(() => {
       mime: nftMimeType.value,
       url: route.path,
       video: sanitizeIpfsUrl(nftAnimation.value || ''),
-    }),
+    },
   ]
 })
 
-useNuxt2Meta({
+useHead({
   title,
   meta,
 })
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 $break-point-width: 930px;
 .title {
   font-size: 2.4375em;

@@ -14,7 +14,7 @@
         </div>
         <div class="px-2 is-flex is-flex-direction-column">
           <div class="has-text-weight-bold no-wrap">
-            {{ collection.name | truncateStr(12) }}
+            {{ truncateStr(collection.name, 12) }}
           </div>
           <div class="is-flex is-justify-content-start">
             <div class="is-hidden-mobile">

@@ -12,7 +12,7 @@
           no-shadow
           rounded
           variant="border-icon"
-          @click.native="togglePlay">
+          @click="togglePlay">
           <NeoIcon
             v-if="!playDisabled"
             :icon="playing ? 'pause' : 'play'"
@@ -42,7 +42,7 @@
           no-shadow
           rounded
           variant="border-icon"
-          @click.native="toggleMute">
+          @click="toggleMute">
           <NeoIcon
             :icon="muted ? 'volume-slash' : 'volume'"
             custom-size="fa-solid"

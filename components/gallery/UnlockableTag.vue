@@ -51,7 +51,7 @@ const isOwner = computed(() =>
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/variables.scss';
 .unlockable-container {
   max-width: 60%;
   border-radius: 2rem;

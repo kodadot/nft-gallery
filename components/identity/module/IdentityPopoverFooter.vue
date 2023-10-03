@@ -66,7 +66,7 @@ defineProps<{
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .sold-items {
   gap: 10px;

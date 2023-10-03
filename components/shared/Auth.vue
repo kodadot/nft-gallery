@@ -34,6 +34,7 @@ withDefaults(
 
 onMounted(() => {
   if (account.value) {
+    console.log(account.value)
     emit('input', account.value)
   }
 })

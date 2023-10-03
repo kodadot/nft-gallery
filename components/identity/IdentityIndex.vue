@@ -26,7 +26,6 @@
 
 <script lang="ts" setup>
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
-import { defineEmits } from '#app'
 
 type Address = string | GenericAccountId | undefined
 

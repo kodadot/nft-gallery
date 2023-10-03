@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NeoModal v-model="isModalActive" @close="isModalActive = false">
+    <NeoModal :value="isModalActive" @close="isModalActive = false">
       <div class="card">
         <header class="card-header">
           <p class="card-header-title">{{ $t('sharing.profile') }}</p>
@@ -43,7 +43,7 @@
             no-shadow
             class="mb-4"
             rounded
-            tag="nuxt-link"
+            :tag="NuxtLink"
             size="small">
             + {{ $t('identity.set') }}
           </NeoButton>
@@ -75,19 +75,19 @@
               variant="text"
               :label="$t('share.copyAddress')"
               no-shadow
-              @click.native="toast(`${$i18n.t('general.copyToClipboard')}`)" />
+              @click="toast($t('general.copyToClipboard'))" />
             <div class="divider" />
             <NeoButton
               variant="text"
               no-shadow
               :label="$t('share.qrCode')"
-              @click.native="isModalActive = true" />
+              @click="isModalActive = true" />
             <div class="divider" />
             <NeoButton
               no-shadow
               :label="$t('transfer')"
               variant="text"
-              tag="nuxt-link"
+              :tag="NuxtLink"
               :to="`/${urlPrefix}/transfer?target=${id}&usdamount=10&donation=true`">
             </NeoButton>
           </div>
@@ -106,7 +106,7 @@
           class="is-capitalized"
           :active="activeTab === tab"
           :text="tab"
-          @click.native="() => switchToTab(tab)" />
+          @click="() => switchToTab(tab)" />
         <ChainDropdown class="ml-6" />
         <OrderByDropdown v-if="activeTab !== 'activity'" class="ml-6" />
       </div>
@@ -117,7 +117,7 @@
           :active="activeTab === tab"
           :text="tab"
           class="is-capitalized"
-          @click.native="() => switchToTab(tab)" />
+          @click="() => switchToTab(tab)" />
         <div class="is-flex mt-4 is-flex-wrap-wrap">
           <ChainDropdown class="mr-4" />
           <OrderByDropdown v-if="activeTab !== 'activity'" />
@@ -168,8 +168,11 @@ import ChainDropdown from '@/components/common/ChainDropdown.vue'
 import OrderByDropdown from './OrderByDropdown.vue'
 import CollectionGrid from '@/components/collection/CollectionGrid.vue'
 import Activity from './activityTab/Activity.vue'
+import Avatar from '@/components/shared/Avatar.vue'
+import { resolveComponent } from 'vue'
 import { useListingCartStore } from '@/stores/listingCart'
 
+const NuxtLink = resolveComponent('NuxtLink')
 const route = useRoute()
 const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
@@ -249,7 +252,7 @@ watch(itemsGridSearch, (searchTerm, prevSearchTerm) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .invisible-tab > nav.tabs {
   display: none;
