@@ -82,7 +82,7 @@
                 size="large"
                 variant="icon"
                 no-shadow
-                @click.native="openSideBarWith(nft)" />
+                @click="openSideBarWith(nft)" />
 
               <NeoButton
                 icon="trash"
@@ -90,7 +90,7 @@
                 class="ml-3"
                 variant="icon"
                 no-shadow
-                @click.native="deleteNFT(nft)" />
+                @click="deleteNFT(nft)" />
             </div>
           </div>
           <div ref="sentinel" />
@@ -170,7 +170,7 @@ useIntersectionObserver(sentinel, handleIntersection, { threshold: 0.66 })
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .border-k-grey {
   @include ktheme() {

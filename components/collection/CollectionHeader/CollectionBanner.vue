@@ -31,9 +31,8 @@ import HeroButtons from '@/components/collection/HeroButtons.vue'
 import { generateCollectionImage } from '@/utils/seoImageGenerator'
 import { convertMarkdownToText } from '@/utils/markdown'
 
-const { $seoMeta } = useNuxtApp()
-const { placeholder } = useTheme()
 const route = useRoute()
+const { placeholder } = useTheme()
 const { data } = useGraphql({
   queryName: 'collectionById',
   variables: {
@@ -49,7 +48,7 @@ const bannerImageUrl = computed(
 )
 
 watchEffect(async () => {
-  const collection = data.value?.collectionEntity
+  const collection = data.value?.value.collectionEntity
   const metadata = collection?.metadata
   const image = collection?.meta?.image
   const name = collection?.name
@@ -71,30 +70,27 @@ watchEffect(async () => {
     }
   }
 })
-
-const meta = computed(() => {
-  return $seoMeta({
-    title: collectionName.value,
-    type: 'profile',
-    description: convertMarkdownToText(
-      data.value?.collectionEntity.meta?.description
-    ),
-    url: route.path,
-    image: generateCollectionImage(
-      collectionName.value,
-      data.value?.nftEntitiesConnection.totalCount,
-      collectionAvatar.value
-    ),
-  })
-})
-useNuxt2Meta({
-  title: collectionName,
-  meta,
+useSeoMeta({
+  title: collectionName.value,
+  description: convertMarkdownToText(
+    data.value?.collectionEntity.meta?.description
+  ),
+  ogUrl: route.path,
+  ogImage: generateCollectionImage(
+    collectionName.value,
+    data.value?.nftEntitiesConnection.totalCount,
+    collectionAvatar.value
+  ),
+  twitterImage: generateCollectionImage(
+    collectionName.value,
+    data.value?.nftEntitiesConnection.totalCount,
+    collectionAvatar.value
+  ),
 })
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .collection-banner {
   background-repeat: no-repeat;

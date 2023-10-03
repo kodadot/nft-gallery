@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import CheckRadioMixin from '@oruga-ui/oruga/src/utils/CheckRadioMixin'
+import CheckRadioMixin from '@oruga-ui/oruga-next/src/utils/CheckRadioMixin'
 
 export default {
   name: 'NeoRadioButton',

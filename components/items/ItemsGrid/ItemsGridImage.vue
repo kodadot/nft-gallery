@@ -14,7 +14,7 @@
     :card-icon="showCardIcon"
     :card-icon-src="cardIcon"
     :show-action-on-hover="!showActionSection"
-    link="nuxt-link"
+    :link="NuxtLink"
     bind-key="to"
     :media-player-cover="mediaPlayerCover"
     media-hover-on-cover-play>
@@ -27,13 +27,13 @@
           :loading="showActionSection"
           class="is-flex-grow-1 btn-height"
           loading-with-label
-          @click.native.prevent="onClickBuy">
+          @click.prevent="onClickBuy">
         </NeoButton>
         <NeoButton
           data-testid="item-add-to-cart"
           no-shadow
           class="fixed-width p-1 no-border-left btn-height override-wrapper-width"
-          @click.native.prevent="onClickShoppingCart">
+          @click.prevent="onClickShoppingCart">
           <img :src="cartIcon" class="image is-16x16" />
         </NeoButton>
       </div>
@@ -43,7 +43,7 @@
           data-testid="item-buy"
           no-shadow
           class="is-flex-grow-1 btn-height"
-          @click.native.prevent="onClickListingCart">
+          @click.prevent="onClickListingCart">
         </NeoButton>
       </div>
     </template>
@@ -51,6 +51,8 @@
 </template>
 
 <script setup lang="ts">
+// PLEASE FIX bind-key href => to
+import { resolveComponent } from 'vue'
 import { NeoButton, NeoNftCard } from '@kodadot1/brick'
 import type { NftCardVariant } from '@kodadot1/brick'
 import type { NFTWithMetadata } from '@/composables/useNft'
@@ -59,7 +61,7 @@ import { useListingCartStore } from '@/stores/listingCart'
 import { usePreferencesStore } from '@/stores/preferences'
 import {
   nftToListingCartItem,
-  nftToShoppingCardItem,
+  nftToShoppingCartItem,
 } from '@/components/common/shoppingCart/utils'
 import { isOwner as checkOwner } from '@/utils/account'
 import { useCollectionDetails } from '@/components/collection/utils/useCollectionDetails'
@@ -74,6 +76,7 @@ const shoppingCartStore = useShoppingCartStore()
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
+const NuxtLink = resolveComponent('NuxtLink')
 
 const props = defineProps<{
   nft: ItemsGridEntity
@@ -155,7 +158,7 @@ const onCancelPurchase = () => {
 const onClickBuy = () => {
   if (isAvailbleToBuy.value) {
     shoppingCartStore.setItemToBuy(
-      nftToShoppingCardItem(nftForShoppingCart.value)
+      nftToShoppingCartItem(nftForShoppingCart.value)
     )
     doAfterLogin({
       onLoginSuccess: openCompletePurcahseModal,
@@ -168,7 +171,7 @@ const onClickShoppingCart = () => {
   if (shoppingCartStore.isItemInCart(nftForShoppingCart.value.id)) {
     shoppingCartStore.removeItem(nftForShoppingCart.value.id)
   } else {
-    shoppingCartStore.setItem(nftToShoppingCardItem(nftForShoppingCart.value))
+    shoppingCartStore.setItem(nftToShoppingCartItem(nftForShoppingCart.value))
   }
 }
 
@@ -189,7 +192,7 @@ const onClickListingCart = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .w-half {
   width: 50%;

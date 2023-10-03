@@ -27,7 +27,7 @@ test('Element existance verification', async ({ page }) => {
   await expect(page.getByTestId('gallery-item-chart')).toBeVisible()
   //checks if page redirects properly to collection
   await page.getByTestId('item-collection').click()
-  expect(page.url()).toContain('/ahk/collection/6')
+  await expect(page).toHaveURL('/ahk/collection/6')
 })
 
 test('Share Button Functionality', async ({ page }) => {

@@ -97,11 +97,11 @@ const GalleryCard = defineAsyncComponent(
 
 const { urlPrefix } = usePrefix()
 
-let { stats } = useCollectionDetails({
+const { stats } = useCollectionDetails({
   collectionId: props.nft?.collection?.id || props.nft?.collectionId,
 })
 
-let { highestBuyPrice } = useBuyEvents({
+const { highestBuyPrice } = useBuyEvents({
   collectionId: props.nft?.collection?.id || props.nft?.collectionId,
 })
 
@@ -112,7 +112,7 @@ const { nftEntities: soldItems } = useCollectionSoldData({
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .popover-content-container {
   @include ktheme() {

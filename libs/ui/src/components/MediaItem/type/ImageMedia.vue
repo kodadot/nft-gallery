@@ -9,8 +9,8 @@
       :src="src"
       class="is-block image-media__image"
       :alt="alt"
-      data-testid="type-image"
-      @error="onError" />
+      data-testid="type-image" />
+    <!-- @error="onError" /> -->
   </figure>
 </template>
 
@@ -26,6 +26,7 @@ const props = defineProps<{
   isDarkMode?: boolean
 }>()
 
+// TODO: onError does infinite log in carousel type
 const onError = (e: Event) => {
   const target = e.target as HTMLImageElement
   if (target) {

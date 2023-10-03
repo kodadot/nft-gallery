@@ -3,10 +3,10 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { logError } from '@/utils/mappers'
 import { getMimeType } from '@/utils/gallery/media'
 
-export const BASE_URL = 'https://ipfs.io/'
+export const IPFS_BASE_URL = 'https://ipfs.io/'
 
 const api = $fetch.create({
-  baseURL: BASE_URL,
+  baseURL: IPFS_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },

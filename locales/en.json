@@ -12,6 +12,9 @@
   "user": "User",
   "soon": "Soon",
   "classic": "Classic",
+  "email": "Email",
+  "handle": "Handle",
+  "website": "Website",
   "account": "Account",
   "accounts": "Accounts",
   "amount": "Amount",
@@ -958,16 +961,19 @@
   },
   "identity": {
     "page": "Identity",
-    "set": "Create On-Chain identity on {0}",
+    "set": "Create On-Chain identity",
+    "setOn": "Create On-Chain identity on {0}",
     "click": "Click to create identity",
     "clear": "Clear (burn)",
     "existing" : "Existing Onchain Identity",
     "establishedIdentity": "It appears you already established an onchain identity. Update it as needed (no new deposit needed) or delete to reclaim your deposit.",
     "handleRequired": "Your handle is required",
     "deposit": "Deposit",
-    "fundsReserve": "0.0333 KSM will be reserved. These funds are returned when the identity is cleared.",
+    "fundsReserve": "{0} will be reserved. These funds are returned when the identity is cleared.",
     "onChainPlaceholder": "My On-Chain Name",
-    "namePlaceholder": "Full Legal Name"
+    "namePlaceholder": "Full Legal Name",
+    "socialsDescription": "Socials will appear on your profile page so that people can easily connect with you.",
+    "create": "Create Identity"
   },
   "collapse": {
     "collection": {
@@ -1084,7 +1090,8 @@
   },
   "toast": {
     "urlCopy": "URL copied to clipboard ✓",
-    "paymentLinkCopy": "Payment link copied to clipboard"
+    "paymentLinkCopy": "Payment link copied to clipboard",
+    "downloadError": "Unable to download image"
   },
   "profileMenu": {
     "darkMode": "Dark Mode",

@@ -9,7 +9,7 @@
         icon="xmark"
         size="medium"
         class="cross"
-        @click.native="onClose" />
+        @click="onClose" />
     </div>
     <div class="box-padding body-container">
       <slot />
@@ -37,7 +37,7 @@ const onClose = () => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .box-padding {
   padding: 12px 16px;

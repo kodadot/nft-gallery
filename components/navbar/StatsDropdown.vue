@@ -55,7 +55,7 @@
       </NeoDropdown>
     </div>
 
-    <MobileExpandableSection v-else :no-padding="true" :title="$t('stats')">
+    <!-- <MobileExpandableSection v-else :no-padding="true" :title="$t('stats')">
       <template>
         <template v-if="showSnekBsxOptions">
           <b-navbar-item
@@ -98,7 +98,7 @@
           </b-navbar-item>
         </template>
       </template>
-    </MobileExpandableSection>
+    </MobileExpandableSection> -->
   </div>
 </template>
 <script lang="ts" setup>

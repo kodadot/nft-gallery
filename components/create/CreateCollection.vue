@@ -70,7 +70,7 @@
 
       <!-- select blockchain -->
       <NeoField :label="`${$t('mint.blockchain.label')} *`">
-        <div>
+        <div class="w-full">
           <p>{{ $t('mint.blockchain.message') }}</p>
           <NeoSelect
             v-model="selectBlockchain"
@@ -132,7 +132,7 @@
           <NeoButton
             expanded
             :label="submitButtonLabel"
-            type="submit"
+            native-type="submit"
             size="medium"
             class="is-size-6"
             data-testid="collection-create"
@@ -295,4 +295,4 @@ onMounted(() => {
 })
 </script>
 
-<style lang="scss" scoped src="@/styles/pages/create.scss"></style>
+<style lang="scss" scoped src="@/assets/styles/pages/create.scss"></style>

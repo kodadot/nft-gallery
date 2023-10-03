@@ -18,6 +18,7 @@ export { default as NeoTabItem } from './components/NeoTabs/NeoTabItem.vue'
 export { default as NeoIcon } from './components/NeoIcon/NeoIcon.vue'
 export { default as NeoCollapsible } from './components/NeoCollapsible/NeoCollapsible.vue'
 export { default as NeoModal } from './components/NeoModal/NeoModal.vue'
+export { default as NeoStickyModal } from './components/NeoStickyModal/NeoStickyModal.vue'
 export { default as NeoSkeleton } from './components/NeoSkeleton/NeoSkeleton.vue'
 export { default as NeoAvatar } from './components/NeoAvatar/NeoAvatar.vue'
 export { default as NeoField } from './components/NeoInput/NeoField.vue'
@@ -46,7 +47,7 @@ export { default as NeoUpload } from './components/NeoUpload/NeoUpload.vue'
 
 export { default as NeoCollapse } from './components/NeoCollapse/NeoCollapse.vue'
 
-export { default as Neo } from '@oruga-ui/oruga'
+export { default as Neo } from '@oruga-ui/oruga-next'
 
 export { default as NeoModalExtend } from './components/NeoModalExtend/NeoModalExtend.vue'
 export { default as NeoModalExtendProgrammatic } from './components/NeoModalExtend/plugin'

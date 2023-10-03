@@ -2,7 +2,7 @@ import { $fetch, FetchError } from 'ofetch'
 import { URLS } from '../utils/constants'
 // import consola from 'consola'
 
-const BASE_URL = URLS.koda.replicate
+const REPLICATE_BASE_URL = URLS.koda.replicate
 const VERSION =
   '42a996d39a96aedc57b2e0aa8105dea39c9c89d9d266caf6bb4327a1c191b061'
 export const OUTPUTS = 4
@@ -12,7 +12,7 @@ const NEGATIVE_PROMPT =
 type Option<T> = T | null
 
 const api = $fetch.create({
-  baseURL: BASE_URL,
+  baseURL: REPLICATE_BASE_URL,
 })
 
 export type PinningKey = {

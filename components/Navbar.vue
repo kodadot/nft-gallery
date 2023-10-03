@@ -108,7 +108,7 @@
             target="_blank"
             class="navbar-item"
             data-testid="learn">
-            {{ $t('learn') }}
+            Learn
           </a>
           <CreateDropdown
             v-show="isCreateVisible"
@@ -187,7 +187,7 @@
 
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
-
+import { nextTick } from 'vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import ChainSelectDropdown from '@/components/navbar/ChainSelectDropdown.vue'
 import CreateDropdown from '@/components/navbar/CreateDropdown.vue'
@@ -201,14 +201,13 @@ import ProfileDropdown from '@/components/navbar/ProfileDropdown.vue'
 import Search from '@/components/search/Search.vue'
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
 import { useEventListener } from '@vueuse/core'
-import { ModalCloseType } from '@/components/navbar/types'
 
 import { useIdentityStore } from '@/stores/identity'
 import { getChainNameByPrefix } from '@/utils/chain'
 import { createVisible } from '@/utils/config/permission.config'
 import ShoppingCartButton from './navbar/ShoppingCartButton.vue'
-const { $nextTick, $neoModal } = useNuxtApp()
-const instance = getCurrentInstance()
+
+const { neoModal } = useProgrammatic()
 const showTopNavbar = ref(true)
 const openMobileSearchBar = ref(false)
 const fixedTitleNavAppearDistance = ref(85)
@@ -246,16 +245,10 @@ const handleMobileChainSelect = () => {
 const openWalletConnectModal = (): void => {
   showMobileNavbar()
 
-  $neoModal.closeAll()
-  $neoModal.open({
-    parent: instance?.proxy,
+  neoModal.closeAll()
+  neoModal.open({
     ...ConnectWalletModalConfig,
     ...(isMobileWithoutTablet.value ? { animation: 'none' } : {}),
-    onClose: (type: ModalCloseType) => {
-      if (type === ModalCloseType.BACK) {
-        showMobileNavbar()
-      }
-    },
   })
 }
 
@@ -297,7 +290,7 @@ const onScroll = () => {
 }
 
 const setBodyScroll = (allowScroll: boolean) => {
-  $nextTick(() => {
+  nextTick(() => {
     const body = document.querySelector('body') as HTMLBodyElement
     if (allowScroll) {
       body.classList.remove('is-clipped')
@@ -309,7 +302,7 @@ const setBodyScroll = (allowScroll: boolean) => {
 
 const showMobileSearchBar = () => {
   openMobileSearchBar.value = true
-  $nextTick(() => {
+  nextTick(() => {
     mobilSearchRef.value?.focusInput()
   })
   setBodyScroll(false)
@@ -330,24 +323,16 @@ const updateAuthBalance = () => {
   account.value && identityStore.fetchBalance({ address: account.value })
 }
 
-const hideTopNavbar = () => {
-  if (isMobileWithoutTablet.value) {
-    showTopNavbar.value = true
-  }
-}
-
 onMounted(() => {
   document.body.style.overflowY = 'initial'
   document.body.className = 'has-navbar-fixed-top has-spaced-navbar-fixed-top'
   updateAuthBalanceTimer.value = setInterval(updateAuthBalance, 30000)
-  $neoModal.addOpenListener(hideTopNavbar)
 })
 
 onBeforeUnmount(() => {
   setBodyScroll(true)
   document.documentElement.classList.remove('is-clipped-touch')
   clearInterval(updateAuthBalanceTimer.value)
-  $neoModal.removeOpenListener(hideTopNavbar)
 })
 useEventListener(window, 'scroll', onScroll)
 useEventListener(window, 'resize', handleResize)

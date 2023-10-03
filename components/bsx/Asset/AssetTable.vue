@@ -27,7 +27,7 @@
         <NeoButton
           v-else
           icon-left="money-bill"
-          @click.native="tellFrens(props.row.id)">
+          @click="tellFrens(props.row.id)">
           {{ $t('asset.action.default') }}
         </NeoButton>
       </NeoTableColumn>

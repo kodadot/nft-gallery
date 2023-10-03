@@ -1,25 +1,28 @@
 <template>
-  <v-tippy
+  <tippy
     class="is-flex"
     interactive
     :animate-fill="false"
+    :append-to="body"
     placement="bottom"
     :delay="[showDelay, hideDelay]"
     data-testid="identity"
     :on-show="() => (show = true)">
-    <template #trigger>
-      <slot name="trigger" />
-    </template>
+    <slot name="content" />
 
-    <div class="popover-container">
-      <CollectionDetailsPopoverContent v-if="show" :nft="nft" />
-    </div>
-  </v-tippy>
+    <template #content>
+      <div class="popover-container">
+        <CollectionDetailsPopoverContent v-if="show" :nft="nft" />
+      </div>
+    </template>
+  </tippy>
 </template>
 
 <script lang="ts" setup>
 import { CarouselNFT } from '../base/types'
 import CollectionDetailsPopoverContent from './CollectionDetailsPopoverContent.vue'
+
+const body = ref(document.body)
 
 withDefaults(
   defineProps<{
@@ -37,7 +40,12 @@ const show = ref(false)
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/abstracts/variables';
+
 .popover-container {
   min-height: 12.5rem;
+  @include ktheme() {
+    background: theme('background-color');
+  }
 }
 </style>

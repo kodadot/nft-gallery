@@ -40,18 +40,17 @@ export default {
       qrCodeList,
     }
   },
-  head() {
-    const title = 'Connect with KodaDot: Quick-Access QR Codes'
-    const metaData = {
-      title,
-      description:
-        'Scan to connect with KodaDot instantly! From Discord to Instagram, get quick access to our community and projects through these QR codes.',
-      url: '/qrCode',
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
-    }
+  setup() {
+    useHead({
+      title: 'Connect with KodaDot: Quick-Access QR Codes',
+      meta: [
+        {
+          name: 'description',
+          content:
+            'Scan to connect with KodaDot instantly! From Discord to Instagram, get quick access to our community and projects through these QR codes.',
+        },
+      ],
+    })
   },
 }
 </script>

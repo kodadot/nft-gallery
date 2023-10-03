@@ -2,10 +2,10 @@ import { $fetch, FetchError } from 'ofetch'
 import consola from 'consola'
 import { URLS } from '../utils/constants'
 
-const BASE_URL = URLS.koda.keywise
+const KEYWISE_BASE_URL = URLS.koda.keywise
 
 const keywiseApi = $fetch.create({
-  baseURL: BASE_URL,
+  baseURL: KEYWISE_BASE_URL,
 })
 
 export type KeyValue = {

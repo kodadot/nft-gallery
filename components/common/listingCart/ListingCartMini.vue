@@ -22,7 +22,7 @@
               variant="text"
               class="has-text-grey selection-button"
               no-shadow
-              @click.native="listingCartStore.addAllToCart">
+              @click="listingCartStore.addAllToCart">
               {{ $t('listingCart.selectAll') }}
             </NeoButton>
           </div>
@@ -30,13 +30,14 @@
         <NeoButton
           class="h-full no-border-left py-4 px-7"
           :variant="'k-accent'"
-          @click.native="preferencesStore.listingCartModalOpen = true">
+          @click="preferencesStore.listingCartModalOpen = true">
           {{ $tc('listingCart.listItem', listingCartStore.count) }}
         </NeoButton>
       </div>
     </div>
   </transition>
 </template>
+
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 import { useListingCartStore } from '@/stores/listingCart'
@@ -48,8 +49,9 @@ onBeforeUnmount(() => {
   listingCartStore.clear()
 })
 </script>
+
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/variables.scss';
 
 .listing-container {
   position: fixed;

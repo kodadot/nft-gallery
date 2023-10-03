@@ -16,7 +16,7 @@
             icon-pack="fa-sharp"
             size="medium"
             class="cross"
-            @click.native="onClose" />
+            @click="onClose" />
         </header>
 
         <div class="px-6 pt-4 pb-5">
@@ -69,7 +69,7 @@
             variant="k-accent"
             no-shadow
             class="is-flex is-flex-grow-1 py-5 is-capitalized btn-height"
-            @click.native="transfer" />
+            @click="transfer" />
 
           <div
             class="mt-3 is-flex is-justify-items-space-between has-text-grey">
@@ -182,7 +182,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .modal-width {
   width: 25rem;

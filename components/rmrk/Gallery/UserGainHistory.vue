@@ -10,7 +10,6 @@ import { Interaction } from '../service/scheme'
 import allNftSaleEventsHistoryByAccountId from '@/queries/rmrk/subsquid/allNftSaleEventsHistoryByAccountId.graphql'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { sortedEventByDate } from '@/utils/sorting'
-import { NftHolderEvent } from '@/components/rmrk/Gallery/Holder/Holder.vue'
 
 import Flipper from '@/components/rmrk/Gallery/Flipper.vue'
 
@@ -19,21 +18,18 @@ const props = defineProps({
 })
 
 const ownerEventsOfNft = ref<Interaction[] | []>([])
-const { $apollo } = useNuxtApp()
 const { client } = usePrefix()
 
 const { refresh } = useLazyAsyncData('ownerEventsOfNft', async () => {
   try {
-    const { data } = await $apollo.query<{ events: NftHolderEvent[] }>({
+    const { data } = await useAsyncQuery({
       query: allNftSaleEventsHistoryByAccountId,
-      client: client.value,
-      variables: {
-        id: props.accountId,
-      },
+      variables: { id: props.accountId },
+      clientId: client.value,
     })
 
-    if (data && data.events && data.events.length) {
-      ownerEventsOfNft.value = sortedEventByDate(data.events, 'ASC')
+    if (data && data.value.events && data.value.events.length) {
+      ownerEventsOfNft.value = sortedEventByDate(data.value.events, 'ASC')
     }
   } catch (e) {
     showNotification(`${e}`, notificationTypes.warn)

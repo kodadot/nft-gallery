@@ -77,6 +77,7 @@ import {
   InteractionWithNFT,
   Offer,
 } from '@/composables/collectionActivity/types'
+import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 import {

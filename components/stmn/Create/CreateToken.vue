@@ -2,7 +2,7 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <BaseTokenForm
-      v-bind.sync="base"
+      v-model="base"
       ref="baseTokenForm"
       :collections="collections"
       :show-explainer-text="showExplainerText">

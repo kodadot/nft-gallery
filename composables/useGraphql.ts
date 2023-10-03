@@ -3,12 +3,17 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import type { QueryOptions } from 'apollo-client'
 import { ComputedRef } from 'vue/types'
 
+interface DoFetchParams {
+  options?: Omit<QueryOptions, 'query'>
+  variables?: Record<string, unknown>
+}
+
 export const useQueryParams = ({
   queryPrefix,
   clientName = '',
 }: {
   queryPrefix: string
-  clientName: string | ComputedRef<string>
+  clientName?: string | ComputedRef<string>
 }) => {
   const { client } = usePrefix()
 
@@ -29,13 +34,9 @@ export default function ({
   error = ref(),
   loading = ref(true),
 }) {
-  const { $apollo, $consola } = useNuxtApp()
+  const { $consola } = useNuxtApp()
   const { prefix, client } = useQueryParams({ queryPrefix, clientName })
 
-  interface DoFetchParams {
-    options?: Omit<QueryOptions, 'query'>
-    variables?: Record<string, unknown>
-  }
   async function doFetch({
     options: extraOptions = {},
     variables: extraVariables = {},
@@ -43,14 +44,17 @@ export default function ({
     const query = await resolveQueryPath(prefix, queryName)
 
     try {
-      const response = await $apollo.query({
+      const { data: result } = await useAsyncQuery({
         query: query.default,
-        client: isRef(client) ? client.value : client,
-        variables: { ...variables, ...extraVariables },
-        ...options,
-        ...extraOptions,
+        variables: {
+          ...variables,
+          ...extraVariables,
+        },
+        clientId: isRef(client) ? String(client.value) : client,
+        // ...options,
+        // ...extraOptions,
       })
-      data.value = response.data
+      data.value = result
     } catch (err) {
       ;(error.value as unknown) = err
       showNotification(`${err as string}`, notificationTypes.danger)
@@ -78,7 +82,7 @@ export default function ({
   }
 
   return {
-    data,
+    data: data,
     error,
     refetch,
     loading,

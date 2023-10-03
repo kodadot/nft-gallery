@@ -203,18 +203,17 @@ import Money from '@/components/shared/format/Money.vue'
 import SpotlightDetail from './SpotlightDetail.vue'
 import Loader from '@/components/shared/Loader.vue'
 
-const { $apollo } = useNuxtApp()
 const { client, urlPrefix } = usePrefix()
-const { $route } = useNuxtApp()
+const route = useRoute()
 
 const spotlight = ref([])
-const onlyWithIdentity = ref($route.query?.identity || false)
+const onlyWithIdentity = ref(route.query?.identity || false)
 const currentPage = ref(1)
 const sortBy = ref({ field: 'sold', value: 'DESC' })
 const isLoading = ref(false)
 
 onMounted(async () => {
-  exist($route.query.sort, (val) => {
+  exist(route.query?.sort, (val) => {
     sortBy.value.field = val.slice(1)
     sortBy.value.value = val.charAt(0) === '-' ? 'DESC' : 'ASC'
   })
@@ -243,15 +242,8 @@ const fetchSpotlightData = async (sort: string = toSort(sortBy.value)) => {
     orderBy: sort || 'sold_DESC',
   }
 
-  const collections = await $apollo.query({
-    query: spotlightList,
-    client: client.value,
-    variables: queryVars,
-  })
-
-  const {
-    data: { collectionEntities },
-  } = collections
+  const { data: collections } = await useAsyncQuery(spotlightList, queryVars)
+  const { collectionEntities } = collections.value
 
   spotlight.value = collectionEntities.map(
     (e): Row => ({
@@ -304,18 +296,17 @@ const updateSoldHistory = async () => {
 }
 
 const fetchSpotlightSoldHistory = async () => {
-  const data = await $apollo.query({
+  const { data: result } = await useAsyncQuery({
     query: spotlightSoldHistory,
-    client: client.value,
+    clientId: client.value,
     variables: {
       ids: ids.value,
       lte: today,
       gte: lastmonthDate,
     },
   })
-  const {
-    data: { nftEntities },
-  } = data
+
+  const { nftEntities } = result.value
   return nftEntities
 }
 
@@ -339,12 +330,12 @@ const onSort = (field: string, order: string) => {
 }
 
 const replaceUrl = (value: string, key = 'sort') => {
-  const { $route, $router, $consola } = useNuxtApp()
-  if ($route.query[key] !== value) {
-    $router
+  const { route, router, $consola } = useNuxtApp()
+  if (route.query[key] !== value) {
+    router
       .replace({
-        path: String($route.path),
-        query: { ...$route.query, [key]: value },
+        path: String(route.path),
+        query: { ...route.query, [key]: value },
       })
       .catch($consola.warn /*Navigation Duplicate err fix later */)
   }

@@ -78,7 +78,7 @@ const props = defineProps({
   id: { type: String, default: '' },
 })
 
-const { $apollo, $consola } = useNuxtApp()
+const { $consola } = useNuxtApp()
 const { client } = usePrefix()
 
 const profileStats = ref({
@@ -108,12 +108,10 @@ useLazyAsyncData('stats', async () => {
   }
 
   const query = await resolveQueryPath(client.value, 'profileStatsById')
-  const { data } = await $apollo.query({
+  const { data } = await useAsyncQuery({
     query: query.default,
-    client: client.value,
-    variables: {
-      id: props.id,
-    },
+    variables: { id: props.id },
+    clientId: client.value,
   })
 
   if (!data) {
@@ -122,12 +120,12 @@ useLazyAsyncData('stats', async () => {
   }
 
   stats.value = {
-    listedCount: data.listed.totalCount,
-    totalCollected: data.obtained.totalCount,
+    listedCount: data.value?.listed.totalCount,
+    totalCollected: data.value?.obtained.totalCount,
   }
 
-  getSellerEvents(data)
-  getInvestorStatsEvents(data)
+  getSellerEvents(data.value)
+  getInvestorStatsEvents(data.value)
 })
 
 // Collector stats: Invested and Spend Statistics

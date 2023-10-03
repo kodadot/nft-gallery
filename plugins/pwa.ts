@@ -3,7 +3,8 @@ import consola from 'consola'
 
 import { clearSession } from '@/utils/cachingStrategy'
 
-export default async () => {
+// export default async () => {
+export default defineNuxtPlugin(async () => {
   if ('serviceWorker' in navigator) {
     const { Workbox } = await import('workbox-window')
     const workbox = new Workbox('/sw.js')
@@ -33,4 +34,4 @@ export default async () => {
       }
     })
   }
-}
+})

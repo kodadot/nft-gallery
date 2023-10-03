@@ -65,7 +65,7 @@ const mintLiveText = computed(() =>
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/variables.scss';
 .unlockable-landing-tag {
   border-radius: 2rem;
   @include ktheme() {

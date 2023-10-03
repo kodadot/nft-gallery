@@ -15,7 +15,7 @@
       </h1>
 
       <!-- nft art -->
-      <NeoField :label="`${$t('mint.nft.art.label')} *`">
+      <NeoField :label="`${$t('mint.nft.art.label')} *`" :addons="false">
         <div>
           <p>{{ $t('mint.nft.art.message') }}</p>
           <DropUpload
@@ -53,7 +53,7 @@
       <NeoField
         :key="`collection-${currentChain}`"
         :label="`${$t('mint.nft.collection.label')} *`">
-        <div>
+        <div class="w-100">
           <p>{{ $t('mint.nft.collection.message') }}</p>
           <ChooseCollectionDropdown
             full-width
@@ -134,7 +134,9 @@
 
       <!-- royalty -->
       <NeoField v-if="isBasilisk">
-        <RoyaltyForm v-bind.sync="form.royalty" />
+        <RoyaltyForm
+          :amount="form.royalty.amount"
+          :address="form.royalty.address" />
       </NeoField>
 
       <!-- explicit content -->
@@ -173,7 +175,7 @@
           <NeoButton
             expanded
             :label="submitButtonLabel"
-            type="submit"
+            native-type="submit"
             size="medium"
             class="is-size-6"
             :loading="isLoading"
@@ -206,7 +208,7 @@
 
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
-import type { Ref } from 'vue/types'
+import type { Ref } from 'vue'
 import type { TokenToList } from '@/composables/transaction/types'
 import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
 import {
@@ -217,6 +219,8 @@ import {
   NeoSelect,
   NeoSwitch,
 } from '@kodadot1/brick'
+import DropUpload from '@/components/shared/DropUpload.vue'
+import Loader from '@/components/shared/Loader.vue'
 import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
 import CustomAttributeInput from '@/components/rmrk/Create/CustomAttributeInput.vue'
 import RoyaltyForm from '@/components/bsx/Create/RoyaltyForm.vue'
@@ -231,7 +235,7 @@ import { delay } from '@/utils/fetch'
 import { toNFTId } from '@/components/rmrk/service/scheme'
 
 // composables
-const { $apollo, $consola } = useNuxtApp()
+const { $consola } = useNuxtApp()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { accountId } = useAuth()
 const { transaction, status, isLoading, blockNumber } = useTransaction()
@@ -408,17 +412,16 @@ const retry = ref(10) // max retry 10 times
 
 async function getNftId() {
   const query = await resolveQueryPath(currentChain.value, 'nftByBlockNumber')
-  const { data } = await $apollo.query({
+  const { data } = await useAsyncQuery({
     query: query.default,
-    client: currentChain.value,
+    clientId: currentChain.value,
     variables: {
       limit: 1,
       blockNumber: mintedBlockNumber.value,
     },
-    fetchPolicy: 'network-only',
   })
 
-  return data?.nftEntities?.[0]?.id
+  return data?.value.nftEntities?.[0]?.id
 }
 
 watchEffect(async () => {
@@ -448,4 +451,4 @@ watchEffect(async () => {
 })
 </script>
 
-<style lang="scss" scoped src="@/styles/pages/create.scss"></style>
+<style lang="scss" scoped src="@/assets/styles/pages/create.scss"></style>

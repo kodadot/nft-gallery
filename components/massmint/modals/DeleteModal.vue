@@ -1,5 +1,5 @@
 <template>
-  <NeoModal v-model="isModalActive" scroll="clip" @close="emit('close')">
+  <NeoModal :value="isModalActive" scroll="clip" @close="emit('close')">
     <div class="p-6 modal-width">
       <div
         class="is-flex is-justify-content-center is-size-5 pb-4 border-bottom border-grey">
@@ -18,12 +18,12 @@
           no-shadow
           variant="k-accent"
           :label="$t('massmint.yesDelete')"
-          @click.native="deleteNFT(nft)" />
+          @click="deleteNFT(nft)" />
         <NeoButton
           :label="$t('massmint.cancel')"
           no-shadow
           class="is-flex is-flex-grow-1 is-flex-1 btn-height"
-          @click.native="emit('close')" />
+          @click="emit('close')" />
       </div>
     </div>
   </NeoModal>
