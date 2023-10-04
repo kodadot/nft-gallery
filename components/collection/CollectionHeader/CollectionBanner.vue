@@ -70,22 +70,27 @@ watchEffect(async () => {
     }
   }
 })
+
 useSeoMeta({
-  title: collectionName.value,
-  description: convertMarkdownToText(
-    data.value?.collectionEntity.meta?.description
-  ),
+  title: collectionName,
+  description: () =>
+    convertMarkdownToText(data.value?.collectionEntity.meta?.description),
   ogUrl: route.path,
-  ogImage: generateCollectionImage(
-    collectionName.value,
-    data.value?.nftEntitiesConnection.totalCount,
-    collectionAvatar.value
-  ),
-  twitterImage: generateCollectionImage(
-    collectionName.value,
-    data.value?.nftEntitiesConnection.totalCount,
-    collectionAvatar.value
-  ),
+  ogTitle: collectionName,
+  ogDescription: () =>
+    convertMarkdownToText(data.value?.collectionEntity.meta?.description),
+  ogImage: () =>
+    generateCollectionImage(
+      collectionName.value,
+      data.value?.nftEntitiesConnection.totalCount,
+      collectionAvatar.value
+    ),
+  twitterImage: () =>
+    generateCollectionImage(
+      collectionName.value,
+      data.value?.nftEntitiesConnection.totalCount,
+      collectionAvatar.value
+    ),
 })
 </script>
 

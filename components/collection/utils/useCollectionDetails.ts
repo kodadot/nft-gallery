@@ -82,8 +82,8 @@ export const useBuyEvents = ({ collectionId }) => {
     },
   })
   const highestBuyPrice = ref<number>(0)
-  watch(data, (data) => {
-    const max = data?.value?.stats?.[0]?.max
+  watch(data, (result) => {
+    const max = result?.stats?.[0]?.max
     if (max) {
       highestBuyPrice.value = parseInt(max)
     }
@@ -125,8 +125,8 @@ export const useCollectionMinimal = ({ collectionId }) => {
   })
 
   watch(data, (result) => {
-    if (result?.value.collectionEntityById) {
-      collection.value = result.value.collectionEntityById
+    if (result?.collectionEntityById) {
+      collection.value = result.collectionEntityById
     }
   })
 
