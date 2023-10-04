@@ -74,7 +74,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['input'])
+const emit = defineEmits(['update:modelValue'])
 
 const file = ref<File | null>(null)
 const fileSizeLimit = ref(MAX_UPLOADED_FILE_SIZE)
@@ -126,7 +126,7 @@ const createInput = (inputFile: Blob): void | boolean => {
   fileSizeFailed.value = false
   checkFailed.value = false
   const reader = new FileReader()
-  emit('input', inputFile)
+  emit('update:modelValue', inputFile)
   if (props.preview) {
     url.value = URL.createObjectURL(inputFile)
     hasError.value = false

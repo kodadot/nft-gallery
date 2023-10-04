@@ -34,7 +34,7 @@
           no-shadow
           class="fixed-width p-1 no-border-left btn-height override-wrapper-width"
           @click.prevent="onClickShoppingCart">
-          <img :src="cartIcon" class="image is-16x16" />
+          <img :src="cartIcon" class="image is-16x16" alt="cart icon" />
         </NeoButton>
       </div>
       <div v-else-if="isOwner" class="is-flex">
@@ -82,7 +82,9 @@ const props = defineProps<{
   variant?: NftCardVariant
 }>()
 
-const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.nft))
+const { showCardIcon, cardIcon } = await useNftCardIcon(
+  computed(() => props.nft)
+)
 
 const isStack = computed(() => (props.nft as NFTStack).count > 1)
 

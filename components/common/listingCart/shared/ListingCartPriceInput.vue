@@ -14,6 +14,7 @@
       v-if="check"
       no-shadow
       class="shade-border-color ml-2 height-40"
+      icon-pack="fas"
       icon="check"
       @click="emit('confirm')" />
   </div>
@@ -23,14 +24,12 @@
 import { NeoButton } from '@kodadot1/brick'
 
 const props = defineProps<{
-  modelValue?: number
+  modelValue?: number | string
   check?: boolean
   fullWidth?: boolean
 }>()
-const emit = defineEmits(['confirm', 'update:modelValue'])
-const model = useVModel(props, 'modelValue', emit, {
-  eventName: 'update:modelValue',
-})
+const emit = defineEmits(['confirm'])
+const model = useVModel(props, 'modelValue')
 const { chainSymbol } = useChain()
 
 watch(model, (newValue) => {
