@@ -264,12 +264,13 @@ const { $i18n } = useNuxtApp()
 // select collections
 const selectedCollection = ref()
 
-const submitButtonLabel = computed(() => {
-  return !isLogIn.value
-    ? $i18n.t('mint.nft.connect')
-    : canDeposit.value
+const depositLabel = computed(() =>
+  canDeposit.value
     ? $i18n.t('mint.nft.create')
     : $i18n.t('confirmPurchase.notEnoughFuns')
+)
+const submitButtonLabel = computed(() => {
+  return !isLogIn.value ? $i18n.t('mint.nft.connect') : depositLabel.value
 })
 
 const onCollectionSelected = (collection) => {
@@ -289,7 +290,7 @@ const menus = availablePrefixes().filter(
 const chainByPrefix = computed(() =>
   menus.find((menu) => menu.value === urlPrefix.value)
 )
-const selectChain = ref(chainByPrefix.value?.value || menus[0].value)
+const selectChain = ref(chainByPrefix.value || menus[0].value)
 
 // get/set current chain/prefix
 const currentChain = computed(() => selectChain.value as Prefix)
@@ -410,9 +411,15 @@ watchEffect(() => {
 // navigate to gallery detail page after success create nft
 const retry = ref(10) // max retry 10 times
 
+type NftId = {
+  nftEntities?: {
+    id: string
+  }[]
+}
+
 async function getNftId() {
   const query = await resolveQueryPath(currentChain.value, 'nftByBlockNumber')
-  const { data } = await useAsyncQuery({
+  const { data }: { data: Ref<NftId> } = await useAsyncQuery({
     query: query.default,
     clientId: currentChain.value,
     variables: {
@@ -421,7 +428,7 @@ async function getNftId() {
     },
   })
 
-  return data?.value.nftEntities?.[0]?.id
+  return data.value.nftEntities?.[0]?.id
 }
 
 watchEffect(async () => {

@@ -212,10 +212,10 @@ const { data: collectionData, refetch: tryAgain } = useGraphql({
 })
 
 const totalCount = computed(
-  () => collectionData.value?.value.collectionEntity?.nftCount || 200
+  () => collectionData.value?.collectionEntity?.nftCount || 200
 )
 const totalAvailableMintCount = computed(
-  () => collectionData.value?.value.nftEntitiesConnection?.totalCount
+  () => collectionData.value?.nftEntitiesConnection?.totalCount
 )
 
 const { data, refetch } = useGraphql({

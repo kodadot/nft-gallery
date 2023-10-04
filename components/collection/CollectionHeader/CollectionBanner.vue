@@ -13,7 +13,7 @@
               :src="collectionAvatar"
               class="object-fit-cover"
               :alt="collectionName" />
-            <img v-else :src="placeholder" />
+            <img v-else :src="placeholder" alt="image placeholder" />
           </div>
           <h1 class="collection-banner-name">{{ collectionName }}</h1>
         </div>
@@ -48,7 +48,7 @@ const bannerImageUrl = computed(
 )
 
 watchEffect(async () => {
-  const collection = data.value?.value.collectionEntity
+  const collection = data.value?.collectionEntity
   const metadata = collection?.metadata
   const image = collection?.meta?.image
   const name = collection?.name
