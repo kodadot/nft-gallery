@@ -33,7 +33,7 @@ const { $i18n } = useNuxtApp()
 const emit = defineEmits(['update:modelValue'])
 
 const isSwitched = useVModel(props, 'modelValue', emit, {
-  eventName: 'input:modelValue',
+  eventName: 'update:modelValue',
 })
 
 const componentName = computed(() => {
