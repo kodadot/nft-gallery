@@ -24,6 +24,7 @@
 </template>
 
 <script lang="ts" setup>
+import type { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
 import { OButton } from '@oruga-ui/oruga-next'
 import { NeoButtonVariant } from '@kodadot1/brick'
 
@@ -40,12 +41,15 @@ withDefaults(
     noShadow?: boolean
     variant?: NeoButtonVariant
     rounded?: boolean
-    tag?: string
+    tag?:
+      | string
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
+      | ConcreteComponent<{}, any, any, ComputedOptions, MethodOptions>
     loadingWithLabel?: boolean
   }>(),
   {
     iconPack: 'fasr',
-  }
+  },
 )
 </script>
 

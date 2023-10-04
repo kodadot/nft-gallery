@@ -70,6 +70,8 @@ export interface NFTMetadata extends Metadata, ItemResources {
   mediaUri?: string
   background_color?: string
   animation_url?: string
+  animationUrl?: string
+  mimeType?: string
   youtube_url?: string
   type?: string
   image_ar?: string
