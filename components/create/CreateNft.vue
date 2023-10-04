@@ -99,7 +99,7 @@
 
       <!-- select blockchain -->
       <NeoField :label="`${$t('mint.blockchain.label')} *`">
-        <div>
+        <div class="w-100">
           <p>{{ $t('mint.blockchain.message') }}</p>
           <NeoSelect v-model="selectChain" class="mt-3" expanded required>
             <option v-for="menu in menus" :key="menu.value" :value="menu.value">
@@ -111,7 +111,7 @@
 
       <!-- no of copies -->
       <NeoField :label="`${$t('mint.nft.copies.label')} (optional)`">
-        <div>
+        <div class="w-100">
           <p>{{ $t('mint.nft.copies.message') }}</p>
           <NeoInput
             v-model="form.copies"
@@ -219,8 +219,6 @@ import {
   NeoSelect,
   NeoSwitch,
 } from '@kodadot1/brick'
-import DropUpload from '@/components/shared/DropUpload.vue'
-import Loader from '@/components/shared/Loader.vue'
 import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
 import CustomAttributeInput from '@/components/rmrk/Create/CustomAttributeInput.vue'
 import RoyaltyForm from '@/components/bsx/Create/RoyaltyForm.vue'
@@ -290,7 +288,7 @@ const menus = availablePrefixes().filter(
 const chainByPrefix = computed(() =>
   menus.find((menu) => menu.value === urlPrefix.value)
 )
-const selectChain = ref(chainByPrefix.value || menus[0].value)
+const selectChain = ref(chainByPrefix.value?.value || menus[0].value)
 
 // get/set current chain/prefix
 const currentChain = computed(() => selectChain.value as Prefix)
@@ -316,12 +314,12 @@ const canDeposit = computed(() => {
 const transactionStatus = ref<
   'list' | 'checkListed' | 'mint' | 'done' | 'idle'
 >('idle')
-const createdNFTs = ref()
+const createdItems = ref()
 const mintedBlockNumber = ref()
 
 const createNft = async () => {
   try {
-    const { createdNFTs: minted } = (await transaction(
+    const minted = (await transaction(
       {
         interaction: Interaction.MINTNFT,
         urlPrefix: currentChain.value,
@@ -342,11 +340,11 @@ const createNft = async () => {
       },
       currentChain.value
     )) as unknown as {
-      createdNFTs: Ref<CreatedNFT[]>
+      createdNFTs?: Ref<CreatedNFT[]>
     }
 
     if (isRemark.value && form.sale && form.salePrice) {
-      createdNFTs.value = minted.value
+      createdItems.value = minted?.createdNFTs?.value
       transactionStatus.value = 'list'
     } else {
       transactionStatus.value = 'mint'
@@ -361,11 +359,11 @@ const createNft = async () => {
 watchEffect(async () => {
   if (
     blockNumber.value &&
-    createdNFTs.value &&
+    createdItems.value &&
     transactionStatus.value === 'list'
   ) {
     try {
-      const list: TokenToList[] = createdNFTs.value.map((nft) => ({
+      const list: TokenToList[] = createdItems.value.map((nft) => ({
         price: balanceFrom(form.salePrice, decimals.value),
         nftId: toNFTId(nft, String(blockNumber.value)),
       }))
