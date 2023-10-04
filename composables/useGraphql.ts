@@ -40,7 +40,6 @@ export default function ({
   const client = clientName || clientPrefix.value
 
   async function doFetch({
-    // options: extraOptions = {},
     variables: extraVariables = {},
   }: DoFetchParams = {}) {
     const query = await resolveQueryPath(prefix, queryName)
