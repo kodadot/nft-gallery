@@ -5,7 +5,7 @@
       @click="reachTopHandler" />
 
     <DynamicGrid
-      v-if="total !== 0 && !isLoading"
+      v-if="total !== 0 && (!isLoading || !isFetchingData)"
       :id="scrollContainerId"
       v-slot="slotProps"
       class="my-5">
@@ -24,12 +24,10 @@
       </div>
     </DynamicGrid>
 
-    <DynamicGrid
-      v-if="isLoading || isFetchingData"
-      :id="scrollContainerId"
-      class="my-5">
+    <DynamicGrid v-if="isLoading || isFetchingData" class="my-5">
       <NeoNftCardSkeleton v-for="n in skeletonCount" :key="n" />
     </DynamicGrid>
+
     <EmptyResult v-if="total === 0 && (!isLoading || !isFetchingData)" />
     <ScrollTopButton />
   </div>
@@ -109,7 +107,7 @@ watch(
       updatePotentialNftsForListingCart(nfts.value)
     }
   },
-  { immediate: true },
+  { immediate: true }
 )
 
 watch(total, () => {
@@ -121,7 +119,7 @@ watch(isLoading, () => {
 })
 
 const parseSearch = (
-  search?: Record<string, string | number>,
+  search?: Record<string, string | number>
 ): Record<string, string | number>[] =>
   Object.entries(search || {}).map(([key, value]) => ({ [key]: value }))
 
@@ -136,7 +134,7 @@ watch(
       refetch(parseSearch(props.search))
     }
   },
-  { deep: true },
+  { deep: true }
 )
 
 onBeforeMount(() => {
