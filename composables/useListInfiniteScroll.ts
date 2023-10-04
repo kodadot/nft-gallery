@@ -42,11 +42,15 @@ export default function ({
 
   const containerRef = ref<Window>(window)
 
-  useInfiniteScroll(containerRef, () => {
-    if (canLoadNextPage.value) {
+  useInfiniteScroll(
+    containerRef,
+    () => {
       reachBottomHandler()
+    },
+    {
+      distance: 2000,
     }
-  })
+  )
 
   const scrollContainerId = ref(
     defaultScrollContainerId ?? INFINITE_SCROLL_CONTAINER_ID
@@ -159,7 +163,7 @@ export default function ({
 
   const prefetchNextPage = async () => {
     updateCurrentPage()
-    if (endPage.value - currentPage.value <= 3 && canLoadNextPage.value) {
+    if (endPage.value - currentPage.value <= 1 && canLoadNextPage.value) {
       await fetchNextPage()
     }
   }

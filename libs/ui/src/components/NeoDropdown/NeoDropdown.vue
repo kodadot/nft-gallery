@@ -12,6 +12,21 @@ export default {
       type: Boolean,
       default: false,
     },
+    // eslint-disable-next-line vue/require-default-prop
+    position: {
+      type: String,
+      validator: (value) => {
+        return (
+          [
+            'top-right',
+            'top-left',
+            'bottom-left',
+            'bottom-right',
+            'bottom-auto',
+          ].indexOf(value) > -1
+        )
+      },
+    },
   },
   data() {
     return {
@@ -45,7 +60,7 @@ export default {
           [this.computedClass(
             'menuPositionClass',
             'o-drop__menu--',
-            this.autoPosition
+            this.autoPosition,
           )]: this.autoPosition,
         },
         {
