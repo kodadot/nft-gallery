@@ -1,5 +1,5 @@
+import type { ComputedRef } from 'vue'
 import { accountToPublicKey, getss58AddressByPrefix } from '@/utils/account'
-import { ComputedRef } from 'vue/types'
 import { chainPropListOf } from '@/utils/config/chain.config'
 
 import shortAddress from '@/utils/shortAddress'
@@ -34,7 +34,7 @@ export default function useIdentity({
   const clientName = computed(() => (isDotAddress.value ? 'pid' : 'kid'))
 
   const { data, refetch, loading } = useGraphql({
-    clientName: clientName.value,
+    clientName,
     queryName: 'identityById',
     variables: {
       id: id.value,
