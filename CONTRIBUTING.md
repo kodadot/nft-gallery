@@ -10,8 +10,7 @@ We might give retro-active reward, where the bounty label wasn't present, **if w
 
 **For better coordination, please join our [Development channel (#coordination) on [KodaDot Ecosystem Telegram](https://t.me/kodadot_eco)**
 
-## Deploy Kodadot nft gallery on Netlify
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://github.com/kodadot/nft-gallery)
+
 
 ## Getting started
 
