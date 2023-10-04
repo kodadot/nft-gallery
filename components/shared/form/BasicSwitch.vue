@@ -30,7 +30,7 @@ const props = defineProps<{
 }>()
 
 const { $i18n } = useNuxtApp()
-const emit = defineEmits(['input'])
+const emit = defineEmits(['update:modelValue'])
 
 const isSwitched = useVModel(props, 'modelValue', emit, { eventName: 'input' })
 
