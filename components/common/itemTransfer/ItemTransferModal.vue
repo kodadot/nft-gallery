@@ -1,7 +1,7 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <NeoModal v-model="isModalActive" scroll="clip" @close="onClose">
+    <NeoModal :value="isModalActive" scroll="clip" @close="onClose">
       <div class="modal-width">
         <header
           class="border-bottom border-grey is-flex is-align-items-center is-justify-content-space-between px-6">
@@ -13,7 +13,6 @@
             variant="text"
             no-shadow
             icon="xmark"
-            icon-pack="fa-sharp"
             size="medium"
             class="cross"
             @click="onClose" />
@@ -102,7 +101,8 @@ const props = defineProps<{
   value: boolean
 }>()
 
-const { $route, $i18n } = useNuxtApp()
+const { $i18n } = useNuxtApp()
+const route = useRoute()
 const { transaction, status, isLoading } = useTransaction()
 const { urlPrefix } = usePrefix()
 const { decimals, chainSymbol, chainProperties } = useChain()
@@ -169,7 +169,7 @@ const transfer = () => {
     interaction: Interaction.SEND,
     urlPrefix: urlPrefix.value,
     address: address.value,
-    tokenId: $route.params.id,
+    tokenId: route.params.id.toString(),
     nftId: props.nft.id,
     successMessage: $i18n.t('transaction.item.success') as string,
     errorMessage: $i18n.t('transaction.item.error') as string,
