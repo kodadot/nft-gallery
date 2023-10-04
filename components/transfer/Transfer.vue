@@ -882,7 +882,7 @@ watchDebounced(
 )
 </script>
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/variables';
 
 .transfer-card {
   max-width: 660px;
