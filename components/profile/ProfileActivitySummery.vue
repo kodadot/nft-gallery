@@ -64,19 +64,16 @@
 <script lang="ts" setup>
 import { getSum, getSumOfObjectField } from '@/utils/math'
 import resolveQueryPath from '@/utils/queryPathResolver'
-import { Interaction } from '@kodadot1/minimark/v1'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import StatsColumn from '@/components/shared/format/StatsColumn.vue'
 import { Event } from '@/components/rmrk/service/types'
 import { getDenyList } from '@/utils/prefix'
-import { chainsWithMintInteraction } from '@/composables/collectionActivity/helpers'
 
 type Stats = {
   listedCount: number
   totalCollected: number
 }
 
-const emit = defineEmits(['total'])
 const props = defineProps({
   id: { type: String, default: '' },
 })
@@ -104,16 +101,6 @@ const totalSell = ref<bigint | number>(BigInt(0))
 const totalHoldingsNfts = computed(() => stats.value.totalCollected)
 const listedCount = computed(() => stats.value.listedCount)
 
-const interactionIn = computed(() => {
-  const interactions = [Interaction.LIST, Interaction.SEND, Interaction.BUY]
-
-  if (!chainsWithMintInteraction.includes(urlPrefix.value)) {
-    interactions.push(Interaction.MINTNFT)
-  }
-
-  return interactions
-})
-
 useLazyAsyncData('stats', async () => {
   if (!props.id) {
     $consola.warn('ProfilActivity: id is not defined')
@@ -126,7 +113,6 @@ useLazyAsyncData('stats', async () => {
     clientId: client.value,
     variables: {
       id: props.id,
-      interactionIn: interactionIn.value,
       denyList: getDenyList(urlPrefix.value),
     },
   })
@@ -143,13 +129,6 @@ useLazyAsyncData('stats', async () => {
 
   getSellerEvents(data.value)
   getInvestorStatsEvents(data.value)
-
-  emit('total', {
-    owned: data.value?.obtained.totalCount,
-    created: data.value?.created.totalCount,
-    events: data.value?.events.totalCount,
-    collections: data.value?.collections.totalCount,
-  })
 })
 
 // Collector stats: Invested and Spend Statistics
