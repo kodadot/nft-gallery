@@ -72,6 +72,9 @@ Congratulations! The whole Metaprime & KodaDot community thanks you. ✨
 
 When the issue is **converted to a draft, and you don't reply within 48h**, we will close it and unassign you from the task to leave room for someone else to finish the PR who has more availability and codebase understanding.
 
+## Working Wallets
+continue to wallet creation on [Wallets.md](Wallets.md)
+
 ## Rewards
 
 Continue to [REWARDS.md](REWARDS.md)
