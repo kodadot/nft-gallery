@@ -91,7 +91,7 @@ export function useFetchSearch({
     })
 
     // handle results
-    const { nFTEntities, nftEntitiesConnection } = result.data
+    const { nFTEntities, nftEntitiesConnection } = result.value
 
     total.value = nftEntitiesConnection.totalCount
 
