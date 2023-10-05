@@ -230,10 +230,7 @@ const submit = async (
 }
 
 watch(
-  [
-    data as unknown as OfferResponse,
-    dataCollection as unknown as CollectionEvents,
-  ],
+  [data as Ref<OfferResponse>, dataCollection as Ref<CollectionEvents>],
   async ([offersData, collectionData]) => {
     const nftPrice = collectionData?.collectionEntity?.nfts[0]?.price
     if (offersData?.offers) {
