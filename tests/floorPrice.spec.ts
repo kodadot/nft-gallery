@@ -17,7 +17,7 @@ describe('FLOOR PRICE TEST', (): void => {
     const floorPrice: number = Math.min(
       ...nfts
         .map((nft: NFT) => Number(nft.price))
-        .filter((price: number) => price > 0)
+        .filter((price: number) => price > 0),
     )
 
     const now = new Date().toString()

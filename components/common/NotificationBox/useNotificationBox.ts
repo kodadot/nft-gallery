@@ -4,5 +4,5 @@ export const NotificationBoxModalConfig = {
   component: NotificationBoxModal,
   canCancel: ['outside'],
   rootClass: 'notification-box-modal',
-  autoFocus: false,
+  trapFocus: false,
 }

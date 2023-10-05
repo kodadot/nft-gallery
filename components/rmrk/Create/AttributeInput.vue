@@ -5,7 +5,7 @@
       no-shadow
       size="medium"
       icon-left="times"
-      @click.native="remove" />
+      @click="remove" />
     <NeoInput
       v-model="vKey"
       placeholder="Section"

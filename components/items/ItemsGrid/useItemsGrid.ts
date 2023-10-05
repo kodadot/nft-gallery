@@ -10,8 +10,6 @@ export type NFTStack = NFTWithMetadata & Stack
 
 export type ItemsGridEntity = NFTWithMetadata | NFTStack
 import { NFT } from '@/components/rmrk/service/scheme'
-import { Stats } from '@/components/collection/utils/types'
-import { useCollectionDetails } from '@/components/collection/utils/useCollectionDetails'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 
 import { isOwner as checkOwner } from '@/utils/account'
@@ -30,7 +28,6 @@ export function useFetchSearch({
   isLoading: Ref<boolean>
   resetSearch: () => void
 }) {
-  const { $apollo } = useNuxtApp()
   const { client, urlPrefix } = usePrefix()
 
   const route = useRoute()
@@ -79,9 +76,8 @@ export function useFetchSearch({
     const queryPath = getQueryPath(client.value)
 
     const query = await resolveQueryPath(queryPath, 'nftListWithSearch')
-    const result = await $apollo.query({
+    const { data: result } = await useAsyncQuery({
       query: query.default,
-      client: client.value,
       variables: {
         ...variables,
         first: first.value,
@@ -91,6 +87,7 @@ export function useFetchSearch({
           ? route.query.sort
           : ['blockNumber_DESC'],
       },
+      clientId: client.value,
     })
 
     // handle results
@@ -138,7 +135,7 @@ export function useFetchSearch({
       }
       loadedPages.value = []
       resetSearch()
-    }
+    },
   )
 
   return {
@@ -152,49 +149,14 @@ export function useFetchSearch({
 export const updatePotentialNftsForListingCart = async (nfts: NFT[]) => {
   const listingCartStore = useListingCartStore()
   const { accountId } = useAuth()
-
-  //  Get unique collection IDs
-  const uniqueCollectionIds = Array.from(
-    new Set(nfts.map((nft) => nft.collection?.id || nft.collectionId))
-  )
-
-  // Wrap useCollectionDetails in a promise to watch for the stats
-  const fetchStatsForCollection = (
-    collectionId
-  ): Promise<{ id: string; stats: Stats }> =>
-    new Promise((resolve) => {
-      const { stats } = useCollectionDetails({ collectionId })
-      watch(stats, (newStats) => {
-        if (newStats && Object.keys(newStats).length) {
-          resolve({ id: collectionId, stats: newStats })
-        }
-      })
-    })
-
-  // Fetch stats for all unique collection IDs.
-  const allStats = await Promise.all(
-    uniqueCollectionIds.map(fetchStatsForCollection)
-  )
-
-  const statsById = allStats.reduce(
-    (acc, { id, stats }) => ({
-      ...acc,
-      [id]: stats,
-    }),
-    {}
-  )
-
   const potentialNfts = nfts
     .filter(
       (nft) =>
-        !Number(nft.price) && checkOwner(nft.currentOwner, accountId.value)
+        !Number(nft.price) && checkOwner(nft.currentOwner, accountId.value),
     )
     .map((nft) => {
-      const collectionId = nft.collection?.id ?? nft.collectionId ?? ''
-      return nftToListingCartItem(
-        nft,
-        String(statsById[collectionId]?.collectionFloorPrice ?? '')
-      )
+      const floorPrice = nft.collection.floorPrice[0]?.price || '0'
+      return nftToListingCartItem(nft, floorPrice)
     })
 
   listingCartStore.setUnlistedItems(potentialNfts)

@@ -9,12 +9,12 @@
       </div>
       <div class="column">
         <img
-          v-if="urlPrefix === 'rmrk' || urlPrefix === 'ksm'"
+          v-if="isRemark"
           src="/rmrk-logo-pink-faded.png"
           alt="RMRK"
           class="chain-logo is-hidden-mobile" />
         <img
-          v-else-if="urlPrefix === 'bsx'"
+          v-else-if="isBasilisk"
           src="/bsx-logo.png"
           alt="BSX"
           class="chain-logo is-hidden-mobile" />
@@ -34,6 +34,7 @@ export default {
   },
   setup() {
     const { urlPrefix } = usePrefix()
+    const { isRemark, isBasilisk } = useIsChain(urlPrefix)
 
     const checkRouteAvailability = () => {
       if (!seriesInsightVisible(urlPrefix.value)) {
@@ -45,22 +46,19 @@ export default {
 
     onBeforeMount(() => checkRouteAvailability())
 
+    useHead({
+      title: 'NFT artist rank',
+      meta: [
+        {
+          name: 'description',
+          content: 'Discover new artists based on ranking',
+        },
+      ],
+    })
     return {
       urlPrefix,
-    }
-  },
-  head() {
-    const title = 'NFT artist rank'
-    const metaData = {
-      title,
-      type: 'profile',
-      description: 'Discover new artists based on ranking',
-      url: '/series-insight',
-      image: `${this.$config.public.baseUrl}/k_card.png`,
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
+      isRemark,
+      isBasilisk,
     }
   },
 }

@@ -130,7 +130,7 @@ const isFlipperMoreNFTSectionOpen = flippers.value.reduce(
     ...accumelator,
     [flipperId]: false,
   }),
-  {}
+  {},
 )
 
 const isNFTDetailsOpen = ref(isFlipperMoreNFTSectionOpen)

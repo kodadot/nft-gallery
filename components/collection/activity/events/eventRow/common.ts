@@ -35,7 +35,7 @@ export const blank = '--'
 
 export const getInteractionColor = (
   interaction: string,
-  { distinguishBuyAndSell }: MappingOptions = defaultMappingOptions
+  { distinguishBuyAndSell }: MappingOptions = defaultMappingOptions,
 ) => {
   const sellColor = 'k-pink'
   const buyColor = 'k-aqua-blue'
@@ -50,7 +50,7 @@ export const getInteractionColor = (
 }
 
 export const getAmount = (
-  event: InteractionWithNFT | Offer
+  event: InteractionWithNFT | Offer,
 ): string | number => {
   switch (event.interaction) {
     case mintInteraction():
@@ -90,5 +90,5 @@ export const getToAddress = (event: InteractionWithNFT | Offer): string => {
   return blank
 }
 export const getNFTAvatar = (
-  event: InteractionWithNFT | Offer
+  event: InteractionWithNFT | Offer,
 ): Promise<string> => parseNftAvatar(event.nft)

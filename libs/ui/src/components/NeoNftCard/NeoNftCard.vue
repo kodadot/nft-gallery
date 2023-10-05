@@ -28,6 +28,7 @@
           :mime-type="nft.mimeType"
           :placeholder="placeholder"
           :title="nft?.name"
+          disable-operation
           :audio-player-cover="mediaPlayerCover"
           :audio-hover-on-cover-play="mediaHoverOnCoverPlay" />
         <div
@@ -74,11 +75,13 @@
 </template>
 
 <script lang="ts" setup>
+import type { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
 import MediaItem from '../MediaItem/MediaItem.vue'
 import { NeoSkeleton, NftCardVariant } from '@kodadot1/brick'
 import NFTMediaInfoStacked from './NFTMediaInfoStacked.vue'
 import NFTMediaInfo from './NFTMediaInfo.vue'
 import { ItemsGridEntity } from '@/components/items/ItemsGrid/useItemsGrid'
+
 const props = withDefaults(
   defineProps<{
     isLoading?: boolean
@@ -90,7 +93,10 @@ const props = withDefaults(
     placeholder?: string
     cardIcon?: boolean
     cardIconSrc?: string
-    link?: string
+    link?:
+      | string
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
+      | ConcreteComponent<{}, any, any, ComputedOptions, MethodOptions>
     bindKey?: string
     showActionOnHover?: boolean
     mediaPlayerCover?: string
@@ -103,17 +109,17 @@ const props = withDefaults(
     link: 'a',
     bindKey: 'href',
     showActionOnHover: true,
-  }
+    placeholder: undefined,
+    mediaPlayerCover: undefined,
+  },
 )
+
 
 const isStacked = computed(
   () => false
   // props.variant ? props.variant.includes('stacked') : false
 )
-
-const isMinimal = computed(() =>
-  props.variant ? props.variant.includes('minimal') : false
-)
+const isMinimal = props.variant.includes('minimal')
 </script>
 
 <style lang="scss" scoped>

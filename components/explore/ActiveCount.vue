@@ -16,12 +16,12 @@ withDefaults(
   {
     rounded: false,
     count: 0,
-  }
+  },
 )
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .count {
   position: absolute;

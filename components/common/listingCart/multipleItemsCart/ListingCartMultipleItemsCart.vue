@@ -32,29 +32,21 @@ import ListingCartItem from './ListingCartItem.vue'
 import ListingCartPriceInput from '../shared/ListingCartPriceInput.vue'
 import ListingCartFloorPrice from '../shared/ListingCartFloorPrice.vue'
 
-const emit = defineEmits([
-  'update:fixedPrice',
-  'update:floorPricePercentAdjustment',
-  'setFixedPrice',
-])
+const emit = defineEmits(['update:fixedPrice', 'setFixedPrice'])
 
 const listingCartStore = useListingCartStore()
 
 const props = defineProps<{
-  fixedPrice?: number | string
+  fixedPrice?: number
   floorPricePercentAdjustment: number
 }>()
 
 const floorPricePercentAdjustment = useVModel(
   props,
   'floorPricePercentAdjustment',
-  emit,
-  { eventName: 'update:floorPricePercentAdjustment' }
 )
 
-const fixedPrice = useVModel(props, 'fixedPrice', emit, {
-  eventName: 'update:fixedPrice',
-})
+const fixedPrice = useVModel(props, 'fixedPrice')
 
 function setFixedPrice(value) {
   emit('setFixedPrice', value)

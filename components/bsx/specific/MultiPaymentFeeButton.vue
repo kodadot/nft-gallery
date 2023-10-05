@@ -14,7 +14,7 @@ const props = withDefaults(
     accountId: string
     prefix?: string
   }>(),
-  { prefix: 'bsx' }
+  { prefix: 'bsx' },
 )
 const tokenId = ref('0')
 const { assets } = usePrefix()
@@ -43,6 +43,6 @@ watch(
   },
   {
     immediate: true,
-  }
+  },
 )
 </script>

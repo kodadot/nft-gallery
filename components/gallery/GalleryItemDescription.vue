@@ -21,7 +21,10 @@
         </nuxt-link>
       </div>
 
-      <Markdown :source="descSource" class="gallery-item-desc-markdown" />
+      <Markdown
+        v-if="nftMetadata"
+        :source="descSource"
+        class="gallery-item-desc-markdown" />
     </NeoTabItem>
 
     <!-- properties tab -->
@@ -188,13 +191,14 @@ import {
   NeoTooltip,
 } from '@kodadot1/brick'
 import Identity from '@/components/identity/IdentityIndex.vue'
+import Markdown from '@/components/shared/Markdown.vue'
+
 import { sanitizeIpfsUrl, toCloudflareIpfsUrl } from '@/utils/ipfs'
 
 import { GalleryItem, useGalleryItem } from './useGalleryItem'
 
 import { MediaType } from '@/components/rmrk/types'
 import { getMimeType, resolveMedia } from '@/utils/gallery/media'
-
 import { replaceSingularCollectionUrlByText } from '@/utils/url'
 
 const { urlPrefix } = usePrefix()
@@ -216,7 +220,7 @@ const { version } = useRmrkVersion()
 
 const descSource = computed(() => {
   return replaceSingularCollectionUrlByText(
-    nftMetadata.value?.description?.replaceAll('\n', '  \n') || ''
+    nftMetadata.value?.description?.replaceAll('\n', '  \n') || '',
   )
 })
 const parent = computed(() => {
@@ -228,7 +232,7 @@ const isLewd = computed(() => {
   return Boolean(
     properties.value?.find((item) => {
       return item.trait_type === 'NSFW'
-    })
+    }),
   )
 })
 
@@ -278,12 +282,9 @@ const animationMediaMimeType = ref('')
 watchEffect(async () => {
   if (nft.value?.metadata) {
     const sanitizeMetadata = sanitizeIpfsUrl(nft.value?.metadata)
-    const response = await fetch(sanitizeMetadata, {
-      method: 'HEAD',
-    })
+    const mimeType = await getMimeType(sanitizeMetadata)
 
-    metadataMimeType.value =
-      response.headers.get('content-type') || 'application/json'
+    metadataMimeType.value = mimeType || 'application/json'
     metadataURL.value = sanitizeMetadata
   }
 
@@ -298,7 +299,8 @@ const openLink = (link) => {
 </script>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/variables';
+
 .recipient {
   li {
     gap: 0.3rem;

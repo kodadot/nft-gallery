@@ -12,7 +12,7 @@
       aria-close-label="clear filter"
       icon="xmark"
       class="ml-2 is-clickable cross-icon"
-      @click.native="onClose" />
+      @click="onClose" />
   </div>
 </template>
 
@@ -30,15 +30,15 @@ const onClose = () => {
 </script>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .neo-tag {
-  border-radius: 0 !important;
+  border-radius: 1rem !important;
   background: transparent;
   font-size: 1rem !important;
   @include ktheme() {
     border: 1px solid theme('k-primary');
-    background-color: theme('background-color');
+    background-color: theme('k-accentlight2');
     color: theme('text-color');
     .cross-icon {
       &:hover {
@@ -47,19 +47,10 @@ const onClose = () => {
     }
   }
 
-  &:hover {
-    @include ktheme() {
-      background-color: theme('k-accentlight2');
-    }
-  }
-
   &.is-blue-tag {
     @include ktheme() {
       border: 1px solid theme('k-blue');
-
-      &:hover {
-        background-color: theme('blue-light-hover-color');
-      }
+      background-color: theme('blue-light-hover-color');
     }
   }
 

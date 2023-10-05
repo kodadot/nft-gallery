@@ -3,7 +3,7 @@ import { Interaction } from '~/components/rmrk/service/scheme'
 // Sort events by Timestamp
 export const sortedEventByDate = (
   events: Interaction[],
-  order = 'ASC'
+  order = 'ASC',
 ): Interaction[] => {
   if (events.length == 0) {
     return events
@@ -11,11 +11,11 @@ export const sortedEventByDate = (
 
   if (order == 'DESC') {
     events.sort((a: Interaction, b: Interaction) =>
-      a.timestamp > b.timestamp ? 0 : -1
+      a.timestamp > b.timestamp ? 0 : -1,
     )
   } else {
     events.sort((a: Interaction, b: Interaction) =>
-      a.timestamp > b.timestamp ? -1 : 0
+      a.timestamp > b.timestamp ? -1 : 0,
     )
   }
   return events
@@ -24,7 +24,7 @@ export const sortedEventByDate = (
 export const sortItemListByIds = (
   itemList: { id: string }[],
   ids: string[],
-  limit = 10
+  limit = 10,
 ) => {
   let count = 0
   const dataMap = new Map(itemList.map((item) => [item.id, item]))

@@ -14,11 +14,11 @@
 
           <NeoDropdownItem
             v-clipboard:copy="currentUrl"
-            @click="toast(`${$i18n.t('toast.urlCopy')}`)">
-            {{ $i18n.t('share.copyLink') }}
+            @click="toast(`${$t('toast.urlCopy')}`)">
+            {{ $t('share.copyLink') }}
           </NeoDropdownItem>
           <NeoDropdownItem @click="QRModalActive = true">
-            {{ $i18n.t('share.qrCode') }}
+            {{ $t('share.qrCode') }}
           </NeoDropdownItem>
           <NeoDropdownItem>
             <ShareNetwork
@@ -28,13 +28,13 @@
               :url="currentUrl"
               :title="sharingLabel"
               twitter-user="KodaDot">
-              {{ $i18n.t('share.twitter') }}
+              {{ $t('share.twitter') }}
             </ShareNetwork>
           </NeoDropdownItem>
         </NeoDropdown>
       </div>
     </div>
-    <NeoModal v-model="QRModalActive" @close="QRModalActive = false">
+    <NeoModal :value="QRModalActive" @close="QRModalActive = false">
       <div class="card">
         <div class="card-content">
           <QRCode :text="currentUrl" />
@@ -64,7 +64,7 @@ const { toast } = useToast()
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .hero-buttons {
   @include mobile {
     justify-content: space-between !important;

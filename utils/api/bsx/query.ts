@@ -12,7 +12,7 @@ export function getAssetIdOf(api: ApiPromise, symbol: string): Promise<string> {
 
 export function getAssetMetadataById(
   api: ApiPromise,
-  id: string
+  id: string,
 ): Promise<AssetRegistryMetadata> {
   if (id === '0') {
     const { tokenDecimals, tokenSymbol } = chainPropListOf('bsx')
@@ -25,7 +25,7 @@ export function getAssetMetadataById(
 
 export function getAssetIdByAccount(
   api: ApiPromise,
-  account: string
+  account: string,
 ): Promise<string> {
   return api.query.multiTransactionPayment
     .accountCurrencyMap(account)
@@ -35,17 +35,17 @@ export function getAssetIdByAccount(
 
 export function getAssetMetadataByAccount(
   api: ApiPromise,
-  account: string
+  account: string,
 ): Promise<AssetRegistryMetadata> {
   return getAssetIdByAccount(api, account).then((id) =>
-    getAssetMetadataById(api, id)
+    getAssetMetadataById(api, id),
   )
 }
 
 export function getAsssetBalance(
   api: ApiPromise,
   account: string,
-  id: string
+  id: string,
 ): Promise<string> {
   if (!account) {
     return Promise.resolve('')

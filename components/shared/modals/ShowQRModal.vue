@@ -18,7 +18,7 @@ const props = withDefaults(
   }>(),
   {
     type: 'is-bordered-light',
-  }
+  },
 )
 
 const qrCodePath = ref(props.address || 'https://http.cat/409')

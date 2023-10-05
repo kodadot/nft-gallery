@@ -3,13 +3,13 @@
 </template>
 
 <script lang="ts">
+definePageMeta({
+  layout: 'generative-mint-layout',
+})
 export default {
   name: 'GenerativeMintPage',
   components: {
     GenerativeMint: () => import('@/components/bsx/Create/GenerativeMint.vue'),
-  },
-  layout() {
-    return 'generative-mint-layout'
   },
   head() {
     const title = 'Mint Your Waifu'

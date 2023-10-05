@@ -30,7 +30,7 @@ export function balanceFrom(input: number | string, decimals = 12): string {
     const [, whole, fraction] = isDecimalValue
     if (fraction.length > decimals) {
       throw new RangeError(
-        `Fractional part is too long: ${fraction.length} > ${decimals}`
+        `Fractional part is too long: ${fraction.length} > ${decimals}`,
       )
     }
 
@@ -43,7 +43,7 @@ export function balanceFrom(input: number | string, decimals = 12): string {
 export function subscribeBalance(
   api: ApiPromise,
   address: string,
-  cb: (value: string) => void
+  cb: (value: string) => void,
 ): UnsubscribePromise {
   return api.derive.balances.all(address, ({ availableBalance }) => {
     cb(availableBalance.toString())
