@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Loader :value="pending" />
+    <Loader :model-value="pending" />
     <NeoTable
       :data="hot"
       hoverable
@@ -82,7 +82,7 @@ const { pending, refresh: refreshHotNfts } = useLazyAsyncData(
     })
 
     hot.value = result
-  }
+  },
 )
 
 watch(client, (value) => {

@@ -133,7 +133,8 @@ const days = [7, 14, 30]
 const selectedDay = ref(14)
 
 const insufficientBalance = computed(
-  () => Number(offerPrice.value) > simpleDivision(balance.value, decimals.value)
+  () =>
+    Number(offerPrice.value) > simpleDivision(balance.value, decimals.value),
 )
 
 const offerPriceInvalid = computed(() => {
@@ -144,7 +145,7 @@ const offerPriceInvalid = computed(() => {
 })
 
 const disabledConfirmBtn = computed(
-  () => offerPriceInvalid.value || insufficientBalance.value
+  () => offerPriceInvalid.value || insufficientBalance.value,
 )
 
 const { data: highestOffer } = useGraphql({
@@ -195,8 +196,8 @@ watch(highestOffer, async () => {
   const blockNumber = await currentBlock()
   if (highestOffer.value) {
     price.value =
-      blockNumber < Number(highestOffer.value.value.offers[0]?.expiration)
-        ? highestOffer.value.value.offers[0]?.price
+      blockNumber < Number(highestOffer.value.offers[0]?.expiration)
+        ? highestOffer.value.offers[0]?.price
         : ''
   }
 })

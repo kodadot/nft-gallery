@@ -62,7 +62,7 @@ const props = withDefaults(
     modelValue: false,
     canCancel: true,
     minted: '',
-  }
+  },
 )
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
@@ -71,7 +71,7 @@ import { useCountDown } from './utils/useCountDown'
 
 const COUNT_DOWN_SECONDS = 51
 const { seconds } = useCountDown(
-  new Date().getTime() + COUNT_DOWN_SECONDS * 1000
+  new Date().getTime() + COUNT_DOWN_SECONDS * 1000,
 )
 
 const displaySeconds = computed(() => {
@@ -80,14 +80,14 @@ const displaySeconds = computed(() => {
 
 const twitterText = computed(
   () =>
-    `Just minted an exclusive NFT with unlockable items on @Kodadot! 🎉 So excited to add this unique collectible to my collection. Do not miss your chance! \n\n ${location.href}`
+    `Just minted an exclusive NFT with unlockable items on @Kodadot! 🎉 So excited to add this unique collectible to my collection. Do not miss your chance! \n\n ${location.href}`,
 )
 
 const postTwitterUrl = computed(
   () =>
     `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-      twitterText.value
-    )}`
+      twitterText.value,
+    )}`,
 )
 const emit = defineEmits(['input'])
 
@@ -96,8 +96,8 @@ const closeLoading = () => {
 }
 const buttonLabel = computed(() =>
   $i18n.t(
-    props.minted ? 'mint.unlockable.viewItem' : 'mint.unlockable.preparing'
-  )
+    props.minted ? 'mint.unlockable.viewItem' : 'mint.unlockable.preparing',
+  ),
 )
 </script>
 

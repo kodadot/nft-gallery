@@ -16,7 +16,7 @@ export default function () {
   const identityStore = useIdentityStore()
 
   const validPrefixFromRoute = computed(() =>
-    getAvailablePrefix(route.params.prefix)
+    getAvailablePrefix(route.params.prefix),
   )
 
   const prefix = computed<Prefix>(
@@ -24,7 +24,7 @@ export default function () {
       (sharedPrefix.value ||
         validPrefixFromRoute.value ||
         storage.value.selected ||
-        initialPrefixFromPath) as Prefix
+        initialPrefixFromPath) as Prefix,
   )
 
   const handlePrefixChange = (value: Prefix) => {
@@ -40,7 +40,7 @@ export default function () {
         handlePrefixChange(value)
       }
     },
-    { immediate: true }
+    { immediate: true },
   )
 
   const urlPrefix = computed<Prefix>(() => {

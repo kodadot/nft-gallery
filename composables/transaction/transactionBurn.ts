@@ -40,7 +40,7 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
     const [collectionId, tokenId] = bsxParamResolver(
       item.nftId,
       Interaction.CONSUME,
-      ''
+      '',
     )
     const hasOffers = ref(false)
     const { data } = useGraphql({
@@ -58,9 +58,9 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
           return api.tx.marketplace.withdrawOffer(
             collectionId,
             tokenId,
-            offer.caller
+            offer.caller,
           )
-        }
+        },
       )
       const cb = hasOffers.value
         ? api.tx.utility.batchAll

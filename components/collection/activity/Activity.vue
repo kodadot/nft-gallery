@@ -44,7 +44,7 @@ const tablet = ref(true)
 const wrapper = ref<HTMLDivElement | null>(null)
 
 const isBreadCrumbsShowing = computed(
-  () => isAnyActivityFilterActive() && tablet.value
+  () => isAnyActivityFilterActive() && tablet.value,
 )
 
 const collectionId = computed(() => route.params.id)
@@ -61,14 +61,14 @@ const InteractionIncluded = [
 
 const filteredEvents = computed(() =>
   events.value.filter((event) =>
-    InteractionIncluded.includes(event.interaction as Interaction)
-  )
+    InteractionIncluded.includes(event.interaction as Interaction),
+  ),
 )
 const withOffers = computed(() => [...filteredEvents.value, ...offers.value])
 
 // newest events first (bigger timestamp first)
 const sortedEventsWithOffersDesc = computed(() =>
-  withOffers.value.sort((a, b) => b.timestamp - a.timestamp)
+  withOffers.value.sort((a, b) => b.timestamp - a.timestamp),
 )
 
 useResizeObserver(wrapper, (entry) => {

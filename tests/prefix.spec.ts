@@ -18,7 +18,7 @@ describe('PREFIX TEST', (): void => {
   beforeAll(async () => {
     prefixes = chainPrefixes.map(
       // skipcq allowRegExp
-      (value) => RegExp(`^${value}`)
+      (value) => RegExp(`^${value}`),
     )
   })
 

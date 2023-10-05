@@ -24,7 +24,7 @@ const exec = async (
   password: string | null,
   callback: (...params: any[]) => SubmittableExtrinsic<'promise'>,
   params: any[],
-  statusCb: Callback<any>
+  statusCb: Callback<any>,
 ): Promise<ExecResult> => {
   try {
     const transfer = await callback(...params)
@@ -72,7 +72,7 @@ export const txCb =
   (
     onSuccess: (blockHash: Hash) => void,
     onError: (err: DispatchError) => void,
-    onResult: (result: ISubmittableResult) => void = console.log
+    onResult: (result: ISubmittableResult) => void = console.log,
   ) =>
   (result: ISubmittableResult): void => {
     onResult(result)
@@ -91,7 +91,7 @@ export const txCb =
 export const estimate = async (
   account: KeyringAccount | string,
   callback: (...params: any) => SubmittableExtrinsic<'promise'>,
-  params: any[]
+  params: any[],
 ): Promise<string> => {
   const transfer = await callback(...params)
   const address =
@@ -101,7 +101,7 @@ export const estimate = async (
 
   const info = await transfer.paymentInfo(
     address,
-    injector ? { signer: injector.signer } : {}
+    injector ? { signer: injector.signer } : {},
   )
   return info.partialFee.toString()
 }

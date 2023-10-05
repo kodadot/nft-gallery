@@ -1,5 +1,5 @@
 <template>
-  <NeoLoading :active.sync="isLoading" is-full-page :can-cancel="canCancel">
+  <NeoLoading v-model:active="isLoading" is-full-page :can-cancel="canCancel">
     <div class="loading-container">
       <figure>
         <img class="loading-icon" :src="placeholder" />
@@ -27,17 +27,20 @@
 <script lang="ts" setup>
 import { randomIntegerBetween } from '@/utils/calculation'
 import { NeoLoading } from '@kodadot1/brick'
+import { TransactionStatus } from '@/composables/useTransactionStatus'
 
-const emit = defineEmits(['input'])
+const emit = defineEmits(['update:modelValue'])
 const props = withDefaults(
   defineProps<{
-    status: string
-    value?: boolean
+    status: TransactionStatus
+    modelValue?: boolean
     canCancel?: boolean
   }>(),
   {
+    status: TransactionStatus.Unknown,
+    modelValue: false,
     canCancel: true,
-  }
+  },
 )
 
 const { $i18n } = useNuxtApp()
@@ -46,7 +49,7 @@ const randomNumber = ref(randomIntegerBetween(1, 35))
 const interval = ref()
 
 watch(
-  () => props.value,
+  () => props.modelValue,
   (newValue) => {
     if (newValue) {
       let newRandomNumber = randomNumber.value
@@ -56,18 +59,18 @@ watch(
       }
       randomNumber.value = newRandomNumber
     }
-  }
+  },
 )
 
 const randomFunFactHeading = computed(() =>
-  $i18n.t(`funfacts.${randomNumber.value}.heading`)
+  $i18n.t(`funfacts.${randomNumber.value}.heading`),
 )
 const randomFunFactQuestion = computed(() =>
-  $i18n.t(`funfacts.${randomNumber.value}.question`)
+  $i18n.t(`funfacts.${randomNumber.value}.question`),
 )
 const isLoading = computed({
-  get: () => props.value,
-  set: (value) => emit('input', value),
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value),
 })
 
 onMounted(() => {

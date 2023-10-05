@@ -68,7 +68,7 @@ const exploreFiltersStore = useExploreFiltersStore()
 const activityFiltersStore = useAcivityFiltersStore()
 
 const isCollectionActivityTab = computed(
-  () => route.name === 'prefix-collection-id-activity'
+  () => route.name === 'prefix-collection-id-activity',
 )
 
 const isExploreItems = computed(() => route.name === 'prefix-explore-items')

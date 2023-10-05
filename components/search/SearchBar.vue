@@ -90,17 +90,17 @@ const collectionSearch = useCollectionSearch()
 useKeyboardEvents({ k: bindSearchEvents })
 
 const isSearchInCollectionMode = computed(
-  () => collectionSearch.isCollectionSearchMode.value
+  () => collectionSearch.isCollectionSearchMode.value,
 )
 
 const placeholderContent = computed(() =>
   inputFocused.value || isSearchInCollectionMode.value
     ? ''
-    : $i18n.t('general.searchPlaceholder')
+    : $i18n.t('general.searchPlaceholder'),
 )
 
 const showDefaultSuggestions = computed(
-  () => urlPrefix.value === 'rmrk' || urlPrefix.value === 'bsx'
+  () => urlPrefix.value === 'rmrk' || urlPrefix.value === 'bsx',
 )
 
 function exitCollectionSearch() {
@@ -152,6 +152,6 @@ watch(
   () => {
     collectionSearch.setCollectionSearchMode(enableSearchInCollection.value)
   },
-  { immediate: true }
+  { immediate: true },
 )
 </script>

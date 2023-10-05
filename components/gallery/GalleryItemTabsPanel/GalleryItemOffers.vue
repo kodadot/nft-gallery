@@ -49,7 +49,7 @@
               props.row.expiration >= currentBlock,
             'has-text-warning': isInactiveOffer(
               props.row.status,
-              props.row.expiration
+              props.row.expiration,
             ),
           }"
           >{{ formatOfferStatus(props.row.status, props.row.expiration) }}</span
@@ -213,7 +213,7 @@ const submit = async (
   maker: string,
   interaction:
     | typeof ShoppingActions.WITHDRAW_OFFER
-    | typeof ShoppingActions.ACCEPT_OFFER
+    | typeof ShoppingActions.ACCEPT_OFFER,
 ) => {
   try {
     await transaction({
@@ -256,7 +256,7 @@ watch(
         }
       })
     }
-  }
+  },
 )
 </script>
 

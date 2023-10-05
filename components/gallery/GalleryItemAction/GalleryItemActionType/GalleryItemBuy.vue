@@ -66,7 +66,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 import OnRampModal from '@/components/shared/OnRampModal.vue'
 import { openShoppingCart } from '@/components/common/shoppingCart/ShoppingCartModalConfig'
 import { NFT } from '@/components/rmrk/service/scheme'
-import { nftToShoppingCardItem } from '@/components/common/shoppingCart/utils'
+import { nftToShoppingCartItem } from '@/components/common/shoppingCart/utils'
 import { chainNames } from '@/libs/static/src/chains'
 
 import { useWindowSize } from '@vueuse/core'
@@ -93,7 +93,7 @@ enum BuyStatus {
 }
 
 const btnStatus = computed(() =>
-  shoppingCartStore.isItemInCart(props.nft.id) ? BuyStatus.CART : BuyStatus.BUY
+  shoppingCartStore.isItemInCart(props.nft.id) ? BuyStatus.CART : BuyStatus.BUY,
 )
 
 const label = computed(() => {
@@ -101,7 +101,7 @@ const label = computed(() => {
     return $i18n.t('shoppingCart.gotToCart')
   }
   return $i18n.t(
-    preferencesStore.getReplaceBuyNowWithYolo ? 'YOLO' : 'nft.action.buy'
+    preferencesStore.getReplaceBuyNowWithYolo ? 'YOLO' : 'nft.action.buy',
   )
 })
 
@@ -136,7 +136,7 @@ const disabled = computed(() => {
 })
 
 const openCompletePurcahseModal = () => {
-  shoppingCartStore.setItemToBuy(nftToShoppingCardItem(props.nft))
+  shoppingCartStore.setItemToBuy(nftToShoppingCartItem(props.nft))
   preferencesStore.setCompletePurchaseModal({
     isOpen: true,
     mode: 'buy-now',
@@ -155,7 +155,7 @@ const onClickShoppingCart = () => {
   if (shoppingCartStore.isItemInCart(props.nft.id)) {
     shoppingCartStore.removeItem(props.nft.id)
   } else {
-    shoppingCartStore.setItem(nftToShoppingCardItem(props.nft))
+    shoppingCartStore.setItem(nftToShoppingCartItem(props.nft))
   }
 }
 </script>

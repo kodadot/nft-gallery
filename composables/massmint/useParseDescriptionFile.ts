@@ -21,7 +21,7 @@ const readTextFile = (file: File): Promise<string> => {
 }
 
 const readFileAndExtractEntries = async (
-  file: File
+  file: File,
 ): Promise<{ [key: string]: Entry } | undefined> => {
   const { $consola } = useNuxtApp()
 

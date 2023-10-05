@@ -31,7 +31,7 @@ type PromptLogResponse = {
 // URL should be sanitized ipfs://ipfs/Qm...
 export const logPrediction = async (
   replicateId: string,
-  prompt: string
+  prompt: string,
 ): Promise<PromptLogResponse> => {
   const body = {
     replicateId,
@@ -42,7 +42,7 @@ export const logPrediction = async (
     body,
   }).catch((error: FetchError) => {
     throw new Error(
-      `[SUPABASE::PROMPT] Unable to MINT for reasons ${error.data}`
+      `[SUPABASE::PROMPT] Unable to MINT for reasons ${error.data}`,
     )
   })
   return value

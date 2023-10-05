@@ -10,7 +10,7 @@ export const toString = (value: any) => (value && value.toString()) || ''
 
 export const toPercent = (
   value: number | undefined | BN,
-  emptyStr: string = EMPTY
+  emptyStr: string = EMPTY,
 ): string => {
   if (!value) {
     return emptyStr

@@ -4,7 +4,7 @@ const MOCK_IMAGE_URL = 'https://www.test.com/'
 global.fetch = vitest.fn(() =>
   Promise.resolve({
     blob: () => 'imageBlog',
-  })
+  }),
 )
 global.URL = {
   createObjectURL: () => MOCK_IMAGE_URL,

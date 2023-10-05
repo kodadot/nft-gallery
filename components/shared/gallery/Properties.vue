@@ -30,7 +30,7 @@ withDefaults(
   {
     attributes: () => emptyArray<Attribute>(),
     fieldKey: 'trait_type',
-  }
+  },
 )
 </script>
 

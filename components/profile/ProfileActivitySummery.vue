@@ -64,10 +64,10 @@
 <script lang="ts" setup>
 import { getSum, getSumOfObjectField } from '@/utils/math'
 import resolveQueryPath from '@/utils/queryPathResolver'
-
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import StatsColumn from '@/components/shared/format/StatsColumn.vue'
 import { Event } from '@/components/rmrk/service/types'
+import { getDenyList } from '@/utils/prefix'
 
 type Stats = {
   listedCount: number
@@ -79,7 +79,7 @@ const props = defineProps({
 })
 
 const { $consola } = useNuxtApp()
-const { client } = usePrefix()
+const { client, urlPrefix } = usePrefix()
 
 const profileStats = ref({
   totalBuys: 'profileStats.totalBuys',
@@ -110,11 +110,14 @@ useLazyAsyncData('stats', async () => {
   const query = await resolveQueryPath(client.value, 'profileStatsById')
   const { data } = await useAsyncQuery({
     query: query.default,
-    variables: { id: props.id },
     clientId: client.value,
+    variables: {
+      id: props.id,
+      denyList: getDenyList(urlPrefix.value),
+    },
   })
 
-  if (!data) {
+  if (!data.value) {
     $consola.log('stats is null')
     return
   }
@@ -134,13 +137,13 @@ const getInvestorStatsEvents = (data: any) => {
   const maxPriceInvested = Math.max(
     ...investedEvents.map((n: Event) => {
       return parseInt(n.meta)
-    })
+    }),
   )
   highestBuyPrice.value = maxPriceInvested
   totalPurchases.value = investedEvents.length
 
   const holdingsEvents = investedEvents.filter(
-    (x) => x.nft.currentOwner == props.id
+    (x) => x.nft.currentOwner == props.id,
   )
 
   totalAmountSpend.value = getSumOfObjectField(investedEvents, 'meta')

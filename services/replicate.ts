@@ -59,7 +59,7 @@ export type Input = {
 }
 
 export const predict = async (
-  object: string
+  object: string,
 ): Promise<PredictionRequestStatus> => {
   const input: PredictionRequest = {
     version: VERSION,
@@ -78,20 +78,20 @@ export const predict = async (
     body: input,
   }).catch((error: FetchError) => {
     throw new Error(
-      `[REPLICATE::PREDICT] Unable to PREDICT for reasons ${error.data}`
+      `[REPLICATE::PREDICT] Unable to PREDICT for reasons ${error.data}`,
     )
   })
   return value
 }
 
 export const getPrediction = async (
-  predictionId: string
+  predictionId: string,
 ): Promise<PredictionStatus> => {
   const prediction = await api<PredictionStatus>(
-    `status/${predictionId}`
+    `status/${predictionId}`,
   ).catch((error: FetchError) => {
     throw new Error(
-      `[REPLICATE::STATUS] Unable to GET STATUS for reasons ${error.data}`
+      `[REPLICATE::STATUS] Unable to GET STATUS for reasons ${error.data}`,
     )
   })
   return prediction

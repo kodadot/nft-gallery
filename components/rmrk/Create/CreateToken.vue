@@ -2,8 +2,8 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <BaseTokenForm
-      v-model="base"
       ref="baseTokenForm"
+      v-model="base"
       :collections="collections"
       :show-explainer-text="showExplainerText">
       <template #main>
@@ -186,7 +186,7 @@ const fetchCollections = async () => {
     }))
     .filter(
       (ce: MintedCollectionKusama) =>
-        (ce.max || Infinity) - ce.alreadyMinted > 0
+        (ce.max || Infinity) - ce.alreadyMinted > 0,
     )
 }
 
@@ -252,14 +252,14 @@ const submit = async () => {
             () =>
               handleCreatedNftsRedirect(
                 createdNFTs.value,
-                blockNumber.value as string
+                blockNumber.value as string,
               ),
-            300
+            300,
           )
         } else if (hasPrice.value) {
           setTimeout(
             () => listForSale(createdNFTs.value, blockNumber.value as string),
-            300
+            300,
           )
         }
       }
@@ -273,7 +273,7 @@ const submit = async () => {
 
 const listForSale = async (
   createdNFT: CreatedNFT[] | CreatedNFTV2[],
-  originalBlockNumber: string
+  originalBlockNumber: string,
 ) => {
   try {
     const {
@@ -328,7 +328,7 @@ const listForSale = async (
 
 const handleCreatedNftsRedirect = (
   createdNFT: CreatedNFT[] | CreatedNFTV2[],
-  originalBlockNumber: string
+  originalBlockNumber: string,
 ) => {
   const nfts = createdNFT.map((nft) => toNFTId(nft, originalBlockNumber))
 
@@ -351,7 +351,7 @@ const navigateToDetail = ({
   toCollectionPage: boolean
 }) => {
   showNotification(
-    `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
+    `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`,
   )
   const subPath = toCollectionPage ? 'collection' : 'gallery'
   const go = () => {
@@ -375,6 +375,6 @@ watch(
   },
   {
     immediate: true,
-  }
+  },
 )
 </script>

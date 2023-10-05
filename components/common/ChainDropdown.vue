@@ -28,7 +28,7 @@ const { availableChains } = useChain()
 const { redirectAfterChainChange } = useChainRedirect()
 
 const selected = computed(() =>
-  availableChains.value.find((chain) => chain.value === route.params.prefix)
+  availableChains.value.find((chain) => chain.value === route.params.prefix),
 )
 
 function onSwitchChain(chain) {

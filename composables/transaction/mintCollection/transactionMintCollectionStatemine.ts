@@ -10,20 +10,19 @@ import { createArgsForNftPallet } from './utils'
 export async function execMintCollectionStatemine(
   item: ActionMintCollection,
   api,
-  executeTransaction: (p: ExecuteTransactionParams) => void
+  executeTransaction: (p: ExecuteTransactionParams) => void,
 ) {
   const { $i18n } = useNuxtApp()
   const metadata = await constructMeta(item)
   const { nftCount } = item.collection as CollectionToMintStatmine
   const { accountId } = useAuth()
-  const transectionSent = ref(false)
 
   const cb = api.tx.utility.batchAll
 
-  const { nextCollectionId, unsubscribe } = useStatemineNewCollectionId()
+  const { nextCollectionId } = useStatemineNewCollectionId()
+  const nextId = await nextCollectionId()
 
   const successCb = (blockNumber: string) => {
-    unsubscribe.value && unsubscribe.value()
     if (item.successMessage) {
       return resolveSuccessMessage(blockNumber, item.successMessage)
     }
@@ -34,33 +33,30 @@ export async function execMintCollectionStatemine(
   }
 
   const errorCb = () => {
-    unsubscribe.value && unsubscribe.value()
     return (
       item.errorMessage ||
       $i18n.t('mint.errorCreateNewNft', { name: item.collection.name })
     )
   }
-  const maxSupply = nftCount > 0 ? nftCount : undefined
 
+  const maxSupply = nftCount > 0 ? nftCount : undefined
   const createArgs = createArgsForNftPallet(accountId.value, maxSupply)
 
-  watch(nextCollectionId, (id) => {
-    if (!id || transectionSent.value) {
-      return
-    }
-    const arg = [
-      [
-        api.tx.nfts.create(...createArgs),
-        api.tx.nfts.setCollectionMetadata(nextCollectionId, metadata),
-      ],
-    ]
+  if (!nextId) {
+    return
+  }
 
-    transectionSent.value = true
-    executeTransaction({
-      cb,
-      arg,
-      successMessage: successCb,
-      errorMessage: errorCb,
-    })
+  const arg = [
+    [
+      api.tx.nfts.create(...createArgs),
+      api.tx.nfts.setCollectionMetadata(nextId, metadata),
+    ],
+  ]
+
+  executeTransaction({
+    cb,
+    arg,
+    successMessage: successCb,
+    errorMessage: errorCb,
   })
 }

@@ -372,7 +372,7 @@ import TabItem from '@/components/shared/TabItem.vue'
 import Auth from '@/components/shared/Auth.vue'
 
 const Money = defineAsyncComponent(
-  () => import('@/components/shared/format/Money.vue')
+  () => import('@/components/shared/format/Money.vue'),
 )
 
 const route = useRoute()
@@ -423,13 +423,13 @@ const targetAddresses = ref<TargetAddress[]>([{ address: '' }])
 
 const hasValidTarget = computed(() =>
   targetAddresses.value.some(
-    (item) => isAddress(item.address) && !item.isInvalid && item.token
-  )
+    (item) => isAddress(item.address) && !item.isInvalid && item.token,
+  ),
 )
 
 const getDisplayUnitBasedValues = (
   usdValue: number,
-  tokenAmount: number
+  tokenAmount: number,
 ): [string, string] => {
   return displayUnit.value === 'token'
     ? [`$${usdValue}`, `${tokenAmount} ${unit.value}`]
@@ -437,24 +437,24 @@ const getDisplayUnitBasedValues = (
 }
 
 const displayTotalValue = computed(() =>
-  getDisplayUnitBasedValues(totalUsdValue.value, totalTokenAmount.value)
+  getDisplayUnitBasedValues(totalUsdValue.value, totalTokenAmount.value),
 )
 
 const txFee = ref<number>(0)
 
 const txFeeUsdValue = computed(() =>
-  calculateExactUsdFromToken(txFee.value, Number(currentTokenValue.value))
+  calculateExactUsdFromToken(txFee.value, Number(currentTokenValue.value)),
 )
 
 const displayTxFeeValue = computed(() =>
-  getDisplayUnitBasedValues(txFeeUsdValue.value, txFee.value)
+  getDisplayUnitBasedValues(txFeeUsdValue.value, txFee.value),
 )
 
 const disabled = computed(
   () =>
     !isLogIn.value ||
     balanceUsdValue.value < totalUsdValue.value ||
-    !hasValidTarget.value
+    !hasValidTarget.value,
 )
 
 const handleTokenSelect = (newToken: string) => {
@@ -474,7 +474,7 @@ const handleTokenSelect = (newToken: string) => {
 const generateTokenTabs = (
   items: TokenDetails[],
   selectedToken: string,
-  sort = false
+  sort = false,
 ) => {
   items = sort ? getMovedItemToFront(items, 'symbol', selectedToken) : items
 
@@ -485,7 +485,7 @@ const generateTokenTabs = (
         image: availableToken.icon,
         value: availableToken.symbol,
         active: unit.value === availableToken.symbol,
-      } as PillTab)
+      }) as PillTab,
   )
 }
 
@@ -495,10 +495,10 @@ watch(
     tokenTabs.value = generateTokenTabs(
       items,
       unit.value,
-      selectedTabFirst.value
+      selectedTabFirst.value,
     )
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 const checkQueryParams = () => {
@@ -512,7 +512,7 @@ const checkQueryParams = () => {
       }
       showNotification(
         `Unable to use target address ${address}`,
-        notificationTypes.warn
+        notificationTypes.warn,
       )
       return false
     })
@@ -528,7 +528,7 @@ const checkQueryParams = () => {
     const tokenAmount = Number(query.amount)
     const usdValue = calculateUsdFromToken(
       tokenAmount,
-      Number(currentTokenValue.value)
+      Number(currentTokenValue.value),
     )
 
     sendSameAmount.value = true
@@ -541,7 +541,7 @@ const checkQueryParams = () => {
     const usdValue = Number(query.usdamount)
     const tokenAmount = calculateTokenFromUsd(
       Number(getCurrentTokenValue(unit.value)),
-      usdValue
+      usdValue,
     )
     sendSameAmount.value = true
 
@@ -567,19 +567,24 @@ watch(sendSameAmount, (value) => {
 
 const totalTokenAmount = computed(() =>
   Number(
-    Number(getNumberSumOfObjectField(targetAddresses.value, 'token')).toFixed(4)
-  )
+    Number(getNumberSumOfObjectField(targetAddresses.value, 'token')).toFixed(
+      4,
+    ),
+  ),
 )
 const totalUsdValue = computed(() =>
-  calculateUsdFromToken(totalTokenAmount.value, Number(currentTokenValue.value))
+  calculateUsdFromToken(
+    totalTokenAmount.value,
+    Number(currentTokenValue.value),
+  ),
 )
 
 const currentTokenValue = computed(() => getCurrentTokenValue(unit.value))
 const balanceUsdValue = computed(() =>
   calculateBalanceUsdValue(
     Number(balance.value) * Number(currentTokenValue.value),
-    decimals.value
-  )
+    decimals.value,
+  ),
 )
 
 const onAmountFieldChange = (target: TargetAddress) => {
@@ -588,7 +593,7 @@ const onAmountFieldChange = (target: TargetAddress) => {
   target.usd = target.token
     ? calculateUsdFromToken(
         Number(getCurrentTokenValue(unit.value)),
-        Number(target.token)
+        Number(target.token),
       )
     : 0
 
@@ -611,7 +616,7 @@ const onUsdFieldChange = (target: TargetAddress) => {
   target.token = target.usd
     ? calculateTokenFromUsd(
         Number(getCurrentTokenValue(unit.value)),
-        Number(target.usd)
+        Number(target.usd),
       )
     : 0
 
@@ -658,13 +663,13 @@ watch(
   () => {
     updateTargetAdressesOnTokenSwitch()
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 const handleOpenConfirmModal = () => {
   if (!disabled.value) {
     targetAddresses.value = targetAddresses.value.filter(
-      (address) => address.address && address.token && address.usd
+      (address) => address.address && address.token && address.usd,
     )
     isTransferModalVisible.value = true
   }
@@ -678,9 +683,9 @@ const getTransactionFee = async () => {
           address: toDefaultAddress(KODADOT_DAO),
           usd: 1,
           token: 1,
-        } as TargetAddress)
+        }) as TargetAddress,
     ),
-    decimals.value as number
+    decimals.value as number,
   )
 
   return estimate(accountId.value, cb as any, arg as any)
@@ -699,7 +704,7 @@ watchDebounced(
   () => {
     calculateTransactionFee()
   },
-  { debounce: 500 }
+  { debounce: 500 },
 )
 
 const getAmountToTransfer = (amount: number, decimals: number) =>
@@ -707,7 +712,7 @@ const getAmountToTransfer = (amount: number, decimals: number) =>
 
 const getTransferParams = async (
   addresses: TargetAddress[],
-  decimals: number
+  decimals: number,
 ) => {
   const api = await apiInstance.value
   const isSingle = targetAddresses.value.length === 1
@@ -724,12 +729,12 @@ const getTransferParams = async (
         addresses.map((target) => {
           const amountToTransfer = getAmountToTransfer(
             target.token as number,
-            decimals
+            decimals,
           )
 
           return api.tx.balances.transfer(
             target.address as string,
-            amountToTransfer
+            amountToTransfer,
           )
         }),
       ]
@@ -739,14 +744,14 @@ const getTransferParams = async (
 
 const submit = async (
   event: any,
-  usedNodeUrls: string[] = []
+  usedNodeUrls: string[] = [],
 ): Promise<void> => {
   isTransferModalVisible.value = false
   initTransactionLoader()
   try {
     const { cb, arg } = await getTransferParams(
       targetAddresses.value,
-      decimals.value as number
+      decimals.value as number,
     )
 
     const tx = await exec(
@@ -777,8 +782,8 @@ const submit = async (
           onTxError(dispatchError)
           isLoading.value = false
         },
-        (res) => resolveStatus(res.status)
-      )
+        (res) => resolveStatus(res.status),
+      ),
     )
   } catch (e: any) {
     if (e.message === 'Cancelled') {
@@ -791,7 +796,7 @@ const submit = async (
     const availableUrls = ALTERNATIVE_ENDPOINT_MAP[urlPrefix.value]
     if (usedNodeUrls.length < availableUrls.length) {
       const nextTryUrls = availableUrls.filter(
-        (url) => !usedNodeUrls.includes(url)
+        (url) => !usedNodeUrls.includes(url),
       )
       // try to connect next possible url
       await ApiFactory.useApiInstance(nextTryUrls[0])
@@ -813,12 +818,12 @@ const onTxError = async (dispatchError: DispatchError): Promise<void> => {
     const { docs, name, section } = decoded
     showNotification(
       `[ERR] ${section}.${name}: ${docs.join(' ')}`,
-      notificationTypes.warn
+      notificationTypes.warn,
     )
   } else {
     showNotification(
       `[ERR] ${dispatchError.toString()}`,
-      notificationTypes.warn
+      notificationTypes.warn,
     )
   }
 
@@ -840,7 +845,7 @@ const generatePaymentLink = (addressList: string[]): string => {
   })
   url.searchParams.append(
     'usdamount',
-    String(targetAddresses.value[0]?.usd || 0)
+    String(targetAddresses.value[0]?.usd || 0),
   )
 
   return url.toString()
@@ -878,7 +883,7 @@ watchDebounced(
   (usdamount) => {
     routerReplace({ query: { usdamount: (usdamount || 0).toString() } })
   },
-  { debounce: 300 }
+  { debounce: 300 },
 )
 </script>
 <style lang="scss" scoped>

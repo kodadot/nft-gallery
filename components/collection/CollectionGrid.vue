@@ -57,13 +57,15 @@ const emit = defineEmits(['total', 'isLoading'])
 
 const collections = ref<Collection[]>([])
 const isLoading = ref(true)
+const sortBy = ref(
+  typeof route.query?.sort === 'string'
+    ? [route.query?.sort]
+    : route.query?.sort,
+)
 const searchQuery = reactive<SearchQuery>({
   search: route.query?.search?.toString() ?? '',
   type: route.query?.type?.toString() ?? '',
-  sortBy:
-    typeof route.query?.sort === 'string'
-      ? [String(route.query?.sort)]
-      : String(route.query?.sort),
+  sortBy: sortBy.value ?? undefined,
   listed: route.query?.listed?.toString() === 'true',
 })
 
@@ -154,6 +156,7 @@ const {
 const skeletonCount = first.value
 
 const handleResult = (data, loadDirection = 'down') => {
+  console.log(data)
   total.value = data.stats.totalCount
   const newCollections = data.collectionEntities.map((e: any) => ({
     ...e,
@@ -178,7 +181,7 @@ watch(
       resetPage()
       searchQuery.search = val === undefined ? val : String(val)
     }
-  }
+  },
 )
 
 watch(
@@ -188,14 +191,14 @@ watch(
       resetPage()
       searchQuery.sortBy = String(val) || undefined
     }
-  }
+  },
 )
 
 watch(
   () => searchQuery,
   () => {
     resetPage()
-  }
+  },
 )
 </script>
 
