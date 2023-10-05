@@ -91,6 +91,10 @@ const toggleNFTDetails = (holderId: string) => {
 const target = ref<HTMLElement | null>(null)
 const offset = ref(4)
 
+onMounted(() => {
+  console.log(props.owners)
+})
+
 const holders = computed(() =>
   Object.entries(props.owners || {}).sort(
     // sort by nft count: highest first
