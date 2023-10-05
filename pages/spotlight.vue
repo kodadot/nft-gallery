@@ -6,6 +6,7 @@
     <SpotlightTable />
   </section>
 </template>
+
 <script lang="ts">
 export default {
   name: 'Spotlight',

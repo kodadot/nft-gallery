@@ -19,7 +19,7 @@ import type { ActionSend } from './types'
 function checkTsxSend(item: ActionSend) {
   const [, err] = checkAddress(
     item.address,
-    correctFormat(ss58Of(item.urlPrefix))
+    correctFormat(ss58Of(item.urlPrefix)),
   )
 
   if (!isAddress(item.address)) {

@@ -31,6 +31,7 @@ import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { downloadImage } from '@/utils/download'
 import { toOriginalContentUrl } from '@/utils/ipfs'
+import Loader from '@/components/shared/Loader.vue'
 
 const { $route, $i18n } = useNuxtApp()
 const { accountId } = useAuth()

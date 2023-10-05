@@ -2,8 +2,8 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <BaseTokenForm
-      v-bind.sync="base"
       ref="baseTokenForm"
+      v-model="base"
       :collections="collections"
       :show-explainer-text="showExplainerText">
       <template #main>
@@ -45,7 +45,7 @@
             key="hasRoyalty"
             v-model="hasRoyalty"
             label="mint.listWithRoyalty" />
-          <RoyaltyForm v-if="hasRoyalty" key="royalty" v-bind.sync="royalty" />
+          <RoyaltyForm v-if="hasRoyalty" key="royalty" v-model="royalty" />
         </template>
       </template>
       <template #footer>
@@ -111,7 +111,7 @@ import type {
 } from '@/composables/transaction/types'
 
 const { isLoading, status } = useMetaTransaction()
-const { $i18n, $apollo } = useNuxtApp()
+const { $i18n } = useNuxtApp()
 const { accountId, isLogIn, balance } = useAuth()
 const { client } = usePrefix()
 const { urlPrefix } = usePrefix()
@@ -168,18 +168,14 @@ const updatePrice = (value: string) => {
 }
 
 const fetchCollections = async () => {
-  const _collections = await $apollo.query({
+  const { data: _collections } = await useAsyncQuery({
     query: collectionForMint,
-    client: client.value,
     variables: {
       account: accountId.value,
     },
-    fetchPolicy: 'network-only',
+    clientId: client.value,
   })
-
-  const {
-    data: { collectionEntities },
-  } = _collections
+  const { collectionEntities } = _collections.value
 
   collections.value = unwrapSafe(collectionEntities)
     ?.map((ce: any) => ({
@@ -190,7 +186,7 @@ const fetchCollections = async () => {
     }))
     .filter(
       (ce: MintedCollectionKusama) =>
-        (ce.max || Infinity) - ce.alreadyMinted > 0
+        (ce.max || Infinity) - ce.alreadyMinted > 0,
     )
 }
 
@@ -256,14 +252,14 @@ const submit = async () => {
             () =>
               handleCreatedNftsRedirect(
                 createdNFTs.value,
-                blockNumber.value as string
+                blockNumber.value as string,
               ),
-            300
+            300,
           )
         } else if (hasPrice.value) {
           setTimeout(
             () => listForSale(createdNFTs.value, blockNumber.value as string),
-            300
+            300,
           )
         }
       }
@@ -277,7 +273,7 @@ const submit = async () => {
 
 const listForSale = async (
   createdNFT: CreatedNFT[] | CreatedNFTV2[],
-  originalBlockNumber: string
+  originalBlockNumber: string,
 ) => {
   try {
     const {
@@ -332,7 +328,7 @@ const listForSale = async (
 
 const handleCreatedNftsRedirect = (
   createdNFT: CreatedNFT[] | CreatedNFTV2[],
-  originalBlockNumber: string
+  originalBlockNumber: string,
 ) => {
   const nfts = createdNFT.map((nft) => toNFTId(nft, originalBlockNumber))
 
@@ -355,7 +351,7 @@ const navigateToDetail = ({
   toCollectionPage: boolean
 }) => {
   showNotification(
-    `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
+    `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`,
   )
   const subPath = toCollectionPage ? 'collection' : 'gallery'
   const go = () => {
@@ -379,6 +375,6 @@ watch(
   },
   {
     immediate: true,
-  }
+  },
 )
 </script>

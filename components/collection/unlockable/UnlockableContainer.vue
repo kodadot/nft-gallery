@@ -27,7 +27,7 @@
               ><span
                 v-if="mintCountAvailable"
                 class="is-flex is-align-items-center">
-                <img src="/drop/unlockable-pulse.svg" alt="open" />
+                <img src="/unlockable-pulse.svg" alt="open" />
                 Open</span
               >
             </div>
@@ -50,7 +50,7 @@
                 variant="k-accent"
                 :disabled="mintButtonDisabled"
                 label="Mint"
-                @click.native="handleSubmitMint" />
+                @click="handleSubmitMint" />
               <div class="is-flex is-align-items-center mt-2">
                 <svg
                   width="20"
@@ -147,25 +147,20 @@ import {
   unlockableDesc,
 } from './utils'
 import { endOfHour, startOfHour } from 'date-fns'
-import type Vue from 'vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { NeoButton } from '@kodadot1/brick'
 import { useCountDown } from './utils/useCountDown'
 import CarouselTypeLatestMints from '@/components/carousel/CarouselTypeLatestMints.vue'
+import Loader from '@/components/collection/unlockable/UnlockableLoader.vue'
 
-const Loader = defineAsyncComponent(
-  () => import('@/components/collection/unlockable/UnlockableLoader.vue')
-)
-const { $neoModal } = useNuxtApp()
-const root = ref<Vue<Record<string, string>>>()
-
+const { neoModal } = useProgrammatic()
 const { toast } = useToast()
+const { urlPrefix } = usePrefix()
 
 const imageList = ref<string[]>([])
 const resultList = ref<any[]>([])
 const selectedImage = ref('')
 const MAX_PER_WINDOW = 10
-const { urlPrefix } = usePrefix()
 
 const isLoading = ref(false)
 const { accountId, isLogIn } = useAuth()
@@ -215,21 +210,20 @@ const {
 })
 
 const hasUserMinted = computed(
-  () => stats.value?.collection.nfts?.at(0)?.id || justMinted.value
+  () => stats.value?.collection.nfts?.at(0)?.id || justMinted.value,
 )
 
 const totalCount = computed(
-  () => collectionData.value?.collectionEntity?.max || 300
+  () => collectionData.value?.collectionEntity?.max || 300,
 )
 const totalAvailableMintCount = computed(
   () =>
     totalCount.value -
-    (collectionData.value?.nftEntitiesConnection?.totalCount || 0)
+    (collectionData.value?.nftEntitiesConnection?.totalCount || 0),
 )
 
 const { data, refetch } = useGraphql({
   queryName: 'collectionMintedBetween',
-  clientName: urlPrefix.value,
   variables: {
     id: collectionId,
     from: windowRange[0],
@@ -253,15 +247,15 @@ useSubscriptionGraphql({
 const mintedCount = computed(() => data.value?.minted?.count || 0)
 
 const currentMintedCount = computed(() =>
-  Math.min(mintedCount.value, MAX_PER_WINDOW)
+  Math.min(mintedCount.value, MAX_PER_WINDOW),
 )
 
 const mintCountAvailable = computed(
-  () => currentMintedCount.value < MAX_PER_WINDOW
+  () => currentMintedCount.value < MAX_PER_WINDOW,
 )
 
 const mintButtonDisabled = computed(() =>
-  Boolean(!mintCountAvailable.value || hasUserMinted.value)
+  Boolean(!mintCountAvailable.value || hasUserMinted.value),
 )
 
 const scrollToTop = () => {
@@ -275,8 +269,7 @@ const description = unlockableDesc(40)
 
 const handleSubmitMint = async () => {
   if (!isLogIn.value) {
-    $neoModal.open({
-      parent: root?.value,
+    neoModal.open({
       ...ConnectWalletModalConfig,
     })
     return
@@ -300,7 +293,7 @@ const handleSubmitMint = async () => {
         metadata: hash,
         image: image,
       },
-      UNLOCKABLE_CAMPAIGN
+      UNLOCKABLE_CAMPAIGN,
     ).then((res) => {
       toast('mint success', 'is-neo', 20000)
       scrollToTop()
@@ -321,7 +314,7 @@ const handleSubmitMint = async () => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .unlockable-container {
   .mint-button {

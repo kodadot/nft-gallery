@@ -1,7 +1,7 @@
-@import '@oruga-ui/oruga/src/scss/utilities/expressions.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/variables.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/expressions.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/variables.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/animations.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/helpers.scss';
 @import '../../scss/variable.scss';
 
 $tooltip-content-zindex: 101;
@@ -13,7 +13,7 @@ $tooltip-content-max-width: 25rem;
 $tooltip-content-multiline-width: var(--multiline-width, 10rem);
 $tooltip-arrow-margin: 1rem;
 
-@import '@oruga-ui/oruga/src/scss/components/tooltip.scss';
+@import '@oruga-ui/oruga-next/src/scss/components/tooltip.scss';
 
 .neo-tooltip {
   .o-tip__content {

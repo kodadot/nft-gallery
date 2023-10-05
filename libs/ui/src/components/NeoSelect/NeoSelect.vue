@@ -1,5 +1,5 @@
 <script>
-import { OSelect } from '@oruga-ui/oruga'
+import { OSelect } from '@oruga-ui/oruga-next'
 
 export default {
   mixins: [OSelect],

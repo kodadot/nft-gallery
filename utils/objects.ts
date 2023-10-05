@@ -3,7 +3,7 @@ type Item = { [key: string]: any }
 export const getMovedItemToFront = (
   arr: Item[] | any[],
   keyOrValue: string | any,
-  value?: any
+  value?: any,
 ): (Item | any)[] => {
   let index: number
 

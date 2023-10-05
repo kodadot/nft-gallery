@@ -144,6 +144,7 @@ import {
 } from '@/components/collection/activity/events/eventRow/common'
 import EventTag from '@/components/collection/activity/events/eventRow/EventTag.vue'
 import BlockExplorerLink from '@/components/shared/BlockExplorerLink.vue'
+import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { parseNftAvatar } from '@/utils/nft'
 
 const props = defineProps<{
@@ -162,7 +163,7 @@ const isDesktop = computed(() => props.variant === 'Desktop')
 const interactionName = computed(
   () =>
     interactionNameMap({ distinguishBuyAndSell: true })[props.event.Type] ||
-    props.event.Type
+    props.event.Type,
 )
 
 const getAvatar = async () => {
@@ -177,7 +178,7 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .fixed-width {
   width: 66px;

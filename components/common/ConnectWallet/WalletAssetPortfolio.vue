@@ -7,6 +7,7 @@
         no-shadow
         rounded
         tag="a"
+        size="small"
         icon="arrow-right-long">
         Portfolio View
       </NeoButton>
@@ -16,7 +17,7 @@
       >+ {{ $t('addFunds') }}</a
     >
 
-    <OnRampModal v-model="rampActive" @close="rampActive = false" />
+    <OnRampModal :value="rampActive" @close="rampActive = false" />
   </div>
 </template>
 

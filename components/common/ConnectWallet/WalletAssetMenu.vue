@@ -15,7 +15,7 @@
       class="wallet-asset-footer is-flex is-justify-content-space-between py-5 is-size-7 has-text-grey">
       <!-- light/dark mode -->
       <div class="is-align-items-center" @click="toggleColorMode">
-        <NeoIcon icon="circle-half-stroke" custom-size="fa-2x" />
+        <NeoIcon icon="circle-half-stroke" />
         <span v-if="isDarkMode">{{ $t('profileMenu.lightMode') }}</span>
         <span v-else>{{ $t('profileMenu.darkMode') }}</span>
       </div>
@@ -25,7 +25,7 @@
         <NeoDropdown position="top-left" aria-role="menu" mobile-modal>
           <template #trigger>
             <div class="is-flex is-align-items-center">
-              <NeoIcon icon="globe" custom-size="fa-2x" class="mr-1" />
+              <NeoIcon icon="globe" class="mr-1" />
               <span>{{ $t('profileMenu.language') }}</span>
             </div>
           </template>
@@ -36,8 +36,8 @@
             aria-role="listitem"
             :data-testid="`sidebar-language-${lang.value}`"
             :value="lang.value"
-            :class="{ 'is-active': langStore.getUserLang === lang.value }"
-            @click="langStore.setLanguage({ userLang: lang.value })">
+            :class="{ 'is-active': $i18n.locale === lang.value }"
+            @click="$i18n.locale = lang.value">
             <span>{{ lang.flag }} {{ lang.label }}</span>
           </NeoDropdownItem>
         </NeoDropdown>
@@ -47,8 +47,8 @@
       <nuxt-link
         to="/settings"
         class="has-text-grey is-align-items-center"
-        @click.native="closeModal">
-        <NeoIcon icon="gear" custom-size="fa-2x" />
+        @click="closeModal">
+        <NeoIcon icon="gear" />
         <span>{{ $t('settings') }}</span>
       </nuxt-link>
     </div>
@@ -58,14 +58,11 @@
 <script setup lang="ts">
 import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
 import { langsFlags } from '@/utils/config/i18n'
-import { useLangStore } from '@/stores/lang'
 
 const { urlPrefix } = usePrefix()
 const { isBasilisk } = useIsChain(urlPrefix)
 const { toggleColorMode, isDarkMode } = useTheme()
-const { $neoModal } = useNuxtApp()
-
-const langStore = useLangStore()
+const { neoModal } = useProgrammatic()
 
 const menus = ref([
   {
@@ -82,7 +79,7 @@ const menus = ref([
   },
 ])
 
-onMounted(() => {
+watchEffect(() => {
   if (isBasilisk.value) {
     menus.value.push({
       label: 'Incoming Offers',
@@ -97,12 +94,12 @@ onMounted(() => {
 })
 
 const closeModal = () => {
-  $neoModal.closeAll()
+  neoModal.closeAll()
 }
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .wallet-asset-container {
   @include ktheme() {

@@ -50,7 +50,7 @@ withDefaults(
     disabled: false,
     hasCounter: true,
     maxlength: undefined,
-  }
+  },
 )
 
 const hasFocus = ref(false)

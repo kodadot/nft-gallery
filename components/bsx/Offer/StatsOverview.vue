@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-    <div class="level my-4 collection is-align-items-center mb-5">
+    <div v-if="data" class="level my-4 collection is-align-items-center mb-5">
       <div
         v-for="data in offerStats"
         :key="data.status"
@@ -26,7 +26,7 @@
           <p class="heading has-text-weight-bold mb-5">
             {{
               `${data.status} ${$t('statsOverview.offers')} / ${$t(
-                'statsOverview.values'
+                'statsOverview.values',
               )}`
             }}
           </p>
@@ -42,7 +42,7 @@ import { countOf } from '~/utils/countOf'
 import statsForBsx from '~/queries/subsquid/bsx/statsForBsx.graphql'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 
-const { $apollo, $consola } = useNuxtApp()
+const { $consola } = useNuxtApp()
 const { client } = usePrefix()
 
 const statsResponse = ref<StatsResponse>()
@@ -57,16 +57,19 @@ const returnTotalCounts = (key, statsResponse) => {
   }
 }
 
-watchEffect(async () => {
+watchEffect(() => {
   try {
-    const { data } = await $apollo.query<StatsResponse>({
-      client: client.value,
-      query: statsForBsx,
-    })
+    const { result: data } = useQuery<StatsResponse>(
+      statsForBsx,
+      {},
+      { clientId: client.value },
+    )
 
-    statsResponse.value = data
-    offerStats.value = data.offerStats
-    keysObject.value = Object.keys(data).filter((key) => key !== 'offerStats')
+    statsResponse.value = data.value
+    offerStats.value = data.value.offerStats
+    keysObject.value = Object.keys(data.value).filter(
+      (key) => key !== 'offerStats',
+    )
   } catch (e) {
     $consola.error(e)
   }

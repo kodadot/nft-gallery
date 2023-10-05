@@ -1,42 +1,38 @@
 <template>
-  <VueMarkdown
-    ref="markdown"
-    :source="source"
-    :options="highlightOptions"
-    class="content-markdown" />
+  <div v-dompurify-html="markdown.render(source)" class="content-markdown" />
 </template>
 
 <script lang="ts" setup>
-import VueMarkdown from 'vue-markdown-render'
-import hljs from 'highlight.js'
-import { useRedirectModal } from '@/components/redirect/useRedirectModal'
+// import hljs from 'highlight.js'
+// import { useRedirectModal } from '@/components/redirect/useRedirectModal'
+import MarkdownIt from 'markdown-it'
 
-const markdown = ref<HTMLElement | null>(null)
+const markdown = new MarkdownIt()
 
 defineProps<{
   source: string
 }>()
 
-useRedirectModal(markdown)
+// useRedirectModal(markdown)
 
-const highlightOptions = {
-  html: true,
-  linkify: true,
-  typographer: true,
-  highlight: (code: string, lang: string) => {
-    if (lang && hljs.getLanguage(lang)) {
-      try {
-        return (
-          '<pre class="hljs"><code>' +
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          hljs.highlight(code, { language: lang } as any).value +
-          '</code></pre>'
-        )
-      } catch (__) {
-        return ''
-      }
-    }
-    return hljs.highlightAuto(code).value
-  },
-}
+// const highlightOptions = {
+//   html: true,
+//   linkify: true,
+//   typographer: true,
+//   highlight: (code: string, lang: string) => {
+//     if (lang && hljs.getLanguage(lang)) {
+//       try {
+//         return (
+//           '<pre class="hljs"><code>' +
+//           // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//           hljs.highlight(code, { language: lang } as any).value +
+//           '</code></pre>'
+//         )
+//       } catch (__) {
+//         return ''
+//       }
+//     }
+//     return hljs.highlightAuto(code).value
+//   },
+// }
 </script>

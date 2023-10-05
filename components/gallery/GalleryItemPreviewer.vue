@@ -1,13 +1,13 @@
 <template>
   <NeoModal
-    v-model="isFullscreen"
+    :value="isFullscreen"
     :destroy-on-hide="false"
     :can-cancel="false"
     full-screen
     root-class="gallery-item-modal"
     content-class="gallery-item-modal-content"
     @close="isFullscreen = false">
-    <NeoButton class="back-button" @click.native="emit('input', false)">
+    <NeoButton class="back-button" @click="emit('input', false)">
       <NeoIcon icon="chevron-left" />
       {{ $t('go back') }}
     </NeoButton>
@@ -46,7 +46,7 @@ const isFullscreen = useVModel(props, 'value', emit)
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .gallery-item-modal {
   position: fixed;

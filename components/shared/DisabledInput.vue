@@ -19,6 +19,6 @@ withDefaults(
     value: '',
     expanded: false,
     readonly: false,
-  }
+  },
 )
 </script>

@@ -8,6 +8,7 @@
           selectedChain: currentChainName,
         })
       "
+      data-testid="addresschecker-infobox-convertion-success"
       @close="onClose">
       <div
         v-dompurify-html="
@@ -22,6 +23,7 @@
       v-else-if="addressCheck && showAddressCheck"
       variant="fail"
       :title="$t(`transfers.invalidAddress.${addressCheck.type}.title`)"
+      data-testid="addresschecker-infobox-invalid"
       @close="onClose">
       <div
         v-dompurify-html="
@@ -38,7 +40,8 @@
             rounded
             size="small"
             variant="k-pink"
-            @click.native="changeAddress">
+            data-testid="addresschecker-button-change-to"
+            @click="changeAddress">
             {{
               $t(`transfers.invalidAddress.changeToChainAddress`, {
                 selectedChain: currentChainName,
@@ -100,7 +103,7 @@ const showAddressCheck = ref(false)
 const showChanged = ref(false)
 
 const isWrongNetworkAddress = computed(
-  () => addressCheck.value?.type === AddressType.WRONG_NETWORK_ADDRESS
+  () => addressCheck.value?.type === AddressType.WRONG_NETWORK_ADDRESS,
 )
 
 const checkAddressByss58Format = (value: string, ss58: number) => {
@@ -115,7 +118,7 @@ const getAddressCheck = (value: string): AddressCheck => {
 
   const isValidCurrentChainAddress = checkAddressByss58Format(
     value,
-    ss58Format.value
+    ss58Format.value,
   )
 
   if (isValidCurrentChainAddress) {
@@ -125,7 +128,7 @@ const getAddressCheck = (value: string): AddressCheck => {
   const GENERIC_SUBSTRATE_SS58_FORMAT = 42
   const isValidGeneric = checkAddressByss58Format(
     value,
-    GENERIC_SUBSTRATE_SS58_FORMAT
+    GENERIC_SUBSTRATE_SS58_FORMAT,
   )
 
   if (isValidGeneric) {
@@ -133,7 +136,7 @@ const getAddressCheck = (value: string): AddressCheck => {
   }
 
   const [validAddressesChain] = CHAINS_ADDRESS_CHECKS.filter((chain) =>
-    checkAddressByss58Format(value, CHAINS[chain].ss58Format)
+    checkAddressByss58Format(value, CHAINS[chain].ss58Format),
   )
 
   if (validAddressesChain) {
@@ -181,7 +184,7 @@ watch(
       showChanged.value = false
       addressCheck.value = null
     }
-  }
+  },
 )
 
 watch(showAddressCheck, () => {
@@ -201,7 +204,7 @@ watch(addressCheck, (check) => {
 })
 </script>
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .is-blue {
   @include ktheme() {

@@ -2,13 +2,7 @@
   <div>
     <History :id="id" :events="filteredEvents" display-item>
       <template
-        #header="{
-          currentPage,
-          total,
-          itemsPerPage,
-          desktop,
-          updateCurrentPage,
-        }">
+        #header="{ currentPage, total, perPage, desktop, updateCurrentPage }">
         <div
           class="is-flex is-justify-content-space-between pb-4 pt-5 is-align-content-center">
           <div class="is-flex gap-4 is-flex-wrap-wrap">
@@ -17,7 +11,7 @@
               rounded
               label="All"
               variant="text"
-              @click.native="activateAllFilter" />
+              @click="activateAllFilter" />
             <FilterButton
               v-for="param in filters"
               :key="param"
@@ -29,7 +23,7 @@
             <Pagination
               :value="currentPage"
               :total="total"
-              :per-page="itemsPerPage"
+              :per-page="perPage"
               :range-before="2"
               :range-after="2"
               replace
@@ -45,17 +39,17 @@
 </template>
 
 <script lang="ts" setup>
-import History from './History.vue'
-import { Interaction } from '@/components/rmrk/service/scheme'
 import { sortedEventByDate } from '@/utils/sorting'
-import FilterButton from '@/components/profile/FilterButton.vue'
 import { Interaction as InteractionEnum } from '@kodadot1/minimark/v1'
-import Pagination from '@/components/rmrk/Gallery/Pagination.vue'
 import { NeoButton } from '@kodadot1/brick'
+import History from './History.vue'
+import FilterButton from '@/components/profile/FilterButton.vue'
+import Pagination from '@/components/rmrk/Gallery/Pagination.vue'
+
 const route = useRoute()
 const { replaceUrl } = useReplaceUrl()
 
-const events = ref<Interaction[]>([])
+const events = ref<InteractionEnum[]>([])
 
 const props = defineProps<{
   id: string
@@ -67,13 +61,13 @@ const activateAllFilter = () => {
   replaceUrl(
     filters.reduce(
       (queryParams, filter) => ({ ...queryParams, [filter]: true }),
-      {}
-    )
+      {},
+    ),
   )
 }
 
 const activeFilters = computed(() =>
-  filters.filter((queryParam) => route.query[queryParam] === 'true')
+  filters.filter((queryParam) => route.query[queryParam] === 'true'),
 )
 
 const { urlPrefix } = usePrefix()
@@ -103,7 +97,7 @@ const filteredEvents = computed(() =>
       return activeFilters.value.includes(caller === props.id ? 'buy' : 'sale')
     }
     return activeFilters.value.includes(interactionToFilterMap[interaction])
-  })
+  }),
 )
 
 onMounted(() => {

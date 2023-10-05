@@ -2,7 +2,7 @@
   <div>
     <Loader v-model="isLoading" :status="status" />
     <NeoModal
-      v-model="preferencesStore.listingCartModalOpen"
+      :value="preferencesStore.listingCartModalOpen"
       scroll="clip"
       @close="onClose">
       <div class="modal-width">
@@ -15,8 +15,9 @@
           <NeoButton
             variant="text"
             no-shadow
-            icon="close"
-            @click.native="onClose" />
+            icon="xmark"
+            size="medium"
+            @click="onClose" />
         </header>
 
         <div class="px-6 pt-4 limit-height">
@@ -24,12 +25,14 @@
 
           <ListingCartSingleItemCart
             v-if="listingCartStore.count === 1"
-            v-bind.sync="cartData"
+            v-model:fixedPrice="fixedPrice"
+            v-model:floorPricePercentAdjustment="floorPricePercentAdjustment"
             @setFixedPrice="setFixedPrice" />
 
           <ListingCartMultipleItemsCart
             v-else
-            v-bind.sync="cartData"
+            v-model:fixedPrice="fixedPrice"
+            v-model:floorPricePercentAdjustment="floorPricePercentAdjustment"
             @setFixedPrice="setFixedPrice" />
         </div>
 
@@ -51,12 +54,13 @@
             variant="k-accent"
             no-shadow
             class="is-flex is-flex-grow-1 py-5"
-            @click.native="confirm" />
+            @click="confirm" />
         </div>
       </div>
     </NeoModal>
   </div>
 </template>
+
 <script setup lang="ts">
 import { Interaction } from '@kodadot1/minimark/v1'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
@@ -82,55 +86,40 @@ const { $i18n } = useNuxtApp()
 
 const { chainSymbol, decimals } = useChain()
 
-const defaultCartData = {
-  fixedPrice: undefined,
-  floorPricePercentAdjustment: 1,
-}
-
-const cartData = ref<{
-  fixedPrice?: number | string
-  floorPricePercentAdjustment: number
-}>({ ...defaultCartData })
+const fixedPrice = ref()
+const floorPricePercentAdjustment = ref()
 
 function setFixedPrice() {
-  const fixedPrice = cartData.value.fixedPrice
-
-  const rate =
-    fixedPrice === undefined || fixedPrice === null || fixedPrice === ''
-      ? null
-      : Number(fixedPrice)
+  const rate = Number(fixedPrice.value) || 0
 
   listingCartStore.setFixedPrice(rate)
 }
 
-watch(
-  () => cartData.value.floorPricePercentAdjustment,
-  (rate) => {
-    listingCartStore.setFloorPrice(rate)
-  }
-)
+watch(floorPricePercentAdjustment, (rate) => {
+  listingCartStore.setFloorPrice(rate)
+})
 
 const fiatStore = useFiatStore()
 const priceUSD = computed(() =>
   calculateExactUsdFromToken(
     totalNFTsPrice.value,
-    Number(fiatStore.getCurrentTokenValue(prefixToToken[urlPrefix.value]))
-  )
+    Number(fiatStore.getCurrentTokenValue(prefixToToken[urlPrefix.value])),
+  ),
 )
 
 const totalNFTsPrice = computed(() =>
   Number(
     sum(
-      listingCartStore.itemsInChain.map((nft) => Number(nft.listPrice))
-    ).toFixed(4)
-  )
+      listingCartStore.itemsInChain.map((nft) => Number(nft.listPrice)),
+    ).toFixed(4),
+  ),
 )
 
 const cartHasNFTsWithPrice = computed(() =>
-  listingCartStore.itemsInChain.map((nft) => Number(nft.price)).some(Boolean)
+  listingCartStore.itemsInChain.map((nft) => Number(nft.price)).some(Boolean),
 )
 const showChangePriceModal = computed(
-  () => cartHasNFTsWithPrice.value && listingCartStore.count === 1
+  () => cartHasNFTsWithPrice.value && listingCartStore.count === 1,
 )
 
 const title = computed(() => {
@@ -156,14 +145,14 @@ const confirmListingLabel = computed(() => {
         : $i18n.t('listingCart.missing1')
     default:
       return `${listingCartStore.incompleteListPrices} ${$i18n.t(
-        'listingCart.missingMultiple'
+        'listingCart.missingMultiple',
       )}`
   }
 })
 async function confirm() {
   const token = listingCartStore.itemsInChain
     .filter((item): item is ListCartItem & { listPrice: number } =>
-      Boolean(item.listPrice)
+      Boolean(item.listPrice),
     )
     .map((item) => ({
       price: String(calculateBalance(item.listPrice, decimals.value)),
@@ -178,21 +167,23 @@ async function confirm() {
       successMessage: $i18n.t('transaction.price.success') as string,
       errorMessage: $i18n.t('transaction.price.error') as string,
     })
-    listingCartStore.clear()
+
+    listingCartStore.clearListedItems()
     preferencesStore.listingCartModalOpen = false
-    resetCartData()
+    resetCartToDefaults()
   } catch (error) {
     warningMessage(error)
   }
 }
 
 const onClose = () => {
-  resetCartData()
+  resetCartToDefaults()
   preferencesStore.listingCartModalOpen = false
 }
 
-const resetCartData = () => {
-  cartData.value = { ...defaultCartData }
+const resetCartToDefaults = () => {
+  fixedPrice.value = undefined
+  floorPricePercentAdjustment.value = undefined
 }
 
 watch(
@@ -201,15 +192,16 @@ watch(
     if (listingCartStore.count === 0) {
       preferencesStore.listingCartModalOpen = false
     }
-  }
+  },
 )
 
 onUnmounted(() => {
   preferencesStore.listingCartModalOpen = false
 })
 </script>
+
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .rounded {
   border-radius: 10rem;

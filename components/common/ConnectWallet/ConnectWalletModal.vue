@@ -47,7 +47,7 @@
           variant="k-accent"
           class="confirm-button"
           no-shadow
-          @click.native="setUserAuthValue">
+          @click="setUserAuthValue">
           <span class="is-flex is-align-items-center is-justify-content-center">
             {{ $i18n.t('walletConnect.confirm') }}
             <NeoIcon class="ml-2" icon="chevron-right" />
@@ -113,7 +113,7 @@ const uninstalledWallet = computed(() => {
 })
 const showUninstalledWallet = ref(!installedWallet.value.length)
 const hasUserWalletAuth = ref(
-  Boolean(localStorage.getItem('user_auth_wallet_add'))
+  Boolean(localStorage.getItem('user_auth_wallet_add')),
 )
 
 const toggleShowUninstalledWallet = () => {
