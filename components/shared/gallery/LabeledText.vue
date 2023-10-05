@@ -23,6 +23,6 @@ withDefaults(
     label: 'general.label',
     type: false,
     isLoading: false,
-  }
+  },
 )
 </script>

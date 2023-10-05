@@ -75,11 +75,11 @@ export const useNotification = () => {
       .filter(
         (event) =>
           event.interaction === Interaction.OFFER &&
-          Number(event.offer.expiration) > Number(currentBlockNumber)
+          Number(event.offer.expiration) > Number(currentBlockNumber),
       )
     events.value = sortedEventByDate(
       [...result.events, ...offerEvents],
-      'ASC'
+      'ASC',
     ) as unknown as Event[]
   })
 

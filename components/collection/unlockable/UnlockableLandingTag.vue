@@ -59,8 +59,8 @@ const mintLiveText = computed(() =>
   $i18n.t(
     smallWidth.value
       ? 'mint.unlockable.mintLiveSmall'
-      : 'mint.unlockable.mintLive'
-  )
+      : 'mint.unlockable.mintLive',
+  ),
 )
 </script>
 

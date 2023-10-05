@@ -76,7 +76,7 @@ const props = withDefaults(
     emoteCount: '',
     listed: true,
     price: '0',
-  }
+  },
 )
 
 const image = ref('')
@@ -93,21 +93,21 @@ watchEffect(async () => {
     title.value = meta.name
     animatedUrl.value = sanitizeIpfsUrl(
       meta.animation_url || meta.mediaUri || '',
-      'image'
+      'image',
     )
     mimeType.value = (await getMimeType(animatedUrl.value || image.value)) || ''
   }
 })
 
 const isBasicImage = computed(
-  () => !animatedUrl.value || (image.value && mimeType.value.includes('audio'))
+  () => !animatedUrl.value || (image.value && mimeType.value.includes('audio')),
 )
 const showPriceValue = computed(
-  () => props.listed || preferencesStore.getShowPriceValue
+  () => props.listed || preferencesStore.getShowPriceValue,
 )
 const nftName = computed(() => props.name || title.value || '--')
 const largeDisplay = computed(
-  () => preferencesStore.getLayoutClass === 'is-half-desktop is-half-tablet'
+  () => preferencesStore.getLayoutClass === 'is-half-desktop is-half-tablet',
 )
 </script>
 

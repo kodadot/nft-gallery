@@ -44,7 +44,7 @@ const collectionAvatar = ref('')
 const collectionName = ref('--')
 
 const bannerImageUrl = computed(
-  () => collectionAvatar.value && toOriginalContentUrl(collectionAvatar.value)
+  () => collectionAvatar.value && toOriginalContentUrl(collectionAvatar.value),
 )
 
 watchEffect(async () => {
@@ -83,13 +83,13 @@ useSeoMeta({
     generateCollectionImage(
       collectionName.value,
       data.value?.nftEntitiesConnection.totalCount,
-      collectionAvatar.value
+      collectionAvatar.value,
     ),
   twitterImage: () =>
     generateCollectionImage(
       collectionName.value,
       data.value?.nftEntitiesConnection.totalCount,
-      collectionAvatar.value
+      collectionAvatar.value,
     ),
 })
 </script>
@@ -153,10 +153,15 @@ useSeoMeta({
 
     @include ktheme() {
       color: theme('text-color-inverse');
-      text-shadow: 1px 1px 0 theme('text-color'), 1px -1px 0 theme('text-color'),
-        -1px 1px 0 theme('text-color'), -1px -1px 0 theme('text-color'),
-        1px 0px 0 theme('text-color'), 0px 1px 0 theme('text-color'),
-        -1px 0px 0 theme('text-color'), 0px -1px 0 theme('text-color'),
+      text-shadow:
+        1px 1px 0 theme('text-color'),
+        1px -1px 0 theme('text-color'),
+        -1px 1px 0 theme('text-color'),
+        -1px -1px 0 theme('text-color'),
+        1px 0px 0 theme('text-color'),
+        0px 1px 0 theme('text-color'),
+        -1px 0px 0 theme('text-color'),
+        0px -1px 0 theme('text-color'),
         4px 4px theme('text-color');
     }
   }

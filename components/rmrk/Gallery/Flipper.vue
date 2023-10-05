@@ -92,7 +92,7 @@ const generateTableRowList = (): TableRow[] => {
           Bought: 0,
           Sale: 0,
           ...commonInfo,
-        }
+        },
       )
     } else if (newEvent['interaction'] === Interaction.BUY) {
       const price = parseInt(newEvent['meta'])
@@ -112,7 +112,7 @@ const generateTableRowList = (): TableRow[] => {
           Bought: 0,
           Sale: price,
           ...commonInfo,
-        }
+        },
       )
     }
   }
@@ -155,6 +155,6 @@ watch(
     if (props.events) {
       createTableRowListByEvents()
     }
-  }
+  },
 )
 </script>

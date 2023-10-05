@@ -20,6 +20,6 @@ withDefaults(
   }>(),
   {
     value: '0',
-  }
+  },
 )
 </script>

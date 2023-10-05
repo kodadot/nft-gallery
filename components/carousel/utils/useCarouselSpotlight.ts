@@ -3,7 +3,6 @@ import type { CarouselNFT } from '@/components/base/types'
 
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
-
 const curatedCollection = {
   bsx: [
     '1865909717', // 'Berliner'

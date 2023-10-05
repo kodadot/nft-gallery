@@ -1,6 +1,6 @@
 function resolveQueryPath(
   prefix: string,
-  queryName: string
+  queryName: string,
 ): Promise<typeof import('*.graphql')> {
   // TODO: find a better way?
   const path = getPath(prefix)

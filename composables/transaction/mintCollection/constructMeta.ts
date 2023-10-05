@@ -33,7 +33,7 @@ export async function constructMeta(item: ActionMintCollection) {
     undefined,
     attributes,
     undefined,
-    type
+    type,
   )
   const metaHash = await pinJson(meta, imageHash)
 

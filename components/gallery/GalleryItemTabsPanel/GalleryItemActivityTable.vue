@@ -141,7 +141,7 @@ const interaction = computed(() =>
       }
     }
     return key
-  })
+  }),
 )
 
 const {
@@ -190,7 +190,7 @@ watchEffect(() => {
 const formatPrice = (price) => {
   const tokenAmount = formatBalance(price, decimals.value, false)
   const flatPrice = `${formatNumber(
-    Number(withoutDigitSeparator(tokenAmount)) * tokenPrice.value
+    Number(withoutDigitSeparator(tokenAmount)) * tokenPrice.value,
   )}`
   return [formatNumber(tokenAmount), flatPrice]
 }

@@ -53,6 +53,6 @@ watch(
   () => props.accountId,
   () => {
     refresh()
-  }
+  },
 )
 </script>

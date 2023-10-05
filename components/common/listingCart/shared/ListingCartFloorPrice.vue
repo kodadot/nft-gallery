@@ -48,7 +48,7 @@ const props = withDefaults(
   }>(),
   {
     modelValue: DEFAULT_FLOOR_PRICE_RATE,
-  }
+  },
 )
 
 const listingCartStore = useListingCartStore()
@@ -59,6 +59,6 @@ const isDisabled = computed(
   () =>
     !listingCartStore.itemsInChain
       .map((item) => item.collection.floor || 0)
-      .some(Boolean)
+      .some(Boolean),
 )
 </script>

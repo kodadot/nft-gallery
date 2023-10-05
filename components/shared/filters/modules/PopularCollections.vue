@@ -102,7 +102,7 @@ const props = withDefaults(
     expanded: false,
     dataModel: 'query',
     fluidPadding: false,
-  }
+  },
 )
 
 const emit = defineEmits(['resetPage'])
@@ -165,7 +165,7 @@ watch(
   getSearchParam,
   {
     immediate: true,
-  }
+  },
 )
 </script>
 <style lang="scss" scoped>

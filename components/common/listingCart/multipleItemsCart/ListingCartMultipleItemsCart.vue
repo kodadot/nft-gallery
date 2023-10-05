@@ -43,7 +43,7 @@ const props = defineProps<{
 
 const floorPricePercentAdjustment = useVModel(
   props,
-  'floorPricePercentAdjustment'
+  'floorPricePercentAdjustment',
 )
 
 const fixedPrice = useVModel(props, 'fixedPrice')

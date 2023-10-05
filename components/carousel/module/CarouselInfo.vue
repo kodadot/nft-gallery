@@ -56,7 +56,9 @@ import { prefixToToken } from '@/components/common/shoppingCart/utils'
 
 const CollectionDetailsPopover = defineAsyncComponent(
   () =>
-    import('@/components/collectionDetailsPopover/CollectionDetailsPopover.vue')
+    import(
+      '@/components/collectionDetailsPopover/CollectionDetailsPopover.vue'
+    ),
 )
 
 const props = defineProps<{

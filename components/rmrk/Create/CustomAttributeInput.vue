@@ -35,13 +35,13 @@ const props = withDefaults(
     max: 0,
     visible: 'collapse.collection.attributes.show',
     hidden: 'collapse.collection.attributes.hide',
-  }
+  },
 )
 
 const emit = defineEmits(['input'])
 const attributes = ref([])
 const disabled = computed(
-  () => props.max > 0 && attributes.value.length === props.max
+  () => props.max > 0 && attributes.value.length === props.max,
 )
 
 const addAttribute = () => {

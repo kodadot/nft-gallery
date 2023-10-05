@@ -73,7 +73,7 @@ watch(
   () => {
     processNFTImages()
   },
-  { immediate: true }
+  { immediate: true },
 )
 </script>
 

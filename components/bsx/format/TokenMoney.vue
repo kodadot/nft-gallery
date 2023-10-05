@@ -19,6 +19,6 @@ withDefaults(
   {
     value: '0',
     round: 4,
-  }
+  },
 )
 </script>

@@ -20,7 +20,9 @@ export default function useToken() {
 
   const availableAssets = computed(() => multiBalanceAssets)
   const availableTokensAcrossAllChains = computed(() =>
-    getUniqueArrayItems(Object.values(availableAssets.value).map(getAssetToken))
+    getUniqueArrayItems(
+      Object.values(availableAssets.value).map(getAssetToken),
+    ),
   )
 
   const tokens = computed<TokenDetails[]>(() => {

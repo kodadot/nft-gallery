@@ -15,7 +15,7 @@ export interface OpenWalletModalConfig {
 
 export const openConnectWalletModal = (
   instance,
-  { onConnect, closeAfterConnect, onCancel }: OpenWalletModalConfig = {}
+  { onConnect, closeAfterConnect, onCancel }: OpenWalletModalConfig = {},
 ) => {
   const { neoModal } = useProgrammatic()
 

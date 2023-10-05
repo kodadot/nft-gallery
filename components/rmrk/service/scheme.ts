@@ -259,7 +259,7 @@ export type RmrkCreatedNft = CreatedNFT | CreatedNFTV2
 
 export const getNftId = (
   nft: Pick<NFT, 'blockNumber' | 'collection' | 'instance' | 'name' | 'sn'>,
-  blocknumber?: string | number
+  blocknumber?: string | number,
 ): string => {
   return `${blocknumber ? blocknumber + '-' : ''}${nft.collection.id}-${
     nft.instance || nft.name
@@ -268,7 +268,7 @@ export const getNftId = (
 
 export const toNFTId = (
   nft: RmrkCreatedNft,
-  blocknumber: string | number
+  blocknumber: string | number,
 ): string => {
   const nftId = Object.prototype.hasOwnProperty.call(nft, 'instance')
     ? toNFTIdV1(nft as CreatedNFT, blocknumber)
@@ -278,7 +278,7 @@ export const toNFTId = (
 
 export const computeAndUpdateNft = (
   nft: NFT,
-  blocknumber?: string | number
+  blocknumber?: string | number,
 ): NFT => {
   const id = getNftId(nft, blocknumber)
   return {
@@ -289,7 +289,7 @@ export const computeAndUpdateNft = (
 }
 
 export const computeAndUpdateCollection = (
-  collection: Collection
+  collection: Collection,
 ): Collection => {
   return {
     ...collection,
@@ -306,7 +306,7 @@ type MergedData<T> = T extends Collection
 export const mergeNFTCollection = <T extends Collection | NFT>(
   item: T,
   metadata: T extends Collection ? CollectionMetadata : NFTMetadata,
-  shouldSanitize = false
+  shouldSanitize = false,
 ): MergedData<T> => {
   const merged = {
     ...item,

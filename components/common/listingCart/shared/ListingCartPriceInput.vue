@@ -34,7 +34,7 @@ const { chainSymbol } = useChain()
 
 watch(model, (newValue) => {
   const sanitizedValue = Number(
-    (newValue?.toString() ?? '').replace(/[^0-9.]/g, '')
+    (newValue?.toString() ?? '').replace(/[^0-9.]/g, ''),
   )
   if (sanitizedValue !== newValue) {
     model.value = sanitizedValue

@@ -101,7 +101,7 @@ const props = withDefaults(
   {
     canCancel: true,
     isMobile: false,
-  }
+  },
 )
 const emit = defineEmits(['close', 'update:modelValue'])
 const { $i18n } = useNuxtApp()

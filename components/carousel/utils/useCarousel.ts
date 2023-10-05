@@ -36,7 +36,7 @@ export const useCarouselPopularCollections = () => {
       (e: RowSeries): RowSeries => ({
         ...e,
         image: sanitizeIpfsUrl(e.image, 'image'),
-      })
+      }),
     )
   }
 
@@ -76,7 +76,7 @@ export const useCarouselRelated = async ({ collectionId }) => {
   watch(data, async () => {
     if (data.value?.collection) {
       const listOfRelatedNFTs = formatNFT(
-        (data.value as Collections).collection.nfts
+        (data.value as Collections).collection.nfts,
       )
       nfts.value = await setCarouselMetadata(listOfRelatedNFTs)
     }
@@ -110,7 +110,7 @@ export const useCarouselVisited = ({ ids }) => {
     if (data.value) {
       const dataNfts = data.value as VisitedNFTs
       const filteredNftsNullMeta = dataNfts.nftEntities.filter(
-        (nft) => nft.meta !== null
+        (nft) => nft.meta !== null,
       )
 
       if (filteredNftsNullMeta.length) {
@@ -140,7 +140,7 @@ function dispatch(event, name, slider) {
         x: position.x,
         y: position.y,
       },
-    })
+    }),
   )
 }
 

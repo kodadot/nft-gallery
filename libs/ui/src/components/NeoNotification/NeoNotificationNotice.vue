@@ -41,7 +41,7 @@ export default {
       return [
         this.computedClass(
           'noticeCustomContainerClass',
-          'o-notices__custom-container'
+          'o-notices__custom-container',
         ),
       ]
     },
