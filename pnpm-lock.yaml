@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: false
@@ -83,6 +83,9 @@ importers:
       '@polkadot/vue-identicon':
         specifier: ^3.3.1
         version: 3.6.2(vue@2.7.14)
+      '@ramp-network/ramp-instant-sdk':
+        specifier: ^4.0.4
+        version: 4.0.4
       '@transak/transak-sdk':
         specifier: ^1.4.1
         version: 1.4.1
@@ -390,7 +393,7 @@ importers:
         version: 0.17.2(sass@1.68.0)(vite@3.2.7)
       vite:
         specifier: ^3.2.7
-        version: 3.2.7(sass@1.68.0)(terser@5.19.4)
+        version: 3.2.7(@types/node@20.5.4)(sass@1.68.0)
       vue:
         specifier: 2.7.14
         version: 2.7.14
@@ -4188,7 +4191,7 @@ packages:
       chokidar: 3.5.3
       pathe: 0.2.0
       picocolors: 1.0.0
-      vite: 3.2.7(sass@1.68.0)(terser@5.19.4)
+      vite: 3.2.7(@types/node@20.5.4)(sass@1.68.0)
     dev: true
 
   /@histoire/vendors@0.17.0:
@@ -7457,6 +7460,13 @@ packages:
     resolution: {integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==}
     dev: false
 
+  /@ramp-network/ramp-instant-sdk@4.0.4:
+    resolution: {integrity: sha512-Kkn+xwc4EbD2YqXOOQChZCqRT8/DM8sh9Qnz1nI2+/ACdo3INc42FMubgw5aZlyBzuF32XL/xdZyWBGPF4vECg==}
+    engines: {node: '>=6.0.0'}
+    dependencies:
+      body-scroll-lock: 3.1.5
+    dev: false
+
   /@rollup/plugin-alias@4.0.4(rollup@2.79.1):
     resolution: {integrity: sha512-0CaAY238SMtYAWEXXptWSR8iz8NYZnH7zNBKuJ14xFJSGwLtPgjvXYsoApAHfzYXXH1ejxpVw7WlHss3zhh9SQ==}
     engines: {node: '>=14.0.0'}
@@ -8550,7 +8560,7 @@ packages:
       vite: ^3.0.0 || ^4.0.0
       vue: ^2.7.0-0
     dependencies:
-      vite: 3.2.7(sass@1.68.0)(terser@5.19.4)
+      vite: 3.2.7(@types/node@20.5.4)(sass@1.68.0)
       vue: 2.7.14
     dev: true
 
@@ -10448,6 +10458,10 @@ packages:
       unpipe: 1.0.0
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /body-scroll-lock@3.1.5:
+    resolution: {integrity: sha512-Yi1Xaml0EvNA0OYWxXiYNqY24AfWkbA6w5vxE7GWxtKfzIbZM+Qw+aSmkgsbWzbHiy/RCSkUZBplVxTA+E4jJg==}
     dev: false
 
   /boolbase@1.0.0:
@@ -15183,7 +15197,7 @@ packages:
       sade: 1.8.1
       shiki-es: 0.2.0
       sirv: 2.0.3
-      vite: 3.2.7(sass@1.68.0)(terser@5.19.4)
+      vite: 3.2.7(@types/node@20.5.4)(sass@1.68.0)
       vite-node: 0.34.5(@types/node@20.5.4)(sass@1.68.0)
     transitivePeerDependencies:
       - '@types/node'
