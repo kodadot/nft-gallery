@@ -36,11 +36,11 @@ const props = withDefaults(
   {
     to: '',
     showActiveCheck: true,
-  }
+  },
 )
 
 const icon = computed(() =>
-  props.showActiveCheck && props.active ? 'check' : ''
+  props.showActiveCheck && props.active ? 'check' : '',
 )
 </script>
 

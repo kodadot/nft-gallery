@@ -21,11 +21,11 @@ import collectionsSales from '@/queries/subsquid/general/collectionsSales.graphq
 
 const proccessData = (
   collectionsList: CollectionEntity[],
-  collectionsSales: CollectionSales[]
+  collectionsSales: CollectionSales[],
 ) => {
   return collectionsList.map((e): CollectionEntityWithVolumes => {
     const thisCollectionSales = collectionsSales.find(
-      ({ id }) => id === e.id
+      ({ id }) => id === e.id,
     ) as CollectionSales
     const saleEvents = thisCollectionSales.sales.map((nft) => nft.events).flat()
 
@@ -48,7 +48,7 @@ export const useTopCollections = (limit: number) => {
   const { client } = usePrefix()
   const topCollectionWithVolumeList = useState<CollectionEntityWithVolumes[]>(
     'topCollectionWithVolumeList',
-    () => []
+    () => [],
   )
   const error = ref(null)
   // const loading = ref(false)
@@ -57,7 +57,7 @@ export const useTopCollections = (limit: number) => {
   const { result: topCollections, loading } = useQuery(
     topCollectionList,
     { orderBy: 'volume_DESC', limit },
-    { clientId: client.value }
+    { clientId: client.value },
   )
 
   watch([topCollections, error], () => {
@@ -73,7 +73,7 @@ export const useTopCollections = (limit: number) => {
       const { onResult } = useQuery(
         collectionsSales,
         { ids },
-        { clientId: client.value }
+        { clientId: client.value },
       )
       onResult((result) => (collectionsSalesResults.value = result.data))
     }
@@ -85,7 +85,7 @@ export const useTopCollections = (limit: number) => {
         .collectionEntities
       topCollectionWithVolumeList.value = proccessData(
         collectionsList,
-        collectionsSalesResults.value.collectionsSales
+        collectionsSalesResults.value.collectionsSales,
       )
     }
   })

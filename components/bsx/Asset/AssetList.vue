@@ -44,7 +44,7 @@ const currentAsset = ref<string>('0')
 const { result: assets } = useQuery(
   assetListByIdList,
   { ids: ['0', getKusamaAssetId(client.value), '6'] },
-  { clientId: client.value }
+  { clientId: client.value },
 )
 
 const fetchAccountBalance = async () => {
@@ -77,7 +77,7 @@ const handleTokenSelect = async (id: string) => {
   howAboutToExecute(accountId.value, call, args, (blockNumber) => {
     showNotification(
       `[ASSET] Since block ${blockNumber}, you pay in different token`,
-      notificationTypes.success
+      notificationTypes.success,
     )
     fetchCurrentToken()
     fetchAccountBalance()
@@ -93,6 +93,6 @@ watch(
       await fetchCurrentToken()
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 </script>

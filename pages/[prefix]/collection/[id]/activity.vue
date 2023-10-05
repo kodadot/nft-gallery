@@ -24,7 +24,7 @@ export default {
   setup() {
     const preferencesStore = usePreferencesStore()
     const isSidebarOpen = computed(
-      () => preferencesStore.getsidebarFilterCollapse
+      () => preferencesStore.getsidebarFilterCollapse,
     )
 
     return {
@@ -34,13 +34,13 @@ export default {
   head() {
     const historyStore = useHistoryStore()
     const currentlyViewedCollection = computed(
-      () => historyStore.getCurrentlyViewedCollection
+      () => historyStore.getCurrentlyViewedCollection,
     )
     const image = computed(() => {
       return generateCollectionImage(
         currentlyViewedCollection.value.name,
         currentlyViewedCollection.value.numberOfItems,
-        currentlyViewedCollection.value.image
+        currentlyViewedCollection.value.image,
       )
     })
     const title = currentlyViewedCollection.value.name

@@ -147,7 +147,7 @@ const btn = computed(() =>
         label: $i18n.t('massmint.onboarding.next'),
         variant: 'primary' as NeoButtonVariant,
         onClick: nextSlide,
-      }
+      },
 )
 </script>
 

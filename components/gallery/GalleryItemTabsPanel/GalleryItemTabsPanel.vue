@@ -65,7 +65,7 @@ const props = withDefaults(
   }>(),
   {
     activeTab: '0',
-  }
+  },
 )
 
 const { urlPrefix } = usePrefix()

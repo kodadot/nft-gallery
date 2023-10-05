@@ -93,7 +93,7 @@ enum BuyStatus {
 }
 
 const btnStatus = computed(() =>
-  shoppingCartStore.isItemInCart(props.nft.id) ? BuyStatus.CART : BuyStatus.BUY
+  shoppingCartStore.isItemInCart(props.nft.id) ? BuyStatus.CART : BuyStatus.BUY,
 )
 
 const label = computed(() => {
@@ -101,7 +101,7 @@ const label = computed(() => {
     return $i18n.t('shoppingCart.gotToCart')
   }
   return $i18n.t(
-    preferencesStore.getReplaceBuyNowWithYolo ? 'YOLO' : 'nft.action.buy'
+    preferencesStore.getReplaceBuyNowWithYolo ? 'YOLO' : 'nft.action.buy',
   )
 })
 

@@ -163,7 +163,7 @@ const isDesktop = computed(() => props.variant === 'Desktop')
 const interactionName = computed(
   () =>
     interactionNameMap({ distinguishBuyAndSell: true })[props.event.Type] ||
-    props.event.Type
+    props.event.Type,
 )
 
 const getAvatar = async () => {

@@ -124,7 +124,7 @@ export const bin = (data: DataPoint[], binSize: BinSize): DataPoint[] => {
     const binEnd = binStart + binSizeMillis
     const binData = data.filter(
       (dataPoint) =>
-        dataPoint.timestamp >= binStart && dataPoint.timestamp < binEnd
+        dataPoint.timestamp >= binStart && dataPoint.timestamp < binEnd,
     )
     return { timestamp: binStart + binSizeMillis / 2, value: mean(binData) }
   })
@@ -139,7 +139,7 @@ export const format = (number: number) => {
 
 export const removeOutliers = (
   data: DataPoint[],
-  outlierThresholdScale = 0.75
+  outlierThresholdScale = 0.75,
 ): DataPoint[] => {
   const values = data.map((d) => d.value)
   const med = median(values)

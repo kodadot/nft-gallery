@@ -51,6 +51,6 @@ export default function ({
       complete: () => {
         $consola.log('ws subscription: done!')
       },
-    }
+    },
   )
 }

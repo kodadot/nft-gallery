@@ -37,7 +37,7 @@ import { NeoButton } from '@kodadot1/brick'
 
 // const { isEnabled } = useState()
 const hasDisplayedCookieBanner = ref(
-  localStorage.getItem('cookies_enabled') !== null || false
+  localStorage.getItem('cookies_enabled') !== null || false,
 )
 const acceptCookies = () => {
   // if (isEnabled) {

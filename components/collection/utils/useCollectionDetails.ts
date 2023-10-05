@@ -38,10 +38,10 @@ export const useCollectionDetails = ({ collectionId }) => {
           return undefined
         }
         const offresPerNft = data.value.stats.base.map((nft) =>
-          nft.offers.map((offer) => Number(offer.price))
+          nft.offers.map((offer) => Number(offer.price)),
         )
         const highestOffer = Math.max(
-          ...offresPerNft.map((nftOffers) => Math.max(...nftOffers))
+          ...offresPerNft.map((nftOffers) => Math.max(...nftOffers)),
         )
         return highestOffer
       })
@@ -62,7 +62,7 @@ export const useCollectionDetails = ({ collectionId }) => {
           100
         ).toFixed(2)}%`,
         collectionTradedVolumeNumber: Number(
-          getVolume(data.value.stats.sales.map((nft) => nft.events).flat())
+          getVolume(data.value.stats.sales.map((nft) => nft.events).flat()),
         ),
       }
     }

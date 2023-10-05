@@ -54,7 +54,7 @@ withDefaults(
     buttonLabel: 'View Profile',
     hideIdentityPopover: false,
     disableIdentityLink: false,
-  }
+  },
 )
 </script>
 

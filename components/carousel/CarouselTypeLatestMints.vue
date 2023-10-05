@@ -37,7 +37,7 @@
 import { flattenNFT } from './utils/useCarouselEvents'
 import { useCarouselUrl } from './utils/useCarousel'
 const CarouselList = defineAsyncComponent(
-  () => import('./module/CarouselAgnostic.vue')
+  () => import('./module/CarouselAgnostic.vue'),
 )
 
 const { urlOf } = useCarouselUrl()
@@ -51,7 +51,7 @@ const props = withDefaults(
   }>(),
   {
     limit: 10,
-  }
+  },
 )
 
 const { data: latestEvents } = useGraphql({
@@ -71,7 +71,7 @@ const { data: latestEvents } = useGraphql({
 })
 
 const nfts = computed(() =>
-  flattenNFT(latestEvents.value?.events || [], urlPrefix.value)
+  flattenNFT(latestEvents.value?.events || [], urlPrefix.value),
 )
 const showCarousel = computed(() => nfts.value.length)
 </script>

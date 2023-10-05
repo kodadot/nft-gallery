@@ -28,7 +28,7 @@ const props = withDefaults(
     activeMessage: 'I am helping to cover costs',
     passiveMessage: 'I do not want to support',
     type: '',
-  }
+  },
 )
 const emit = defineEmits(['input'])
 const priceString = ref(props.showPrice ? ` ($ ${round(props.price)})` : '')

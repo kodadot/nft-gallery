@@ -128,17 +128,17 @@ const transferItemLabel = computed(() => {
 })
 
 const isYourAddress = computed(
-  () => accountId.value === getChainAddress(address.value)
+  () => accountId.value === getChainAddress(address.value),
 )
 
 const isDisabled = computed(
-  () => !address.value || !isAddressValid.value || isYourAddress.value
+  () => !address.value || !isAddressValid.value || isYourAddress.value,
 )
 
 const nftPrice = computed(() =>
   Number(props.nft.price)
     ? formatBalance(Number(props.nft.price), decimals.value, chainSymbol.value)
-    : '--'
+    : '--',
 )
 
 const getAvatar = async () => {

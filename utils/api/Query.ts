@@ -18,7 +18,7 @@ class Query {
 
   static async getTokenBalance(
     api: ApiPromise,
-    accountId: string
+    accountId: string,
   ): Promise<string> {
     const { availableBalance } = await api.derive.balances.all(accountId)
     return availableBalance.toString()

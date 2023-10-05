@@ -43,7 +43,7 @@ const props = withDefaults(
     icon: '',
     placeholder: '',
     emptyOnError: false,
-  }
+  },
 )
 
 const { chainProperties } = useChain()

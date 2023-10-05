@@ -44,8 +44,8 @@ const openListCartModal = () => {
   listingCartStore.setItem(
     nftToListingCartItem(
       props.nft,
-      String(stats.value.collectionFloorPrice ?? '')
-    )
+      String(stats.value.collectionFloorPrice ?? ''),
+    ),
   )
   preferencesStore.listingCartModalOpen = true
 }
@@ -56,7 +56,7 @@ watch(
     if (!isOpen) {
       onListingModalClose()
     }
-  }
+  },
 )
 
 const onListingModalClose = () => {

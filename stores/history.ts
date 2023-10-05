@@ -72,7 +72,7 @@ export const useHistoryStore = defineStore('history', {
         (nft) =>
           isThisWeek(new Date(nft.date)) &&
           !isToday(new Date(nft.date)) &&
-          !isYesterday(new Date(nft.date))
+          !isYesterday(new Date(nft.date)),
       ),
     getVisitedPastMonth: (state) =>
       state.visitedNFTs.filter(
@@ -80,14 +80,14 @@ export const useHistoryStore = defineStore('history', {
           isThisMonth(new Date(nft.date)) &&
           !isThisWeek(new Date(nft.date)) &&
           !isToday(new Date(nft.date)) &&
-          !isYesterday(new Date(nft.date))
+          !isYesterday(new Date(nft.date)),
       ),
     getVisitedEarlier: (state) =>
       state.visitedNFTs.filter(
         (nft) =>
           !isThisMonth(new Date(nft.date)) &&
           !isToday(new Date(nft.date)) &&
-          !isYesterday(new Date(nft.date))
+          !isYesterday(new Date(nft.date)),
       ),
     getCurrentlyViewedItem: (state) => state.currentlyViewedItem,
     getCurrentlyViewedCollection: (state) => state.currentlyViewedCollection,

@@ -1,7 +1,7 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <BaseCollectionForm v-model="base" ref="collectionForm" protective-margin>
+    <BaseCollectionForm ref="collectionForm" v-model="base" protective-margin>
       <template #header>
         <NeoField>
           <div>
@@ -92,7 +92,7 @@ const rmrkId = computed(() => generateId(accountId.value, symbol.value))
 
 const balanceNotEnough = computed(() => Number(balance.value) <= 2)
 const balanceNotEnoughMessage = computed(() =>
-  balanceNotEnough.value ? $i18n.t('tooltip.notEnoughBalance') : ''
+  balanceNotEnough.value ? $i18n.t('tooltip.notEnoughBalance') : '',
 )
 const isMintDisabled = computed(() => balanceNotEnough.value)
 
@@ -131,7 +131,7 @@ const submit = async () => {
   showNotification(
     // Add your i18n integration if needed
     `Creating collection ${base.value.name}`,
-    notificationTypes.info
+    notificationTypes.info,
   )
 
   try {

@@ -24,7 +24,7 @@ export default {
     const preferencesStore = usePreferencesStore()
     const { urlPrefix } = usePrefix()
     const isSidebarOpen = computed(
-      () => preferencesStore.getsidebarFilterCollapse
+      () => preferencesStore.getsidebarFilterCollapse,
     )
 
     const checkRouteAvailability = () => {

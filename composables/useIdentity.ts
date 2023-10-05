@@ -21,13 +21,13 @@ export default function useIdentity({
       address.value &&
       (isDotAddress.value
         ? accountToPublicKey(address.value)
-        : getss58AddressByPrefix(address.value, 'rmrk'))
+        : getss58AddressByPrefix(address.value, 'rmrk')),
   )
 
   const identityPrefix = computed(() => (isDotAddress.value ? 'dot' : 'rmrk'))
 
   const identityUnit = computed(
-    () => chainPropListOf(identityPrefix.value)?.tokenSymbol
+    () => chainPropListOf(identityPrefix.value)?.tokenSymbol,
   )
 
   const identityApi = computed(() => apiInstanceByPrefix(identityPrefix.value))
@@ -48,7 +48,7 @@ export default function useIdentity({
   const twitter = computed(() => identity?.value?.twitter)
   const display = computed(() => identity?.value?.display)
   const name = computed(() =>
-    displayName({ customNameOption, identity, shortenedAddress })
+    displayName({ customNameOption, identity, shortenedAddress }),
   )
 
   watch(urlPrefix, () => {

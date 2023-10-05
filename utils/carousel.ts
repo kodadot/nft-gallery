@@ -57,7 +57,7 @@ export const setCarouselMetadata = async (nfts): Promise<CarouselNFT[]> => {
         image: imageSanitizer(image),
         animation_url: sanitizeIpfsUrl(meta.animation_url || image),
       }
-    })
+    }),
   )
 }
 

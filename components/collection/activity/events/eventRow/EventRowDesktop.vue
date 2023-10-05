@@ -100,7 +100,8 @@ const avatar = ref<string>()
 const { placeholder } = useTheme()
 
 const interactionName = computed(
-  () => interactionNameMap()[props.event.interaction] || props.event.interaction
+  () =>
+    interactionNameMap()[props.event.interaction] || props.event.interaction,
 )
 const amount = computed(() => getAmount(props.event))
 

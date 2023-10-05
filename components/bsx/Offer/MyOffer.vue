@@ -120,11 +120,11 @@ withDefaults(
   {
     address: '',
     hideHeading: false,
-  }
+  },
 )
 
 const targetAddress = computed(
-  () => destinationAddress.value || accountId.value
+  () => destinationAddress.value || accountId.value,
 )
 
 const getUniqType = () => {
@@ -165,7 +165,7 @@ const submit = async (
   nftId: string,
   collectionId: string,
   withdraw: boolean,
-  onSuccess?: () => void
+  onSuccess?: () => void,
 ) => {
   try {
     const { apiInstance } = useApi()
@@ -182,7 +182,7 @@ const submit = async (
         : $i18n.t('offer.withdraw')
       showNotification(
         `[OFFER] Since block ${blockNumber}, ${msg}`,
-        notificationTypes.success
+        notificationTypes.success,
       )
       onSuccess && onSuccess()
     })
@@ -206,7 +206,7 @@ const displayOffers = (offers: Offer[]) => {
     filterOffers = offers.concat()
   } else {
     filterOffers = offers.filter(
-      (offer) => offer.status === selectedStatus.value
+      (offer) => offer.status === selectedStatus.value,
     )
   }
 

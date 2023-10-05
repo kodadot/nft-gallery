@@ -12,7 +12,7 @@ export default defineNuxtRouteMiddleware((route) => {
 
   const isAnyChainPrefixInPath = chainPrefixes.includes(prefixInPath)
   const rmrk2ChainPrefixInHostname = rmrk2ChainPrefixesInHostname.find(
-    (prefix) => location.hostname.startsWith(`${prefix}.`)
+    (prefix) => location.hostname.startsWith(`${prefix}.`),
   )
 
   if (rmrk2ChainPrefixInHostname) {
@@ -23,9 +23,9 @@ export default defineNuxtRouteMiddleware((route) => {
         // multi-chain domain (for example: kodadot.xyz)
         `${window.location.origin.replace(
           `${rmrk2ChainPrefixInHostname}.`,
-          ''
+          '',
         )}${route.fullPath}`,
-        '_self'
+        '_self',
       )
     } else if (urlPrefix.value !== 'ksm') {
       setUrlPrefix('ksm')

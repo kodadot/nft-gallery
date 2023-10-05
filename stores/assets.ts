@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import assetListQuery from '@/queries/subsquid/bsx/assetList.graphql'
-import { chainAssetOf } from '@/utils/config/chain.config'
 import type { Prefix } from '@kodadot1/static'
 
 export type TokenProperty = {
@@ -27,7 +26,7 @@ export const useAssetsStore = defineStore('assets', {
         toRaw(payload.value).assetList.map(({ id, decimals, symbol }) => [
           id,
           { id, decimals, symbol },
-        ])
+        ]),
       )
     },
     setLocalPrefix(payload: Prefix) {

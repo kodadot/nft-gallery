@@ -25,7 +25,7 @@ const gridSize = computed(() => preferencesStore.getGridSize)
 
 const smallGridLayout = ref('is-half-desktop is-half-tablet is-half-mobile')
 const largeGridLayout = ref(
-  'is-one-quarter-desktop is-one-third-tablet is-half-mobile'
+  'is-one-quarter-desktop is-one-third-tablet is-half-mobile',
 )
 
 const changeGridLayout = (layout: string, grid: string) => {

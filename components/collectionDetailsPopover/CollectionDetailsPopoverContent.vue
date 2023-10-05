@@ -88,11 +88,11 @@ const props = defineProps<{
 }>()
 
 const CommonTokenMoney = defineAsyncComponent(
-  () => import('@/components/shared/CommonTokenMoney.vue')
+  () => import('@/components/shared/CommonTokenMoney.vue'),
 )
 
 const GalleryCard = defineAsyncComponent(
-  () => import('@/components/rmrk/Gallery/GalleryCard.vue')
+  () => import('@/components/rmrk/Gallery/GalleryCard.vue'),
 )
 
 const { urlPrefix } = usePrefix()
