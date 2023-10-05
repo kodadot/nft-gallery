@@ -25,7 +25,7 @@ const preferencesStore = usePreferencesStore()
 const fiatStore = useFiatStore()
 
 const items = computed(() =>
-  shoppingCartStore.getItemsByPrefix(urlPrefix.value)
+  shoppingCartStore.getItemsByPrefix(urlPrefix.value),
 )
 
 onMounted(async () => {
@@ -67,8 +67,8 @@ const onConfirm = () => {
   } else {
     handleBuy(
       ShoppingCartItemToTokenToBuy(
-        shoppingCartStore.getItemToBuy as ShoppingCartItem
-      )
+        shoppingCartStore.getItemToBuy as ShoppingCartItem,
+      ),
     )
     shoppingCartStore.removeItemToBuy()
   }

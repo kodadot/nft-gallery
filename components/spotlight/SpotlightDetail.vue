@@ -21,6 +21,6 @@ const { result: nfts } = useQuery(
     account: props.account,
     first: 4,
   },
-  { clientId: client.value }
+  { clientId: client.value },
 )
 </script>

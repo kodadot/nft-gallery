@@ -22,7 +22,7 @@ export default function () {
           ?.nativeBalance
       default:
         return identityStore.getTokenBalanceOf(
-          getKusamaAssetId(urlPrefix.value)
+          getKusamaAssetId(urlPrefix.value),
         )
     }
   }

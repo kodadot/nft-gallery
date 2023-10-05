@@ -113,7 +113,7 @@ const uninstalledWallet = computed(() => {
 })
 const showUninstalledWallet = ref(!installedWallet.value.length)
 const hasUserWalletAuth = ref(
-  Boolean(localStorage.getItem('user_auth_wallet_add'))
+  Boolean(localStorage.getItem('user_auth_wallet_add')),
 )
 
 const toggleShowUninstalledWallet = () => {

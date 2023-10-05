@@ -14,7 +14,7 @@ const api = $fetch.create({
 })
 
 export const fetchMimeType = async (
-  ipfsLink?: string
+  ipfsLink?: string,
 ): Promise<string | undefined> => {
   if (!ipfsLink) {
     return undefined
@@ -27,7 +27,7 @@ export const fetchMimeType = async (
   } catch (e: any) {
     logError(e, (msg) => {
       console.warn(
-        `[MIME TYPE] Unable to access type of ${assetUrl}\n\nReason ${msg}`
+        `[MIME TYPE] Unable to access type of ${assetUrl}\n\nReason ${msg}`,
       )
     })
     return undefined

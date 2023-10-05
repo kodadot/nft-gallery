@@ -60,7 +60,7 @@ export const pubKeyToAddress = (publicKey: string) => {
 
 export const formatAccount = (
   account: KeyringAccount | string,
-  format?: Prefix
+  format?: Prefix,
 ) => {
   const address = accountToAddress(account)
   const chainStore = useChainStore()
@@ -70,7 +70,7 @@ export const formatAccount = (
 
 export const isSameAccount = (
   account1: KeyringAccount | string,
-  account2: KeyringAccount | string
+  account2: KeyringAccount | string,
 ): boolean => {
   const address1 = accountToAddress(account1)
   const address2 = accountToAddress(account2)
@@ -79,7 +79,7 @@ export const isSameAccount = (
 
 export const isOwner = (
   account1?: KeyringAccount | string,
-  account2?: KeyringAccount | string
+  account2?: KeyringAccount | string,
 ): boolean => {
   return Boolean(account1 && account2 && isSameAccount(account1, account2))
 }

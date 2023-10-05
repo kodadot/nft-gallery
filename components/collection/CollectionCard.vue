@@ -49,10 +49,10 @@ onMounted(async () => {
 
   isLoadingMeta.value = true
   const metadata = (await processSingleMetadata(
-    props.collection.metadata
+    props.collection.metadata,
   )) as Metadata
   image.value = sanitizeIpfsUrl(
-    metadata.image || metadata.thumbnailUri || metadata.mediaUri || ''
+    metadata.image || metadata.thumbnailUri || metadata.mediaUri || '',
   )
   isLoadingMeta.value = false
 })

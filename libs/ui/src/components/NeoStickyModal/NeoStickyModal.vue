@@ -83,7 +83,7 @@ const props = withDefaults(
   }>(),
   {
     withBoxedHeader: true,
-  }
+  },
 )
 
 const updateActive = (value: boolean) => {

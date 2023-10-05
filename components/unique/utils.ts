@@ -2,7 +2,7 @@ import BN from 'bn.js'
 const LEGACY_PREFIX = /^u-/
 
 export const tokenIdToRoute = (
-  tokenId: string
+  tokenId: string,
 ): { id: string; item: string } => {
   const sanitized = correctId(tokenId)
   const [collection, item] = sanitized.split('-')

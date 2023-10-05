@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-    <div class="level my-4 collection is-align-items-center mb-5" v-if="data">
+    <div v-if="data" class="level my-4 collection is-align-items-center mb-5">
       <div
         v-for="data in offerStats"
         :key="data.status"
@@ -26,7 +26,7 @@
           <p class="heading has-text-weight-bold mb-5">
             {{
               `${data.status} ${$t('statsOverview.offers')} / ${$t(
-                'statsOverview.values'
+                'statsOverview.values',
               )}`
             }}
           </p>
@@ -62,13 +62,13 @@ watchEffect(() => {
     const { result: data } = useQuery<StatsResponse>(
       statsForBsx,
       {},
-      { clientId: client.value }
+      { clientId: client.value },
     )
 
     statsResponse.value = data.value
     offerStats.value = data.value.offerStats
     keysObject.value = Object.keys(data.value).filter(
-      (key) => key !== 'offerStats'
+      (key) => key !== 'offerStats',
     )
   } catch (e) {
     $consola.error(e)

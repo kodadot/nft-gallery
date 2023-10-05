@@ -34,7 +34,7 @@
           no-shadow
           class="fixed-width p-1 no-border-left btn-height override-wrapper-width"
           @click.prevent="onClickShoppingCart">
-          <img :src="cartIcon" class="image is-16x16" />
+          <img :src="cartIcon" class="image is-16x16" alt="cart icon" />
         </NeoButton>
       </div>
       <div v-else-if="isOwner" class="is-flex">
@@ -82,12 +82,14 @@ const props = defineProps<{
   variant?: NftCardVariant
 }>()
 
-const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.nft))
+const { showCardIcon, cardIcon } = await useNftCardIcon(
+  computed(() => props.nft),
+)
 
 const isStack = computed(() => (props.nft as NFTStack).count > 1)
 
 const variant = computed(() =>
-  isStack.value ? `stacked-${props.variant}` : props.variant
+  isStack.value ? `stacked-${props.variant}` : props.variant,
 )
 
 const { nft: nftMetadata } = useNftMetadata(props.nft)
@@ -104,19 +106,19 @@ const buyLabel = computed(function () {
   }
 
   return $i18n.t(
-    preferencesStore.getReplaceBuyNowWithYolo ? 'YOLO' : 'shoppingCart.buyNow'
+    preferencesStore.getReplaceBuyNowWithYolo ? 'YOLO' : 'shoppingCart.buyNow',
   )
 })
 
 const nftStack = computed(() =>
-  isStack.value ? (props.nft as NFTStack).nfts : [props.nft]
+  isStack.value ? (props.nft as NFTStack).nfts : [props.nft],
 )
 
 const isAvailbleToBuy = computed(() =>
-  nftStack.value.some((nft) => Number(nft.price) > 0)
+  nftStack.value.some((nft) => Number(nft.price) > 0),
 )
 const anyAvailableForListing = computed(() =>
-  nftStack.value.some((nft) => !Number(nft.price))
+  nftStack.value.some((nft) => !Number(nft.price)),
 )
 
 const nftForShoppingCart = computed(() => {
@@ -137,7 +139,7 @@ const { cartIcon } = useShoppingCartIcon(props.nft.id)
 const { nft } = useNft(props.nft)
 
 const isOwner = computed(() =>
-  checkOwner(props.nft?.currentOwner, accountId.value)
+  checkOwner(props.nft?.currentOwner, accountId.value),
 )
 
 const openCompletePurcahseModal = () => {
@@ -154,7 +156,7 @@ const onCancelPurchase = () => {
 const onClickBuy = () => {
   if (isAvailbleToBuy.value) {
     shoppingCartStore.setItemToBuy(
-      nftToShoppingCartItem(nftForShoppingCart.value)
+      nftToShoppingCartItem(nftForShoppingCart.value),
     )
     doAfterLogin({
       onLoginSuccess: openCompletePurcahseModal,

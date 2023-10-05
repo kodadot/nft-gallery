@@ -264,12 +264,13 @@ const { $i18n } = useNuxtApp()
 // select collections
 const selectedCollection = ref()
 
-const submitButtonLabel = computed(() => {
-  return !isLogIn.value
-    ? $i18n.t('mint.nft.connect')
-    : canDeposit.value
+const depositLabel = computed(() =>
+  canDeposit.value
     ? $i18n.t('mint.nft.create')
-    : $i18n.t('confirmPurchase.notEnoughFuns')
+    : $i18n.t('confirmPurchase.notEnoughFuns'),
+)
+const submitButtonLabel = computed(() => {
+  return !isLogIn.value ? $i18n.t('mint.nft.connect') : depositLabel.value
 })
 
 const onCollectionSelected = (collection) => {
@@ -284,12 +285,12 @@ const imagePreview = computed(() => {
 
 // select available blockchain
 const menus = availablePrefixes().filter(
-  (menu) => menu.value !== 'movr' && menu.value !== 'glmr'
+  (menu) => menu.value !== 'movr' && menu.value !== 'glmr',
 )
 const chainByPrefix = computed(() =>
-  menus.find((menu) => menu.value === urlPrefix.value)
+  menus.find((menu) => menu.value === urlPrefix.value),
 )
-const selectChain = ref(chainByPrefix.value?.value || menus[0].value)
+const selectChain = ref(chainByPrefix.value || menus[0].value)
 
 // get/set current chain/prefix
 const currentChain = computed(() => selectChain.value as Prefix)
@@ -339,7 +340,7 @@ const createNft = async () => {
           royalty: form.royalty,
         },
       },
-      currentChain.value
+      currentChain.value,
     )) as unknown as {
       createdNFTs: Ref<CreatedNFT[]>
     }
@@ -376,7 +377,7 @@ watchEffect(async () => {
           token: list,
           successMessage: `[💰] Listed ${form.name} for ${form.salePrice} ${chainSymbol.value}`,
         },
-        currentChain.value
+        currentChain.value,
       )
 
       transactionStatus.value = 'checkListed'
@@ -410,9 +411,15 @@ watchEffect(() => {
 // navigate to gallery detail page after success create nft
 const retry = ref(10) // max retry 10 times
 
+type NftId = {
+  nftEntities?: {
+    id: string
+  }[]
+}
+
 async function getNftId() {
   const query = await resolveQueryPath(currentChain.value, 'nftByBlockNumber')
-  const { data } = await useAsyncQuery({
+  const { data }: { data: Ref<NftId> } = await useAsyncQuery({
     query: query.default,
     clientId: currentChain.value,
     variables: {
@@ -421,7 +428,7 @@ async function getNftId() {
     },
   })
 
-  return data?.value.nftEntities?.[0]?.id
+  return data.value.nftEntities?.[0]?.id
 }
 
 watchEffect(async () => {
@@ -433,7 +440,7 @@ watchEffect(async () => {
     showNotification(
       `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`,
       notificationTypes.info,
-      DETAIL_TIMEOUT
+      DETAIL_TIMEOUT,
     )
 
     await delay(DETAIL_TIMEOUT)

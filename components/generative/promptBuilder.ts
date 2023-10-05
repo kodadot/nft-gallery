@@ -91,7 +91,7 @@ export const buildAttributes = (options: Options): Attribute[] => {
 export const buildMetadata = async (
   url: string,
   options: Options,
-  { input, version, logs }: PredictionStatus
+  { input, version, logs }: PredictionStatus,
 ): Promise<string> => {
   const blob: Blob = await $fetch(url, { responseType: 'blob' })
   const file = new File([blob], 'image.png', { type: 'image/png' })
@@ -107,7 +107,7 @@ export const buildMetadata = async (
     undefined,
     attributes,
     undefined,
-    'image/png'
+    'image/png',
   )
 
   const replicableMeta = {

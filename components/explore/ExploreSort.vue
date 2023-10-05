@@ -68,7 +68,7 @@ const { urlPrefix } = usePrefix()
 const { isRemark } = useIsChain(urlPrefix)
 
 const isItems = computed(
-  () => route.path.includes('items') || route.path.includes('collection')
+  () => route.path.includes('items') || route.path.includes('collection'),
 )
 const options = computed(() => {
   let sortBy: string[]
@@ -128,7 +128,7 @@ watch(
   () => route.query.sort,
   (sort) => {
     selectedSort.value = sort as string[]
-  }
+  },
 )
 
 onMounted(() => {

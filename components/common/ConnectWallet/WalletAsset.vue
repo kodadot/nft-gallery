@@ -37,13 +37,12 @@ import WalletAssetMenu from './WalletAssetMenu.vue'
 import WalletAssetSetIdentity from './WalletAssetSetIdentity.vue'
 
 const MultipleBalances = defineAsyncComponent(
-  () => import('@/components/balance/MultipleBalances.vue')
+  () => import('@/components/balance/MultipleBalances.vue'),
 )
 
 const totalValue = ref(0)
 const identityStore = useIdentityStore()
 const { urlPrefix } = usePrefix()
-const { $i18n } = useNuxtApp()
 const { $consola } = useNuxtApp()
 
 const account = computed(() => identityStore.getAuthAddress)

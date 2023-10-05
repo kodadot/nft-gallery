@@ -6,7 +6,7 @@ import { execMintCollectionStatemine } from './mintCollection/transactionMintCol
 export function execMintCollection(
   item: ActionMintCollection,
   api,
-  executeTransaction
+  executeTransaction,
 ) {
   if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'ksm') {
     return execMintCollectionRmrk(item, api, executeTransaction)

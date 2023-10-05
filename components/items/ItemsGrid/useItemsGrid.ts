@@ -66,7 +66,7 @@ export function useFetchSearch({
       }
     }
     const notCollectionPage = computed(
-      () => route.name !== 'prefix-collection-id'
+      () => route.name !== 'prefix-collection-id',
     )
 
     const variables = search?.length
@@ -79,7 +79,7 @@ export function useFetchSearch({
 
     const queryPathBase = getQueryPath(client.value)
     const usingTokenEntities = computed(
-      () => notCollectionPage.value && isAssetHub.value
+      () => notCollectionPage.value && isAssetHub.value,
     )
 
     const queryPath = usingTokenEntities.value ? 'chain-ahk' : queryPathBase
@@ -109,7 +109,7 @@ export function useFetchSearch({
         name: extractBaseName(token.nfts[0].name),
         count: token.nfts.length,
         floorPrice: Math.min(
-          ...token.nfts.map((nft) => Number(nft.price))
+          ...token.nfts.map((nft) => Number(nft.price)),
         ).toString(),
         nfts: token.nfts,
       }
@@ -165,7 +165,7 @@ export function useFetchSearch({
       }
       loadedPages.value = []
       resetSearch()
-    }
+    },
   )
 
   return {
@@ -182,7 +182,7 @@ export const updatePotentialNftsForListingCart = async (nfts: NFT[]) => {
   const potentialNfts = nfts
     .filter(
       (nft) =>
-        !Number(nft.price) && checkOwner(nft.currentOwner, accountId.value)
+        !Number(nft.price) && checkOwner(nft.currentOwner, accountId.value),
     )
     .map((nft) => {
       const floorPrice = nft.collection.floorPrice[0]?.price || '0'

@@ -23,6 +23,7 @@ interface State {
   decimals: ComputedRef<number>
 }
 
+export const DEFAULT_FLOOR_PRICE_RATE = 1
 const localStorage = useLocalStorage<ListCartItem[]>('listingCart', [])
 export const useListingCartStore = defineStore('listingCart', {
   state: (): State => ({
@@ -78,11 +79,11 @@ export const useListingCartStore = defineStore('listingCart', {
         item.listPrice = price
       })
     },
-    setFloorPrice(rate = 1) {
+    setFloorPrice(rate = DEFAULT_FLOOR_PRICE_RATE) {
       this.itemsInChain.forEach((item) => {
         const floor = (Number(item.collection.floor) || 0) * +rate.toFixed(2)
         item.listPrice = Number(
-          (floor / Math.pow(10, this.decimals)).toFixed(4)
+          (floor / Math.pow(10, this.decimals)).toFixed(4),
         )
       })
     },

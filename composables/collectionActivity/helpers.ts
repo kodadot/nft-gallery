@@ -107,7 +107,7 @@ export const getOffers = (nfts): Offer[] => {
         timestamp: new Date(offer.updatedAt).getTime(),
         interaction: OfferInteraction,
         nft: { ...nft, events: undefined, offers: undefined },
-      }))
+      })),
     )
     .flat()
 }
@@ -132,10 +132,10 @@ export const getOwners = (nfts) => {
       const latestchangeHandsEvent = events.findLast(
         (event) =>
           event.interaction === Interaction.BUY ||
-          event.interaction === Interaction.SEND
+          event.interaction === Interaction.SEND,
       )
       const lastestTimeStamp = new Date(
-        latestchangeHandsEvent.timestamp
+        latestchangeHandsEvent.timestamp,
       ).getTime()
 
       owners[nft.currentOwner] = updateOwnerWithNewNft({

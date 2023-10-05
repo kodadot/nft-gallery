@@ -26,21 +26,21 @@ const props = withDefaults(
   }>(),
   {
     events: () => [],
-  }
+  },
 )
 
 const buyEvents = computed(() =>
   sortAsc(
     props.events
       .filter((e) => e.interaction === Interaction.BUY)
-      .map(toDataPoint)
-  )
+      .map(toDataPoint),
+  ),
 )
 const listEvents = computed(() => {
   const listDataPoints = sortAsc(
     props.events
       .filter((e) => e.interaction === Interaction.LIST)
-      .map(toDataPoint)
+      .map(toDataPoint),
   )
   return removeOutliers(listDataPoints)
 })

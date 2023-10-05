@@ -11,7 +11,7 @@ export default function () {
   })
 
   const apiInstance = computed<Promise<ApiPromise>>(() =>
-    ApiFactory.useApiInstance(apiUrl.value)
+    ApiFactory.useApiInstance(apiUrl.value),
   )
 
   const apiInstanceByPrefix = (prefix: string) => {

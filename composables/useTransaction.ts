@@ -123,7 +123,7 @@ export const useTransaction = () => {
         execWithdrawOfferTx(
           item as ActionWithdrawOffer,
           api,
-          executeTransaction
+          executeTransaction,
         ),
       [ShoppingActions.ACCEPT_OFFER]: () =>
         execAcceptOfferTx(item as ActionAcceptOffer, api, executeTransaction),
@@ -139,7 +139,7 @@ export const useTransaction = () => {
         execMintCollection(
           item as ActionMintCollection,
           api,
-          executeTransaction
+          executeTransaction,
         ),
     }
 

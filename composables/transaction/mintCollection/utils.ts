@@ -1,13 +1,13 @@
 export function createArgs(
   randomId: number,
-  metadata: string
+  metadata: string,
 ): [number, { Marketplace: null }, string] {
   return [randomId, { Marketplace: null }, metadata]
 }
 
 export function createArgsForNftPallet(
   account: string,
-  maxSupply?: number
+  maxSupply?: number,
 ): [string, any] {
   const config = {
     settings: 0,

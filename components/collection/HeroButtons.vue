@@ -109,7 +109,7 @@ const { toast } = useToast()
 const collectionId = computed(() => route.params.id)
 const currentCollectionUrl = computed(
   () =>
-    `${window.location.origin}/${urlPrefix.value}/collection/${collectionId.value}`
+    `${window.location.origin}/${urlPrefix.value}/collection/${collectionId.value}`,
 )
 const { collection } = useCollectionMinimal({
   collectionId: collectionId.value,
@@ -126,7 +126,7 @@ const openUrl = (url: string) => {
 
 const displaySeperator = computed(() => twitter.value)
 const isOwner = computed(() =>
-  checkOwner(collection.value?.currentOwner, accountId.value)
+  checkOwner(collection.value?.currentOwner, accountId.value),
 )
 
 const QRModalActive = ref(false)

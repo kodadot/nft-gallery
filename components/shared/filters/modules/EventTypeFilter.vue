@@ -54,7 +54,7 @@ const props = withDefaults(
     expanded: false,
     dataModel: 'query',
     fluidPadding: false,
-  }
+  },
 )
 
 const emit = defineEmits(['resetPage'])

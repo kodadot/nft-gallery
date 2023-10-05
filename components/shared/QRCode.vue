@@ -23,6 +23,6 @@ withDefaults(
     color: '#000',
     bgColor: '#FFF',
     level: 'M',
-  }
+  },
 )
 </script>
