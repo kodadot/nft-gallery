@@ -18,8 +18,6 @@ export const useCollectionActivity = ({ collectionId }) => {
     },
   })
 
-  console.log(data)
-
   watch(data, (result) => {
     if (result) {
       // flat events for chart
