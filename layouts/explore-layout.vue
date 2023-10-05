@@ -31,7 +31,6 @@
         </div>
       </main>
     </div>
-
     <Buy />
     <template v-if="listingCartEnabled">
       <ListingCartMini />
