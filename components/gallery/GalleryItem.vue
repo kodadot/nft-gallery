@@ -143,7 +143,7 @@
     </div>
 
     <CarouselTypeRelated
-      v-if="nft"
+      v-if="nft?.collection.id"
       class="mt-8"
       :collection-id="nft?.collection.id"
       data-testid="carousel-related" />
@@ -196,7 +196,7 @@ const mediaItemRef = ref<{ isLewdBlurredLayer: boolean } | null>(null)
 const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 const preferencesStore = usePreferencesStore()
 
-const galleryItem = await useGalleryItem()
+const galleryItem = useGalleryItem()
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType, nftResources } =
   galleryItem
 const collection = computed(() => nft.value?.collection)
@@ -258,7 +258,7 @@ const congratsNewNft = ref('')
 
 onMounted(() => {
   exist(route.query.congratsNft as string, (val) => {
-    congratsNewNft.value = val ? val : ''
+    congratsNewNft.value = val || ''
     router.replace({ query: {} })
   })
 })
