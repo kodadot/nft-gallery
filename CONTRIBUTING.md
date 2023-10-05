@@ -10,6 +10,10 @@ We might give retro-active reward, where the bounty label wasn't present, **if w
 
 **For better coordination, please join our [Development channel (#coordination) on [KodaDot Ecosystem Telegram](https://t.me/kodadot_eco)**
 
+
+## Deploy Kodadot nft gallery on Netlify
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://github.com/kodadot/nft-gallery)
+
 ## Getting started
 
 Before you being:
@@ -72,8 +76,9 @@ Congratulations! The whole Metaprime & KodaDot community thanks you. ✨
 
 When the issue is **converted to a draft, and you don't reply within 48h**, we will close it and unassign you from the task to leave room for someone else to finish the PR who has more availability and codebase understanding.
 
-## Rewards
 
+
+## Rewards
 Continue to [REWARDS.md](REWARDS.md)
 
 ## Hiring process
