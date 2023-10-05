@@ -232,7 +232,6 @@ const { data, refetch } = useGraphql({
 })
 
 const refetchData = async () => {
-  console.log('refetch')
   await refetch()
   await tryAgain()
 }
