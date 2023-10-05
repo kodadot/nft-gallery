@@ -33,10 +33,11 @@ import { downloadImage } from '@/utils/download'
 import { toOriginalContentUrl } from '@/utils/ipfs'
 import Loader from '@/components/shared/Loader.vue'
 
-const { $route, $i18n } = useNuxtApp()
+const { $i18n } = useNuxtApp()
 const { accountId } = useAuth()
 const { transaction, isLoading, status } = useTransaction()
 const { urlPrefix } = usePrefix()
+const route = useRoute()
 
 const props = defineProps<{
   mimeType?: string
@@ -55,7 +56,7 @@ const burn = () => {
   transaction({
     interaction: Interaction.CONSUME,
     urlPrefix: urlPrefix.value,
-    nftId: $route.params.id,
+    nftId: route.params.id as string,
     successMessage: $i18n.t('transaction.consume.success') as string,
     errorMessage: $i18n.t('transaction.consume.error') as string,
   })
@@ -66,7 +67,7 @@ const unlist = () => {
     interaction: Interaction.LIST,
     urlPrefix: urlPrefix.value,
     token: {
-      nftId: $route.params.id,
+      nftId: route.params.id as string,
       price: '0',
     },
     successMessage: $i18n.t('transaction.unlist.success') as string,
