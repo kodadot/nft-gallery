@@ -93,7 +93,7 @@ export default {
       // calc the dropdown position based on the trigger position
       const ele = this.$refs.trigger
       const side =
-        ele.getBoundingClientRect().left < window.innerWidth / 2
+        ele?.getBoundingClientRect().left < window.innerWidth / 2
           ? 'right'
           : 'left'
       this.autoPosition = this.position.replace('auto', side)
