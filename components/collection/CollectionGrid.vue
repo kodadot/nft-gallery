@@ -156,7 +156,6 @@ const {
 const skeletonCount = first.value
 
 const handleResult = (data, loadDirection = 'down') => {
-  console.log(data)
   total.value = data.stats.totalCount
   const newCollections = data.collectionEntities.map((e: any) => ({
     ...e,

@@ -388,7 +388,6 @@ const seeAllButtonHandler = () => {
 }
 
 const nativeSearch = () => {
-  console.log('native')
   // not selected
   if (selectedIndex.value === -1) {
     return
