@@ -79,6 +79,7 @@ const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
 const preferencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
+const { initRampInstant } = useRamp()
 const { cartIcon } = useShoppingCartIcon(props.nft.id)
 
 const instance = getCurrentInstance()
@@ -165,6 +166,7 @@ const onClickShoppingCart = () => {
 :deep(.button-height) {
   height: 55px !important;
 }
+
 .buy-button-width {
   width: 10rem;
 
@@ -172,6 +174,7 @@ const onClickShoppingCart = () => {
     width: 100%;
     flex-grow: 1;
   }
+
   .wrapper {
     width: 100%;
   }

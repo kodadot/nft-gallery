@@ -19,7 +19,7 @@
     :media-player-cover="mediaPlayerCover"
     media-hover-on-cover-play>
     <template #action>
-      <div v-if="!isOwner && isAvailbleToBuy" class="is-flex">
+      <div v-if="!isOwner && Number(nft?.price)" class="is-flex">
         <NeoButton
           :label="buyLabel"
           data-testid="item-buy"
@@ -78,7 +78,7 @@ const { $i18n } = useNuxtApp()
 const NuxtLink = resolveComponent('NuxtLink')
 
 const props = defineProps<{
-  nft: ItemsGridEntity
+  nft: NFTWithMetadata
   variant?: NftCardVariant
 }>()
 
@@ -128,9 +128,9 @@ const nftForShoppingCart = computed(() => {
 })
 
 const listLabel = computed(() => {
-  const label = anyAvailableForListing.value
-    ? $i18n.t('listingCart.listForSale')
-    : $i18n.t('transaction.price.change')
+  const label = Number(props.nft.price)
+    ? $i18n.t('transaction.price.change')
+    : $i18n.t('listingCart.listForSale')
   return label + (listingCartStore.isItemInCart(props.nft.id) ? ' ✓' : '')
 })
 
@@ -166,8 +166,8 @@ const onClickBuy = () => {
 }
 
 const onClickShoppingCart = () => {
-  if (shoppingCartStore.isItemInCart(nftForShoppingCart.value.id)) {
-    shoppingCartStore.removeItem(nftForShoppingCart.value.id)
+  if (shoppingCartStore.isItemInCart(props.nft.id)) {
+    shoppingCartStore.removeItem(props.nft.id)
   } else {
     shoppingCartStore.setItem(nftToShoppingCartItem(nftForShoppingCart.value))
   }
