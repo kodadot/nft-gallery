@@ -5,5 +5,8 @@ export default defineNuxtPlugin((nuxtApp) => {
     beforeMount(el, { value: url }) {
       el.setAttribute('href', sanitizeUrl(url))
     },
+    updated(el, { value: url }) {
+      el.setAttribute('href', sanitizeUrl(url))
+    },
   })
 })

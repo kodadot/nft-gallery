@@ -31,7 +31,7 @@ test('Transfer Page Functionality', async ({ page, Commands }) => {
   await page.getByTestId('transfer-switch-same').click()
   //checks if second address input converted itself according to same amount switch
   await expect(
-    page.getByTestId('transfer-input-amount-token').nth(1)
+    page.getByTestId('transfer-input-amount-token').nth(1),
   ).toHaveValue('1')
   await test.step('Test if total sums up', async () => {
     const total = (
@@ -45,7 +45,7 @@ test('Transfer Page Functionality', async ({ page, Commands }) => {
       await page.getByTestId('transfer-button-options').click()
       await page.getByTestId('transfer-dropdown-recurring').click()
       Commands.copyText(
-        `http://localhost:9090/dot/transfer?target=${UserAddress}&target1=${UserAddress}&usdamount=5`
+        `http://localhost:9090/dot/transfer?target=${UserAddress}&target1=${UserAddress}&usdamount=5`,
       )
     })
     //removes last transfer recipient
@@ -55,7 +55,7 @@ test('Transfer Page Functionality', async ({ page, Commands }) => {
       await page.getByTestId('transfer-button-options').click()
       await page.getByTestId('transfer-dropdown-pay-me').click()
       Commands.copyText(
-        `http://localhost:9090/dot/transfer?target=${UserAddress}&usdamount=4`
+        `http://localhost:9090/dot/transfer?target=${UserAddress}&usdamount=4`,
       )
     })
     //verify if network fee is present
@@ -74,11 +74,11 @@ test('Transfer Page Functionality', async ({ page, Commands }) => {
         .nth(0)
         .fill(`${UserAddress}`)
       await expect(
-        page.getByTestId('addresschecker-infobox-invalid')
+        page.getByTestId('addresschecker-infobox-invalid'),
       ).toBeVisible()
       await page.getByTestId('addresschecker-button-change-to').click()
       await expect(
-        page.getByTestId('addresschecker-infobox-convertion-success')
+        page.getByTestId('addresschecker-infobox-convertion-success'),
       ).toBeVisible()
     })
   })

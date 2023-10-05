@@ -143,7 +143,7 @@
     </div>
 
     <CarouselTypeRelated
-      v-if="nft"
+      v-if="nft?.collection.id"
       class="mt-8"
       :collection-id="nft?.collection.id"
       data-testid="carousel-related" />
@@ -196,7 +196,7 @@ const mediaItemRef = ref<{ isLewdBlurredLayer: boolean } | null>(null)
 const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 const preferencesStore = usePreferencesStore()
 
-const galleryItem = await useGalleryItem()
+const galleryItem = useGalleryItem()
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType, nftResources } =
   galleryItem
 const collection = computed(() => nft.value?.collection)
@@ -217,8 +217,8 @@ const showCongratsMessage = ref(false)
 const isFullscreen = ref(false)
 const canPreview = computed(() =>
   [MediaType.VIDEO, MediaType.IMAGE, MediaType.OBJECT].includes(
-    resolveMedia(nftMimeType.value)
-  )
+    resolveMedia(nftMimeType.value),
+  ),
 )
 
 const activeCarousel = ref(0)
@@ -227,13 +227,13 @@ const activeCarouselImage = computed(() => {
   return resource?.src || 'placeholder.webp'
 })
 const hasResources = computed(
-  () => nftResources.value && nftResources.value?.length > 1
+  () => nftResources.value && nftResources.value?.length > 1,
 )
 const hasAnimatedResources = computed(
   () =>
     nftResources.value &&
     nftResources.value?.length > 1 &&
-    nftResources.value[1].animation
+    nftResources.value[1].animation,
 )
 
 const previewItemSrc = computed(() => {
@@ -258,7 +258,7 @@ const congratsNewNft = ref('')
 
 onMounted(() => {
   exist(route.query.congratsNft as string, (val) => {
-    congratsNewNft.value = val ? val : ''
+    congratsNewNft.value = val || ''
     router.replace({ query: {} })
   })
 })
@@ -275,7 +275,7 @@ const meta = computed(() => {
         title.value,
         formatBalanceEmptyOnZero(nft.value?.price as string),
         sanitizeIpfsUrl(nftImage.value || ''),
-        nftMimeType.value
+        nftMimeType.value,
       ),
       mime: nftMimeType.value,
       url: route.path,

@@ -14,7 +14,7 @@ const props = withDefaults(
   }>(),
   {
     value: 0,
-  }
+  },
 )
 
 const widthStyle = computed(() => ({ width: `${props.value * 100}%` }))

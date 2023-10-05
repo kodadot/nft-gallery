@@ -328,11 +328,11 @@ const totalItemsAtCurrentTab = computed(() => {
 })
 
 const collectionSuggestion = computed(() =>
-  collectionResult.value.slice(0, searchSuggestionEachTypeMaxNum)
+  collectionResult.value.slice(0, searchSuggestionEachTypeMaxNum),
 )
 
 const nftSuggestion = computed(() =>
-  nftResult.value.slice(0, searchSuggestionEachTypeMaxNum)
+  nftResult.value.slice(0, searchSuggestionEachTypeMaxNum),
 )
 
 const loadMoreItemClassName = computed(
@@ -341,7 +341,7 @@ const loadMoreItemClassName = computed(
       selectedIndex.value === totalItemsAtCurrentTab.value
         ? ' selected-item'
         : ''
-    }`
+    }`,
 )
 
 const queryVariables = computed(() => {
@@ -388,7 +388,6 @@ const seeAllButtonHandler = () => {
 }
 
 const nativeSearch = () => {
-  console.log('native')
   // not selected
   if (selectedIndex.value === -1) {
     return
@@ -412,7 +411,7 @@ const nativeSearch = () => {
     gotoGalleryItem(selectedItemListMap.value['NFTs'][selectedIndex.value])
   } else {
     gotoCollectionItem(
-      selectedItemListMap.value['Collections'][selectedIndex.value]
+      selectedItemListMap.value['Collections'][selectedIndex.value],
     )
   }
 }
@@ -533,7 +532,7 @@ const { data: defaultCollectionSuggestions } = await useAsyncData(
               ...data,
               image: sanitizeIpfsUrl(
                 data.image || data.mediaUri || '',
-                'image'
+                'image',
               ),
             }
           })
@@ -542,7 +541,7 @@ const { data: defaultCollectionSuggestions } = await useAsyncData(
         $consola.warn(e, 'Error while fetching default suggestions')
       }
     }
-  }
+  },
 )
 
 const updateSuggestion = useDebounceFn(async (value: string) => {
@@ -572,21 +571,21 @@ const updateNftSuggestion = async () => {
     })
     const { nFTEntities } = data.value
     const nftList = unwrapSafe(
-      nFTEntities.value.slice(0, searchSuggestionEachTypeMaxNum)
+      nFTEntities.slice(0, searchSuggestionEachTypeMaxNum),
     )
     const metadataList: string[] = nftList.map(mapNFTorCollectionMetadata)
-    const result: NFTWithMeta[] = []
+    const result: Ref<NFTWithMeta[]> = ref([])
     processMetadata<NFTWithMeta>(metadataList, (meta, i) => {
-      result.push({
+      result.value.push({
         ...nftList[i],
         ...meta,
         image: sanitizeIpfsUrl(
           meta.image || meta.animation_url || meta.mediaUri || '',
-          'image'
+          'image',
         ),
       })
     })
-    nftResult.value = result
+    nftResult.value = result.value
   } catch (e) {
     logError(e, (msg) => $consola.warn('[PREFETCH] Unable fo fetch', msg))
   }
@@ -597,7 +596,7 @@ const updateCollectionSuggestion = async (value: string) => {
   try {
     const collections = await fetchCollectionSuggestion(
       value,
-      searchSuggestionEachTypeMaxNum
+      searchSuggestionEachTypeMaxNum,
     )
     const metadataList: string[] = collections.map(mapNFTorCollectionMetadata)
     const collectionWithImagesList: CollectionWithMeta[] = []
@@ -607,15 +606,15 @@ const updateCollectionSuggestion = async (value: string) => {
         totalCount: undefined,
         floorPrice: undefined,
       }
-      const collectionWithImages = {
+      const collectionWithImages = reactive({
         ...collections[i],
         ...meta,
         ...initialCollectionStats, // set initial stat fields to get reactivity
         image: sanitizeIpfsUrl(
           collections[i].image || collections[i].mediaUri || '',
-          'image'
+          'image',
         ),
-      }
+      })
       collectionWithImagesList.push(collectionWithImages)
 
       fetchCollectionStats(collectionWithImages, i)
@@ -629,12 +628,12 @@ const updateCollectionSuggestion = async (value: string) => {
 
 const fetchCollectionStats = async (
   collection: CollectionWithMeta,
-  index: number
+  index: number,
 ) => {
   const _client = collection.chain || client.value
   const queryCollection = await resolveQueryPath(
     _client === 'ksm' ? 'chain-rmrk' : 'subsquid',
-    'collectionStatsById'
+    'collectionStatsById',
   )
   const { data } = await useAsyncQuery({
     query: queryCollection.default,
@@ -646,7 +645,7 @@ const fetchCollectionStats = async (
 
   collection.totalCount = data.value.stats.base.length
   collection.floorPrice = Math.min(
-    ...data.value.stats.listed.map((item) => parseInt(item.price))
+    ...data.value.stats.listed.map((item) => parseInt(item.price)),
   )
 
   if (
@@ -663,6 +662,6 @@ watch(
   (value) => {
     updateSuggestion(value)
     resetSelectedIndex()
-  }
+  },
 )
 </script>

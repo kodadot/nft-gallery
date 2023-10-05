@@ -5,7 +5,7 @@ export default function useToast() {
   // toast message function
   const toast = (
     message: string,
-    { rootClass = 'is-neo-toast', duration = 5000, position = 'top' } = {}
+    { rootClass = 'is-neo-toast', duration = 5000, position = 'top' } = {},
   ) => {
     neoNotification.open({
       message,

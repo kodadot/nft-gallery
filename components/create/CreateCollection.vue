@@ -132,7 +132,7 @@
           <NeoButton
             expanded
             :label="submitButtonLabel"
-            type="submit"
+            native-type="submit"
             size="medium"
             class="is-size-6"
             data-testid="collection-create"
@@ -194,7 +194,7 @@ withDefaults(
   }>(),
   {
     classColumn: true,
-  }
+  },
 )
 
 // composables
@@ -269,7 +269,7 @@ const createCollection = async () => {
   try {
     showNotification(
       `Creating Collection: "${name.value}"`,
-      notificationTypes.info
+      notificationTypes.info,
     )
     isLoading.value = true
 
@@ -282,7 +282,7 @@ const createCollection = async () => {
           | CollectionToMintKusama
           | CollectionToMintStatmine,
       },
-      currentChain.value
+      currentChain.value,
     )
   } catch (error) {
     showNotification(`[ERR] ${error}`, notificationTypes.warn)

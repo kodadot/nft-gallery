@@ -50,7 +50,7 @@ const route = useRoute()
 const slug = route.params.slug
 
 const { data: post } = await useAsyncData('post', () =>
-  queryContent(`/blog/${slug}`).findOne()
+  queryContent(`/blog/${slug}`).findOne(),
 )
 
 const openShareUrl = (platform: 'twitter' | 'linkedin') => {

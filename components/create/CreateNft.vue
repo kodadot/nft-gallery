@@ -99,7 +99,7 @@
 
       <!-- select blockchain -->
       <NeoField :label="`${$t('mint.blockchain.label')} *`">
-        <div>
+        <div class="w-100">
           <p>{{ $t('mint.blockchain.message') }}</p>
           <NeoSelect v-model="selectChain" class="mt-3" expanded required>
             <option v-for="menu in menus" :key="menu.value" :value="menu.value">
@@ -111,7 +111,7 @@
 
       <!-- no of copies -->
       <NeoField :label="`${$t('mint.nft.copies.label')} (optional)`">
-        <div>
+        <div class="w-100">
           <p>{{ $t('mint.nft.copies.message') }}</p>
           <NeoInput
             v-model="form.copies"
@@ -134,7 +134,9 @@
 
       <!-- royalty -->
       <NeoField v-if="isBasilisk">
-        <RoyaltyForm v-model="form.royalty" />
+        <RoyaltyForm
+          :amount="form.royalty.amount"
+          :address="form.royalty.address" />
       </NeoField>
 
       <!-- explicit content -->
@@ -173,7 +175,7 @@
           <NeoButton
             expanded
             :label="submitButtonLabel"
-            type="submit"
+            native-type="submit"
             size="medium"
             class="is-size-6"
             :loading="isLoading"
@@ -206,7 +208,7 @@
 
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
-import type { Ref } from 'vue/types'
+import type { Ref } from 'vue'
 import type { TokenToList } from '@/composables/transaction/types'
 import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
 import {
@@ -217,8 +219,6 @@ import {
   NeoSelect,
   NeoSwitch,
 } from '@kodadot1/brick'
-import DropUpload from '@/components/shared/DropUpload.vue'
-import Loader from '@/components/shared/Loader.vue'
 import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
 import CustomAttributeInput from '@/components/rmrk/Create/CustomAttributeInput.vue'
 import RoyaltyForm from '@/components/bsx/Create/RoyaltyForm.vue'
@@ -262,12 +262,13 @@ const { $i18n } = useNuxtApp()
 // select collections
 const selectedCollection = ref()
 
-const submitButtonLabel = computed(() => {
-  return !isLogIn.value
-    ? $i18n.t('mint.nft.connect')
-    : canDeposit.value
+const depositLabel = computed(() =>
+  canDeposit.value
     ? $i18n.t('mint.nft.create')
-    : $i18n.t('confirmPurchase.notEnoughFuns')
+    : $i18n.t('confirmPurchase.notEnoughFuns'),
+)
+const submitButtonLabel = computed(() => {
+  return !isLogIn.value ? $i18n.t('mint.nft.connect') : depositLabel.value
 })
 
 const onCollectionSelected = (collection) => {
@@ -282,10 +283,10 @@ const imagePreview = computed(() => {
 
 // select available blockchain
 const menus = availablePrefixes().filter(
-  (menu) => menu.value !== 'movr' && menu.value !== 'glmr'
+  (menu) => menu.value !== 'movr' && menu.value !== 'glmr',
 )
 const chainByPrefix = computed(() =>
-  menus.find((menu) => menu.value === urlPrefix.value)
+  menus.find((menu) => menu.value === urlPrefix.value),
 )
 const selectChain = ref(chainByPrefix.value?.value || menus[0].value)
 
@@ -313,12 +314,12 @@ const canDeposit = computed(() => {
 const transactionStatus = ref<
   'list' | 'checkListed' | 'mint' | 'done' | 'idle'
 >('idle')
-const createdNFTs = ref()
+const createdItems = ref()
 const mintedBlockNumber = ref()
 
 const createNft = async () => {
   try {
-    const { createdNFTs: minted } = (await transaction(
+    const minted = (await transaction(
       {
         interaction: Interaction.MINTNFT,
         urlPrefix: currentChain.value,
@@ -337,13 +338,13 @@ const createNft = async () => {
           royalty: form.royalty,
         },
       },
-      currentChain.value
+      currentChain.value,
     )) as unknown as {
-      createdNFTs: Ref<CreatedNFT[]>
+      createdNFTs?: Ref<CreatedNFT[]>
     }
 
     if (isRemark.value && form.sale && form.salePrice) {
-      createdNFTs.value = minted.value
+      createdItems.value = minted?.createdNFTs?.value
       transactionStatus.value = 'list'
     } else {
       transactionStatus.value = 'mint'
@@ -358,11 +359,11 @@ const createNft = async () => {
 watchEffect(async () => {
   if (
     blockNumber.value &&
-    createdNFTs.value &&
+    createdItems.value &&
     transactionStatus.value === 'list'
   ) {
     try {
-      const list: TokenToList[] = createdNFTs.value.map((nft) => ({
+      const list: TokenToList[] = createdItems.value.map((nft) => ({
         price: balanceFrom(form.salePrice, decimals.value),
         nftId: toNFTId(nft, String(blockNumber.value)),
       }))
@@ -374,7 +375,7 @@ watchEffect(async () => {
           token: list,
           successMessage: `[💰] Listed ${form.name} for ${form.salePrice} ${chainSymbol.value}`,
         },
-        currentChain.value
+        currentChain.value,
       )
 
       transactionStatus.value = 'checkListed'
@@ -394,6 +395,7 @@ watchEffect(() => {
     blockNumber.value
   ) {
     mintedBlockNumber.value = blockNumber.value
+    transactionStatus.value = 'done'
   }
 
   // if listing price is done, then redirect to detail page
@@ -408,9 +410,15 @@ watchEffect(() => {
 // navigate to gallery detail page after success create nft
 const retry = ref(10) // max retry 10 times
 
+type NftId = {
+  nftEntities?: {
+    id: string
+  }[]
+}
+
 async function getNftId() {
   const query = await resolveQueryPath(currentChain.value, 'nftByBlockNumber')
-  const { data } = await useAsyncQuery({
+  const { data }: { data: Ref<NftId> } = await useAsyncQuery({
     query: query.default,
     clientId: currentChain.value,
     variables: {
@@ -419,7 +427,7 @@ async function getNftId() {
     },
   })
 
-  return data?.value.nftEntities?.[0]?.id
+  return data.value.nftEntities?.[0]?.id
 }
 
 watchEffect(async () => {
@@ -431,7 +439,7 @@ watchEffect(async () => {
     showNotification(
       `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`,
       notificationTypes.info,
-      DETAIL_TIMEOUT
+      DETAIL_TIMEOUT,
     )
 
     await delay(DETAIL_TIMEOUT)

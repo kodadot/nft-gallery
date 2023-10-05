@@ -27,7 +27,7 @@ const NotificationProgrammatic = {
       position: getValueByPath(
         getOptions(),
         'notification.position',
-        'top-right'
+        'top-right',
       ),
       closable:
         params.closable ||

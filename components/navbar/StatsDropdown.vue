@@ -104,9 +104,9 @@
 <script lang="ts" setup>
 import { NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 
-const MobileExpandableSection = defineAsyncComponent(
-  () => import('./MobileExpandableSection.vue')
-)
+// const MobileExpandableSection = defineAsyncComponent(
+//   () => import('./MobileExpandableSection.vue'),
+// )
 const { accountId } = useAuth()
 
 const { urlPrefix } = usePrefix()
@@ -121,11 +121,11 @@ const offersUrl = computed(
       accountId.value
         ? `/${urlPrefix.value}/offers?target=${accountId.value}`
         : `/${urlPrefix.value}/offers`
-    }`
+    }`,
 )
 const statsUrl = computed(() => `/${urlPrefix.value}/stats`)
 
 const showSnekBsxOptions = computed(
-  () => props.chain === 'bsx' || props.chain === 'snek'
+  () => props.chain === 'bsx' || props.chain === 'snek',
 )
 </script>

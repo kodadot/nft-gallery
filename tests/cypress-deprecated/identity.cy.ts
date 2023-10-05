@@ -30,7 +30,7 @@ describe('Identity.vue component', () => {
               permissions: ['clipboardReadWrite', 'clipboardSanitizedWrite'],
               origin: window.location.origin,
             },
-          })
+          }),
         )
 
         // test visit cross-chain first
@@ -50,11 +50,11 @@ describe('Identity.vue component', () => {
               .and('include', `https://twitter.com/${twitter}`)
             cy.getCy('identity-collected').should(
               'not.have.text',
-              '\n      0\n    '
+              '\n      0\n    ',
             )
             cy.getCy('identity-created').should(
               'not.have.text',
-              '\n      0\n    '
+              '\n      0\n    ',
             )
             cy.getCy('identity-sold').should('not.have.text', '\n      0\n    ')
 
@@ -64,7 +64,7 @@ describe('Identity.vue component', () => {
               })
             })
           })
-      }
+      },
     )
   })
 })

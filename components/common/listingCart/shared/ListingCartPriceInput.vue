@@ -14,6 +14,7 @@
       v-if="check"
       no-shadow
       class="shade-border-color ml-2 height-40"
+      icon-pack="fas"
       icon="check"
       @click="emit('confirm')" />
   </div>
@@ -21,19 +22,20 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import { useVModel } from '@vueuse/core'
 
 const props = defineProps<{
-  value?: number | string
+  modelValue?: number | string
   check?: boolean
   fullWidth?: boolean
 }>()
-const emit = defineEmits(['confirm', 'input'])
-const model = useVModel(props, 'value', emit, { eventName: 'input' })
+const emit = defineEmits(['confirm'])
+const model = useVModel(props, 'modelValue')
 const { chainSymbol } = useChain()
 
 watch(model, (newValue) => {
-  const sanitizedValue = (newValue?.toString() ?? '').replace(/[^0-9.]/g, '')
+  const sanitizedValue = Number(
+    (newValue?.toString() ?? '').replace(/[^0-9.]/g, ''),
+  )
   if (sanitizedValue !== newValue) {
     model.value = sanitizedValue
   }
@@ -46,7 +48,7 @@ watch(model, (newValue) => {
 .price-input {
   @include ktheme() {
     &:focus-within {
-      border-color: theme('border-color');
+      border-color: theme('border-color') !important;
     }
   }
 

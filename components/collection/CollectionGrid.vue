@@ -57,13 +57,15 @@ const emit = defineEmits(['total', 'isLoading'])
 
 const collections = ref<Collection[]>([])
 const isLoading = ref(true)
-const searchQuery = ref<SearchQuery>({
+const sortBy = ref(
+  typeof route.query?.sort === 'string'
+    ? [route.query?.sort]
+    : route.query?.sort,
+)
+const searchQuery = reactive<SearchQuery>({
   search: route.query?.search?.toString() ?? '',
   type: route.query?.type?.toString() ?? '',
-  sortBy:
-    typeof route.query?.sort === 'string'
-      ? [route.query?.sort]
-      : route.query?.sort,
+  sortBy: sortBy.value ?? undefined,
   listed: route.query?.listed?.toString() === 'true',
 })
 
@@ -151,9 +153,6 @@ const {
   fetchPageData,
 })
 
-watch(total, (val) => emit('total', val))
-watch(isLoading, (val) => emit('isLoading', val))
-
 const skeletonCount = first.value
 
 const handleResult = (data, loadDirection = 'down') => {
@@ -171,6 +170,9 @@ const handleResult = (data, loadDirection = 'down') => {
   isLoading.value = false
 }
 
+watch(total, (val) => emit('total', val))
+watch(isLoading, (val) => emit('isLoading', val))
+
 watch(
   () => route.query.search,
   (val, oldVal) => {
@@ -178,7 +180,7 @@ watch(
       resetPage()
       searchQuery.search = val === undefined ? val : String(val)
     }
-  }
+  },
 )
 
 watch(
@@ -186,16 +188,16 @@ watch(
   (val, oldVal) => {
     if (!isEqual(val, oldVal)) {
       resetPage()
-      searchQuery.value.sortBy = String(val) || undefined
+      searchQuery.sortBy = String(val) || undefined
     }
-  }
+  },
 )
 
 watch(
   () => searchQuery,
   () => {
     resetPage()
-  }
+  },
 )
 </script>
 

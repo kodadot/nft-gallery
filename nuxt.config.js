@@ -17,6 +17,9 @@ export default defineNuxtConfig({
       productionTip: false,
       runtimeCompiler: true,
     },
+    compilerOptions: {
+      isCustomElement: (tag) => ['model-viewer'].includes(tag),
+    },
   },
 
   server: {
@@ -162,7 +165,7 @@ export default defineNuxtConfig({
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~/plugins/polkadot', mode: 'client' },
+    // { src: '~/plugins/polkadot', mode: 'client' },
     // { src: '~/plugins/seoMetaGenerator', mode: 'client' },
     // { src: '~/plugins/keyboardEvents', mode: 'client' },
     // { src: '~/plugins/piniaPersistedState', mode: 'client' },
@@ -187,11 +190,12 @@ export default defineNuxtConfig({
         pathPrefix: false,
       },
       {
-        path: '~/components',
+        path: '~/components/common',
         extensions: ['vue'],
+        pathPrefix: false,
       },
       {
-        path: '~/components/common',
+        path: '~/components',
         extensions: ['vue'],
       },
       {
@@ -282,7 +286,7 @@ export default defineNuxtConfig({
         done(nuxtInstance) {
           fs.copyFileSync(
             `${nuxtInstance.options.generate.dir}/sitemap.xml`,
-            'public/sitemap.xml'
+            'public/sitemap.xml',
           )
         },
       },

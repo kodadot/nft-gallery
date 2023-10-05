@@ -5,7 +5,7 @@ import { NftResources, getNftMetadata } from '@/composables/useNft'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import type { NFTWithMetadata } from '@/composables/useNft'
-import resolveQueryPath from '@/utils/queryPathResolver'
+import type { Ref } from 'vue'
 
 interface NFTData {
   nftEntity?: NFTWithMetadata
@@ -41,7 +41,7 @@ const whichAsset = (data) => {
   }
 }
 
-export const useGalleryItem = async (nftId?: string): Promise<GalleryItem> => {
+export const useGalleryItem = (nftId?: string): GalleryItem => {
   const { $consola } = useNuxtApp()
   const historyStore = useHistoryStore()
   const nft = ref<NFT>()
@@ -61,20 +61,13 @@ export const useGalleryItem = async (nftId?: string): Promise<GalleryItem> => {
     ahk: 'chain-ahk',
   }
 
-  const { urlPrefix, client } = usePrefix()
-  const { prefix } = useQueryParams({
+  const { urlPrefix } = usePrefix()
+  const { data, refetch } = useGraphql({
+    queryName: 'nftById',
     queryPrefix: queryPath[urlPrefix.value],
-    clientName: '',
-  })
-  const query = await resolveQueryPath(prefix, 'nftById')
-  // const { result: nftEntity, refetch } = useQuery(query.default, { id })
-
-  const { data: nftEntity, refresh } = useAsyncQuery({
-    query: query.default,
     variables: {
-      id: id,
+      id,
     },
-    clientId: client.value,
   })
 
   useSubscriptionGraphql({
@@ -87,10 +80,10 @@ export const useGalleryItem = async (nftId?: string): Promise<GalleryItem> => {
         id
       }
     }`,
-    onChange: refresh,
+    onChange: refetch,
   })
 
-  watch(nftEntity as unknown as NFTData, async (newData) => {
+  watch(data as unknown as NFTData, async (newData) => {
     const nftEntity = newData?.nftEntity
     if (!nftEntity) {
       $consola.log(`NFT with id ${id} not found. Fallback to RPC Node`)

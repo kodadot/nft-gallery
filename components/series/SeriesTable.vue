@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Loader :value="isLoading" />
+    <Loader :model-value="isLoading" />
     <NeoField grouped>
       <NeoField class="has-text-right" expanded>
         <NeoSelect v-model="nbRows">
@@ -78,13 +78,13 @@
               displayVolumePercent(
                 props.row.dailyVolume,
                 props.row.dailyrangeVolume,
-                true
+                true,
               )
             ">
             {{
               displayVolumePercent(
                 props.row.dailyVolume,
-                props.row.dailyrangeVolume
+                props.row.dailyrangeVolume,
               )
             }}
           </div>
@@ -132,13 +132,13 @@
               displayVolumePercent(
                 props.row.monthlyVolume,
                 props.row.monthlyrangeVolume,
-                true
+                true,
               )
             ">
             {{
               displayVolumePercent(
                 props.row.monthlyVolume,
-                props.row.monthlyrangeVolume
+                props.row.monthlyrangeVolume,
               )
             }}
           </div>
@@ -369,7 +369,7 @@ const fetchCollectionEvents = async (ids: string[]) => {
 
 const fetchCollectionsSeries = async (
   limit = Number(nbRows.value),
-  sort: string = toSort(sortBy)
+  sort: string = toSort(sortBy),
 ) => {
   isLoading.value = true
   const { data: collections } = await useAsyncQuery({
@@ -385,7 +385,7 @@ const fetchCollectionsSeries = async (
       res[date] = 0
       return res
     },
-    {}
+    {},
   )
 
   const axisLize = (obj = {}): BuyHistory => ({
@@ -416,10 +416,10 @@ const fetchCollectionsSeries = async (
       rank: e.sold * (e.unique / e.total || 1),
       averagePrice: calculateAvgPrice(e.volume as string, e.buys),
       buyHistory: axisLize(
-        Object.assign({}, defaultBuyEvents, buyEvents[e.id] || {})
+        Object.assign({}, defaultBuyEvents, buyEvents[e.id] || {}),
       ),
       emoteCount: e.emoteCount || 0,
-    })
+    }),
   )
 
   isLoading.value = false
@@ -459,7 +459,7 @@ const onSort = (field: string, order: string) => {
 const displayVolumePercent = (
   priceNow: number,
   priceAgo: number,
-  getClass?: boolean
+  getClass?: boolean,
 ) => {
   /* added getClass for getting the class name for the row
    * it would be true when you want to return the class name

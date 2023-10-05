@@ -3,7 +3,8 @@ export const downloadImage = async (imageSrc: string, name = 'unnamed') => {
     return
   }
 
-  const { $consola } = useNuxtApp()
+  const { $i18n, $consola } = useNuxtApp()
+  const { toast } = useToast()
 
   try {
     const { data } = await useFetch(imageSrc)
@@ -22,6 +23,7 @@ export const downloadImage = async (imageSrc: string, name = 'unnamed') => {
     return link
   } catch (error) {
     $consola.warn('[ERR] unable to fetch image')
+    toast($i18n.t('toast.downloadError'))
     return
   }
 }

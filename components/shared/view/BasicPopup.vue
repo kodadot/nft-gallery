@@ -24,7 +24,7 @@ withDefaults(
   {
     delay: () => [100, 800],
     placement: 'bottom',
-  }
+  },
 )
 </script>
 

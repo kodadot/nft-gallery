@@ -143,7 +143,7 @@ import {
 import { useCheckReferenDumVote } from '@/composables/drop/useCheckReferenDumVote'
 
 const Loader = defineAsyncComponent(
-  () => import('@/components/collection/unlockable/UnlockableLoader.vue')
+  () => import('@/components/collection/unlockable/UnlockableLoader.vue'),
 )
 
 const { $i18n } = useNuxtApp()
@@ -159,7 +159,7 @@ const isLoading = ref(false)
 const collectionId = computed(() =>
   urlPrefix.value === 'ahk'
     ? VOTE_DROP_COLLECTION_ID
-    : VOTE_DROP_AHP_COLLECTION_ID
+    : VOTE_DROP_AHP_COLLECTION_ID,
 )
 const { toast } = useToast()
 
@@ -220,7 +220,7 @@ const { data: collectionData, refetch } = useGraphql({
 watch(collectionData, () => {
   if (collectionData.value) {
     imageList.value = [
-      sanitizeIpfsUrl(collectionData.value?.value.collectionEntity.image),
+      sanitizeIpfsUrl(collectionData.value?.collectionEntity.image),
     ]
   }
 })
@@ -228,7 +228,7 @@ watch(collectionData, () => {
 const totalCount = 300
 
 const totalAvailableMintCount = computed(
-  () => totalCount - collectionData.value?.value.collectionEntity?.nftCount
+  () => totalCount - collectionData.value?.collectionEntity?.nftCount,
 )
 
 useSubscriptionGraphql({
@@ -251,8 +251,8 @@ const mintedPercent = computed(() => {
 const userMintedId = computed(
   () =>
     Boolean(accountId.value) &&
-    (collectionData.value?.value.nftEntitiesConnection?.edges?.[0]?.node?.id ||
-      justMinted.value)
+    (collectionData.value?.nftEntitiesConnection?.edges?.[0]?.node?.id ||
+      justMinted.value),
 )
 
 const mintCountAvailable = computed(() => mintedCount.value < totalCount)
@@ -267,8 +267,8 @@ watch(accountId, (id) => {
 const mintButtonDisabled = computed(
   () =>
     Boolean(
-      !mintCountAvailable.value || !isEligibleUser.value || userMintedId.value
-    ) && !needCheckEligible.value
+      !mintCountAvailable.value || !isEligibleUser.value || userMintedId.value,
+    ) && !needCheckEligible.value,
 )
 
 const handleMint = async () => {
@@ -290,10 +290,10 @@ const handleMint = async () => {
     const id = await doWaifu(
       {
         address: accountId.value,
-        metadata: collectionData.value.value.collectionEntity.metadata,
-        image: collectionData.value.value.collectionEntity.image,
+        metadata: collectionData.value.collectionEntity.metadata,
+        image: collectionData.value.collectionEntity.image,
       },
-      urlPrefix.value === 'ahk' ? VOTE_DROP_CAMPAIGN : VOTE_DROP_AHP_CAMPAIGN
+      urlPrefix.value === 'ahk' ? VOTE_DROP_CAMPAIGN : VOTE_DROP_AHP_CAMPAIGN,
     ).then((res) => {
       toast('mint success')
       return `${collectionId.value}-${res.result.sn}`

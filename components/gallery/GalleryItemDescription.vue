@@ -220,7 +220,7 @@ const { version } = useRmrkVersion()
 
 const descSource = computed(() => {
   return replaceSingularCollectionUrlByText(
-    nftMetadata.value?.description?.replaceAll('\n', '  \n') || ''
+    nftMetadata.value?.description?.replaceAll('\n', '  \n') || '',
   )
 })
 const parent = computed(() => {
@@ -232,7 +232,7 @@ const isLewd = computed(() => {
   return Boolean(
     properties.value?.find((item) => {
       return item.trait_type === 'NSFW'
-    })
+    }),
   )
 })
 
@@ -282,12 +282,9 @@ const animationMediaMimeType = ref('')
 watchEffect(async () => {
   if (nft.value?.metadata) {
     const sanitizeMetadata = sanitizeIpfsUrl(nft.value?.metadata)
-    const response = await fetch(sanitizeMetadata, {
-      method: 'HEAD',
-    })
+    const mimeType = await getMimeType(sanitizeMetadata)
 
-    metadataMimeType.value =
-      response?.headers.get('content-type') || 'application/json'
+    metadataMimeType.value = mimeType || 'application/json'
     metadataURL.value = sanitizeMetadata
   }
 

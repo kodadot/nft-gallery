@@ -27,7 +27,7 @@ const props = withDefaults(
     hasImg: true,
     errorTitle: 'Indexer Error',
     errorSubtitle: 'Indexer is not working properly.',
-  }
+  },
 )
 
 const imgSrc = computed(() => `https://http.cat/${props.errorCode}`)

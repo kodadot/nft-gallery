@@ -16,6 +16,7 @@
         :src="imageSrc || ''"
         :animation-src="item.animationUrl || ''"
         :title="item.name"
+        disable-operation
         :audio-player-cover="imageSrc || ''"
         audio-hover-on-cover-play />
     </nuxt-link>
@@ -49,7 +50,7 @@ watch(
   async () => {
     const nft = await getNftMetadata(props.item, urlPrefix.value)
     imageSrc.value = nft.image
-  }
+  },
 )
 
 // onMounted(async () => {

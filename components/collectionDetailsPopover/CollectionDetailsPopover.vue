@@ -3,6 +3,7 @@
     class="is-flex"
     interactive
     :animate-fill="false"
+    :append-to="body"
     placement="bottom"
     :delay="[showDelay, hideDelay]"
     data-testid="identity"
@@ -21,6 +22,8 @@
 import { CarouselNFT } from '../base/types'
 import CollectionDetailsPopoverContent from './CollectionDetailsPopoverContent.vue'
 
+const body = ref(document.body)
+
 withDefaults(
   defineProps<{
     nft: CarouselNFT
@@ -30,7 +33,7 @@ withDefaults(
   {
     showDelay: 0,
     hideDelay: 0,
-  }
+  },
 )
 
 const show = ref(false)

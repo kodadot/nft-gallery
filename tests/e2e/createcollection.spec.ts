@@ -11,7 +11,7 @@ test('Fill fields to check if they work', async ({ page }) => {
   await expect(
     page
       .getByTestId('collection-name')
-      .filter({ has: page.getByText('Collection Name') })
+      .filter({ has: page.getByText('Collection Name') }),
   ).toHaveCount(1)
   await page
     .getByTestId('collection-name')
@@ -23,14 +23,14 @@ test('Fill fields to check if they work', async ({ page }) => {
   const collectionAmount = page.getByTestId('collection-maxAmount')
   await collectionAmount.locator('.o-switch').click()
   await expect(
-    collectionAmount.getByPlaceholder('1 is the minimum')
+    collectionAmount.getByPlaceholder('1 is the minimum'),
   ).toBeVisible()
   //Check if button exists
   await expect(page.getByTestId('collection-create')).toBeVisible()
   await expect(
     page
       .getByTestId('collection-create')
-      .filter({ has: page.getByText('Not Enough Funds') })
+      .filter({ has: page.getByText('Not Enough Funds') }),
   ).toHaveCount(1)
 })
 

@@ -31,7 +31,7 @@ const { neoModal } = useProgrammatic()
 const { shoppingCartIcon } = useShoppingCartIcon()
 const shoppingCartStore = useShoppingCartStore()
 const numberOfItems = computed(
-  () => shoppingCartStore.getItemsByPrefix(urlPrefix.value).length
+  () => shoppingCartStore.getItemsByPrefix(urlPrefix.value).length,
 )
 
 const props = defineProps<{

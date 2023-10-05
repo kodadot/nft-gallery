@@ -162,15 +162,15 @@ import {
 } from './const'
 
 const Loader = defineAsyncComponent(
-  () => import('@/components/collection/unlockable/UnlockableLoader.vue')
+  () => import('@/components/collection/unlockable/UnlockableLoader.vue'),
 )
 
 const Money = defineAsyncComponent(
-  () => import('@/components/shared/format/Money.vue')
+  () => import('@/components/shared/format/Money.vue'),
 )
 
 const TokenImportButton = defineAsyncComponent(
-  () => import('@/components/collection/drop/TokenImportButton.vue')
+  () => import('@/components/collection/drop/TokenImportButton.vue'),
 )
 const { neoModal } = useProgrammatic()
 const { $i18n } = useNuxtApp()
@@ -212,10 +212,10 @@ const { data: collectionData, refetch: tryAgain } = useGraphql({
 })
 
 const totalCount = computed(
-  () => collectionData.value?.value.collectionEntity?.nftCount || 200
+  () => collectionData.value?.collectionEntity?.nftCount || 200,
 )
 const totalAvailableMintCount = computed(
-  () => collectionData.value?.value.nftEntitiesConnection?.totalCount
+  () => collectionData.value?.nftEntitiesConnection?.totalCount,
 )
 
 const { data, refetch } = useGraphql({
@@ -246,7 +246,7 @@ const toBuy = computed<string[]>(() => {
 })
 
 const mintedCount = computed(
-  () => totalCount.value - totalAvailableMintCount.value
+  () => totalCount.value - totalAvailableMintCount.value,
 )
 
 const mintedPercent = computed(() => {
@@ -287,7 +287,7 @@ const handleBuy = async () => {
   isLoading.value = true
 
   showNotification(
-    $i18n.t('nft.notification.info', { itemId: 'Waifu', action: actionLabel })
+    $i18n.t('nft.notification.info', { itemId: 'Waifu', action: actionLabel }),
   )
 
   const { transaction, blockNumber } = useTransaction()
@@ -336,7 +336,7 @@ const handleSubmitMint = async (tokenId: string) => {
         metadata: hash,
         sn,
       },
-      urlPrefix.value === 'ahk' ? STMN_DROP_CAMPAIGN : STT_DROP_CAMPAIGN
+      urlPrefix.value === 'ahk' ? STMN_DROP_CAMPAIGN : STT_DROP_CAMPAIGN,
     ).then((res) => {
       toast('mint success')
       justMinted.value = `${collectionId}-${res.result.sn}`

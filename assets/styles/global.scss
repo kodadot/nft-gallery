@@ -228,6 +228,12 @@ hr {
   }
 }
 
+.has-text-grey-fix {
+  @include ktheme() {
+    color: theme('k-grey-fix') !important;
+  }
+}
+
 .has-text-inverse {
   @include ktheme() {
     color: theme('text-color-inverse');

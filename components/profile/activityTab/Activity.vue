@@ -2,13 +2,7 @@
   <div>
     <History :id="id" :events="filteredEvents" display-item>
       <template
-        #header="{
-          currentPage,
-          total,
-          itemsPerPage,
-          desktop,
-          updateCurrentPage,
-        }">
+        #header="{ currentPage, total, perPage, desktop, updateCurrentPage }">
         <div
           class="is-flex is-justify-content-space-between pb-4 pt-5 is-align-content-center">
           <div class="is-flex gap-4 is-flex-wrap-wrap">
@@ -29,7 +23,7 @@
             <Pagination
               :value="currentPage"
               :total="total"
-              :per-page="itemsPerPage"
+              :per-page="perPage"
               :range-before="2"
               :range-after="2"
               replace
@@ -67,13 +61,13 @@ const activateAllFilter = () => {
   replaceUrl(
     filters.reduce(
       (queryParams, filter) => ({ ...queryParams, [filter]: true }),
-      {}
-    )
+      {},
+    ),
   )
 }
 
 const activeFilters = computed(() =>
-  filters.filter((queryParam) => route.query[queryParam] === 'true')
+  filters.filter((queryParam) => route.query[queryParam] === 'true'),
 )
 
 const { urlPrefix } = usePrefix()
@@ -87,7 +81,7 @@ const { data } = useGraphql({
 })
 
 watch(data, () => {
-  events.value = [...sortedEventByDate(data.value?.value.events || [], 'DESC')]
+  events.value = [...sortedEventByDate(data.value?.events || [], 'DESC')]
 })
 
 const interactionToFilterMap = {
@@ -103,7 +97,7 @@ const filteredEvents = computed(() =>
       return activeFilters.value.includes(caller === props.id ? 'buy' : 'sale')
     }
     return activeFilters.value.includes(interactionToFilterMap[interaction])
-  })
+  }),
 )
 
 onMounted(() => {

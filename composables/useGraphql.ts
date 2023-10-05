@@ -1,26 +1,20 @@
+import type { ComputedRef } from 'vue'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import type { QueryOptions } from 'apollo-client'
-import { ComputedRef } from 'vue/types'
 
 interface DoFetchParams {
-  options?: Omit<QueryOptions, 'query'>
   variables?: Record<string, unknown>
 }
 
-export const useQueryParams = ({
-  queryPrefix,
-  clientName = '',
-}: {
-  queryPrefix: string
+type UseGraphqlParams = {
+  queryPrefix?: string
+  queryName: string
   clientName?: string | ComputedRef<string>
-}) => {
-  const { client } = usePrefix()
-
-  return {
-    prefix: queryPrefix || client.value,
-    client: clientName || client.value,
-  }
+  variables?: Record<string, unknown> | ComputedRef<Record<string, unknown>>
+  disabled?: ComputedRef<boolean>
+  data?: Ref<unknown>
+  error?: Ref<unknown>
+  loading?: Ref<boolean>
 }
 
 export default function ({
@@ -28,17 +22,18 @@ export default function ({
   queryName,
   clientName = '',
   variables = {},
-  options = {},
   disabled = computed(() => false),
   data = ref(),
   error = ref(),
   loading = ref(true),
-}) {
+}: UseGraphqlParams) {
+  const { client: clientPrefix } = usePrefix()
   const { $consola } = useNuxtApp()
-  const { prefix, client } = useQueryParams({ queryPrefix, clientName })
+
+  const prefix = queryPrefix || clientPrefix.value
+  const client = clientName || clientPrefix.value
 
   async function doFetch({
-    options: extraOptions = {},
     variables: extraVariables = {},
   }: DoFetchParams = {}) {
     const query = await resolveQueryPath(prefix, queryName)
@@ -51,10 +46,8 @@ export default function ({
           ...extraVariables,
         },
         clientId: isRef(client) ? String(client.value) : client,
-        // ...options,
-        // ...extraOptions,
       })
-      data.value = result
+      data.value = result.value
     } catch (err) {
       ;(error.value as unknown) = err
       showNotification(`${err as string}`, notificationTypes.danger)
@@ -66,9 +59,6 @@ export default function ({
 
   async function refetch(variables: Record<string, unknown> = {}) {
     await doFetch({
-      options: {
-        fetchPolicy: 'network-only',
-      },
       variables,
     })
   }

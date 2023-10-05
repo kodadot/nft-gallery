@@ -2,7 +2,7 @@
   <section>
     <form @submit.prevent>
       <h1 class="title is-size-3 mb-8 is-capitalized">
-        {{ $t('identity.set', [getChainName(identityPrefix)]) }}
+        {{ $t('identity.setOn', [getChainName(identityPrefix)]) }}
       </h1>
 
       <div v-if="hasIdentity" class="is-size-6">
@@ -49,8 +49,8 @@
 
       <NeoField :label="$t('email')" class="mb-5">
         <NeoInput
-          type="email"
           v-model="identity.email.value"
+          type="email"
           placeholder="somebody@example.com"
           :maxlength="inputLengthLimit" />
       </NeoField>
@@ -228,26 +228,26 @@ const transactionValue = ref('')
 const activeSocials = computed(() => {
   return socialTabs.value.reduce(
     (reducer, tab) => ({ ...reducer, [tab.value]: tab.active }),
-    {}
+    {},
   )
 })
 
 const isMobile = computed(() => useWindowSize().width.value <= 764)
 const disabled = computed(
-  () => identity.value.display.value === '' || isLoading.value
+  () => identity.value.display.value === '' || isLoading.value,
 )
 
 const depositFormatted = computed(() =>
-  format(deposit.value, decimals.value, identityUnit.value)
+  format(deposit.value, decimals.value, identityUnit.value),
 )
 
 const currentTokenValue = computed(() =>
-  getCurrentTokenValue(identityUnit.value)
+  getCurrentTokenValue(identityUnit.value),
 )
 const depositUsd = computed(() => {
   const value = calculateUsdFromToken(
     Number(deposit.value) * Math.pow(10, -decimals.value),
-    Number(currentTokenValue.value)
+    Number(currentTokenValue.value),
   )
   return `$${value}`
 })
@@ -302,7 +302,7 @@ const enhanceIdentityData = (): Record<string, any> => {
           return [key, { raw: field.value }]
         }
         return [key, { none: null }]
-      })
+      }),
   )
 }
 
@@ -321,7 +321,7 @@ const deleteIdentity = async (): Promise<void> => {
 
     showNotification(
       `[Identity] You have cleared your account's identity since block ${block}`,
-      notificationTypes.success
+      notificationTypes.success,
     )
   })
 }
@@ -339,10 +339,10 @@ const setIdentity = async (): Promise<void> => {
     (block: string) => {
       showNotification(
         `[Identity] You are known as ${identity.value.display} since block ${block}`,
-        notificationTypes.success
+        notificationTypes.success,
       )
     },
-    onError
+    onError,
   )
 }
 
@@ -370,7 +370,7 @@ const socialCheck = {
 
 const isValidSocial = (
   socialIdentityKey: IdentitySocialField,
-  value?: string
+  value?: string,
 ) => {
   return socialCheck[socialIdentityKey](value || '')
 }
@@ -390,13 +390,13 @@ watch(
           active: (isInit && Boolean(socialIdentityFieldValue)) || tab.active,
           ticked: isValidSocial(
             tab.value as IdentitySocialField,
-            socialIdentityFieldValue
+            socialIdentityFieldValue,
           ),
         }
       })
     }
   },
-  { deep: true }
+  { deep: true },
 )
 
 watch(socialTabs, (tabs) => {
@@ -418,7 +418,7 @@ watch(
   async () => {
     accountId.value && handleUrlPrefixChange()
   },
-  { immediate: true }
+  { immediate: true },
 )
 </script>
 <style lang="scss" scoped>

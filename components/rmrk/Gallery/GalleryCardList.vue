@@ -46,7 +46,7 @@ withDefaults(
   {
     route: '/rmrk/gallery',
     link: 'rmrk/gallery',
-  }
+  },
 )
 
 const preferencesStore = usePreferencesStore()

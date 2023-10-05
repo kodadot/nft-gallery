@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Loader :value="pending" />
+    <Loader :model-value="pending" />
     <NeoTable :data="sales" hoverable>
       <NeoTableColumn v-slot="props" position="centered" field="idx" label="N°">
         {{ props.row.idx }}
@@ -134,7 +134,7 @@ const { pending, refresh: refreshNftSales } = useLazyAsyncData(
     })
 
     sales.value = salesFeed
-  }
+  },
 )
 
 watch(client, (value) => {

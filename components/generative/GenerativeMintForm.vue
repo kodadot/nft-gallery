@@ -82,15 +82,15 @@ import {
 import { Options, buildPrompt } from './promptBuilder'
 
 const Loader = defineAsyncComponent(
-  () => import('@/components/shared/Loader.vue')
+  () => import('@/components/shared/Loader.vue'),
 )
 
 const SubmitButton = defineAsyncComponent(
-  () => import('@/components/base/SubmitButton.vue')
+  () => import('@/components/base/SubmitButton.vue'),
 )
 
 const RadioSelect = defineAsyncComponent(
-  () => import('@/components/shared/form/RadioSelect.vue')
+  () => import('@/components/shared/form/RadioSelect.vue'),
 )
 
 const form = reactive<Options>({

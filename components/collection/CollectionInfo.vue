@@ -3,7 +3,7 @@
     class="is-flex is-justify-content-space-between mobile-flex-direction-column gap">
     <div class="is-flex is-flex-direction-column is-flex-grow-1 max-width">
       <HeroButtons class="is-hidden-tablet" />
-      <div v-if="collectionInfo" class="is-flex mb-2">
+      <div v-if="address" class="is-flex mb-2">
         <div class="mr-2">{{ $t('activity.creator') }}</div>
         <nuxt-link :to="`/${urlPrefix}/u/${address}`" class="has-text-link">
           <IdentityIndex ref="identity" :address="address" show-clipboard />
@@ -55,7 +55,6 @@ import CollectionInfoLine from './collectionInfoLine.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
 import HeroButtons from '@/components/collection/HeroButtons.vue'
-import Markdown from '@/components/shared/Markdown.vue'
 import { NeoButton } from '@kodadot1/brick'
 
 import {
@@ -70,7 +69,7 @@ const collectionId = computed(() => route.params.id)
 const chain = computed(
   () =>
     availableChains.value.find((chain) => chain.value === route.params.prefix)
-      ?.text
+      ?.text,
 )
 const address = computed(() => collectionInfo.value?.currentOwner)
 const seeAllDescription = ref(false)
@@ -98,12 +97,10 @@ const visibleDescription = computed(() => {
   )
 })
 
-// watch(collectionId, getData, { immediate: true })
-
 const { collection: collectionInfo } = useCollectionMinimal({
   collectionId: collectionId.value,
 })
-const { stats: stats } = useCollectionDetails({
+const { stats } = useCollectionDetails({
   collectionId: collectionId.value,
 })
 </script>

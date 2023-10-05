@@ -34,7 +34,7 @@ import { NeoField } from '@kodadot1/brick'
 const Auth = defineAsyncComponent(() => import('@/components/shared/Auth.vue'))
 
 const BasicInput = defineAsyncComponent(
-  () => import('@/components/shared/form/BasicInput.vue')
+  () => import('@/components/shared/form/BasicInput.vue'),
 )
 
 // const SubmitButton = defineAsyncComponent(

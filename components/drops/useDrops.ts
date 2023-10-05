@@ -25,7 +25,7 @@ export function useDrops(collectionId: string, clientName?: string) {
   const { result: collectionData } = useQuery(
     unlockableCollectionById,
     { id: collectionId },
-    { clientId: clientName }
+    { clientId: clientName },
   )
 
   watch(collectionData, () => {
