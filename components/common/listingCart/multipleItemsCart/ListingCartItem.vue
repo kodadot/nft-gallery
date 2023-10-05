@@ -44,7 +44,7 @@ const props = defineProps<{
 }>()
 
 const floor = computed(() =>
-  formatBalance(props.nft.collection.floor, decimals.value, chainSymbol.value)
+  formatBalance(props.nft.collection.floor, decimals.value, chainSymbol.value),
 )
 
 const listingCartItem = computed({

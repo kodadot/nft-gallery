@@ -39,26 +39,18 @@ import ListingCartFloorPrice from '../shared/ListingCartFloorPrice.vue'
 import ListingCartPriceInput from '../shared/ListingCartPriceInput.vue'
 import formatBalance from '@/utils/format/balance'
 
-const emit = defineEmits([
-  'update:fixedPrice',
-  'update:floorPricePercentAdjustment',
-  'setFixedPrice',
-])
+const emit = defineEmits(['setFixedPrice'])
 
 const props = defineProps<{
   fixedPrice?: number
   floorPricePercentAdjustment: number
 }>()
 
-const fixedPrice = useVModel(props, 'fixedPrice', emit, {
-  eventName: 'update:fixedPrice',
-})
+const fixedPrice = useVModel(props, 'fixedPrice')
 
 const floorPricePercentAdjustment = useVModel(
   props,
   'floorPricePercentAdjustment',
-  emit,
-  { eventName: 'update:floorPricePercentAdjustment' }
 )
 
 const listingCartStore = useListingCartStore()
@@ -69,7 +61,7 @@ const item = computed(() => listingCartStore.itemsInChain[0])
 const itemPrice = computed(() => formatWithBlank(Number(item.value.price)))
 
 const collectionPrice = computed(() =>
-  formatWithBlank(Number(item.value.collection.floor))
+  formatWithBlank(Number(item.value.collection.floor)),
 )
 
 const formatWithBlank = (value: number) => {
@@ -78,7 +70,7 @@ const formatWithBlank = (value: number) => {
 
 watch(
   () => props.fixedPrice,
-  (value) => emit('setFixedPrice', value)
+  (value) => emit('setFixedPrice', value),
 )
 
 watch(
@@ -87,6 +79,6 @@ watch(
     if (value) {
       fixedPrice.value = value
     }
-  }
+  },
 )
 </script>

@@ -39,6 +39,7 @@
         class="mb-4"
         hoverable
         custom-row-key="Id"
+        v-model:current-page="currentPage"
         :show-detail-icon="showDetailIcon"
         :detail-key="groupKey"
         custom-detail-row
@@ -49,7 +50,6 @@
         aria-previous-label="Previous page"
         aria-page-label="Page"
         aria-current-label="Current page"
-        :current-page.sync="currentPage"
         :default-sort="[defaultSortOption, 'desc']">
         <NeoTableColumn
           v-slot="props"
@@ -120,7 +120,7 @@
               :block-id="props.row.Block" />
           </NeoTooltip>
         </NeoTableColumn>
-        <template slot="detail" slot-scope="props">
+        <template #detail="props">
           <tr v-for="item in props.row.Items" :key="item.Item.id">
             <td v-if="showDetailIcon"></td>
             <td
@@ -243,7 +243,7 @@ const prop = withDefaults(
     defaultSortOption: 'Amount',
     displayPercentage: false,
     isFlipper: false,
-  }
+  },
 )
 
 const route = useRoute()
@@ -460,7 +460,7 @@ const generateCustomGroups = (itemRowList: TableRow[]): TableRow[] => {
       parsePriceForItem(item, decimals.value, unit.value)
     })
     group['Items'] = groupItems.sort(
-      (a, b) => (b.SortKey ?? 0) - (a.SortKey ?? 0)
+      (a, b) => (b.SortKey ?? 0) - (a.SortKey ?? 0),
     )
     group['Percentage'] = group['Percentage'] / group['Amount']
   })

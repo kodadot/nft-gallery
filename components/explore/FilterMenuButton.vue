@@ -38,11 +38,11 @@ const disabled = computed(() => {
 })
 
 const isSidebarFiltersOpen = computed(
-  () => preferencesStore.getsidebarFilterCollapse
+  () => preferencesStore.getsidebarFilterCollapse,
 )
 
 const numOfActiveFilters = computed(
-  () => Object.keys(activeFilters.value).length
+  () => Object.keys(activeFilters.value).length,
 )
 
 const toggleSidebarFilters = () =>

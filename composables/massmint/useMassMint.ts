@@ -70,7 +70,7 @@ export const useCollectionForMint = () => {
       }))
       .filter(
         (collection) =>
-          (collection.max || Infinity) - collection.alreadyMinted > 0
+          (collection.max || Infinity) - collection.alreadyMinted > 0,
       )
   }
 
@@ -78,7 +78,7 @@ export const useCollectionForMint = () => {
     doFetch().catch((error) => {
       $consola.error(
         `Error fetching collections for account ${accountId.value}:`,
-        error
+        error,
       )
     })
 
@@ -100,7 +100,7 @@ export const useCollectionForMint = () => {
 
 export const useMassMint = (
   nfts: NFTToMint[],
-  collection: MintedCollection
+  collection: MintedCollection,
 ) => {
   const { blockNumber, transaction, isLoading, status, isError } =
     useTransaction()
@@ -123,7 +123,7 @@ export const useMassMint = (
   }
 
   const willItList = tokens.some(
-    (token) => token.price && Number(token.price) > 0
+    (token) => token.price && Number(token.price) > 0,
   )
 
   if (willItList && isRemark.value) {

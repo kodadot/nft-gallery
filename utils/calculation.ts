@@ -4,7 +4,7 @@ export function calculateUsdFromToken(amount: number, price: number): number {
 
 export function calculateExactUsdFromToken(
   token: number,
-  price: number
+  price: number,
 ): number {
   return Number((token * price).toFixed(2))
 }

@@ -16,7 +16,7 @@ export class Commands {
 
   async copyText(paste: string) {
     const clipboardText1 = await this.page.evaluate(
-      'navigator.clipboard.readText()'
+      'navigator.clipboard.readText()',
     )
     expect(clipboardText1).toContain(paste)
   }

@@ -29,7 +29,7 @@ export const getSelectedAccount = (accounts: WalletAccount[]) => {
   try {
     const selectedAddress = localStorage.getItem('kodaauth')
     const account = accounts.find(
-      (account) => account.address === selectedAddress
+      (account) => account.address === selectedAddress,
     )
 
     return account

@@ -10,7 +10,7 @@ const metadataCache = {}
 
 export const cacheOrFetchMetadata = async <T>(
   fromCache: T | undefined,
-  metadata: string
+  metadata: string,
 ): P<T> => {
   if (fromCache && !isEmpty(fromCache)) {
     return fromCache
@@ -30,7 +30,7 @@ export const processSingleMetadata = <T>(metadata: string): P<T> => {
 
 export const processMetadata = <T>(
   metadataList: string[],
-  cb?: (meta: T, index: number) => void
+  cb?: (meta: T, index: number) => void,
 ): void => {
   const metadata = metadataList.map((meta) => meta || '')
 

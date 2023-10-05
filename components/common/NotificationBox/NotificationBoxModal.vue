@@ -164,7 +164,7 @@ const toggleEventFilter = (target) => {
 }
 
 const isFilterEmpty = computed(
-  () => !collectionFilter.value && eventFilter.value.length === 0
+  () => !collectionFilter.value && eventFilter.value.length === 0,
 )
 
 const displayedEvents = computed(() =>
@@ -173,8 +173,8 @@ const displayedEvents = computed(() =>
       (!collectionFilter.value ||
         collectionFilter.value.id === item.nft.collection?.id) &&
       (eventFilter.value.length === 0 ||
-        eventFilter.value.some((x) => x === item.interaction))
-  )
+        eventFilter.value.some((x) => x === item.interaction)),
+  ),
 )
 </script>
 

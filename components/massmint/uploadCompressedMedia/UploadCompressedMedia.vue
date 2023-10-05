@@ -46,7 +46,7 @@ withDefaults(
   }>(),
   {
     disabled: false,
-  }
+  },
 )
 
 const loading = ref(false)
@@ -83,7 +83,7 @@ const onFileSelected = (file) => {
 
             showNotification(
               `${fileNames}  ${warnings.value.length} files were not uploaded`,
-              notificationTypes.warn
+              notificationTypes.warn,
             )
           }
           showCheckmark.value = true

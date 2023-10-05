@@ -94,7 +94,7 @@ const networkToPrefix = {
 }
 
 const isBalanceLoading = computed(
-  () => identityStore.getStatusMultiBalances === 'loading'
+  () => identityStore.getStatusMultiBalances === 'loading',
 )
 const filterEmptyBalanceChains = (chain: ChainToken = {}) => {
   const tokens = Object.keys(chain)
@@ -110,11 +110,11 @@ const isEmptyBalanceOnAllChains = computed(() => {
   const chains = Object.keys(multiBalances.value.chains)
   return !chains.some(
     (chain) =>
-      filterEmptyBalanceChains(multiBalances.value.chains[chain]).length !== 0
+      filterEmptyBalanceChains(multiBalances.value.chains[chain]).length !== 0,
   )
 })
 const currentNetwork = computed(() =>
-  isTestnet.value ? 'test-network' : 'main-network'
+  isTestnet.value ? 'test-network' : 'main-network',
 )
 
 const fiatStore = useFiatStore()
@@ -127,7 +127,7 @@ function calculateUsd(amount: string, token = 'KSM') {
 
   return calculateExactUsdFromToken(
     amountToNumber,
-    Number(fiatStore.getCurrentTokenValue(token))
+    Number(fiatStore.getCurrentTokenValue(token)),
   )
 }
 
@@ -152,7 +152,7 @@ async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
     nativeBalance = (
       (await api.query.tokens.accounts(
         prefixAddress,
-        tokenId
+        tokenId,
       )) as PalletBalancesAccountData
     ).free.toString()
     currentBalance = format(nativeBalance, chain.tokenDecimals, false)

@@ -24,7 +24,7 @@ const route = useRoute()
 const preferencesStore = usePreferencesStore()
 const open = computed(() => preferencesStore.getsidebarFilterCollapse)
 const isCollectionActivityTab = computed(
-  () => route.name === 'prefix-collection-id-activity'
+  () => route.name === 'prefix-collection-id-activity',
 )
 const isExploreItems = computed(() => route.name === 'prefix-explore-items')
 </script>

@@ -30,7 +30,7 @@ export const availablePrefixes = (): Option[] => {
 
   if (isProduction || isBeta) {
     return chains.filter(
-      (chain) => !disableChainListOnBetaEnv.includes(String(chain.value))
+      (chain) => !disableChainListOnBetaEnv.includes(String(chain.value)),
     )
   }
 

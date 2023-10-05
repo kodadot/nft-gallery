@@ -95,7 +95,7 @@ const prop = withDefaults(
     openOnDefault: true,
     hideCollapse: false,
     displayItem: false,
-  }
+  },
 )
 
 const route = useRoute()
@@ -130,7 +130,7 @@ const showList = computed(() => {
 
 const isToColumnVisible = computed(() => {
   return [HistoryEventType.ALL, Interaction.BUY, Interaction.SEND].includes(
-    event.value
+    event.value,
   )
 })
 
@@ -260,6 +260,6 @@ watch(
   () => route.query?.page,
   (newPage) => {
     currentPage.value = parseInt(newPage as string) || 1
-  }
+  },
 )
 </script>

@@ -21,7 +21,7 @@ const props = defineProps<{
 
 const emit = defineEmits(['select'])
 const SelectableImage = defineAsyncComponent(
-  () => import('@/components/shared/view/SelectableImage.vue')
+  () => import('@/components/shared/view/SelectableImage.vue'),
 )
 
 const handleClick = (index: number) => {

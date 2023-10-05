@@ -9,7 +9,7 @@ export const nftFn = (a: any): Row => {
   const total = a.nfts.totalCount
   const uniqueCollectors = a.nfts.nodes.reduce(
     uniqueCollectorFn,
-    new Set()
+    new Set(),
   ).size
   const buyEvents = a.nfts.nodes.map(onlyEvents).map(pairListBuyEvent).flat()
   const volume = Number(getVolume(buyEvents))

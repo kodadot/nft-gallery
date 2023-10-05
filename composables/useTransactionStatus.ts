@@ -16,7 +16,7 @@ function useTransactionStatus() {
 
   const resolveStatus = (
     extrinsicStatus: ExtrinsicStatus,
-    omitFinalized?: boolean
+    omitFinalized?: boolean,
   ): void => {
     if (extrinsicStatus.isBroadcast) {
       status.value = TransactionStatus.Broadcast

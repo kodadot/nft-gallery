@@ -15,9 +15,9 @@
 </template>
 
 <script lang="ts" setup>
-import consola from 'consola'
+// import consola from 'consola'
 
-const props = defineProps<{
+defineProps<{
   src?: string
   alt?: string
   original: boolean
@@ -27,13 +27,13 @@ const props = defineProps<{
 }>()
 
 // TODO: onError does infinite log in carousel type
-const onError = (e: Event) => {
-  const target = e.target as HTMLImageElement
-  if (target) {
-    consola.log('[KODADOT::IMAGE] unable to load', props.src, e)
-    target.src = props.placeholder
-  }
-}
+// const onError = (e: Event) => {
+//   const target = e.target as HTMLImageElement
+//   if (target) {
+//     consola.log('[KODADOT::IMAGE] unable to load', props.src, e)
+//     target.src = props.placeholder
+//   }
+// }
 </script>
 
 <style>

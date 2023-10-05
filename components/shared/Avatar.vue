@@ -13,7 +13,7 @@ withDefaults(
   {
     value: '',
     size: 64,
-  }
+  },
 )
 </script>
 

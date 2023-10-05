@@ -36,25 +36,29 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import { useListingCartStore } from '@/stores/listingCart'
+import {
+  DEFAULT_FLOOR_PRICE_RATE,
+  useListingCartStore,
+} from '@/stores/listingCart'
 
-const emit = defineEmits(['update:modelValue'])
-
-const props = defineProps<{
-  modelValue: number
-  showCurrentFloorPrice?: boolean
-}>()
+const props = withDefaults(
+  defineProps<{
+    modelValue: number
+    showCurrentFloorPrice?: boolean
+  }>(),
+  {
+    modelValue: DEFAULT_FLOOR_PRICE_RATE,
+  },
+)
 
 const listingCartStore = useListingCartStore()
 
-const floorPricePercentAdjustment = useVModel(props, 'modelValue', emit, {
-  eventName: 'update:modelValue',
-})
+const floorPricePercentAdjustment = useVModel(props, 'modelValue')
 
 const isDisabled = computed(
   () =>
     !listingCartStore.itemsInChain
       .map((item) => item.collection.floor || 0)
-      .some(Boolean)
+      .some(Boolean),
 )
 </script>

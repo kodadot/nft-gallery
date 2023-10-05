@@ -97,7 +97,7 @@ const { data: posts } = useAsyncData('posts', async () => {
   }
   const latestPosts = contents.sort(
     (content_a, content_b) =>
-      +new Date(content_b.date) - +new Date(content_a.date)
+      +new Date(content_b.date) - +new Date(content_a.date),
   )
 
   const reduce = latestPosts.reduce(
@@ -116,7 +116,7 @@ const { data: posts } = useAsyncData('posts', async () => {
       featured: [],
       posts: [],
       tokensPosts: [],
-    }
+    },
   )
 
   return reduce
@@ -153,11 +153,16 @@ const { data: posts } = useAsyncData('posts', async () => {
       letter-spacing: -0.02em;
       @include ktheme() {
         color: theme('text-color-inverse');
-        text-shadow: 1px 1px 0 theme('text-color'),
-          1px -1px 0 theme('text-color'), -1px 1px 0 theme('text-color'),
-          -1px -1px 0 theme('text-color'), 1px 0px 0 theme('text-color'),
-          0px 1px 0 theme('text-color'), -1px 0px 0 theme('text-color'),
-          0px -1px 0 theme('text-color'), 4px 4px theme('text-color');
+        text-shadow:
+          1px 1px 0 theme('text-color'),
+          1px -1px 0 theme('text-color'),
+          -1px 1px 0 theme('text-color'),
+          -1px -1px 0 theme('text-color'),
+          1px 0px 0 theme('text-color'),
+          0px 1px 0 theme('text-color'),
+          -1px 0px 0 theme('text-color'),
+          0px -1px 0 theme('text-color'),
+          4px 4px theme('text-color');
       }
     }
 

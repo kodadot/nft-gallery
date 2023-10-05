@@ -9,7 +9,7 @@
 import { useIdentityStore } from '@/stores/identity'
 
 const Money = defineAsyncComponent(
-  () => import('@/components/shared/format/Money.vue')
+  () => import('@/components/shared/format/Money.vue'),
 )
 
 const { accountId } = useAuth()

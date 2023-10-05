@@ -51,7 +51,7 @@ import useIdentityStats from '../utils/useIdentityStats'
 import type { NFT } from '@/components/rmrk/service/scheme'
 
 const GalleryCard = defineAsyncComponent(
-  () => import('../../rmrk/Gallery/GalleryCard.vue')
+  () => import('../../rmrk/Gallery/GalleryCard.vue'),
 )
 
 const address = inject('address')

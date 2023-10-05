@@ -27,7 +27,7 @@ export const useCollectionActivity = ({ collectionId }) => {
             ...e,
             timestamp: new Date(e.timestamp).getTime(),
             nft: { ...nft, events: undefined },
-          }))
+          })),
         )
         .flat()
       events.value = interactions
