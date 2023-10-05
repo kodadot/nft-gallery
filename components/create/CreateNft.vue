@@ -395,6 +395,7 @@ watchEffect(() => {
     blockNumber.value
   ) {
     mintedBlockNumber.value = blockNumber.value
+    transactionStatus.value = 'done'
   }
 
   // if listing price is done, then redirect to detail page
