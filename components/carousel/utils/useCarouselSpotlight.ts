@@ -3,8 +3,6 @@ import type { CarouselNFT } from '@/components/base/types'
 
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
-import collectionCuratedList from '@/queries/subsquid/general/collectionCuratedList.graphql'
-import collectionLastList from '@/queries/subsquid/general/collectionLastList.graphql'
 
 const curatedCollection = {
   bsx: [
@@ -83,7 +81,7 @@ export default function useCarouselSpotlight() {
   })
 
   watch(data, () => {
-    updateCollections(data.value.value)
+    updateCollections(data.value)
   })
 
   return {

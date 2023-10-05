@@ -25,21 +25,19 @@ export const useCollectionDetails = ({ collectionId }) => {
   const stats = ref<Stats>({})
 
   watch(data, () => {
-    if (data.value.value.stats) {
+    if (data.value?.stats) {
       const uniqueOwnerCount = [
-        ...new Set(
-          data.value.value.stats?.base.map((item) => item.currentOwner)
-        ),
+        ...new Set(data.value.stats.base.map((item) => item.currentOwner)),
       ].length
 
       const differentOwnerCount =
-        data.value.value.stats.base.filter(differentOwner).length
+        data.value.stats.base.filter(differentOwner).length
 
       const maxOffer = computed(() => {
         if (!chainsSupportingOffers.includes(urlPrefix.value)) {
           return undefined
         }
-        const offresPerNft = data.value.value.stats.base.map((nft) =>
+        const offresPerNft = data.value.stats.base.map((nft) =>
           nft.offers.map((offer) => Number(offer.price))
         )
         const highestOffer = Math.max(
@@ -48,11 +46,11 @@ export const useCollectionDetails = ({ collectionId }) => {
         return highestOffer
       })
 
-      const listedNfts = data.value.value.stats.listed
+      const listedNfts = data.value.stats.listed
 
       stats.value = {
-        listedCount: data.value.value.stats.listed.length,
-        collectionLength: data.value.value.stats.base.length,
+        listedCount: data.value.stats.listed.length,
+        collectionLength: data.value.stats.base.length,
         collectionFloorPrice:
           listedNfts.length > 0
             ? Math.min(...listedNfts.map((item) => parseInt(item.price)))
@@ -64,9 +62,7 @@ export const useCollectionDetails = ({ collectionId }) => {
           100
         ).toFixed(2)}%`,
         collectionTradedVolumeNumber: Number(
-          getVolume(
-            data.value.value.stats.sales.map((nft) => nft.events).flat()
-          )
+          getVolume(data.value.stats.sales.map((nft) => nft.events).flat())
         ),
       }
     }
@@ -86,9 +82,9 @@ export const useBuyEvents = ({ collectionId }) => {
     },
   })
   const highestBuyPrice = ref<number>(0)
-  watch(data, (data) => {
-    if (data && data.value.stats && data.value.stats[0]) {
-      const { max } = data.value.stats[0]
+  watch(data, (result) => {
+    const max = result?.stats?.[0]?.max
+    if (max) {
       highestBuyPrice.value = parseInt(max)
     }
   })
@@ -111,8 +107,8 @@ export function useCollectionSoldData({ address, collectionId }) {
   })
 
   watch(data as unknown as NFTListSold, (list) => {
-    if (list.value.nftEntities?.length) {
-      nftEntities.value = list.value.nftEntities
+    if (list?.nftEntities?.length) {
+      nftEntities.value = list.nftEntities
     }
   })
 
@@ -129,8 +125,8 @@ export const useCollectionMinimal = ({ collectionId }) => {
   })
 
   watch(data, (result) => {
-    if (result?.value.collectionEntityById) {
-      collection.value = result.value.collectionEntityById
+    if (result?.collectionEntityById) {
+      collection.value = result.collectionEntityById
     }
   })
 

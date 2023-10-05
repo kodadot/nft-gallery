@@ -13,7 +13,7 @@
               :src="collectionAvatar"
               class="object-fit-cover"
               :alt="collectionName" />
-            <img v-else :src="placeholder" />
+            <img v-else :src="placeholder" alt="image placeholder" />
           </div>
           <h1 class="collection-banner-name">{{ collectionName }}</h1>
         </div>
@@ -48,7 +48,7 @@ const bannerImageUrl = computed(
 )
 
 watchEffect(async () => {
-  const collection = data.value?.value.collectionEntity
+  const collection = data.value?.collectionEntity
   const metadata = collection?.metadata
   const image = collection?.meta?.image
   const name = collection?.name
@@ -70,22 +70,27 @@ watchEffect(async () => {
     }
   }
 })
+
 useSeoMeta({
-  title: collectionName.value,
-  description: convertMarkdownToText(
-    data.value?.collectionEntity.meta?.description
-  ),
+  title: collectionName,
+  description: () =>
+    convertMarkdownToText(data.value?.collectionEntity.meta?.description),
   ogUrl: route.path,
-  ogImage: generateCollectionImage(
-    collectionName.value,
-    data.value?.nftEntitiesConnection.totalCount,
-    collectionAvatar.value
-  ),
-  twitterImage: generateCollectionImage(
-    collectionName.value,
-    data.value?.nftEntitiesConnection.totalCount,
-    collectionAvatar.value
-  ),
+  ogTitle: collectionName,
+  ogDescription: () =>
+    convertMarkdownToText(data.value?.collectionEntity.meta?.description),
+  ogImage: () =>
+    generateCollectionImage(
+      collectionName.value,
+      data.value?.nftEntitiesConnection.totalCount,
+      collectionAvatar.value
+    ),
+  twitterImage: () =>
+    generateCollectionImage(
+      collectionName.value,
+      data.value?.nftEntitiesConnection.totalCount,
+      collectionAvatar.value
+    ),
 })
 </script>
 
