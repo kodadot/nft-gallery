@@ -64,7 +64,7 @@ import {
   nftToShoppingCartItem,
 } from '@/components/common/shoppingCart/utils'
 import { isOwner as checkOwner } from '@/utils/account'
-import { ItemsGridEntity, NFTStack } from './useItemsGrid'
+import { NFTStack } from './useItemsGrid'
 import useNftMetadata, { useNftCardIcon } from '@/composables/useNft'
 
 const { urlPrefix } = usePrefix()
@@ -116,9 +116,6 @@ const nftStack = computed(() =>
 
 const isAvailbleToBuy = computed(() =>
   nftStack.value.some((nft) => Number(nft.price) > 0),
-)
-const anyAvailableForListing = computed(() =>
-  nftStack.value.some((nft) => !Number(nft.price)),
 )
 
 const nftForShoppingCart = computed(() => {
