@@ -44,7 +44,9 @@ const props = withDefaults(
 )
 
 const emit = defineEmits(['update:modelValue'])
-const vValue = useVModel(props, 'modelValue', emit, { eventName: 'input' })
+const vValue = useVModel(props, 'modelValue', emit, {
+  eventName: 'update:modelValue',
+})
 const hasFocus = ref(false)
 </script>
 
