@@ -196,8 +196,8 @@ watch(highestOffer, async () => {
   const blockNumber = await currentBlock()
   if (highestOffer.value) {
     price.value =
-      blockNumber < Number(highestOffer.value.value.offers[0]?.expiration)
-        ? highestOffer.value.value.offers[0]?.price
+      blockNumber < Number(highestOffer.value.offers[0]?.expiration)
+        ? highestOffer.value.offers[0]?.price
         : ''
   }
 })

@@ -12,7 +12,12 @@
             {{ title }}
           </span>
 
-          <NeoButton variant="text" no-shadow icon="close" @click="onClose" />
+          <NeoButton
+            variant="text"
+            no-shadow
+            icon="xmark"
+            size="medium"
+            @click="onClose" />
         </header>
 
         <div class="px-6 pt-4 limit-height">
@@ -20,18 +25,14 @@
 
           <ListingCartSingleItemCart
             v-if="listingCartStore.count === 1"
-            v-model:fixed-price="cartData.fixedPrice"
-            v-model:floor-price-percent-adjustment="
-              cartData.floorPricePercentAdjustment
-            "
+            v-model:fixedPrice="fixedPrice"
+            v-model:floorPricePercentAdjustment="floorPricePercentAdjustment"
             @setFixedPrice="setFixedPrice" />
 
           <ListingCartMultipleItemsCart
             v-else
-            v-model:fixed-price="cartData.fixedPrice"
-            v-model:floor-price-percent-adjustment="
-              cartData.floorPricePercentAdjustment
-            "
+            v-model:fixedPrice="fixedPrice"
+            v-model:floorPricePercentAdjustment="floorPricePercentAdjustment"
             @setFixedPrice="setFixedPrice" />
         </div>
 
@@ -85,30 +86,18 @@ const { $i18n } = useNuxtApp()
 
 const { chainSymbol, decimals } = useChain()
 
-const defaultCartData = {
-  fixedPrice: undefined,
-  floorPricePercentAdjustment: 1,
-}
-
-const cartData = ref<{
-  fixedPrice?: number
-  floorPricePercentAdjustment: number
-}>({ ...defaultCartData })
+const fixedPrice = ref()
+const floorPricePercentAdjustment = ref()
 
 function setFixedPrice() {
-  const fixedPrice = cartData.value.fixedPrice
-
-  const rate = Number(fixedPrice) || 0
+  const rate = Number(fixedPrice.value) || 0
 
   listingCartStore.setFixedPrice(rate)
 }
 
-watch(
-  () => cartData.value.floorPricePercentAdjustment,
-  (rate) => {
-    listingCartStore.setFloorPrice(rate)
-  },
-)
+watch(floorPricePercentAdjustment, (rate) => {
+  listingCartStore.setFloorPrice(rate)
+})
 
 const fiatStore = useFiatStore()
 const priceUSD = computed(() =>
@@ -178,21 +167,23 @@ async function confirm() {
       successMessage: $i18n.t('transaction.price.success') as string,
       errorMessage: $i18n.t('transaction.price.error') as string,
     })
+
     listingCartStore.clearListedItems()
     preferencesStore.listingCartModalOpen = false
-    resetCartData()
+    resetCartToDefaults()
   } catch (error) {
     warningMessage(error)
   }
 }
 
 const onClose = () => {
-  resetCartData()
+  resetCartToDefaults()
   preferencesStore.listingCartModalOpen = false
 }
 
-const resetCartData = () => {
-  cartData.value = { ...defaultCartData }
+const resetCartToDefaults = () => {
+  fixedPrice.value = undefined
+  floorPricePercentAdjustment.value = undefined
 }
 
 watch(

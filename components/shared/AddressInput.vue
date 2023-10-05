@@ -80,7 +80,7 @@ const iconRight = computed(() => {
   return ''
 })
 const inputValue = computed({
-  get: () => props.value,
+  get: () => props.modelValue,
   set: (value) => handleInput(value),
 })
 

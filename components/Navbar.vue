@@ -228,7 +228,9 @@ const route = useRoute()
 const account = computed(() => identityStore.getAuthAddress)
 
 const isCreateVisible = computed(() => createVisible(urlPrefix.value))
-const isLandingPage = computed(() => route.name === 'index')
+const isLandingPage = computed(
+  () => route.name === 'index' || route.name === 'prefix',
+)
 
 const logoSrc = computed(() =>
   isDarkMode.value ? '/Koda_Beta_dark.svg' : '/Koda_Beta.svg',

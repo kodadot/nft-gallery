@@ -80,7 +80,7 @@ export default function useCarouselSpotlight() {
   })
 
   watch(data, () => {
-    updateCollections(data.value.value)
+    updateCollections(data.value)
   })
 
   return {

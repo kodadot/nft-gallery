@@ -96,7 +96,7 @@
       <div class="columns is-centered is-align-items-center">
         <div
           class="column is-12-mobile is-6-tablet is-7-desktop is-8-widescreen">
-          <ProfileActivity :id="id" @total="handleProfileStatsTotal" />
+          <ProfileActivity :id="id" />
         </div>
       </div>
       <div class="is-flex is-hidden-touch is-hidden-desktop-only">
@@ -179,6 +179,9 @@ import Activity from './activityTab/Activity.vue'
 import Avatar from '@/components/shared/Avatar.vue'
 import { resolveComponent } from 'vue'
 import { useListingCartStore } from '@/stores/listingCart'
+import resolveQueryPath from '@/utils/queryPathResolver'
+import { chainsWithMintInteraction } from '@/composables/collectionActivity/helpers'
+import { Interaction } from '@kodadot1/minimark/v1'
 
 enum ProfileTab {
   OWNED = 'owned',
@@ -193,7 +196,7 @@ const route = useRoute()
 const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
-const { urlPrefix } = usePrefix()
+const { urlPrefix, client } = usePrefix()
 const listingCartStore = useListingCartStore()
 
 const tabs = [
@@ -267,14 +270,39 @@ const handleIdentity = (identityFields: Record<string, string>) => {
   legal.value = identityFields?.legal
 }
 
-const handleProfileStatsTotal = (data) => {
-  counts.value = {
-    [ProfileTab.OWNED]: data.owned,
-    [ProfileTab.CREATED]: data.created,
-    [ProfileTab.ACTIVITY]: data.events,
-    [ProfileTab.COLLECTIONS]: data.collections,
+const interactionIn = computed(() => {
+  const interactions = [Interaction.LIST, Interaction.SEND, Interaction.BUY]
+
+  if (!chainsWithMintInteraction.includes(urlPrefix.value)) {
+    interactions.push(Interaction.MINTNFT)
   }
-}
+
+  return interactions
+})
+
+useAsyncData('tabs-count', async () => {
+  const query = await resolveQueryPath(client.value, 'profileTabsCount')
+  const { data } = await useAsyncQuery({
+    query: query.default,
+    clientId: client.value,
+    variables: {
+      id: id.value,
+      interactionIn: interactionIn.value,
+      denyList: getDenyList(urlPrefix.value),
+    },
+  })
+
+  if (!data.value) {
+    return
+  }
+
+  counts.value = {
+    [ProfileTab.OWNED]: data.value?.owned.totalCount,
+    [ProfileTab.CREATED]: data.value?.created.totalCount,
+    [ProfileTab.ACTIVITY]: data.value?.events.totalCount,
+    [ProfileTab.COLLECTIONS]: data.value?.collections.totalCount,
+  }
+})
 
 watch(itemsGridSearch, (searchTerm, prevSearchTerm) => {
   if (JSON.stringify(searchTerm) !== JSON.stringify(prevSearchTerm)) {

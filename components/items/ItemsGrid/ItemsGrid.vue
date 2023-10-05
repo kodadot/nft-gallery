@@ -5,7 +5,7 @@
       @click="reachTopHandler" />
 
     <DynamicGrid
-      v-if="total !== 0 && !isLoading"
+      v-if="total !== 0 && (!isLoading || !isFetchingData)"
       :id="scrollContainerId"
       v-slot="slotProps"
       class="my-5">
@@ -24,28 +24,17 @@
       </div>
     </DynamicGrid>
 
-    <DynamicGrid
-      v-else-if="isLoading"
-      :id="scrollContainerId"
-      v-slot="slotProps"
-      class="my-5">
-      <NeoNftCard
-        v-for="n in skeletonCount"
-        :key="n"
-        :nft="nfts[n]"
-        is-loading
-        :prefix="urlPrefix"
-        :variant="
-          (slotProps.isMobileVariant || slotProps.grid === 'small') && 'minimal'
-        " />
+    <DynamicGrid v-if="isLoading || isFetchingData" class="my-5">
+      <NeoNftCardSkeleton v-for="n in skeletonCount" :key="n" />
     </DynamicGrid>
-    <EmptyResult v-else />
+
+    <EmptyResult v-if="total === 0 && (!isLoading || !isFetchingData)" />
     <ScrollTopButton />
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoNftCard } from '@kodadot1/brick'
+import { NeoNftCardSkeleton } from '@kodadot1/brick'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import ItemsGridImage from './ItemsGridImage.vue'
 import {
@@ -55,7 +44,6 @@ import {
 import isEqual from 'lodash/isEqual'
 import { useListingCartStore } from '@/stores/listingCart'
 
-const { urlPrefix } = usePrefix()
 const { listingCartEnabled } = useListingCartConfig()
 const listingCartStore = useListingCartStore()
 
@@ -93,7 +81,6 @@ const {
   isFetchingData,
   scrollContainerId,
   reachTopHandler,
-  prefetchNextPage,
 } = useListInfiniteScroll({
   gotoPage,
   fetchPageData,
@@ -124,7 +111,6 @@ watch(
 )
 
 watch(total, () => {
-  prefetchNextPage()
   emit('total', total.value)
 })
 

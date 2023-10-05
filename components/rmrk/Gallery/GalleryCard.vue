@@ -43,6 +43,7 @@
 </template>
 
 <script lang="ts" setup>
+import { NeoIcon } from '@kodadot1/brick'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { getMimeType } from '@/utils/gallery/media'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'

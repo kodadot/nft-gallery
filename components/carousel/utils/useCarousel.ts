@@ -74,9 +74,9 @@ export const useCarouselRelated = async ({ collectionId }) => {
   })
 
   watch(data, async () => {
-    if (data.value.value.collection) {
+    if (data.value?.collection) {
       const listOfRelatedNFTs = formatNFT(
-        (data.value.value as Collections).collection.nfts,
+        (data.value as Collections).collection.nfts,
       )
       nfts.value = await setCarouselMetadata(listOfRelatedNFTs)
     }
@@ -108,7 +108,7 @@ export const useCarouselVisited = ({ ids }) => {
 
   watch(data, async () => {
     if (data.value) {
-      const dataNfts = data.value.value as VisitedNFTs
+      const dataNfts = data.value as VisitedNFTs
       const filteredNftsNullMeta = dataNfts.nftEntities.filter(
         (nft) => nft.meta !== null,
       )
