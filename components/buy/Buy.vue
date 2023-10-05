@@ -6,7 +6,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ShoppingActions } from '@/utils/shoppingActions'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useFiatStore } from '@/stores/fiat'
@@ -16,8 +15,6 @@ import ConfirmPurchaseModal from '@/components/common/confirmPurchaseModal/Confi
 import Loader from '@/components/shared/Loader.vue'
 import { TokenToBuy } from '@/composables/transaction/types'
 import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
-
-const emit = defineEmits(['success'])
 
 const { urlPrefix } = usePrefix()
 const shoppingCartStore = useShoppingCartStore()
@@ -55,7 +52,6 @@ watchEffect(() => {
     isLoading.value === false &&
     status.value === TransactionStatus.Finalized
   ) {
-    emit('success', shoppingCartStore.getItems)
     preferencesStore.setTriggerBuySuccess(true)
     shoppingCartStore.clear()
   }
@@ -63,24 +59,34 @@ watchEffect(() => {
 
 const onConfirm = () => {
   if (preferencesStore.getCompletePurchaseModal.mode === 'shopping-cart') {
-    handleBuy(items.value.map(ShoppingCartItemToTokenToBuy))
+    handleBuy(
+      items.value.map(ShoppingCartItemToTokenToBuy),
+      items.value.map((item) => item.name),
+    )
   } else {
     handleBuy(
       ShoppingCartItemToTokenToBuy(
         shoppingCartStore.getItemToBuy as ShoppingCartItem,
       ),
+      [shoppingCartStore.getItemToBuy?.name || ''],
     )
     shoppingCartStore.removeItemToBuy()
   }
 }
 
-const handleBuy = async (nfts: TokenToBuy | TokenToBuy[]) => {
+const handleBuy = async (
+  nfts: TokenToBuy | TokenToBuy[],
+  nftNames: string[],
+) => {
   try {
     await transaction({
       interaction: ShoppingActions.BUY,
       nfts,
       urlPrefix: urlPrefix.value,
-      successMessage: null,
+      successMessage: {
+        message: $i18n.t('mint.successPurchasedNfts', [nftNames.join(', ')]),
+        large: true,
+      },
       errorMessage: $i18n.t('transaction.buy.error'),
     })
   } catch (error) {

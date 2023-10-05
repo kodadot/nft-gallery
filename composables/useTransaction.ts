@@ -1,6 +1,7 @@
 import { Interaction } from '@kodadot1/minimark/v1'
 
 import {
+  showLargeNotification,
   successMessage as successNotification,
   warningMessage,
 } from '@/utils/notification'
@@ -26,8 +27,19 @@ import type {
   ActionWithdrawOffer,
   Actions,
   ExecuteTransactionParams,
+  ObjectMessage,
 } from './transaction/types'
 import { execMintCollection } from './transaction/transactionMintCollection'
+
+const resolveLargeSuccessNotification = (
+  block: string,
+  objectMessage: ObjectMessage,
+) => {
+  const { $i18n } = useNuxtApp()
+  const title = $i18n.t('mint.success')
+  const message = resolveSuccessMessage(block, objectMessage.message)
+  showLargeNotification({ message, title })
+}
 
 const resolveMessage = (message?: string | (() => string)) => {
   if (!message) {
@@ -41,7 +53,7 @@ const resolveMessage = (message?: string | (() => string)) => {
 
 export const resolveSuccessMessage = (
   block: string,
-  successMessage?: string | ((blockNumber) => string) | null
+  successMessage?: string | ((blockNumber) => string),
 ): string => {
   if (typeof successMessage === 'function') {
     return successMessage(block)
@@ -70,11 +82,17 @@ const useExecuteTransaction = () => {
     initTransactionLoader()
 
     const successCb = (block: string) => {
-      if (successMessage === null) {
-        return
-      }
       blockNumber.value = block
-      const message = resolveSuccessMessage(block, successMessage)
+
+      const isObject = typeof successMessage === 'object'
+      if (isObject && successMessage.large) {
+        return resolveLargeSuccessNotification(block, successMessage)
+      }
+
+      const message = resolveSuccessMessage(
+        block,
+        isObject ? successMessage.message : successMessage,
+      )
       successNotification(message)
     }
 
