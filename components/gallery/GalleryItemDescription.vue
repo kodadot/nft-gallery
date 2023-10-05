@@ -282,12 +282,9 @@ const animationMediaMimeType = ref('')
 watchEffect(async () => {
   if (nft.value?.metadata) {
     const sanitizeMetadata = sanitizeIpfsUrl(nft.value?.metadata)
-    const response = await fetch(sanitizeMetadata, {
-      method: 'HEAD',
-    })
+    const mimeType = await getMimeType(sanitizeMetadata)
 
-    metadataMimeType.value =
-      response?.headers.get('content-type') || 'application/json'
+    metadataMimeType.value = mimeType || 'application/json'
     metadataURL.value = sanitizeMetadata
   }
 
