@@ -242,7 +242,7 @@ const currentTokenDecimals = computed(() => {
   }
 })
 const toChainLabel = computed(() =>
-  getChainName(chainToPrefixMap[toChain.value])
+  getChainName(chainToPrefixMap[toChain.value]),
 )
 
 const myBalance = computed(() => {
@@ -287,15 +287,15 @@ const fromAddress = computed(() => getAddressByChain(fromChain.value))
 const toAddress = computed(() => getAddressByChain(toChain.value))
 
 const totalFiatValue = computed(() =>
-  calculateExactUsdFromToken(amount.value, Number(tokenFiatValue.value))
+  calculateExactUsdFromToken(amount.value, Number(tokenFiatValue.value)),
 )
 
 const insufficientBalance = computed(
-  () => Number(amount.value) > myBalanceWithoutDivision.value
+  () => Number(amount.value) > myBalanceWithoutDivision.value,
 )
 
 const myBalanceWithoutDivision = computed(() =>
-  simpleDivision(myBalance.value, currentTokenDecimals.value)
+  simpleDivision(myBalance.value, currentTokenDecimals.value),
 )
 
 const isDisabledButton = computed(() => {
@@ -360,7 +360,7 @@ const sendXCM = async () => {
     (blockHash) => {
       showNotification(
         `Transaction finalized at blockHash ${blockHash}`,
-        notificationTypes.success
+        notificationTypes.success,
       )
       resetStatus()
     },
@@ -372,11 +372,11 @@ const sendXCM = async () => {
       if (isFirstStatus) {
         showNotification(
           `Transaction hash is ${txHash.toHex()}`,
-          notificationTypes.info
+          notificationTypes.info,
         )
         isFirstStatus = false
       }
-    }
+    },
   )
 
   const errorHandler = () => {
@@ -394,7 +394,7 @@ const sendXCM = async () => {
     .signAndSend(
       fromAddress.value,
       { signer: injector.signer },
-      transactionHandler
+      transactionHandler,
     )
     .catch(errorHandler)
 }

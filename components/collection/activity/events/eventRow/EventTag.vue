@@ -17,6 +17,6 @@ withDefaults(
   }>(),
   {
     distinguishBuyAndSell: false,
-  }
+  },
 )
 </script>

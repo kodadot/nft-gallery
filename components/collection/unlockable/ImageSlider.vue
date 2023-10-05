@@ -85,7 +85,7 @@ const [thumbnail] = useKeenSlider(
       spacing: 10,
     },
   },
-  [ThumbnailPlugin(slider)]
+  [ThumbnailPlugin(slider)],
 )
 
 const sliderSettings = computed(() => {

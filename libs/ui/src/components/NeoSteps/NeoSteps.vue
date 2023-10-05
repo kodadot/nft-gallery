@@ -27,7 +27,7 @@ const props = withDefaults(
     hasNavigation: false,
     stepSize: '0.85rem',
     mobileBreakpoint: '0',
-  }
+  },
 )
 
 const activeStep = useVModel(props, 'modelValue')

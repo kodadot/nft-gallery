@@ -19,7 +19,7 @@ import { canSupport } from '@/utils/support'
 export async function execMintCollectionRmrk(
   item: ActionMintCollection,
   api,
-  executeTransaction: (p: ExecuteTransactionParams) => void
+  executeTransaction: (p: ExecuteTransactionParams) => void,
 ) {
   const { isV2 } = useRmrkVersion()
   const { accountId } = useAuth()
@@ -33,7 +33,7 @@ export async function execMintCollectionRmrk(
     symbol || '',
     name,
     metadata,
-    nftCount
+    nftCount,
   )
   const mintInteraction = isV2.value
     ? createInteraction({

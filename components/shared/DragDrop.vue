@@ -65,7 +65,7 @@ const props = withDefaults(
     icon: 'cloud-arrow-up',
     subtitle: undefined,
     disabled: false,
-  }
+  },
 )
 
 const selectedFile = ref<File | null>(null)

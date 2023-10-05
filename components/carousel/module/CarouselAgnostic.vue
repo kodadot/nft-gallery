@@ -85,7 +85,7 @@ const [wrapper, slider] = useKeenSlider(
     },
     slides: { perView: 1.5, spacing: 32 },
   },
-  [wheelControls]
+  [wheelControls],
 )
 
 const sliderSettings = computed(() => {
@@ -98,7 +98,7 @@ const sliderSettings = computed(() => {
     const leftCarouselIndex = Math.max(abs - props.step, 0)
     const rightCarouselIndex = Math.min(
       abs + props.step,
-      slides.length - perView
+      slides.length - perView,
     )
 
     return {

@@ -46,7 +46,7 @@ const isMobile = computed(() => useWindowSize().width.value < 768)
 const { unlockableIcon } = useUnlockableIcon()
 
 const isOwner = computed(() =>
-  checkOwner(props.nft?.currentOwner, accountId.value)
+  checkOwner(props.nft?.currentOwner, accountId.value),
 )
 </script>
 

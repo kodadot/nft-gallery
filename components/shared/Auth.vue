@@ -29,7 +29,7 @@ withDefaults(
   }>(),
   {
     size: 24,
-  }
+  },
 )
 
 onMounted(() => {

@@ -1,5 +1,5 @@
 export const replaceBooleanWithStrings = (
-  obj: Record<string, string | null | boolean | undefined | number>
+  obj: Record<string, string | null | boolean | undefined | number>,
 ): Record<string, string | null | undefined> => {
   return Object.entries(obj).reduce((result, [key, value]) => {
     result[key] =
@@ -28,7 +28,7 @@ export const is = (queryParam: string | undefined) => {
 }
 
 export default function (
-  { resetPage }: { resetPage?: boolean } = { resetPage: true }
+  { resetPage }: { resetPage?: boolean } = { resetPage: true },
 ) {
   const { $consola } = useNuxtApp()
   const route = useRoute()

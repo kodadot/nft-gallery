@@ -217,8 +217,8 @@ const showCongratsMessage = ref(false)
 const isFullscreen = ref(false)
 const canPreview = computed(() =>
   [MediaType.VIDEO, MediaType.IMAGE, MediaType.OBJECT].includes(
-    resolveMedia(nftMimeType.value)
-  )
+    resolveMedia(nftMimeType.value),
+  ),
 )
 
 const activeCarousel = ref(0)
@@ -227,13 +227,13 @@ const activeCarouselImage = computed(() => {
   return resource?.src || 'placeholder.webp'
 })
 const hasResources = computed(
-  () => nftResources.value && nftResources.value?.length > 1
+  () => nftResources.value && nftResources.value?.length > 1,
 )
 const hasAnimatedResources = computed(
   () =>
     nftResources.value &&
     nftResources.value?.length > 1 &&
-    nftResources.value[1].animation
+    nftResources.value[1].animation,
 )
 
 const previewItemSrc = computed(() => {
@@ -275,7 +275,7 @@ const meta = computed(() => {
         title.value,
         formatBalanceEmptyOnZero(nft.value?.price as string),
         sanitizeIpfsUrl(nftImage.value || ''),
-        nftMimeType.value
+        nftMimeType.value,
       ),
       mime: nftMimeType.value,
       url: route.path,

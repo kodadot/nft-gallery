@@ -40,7 +40,7 @@ const props = withDefaults(
     status: TransactionStatus.Unknown,
     modelValue: false,
     canCancel: true,
-  }
+  },
 )
 
 const { $i18n } = useNuxtApp()
@@ -59,14 +59,14 @@ watch(
       }
       randomNumber.value = newRandomNumber
     }
-  }
+  },
 )
 
 const randomFunFactHeading = computed(() =>
-  $i18n.t(`funfacts.${randomNumber.value}.heading`)
+  $i18n.t(`funfacts.${randomNumber.value}.heading`),
 )
 const randomFunFactQuestion = computed(() =>
-  $i18n.t(`funfacts.${randomNumber.value}.question`)
+  $i18n.t(`funfacts.${randomNumber.value}.question`),
 )
 const isLoading = computed({
   get: () => props.modelValue,

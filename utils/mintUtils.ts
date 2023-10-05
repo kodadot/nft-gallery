@@ -32,7 +32,7 @@ export function isSecondFileVisible(fileType: MediaType): boolean {
 
 export function isFileWithoutType(
   file: Blob | unknown,
-  mediaType: MediaType
+  mediaType: MediaType,
 ): boolean {
   return Boolean(file && mediaType === MediaType.UNKNOWN)
 }
@@ -80,7 +80,7 @@ export const isRangeSyntax = (text: string): boolean => {
 export function between(
   x: number,
   min: string | number,
-  max: string | number = Infinity
+  max: string | number = Infinity,
 ): boolean {
   return x >= min && x <= max
 }
@@ -96,7 +96,7 @@ const hasIndex = (line: string) => {
 
 export const replaceIndex = (
   line: string,
-  replaceWith: string | number
+  replaceWith: string | number,
 ): string => (hasIndex(line) ? line.replace(/{i}/g, String(replaceWith)) : line)
 
 export const skipProcess = (line: string): boolean => {
@@ -133,7 +133,7 @@ export function getRange(parsed: Record<string, MassMintNFT>): Range[] {
 
 export function processRangeSyntax(
   massMints: MassMintNFT[],
-  parsed: Record<string, MassMintNFT>
+  parsed: Record<string, MassMintNFT>,
 ): MassMintNFT[] {
   const ranges = getRange(parsed)
   return massMints.map((item, index) => {
@@ -146,7 +146,7 @@ export function processRangeSyntax(
         ...parsedItem,
         description: replaceIndex(
           correctText(item.description, parsedItem.description),
-          index + 1
+          index + 1,
         ),
         name: replaceIndex(correctText(item.name, parsedItem.name), index + 1),
       }
@@ -157,7 +157,7 @@ export function processRangeSyntax(
 
 export function processMatchAllSyntax(
   massMints: MassMintNFT[],
-  parsed: Record<string, MassMintNFT>
+  parsed: Record<string, MassMintNFT>,
 ): MassMintNFT[] {
   const applyForAll = parsed['...']
   return massMints.map((item, index) => ({
@@ -165,7 +165,7 @@ export function processMatchAllSyntax(
     ...applyForAll,
     description: replaceIndex(
       correctText(item.description, applyForAll.description),
-      index + 1
+      index + 1,
     ),
     name: replaceIndex(correctText(item.name, applyForAll.name), index + 1),
   }))

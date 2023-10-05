@@ -66,10 +66,10 @@ const props = defineProps<{
 }>()
 
 const mintBtnVariant = computed(() =>
-  props.numMissingDescriptions ? 'primary' : 'k-accent'
+  props.numMissingDescriptions ? 'primary' : 'k-accent',
 )
 const cancelBtnVariant = computed(() =>
-  props.numMissingDescriptions ? 'k-accent' : 'primary'
+  props.numMissingDescriptions ? 'k-accent' : 'primary',
 )
 
 const isModalActive = useVModel(props, 'value')

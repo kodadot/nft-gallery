@@ -25,7 +25,7 @@ const props = withDefaults(
       large: 16 * 20, // 20rem
     }),
     mobileVariant: true,
-  }
+  },
 )
 
 const preferencesStore = usePreferencesStore()
@@ -36,13 +36,13 @@ const container = ref<HTMLDivElement | null>(null)
 
 const grid = computed(() => props.gridSize || preferencesStore.getGridSize)
 const isMobileVariant = computed(
-  () => props.mobileVariant && containerWidth.value <= 768
+  () => props.mobileVariant && containerWidth.value <= 768,
 )
 
 const updateColumns = () => {
   if (containerWidth.value) {
     const getCols = Math.floor(
-      containerWidth.value / props.defaultWidth[grid.value]
+      containerWidth.value / props.defaultWidth[grid.value],
     )
 
     cols.value = isMobileVariant.value ? 2 : getCols

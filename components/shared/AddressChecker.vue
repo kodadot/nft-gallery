@@ -103,7 +103,7 @@ const showAddressCheck = ref(false)
 const showChanged = ref(false)
 
 const isWrongNetworkAddress = computed(
-  () => addressCheck.value?.type === AddressType.WRONG_NETWORK_ADDRESS
+  () => addressCheck.value?.type === AddressType.WRONG_NETWORK_ADDRESS,
 )
 
 const checkAddressByss58Format = (value: string, ss58: number) => {
@@ -118,7 +118,7 @@ const getAddressCheck = (value: string): AddressCheck => {
 
   const isValidCurrentChainAddress = checkAddressByss58Format(
     value,
-    ss58Format.value
+    ss58Format.value,
   )
 
   if (isValidCurrentChainAddress) {
@@ -128,7 +128,7 @@ const getAddressCheck = (value: string): AddressCheck => {
   const GENERIC_SUBSTRATE_SS58_FORMAT = 42
   const isValidGeneric = checkAddressByss58Format(
     value,
-    GENERIC_SUBSTRATE_SS58_FORMAT
+    GENERIC_SUBSTRATE_SS58_FORMAT,
   )
 
   if (isValidGeneric) {
@@ -136,7 +136,7 @@ const getAddressCheck = (value: string): AddressCheck => {
   }
 
   const [validAddressesChain] = CHAINS_ADDRESS_CHECKS.filter((chain) =>
-    checkAddressByss58Format(value, CHAINS[chain].ss58Format)
+    checkAddressByss58Format(value, CHAINS[chain].ss58Format),
   )
 
   if (validAddressesChain) {
@@ -184,7 +184,7 @@ watch(
       showChanged.value = false
       addressCheck.value = null
     }
-  }
+  },
 )
 
 watch(showAddressCheck, () => {

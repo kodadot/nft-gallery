@@ -57,7 +57,7 @@ onMounted(() => {
 
 watch(
   () => props.priceData,
-  () => priceChart
+  () => priceChart,
 )
 
 const priceChart = () => {
@@ -86,7 +86,7 @@ const priceChart = () => {
       datasets.value.push({
         label: 'Trailing Average',
         data: getMovingAverage(
-          getCollectionChartData(props.priceData[1], mapToAverage)
+          getCollectionChartData(props.priceData[1], mapToAverage),
         ),
         borderColor: 'yellow',
         ...baseLineOptions,

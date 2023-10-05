@@ -7,7 +7,7 @@ import { expandCopies, transactionFactory } from './utils'
 const prepareTokenMintArgs = async (
   token: TokenToMint,
   api,
-  nextId: number
+  nextId: number,
 ) => {
   const { id: collectionId } = token.selectedCollection as BaseMintedCollection
   const { price, royalty, hasRoyalty } = token
@@ -27,7 +27,7 @@ const prepareTokenMintArgs = async (
             collectionId,
             nextId,
             royalty.address,
-            royalty.amount * 100
+            royalty.amount * 100,
           ),
         ]
       : []
@@ -39,7 +39,7 @@ const getArgs = async (item: ActionMintToken, api) => {
   const { $consola } = useNuxtApp()
 
   const tokens = expandCopies(
-    Array.isArray(item.token) ? item.token : [item.token]
+    Array.isArray(item.token) ? item.token : [item.token],
   )
   const arg = (
     await Promise.all(
@@ -50,7 +50,7 @@ const getArgs = async (item: ActionMintToken, api) => {
         return prepareTokenMintArgs(token, api, nextId).catch((e) => {
           $consola.error('Error:', e)
         })
-      })
+      }),
     )
   ).flat()
 

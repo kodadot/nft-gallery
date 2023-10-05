@@ -265,7 +265,7 @@ const selectedCollection = ref()
 const depositLabel = computed(() =>
   canDeposit.value
     ? $i18n.t('mint.nft.create')
-    : $i18n.t('confirmPurchase.notEnoughFuns')
+    : $i18n.t('confirmPurchase.notEnoughFuns'),
 )
 const submitButtonLabel = computed(() => {
   return !isLogIn.value ? $i18n.t('mint.nft.connect') : depositLabel.value
@@ -283,10 +283,10 @@ const imagePreview = computed(() => {
 
 // select available blockchain
 const menus = availablePrefixes().filter(
-  (menu) => menu.value !== 'movr' && menu.value !== 'glmr'
+  (menu) => menu.value !== 'movr' && menu.value !== 'glmr',
 )
 const chainByPrefix = computed(() =>
-  menus.find((menu) => menu.value === urlPrefix.value)
+  menus.find((menu) => menu.value === urlPrefix.value),
 )
 const selectChain = ref(chainByPrefix.value?.value || menus[0].value)
 
@@ -338,7 +338,7 @@ const createNft = async () => {
           royalty: form.royalty,
         },
       },
-      currentChain.value
+      currentChain.value,
     )) as unknown as {
       createdNFTs?: Ref<CreatedNFT[]>
     }
@@ -375,7 +375,7 @@ watchEffect(async () => {
           token: list,
           successMessage: `[💰] Listed ${form.name} for ${form.salePrice} ${chainSymbol.value}`,
         },
-        currentChain.value
+        currentChain.value,
       )
 
       transactionStatus.value = 'checkListed'
@@ -438,7 +438,7 @@ watchEffect(async () => {
     showNotification(
       `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`,
       notificationTypes.info,
-      DETAIL_TIMEOUT
+      DETAIL_TIMEOUT,
     )
 
     await delay(DETAIL_TIMEOUT)

@@ -27,7 +27,7 @@ const progressbar = ref()
 const progressbarWidth = ref(0)
 
 const currentPercent = computed(
-  () => (props.currentTime / props.totalTime) * 100
+  () => (props.currentTime / props.totalTime) * 100,
 )
 
 const onClick = (event: MouseEvent) => {

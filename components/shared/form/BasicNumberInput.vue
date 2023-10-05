@@ -40,7 +40,7 @@ const props = withDefaults(
     expanded: false,
     min: 1,
     step: 1,
-  }
+  },
 )
 const emit = defineEmits(['input'])
 

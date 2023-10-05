@@ -23,6 +23,17 @@ export const useQueryParams = ({
   }
 }
 
+type UseGraphqlParams = {
+  queryPrefix?: string
+  queryName: string
+  clientName?: string | ComputedRef<string>
+  variables?: Record<string, unknown> | ComputedRef<Record<string, unknown>>
+  disabled?: ComputedRef<boolean>
+  data?: Ref<unknown>
+  error?: Ref<unknown>
+  loading?: Ref<boolean>
+}
+
 export default function ({
   queryPrefix = '',
   queryName,
@@ -32,7 +43,7 @@ export default function ({
   data = ref(),
   error = ref(),
   loading = ref(true),
-}) {
+}: UseGraphqlParams) {
   const { client: clientPrefix } = usePrefix()
   const { $consola } = useNuxtApp()
 
@@ -40,7 +51,6 @@ export default function ({
   const client = clientName || clientPrefix.value
 
   async function doFetch({
-    // options: extraOptions = {},
     variables: extraVariables = {},
   }: DoFetchParams = {}) {
     const query = await resolveQueryPath(prefix, queryName)

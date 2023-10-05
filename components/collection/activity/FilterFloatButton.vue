@@ -16,7 +16,7 @@ const preferencesStore = usePreferencesStore()
 const activeFilters = useActiveRouterFilters()
 
 const numOfActiveFilters = computed(
-  () => Object.keys(activeFilters.value).length
+  () => Object.keys(activeFilters.value).length,
 )
 const openMobileFilters = () => preferencesStore.setMobileFilterCollapse(true)
 </script>

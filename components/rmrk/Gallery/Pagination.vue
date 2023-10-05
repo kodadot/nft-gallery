@@ -3,8 +3,8 @@
     v-if="total > perPage"
     class="is-align-self-flex-end is-flex is-justify-content-flex-end">
     <NeoPagination
+      v-model:current="current"
       :total="total"
-      :current.sync="current"
       :range-before="rangeBefore"
       :range-after="rangeAfter"
       :simple="simple"
@@ -50,7 +50,7 @@ const props = withDefaults(
     simple: false,
     rangeBefore: 3,
     rangeAfter: 3,
-  }
+  },
 )
 const emit = defineEmits(['input'])
 

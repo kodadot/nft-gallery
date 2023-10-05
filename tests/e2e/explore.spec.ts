@@ -28,7 +28,7 @@ const testCollections = async (page) => {
     [...Array(5).keys()].map(async (i) => {
       const collectionIndex = await page.getByTestId(`collection-index-${i}`)
       await collectionIndex.waitFor()
-    })
+    }),
   )
 }
 
@@ -57,13 +57,13 @@ const testItems = async (page) => {
 
   await Promise.all([
     page.waitForResponse(
-      (resp) => resp.url().includes('squid.subsquid.io') && resp.ok()
+      (resp) => resp.url().includes('squid.subsquid.io') && resp.ok(),
     ),
     btnApply.click(),
   ])
 
   await page.waitForResponse(
-    (resp) => resp.url().includes('image') && resp.ok()
+    (resp) => resp.url().includes('image') && resp.ok(),
   )
 
   const exploreSort = await page.getByTestId('explore-sort')

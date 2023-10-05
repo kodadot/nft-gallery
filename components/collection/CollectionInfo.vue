@@ -3,7 +3,7 @@
     class="is-flex is-justify-content-space-between mobile-flex-direction-column gap">
     <div class="is-flex is-flex-direction-column is-flex-grow-1 max-width">
       <HeroButtons class="is-hidden-tablet" />
-      <div v-if="collectionInfo?.currentOwner" class="is-flex mb-2">
+      <div v-if="address" class="is-flex mb-2">
         <div class="mr-2">{{ $t('activity.creator') }}</div>
         <nuxt-link :to="`/${urlPrefix}/u/${address}`" class="has-text-link">
           <IdentityIndex ref="identity" :address="address" show-clipboard />
@@ -69,7 +69,7 @@ const collectionId = computed(() => route.params.id)
 const chain = computed(
   () =>
     availableChains.value.find((chain) => chain.value === route.params.prefix)
-      ?.text
+      ?.text,
 )
 const address = computed(() => collectionInfo.value?.currentOwner)
 const seeAllDescription = ref(false)

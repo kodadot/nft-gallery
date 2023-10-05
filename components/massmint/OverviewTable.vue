@@ -122,11 +122,11 @@ const props = withDefaults(
   {
     disabled: false,
     nfts: undefined,
-  }
+  },
 )
 
 const displayedNFTS = computed<NFT[]>(() =>
-  Object.values(props.nfts).slice(0, offset.value).map(addStatus)
+  Object.values(props.nfts).slice(0, offset.value).map(addStatus),
 )
 
 const openSideBarWith = (nft: NFT) => {

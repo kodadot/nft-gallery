@@ -60,7 +60,7 @@ const isLoading = ref(true)
 const sortBy = ref(
   typeof route.query?.sort === 'string'
     ? [route.query?.sort]
-    : route.query?.sort
+    : route.query?.sort,
 )
 const searchQuery = reactive<SearchQuery>({
   search: route.query?.search?.toString() ?? '',
@@ -181,7 +181,7 @@ watch(
       resetPage()
       searchQuery.search = val === undefined ? val : String(val)
     }
-  }
+  },
 )
 
 watch(
@@ -191,14 +191,14 @@ watch(
       resetPage()
       searchQuery.sortBy = String(val) || undefined
     }
-  }
+  },
 )
 
 watch(
   () => searchQuery,
   () => {
     resetPage()
-  }
+  },
 )
 </script>
 

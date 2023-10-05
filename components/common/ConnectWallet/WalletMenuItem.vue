@@ -85,7 +85,7 @@ const isAuth = ref(false)
 const emitAccountChange = (account): void => {
   emit('setAccount', account)
   const walletName = walletAccounts.value.find(
-    (wallet) => wallet.address === account.address
+    (wallet) => wallet.address === account.address,
   )?.name
   walletStore.setWalletName({ name: walletName })
 }

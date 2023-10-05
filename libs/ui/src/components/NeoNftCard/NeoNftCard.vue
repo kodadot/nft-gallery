@@ -111,7 +111,7 @@ const props = withDefaults(
     showActionOnHover: true,
     placeholder: undefined,
     mediaPlayerCover: undefined,
-  }
+  },
 )
 
 const isStacked = props.variant.includes('stacked')

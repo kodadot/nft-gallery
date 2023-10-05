@@ -25,7 +25,7 @@
 import { OUTPUTS, PredictionStatus } from '@/services/replicate'
 
 const ImageGrid = defineAsyncComponent(
-  () => import('@/components/shared/view/ImageGrid.vue')
+  () => import('@/components/shared/view/ImageGrid.vue'),
 )
 
 const expectedOutput = Number(OUTPUTS)
