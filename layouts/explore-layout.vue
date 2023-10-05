@@ -31,11 +31,18 @@
         </div>
       </main>
     </div>
-    <Buy />
     <template v-if="listingCartEnabled">
       <ListingCartMini />
       <ListingCartModal />
     </template>
+
+    <Buy @success="handleBuy" />
+
+    <MessageNotify
+      v-if="message"
+      :title="message.title"
+      :subtitle="message.subtitle"
+      @close="message = null" />
   </div>
 </template>
 
@@ -45,10 +52,12 @@ import MobileFilter from '@/components/shared/filters/MobileFilter.vue'
 import CollectionBanner from '@/components/collection/CollectionHeader/CollectionBanner.vue'
 import CollectionInfo from '@/components/collection/CollectionInfo.vue'
 import Buy from '@/components/buy/Buy.vue'
+import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
 
-const { $config } = useNuxtApp()
+const { $config, $i18n } = useNuxtApp()
 const route = useRoute()
 const { listingCartEnabled } = useListingCartConfig()
+const message = ref()
 
 useHead({
   link: [
@@ -64,6 +73,14 @@ const isExplore = computed(() => route.path.includes('/explore'))
 const isCollection = computed(() =>
   route.name?.includes('prefix-collection-id')
 )
+
+const handleBuy = (items: ShoppingCartItem[]) => {
+  const itemNames = items.map((item) => item.name).join(', ')
+  message.value = {
+    title: $i18n.t('mint.success'),
+    subtitle: $i18n.t('mint.successPurchasedNfts', [itemNames]),
+  }
+}
 </script>
 
 <style lang="scss" scoped>

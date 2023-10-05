@@ -89,7 +89,7 @@ export type ActionBuy = {
   interaction: Interaction.BUY
   urlPrefix: string
   nfts: TokenToBuy | TokenToBuy[]
-  successMessage?: string
+  successMessage?: string | null
   errorMessage?: string
 }
 

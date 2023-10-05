@@ -41,7 +41,7 @@ const resolveMessage = (message?: string | (() => string)) => {
 
 export const resolveSuccessMessage = (
   block: string,
-  successMessage?: string | ((blockNumber) => string)
+  successMessage?: string | ((blockNumber) => string) | null
 ): string => {
   if (typeof successMessage === 'function') {
     return successMessage(block)
@@ -70,6 +70,9 @@ const useExecuteTransaction = () => {
     initTransactionLoader()
 
     const successCb = (block: string) => {
+      if (successMessage === null) {
+        return
+      }
       blockNumber.value = block
       const message = resolveSuccessMessage(block, successMessage)
       successNotification(message)

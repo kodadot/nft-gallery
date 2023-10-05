@@ -48,9 +48,9 @@ const realworldFullPath = computed(() => {
 @import '@/assets/styles/abstracts/variables';
 
 .message-box {
-  z-index: 10;
+  z-index: 100;
   max-width: 500px;
-  position: absolute;
+  position: fixed;
   border-radius: 0;
   top: 100px;
   right: 0;
