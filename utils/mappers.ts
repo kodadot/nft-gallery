@@ -18,7 +18,7 @@ export function mapDecimals(decimals: number, to = true): (number) => number {
 
 export const logError = (
   error: Error | any,
-  cb: (message: string) => void
+  cb: (message: string) => void,
 ): void => {
   if (error instanceof Error) {
     cb(error.message)

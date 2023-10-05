@@ -27,7 +27,7 @@
         <NeoButton
           v-else
           icon-left="money-bill"
-          @click.native="tellFrens(props.row.id)">
+          @click="tellFrens(props.row.id)">
           {{ $t('asset.action.default') }}
         </NeoButton>
       </NeoTableColumn>
@@ -47,7 +47,7 @@ import { NeoButton, NeoTable, NeoTableColumn } from '@kodadot1/brick'
 import { AssetItem } from './types'
 
 const Money = defineAsyncComponent(
-  () => import('@/components/shared/format/Money.vue')
+  () => import('@/components/shared/format/Money.vue'),
 )
 const emit = defineEmits(['select'])
 defineProps({

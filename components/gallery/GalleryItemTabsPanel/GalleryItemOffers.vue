@@ -49,7 +49,7 @@
               props.row.expiration >= currentBlock,
             'has-text-warning': isInactiveOffer(
               props.row.status,
-              props.row.expiration
+              props.row.expiration,
             ),
           }"
           >{{ formatOfferStatus(props.row.status, props.row.expiration) }}</span
@@ -61,13 +61,13 @@
             (props.row.caller === accountId || isOwner) && isActive(props.row)
           "
           variant="primary"
-          @click.native="onWithdrawOffer(props.row.caller)"
+          @click="onWithdrawOffer(props.row.caller)"
           >Cancel</NeoSecondaryButton
         >
         <NeoSecondaryButton
           v-if="isOwner && isActiveAndNotExpired(props.row)"
           variant="info"
-          @click.native="onAcceptOffer(props.row.caller)"
+          @click="onAcceptOffer(props.row.caller)"
           >Accept</NeoSecondaryButton
         >
       </NeoTableColumn>
@@ -88,6 +88,7 @@ import { OfferStatusType } from '@/utils/offerStatus'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { isOwner as checkOwner } from '@/utils/account'
 import { ShoppingActions } from '@/utils/shoppingActions'
+import Loader from '@/components/shared/Loader.vue'
 
 const { $i18n, $consola } = useNuxtApp()
 
@@ -212,7 +213,7 @@ const submit = async (
   maker: string,
   interaction:
     | typeof ShoppingActions.WITHDRAW_OFFER
-    | typeof ShoppingActions.ACCEPT_OFFER
+    | typeof ShoppingActions.ACCEPT_OFFER,
 ) => {
   try {
     await transaction({
@@ -235,14 +236,13 @@ watch(
   ],
   async ([offersData, collectionData]) => {
     const nftPrice = collectionData?.collectionEntity?.nfts[0]?.price
-
-    if (offersData?.offers.length) {
+    if (offersData.value?.offers) {
       const ksmPrice = await getKSMUSD()
       const floorPrice = formatPrice(nftPrice || '')
 
-      offers.value = offersData.offers
+      offers.value = offersData.value.offers
 
-      offersData.offers.map((offer) => {
+      offersData.value.offers.map((offer) => {
         const price = formatPrice(offer.price)
 
         const token = price
@@ -256,7 +256,7 @@ watch(
         }
       })
     }
-  }
+  },
 )
 </script>
 

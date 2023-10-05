@@ -19,7 +19,7 @@ export function useUnlockable(entity: Ref<EntityWithId | undefined>) {
       if (val) {
         fetchUnlockLink(val)
       }
-    }
+    },
   )
 
   const isUnlockable = computed(() => {

@@ -35,12 +35,13 @@ export default {
     NeoTabs,
   },
   setup() {
-    const { $route, $router } = useNuxtApp()
+    const route = useRoute()
+    const router = useRouter()
     const activeTab = computed({
-      get: () => $route.query.tab || 'metadata',
+      get: () => route.query.tab || 'metadata',
       set: (value) => {
-        $route.query.page = ''
-        $router.replace({
+        route.query.page = ''
+        router.replace({
           query: { tab: value },
         })
       },

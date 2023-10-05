@@ -18,7 +18,7 @@
         <div
           v-if="totalValue"
           class="is-flex is-justify-content-space-between is-align-items-center my-1">
-          <span class="is-size-7"> {{ $i18n.t('spotlight.total') }}: </span>
+          <span class="is-size-7"> {{ $t('spotlight.total') }}: </span>
           <span> ${{ totalValue.toFixed(2) }} </span>
         </div>
       </div>
@@ -37,13 +37,12 @@ import WalletAssetMenu from './WalletAssetMenu.vue'
 import WalletAssetSetIdentity from './WalletAssetSetIdentity.vue'
 
 const MultipleBalances = defineAsyncComponent(
-  () => import('@/components/balance/MultipleBalances.vue')
+  () => import('@/components/balance/MultipleBalances.vue'),
 )
 
 const totalValue = ref(0)
 const identityStore = useIdentityStore()
 const { urlPrefix } = usePrefix()
-const { $i18n } = useNuxtApp()
 const { $consola } = useNuxtApp()
 
 const account = computed(() => identityStore.getAuthAddress)

@@ -4,14 +4,12 @@
       <div class="is-flex gallery-item-relist">
         <NeoButton
           :label="
-            isListed
-              ? `${$i18n.t('transaction.price.change')}`
-              : `${$i18n.t('transaction.list')}`
+            isListed ? $t('transaction.price.change') : $t('transaction.list')
           "
           size="large"
           fixed-width
           :variant="isListed ? undefined : 'k-accent'"
-          @click.native="openListCartModal" />
+          @click="openListCartModal" />
       </div>
     </GalleryItemPriceSection>
 
@@ -35,7 +33,6 @@ const props = defineProps<{
 
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
-const { $i18n } = useNuxtApp()
 
 const { stats } = useCollectionDetails({
   collectionId: props.nft.collection.id,
@@ -47,8 +44,8 @@ const openListCartModal = () => {
   listingCartStore.setItem(
     nftToListingCartItem(
       props.nft,
-      String(stats.value.collectionFloorPrice ?? '')
-    )
+      String(stats.value.collectionFloorPrice ?? ''),
+    ),
   )
   preferencesStore.listingCartModalOpen = true
 }
@@ -59,7 +56,7 @@ watch(
     if (!isOpen) {
       onListingModalClose()
     }
-  }
+  },
 )
 
 const onListingModalClose = () => {
@@ -72,7 +69,7 @@ const isListed = computed(() => Boolean(Number(nftPrice.value)))
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .gallery-item-relist {
   button {

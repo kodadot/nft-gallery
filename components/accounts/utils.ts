@@ -41,7 +41,7 @@ export const parseBatchAddresses = (batchAddresses: string): string[] => {
 export const sendFunction = (
   parsedAddresses: string[],
   distribution: number,
-  random?: ShuffleFunction
+  random?: ShuffleFunction,
 ): ProcessFunction => {
   const randomFn = random ? random : notRandomFunction
   const slice = toDistribute(parsedAddresses.length, distribution)
@@ -51,7 +51,7 @@ export const sendFunction = (
     const lessTokensThanAdresses = nfts.length < subset.length
     const final = subset.slice(
       0,
-      lessTokensThanAdresses ? nfts.length : undefined
+      lessTokensThanAdresses ? nfts.length : undefined,
     )
     return final.map((addr, index) => {
       const id = justId(nfts[index])

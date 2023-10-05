@@ -59,7 +59,7 @@ const execKsm = (isSingle: boolean, item: ActionList, api) => {
   const args = isSingle
     ? interaction
     : (interaction as string[]).map((interaction) =>
-        api.tx.system.remark(interaction)
+        api.tx.system.remark(interaction),
       )
   const cb = isSingle ? api.tx.system.remark : api.tx.utility.batchAll
   return {
@@ -79,7 +79,7 @@ const execBsx = (isSingle: boolean, item: ActionList, api) => {
     const tokens = item.token as TokenToList[]
     const cb = getApiCall(api, item.urlPrefix, Interaction.LIST)
     const args = tokens.map((token) =>
-      cb(...bsxParamResolver(token.nftId, Interaction.LIST, token.price))
+      cb(...bsxParamResolver(token.nftId, Interaction.LIST, token.price)),
     )
     return {
       cb: api.tx.utility.batchAll,

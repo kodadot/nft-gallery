@@ -32,7 +32,7 @@ const props = withDefaults(
     src: '',
     alt: '',
     customClass: '',
-  }
+  },
 )
 
 const imageSrc = ref(props.src)

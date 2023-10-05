@@ -25,10 +25,10 @@
 
 <script setup lang="ts">
 const BasicInput = defineAsyncComponent(
-  () => import('@/components/shared/form/BasicInput.vue')
+  () => import('@/components/shared/form/BasicInput.vue'),
 )
 const SubmitButton = defineAsyncComponent(
-  () => import('@/components/base/SubmitButton.vue')
+  () => import('@/components/base/SubmitButton.vue'),
 )
 
 const email = ref('')

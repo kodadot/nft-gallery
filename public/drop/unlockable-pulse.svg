@@ -1,0 +1,44 @@
+<svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 32 32"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <g filter="url(#filter0_f_394_6126)">
+                    <circle cx="16" cy="16" r="6" fill="#ff7ac3" />
+                  </g>
+                  <circle cx="16" cy="16" r="6" fill="#ff7ac3" />
+                  <defs>
+                    <filter
+                      id="filter0_f_394_6126"
+                      x="0"
+                      y="0.730164"
+                      width="32"
+                      height="32"
+                      filterUnits="userSpaceOnUse"
+                      color-interpolation-filters="sRGB">
+                      <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                      <feBlend
+                        mode="normal"
+                        in="SourceGraphic"
+                        in2="BackgroundImageFix"
+                        result="shape" />
+                      <feGaussianBlur
+                        id="blur"
+                        stdDeviation="0"
+                        result="effect1_foregroundBlur_394_6126">
+                        <animate
+                          attributeName="stdDeviation"
+                          from="0"
+                          to="7.5"
+                          dur="1s"
+                          begin="0s"
+                          repeatCount="indefinite" />
+                      </feGaussianBlur>
+                      <feColorMatrix
+                        type="saturate"
+                        values="4"
+                        result="saturatedResult" />
+                    </filter>
+                  </defs>
+                </svg>

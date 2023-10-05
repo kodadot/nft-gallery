@@ -87,7 +87,8 @@ const props = defineProps<{
 const avatar = ref<string>()
 const { placeholder } = useTheme()
 const interactionName = computed(
-  () => interactionNameMap()[props.event.interaction] || props.event.interaction
+  () =>
+    interactionNameMap()[props.event.interaction] || props.event.interaction,
 )
 const amount = computed(() => getAmount(props.event))
 
@@ -107,7 +108,7 @@ const getAvatar = async () => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .fixed-width {
   width: 66px;

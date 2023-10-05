@@ -70,6 +70,8 @@ export interface NFTMetadata extends Metadata, ItemResources {
   mediaUri?: string
   background_color?: string
   animation_url?: string
+  animationUrl?: string
+  mimeType?: string
   youtube_url?: string
   type?: string
   image_ar?: string
@@ -167,7 +169,7 @@ export interface NFT extends ItemResources {
   name: string
   instance: string
   transferable: number
-  collection: EntityWithId
+  collection: EntityWithId & { floorPrice: { price: string }[] }
   collectionId?: string
   sn: string
   _id: string
@@ -257,7 +259,7 @@ export type RmrkCreatedNft = CreatedNFT | CreatedNFTV2
 
 export const getNftId = (
   nft: Pick<NFT, 'blockNumber' | 'collection' | 'instance' | 'name' | 'sn'>,
-  blocknumber?: string | number
+  blocknumber?: string | number,
 ): string => {
   return `${blocknumber ? blocknumber + '-' : ''}${nft.collection.id}-${
     nft.instance || nft.name
@@ -266,7 +268,7 @@ export const getNftId = (
 
 export const toNFTId = (
   nft: RmrkCreatedNft,
-  blocknumber: string | number
+  blocknumber: string | number,
 ): string => {
   const nftId = Object.prototype.hasOwnProperty.call(nft, 'instance')
     ? toNFTIdV1(nft as CreatedNFT, blocknumber)
@@ -276,7 +278,7 @@ export const toNFTId = (
 
 export const computeAndUpdateNft = (
   nft: NFT,
-  blocknumber?: string | number
+  blocknumber?: string | number,
 ): NFT => {
   const id = getNftId(nft, blocknumber)
   return {
@@ -287,7 +289,7 @@ export const computeAndUpdateNft = (
 }
 
 export const computeAndUpdateCollection = (
-  collection: Collection
+  collection: Collection,
 ): Collection => {
   return {
     ...collection,
@@ -304,7 +306,7 @@ type MergedData<T> = T extends Collection
 export const mergeNFTCollection = <T extends Collection | NFT>(
   item: T,
   metadata: T extends Collection ? CollectionMetadata : NFTMetadata,
-  shouldSanitize = false
+  shouldSanitize = false,
 ): MergedData<T> => {
   const merged = {
     ...item,

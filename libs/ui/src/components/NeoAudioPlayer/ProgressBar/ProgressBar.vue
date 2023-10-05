@@ -27,7 +27,7 @@ const progressbar = ref()
 const progressbarWidth = ref(0)
 
 const currentPercent = computed(
-  () => (props.currentTime / props.totalTime) * 100
+  () => (props.currentTime / props.totalTime) * 100,
 )
 
 const onClick = (event: MouseEvent) => {
@@ -41,7 +41,7 @@ useResizeObserver(progressbar, (entry) => {
 })
 </script>
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .progressbar {
   position: relative;

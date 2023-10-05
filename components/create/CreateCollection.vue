@@ -70,7 +70,7 @@
 
       <!-- select blockchain -->
       <NeoField :label="`${$t('mint.blockchain.label')} *`">
-        <div>
+        <div class="w-full">
           <p>{{ $t('mint.blockchain.message') }}</p>
           <NeoSelect
             v-model="selectBlockchain"
@@ -100,28 +100,25 @@
         </div>
       </NeoField>
 
-      <!-- deposit -->
-      <div>
-        <hr class="my-6" />
-        <NeoField>
-          <div class="monospace">
-            <p class="has-text-weight-medium is-size-6 has-text-info">
-              <span>{{ $t('mint.deposit') }}:</span>
-              <span data-testid="collection-deposit"
-                >{{ totalCollectionDeposit }} {{ chainSymbol }}</span
-              >
-            </p>
-            <p>
-              <span>{{ $t('general.balance') }}: </span>
-              <span data-testid="collection-balance"
-                >{{ balance }} {{ chainSymbol }}</span
-              >
-            </p>
-            <nuxt-link v-if="isBasilisk" :to="`/${currentChain}/assets`">
-              {{ $t('general.tx.feesPaidIn', [chainSymbol]) }}
-            </nuxt-link>
+      <hr class="my-6" />
+
+      <!-- deposit and balance -->
+      <div class="monospace">
+        <div class="is-flex has-text-weight-medium has-text-info">
+          <div>{{ $t('mint.deposit') }}:&nbsp;</div>
+          <div data-testid="collection-deposit">
+            {{ totalCollectionDeposit }} {{ chainSymbol }}
           </div>
-        </NeoField>
+        </div>
+        <div class="is-flex">
+          <div>{{ $t('general.balance') }}:&nbsp;</div>
+          <div data-testid="collection-balance">
+            {{ balance }} {{ chainSymbol }}
+          </div>
+        </div>
+        <nuxt-link v-if="isBasilisk" :to="`/${currentChain}/assets`">
+          {{ $t('general.tx.feesPaidIn', [chainSymbol]) }}
+        </nuxt-link>
       </div>
 
       <hr class="my-6" />
@@ -132,7 +129,7 @@
           <NeoButton
             expanded
             :label="submitButtonLabel"
-            type="submit"
+            native-type="submit"
             size="medium"
             class="is-size-6"
             data-testid="collection-create"
@@ -194,7 +191,7 @@ withDefaults(
   }>(),
   {
     classColumn: true,
-  }
+  },
 )
 
 // composables
@@ -269,7 +266,7 @@ const createCollection = async () => {
   try {
     showNotification(
       `Creating Collection: "${name.value}"`,
-      notificationTypes.info
+      notificationTypes.info,
     )
     isLoading.value = true
 
@@ -282,7 +279,7 @@ const createCollection = async () => {
           | CollectionToMintKusama
           | CollectionToMintStatmine,
       },
-      currentChain.value
+      currentChain.value,
     )
   } catch (error) {
     showNotification(`[ERR] ${error}`, notificationTypes.warn)
@@ -295,4 +292,4 @@ onMounted(() => {
 })
 </script>
 
-<style lang="scss" scoped src="@/styles/pages/create.scss"></style>
+<style lang="scss" scoped src="@/assets/styles/pages/create.scss"></style>

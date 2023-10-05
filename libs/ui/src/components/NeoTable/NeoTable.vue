@@ -1,5 +1,5 @@
 <script lang="ts">
-import { OTable } from '@oruga-ui/oruga'
+import { OTable } from '@oruga-ui/oruga-next'
 
 export default {
   extends: OTable,
@@ -8,10 +8,10 @@ export default {
 
 <style lang="scss">
 @import '../../scss/_theme.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/_expressions.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/_variables.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/_animations.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/_helpers.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_expressions.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_variables.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_animations.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_helpers.scss';
 
 $table-border: 0;
 $table-border-radius: 0;
@@ -89,5 +89,5 @@ $table-th-font-weight: 400;
   }
 }
 
-@import '@oruga-ui/oruga/src/scss/components/_table.scss';
+@import '@oruga-ui/oruga-next/src/scss/components/_table.scss';
 </style>

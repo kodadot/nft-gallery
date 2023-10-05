@@ -2,7 +2,7 @@
   <NeoButton
     :variant="variant"
     :no-shadow="noShadow"
-    @click.native="toggleWalletConnectModal">
+    @click="toggleWalletConnectModal">
     <slot>
       {{ $t(`${label || 'general.connect'}`) }}
     </slot>
@@ -20,8 +20,7 @@ defineProps<{
   noShadow?: boolean
 }>()
 
-const { $neoModal } = useNuxtApp()
-const instance = getCurrentInstance()
+const { neoModal } = useProgrammatic()
 
 const modal = ref<{ close: () => void; isActive?: boolean } | null>(null)
 const isMobile = ref(window.innerWidth < 1024)
@@ -35,15 +34,14 @@ const toggleWalletConnectModal = () => {
     emit('toggleConnectModal')
   }
 
-  $neoModal.closeAll()
+  neoModal.closeAll()
 
   if (modal.value?.isActive) {
     modal.value = null
     return
   }
 
-  let modalInstance = $neoModal.open({
-    parent: instance?.proxy,
+  let modalInstance = neoModal.open({
     ...ConnectWalletModalConfig,
     ...(isMobileWithoutTablet.value ? { animation: 'none' } : {}),
     onClose: (type: ModalCloseType) => {

@@ -1,5 +1,5 @@
 <script>
-import { OInput } from '@oruga-ui/oruga'
+import { OInput } from '@oruga-ui/oruga-next'
 
 export default {
   mixins: [OInput],

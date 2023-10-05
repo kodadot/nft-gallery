@@ -44,26 +44,28 @@ import { getDenyList } from '~/utils/prefix'
 import CollectionCard from '@/components/collection/CollectionCard.vue'
 import { GRID_DEFAULT_WIDTH } from '@/components/collection/utils/constants'
 import { usePreferencesStore } from '@/stores/preferences'
+import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 
 const props = defineProps<{
   id?: string
 }>()
 
 const route = useRoute()
-const { $apollo } = useNuxtApp()
 const { urlPrefix, client } = usePrefix()
 const preferencesStore = usePreferencesStore()
 const emit = defineEmits(['total', 'isLoading'])
 
 const collections = ref<Collection[]>([])
 const isLoading = ref(true)
-const searchQuery = ref<SearchQuery>({
+const sortBy = ref(
+  typeof route.query?.sort === 'string'
+    ? [route.query?.sort]
+    : route.query?.sort,
+)
+const searchQuery = reactive<SearchQuery>({
   search: route.query?.search?.toString() ?? '',
   type: route.query?.type?.toString() ?? '',
-  sortBy:
-    typeof route.query?.sort === 'string'
-      ? [route.query?.sort]
-      : route.query?.sort,
+  sortBy: sortBy.value ?? undefined,
   listed: route.query?.listed?.toString() === 'true',
 })
 
@@ -73,13 +75,13 @@ const resetPage = useDebounceFn(() => {
 
 const buildSearchParam = (): Record<string, unknown>[] => {
   const params: any[] = []
-  if (searchQuery.value.search) {
+  if (searchQuery.search) {
     params.push({
-      name_containsInsensitive: searchQuery.value.search,
+      name_containsInsensitive: searchQuery.search,
     })
   }
 
-  if (searchQuery.value.listed) {
+  if (searchQuery.listed) {
     params.push({ nfts_some: { price_gt: '0' } })
   }
 
@@ -107,24 +109,22 @@ const fetchPageData = async (page: number, loadDirection = 'down') => {
         ],
         first: first.value,
         offset: (page - 1) * first.value,
-        orderBy: searchQuery.value.sortBy,
+        orderBy: searchQuery.sortBy,
       }
     : {
         denyList: getDenyList(urlPrefix.value),
-        orderBy: searchQuery.value.sortBy,
+        orderBy: searchQuery.sortBy,
         search: buildSearchParam(),
-        listed: searchQuery.value.listed
-          ? [{ price: { greaterThan: '0' } }]
-          : [],
+        listed: searchQuery.listed ? [{ price: { greaterThan: '0' } }] : [],
         first: first.value,
         offset: (page - 1) * first.value,
       }
-  const result = await $apollo.query({
+  const { data: result } = await useAsyncQuery({
     query: collectionListWithSearch,
-    client: client.value,
-    variables,
+    variables: variables,
+    clientId: client.value,
   })
-  await handleResult(result, loadDirection)
+  handleResult(result.value, loadDirection)
   isFetchingData.value = false
   return true
 }
@@ -153,12 +153,9 @@ const {
   fetchPageData,
 })
 
-watch(total, (val) => emit('total', val))
-watch(isLoading, (val) => emit('isLoading', val))
-
 const skeletonCount = first.value
 
-const handleResult = async ({ data }: any, loadDirection = 'down') => {
+const handleResult = (data, loadDirection = 'down') => {
   total.value = data.stats.totalCount
   const newCollections = data.collectionEntities.map((e: any) => ({
     ...e,
@@ -173,14 +170,17 @@ const handleResult = async ({ data }: any, loadDirection = 'down') => {
   isLoading.value = false
 }
 
+watch(total, (val) => emit('total', val))
+watch(isLoading, (val) => emit('isLoading', val))
+
 watch(
   () => route.query.search,
   (val, oldVal) => {
     if (val !== oldVal) {
       resetPage()
-      searchQuery.value.search = val === undefined ? val : String(val)
+      searchQuery.search = val === undefined ? val : String(val)
     }
-  }
+  },
 )
 
 watch(
@@ -188,16 +188,16 @@ watch(
   (val, oldVal) => {
     if (!isEqual(val, oldVal)) {
       resetPage()
-      searchQuery.value.sortBy = String(val) || undefined
+      searchQuery.sortBy = String(val) || undefined
     }
-  }
+  },
 )
 
 watch(
-  () => searchQuery.value,
+  () => searchQuery,
   () => {
     resetPage()
-  }
+  },
 )
 </script>
 

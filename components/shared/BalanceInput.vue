@@ -101,7 +101,7 @@ watch(
   () => props.value,
   (newValue) => {
     internalValue.value = newValue
-  }
+  },
 )
 
 const balance = ref(null)
