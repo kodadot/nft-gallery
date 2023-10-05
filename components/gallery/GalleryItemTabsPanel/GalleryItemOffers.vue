@@ -236,13 +236,13 @@ watch(
   ],
   async ([offersData, collectionData]) => {
     const nftPrice = collectionData?.collectionEntity?.nfts[0]?.price
-    if (offersData.value?.offers) {
+    if (offersData?.offers) {
       const ksmPrice = await getKSMUSD()
       const floorPrice = formatPrice(nftPrice || '')
 
-      offers.value = offersData.value.offers
+      offers.value = offersData.offers
 
-      offersData.value.offers.map((offer) => {
+      offersData.offers.map((offer) => {
         const price = formatPrice(offer.price)
 
         const token = price
