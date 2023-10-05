@@ -153,17 +153,25 @@
             <div
               class="is-flex-1"
               :class="{ 'is-flex is-flex-grow-1': !isMobile }">
-              <NeoInput
-                v-if="displayUnit === 'token'"
-                v-model="destinationAddress.token"
-                type="number"
-                placeholder="0"
-                step="0.01"
-                min="0"
-                icon-right-class="search"
-                data-testid="transfer-input-amount-token"
-                @focus="onAmountFieldFocus(destinationAddress, 'token')"
-                @update:modelValue="onAmountFieldChange(destinationAddress)" />
+              <div v-if="displayUnit === 'token'" class="is-relative">
+                <NeoInput
+                  v-model="destinationAddress.token"
+                  input-class="pr-8"
+                  type="number"
+                  placeholder="0"
+                  step="0.01"
+                  min="0"
+                  icon-right-class="search"
+                  data-testid="transfer-input-amount-token"
+                  @focus="onAmountFieldFocus(destinationAddress, 'token')"
+                  @update:modelValue="
+                    onAmountFieldChange(destinationAddress)
+                  " />
+                <div class="is-absolute-right has-text-grey">
+                  {{ unit }}
+                </div>
+              </div>
+
               <NeoInput
                 v-else
                 v-model="destinationAddress.usd"
@@ -899,5 +907,11 @@ watchDebounced(
 }
 :deep(.o-drop__menu.no-border-bottom) {
   border-bottom: none;
+}
+
+.is-absolute-right {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.75rem;
 }
 </style>
