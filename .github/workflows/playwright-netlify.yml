@@ -3,7 +3,7 @@ on:
   push:
     branches: [ main, beta, production, nuxt ]
   pull_request:
-    branches: [ main, beta, production,nuxt ]
+    branches: [ main, beta, production, nuxt ]
 jobs:
   test:
     timeout-minutes: 15
