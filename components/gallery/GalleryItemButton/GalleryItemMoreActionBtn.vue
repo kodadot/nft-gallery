@@ -49,14 +49,14 @@ const props = defineProps<{
 }>()
 
 const downloadMedia = () => {
-  try {
-    if (props.ipfsImage) {
+  if (props.ipfsImage) {
+    try {
       downloadImage(toOriginalContentUrl(props.ipfsImage), props.name)
+    } catch (error) {
+      $consola.warn('[ERR] unable to fetch image')
+      toast($i18n.t('toast.downloadError'))
+      return
     }
-  } catch (error) {
-    $consola.warn('[ERR] unable to fetch image')
-    toast($i18n.t('toast.downloadError'))
-    return
   }
 }
 
