@@ -3,8 +3,9 @@
     <NeoAutocomplete
       ref="searchRef"
       v-model="name"
-      root-class="gallery-search"
-      :class="{ 'is-collection-search': isSearchInCollectionMode }"
+      :root-class="`gallery-search ${
+        isCollectionSearchMode && 'is-collection-search'
+      }`"
       :placeholder="placeholderContent"
       icon="search"
       icon-pack="fasr"
@@ -18,19 +19,19 @@
       @keydown.enter="onEnter">
       <template #header>
         <SearchSuggestion
-          v-if="!isSearchInCollectionMode"
+          v-if="!isCollectionSearchMode"
           ref="searchSuggestionRef"
           :name="name"
           :show-default-suggestions="showDefaultSuggestions"
           :query="query"
-          @gotoGallery="$emit('redirect', $event)"
+          @goto-gallery="$emit('redirect', $event)"
           @close="closeDropDown">
         </SearchSuggestion>
       </template>
     </NeoAutocomplete>
     <div class="search-bar-bg"></div>
     <div
-      v-if="isSearchInCollectionMode"
+      v-if="isCollectionSearchMode"
       class="search-bar-collection-search is-flex is-align-items-center">
       <span class="is-flex is-align-items-center">{{
         $i18n.t('search.searchCollection')
@@ -66,19 +67,20 @@ import SearchSuggestion from '@/components/search/SearchSuggestion.vue'
 import { SearchQuery } from './types'
 import type { PropType } from 'vue'
 
-defineProps({
-  value: {
+const props = defineProps({
+  modelValue: {
     type: String,
     required: true,
   },
   query: Object as PropType<SearchQuery>,
 })
 
-const emits = defineEmits(['input', 'blur', 'enter', 'redirect'])
+const emits = defineEmits(['update:modelValue', 'blur', 'enter', 'redirect'])
 const { $i18n } = useNuxtApp()
 
-// const name = useVModel(props, 'value', emits, { eventName: 'input' })
-const name = ref('')
+const name = useVModel(props, 'modelValue', emits, {
+  eventName: 'update:modelValue',
+})
 
 const searchRef = ref<typeof NeoAutocomplete>()
 const searchSuggestionRef = ref<typeof SearchSuggestion>()
@@ -86,15 +88,12 @@ const enableSearchInCollection = ref(true)
 const inputFocused = ref(false)
 const { urlPrefix } = usePrefix()
 
-const collectionSearch = useCollectionSearch()
+const { isCollectionSearchMode, setCollectionSearchMode } =
+  useCollectionSearch()
 useKeyboardEvents({ k: bindSearchEvents })
 
-const isSearchInCollectionMode = computed(
-  () => collectionSearch.isCollectionSearchMode.value,
-)
-
 const placeholderContent = computed(() =>
-  inputFocused.value || isSearchInCollectionMode.value
+  inputFocused.value || isCollectionSearchMode.value
     ? ''
     : $i18n.t('general.searchPlaceholder'),
 )
@@ -104,7 +103,7 @@ const showDefaultSuggestions = computed(
 )
 
 function exitCollectionSearch() {
-  if (isSearchInCollectionMode.value && !name.value) {
+  if (isCollectionSearchMode.value && !name.value) {
     enableSearchInCollection.value = false
   }
 }
@@ -113,7 +112,7 @@ function onEnter() {
   closeDropDown()
   searchRef.value?.$refs?.input?.$refs?.input?.blur()
   // insert search term in history
-  // searchSuggestionRef.value?.insertNewHistory()
+  searchSuggestionRef.value?.insertNewHistory()
   emits('enter')
 }
 
@@ -150,7 +149,7 @@ function closeDropDown() {
 watch(
   enableSearchInCollection,
   () => {
-    collectionSearch.setCollectionSearchMode(enableSearchInCollection.value)
+    setCollectionSearchMode(enableSearchInCollection.value)
   },
   { immediate: true },
 )
