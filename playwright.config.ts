@@ -25,11 +25,14 @@ export default defineConfig({
   timeout: 1 * 60 * 1000,
   use: {
     headless: true,
-    permissions: ['clipboard-read'],
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'http://localhost:9090',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    permissions: ['clipboard-read', 'clipboard-write'],
+    contextOptions: {
+      permissions: ['clipboard-read', 'clipboard-write'],
+    },
   },
 
   /* Configure projects for major browsers */
@@ -38,12 +41,10 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
-    // },
-
+    //{
+    //  name: 'firefox',
+    //  use: { ...devices['Desktop Firefox'] },
+    //},
     // {
     //   name: 'webkit',
     //   use: { ...devices['Desktop Safari'] },
