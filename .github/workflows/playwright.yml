@@ -21,7 +21,7 @@ jobs:
       run: pnpm generate
 
     - name: Install Playwright Browsers
-      run: pnpm exec playwright install --with-deps chromium
+      run: pnpm exec playwright install --with-deps
 
     - name: Run Playwright tests
       run: pnpm exec playwright test prefix.spec.ts
