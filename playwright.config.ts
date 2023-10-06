@@ -26,7 +26,7 @@ export default defineConfig({
   timeout: 1 * 60 * 1000,
   expect: { timeout: 30000 },
   use: {
-    headless: true,
+    //headless: true,
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'http://localhost:9090',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
