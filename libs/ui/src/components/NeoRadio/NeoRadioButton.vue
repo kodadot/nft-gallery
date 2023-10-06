@@ -4,7 +4,7 @@
       ref="label"
       class="button"
       :class="labelClass"
-      :disabled="disabled"
+      :disabled="disabledNull"
       @click="focus">
       <slot />
       <input
@@ -42,6 +42,13 @@ export default {
     }
   },
   computed: {
+    disabledNull() {
+      if (!this.disabled) {
+        return null
+      }
+
+      return this.disabled
+    },
     isSelected() {
       return this.newValue === this.nativeValue
     },
@@ -53,7 +60,6 @@ export default {
           'is-selected': this.isSelected,
           'is-disabled': this.disabled,
           'is-focused': this.isFocused,
-          'is-loading': this.loading,
           'is-rounded': this.rounded,
         },
       ]
