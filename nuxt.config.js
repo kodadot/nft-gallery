@@ -274,15 +274,16 @@ export default defineNuxtConfig({
     strictNuxtContentPaths: true,
   },
 
-  // sitemap: {
-  //   routes() {
-  //     const posts = fs.readdirSync('content/blog')
+  sitemap: {
+    sitemaps: true,
+    // routes() {
+    //   const posts = fs.readdirSync('content/blog')
 
-  //     return posts
-  //       .map((post) => post.split('.')[0])
-  //       .map((post) => `/blog/${post}`)
-  //   },
-  // },
+    //   return posts
+    //     .map((post) => post.split('.')[0])
+    //     .map((post) => `/blog/${post}`)
+    // },
+  },
 
   hooks: {
     sitemap: {
