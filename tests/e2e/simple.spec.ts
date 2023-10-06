@@ -8,7 +8,7 @@ test('has title', async ({ page }) => {
 })
 
 test('if test passes', async ({ page }) => {
-  await page.goto('')
+  await page.goto('/', { timeout: 30000 })
   await expect(page).toHaveURL('http://localhost:9090/')
   await expect(page.locator('[class="navbar-brand"]')).toBeVisible()
   await expect(page.getByTestId('drops')).toBeVisible()
