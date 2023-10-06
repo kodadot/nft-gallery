@@ -114,9 +114,8 @@ const props = withDefaults(
   },
 )
 
-
 const isStacked = computed(
-  () => false
+  () => false,
   // props.variant ? props.variant.includes('stacked') : false
 )
 const isMinimal = props.variant.includes('minimal')
