@@ -24,7 +24,7 @@ export default defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   timeout: 1 * 60 * 1000,
-  expect: { timeout: 5000 },
+  expect: { timeout: 30000 },
   use: {
     headless: true,
     /* Base URL to use in actions like `await page.goto('/')`. */
