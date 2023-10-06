@@ -21,10 +21,10 @@ jobs:
       run: pnpm generate
 
     - name: Install Playwright Browsers
-      run: pnpm exec playwright install --with-deps
+      run: pnpm exec playwright install --with-deps chromium
 
     - name: Run Playwright tests
-      run: pnpm exec playwright test prefix.spec.ts
+      run: pnpm exec playwright test simple.spec.ts
     - uses: actions/upload-artifact@v3
       if: always()
       with:

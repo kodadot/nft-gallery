@@ -23,8 +23,8 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  //timeout: 1 * 60 * 1000,
-  //expect: { timeout: 5000 },
+  timeout: 1 * 60 * 1000,
+  expect: { timeout: 5000 },
   use: {
     headless: true,
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -78,6 +78,6 @@ export default defineConfig({
     command: process.env.CI ? 'pnpm start:static' : 'pnpm run dev',
     url: 'http://localhost:9090',
     reuseExistingServer: !process.env.CI,
-    //timeout: 2 * 60 * 1000,
+    timeout: 2 * 60 * 1000,
   },
 })
