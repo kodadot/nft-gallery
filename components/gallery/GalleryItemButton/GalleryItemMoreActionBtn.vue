@@ -33,7 +33,8 @@ import { downloadImage } from '@/utils/download'
 import { toOriginalContentUrl } from '@/utils/ipfs'
 import Loader from '@/components/shared/Loader.vue'
 
-const { $i18n } = useNuxtApp()
+const { $i18n, $consola } = useNuxtApp()
+const { toast } = useToast()
 const { accountId } = useAuth()
 const { transaction, isLoading, status } = useTransaction()
 const { urlPrefix } = usePrefix()
@@ -48,8 +49,15 @@ const props = defineProps<{
 }>()
 
 const downloadMedia = () => {
-  props.ipfsImage &&
-    downloadImage(toOriginalContentUrl(props.ipfsImage), props.name)
+  if (props.ipfsImage) {
+    try {
+      downloadImage(toOriginalContentUrl(props.ipfsImage), props.name)
+    } catch (error) {
+      $consola.warn('[ERR] unable to fetch image')
+      toast($i18n.t('toast.downloadError'))
+      return
+    }
+  }
 }
 
 const burn = () => {
