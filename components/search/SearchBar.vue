@@ -17,9 +17,8 @@
       @keydown.delete="exitCollectionSearch"
       @keydown.backSpace="exitCollectionSearch"
       @keydown.enter="onEnter">
-      <template #header>
+      <template v-if="!isCollectionSearchMode" #header>
         <SearchSuggestion
-          v-if="!isCollectionSearchMode"
           ref="searchSuggestionRef"
           :name="name"
           :show-default-suggestions="showDefaultSuggestions"
