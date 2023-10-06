@@ -230,19 +230,16 @@ const submit = async (
 }
 
 watch(
-  [
-    data as unknown as OfferResponse,
-    dataCollection as unknown as CollectionEvents,
-  ],
+  [data as Ref<OfferResponse>, dataCollection as Ref<CollectionEvents>],
   async ([offersData, collectionData]) => {
     const nftPrice = collectionData?.collectionEntity?.nfts[0]?.price
-    if (offersData.value?.offers) {
+    if (offersData?.offers) {
       const ksmPrice = await getKSMUSD()
       const floorPrice = formatPrice(nftPrice || '')
 
-      offers.value = offersData.value.offers
+      offers.value = offersData.offers
 
-      offersData.value.offers.map((offer) => {
+      offersData.offers.map((offer) => {
         const price = formatPrice(offer.price)
 
         const token = price

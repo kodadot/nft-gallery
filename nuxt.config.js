@@ -269,16 +269,21 @@ export default defineNuxtConfig({
     // https://github.com/nuxt-community/apollo-module#options
   },
 
-  // sitemap: {
-  //   hostname: process.env.BASE_URL || 'http://localhost:9090',
-  //   routes() {
-  //     const posts = fs.readdirSync('content/blog')
+  site: {
+    url: process.env.BASE_URL || 'http://localhost:9090',
+    strictNuxtContentPaths: true,
+  },
 
-  //     return posts
-  //       .map((post) => post.split('.')[0])
-  //       .map((post) => `/blog/${post}`)
-  //   },
-  // },
+  sitemap: {
+    sitemaps: true,
+    // routes() {
+    //   const posts = fs.readdirSync('content/blog')
+
+    //   return posts
+    //     .map((post) => post.split('.')[0])
+    //     .map((post) => `/blog/${post}`)
+    // },
+  },
 
   hooks: {
     sitemap: {
