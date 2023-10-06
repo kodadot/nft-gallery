@@ -79,7 +79,6 @@ const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
 const preferencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
-const { initRampInstant } = useRamp()
 const { cartIcon } = useShoppingCartIcon(props.nft.id)
 
 const instance = getCurrentInstance()
