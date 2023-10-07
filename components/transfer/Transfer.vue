@@ -45,7 +45,7 @@
           </NeoDropdownItem>
 
           <NeoDropdownItem
-            v-clipboard:copy="generateRecurringPaymentLink()"
+            v-clipboard:copy="recurringPaymentLink"
             class="no-wrap"
             data-testid="transfer-dropdown-recurring"
             @click="toast($t('toast.urlCopy'))">
@@ -830,13 +830,13 @@ const onTxError = async (dispatchError: DispatchError): Promise<void> => {
   isLoading.value = false
 }
 
-const generateRecurringPaymentLink = () => {
+const recurringPaymentLink = computed(() => {
   const addressList = targetAddresses.value
     .filter((item) => isAddress(item.address) && !item.isInvalid)
     .map((item) => item.address)
 
   return generatePaymentLink(addressList)
-}
+})
 
 const generatePaymentLink = (addressList: string[]): string => {
   const url = new URL(`${location.origin}${location.pathname}`)
