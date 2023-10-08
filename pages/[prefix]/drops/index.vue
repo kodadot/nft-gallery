@@ -3,8 +3,6 @@
 </template>
 
 <script lang="ts" setup>
-import Drops from '@/components/drops/Drops.vue'
-
 const route = useRoute()
 
 useSeoMeta({

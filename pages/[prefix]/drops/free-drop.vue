@@ -1,10 +1,8 @@
 <template>
-  <UnlockableContainer />
+  <CollectionUnlockableContainer />
 </template>
 
 <script lang="ts" setup>
-import UnlockableContainer from '@/components/collection/unlockable/UnlockableContainer.vue'
-
 definePageMeta({
   layout: 'unlockable-mint-layout',
 })

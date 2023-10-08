@@ -1,11 +1,10 @@
 <template>
   <div class="py-8">
-    <OnBoarding />
+    <MassmintOnBoarding />
   </div>
 </template>
 
 <script lang="ts">
-import OnBoarding from '@/components/massmint/OnBoarding.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 import { massmintCreateVisible } from '@/utils/config/permission.config'
 
@@ -15,9 +14,6 @@ definePageMeta({
 
 export default {
   name: 'MassmintOnboardingPage',
-  components: {
-    OnBoarding,
-  },
   middleware({ redirect, params }) {
     if (usePreferencesStore().getVisitedOnboarding) {
       redirect(`/${params.prefix}/massmint`)
