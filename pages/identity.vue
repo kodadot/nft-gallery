@@ -1,10 +1,8 @@
 <template>
-  <Identity />
+  <IdentityForm />
 </template>
 
 <script lang="ts" setup>
-import Identity from '@/components/common/IdentityForm.vue'
-
 definePageMeta({
   layout: 'centered-half-layout',
 })

@@ -24,42 +24,30 @@
     <SeriesTable />
   </section>
 </template>
-<script lang="ts">
+
+<script lang="ts" setup>
 import { seriesInsightVisible } from '@/utils/config/permission.config'
 
-export default {
-  name: 'Series',
-  components: {
-    SeriesTable: () => import('@/components/series/SeriesTable.vue'),
-  },
-  setup() {
-    const { urlPrefix } = usePrefix()
-    const { isRemark, isBasilisk } = useIsChain(urlPrefix)
+const { urlPrefix } = usePrefix()
+const { isRemark, isBasilisk } = useIsChain(urlPrefix)
 
-    const checkRouteAvailability = () => {
-      if (!seriesInsightVisible(urlPrefix.value)) {
-        navigateTo('/')
-      }
-    }
-
-    watch(urlPrefix, () => checkRouteAvailability())
-
-    onBeforeMount(() => checkRouteAvailability())
-
-    useHead({
-      title: 'NFT artist rank',
-      meta: [
-        {
-          name: 'description',
-          content: 'Discover new artists based on ranking',
-        },
-      ],
-    })
-    return {
-      urlPrefix,
-      isRemark,
-      isBasilisk,
-    }
-  },
+const checkRouteAvailability = () => {
+  if (!seriesInsightVisible(urlPrefix.value)) {
+    navigateTo('/')
+  }
 }
+
+watch(urlPrefix, () => checkRouteAvailability())
+
+onBeforeMount(() => checkRouteAvailability())
+
+useHead({
+  title: 'NFT artist rank',
+  meta: [
+    {
+      name: 'description',
+      content: 'Discover new artists based on ranking',
+    },
+  ],
+})
 </script>

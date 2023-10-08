@@ -2,12 +2,11 @@
   <div
     class="container is-fluid"
     :class="{ 'sidebar-padding-left': isSidebarOpen }">
-    <Activity />
+    <CollectionActivity />
   </div>
 </template>
 
 <script lang="ts" setup>
-import Activity from '@/components/collection/activity/Activity.vue'
 import { useHistoryStore } from '@/stores/history'
 import { usePreferencesStore } from '@/stores/preferences'
 import { generateCollectionImage } from '@/utils/seoImageGenerator'
