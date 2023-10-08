@@ -4,7 +4,6 @@
     <NeoModal
       :value="preferencesStore.listingCartModalOpen"
       scroll="clip"
-      append-to-body
       @close="onClose">
       <div class="modal-width">
         <header
