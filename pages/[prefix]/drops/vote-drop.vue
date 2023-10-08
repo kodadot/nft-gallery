@@ -1,15 +1,11 @@
 <template>
-  <VoteDropContainer />
+  <CollectionVoteDropContainer />
 </template>
 
-<script lang="ts">
-import VoteDropContainer from '@/components/collection/voteDrop/DropContainer.vue'
-export default {
-  components: {
-    VoteDropContainer,
-  },
+<script lang="ts" setup>
+definePageMeta({
   layout: 'unlockable-mint-layout',
-}
+})
 </script>
 
 <style lang="scss" scoped>

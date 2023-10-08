@@ -1,6 +1,7 @@
 <template>
   <Massmint />
 </template>
+
 <script lang="ts">
 import { usePreferencesStore } from '@/stores/preferences'
 import { massmintCreateVisible } from '@/utils/config/permission.config'
@@ -21,19 +22,16 @@ export default {
     }
   },
 
-  head() {
-    const title = 'Massmint'
-    const metaData = {
-      title,
-      type: 'profile',
-      description: 'Mint multiple NFTs at once',
-      url: `/${this.$route.params.prefix}/massmint`,
-      image: `${this.$config.public.baseUrl}/k_card.png`,
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
-    }
+  setup() {
+    useHead({
+      title: 'Massmint',
+      meta: [
+        {
+          name: 'description',
+          content: 'Mint multiple NFTs at once',
+        },
+      ],
+    })
   },
 }
 </script>
