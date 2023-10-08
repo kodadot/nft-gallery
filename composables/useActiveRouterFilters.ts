@@ -9,7 +9,7 @@ export default function useActiveRouterFilters() {
         (key === 'min' && value) ||
         (key === 'max' && value) ||
         (key === 'collections' && value) ||
-        value === 'true'
+        value === 'true',
     )
     return Object.fromEntries(entries)
   })

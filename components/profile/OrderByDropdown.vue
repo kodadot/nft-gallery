@@ -32,7 +32,9 @@
         <span>
           {{
             $i18n.t(
-              !isCollectionsTab ? `sort.${option}` : `sort.collection.${option}`
+              !isCollectionsTab
+                ? `sort.${option}`
+                : `sort.collection.${option}`,
             )
           }}
         </span>
@@ -63,7 +65,7 @@ const router = useRouter()
 const { $i18n } = useNuxtApp()
 
 const isCollectionsTab = computed(
-  () => (route.query.tab as string) === 'collections'
+  () => (route.query.tab as string) === 'collections',
 )
 
 const options = computed(() => {
@@ -114,7 +116,7 @@ watch(
   () => route.query.sort,
   (sort) => {
     selectedSort.value = sort as string[]
-  }
+  },
 )
 
 onMounted(() => {
@@ -131,7 +133,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .sort {
   position: relative;

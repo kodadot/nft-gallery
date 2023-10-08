@@ -14,7 +14,7 @@
             v-if="!showFilter"
             no-shadow
             class="rounded"
-            @click.native="showFilter = !showFilter">
+            @click="showFilter = !showFilter">
             {{ $t('notification.add') }}
             <NeoIcon icon="plus" />
           </NeoButton>
@@ -22,7 +22,7 @@
             v-else
             no-shadow
             class="rounded"
-            @click.native="showFilter = !showFilter">
+            @click="showFilter = !showFilter">
             {{ $t('notification.done') }}
             <NeoIcon icon="check" />
           </NeoButton>
@@ -96,7 +96,7 @@
             v-for="(event, index) in displayedEvents"
             :key="`${event.id}-${index}`"
             :event="event"
-            @click.native="closeModal(ModalCloseType.NAVIGATION)" />
+            @click="closeModal(ModalCloseType.NAVIGATION)" />
         </div>
       </div>
     </div>
@@ -164,7 +164,7 @@ const toggleEventFilter = (target) => {
 }
 
 const isFilterEmpty = computed(
-  () => !collectionFilter.value && eventFilter.value.length === 0
+  () => !collectionFilter.value && eventFilter.value.length === 0,
 )
 
 const displayedEvents = computed(() =>
@@ -173,13 +173,13 @@ const displayedEvents = computed(() =>
       (!collectionFilter.value ||
         collectionFilter.value.id === item.nft.collection?.id) &&
       (eventFilter.value.length === 0 ||
-        eventFilter.value.some((x) => x === item.interaction))
-  )
+        eventFilter.value.some((x) => x === item.interaction)),
+  ),
 )
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .rounded {
   border-radius: 2rem;
   overflow: hidden;

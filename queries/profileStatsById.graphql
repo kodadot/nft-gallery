@@ -1,7 +1,7 @@
 #import "./fragments/event.graphql"
 #import "./fragments/nftSubsquid.graphql"
 
-query profileStatsById($id: String!) {
+query profileStatsById($id: String!, $denyList: [String!]) {
   listed: nftEntitiesConnection(
     where: {
       currentOwner_eq: $id
@@ -18,7 +18,12 @@ query profileStatsById($id: String!) {
   }
 
   obtained: nftEntitiesConnection(
-    where: { currentOwner_eq: $id, burned_eq: false }
+    where: { 
+      currentOwner_eq: $id,
+      burned_eq: false,
+      metadata_not_eq: ""
+      issuer_not_in: $denyList
+     }
     orderBy: name_ASC
   ) {
     totalCount

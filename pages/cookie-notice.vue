@@ -182,17 +182,16 @@
 export default {
   name: 'CookieNotice',
 
-  head() {
-    const title = 'Cookie Policy'
-    const metaData = {
-      title,
-      description: 'KodaDot Cookie Policy',
-      url: '/cookie-notice',
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
-    }
+  setup() {
+    useHead({
+      title: 'Cookie Policy',
+      meta: [
+        {
+          name: 'description',
+          content: 'KodaDot Cookie Policy',
+        },
+      ],
+    })
   },
 }
 </script>

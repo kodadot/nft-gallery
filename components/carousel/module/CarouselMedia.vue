@@ -16,6 +16,7 @@
         :src="imageSrc || ''"
         :animation-src="item.animationUrl || ''"
         :title="item.name"
+        disable-operation
         :audio-player-cover="imageSrc || ''"
         audio-hover-on-cover-play />
     </nuxt-link>
@@ -31,7 +32,7 @@ import type { NFTWithMetadata } from '@/composables/useNft'
 import { useCarouselUrl } from '../utils/useCarousel'
 
 const props = defineProps<{
-  item: CarouselNFT & NFTWithMetadata
+  item: CarouselNFT | NFTWithMetadata
   index: number
   length: number
 }>()
@@ -44,12 +45,19 @@ const { urlPrefix } = usePrefix()
 const imageSrc = ref(props.item.image)
 const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.item))
 
-onMounted(async () => {
-  if (!props.item.image) {
+watch(
+  () => props.item.image,
+  async () => {
     const nft = await getNftMetadata(props.item, urlPrefix.value)
     imageSrc.value = nft.image
-  }
-})
+  },
+)
+
+// onMounted(async () => {
+//   if (!props.item.image) {
+
+//   }
+// })
 </script>
 <style lang="scss" scoped>
 .card-icon {

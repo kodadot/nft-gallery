@@ -22,6 +22,6 @@ withDefaults(
   {
     holderNfts: () => [],
     flips: () => [],
-  }
+  },
 )
 </script>

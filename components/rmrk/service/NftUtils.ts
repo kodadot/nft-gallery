@@ -27,13 +27,13 @@ class NFTUtils {
 
   public static decodeRmrk(rmrkString: string): string {
     return NFTUtils.decode(
-      isHex(rmrkString) ? hexToString(rmrkString) : rmrkString
+      isHex(rmrkString) ? hexToString(rmrkString) : rmrkString,
     )
   }
 
   public static toString(
     rmrkType: RmrkCreatedNft | Collection,
-    version = '1.0.0'
+    version = '1.0.0',
   ): string {
     if (NFTUtils.isCollection(rmrkType)) {
       return NFTUtils.encodeCollection(rmrkType, version)
@@ -48,23 +48,23 @@ class NFTUtils {
 
   public static encodeCollection(
     collection: Collection,
-    version: string
+    version: string,
   ): string {
     return `RMRK::MINT::${version}::${encodeURIComponent(
-      JSON.stringify(collection)
+      JSON.stringify(collection),
     )}`
   }
 
   public static encodeNFT(nft: RmrkCreatedNft, version: string): string {
     return `RMRK::MINTNFT::${version}::${encodeURIComponent(
-      JSON.stringify(nft)
+      JSON.stringify(nft),
     )}`
   }
 
   public static collectionFromNFT(
     symbol: string,
     nft: NFT,
-    version = '1.0.0'
+    version = '1.0.0',
   ): Collection {
     return NFTUtils.createCollection(
       nft.currentOwner,
@@ -72,7 +72,7 @@ class NFTUtils {
       nft.name,
       nft.metadata,
       1,
-      version
+      version,
     )
   }
 
@@ -82,7 +82,7 @@ class NFTUtils {
     name: string,
     metadata: string,
     max = 1,
-    version = '1.0.0'
+    version = '1.0.0',
   ): {
     id: string
     _id: string
@@ -111,7 +111,7 @@ class NFTUtils {
     index: number,
     collectionId: string,
     name: string,
-    metadata: string
+    metadata: string,
   ): RmrkCreatedNft {
     const instance = upperTrim(name, true)
     const sn = NFTUtils.nftSerialNumber(index)
@@ -133,7 +133,7 @@ class NFTUtils {
     name: string,
     metadata: string,
     offset = 0,
-    updateName?: UpdateFunction
+    updateName?: UpdateFunction,
   ): RmrkCreatedNft[] {
     return Array(max)
       .fill(null)
@@ -143,27 +143,27 @@ class NFTUtils {
           i + offset,
           collectionId,
           updateName ? updateName(name, i) : name,
-          metadata
-        )
+          metadata,
+        ),
       )
   }
 
   public static nftSerialNumber(
     index: number,
     offset = 0,
-    plusOne = true
+    plusOne = true,
   ): string {
     return String(index + offset + Number(plusOne)).padStart(16, '0')
   }
 
   public static isCollection(
-    object: Collection | RmrkCreatedNft | RmrkWithMetaType
+    object: Collection | RmrkCreatedNft | RmrkWithMetaType,
   ): object is Collection {
     return 'issuer' in object && 'symbol' in object
   }
 
   public static isNFT(
-    object: Collection | RmrkCreatedNft | RmrkWithMetaType
+    object: Collection | RmrkCreatedNft | RmrkWithMetaType,
   ): object is NFT | NFTWithMeta {
     return 'currentOwner' in object && 'instance' in object
   }
@@ -173,7 +173,7 @@ class NFTUtils {
     caller: string,
     version = '1.0.0',
     encode?: boolean,
-    updateName?: UpdateFunction
+    updateName?: UpdateFunction,
   ): MintType | string[] {
     const collection = NFTUtils.createCollection(
       caller,
@@ -181,7 +181,7 @@ class NFTUtils {
       mint.name,
       mint.metadata,
       mint.max,
-      version
+      version,
     )
     const nfts = Array(mint.max)
       .fill(null)
@@ -191,8 +191,8 @@ class NFTUtils {
           i,
           collection.id,
           updateName ? updateName(mint.name, i) : mint.name,
-          mint.metadata
-        )
+          mint.metadata,
+        ),
       )
 
     if (encode) {

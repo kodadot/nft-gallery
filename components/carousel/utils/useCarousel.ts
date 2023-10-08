@@ -36,7 +36,7 @@ export const useCarouselPopularCollections = () => {
       (e: RowSeries): RowSeries => ({
         ...e,
         image: sanitizeIpfsUrl(e.image, 'image'),
-      })
+      }),
     )
   }
 
@@ -59,24 +59,24 @@ interface Collections {
   }
 }
 
-export const useCarouselRelated = ({ collectionId }) => {
-  const { $route } = useNuxtApp()
-  const { urlPrefix } = usePrefix()
+export const useCarouselRelated = async ({ collectionId }) => {
+  const route = useRoute()
+  const nfts = ref<CarouselNFT[]>([])
+
   const { data } = useGraphql({
+    queryPrefix: 'subsquid',
     queryName: 'collectionEntityById',
-    queryPrefix: urlPrefix.value === 'ksm' ? 'chain-ksm' : 'subsquid',
     variables: {
       id: collectionId,
-      nftId: $route.params.id,
+      nftId: route.params.id,
       limit: 60,
     },
   })
-  const nfts = ref<CarouselNFT[]>([])
 
   watch(data, async () => {
-    if (data.value) {
+    if (data.value?.collection) {
       const listOfRelatedNFTs = formatNFT(
-        (data.value as Collections).collection.nfts
+        (data.value as Collections).collection.nfts,
       )
       nfts.value = await setCarouselMetadata(listOfRelatedNFTs)
     }
@@ -103,16 +103,14 @@ export const useCarouselVisited = ({ ids }) => {
   const { data } = useGraphql({
     queryPrefix: 'subsquid',
     queryName: 'nftEntitiesByIDs',
-    variables: {
-      ids,
-    },
+    variables: { ids },
   })
 
   watch(data, async () => {
     if (data.value) {
       const dataNfts = data.value as VisitedNFTs
       const filteredNftsNullMeta = dataNfts.nftEntities.filter(
-        (nft) => nft.meta !== null
+        (nft) => nft.meta !== null,
       )
 
       if (filteredNftsNullMeta.length) {
@@ -142,11 +140,11 @@ function dispatch(event, name, slider) {
         x: position.x,
         y: position.y,
       },
-    })
+    }),
   )
 }
 
-export const wheelControls = (slider) => {
+export const CarouselWheelsPlugin = (slider) => {
   function eventWheel(event) {
     if (event.deltaX !== 0) {
       if (!wheelActive) {

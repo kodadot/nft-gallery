@@ -39,7 +39,7 @@ const getOnChainProperties = ({ tags, royalty, hasRoyalty }: TokenToMint) => {
     onChainProperties = mergeProperties(
       onChainProperties,
       'royaltyInfo',
-      addRoyalty
+      addRoyalty,
     )
   }
   return onChainProperties
@@ -67,13 +67,13 @@ const createMintObject = (token: TokenToMint, metadata, updateNameFn) => {
     name,
     metadata,
     alreadyMinted,
-    updateNameFn
+    updateNameFn,
   )
 }
 
 const createMintInteractionObject = (
   mint: CreatedNFT[] | NewCreatedNFT[],
-  onChainProperties: IProperties
+  onChainProperties: IProperties,
 ) => {
   const { isV2 } = useRmrkVersion()
 
@@ -82,7 +82,7 @@ const createMintInteractionObject = (
       createInteraction({
         action: NewInteraction.MINT,
         payload: { value: { ...nft, properties: onChainProperties } },
-      })
+      }),
     )
   }
   return mint.map((nft) => createMintInteraction(Interaction.MINTNFT, nft))
@@ -90,7 +90,7 @@ const createMintInteractionObject = (
 
 const processSingleTokenToMint = async (
   token: TokenToMint,
-  api
+  api,
 ): Promise<{
   arg: Extrinsic[]
   createdNFTs: CreatedNFT[] | NewCreatedNFT[]
@@ -121,13 +121,13 @@ const getArgs = async (item: ActionMintToken, api) => {
         return processSingleTokenToMint(token, api).catch((e) => {
           $consola.error('Error:', e)
         })
-      })
+      }),
     )
   ).filter(Boolean)
 
   const args = argsAndNftsArray.map((argsAndNfts) => argsAndNfts?.arg).flat()
   const createdNFTs = ref(
-    argsAndNftsArray.map((argsAndNfts) => argsAndNfts?.createdNFTs).flat()
+    argsAndNftsArray.map((argsAndNfts) => argsAndNfts?.createdNFTs).flat(),
   )
   return {
     args,

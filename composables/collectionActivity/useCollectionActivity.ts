@@ -19,7 +19,7 @@ export const useCollectionActivity = ({ collectionId }) => {
   })
 
   watch(data, (result) => {
-    if (result?.collection) {
+    if (result) {
       // flat events for chart
       const interactions: InteractionWithNFT[] = result.collection.nfts
         .map((nft) =>
@@ -27,7 +27,7 @@ export const useCollectionActivity = ({ collectionId }) => {
             ...e,
             timestamp: new Date(e.timestamp).getTime(),
             nft: { ...nft, events: undefined },
-          }))
+          })),
         )
         .flat()
       events.value = interactions

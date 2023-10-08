@@ -43,7 +43,7 @@ const props = withDefaults(
   {
     max: 3,
     placeholder: 'Select tags or create your own',
-  }
+  },
 )
 
 const tags = computed({

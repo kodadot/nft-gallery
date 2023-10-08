@@ -24,10 +24,10 @@ import { checkAddress, isAddress } from '@polkadot/util-crypto'
 import { NeoField, NeoInput } from '@kodadot1/brick'
 import AddressChecker from '@/components/shared/AddressChecker.vue'
 
-const emit = defineEmits(['input', 'check'])
+const emit = defineEmits(['update:modelValue', 'check'])
 const props = withDefaults(
   defineProps<{
-    value: string
+    modelValue: string
     label: string
     emptyOnError?: boolean
     strict: boolean
@@ -43,7 +43,7 @@ const props = withDefaults(
     icon: '',
     placeholder: '',
     emptyOnError: false,
-  }
+  },
 )
 
 const { chainProperties } = useChain()
@@ -80,17 +80,21 @@ const iconRight = computed(() => {
   return ''
 })
 const inputValue = computed({
-  get: () => props.value,
+  get: () => props.modelValue,
   set: (value) => handleInput(value),
 })
 
+const emitUpdate = (value: string) => {
+  emit('update:modelValue', value)
+}
+
 const clearIconClick = () => {
   inputValue.value = ''
-  emit('input', '')
+  emitUpdate('')
 }
 
 const handleInput = (value: string) => {
-  emit('input', value)
+  emitUpdate(value)
 
   if (props.disableError || props.withAddressCheck) {
     return value

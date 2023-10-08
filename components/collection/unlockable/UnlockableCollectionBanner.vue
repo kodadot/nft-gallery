@@ -26,7 +26,6 @@ const props = defineProps<{
   type: string | undefined
 }>()
 const route = useRoute()
-const { $seoMeta } = useNuxtApp()
 
 const title = computed(() => {
   switch (props.type) {
@@ -76,22 +75,23 @@ const description = computed(() => {
 
 const meta = computed(() => {
   return [
-    ...$seoMeta({
+    {
       title: title.value,
       url: route.path,
       image: generateDropImage(title.value, image.value),
       description: description.value,
-    }),
+    },
   ]
 })
-useNuxt2Meta({
+
+useHead({
   title,
   meta,
 })
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .collection-banner {
   background-repeat: no-repeat;
@@ -152,10 +152,15 @@ useNuxt2Meta({
 
     @include ktheme() {
       color: theme('text-color-inverse');
-      text-shadow: 1px 1px 0 theme('text-color'), 1px -1px 0 theme('text-color'),
-        -1px 1px 0 theme('text-color'), -1px -1px 0 theme('text-color'),
-        1px 0px 0 theme('text-color'), 0px 1px 0 theme('text-color'),
-        -1px 0px 0 theme('text-color'), 0px -1px 0 theme('text-color'),
+      text-shadow:
+        1px 1px 0 theme('text-color'),
+        1px -1px 0 theme('text-color'),
+        -1px 1px 0 theme('text-color'),
+        -1px -1px 0 theme('text-color'),
+        1px 0px 0 theme('text-color'),
+        0px 1px 0 theme('text-color'),
+        -1px 0px 0 theme('text-color'),
+        0px -1px 0 theme('text-color'),
         4px 4px theme('text-color');
     }
   }

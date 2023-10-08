@@ -13,12 +13,12 @@ withDefaults(
   {
     value: '',
     size: 64,
-  }
+  },
 )
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .avatar {
   @include ktheme() {

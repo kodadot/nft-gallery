@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Loader :value="isLoading" />
+    <Loader :model-value="isLoading" />
     <NeoField grouped>
       <NeoField class="has-text-right" expanded>
         <NeoSelect v-model="nbRows">
@@ -78,13 +78,13 @@
               displayVolumePercent(
                 props.row.dailyVolume,
                 props.row.dailyrangeVolume,
-                true
+                true,
               )
             ">
             {{
               displayVolumePercent(
                 props.row.dailyVolume,
-                props.row.dailyrangeVolume
+                props.row.dailyrangeVolume,
               )
             }}
           </div>
@@ -132,13 +132,13 @@
               displayVolumePercent(
                 props.row.monthlyVolume,
                 props.row.monthlyrangeVolume,
-                true
+                true,
               )
             ">
             {{
               displayVolumePercent(
                 props.row.monthlyVolume,
-                props.row.monthlyrangeVolume
+                props.row.monthlyrangeVolume,
               )
             }}
           </div>
@@ -319,19 +319,13 @@ import {
   NeoTableColumn,
 } from '@kodadot1/brick'
 
-const Money = defineAsyncComponent(
-  () => import('@/components/shared/format/Money.vue')
-)
-const BasicImage = defineAsyncComponent(
-  () => import('@/components/shared/view/BasicImage.vue')
-)
-const Loader = defineAsyncComponent(
-  () => import('@/components/shared/Loader.vue')
-)
+import Money from '@/components/shared/format/Money.vue'
+import BasicImage from '@/components/shared/view/BasicImage.vue'
+import Loader from '@/components/shared/Loader.vue'
 
 const route = useRoute()
 const router = useRouter()
-const { $apollo, $consola } = useNuxtApp()
+const { $consola } = useNuxtApp()
 const { client, urlPrefix } = usePrefix()
 const nbRows = ref('50')
 const nbDays = ref('7')
@@ -354,10 +348,9 @@ const fetchCollectionEvents = async (ids: string[]) => {
     return []
   }
   try {
-    // const today = new Date()
-    const { data } = await $apollo.query<{ events }>({
+    const { data } = await useAsyncQuery({
+      clientId: client.value,
       query: collectionsEvents,
-      client: client.value,
       variables: {
         ids: ids,
         and: {
@@ -367,7 +360,7 @@ const fetchCollectionEvents = async (ids: string[]) => {
         gte: lastmonthDate,
       },
     })
-    return data.events
+    return data.value.events
   } catch (e) {
     $consola.error(e)
     return []
@@ -376,26 +369,23 @@ const fetchCollectionEvents = async (ids: string[]) => {
 
 const fetchCollectionsSeries = async (
   limit = Number(nbRows.value),
-  sort: string = toSort(sortBy)
+  sort: string = toSort(sortBy),
 ) => {
   isLoading.value = true
-  const collections = await $apollo.query({
+  const { data: collections } = await useAsyncQuery({
+    clientId: client.value,
     query: seriesInsightList,
-    client: client.value,
     variables: await seriesQueryParams(limit, sort),
-    fetchPolicy: 'cache-first',
   })
 
-  const {
-    data: { collectionEntities },
-  } = collections
+  const { collectionEntities } = collections.value
 
   const defaultBuyEvents = getDateArray(lastmonthDate, today).reduce(
     (res, date) => {
       res[date] = 0
       return res
     },
-    {}
+    {},
   )
 
   const axisLize = (obj = {}): BuyHistory => ({
@@ -426,10 +416,10 @@ const fetchCollectionsSeries = async (
       rank: e.sold * (e.unique / e.total || 1),
       averagePrice: calculateAvgPrice(e.volume as string, e.buys),
       buyHistory: axisLize(
-        Object.assign({}, defaultBuyEvents, buyEvents[e.id] || {})
+        Object.assign({}, defaultBuyEvents, buyEvents[e.id] || {}),
       ),
       emoteCount: e.emoteCount || 0,
-    })
+    }),
   )
 
   isLoading.value = false
@@ -469,7 +459,7 @@ const onSort = (field: string, order: string) => {
 const displayVolumePercent = (
   priceNow: number,
   priceAgo: number,
-  getClass?: boolean
+  getClass?: boolean,
 ) => {
   /* added getClass for getting the class name for the row
    * it would be true when you want to return the class name
@@ -513,7 +503,7 @@ watch(nbDays, (value: string) => {
 })
 </script>
 <style lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .history {
   width: 200px;

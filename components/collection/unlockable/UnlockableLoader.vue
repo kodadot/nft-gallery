@@ -1,5 +1,5 @@
 <template>
-  <NeoLoading :active.sync="isLoading" is-full-page :can-cancel="canCancel">
+  <NeoLoading v-model:active="isLoading" is-full-page :can-cancel="canCancel">
     <div class="loading-container py-2">
       <NeoButton
         class="close-icon py-1 px-2"
@@ -7,7 +7,7 @@
         no-shadow
         icon="xmark"
         size="medium"
-        @click.native="closeLoading" />
+        @click="closeLoading" />
       <img src="/unlockable-loader.svg" />
       <div
         class="is-flex is-flex-direction-column is-align-items-center px-5 has-text-centered is-capitalized">
@@ -34,13 +34,14 @@
             >{{ $t('mint.unlockable.loader.onTwitter') }}
           </a>
         </div>
-        <NeoButton
-          class="mb-2 mt-4 loading-button is-size-6"
-          variant="secondary"
-          tag="nuxt-link"
-          :to="`/${urlPrefix}/gallery/${minted}`"
-          :disabled="!minted"
-          :label="buttonLabel" />
+        <nuxt-link :to="`/${urlPrefix}/gallery/${minted}`">
+          <NeoButton
+            class="mb-2 mt-4 loading-button is-size-6"
+            variant="secondary"
+            tag="span"
+            :disabled="!minted"
+            :label="buttonLabel" />
+        </nuxt-link>
       </div>
     </div>
   </NeoLoading>
@@ -48,27 +49,29 @@
 
 <script lang="ts" setup>
 import { NeoButton, NeoLoading } from '@kodadot1/brick'
+import { resolveComponent } from 'vue'
 
+const NuxtLink = resolveComponent('NuxtLink')
 const props = withDefaults(
   defineProps<{
-    value: boolean
+    modelValue: boolean
     canCancel?: boolean
     minted?: string
   }>(),
   {
-    value: false,
+    modelValue: false,
     canCancel: true,
     minted: '',
-  }
+  },
 )
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
-const isLoading = useVModel(props, 'value')
+const isLoading = useVModel(props, 'modelValue')
 import { useCountDown } from './utils/useCountDown'
 
 const COUNT_DOWN_SECONDS = 51
 const { seconds } = useCountDown(
-  new Date().getTime() + COUNT_DOWN_SECONDS * 1000
+  new Date().getTime() + COUNT_DOWN_SECONDS * 1000,
 )
 
 const displaySeconds = computed(() => {
@@ -77,14 +80,14 @@ const displaySeconds = computed(() => {
 
 const twitterText = computed(
   () =>
-    `Just minted an exclusive NFT with unlockable items on @Kodadot! 🎉 So excited to add this unique collectible to my collection. Do not miss your chance! \n\n ${location.href}`
+    `Just minted an exclusive NFT with unlockable items on @Kodadot! 🎉 So excited to add this unique collectible to my collection. Do not miss your chance! \n\n ${location.href}`,
 )
 
 const postTwitterUrl = computed(
   () =>
     `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-      twitterText.value
-    )}`
+      twitterText.value,
+    )}`,
 )
 const emit = defineEmits(['input'])
 
@@ -93,13 +96,13 @@ const closeLoading = () => {
 }
 const buttonLabel = computed(() =>
   $i18n.t(
-    props.minted ? 'mint.unlockable.viewItem' : 'mint.unlockable.preparing'
-  )
+    props.minted ? 'mint.unlockable.viewItem' : 'mint.unlockable.preparing',
+  ),
 )
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .loading-container {
   background: $white;

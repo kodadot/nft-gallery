@@ -40,7 +40,7 @@ withDefaults(
   }>(),
   {
     disabled: false,
-  }
+  },
 )
 
 const loading = ref(false)

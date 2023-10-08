@@ -26,7 +26,7 @@ const nftMetadata = computed(() => props.galleryItem.nftMetadata.value)
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .gallery-button {
   display: flex;

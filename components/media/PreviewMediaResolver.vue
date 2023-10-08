@@ -12,7 +12,7 @@ import { getMimeType } from '@/utils/gallery/media'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 
 const MediaResolver = defineAsyncComponent(
-  () => import('@/components/media/MediaResolver.vue')
+  () => import('@/components/media/MediaResolver.vue'),
 )
 
 const props = defineProps({

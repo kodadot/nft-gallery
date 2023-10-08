@@ -1,7 +1,7 @@
 <template>
   <div>
     <Loader v-model="isLoading" :status="status" />
-    <NeoModal v-model="isModalActive" scroll="clip" @close="onClose">
+    <NeoModal :value="isModalActive" scroll="clip" @close="onClose">
       <div class="modal-width">
         <header
           class="border-bottom border-grey is-flex is-align-items-center is-justify-content-space-between px-6">
@@ -13,10 +13,9 @@
             variant="text"
             no-shadow
             icon="xmark"
-            icon-pack="fa-sharp"
             size="medium"
             class="cross"
-            @click.native="onClose" />
+            @click="onClose" />
         </header>
 
         <div class="px-6 pt-4 pb-5">
@@ -69,7 +68,7 @@
             variant="k-accent"
             no-shadow
             class="is-flex is-flex-grow-1 py-5 is-capitalized btn-height"
-            @click.native="transfer" />
+            @click="transfer" />
 
           <div
             class="mt-3 is-flex is-justify-items-space-between has-text-grey">
@@ -102,7 +101,8 @@ const props = defineProps<{
   value: boolean
 }>()
 
-const { $route, $i18n } = useNuxtApp()
+const { $i18n } = useNuxtApp()
+const route = useRoute()
 const { transaction, status, isLoading } = useTransaction()
 const { urlPrefix } = usePrefix()
 const { decimals, chainSymbol, chainProperties } = useChain()
@@ -128,17 +128,17 @@ const transferItemLabel = computed(() => {
 })
 
 const isYourAddress = computed(
-  () => accountId.value === getChainAddress(address.value)
+  () => accountId.value === getChainAddress(address.value),
 )
 
 const isDisabled = computed(
-  () => !address.value || !isAddressValid.value || isYourAddress.value
+  () => !address.value || !isAddressValid.value || isYourAddress.value,
 )
 
 const nftPrice = computed(() =>
   Number(props.nft.price)
     ? formatBalance(Number(props.nft.price), decimals.value, chainSymbol.value)
-    : '--'
+    : '--',
 )
 
 const getAvatar = async () => {
@@ -169,7 +169,7 @@ const transfer = () => {
     interaction: Interaction.SEND,
     urlPrefix: urlPrefix.value,
     address: address.value,
-    tokenId: $route.params.id,
+    tokenId: route.params.id.toString(),
     nftId: props.nft.id,
     successMessage: $i18n.t('transaction.item.success') as string,
     errorMessage: $i18n.t('transaction.item.error') as string,
@@ -182,7 +182,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .modal-width {
   width: 25rem;

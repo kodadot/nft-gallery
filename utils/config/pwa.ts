@@ -84,3 +84,34 @@ export const manifestIcons = [
     purpose: 'maskable',
   },
 ]
+
+import type { ModuleOptions } from '@vite-pwa/nuxt'
+
+const scope = '/'
+
+export const pwa: ModuleOptions = {
+  registerType: 'autoUpdate',
+  scope,
+  base: scope,
+  manifest: {
+    id: scope,
+    scope,
+    name: 'KodaDot - Polkadot NFT explorer',
+    short_name: 'KodaDot',
+    background_color: '#ffffff',
+    theme_color: '#ffffff',
+    start_url: '/',
+    icons: manifestIcons,
+  },
+  workbox: {
+    globPatterns: ['**/*.{js,css,html,txt,png,ico,svg}'],
+    navigateFallback: '/',
+    cleanupOutdatedCaches: true,
+  },
+  registerWebManifestInRouteRules: true,
+  writePlugin: true,
+  devOptions: {
+    enabled: process.env.VITE_PLUGIN_PWA === 'true',
+    navigateFallback: scope,
+  },
+}

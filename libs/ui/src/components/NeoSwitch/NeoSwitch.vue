@@ -1,5 +1,5 @@
 <script lang="ts">
-import { OSwitch } from '@oruga-ui/oruga'
+import { OSwitch } from '@oruga-ui/oruga-next'
 
 export default {
   extends: OSwitch,

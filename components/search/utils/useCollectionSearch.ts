@@ -2,8 +2,9 @@ import { useSearchStore } from '@/stores/search'
 
 export const useCollectionSearch = () => {
   const route = useRoute()
+  const windowSize = useWindowSize()
 
-  const isMobile = computed(() => useWindowSize().width.value < 1024)
+  const isMobile = computed(() => windowSize.width.value < 1024)
 
   const searchStore = useSearchStore()
   const isCollectionSearchMode = computed(() => {
