@@ -204,7 +204,7 @@
             ><NeoIcon icon="circle-info"
           /></NeoTooltip>
         </div>
-        <NeoSwitch v-model="sendSameAmount" :rounded="false" />
+        <NeoSwitch v-model="sendSameAmount" />
       </div>
 
       <div
