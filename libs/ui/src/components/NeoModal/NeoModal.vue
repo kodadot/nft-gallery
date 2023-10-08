@@ -1,20 +1,22 @@
 <template>
-  <o-modal
-    v-model:active="isModalActive"
-    class="neo-modal"
-    scroll="clip"
-    :destroy-on-hide="destroyOnHide"
-    :can-cancel="canCancel"
-    :full-screen="fullScreen"
-    :content-class="[...contentClassName, noShadow ? 'no-shadow' : '']"
-    :mobile-breakpoint="mobileBreakpoint"
-    :root-class="rootClass"
-    :style="{
-      '--max-height': maxHeight,
-    }"
-    @close="updateClose">
-    <slot />
-  </o-modal>
+  <teleport to="body" :disabled="!appendToBody">
+    <o-modal
+      v-model:active="isModalActive"
+      class="neo-modal"
+      scroll="clip"
+      :destroy-on-hide="destroyOnHide"
+      :can-cancel="canCancel"
+      :full-screen="fullScreen"
+      :content-class="[...contentClassName, noShadow ? 'no-shadow' : '']"
+      :mobile-breakpoint="mobileBreakpoint"
+      :root-class="rootClass"
+      :style="{
+        '--max-height': maxHeight,
+      }"
+      @close="updateClose">
+      <slot />
+    </o-modal>
+  </teleport>
 </template>
 
 <script lang="ts" setup>
@@ -31,6 +33,7 @@ const props = withDefaults(
     noShadow?: boolean
     maxHeight?: string | number
     mobileBreakpoint?: string
+    appendToBody?: boolean
   }>(),
   {
     destroyOnHide: true,
@@ -41,6 +44,7 @@ const props = withDefaults(
     noShadow: false,
     maxHeight: '80vh',
     mobileBreakpoint: '768px',
+    appendToBody: false,
   },
 )
 

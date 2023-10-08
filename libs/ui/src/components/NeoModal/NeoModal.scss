@@ -11,6 +11,7 @@ $modal-content-border-radius: 0;
 
 
 .neo-modal {
+  z-index: 999;
   .o-modal__content {
     width: auto !important;
     max-height: var(--max-height);
