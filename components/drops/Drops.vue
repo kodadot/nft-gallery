@@ -9,7 +9,7 @@
         :key="`${drop.collection?.id}=${index}`"
         class="w-full h-full"
         :data-testid="index">
-        <DropCard :drop="drop" :override-url-prefix="drop.chain" />
+        <DropCard :drop="drop" />
       </div>
     </div>
     <div class="title is-2 my-7">

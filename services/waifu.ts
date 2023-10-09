@@ -1,6 +1,5 @@
 import { $fetch, FetchError } from 'ofetch'
-import type { Prefix } from '@kodadot1/static'
-
+import type { DropItem } from '@/params/types'
 const WAIFU_BASE_URL = 'https://waifu-me.kodadot.workers.dev'
 
 const table = 'mints'
@@ -9,19 +8,6 @@ const table = 'mints'
 const api = $fetch.create({
   baseURL: WAIFU_BASE_URL,
 })
-
-type DropType = 'paid' | 'generative' | 'drop' | 'vote'
-
-type DropItem = {
-  id: string
-  chain: Prefix
-  collection: string
-  image: string
-  name: string
-  alisa: string
-  type: DropType
-  meta: string
-}
 
 type MintResponse = Response<any>
 // type ClaimResponse = Response<any>

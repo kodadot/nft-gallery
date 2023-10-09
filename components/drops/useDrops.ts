@@ -32,13 +32,12 @@ export function useDrops() {
           const { collectionEntity, nftEntitiesConnection } =
             collectionData.value
           drops.value.push({
+            ...drop,
             collection: collectionEntity,
             minted: nftEntitiesConnection.totalCount,
             max: collectionEntity?.max ?? 300,
             dropStartTime: new Date(2023, 5, 6),
-            chain: drop.chain,
             price: drop.type === 'paid' ? drop.meta : '0',
-            alias: drop.id, // todo: get alias from api result
           })
         }
       })

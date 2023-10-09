@@ -56,7 +56,7 @@
               <Money
                 v-else
                 :value="drop.price"
-                :prefix="overrideUrlPrefix"
+                :prefix="correctUrlPrefix"
                 inline />
             </div>
           </div>
@@ -81,17 +81,14 @@ import Money from '@/components/shared/format/Money.vue'
 import type { Metadata } from '@/components/rmrk/service/scheme'
 import TimeTag from './TimeTag.vue'
 import { Drop } from './useDrops'
-import { Prefix } from '@kodadot1/static'
 import { resolveComponent } from 'vue'
 
 const NuxtLink = resolveComponent('NuxtLink')
 
-const { urlPrefix } = usePrefix()
 const isLoadingMeta = ref(false)
 
 interface Props {
   drop: Drop
-  overrideUrlPrefix?: Prefix
   dropUrl?: string
 }
 
@@ -100,7 +97,7 @@ const image = ref('')
 const externalUrl = ref()
 
 const correctUrlPrefix = computed(() => {
-  return props.overrideUrlPrefix || urlPrefix.value
+  return props.drop.chain
 })
 
 const isFreeDrop = computed(() => {

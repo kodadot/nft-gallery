@@ -151,15 +151,8 @@ import {
   unlockableDesc,
 } from '../unlockable/utils'
 import { useCountDown } from '../unlockable/utils/useCountDown'
-import {
-  MINT_ADDRESS,
-  STMN_DROP_CAMPAIGN,
-  STT_COLLECTION_ID,
-  STT_DROP_CAMPAIGN,
-  countDownTime,
-  displayPricePerMint,
-  pricePerMint,
-} from './const'
+import { MINT_ADDRESS, countDownTime, displayPricePerMint } from './const'
+import { DropItem } from '@/params/types'
 
 const Loader = defineAsyncComponent(
   () => import('@/components/collection/unlockable/UnlockableLoader.vue'),
@@ -172,6 +165,19 @@ const Money = defineAsyncComponent(
 const TokenImportButton = defineAsyncComponent(
   () => import('@/components/collection/drop/TokenImportButton.vue'),
 )
+
+const props = defineProps({
+  drop: {
+    type: Object,
+    default: () => {
+      return {} as DropItem
+    },
+  },
+})
+
+const collectionId = computed(() => props.drop?.collectionId)
+const pricePerMint = computed(() => props.drop?.meta)
+
 const { neoModal } = useProgrammatic()
 const { $i18n } = useNuxtApp()
 const root = ref()
@@ -185,7 +191,6 @@ const { isLogIn } = useAuth()
 const { hours, minutes } = useCountDown(countDownTime)
 const justMinted = ref('')
 const isLoading = ref(false)
-const collectionId = STT_COLLECTION_ID
 
 const actionLabel = $i18n.t('nft.action.buy')
 
@@ -205,8 +210,8 @@ const leftTime = computed(() => {
 const { data: collectionData, refetch: tryAgain } = useGraphql({
   queryName: 'dropCollectionById',
   variables: {
-    id: collectionId,
-    price: pricePerMint,
+    id: collectionId.value,
+    price: pricePerMint.value,
     account: MINT_ADDRESS,
   },
 })
@@ -221,8 +226,11 @@ const totalAvailableMintCount = computed(
 const { data, refetch } = useGraphql({
   queryName: 'nftIdListByCollection',
   variables: {
-    id: collectionId,
-    search: [{ price_eq: pricePerMint }, { currentOwner_eq: MINT_ADDRESS }],
+    id: collectionId.value,
+    search: [
+      { price_eq: pricePerMint.value },
+      { currentOwner_eq: MINT_ADDRESS },
+    ],
   },
 })
 
@@ -234,7 +242,7 @@ const refetchData = async () => {
 useSubscriptionGraphql({
   query: `nftEntities(
     orderBy: id_ASC,
-    where: { burned_eq: false, collection: { id_eq: "${collectionId}" }, price_eq: "${pricePerMint}", currentOwner_eq: "${MINT_ADDRESS}" }
+    where: { burned_eq: false, collection: { id_eq: "${collectionId.value}" }, price_eq: "${pricePerMint.value}", currentOwner_eq: "${MINT_ADDRESS}" }
     ) {
       id
   }`,
@@ -303,7 +311,7 @@ const handleBuy = async () => {
     await transaction({
       interaction: ShoppingActions.BUY,
       currentOwner: MINT_ADDRESS,
-      price: pricePerMint,
+      price: pricePerMint.value,
       nftId: tokenId,
       tokenId: tokenId,
       urlPrefix: urlPrefix.value,
@@ -336,10 +344,10 @@ const handleSubmitMint = async (tokenId: string) => {
         metadata: hash,
         sn,
       },
-      urlPrefix.value === 'ahk' ? STMN_DROP_CAMPAIGN : STT_DROP_CAMPAIGN,
+      props.drop.id,
     ).then((res) => {
       toast('mint success')
-      justMinted.value = `${collectionId}-${res.result.sn}`
+      justMinted.value = `${collectionId.value}-${res.result.sn}`
       scrollToTop()
     })
   } catch (error) {
