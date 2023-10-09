@@ -29,6 +29,8 @@ export async function processMedia(mediaUrl: string) {
   }
 }
 
+export const isAudio = (mimeType: string): boolean => /^audio/.test(mimeType)
+
 export function resolveMedia(mimeType?: string): MediaType {
   if (!mimeType) {
     return MediaType.UNKNOWN
@@ -43,7 +45,7 @@ export function resolveMedia(mimeType?: string): MediaType {
   }
 
   if (/^text\/html/.test(mimeType)) {
-    return MediaType.IMAGE
+    return MediaType.IFRAME
   }
 
   if (/^image\/svg\+xml/.test(mimeType)) {
@@ -54,7 +56,7 @@ export function resolveMedia(mimeType?: string): MediaType {
     return MediaType.OBJECT
   }
 
-  if (/^audio/.test(mimeType)) {
+  if (isAudio(mimeType)) {
     return MediaType.AUDIO
   }
 

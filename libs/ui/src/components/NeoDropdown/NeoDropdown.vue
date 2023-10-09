@@ -8,6 +8,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    noShadow: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -47,6 +51,9 @@ export default {
         {
           [this.computedClass('menuActiveClass', 'o-drop__menu--active')]:
             this.isActive || this.inline,
+        },
+        {
+          [this.computedClass('menuShadowClass', 'no-shadow')]: this.noShadow,
         },
       ]
     },

@@ -65,6 +65,7 @@ import {
   isEthereumAddress,
 } from '@polkadot/util-crypto'
 import correctFormat from '@/utils/ss58Format'
+import { isValidAddress } from '@/utils/account'
 import { CHAINS } from '@/libs/static/src/chains'
 import InfoBox from '@/components/shared/view/InfoBox.vue'
 import { NeoButton } from '@kodadot1/brick'
@@ -89,6 +90,7 @@ const props = defineProps<{
   address: string
 }>()
 
+const { $i18n } = useNuxtApp()
 const { chainProperties } = useChain()
 const { urlPrefix } = usePrefix()
 const currentChainName = computed(() => chainNames[urlPrefix.value])
@@ -139,6 +141,16 @@ const getAddressCheck = (value: string): AddressCheck => {
       valid: false,
       type: AddressType.WRONG_NETWORK_ADDRESS,
       value: chainNames[validAddressesChain],
+    }
+  }
+
+  const isValid = isValidAddress(value)
+
+  if (isValid) {
+    return {
+      valid: false,
+      type: AddressType.WRONG_NETWORK_ADDRESS,
+      value: $i18n.t('transfers.invalidAddress.wrongNetwork'),
     }
   }
 

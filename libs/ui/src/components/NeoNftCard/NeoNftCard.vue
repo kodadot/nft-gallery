@@ -9,10 +9,10 @@
           : `/${prefix}/gallery/${nft.id}`
       ">
       <img
-        v-if="unlockable && unloackableIcon"
-        class="unloackable-icon"
-        :src="unloackableIcon"
-        alt="Unlockable Icon" />
+        v-if="cardIcon && cardIconSrc"
+        class="card-icon"
+        :src="cardIconSrc"
+        alt="Card Icon" />
       <div
         class="is-relative"
         :class="{ 'border border-k-shade ml-5 mt-5 mr-2': isStacked }">
@@ -27,7 +27,9 @@
           :animation-src="nft.animationUrl"
           :mime-type="nft.mimeType"
           :placeholder="placeholder"
-          :title="nft?.name" />
+          :title="nft?.name"
+          :audio-player-cover="mediaPlayerCover"
+          :audio-hover-on-cover-play="mediaHoverOnCoverPlay" />
         <div
           :class="[showActionOnHover ? 'show-on-hover' : 'show-always']"
           class="w-full is-flex is-justify-content-center action-container">
@@ -86,24 +88,27 @@ const props = withDefaults(
     collectionPopoverShowDelay?: number
     variant?: NftCardVariant
     placeholder?: string
-    unlockable?: boolean
-    unloackableIcon?: string
+    cardIcon?: boolean
+    cardIconSrc?: string
     link?: string
     bindKey?: string
     showActionOnHover?: boolean
+    mediaPlayerCover?: string
+    mediaHoverOnCoverPlay?: boolean
   }>(),
   {
     collectionPopoverShowDelay: 500,
     variant: 'primary',
-    unloackableIcon: undefined,
+    cardIconSrc: undefined,
     link: 'a',
     bindKey: 'href',
     showActionOnHover: true,
   }
 )
 
-const isStacked = computed(() =>
-  props.variant ? props.variant.includes('stacked') : false
+const isStacked = computed(
+  () => false
+  // props.variant ? props.variant.includes('stacked') : false
 )
 
 const isMinimal = computed(() =>

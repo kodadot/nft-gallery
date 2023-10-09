@@ -11,12 +11,15 @@
         shoppingCartStore.isItemInCart(nft.id) ||
         listingCartStore.isItemInCart(nft.id),
     }"
-    :unloackable-icon="unlockableIcon"
+    :card-icon="showCardIcon"
+    :card-icon-src="cardIcon"
     :show-action-on-hover="!showActionSection"
     link="nuxt-link"
-    bind-key="to">
+    bind-key="to"
+    :media-player-cover="mediaPlayerCover"
+    media-hover-on-cover-play>
     <template #action>
-      <div v-if="!isOwner && isAvailbleToBuy" class="is-flex">
+      <div v-if="!isOwner && Number(nft?.price)" class="is-flex">
         <NeoButton
           :label="buyLabel"
           data-testid="item-buy"
@@ -60,31 +63,31 @@ import {
 } from '@/components/common/shoppingCart/utils'
 import { isOwner as checkOwner } from '@/utils/account'
 import { useCollectionDetails } from '@/components/collection/utils/useCollectionDetails'
-import { ItemsGridEntity, NFTStack } from './useItemsGrid'
+import useNftMetadata, { useNftCardIcon } from '@/composables/useNft'
 
 const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()
 const { accountId, isLogIn } = useAuth()
 const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
-const { unlockableIcon } = useUnlockableIcon()
 const shoppingCartStore = useShoppingCartStore()
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 
 const props = defineProps<{
-  nft: ItemsGridEntity
+  nft: NFTWithMetadata
   variant?: NftCardVariant
 }>()
+
+const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.nft))
 
 const { stats } = useCollectionDetails({
   collectionId: props.nft?.collection?.id || props.nft?.collectionId,
 })
-const isStack = computed(() => (props.nft as NFTStack).count > 1)
 
-const variant = computed(() =>
-  isStack.value ? `stacked-${props.variant}` : props.variant
-)
+const { nft: nftMetadata } = useNftMetadata(props.nft)
+
+const mediaPlayerCover = computed(() => nftMetadata.value?.image)
 
 const showActionSection = computed(() => {
   return !isLogIn.value && shoppingCartStore.getItemToBuy?.id === props.nft.id
@@ -100,27 +103,10 @@ const buyLabel = computed(function () {
   )
 })
 
-const nftStack = computed(() =>
-  isStack.value ? (props.nft as NFTStack).nfts : [props.nft]
-)
-
-const isAvailbleToBuy = computed(() =>
-  nftStack.value.some((nft) => Number(nft.price) > 0)
-)
-const anyAvailableForListing = computed(() =>
-  nftStack.value.some((nft) => !Number(nft.price))
-)
-
-const nftForShoppingCart = computed(() => {
-  return nftStack.value
-    .toSorted((a, b) => Number(a.price) - Number(b.price))
-    .find((nft) => Number(nft.price) > 0) as NFTWithMetadata
-})
-
 const listLabel = computed(() => {
-  const label = anyAvailableForListing.value
-    ? $i18n.t('listingCart.listForSale')
-    : $i18n.t('transaction.price.change')
+  const label = Number(props.nft.price)
+    ? $i18n.t('transaction.price.change')
+    : $i18n.t('listingCart.listForSale')
   return label + (listingCartStore.isItemInCart(props.nft.id) ? ' ✓' : '')
 })
 
@@ -144,38 +130,32 @@ const onCancelPurchase = () => {
 }
 
 const onClickBuy = () => {
-  if (isAvailbleToBuy.value) {
-    shoppingCartStore.setItemToBuy(
-      nftToShoppingCardItem(nftForShoppingCart.value)
-    )
-    doAfterLogin({
-      onLoginSuccess: openCompletePurcahseModal,
-      onCancel: onCancelPurchase,
-    })
-  }
+  shoppingCartStore.setItemToBuy(nftToShoppingCardItem(props.nft))
+  doAfterLogin({
+    onLoginSuccess: openCompletePurcahseModal,
+    onCancel: onCancelPurchase,
+  })
 }
 
 const onClickShoppingCart = () => {
-  if (shoppingCartStore.isItemInCart(nftForShoppingCart.value.id)) {
-    shoppingCartStore.removeItem(nftForShoppingCart.value.id)
+  if (shoppingCartStore.isItemInCart(props.nft.id)) {
+    shoppingCartStore.removeItem(props.nft.id)
   } else {
-    shoppingCartStore.setItem(nftToShoppingCardItem(nftForShoppingCart.value))
+    shoppingCartStore.setItem(nftToShoppingCardItem(props.nft))
   }
 }
 
 const onClickListingCart = () => {
-  nftStack.value.forEach((nft) => {
-    if (listingCartStore.isItemInCart(nft.id)) {
-      listingCartStore.removeItem(nft.id)
-    } else {
-      listingCartStore.setItem(
-        nftToListingCartItem(
-          nft,
-          String(stats.value.collectionFloorPrice ?? '')
-        )
+  if (listingCartStore.isItemInCart(props.nft.id)) {
+    listingCartStore.removeItem(props.nft.id)
+  } else {
+    listingCartStore.setItem(
+      nftToListingCartItem(
+        props.nft,
+        String(stats.value.collectionFloorPrice ?? '')
       )
-    }
-  })
+    )
+  }
 }
 </script>
 

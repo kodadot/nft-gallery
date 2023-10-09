@@ -123,6 +123,45 @@
     }
   }
 
+  &--border-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px !important;
+
+    @include ktheme() {
+      border: 1px solid theme('border-color') !important;
+      background: theme('background-color');
+
+      &:hover {
+        background-color: theme('k-accentHover') !important;
+      }
+    }
+
+    & .o-btn__wrapper .o-btn__label {
+      @include ktheme() {
+        color: theme('text-color') !important;
+      }
+      margin: 0 !important;
+      width: fit-content;
+      height: fit-content !important;
+    }
+
+    &.o-btn--disabled  {
+      opacity: unset;
+      
+      @include ktheme() {
+        border: 1px solid theme('k-grey') !important;
+      }
+
+       & .o-btn__wrapper .o-btn__label {
+        @include ktheme() {
+          color: theme('k-grey') !important;
+        }
+       }
+    }
+  }
+
   &--connect-dropdown {
     width: 120px;
     height: 40px;

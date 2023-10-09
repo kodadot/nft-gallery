@@ -55,3 +55,5 @@ export { default as NeoModalHead } from './components/NeoModalHead/NeoModalHead.
 export { default as NeoNotification } from './components/NeoNotification/NeoNotification.vue'
 export { default as NeoNotificationNotice } from './components/NeoNotification/NeoNotificationNotice.vue'
 export { default as NeoNotificationProgrammatic } from './components/NeoNotification/plugin'
+
+export { default as NeoAudioPlayer } from './components/NeoAudioPlayer/NeoAudioPlayer.vue'

@@ -38,6 +38,9 @@ query nftListWithSearch(
       slot
       src
       thumb
+      meta {
+        animationUrl
+      }
     }
   }
   nftEntitiesConnection(

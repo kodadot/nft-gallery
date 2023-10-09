@@ -200,6 +200,7 @@ withDefaults(
 const { transaction, status, isLoading } = useTransaction()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { $consola } = useNuxtApp()
+const { isLogIn } = useAuth()
 
 // form state
 const logo = ref<File | null>(null)
@@ -208,7 +209,6 @@ const description = ref('')
 const unlimited = ref(true)
 const max = ref(1)
 const symbol = ref('')
-
 const modalShowStatus = ref(false)
 
 const menus = availablePrefixes()
@@ -226,7 +226,10 @@ const { balance, totalCollectionDeposit, chainSymbol, chain } =
 
 // balance state
 const canDeposit = computed(() => {
-  return parseFloat(balance.value) >= parseFloat(totalCollectionDeposit.value)
+  return (
+    isLogIn.value &&
+    parseFloat(balance.value) >= parseFloat(totalCollectionDeposit.value)
+  )
 })
 
 const collectionInformation = computed(() => ({

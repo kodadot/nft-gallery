@@ -53,15 +53,17 @@ import {
   useFetchSearch,
 } from './useItemsGrid'
 import isEqual from 'lodash/isEqual'
+import { useListingCartStore } from '@/stores/listingCart'
 
 const { urlPrefix } = usePrefix()
+const { listingCartEnabled } = useListingCartConfig()
+const listingCartStore = useListingCartStore()
 
 const props = defineProps<{
   search?: Record<string, string | number>
 }>()
 
 const emit = defineEmits(['total', 'loading'])
-const route = useRoute()
 
 const isLoading = ref(true)
 const gotoPage = (page: number) => {
@@ -114,7 +116,7 @@ const { nfts, fetchSearch, refetch, clearFetchResults } = useFetchSearch({
 watch(
   () => nfts.value.length,
   () => {
-    if (route.name === 'prefix-u-id') {
+    if (listingCartEnabled.value) {
       updatePotentialNftsForListingCart(nfts.value)
     }
   },
@@ -149,11 +151,16 @@ watch(
   { deep: true }
 )
 
-onBeforeMount(async () => {
-  await fetchSearch({
+onBeforeMount(() => {
+  if (listingCartEnabled.value) {
+    listingCartStore.clear()
+  }
+
+  fetchSearch({
     page: startPage.value,
     search: parseSearch(props.search),
+  }).then(() => {
+    isLoading.value = false
   })
-  isLoading.value = false
 })
 </script>

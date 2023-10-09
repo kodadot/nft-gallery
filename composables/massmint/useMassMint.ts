@@ -66,11 +66,17 @@ export const useCollectionForMint = () => {
 
     // collections.value = collectionEntities
 
-    collections.value = collectionEntities.map((collection) => ({
-      ...collection,
-      lastIndexUsed: Number(collection.nfts?.at(0)?.index || 0),
-      alreadyMinted: collection.nfts?.length,
-    }))
+    collections.value = collectionEntities
+      .map((collection) => ({
+        ...collection,
+        lastIndexUsed: Number(collection.nfts?.at(0)?.index || 0),
+        alreadyMinted: collection.nfts?.length,
+        totalCount: collection.nfts?.filter((nft) => !nft.burned).length,
+      }))
+      .filter(
+        (collection) =>
+          (collection.max || Infinity) - collection.alreadyMinted > 0
+      )
   }
 
   const doFetchWithErrorHandling = () =>

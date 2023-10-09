@@ -13,14 +13,19 @@ export default function useIdentity({
   customNameOption?: string
 }) {
   const { urlPrefix } = usePrefix()
+  const { apiInstanceByPrefix } = useApi()
   const isDotAddress = computed(() => ['dot', 'ahp'].includes(urlPrefix.value))
   const id = computed(
     () =>
       address.value &&
       (isDotAddress.value
         ? accountToPublicKey(address.value)
-        : getss58AddressByPrefix(address.value, 'ksm'))
+        : getss58AddressByPrefix(address.value, 'rmrk'))
   )
+
+  const identityPrefix = computed(() => (isDotAddress.value ? 'dot' : 'rmrk'))
+
+  const identityApi = computed(() => apiInstanceByPrefix(identityPrefix.value))
 
   const identity = computed<IdentityFields>(() => data.value?.identity || {})
 
@@ -49,6 +54,9 @@ export default function useIdentity({
     twitter,
     display,
     name,
+    identityApi,
+    identityPrefix,
+    refetchIdentity: refetch,
   }
 }
 

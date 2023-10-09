@@ -32,11 +32,10 @@ export function useFetchSearch({
 }) {
   const { $apollo } = useNuxtApp()
   const { client, urlPrefix } = usePrefix()
-  const { isAssetHub } = useIsChain(urlPrefix)
 
   const route = useRoute()
 
-  const nfts = ref<ItemsGridEntity[]>([])
+  const nfts = ref<NFTWithMetadata[]>([])
   const loadedPages = ref([] as number[])
 
   const { searchParams } = useSearchParams()
@@ -68,9 +67,6 @@ export function useFetchSearch({
           return prefix
       }
     }
-    const notCollectionPage = computed(
-      () => route.name !== 'prefix-collection-id'
-    )
 
     const variables = search?.length
       ? { search }
@@ -80,12 +76,7 @@ export function useFetchSearch({
           priceMax: Number(route.query.max),
         }
 
-    const queryPathBase = getQueryPath(client.value)
-    const usingTokenEntities = computed(
-      () => notCollectionPage.value && isAssetHub.value
-    )
-
-    const queryPath = usingTokenEntities.value ? 'chain-ahk' : queryPathBase
+    const queryPath = getQueryPath(client.value)
 
     const query = await resolveQueryPath(queryPath, 'nftListWithSearch')
     const result = await $apollo.query({
@@ -101,38 +92,17 @@ export function useFetchSearch({
           : ['blockNumber_DESC'],
       },
     })
-    const extractBaseName = (input: string): string => {
-      const regex = / #\d+$/
-      return input.replace(regex, '')
-    }
-
-    const handleToken = (token: any) => {
-      return {
-        ...token.nfts[0],
-        name: extractBaseName(token.nfts[0].name),
-        count: token.nfts.length,
-        floorPrice: Math.min(
-          ...token.nfts.map((nft) => Number(nft.price))
-        ).toString(),
-        nfts: token.nfts,
-      }
-    }
 
     // handle results
-    const nftEntities = usingTokenEntities.value
-      ? result.data.tokenEntities.map(handleToken)
-      : result.data.nFTEntities
-    const nftEntitiesConnection = usingTokenEntities.value
-      ? result.data.tokenEntitiesConnection
-      : result.data.nftEntitiesConnection
+    const { nFTEntities, nftEntitiesConnection } = result.data
 
     total.value = nftEntitiesConnection.totalCount
 
     if (!loadedPages.value.includes(page)) {
       if (loadDirection === 'up') {
-        nfts.value = nftEntities.concat(nfts.value)
+        nfts.value = nFTEntities.concat(nfts.value)
       } else {
-        nfts.value = nfts.value.concat(nftEntities)
+        nfts.value = nfts.value.concat(nFTEntities)
       }
       loadedPages.value.push(page)
     }

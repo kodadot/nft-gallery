@@ -5,7 +5,7 @@
       <h1 class="title is-size-2 mb-7">{{ $t('mint.landing.heading') }}</h1>
 
       <div v-if="route.query?.select !== 'nft'" class="pack">
-        <nuxt-link class="pack-box" to="/create/collection">
+        <div class="pack-box" @click="gotoPathAfterLogin('/create/collection')">
           <div class="pack-content">
             <NeoIcon icon="image-polaroid" custom-size="fa-3x" />
             <div class="pack-content-text">
@@ -13,7 +13,7 @@
               <p>{{ $t('mint.landing.collection') }}</p>
             </div>
           </div>
-        </nuxt-link>
+        </div>
         <button
           class="pack-box"
           @click="router.push({ query: { select: 'nft' } })">
@@ -28,7 +28,7 @@
       </div>
 
       <div v-else class="pack">
-        <nuxt-link class="pack-box" to="/create/nft">
+        <div class="pack-box" @click="gotoPathAfterLogin('/create/nft')">
           <div class="pack-content">
             <NeoIcon icon="image" custom-size="fa-3x" />
             <div class="pack-content-text">
@@ -38,8 +38,10 @@
               <p>{{ $t('mint.landing.singleNftDesc') }}</p>
             </div>
           </div>
-        </nuxt-link>
-        <nuxt-link class="pack-box" :to="`/${urlPrefix}/massmint`">
+        </div>
+        <div
+          class="pack-box"
+          @click="gotoPathAfterLogin(`/${urlPrefix}/massmint`)">
           <div class="pack-content">
             <NeoIcon icon="photo-film" custom-size="fa-3x" />
             <div class="pack-content-text">
@@ -49,7 +51,7 @@
               <p>{{ $t('mint.landing.massNftDesc') }}</p>
             </div>
           </div>
-        </nuxt-link>
+        </div>
       </div>
     </div>
   </div>
@@ -57,10 +59,21 @@
 
 <script setup lang="ts">
 import { NeoIcon } from '@kodadot1/brick'
+import type { RawLocation } from 'vue-router/types/router'
 
+const instance = getCurrentInstance()
+const { doAfterLogin } = useDoAfterlogin(instance)
 const { urlPrefix } = usePrefix()
 const route = useRoute()
 const router = useRouter()
+
+const gotoPathAfterLogin = (path: RawLocation) => {
+  doAfterLogin({
+    onLoginSuccess: () => {
+      navigateTo(path)
+    },
+  })
+}
 </script>
 
 <style scoped lang="scss">

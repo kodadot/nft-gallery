@@ -1,6 +1,9 @@
 import { expect, test } from '@playwright/test'
 
 test('Fill fields to check if they work', async ({ page }) => {
+  //E2E connection
+  await page.goto('/e2e-login')
+  await page.waitForTimeout(10000)
   await page.goto('/create/collection')
   //upload image logo
   await page.setInputFiles('input[type="file"]', 'tests/e2e/unsplash-image.jpg')

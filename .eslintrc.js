@@ -48,6 +48,7 @@ module.exports = {
     ],
     'vue/multi-word-component-names': 'off',
     '@typescript-eslint/no-unused-vars': 'error',
+    '@typescript-eslint/no-explicit-any': 'warn',
     'vue-scoped-css/v-deep-pseudo-style': ['error', ':deep'],
     'vue-scoped-css/no-deprecated-deep-combinator': 'error',
     'vue-scoped-css/require-v-deep-argument': 'error',

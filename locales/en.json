@@ -107,6 +107,7 @@
     "transferable": "Transferable",
     "networkFee": "Network fee",
     "invalidAddress": {
+      "wrongNetwork": "wrong network",
       "changeToChainAddress": "Change to {selectedChain} address",
       "addressChanged": {
         "title": "Changed to {selectedChain} address",
@@ -551,6 +552,7 @@
         "noCollection": "No Collection"
       },
       "create": "Create New NFT",
+      "connect": "Please Connect Your Wallet",
       "creativeDrop": "Drop your NFT here, click to upload or paste the image from the clipboard. AI model limits our support for Creative Minting to only JPEG, PNG, GIF or BMP image files. The file size must be less than 4MB, and the image's dimensions must be greater than 50x50 pixels. Realistic photographs will achieve the best results.",
       "cover": "Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)",
       "creativeFailDesc": "Generating the title and description failed. Please check whether the uploaded file fits the limits of Creative Minting: JPEG, PNG, GIF or BMP with a size less than 4MB and dimensions greater than 50x50 pixels.",
@@ -983,8 +985,11 @@
   },
   "identity": {
     "page": "Identity",
-    "set": "Create on-chain identity",
+    "set": "Create On-Chain identity on {0}",
     "click": "Click to create identity",
+    "clear": "Clear (burn)",
+    "existing" : "Existing Onchain Identity",
+    "establishedIdentity": "It appears you already established an onchain identity. Update it as needed (no new deposit needed) or delete to reclaim your deposit.",
     "handleRequired": "Your handle is required",
     "deposit": "Deposit",
     "fundsReserve": "0.0333 KSM will be reserved. These funds are returned when the identity is cleared.",
@@ -1122,7 +1127,9 @@
   "footer": {
     "subscribe": "Get The Latest KodaDot Updates",
     "join": "Join Our Community",
-    "subscribeLabel": "Subscribe"
+    "subscribeLabel": "Subscribe",
+    "toc": "Terms of Use",
+    "privacyPolicy": "Privacy Policy"
   },
   "share": {
     "copyLink": "Copy Link",

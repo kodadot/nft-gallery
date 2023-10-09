@@ -59,16 +59,11 @@
         :label="`${$t('mint.nft.collection.label')} *`">
         <div class="w-100">
           <p>{{ $t('mint.nft.collection.message') }}</p>
-          <NeoSelect v-model="form.collections" class="mt-3" expanded required>
-            <option
-              v-for="collection in listOfCollection"
-              :key="collection.id"
-              :value="collection.id">
-              {{ collection.name || collection.id }} - ({{
-                collection.totalCount
-              }})
-            </option>
-          </NeoSelect>
+          <ChooseCollectionDropdown
+            full-width
+            no-shadow
+            class="mt-3"
+            @selectedCollection="onCollectionSelected" />
         </div>
       </NeoField>
 
@@ -208,7 +203,7 @@
 import type { Prefix } from '@kodadot1/static'
 import type { Ref } from 'vue'
 import type { TokenToList } from '@/composables/transaction/types'
-
+import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
 import {
   NeoButton,
   NeoField,
@@ -257,6 +252,13 @@ const form = reactive({
   },
 })
 
+// select collections
+const selectedCollection = ref()
+
+const onCollectionSelected = (collection) => {
+  selectedCollection.value = collection
+}
+
 const modalShowStatus = ref(false)
 
 const nftInformation = computed(() => ({
@@ -298,46 +300,6 @@ watch(currentChain, () => {
 // deposit stuff
 const { balance, totalItemDeposit, chainSymbol, chain } =
   useDeposit(currentChain)
-
-// select collections
-const listOfCollection = ref()
-const selectedCollection = computed(() => {
-  return listOfCollection.value?.find(
-    (collection) => collection.id === form.collections
-  )
-})
-
-watchEffect(async () => {
-  if (!accountId.value) {
-    listOfCollection.value = []
-    return
-  }
-
-  const queryPath = {
-    ksm: 'chain-rmrk',
-    rmrk: 'chain-rmrk',
-  }
-  const prefix = queryPath[currentChain.value] || currentChain.value
-  const query = await resolveQueryPath(prefix, 'collectionForMint')
-  const collections = await $apollo.query({
-    query: query.default,
-    client: currentChain.value,
-    variables: {
-      account: accountId.value,
-    },
-    fetchPolicy: 'network-only',
-  })
-
-  // https://github.com/kodadot/nft-gallery/issues/7298
-  listOfCollection.value = collections?.data?.collectionEntities
-    .map((ce) => ({
-      ...ce,
-      alreadyMinted: ce.nfts?.length,
-      lastIndexUsed: Number(ce.nfts?.at(0)?.index || 0),
-      totalCount: ce.nfts?.filter((nft) => !nft.burned).length,
-    }))
-    .filter((ce) => (ce.max || Infinity) - ce.alreadyMinted > 0)
-})
 
 // create nft
 const transactionStatus = ref<
