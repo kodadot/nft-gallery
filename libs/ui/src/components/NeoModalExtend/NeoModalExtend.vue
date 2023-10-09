@@ -16,7 +16,7 @@ export default {
 @import '@oruga-ui/oruga-next/src/scss/components/_modal.scss';
 
 .o-modal {
-  z-index: 998;
+  z-index: 999;
 
   &__content {
     border-radius: 0;

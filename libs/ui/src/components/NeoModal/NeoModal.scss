@@ -6,12 +6,11 @@
 @import '@oruga-ui/oruga-next/src/scss/utilities/_helpers.scss';
 
 $modal-content-border-radius: 0;
-
+$modal-zindex: 999;
 @import '@oruga-ui/oruga-next/src/scss/components/_modal.scss';
 
 
 .neo-modal {
-  z-index: 999;
   .o-modal__content {
     width: auto !important;
     max-height: var(--max-height);
