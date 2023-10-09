@@ -78,7 +78,7 @@ import { useFiatStore } from '@/stores/fiat'
 import { usePreferencesStore } from '@/stores/preferences'
 import { availablePrefixes } from '@/utils/chain'
 import { getTransitionFee } from '@/utils/transactionExecutor'
-import { calculateBalanceUsdValue } from '@/utils/format/balance'
+import formatBalance, { calculateBalanceUsdValue } from '@/utils/format/balance'
 import { BASE_FEE } from '@/utils/support'
 import ConfirmMintItem from './ConfirmMintItem.vue'
 import PriceItem from './PriceItem.vue'
@@ -118,12 +118,16 @@ const props = withDefaults(
 const { isLogIn, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
-const { balance } = useBalance()
 const fiatStore = useFiatStore()
 const preferencesStore = usePreferencesStore()
 
-const { metadataDeposit, collectionDeposit, existentialDeposit, itemDeposit } =
-  useDeposit(urlPrefix)
+const {
+  balance,
+  metadataDeposit,
+  collectionDeposit,
+  existentialDeposit,
+  itemDeposit,
+} = useDeposit(urlPrefix)
 
 const emit = defineEmits(['confirm', 'input'])
 
@@ -171,7 +175,11 @@ const title = computed(() =>
     ? $i18n.t('mint.nft.modal.title')
     : $i18n.t('mint.collection.modal.title')
 )
-const balanceIsEnough = computed(() => totalFee.value < balance.value)
+const balanceIsEnough = computed(
+  () =>
+    parseFloat(formatBalance(totalFee.value.toString(), decimals.value, '')) <
+    parseFloat(balance.value)
+)
 const btnLabel = computed(() => {
   if (!isLogIn.value) {
     return $i18n.t('mint.nft.modal.login')

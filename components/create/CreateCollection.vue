@@ -184,7 +184,7 @@ import { availablePrefixes } from '@/utils/chain'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { makeSymbol } from '@kodadot1/minimark/shared'
-import MintConfirmModal from './MintConfirmModal.vue'
+import MintConfirmModal from '@/components/create/Confirm/MintConfirmModal.vue'
 
 // props
 withDefaults(

@@ -35,10 +35,7 @@
       <div class="has-text-grey mr-2">
         {{ $t('mint.nft.modal.intoCollection') }}
       </div>
-      <NeoIcon
-        pack="fa-sharp"
-        icon="arrow-right-long"
-        class="has-text-k-grey mr-4" />
+      <NeoIcon icon="arrow-right-long" class="has-text-k-grey mr-4" />
       <div>{{ nft.selectedCollection?.name }}</div>
     </div>
   </div>

@@ -5,7 +5,7 @@
       v-model="modalShowStatus"
       :nft-information="nftInformation"
       @confirm="createNft" />
-    <form class="is-half column" @submit.prevent="showConfirm">
+    <form class="is-half column" @submit.prevent="toggleConfirm">
       <CreateNftPreview
         :name="form.name"
         :collection="selectedCollection?.name"
@@ -216,7 +216,7 @@ import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
 import CustomAttributeInput from '@/components/rmrk/Create/CustomAttributeInput.vue'
 import RoyaltyForm from '@/components/bsx/Create/RoyaltyForm.vue'
 import CreateNftPreview from './CreateNftPreview.vue'
-import MintConfirmModal from '@/components/create/MintConfirmModal.vue'
+import MintConfirmModal from '@/components/create/Confirm/MintConfirmModal.vue'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { availablePrefixes } from '@/utils/chain'
 import { notificationTypes, showNotification } from '@/utils/notification'
@@ -308,12 +308,13 @@ const transactionStatus = ref<
 const createdItems = ref()
 const mintedBlockNumber = ref()
 
-const showConfirm = () => {
-  modalShowStatus.value = true
+const toggleConfirm = () => {
+  modalShowStatus.value = !modalShowStatus.value
 }
 
 const createNft = async () => {
   try {
+    toggleConfirm()
     const minted = (await transaction(
       {
         interaction: Interaction.MINTNFT,
