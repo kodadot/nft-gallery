@@ -37,7 +37,7 @@ export const bsxParamResolver = (
   selectedAction: string,
   meta: string | number,
   currentOwner?: string,
-  expiration?: number
+  expiration?: number,
 ): any[] => {
   const [collectionId, tokenId] = id.split('-')
   const actions = {
@@ -55,7 +55,7 @@ export const uniqueParamResolver = (
   id: string,
   selectedAction: string,
   meta: string | number,
-  currentOwner?: string
+  currentOwner?: string,
 ): any[] => {
   const sanitized = correctId(id)
   const [collectionId, tokenId] = sanitized.split('-')
@@ -73,7 +73,6 @@ export const nftParamResolver = (
   id: string,
   selectedAction: string,
   meta: string | number,
-  _currentOwner?: string
 ): any[] => {
   const sanitized = correctId(id)
   const [collectionId, tokenId] = sanitized.split('-')
@@ -94,7 +93,7 @@ export function getApiCall(
   api: ApiPromise,
   prefix: string,
   selectedAction: string,
-  legacy = false
+  legacy = false,
 ) {
   const actionResolver = getActionsByPrefix(prefix, legacy)
   const [module, method] =

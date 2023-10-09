@@ -16,14 +16,16 @@ import {
   CollectionsSalesResult,
   TopCollectionListResult,
 } from './types'
+import topCollectionList from '@/queries/subsquid/general/topCollectionList.graphql'
+import collectionsSales from '@/queries/subsquid/general/collectionsSales.graphql'
 
 const proccessData = (
   collectionsList: CollectionEntity[],
-  collectionsSales: CollectionSales[]
+  collectionsSales: CollectionSales[],
 ) => {
   return collectionsList.map((e): CollectionEntityWithVolumes => {
     const thisCollectionSales = collectionsSales.find(
-      ({ id }) => id === e.id
+      ({ id }) => id === e.id,
     ) as CollectionSales
     const saleEvents = thisCollectionSales.sales.map((nft) => nft.events).flat()
 
@@ -43,23 +45,20 @@ const proccessData = (
 }
 
 export const useTopCollections = (limit: number) => {
+  const { client } = usePrefix()
   const topCollectionWithVolumeList = useState<CollectionEntityWithVolumes[]>(
     'topCollectionWithVolumeList',
-    () => []
+    () => [],
   )
   const error = ref(null)
-  const loading = ref(true)
-  const collectionsSales = ref<CollectionsSalesResult>()
+  // const loading = ref(false)
+  const collectionsSalesResults = ref<CollectionsSalesResult>()
 
-  const { data: topCollections } = useGraphql({
-    queryPrefix: 'subsquid',
-    queryName: 'topCollectionList',
-    variables: {
-      orderBy: 'volume_DESC',
-      limit,
-    },
-    error,
-  })
+  const { result: topCollections, loading } = useQuery(
+    topCollectionList,
+    { orderBy: 'volume_DESC', limit },
+    { clientId: client.value },
+  )
 
   watch([topCollections, error], () => {
     if (error.value) {
@@ -71,29 +70,26 @@ export const useTopCollections = (limit: number) => {
         topCollections.value as TopCollectionListResult
       ).collectionEntities.map((c) => c.id)
 
-      useGraphql({
-        queryPrefix: 'subsquid',
-        queryName: 'collectionsSales',
-        variables: {
-          ids,
-        },
-        data: collectionsSales,
-        error,
-        loading,
-      })
+      const { onResult } = useQuery(
+        collectionsSales,
+        { ids },
+        { clientId: client.value },
+      )
+      onResult((result) => (collectionsSalesResults.value = result.data))
     }
   })
 
-  watch(collectionsSales, () => {
-    if (collectionsSales.value) {
+  watch(collectionsSalesResults, () => {
+    if (collectionsSalesResults.value) {
       const collectionsList = (topCollections.value as TopCollectionListResult)
         .collectionEntities
       topCollectionWithVolumeList.value = proccessData(
         collectionsList,
-        collectionsSales.value.collectionsSales
+        collectionsSalesResults.value.collectionsSales,
       )
     }
   })
+
   return {
     data: topCollectionWithVolumeList,
     error,

@@ -3,7 +3,7 @@
     <Loader v-model="isMinting" :status="mintStatus" :can-cancel="false" />
     <div>
       <section class="is-flex controls">
-        <NeoButton class="left" @click.native="toOnborading">
+        <NeoButton class="left" @click="toOnborading">
           <NeoIcon icon="arrow-left" class="mr-1" />
           {{ $t('massmint.backToOnbaording') }}
         </NeoButton>
@@ -41,7 +41,7 @@
         variant="k-accent"
         size="large"
         :disabled="!mediaLoaded"
-        @click.native="openReviewModal">
+        @click="openReviewModal">
         <span class="is-size-5"
           >{{ $t('massmint.mintNFTs') }}
           <span v-if="numOfValidNFTs" class="has-text-weight-bold">
@@ -82,7 +82,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 import UploadMediaZip from './uploadCompressedMedia/UploadCompressedMedia.vue'
 import UploadDescription from './uploadDescription/UploadDescription.vue'
 import OverviewTable from './OverviewTable.vue'
-import ChooseCollectionDropdown from './ChooseCollectionDropdown.vue'
+import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
 import EditPanel from './EditPanel.vue'
 import { NFT, NFTToMint } from './types'
 import MissingInfoModal from './modals/MissingInfoModal.vue'
@@ -116,18 +116,18 @@ const isMinting = ref(false)
 const mintStatus = ref('')
 
 const numberOfMissingNames = computed(
-  () => Object.values(NFTS.value).filter((nft) => !nft.name).length
+  () => Object.values(NFTS.value).filter((nft) => !nft.name).length,
 )
 
 const numOfValidNFTs = computed(
-  () => Object.values(NFTS.value).length - numberOfMissingNames.value
+  () => Object.values(NFTS.value).length - numberOfMissingNames.value,
 )
 const numberOfMissingDescriptions = computed(
-  () => Object.values(NFTS.value).filter((nft) => !nft.description).length
+  () => Object.values(NFTS.value).filter((nft) => !nft.description).length,
 )
 
 const numberOfMissingPrices = computed(
-  () => Object.values(NFTS.value).filter((nft) => !nft.price).length
+  () => Object.values(NFTS.value).filter((nft) => !nft.price).length,
 )
 
 const openSideBarWith = (nft: NFT) => {
@@ -158,7 +158,7 @@ const startMint = () => {
 
   const { isLoading, status, collectionUpdated, isError } = useMassMint(
     Object.values(NFTS.value) as NFTToMint[],
-    selectedCollection.value as MintedCollection
+    selectedCollection.value as MintedCollection,
   )
 
   watch(
@@ -172,7 +172,7 @@ const startMint = () => {
         if (!isError.value && statusV !== TransactionStatus.Sign) {
           showNotification(
             $i18n.t('massmint.continueToCollectionPage'),
-            notificationTypes.success
+            notificationTypes.success,
           )
         }
       }
@@ -180,10 +180,10 @@ const startMint = () => {
       //redirect to collection page when collection is updated
       if (collectionUpdated.value) {
         navigateTo(
-          `/${urlPrefix.value}/collection/${selectedCollection.value?.id}`
+          `/${urlPrefix.value}/collection/${selectedCollection.value?.id}`,
         )
       }
-    }
+    },
   )
 }
 
@@ -226,7 +226,7 @@ const onDescriptionLoaded = (entries: Record<string, Entry>) => {
   // create a map of nft filename to id
   const nftFileNameToId = Object.values(NFTS.value).reduce(
     (acc, nft) => ({ ...acc, [nft.file.name]: nft.id }),
-    {}
+    {},
   )
   Object.values(entries).forEach((entry) => {
     if (!entry.valid) {
@@ -236,6 +236,7 @@ const onDescriptionLoaded = (entries: Record<string, Entry>) => {
     if (!nftId) {
       return
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { file: _, ...restOfEntry } = entry
     NFTS.value[nftId] = {
       ...NFTS.value[nftId],
@@ -245,7 +246,7 @@ const onDescriptionLoaded = (entries: Record<string, Entry>) => {
 }
 </script>
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/variables.scss';
 
 .controls {
   justify-content: center;

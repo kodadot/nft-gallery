@@ -1,12 +1,12 @@
 <script>
-import { OInput } from '@oruga-ui/oruga'
+import { OInput } from '@oruga-ui/oruga-next'
 
 export default {
   mixins: [OInput],
   props: {
     iconPack: {
       type: String,
-      default: 'fas',
+      default: 'fasr',
     },
   },
   computed: {

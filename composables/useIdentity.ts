@@ -1,5 +1,6 @@
+import type { ComputedRef } from 'vue'
 import { accountToPublicKey, getss58AddressByPrefix } from '@/utils/account'
-import { ComputedRef } from 'vue/types'
+import { chainPropListOf } from '@/utils/config/chain.config'
 
 import shortAddress from '@/utils/shortAddress'
 
@@ -13,30 +14,41 @@ export default function useIdentity({
   customNameOption?: string
 }) {
   const { urlPrefix } = usePrefix()
+  const { apiInstanceByPrefix } = useApi()
   const isDotAddress = computed(() => ['dot', 'ahp'].includes(urlPrefix.value))
   const id = computed(
     () =>
       address.value &&
       (isDotAddress.value
         ? accountToPublicKey(address.value)
-        : getss58AddressByPrefix(address.value, 'ksm'))
+        : getss58AddressByPrefix(address.value, 'rmrk')),
   )
 
-  const identity = computed<IdentityFields>(() => data.value?.identity || {})
+  const identityPrefix = computed(() => (isDotAddress.value ? 'dot' : 'rmrk'))
+
+  const identityUnit = computed(
+    () => chainPropListOf(identityPrefix.value)?.tokenSymbol,
+  )
+
+  const identityApi = computed(() => apiInstanceByPrefix(identityPrefix.value))
+  const clientName = computed(() => (isDotAddress.value ? 'pid' : 'kid'))
 
   const { data, refetch, loading } = useGraphql({
-    clientName: computed(() => (isDotAddress.value ? 'pid' : 'kid')),
+    clientName,
     queryName: 'identityById',
     variables: {
       id: id.value,
     },
     disabled: computed(() => !address.value),
   })
+
+  const identity = computed<IdentityFields>(() => data.value?.identity || {})
+
   const shortenedAddress = computed(() => shortAddress(address.value))
   const twitter = computed(() => identity?.value?.twitter)
   const display = computed(() => identity?.value?.display)
   const name = computed(() =>
-    displayName({ customNameOption, identity, shortenedAddress })
+    displayName({ customNameOption, identity, shortenedAddress }),
   )
 
   watch(urlPrefix, () => {
@@ -49,6 +61,10 @@ export default function useIdentity({
     twitter,
     display,
     name,
+    identityApi,
+    identityPrefix,
+    identityUnit,
+    refetchIdentity: refetch,
   }
 }
 

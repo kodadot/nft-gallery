@@ -1,5 +1,5 @@
 <script>
-import { ODropdown } from '@oruga-ui/oruga'
+import { ODropdown } from '@oruga-ui/oruga-next'
 
 export default {
   mixins: [ODropdown],
@@ -7,6 +7,25 @@ export default {
     mobileModal: {
       type: Boolean,
       default: false,
+    },
+    noShadow: {
+      type: Boolean,
+      default: false,
+    },
+    // eslint-disable-next-line vue/require-default-prop
+    position: {
+      type: String,
+      validator: (value) => {
+        return (
+          [
+            'top-right',
+            'top-left',
+            'bottom-left',
+            'bottom-right',
+            'bottom-auto',
+          ].indexOf(value) > -1
+        )
+      },
     },
   },
   data() {
@@ -41,12 +60,15 @@ export default {
           [this.computedClass(
             'menuPositionClass',
             'o-drop__menu--',
-            this.autoPosition
+            this.autoPosition,
           )]: this.autoPosition,
         },
         {
           [this.computedClass('menuActiveClass', 'o-drop__menu--active')]:
             this.isActive || this.inline,
+        },
+        {
+          [this.computedClass('menuShadowClass', 'no-shadow')]: this.noShadow,
         },
       ]
     },
@@ -62,7 +84,7 @@ export default {
       this.autoPosition = this.position
     }
   },
-  beforeDestroy() {
+  onBeforeUnmount() {
     window.removeEventListener('resize', this.calcDropdownPosition)
   },
   methods: {
@@ -71,7 +93,7 @@ export default {
       // calc the dropdown position based on the trigger position
       const ele = this.$refs.trigger
       const side =
-        ele.getBoundingClientRect().left < window.innerWidth / 2
+        ele?.getBoundingClientRect().left < window.innerWidth / 2
           ? 'right'
           : 'left'
       this.autoPosition = this.position.replace('auto', side)

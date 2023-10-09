@@ -8,7 +8,7 @@
           no-shadow
           icon="trash"
           icon-pack="far"
-          @click.native="listingCartStore.removeItem(nft.id)" />
+          @click="listingCartStore.removeItem(nft.id)" />
       </template>
       <template #footer>
         <div
@@ -21,8 +21,7 @@
           </div>
 
           <div class="is-flex is-align-items-end">
-            <ListingCartPriceInput
-              v-model="listingCartStore.getItem(nft.id).listPrice" />
+            <ListingCartPriceInput v-model="listingCartItem" />
           </div>
         </div>
       </template>
@@ -34,7 +33,7 @@
 import ListingCartPriceInput from '../shared/ListingCartPriceInput.vue'
 import { NeoButton } from '@kodadot1/brick'
 import { ListCartItem, useListingCartStore } from '@/stores/listingCart'
-import { formatBalance } from '@polkadot/util'
+import formatBalance from '@/utils/format/balance'
 import ListingCartItemDetails from '../shared/ListingCartItemDetails.vue'
 const { decimals, chainSymbol } = useChain()
 
@@ -45,9 +44,11 @@ const props = defineProps<{
 }>()
 
 const floor = computed(() =>
-  formatBalance(props.nft.collection.floor, {
-    decimals: decimals.value,
-    withUnit: chainSymbol.value,
-  })
+  formatBalance(props.nft.collection.floor, decimals.value, chainSymbol.value),
 )
+
+const listingCartItem = computed({
+  get: () => listingCartStore.getItem(props.nft.id).listPrice,
+  set: (price) => listingCartStore.setItemPrice({ id: props.nft.id, price }),
+})
 </script>

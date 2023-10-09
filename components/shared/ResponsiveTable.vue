@@ -18,8 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref, withDefaults } from 'vue'
-
 const container = ref<HTMLDivElement | null>(null)
 const { variant, desktop } = useResponsive(container)
 
@@ -35,6 +33,6 @@ withDefaults(
     noResultsMain: '',
     noResultsSub: '',
     showNoResults: false,
-  }
+  },
 )
 </script>

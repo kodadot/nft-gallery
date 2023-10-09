@@ -26,7 +26,7 @@ import { NeoField, NeoInput } from '@kodadot1/brick'
 
 const props = withDefaults(
   defineProps<{
-    value: number
+    modelValue: number | string
     label: string
     placeholder?: string
     expanded?: boolean
@@ -40,12 +40,13 @@ const props = withDefaults(
     expanded: false,
     min: 1,
     step: 1,
-  }
+  },
 )
-const emit = defineEmits(['input'])
 
-const vValue = useVModel(props, 'value', emit, { eventName: 'input' })
-
+const emit = defineEmits(['update:modelValue'])
+const vValue = useVModel(props, 'modelValue', emit, {
+  eventName: 'update:modelValue',
+})
 const hasFocus = ref(false)
 </script>
 

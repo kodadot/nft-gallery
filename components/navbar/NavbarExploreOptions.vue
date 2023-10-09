@@ -5,13 +5,13 @@
         :to="`/${urlPrefix}/explore/items`"
         class="menu-item mr-6"
         data-testid="explore-items"
-        @click.native="emit('closeMobileNavbar')">
+        @click="emit('closeMobileNavbar')">
         {{ $t('items') }}
       </nuxt-link>
       <nuxt-link
         :to="`/${urlPrefix}/explore/collectibles`"
         class="menu-item mr-6"
-        @click.native="emit('closeMobileNavbar')">
+        @click="emit('closeMobileNavbar')">
         {{ $t('collections') }}
       </nuxt-link>
       <span class="menu-item is-disabled has-text-k-shade">
@@ -54,8 +54,9 @@ const prefixToExploreOptionName = {
 }
 const filteredChains = computed(() => {
   return ['ahk', 'ahp', 'ksm']
-    .map((prefix) =>
-      availableChains?.value.find((chain) => chain.value === prefix)
+    .map(
+      (prefix) =>
+        availableChains?.value.find((chain) => chain.value === prefix),
     )
     .filter(Boolean)
     .map((option) => ({

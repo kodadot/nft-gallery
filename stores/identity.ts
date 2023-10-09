@@ -13,10 +13,10 @@ const DEFAULT_BALANCE_STATE = {
   rmrk: '0',
   snek: '0',
   ahk: '0',
-  glmr: '0',
-  movr: '0',
   dot: '0',
   ahp: '0',
+  // glmr: '0',
+  // movr: '0',
 }
 
 export interface IdentityMap {

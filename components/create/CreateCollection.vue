@@ -5,7 +5,7 @@
       class="is-half"
       :class="{ column: classColumn }"
       @submit.prevent="createCollection">
-      <h1 class="title is-size-3">
+      <h1 class="title is-size-3 mb-7">
         {{ $t('mint.collection.create') }}
       </h1>
 
@@ -28,7 +28,10 @@
         required
         data-testid="collection-name"
         :error="!name">
-        <NeoInput v-model="name" required />
+        <NeoInput
+          v-model="name"
+          required
+          :placeholder="$t('mint.collection.name.placeholder')" />
       </NeoField>
 
       <!-- collection description -->
@@ -40,6 +43,7 @@
           has-counter
           maxlength="1000"
           height="10rem"
+          :placeholder="$t('mint.collection.description.placeholder')"
           data-testid="collection-desc" />
       </NeoField>
 
@@ -52,7 +56,7 @@
         <div class="w-full">
           <div class="is-flex is-justify-content-space-between">
             <p>{{ $t('mint.unlimited') }}</p>
-            <NeoSwitch v-model="unlimited" />
+            <NeoSwitch v-model="unlimited" position="left" />
           </div>
           <NeoInput
             v-if="!unlimited"
@@ -66,7 +70,7 @@
 
       <!-- select blockchain -->
       <NeoField :label="`${$t('mint.blockchain.label')} *`">
-        <div>
+        <div class="w-full">
           <p>{{ $t('mint.blockchain.message') }}</p>
           <NeoSelect
             v-model="selectBlockchain"
@@ -96,28 +100,25 @@
         </div>
       </NeoField>
 
-      <!-- deposit -->
-      <div>
-        <hr class="my-6" />
-        <NeoField>
-          <div class="monospace">
-            <p class="has-text-weight-medium is-size-6 has-text-info">
-              <span>{{ $t('mint.deposit') }}:</span>
-              <span data-testid="collection-deposit"
-                >{{ totalCollectionDeposit }} {{ chainSymbol }}</span
-              >
-            </p>
-            <p>
-              <span>{{ $t('general.balance') }}: </span>
-              <span data-testid="collection-balance"
-                >{{ balance }} {{ chainSymbol }}</span
-              >
-            </p>
-            <nuxt-link v-if="isBasilisk" :to="`/${currentChain}/assets`">
-              {{ $t('general.tx.feesPaidIn', [chainSymbol]) }}
-            </nuxt-link>
+      <hr class="my-6" />
+
+      <!-- deposit and balance -->
+      <div class="monospace">
+        <div class="is-flex has-text-weight-medium has-text-info">
+          <div>{{ $t('mint.deposit') }}:&nbsp;</div>
+          <div data-testid="collection-deposit">
+            {{ totalCollectionDeposit }} {{ chainSymbol }}
           </div>
-        </NeoField>
+        </div>
+        <div class="is-flex">
+          <div>{{ $t('general.balance') }}:&nbsp;</div>
+          <div data-testid="collection-balance">
+            {{ balance }} {{ chainSymbol }}
+          </div>
+        </div>
+        <nuxt-link v-if="isBasilisk" :to="`/${currentChain}/assets`">
+          {{ $t('general.tx.feesPaidIn', [chainSymbol]) }}
+        </nuxt-link>
       </div>
 
       <hr class="my-6" />
@@ -127,9 +128,10 @@
         <div>
           <NeoButton
             expanded
-            :label="`${canDeposit ? 'Create Collection' : 'Not Enough Funds'}`"
-            type="submit"
+            :label="submitButtonLabel"
+            native-type="submit"
             size="medium"
+            class="is-size-6"
             data-testid="collection-create"
             :loading="isLoading"
             :disabled="!canDeposit" />
@@ -141,6 +143,7 @@
                 v-dompurify-html="
                   $t('mint.requiredDeposit', [
                     `${totalCollectionDeposit} ${chainSymbol}`,
+                    'collection',
                   ])
                 " />
               <a
@@ -188,7 +191,7 @@ withDefaults(
   }>(),
   {
     classColumn: true,
-  }
+  },
 )
 
 // composables
@@ -203,12 +206,20 @@ const description = ref('')
 const unlimited = ref(true)
 const max = ref(1)
 const symbol = ref('')
+const { isLogIn } = useAuth()
+const menus = availablePrefixes()
+const { $i18n } = useNuxtApp()
 
-const menus = availablePrefixes().filter(
-  (menu) => menu.value !== 'movr' && menu.value !== 'glmr'
-)
 const chainByPrefix = menus.find((menu) => menu.value === urlPrefix.value)
 const selectBlockchain = ref(chainByPrefix?.value || menus[0].value)
+
+const submitButtonLabel = computed(() => {
+  return !isLogIn.value
+    ? $i18n.t('mint.nft.connect')
+    : canDeposit.value
+    ? $i18n.t('mint.collection.create')
+    : $i18n.t('confirmPurchase.notEnoughFuns')
+})
 
 const currentChain = computed(() => {
   return selectBlockchain.value as Prefix
@@ -220,7 +231,10 @@ const { balance, totalCollectionDeposit, chainSymbol } =
 
 // balance state
 const canDeposit = computed(() => {
-  return parseFloat(balance.value) >= parseFloat(totalCollectionDeposit.value)
+  return (
+    isLogIn.value &&
+    parseFloat(balance.value) >= parseFloat(totalCollectionDeposit.value)
+  )
 })
 
 watchEffect(() => setUrlPrefix(currentChain.value as Prefix))
@@ -252,7 +266,7 @@ const createCollection = async () => {
   try {
     showNotification(
       `Creating Collection: "${name.value}"`,
-      notificationTypes.info
+      notificationTypes.info,
     )
     isLoading.value = true
 
@@ -265,7 +279,7 @@ const createCollection = async () => {
           | CollectionToMintKusama
           | CollectionToMintStatmine,
       },
-      currentChain.value
+      currentChain.value,
     )
   } catch (error) {
     showNotification(`[ERR] ${error}`, notificationTypes.warn)
@@ -278,37 +292,4 @@ onMounted(() => {
 })
 </script>
 
-<style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
-
-.o-field:not(:last-child) {
-  margin-bottom: 2rem;
-}
-
-.column {
-  max-width: 36rem;
-  padding: 4rem;
-
-  @include desktop() {
-    @include ktheme() {
-      background-color: theme('background-color');
-      box-shadow: theme('primary-shadow');
-    }
-  }
-
-  @include touch() {
-    padding: 0 1rem;
-    box-shadow: none !important;
-  }
-}
-
-@include desktop() {
-  .columns {
-    padding: 5.25rem 0;
-
-    @include ktheme() {
-      background-color: theme('k-primaryLight');
-    }
-  }
-}
-</style>
+<style lang="scss" scoped src="@/assets/styles/pages/create.scss"></style>

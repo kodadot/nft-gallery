@@ -55,12 +55,12 @@ export default function (prefix: ComputedRef<Prefix>) {
           collectionDeposit.value +
           existentialDeposit.value,
         chain.tokenDecimals,
-        false
+        false,
       )
       totalItemDeposit.value = format(
         metadataDeposit.value + itemDeposit.value + existentialDeposit.value,
         chain.tokenDecimals,
-        false
+        false,
       )
     }
   })
@@ -69,24 +69,18 @@ export default function (prefix: ComputedRef<Prefix>) {
     if (prefix.value) {
       const api = await apiInstanceByPrefix(prefix.value)
 
-      // get chain symbol
+      // get chain symbol and decimals
       const chainInfo = await api.registry.getChainProperties()
       chainSymbol.value = chainInfo?.tokenSymbol.toHuman()?.[0]
 
       if (isBasilisk.value && accountId.value) {
         const assetMetadata = await getAssetMetadataByAccount(
           api,
-          accountId.value
+          accountId.value,
         )
 
         chainSymbol.value = assetMetadata.symbol
       }
-    }
-  })
-
-  watchEffect(async () => {
-    if (prefix.value) {
-      const api = await apiInstanceByPrefix(prefix.value)
 
       // set balance
       if (accountId.value) {
@@ -100,7 +94,7 @@ export default function (prefix: ComputedRef<Prefix>) {
           balance.value = (
             (await api.query.tokens.accounts(
               prefixAddress,
-              getKusamaAssetId(prefix.value)
+              getKusamaAssetId(prefix.value),
             )) as PalletBalancesAccountData
           ).free.toString()
         }

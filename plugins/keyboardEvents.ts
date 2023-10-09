@@ -80,7 +80,7 @@ const listenGlobalKeyboardEvents = (app) => {
 
     if (event.key === '?') {
       const element: HTMLElement = document.querySelectorAll(
-        '#keyboardShortcutsModal > .button'
+        '#keyboardShortcutsModal > .button',
       )[0] as HTMLElement
       element.click()
     }
@@ -91,6 +91,10 @@ const listenGlobalKeyboardEvents = (app) => {
   })
 }
 
-export default ({ app }): void => {
-  listenGlobalKeyboardEvents(app)
-}
+// export default ({ app }): void => {
+//   listenGlobalKeyboardEvents(app)
+// }
+
+export default defineNuxtPlugin(({ vueApp }) =>
+  listenGlobalKeyboardEvents(vueApp),
+)

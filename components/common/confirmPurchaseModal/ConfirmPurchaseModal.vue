@@ -1,6 +1,6 @@
 <template>
   <NeoModal
-    v-model="isModalActive"
+    :value="isModalActive"
     :can-cancel="['outside', 'escape']"
     scroll="clip"
     class="top"
@@ -17,9 +17,8 @@
           variant="text"
           no-shadow
           icon="xmark"
-          icon-pack="fa-sharp"
           size="medium"
-          @click.native="onClose" />
+          @click="onClose" />
       </header>
       <div class="px-6 pt-4">
         <ModalIdentityItem />
@@ -61,7 +60,7 @@
           no-shadow
           :disabled="disabled"
           class="is-flex is-flex-grow-1 btn-height"
-          @click.native="confirm" />
+          @click="confirm" />
       </div>
     </div>
   </NeoModal>
@@ -95,23 +94,23 @@ const items = computed(() => {
 })
 
 const isModalActive = computed(
-  () => prefrencesStore.getCompletePurchaseModal.isOpen
+  () => prefrencesStore.getCompletePurchaseModal.isOpen,
 )
 
 const totalNFTsPrice = computed(() =>
-  sum(items.value.map((nft) => Number(nft.price)))
+  sum(items.value.map((nft) => Number(nft.price))),
 )
 const totalRoyalties = computed(() =>
   sum(
     items.value.map(
       ({ price, royalty }) =>
-        (Number(price ?? '0') * (royalty?.amount ?? 0)) / 100
-    )
-  )
+        (Number(price ?? '0') * (royalty?.amount ?? 0)) / 100,
+    ),
+  ),
 )
 
 const balanceIsEnough = computed(
-  () => totalNFTsPrice.value + totalRoyalties.value < balance.value
+  () => totalNFTsPrice.value + totalRoyalties.value < balance.value,
 )
 
 const btnLabel = computed(() => {
@@ -141,7 +140,7 @@ const confirm = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .top {
   z-index: 1000;

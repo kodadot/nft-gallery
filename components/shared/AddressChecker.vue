@@ -8,6 +8,7 @@
           selectedChain: currentChainName,
         })
       "
+      data-testid="addresschecker-infobox-convertion-success"
       @close="onClose">
       <div
         v-dompurify-html="
@@ -22,6 +23,7 @@
       v-else-if="addressCheck && showAddressCheck"
       variant="fail"
       :title="$t(`transfers.invalidAddress.${addressCheck.type}.title`)"
+      data-testid="addresschecker-infobox-invalid"
       @close="onClose">
       <div
         v-dompurify-html="
@@ -38,7 +40,8 @@
             rounded
             size="small"
             variant="k-pink"
-            @click.native="changeAddress">
+            data-testid="addresschecker-button-change-to"
+            @click="changeAddress">
             {{
               $t(`transfers.invalidAddress.changeToChainAddress`, {
                 selectedChain: currentChainName,
@@ -65,6 +68,7 @@ import {
   isEthereumAddress,
 } from '@polkadot/util-crypto'
 import correctFormat from '@/utils/ss58Format'
+import { isValidAddress } from '@/utils/account'
 import { CHAINS } from '@/libs/static/src/chains'
 import InfoBox from '@/components/shared/view/InfoBox.vue'
 import { NeoButton } from '@kodadot1/brick'
@@ -82,13 +86,14 @@ type AddressCheck = {
   value?: string
 }
 
-const CHAINS_ADDRESS_CHECKS: Prefix[] = ['rmrk', 'bsx', 'movr', 'glmr', 'dot']
+const CHAINS_ADDRESS_CHECKS: Prefix[] = ['rmrk', 'bsx', 'dot']
 
 const emit = defineEmits(['check', 'change'])
 const props = defineProps<{
   address: string
 }>()
 
+const { $i18n } = useNuxtApp()
 const { chainProperties } = useChain()
 const { urlPrefix } = usePrefix()
 const currentChainName = computed(() => chainNames[urlPrefix.value])
@@ -98,7 +103,7 @@ const showAddressCheck = ref(false)
 const showChanged = ref(false)
 
 const isWrongNetworkAddress = computed(
-  () => addressCheck.value?.type === AddressType.WRONG_NETWORK_ADDRESS
+  () => addressCheck.value?.type === AddressType.WRONG_NETWORK_ADDRESS,
 )
 
 const checkAddressByss58Format = (value: string, ss58: number) => {
@@ -113,7 +118,7 @@ const getAddressCheck = (value: string): AddressCheck => {
 
   const isValidCurrentChainAddress = checkAddressByss58Format(
     value,
-    ss58Format.value
+    ss58Format.value,
   )
 
   if (isValidCurrentChainAddress) {
@@ -123,7 +128,7 @@ const getAddressCheck = (value: string): AddressCheck => {
   const GENERIC_SUBSTRATE_SS58_FORMAT = 42
   const isValidGeneric = checkAddressByss58Format(
     value,
-    GENERIC_SUBSTRATE_SS58_FORMAT
+    GENERIC_SUBSTRATE_SS58_FORMAT,
   )
 
   if (isValidGeneric) {
@@ -131,7 +136,7 @@ const getAddressCheck = (value: string): AddressCheck => {
   }
 
   const [validAddressesChain] = CHAINS_ADDRESS_CHECKS.filter((chain) =>
-    checkAddressByss58Format(value, CHAINS[chain].ss58Format)
+    checkAddressByss58Format(value, CHAINS[chain].ss58Format),
   )
 
   if (validAddressesChain) {
@@ -139,6 +144,16 @@ const getAddressCheck = (value: string): AddressCheck => {
       valid: false,
       type: AddressType.WRONG_NETWORK_ADDRESS,
       value: chainNames[validAddressesChain],
+    }
+  }
+
+  const isValid = isValidAddress(value)
+
+  if (isValid) {
+    return {
+      valid: false,
+      type: AddressType.WRONG_NETWORK_ADDRESS,
+      value: $i18n.t('transfers.invalidAddress.wrongNetwork'),
     }
   }
 
@@ -169,7 +184,7 @@ watch(
       showChanged.value = false
       addressCheck.value = null
     }
-  }
+  },
 )
 
 watch(showAddressCheck, () => {
@@ -189,7 +204,7 @@ watch(addressCheck, (check) => {
 })
 </script>
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .is-blue {
   @include ktheme() {

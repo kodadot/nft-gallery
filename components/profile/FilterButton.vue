@@ -4,7 +4,7 @@
     no-shadow
     rounded
     :label="label"
-    @click.native="model = !model" />
+    @click="model = !model" />
 </template>
 
 <script setup lang="ts">
@@ -27,7 +27,7 @@ const model = computed({
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .active {
   @include ktheme() {

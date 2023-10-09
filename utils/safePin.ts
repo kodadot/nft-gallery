@@ -3,15 +3,12 @@ import { pinFileToIPFS } from '@/services/nftStorage'
 
 type MaybeFile = File | null | undefined
 
-export async function pinImageSafe(
-  file: MaybeFile,
-  token: string
-): Promise<string> {
+export async function pinImageSafe(file: MaybeFile): Promise<string> {
   if (!file) {
     return IPFS_KODADOT_IMAGE_PLACEHOLDER
   }
 
-  return await pinFileToIPFS(file, token)
+  return await pinFileToIPFS(file)
 }
 
 export function getImageTypeSafe(file: MaybeFile) {

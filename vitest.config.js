@@ -1,10 +1,10 @@
 import { defineConfig } from 'vitest/config'
 import { resolve } from 'path'
-import { createVuePlugin } from 'vite-plugin-vue2'
+import vue from '@vitejs/plugin-vue'
 import graphql from '@rollup/plugin-graphql'
 
 export default defineConfig({
-  plugins: [createVuePlugin(/* options */), graphql()],
+  plugins: [vue(), graphql()],
   test: {
     include: ['tests/**/?(*.)+(spec|test).+(ts|tsx|js)'],
     exclude: [

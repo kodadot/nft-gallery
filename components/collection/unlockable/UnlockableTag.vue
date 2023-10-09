@@ -24,7 +24,7 @@ const { unlockableIcon } = useUnlockableIcon()
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/variables.scss';
 .unlockable-container {
   border-radius: 2rem;
   @include ktheme() {

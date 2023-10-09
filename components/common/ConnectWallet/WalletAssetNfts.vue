@@ -45,7 +45,7 @@ watchEffect(() => {
 
       if (nftMetadata.meta.image) {
         const mimeType = await getMimeType(
-          sanitizeIpfsUrl(nftMetadata.meta.image)
+          sanitizeIpfsUrl(nftMetadata.meta.image),
         )
         nfts.value.push({ ...nftMetadata, type: mimeType })
       }
@@ -55,7 +55,7 @@ watchEffect(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .nfts {
   display: grid;

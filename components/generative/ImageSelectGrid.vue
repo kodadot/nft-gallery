@@ -25,7 +25,7 @@
 import { OUTPUTS, PredictionStatus } from '@/services/replicate'
 
 const ImageGrid = defineAsyncComponent(
-  () => import('@/components/shared/view/ImageGrid.vue')
+  () => import('@/components/shared/view/ImageGrid.vue'),
 )
 
 const expectedOutput = Number(OUTPUTS)
@@ -36,7 +36,7 @@ const handleSelectImage = (image: string) => {
   emit('select', image)
 }
 
-const props = defineProps<{
+defineProps<{
   predicion: PredictionStatus
   selected: string
 }>()

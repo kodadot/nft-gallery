@@ -5,5 +5,7 @@ query collectionByAccount($account: String!) {
   ) {
     id
     name
+    metadata
+    nftCount
   }
 }

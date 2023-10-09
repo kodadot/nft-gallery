@@ -8,7 +8,7 @@ export type ListCartItem = {
   name: string
   urlPrefix: string
   price: string
-  listPrice: number | null
+  listPrice: number
   collection: EntityWithId
   meta?: NFTMetadata
   metadata?: string
@@ -23,6 +23,7 @@ interface State {
   decimals: ComputedRef<number>
 }
 
+export const DEFAULT_FLOOR_PRICE_RATE = 1
 const localStorage = useLocalStorage<ListCartItem[]>('listingCart', [])
 export const useListingCartStore = defineStore('listingCart', {
   state: (): State => ({
@@ -54,25 +55,35 @@ export const useListingCartStore = defineStore('listingCart', {
         localStorage.value = this.items
       }
     },
+    setItemPrice({ id, price }: { id: ID; price: number }) {
+      const itemIndex = existInItemIndex(id, this.items)
+      if (itemIndex !== -1) {
+        this.items[itemIndex].listPrice = price
+        localStorage.value = this.items
+      }
+    },
     setUnlistedItem(payload: ListCartItem) {
       const itemIndex = existInItemIndex(payload.id, this.allUnlistedItems)
       if (itemIndex === -1) {
         this.allUnlistedItems.push(payload)
       }
     },
+    setUnlistedItems(payload: ListCartItem[]) {
+      this.allUnlistedItems = payload
+    },
     addAllToCart() {
       this.allUnlistedItems.forEach((item) => this.setItem(item))
     },
-    setFixedPrice(price: number | null) {
+    setFixedPrice(price: number) {
       this.itemsInChain.forEach((item) => {
         item.listPrice = price
       })
     },
-    setFloorPrice(rate = 1) {
+    setFloorPrice(rate = DEFAULT_FLOOR_PRICE_RATE) {
       this.itemsInChain.forEach((item) => {
         const floor = (Number(item.collection.floor) || 0) * +rate.toFixed(2)
         item.listPrice = Number(
-          (floor / Math.pow(10, this.decimals)).toFixed(4)
+          (floor / Math.pow(10, this.decimals)).toFixed(4),
         )
       })
     },
@@ -83,10 +94,14 @@ export const useListingCartStore = defineStore('listingCart', {
         localStorage.value = this.items
       }
     },
+    clearListedItems() {
+      localStorage.value = []
+      this.items = []
+    },
     clear() {
-      this.itemsInChain.forEach((item) => {
-        this.removeItem(item.id)
-      })
+      localStorage.value = []
+      this.items = []
+      this.allUnlistedItems = []
     },
   },
 })

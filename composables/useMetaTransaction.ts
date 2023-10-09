@@ -27,7 +27,7 @@ function useMetaTransaction() {
     cb: (...params: any[]) => Extrinsic,
     args: any[],
     onSuccess?: (blockNumber: string) => void,
-    onError?: () => void
+    onError?: () => void,
   ): Promise<void> => {
     try {
       tx.value = await exec(
@@ -35,7 +35,7 @@ function useMetaTransaction() {
         '',
         cb,
         args,
-        txCb(successCb(onSuccess), errorCb(onError), onResult)
+        txCb(successCb(onSuccess), errorCb(onError), onResult),
       )
     } catch (e) {
       onCatchError(e)
@@ -75,7 +75,7 @@ function useMetaTransaction() {
       if (isCancelled) {
         showNotification(
           $i18n.t('general.tx.cancelled'),
-          notificationTypes.warn
+          notificationTypes.warn,
         )
       } else {
         showNotification(e.toString(), notificationTypes.warn)
@@ -92,12 +92,12 @@ function useMetaTransaction() {
       const { docs, name, section } = decoded
       showNotification(
         `[ERR] ${section}.${name}: ${docs.join(' ')}`,
-        notificationTypes.warn
+        notificationTypes.warn,
       )
     } else {
       showNotification(
         `[ERR] ${dispatchError.toString()}`,
-        notificationTypes.warn
+        notificationTypes.warn,
       )
     }
 

@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import { getApproximatePriceOf } from '@/utils/coingecko'
-import format, { withoutDigitSeparator } from '@/utils/format/balance'
+import format, { roundTo } from '@/utils/format/balance'
 
 const { decimals, chainSymbol } = useChain()
 
@@ -42,17 +42,17 @@ const priceChain = ref('0')
 const priceUsd = ref('0')
 
 watchEffect(async () => {
-  const tokenPrice = await getApproximatePriceOf(chainSymbol.value)
-  const price = format(props.price || '0', decimals.value, '')
-
-  priceChain.value = `${price} ${chainSymbol.value}`
-  const clearPrice = Number(withoutDigitSeparator(price))
-  priceUsd.value = `${Math.round(clearPrice * tokenPrice)}`
+  if (props.price) {
+    const tokenPrice = await getApproximatePriceOf(chainSymbol.value)
+    const price = roundTo(format(props.price || '0', decimals.value, ''), 4)
+    priceChain.value = `${price} ${chainSymbol.value}`
+    priceUsd.value = `${Math.round(parseInt(price) * tokenPrice)}`
+  }
 })
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .gallery-action-section {
   justify-content: space-between;
@@ -60,6 +60,7 @@ watchEffect(async () => {
 
   .gallery-action-section-price-box {
     align-content: center;
+
     .gallery-action-section-price {
       margin-right: 1rem;
       font-size: 2rem;
@@ -70,9 +71,11 @@ watchEffect(async () => {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+
     .gallery-action-section-info {
       min-width: 10rem;
       text-align: left;
+
       .gallery-action-section-info-title {
         font-size: 0.8rem;
       }
@@ -81,11 +84,13 @@ watchEffect(async () => {
         flex-direction: column;
         align-content: flex-start;
         margin-bottom: 1rem;
+
         .gallery-action-section-price {
           margin-right: 0;
           font-size: 1.5rem;
           line-height: 1.5rem;
         }
+
         .gallery-action-section-price-sub {
           font-size: 0.8rem;
         }

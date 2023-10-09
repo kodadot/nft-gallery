@@ -6,8 +6,8 @@
       can-cancel />
     <BaseTokenForm
       ref="baseTokenForm"
+      v-model="base"
       :show-explainer-text="showExplainerText"
-      v-bind.sync="base"
       :collections="collections"
       :has-edition="false">
       <template #main>
@@ -35,7 +35,7 @@
           key="hasRoyalty"
           v-model="hasRoyalty"
           label="mint.listWithRoyalty" />
-        <RoyaltyForm v-if="hasRoyalty" key="royalty" v-bind.sync="royalty" />
+        <RoyaltyForm v-if="hasRoyalty" key="royalty" v-model="royalty" />
       </template>
       <template #footer>
         <NeoField key="advanced">
@@ -101,22 +101,16 @@ import { NeoField } from '@kodadot1/brick'
 import type TokenBalanceInputComponent from '@/components/bsx/input/TokenBalanceInput.vue'
 import type BaseTokenFormComponent from '@/components/base/BaseTokenForm.vue'
 
-const { $i18n, $apollo, $consola, $router } = useNuxtApp()
-
-const CustomAttributeInput = () =>
-  import('@/components/rmrk/Create/CustomAttributeInput.vue')
-const CollapseWrapper = () =>
-  import('@/components/shared/collapse/CollapseWrapper.vue')
-const Loader = () => import('@/components/shared/Loader.vue')
-const BasicSwitch = () => import('@/components/shared/form/BasicSwitch.vue')
-const RoyaltyForm = () => import('@/components/bsx/Create/RoyaltyForm.vue')
-const Money = () => import('@/components/bsx/format/TokenMoney.vue')
-const SubmitButton = () => import('@/components/base/SubmitButton.vue')
-const AccountBalance = () => import('@/components/shared/AccountBalance.vue')
-const MultiPaymentFeeButton = () =>
-  import('@/components/bsx/specific/MultiPaymentFeeButton.vue')
-const TokenBalanceInput = () =>
-  import('@/components/bsx/input/TokenBalanceInput.vue')
+import CustomAttributeInput from '@/components/rmrk/Create/CustomAttributeInput.vue'
+import CollapseWrapper from '@/components/shared/collapse/CollapseWrapper.vue'
+import Loader from '@/components/shared/Loader.vue'
+import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
+import RoyaltyForm from '@/components/bsx/Create/RoyaltyForm.vue'
+import Money from '@/components/bsx/format/TokenMoney.vue'
+import SubmitButton from '@/components/base/SubmitButton.vue'
+import AccountBalance from '@/components/shared/AccountBalance.vue'
+import MultiPaymentFeeButton from '@/components/bsx/specific/MultiPaymentFeeButton.vue'
+import TokenBalanceInput from '@/components/bsx/input/TokenBalanceInput.vue'
 
 withDefaults(
   defineProps<{
@@ -124,11 +118,13 @@ withDefaults(
   }>(),
   {
     showExplainerText: false,
-  }
+  },
 )
 
+const { $i18n, $consola } = useNuxtApp()
+const router = useRouter()
 const { apiUrl } = useApi()
-const { urlPrefix, tokenId } = usePrefix()
+const { client, urlPrefix, tokenId } = usePrefix()
 const { accountId } = useAuth()
 const {
   status: transactionStatus,
@@ -175,7 +171,7 @@ watch(price, (value) => {
 
 const balanceOfToken = computed(() => getBalance(feesToken.value))
 const depositOfToken = computed(() =>
-  getDeposit(feesToken.value, parseFloat(deposit.value))
+  getDeposit(feesToken.value, parseFloat(deposit.value)),
 )
 const balanceNotEnoughMessage = computed(() => {
   if (balanceNotEnough.value) {
@@ -201,18 +197,14 @@ const loadCollectionMeta = async () => {
 
 const fetchCollections = async () => {
   const query = await resolveQueryPath(urlPrefix.value, 'collectionForMint')
-  const newCollections = await $apollo.query({
+  const { data: newCollections } = await useAsyncQuery({
     query: query.default,
-    client: urlPrefix.value,
     variables: {
       account: accountId.value,
     },
-    fetchPolicy: 'network-only',
+    clientId: client.value,
   })
-
-  const {
-    data: { collectionEntities },
-  } = newCollections
+  const { collectionEntities } = newCollections.value
 
   const initialMeta: Partial<CollectionMetadata> = {
     description: undefined,
@@ -241,10 +233,10 @@ const checkValidity = () => {
 
 const navigateToDetail = (collection: string, id: string): void => {
   showNotification(
-    `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`
+    `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`,
   )
   const go = () =>
-    $router.push({
+    router.push({
       path: `/${urlPrefix.value}/gallery/${createTokenId(collection, id)}`,
       query: { congratsNft: base.value.name },
     })
@@ -325,6 +317,6 @@ watch(
       feesToken.value = await getFeesToken()
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 </script>

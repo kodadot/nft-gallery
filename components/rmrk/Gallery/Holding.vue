@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Interaction, NftEvents } from '../service/scheme'
+import { Interaction } from '../service/scheme'
 import allNftSaleEventsByAccountId from '@/queries/rmrk/subsquid/allNftSaleEventsByAccountId.graphql'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { sortedEventByDate } from '@/utils/sorting'
@@ -24,17 +24,10 @@ const props = defineProps({
 
 const ownerEventsOfNft = ref<Interaction[] | []>([])
 
-const { $apollo } = useNuxtApp()
-const { client } = usePrefix()
-
 const { refresh } = useLazyAsyncData('ownerEventsOfNft', async () => {
   try {
-    const { data } = await $apollo.query<NftEvents>({
-      query: allNftSaleEventsByAccountId,
-      client: client.value,
-      variables: {
-        id: props.accountId,
-      },
+    const { data } = await useAsyncQuery(allNftSaleEventsByAccountId, {
+      id: props.accountId,
     })
     if (data && data.nftEntities && data.nftEntities.length) {
       const events: NftHolderEvent[] = []
@@ -60,6 +53,6 @@ watch(
   () => props.accountId,
   () => {
     refresh()
-  }
+  },
 )
 </script>

@@ -1,7 +1,7 @@
 <template>
   <header v-if="isMobile" class="modal-card-head">
     <div class="modal-card-title" @click.stop="emit('close')">
-      <NeoIcon icon="chevron-left" pack="fas" />
+      <NeoIcon icon="chevron-left" />
       {{ title }}
     </div>
   </header>
@@ -16,14 +16,14 @@
       variant="text"
       no-shadow
       icon="xmark"
-      icon-pack="fa-sharp"
       size="medium"
-      @click.native="emit('close')" />
+      @click="emit('close')" />
   </header>
 </template>
 
 <script lang="ts" setup>
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+
 defineProps<{
   title: string
 }>()

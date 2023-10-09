@@ -1,9 +1,8 @@
 <template>
   <div class="drop-card border card-border-color">
     <component
-      :is="externalUrl ? 'a' : 'nuxt-link'"
+      :is="externalUrl ? 'a' : NuxtLink"
       v-if="drop.collection && !isLoadingMeta"
-      v-safe-href="externalUrl"
       rel="nofollow noopener noreferrer"
       :to="`/${correctUrlPrefix}/drops/${drop.alias}`">
       <div
@@ -82,7 +81,10 @@ import Money from '@/components/shared/format/Money.vue'
 import type { Metadata } from '@/components/rmrk/service/scheme'
 import TimeTag from './TimeTag.vue'
 import { Drop } from './useDrops'
-import { Prefix } from '~~/libs/static/dist'
+import { Prefix } from '@kodadot1/static'
+import { resolveComponent } from 'vue'
+
+const NuxtLink = resolveComponent('NuxtLink')
 
 const { urlPrefix } = usePrefix()
 const isLoadingMeta = ref(false)
@@ -95,14 +97,10 @@ interface Props {
 
 const props = defineProps<Props>()
 const image = ref('')
-const externalUrl = ref('')
+const externalUrl = ref()
 
 const correctUrlPrefix = computed(() => {
   return props.overrideUrlPrefix || urlPrefix.value
-})
-
-const correctDropUrl = computed(() => {
-  return props.dropUrl || 'free-drop'
 })
 
 const isFreeDrop = computed(() => {
@@ -116,17 +114,17 @@ onMounted(async () => {
 
   isLoadingMeta.value = true
   const metadata = (await processSingleMetadata(
-    props.drop.collection.metadata
+    props.drop.collection.metadata,
   )) as Metadata
   image.value = sanitizeIpfsUrl(
-    metadata.image || metadata.thumbnailUri || metadata.mediaUri || ''
+    metadata.image || metadata.thumbnailUri || metadata.mediaUri || '',
   )
   externalUrl.value = metadata.external_url || ''
   isLoadingMeta.value = false
 })
 </script>
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .flex-direction {
   @include until(560) {

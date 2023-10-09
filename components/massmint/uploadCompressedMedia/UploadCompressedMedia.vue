@@ -8,7 +8,6 @@
           icon="circle-check"
           variant="success"
           class="ml-3" />
-        <div v-else class="icon-placeholder ml-3" />
       </div>
       <template #content>
         <DragDrop
@@ -47,7 +46,7 @@ withDefaults(
   }>(),
   {
     disabled: false,
-  }
+  },
 )
 
 const loading = ref(false)
@@ -84,7 +83,7 @@ const onFileSelected = (file) => {
 
             showNotification(
               `${fileNames}  ${warnings.value.length} files were not uploaded`,
-              notificationTypes.warn
+              notificationTypes.warn,
             )
           }
           showCheckmark.value = true
@@ -104,8 +103,3 @@ const onFileSelected = (file) => {
   }
 }
 </script>
-<style lang="scss" scoped>
-.icon-placeholder {
-  width: 1rem;
-}
-</style>

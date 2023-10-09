@@ -6,7 +6,7 @@ function format(
   balance: number | string | BN | bigint,
   decimals = 12,
   withUnit?: boolean | string,
-  withSi?: boolean
+  withSi?: boolean,
 ) {
   try {
     const fixedBalance =
@@ -82,7 +82,7 @@ export function roundTo(value: number | string, limit = 2) {
 export const formatBalanceEmptyOnZero = (
   amount: string,
   decimals?: number,
-  symbol?: string
+  symbol?: string,
 ) => {
   return amount === '0'
     ? ''
@@ -92,7 +92,7 @@ export const formatBalanceEmptyOnZero = (
 export const formatBsxBalanceEmptyOnZero = (
   amount: string,
   decimals?: number,
-  symbol?: string
+  symbol?: string,
 ): string => {
   if (amount === '0' || amount == undefined) {
     return ''

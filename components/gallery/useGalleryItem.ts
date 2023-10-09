@@ -5,7 +5,7 @@ import { NftResources, getNftMetadata } from '@/composables/useNft'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import type { NFTWithMetadata } from '@/composables/useNft'
-import { Ref } from '@nuxt/bridge/dist/runtime/composables'
+import type { Ref } from 'vue'
 
 interface NFTData {
   nftEntity?: NFTWithMetadata
@@ -67,9 +67,6 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     queryPrefix: queryPath[urlPrefix.value],
     variables: {
       id,
-    },
-    options: {
-      fetchPolicy: 'network-only',
     },
   })
 

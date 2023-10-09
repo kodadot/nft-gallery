@@ -1,5 +1,5 @@
 <template>
-  <NeoModal v-model="isModalActive" scroll="clip" @close="onClose">
+  <NeoModal :value="isModalActive" scroll="clip" @close="onClose">
     <div class="modal-width">
       <div
         class="border-bottom border-grey is-flex is-align-items-center is-justify-content-space-between px-6">
@@ -11,17 +11,31 @@
           variant="text"
           no-shadow
           icon="xmark"
-          icon-pack="fa-sharp"
           size="medium"
           class="cross"
-          @click.native="onClose" />
+          @click="onClose" />
       </div>
       <div class="px-6 py-3">
+        <div class="mb-4 is-flex">
+          <NeoCheckbox
+            v-model="agreeTos"
+            class="is-align-self-flex-start pt-1" />
+          <div>
+            {{ $t('fiatOnRamp.agree') }}
+            <a
+              href="/terms-of-use"
+              target="_blank"
+              rel="nofollow noopener noreferrer"
+              class="has-text-link"
+              >{{ $t('fiatOnRamp.tos') }}</a
+            >
+          </div>
+        </div>
         <div v-for="(provider, index) in providers" :key="provider.value">
           <div
             class="provider is-clickable is-flex is-justify-content-center is-align-items-start is-flex-direction-column my-4"
             :class="{
-              provider__disabled: provider.disabled,
+              provider__disabled: provider.disabled || !agreeTos,
             }"
             @click="onSelect(provider.value)">
             <div class="is-flex is-justify-content-center">
@@ -54,12 +68,11 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoModal } from '@kodadot1/brick'
+import { NeoButton, NeoCheckbox, NeoModal } from '@kodadot1/brick'
 import { showNotification } from '@/utils/notification'
 
 enum Provider {
   TRANSAK,
-  PAYBIS,
   RAMP,
 }
 
@@ -72,8 +85,11 @@ const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
 
 const isModalActive = useVModel(props, 'value')
+const agreeTos = ref<boolean>(false)
 
 const { init: initTransak } = useTransak()
+const { init: initRamp } = useRamp()
+
 const { isDarkMode } = useTheme()
 
 const getImage = (service: string) => {
@@ -94,15 +110,9 @@ const providers = computed(() => [
   },
   {
     image: getImage('ramp'),
-    disabled: true,
+    disabled: false,
     supports: ['DOT', 'KSM'],
     value: Provider.RAMP,
-  },
-  {
-    image: getImage('paybis'),
-    disabled: true,
-    supports: ['DOT'],
-    value: Provider.PAYBIS,
   },
 ])
 
@@ -113,29 +123,44 @@ const onClose = () => {
 const onSelect = (provider: Provider) => {
   const selectedProvider = providers.value.find((p) => p.value === provider)
 
-  if (selectedProvider?.disabled) {
+  if (selectedProvider?.disabled || !agreeTos.value) {
     return
   }
 
   onClose()
 
-  if (selectedProvider?.value === Provider.TRANSAK) {
-    transakInit()
+  switch (selectedProvider?.value) {
+    case Provider.TRANSAK:
+      transakInit()
+      break
+    case Provider.RAMP:
+      rampInit()
+    default:
+      break
   }
+}
+
+const rampInit = () => {
+  initRamp({
+    address: accountId.value,
+    onSuccess,
+  })
 }
 
 const transakInit = () => {
   initTransak({
     address: accountId.value,
-    onSuccess: () => {
-      showNotification($i18n.t('general.successfullyAddedFunds'))
-    },
+    onSuccess,
   })
+}
+
+const onSuccess = () => {
+  showNotification($i18n.t('general.successfullyAddedFunds'))
 }
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .provider {
   .provider-logo {

@@ -1,5 +1,5 @@
 <template>
-  <div class="media-object" style="height: 100%">
+  <div class="media-object" style="height: fit-content">
     <component
       :is="resolveComponent"
       :src="properSrc"
@@ -8,7 +8,10 @@
       :placeholder="placeholder"
       :original="original"
       :is-lewd="isLewd"
-      :is-detail="isDetail" />
+      :is-detail="isDetail"
+      :disable-operation="disableOperation"
+      :player-cover="audioPlayerCover"
+      :hover-on-cover-play="audioHoverOnCoverPlay" />
     <div
       v-if="isLewd && isLewdBlurredLayer"
       class="nsfw-blur is-capitalized is-flex is-align-items-center is-justify-content-center is-flex-direction-column">
@@ -29,7 +32,7 @@
       :label="
         isLewdBlurredLayer ? $t('lewd.showContent') : $t('lewd.hideContent')
       "
-      @click.native="toggleContent" />
+      @click="toggleContent" />
   </div>
 </template>
 
@@ -56,6 +59,9 @@ const props = withDefaults(
     isLewd?: boolean
     isDetail?: boolean
     placeholder?: string
+    disableOperation?: boolean
+    audioPlayerCover?: string
+    audioHoverOnCoverPlay?: boolean
   }>(),
   {
     src: '',
@@ -66,7 +72,8 @@ const props = withDefaults(
     isLewd: false,
     isDetail: false,
     placeholder: '',
-  }
+    disableOperation: undefined,
+  },
 )
 // props.mimeType may be empty string "". Add `image/png` as fallback
 const mimeType = ref(!!props.mimeType ? props.mimeType : 'image/png')
@@ -98,7 +105,7 @@ watch(
   () => updateComponent(),
   {
     immediate: true,
-  }
+  },
 )
 
 const toggleContent = () => {
@@ -109,7 +116,7 @@ defineExpose({ isLewdBlurredLayer })
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .media-object {
   .nsfw-blur {
     backdrop-filter: blur(60px);

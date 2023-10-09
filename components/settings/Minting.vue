@@ -4,25 +4,22 @@
       {{ $t('Minting Settings') }}
     </div>
     <div class="py-2 is-flex">
-      <Support v-model="hasSupport" :show-price="false" />
-      <NeoTooltip
-        :label="$i18n.t('support.tooltip')"
-        position="bottom"
-        multiline>
-        <NeoIcon icon="info-circle" pack="fas" />
+      <Support :value="hasSupport" :show-price="false" />
+      <NeoTooltip :label="$t('support.tooltip')" position="bottom" multiline>
+        <NeoIcon icon="info-circle" />
       </NeoTooltip>
     </div>
     <div class="py-2 is-flex">
       <Support
-        v-model="hasCarbonOffset"
+        :value="hasCarbonOffset"
         :price="1"
         :active-message="$t('carbonOffset.carbonOffsetYes')"
         :passive-message="$t('carbonOffset.carbonOffsetNo')" />
       <NeoTooltip
-        :label="$i18n.t('carbonOffset.tooltip')"
+        :label="$t('carbonOffset.tooltip')"
         position="bottom"
         multiline>
-        <NeoIcon icon="info-circle" pack="fas" />
+        <NeoIcon icon="info-circle" />
       </NeoTooltip>
     </div>
   </div>

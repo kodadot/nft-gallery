@@ -3,10 +3,10 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { logError } from '@/utils/mappers'
 import { getMimeType } from '@/utils/gallery/media'
 
-export const BASE_URL = 'https://ipfs.io/'
+export const IPFS_BASE_URL = 'https://ipfs.io/'
 
 const api = $fetch.create({
-  baseURL: BASE_URL,
+  baseURL: IPFS_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -14,7 +14,7 @@ const api = $fetch.create({
 })
 
 export const fetchMimeType = async (
-  ipfsLink?: string
+  ipfsLink?: string,
 ): Promise<string | undefined> => {
   if (!ipfsLink) {
     return undefined
@@ -27,11 +27,13 @@ export const fetchMimeType = async (
   } catch (e: any) {
     logError(e, (msg) => {
       console.warn(
-        `[MIME TYPE] Unable to access type of ${assetUrl}\n\nReason ${msg}`
+        `[MIME TYPE] Unable to access type of ${assetUrl}\n\nReason ${msg}`,
       )
     })
     return undefined
   }
 }
+
+export const delay = (ms) => new Promise((res) => setTimeout(res, ms))
 
 export default api

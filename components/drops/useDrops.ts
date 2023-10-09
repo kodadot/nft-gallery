@@ -1,5 +1,6 @@
 import { CollectionWithMeta } from '../rmrk/service/scheme'
 import { getDropById, getDrops } from '@/services/waifu'
+import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 
 export interface Drop {
   collection: CollectionWithMeta
@@ -20,13 +21,11 @@ export function useDrops() {
     const dropsList = await getDrops()
 
     dropsList.forEach((drop) => {
-      const { data: collectionData } = useGraphql({
-        queryName: 'unlockableCollectionById',
-        clientName: drop.chain,
-        variables: {
-          id: drop.collection,
-        },
-      })
+      const { result: collectionData } = useQuery(
+        unlockableCollectionById,
+        { id: drop.collection },
+        { clientId: drop.chain },
+      )
 
       watch(collectionData, () => {
         if (collectionData.value?.collectionEntity) {
@@ -50,7 +49,6 @@ export function useDrops() {
 }
 
 export async function useDrop(id: string) {
-  const drops = ref<Drop[]>([])
   const drop = await getDropById(id)
 
   return drop

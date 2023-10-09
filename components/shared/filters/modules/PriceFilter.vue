@@ -61,7 +61,7 @@
           no-shadow
           variant="k-accent"
           expanded
-          @click.native="apply">
+          @click="apply">
           {{ $t('general.apply') }}
         </NeoButton>
       </div>
@@ -88,7 +88,7 @@ const props = withDefaults(
     expanded: false,
     dataModel: 'query',
     fluidPadding: false,
-  }
+  },
 )
 
 const route = useRoute()
@@ -141,7 +141,7 @@ const applyToQuery = () => {
 }
 const isValidFilter = (
   min: number | string | undefined,
-  max: number | string | undefined
+  max: number | string | undefined,
 ): boolean => {
   const minValue = typeof min === 'string' ? min.trim() : min
   const maxValue = typeof max === 'string' ? max.trim() : max
@@ -157,7 +157,7 @@ const toggleInputFocused = (): void => {
 </script>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .input-container {
   @include ktheme() {
@@ -165,13 +165,11 @@ const toggleInputFocused = (): void => {
   }
 
   .input-sidebar {
-    input {
+    border: none !important;
+    height: 2.5rem;
+    &:focus {
       border: none !important;
-      height: 2.5rem;
-      &:focus {
-        border: none !important;
-        box-shadow: none !important;
-      }
+      box-shadow: none !important;
     }
   }
 }

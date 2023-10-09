@@ -13,7 +13,7 @@
               :src="collectionAvatar"
               class="object-fit-cover"
               :alt="collectionName" />
-            <img v-else :src="placeholder" />
+            <img v-else :src="placeholder" alt="image placeholder" />
           </div>
           <h1 class="collection-banner-name">{{ collectionName }}</h1>
         </div>
@@ -31,9 +31,8 @@ import HeroButtons from '@/components/collection/HeroButtons.vue'
 import { generateCollectionImage } from '@/utils/seoImageGenerator'
 import { convertMarkdownToText } from '@/utils/markdown'
 
-const { $seoMeta } = useNuxtApp()
-const { placeholder } = useTheme()
 const route = useRoute()
+const { placeholder } = useTheme()
 const { data } = useGraphql({
   queryName: 'collectionById',
   variables: {
@@ -45,7 +44,7 @@ const collectionAvatar = ref('')
 const collectionName = ref('--')
 
 const bannerImageUrl = computed(
-  () => collectionAvatar.value && toOriginalContentUrl(collectionAvatar.value)
+  () => collectionAvatar.value && toOriginalContentUrl(collectionAvatar.value),
 )
 
 watchEffect(async () => {
@@ -72,29 +71,31 @@ watchEffect(async () => {
   }
 })
 
-const meta = computed(() => {
-  return $seoMeta({
-    title: collectionName.value,
-    type: 'profile',
-    description: convertMarkdownToText(
-      data.value?.collectionEntity.meta?.description
-    ),
-    url: route.path,
-    image: generateCollectionImage(
+useSeoMeta({
+  title: collectionName,
+  description: () =>
+    convertMarkdownToText(data.value?.collectionEntity.meta?.description),
+  ogUrl: route.path,
+  ogTitle: collectionName,
+  ogDescription: () =>
+    convertMarkdownToText(data.value?.collectionEntity.meta?.description),
+  ogImage: () =>
+    generateCollectionImage(
       collectionName.value,
       data.value?.nftEntitiesConnection.totalCount,
-      collectionAvatar.value
+      collectionAvatar.value,
     ),
-  })
-})
-useNuxt2Meta({
-  title: collectionName,
-  meta,
+  twitterImage: () =>
+    generateCollectionImage(
+      collectionName.value,
+      data.value?.nftEntitiesConnection.totalCount,
+      collectionAvatar.value,
+    ),
 })
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .collection-banner {
   background-repeat: no-repeat;
@@ -152,10 +153,15 @@ useNuxt2Meta({
 
     @include ktheme() {
       color: theme('text-color-inverse');
-      text-shadow: 1px 1px 0 theme('text-color'), 1px -1px 0 theme('text-color'),
-        -1px 1px 0 theme('text-color'), -1px -1px 0 theme('text-color'),
-        1px 0px 0 theme('text-color'), 0px 1px 0 theme('text-color'),
-        -1px 0px 0 theme('text-color'), 0px -1px 0 theme('text-color'),
+      text-shadow:
+        1px 1px 0 theme('text-color'),
+        1px -1px 0 theme('text-color'),
+        -1px 1px 0 theme('text-color'),
+        -1px -1px 0 theme('text-color'),
+        1px 0px 0 theme('text-color'),
+        0px 1px 0 theme('text-color'),
+        -1px 0px 0 theme('text-color'),
+        0px -1px 0 theme('text-color'),
         4px 4px theme('text-color');
     }
   }

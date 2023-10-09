@@ -11,7 +11,7 @@
         role="button"
         :class="{ 'active-collpase': props.open }">
         <p
-          class="card-header-title is-flex is-justify-content-center is-align-items-center is-flex-grow-1">
+          class="card-header-title is-flex is-justify-content-center is-align-items-center is-flex-grow-1 px-7">
           <slot />
         </p>
         <a
@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-import { OCollapse, OIcon } from '@oruga-ui/oruga'
+import { OCollapse, OIcon } from '@oruga-ui/oruga-next'
 defineProps<{
   disabled?: boolean
 }>()

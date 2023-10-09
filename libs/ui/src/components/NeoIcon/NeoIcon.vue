@@ -1,6 +1,6 @@
 <template>
   <o-icon
-    :pack="pack || 'fas'"
+    :pack="pack || 'fasr'"
     :icon="icon"
     :size="size || 'default'"
     :custom-size="customSize"
@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import { OIcon } from '@oruga-ui/oruga'
+import { OIcon } from '@oruga-ui/oruga-next'
 
 defineProps<{
   size?: 'small' | 'medium' | 'large'

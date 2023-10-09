@@ -2,7 +2,6 @@ import referendumVoteByAccount from '@/queries/referendumVoteByAccount.graphql'
 import { getss58AddressByPrefix } from '@/utils/account'
 
 export const useCheckReferenDumVote = () => {
-  const { $apollo } = useNuxtApp()
   const { accountId } = useAuth()
   const isEligibleUser = ref(false)
 
@@ -17,17 +16,15 @@ export const useCheckReferenDumVote = () => {
     if (!accountId.value) {
       isEligibleUser.value = false
     }
-    const {
-      data: { votes },
-    } = await $apollo.query({
+    const { data } = await useAsyncQuery({
       query: referendumVoteByAccount,
-      client: 'polkassembly',
       variables: {
         account: getss58AddressByPrefix(accountId.value, 'dot'),
       },
+      clientId: 'polkassembly',
     })
 
-    if (votes.length > 0) {
+    if (data.value.votes.length > 0) {
       isEligibleUser.value = true
     }
   }

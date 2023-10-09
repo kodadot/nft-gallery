@@ -19,7 +19,8 @@ export const notificationTypes = {
 
 export const showNotification = (
   message: string | null,
-  params: any = notificationTypes.info
+  params: any = notificationTypes.info,
+  duration = 10000,
 ): void => {
   if (params === notificationTypes.danger) {
     consola.error('[Notification Error]', message)
@@ -28,7 +29,7 @@ export const showNotification = (
 
   Notif.open({
     message,
-    duration: 10000,
+    duration,
     closable: true,
     ...params,
   })

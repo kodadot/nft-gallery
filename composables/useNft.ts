@@ -2,8 +2,10 @@ import type { NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import type { BaseNFTMeta } from '@/components/base/types'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
-import { getMimeType } from '@/utils/gallery/media'
+import { getMimeType, isAudio as isAudioMimeType } from '@/utils/gallery/media'
 import unionBy from 'lodash/unionBy'
+import type { Ref } from 'vue'
+
 export type NftResources = {
   id: string
   src?: string
@@ -25,6 +27,20 @@ export type ItemResources = {
 export type NFTWithMetadata = NFT &
   NFTMetadata & { meta: BaseNFTMeta } & ItemResources
 
+function getAttributes(nft, metadata) {
+  const hasMetadataAttributes =
+    metadata.attributes && metadata.attributes.length > 0
+  const attr = unionBy(
+    nft?.attributes?.concat(...(nft?.meta?.attributes || [])),
+    (item) => item.trait_type || item.key,
+  )
+  const hasEmptyNftAttributes = attr.length === 0
+
+  return hasMetadataAttributes && hasEmptyNftAttributes
+    ? metadata.attributes
+    : attr
+}
+
 function getGeneralMetadata(nft: NFTWithMetadata) {
   return {
     ...nft,
@@ -32,15 +48,48 @@ function getGeneralMetadata(nft: NFTWithMetadata) {
     description: nft.description || nft.meta.description || '',
     image: sanitizeIpfsUrl(nft.meta.image),
     animationUrl: sanitizeIpfsUrl(
-      nft.meta.animation_url || nft.meta.animationUrl || ''
+      nft.meta.animation_url || nft.meta.animationUrl || '',
     ),
     type: nft.meta.type || '',
+    attributes: getAttributes(nft, nft.meta),
+  }
+}
+
+export async function useNftCardIcon(nft: Ref<NFTWithMetadata>) {
+  const { isAudio } = await useNftMimeType(nft)
+  const { unlockableIcon } = useUnlockableIcon()
+
+  const showCardIcon = computed(() => isAudio)
+
+  const cardIcon = computed(() => {
+    if (isAudio) {
+      return '/sound.svg'
+    }
+    return unlockableIcon.value
+  })
+
+  return { showCardIcon, cardIcon }
+}
+
+export async function useNftMimeType(nft?: Ref<NFTWithMetadata>) {
+  if (!nft?.value.meta?.animationUrl) {
+    return {
+      isAudio: false,
+    }
+  }
+
+  const mimeType = await getMimeType(
+    sanitizeIpfsUrl(nft.value.meta.animationUrl),
+  )
+
+  return {
+    isAudio: isAudioMimeType(mimeType),
   }
 }
 
 async function getRmrk2Resources(nft: NFTWithMetadata) {
-  const thumb = nft.resources && nft.resources[0].thumb
-  const src = nft.resources && nft.resources[0].src
+  const thumb = nft.resources?.[0]?.thumb
+  const src = nft.resources?.[0]?.src
   const image = sanitizeIpfsUrl(thumb || src || '')
   const type = await getMimeType(image)
 
@@ -52,24 +101,9 @@ async function getRmrk2Resources(nft: NFTWithMetadata) {
 }
 
 async function getProcessMetadata(nft: NFTWithMetadata) {
-  const metadata = (await processSingleMetadata(
-    nft.metadata
-  )) as NFTWithMetadata
+  const metadata = await processSingleMetadata<NFTWithMetadata>(nft.metadata)
   const image = sanitizeIpfsUrl(metadata.image || metadata.mediaUri || '')
   const animationUrl = sanitizeIpfsUrl(metadata.animation_url || '')
-  const getAttributes = () => {
-    const hasMetadataAttributes =
-      metadata.attributes && metadata.attributes.length > 0
-    const attr = unionBy(
-      nft?.attributes?.concat(...(nft?.meta?.attributes || [])),
-      (item) => item.trait_type || item.key
-    )
-    const hasEmptyNftAttributes = attr.length === 0
-
-    return hasMetadataAttributes && hasEmptyNftAttributes
-      ? metadata.attributes
-      : attr
-  }
 
   return {
     ...nft,
@@ -78,17 +112,13 @@ async function getProcessMetadata(nft: NFTWithMetadata) {
     image,
     animationUrl,
     type: metadata.type || '',
-    attributes: getAttributes(),
+    attributes: getAttributes(nft, metadata),
   }
 }
 
 export function getNftMetadata(nft: NFTWithMetadata, prefix: string) {
   // if subsquid already give us the metadata, we don't need to fetch it again
-  if (prefix === 'ahk' || prefix === 'ahp') {
-    return getProcessMetadata(nft)
-  }
-
-  if (nft.meta && nft.meta.image) {
+  if (nft.meta?.image) {
     return getGeneralMetadata(nft)
   }
 

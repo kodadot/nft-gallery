@@ -8,18 +8,17 @@
         @error="hasError = true" />
     </div>
     <div class="field">
-      <NeoField class="file is-primary">
+      <NeoField class="file is-primary" :addons="false">
         <NeoUpload
           ref="upload"
           v-model="file"
           :required="required"
           drag-drop
           :expanded="expanded"
-          :accept="accept"
-          @input="createInput">
+          :accept="accept">
           <section class="section">
             <div class="content has-text-centered">
-              <NeoIcon v-if="!file && !url" :icon="icon" size="large" />
+              <NeoIcon v-if="!file && !url" :icon="icon" custom-size="fa-2x" />
               <div v-if="url && !isModelMedia" @click.prevent>
                 <MediaResolver
                   :src="url"
@@ -27,7 +26,7 @@
                   :preview="false"
                   @error="hasError = true" />
               </div>
-              <NeoIcon v-if="hasError" icon="eye-slash" size="large" />
+              <NeoIcon v-if="hasError" icon="eye-slash" custom-size="fa-2x" />
               <p v-if="!file">
                 {{ label }}
               </p>
@@ -75,7 +74,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['input'])
+const emit = defineEmits(['update:modelValue'])
 
 const file = ref<File | null>(null)
 const fileSizeLimit = ref(MAX_UPLOADED_FILE_SIZE)
@@ -127,13 +126,19 @@ const createInput = (inputFile: Blob): void | boolean => {
   fileSizeFailed.value = false
   checkFailed.value = false
   const reader = new FileReader()
-  emit('input', inputFile)
+  emit('update:modelValue', inputFile)
   if (props.preview) {
     url.value = URL.createObjectURL(inputFile)
     hasError.value = false
   }
   reader.readAsText(inputFile)
 }
+
+watch(file, () => {
+  if (file.value) {
+    createInput(file.value)
+  }
+})
 
 useEventListener(window, 'paste', onPasteImage)
 

@@ -23,7 +23,7 @@ import CreateDropGallery from './CreateDropGallery.vue'
 import { NeoButton } from '@kodadot1/brick'
 </script>
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .drop-card {
   width: 350px;
   height: 141px;
