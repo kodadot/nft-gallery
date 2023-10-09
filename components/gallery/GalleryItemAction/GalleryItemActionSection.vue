@@ -42,10 +42,12 @@ const priceChain = ref('0')
 const priceUsd = ref('0')
 
 watchEffect(async () => {
-  const tokenPrice = await getApproximatePriceOf(chainSymbol.value)
-  const price = roundTo(format(props.price || '0', decimals.value, ''), 4)
-  priceChain.value = `${price} ${chainSymbol.value}`
-  priceUsd.value = `${Math.round(parseInt(price) * tokenPrice)}`
+  if (props.price) {
+    const tokenPrice = await getApproximatePriceOf(chainSymbol.value)
+    const price = roundTo(format(props.price || '0', decimals.value, ''), 4)
+    priceChain.value = `${price} ${chainSymbol.value}`
+    priceUsd.value = `${Math.round(parseInt(price) * tokenPrice)}`
+  }
 })
 </script>
 
