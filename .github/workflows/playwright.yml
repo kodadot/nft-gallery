@@ -24,7 +24,7 @@ jobs:
       run: pnpm exec playwright install --with-deps chromium
 
     - name: Run Playwright tests
-      run: pnpm exec playwright test simple.spec.ts
+      run: pnpm exec playwright test
     - uses: actions/upload-artifact@v3
       if: always()
       with:
