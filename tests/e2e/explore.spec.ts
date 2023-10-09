@@ -62,10 +62,6 @@ const testItems = async (page) => {
     btnApply.click(),
   ])
 
-  await page.waitForResponse(
-    (resp) => resp.url().includes('image') && resp.ok(),
-  )
-
   const exploreSort = await page.getByTestId('explore-sort-dropdown').nth(1)
   await exploreSort.click()
   await page.getByTestId('price_ASC').nth(1).click()
@@ -76,6 +72,11 @@ const testItems = async (page) => {
   //active and deactive buy now, since its buggy
   await page.getByTestId('filter-checkbox-buynow').nth(1).click()
   await page.getByTestId('filter-checkbox-buynow').nth(1).click()
+
+  await page.waitForResponse(
+    (resp) => resp.url().includes('image') && resp.status() === 200,
+  )
+  await page.waitForLoadState()
 
   await expect(page.getByTestId('card-money').first()).toBeVisible({
     timeout: 10000,
