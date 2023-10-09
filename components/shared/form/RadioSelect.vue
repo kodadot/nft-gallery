@@ -5,21 +5,19 @@
     :class="{ 'columns is-multiline is-mobile': separated || multiline }">
     <NeoRadioButton
       v-if="showEmpty"
-      :value="value"
+      v-model="vValue"
       native-value=""
-      :class="{ 'column is-half': separated, column: multiline }"
-      :rounded="rounded"
-      @input="handleInput">
+      :class="cssClass"
+      :rounded="rounded">
       <span><b>NONE 🚫</b></span>
     </NeoRadioButton>
     <NeoRadioButton
       v-for="option in options"
       :key="option"
-      :value="value"
+      v-model="vValue"
       :native-value="option"
-      :class="{ 'column is-half': separated, column: multiline }"
-      :rounded="rounded"
-      @input="handleInput">
+      :class="cssClass"
+      :rounded="rounded">
       <span>{{ option }}</span>
     </NeoRadioButton>
   </component>
@@ -28,10 +26,8 @@
 <script setup lang="ts">
 import { NeoRadioButton } from '@kodadot1/brick'
 
-const emit = defineEmits(['input'])
-
-defineProps<{
-  value: string
+const props = defineProps<{
+  modelValue: string
   options: string[]
   showEmpty?: boolean
   separated?: boolean
@@ -39,7 +35,11 @@ defineProps<{
   rounded?: boolean
 }>()
 
-const handleInput = (value: string) => {
-  emit('input', value)
+const emit = defineEmits(['update:modelValue'])
+const vValue = useVModel(props, 'modelValue', emit)
+
+const cssClass = {
+  'column is-half': props.separated,
+  column: props.multiline,
 }
 </script>

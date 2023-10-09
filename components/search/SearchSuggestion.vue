@@ -664,4 +664,9 @@ watch(
     resetSelectedIndex()
   },
 )
+
+// expose functions to parent component
+defineExpose({
+  insertNewHistory,
+})
 </script>

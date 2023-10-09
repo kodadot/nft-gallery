@@ -7,7 +7,6 @@
 </template>
 
 <script lang="ts" setup>
-import Items from '@/components/items/Items.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 
 definePageMeta({

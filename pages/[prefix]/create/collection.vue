@@ -2,37 +2,18 @@
   <CreateCollection />
 </template>
 
-<script lang="ts">
-import CreateCollection from '@/components/create/CreateCollection.vue'
-
+<script lang="ts" setup>
 definePageMeta({
   layout: 'background-layout',
 })
 
-export default {
-  components: {
-    CreateCollection,
-  },
-  head() {
-    const title = 'Create carbonless NFTs'
-    const metaData = {
-      title,
-      type: 'article',
-      description: 'Create carbonless NFTs with low on-chain fees',
-      url: '/create/collection',
-      image: `${this.$config.public.baseUrl}/k_card.png`,
-    }
-    return {
-      title,
-      link: [
-        {
-          hid: 'canonical',
-          rel: 'canonical',
-          href: this.$root.$config.public.baseUrl + this.$route.path,
-        },
-      ],
-      meta: [...this.$seoMeta(metaData)],
-    }
-  },
-}
+useSeoMeta({
+  title: 'Create carbonless NFTs',
+  ogTitle: 'Create carbonless NFTs',
+  description: 'Create carbonless NFTs with low on-chain fees',
+  ogDescription: 'Create carbonless NFTs with low on-chain fees',
+  ogImage: '/k_card.png',
+  twitterCard: 'summary_large_image',
+  ogUrl: '/create/collection',
+})
 </script>
