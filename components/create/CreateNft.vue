@@ -15,7 +15,7 @@
       </h1>
 
       <!-- nft art -->
-      <NeoField :label="`${$t('mint.nft.art.label')} *`">
+      <NeoField :label="`${$t('mint.nft.art.label')} *`" :addons="false">
         <div>
           <p>{{ $t('mint.nft.art.message') }}</p>
           <DropUpload
@@ -53,7 +53,7 @@
       <NeoField
         :key="`collection-${currentChain}`"
         :label="`${$t('mint.nft.collection.label')} *`">
-        <div>
+        <div class="w-100">
           <p>{{ $t('mint.nft.collection.message') }}</p>
           <ChooseCollectionDropdown
             full-width
@@ -99,7 +99,7 @@
 
       <!-- select blockchain -->
       <NeoField :label="`${$t('mint.blockchain.label')} *`">
-        <div>
+        <div class="w-100">
           <p>{{ $t('mint.blockchain.message') }}</p>
           <NeoSelect v-model="selectChain" class="mt-3" expanded required>
             <option v-for="menu in menus" :key="menu.value" :value="menu.value">
@@ -111,7 +111,7 @@
 
       <!-- no of copies -->
       <NeoField :label="`${$t('mint.nft.copies.label')} (optional)`">
-        <div>
+        <div class="w-100">
           <p>{{ $t('mint.nft.copies.message') }}</p>
           <NeoInput
             v-model="form.copies"
@@ -145,27 +145,24 @@
         <NeoSwitch v-model="form.nsfw" :rounded="false" />
       </NeoField>
 
-      <!-- deposit and balance -->
-      <div>
-        <hr class="my-6" />
-        <NeoField>
-          <div class="monospace">
-            <p class="has-text-weight-medium is-size-6 has-text-info">
-              <span>{{ $t('mint.deposit') }}:</span>
-              <span>{{ totalItemDeposit }} {{ chainSymbol }}</span>
-            </p>
-            <p>
-              <span>{{ $t('general.balance') }}: </span>
-              <span>{{ balance }} {{ chainSymbol }}</span>
-            </p>
-            <nuxt-link v-if="isBasilisk" :to="`/${currentChain}/assets`">
-              {{ $t('general.tx.feesPaidIn', [chainSymbol]) }}
-            </nuxt-link>
-          </div>
-        </NeoField>
+      <hr class="my-6" />
 
-        <hr class="my-6" />
+      <!-- deposit and balance -->
+      <div class="monospace">
+        <div class="is-flex has-text-weight-medium has-text-info">
+          <div>{{ $t('mint.deposit') }}:&nbsp;</div>
+          <div>{{ totalItemDeposit }} {{ chainSymbol }}</div>
+        </div>
+        <div class="is-flex">
+          <div>{{ $t('general.balance') }}:&nbsp;</div>
+          <div>{{ balance }} {{ chainSymbol }}</div>
+        </div>
+        <nuxt-link v-if="isBasilisk" :to="`/${currentChain}/assets`">
+          {{ $t('general.tx.feesPaidIn', [chainSymbol]) }}
+        </nuxt-link>
       </div>
+
+      <hr class="my-6" />
 
       <!-- create nft button -->
       <NeoField>
@@ -206,7 +203,7 @@
 
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
-import type { Ref } from 'vue/types'
+import type { Ref } from 'vue'
 import type { TokenToList } from '@/composables/transaction/types'
 import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
 import {
@@ -260,12 +257,13 @@ const { $i18n } = useNuxtApp()
 // select collections
 const selectedCollection = ref()
 
-const submitButtonLabel = computed(() => {
-  return !isLogIn.value
-    ? $i18n.t('mint.nft.connect')
-    : canDeposit.value
+const depositLabel = computed(() =>
+  canDeposit.value
     ? $i18n.t('mint.nft.create')
     : $i18n.t('confirmPurchase.notEnoughFuns')
+)
+const submitButtonLabel = computed(() => {
+  return !isLogIn.value ? $i18n.t('mint.nft.connect') : depositLabel.value
 })
 
 const onCollectionSelected = (collection) => {
@@ -311,12 +309,12 @@ const canDeposit = computed(() => {
 const transactionStatus = ref<
   'list' | 'checkListed' | 'mint' | 'done' | 'idle'
 >('idle')
-const createdNFTs = ref()
+const createdItems = ref()
 const mintedBlockNumber = ref()
 
 const createNft = async () => {
   try {
-    const { createdNFTs: minted } = (await transaction(
+    const minted = (await transaction(
       {
         interaction: Interaction.MINTNFT,
         urlPrefix: currentChain.value,
@@ -337,11 +335,11 @@ const createNft = async () => {
       },
       currentChain.value
     )) as unknown as {
-      createdNFTs: Ref<CreatedNFT[]>
+      createdNFTs?: Ref<CreatedNFT[]>
     }
 
     if (isRemark.value && form.sale && form.salePrice) {
-      createdNFTs.value = minted.value
+      createdItems.value = minted?.createdNFTs?.value
       transactionStatus.value = 'list'
     } else {
       transactionStatus.value = 'mint'
@@ -356,11 +354,11 @@ const createNft = async () => {
 watchEffect(async () => {
   if (
     blockNumber.value &&
-    createdNFTs.value &&
+    createdItems.value &&
     transactionStatus.value === 'list'
   ) {
     try {
-      const list: TokenToList[] = createdNFTs.value.map((nft) => ({
+      const list: TokenToList[] = createdItems.value.map((nft) => ({
         price: balanceFrom(form.salePrice, decimals.value),
         nftId: toNFTId(nft, String(blockNumber.value)),
       }))
@@ -392,6 +390,7 @@ watchEffect(() => {
     blockNumber.value
   ) {
     mintedBlockNumber.value = blockNumber.value
+    transactionStatus.value = 'done'
   }
 
   // if listing price is done, then redirect to detail page
@@ -415,10 +414,9 @@ async function getNftId() {
       limit: 1,
       blockNumber: mintedBlockNumber.value,
     },
-    fetchPolicy: 'network-only',
   })
 
-  return data?.nftEntities?.[0]?.id
+  return data.nftEntities?.[0]?.id
 }
 
 watchEffect(async () => {
