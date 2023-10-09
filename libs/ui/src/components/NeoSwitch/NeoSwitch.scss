@@ -1,51 +1,38 @@
 @import '../../scss/_theme.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/_expressions.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/_variables.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/_animations.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/_helpers.scss';
-@import '@oruga-ui/oruga/src/scss/components/_switch.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_expressions.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_variables.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_animations.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_helpers.scss';
 
-$white: #fff;
-$black: #000;
-$switch-bg-light:#d9d9d9;
-$switch-bg-dark:#363234;
+$switch-width: 2.5rem;
+$switch-padding: 0;
+$switch-action-background: #d9d9d9;
+$switch-background: #fff;
+$switch-active-background-color: #ff7ac3;
+
+@import '@oruga-ui/oruga-next/src/scss/components/_switch.scss';
 
 .o-switch {
+  --oruga-switch-action-checked-background: #fff;
+  --oruga-switch-border-color: #000;
   &__check-switch {
     height: 1.25rem;
     width: 1.25rem;
-    background-color: $switch-bg-light;
-    border: 1px solid $black;
+    border: 1px solid  var(--oruga-switch-border-color);
     margin-left: -1px;
   }
   &__check {
     height: 1.25rem;
-    width: 2.5rem;
-    padding: 0;
     border: 1px solid;
-    background-color: $white;
   }
-  &__check--checked {
-    @include ktheme() {
-      background-color: theme('k-primary');
-    }
-    .o-switch__check-switch {
-      background-color: $white;
-    }
+  &__check--checked &__check-switch {
+    background-color: var(--oruga-switch-action-checked-background);
   }
 }
 .dark-mode .o-switch {
-  &__check {
-    background-color: $black;
-  }
-  &__check-switch {
-    border-color: $white;
-    background-color: $switch-bg-dark;
-  }
-  &__check--checked {
-    background-color: $white;
-    .o-switch__check-switch {
-      background-color: $black;
-    }
-  }
+  --oruga-switch-action-background:#363234;
+  --oruga-switch-action-checked-background: #000;
+  --oruga-switch-active-background-color:#fff;
+  --oruga-switch-background: #000;
+  --oruga-switch-border-color: #fff;
 }
