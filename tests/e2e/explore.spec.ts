@@ -66,12 +66,16 @@ const testItems = async (page) => {
     (resp) => resp.url().includes('image') && resp.ok(),
   )
 
-  const exploreSort = await page.getByTestId('explore-sort')
-  await exploreSort.nth(2).click()
+  const exploreSort = await page.getByTestId('explore-sort-dropdown').nth(1)
+  await exploreSort.click()
+  await page.getByTestId('price_ASC').nth(1).click()
 
   const btnAsc = await page.$('[value="price_ASC"]')
   await btnAsc?.click()
 
+  await expect(page.getByTestId('card-money').first()).toBeVisible({
+    timeout: 10000,
+  })
   const firstItem = (await page.getByTestId('card-money')).first()
   const moneyStr = await firstItem.innerText()
   console.log('dinheiro antes: ', moneyStr)
