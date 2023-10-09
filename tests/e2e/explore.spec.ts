@@ -19,8 +19,8 @@ const testCollections = async (page) => {
   await tabs.nth(2).getByText('Collections')
   await tabs.nth(2).getByText('Items')
 
-  const exploreSort = await page.getByTestId('explore-sort')
-  await exploreSort.nth(2).click()
+  const exploreSort = await page.getByTestId('explore-sort-dropdown')
+  await exploreSort.nth(1).click()
 
   await Promise.all(SORT_SAMPLES.map((sort) => page.$(`[value="${sort}"]`)))
 
@@ -53,7 +53,7 @@ const testItems = async (page) => {
   await expandSearch.click()
   const inputMin = await expandSearch.getByTestId('input-min')
   await inputMin.type('100')
-  const btnApply = await expandSearch.getByTestId('apply')
+  const btnApply = await expandSearch.getByTestId('apply').first()
 
   await Promise.all([
     page.waitForResponse(
@@ -72,6 +72,10 @@ const testItems = async (page) => {
 
   const btnAsc = await page.$('[value="price_ASC"]')
   await btnAsc?.click()
+
+  //active and deactive buy now, since its buggy
+  await page.getByTestId('filter-checkbox-buynow').nth(1).click()
+  await page.getByTestId('filter-checkbox-buynow').nth(1).click()
 
   await expect(page.getByTestId('card-money').first()).toBeVisible({
     timeout: 10000,
