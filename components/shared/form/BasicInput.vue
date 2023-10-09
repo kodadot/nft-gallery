@@ -8,7 +8,7 @@
     </template>
     <NeoInput
       ref="input"
-      :value="value"
+      v-model="vValue"
       :placeholder="placeholder"
       :expanded="expanded"
       :maxlength="maxlength"
@@ -16,7 +16,7 @@
       :disabled="disabled"
       :has-counter="hasCounter"
       :type="type"
-      :pattern="!value && required ? `^\\S+` : '.*'"
+      :pattern="!vValue && required ? `^\\S+` : '.*'"
       @blur="hasFocus = false"
       @focus="hasFocus = true"
       @input="handleInput" />
@@ -28,9 +28,9 @@ import { NeoField, NeoInput } from '@kodadot1/brick'
 
 const { $i18n } = useNuxtApp()
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
-    value?: string
+    modelValue?: string
     label: string
     placeholder: string
     expanded?: boolean
@@ -42,7 +42,7 @@ withDefaults(
     hasCounter?: boolean
   }>(),
   {
-    value: '',
+    modelValue: '',
     expanded: false,
     type: '',
     message: '',
@@ -54,15 +54,17 @@ withDefaults(
 )
 
 const hasFocus = ref(false)
-const emit = defineEmits(['input'])
+const emit = defineEmits(['update:modelValue'])
 const input = ref(null)
 
 function checkValidity() {
   return input.value?.checkHtml5Validity()
 }
 
+const vValue = useVModel(props, 'modelValue', emit)
+
 const handleInput = (value: string) => {
-  emit('input', value.trim())
+  emit('update:modelValue', value.trim())
 }
 
 defineExpose({ checkValidity })
