@@ -1,10 +1,10 @@
 <template>
   <div class="is-centered" :class="{ columns: classColumn }">
+    <Loader v-model="isLoading" :status="status" />
     <MintConfirmModal
       v-model="modalShowStatus"
       :nft-information="collectionInformation"
       @confirm="createCollection" />
-    <Loader v-model="isLoading" :status="status" />
     <form
       class="is-half"
       :class="{ column: classColumn }"
@@ -157,7 +157,7 @@
             {{ $t('helper.learnMore') }}
           </a>
         </p>
-      </div>          
+      </div>
     </form>
   </div>
 </template>

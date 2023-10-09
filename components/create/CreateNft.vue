@@ -1,10 +1,10 @@
 <template>
   <div class="is-centered columns">
+    <Loader v-model="isLoading" :status="status" />
     <MintConfirmModal
       v-model="modalShowStatus"
       :nft-information="nftInformation"
       @confirm="createNft" />
-    <Loader v-model="isLoading" :status="status" />
     <form class="is-half column" @submit.prevent="showConfirm">
       <CreateNftPreview
         :name="form.name"
