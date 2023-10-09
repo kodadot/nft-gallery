@@ -65,6 +65,7 @@ const label = computed(() =>
 const price = computed(() => props.nft.price)
 const showPrice = computed(() => props.nft.listForSale)
 const blockchain = computed(() => props.nft.blockchain)
+
 watchEffect(() => {
   const file = props.nft.file
   if (file) {
