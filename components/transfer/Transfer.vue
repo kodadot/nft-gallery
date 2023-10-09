@@ -56,7 +56,10 @@
         </NeoDropdown>
       </div>
 
-      <PillTabs :tabs="tokenTabs" @select="handleTokenSelect" />
+      <PillTabs
+        :tabs="tokenTabs"
+        data-testid="transfer-token-tabs-container"
+        @select="handleTokenSelect" />
 
       <div class="mb-5">
         <NeoIcon class="ml-2" icon="circle-info" />
