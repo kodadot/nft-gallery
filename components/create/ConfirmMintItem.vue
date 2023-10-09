@@ -65,18 +65,14 @@ const label = computed(() =>
 const price = computed(() => props.nft.price)
 const showPrice = computed(() => props.nft.listForSale)
 const blockchain = computed(() => props.nft.blockchain)
-watch(
-  () => props.nft.file,
-  () => {
-    const file = props.nft.file
+watchEffect(() => {
+  const file = props.nft.file
+  if (file) {
     const reader = new FileReader()
     avatar.value = URL.createObjectURL(file)
     reader.readAsText(file)
-  },
-  {
-    immediate: true,
   }
-)
+})
 </script>
 
 <style scoped lang="scss">
