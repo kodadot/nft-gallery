@@ -2,62 +2,49 @@
   <div
     class="container is-fluid"
     :class="{ 'sidebar-padding-left': isSidebarOpen }">
-    <Activity />
+    <CollectionActivity />
   </div>
 </template>
 
-<script lang="ts">
-import Activity from '@/components/collection/activity/Activity.vue'
+<script lang="ts" setup>
 import { useHistoryStore } from '@/stores/history'
 import { usePreferencesStore } from '@/stores/preferences'
 import { generateCollectionImage } from '@/utils/seoImageGenerator'
+
+const historyStore = useHistoryStore()
+const preferencesStore = usePreferencesStore()
+
+const isSidebarOpen = computed(() => preferencesStore.getsidebarFilterCollapse)
+
+const currentlyViewedCollection = computed(
+  () => historyStore.getCurrentlyViewedCollection,
+)
+
+const image = computed(() => {
+  return generateCollectionImage(
+    currentlyViewedCollection.value.name,
+    currentlyViewedCollection.value.numberOfItems,
+    currentlyViewedCollection.value.image,
+  )
+})
 
 definePageMeta({
   layout: 'explore-layout',
 })
 
-export default {
-  name: 'CollectionActivityPage',
-  components: {
-    Activity,
-  },
-  setup() {
-    const preferencesStore = usePreferencesStore()
-    const isSidebarOpen = computed(
-      () => preferencesStore.getsidebarFilterCollapse,
-    )
-
-    return {
-      isSidebarOpen,
-    }
-  },
-  head() {
-    const historyStore = useHistoryStore()
-    const currentlyViewedCollection = computed(
-      () => historyStore.getCurrentlyViewedCollection,
-    )
-    const image = computed(() => {
-      return generateCollectionImage(
-        currentlyViewedCollection.value.name,
-        currentlyViewedCollection.value.numberOfItems,
-        currentlyViewedCollection.value.image,
-      )
-    })
-    const title = currentlyViewedCollection.value.name
-    const metaData = {
-      title,
-      type: 'profile',
-      description: currentlyViewedCollection.value.description,
-      url: this.$route.path,
-      image: image.value,
-    }
-
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
-    }
-  },
-}
+useHead({
+  title: currentlyViewedCollection.value.name,
+  meta: [
+    {
+      name: 'description',
+      content: currentlyViewedCollection.value.description,
+    },
+    {
+      name: 'image',
+      content: image.value,
+    },
+  ],
+})
 </script>
 
 <style lang="scss" scoped>

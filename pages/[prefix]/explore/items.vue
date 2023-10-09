@@ -6,58 +6,33 @@
   </div>
 </template>
 
-<script lang="ts">
-import Items from '@/components/items/Items.vue'
+<script lang="ts" setup>
 import { usePreferencesStore } from '@/stores/preferences'
 import { explorerVisible } from '@/utils/config/permission.config'
+
+const preferencesStore = usePreferencesStore()
+const { urlPrefix } = usePrefix()
+const isSidebarOpen = computed(() => preferencesStore.getsidebarFilterCollapse)
+
+const checkRouteAvailability = () => {
+  if (!explorerVisible(urlPrefix.value)) {
+    navigateTo('/')
+  }
+}
+
+watch(urlPrefix, () => checkRouteAvailability())
+
+onBeforeMount(() => checkRouteAvailability())
 
 definePageMeta({
   layout: 'explore-layout',
 })
 
-export default {
-  name: 'ExploreItems',
-  components: {
-    Items,
-  },
-  setup() {
-    const preferencesStore = usePreferencesStore()
-    const { urlPrefix } = usePrefix()
-    const isSidebarOpen = computed(
-      () => preferencesStore.getsidebarFilterCollapse,
-    )
-
-    const checkRouteAvailability = () => {
-      if (!explorerVisible(urlPrefix.value)) {
-        navigateTo('/')
-      }
-    }
-
-    watch(urlPrefix, () => checkRouteAvailability())
-
-    onBeforeMount(() => checkRouteAvailability())
-
-    return {
-      isSidebarOpen,
-    }
-  },
-  head() {
-    const route = useRoute()
-    const runtimeConfig = useRuntimeConfig()
-    const title = 'Explore NFTs'
-    const metaData = {
-      title,
-      type: 'profile',
-      description: 'Buy Carbonless NFTs on KodaDot',
-      url: `/${route.params.prefix}/explore/items`,
-      image: `${runtimeConfig.public.baseUrl}/k_card.png`,
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
-    }
-  },
-}
+useSeoMeta({
+  title: 'Explore NFTs',
+  description: 'Buy Carbonless NFTs on KodaDot',
+  ogUrl: `/${urlPrefix.value}/explore/items`,
+})
 </script>
 
 <style lang="scss" scoped>
