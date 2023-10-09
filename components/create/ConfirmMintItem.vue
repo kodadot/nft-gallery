@@ -39,7 +39,7 @@
         pack="fa-sharp"
         icon="arrow-right-long"
         class="has-text-k-grey mr-4" />
-      <div>{{ nft.selectedCollection.name }}</div>
+      <div>{{ nft.selectedCollection?.name }}</div>
     </div>
   </div>
 </template>
