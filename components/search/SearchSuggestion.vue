@@ -599,7 +599,7 @@ const updateCollectionSuggestion = async (value: string) => {
       searchSuggestionEachTypeMaxNum,
     )
     const metadataList: string[] = collections.map(mapNFTorCollectionMetadata)
-    const collectionWithImagesList: CollectionWithMeta[] = []
+    const collectionWithImagesList = ref<CollectionWithMeta[]>([])
 
     processMetadata<CollectionWithMeta>(metadataList, (meta, i) => {
       const initialCollectionStats = {
@@ -615,11 +615,11 @@ const updateCollectionSuggestion = async (value: string) => {
           'image',
         ),
       })
-      collectionWithImagesList.push(collectionWithImages)
+      collectionWithImagesList.value.push(collectionWithImages)
 
       fetchCollectionStats(collectionWithImages, i)
     })
-    collectionResult.value = collectionWithImagesList
+    collectionResult.value = collectionWithImagesList.value
   } catch (e) {
     logError(e, (msg) => $consola.warn('[PREFETCH] Unable fo fetch', msg))
   }
