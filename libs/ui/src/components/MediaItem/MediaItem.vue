@@ -23,6 +23,13 @@
         $t('lewd.explicitDesc')
       }}</span>
     </div>
+    <div
+      v-if="isInteractive"
+      class="k-shade border-k-grey is-flex is-align-items-center is-justify-content-center border is-rounded absolute-position image is-24x24">
+      <div class="is-size-7 has-text-weight-bold">
+        {{ '<' + '/' + '>' }}
+      </div>
+    </div>
     <NeoButton
       v-if="isLewd"
       rounded
@@ -76,7 +83,7 @@ const props = withDefaults(
     disableOperation: undefined,
   },
 )
-
+const isInteractive = ref<boolean>(false)
 const type = ref('')
 
 // props.mimeType may be empty string "". Add `image/png` as fallback
@@ -97,6 +104,7 @@ const resolveComponent = computed(() => {
   let mediaType = resolveMedia(mimeType.value)
 
   if (mediaType === MediaType.IFRAME && !props.isDetail) {
+    isInteractive.value = true
     mediaType = MediaType.IMAGE
   }
   return components[mediaType + SUFFIX]
@@ -156,6 +164,12 @@ defineExpose({ isLewdBlurredLayer })
         background: theme('text-color') !important;
       }
     }
+  }
+
+  .absolute-position {
+    position: absolute;
+    right: 0.75rem;
+    top: 0.75rem;
   }
 }
 </style>
