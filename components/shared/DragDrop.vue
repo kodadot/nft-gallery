@@ -1,13 +1,13 @@
 <template>
-  <NeoUpload
-    v-model="selectedFile"
-    drag-drop
-    native
-    expanded
-    class="hover-color"
-    :accept="accept"
-    @update:modelValue="onFileSelected">
-    <transition name="fade">
+  <transition name="fade">
+    <NeoUpload
+      v-model="selectedFile"
+      drag-drop
+      native
+      expanded
+      class="hover-color"
+      :accept="accept"
+      @update:modelValue="onFileSelected">
       <div class="has-text-centered is-flex is-justify-content-center p-5">
         <div
           v-if="!selectedFile"
@@ -41,8 +41,8 @@
           </div>
         </div>
       </div>
-    </transition>
-  </NeoUpload>
+    </NeoUpload>
+  </transition>
 </template>
 
 <script setup lang="ts">
