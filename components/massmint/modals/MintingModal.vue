@@ -33,11 +33,11 @@
 import { NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
 
 const props = defineProps<{
-  value: boolean
+  modelValue: boolean
   loading: boolean
 }>()
 
-const isModalActive = useVModel(props, 'value')
+const isModalActive = useVModel(props, 'modelValue')
 
 const emit = defineEmits(['close'])
 </script>

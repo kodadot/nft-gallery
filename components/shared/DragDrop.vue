@@ -6,7 +6,7 @@
     expanded
     class="hover-color"
     :accept="accept"
-    @input="onFileSelected">
+    @update:modelValue="onFileSelected">
     <div class="has-text-centered is-flex is-justify-content-center p-5">
       <div
         v-if="!selectedFile"
