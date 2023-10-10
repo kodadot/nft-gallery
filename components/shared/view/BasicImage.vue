@@ -2,14 +2,13 @@
   <figure class="image-wrapper image is-1by1" :class="customClass">
     <transition name="fade">
       <img
+        v-if="loaded"
         :src="imageSrc || placeholder"
         :alt="alt"
         :class="['has-ratio', { 'is-rounded': rounded }]"
         @load="onImageLoad"
         @error="onImageError" />
-    </transition>
-    <transition name="fade">
-      <slot v-if="!loaded" name="placeholder">
+      <slot v-else name="placeholder">
         <NeoSkeleton full-size no-margin :circle="rounded" />
       </slot>
     </transition>

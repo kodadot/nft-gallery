@@ -38,13 +38,11 @@
           </section>
         </NeoUpload>
       </NeoField>
-      <transition v-if="fileSizeFailed" name="fade">
-        <div class="help is-danger">
+      <transition name="fade">
+        <div v-if="fileSizeFailed" class="help is-danger">
           {{ $t('tooltip.failedMaxSize') }}
         </div>
-      </transition>
-      <transition v-if="checkFailed" name="fade">
-        <div class="help is-danger">
+        <div v-if="checkFailed" class="help is-danger">
           {{ $t('tooltip.needToUploadNFTFile') }}
         </div>
       </transition>
