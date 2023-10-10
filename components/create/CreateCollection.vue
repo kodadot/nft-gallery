@@ -213,6 +213,10 @@ const { $i18n } = useNuxtApp()
 const chainByPrefix = menus.find((menu) => menu.value === urlPrefix.value)
 const selectBlockchain = ref(chainByPrefix?.value || menus[0].value)
 
+watch(urlPrefix, (value) => {
+  selectBlockchain.value = value
+})
+
 const submitButtonLabel = computed(() => {
   return !isLogIn.value
     ? $i18n.t('mint.nft.connect')
@@ -237,7 +241,11 @@ const canDeposit = computed(() => {
   )
 })
 
-watchEffect(() => setUrlPrefix(currentChain.value as Prefix))
+watch(currentChain, () => {
+  if (currentChain.value !== urlPrefix.value) {
+    setUrlPrefix(currentChain.value as Prefix)
+  }
+})
 
 const createCollection = async () => {
   let collection: BaseCollectionType = {
