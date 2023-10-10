@@ -26,7 +26,7 @@
     <div
       v-if="isInteractive"
       class="k-shade border-k-grey is-flex is-align-items-center is-justify-content-center border is-rounded absolute-position image is-24x24">
-      <div class="is-size-7 has-text-weight-bold">
+      <div class="is-size-7 is-text-weight-500">
         {{ '<' + '/' + '>' }}
       </div>
     </div>
