@@ -1,5 +1,5 @@
 <template>
-     <div ref="wavesurferWrapper" />
+  <div ref="wavesurferWrapper" />
 </template>
 
 <script setup lang="ts">
@@ -7,7 +7,7 @@ import WaveSurfer from 'wavesurfer.js'
 
 const emit = defineEmits(['play', 'ready'])
 const props = defineProps<{
-    getMedia: () => Ref<HTMLAudioElement>
+  getMedia: () => Ref<HTMLAudioElement>
 }>()
 
 const { isDarkMode } = useTheme()
@@ -35,15 +35,13 @@ const initWaveform = (media: any) => {
     ...getWaveformColors(),
   })
 
-  wavesurfer.value.on('interaction', () =>  emit('play'))
+  wavesurfer.value.on('interaction', () => emit('play'))
   wavesurfer.value.on('ready', () => emit('ready'))
 }
-
 
 const getWaveformColors = () => {
   return isDarkMode.value ? colors.dark : colors.light
 }
-
 
 watch(isDarkMode, () => {
   const newColors = getWaveformColors()
