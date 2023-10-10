@@ -8,7 +8,7 @@
           :has-img="false"
           error-subtitle="Please check your network connections"
           error-title="Offline Detected" />
-        <Nuxt v-else />
+        <NuxtPage v-else />
       </div>
     </main>
     <LazyTheFooter />
@@ -21,7 +21,7 @@
 const { $config } = useNuxtApp()
 const route = useRoute()
 
-useNuxt2Meta({
+useHead({
   link: [
     {
       hid: 'canonical',

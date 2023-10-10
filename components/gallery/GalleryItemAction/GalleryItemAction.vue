@@ -43,7 +43,7 @@ const props = defineProps<{
 const { accountId } = useAuth()
 const { offersDisabled } = useChain()
 const isOwner = computed(() =>
-  checkOwner(props.nft?.currentOwner, accountId.value)
+  checkOwner(props.nft?.currentOwner, accountId.value),
 )
 </script>
 

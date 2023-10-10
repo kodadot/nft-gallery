@@ -14,7 +14,7 @@
       shadow-intensity="1"
       autoplay
       data-testid="type-3d">
-      <button id="ar-button" slot="ar-button">Activate AR</button>
+      <button id="ar-button">Activate AR</button>
     </model-viewer>
   </div>
 </template>

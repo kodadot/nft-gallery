@@ -9,11 +9,14 @@ import {
   OfferInteraction,
   Owners,
 } from './types'
+import type { Prefix } from '@kodadot1/static'
+
+export const chainsWithMintInteraction: Prefix[] = ['ksm', 'ahk', 'ahp']
 
 export const mintInteraction = () => {
   const { urlPrefix } = usePrefix()
   // https://github.com/kodadot/snek/issues/183
-  return ['ksm', 'ahk', 'ahp'].includes(urlPrefix.value)
+  return chainsWithMintInteraction.includes(urlPrefix.value)
     ? Interaction.MINT
     : Interaction.MINTNFT
 }
@@ -104,7 +107,7 @@ export const getOffers = (nfts): Offer[] => {
         timestamp: new Date(offer.updatedAt).getTime(),
         interaction: OfferInteraction,
         nft: { ...nft, events: undefined, offers: undefined },
-      }))
+      })),
     )
     .flat()
 }
@@ -129,10 +132,10 @@ export const getOwners = (nfts) => {
       const latestchangeHandsEvent = events.findLast(
         (event) =>
           event.interaction === Interaction.BUY ||
-          event.interaction === Interaction.SEND
+          event.interaction === Interaction.SEND,
       )
       const lastestTimeStamp = new Date(
-        latestchangeHandsEvent.timestamp
+        latestchangeHandsEvent.timestamp,
       ).getTime()
 
       owners[nft.currentOwner] = updateOwnerWithNewNft({

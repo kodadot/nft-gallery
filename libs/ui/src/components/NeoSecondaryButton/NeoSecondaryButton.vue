@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { OButton } from '@oruga-ui/oruga'
+import { OButton } from '@oruga-ui/oruga-next'
 import { NeoButtonVariant } from '@kodadot1/brick'
 
 defineProps<{

@@ -1,17 +1,17 @@
 export default function () {
-  const { $colorMode } = useNuxtApp()
+  const colorMode = useColorMode()
 
   const isDarkMode = computed<boolean>(
     () =>
-      $colorMode.preference === 'dark' ||
-      document.documentElement.className.includes('dark-mode')
+      colorMode.preference === 'dark' ||
+      document.documentElement.className.includes('dark-mode'),
   )
 
   const toggleColorMode = (): void => {
-    if (isDarkMode.value) {
-      $colorMode.preference = 'light'
+    if (colorMode.preference === 'dark') {
+      colorMode.preference = 'light'
     } else {
-      $colorMode.preference = 'dark'
+      colorMode.preference = 'dark'
     }
   }
 

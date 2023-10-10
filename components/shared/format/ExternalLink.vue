@@ -16,6 +16,6 @@ withDefaults(
   {
     id: '',
     url: '',
-  }
+  },
 )
 </script>

@@ -65,7 +65,7 @@ const props = withDefaults(
     icon: 'cloud-arrow-up',
     subtitle: undefined,
     disabled: false,
-  }
+  },
 )
 
 const selectedFile = ref<File | null>(null)
@@ -86,7 +86,7 @@ const onFileSelected = (file: File) => {
 }
 </script>
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .icon-size {
   font-size: 3.5rem;

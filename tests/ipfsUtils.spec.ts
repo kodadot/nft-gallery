@@ -23,19 +23,19 @@ describe('IPFS UTILS TEST', (): void => {
   it('can fast extract', () => {
     const extracted = fastExtract(ipfsUrlList[0])
     expect(extracted).toBe(
-      'bafkreifqhjpyzonmff7x2wmlqnsrniuodzrrtsz6ruz3rgtogffdcvqt3m'
+      'bafkreifqhjpyzonmff7x2wmlqnsrniuodzrrtsz6ruz3rgtogffdcvqt3m',
     )
   })
 
   it('could extract Cid ID', () => {
     const extracted = extractCid(ipfsUrlList[0])
     expect(extracted).toBe(
-      'bafkreifqhjpyzonmff7x2wmlqnsrniuodzrrtsz6ruz3rgtogffdcvqt3m'
+      'bafkreifqhjpyzonmff7x2wmlqnsrniuodzrrtsz6ruz3rgtogffdcvqt3m',
     )
 
     const ex1 = extractCid(ipfsUrlList[1])
     expect(ex1).toBe(
-      'bafkreibv426brrflmozbukxcbvg6qopbtgjwn3xtdlblgc5g4yqgkjekiy'
+      'bafkreibv426brrflmozbukxcbvg6qopbtgjwn3xtdlblgc5g4yqgkjekiy',
     )
   })
 })

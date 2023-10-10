@@ -12,7 +12,7 @@ export type SortBy = Record<string, number>
 export type SearchQuery = {
   search?: string
   type?: string
-  sortBy?: string
+  sortBy?: string | string[]
   listed: boolean
   owned?: boolean | null
   priceMin?: number

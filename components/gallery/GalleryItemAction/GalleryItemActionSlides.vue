@@ -21,7 +21,7 @@ defineProps<{
 </script>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .slide {
   @include ktheme() {

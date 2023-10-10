@@ -40,7 +40,7 @@ export const getActions = (isOwner: boolean, isAvailableToBuy: boolean) => {
 export const getMarketplaceActions = (
   prefix: string,
   isOwner: boolean,
-  hasPrice: boolean
+  hasPrice: boolean,
 ): [Interaction] | [] => {
   const isMarketAvailable = hasMarketplace(prefix)
 
@@ -62,7 +62,7 @@ export const getMarketplaceActions = (
 export const getActionList = (
   prefix: string,
   isOwner: boolean,
-  hasPrice: boolean
+  hasPrice: boolean,
 ): ShoppingActions[] => {
   let baseActions: ShoppingActions[] = isOwner ? ownerActions : []
   baseActions = [
@@ -109,7 +109,7 @@ export const getActionButtonColor = (action: ShoppingActions): string => {
 
 export const getActionButtonLabelKey = (
   action: ShoppingActions,
-  price: string
+  price: string,
 ): string => {
   if (action === ShoppingActions.LIST && Number(price) > 0) {
     return 'nft.event.RELIST'
@@ -118,14 +118,14 @@ export const getActionButtonLabelKey = (
 }
 
 export const getActionButtonIcon = (
-  action: ShoppingActions
+  action: ShoppingActions,
 ): string | undefined => {
   const [, icon] = iconResolver[action]
   return icon
 }
 
 export const getActionComponent = (
-  action: ShoppingActions
+  action: ShoppingActions,
 ): string | undefined => {
   return actionComponent[action]
 }

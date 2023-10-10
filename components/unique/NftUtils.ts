@@ -32,7 +32,7 @@ class NFTUtils {
   static createNFT(
     classId: Id,
     id: Id,
-    owner: string
+    owner: string,
   ): [string, string, Owner] {
     return [String(classId), String(id), { Id: owner }]
   }
@@ -41,7 +41,7 @@ class NFTUtils {
     selectedAction: NFTAction,
     classId: Id,
     id: Id,
-    meta: string
+    meta: string,
   ): Id[] {
     switch (selectedAction) {
       case NFTAction.SEND:
@@ -65,7 +65,7 @@ class NFTUtils {
     selectedAction: NFTAction,
     meta: string,
     currentOwner: string,
-    delegate: string
+    delegate: string,
   ): string {
     switch (selectedAction) {
       case NFTAction.SEND:

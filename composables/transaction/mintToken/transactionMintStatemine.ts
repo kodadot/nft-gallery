@@ -33,7 +33,7 @@ export const prepareTokenMintArgs = async (token: TokenToMint & id, api) => {
       'Error while constructing metadata for token:\n',
       token,
       '\n',
-      e
+      e,
     )
   })
 
@@ -41,7 +41,7 @@ export const prepareTokenMintArgs = async (token: TokenToMint & id, api) => {
     collectionId,
     nextId,
     accountId.value,
-    undefined
+    undefined,
   )
 
   const meta = api.tx.nfts.setMetadata(collectionId, nextId, metadata)
@@ -67,7 +67,7 @@ export const getSupportInteraction = (
   item: ActionMintToken,
   enabledFees: boolean,
   feeMultiplier: number,
-  api
+  api,
 ) => {
   const howManyTimesToChargeSupportFees = Array.isArray(item.token)
     ? item.token.length
@@ -80,14 +80,14 @@ export const getSupportInteraction = (
 const getArgs = async (item: ActionMintToken, api) => {
   const tokens = prepTokens(item)
   const arg = await Promise.all(
-    tokens.map((token) => prepareTokenMintArgs(token, api))
+    tokens.map((token) => prepareTokenMintArgs(token, api)),
   )
   const { enabledFees, feeMultiplier } = calculateFees()
   const supportInteraction = await getSupportInteraction(
     item,
     enabledFees,
     feeMultiplier,
-    api
+    api,
   )
 
   return [[...arg.flat(), ...supportInteraction]]

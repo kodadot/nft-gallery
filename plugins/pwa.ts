@@ -3,7 +3,8 @@ import consola from 'consola'
 
 import { clearSession } from '@/utils/cachingStrategy'
 
-export default async () => {
+// export default async () => {
+export default defineNuxtPlugin(async () => {
   if ('serviceWorker' in navigator) {
     const { Workbox } = await import('workbox-window')
     const workbox = new Workbox('/sw.js')
@@ -13,7 +14,7 @@ export default async () => {
     workbox.addEventListener('installed', (event) => {
       consola.info(
         'App is being served from cache by a service worker.\n' +
-          'For more details, visit https://pwa.nuxtjs.org/'
+          'For more details, visit https://pwa.nuxtjs.org/',
       )
 
       if (event.isUpdate) {
@@ -33,4 +34,4 @@ export default async () => {
       }
     })
   }
-}
+})

@@ -12,33 +12,33 @@ test('Check Language translations', async ({ page }) => {
   //await expect(page.getByTestId('skeleton-multiple-balances')).toHaveCount(0)
   await page.getByTestId('sidebar-language-de').click()
   await expect(
-    page.getByTestId('create').filter({ has: page.getByText('Erstellen') })
+    page.getByTestId('create').filter({ has: page.getByText('Erstellen') }),
   ).toHaveCount(1)
   await expect(
     page
       .getByTestId('latest-sales')
-      .filter({ has: page.getByText('Letzte Verkäufe') })
+      .filter({ has: page.getByText('Letzte Verkäufe') }),
   ).toHaveCount(1)
   //FR
   await page.getByTestId('sidebar-language').click()
   await page.getByTestId('sidebar-language-fr').click()
   await expect(
-    page.getByTestId('create').filter({ has: page.getByText('Créer') })
+    page.getByTestId('create').filter({ has: page.getByText('Créer') }),
   ).toHaveCount(1)
   await expect(
     page
       .getByTestId('latest-sales')
-      .filter({ has: page.getByText('Dernières ventes') })
+      .filter({ has: page.getByText('Dernières ventes') }),
   ).toHaveCount(1)
   //ES
   await page.getByTestId('sidebar-language').click()
   await page.getByTestId('sidebar-language-es').click()
   await expect(
-    page.getByTestId('create').filter({ has: page.getByText('Crear') })
+    page.getByTestId('create').filter({ has: page.getByText('Crear') }),
   ).toHaveCount(1)
   await expect(
     page
       .getByTestId('latest-sales')
-      .filter({ has: page.getByText('Ventas más recientes') })
+      .filter({ has: page.getByText('Ventas más recientes') }),
   ).toHaveCount(1)
 })

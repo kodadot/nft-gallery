@@ -25,7 +25,7 @@ const exec = async (
   password: string | null,
   callback: (...params: any[]) => SubmittableExtrinsic<'promise'>,
   params: any[],
-  statusCb: Callback<any>
+  statusCb: Callback<any>,
 ): Promise<ExecResult> => {
   try {
     const transfer = await callback(...params)
@@ -73,7 +73,7 @@ export const txCb =
   (
     onSuccess: (blockHash: Hash) => void,
     onError: (err: DispatchError) => void,
-    onResult: (result: ISubmittableResult) => void = console.log
+    onResult: (result: ISubmittableResult) => void = console.log,
   ) =>
   (result: ISubmittableResult): void => {
     onResult(result)
@@ -92,7 +92,7 @@ export const txCb =
 export const estimate = async (
   account: KeyringAccount | string,
   callback: (...params: any) => SubmittableExtrinsic<'promise'>,
-  params: any[]
+  params: any[],
 ): Promise<string> => {
   const transfer = await callback(...params)
   const address =
@@ -102,7 +102,7 @@ export const estimate = async (
 
   const info = await transfer.paymentInfo(
     address,
-    injector ? { signer: injector.signer } : {}
+    injector ? { signer: injector.signer } : {},
   )
   return info.partialFee.toString()
 }
@@ -110,7 +110,7 @@ export const estimate = async (
 export const getTransitionFee = async (
   accountId: string,
   targetAddresses: Array<string>,
-  decimal: number
+  decimal: number,
 ) => {
   const { cb, arg } = await getTransferParams(
     targetAddresses.map(
@@ -119,9 +119,9 @@ export const getTransitionFee = async (
           address: toDefaultAddress(KODADOT_DAO),
           usd: 1,
           token: 1,
-        } as TargetAddress)
+        }) as TargetAddress,
     ),
-    decimal
+    decimal,
   )
   return estimate(accountId, cb, arg)
 }
@@ -133,7 +133,7 @@ export type TargetAddress = {
 }
 const getTransferParams = async (
   addresses: TargetAddress[],
-  decimals: number
+  decimals: number,
 ) => {
   const { apiInstance } = useApi()
 
@@ -149,7 +149,7 @@ const getTransferParams = async (
     : [
         addresses.map((target) => {
           const amountToTransfer = String(
-            calculateBalance(target.token as number, decimals)
+            calculateBalance(target.token as number, decimals),
           )
 
           return api.tx.balances.transfer(target.address, amountToTransfer)

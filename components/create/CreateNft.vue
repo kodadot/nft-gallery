@@ -138,7 +138,9 @@
 
       <!-- royalty -->
       <NeoField v-if="isBasilisk">
-        <RoyaltyForm v-bind.sync="form.royalty" />
+        <RoyaltyForm
+          :amount="form.royalty.amount"
+          :address="form.royalty.address" />
       </NeoField>
 
       <!-- explicit content -->
@@ -227,7 +229,7 @@ import { delay } from '@/utils/fetch'
 import { toNFTId } from '@/components/rmrk/service/scheme'
 
 // composables
-const { $apollo, $consola } = useNuxtApp()
+const { $consola } = useNuxtApp()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { accountId } = useAuth()
 const { transaction, status, isLoading, blockNumber } = useTransaction()
@@ -279,10 +281,10 @@ const imagePreview = computed(() => {
 
 // select available blockchain
 const menus = availablePrefixes().filter(
-  (menu) => menu.value !== 'movr' && menu.value !== 'glmr'
+  (menu) => menu.value !== 'movr' && menu.value !== 'glmr',
 )
 const chainByPrefix = computed(() =>
-  menus.find((menu) => menu.value === urlPrefix.value)
+  menus.find((menu) => menu.value === urlPrefix.value),
 )
 const selectChain = ref(chainByPrefix.value?.value || menus[0].value)
 
@@ -334,7 +336,7 @@ const createNft = async () => {
           royalty: form.royalty,
         },
       },
-      currentChain.value
+      currentChain.value,
     )) as unknown as {
       createdNFTs?: Ref<CreatedNFT[]>
     }
@@ -371,7 +373,7 @@ watchEffect(async () => {
           token: list,
           successMessage: `[💰] Listed ${form.name} for ${form.salePrice} ${chainSymbol.value}`,
         },
-        currentChain.value
+        currentChain.value,
       )
 
       transactionStatus.value = 'checkListed'
@@ -406,18 +408,24 @@ watchEffect(() => {
 // navigate to gallery detail page after success create nft
 const retry = ref(10) // max retry 10 times
 
+type NftId = {
+  nftEntities?: {
+    id: string
+  }[]
+}
+
 async function getNftId() {
   const query = await resolveQueryPath(currentChain.value, 'nftByBlockNumber')
-  const { data } = await $apollo.query({
+  const { data }: { data: Ref<NftId> } = await useAsyncQuery({
     query: query.default,
-    client: currentChain.value,
+    clientId: currentChain.value,
     variables: {
       limit: 1,
       blockNumber: mintedBlockNumber.value,
     },
   })
 
-  return data.nftEntities?.[0]?.id
+  return data.value.nftEntities?.[0]?.id
 }
 
 watchEffect(async () => {
@@ -429,7 +437,7 @@ watchEffect(async () => {
     showNotification(
       `You will go to the detail in ${DETAIL_TIMEOUT / 1000} seconds`,
       notificationTypes.info,
-      DETAIL_TIMEOUT
+      DETAIL_TIMEOUT,
     )
 
     await delay(DETAIL_TIMEOUT)
@@ -447,4 +455,4 @@ watchEffect(async () => {
 })
 </script>
 
-<style lang="scss" scoped src="@/styles/pages/create.scss"></style>
+<style lang="scss" scoped src="@/assets/styles/pages/create.scss"></style>

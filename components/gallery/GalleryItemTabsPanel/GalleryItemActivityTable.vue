@@ -97,6 +97,8 @@
 </template>
 
 <script setup lang="ts">
+import itemEvents from '@/queries/subsquid/general/itemEvents.graphql'
+
 import Identity from '@/components/identity/IdentityIndex.vue'
 import {
   NeoSkeleton,
@@ -121,7 +123,7 @@ const dprops = defineProps<{
 }>()
 
 const { decimals, chainSymbol } = useChain()
-const { urlPrefix } = usePrefix()
+const { urlPrefix, client } = usePrefix()
 const tokenPrice = ref(0)
 
 onMounted(async () => {
@@ -139,17 +141,21 @@ const interaction = computed(() =>
       }
     }
     return key
-  })
+  }),
 )
 
-const { data, loading, refetch } = useGraphql({
-  queryName: 'itemEvents',
-  clientName: urlPrefix.value,
+const {
+  data,
+  pending: loading,
+  refresh,
+} = await useAsyncQuery({
+  query: itemEvents,
   variables: {
     id: dprops.nftId,
     interaction: interaction.value,
     limit: 100,
   },
+  clientId: client.value,
 })
 
 useSubscriptionGraphql({
@@ -164,7 +170,7 @@ useSubscriptionGraphql({
     timestamp
     meta
   }`,
-  onChange: refetch,
+  onChange: refresh,
 })
 
 interface ItemEvents {
@@ -184,13 +190,13 @@ watchEffect(() => {
 const formatPrice = (price) => {
   const tokenAmount = formatBalance(price, decimals.value, false)
   const flatPrice = `${formatNumber(
-    Number(withoutDigitSeparator(tokenAmount)) * tokenPrice.value
+    Number(withoutDigitSeparator(tokenAmount)) * tokenPrice.value,
   )}`
   return [formatNumber(tokenAmount), flatPrice]
 }
 </script>
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .gallery-item-activity-table {
   overflow-y: auto;

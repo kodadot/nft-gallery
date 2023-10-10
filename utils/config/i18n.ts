@@ -1,7 +1,7 @@
-import { LocaleMessages } from 'vue-i18n'
-import MarkdownIt from 'markdown-it'
+import { LocaleMessages, VueMessageType, defineI18nConfig } from '#i18n'
 import commonData from '@/locales/all_lang.json'
-
+import MarkdownIt from 'markdown-it'
+const locales = import.meta.glob('../../locales/*.json', { eager: true })
 export const langsFlags = [
   {
     value: 'en',
@@ -28,38 +28,30 @@ export const langsFlags = [
 const md = MarkdownIt({
   breaks: false,
 })
-
-function loadLocaleMessages(): LocaleMessages {
-  // File containing data common to ALL languages
-  const allLangDataFile = 'all_lang.json'
-  const locales = require.context(
-    '../../locales',
-    true,
-    /[A-Za-z0-9-_,\s]+\.json$/i
-  )
-  const messages: LocaleMessages = {}
-  locales.keys().forEach((key) => {
-    if (key === allLangDataFile) {
-      return
-    }
+function getMessages() {
+  const messages: { [x: string]: LocaleMessages<VueMessageType> } = {}
+  for (const [key, value] of Object.entries(locales)) {
     const matched = key.match(/([A-Za-z0-9-_]+)\./i)
     if (matched && matched.length > 1) {
       const locale = matched[1]
-      messages[locale] = locales(key)
+      if (locale === 'all_lang') {
+        continue
+      }
+      messages[locale] = value.default
     }
-  })
+  }
   return messages
 }
 
-export default () => {
-  return {
-    locale: process.env.VUE_APP_I18N_LOCALE || 'en',
-    fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
-    silentTranslationWarn: true,
-    modifiers: {
-      md: (str) => md.renderInline(str),
-      common: (str) => str.split('.').reduce((o, i) => o[i], commonData),
-    },
-    messages: loadLocaleMessages(),
-  }
-}
+export default defineI18nConfig(() => ({
+  locale: process.env.VUE_APP_I18N_LOCALE || 'en',
+  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
+  silentTranslationWarn: true,
+  modifiers: {
+    md: (str) => md.renderInline(str),
+    common: (str) => str.split('.').reduce((o, i) => o[i], commonData),
+  },
+  messages: getMessages(),
+  warnHtmlInMessage: false,
+  warnHtmlMessage: false,
+}))

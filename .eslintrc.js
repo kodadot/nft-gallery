@@ -5,9 +5,9 @@ module.exports = {
     node: true,
   },
   extends: [
-    'plugin:vue/recommended',
+    'plugin:vue/vue3-recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:vue-scoped-css/recommended',
+    'plugin:vue-scoped-css/vue3-recommended',
     'prettier',
   ],
   parser: 'vue-eslint-parser',
@@ -16,8 +16,10 @@ module.exports = {
     ecmaVersion: 2022,
     sourceType: 'module',
   },
-  plugins: ['vue', 'prettier', '@typescript-eslint', 'unicorn'],
+  plugins: ['prettier', '@typescript-eslint', 'unicorn'],
   rules: {
+    'prettier/prettier': 'error',
+    'no-empty-function': 'warn',
     'no-trailing-spaces': 'error',
     'unicorn/no-for-loop': 'error',
     'brace-style': ['error', '1tbs', { allowSingleLine: false }],

@@ -1,5 +1,5 @@
 <template>
-  <NeoModal v-model="isModalActive" scroll="clip" @close="onClose">
+  <NeoModal :value="isModalActive" scroll="clip" @close="onClose">
     <div class="modal-width">
       <div
         class="border-bottom border-grey is-flex is-align-items-center is-justify-content-space-between px-6">
@@ -13,7 +13,7 @@
           icon="xmark"
           size="medium"
           class="cross"
-          @click.native="onClose" />
+          @click="onClose" />
       </div>
       <div class="px-6 py-3">
         <div class="mb-4 is-flex">
@@ -73,7 +73,6 @@ import { showNotification } from '@/utils/notification'
 
 enum Provider {
   TRANSAK,
-  PAYBIS,
   RAMP,
 }
 
@@ -114,12 +113,6 @@ const providers = computed(() => [
     disabled: false,
     supports: ['DOT', 'KSM'],
     value: Provider.RAMP,
-  },
-  {
-    image: getImage('paybis'),
-    disabled: true,
-    supports: ['DOT'],
-    value: Provider.PAYBIS,
   },
 ])
 
@@ -167,7 +160,7 @@ const onSuccess = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .provider {
   .provider-logo {

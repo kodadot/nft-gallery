@@ -10,7 +10,7 @@ type QueryResult = {
 function handleResult(
   collections: Collection[],
   result: QueryResult,
-  chain: string
+  chain: string,
 ): Collection[] {
   const newCollections =
     result.value?.collectionEntities?.map((item) => ({
