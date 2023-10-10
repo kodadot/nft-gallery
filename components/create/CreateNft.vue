@@ -77,7 +77,7 @@
         <div class="w-full">
           <p>{{ $t('mint.nft.sale.message') }}</p>
         </div>
-        <NeoSwitch v-model="form.sale" :rounded="false" />
+        <NeoSwitch v-model="form.sale" />
       </NeoField>
 
       <!-- list for sale price -->
@@ -148,7 +148,7 @@
         <div class="w-full">
           <p>{{ $t('mint.nfswMessage') }}</p>
         </div>
-        <NeoSwitch v-model="form.nsfw" :rounded="false" />
+        <NeoSwitch v-model="form.nsfw" />
       </NeoField>
 
       <hr class="my-6" />
