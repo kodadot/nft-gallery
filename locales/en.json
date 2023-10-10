@@ -507,7 +507,6 @@
         "existentialDeposit": "Collection Existential Deposit",
         "depositTooltip": "A deposit of {0} {1} is required to create a collection. Please note, this initial deposit is refundable. "
       }
-
     },
     "nft": {
       "art": {
@@ -567,7 +566,7 @@
         "teleport": "Teleport",
         "login": "Continue To Signing",
         "process": "Continue with Minting",
-        "notEnoughFund":"Not Enough {0} in {1}",
+        "notEnoughFund": "Not Enough {0} on {1}",
         "conjunction": "Or Use",
         "price": "Price",
         "network": "Network",
@@ -992,7 +991,7 @@
     "setOn": "Create On-Chain identity on {0}",
     "click": "Click to create identity",
     "clear": "Clear (burn)",
-    "existing" : "Existing Onchain Identity",
+    "existing": "Existing Onchain Identity",
     "establishedIdentity": "It appears you already established an onchain identity. Update it as needed (no new deposit needed) or delete to reclaim your deposit.",
     "handleRequired": "Your handle is required",
     "deposit": "Deposit",
