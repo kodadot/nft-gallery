@@ -196,7 +196,7 @@ withDefaults(
 // composables
 const { transaction, status, isLoading } = useTransaction()
 const { urlPrefix, setUrlPrefix } = usePrefix()
-const { $consola } = useNuxtApp()
+const { $consola, $i18n } = useNuxtApp()
 const { isLogIn } = useAuth()
 
 // form state
