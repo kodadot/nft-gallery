@@ -1,6 +1,6 @@
 <template>
-  <div v-if="!hasDisplayedCookieBanner" class="cookie-banner">
-    <transition name="slide">
+  <transition name="slide">
+    <div v-if="!hasDisplayedCookieBanner" class="cookie-banner">
       <div class="notices is-bottom is-flex w-100 is-align-items-center">
         <div
           role="alertdialog"
@@ -27,8 +27,8 @@
           </div>
         </div>
       </div>
-    </transition>
-  </div>
+    </div>
+  </transition>
 </template>
 
 <script lang="ts" setup>

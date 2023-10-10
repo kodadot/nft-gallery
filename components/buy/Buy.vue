@@ -64,12 +64,8 @@ const onConfirm = () => {
       items.value.map((item) => item.name),
     )
   } else {
-    handleBuy(
-      ShoppingCartItemToTokenToBuy(
-        shoppingCartStore.getItemToBuy as ShoppingCartItem,
-      ),
-      [shoppingCartStore.getItemToBuy?.name || ''],
-    )
+    const item = shoppingCartStore.getItemToBuy as ShoppingCartItem
+    handleBuy(ShoppingCartItemToTokenToBuy(item), [item.name || ''])
     shoppingCartStore.removeItemToBuy()
   }
 }
