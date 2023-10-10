@@ -4,10 +4,6 @@
       v-if="congratsNewNft"
       :title="$t('mint.success')"
       :subtitle="$t('mint.successCreateNewNft', [congratsNewNft])" />
-    <MessageNotify
-      v-else-if="showCongratsMessage"
-      :title="$t('mint.success')"
-      :subtitle="$t('mint.successNewNfts')" />
     <div class="columns is-variable is-6">
       <div class="column is-two-fifths">
         <div class="is-relative">
@@ -37,6 +33,7 @@
                   :src="resource.src"
                   :mime-type="resource.mimeType"
                   :animation-src="resource.animation"
+                  :audio-player-cover="galleryItem.nftImage.value"
                   is-detail />
               </NeoCarouselItem>
             </NeoCarousel>
@@ -45,10 +42,6 @@
             v-else
             :key="nftImage"
             ref="mediaItemRef"
-            :class="{
-              'is-flex is-align-items-center is-justify-content-center h-audio':
-                resolveMedia(nftMimeType) == MediaType.AUDIO,
-            }"
             class="gallery-item-media"
             :src="nftImage"
             :animation-src="nftAnimation"
@@ -56,7 +49,8 @@
             :title="nftMetadata?.name"
             is-detail
             :is-lewd="galleryDescriptionRef?.isLewd"
-            :placeholder="placeholder" />
+            :placeholder="placeholder"
+            :audio-player-cover="nftImage" />
         </div>
       </div>
 
@@ -75,7 +69,7 @@
                   <CollectionDetailsPopover
                     v-if="nft?.collection.id"
                     :nft="nft">
-                    <template #trigger>
+                    <template #content>
                       <nuxt-link
                         :to="`/${urlPrefix}/collection/${collection?.id}`"
                         class="has-text-link">
@@ -95,14 +89,14 @@
               <IdentityItem
                 v-if="nft?.issuer"
                 class="gallery-avatar mr-4"
-                :label="$t('Creator')"
+                :label="$t('creator')"
                 :prefix="urlPrefix"
                 :account="nft?.issuer"
                 data-testid="item-creator" />
               <IdentityItem
                 v-if="nft?.currentOwner !== nft?.issuer"
                 class="gallery-avatar"
-                :label="$t('Owner')"
+                :label="$t('owner')"
                 :prefix="urlPrefix"
                 :account="nft?.currentOwner || ''"
                 data-testid="item-owner" />
@@ -153,9 +147,10 @@
     <CarouselTypeVisited class="mt-8" />
 
     <GalleryItemPreviewer
-      v-model="isFullscreen"
+      :value="isFullscreen"
       :item-src="previewItemSrc"
-      :gallery-item="galleryItem" />
+      :gallery-item="galleryItem"
+      @input="isFullscreen = false" />
   </section>
 </template>
 
@@ -168,6 +163,10 @@ import {
 } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
+
+import CarouselTypeRelated from '@/components/carousel/CarouselTypeRelated.vue'
+import CarouselTypeVisited from '@/components/carousel/CarouselTypeVisited.vue'
+import CollectionDetailsPopover from '@/components/collectionDetailsPopover/CollectionDetailsPopover.vue'
 
 import GalleryItemButton from './GalleryItemButton/GalleryItemButton.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
@@ -186,7 +185,6 @@ import { useWindowSize } from '@vueuse/core'
 import { usePreferencesStore } from '@/stores/preferences'
 
 const { urlPrefix } = usePrefix()
-const { $seoMeta } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
 const { placeholder } = useTheme()
@@ -210,13 +208,12 @@ const tabs = {
   chart: '2',
 }
 const activeTab = ref(tabs.offers)
-const showCongratsMessage = ref(false)
 
 const isFullscreen = ref(false)
 const canPreview = computed(() =>
   [MediaType.VIDEO, MediaType.IMAGE, MediaType.OBJECT].includes(
-    resolveMedia(nftMimeType.value)
-  )
+    resolveMedia(nftMimeType.value),
+  ),
 )
 
 const activeCarousel = ref(0)
@@ -225,13 +222,13 @@ const activeCarouselImage = computed(() => {
   return resource?.src || 'placeholder.webp'
 })
 const hasResources = computed(
-  () => nftResources.value && nftResources.value?.length > 1
+  () => nftResources.value && nftResources.value?.length > 1,
 )
 const hasAnimatedResources = computed(
   () =>
     nftResources.value &&
     nftResources.value?.length > 1 &&
-    nftResources.value[1].animation
+    nftResources.value[1].animation,
 )
 
 const previewItemSrc = computed(() => {
@@ -242,7 +239,6 @@ const previewItemSrc = computed(() => {
 
 const onNFTBought = () => {
   activeTab.value = tabs.activity
-  showCongratsMessage.value = true
 }
 
 watch(triggerBuySuccess, (value, oldValue) => {
@@ -254,20 +250,9 @@ watch(triggerBuySuccess, (value, oldValue) => {
 
 const congratsNewNft = ref('')
 
-const CarouselTypeRelated = defineAsyncComponent(
-  () => import('@/components/carousel/CarouselTypeRelated.vue')
-)
-const CarouselTypeVisited = defineAsyncComponent(
-  () => import('@/components/carousel/CarouselTypeVisited.vue')
-)
-const CollectionDetailsPopover = defineAsyncComponent(
-  () =>
-    import('@/components/collectionDetailsPopover/CollectionDetailsPopover.vue')
-)
-
 onMounted(() => {
-  exist(route.query.congratsNft, (val) => {
-    congratsNewNft.value = val ? val : ''
+  exist(route.query.congratsNft as string, (val) => {
+    congratsNewNft.value = val || ''
     router.replace({ query: {} })
   })
 })
@@ -275,32 +260,33 @@ onMounted(() => {
 const { isUnlockable, unlockLink } = useUnlockable(collection)
 
 const title = computed(() => nftMetadata.value?.name || '')
-const meta = computed(() => {
-  return [
-    ...$seoMeta({
-      title: title.value,
-      description: convertMarkdownToText(nftMetadata.value?.description),
-      image: generateNftImage(
-        title.value,
-        formatBalanceEmptyOnZero(nft.value?.price as string),
-        sanitizeIpfsUrl(nftImage.value || ''),
-        nftMimeType.value
-      ),
-      mime: nftMimeType.value,
-      url: route.path,
-      video: sanitizeIpfsUrl(nftAnimation.value || ''),
-    }),
-  ]
+const seoDescription = computed(
+  () => convertMarkdownToText(nftMetadata.value?.description) || '',
+)
+const seoCard = computed(() => {
+  if (nft.value) {
+    return generateNftImage(
+      title.value,
+      formatBalanceEmptyOnZero(nft.value?.price as string),
+      sanitizeIpfsUrl(nftImage.value || ''),
+      nftMimeType.value,
+    )
+  }
 })
 
-useNuxt2Meta({
+useSeoMeta({
   title,
-  meta,
+  description: seoDescription,
+  ogTitle: title,
+  ogDescription: seoDescription,
+  ogImage: seoCard,
+  twitterImage: seoCard,
+  twitterCard: 'summary_large_image',
 })
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 $break-point-width: 930px;
 .title {
   font-size: 2.4375em;
@@ -367,18 +353,18 @@ $break-point-width: 930px;
 }
 
 .gallery-item-carousel {
-  :deep .o-car {
-    &__item {
+  :deep(.o-car) {
+    .o-car__item {
       overflow: hidden;
     }
 
-    &__overlay {
+    .o-car__overlay {
       @include ktheme() {
         background: theme('background-color');
       }
     }
 
-    &__indicator {
+    .o-car__indicator {
       &__item {
         @include ktheme() {
           background: theme('background-color-inverse');

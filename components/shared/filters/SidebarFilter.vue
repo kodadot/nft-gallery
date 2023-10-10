@@ -3,7 +3,10 @@
     <NeoSidebar :reduce="false" :open="open" fullheight>
       <EventTypeFilter v-if="isCollectionActivityTab" expanded fluid-padding />
       <StatusFilter v-else expanded fluid-padding />
-      <PriceFilter v-if="!isCollectionActivityTab" fluid-padding />
+      <PriceFilter
+        v-if="!isCollectionActivityTab"
+        fluid-padding
+        data-testid="expand-search" />
       <PopularCollections v-if="isExploreItems" expanded fluid-padding />
     </NeoSidebar>
   </div>
@@ -16,18 +19,18 @@ import EventTypeFilter from '@/components/shared/filters/modules/EventTypeFilter
 import PriceFilter from '@/components/shared/filters/modules/PriceFilter.vue'
 import PopularCollections from '@/components/shared/filters/modules/PopularCollections.vue'
 import { usePreferencesStore } from '@/stores/preferences'
-const route = useRoute()
 
+const route = useRoute()
 const preferencesStore = usePreferencesStore()
 const open = computed(() => preferencesStore.getsidebarFilterCollapse)
 const isCollectionActivityTab = computed(
-  () => route.name === 'prefix-collection-id-activity'
+  () => route.name === 'prefix-collection-id-activity',
 )
 const isExploreItems = computed(() => route.name === 'prefix-explore-items')
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .bordered {
   border-right: 1px solid;
 }

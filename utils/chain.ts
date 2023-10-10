@@ -1,5 +1,5 @@
-import type { Option } from '@kodadot1/static'
-import { ENDPOINT_MAP, chainList } from '@kodadot1/static'
+import type { Option, Prefix } from '@kodadot1/static'
+import { ENDPOINT_MAP, NAMES, chainList } from '@kodadot1/static'
 
 export const getChainEndpointByPrefix = (prefix: string) => {
   const endpoint: string | undefined = ENDPOINT_MAP[prefix]
@@ -15,18 +15,22 @@ export const getChainNameByPrefix = (prefix: string) => {
   return prefix
 }
 
+export const getChainName = (prefix: Prefix) => {
+  return NAMES[prefix].replace(' [Beta]', '')
+}
+
 export const isProduction = window.location.hostname === 'kodadot.xyz'
 export const isBeta = window.location.hostname === 'beta.kodadot.xyz'
 
 export const disableChains = ['dot']
-export const disableChainListOnBetaEnv = ['dot', 'movr', 'glmr', 'snek']
+export const disableChainListOnBetaEnv = ['dot', 'snek']
 
 export const availablePrefixes = (): Option[] => {
   const chains = chainList()
 
   if (isProduction || isBeta) {
     return chains.filter(
-      (chain) => !disableChainListOnBetaEnv.includes(String(chain.value))
+      (chain) => !disableChainListOnBetaEnv.includes(String(chain.value)),
     )
   }
 

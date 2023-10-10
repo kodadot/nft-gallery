@@ -34,7 +34,7 @@ export const WalletExtensionProxyMap = {
 }
 
 const getWalletExtensionSource = (
-  walletExtension: SupportWalletExtension
+  walletExtension: SupportWalletExtension,
 ): SupportWalletExtension => {
   return WalletExtensionProxyMap[walletExtension] || walletExtension
 }
@@ -46,7 +46,7 @@ const buildWalletConfig = (
   walletUrl,
   guideUrl,
   isBrowserExtension = false,
-  isMobileApp = false
+  isMobileApp = false,
 ): WalletConfig => ({
   img,
   name,
@@ -65,7 +65,7 @@ export const WalletConfigMap: IWalletConfigMap = {
     'Polkadot.js',
     'https://polkadot.js.org/extension/',
     'https://www.youtube.com/watch?v=r-fAy7Ta_vY',
-    true
+    true,
   ),
   [SupportWalletExtension.Clover]: buildWalletConfig(
     SupportWalletExtension.Clover,
@@ -73,14 +73,14 @@ export const WalletConfigMap: IWalletConfigMap = {
     'CLV Wallet',
     'https://chrome.google.com/webstore/detail/clv-wallet/nhnkbkgjikgcigadomkphalanndcapjk',
     'https://docs.clv.org/use-clv-wallet/clv-extension-wallet',
-    true
+    true,
   ),
   [SupportWalletExtension.Ledger]: buildWalletConfig(
     SupportWalletExtension.Ledger,
     '/partners/logo-ledger.svg',
     'Ledger',
     'https://www.ledger.com/ledger-live',
-    'https://www.ledger.com/ledger-live'
+    'https://www.ledger.com/ledger-live',
   ),
   [SupportWalletExtension.Math]: buildWalletConfig(
     SupportWalletExtension.Math,
@@ -89,7 +89,7 @@ export const WalletConfigMap: IWalletConfigMap = {
     'https://mathwallet.org/en-us/',
     'https://blog.mathwallet.org/?p=540',
     false,
-    true
+    true,
   ),
   [SupportWalletExtension.Nova]: buildWalletConfig(
     SupportWalletExtension.Nova,
@@ -98,7 +98,7 @@ export const WalletConfigMap: IWalletConfigMap = {
     'https://novawallet.io/',
     'https://novawallet.io/',
     false,
-    true
+    true,
   ),
   [SupportWalletExtension.SubWallet]: buildWalletConfig(
     SupportWalletExtension.SubWallet,
@@ -107,7 +107,7 @@ export const WalletConfigMap: IWalletConfigMap = {
     'https://chrome.google.com/webstore/detail/subwallet/onhogfjeacnfoofkfgppdlbmlmnplgbn?hl=en&authuser=0',
     'https://connect.subwallet.app/#/welcome',
     true,
-    true
+    true,
   ),
   [SupportWalletExtension.Talisman]: buildWalletConfig(
     SupportWalletExtension.Talisman,
@@ -115,7 +115,7 @@ export const WalletConfigMap: IWalletConfigMap = {
     'Talisman',
     'https://app.talisman.xyz/spiritkeys',
     'https://app.talisman.xyz/',
-    true
+    true,
   ),
   [SupportWalletExtension.Enkrypt]: buildWalletConfig(
     SupportWalletExtension.Enkrypt,
@@ -123,7 +123,7 @@ export const WalletConfigMap: IWalletConfigMap = {
     'Enkrypt',
     'https://www.enkrypt.com/#downloads',
     'https://www.enkrypt.com/',
-    true
+    true,
   ),
 }
 
@@ -151,17 +151,17 @@ const PCWalletExtensionList = [
 ]
 
 const createWalletInstance = (
-  walletExtension: SupportWalletExtension
+  walletExtension: SupportWalletExtension,
 ): BaseDotsamaWallet => {
   const config = WalletConfigMap[walletExtension]
   return new BaseDotsamaWallet(config)
 }
 
 const createWalletInstanceList = (
-  walletList: SupportWalletExtension[]
+  walletList: SupportWalletExtension[],
 ): BaseDotsamaWallet[] => {
   return walletList.map((walletExtension) =>
-    createWalletInstance(walletExtension)
+    createWalletInstance(walletExtension),
   )
 }
 
@@ -180,7 +180,7 @@ export const SupportedWallets = () => {
 }
 
 export function getWalletBySource(
-  source: string | unknown
+  source: string | unknown,
 ): Wallet | undefined {
   return SupportedWallets().find((wallet) => {
     return wallet.extensionName === source
@@ -193,7 +193,7 @@ export function isWalletInstalled(source: string | unknown): boolean {
 }
 
 export type SubscriptionFn = (
-  accounts: WalletAccount[] | undefined
+  accounts: WalletAccount[] | undefined,
 ) => void | Promise<void>
 
 export interface WalletAccount {

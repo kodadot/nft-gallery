@@ -40,12 +40,12 @@ withDefaults(
   {
     isLoading: false,
     image: '',
-  }
+  },
 )
 </script>
 
 <style scoped>
-.media-left :deep img {
+.media-left :deep(img) {
   max-height: 100%;
 }
 </style>

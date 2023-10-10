@@ -6,6 +6,7 @@ import { getAddress } from '@/utils/extension'
 import { toDefaultAddress } from '@/utils/account'
 import { DispatchError, Hash } from '@polkadot/types/interfaces'
 import { KODADOT_DAO } from '@/utils/support'
+import { calculateBalance } from './format/balance'
 
 export type ExecResult = UnsubscribeFn | string
 export type Extrinsic = SubmittableExtrinsic<'promise'>
@@ -24,7 +25,7 @@ const exec = async (
   password: string | null,
   callback: (...params: any[]) => SubmittableExtrinsic<'promise'>,
   params: any[],
-  statusCb: Callback<any>
+  statusCb: Callback<any>,
 ): Promise<ExecResult> => {
   try {
     const transfer = await callback(...params)
@@ -72,7 +73,7 @@ export const txCb =
   (
     onSuccess: (blockHash: Hash) => void,
     onError: (err: DispatchError) => void,
-    onResult: (result: ISubmittableResult) => void = console.log
+    onResult: (result: ISubmittableResult) => void = console.log,
   ) =>
   (result: ISubmittableResult): void => {
     onResult(result)
@@ -91,7 +92,7 @@ export const txCb =
 export const estimate = async (
   account: KeyringAccount | string,
   callback: (...params: any) => SubmittableExtrinsic<'promise'>,
-  params: any[]
+  params: any[],
 ): Promise<string> => {
   const transfer = await callback(...params)
   const address =
@@ -101,9 +102,60 @@ export const estimate = async (
 
   const info = await transfer.paymentInfo(
     address,
-    injector ? { signer: injector.signer } : {}
+    injector ? { signer: injector.signer } : {},
   )
   return info.partialFee.toString()
+}
+
+export const getTransitionFee = async (
+  accountId: string,
+  targetAddresses: Array<string>,
+  decimal: number,
+) => {
+  const { cb, arg } = await getTransferParams(
+    targetAddresses.map(
+      () =>
+        ({
+          address: toDefaultAddress(KODADOT_DAO),
+          usd: 1,
+          token: 1,
+        }) as TargetAddress,
+    ),
+    decimal,
+  )
+  return estimate(accountId, cb, arg)
+}
+export type TargetAddress = {
+  address: string
+  usd?: number | string
+  token?: number | string
+  isInvalid?: boolean
+}
+const getTransferParams = async (
+  addresses: TargetAddress[],
+  decimals: number,
+) => {
+  const { apiInstance } = useApi()
+
+  const api = await apiInstance.value
+  const isSingle = addresses.length === 1
+  const firstAddress = addresses[0]
+  const cb = isSingle ? api.tx.balances.transfer : api.tx.utility.batch
+  const arg = isSingle
+    ? [
+        firstAddress.address,
+        String(calculateBalance(firstAddress.token as number, decimals)),
+      ]
+    : [
+        addresses.map((target) => {
+          const amountToTransfer = String(
+            calculateBalance(target.token as number, decimals),
+          )
+
+          return api.tx.balances.transfer(target.address, amountToTransfer)
+        }),
+      ]
+  return { cb, arg }
 }
 
 export default exec

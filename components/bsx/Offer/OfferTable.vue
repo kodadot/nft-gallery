@@ -1,11 +1,11 @@
 <template>
   <div class="offer-table-container">
     <NeoTable
+      v-model:current-page="currentPage"
       :data="displayOffers(offers)"
       :paginated="displayOffers(offers).length > itemsPerPage"
       :per-page="itemsPerPage"
       :class="{ scrollable: offers.length > 0 }"
-      :current-page.sync="currentPage"
       td-class="is-vcentered is-narrow"
       pagination-position="top">
       <div v-if="headerText" class="has-text-centered offer-title mb-2">
@@ -171,16 +171,16 @@ withDefaults(
   {
     headerText: '',
     displayCollection: false,
-  }
+  },
 )
 
-const { $route } = useNuxtApp()
+const route = useRoute()
 const { urlPrefix, tokenId } = usePrefix()
 const { accountId } = useAuth()
 const { replaceUrl } = useReplaceUrl()
 
 const itemsPerPage = ref(20)
-const currentPage = ref(parseInt($route.query?.page as string) || 1)
+const currentPage = ref(parseInt(route.query?.page as string) || 1)
 const selectedStatus = ref<AllOfferStatusType>(AllOfferStatusType.ALL)
 
 const emit = defineEmits(['select'])
@@ -192,11 +192,12 @@ watch(currentPage, (val) => {
   replaceUrl({ page: String(val) })
 })
 
-const currentBlock = ref(async () => {
+const currentBlock = ref(0)
+onMounted(async () => {
   const { apiInstance } = useApi()
   const api = await apiInstance.value
   const block = await api.rpc.chain.getHeader()
-  return block.number.toNumber()
+  currentBlock.value = block.number.toNumber()
 })
 
 const getUniqType = (offers: Offer[]) => {

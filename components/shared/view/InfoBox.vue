@@ -7,10 +7,8 @@
         variant="text"
         no-shadow
         icon="xmark"
-        icon-pack="fa-sharp"
         size="medium"
-        class="cross"
-        @click.native="onClose" />
+        @click="onClose" />
     </div>
     <div class="box-padding body-container">
       <slot />
@@ -38,7 +36,7 @@ const onClose = () => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .box-padding {
   padding: 12px 16px;
@@ -76,12 +74,6 @@ $border_size: 1px;
       background-color: theme('k-greenaccent2');
     }
 
-    .cross {
-      @include ktheme() {
-        background-color: theme('k-greenaccent2') !important;
-      }
-    }
-
     .header-container {
       @include ktheme() {
         border-bottom: $border_size solid theme('green-border-color');
@@ -93,12 +85,6 @@ $border_size: 1px;
     @include ktheme() {
       border: $border_size solid theme('k-red');
       background-color: theme('k-redaccent2');
-    }
-
-    .cross {
-      @include ktheme() {
-        background-color: theme('k-redaccent2') !important;
-      }
     }
 
     .header-container {

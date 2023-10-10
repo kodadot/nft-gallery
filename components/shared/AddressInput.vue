@@ -8,6 +8,13 @@
         icon-right-clickable
         @icon-right-click="clearIconClick" />
     </NeoField>
+
+    <AddressChecker
+      v-if="withAddressCheck"
+      :class="{ 'mt-4': !!inputValue }"
+      :address="inputValue"
+      @check="handleAddressCheck"
+      @change="handleAddressChange" />
   </div>
 </template>
 
@@ -15,11 +22,12 @@
 import correctFormat from '@/utils/ss58Format'
 import { checkAddress, isAddress } from '@polkadot/util-crypto'
 import { NeoField, NeoInput } from '@kodadot1/brick'
+import AddressChecker from '@/components/shared/AddressChecker.vue'
 
-const emit = defineEmits(['input'])
+const emit = defineEmits(['update:modelValue', 'check'])
 const props = withDefaults(
   defineProps<{
-    value: string
+    modelValue: string
     label: string
     emptyOnError?: boolean
     strict: boolean
@@ -27,6 +35,7 @@ const props = withDefaults(
     placeholder?: string
     disableError?: boolean
     isInvalid?: boolean
+    withAddressCheck?: boolean
   }>(),
   {
     label: 'Insert Address',
@@ -34,21 +43,36 @@ const props = withDefaults(
     icon: '',
     placeholder: '',
     emptyOnError: false,
-  }
+  },
 )
 
 const { chainProperties } = useChain()
 const error = ref<string | null>('')
+const isAddressCheckValid = ref<boolean>(true)
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
+
 const variant = computed(() => {
-  if (props.isInvalid || error.value) {
+  if (props.isInvalid || error.value || !isAddressCheckValid.value) {
     return 'danger'
   }
-  if (isAddress(inputValue.value)) {
+
+  const isNotEmpty = !!inputValue.value
+  const isValidAddress = isAddress(inputValue.value)
+  const isSuccessWithAddressCheck =
+    props.withAddressCheck && (!props.isInvalid || isAddressCheckValid.value)
+  const isSuccesssWithoutAddressCheck =
+    !props.withAddressCheck && isValidAddress
+
+  if (
+    isNotEmpty &&
+    (isSuccessWithAddressCheck || isSuccesssWithoutAddressCheck)
+  ) {
     return 'success'
   }
+
   return ''
 })
+
 const iconRight = computed(() => {
   if (inputValue.value && props.icon === 'close-circle') {
     return 'close-circle'
@@ -56,19 +80,23 @@ const iconRight = computed(() => {
   return ''
 })
 const inputValue = computed({
-  get: () => props.value,
+  get: () => props.modelValue,
   set: (value) => handleInput(value),
 })
 
+const emitUpdate = (value: string) => {
+  emit('update:modelValue', value)
+}
+
 const clearIconClick = () => {
   inputValue.value = ''
-  emit('input', '')
+  emitUpdate('')
 }
 
 const handleInput = (value: string) => {
-  emit('input', value)
+  emitUpdate(value)
 
-  if (props.disableError) {
+  if (props.disableError || props.withAddressCheck) {
     return value
   }
 
@@ -84,5 +112,14 @@ const handleInput = (value: string) => {
   }
 
   return props.emptyOnError && error.value ? '' : value
+}
+
+const handleAddressCheck = (isValid: boolean) => {
+  emit('check', isValid)
+  isAddressCheckValid.value = isValid
+}
+
+const handleAddressChange = (value: string) => {
+  handleInput(value)
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="common-price-chart">
+  <div class="common-price-chart" data-testid="gallery-item-chart">
     <span class="chart-y-description is-size-7">
       Price ({{ chainSymbol }})
     </span>
@@ -74,7 +74,7 @@ const props = defineProps<{
 }>()
 
 const heightStyle = computed(() =>
-  props.chartHeight ? `height: ${props.chartHeight}` : ''
+  props.chartHeight ? `height: ${props.chartHeight}` : '',
 )
 let Chart: ChartJS<'line', any, unknown>
 
@@ -120,7 +120,7 @@ const getChartDataByTimeRange = (data: [Date, number][], timeRange: number) => {
     const startDate = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate() - selectedTimeRange.value.value
+      now.getDate() - selectedTimeRange.value.value,
     )
     return data.filter((item) => item[0] >= startDate)
   }
@@ -290,7 +290,7 @@ watch(
   () => props.priceChartData,
   () => {
     getPriceChartData()
-  }
+  },
 )
 watch([isDarkMode, selectedTimeRange], () => {
   getPriceChartData()

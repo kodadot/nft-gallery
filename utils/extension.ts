@@ -1,5 +1,5 @@
 import { web3Enable } from '@polkadot/extension-dapp'
-import { getWalletBySource, WalletAccount } from '@/utils/config/wallets'
+import { WalletAccount, getWalletBySource } from '@/utils/config/wallets'
 import consola from 'consola'
 
 export const enableExtension = async () => await web3Enable('KodaDot')
@@ -29,7 +29,7 @@ export const getSelectedAccount = (accounts: WalletAccount[]) => {
   try {
     const selectedAddress = localStorage.getItem('kodaauth')
     const account = accounts.find(
-      (account) => account.address === selectedAddress
+      (account) => account.address === selectedAddress,
     )
 
     return account

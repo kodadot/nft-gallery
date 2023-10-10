@@ -1,13 +1,13 @@
 <template>
   <NeoModal
-    v-model="isFullscreen"
+    :value="isFullscreen"
     :destroy-on-hide="false"
     :can-cancel="false"
     full-screen
     root-class="gallery-item-modal"
     content-class="gallery-item-modal-content"
     @close="isFullscreen = false">
-    <NeoButton class="back-button" @click.native="emit('input', false)">
+    <NeoButton class="back-button" @click="emit('input', false)">
       <NeoIcon icon="chevron-left" />
       {{ $t('go back') }}
     </NeoButton>
@@ -46,11 +46,12 @@ const isFullscreen = useVModel(props, 'value', emit)
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .gallery-item-modal {
   position: fixed;
-  :deep &-content {
+
+  :deep(&-content) {
     height: calc(100% - $navbar-desktop-min-height + 1px) !important;
     margin-top: calc($navbar-desktop-min-height - 1px) !important;
     border: none !important;
@@ -60,16 +61,7 @@ const isFullscreen = useVModel(props, 'value', emit)
       margin-top: calc($navbar-mobile-min-height - 1px) !important;
     }
   }
-  :deep {
-    figure,
-    img {
-      height: 100%;
-      width: 100%;
-    }
-    img {
-      object-fit: contain;
-    }
-  }
+
   .back-button {
     position: absolute;
     left: 0.75rem;
@@ -92,5 +84,16 @@ const isFullscreen = useVModel(props, 'value', emit)
       border: none;
     }
   }
+}
+
+.gallery-item-media :deep(figure) {
+  height: 100%;
+  width: 100%;
+}
+
+.gallery-item-media :deep(img) {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
 }
 </style>

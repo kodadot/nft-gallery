@@ -1,8 +1,11 @@
 # One Stop Shop for your Polkadot NFTs
 
-![](https://github.com/kodadot/kodadot-presskit/blob/main/v3/KODA_v3.png?raw=true)
+![Frame 819](https://github.com/kodadot/nft-gallery/assets/90852205/70989633-9c78-47ee-9e23-4a60c12d8d76)
+
 
 # Contributing
+
+[![Twitter Follow](https://img.shields.io/twitter/follow/kodadot?style=social)](https://twitter.com/intent/follow?screen_name=kodadot)
 
 [![Test & Build app](https://github.com/kodadot/nft-gallery/actions/workflows/build.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/build.yml) [![Reviewdog](https://github.com/kodadot/nft-gallery/actions/workflows/reviewdog.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/reviewdog.yml) [![Maintainability](https://api.codeclimate.com/v1/badges/7d14fab327c632d5f0ce/maintainability)](https://codeclimate.com/github/kodadot/nft-gallery/maintainability)
 

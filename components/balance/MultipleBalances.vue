@@ -7,7 +7,7 @@
     </div>
     <div v-else class="balance">
       <div class="balance-row has-text-grey is-size-7">
-        <div class="is-flex-grow-2">{{ $t('general.chain') }}</div>
+        <div class="is-flex-grow-3">{{ $t('general.chain') }}</div>
         <div class="has-text-right is-flex-grow-1">
           {{ $t('general.token') }}
         </div>
@@ -25,7 +25,9 @@
           v-for="token in filterEmptyBalanceChains(chain)"
           :key="token.name"
           class="balance-row">
-          <div class="is-capitalized is-flex-grow-2">{{ key }}</div>
+          <div class="is-capitalized is-flex-grow-3">
+            {{ key }}
+          </div>
           <div class="has-text-right is-flex-grow-1">
             {{ token.name.toUpperCase() }}
           </div>
@@ -47,7 +49,7 @@
 
     <hr class="my-2" />
     <p class="is-flex is-justify-content-space-between is-align-items-flex-end">
-      <span class="is-size-7"> {{ $i18n.t('spotlight.total') }}: </span>
+      <span class="is-size-7"> {{ $t('spotlight.total') }}: </span>
       <span class="is-size-6"
         >${{ formatNumber(identityStore.getTotalUsd) }}</span
       >
@@ -69,7 +71,6 @@ import { getAssetIdByAccount } from '@/utils/api/bsx/query'
 import { toDefaultAddress } from '@/utils/account'
 
 import { ChainToken, useIdentityStore } from '@/stores/identity'
-
 import type { PalletBalancesAccountData } from '@polkadot/types/lookup'
 
 const { accountId } = useAuth()
@@ -87,13 +88,13 @@ const networkToPrefix = {
   polkadot: 'dot',
   kusama: 'ksm',
   basilisk: 'bsx',
-  statemine: 'ahk',
+  kusamaHub: 'ahk',
   'basilisk-testnet': 'snek',
-  statemint: 'ahp',
+  polkadotHub: 'ahp',
 }
 
 const isBalanceLoading = computed(
-  () => identityStore.getStatusMultiBalances === 'loading'
+  () => identityStore.getStatusMultiBalances === 'loading',
 )
 const filterEmptyBalanceChains = (chain: ChainToken = {}) => {
   const tokens = Object.keys(chain)
@@ -109,11 +110,11 @@ const isEmptyBalanceOnAllChains = computed(() => {
   const chains = Object.keys(multiBalances.value.chains)
   return !chains.some(
     (chain) =>
-      filterEmptyBalanceChains(multiBalances.value.chains[chain]).length !== 0
+      filterEmptyBalanceChains(multiBalances.value.chains[chain]).length !== 0,
   )
 })
 const currentNetwork = computed(() =>
-  isTestnet.value ? 'test-network' : 'main-network'
+  isTestnet.value ? 'test-network' : 'main-network',
 )
 
 const fiatStore = useFiatStore()
@@ -126,7 +127,7 @@ function calculateUsd(amount: string, token = 'KSM') {
 
   return calculateExactUsdFromToken(
     amountToNumber,
-    Number(fiatStore.getCurrentTokenValue(token))
+    Number(fiatStore.getCurrentTokenValue(token)),
   )
 }
 
@@ -151,7 +152,7 @@ async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
     nativeBalance = (
       (await api.query.tokens.accounts(
         prefixAddress,
-        tokenId
+        tokenId,
       )) as PalletBalancesAccountData
     ).free.toString()
     currentBalance = format(nativeBalance, chain.tokenDecimals, false)

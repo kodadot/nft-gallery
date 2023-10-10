@@ -22,7 +22,7 @@
             size="medium"
             variant="icon"
             no-shadow
-            @click.native="closePanel" />
+            @click="closePanel" />
         </div>
         <NeoAvatar
           :avatar="nft?.imageUrl"
@@ -68,7 +68,7 @@
         :label="$t('massmint.save')"
         variant="k-accent"
         :disabled="!name"
-        @click.native="save" />
+        @click="save" />
     </div>
   </NeoSidebar>
 </template>
@@ -139,7 +139,7 @@ const save = () => {
   object-fit: cover;
 }
 
-.sidebar-width:deep .o-side__content {
+.sidebar-width:deep(.o-side__content) {
   width: 30%;
 }
 </style>

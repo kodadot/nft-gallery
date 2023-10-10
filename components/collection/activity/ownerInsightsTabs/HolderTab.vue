@@ -94,8 +94,8 @@ const offset = ref(4)
 const holders = computed(() =>
   Object.entries(props.owners || {}).sort(
     // sort by nft count: highest first
-    (a, b) => b[1].nftCount - a[1].nftCount
-  )
+    (a, b) => b[1].nftCount - a[1].nftCount,
+  ),
 )
 
 useIntersectionObserver(target, ([{ isIntersecting }]) => {
@@ -110,12 +110,13 @@ const displayedHolders = computed(() => holders.value.slice(0, offset.value))
 // {id0: false, id1: true, id3: false, ...}
 const isNFTDetailsOpen = ref(
   holders.value.reduce(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     (isOpen, [holderId, _]) => ({
       ...isOpen,
       [holderId]: false,
     }),
-    {}
-  )
+    {},
+  ),
 )
 
 const props = defineProps<{

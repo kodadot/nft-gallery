@@ -42,7 +42,7 @@ const ar = /^ar:\/\//
 
 export const sanitizeArweaveUrl = (
   url: string,
-  provider?: ArweaveProviders
+  provider?: ArweaveProviders,
 ): string => {
   if (ar.test(url)) {
     return url.replace(ar, resolveArProvider(provider))
@@ -57,7 +57,7 @@ export const isArweaveUrl = (url: string): boolean => {
 
 export const sanitizeIpfsCid = (
   url: string,
-  provider?: ProviderKeyType
+  provider?: ProviderKeyType,
 ): string => {
   return `${resolveProvider(provider)}ipfs/${url}`
 }
@@ -82,7 +82,7 @@ export type SomethingWithMeta = {
 }
 export const sanitizeIpfsUrl = (
   ipfsUrl = '',
-  provider?: ProviderKeyType
+  provider?: ProviderKeyType,
 ): string => {
   if (!ipfsUrl) {
     return ''
@@ -90,7 +90,7 @@ export const sanitizeIpfsUrl = (
   if (ipfsUrl.includes('https://gateway.pinata.cloud')) {
     return ipfsUrl.replace(
       'https://gateway.pinata.cloud/',
-      resolveProvider(provider)
+      resolveProvider(provider),
     )
   }
 
@@ -112,7 +112,7 @@ export const sanitizeIpfsUrl = (
 }
 export const fetchMetadata = async <T>(
   rmrk: SomethingWithMeta,
-  sanitizer: SanitizerFunc = sanitizeIpfsUrl
+  sanitizer: SanitizerFunc = sanitizeIpfsUrl,
 ): Promise<T> => {
   try {
     if (!rmrk.metadata) {
@@ -135,25 +135,30 @@ export const fetchMetadata = async <T>(
 
 export const fetchNFTMetadata = (
   rmrk: NFT | SomethingWithMeta,
-  sanitizer: SanitizerFunc = sanitizeIpfsUrl
+  sanitizer: SanitizerFunc = sanitizeIpfsUrl,
 ): Promise<NFTMetadata> => fetchMetadata<NFTMetadata>(rmrk, sanitizer)
 
 export const fetchCollectionMetadata = (
-  rmrk: Collection | SomethingWithMeta
+  rmrk: Collection | SomethingWithMeta,
 ): Promise<CollectionMetadata> => fetchMetadata<CollectionMetadata>(rmrk)
 
 export const preheatFileFromIPFS = (ipfsUrl: string) => {
   const url = sanitizeIpfsUrl(ipfsUrl, 'image')
   const hash = fastExtract(url)
   api(url)
-    .then(() => consola.log(`[PREHEAT] ${hash}`))
+    .then(async () => {
+      consola.log(`[PREHEAT] ${hash}`)
+
+      // preheat to r2/cfi
+      await $fetch(hash)
+    })
     .catch((err) => consola.warn(`[PREHEAT] ${hash} ${err.message}`))
 }
 
 export const getSanitizer = (
   url: string,
   ipfsProvider?: ProviderKeyType,
-  arProvider?: ArweaveProviders
+  arProvider?: ArweaveProviders,
 ): SanitizerFunc => {
   if (url && (isIpfsUrl(url) || url.includes('https://gateway.pinata.cloud'))) {
     return (link) => sanitizeIpfsUrl(link, ipfsProvider)

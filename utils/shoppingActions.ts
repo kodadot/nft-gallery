@@ -1,13 +1,6 @@
 import { Interaction } from '@kodadot1/minimark/v1'
 import { hasMarketplace } from './prefix'
 
-enum UniqueActions {
-  DELEGATE = 'DELEGATE',
-  FREEZE = 'FREEZE',
-  REVOKE = 'REVOKE',
-  UNFREEZE = 'UNFREEZE',
-}
-
 enum BasiliskActions {
   MAKE_OFFER = 'MAKE_OFFER',
   SET_ROYALTY = 'SET_ROYALTY',
@@ -47,7 +40,7 @@ export const getActions = (isOwner: boolean, isAvailableToBuy: boolean) => {
 export const getMarketplaceActions = (
   prefix: string,
   isOwner: boolean,
-  hasPrice: boolean
+  hasPrice: boolean,
 ): [Interaction] | [] => {
   const isMarketAvailable = hasMarketplace(prefix)
 
@@ -69,24 +62,20 @@ export const getMarketplaceActions = (
 export const getActionList = (
   prefix: string,
   isOwner: boolean,
-  hasPrice: boolean
+  hasPrice: boolean,
 ): ShoppingActions[] => {
   let baseActions: ShoppingActions[] = isOwner ? ownerActions : []
   baseActions = [
     ...baseActions,
     ...getMarketplaceActions(prefix, isOwner, hasPrice),
   ]
-  const specific = getChainSpecificActions(prefix, isOwner, hasPrice)
+  const specific = getChainSpecificActions(prefix, isOwner)
 
   baseActions = [...baseActions, ...specific]
   return [...new Set(baseActions)]
 }
 
-export const getChainSpecificActions = (
-  prefix: string,
-  isOwner: boolean,
-  hasPrice: boolean
-) => {
+export const getChainSpecificActions = (prefix: string, isOwner: boolean) => {
   if (prefix === 'bsx') {
     return !isOwner ? makeOfferActions : []
   }
@@ -120,7 +109,7 @@ export const getActionButtonColor = (action: ShoppingActions): string => {
 
 export const getActionButtonLabelKey = (
   action: ShoppingActions,
-  price: string
+  price: string,
 ): string => {
   if (action === ShoppingActions.LIST && Number(price) > 0) {
     return 'nft.event.RELIST'
@@ -129,14 +118,14 @@ export const getActionButtonLabelKey = (
 }
 
 export const getActionButtonIcon = (
-  action: ShoppingActions
+  action: ShoppingActions,
 ): string | undefined => {
   const [, icon] = iconResolver[action]
   return icon
 }
 
 export const getActionComponent = (
-  action: ShoppingActions
+  action: ShoppingActions,
 ): string | undefined => {
   return actionComponent[action]
 }

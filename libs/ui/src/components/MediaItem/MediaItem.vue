@@ -1,5 +1,5 @@
 <template>
-  <div class="media-object" style="height: 100%">
+  <div class="media-object" style="height: fit-content">
     <component
       :is="resolveComponent"
       :src="properSrc"
@@ -8,7 +8,10 @@
       :placeholder="placeholder"
       :original="original"
       :is-lewd="isLewd"
-      :is-detail="isDetail" />
+      :is-detail="isDetail"
+      :disable-operation="disableOperation"
+      :player-cover="audioPlayerCover"
+      :hover-on-cover-play="audioHoverOnCoverPlay" />
     <div
       v-if="isLewd && isLewdBlurredLayer"
       class="nsfw-blur is-capitalized is-flex is-align-items-center is-justify-content-center is-flex-direction-column">
@@ -20,6 +23,14 @@
         $t('lewd.explicitDesc')
       }}</span>
     </div>
+    <div
+      v-if="isInteractive"
+      class="k-shade border-k-grey is-flex is-align-items-center is-justify-content-center border is-rounded absolute-position image is-24x24">
+      <NeoIcon
+        icon="code"
+        pack="far"
+        class="is-size-7 has-text-weight-medium" />
+    </div>
     <NeoButton
       v-if="isLewd"
       rounded
@@ -29,12 +40,13 @@
       :label="
         isLewdBlurredLayer ? $t('lewd.showContent') : $t('lewd.hideContent')
       "
-      @click.native="toggleContent" />
+      @click="toggleContent" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { getMimeType, resolveMedia } from '@/utils/gallery/media'
+import { MediaType } from '@/components/rmrk/types'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import ImageMedia from './type/ImageMedia.vue'
 import VideoMedia from './type/VideoMedia.vue'
@@ -56,6 +68,9 @@ const props = withDefaults(
     isLewd?: boolean
     isDetail?: boolean
     placeholder?: string
+    disableOperation?: boolean
+    audioPlayerCover?: string
+    audioHoverOnCoverPlay?: boolean
   }>(),
   {
     src: '',
@@ -66,10 +81,14 @@ const props = withDefaults(
     isLewd: false,
     isDetail: false,
     placeholder: '',
-  }
+    disableOperation: undefined,
+  },
 )
+const isInteractive = ref<boolean>(false)
+const type = ref('')
+
 // props.mimeType may be empty string "". Add `image/png` as fallback
-const mimeType = ref(!!props.mimeType ? props.mimeType : 'image/png')
+const mimeType = computed(() => props.mimeType || type.value || 'image/png')
 const isLewdBlurredLayer = ref(props.isLewd)
 const components = {
   ImageMedia,
@@ -83,13 +102,19 @@ const components = {
 }
 
 const resolveComponent = computed(() => {
-  return components[resolveMedia(mimeType.value) + SUFFIX]
+  let mediaType = resolveMedia(mimeType.value)
+
+  if (mediaType === MediaType.IFRAME && !props.isDetail) {
+    isInteractive.value = true
+    mediaType = MediaType.IMAGE
+  }
+  return components[mediaType + SUFFIX]
 })
 const properSrc = computed(() => props.src || props.placeholder)
 
 const updateComponent = async () => {
   if (props.animationSrc && !props.mimeType) {
-    mimeType.value = await getMimeType(props.animationSrc)
+    type.value = await getMimeType(props.animationSrc)
   }
 }
 
@@ -98,7 +123,7 @@ watch(
   () => updateComponent(),
   {
     immediate: true,
-  }
+  },
 )
 
 const toggleContent = () => {
@@ -109,7 +134,7 @@ defineExpose({ isLewdBlurredLayer })
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .media-object {
   .nsfw-blur {
     backdrop-filter: blur(60px);
@@ -140,6 +165,12 @@ defineExpose({ isLewdBlurredLayer })
         background: theme('text-color') !important;
       }
     }
+  }
+
+  .absolute-position {
+    position: absolute;
+    right: 0.75rem;
+    top: 0.75rem;
   }
 }
 </style>

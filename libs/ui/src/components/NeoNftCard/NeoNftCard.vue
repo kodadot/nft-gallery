@@ -3,75 +3,52 @@
     <component
       :is="link"
       v-if="!isLoading && nft"
-      :[bindKey]="`/${prefix}/gallery/${nft.id}`">
+      :[bindKey]="
+        isStacked
+          ? `/${prefix}/collection/${nft.collection.id}`
+          : `/${prefix}/gallery/${nft.id}`
+      ">
       <img
-        v-if="unlockable && unloackableIcon"
-        class="unloackable-icon"
-        :src="unloackableIcon"
-        alt="Unlockable Icon" />
-      <div class="is-relative">
+        v-if="cardIcon && cardIconSrc"
+        class="card-icon"
+        :src="cardIconSrc"
+        alt="Card Icon" />
+      <div
+        class="is-relative"
+        :class="{ 'border border-k-shade ml-5 mt-5 mr-2': isStacked }">
         <MediaItem
           :key="nft.image"
           class="nft-media"
+          :class="{
+            'stacked-shadow is-relative theme-background border border-k-shade':
+              isStacked,
+          }"
           :src="nft.image"
           :animation-src="nft.animationUrl"
           :mime-type="nft.mimeType"
           :placeholder="placeholder"
-          :title="nft?.name" />
+          :title="nft?.name"
+          disable-operation
+          :audio-player-cover="mediaPlayerCover"
+          :audio-hover-on-cover-play="mediaHoverOnCoverPlay" />
         <div
           :class="[showActionOnHover ? 'show-on-hover' : 'show-always']"
           class="w-full is-flex is-justify-content-center action-container">
           <slot name="action" />
         </div>
       </div>
-      <div
-        class="nft-media-info is-flex is-flex-direction-column"
-        :class="`nft-media-info__${variant}`">
-        <div class="is-flex is-flex-direction-column">
-          <span
-            class="is-ellipsis has-text-weight-bold"
-            data-testid="nft-name"
-            :title="nft.name"
-            >{{ nft.name || '--' }}</span
-          >
-
-          <CollectionDetailsPopover
-            v-if="
-              variant !== 'minimal' &&
-              (nft.collection.name || nft.collection.id)
-            "
-            :show-delay="collectionPopoverShowDelay"
-            :nft="nft"
-            class="is-ellipsis">
-            <template #trigger>
-              <a
-                v-safe-href="`/${prefix}/collection/${nft.collection.id}`"
-                :title="nft.collectionName || nft.collection.name"
-                class="is-size-7 nft-info-collection-name">
-                {{ nft.collection.name || '--' }}
-              </a>
-            </template>
-          </CollectionDetailsPopover>
-        </div>
-
-        <div
-          class="is-flex is-align-items-center mt-2 is-ellipsis nft-media-info-footer"
-          :class="[
-            showPrice
-              ? 'is-justify-content-space-between'
-              : 'is-justify-content-end',
-          ]">
-          <CommonTokenMoney
-            v-if="showPrice"
-            :value="nft.price"
-            data-testid="card-money" />
-          <span
-            v-if="variant !== 'minimal'"
-            class="chain-name is-capitalized is-size-7"
-            >{{ getChainNameByPrefix(prefix) }}</span
-          >
-        </div>
-      </div>
+      <NFTMediaInfoStacked
+        v-if="isStacked"
+        :nft="nft"
+        :variant="variant"
+        :prefix="prefix" />
+      <NFTMediaInfo
+        v-else
+        :nft="nft"
+        :variant="variant"
+        :prefix="prefix"
+        :show-price="showPrice"
+        :collection-popover-show-delay="collectionPopoverShowDelay" />
     </component>
 
     <template v-else>
@@ -82,7 +59,7 @@
       </div>
       <div class="nft-media-info" :class="`nft-media-info__${variant}`">
         <NeoSkeleton size="medium" no-margin />
-        <div v-if="variant !== 'minimal'" class="is-flex mt-2">
+        <div v-if="!isMinimal" class="is-flex mt-2">
           <NeoSkeleton
             size="small"
             position="centered"
@@ -98,36 +75,50 @@
 </template>
 
 <script lang="ts" setup>
+import type { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
 import MediaItem from '../MediaItem/MediaItem.vue'
-import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
-import type { NFT } from '@/components/rmrk/service/scheme'
-import { getChainNameByPrefix } from '@/utils/chain'
 import { NeoSkeleton, NftCardVariant } from '@kodadot1/brick'
+import NFTMediaInfoStacked from './NFTMediaInfoStacked.vue'
+import NFTMediaInfo from './NFTMediaInfo.vue'
+import { ItemsGridEntity } from '@/components/items/ItemsGrid/useItemsGrid'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     isLoading?: boolean
-    nft?: NFT
-    prefix?: string
+    nft: ItemsGridEntity
+    prefix: string
     showPrice?: boolean
     collectionPopoverShowDelay?: number
     variant?: NftCardVariant
     placeholder?: string
-    unlockable?: boolean
-    unloackableIcon?: string
-    link?: string
+    cardIcon?: boolean
+    cardIconSrc?: string
+    link?:
+      | string
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
+      | ConcreteComponent<{}, any, any, ComputedOptions, MethodOptions>
     bindKey?: string
     showActionOnHover?: boolean
+    mediaPlayerCover?: string
+    mediaHoverOnCoverPlay?: boolean
   }>(),
   {
     collectionPopoverShowDelay: 500,
     variant: 'primary',
-    unloackableIcon: undefined,
+    cardIconSrc: undefined,
     link: 'a',
     bindKey: 'href',
     showActionOnHover: true,
-  }
+    placeholder: undefined,
+    mediaPlayerCover: undefined,
+  },
 )
+
+const isStacked = computed(
+  () => false,
+  // props.variant ? props.variant.includes('stacked') : false
+)
+const isMinimal = props.variant.includes('minimal')
 </script>
 
 <style lang="scss" scoped>

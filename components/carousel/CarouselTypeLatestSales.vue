@@ -12,5 +12,5 @@
 import { useCarouselNftEvents } from './utils/useCarouselEvents'
 
 const { urlPrefix } = usePrefix()
-const { nfts, ids } = useCarouselNftEvents({ type: 'latestSales' })
+const { nfts, ids } = await useCarouselNftEvents({ type: 'latestSales' })
 </script>

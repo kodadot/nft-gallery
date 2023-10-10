@@ -26,12 +26,16 @@ export enum Chain {
   KUSAMA = 'Kusama',
   BASILISK = 'Basilisk',
   STATEMINE = 'Statemine',
+  STATEMINT = 'Statemint',
+  POLKADOT = 'Polkadot',
 }
 
 export const chainToPrefixMap: Record<Chain, Prefix> = {
   [Chain.KUSAMA]: 'rmrk',
   [Chain.BASILISK]: 'bsx',
   [Chain.STATEMINE]: 'ahk',
+  [Chain.STATEMINT]: 'ahp',
+  [Chain.POLKADOT]: 'dot',
 }
 
 export enum TeleprtType {
@@ -49,11 +53,13 @@ export const whichTeleportType = ({
 }): TeleprtType => {
   switch (from) {
     case Chain.KUSAMA:
+    case Chain.POLKADOT:
       return TeleprtType.RelayToPara
 
     case Chain.BASILISK:
     case Chain.STATEMINE:
-      return to === Chain.KUSAMA
+    case Chain.STATEMINT:
+      return [Chain.KUSAMA, Chain.POLKADOT].includes(to)
         ? TeleprtType.ParaToRelay
         : TeleprtType.ParaToPara
 
@@ -68,7 +74,7 @@ export function getTeleportWeight(api: ApiPromise): number {
 
 export function findCall(api: ApiPromise): Extrisic {
   const m = XCM_LOC.filter(
-    (x) => api.tx[x] && XCM_FNS.some((f) => isFunction(api.tx[x][f]))
+    (x) => api.tx[x] && XCM_FNS.some((f) => isFunction(api.tx[x][f])),
   )[0]
   const f = XCM_FNS.filter((f) => isFunction(api.tx[m][f]))[0]
 
@@ -83,10 +89,10 @@ export function getApiParams(
   call: Extrisic,
   isParaTeleport: string | undefined,
   account: string,
-  amount: string
+  amount: string,
 ): any[] {
   const firstType = api.createType<XcmVersionedMultiLocation>(
-    call.meta.args[0].type.toString()
+    call.meta.args[0].type.toString(),
   )
   const isCurrent = firstType.defKeys.includes('V1')
 

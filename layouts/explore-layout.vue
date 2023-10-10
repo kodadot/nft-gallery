@@ -27,11 +27,15 @@
             </div>
           </section>
           <hr class="text-color my-0" />
-          <Nuxt />
+          <NuxtPage />
         </div>
       </main>
     </div>
     <Buy />
+    <template v-if="listingCartEnabled">
+      <ListingCartMini />
+      <ListingCartModal />
+    </template>
   </div>
 </template>
 
@@ -44,8 +48,9 @@ import Buy from '@/components/buy/Buy.vue'
 
 const { $config } = useNuxtApp()
 const route = useRoute()
+const { listingCartEnabled } = useListingCartConfig()
 
-useNuxt2Meta({
+useHead({
   link: [
     {
       hid: 'canonical',
@@ -56,13 +61,13 @@ useNuxt2Meta({
 })
 
 const isExplore = computed(() => route.path.includes('/explore'))
-const isCollection = computed(() =>
-  route.name?.includes('prefix-collection-id')
+const isCollection = computed(
+  () => route.name?.toString().includes('prefix-collection-id'),
 )
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 hr {
   @include ktheme() {
     background: theme('k-grey');

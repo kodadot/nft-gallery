@@ -8,7 +8,7 @@
           icon="x-twitter"
           icon-pack="fab"
           class="square-32"
-          @click.native="openUrl(`https://twitter.com/${twitter}`)" />
+          @click="openUrl(`https://twitter.com/${twitter}`)" />
       </div>
 
       <div
@@ -30,7 +30,7 @@
 
           <NeoDropdownItem
             v-clipboard:copy="currentCollectionUrl"
-            @click="toast(`${$i18n.t('toast.urlCopy')}`)">
+            @click="toast($t('toast.urlCopy'))">
             {{ $i18n.t('share.copyLink') }}
           </NeoDropdownItem>
           <NeoDropdownItem @click="QRModalActive = true">
@@ -77,16 +77,13 @@
         </NeoDropdown>
       </div>
     </div>
-    <NeoModal v-model="QRModalActive" @close="QRModalActive = false">
+    <NeoModal :value="QRModalActive" @close="QRModalActive = false">
       <div class="card">
         <header class="card-header">
           <p class="card-header-title">{{ collection?.name }}</p>
         </header>
         <div class="card-content">
-          <QRCode
-            :text="currentCollectionUrl"
-            color="#db2980"
-            bg-color="#000" />
+          <QRCode :text="currentCollectionUrl" />
         </div>
       </div>
     </NeoModal>
@@ -112,7 +109,7 @@ const { toast } = useToast()
 const collectionId = computed(() => route.params.id)
 const currentCollectionUrl = computed(
   () =>
-    `${window.location.origin}/${urlPrefix.value}/collection/${collectionId.value}`
+    `${window.location.origin}/${urlPrefix.value}/collection/${collectionId.value}`,
 )
 const { collection } = useCollectionMinimal({
   collectionId: collectionId.value,
@@ -129,7 +126,7 @@ const openUrl = (url: string) => {
 
 const displaySeperator = computed(() => twitter.value)
 const isOwner = computed(() =>
-  checkOwner(collection.value?.currentOwner, accountId.value)
+  checkOwner(collection.value?.currentOwner, accountId.value),
 )
 
 const QRModalActive = ref(false)
@@ -139,7 +136,7 @@ const sharingLabel = $i18n.t('sharing.collection')
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .hero-buttons {
   @include mobile {
     justify-content: space-between !important;

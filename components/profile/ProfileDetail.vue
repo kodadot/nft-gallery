@@ -1,12 +1,12 @@
 <template>
   <div>
-    <NeoModal v-model="isModalActive" @close="isModalActive = false">
+    <NeoModal :value="isModalActive" @close="isModalActive = false">
       <div class="card">
         <header class="card-header">
           <p class="card-header-title">{{ $t('sharing.profile') }}</p>
         </header>
         <div class="card-content has-text-centered">
-          <QRCode :text="realworldFullPath" color="#db2980" bg-color="#000" />
+          <QRCode :text="realworldFullPath" />
         </div>
       </div>
     </NeoModal>
@@ -43,7 +43,7 @@
             no-shadow
             class="mb-4"
             rounded
-            tag="nuxt-link"
+            :tag="NuxtLink"
             size="small">
             + {{ $t('identity.set') }}
           </NeoButton>
@@ -75,19 +75,19 @@
               variant="text"
               :label="$t('share.copyAddress')"
               no-shadow
-              @click.native="toast(`${$i18n.t('general.copyToClipboard')}`)" />
+              @click="toast($t('general.copyToClipboard'))" />
             <div class="divider" />
             <NeoButton
               variant="text"
               no-shadow
               :label="$t('share.qrCode')"
-              @click.native="isModalActive = true" />
+              @click="isModalActive = true" />
             <div class="divider" />
             <NeoButton
               no-shadow
               :label="$t('transfer')"
               variant="text"
-              tag="nuxt-link"
+              :tag="NuxtLink"
               :to="`/${urlPrefix}/transfer?target=${id}&usdamount=10&donation=true`">
             </NeoButton>
           </div>
@@ -105,10 +105,14 @@
           :key="tab"
           class="is-capitalized"
           :active="activeTab === tab"
+          :count="counts[tab]"
+          :show-active-check="false"
           :text="tab"
-          @click.native="() => switchToTab(tab)" />
+          @click="() => switchToTab(tab)" />
         <ChainDropdown class="ml-6" />
-        <OrderByDropdown v-if="activeTab !== 'activity'" class="ml-6" />
+        <OrderByDropdown
+          v-if="activeTab !== ProfileTab.ACTIVITY"
+          class="ml-6" />
       </div>
       <div class="is-flex is-flex-direction-row is-hidden-widescreen mobile">
         <TabItem
@@ -116,18 +120,20 @@
           :key="tab"
           :active="activeTab === tab"
           :text="tab"
+          :count="counts[tab]"
+          :show-active-check="false"
           class="is-capitalized"
-          @click.native="() => switchToTab(tab)" />
+          @click="() => switchToTab(tab)" />
         <div class="is-flex mt-4 is-flex-wrap-wrap">
           <ChainDropdown class="mr-4" />
-          <OrderByDropdown v-if="activeTab !== 'activity'" />
+          <OrderByDropdown v-if="activeTab !== ProfileTab.ACTIVITY" />
         </div>
       </div>
     </div>
 
     <div class="container is-fluid pb-6">
       <div
-        v-if="activeTab === 'owned' || activeTab === 'created'"
+        v-if="[ProfileTab.OWNED, ProfileTab.CREATED].includes(activeTab)"
         class="is-flex-grow-1">
         <div
           class="is-flex is-justify-content-space-between pb-4 pt-5 is-align-content-center">
@@ -146,11 +152,13 @@
         <hr class="my-0" />
         <ItemsGrid :search="itemsGridSearch" />
       </div>
+
       <CollectionGrid
-        v-if="activeTab === 'collections'"
+        v-if="activeTab === ProfileTab.COLLECTIONS"
         :id="id"
         class="pt-7" />
-      <Activity v-if="activeTab === 'activity'" :id="id" />
+
+      <Activity v-if="activeTab === ProfileTab.ACTIVITY" :id="id" />
     </div>
   </div>
 </template>
@@ -168,18 +176,41 @@ import ChainDropdown from '@/components/common/ChainDropdown.vue'
 import OrderByDropdown from './OrderByDropdown.vue'
 import CollectionGrid from '@/components/collection/CollectionGrid.vue'
 import Activity from './activityTab/Activity.vue'
+import Avatar from '@/components/shared/Avatar.vue'
+import { resolveComponent } from 'vue'
+import { useListingCartStore } from '@/stores/listingCart'
+import resolveQueryPath from '@/utils/queryPathResolver'
+import { chainsWithMintInteraction } from '@/composables/collectionActivity/helpers'
+import { Interaction } from '@kodadot1/minimark/v1'
+
+enum ProfileTab {
+  OWNED = 'owned',
+  CREATED = 'created',
+  COLLECTIONS = 'collections',
+  ACTIVITY = 'activity',
+}
+
+const NuxtLink = resolveComponent('NuxtLink')
 
 const route = useRoute()
 const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
-const { urlPrefix } = usePrefix()
-const tabs = ['owned', 'created', 'collections', 'activity']
+const { urlPrefix, client } = usePrefix()
+const listingCartStore = useListingCartStore()
 
-const switchToTab = (tab: string) => {
+const tabs = [
+  ProfileTab.OWNED,
+  ProfileTab.CREATED,
+  ProfileTab.COLLECTIONS,
+  ProfileTab.ACTIVITY,
+]
+
+const switchToTab = (tab: ProfileTab) => {
   activeTab.value = tab
 }
 
+const counts = ref({})
 const id = computed(() => route.params.id || '')
 const email = ref('')
 const twitter = ref('')
@@ -190,7 +221,8 @@ const riot = ref('')
 const isModalActive = ref(false)
 
 const itemsGridSearch = computed(() => {
-  const tabKey = activeTab.value === 'owned' ? 'currentOwner_eq' : 'issuer_eq'
+  const tabKey =
+    activeTab.value === ProfileTab.OWNED ? 'currentOwner_eq' : 'issuer_eq'
   const query: Record<string, unknown> = {
     [tabKey]: id.value,
   }
@@ -211,7 +243,7 @@ const itemsGridSearch = computed(() => {
 const realworldFullPath = computed(() => window.location.href)
 
 const activeTab = computed({
-  get: () => (route.query.tab as string) || 'owned',
+  get: () => (route.query.tab as ProfileTab) || ProfileTab.OWNED,
   set: (val) => {
     replaceUrl({ tab: val })
   },
@@ -237,19 +269,59 @@ const handleIdentity = (identityFields: Record<string, string>) => {
   web.value = identityFields?.web
   legal.value = identityFields?.legal
 }
+
+const interactionIn = computed(() => {
+  const interactions = [Interaction.LIST, Interaction.SEND, Interaction.BUY]
+
+  if (!chainsWithMintInteraction.includes(urlPrefix.value)) {
+    interactions.push(Interaction.MINTNFT)
+  }
+
+  return interactions
+})
+
+useAsyncData('tabs-count', async () => {
+  const query = await resolveQueryPath(client.value, 'profileTabsCount')
+  const { data } = await useAsyncQuery({
+    query: query.default,
+    clientId: client.value,
+    variables: {
+      id: id.value,
+      interactionIn: interactionIn.value,
+      denyList: getDenyList(urlPrefix.value),
+    },
+  })
+
+  if (!data.value) {
+    return
+  }
+
+  counts.value = {
+    [ProfileTab.OWNED]: data.value?.owned.totalCount,
+    [ProfileTab.CREATED]: data.value?.created.totalCount,
+    [ProfileTab.ACTIVITY]: data.value?.events.totalCount,
+    [ProfileTab.COLLECTIONS]: data.value?.collections.totalCount,
+  }
+})
+
+watch(itemsGridSearch, (searchTerm, prevSearchTerm) => {
+  if (JSON.stringify(searchTerm) !== JSON.stringify(prevSearchTerm)) {
+    listingCartStore.clear()
+  }
+})
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .invisible-tab > nav.tabs {
   display: none;
 }
 
-:deep .control {
+:deep(.control) {
   width: 12rem;
 }
-:deep .explore-tabs-button {
+:deep(.explore-tabs-button) {
   width: 12rem;
 }
 
@@ -258,8 +330,24 @@ const handleIdentity = (identityFields: Record<string, string>) => {
     flex-wrap: wrap;
     > * {
       flex: 1 0 50%;
+      &:nth-child(2) {
+        :deep(.explore-tabs-button) {
+          border-right: solid;
+        }
+      }
+      &:nth-child(1),
+      &:nth-child(2) {
+        :deep(.explore-tabs-button) {
+          border-bottom: none;
+        }
+      }
+      &:nth-child(2n + 1) {
+        :deep(.explore-tabs-button) {
+          border-right: none;
+        }
+      }
     }
-    :deep .explore-tabs-button {
+    :deep(.explore-tabs-button) {
       width: 100% !important;
     }
   }

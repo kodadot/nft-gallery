@@ -34,7 +34,7 @@ export const PER_PAGE = 20
 
 export const SHOW_SCROLL_TOP_BUTTON_HEIGHT = 350
 
-export const DETAIL_TIMEOUT = 3000
+export const DETAIL_TIMEOUT = 5000
 
 export const MAX_UPLOADED_FILE_SIZE = 30
 
@@ -54,11 +54,9 @@ export const URLS = {
     rubick: 'https://squid.subsquid.io/rubick/graphql',
     snek: 'https://squid.subsquid.io/snekk/graphql',
     snekRococo: 'https://squid.subsquid.io/sneck/graphql',
-    click: 'https://squid.subsquid.io/click/v/002/graphql',
-    antick: 'https://squid.subsquid.io/antick/v/001-rc0/graphql',
     marck: 'https://squid.subsquid.io/marck/graphql',
     stick: 'https://squid.subsquid.io/stick/graphql',
-    speck: 'https://squid.subsquid.io/speck/v/v3/graphql',
+    speck: 'https://squid.subsquid.io/speck/graphql',
     polkassembly: 'https://squid.subsquid.io/polkadot-polkassembly/graphql',
     gsPolkdot: 'https://squid.subsquid.io/gs-main-polkadot/graphql',
     gsKusama: 'https://squid.subsquid.io/gs-main-kusama/graphql',
@@ -78,9 +76,7 @@ export const apolloClientConfig = {
   ...defineApolloConfig(),
   subsquid: toApolloEndpoint(process.env.SUBSQUID_ENDPOINT || URLS.koda.rubick),
   bsx: toApolloEndpoint(URLS.koda.snek),
-  movr: toApolloEndpoint(URLS.koda.click),
   snek: toApolloEndpoint(URLS.koda.snekRococo),
-  glmr: toApolloEndpoint(URLS.koda.antick),
   rmrk2: toApolloEndpoint(URLS.koda.marck),
   ahk: toApolloEndpoint(URLS.koda.stick),
   ahp: toApolloEndpoint(URLS.koda.speck),

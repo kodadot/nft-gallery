@@ -1,6 +1,6 @@
 <template>
   <NeoModal
-    v-model="isModalActive"
+    :value="isModalActive"
     :can-cancel="['outside', 'escape']"
     scroll="clip"
     class="top"
@@ -17,23 +17,11 @@
           variant="text"
           no-shadow
           icon="xmark"
-          icon-pack="fa-sharp"
           size="medium"
-          @click.native="onClose" />
+          @click="onClose" />
       </header>
       <div class="px-6 pt-4">
-        <div
-          class="rounded border shade-border-color is-flex is-justify-content-start is-flex-grow-1 pl-3">
-          <IdentityItem
-            v-if="isLogIn"
-            :label="$t('confirmPurchase.connectedWith')"
-            hide-identity-popover
-            disable-identity-link
-            :prefix="urlPrefix"
-            :account="accountId"
-            class="identity-name-font-weight-regular"
-            data-testid="item-creator" />
-        </div>
+        <ModalIdentityItem />
       </div>
       <div class="py-2">
         <ConfirmPurchaseItemRow
@@ -72,7 +60,7 @@
           no-shadow
           :disabled="disabled"
           class="is-flex is-flex-grow-1 btn-height"
-          @click.native="confirm" />
+          @click="confirm" />
       </div>
     </div>
   </NeoModal>
@@ -84,13 +72,13 @@ import { sum } from '@/utils/math'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
-import IdentityItem from '@/components/identity/IdentityItem.vue'
 import ConfirmPurchaseItemRow from './ConfirmPurchaseItemRow.vue'
 import { totalPriceUsd } from '../shoppingCart/utils'
+import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 
 const prefrencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
-const { isLogIn, accountId } = useAuth()
+const { isLogIn } = useAuth()
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 const { balance } = useBalance()
@@ -106,23 +94,23 @@ const items = computed(() => {
 })
 
 const isModalActive = computed(
-  () => prefrencesStore.getCompletePurchaseModal.isOpen
+  () => prefrencesStore.getCompletePurchaseModal.isOpen,
 )
 
 const totalNFTsPrice = computed(() =>
-  sum(items.value.map((nft) => Number(nft.price)))
+  sum(items.value.map((nft) => Number(nft.price))),
 )
 const totalRoyalties = computed(() =>
   sum(
     items.value.map(
       ({ price, royalty }) =>
-        (Number(price ?? '0') * (royalty?.amount ?? 0)) / 100
-    )
-  )
+        (Number(price ?? '0') * (royalty?.amount ?? 0)) / 100,
+    ),
+  ),
 )
 
 const balanceIsEnough = computed(
-  () => totalNFTsPrice.value + totalRoyalties.value < balance.value
+  () => totalNFTsPrice.value + totalRoyalties.value < balance.value,
 )
 
 const btnLabel = computed(() => {
@@ -152,7 +140,7 @@ const confirm = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .top {
   z-index: 1000;
@@ -162,11 +150,6 @@ const confirm = () => {
     border-color: theme('k-shade');
   }
 }
-
-.rounded {
-  border-radius: 10rem;
-}
-
 .modal-width {
   width: 25rem;
 }
@@ -174,7 +157,7 @@ const confirm = () => {
   height: 3.5rem;
 }
 
-:deep .identity-name-font-weight-regular {
+:deep(.identity-name-font-weight-regular) {
   .identity-name {
     font-weight: unset !important;
   }

@@ -1,30 +1,22 @@
 import { PartialConfig, Prefix } from './types'
 
 const hasCreate: PartialConfig = {
-  movr: false,
-  glmr: false,
   dot: false,
 }
 
 const hasInsight: PartialConfig = {
   ahk: false,
-  movr: false,
-  glmr: false,
   ahp: false,
   dot: false,
 }
 
 const hasSales: PartialConfig = {
   ahk: false,
-  movr: false,
-  glmr: false,
   dot: false,
   ahp: false,
 }
 
 const hasMassmintCreate: PartialConfig = {
-  movr: false,
-  glmr: false,
   dot: false,
 }
 

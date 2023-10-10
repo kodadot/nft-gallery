@@ -4,7 +4,16 @@ import isEqual from 'lodash/isEqual'
 import { useSearchParams } from './utils/useSearchParams'
 import { Ref } from 'vue'
 
-import type { NFTWithMetadata } from '@/composables/useNft'
+import type { NFTWithMetadata, Stack } from '@/composables/useNft'
+
+export type NFTStack = NFTWithMetadata & Stack
+
+export type ItemsGridEntity = NFTWithMetadata | NFTStack
+import { NFT } from '@/components/rmrk/service/scheme'
+import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
+
+import { isOwner as checkOwner } from '@/utils/account'
+import { useListingCartStore } from '@/stores/listingCart'
 
 export function useFetchSearch({
   first,
@@ -19,8 +28,8 @@ export function useFetchSearch({
   isLoading: Ref<boolean>
   resetSearch: () => void
 }) {
-  const { $apollo } = useNuxtApp()
   const { client, urlPrefix } = usePrefix()
+
   const route = useRoute()
 
   const nfts = ref<NFTWithMetadata[]>([])
@@ -50,6 +59,7 @@ export function useFetchSearch({
           return 'chain-rmrk'
         case 'ksm':
           return 'chain-ksm'
+
         default:
           return prefix
       }
@@ -64,10 +74,10 @@ export function useFetchSearch({
         }
 
     const queryPath = getQueryPath(client.value)
+
     const query = await resolveQueryPath(queryPath, 'nftListWithSearch')
-    const result = await $apollo.query({
+    const { data: result } = await useAsyncQuery({
       query: query.default,
-      client: client.value,
       variables: {
         ...variables,
         first: first.value,
@@ -77,10 +87,11 @@ export function useFetchSearch({
           ? route.query.sort
           : ['blockNumber_DESC'],
       },
+      clientId: client.value,
     })
 
     // handle results
-    const { nFTEntities, nftEntitiesConnection } = result.data
+    const { nFTEntities, nftEntitiesConnection } = result.value
 
     total.value = nftEntitiesConnection.totalCount
 
@@ -124,7 +135,7 @@ export function useFetchSearch({
       }
       loadedPages.value = []
       resetSearch()
-    }
+    },
   )
 
   return {
@@ -133,4 +144,20 @@ export function useFetchSearch({
     refetch,
     clearFetchResults,
   }
+}
+
+export const updatePotentialNftsForListingCart = async (nfts: NFT[]) => {
+  const listingCartStore = useListingCartStore()
+  const { accountId } = useAuth()
+  const potentialNfts = nfts
+    .filter(
+      (nft) =>
+        !Number(nft.price) && checkOwner(nft.currentOwner, accountId.value),
+    )
+    .map((nft) => {
+      const floorPrice = nft.collection.floorPrice[0]?.price || '0'
+      return nftToListingCartItem(nft, floorPrice)
+    })
+
+  listingCartStore.setUnlistedItems(potentialNfts)
 }

@@ -23,9 +23,7 @@ const POLKADOT_ENDPOINTS: WS_URL[] = [
 // Someone from BSX team told me that Polkadot API takes Array of endpoints
 export const ALTERNATIVE_ENDPOINT_MAP: Config<WS_URL[]> = {
   bsx: ['wss://rpc.basilisk.cloud', 'wss://basilisk-rpc.dwellir.com'],
-  glmr: ['wss://public-rpc.pinknode.io/moonbeam'],
   rmrk: KUSAMA_ENDPOINTS,
-  movr: ['wss://wss.api.moonriver.moonbeam.network'],
   ksm: KUSAMA_ENDPOINTS,
   snek: ['wss://basilisk-rococo-rpc.play.hydration.cloud'],
   ahk: [
@@ -44,16 +42,18 @@ export const ALTERNATIVE_ENDPOINT_MAP: Config<WS_URL[]> = {
     'wss://sys.ibp.network/statemint',
     'wss://sys.dotters.network/statemint',
   ],
+  // glmr: ['wss://public-rpc.pinknode.io/moonbeam'],
+  // movr: ['wss://wss.api.moonriver.moonbeam.network'],
 }
 
 export const ENDPOINT_MAP: Config<WS_URL> = {
   bsx: 'wss://rpc.basilisk.cloud',
-  glmr: 'wss://public-rpc.pinknode.io/moonbeam',
   rmrk: KUSAMA_ENDPOINTS[0],
-  movr: 'wss://wss.api.moonriver.moonbeam.network',
   ksm: KUSAMA_ENDPOINTS[0],
   snek: 'wss://basilisk-rococo-rpc.play.hydration.cloud',
   ahk: 'wss://kusama-asset-hub-rpc.polkadot.io',
   dot: POLKADOT_ENDPOINTS[0],
   ahp: 'wss://polkadot-asset-hub-rpc.polkadot.io',
+  // glmr: 'wss://public-rpc.pinknode.io/moonbeam',
+  // movr: 'wss://wss.api.moonriver.moonbeam.network',
 }

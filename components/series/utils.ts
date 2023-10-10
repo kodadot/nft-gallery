@@ -54,7 +54,7 @@ export const nftFn = (a: any): RowSeries => {
   const floorPrice = Math.min(
     ...collectionNfts
       .map((nft: SimpleSeriesNFT) => Number(nft.price))
-      .filter((price: number) => price > 0)
+      .filter((price: number) => price > 0),
   )
 
   const buyEvents = collectionNfts.map(onlyEvents).map(pairListBuyEvent).flat()

@@ -7,10 +7,20 @@ import { Extrinsic } from '@/utils/transactionExecutor'
 import type { ApiPromise } from '@polkadot/api'
 import { Ref } from 'vue'
 
+type SuccessFunctionMessage = (blockNumber: string) => string
+export type ObjectMessage = {
+  message: string | SuccessFunctionMessage
+  large: boolean
+}
+export type ExecuteTransactionSuccessMessage =
+  | string
+  | SuccessFunctionMessage
+  | ObjectMessage
+
 export type ExecuteTransactionParams = {
   cb: (...params: any[]) => Extrinsic
   arg: any[]
-  successMessage?: string | ((blockNumber: string) => string)
+  successMessage?: ExecuteTransactionSuccessMessage
   errorMessage?: string | (() => string)
 }
 
@@ -54,6 +64,7 @@ export type MintedCollection = {
   metadata: string
   name?: string
   lastIndexUsed: number
+  totalCount: number
 }
 
 export type MintedCollectionKusama = MintedCollection & Max & SymbolType
@@ -88,7 +99,7 @@ export type ActionBuy = {
   interaction: Interaction.BUY
   urlPrefix: string
   nfts: TokenToBuy | TokenToBuy[]
-  successMessage?: string
+  successMessage?: string | ObjectMessage
   errorMessage?: string
 }
 

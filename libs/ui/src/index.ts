@@ -13,11 +13,13 @@ export { type NftCardVariant } from './types'
 export { default as TheButton } from './components/TheButton/TheButton.vue'
 export { default as NeoTooltip } from './components/NeoTooltip/NeoTooltip.vue'
 export { default as NeoNftCard } from './components/NeoNftCard/NeoNftCard.vue'
+export { default as NeoNftCardSkeleton } from './components/NeoNftCard/NeoNftCardSkeleton.vue'
 export { default as NeoTabs } from './components/NeoTabs/NeoTabs.vue'
 export { default as NeoTabItem } from './components/NeoTabs/NeoTabItem.vue'
 export { default as NeoIcon } from './components/NeoIcon/NeoIcon.vue'
 export { default as NeoCollapsible } from './components/NeoCollapsible/NeoCollapsible.vue'
 export { default as NeoModal } from './components/NeoModal/NeoModal.vue'
+export { default as NeoStickyModal } from './components/NeoStickyModal/NeoStickyModal.vue'
 export { default as NeoSkeleton } from './components/NeoSkeleton/NeoSkeleton.vue'
 export { default as NeoAvatar } from './components/NeoAvatar/NeoAvatar.vue'
 export { default as NeoField } from './components/NeoInput/NeoField.vue'
@@ -46,7 +48,7 @@ export { default as NeoUpload } from './components/NeoUpload/NeoUpload.vue'
 
 export { default as NeoCollapse } from './components/NeoCollapse/NeoCollapse.vue'
 
-export { default as Neo } from '@oruga-ui/oruga'
+export { default as Neo } from '@oruga-ui/oruga-next'
 
 export { default as NeoModalExtend } from './components/NeoModalExtend/NeoModalExtend.vue'
 export { default as NeoModalExtendProgrammatic } from './components/NeoModalExtend/plugin'
@@ -55,3 +57,5 @@ export { default as NeoModalHead } from './components/NeoModalHead/NeoModalHead.
 export { default as NeoNotification } from './components/NeoNotification/NeoNotification.vue'
 export { default as NeoNotificationNotice } from './components/NeoNotification/NeoNotificationNotice.vue'
 export { default as NeoNotificationProgrammatic } from './components/NeoNotification/plugin'
+
+export { default as NeoAudioPlayer } from './components/NeoAudioPlayer/NeoAudioPlayer.vue'

@@ -37,6 +37,6 @@ const { toast } = useToast()
 const { urlPrefix } = usePrefix()
 
 const explorerLink = computed(() =>
-  getExplorer(urlPrefix.value as Prefix, String(props.address))
+  getExplorer(urlPrefix.value as Prefix, String(props.address)),
 )
 </script>

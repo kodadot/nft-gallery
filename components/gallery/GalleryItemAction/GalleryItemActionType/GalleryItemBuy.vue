@@ -37,14 +37,14 @@
               variant="k-accent"
               :disabled="disabled"
               data-testid="item-buy"
-              @click.native="onClick" />
+              @click="onClick" />
           </NeoTooltip>
         </div>
 
         <NeoButton
           class="button-height no-border-left"
           data-testid="item-add-to-cart"
-          @click.native="onClickShoppingCart">
+          @click="onClickShoppingCart">
           <img :src="cartIcon" class="image is-32x32" />
         </NeoButton>
       </div>
@@ -52,7 +52,7 @@
       <div v-else>{{ $t('nft.notListed') }}</div>
     </GalleryItemPriceSection>
 
-    <OnRampModal v-model="showRampModal" @close="showRampModal = false" />
+    <OnRampModal :value="showRampModal" @close="showRampModal = false" />
   </div>
 </template>
 
@@ -66,7 +66,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 import OnRampModal from '@/components/shared/OnRampModal.vue'
 import { openShoppingCart } from '@/components/common/shoppingCart/ShoppingCartModalConfig'
 import { NFT } from '@/components/rmrk/service/scheme'
-import { nftToShoppingCardItem } from '@/components/common/shoppingCart/utils'
+import { nftToShoppingCartItem } from '@/components/common/shoppingCart/utils'
 import { chainNames } from '@/libs/static/src/chains'
 
 import { useWindowSize } from '@vueuse/core'
@@ -93,7 +93,7 @@ enum BuyStatus {
 }
 
 const btnStatus = computed(() =>
-  shoppingCartStore.isItemInCart(props.nft.id) ? BuyStatus.CART : BuyStatus.BUY
+  shoppingCartStore.isItemInCart(props.nft.id) ? BuyStatus.CART : BuyStatus.BUY,
 )
 
 const label = computed(() => {
@@ -101,7 +101,7 @@ const label = computed(() => {
     return $i18n.t('shoppingCart.gotToCart')
   }
   return $i18n.t(
-    preferencesStore.getReplaceBuyNowWithYolo ? 'YOLO' : 'nft.action.buy'
+    preferencesStore.getReplaceBuyNowWithYolo ? 'YOLO' : 'nft.action.buy',
   )
 })
 
@@ -136,7 +136,7 @@ const disabled = computed(() => {
 })
 
 const openCompletePurcahseModal = () => {
-  shoppingCartStore.setItemToBuy(nftToShoppingCardItem(props.nft))
+  shoppingCartStore.setItemToBuy(nftToShoppingCartItem(props.nft))
   preferencesStore.setCompletePurchaseModal({
     isOpen: true,
     mode: 'buy-now',
@@ -145,7 +145,7 @@ const openCompletePurcahseModal = () => {
 
 function onClick() {
   if (btnStatus.value === BuyStatus.CART) {
-    openShoppingCart(instance)
+    openShoppingCart()
   } else {
     doAfterLogin({ onLoginSuccess: openCompletePurcahseModal })
   }
@@ -155,16 +155,17 @@ const onClickShoppingCart = () => {
   if (shoppingCartStore.isItemInCart(props.nft.id)) {
     shoppingCartStore.removeItem(props.nft.id)
   } else {
-    shoppingCartStore.setItem(nftToShoppingCardItem(props.nft))
+    shoppingCartStore.setItem(nftToShoppingCartItem(props.nft))
   }
 }
 </script>
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
-:deep .button-height {
+:deep(.button-height) {
   height: 55px !important;
 }
+
 .buy-button-width {
   width: 10rem;
 
@@ -172,12 +173,10 @@ const onClickShoppingCart = () => {
     width: 100%;
     flex-grow: 1;
   }
+
   .wrapper {
     width: 100%;
   }
-}
-.no-border-left {
-  border-left: none !important;
 }
 
 .desktop-full-w {

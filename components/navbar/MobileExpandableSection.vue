@@ -4,11 +4,11 @@
       {{ title }}
       <NeoIcon v-if="icon" :icon="icon" :pack="iconFamily" />
     </span>
-    <NeoIcon class="icon--right" icon="chevron-right" pack="fas" />
+    <NeoIcon class="icon--right" icon="chevron-right" />
   </div>
   <div v-else class="navbar-item--fullpage">
     <div class="navbar-item navbar-item--reverse" @click.stop="close">
-      <NeoIcon icon="chevron-left" pack="fas" />
+      <NeoIcon icon="chevron-left" />
       {{ title }}
     </div>
     <div :class="{ 'navbar-item': !noPadding }" class="navbar-item-body">
@@ -31,7 +31,7 @@ defineProps({
   },
   iconFamily: {
     type: String,
-    default: 'fas',
+    default: 'fasr',
   },
   noPadding: {
     type: Boolean,

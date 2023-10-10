@@ -16,6 +16,7 @@ declare module 'vue/types/vue' {
     $t: typeof VueI18n.prototype.t
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface VueConstructor<V extends Vue = Vue> {
     i18n: typeof VueI18n.prototype
   }

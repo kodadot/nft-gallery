@@ -27,17 +27,17 @@ export const totalPriceUsd = (items: ShoppingCartItem[]) => {
   const nftSPrice = items.map((item) =>
     calculateExactUsdFromToken(
       Number(item.price) * Math.pow(10, -getTokenDecimal(item)),
-      Number(fiatStore.getCurrentTokenValue(prefixToToken[item.urlPrefix]))
-    )
+      Number(fiatStore.getCurrentTokenValue(prefixToToken[item.urlPrefix])),
+    ),
   )
 
   const royalties = items.map((item) =>
     item.royalty
       ? calculateExactUsdFromToken(
           Number(item.royalty.amount) * Math.pow(10, -getTokenDecimal(item)),
-          Number(fiatStore.getCurrentTokenValue(prefixToToken[item.urlPrefix]))
+          Number(fiatStore.getCurrentTokenValue(prefixToToken[item.urlPrefix])),
         )
-      : 0
+      : 0,
   )
 
   return {
@@ -46,7 +46,7 @@ export const totalPriceUsd = (items: ShoppingCartItem[]) => {
   }
 }
 
-export const nftToShoppingCardItem = (nft: NFT): ShoppingCartItem => {
+export const nftToShoppingCartItem = (nft: NFT): ShoppingCartItem => {
   const { urlPrefix } = usePrefix()
   return {
     id: nft.id,

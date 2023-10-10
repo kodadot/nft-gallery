@@ -64,10 +64,10 @@
 <script lang="ts" setup>
 import { getSum, getSumOfObjectField } from '@/utils/math'
 import resolveQueryPath from '@/utils/queryPathResolver'
-
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import StatsColumn from '@/components/shared/format/StatsColumn.vue'
 import { Event } from '@/components/rmrk/service/types'
+import { getDenyList } from '@/utils/prefix'
 
 type Stats = {
   listedCount: number
@@ -78,8 +78,8 @@ const props = defineProps({
   id: { type: String, default: '' },
 })
 
-const { $apollo, $consola } = useNuxtApp()
-const { client } = usePrefix()
+const { $consola } = useNuxtApp()
+const { client, urlPrefix } = usePrefix()
 
 const profileStats = ref({
   totalBuys: 'profileStats.totalBuys',
@@ -108,41 +108,42 @@ useLazyAsyncData('stats', async () => {
   }
 
   const query = await resolveQueryPath(client.value, 'profileStatsById')
-  const { data } = await $apollo.query({
+  const { data } = await useAsyncQuery({
     query: query.default,
-    client: client.value,
+    clientId: client.value,
     variables: {
       id: props.id,
+      denyList: getDenyList(urlPrefix.value),
     },
   })
 
-  if (!data) {
+  if (!data.value) {
     $consola.log('stats is null')
     return
   }
 
   stats.value = {
-    listedCount: data.listed.totalCount,
-    totalCollected: data.obtained.totalCount,
+    listedCount: data.value?.listed.totalCount,
+    totalCollected: data.value?.obtained.totalCount,
   }
 
-  getSellerEvents(data)
-  getInvestorStatsEvents(data)
+  getSellerEvents(data.value)
+  getInvestorStatsEvents(data.value)
 })
 
 // Collector stats: Invested and Spend Statistics
 const getInvestorStatsEvents = (data: any) => {
   const investedEvents: Event[] = data.invested
   const maxPriceInvested = Math.max(
-    ...investedEvents.map((n: Event, i: number) => {
+    ...investedEvents.map((n: Event) => {
       return parseInt(n.meta)
-    })
+    }),
   )
   highestBuyPrice.value = maxPriceInvested
   totalPurchases.value = investedEvents.length
 
   const holdingsEvents = investedEvents.filter(
-    (x) => x.nft.currentOwner == props.id
+    (x) => x.nft.currentOwner == props.id,
   )
 
   totalAmountSpend.value = getSumOfObjectField(investedEvents, 'meta')

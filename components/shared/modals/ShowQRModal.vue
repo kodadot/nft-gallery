@@ -1,7 +1,7 @@
 <template>
   <ModalWrapper icon="qrcode" :title="title" :type="type">
     <template #default>
-      <QRCode :text="qrCodePath" color="#db2980" bg-color="#000" />
+      <QRCode :text="qrCodePath" />
     </template>
   </ModalWrapper>
 </template>
@@ -18,7 +18,7 @@ const props = withDefaults(
   }>(),
   {
     type: 'is-bordered-light',
-  }
+  },
 )
 
 const qrCodePath = ref(props.address || 'https://http.cat/409')

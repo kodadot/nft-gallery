@@ -1,12 +1,13 @@
 <template>
   <div class="buttons is-align-content-start gallery-button">
-    <GalleryItemShareBtn />
+    <GalleryItemShareBtn data-testid="gallery-item-share-button" />
     <GalleryItemMoreActionBtn
       :ipfs-image="nftMetadata?.image"
       :mime-type="nftMimeType"
       :name="nft?.name"
       :current-owner="nft?.currentOwner"
-      :price="nft?.price" />
+      :price="nft?.price"
+      data-testid="gallery-item-more-button" />
   </div>
 </template>
 
@@ -25,7 +26,7 @@ const nftMetadata = computed(() => props.galleryItem.nftMetadata.value)
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .gallery-button {
   display: flex;

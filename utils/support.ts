@@ -10,7 +10,7 @@ const BACKUP_PUBKEY =
   '0x9866ec0c1204773a4b95a1b374d838b5820f704a65deeaafb97f4ab96c351158' // payout bot
 export const KODADOT_DAO = 'CykZSc3szpVd95PmmJ45wE4ez7Vj3xkhRFS9H4U1WdrkaFY'
 const OFFSET_DAO = 'J9PSLHKjtJ9eEAX4xmCe8xNipRxNiYJTbnyfKXXRkhMmuq8'
-const BASE_FEE = 0.5 // 50 cents
+export const BASE_FEE = 0.5 // 50 cents
 const PERCENT = 0.03 // percent / 100
 
 export const round = (num: number): number =>
@@ -18,7 +18,7 @@ export const round = (num: number): number =>
 
 export const cost = async (
   api: ApiPromise,
-  fee: number = BASE_FEE
+  fee: number = BASE_FEE,
 ): Promise<number> => {
   const ksmPrice = await getKSMUSD()
   console.log('[SUPPORT] 💋💋💋', fee / ksmPrice, 'KSM')
@@ -28,12 +28,12 @@ export const cost = async (
 
 export const supportTx = async (
   api: ApiPromise,
-  multiplyWith = 1
+  multiplyWith = 1,
 ): Promise<Extrinsic> => {
   return asBalanceTransfer(
     api,
     resolveSupportAddress(api),
-    await cost(api, BASE_FEE * multiplyWith)
+    await cost(api, BASE_FEE * multiplyWith),
   )
 }
 
@@ -49,7 +49,7 @@ export const somePercentFromTX = (api: ApiPromise, price: number | string) => {
 export const payRoyaltyTx = (
   api: ApiPromise,
   price: number | string,
-  royalty: Royalty
+  royalty: Royalty,
 ) => {
   const fee = Number(price) * (royalty.amount / 100)
   return asBalanceTransfer(api, royalty.address, fee)
@@ -79,21 +79,21 @@ export const resolveOffsetAddress = (api: ApiPromise) => {
 export const offsetTx = async (api: ApiPromise, price: number) => {
   return api.tx.balances.transfer(
     resolveSupportAddress(api),
-    await cost(api, price)
+    await cost(api, price),
   )
 }
 
 export const canSupport = async (
   api: ApiPromise,
   enabled: boolean,
-  multiplyWith = 1
+  multiplyWith = 1,
 ): Promise<[] | [Extrinsic]> => {
   return enabled ? [await supportTx(api, multiplyWith)] : []
 }
 
 export const canOffset = async (
   api: ApiPromise,
-  enabled: boolean
+  enabled: boolean,
 ): Promise<[] | [Extrinsic]> => {
   return canSupport(api, enabled, 2)
 }

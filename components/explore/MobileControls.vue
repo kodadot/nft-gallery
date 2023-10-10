@@ -3,7 +3,7 @@
     class="explore is-flex is-flex-wrap-wrap"
     :class="{ 'has-gap': !isActivityTab }">
     <ExploreTabs />
-    <div class="explore-menu is-flex">
+    <div class="explore-menu is-flex is-flex-wrap-wrap">
       <FilterFloatButton v-if="isActivityTab" />
       <FilterMenuButton v-else />
       <ExploreOffer v-if="!isActivityTab" class="is-flex-grow-1" />
@@ -25,13 +25,13 @@ import ChainDropdown from '@/components/common/ChainDropdown.vue'
 
 const route = useRoute()
 
-const isActivityTab = computed(() =>
-  route.name?.includes('prefix-collection-id-activity')
+const isActivityTab = computed(
+  () => route.name?.includes('prefix-collection-id-activity'),
 )
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .explore {
   &.has-gap {

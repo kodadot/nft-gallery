@@ -15,7 +15,7 @@ export async function constructMeta(
   tokenToMint: TokenToMint,
   options?: {
     enableCarbonOffset?: boolean
-  }
+  },
 ): Promise<string> {
   const preferencesStore = usePreferencesStore()
   const { $consola } = useNuxtApp()
@@ -54,14 +54,14 @@ export async function constructMeta(
     animationUrl,
     attributes,
     'https://kodadot.xyz',
-    file.type
+    file.type,
   )
 
   const metaHash = await pinJson(meta, imageHash)
   preheatFileFromIPFS(fileHash)
   uploadDirectWhenMultiple(
     [file, secondFile],
-    [fileHash, secondFileHash]
+    [fileHash, secondFileHash],
   ).catch($consola.warn)
   return unSanitizeIpfsUrl(metaHash)
 }

@@ -8,10 +8,11 @@ export type ListCartItem = {
   name: string
   urlPrefix: string
   price: string
-  listPrice: number | null
+  listPrice: number
   collection: EntityWithId
   meta?: NFTMetadata
   metadata?: string
+  discarded?: boolean
 }
 
 type ID = string
@@ -23,6 +24,7 @@ interface State {
   decimals: ComputedRef<number>
 }
 
+export const DEFAULT_FLOOR_PRICE_RATE = 1
 const localStorage = useLocalStorage<ListCartItem[]>('listingCart', [])
 export const useListingCartStore = defineStore('listingCart', {
   state: (): State => ({
@@ -32,13 +34,17 @@ export const useListingCartStore = defineStore('listingCart', {
     decimals: useChain().decimals,
   }),
   getters: {
-    itemsInChain: (state): ListCartItem[] =>
+    allItemsInChain: (state): ListCartItem[] =>
       state.items.filter((item) => item.urlPrefix === state.chain),
+    itemsInChain(): ListCartItem[] {
+      return this.allItemsInChain.filter((item) => !item.discarded)
+    },
     count() {
       return this.itemsInChain.length
     },
-    incompleteListPrices: (state) =>
-      state.items.filter((item) => !item.listPrice).length,
+    incompleteListPrices(): number {
+      return this.itemsInChain.filter((item) => !item.listPrice).length
+    },
   },
   actions: {
     getItem(id: ID) {
@@ -54,25 +60,35 @@ export const useListingCartStore = defineStore('listingCart', {
         localStorage.value = this.items
       }
     },
+    setItemPrice({ id, price }: { id: ID; price: number }) {
+      const itemIndex = existInItemIndex(id, this.items)
+      if (itemIndex !== -1) {
+        this.items[itemIndex].listPrice = price
+        localStorage.value = this.items
+      }
+    },
     setUnlistedItem(payload: ListCartItem) {
       const itemIndex = existInItemIndex(payload.id, this.allUnlistedItems)
       if (itemIndex === -1) {
         this.allUnlistedItems.push(payload)
       }
     },
+    setUnlistedItems(payload: ListCartItem[]) {
+      this.allUnlistedItems = payload
+    },
     addAllToCart() {
       this.allUnlistedItems.forEach((item) => this.setItem(item))
     },
-    setFixedPrice(price: number | null) {
+    setFixedPrice(price: number) {
       this.itemsInChain.forEach((item) => {
         item.listPrice = price
       })
     },
-    setFloorPrice(rate = 1) {
+    setFloorPrice(rate = DEFAULT_FLOOR_PRICE_RATE) {
       this.itemsInChain.forEach((item) => {
         const floor = (Number(item.collection.floor) || 0) * +rate.toFixed(2)
         item.listPrice = Number(
-          (floor / Math.pow(10, this.decimals)).toFixed(4)
+          (floor / Math.pow(10, this.decimals)).toFixed(4),
         )
       })
     },
@@ -83,10 +99,24 @@ export const useListingCartStore = defineStore('listingCart', {
         localStorage.value = this.items
       }
     },
+    setItemDiscardedState({ id, discarded }: { id: ID; discarded: boolean }) {
+      const itemIndex = existInItemIndex(id, this.items)
+      if (itemIndex !== -1) {
+        this.items[itemIndex].discarded = discarded
+        localStorage.value = this.items
+      }
+    },
+    clearDiscardedItems() {
+      this.items = this.items.filter((item) => !item.discarded)
+    },
+    clearListedItems() {
+      localStorage.value = []
+      this.items = []
+    },
     clear() {
-      this.itemsInChain.forEach((item) => {
-        this.removeItem(item.id)
-      })
+      localStorage.value = []
+      this.items = []
+      this.allUnlistedItems = []
     },
   },
 })

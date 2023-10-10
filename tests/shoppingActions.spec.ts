@@ -1,4 +1,4 @@
-import { getActions, ownerActions, buyActions } from '@/utils/shoppingActions'
+import { buyActions, getActions, ownerActions } from '@/utils/shoppingActions'
 
 describe('GET ACTIONS TEST', (): void => {
   it('owner actions', () => {

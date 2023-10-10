@@ -16,15 +16,13 @@
     <!-- change price as an owner -->
     <GalleryItemPriceRelist
       v-if="isOwner && nft?.id && nft?.price && nft?.collection.id"
-      :collection-id="nft.collection.id"
-      :nft-id="nft.id"
-      :nft-price="nft.price"
+      :nft="nft"
       class="mt-2" />
 
     <!-- transfer item as an owner -->
     <GalleryItemPriceTransfer
       v-if="isOwner && nft?.id"
-      :nft-id="nft.id"
+      :nft="nft"
       class="mt-2" />
   </div>
 </template>
@@ -45,7 +43,7 @@ const props = defineProps<{
 const { accountId } = useAuth()
 const { offersDisabled } = useChain()
 const isOwner = computed(() =>
-  checkOwner(props.nft?.currentOwner, accountId.value)
+  checkOwner(props.nft?.currentOwner, accountId.value),
 )
 </script>
 
