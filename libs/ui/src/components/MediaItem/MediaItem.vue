@@ -75,8 +75,11 @@ const props = withDefaults(
     disableOperation: undefined,
   },
 )
+
+const type = ref('')
+
 // props.mimeType may be empty string "". Add `image/png` as fallback
-const mimeType = ref(!!props.mimeType ? props.mimeType : 'image/png')
+const mimeType = computed(() => props.mimeType || type.value || 'image/png')
 const isLewdBlurredLayer = ref(props.isLewd)
 const components = {
   ImageMedia,
@@ -96,7 +99,7 @@ const properSrc = computed(() => props.src || props.placeholder)
 
 const updateComponent = async () => {
   if (props.animationSrc && !props.mimeType) {
-    mimeType.value = await getMimeType(props.animationSrc)
+    type.value = await getMimeType(props.animationSrc)
   }
 }
 
