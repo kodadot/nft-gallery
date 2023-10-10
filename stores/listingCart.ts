@@ -12,6 +12,7 @@ export type ListCartItem = {
   collection: EntityWithId
   meta?: NFTMetadata
   metadata?: string
+  discarded?: boolean
 }
 
 type ID = string
@@ -33,13 +34,17 @@ export const useListingCartStore = defineStore('listingCart', {
     decimals: useChain().decimals,
   }),
   getters: {
-    itemsInChain: (state): ListCartItem[] =>
+    allItemsInChain: (state): ListCartItem[] =>
       state.items.filter((item) => item.urlPrefix === state.chain),
+    itemsInChain(): ListCartItem[] {
+      return this.allItemsInChain.filter((item) => !item.discarded)
+    },
     count() {
       return this.itemsInChain.length
     },
-    incompleteListPrices: (state) =>
-      state.items.filter((item) => !item.listPrice).length,
+    incompleteListPrices(): number {
+      return this.itemsInChain.filter((item) => !item.listPrice).length
+    },
   },
   actions: {
     getItem(id: ID) {
@@ -93,6 +98,16 @@ export const useListingCartStore = defineStore('listingCart', {
         this.items.splice(itemIndex, 1)
         localStorage.value = this.items
       }
+    },
+    setItemDiscardedState({ id, discarded }: { id: ID; discarded: boolean }) {
+      const itemIndex = existInItemIndex(id, this.items)
+      if (itemIndex !== -1) {
+        this.items[itemIndex].discarded = discarded
+        localStorage.value = this.items
+      }
+    },
+    clearDiscardedItems() {
+      this.items = this.items.filter((item) => !item.discarded)
     },
     clearListedItems() {
       localStorage.value = []
