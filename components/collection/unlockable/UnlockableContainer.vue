@@ -249,6 +249,12 @@ useSubscriptionGraphql({
   onChange: refetchData,
 })
 
+watch(accountId, () => {
+  tryAgain({
+    account: accountId.value,
+  })
+})
+
 const mintedCount = computed(() => data.value?.minted?.count || 0)
 
 const currentMintedCount = computed(() =>
