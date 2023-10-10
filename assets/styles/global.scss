@@ -373,6 +373,12 @@ a.has-text-grey {
   }
 }
 
+.has-text-k-grey {
+  @include ktheme() {
+    color: theme('k-grey');
+  }
+}
+
 .has-text-color {
   @include ktheme() {
     color: theme('text-color') !important;
@@ -441,6 +447,10 @@ a.has-text-grey {
   }
 }
 
+
+.is-cursor-pointer {
+  cursor: pointer !important;
+}
 //hover
 
 .is-hoverable-item {
