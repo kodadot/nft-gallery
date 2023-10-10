@@ -42,6 +42,8 @@
         <div v-if="fileSizeFailed" class="help is-danger">
           {{ $t('tooltip.failedMaxSize') }}
         </div>
+      </transition>
+      <transition name="fade">
         <div v-if="checkFailed" class="help is-danger">
           {{ $t('tooltip.needToUploadNFTFile') }}
         </div>
