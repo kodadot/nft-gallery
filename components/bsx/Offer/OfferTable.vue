@@ -192,11 +192,12 @@ watch(currentPage, (val) => {
   replaceUrl({ page: String(val) })
 })
 
-const currentBlock = ref(async () => {
+const currentBlock = ref(0)
+onMounted(async () => {
   const { apiInstance } = useApi()
   const api = await apiInstance.value
   const block = await api.rpc.chain.getHeader()
-  return block.number.toNumber()
+  currentBlock.value = block.number.toNumber()
 })
 
 const getUniqType = (offers: Offer[]) => {

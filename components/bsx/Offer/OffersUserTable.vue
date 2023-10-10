@@ -84,6 +84,7 @@ import { tokenIdToRoute } from '@/components/unique/utils'
 import { formatBsxBalanceToNumber } from '@/utils/format/balance'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { AllOfferStatusType } from '@/utils/offerStatus'
+import { formatSecondsToDuration } from '@/utils/format/time'
 
 import { formatDistanceToNow } from 'date-fns'
 import { Offer } from './types'
@@ -172,12 +173,18 @@ const getUniqType = () => {
   return [{ type: AllOfferStatusType.ALL, value: 'All' }, ...singleEventList]
 }
 
-const currentBlock = ref(async () => {
+const currentBlock = ref(0)
+onMounted(async () => {
   const { apiInstance } = useApi()
   const api = await apiInstance.value
   const block = await api.rpc.chain.getHeader()
-  return block.number.toNumber()
+  currentBlock.value = block.number.toNumber()
 })
+
+const calcSecondsToBlock = (block: number): number => {
+  const secondsForEachBlock = 12
+  return secondsForEachBlock * (block - currentBlock.value)
+}
 
 const calcExpirationTime = (expirationBlock: number): string => {
   if (currentBlock.value === 0) {

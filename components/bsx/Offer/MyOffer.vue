@@ -95,6 +95,7 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import { tokenIdToRoute } from '@/components/unique/utils'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 import { formatBsxBalanceToNumber } from '@/utils/format/balance'
+import { formatSecondsToDuration } from '@/utils/format/time'
 import { AllOfferStatusType } from '@/utils/offerStatus'
 
 import acceptableOfferByCurrentOwner from '@/queries/subsquid/bsx/acceptableOfferByCurrentOwner.graphql'
@@ -217,11 +218,12 @@ const displayOffers = (offers: Offer[]) => {
   }))
 }
 
-const currentBlock = ref(async () => {
+const currentBlock = ref(0)
+onMounted(async () => {
   const { apiInstance } = useApi()
   const api = await apiInstance.value
   const block = await api.rpc.chain.getHeader()
-  return block.number.toNumber()
+  currentBlock.value = block.number.toNumber()
 })
 
 const calcSecondsToBlock = (block: number): number => {
