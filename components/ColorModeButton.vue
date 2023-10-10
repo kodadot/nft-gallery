@@ -4,7 +4,9 @@
     :class="isMobileDevice ? 'navbar-item' : ''"
     @click="toggleColorMode">
     <ColorScheme placeholder="...">
-      <span v-if="isDarkMode">{{ $t('profileMenu.lightMode') }}</span>
+      <span v-if="colorMode.preference === 'dark'">
+        {{ $t('profileMenu.lightMode') }}
+      </span>
       <span v-else>{{ $t('profileMenu.darkMode') }}</span>
       &nbsp;<NeoIcon icon="circle-half-stroke" />
     </ColorScheme>
@@ -14,5 +16,5 @@
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
 import { isMobileDevice } from '@/utils/extension'
-const { toggleColorMode, isDarkMode } = useTheme()
+const { colorMode, toggleColorMode } = useTheme()
 </script>

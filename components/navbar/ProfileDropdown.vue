@@ -75,7 +75,7 @@ import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useC
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
 
 const identityStore = useIdentityStore()
-const { isDarkMode } = useTheme()
+const colorMode = useColorMode()
 const { neoModal } = useProgrammatic()
 
 const languageDropdown = ref(null)
@@ -83,7 +83,7 @@ const modal = ref<{ close: () => void; isActive?: boolean } | null>(null)
 
 const account = computed(() => identityStore.getAuthAddress)
 const profileIcon = computed(() =>
-  isDarkMode.value ? '/profile-dark.svg' : '/profile.svg',
+  colorMode.preference === 'dark' ? '/profile-dark.svg' : '/profile.svg',
 )
 const langsFlags = computed(() => langsFlagsList)
 

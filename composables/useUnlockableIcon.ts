@@ -1,7 +1,9 @@
 export const useUnlockableIcon = () => {
-  const { isDarkMode } = useTheme()
+  const colorMode = useColorMode()
   const unlockableIcon = computed(() =>
-    isDarkMode.value ? '/unlockable-dark.svg' : '/unlockable.svg',
+    colorMode.preference === 'dark'
+      ? '/unlockable-dark.svg'
+      : '/unlockable.svg',
   )
 
   return { unlockableIcon }

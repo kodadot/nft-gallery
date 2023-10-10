@@ -90,11 +90,11 @@ const agreeTos = ref<boolean>(false)
 const { init: initTransak } = useTransak()
 const { init: initRamp } = useRamp()
 
-const { isDarkMode } = useTheme()
+const { colorMode } = useTheme()
 
 const getImage = (service: string) => {
   return `/onramp-providers/${service}-logo${
-    isDarkMode.value ? '-dark' : ''
+    colorMode.preference === 'dark' ? '-dark' : ''
   }.svg`
 }
 

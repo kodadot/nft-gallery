@@ -8,6 +8,7 @@ export default function () {
   )
 
   const toggleColorMode = (): void => {
+    console.log('current: ' + colorMode.preference)
     if (colorMode.preference === 'dark') {
       colorMode.preference = 'light'
     } else {
@@ -24,5 +25,6 @@ export default function () {
     isLightMode: computed(() => !isDarkMode.value),
     toggleColorMode,
     placeholder,
+    colorMode,
   }
 }

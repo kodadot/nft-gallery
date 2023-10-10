@@ -24,7 +24,7 @@
             v-if="isMobileNavbarOpen || showSearchOnNavbar"
             class="mobile-nav-search-btn mr-2"
             :src="
-              isDarkMode
+              colorMode.preference === 'dark'
                 ? '/search-mobile-navbar-dark.svg'
                 : '/search-mobile-navbar.svg'
             "
@@ -216,7 +216,7 @@ const isBurgerMenuOpened = ref(false)
 const isMobile = ref(window.innerWidth < 1024)
 const isMobileWithoutTablet = ref(window.innerWidth < 768)
 const { urlPrefix } = usePrefix()
-const { isDarkMode } = useTheme()
+const { colorMode } = useTheme()
 const identityStore = useIdentityStore()
 const isMobileNavbarOpen = ref(false)
 const updateAuthBalanceTimer = ref()
@@ -233,7 +233,7 @@ const isLandingPage = computed(
 )
 
 const logoSrc = computed(() =>
-  isDarkMode.value ? '/Koda_Beta_dark.svg' : '/Koda_Beta.svg',
+  colorMode.preference === 'dark' ? '/Koda_Beta_dark.svg' : '/Koda_Beta.svg',
 )
 
 const showSearchOnNavbar = computed(

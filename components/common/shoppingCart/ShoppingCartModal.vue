@@ -100,7 +100,7 @@ const prefrencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { urlPrefix } = usePrefix()
 const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
-const { isDarkMode } = useTheme()
+const { colorMode } = useTheme()
 
 const emit = defineEmits(['close'])
 
@@ -109,7 +109,9 @@ const items = computed(() =>
 )
 
 const emptyCartPlaceholder = computed(() =>
-  isDarkMode.value ? '/cart/empty-cart-dark.svg' : '/cart/empty-cart.svg',
+  colorMode.preference === 'dark'
+    ? '/cart/empty-cart-dark.svg'
+    : '/cart/empty-cart.svg',
 )
 
 const numberOfItems = computed(() => items.value.length)

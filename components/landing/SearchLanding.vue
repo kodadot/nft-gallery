@@ -53,7 +53,7 @@ import UnlockableLandingTag from '@/components/collection/unlockable/UnlockableL
 import Search from '@/components/search/Search.vue'
 
 const { urlPrefix, setUrlPrefix } = usePrefix()
-const { isDarkMode } = useTheme()
+const { colorMode } = useTheme()
 const { availableChains } = useChain()
 
 const chainText = (chain: string) => {
@@ -64,7 +64,7 @@ const chainText = (chain: string) => {
   }
 }
 const landingImage = computed(() => {
-  if (isDarkMode.value) {
+  if (colorMode.preference === 'dark') {
     return [
       '/landing-shape-header-left-dark.svg',
       '/landing-shape-header-right-dark.svg',

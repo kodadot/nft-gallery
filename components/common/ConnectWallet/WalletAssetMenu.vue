@@ -16,7 +16,9 @@
       <!-- light/dark mode -->
       <div class="is-align-items-center" @click="toggleColorMode">
         <NeoIcon icon="circle-half-stroke" />
-        <span v-if="isDarkMode">{{ $t('profileMenu.lightMode') }}</span>
+        <span v-if="colorMode.preference === 'dark'">
+          {{ $t('profileMenu.lightMode') }}
+        </span>
         <span v-else>{{ $t('profileMenu.darkMode') }}</span>
       </div>
 
@@ -61,7 +63,7 @@ import { langsFlags } from '@/utils/config/i18n'
 
 const { urlPrefix } = usePrefix()
 const { isBasilisk } = useIsChain(urlPrefix)
-const { toggleColorMode, isDarkMode } = useTheme()
+const { toggleColorMode, colorMode } = useTheme()
 const { neoModal } = useProgrammatic()
 
 const menus = ref([

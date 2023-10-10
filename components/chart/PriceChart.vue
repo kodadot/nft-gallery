@@ -40,7 +40,7 @@ import { useEventListener } from '@vueuse/core'
 ChartJS.register(zoomPlugin)
 const { $i18n } = useNuxtApp()
 const { chainSymbol } = useChain()
-const { isDarkMode } = useTheme()
+const { colorMode } = useTheme()
 const daysTranslation = (day: number) => $i18n.t('priceChart.days', [day])
 
 const timeRangeList = [
@@ -88,14 +88,16 @@ onMounted(() => {
 })
 
 const lineColor = computed(() => {
-  if (isDarkMode.value) {
+  if (colorMode.preference === 'dark') {
     return 'white'
   } else {
     return '#181717'
   }
 })
 
-const gridColor = computed(() => (isDarkMode.value ? '#6b6b6b' : '#cccccc'))
+const gridColor = computed(() =>
+  colorMode.preference === 'dark' ? '#6b6b6b' : '#cccccc',
+)
 
 const displayChartData = computed(() => {
   if (props.priceChartData) {
@@ -139,7 +141,8 @@ const getPriceChartData = () => {
         tension: 0.2,
         pointRadius: 6,
         pointHoverRadius: 6,
-        pointHoverBackgroundColor: isDarkMode.value ? '#181717' : 'white',
+        pointHoverBackgroundColor:
+          colorMode.preference === 'dark' ? '#181717' : 'white',
         borderJoinStyle: 'round' as const,
         radius: 0,
         pointStyle: 'rect',
@@ -183,7 +186,7 @@ const getPriceChartData = () => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             customCanvasBackgroundColor: {
-              color: isDarkMode.value ? '#181717' : 'white',
+              color: colorMode.preference === 'dark' ? '#181717' : 'white',
             },
             legend: {
               labels: {
@@ -292,7 +295,7 @@ watch(
     getPriceChartData()
   },
 )
-watch([isDarkMode, selectedTimeRange], () => {
+watch([colorMode, selectedTimeRange], () => {
   getPriceChartData()
 })
 </script>
