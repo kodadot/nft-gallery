@@ -288,6 +288,10 @@ const chainByPrefix = computed(() =>
 )
 const selectChain = ref(chainByPrefix.value?.value || menus[0].value)
 
+watch(urlPrefix, (value) => {
+  selectChain.value = value
+})
+
 // get/set current chain/prefix
 const currentChain = computed(() => selectChain.value as Prefix)
 const { isBasilisk, isRemark } = useIsChain(currentChain)
@@ -296,7 +300,9 @@ watch(currentChain, () => {
   form.salePrice = 0
   form.royalty.amount = 0
 
-  setUrlPrefix(currentChain.value as Prefix)
+  if (currentChain.value !== urlPrefix.value) {
+    setUrlPrefix(currentChain.value as Prefix)
+  }
 })
 
 // deposit stuff
