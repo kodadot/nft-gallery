@@ -12,30 +12,30 @@
     </div>
 
     <div
-      v-for="post in featured.slice(0, 1)"
-      :key="post.attributes.title"
+      v-for="post in posts?.featured.slice(0, 1)"
+      :key="post.title"
       class="content-featured content-list">
       <div
         class="content-list-cover"
-        :style="{ backgroundImage: `url(${post.attributes.image})` }"></div>
+        :style="{ backgroundImage: `url(${post.image})` }"></div>
 
       <div class="content-list-card">
         <div>
-          <div class="card-tag">• {{ post.attributes.tags }}</div>
+          <div class="card-tag">• {{ post.tags }}</div>
           <p class="title is-4">
-            <nuxt-link :to="getPermalink(post)">
-              {{ post.attributes.title }}
+            <nuxt-link :to="post._path">
+              {{ post.title }}
             </nuxt-link>
           </p>
-          <div class="truncate mb-4">{{ post.attributes.subtitle }}</div>
+          <div class="truncate mb-4">{{ post.subtitle }}</div>
         </div>
 
         <div>
           <NeoButton
-            v-safe-href="getPermalink(post)"
+            :tag="NuxtLink"
+            :to="post._path"
             no-shadow
             rounded
-            tag="a"
             icon="arrow-right-long">
             View Article
           </NeoButton>
@@ -47,17 +47,17 @@
     <h2 class="title is-2">Tokens</h2>
     <div class="content-list-grid content-list-grid-2">
       <nuxt-link
-        v-for="post in tokensPosts.slice(0, 2)"
-        :key="post.attributes.title"
+        v-for="post in posts?.tokensPosts.slice(0, 2)"
+        :key="post.title"
         class="content-board is-block"
-        :to="getPermalink(post)">
+        :to="post._path">
         <div
           class="content-board-cover"
-          :style="{ backgroundImage: `url(${post.attributes.image})` }"></div>
+          :style="{ backgroundImage: `url(${post.image})` }"></div>
         <div class="content-board-text">
-          <p class="has-text-weight-bold">{{ post.attributes.title }}</p>
+          <p class="has-text-weight-bold">{{ post.title }}</p>
           <div class="content-board-subtitle">
-            {{ post.attributes.subtitle }}
+            {{ post.subtitle }}
           </div>
         </div>
       </nuxt-link>
@@ -67,17 +67,17 @@
     <h2 class="title is-2">Latest Posts</h2>
     <div class="content-list-grid">
       <nuxt-link
-        v-for="post in posts"
-        :key="post.attributes.title"
+        v-for="post in posts?.posts"
+        :key="post.title"
         class="content-board is-block"
-        :to="getPermalink(post)">
+        :to="post._path">
         <div
           class="content-board-cover"
-          :style="{ backgroundImage: `url(${post.attributes.image})` }"></div>
+          :style="{ backgroundImage: `url(${post.image})` }"></div>
         <div class="content-board-text">
-          <p class="has-text-weight-bold">{{ post.attributes.title }}</p>
+          <p class="has-text-weight-bold">{{ post.title }}</p>
           <div class="content-board-subtitle">
-            {{ post.attributes.subtitle }}
+            {{ post.subtitle }}
           </div>
         </div>
       </nuxt-link>
@@ -85,58 +85,46 @@
   </div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
+import { resolveComponent } from 'vue'
 
-export default {
-  name: 'BlogList',
-  components: {
-    NeoButton,
-  },
-  asyncData() {
-    const resolve = require.context('~/content/blog/', true, /\.md$/)
-    const imports = resolve.keys().map((key) => resolve(key))
+const NuxtLink = resolveComponent('NuxtLink')
+const { data: posts } = useAsyncData('posts', async () => {
+  const contents = await queryContent('/').find()
+  const tags = {
+    tokens: 'Tokens',
+  }
+  const latestPosts = contents.sort(
+    (content_a, content_b) =>
+      +new Date(content_b.date) - +new Date(content_a.date),
+  )
 
-    const tags = {
-      tokens: 'Tokens',
-    }
-
-    const latestPosts = imports.sort(
-      (a, b) => +new Date(b.attributes.date) - +new Date(a.attributes.date)
-    )
-
-    return latestPosts.reduce(
-      (acc, post, index) => {
-        if (index === 0) {
-          acc.featured.push(post)
-          return acc
-        }
-        if (post.attributes.tags === tags.tokens) {
-          acc.tokensPosts.push(post)
-        }
-        acc.posts.push(post)
+  const reduce = latestPosts.reduce(
+    (acc, post, index) => {
+      if (index === 0) {
+        acc.featured.push(post)
         return acc
-      },
-      {
-        featured: [],
-        posts: [],
-        tokensPosts: [],
       }
-    )
-  },
-  methods: {
-    getPermalink(post) {
-      const filePath = post.meta.resourcePath
-      const fileName = filePath.match(/\/([^/]+)\.\w+$/)[1]
-
-      return `/blog/${fileName}`
+      if (post.tags === tags.tokens) {
+        acc.tokensPosts.push(post)
+      }
+      acc.posts.push(post)
+      return acc
     },
-  },
-}
+    {
+      featured: [],
+      posts: [],
+      tokensPosts: [],
+    },
+  )
+
+  return reduce
+})
 </script>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .content {
   margin: 0 auto;
@@ -165,11 +153,16 @@ export default {
       letter-spacing: -0.02em;
       @include ktheme() {
         color: theme('text-color-inverse');
-        text-shadow: 1px 1px 0 theme('text-color'),
-          1px -1px 0 theme('text-color'), -1px 1px 0 theme('text-color'),
-          -1px -1px 0 theme('text-color'), 1px 0px 0 theme('text-color'),
-          0px 1px 0 theme('text-color'), -1px 0px 0 theme('text-color'),
-          0px -1px 0 theme('text-color'), 4px 4px theme('text-color');
+        text-shadow:
+          1px 1px 0 theme('text-color'),
+          1px -1px 0 theme('text-color'),
+          -1px 1px 0 theme('text-color'),
+          -1px -1px 0 theme('text-color'),
+          1px 0px 0 theme('text-color'),
+          0px 1px 0 theme('text-color'),
+          -1px 0px 0 theme('text-color'),
+          0px -1px 0 theme('text-color'),
+          4px 4px theme('text-color');
       }
     }
 

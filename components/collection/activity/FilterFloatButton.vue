@@ -1,6 +1,6 @@
 <template>
   <div class="fixed-bottom-middle has-min-width">
-    <NeoButton expanded @click.native="openMobileFilters">
+    <NeoButton expanded @click="openMobileFilters">
       {{ $t('general.filters')
       }}<span v-if="numOfActiveFilters">: {{ numOfActiveFilters }}</span>
     </NeoButton>
@@ -16,7 +16,7 @@ const preferencesStore = usePreferencesStore()
 const activeFilters = useActiveRouterFilters()
 
 const numOfActiveFilters = computed(
-  () => Object.keys(activeFilters.value).length
+  () => Object.keys(activeFilters.value).length,
 )
 const openMobileFilters = () => preferencesStore.setMobileFilterCollapse(true)
 </script>

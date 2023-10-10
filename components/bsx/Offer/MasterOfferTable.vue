@@ -7,12 +7,12 @@
         class="address-input mr-3"
         icon="close-circle"
         :strict="false"
-        @input="handleAddressUpdate" />
+        @input="handleAddressUpdate($event.target.value)" />
       <NeoButton
         v-if="isLogIn"
         icon-left="paper-plane"
         class="fill-button mt-6"
-        @click.native="fillUpAddress">
+        @click="fillUpAddress">
         Fill My Address
       </NeoButton>
     </div>
@@ -53,7 +53,6 @@
 </template>
 
 <script lang="ts" setup>
-import { OfferResponse } from './types'
 import offerListUser from '@/queries/subsquid/bsx/offerListUser.graphql'
 import { notificationTypes, showNotification } from '~/utils/notification'
 import { isAddress } from '@polkadot/util-crypto'
@@ -71,17 +70,19 @@ const accountIdChanged = ref('')
 const incomingOffers = ref([])
 const skipUserOffer = ref(false) // skip fetching with id when this variable is true
 
-const { $apollo, $i18n, $route, $router } = useNuxtApp()
+const { $i18n } = useNuxtApp()
 const { accountId, isLogIn } = useAuth()
 const { client } = usePrefix()
+const route = useRoute()
+const router = useRouter()
 
 const currentOfferType = ref(SelectedOfferType.ALL)
 
 const selectedOfferType = computed({
-  get: () => $route.query.tab || currentOfferType.value,
+  get: () => route.query.tab || currentOfferType.value,
   set: (value) => {
-    const { target } = $route.query
-    $router.push({
+    const { target } = route.query
+    router.push({
       query: { target, tab: value },
     })
     currentOfferType.value = value
@@ -106,14 +107,14 @@ const offerTypeOptions = ref([
 ])
 
 const handleAddressUpdate = (target: string) => {
-  const { tab } = $route.query
+  const { tab } = route.query
   if (target) {
     checkOfferForAddress()
-    $router.replace({ query: { target, tab } }).catch(() => null) // null to further not throw navigation errors
+    router.replace({ query: { target, tab } }).catch(() => null) // null to further not throw navigation errors
   } else {
     currentOfferType.value = SelectedOfferType.ALL
     checkOfferForAddress(true)
-    $router.replace({ query: { tab } }).catch(() => null) // null to further not throw navigation errors
+    router.replace({ query: { tab } }).catch(() => null) // null to further not throw navigation errors
   }
 }
 
@@ -127,7 +128,7 @@ const offersIncomingUpdate = (data) => {
 }
 
 const checkQueryParams = () => {
-  const { query } = $route
+  const { query } = route
   if (query.target) {
     const hasAddress = isAddress(query.target as string)
     if (hasAddress) {
@@ -156,14 +157,13 @@ const fetchCreatedOffers = async () => {
     if (!skipUserOffer.value) {
       variables.id = destinationAddress.value || accountId.value
     }
-
-    const { data } = await $apollo.query<OfferResponse>({
+    const { data } = await useAsyncQuery({
       query: offerListUser,
-      client: client.value,
-      variables: variables,
+      variables,
+      clientId: client.value,
     })
-    if (data?.offers?.length) {
-      createdOffers.value = data.offers
+    if (data.value?.offers?.length) {
+      createdOffers.value = data.value.offers
       if (!skipUserOffer.value) {
         incomingOffers.value = []
       }

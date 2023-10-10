@@ -13,7 +13,7 @@ export default function () {
   }
 
   const blocktime = computed(
-    () => chainBlockTimes[urlPrefix.value] ?? paraChainBlockTime
+    () => chainBlockTimes[urlPrefix.value] ?? paraChainBlockTime,
   )
   return {
     blocktime,

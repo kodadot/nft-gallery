@@ -1,8 +1,8 @@
 <template>
   <o-modal
+    v-model:active="isModalActive"
     class="neo-modal"
     scroll="clip"
-    :active.sync="isModalActive"
     :destroy-on-hide="destroyOnHide"
     :can-cancel="canCancel"
     :full-screen="fullScreen"
@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { OModal } from '@oruga-ui/oruga'
+import { OModal } from '@oruga-ui/oruga-next'
 
 const props = withDefaults(
   defineProps<{
@@ -41,7 +41,7 @@ const props = withDefaults(
     noShadow: false,
     maxHeight: '80vh',
     mobileBreakpoint: '768px',
-  }
+  },
 )
 
 const emit = defineEmits(['close'])

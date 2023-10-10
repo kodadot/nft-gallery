@@ -21,7 +21,6 @@
       "@types/node",
       "vue-apollo",
       "vitest/globals",
-      "nuxt-webpack-optimisations"
     ]
   },
   "exclude": ["node_modules", "dist", "**/*.spec.ts"]

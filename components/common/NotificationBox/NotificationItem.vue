@@ -71,17 +71,17 @@ onMounted(() => {
 const getAvatar = async () => {
   if (props.event) {
     avatar.value = await getNFTAvatar(
-      props.event as unknown as InteractionWithNFT
+      props.event as unknown as InteractionWithNFT,
     )
   }
 }
 const displayName = computed(
-  () => props.event.nft.meta.name || props.event.nft.id
+  () => props.event.nft.meta.name || props.event.nft.id,
 )
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .max-width {
   max-width: 8rem;

@@ -5,7 +5,7 @@
       :key="index"
       class="custom-attribute-input my-4">
       <AttributeInput
-        v-bind.sync="attributes[index]"
+        v-model="attributes[index]"
         :index="index"
         @remove="removeAttribute" />
     </div>
@@ -14,7 +14,7 @@
       class="my-4"
       :disabled="disabled"
       icon-left="plus"
-      @click.native="addAttribute">
+      @click="addAttribute">
       Add Attribute
     </NeoButton>
   </CollapseWrapper>
@@ -35,13 +35,13 @@ const props = withDefaults(
     max: 0,
     visible: 'collapse.collection.attributes.show',
     hidden: 'collapse.collection.attributes.hide',
-  }
+  },
 )
 
 const emit = defineEmits(['input'])
 const attributes = ref([])
 const disabled = computed(
-  () => props.max > 0 && attributes.value.length === props.max
+  () => props.max > 0 && attributes.value.length === props.max,
 )
 
 const addAttribute = () => {

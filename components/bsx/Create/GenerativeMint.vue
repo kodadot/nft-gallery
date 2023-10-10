@@ -60,19 +60,19 @@ import {
 } from '@/components/generative/promptBuilder'
 
 const GenerativeMint = defineAsyncComponent(
-  () => import('@/components/generative/GenerativeMintForm.vue')
+  () => import('@/components/generative/GenerativeMintForm.vue'),
 )
 
 const ImageSelectGrid = defineAsyncComponent(
-  () => import('@/components/generative/ImageSelectGrid.vue')
+  () => import('@/components/generative/ImageSelectGrid.vue'),
 )
 
 const ContactForm = defineAsyncComponent(
-  () => import('@/components/generative/ContactForm.vue')
+  () => import('@/components/generative/ContactForm.vue'),
 )
 
 const CongratsView = defineAsyncComponent(
-  () => import('@/components/generative/CongratsView.vue')
+  () => import('@/components/generative/CongratsView.vue'),
 )
 
 const isStepsClickable = ref(false)
@@ -111,7 +111,7 @@ const submitAll = async () => {
     const metadata = await buildMetadata(
       image.value,
       builder.value,
-      predicion.value
+      predicion.value,
     )
     status.value = 'loader.generative.send'
     await doWaifu(
@@ -120,13 +120,13 @@ const submitAll = async () => {
         metadata,
         image: image.value,
       },
-      CAMPAIGN
+      CAMPAIGN,
     )
     goToStep(4)
   } catch (error) {
     showNotification(
       'Error: ' + (error as Error).message,
-      notificationTypes.warn
+      notificationTypes.warn,
     )
   } finally {
     isLoading.value = false

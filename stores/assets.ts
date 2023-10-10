@@ -1,8 +1,5 @@
 import { defineStore } from 'pinia'
-import { AssetListQueryResponse } from '@/components/bsx/Asset/types'
 import assetListQuery from '@/queries/subsquid/bsx/assetList.graphql'
-import { chainAssetOf } from '@/utils/config/chain.config'
-import { useApollo } from '@/utils/config/useApollo'
 import type { Prefix } from '@kodadot1/static'
 
 export type TokenProperty = {
@@ -25,34 +22,29 @@ export const useAssetsStore = defineStore('assets', {
   },
   actions: {
     setAssetList(payload) {
-      this.tokenMap = Object.assign({}, this.tokenMap, payload)
+      this.tokenMap = Object.fromEntries(
+        toRaw(payload.value).assetList.map(({ id, decimals, symbol }) => [
+          id,
+          { id, decimals, symbol },
+        ]),
+      )
     },
     setLocalPrefix(payload: Prefix) {
       this.localPrefix = payload
     },
     async fetchAssetList() {
-      const { $apollo } = useNuxtApp()
       const { urlPrefix } = usePrefix()
       if (this.localPrefix === urlPrefix.value) {
         return
       }
       this.setLocalPrefix(urlPrefix.value)
-      const { assetList } = await useApollo<any, AssetListQueryResponse>(
-        $apollo as any,
-        urlPrefix.value,
-        assetListQuery
-      ).catch(() => ({
-        assetList: [chainAssetOf(urlPrefix.value)],
-      }))
+      const { data: assetList } = await useAsyncQuery(assetListQuery, {})
 
-      const tokenMap: TokenMap = Object.fromEntries(
-        assetList.map(({ id, decimals, symbol }) => [
-          id,
-          { id, decimals, symbol },
-        ])
-      )
-      this.setAssetList(tokenMap)
-      return
+      // if (error) {
+      //   assetList.value = [chainAssetOf(urlPrefix.value)]
+      // }
+
+      this.setAssetList(assetList)
     },
   },
 })

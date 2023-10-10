@@ -36,9 +36,9 @@ export const statusClass = (status?: Status) => {
 export const useCollectionForMint = () => {
   const collectionsEntites = ref<MintedCollection[]>()
   const collections = ref()
-  const { $consola, $apollo } = useNuxtApp()
+  const { $consola } = useNuxtApp()
   const { accountId, isLogIn } = useAuth()
-  const { urlPrefix } = usePrefix()
+  const { client, urlPrefix } = usePrefix()
   const queryPath = {
     rmrk: 'chain-rmrk',
     ksm: 'chain-rmrk',
@@ -51,20 +51,15 @@ export const useCollectionForMint = () => {
 
     const prefix = queryPath[urlPrefix.value] || urlPrefix.value
     const query = await resolveQueryPath(prefix, 'collectionForMint')
-    const data = await $apollo.query({
+    const { data } = await useAsyncQuery({
       query: query.default,
-      client: urlPrefix.value,
       variables: {
         account: accountId.value,
       },
-      fetchPolicy: 'network-only',
+      clientId: client.value,
     })
 
-    const {
-      data: { collectionEntities },
-    } = data
-
-    // collections.value = collectionEntities
+    const { collectionEntities } = data.value
 
     collections.value = collectionEntities
       .map((collection) => ({
@@ -75,7 +70,7 @@ export const useCollectionForMint = () => {
       }))
       .filter(
         (collection) =>
-          (collection.max || Infinity) - collection.alreadyMinted > 0
+          (collection.max || Infinity) - collection.alreadyMinted > 0,
       )
   }
 
@@ -83,7 +78,7 @@ export const useCollectionForMint = () => {
     doFetch().catch((error) => {
       $consola.error(
         `Error fetching collections for account ${accountId.value}:`,
-        error
+        error,
       )
     })
 
@@ -105,7 +100,7 @@ export const useCollectionForMint = () => {
 
 export const useMassMint = (
   nfts: NFTToMint[],
-  collection: MintedCollection
+  collection: MintedCollection,
 ) => {
   const { blockNumber, transaction, isLoading, status, isError } =
     useTransaction()
@@ -128,7 +123,7 @@ export const useMassMint = (
   }
 
   const willItList = tokens.some(
-    (token) => token.price && Number(token.price) > 0
+    (token) => token.price && Number(token.price) > 0,
   )
 
   if (willItList && isRemark.value) {

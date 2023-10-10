@@ -11,10 +11,7 @@
         size="medium" />
     </a>
     <div class="is-hidden-tablet is-relative">
-      <NeoButton
-        :disabled="disabled"
-        icon="bars"
-        @click.native="openMobileFilters" />
+      <NeoButton :disabled="disabled" icon="bars" @click="openMobileFilters" />
       <ActiveCount v-if="numOfActiveFilters" :count="numOfActiveFilters" />
     </div>
   </div>
@@ -41,11 +38,11 @@ const disabled = computed(() => {
 })
 
 const isSidebarFiltersOpen = computed(
-  () => preferencesStore.getsidebarFilterCollapse
+  () => preferencesStore.getsidebarFilterCollapse,
 )
 
 const numOfActiveFilters = computed(
-  () => Object.keys(activeFilters.value).length
+  () => Object.keys(activeFilters.value).length,
 )
 
 const toggleSidebarFilters = () =>
@@ -55,7 +52,7 @@ const openMobileFilters = () => preferencesStore.setMobileFilterCollapse(true)
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 a.disabled {
   opacity: 0.3;
   cursor: not-allowed;

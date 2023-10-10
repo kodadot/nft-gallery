@@ -29,7 +29,7 @@ export const useShoppingCartStore = defineStore('shoppingCart', {
   actions: {
     setItem(payload: ShoppingCartItem) {
       const existinItemIndex = items().findIndex(
-        (item) => item.id === payload.id
+        (item) => item.id === payload.id,
       )
       if (existinItemIndex === -1) {
         localStorage.value = [...localStorage.value, payload]
@@ -47,7 +47,7 @@ export const useShoppingCartStore = defineStore('shoppingCart', {
     },
     updateItem(payload: ShoppingCartItem) {
       const existinItemIndex = items().findIndex(
-        (item) => item.id === payload.id
+        (item) => item.id === payload.id,
       )
       if (existinItemIndex === -1) {
         return

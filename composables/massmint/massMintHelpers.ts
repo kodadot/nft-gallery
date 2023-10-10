@@ -10,7 +10,7 @@ import { NFTToMint } from '@/components/massmint/types'
 
 export const createTokensToMint = (
   nfts: NFTToMint[],
-  collection: MintedCollection
+  collection: MintedCollection,
 ): TokenToMint[] => {
   return nfts.map((nft) => ({
     file: nft.file,
@@ -93,7 +93,7 @@ export const listForSell = (mintedNFts: TokenToList[]) => {
 export const getListForSellItems = (
   createdNFTs: CreatedNFT[],
   tokens: TokenToMint[],
-  blockNumber: string
+  blockNumber: string,
 ) => {
   const { $consola } = useNuxtApp()
   return createdNFTs
@@ -101,7 +101,7 @@ export const getListForSellItems = (
       const matchingToken = tokens.find(
         (token) =>
           token.name === nft?.name &&
-          token.selectedCollection?.id === nft.collection
+          token.selectedCollection?.id === nft.collection,
       )
 
       if (matchingToken === undefined) {
@@ -117,7 +117,7 @@ export const getListForSellItems = (
           name: nft.name.toUpperCase().replace(/ /g, '_'),
           collection: matchingToken.selectedCollection as EntityWithId,
         },
-        blockNumber
+        blockNumber,
       )
       if (nftId === undefined) {
         return undefined
@@ -179,7 +179,7 @@ export const kusamaMintAndList = (tokens) => {
       const listForSellItems = getListForSellItems(
         createdNFTs.value,
         tokens,
-        mintBlockNumber.value
+        mintBlockNumber.value,
       )
       const {
         blockNumber: listBlockNumber,

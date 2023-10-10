@@ -114,7 +114,7 @@ export class BaseDotsamaWallet implements Wallet {
       (accounts: InjectedAccount[]) => {
         const accountsWithWallet = this.accountMap(accounts)
         callback(accountsWithWallet)
-      }
+      },
     )
     return unsubscribe
   }

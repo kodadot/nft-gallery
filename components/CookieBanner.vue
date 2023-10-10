@@ -1,6 +1,6 @@
 <template>
-  <div v-if="!hasDisplayedCookieBanner" class="cookie-banner">
-    <transition name="slide">
+  <transition name="slide">
+    <div v-if="!hasDisplayedCookieBanner" class="cookie-banner">
       <div class="notices is-bottom is-flex w-100 is-align-items-center">
         <div
           role="alertdialog"
@@ -14,21 +14,21 @@
           </div>
           <div class="bar ml-4 mr-4" />
           <div class="action is-success">
-            <NeoButton variant="text" no-shadow @click.native="declineCookies">
+            <NeoButton variant="text" no-shadow @click="declineCookies">
               {{ $t('cookies.decline') }}
             </NeoButton>
             <NeoButton
               variant="text"
               no-shadow
               class="has-text-weight-bold ml-3"
-              @click.native="acceptCookies">
+              @click="acceptCookies">
               {{ $t('cookies.accept') }}
             </NeoButton>
           </div>
         </div>
       </div>
-    </transition>
-  </div>
+    </div>
+  </transition>
 </template>
 
 <script lang="ts" setup>
@@ -37,7 +37,7 @@ import { NeoButton } from '@kodadot1/brick'
 
 // const { isEnabled } = useState()
 const hasDisplayedCookieBanner = ref(
-  localStorage.getItem('cookies_enabled') !== null || false
+  localStorage.getItem('cookies_enabled') !== null || false,
 )
 const acceptCookies = () => {
   // if (isEnabled) {

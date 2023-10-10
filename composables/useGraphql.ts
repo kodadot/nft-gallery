@@ -1,21 +1,20 @@
+import type { ComputedRef } from 'vue'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import type { QueryOptions } from 'apollo-client'
-import { ComputedRef } from 'vue/types'
 
-export const useQueryParams = ({
-  queryPrefix,
-  clientName = '',
-}: {
-  queryPrefix: string
-  clientName: string | ComputedRef<string>
-}) => {
-  const { client } = usePrefix()
+interface DoFetchParams {
+  variables?: Record<string, unknown>
+}
 
-  return {
-    prefix: queryPrefix || client.value,
-    client: clientName || client.value,
-  }
+type UseGraphqlParams = {
+  queryPrefix?: string
+  queryName: string
+  clientName?: string | ComputedRef<string>
+  variables?: Record<string, unknown> | ComputedRef<Record<string, unknown>>
+  disabled?: ComputedRef<boolean>
+  data?: Ref<unknown>
+  error?: Ref<unknown>
+  loading?: Ref<boolean>
 }
 
 export default function ({
@@ -23,34 +22,32 @@ export default function ({
   queryName,
   clientName = '',
   variables = {},
-  options = {},
   disabled = computed(() => false),
   data = ref(),
   error = ref(),
   loading = ref(true),
-}) {
-  const { $apollo, $consola } = useNuxtApp()
-  const { prefix, client } = useQueryParams({ queryPrefix, clientName })
+}: UseGraphqlParams) {
+  const { client: clientPrefix } = usePrefix()
+  const { $consola } = useNuxtApp()
 
-  interface DoFetchParams {
-    options?: Omit<QueryOptions, 'query'>
-    variables?: Record<string, unknown>
-  }
+  const prefix = queryPrefix || clientPrefix.value
+  const client = clientName || clientPrefix.value
+
   async function doFetch({
-    options: extraOptions = {},
     variables: extraVariables = {},
   }: DoFetchParams = {}) {
     const query = await resolveQueryPath(prefix, queryName)
 
     try {
-      const response = await $apollo.query({
+      const { data: result } = await useAsyncQuery({
         query: query.default,
-        client: isRef(client) ? client.value : client,
-        variables: { ...variables, ...extraVariables },
-        ...options,
-        ...extraOptions,
+        variables: {
+          ...variables,
+          ...extraVariables,
+        },
+        clientId: isRef(client) ? String(client.value) : client,
       })
-      data.value = response.data
+      data.value = result.value
     } catch (err) {
       ;(error.value as unknown) = err
       showNotification(`${err as string}`, notificationTypes.danger)
@@ -62,9 +59,6 @@ export default function ({
 
   async function refetch(variables: Record<string, unknown> = {}) {
     await doFetch({
-      options: {
-        fetchPolicy: 'network-only',
-      },
       variables,
     })
   }
@@ -78,7 +72,7 @@ export default function ({
   }
 
   return {
-    data,
+    data: data,
     error,
     refetch,
     loading,

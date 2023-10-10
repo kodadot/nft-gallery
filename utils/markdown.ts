@@ -19,7 +19,7 @@ export const convertMarkdownToText = (text = ''): string => {
         if (matchName) {
           text = text.replaceAll(
             match,
-            matchName[0].slice(1, matchName[0].length - 1)
+            matchName[0].slice(1, matchName[0].length - 1),
           )
         }
       })

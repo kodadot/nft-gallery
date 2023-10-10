@@ -33,6 +33,6 @@ withDefaults(
     noResultsMain: '',
     noResultsSub: '',
     showNoResults: false,
-  }
+  },
 )
 </script>
