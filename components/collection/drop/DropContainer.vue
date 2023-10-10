@@ -160,6 +160,7 @@ import {
   displayPricePerMint,
   pricePerMint,
 } from './const'
+import { TokenToBuy } from '@/composables/transaction/types'
 
 const Loader = defineAsyncComponent(
   () => import('@/components/collection/unlockable/UnlockableLoader.vue'),
@@ -302,10 +303,11 @@ const handleBuy = async () => {
 
     await transaction({
       interaction: ShoppingActions.BUY,
-      currentOwner: MINT_ADDRESS,
-      price: pricePerMint,
-      nftId: tokenId,
-      tokenId: tokenId,
+      nfts: {
+        currentOwner: MINT_ADDRESS,
+        price: pricePerMint,
+        id: tokenId,
+      } as TokenToBuy,
       urlPrefix: urlPrefix.value,
       successMessage: $i18n.t('mint.successNewNfts'),
       errorMessage: $i18n.t('transaction.buy.error'),
