@@ -266,27 +266,28 @@ onMounted(() => {
 const { isUnlockable, unlockLink } = useUnlockable(collection)
 
 const title = computed(() => nftMetadata.value?.name || '')
-const meta = computed(() => {
-  return [
-    {
-      title: title.value,
-      description: convertMarkdownToText(nftMetadata.value?.description),
-      image: generateNftImage(
-        title.value,
-        formatBalanceEmptyOnZero(nft.value?.price as string),
-        sanitizeIpfsUrl(nftImage.value || ''),
-        nftMimeType.value,
-      ),
-      mime: nftMimeType.value,
-      url: route.path,
-      video: sanitizeIpfsUrl(nftAnimation.value || ''),
-    },
-  ]
+const seoDescription = computed(
+  () => convertMarkdownToText(nftMetadata.value?.description) || '',
+)
+const seoCard = computed(() => {
+  if (nft.value) {
+    return generateNftImage(
+      title.value,
+      formatBalanceEmptyOnZero(nft.value?.price as string),
+      sanitizeIpfsUrl(nftImage.value || ''),
+      nftMimeType.value,
+    )
+  }
 })
 
-useHead({
+useSeoMeta({
   title,
-  meta,
+  description: seoDescription,
+  ogDescription: seoDescription,
+  ogTitle: title,
+  ogImage: seoCard,
+  twitterImage: seoCard,
+  twitterCard: 'summary_large_image',
 })
 </script>
 

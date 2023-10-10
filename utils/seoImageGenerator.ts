@@ -11,6 +11,12 @@ export const generateNftImage = (
   image && searchParams.set('image', image)
   mimeType && searchParams.set('mime', mimeType)
 
+  console.log({ name, price, image, mimeType })
+  console.log(
+    `${URLS.koda.seoCard}${encodeURIComponent(
+      name,
+    )}.jpeg?${searchParams.toString()}`,
+  )
   return `${URLS.koda.seoCard}${encodeURIComponent(
     name,
   )}.jpeg?${searchParams.toString()}`
