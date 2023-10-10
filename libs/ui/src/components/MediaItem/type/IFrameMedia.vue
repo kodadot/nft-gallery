@@ -1,11 +1,11 @@
 <template>
   <iframe
     title="html-embed"
-    class="iframe-model__wrapper"
+    class="iframe-model__wrapper is-flex"
     :src="src"
     :alt="alt"
-    sandbox="allow-scripts allow-same-origin"
-    allow="accelerometer; camera; gyroscope; microphone; xr-spatial-tracking;" />
+    sandbox="allow-scripts allow-same-origin allow-modals"
+    allow="accelerometer *; camera *; gyroscope *; microphone *; xr-spatial-tracking *;" />
 </template>
 
 <script lang="ts" setup>
@@ -18,7 +18,7 @@ defineProps<{
 <style scoped>
 .iframe-model__wrapper {
   height: 100%;
-  min-height: 37em;
+  aspect-ratio: 1;
   width: 100%;
 }
 </style>

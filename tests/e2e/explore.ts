@@ -74,6 +74,8 @@ const testItems = async (page) => {
 
   const firstItem = (await page.getByTestId('card-money')).first()
   const moneyStr = await firstItem.innerText()
+  console.log('dinheiro antes: ', moneyStr)
   const money = +moneyStr.split(' ')[0]
+  console.log('dinheiro depois: ', money)
   expect(money).toBeGreaterThanOrEqual(100)
 }

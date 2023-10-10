@@ -33,7 +33,7 @@ export default defineNuxtConfig({
 
   nitro: {
     publicAssets: [],
-    preset: 'netlify',
+    // preset: 'netlify',
     // preset: 'service-worker'
   },
 
