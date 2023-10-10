@@ -9,6 +9,7 @@ import {
   getKusamaAssetId,
 } from '@/utils/api/bsx/query'
 import format from '@/utils/format/balance'
+import { chainPropListOf } from '@/utils/config/chain.config'
 
 export default function (prefix: ComputedRef<Prefix>) {
   const { apiInstanceByPrefix } = useApi()
@@ -26,6 +27,10 @@ export default function (prefix: ComputedRef<Prefix>) {
   const totalItemDeposit = ref('0')
 
   const chainSymbol = ref('')
+
+  const chain = computed(() =>
+    chainPropListOf(chainSymbol.value.toLowerCase() as Prefix),
+  )
 
   watchEffect(async () => {
     if (prefix.value) {
@@ -113,5 +118,6 @@ export default function (prefix: ComputedRef<Prefix>) {
     totalCollectionDeposit,
     totalItemDeposit,
     chainSymbol,
+    chain,
   }
 }
