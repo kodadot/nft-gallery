@@ -269,10 +269,6 @@ export default defineNuxtConfig({
     // https://github.com/nuxt-community/apollo-module#options
   },
 
-  colorMode: {
-    preference: 'system',
-  },
-
   site: {
     url: process.env.BASE_URL || 'http://localhost:9090',
     strictNuxtContentPaths: true,
