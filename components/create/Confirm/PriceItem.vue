@@ -109,7 +109,7 @@ const existentialDeposit = computed(() => props.nft.existentialDeposit)
 const depositText = computed(() =>
   isNFT.value
     ? $i18n.t('mint.nft.modal.existentialDeposit')
-    : $i18n.t('mint.collection.modal.existentialDeposit')
+    : $i18n.t('mint.collection.modal.existentialDeposit'),
 )
 const depositTooltip = computed(() =>
   isNFT.value
@@ -120,7 +120,7 @@ const depositTooltip = computed(() =>
     : $i18n.t('mint.collection.modal.depositTooltip', [
         format(existentialDeposit.value),
         chainSymbol.value,
-      ])
+      ]),
 )
 const networkFee = computed(() => props.nft.networkFee)
 const kodadotFee = computed(() => props.nft.kodadotFee)
@@ -135,13 +135,13 @@ const hasMultipleFees = computed(
       existentialDeposit.value,
       kodadotFee.value,
       carbonlessFee.value,
-    ].filter((e) => !!e).length > 0
+    ].filter((e) => !!e).length > 0,
 )
 
 const format = (value: number) => {
   return roundTo(
     formatBalance(checkInvalidBalanceFilter(value), tokenDecimals.value, ''),
-    4
+    4,
   )
 }
 
@@ -150,7 +150,7 @@ watch(
   () => {
     rotate.value = !hasMultipleFees.value
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 const toggle = () => {
@@ -158,7 +158,7 @@ const toggle = () => {
 }
 </script>
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .k-green {
   @include ktheme {
     color: theme('k-green');

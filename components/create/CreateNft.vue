@@ -175,7 +175,7 @@
         expanded
         :label="$t('mint.nft.create')"
         class="is-size-6"
-        type="submit"
+        native-type="submit"
         size="medium"
         :loading="isLoading" />
       <div class="p-4 is-flex">

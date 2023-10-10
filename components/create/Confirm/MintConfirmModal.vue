@@ -1,6 +1,6 @@
 <template>
   <NeoModal
-    :value="value"
+    :value="modelValue"
     :can-cancel="['outside', 'escape']"
     scroll="clip"
     class="top"
@@ -18,7 +18,7 @@
           no-shadow
           icon="xmark"
           size="medium"
-          @click.native="onClose" />
+          @click="onClose" />
       </header>
       <div v-if="isLogIn" class="px-6 pt-4">
         <div
@@ -50,7 +50,7 @@
             no-shadow
             :disabled="disabled"
             class="is-flex is-flex-grow-1 btn-height"
-            @click.native="confirm" />
+            @click="confirm" />
         </div>
         <div v-if="disabled" class="is-flex mt-2 is-justify-content-center">
           <a class="mr-1 has-text-k-blue" @click="openRampModal"
@@ -107,12 +107,12 @@ export type ExtendedInformation = NftInformation & {
 
 const props = withDefaults(
   defineProps<{
-    value: boolean
+    modelValue: boolean
     nftInformation: NftInformation
   }>(),
   {
-    value: false,
-  }
+    modelValue: false,
+  },
 )
 
 const { isLogIn, accountId } = useAuth()
@@ -129,32 +129,32 @@ const {
   itemDeposit,
 } = useDeposit(urlPrefix)
 
-const emit = defineEmits(['confirm', 'input'])
+const emit = defineEmits(['confirm', 'update:modelValue'])
 
 const rampActive = ref(false)
 const networkFee = ref(0)
 
 const isNFT = computed(
-  () => props.nftInformation.mintType === CreateComponent.NFT
+  () => props.nftInformation.mintType === CreateComponent.NFT,
 )
 const blockchain = computed(() =>
-  availablePrefixes().find((prefix) => prefix.value === urlPrefix.value)
+  availablePrefixes().find((prefix) => prefix.value === urlPrefix.value),
 )
 const chainSymbol = computed(() => props.nftInformation.paidToken?.tokenSymbol)
 const decimals = computed(() => props.nftInformation.paidToken?.tokenDecimals)
 const tokenPrice = computed(() =>
-  Number(fiatStore.getCurrentTokenValue(chainSymbol.value) ?? 0)
+  Number(fiatStore.getCurrentTokenValue(chainSymbol.value) ?? 0),
 )
 const kodadotFee = computed(
   () =>
     ((preferencesStore.hasSupport ? BASE_FEE : 0) / tokenPrice.value) *
-    Math.pow(10, decimals.value)
+    Math.pow(10, decimals.value),
 )
 const carbonlessFee = computed(
   () =>
     ((preferencesStore.hasCarbonOffset && isNFT.value ? BASE_FEE * 2 : 0) /
       tokenPrice.value) *
-    Math.pow(10, decimals.value)
+    Math.pow(10, decimals.value),
 )
 const totalFee = computed(() => {
   return (
@@ -165,20 +165,20 @@ const deposit = computed(
   () =>
     metadataDeposit.value +
     existentialDeposit.value +
-    (isNFT.value ? itemDeposit.value : collectionDeposit.value)
+    (isNFT.value ? itemDeposit.value : collectionDeposit.value),
 )
 const totalUSDFee = computed(() =>
-  calculateBalanceUsdValue(totalFee.value * tokenPrice.value, decimals.value)
+  calculateBalanceUsdValue(totalFee.value * tokenPrice.value, decimals.value),
 )
 const title = computed(() =>
   isNFT.value
     ? $i18n.t('mint.nft.modal.title')
-    : $i18n.t('mint.collection.modal.title')
+    : $i18n.t('mint.collection.modal.title'),
 )
 const balanceIsEnough = computed(
   () =>
-    parseFloat(formatBalance(totalFee.value.toString(), decimals.value, '')) <
-    parseFloat(balance.value)
+    parseFloat(formatBalance(totalFee.value, decimals.value, '')) <
+    parseFloat(balance.value),
 )
 const btnLabel = computed(() => {
   if (!isLogIn.value) {
@@ -216,7 +216,7 @@ const closeRampModal = () => {
 }
 
 const onClose = () => {
-  emit('input', false)
+  emit('update:modelValue', false)
 }
 
 const confirm = () => {
@@ -236,12 +236,12 @@ watch(
   },
   {
     immediate: true,
-  }
+  },
 )
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .top {
   z-index: 1000;

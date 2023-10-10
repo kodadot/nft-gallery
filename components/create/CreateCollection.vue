@@ -132,7 +132,7 @@
         class="is-size-6"
         expanded
         :label="$t('mint.collection.submit')"
-        type="submit"
+        native-type="submit"
         size="medium"
         data-testid="collection-create"
         :loading="isLoading" />

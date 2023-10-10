@@ -57,7 +57,7 @@ const isNFT = computed(() => props.nft.mintType === CreateComponent.NFT)
 const label = computed(() =>
   isNFT.value
     ? $i18n.t('mint.nft.modal.price')
-    : $i18n.t('mint.nft.modal.network')
+    : $i18n.t('mint.nft.modal.network'),
 )
 const price = computed(() => props.nft.price)
 const showPrice = computed(() => props.nft.listForSale)
@@ -74,7 +74,7 @@ watchEffect(() => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .limit-width {
   max-width: 170px;

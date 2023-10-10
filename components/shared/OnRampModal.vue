@@ -78,13 +78,13 @@ enum Provider {
 
 const emit = defineEmits(['close'])
 const props = defineProps<{
-  value: boolean
+  modelValue: boolean
 }>()
 
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
 
-const isModalActive = useVModel(props, 'value')
+const isModalActive = useVModel(props, 'modelValue')
 const agreeTos = ref<boolean>(false)
 
 const { init: initTransak } = useTransak()
@@ -135,6 +135,7 @@ const onSelect = (provider: Provider) => {
       break
     case Provider.RAMP:
       rampInit()
+      break
     default:
       break
   }
