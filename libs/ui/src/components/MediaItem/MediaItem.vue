@@ -26,9 +26,10 @@
     <div
       v-if="isInteractive"
       class="k-shade border-k-grey is-flex is-align-items-center is-justify-content-center border is-rounded absolute-position image is-24x24">
-      <div class="is-size-7 has-text-weight-medium">
-        {{ interactiveIconTitle }}
-      </div>
+      <NeoIcon
+        icon="code"
+        pack="far"
+        class="is-size-7 has-text-weight-medium" />
     </div>
     <NeoButton
       v-if="isLewd"
@@ -56,7 +57,6 @@ import IFrameMedia from './type/IFrameMedia.vue'
 import ObjectMedia from './type/ObjectMedia.vue'
 import Media from './type/UnknownMedia.vue'
 
-const interactiveIconTitle = '</>'
 const SUFFIX = 'Media'
 const props = withDefaults(
   defineProps<{
