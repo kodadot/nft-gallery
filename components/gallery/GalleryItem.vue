@@ -281,12 +281,12 @@ const seoCard = computed(() => {
 })
 
 useSeoMeta({
-  title: () => title.value,
-  ogTitle: () => title.value,
-  description: () => seoDescription.value,
-  ogDescription: () => seoDescription.value,
-  ogImage: () => seoCard.value,
-  twitterImage: () => seoCard.value,
+  title,
+  description: seoDescription,
+  ogTitle: title,
+  ogDescription: seoDescription,
+  ogImage: seoCard,
+  twitterImage: seoCard,
   twitterCard: 'summary_large_image',
 })
 </script>
