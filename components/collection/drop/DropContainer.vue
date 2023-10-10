@@ -175,7 +175,7 @@ const props = defineProps({
   },
 })
 
-const collectionId = computed(() => props.drop?.collectionId)
+const collectionId = computed(() => props.drop?.collection)
 const pricePerMint = computed(() => props.drop?.meta)
 
 const { neoModal } = useProgrammatic()

@@ -82,7 +82,7 @@
 
         <!-- NAV END -->
         <div class="navbar-end">
-          <nuxt-link to="/ahk/drops" rel="nofollow">
+          <nuxt-link to="/drops" rel="nofollow">
             <div class="navbar-item" data-testid="drops">
               {{ $t('drops.title') }}
 

@@ -139,20 +139,26 @@ import CountdownTimer from '@/components/collection/unlockable/CountdownTimer.vu
 import ImageSlider from '@/components/collection/unlockable/ImageSlider.vue'
 import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import { doWaifu, getLatestWaifuImages } from '@/services/waifu'
-import { DISPLAY_SLIDE_IMAGE_COUNT, collectionId, countDownTime } from './const'
-import {
-  UNLOCKABLE_CAMPAIGN,
-  createUnlockableMetadata,
-  getRandomInt,
-  unlockableDesc,
-} from './utils'
+import { DISPLAY_SLIDE_IMAGE_COUNT, countDownTime } from './const'
+import { createUnlockableMetadata, getRandomInt, unlockableDesc } from './utils'
 import { endOfHour, startOfHour } from 'date-fns'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { NeoButton } from '@kodadot1/brick'
 import { useCountDown } from './utils/useCountDown'
 import CarouselTypeLatestMints from '@/components/carousel/CarouselTypeLatestMints.vue'
 import Loader from '@/components/collection/unlockable/UnlockableLoader.vue'
+import { DropItem } from '@/params/types'
 
+const props = defineProps({
+  drop: {
+    type: Object,
+    default: () => {
+      return {} as DropItem
+    },
+  },
+})
+
+const collectionId = computed(() => props.drop?.collection)
 const { neoModal } = useProgrammatic()
 const { toast } = useToast()
 const { urlPrefix } = usePrefix()
@@ -193,7 +199,7 @@ const handleSelectImage = (image: string) => {
 const { data: collectionData } = useGraphql({
   queryName: 'unlockableCollectionById',
   variables: {
-    id: collectionId,
+    id: collectionId.value,
   },
 })
 
@@ -204,7 +210,7 @@ const {
 } = useGraphql({
   queryName: 'firstNftOwnedByAccountAndCollectionId',
   variables: {
-    id: collectionId,
+    id: collectionId.value,
     account: accountId.value,
   },
 })
@@ -225,7 +231,7 @@ const totalAvailableMintCount = computed(
 const { data, refetch } = useGraphql({
   queryName: 'collectionMintedBetween',
   variables: {
-    id: collectionId,
+    id: collectionId.value,
     from: windowRange[0],
     to: windowRange[1],
   },
@@ -237,7 +243,7 @@ const refetchData = async () => {
 }
 
 useSubscriptionGraphql({
-  query: `collectionEntityById(id: "${collectionId}") {
+  query: `collectionEntityById(id: "${collectionId.value}") {
     nftCount
   }`,
   onChange: refetchData,
@@ -292,11 +298,11 @@ const handleSubmitMint = async () => {
         metadata: hash,
         image: image,
       },
-      UNLOCKABLE_CAMPAIGN,
+      props.drop.id,
     ).then((res) => {
       toast('mint success', 'is-neo', 20000)
       scrollToTop()
-      return `${collectionId}-${res.result.sn}`
+      return `${collectionId.value}-${res.result.sn}`
     })
     // 40s timeout
     setTimeout(() => {

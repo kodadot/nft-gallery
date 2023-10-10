@@ -153,7 +153,7 @@ const { $i18n } = useNuxtApp()
 const { neoModal } = useProgrammatic()
 const { accountId } = useAuth()
 
-const collectionId = computed(() => props.drop?.collectionId)
+const collectionId = computed(() => props.drop?.collection)
 
 const imageList = ref<string[]>([])
 const { urlPrefix } = usePrefix()

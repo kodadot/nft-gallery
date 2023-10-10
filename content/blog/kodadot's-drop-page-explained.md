@@ -30,7 +30,7 @@ But that was just the beginning. Many events and versions passed till we got to 
 
 ## So, what is the KodaDot Drop Page?
 
-When you go to https://kodadot.xyz/ and in the right-up corner select [Drops](https://kodadot.xyz/ahk/drops), you will see drops that are happening at the moment. They are time-limited collections that are created for a specific audience. The goal of these is to create a unique experience for people visiting our platform. Artists, creators, and collectors can use and, in some cases, obtain free NFTs, with extra surprises coming with each one.
+When you go to https://kodadot.xyz/ and in the right-up corner select [Drops](https://kodadot.xyz/drops), you will see drops that are happening at the moment. They are time-limited collections that are created for a specific audience. The goal of these is to create a unique experience for people visiting our platform. Artists, creators, and collectors can use and, in some cases, obtain free NFTs, with extra surprises coming with each one.
 
 <img width="1462" src="/blog/kodadot's-drop-page-explained-4.webp">
 
@@ -46,7 +46,7 @@ And there's more! We've added unlockables so you can enjoy the thrill of discove
 
 <img width="1293" src="/blog/kodadot's-drop-page-explained-6.webp">
 
-On the [Upcoming](https://kodadot.xyz/ahk/drops) page, you can view scheduled releases and discover drop pages for those interested in obtaining them. Additionally, your page may be featured on this page.
+On the [Upcoming](https://kodadot.xyz/drops) page, you can view scheduled releases and discover drop pages for those interested in obtaining them. Additionally, your page may be featured on this page.
 
 <img width="1403" src="/blog/kodadot's-drop-page-explained-7.webp">
 

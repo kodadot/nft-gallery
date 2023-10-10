@@ -5,10 +5,6 @@ export default defineNuxtRouteMiddleware((route) => {
 
   const paths = [
     {
-      cond: (val) => val === '/drops',
-      replaceValue: '/ahk/drops',
-    },
-    {
       replaceValue: () => `/${urlPrefix.value}/explore/collectibles`,
       cond: (val) =>
         val.startsWith(`/${urlPrefix.value}`) && val.endsWith('collections'),
