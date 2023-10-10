@@ -439,6 +439,7 @@
     "estimated": "Transaction fees will cost about",
     "success": "Congratulations",
     "successNewNfts": "You have successfully purchased this NFT",
+    "successPurchasedNfts": "You have successfully purchased {0}",
     "successCreateNewNft": "You have successfully created {0}",
     "errorCreateNewNft": "Minting {name} failed",
     "shareWithFriends": "Share {0} with your friends",

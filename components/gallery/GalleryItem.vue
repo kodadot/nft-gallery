@@ -4,10 +4,6 @@
       v-if="congratsNewNft"
       :title="$t('mint.success')"
       :subtitle="$t('mint.successCreateNewNft', [congratsNewNft])" />
-    <MessageNotify
-      v-else-if="showCongratsMessage"
-      :title="$t('mint.success')"
-      :subtitle="$t('mint.successNewNfts')" />
     <div class="columns is-variable is-6">
       <div class="column is-two-fifths">
         <div class="is-relative">
@@ -212,7 +208,6 @@ const tabs = {
   chart: '2',
 }
 const activeTab = ref(tabs.offers)
-const showCongratsMessage = ref(false)
 
 const isFullscreen = ref(false)
 const canPreview = computed(() =>
@@ -244,7 +239,6 @@ const previewItemSrc = computed(() => {
 
 const onNFTBought = () => {
   activeTab.value = tabs.activity
-  showCongratsMessage.value = true
 }
 
 watch(triggerBuySuccess, (value, oldValue) => {
