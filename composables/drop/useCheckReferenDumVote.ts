@@ -5,15 +5,9 @@ export const useCheckReferenDumVote = (proposal?: number) => {
   const { accountId } = useAuth()
   const isEligibleUser = ref(false)
 
-  watch(
-    [accountId, proposal],
-    () => {
-      checkReferenDumVote()
-    },
-    {
-      immediate: true,
-    },
-  )
+  watch([accountId, proposal], () => {
+    checkReferenDumVote()
+  })
 
   const checkReferenDumVote = async () => {
     if (!accountId.value) {
