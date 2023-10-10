@@ -154,6 +154,8 @@ import { useCountDown } from '../unlockable/utils/useCountDown'
 import { MINT_ADDRESS, countDownTime, displayPricePerMint } from './const'
 import { DropItem } from '@/params/types'
 
+import { TokenToBuy } from '@/composables/transaction/types'
+
 const Loader = defineAsyncComponent(
   () => import('@/components/collection/unlockable/UnlockableLoader.vue'),
 )
@@ -310,10 +312,11 @@ const handleBuy = async () => {
 
     await transaction({
       interaction: ShoppingActions.BUY,
-      currentOwner: MINT_ADDRESS,
-      price: pricePerMint.value,
-      nftId: tokenId,
-      tokenId: tokenId,
+      nfts: {
+        currentOwner: MINT_ADDRESS,
+        price: pricePerMint.value,
+        id: tokenId,
+      } as TokenToBuy,
       urlPrefix: urlPrefix.value,
       successMessage: $i18n.t('mint.successNewNfts'),
       errorMessage: $i18n.t('transaction.buy.error'),

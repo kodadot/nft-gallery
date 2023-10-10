@@ -1,10 +1,14 @@
 <template>
   <div class="is-centered" :class="{ columns: classColumn }">
     <Loader v-model="isLoading" :status="status" />
+    <MintConfirmModal
+      v-model="modalShowStatus"
+      :nft-information="collectionInformation"
+      @confirm="createCollection" />
     <form
       class="is-half"
       :class="{ column: classColumn }"
-      @submit.prevent="createCollection">
+      @submit.prevent="showConfirm">
       <h1 class="title is-size-3 mb-7">
         {{ $t('mint.collection.create') }}
       </h1>
@@ -124,39 +128,33 @@
       <hr class="my-6" />
 
       <!-- create collection button -->
-      <NeoField>
-        <div>
-          <NeoButton
-            expanded
-            :label="submitButtonLabel"
-            native-type="submit"
-            size="medium"
-            class="is-size-6"
-            data-testid="collection-create"
-            :loading="isLoading"
-            :disabled="!canDeposit" />
-
-          <div class="p-4 is-flex">
-            <NeoIcon icon="circle-info" size="medium" class="mr-4" />
-            <p class="is-size-7">
-              <span
-                v-dompurify-html="
-                  $t('mint.requiredDeposit', [
-                    `${totalCollectionDeposit} ${chainSymbol}`,
-                    'collection',
-                  ])
-                " />
-              <a
-                href="https://hello.kodadot.xyz/multi-chain/fees"
-                target="_blank"
-                class="has-text-link"
-                rel="nofollow noopener noreferrer">
-                {{ $t('helper.learnMore') }}
-              </a>
-            </p>
-          </div>
-        </div>
-      </NeoField>
+      <NeoButton
+        class="is-size-6"
+        expanded
+        :label="$t('mint.collection.submit')"
+        native-type="submit"
+        size="medium"
+        data-testid="collection-create"
+        :loading="isLoading" />
+      <div class="p-4 is-flex">
+        <NeoIcon icon="circle-info" size="medium" class="mr-4" />
+        <p class="is-size-7">
+          <span
+            v-dompurify-html="
+              $t('mint.requiredDeposit', [
+                `${totalCollectionDeposit} ${chainSymbol}`,
+                'collection',
+              ])
+            " />
+          <a
+            href="https://hello.kodadot.xyz/multi-chain/fees"
+            target="_blank"
+            class="has-text-link"
+            rel="nofollow noopener noreferrer">
+            {{ $t('helper.learnMore') }}
+          </a>
+        </p>
+      </div>
     </form>
   </div>
 </template>
@@ -183,6 +181,7 @@ import { availablePrefixes } from '@/utils/chain'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { makeSymbol } from '@kodadot1/minimark/shared'
+import MintConfirmModal from '@/components/create/Confirm/MintConfirmModal.vue'
 
 // props
 withDefaults(
@@ -198,6 +197,7 @@ withDefaults(
 const { transaction, status, isLoading } = useTransaction()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { $consola } = useNuxtApp()
+const { isLogIn } = useAuth()
 
 // form state
 const logo = ref<File | null>(null)
@@ -206,27 +206,19 @@ const description = ref('')
 const unlimited = ref(true)
 const max = ref(1)
 const symbol = ref('')
-const { isLogIn } = useAuth()
+const modalShowStatus = ref(false)
+
 const menus = availablePrefixes()
-const { $i18n } = useNuxtApp()
 
 const chainByPrefix = menus.find((menu) => menu.value === urlPrefix.value)
 const selectBlockchain = ref(chainByPrefix?.value || menus[0].value)
-
-const submitButtonLabel = computed(() => {
-  return !isLogIn.value
-    ? $i18n.t('mint.nft.connect')
-    : canDeposit.value
-    ? $i18n.t('mint.collection.create')
-    : $i18n.t('confirmPurchase.notEnoughFuns')
-})
 
 const currentChain = computed(() => {
   return selectBlockchain.value as Prefix
 })
 
 const { isAssetHub, isBasilisk, isRemark } = useIsChain(currentChain)
-const { balance, totalCollectionDeposit, chainSymbol } =
+const { balance, totalCollectionDeposit, chainSymbol, chain } =
   useDeposit(currentChain)
 
 // balance state
@@ -237,7 +229,18 @@ const canDeposit = computed(() => {
   )
 })
 
+const collectionInformation = computed(() => ({
+  file: logo.value,
+  name: name.value,
+  paidToken: chain.value,
+  mintType: CreateComponent.Collection,
+}))
+
 watchEffect(() => setUrlPrefix(currentChain.value as Prefix))
+
+const showConfirm = () => {
+  modalShowStatus.value = true
+}
 
 const createCollection = async () => {
   let collection: BaseCollectionType = {
@@ -269,6 +272,7 @@ const createCollection = async () => {
       notificationTypes.info,
     )
     isLoading.value = true
+    modalShowStatus.value = false
 
     await transaction(
       {

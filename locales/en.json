@@ -501,7 +501,13 @@
         "message": "Name of your collection. It will be visible in the gallery"
       },
       "create": "Create New Collection",
-      "drop": "Drop collection logo here or click to upload or simple paste the image from the clipboard. We support various media types (PNG, JPEG, GIF, SVG)"
+      "drop": "Drop collection logo here or click to upload or simple paste the image from the clipboard. We support various media types (PNG, JPEG, GIF, SVG)",
+      "submit": "Create Collection",
+      "modal": {
+        "title": "Mint Collection",
+        "existentialDeposit": "Collection Existential Deposit",
+        "depositTooltip": "A deposit of {0} {1} is required to create a collection. Please note, this initial deposit is refundable. "
+      }
     },
     "nft": {
       "art": {
@@ -553,7 +559,27 @@
       "creativeDrop": "Drop your NFT here, click to upload or paste the image from the clipboard. AI model limits our support for Creative Minting to only JPEG, PNG, GIF or BMP image files. The file size must be less than 4MB, and the image's dimensions must be greater than 50x50 pixels. Realistic photographs will achieve the best results.",
       "cover": "Your NFT requires a poster/cover to be seen in gallery. Please upload image (jpg/ png/ gif)",
       "creativeFailDesc": "Generating the title and description failed. Please check whether the uploaded file fits the limits of Creative Minting: JPEG, PNG, GIF or BMP with a size less than 4MB and dimensions greater than 50x50 pixels.",
-      "drop": "Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)"
+      "drop": "Drop your NFT here or click to upload or simply paste image from clipboard. We support various media types (BMP, GIF, JPEG, PNG, SVG, TIFF, WEBP, MP4, OGV, QUICKTIME, WEBM, GLB, FLAC, MP3, JSON)",
+      "modal": {
+        "action": "Confirm Mint",
+        "title": "Mint NFT",
+        "addFunds": "Add Funds",
+        "teleport": "Teleport",
+        "login": "Continue To Signing",
+        "process": "Continue with Minting",
+        "notEnoughFund": "Not Enough {0} on {1}",
+        "conjunction": "Or Use",
+        "price": "Price",
+        "network": "Network",
+        "intoCollection": "Into Collection",
+        "networkFee": "Network Fee",
+        "existentialDeposit": "NFT Existential Deposit",
+        "depositTooltip": "A deposit of {0} {1} is required to create an item. Please note, this initial deposit is refundable. ",
+        "kodadotFee": "KodaDot Fee",
+        "kodadotTooltip": "By keeping this option active, you're contributing to initial costs borne by Kodadot for storing your JPEGs on your behalf. You may change this preference anytime in the settings. ",
+        "carbonless": "Carbonless",
+        "totalFee": "Fees Total"
+      }
     },
     "unlockable": {
       "phaseIntroduction": "We will have a 60-minute window every phase, each featuring only 10 exclusive items.",
@@ -966,7 +992,7 @@
     "setOn": "Create On-Chain identity on {0}",
     "click": "Click to create identity",
     "clear": "Clear (burn)",
-    "existing" : "Existing Onchain Identity",
+    "existing": "Existing Onchain Identity",
     "establishedIdentity": "It appears you already established an onchain identity. Update it as needed (no new deposit needed) or delete to reclaim your deposit.",
     "handleRequired": "Your handle is required",
     "deposit": "Deposit",

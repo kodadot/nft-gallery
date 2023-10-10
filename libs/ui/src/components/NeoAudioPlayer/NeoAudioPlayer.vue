@@ -1,6 +1,6 @@
 <template>
   <div ref="player">
-    <audio ref="audio" />
+    <audio ref="audio" :src="src" />
 
     <div
       class="px-6 py-5 is-flex is-justify-items-center is-align-items-center">
@@ -17,7 +17,7 @@
             v-if="!playDisabled"
             :icon="playing ? 'pause' : 'play'"
             custom-size="fa-solid"
-            pack="fa-sharp" />
+            pack="fass" />
         </NeoButton>
       </div>
 
@@ -28,12 +28,21 @@
         {{ formattedDuration }}
       </div>
 
-      <div class="ml-4 bar w-full">
-        <ProgressBar
-          :current-time="currentTime"
-          :total-time="duration"
-          rounded
-          @change="change" />
+      <div
+        class="ml-4 w-full"
+        :class="{
+          'is-flex is-align-items-center is-justify-items-center':
+            !isWaveformReady,
+        }">
+        <Waveform
+          v-show="isWaveformReady"
+          :class="{
+            'is-clickable': canStartPlaying,
+          }"
+          :get-media="() => $refs.audio"
+          @play="play"
+          @ready="isWaveformReady = true" />
+        <NeoSkeleton v-if="!isWaveformReady" no-margin rounded height="100%" />
       </div>
 
       <div class="ml-4">
@@ -43,10 +52,7 @@
           rounded
           variant="border-icon"
           @click="toggleMute">
-          <NeoIcon
-            :icon="muted ? 'volume-slash' : 'volume'"
-            custom-size="fa-solid"
-            pack="fa-sharp" />
+          <NeoIcon :icon="muted ? 'volume-slash' : 'volume'" pack="fass" />
         </NeoButton>
       </div>
     </div>
@@ -55,30 +61,30 @@
 
 <script lang="ts" setup>
 import { useEventListener, useMediaControls } from '@vueuse/core'
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import ProgressBar from './ProgressBar/ProgressBar.vue'
+import { NeoButton, NeoIcon, NeoSkeleton } from '@kodadot1/brick'
 import { getRandomValues } from '@/components/unique/utils'
+import Waveform from './Waveform/Waveform.vue'
 
-const props = defineProps<{
+defineProps<{
   src?: string
 }>()
 
 const { eventBus: playerEventBus, unsubscribe: unsubscribePlayerEventBus } =
   usePlayerEventBus()
 
-const player = ref()
 const audio = ref()
+const player = ref()
 const loading = ref(false)
 const canStartPlaying = ref(false)
+const isWaveformReady = ref(false)
+
 const id = ref(getRandomValues(1)[0])
 
 const actionStack = ref<
   { promise: Promise<void>; reject: (reason?: any) => void }[]
 >([])
 
-const { playing, currentTime, duration, muted } = useMediaControls(audio, {
-  src: props.src,
-})
+const { playing, currentTime, duration, muted } = useMediaControls(audio)
 
 const playDisabled = computed(() => !canStartPlaying.value || loading.value)
 const canPause = computed(() => !audio.value.paused || playing.value)
@@ -157,10 +163,6 @@ const pause = async () => {
   })
 }
 
-const change = (time: number) => {
-  play(time)
-}
-
 const toggleMute = () => {
   audio.value.muted = !muted.value
 }
@@ -172,8 +174,14 @@ const goToEnd = () => {
   play(duration.value)
 }
 
-useEventListener(audio, 'canplaythrough', () => {
+useEventListener(audio, 'canplay', () => {
   canStartPlaying.value = true
+  loading.value = false
+})
+
+useEventListener(audio, 'waiting', () => {
+  loading.value = true
+  canStartPlaying.value = false
 })
 
 playerEventBus.emit(PlayerEvent.ADD_PLAYER, { id: id.value, pause })
@@ -190,10 +198,6 @@ defineExpose({ play, pause })
 .duration {
   display: inline-block;
   min-width: 40px;
-}
-
-.bar {
-  height: 0.8rem;
 }
 
 .button-size {

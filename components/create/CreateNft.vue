@@ -1,7 +1,11 @@
 <template>
   <div class="is-centered columns">
     <Loader v-model="isLoading" :status="status" />
-    <form class="is-half column" @submit.prevent="createNft">
+    <MintConfirmModal
+      v-model="modalShowStatus"
+      :nft-information="nftInformation"
+      @confirm="createNft" />
+    <form class="is-half column" @submit.prevent="toggleConfirm">
       <CreateNftPreview
         :name="form.name"
         :collection="selectedCollection?.name"
@@ -167,38 +171,32 @@
       <hr class="my-6" />
 
       <!-- create nft button -->
-      <NeoField>
-        <div>
-          <NeoButton
-            expanded
-            :label="submitButtonLabel"
-            native-type="submit"
-            size="medium"
-            class="is-size-6"
-            :loading="isLoading"
-            :disabled="!canDeposit" />
-
-          <div class="p-4 is-flex">
-            <NeoIcon icon="circle-info" size="medium" class="mr-4" />
-            <p class="is-size-7">
-              <span
-                v-dompurify-html="
-                  $t('mint.requiredDeposit', [
-                    `${totalItemDeposit} ${chainSymbol}`,
-                    'NFT',
-                  ])
-                " />
-              <a
-                href="https://hello.kodadot.xyz/multi-chain/fees"
-                target="_blank"
-                class="has-text-link"
-                rel="nofollow noopener noreferrer">
-                {{ $t('helper.learnMore') }}
-              </a>
-            </p>
-          </div>
-        </div>
-      </NeoField>
+      <NeoButton
+        expanded
+        :label="$t('mint.nft.create')"
+        class="is-size-6"
+        native-type="submit"
+        size="medium"
+        :loading="isLoading" />
+      <div class="p-4 is-flex">
+        <NeoIcon icon="circle-info" size="medium" class="mr-4" />
+        <p class="is-size-7">
+          <span
+            v-dompurify-html="
+              $t('mint.requiredDeposit', [
+                `${totalItemDeposit} ${chainSymbol}`,
+                'NFT',
+              ])
+            " />
+          <a
+            href="https://hello.kodadot.xyz/multi-chain/fees"
+            target="_blank"
+            class="has-text-link"
+            rel="nofollow noopener noreferrer">
+            {{ $t('helper.learnMore') }}
+          </a>
+        </p>
+      </div>
     </form>
   </div>
 </template>
@@ -220,6 +218,7 @@ import BasicSwitch from '@/components/shared/form/BasicSwitch.vue'
 import CustomAttributeInput from '@/components/rmrk/Create/CustomAttributeInput.vue'
 import RoyaltyForm from '@/components/bsx/Create/RoyaltyForm.vue'
 import CreateNftPreview from './CreateNftPreview.vue'
+import MintConfirmModal from '@/components/create/Confirm/MintConfirmModal.vue'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { availablePrefixes } from '@/utils/chain'
 import { notificationTypes, showNotification } from '@/utils/notification'
@@ -254,23 +253,25 @@ const form = reactive({
     address: accountId.value,
   },
 })
-const { isLogIn } = useAuth()
-const { $i18n } = useNuxtApp()
+
 // select collections
 const selectedCollection = ref()
-
-const depositLabel = computed(() =>
-  canDeposit.value
-    ? $i18n.t('mint.nft.create')
-    : $i18n.t('confirmPurchase.notEnoughFuns'),
-)
-const submitButtonLabel = computed(() => {
-  return !isLogIn.value ? $i18n.t('mint.nft.connect') : depositLabel.value
-})
 
 const onCollectionSelected = (collection) => {
   selectedCollection.value = collection
 }
+
+const modalShowStatus = ref(false)
+
+const nftInformation = computed(() => ({
+  file: form.file,
+  name: form.name,
+  selectedCollection: selectedCollection.value,
+  price: balanceFrom(form.salePrice, decimals.value),
+  listForSale: form.sale,
+  paidToken: chain.value,
+  mintType: CreateComponent.NFT,
+}))
 
 const imagePreview = computed(() => {
   if (form.file) {
@@ -299,13 +300,8 @@ watch(currentChain, () => {
 })
 
 // deposit stuff
-const { balance, totalItemDeposit, chainSymbol } = useDeposit(currentChain)
-const canDeposit = computed(() => {
-  return (
-    isLogIn.value &&
-    parseFloat(balance.value) >= parseFloat(totalItemDeposit.value)
-  )
-})
+const { balance, totalItemDeposit, chainSymbol, chain } =
+  useDeposit(currentChain)
 
 // create nft
 const transactionStatus = ref<
@@ -314,8 +310,13 @@ const transactionStatus = ref<
 const createdItems = ref()
 const mintedBlockNumber = ref()
 
+const toggleConfirm = () => {
+  modalShowStatus.value = !modalShowStatus.value
+}
+
 const createNft = async () => {
   try {
+    toggleConfirm()
     const minted = (await transaction(
       {
         interaction: Interaction.MINTNFT,

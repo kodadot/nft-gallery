@@ -23,6 +23,14 @@
         $t('lewd.explicitDesc')
       }}</span>
     </div>
+    <div
+      v-if="isInteractive"
+      class="k-shade border-k-grey is-flex is-align-items-center is-justify-content-center border is-rounded absolute-position image is-24x24">
+      <NeoIcon
+        icon="code"
+        pack="far"
+        class="is-size-7 has-text-weight-medium" />
+    </div>
     <NeoButton
       v-if="isLewd"
       rounded
@@ -38,6 +46,7 @@
 
 <script lang="ts" setup>
 import { getMimeType, resolveMedia } from '@/utils/gallery/media'
+import { MediaType } from '@/components/rmrk/types'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import ImageMedia from './type/ImageMedia.vue'
 import VideoMedia from './type/VideoMedia.vue'
@@ -75,8 +84,11 @@ const props = withDefaults(
     disableOperation: undefined,
   },
 )
+const isInteractive = ref<boolean>(false)
+const type = ref('')
+
 // props.mimeType may be empty string "". Add `image/png` as fallback
-const mimeType = ref(!!props.mimeType ? props.mimeType : 'image/png')
+const mimeType = computed(() => props.mimeType || type.value || 'image/png')
 const isLewdBlurredLayer = ref(props.isLewd)
 const components = {
   ImageMedia,
@@ -90,13 +102,19 @@ const components = {
 }
 
 const resolveComponent = computed(() => {
-  return components[resolveMedia(mimeType.value) + SUFFIX]
+  let mediaType = resolveMedia(mimeType.value)
+
+  if (mediaType === MediaType.IFRAME && !props.isDetail) {
+    isInteractive.value = true
+    mediaType = MediaType.IMAGE
+  }
+  return components[mediaType + SUFFIX]
 })
 const properSrc = computed(() => props.src || props.placeholder)
 
 const updateComponent = async () => {
   if (props.animationSrc && !props.mimeType) {
-    mimeType.value = await getMimeType(props.animationSrc)
+    type.value = await getMimeType(props.animationSrc)
   }
 }
 
@@ -147,6 +165,12 @@ defineExpose({ isLewdBlurredLayer })
         background: theme('text-color') !important;
       }
     }
+  }
+
+  .absolute-position {
+    position: absolute;
+    right: 0.75rem;
+    top: 0.75rem;
   }
 }
 </style>
