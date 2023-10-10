@@ -44,7 +44,7 @@
             <div
               class="is-flex is-justify-content-space-between is-align-items-center">
               <div class="title is-size-4">
-                <Money :value="displayPricePerMint" inline />
+                <Money :value="pricePerMint" inline />
               </div>
               <div>
                 <NeoButton
@@ -71,7 +71,7 @@
               </div>
             </div>
           </div>
-          <TokenImportButton />
+          <TokenImportButton :price="pricePerMint" />
         </div>
         <div class="column pt-5 is-flex is-justify-content-center">
           <ImageSlider v-if="imageList.length" :image-list="imageList" />
@@ -151,7 +151,7 @@ import {
   unlockableDesc,
 } from '../unlockable/utils'
 import { useCountDown } from '../unlockable/utils/useCountDown'
-import { MINT_ADDRESS, countDownTime, displayPricePerMint } from './const'
+import { MINT_ADDRESS, countDownTime } from './const'
 import { DropItem } from '@/params/types'
 
 import { TokenToBuy } from '@/composables/transaction/types'
