@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: false
@@ -182,6 +182,9 @@ importers:
       vue-tippy:
         specifier: ^6.3.1
         version: 6.3.1(vue@3.3.4)
+      wavesurfer.js:
+        specifier: ^7.3.3
+        version: 7.3.3
       workbox-window:
         specifier: ^6.6.0
         version: 6.6.0
@@ -16011,6 +16014,10 @@ packages:
     transitivePeerDependencies:
       - debug
     dev: true
+
+  /wavesurfer.js@7.3.3:
+    resolution: {integrity: sha512-I1erzD2mjKH3H8HjNnwasQwNk4T7v2uDCFegxPr+9WyW4Rg8CZgcmSkIH0pdsMhLE5P+Tugy/KAiEEolenREXg==}
+    dev: false
 
   /web-namespaces@2.0.1:
     resolution: {integrity: sha512-bKr1DkiNa2krS7qxNtdrtHAmzuYGFQLiQ13TsorsdT6ULTkPLKuu5+GsFpDlg6JFjUTwX2DyhMPG2be8uPrqsQ==}
