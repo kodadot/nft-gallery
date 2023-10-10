@@ -32,4 +32,7 @@ $modal-zindex: 999;
   .card {
     border-radius: 0;
   }
+  &.append-to-body{
+    z-index: 999;
+  }
 }

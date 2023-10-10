@@ -3,6 +3,7 @@
     <o-modal
       v-model:active="isModalActive"
       class="neo-modal"
+      :class="{ 'append-to-body': appendToBody }"
       scroll="clip"
       :destroy-on-hide="destroyOnHide"
       :can-cancel="canCancel"
