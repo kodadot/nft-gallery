@@ -38,6 +38,7 @@
 
 <script lang="ts" setup>
 import { getMimeType, resolveMedia } from '@/utils/gallery/media'
+import { MediaType } from '@/components/rmrk/types'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import ImageMedia from './type/ImageMedia.vue'
 import VideoMedia from './type/VideoMedia.vue'
@@ -93,7 +94,12 @@ const components = {
 }
 
 const resolveComponent = computed(() => {
-  return components[resolveMedia(mimeType.value) + SUFFIX]
+  let mediaType = resolveMedia(mimeType.value)
+
+  if (mediaType === MediaType.IFRAME && !props.isDetail) {
+    mediaType = MediaType.IMAGE
+  }
+  return components[mediaType + SUFFIX]
 })
 const properSrc = computed(() => props.src || props.placeholder)
 
