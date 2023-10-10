@@ -196,6 +196,15 @@ watch(
   },
 )
 
+watch(
+  () => preferencesStore.listingCartModalOpen,
+  (listingCartModalOpen) => {
+    if (!listingCartModalOpen) {
+      listingCartStore.clearDiscardedItems()
+    }
+  },
+)
+
 onUnmounted(() => {
   preferencesStore.listingCartModalOpen = false
 })

@@ -4,8 +4,8 @@ test('Transfer Page Functionality', async ({ page, Commands }) => {
   await Commands.e2elogin()
   await page.goto('/dot/transfer')
   const UserAddress = await page
-    .getByTestId('transfer-sender-full-address')
-    .getAttribute('key')
+    .getByTestId('avatar-identity-icon')
+    .getAttribute('data-key')
   await page.getByTestId('transfer-copy-sender-address').click()
   await Commands.copyText(`${UserAddress}`)
   await page

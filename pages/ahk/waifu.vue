@@ -1,10 +1,8 @@
 <template>
-  <GenerativeMint />
+  <BsxCreateGenerativeMint />
 </template>
 
 <script lang="ts" setup>
-import GenerativeMint from '@/components/bsx/Create/GenerativeMint.vue'
-
 definePageMeta({
   layout: 'generative-mint-layout',
 })

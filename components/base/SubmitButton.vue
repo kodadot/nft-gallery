@@ -1,6 +1,7 @@
 <template>
   <NeoField>
     <NeoButton
+      :class="customClass"
       :size="size"
       :type="type"
       :icon-left="icon"
@@ -27,6 +28,7 @@ export interface Props {
   loading?: boolean
   type?: string
   size?: 'small' | 'medium' | 'large'
+  customClass?: string
 }
 
 withDefaults(defineProps<Props>(), {
@@ -35,5 +37,6 @@ withDefaults(defineProps<Props>(), {
   type: 'is-primary',
   icon: 'paper-plane',
   size: 'medium',
+  customClass: '',
 })
 </script>

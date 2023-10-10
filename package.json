@@ -25,9 +25,9 @@
     "build": "nuxi build --modern",
     "locales:check": "node ./script/checkLocale.mjs",
     "start": "nuxi preview",
-    "start:static": "npx --yes serve@14.2.0 -L -l 9090 -s dist",
+    "start:node": "PORT=9090 node .output/server/index.mjs",
     "generate:script": "node ./script/substack.mjs && cross-env NODE_OPTIONS=--openssl-legacy-provider NITRO_PRESET=netlify nuxi generate",
-    "generate": "node ./script/substack.mjs && cross-env NODE_OPTIONS=--openssl-legacy-provider NITRO_PRESET=netlify nuxi build",
+    "generate": "node ./script/substack.mjs && cross-env NODE_OPTIONS=--openssl-legacy-provider nuxi build",
     "lint": "eslint --cache --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:quiet": "eslint --cache --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:fix": "eslint --cache --fix --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
@@ -116,6 +116,7 @@
     "vue-dompurify-html": "^4.1.4",
     "vue-social-sharing": "4.0.0-alpha4",
     "vue-tippy": "^6.3.1",
+    "wavesurfer.js": "^7.3.3",
     "workbox-window": "^6.6.0"
   },
   "devDependencies": {

@@ -3,13 +3,21 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   nuxtApp.vueApp.directive('clipboard', {
     beforeMount(el, { value, arg }) {
+      el.dataset._clipboard_value = value
       useEventListener(el, 'click', () => {
         switch (arg) {
           case 'copy':
-            copy(value)
+            copy(el.dataset._clipboard_value)
             break
         }
       })
+    },
+    updated(el, { value, arg }) {
+      switch (arg) {
+        case 'copy':
+          el.dataset._clipboard_value = value
+          break
+      }
     },
   })
 
