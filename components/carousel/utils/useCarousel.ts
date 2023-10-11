@@ -144,7 +144,7 @@ function dispatch(event, name, slider) {
   )
 }
 
-export const wheelControls = (slider) => {
+export const CarouselWheelsPlugin = (slider) => {
   function eventWheel(event) {
     if (event.deltaX !== 0) {
       if (!wheelActive) {

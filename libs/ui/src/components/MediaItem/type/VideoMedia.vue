@@ -3,11 +3,11 @@
     <div class="video__overflow" />
     <video
       class="video__component"
-      controls
+      :controls="controls"
       playsinline
       loop
       autoplay
-      muted
+      :muted="preview"
       :src="animationSrc || src"
       controlslist="nodownload"
       data-testid="type-video"
@@ -16,11 +16,22 @@
 </template>
 
 <script lang="ts" setup>
-defineProps<{
-  animationSrc?: string
-  src?: string
-  alt?: string
-}>()
+const props = withDefaults(
+  defineProps<{
+    animationSrc?: string
+    src?: string
+    alt?: string
+    preview?: boolean
+  }>(),
+  {
+    animationSrc: '',
+    src: '',
+    alt: '',
+    preview: true,
+  },
+)
+
+const controls = computed(() => !props.preview)
 </script>
 
 <style lang="scss" scoped>

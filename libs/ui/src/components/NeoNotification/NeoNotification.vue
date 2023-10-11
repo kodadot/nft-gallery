@@ -20,6 +20,11 @@ export default {
 
   .o-notification {
     padding: 1rem 2rem;
+
+    &--component {
+      padding: 0 !important;
+      background-color: unset;
+    }
   }
 }
 

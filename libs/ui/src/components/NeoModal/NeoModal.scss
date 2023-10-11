@@ -11,6 +11,7 @@ $modal-content-border-radius: 0;
 
 
 .neo-modal {
+  
   .o-modal__content {
     width: auto !important;
     max-height: var(--max-height);
@@ -32,6 +33,10 @@ $modal-content-border-radius: 0;
 
   .o-modal__overlay {
     background-color: rgba(0, 0, 0, 0.17);
+  }
+
+  .modal-card-head {
+    background: unset;
   }
 
   .card {

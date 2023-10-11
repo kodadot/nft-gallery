@@ -331,6 +331,12 @@ a.has-text-grey {
   }
 }
 
+.border-k-grey {
+  @include ktheme() {
+    border-color: theme('k-grey') !important;
+  }
+}
+
 .border-top-k-shade {
   @include ktheme() {
     border-top: 1px solid theme('k-shade');
@@ -373,6 +379,12 @@ a.has-text-grey {
   }
 }
 
+.has-text-k-grey {
+  @include ktheme() {
+    color: theme('k-grey');
+  }
+}
+
 .has-text-color {
   @include ktheme() {
     color: theme('text-color') !important;
@@ -401,6 +413,13 @@ a.has-text-grey {
     background-color: theme('k-greenaccent');
   }
 }
+
+.k-shade {
+  @include ktheme() {
+    background-color: theme('k-shade');
+  }
+}
+
 
 .k-yellow {
   @include ktheme() {
@@ -441,6 +460,10 @@ a.has-text-grey {
   }
 }
 
+
+.is-cursor-pointer {
+  cursor: pointer !important;
+}
 //hover
 
 .is-hoverable-item {
@@ -501,3 +524,8 @@ a.has-text-grey {
 .no-border-left {
   border-left: none !important;
 }
+
+.is-rounded {
+  border-radius: 50%;
+}
+

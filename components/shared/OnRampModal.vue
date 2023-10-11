@@ -78,16 +78,18 @@ enum Provider {
 
 const emit = defineEmits(['close'])
 const props = defineProps<{
-  value: boolean
+  modelValue: boolean
 }>()
 
 const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
 
-const isModalActive = useVModel(props, 'value')
+const isModalActive = useVModel(props, 'modelValue')
 const agreeTos = ref<boolean>(false)
 
 const { init: initTransak } = useTransak()
+const { init: initRamp } = useRamp()
+
 const { isDarkMode } = useTheme()
 
 const getImage = (service: string) => {
@@ -108,7 +110,7 @@ const providers = computed(() => [
   },
   {
     image: getImage('ramp'),
-    disabled: true,
+    disabled: false,
     supports: ['DOT', 'KSM'],
     value: Provider.RAMP,
   },
@@ -127,18 +129,34 @@ const onSelect = (provider: Provider) => {
 
   onClose()
 
-  if (selectedProvider?.value === Provider.TRANSAK) {
-    transakInit()
+  switch (selectedProvider?.value) {
+    case Provider.TRANSAK:
+      transakInit()
+      break
+    case Provider.RAMP:
+      rampInit()
+      break
+    default:
+      break
   }
+}
+
+const rampInit = () => {
+  initRamp({
+    address: accountId.value,
+    onSuccess,
+  })
 }
 
 const transakInit = () => {
   initTransak({
     address: accountId.value,
-    onSuccess: () => {
-      showNotification($i18n.t('general.successfullyAddedFunds'))
-    },
+    onSuccess,
   })
+}
+
+const onSuccess = () => {
+  showNotification($i18n.t('general.successfullyAddedFunds'))
 }
 </script>
 

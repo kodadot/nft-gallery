@@ -35,11 +35,11 @@
         </NeoField>
       </div>
       <NeoTable
+        v-model:current-page="currentPage"
         :data="showList"
         class="mb-4"
         hoverable
         custom-row-key="Id"
-        v-model:current-page="currentPage"
         :show-detail-icon="showDetailIcon"
         :detail-key="groupKey"
         custom-detail-row
@@ -401,9 +401,9 @@ const getCustomRowFilter = (): ((item: TableRow) => boolean) => {
       return (item) => item.Holder !== '-'
     case 'CollectionId':
       if (prop.isFlipper) {
-        return (item) => item.Flipper === $route.params.id
+        return (item) => item.Flipper === route.params.id
       }
-      return (item) => item.Holder === $route.params.id
+      return (item) => item.Holder === route.params.id
     default:
       return () => true
   }

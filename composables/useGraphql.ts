@@ -1,26 +1,9 @@
 import type { ComputedRef } from 'vue'
-import type { QueryOptions } from 'apollo-client'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { notificationTypes, showNotification } from '@/utils/notification'
 
 interface DoFetchParams {
-  options?: Omit<QueryOptions, 'query'>
   variables?: Record<string, unknown>
-}
-
-export const useQueryParams = ({
-  queryPrefix,
-  clientName = '',
-}: {
-  queryPrefix: string
-  clientName?: string | ComputedRef<string>
-}) => {
-  const { client } = usePrefix()
-
-  return {
-    prefix: queryPrefix || client.value,
-    client: clientName || client.value,
-  }
 }
 
 type UseGraphqlParams = {
@@ -76,9 +59,6 @@ export default function ({
 
   async function refetch(variables: Record<string, unknown> = {}) {
     await doFetch({
-      options: {
-        fetchPolicy: 'network-only',
-      },
       variables,
     })
   }

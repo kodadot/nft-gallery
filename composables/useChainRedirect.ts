@@ -14,6 +14,8 @@ const NO_REDIRECT_ROUTE_NAMES = [
   'identity',
   'blog',
   'blog-slug',
+  'create-nft',
+  'create-collection',
 ]
 
 function isNoRedirect(routeName: string): boolean {

@@ -2,7 +2,9 @@
   <NeoSwitch v-model="model" :type="type" :rounded="false">
     <div class="is-flex is-align-items-center">
       <span class="mr-2">
-        {{ value ? `${$t(activeMessage)}${priceString}` : $t(passiveMessage) }}
+        {{
+          modelValue ? `${$t(activeMessage)}${priceString}` : $t(passiveMessage)
+        }}
       </span>
       <slot name="tooltip" />
     </div>
@@ -15,12 +17,12 @@ import { NeoSwitch } from '@kodadot1/brick'
 
 const props = withDefaults(
   defineProps<{
-    value: boolean
+    modelValue: boolean
     showPrice?: boolean
     price?: number
-    activeMessage: string
-    passiveMessage: string
-    type: string
+    activeMessage?: string
+    passiveMessage?: string
+    type?: string
   }>(),
   {
     showPrice: true,
@@ -30,10 +32,7 @@ const props = withDefaults(
     type: '',
   },
 )
-const emit = defineEmits(['input'])
+
+const model = useVModel(props, 'modelValue')
 const priceString = ref(props.showPrice ? ` ($ ${round(props.price)})` : '')
-const model = computed({
-  get: () => props.value,
-  set: (value: boolean) => emit('input', value),
-})
 </script>

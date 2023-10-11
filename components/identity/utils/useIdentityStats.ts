@@ -35,9 +35,9 @@ const useLastBought = ({ address }) => {
 
 const whichData = ({ data, type }) => {
   const totalCount = {
-    created: data.value?.created?.totalCount || data.value?.totalCreated,
-    collected: data.value?.collected?.totalCount || data.value?.totalCollected,
-    sold: data.value?.sold?.totalCount || data.value?.totalSold,
+    created: data?.created?.totalCount || data?.totalCreated,
+    collected: data?.collected?.totalCount || data?.totalCollected,
+    sold: data?.sold?.totalCount || data?.totalSold,
   }
 
   return totalCount[type] || 0

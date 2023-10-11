@@ -4,10 +4,6 @@
       v-if="congratsNewNft"
       :title="$t('mint.success')"
       :subtitle="$t('mint.successCreateNewNft', [congratsNewNft])" />
-    <MessageNotify
-      v-else-if="showCongratsMessage"
-      :title="$t('mint.success')"
-      :subtitle="$t('mint.successNewNfts')" />
     <div class="columns is-variable is-6">
       <div class="column is-two-fifths">
         <div class="is-relative">
@@ -143,7 +139,7 @@
     </div>
 
     <CarouselTypeRelated
-      v-if="nft"
+      v-if="nft?.collection.id"
       class="mt-8"
       :collection-id="nft?.collection.id"
       data-testid="carousel-related" />
@@ -196,7 +192,7 @@ const mediaItemRef = ref<{ isLewdBlurredLayer: boolean } | null>(null)
 const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 const preferencesStore = usePreferencesStore()
 
-const galleryItem = await useGalleryItem()
+const galleryItem = useGalleryItem()
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType, nftResources } =
   galleryItem
 const collection = computed(() => nft.value?.collection)
@@ -212,7 +208,6 @@ const tabs = {
   chart: '2',
 }
 const activeTab = ref(tabs.offers)
-const showCongratsMessage = ref(false)
 
 const isFullscreen = ref(false)
 const canPreview = computed(() =>
@@ -244,7 +239,6 @@ const previewItemSrc = computed(() => {
 
 const onNFTBought = () => {
   activeTab.value = tabs.activity
-  showCongratsMessage.value = true
 }
 
 watch(triggerBuySuccess, (value, oldValue) => {
@@ -258,7 +252,7 @@ const congratsNewNft = ref('')
 
 onMounted(() => {
   exist(route.query.congratsNft as string, (val) => {
-    congratsNewNft.value = val ? val : ''
+    congratsNewNft.value = val || ''
     router.replace({ query: {} })
   })
 })
@@ -266,27 +260,28 @@ onMounted(() => {
 const { isUnlockable, unlockLink } = useUnlockable(collection)
 
 const title = computed(() => nftMetadata.value?.name || '')
-const meta = computed(() => {
-  return [
-    {
-      title: title.value,
-      description: convertMarkdownToText(nftMetadata.value?.description),
-      image: generateNftImage(
-        title.value,
-        formatBalanceEmptyOnZero(nft.value?.price as string),
-        sanitizeIpfsUrl(nftImage.value || ''),
-        nftMimeType.value,
-      ),
-      mime: nftMimeType.value,
-      url: route.path,
-      video: sanitizeIpfsUrl(nftAnimation.value || ''),
-    },
-  ]
+const seoDescription = computed(
+  () => convertMarkdownToText(nftMetadata.value?.description) || '',
+)
+const seoCard = computed(() => {
+  if (nft.value) {
+    return generateNftImage(
+      title.value,
+      formatBalanceEmptyOnZero(nft.value?.price as string),
+      sanitizeIpfsUrl(nftImage.value || ''),
+      nftMimeType.value,
+    )
+  }
 })
 
-useHead({
+useSeoMeta({
   title,
-  meta,
+  description: seoDescription,
+  ogTitle: title,
+  ogDescription: seoDescription,
+  ogImage: seoCard,
+  twitterImage: seoCard,
+  twitterCard: 'summary_large_image',
 })
 </script>
 

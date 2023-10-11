@@ -33,7 +33,7 @@ export default defineNuxtConfig({
 
   nitro: {
     publicAssets: [],
-    preset: 'netlify',
+    // preset: 'netlify',
     // preset: 'service-worker'
   },
 
@@ -165,8 +165,7 @@ export default defineNuxtConfig({
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~/plugins/polkadot', mode: 'client' },
-    // { src: '~/plugins/seoMetaGenerator', mode: 'client' },
+    // { src: '~/plugins/polkadot', mode: 'client' },
     // { src: '~/plugins/keyboardEvents', mode: 'client' },
     // { src: '~/plugins/piniaPersistedState', mode: 'client' },
     // '~/plugins/filters',
@@ -269,16 +268,21 @@ export default defineNuxtConfig({
     // https://github.com/nuxt-community/apollo-module#options
   },
 
-  // sitemap: {
-  //   hostname: process.env.BASE_URL || 'http://localhost:9090',
-  //   routes() {
-  //     const posts = fs.readdirSync('content/blog')
+  site: {
+    url: process.env.BASE_URL || 'http://localhost:9090',
+    strictNuxtContentPaths: true,
+  },
 
-  //     return posts
-  //       .map((post) => post.split('.')[0])
-  //       .map((post) => `/blog/${post}`)
-  //   },
-  // },
+  sitemap: {
+    sitemaps: true,
+    // routes() {
+    //   const posts = fs.readdirSync('content/blog')
+
+    //   return posts
+    //     .map((post) => post.split('.')[0])
+    //     .map((post) => `/blog/${post}`)
+    // },
+  },
 
   hooks: {
     sitemap: {
@@ -413,6 +417,7 @@ export default defineNuxtConfig({
       baseUrl: process.env.BASE_URL || 'http://localhost:9090',
       googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || '',
       dev: process.env.NODE_ENV === 'development',
+      rampApiKey: process.env.RAMP_API_KEY,
       transakApiKey: process.env.TRANSAK_API_KEY || '',
       transakEnvironment: process.env.TRANSAK_ENV || 'PRODUCTION',
     },

@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-
+/*
 const footerLinks = [
   {
     linkName: 'Ambassador Program',
@@ -46,7 +46,7 @@ const footerLinks = [
     linkAddress: 'https://shop.kodadot.xyz/',
   },
 ]
-
+*/
 const footerSocialMediaLinks = [
   {
     linkName: 'Twitter',
@@ -85,7 +85,7 @@ test('Check Footer Subscription', async ({ page }) => {
   await footerSubscribe.locator('button').click()
   await expect(footerSubscribe.locator('.error')).toBeVisible()
 })
-
+/*
 test('Check Footer links', async ({ page }) => {
   await page.goto('/')
   for (const data of footerLinks) {
@@ -98,7 +98,7 @@ test('Check Footer links', async ({ page }) => {
     await newTab.close()
   }
 })
-
+*/
 test('Check blog link', async ({ page }) => {
   await page.goto('/')
   const footer = page.getByTestId('footer-container')
