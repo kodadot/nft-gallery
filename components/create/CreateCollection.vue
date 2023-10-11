@@ -131,7 +131,7 @@
       <NeoButton
         class="is-size-6"
         expanded
-        :label="$t('mint.collection.submit')"
+        :label="submitButtonLabel"
         native-type="submit"
         size="medium"
         data-testid="collection-create"
@@ -196,7 +196,7 @@ withDefaults(
 // composables
 const { transaction, status, isLoading } = useTransaction()
 const { urlPrefix, setUrlPrefix } = usePrefix()
-const { $consola } = useNuxtApp()
+const { $consola, $i18n } = useNuxtApp()
 const { isLogIn } = useAuth()
 
 // form state
@@ -212,6 +212,18 @@ const menus = availablePrefixes()
 
 const chainByPrefix = menus.find((menu) => menu.value === urlPrefix.value)
 const selectBlockchain = ref(chainByPrefix?.value || menus[0].value)
+
+watch(urlPrefix, (value) => {
+  selectBlockchain.value = value
+})
+
+const submitButtonLabel = computed(() => {
+  return !isLogIn.value
+    ? $i18n.t('mint.nft.connect')
+    : canDeposit.value
+    ? $i18n.t('mint.collection.create')
+    : $i18n.t('confirmPurchase.notEnoughFuns')
+})
 
 const currentChain = computed(() => {
   return selectBlockchain.value as Prefix
@@ -236,7 +248,11 @@ const collectionInformation = computed(() => ({
   mintType: CreateComponent.Collection,
 }))
 
-watchEffect(() => setUrlPrefix(currentChain.value as Prefix))
+watch(currentChain, () => {
+  if (currentChain.value !== urlPrefix.value) {
+    setUrlPrefix(currentChain.value as Prefix)
+  }
+})
 
 const showConfirm = () => {
   modalShowStatus.value = true

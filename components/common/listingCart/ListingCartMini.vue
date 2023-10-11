@@ -1,6 +1,6 @@
 <template>
-  <transition v-if="listingCartStore.count" name="slide">
-    <div class="listing-container">
+  <transition name="slide">
+    <div v-if="listingCartStore.count" class="listing-container">
       <div class="is-inline-flex is-align-items-center">
         <div class="k-shadow theme-background-color border py-4 px-6">
           <div class="is-inline-flex is-align-items-center">

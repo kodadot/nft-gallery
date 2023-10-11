@@ -67,8 +67,6 @@ test('Transfer Page Functionality', async ({ page, Commands }) => {
         .getByTestId('transfer-token-tabs-container')
         .getByText('KSM')
         .click()
-      //hard timeout because next step won't work without it
-      await page.waitForTimeout(5000)
       await page
         .getByPlaceholder('Enter wallet address')
         .nth(0)
