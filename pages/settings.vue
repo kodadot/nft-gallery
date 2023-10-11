@@ -2,64 +2,43 @@
   <section>
     <NeoTabs v-model="activeTab">
       <NeoTabItem label="Metadata" value="metadata">
-        <Metadata />
+        <SettingsMetadata />
       </NeoTabItem>
       <NeoTabItem label="Interface" value="advanced">
-        <Interface />
+        <SettingsInterface />
       </NeoTabItem>
       <NeoTabItem label="Minting" value="minting">
-        <Minting />
+        <SettingsMinting />
       </NeoTabItem>
       <NeoTabItem label="Keyboard shortcuts" value="keyboardShortcuts">
-        <keyboard-shortcuts />
+        <SettingsKeyboardShortcuts />
       </NeoTabItem>
     </NeoTabs>
   </section>
 </template>
 
-<script lang="ts">
-import Interface from '@/components/settings/Interface.vue'
-import Minting from '@/components/settings/Minting.vue'
-import Metadata from '@/components/metadata/Metadata.vue'
-import KeyboardShortcuts from '@/components/settings/KeyboardShortcuts.vue'
+<script lang="ts" setup>
 import { NeoTabItem, NeoTabs } from '@kodadot1/brick'
 
-export default {
-  name: 'SettingsPage',
-  components: {
-    Interface,
-    Minting,
-    Metadata,
-    KeyboardShortcuts,
-    NeoTabItem,
-    NeoTabs,
-  },
-  setup() {
-    const { $route, $router } = useNuxtApp()
-    const activeTab = computed({
-      get: () => $route.query.tab || 'metadata',
-      set: (value) => {
-        $route.query.page = ''
-        $router.replace({
-          query: { tab: value },
-        })
-      },
+const route = useRoute()
+const router = useRouter()
+const activeTab = computed({
+  get: () => route.query.tab || 'metadata',
+  set: (value) => {
+    route.query.page = ''
+    router.replace({
+      query: { tab: value },
     })
-    return {
-      activeTab,
-    }
   },
-  head() {
-    const title = 'Settings'
-    const metaData = {
-      title,
-      description: 'Configure your KodaDot experience',
-      url: '/settings',
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
-    }
-  },
-}
+})
+
+useHead({
+  title: 'Settings',
+  meta: [
+    {
+      name: 'description',
+      content: 'Configure your KodaDot experience',
+    },
+  ],
+})
 </script>

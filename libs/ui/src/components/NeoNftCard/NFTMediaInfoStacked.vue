@@ -67,16 +67,16 @@ const props = withDefaults(
   }>(),
   {
     variant: 'primary',
-  }
+  },
 )
 
 const isMinimal = computed(() =>
-  props.variant ? props.variant.includes('minimal') : false
+  props.variant ? props.variant.includes('minimal') : false,
 )
 const nftStack = computed(() => props.nft as NFTStack)
 
 const collectionUrl = computed(
-  () => `/${props.prefix}/collection/${props.nft.collection.id}`
+  () => `/${props.prefix}/collection/${props.nft.collection.id}`,
 )
 
 const collectionNameLabel = computed(() => props.nft.collection.name || '--')

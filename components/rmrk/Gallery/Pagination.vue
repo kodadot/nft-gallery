@@ -3,8 +3,8 @@
     v-if="total > perPage"
     class="is-align-self-flex-end is-flex is-justify-content-flex-end">
     <NeoPagination
+      v-model:current="current"
       :total="total"
-      :current.sync="current"
       :range-before="rangeBefore"
       :range-after="rangeAfter"
       :simple="simple"
@@ -21,7 +21,7 @@
         class="ml-2 no-shadow"
         :title="$t('tooltip.random')"
         icon-left="dice"
-        @click.native="goToRandomPage">
+        @click="goToRandomPage">
       </NeoButton>
     </NeoTooltip>
   </div>
@@ -50,7 +50,7 @@ const props = withDefaults(
     simple: false,
     rangeBefore: 3,
     rangeAfter: 3,
-  }
+  },
 )
 const emit = defineEmits(['input'])
 
@@ -83,12 +83,14 @@ const goToRandomPage = () => {
 }
 
 const replaceUrl = (value: string, key = 'page') => {
-  const { $route, $router, $consola } = useNuxtApp()
-  if ($route.query[key] !== value) {
-    $router
+  const { $consola } = useNuxtApp()
+  const route = useRoute()
+  const router = useRouter()
+  if (route.query[key] !== value) {
+    router
       .replace({
-        path: String($route.path),
-        query: { ...$route.query, [key]: value },
+        path: String(route.path),
+        query: { ...route.query, [key]: value },
       })
       .catch($consola.warn /*Navigation Duplicate err fix later */)
   }

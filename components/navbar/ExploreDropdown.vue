@@ -31,9 +31,7 @@
 <script lang="ts" setup>
 import { NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 import { isMobileDevice } from '@/utils/extension'
+import NavbarExploreOptions from './NavbarExploreOptions.vue'
 
-const NavbarExploreOptions = defineAsyncComponent(
-  () => import('./NavbarExploreOptions.vue')
-)
 const { urlPrefix } = usePrefix()
 </script>

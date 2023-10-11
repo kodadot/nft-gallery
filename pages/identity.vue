@@ -1,27 +1,15 @@
 <template>
-  <Identity />
+  <IdentityForm />
 </template>
 
-<script lang="ts">
-import Identity from '@/components/common/IdentityForm.vue'
-
-export default {
-  name: 'IdentityPage',
-  components: {
-    Identity,
-  },
+<script lang="ts" setup>
+definePageMeta({
   layout: 'centered-half-layout',
-  head() {
-    const title = 'Identity'
-    const metaData = {
-      title,
-      description: 'Create your on-chain identity',
-      url: '/identity',
-    }
-    return {
-      title,
-      meta: [...this.$seoMeta(metaData)],
-    }
-  },
-}
+})
+
+useSeoMeta({
+  title: 'Identity',
+  description: 'Create your on-chain identity',
+  ogUrl: '/identity',
+})
 </script>

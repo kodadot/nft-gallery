@@ -1,6 +1,6 @@
 <template>
   <NeoModal
-    v-model="isModalActive"
+    :value="isModalActive"
     scroll="clip"
     :can-cancel="!loading"
     @close="emit('close')">
@@ -22,7 +22,7 @@
             variant="k-accent"
             no-shadow
             class="is-flex is-flex-grow-1 btn-height"
-            @click.native="emit('close')" />
+            @click="emit('close')" />
         </div>
       </div>
     </div>
@@ -33,11 +33,11 @@
 import { NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
 
 const props = defineProps<{
-  value: boolean
+  modelValue: boolean
   loading: boolean
 }>()
 
-const isModalActive = useVModel(props, 'value')
+const isModalActive = useVModel(props, 'modelValue')
 
 const emit = defineEmits(['close'])
 </script>

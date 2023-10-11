@@ -26,15 +26,14 @@
 
 <script lang="ts" setup>
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
-import { defineEmits } from '#app'
 
 type Address = string | GenericAccountId | undefined
 
 const IdentitySocial = defineAsyncComponent(
-  () => import('./module/IdentitySocial.vue')
+  () => import('./module/IdentitySocial.vue'),
 )
 const IdentityChain = defineAsyncComponent(
-  () => import('./module/IdentityChain.vue')
+  () => import('./module/IdentityChain.vue'),
 )
 
 const props = defineProps<{
@@ -63,11 +62,11 @@ const {
 provide('address', props.address)
 provide(
   'shortenedAddress',
-  computed(() => shortenedAddress.value)
+  computed(() => shortenedAddress.value),
 )
 provide(
   'identity',
-  computed(() => identity.value)
+  computed(() => identity.value),
 )
 
 const emit = defineEmits(['change'])

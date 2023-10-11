@@ -3,7 +3,7 @@
     <div class="label">
       {{ $t('user interface mode') }}
     </div>
-    <NeoSwitch v-model="enabledAdvancedUI" size="is-medium" :rounded="false">
+    <NeoSwitch v-model="enabledAdvancedUI" size="is-medium">
       {{
         enabledAdvancedUI
           ? $t('advanced user interface')

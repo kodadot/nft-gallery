@@ -14,7 +14,7 @@
         </div>
         <div class="px-2 is-flex is-flex-direction-column">
           <div class="has-text-weight-bold no-wrap">
-            {{ collection.name | truncateStr(12) }}
+            {{ truncateStr(collection.name, 12) }}
           </div>
           <div class="is-flex is-justify-content-start">
             <div class="is-hidden-mobile">
@@ -74,15 +74,15 @@ import { getChainNameByPrefix } from '@/utils/chain'
 import { useFiatStore } from '@/stores/fiat'
 
 const BasicImage = defineAsyncComponent(
-  () => import('@/components/shared/view/BasicImage.vue')
+  () => import('@/components/shared/view/BasicImage.vue'),
 )
 
 const CommonTokenMoney = defineAsyncComponent(
-  () => import('@/components/shared/CommonTokenMoney.vue')
+  () => import('@/components/shared/CommonTokenMoney.vue'),
 )
 
 const BasicMoney = defineAsyncComponent(
-  () => import('@/components/shared/format/BasicMoney.vue')
+  () => import('@/components/shared/format/BasicMoney.vue'),
 )
 
 const { urlPrefix } = usePrefix()
@@ -145,7 +145,7 @@ const diffPercentString = computed(() => {
 })
 
 const usdValue = computed(() =>
-  calculateUsdFromToken(volume.value, fiatStore.getCurrentKSMValue as number)
+  calculateUsdFromToken(volume.value, fiatStore.getCurrentKSMValue as number),
 )
 
 const color = computed(() => {

@@ -6,7 +6,7 @@
     class="mb-2 mt-4 mint-button"
     variant="secondary"
     label="Teleport Token"
-    @click.native="handleTokenImport">
+    @click="handleTokenImport">
     <b
       >Missing <Money :value="displayPricePerMint" inline /> on AssetHub? Click
       here to teleport them from Relay Chain</b
@@ -30,11 +30,11 @@ const { urlPrefix } = usePrefix()
 const { accountId, isLogIn } = useAuth()
 const isLoading = ref(false)
 
-const { $neoModal } = useNuxtApp()
+const { neoModal } = useProgrammatic()
 const root = ref<Vue>()
 
 const Money = defineAsyncComponent(
-  () => import('@/components/shared/format/Money.vue')
+  () => import('@/components/shared/format/Money.vue'),
 )
 
 const getApi = () => {
@@ -46,8 +46,7 @@ const getApi = () => {
 
 const handleTokenImport = async () => {
   if (!isLogIn.value) {
-    $neoModal.open({
-      parent: root?.value,
+    neoModal.open({
       ...ConnectWalletModalConfig,
     })
     return
@@ -61,7 +60,7 @@ const handleTokenImport = async () => {
     (blockHash) => {
       showNotification(
         `Transaction finalized at blockHash ${blockHash}`,
-        notificationTypes.success
+        notificationTypes.success,
       )
 
       isLoading.value = false
@@ -69,7 +68,7 @@ const handleTokenImport = async () => {
     (dispatchError) => {
       showNotification(dispatchError.toString(), notificationTypes.warn)
       isLoading.value = false
-    }
+    },
   )
 
   const errorHandler = () => {
@@ -84,7 +83,7 @@ const handleTokenImport = async () => {
     .signAndSend(
       accountId.value,
       { signer: injector.signer },
-      transactionHandler
+      transactionHandler,
     )
     .catch(errorHandler)
 }

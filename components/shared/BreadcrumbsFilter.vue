@@ -1,9 +1,9 @@
 <template>
   <NeoField grouped group-multiline class="filters-tag">
-    <template v-for="(value, key) in breads">
+    <template v-for="(value, key) in breads" :key="key">
       <NeoTag
         v-if="key === 'search'"
-        :key="key"
+        key="search"
         class="control"
         :is-blue-tag="isCollectionSearchMode"
         @close="removeBread('search')">
@@ -11,7 +11,7 @@
       </NeoTag>
       <NeoTag
         v-else-if="key === 'min'"
-        :key="key"
+        key="min"
         class="control"
         @close="removeBread('min')">
         {{ `${$t('Min')}:` }}
@@ -19,7 +19,7 @@
       </NeoTag>
       <NeoTag
         v-else-if="key === 'max'"
-        :key="key"
+        key="max"
         class="control"
         @close="removeBread('max')">
         {{ `${$t('Max')}:` }}
@@ -35,11 +35,7 @@
         </NeoTag>
       </template>
 
-      <NeoTag
-        v-else
-        :key="key"
-        class="control d"
-        @close="closeTag(String(key))">
+      <NeoTag v-else :key="key" class="control" @close="closeTag(String(key))">
         {{ queryMapTranslation[String(key)] }}
       </NeoTag>
     </template>
@@ -65,7 +61,7 @@ import { useCollectionSearch } from '../search/utils/useCollectionSearch'
 
 const route = useRoute()
 const isCollectionActivityTab = computed(
-  () => route.name === 'prefix-collection-id-activity'
+  () => route.name === 'prefix-collection-id-activity',
 )
 const { replaceUrl } = useReplaceUrl({
   resetPage: !isCollectionActivityTab.value,
@@ -76,13 +72,15 @@ const isItemsExplore = computed(() => route.path.includes('/explore/items'))
 const breads = useActiveRouterFilters()
 
 const collectionIdList = computed(
-  () => breads.value.collections?.split(',') || []
+  () => breads.value.collections?.split(',') || [],
 )
 
-const collections = computed<Collection[]>(() =>
-  collectionArray.value?.filter((collection) =>
-    collectionIdList.value?.find((id) => collection.id === id)
-  )
+const collections = computed<Collection[]>(
+  () =>
+    collectionArray.value?.filter(
+      (collection) =>
+        collectionIdList.value?.find((id) => collection.id === id),
+    ),
 )
 
 const { isCollectionSearchMode } = useCollectionSearch()
@@ -94,7 +92,7 @@ const removeCollection = (id: string) => {
 }
 
 const isAnyFilterActive = computed(() =>
-  Boolean(Object.keys(breads.value).length)
+  Boolean(Object.keys(breads.value).length),
 )
 
 const clearAllFilters = () => {

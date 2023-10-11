@@ -5,10 +5,10 @@ import { Metadata } from '@kodadot1/minimark/common'
 import { addToQueue, processQueue } from '@/utils/queueProcessor'
 import { exponentialBackoff } from '@/utils/exponentialBackoff'
 
-const BASE_URL = URLS.koda.nftStorage
+const NFT_STORAGE_BASE_URL = URLS.koda.nftStorage
 
 const nftStorageApi = $fetch.create({
-  baseURL: BASE_URL,
+  baseURL: NFT_STORAGE_BASE_URL,
 })
 
 export type PinningKey = {
@@ -32,7 +32,7 @@ export const pinJson = async (object: Metadata, name: string) => {
     body: object,
   }).catch((error: FetchError) => {
     throw new Error(
-      `[NFT::STORAGE] Unable to PIN JSON for reasons ${error.data}`
+      `[NFT::STORAGE] Unable to PIN JSON for reasons ${error.data}`,
     )
   })
   consola.log('[NFT::STORAGE] Pin Json')
@@ -41,10 +41,10 @@ export const pinJson = async (object: Metadata, name: string) => {
 
 export const getKey = async (address: string): Promise<PinningKey> => {
   const { expiry, token } = await nftStorageApi<PinningKey>(
-    `getKey/${address}`
+    `getKey/${address}`,
   ).catch((error: FetchError) => {
     throw new Error(
-      `[NFT::STORAGE] Unable to GET KEY for reasons ${error.data}`
+      `[NFT::STORAGE] Unable to GET KEY for reasons ${error.data}`,
     )
   })
   return { expiry, token }
@@ -56,7 +56,7 @@ export const pinFileToIPFSWithRetries = (file: Blob) =>
 export const rateLimitedPinFileToIPFS = (
   file: File,
   batchSize = 4,
-  gap = 300
+  gap = 300,
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
     addToQueue(() => pinFileToIPFSWithRetries(file).then(resolve).catch(reject))
@@ -73,7 +73,7 @@ export const pinFileToIPFS = async (file: Blob): Promise<string> => {
     },
   }).catch((error: FetchError) => {
     throw new Error(
-      `[NFT::STORAGE] Unable to PIN File for reasons ${error.data}`
+      `[NFT::STORAGE] Unable to PIN File for reasons ${error.data}`,
     )
   })
   consola.log('[NFT::STORAGE] Pin File')

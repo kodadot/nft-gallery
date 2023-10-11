@@ -2,7 +2,7 @@ describe('landingRmrk', () => {
   it('loadLanding', () => {
     cy.loginWithKeyring()
     cy.visit(
-      '/rmrk/gallery/16516179-36FDCC8B7888DCED32-SUBWORK_MO-SUBWORK_MORNING_VIBE-0000000000000001'
+      '/rmrk/gallery/16516179-36FDCC8B7888DCED32-SUBWORK_MO-SUBWORK_MORNING_VIBE-0000000000000001',
     )
     cy.rmrkNavbar()
   })
@@ -21,7 +21,7 @@ describe('snekCollectionItem', () => {
     cy.checkCollectionActions(
       '/snek/collection/3132385849',
       'Morski pes',
-      'bXkmyH...J5CSGP'
+      'bXkmyH...J5CSGP',
     )
   })
 })
@@ -40,12 +40,12 @@ describe('snekGalleryItem', () => {
 describe('rmrkCollectionItem', () => {
   it('collectionActions', { scrollBehavior: false }, () => {
     cy.visit(
-      '/rmrk/gallery/16516179-36FDCC8B7888DCED32-SUBWORK_MO-SUBWORK_MORNING_VIBE-0000000000000001'
+      '/rmrk/gallery/16516179-36FDCC8B7888DCED32-SUBWORK_MO-SUBWORK_MORNING_VIBE-0000000000000001',
     )
     cy.checkCollectionActions(
       '/rmrk/collection/36FDCC8B7888DCED32-SUBWORK_MO',
       'Subwork morning vibe',
-      'KodaDot_stewards'
+      'KodaDot_stewards',
     )
   })
 })
@@ -54,7 +54,7 @@ describe('rmrkGalleryItem', () => {
   it('galleryListedItemActions', () => {
     cy.loginWithKeyring()
     cy.visit(
-      '/rmrk/gallery/9834502-32b209ecbe2b33dd24-DINOXEGGS-DXDANGLS-0000000000000080'
+      '/rmrk/gallery/9834502-32b209ecbe2b33dd24-DINOXEGGS-DXDANGLS-0000000000000080',
     )
     cy.waitForNetworkIdle('+(HEAD|GET)', '*', 1000)
     cy.get('[data-cy="item-price"]').should('contain', 'KSM')
@@ -63,7 +63,7 @@ describe('rmrkGalleryItem', () => {
 
   it('galleryUnlistedItemActions', () => {
     cy.visit(
-      '/rmrk/gallery/9834502-32b209ecbe2b33dd24-DINOXEGGS-DXDANGLS-0000000000000061'
+      '/rmrk/gallery/9834502-32b209ecbe2b33dd24-DINOXEGGS-DXDANGLS-0000000000000061',
     )
     cy.waitForNetworkIdle('POST', '*', 1000)
     cy.get('[data-cy="item-price"]').should('not.contain', 'KSM')

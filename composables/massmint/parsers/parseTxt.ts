@@ -13,12 +13,12 @@ import { Entry, isValidEntry } from './common'
  *
  */
 function parseField(
-  line: string
+  line: string,
 ): { fieldName: string; fieldValue: string } | null {
   const colon = '\\s*:\\s*'
   const fieldNameRegex = new RegExp(
     `^(?<fieldName>file|name|description|price)${colon}`,
-    'i'
+    'i',
   )
   const fieldNameMatch = fieldNameRegex.exec(line)
 
@@ -99,7 +99,7 @@ const updateEntries = (entries, block) => {
 }
 
 export function parseTxt(
-  fileContent: string
+  fileContent: string,
 ): Record<string, Entry> | undefined {
   const { $consola } = useNuxtApp()
   const fileData = fileContent.trim()

@@ -41,7 +41,7 @@ withDefaults(
   {
     collections: () => [],
     showExplainerText: false,
-  }
+  },
 )
 
 watch(selectedCollection, (value) => {

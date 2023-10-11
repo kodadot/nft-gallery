@@ -1,5 +1,11 @@
 <template>
-  <Identicon :size="size" theme="polkadot" :value="value" class="avatar" />
+  <Identicon
+    :data-key="value"
+    :size="size"
+    theme="polkadot"
+    :value="value"
+    data-testid="avatar-identity-icon"
+    class="avatar" />
 </template>
 
 <script lang="ts" setup>
@@ -13,12 +19,12 @@ withDefaults(
   {
     value: '',
     size: 64,
-  }
+  },
 )
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .avatar {
   @include ktheme() {

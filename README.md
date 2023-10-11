@@ -5,6 +5,8 @@
 
 # Contributing
 
+[![Twitter Follow](https://img.shields.io/twitter/follow/kodadot?style=social)](https://twitter.com/intent/follow?screen_name=kodadot)
+
 [![Test & Build app](https://github.com/kodadot/nft-gallery/actions/workflows/build.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/build.yml) [![Reviewdog](https://github.com/kodadot/nft-gallery/actions/workflows/reviewdog.yml/badge.svg)](https://github.com/kodadot/nft-gallery/actions/workflows/reviewdog.yml) [![Maintainability](https://api.codeclimate.com/v1/badges/7d14fab327c632d5f0ce/maintainability)](https://codeclimate.com/github/kodadot/nft-gallery/maintainability)
 
 ![image](https://user-images.githubusercontent.com/5887929/217076362-464e1293-8a2d-43ee-829f-fba17408e4c3.png)

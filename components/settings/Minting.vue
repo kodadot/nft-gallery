@@ -5,10 +5,7 @@
     </div>
     <div class="py-2 is-flex">
       <Support v-model="hasSupport" :show-price="false" />
-      <NeoTooltip
-        :label="$i18n.t('support.tooltip')"
-        position="bottom"
-        multiline>
+      <NeoTooltip :label="$t('support.tooltip')" position="bottom" multiline>
         <NeoIcon icon="info-circle" />
       </NeoTooltip>
     </div>
@@ -19,7 +16,7 @@
         :active-message="$t('carbonOffset.carbonOffsetYes')"
         :passive-message="$t('carbonOffset.carbonOffsetNo')" />
       <NeoTooltip
-        :label="$i18n.t('carbonOffset.tooltip')"
+        :label="$t('carbonOffset.tooltip')"
         position="bottom"
         multiline>
         <NeoIcon icon="info-circle" />

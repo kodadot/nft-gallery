@@ -19,7 +19,7 @@
 
     <div class="mt-5">
       <ListingCartItem
-        v-for="nft in listingCartStore.itemsInChain"
+        v-for="nft in allItemsInChain"
         :key="nft.id"
         :nft="nft" />
     </div>
@@ -31,30 +31,27 @@ import { useListingCartStore } from '@/stores/listingCart'
 import ListingCartItem from './ListingCartItem.vue'
 import ListingCartPriceInput from '../shared/ListingCartPriceInput.vue'
 import ListingCartFloorPrice from '../shared/ListingCartFloorPrice.vue'
+import { sortBy } from 'lodash'
 
-const emit = defineEmits([
-  'update:fixedPrice',
-  'update:floorPricePercentAdjustment',
-  'setFixedPrice',
-])
+const emit = defineEmits(['update:fixedPrice', 'setFixedPrice'])
 
 const listingCartStore = useListingCartStore()
 
+const allItemsInChain = computed(() =>
+  sortBy(listingCartStore.allItemsInChain, (item) => (item.discarded ? 0 : 1)),
+)
+
 const props = defineProps<{
-  fixedPrice?: number | string
-  floorPricePercentAdjustment: number
+  fixedPrice?: number
+  floorPricePercentAdjustment?: number
 }>()
 
 const floorPricePercentAdjustment = useVModel(
   props,
   'floorPricePercentAdjustment',
-  emit,
-  { eventName: 'update:floorPricePercentAdjustment' }
 )
 
-const fixedPrice = useVModel(props, 'fixedPrice', emit, {
-  eventName: 'update:fixedPrice',
-})
+const fixedPrice = useVModel(props, 'fixedPrice')
 
 function setFixedPrice(value) {
   emit('setFixedPrice', value)

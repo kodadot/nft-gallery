@@ -51,7 +51,7 @@ export const getChartData = (data: ChartData = []): RenderedChartData =>
 
 export const getCollectionChartData = (
   data: CollectionChartData[] = [],
-  mapper = defaultMapper
+  mapper = defaultMapper,
 ): RenderedChartData =>
   data.map((item) => ({
     x: item.date,

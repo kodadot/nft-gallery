@@ -46,12 +46,12 @@ const isMobile = computed(() => useWindowSize().width.value < 768)
 const { unlockableIcon } = useUnlockableIcon()
 
 const isOwner = computed(() =>
-  checkOwner(props.nft?.currentOwner, accountId.value)
+  checkOwner(props.nft?.currentOwner, accountId.value),
 )
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/variables.scss';
 .unlockable-container {
   max-width: 60%;
   border-radius: 2rem;
