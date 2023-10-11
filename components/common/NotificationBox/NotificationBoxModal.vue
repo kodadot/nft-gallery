@@ -70,14 +70,16 @@
             <NeoTag
               v-if="collectionFilter"
               class="no-wrap mr-1 mb-1 rounded"
-              @close="collectionFilter = null">
+              @close="collectionFilter = null"
+              closable
+              >
               {{ collectionFilter.name }}
             </NeoTag>
             <NeoTag
               v-for="event in eventFilter"
               :key="event"
               class="no-wrap mb-1 mr-1 rounded"
-              @close="toggleEventFilter(event)">
+              @close="toggleEventFilter(event)" closable>
               {{ getInteractionName(event) }}
             </NeoTag>
           </div>
