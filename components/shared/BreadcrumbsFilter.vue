@@ -5,7 +5,7 @@
         v-if="key === 'search'"
         key="search"
         class="control"
-        variant="k-blue"
+        :variant="isCollectionSearchMode ? 'k-blue' : undefined"
         closable
         @close="removeBread('search')">
         {{ `${$t('general.search')}: ${value}` }}
@@ -39,7 +39,12 @@
         </NeoTag>
       </template>
 
-      <NeoTag v-else :key="key" class="control" closable @close="closeTag(String(key))">
+      <NeoTag
+        v-else
+        :key="key"
+        class="control"
+        closable
+        @close="closeTag(String(key))">
         {{ queryMapTranslation[String(key)] }}
       </NeoTag>
     </template>
