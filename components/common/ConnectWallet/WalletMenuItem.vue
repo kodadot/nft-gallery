@@ -14,11 +14,13 @@
               style="vertical-align: middle" />
             <span class="is-size-6 ml-2 is-capitalized">{{ wallet.name }}</span>
 
-            <div
-              v-if="isRecent(wallet)"
-              class="border border-rounded border-k-shade is-capitalized ml-2 px-2 is-size-7">
+            <NeoTag
+            v-if="isRecent(wallet)"
+            class="is-capitalized ml-2"
+            variant="transparent"
+            size="small">
               {{ $t('recent') }}
-            </div>
+            </NeoTag>
           </span>
 
           <NeoIcon v-if="!wallet.installed" icon="download" />
@@ -74,6 +76,7 @@ import shortAddress from '@/utils/shortAddress'
 import { useWalletStore } from '@/stores/wallet'
 import { NeoIcon } from '@kodadot1/brick'
 import Avatar from '@/components/shared/Avatar.vue'
+import NeoTag from '@/components/shared/gallery/NeoTag.vue'
 
 defineProps<{
   wallet: BaseDotsamaWallet
