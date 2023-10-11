@@ -4,11 +4,7 @@
     attached
     closable
     class="tag"
-    :class="[
-      { 'is-blue-tag': isBlueTag },
-      `tag--${variant}`,
-      `tag-size--${size}`,
-    ]">
+    :class="[`tag--${variant}`, `tag-size--${size}`]">
     <slot></slot>
     <NeoIcon
       v-if="closable"
@@ -28,7 +24,6 @@ type TagVariant = 'primary' | 'k-blue' | 'transparent'
 withDefaults(
   defineProps<{
     closable?: boolean
-    isBlueTag?: boolean
     size?: TagSize
     variant?: TagVariant
   }>(),
