@@ -1,0 +1,33 @@
+@import '../../scss/_theme.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_expressions.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_variables.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_animations.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_helpers.scss';
+
+$switch-padding: 0;
+
+@import '@oruga-ui/oruga-next/src/scss/components/_switch.scss';
+
+.o-switch {
+  @include ktheme() {
+    --oruga-switch-background: #{theme('background-color')};
+    --oruga-switch-border-color: #{theme('border-color')};
+    --oruga-switch-active-background-color: #{theme('switch-active-background')};
+    --oruga-switch-action-background: #{theme('switch-action-background')};
+    --oruga-switch-action-checked-background: #{theme('background-color')};
+  }
+  &__check-switch {
+    height: 1.5rem;
+    width: 1.5rem;
+    border: 1px solid var(--oruga-switch-border-color);
+    margin-left: -1px;
+    box-shadow: none;
+  }
+  &__check {
+    height: 1.5rem;
+    border: 1px solid;
+  }
+  &__check--checked &__check-switch {
+    background-color: var(--oruga-switch-action-checked-background);
+  }
+}
