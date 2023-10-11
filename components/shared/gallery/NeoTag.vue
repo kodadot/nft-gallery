@@ -3,12 +3,11 @@
   <div
     attached
     closable
-    class="neo-tag tag p-3"
-    :class="{
-      'is-blue-tag': isBlueTag,
-    }">
+    class="tag"
+    :class="[`tag--${variant}`, `tag-size--${size}`]">
     <slot></slot>
     <NeoIcon
+      v-if="closable"
       aria-close-label="clear filter"
       icon="xmark"
       class="ml-2 is-clickable cross-icon"
@@ -19,9 +18,21 @@
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
 
-defineProps<{
-  isBlueTag?: boolean
-}>()
+type TagSize = 'small' | 'medium'
+type TagVariant = 'primary' | 'k-blue' | 'transparent'
+
+withDefaults(
+  defineProps<{
+    closable?: boolean
+    size?: TagSize
+    variant?: TagVariant
+  }>(),
+  {
+    closable: false,
+    size: 'medium',
+    variant: 'primary',
+  },
+)
 
 const emit = defineEmits(['close'])
 const onClose = () => {
@@ -32,25 +43,48 @@ const onClose = () => {
 <style lang="scss">
 @import '@/assets/styles/abstracts/variables';
 
-.neo-tag {
+.tag {
   border-radius: 1rem !important;
   background: transparent;
   font-size: 1rem !important;
-  @include ktheme() {
-    border: 1px solid theme('k-primary');
-    background-color: theme('k-accentlight2');
-    color: theme('text-color');
-    .cross-icon {
-      &:hover {
-        color: theme('k-grey');
+
+  &--primary {
+    @include ktheme() {
+      border: 1px solid theme('k-primary');
+      background-color: theme('k-accentlight2');
+      color: theme('text-color');
+      .cross-icon {
+        &:hover {
+          color: theme('k-grey');
+        }
       }
     }
   }
 
-  &.is-blue-tag {
+  &--transparent {
+    @include ktheme() {
+      border: 1px solid theme('border-color');
+      color: theme('text-color');
+      background: transparent;
+    }
+  }
+
+  &--k-blue {
     @include ktheme() {
       border: 1px solid theme('k-blue');
       background-color: theme('blue-light-hover-color');
+    }
+  }
+
+  &.tag-size {
+    &--medium {
+      padding: 0.75rem;
+    }
+
+    &--small {
+      font-size: 0.75rem !important;
+      padding: 0 0.5rem !important;
+      height: min-content;
     }
   }
 
