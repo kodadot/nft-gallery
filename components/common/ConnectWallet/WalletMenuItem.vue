@@ -15,10 +15,10 @@
             <span class="is-size-6 ml-2 is-capitalized">{{ wallet.name }}</span>
 
             <NeoTag
-            v-if="isRecent(wallet)"
-            class="is-capitalized ml-2"
-            variant="transparent"
-            size="small">
+              v-if="isRecent(wallet)"
+              class="is-capitalized ml-2"
+              variant="transparent"
+              size="small">
               {{ $t('recent') }}
             </NeoTag>
           </span>
