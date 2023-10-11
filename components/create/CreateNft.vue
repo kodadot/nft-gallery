@@ -56,6 +56,7 @@
       <!-- select collections -->
       <NeoField
         :key="`collection-${currentChain}`"
+        ref="chooseCollectionRef"
         :label="`${$t('mint.nft.collection.label')} *`"
         @click="startSelectedCollection = true">
         <div class="w-100">
@@ -263,6 +264,7 @@ const form = reactive({
 // select collections
 const selectedCollection = ref()
 const startSelectedCollection = ref<boolean>(false)
+const chooseCollectionRef = ref()
 
 const onCollectionSelected = (collection) => {
   selectedCollection.value = collection
@@ -327,6 +329,10 @@ const submitHandler = () => {
   startSelectedCollection.value = true
   if (selectedCollection.value) {
     toggleConfirm()
+  } else {
+    ;(chooseCollectionRef.value?.$el as HTMLElement).scrollIntoView({
+      block: 'center',
+    })
   }
 }
 
