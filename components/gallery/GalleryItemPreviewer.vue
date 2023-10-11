@@ -80,7 +80,7 @@ const isFullscreen = useVModel(props, 'value', emit)
     width: 100%;
     padding: 0;
     .media-object {
-      height: 100%;
+      height: inherit !important;
       box-shadow: none;
       border: none;
     }
