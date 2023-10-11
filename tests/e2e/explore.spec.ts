@@ -19,8 +19,8 @@ const testCollections = async (page) => {
   await tabs.nth(2).getByText('Collections')
   await tabs.nth(2).getByText('Items')
 
-  const exploreSort = await page.getByTestId('explore-sort')
-  await exploreSort.nth(2).click()
+  const exploreSort = await page.getByTestId('explore-sort-dropdown')
+  await exploreSort.nth(1).click()
 
   await Promise.all(SORT_SAMPLES.map((sort) => page.$(`[value="${sort}"]`)))
 
@@ -53,7 +53,7 @@ const testItems = async (page) => {
   await expandSearch.click()
   const inputMin = await expandSearch.getByTestId('input-min')
   await inputMin.type('100')
-  const btnApply = await expandSearch.getByTestId('apply')
+  const btnApply = await expandSearch.getByTestId('apply').first()
 
   await Promise.all([
     page.waitForResponse(
@@ -62,20 +62,27 @@ const testItems = async (page) => {
     btnApply.click(),
   ])
 
-  await page.waitForResponse(
-    (resp) => resp.url().includes('image') && resp.ok(),
-  )
-
-  const exploreSort = await page.getByTestId('explore-sort')
-  await exploreSort.nth(2).click()
+  const exploreSort = await page.getByTestId('explore-sort-dropdown').nth(1)
+  await exploreSort.click()
+  await page.getByTestId('price_ASC').nth(1).click()
 
   const btnAsc = await page.$('[value="price_ASC"]')
   await btnAsc?.click()
 
+  //active and deactive buy now, since its buggy
+  await page.getByTestId('filter-checkbox-buynow').nth(1).click()
+  await page.getByTestId('filter-checkbox-buynow').nth(1).click()
+
+  await page.waitForResponse(
+    (resp) => resp.url().includes('image') && resp.status() === 200,
+  )
+  await page.waitForLoadState()
+
+  await expect(page.getByTestId('card-money').first()).toBeVisible({
+    timeout: 10000,
+  })
   const firstItem = (await page.getByTestId('card-money')).first()
   const moneyStr = await firstItem.innerText()
-  console.log('dinheiro antes: ', moneyStr)
   const money = +moneyStr.split(' ')[0]
-  console.log('dinheiro depois: ', money)
   expect(money).toBeGreaterThanOrEqual(100)
 }
