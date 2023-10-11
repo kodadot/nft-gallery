@@ -59,7 +59,7 @@
 import { NeoButton, NeoModal } from '@kodadot1/brick'
 
 const props = defineProps<{
-  value: boolean
+  modelValue: boolean
   numNfts: number
   numMissingDescriptions: number
   numMissingPrices: number
@@ -72,7 +72,7 @@ const cancelBtnVariant = computed(() =>
   props.numMissingDescriptions ? 'k-accent' : 'primary',
 )
 
-const isModalActive = useVModel(props, 'value')
+const isModalActive = useVModel(props, 'modelValue')
 
 const emit = defineEmits(['close', 'mint'])
 </script>

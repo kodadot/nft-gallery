@@ -2,6 +2,7 @@
   <figure class="image-wrapper image is-1by1" :class="customClass">
     <transition name="fade">
       <img
+        v-if="imageSrc"
         :src="imageSrc || placeholder"
         :alt="alt"
         :class="['has-ratio', { 'is-rounded': rounded }]"

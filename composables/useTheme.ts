@@ -1,11 +1,7 @@
 export default function () {
   const colorMode = useColorMode()
 
-  const isDarkMode = computed<boolean>(
-    () =>
-      colorMode.preference === 'dark' ||
-      document.documentElement.className.includes('dark-mode'),
-  )
+  const isDarkMode = computed<boolean>(() => colorMode.preference === 'dark')
 
   const toggleColorMode = (): void => {
     if (colorMode.preference === 'dark') {

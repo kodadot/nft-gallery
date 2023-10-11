@@ -1,8 +1,11 @@
 <template>
   <NeoMessage
     class="message-box"
+    :class="{
+      'message-box--toast': !noToast,
+    }"
     :duration="realDuration"
-    auto-close
+    :auto-close="autoClose"
     @close="$emit('close')">
     <img src="/congrats-message-header.svg" class="congrats-message" />
     <div class="is-flex is-flex-direction-column">
@@ -33,11 +36,14 @@ const props = defineProps<{
   title?: string
   subtitle?: string
   duration?: number
+  noToast?: boolean
 }>()
 
 const realDuration = computed(() => {
   return props.duration || 10000
 })
+
+const autoClose = computed(() => !props.noToast)
 
 const realworldFullPath = computed(() => {
   return `${window.location.origin}${route.fullPath}`
@@ -48,14 +54,17 @@ const realworldFullPath = computed(() => {
 @import '@/assets/styles/abstracts/variables';
 
 .message-box {
-  z-index: 10;
   max-width: 500px;
-  position: absolute;
-  border-radius: 0;
-  top: 100px;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
+
+  &--toast {
+    z-index: 100;
+    position: fixed;
+    border-radius: 0;
+    top: 100px;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
   @include ktheme() {
     box-shadow: theme('primary-shadow');

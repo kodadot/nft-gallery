@@ -1,16 +1,21 @@
 <template>
   <div class="border-top border-k-shade py-5">
-    <ListingCartItemDetails :nft="nft">
+    <ListingCartItemDetails :nft="nft" :discarded="nft.discarded">
       <template #right>
         <NeoButton
           class="has-text-grey pt-4"
           variant="text"
           no-shadow
-          icon="trash"
+          :icon="nft.discarded ? 'plus' : 'trash'"
           icon-pack="far"
-          @click="listingCartStore.removeItem(nft.id)" />
+          @click="
+            listingCartStore.setItemDiscardedState({
+              id: nft.id,
+              discarded: !nft.discarded,
+            })
+          " />
       </template>
-      <template #footer>
+      <template v-if="!nft.discarded" #footer>
         <div
           class="mt-4 is-flex is-justify-content-space-between is-align-items-start">
           <div class="is-flex is-flex-direction-column">
