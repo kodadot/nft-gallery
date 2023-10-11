@@ -24,8 +24,37 @@ export type ItemResources = {
   resources?: NftResources[]
 }
 
+export type EntityWithMeta = {
+  meta: BaseNFTMeta
+}
+
 export type NFTWithMetadata = NFT &
   NFTMetadata & { meta: BaseNFTMeta } & ItemResources
+
+export type TokenEntity = {
+  id: string
+  name: string
+  image: string
+  media?: string
+  metadata?: string
+  meta: BaseNFTMeta
+  supply: number
+  cheapest?: {
+    id: string
+    price: string
+    currentOwner: string
+  }
+  collection: {
+    id: string
+    name: string
+    floorPrice: [{ price: string }]
+  }
+}
+
+export const isTokenEntity = (
+  entity: NFTWithMetadata | TokenEntity,
+): entity is TokenEntity =>
+  typeof (entity as TokenEntity).supply !== 'undefined'
 
 function getAttributes(nft, metadata) {
   const hasMetadataAttributes =
@@ -55,7 +84,7 @@ function getGeneralMetadata(nft: NFTWithMetadata) {
   }
 }
 
-export async function useNftCardIcon(nft: Ref<NFTWithMetadata>) {
+export async function useNftCardIcon(nft: Ref<EntityWithMeta>) {
   const { isAudio } = await useNftMimeType(nft)
   const { unlockableIcon } = useUnlockableIcon()
 
@@ -71,7 +100,7 @@ export async function useNftCardIcon(nft: Ref<NFTWithMetadata>) {
   return { showCardIcon, cardIcon }
 }
 
-export async function useNftMimeType(nft?: Ref<NFTWithMetadata>) {
+export async function useNftMimeType(nft?: Ref<EntityWithMeta>) {
   if (!nft?.value.meta?.animationUrl) {
     return {
       isAudio: false,
@@ -116,7 +145,7 @@ async function getProcessMetadata(nft: NFTWithMetadata) {
   }
 }
 
-export function getNftMetadata(nft: NFTWithMetadata, prefix: string) {
+export function getNftMetadata(nft: EntityWithMeta, prefix: string) {
   // if subsquid already give us the metadata, we don't need to fetch it again
   if (nft.meta?.image) {
     return getGeneralMetadata(nft)

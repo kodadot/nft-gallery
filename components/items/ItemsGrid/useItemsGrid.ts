@@ -4,12 +4,8 @@ import isEqual from 'lodash/isEqual'
 import { useSearchParams } from './utils/useSearchParams'
 import { Ref } from 'vue'
 
-import type { NFTWithMetadata, Stack } from '@/composables/useNft'
+import type { NFTWithMetadata, TokenEntity } from '@/composables/useNft'
 
-export type NFTStack = NFTWithMetadata & Stack
-
-export type ItemsGridEntity = NFTWithMetadata | NFTStack
-import { NFT } from '@/components/rmrk/service/scheme'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 
 import { isOwner as checkOwner } from '@/utils/account'
@@ -29,6 +25,7 @@ export function useFetchSearch({
   resetSearch: () => void
 }) {
   const { client, urlPrefix } = usePrefix()
+  const { isAssetHub } = useIsChain(urlPrefix)
 
   const route = useRoute()
 
@@ -64,8 +61,70 @@ export function useFetchSearch({
           return prefix
       }
     }
+    // Computed values
+    const notCollectionPage = computed(
+      () => route.name !== 'prefix-collection-id',
+    )
+    const useTokens = computed(
+      () => isAssetHub.value && notCollectionPage.value,
+    )
+    const queryName = useTokens.value
+      ? 'tokenListWithSearch'
+      : 'nftListWithSearch'
 
-    const variables = search?.length
+    // Helper function to get search criteria for tokens
+    const getSearchCriteria = (searchParams) => {
+      return searchParams.reduce((acc, curr) => {
+        for (const [key, value] of Object.entries(curr)) {
+          switch (key) {
+            case 'currentOwner_eq':
+              acc['owner'] = value
+              break
+            case 'price_gt':
+              acc['price_gt'] = Number(value)
+              break
+          }
+        }
+        return acc
+      }, {})
+    }
+
+    // Helper function to get default or route query value
+    const getRouteQueryOrDefault = (query, defaultValue) => {
+      return query?.length ? query : defaultValue
+    }
+
+    const getQueryResults = (query) => {
+      if (useTokens.value) {
+        return {
+          entites: query.tokenEntities,
+          count: query.tokenEntityCount.totalCount,
+        }
+      }
+      return {
+        entites: query.nFTEntities,
+        count: query.nftEntitiesConnection.totalCount,
+      }
+    }
+
+    // Query path and variables
+    const queryPath = getQueryPath(client.value)
+    const defaultSearchVariables = {
+      first: first.value,
+      offset: (page - 1) * first.value,
+      orderBy: getRouteQueryOrDefault(route.query.sort, ['blockNumber_DESC']),
+    }
+
+    const searchForToken = getSearchCriteria(searchParams.value)
+
+    const tokenQueryVariables = {
+      ...searchForToken,
+      denyList: getDenyList(urlPrefix.value),
+      price_lte: Number(route.query.max) || undefined,
+      price_gte: Number(route.query.min) || undefined,
+    }
+
+    const nftQueryVariables = search?.length
       ? { search }
       : {
           search: searchParams.value,
@@ -73,33 +132,26 @@ export function useFetchSearch({
           priceMax: Number(route.query.max),
         }
 
-    const queryPath = getQueryPath(client.value)
+    const queryVariables = useTokens.value
+      ? { ...defaultSearchVariables, ...tokenQueryVariables }
+      : { ...defaultSearchVariables, ...nftQueryVariables }
 
-    const query = await resolveQueryPath(queryPath, 'nftListWithSearch')
+    const query = await resolveQueryPath(queryPath, queryName)
     const { data: result } = await useAsyncQuery({
       query: query.default,
-      variables: {
-        ...variables,
-        first: first.value,
-        offset: (page - 1) * first.value,
-        denyList: getDenyList(urlPrefix.value),
-        orderBy: route.query.sort?.length
-          ? route.query.sort
-          : ['blockNumber_DESC'],
-      },
+      variables: queryVariables,
       clientId: client.value,
     })
 
     // handle results
-    const { nFTEntities, nftEntitiesConnection } = result.value
-
-    total.value = nftEntitiesConnection.totalCount
+    const { entites, count } = getQueryResults(result.value)
+    total.value = count
 
     if (!loadedPages.value.includes(page)) {
       if (loadDirection === 'up') {
-        nfts.value = nFTEntities.concat(nfts.value)
+        nfts.value = entites.concat(nfts.value)
       } else {
-        nfts.value = nfts.value.concat(nFTEntities)
+        nfts.value = nfts.value.concat(entites)
       }
       loadedPages.value.push(page)
     }
@@ -146,17 +198,20 @@ export function useFetchSearch({
   }
 }
 
-export const updatePotentialNftsForListingCart = async (nfts: NFT[]) => {
+export const updatePotentialNftsForListingCart = async (
+  nfts: TokenEntity[],
+) => {
   const listingCartStore = useListingCartStore()
   const { accountId } = useAuth()
   const potentialNfts = nfts
     .filter(
       (nft) =>
-        !Number(nft.price) && checkOwner(nft.currentOwner, accountId.value),
+        !Number(nft.cheapest?.price) &&
+        checkOwner(nft.cheapest?.currentOwner, accountId.value),
     )
     .map((nft) => {
       const floorPrice = nft.collection.floorPrice[0]?.price || '0'
-      return nftToListingCartItem(nft, floorPrice)
+      return nftToListingCartItem(nft.cheapest as any, floorPrice)
     })
 
   listingCartStore.setUnlistedItems(potentialNfts)

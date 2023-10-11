@@ -39,7 +39,7 @@
       </div>
       <NFTMediaInfoStacked
         v-if="isStacked"
-        :nft="nft"
+        :token="nft"
         :variant="variant"
         :prefix="prefix" />
       <NFTMediaInfo
@@ -114,9 +114,8 @@ const props = withDefaults(
   },
 )
 
-const isStacked = computed(
-  () => false,
-  // props.variant ? props.variant.includes('stacked') : false
+const isStacked = computed(() =>
+  props.variant ? props.variant.includes('stacked') : false,
 )
 const isMinimal = props.variant.includes('minimal')
 </script>

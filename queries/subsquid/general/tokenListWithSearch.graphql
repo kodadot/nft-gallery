@@ -1,0 +1,54 @@
+
+query tokenListWithSearch(
+  $first: Int!
+  $offset: Int
+  $orderBy: [String!] = ["blockNumber_DESC"]
+  $price_gte: Float
+  $price_gt: Float
+  $price_lte: Float
+  $owner: String
+  $denyList: [String!]
+) {
+  tokenEntities: tokenEntityList(
+    owner: $owner
+    denyList: $denyList
+    orderBy: $orderBy
+    limit: $first
+    offset: $offset
+    price_gte: $price_gte
+    price_gt: $price_gt
+    price_lte: $price_lte
+  ) {
+    id
+    name
+    image
+    media
+    metadata
+    supply
+    cheapest {
+      id
+      price
+      currentOwner
+    }
+    collection {
+      id
+      name
+    }
+    meta {
+      id
+      image
+      animationUrl
+      description
+    }
+  }
+    tokenEntityCount(
+    owner: $owner
+    denyList: $denyList
+    price_gte: $price_gte
+    price_gt: $price_gt
+    price_lte: $price_lte
+  ) {
+    totalCount
+  }
+
+}
