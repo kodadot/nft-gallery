@@ -5,7 +5,7 @@
       v-model="modalShowStatus"
       :nft-information="nftInformation"
       @confirm="createNft" />
-    <form class="is-half column" @submit.prevent="toggleConfirm">
+    <form class="is-half column" @submit.prevent="submitHandler">
       <CreateNftPreview
         :name="form.name"
         :collection="selectedCollection?.name"
@@ -56,14 +56,20 @@
       <!-- select collections -->
       <NeoField
         :key="`collection-${currentChain}`"
-        :label="`${$t('mint.nft.collection.label')} *`">
+        :label="`${$t('mint.nft.collection.label')} *`"
+        @click="startSelectedCollection = true">
         <div class="w-100">
-          <p>{{ $t('mint.nft.collection.message') }}</p>
+          <p
+            :class="{
+              'has-text-danger': startSelectedCollection && !selectedCollection,
+            }">
+            {{ $t('mint.nft.collection.message') }}
+          </p>
           <ChooseCollectionDropdown
             full-width
             no-shadow
             class="mt-3"
-            @selectedCollection="onCollectionSelected" />
+            @selected-collection="onCollectionSelected" />
         </div>
       </NeoField>
 
@@ -256,6 +262,7 @@ const form = reactive({
 
 // select collections
 const selectedCollection = ref()
+const startSelectedCollection = ref<boolean>(false)
 
 const onCollectionSelected = (collection) => {
   selectedCollection.value = collection
@@ -315,6 +322,13 @@ const transactionStatus = ref<
 >('idle')
 const createdItems = ref()
 const mintedBlockNumber = ref()
+
+const submitHandler = () => {
+  startSelectedCollection.value = true
+  if (selectedCollection.value) {
+    toggleConfirm()
+  }
+}
 
 const toggleConfirm = () => {
   modalShowStatus.value = !modalShowStatus.value
