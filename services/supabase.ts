@@ -1,14 +1,14 @@
 import { $fetch, FetchError } from 'ofetch'
 // import consola from 'consola'
 
-const BASE_URL = 'https://mtwfjfuiknglhfozmotu.functions.supabase.co/'
+const SUPABASE_BASE_URL = 'https://mtwfjfuiknglhfozmotu.functions.supabase.co/'
 const ANON_KEY =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10d2ZqZnVpa25nbGhmb3ptb3R1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjgyMDIwMTcsImV4cCI6MTk4Mzc3ODAxN30.XCLXzu-TCPLo5nHgOWMHzb5quWE8npMolw9IgESsliQ'
 
 type Option<T> = T | null
 
 const api = $fetch.create({
-  baseURL: BASE_URL,
+  baseURL: SUPABASE_BASE_URL,
   headers: {
     Authorization: 'Bearer ' + ANON_KEY,
   },
@@ -31,7 +31,7 @@ type PromptLogResponse = {
 // URL should be sanitized ipfs://ipfs/Qm...
 export const logPrediction = async (
   replicateId: string,
-  prompt: string
+  prompt: string,
 ): Promise<PromptLogResponse> => {
   const body = {
     replicateId,
@@ -42,7 +42,7 @@ export const logPrediction = async (
     body,
   }).catch((error: FetchError) => {
     throw new Error(
-      `[SUPABASE::PROMPT] Unable to MINT for reasons ${error.data}`
+      `[SUPABASE::PROMPT] Unable to MINT for reasons ${error.data}`,
     )
   })
   return value

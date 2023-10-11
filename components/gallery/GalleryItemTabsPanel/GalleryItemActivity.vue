@@ -64,14 +64,14 @@ const checkAll = () => {
 const cssActive = (value) => {
   return {
     'events-checkbox-active': interactions.value.find(
-      (interaction) => interaction === value
+      (interaction) => interaction === value,
     ),
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/variables.scss';
 
 .gallery-activity-events-wrapper {
   height: 100%;

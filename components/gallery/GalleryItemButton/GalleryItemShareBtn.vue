@@ -22,7 +22,7 @@
       </NeoDropdownItem>
     </NeoDropdown>
 
-    <NeoModal v-model="isModalActive" @close="isModalActive = false">
+    <NeoModal :value="isModalActive" @close="isModalActive = false">
       <div class="card">
         <header class="card-header">
           <p class="card-header-title">QR Code</p>
@@ -45,8 +45,7 @@ import {
   NeoModal,
 } from '@kodadot1/brick'
 import { isMobileDevice } from '@/utils/extension'
-
-const QRCode = () => import('@/components/shared/QRCode.vue')
+import QRCode from '@/components/shared/QRCode.vue'
 
 const route = useRoute()
 const { $i18n } = useNuxtApp()
@@ -56,7 +55,7 @@ const isModalActive = ref(false)
 const sharingTxt = $i18n.t('sharing.nft')
 const realworldFullPathShare = ref(`${window.location.origin}${route.fullPath}`)
 const twitterUri = ref(
-  `https://twitter.com/intent/tweet?text=${sharingTxt}&via=KodaDot&url=${realworldFullPathShare.value}`
+  `https://twitter.com/intent/tweet?text=${sharingTxt}&via=KodaDot&url=${realworldFullPathShare.value}`,
 )
 
 const label = computed(() => (isMobileDevice ? '' : 'Share'))

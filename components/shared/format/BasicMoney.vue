@@ -21,7 +21,7 @@ const props = withDefaults(
   {
     value: 0,
     round: 4,
-  }
+  },
 )
 
 const { decimals, chainSymbol } = useChain()
@@ -32,8 +32,8 @@ const finalValue = computed(() =>
   round(
     formatBalance(checkInvalidBalanceFilter(props.value), decimals.value, ''),
     props.round,
-    false
-  )
+    false,
+  ),
 )
 
 const round = (value: string, limit: number, disableFilter: boolean) => {

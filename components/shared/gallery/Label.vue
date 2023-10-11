@@ -11,6 +11,6 @@ withDefaults(
   {
     value: '',
     tag: 'p',
-  }
+  },
 )
 </script>

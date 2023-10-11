@@ -4,13 +4,13 @@
       icon-left="grid-2"
       no-shadow
       :active="gridSize === 'large'"
-      @click.native="changeGridLayout(smallGridLayout, 'large')" />
+      @click="changeGridLayout(smallGridLayout, 'large')" />
     <NeoButton
       icon-left="grid"
       no-shadow
       class="no-border-left"
       :active="gridSize === 'medium'"
-      @click.native="changeGridLayout(smallGridLayout, 'medium')" />
+      @click="changeGridLayout(smallGridLayout, 'medium')" />
   </NeoField>
 </template>
 

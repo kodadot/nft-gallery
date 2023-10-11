@@ -11,7 +11,7 @@
       <span v-if="isCollection" class="carousel-info-arrow">----></span>
     </nuxt-link>
     <CollectionDetailsPopover v-if="item?.collectionId" :nft="item">
-      <template #trigger>
+      <template #content>
         <nuxt-link
           v-if="!isCollection && item.collectionId"
           :to="
@@ -56,7 +56,9 @@ import { prefixToToken } from '@/components/common/shoppingCart/utils'
 
 const CollectionDetailsPopover = defineAsyncComponent(
   () =>
-    import('@/components/collectionDetailsPopover/CollectionDetailsPopover.vue')
+    import(
+      '@/components/collectionDetailsPopover/CollectionDetailsPopover.vue'
+    ),
 )
 
 const props = defineProps<{

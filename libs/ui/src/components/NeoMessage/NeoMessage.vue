@@ -36,11 +36,6 @@ export default {
     NeoButton,
     NeoIcon,
   },
-  // deprecated, to replace with default 'value' in the next breaking change
-  model: {
-    prop: 'active',
-    event: 'update:active',
-  },
   props: {
     active: {
       type: Boolean,

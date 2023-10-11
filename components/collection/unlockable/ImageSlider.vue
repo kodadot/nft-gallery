@@ -15,12 +15,12 @@
       <Transition name="fade">
         <div
           class="arrow arrow-left arrow-small-size"
-          @click="slider?.moveToIdx(sliderSettings.leftCarouselIndex)" />
+          @click="slider?.prev()" />
       </Transition>
       <Transition name="fade">
         <div
           class="arrow arrow-right arrow-small-size"
-          @click="slider?.moveToIdx(sliderSettings.rightCarouselIndex)" />
+          @click="slider?.next()" />
       </Transition>
       <div ref="thumbnail" class="keen-slider thumbnail">
         <div v-for="image in imageList" :key="image" class="keen-slider__slide">
@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { useKeenSlider } from 'keen-slider/vue.es'
+import { useKeenSlider } from 'keen-slider/vue'
 import 'keen-slider/keen-slider.min.css'
 const emit = defineEmits(['select'])
 
@@ -85,34 +85,13 @@ const [thumbnail] = useKeenSlider(
       spacing: 10,
     },
   },
-  [ThumbnailPlugin(slider)]
+  [ThumbnailPlugin(slider)],
 )
-
-const sliderSettings = computed(() => {
-  if (slider.value) {
-    const { track, slides } = slider.value
-    const abs = Number(track.details.abs)
-    const perView = Number(4)
-    const leftArrowValid = abs !== 0
-    const rightArrowValid = abs + perView < slides.length
-    const leftCarouselIndex = (abs - 1 + perView) % perView
-    const rightCarouselIndex = (abs + 1) % perView
-
-    return {
-      leftArrowValid,
-      rightArrowValid,
-      leftCarouselIndex,
-      rightCarouselIndex,
-    }
-  } else {
-    return {}
-  }
-})
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
-@import '@/styles/components/carousel-arrows';
+@import '@/assets/styles/abstracts/variables';
+@import '@/assets/styles/components/carousel-arrows';
 
 .unlockable-image-slider {
   width: 580px;

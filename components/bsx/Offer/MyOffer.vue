@@ -14,11 +14,7 @@
           {{ option.value }}
         </option>
       </NeoSelect>
-      <NeoButton
-        no-shadow
-        size="medium"
-        icon-left="refresh"
-        @click.native="refresh" />
+      <NeoButton no-shadow size="medium" icon-left="refresh" @click="refresh" />
     </div>
     <Loader v-model="isLoading" :status="status" />
     <NeoTable :data="displayOffers(offers)">
@@ -63,13 +59,13 @@
           v-if="props.row.caller === accountId"
           no-shadow
           icon-left="times"
-          @click.native="onClick(props.row, true)" />
+          @click="onClick(props.row, true)" />
         <NeoButton
           v-else
           variant="success"
           no-shadow
           icon-left="money-bill"
-          @click.native="onClick(props.row, false)" />
+          @click="onClick(props.row, false)" />
       </NeoTableColumn>
       <NeoTableColumn
         v-slot="props"
@@ -93,20 +89,22 @@
 import { NeoButton, NeoSelect, NeoTable, NeoTableColumn } from '@kodadot1/brick'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import Money from '@/components/shared/format/Money.vue'
+import Loader from '@/components/shared/Loader.vue'
 
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { tokenIdToRoute } from '@/components/unique/utils'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 import { formatBsxBalanceToNumber } from '@/utils/format/balance'
+import { formatSecondsToDuration } from '@/utils/format/time'
 import { AllOfferStatusType } from '@/utils/offerStatus'
 
 import acceptableOfferByCurrentOwner from '@/queries/subsquid/bsx/acceptableOfferByCurrentOwner.graphql'
 
-import { Offer, OfferResponse } from './types'
+import { Offer } from './types'
 
 const { howAboutToExecute, initTransactionLoader, isLoading, status } =
   useMetaTransaction()
-const { $apollo, $consola, $i18n } = useNuxtApp()
+const { $consola, $i18n } = useNuxtApp()
 const { urlPrefix, client } = usePrefix()
 const { accountId, isLogIn } = useAuth()
 const { chainSymbol } = useChain()
@@ -123,11 +121,11 @@ withDefaults(
   {
     address: '',
     hideHeading: false,
-  }
+  },
 )
 
 const targetAddress = computed(
-  () => destinationAddress.value || accountId.value
+  () => destinationAddress.value || accountId.value,
 )
 
 const getUniqType = () => {
@@ -146,14 +144,12 @@ const { refresh } = useLazyAsyncData('offers', async () => {
   }
 
   try {
-    const { data } = await $apollo.query<OfferResponse>({
-      client: client.value,
+    const { data } = await useAsyncQuery({
       query: acceptableOfferByCurrentOwner,
-      variables: {
-        id: targetAddress.value,
-      },
+      variables: { id: targetAddress.value },
+      clientId: client.value,
     })
-    offers.value = data.offers
+    offers.value = data.value.offers
   } catch (e) {
     $consola.error(e)
   }
@@ -170,7 +166,7 @@ const submit = async (
   nftId: string,
   collectionId: string,
   withdraw: boolean,
-  onSuccess?: () => void
+  onSuccess?: () => void,
 ) => {
   try {
     const { apiInstance } = useApi()
@@ -187,7 +183,7 @@ const submit = async (
         : $i18n.t('offer.withdraw')
       showNotification(
         `[OFFER] Since block ${blockNumber}, ${msg}`,
-        notificationTypes.success
+        notificationTypes.success,
       )
       onSuccess && onSuccess()
     })
@@ -211,7 +207,7 @@ const displayOffers = (offers: Offer[]) => {
     filterOffers = offers.concat()
   } else {
     filterOffers = offers.filter(
-      (offer) => offer.status === selectedStatus.value
+      (offer) => offer.status === selectedStatus.value,
     )
   }
 
@@ -222,11 +218,12 @@ const displayOffers = (offers: Offer[]) => {
   }))
 }
 
-const currentBlock = ref(async () => {
+const currentBlock = ref(0)
+onMounted(async () => {
   const { apiInstance } = useApi()
   const api = await apiInstance.value
   const block = await api.rpc.chain.getHeader()
-  return block.number.toNumber()
+  currentBlock.value = block.number.toNumber()
 })
 
 const calcSecondsToBlock = (block: number): number => {

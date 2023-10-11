@@ -12,11 +12,11 @@
 </template>
 
 <script setup lang="ts">
-import { OSteps } from '@oruga-ui/oruga'
+import { OSteps } from '@oruga-ui/oruga-next'
 
 const props = withDefaults(
   defineProps<{
-    value: number
+    modelValue: number
     rounded?: boolean
     hasNavigation?: boolean
     stepSize?: string | number
@@ -27,10 +27,10 @@ const props = withDefaults(
     hasNavigation: false,
     stepSize: '0.85rem',
     mobileBreakpoint: '0',
-  }
+  },
 )
 
-const activeStep = useVModel(props, 'value')
+const activeStep = useVModel(props, 'modelValue')
 
 const computedStepSize = computed(() => {
   if (typeof props.stepSize === 'number') {

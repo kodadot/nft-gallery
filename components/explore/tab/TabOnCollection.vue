@@ -12,12 +12,14 @@
 </template>
 
 <script setup lang="ts">
+import TabItem from '@/components/shared/TabItem.vue'
+
 const route = useRoute()
 
 const toItem = computed(
-  () => `/${route.params.prefix}/collection/${route.params.id}`
+  () => `/${route.params.prefix}/collection/${route.params.id}`,
 )
 const toActivity = computed(
-  () => `/${route.params.prefix}/collection/${route.params.id}/activity`
+  () => `/${route.params.prefix}/collection/${route.params.id}/activity`,
 )
 </script>

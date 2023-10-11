@@ -9,6 +9,7 @@ import {
   getKusamaAssetId,
 } from '@/utils/api/bsx/query'
 import format from '@/utils/format/balance'
+import { chainPropListOf } from '@/utils/config/chain.config'
 
 export default function (prefix: ComputedRef<Prefix>) {
   const { apiInstanceByPrefix } = useApi()
@@ -26,6 +27,10 @@ export default function (prefix: ComputedRef<Prefix>) {
   const totalItemDeposit = ref('0')
 
   const chainSymbol = ref('')
+
+  const chain = computed(() =>
+    chainPropListOf(chainSymbol.value.toLowerCase() as Prefix),
+  )
 
   watchEffect(async () => {
     if (prefix.value) {
@@ -55,12 +60,12 @@ export default function (prefix: ComputedRef<Prefix>) {
           collectionDeposit.value +
           existentialDeposit.value,
         chain.tokenDecimals,
-        false
+        false,
       )
       totalItemDeposit.value = format(
         metadataDeposit.value + itemDeposit.value + existentialDeposit.value,
         chain.tokenDecimals,
-        false
+        false,
       )
     }
   })
@@ -76,7 +81,7 @@ export default function (prefix: ComputedRef<Prefix>) {
       if (isBasilisk.value && accountId.value) {
         const assetMetadata = await getAssetMetadataByAccount(
           api,
-          accountId.value
+          accountId.value,
         )
 
         chainSymbol.value = assetMetadata.symbol
@@ -94,7 +99,7 @@ export default function (prefix: ComputedRef<Prefix>) {
           balance.value = (
             (await api.query.tokens.accounts(
               prefixAddress,
-              getKusamaAssetId(prefix.value)
+              getKusamaAssetId(prefix.value),
             )) as PalletBalancesAccountData
           ).free.toString()
         }
@@ -113,5 +118,6 @@ export default function (prefix: ComputedRef<Prefix>) {
     totalCollectionDeposit,
     totalItemDeposit,
     chainSymbol,
+    chain,
   }
 }

@@ -9,7 +9,7 @@ export type PriceDataType = [date: Date, value: number]
 export const zip = <T1, T2, T3>(
   a: T1[],
   b: T2[],
-  cb?: (el: [T1, T2]) => T3
+  cb?: (el: [T1, T2]) => T3,
 ): T3[] | [T1, T2][] => {
   const res: [T1, T2][] = a.map((k, i) => [k, b[i]])
 
@@ -100,7 +100,7 @@ export const collectionFloorPriceList =
     return [new Date(time), floorPrice]
   }
 export const onlyBuyEvents = (
-  nftEvents: EventInteraction[]
+  nftEvents: EventInteraction[],
 ): EventInteraction[] => {
   const buyEvents: EventInteraction[] = []
   nftEvents?.forEach((e: EventInteraction, index: number) => {

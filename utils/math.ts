@@ -33,7 +33,7 @@ export function getSum(list: Array<number | number>): bigint | number {
 
 export function getSumOfObjectField<T>(
   list: Array<T>,
-  field: string
+  field: string,
 ): bigint | number {
   return list
     .map((x) => Number(x[field]))
@@ -43,7 +43,7 @@ export function getSumOfObjectField<T>(
 
 export function getNumberSumOfObjectField<T>(
   list: Array<T>,
-  field: string
+  field: string,
 ): number {
   return list
     .map((x) => Number(x[field]) || 0)

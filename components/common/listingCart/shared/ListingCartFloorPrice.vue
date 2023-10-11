@@ -13,7 +13,7 @@
         rounded
         :disabled="isDisabled"
         no-shadow
-        @click.native="
+        @click="
           floorPricePercentAdjustment > 0.05 &&
             (floorPricePercentAdjustment -= 0.05)
         " />
@@ -23,38 +23,42 @@
         :disabled="isDisabled"
         rounded
         no-shadow
-        @click.native="floorPricePercentAdjustment = 1" />
+        @click="floorPricePercentAdjustment = 1" />
       <NeoButton
         label="+5%"
         :disabled="isDisabled"
         rounded
         no-shadow
-        @click.native="floorPricePercentAdjustment += 0.05" />
+        @click="floorPricePercentAdjustment += 0.05" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import { useListingCartStore } from '@/stores/listingCart'
+import {
+  DEFAULT_FLOOR_PRICE_RATE,
+  useListingCartStore,
+} from '@/stores/listingCart'
 
-const emit = defineEmits(['input'])
-
-const props = defineProps<{
-  value: number
-  showCurrentFloorPrice?: boolean
-}>()
+const props = withDefaults(
+  defineProps<{
+    modelValue: number
+    showCurrentFloorPrice?: boolean
+  }>(),
+  {
+    modelValue: DEFAULT_FLOOR_PRICE_RATE,
+  },
+)
 
 const listingCartStore = useListingCartStore()
 
-const floorPricePercentAdjustment = useVModel(props, 'value', emit, {
-  eventName: 'input',
-})
+const floorPricePercentAdjustment = useVModel(props, 'modelValue')
 
 const isDisabled = computed(
   () =>
     !listingCartStore.itemsInChain
       .map((item) => item.collection.floor || 0)
-      .some(Boolean)
+      .some(Boolean),
 )
 </script>

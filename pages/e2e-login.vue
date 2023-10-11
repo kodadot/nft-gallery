@@ -42,12 +42,7 @@ export default {
         })
     })
 
-    return {
-      mockAddress,
-    }
-  },
-  head() {
-    return {
+    useHead({
       title: 'Mock Address Generator',
       meta: [
         {
@@ -57,6 +52,10 @@ export default {
         },
         { name: 'robots', content: 'noindex, nofollow' },
       ],
+    })
+
+    return {
+      mockAddress,
     }
   },
 }

@@ -1,4 +1,5 @@
 import { CollectionWithMeta } from '../rmrk/service/scheme'
+import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 
 export interface Drop {
   collection: CollectionWithMeta
@@ -21,15 +22,13 @@ export function useDrops(collectionId: string, clientName?: string) {
     futureDrops: [],
   })
 
-  const { data: collectionData } = useGraphql({
-    queryName: 'unlockableCollectionById',
-    clientName,
-    variables: {
-      id: collectionId,
-    },
-  })
+  const { result: collectionData } = useQuery(
+    unlockableCollectionById,
+    { id: collectionId },
+    { clientId: clientName },
+  )
 
-  watch(collectionData, () => {
+  watchEffect(() => {
     if (collectionData.value?.collectionEntity) {
       const { collectionEntity, nftEntitiesConnection } = collectionData.value
       const drops: Drop[] = []

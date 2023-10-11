@@ -15,26 +15,28 @@
       </div>
       <Transition name="fade">
         <div
-          v-if="sliderSettings.leftArrowValid"
+          v-if="leftArrowValid"
           class="arrow arrow-left"
-          @click="slider?.moveToIdx(sliderSettings.leftCarouselIndex)"></div>
+          @click="slider?.moveToIdx(leftCarouselIndex)"></div>
       </Transition>
       <Transition name="fade">
         <div
-          v-if="sliderSettings.rightArrowValid"
+          v-if="rightArrowValid"
           class="arrow arrow-right"
-          @click="slider?.moveToIdx(sliderSettings.rightCarouselIndex)"></div>
+          @click="slider?.moveToIdx(rightCarouselIndex)"></div>
       </Transition>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import CarouselMedia from './CarouselMedia.vue'
+import CarouselInfo from './CarouselInfo.vue'
 import type { CarouselNFT } from '@/components/base/types'
 
 import 'keen-slider/keen-slider.min.css'
-import { useKeenSlider } from 'keen-slider/vue.es'
-import { wheelControls } from '../utils/useCarousel'
+import { useKeenSlider } from 'keen-slider/vue'
+import { CarouselWheelsPlugin } from '../utils/useCarousel'
 
 const slots = useSlots()
 const props = defineProps<{
@@ -47,13 +49,37 @@ const isCollection = computed(() => url.includes('collection'))
 provide('isCollection', isCollection.value)
 
 const current = ref(0)
+const leftArrowValid = ref(false)
+const rightArrowValid = ref(false)
+const leftCarouselIndex = ref(0)
+const rightCarouselIndex = ref(0)
+
+const sliderSettings = (slider) => {
+  if (slider) {
+    const { track, options, slides } = slider
+    const abs = Number(track.details.abs)
+    const perView = Number(options.slides.perView)
+
+    leftArrowValid.value = abs !== 0
+    rightArrowValid.value = abs + perView < slides.length
+    leftCarouselIndex.value = Math.max(abs - props.step, 0)
+    rightCarouselIndex.value = Math.min(
+      abs + props.step,
+      slides.length - perView,
+    )
+  }
+}
 
 const [wrapper, slider] = useKeenSlider(
   {
     initial: current.value,
     rubberband: false,
+    created: (s) => {
+      sliderSettings(s)
+    },
     slideChanged: (s) => {
       current.value = s.track.details.rel
+      sliderSettings(s)
     },
     detailsChanged: (s) => {
       s.slides.forEach((slide, index) => {
@@ -83,32 +109,8 @@ const [wrapper, slider] = useKeenSlider(
     },
     slides: { perView: 1.5, spacing: 32 },
   },
-  [wheelControls]
+  [CarouselWheelsPlugin],
 )
-
-const sliderSettings = computed(() => {
-  if (slider.value) {
-    const { track, options, slides } = slider.value
-    const abs = Number(track.details.abs)
-    const perView = Number(options.slides.perView)
-    const leftArrowValid = abs !== 0
-    const rightArrowValid = abs + perView < slides.length
-    const leftCarouselIndex = Math.max(abs - props.step, 0)
-    const rightCarouselIndex = Math.min(
-      abs + props.step,
-      slides.length - perView
-    )
-
-    return {
-      leftArrowValid,
-      rightArrowValid,
-      leftCarouselIndex,
-      rightCarouselIndex,
-    }
-  } else {
-    return {}
-  }
-})
 </script>
 
 <style scoped lang="scss">

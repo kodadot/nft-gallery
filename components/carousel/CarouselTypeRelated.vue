@@ -1,5 +1,5 @@
 <template>
-  <CarouselIndex :title="`${$t('nft.related')}`" :nfts="nfts" />
+  <CarouselIndex v-if="nfts" :title="`${$t('nft.related')}`" :nfts="nfts" />
 </template>
 
 <script lang="ts" setup>
@@ -9,5 +9,5 @@ const props = defineProps<{
   collectionId: string
 }>()
 
-const { nfts } = useCarouselRelated({ collectionId: props.collectionId })
+const { nfts } = await useCarouselRelated({ collectionId: props.collectionId })
 </script>

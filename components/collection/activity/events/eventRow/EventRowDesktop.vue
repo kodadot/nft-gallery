@@ -77,6 +77,7 @@ import {
   InteractionWithNFT,
   Offer,
 } from '@/composables/collectionActivity/types'
+import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 import {
@@ -99,7 +100,8 @@ const avatar = ref<string>()
 const { placeholder } = useTheme()
 
 const interactionName = computed(
-  () => interactionNameMap()[props.event.interaction] || props.event.interaction
+  () =>
+    interactionNameMap()[props.event.interaction] || props.event.interaction,
 )
 const amount = computed(() => getAmount(props.event))
 

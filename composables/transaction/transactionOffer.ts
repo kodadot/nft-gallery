@@ -9,7 +9,7 @@ import type { ActionOffer } from './types'
 export async function execMakeOfferTx(
   item: ActionOffer,
   api,
-  executeTransaction
+  executeTransaction,
 ) {
   try {
     const currentBlock = await (await api.query.system.number()).toNumber()
@@ -23,7 +23,7 @@ export async function execMakeOfferTx(
         ShoppingActions.MAKE_OFFER,
         meta,
         item.currentOwner,
-        expiration
+        expiration,
       ),
     })
   } catch (error) {

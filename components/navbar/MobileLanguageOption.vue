@@ -7,11 +7,11 @@
     <a
       v-for="lang in langsFlags"
       :key="lang.value"
-      class="navbar-item"
-      :class="{ 'is-active': userLang === lang.value }"
       :value="lang.value"
       aria-role="listitem"
       has-link
+      class="navbar-item"
+      :class="{ 'is-active': $i18n.locale === lang.value }"
       @click="setUserLang(lang.value)">
       <div>{{ lang.flag }} {{ lang.label }}</div>
     </a>
@@ -19,24 +19,14 @@
 </template>
 
 <script lang="ts" setup>
-import { useLangStore } from '@/stores/lang'
 import { langsFlags } from '@/utils/config/i18n'
-
-const MobileExpandableSection = defineAsyncComponent(
-  () => import('@/components/navbar/MobileExpandableSection.vue')
-)
+import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
 
 const { $i18n } = useNuxtApp()
-const langStore = useLangStore()
-const userLang = computed(() => {
-  $i18n.locale = langStore.language.userLang
-  return langStore.language.userLang
-})
 const emit = defineEmits(['closeLanguageOption'])
 
 const setUserLang = (value: string) => {
-  langStore.setLanguage({ userLang: value })
-  $i18n.locale = value
+  $i18n.locale.value = value
   emit('closeLanguageOption')
 }
 </script>
