@@ -6,8 +6,8 @@
     class="tag"
     :class="[
       { 'is-blue-tag': isBlueTag },
-      `tag--${variant}`, 
-      `tag-size--${size}`, 
+      `tag--${variant}`,
+      `tag-size--${size}`,
     ]">
     <slot></slot>
     <NeoIcon
@@ -23,19 +23,21 @@
 import { NeoIcon } from '@kodadot1/brick'
 
 type TagSize = 'small' | 'medium'
-type TagVariant = 'primary' | 'k-blue'| 'transparent'
+type TagVariant = 'primary' | 'k-blue' | 'transparent'
 
 withDefaults(
-defineProps<{
-  closable?: boolean
-  isBlueTag?: boolean
-  size?: TagSize
-  variant?: TagVariant
-}>(), {
-  closable: false,
-  size: 'medium',
-  variant: 'primary'
-})
+  defineProps<{
+    closable?: boolean
+    isBlueTag?: boolean
+    size?: TagSize
+    variant?: TagVariant
+  }>(),
+  {
+    closable: false,
+    size: 'medium',
+    variant: 'primary',
+  },
+)
 
 const emit = defineEmits(['close'])
 const onClose = () => {
@@ -53,10 +55,10 @@ const onClose = () => {
 
   &--primary {
     @include ktheme() {
-    border: 1px solid theme('k-primary');
-    background-color: theme('k-accentlight2');
-    color: theme('text-color');
-    .cross-icon {
+      border: 1px solid theme('k-primary');
+      background-color: theme('k-accentlight2');
+      color: theme('text-color');
+      .cross-icon {
         &:hover {
           color: theme('k-grey');
         }
@@ -71,7 +73,7 @@ const onClose = () => {
       background: transparent;
     }
   }
-  
+
   &--k-blue {
     @include ktheme() {
       border: 1px solid theme('k-blue');
@@ -85,8 +87,9 @@ const onClose = () => {
     }
 
     &--small {
+      font-size: 0.75rem !important;
       padding: 0 0.5rem !important;
-      height: min-content
+      height: min-content;
     }
   }
 
