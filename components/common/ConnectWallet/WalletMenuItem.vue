@@ -6,13 +6,19 @@
       <span>
         <div
           class="is-flex is-justify-content-space-between is-align-items-center">
-          <span>
+          <span class="is-flex is-align-items-center">
             <img
               :src="wallet.img"
               :alt="wallet.extensionName"
               width="32"
               style="vertical-align: middle" />
             <span class="is-size-6 ml-2 is-capitalized">{{ wallet.name }}</span>
+
+            <div
+              v-if="isRecent(wallet)"
+              class="border border-rounded border-k-shade is-capitalized ml-2 px-2 is-size-7">
+              {{ $t('recent') }}
+            </div>
           </span>
 
           <NeoIcon v-if="!wallet.installed" icon="download" />
@@ -82,12 +88,19 @@ const emit = defineEmits(['setWallet', 'setAccount'])
 const walletStore = useWalletStore()
 const isAuth = ref(false)
 
+const isRecent = (wallet: BaseDotsamaWallet) =>
+  walletStore.getRecentWallet === wallet.source
+
 const emitAccountChange = (account): void => {
   emit('setAccount', account)
-  const walletName = walletAccounts.value.find(
+  const wallet = walletAccounts.value.find(
     (wallet) => wallet.address === account.address,
-  )?.name
-  walletStore.setWalletName({ name: walletName })
+  )
+
+  const walletName = wallet?.name ?? ''
+  const source = wallet?.source ?? ''
+
+  walletStore.setWallet({ name: walletName, extension: source })
 }
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
 
