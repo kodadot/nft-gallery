@@ -45,7 +45,7 @@ const props = withDefaults(
     noShadow: false,
     maxHeight: '80vh',
     mobileBreakpoint: '768px',
-    appendToBody: false,
+    appendToBody: true,
   },
 )
 
