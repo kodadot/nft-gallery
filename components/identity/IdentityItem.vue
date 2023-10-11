@@ -11,7 +11,8 @@
         :tag="NuxtLink"
         :to="`/${prefix}/u/${account}`"
         size="small"
-        icon="arrow-right-long">
+        icon="arrow-right-long"
+        @click="closeModal">
         {{ buttonLabel }}
       </NeoButton>
     </div>
@@ -38,6 +39,9 @@ import Identity from '@/components/identity/IdentityIndex.vue'
 import { resolveComponent } from 'vue'
 
 const NuxtLink = resolveComponent('NuxtLink')
+const { neoModal } = useProgrammatic()
+
+const closeModal = () => neoModal.closeAll()
 
 withDefaults(
   defineProps<{
