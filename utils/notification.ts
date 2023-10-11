@@ -1,5 +1,7 @@
+import MessageNotify from '@/components/MessageNotify.vue'
 import { NeoNotificationProgrammatic as Notif } from '@kodadot1/brick'
 import consola from 'consola'
+import { h } from 'vue'
 
 export const notificationTypes = {
   success: {
@@ -32,6 +34,27 @@ export const showNotification = (
     duration,
     closable: true,
     ...params,
+  })
+}
+
+export const showLargeNotification = ({
+  message,
+  title,
+  duration = 10000,
+}: {
+  message: string
+  title?: string
+  duration?: number
+}): void => {
+  Notif.open({
+    component: h(MessageNotify, {
+      title: title,
+      subtitle: message,
+      noToast: true,
+    }),
+    duration,
+    variant: 'component',
+    closable: true,
   })
 }
 

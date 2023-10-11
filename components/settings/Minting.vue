@@ -4,14 +4,14 @@
       {{ $t('Minting Settings') }}
     </div>
     <div class="py-2 is-flex">
-      <Support :value="hasSupport" :show-price="false" />
+      <Support v-model="hasSupport" :show-price="false" />
       <NeoTooltip :label="$t('support.tooltip')" position="bottom" multiline>
         <NeoIcon icon="info-circle" />
       </NeoTooltip>
     </div>
     <div class="py-2 is-flex">
       <Support
-        :value="hasCarbonOffset"
+        v-model="hasCarbonOffset"
         :price="1"
         :active-message="$t('carbonOffset.carbonOffsetYes')"
         :passive-message="$t('carbonOffset.carbonOffsetNo')" />
