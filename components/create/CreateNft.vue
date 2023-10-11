@@ -330,7 +330,7 @@ const submitHandler = () => {
   if (selectedCollection.value) {
     toggleConfirm()
   } else {
-    ;(chooseCollectionRef.value?.$el as HTMLElement).scrollIntoView({
+    ;(chooseCollectionRef.value?.$el as HTMLElement)?.scrollIntoView({
       block: 'center',
     })
   }
