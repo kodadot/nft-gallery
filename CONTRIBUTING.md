@@ -13,6 +13,8 @@ We might give retro-active reward, where the bounty label wasn't present, **if w
 ## Deploy Kodadot nft gallery to Netlify
  [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/kodadot/nft-gallery)
 
+ Learn How to Deploy kodadot nft-gallery to Netlify using this [Tutorial](https://youtu.be/uzoS9nc5JjE)
+
 ## Getting started
 
 Before you being:
