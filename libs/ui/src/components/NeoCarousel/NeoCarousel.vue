@@ -1,5 +1,5 @@
 <script lang="ts">
-import { OCarousel } from '@oruga-ui/oruga'
+import { OCarousel } from '@oruga-ui/oruga-next'
 
 export default {
   extends: OCarousel,
@@ -7,12 +7,12 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@oruga-ui/oruga/src/scss/utilities/expressions.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/variables.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/expressions.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/variables.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/animations.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/helpers.scss';
 
 $carousel-indicators-background: inherit;
 
-@import '@oruga-ui/oruga/src/scss/components/_carousel.scss';
+@import '@oruga-ui/oruga-next/src/scss/components/_carousel.scss';
 </style>

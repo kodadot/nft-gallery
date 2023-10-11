@@ -1,25 +1,17 @@
 <template>
-  <MediaResolver
-    :src="properSrc"
-    :mime-type="properType"
-    :poster="poster"
-    preview />
+  <MediaItem :src="properSrc" :mime-type="properType" preview />
 </template>
 
 <script lang="ts" setup>
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { getMimeType } from '@/utils/gallery/media'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
-
-const MediaResolver = defineAsyncComponent(
-  () => import('@/components/media/MediaResolver.vue')
-)
+import { MediaItem } from '@kodadot1/brick'
 
 const props = defineProps({
   src: { type: String, default: '' },
   metadata: { type: String, default: '' },
   mimeType: { type: String, default: '' },
-  poster: { type: String, default: '' },
 })
 
 const type = ref('')

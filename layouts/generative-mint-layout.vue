@@ -18,7 +18,7 @@
                 :has-img="false"
                 error-title="Offline Detected"
                 error-subtitle="Please check your network connections" />
-              <Nuxt v-else />
+              <NuxtPage v-else />
             </div>
           </div>
         </div>
@@ -35,7 +35,7 @@ import { NAME } from '@/components/generative/promptBuilder'
 const { $config } = useNuxtApp()
 const route = useRoute()
 
-useNuxt2Meta({
+useHead({
   link: [
     {
       hid: 'canonical',
@@ -47,15 +47,20 @@ useNuxt2Meta({
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .hero .subtitle {
   letter-spacing: -0.02em;
   @include ktheme() {
     color: theme('text-color-inverse');
-    text-shadow: 1px 1px 0 theme('text-color'), 1px -1px 0 theme('text-color'),
-      -1px 1px 0 theme('text-color'), -1px -1px 0 theme('text-color'),
-      1px 0px 0 theme('text-color'), 0px 1px 0 theme('text-color'),
-      -1px 0px 0 theme('text-color'), 0px -1px 0 theme('text-color'),
+    text-shadow:
+      1px 1px 0 theme('text-color'),
+      1px -1px 0 theme('text-color'),
+      -1px 1px 0 theme('text-color'),
+      -1px -1px 0 theme('text-color'),
+      1px 0px 0 theme('text-color'),
+      0px 1px 0 theme('text-color'),
+      -1px 0px 0 theme('text-color'),
+      0px -1px 0 theme('text-color'),
       4px 4px theme('text-color');
   }
 }

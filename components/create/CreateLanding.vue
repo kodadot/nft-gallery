@@ -77,7 +77,7 @@ const gotoPathAfterLogin = (path: RawLocation) => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .container {
   height: calc(100vh - 5.25rem); // 5.25rem = header height

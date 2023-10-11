@@ -2,7 +2,7 @@
   <div>
     <template v-if="profileMode">
       <slot name="extra" />
-      <nuxt-link :to="`${route}/${param}`" :tag="tag">
+      <nuxt-link :to="`${route}/${param}`">
         <slot />
       </nuxt-link>
     </template>
@@ -24,20 +24,18 @@ const props = withDefaults(
   defineProps<{
     route?: string
     link?: string
-    tag?: string
     param?: string
   }>(),
   {
     route: '/rmrk/gallery',
     link: 'rmrk/gallery',
-    tag: 'a',
     param: '',
-  }
+  },
 )
 
 const profileMode = !isShareMode
 
 const hrefLink = computed(
-  () => `${window.location.origin}/${props.link}/${props.param}`
+  () => `${window.location.origin}/${props.link}/${props.param}`,
 )
 </script>

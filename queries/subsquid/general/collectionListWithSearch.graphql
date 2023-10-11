@@ -20,7 +20,7 @@ query collectionListWithSearch(
   ) {
     ...collection
     ...collectionDetails
-    nfts {
+    nfts(where: { burned_eq: false }) {
       id
       metadata
       name

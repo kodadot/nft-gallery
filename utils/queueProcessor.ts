@@ -5,7 +5,7 @@ let isProcessing = false
 
 export const processQueue = async (
   batchSize: number,
-  gap: number
+  gap: number,
 ): Promise<void> => {
   if (taskQueue.length === 0 || isProcessing) {
     return

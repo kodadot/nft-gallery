@@ -25,7 +25,7 @@ const props = withDefaults(
   }>(),
   {
     provider: 'subscan',
-  }
+  },
 )
 
 const blockExplorer = computed(() => blockExplorerOf(urlPrefix.value))

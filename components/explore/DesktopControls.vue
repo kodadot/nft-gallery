@@ -24,16 +24,16 @@ import ChainDropdown from '@/components/common/ChainDropdown.vue'
 
 const route = useRoute()
 
-const isCollection = computed(() =>
-  route.name?.includes('prefix-explore-collectibles')
+const isCollection = computed(
+  () => route.name?.includes('prefix-explore-collectibles'),
 )
-const isActivityTab = computed(() =>
-  route.name?.includes('prefix-collection-id-activity')
+const isActivityTab = computed(
+  () => route.name?.includes('prefix-collection-id-activity'),
 )
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .gap {
   gap: 1.5rem;

@@ -5,7 +5,7 @@ import { NftResources, getNftMetadata } from '@/composables/useNft'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import type { NFTWithMetadata } from '@/composables/useNft'
-import { Ref } from '@nuxt/bridge/dist/runtime/composables'
+import type { Ref } from 'vue'
 
 interface NFTData {
   nftEntity?: NFTWithMetadata
@@ -68,9 +68,6 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     variables: {
       id,
     },
-    options: {
-      fetchPolicy: 'network-only',
-    },
   })
 
   useSubscriptionGraphql({
@@ -95,18 +92,24 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
 
     nft.value = nftEntity
 
-    const resources = nftEntity.resources?.map((resource) => {
+    const resources = nftEntity.resources?.map((resource, index) => {
       const imageSrc =
         resource.meta?.animationUrl ||
         resource.src ||
         resource.meta?.image ||
         resource.thumb
 
+      let animationUrl = resource.meta?.animationUrl
+
+      if (index === 0 && !animationUrl) {
+        animationUrl = nftEntity.meta.animation_url
+      }
+
       return {
         ...resource,
         src: sanitizeIpfsUrl(imageSrc),
         thumb: sanitizeIpfsUrl(resource.thumb || resource.meta?.image),
-        animation: sanitizeIpfsUrl(resource.meta?.animationUrl),
+        animation: sanitizeIpfsUrl(animationUrl),
       }
     })
 

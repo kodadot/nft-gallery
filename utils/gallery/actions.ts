@@ -16,6 +16,6 @@ export const isOwner = (accountId: string, owner: string): boolean => {
   return Boolean(
     isLoggedIn(accountId) &&
       isLoggedIn(owner) &&
-      isSameAccount(accountId, owner)
+      isSameAccount(accountId, owner),
   )
 }

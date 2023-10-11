@@ -15,7 +15,7 @@
             {{ $t('general.filters') }}
           </p>
           <a class="card-header-icon">
-            <NeoIcon icon="x" @click.native="onClose" />
+            <NeoIcon icon="x" @click="onClose" />
           </a>
         </div>
         <EventTypeFilter
@@ -36,13 +36,13 @@
           label="Reset All"
           variant="primary"
           class="is-flex-grow-1 mw-9 h-3_5 is-shadowless"
-          @click.native="resetFilters">
+          @click="resetFilters">
           {{ $t('general.resetAll') }}
         </NeoButton>
         <NeoButton
           variant="k-accent"
           class="is-flex-grow-1 mw-9 h-3_5"
-          @click.native="applyFilters">
+          @click="applyFilters">
           {{ $t('general.apply') }}
         </NeoButton>
       </div>
@@ -68,7 +68,7 @@ const exploreFiltersStore = useExploreFiltersStore()
 const activityFiltersStore = useAcivityFiltersStore()
 
 const isCollectionActivityTab = computed(
-  () => route.name === 'prefix-collection-id-activity'
+  () => route.name === 'prefix-collection-id-activity',
 )
 
 const isExploreItems = computed(() => route.name === 'prefix-explore-items')
@@ -192,7 +192,7 @@ watch(() => route.query, syncFromUrl, { immediate: true })
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .is-fullheight {
   height: 100%;
 }
@@ -219,7 +219,7 @@ watch(() => route.query, syncFromUrl, { immediate: true })
 </style>
 
 <style lang="scss">
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 .background-color .o-side {
   &__content {
     @include ktheme() {

@@ -1,7 +1,7 @@
-@import '@oruga-ui/oruga/src/scss/utilities/expressions.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/variables.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/expressions.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/variables.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/animations.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/helpers.scss';
 
 $inputitems-border-width: 0;
 $inputitems-border-radius: 0;
@@ -9,8 +9,8 @@ $inputitems-item-border-radius: 0;
 $autocomplete-menu-border-radius: 0;
 
 @import '../NeoInput/NeoInput.scss';
-@import '@oruga-ui/oruga/src/scss/components/autocomplete.scss';
-@import '@oruga-ui/oruga/src/scss/components/inputitems.scss';
+@import '@oruga-ui/oruga-next/src/scss/components/autocomplete.scss';
+@import '@oruga-ui/oruga-next/src/scss/components/inputitems.scss';
 
 .o-inputit__container {
   padding-top: 0;

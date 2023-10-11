@@ -8,21 +8,17 @@
       :mobile-modal="false"
       aria-role="list"
       position="bottom-auto"
+      data-testid="explore-sort-dropdown"
       @change="onChange">
       <template #trigger="{ active }">
         <NeoButton
           :active="active"
           type="button"
           :icon="active ? 'chevron-up' : 'chevron-down'"
-          class="has-text-left is-hidden-mobile"
-          data-testid="explore-sort">
+          class="has-text-left is-hidden-mobile">
           {{ $i18n.t('sort.collection.sortBy') }}
         </NeoButton>
-        <NeoButton
-          type="button"
-          icon="filter"
-          class="is-hidden-tablet"
-          data-testid="explore-sort" />
+        <NeoButton type="button" icon="filter" class="is-hidden-tablet" />
 
         <ActiveCount v-if="selectedSort.length" :count="selectedSort.length" />
       </template>
@@ -68,7 +64,7 @@ const { urlPrefix } = usePrefix()
 const { isRemark } = useIsChain(urlPrefix)
 
 const isItems = computed(
-  () => route.path.includes('items') || route.path.includes('collection')
+  () => route.path.includes('items') || route.path.includes('collection'),
 )
 const options = computed(() => {
   let sortBy: string[]
@@ -128,7 +124,7 @@ watch(
   () => route.query.sort,
   (sort) => {
     selectedSort.value = sort as string[]
-  }
+  },
 )
 
 onMounted(() => {
@@ -145,7 +141,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/variables';
 
 .sort {
   position: relative;

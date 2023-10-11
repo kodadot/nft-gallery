@@ -19,7 +19,7 @@ export const unlockableDesc = (value: number) => `
 export async function createUnlockableMetadata(
   imageHash: string,
   description: string,
-  name: string = UNLOCKABLE_NAME
+  name: string = UNLOCKABLE_NAME,
 ) {
   const meta = createMetadata(
     name,
@@ -28,7 +28,7 @@ export async function createUnlockableMetadata(
     undefined,
     [],
     'kodadot.xyz',
-    'image/png'
+    'image/png',
   )
 
   const metaHash = await pinJson(meta, 'claimable')

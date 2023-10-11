@@ -1,7 +1,7 @@
 const shortAddress = (
   address: string,
   begin?: number,
-  end?: number
+  end?: number,
 ): string => {
   begin = begin ? begin : 6
   end = end ? end : -6

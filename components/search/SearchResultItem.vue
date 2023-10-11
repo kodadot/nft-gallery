@@ -40,7 +40,7 @@ withDefaults(
   {
     isLoading: false,
     image: '',
-  }
+  },
 )
 </script>
 

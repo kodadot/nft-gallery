@@ -36,7 +36,7 @@ withDefaults(
   }>(),
   {
     label: 'label',
-  }
+  },
 )
 const isOpen = ref(false)
 </script>

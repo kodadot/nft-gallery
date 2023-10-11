@@ -1,29 +1,22 @@
 <template>
   <div>
-    <div v-if="!isVisible && !hideSearchInput" class="row">
-      <div v-if="priceRangeDirty && !hideFilter" class="is-size-7">
-        <PriceRange inline />
-      </div>
-    </div>
-    <div class="columns mb-0">
-      <NeoField class="column is-8 mb-0 mr-2" :class="searchColumnClass">
-        <slot name="next-filter"></slot>
-        <SearchBar
-          v-if="!hideSearchInput"
-          ref="searchRef"
-          v-model="name"
-          :query="query"
-          data-testid="search-bar"
-          @redirect="redirectToGalleryPageIfNeed"
-          @enter="nativeSearch"
-          @blur="onBlur" />
-        <div v-if="!isVisible && hideSearchInput">
-          <div v-if="priceRangeDirty" class="is-size-7">
-            <PriceRange inline />
-          </div>
+    <NeoField :class="searchColumnClass">
+      <slot name="next-filter"></slot>
+      <SearchBar
+        v-if="!hideSearchInput"
+        ref="searchRef"
+        v-model="name"
+        :query="query"
+        data-testid="search-bar"
+        @redirect="redirectToGalleryPageIfNeed"
+        @enter="nativeSearch"
+        @blur="onBlur" />
+      <div v-if="!isVisible && hideSearchInput">
+        <div v-if="priceRangeDirty" class="is-size-7">
+          <PriceRange inline />
         </div>
-      </NeoField>
-    </div>
+      </div>
+    </NeoField>
   </div>
 </template>
 
@@ -33,6 +26,7 @@ import { SearchQuery } from './types'
 import { NFT_SQUID_SORT_CONDITION_LIST } from '@/utils/constants'
 import { NeoField } from '@kodadot1/brick'
 import PriceRange from '@/components/shared/format/PriceRange.vue'
+import SearchBar from '@/components/search/SearchBar.vue'
 import { useCollectionSearch } from '@/components/search/utils/useCollectionSearch'
 
 const searchPageRoutePathList = ['collectibles', 'items']
@@ -53,7 +47,7 @@ const props = withDefaults(
     listed: false,
     hideFilter: false,
     hideSearchInput: false,
-  }
+  },
 )
 
 const emit = defineEmits<{
@@ -88,7 +82,9 @@ const query = reactive<SearchQuery>({
 
 const urlSearchQuery = computed(() => route.query.search)
 const routePathList = computed(() =>
-  searchPageRoutePathList.map((route) => `/${urlPrefix.value}/explore/${route}`)
+  searchPageRoutePathList.map(
+    (route) => `/${urlPrefix.value}/explore/${route}`,
+  ),
 )
 const searchQuery = computed({
   get() {
@@ -152,15 +148,15 @@ const replaceUrl = useDebounceFn(
     // if a searchbar request or filter is set, pagination should always revert to page 1
     emit('resetPage')
   },
-  100
+  100,
 )
 
 const updateSortBy = useDebounceFn((value: string[] | string) => {
   const final = (Array.isArray(value) ? value : [value]).filter((condition) =>
-    NFT_SQUID_SORT_CONDITION_LIST.includes(condition)
+    NFT_SQUID_SORT_CONDITION_LIST.includes(condition),
   )
   const listed = final.some(
-    (condition) => condition.toLowerCase().indexOf('price') > -1
+    (condition) => condition.toLowerCase().indexOf('price') > -1,
   )
   if (listed && !vListed.value) {
     vListed.value = true

@@ -4,7 +4,7 @@
       <p class="label">
         {{ $t('Chart') }}
       </p>
-      <NeoButton variant="primary" no-shadow @click.native="emit('resetZoom')">
+      <NeoButton variant="primary" no-shadow @click="emit('resetZoom')">
         Reset zoom
       </NeoButton>
     </div>
@@ -57,7 +57,7 @@ onMounted(() => {
 
 watch(
   () => props.priceData,
-  () => priceChart
+  () => priceChart,
 )
 
 const priceChart = () => {
@@ -86,7 +86,7 @@ const priceChart = () => {
       datasets.value.push({
         label: 'Trailing Average',
         data: getMovingAverage(
-          getCollectionChartData(props.priceData[1], mapToAverage)
+          getCollectionChartData(props.priceData[1], mapToAverage),
         ),
         borderColor: 'yellow',
         ...baseLineOptions,

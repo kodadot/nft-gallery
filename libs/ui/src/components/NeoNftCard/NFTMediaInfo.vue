@@ -60,11 +60,11 @@ const props = withDefaults(
   {
     collectionPopoverShowDelay: 500,
     variant: 'primary',
-  }
+  },
 )
 
 const isMinimal = computed(() =>
-  props.variant ? props.variant.includes('minimal') : false
+  props.variant ? props.variant.includes('minimal') : false,
 )
 </script>
 

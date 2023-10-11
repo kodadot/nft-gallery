@@ -1,14 +1,14 @@
 @import '../../scss/variable.scss';
 @import '../../scss/theme.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/expressions.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/variables.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/animations.scss';
-@import '@oruga-ui/oruga/src/scss/utilities/helpers.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/expressions.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/variables.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/animations.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/helpers.scss';
 
 $field-margin-bottom: 0.5rem;
 $field-label-font-weight: 700;
 
-@import '@oruga-ui/oruga/src/scss/components/field.scss';
+@import '@oruga-ui/oruga-next/src/scss/components/field.scss';
 
 .o-field {
   &--error .o-input {

@@ -29,7 +29,7 @@
       <EventRow
         v-for="(event, i) in displayedEvents.slice(
           0,
-          displayedEvents.length - 1
+          displayedEvents.length - 1,
         )"
         :key="i"
         :variant="variant"
@@ -61,7 +61,7 @@ const props = withDefaults(
   }>(),
   {
     events: () => [],
-  }
+  },
 )
 
 const offset = ref(10)
@@ -98,7 +98,7 @@ watch(
   () => {
     displayedEvents.value = filteredEvents.value.slice(0, offset.value)
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 const handleIntersection = (entries: IntersectionObserverEntry[]) => {

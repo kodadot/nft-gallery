@@ -8,7 +8,7 @@
       <NeoButton
         :label="$t('massmint.onboarding.skip')"
         icon="arrow-right"
-        @click.native="toMassMint" />
+        @click="toMassMint" />
     </div>
     <div class="is-relative mb-6">
       <div
@@ -43,7 +43,7 @@
                   :label="tab.label"
                   :active="activeDescriptionTab === tab.label"
                   class="filter-tag"
-                  @click.native="activeDescriptionTab = tab.label" />
+                  @click="activeDescriptionTab = tab.label" />
               </div>
             </div>
             <Markdown
@@ -73,7 +73,7 @@
         :label="btn.label"
         class="is-flex-grow-1 limit-width h-auto py-3"
         :variant="btn.variant"
-        @click.native="btn.onClick" />
+        @click="btn.onClick" />
     </div>
   </div>
 </template>
@@ -84,6 +84,7 @@ import OnBoardingCard from './OnBoardingCard.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 import { descriptionTabs } from './descriptionTabs'
 import { SwipeDirection, useSwipe } from '@vueuse/core'
+import Markdown from '@/components/shared/Markdown.vue'
 
 const router = useRouter()
 const { urlPrefix } = usePrefix()
@@ -146,13 +147,13 @@ const btn = computed(() =>
         label: $i18n.t('massmint.onboarding.next'),
         variant: 'primary' as NeoButtonVariant,
         onClick: nextSlide,
-      }
+      },
 )
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/abstracts/variables';
-@import '@/styles/components/carousel-arrows';
+@import '@/assets/styles/abstracts/variables';
+@import '@/assets/styles/components/carousel-arrows';
 
 $card-width-percents: 54%;
 $gap-percents: 5.5%;
