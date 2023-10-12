@@ -76,7 +76,6 @@ import { NeoSkeleton } from '@kodadot1/brick'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
-import Money from '@/components/shared/format/Money.vue'
 
 import type { Metadata } from '@/components/rmrk/service/scheme'
 import TimeTag from './TimeTag.vue'

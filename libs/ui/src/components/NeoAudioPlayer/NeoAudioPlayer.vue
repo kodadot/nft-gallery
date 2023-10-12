@@ -34,7 +34,7 @@
           'is-flex is-align-items-center is-justify-items-center':
             !isWaveformReady,
         }">
-        <Waveform
+        <NeoWaveform
           v-show="isWaveformReady"
           :class="{
             'is-clickable': canStartPlaying,
@@ -63,7 +63,7 @@
 import { useEventListener, useMediaControls } from '@vueuse/core'
 import { NeoButton, NeoIcon, NeoSkeleton } from '@kodadot1/brick'
 import { getRandomValues } from '@/components/unique/utils'
-import Waveform from './Waveform/Waveform.vue'
+import NeoWaveform from './NeoWaveform.vue'
 
 defineProps<{
   src?: string

@@ -34,11 +34,11 @@ import { NeoButton, NeoModal } from '@kodadot1/brick'
 import { NFT } from '../types'
 
 const props = defineProps<{
-  value: boolean
+  modelValue: boolean
   nft: NFT
 }>()
 
-const isModalActive = useVModel(props, 'value')
+const isModalActive = useVModel(props, 'modelValue')
 
 const emit = defineEmits(['close', 'delete'])
 

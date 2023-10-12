@@ -6,13 +6,21 @@
       <span>
         <div
           class="is-flex is-justify-content-space-between is-align-items-center">
-          <span>
+          <span class="is-flex is-align-items-center">
             <img
               :src="wallet.img"
               :alt="wallet.extensionName"
               width="32"
               style="vertical-align: middle" />
             <span class="is-size-6 ml-2 is-capitalized">{{ wallet.name }}</span>
+
+            <NeoTag
+              v-if="isRecent(wallet)"
+              class="is-capitalized ml-2"
+              variant="transparent"
+              size="small">
+              {{ $t('recent') }}
+            </NeoTag>
           </span>
 
           <NeoIcon v-if="!wallet.installed" icon="download" />
@@ -28,7 +36,7 @@
       class="pl-5 pt-2 pb-2 is-flex is-align-items-center auth-tip">
       <NeoIcon icon="spinner-third" />
       <span class="has-text-grey is-size-7 pl-4">
-        {{ $i18n.t('walletConnect.authTip') }}
+        {{ $t('walletConnect.authTip') }}
       </span>
     </div>
 
@@ -68,6 +76,7 @@ import shortAddress from '@/utils/shortAddress'
 import { useWalletStore } from '@/stores/wallet'
 import { NeoIcon } from '@kodadot1/brick'
 import Avatar from '@/components/shared/Avatar.vue'
+import NeoTag from '@/components/shared/gallery/NeoTag.vue'
 
 defineProps<{
   wallet: BaseDotsamaWallet
@@ -82,12 +91,19 @@ const emit = defineEmits(['setWallet', 'setAccount'])
 const walletStore = useWalletStore()
 const isAuth = ref(false)
 
+const isRecent = (wallet: BaseDotsamaWallet) =>
+  walletStore.getRecentWallet === wallet.source
+
 const emitAccountChange = (account): void => {
   emit('setAccount', account)
-  const walletName = walletAccounts.value.find(
+  const wallet = walletAccounts.value.find(
     (wallet) => wallet.address === account.address,
-  )?.name
-  walletStore.setWalletName({ name: walletName })
+  )
+
+  const walletName = wallet?.name ?? ''
+  const source = wallet?.source ?? ''
+
+  walletStore.setWallet({ name: walletName, extension: source })
 }
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
 
