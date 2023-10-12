@@ -128,14 +128,14 @@ defineProps<{
   font-size: 1rem;
   position: relative;
 
-  .neo-tooltip {
+  .o-tip {
     width: 100%;
     height: 100%;
     position: absolute;
     z-index: 2;
   }
 
-  .slide-action .neo-tooltip {
+  .slide-action .o-tip {
     position: relative;
   }
 
