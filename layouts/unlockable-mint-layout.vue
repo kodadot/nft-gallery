@@ -11,7 +11,6 @@
   </div>
 </template>
 
-
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 hr {
