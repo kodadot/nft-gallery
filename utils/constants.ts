@@ -69,6 +69,7 @@ export const URLS = {
     ramp: 'https://ramp.network/buy/',
     cloudflare: 'https://cloudflare-ipfs.com/ipfs/',
     pinata: 'https://api.pinata.cloud/',
+    beehiiv: 'https://api.beehiiv.com/v2',
   },
 }
 

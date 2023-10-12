@@ -1138,6 +1138,11 @@
     "toc": "Terms of Use",
     "privacyPolicy": "Privacy Policy"
   },
+  "signupBanner": {
+    "title": "Stay in the loop and get",
+    "subtitle": "Sign up and receive a 20€ voucher, along with the latest updates from us.",
+    "claimVoucher": "Claim Voucher!"
+  },
   "share": {
     "copyLink": "Copy Link",
     "qrCode": "QR Code",

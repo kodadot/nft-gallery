@@ -12,6 +12,13 @@
         </div>
       </section>
 
+      <!-- email signup banner -->
+      <section class="py-7 instance">
+        <div class="container is-fluid">
+          <SignupBanner />
+        </div>
+      </section>
+
       <!-- top collections -->
       <section v-if="showTopCollections" class="py-8 instance">
         <div class="container is-fluid">
@@ -45,6 +52,7 @@
 import type { Prefix } from '@kodadot1/static'
 import SearchLanding from './SearchLanding.vue'
 import TopCollections from './topCollections/TopCollections.vue'
+import SignupBanner from './SignupBanner.vue'
 import CarouselTypeSpotlight from '@/components/carousel/CarouselTypeSpotlight.vue'
 
 const hiddenCarrouselPrefixes: Prefix[] = ['dot']
