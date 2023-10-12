@@ -29,7 +29,7 @@ const { urlPrefix } = usePrefix()
 const { accountId, isLogIn } = useAuth()
 const isLoading = ref(false)
 
-defineProps({
+const props = defineProps({
   price: {
     type: String,
     default: '0',
@@ -62,7 +62,7 @@ const handleTokenImport = async () => {
   const to = urlPrefix.value === 'ahk' ? 'Statemine' : 'Statemint'
   const call = Builder(api)
     .to(to)
-    .amount(price)
+    .amount(props.price)
     .address(accountId.value)
     .build()
 

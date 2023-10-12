@@ -15,6 +15,6 @@ definePageMeta({
 })
 const { params } = useRoute()
 
-const drop = await useDrop(params.id)
+const drop = await useDrop(params.id.toString())
 const dropType = computed(() => drop?.type)
 </script>
