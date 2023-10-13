@@ -6,12 +6,12 @@ query tokenListWithSearch(
   $price_gt: Float
   $price_lte: Float
   $owner: String
-  # $issuer: String
+  $issuer: String
   $denyList: [String!]
 ) {
   tokenEntities: tokenEntityList(
     owner: $owner
-    # issuer: $issuer
+    issuer: $issuer
     denyList: $denyList
     orderBy: $orderBy
     limit: $first
@@ -44,7 +44,7 @@ query tokenListWithSearch(
   }
   tokenEntityCount(
     owner: $owner
-    # issuer: $issuer
+    issuer: $issuer
     denyList: $denyList
     price_gte: $price_gte
     price_gt: $price_gt
