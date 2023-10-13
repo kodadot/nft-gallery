@@ -30,7 +30,7 @@
           v-for="chain in availableChains"
           :key="chain.value"
           v-safe-href="`/${chain.value}/explore/collectibles`"
-          :class="['m-2', 'chain-option active']"
+          :class="['m-4', 'chain-option active']"
           @click.prevent="switchChain(chain.value)">
           {{ chainText(chain.text) }}
           <sup v-if="chain.text.includes('[Beta]')" class="beta-text is-size-7">
