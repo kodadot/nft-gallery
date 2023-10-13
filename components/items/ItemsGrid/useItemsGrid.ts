@@ -114,9 +114,6 @@ export function useFetchSearch({
       orderBy: getRouteQueryOrDefault(route.query.sort, ['blockNumber_DESC']),
     }
 
-    console.log('searchParams.value', searchParams.value)
-    console.log('search', search)
-
     const searchForToken = getSearchCriteria(
       search?.length ? search : searchParams.value,
     )
