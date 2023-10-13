@@ -22,7 +22,7 @@
           </div>
           <section class="py-7 px-0">
             <div class="container is-fluid">
-              <h1 v-if="isExplore" class="title">{{ $t('explore') }}</h1>
+              <h1 v-if="isExplore" class="title">{{ getExploreTitle }}</h1>
               <ExploreTabsFilterSort />
             </div>
           </section>
@@ -45,10 +45,13 @@ import MobileFilter from '@/components/shared/filters/MobileFilter.vue'
 import CollectionBanner from '@/components/collection/CollectionHeader/CollectionBanner.vue'
 import CollectionInfo from '@/components/collection/CollectionInfo.vue'
 import Buy from '@/components/buy/Buy.vue'
+import { assetHub, chainNameSeoMap, getSeoPrefixName } from '@/utils/seo'
 
 const { $config } = useNuxtApp()
 const route = useRoute()
 const { listingCartEnabled } = useListingCartConfig()
+const { urlPrefix } = usePrefix()
+const { $i18n } = useNuxtApp()
 
 useHead({
   link: [
@@ -64,6 +67,19 @@ const isExplore = computed(() => route.path.includes('/explore'))
 const isCollection = computed(
   () => route.name?.toString().includes('prefix-collection-id'),
 )
+
+const getExploreTitle = computed(() => {
+  if (
+    !Object.keys(chainNameSeoMap).includes(urlPrefix.value) &&
+    !assetHub.includes(urlPrefix.value)
+  ) {
+    return $i18n.t('explore')
+  }
+
+  return `${$i18n.t('exploreItems')} ${getSeoPrefixName(
+    urlPrefix.value,
+  )} Asset Hub`
+})
 </script>
 
 <style lang="scss" scoped>

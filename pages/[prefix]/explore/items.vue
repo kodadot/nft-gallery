@@ -9,6 +9,7 @@
 <script lang="ts" setup>
 import { usePreferencesStore } from '@/stores/preferences'
 import { explorerVisible } from '@/utils/config/permission.config'
+import { assetHub, chainNameSeoMap, getSeoPrefixName } from '@/utils/seo'
 
 const preferencesStore = usePreferencesStore()
 const { urlPrefix } = usePrefix()
@@ -20,6 +21,22 @@ const checkRouteAvailability = () => {
   }
 }
 
+const getSeoMeta = computed(() => {
+  const prefix = urlPrefix.value
+  const isAssetHub =
+    Object.keys(chainNameSeoMap).includes(prefix) && assetHub.includes(prefix)
+
+  return {
+    title: isAssetHub
+      ? `Items on Asset Hub ${getSeoPrefixName(prefix)}`
+      : 'Explore NFTs',
+    description: isAssetHub
+      ? `Items on Asset Hub ${getSeoPrefixName(prefix)}`
+      : 'Buy Carbonless NFTs on KodaDot',
+    ogUrl: `/${urlPrefix.value}/explore/items`,
+  }
+})
+
 watch(urlPrefix, () => checkRouteAvailability())
 
 onBeforeMount(() => checkRouteAvailability())
@@ -29,9 +46,7 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: 'Explore NFTs',
-  description: 'Buy Carbonless NFTs on KodaDot',
-  ogUrl: `/${urlPrefix.value}/explore/items`,
+  ...getSeoMeta.value,
 })
 </script>
 
