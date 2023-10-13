@@ -1,4 +1,4 @@
-import { assetHubParamResolver } from '@/utils/gallery/abstractCalls'
+import { assetHubParamResolver, getApiCall } from '@/utils/gallery/abstractCalls'
 import { Interaction, createInteraction } from '@kodadot1/minimark/v1'
 import {
   Interaction as NewInteraction,
