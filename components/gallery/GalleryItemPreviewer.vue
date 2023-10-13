@@ -50,7 +50,6 @@ const isFullscreen = useVModel(props, 'value', emit)
 
 .gallery-item-modal {
   position: fixed;
-  margin-top: 5.25rem !important;
 
   :deep(.gallery-item-modal-content) {
     height: calc(100% - $navbar-desktop-min-height + 1px) !important;
