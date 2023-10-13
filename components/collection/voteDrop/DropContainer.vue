@@ -131,14 +131,9 @@ import { doWaifu } from '@/services/waifu'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { useCountDown } from '../unlockable/utils/useCountDown'
-import {
-  VOTE_DROP_AHP_CAMPAIGN,
-  VOTE_DROP_AHP_COLLECTION_ID,
-  VOTE_DROP_CAMPAIGN,
-  VOTE_DROP_COLLECTION_ID,
-  VOTE_DROP_DESCRIPTION,
-  countDownTime,
-} from './const'
+import { VOTE_DROP_DESCRIPTION, countDownTime } from './const'
+
+import { DropItem } from '@/params/types'
 
 import { useCheckReferenDumVote } from '@/composables/drop/useCheckReferenDumVote'
 
@@ -146,9 +141,19 @@ const Loader = defineAsyncComponent(
   () => import('@/components/collection/unlockable/UnlockableLoader.vue'),
 )
 
+const props = defineProps({
+  drop: {
+    type: Object,
+    default: () => {
+      return {} as DropItem
+    },
+  },
+})
 const { $i18n } = useNuxtApp()
 const { neoModal } = useProgrammatic()
 const { accountId } = useAuth()
+
+const collectionId = computed(() => props.drop?.collection)
 
 const imageList = ref<string[]>([])
 const { urlPrefix } = usePrefix()
@@ -156,14 +161,10 @@ const { isLogIn } = useAuth()
 const { hours, minutes } = useCountDown(countDownTime)
 const justMinted = ref('')
 const isLoading = ref(false)
-const collectionId = computed(() =>
-  urlPrefix.value === 'ahk'
-    ? VOTE_DROP_COLLECTION_ID
-    : VOTE_DROP_AHP_COLLECTION_ID,
-)
+
 const { toast } = useToast()
 
-const { isEligibleUser } = useCheckReferenDumVote()
+const { isEligibleUser } = useCheckReferenDumVote(props.drop?.meta)
 
 const needCheckEligible = computed(() => {
   return !isLogIn.value
@@ -293,7 +294,7 @@ const handleMint = async () => {
         metadata: collectionData.value.collectionEntity.metadata,
         image: collectionData.value.collectionEntity.image,
       },
-      urlPrefix.value === 'ahk' ? VOTE_DROP_CAMPAIGN : VOTE_DROP_AHP_CAMPAIGN,
+      props.drop?.id,
     ).then((res) => {
       toast('mint success')
       return `${collectionId.value}-${res.result.sn}`
