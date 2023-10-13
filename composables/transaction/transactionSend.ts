@@ -72,7 +72,7 @@ function execSendAssetHub(item: ActionSend, api, executeTransaction) {
 
   // getApiCall(api, item.urlPrefix, Interaction.SEND, legacy)
   executeTransaction({
-    cb: api.tx.uniques.transfer,
+    cb: getApiCall(api, item.urlPrefix, Interaction.SEND, legacy),
     arg: paramResolver(item.nftId, Interaction.SEND, item.address),
     successMessage: item.successMessage,
     errorMessage: item.errorMessage,
