@@ -10,6 +10,7 @@ import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 
 import { isOwner as checkOwner } from '@/utils/account'
 import { useListingCartStore } from '@/stores/listingCart'
+import { NFT, TokenId } from '@/components/rmrk/service/scheme'
 
 export function useFetchSearch({
   first,
@@ -26,10 +27,14 @@ export function useFetchSearch({
 }) {
   const { client, urlPrefix } = usePrefix()
   const { isAssetHub } = useIsChain(urlPrefix)
+  const notCollectionPage = computed(
+    () => route.name !== 'prefix-collection-id',
+  )
+  const useTokens = computed(() => isAssetHub.value && notCollectionPage.value)
 
   const route = useRoute()
 
-  const nfts = ref<NFTWithMetadata[]>([])
+  const items = ref<(NFTWithMetadata | TokenEntity)[]>([])
   const loadedPages = ref([] as number[])
 
   const { searchParams } = useSearchParams()
@@ -38,6 +43,25 @@ export function useFetchSearch({
     page?: number
     loadDirection?: 'up' | 'down'
     search?: { [key: string]: string | number }[]
+  }
+
+  const getSearchCriteria = (searchParams) => {
+    return searchParams.reduce((acc, curr) => {
+      for (const [key, value] of Object.entries(curr)) {
+        switch (key) {
+          case 'currentOwner_eq':
+            acc['owner'] = value
+            break
+          case 'issuer_eq':
+            acc['issuer'] = value
+            break
+          case 'price_gt':
+            acc['price_gt'] = Number(value)
+            break
+        }
+      }
+      return acc
+    }, {})
   }
 
   async function fetchSearch({
@@ -61,35 +85,10 @@ export function useFetchSearch({
           return prefix
       }
     }
-    // Computed values
-    const notCollectionPage = computed(
-      () => route.name !== 'prefix-collection-id',
-    )
-    const useTokens = computed(
-      () => isAssetHub.value && notCollectionPage.value,
-    )
     const queryName = useTokens.value
       ? 'tokenListWithSearch'
       : 'nftListWithSearch'
 
-    // Helper function to get search criteria for tokens
-    const getSearchCriteria = (searchParams) => {
-      return searchParams.reduce((acc, curr) => {
-        for (const [key, value] of Object.entries(curr)) {
-          switch (key) {
-            case 'currentOwner_eq':
-              acc['owner'] = value
-              break
-            case 'price_gt':
-              acc['price_gt'] = Number(value)
-              break
-          }
-        }
-        return acc
-      }, {})
-    }
-
-    // Helper function to get default or route query value
     const getRouteQueryOrDefault = (query, defaultValue) => {
       return query?.length ? query : defaultValue
     }
@@ -97,13 +96,13 @@ export function useFetchSearch({
     const getQueryResults = (query) => {
       if (useTokens.value) {
         return {
-          entites: query.tokenEntities,
-          count: query.tokenEntityCount.totalCount,
+          entities: query.tokenEntities as TokenEntity[],
+          count: query.tokenEntityCount.totalCount as number,
         }
       }
       return {
-        entites: query.nFTEntities,
-        count: query.nftEntitiesConnection.totalCount,
+        entities: query.nFTEntities as NFTWithMetadata[],
+        count: query.nftEntitiesConnection.totalCount as number,
       }
     }
 
@@ -115,7 +114,12 @@ export function useFetchSearch({
       orderBy: getRouteQueryOrDefault(route.query.sort, ['blockNumber_DESC']),
     }
 
-    const searchForToken = getSearchCriteria(searchParams.value)
+    console.log('searchParams.value', searchParams.value)
+    console.log('search', search)
+
+    const searchForToken = getSearchCriteria(
+      search?.length ? search : searchParams.value,
+    )
 
     const tokenQueryVariables = {
       ...searchForToken,
@@ -144,14 +148,14 @@ export function useFetchSearch({
     })
 
     // handle results
-    const { entites, count } = getQueryResults(result.value)
+    const { entities, count } = getQueryResults(result.value)
     total.value = count
 
     if (!loadedPages.value.includes(page)) {
       if (loadDirection === 'up') {
-        nfts.value = entites.concat(nfts.value)
+        items.value = [...entities, ...items.value]
       } else {
-        nfts.value = nfts.value.concat(entites)
+        items.value = [...items.value, ...entities]
       }
       loadedPages.value.push(page)
     }
@@ -162,7 +166,7 @@ export function useFetchSearch({
   }
 
   function clearFetchResults() {
-    nfts.value = []
+    items.value = []
     loadedPages.value = []
   }
 
@@ -191,27 +195,27 @@ export function useFetchSearch({
   )
 
   return {
-    nfts,
+    items,
     fetchSearch,
     refetch,
     clearFetchResults,
+    usingTokens: useTokens,
   }
 }
 
 export const updatePotentialNftsForListingCart = async (
-  nfts: TokenEntity[],
+  nfts: (NFT & TokenId)[],
 ) => {
   const listingCartStore = useListingCartStore()
   const { accountId } = useAuth()
   const potentialNfts = nfts
     .filter(
       (nft) =>
-        !Number(nft.cheapest?.price) &&
-        checkOwner(nft.cheapest?.currentOwner, accountId.value),
+        !Number(nft.price) && checkOwner(nft.currentOwner, accountId.value),
     )
     .map((nft) => {
       const floorPrice = nft.collection.floorPrice[0]?.price || '0'
-      return nftToListingCartItem(nft.cheapest as any, floorPrice)
+      return nftToListingCartItem(nft, floorPrice)
     })
 
   listingCartStore.setUnlistedItems(potentialNfts)
