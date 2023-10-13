@@ -13,11 +13,13 @@
       </section>
 
       <!-- email signup banner -->
-      <section class="py-7 instance">
-        <div class="container is-fluid">
-          <SignupBanner />
-        </div>
-      </section>
+      <transition name="slide">
+        <section v-if="showSignupBanner" class="py-5 instance">
+          <div class="container is-fluid">
+            <LandingSignupBanner />
+          </div>
+        </section>
+      </transition>
 
       <!-- top collections -->
       <section v-if="showTopCollections" class="py-8 instance">
@@ -52,8 +54,8 @@
 import type { Prefix } from '@kodadot1/static'
 import SearchLanding from './SearchLanding.vue'
 import TopCollections from './topCollections/TopCollections.vue'
-import SignupBanner from './SignupBanner.vue'
 import CarouselTypeSpotlight from '@/components/carousel/CarouselTypeSpotlight.vue'
+import { usePreferencesStore } from '@/stores/preferences'
 
 const hiddenCarrouselPrefixes: Prefix[] = ['dot']
 const forbiddenPrefixesForTopCollections: Prefix[] = [
@@ -64,7 +66,11 @@ const forbiddenPrefixesForTopCollections: Prefix[] = [
 ]
 
 const { urlPrefix } = usePrefix()
+const preferencesStore = usePreferencesStore()
 
+const showSignupBanner = computed(
+  () => !preferencesStore.getSubscribedToNewsletter,
+)
 // currently only supported on rmrk and snek
 const showCarousel = computed(
   () => !hiddenCarrouselPrefixes.includes(urlPrefix.value),

@@ -63,13 +63,13 @@ export const URLS = {
     replicate: 'https://replicate.kodadot.workers.dev/',
     search: 'https://polysearch.w.kodadot.xyz',
     baseUrl: 'https://kodadot.xyz',
+    newsletter: 'https://newsletter.w.kodadot.xyz',
   },
   providers: {
     coingecko: 'https://api.coingecko.com/api/v3',
     ramp: 'https://ramp.network/buy/',
     cloudflare: 'https://cloudflare-ipfs.com/ipfs/',
     pinata: 'https://api.pinata.cloud/',
-    beehiiv: 'https://api.beehiiv.com/v2',
   },
 }
 

@@ -4,13 +4,14 @@
       <div class="columns is-multiline">
         <div
           class="column is-6-desktop is-12-tablet is-12-mobile is-flex is-align-items-center">
-          <h3 class="is-size-5 has-text-weight-bold">
+          <h3 class="is-size-4 has-text-weight-bold">
             {{ $t('signupBanner.title') }}
           </h3>
-          <img src="/signup-voucher.svg" />
+          <img src="/signup-voucher.svg" alt="signup voucher" />
         </div>
 
-        <div class="column is-6-desktop is-12-tablet is-12-mobile">
+        <div
+          class="column is-6-desktop is-12-tablet is-12-mobile is-flex is-align-items-center">
           <span>
             {{ $t('signupBanner.subtitle') }}
           </span>
@@ -18,48 +19,55 @@
       </div>
     </div>
 
-    <div class="column is-4-desktop is-6-tablet is-12-mobile">
-      <form class="is-flex" @submit.prevent="submit">
-        <NeoField>
-          <NeoInput
-            v-model="email"
-            type="email"
-            placeholder="youremail@something"
-            required />
-        </NeoField>
+    <div
+      class="column is-4-desktop is-6-tablet is-12-mobile is-flex is-align-items-center">
+      <form class="is-flex is-align-items-center" @submit.prevent="submit">
+        <NeoInput
+          v-model="email"
+          type="email"
+          class="fixed-height"
+          placeholder="jane.doe@kodadot.xyz"
+          required />
 
-        <NeoField class="ml-4">
-          <NeoButton
-            native-type="submit"
-            variant="k-accent"
-            :loading="loading"
-            :disabled="loading"
-            no-shadow>
-            {{ $t('signupBanner.claimVoucher') }}
-          </NeoButton>
-        </NeoField>
+        <NeoButton
+          class="ml-4 fixed-height"
+          native-type="submit"
+          variant="k-accent"
+          :loading="loading"
+          :disabled="loading"
+          no-shadow>
+          {{ $t('signupBanner.claimVoucher') }}
+        </NeoButton>
       </form>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoField, NeoInput } from '@kodadot1/brick'
+import { NeoButton, NeoInput } from '@kodadot1/brick'
+import newsletterApi from '@/utils/newsletter'
+import { usePreferencesStore } from '@/stores/preferences'
 
-const beehiivApi = useBeehiiv()
+const { toast } = useToast()
+const { $i18n } = useNuxtApp()
+const preferencesStore = usePreferencesStore()
+
 const email = ref()
 const loading = ref(false)
 
 const submit = async () => {
   try {
     loading.value = true
-    await beehiivApi.subscribe(email.value)
-  } catch (error) {
+    await newsletterApi.subscribe(email.value)
+    preferencesStore.setSubscribedToNewsletter(true)
+    toast($i18n.t('signupBanner.subscribed'))
+  } finally {
     loading.value = false
   }
 }
 </script>
-
-<style lang="scss">
-@import '@/assets/styles/abstracts/variables';
-</style>
+<styles lang="scss" scoped>
+.fixed-height {
+  height: 2.5rem !important;
+}
+</styles>
