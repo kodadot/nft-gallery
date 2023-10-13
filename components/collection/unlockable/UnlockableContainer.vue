@@ -162,7 +162,7 @@ const collectionId = computed(() => props.drop?.collection)
 const { neoModal } = useProgrammatic()
 const { toast } = useToast()
 const { urlPrefix } = usePrefix()
-
+const { $i18n } = useNuxtApp()
 const imageList = ref<string[]>([])
 const resultList = ref<any[]>([])
 const selectedImage = ref('')
@@ -306,7 +306,7 @@ const handleSubmitMint = async () => {
       },
       props.drop.id,
     ).then((res) => {
-      toast('mint success', 'is-neo', 20000)
+      toast('mint success', { duration: 20000 })
       scrollToTop()
       return `${collectionId.value}-${res.result.sn}`
     })
@@ -314,11 +314,11 @@ const handleSubmitMint = async () => {
     setTimeout(() => {
       isLoading.value = false
       justMinted.value = id
-      toast('You will be redirected in few seconds', 'is-neo', 3000)
+      toast('You will be redirected in few seconds', { duration: 3000 })
       return navigateTo(`/${urlPrefix.value}/gallery/${id}`)
     }, 44000)
   } catch (error) {
-    toast('failed to mint', 'is-neo', 20000)
+    toast($i18n.t('drops.mintPerAddress'))
     isLoading.value = false
   }
 }
