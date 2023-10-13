@@ -4,6 +4,7 @@
 
 import { TypeDef } from '@polkadot/types/types'
 // import { BareProps } from '@polkadot/react-components/types';
+import type { Prefix } from '@kodadot1/static'
 
 // FIXME Ideally, we want these as Base from api-codec - as a stop-gap, any this until we have
 // params returning types extending Base (i.e. anything from api-codec)
@@ -55,4 +56,17 @@ export interface Unit {
 export interface ParamDef {
   name?: string
   type: TypeDef
+}
+
+export type DropType = 'paid' | 'generative' | 'drop' | 'vote'
+
+export type DropItem = {
+  id: string
+  chain: Prefix
+  collection: string
+  image: string
+  name: string
+  alias: string
+  type: DropType
+  meta: string
 }
