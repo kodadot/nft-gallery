@@ -1,7 +1,4 @@
-import {
-  assetHubParamResolver,
-  getApiCall,
-} from '@/utils/gallery/abstractCalls'
+import { assetHubParamResolver } from '@/utils/gallery/abstractCalls'
 import { Interaction, createInteraction } from '@kodadot1/minimark/v1'
 import {
   Interaction as NewInteraction,
@@ -69,12 +66,13 @@ function execSendBasilisk(item: ActionSend, api, executeTransaction) {
 
 // note: price is automatically set to 0
 // https://github.com/paritytech/substrate/blob/e6a13b807a88d25aa1cd0d320edb9412c3692c67/frame/uniques/src/functions.rs#LL58C2-L58C51
-function execSendStatemine(item: ActionSend, api, executeTransaction) {
+function execSendAssetHub(item: ActionSend, api, executeTransaction) {
   const legacy = isLegacy(item.nftId)
   const paramResolver = assetHubParamResolver(legacy)
 
+  // getApiCall(api, item.urlPrefix, Interaction.SEND, legacy)
   executeTransaction({
-    cb: getApiCall(api, item.urlPrefix, Interaction.SEND),
+    cb: api.tx.uniques.transfer,
     arg: paramResolver(item.nftId, Interaction.SEND, item.address),
     successMessage: item.successMessage,
     errorMessage: item.errorMessage,
@@ -95,6 +93,6 @@ export function execSendTx(item: ActionSend, api, executeTransaction) {
   }
 
   if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
-    execSendStatemine(item, api, executeTransaction)
+    execSendAssetHub(item, api, executeTransaction)
   }
 }
