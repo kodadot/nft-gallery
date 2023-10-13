@@ -139,7 +139,7 @@ export const checkIfAnythingToList = async (entities: TokenEntity[]) => {
     query: listCount,
     variables: {
       token: entities.map(({ id }) => id),
-      owner: accountId.value, // Ensure accountId is available in this scope
+      owner: accountId.value,
       denyList: getDenyList(urlPrefix.value),
     },
     clientId: client.value,
