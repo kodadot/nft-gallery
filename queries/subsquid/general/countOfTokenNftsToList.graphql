@@ -1,6 +1,6 @@
 query countOfTokenNftsToList(
   $owner: String!
-  $token: String!
+  $token: [String!]
   $denyList: [String!]
 ) {
   count: nftEntitiesConnection(
@@ -8,7 +8,7 @@ query countOfTokenNftsToList(
       burned_eq: false
       issuer_not_in: $denyList
       currentOwner_eq: $owner
-      token: { id_eq: $token }
+      token: { id_in: $token }
       price_eq: 0
     }
     orderBy: blockNumber_DESC
