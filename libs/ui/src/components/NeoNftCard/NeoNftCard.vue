@@ -38,12 +38,12 @@
         </div>
       </div>
       <NFTMediaInfoStacked
-        v-if="isStacked"
+        v-if="isStacked && !hideMediaInfo"
         :nft="nft"
         :variant="variant"
         :prefix="prefix" />
       <NFTMediaInfo
-        v-else
+        v-else-if="!hideMediaInfo"
         :nft="nft"
         :variant="variant"
         :prefix="prefix"
@@ -101,6 +101,7 @@ const props = withDefaults(
     showActionOnHover?: boolean
     mediaPlayerCover?: string
     mediaHoverOnCoverPlay?: boolean
+    hideMediaInfo?: boolean
   }>(),
   {
     collectionPopoverShowDelay: 500,
@@ -111,6 +112,7 @@ const props = withDefaults(
     showActionOnHover: true,
     placeholder: undefined,
     mediaPlayerCover: undefined,
+    hideMediaInfo: false,
   },
 )
 

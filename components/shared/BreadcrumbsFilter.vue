@@ -118,6 +118,7 @@ const clearAllFilters = () => {
 const queryMapTranslation = {
   listed: $i18n.t('sort.listed'),
   owned: $i18n.t('sort.own'),
+  art_view: $i18n.t('filters.artView'),
   sale: $i18n.t('filters.sale'),
   offer: $i18n.t('filters.offer'),
   listing: $i18n.t('filters.listing'),

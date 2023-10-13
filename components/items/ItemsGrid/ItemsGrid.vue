@@ -16,6 +16,7 @@
         :class="scrollItemClassName">
         <ItemsGridImage
           :nft="nft"
+          :hide-media-info="hideMediaInfo"
           :variant="
             slotProps.isMobileVariant || slotProps.grid === 'small'
               ? 'minimal'
@@ -25,7 +26,10 @@
     </DynamicGrid>
 
     <DynamicGrid v-if="isLoading || isFetchingData" class="my-5">
-      <NeoNftCardSkeleton v-for="n in skeletonCount" :key="n" />
+      <NeoNftCardSkeleton
+        v-for="n in skeletonCount"
+        :key="n"
+        :hide-media-info="hideMediaInfo" />
     </DynamicGrid>
 
     <EmptyResult v-if="total === 0 && (!isLoading || !isFetchingData)" />
@@ -46,6 +50,7 @@ import { useListingCartStore } from '@/stores/listingCart'
 
 const { listingCartEnabled } = useListingCartConfig()
 const listingCartStore = useListingCartStore()
+const route = useRoute()
 
 const props = defineProps<{
   search?: Record<string, string | number>
@@ -54,6 +59,9 @@ const props = defineProps<{
 const emit = defineEmits(['total', 'loading'])
 
 const isLoading = ref(true)
+
+const hideMediaInfo = computed(() => route.query?.art_view === 'true')
+
 const gotoPage = (page: number) => {
   currentPage.value = page
   startPage.value = page

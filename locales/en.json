@@ -84,6 +84,7 @@
   "dropUpload": "Drop your file here or click to select.",
   "chainSelect": "Select Chain ({0})",
   "success": "Success",
+  "advancedFilters": "Advanced Filters",
   "search": {
     "searchCollection": "Search Collection",
     "seeAll": "See All",
@@ -1320,7 +1321,8 @@
     "acceptedOffer": "Accepted offer",
     "listing": "Listing",
     "mint": "Mint",
-    "transfer": "Transfer"
+    "transfer": "Transfer",
+    "artView": "Art View"
   },
   "redirect": {
     "title": "Leaving Kodadot",
