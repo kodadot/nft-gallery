@@ -420,7 +420,6 @@ export default defineNuxtConfig({
       rampApiKey: process.env.RAMP_API_KEY,
       transakApiKey: process.env.TRANSAK_API_KEY || '',
       transakEnvironment: process.env.TRANSAK_ENV || 'PRODUCTION',
-      beehiivPublicationId: process.env.BEEHIIV_PUBLICATION_ID,
     },
   },
   // In case of using ssr
