@@ -1,7 +1,7 @@
 <template>
   <div
-    class="pt-2 pb-3 is-flex is-flex-direction-column"
-    :class="`nft-media-info__${variant}`">
+    class="is-flex is-flex-direction-column"
+    :class="[`nft-media-info__${variant}`, isMinimal ? 'py-3' : 'pt-2 pb-3']">
     <div class="is-flex is-flex-direction-column mb-3 px-3">
       <div class="is-flex is-justify-content-space-between">
         <span
