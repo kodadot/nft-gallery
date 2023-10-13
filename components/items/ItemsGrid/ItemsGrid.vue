@@ -22,7 +22,7 @@
               ? 'minimal'
               : 'primary'
           " />
-        <ItemsItemsGridImageTokenEntity
+        <ItemsGridImageTokenEntity
           v-else
           :entity="entity"
           :variant="
@@ -46,6 +46,7 @@
 import { NeoNftCardSkeleton } from '@kodadot1/brick'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import ItemsGridImage from './ItemsGridImage.vue'
+import ItemsGridImageTokenEntity from './ItemsGridImageTokenEntity.vue'
 import {
   updatePotentialNftsForListingCart,
   useFetchSearch,
