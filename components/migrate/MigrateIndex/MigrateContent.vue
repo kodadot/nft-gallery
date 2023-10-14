@@ -3,7 +3,7 @@
     <div class="is-flex is-justify-content-space-between">
       <div>
         <div v-if="accountId" class="is-flex is-align-items-center">
-          <p class="mr-4">Showing Results For:</p>
+          <p class="mr-4">{{ $t('migrate.resultFor') }}</p>
           <Avatar :value="accountId" :size="26" class="mr-2" />
           <nuxt-link class="has-text-k-blue" :to="`/ksm/u/${accountId}`">
             <Identity :address="accountId" hide-identity-popover />
@@ -11,9 +11,7 @@
           <p class="ml-4">On RMRK2</p>
         </div>
         <div v-else class="is-flex is-align-items-center">
-          <p class="mr-4">
-            To view and migrate assets, please connect your wallet.
-          </p>
+          <p class="mr-4">{{ $t('migrate.connect') }}</p>
           <ConnectWalletButton no-shadow variant="k-accent" />
         </div>
       </div>
@@ -22,122 +20,122 @@
         <NeoTooltip
           multiline
           multiline-width="16rem"
-          label="Can't find your collection in the list? Make sure you're connected to the correct account/address that owns the collection.">
+          :label="$t('migrate.tooltipCollectionLabel')">
           <NeoIcon icon="circle-question" class="mr-2" />
         </NeoTooltip>
-        <p>Don't See Your Collection?</p>
+        <p>{{ $t('migrate.tooltipCollection') }}</p>
       </div>
     </div>
 
     <hr />
 
     <!-- ready state for migration here -->
-    <div class="mb-6">
-      <div class="is-flex is-relative section-title">
-        <img src="/migrate/state-ready.svg" alt="Ready" />
-        <p>Ready For Migration</p>
-      </div>
+    <div v-if="accountId">
+      <div class="mb-6">
+        <div class="is-flex is-relative section-title">
+          <img src="/migrate/state-ready.svg" alt="Ready" />
+          <p>{{ $t('migrate.ready.title') }}</p>
+        </div>
 
-      <div class="has-text-grey w-half mt-2">
-        As the creator or owner of a collection, you can initiate migration
-        here. Keep in mind, only items owned by you can be migrated at this
-        stage. You'll need to pre-sign items owned by others to allow individual
-        migrations.
-      </div>
+        <div class="has-text-grey w-half mt-2">
+          {{ $t('migrate.ready.desc') }}
+        </div>
 
-      <div class="collection">
-        <div
-          v-for="cl in dummyReadyCollections"
-          :key="cl"
-          class="collection-card">
+        <div class="collection">
           <div
-            class="collection-card-banner"
-            :style="{ backgroundImage: `url(${cl})` }"></div>
-          <div
-            class="collection-card-avatar"
-            :style="{ backgroundImage: `url(${cl})` }"></div>
-
-          <div class="collection-card-info">
+            v-for="cl in dummyReadyCollections"
+            :key="cl"
+            class="collection-card">
             <div
-              class="is-flex is-justify-content-space-between is-align-items-center">
-              <div>
-                <p class="is-size-5 has-text-weight-bold">
-                  You Like This Window
-                </p>
-                <p>
-                  <span class="has-text-grey mr-2">
-                    Available For Migration
-                  </span>
-                  <span>130/200 Items </span>
-                </p>
-              </div>
-              <div>
-                <NeoButton variant="pill">Migrate Collection</NeoButton>
+              class="collection-card-banner"
+              :style="{ backgroundImage: `url(${cl})` }"></div>
+            <div
+              class="collection-card-avatar"
+              :style="{ backgroundImage: `url(${cl})` }"></div>
+
+            <div class="collection-card-info">
+              <div
+                class="is-flex is-justify-content-space-between is-align-items-center">
+                <div>
+                  <p class="is-size-5 has-text-weight-bold">
+                    You Like This Window
+                  </p>
+                  <p>
+                    <span class="has-text-grey mr-2">
+                      {{ $t('migrate.ready.status') }}
+                    </span>
+                    <span>130/200 Items </span>
+                  </p>
+                </div>
+                <div>
+                  <NeoButton variant="pill">{{
+                    $t('migrate.ready.cta')
+                  }}</NeoButton>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- waiting state for migration here -->
-    <div class="mb-6">
-      <div class="is-flex is-relative section-title">
-        <img src="/migrate/state-waiting.svg" alt="Ready" />
-        <p>Waiting For Your Action</p>
-      </div>
+      <!-- waiting state for migration here -->
+      <div class="mb-6">
+        <div class="is-flex is-relative section-title">
+          <img src="/migrate/state-waiting.svg" alt="Ready" />
+          <p>{{ $t('migrate.waiting.title') }}</p>
+        </div>
 
-      <div class="has-text-grey w-half mt-2">
-        Displayed here are individual items that you own from collections that
-        have been migrated. Ensure you're up-to-date by migrating these pieces
-        right away. Please note, you can only start the migration once the
-        collection owner initiates it.
-      </div>
+        <div class="has-text-grey w-half mt-2">
+          {{ $t('migrate.waiting.desc') }}
+        </div>
 
-      <div class="collection">
-        <div
-          v-for="cl in dummyWaitingCollections"
-          :key="cl"
-          class="collection-card">
+        <div class="collection">
           <div
-            class="collection-card-banner"
-            :style="{ backgroundImage: `url(${cl})` }"></div>
-          <div
-            class="collection-card-avatar"
-            :style="{ backgroundImage: `url(${cl})` }"></div>
-
-          <div class="collection-card-info">
-            <p class="is-size-5 has-text-weight-bold">Hmm Vacation Nice</p>
-            <p>
-              <span class="has-text-grey mr-2">
-                Collection Was Migrated By
-              </span>
-              <a href="#!" class="has-text-k-blue">Another nice name </a>
-            </p>
-          </div>
-
-          <div class="collection-card-info">
+            v-for="cl in dummyWaitingCollections"
+            :key="cl"
+            class="collection-card">
             <div
-              class="is-flex is-justify-content-space-between is-align-items-center">
-              <div>
-                <p>You Own <strong>12 Items</strong> From This Collection</p>
-              </div>
-              <div>
-                <NeoButton variant="pill">Migrate Items</NeoButton>
+              class="collection-card-banner"
+              :style="{ backgroundImage: `url(${cl})` }"></div>
+            <div
+              class="collection-card-avatar"
+              :style="{ backgroundImage: `url(${cl})` }"></div>
+
+            <div class="collection-card-info">
+              <p class="is-size-5 has-text-weight-bold">Hmm Vacation Nice</p>
+              <p>
+                <span class="has-text-grey mr-2">
+                  {{ $t('migrate.waiting.status') }}
+                </span>
+                <a href="#!" class="has-text-k-blue">Another nice name </a>
+              </p>
+            </div>
+
+            <div class="collection-card-info">
+              <div
+                class="is-flex is-justify-content-space-between is-align-items-center">
+                <div>
+                  <p v-dompurify-html="$t('migrate.waiting.own', ['12'])"></p>
+                </div>
+                <div>
+                  <NeoButton variant="pill">{{
+                    $t('migrate.waiting.cta')
+                  }}</NeoButton>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      <hr />
+
+      <p class="has-text-grey mb-2">{{ $t('migrate.migrationNotPossible') }}</p>
+      <p>
+        <span v-dompurify-html="$t('migrate.migrationNotPossibleLabel')"></span>
+        <strong> Crazy dogs, Music album 101, I like good weather</strong>
+      </p>
     </div>
-
-    <hr />
-
-    <p class="has-text-grey mb-2">Migration Not Possible:</p>
-    <p>
-      Migration Is <strong>Not Possible</strong> For Following Collections That
-      You Own: <strong>Crazy dogs, Music album 101, I like good weather</strong>
-    </p>
 
     <!-- empty state collection here -->
     <!-- <div class="has-text-centered">

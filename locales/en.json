@@ -1420,6 +1420,25 @@
         "title": "Learn More About Process",
         "desc": "<p>For a detailed look at our migration process, check out our help article on initiating and completing NFT transfers. This guide covers requirements, fees, and more.</p></br><p><a class='has-text-k-blue' href='#!'>See Article -&gt;</a></p>"
       }
-    }
+    },
+    "resultFor": "Showing Results For:",
+    "connect": "To view and migrate assets, please connect your wallet.",
+    "tooltipCollection": "Don't See Your Collection?",
+    "tooltipCollectionLabel": "Can't find your collection in the list? Make sure you're connected to the correct account/address that owns the collection.",
+    "ready": {
+      "title": "Ready For Migration",
+      "desc": "As the creator or owner of a collection, you can initiate migration here. Keep in mind, only items owned by you can be migrated at this stage. You'll need to pre-sign items owned by others to allow individual migrations.",
+      "status": "Available For Migration",
+      "cta": "Migrate Collection"
+    },
+    "waiting": {
+      "title": "Waiting For Your Action",
+      "desc": "Displayed here are individual items that you own from collections that have been migrated. Ensure you're up-to-date by migrating these pieces right away. Please note, you can only start the migration once the collection owner initiates it.",
+      "status": "Collection Was Migrated By",
+      "cta": "Migrate Items",
+      "own": "You Own <strong>{0}</strong> From This Collection"
+    },
+    "migrationNotPossible": "Migration Not Possible:",
+    "migrationNotPossibleLabel": "Migration Is <strong>Not Possible</strong> For  Following Collections That You Own:"
   }
 }
