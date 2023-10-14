@@ -28,8 +28,6 @@
 </template>
 
 <script lang="ts" setup>
-import { isOwner as checkOwner } from '@/utils/account'
-
 import GalleryItemPriceBuy from './GalleryItemActionType/GalleryItemBuy.vue'
 import GalleryItemPriceOffer from './GalleryItemActionType/GalleryItemOffer.vue'
 import GalleryItemPriceRelist from './GalleryItemActionType/GalleryItemRelist.vue'
@@ -40,11 +38,9 @@ const props = defineProps<{
   nft: NFT | undefined
 }>()
 
-const { accountId } = useAuth()
+const { isCurrentOwner } = useAuth()
 const { offersDisabled } = useChain()
-const isOwner = computed(() =>
-  checkOwner(props.nft?.currentOwner, accountId.value),
-)
+const isOwner = isCurrentOwner(props.nft?.currentOwner)
 </script>
 
 <style scoped></style>

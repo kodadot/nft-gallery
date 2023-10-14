@@ -12,7 +12,6 @@ export type ItemsGridEntity = NFTWithMetadata | NFTStack
 import { NFT } from '@/components/rmrk/service/scheme'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 
-import { isOwner as checkOwner } from '@/utils/account'
 import { useListingCartStore } from '@/stores/listingCart'
 
 export function useFetchSearch({
@@ -148,11 +147,10 @@ export function useFetchSearch({
 
 export const updatePotentialNftsForListingCart = async (nfts: NFT[]) => {
   const listingCartStore = useListingCartStore()
-  const { accountId } = useAuth()
+  const { isCurrentOwner } = useAuth()
   const potentialNfts = nfts
     .filter(
-      (nft) =>
-        !Number(nft.price) && checkOwner(nft.currentOwner, accountId.value),
+      (nft) => !Number(nft.price) && isCurrentOwner(nft.currentOwner).value,
     )
     .map((nft) => {
       const floorPrice = nft.collection.floorPrice[0]?.price || '0'
