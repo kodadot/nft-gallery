@@ -1,6 +1,5 @@
 import { $fetch } from 'ofetch'
 import { URLS } from '@/utils/constants'
-import consola from 'consola'
 
 const NEWSLETTER_BASE_URL = URLS.koda.newsletter
 
@@ -25,8 +24,7 @@ async function subscribe(email: string) {
 
     return data
   } catch (e) {
-    consola.log('[NEWSLETTER] Error', e)
-    return []
+    throw new Error('[NEWSLETTER] Unable to scubscibe user to newsletter' + e)
   }
 }
 

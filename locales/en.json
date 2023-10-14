@@ -1144,7 +1144,8 @@
     "title": "Stay in the loop and Get",
     "subtitle": "Sign up and receive a 20€ voucher, along with the latest updates from us.",
     "claimVoucher": "Claim Voucher!",
-    "subscribed": "Successfully subscribed!"
+    "subscribed": "Successfully subscribed!",
+    "failed": "Something went wrong subscribing you to the newsletter"
   },
   "share": {
     "copyLink": "Copy Link",

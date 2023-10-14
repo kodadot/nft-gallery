@@ -48,7 +48,6 @@ import { NeoButton, NeoInput } from '@kodadot1/brick'
 import newsletterApi from '@/utils/newsletter'
 import { usePreferencesStore } from '@/stores/preferences'
 
-const { toast } = useToast()
 const { $i18n } = useNuxtApp()
 const preferencesStore = usePreferencesStore()
 
@@ -60,7 +59,9 @@ const submit = async () => {
     loading.value = true
     await newsletterApi.subscribe(email.value)
     preferencesStore.setSubscribedToNewsletter(true)
-    toast($i18n.t('signupBanner.subscribed'))
+    successMessage($i18n.t('signupBanner.subscribed'))
+  } catch (error) {
+    dangerMessage($i18n.t('signupBanner.failed'))
   } finally {
     loading.value = false
   }
