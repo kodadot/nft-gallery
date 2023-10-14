@@ -22,9 +22,17 @@
               : 'primary'
           " />
       </div>
+
+      <!-- skeleton on fetching next page -->
+      <template v-if="isLoading || isFetchingData">
+        <NeoNftCardSkeleton v-for="n in skeletonCount" :key="n" />
+      </template>
     </DynamicGrid>
 
-    <DynamicGrid v-if="isLoading || isFetchingData" class="my-5">
+    <!-- skeleton on first load -->
+    <DynamicGrid
+      v-if="total === 0 && (isLoading || isFetchingData)"
+      class="my-5">
       <NeoNftCardSkeleton v-for="n in skeletonCount" :key="n" />
     </DynamicGrid>
 
