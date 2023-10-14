@@ -1,6 +1,5 @@
 <template>
   <NeoDropdown
-    required
     :class="[
       'dropdown-width',
       {
