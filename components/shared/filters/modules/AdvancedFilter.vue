@@ -98,7 +98,7 @@ const applyToUrl = (queryCondition: Record<string, string>) => {
   padding-left: 10px;
 
   @include ktheme() {
-    color: theme('k-accent');
+    color: theme('k-primary');
   }
 }
 </style>
