@@ -14,7 +14,7 @@
       </div>
 
       <div v-if="!isMinimal" class="is-size-7 has-text-grey">
-        Floor:
+        {{ $t('lowestPrice') }}:
         <CommonTokenMoney
           :value="token.cheapest.price"
           data-testid="card-money" />
@@ -53,6 +53,7 @@
 <script lang="ts" setup>
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { NeoButton, NftCardVariant } from '@kodadot1/brick'
+import { TokenEntity } from '@/composables/useNft'
 
 const props = withDefaults(
   defineProps<{
