@@ -92,7 +92,7 @@ const resetPage = useDebounceFn(() => {
   gotoPage(1)
 }, 500)
 
-const { nfts, fetchSearch, refetch, clearFetchResults } = useFetchSearch({
+const { nfts, fetchSearch, clearFetchResults } = useFetchSearch({
   first,
   total,
   isFetchingData,
@@ -131,7 +131,7 @@ watch(
     }
     if (!isEqual(newSearch, oldSearch)) {
       isLoading.value = true
-      refetch(parseSearch(props.search))
+      gotoPage(1)
     }
   },
   { deep: true },
