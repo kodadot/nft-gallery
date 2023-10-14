@@ -7,7 +7,7 @@
     }">
     <img
       :src="src"
-      class="is-block image-media__image"
+      class="is-block image-media__image no-border-radius"
       :alt="alt"
       data-testid="type-image" />
     <!-- @error="onError" /> -->

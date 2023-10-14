@@ -160,8 +160,8 @@ const { nftEntities: soldItems } = useCollectionSoldData({
   gap: 10px;
 
   .sold-item {
-    width: 78px;
-    height: 78px;
+    width: 76px;
+    height: 76px;
 
     @include ktheme() {
       border: 1px solid theme('border-color');
