@@ -6,13 +6,9 @@
         <div>
           <div class="migrate-title">
             <img src="/migrate/title-arrow.svg" alt="Migrate Your Art" />
-            <h1 class="title">Migrate Your Art</h1>
+            <h1 class="title">{{ $t('migrate.heading') }}</h1>
           </div>
-          <p>
-            Welcome to our migration page. Here, we've simplified moving your
-            NFTs from Kusama to the Polkadot Asset Hub, making the process
-            quick, easy and efficient.
-          </p>
+          <p>{{ $t('migrate.subHeading') }}</p>
         </div>
 
         <div class="is-flex is-align-items-center mt-4">

@@ -133,7 +133,7 @@
 
     <hr />
 
-    <p>Migration Not Possible:</p>
+    <p class="has-text-grey mb-2">Migration Not Possible:</p>
     <p>
       Migration Is <strong>Not Possible</strong> For Following Collections That
       You Own: <strong>Crazy dogs, Music album 101, I like good weather</strong>
