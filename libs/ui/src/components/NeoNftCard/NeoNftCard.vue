@@ -1,5 +1,7 @@
 <template>
-  <div class="nft-card" :class="{ loading: isLoading }">
+  <div
+    class="nft-card"
+    :class="{ loading: isLoading, 'nft-card__stacked': isStacked }">
     <component
       :is="link"
       v-if="!isLoading && nft"

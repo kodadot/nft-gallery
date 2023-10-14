@@ -43,6 +43,11 @@
     position: absolute;
     bottom: 1rem;
   }
+  &__stacked {
+    .action-container {
+      right: 10px;
+    }
+  }
 
   .stacked-shadow {
     @include ktheme() {
