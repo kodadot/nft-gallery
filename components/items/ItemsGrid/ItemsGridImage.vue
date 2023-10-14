@@ -82,9 +82,7 @@ const props = defineProps<{
   variant?: NftCardVariant
 }>()
 
-const { showCardIcon, cardIcon } = await useNftCardIcon(
-  computed(() => props.nft),
-)
+const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.nft))
 
 const isStack = computed(() => (props.nft as NFTStack).count > 1)
 
