@@ -9,15 +9,15 @@
       :src="src"
       class="is-block image-media__image"
       :alt="alt"
-      data-testid="type-image" />
-    <!-- @error="onError" /> -->
+      data-testid="type-image"
+      @error.once="onError" />
   </figure>
 </template>
 
 <script lang="ts" setup>
-// import consola from 'consola'
+import consola from 'consola'
 
-defineProps<{
+const props = defineProps<{
   src?: string
   alt?: string
   original: boolean
@@ -26,14 +26,13 @@ defineProps<{
   isDarkMode?: boolean
 }>()
 
-// TODO: onError does infinite log in carousel type
-// const onError = (e: Event) => {
-//   const target = e.target as HTMLImageElement
-//   if (target) {
-//     consola.log('[KODADOT::IMAGE] unable to load', props.src, e)
-//     target.src = props.placeholder
-//   }
-// }
+const onError = (e: Event) => {
+  const target = e.target as HTMLImageElement
+  if (target) {
+    consola.log('[KODADOT::IMAGE] unable to load', props.src, e)
+    target.src = props.placeholder
+  }
+}
 </script>
 
 <style>
