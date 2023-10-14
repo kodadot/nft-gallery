@@ -28,6 +28,7 @@
           data-model="store"
           expanded />
         <PopularCollections v-if="isExploreItems" data-model="store" expanded />
+        <AdvancedFilter />
       </div>
 
       <div
@@ -58,6 +59,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 import StatusFilter from '@/components/shared/filters/modules/StatusFilter.vue'
 import EventTypeFilter from '@/components/shared/filters/modules/EventTypeFilter.vue'
 import PriceFilter from '@/components/shared/filters/modules/PriceFilter.vue'
+import AdvancedFilter from '@/components/shared/filters/modules/AdvancedFilter.vue'
 import PopularCollections from '@/components/shared/filters/modules/PopularCollections.vue'
 import { getCollectionIds } from '@/utils/queryParams'
 import { NeoIcon } from '@kodadot1/brick'
