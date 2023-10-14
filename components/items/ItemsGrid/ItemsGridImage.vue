@@ -133,7 +133,7 @@ const { cartIcon } = useShoppingCartIcon(props.nft.id)
 
 const { nft } = useNft(props.nft)
 
-const isOwner = isCurrentOwner(props.nft?.currentOwner)
+const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
 
 const openCompletePurcahseModal = () => {
   preferencesStore.setCompletePurchaseModal({

@@ -124,7 +124,7 @@ const openUrl = (url: string) => {
 }
 
 const displaySeperator = computed(() => twitter.value)
-const isOwner = isCurrentOwner(collection.value?.currentOwner)
+const isOwner = computed(() => isCurrentOwner(collection.value?.currentOwner))
 
 const QRModalActive = ref(false)
 

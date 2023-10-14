@@ -40,7 +40,7 @@ const props = defineProps<{
 
 const { isCurrentOwner } = useAuth()
 const { offersDisabled } = useChain()
-const isOwner = isCurrentOwner(props.nft?.currentOwner)
+const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
 </script>
 
 <style scoped></style>

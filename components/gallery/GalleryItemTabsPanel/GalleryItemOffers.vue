@@ -104,7 +104,7 @@ const dprops = defineProps<{
   account: string
 }>()
 
-const isOwner = isCurrentOwner(dprops.account)
+const isOwner = computed(() => isCurrentOwner(dprops.account))
 
 const isActive = (row) => row.status === OfferStatusType.ACTIVE
 

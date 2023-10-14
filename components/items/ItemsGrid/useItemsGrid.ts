@@ -149,9 +149,7 @@ export const updatePotentialNftsForListingCart = async (nfts: NFT[]) => {
   const listingCartStore = useListingCartStore()
   const { isCurrentOwner } = useAuth()
   const potentialNfts = nfts
-    .filter(
-      (nft) => !Number(nft.price) && isCurrentOwner(nft.currentOwner).value,
-    )
+    .filter((nft) => !Number(nft.price) && isCurrentOwner(nft.currentOwner))
     .map((nft) => {
       const floorPrice = nft.collection.floorPrice[0]?.price || '0'
       return nftToListingCartItem(nft, floorPrice)
