@@ -229,7 +229,6 @@
         </div>
         <NeoSwitch
           v-model="sendSameAmount"
-          :rounded="false"
           data-testid="transfer-switch-same" />
       </div>
 

@@ -8,8 +8,8 @@
     label="Teleport Token"
     @click="handleTokenImport">
     <b
-      >Missing <Money :value="displayPricePerMint" inline /> on AssetHub? Click
-      here to teleport them from Relay Chain</b
+      >Missing <Money :value="price" inline /> on AssetHub? Click here to
+      teleport them from Relay Chain</b
     >
   </NeoButton>
 </template>
@@ -24,11 +24,17 @@ import { notificationTypes, showNotification } from '@/utils/notification'
 import { getAddress } from '@/utils/extension'
 import { toDefaultAddress } from '@/utils/account'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
-import { displayPricePerMint } from './const'
 
 const { urlPrefix } = usePrefix()
 const { accountId, isLogIn } = useAuth()
 const isLoading = ref(false)
+
+const props = defineProps({
+  price: {
+    type: String,
+    default: '0',
+  },
+})
 
 const { neoModal } = useProgrammatic()
 const root = ref<Vue>()
@@ -54,7 +60,11 @@ const handleTokenImport = async () => {
 
   const api = await getApi()
   const to = urlPrefix.value === 'ahk' ? 'Statemine' : 'Statemint'
-  const call = Builder(api).to(to).amount(1e10).address(accountId.value).build()
+  const call = Builder(api)
+    .to(to)
+    .amount(props.price)
+    .address(accountId.value)
+    .build()
 
   const transactionHandler = txCb(
     (blockHash) => {
