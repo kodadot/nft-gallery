@@ -6,8 +6,8 @@
           {{ $t('signupBanner.title') }}
         </h3>
 
-        <div class="ml-4 is-relative signup-banner-voucher">
-          <img :src="logoSrc" alt="signup voucher" class="is-flex-shrink-0" />
+        <div class="ml-4 is-relative signup-banner-voucher is-flex-shrink-0">
+          <img :src="logoSrc" alt="signup voucher" />
           <img
             src="/signup-voucher-blur.svg"
             alt="signup voucher blur"
