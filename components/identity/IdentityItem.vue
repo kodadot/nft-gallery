@@ -15,8 +15,8 @@
         {{ buttonLabel }}
       </NeoButton>
     </div>
-    <div v-else class="p-3">
-      <div class="has-text-grey is-size-6">
+    <div v-else class="identity-container">
+      <div class="identity-label is-size-6">
         {{ label }}
       </div>
       <component
@@ -59,14 +59,28 @@ withDefaults(
 </script>
 
 <style lang="scss" scoped>
-.identity-item-button {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 3rem;
+@import '@/assets/styles/abstracts/variables';
+
+.identity {
+  &-item-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 3rem;
+
+    &-label {
+      line-height: 1;
+    }
+  }
+
+  &-container {
+    padding: 0.625rem;
+  }
 
   &-label {
-    line-height: 1;
+    @include ktheme() {
+      color: theme('k-shade');
+    }
   }
 }
 </style>
