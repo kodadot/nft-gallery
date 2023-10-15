@@ -4,10 +4,17 @@
       <div class="columns is-multiline">
         <div
           class="column is-6-desktop is-12-tablet is-12-mobile is-flex is-align-items-center">
-          <h3 class="is-size-4 has-text-weight-bold">
+          <h3 class="is-size-5 has-text-weight-bold">
             {{ $t('signupBanner.title') }}
           </h3>
-          <img src="/signup-voucher.svg" alt="signup voucher" />
+          <div
+            class="ml-4 is-relative signup-voucher is-flex is-align-items-center">
+            <img :src="logoSrc" alt="signup voucher" />
+            <img
+              src="/signup-voucher-blur.svg"
+              alt="signup voucher blur"
+              class="blur" />
+          </div>
         </div>
 
         <div
@@ -50,6 +57,11 @@ import { usePreferencesStore } from '@/stores/preferences'
 
 const { $i18n } = useNuxtApp()
 const preferencesStore = usePreferencesStore()
+const { isDarkMode } = useTheme()
+
+const logoSrc = computed(() =>
+  isDarkMode.value ? '/signup-voucher-dark.svg' : '/signup-voucher.svg',
+)
 
 const email = ref()
 const loading = ref(false)
@@ -70,5 +82,15 @@ const submit = async () => {
 <styles lang="scss" scoped>
 .fixed-height {
   height: 2.5rem !important;
+}
+
+.signup-voucher {
+  .blur {
+    transform: scale(2.5);
+    top: 0;
+    left: 0;
+    position: absolute;
+    z-index: -1;
+  }
 }
 </styles>

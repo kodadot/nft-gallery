@@ -16,7 +16,7 @@
       <transition name="slide">
         <section v-if="showSignupBanner" class="py-5 instance">
           <div class="container is-fluid">
-            <LandingSignupBanner />
+            <LandingSignupBanner class="my-3" />
           </div>
         </section>
       </transition>
