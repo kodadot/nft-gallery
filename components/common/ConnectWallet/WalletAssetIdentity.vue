@@ -21,9 +21,11 @@
 import { NeoIcon } from '@kodadot1/brick'
 import { useIdentityStore } from '@/stores/identity'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
+import { useWalletStore, walletHistory } from '@/stores/wallet'
 
 const identityStore = useIdentityStore()
 const shoppingCartStore = useShoppingCartStore()
+const walletStore = useWalletStore()
 const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 
@@ -38,5 +40,7 @@ const logout = () => {
   sessionStorage.clear()
   localStorage.clear()
   shoppingCartStore.clear()
+
+  walletHistory.value = walletStore.history
 }
 </script>
