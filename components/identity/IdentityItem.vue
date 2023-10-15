@@ -16,7 +16,7 @@
       </NeoButton>
     </div>
     <div v-else class="identity-container">
-      <div class="identity-label is-size-6">
+      <div class="has-text-grey is-size-6">
         {{ label }}
       </div>
       <component
@@ -75,12 +75,6 @@ withDefaults(
 
   &-container {
     padding: 0.625rem;
-  }
-
-  &-label {
-    @include ktheme() {
-      color: theme('k-shade');
-    }
   }
 }
 </style>
