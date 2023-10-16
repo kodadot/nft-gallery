@@ -1401,6 +1401,8 @@
     "setAllTo": "Set All To"
   },
   "migrate": {
+    "source": "Source",
+    "destination": "Destination",
     "heading": "Migrate Your Art",
     "subHeading": "Welcome to our migration page. Here, we've simplified moving your NFTs from Kusama to the Polkadot Asset Hub, making the process quick, easy and efficient.",
     "faq": {

@@ -13,7 +13,9 @@
 
         <div class="is-flex is-align-items-center mt-4">
           <div class="is-relative">
-            <p class="text-destination has-text-grey">Source</p>
+            <p class="text-destination has-text-grey">
+              {{ $t('migrate.source') }}
+            </p>
             <NeoDropdown v-model="sourceSelected" aria-role="list">
               <template #trigger="{ active }">
                 <NeoButton
@@ -66,7 +68,9 @@
             </svg>
           </div>
           <div class="is-relative">
-            <p class="text-destination has-text-grey">Destination</p>
+            <p class="text-destination has-text-grey">
+              {{ $t('migrate.destination') }}
+            </p>
             <NeoDropdown v-model="destinationSelected" aria-role="list">
               <template #trigger="{ active }">
                 <NeoButton
