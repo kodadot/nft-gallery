@@ -1,14 +1,10 @@
-import { isOwner as checkOwner } from '@/utils/account'
 import nftById from '@/queries/subsquid/general/nftById.graphql'
 import listCount from '@/queries/subsquid/general/countOfTokenNftsToList.graphql'
 import nftListWithSearch from '@/queries/subsquid/ahk/nftListWithSearch.graphql'
-import { TokenId } from '~/components/rmrk/service/scheme'
+import { TokenId } from '@/components/rmrk/service/scheme'
 
 export type NFTWitToken = NFTWithMetadata & TokenId
 export const isStack = (entity: TokenEntity) => entity.supply > 1
-
-export const userIsOwner = (entity: TokenEntity, accountId: string) =>
-  checkOwner(entity.cheapest?.currentOwner, accountId)
 
 export const isAvailableToBuy = (entity: TokenEntity) =>
   Number(entity.cheapest.price) > 0
@@ -149,7 +145,7 @@ export const checkIfAnythingToList = async (entities: TokenEntity[]) => {
 }
 
 export function useNftActions(entity: TokenEntity) {
-  const { accountId } = useAuth()
+  const { isCurrentOwner } = useAuth()
 
   const cheapestNFT = ref<NFTWithMetadata>()
 
@@ -160,9 +156,7 @@ export function useNftActions(entity: TokenEntity) {
 
   const isThereAnythingToList = ref<boolean>()
   const isStackComputed = computed(() => isStack(entity))
-  const userIsOwnerComputed = computed(() =>
-    userIsOwner(entity, accountId.value),
-  )
+  const isOwner = computed(() => isCurrentOwner(entity.cheapest.currentOwner))
   const isAvailableToBuyComputed = computed(() => isAvailableToBuy(entity))
   const nftForShoppingCart = computed(() =>
     isTokenEntity(entity) ? entity.cheapest : entity,
@@ -177,7 +171,7 @@ export function useNftActions(entity: TokenEntity) {
   })
 
   return {
-    userIsOwner: userIsOwnerComputed,
+    isOwner,
     isAvailableToBuy: isAvailableToBuyComputed,
     getNFTForBuying,
     nftForShoppingCart,

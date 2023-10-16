@@ -19,7 +19,7 @@
     :media-player-cover="mediaPlayerCover"
     media-hover-on-cover-play>
     <template #action>
-      <div v-if="!userIsOwner && isAvailableToBuy" class="is-flex">
+      <div v-if="!isOwner && isAvailableToBuy" class="is-flex">
         <NeoButton
           :label="buyLabel"
           data-testid="item-buy"
@@ -37,7 +37,7 @@
           <img :src="cartIcon" class="image is-16x16" alt="cart icon" />
         </NeoButton>
       </div>
-      <div v-else-if="userIsOwner" class="is-flex">
+      <div v-else-if="isOwner" class="is-flex">
         <template v-if="isStack">
           <NeoButton
             v-if="isThereAnythingToList !== undefined"
@@ -99,7 +99,7 @@ const {
   isAvailableToBuy,
   isStack,
   nftForShoppingCart,
-  userIsOwner,
+  isOwner,
   isThereAnythingToList,
 } = useNftActions(props.entity)
 
