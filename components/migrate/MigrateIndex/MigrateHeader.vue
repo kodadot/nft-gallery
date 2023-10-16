@@ -52,7 +52,18 @@
             </NeoDropdown>
           </div>
           <div class="mx-4">
-            <img src="/migrate/arrow.svg" alt="Destination" />
+            <svg
+              width="33"
+              height="16"
+              viewBox="0 0 33 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="svg-arrow">
+              <line y1="5" x2="29" y2="5" />
+              <line y1="11" x2="29" y2="11" />
+              <line x1="24.3536" y1="0.646447" x2="32.3536" y2="8.64645" />
+              <line x1="32.3293" y1="8.37629" x2="24.3293" y2="15.3763" />
+            </svg>
           </div>
           <div class="is-relative">
             <p class="text-destination has-text-grey">Destination</p>
@@ -139,6 +150,14 @@ watchEffect(() => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/abstracts/variables';
+
+.svg-arrow {
+  @include ktheme() {
+    stroke: theme('text-color');
+  }
+}
+
 .migrate-title {
   position: relative;
   margin-bottom: 1rem;

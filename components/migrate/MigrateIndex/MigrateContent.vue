@@ -169,9 +169,14 @@ const dummyWaitingCollections = [
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/abstracts/variables';
+
 .question {
-  color: grey;
   font-size: 12px;
+
+  @include ktheme() {
+    color: theme('k-grey');
+  }
 }
 
 .section-title {
@@ -194,34 +199,43 @@ const dummyWaitingCollections = [
   grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-top: 2rem;
 
-  &-card {
-    position: relative;
+  @include ktheme() {
+    &-card {
+      position: relative;
 
-    &-banner {
-      background-position: center;
-      background-size: cover;
-      background-repeat: no-repeat;
-      height: 16rem;
-    }
+      &-banner {
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 16rem;
+      }
 
-    &-avatar {
-      background-position: center;
-      background-size: cover;
-      background-repeat: no-repeat;
-      box-shadow:
-        0 0 0 1px #999,
-        0 0 0 10px white,
-        0 0 0 11px #999;
-      height: 5.5rem;
-      width: 5.5rem;
-      position: absolute;
-      top: 8rem;
-      left: 3rem;
-    }
+      &-avatar {
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        box-shadow:
+          0 0 0 1px theme('k-grey'),
+          0 0 0 10px white,
+          0 0 0 11px theme('k-grey');
+        height: 5.5rem;
+        width: 5.5rem;
+        position: absolute;
+        top: 8rem;
+        left: 3rem;
+      }
 
-    &-info {
-      border-top: 1px solid #999;
-      padding: 1.5rem 2rem;
+      &-info {
+        background-color: theme('background-color');
+        border-top: 1px solid theme('card-border-color');
+        padding: 1.5rem 2rem;
+      }
+
+      &:hover {
+        .collection-card-info {
+          border-top: 1px solid theme('border-color');
+        }
+      }
     }
   }
 }
