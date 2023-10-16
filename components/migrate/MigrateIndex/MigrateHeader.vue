@@ -1,6 +1,6 @@
 <template>
   <div class="columns mb-6">
-    <div class="column is-half">
+    <div class="column is-5">
       <div
         class="is-flex is-flex-direction-column is-justify-content-space-between h-full">
         <div>
@@ -13,7 +13,7 @@
 
         <div class="is-flex is-align-items-center mt-4">
           <div class="is-relative">
-            <p class="text-destination">Source</p>
+            <p class="text-destination has-text-grey">Source</p>
             <NeoButton rounded no-shadow variant="pill">
               <img
                 src="/token/ksm.svg"
@@ -27,7 +27,7 @@
             <img src="/migrate/arrow.svg" alt="Destination" />
           </div>
           <div class="is-relative">
-            <p class="text-destination">Destination</p>
+            <p class="text-destination has-text-grey">Destination</p>
             <NeoDropdown v-model="currentDestination" aria-role="list">
               <template #trigger="{ active }">
                 <NeoButton rounded no-shadow variant="pill">
@@ -53,7 +53,10 @@
       </div>
     </div>
 
-    <div class="column is-half"><MigrateFaq /></div>
+    <!-- spacing -->
+    <div class="column"></div>
+
+    <div class="column is-5"><MigrateFaq /></div>
   </div>
 </template>
 

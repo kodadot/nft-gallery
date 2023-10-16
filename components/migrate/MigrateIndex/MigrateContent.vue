@@ -16,14 +16,16 @@
         </div>
       </div>
 
-      <div class="is-flex is-align-items-center question">
+      <div class="question">
         <NeoTooltip
           multiline
           multiline-width="16rem"
           :label="$t('migrate.tooltipCollectionLabel')">
-          <NeoIcon icon="circle-question" class="mr-2" />
+          <div class="is-flex is-align-items-center">
+            <NeoIcon icon="circle-question" class="mr-2" />
+            <p>{{ $t('migrate.tooltipCollection') }}</p>
+          </div>
         </NeoTooltip>
-        <p>{{ $t('migrate.tooltipCollection') }}</p>
       </div>
     </div>
 
@@ -31,7 +33,7 @@
 
     <!-- ready state for migration here -->
     <div v-if="accountId">
-      <div class="mb-6">
+      <div class="mt-8 pt-4">
         <div class="is-flex is-relative section-title">
           <img src="/migrate/state-ready.svg" alt="Ready" />
           <p>{{ $t('migrate.ready.title') }}</p>
@@ -79,7 +81,7 @@
       </div>
 
       <!-- waiting state for migration here -->
-      <div class="mb-6">
+      <div class="mt-8 pt-4">
         <div class="is-flex is-relative section-title">
           <img src="/migrate/state-waiting.svg" alt="Ready" />
           <p>{{ $t('migrate.waiting.title') }}</p>
@@ -128,13 +130,17 @@
         </div>
       </div>
 
-      <hr />
-
-      <p class="has-text-grey mb-2">{{ $t('migrate.migrationNotPossible') }}</p>
-      <p>
-        <span v-dompurify-html="$t('migrate.migrationNotPossibleLabel')"></span>
-        <strong> Crazy dogs, Music album 101, I like good weather</strong>
-      </p>
+      <div class="mt-8 pt-4">
+        <hr />
+        <p class="has-text-grey mb-2">
+          {{ $t('migrate.migrationNotPossible') }}
+        </p>
+        <p>
+          <span
+            v-dompurify-html="$t('migrate.migrationNotPossibleLabel')"></span>
+          <strong> Crazy dogs, Music album 101, I like good weather</strong>
+        </p>
+      </div>
     </div>
 
     <!-- empty state collection here -->
