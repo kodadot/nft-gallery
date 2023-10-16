@@ -1359,6 +1359,7 @@
     "noUpcoming": "Nothing  here yet...",
     "mintingLive": "Minting Live",
     "mintedBy": "Minted By",
+    "mintPerAddress": "Each address can mint only once",
     "recentMints": "Recent NFT Mints"
   },
   "confirmPurchase": {

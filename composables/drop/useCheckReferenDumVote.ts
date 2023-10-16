@@ -5,6 +5,9 @@ export const useCheckReferenDumVote = (proposal?: number) => {
   const { accountId } = useAuth()
   const isEligibleUser = ref(false)
 
+  onMounted(() => {
+    checkReferenDumVote()
+  })
   watch([accountId, proposal], () => {
     checkReferenDumVote()
   })
@@ -18,12 +21,12 @@ export const useCheckReferenDumVote = (proposal?: number) => {
         query: referendumVoteByAccount,
         variables: {
           account: getss58AddressByPrefix(accountId.value, 'dot'),
-          proposal: proposal,
+          proposal: Number(proposal),
         },
         clientId: 'polkassembly',
       })
 
-      if (data.value.votes.length > 0) {
+      if (data.value?.votes.length) {
         isEligibleUser.value = true
       }
     }
