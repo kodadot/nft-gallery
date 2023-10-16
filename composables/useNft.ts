@@ -88,17 +88,15 @@ function getGeneralMetadata<T extends MinimalNFT>(nft: T) {
   }
 }
 
-export async function useNftCardIcon<
+export function useNftCardIcon<
   T extends {
     meta: {
       animationUrl?: string
     }
   },
 >(nft: Ref<T>) {
-  const { isAudio } = await useNftMimeType(nft)
+  const isAudio = ref(false)
   const { unlockableIcon } = useUnlockableIcon()
-
-  const showCardIcon = computed(() => isAudio)
 
   const cardIcon = computed(() => {
     if (isAudio) {
@@ -107,7 +105,12 @@ export async function useNftCardIcon<
     return unlockableIcon.value
   })
 
-  return { showCardIcon, cardIcon }
+  watchEffect(async () => {
+    const { isAudio: audio } = await useNftMimeType(nft)
+    isAudio.value = audio
+  })
+
+  return { showCardIcon: isAudio, cardIcon }
 }
 
 export async function useNftMimeType<
@@ -147,7 +150,9 @@ async function getRmrk2Resources<T extends MinimalNFT>(nft: T) {
 
 async function getProcessMetadata<T extends MinimalNFT>(nft: T) {
   const metadata = await processSingleMetadata<NFTMetadata>(nft.metadata)
-  const image = sanitizeIpfsUrl(metadata.image || metadata.mediaUri || '')
+  const image = sanitizeIpfsUrl(
+    metadata.image || metadata.mediaUri || metadata.thumbnailUri || '',
+  )
   const animationUrl = sanitizeIpfsUrl(metadata.animation_url || '')
 
   return {

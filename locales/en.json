@@ -2,6 +2,8 @@
   "translation": "english",
   "create": "Create",
   "explore": "Explore",
+  "exploreItems": "Explore Items on",
+  "exploreCollections": "Explore Collections on",
   "credit": "Credit",
   "gallery": "Gallery",
   "collection": "Collection",
@@ -1360,6 +1362,7 @@
     "noUpcoming": "Nothing  here yet...",
     "mintingLive": "Minting Live",
     "mintedBy": "Minted By",
+    "mintPerAddress": "Each address can mint only once",
     "recentMints": "Recent NFT Mints"
   },
   "confirmPurchase": {

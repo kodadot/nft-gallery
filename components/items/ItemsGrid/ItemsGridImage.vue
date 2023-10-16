@@ -65,6 +65,7 @@ import {
 } from '@/components/common/shoppingCart/utils'
 import useNftMetadata, { useNftCardIcon } from '@/composables/useNft'
 
+const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()
 const { isLogIn, isCurrentOwner } = useAuth()
 const { urlPrefix } = usePrefix()
@@ -80,9 +81,7 @@ const props = defineProps<{
   variant?: NftCardVariant
 }>()
 
-const { showCardIcon, cardIcon } = await useNftCardIcon(
-  computed(() => props.nft),
-)
+const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.nft))
 
 const { nft: nftMetadata } = useNftMetadata(props.nft)
 

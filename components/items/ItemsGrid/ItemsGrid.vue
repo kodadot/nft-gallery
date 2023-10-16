@@ -31,9 +31,20 @@
               : 'primary'
           " />
       </div>
+
+      <!-- skeleton on fetching next page -->
+      <template v-if="isLoading || isFetchingData">
+        <NeoNftCardSkeleton v-for="n in skeletonCount" :key="n" />
+      </template>
+
+      <!-- intersection observer element -->
+      <div v-else ref="target"></div>
     </DynamicGrid>
 
-    <DynamicGrid v-if="isLoading || isFetchingData" class="my-5">
+    <!-- skeleton on first load -->
+    <DynamicGrid
+      v-if="total === 0 && (isLoading || isFetchingData)"
+      class="my-5">
       <NeoNftCardSkeleton v-for="n in skeletonCount" :key="n" />
     </DynamicGrid>
 
@@ -93,6 +104,7 @@ const {
   isFetchingData,
   scrollContainerId,
   reachTopHandler,
+  fetchNextPage,
 } = useListInfiniteScroll({
   gotoPage,
   fetchPageData,
@@ -104,14 +116,13 @@ const resetPage = useDebounceFn(() => {
   gotoPage(1)
 }, 500)
 
-const { items, fetchSearch, refetch, clearFetchResults, usingTokens } =
-  useFetchSearch({
-    first,
-    total,
-    isFetchingData,
-    isLoading,
-    resetSearch: resetPage,
-  })
+const { items, fetchSearch, clearFetchResults, usingTokens } = useFetchSearch({
+  first,
+  total,
+  isFetchingData,
+  isLoading,
+  resetSearch: resetPage,
+})
 
 watch(
   () => items.value.length,
@@ -152,7 +163,7 @@ watch(
     }
     if (!isEqual(newSearch, oldSearch)) {
       isLoading.value = true
-      refetch(parseSearch(props.search))
+      gotoPage(1)
     }
   },
   { deep: true },
@@ -169,5 +180,13 @@ onBeforeMount(() => {
   }).then(() => {
     isLoading.value = false
   })
+})
+
+// trigger intersection observer
+const target = ref(null)
+useIntersectionObserver(target, async ([{ isIntersecting }]) => {
+  if (isIntersecting && !isFetchingData.value) {
+    await fetchNextPage()
+  }
 })
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="media-object" style="height: fit-content">
+  <div ref="mediaItem" class="media-object" style="height: fit-content">
     <component
       :is="resolveComponent"
       :src="properSrc"
@@ -11,7 +11,8 @@
       :is-detail="isDetail"
       :disable-operation="disableOperation"
       :player-cover="audioPlayerCover"
-      :hover-on-cover-play="audioHoverOnCoverPlay" />
+      :hover-on-cover-play="audioHoverOnCoverPlay"
+      :parent-hovering="isMediaItemHovering" />
     <div
       v-if="isLewd && isLewdBlurredLayer"
       class="nsfw-blur is-capitalized is-flex is-align-items-center is-justify-content-center is-flex-direction-column">
@@ -56,6 +57,7 @@ import JsonMedia from './type/JsonMedia.vue'
 import IFrameMedia from './type/IFrameMedia.vue'
 import ObjectMedia from './type/ObjectMedia.vue'
 import Media from './type/UnknownMedia.vue'
+import { useElementHover } from '@vueuse/core'
 
 const SUFFIX = 'Media'
 const props = withDefaults(
@@ -129,6 +131,9 @@ watch(
 const toggleContent = () => {
   isLewdBlurredLayer.value = !isLewdBlurredLayer.value
 }
+
+const mediaItem = ref()
+const isMediaItemHovering = useElementHover(mediaItem)
 
 defineExpose({ isLewdBlurredLayer })
 </script>

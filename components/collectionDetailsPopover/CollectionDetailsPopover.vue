@@ -1,6 +1,5 @@
 <template>
   <tippy
-    class="is-flex"
     interactive
     :animate-fill="false"
     :append-to="body"
