@@ -86,7 +86,6 @@ import type { Offer, OfferResponse } from '@/components/bsx/Offer/types'
 import type { CollectionEvents } from '@/components/rmrk/service/scheme'
 import { OfferStatusType } from '@/utils/offerStatus'
 import { notificationTypes, showNotification } from '@/utils/notification'
-import { isOwner as checkOwner } from '@/utils/account'
 import { ShoppingActions } from '@/utils/shoppingActions'
 import Loader from '@/components/shared/Loader.vue'
 
@@ -94,6 +93,7 @@ const { $i18n, $consola } = useNuxtApp()
 
 const { apiInstance } = useApi()
 const { urlPrefix } = usePrefix()
+const { isCurrentOwner } = useAuth()
 const { decimals, chainSymbol } = useChain()
 
 const { transaction, status, isLoading } = useTransaction()
@@ -104,7 +104,7 @@ const dprops = defineProps<{
   account: string
 }>()
 
-const isOwner = computed(() => checkOwner(dprops.account, accountId.value))
+const isOwner = computed(() => isCurrentOwner(dprops.account))
 
 const isActive = (row) => row.status === OfferStatusType.ACTIVE
 

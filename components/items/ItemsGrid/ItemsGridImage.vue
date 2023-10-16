@@ -63,13 +63,11 @@ import {
   nftToListingCartItem,
   nftToShoppingCartItem,
 } from '@/components/common/shoppingCart/utils'
-import { isOwner as checkOwner } from '@/utils/account'
 import { NFTStack } from './useItemsGrid'
 import useNftMetadata, { useNftCardIcon } from '@/composables/useNft'
 
-const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()
-const { accountId, isLogIn } = useAuth()
+const { isLogIn, isCurrentOwner } = useAuth()
 const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
 const shoppingCartStore = useShoppingCartStore()
 const listingCartStore = useListingCartStore()
@@ -135,9 +133,7 @@ const { cartIcon } = useShoppingCartIcon(props.nft.id)
 
 const { nft } = useNft(props.nft)
 
-const isOwner = computed(() =>
-  checkOwner(props.nft?.currentOwner, accountId.value),
-)
+const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
 
 const openCompletePurcahseModal = () => {
   preferencesStore.setCompletePurchaseModal({
