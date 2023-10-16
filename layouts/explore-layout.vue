@@ -70,15 +70,23 @@ const isCollection = computed(
 
 const getExploreTitle = computed(() => {
   if (
-    !Object.keys(chainNameSeoMap).includes(urlPrefix.value) &&
-    !assetHub.includes(urlPrefix.value)
+    Object.keys(chainNameSeoMap).includes(urlPrefix.value) &&
+    assetHub.includes(urlPrefix.value)
   ) {
-    return $i18n.t('explore')
+    if (route.path.includes('/collectibles')) {
+      return `${$i18n.t('exploreCollections')} ${getSeoPrefixName(
+        urlPrefix.value,
+      )} Asset Hub`
+    }
+
+    if (route.path.includes('/items')) {
+      return `${$i18n.t('exploreItems')} ${getSeoPrefixName(
+        urlPrefix.value,
+      )} Asset Hub`
+    }
   }
 
-  return `${$i18n.t('exploreItems')} ${getSeoPrefixName(
-    urlPrefix.value,
-  )} Asset Hub`
+  return $i18n.t('explore')
 })
 </script>
 
