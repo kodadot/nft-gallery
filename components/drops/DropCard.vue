@@ -4,7 +4,7 @@
       :is="externalUrl ? 'a' : NuxtLink"
       v-if="drop.collection && !isLoadingMeta"
       rel="nofollow noopener noreferrer"
-      :to="`/${correctUrlPrefix}/drops/${correctDropUrl}`">
+      :to="`/${correctUrlPrefix}/drops/${drop.alias}`">
       <div
         class="drop-card-banner"
         :style="{ backgroundImage: `url(${image})` }">
@@ -43,15 +43,21 @@
           </div>
           <div class="is-flex justify-content-space-between" style="gap: 2rem">
             <div class="is-flex is-flex-direction-column">
-              <span class="has-text-grey">Available</span>
-              <span v-if="price === 'Free'"
-                >{{ drop.max - drop.minted }}/{{ drop.max }}</span
-              >
-              <span v-else>{{ drop.minted }}/{{ drop.max }}</span>
+              <div class="has-text-grey">Available</div>
+
+              <div v-if="isFreeDrop">
+                {{ drop.max - drop.minted }}/{{ drop.max }}
+              </div>
+              <div v-else>{{ drop.minted }}/{{ drop.max }}</div>
             </div>
             <div class="is-flex is-flex-direction-column">
               <span class="has-text-grey">{{ $t('price') }}</span>
-              <span>{{ price }}</span>
+              <span v-if="isFreeDrop">{{ $t('free') }}</span>
+              <Money
+                v-else
+                :value="drop.price"
+                :prefix="correctUrlPrefix"
+                inline />
             </div>
           </div>
         </div>
@@ -78,12 +84,10 @@ import { resolveComponent } from 'vue'
 
 const NuxtLink = resolveComponent('NuxtLink')
 
-const { urlPrefix } = usePrefix()
 const isLoadingMeta = ref(false)
 
 interface Props {
   drop: Drop
-  overrideUrlPrefix?: string
   dropUrl?: string
 }
 
@@ -92,18 +96,11 @@ const image = ref('')
 const externalUrl = ref()
 
 const correctUrlPrefix = computed(() => {
-  return props.overrideUrlPrefix || urlPrefix.value
+  return props.drop.chain
 })
 
-const correctDropUrl = computed(() => {
-  return props.dropUrl || 'free-drop'
-})
-
-const price = computed(() => {
-  if (props.dropUrl === 'dot-drop') {
-    return '1 DOT'
-  }
-  return 'Free'
+const isFreeDrop = computed(() => {
+  return !Number(props.drop?.price)
 })
 
 onMounted(async () => {

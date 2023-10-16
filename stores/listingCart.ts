@@ -1,9 +1,13 @@
 import { defineStore } from 'pinia'
-import { EntityWithId, NFTMetadata } from '@/components/rmrk/service/scheme'
+import {
+  EntityWithId,
+  NFTMetadata,
+  TokenId,
+} from '@/components/rmrk/service/scheme'
 import { ComputedRef } from 'vue'
 import type { Prefix } from '@kodadot1/static'
 
-export type ListCartItem = {
+type ListCartItemInternal = {
   id: string
   name: string
   urlPrefix: string
@@ -14,6 +18,7 @@ export type ListCartItem = {
   metadata?: string
   discarded?: boolean
 }
+export type ListCartItem = ListCartItemInternal & TokenId
 
 type ID = string
 
@@ -122,5 +127,5 @@ export const useListingCartStore = defineStore('listingCart', {
 })
 
 function existInItemIndex(id: string, items: ListCartItem[]) {
-  return items.findIndex((item) => item.id === id)
+  return items.findIndex((item) => item.id === id || item.token?.id === id)
 }

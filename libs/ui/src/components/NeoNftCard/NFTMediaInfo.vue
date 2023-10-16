@@ -9,18 +9,14 @@
         :title="nft.name"
         >{{ nft.name || '--' }}</span
       >
-
       <CollectionDetailsPopover
-        v-if="
-          variant !== 'minimal' && (nft.collection.name || nft.collection.id)
-        "
+        v-if="nft.collection.name || nft.collection.id"
         :show-delay="collectionPopoverShowDelay"
-        :nft="nft"
-        class="is-ellipsis">
-        <template #trigger>
+        :nft="nft">
+        <template #content>
           <nuxt-link
             :to="`/${prefix}/collection/${nft.collection.id}`"
-            class="is-size-7 nft-info-collection-name">
+            class="is-size-7 nft-info-collection-name is-ellipsis">
             {{ nft.collection.name || '--' }}
           </nuxt-link>
         </template>
@@ -36,7 +32,7 @@
       ]">
       <CommonTokenMoney
         v-if="showPrice"
-        :value="nft.price"
+        :value="isTokenEntity(nft) ? nft.cheapest?.price : nft.price"
         data-testid="card-money" />
       <span v-if="!isMinimal" class="chain-name is-capitalized is-size-7">{{
         getChainNameByPrefix(prefix)
@@ -51,7 +47,7 @@ import { NftCardVariant } from '@kodadot1/brick'
 import { NFTWithMetadata } from '@/composables/useNft'
 const props = withDefaults(
   defineProps<{
-    nft: NFTWithMetadata
+    nft: NFTWithMetadata | TokenEntity
     prefix: string
     showPrice?: boolean
     collectionPopoverShowDelay?: number

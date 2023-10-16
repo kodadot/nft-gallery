@@ -3,8 +3,6 @@
     <Navbar />
 
     <main class="is-flex-grow-1">
-      <UnlockableCollectionBanner :key="route.path" :type="type" />
-      <hr class="text-color my-0" />
       <NuxtPage />
     </main>
     <LazyTheFooter />
@@ -12,14 +10,6 @@
     <Buy />
   </div>
 </template>
-
-<script lang="ts" setup>
-import UnlockableCollectionBanner from '@/components/collection/unlockable/UnlockableCollectionBanner.vue'
-
-const route = useRoute()
-
-const type = computed(() => route.path.split('/').reverse().at(0))
-</script>
 
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
