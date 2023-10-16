@@ -9,18 +9,14 @@
         :title="nft.name"
         >{{ nft.name || '--' }}</span
       >
-
       <CollectionDetailsPopover
-        v-if="
-          variant !== 'minimal' && (nft.collection.name || nft.collection.id)
-        "
+        v-if="nft.collection.name || nft.collection.id"
         :show-delay="collectionPopoverShowDelay"
-        :nft="nft"
-        class="is-ellipsis">
-        <template #trigger>
+        :nft="nft">
+        <template #content>
           <nuxt-link
             :to="`/${prefix}/collection/${nft.collection.id}`"
-            class="is-size-7 nft-info-collection-name">
+            class="is-size-7 nft-info-collection-name is-ellipsis">
             {{ nft.collection.name || '--' }}
           </nuxt-link>
         </template>
