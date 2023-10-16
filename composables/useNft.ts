@@ -27,6 +27,39 @@ export type ItemResources = {
 export type NFTWithMetadata = NFT &
   NFTMetadata & { meta: BaseNFTMeta } & ItemResources
 
+export type MinimalNFT = {
+  id: string
+  name: string
+  description?: string
+  metadata: string
+  meta: BaseNFTMeta
+} & ItemResources
+
+export type TokenEntity = {
+  id: string
+  name: string
+  image: string
+  media?: string
+  metadata: string
+  meta: BaseNFTMeta
+  supply: number
+  cheapest: {
+    id: string
+    price: string
+    currentOwner: string
+  }
+  collection: {
+    id: string
+    name: string
+    floorPrice: [{ price: string }]
+  }
+}
+
+export const isTokenEntity = (
+  entity: NFTWithMetadata | TokenEntity,
+): entity is TokenEntity =>
+  typeof (entity as TokenEntity).supply !== 'undefined'
+
 function getAttributes(nft, metadata) {
   const hasMetadataAttributes =
     metadata.attributes && metadata.attributes.length > 0
@@ -41,7 +74,7 @@ function getAttributes(nft, metadata) {
     : attr
 }
 
-function getGeneralMetadata(nft: NFTWithMetadata) {
+function getGeneralMetadata<T extends MinimalNFT>(nft: T) {
   return {
     ...nft,
     name: nft.name || nft.meta.name || nft.id,
@@ -55,7 +88,13 @@ function getGeneralMetadata(nft: NFTWithMetadata) {
   }
 }
 
-export function useNftCardIcon(nft: Ref<NFTWithMetadata>) {
+export function useNftCardIcon<
+  T extends {
+    meta: {
+      animationUrl?: string
+    }
+  },
+>(nft: Ref<T>) {
   const isAudio = ref(false)
   const { unlockableIcon } = useUnlockableIcon()
 
@@ -74,7 +113,13 @@ export function useNftCardIcon(nft: Ref<NFTWithMetadata>) {
   return { showCardIcon: isAudio, cardIcon }
 }
 
-export async function useNftMimeType(nft?: Ref<NFTWithMetadata>) {
+export async function useNftMimeType<
+  T extends {
+    meta: {
+      animationUrl?: string
+    }
+  },
+>(nft?: Ref<T>) {
   if (!nft?.value.meta?.animationUrl) {
     return {
       isAudio: false,
@@ -90,7 +135,7 @@ export async function useNftMimeType(nft?: Ref<NFTWithMetadata>) {
   }
 }
 
-async function getRmrk2Resources(nft: NFTWithMetadata) {
+async function getRmrk2Resources<T extends MinimalNFT>(nft: T) {
   const thumb = nft.resources?.[0]?.thumb
   const src = nft.resources?.[0]?.src
   const image = sanitizeIpfsUrl(thumb || src || '')
@@ -103,8 +148,8 @@ async function getRmrk2Resources(nft: NFTWithMetadata) {
   }
 }
 
-async function getProcessMetadata(nft: NFTWithMetadata) {
-  const metadata = await processSingleMetadata<NFTWithMetadata>(nft.metadata)
+async function getProcessMetadata<T extends MinimalNFT>(nft: T) {
+  const metadata = await processSingleMetadata<NFTMetadata>(nft.metadata)
   const image = sanitizeIpfsUrl(
     metadata.image || metadata.mediaUri || metadata.thumbnailUri || '',
   )
@@ -121,7 +166,10 @@ async function getProcessMetadata(nft: NFTWithMetadata) {
   }
 }
 
-export function getNftMetadata(nft: NFTWithMetadata, prefix: string) {
+export async function getNftMetadata<T extends MinimalNFT>(
+  nft: T,
+  prefix: string,
+) {
   // if subsquid already give us the metadata, we don't need to fetch it again
   if (nft.meta?.image) {
     return getGeneralMetadata(nft)
@@ -129,14 +177,23 @@ export function getNftMetadata(nft: NFTWithMetadata, prefix: string) {
 
   // if it's rmrk2, we need to check `resources` field
   if (prefix === 'ksm' && nft.resources?.length) {
-    return getRmrk2Resources(nft)
+    return await getRmrk2Resources(nft)
   }
 
-  return getProcessMetadata(nft)
+  return await getProcessMetadata(nft)
 }
 
-export default function useNftMetadata(nft: NFTWithMetadata) {
-  const item = ref<NFTWithMetadata>(nft)
+export default function useNftMetadata<T extends MinimalNFT>(nft: T) {
+  const item = ref<
+    T & {
+      name: string
+      description: string
+      image: string
+      animationUrl: string
+      type: string
+      attributes: unknown
+    }
+  >()
   const { urlPrefix } = usePrefix()
 
   onMounted(async () => {

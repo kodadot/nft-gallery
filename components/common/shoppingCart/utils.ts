@@ -3,7 +3,7 @@ import { ListCartItem } from '@/stores/listingCart'
 import { ShoppingCartItem } from './types'
 import { useFiatStore } from '@/stores/fiat'
 import { sum } from '@/utils/math'
-import { NFT } from '@/components/rmrk/service/scheme'
+import { NFT, TokenId } from '@/components/rmrk/service/scheme'
 import { chainPropListOf } from '@/utils/config/chain.config'
 
 export const prefixToToken = {
@@ -64,7 +64,10 @@ export const nftToShoppingCartItem = (nft: NFT): ShoppingCartItem => {
   }
 }
 
-export const nftToListingCartItem = (nft: NFT, floor = ''): ListCartItem => {
+export const nftToListingCartItem = (
+  nft: NFT & TokenId,
+  floor = '',
+): ListCartItem => {
   const { urlPrefix } = usePrefix()
 
   return {
@@ -79,5 +82,6 @@ export const nftToListingCartItem = (nft: NFT, floor = ''): ListCartItem => {
     listPrice: null,
     metadata: nft.metadata,
     meta: nft.meta,
+    token: nft.token,
   }
 }

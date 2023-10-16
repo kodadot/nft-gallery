@@ -1,5 +1,7 @@
 <template>
-  <div class="nft-card" :class="{ loading: isLoading }">
+  <div
+    class="nft-card"
+    :class="{ loading: isLoading, 'nft-card__stacked': isStacked }">
     <component
       :is="link"
       v-if="!isLoading && nft"
@@ -39,7 +41,7 @@
       </div>
       <NFTMediaInfoStacked
         v-if="isStacked"
-        :nft="nft"
+        :token="nft"
         :variant="variant"
         :prefix="prefix" />
       <NFTMediaInfo
@@ -114,9 +116,8 @@ const props = withDefaults(
   },
 )
 
-const isStacked = computed(
-  () => false,
-  // props.variant ? props.variant.includes('stacked') : false
+const isStacked = computed(() =>
+  props.variant ? props.variant.includes('stacked') : false,
 )
 const isMinimal = props.variant.includes('minimal')
 </script>

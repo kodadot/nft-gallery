@@ -63,6 +63,7 @@
   "theatre": "theatre",
   "view": "view",
   "price": "Price",
+  "lowestPrice": "Lowest Price",
   "royalty": "royalty",
   "Instance_tooltip": "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
   "Minting Settings": "Minting Settings",
