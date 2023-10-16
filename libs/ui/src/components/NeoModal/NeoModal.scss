@@ -26,6 +26,11 @@ $modal-content-border-radius: 0;
     }
   }
 
+  .o-modal__content--full-screen {
+    width: 100%!important;
+    max-height: 100vh !important;
+  }
+
   .o-modal__overlay {
     background-color: rgba(0, 0, 0, 0.17);
   }
