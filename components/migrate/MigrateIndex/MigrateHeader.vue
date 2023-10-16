@@ -14,29 +14,62 @@
         <div class="is-flex is-align-items-center mt-4">
           <div class="is-relative">
             <p class="text-destination has-text-grey">Source</p>
-            <NeoButton rounded no-shadow variant="pill">
-              <img
-                src="/token/ksm.svg"
-                alt="Polkadot Asset Hub"
-                class="mr-2"
-                width="20" />
-              <span>Kusama</span>
-            </NeoButton>
+            <NeoDropdown v-model="sourceSelected" aria-role="list">
+              <template #trigger="{ active }">
+                <NeoButton
+                  rounded
+                  no-shadow
+                  variant="pill"
+                  :active="active"
+                  class="chain-selector">
+                  <div class="is-flex">
+                    <img
+                      :src="sourceSelected?.icon"
+                      :alt="sourceSelected?.text"
+                      class="mr-2"
+                      width="20" />
+                    <span class="mr-2">{{ sourceSelected?.text }}</span>
+                  </div>
+                  <NeoIcon :icon="active ? 'chevron-up' : 'chevron-down'" />
+                </NeoButton>
+              </template>
+
+              <NeoDropdownItem
+                v-for="item in source"
+                :key="item.value"
+                aria-role="listitem"
+                :value="item"
+                :active="item.value === sourceSelected?.value">
+                <div class="is-flex">
+                  <img
+                    :src="item.icon"
+                    :alt="item.text"
+                    class="mr-2"
+                    width="20" />
+                  <div>{{ item.text }}</div>
+                </div>
+              </NeoDropdownItem>
+            </NeoDropdown>
           </div>
           <div class="mx-4">
             <img src="/migrate/arrow.svg" alt="Destination" />
           </div>
           <div class="is-relative">
             <p class="text-destination has-text-grey">Destination</p>
-            <NeoDropdown v-model="currentDestination" aria-role="list">
+            <NeoDropdown v-model="destinationSelected" aria-role="list">
               <template #trigger="{ active }">
-                <NeoButton rounded no-shadow variant="pill">
+                <NeoButton
+                  rounded
+                  no-shadow
+                  variant="pill"
+                  :active="active"
+                  class="chain-selector">
                   <img
-                    :src="currentDestination.logo"
-                    alt="Polkadot Asset Hub"
+                    :src="destinationSelected?.icon"
+                    :alt="destinationSelected?.text"
                     class="mr-2"
                     width="20" />
-                  <span class="mr-2">{{ currentDestination.label }}</span>
+                  <span class="mr-2">{{ destinationSelected?.text }}</span>
                   <NeoIcon :icon="active ? 'chevron-up' : 'chevron-down'" />
                 </NeoButton>
               </template>
@@ -45,8 +78,18 @@
                 v-for="item in destination"
                 :key="item.value"
                 aria-role="listitem"
-                :label="item.label"
-                :value="item" />
+                :value="item"
+                :active="item.value === destinationSelected?.value"
+                :disabled="sourceSelected?.value === item.value">
+                <div class="is-flex">
+                  <img
+                    :src="item.icon"
+                    :alt="item.text"
+                    class="mr-2"
+                    width="20" />
+                  <div>{{ item.text }}</div>
+                </div>
+              </NeoDropdownItem>
             </NeoDropdown>
           </div>
         </div>
@@ -68,23 +111,30 @@ import {
   NeoIcon,
 } from '@kodadot1/brick'
 import MigrateFaq from './MigrateHeaderFaq.vue'
+import { availablePrefixWithIcon } from '@/utils/chain'
 
-const destination = [
-  {
-    label: 'Polkadot Asset Hub',
-    logo: '/token/polkadot_asset_hub.svg',
-    value: 'ahp',
-  },
-  {
-    label: 'Kusama Asset Hub',
-    logo: '/token/kusama_asset_hub.svg',
-    value: 'ahk',
-  },
-]
-const currentDestination = ref({
-  label: 'Polkadot Asset Hub',
-  logo: '/token/polkadot_asset_hub.svg',
-  value: 'ahp',
+const source = availablePrefixWithIcon()
+const sourceSelected = ref(
+  availablePrefixWithIcon().find((item) => item.value === 'ksm'),
+)
+
+const destination = availablePrefixWithIcon().filter(
+  (item) => item.value === 'ahp' || item.value === 'ahk',
+)
+const destinationSelected = ref(
+  availablePrefixWithIcon().find((item) => item.value === 'ahp'),
+)
+
+watchEffect(() => {
+  const chain = sourceSelected.value?.value
+
+  if (chain === 'ahk') {
+    destinationSelected.value = destination.find((item) => item.value === 'ahp')
+  }
+
+  if (chain === 'ahp') {
+    destinationSelected.value = destination.find((item) => item.value === 'ahk')
+  }
 })
 </script>
 
@@ -107,5 +157,9 @@ const currentDestination = ref({
 .text-destination {
   position: absolute;
   top: -100%;
+}
+
+.chain-selector {
+  width: 15rem;
 }
 </style>
