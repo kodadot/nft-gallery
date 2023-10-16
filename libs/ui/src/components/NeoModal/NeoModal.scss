@@ -42,4 +42,7 @@ $modal-content-border-radius: 0;
   .card {
     border-radius: 0;
   }
+  &.append-to-body{
+    z-index: 999;
+  }
 }
