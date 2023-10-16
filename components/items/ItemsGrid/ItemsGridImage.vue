@@ -66,6 +66,7 @@ import {
 import { NFTStack } from './useItemsGrid'
 import useNftMetadata, { useNftCardIcon } from '@/composables/useNft'
 
+const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()
 const { isLogIn, isCurrentOwner } = useAuth()
 const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
