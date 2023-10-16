@@ -68,10 +68,8 @@ export function withoutDigitSeparator(value: string) {
 }
 
 export function roundTo(value: number | string, limit = 2) {
-  const number = Number(value.toLocaleString().replace(/,/g, ''))
+  const number = Number(value.toString().replace(/,/g, ''))
   const hasDecimals = number % 1 !== 0
-  // `undefined` params in toLocaleString() means use host default language
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString#using_options
   const fractionDigits = hasDecimals ? limit : 0
   return number.toLocaleString(undefined, {
     minimumFractionDigits: fractionDigits,
