@@ -19,7 +19,7 @@
     :media-player-cover="mediaPlayerCover"
     media-hover-on-cover-play>
     <template #action>
-      <div v-if="!isUserTheOwner && Number(nft?.price)" class="is-flex">
+      <div v-if="!isOwner && Number(nft?.price)" class="is-flex">
         <NeoButton
           :label="buyLabel"
           data-testid="item-buy"
@@ -37,7 +37,7 @@
           <img :src="cartIcon" class="image is-16x16" alt="cart icon" />
         </NeoButton>
       </div>
-      <div v-else-if="isUserTheOwner" class="is-flex">
+      <div v-else-if="isOwner" class="is-flex">
         <NeoButton
           :label="listLabel"
           data-testid="item-buy"
@@ -63,11 +63,10 @@ import {
   nftToListingCartItem,
   nftToShoppingCartItem,
 } from '@/components/common/shoppingCart/utils'
-import { isOwner as checkOwner } from '@/utils/account'
 import useNftMetadata, { useNftCardIcon } from '@/composables/useNft'
-const { urlPrefix } = usePrefix()
+
 const { placeholder } = useTheme()
-const { accountId, isLogIn } = useAuth()
+const { isLogIn, isCurrentOwner } = useAuth()
 const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
 const shoppingCartStore = useShoppingCartStore()
 const listingCartStore = useListingCartStore()
@@ -113,9 +112,7 @@ const { cartIcon } = useShoppingCartIcon(props.nft.id)
 
 const { nft } = useNft(props.nft)
 
-const isUserTheOwner = computed(() =>
-  checkOwner(props.nft?.currentOwner, accountId.value),
-)
+const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
 
 const openCompletePurcahseModal = () => {
   preferencesStore.setCompletePurchaseModal({

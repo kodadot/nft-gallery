@@ -8,7 +8,6 @@ import type { NFTWithMetadata, TokenEntity } from '@/composables/useNft'
 
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 
-import { isOwner as checkOwner } from '@/utils/account'
 import { useListingCartStore } from '@/stores/listingCart'
 import { NFT, TokenId } from '@/components/rmrk/service/scheme'
 
@@ -204,12 +203,9 @@ export const updatePotentialNftsForListingCart = async (
   nfts: (NFT & TokenId)[],
 ) => {
   const listingCartStore = useListingCartStore()
-  const { accountId } = useAuth()
+  const { isCurrentOwner } = useAuth()
   const potentialNfts = nfts
-    .filter(
-      (nft) =>
-        !Number(nft.price) && checkOwner(nft.currentOwner, accountId.value),
-    )
+    .filter((nft) => !Number(nft.price) && isCurrentOwner(nft.currentOwner))
     .map((nft) => {
       const floorPrice = nft.collection.floorPrice[0]?.price || '0'
       return nftToListingCartItem(nft, floorPrice)
