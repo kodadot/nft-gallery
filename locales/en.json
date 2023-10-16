@@ -2,6 +2,8 @@
   "translation": "english",
   "create": "Create",
   "explore": "Explore",
+  "exploreItems": "Explore Items on",
+  "exploreCollections": "Explore Collections on",
   "credit": "Credit",
   "gallery": "Gallery",
   "collection": "Collection",
@@ -61,6 +63,7 @@
   "theatre": "theatre",
   "view": "view",
   "price": "Price",
+  "lowestPrice": "Lowest Price",
   "royalty": "royalty",
   "Instance_tooltip": "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
   "Minting Settings": "Minting Settings",
@@ -1359,6 +1362,7 @@
     "noUpcoming": "Nothing  here yet...",
     "mintingLive": "Minting Live",
     "mintedBy": "Minted By",
+    "mintPerAddress": "Each address can mint only once",
     "recentMints": "Recent NFT Mints"
   },
   "confirmPurchase": {

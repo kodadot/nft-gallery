@@ -190,6 +190,7 @@ export default function ({
   return {
     isFetchingData,
     fetchPreviousPage,
+    fetchNextPage,
     reachTopHandler,
     prefetchNextPage,
     first,

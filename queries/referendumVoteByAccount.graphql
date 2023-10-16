@@ -1,14 +1,12 @@
-query referendumVoteByAccount($account: String!, $proposal: Number!) {
+query referendumVoteByAccount($account: String!, $proposal: Int!) {
   votes: convictionVotes(
     where: {
-      proposal: { index_eq: proposal }
+      proposal: { index_eq: $proposal }
       decision_eq: yes
       voter_eq: $account
     }
   ) {
     id
     voter
-    votingPower
-    lockPeriod
   }
 }
