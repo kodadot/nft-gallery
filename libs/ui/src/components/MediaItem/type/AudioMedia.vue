@@ -45,16 +45,16 @@ const props = withDefaults(
 const cover = ref()
 const audioPlayer = ref()
 
-const debounceDelay = 1000
+const hoverDelay = 1000
 
-const coverHovering = useElementHover(cover, { delayEnter: debounceDelay })
+const coverHovering = useElementHover(cover, { delayEnter: hoverDelay })
 
 if (props.hoverOnCoverPlay) {
   if (props.parentHovering !== undefined) {
     watchDebounced(
       () => props.parentHovering,
       (hovering) => handleCoverHover(hovering),
-      { debounce: computed(() => (props.parentHovering ? debounceDelay : 0)) },
+      { debounce: computed(() => (props.parentHovering ? hoverDelay : 0)) },
     )
   } else {
     watch(coverHovering, (hovering) => handleCoverHover(hovering))
