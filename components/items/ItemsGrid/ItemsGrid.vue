@@ -27,6 +27,9 @@
       <template v-if="isLoading || isFetchingData">
         <NeoNftCardSkeleton v-for="n in skeletonCount" :key="n" />
       </template>
+
+      <!-- intersection observer element -->
+      <div v-else ref="target"></div>
     </DynamicGrid>
 
     <!-- skeleton on first load -->
@@ -89,6 +92,7 @@ const {
   isFetchingData,
   scrollContainerId,
   reachTopHandler,
+  fetchNextPage,
 } = useListInfiniteScroll({
   gotoPage,
   fetchPageData,
@@ -156,5 +160,13 @@ onBeforeMount(() => {
   }).then(() => {
     isLoading.value = false
   })
+})
+
+// trigger intersection observer
+const target = ref(null)
+useIntersectionObserver(target, async ([{ isIntersecting }]) => {
+  if (isIntersecting && !isFetchingData.value) {
+    await fetchNextPage()
+  }
 })
 </script>
