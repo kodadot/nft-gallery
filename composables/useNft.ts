@@ -55,11 +55,9 @@ function getGeneralMetadata(nft: NFTWithMetadata) {
   }
 }
 
-export async function useNftCardIcon(nft: Ref<NFTWithMetadata>) {
-  const { isAudio } = await useNftMimeType(nft)
+export function useNftCardIcon(nft: Ref<NFTWithMetadata>) {
+  const isAudio = ref(false)
   const { unlockableIcon } = useUnlockableIcon()
-
-  const showCardIcon = computed(() => isAudio)
 
   const cardIcon = computed(() => {
     if (isAudio) {
@@ -68,7 +66,12 @@ export async function useNftCardIcon(nft: Ref<NFTWithMetadata>) {
     return unlockableIcon.value
   })
 
-  return { showCardIcon, cardIcon }
+  watchEffect(async () => {
+    const { isAudio: audio } = await useNftMimeType(nft)
+    isAudio.value = audio
+  })
+
+  return { showCardIcon: isAudio, cardIcon }
 }
 
 export async function useNftMimeType(nft?: Ref<NFTWithMetadata>) {
@@ -102,7 +105,9 @@ async function getRmrk2Resources(nft: NFTWithMetadata) {
 
 async function getProcessMetadata(nft: NFTWithMetadata) {
   const metadata = await processSingleMetadata<NFTWithMetadata>(nft.metadata)
-  const image = sanitizeIpfsUrl(metadata.image || metadata.mediaUri || '')
+  const image = sanitizeIpfsUrl(
+    metadata.image || metadata.mediaUri || metadata.thumbnailUri || '',
+  )
   const animationUrl = sanitizeIpfsUrl(metadata.animation_url || '')
 
   return {
