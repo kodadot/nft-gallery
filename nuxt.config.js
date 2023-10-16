@@ -244,7 +244,7 @@ export default defineNuxtConfig({
 
   sitemap: {
     sitemaps: true,
-    urls: async () => {
+    urls: () => {
       const posts = fs.readdirSync('content/blog')
       return posts
         .map((post) => post.split('.')[0])
