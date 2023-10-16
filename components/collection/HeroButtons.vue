@@ -97,11 +97,10 @@ import {
   NeoDropdownItem,
   NeoModal,
 } from '@kodadot1/brick'
-import { isOwner as checkOwner } from '@/utils/account'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 
 const route = useRoute()
-const { accountId } = useAuth()
+const { isCurrentOwner } = useAuth()
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
@@ -125,9 +124,7 @@ const openUrl = (url: string) => {
 }
 
 const displaySeperator = computed(() => twitter.value)
-const isOwner = computed(() =>
-  checkOwner(collection.value?.currentOwner, accountId.value),
-)
+const isOwner = computed(() => isCurrentOwner(collection.value?.currentOwner))
 
 const QRModalActive = ref(false)
 

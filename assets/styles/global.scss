@@ -319,6 +319,10 @@ a.has-text-grey {
   border: none !important;
 }
 
+.no-border-radius {
+  border-radius: 0 !important;
+}
+
 .card-border-color {
   @include ktheme() {
     border-color: theme('card-border-color');
@@ -528,4 +532,3 @@ a.has-text-grey {
 .is-rounded {
   border-radius: 50%;
 }
-

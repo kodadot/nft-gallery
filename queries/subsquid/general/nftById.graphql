@@ -8,6 +8,13 @@ query nftById($id: String!) {
     collection {
       id
       name
+      floorPrice: nfts(
+        where: { burned_eq: false }
+        orderBy: price_ASC
+        limit: 1
+      ) {
+        price
+      }
     }
     events {
       interaction
