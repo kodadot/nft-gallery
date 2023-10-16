@@ -31,7 +31,6 @@
 
 <script lang="ts" setup>
 import { NeoTooltip } from '@kodadot1/brick'
-import { isOwner as checkOwner } from '@/utils/account'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { useWindowSize } from '@vueuse/core'
 import { useUnlockableIcon } from '@/composables/useUnlockableIcon'
@@ -41,13 +40,11 @@ const props = defineProps<{
   link: string | undefined
 }>()
 
-const { accountId } = useAuth()
+const { isCurrentOwner } = useAuth()
 const isMobile = computed(() => useWindowSize().width.value < 768)
 const { unlockableIcon } = useUnlockableIcon()
 
-const isOwner = computed(() =>
-  checkOwner(props.nft?.currentOwner, accountId.value),
-)
+const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
 </script>
 
 <style lang="scss" scoped>
