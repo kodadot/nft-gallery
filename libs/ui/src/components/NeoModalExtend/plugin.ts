@@ -22,6 +22,7 @@ const ModalProgrammatic = {
 
     const defaultParam = {
       programmatic: { instances },
+      scroll: 'clip',
     }
     let slot
     if (Array.isArray(newParams.content)) {
