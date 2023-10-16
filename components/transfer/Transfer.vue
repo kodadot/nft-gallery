@@ -586,6 +586,7 @@ const balanceUsdValue = computed(() =>
   calculateBalanceUsdValue(
     Number(balance.value) * Number(currentTokenValue.value),
     decimals.value,
+    2,
   ),
 )
 
