@@ -60,7 +60,10 @@
           {{ $t('profile.highestSales') }}
         </h6>
         <div class="is-flex sold-items">
-          <div v-for="nftItem in soldItems" :key="nftItem.id" class="sold-item">
+          <div
+            v-for="nftItem in soldItems"
+            :key="nftItem.id"
+            class="sold-item border">
             <GalleryCard
               :id="nftItem.id"
               hide-name
@@ -160,12 +163,8 @@ const { nftEntities: soldItems } = useCollectionSoldData({
   gap: 10px;
 
   .sold-item {
-    width: 78px;
-    height: 78px;
-
-    @include ktheme() {
-      border: 1px solid theme('border-color');
-    }
+    width: 76px;
+    height: 76px;
   }
 }
 </style>

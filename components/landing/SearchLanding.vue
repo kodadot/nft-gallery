@@ -25,12 +25,12 @@
         search-column-class="is-flex-grow-1" />
       <div
         id="networkList"
-        class="is-flex is-justify-content-center is-flex-wrap-wrap is-align-items-baseline">
+        class="is-flex is-justify-content-center is-flex-wrap-wrap is-align-items-baseline mt-4">
         <a
           v-for="chain in availableChains"
           :key="chain.value"
           v-safe-href="`/${chain.value}/explore/collectibles`"
-          :class="['m-2', 'chain-option active']"
+          :class="['mx-4 mb-4', 'chain-option active']"
           @click.prevent="switchChain(chain.value)">
           {{ chainText(chain.text) }}
           <sup v-if="chain.text.includes('[Beta]')" class="beta-text is-size-7">

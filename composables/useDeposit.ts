@@ -1,4 +1,4 @@
-import type { ComputedRef } from 'vue/types'
+import type { ComputedRef } from 'vue'
 import type { PalletBalancesAccountData } from '@polkadot/types/lookup'
 
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'

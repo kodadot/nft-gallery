@@ -1,5 +1,5 @@
 import { $fetch, FetchError } from 'ofetch'
-
+import type { DropItem } from '@/params/types'
 const WAIFU_BASE_URL = 'https://waifu-me.kodadot.workers.dev'
 
 const table = 'mints'
@@ -13,6 +13,18 @@ type MintResponse = Response<any>
 // type ClaimResponse = Response<any>
 type Response<T> = {
   result: T
+}
+
+export const getDrops = async () => {
+  return await api<DropItem[]>('drops', {
+    method: 'GET',
+  })
+}
+
+export const getDropById = async (id: string) => {
+  return await api<DropItem>(`/drops/${id}`, {
+    method: 'GET',
+  })
 }
 
 // URL should be sanitized ipfs://ipfs/Qm...

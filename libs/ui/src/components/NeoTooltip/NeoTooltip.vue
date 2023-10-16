@@ -5,7 +5,6 @@
     :append-to-body="appendToBody"
     :auto-close="autoClose"
     :multiline="multiline"
-    class="neo-tooltip"
     :content-class="contentClass"
     :root-class="rootClass"
     :style="{

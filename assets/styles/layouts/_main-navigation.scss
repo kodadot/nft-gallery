@@ -24,6 +24,10 @@
             padding: 1rem 1.25rem;
           }
 
+          @include tablet-only {
+            padding: 1rem $fluid-container-padding;
+          }
+
           @include ktheme() {
             border-bottom: 1px solid theme('border-color');
           }
@@ -137,6 +141,11 @@
     min-height: $navbar-mobile-min-height;
   }
 
+  @include touch {
+    display: flex;
+    align-items: center;
+  }
+
   @include ktheme() {
     background: theme('background-color');
     border-bottom: 1px solid theme('border-color');
@@ -160,6 +169,7 @@
     max-height: 70px;
     padding-top: 6px !important;
     padding-bottom: 6px !important;
+    display: block !important;
   }
 
   .navbar-item {
@@ -181,6 +191,19 @@
 
   .navbar-brand {
     align-items: center;
+    
+    @include mobile {
+      padding:0 $fluid-container-padding-mobile;
+    }
+    @include tablet-only {
+      padding: 0 $fluid-container-padding;
+    }
+
+    .logo {
+      @include touch {
+        padding-left: 0 !important;
+      }
+    }
 
     .navbar-burger {
       height: 2.5em;

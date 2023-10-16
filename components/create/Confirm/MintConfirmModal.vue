@@ -120,6 +120,7 @@ const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 const fiatStore = useFiatStore()
 const preferencesStore = usePreferencesStore()
+const { isBasilisk } = useIsChain(urlPrefix)
 
 const {
   balance,
@@ -223,21 +224,14 @@ const confirm = () => {
   emit('confirm')
 }
 
-const calculateNetworkFee = async () => {
+watchEffect(async () => {
   networkFee.value = 0
-  const fee = await getTransitionFee(accountId.value, [''], decimals.value)
-  networkFee.value = Number(fee)
-}
 
-watch(
-  () => chainSymbol.value,
-  () => {
-    calculateNetworkFee()
-  },
-  {
-    immediate: true,
-  },
-)
+  if (!isBasilisk.value) {
+    const fee = await getTransitionFee(accountId.value, [''], decimals.value)
+    networkFee.value = Number(fee)
+  }
+})
 </script>
 
 <style lang="scss" scoped>

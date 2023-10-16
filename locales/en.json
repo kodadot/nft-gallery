@@ -39,6 +39,7 @@
   "legend": "Legend",
   "owner": "Owner",
   "facts": "Facts",
+  "free": "Free",
   "computed id": "Computed id",
   "create collection": "Create Collection",
   "Select collection where do you want mint your token": "Select the collection where do you want to mint your token",
@@ -1360,6 +1361,7 @@
     "noUpcoming": "Nothing  here yet...",
     "mintingLive": "Minting Live",
     "mintedBy": "Minted By",
+    "mintPerAddress": "Each address can mint only once",
     "recentMints": "Recent NFT Mints"
   },
   "confirmPurchase": {

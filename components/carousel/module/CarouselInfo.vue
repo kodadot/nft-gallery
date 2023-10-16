@@ -21,7 +21,7 @@
               chain: item.chain,
             })
           "
-          class="is-size-7 carousel-info-collection-name">
+          class="is-size-7 carousel-info-collection-name is-ellipsis">
           {{ item.collectionName || '--' }}
         </nuxt-link>
       </template>
