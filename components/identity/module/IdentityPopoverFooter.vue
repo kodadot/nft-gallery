@@ -31,7 +31,7 @@
         {{ $t('profile.highestSales') }}
       </h6>
       <div class="is-flex sold-items">
-        <div v-for="nft in soldItems" :key="nft.id" class="sold-item">
+        <div v-for="nft in soldItems" :key="nft.id" class="sold-item border">
           <GalleryCard
             :id="nft.id"
             hide-name
@@ -72,12 +72,8 @@ defineProps<{
   gap: 10px;
 
   .sold-item {
-    width: 78px;
-    height: 78px;
-
-    @include ktheme() {
-      border: 1px solid theme('border-color');
-    }
+    width: 76px;
+    height: 76px;
   }
 }
 
