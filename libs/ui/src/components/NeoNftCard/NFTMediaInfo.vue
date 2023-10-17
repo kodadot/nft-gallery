@@ -12,11 +12,12 @@
       <CollectionDetailsPopover
         v-if="nft.collection.name || nft.collection.id"
         :show-delay="collectionPopoverShowDelay"
+        class="is-size-7 nft-info-collection-name is-ellipsis"
         :nft="nft">
         <template #content>
           <nuxt-link
             :to="`/${prefix}/collection/${nft.collection.id}`"
-            class="is-size-7 nft-info-collection-name is-ellipsis">
+            class="nft-info-collection-name">
             {{ nft.collection.name || '--' }}
           </nuxt-link>
         </template>
