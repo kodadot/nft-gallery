@@ -139,6 +139,3 @@ const removeBread = (key: string) => {
   replaceUrl({ [key]: undefined })
 }
 </script>
-~/composables/usePopularCollections
-~/composables/popularColections/usePopularCollections
-~/composables/popularCollections/usePopularCollections
