@@ -20,9 +20,6 @@ importers:
       '@fortawesome/vue-fontawesome':
         specifier: ^3.0.3
         version: 3.0.3(@fortawesome/fontawesome-svg-core@6.4.2)(vue@3.3.4)
-      '@google/model-viewer':
-        specifier: ^1.12.1
-        version: 1.12.1
       '@kodadot1/brick':
         specifier: workspace:*
         version: link:libs/ui
@@ -360,6 +357,9 @@ importers:
       '@google/model-viewer':
         specifier: ^1.12.1
         version: 1.12.1
+      '@vueuse/core':
+        specifier: ^9.13.0
+        version: 9.13.0(vue@3.3.4)
       bulma:
         specifier: 0.9.4
         version: 0.9.4
@@ -6616,7 +6616,6 @@ packages:
 
   /@types/web-bluetooth@0.0.16:
     resolution: {integrity: sha512-oh8q2Zc32S6gd/j50GowEjKLoOVOwHP/bWVjKJInBwQqdOYMdPrf1oVlelTlyfFK3CKxL1uahMDAr+vy8T7yMQ==}
-    dev: true
 
   /@types/webpack-bundle-analyzer@3.9.5:
     resolution: {integrity: sha512-QlyDyX7rsOIJHASzXWlih8DT9fR+XCG9cwIV/4pKrtScdHv4XFshdEf/7iiqLqG0lzWcoBdzG8ylMHQ5XLNixw==}
@@ -7287,7 +7286,6 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
-    dev: true
 
   /@vueuse/head@2.0.0(vue@3.3.4):
     resolution: {integrity: sha512-ykdOxTGs95xjD4WXE4na/umxZea2Itl0GWBILas+O4oqS7eXIods38INvk3XkJKjqMdWPcpCyLX/DioLQxU1KA==}
@@ -7303,7 +7301,6 @@ packages:
 
   /@vueuse/metadata@9.13.0:
     resolution: {integrity: sha512-gdU7TKNAUVlXXLbaF+ZCfte8BjRJQWPCa2J55+7/h+yDtzw3vOoGQDRXzI6pyKyo6bXFT5/QoPE4hAknExjRLQ==}
-    dev: true
 
   /@vueuse/nuxt@9.13.0(nuxt@3.7.4)(rollup@2.79.1)(vue@3.3.4):
     resolution: {integrity: sha512-JunH/w6nFIwCyaZ0s+pfrYFMfBzGfhkwmFPz7ogHFmb71Ty/5HINrYOAOZCXpN44X6QH6FiJq/wuLLdvYzqFUw==}
@@ -7330,7 +7327,6 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
-    dev: true
 
   /@wry/context@0.4.4:
     resolution: {integrity: sha512-LrKVLove/zw6h2Md/KZyWxIkFM6AoyKp71OqpH9Hiip1csjPVoD3tPxlbQUNxEnHENks3UGgNpSBCAfq9KWuag==}

@@ -40,11 +40,15 @@
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
+import { computed } from 'vue'
+import { NftCardVariant } from '@kodadot1/brick'
+
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { getChainNameByPrefix } from '@/utils/chain'
-import { NftCardVariant } from '@kodadot1/brick'
 import { NFTWithMetadata } from '@/composables/useNft'
+
 const props = withDefaults(
   defineProps<{
     nft: NFTWithMetadata | TokenEntity
