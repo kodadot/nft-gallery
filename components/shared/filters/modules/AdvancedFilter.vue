@@ -8,13 +8,13 @@
         class="is-flex is-justify-content-space-between"
         role="button"
         :aria-expanded="open">
-        <p class="filter-title">
+        <p class="py-3 px-4 is-size-7 has-text-grey">
           <span>{{ $t('advancedFilters') }}</span>
-          <span v-if="artView" class="filter-title-active-status"
+          <span v-if="artView" class="ml-2 has-text-primary"
             >({{ $t('offer.active') }})</span
           >
         </p>
-        <a class="filter-title-icon card-header-icon">
+        <a class="card-header-icon mr-1 has-text-grey">
           <NeoIcon
             size="small"
             :icon="open ? 'chevron-down' : 'chevron-right'" />
@@ -23,7 +23,7 @@
     </template>
     <div class="px-4">
       <NeoField>
-        <NeoCheckbox v-model="artView" data-testid="filter-checkbox-buynow">
+        <NeoCheckbox v-model="artView">
           <span>{{ $t('filters.artView') }}</span>
           <NeoIcon class="ml-2" size="small" icon="frame" />
         </NeoCheckbox>
@@ -73,32 +73,3 @@ const applyToUrl = (queryCondition: Record<string, string>) => {
   emit('resetPage')
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.filter-title {
-  padding: 12px 16px;
-  font-size: 0.75rem;
-
-  @include ktheme() {
-    color: theme('k-grey');
-  }
-}
-
-.filter-title-icon {
-  margin-right: 4px;
-
-  @include ktheme() {
-    color: theme('k-grey');
-  }
-}
-
-.filter-title-active-status {
-  padding-left: 10px;
-
-  @include ktheme() {
-    color: theme('k-primary');
-  }
-}
-</style>
