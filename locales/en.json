@@ -1405,5 +1405,48 @@
     "floorPrice": "Floor Price",
     "inputPriceFirst": "Input Price First",
     "setAllTo": "Set All To"
+  },
+  "migrate": {
+    "source": "Source",
+    "destination": "Destination",
+    "heading": "Migrate Your Art",
+    "subHeading": "Welcome to our migration page. Here, we've simplified moving your NFTs from Kusama to the Polkadot Asset Hub, making the process quick, easy and efficient.",
+    "faq": {
+      "faq1": {
+        "title": "What is Migration?",
+        "desc": "Migration is the process of safely transferring your NFTs/collection from Kusama to Polkadot/kusama Asset Hub along with all their embedded information such as ownership records and transaction history. This ensures your NFTs maintain their value and authenticity on the new platform. Importantly, once completed, this action is irreversible."
+      },
+      "faq2": {
+        "title": "How to Migrate?",
+        "desc": "<p>With our tool, migrating your NFTs to Polkadot/kusama Asset Hub is just a few steps away.</p></br><ol><li>Select your collection or items</li><li>Review all details in the overview.</li><li>Initiate the migration process.</li><li>Sign all required transactions.</li></ol>"
+      },
+      "faq3": {
+        "title": "What Are The Costs?",
+        "desc": "<p>The cost depends on:</p><ul><li>Destination blockchain - Fees differ between Polkadot Asset Hub and Kusama Asset Hub.</li><li>Number of items - Migrating more NFTs incurs higher overall costs.</li></ul></br><p>An estimate specific to your migration is provided on the overview page before signing</p>"
+      },
+      "faq4": {
+        "title": "Learn More About Process",
+        "desc": "<p>For a detailed look at our migration process, check out our help article on initiating and completing NFT transfers. This guide covers requirements, fees, and more.</p></br><p><a class='has-text-k-blue' href='#!'>See Article -&gt;</a></p>"
+      }
+    },
+    "resultFor": "Showing Results For:",
+    "connect": "To view and migrate assets, please connect your wallet.",
+    "tooltipCollection": "Don't See Your Collection?",
+    "tooltipCollectionLabel": "Can't find your collection in the list? Make sure you're connected to the correct account/address that owns the collection.",
+    "ready": {
+      "title": "Ready For Migration",
+      "desc": "As the creator or owner of a collection, you can initiate migration here. Keep in mind, only items owned by you can be migrated at this stage. You'll need to pre-sign items owned by others to allow individual migrations.",
+      "status": "Available For Migration",
+      "cta": "Migrate Collection"
+    },
+    "waiting": {
+      "title": "Waiting For Your Action",
+      "desc": "Displayed here are individual items that you own from collections that have been migrated. Ensure you're up-to-date by migrating these pieces right away. Please note, you can only start the migration once the collection owner initiates it.",
+      "status": "Collection Was Migrated By",
+      "cta": "Migrate Items",
+      "own": "You Own <strong>{0}</strong> From This Collection"
+    },
+    "migrationNotPossible": "Migration Not Possible:",
+    "migrationNotPossibleLabel": "Migration Is <strong>Not Possible</strong> For  Following Collections That You Own:"
   }
 }

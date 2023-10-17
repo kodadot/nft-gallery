@@ -63,7 +63,7 @@ import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import {
   Collection,
   collectionArray,
-} from '@/components/shared/filters/modules/usePopularCollections'
+} from '@/composables/popularCollections/usePopularCollections'
 import useActiveRouterFilters from '@/composables/useActiveRouterFilters'
 import { NeoField } from '@kodadot1/brick'
 import { useCollectionSearch } from '../search/utils/useCollectionSearch'
