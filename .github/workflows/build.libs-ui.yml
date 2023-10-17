@@ -1,9 +1,12 @@
-name: libs/ui build
+name: Build libs/ui package
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main, beta, production, nuxt ]
+    paths:
+      - 'libs/ui/**'
+  pull_request:
+    branches: [ main, beta, production, nuxt ]
     paths:
       - 'libs/ui/**'
 
