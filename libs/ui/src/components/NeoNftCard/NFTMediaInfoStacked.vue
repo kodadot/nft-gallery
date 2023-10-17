@@ -16,7 +16,7 @@
       <div v-if="!isMinimal" class="is-size-7 has-text-grey">
         {{ $t('lowestPrice') }}:
         <CommonTokenMoney
-          :value="token.cheapest.price"
+          :value="token.cheapest?.price"
           data-testid="card-money" />
       </div>
     </div>
@@ -25,25 +25,34 @@
       class="is-flex is-justify-content-space-between is-align-items-center px-3"
       :class="isMinimal ? '' : 'border-top card-border-color pt-3'">
       <template v-if="!isMinimal">
-        <nuxt-link class="is-ellipsis pr-1" :to="collectionUrl">
+        <a class="is-ellipsis pr-1" :v-safe-href="collectionUrl">
           {{ collectionNameLabel }}
-        </nuxt-link>
+        </a>
         <NeoButton
           no-shadow
           variant="text"
-          tag="nuxt-link"
-          :to="collectionUrl"
-          class="is-size-7 has-text-grey"
+          tag="a"
+          :v-safe-href="collectionUrl"
+          class="is-size-7 nft-info-collection-name"
           label="Visit"
           icon="arrow-right" />
       </template>
 
       <template v-else>
-        <nuxt-link
-          class="is-size-7 has-text-grey is-ellipsis pr-1"
-          :to="collectionUrl">
-          {{ collectionNameLabel }}
-        </nuxt-link>
+        <CollectionDetailsPopover
+          v-if="collectionNameLabel"
+          :show-delay="collectionPopoverShowDelay"
+          class="is-size-7 nft-info-collection-name is-ellipsis"
+          :nft="token">
+          <template #content>
+            <a
+              :v-safe-href="`/${prefix}/collection/${token.collection.id}`"
+              class="nft-info-collection-name">
+              {{ collectionNameLabel }}
+            </a>
+          </template>
+        </CollectionDetailsPopover>
+
         <span>x{{ token.supply }}</span>
       </template>
     </div>
@@ -51,19 +60,23 @@
 </template>
 
 <script lang="ts" setup>
-import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
+import { computed } from 'vue'
 import { NeoButton, NftCardVariant } from '@kodadot1/brick'
-import { TokenEntity } from '@/composables/useNft'
+
+import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
+import { NeoNFT } from './types'
 
 const props = withDefaults(
   defineProps<{
-    token: TokenEntity
+    token: NeoNFT
     prefix: string
+    collectionPopoverShowDelay?: number
 
     variant?: NftCardVariant
   }>(),
   {
     variant: 'primary',
+    collectionPopoverShowDelay: 500,
   },
 )
 

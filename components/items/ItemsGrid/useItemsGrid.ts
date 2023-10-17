@@ -57,6 +57,8 @@ export function useFetchSearch({
           case 'price_gt':
             acc['price_gt'] = Number(value)
             break
+          case 'collection':
+            acc['collections'] = (value as { id_in: string[] }).id_in
         }
       }
       return acc
