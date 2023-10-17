@@ -2,6 +2,7 @@
   <NeoNftCard
     v-if="entity"
     :nft="entity"
+    :link-to="linkTo"
     :placeholder="placeholder"
     :prefix="urlPrefix"
     :show-price="isAvailableToBuy"
@@ -105,6 +106,12 @@ const {
 
 const { showCardIcon, cardIcon } = await useNftCardIcon(
   computed(() => props.entity),
+)
+
+const linkTo = computed(() =>
+  isStack.value
+    ? `/${urlPrefix.value}/collection/${props.entity.collection.id}`
+    : `/${urlPrefix.value}/gallery/${props.entity.cheapest.id}`,
 )
 
 const variant = computed(() =>

@@ -7,7 +7,7 @@
     @close="onClose">
     <div class="modal-width">
       <header
-        class="modal-card-head is-flex is-justify-content-space-between is-align-items-center border-bottom">
+        class="py-5 px-6 is-flex is-justify-content-space-between is-align-items-center border-bottom">
         <span class="modal-card-title is-size-6 has-text-weight-bold">
           {{ $t('confirmPurchase.action') }}
         </span>
