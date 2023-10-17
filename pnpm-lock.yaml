@@ -4700,8 +4700,8 @@ packages:
       '@polkadot/x-ws': 8.7.1
       '@substrate/connect': 0.7.0-alpha.0
       eventemitter3: 4.0.7
-      mock-socket: 9.3.0
-      nock: 13.3.3
+      mock-socket: 9.3.1
+      nock: 13.3.4
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -13215,7 +13215,7 @@ packages:
       fast-glob: 3.3.1
       js-yaml: 4.1.0
       supports-color: 9.4.0
-      undici: 5.25.4
+      undici: 5.26.3
       yargs-parser: 21.1.1
 
   /optimism@0.10.3:
@@ -15489,8 +15489,8 @@ packages:
   /undici-types@5.25.3:
     resolution: {integrity: sha512-Ga1jfYwRn7+cP9v8auvEXN1rX3sWqlayd4HP7OKk4mZWylEmu3KzXDUGrQUN6Ol7qo1gPvB2e5gX6udnyEPgdA==}
 
-  /undici@5.25.4:
-    resolution: {integrity: sha512-450yJxT29qKMf3aoudzFpIciqpx6Pji3hEWaXqXmanbXF58LTAGCKxcJjxMXWu3iG+Mudgo3ZUfDB6YDFd/dAw==}
+  /undici@5.26.3:
+    resolution: {integrity: sha512-H7n2zmKEWgOllKkIUkLvFmsJQj062lSm3uA4EYApG8gLuiOM0/go9bIoC3HVaSnfg4xunowDE2i9p8drkXuvDw==}
     engines: {node: '>=14.0'}
     dependencies:
       '@fastify/busboy': 2.0.0
