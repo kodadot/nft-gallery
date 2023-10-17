@@ -95,6 +95,7 @@ import {
   TeleprtType,
   chainToPrefixMap,
   whichTeleportType,
+  allowedTransitions
 } from '@/utils/teleport'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import useAuth from '@/composables/useAuth'
@@ -151,17 +152,11 @@ const tokenFiatValue = computed(() => {
       return fiatStore.getCurrentKSMValue
     case 'DOT':
       return fiatStore.getCurrentDOTValue
+    default: 
+      return 0
   }
-  return 0
 })
 
-const allowedTransitiosn = {
-  [Chain.KUSAMA]: [Chain.BASILISK, Chain.STATEMINE],
-  [Chain.BASILISK]: [Chain.KUSAMA],
-  [Chain.STATEMINE]: [Chain.KUSAMA],
-  [Chain.POLKADOT]: [Chain.STATEMINT],
-  [Chain.STATEMINT]: [Chain.POLKADOT],
-}
 const chainBalances = {
   [Chain.KUSAMA]: () =>
     identityStore.multiBalances.chains.kusama?.ksm?.nativeBalance,
@@ -176,7 +171,7 @@ const chainBalances = {
 }
 
 const isDisabled = (chain: Chain) => {
-  return !allowedTransitiosn[fromChain.value].includes(chain)
+  return !allowedTransitions[fromChain.value].includes(chain)
 }
 
 const fromTabs = [
@@ -261,7 +256,7 @@ const explorerUrl = computed(() => {
   }`
 })
 const getFirstAllowedDestination = (chain: Chain) => {
-  return allowedTransitiosn[chain][0]
+  return allowedTransitions[chain][0]
 }
 
 const onChainChange = (selectedChain, setFrom = true) => {

@@ -47,20 +47,21 @@
         {{ $t('confirmPurchase.youWillPay') }}
         <div class="is-flex">
           <CommonTokenMoney
-            :value="totalNFTsPrice + totalRoyalties"
+            :value="totalWithRoyalties"
             class="has-text-grey" />
           <span class="has-text-weight-bold ml-2"> {{ priceUSD }}$ </span>
         </div>
       </div>
 
       <div class="is-flex is-justify-content-space-between py-5 px-6">
-        <NeoButton
+        <AutoTeleportActionButton :label="btnLabel"  />
+        <!-- <NeoButton
           :label="btnLabel"
           variant="k-accent"
           no-shadow
           :disabled="disabled"
           class="is-flex is-flex-grow-1 btn-height"
-          @click="confirm" />
+          @click="confirm" /> -->
       </div>
     </div>
   </NeoModal>
@@ -109,8 +110,10 @@ const totalRoyalties = computed(() =>
   ),
 )
 
+const totalWithRoyalties = computed(() => totalNFTsPrice.value + totalRoyalties.value)
+
 const balanceIsEnough = computed(
-  () => totalNFTsPrice.value + totalRoyalties.value < balance.value,
+  () => totalWithRoyalties.value < balance.value,
 )
 
 const btnLabel = computed(() => {
