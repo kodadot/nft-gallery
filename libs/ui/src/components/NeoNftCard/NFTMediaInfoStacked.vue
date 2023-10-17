@@ -25,14 +25,14 @@
       class="is-flex is-justify-content-space-between is-align-items-center px-3"
       :class="isMinimal ? '' : 'border-top card-border-color pt-3'">
       <template v-if="!isMinimal">
-        <a class="is-ellipsis pr-1" :href="collectionUrl">
+        <a class="is-ellipsis pr-1" :v-safe-href="collectionUrl">
           {{ collectionNameLabel }}
         </a>
         <NeoButton
           no-shadow
           variant="text"
           tag="a"
-          :href="collectionUrl"
+          :v-safe-href="collectionUrl"
           class="is-size-7 nft-info-collection-name"
           label="Visit"
           icon="arrow-right" />
@@ -46,7 +46,7 @@
           :nft="token">
           <template #content>
             <a
-              :href="`/${prefix}/collection/${token.collection.id}`"
+              :v-safe-href="`/${prefix}/collection/${token.collection.id}`"
               class="nft-info-collection-name">
               {{ collectionNameLabel }}
             </a>

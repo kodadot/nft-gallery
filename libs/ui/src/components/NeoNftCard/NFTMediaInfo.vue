@@ -16,7 +16,7 @@
         :nft="nft">
         <template #content>
           <a
-            :href="`/${prefix}/collection/${nft.collection.id}`"
+            :v-safe-href="`/${prefix}/collection/${nft.collection.id}`"
             class="nft-info-collection-name">
             {{ nft.collection.name || '--' }}
           </a>
