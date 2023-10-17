@@ -2,14 +2,7 @@
   <div
     class="nft-card"
     :class="{ loading: isLoading, 'nft-card__stacked': isStacked }">
-    <component
-      :is="link"
-      v-if="!isLoading && nft"
-      :[bindKey]="
-        isStacked
-          ? `/${prefix}/collection/${nft.collection.id}`
-          : `/${prefix}/gallery/${nft.id}`
-      ">
+    <component :is="link" v-if="!isLoading && nft" :[bindKey]="href">
       <img
         v-if="cardIcon && cardIconSrc"
         class="card-icon"
@@ -40,12 +33,12 @@
         </div>
       </div>
       <NFTMediaInfoStacked
-        v-if="isStacked"
+        v-if="isStacked && !hideMediaInfo"
         :token="nft"
         :variant="variant"
         :prefix="prefix" />
       <NFTMediaInfo
-        v-else
+        v-else-if="!hideMediaInfo"
         :nft="nft"
         :variant="variant"
         :prefix="prefix"
@@ -84,12 +77,12 @@ import type { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
 import MediaItem from '../MediaItem/MediaItem.vue'
 import NFTMediaInfoStacked from './NFTMediaInfoStacked.vue'
 import NFTMediaInfo from './NFTMediaInfo.vue'
-import { ItemsGridEntity } from '@/components/items/ItemsGrid/useItemsGrid'
+import { NeoNFT } from './types'
 
 const props = withDefaults(
   defineProps<{
     isLoading?: boolean
-    nft: ItemsGridEntity
+    nft: NeoNFT
     prefix: string
     showPrice?: boolean
     collectionPopoverShowDelay?: number
@@ -105,6 +98,8 @@ const props = withDefaults(
     showActionOnHover?: boolean
     mediaPlayerCover?: string
     mediaHoverOnCoverPlay?: boolean
+    hideMediaInfo?: boolean
+    linkTo?: string
   }>(),
   {
     collectionPopoverShowDelay: 500,
@@ -115,7 +110,13 @@ const props = withDefaults(
     showActionOnHover: true,
     placeholder: undefined,
     mediaPlayerCover: undefined,
+    hideMediaInfo: false,
+    linkTo: undefined,
   },
+)
+
+const href = computed(
+  () => props.linkTo ?? `/${props.prefix}/gallery/${props.nft.id}`,
 )
 
 const isStacked = computed(() =>

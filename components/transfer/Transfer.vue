@@ -372,6 +372,7 @@ import { toDefaultAddress } from '@/utils/account'
 import AddressChecker from '@/components/shared/AddressChecker.vue'
 import TabItem from '@/components/shared/TabItem.vue'
 import Auth from '@/components/shared/Auth.vue'
+import { useIdentityStore } from '@/stores/identity'
 
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue'),
@@ -383,6 +384,7 @@ const { $consola } = useNuxtApp()
 const { unit, decimals } = useChain()
 const { apiInstance } = useApi()
 const { urlPrefix } = usePrefix()
+const identityStore = useIdentityStore()
 const { isLogIn, accountId } = useAuth()
 const { getBalance } = useBalance()
 const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
@@ -586,6 +588,7 @@ const balanceUsdValue = computed(() =>
   calculateBalanceUsdValue(
     Number(balance.value) * Number(currentTokenValue.value),
     decimals.value,
+    2,
   ),
 )
 
@@ -699,7 +702,16 @@ const calculateTransactionFee = async () => {
   txFee.value = Number((Number(fee) / Math.pow(10, decimals.value)).toFixed(4))
 }
 
-onMounted(() => calculateTransactionFee())
+const updateAuthBalance = () => {
+  accountId.value && identityStore.fetchBalance({ address: accountId.value })
+}
+
+watch(urlPrefix, updateAuthBalance)
+
+onMounted(() => {
+  calculateTransactionFee()
+  updateAuthBalance()
+})
 
 watchDebounced(
   [urlPrefix, () => targetAddresses.value.length],

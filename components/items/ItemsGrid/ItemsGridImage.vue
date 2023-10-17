@@ -6,6 +6,7 @@
     :prefix="urlPrefix"
     :show-price="Number(nft?.price) > 0"
     :variant="variant"
+    :hide-media-info="hideMediaInfo"
     :class="{
       'in-cart-border':
         shoppingCartStore.isItemInCart(nft.id) ||
@@ -78,6 +79,7 @@ const NuxtLink = resolveComponent('NuxtLink')
 const props = defineProps<{
   nft: NFTWithMetadata
   variant?: NftCardVariant
+  hideMediaInfo?: boolean
 }>()
 
 const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.nft))

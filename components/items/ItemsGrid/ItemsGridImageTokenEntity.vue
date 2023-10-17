@@ -2,10 +2,12 @@
   <NeoNftCard
     v-if="entity"
     :nft="entity"
+    :link-to="linkTo"
     :placeholder="placeholder"
     :prefix="urlPrefix"
     :show-price="isAvailableToBuy"
     :variant="variant"
+    :hide-media-info="hideMediaInfo"
     :class="{
       'in-cart-border':
         shoppingCartStore.isItemInCart(nftForShoppingCart.id) ||
@@ -92,6 +94,7 @@ const NuxtLink = resolveComponent('NuxtLink')
 const props = defineProps<{
   entity: TokenEntity
   variant?: NftCardVariant
+  hideMediaInfo?: boolean
 }>()
 
 const {
@@ -105,6 +108,12 @@ const {
 
 const { showCardIcon, cardIcon } = await useNftCardIcon(
   computed(() => props.entity),
+)
+
+const linkTo = computed(() =>
+  isStack.value
+    ? `/${urlPrefix.value}/collection/${props.entity.collection.id}`
+    : `/${urlPrefix.value}/gallery/${props.entity.cheapest.id}`,
 )
 
 const variant = computed(() =>

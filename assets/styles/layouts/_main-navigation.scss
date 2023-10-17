@@ -191,6 +191,7 @@
 
   .navbar-brand {
     align-items: center;
+    height: 3.75rem;
     
     @include mobile {
       padding:0 $fluid-container-padding-mobile;
