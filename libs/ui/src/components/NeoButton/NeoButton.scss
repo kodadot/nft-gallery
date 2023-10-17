@@ -41,7 +41,6 @@
       &:hover {
         color: theme('link-hover');
         background: inherit;
-
       }
     }
 
@@ -147,18 +146,18 @@
       height: fit-content !important;
     }
 
-    &.o-btn--disabled  {
+    &.o-btn--disabled {
       opacity: unset;
-      
+
       @include ktheme() {
         border: 1px solid theme('k-grey') !important;
       }
 
-       & .o-btn__wrapper .o-btn__label {
+      & .o-btn__wrapper .o-btn__label {
         @include ktheme() {
           color: theme('k-grey') !important;
         }
-       }
+      }
     }
   }
 
@@ -186,7 +185,7 @@
     }
   }
 
-  &--secondary{
+  &--secondary {
     height: 22px;
     line-height: 100%;
     font-size: 12px;
@@ -231,7 +230,8 @@
     }
 
     &:hover {
-      background-color: transparent !important;
+      background-color: transparent;
+
       @include ktheme() {
         border-color: theme('border-color');
         color: theme('border-color');
@@ -242,19 +242,20 @@
   &--pill {
     border-radius: 3rem;
     box-shadow: none !important;
-    padding: 0.5rem  1rem;
+    padding: 0.5rem 1rem;
 
     @include ktheme() {
       background-color: theme('background-color');
       color: theme('text-color');
-      border: 1px solid theme('card-border-color');
+      border: 1px solid theme('border-color');
 
       &:hover {
         border: 1px solid theme('border-color');
       }
     }
 
-    &__active {
+    &__active,
+    &.active {
       @include ktheme() {
         background-color: theme('background-color-inverse');
         color: theme('text-color-inverse');
@@ -264,7 +265,7 @@
 
     .o-btn__wrapper .o-btn__label {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
     }
   }
