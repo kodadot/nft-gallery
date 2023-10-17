@@ -1,0 +1,21 @@
+name: libs/ui build
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'libs/ui/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+      - run: cd libs/ui && histoire build
