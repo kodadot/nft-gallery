@@ -45,20 +45,20 @@ export function useFetchSearch({
   }
 
   const getSearchCriteria = (searchParams) => {
+    const mapping = {
+      currentOwner_eq: (value) => ({ owner: value }),
+      issuer_eq: (value) => ({ issuer: value }),
+      price_gt: (value) => ({ price_gt: Number(value) }),
+      collection: (value) => ({ collections: value.id_in }),
+      name_containsInsensitive: (value) => ({
+        name_containsInsensitive: value,
+      }),
+    }
+
     return searchParams.reduce((acc, curr) => {
       for (const [key, value] of Object.entries(curr)) {
-        switch (key) {
-          case 'currentOwner_eq':
-            acc['owner'] = value
-            break
-          case 'issuer_eq':
-            acc['issuer'] = value
-            break
-          case 'price_gt':
-            acc['price_gt'] = Number(value)
-            break
-          case 'collection':
-            acc['collections'] = (value as { id_in: string[] }).id_in
+        if (mapping[key]) {
+          Object.assign(acc, mapping[key](value))
         }
       }
       return acc
