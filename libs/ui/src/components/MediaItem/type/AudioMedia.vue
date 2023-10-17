@@ -19,9 +19,10 @@
 </template>
 
 <script lang="ts" setup>
+import { ref, watch } from 'vue'
+import { useElementHover, watchDebounced } from '@vueuse/core'
 import { NeoAudioPlayer } from '@kodadot1/brick'
 import ImageMedia from './ImageMedia.vue'
-import { useElementHover, watchDebounced } from '@vueuse/core'
 
 const props = withDefaults(
   defineProps<{

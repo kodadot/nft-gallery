@@ -21,6 +21,8 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue'
+import { useVModel } from '@vueuse/core'
 import { OModal } from '@oruga-ui/oruga-next'
 
 const props = withDefaults(

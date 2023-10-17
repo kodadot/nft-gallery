@@ -70,9 +70,11 @@
 </template>
 
 <script lang="ts" setup>
-import type { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
-import MediaItem from '../MediaItem/MediaItem.vue'
+import { computed } from 'vue'
 import { NeoSkeleton, NftCardVariant } from '@kodadot1/brick'
+import type { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
+
+import MediaItem from '../MediaItem/MediaItem.vue'
 import NFTMediaInfoStacked from './NFTMediaInfoStacked.vue'
 import NFTMediaInfo from './NFTMediaInfo.vue'
 import { NeoNFT } from './types'
