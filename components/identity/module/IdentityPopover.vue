@@ -1,11 +1,8 @@
 <template>
   <tippy
     class="tippy-container"
-    interactive
-    :animate-fill="false"
     :append-to="body"
     boundary="viewport"
-    placement="bottom"
     :delay="0"
     data-testid="identity">
     <slot name="content" />
