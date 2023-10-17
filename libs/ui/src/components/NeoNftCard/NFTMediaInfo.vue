@@ -15,11 +15,11 @@
         class="is-size-7 nft-info-collection-name is-ellipsis"
         :nft="nft">
         <template #content>
-          <nuxt-link
-            :to="`/${prefix}/collection/${nft.collection.id}`"
+          <a
+            :href="`/${prefix}/collection/${nft.collection.id}`"
             class="nft-info-collection-name">
             {{ nft.collection.name || '--' }}
-          </nuxt-link>
+          </a>
         </template>
       </CollectionDetailsPopover>
     </div>

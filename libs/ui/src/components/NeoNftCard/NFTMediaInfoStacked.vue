@@ -25,14 +25,14 @@
       class="is-flex is-justify-content-space-between is-align-items-center px-3"
       :class="isMinimal ? '' : 'border-top card-border-color pt-3'">
       <template v-if="!isMinimal">
-        <nuxt-link class="is-ellipsis pr-1" :to="collectionUrl">
+        <a class="is-ellipsis pr-1" :href="collectionUrl">
           {{ collectionNameLabel }}
-        </nuxt-link>
+        </a>
         <NeoButton
           no-shadow
           variant="text"
-          tag="nuxt-link"
-          :to="collectionUrl"
+          tag="a"
+          :href="collectionUrl"
           class="is-size-7 nft-info-collection-name"
           label="Visit"
           icon="arrow-right" />
@@ -45,11 +45,11 @@
           class="is-size-7 nft-info-collection-name is-ellipsis"
           :nft="token">
           <template #content>
-            <nuxt-link
-              :to="`/${prefix}/collection/${token.collection.id}`"
+            <a
+              :href="`/${prefix}/collection/${token.collection.id}`"
               class="nft-info-collection-name">
               {{ collectionNameLabel }}
-            </nuxt-link>
+            </a>
           </template>
         </CollectionDetailsPopover>
 
