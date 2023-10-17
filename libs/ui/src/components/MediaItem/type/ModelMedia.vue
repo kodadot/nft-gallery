@@ -15,7 +15,14 @@
 </template>
 
 <script lang="ts" setup>
-import '@google/model-viewer'
+useHead({
+  script: [
+    {
+      src: 'https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js',
+    },
+  ],
+})
+
 defineProps<{
   animationSrc: string
   disableOperation?: boolean

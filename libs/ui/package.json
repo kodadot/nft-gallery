@@ -19,7 +19,6 @@
     "vite": "^4.4.11"
   },
   "dependencies": {
-    "@google/model-viewer": "^1.12.1",
     "@vueuse/core": "^9.13.0",
     "bulma": "0.9.4",
     "vue": "^3.3.4",
