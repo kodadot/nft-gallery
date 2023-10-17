@@ -21,4 +21,4 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/actions/pnpm-install
-      - run: cd libs/ui && histoire build
+      - run: cd libs/ui && pnpm histoire build
