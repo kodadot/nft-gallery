@@ -182,5 +182,3 @@ watch(
   }
 }
 </style>
-~/composables/popularColections/usePopularCollections
-~/composables/popularCollections/usePopularCollections
