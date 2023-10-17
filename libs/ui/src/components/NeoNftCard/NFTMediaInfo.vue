@@ -32,7 +32,7 @@
       ]">
       <CommonTokenMoney
         v-if="showPrice"
-        :value="isTokenEntity(nft) ? nft.cheapest?.price : nft.price"
+        :value="nft.price ?? nft.cheapest?.price"
         data-testid="card-money" />
       <span v-if="!isMinimal" class="chain-name is-capitalized is-size-7">{{
         getChainNameByPrefix(prefix)
@@ -44,10 +44,10 @@
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { getChainNameByPrefix } from '@/utils/chain'
 import { NftCardVariant } from '@kodadot1/brick'
-import { NFTWithMetadata } from '@/composables/useNft'
+import { NeoNFT } from './types'
 const props = withDefaults(
   defineProps<{
-    nft: NFTWithMetadata | TokenEntity
+    nft: NeoNFT
     prefix: string
     showPrice?: boolean
     collectionPopoverShowDelay?: number
