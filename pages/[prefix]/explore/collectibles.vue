@@ -6,6 +6,7 @@
 
 <script lang="ts" setup>
 import { explorerVisible } from '@/utils/config/permission.config'
+import { assetHub, chainNameSeoMap, getSeoPrefixName } from '@/utils/seo'
 
 const { urlPrefix } = usePrefix()
 
@@ -14,6 +15,22 @@ const checkRouteAvailability = () => {
     navigateTo('/')
   }
 }
+
+const getSeoMeta = computed(() => {
+  const prefix = urlPrefix.value
+  const isAssetHub =
+    Object.keys(chainNameSeoMap).includes(prefix) && assetHub.includes(prefix)
+
+  return {
+    title: isAssetHub
+      ? `Collections on Asset Hub ${getSeoPrefixName(prefix)}`
+      : 'Explore NFTs',
+    description: isAssetHub
+      ? `Collections on Asset Hub ${getSeoPrefixName(prefix)}`
+      : 'Buy Carbonless NFTs on KodaDot',
+    ogUrl: `/${urlPrefix.value}/explore/items`,
+  }
+})
 
 watch(urlPrefix, () => checkRouteAvailability())
 
@@ -24,8 +41,6 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: 'Explore NFTs',
-  description: 'Buy Carbonless NFTs on KodaDot',
-  ogUrl: `/${urlPrefix.value}/explore/items`,
+  ...getSeoMeta.value,
 })
 </script>

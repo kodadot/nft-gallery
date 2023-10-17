@@ -77,7 +77,7 @@ export const isSameAccount = (
   return addressEq(address1, address2)
 }
 
-export const isOwner = (
+export const accountsAreSame = (
   account1?: KeyringAccount | string,
   account2?: KeyringAccount | string,
 ): boolean => {

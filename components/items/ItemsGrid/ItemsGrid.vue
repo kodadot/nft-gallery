@@ -10,12 +10,21 @@
       v-slot="slotProps"
       class="my-5">
       <div
-        v-for="(nft, index) in nfts"
-        :key="`${nft.id}=${index}`"
+        v-for="(entity, index) in items"
+        :key="`${entity.id}=${index}`"
         :data-testid="index"
         :class="scrollItemClassName">
         <ItemsGridImage
-          :nft="nft"
+          v-if="!isTokenEntity(entity)"
+          :nft="entity"
+          :variant="
+            slotProps.isMobileVariant || slotProps.grid === 'small'
+              ? 'minimal'
+              : 'primary'
+          " />
+        <ItemsGridImageTokenEntity
+          v-else
+          :entity="entity"
           :hide-media-info="hideMediaInfo"
           :variant="
             slotProps.isMobileVariant || slotProps.grid === 'small'
@@ -23,9 +32,20 @@
               : 'primary'
           " />
       </div>
+
+      <!-- skeleton on fetching next page -->
+      <template v-if="isLoading || isFetchingData">
+        <NeoNftCardSkeleton v-for="n in skeletonCount" :key="n" />
+      </template>
+
+      <!-- intersection observer element -->
+      <div v-else ref="target"></div>
     </DynamicGrid>
 
-    <DynamicGrid v-if="isLoading || isFetchingData" class="my-5">
+    <!-- skeleton on first load -->
+    <DynamicGrid
+      v-if="total === 0 && (isLoading || isFetchingData)"
+      class="my-5">
       <NeoNftCardSkeleton
         v-for="n in skeletonCount"
         :key="n"
@@ -41,12 +61,15 @@
 import { NeoNftCardSkeleton } from '@kodadot1/brick'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import ItemsGridImage from './ItemsGridImage.vue'
+import ItemsGridImageTokenEntity from './ItemsGridImageTokenEntity.vue'
 import {
   updatePotentialNftsForListingCart,
   useFetchSearch,
 } from './useItemsGrid'
 import isEqual from 'lodash/isEqual'
 import { useListingCartStore } from '@/stores/listingCart'
+import { getTokensNfts } from './useNftActions'
+import { NFT } from '@/components/rmrk/service/scheme'
 
 const { listingCartEnabled } = useListingCartConfig()
 const listingCartStore = useListingCartStore()
@@ -89,6 +112,7 @@ const {
   isFetchingData,
   scrollContainerId,
   reachTopHandler,
+  fetchNextPage,
 } = useListInfiniteScroll({
   gotoPage,
   fetchPageData,
@@ -100,7 +124,7 @@ const resetPage = useDebounceFn(() => {
   gotoPage(1)
 }, 500)
 
-const { nfts, fetchSearch, refetch, clearFetchResults } = useFetchSearch({
+const { items, fetchSearch, clearFetchResults, usingTokens } = useFetchSearch({
   first,
   total,
   isFetchingData,
@@ -109,10 +133,18 @@ const { nfts, fetchSearch, refetch, clearFetchResults } = useFetchSearch({
 })
 
 watch(
-  () => nfts.value.length,
-  () => {
-    if (listingCartEnabled.value) {
-      updatePotentialNftsForListingCart(nfts.value)
+  () => items.value.length,
+  async () => {
+    if (
+      listingCartEnabled.value &&
+      usingTokens.value &&
+      items.value.length > 0
+    ) {
+      const nftsForPotentialList = await getTokensNfts(
+        items.value as TokenEntity[],
+      )
+
+      updatePotentialNftsForListingCart(nftsForPotentialList as NFT[])
     }
   },
   { immediate: true },
@@ -139,7 +171,7 @@ watch(
     }
     if (!isEqual(newSearch, oldSearch)) {
       isLoading.value = true
-      refetch(parseSearch(props.search))
+      gotoPage(1)
     }
   },
   { deep: true },
@@ -156,5 +188,13 @@ onBeforeMount(() => {
   }).then(() => {
     isLoading.value = false
   })
+})
+
+// trigger intersection observer
+const target = ref(null)
+useIntersectionObserver(target, async ([{ isIntersecting }]) => {
+  if (isIntersecting && !isFetchingData.value) {
+    await fetchNextPage()
+  }
 })
 </script>
