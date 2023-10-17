@@ -28,6 +28,7 @@
           data-model="store"
           expanded />
         <PopularCollections v-if="isExploreItems" data-model="store" expanded />
+        <AdvancedFilter data-model="store" />
       </div>
 
       <div
@@ -58,6 +59,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 import StatusFilter from '@/components/shared/filters/modules/StatusFilter.vue'
 import EventTypeFilter from '@/components/shared/filters/modules/EventTypeFilter.vue'
 import PriceFilter from '@/components/shared/filters/modules/PriceFilter.vue'
+import AdvancedFilter from '@/components/shared/filters/modules/AdvancedFilter.vue'
 import PopularCollections from '@/components/shared/filters/modules/PopularCollections.vue'
 import { getCollectionIds } from '@/utils/queryParams'
 import { NeoIcon } from '@kodadot1/brick'
@@ -100,10 +102,12 @@ const syncFromUrlOnActivityTab = () => {
 const syncFromUrlOnGrid = () => {
   const listed = route.query?.listed?.toString() === 'true',
     owned = route.query?.owned?.toString() === 'true',
+    artView = route.query?.art_view?.toString() === 'true',
     collections = getCollectionIds()
 
   exploreFiltersStore.setListed(listed)
   exploreFiltersStore.setOwned(owned)
+  exploreFiltersStore.setArtView(artView)
   exploreFiltersStore.setCollections(collections)
 }
 
@@ -148,11 +152,13 @@ const resetFilters = () => {
     const statusDefaults = {
       listed: false,
       owned: false,
+      artView: false,
       collections: undefined,
     }
 
     exploreFiltersStore.setListed(statusDefaults.listed)
     exploreFiltersStore.setOwned(statusDefaults.owned)
+    exploreFiltersStore.setArtView(statusDefaults.artView)
     exploreFiltersStore.setCollections(statusDefaults.collections)
 
     // price
@@ -174,7 +180,7 @@ const resetFilters = () => {
 
 const applyFilters = () => {
   // status filters
-  const statusFilters = exploreFiltersStore.getStatusFilters
+  const { artView, ...restStatusFilters } = exploreFiltersStore.getStatusFilters
   const priceRangeFilter = exploreFiltersStore.getPriceRange
   const eventTypeFilter = activityFiltersStore.getEventTypeFilters
 
@@ -182,7 +188,7 @@ const applyFilters = () => {
   if (isCollectionActivityTab.value) {
     replaceUrl({ ...eventTypeFilter, ...priceRangeFilter })
   } else {
-    replaceUrl({ ...statusFilters, ...priceRangeFilter })
+    replaceUrl({ art_view: artView, ...restStatusFilters, ...priceRangeFilter })
   }
   emit('resetPage')
   closeFilterModal()
