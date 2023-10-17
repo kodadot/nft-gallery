@@ -52,8 +52,12 @@ export function formatNumber(amount?: string | number): string {
 export function calculateBalance(value: number, decimals = 12): number {
   return Math.trunc(value * Math.pow(10, decimals))
 }
-export function calculateBalanceUsdValue(value: number, decimals = 12): number {
-  return parseFloat((value / Math.pow(10, decimals)).toFixed(4))
+export function calculateBalanceUsdValue(
+  value: number,
+  decimals = 12,
+  fractionDigits = 4,
+): number {
+  return parseFloat((value / Math.pow(10, decimals)).toFixed(fractionDigits))
 }
 
 export function checkInvalidBalanceFilter(value) {
