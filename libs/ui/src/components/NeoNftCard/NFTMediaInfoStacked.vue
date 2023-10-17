@@ -33,17 +33,26 @@
           variant="text"
           tag="nuxt-link"
           :to="collectionUrl"
-          class="is-size-7 has-text-grey"
+          class="is-size-7 nft-info-collection-name"
           label="Visit"
           icon="arrow-right" />
       </template>
 
       <template v-else>
-        <nuxt-link
-          class="is-size-7 has-text-grey is-ellipsis pr-1"
-          :to="collectionUrl">
-          {{ collectionNameLabel }}
-        </nuxt-link>
+        <CollectionDetailsPopover
+          v-if="collectionNameLabel"
+          :show-delay="collectionPopoverShowDelay"
+          class="is-size-7 nft-info-collection-name is-ellipsis"
+          :nft="token">
+          <template #content>
+            <nuxt-link
+              :to="`/${prefix}/collection/${token.collection.id}`"
+              class="nft-info-collection-name">
+              {{ collectionNameLabel }}
+            </nuxt-link>
+          </template>
+        </CollectionDetailsPopover>
+
         <span>x{{ token.supply }}</span>
       </template>
     </div>
@@ -59,11 +68,13 @@ const props = withDefaults(
   defineProps<{
     token: NeoNFT
     prefix: string
+    collectionPopoverShowDelay?: number
 
     variant?: NftCardVariant
   }>(),
   {
     variant: 'primary',
+    collectionPopoverShowDelay: 500,
   },
 )
 
