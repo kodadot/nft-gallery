@@ -17,6 +17,7 @@
         <ItemsGridImage
           v-if="!isTokenEntity(entity)"
           :nft="entity"
+          :hide-media-info="hideMediaInfo"
           :variant="
             slotProps.isMobileVariant || slotProps.grid === 'small'
               ? 'minimal'

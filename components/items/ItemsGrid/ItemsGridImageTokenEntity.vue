@@ -6,6 +6,7 @@
     :prefix="urlPrefix"
     :show-price="isAvailableToBuy"
     :variant="variant"
+    :hide-media-info="hideMediaInfo"
     :class="{
       'in-cart-border':
         shoppingCartStore.isItemInCart(nftForShoppingCart.id) ||
@@ -92,6 +93,7 @@ const NuxtLink = resolveComponent('NuxtLink')
 const props = defineProps<{
   entity: TokenEntity
   variant?: NftCardVariant
+  hideMediaInfo?: boolean
 }>()
 
 const {
