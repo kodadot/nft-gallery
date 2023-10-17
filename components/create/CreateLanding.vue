@@ -25,6 +25,20 @@
             </div>
           </div>
         </button>
+        <button
+          v-if="urlPrefix === 'ahk'"
+          class="pack-box p-0"
+          @click="router.push({ path: `/${urlPrefix}/waifu` })">
+          <div class="pack-content-waifu">
+            <img src="/waifu.svg" class="svg-one" />
+            <div class="pack-content-text px-3">
+              <p class="is-size-4 has-text-weight-bold">
+                {{ $t('navbar.create.generateWaifu') }}
+              </p>
+              <p>{{ $t('createDropdown.waifu') }}</p>
+            </div>
+          </div>
+        </button>
       </div>
 
       <div v-else class="pack">
@@ -125,6 +139,15 @@ const gotoPathAfterLogin = (path: RawLocation) => {
   &-content {
     text-align: center;
     width: 14rem;
+
+    &-text {
+      margin-top: 2rem;
+    }
+  }
+
+  &-content-waifu {
+    text-align: center;
+    width: 17rem;
 
     &-text {
       margin-top: 2rem;

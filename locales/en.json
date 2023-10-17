@@ -1064,7 +1064,8 @@
     "globalOffers": "Global Offers",
     "offerStats": "Offers Stats",
     "create": {
-      "waifu": "Waifu"
+      "waifu": "Waifu",
+      "generateWaifu": "Generate Waifu"
     }
   },
   "walletConnect": {
