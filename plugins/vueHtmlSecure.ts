@@ -4,8 +4,19 @@ import VueDOMPurifyHTML from 'vue-dompurify-html'
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.use(VueDOMPurifyHTML, {
     default: {
-      ALLOWED_TAGS: ['a', 'strong'],
-      ALLOWED_ATTR: ['href', 'target'],
+      ALLOWED_TAGS: [
+        'a',
+        'strong',
+        'p',
+        'em',
+        'ul',
+        'ol',
+        'li',
+        'br',
+        'hr',
+        'img',
+      ],
+      ALLOWED_ATTR: ['href', 'target', 'class'],
     },
   })
 })
