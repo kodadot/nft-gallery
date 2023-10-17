@@ -68,7 +68,10 @@ import {
   NeoTooltip,
 } from '@kodadot1/brick'
 import { useExploreFiltersStore } from '@/stores/exploreFilters'
-import { Collection, usePopularCollections } from './usePopularCollections'
+import {
+  Collection,
+  usePopularCollections,
+} from '@/composables/popularCollections/usePopularCollections'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { getCollectionIds } from '@/utils/queryParams'
 import { useTextOverflow } from '@/composables/useTextOverflow'
