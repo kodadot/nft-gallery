@@ -36,7 +36,10 @@
 
       <!-- skeleton on fetching next page -->
       <template v-if="isLoading || isFetchingData">
-        <NeoNftCardSkeleton v-for="n in skeletonCount" :key="n" />
+        <NeoNftCardSkeleton
+          v-for="n in skeletonCount"
+          :key="n"
+          :hide-media-info="hideMediaInfo" />
       </template>
 
       <!-- intersection observer element -->
