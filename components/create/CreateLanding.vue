@@ -27,10 +27,16 @@
         </button>
         <button
           v-if="urlPrefix === 'ahk'"
-          class="pack-box p-0"
+          :class="{ 'pack-box-waifu p-0': !isMobile }"
+          class="pack-box"
           @click="router.push({ path: `/${urlPrefix}/waifu` })">
-          <div class="pack-content-waifu">
-            <img src="/waifu.svg" class="svg-one" />
+          <div :class="[!isMobile ? 'pack-content-waifu' : 'pack-content']">
+            <img
+              v-if="!isMobile"
+              :src="isDarkMode ? '/waifu-dark.svg' : '/waifu.svg'"
+              class="svg-one" />
+            <NeoIcon v-else icon="wand-magic-sparkles" custom-size="fa-3x" />
+
             <div class="pack-content-text px-3">
               <p class="is-size-4 has-text-weight-bold">
                 {{ $t('navbar.create.generateWaifu') }}
@@ -80,6 +86,8 @@ const { doAfterLogin } = useDoAfterlogin(instance)
 const { urlPrefix } = usePrefix()
 const route = useRoute()
 const router = useRouter()
+const { isDarkMode } = useTheme()
+const isMobile = computed(() => useWindowSize().width.value < 769)
 
 const gotoPathAfterLogin = (path: RawLocation) => {
   doAfterLogin({
@@ -145,9 +153,12 @@ const gotoPathAfterLogin = (path: RawLocation) => {
     }
   }
 
+  &-box-waifu {
+    width: 17rem;
+  }
+
   &-content-waifu {
     text-align: center;
-    width: 17rem;
 
     &-text {
       margin-top: 2rem;

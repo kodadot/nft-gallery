@@ -3,7 +3,8 @@
     <nuxt-link
       data-testid="classic"
       :to="`/${urlPrefix}/create`"
-      class="navbar-item">
+      class="navbar-item"
+      @click="emit('closeMobileNavbar')">
       {{ $t('create') }}
     </nuxt-link>
   </div>
@@ -14,6 +15,7 @@ defineProps<{
   chain: string
   isMobile: boolean
 }>()
+const emit = defineEmits(['closeMobileNavbar'])
 
 const { urlPrefix } = usePrefix()
 </script>

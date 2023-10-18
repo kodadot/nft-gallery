@@ -462,7 +462,7 @@
     "landing": {
       "heading": "What Do You Wish To Create?",
       "collection": "Create A Collection For Your NFTs",
-      "nft": "Create Awesome NFTs From Your Art",
+      "nft": "Create awesome NFTs from your art and add them to your existing collection",
       "singleNft": "Single NFT",
       "singleNftDesc": "Create and mint a single original NFT (can have more copies)",
       "massNft": "Multiple NFTs",
