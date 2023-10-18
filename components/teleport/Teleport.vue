@@ -121,8 +121,8 @@ const getApi = (from: Chain) => {
 const { accountId } = useAuth()
 const { assets } = usePrefix()
 const { $i18n } = useNuxtApp()
+const {chainBalances} = useTeleport()
 const fiatStore = useFiatStore()
-const identityStore = useIdentityStore()
 const { decimalsOf } = useChain()
 const fromChain = ref(Chain.KUSAMA) //Selected origin parachain
 const toChain = ref(Chain.BASILISK) //Selected destination parachain
@@ -157,18 +157,6 @@ const tokenFiatValue = computed(() => {
   }
 })
 
-const chainBalances = {
-  [Chain.KUSAMA]: () =>
-    identityStore.multiBalances.chains.kusama?.ksm?.nativeBalance,
-  [Chain.BASILISK]: () =>
-    identityStore.multiBalances.chains.basilisk?.ksm?.nativeBalance,
-  [Chain.STATEMINE]: () =>
-    identityStore.multiBalances.chains.kusamaHub?.ksm?.nativeBalance,
-  [Chain.POLKADOT]: () =>
-    identityStore.multiBalances.chains.polkadot?.dot?.nativeBalance,
-  [Chain.STATEMINT]: () =>
-    identityStore.multiBalances.chains.polkadotHub?.dot?.nativeBalance,
-}
 
 const isDisabled = (chain: Chain) => {
   return !allowedTransitions[fromChain.value].includes(chain)

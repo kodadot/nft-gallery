@@ -1446,5 +1446,18 @@
     },
     "migrationNotPossible": "Migration Not Possible:",
     "migrationNotPossibleLabel": "Migration Is <strong>Not Possible</strong> For  Following Collections That You Own:"
+  },
+  "autoTeleport" : {
+    "autoTeleport": "Auto Teleport",
+    "signTransactions": "Sign Transactions",
+    "header": "<strong>Buying</strong/> NFT on “{chainName}” and <strong>Bridging/Teleporting {amountFormatted}</strong> ~ {amountUsd} From “{sourceNetwork}”",
+    "dontExit": "Don't exit this modal till transactions complete.",
+    "tip": "<strong>Tip:</strong> Look for popups from your wallet extension for signing.",
+    "tooltip": {
+      "first": "Low balance? Auto Teleport bridges required funds from your most asset rich network.",
+      "second": "Extra transaction signature in next step required",
+      "optimalTransferPath": "Optimal Transfer Path",
+      "noOptimalTransferPath": "No Route Found, Please Add Funds"
+    }
   }
 }

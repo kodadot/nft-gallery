@@ -1,22 +1,19 @@
 import { useIdentityStore } from '@/stores/identity'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
-import { Prefix } from '@kodadot1/static'
 
 export default function () {
   const { urlPrefix } = usePrefix()
   const identityStore = useIdentityStore()
 
-  const getBalance = (token: string, prefix: Prefix|null = null) => {
-    prefix = prefix ? prefix : urlPrefix.value
+  const getBalance = (token: string) => {
     token = token.toLocaleLowerCase()
-    switch (prefix) {
+    switch (urlPrefix.value) {
       case 'rmrk':
       case 'ksm':
       case 'ahk':
       case 'ahp':
       case 'dot':
-        const balance = computed(() => identityStore.auth.balance)
-        return balance.value ? balance.value[prefix] || '0' : '0'
+        return identityStore.getAuthBalance
       case 'bsx':
         return identityStore.multiBalances.chains.basilisk?.[token]
           ?.nativeBalance
@@ -25,7 +22,7 @@ export default function () {
           ?.nativeBalance
       default:
         return identityStore.getTokenBalanceOf(
-          getKusamaAssetId(prefix),
+          getKusamaAssetId(urlPrefix.value),
         )
     }
   }

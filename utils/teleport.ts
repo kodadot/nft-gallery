@@ -30,6 +30,21 @@ export enum Chain {
   POLKADOT = 'Polkadot',
 }
 
+type TeleportChain = {
+  prefix: Prefix
+  chain: Chain
+  name: string
+}
+
+export type TeleportTransition = {
+  source: TeleportChain | null,
+  destination: TeleportChain,
+  amount: number,
+  amountFormatted: string,
+  amountUsd: string,
+  token: string
+}
+
 export const allowedTransitions = {
   [Chain.KUSAMA]: [Chain.BASILISK, Chain.STATEMINE],
   [Chain.BASILISK]: [Chain.KUSAMA],
@@ -46,7 +61,7 @@ export const chainToPrefixMap: Record<Chain, Prefix> = {
   [Chain.POLKADOT]: 'dot',
 }
 
-export const prefixToChainMap: Record<Prefix, Chain> = {
+export const prefixToChainMap: Partial<Record<Prefix, Chain>> = {
   'rmrk': Chain.KUSAMA,
   'bsx': Chain.BASILISK,
   'ahk': Chain.STATEMINE,
