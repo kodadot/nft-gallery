@@ -7,6 +7,10 @@ import { SubmittableExtrinsicFunction } from '@polkadot/api/types'
 import { XcmVersionedMultiLocation } from '@polkadot/types/lookup'
 import { AnyTuple } from '@polkadot/types/types'
 import { isFunction } from '@polkadot/util'
+import * as paraspell from '@paraspell/sdk'
+import { ApiFactory } from '@kodadot1/sub-api'
+import { getChainEndpointByPrefix } from '@/utils/chain'
+
 
 type Extrisic = SubmittableExtrinsicFunction<'promise', AnyTuple>
 
@@ -153,4 +157,51 @@ export function getApiParams(
       : // without weight
         [{ V0: dst }, { V0: acc }, { V0: ass }, 0]
     : [dst, acc, ass, destWeight]
+}
+
+
+const getApi = (chain: Chain) => {
+  const endpoint = getChainEndpointByPrefix(chainToPrefixMap[chain]) as string
+  return ApiFactory.useApiInstance(endpoint)
+}
+
+export const getTransaction = async ({
+  amount, from, to, address, currency
+}: { amount: number, from: Chain, to: Chain, address: string, currency: string }) => {
+
+  const api = await getApi(from)
+
+  const telportType = whichTeleportType({
+    from: from,
+    to: to,
+  })
+
+  if (telportType === TeleprtType.RelayToPara) {
+    return paraspell
+      .Builder(api)
+      .to(Chain[to.toUpperCase()])
+      .amount(amount)
+      .address(address)
+      .build()
+  }
+
+  if (telportType === TeleprtType.ParaToRelay) {
+    return paraspell
+      .Builder(api)
+      .from(Chain[from.toUpperCase()])
+      .amount(amount)
+      .address(address)
+      .build()
+  }
+
+  if (telportType === TeleprtType.ParaToPara) {
+    return paraspell
+      .Builder(api)
+      .from(Chain[from.toUpperCase()])
+      .to(Chain[to.toUpperCase()])
+      .currency(currency)
+      .amount(amount)
+      .address(address)
+      .build()
+  }
 }

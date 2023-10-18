@@ -50,7 +50,7 @@ const props = defineProps<{
 
 const isModalOpen = ref(false)
 const rampActive = ref(false)
-const {chainSymbol , name } = useChain()
+const { chainSymbol , name } = useChain()
 const autoTeleport = ref(false)
 const {hasEnoughInCurrentChain, hasEnoughInRichestChain, optimalTransition } = useAutoTeleport(computed(() => props.amount))
 
@@ -64,10 +64,10 @@ const autoTeleportLabel = computed(() => {
     if (hasEnoughInRichestChain.value) {
         if (autoTeleport.value) {
             return 'Teleport and confirm purchase'
-        } else {
-            return `Not enough “${chainSymbol.value}” on “${name.value}”`
         }
     }
+
+    return `Not enough “${chainSymbol.value}” on “${name.value}”`
 })
 
 const localDisabled = computed(() => {
