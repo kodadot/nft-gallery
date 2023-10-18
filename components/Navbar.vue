@@ -4,10 +4,11 @@
     aria-label="main navigation"
     class="navbar is-fixed-top is-spaced"
     :class="{
-      'navbar-shrink': !showTopNavbar,
       'is-active': isMobileNavbarOpen,
     }">
-    <div class="container" :class="{ 'is-fluid': !isMobile }">
+    <div
+      class="container is-align-items-center"
+      :class="{ 'is-fluid': !isMobile }">
       <!-- BRAND -->
       <div class="navbar-brand">
         <nuxt-link to="/" class="navbar-item logo nuxt-link-active">
