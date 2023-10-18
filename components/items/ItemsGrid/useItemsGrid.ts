@@ -51,7 +51,7 @@ export function useFetchSearch({
       price_gt: (value) => ({ price_gt: Number(value) }),
       collection: (value) => ({ collections: value.id_in }),
       name_containsInsensitive: (value) => ({
-        name_containsInsensitive: value,
+        name: value,
       }),
     }
 
