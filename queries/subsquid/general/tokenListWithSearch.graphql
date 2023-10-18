@@ -9,7 +9,7 @@ query tokenListWithSearch(
   $issuer: String
   $denyList: [String!]
   $collections: [String!]
-  $name_containsInsensitive: String
+  $name: String
 ) {
   tokenEntities: tokenEntityList(
     owner: $owner
