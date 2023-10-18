@@ -27,13 +27,13 @@
         <p class="detail-item__title has-text-grey">
           {{ $t('collectionCard.volume') }}
         </p>
-        <CommonTokenMoney :value="collectionTradedVolumeNumber" />
+        <CommonTokenMoney :round="2" :value="collectionTradedVolumeNumber" />
       </div>
       <div class="detail-item has-text-centered column">
         <p class="detail-item__title has-text-grey">
           {{ $t('series.highestSale') }}
         </p>
-        <CommonTokenMoney :value="collectionHighestSalePrice" />
+        <CommonTokenMoney :round="2" :value="collectionHighestSalePrice" />
       </div>
 
       <div class="detail-item has-text-centered column">
