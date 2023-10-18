@@ -8,178 +8,180 @@
       'is-active': isMobileNavbarOpen,
     }">
     <div class="container" :class="{ 'is-fluid': !isMobile }">
-      <!-- BRAND -->
-      <div class="navbar-brand">
-        <nuxt-link to="/" class="navbar-item logo nuxt-link-active">
-          <img
-            :src="logoSrc"
-            alt="First NFT market explorer on Kusama and Polkadot"
-            width="143" />
-        </nuxt-link>
-        <div
-          class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
-          @click="closeBurgerMenu">
-          <img
-            v-if="isMobileNavbarOpen || showSearchOnNavbar"
-            class="mobile-nav-search-btn mr-2"
-            :src="
-              isDarkMode
-                ? '/search-mobile-navbar-dark.svg'
-                : '/search-mobile-navbar.svg'
-            "
-            alt="search"
-            @click="showMobileSearchBar" />
-
-          <div v-show="openMobileSearchBar">
-            <div
-              class="fixed-stack is-flex is-align-items-center is-justify-content-space-between p-2">
-              <Search
-                v-if="isMobile"
-                ref="mobilSearchRef"
-                hide-filter
-                class="is-flex-grow-1 mt-3" />
-              <button class="cancel-btn p-3" @click="hideMobileSearchBar">
-                {{ $t('cancel') }}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- BURGER MENU -->
-        <a
-          role="button"
-          class="navbar-burger"
-          :class="{ 'is-active': isMobileNavbarOpen }"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="MainNavbar"
-          @click="showMobileNavbar">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-        <!-- END BURGER MENU -->
-      </div>
-      <!-- END BRAND -->
-
-      <!-- MENU -->
-      <div
-        id="MainNavbar"
-        class="navbar-menu"
-        :class="{ 'is-active': isMobileNavbarOpen }">
-        <!-- NAV START -->
-        <div class="navbar-start">
-          <div v-if="showSearchOnNavbar" class="navbar-item is-expanded">
-            <Search
-              v-if="!isMobile"
-              class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
-              hide-filter
-              search-column-class="is-flex-grow-1" />
-          </div>
-        </div>
-        <!-- END NAV START -->
-
-        <!-- NAV END -->
-        <div class="navbar-end">
-          <nuxt-link to="/ahp/drops" rel="nofollow">
-            <div class="navbar-item" data-testid="drops">
-              {{ $t('drops.title') }}
-
-              <NeoIcon
-                class="ml-1"
-                icon="fire-flame-curved"
-                pack="fass"
-                variant="primary" />
-            </div>
+      <ClientOnly>
+        <!-- BRAND -->
+        <div class="navbar-brand">
+          <nuxt-link to="/" class="navbar-item logo nuxt-link-active">
+            <img
+              :src="logoSrc"
+              alt="First NFT market explorer on Kusama and Polkadot"
+              width="143" />
           </nuxt-link>
+          <div
+            class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
+            @click="closeBurgerMenu">
+            <img
+              v-if="isMobileNavbarOpen || showSearchOnNavbar"
+              class="mobile-nav-search-btn mr-2"
+              :src="
+                isDarkMode
+                  ? '/search-mobile-navbar-dark.svg'
+                  : '/search-mobile-navbar.svg'
+              "
+              alt="search"
+              @click="showMobileSearchBar" />
 
-          <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
-            <NavbarExploreOptions @closeMobileNavbar="showMobileNavbar" />
-          </MobileExpandableSection>
-          <ExploreDropdown
-            v-else
-            class="navbar-explore custom-navbar-item"
-            data-testid="explore" />
+            <div v-show="openMobileSearchBar">
+              <div
+                class="fixed-stack is-flex is-align-items-center is-justify-content-space-between p-2">
+                <Search
+                  v-if="isMobile"
+                  ref="mobilSearchRef"
+                  hide-filter
+                  class="is-flex-grow-1 mt-3" />
+                <button class="cancel-btn p-3" @click="hideMobileSearchBar">
+                  {{ $t('cancel') }}
+                </button>
+              </div>
+            </div>
+          </div>
 
+          <!-- BURGER MENU -->
           <a
-            href="https://hello.kodadot.xyz"
-            rel="nofollow noopener noreferrer"
-            target="_blank"
-            class="navbar-item"
-            data-testid="learn">
-            Learn
+            role="button"
+            class="navbar-burger"
+            :class="{ 'is-active': isMobileNavbarOpen }"
+            aria-label="menu"
+            aria-expanded="false"
+            data-target="MainNavbar"
+            @click="showMobileNavbar">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
           </a>
-          <CreateDropdown
-            v-show="isCreateVisible"
-            class="navbar-create custom-navbar-item ml-0"
-            data-testid="create"
-            :is-mobile="isMobile"
-            :chain="urlPrefix"
-            @closeMobileNavbar="showMobileNavbar" />
+          <!-- END BURGER MENU -->
+        </div>
+        <!-- END BRAND -->
 
-          <!-- commenting as part of #5889-->
-          <!-- <StatsDropdown
+        <!-- MENU -->
+        <div
+          id="MainNavbar"
+          class="navbar-menu"
+          :class="{ 'is-active': isMobileNavbarOpen }">
+          <!-- NAV START -->
+          <div class="navbar-start">
+            <div v-if="showSearchOnNavbar" class="navbar-item is-expanded">
+              <Search
+                v-if="!isMobile"
+                class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
+                hide-filter
+                search-column-class="is-flex-grow-1" />
+            </div>
+          </div>
+          <!-- END NAV START -->
+
+          <!-- NAV END -->
+          <div class="navbar-end">
+            <nuxt-link to="/ahp/drops" rel="nofollow">
+              <div class="navbar-item" data-testid="drops">
+                {{ $t('drops.title') }}
+
+                <NeoIcon
+                  class="ml-1"
+                  icon="fire-flame-curved"
+                  pack="fass"
+                  variant="primary" />
+              </div>
+            </nuxt-link>
+
+            <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
+              <NavbarExploreOptions @closeMobileNavbar="showMobileNavbar" />
+            </MobileExpandableSection>
+            <ExploreDropdown
+              v-else
+              class="navbar-explore custom-navbar-item"
+              data-testid="explore" />
+
+            <a
+              href="https://hello.kodadot.xyz"
+              rel="nofollow noopener noreferrer"
+              target="_blank"
+              class="navbar-item"
+              data-testid="learn">
+              Learn
+            </a>
+            <CreateDropdown
+              v-show="isCreateVisible"
+              class="navbar-create custom-navbar-item ml-0"
+              data-testid="create"
+              :is-mobile="isMobile"
+              :chain="urlPrefix"
+              @closeMobileNavbar="showMobileNavbar" />
+
+            <!-- commenting as part of #5889-->
+            <!-- <StatsDropdown
           class="navbar-stats custom-navbar-item"
           data-testid="stats"
           :is-mobile="isMobile"
           :chain="urlPrefix" /> -->
 
-          <MobileExpandableSection
-            v-if="isMobile"
-            no-padding
-            :title="$t('chainSelect', [chainName])">
-            <NavbarChainOptions @select="handleMobileChainSelect" />
-          </MobileExpandableSection>
+            <MobileExpandableSection
+              v-if="isMobile"
+              no-padding
+              :title="$t('chainSelect', [chainName])">
+              <NavbarChainOptions @select="handleMobileChainSelect" />
+            </MobileExpandableSection>
 
-          <ChainSelectDropdown
-            v-else
-            id="NavChainSelect"
-            class="navbar-chain custom-navbar-item"
-            data-testid="chain-select" />
-
-          <NotificationBoxButton
-            v-if="account"
-            :show-label="isMobile"
-            @closeBurgerMenu="showMobileNavbar" />
-
-          <ShoppingCartButton
-            :show-label="isMobile"
-            @closeBurgerMenu="showMobileNavbar" />
-
-          <template v-if="isMobile">
-            <template v-if="!account">
-              <MobileLanguageOption @closeLanguageOption="showMobileNavbar" />
-              <ColorModeButton class="navbar-item" />
-            </template>
-            <div
+            <ChainSelectDropdown
               v-else
-              class="navbar-item"
-              @click.stop="openWalletConnectModal">
-              <span>
-                {{ $t('profile.page') }}
-                <NeoIcon icon="user-circle" />
-              </span>
-              <NeoIcon class="icon--right" icon="chevron-right" />
-            </div>
+              id="NavChainSelect"
+              class="navbar-chain custom-navbar-item"
+              data-testid="chain-select" />
 
-            <div v-if="!account" id="NavProfile">
-              <ConnectWalletButton
-                class="button-connect-wallet"
-                variant="connect"
-                @closeBurgerMenu="showMobileNavbar" />
-            </div>
-          </template>
+            <NotificationBoxButton
+              v-if="account"
+              :show-label="isMobile"
+              @closeBurgerMenu="showMobileNavbar" />
 
-          <ProfileDropdown
-            v-if="!isMobile"
-            id="NavProfile"
-            :chain="urlPrefix"
-            data-testid="profileDropdown"
-            @closeBurgerMenu="closeBurgerMenu" />
+            <ShoppingCartButton
+              :show-label="isMobile"
+              @closeBurgerMenu="showMobileNavbar" />
+
+            <template v-if="isMobile">
+              <template v-if="!account">
+                <MobileLanguageOption @closeLanguageOption="showMobileNavbar" />
+                <ColorModeButton class="navbar-item" />
+              </template>
+              <div
+                v-else
+                class="navbar-item"
+                @click.stop="openWalletConnectModal">
+                <span>
+                  {{ $t('profile.page') }}
+                  <NeoIcon icon="user-circle" />
+                </span>
+                <NeoIcon class="icon--right" icon="chevron-right" />
+              </div>
+
+              <div v-if="!account" id="NavProfile">
+                <ConnectWalletButton
+                  class="button-connect-wallet"
+                  variant="connect"
+                  @closeBurgerMenu="showMobileNavbar" />
+              </div>
+            </template>
+
+            <ProfileDropdown
+              v-if="!isMobile"
+              id="NavProfile"
+              :chain="urlPrefix"
+              data-testid="profileDropdown"
+              @closeBurgerMenu="closeBurgerMenu" />
+          </div>
+          <!-- END NAV END -->
         </div>
-        <!-- END NAV END -->
-      </div>
-      <!-- END MENU -->
+        <!-- END MENU -->
+      </ClientOnly>
     </div>
   </nav>
 </template>
@@ -231,9 +233,10 @@ const isLandingPage = computed(
   () => route.name === 'index' || route.name === 'prefix',
 )
 
-const logoSrc = computed(() =>
-  isDarkMode.value ? '/Koda_Beta_dark.svg' : '/Koda_Beta.svg',
-)
+const logoSrc = computed(() => {
+  console.log(isDarkMode.value)
+  return isDarkMode.value ? '/Koda_Beta_dark.svg' : '/Koda_Beta.svg'
+})
 
 const showSearchOnNavbar = computed(
   () =>

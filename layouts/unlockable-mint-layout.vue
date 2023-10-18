@@ -3,7 +3,14 @@
     <Navbar />
 
     <main class="is-flex-grow-1">
-      <NuxtPage />
+      <ClientOnly>
+        <Error
+          v-if="$nuxt.isOffline"
+          :has-img="false"
+          error-title="Offline Detected"
+          error-subtitle="Please check your network connections" />
+        <NuxtPage v-else />
+      </ClientOnly>
     </main>
     <LazyTheFooter />
     <LazyCookieBanner />

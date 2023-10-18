@@ -1,13 +1,19 @@
 <template>
-  <div id="custom-substack-embed" data-testid="footer-subscribe"></div>
+  <ClientOnly>
+    <div id="custom-substack-embed" data-testid="footer-subscribe"></div>
+  </ClientOnly>
 </template>
 
 <script lang="ts" setup>
-useHead({
-  script: [{ src: 'https://substackapi.com/widget.js', async: true }],
-})
+// useHead({
+//   script: [{ src: 'https://substackapi.com/widget.js', async: true }],
+// })
 
-if (process.client) {
+onMounted(() => {
+  const plugin = document.createElement('script')
+  plugin.setAttribute('src', 'https://substackapi.com/widget.js')
+  plugin.async = true
+  document.head.appendChild(plugin)
   window.CustomSubstackWidget = {
     substackUrl: 'kodadot.substack.com',
     placeholder: 'jane.doe@kodadot.xyz',
@@ -19,5 +25,5 @@ if (process.client) {
       text: '#000000',
     },
   }
-}
+})
 </script>

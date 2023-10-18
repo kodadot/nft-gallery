@@ -6,12 +6,14 @@
         <div class="container">
           <div class="columns is-centered">
             <div class="column is-half">
-              <Error
-                v-if="$nuxt.isOffline"
-                :has-img="false"
-                error-title="Offline Detected"
-                error-subtitle="Please check your network connections" />
-              <NuxtPage v-else />
+              <ClientOnly>
+                <Error
+                  v-if="$nuxt.isOffline"
+                  :has-img="false"
+                  error-title="Offline Detected"
+                  error-subtitle="Please check your network connections" />
+                <NuxtPage v-else />
+              </ClientOnly>
             </div>
           </div>
         </div>

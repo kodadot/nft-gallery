@@ -73,7 +73,9 @@ export const getKSMUSD = async (): Promise<number> => {
     return value
   } catch (error) {
     console.log(error)
-    return process.client && Number(localStorage.getItem('KSM') || 100)
+    if (process.client) {
+      return Number(localStorage.getItem('KSM') || 100)
+    }
   }
 }
 

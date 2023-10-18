@@ -2,12 +2,14 @@
   <div class="min-h-full is-flex is-flex-direction-column is-clipped">
     <Navbar />
     <main class="is-flex-grow-1">
-      <Error
-        v-if="$nuxt.isOffline"
-        :has-img="false"
-        error-title="Offline Detected"
-        error-subtitle="Please check your network connections" />
-      <NuxtPage v-else />
+      <ClientOnly>
+        <Error
+          v-if="$nuxt.isOffline"
+          :has-img="false"
+          error-title="Offline Detected"
+          error-subtitle="Please check your network connections" />
+        <NuxtPage v-else />
+      </ClientOnly>
     </main>
     <LazyTheFooter />
     <LazyCookieBanner />

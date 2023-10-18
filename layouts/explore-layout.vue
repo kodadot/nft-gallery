@@ -9,7 +9,7 @@
           :has-img="false"
           error-subtitle="Please check your network connections"
           error-title="Offline Detected" />
-        <div v-else>
+        <ClientOnly v-else>
           <!-- new header component for collection here -->
           <div v-if="isCollection">
             <CollectionBanner :key="route.path" />
@@ -28,7 +28,7 @@
           </section>
           <hr class="text-color my-0" />
           <NuxtPage />
-        </div>
+        </ClientOnly>
       </main>
     </div>
     <Buy />
