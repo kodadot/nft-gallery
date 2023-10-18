@@ -1,105 +1,11 @@
 <template>
-  <div>
-    <NeoButton variant="pill" @click="promptModal()">
-      <NeoIcon icon="arrow-left" class="mr-2" />
-      Migration Homepage
-    </NeoButton>
-
-    <div class="mt-8 is-centered columns">
-      <div class="is-4 column">
-        <h1 class="is-size-4 has-text-weight-bold">
-          <span class="has-text-grey">Review -</span> Sign
-        </h1>
-
-        <hr />
-
-        <div
-          class="rounded shade-border-color is-flex is-justify-content-start is-flex-grow-1 pl-3">
-          <IdentityItem
-            :label="$t('confirmPurchase.connectedWith')"
-            hide-identity-popover
-            disable-identity-link
-            :prefix="urlPrefix"
-            :account="accountId"
-            class="identity-name-font-weight-regular"
-            data-testid="item-creator" />
-        </div>
-
-        <div class="mt-5">
-          Based on your item count, you may need to sign multiple transactions
-          for the migration. Please stay on this page until all signatures fully
-          process to lock in the migration.
-        </div>
-
-        <hr />
-        <p>
-          TODO:
-          https://github.com/kodadot/nft-gallery/issues/7562#issuecomment-1765884165
-        </p>
-        <hr />
-
-        <NeoButton
-          label="Sign all required transactions"
-          variant="k-accent"
-          class="mt-4 btn-submit"
-          expanded
-          @click="toCongrats()" />
-      </div>
-    </div>
-  </div>
+  <MigrateReviewSign section="sign" />
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import IdentityItem from '@/components/identity/IdentityItem.vue'
-import MigrateModal from '@/components/migrate/MigrateModal.vue'
-
-const { urlPrefix } = usePrefix()
-const { accountId } = useAuth()
-const { neoModal } = useProgrammatic()
-const route = useRoute()
+import MigrateReviewSign from '@/components/migrate/MigrateReviewSign.vue'
 
 definePageMeta({
   layout: 'no-footer',
 })
-
-const promptModal = async () => {
-  const instance = neoModal.open({
-    component: MigrateModal,
-    contentClass: 'k-shadow border',
-    trapFocus: true,
-  })
-  const result: { action: 'yes' | 'no' } = await instance.promise
-
-  if (result.action === 'yes') {
-    navigateTo('/migrate')
-  }
-}
-
-const toCongrats = () => {
-  navigateTo({
-    path: '/migrate/congrats',
-    query: {
-      ...route.query,
-    },
-  })
-}
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.rounded {
-  border-radius: 10rem;
-}
-
-.shade-border-color {
-  @include ktheme() {
-    border: 1px solid theme('k-shade');
-  }
-}
-
-.btn-submit {
-  height: 3.5rem;
-}
-</style>
