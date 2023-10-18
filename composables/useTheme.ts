@@ -12,7 +12,7 @@ export default function () {
   }
 
   const placeholder = computed(() => {
-    return isDarkMode.value ? '/Kdark.svg' : '/Klight.svg'
+    return isDarkMode.value ? '/Kdark.webp' : '/Klight.webp'
   })
 
   return {
