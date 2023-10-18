@@ -54,7 +54,7 @@ query tokenListWithSearch(
     price_gt: $price_gt
     price_lte: $price_lte
     collections: $collections
-    name_containsInsensitive: $name_containsInsensitive
+    name: $name
   ) {
     totalCount
   }
