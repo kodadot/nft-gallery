@@ -41,11 +41,15 @@
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
+import { computed } from 'vue'
+import { NftCardVariant } from '@kodadot1/brick'
+
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { getChainNameByPrefix } from '@/utils/chain'
-import { NftCardVariant } from '@kodadot1/brick'
 import { NeoNFT } from './types'
+
 const props = withDefaults(
   defineProps<{
     nft: NeoNFT

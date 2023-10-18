@@ -60,8 +60,10 @@
 </template>
 
 <script lang="ts" setup>
-import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
+import { computed } from 'vue'
 import { NeoButton, NftCardVariant } from '@kodadot1/brick'
+
+import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { NeoNFT } from './types'
 
 const props = withDefaults(

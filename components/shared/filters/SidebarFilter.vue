@@ -8,6 +8,7 @@
         fluid-padding
         data-testid="expand-search" />
       <PopularCollections v-if="isExploreItems" expanded fluid-padding />
+      <AdvancedFilter fluid-padding />
     </NeoSidebar>
   </div>
 </template>
@@ -17,6 +18,7 @@ import { NeoSidebar } from '@kodadot1/brick'
 import StatusFilter from '@/components/shared/filters/modules/StatusFilter.vue'
 import EventTypeFilter from '@/components/shared/filters/modules/EventTypeFilter.vue'
 import PriceFilter from '@/components/shared/filters/modules/PriceFilter.vue'
+import AdvancedFilter from '@/components/shared/filters/modules/AdvancedFilter.vue'
 import PopularCollections from '@/components/shared/filters/modules/PopularCollections.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 
