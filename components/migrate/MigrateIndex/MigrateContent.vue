@@ -70,9 +70,11 @@
                   </p>
                 </div>
                 <div>
-                  <NeoButton variant="pill">{{
-                    $t('migrate.ready.cta')
-                  }}</NeoButton>
+                  <nuxt-link to="/migrate/review/123456789">
+                    <NeoButton variant="pill">
+                      {{ $t('migrate.ready.cta') }}
+                    </NeoButton>
+                  </nuxt-link>
                 </div>
               </div>
             </div>
@@ -120,9 +122,11 @@
                   <p v-dompurify-html="$t('migrate.waiting.own', ['12'])"></p>
                 </div>
                 <div>
-                  <NeoButton variant="pill">{{
-                    $t('migrate.waiting.cta')
-                  }}</NeoButton>
+                  <nuxt-link to="/migrate/review/123456789">
+                    <NeoButton variant="pill">
+                      {{ $t('migrate.waiting.cta') }}
+                    </NeoButton>
+                  </nuxt-link>
                 </div>
               </div>
             </div>
