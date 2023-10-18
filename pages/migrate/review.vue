@@ -188,7 +188,7 @@
           :disabled="!agree"
           class="mt-4 btn-submit"
           expanded
-          @click="true" />
+          @click="toSign()" />
       </div>
     </div>
   </div>
@@ -221,6 +221,15 @@ const source = availablePrefixWithIcon().find(
 const destination = availablePrefixWithIcon().find(
   (item) => item.value === route.query.destination,
 )
+
+const toSign = () => {
+  navigateTo({
+    path: '/migrate/sign',
+    query: {
+      ...route.query,
+    },
+  })
+}
 </script>
 
 <style scoped lang="scss">

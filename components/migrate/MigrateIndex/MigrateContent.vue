@@ -172,8 +172,9 @@ const dummyWaitingCollections = [
 
 const toReview = () => {
   navigateTo({
-    path: '/migrate/review/123456789',
+    path: '/migrate/review',
     query: {
+      collectionId: '12345789',
       source: sourceSelected.value?.value,
       destination: destinationSelected.value?.value,
     },
