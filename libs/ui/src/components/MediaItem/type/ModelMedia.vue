@@ -15,13 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-useHead({
-  script: [
-    {
-      src: 'https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js',
-    },
-  ],
-})
+import '@google/model-viewer'
 
 defineProps<{
   animationSrc: string
