@@ -126,31 +126,10 @@ import {
   NeoIcon,
 } from '@kodadot1/brick'
 import MigrateFaq from './MigrateHeaderFaq.vue'
-import { availablePrefixWithIcon } from '@/utils/chain'
+import useMigrate from '@/components/migrate/migrate'
 
-const source = availablePrefixWithIcon()
-const sourceSelected = ref(
-  availablePrefixWithIcon().find((item) => item.value === 'ksm'),
-)
-
-const destination = availablePrefixWithIcon().filter(
-  (item) => item.value === 'ahp' || item.value === 'ahk',
-)
-const destinationSelected = ref(
-  availablePrefixWithIcon().find((item) => item.value === 'ahp'),
-)
-
-watchEffect(() => {
-  const chain = sourceSelected.value?.value
-
-  if (chain === 'ahk') {
-    destinationSelected.value = destination.find((item) => item.value === 'ahp')
-  }
-
-  if (chain === 'ahp') {
-    destinationSelected.value = destination.find((item) => item.value === 'ahk')
-  }
-})
+const { source, sourceSelected, destination, destinationSelected } =
+  useMigrate()
 </script>
 
 <style lang="scss" scoped>

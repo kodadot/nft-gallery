@@ -70,11 +70,9 @@
                   </p>
                 </div>
                 <div>
-                  <nuxt-link to="/migrate/review/123456789">
-                    <NeoButton variant="pill">
-                      {{ $t('migrate.ready.cta') }}
-                    </NeoButton>
-                  </nuxt-link>
+                  <NeoButton variant="pill" @click="toReview()">
+                    {{ $t('migrate.ready.cta') }}
+                  </NeoButton>
                 </div>
               </div>
             </div>
@@ -122,11 +120,9 @@
                   <p v-dompurify-html="$t('migrate.waiting.own', ['12'])"></p>
                 </div>
                 <div>
-                  <nuxt-link to="/migrate/review/123456789">
-                    <NeoButton variant="pill">
-                      {{ $t('migrate.waiting.cta') }}
-                    </NeoButton>
-                  </nuxt-link>
+                  <NeoButton variant="pill" @click="toReview()">
+                    {{ $t('migrate.waiting.cta') }}
+                  </NeoButton>
                 </div>
               </div>
             </div>
@@ -161,6 +157,9 @@
 <script setup lang="ts">
 import { NeoButton, NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import Identity from '@/components/identity/IdentityIndex.vue'
+import useMigrate from '@/components/migrate/migrate'
+
+const { sourceSelected, destinationSelected } = useMigrate()
 
 const { accountId } = useAuth()
 const dummyReadyCollections = [
@@ -170,6 +169,16 @@ const dummyReadyCollections = [
 const dummyWaitingCollections = [
   'https://plus.unsplash.com/premium_photo-1664640458486-1ef3c8738cf9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0OHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
 ]
+
+const toReview = () => {
+  navigateTo({
+    path: '/migrate/review/123456789',
+    query: {
+      source: sourceSelected.value?.value,
+      destination: destinationSelected.value?.value,
+    },
+  })
+}
 </script>
 
 <style lang="scss" scoped>

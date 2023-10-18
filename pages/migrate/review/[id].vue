@@ -61,9 +61,24 @@
 
         <div>
           <p class="has-text-weight-bold mt-5">Route:</p>
-          <NeoButton variant="pill" class="mt-2">
-            Kusama <NeoIcon icon="chevron-right" class="mx-4" /> Polkadot Asset
-            Hub
+          <NeoButton rounded variant="pill" class="mt-2">
+            <div class="is-flex is-align-items-center">
+              <img
+                width="20"
+                :src="source?.icon"
+                :alt="source?.text"
+                class="mr-2" />
+              {{ source?.text }}
+            </div>
+            <NeoIcon icon="chevron-right" class="mx-4" />
+            <div class="is-flex is-align-items-center">
+              <img
+                width="20"
+                :src="destination?.icon"
+                :alt="destination?.text"
+                class="mr-2" />
+              {{ destination?.text }}
+            </div>
           </NeoButton>
         </div>
 
@@ -188,9 +203,11 @@ import {
   NeoTooltip,
 } from '@kodadot1/brick'
 import IdentityItem from '@/components/identity/IdentityItem.vue'
+import { availablePrefixWithIcon } from '@/utils/chain'
 
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
+const route = useRoute()
 
 definePageMeta({
   layout: 'no-footer',
@@ -198,6 +215,12 @@ definePageMeta({
 
 const agree = ref(false)
 const toggleFee = ref(true)
+const source = availablePrefixWithIcon().find(
+  (item) => item.value === route.query.source,
+)
+const destination = availablePrefixWithIcon().find(
+  (item) => item.value === route.query.destination,
+)
 </script>
 
 <style scoped lang="scss">
