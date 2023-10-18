@@ -63,7 +63,7 @@ import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import {
   Collection,
   collectionArray,
-} from '@/components/shared/filters/modules/usePopularCollections'
+} from '@/composables/popularCollections/usePopularCollections'
 import useActiveRouterFilters from '@/composables/useActiveRouterFilters'
 import { NeoField } from '@kodadot1/brick'
 import { useCollectionSearch } from '../search/utils/useCollectionSearch'
@@ -118,6 +118,7 @@ const clearAllFilters = () => {
 const queryMapTranslation = {
   listed: $i18n.t('sort.listed'),
   owned: $i18n.t('sort.own'),
+  art_view: $i18n.t('filters.artView'),
   sale: $i18n.t('filters.sale'),
   offer: $i18n.t('filters.offer'),
   listing: $i18n.t('filters.listing'),

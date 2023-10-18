@@ -17,6 +17,7 @@
         <ItemsGridImage
           v-if="!isTokenEntity(entity)"
           :nft="entity"
+          :hide-media-info="hideMediaInfo"
           :variant="
             slotProps.isMobileVariant || slotProps.grid === 'small'
               ? 'minimal'
@@ -25,6 +26,7 @@
         <ItemsGridImageTokenEntity
           v-else
           :entity="entity"
+          :hide-media-info="hideMediaInfo"
           :variant="
             slotProps.isMobileVariant || slotProps.grid === 'small'
               ? 'minimal'
@@ -34,7 +36,10 @@
 
       <!-- skeleton on fetching next page -->
       <template v-if="isLoading || isFetchingData">
-        <NeoNftCardSkeleton v-for="n in skeletonCount" :key="n" />
+        <NeoNftCardSkeleton
+          v-for="n in skeletonCount"
+          :key="n"
+          :hide-media-info="hideMediaInfo" />
       </template>
 
       <!-- intersection observer element -->
@@ -45,7 +50,10 @@
     <DynamicGrid
       v-if="total === 0 && (isLoading || isFetchingData)"
       class="my-5">
-      <NeoNftCardSkeleton v-for="n in skeletonCount" :key="n" />
+      <NeoNftCardSkeleton
+        v-for="n in skeletonCount"
+        :key="n"
+        :hide-media-info="hideMediaInfo" />
     </DynamicGrid>
 
     <EmptyResult v-if="total === 0 && (!isLoading || !isFetchingData)" />
@@ -69,6 +77,7 @@ import { NFT } from '@/components/rmrk/service/scheme'
 
 const { listingCartEnabled } = useListingCartConfig()
 const listingCartStore = useListingCartStore()
+const route = useRoute()
 
 const props = defineProps<{
   search?: Record<string, string | number>
@@ -77,6 +86,9 @@ const props = defineProps<{
 const emit = defineEmits(['total', 'loading'])
 
 const isLoading = ref(true)
+
+const hideMediaInfo = computed(() => route.query?.art_view === 'true')
+
 const gotoPage = (page: number) => {
   currentPage.value = page
   startPage.value = page
