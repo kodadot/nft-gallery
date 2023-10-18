@@ -21,9 +21,11 @@ const onScroll = () => {
 useEventListener(window, 'scroll', onScroll)
 
 const scrollToTop = () => {
-  window.scroll({
-    top: 0,
-    behavior: 'smooth',
-  })
+  if (process.client) {
+    window.scroll({
+      top: 0,
+      behavior: 'smooth',
+    })
+  }
 }
 </script>

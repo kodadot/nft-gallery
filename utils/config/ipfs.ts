@@ -12,7 +12,7 @@ export type IPFSProviders =
   | 'image'
 
 const kodaImage =
-  window.location.host === 'kodadot.xyz'
+  process.client && window.location.host === 'kodadot.xyz'
     ? 'https://image.w.kodadot.xyz/'
     : 'https://image-beta.w.kodadot.xyz/'
 

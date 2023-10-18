@@ -12,10 +12,10 @@ export default defineNuxtRouteMiddleware((route) => {
 
   const isAnyChainPrefixInPath = chainPrefixes.includes(prefixInPath)
   const rmrk2ChainPrefixInHostname = rmrk2ChainPrefixesInHostname.find(
-    (prefix) => location.hostname.startsWith(`${prefix}.`),
+    (prefix) => process.client && location.hostname.startsWith(`${prefix}.`),
   )
 
-  if (rmrk2ChainPrefixInHostname) {
+  if (process.client && rmrk2ChainPrefixInHostname) {
     // fixed chain domain (for example: rmrk2.kodadot.xyz)
 
     if (isAnyChainPrefixInPath && prefixInPath && prefixInPath !== 'ksm') {

@@ -39,7 +39,9 @@ const props = defineProps<{
 
 const handleRedirect = () => {
   emit('close')
-  window.open(props.url, '_blank')
+  if (process.client) {
+    window.open(props.url, '_blank')
+  }
 }
 </script>
 

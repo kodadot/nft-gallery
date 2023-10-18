@@ -212,8 +212,8 @@ const openMobileSearchBar = ref(false)
 const fixedTitleNavAppearDistance = ref(85)
 const lastScrollPosition = ref(0)
 const isBurgerMenuOpened = ref(false)
-const isMobile = ref(window.innerWidth < 1024)
-const isMobileWithoutTablet = ref(window.innerWidth < 768)
+const isMobile = ref(process.client && window.innerWidth < 1024)
+const isMobileWithoutTablet = ref(process.client && window.innerWidth < 768)
 const { urlPrefix } = usePrefix()
 const { isDarkMode } = useTheme()
 const identityStore = useIdentityStore()
@@ -316,7 +316,7 @@ const hideMobileSearchBar = () => {
 }
 
 const handleResize = () => {
-  isMobile.value = window.innerWidth < 1024
+  isMobile.value = process.client && window.innerWidth < 1024
 }
 
 const chainName = computed(() => getChainNameByPrefix(urlPrefix.value))
@@ -326,6 +326,8 @@ const updateAuthBalance = () => {
 }
 
 onMounted(() => {
+  useEventListener(window, 'scroll', onScroll)
+  useEventListener(window, 'resize', handleResize)
   document.body.style.overflowY = 'initial'
   document.body.className = 'has-navbar-fixed-top has-spaced-navbar-fixed-top'
   updateAuthBalanceTimer.value = setInterval(updateAuthBalance, 30000)
@@ -336,8 +338,6 @@ onBeforeUnmount(() => {
   document.documentElement.classList.remove('is-clipped-touch')
   clearInterval(updateAuthBalanceTimer.value)
 })
-useEventListener(window, 'scroll', onScroll)
-useEventListener(window, 'resize', handleResize)
 </script>
 
 <style lang="scss" scoped>

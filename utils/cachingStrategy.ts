@@ -54,14 +54,14 @@ export const getProperImageLink =
 export const clearSession = () => {
   try {
     setTimeout(() => {
-      window.sessionStorage.clear()
-      window.localStorage.clear()
+      process.client && window.sessionStorage.clear()
+      process.client && window.localStorage.clear()
     }, 100)
   } catch (error) {
     console.error(error)
   } finally {
     setTimeout(() => {
-      window.location.reload()
+      process.client && window.location.reload()
     }, 200)
   }
 }

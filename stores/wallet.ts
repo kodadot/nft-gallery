@@ -20,7 +20,7 @@ export const walletHistory = useLocalStorage<WalletHistory>(
 export const useWalletStore = defineStore('wallet', {
   state: (): State => ({
     wallet: {
-      name: localStorage.getItem('walletname') || '',
+      name: (process.client && localStorage.getItem('walletname')) || '',
     },
     history: { ...walletHistory.value },
   }),
@@ -40,7 +40,9 @@ export const useWalletStore = defineStore('wallet', {
   actions: {
     setWallet({ name, extension }: { name: string; extension: string }) {
       this.wallet = Object.assign(this.wallet, { name })
-      localStorage.setItem('walletname', name)
+      if (process.client) {
+        localStorage.setItem('walletname', name)
+      }
       this.setRecentWallet(extension)
     },
     setRecentWallet(extensionName: string) {

@@ -240,7 +240,7 @@ const itemsGridSearch = computed(() => {
   return query
 })
 
-const realworldFullPath = computed(() => window.location.href)
+const realworldFullPath = computed(() => process.client && window.location.href)
 
 const activeTab = computed({
   get: () => (route.query.tab as ProfileTab) || ProfileTab.OWNED,

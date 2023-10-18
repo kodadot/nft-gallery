@@ -1,17 +1,20 @@
-import { web3Enable } from '@polkadot/extension-dapp'
 import { WalletAccount, getWalletBySource } from '@/utils/config/wallets'
 import consola from 'consola'
 
-export const enableExtension = async () => await web3Enable('KodaDot')
+export const enableExtension = async () => {
+  const { web3Enable } = await import('@polkadot/extension-dapp')
+  return await web3Enable('KodaDot')
+}
 
 export const getInjectedExtensions = async () => {
+  const { web3Enable } = await import('@polkadot/extension-dapp')
   const extensions = await web3Enable('Kodadot')
   return extensions
 }
 
 export const getAddress = async (address: string) => {
   try {
-    const walletName = localStorage.getItem('wallet')
+    const walletName = process.client && localStorage.getItem('wallet')
     const wallet = getWalletBySource(walletName)
     await wallet?.enable()
     if (wallet?.extension) {
@@ -27,7 +30,7 @@ export const getAddress = async (address: string) => {
 
 export const getSelectedAccount = (accounts: WalletAccount[]) => {
   try {
-    const selectedAddress = localStorage.getItem('kodaauth')
+    const selectedAddress = process.client && localStorage.getItem('kodaauth')
     const account = accounts.find(
       (account) => account.address === selectedAddress,
     )
@@ -40,4 +43,6 @@ export const getSelectedAccount = (accounts: WalletAccount[]) => {
 }
 
 export const isMobileDevice =
-  'ontouchstart' in document.documentElement && /Mobi/.test(navigator.userAgent)
+  process.client &&
+  'ontouchstart' in document.documentElement &&
+  /Mobi/.test(navigator.userAgent)

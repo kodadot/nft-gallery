@@ -86,7 +86,6 @@
 </template>
 
 <script setup lang="ts">
-import { web3Enable } from '@polkadot/extension-dapp'
 import '@polkadot/api-augment'
 import { getss58AddressByPrefix, toDefaultAddress } from '@/utils/account'
 import { getAddress } from '@/utils/extension'
@@ -353,7 +352,10 @@ const sendXCM = async () => {
   if (!amount.value || amount.value < 0) {
     return
   }
-  await web3Enable('Kodadot')
+  if (process.client) {
+    const { web3Enable } = await import('@polkadot/extension-dapp')
+    await web3Enable('Kodadot')
+  }
   let isFirstStatus = true
   isLoading.value = true
   const transactionHandler = txCb(

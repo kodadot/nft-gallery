@@ -36,7 +36,7 @@ const tokenMap = {
 
 export const getApproximatePriceOf = async (id: string): Promise<number> => {
   const coinId = tokenMap[id]
-  const stored = localStorage.getItem(id)
+  const stored = process.client && localStorage.getItem(id)
 
   if (stored) {
     return Number(stored)
@@ -46,7 +46,7 @@ export const getApproximatePriceOf = async (id: string): Promise<number> => {
 
   const data = await getPrice(coinId)
 
-  if (data) {
+  if (process.client && data) {
     const value: number = data[coinId]['usd']
     localStorage.setItem(id, String(value))
     return value
@@ -66,12 +66,14 @@ export const getKSMUSD = async (): Promise<number> => {
     })
 
     const value: number = data[coinId]['usd']
-    localStorage.setItem('KSM', String(value))
+    if (process.client) {
+      localStorage.setItem('KSM', String(value))
+    }
 
     return value
   } catch (error) {
     console.log(error)
-    return Number(localStorage.getItem('KSM') || 100)
+    return process.client && Number(localStorage.getItem('KSM') || 100)
   }
 }
 

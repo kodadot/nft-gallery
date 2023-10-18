@@ -1,21 +1,25 @@
 <template>
   <div class="view-model__wrapper">
     <div class="view-model__overflow" />
-    <model-viewer
-      class="view-model__component"
-      :src="animationSrc"
-      auto-rotate
-      ar-modes="webxr scene-viewer quick-look"
-      shadow-intensity="1"
-      autoplay
-      camera-controls
-      :disable-zoom="disableOperation"
-      data-testid="type-3d" />
+    <client-only placeholder="loading...">
+      <model-viewer
+        class="view-model__component"
+        :src="animationSrc"
+        auto-rotate
+        ar-modes="webxr scene-viewer quick-look"
+        shadow-intensity="1"
+        autoplay
+        camera-controls
+        :disable-zoom="disableOperation"
+        data-testid="type-3d" />
+    </client-only>
   </div>
 </template>
 
 <script lang="ts" setup>
-import '@google/model-viewer'
+onMounted(async () => {
+  await import('@google/model-viewer')
+})
 defineProps<{
   animationSrc: string
   disableOperation?: boolean

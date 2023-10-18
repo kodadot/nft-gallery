@@ -26,6 +26,8 @@ import { NeoButton } from '@kodadot1/brick'
 
 const { chainProperties } = useChain()
 const refresh = () => {
-  window.location.reload()
+  if (process.client) {
+    window.location.reload()
+  }
 }
 </script>

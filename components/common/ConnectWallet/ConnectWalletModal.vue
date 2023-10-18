@@ -98,12 +98,14 @@ const setAccount = (account: Auth) => {
   emit('connect', account)
 
   if (selectedWalletProvider.value) {
-    localStorage.setItem('wallet', selectedWalletProvider.value.extensionName)
+    process.client &&
+      localStorage.setItem('wallet', selectedWalletProvider.value.extensionName)
   }
 }
 const setUserAuthValue = () => {
   hasUserWalletAuth.value = true
-  localStorage.setItem('user_auth_wallet_add', true.toString())
+  process.client &&
+    localStorage.setItem('user_auth_wallet_add', true.toString())
 }
 const installedWallet = computed(() => {
   return wallets.filter((wallet) => wallet.installed)
@@ -113,7 +115,7 @@ const uninstalledWallet = computed(() => {
 })
 const showUninstalledWallet = ref(!installedWallet.value.length)
 const hasUserWalletAuth = ref(
-  Boolean(localStorage.getItem('user_auth_wallet_add')),
+  Boolean(process.client && localStorage.getItem('user_auth_wallet_add')),
 )
 
 const toggleShowUninstalledWallet = () => {

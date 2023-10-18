@@ -39,8 +39,8 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits(['closeBurgerMenu'])
-const isMobile = ref(window.innerWidth < 1024)
-const isMobileWithoutTablet = ref(window.innerWidth < 768)
+const isMobile = ref(process.client && window.innerWidth < 1024)
+const isMobileWithoutTablet = ref(process.client && window.innerWidth < 768)
 
 const toggleShoppingCartModal = () => {
   if (isMobile.value) {

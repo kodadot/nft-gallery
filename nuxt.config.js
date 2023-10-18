@@ -22,7 +22,7 @@ export default defineNuxtConfig({
   },
 
   // Disable server-side rendering
-  ssr: false,
+  // ssr: false,
 
   // Global page headers: https://nuxt.com/docs/api/configuration/nuxt-config#head
   app: {
@@ -297,6 +297,7 @@ export default defineNuxtConfig({
     vite: {
       resolve: {
         alias: {
+          '@apollo/client': './node_modules/@apollo/client/core/index.js',
           './runtimeConfig': './runtimeConfig.browser',
         },
       },

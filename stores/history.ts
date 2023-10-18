@@ -35,7 +35,8 @@ interface State {
   }
 }
 
-const storage = useLocalStorage('history', { history: { visitedNFTs: [] } })
+const storage =
+  process.client && useLocalStorage('history', { history: { visitedNFTs: [] } })
 
 export const useHistoryStore = defineStore('history', {
   state: (): State => ({

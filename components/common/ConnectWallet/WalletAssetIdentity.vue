@@ -38,7 +38,7 @@ const { display, shortenedAddress } = useIdentity({
 const logout = () => {
   identityStore.resetAuth()
   sessionStorage.clear()
-  localStorage.clear()
+  process.client && localStorage.clear()
   shoppingCartStore.clear()
 
   walletHistory.value = walletStore.history

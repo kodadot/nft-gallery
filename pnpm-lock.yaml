@@ -158,6 +158,9 @@ importers:
       slugify:
         specifier: ^1.6.6
         version: 1.6.6
+      ts-invariant:
+        specifier: ^0.10.3
+        version: 0.10.3
       unzipit:
         specifier: ^1.4.3
         version: 1.4.3

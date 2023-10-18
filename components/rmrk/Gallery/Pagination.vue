@@ -63,10 +63,12 @@ const current = computed({
 })
 
 const scrollTop = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth',
-  })
+  if (process.client) {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
+  }
 }
 
 const onPageChange = () => {

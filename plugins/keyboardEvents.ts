@@ -52,43 +52,48 @@ const bindGoToEvents = (event, app) => {
 
 const bindCopyEvents = (event) => {
   if (event.key == 'u') {
-    const dummyElement: HTMLInputElement = document.createElement('input')
+    const dummyElement: HTMLInputElement =
+      process.client && document.createElement('input')
     const text = window.location.href
 
-    document.body.appendChild(dummyElement)
+    process.client && document.body.appendChild(dummyElement)
     dummyElement.value = text
     dummyElement.select()
-    document.execCommand('copy')
-    document.body.removeChild(dummyElement)
+    process.client && document.execCommand('copy')
+    process.client && document.body.removeChild(dummyElement)
     alert(`URL ${text} copied`)
   }
 }
 
 const listenGlobalKeyboardEvents = (app) => {
-  document.addEventListener('keydown', (event: KeyboardEvent) => {
-    if (shouldIgnoreKeyDownEvent(event)) {
-      return
-    }
+  process.client &&
+    document.addEventListener('keydown', (event: KeyboardEvent) => {
+      if (shouldIgnoreKeyDownEvent(event)) {
+        return
+      }
 
-    keysPressed[event.key] = true
-    if (keysPressed['g']) {
-      bindGoToEvents(event, app)
-    }
-    if (keysPressed['c']) {
-      bindCopyEvents(event)
-    }
+      keysPressed[event.key] = true
+      if (keysPressed['g']) {
+        bindGoToEvents(event, app)
+      }
+      if (keysPressed['c']) {
+        bindCopyEvents(event)
+      }
 
-    if (event.key === '?') {
-      const element: HTMLElement = document.querySelectorAll(
-        '#keyboardShortcutsModal > .button',
-      )[0] as HTMLElement
-      element.click()
-    }
-  })
+      if (event.key === '?') {
+        const element: HTMLElement =
+          process.client &&
+          (document.querySelectorAll(
+            '#keyboardShortcutsModal > .button',
+          )[0] as HTMLElement)
+        element.click()
+      }
+    })
 
-  document.addEventListener('keyup', (event) => {
-    delete keysPressed[event.key]
-  })
+  process.client &&
+    document.addEventListener('keyup', (event) => {
+      delete keysPressed[event.key]
+    })
 }
 
 // export default ({ app }): void => {

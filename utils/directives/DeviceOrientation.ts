@@ -1,8 +1,8 @@
 const onMove = (event: MouseEvent, el: HTMLElement) => {
   const mouseX = event.clientX
   const mouseY = event.clientY
-  const halfWidth = window.innerWidth / 2
-  const halfHeight = window.innerHeight / 2
+  const halfWidth = process.client && window.innerWidth / 2
+  const halfHeight = process.client && window.innerHeight / 2
   const xdeg = (mouseX - halfWidth) / halfWidth
   const ydeg = (mouseY - halfHeight) / halfHeight
   el.style.transform = `rotateX(${ydeg * 10}deg) rotateY(${xdeg * 10}deg)`
@@ -18,15 +18,15 @@ const onMoveMobile = (event: DeviceMotionEvent, el: HTMLElement) => {
 }
 
 const registerEvents = (el: any) => {
-  window.addEventListener('mousemove', el.onMove)
-  window.addEventListener('mouseleave', el.onLeave)
-  window.addEventListener('devicemotion', el.onMoveMobile)
+  process.client && window.addEventListener('mousemove', el.onMove)
+  process.client && window.addEventListener('mouseleave', el.onLeave)
+  process.client && window.addEventListener('devicemotion', el.onMoveMobile)
 }
 
 const unRegisterEvents = (el: any) => {
-  window.removeEventListener('mousemove', el.onMove)
-  window.removeEventListener('mouseleave', el.onLeave)
-  window.removeEventListener('devicemotion', el.onMoveMobile)
+  process.client && window.removeEventListener('mousemove', el.onMove)
+  process.client && window.removeEventListener('mouseleave', el.onLeave)
+  process.client && window.removeEventListener('devicemotion', el.onMoveMobile)
   el.parentElement!.classList.remove('orientation')
   el.style.removeProperty('transform')
 }

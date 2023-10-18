@@ -53,7 +53,9 @@ export const useRedirectModal = (element: Ref<HTMLElement | null>) => {
     if (href && isExternal(href) && !isWhiteList(href)) {
       showModal(href, $i18n, neoModal)
     } else if (href) {
-      window.open(href, '_blank')
+      if (process.client) {
+        window.open(href, '_blank')
+      }
     }
   }
 
