@@ -6,12 +6,13 @@ export class Commands {
 
   async e2elogin() {
     await this.page.goto('/e2e-login')
-    //await Promise.all([
-    //    //this.page.waitForRequest('http://localhost:9090/_nuxt/pages/e2e-login.js')
-    //    this.page.waitForResponse(resp => resp.status() === 200)
-    //  ])
-    await this.page.waitForTimeout(10000)
-    await expect(this.page.getByTestId('mockAddress')).toHaveText('true')
+    await expect(this.page.getByTestId('navbar-profile-dropdown')).toBeVisible()
+    await expect(
+      this.page.getByTestId('navbar-button-connect-wallet'),
+    ).toBeHidden()
+    await expect(this.page.getByTestId('mockAddress')).toHaveText('true', {
+      timeout: 15000,
+    })
   }
 
   async copyText(paste: string) {
@@ -19,5 +20,19 @@ export class Commands {
       'navigator.clipboard.readText()',
     )
     expect(clipboardText1).toContain(paste)
+  }
+
+  async scrollDownSlow() {
+    await this.page.evaluate(async () => {
+      const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+      // eslint-disable-next-line no-restricted-syntax
+      for (let i = 0; i < document.body.scrollHeight; i += 100) {
+        window.scrollTo(0, i)
+        await delay(200)
+      }
+    })
+  }
+  async acceptCookies() {
+    await this.page.getByTestId('cookie-banner-button-accept').click()
   }
 }

@@ -1,6 +1,7 @@
 <template>
   <div
-    class="wallet-asset-container mt-4 is-flex is-flex-direction-column is-justify-content-space-between">
+    class="wallet-asset-container mt-4 is-flex is-flex-direction-column is-justify-content-space-between"
+    data-testid="sidebar-wallet-container">
     <div>
       <a
         v-for="menu in menus"
@@ -47,6 +48,7 @@
       <nuxt-link
         to="/settings"
         class="has-text-grey is-align-items-center"
+        data-testid="sidebar-link-settings"
         @click="closeModal">
         <NeoIcon icon="gear" size="medium" />
         <span>{{ $t('settings') }}</span>
