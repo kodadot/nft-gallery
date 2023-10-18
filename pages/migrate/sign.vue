@@ -45,7 +45,7 @@
           variant="k-accent"
           class="mt-4 btn-submit"
           expanded
-          @click="toSign()" />
+          @click="toCongrats()" />
       </div>
     </div>
   </div>
@@ -63,9 +63,9 @@ definePageMeta({
   layout: 'no-footer',
 })
 
-const toSign = () => {
+const toCongrats = () => {
   navigateTo({
-    path: '/migrate/sign',
+    path: '/migrate/congrats',
     query: {
       ...route.query,
     },
