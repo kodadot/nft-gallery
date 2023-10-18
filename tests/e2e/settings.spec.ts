@@ -1,6 +1,6 @@
 import { expect, test } from './fixtures'
 
-test('Sidebar Interactions', async ({ page, Commands }) => {
+test('Settings', async ({ page, Commands }) => {
   await Commands.e2elogin()
   await page.goto('/ahk')
   //click on settings and check if page redirects correctly
