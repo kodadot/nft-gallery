@@ -34,7 +34,7 @@
             <img
               v-if="!isMobile"
               :src="isDarkMode ? '/waifu-dark.svg' : '/waifu.svg'"
-              class="svg-one" />
+              class="svg-one" alt="Create Waifu NFT" />
             <NeoIcon v-else icon="wand-magic-sparkles" custom-size="fa-3x" />
 
             <div class="pack-content-text px-3">
