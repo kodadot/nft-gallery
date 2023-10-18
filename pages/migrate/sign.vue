@@ -1,11 +1,9 @@
 <template>
   <div>
-    <nuxt-link to="/migrate">
-      <NeoButton variant="pill">
-        <NeoIcon icon="arrow-left" class="mr-2" />
-        Migration Homepage
-      </NeoButton>
-    </nuxt-link>
+    <NeoButton variant="pill" @click="promptModal()">
+      <NeoIcon icon="arrow-left" class="mr-2" />
+      Migration Homepage
+    </NeoButton>
 
     <div class="mt-8 is-centered columns">
       <div class="is-4 column">
@@ -54,14 +52,29 @@
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import IdentityItem from '@/components/identity/IdentityItem.vue'
+import MigrateModal from '@/components/migrate/MigrateModal.vue'
 
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
+const { neoModal } = useProgrammatic()
 const route = useRoute()
 
 definePageMeta({
   layout: 'no-footer',
 })
+
+const promptModal = async () => {
+  const instance = neoModal.open({
+    component: MigrateModal,
+    contentClass: 'k-shadow border',
+    trapFocus: true,
+  })
+  const result: { action: 'yes' | 'no' } = await instance.promise
+
+  if (result.action === 'yes') {
+    navigateTo('/migrate')
+  }
+}
 
 const toCongrats = () => {
   navigateTo({
