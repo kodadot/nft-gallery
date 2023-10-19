@@ -46,7 +46,7 @@
             <div
               class="px-3 is-flex h-full is-flex-direction-column is-justify-content-center">
               <p class="is-size-4 has-text-weight-bold">
-                {{ $t('navbar.create.generateWaifu') }}
+                {{ !isMobile ? $t('navbar.create.generateWaifu') : 'Waifu' }}
               </p>
               <p>{{ $t('createDropdown.waifu') }}</p>
             </div>
