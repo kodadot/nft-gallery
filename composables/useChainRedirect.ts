@@ -64,7 +64,6 @@ function getRedirectPathForPrefix({
   if (route.name === 'prefix-explore-items') {
     const { collections: _c, page: _p, ...restOfQuery } = route.query
     const { isAssetHub } = useIsChain(computed(() => chain))
-    console.log('isAssetHub', isAssetHub.value)
 
     // https://github.com/kodadot/nft-gallery/pull/7742#issuecomment-1771105341
     if (isAssetHub.value && restOfQuery.sort) {
