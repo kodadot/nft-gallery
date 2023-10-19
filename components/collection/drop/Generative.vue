@@ -13,7 +13,7 @@
 
           <div
             class="is-flex is-justify-content-space-between is-align-items-center my-5">
-            <div>Total available items</div>
+            <div>{{ $t('mint.unlockable.totalAvailableItem') }}</div>
             <div>{{ totalAvailableMintCount }} / {{ totalCount }}</div>
           </div>
           <UnlockableTag />
@@ -21,7 +21,9 @@
           <div>
             <div
               class="is-flex is-justify-content-space-between is-align-items-center my-5">
-              <div class="has-text-weight-bold is-size-5">Mint Phase</div>
+              <div class="has-text-weight-bold is-size-5">
+                {{ $t('mint.unlockable.phase') }}
+              </div>
               <div
                 v-if="mintCountAvailable"
                 class="is-flex is-align-items-center">
@@ -33,7 +35,8 @@
               class="is-flex is-justify-content-space-between is-align-items-center">
               <div>{{ mintedPercent }} %</div>
               <div class="has-text-weight-bold">
-                {{ mintedCount }} / {{ totalCount }} Minted
+                {{ mintedCount }} / {{ totalCount }}
+                {{ $t('statsOverview.minted') }}
               </div>
             </div>
           </div>
@@ -53,19 +56,9 @@
                   variant="k-accent"
                   :disabled="mintButtonDisabled"
                   label="Mint"
-                  @click="handleBuy" />
+                  @click="handleMint" />
                 <div class="is-flex is-align-items-center mt-2">
-                  <svg
-                    width="20"
-                    height="21"
-                    class="mr-2"
-                    viewBox="0 0 20 21"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M10 2.73016C14.4062 2.73016 18 6.32391 18 10.7302C18 15.1677 14.4062 18.7302 10 18.7302C5.5625 18.7302 2 15.1677 2 10.7302C2 9.07391 2.5 7.54266 3.375 6.26141L3.78125 5.63641L5.03125 6.48016L4.59375 7.10516C3.90625 8.13641 3.5 9.38641 3.5 10.7302C3.5 14.3239 6.40625 17.2302 10 17.2302C13.5625 17.2302 16.5 14.3239 16.5 10.7302C16.5 7.41766 13.9688 4.66766 10.75 4.29266V5.98016V6.73016H9.25V5.98016V3.48016V2.73016H10ZM8.03125 7.69891H8L10.5 10.1989L11.0312 10.7302L10 11.7927L9.46875 11.2614L6.96875 8.76141L6.4375 8.23016L7.5 7.16766L8.03125 7.69891Z"
-                      fill="currentColor" />
-                  </svg>
+                  <NeoIcon icon="timer" class="mr-2" />
                   {{ leftTime }}
                 </div>
               </div>
@@ -86,18 +79,8 @@
           class="column is-half-desktop is-flex is-flex-direction-column is-justify-content-center order-1">
           <div
             class="is-flex is-align-items-center has-text-weight-bold is-size-6 mb-2">
-            <svg
-              class="mr-2"
-              width="20"
-              height="21"
-              viewBox="0 0 20 21"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M7.5 6.65137V8.65137H15.5H17V10.1514V17.1514V18.6514H15.5H4.5H3V17.1514V10.1514V8.65137H4.5H6V6.65137C6 4.46387 7.78125 2.65137 10 2.65137C11.7812 2.65137 13.2812 3.83887 13.7812 5.43262L12.375 5.90137C12.0312 4.90137 11.0938 4.15137 10 4.15137C8.59375 4.15137 7.5 5.27637 7.5 6.65137ZM4.5 17.1514H15.5V10.1514H4.5V17.1514Z"
-                fill="currentColor" />
-            </svg>
-            How unlockable item works
+            <NeoIcon icon="unlock" class="mr-2" />
+            {{ $t('mint.unlockable.howItemWork') }}
           </div>
           <div>
             Experience the excitement of unlocking hidden rewards! Get your
@@ -137,27 +120,17 @@ import UnlockableCollectionInfo from '@/components/collection/unlockable/Unlocka
 import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
-import { tokenIdToRoute } from '@/components/unique/utils'
 import CarouselTypeLatestMints from '@/components/carousel/CarouselTypeLatestMints.vue'
-import { claimDropItem, getLatestWaifuImages } from '@/services/waifu'
-import {
-  notificationTypes,
-  showNotification,
-  warningMessage,
-} from '@/utils/notification'
-import { ShoppingActions } from '@/utils/shoppingActions'
-import { NeoButton } from '@kodadot1/brick'
+import { notificationTypes, showNotification } from '@/utils/notification'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import {
   createUnlockableMetadata,
-  getRandomInt,
-  unlockableDesc,
+  generativeTokenMintArgs,
 } from '../unlockable/utils'
 import GenerativePreview from '@/components/collection/drop/GenerativePreview.vue'
 import { useCountDown } from '../unlockable/utils/useCountDown'
 import { MINT_ADDRESS, countDownTime } from './const'
 import { DropItem } from '@/params/types'
-
-import { TokenToBuy } from '@/composables/transaction/types'
 
 const Loader = defineAsyncComponent(
   () => import('@/components/collection/unlockable/UnlockableLoader.vue'),
@@ -190,26 +163,16 @@ const root = ref()
 const { toast } = useToast()
 const { accountId } = useAuth()
 
-const imageList = ref<string[]>([])
-const resultList = ref<any[]>([])
-const { urlPrefix } = usePrefix()
+const selectedImage = ref<string>('')
 const { isLogIn } = useAuth()
 const { hours, minutes } = useCountDown(countDownTime)
 const justMinted = ref('')
 const isLoading = ref(false)
 
-const actionLabel = $i18n.t('nft.action.buy')
-
-onMounted(async () => {
-  const res = await getLatestWaifuImages()
-  imageList.value = res.result.map((item) => item.output)
-  resultList.value = res.result
-})
-
 const handleSelectImage = (image: string) => {
-  console.log(image)
-  // todo
+  selectedImage.value = image
 }
+const actionLabel = $i18n.t('nft.event.MINTNFT')
 
 const leftTime = computed(() => {
   const hoursLeft = hours.value > 0 ? `${hours.value} Hour ` : ''
@@ -233,20 +196,8 @@ const totalAvailableMintCount = computed(
   () => totalCount.value - mintedCount.value,
 )
 
-const { data, refetch } = useGraphql({
-  queryName: 'nftIdListByCollection',
-  variables: {
-    id: collectionId.value,
-    search: [
-      { price_eq: pricePerMint.value },
-      { currentOwner_eq: MINT_ADDRESS },
-    ],
-  },
-})
-
 const refetchData = async () => {
   await tryAgain()
-  await refetch()
 }
 
 useSubscriptionGraphql({
@@ -257,10 +208,6 @@ useSubscriptionGraphql({
       id
   }`,
   onChange: refetchData,
-})
-
-const toBuy = computed<string[]>(() => {
-  return data.value?.nfts?.map((x) => x.id)
 })
 
 const mintedCount = computed(
@@ -274,24 +221,11 @@ const mintedPercent = computed(() => {
 
 const mintCountAvailable = computed(() => mintedCount.value < totalCount.value)
 
-const mintButtonDisabled = computed(() => Boolean(!mintCountAvailable.value))
+const mintButtonDisabled = computed(() =>
+  Boolean(!mintCountAvailable.value || !selectedImage.value),
+)
 
-const scrollToTop = () => {
-  window.scroll({
-    top: 0,
-    behavior: 'smooth',
-  })
-}
-
-const handleBuy = async () => {
-  const randomToken = getRandomInt(toBuy.value.length - 1)
-  const tokenId = toBuy.value.at(randomToken)
-
-  if (!tokenId) {
-    warningMessage('UNABLE TO MINT WITHOUT')
-    return
-  }
-
+const handleMint = async () => {
   if (!isLogIn.value) {
     neoModal.open({
       ...ConnectWalletModalConfig,
@@ -305,67 +239,57 @@ const handleBuy = async () => {
   isLoading.value = true
 
   showNotification(
-    $i18n.t('nft.notification.info', { itemId: 'Waifu', action: actionLabel }),
+    $i18n.t('nft.notification.info', {
+      itemId: collectionName.value,
+      action: actionLabel,
+    }),
   )
 
-  const { transaction, blockNumber } = useTransaction()
-
-  try {
-    watch(blockNumber, async (block) => {
-      if (block) {
-        showNotification(`[${actionLabel}] Waifu`, notificationTypes.success)
-        await handleSubmitMint(tokenId)
-      }
-    })
-
-    await transaction({
-      interaction: ShoppingActions.BUY,
-      nfts: {
-        currentOwner: MINT_ADDRESS,
-        price: pricePerMint.value,
-        id: tokenId,
-      } as TokenToBuy,
-      urlPrefix: urlPrefix.value,
-      successMessage: $i18n.t('mint.successNewNfts'),
-      errorMessage: $i18n.t('transaction.buy.error'),
-    })
-  } catch (error) {
-    warningMessage(error)
-  }
+  handleSubmitMint()
 }
 
-const description = unlockableDesc(50)
+const description = computed(
+  () => collectionData.value?.collectionEntity?.meta?.description,
+)
+const collectionName = computed(
+  () => collectionData.value?.collectionEntity?.name,
+)
 
-const handleSubmitMint = async (tokenId: string) => {
-  const randomIndex = getRandomInt(imageList.value.length - 1)
-  const image = resultList.value.at(randomIndex).image
+const { howAboutToExecute, initTransactionLoader } = useMetaTransaction()
 
-  if (!image || !tokenId) {
+const { apiInstance } = useApi()
+
+const handleSubmitMint = async () => {
+  const api = await apiInstance.value
+
+  if (!selectedImage.value) {
     toast('no image')
     return
   }
 
-  const hash = await createUnlockableMetadata(image, description)
+  const hash = await createUnlockableMetadata(
+    selectedImage.value,
+    description.value,
+    collectionName.value,
+    'text/html',
+  )
 
-  const { item: sn } = tokenIdToRoute(tokenId)
+  const args = await generativeTokenMintArgs(
+    collectionData.value?.collectionEntity?.id,
+    mintedCount.value,
+    hash,
+    api,
+  )
 
-  try {
-    await claimDropItem(
-      {
-        metadata: hash,
-        sn,
-      },
-      props.drop.id,
-    ).then((res) => {
-      toast('mint success')
-      justMinted.value = `${collectionId.value}-${res.result.sn}`
-      scrollToTop()
-    })
-  } catch (error) {
-    toast('failed to mint')
-  } finally {
-    isLoading.value = false
-  }
+  initTransactionLoader()
+  const cb = api.tx.utility.batchAll
+  await howAboutToExecute(accountId.value, cb, [args], (blockNumber) => {
+    const msg = 'your nft has been minted'
+    showNotification(
+      `[MINT] Since block ${blockNumber} ${msg}`,
+      notificationTypes.success,
+    )
+  })
 }
 </script>
 

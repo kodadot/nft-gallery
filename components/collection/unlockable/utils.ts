@@ -1,6 +1,7 @@
 import { createMetadata, unSanitizeIpfsUrl } from '@kodadot1/minimark/utils'
 import { preheatFileFromIPFS } from '@/utils/ipfs'
 import { pinJson } from '@/services/nftStorage'
+import type { ApiPromise } from '@polkadot/api'
 
 export const UNLOCKABLE_CAMPAIGN = 'bbw2023'
 export const UNLOCKABLE_NAME = 'Berlin (Blockchain) Waifus'
@@ -20,6 +21,7 @@ export async function createUnlockableMetadata(
   imageHash: string,
   description: string,
   name: string = UNLOCKABLE_NAME,
+  miniType: string = 'image/png',
 ) {
   const meta = createMetadata(
     name,
@@ -28,13 +30,26 @@ export async function createUnlockableMetadata(
     undefined,
     [],
     'kodadot.xyz',
-    'image/png',
+    miniType,
   )
 
   const metaHash = await pinJson(meta, 'claimable')
 
   preheatFileFromIPFS(metaHash)
   return unSanitizeIpfsUrl(metaHash)
+}
+
+export const generativeTokenMintArgs = async (
+  collectionId: string,
+  nextId: string,
+  metaHash: string,
+  api: ApiPromise,
+) => {
+  const { accountId } = useAuth()
+
+  const create = api.tx.nfts.mint(collectionId, nextId, accountId.value, null)
+
+  return [create, api.tx.nfts.setMetadata(collectionId, nextId, metaHash)]
 }
 
 export function getRandomInt(max: number) {
