@@ -1,10 +1,6 @@
 <template>
   <div>
-    <div class="mt-5">
-      Based on your item count, you may need to sign multiple transactions for
-      the migration. Please stay on this page until all signatures fully process
-      to lock in the migration.
-    </div>
+    <div class="mt-5">{{ $t('migrate.signNotes') }}</div>
 
     <hr />
     <p>

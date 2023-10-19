@@ -2,13 +2,19 @@
   <div>
     <NeoButton variant="pill" @click="promptModal()">
       <NeoIcon icon="arrow-left" class="mr-2" />
-      Migration Homepage
+      {{ $t('migrate.homeButton') }}
     </NeoButton>
 
     <div class="mt-8 is-centered columns">
       <div class="is-4 column">
         <h1 class="is-size-4 has-text-weight-bold">
-          Review <span class="has-text-grey">- Sign</span>
+          <span :class="{ 'has-text-grey': section !== 'review' }">
+            {{ $t('migrate.review') }}
+          </span>
+          <NeoIcon icon="dash" class="mx-4 has-text-grey" />
+          <span :class="{ 'has-text-grey': section !== 'sign' }">
+            {{ $t('migrate.sign') }}
+          </span>
         </h1>
 
         <hr />

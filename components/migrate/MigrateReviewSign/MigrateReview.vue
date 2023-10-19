@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mt-5">
-      <p class="has-text-weight-bold">Migrate Collection</p>
+      <p class="has-text-weight-bold">{{ $t('migrate.collection') }}</p>
       <div class="is-flex mt-4">
         <img
           class="border mr-4"
@@ -11,7 +11,9 @@
           height="48" />
         <div>
           <p>My Crazy Adventure</p>
-          <p class="has-text-grey is-size-7">(name will stay the same)</p>
+          <p class="has-text-grey is-size-7">
+            {{ $t('migrate.collectionName') }}
+          </p>
         </div>
       </div>
     </div>
@@ -25,15 +27,11 @@
 
     <div class="shade-border-color p-2 is-flex is-size-7 has-text-grey">
       <NeoIcon icon="circle-info" class="mr-2" />
-      <p>
-        Please note that at this stage, only items you own can be migrated. For
-        other items, you will need to pre-sign them to allow others to follow
-        your migration initiative.
-      </p>
+      <p>{{ $t('migrate.reviewNotes') }}</p>
     </div>
 
     <div>
-      <p class="has-text-weight-bold mt-5">Route:</p>
+      <p class="has-text-weight-bold mt-5">{{ $t('migrate.route') }}:</p>
       <NeoButton rounded variant="pill" class="mt-2">
         <div class="is-flex is-align-items-center">
           <img
@@ -58,25 +56,25 @@
     <hr />
 
     <div>
-      <div class="has-text-weight-bold mt-5">Costs</div>
+      <div class="has-text-weight-bold mt-5">{{ $t('migrate.costs') }}</div>
 
       <div class="is-size-7">
         <p
           class="my-2 has-text-grey is-cursor-pointer"
           @click="toggleFee = !toggleFee">
-          Fee Breakdown
+          {{ $t('migrate.feeBreakdown') }}
           <NeoIcon :icon="toggleFee ? 'chevron-up' : 'chevron-down'" />
         </p>
 
         <div v-if="toggleFee">
-          <p>Network Fee</p>
+          <p>{{ $t('mint.nft.modal.networkFee') }}</p>
 
           <div class="is-flex is-justify-content-space-between mt-1">
             <div>
               <NeoIcon
                 icon="arrow-turn-up"
                 class="fa-flip-horizontal has-text-grey" />
-              Create Collection
+              {{ $t('mint.collection.submit') }}
             </div>
 
             <div>0.02 KSM</div>
@@ -107,7 +105,7 @@
           <div
             class="has-text-grey is-flex mt-1 is-align-items-center is-justify-content-space-between">
             <div>
-              Existential Deposit
+              {{ $t('migrate.existentialDeposit') }}
               <NeoTooltip
                 position="top"
                 class="is-cursor-pointer"
@@ -150,9 +148,7 @@
     </div>
 
     <NeoField>
-      <NeoCheckbox v-model="agree">
-        I understand this action is irreversible once done.
-      </NeoCheckbox>
+      <NeoCheckbox v-model="agree">{{ $t('migrate.agreement') }}</NeoCheckbox>
     </NeoField>
 
     <NeoButton
