@@ -138,8 +138,9 @@ const { source, sourceSelected, destination, destinationSelected } =
 .network {
   display: flex;
   align-items: center;
-  margin-top: 1rem;
   gap: 1rem;
+  flex-direction: column;
+  margin-top: 2rem;
 
   .text-destination {
     position: absolute;
@@ -147,13 +148,15 @@ const { source, sourceSelected, destination, destinationSelected } =
   }
 
   @include mobile() {
-    flex-direction: column;
-    margin-top: 2rem;
-
     .text-destination {
       position: unset;
       top: unset;
     }
+  }
+
+  @include widescreen() {
+    flex-direction: row;
+    margin-top: 1rem;
   }
 }
 
