@@ -5,11 +5,15 @@ import {
 import { web3Enable } from '@polkadot/extension-dapp'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { getss58AddressByPrefix } from '@/utils/account'
+import { SubmittableResult } from '@polkadot/api'
 
 
 export default function () {
+  const error = ref<string| null>(null)
+  const txId = ref<string| null>(null)
+
   const identityStore = useIdentityStore()
-  const isLoading = ref(false)
+  const {isLoading, status, initTransactionLoader , stopLoader } = useTransactionStatus()
   const { accountId } = useAuth()
   const { assets } = usePrefix()
   const { decimalsOf } = useChain()
@@ -28,8 +32,8 @@ export default function () {
   }
 
 const teleport = async ({
-  amount, from, to, fromAddress, toAddress, currency, onSuccess
-}: { amount: number, from: Chain, to: Chain, fromAddress: string, toAddress: string, currency: string , onSuccess?: (blockHash) => void}) => {
+  amount, from, to, fromAddress, toAddress, currency, onSuccess, onError,
+}: { amount: number, from: Chain, to: Chain, fromAddress: string, toAddress: string, currency: string , onSuccess?: (blockHash) => void, onError?: () => void}) => {
 
   if (!amount || amount < 0) {
     return
@@ -37,28 +41,40 @@ const teleport = async ({
 
   await web3Enable('Kodadot')
   let isFirstStatus = true
-  isLoading.value = true
+  initTransactionLoader()
+  status.value = TransactionStatus.Sign
+
   const transactionHandler = txCb(
     (blockHash) => {
       showNotification(
         `Transaction finalized at blockHash ${blockHash}`,
         notificationTypes.success,
       )
-      isLoading.value = false
+      status.value = TransactionStatus.Block
+
       if (onSuccess) {
         onSuccess(blockHash)
       }
     },
     (dispatchError) => {
       showNotification(dispatchError.toString(), notificationTypes.warn)
-      isLoading.value = false
+      stopLoader()
+      error.value = dispatchError.toString()
+
+      if (onError) {
+        onError()
+      }
     },
-    ({ txHash }) => {
+    (submittableResult: SubmittableResult) => {
+      const { txHash } = submittableResult
+      
       if (isFirstStatus) {
         showNotification(
           `Transaction hash is ${txHash.toHex()}`,
           notificationTypes.info,
         )
+        txId.value = txHash.toHex()
+        status.value = TransactionStatus.Finalized
         isFirstStatus = false
       }
     },
@@ -66,7 +82,11 @@ const teleport = async ({
 
   const errorHandler = () => {
     showNotification('Cancelled', notificationTypes.warn)
-    isLoading.value = false
+    stopLoader()
+
+    if (onError) {
+      onError()
+    }
   }
 
 
@@ -79,6 +99,7 @@ const teleport = async ({
   })
 
   if (promise === undefined) {
+    errorHandler()
     return
   }
 
@@ -114,6 +135,9 @@ const getChainTokenDecimals = (chain: Chain) => {
   return {
     chainBalances,
     teleport,
+    txId,
+    error, 
+    status,
     isLoading,
     getAddressByChain,
     getChainTokenDecimals

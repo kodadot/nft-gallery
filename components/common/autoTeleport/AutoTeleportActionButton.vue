@@ -35,6 +35,7 @@
     <AutoTeleportModal 
         v-model="isModalOpen"
         :transition="optimalTransition"
+        :status="status"
         @close="isModalOpen = false"
     />
 
@@ -48,13 +49,14 @@ const props = defineProps<{
     label: string
 }>()
 
+const { chainSymbol , name } = useChain()
+const { hasEnoughInCurrentChain, hasEnoughInRichestChain, optimalTransition, teleport, status } = useAutoTeleport(computed(() => props.amount))
+
 const isModalOpen = ref(false)
 const rampActive = ref(false)
-const { chainSymbol , name } = useChain()
 const autoTeleport = ref(false)
-const {hasEnoughInCurrentChain, hasEnoughInRichestChain, optimalTransition } = useAutoTeleport(computed(() => props.amount))
 
-const allowAutoTeleport = computed(() => !hasEnoughInCurrentChain.value)
+const allowAutoTeleport = computed(() => !hasEnoughInCurrentChain.value &&  hasEnoughInRichestChain.value && optimalTransition.value.source)
 
 const autoTeleportLabel = computed(() => {
     if (hasEnoughInCurrentChain.value) {
@@ -80,6 +82,13 @@ const localDisabled = computed(() => {
 
 const openAutoTeleportModal = () =>  {
     isModalOpen.value = true
+
+    teleport({
+        onSuccess:  () => {},
+        onError: () => {
+            isModalOpen.value = false
+        }
+    })
 }
 
 

@@ -90,7 +90,8 @@ import '@polkadot/api-augment'
 import {
   Chain,
   chainToPrefixMap,
-  allowedTransitions} from '@/utils/teleport'
+  allowedTransitions, 
+  getChainCurrency} from '@/utils/teleport'
 import Loader from '@/components/shared/Loader.vue'
 import shortAddress from '@/utils/shortAddress'
 import { getChainName } from '@/utils/chain'
@@ -113,17 +114,7 @@ const resetStatus = () => {
   amount.value = undefined
 }
 
-const currency = computed(() => {
-  switch (fromChain.value) {
-    case Chain.KUSAMA:
-    case Chain.BASILISK:
-    case Chain.STATEMINE:
-      return 'KSM'
-    case Chain.POLKADOT:
-    case Chain.STATEMINT:
-      return 'DOT'
-  }
-})
+const currency = computed(() => getChainCurrency(fromChain.value))
 
 const tokenFiatValue = computed(() => {
   switch (currency.value) {

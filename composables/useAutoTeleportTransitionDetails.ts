@@ -1,18 +1,17 @@
 
 
-import {allowedTransitions as teleportRoutes, prefixToChainMap, chainToPrefixMap , TeleportTransition, Chain} from "@/utils/teleport"
+import {allowedTransitions as teleportRoutes, prefixToChainMap, chainToPrefixMap , TeleportTransition, type Chain, getChainCurrency} from "@/utils/teleport"
 import { max } from 'lodash'
 import { CHAINS, type Prefix } from "@kodadot1/static"
 
 export default function (neededAmount: ComputedRef<number>) {
     const { urlPrefix } = usePrefix()
-    const {chainSymbol} = useChain()
     const {chainBalances } = useTeleport()
     const { fetchMultipleBalance } = useMultiBalance()
     
     const hasEnoughInCurrentChain = computed(() => neededAmount.value > Number(currentChainBalance.value))
-    
     const currentChain = computed(() => prefixToChainMap[urlPrefix.value] as Chain)
+    const chainSymbol = computed(() => getChainCurrency(currentChain.value))
     const targetChains = computed(() => teleportRoutes[currentChain.value])
 
     const currentChainBalance = computed(() => Number(chainBalances[currentChain.value]()))
@@ -25,13 +24,14 @@ export default function (neededAmount: ComputedRef<number>) {
     }, {})
     )
 
-    const richestChainBalance = computed<number>(() => Number(sourceChainsBalances.value[richestChain.value]))
     const richestChain = computed(() =>  max(Object.keys(sourceChainsBalances.value), (o: Prefix) => sourceChainsBalances.value[o]))
+    const richestChainBalance = computed<number>(() => Number(sourceChainsBalances.value[richestChain.value]))
+    
     const sourceChain = computed(() => CHAINS[richestChain.value])
     const amountToTeleport = computed(() => richestChainBalance.value - neededAmount.value + Number(currentChainBalance.value))
     const hasEnoughInRichestChain = computed(() => currentChainBalance.value + richestChainBalance.value > amountToTeleport.value)
     
-    const { formatted: amountFormatted, usd: amountUsd } = useAmount(amountToTeleport.value, sourceChain.value.tokenDecimals,chainSymbol.value )
+    const { formatted: amountFormatted, usd: amountUsd } = useAmount(amountToTeleport, computed(() => sourceChain.value.tokenDecimals ),chainSymbol)
 
     const optimalTransition = computed<TeleportTransition>(() =>  {
         return {

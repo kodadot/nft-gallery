@@ -1458,6 +1458,20 @@
       "second": "Extra transaction signature in next step required",
       "optimalTransferPath": "Optimal Transfer Path",
       "noOptimalTransferPath": "No Route Found, Please Add Funds"
+    },
+    "steps": {
+      "1": {
+        "title": "Teleport/bridging",
+        "subtitle": "this transaction will get all required funds for purchase on required chain"
+      },
+      "1_1": {
+        "title": "please sign transaction",
+        "subtitle": "this transaction will get all required funds for purchase on required chain"
+      },
+      "2": {
+        "title": "Checking funds",
+        "subtitle": "Verifying fund arrival on destination chain for seamless operations."
+      }
     }
   }
 }

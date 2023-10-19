@@ -205,3 +205,22 @@ export const getTransaction = async ({
       .build()
   }
 }
+
+export const getChainCurrency = (chain: Chain) => {
+  switch (chain) {
+    case Chain.KUSAMA:
+    case Chain.BASILISK:
+    case Chain.STATEMINE:
+      return 'KSM'
+    case Chain.POLKADOT:
+    case Chain.STATEMINT:
+      return 'DOT'
+  }
+}
+
+export enum TransactionStepStatus {
+  FAILED = 'failed',
+  COMPLETED = 'completed', 
+  WAITING = 'waiting',
+  LOADING = 'loading'
+}
