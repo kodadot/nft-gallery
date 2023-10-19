@@ -61,6 +61,16 @@ function getRedirectPathForPrefix({
     }
   }
 
+  if (route.name === 'prefix-explore-items') {
+    const { collections: _c, page: _p, ...restOfQuery } = route.query
+    return {
+      params: {
+        prefix: chain,
+      },
+      query: restOfQuery,
+    }
+  }
+
   return {
     params: {
       prefix: chain,
