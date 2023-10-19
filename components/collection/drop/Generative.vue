@@ -188,6 +188,7 @@ const { $i18n } = useNuxtApp()
 const root = ref()
 
 const { toast } = useToast()
+const { accountId } = useAuth()
 
 const imageList = ref<string[]>([])
 const resultList = ref<any[]>([])
@@ -221,8 +222,7 @@ const { data: collectionData, refetch: tryAgain } = useGraphql({
   queryName: 'dropCollectionById',
   variables: {
     id: collectionId.value,
-    price: pricePerMint.value,
-    account: MINT_ADDRESS,
+    account: accountId.value,
   },
 })
 
@@ -230,7 +230,7 @@ const totalCount = computed(
   () => collectionData.value?.collectionEntity?.nftCount || 200,
 )
 const totalAvailableMintCount = computed(
-  () => collectionData.value?.nftEntitiesConnection?.totalCount,
+  () => totalCount.value - mintedCount.value,
 )
 
 const { data, refetch } = useGraphql({
@@ -264,7 +264,7 @@ const toBuy = computed<string[]>(() => {
 })
 
 const mintedCount = computed(
-  () => totalCount.value - totalAvailableMintCount.value,
+  () => collectionData.value?.nftEntitiesConnection?.totalCount || 0,
 )
 
 const mintedPercent = computed(() => {

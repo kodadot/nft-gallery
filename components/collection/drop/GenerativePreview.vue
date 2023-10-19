@@ -2,10 +2,15 @@
   <div class="fixed-size mt-6">
     <div
       class="fixed-top-left border px-4 py-2 theme-background-color has-z-index-1 no-wrap">
-      {{ $t('mint.unlockable.imageTip') }}
+      {{ $t('mint.unlockable.onlyOneExample') }}
     </div>
 
-    <PreviewMediaResolver :src="sanitizeIpfsUrl(displayUrl)" class="border" />
+    <MediaItem
+      :src="sanitizeIpfsUrl(displayUrl)"
+      mime-type="text/html"
+      preview
+      is-detail
+      class="border" />
     <div class="is-flex is-flex-direction-column is-align-items-center">
       <NeoButton
         class="mt-4"
@@ -23,11 +28,10 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton } from '@kodadot1/brick'
+import { MediaItem, NeoButton } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { getRandomInt } from '../unlockable/utils'
 import { encodeAddress } from '@polkadot/util-crypto'
-import PreviewMediaResolver from '@/components/media/PreviewMediaResolver.vue'
 const props = defineProps<{
   content: string
   image?: string
@@ -46,9 +50,10 @@ const generativeImageUrl = ref('')
 const displayUrl = computed(() => {
   return generativeImageUrl.value || props.image
 })
-const generateNft = () => {
+const generateNft = async () => {
   const hash = generativeImageUrl.value ? getHash() : accountId.value
-  generativeImageUrl.value = `${props.content}?hash=${hash}`
+  const metadata = `${props.content}?hash=${hash}`
+  generativeImageUrl.value = metadata
   emit('select', generativeImageUrl.value)
 }
 </script>
