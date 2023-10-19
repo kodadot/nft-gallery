@@ -93,7 +93,6 @@ export const NFT_SQUID_SORT_CONDITION_LIST: string[] = [
   'updatedAt_ASC',
   'price_ASC',
   'price_DESC',
-  'sn_ASC',
 ]
 
 export const NFT_SQUID_SORT_CONDITION_LIST_FOR_MOONRIVER: string[] = [

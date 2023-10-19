@@ -307,7 +307,7 @@ const handleMint = async () => {
       return navigateTo(`/${urlPrefix.value}/gallery/${id}`)
     }, 44000)
   } catch (error) {
-    toast('failed to mint')
+    toast($i18n.t('drops.mintPerAddress'))
     isLoading.value = false
   }
 }

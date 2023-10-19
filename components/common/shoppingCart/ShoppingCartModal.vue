@@ -1,7 +1,8 @@
 <template>
   <div>
     <div
-      class="shopping-cart-modal-container theme-background-color border-left is-flex is-flex-direction-column">
+      class="shopping-cart-modal-container theme-background-color border-left is-flex is-flex-direction-column"
+      data-testid="shopping-cart-modal-container">
       <NeoModalHead
         :title="$t('shoppingCart.title')"
         @close="closeShoppingCart(ModalCloseType.BACK)" />

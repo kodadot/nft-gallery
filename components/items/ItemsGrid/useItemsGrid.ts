@@ -4,16 +4,12 @@ import isEqual from 'lodash/isEqual'
 import { useSearchParams } from './utils/useSearchParams'
 import { Ref } from 'vue'
 
-import type { NFTWithMetadata, Stack } from '@/composables/useNft'
+import type { NFTWithMetadata, TokenEntity } from '@/composables/useNft'
 
-export type NFTStack = NFTWithMetadata & Stack
-
-export type ItemsGridEntity = NFTWithMetadata | NFTStack
-import { NFT } from '@/components/rmrk/service/scheme'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 
-import { isOwner as checkOwner } from '@/utils/account'
 import { useListingCartStore } from '@/stores/listingCart'
+import { NFT, TokenId } from '@/components/rmrk/service/scheme'
 
 export function useFetchSearch({
   first,
@@ -29,10 +25,15 @@ export function useFetchSearch({
   resetSearch: () => void
 }) {
   const { client, urlPrefix } = usePrefix()
+  const { isAssetHub } = useIsChain(urlPrefix)
+  const notCollectionPage = computed(
+    () => route.name !== 'prefix-collection-id',
+  )
+  const useTokens = computed(() => isAssetHub.value && notCollectionPage.value)
 
   const route = useRoute()
 
-  const nfts = ref<NFTWithMetadata[]>([])
+  const items = ref<(NFTWithMetadata | TokenEntity)[]>([])
   const loadedPages = ref([] as number[])
 
   const { searchParams } = useSearchParams()
@@ -41,6 +42,27 @@ export function useFetchSearch({
     page?: number
     loadDirection?: 'up' | 'down'
     search?: { [key: string]: string | number }[]
+  }
+
+  const getSearchCriteria = (searchParams) => {
+    const mapping = {
+      currentOwner_eq: (value) => ({ owner: value }),
+      issuer_eq: (value) => ({ issuer: value }),
+      price_gt: (value) => ({ price_gt: Number(value) }),
+      collection: (value) => ({ collections: value.id_in }),
+      name_containsInsensitive: (value) => ({
+        name: value,
+      }),
+    }
+
+    return searchParams.reduce((acc, curr) => {
+      for (const [key, value] of Object.entries(curr)) {
+        if (mapping[key]) {
+          Object.assign(acc, mapping[key](value))
+        }
+      }
+      return acc
+    }, {})
   }
 
   async function fetchSearch({
@@ -64,8 +86,47 @@ export function useFetchSearch({
           return prefix
       }
     }
+    const queryName = useTokens.value
+      ? 'tokenListWithSearch'
+      : 'nftListWithSearch'
 
-    const variables = search?.length
+    const getRouteQueryOrDefault = (query, defaultValue) => {
+      return query?.length ? query : defaultValue
+    }
+
+    const getQueryResults = (query) => {
+      if (useTokens.value) {
+        return {
+          entities: query.tokenEntities as TokenEntity[],
+          count: query.tokenEntityCount.totalCount as number,
+        }
+      }
+      return {
+        entities: query.nFTEntities as NFTWithMetadata[],
+        count: query.nftEntitiesConnection.totalCount as number,
+      }
+    }
+
+    // Query path and variables
+    const queryPath = getQueryPath(client.value)
+    const defaultSearchVariables = {
+      first: first.value,
+      offset: (page - 1) * first.value,
+      orderBy: getRouteQueryOrDefault(route.query.sort, ['blockNumber_DESC']),
+    }
+
+    const searchForToken = getSearchCriteria(
+      search?.length ? search : searchParams.value,
+    )
+
+    const tokenQueryVariables = {
+      ...searchForToken,
+      denyList: getDenyList(urlPrefix.value),
+      price_lte: Number(route.query.max) || undefined,
+      price_gte: Number(route.query.min) || undefined,
+    }
+
+    const nftQueryVariables = search?.length
       ? { search }
       : {
           search: searchParams.value,
@@ -73,33 +134,26 @@ export function useFetchSearch({
           priceMax: Number(route.query.max),
         }
 
-    const queryPath = getQueryPath(client.value)
+    const queryVariables = useTokens.value
+      ? { ...defaultSearchVariables, ...tokenQueryVariables }
+      : { ...defaultSearchVariables, ...nftQueryVariables }
 
-    const query = await resolveQueryPath(queryPath, 'nftListWithSearch')
+    const query = await resolveQueryPath(queryPath, queryName)
     const { data: result } = await useAsyncQuery({
       query: query.default,
-      variables: {
-        ...variables,
-        first: first.value,
-        offset: (page - 1) * first.value,
-        denyList: getDenyList(urlPrefix.value),
-        orderBy: route.query.sort?.length
-          ? route.query.sort
-          : ['blockNumber_DESC'],
-      },
+      variables: queryVariables,
       clientId: client.value,
     })
 
     // handle results
-    const { nFTEntities, nftEntitiesConnection } = result.value
-
-    total.value = nftEntitiesConnection.totalCount
+    const { entities, count } = getQueryResults(result.value)
+    total.value = count
 
     if (!loadedPages.value.includes(page)) {
       if (loadDirection === 'up') {
-        nfts.value = nFTEntities.concat(nfts.value)
+        items.value = [...entities, ...items.value]
       } else {
-        nfts.value = nfts.value.concat(nFTEntities)
+        items.value = [...items.value, ...entities]
       }
       loadedPages.value.push(page)
     }
@@ -110,7 +164,7 @@ export function useFetchSearch({
   }
 
   function clearFetchResults() {
-    nfts.value = []
+    items.value = []
     loadedPages.value = []
   }
 
@@ -139,21 +193,21 @@ export function useFetchSearch({
   )
 
   return {
-    nfts,
+    items,
     fetchSearch,
     refetch,
     clearFetchResults,
+    usingTokens: useTokens,
   }
 }
 
-export const updatePotentialNftsForListingCart = async (nfts: NFT[]) => {
+export const updatePotentialNftsForListingCart = async (
+  nfts: (NFT & TokenId)[],
+) => {
   const listingCartStore = useListingCartStore()
-  const { accountId } = useAuth()
+  const { isCurrentOwner } = useAuth()
   const potentialNfts = nfts
-    .filter(
-      (nft) =>
-        !Number(nft.price) && checkOwner(nft.currentOwner, accountId.value),
-    )
+    .filter((nft) => !Number(nft.price) && isCurrentOwner(nft.currentOwner))
     .map((nft) => {
       const floorPrice = nft.collection.floorPrice[0]?.price || '0'
       return nftToListingCartItem(nft, floorPrice)

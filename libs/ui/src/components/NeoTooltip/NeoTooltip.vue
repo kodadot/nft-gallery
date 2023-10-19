@@ -34,6 +34,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed, ref } from 'vue'
 import { OTooltip } from '@oruga-ui/oruga-next'
 import { LocaleMessage } from 'vue-i18n'
 export interface Props {

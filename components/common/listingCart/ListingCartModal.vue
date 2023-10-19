@@ -4,10 +4,11 @@
     <NeoModal
       :value="preferencesStore.listingCartModalOpen"
       scroll="clip"
+      append-to-body
       @close="onClose">
       <div class="modal-width">
         <header
-          class="py-5 px-6 is-flex is-justify-content-space-between border-bottom">
+          class="py-5 px-6 is-flex is-justify-content-space-between border-bottom is-align-items-center">
           <span class="modal-card-title is-size-6 has-text-weight-bold">
             {{ title }}
           </span>

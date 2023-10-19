@@ -19,35 +19,52 @@
 </template>
 
 <script lang="ts" setup>
+import { ref, watch } from 'vue'
+import { useElementHover, watchDebounced } from '@vueuse/core'
 import { NeoAudioPlayer } from '@kodadot1/brick'
 import ImageMedia from './ImageMedia.vue'
-import { useElementHover } from '@vueuse/core'
 
-const props = defineProps<{
-  animationSrc?: string
-  playerCover?: string
-  hoverOnCoverPlay?: boolean
+const props = withDefaults(
+  defineProps<{
+    animationSrc?: string
+    playerCover?: string
+    hoverOnCoverPlay?: boolean
+    parentHovering?: boolean
 
-  // image media props
-  alt?: string
-  original: boolean
-  placeholder: string
-  isDetail?: boolean
-  isDarkMode?: boolean
-}>()
+    // image media props
+    alt?: string
+    original: boolean
+    placeholder: string
+    isDetail?: boolean
+    isDarkMode?: boolean
+  }>(),
+  {
+    parentHovering: undefined,
+  },
+)
 
 const cover = ref()
 const audioPlayer = ref()
 
-const coverHovering = useElementHover(cover, { delayEnter: 1000 })
+const hoverDelay = 1000
+
+const coverHovering = useElementHover(cover, { delayEnter: hoverDelay })
 
 if (props.hoverOnCoverPlay) {
-  watch(coverHovering, () => handleCoverHover())
+  if (props.parentHovering !== undefined) {
+    watchDebounced(
+      () => props.parentHovering,
+      (hovering) => handleCoverHover(hovering),
+      { debounce: computed(() => (props.parentHovering ? hoverDelay : 0)) },
+    )
+  } else {
+    watch(coverHovering, (hovering) => handleCoverHover(hovering))
+  }
 }
 
-const handleCoverHover = async () => {
+const handleCoverHover = async (hovering: boolean) => {
   try {
-    if (coverHovering.value) {
+    if (hovering) {
       await audioPlayer.value.play()
     } else {
       await audioPlayer.value.pause()
