@@ -6,7 +6,7 @@ test('Check Language translations', async ({ page }) => {
   await expect(page.getByTestId('mockAddress')).toHaveText('true')
   await page.goto('')
   //DE
-  await page.getByTestId('profileDropdown').click()
+  await page.getByTestId('navbar-profile-dropdown').click()
   await page.getByTestId('sidebar-language').click()
   await expect(page.getByRole('menu')).toBeVisible()
   //await expect(page.getByTestId('skeleton-multiple-balances')).toHaveCount(0)

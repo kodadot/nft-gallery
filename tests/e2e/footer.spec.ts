@@ -66,7 +66,7 @@ const footerSocialMediaLinks = [
   //},
   {
     linkName: 'Youtube',
-    linkAddress: 'https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA',
+    linkAddress: 'https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA/',
   },
   //{
   //  linkName: 'Instagram',

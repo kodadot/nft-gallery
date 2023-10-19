@@ -1,10 +1,5 @@
 <template>
-  <tippy
-    class="tippy-container"
-    interactive
-    :animate-fill="false"
-    :placement="placement"
-    :delay="delay">
+  <tippy class="tippy-container" :placement="placement" :delay="delay">
     <slot name="content" />
 
     <template #content>

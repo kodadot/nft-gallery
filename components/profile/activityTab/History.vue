@@ -54,6 +54,7 @@
           <HistoryRow
             v-for="item in showList"
             :key="item.ID"
+            data-testid="history-item-row"
             :event="item"
             :variant="variant"
             :with-to-column="isToColumnVisible" />

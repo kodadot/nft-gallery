@@ -1,17 +1,16 @@
 <template>
   <tippy
     class="tippy-container"
-    interactive
-    :animate-fill="false"
     :append-to="body"
     boundary="viewport"
-    placement="bottom"
     :delay="0"
-    data-testid="identity">
+    data-testid="identity-tippy-link">
     <slot name="content" />
 
     <template #content>
-      <div class="popover-content-container p-5">
+      <div
+        class="popover-content-container p-5"
+        data-testid="identity-popover-container">
         <IdentityPopoverHeader />
         <IdentityPopoverFooter :sold-items="nftEntities" />
       </div>
