@@ -25,26 +25,37 @@
             </div>
           </div>
         </button>
-        <button
+        <nuxt-link
           v-if="urlPrefix === 'ahk'"
-          :class="{ 'pack-box-waifu p-0': !isMobile }"
-          class="pack-box"
-          @click="router.push({ path: `/${urlPrefix}/waifu` })">
-          <div :class="[!isMobile ? 'pack-content-waifu' : 'pack-content']">
+          :class="{ 'pack-box-waifu p-0 is-relative': !isMobile }"
+          class="pack-box is-flex is-align-items-center is-justify-content-center"
+          :to="`/${urlPrefix}/waifu`">
+          <div
+            :class="{
+              'is-flex h-full pack-content-waifu is-flex-direction-column':
+                !isMobile,
+              'pack-content': isMobile,
+            }">
             <img
               v-if="!isMobile"
               :src="isDarkMode ? '/waifu-dark.svg' : '/waifu.svg'"
-              class="svg-one" alt="Create Waifu NFT" />
+              class="svg-one"
+              alt="Create Waifu NFT" />
             <NeoIcon v-else icon="wand-magic-sparkles" custom-size="fa-3x" />
 
-            <div class="pack-content-text px-3">
+            <div
+              class="px-3 is-flex h-full is-flex-direction-column is-justify-content-center">
               <p class="is-size-4 has-text-weight-bold">
                 {{ $t('navbar.create.generateWaifu') }}
               </p>
               <p>{{ $t('createDropdown.waifu') }}</p>
             </div>
           </div>
-        </button>
+
+          <div class="time-limit px-2 py-1">
+            <span class="is-size-7">{{ $t('navbar.create.timeLimit') }}</span>
+          </div>
+        </nuxt-link>
       </div>
 
       <div v-else class="pack">
@@ -155,6 +166,16 @@ const gotoPathAfterLogin = (path: RawLocation) => {
 
   &-box-waifu {
     width: 17rem;
+
+    .time-limit {
+      position: absolute;
+      top: 1rem;
+      border-radius: 6rem;
+      @include ktheme() {
+        border: 1px solid theme('k-grey');
+        background-color: theme('background-color');
+      }
+    }
   }
 
   &-content-waifu {

@@ -1066,7 +1066,8 @@
     "offerStats": "Offers Stats",
     "create": {
       "waifu": "Waifu",
-      "generateWaifu": "Generate Waifu"
+      "generateWaifu": "Generate Waifu",
+      "timeLimit": "Time Limited Campaign"
     }
   },
   "walletConnect": {
