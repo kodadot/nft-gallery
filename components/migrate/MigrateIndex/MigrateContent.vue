@@ -1,14 +1,16 @@
 <template>
   <div>
-    <div class="is-flex is-justify-content-space-between">
+    <div class="is-flex flex-column is-justify-content-space-between">
       <div>
-        <div v-if="accountId" class="is-flex is-align-items-center">
+        <div v-if="accountId" class="is-flex flex-column is-align-items-center">
           <p class="mr-4">{{ $t('migrate.resultFor') }}</p>
-          <Avatar :value="accountId" :size="26" class="mr-2" />
-          <nuxt-link class="has-text-k-blue" :to="`/ksm/u/${accountId}`">
-            <Identity :address="accountId" hide-identity-popover />
-          </nuxt-link>
-          <p class="ml-4">On RMRK2</p>
+          <div class="is-flex">
+            <Avatar :value="accountId" :size="26" class="mr-2" />
+            <nuxt-link class="has-text-k-blue" :to="`/ksm/u/${accountId}`">
+              <Identity :address="accountId" hide-identity-popover />
+            </nuxt-link>
+            <p class="ml-4">On RMRK2</p>
+          </div>
         </div>
         <div v-else class="is-flex is-align-items-center">
           <p class="mr-4">{{ $t('migrate.connect') }}</p>
@@ -39,7 +41,7 @@
           <p>{{ $t('migrate.ready.title') }}</p>
         </div>
 
-        <div class="has-text-grey w-half mt-2">
+        <div class="has-text-grey mt-2">
           {{ $t('migrate.ready.desc') }}
         </div>
 
@@ -87,7 +89,7 @@
           <p>{{ $t('migrate.waiting.title') }}</p>
         </div>
 
-        <div class="has-text-grey w-half mt-2">
+        <div class="has-text-grey mt-2">
           {{ $t('migrate.waiting.desc') }}
         </div>
 
@@ -191,6 +193,10 @@ const toReview = () => {
   @include ktheme() {
     color: theme('k-grey');
   }
+
+  @include mobile() {
+    text-align: center;
+  }
 }
 
 .section-title {
@@ -251,6 +257,22 @@ const toReview = () => {
         }
       }
     }
+  }
+
+  @include mobile() {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+
+    &-card-info .is-flex {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+}
+
+.flex-column {
+  @include mobile() {
+    flex-direction: column;
+    gap: 1rem;
   }
 }
 </style>

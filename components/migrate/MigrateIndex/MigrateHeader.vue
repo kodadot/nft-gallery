@@ -11,7 +11,7 @@
           <p>{{ $t('migrate.subHeading') }}</p>
         </div>
 
-        <div class="is-flex is-align-items-center mt-4">
+        <div class="network">
           <div class="is-relative">
             <p class="text-destination has-text-grey">
               {{ $t('migrate.source') }}
@@ -135,6 +135,28 @@ const { source, sourceSelected, destination, destinationSelected } =
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 
+.network {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  gap: 1rem;
+
+  .text-destination {
+    position: absolute;
+    top: -100%;
+  }
+
+  @include mobile() {
+    flex-direction: column;
+    margin-top: 2rem;
+
+    .text-destination {
+      position: unset;
+      top: unset;
+    }
+  }
+}
+
 .svg-arrow {
   @include ktheme() {
     stroke: theme('text-color');
@@ -154,11 +176,6 @@ const { source, sourceSelected, destination, destinationSelected } =
   h1 {
     margin-left: 4.5rem;
   }
-}
-
-.text-destination {
-  position: absolute;
-  top: -100%;
 }
 
 .chain-selector {
