@@ -6,10 +6,10 @@
     <div class="mt-5 is-flex">
       <p
         class="mr-5 has-text-weight-bold is-cursor-pointer"
-        @click="$emit('close', { action: 'yes' })">
+        @click="$emit('close', true)">
         {{ $t('migrate.modal.yes') }}
       </p>
-      <p class="is-cursor-pointer" @click="$emit('close', { action: 'no' })">
+      <p class="is-cursor-pointer" @click="$emit('close', false)">
         {{ $t('migrate.modal.no') }}
       </p>
     </div>

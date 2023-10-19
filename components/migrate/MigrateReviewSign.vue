@@ -59,9 +59,9 @@ const promptModal = async () => {
     contentClass: 'k-shadow border',
     trapFocus: true,
   })
-  const result: { action: 'yes' | 'no' } = await instance.promise
+  const result: boolean = await instance.promise
 
-  if (result.action === 'yes') {
+  if (result) {
     navigateTo('/migrate')
   }
 }
