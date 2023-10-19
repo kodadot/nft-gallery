@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="is-centered columns">
-      <div class="is-4 column">
+      <div class="is-6 column">
         <img src="/migrate/congrats.svg" alt="Congratulations" class="w-100" />
         <h1 class="is-size-3 has-text-weight-bold has-text-centered">
           {{ $t('migrate.congrats.title') }}
