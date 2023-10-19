@@ -6,7 +6,7 @@
     </NeoButton>
 
     <div class="mt-8 is-centered columns">
-      <div class="is-6 column">
+      <div class="is-5-widescreen column">
         <h1 class="is-size-4 has-text-weight-bold">
           <span :class="{ 'has-text-grey': section !== 'review' }">
             {{ $t('migrate.review') }}
