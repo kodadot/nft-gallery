@@ -44,7 +44,7 @@
             <div
               class="is-flex is-justify-content-space-between is-align-items-center">
               <div class="title is-size-4">
-                <Money :value="pricePerMint" inline />
+                <Money :value="pricePerMint" :prefix="drop?.chain" inline />
               </div>
               <div>
                 <NeoButton
@@ -74,7 +74,10 @@
           <TokenImportButton :price="pricePerMint" />
         </div>
         <div class="column pt-5 is-flex is-justify-content-center">
-          <ImageSlider v-if="imageList.length" :image-list="imageList" />
+          <GenerativePreview
+            :content="drop.content"
+            :image="drop.image"
+            @select="handleSelectImage" />
         </div>
       </div>
       <hr class="text-color my-4" />
@@ -130,7 +133,6 @@
 
 <script setup lang="ts">
 import CountdownTimer from '@/components/collection/unlockable/CountdownTimer.vue'
-import ImageSlider from '@/components/collection/unlockable/ImageSlider.vue'
 import UnlockableCollectionInfo from '@/components/collection/unlockable/UnlockableCollectionInfo.vue'
 import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
@@ -150,6 +152,7 @@ import {
   getRandomInt,
   unlockableDesc,
 } from '../unlockable/utils'
+import GenerativePreview from '@/components/collection/drop/GenerativePreview.vue'
 import { useCountDown } from '../unlockable/utils/useCountDown'
 import { MINT_ADDRESS, countDownTime } from './const'
 import { DropItem } from '@/params/types'
@@ -201,6 +204,11 @@ onMounted(async () => {
   imageList.value = res.result.map((item) => item.output)
   resultList.value = res.result
 })
+
+const handleSelectImage = (image: string) => {
+  console.log(image)
+  // todo
+}
 
 const leftTime = computed(() => {
   const hoursLeft = hours.value > 0 ? `${hours.value} Hour ` : ''
