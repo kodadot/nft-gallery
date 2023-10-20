@@ -12,8 +12,8 @@ $switch-padding: 0;
   @include ktheme() {
     --oruga-switch-background: #{theme('background-color')};
     --oruga-switch-border-color: #{theme('border-color')};
-    --oruga-switch-active-background-color: #{theme('switch-active-background')};
-    --oruga-switch-action-background: #{theme('switch-action-background')};
+    --oruga-switch-active-background-color: #{theme('toggle-primary')};
+    --oruga-switch-action-background: #{theme('toggle-active-switch')};
     --oruga-switch-action-checked-background: #{theme('background-color')};
   }
   &__check-switch {
@@ -29,5 +29,6 @@ $switch-padding: 0;
   }
   &__check--checked &__check-switch {
     background-color: var(--oruga-switch-action-checked-background);
+    margin-left: -5px;
   }
 }
