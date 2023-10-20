@@ -10,12 +10,12 @@
         alt="Card Icon" />
       <div
         class="is-relative"
-        :class="{ 'border border-k-shade ml-5 mt-5 mr-2': isStacked }">
+        :class="{ 'border border-stacked ml-5 mt-5 mr-2': isStacked }">
         <MediaItem
           :key="nft.image"
           class="nft-media"
           :class="{
-            'stacked-shadow is-relative theme-background border border-k-shade':
+            'stacked-shadow is-relative theme-background border border-stacked':
               isStacked,
           }"
           :src="nft.image"
