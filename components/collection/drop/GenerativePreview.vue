@@ -7,7 +7,7 @@
 
     <MediaItem
       :src="sanitizeIpfsUrl(displayUrl)"
-      mime-type="text/html"
+      :mime-type="generativeImageUrl ? 'text/html' : ''"
       preview
       is-detail
       class="border" />

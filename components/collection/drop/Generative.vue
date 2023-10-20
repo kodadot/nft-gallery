@@ -46,25 +46,22 @@
           <div class="my-5">
             <div
               class="is-flex is-justify-content-space-between is-align-items-center">
-              <div class="title is-size-4">
-                <Money :value="pricePerMint" :prefix="drop?.chain" inline />
-              </div>
-              <div>
+              <div v-if="!hasUserMinted">
                 <NeoButton
                   ref="root"
                   class="mb-2 mt-4 mint-button"
                   variant="k-accent"
                   :disabled="mintButtonDisabled"
                   label="Mint"
-                  @click="handleMint" />
-                <div class="is-flex is-align-items-center mt-2">
-                  <NeoIcon icon="timer" class="mr-2" />
-                  {{ leftTime }}
-                </div>
+                  @click="handleSubmitMint" />
               </div>
+              <nuxt-link v-else :to="`/${urlPrefix}/gallery/${hasUserMinted}`">
+                <p class="title is-size-4">
+                  [{{ $t('mint.unlockable.alreadyMinted') }}]
+                </p>
+              </nuxt-link>
             </div>
           </div>
-          <TokenImportButton :price="pricePerMint" />
         </div>
         <div class="column pt-5 is-flex is-justify-content-center">
           <GenerativePreview
@@ -121,27 +118,14 @@ import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlide
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import CarouselTypeLatestMints from '@/components/carousel/CarouselTypeLatestMints.vue'
-import { notificationTypes, showNotification } from '@/utils/notification'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import {
-  createUnlockableMetadata,
-  generativeTokenMintArgs,
-} from '../unlockable/utils'
+import { createUnlockableMetadata } from '../unlockable/utils'
 import GenerativePreview from '@/components/collection/drop/GenerativePreview.vue'
-import { useCountDown } from '../unlockable/utils/useCountDown'
-import { MINT_ADDRESS, countDownTime } from './const'
 import { DropItem } from '@/params/types'
+import { doWaifu } from '@/services/waifu'
 
 const Loader = defineAsyncComponent(
   () => import('@/components/collection/unlockable/UnlockableLoader.vue'),
-)
-
-const Money = defineAsyncComponent(
-  () => import('@/components/shared/format/Money.vue'),
-)
-
-const TokenImportButton = defineAsyncComponent(
-  () => import('@/components/collection/drop/TokenImportButton.vue'),
 )
 
 const props = defineProps({
@@ -154,7 +138,6 @@ const props = defineProps({
 })
 
 const collectionId = computed(() => props.drop?.collection)
-const pricePerMint = computed(() => props.drop?.meta)
 
 const { neoModal } = useProgrammatic()
 const { $i18n } = useNuxtApp()
@@ -162,30 +145,20 @@ const root = ref()
 
 const { toast } = useToast()
 const { accountId } = useAuth()
-
+const { urlPrefix } = usePrefix()
 const selectedImage = ref<string>('')
 const { isLogIn } = useAuth()
-const { hours, minutes } = useCountDown(countDownTime)
 const justMinted = ref('')
 const isLoading = ref(false)
 
 const handleSelectImage = (image: string) => {
   selectedImage.value = image
 }
-const actionLabel = $i18n.t('nft.event.MINTNFT')
 
-const leftTime = computed(() => {
-  const hoursLeft = hours.value > 0 ? `${hours.value} Hour ` : ''
-  const minutesLeft = minutes.value > 0 ? `${minutes.value} Minute ` : ''
-  const isFinish = !hoursLeft && !minutesLeft
-  return isFinish ? 'Finished' : `${hoursLeft}${minutesLeft}Left`
-})
-
-const { data: collectionData, refetch: tryAgain } = useGraphql({
-  queryName: 'dropCollectionById',
+const { data: collectionData } = useGraphql({
+  queryName: 'unlockableCollectionById',
   variables: {
     id: collectionId.value,
-    account: accountId.value,
   },
 })
 
@@ -200,10 +173,26 @@ const refetchData = async () => {
   await tryAgain()
 }
 
+const {
+  data: stats,
+  loading: currentMintedLoading,
+  refetch: tryAgain,
+} = useGraphql({
+  queryName: 'firstNftOwnedByAccountAndCollectionId',
+  variables: {
+    id: collectionId.value,
+    account: accountId.value,
+  },
+})
+
+const hasUserMinted = computed(
+  () => stats.value?.collection.nfts?.at(0)?.id || justMinted.value,
+)
+
 useSubscriptionGraphql({
   query: `nftEntities(
     orderBy: id_ASC,
-    where: { burned_eq: false, collection: { id_eq: "${collectionId.value}" }, price_eq: "${pricePerMint.value}", currentOwner_eq: "${MINT_ADDRESS}" }
+    where: { burned_eq: false, collection: { id_eq: "${collectionId.value}" }, currentOwner_eq: "${accountId.value}" }
     ) {
       id
   }`,
@@ -211,7 +200,7 @@ useSubscriptionGraphql({
 })
 
 const mintedCount = computed(
-  () => collectionData.value?.nftEntitiesConnection?.totalCount || 0,
+  () => collectionData.value?.collectionEntity?.totalCount || 0,
 )
 
 const mintedPercent = computed(() => {
@@ -222,31 +211,12 @@ const mintedPercent = computed(() => {
 const mintCountAvailable = computed(() => mintedCount.value < totalCount.value)
 
 const mintButtonDisabled = computed(() =>
-  Boolean(!mintCountAvailable.value || !selectedImage.value),
+  Boolean(
+    currentMintedLoading.value ||
+      !mintCountAvailable.value ||
+      !selectedImage.value,
+  ),
 )
-
-const handleMint = async () => {
-  if (!isLogIn.value) {
-    neoModal.open({
-      ...ConnectWalletModalConfig,
-    })
-    return
-  }
-
-  if (isLoading.value) {
-    return false
-  }
-  isLoading.value = true
-
-  showNotification(
-    $i18n.t('nft.notification.info', {
-      itemId: collectionName.value,
-      action: actionLabel,
-    }),
-  )
-
-  handleSubmitMint()
-}
 
 const description = computed(
   () => collectionData.value?.collectionEntity?.meta?.description,
@@ -255,17 +225,24 @@ const collectionName = computed(
   () => collectionData.value?.collectionEntity?.name,
 )
 
-const { howAboutToExecute, initTransactionLoader } = useMetaTransaction()
-
-const { apiInstance } = useApi()
+const scrollToTop = () => {
+  window.scroll({
+    top: 0,
+    behavior: 'smooth',
+  })
+}
 
 const handleSubmitMint = async () => {
-  const api = await apiInstance.value
-
-  if (!selectedImage.value) {
-    toast('no image')
+  if (!isLogIn.value) {
+    neoModal.open({
+      ...ConnectWalletModalConfig,
+    })
     return
   }
+  if (isLoading.value) {
+    return false
+  }
+  isLoading.value = true
 
   const hash = await createUnlockableMetadata(
     selectedImage.value,
@@ -274,22 +251,33 @@ const handleSubmitMint = async () => {
     'text/html',
   )
 
-  const args = await generativeTokenMintArgs(
-    collectionData.value?.collectionEntity?.id,
-    mintedCount.value,
-    hash,
-    api,
-  )
+  const { accountId } = useAuth()
 
-  initTransactionLoader()
-  const cb = api.tx.utility.batchAll
-  await howAboutToExecute(accountId.value, cb, [args], (blockNumber) => {
-    const msg = 'your nft has been minted'
-    showNotification(
-      `[MINT] Since block ${blockNumber} ${msg}`,
-      notificationTypes.success,
-    )
-  })
+  // return
+  try {
+    const id = await doWaifu(
+      {
+        address: accountId.value,
+        metadata: hash,
+        image: props.drop.image,
+      },
+      props.drop.id,
+    ).then((res) => {
+      toast('mint success', { duration: 20000 })
+      scrollToTop()
+      return `${collectionId.value}-${res.result.sn}`
+    })
+    // 40s timeout
+    setTimeout(() => {
+      isLoading.value = false
+      justMinted.value = id
+      toast('You will be redirected in few seconds', { duration: 3000 })
+      return navigateTo(`/${urlPrefix.value}/gallery/${id}`)
+    }, 44000)
+  } catch (error) {
+    toast($i18n.t('drops.mintPerAddress'))
+    isLoading.value = false
+  }
 }
 </script>
 
