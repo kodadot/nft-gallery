@@ -16,7 +16,7 @@
           <div class="container image is-64x64 mb-2">
             <Avatar :value="id" />
           </div>
-          <h1 class="title is-2" data-testid="user-identity">
+          <h1 class="title is-2" data-testid="profile-user-identity">
             <a
               v-if="hasBlockExplorer"
               v-safe-href="explorer"
@@ -49,7 +49,8 @@
           </NeoButton>
 
           <div
-            class="is-flex is-align-items-center is-justify-content-center is-flex-wrap-wrap">
+            class="is-flex is-align-items-center is-justify-content-center is-flex-wrap-wrap"
+            data-testid="profile-identity-buttons">
             <NeoButton
               v-safe-href="`https://subscan.io/account/${id}`"
               no-shadow
@@ -104,6 +105,7 @@
           v-for="tab in tabs"
           :key="tab"
           class="is-capitalized"
+          data-testid="profile-tabs"
           :active="activeTab === tab"
           :count="counts[tab]"
           :show-active-check="false"
@@ -138,7 +140,10 @@
         <div
           class="is-flex is-justify-content-space-between pb-4 pt-5 is-align-content-center">
           <div class="is-flex">
-            <FilterButton :label="$t('sort.listed')" url-param="buy_now" />
+            <FilterButton
+              :label="$t('sort.listed')"
+              url-param="buy_now"
+              data-testid="profile-filter-button-buynow" />
             <FilterButton
               v-if="activeTab === 'created'"
               :label="$t('activity.sold')"

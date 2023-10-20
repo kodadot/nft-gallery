@@ -21,6 +21,7 @@
               variant="text"
               no-shadow
               class="has-text-weight-bold ml-3"
+              data-testid="cookie-banner-button-accept"
               @click="acceptCookies">
               {{ $t('cookies.accept') }}
             </NeoButton>
