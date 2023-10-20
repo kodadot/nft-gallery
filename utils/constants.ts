@@ -63,6 +63,7 @@ export const URLS = {
     replicate: 'https://replicate.kodadot.workers.dev/',
     search: 'https://polysearch.w.kodadot.xyz',
     baseUrl: 'https://kodadot.xyz',
+    newsletter: 'https://newsletter.w.kodadot.xyz',
   },
   providers: {
     coingecko: 'https://api.coingecko.com/api/v3',

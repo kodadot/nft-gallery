@@ -1,8 +1,10 @@
 <template>
   <div
     class="is-flex is-flex-direction-column"
-    :class="[`nft-media-info__${variant}`, isMinimal ? 'py-3' : 'pt-2 pb-3']">
-    <div class="is-flex is-flex-direction-column mb-3 px-3">
+    :class="[`nft-media-info__${variant}`]">
+    <div
+      class="is-flex is-flex-direction-column mb-2"
+      :class="{ 'px-3 pt-4 staked-primary-title': !isMinimal }">
       <div class="is-flex is-justify-content-space-between">
         <span
           class="is-ellipsis has-text-weight-bold"
@@ -22,8 +24,8 @@
     </div>
 
     <div
-      class="is-flex is-justify-content-space-between is-align-items-center px-3"
-      :class="isMinimal ? '' : 'border-top card-border-color pt-3'">
+      class="is-flex is-justify-content-space-between is-align-items-center"
+      :class="{ 'border-top card-border-color pt-2 px-3': !isMinimal }">
       <template v-if="!isMinimal">
         <a class="is-ellipsis pr-1" :v-safe-href="collectionUrl">
           {{ collectionNameLabel }}
@@ -60,8 +62,10 @@
 </template>
 
 <script lang="ts" setup>
-import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
+import { computed } from 'vue'
 import { NeoButton, NftCardVariant } from '@kodadot1/brick'
+
+import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { NeoNFT } from './types'
 
 const props = withDefaults(
@@ -91,4 +95,15 @@ const collectionNameLabel = computed(() => props.token.collection.name || '--')
 
 <style lang="scss" scoped>
 @import './NeoNftCard.scss';
+
+.staked-primary-title {
+  margin-top: 6px;
+}
+
+.nft-media-info__stacked-minimal {
+  margin-top: 9px;
+  padding: 9px;
+  padding-bottom: 0;
+  min-height: 75px;
+}
 </style>

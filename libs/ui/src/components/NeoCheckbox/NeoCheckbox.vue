@@ -11,6 +11,7 @@
 </template>
 
 <script lang="ts" setup>
+import { useVModel } from '@vueuse/core'
 import { OCheckbox } from '@oruga-ui/oruga-next'
 const props = defineProps<{
   disabled?: boolean

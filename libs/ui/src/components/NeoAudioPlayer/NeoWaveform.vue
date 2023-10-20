@@ -3,6 +3,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import WaveSurfer from 'wavesurfer.js'
 
 const emit = defineEmits(['play', 'ready'])

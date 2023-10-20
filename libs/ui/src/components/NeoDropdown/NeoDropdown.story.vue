@@ -1,11 +1,14 @@
 <template>
   <Story title="NeoDropdown" :layout="{ type: 'grid', width: '200px' }">
     <Variant title="With Text">
-      {{ label }}
-      <NeoDropdownItem
-        v-for="(option, index) in options"
-        :key="index"
-        :item="option" />
+      <NeoDropdown>
+        <template #trigger>{{ label }}</template>
+
+        <NeoDropdownItem
+          v-for="(option, index) in options"
+          :key="index"
+          :item="option" />
+      </NeoDropdown>
     </Variant>
     <Variant title="With Button">
       <NeoDropdown>
