@@ -9,6 +9,7 @@ query tokenListWithSearch(
   $issuer: String
   $denyList: [String!]
   $collections: [String!]
+  $name: String
 ) {
   tokenEntities: tokenEntityList(
     owner: $owner
@@ -21,6 +22,7 @@ query tokenListWithSearch(
     price_gt: $price_gt
     price_lte: $price_lte
     collections: $collections
+    name: $name
   ) {
     id
     name
@@ -52,6 +54,7 @@ query tokenListWithSearch(
     price_gt: $price_gt
     price_lte: $price_lte
     collections: $collections
+    name: $name
   ) {
     totalCount
   }
