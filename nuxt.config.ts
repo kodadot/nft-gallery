@@ -5,13 +5,6 @@ import * as fs from 'fs'
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
 export default defineNuxtConfig({
-  vue: {
-    config: {
-      productionTip: false,
-      runtimeCompiler: true,
-    },
-  },
-
   server: {
     port: 9090, // default: 3000
     host: '0.0.0.0',
@@ -19,6 +12,11 @@ export default defineNuxtConfig({
 
   nitro: {
     publicAssets: [],
+  },
+
+  // 🔧 Cloudflare build
+  experimental: {
+    appManifest: false,
   },
 
   // Disable server-side rendering
@@ -132,23 +130,13 @@ export default defineNuxtConfig({
     },
   },
 
-  loadingIndicator: {
-    name: 'folding-cube',
-    color: '#fc007b',
-    background: 'black',
-  },
-
-  // Global CSS: https://go.nuxtjs.dev/config-css
+  // Global CSS: https://nuxt.com/docs/api/nuxt-config#components
   css: [
     '@/assets/styles/index.scss',
     '@fortawesome/fontawesome-svg-core/styles.css',
   ],
 
-  router: {
-    middleware: ['prefix', 'redirects'],
-  },
-
-  // Auto import components: https://go.nuxtjs.dev/config-components
+  // Auto import components: https://nuxt.com/docs/api/nuxt-config#components
   components: {
     dirs: [
       // ordering matters
@@ -201,7 +189,7 @@ export default defineNuxtConfig({
     ],
   },
 
-  // Modules: https://go.nuxtjs.dev/config-modules
+  // Modules: https://nuxt.com/docs/api/nuxt-config#components
   modules: [
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
@@ -218,9 +206,7 @@ export default defineNuxtConfig({
 
   i18n: {
     skipSettingLocaleOnNavigate: true,
-    vueI18nLoader: true,
     defaultLocale: 'en',
-    loadLanguagesAsync: true,
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'lang',
@@ -273,43 +259,7 @@ export default defineNuxtConfig({
     },
   },
 
-  // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-    babel: {
-      // silence babel warning regarding exceeding file sizes (>500kb)
-      compact: true,
-    },
-    optimization: {
-      runtimeChunk: true,
-      splitChunks: {
-        name: true,
-        cacheGroups: {
-          styles: {
-            name: 'styles',
-            test: /.(css|vue)$/,
-            chunks: 'all',
-            enforce: true,
-          },
-        },
-      },
-    },
-
-    vite: {
-      resolve: {
-        alias: {
-          './runtimeConfig': './runtimeConfig.browser',
-        },
-      },
-    },
-
-    postcss: {
-      postcssOptions: {
-        plugins: {},
-      },
-    },
-  },
-
-  // https://nuxtjs.org/docs/configuration-glossary/configuration-env/,
+  // https://nuxt.com/docs/api/nuxt-config#runtimeconfig
   runtimeConfig: {
     public: {
       prefix: process.env.URL_PREFIX || 'rmrk',
