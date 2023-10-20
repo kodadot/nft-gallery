@@ -6,7 +6,7 @@
       :controls="controls"
       playsinline
       loop
-      autoplay
+      :autoplay="preview"
       :muted="preview"
       :src="animationSrc || src"
       controlslist="nodownload"
@@ -29,7 +29,7 @@ const props = withDefaults(
     animationSrc: '',
     src: '',
     alt: '',
-    preview: true,
+    preview: false,
   },
 )
 
