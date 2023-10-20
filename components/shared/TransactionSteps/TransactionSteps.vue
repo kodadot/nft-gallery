@@ -3,16 +3,16 @@
         <div v-for="step in steps">
                <TransactionStepsItem 
                     class="mb-3"
-                    :step="step"
+                    :step="getStepItem(step)"
                     :active="false"
                />
 
-               <template v-if="step.children" >
+               <template v-if="step.withAction" >
                     <TransactionStepsItem
-                        v-for="childrenSteps in step.children"
                         class="mb-3"
-                        :step="childrenSteps"
+                        :step="getStepItem(step, true)"
                         is-child
+                        with-action
                     />
                </template>
         </div>
@@ -22,23 +22,47 @@
 <script setup lang="ts">
 import { TransactionStepStatus } from "@/utils/teleport";
 import TransactionStepsItem from "./TransactionStepsItem.vue"
+import {TransactionStatus} from "@/composables/useTransactionStatus"
+import { getTransactionStepDetails } from "./utils";
+import {type TransactionStepItem} from "./TransactionStepsItem.vue"
 
 export type TransactionStep = {
-    title: string
-    subtitle: string,
-    status: ComputedRef<TransactionStepStatus>,
-    transactionId?: ComputedRef<string>,
-    children?: TransactionStep[],
+    txId?: string| null
+    error?: string | null
+    status?: TransactionStatus
+    stepStatus?: TransactionStepStatus
+    title?: string
+    subtitle?: string
+    withAction?: boolean
 }
 
 defineProps<{
     steps: TransactionStep[]
 }>()
 
+const getStepItem = (step: TransactionStep, isAction = false): TransactionStepItem => {
+    const baseStep = {
+        txId: step.txId,
+        error: step.error
+    }
 
+    const { status, title, subtitle } = getTransactionStepDetails(step) 
+
+    if (isAction) {
+        return {
+            ...baseStep,
+            status,
+            title, 
+            subtitle
+        }
+    }
+
+    return {
+        ...baseStep,
+        status: step.stepStatus ? step.stepStatus : status,
+        title: step.title,
+        subtitle: step.subtitle
+    }
+}
 
 </script>
-
-<style scoped>
-
-</style>

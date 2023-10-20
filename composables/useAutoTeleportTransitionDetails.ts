@@ -1,20 +1,19 @@
 
 
 import {allowedTransitions as teleportRoutes, prefixToChainMap, chainToPrefixMap , TeleportTransition, type Chain, getChainCurrency} from "@/utils/teleport"
+import { CHAINS, Config, type Prefix } from "@kodadot1/static"
 import { max } from 'lodash'
-import { CHAINS, type Prefix } from "@kodadot1/static"
 
 export default function (neededAmount: ComputedRef<number>) {
     const { urlPrefix } = usePrefix()
-    const {chainBalances } = useTeleport()
+    const { chainBalances , canTeleport, chain: currentChain } = useTeleport()
     const { fetchMultipleBalance } = useMultiBalance()
-    
-    const hasEnoughInCurrentChain = computed(() => neededAmount.value > Number(currentChainBalance.value))
-    const currentChain = computed(() => prefixToChainMap[urlPrefix.value] as Chain)
-    const chainSymbol = computed(() => getChainCurrency(currentChain.value))
-    const targetChains = computed(() => teleportRoutes[currentChain.value])
 
-    const currentChainBalance = computed(() => Number(chainBalances[currentChain.value]()))
+    const hasEnoughInCurrentChain = computed(() => neededAmount.value > Number(currentChainBalance.value))
+    const chainSymbol = computed(() => currentChain.value && getChainCurrency(currentChain.value))
+    const targetChains = computed(() => currentChain.value ? teleportRoutes[currentChain.value]: [])
+
+    const currentChainBalance = computed(() => currentChain.value && Number(chainBalances[currentChain.value]()))
     const sourceChainsBalances = computed(() => targetChains.value.reduce((reducer, chainPrefix) => {
         const prefix =  chainToPrefixMap[chainPrefix]
         return {
@@ -24,14 +23,14 @@ export default function (neededAmount: ComputedRef<number>) {
     }, {})
     )
 
-    const richestChain = computed(() =>  max(Object.keys(sourceChainsBalances.value), (o: Prefix) => sourceChainsBalances.value[o]))
-    const richestChainBalance = computed<number>(() => Number(sourceChainsBalances.value[richestChain.value]))
+    const richestChain = computed<Chain| undefined>(() =>  max(Object.keys(sourceChainsBalances.value), (o: Prefix) => sourceChainsBalances.value[o]))
+    const richestChainBalance = computed(() => richestChain.value ? Number(sourceChainsBalances.value[richestChain.value]): 0)
     
-    const sourceChain = computed(() => CHAINS[richestChain.value])
+    const sourceChain = computed<Config<ChainProperties>|undefined>(() => richestChain.value && CHAINS[richestChain.value])
     const amountToTeleport = computed(() => richestChainBalance.value - neededAmount.value + Number(currentChainBalance.value))
-    const hasEnoughInRichestChain = computed(() => currentChainBalance.value + richestChainBalance.value > amountToTeleport.value)
+    const hasEnoughInRichestChain = computed(() => (currentChainBalance.value|| 0) + (richestChainBalance.value || 0) > amountToTeleport.value)
     
-    const { formatted: amountFormatted, usd: amountUsd } = useAmount(amountToTeleport, computed(() => sourceChain.value.tokenDecimals ),chainSymbol)
+    const { formatted: amountFormatted, usd: amountUsd } = useAmount(amountToTeleport, computed(() => sourceChain.value?.tokenDecimals ), chainSymbol)
 
     const optimalTransition = computed<TeleportTransition>(() =>  {
         return {
@@ -57,6 +56,7 @@ export default function (neededAmount: ComputedRef<number>) {
     })
 
     return {
+        canTeleport,
         hasEnoughInCurrentChain,
         hasEnoughInRichestChain,
         optimalTransition,

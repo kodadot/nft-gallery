@@ -20,7 +20,7 @@
           no-shadow
           :disabled="localDisabled"
           class="is-flex is-flex-grow-1 btn-height"
-          @click="openAutoTeleportModal"
+          @click="submit"
         />
 
         <div class="is-flex is-justify-content-center mt-4" v-if="allowAutoTeleport">
@@ -35,6 +35,7 @@
     <AutoTeleportModal 
         v-model="isModalOpen"
         :transition="optimalTransition"
+        :can-do-action="hasEnoughInCurrentChain"
         :status="status"
         @close="isModalOpen = false"
     />
@@ -43,14 +44,16 @@
 
 <script setup lang="ts">
 import { NeoButton , NeoSwitch } from '@kodadot1/brick'
+import { Actions } from '@/composables/transaction/types';
 
 const props = defineProps<{
     amount: number,
-    label: string
+    label: string,
+    action: Actions,
 }>()
 
 const { chainSymbol , name } = useChain()
-const { hasEnoughInCurrentChain, hasEnoughInRichestChain, optimalTransition, teleport, status } = useAutoTeleport(computed(() => props.amount))
+const { canTeleport, hasEnoughInCurrentChain, hasEnoughInRichestChain, optimalTransition, teleport, status, transaction } = useAutoTeleport(props.action , computed(() => props.amount))
 
 const isModalOpen = ref(false)
 const rampActive = ref(false)
@@ -59,7 +62,7 @@ const autoTeleport = ref(false)
 const allowAutoTeleport = computed(() => !hasEnoughInCurrentChain.value &&  hasEnoughInRichestChain.value && optimalTransition.value.source)
 
 const autoTeleportLabel = computed(() => {
-    if (hasEnoughInCurrentChain.value) {
+    if (!canTeleport.value || hasEnoughInCurrentChain.value) {
         return props.label
     }
 
@@ -73,7 +76,7 @@ const autoTeleportLabel = computed(() => {
 })
 
 const localDisabled = computed(() => {
-    if (!hasEnoughInRichestChain.value || !autoTeleport.value) {
+    if ((!hasEnoughInRichestChain.value || !autoTeleport.value) && canTeleport.value) {
         return true 
     }
 
@@ -89,6 +92,14 @@ const openAutoTeleportModal = () =>  {
             isModalOpen.value = false
         }
     })
+}
+
+const submit = () => {
+    if (canTeleport.value) {
+        openAutoTeleportModal() 
+    } else {
+        transaction()
+    }
 }
 
 

@@ -50,7 +50,7 @@ export default function () {
     )
 
     async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
-        console.log('[MULTIBALANCE] Fetching chain:' + chainName + ' token:'+  token)
+        console.log('[MULTIBALANCE] Fetching chain:' + chainName + ' token:'+  token) // TODO remove 
 
         const currentAddress = accountId.value
         const prefix = networkToPrefix[chainName]
@@ -109,8 +109,15 @@ export default function () {
         await wsProvider.disconnect()
     }
 
-    const fetchMultipleBalance = async () => {
-        await fiatStore.fetchFiatPrice()
+    const fetchFiatPrice = async (force) => {
+        if (!force && fiatStore.incompleteFiatValues) {
+            await fiatStore.fetchFiatPrice()
+        }
+    }
+
+    const fetchMultipleBalance = async (forceFiat: boolean = false) => {
+        await fetchFiatPrice(forceFiat)
+
         const assets = isTestnet.value
             ? multiBalanceAssetsTestnet.value
             : multiBalanceAssets.value

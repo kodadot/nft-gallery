@@ -1,6 +1,14 @@
 <template>
   <div>
-    <ConfirmPurchaseModal @confirm="onConfirm" />
+    <ConfirmPurchaseModal >
+      <template #custom-action="{label, disabled, amount}">
+        <AutoTeleportActionButton
+          :amount="amount"
+          :label="label"
+          :action="buyAction"
+          />
+      </template>
+    </ConfirmPurchaseModal>
     <Loader v-model="isLoading" :status="status" />
   </div>
 </template>
@@ -10,10 +18,9 @@ import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useFiatStore } from '@/stores/fiat'
 
-import { warningMessage } from '@/utils/notification'
 import ConfirmPurchaseModal from '@/components/common/confirmPurchaseModal/ConfirmPurchaseModal.vue'
 import Loader from '@/components/shared/Loader.vue'
-import { TokenToBuy } from '@/composables/transaction/types'
+import { Actions, TokenToBuy } from '@/composables/transaction/types'
 import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
 
 const { urlPrefix } = usePrefix()
@@ -40,10 +47,10 @@ const { $i18n } = useNuxtApp()
 
 const ShoppingCartItemToTokenToBuy = (item: ShoppingCartItem): TokenToBuy => {
   return {
-    currentOwner: item.currentOwner,
-    price: item.price,
-    id: item.id,
-    royalty: item.royalty,
+    currentOwner: item?.currentOwner,
+    price: item?.price,
+    id: item?.id,
+    royalty: item?.royalty,
   }
 }
 
@@ -57,25 +64,25 @@ watchEffect(() => {
   }
 })
 
-const onConfirm = () => {
+const buyAction = computed<Actions>(() => {
   if (preferencesStore.getCompletePurchaseModal.mode === 'shopping-cart') {
-    handleBuy(
+    return getBuyAction(
       items.value.map(ShoppingCartItemToTokenToBuy),
-      items.value.map((item) => item.name),
+      items.value.map((item) => item?.name),
     )
   } else {
     const item = shoppingCartStore.getItemToBuy as ShoppingCartItem
-    handleBuy(ShoppingCartItemToTokenToBuy(item), [item.name || ''])
-    shoppingCartStore.removeItemToBuy()
+    return getBuyAction(ShoppingCartItemToTokenToBuy(item), [item?.name || ''])
+//     shoppingCartStore.removeItemToBuy()
   }
-}
+})
 
-const handleBuy = async (
+
+const getBuyAction = (
   nfts: TokenToBuy | TokenToBuy[],
   nftNames: string[],
-) => {
-  try {
-    await transaction({
+): Actions => {
+  return {
       interaction: ShoppingActions.BUY,
       nfts,
       urlPrefix: urlPrefix.value,
@@ -84,9 +91,6 @@ const handleBuy = async (
         large: true,
       },
       errorMessage: $i18n.t('transaction.buy.error'),
-    })
-  } catch (error) {
-    warningMessage(error)
   }
 }
 </script>

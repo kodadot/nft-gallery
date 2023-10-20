@@ -1,4 +1,5 @@
 import { TransactionStatus } from "@/composables/useTransactionStatus"
+import { Actions } from '@/composables/transaction/types';
 
 
 type TransactionDetails = {
@@ -12,15 +13,21 @@ export type AutoTeleportTransactionStatus = {
     action: TransactionDetails
 }
 
-export default function (neededAmount: ComputedRef<number>) {
+export default function (action: Actions, neededAmount: ComputedRef<number>) {
     const { hasEnoughInCurrentChain, hasEnoughInRichestChain, optimalTransition } = useAutoTeleportTransitionDetails(neededAmount)
 
-    const { teleport: sendXCM, getAddressByChain, status: teleportStatus, txId: teleportTxId,error: teleportError } = useTeleport()
+    const { teleport: sendXCM, getAddressByChain, status: teleportStatus, txId: teleportTxId,error: teleportError, canTeleport } = useTeleport()
+    const { transaction: actionTransaction , status: actionStatus, isLoading: actionIsLoading } = useTransaction()
+
 
     const status = computed<AutoTeleportTransactionStatus>(() => ({
         bridge: { status: computed(() => teleportStatus.value), txId: computed(() => teleportTxId.value), error: computed(() => teleportError.value) },
-        action: { status: computed(() => TransactionStatus.Finalized), txId: computed(() => TransactionStatus.Finalized), error: computed(() => TransactionStatus.Finalized) },
+        action: { status: computed(() => actionStatus.value), txId: computed(() => ''), error: computed(() => '') },
     }))
+
+    const transaction = async () => {
+        await actionTransaction(action)
+    }
 
     const teleport = async ({ onSuccess, onError }) => {
 
@@ -40,6 +47,8 @@ export default function (neededAmount: ComputedRef<number>) {
             currency: token,
             onError: onError
         })
+
+        // actionTransaction(action)
     }
 
     return {
@@ -47,6 +56,8 @@ export default function (neededAmount: ComputedRef<number>) {
         hasEnoughInRichestChain,
         optimalTransition,
         status,
-        teleport
+        teleport,
+        canTeleport,
+        transaction
     }
 }

@@ -54,16 +54,16 @@
       </div>
 
       <div class="is-flex is-justify-content-space-between py-5 px-6">
-        <AutoTeleportActionButton
-          :amount="totalWithRoyalties"
-        :label="btnLabel"  />
-        <!-- <NeoButton
+        <slot name="custom-action" :label="btnLabel" :disabled="disabled" :amount="totalWithRoyalties"/>
+
+        <NeoButton
+          v-if="!$slots['custom-action']"
           :label="btnLabel"
           variant="k-accent"
           no-shadow
           :disabled="disabled"
           class="is-flex is-flex-grow-1 btn-height"
-          @click="confirm" /> -->
+          @click="confirm" />
       </div>
     </div>
   </NeoModal>

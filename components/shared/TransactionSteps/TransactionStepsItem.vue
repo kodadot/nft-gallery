@@ -36,32 +36,46 @@
 
         </div>
 
-        <div>
-            <p
+        <div class="is-flex is-align-items-center">
+            <div class="is-flex is-flex-direction-column">
+                <p
             class="is-capitalized"
                 :class="{'has-text-weight-bold': !isChild}"
             >{{ step.title }}</p>
             <p class="is-capitalized"> {{ step.subtitle }}</p>
+            </div>
+            <div class="is-flex ml-4" v-if="isCompleted && step.txId" >
+                <nuxt-link class="has-text-link">View Tx</nuxt-link>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { NeoIcon } from "@kodadot1/brick"
-import {TransactionStep } from "./TransactionSteps.vue"
+import {TransactionStepStatus} from "@/utils/teleport"
+
+export type TransactionStepItem = {
+    txId: string| null
+    error: string | null
+    status: TransactionStepStatus
+    title: string
+    subtitle?: string
+    withAction?: boolean
+}
 
 const props = defineProps<{
-    step: TransactionStep,
+    step: TransactionStepItem,
     isChild?: boolean
+    withAction?: boolean
 }>()
 
-const status = computed(() => props.step.status.value)
+const status = computed(() => props.step.status)
 
 const isLoading = computed(() => status.value === 'loading')
 const isCompleted = computed(() => status.value === 'completed')
 const isWaiting = computed(() => status.value === 'waiting')
 const isFailed = computed(() => status.value === 'failed')
-
 </script>
 
 

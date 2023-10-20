@@ -1,6 +1,7 @@
 import {
   Chain,
-  chainToPrefixMap
+  chainToPrefixMap,
+  allowedTransitions
 } from '@/utils/teleport'
 import { web3Enable } from '@polkadot/extension-dapp'
 import { notificationTypes, showNotification } from '@/utils/notification'
@@ -17,6 +18,7 @@ export default function () {
   const { accountId } = useAuth()
   const { assets } = usePrefix()
   const { decimalsOf } = useChain()
+  const { urlPrefix } = usePrefix()
 
   const chainBalances = {
     [Chain.KUSAMA]: () =>
@@ -30,6 +32,9 @@ export default function () {
     [Chain.STATEMINT]: () =>
       identityStore.multiBalances.chains.polkadotHub?.dot?.nativeBalance,
   }
+
+  const chain = computed<Chain|null>(() => prefixToChainMap[urlPrefix.value] || null)
+  const canTeleport = computed(() => Object.keys(allowedTransitions).includes( chain.value || ''))
 
 const teleport = async ({
   amount, from, to, fromAddress, toAddress, currency, onSuccess, onError,
@@ -140,6 +145,8 @@ const getChainTokenDecimals = (chain: Chain) => {
     status,
     isLoading,
     getAddressByChain,
-    getChainTokenDecimals
+    getChainTokenDecimals,
+    canTeleport,
+    chain
   }
 }

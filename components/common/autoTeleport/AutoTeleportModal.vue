@@ -34,9 +34,8 @@
 
       </div>
 
-
       <div class="is-flex is-justify-content-space-between py-5 px-6">
-        <NeoButton :label="btnLabel" variant="k-accent" no-shadow :disabled="false"
+        <NeoButton :label="btnLabel" variant="k-accent" no-shadow :disabled="canDoAction"
           class="is-flex is-flex-grow-1 btn-height" @click="confirm" />
       </div>
     </div>
@@ -53,56 +52,45 @@ const emit = defineEmits(['confirm'])
 const props = defineProps<{
   modelValue: boolean,
   transition: TeleportTransition,
+  canDoAction: boolean,
   status: AutoTeleportTransactionStatus
 }>()
 
 const { $i18n } = useNuxtApp()
 const isModalActive = useVModel(props, 'modelValue')
 
-
-const teleporStepStatus = computed<TransactionStepStatus>(() => {
-  const status = props.status.bridge.status.value
-
-  if (status === TransactionStatus.Finalized) {
-    return TransactionStepStatus.COMPLETED
-  }
-
-  if (props.status.bridge.error.value) {
-      return TransactionStepStatus.FAILED
-  }
-
-  if (status !== TransactionStatus.Unknown ) {
-    return TransactionStepStatus.LOADING
-  }
-
-  return TransactionStepStatus.WAITING
-})
-
-
 const steps = computed<TransactionStep[]>(() => {
   return [
     {
       title: $i18n.t('autoTeleport.steps.1.title'),
       subtitle: $i18n.t('autoTeleport.steps.1.subtitle'),
-      status: teleporStepStatus,
-      children: [
-        {
-          status: teleporStepStatus,
-          title: $i18n.t('autoTeleport.steps.1_1.title'),
-          subtitle: $i18n.t('autoTeleport.steps.1_1.subtitle'),
-        }
-      ]
+      status: props.status.bridge.status.value,
+      error: props.status.bridge.error.value,
+      txId:  props.status.bridge.txId.value,
+      withAction: true,
     },
     {
       title: $i18n.t('autoTeleport.steps.2.title'),
       subtitle: $i18n.t('autoTeleport.steps.2.subtitle'),
-      status: computed(() => TransactionStepStatus.WAITING),
-    }
+      stepStatus: props.canDoAction ? TransactionStepStatus.COMPLETED : TransactionStepStatus.WAITING
+    },
+    {
+      title: $i18n.t('autoTeleport.steps.3.title'),
+      subtitle: $i18n.t('autoTeleport.steps.3.subtitle'),
+      status: props.status.action.status.value,
+      error: props.status.action.error.value,
+      txId:  props.status.action.txId.value,
+      withAction: true,
+    },
   ]
 })
 
 const btnLabel = computed(() => {
   return 'Finish All Steps First'
+})
+
+const canDoAction = computed(() => {
+  return props.status.bridge.status.value === TransactionStatus.Finalized
 })
 
 
