@@ -14,7 +14,7 @@
 import NeoAvatar from './NeoAvatar.vue'
 
 const image =
-  'https://kodadot.mypinata.cloud/ipfs/bafybeigdh3ecetqmzplrjrovs5po23vwpikh2vgtfjai4vky5qzitjzaq4'
+  'https://image-beta.w.kodadot.xyz/ipfs/bafybeigdh3ecetqmzplrjrovs5po23vwpikh2vgtfjai4vky5qzitjzaq4'
 
 const name = 'NFT Avatar'
 const size = 70

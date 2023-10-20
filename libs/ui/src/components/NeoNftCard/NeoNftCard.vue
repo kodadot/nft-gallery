@@ -10,12 +10,12 @@
         alt="Card Icon" />
       <div
         class="is-relative"
-        :class="{ 'border border-k-shade ml-5 mt-5 mr-2': isStacked }">
+        :class="{ 'border border-stacked ml-5 mt-5 mr-2': isStacked }">
         <MediaItem
           :key="nft.image"
           class="nft-media"
           :class="{
-            'stacked-shadow is-relative theme-background border border-k-shade':
+            'stacked-shadow is-relative theme-background border border-stacked':
               isStacked,
           }"
           :src="nft.image"
@@ -33,12 +33,12 @@
         </div>
       </div>
       <NFTMediaInfoStacked
-        v-if="isStacked"
+        v-if="isStacked && !hideMediaInfo"
         :token="nft"
         :variant="variant"
         :prefix="prefix" />
       <NFTMediaInfo
-        v-else
+        v-else-if="!hideMediaInfo"
         :nft="nft"
         :variant="variant"
         :prefix="prefix"
@@ -70,9 +70,11 @@
 </template>
 
 <script lang="ts" setup>
-import type { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
-import MediaItem from '../MediaItem/MediaItem.vue'
+import { computed } from 'vue'
 import { NeoSkeleton, NftCardVariant } from '@kodadot1/brick'
+import type { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
+
+import MediaItem from '../MediaItem/MediaItem.vue'
 import NFTMediaInfoStacked from './NFTMediaInfoStacked.vue'
 import NFTMediaInfo from './NFTMediaInfo.vue'
 import { NeoNFT } from './types'
@@ -96,6 +98,7 @@ const props = withDefaults(
     showActionOnHover?: boolean
     mediaPlayerCover?: string
     mediaHoverOnCoverPlay?: boolean
+    hideMediaInfo?: boolean
     linkTo?: string
   }>(),
   {
@@ -107,6 +110,7 @@ const props = withDefaults(
     showActionOnHover: true,
     placeholder: undefined,
     mediaPlayerCover: undefined,
+    hideMediaInfo: false,
     linkTo: undefined,
   },
 )
