@@ -140,10 +140,12 @@
 
           <NotificationBoxButton
             v-if="account"
+            data-testid="navbar-button-notification"
             :show-label="isMobile"
             @closeBurgerMenu="showMobileNavbar" />
 
           <ShoppingCartButton
+            data-testid="navbar-button-cart"
             :show-label="isMobile"
             @closeBurgerMenu="showMobileNavbar" />
 
@@ -166,6 +168,7 @@
             <div v-if="!account" id="NavProfile">
               <ConnectWalletButton
                 class="button-connect-wallet"
+                data-testid="navbar-button-connect-wallet"
                 variant="connect"
                 @closeBurgerMenu="showMobileNavbar" />
             </div>
@@ -175,7 +178,7 @@
             v-if="!isMobile"
             id="NavProfile"
             :chain="urlPrefix"
-            data-testid="profileDropdown"
+            data-testid="navbar-profile-dropdown"
             @closeBurgerMenu="closeBurgerMenu" />
         </div>
         <!-- END NAV END -->

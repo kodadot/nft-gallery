@@ -17,6 +17,6 @@ test('Landing Elements', async ({ page }) => {
     await expect(page.getByTestId('explore').last()).toBeVisible()
     await expect(page.getByTestId('search-bar')).toBeVisible()
     await expect(page.getByTestId('footer-container')).toBeVisible()
-    await expect(page.getByTestId('profileDropdown')).toBeVisible()
+    await expect(page.getByTestId('navbar-profile-dropdown')).toBeVisible()
   }
 })

@@ -1,24 +1,27 @@
-// import Vue from 'vue'
-// import VueTippy, { TippyComponent, tippy } from 'vue-tippy'
+import VueTippy, { setDefaultProps } from 'vue-tippy'
+import 'tippy.js/animations/shift-away.css'
 
-// let activeTippyInstance
-// window.addEventListener('scroll', () => {
-//   if (activeTippyInstance && activeTippyInstance.state.isVisible) {
-//     activeTippyInstance.hide()
-//     activeTippyInstance.reference.blur()
-//   }
-// })
-// tippy.setDefaults({
-//   onShow(instance) {
-//     activeTippyInstance = instance
-//   },
-// })
+let activeTippyInstance
+useEventListener('scroll', () => {
+  if (activeTippyInstance && activeTippyInstance.state.isVisible) {
+    activeTippyInstance.hide()
+    activeTippyInstance.reference.blur()
+  }
+})
 
-// Vue.use(VueTippy)
-// Vue.component('VTippy', TippyComponent)
-
-import VueTippy from 'vue-tippy'
+setDefaultProps({
+  onShow(instance) {
+    activeTippyInstance = instance
+  },
+})
 
 export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.vueApp.use(VueTippy, {})
+  nuxtApp.vueApp.use(VueTippy, {
+    defaultProps: {
+      interactive: true,
+      animateFill: false,
+      animation: 'shift-away',
+      placement: 'bottom',
+    },
+  })
 })
