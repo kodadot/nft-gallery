@@ -1,63 +1,104 @@
-import { TransactionStatus } from "@/composables/useTransactionStatus"
-import { Actions } from '@/composables/transaction/types';
-
+import { TransactionStatus } from '@/composables/useTransactionStatus'
+import { Actions } from '@/composables/transaction/types'
+import { useIntervalFn } from '@vueuse/core'
 
 type TransactionDetails = {
-    status: ComputedRef<TransactionStatus>
-    txId: ComputedRef<string | null>
-    error: ComputedRef<string | null>
+  status: ComputedRef<TransactionStatus>
+  txId: ComputedRef<string | null>
+  error: ComputedRef<string | null>
 }
 
 export type AutoTeleportTransactionStatus = {
-    bridge: TransactionDetails
-    action: TransactionDetails
+  teleport: TransactionDetails
+  action: TransactionDetails
 }
 
 export default function (action: Actions, neededAmount: ComputedRef<number>) {
-    const { hasEnoughInCurrentChain, hasEnoughInRichestChain, optimalTransition } = useAutoTeleportTransitionDetails(neededAmount)
+  const {
+    hasEnoughInCurrentChain,
+    hasEnoughInRichestChain,
+    optimalTransition,
+  } = useAutoTeleportTransition(neededAmount)
 
-    const { teleport: sendXCM, getAddressByChain, status: teleportStatus, txId: teleportTxId,error: teleportError, canTeleport } = useTeleport()
-    const { transaction: actionTransaction , status: actionStatus, isLoading: actionIsLoading } = useTransaction()
+  const {
+    teleport: sendXCM,
+    getAddressByChain,
+    status: teleportStatus,
+    txId: teleportTxId,
+    error: teleportError,
+    canTeleport,
+  } = useTeleport()
+  const { transaction: actionTransaction, status: actionStatus } =
+    useTransaction()
+  const { fetchMultipleBalance } = useMultiBalance()
 
+  const status = computed<AutoTeleportTransactionStatus>(() => ({
+    teleport: {
+      status: computed(() => teleportStatus.value),
+      txId: computed(() => teleportTxId.value),
+      error: computed(() => teleportError.value),
+    },
+    action: {
+      status: computed(() => actionStatus.value),
+      txId: computed(() => ''),
+      error: computed(() => ''),
+    },
+  }))
 
-    const status = computed<AutoTeleportTransactionStatus>(() => ({
-        bridge: { status: computed(() => teleportStatus.value), txId: computed(() => teleportTxId.value), error: computed(() => teleportError.value) },
-        action: { status: computed(() => actionStatus.value), txId: computed(() => ''), error: computed(() => '') },
-    }))
+  const transaction = async () => {
+    await actionTransaction(action)
+  }
 
-    const transaction = async () => {
-        await actionTransaction(action)
+  const teleport = async ({ onError }) => {
+    const { destination, source, token, amount } = optimalTransition.value
+
+    if (!source) {
+      onError()
+      return
     }
 
-    const teleport = async ({ onSuccess, onError }) => {
+    await sendXCM({
+      amount: amount,
+      from: source?.chain,
+      to: destination.chain,
+      fromAddress: getAddressByChain(source?.chain),
+      toAddress: getAddressByChain(destination?.chain),
+      currency: token,
+      onError: onError,
+    })
+  }
 
-        const { destination, source, token, amount } = optimalTransition.value
+  const { pause, resume, isActive } = useIntervalFn(
+    async () => {
+      await fetchMultipleBalance()
+    },
+    5000,
+    { immediate: false },
+  )
 
-        if (!source) {
-            onError()
-            return
-        }
-
-        await sendXCM({
-            amount: amount,
-            from: source?.chain,
-            to: destination.chain,
-            fromAddress: getAddressByChain(source?.chain),
-            toAddress: getAddressByChain(destination?.chain),
-            currency: token,
-            onError: onError
-        })
-
-        // actionTransaction(action)
+  watch([isActive, hasEnoughInCurrentChain], ([active, enoughInCurrent]) => {
+    if (active && enoughInCurrent) {
+      pause()
     }
+  })
 
-    return {
-        hasEnoughInCurrentChain,
-        hasEnoughInRichestChain,
-        optimalTransition,
-        status,
-        teleport,
-        canTeleport,
-        transaction
-    }
+  watch(
+    teleportStatus,
+    () => {
+      if (teleportStatus.value === TransactionStatus.Finalized) {
+        resume()
+      }
+    },
+    { immediate: true },
+  )
+
+  return {
+    hasEnoughInCurrentChain,
+    hasEnoughInRichestChain,
+    optimalTransition,
+    status,
+    teleport,
+    canTeleport,
+    transaction,
+  }
 }

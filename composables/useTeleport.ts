@@ -1,20 +1,17 @@
-import {
-  Chain,
-  chainToPrefixMap,
-  allowedTransitions
-} from '@/utils/teleport'
+import { Chain, allowedTransitions, chainToPrefixMap } from '@/utils/teleport'
 import { web3Enable } from '@polkadot/extension-dapp'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { getss58AddressByPrefix } from '@/utils/account'
 import { SubmittableResult } from '@polkadot/api'
-
+import { txCb } from '@/utils/transactionExecutor'
 
 export default function () {
-  const error = ref<string| null>(null)
-  const txId = ref<string| null>(null)
+  const error = ref<string | null>(null)
+  const txId = ref<string | null>(null)
 
   const identityStore = useIdentityStore()
-  const {isLoading, status, initTransactionLoader , stopLoader } = useTransactionStatus()
+  const { isLoading, status, initTransactionLoader, stopLoader } =
+    useTransactionStatus()
   const { accountId } = useAuth()
   const { assets } = usePrefix()
   const { decimalsOf } = useChain()
@@ -33,120 +30,133 @@ export default function () {
       identityStore.multiBalances.chains.polkadotHub?.dot?.nativeBalance,
   }
 
-  const chain = computed<Chain|null>(() => prefixToChainMap[urlPrefix.value] || null)
-  const canTeleport = computed(() => Object.keys(allowedTransitions).includes( chain.value || ''))
+  const chain = computed<Chain | null>(
+    () => prefixToChainMap[urlPrefix.value] || null,
+  )
+  const canTeleport = computed(() =>
+    Object.keys(allowedTransitions).includes(chain.value || ''),
+  )
 
-const teleport = async ({
-  amount, from, to, fromAddress, toAddress, currency, onSuccess, onError,
-}: { amount: number, from: Chain, to: Chain, fromAddress: string, toAddress: string, currency: string , onSuccess?: (blockHash) => void, onError?: () => void}) => {
+  const teleport = async ({
+    amount,
+    from,
+    to,
+    fromAddress,
+    toAddress,
+    currency,
+    onSuccess,
+    onError,
+  }: {
+    amount: number
+    from: Chain
+    to: Chain
+    fromAddress: string
+    toAddress: string
+    currency: string
+    onSuccess?: (blockHash) => void
+    onError?: () => void
+  }) => {
+    if (!amount || amount < 0) {
+      return
+    }
 
-  if (!amount || amount < 0) {
-    return
-  }
+    await web3Enable('Kodadot')
+    let isFirstStatus = true
+    initTransactionLoader()
+    status.value = TransactionStatus.Sign
 
-  await web3Enable('Kodadot')
-  let isFirstStatus = true
-  initTransactionLoader()
-  status.value = TransactionStatus.Sign
+    const transactionHandler = txCb(
+      (blockHash) => {
+        showNotification(
+          `Transaction finalized at blockHash ${blockHash}`,
+          notificationTypes.success,
+        )
+        status.value = TransactionStatus.Finalized
 
-  const transactionHandler = txCb(
-    (blockHash) => {
-      showNotification(
-        `Transaction finalized at blockHash ${blockHash}`,
-        notificationTypes.success,
-      )
-      status.value = TransactionStatus.Block
+        if (onSuccess) {
+          onSuccess(blockHash)
+        }
+      },
+      (dispatchError) => {
+        showNotification(dispatchError.toString(), notificationTypes.warn)
+        stopLoader()
+        error.value = dispatchError.toString()
 
-      if (onSuccess) {
-        onSuccess(blockHash)
-      }
-    },
-    (dispatchError) => {
-      showNotification(dispatchError.toString(), notificationTypes.warn)
+        if (onError) {
+          onError()
+        }
+      },
+      (submittableResult: SubmittableResult) => {
+        const { txHash } = submittableResult
+
+        if (isFirstStatus) {
+          showNotification(
+            `Transaction hash is ${txHash.toHex()}`,
+            notificationTypes.info,
+          )
+          txId.value = txHash.toHex()
+          status.value = TransactionStatus.Block
+          isFirstStatus = false
+        }
+      },
+    )
+
+    const errorHandler = () => {
+      showNotification('Cancelled', notificationTypes.warn)
       stopLoader()
-      error.value = dispatchError.toString()
 
       if (onError) {
         onError()
       }
-    },
-    (submittableResult: SubmittableResult) => {
-      const { txHash } = submittableResult
-      
-      if (isFirstStatus) {
-        showNotification(
-          `Transaction hash is ${txHash.toHex()}`,
-          notificationTypes.info,
-        )
-        txId.value = txHash.toHex()
-        status.value = TransactionStatus.Finalized
-        isFirstStatus = false
-      }
-    },
-  )
+    }
 
-  const errorHandler = () => {
-    showNotification('Cancelled', notificationTypes.warn)
-    stopLoader()
+    const promise = await getTransaction({
+      amount: amount,
+      from: from,
+      to: to,
+      address: toAddress,
+      currency: currency,
+    })
 
-    if (onError) {
-      onError()
+    if (promise === undefined) {
+      errorHandler()
+      return
+    }
+
+    const injector = await getAddress(toDefaultAddress(fromAddress))
+
+    promise
+      .signAndSend(fromAddress, { signer: injector.signer }, transactionHandler)
+      .catch(errorHandler)
+  }
+
+  const getAddressByChain = (chain: Chain) => {
+    return getss58AddressByPrefix(accountId.value, chainToPrefixMap[chain])
+  }
+
+  const getChainTokenDecimals = (chain: Chain) => {
+    switch (chain) {
+      case Chain.KUSAMA:
+      case Chain.BASILISK:
+      case Chain.STATEMINE:
+        return assets(5).decimals
+      case Chain.POLKADOT:
+        return decimalsOf('dot')
+      case Chain.STATEMINT:
+        return decimalsOf('ahp')
     }
   }
-
-
-  const promise = await getTransaction({
-    amount: amount,
-    from: from,
-    to: to,
-    address: toAddress,
-    currency: currency
-  })
-
-  if (promise === undefined) {
-    errorHandler()
-    return
-  }
-
-  const injector = await getAddress(toDefaultAddress(fromAddress))
-
-  promise
-    .signAndSend(
-      fromAddress,
-      { signer: injector.signer },
-      transactionHandler,
-    )
-    .catch(errorHandler)
-}
-
-
-const getAddressByChain = (chain: Chain) => {
-  return getss58AddressByPrefix(accountId.value, chainToPrefixMap[chain])
-}
-
-const getChainTokenDecimals = (chain: Chain) => {
-  switch (chain) {
-    case Chain.KUSAMA:
-    case Chain.BASILISK:
-    case Chain.STATEMINE:
-      return assets(5).decimals
-    case Chain.POLKADOT:
-      return decimalsOf('dot')
-    case Chain.STATEMINT:
-      return decimalsOf('ahp')
-  }
-}
 
   return {
     chainBalances,
     teleport,
     txId,
-    error, 
+    error,
     status,
     isLoading,
     getAddressByChain,
     getChainTokenDecimals,
     canTeleport,
-    chain
+    chain,
   }
 }
