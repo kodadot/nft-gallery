@@ -6,7 +6,7 @@
       :controls="controls"
       playsinline
       loop
-      autoplay
+      :autoplay="preview"
       :muted="preview"
       :src="animationSrc || src"
       controlslist="nodownload"
@@ -16,6 +16,8 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue'
+
 const props = withDefaults(
   defineProps<{
     animationSrc?: string
@@ -27,7 +29,7 @@ const props = withDefaults(
     animationSrc: '',
     src: '',
     alt: '',
-    preview: true,
+    preview: false,
   },
 )
 

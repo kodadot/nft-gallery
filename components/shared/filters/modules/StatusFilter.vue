@@ -16,7 +16,9 @@
     </template>
     <div class="p-4">
       <NeoField>
-        <NeoCheckbox v-model="listed"> {{ $t('sort.listed') }}</NeoCheckbox>
+        <NeoCheckbox v-model="listed" data-testid="filter-checkbox-buynow">
+          {{ $t('sort.listed') }}</NeoCheckbox
+        >
       </NeoField>
       <NeoField>
         <NeoCheckbox v-model="owned" :disabled="!accountId">

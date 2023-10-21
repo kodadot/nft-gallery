@@ -5,7 +5,8 @@
         v-if="key === 'search'"
         key="search"
         class="control"
-        :is-blue-tag="isCollectionSearchMode"
+        :variant="isCollectionSearchMode ? 'k-blue' : undefined"
+        closable
         @close="removeBread('search')">
         {{ `${$t('general.search')}: ${value}` }}
       </NeoTag>
@@ -13,6 +14,7 @@
         v-else-if="key === 'min'"
         key="min"
         class="control"
+        closable
         @close="removeBread('min')">
         {{ `${$t('Min')}:` }}
         <CommonTokenMoney :value="value" />
@@ -21,6 +23,7 @@
         v-else-if="key === 'max'"
         key="max"
         class="control"
+        closable
         @close="removeBread('max')">
         {{ `${$t('Max')}:` }}
         <CommonTokenMoney :value="value" />
@@ -30,12 +33,18 @@
           v-for="item in collections"
           :key="`${key}-${item.id}`"
           class="control"
+          closable
           @close="removeCollection(item.id)">
           {{ item.meta.name }}
         </NeoTag>
       </template>
 
-      <NeoTag v-else :key="key" class="control" @close="closeTag(String(key))">
+      <NeoTag
+        v-else
+        :key="key"
+        class="control"
+        closable
+        @close="closeTag(String(key))">
         {{ queryMapTranslation[String(key)] }}
       </NeoTag>
     </template>
@@ -54,7 +63,7 @@ import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import {
   Collection,
   collectionArray,
-} from '@/components/shared/filters/modules/usePopularCollections'
+} from '@/composables/popularCollections/usePopularCollections'
 import useActiveRouterFilters from '@/composables/useActiveRouterFilters'
 import { NeoField } from '@kodadot1/brick'
 import { useCollectionSearch } from '../search/utils/useCollectionSearch'
@@ -109,6 +118,7 @@ const clearAllFilters = () => {
 const queryMapTranslation = {
   listed: $i18n.t('sort.listed'),
   owned: $i18n.t('sort.own'),
+  art_view: $i18n.t('filters.artView'),
   sale: $i18n.t('filters.sale'),
   offer: $i18n.t('filters.offer'),
   listing: $i18n.t('filters.listing'),

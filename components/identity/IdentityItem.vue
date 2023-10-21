@@ -6,16 +6,17 @@
         {{ label }}
       </div>
       <NeoButton
-        v-safe-href="`/${prefix}/u/${account}`"
         no-shadow
         rounded
-        tag="a"
+        :tag="NuxtLink"
+        :to="`/${prefix}/u/${account}`"
         size="small"
-        icon="arrow-right-long">
+        icon="arrow-right-long"
+        @click="closeModal">
         {{ buttonLabel }}
       </NeoButton>
     </div>
-    <div v-else class="p-3">
+    <div v-else class="identity-container">
       <div class="has-text-grey is-size-6">
         {{ label }}
       </div>
@@ -38,6 +39,9 @@ import Identity from '@/components/identity/IdentityIndex.vue'
 import { resolveComponent } from 'vue'
 
 const NuxtLink = resolveComponent('NuxtLink')
+const { neoModal } = useProgrammatic()
+
+const closeModal = () => neoModal.closeAll()
 
 withDefaults(
   defineProps<{
@@ -59,14 +63,22 @@ withDefaults(
 </script>
 
 <style lang="scss" scoped>
-.identity-item-button {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 3rem;
+@import '@/assets/styles/abstracts/variables';
 
-  &-label {
-    line-height: 1;
+.identity {
+  &-item-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 3rem;
+
+    &-label {
+      line-height: 1;
+    }
+  }
+
+  &-container {
+    padding: 0.625rem;
   }
 }
 </style>

@@ -9,20 +9,17 @@
         :title="nft.name"
         >{{ nft.name || '--' }}</span
       >
-
       <CollectionDetailsPopover
-        v-if="
-          variant !== 'minimal' && (nft.collection.name || nft.collection.id)
-        "
+        v-if="!isMinimal && (nft.collection.name || nft.collection.id)"
         :show-delay="collectionPopoverShowDelay"
-        :nft="nft"
-        class="is-ellipsis">
-        <template #trigger>
-          <nuxt-link
-            :to="`/${prefix}/collection/${nft.collection.id}`"
-            class="is-size-7 nft-info-collection-name">
+        class="is-size-7 nft-info-collection-name is-ellipsis"
+        :nft="nft">
+        <template #content>
+          <a
+            :v-safe-href="`/${prefix}/collection/${nft.collection.id}`"
+            class="nft-info-collection-name">
             {{ nft.collection.name || '--' }}
-          </nuxt-link>
+          </a>
         </template>
       </CollectionDetailsPopover>
     </div>
@@ -36,7 +33,7 @@
       ]">
       <CommonTokenMoney
         v-if="showPrice"
-        :value="nft.price"
+        :value="nft.price ?? nft.cheapest?.price"
         data-testid="card-money" />
       <span v-if="!isMinimal" class="chain-name is-capitalized is-size-7">{{
         getChainNameByPrefix(prefix)
@@ -44,14 +41,18 @@
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
+import { computed } from 'vue'
+import { NftCardVariant } from '@kodadot1/brick'
+
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { getChainNameByPrefix } from '@/utils/chain'
-import { NftCardVariant } from '@kodadot1/brick'
-import { NFTWithMetadata } from '@/composables/useNft'
+import { NeoNFT } from './types'
+
 const props = withDefaults(
   defineProps<{
-    nft: NFTWithMetadata
+    nft: NeoNFT
     prefix: string
     showPrice?: boolean
     collectionPopoverShowDelay?: number

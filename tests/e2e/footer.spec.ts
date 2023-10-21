@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-/*
+
 const footerLinks = [
   {
     linkName: 'Ambassador Program',
@@ -46,7 +46,7 @@ const footerLinks = [
     linkAddress: 'https://shop.kodadot.xyz/',
   },
 ]
-*/
+
 const footerSocialMediaLinks = [
   {
     linkName: 'Twitter',
@@ -66,7 +66,7 @@ const footerSocialMediaLinks = [
   //},
   {
     linkName: 'Youtube',
-    linkAddress: 'https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA',
+    linkAddress: 'https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA/',
   },
   //{
   //  linkName: 'Instagram',
@@ -85,7 +85,7 @@ test('Check Footer Subscription', async ({ page }) => {
   await footerSubscribe.locator('button').click()
   await expect(footerSubscribe.locator('.error')).toBeVisible()
 })
-/*
+
 test('Check Footer links', async ({ page }) => {
   await page.goto('/')
   for (const data of footerLinks) {
@@ -93,12 +93,11 @@ test('Check Footer links', async ({ page }) => {
     const newTabPromise = page.waitForEvent('popup')
     await footer.getByRole('link', { name: data.linkName }).click()
     const newTab = await newTabPromise
-    await newTab.waitForLoadState()
     await expect(newTab).toHaveURL(data.linkAddress)
     await newTab.close()
   }
 })
-*/
+
 test('Check blog link', async ({ page }) => {
   await page.goto('/')
   const footer = page.getByTestId('footer-container')
@@ -113,7 +112,6 @@ test('Check Social Media Links', async ({ page }) => {
     const newTabPromise = page.waitForEvent('popup')
     await socialMedia.locator(`[aria-label="${data.linkName}"]`).click()
     const newTab = await newTabPromise
-    await newTab.waitForLoadState()
     await expect(newTab).toHaveURL(data.linkAddress)
     await newTab.close()
   }

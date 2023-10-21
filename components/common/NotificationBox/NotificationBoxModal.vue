@@ -1,7 +1,8 @@
 <template>
   <div
     v-if="isOpen"
-    class="notification-modal-container theme-background-color border-left is-flex is-flex-direction-column">
+    class="notification-modal-container theme-background-color border-left is-flex is-flex-direction-column"
+    data-testid="notification-modal-container">
     <NeoModalHead
       :title="$t('notification.notifications')"
       @close="closeModal" />
@@ -70,6 +71,7 @@
             <NeoTag
               v-if="collectionFilter"
               class="no-wrap mr-1 mb-1 rounded"
+              closable
               @close="collectionFilter = null">
               {{ collectionFilter.name }}
             </NeoTag>
@@ -77,6 +79,7 @@
               v-for="event in eventFilter"
               :key="event"
               class="no-wrap mb-1 mr-1 rounded"
+              closable
               @close="toggleEventFilter(event)">
               {{ getInteractionName(event) }}
             </NeoTag>
