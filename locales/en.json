@@ -462,7 +462,7 @@
     "landing": {
       "heading": "What Do You Wish To Create?",
       "collection": "Create A Collection For Your NFTs",
-      "nft": "Create Awesome NFTs From Your Art",
+      "nft": "Create awesome NFTs from your art and add them to your existing collection",
       "singleNft": "Single NFT",
       "singleNftDesc": "Create and mint a single original NFT (can have more copies)",
       "massNft": "Multiple NFTs",
@@ -1065,7 +1065,9 @@
     "globalOffers": "Global Offers",
     "offerStats": "Offers Stats",
     "create": {
-      "waifu": "Waifu"
+      "waifu": "Waifu",
+      "generateWaifu": "Generate Waifu",
+      "timeLimit": "Time Limited Campaign"
     }
   },
   "walletConnect": {
@@ -1143,6 +1145,13 @@
     "subscribeLabel": "Subscribe",
     "toc": "Terms of Use",
     "privacyPolicy": "Privacy Policy"
+  },
+  "signupBanner": {
+    "title": "Stay in the loop and Get",
+    "subtitle": "Sign up and receive a $20 voucher, along with the latest updates from us.",
+    "claimVoucher": "Claim Voucher!",
+    "subscribed": "Successfully subscribed!",
+    "failed": "Something went wrong subscribing you to the newsletter"
   },
   "share": {
     "copyLink": "Copy Link",
