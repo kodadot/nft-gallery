@@ -17,8 +17,11 @@
       <!-- light/dark mode -->
       <div class="is-align-items-center" @click="toggleColorMode">
         <NeoIcon icon="circle-half-stroke" size="medium" />
-        <span v-if="isDarkMode">{{ $t('profileMenu.lightMode') }}</span>
-        <span v-else>{{ $t('profileMenu.darkMode') }}</span>
+        <span class="is-hidden-mobile">
+          {{
+            $t(isDarkMode ? 'profileMenu.lightMode' : 'profileMenu.darkMode')
+          }}
+        </span>
       </div>
 
       <!-- language -->
@@ -27,7 +30,9 @@
           <template #trigger>
             <div class="is-flex is-align-items-center">
               <NeoIcon icon="globe" size="medium" class="mr-1" />
-              <span>{{ $t('profileMenu.language') }}</span>
+              <span class="is-hidden-mobile">
+                {{ $t('profileMenu.language') }}
+              </span>
             </div>
           </template>
 
@@ -51,7 +56,7 @@
         data-testid="sidebar-link-settings"
         @click="closeModal">
         <NeoIcon icon="gear" size="medium" />
-        <span>{{ $t('settings') }}</span>
+        <span class="is-hidden-mobile">{{ $t('settings') }}</span>
       </nuxt-link>
     </div>
   </div>
