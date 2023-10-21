@@ -67,9 +67,13 @@ function getRedirectPathForPrefix({
 
     // https://github.com/kodadot/nft-gallery/pull/7742#issuecomment-1771105341
     if (!isRemark.value && restOfQuery.sort) {
-      restOfQuery.sort = restOfQuery.sort.filter(
-        (value) => !value.startsWith('instance_'),
-      )
+      if (Array.isArray(restOfQuery.sort)) {
+        restOfQuery.sort = restOfQuery.sort.filter(
+          (value) => !value.startsWith('instance_'),
+        )
+      } else if (restOfQuery.sort.startsWith('instance_')) {
+        delete restOfQuery.sort
+      }
     }
     return {
       params: {
