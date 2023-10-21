@@ -12,6 +12,10 @@
   @include ktheme() {
     background: theme('background-color');
     border: 1px solid theme('card-border-color');
+    .border-stacked {
+      border-color: theme('card-border-color-light') !important;
+    }
+
     &:not(.loading):hover {
       border: 1px solid theme('border-color');
 
@@ -53,7 +57,7 @@
 
   .stacked-shadow {
     @include ktheme() {
-      box-shadow: 5px 5px theme('k-shade');
+      box-shadow: 5px 5px theme('card-border-color-light');
       bottom: 10px;
       right: 10px;
     }
