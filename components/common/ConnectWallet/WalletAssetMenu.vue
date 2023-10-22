@@ -13,7 +13,12 @@
       </a>
     </div>
     <div
-      class="wallet-asset-footer is-flex is-justify-content-space-between py-5 is-size-7 has-text-grey">
+      class="wallet-asset-footer is-flex py-5 is-size-7 has-text-grey"
+      :class="
+        isMobileDevice
+          ? 'is-justify-content-center'
+          : 'is-justify-content-space-between'
+      ">
       <!-- light/dark mode -->
       <div class="is-align-items-center" @click="toggleColorMode">
         <NeoIcon icon="circle-half-stroke" size="medium" />
@@ -25,12 +30,12 @@
       </div>
 
       <!-- language -->
-      <div data-testid="sidebar-language">
+      <div data-testid="sidebar-language" :class="isMobileDevice ? 'mx-6' : ''">
         <NeoDropdown position="top-left" aria-role="menu" mobile-modal>
           <template #trigger>
             <div class="is-flex is-align-items-center">
-              <NeoIcon icon="globe" size="medium" class="mr-1" />
-              <span class="is-hidden-mobile">
+              <NeoIcon icon="globe" size="medium" />
+              <span class="is-hidden-mobile ml-1">
                 {{ $t('profileMenu.language') }}
               </span>
             </div>
@@ -65,6 +70,7 @@
 <script setup lang="ts">
 import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
 import { langsFlags } from '@/utils/config/i18n'
+import { isMobileDevice } from '@/utils/extension'
 
 const { urlPrefix } = usePrefix()
 const { isBasilisk } = useIsChain(urlPrefix)
