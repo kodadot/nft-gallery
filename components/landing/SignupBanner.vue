@@ -24,12 +24,12 @@
       <NeoInput
         v-model="email"
         type="email"
-        class="fixed-height"
+        class="fixed-height-signup-banner"
         placeholder="jane.doe@kodadot.xyz"
         required />
 
       <NeoButton
-        class="ml-4 fixed-height"
+        class="ml-4 fixed-height-signup-banner"
         native-type="submit"
         variant="k-accent"
         :loading="loading"
@@ -73,7 +73,7 @@ const submit = async () => {
 <styles lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 
-.fixed-height {
+.fixed-height-signup-banner {
   height: 2.5rem !important;
 }
 
