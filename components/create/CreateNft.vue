@@ -249,7 +249,6 @@
 import type { Prefix } from '@kodadot1/static'
 import type { Ref } from 'vue'
 import type { TokenToList } from '@/composables/transaction/types'
-import { isAddress } from '@polkadot/util-crypto'
 import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
 import {
   NeoButton,
