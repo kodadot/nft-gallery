@@ -55,6 +55,7 @@ const props = defineProps<{
   action: Actions
 }>()
 
+const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 const { chainSymbol, name } = useChain()
 const {
@@ -73,6 +74,9 @@ const {
 const isModalOpen = ref(false)
 const onRampActive = ref(false)
 const autoTeleport = ref(false)
+const showFirstTimeTeleport = computed(
+  () => preferencesStore.firstTimeAutoTeleport && autoTeleport.value,
+)
 
 const allowAutoTeleport = computed(
   () =>
@@ -130,6 +134,12 @@ const submit = () => {
     transaction()
   }
 }
+
+watch(showFirstTimeTeleport, () => {
+  if (showFirstTimeTeleport.value) {
+    preferencesStore.setFirstTimeAutoTeleport(false)
+  }
+})
 </script>
 
 <style lang="scss" scoped>
