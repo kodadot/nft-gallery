@@ -144,10 +144,10 @@
       </NeoField>
 
       <!-- royalty -->
-      <NeoField v-if="isBasilisk">
+      <NeoField v-if="isBasilisk || isRemark">
         <RoyaltyForm
-          :amount="form.royalty.amount"
-          :address="form.royalty.address" />
+          v-model:amount="form.royalty.amount"
+          v-model:address="form.royalty.address" />
       </NeoField>
 
       <!-- explicit content -->
