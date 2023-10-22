@@ -5,6 +5,15 @@ import { getss58AddressByPrefix } from '@/utils/account'
 import { SubmittableResult } from '@polkadot/api'
 import { txCb } from '@/utils/transactionExecutor'
 
+type TeleportParams = {
+  amount: number
+  from: Chain
+  to: Chain
+  fromAddress: string
+  toAddress: string
+  currency: string
+}
+
 export default function () {
   const error = ref<string | null>(null)
   const txId = ref<string | null>(null)
@@ -46,13 +55,7 @@ export default function () {
     currency,
     onSuccess,
     onError,
-  }: {
-    amount: number
-    from: Chain
-    to: Chain
-    fromAddress: string
-    toAddress: string
-    currency: string
+  }: TeleportParams & {
     onSuccess?: (blockHash) => void
     onError?: () => void
   }) => {
@@ -147,6 +150,36 @@ export default function () {
     }
   }
 
+  const getTransactionFee = async ({
+    amount,
+    from,
+    to,
+    toAddress,
+    fromAddress,
+    currency,
+  }: TeleportParams) => {
+    const promise = await getTransaction({
+      amount: amount,
+      from: from,
+      to: to,
+      address: toAddress,
+      currency: currency,
+    })
+
+    if (!promise) {
+      return
+    }
+
+    const injector = await getAddress(toDefaultAddress(fromAddress))
+
+    const info = await promise.paymentInfo(
+      fromAddress,
+      injector ? { signer: injector.signer } : {},
+    )
+
+    return info.partialFee.toString()
+  }
+
   return {
     chainBalances,
     teleport,
@@ -156,6 +189,7 @@ export default function () {
     isLoading,
     getAddressByChain,
     getChainTokenDecimals,
+    getTransactionFee,
     canTeleport,
     chain,
   }

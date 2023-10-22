@@ -18,7 +18,7 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
     hasEnoughInCurrentChain,
     hasEnoughInRichestChain,
     optimalTransition,
-  } = useAutoTeleportTransition(neededAmount)
+  } = useAutoTeleportTransition(action, neededAmount)
 
   const {
     teleport: sendXCM,

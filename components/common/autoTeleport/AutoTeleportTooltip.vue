@@ -24,13 +24,14 @@
 
           <span> -> </span>
 
-          <span
-            >{{ transition.destination.name }} ({{ transition.token }})</span
-          >
+          <span>
+            <span>{{ transition.destination.name }} </span>
+            <span class="has-text-k-grey"> ({{ transition.token }}) </span>
+          </span>
         </div>
 
         <div class="is-flex is-justify-content-space-between">
-          <span>{{ $t('amount') }}</span>
+          <span class="has-text-k-grey">{{ $t('amount') }}</span>
 
           <span
             >{{ transition.amountFormatted }} ~ {{ transition.amountUsd }}</span

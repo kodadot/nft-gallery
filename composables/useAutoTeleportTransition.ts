@@ -8,11 +8,20 @@ import {
 } from '@/utils/teleport'
 import { CHAINS, type Prefix } from '@kodadot1/static'
 import { max } from 'lodash'
+import { Actions } from '@/composables/transaction/types'
 
-export default function (neededAmount: ComputedRef<number>) {
+export default function (action: Actions, neededAmount: ComputedRef<number>) {
   const { urlPrefix } = usePrefix()
-  const { chainBalances, canTeleport, chain: currentChain } = useTeleport()
+  const {
+    chainBalances,
+    canTeleport,
+    chain: currentChain,
+    getTransactionFee,
+    getAddressByChain,
+  } = useTeleport()
   const { fetchMultipleBalance } = useMultiBalance()
+
+  const teleportTxFee = ref(0)
 
   const hasEnoughInCurrentChain = computed(
     () => neededAmount.value < Number(currentChainBalance.value),
@@ -51,8 +60,11 @@ export default function (neededAmount: ComputedRef<number>) {
   const sourceChain = computed(
     () => richestChain.value && CHAINS[chainToPrefixMap[richestChain.value]],
   )
+
+  const fees = computed(() => teleportTxFee.value)
+
   const amountToTeleport = computed(
-    () => neededAmount.value - Number(currentChainBalance.value),
+    () => neededAmount.value + fees.value - Number(currentChainBalance.value),
   )
   const hasEnoughInRichestChain = computed(() => {
     const total =
@@ -75,6 +87,7 @@ export default function (neededAmount: ComputedRef<number>) {
             name: richestChain.value
               ? getChainName(chainToPrefixMap[richestChain.value])
               : '',
+            txFee: teleportTxFee.value,
           }
         : null,
       destination: {
@@ -88,6 +101,38 @@ export default function (neededAmount: ComputedRef<number>) {
       token: chainSymbol.value as string,
     }
   })
+
+  const getTeleportTransactionFee = async () => {
+    const {
+      amount,
+      destination,
+      token: currency,
+      source,
+    } = optimalTransition.value
+
+    if (!source) {
+      return 0
+    }
+
+    return await getTransactionFee({
+      amount,
+      from: source.chain,
+      fromAddress: getAddressByChain(source.chain),
+      to: destination.chain,
+      toAddress: getAddressByChain(destination.chain),
+      currency: currency,
+    })
+  }
+
+  watch(
+    () => optimalTransition.value.source,
+    async (source) => {
+      if (source) {
+        const fee = await getTeleportTransactionFee()
+        teleportTxFee.value = Number(fee || 0)
+      }
+    },
+  )
 
   onMounted(async () => {
     await fetchMultipleBalance()

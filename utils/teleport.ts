@@ -11,7 +11,6 @@ import * as paraspell from '@paraspell/sdk'
 import { ApiFactory } from '@kodadot1/sub-api'
 import { getChainEndpointByPrefix } from '@/utils/chain'
 
-
 type Extrisic = SubmittableExtrinsicFunction<'promise', AnyTuple>
 
 // import { KUSAMA_GENESIS } from '@polkadot/apps-config';
@@ -41,12 +40,13 @@ type TeleportChain = {
 }
 
 export type TeleportTransition = {
-  source: TeleportChain | null,
-  destination: TeleportChain,
-  amount: number,
-  amountFormatted: string,
-  amountUsd: string,
+  source: TeleportChain | null
+  destination: TeleportChain
+  amount: number
+  amountFormatted: string
+  amountUsd: string
   token: string
+  txFee: number
 }
 
 export const allowedTransitions = {
@@ -66,11 +66,11 @@ export const chainToPrefixMap: Record<Chain, Prefix> = {
 }
 
 export const prefixToChainMap: Partial<Record<Prefix, Chain>> = {
-  'rmrk': Chain.KUSAMA,
-  'bsx': Chain.BASILISK,
-  'ahk': Chain.STATEMINE,
-  'ahp': Chain.STATEMINT,
-  'dot': Chain.POLKADOT
+  rmrk: Chain.KUSAMA,
+  bsx: Chain.BASILISK,
+  ahk: Chain.STATEMINE,
+  ahp: Chain.STATEMINT,
+  dot: Chain.POLKADOT,
 }
 
 export enum TeleprtType {
@@ -159,16 +159,24 @@ export function getApiParams(
     : [dst, acc, ass, destWeight]
 }
 
-
 const getApi = (chain: Chain) => {
   const endpoint = getChainEndpointByPrefix(chainToPrefixMap[chain]) as string
   return ApiFactory.useApiInstance(endpoint)
 }
 
 export const getTransaction = async ({
-  amount, from, to, address, currency
-}: { amount: number, from: Chain, to: Chain, address: string, currency: string }) => {
-
+  amount,
+  from,
+  to,
+  address,
+  currency,
+}: {
+  amount: number
+  from: Chain
+  to: Chain
+  address: string
+  currency: string
+}) => {
   const api = await getApi(from)
 
   const telportType = whichTeleportType({
@@ -220,7 +228,7 @@ export const getChainCurrency = (chain: Chain) => {
 
 export enum TransactionStepStatus {
   FAILED = 'failed',
-  COMPLETED = 'completed', 
+  COMPLETED = 'completed',
   WAITING = 'waiting',
-  LOADING = 'loading'
+  LOADING = 'loading',
 }
