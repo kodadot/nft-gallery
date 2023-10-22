@@ -6,8 +6,7 @@ import {
   prefixToChainMap,
   allowedTransitions as teleportRoutes,
 } from '@/utils/teleport'
-import { CHAINS, type Prefix } from '@kodadot1/static'
-import { max } from 'lodash'
+import { maxBy, toPairs } from 'lodash'
 import { Actions } from '@/composables/transaction/types'
 
 export default function (action: Actions, neededAmount: ComputedRef<number>) {
@@ -17,6 +16,7 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
     canTeleport,
     chain: currentChain,
     getTransactionFee,
+    getChainTokenDecimals,
     getAddressByChain,
   } = useTeleport()
   const { fetchMultipleBalance } = useMultiBalance()
@@ -47,18 +47,12 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
   )
 
   const richestChain = computed<Chain | undefined>(() =>
-    max(
-      Object.keys(sourceChainsBalances.value),
-      (o: Prefix) => sourceChainsBalances.value[o],
-    ),
+    maxBy(toPairs(sourceChainsBalances.value, (pair) => Number(pair[1]))[0]),
   )
   const richestChainBalance = computed(() =>
     richestChain.value
       ? Number(sourceChainsBalances.value[richestChain.value])
       : 0,
-  )
-  const sourceChain = computed(
-    () => richestChain.value && CHAINS[chainToPrefixMap[richestChain.value]],
   )
 
   const fees = computed(() => teleportTxFee.value)
@@ -66,15 +60,13 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
   const amountToTeleport = computed(
     () => neededAmount.value + fees.value - Number(currentChainBalance.value),
   )
-  const hasEnoughInRichestChain = computed(() => {
-    const total =
-      currentChainBalance.value || 0 + richestChainBalance.value || 0
-    return total > amountToTeleport.value
-  })
+  const hasEnoughInRichestChain = computed(
+    () => (richestChainBalance.value || 0) >= amountToTeleport.value,
+  )
 
   const { formatted: amountFormatted, usd: amountUsd } = useAmount(
     amountToTeleport,
-    computed(() => Number(sourceChain.value?.tokenDecimals)),
+    computed(() => Number(getChainTokenDecimals(richestChain.value as Chain))),
     chainSymbol as ComputedRef<string>,
   )
 
@@ -87,7 +79,6 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
             name: richestChain.value
               ? getChainName(chainToPrefixMap[richestChain.value])
               : '',
-            txFee: teleportTxFee.value,
           }
         : null,
       destination: {
@@ -127,7 +118,7 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
   watch(
     () => optimalTransition.value.source,
     async (source) => {
-      if (source) {
+      if (source && !teleportTxFee.value) {
         const fee = await getTeleportTransactionFee()
         teleportTxFee.value = Number(fee || 0)
       }

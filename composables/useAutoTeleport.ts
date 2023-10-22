@@ -82,15 +82,11 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
     }
   })
 
-  watch(
-    teleportStatus,
-    () => {
-      if (teleportStatus.value === TransactionStatus.Finalized) {
-        resume()
-      }
-    },
-    { immediate: true },
-  )
+  watch(teleportStatus, () => {
+    if (teleportStatus.value === TransactionStatus.Finalized) {
+      resume()
+    }
+  })
 
   return {
     hasEnoughInCurrentChain,
