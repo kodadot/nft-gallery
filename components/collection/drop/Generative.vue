@@ -245,10 +245,11 @@ const handleSubmitMint = async () => {
   isLoading.value = true
 
   const hash = await createUnlockableMetadata(
-    selectedImage.value,
+    props.drop.image,
     description.value,
     collectionName.value,
     'text/html',
+    selectedImage.value,
   )
 
   const { accountId } = useAuth()

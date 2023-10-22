@@ -21,12 +21,13 @@ export async function createUnlockableMetadata(
   description: string,
   name: string = UNLOCKABLE_NAME,
   miniType: string = 'image/png',
+  animationUrl?: string,
 ) {
   const meta = createMetadata(
     name,
     description,
     imageHash,
-    undefined,
+    animationUrl,
     [],
     'kodadot.xyz',
     miniType,
