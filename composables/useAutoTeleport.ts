@@ -72,7 +72,7 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
     async () => {
       await fetchMultipleBalance()
     },
-    5000,
+    10000,
     { immediate: false },
   )
 

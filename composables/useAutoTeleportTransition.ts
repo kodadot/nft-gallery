@@ -8,6 +8,7 @@ import {
 } from '@/utils/teleport'
 import { maxBy, toPairs } from 'lodash'
 import { Actions } from '@/composables/transaction/types'
+import { chainPropListOf } from '@/utils/config/chain.config'
 
 export default function (action: Actions, neededAmount: ComputedRef<number>) {
   const { urlPrefix } = usePrefix()
@@ -93,6 +94,13 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
     }
   })
 
+  const addTeleportFee = computed(() => {
+    const sourceChainProperties = chainPropListOf(
+      chainToPrefixMap[richestChain.value],
+    )
+    return sourceChainProperties?.tokenSymbol === chainSymbol.value
+  })
+
   const getTeleportTransactionFee = async () => {
     const {
       amount,
@@ -115,15 +123,12 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
     })
   }
 
-  watch(
-    () => optimalTransition.value.source,
-    async (source) => {
-      if (source && !teleportTxFee.value) {
-        const fee = await getTeleportTransactionFee()
-        teleportTxFee.value = Number(fee || 0)
-      }
-    },
-  )
+  watchSyncEffect(async () => {
+    if (richestChain.value && !teleportTxFee.value && addTeleportFee.value) {
+      const fee = await getTeleportTransactionFee()
+      teleportTxFee.value = Number(fee || 0)
+    }
+  })
 
   onMounted(async () => {
     await fetchMultipleBalance()
