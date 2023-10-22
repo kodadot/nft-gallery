@@ -120,6 +120,43 @@
         </div>
       </NeoField>
 
+       <!--Airdrop to an address-->
+      <NeoField
+        v-if="isAssetHub"
+        :key="currentChain"
+        :label="$t('Airdrop NFT')"
+        required
+        class="Airdropnft"
+        :class="{ 'Airdropnft-on': form.Airdropnft }">
+        <div class="w-full">
+          <p>{{ $t('Airdrop NFT to an address') }}</p>
+        </div>
+        <NeoSwitch v-model="form.Airdropnft" />
+      </NeoField>
+      
+      <!-- Airdrop -->
+       <NeoField 
+         v-if="form.Airdropnft"
+        :label="`${$t('Receiver address')} *`"
+       required
+        :error="!form.Airdrop" >
+        <NeoInput 
+          v-model="form.Airdrop"
+           :strict="false"
+              :is-invalid="isTargetAddressInvalid(form)"
+              placeholder="Enter wallet address"
+              disable-error
+          />
+      </NeoField>
+      <AddressChecker
+              :address="form.Airdrop"
+              @check="
+                (isValid) => handleAddressCheck(form, isValid)
+              "
+              @change="
+                (address) => handleAddressChange(form, Airdrop)
+              " />
+
       <!-- no of copies -->
       <NeoField :label="`${$t('mint.nft.copies.label')} (optional)`">
         <div class="w-100">
@@ -212,6 +249,7 @@
 import type { Prefix } from '@kodadot1/static'
 import type { Ref } from 'vue'
 import type { TokenToList } from '@/composables/transaction/types'
+import { isAddress } from '@polkadot/util-crypto'
 import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
 import {
   NeoButton,
@@ -231,6 +269,8 @@ import { availablePrefixes } from '@/utils/chain'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { CreatedNFT, Interaction } from '@kodadot1/minimark/v1'
 import { balanceFrom } from '@/utils/balance'
+import AddressInput from '@/components/shared/AddressInput.vue'
+import AddressChecker from '@/components/shared/AddressChecker.vue'
 import { DETAIL_TIMEOUT } from '@/utils/constants'
 import { delay } from '@/utils/fetch'
 import { toNFTId } from '@/components/rmrk/service/scheme'
@@ -251,6 +291,8 @@ const form = reactive({
   collections: null,
   sale: false,
   salePrice: 0,
+  Airdropnft: false,
+  Airdrop: accountId.value,
   copies: 0,
   postfix: false,
   nsfw: false,
@@ -288,6 +330,25 @@ const imagePreview = computed(() => {
   }
 })
 
+ //address check
+  const targetAddresses = ref<TargetAddress[]>([{ Airdrop: '' }])
+const hasValidTarget = computed(() =>
+  targetAddresses.value.some(
+    (item) => isAddress(item.Airdrop) && !item.isInvalid && item.token
+  )
+)
+  const handleAddressCheck = (target: TargetAddress, isValid: boolean) => {
+  target.isInvalid = !isValid
+    targetAddresses.value = [...targetAddresses.value]
+}
+const handleAddressChange = (target: TargetAddress, newAddress: string) => {
+  target.address = newAddress
+  targetAddresses.value = [...targetAddresses.value]
+}
+const isTargetAddressInvalid = (target: TargetAddress) => {
+  return target.isInvalid === undefined ? false : target.isInvalid
+}
+  
 // select available blockchain
 const menus = availablePrefixes().filter(
   (menu) => menu.value !== 'movr' && menu.value !== 'glmr',
@@ -303,7 +364,7 @@ watch(urlPrefix, (value) => {
 
 // get/set current chain/prefix
 const currentChain = computed(() => selectChain.value as Prefix)
-const { isBasilisk, isRemark } = useIsChain(currentChain)
+const { isAssetHub, isBasilisk, isRemark } = useIsChain(currentChain)
 watch(currentChain, () => {
   // reset some state on chain change
   form.salePrice = 0
@@ -352,6 +413,7 @@ const createNft = async () => {
           name: form.name,
           description: form.description,
           selectedCollection: selectedCollection.value,
+          Airdrop: form.Airdrop,
           copies: form.copies,
           nsfw: form.nsfw,
           postfix: form.postfix,
