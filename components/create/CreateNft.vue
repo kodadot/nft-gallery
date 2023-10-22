@@ -269,7 +269,6 @@ import { availablePrefixes } from '@/utils/chain'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { CreatedNFT, Interaction } from '@kodadot1/minimark/v1'
 import { balanceFrom } from '@/utils/balance'
-import AddressInput from '@/components/shared/AddressInput.vue'
 import AddressChecker from '@/components/shared/AddressChecker.vue'
 import { DETAIL_TIMEOUT } from '@/utils/constants'
 import { delay } from '@/utils/fetch'
@@ -332,11 +331,6 @@ const imagePreview = computed(() => {
 
  //address check
   const targetAddresses = ref<TargetAddress[]>([{ Airdrop: '' }])
-const hasValidTarget = computed(() =>
-  targetAddresses.value.some(
-    (item) => isAddress(item.Airdrop) && !item.isInvalid && item.token
-  )
-)
   const handleAddressCheck = (target: TargetAddress, isValid: boolean) => {
   target.isInvalid = !isValid
     targetAddresses.value = [...targetAddresses.value]
