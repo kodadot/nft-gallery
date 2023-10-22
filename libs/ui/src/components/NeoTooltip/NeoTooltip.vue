@@ -13,7 +13,6 @@
       width: fullWidth ? '100%' : '',
     }"
     :position="position"
-    :size="size"
     :label="label"
     :delay="delay"
     :triggers="triggers"
@@ -40,7 +39,6 @@ import { LocaleMessage } from 'vue-i18n'
 export interface Props {
   label?: string | LocaleMessage
   position?: 'top' | 'bottom' | 'left' | 'right'
-  size: 'small' | 'large',
   active?: boolean
   multiline?: boolean
   appendToBody?: boolean

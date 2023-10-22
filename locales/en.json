@@ -1460,7 +1460,8 @@
       "first": "Low balance? Auto Teleport bridges required funds from your most asset rich network.",
       "second": "Extra transaction signature in next step required",
       "optimalTransferPath": "Optimal Transfer Path",
-      "noOptimalTransferPath": "No Route Found, Please Add Funds"
+      "noOptimalTransferPath": "No Route Found, Please Add Funds",
+      "noRouteFound": "No route found, please add funds"
     },
     "steps": {
       "1": {

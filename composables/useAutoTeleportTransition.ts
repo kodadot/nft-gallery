@@ -49,7 +49,7 @@ export default function (neededAmount: ComputedRef<number>) {
       : 0,
   )
   const sourceChain = computed(
-    () => richestChain.value && CHAINS[richestChain.value],
+    () => richestChain.value && CHAINS[chainToPrefixMap[richestChain.value]],
   )
   const amountToTeleport = computed(
     () => neededAmount.value - Number(currentChainBalance.value),
@@ -62,7 +62,7 @@ export default function (neededAmount: ComputedRef<number>) {
 
   const { formatted: amountFormatted, usd: amountUsd } = useAmount(
     amountToTeleport,
-    computed(() => sourceChain.value?.tokenDecimals),
+    computed(() => Number(sourceChain.value?.tokenDecimals)),
     chainSymbol as ComputedRef<string>,
   )
 
