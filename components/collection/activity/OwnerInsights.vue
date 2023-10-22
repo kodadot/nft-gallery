@@ -60,7 +60,7 @@ const changeTab = (tab: Tabs) => {
 
 <style lang="scss" scoped>
 .fixed-height {
-  height: 350px;
+  height: 350px !important;
 }
 .limit-height {
   max-height: 290px;
