@@ -49,12 +49,14 @@
           {{ $t('autoTeleport.welcome.description') }}
         </p>
 
-        <a
-          class="has-text-link"
-          target="_blank"
-          rel="nofollow noopener noreferrer"
-          >{{ $t('helper.learnMore') }}</a
-        >
+        <div class="mt-2">
+          <a
+            class="has-text-link"
+            target="_blank"
+            rel="nofollow noopener noreferrer"
+            >{{ $t('helper.learnMore') }}</a
+          >
+        </div>
 
         <div class="is-flex is-justify-content-space-between mt-4">
           <NeoButton
@@ -93,7 +95,7 @@ const onClose = () => {
 }
 
 .modal-width {
-  width: 36.25rem;
+  width: 40rem;
 }
 
 .btn-height {
