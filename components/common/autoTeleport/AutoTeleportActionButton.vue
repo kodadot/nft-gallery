@@ -41,6 +41,10 @@
     @close="isModalOpen = false"
     @confirm="transaction" />
 
+  <AutoTeleportWelcomeModal
+    :model-value="showFirstTimeTeleport"
+    @close="preferencesStore.setFirstTimeAutoTeleport(false)" />
+
   <OnRampModal v-model="onRampActive" @close="onRampActive = false" />
 </template>
 
@@ -48,6 +52,7 @@
 import { NeoButton, NeoSwitch } from '@kodadot1/brick'
 import { Actions } from '@/composables/transaction/types'
 import OnRampModal from '@/components/shared/OnRampModal.vue'
+import AutoTeleportWelcomeModal from './AutoTeleportWelcomeModal.vue'
 
 const props = defineProps<{
   amount: number
@@ -134,12 +139,6 @@ const submit = () => {
     transaction()
   }
 }
-
-watch(showFirstTimeTeleport, () => {
-  if (showFirstTimeTeleport.value) {
-    preferencesStore.setFirstTimeAutoTeleport(false)
-  }
-})
 </script>
 
 <style lang="scss" scoped>

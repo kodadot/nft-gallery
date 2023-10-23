@@ -466,6 +466,14 @@ a.has-text-grey {
 .is-cursor-pointer {
   cursor: pointer !important;
 }
+
+
+.has-text-k-accent {
+  @include ktheme() {
+    color: theme('k-accent') !important;
+  }
+}
+
 //hover
 
 .is-hoverable-item {

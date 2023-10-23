@@ -24,16 +24,15 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
 
   const teleportTxFee = ref(0)
 
-  const hasEnoughInCurrentChain = computed(
-    () => neededAmount.value < Number(currentChainBalance.value),
-  )
   const chainSymbol = computed(
     () => currentChain.value && getChainCurrency(currentChain.value),
   )
   const targetChains = computed(() =>
     currentChain.value ? teleportRoutes[currentChain.value] : [],
   )
-
+  const hasEnoughInCurrentChain = computed(
+    () => neededAmount.value <= Number(currentChainBalance.value),
+  )
   const currentChainBalance = computed(
     () => currentChain.value && Number(chainBalances[currentChain.value]()),
   )

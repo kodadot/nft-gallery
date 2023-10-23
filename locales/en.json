@@ -1456,12 +1456,29 @@
     "notEnoughTokenInChain": "Not enough “{0}” on “{1}”",
     "teleportAndConfirm": "Teleport and confirm purchase",
     "addFundsViaOnramp": "Add Funds Via Onramp",
+    "welcomeToAutoTeleport": "Welcome to auto teleport!",
     "tooltip": {
       "first": "Low balance? Auto Teleport bridges required funds from your most asset rich network.",
       "second": "Extra transaction signature in next step required",
       "optimalTransferPath": "Optimal Transfer Path",
       "noOptimalTransferPath": "No Route Found, Please Add Funds",
       "noRouteFound": "No route found, please add funds"
+    },
+    "welcome": {
+      "description": "With Auto Teleport on, we manage asset bridges. Your role? Approve an extra transaction each time.",
+      "submit": "Got It!",
+      "1": {
+        "title":"Effortless Transfers",
+        "description": "Switch between networks without a worry. Auto Teleport bridges assets from your richest chain."
+      },
+      "2": {
+        "title":"Time-Saving",
+        "description": "No more manual asset transfers. Let us maintain your required balance for transactions"
+      },
+      "3": {
+        "title":"Smooth Experience",
+        "description": "Relish a seamless trading experience across varied networks at a toggle-switch away."
+      }
     },
     "steps": {
       "1": {
