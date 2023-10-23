@@ -54,7 +54,8 @@
             :label="confirmListingLabel"
             variant="k-accent"
             no-shadow
-            class="is-flex is-flex-grow-1 py-5 fixed-height"
+            class="is-flex is-flex-grow-1 py-5"
+            size="large"
             @click="confirm" />
         </div>
       </div>
@@ -225,10 +226,6 @@ onUnmounted(() => {
 .modal-width {
   width: 25rem;
   max-width: 30rem;
-}
-
-.fixed-height {
-  height: 3.5rem;
 }
 
 :deep(.identity-name-font-weight-regular) {
