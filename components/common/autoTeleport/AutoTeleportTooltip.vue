@@ -63,5 +63,3 @@ defineProps<{
   transition: TeleportTransition
 }>()
 </script>
-
-<style scoped></style>

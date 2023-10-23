@@ -1,12 +1,12 @@
 <template>
   <div>
-    <ConfirmPurchaseModal >
-      <template #custom-action="{label, disabled, amount}">
+    <ConfirmPurchaseModal>
+      <template #custom-action="{ label, disabled, amount }">
         <AutoTeleportActionButton
           :amount="amount"
           :label="label"
-          :action="buyAction"
-          />
+          :disabled="disabled"
+          :action="buyAction" />
       </template>
     </ConfirmPurchaseModal>
     <Loader v-model="isLoading" :status="status" />
@@ -42,7 +42,7 @@ onMounted(async () => {
   }
 })
 
-const { transaction, status, isLoading } = useTransaction()
+const { status, isLoading } = useTransaction()
 const { $i18n } = useNuxtApp()
 
 const ShoppingCartItemToTokenToBuy = (item: ShoppingCartItem): TokenToBuy => {
@@ -73,24 +73,23 @@ const buyAction = computed<Actions>(() => {
   } else {
     const item = shoppingCartStore.getItemToBuy as ShoppingCartItem
     return getBuyAction(ShoppingCartItemToTokenToBuy(item), [item?.name || ''])
-//     shoppingCartStore.removeItemToBuy()
+    //     shoppingCartStore.removeItemToBuy()
   }
 })
-
 
 const getBuyAction = (
   nfts: TokenToBuy | TokenToBuy[],
   nftNames: string[],
 ): Actions => {
   return {
-      interaction: ShoppingActions.BUY,
-      nfts,
-      urlPrefix: urlPrefix.value,
-      successMessage: {
-        message: $i18n.t('mint.successPurchasedNfts', [nftNames.join(', ')]),
-        large: true,
-      },
-      errorMessage: $i18n.t('transaction.buy.error'),
+    interaction: ShoppingActions.BUY,
+    nfts,
+    urlPrefix: urlPrefix.value,
+    successMessage: {
+      message: $i18n.t('mint.successPurchasedNfts', [nftNames.join(', ')]),
+      large: true,
+    },
+    errorMessage: $i18n.t('transaction.buy.error'),
   }
 }
 </script>
