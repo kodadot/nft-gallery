@@ -30,7 +30,7 @@
       </div>
 
       <!-- language -->
-      <div data-testid="sidebar-language" :class="isMobileDevice ? 'mx-6' : ''">
+      <div data-testid="sidebar-language" :class="{ 'mx-6': isMobileDevice }">
         <NeoDropdown position="top-left" aria-role="menu" mobile-modal>
           <template #trigger>
             <div class="is-flex is-align-items-center">
