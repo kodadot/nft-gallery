@@ -10,7 +10,7 @@
         >{{ nft.name || '--' }}</span
       >
       <CollectionDetailsPopover
-        v-if="nft.collection.name || nft.collection.id"
+        v-if="!isMinimal && (nft.collection.name || nft.collection.id)"
         :show-delay="collectionPopoverShowDelay"
         class="is-size-7 nft-info-collection-name is-ellipsis"
         :nft="nft">
