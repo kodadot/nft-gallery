@@ -7,12 +7,12 @@
         <div class="has-accent-blur">
           <img
             :src="`/auto-teleport-arrow${
-              !hasAvailableTeleportTransition ? '-disabled' : ''
+              !isTelportIconActive ? '-disabled' : ''
             }.svg`"
             class="mr-2"
             alt="teleport arrow" />
           <img
-            v-if="hasAvailableTeleportTransition"
+            v-if="isTelportIconActive"
             src="/accent-blur.svg"
             alt="blur"
             class="blur" />
@@ -122,6 +122,14 @@ const showFirstTimeTeleport = computed(
   () => preferencesStore.firstTimeAutoTeleport && autoTeleport.value,
 )
 
+const isTelportIconActive = computed(() => {
+  if (!hasAvailableTeleportTransition.value) {
+    return false
+  }
+
+  return autoTeleport.value
+})
+
 const hasAvailableTeleportTransition = computed(
   () => isAutoTeleportAvailable.value && optimalTransition.value.source,
 )
@@ -163,7 +171,7 @@ const localDisabled = computed(() => {
   }
 
   if (hasEnoughInRichestChain.value) {
-    return autoTeleport.value
+    return !autoTeleport.value
   }
 
   if (!hasEnoughInCurrentChain.value && !hasEnoughInRichestChain.value) {
