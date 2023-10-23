@@ -42,7 +42,7 @@ export default function () {
   const chain = computed<Chain | null>(
     () => prefixToChainMap[urlPrefix.value] || null,
   )
-  const canTeleport = computed(() =>
+  const isAvailable = computed(() =>
     Object.keys(allowedTransitions).includes(chain.value || ''),
   )
 
@@ -181,16 +181,16 @@ export default function () {
   }
 
   return {
-    chainBalances,
-    teleport,
+    chain,
     txId,
     error,
     status,
     isLoading,
+    isAvailable,
+    chainBalances,
+    teleport,
     getAddressByChain,
     getChainTokenDecimals,
     getTransactionFee,
-    canTeleport,
-    chain,
   }
 }

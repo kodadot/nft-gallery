@@ -14,7 +14,7 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
   const { urlPrefix } = usePrefix()
   const {
     chainBalances,
-    canTeleport,
+    isAvailable,
     chain: currentChain,
     getTransactionFee,
     getChainTokenDecimals,
@@ -70,17 +70,30 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
     chainSymbol as ComputedRef<string>,
   )
 
+  // watchSyncEffect(() => {
+  //   console.log(
+  //     neededAmount.value,
+  //     currentChainBalance.value,
+  //     amountToTeleport.value,
+  //   )
+  // })
+
   const optimalTransition = computed<TeleportTransition>(() => {
+    const soruce = null
+
+    if (hasEnoughInRichestChain.value) {
+      const name = richestChain.value
+        ? getChainName(chainToPrefixMap[richestChain.value])
+        : ''
+      source = {
+        chain: richestChain.value,
+        prefix: chainToPrefixMap[richestChain.value],
+        name,
+      }
+    }
+
     return {
-      source: richestChain.value
-        ? {
-            chain: richestChain.value,
-            prefix: chainToPrefixMap[richestChain.value],
-            name: richestChain.value
-              ? getChainName(chainToPrefixMap[richestChain.value])
-              : '',
-          }
-        : null,
+      source: soruce,
       destination: {
         chain: prefixToChainMap[urlPrefix.value] as Chain,
         prefix: urlPrefix.value,
@@ -134,7 +147,7 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
   })
 
   return {
-    canTeleport,
+    isAvailable,
     hasEnoughInCurrentChain,
     hasEnoughInRichestChain,
     optimalTransition,

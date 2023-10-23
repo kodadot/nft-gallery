@@ -1,5 +1,5 @@
 <template>
-  <NeoTooltip multiline-width="256px" position="top" multiline>
+  <NeoTooltip multiline-width="256px" :position="position" multiline>
     <NeoIcon icon="fa-info-circle" pack="fa-regular" class="ml-2" />
 
     <template #content>
@@ -61,5 +61,6 @@ import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 
 defineProps<{
   transition: TeleportTransition
+  position: string
 }>()
 </script>

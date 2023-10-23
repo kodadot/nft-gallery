@@ -1457,6 +1457,8 @@
     "teleportAndConfirm": "Teleport and confirm purchase",
     "addFundsViaOnramp": "Add Funds Via Onramp",
     "welcomeToAutoTeleport": "Welcome to auto teleport!",
+    "insufficientFunds": "Insufficient funds",
+    "notAvailable": "Not available",
     "tooltip": {
       "first": "Low balance? Auto Teleport bridges required funds from your most asset rich network.",
       "second": "Extra transaction signature in next step required",

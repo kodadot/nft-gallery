@@ -26,7 +26,7 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
     status: teleportStatus,
     txId: teleportTxId,
     error: teleportError,
-    canTeleport,
+    isAvailable,
   } = useTeleport()
   const { transaction: actionTransaction, status: actionStatus } =
     useTransaction()
@@ -94,7 +94,7 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
     optimalTransition,
     status,
     teleport,
-    canTeleport,
+    isAvailable,
     transaction,
   }
 }
