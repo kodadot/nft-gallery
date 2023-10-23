@@ -169,9 +169,11 @@ const totalAvailableMintCount = computed(
   () => totalCount.value - mintedCount.value,
 )
 
-const refetchData = async () => {
-  await tryAgain()
-}
+watch(accountId, () => {
+  tryAgain({
+    account: accountId.value,
+  })
+})
 
 const {
   data: stats,
@@ -196,7 +198,7 @@ useSubscriptionGraphql({
     ) {
       id
   }`,
-  onChange: refetchData,
+  onChange: tryAgain,
 })
 
 const mintedCount = computed(
