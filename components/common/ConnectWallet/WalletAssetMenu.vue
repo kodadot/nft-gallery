@@ -24,7 +24,7 @@
       </div>
 
       <!-- language -->
-      <div data-testid="sidebar-language">
+      <div data-testid="sidebar-language" class="language-selector">
         <NeoDropdown position="top-left" aria-role="menu" mobile-modal>
           <template #trigger>
             <div class="is-flex is-align-items-center">
@@ -130,8 +130,7 @@ const closeModal = () => {
   justify-content: space-between;
   @include mobile {
     justify-content: center;
-    // language dropdown menu
-    & > div:nth-child(2) {
+    .language-selector {
       margin: 0 2rem;
     }
   }
