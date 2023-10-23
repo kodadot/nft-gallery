@@ -1459,6 +1459,8 @@
     "migrationNotPossibleLabel": "Migration Is <strong>Not Possible</strong> For  Following Collections That You Own:",
     "homeButton": "Migration Homepage",
     "review": "Review",
+    "reviewCtaUncheck": "Acknowledge Before Proceeding",
+    "reviewCtaCheck": "Proceed To Signing",
     "sign": "Sign",
     "collection": "Migrate Collection",
     "collectionName": "(name will stay the same)",

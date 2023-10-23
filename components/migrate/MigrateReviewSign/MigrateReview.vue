@@ -32,7 +32,7 @@
 
     <div>
       <p class="has-text-weight-bold mt-5">{{ $t('migrate.route') }}:</p>
-      <NeoButton rounded variant="pill" class="mt-2">
+      <NeoButton rounded variant="pill" class="mt-2 no-hover">
         <div class="is-flex is-align-items-center">
           <img
             width="20"
@@ -152,7 +152,9 @@
     </NeoField>
 
     <NeoButton
-      label="Acknowledge Before Proceeding"
+      :label="
+        agree ? $t('migrate.reviewCtaCheck') : $t('migrate.reviewCtaUncheck')
+      "
       variant="k-accent"
       :disabled="!agree"
       class="mt-4 btn-submit"

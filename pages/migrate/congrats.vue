@@ -2,7 +2,7 @@
   <div>
     <div class="is-centered columns">
       <div class="is-4-widescreen column">
-        <img src="/migrate/congrats.svg" alt="Congratulations" class="w-100" />
+        <img :src="congratsSrc" alt="Congratulations" class="w-100" />
         <h1 class="is-size-3 has-text-weight-bold has-text-centered">
           {{ $t('migrate.congrats.title') }}
         </h1>
@@ -46,5 +46,10 @@ const source = availablePrefixWithIcon().find(
 )
 const destination = availablePrefixWithIcon().find(
   (item) => item.value === route.query.destination,
+)
+
+const { isDarkMode } = useTheme()
+const congratsSrc = computed(() =>
+  isDarkMode.value ? '/migrate/congrats-dark.svg' : '/migrate/congrats.svg',
 )
 </script>

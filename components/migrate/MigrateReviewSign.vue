@@ -7,12 +7,25 @@
 
     <div class="mt-8 is-centered columns">
       <div class="is-5-widescreen column">
-        <h1 class="is-size-4 has-text-weight-bold">
-          <span :class="{ 'has-text-grey': section !== 'review' }">
+        <h1 class="is-size-4">
+          <span
+            :class="{
+              'has-text-weight-bold': section === 'review',
+            }">
             {{ $t('migrate.review') }}
           </span>
-          <NeoIcon icon="dash" class="mx-4 has-text-grey" />
-          <span :class="{ 'has-text-grey': section !== 'sign' }">
+          <NeoIcon
+            icon="dash"
+            class="mx-4"
+            :class="{
+              'has-text-grey': section === 'review',
+              'has-text-black': section === 'sign',
+            }" />
+          <span
+            :class="{
+              'has-text-grey': section === 'review',
+              'has-text-weight-bold': section === 'sign',
+            }">
             {{ $t('migrate.sign') }}
           </span>
         </h1>
@@ -56,12 +69,12 @@ defineProps<{
 const promptModal = async () => {
   const instance = neoModal.open({
     component: MigrateModal,
-    contentClass: 'k-shadow border',
+    contentClass: 'k-shadow border theme-background-color',
     trapFocus: true,
   })
   const result: boolean = await instance.promise
 
-  if (result) {
+  if (result && typeof result === 'boolean') {
     navigateTo('/migrate')
   }
 }
