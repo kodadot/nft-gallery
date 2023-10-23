@@ -11,7 +11,8 @@
           class="mb-3"
           :step="getStepItem(step, true)"
           is-child
-          with-action />
+          with-action
+          @try-again="tryAgain(step)" />
       </template>
     </div>
   </div>
@@ -35,6 +36,13 @@ export type TransactionStep = {
   subtitle?: string
   withAction?: boolean
   prefix?: Prefix
+  retry?: () => void
+}
+
+const tryAgain = (step: TransactionStep) => {
+  if (step.retry) {
+    step.retry()
+  }
 }
 
 defineProps<{

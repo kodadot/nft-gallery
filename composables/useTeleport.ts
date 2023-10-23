@@ -67,6 +67,7 @@ export default function () {
     let isFirstStatus = true
     initTransactionLoader()
     status.value = TransactionStatus.Sign
+    error.value = null
 
     const transactionHandler = txCb(
       (blockHash) => {
@@ -108,6 +109,7 @@ export default function () {
       showNotification('Cancelled', notificationTypes.warn)
       stopLoader()
 
+      error.value = 'cancelled'
       if (onError) {
         onError()
       }

@@ -49,11 +49,10 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
     await actionTransaction(action)
   }
 
-  const teleport = async ({ onError }) => {
+  const teleport = async () => {
     const { destination, source, token, amount } = optimalTransition.value
 
     if (!source) {
-      onError()
       return
     }
 
@@ -64,7 +63,6 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
       fromAddress: getAddressByChain(source?.chain),
       toAddress: getAddressByChain(destination?.chain),
       currency: token,
-      onError: onError,
     })
   }
 

@@ -7,7 +7,11 @@
       :class="{
         'is-flex is-align-items-center': isWaiting,
       }">
-      <NeoIcon v-if="isLoading" icon="spinner-third" :size="iconSize" />
+      <NeoIcon
+        v-if="isLoading"
+        icon="spinner-third"
+        class="spinner"
+        :size="iconSize" />
 
       <NeoIcon
         v-else-if="isCompleted"
@@ -28,12 +32,22 @@
         :size="iconSize" />
     </div>
 
-    <div class="is-flex is-align-items-center">
-      <div class="is-flex is-flex-direction-column">
+    <div class="is-flex is-align-items-center w-full">
+      <div class="is-flex is-flex-direction-column w-full">
         <p class="is-capitalized" :class="{ 'has-text-weight-bold': !isChild }">
           {{ step.title }}
         </p>
-        <p class="is-capitalized has-text-k-grey">{{ step.subtitle }}</p>
+        <div class="is-flex is-justify-content-space-between">
+          <p class="is-capitalized has-text-k-grey">{{ step.subtitle }}</p>
+
+          <NeoButton
+            v-if="isFailed && isChild"
+            variant="pill"
+            size="small"
+            @click="tryAgain"
+            >Try again</NeoButton
+          >
+        </div>
       </div>
       <div v-if="isCompleted && step.txId && isChild" class="is-flex ml-4">
         <a
@@ -49,7 +63,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { TransactionStepStatus } from '@/utils/teleport'
 import { type Prefix } from '@kodadot1/static'
 
@@ -63,6 +77,7 @@ export type TransactionStepItem = {
   prefix?: Prefix
 }
 
+const emit = defineEmits(['tryAgain'])
 const props = defineProps<{
   step: TransactionStepItem
   isChild?: boolean
@@ -71,7 +86,9 @@ const props = defineProps<{
 
 const { getExtrinsicUrl } = useExplorer()
 const txUrl = computed(() =>
-  getExtrinsicUrl(props.step.txId || '', props.step.prefix),
+  props.step.prefix
+    ? getExtrinsicUrl(props.step.txId || '', props.step.prefix)
+    : '',
 )
 
 const status = computed(() => props.step.status)
@@ -80,6 +97,8 @@ const isLoading = computed(() => status.value === 'loading')
 const isCompleted = computed(() => status.value === 'completed')
 const isWaiting = computed(() => status.value === 'waiting')
 const isFailed = computed(() => status.value === 'failed')
+
+const tryAgain = () => emit('tryAgain')
 </script>
 
 <style scoped lang="scss">
@@ -87,5 +106,9 @@ const isFailed = computed(() => status.value === 'failed')
   width: 1px;
   min-height: 100%;
   background-color: #cccccc;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
 }
 </style>

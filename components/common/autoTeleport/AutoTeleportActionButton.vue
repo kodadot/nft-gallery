@@ -72,7 +72,8 @@
     :can-do-action="hasEnoughInCurrentChain"
     :status="status"
     @close="isModalOpen = false"
-    @confirm="transaction" />
+    @confirm="transaction"
+    @telport:retry="teleport" />
 
   <AutoTeleportWelcomeModal
     :model-value="showFirstTimeTeleport"
@@ -184,11 +185,7 @@ const localDisabled = computed(() => {
 const openAutoTeleportModal = () => {
   isModalOpen.value = true
 
-  teleport({
-    onError: () => {
-      isModalOpen.value = false
-    },
-  })
+  teleport()
 }
 
 const submit = () => {
