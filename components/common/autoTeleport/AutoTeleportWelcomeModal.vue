@@ -27,12 +27,12 @@
             v-for="(x, index) in 3"
             :key="reasonsIcons[index]"
             class="border border-k-shade p-4">
-            <div class="welcome-card-icon">
+            <div class="has-accent-blur">
               <NeoIcon
                 :icon="reasonsIcons[index]"
                 size="large"
                 class="has-text-k-accent mb-3" />
-              <img src="/accent-blur.svg" alt="blur is-absolute" />
+              <img src="/accent-blur.svg" alt="blur" class="blur" />
             </div>
 
             <p class="has-text-weight-bold is-size-5 mb-3">
@@ -107,18 +107,6 @@ const onClose = () => {
     display: grid;
     grid-template-columns: repeat(3, auto);
     grid-gap: 1rem;
-  }
-
-  &-icon {
-    position: relative;
-    display: flex;
-    align-items: center;
-
-    img {
-      position: absolute;
-      top: -8px;
-      left: -8px;
-    }
   }
 }
 </style>

@@ -4,22 +4,36 @@
       v-if="isAutoTeleportAvailable"
       class="is-flex is-justify-content-space-between w-full mb-4">
       <div class="is-flex">
+        <div class="has-accent-blur">
+          <img
+            :src="`/auto-teleport-arrow${
+              !hasAvailableTeleportTransition ? '-disabled' : ''
+            }.svg`"
+            class="mr-2"
+            alt="teleport arrow" />
+          <img
+            v-if="hasAvailableTeleportTransition"
+            src="/accent-blur.svg"
+            alt="blur"
+            class="blur" />
+        </div>
+
         <p
           class="has-text-weight-bold"
-          :class="{ 'has-text-k-grey': hasNoAvailableTeleportTransition }">
+          :class="{ 'has-text-k-grey': !hasAvailableTeleportTransition }">
           {{ $t('autoTeleport.autoTeleport') }}
         </p>
 
         <AutoTeleportTooltip
-          v-if="!hasNoAvailableTeleportTransition"
+          v-if="hasAvailableTeleportTransition"
           position="top"
           :transition="optimalTransition" />
       </div>
 
       <div
-        v-if="hasNoAvailableTeleportTransition"
+        v-if="!hasAvailableTeleportTransition"
         class="is-flex is-align-items-center"
-        :class="{ 'has-text-k-grey': hasNoAvailableTeleportTransition }">
+        :class="{ 'has-text-k-grey': !hasAvailableTeleportTransition }">
         <span class="is-size-7">{{ $t('autoTeleport.notAvailable') }}</span>
 
         <AutoTeleportTooltip position="left" :transition="optimalTransition" />
@@ -42,7 +56,7 @@
     <div
       v-if="isAutoTeleportAvailable"
       class="is-flex is-justify-content-center mt-4">
-      <span v-if="!hasNoAvailableTeleportTransition" class="has-text-grey"
+      <span v-if="hasAvailableTeleportTransition" class="has-text-grey"
         >Or</span
       >
 
@@ -108,8 +122,8 @@ const showFirstTimeTeleport = computed(
   () => preferencesStore.firstTimeAutoTeleport && autoTeleport.value,
 )
 
-const hasNoAvailableTeleportTransition = computed(
-  () => isAutoTeleportAvailable.value && !optimalTransition.value.source,
+const hasAvailableTeleportTransition = computed(
+  () => isAutoTeleportAvailable.value && optimalTransition.value.source,
 )
 
 const allowAutoTeleport = computed(

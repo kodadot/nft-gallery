@@ -542,3 +542,12 @@ a.has-text-grey {
 .w-half {
   width: 50%;
 }
+
+.has-accent-blur {
+  position: relative;
+  .blur {
+      position: absolute !important;
+      top: -8px;
+      left: -8px;
+    }
+}
