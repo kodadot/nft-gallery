@@ -12,13 +12,7 @@
         <NeoIcon icon="angle-right" size="medium" class="has-text-grey" />
       </a>
     </div>
-    <div
-      class="wallet-asset-footer is-flex py-5 is-size-7 has-text-grey"
-      :class="
-        isMobileDevice
-          ? 'is-justify-content-center'
-          : 'is-justify-content-space-between'
-      ">
+    <div class="wallet-asset-footer is-flex py-5 is-size-7 has-text-grey">
       <!-- light/dark mode -->
       <div class="is-align-items-center" @click="toggleColorMode">
         <NeoIcon icon="circle-half-stroke" size="medium" />
@@ -30,7 +24,7 @@
       </div>
 
       <!-- language -->
-      <div data-testid="sidebar-language" :class="{ 'mx-6': isMobileDevice }">
+      <div data-testid="sidebar-language">
         <NeoDropdown position="top-left" aria-role="menu" mobile-modal>
           <template #trigger>
             <div class="is-flex is-align-items-center">
@@ -70,7 +64,6 @@
 <script setup lang="ts">
 import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
 import { langsFlags } from '@/utils/config/i18n'
-import { isMobileDevice } from '@/utils/extension'
 
 const { urlPrefix } = usePrefix()
 const { isBasilisk } = useIsChain(urlPrefix)
@@ -134,6 +127,14 @@ const closeModal = () => {
 
 .wallet-asset-footer {
   border-top: 1px solid grey;
+  justify-content: space-between;
+  @include mobile {
+    justify-content: center;
+    // language dropdown menu
+    & > div:nth-child(2) {
+      margin: 0 2rem;
+    }
+  }
 
   & > * {
     cursor: pointer;
