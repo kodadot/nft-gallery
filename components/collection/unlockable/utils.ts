@@ -20,7 +20,7 @@ export async function createUnlockableMetadata(
   imageHash: string,
   description: string,
   name: string = UNLOCKABLE_NAME,
-  miniType: string = 'image/png',
+  mimeType: string = 'image/png',
   animationUrl?: string,
 ) {
   const meta = createMetadata(
@@ -30,7 +30,7 @@ export async function createUnlockableMetadata(
     animationUrl,
     [],
     'kodadot.xyz',
-    miniType,
+    mimeType,
   )
 
   const metaHash = await pinJson(meta, 'claimable')

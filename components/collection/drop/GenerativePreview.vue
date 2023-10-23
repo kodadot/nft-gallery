@@ -32,6 +32,8 @@ import { MediaItem, NeoButton } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { getRandomInt } from '../unlockable/utils'
 import { encodeAddress } from '@polkadot/util-crypto'
+import { stringToHex } from '@polkadot/util'
+
 const props = defineProps<{
   content: string
   image?: string
@@ -42,7 +44,7 @@ const emit = defineEmits(['select'])
 const { accountId } = useAuth()
 const getHash = () => {
   // https://github.com/paritytech/ss58-registry/blob/30889d6c9d332953a6e3333b30513eef89003f64/ss58-registry.json#L1292C17-L1292C22
-  return encodeAddress(accountId.value, getRandomInt(15000))
+  return stringToHex(encodeAddress(accountId.value, getRandomInt(15000)))
 }
 
 const generativeImageUrl = ref('')
@@ -52,7 +54,7 @@ const displayUrl = computed(() => {
 })
 const generateNft = async () => {
   const hash = generativeImageUrl.value ? getHash() : accountId.value
-  const metadata = `${props.content}?hash=${hash}`
+  const metadata = `${props.content}/?hash=${hash}`
   generativeImageUrl.value = metadata
   emit('select', generativeImageUrl.value)
 }
