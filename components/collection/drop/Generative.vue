@@ -163,7 +163,7 @@ const { data: collectionData } = useGraphql({
 })
 
 const totalCount = computed(
-  () => collectionData.value?.collectionEntity?.nftCount || 200,
+  () => collectionData.value?.collectionEntity?.max || 200,
 )
 const totalAvailableMintCount = computed(
   () => totalCount.value - mintedCount.value,
@@ -200,7 +200,7 @@ useSubscriptionGraphql({
 })
 
 const mintedCount = computed(
-  () => collectionData.value?.collectionEntity?.totalCount || 0,
+  () => collectionData.value?.nftEntitiesConnection?.totalCount || 0,
 )
 
 const mintedPercent = computed(() => {
@@ -242,7 +242,6 @@ const handleSubmitMint = async () => {
   if (isLoading.value) {
     return false
   }
-  isLoading.value = true
 
   const hash = await createUnlockableMetadata(
     props.drop.image,
@@ -253,6 +252,8 @@ const handleSubmitMint = async () => {
   )
 
   const { accountId } = useAuth()
+
+  isLoading.value = true
 
   // return
   try {
