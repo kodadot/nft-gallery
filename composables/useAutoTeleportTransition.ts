@@ -70,16 +70,8 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
     chainSymbol as ComputedRef<string>,
   )
 
-  // watchSyncEffect(() => {
-  //   console.log(
-  //     neededAmount.value,
-  //     currentChainBalance.value,
-  //     amountToTeleport.value,
-  //   )
-  // })
-
   const optimalTransition = computed<TeleportTransition>(() => {
-    const soruce = null
+    let source = null
 
     if (hasEnoughInRichestChain.value) {
       const name = richestChain.value
@@ -93,7 +85,7 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
     }
 
     return {
-      source: soruce,
+      source: source,
       destination: {
         chain: prefixToChainMap[urlPrefix.value] as Chain,
         prefix: urlPrefix.value,
