@@ -319,6 +319,10 @@ a.has-text-grey {
   border: none !important;
 }
 
+.no-border-radius {
+  border-radius: 0 !important;
+}
+
 .card-border-color {
   @include ktheme() {
     border-color: theme('card-border-color');
@@ -327,7 +331,7 @@ a.has-text-grey {
 
 .border-k-shade {
   @include ktheme() {
-    border-color: theme('k-shade');
+    border-color: theme('k-shade') !important;
   }
 }
 
@@ -420,7 +424,6 @@ a.has-text-grey {
   }
 }
 
-
 .k-yellow {
   @include ktheme() {
     background-color: theme('k-yellow');
@@ -459,7 +462,6 @@ a.has-text-grey {
     background-color: theme('k-grey');
   }
 }
-
 
 .is-cursor-pointer {
   cursor: pointer !important;
@@ -527,4 +529,8 @@ a.has-text-grey {
 
 .is-rounded {
   border-radius: 50%;
+}
+
+.w-half {
+  width: 50%;
 }

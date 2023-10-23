@@ -188,6 +188,12 @@ export interface NFT extends ItemResources {
   parent?: NFT
 }
 
+export interface TokenId {
+  token?: {
+    id: string
+  }
+}
+
 export type EntityWithId = {
   id: string
   name: string

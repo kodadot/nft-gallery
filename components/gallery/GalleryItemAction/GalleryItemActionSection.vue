@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import { getApproximatePriceOf } from '@/utils/coingecko'
-import format, { roundTo } from '@/utils/format/balance'
+import { calculateBalanceUsdValue, roundTo } from '@/utils/format/balance'
 
 const { decimals, chainSymbol } = useChain()
 
@@ -44,9 +44,14 @@ const priceUsd = ref('0')
 watchEffect(async () => {
   if (props.price) {
     const tokenPrice = await getApproximatePriceOf(chainSymbol.value)
-    const price = roundTo(format(props.price || '0', decimals.value, ''), 4)
+
+    const tokenAmount = calculateBalanceUsdValue(
+      Number(props.price) || 0,
+      decimals.value,
+    )
+    const price = roundTo(tokenAmount, 4)
     priceChain.value = `${price} ${chainSymbol.value}`
-    priceUsd.value = `${Math.round(parseInt(price) * tokenPrice)}`
+    priceUsd.value = `${roundTo(tokenAmount * tokenPrice, 4)}`
   }
 })
 </script>

@@ -22,6 +22,7 @@
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
 defineProps<{

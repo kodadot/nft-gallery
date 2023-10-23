@@ -6,6 +6,7 @@
     :prefix="urlPrefix"
     :show-price="Number(nft?.price) > 0"
     :variant="variant"
+    :hide-media-info="hideMediaInfo"
     :class="{
       'in-cart-border':
         shoppingCartStore.isItemInCart(nft.id) ||
@@ -63,13 +64,11 @@ import {
   nftToListingCartItem,
   nftToShoppingCartItem,
 } from '@/components/common/shoppingCart/utils'
-import { isOwner as checkOwner } from '@/utils/account'
-import { NFTStack } from './useItemsGrid'
 import useNftMetadata, { useNftCardIcon } from '@/composables/useNft'
 
-const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()
-const { accountId, isLogIn } = useAuth()
+const { isLogIn, isCurrentOwner } = useAuth()
+const { urlPrefix } = usePrefix()
 const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
 const shoppingCartStore = useShoppingCartStore()
 const listingCartStore = useListingCartStore()
@@ -80,17 +79,10 @@ const NuxtLink = resolveComponent('NuxtLink')
 const props = defineProps<{
   nft: NFTWithMetadata
   variant?: NftCardVariant
+  hideMediaInfo?: boolean
 }>()
 
-const { showCardIcon, cardIcon } = await useNftCardIcon(
-  computed(() => props.nft),
-)
-
-const isStack = computed(() => (props.nft as NFTStack).count > 1)
-
-const variant = computed(() =>
-  isStack.value ? `stacked-${props.variant}` : props.variant,
-)
+const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.nft))
 
 const { nft: nftMetadata } = useNftMetadata(props.nft)
 
@@ -110,20 +102,6 @@ const buyLabel = computed(function () {
   )
 })
 
-const nftStack = computed(() =>
-  isStack.value ? (props.nft as NFTStack).nfts : [props.nft],
-)
-
-const isAvailbleToBuy = computed(() =>
-  nftStack.value.some((nft) => Number(nft.price) > 0),
-)
-
-const nftForShoppingCart = computed(() => {
-  return nftStack.value
-    .toSorted((a, b) => Number(a.price) - Number(b.price))
-    .find((nft) => Number(nft.price) > 0) as NFTWithMetadata
-})
-
 const listLabel = computed(() => {
   const label = Number(props.nft.price)
     ? $i18n.t('transaction.price.change')
@@ -135,9 +113,7 @@ const { cartIcon } = useShoppingCartIcon(props.nft.id)
 
 const { nft } = useNft(props.nft)
 
-const isOwner = computed(() =>
-  checkOwner(props.nft?.currentOwner, accountId.value),
-)
+const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
 
 const openCompletePurcahseModal = () => {
   preferencesStore.setCompletePurchaseModal({
@@ -149,36 +125,28 @@ const openCompletePurcahseModal = () => {
 const onCancelPurchase = () => {
   shoppingCartStore.removeItemToBuy()
 }
-
 const onClickBuy = () => {
-  if (isAvailbleToBuy.value) {
-    shoppingCartStore.setItemToBuy(
-      nftToShoppingCartItem(nftForShoppingCart.value),
-    )
-    doAfterLogin({
-      onLoginSuccess: openCompletePurcahseModal,
-      onCancel: onCancelPurchase,
-    })
-  }
+  shoppingCartStore.setItemToBuy(nftToShoppingCartItem(props.nft))
+  doAfterLogin({
+    onLoginSuccess: openCompletePurcahseModal,
+    onCancel: onCancelPurchase,
+  })
 }
 
 const onClickShoppingCart = () => {
   if (shoppingCartStore.isItemInCart(props.nft.id)) {
     shoppingCartStore.removeItem(props.nft.id)
   } else {
-    shoppingCartStore.setItem(nftToShoppingCartItem(nftForShoppingCart.value))
+    shoppingCartStore.setItem(nftToShoppingCartItem(props.nft))
   }
 }
-
 const onClickListingCart = () => {
-  nftStack.value.forEach((nft) => {
-    if (listingCartStore.isItemInCart(nft.id)) {
-      listingCartStore.removeItem(nft.id)
-    } else {
-      const floorPrice = nft.collection.floorPrice[0]?.price || '0'
-      listingCartStore.setItem(nftToListingCartItem(nft, floorPrice))
-    }
-  })
+  if (listingCartStore.isItemInCart(props.nft.id)) {
+    listingCartStore.removeItem(props.nft.id)
+  } else {
+    const floorPrice = props.nft.collection.floorPrice[0]?.price || '0'
+    listingCartStore.setItem(nftToListingCartItem(props.nft, floorPrice))
+  }
 }
 </script>
 

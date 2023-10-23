@@ -1,18 +1,14 @@
 <template>
   <tippy
-    class="is-flex"
-    interactive
-    :animate-fill="false"
     :append-to="body"
     placement="bottom"
     :delay="[showDelay, hideDelay]"
-    data-testid="identity"
-    :on-show="() => (show = true)">
+    data-testid="identity">
     <slot name="content" />
 
     <template #content>
       <div class="popover-container">
-        <CollectionDetailsPopoverContent v-if="show" :nft="nft" />
+        <CollectionDetailsPopoverContent :nft="nft" />
       </div>
     </template>
   </tippy>
@@ -35,8 +31,6 @@ withDefaults(
     hideDelay: 0,
   },
 )
-
-const show = ref(false)
 </script>
 
 <style lang="scss" scoped>
