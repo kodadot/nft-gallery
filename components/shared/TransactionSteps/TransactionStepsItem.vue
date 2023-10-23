@@ -32,8 +32,12 @@
         :size="iconSize" />
     </div>
 
-    <div class="is-flex is-align-items-center w-full">
-      <div class="is-flex is-flex-direction-column w-full">
+    <div
+      class="is-flex is-align-items-center"
+      :class="{ 'w-full': showTryAgain }">
+      <div
+        class="is-flex is-flex-direction-column"
+        :class="{ 'w-full': showTryAgain }">
         <p class="is-capitalized" :class="{ 'has-text-weight-bold': !isChild }">
           {{ step.title }}
         </p>
@@ -41,7 +45,7 @@
           <p class="is-capitalized has-text-k-grey">{{ step.subtitle }}</p>
 
           <NeoButton
-            v-if="isFailed && isChild"
+            v-if="showTryAgain"
             variant="pill"
             size="small"
             @click="tryAgain"
@@ -49,7 +53,9 @@
           >
         </div>
       </div>
-      <div v-if="isCompleted && step.txId && isChild" class="is-flex ml-4">
+      <div
+        v-if="isCompleted && step.txId && isChild"
+        class="is-flex-shrink-0 ml-4">
         <a
           v-safe-href="txUrl"
           class="has-text-link"
@@ -97,6 +103,7 @@ const isLoading = computed(() => status.value === 'loading')
 const isCompleted = computed(() => status.value === 'completed')
 const isWaiting = computed(() => status.value === 'waiting')
 const isFailed = computed(() => status.value === 'failed')
+const showTryAgain = computed(() => isFailed.value && props.isChild)
 
 const tryAgain = () => emit('tryAgain')
 </script>
