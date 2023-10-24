@@ -87,6 +87,8 @@
     "@types/node": "^20.8.8",
     "@vitejs/plugin-vue": "^4.4.0",
     "apollo-boost": "^0.4.9",
+    "browserslist": "^4.22.1",
+    "browserslist-useragent-regexp": "^4.1.0",
     "chart.js": "^3.9.1",
     "chartjs-adapter-date-fns": "^2.0.1",
     "chartjs-plugin-annotation": "^2.2.1",
