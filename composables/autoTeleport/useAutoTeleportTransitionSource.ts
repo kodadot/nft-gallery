@@ -102,18 +102,14 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
     }
   })
 
-  watch(
-    targetChains,
-    async () => {
-      if (targetChains.value.length) {
-        await fetchChainsBalances([
-          ...targetChains.value,
-          currentChain.value as Chain,
-        ])
-      }
-    },
-    { immediate: true },
-  )
+  watchSyncEffect(async () => {
+    if (targetChains.value.length) {
+      await fetchChainsBalances([
+        ...targetChains.value,
+        currentChain.value as Chain,
+      ])
+    }
+  })
 
   return {
     amountToTeleport,

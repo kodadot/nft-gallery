@@ -1,4 +1,5 @@
 import { TransactionStatus } from '@/composables/useTransactionStatus'
+import useAutoTeleportTransition from '@/composables/autoTeleport/useAutoTeleportTransition'
 import { Actions } from '@/composables/transaction/types'
 import { useIntervalFn } from '@vueuse/core'
 

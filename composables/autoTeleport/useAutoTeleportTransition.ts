@@ -6,7 +6,7 @@ import {
   prefixToChainMap,
 } from '@/utils/teleport'
 import { Actions } from '@/composables/transaction/types'
-import useAutoTeleportTransitionSource from './autoTeleport/useAutoTeleportTransitionSource'
+import useAutoTeleportTransitionSource from '@/composables/autoTeleport/useAutoTeleportTransitionSource'
 
 export default function (action: Actions, neededAmount: ComputedRef<number>) {
   const { urlPrefix } = usePrefix()

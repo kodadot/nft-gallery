@@ -89,9 +89,10 @@
 import '@polkadot/api-augment'
 import {
   Chain,
+  allowedTransitions,
   chainToPrefixMap,
-  allowedTransitions, 
-  getChainCurrency} from '@/utils/teleport'
+  getChainCurrency,
+} from '@/utils/teleport'
 import Loader from '@/components/shared/Loader.vue'
 import shortAddress from '@/utils/shortAddress'
 import { getChainName } from '@/utils/chain'
@@ -101,9 +102,15 @@ import { blockExplorerOf } from '@/utils/config/chain.config'
 import { simpleDivision } from '@/utils/balance'
 import { useFiatStore } from '@/stores/fiat'
 
-
 const { $i18n } = useNuxtApp()
-const { chainBalances , teleport: sendXCM, isLoading, getAddressByChain, getChainTokenDecimals } = useTeleport()
+const {
+  chainBalances,
+  teleport: sendXCM,
+  isLoading,
+  getAddressByChain,
+  getChainTokenDecimals,
+} = useTeleport()
+
 const fiatStore = useFiatStore()
 const fromChain = ref(Chain.KUSAMA) //Selected origin parachain
 const toChain = ref(Chain.BASILISK) //Selected destination parachain
@@ -122,11 +129,10 @@ const tokenFiatValue = computed(() => {
       return fiatStore.getCurrentKSMValue
     case 'DOT':
       return fiatStore.getCurrentDOTValue
-    default: 
+    default:
       return 0
   }
 })
-
 
 const isDisabled = (chain: Chain) => {
   return !allowedTransitions[fromChain.value].includes(chain)
@@ -182,7 +188,9 @@ const toTabs = [
   },
 ]
 
-const currentTokenDecimals = computed(() => getChainTokenDecimals(fromChain.value))
+const currentTokenDecimals = computed(() =>
+  getChainTokenDecimals(fromChain.value),
+)
 
 const toChainLabel = computed(() =>
   getChainName(chainToPrefixMap[toChain.value]),
@@ -256,11 +264,9 @@ const teleport = async () => {
     toAddress: toAddress.value,
     fromAddress: fromAddress.value,
     currency: currency.value,
-    onSuccess: () => resetStatus()
+    onSuccess: () => resetStatus(),
   })
 }
-
-
 </script>
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables.scss';

@@ -87,6 +87,7 @@ import { NeoButton, NeoSwitch } from '@kodadot1/brick'
 import { Actions } from '@/composables/transaction/types'
 import OnRampModal from '@/components/shared/OnRampModal.vue'
 import AutoTeleportWelcomeModal from './AutoTeleportWelcomeModal.vue'
+import useAutoTeleport from '@/composables/autoTeleport/useAutoTeleport'
 
 const props = withDefaults(
   defineProps<{
