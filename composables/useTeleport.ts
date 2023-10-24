@@ -1,11 +1,16 @@
-import { Chain, allowedTransitions, chainToPrefixMap } from '@/utils/teleport'
+import {
+  Chain,
+  allowedTransitions,
+  chainToPrefixMap,
+  prefixToChainMap,
+} from '@/utils/teleport'
 import { web3Enable } from '@polkadot/extension-dapp'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { getss58AddressByPrefix } from '@/utils/account'
 import { SubmittableResult } from '@polkadot/api'
 import { txCb } from '@/utils/transactionExecutor'
 
-type TeleportParams = {
+export type TeleportParams = {
   amount: number
   from: Chain
   to: Chain
@@ -25,6 +30,7 @@ export default function () {
   const { assets } = usePrefix()
   const { decimalsOf } = useChain()
   const { urlPrefix } = usePrefix()
+  const { fetchMultipleBalance } = useMultiBalance()
 
   const chainBalances = {
     [Chain.KUSAMA]: () =>
@@ -109,7 +115,7 @@ export default function () {
       showNotification('Cancelled', notificationTypes.warn)
       stopLoader()
 
-      error.value = 'cancelled'
+      error.value = 'cancelled' // TODO maybe has error
       if (onError) {
         onError()
       }
@@ -152,34 +158,9 @@ export default function () {
     }
   }
 
-  const getTransactionFee = async ({
-    amount,
-    from,
-    to,
-    toAddress,
-    fromAddress,
-    currency,
-  }: TeleportParams) => {
-    const promise = await getTransaction({
-      amount: amount,
-      from: from,
-      to: to,
-      address: toAddress,
-      currency: currency,
-    })
-
-    if (!promise) {
-      return
-    }
-
-    const injector = await getAddress(toDefaultAddress(fromAddress))
-
-    const info = await promise.paymentInfo(
-      fromAddress,
-      injector ? { signer: injector.signer } : {},
-    )
-
-    return info.partialFee.toString()
+  const fetchChainsBalances = (chains: Chain[]): Promise<void> => {
+    const chainPrefixes = chains.map((chain) => chainToPrefixMap[chain])
+    return fetchMultipleBalance(chainPrefixes)
   }
 
   return {
@@ -193,6 +174,6 @@ export default function () {
     teleport,
     getAddressByChain,
     getChainTokenDecimals,
-    getTransactionFee,
+    fetchChainsBalances,
   }
 }

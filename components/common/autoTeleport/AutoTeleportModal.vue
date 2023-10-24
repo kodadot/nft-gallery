@@ -77,6 +77,16 @@ const { $i18n } = useNuxtApp()
 const isModalActive = useVModel(props, 'modelValue')
 
 const steps = computed<TransactionStep[]>(() => {
+  let step2StepStatus = TransactionStepStatus.WAITING
+
+  if (props.status.teleport.status.value === TransactionStatus.Finalized) {
+    if (props.canDoAction) {
+      step2StepStatus = TransactionStepStatus.COMPLETED
+    } else {
+      step2StepStatus = TransactionStepStatus.LOADING
+    }
+  }
+
   return [
     {
       title: $i18n.t('autoTeleport.steps.1.title'),
@@ -91,9 +101,7 @@ const steps = computed<TransactionStep[]>(() => {
     {
       title: $i18n.t('autoTeleport.steps.2.title'),
       subtitle: $i18n.t('autoTeleport.steps.2.subtitle'),
-      stepStatus: props.canDoAction
-        ? TransactionStepStatus.COMPLETED
-        : TransactionStepStatus.WAITING,
+      stepStatus: step2StepStatus,
     },
     {
       title: $i18n.t('autoTeleport.steps.3.title'),

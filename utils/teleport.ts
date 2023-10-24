@@ -10,6 +10,9 @@ import { isFunction } from '@polkadot/util'
 import * as paraspell from '@paraspell/sdk'
 import { ApiFactory } from '@kodadot1/sub-api'
 import { getChainEndpointByPrefix } from '@/utils/chain'
+import { TeleportParams } from '@/composables/useTeleport'
+import { getAddress } from '@/utils/extension'
+import { toDefaultAddress } from '@/utils/account'
 
 type Extrisic = SubmittableExtrinsicFunction<'promise', AnyTuple>
 
@@ -33,7 +36,7 @@ export enum Chain {
   POLKADOT = 'Polkadot',
 }
 
-type TeleportChain = {
+export type TeleportChain = {
   prefix: Prefix
   chain: Chain
   name: string
@@ -211,6 +214,36 @@ export const getTransaction = async ({
       .address(address)
       .build()
   }
+}
+
+export const getTransactionFee = async ({
+  amount,
+  from,
+  to,
+  toAddress,
+  fromAddress,
+  currency,
+}: TeleportParams) => {
+  const promise = await getTransaction({
+    amount: amount,
+    from: from,
+    to: to,
+    address: toAddress,
+    currency: currency,
+  })
+
+  if (!promise) {
+    return
+  }
+
+  const injector = await getAddress(toDefaultAddress(fromAddress))
+
+  const info = await promise.paymentInfo(
+    fromAddress,
+    injector ? { signer: injector.signer } : {},
+  )
+
+  return info.partialFee.toString()
 }
 
 export const getChainCurrency = (chain: Chain) => {
