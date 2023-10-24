@@ -137,10 +137,10 @@ const currency = computed(() => {
   switch (fromChain.value) {
     case Chain.KUSAMA:
     case Chain.BASILISK:
-    case Chain.STATEMINE:
+    case Chain.ASSETHUBKUSAMA:
       return 'KSM'
     case Chain.POLKADOT:
-    case Chain.STATEMINT:
+    case Chain.ASSETHUBPOLKADOT:
       return 'DOT'
   }
 })
@@ -156,22 +156,22 @@ const tokenFiatValue = computed(() => {
 })
 
 const allowedTransitiosn = {
-  [Chain.KUSAMA]: [Chain.BASILISK, Chain.STATEMINE],
+  [Chain.KUSAMA]: [Chain.BASILISK, Chain.ASSETHUBKUSAMA],
   [Chain.BASILISK]: [Chain.KUSAMA],
-  [Chain.STATEMINE]: [Chain.KUSAMA],
-  [Chain.POLKADOT]: [Chain.STATEMINT],
-  [Chain.STATEMINT]: [Chain.POLKADOT],
+  [Chain.ASSETHUBKUSAMA]: [Chain.KUSAMA],
+  [Chain.POLKADOT]: [Chain.ASSETHUBPOLKADOT],
+  [Chain.ASSETHUBPOLKADOT]: [Chain.POLKADOT],
 }
 const chainBalances = {
   [Chain.KUSAMA]: () =>
     identityStore.multiBalances.chains.kusama?.ksm?.nativeBalance,
   [Chain.BASILISK]: () =>
     identityStore.multiBalances.chains.basilisk?.ksm?.nativeBalance,
-  [Chain.STATEMINE]: () =>
+  [Chain.ASSETHUBKUSAMA]: () =>
     identityStore.multiBalances.chains.kusamaHub?.ksm?.nativeBalance,
   [Chain.POLKADOT]: () =>
     identityStore.multiBalances.chains.polkadot?.dot?.nativeBalance,
-  [Chain.STATEMINT]: () =>
+  [Chain.ASSETHUBPOLKADOT]: () =>
     identityStore.multiBalances.chains.polkadotHub?.dot?.nativeBalance,
 }
 
@@ -190,7 +190,7 @@ const fromTabs = [
   },
   {
     label: getChainName('ahk'),
-    value: Chain.STATEMINE,
+    value: Chain.ASSETHUBKUSAMA,
   },
   {
     label: getChainName('dot'),
@@ -198,7 +198,7 @@ const fromTabs = [
   },
   {
     label: getChainName('ahp'),
-    value: Chain.STATEMINT,
+    value: Chain.ASSETHUBPOLKADOT,
   },
 ]
 const toTabs = [
@@ -214,8 +214,8 @@ const toTabs = [
   },
   {
     label: getChainName('ahk'),
-    value: Chain.STATEMINE,
-    disabled: computed(() => isDisabled(Chain.STATEMINE)),
+    value: Chain.ASSETHUBKUSAMA,
+    disabled: computed(() => isDisabled(Chain.ASSETHUBKUSAMA)),
   },
   {
     label: getChainName('dot'),
@@ -224,8 +224,8 @@ const toTabs = [
   },
   {
     label: getChainName('ahp'),
-    value: Chain.STATEMINT,
-    disabled: computed(() => isDisabled(Chain.STATEMINT)),
+    value: Chain.ASSETHUBPOLKADOT,
+    disabled: computed(() => isDisabled(Chain.ASSETHUBPOLKADOT)),
   },
 ]
 
@@ -233,11 +233,11 @@ const currentTokenDecimals = computed(() => {
   switch (fromChain.value) {
     case Chain.KUSAMA:
     case Chain.BASILISK:
-    case Chain.STATEMINE:
+    case Chain.ASSETHUBKUSAMA:
       return assets(5).decimals
     case Chain.POLKADOT:
       return decimalsOf('dot')
-    case Chain.STATEMINT:
+    case Chain.ASSETHUBPOLKADOT:
       return decimalsOf('ahp')
   }
 })

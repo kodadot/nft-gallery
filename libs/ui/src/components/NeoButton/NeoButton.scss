@@ -8,6 +8,11 @@
   padding-top: 8px;
   padding-bottom: 8px;
 
+  &.o-btn--large {
+    height: 3.5rem;
+    font-size: 1rem;
+  }
+
   @include ktheme() {
     box-shadow: theme('primary-shadow');
     border: 1px solid theme('border-color');
