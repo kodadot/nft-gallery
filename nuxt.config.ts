@@ -207,6 +207,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxt/content',
     'nuxt-simple-sitemap',
+    'nuxt-speedkit',
   ],
 
   pwa,
