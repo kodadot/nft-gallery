@@ -102,7 +102,9 @@
             <NeoInput
               v-model="form.salePrice"
               type="number"
-              placeholder="1 is the minimum"
+              step="0.01"
+              pattern="[0-9]+([\.,][0-9]+)?"
+              placeholder="0.01 is the minimum"
               expanded />
             <div class="form-addons">
               {{ isBasilisk ? 'KSM' : chainSymbol }}
