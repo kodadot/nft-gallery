@@ -267,29 +267,6 @@ export default defineNuxtConfig({
     },
   },
 
-  // https://github.com/kodadot/nft-gallery/issues/5031
-  // speedkit: {
-  //   detection: {
-  //     performance: true,
-  //     browserSupport: true,
-  //   },
-
-  //   performanceMetrics: {
-  //     device: {
-  //       hardwareConcurrency: { min: 2, max: 48 },
-  //       deviceMemory: { min: 2 },
-  //     },
-  //     timing: {
-  //       fcp: 800,
-  //       dcl: 1200,
-  //     },
-  //   },
-  //   lazyOffset: {
-  //     component: '0%',
-  //     asset: '0%',
-  //   },
-  // },
-
   // https://nuxt.com/docs/api/nuxt-config#runtimeconfig
   runtimeConfig: {
     public: {
