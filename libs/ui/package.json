@@ -19,9 +19,10 @@
     "vite": "^4.5.0"
   },
   "dependencies": {
-    "@google/model-viewer": "^1.12.1",
+    "@google/model-viewer": "^3.3.0",
     "@vueuse/core": "^9.13.0",
     "bulma": "0.9.4",
+    "three": "^0.157.0",
     "vue": "^3.3.6",
     "vue-audio-visual": "2.5.0"
   }
