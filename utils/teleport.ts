@@ -25,16 +25,16 @@ const KNOWN_WEIGHTS: Record<string, number> = {
 export enum Chain {
   KUSAMA = 'Kusama',
   BASILISK = 'Basilisk',
-  STATEMINE = 'Statemine',
-  STATEMINT = 'Statemint',
+  ASSETHUBKUSAMA = 'AssetHubKusama',
+  ASSETHUBPOLKADOT = 'AssetHubPolkadot',
   POLKADOT = 'Polkadot',
 }
 
 export const chainToPrefixMap: Record<Chain, Prefix> = {
   [Chain.KUSAMA]: 'rmrk',
   [Chain.BASILISK]: 'bsx',
-  [Chain.STATEMINE]: 'ahk',
-  [Chain.STATEMINT]: 'ahp',
+  [Chain.ASSETHUBKUSAMA]: 'ahk',
+  [Chain.ASSETHUBPOLKADOT]: 'ahp',
   [Chain.POLKADOT]: 'dot',
 }
 
@@ -57,8 +57,8 @@ export const whichTeleportType = ({
       return TeleprtType.RelayToPara
 
     case Chain.BASILISK:
-    case Chain.STATEMINE:
-    case Chain.STATEMINT:
+    case Chain.ASSETHUBKUSAMA:
+    case Chain.ASSETHUBPOLKADOT:
       return [Chain.KUSAMA, Chain.POLKADOT].includes(to)
         ? TeleprtType.ParaToRelay
         : TeleprtType.ParaToPara
