@@ -18,11 +18,7 @@
         no-shadow
         :disabled="!accountId"
         @click="generateNft">
-        {{
-          generativeImageUrl
-            ? $t('mint.unlockable.variations')
-            : $t('mint.unlockable.run')
-        }}
+        {{ $t('mint.unlockable.variations') }}
       </NeoButton>
     </div>
   </div>
@@ -43,20 +39,31 @@ const props = defineProps<{
 const emit = defineEmits(['select'])
 
 const { accountId } = useAuth()
-const getHash = () => {
+const { chainProperties } = useChain()
+
+const getHash = (isDefault?: boolean) => {
+  const ss58Format = isDefault
+    ? chainProperties.value?.ss58Format
+    : getRandomInt(15000)
   // https://github.com/paritytech/ss58-registry/blob/30889d6c9d332953a6e3333b30513eef89003f64/ss58-registry.json#L1292C17-L1292C22
-  return stringToHex(encodeAddress(accountId.value, getRandomInt(15000)))
+  return stringToHex(encodeAddress(accountId.value, ss58Format))
 }
 
-const generativeImageUrl = ref('')
+const generativeImageUrl = ref(
+  accountId.value ? `${props.content}/?hash=${getHash(true)}` : '',
+)
+
 const isLoading = ref(false)
+
+onMounted(() => {
+  generativeImageUrl.value && emit('select', generativeImageUrl.value)
+})
 const displayUrl = computed(() => {
   return generativeImageUrl.value || props.image
 })
 const generateNft = async () => {
   isLoading.value = true
-  const hash = generativeImageUrl.value ? getHash() : accountId.value
-  const metadata = `${props.content}/?hash=${hash}`
+  const metadata = `${props.content}/?hash=${getHash()}`
   generativeImageUrl.value = metadata
   emit('select', generativeImageUrl.value)
 
