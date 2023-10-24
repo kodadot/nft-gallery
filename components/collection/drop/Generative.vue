@@ -105,7 +105,7 @@
       <div class="my-4">
         <CarouselTypeLatestMints
           :collection-id="collectionId"
-          interaction="BUY" />
+          interaction="MINT" />
       </div>
     </div>
   </div>

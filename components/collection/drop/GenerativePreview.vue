@@ -14,6 +14,7 @@
     <div class="is-flex is-flex-direction-column is-align-items-center">
       <NeoButton
         class="mt-4"
+        :loading="isLoading"
         no-shadow
         :disabled="!accountId"
         @click="generateNft">
@@ -48,15 +49,20 @@ const getHash = () => {
 }
 
 const generativeImageUrl = ref('')
-
+const isLoading = ref(false)
 const displayUrl = computed(() => {
   return generativeImageUrl.value || props.image
 })
 const generateNft = async () => {
+  isLoading.value = true
   const hash = generativeImageUrl.value ? getHash() : accountId.value
   const metadata = `${props.content}/?hash=${hash}`
   generativeImageUrl.value = metadata
   emit('select', generativeImageUrl.value)
+
+  setTimeout(() => {
+    isLoading.value = false
+  }, 3000)
 }
 </script>
 
