@@ -19,7 +19,7 @@
             class="mx-4"
             :class="{
               'has-text-grey': section === 'review',
-              'has-text-black': section === 'sign',
+              'has-text-color': section === 'sign',
             }" />
           <span
             :class="{
@@ -33,6 +33,7 @@
         <hr />
 
         <div
+          v-if="accountId"
           class="rounded shade-border-color is-flex is-justify-content-start is-flex-grow-1 pl-3">
           <IdentityItem
             :label="$t('confirmPurchase.connectedWith')"
@@ -42,6 +43,13 @@
             :account="accountId"
             class="identity-name-font-weight-regular"
             data-testid="item-creator" />
+        </div>
+        <div v-else>
+          <div class="is-flex is-align-items-center">
+            <p class="mr-4">{{ $t('migrate.connect') }}</p>
+            <ConnectWalletButton no-shadow variant="k-accent" />
+          </div>
+          <hr />
         </div>
 
         <MigrateReview v-if="section === 'review'" />
