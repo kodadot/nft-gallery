@@ -68,7 +68,7 @@
     v-model="isModalOpen"
     :transition="optimalTransition"
     :can-do-action="hasEnoughInCurrentChain"
-    :status="status"
+    :transactions="transactions"
     @close="isModalOpen = false"
     @confirm="transaction"
     @telport:retry="teleport" />
@@ -79,8 +79,8 @@
 
   <Loader
     v-if="!showAutoTeleport"
-    :model-value="status.action.isLoading?.value"
-    :status="status.action.status.value" />
+    :model-value="transactions.action.isLoading?.value"
+    :status="transactions.action.status.value" />
 
   <OnRampModal v-model="onRampActive" @close="onRampActive = false" />
 </template>
@@ -115,7 +115,7 @@ const {
   hasEnoughInRichestChain,
   optimalTransition,
   teleport,
-  status,
+  transactions,
   transaction,
 } = useAutoTeleport(
   props.action,
@@ -215,7 +215,7 @@ const steps: TeleportSteps[] = ['teleport', 'action']
 
 watchEffect(() => {
   steps.forEach((step: TeleportSteps) => {
-    const details = status.value[step]
+    const details = transactions.value[step]
     if (
       details.isLoading?.value === false &&
       details.status.value === TransactionStatus.Finalized

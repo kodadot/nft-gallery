@@ -10,7 +10,7 @@ type TransactionDetails = {
   isLoading?: Ref<boolean>
 }
 
-export type AutoTeleportTransactionStatus = {
+export type AutoTeleportTransactions = {
   teleport: TransactionDetails
   action: TransactionDetails
 }
@@ -37,7 +37,7 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
   } = useTransaction()
   const { fetchMultipleBalance } = useMultiBalance()
 
-  const status = computed<AutoTeleportTransactionStatus>(() => ({
+  const transactions = computed<AutoTeleportTransactions>(() => ({
     teleport: {
       status: computed(() => teleportStatus.value),
       txId: computed(() => teleportTxId.value),
@@ -96,7 +96,7 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
     hasEnoughInCurrentChain,
     hasEnoughInRichestChain,
     optimalTransition,
-    status,
+    transactions,
     teleport,
     isAvailable,
     transaction,

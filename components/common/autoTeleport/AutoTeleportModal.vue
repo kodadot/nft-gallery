@@ -63,14 +63,14 @@ import { TeleportTransition, TransactionStepStatus } from '@/utils/teleport'
 import TransactionSteps, {
   TransactionStep,
 } from '@/components/shared/TransactionSteps/TransactionSteps.vue'
-import { AutoTeleportTransactionStatus } from '@/composables/autoTeleport/useAutoTeleport'
+import { type AutoTeleportTransactions } from '@/composables/autoTeleport/useAutoTeleport'
 
 const emit = defineEmits(['confirm', 'close', 'telport:retry'])
 const props = defineProps<{
   modelValue: boolean
   transition: TeleportTransition
   canDoAction: boolean
-  status: AutoTeleportTransactionStatus
+  transactions: AutoTeleportTransactions
 }>()
 
 const { $i18n } = useNuxtApp()
@@ -79,7 +79,9 @@ const isModalActive = useVModel(props, 'modelValue')
 const steps = computed<TransactionStep[]>(() => {
   let step2StepStatus = TransactionStepStatus.WAITING
 
-  if (props.status.teleport.status.value === TransactionStatus.Finalized) {
+  if (
+    props.transactions.teleport.status.value === TransactionStatus.Finalized
+  ) {
     if (props.canDoAction) {
       step2StepStatus = TransactionStepStatus.COMPLETED
     } else {
@@ -91,9 +93,9 @@ const steps = computed<TransactionStep[]>(() => {
     {
       title: $i18n.t('autoTeleport.steps.1.title'),
       subtitle: $i18n.t('autoTeleport.steps.1.subtitle'),
-      status: props.status.teleport.status.value,
-      error: props.status.teleport.error.value,
-      txId: props.status.teleport.txId.value,
+      status: props.transactions.teleport.status.value,
+      error: props.transactions.teleport.error.value,
+      txId: props.transactions.teleport.txId.value,
       prefix: props.transition.source?.prefix,
       withAction: true,
       retry: () => emit('telport:retry'),
@@ -106,9 +108,9 @@ const steps = computed<TransactionStep[]>(() => {
     {
       title: $i18n.t('autoTeleport.steps.3.title'),
       subtitle: $i18n.t('autoTeleport.steps.3.subtitle'),
-      status: props.status.action.status.value,
-      error: props.status.action.error.value,
-      txId: props.status.action.txId.value,
+      status: props.transactions.action.status.value,
+      error: props.transactions.action.error.value,
+      txId: props.transactions.action.txId.value,
       prefix: props.transition.destination?.prefix,
       withAction: true,
     },
