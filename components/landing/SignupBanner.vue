@@ -24,12 +24,12 @@
       <NeoInput
         v-model="email"
         type="email"
-        class="fixed-height-signup-banner"
+        class="fixed-height"
         placeholder="jane.doe@kodadot.xyz"
         required />
 
       <NeoButton
-        class="ml-4 fixed-height-signup-banner"
+        class="ml-4 fixed-height"
         native-type="submit"
         variant="k-accent"
         :loading="loading"
@@ -70,11 +70,11 @@ const submit = async () => {
   }
 }
 </script>
-<styles lang="scss" scoped>
+<style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 
-.fixed-height-signup-banner {
-  height: 2.5rem !important;
+.fixed-height {
+  height: 2.5rem;
 }
 
 $column-gap: 20px;
@@ -145,4 +145,4 @@ $column-gap: 20px;
     }
   }
 }
-</styles>
+</style>
