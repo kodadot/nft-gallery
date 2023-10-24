@@ -69,6 +69,7 @@ import MigrateSign from '@/components/migrate/MigrateReviewSign/MigrateSign.vue'
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
 const { neoModal } = useProgrammatic()
+const route = useRoute()
 
 defineProps<{
   section: 'review' | 'sign'
@@ -86,6 +87,16 @@ const promptModal = async () => {
     navigateTo('/migrate')
   }
 }
+
+onBeforeMount(() => {
+  if (
+    !route.query.collectionId ||
+    !route.query.source ||
+    !route.query.destination
+  ) {
+    navigateTo('/migrate')
+  }
+})
 </script>
 
 <style scoped lang="scss">
