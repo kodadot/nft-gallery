@@ -234,6 +234,10 @@ For crafting much better culture and Developer Experience, we reccomend some ext
 
 This repository has a [code of conduct](CODE_OF_CONDUCT.md) and we will remove things that do not respect it.
 
+### Want to ask question?
+
+[Ask smart questions best](http://www.catb.org/~esr/faqs/smart-questions.html)
+
 ## Follow us
 
 - [Twitter @KodaDot](https://twitter.com/kodadot)
