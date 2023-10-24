@@ -24,6 +24,7 @@ const networkToPrefix = {
 const prefixToNetwork = {
   dot: 'polkadot',
   ksm: 'kusama',
+  rmrk2: 'kusama',
   bsx: 'basilisk',
   ahk: 'kusamaHub',
   snek: 'basilisk-testnet',
@@ -125,7 +126,7 @@ export default function () {
   }
 
   const fetchMultipleBalance = async (
-    prefixes: Prefix[] = [],
+    onlyPrefixes: Prefix[] = [],
     forceFiat: boolean = false,
   ) => {
     await fetchFiatPrice(forceFiat)
@@ -134,9 +135,9 @@ export default function () {
       ? multiBalanceAssetsTestnet.value
       : multiBalanceAssets.value
 
-    const chainNetworks = prefixes.map(getNetwork).filter(Boolean)
+    const chainNetworks = onlyPrefixes.map(getNetwork).filter(Boolean)
 
-    const assetsToFetch = prefixes.length
+    const assetsToFetch = onlyPrefixes.length
       ? assets.filter((item) => chainNetworks.includes(item.chain))
       : assets
 
