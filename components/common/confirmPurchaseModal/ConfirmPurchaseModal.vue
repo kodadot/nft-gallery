@@ -46,15 +46,17 @@
       <div class="is-flex is-justify-content-space-between py-4 px-6">
         {{ $t('confirmPurchase.youWillPay') }}
         <div class="is-flex">
-          <CommonTokenMoney
-            :value="totalWithRoyalties"
-            class="has-text-grey" />
+          <CommonTokenMoney :value="totalWithRoyalties" class="has-text-grey" />
           <span class="has-text-weight-bold ml-2"> {{ priceUSD }}$ </span>
         </div>
       </div>
 
       <div class="is-flex is-justify-content-space-between py-5 px-6">
-        <slot name="custom-action" :label="btnLabel" :disabled="disabled" :amount="totalWithRoyalties"/>
+        <slot
+          name="custom-action"
+          :label="btnLabel"
+          :disabled="disabled"
+          :amount="totalWithRoyalties" />
 
         <NeoButton
           v-if="!$slots['custom-action']"
@@ -112,11 +114,11 @@ const totalRoyalties = computed(() =>
   ),
 )
 
-const totalWithRoyalties = computed(() => totalNFTsPrice.value + totalRoyalties.value)
-
-const balanceIsEnough = computed(
-  () => totalWithRoyalties.value < balance.value,
+const totalWithRoyalties = computed(
+  () => totalNFTsPrice.value + totalRoyalties.value,
 )
+
+const balanceIsEnough = computed(() => totalWithRoyalties.value < balance.value)
 
 const btnLabel = computed(() => {
   if (balanceIsEnough.value) {

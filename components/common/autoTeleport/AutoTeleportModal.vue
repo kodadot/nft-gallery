@@ -63,7 +63,7 @@ import { TeleportTransition, TransactionStepStatus } from '@/utils/teleport'
 import TransactionSteps, {
   TransactionStep,
 } from '@/components/shared/TransactionSteps/TransactionSteps.vue'
-import { AutoTeleportTransactionStatus } from '@/composables/useAutoTeleport'
+import { AutoTeleportTransactionStatus } from '@/composables/autoTeleport/useAutoTeleport'
 
 const emit = defineEmits(['confirm', 'close', 'telport:retry'])
 const props = defineProps<{

@@ -6,10 +6,11 @@
           :amount="amount"
           :label="label"
           :disabled="disabled"
-          :action="buyAction" />
+          :action="buyAction"
+          @confirm="handleConfirm"
+          @action:completed="handleActionCompleted" />
       </template>
     </ConfirmPurchaseModal>
-    <Loader v-model="isLoading" :status="status" />
   </div>
 </template>
 
@@ -19,7 +20,6 @@ import { usePreferencesStore } from '@/stores/preferences'
 import { useFiatStore } from '@/stores/fiat'
 
 import ConfirmPurchaseModal from '@/components/common/confirmPurchaseModal/ConfirmPurchaseModal.vue'
-import Loader from '@/components/shared/Loader.vue'
 import { Actions, TokenToBuy } from '@/composables/transaction/types'
 import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
 
@@ -33,17 +33,16 @@ const items = computed(() =>
 )
 
 onMounted(async () => {
-  if (
-    fiatStore.getCurrentKSMValue === null ||
-    fiatStore.getCurrentDOTValue === null ||
-    fiatStore.getCurrentBSXValue === null
-  ) {
+  if (fiatStore.incompleteFiatValues) {
     fiatStore.fetchFiatPrice()
   }
 })
 
-const { status, isLoading } = useTransaction()
 const { $i18n } = useNuxtApp()
+
+const isShoppingCartMode = computed(
+  () => preferencesStore.getCompletePurchaseModal.mode === 'shopping-cart',
+)
 
 const ShoppingCartItemToTokenToBuy = (item: ShoppingCartItem): TokenToBuy => {
   return {
@@ -54,18 +53,13 @@ const ShoppingCartItemToTokenToBuy = (item: ShoppingCartItem): TokenToBuy => {
   }
 }
 
-watchEffect(() => {
-  if (
-    isLoading.value === false &&
-    status.value === TransactionStatus.Finalized
-  ) {
-    preferencesStore.setTriggerBuySuccess(true)
-    shoppingCartStore.clear()
-  }
-})
+const handleActionCompleted = () => {
+  preferencesStore.setTriggerBuySuccess(true)
+  shoppingCartStore.clear()
+}
 
 const buyAction = computed<Actions>(() => {
-  if (preferencesStore.getCompletePurchaseModal.mode === 'shopping-cart') {
+  if (isShoppingCartMode.value) {
     return getBuyAction(
       items.value.map(ShoppingCartItemToTokenToBuy),
       items.value.map((item) => item?.name),
@@ -73,9 +67,14 @@ const buyAction = computed<Actions>(() => {
   } else {
     const item = shoppingCartStore.getItemToBuy as ShoppingCartItem
     return getBuyAction(ShoppingCartItemToTokenToBuy(item), [item?.name || ''])
-    //     shoppingCartStore.removeItemToBuy()
   }
 })
+
+const handleConfirm = () => {
+  if (!isShoppingCartMode.value) {
+    shoppingCartStore.removeItemToBuy()
+  }
+}
 
 const getBuyAction = (
   nfts: TokenToBuy | TokenToBuy[],

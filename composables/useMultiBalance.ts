@@ -23,8 +23,8 @@ const networkToPrefix = {
 
 const prefixToNetwork = {
   dot: 'polkadot',
+  rmrk: 'kusama',
   ksm: 'kusama',
-  rmrk2: 'kusama',
   bsx: 'basilisk',
   ahk: 'kusamaHub',
   snek: 'basilisk-testnet',

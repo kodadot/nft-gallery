@@ -1,7 +1,7 @@
 <template>
   <div class="is-flex is-flex-direction-column w-full">
     <div
-      v-if="isAutoTeleportAvailable"
+      v-if="showAutoTeleport"
       class="is-flex is-justify-content-space-between w-full mb-4">
       <div class="is-flex">
         <div class="has-accent-blur">
@@ -53,9 +53,7 @@
       class="is-flex is-flex-grow-1 btn-height is-capitalized"
       @click="submit" />
 
-    <div
-      v-if="isAutoTeleportAvailable"
-      class="is-flex is-justify-content-center mt-4">
+    <div v-if="showAutoTeleport" class="is-flex is-justify-content-center mt-4">
       <span v-if="hasAvailableTeleportTransition" class="has-text-grey"
         >Or</span
       >
@@ -79,6 +77,11 @@
     :model-value="showFirstTimeTeleport"
     @close="preferencesStore.setFirstTimeAutoTeleport(false)" />
 
+  <Loader
+    v-if="!showAutoTeleport"
+    :model-value="status.action.isLoading?.value"
+    :status="status.action.status.value" />
+
   <OnRampModal v-model="onRampActive" @close="onRampActive = false" />
 </template>
 
@@ -88,7 +91,9 @@ import { Actions } from '@/composables/transaction/types'
 import OnRampModal from '@/components/shared/OnRampModal.vue'
 import AutoTeleportWelcomeModal from './AutoTeleportWelcomeModal.vue'
 import useAutoTeleport from '@/composables/autoTeleport/useAutoTeleport'
+import Loader from '@/components/shared/Loader.vue'
 
+const emit = defineEmits(['confirm', 'teleport:completed', 'action:completed'])
 const props = withDefaults(
   defineProps<{
     amount: number
@@ -136,10 +141,17 @@ const hasAvailableTeleportTransition = computed(
   () => isAutoTeleportAvailable.value && optimalTransition.value.source,
 )
 
+const needsAutoTelport = computed(
+  () => !hasEnoughInCurrentChain.value && hasEnoughInRichestChain.value,
+)
+
+const showAutoTeleport = computed(
+  () => !hasEnoughInCurrentChain.value && isAutoTeleportAvailable.value,
+)
+
 const allowAutoTeleport = computed(
   () =>
-    !hasEnoughInCurrentChain.value &&
-    hasEnoughInRichestChain.value &&
+    needsAutoTelport.value &&
     optimalTransition.value.source &&
     isAutoTeleportAvailable.value,
 )
@@ -149,7 +161,7 @@ const autoTeleportLabel = computed(() => {
     return props.label
   }
 
-  if (!hasEnoughInCurrentChain.value && hasEnoughInRichestChain.value) {
+  if (allowAutoTeleport.value) {
     if (!autoTeleport.value) {
       return $i18n.t('autoTeleport.notEnoughTokenInChain', [
         chainSymbol.value,
@@ -194,8 +206,24 @@ const submit = () => {
     openAutoTeleportModal()
   } else {
     transaction()
+    emit('confirm')
   }
 }
+
+type TeleportSteps = 'teleport' | 'action'
+const steps: TeleportSteps[] = ['teleport', 'action']
+
+watchEffect(() => {
+  steps.forEach((step: TeleportSteps) => {
+    const details = status.value[step]
+    if (
+      details.isLoading?.value === false &&
+      details.status.value === TransactionStatus.Finalized
+    ) {
+      emit(`${step}:completed`)
+    }
+  })
+})
 </script>
 
 <style lang="scss" scoped>

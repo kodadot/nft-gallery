@@ -15,9 +15,9 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
   const {
     amountToTeleport,
     hasEnoughInCurrentChain,
+    hasEnoughInRichestChain,
     sourceChain,
     chainSymbol,
-    hasEnoughInRichestChain,
   } = useAutoTeleportTransitionSource(action, neededAmount)
 
   const { formatted: amountFormatted, usd: amountUsd } = useAmount(
