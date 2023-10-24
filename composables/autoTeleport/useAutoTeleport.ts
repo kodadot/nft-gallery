@@ -64,10 +64,10 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
 
     await sendXCM({
       amount: amount,
-      from: source?.chain,
+      from: source.chain,
+      fromAddress: getAddressByChain(source.chain),
       to: destination.chain,
-      fromAddress: getAddressByChain(source?.chain),
-      toAddress: getAddressByChain(destination?.chain),
+      toAddress: getAddressByChain(destination.chain),
       currency: token,
     })
   }
