@@ -5,7 +5,7 @@
 @import '@oruga-ui/oruga-next/src/scss/utilities/_helpers.scss';
 
 $switch-padding: 0;
-$switch-width: 2.6rem;
+$switch-width: 3rem;
 
 @import '@oruga-ui/oruga-next/src/scss/components/_switch.scss';
 
@@ -18,18 +18,17 @@ $switch-width: 2.6rem;
     --oruga-switch-action-checked-background: #{theme('background-color')};
   }
   &__check-switch {
-    height: 1.25rem;
-    width: 1.25rem;
+    height: 1.5rem;
+    width: 1.5rem;
     border: 1px solid var(--oruga-switch-border-color);
     margin-left: -1px;
     box-shadow: none;
   }
   &__check {
-    height: 1.25rem;
+    height: 1.5rem;
     border: 1px solid;
   }
   &__check--checked &__check-switch {
     background-color: var(--oruga-switch-action-checked-background);
-    margin-left: 1px;
   }
 }
