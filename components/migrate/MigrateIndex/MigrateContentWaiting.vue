@@ -1,12 +1,12 @@
 <template>
   <div class="mt-8 pt-4">
     <div class="is-flex is-relative section-title">
-      <img src="/migrate/state-ready.svg" alt="Ready" />
-      <p>{{ $t('migrate.ready.title') }}</p>
+      <img src="/migrate/state-waiting.svg" alt="Ready" />
+      <p>{{ $t('migrate.waiting.title') }}</p>
     </div>
 
     <div class="has-text-grey mt-2">
-      {{ $t('migrate.ready.desc') }}
+      {{ $t('migrate.waiting.desc') }}
     </div>
 
     <div class="collection">
@@ -23,24 +23,27 @@
           }"></div>
 
         <div class="collection-card-info">
+          <p class="is-size-5 has-text-weight-bold">{{ cl.name }}</p>
+          <p>
+            <span class="has-text-grey mr-2">
+              {{ $t('migrate.waiting.status') }}
+            </span>
+            <a href="#!" class="has-text-k-blue">Another nice name </a>
+          </p>
+        </div>
+
+        <div class="collection-card-info">
           <div
             class="is-flex is-justify-content-space-between is-align-items-center">
             <div>
-              <p class="is-size-5 has-text-weight-bold">
-                {{ cl.name }}
-              </p>
-              <p>
-                <span class="has-text-grey mr-2">
-                  {{ $t('migrate.ready.status') }}
-                </span>
-                <span>
-                  {{ cl.nftsOwned?.length }}/{{ cl.nfts?.length }} Items
-                </span>
-              </p>
+              <p
+                v-dompurify-html="
+                  $t('migrate.waiting.own', [cl.nfts?.length])
+                "></p>
             </div>
             <div>
               <NeoButton variant="pill" @click="toReview(cl.id)">
-                {{ $t('migrate.ready.cta') }}
+                {{ $t('migrate.waiting.cta') }}
               </NeoButton>
             </div>
           </div>
@@ -60,25 +63,18 @@ defineProps<{
 const { accountId } = useAuth()
 const { client } = usePrefix()
 
-// fetch collections
 type Collections = {
   collectionEntities?: {
     id: string
     name: string
+    nfts?: {
+      id: string
+    }[]
     metadata: string
     meta?: {
       id: string
       image: string
-      animationUrl: string
-      name: string
-      description: string
     }
-    nftsOwned?: {
-      id: string
-    }[]
-    nfts?: {
-      id: string
-    }[]
   }[]
 }
 
@@ -87,26 +83,20 @@ const { data } = await useAsyncQuery<Collections>({
   query: gql`
     query collectionByAccount($account: String!) {
       collectionEntities(
-        where: { currentOwner_eq: $account }
-        orderBy: blockNumber_DESC
+        where: {
+          nfts_some: { currentOwner_eq: $account }
+          issuer_not_eq: $account
+        }
       ) {
         id
         name
+        nfts(where: { currentOwner_eq: $account }) {
+          id
+        }
         metadata
         meta {
           id
           image
-          animationUrl
-          name
-          description
-        }
-        nftsOwned: nfts(
-          where: { burned_not_eq: true, currentOwner_eq: $account }
-        ) {
-          id
-        }
-        nfts(where: { burned_not_eq: true }) {
-          id
         }
       }
     }

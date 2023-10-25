@@ -38,54 +38,7 @@
       <MigrateContentReady :to-review="toReview" />
 
       <!-- waiting state for migration here -->
-      <div class="mt-8 pt-4">
-        <div class="is-flex is-relative section-title">
-          <img src="/migrate/state-waiting.svg" alt="Ready" />
-          <p>{{ $t('migrate.waiting.title') }}</p>
-        </div>
-
-        <div class="has-text-grey mt-2">
-          {{ $t('migrate.waiting.desc') }}
-        </div>
-
-        <div class="collection">
-          <div
-            v-for="cl in dummyWaitingCollections"
-            :key="cl"
-            class="collection-card">
-            <div
-              class="collection-card-banner"
-              :style="{ backgroundImage: `url(${cl})` }"></div>
-            <div
-              class="collection-card-avatar"
-              :style="{ backgroundImage: `url(${cl})` }"></div>
-
-            <div class="collection-card-info">
-              <p class="is-size-5 has-text-weight-bold">Hmm Vacation Nice</p>
-              <p>
-                <span class="has-text-grey mr-2">
-                  {{ $t('migrate.waiting.status') }}
-                </span>
-                <a href="#!" class="has-text-k-blue">Another nice name </a>
-              </p>
-            </div>
-
-            <div class="collection-card-info">
-              <div
-                class="is-flex is-justify-content-space-between is-align-items-center">
-                <div>
-                  <p v-dompurify-html="$t('migrate.waiting.own', ['12'])"></p>
-                </div>
-                <div>
-                  <NeoButton variant="pill" @click="toReview('12356789345')">
-                    {{ $t('migrate.waiting.cta') }}
-                  </NeoButton>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <MigrateContentWaiting :to-review="toReview" />
 
       <div class="mt-8 pt-4">
         <hr />
@@ -112,17 +65,15 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import useMigrate from '@/components/migrate/migrate'
 import MigrateContentReady from '@/components/migrate/MigrateIndex/MigrateContentReady.vue'
+import MigrateContentWaiting from './MigrateContentWaiting.vue'
 
 const { sourceSelected, destinationSelected } = useMigrate()
 
 const { accountId } = useAuth()
-const dummyWaitingCollections = [
-  'https://plus.unsplash.com/premium_photo-1664640458486-1ef3c8738cf9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0OHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
-]
 
 const toReview = (collectionId) => {
   navigateTo({
