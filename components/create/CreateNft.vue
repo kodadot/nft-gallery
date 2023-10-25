@@ -146,7 +146,7 @@
       </NeoField>
 
       <!-- royalty -->
-      <NeoField v-if="isBasilisk">
+      <NeoField v-if="!isRmrk">
         <RoyaltyForm
           :amount="form.royalty.amount"
           :address="form.royalty.address" />
@@ -305,7 +305,7 @@ watch(urlPrefix, (value) => {
 
 // get/set current chain/prefix
 const currentChain = computed(() => selectChain.value as Prefix)
-const { isBasilisk, isRemark } = useIsChain(currentChain)
+const { isBasilisk, isRemark, isRmrk } = useIsChain(currentChain)
 watch(currentChain, () => {
   // reset some state on chain change
   form.salePrice = 0
