@@ -106,6 +106,9 @@ const props = withDefaults(
   },
 )
 
+const amount = ref(0)
+const action = ref<Actions>(emptyObject<Actions>())
+
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 const { chainSymbol, name } = useChain()
@@ -114,12 +117,12 @@ const {
   hasEnoughInCurrentChain,
   hasEnoughInRichestChain,
   optimalTransition,
-  teleport,
   transactions,
+  teleport,
   transaction,
 } = useAutoTeleport(
-  computed(() => props.action),
-  computed(() => props.amount),
+  computed<Actions>(() => action.value),
+  computed(() => amount.value),
 )
 
 const isModalOpen = ref(false)
@@ -214,6 +217,13 @@ const submit = () => {
     transaction()
   }
 }
+
+watchSyncEffect(() => {
+  if (!isModalOpen.value) {
+    amount.value = props.amount
+    action.value = props.action
+  }
+})
 
 type TeleportTransactions = 'teleport' | 'action'
 const transactionEmits: TeleportTransactions[] = ['teleport', 'action']
