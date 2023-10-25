@@ -118,7 +118,7 @@ const {
   transactions,
   transaction,
 } = useAutoTeleport(
-  props.action,
+  computed(() => props.action),
   computed(() => props.amount),
 )
 
@@ -202,11 +202,12 @@ const openAutoTeleportModal = () => {
 }
 
 const submit = () => {
+  emit('confirm')
+
   if (allowAutoTeleport.value) {
     openAutoTeleportModal()
   } else {
     transaction()
-    emit('confirm')
   }
 }
 

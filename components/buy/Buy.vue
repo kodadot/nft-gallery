@@ -1,16 +1,9 @@
 <template>
   <div>
-    <ConfirmPurchaseModal>
-      <template #custom-action="{ label, disabled, amount }">
-        <AutoTeleportActionButton
-          :amount="amount"
-          :label="label"
-          :disabled="disabled"
-          :action="buyAction"
-          @confirm="handleConfirm"
-          @action:completed="handleActionCompleted" />
-      </template>
-    </ConfirmPurchaseModal>
+    <ConfirmPurchaseModal
+      :action="buyAction"
+      @confirm="handleConfirm"
+      @completed="handleActionCompleted" />
   </div>
 </template>
 
@@ -27,6 +20,8 @@ const { urlPrefix } = usePrefix()
 const shoppingCartStore = useShoppingCartStore()
 const preferencesStore = usePreferencesStore()
 const fiatStore = useFiatStore()
+
+const buyAction = ref<Actions>()
 
 const items = computed(() =>
   shoppingCartStore.getItemsByPrefix(urlPrefix.value),
@@ -58,7 +53,13 @@ const handleActionCompleted = () => {
   shoppingCartStore.clear()
 }
 
-const buyAction = computed<Actions>(() => {
+const handleConfirm = () => {
+  if (!isShoppingCartMode.value) {
+    shoppingCartStore.removeItemToBuy()
+  }
+}
+
+const getCartModeBasedBuyAction = () => {
   if (isShoppingCartMode.value) {
     return getBuyAction(
       items.value.map(ShoppingCartItemToTokenToBuy),
@@ -67,12 +68,6 @@ const buyAction = computed<Actions>(() => {
   } else {
     const item = shoppingCartStore.getItemToBuy as ShoppingCartItem
     return getBuyAction(ShoppingCartItemToTokenToBuy(item), [item?.name || ''])
-  }
-})
-
-const handleConfirm = () => {
-  if (!isShoppingCartMode.value) {
-    shoppingCartStore.removeItemToBuy()
   }
 }
 
@@ -91,4 +86,14 @@ const getBuyAction = (
     errorMessage: $i18n.t('transaction.buy.error'),
   }
 }
+
+watch(
+  [() => shoppingCartStore.itemToBuy, items],
+  ([itemToBuy, itemsInCart]) => {
+    if (itemToBuy !== undefined || itemsInCart.length !== 0) {
+      buyAction.value = getCartModeBasedBuyAction()
+    }
+  },
+  { immediate: true },
+)
 </script>

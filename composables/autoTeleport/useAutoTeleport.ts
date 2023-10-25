@@ -15,12 +15,15 @@ export type AutoTeleportTransactions = {
   action: TransactionDetails
 }
 
-export default function (action: Actions, neededAmount: ComputedRef<number>) {
+export default function (
+  action: ComputedRef<Actions>,
+  neededAmount: ComputedRef<number>,
+) {
   const {
     hasEnoughInCurrentChain,
     hasEnoughInRichestChain,
     optimalTransition,
-  } = useAutoTeleportTransition(action, neededAmount)
+  } = useAutoTeleportTransition(neededAmount)
 
   const {
     teleport: sendXCM,
@@ -52,7 +55,7 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
   }))
 
   const transaction = async () => {
-    await actionTransaction(action)
+    await actionTransaction(action.value)
   }
 
   const teleport = async () => {

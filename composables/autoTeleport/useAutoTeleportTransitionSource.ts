@@ -5,21 +5,22 @@ import {
   allowedTransitions as teleportRoutes,
 } from '@/utils/teleport'
 import { maxBy, toPairs } from 'lodash'
-import { Actions } from '@/composables/transaction/types'
 import { chainPropListOf } from '@/utils/config/chain.config'
 
 const BUFFER_AMOUNT_PERCENT = 0.005
+const ACTION_TRANSACTION_FEE_MULTIPLIER = 3
 
-export default function (action: Actions, neededAmount: ComputedRef<number>) {
+export default function (neededAmount: ComputedRef<number>) {
   const {
     chainBalances,
     chain: currentChain,
     fetchChainsBalances,
     getAddressByChain,
   } = useTeleport()
+  const { apiInstance } = useApi()
 
   const teleportTxFee = ref(0)
-  // const actionTxFee = ref(0)
+  const actionTxFee = ref(0)
 
   const chainSymbol = computed(
     () => currentChain.value && getChainCurrency(currentChain.value),
@@ -56,14 +57,11 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
       : 0,
   )
 
-  const fees = computed(() => teleportTxFee.value)
+  const fees = computed(() => teleportTxFee.value + actionTxFee.value)
 
-  const buffer = computed(() => {
-    if (fees.value === 0) {
-      return neededAmount.value * BUFFER_AMOUNT_PERCENT
-    }
-    return fees.value
-  })
+  const buffer = computed(() =>
+    fees.value === 0 ? neededAmount.value * BUFFER_AMOUNT_PERCENT : fees.value,
+  )
 
   const amountToTeleport = computed(
     () => neededAmount.value + buffer.value - Number(currentChainBalance.value),
@@ -81,10 +79,6 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
   })
 
   const getTeleportTransactionFee = async () => {
-    if (!hasEnoughInRichestChain.value && amountToTeleport.value) {
-      return
-    }
-
     return await getTransactionFee({
       amount: amountToTeleport.value,
       from: richestChain.value as Chain,
@@ -95,11 +89,35 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
     })
   }
 
-  watchSyncEffect(async () => {
-    if (richestChain.value && !teleportTxFee.value && addTeleportFee.value) {
+  const fetchTeleportFee = computed(
+    () =>
+      richestChain.value &&
+      !teleportTxFee.value &&
+      addTeleportFee.value &&
+      hasEnoughInRichestChain.value &&
+      amountToTeleport.value,
+  )
+
+  watch(fetchTeleportFee, async () => {
+    if (fetchTeleportFee.value) {
       const fee = await getTeleportTransactionFee()
       teleportTxFee.value = Number(fee || 0)
     }
+  })
+
+  const getDummyChainTransactionFee = async () => {
+    const address = getAddressByChain(currentChain.value as Chain)
+
+    const api = await apiInstance.value
+
+    const cb = api.tx.balances.transfer
+
+    return estimate(address, cb, [address, 1000000000])
+  }
+
+  watchSyncEffect(async () => {
+    const fee = await getDummyChainTransactionFee()
+    actionTxFee.value = Number(fee) * ACTION_TRANSACTION_FEE_MULTIPLIER
   })
 
   watchSyncEffect(async () => {

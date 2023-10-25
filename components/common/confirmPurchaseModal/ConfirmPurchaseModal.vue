@@ -52,20 +52,13 @@
       </div>
 
       <div class="is-flex is-justify-content-space-between py-5 px-6">
-        <slot
-          name="custom-action"
+        <AutoTeleportActionButton
+          :amount="totalWithRoyalties"
           :label="btnLabel"
           :disabled="disabled"
-          :amount="totalWithRoyalties" />
-
-        <NeoButton
-          v-if="!$slots['custom-action']"
-          :label="btnLabel"
-          variant="k-accent"
-          no-shadow
-          :disabled="disabled"
-          class="is-flex is-flex-grow-1 btn-height"
-          @click="confirm" />
+          :action="action"
+          @confirm="confirm"
+          @action:completed="$emit('completed')" />
       </div>
     </div>
   </NeoModal>
@@ -80,6 +73,10 @@ import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import ConfirmPurchaseItemRow from './ConfirmPurchaseItemRow.vue'
 import { totalPriceUsd } from '../shoppingCart/utils'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
+import { Actions } from '@/composables/transaction/types'
+
+const emit = defineEmits(['confirm', 'completed'])
+defineProps<{ action: Actions }>()
 
 const prefrencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
@@ -87,7 +84,6 @@ const { isLogIn } = useAuth()
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 const { balance } = useBalance()
-const emit = defineEmits(['confirm'])
 
 const mode = computed(() => prefrencesStore.getCompletePurchaseModal.mode)
 
