@@ -109,7 +109,6 @@ import { NeoButton } from '@kodadot1/brick'
 import { blockExplorerOf } from '@/utils/config/chain.config'
 import { simpleDivision } from '@/utils/balance'
 import { useFiatStore } from '@/stores/fiat'
-import { useIdentityStore } from '@/stores/identity'
 import { ApiFactory } from '@kodadot1/sub-api'
 
 const getApi = (from: Chain) => {
@@ -121,13 +120,14 @@ const { accountId } = useAuth()
 const { assets } = usePrefix()
 const { $i18n } = useNuxtApp()
 const fiatStore = useFiatStore()
-const identityStore = useIdentityStore()
 const { decimalsOf } = useChain()
 const fromChain = ref(Chain.KUSAMA) //Selected origin parachain
 const toChain = ref(Chain.BASILISK) //Selected destination parachain
 const amount = ref() //Required amount to be transfered is stored here
 const isLoading = ref(false)
 const unsubscribeKusamaBalance = ref()
+const { multiBalances } = useMultipleBalance()
+
 const resetStatus = () => {
   amount.value = undefined
   isLoading.value = false
@@ -163,16 +163,15 @@ const allowedTransitiosn = {
   [Chain.ASSETHUBPOLKADOT]: [Chain.POLKADOT],
 }
 const chainBalances = {
-  [Chain.KUSAMA]: () =>
-    identityStore.multiBalances.chains.kusama?.ksm?.nativeBalance,
+  [Chain.KUSAMA]: () => multiBalances.value.chains.kusama?.ksm?.nativeBalance,
   [Chain.BASILISK]: () =>
-    identityStore.multiBalances.chains.basilisk?.ksm?.nativeBalance,
+    multiBalances.value.chains.basilisk?.ksm?.nativeBalance,
   [Chain.ASSETHUBKUSAMA]: () =>
-    identityStore.multiBalances.chains.kusamaHub?.ksm?.nativeBalance,
+    multiBalances.value.chains.kusamaHub?.ksm?.nativeBalance,
   [Chain.POLKADOT]: () =>
-    identityStore.multiBalances.chains.polkadot?.dot?.nativeBalance,
+    multiBalances.value.chains.polkadot?.dot?.nativeBalance,
   [Chain.ASSETHUBPOLKADOT]: () =>
-    identityStore.multiBalances.chains.polkadotHub?.dot?.nativeBalance,
+    multiBalances.value.chains.polkadotHub?.dot?.nativeBalance,
 }
 
 const isDisabled = (chain: Chain) => {
