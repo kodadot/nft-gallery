@@ -2,6 +2,7 @@ import { TransactionStatus } from '@/composables/useTransactionStatus'
 import useAutoTeleportTransition from '@/composables/autoTeleport/useAutoTeleportTransition'
 import { Actions } from '@/composables/transaction/types'
 import { useIntervalFn } from '@vueuse/core'
+import { type Prefix } from '@kodadot1/static'
 
 type TransactionDetails = {
   status: ComputedRef<TransactionStatus>
@@ -77,7 +78,10 @@ export default function (
 
   const { pause, resume, isActive } = useIntervalFn(
     async () => {
-      await fetchMultipleBalance()
+      await fetchMultipleBalance([
+        optimalTransition.value.source?.prefix as Prefix,
+        optimalTransition.value.destination.prefix,
+      ])
     },
     10000,
     { immediate: false },

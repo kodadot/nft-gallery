@@ -54,7 +54,7 @@
       <div class="is-flex is-justify-content-space-between py-5 px-6">
         <AutoTeleportActionButton
           :amount="totalWithRoyalties"
-          :label="btnLabel"
+          :label="$t('nft.action.confirm')"
           :disabled="disabled"
           :action="action"
           @confirm="confirm"
@@ -82,8 +82,6 @@ const prefrencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { isLogIn } = useAuth()
 const { urlPrefix } = usePrefix()
-const { $i18n } = useNuxtApp()
-const { balance } = useBalance()
 
 const mode = computed(() => prefrencesStore.getCompletePurchaseModal.mode)
 
@@ -114,17 +112,7 @@ const totalWithRoyalties = computed(
   () => totalNFTsPrice.value + totalRoyalties.value,
 )
 
-const balanceIsEnough = computed(() => totalWithRoyalties.value < balance.value)
-
-const btnLabel = computed(() => {
-  if (balanceIsEnough.value) {
-    return $i18n.t('nft.action.confirm')
-  }
-
-  return $i18n.t('confirmPurchase.notEnoughFuns')
-})
-
-const disabled = computed(() => !balanceIsEnough.value || !isLogIn.value)
+const disabled = computed(() => !isLogIn.value)
 
 const priceUSD = computed(() => {
   const { nfts, royalties } = totalPriceUsd(items.value)

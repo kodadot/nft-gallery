@@ -49,7 +49,7 @@
       :label="autoTeleportLabel"
       variant="k-accent"
       no-shadow
-      :disabled="localDisabled"
+      :disabled="isDisabled"
       class="is-flex is-flex-grow-1 btn-height is-capitalized"
       @click="submit" />
 
@@ -156,9 +156,17 @@ const allowAutoTeleport = computed(
     isAutoTeleportAvailable.value,
 )
 
+const hasNoFundsAtAll = computed(
+  () => !hasEnoughInCurrentChain.value && !hasEnoughInRichestChain.value,
+)
+
 const autoTeleportLabel = computed(() => {
-  if (!isAutoTeleportAvailable.value || hasEnoughInCurrentChain.value) {
+  if (hasEnoughInCurrentChain.value) {
     return props.label
+  }
+
+  if (hasNoFundsAtAll.value) {
+    $i18n.t('autoTeleport.insufficientFunds')
   }
 
   if (allowAutoTeleport.value) {
@@ -172,27 +180,23 @@ const autoTeleportLabel = computed(() => {
     }
   }
 
-  return $i18n.t('autoTeleport.insufficientFunds')
+  return $i18n.t('autoTeleport.checking')
 })
 
-const localDisabled = computed(() => {
-  if (!isAutoTeleportAvailable.value) {
-    return props.disabled
+const isDisabled = computed(() => {
+  if (props.disabled || hasNoFundsAtAll.value) {
+    return true
   }
 
   if (hasEnoughInCurrentChain.value) {
     return false
   }
 
-  if (hasEnoughInRichestChain.value) {
+  if (needsAutoTelport.value) {
     return !autoTeleport.value
   }
 
-  if (!hasEnoughInCurrentChain.value && !hasEnoughInRichestChain.value) {
-    return true
-  }
-
-  return props.disabled
+  return true
 })
 
 const openAutoTeleportModal = () => {
