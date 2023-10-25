@@ -58,7 +58,7 @@
           </NeoStepItem>
         </NeoSteps>
         <div v-if="activeStep === 2" class="text-align-center has-text-grey">
-          {{ `Est. waiting time ~ ${estmiatedTimeLeft}` }}
+          {{ `Est. waiting time ~ ${estimatedTimeLeft} seconds` }}
         </div>
         <div v-if="isFinalStep" class="is-flex is-justify-content-center mb-4">
           <NeoButton
@@ -106,17 +106,17 @@ const props = withDefaults(
 const emit = defineEmits(['close', 'update:modelValue'])
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
-const { blocktime } = useBlockTime()
+const { blockTime } = useBlockTime()
 const { toast } = useToast()
 
-const estmiatedTimeLeft = computed(() => {
+const estimatedTimeLeft = computed(() => {
   switch (props.status) {
     case TransactionStatus.Broadcast:
-      return 3 * blocktime.value
+      return 3 * blockTime.value
     case TransactionStatus.Block:
-      return 2 * blocktime.value
+      return 2 * blockTime.value
     default:
-      return 0
+      return 'few'
   }
 })
 
