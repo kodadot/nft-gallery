@@ -148,8 +148,8 @@
       <!-- royalty -->
       <NeoField v-if="!isRmrk">
         <RoyaltyForm
-          :amount="form.royalty.amount"
-          :address="form.royalty.address" />
+          v-model:amount="form.royalty.amount"
+          v-model:address="form.royalty.address" />
       </NeoField>
 
       <!-- explicit content -->

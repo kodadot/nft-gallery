@@ -1,14 +1,16 @@
 <template>
   <div>
-    <div class="is-flex is-justify-content-space-between">
+    <div class="is-flex flex-column is-justify-content-space-between">
       <div>
-        <div v-if="accountId" class="is-flex is-align-items-center">
+        <div v-if="accountId" class="is-flex flex-column is-align-items-center">
           <p class="mr-4">{{ $t('migrate.resultFor') }}</p>
-          <Avatar :value="accountId" :size="26" class="mr-2" />
-          <nuxt-link class="has-text-k-blue" :to="`/ksm/u/${accountId}`">
-            <Identity :address="accountId" hide-identity-popover />
-          </nuxt-link>
-          <p class="ml-4">On RMRK2</p>
+          <div class="is-flex">
+            <Avatar :value="accountId" :size="26" class="mr-2" />
+            <nuxt-link class="has-text-k-blue" :to="`/ksm/u/${accountId}`">
+              <Identity :address="accountId" hide-identity-popover />
+            </nuxt-link>
+            <p class="ml-4">On RMRK2</p>
+          </div>
         </div>
         <div v-else class="is-flex is-align-items-center">
           <p class="mr-4">{{ $t('migrate.connect') }}</p>
@@ -39,7 +41,7 @@
           <p>{{ $t('migrate.ready.title') }}</p>
         </div>
 
-        <div class="has-text-grey w-half mt-2">
+        <div class="has-text-grey mt-2">
           {{ $t('migrate.ready.desc') }}
         </div>
 
@@ -70,9 +72,9 @@
                   </p>
                 </div>
                 <div>
-                  <NeoButton variant="pill">{{
-                    $t('migrate.ready.cta')
-                  }}</NeoButton>
+                  <NeoButton variant="pill" @click="toReview()">
+                    {{ $t('migrate.ready.cta') }}
+                  </NeoButton>
                 </div>
               </div>
             </div>
@@ -87,7 +89,7 @@
           <p>{{ $t('migrate.waiting.title') }}</p>
         </div>
 
-        <div class="has-text-grey w-half mt-2">
+        <div class="has-text-grey mt-2">
           {{ $t('migrate.waiting.desc') }}
         </div>
 
@@ -120,9 +122,9 @@
                   <p v-dompurify-html="$t('migrate.waiting.own', ['12'])"></p>
                 </div>
                 <div>
-                  <NeoButton variant="pill">{{
-                    $t('migrate.waiting.cta')
-                  }}</NeoButton>
+                  <NeoButton variant="pill" @click="toReview()">
+                    {{ $t('migrate.waiting.cta') }}
+                  </NeoButton>
                 </div>
               </div>
             </div>
@@ -157,6 +159,9 @@
 <script setup lang="ts">
 import { NeoButton, NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import Identity from '@/components/identity/IdentityIndex.vue'
+import useMigrate from '@/components/migrate/migrate'
+
+const { sourceSelected, destinationSelected } = useMigrate()
 
 const { accountId } = useAuth()
 const dummyReadyCollections = [
@@ -166,6 +171,17 @@ const dummyReadyCollections = [
 const dummyWaitingCollections = [
   'https://plus.unsplash.com/premium_photo-1664640458486-1ef3c8738cf9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0OHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
 ]
+
+const toReview = () => {
+  navigateTo({
+    path: '/migrate/review',
+    query: {
+      collectionId: '12345789',
+      source: sourceSelected.value?.value,
+      destination: destinationSelected.value?.value,
+    },
+  })
+}
 </script>
 
 <style lang="scss" scoped>
@@ -176,6 +192,10 @@ const dummyWaitingCollections = [
 
   @include ktheme() {
     color: theme('k-grey');
+  }
+
+  @include mobile() {
+    text-align: center;
   }
 }
 
@@ -237,6 +257,22 @@ const dummyWaitingCollections = [
         }
       }
     }
+  }
+
+  @include mobile() {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+
+    &-card-info .is-flex {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+}
+
+.flex-column {
+  @include mobile() {
+    flex-direction: column;
+    gap: 1rem;
   }
 }
 </style>
