@@ -18,7 +18,6 @@ export default function (prefix: ComputedRef<Prefix>) {
   return {
     isBasilisk,
     isRemark,
-    isKsm,
     isAssetHub,
     isRmrk,
   }
