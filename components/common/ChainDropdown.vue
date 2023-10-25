@@ -3,6 +3,7 @@
     <NeoDropdown>
       <template #trigger="{ active }">
         <NeoButton
+          class="chain-dropdown-text"
           :label="`Network: ${selected?.text}`"
           :icon="active ? 'chevron-up' : 'chevron-down'"
           :active="active" />
@@ -36,3 +37,15 @@ function onSwitchChain(chain) {
   redirectAfterChainChange(chain)
 }
 </script>
+
+<style lang="scss">
+@media screen and (max-width: 768px) {
+  .chain-dropdown-text {
+    .o-btn__label {
+      width: 10.5rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+</style>
