@@ -47,7 +47,7 @@ export const somePercentFromTX = (api: ApiPromise, price: number | string) => {
 }
 
 export const royaltyFee = (price: string | number, royaltyPercent: number) =>
-  (Number(price) * royaltyPercent) / 100
+  Number(price) * (royaltyPercent / 100)
 
 export const payRoyaltyTx = (
   api: ApiPromise,
