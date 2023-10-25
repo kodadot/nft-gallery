@@ -43,8 +43,9 @@
           <NeoButton
             :label="$t('shoppingCart.completePurchase')"
             :disabled="!numberOfItems"
-            class="w-full fixed-height"
+            class="w-full"
             no-shadow
+            size="large"
             variant="k-accent"
             @click="onCompletePurchase" />
         </div>
@@ -77,7 +78,8 @@
           <NeoButton
             :label="$t('shoppingCart.completePurchase')"
             disabled
-            class="w-full fixed-height"
+            class="w-full"
+            size="large"
             no-shadow
             variant="k-accent" />
         </div>
@@ -189,9 +191,5 @@ const onCompletePurchase = () => {
 
 .scroll-y {
   overflow-y: auto;
-}
-
-.fixed-height {
-  height: 3.5rem;
 }
 </style>

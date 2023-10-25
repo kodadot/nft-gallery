@@ -10,6 +10,13 @@ export default defineNuxtConfig({
     host: '0.0.0.0',
   },
 
+  vue: {
+    compilerOptions: {
+      // model-viewer from ModelMedia throw warning
+      isCustomElement: (tag) => tag.includes('model-viewer'),
+    },
+  },
+
   nitro: {
     publicAssets: [],
   },

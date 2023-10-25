@@ -64,7 +64,10 @@ export const useCollectionForMint = () => {
     collections.value = collectionEntities
       .map((collection) => ({
         ...collection,
-        lastIndexUsed: Number(collection.nfts?.at(0)?.index || 0),
+        lastIndexUsed: Math.max(
+          ...collection.nfts.map((nft) => Number(nft.index)),
+        ),
+
         alreadyMinted: collection.nfts?.length,
         totalCount: collection.nfts?.filter((nft) => !nft.burned).length,
       }))
