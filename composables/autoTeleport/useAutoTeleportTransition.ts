@@ -26,7 +26,15 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
     chainSymbol as ComputedRef<string>,
   )
 
-  const optimalTransition = computed<TeleportTransition>(() => {
+  const optimalTransition = ref<TeleportTransition>(
+    emptyObject<TeleportTransition>(),
+  )
+
+  watchSyncEffect(() => {
+    if (hasEnoughInCurrentChain.value) {
+      return
+    }
+
     let source: TeleportChain | null = null
 
     if (hasEnoughInRichestChain.value) {
@@ -40,7 +48,7 @@ export default function (action: Actions, neededAmount: ComputedRef<number>) {
       }
     }
 
-    return {
+    optimalTransition.value = {
       source: source,
       destination: {
         chain: prefixToChainMap[urlPrefix.value] as Chain,
