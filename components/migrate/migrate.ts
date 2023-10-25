@@ -28,7 +28,6 @@ export default function useMigrate() {
     const chain = sourceSelected.value?.value
 
     if (chain !== urlPrefix.value) {
-      console.log(chain, urlPrefix.value)
       setUrlPrefix(chain as Prefix)
     }
 
