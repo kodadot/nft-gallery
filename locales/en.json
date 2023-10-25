@@ -1459,6 +1459,8 @@
     "welcomeToAutoTeleport": "Welcome to auto teleport!",
     "insufficientFunds": "Insufficient funds",
     "notAvailable": "Not available",
+    "finishAllStepsFirst": "Finish All Steps First",
+    "buyNFT": "Buy NFT",
     "tooltip": {
       "first": "Low balance? Auto Teleport bridges required funds from your most asset rich network.",
       "second": "Extra transaction signature in next step required",
