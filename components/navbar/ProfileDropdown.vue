@@ -15,9 +15,11 @@
         menu-class="mt-0"
         :triggers="['hover']">
         <template #trigger>
-          <a class="navbar-item my-4" role="button">
-            <img :src="profileIcon" alt="profile" />
-          </a>
+          <ClientOnly>
+            <a class="navbar-item my-4" role="button">
+              <img :src="profileIcon" alt="profile" />
+            </a>
+          </ClientOnly>
         </template>
 
         <NeoDropdownItem aria-role="menuitem">

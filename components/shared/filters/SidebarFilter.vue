@@ -8,7 +8,7 @@
         fluid-padding
         data-testid="expand-search" />
       <PopularCollections v-if="isExploreItems" expanded fluid-padding />
-      <AdvancedFilter fluid-padding />
+      <AdvancedFilter v-if="!isCollectionActivityTab" fluid-padding />
     </NeoSidebar>
   </div>
 </template>

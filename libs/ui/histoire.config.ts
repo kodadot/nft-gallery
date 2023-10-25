@@ -1,7 +1,6 @@
 import { defineConfig } from 'histoire'
 import { HstVue } from '@histoire/plugin-vue'
 import vue from '@vitejs/plugin-vue'
-// import vue from 'vue'
 import { resolve } from 'path'
 
 export default defineConfig({
@@ -14,6 +13,7 @@ export default defineConfig({
       alias: {
         '@': resolve(__dirname, '../../'),
         '~': resolve(__dirname, '../../'),
+        '@google/model-viewer': './__mocks__/model-viewer.js',
       },
     },
   },

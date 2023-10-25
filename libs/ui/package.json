@@ -13,16 +13,17 @@
     "@histoire/plugin-vue": "^0.17.1",
     "@oruga-ui/oruga-next": "^0.7.0",
     "@vitejs/plugin-vue": "^4.4.0",
-    "eslint": "^8.51.0",
+    "eslint": "^8.52.0",
     "eslint-plugin-vue": "^8.7.1",
     "histoire": "^0.17.2",
-    "vite": "^4.4.11"
+    "vite": "^4.5.0"
   },
   "dependencies": {
-    "@google/model-viewer": "^1.12.1",
+    "@google/model-viewer": "^3.3.0",
     "@vueuse/core": "^9.13.0",
     "bulma": "0.9.4",
-    "vue": "^3.3.4",
+    "three": "^0.157.0",
+    "vue": "^3.3.6",
     "vue-audio-visual": "2.5.0"
   }
 }

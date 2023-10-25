@@ -4,15 +4,17 @@
     @click="toggleShoppingCartModal">
     <span v-if="props.showLabel">{{ $t('shoppingCart.label') }}</span>
     <div class="is-relative" :class="{ 'ml-2': showLabel }">
-      <img
-        :src="shoppingCartIcon"
-        class="image is-24x24 align"
-        alt="open shopping cart" />
-      <ActiveCount
-        v-if="numberOfItems"
-        :count="numberOfItems"
-        rounded
-        class="count-position is-size-7" />
+      <ClientOnly>
+        <img
+          :src="shoppingCartIcon"
+          class="image is-24x24 align"
+          alt="open shopping cart" />
+        <ActiveCount
+          v-if="numberOfItems"
+          :count="numberOfItems"
+          rounded
+          class="count-position is-size-7" />
+      </ClientOnly>
     </div>
   </div>
 </template>
