@@ -35,10 +35,10 @@
 
     <div v-if="accountId">
       <!-- ready state for migration here -->
-      <MigrateContentReady :to-review="toReview" />
+      <MigrateContentReady :key="urlPrefix" :to-review="toReview" />
 
       <!-- waiting state for migration here -->
-      <MigrateContentWaiting :to-review="toReview" />
+      <MigrateContentWaiting :key="urlPrefix" :to-review="toReview" />
 
       <div class="mt-8 pt-4">
         <hr />
@@ -74,6 +74,7 @@ import MigrateContentWaiting from './MigrateContentWaiting.vue'
 const { sourceSelected, destinationSelected } = useMigrate()
 
 const { accountId } = useAuth()
+const { urlPrefix } = usePrefix()
 
 const toReview = (collectionId) => {
   navigateTo({
