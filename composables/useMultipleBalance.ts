@@ -1,4 +1,3 @@
-import { toDefaultAddress } from '@/utils/account'
 import { ApiPromise, WsProvider } from '@polkadot/api'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 import { CHAINS, ENDPOINT_MAP } from '@kodadot1/static'
