@@ -166,7 +166,7 @@ const autoTeleportLabel = computed(() => {
   }
 
   if (hasNoFundsAtAll.value) {
-    $i18n.t('autoTeleport.insufficientFunds')
+    return $i18n.t('autoTeleport.insufficientFunds')
   }
 
   if (allowAutoTeleport.value) {
