@@ -1,6 +1,8 @@
 import { availablePrefixWithIcon } from '@/utils/chain'
 
-const source = availablePrefixWithIcon()
+const source = availablePrefixWithIcon().filter(
+  (item) => item.value === 'ksm' || item.value === 'rmrk',
+)
 const destination = availablePrefixWithIcon().filter(
   (item) => item.value === 'ahp' || item.value === 'ahk',
 )

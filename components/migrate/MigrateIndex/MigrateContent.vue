@@ -33,54 +33,9 @@
 
     <hr />
 
-    <!-- ready state for migration here -->
     <div v-if="accountId">
-      <div class="mt-8 pt-4">
-        <div class="is-flex is-relative section-title">
-          <img src="/migrate/state-ready.svg" alt="Ready" />
-          <p>{{ $t('migrate.ready.title') }}</p>
-        </div>
-
-        <div class="has-text-grey mt-2">
-          {{ $t('migrate.ready.desc') }}
-        </div>
-
-        <div class="collection">
-          <div
-            v-for="cl in dummyReadyCollections"
-            :key="cl"
-            class="collection-card">
-            <div
-              class="collection-card-banner"
-              :style="{ backgroundImage: `url(${cl})` }"></div>
-            <div
-              class="collection-card-avatar"
-              :style="{ backgroundImage: `url(${cl})` }"></div>
-
-            <div class="collection-card-info">
-              <div
-                class="is-flex is-justify-content-space-between is-align-items-center">
-                <div>
-                  <p class="is-size-5 has-text-weight-bold">
-                    You Like This Window
-                  </p>
-                  <p>
-                    <span class="has-text-grey mr-2">
-                      {{ $t('migrate.ready.status') }}
-                    </span>
-                    <span>130/200 Items </span>
-                  </p>
-                </div>
-                <div>
-                  <NeoButton variant="pill" @click="toReview()">
-                    {{ $t('migrate.ready.cta') }}
-                  </NeoButton>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <!-- ready state for migration here -->
+      <MigrateContentReady :to-review="toReview" />
 
       <!-- waiting state for migration here -->
       <div class="mt-8 pt-4">
@@ -122,7 +77,7 @@
                   <p v-dompurify-html="$t('migrate.waiting.own', ['12'])"></p>
                 </div>
                 <div>
-                  <NeoButton variant="pill" @click="toReview()">
+                  <NeoButton variant="pill" @click="toReview('12356789345')">
                     {{ $t('migrate.waiting.cta') }}
                   </NeoButton>
                 </div>
@@ -160,23 +115,20 @@
 import { NeoButton, NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import useMigrate from '@/components/migrate/migrate'
+import MigrateContentReady from '@/components/migrate/MigrateIndex/MigrateContentReady.vue'
 
 const { sourceSelected, destinationSelected } = useMigrate()
 
 const { accountId } = useAuth()
-const dummyReadyCollections = [
-  'https://plus.unsplash.com/premium_photo-1697188001642-92c80c7e0073?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw3fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
-  'https://plus.unsplash.com/premium_photo-1695302440940-c954d78d8518?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzM3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
-]
 const dummyWaitingCollections = [
   'https://plus.unsplash.com/premium_photo-1664640458486-1ef3c8738cf9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0OHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
 ]
 
-const toReview = () => {
+const toReview = (collectionId) => {
   navigateTo({
     path: '/migrate/review',
     query: {
-      collectionId: '12345789',
+      collectionId: collectionId,
       source: sourceSelected.value?.value,
       destination: destinationSelected.value?.value,
     },
@@ -184,7 +136,7 @@ const toReview = () => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '@/assets/styles/abstracts/variables';
 
 .question {
