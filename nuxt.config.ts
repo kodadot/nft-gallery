@@ -1,6 +1,7 @@
 import { pwa } from './utils/config/pwa'
 import { URLS, apolloClientConfig } from './utils/constants'
 import * as fs from 'fs'
+import { sentryVitePlugin } from '@sentry/vite-plugin'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
@@ -10,11 +11,28 @@ export default defineNuxtConfig({
     host: '0.0.0.0',
   },
 
+  sourcemap: {
+    server: true,
+    client: false,
+  },
+
   vue: {
     compilerOptions: {
       // model-viewer from ModelMedia throw warning
       isCustomElement: (tag) => tag.includes('model-viewer'),
     },
+  },
+
+  vite: {
+    plugins: [
+      process.env.NODE_ENV === 'development'
+        ? null
+        : sentryVitePlugin({
+            org: 'kodadot',
+            project: 'nft-gallery',
+            authToken: process.env.SENTRY_AUTH_TOKEN,
+          }),
+    ],
   },
 
   nitro: {
