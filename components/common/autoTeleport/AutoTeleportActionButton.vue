@@ -215,17 +215,17 @@ const submit = () => {
   }
 }
 
-type TeleportSteps = 'teleport' | 'action'
-const steps: TeleportSteps[] = ['teleport', 'action']
+type TeleportTransactions = 'teleport' | 'action'
+const transactionEmits: TeleportTransactions[] = ['teleport', 'action']
 
 watchEffect(() => {
-  steps.forEach((step: TeleportSteps) => {
-    const details = transactions.value[step]
+  transactionEmits.forEach((transaction: TeleportTransactions) => {
+    const details = transactions.value[transaction]
     if (
       details.isLoading?.value === false &&
       details.status.value === TransactionStatus.Finalized
     ) {
-      emit(`${step}:completed`)
+      emit(`${transaction}:completed`)
     }
   })
 })
