@@ -81,6 +81,10 @@ import { NeoIcon } from '@kodadot1/brick'
 import NFTsDetaislDropdown from './NFTsDetaislDropdown.vue'
 import { timeAgo } from '@/components/collection/utils/timeAgo'
 
+const props = defineProps<{
+  owners?: Owners
+}>()
+
 const toggleNFTDetails = (holderId: string) => {
   const isOpen = isNFTDetailsOpen.value[holderId]
   isNFTDetailsOpen.value = {
@@ -118,10 +122,6 @@ const isNFTDetailsOpen = ref(
     {},
   ),
 )
-
-const props = defineProps<{
-  owners?: Owners
-}>()
 </script>
 
 <style lang="scss" scoped>
