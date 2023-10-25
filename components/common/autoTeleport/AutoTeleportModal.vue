@@ -77,15 +77,15 @@ const { $i18n } = useNuxtApp()
 const isModalActive = useVModel(props, 'modelValue')
 
 const steps = computed<TransactionStep[]>(() => {
-  let step2StepStatus = TransactionStepStatus.WAITING
+  let step2Status = TransactionStepStatus.WAITING
 
   if (
     props.transactions.teleport.status.value === TransactionStatus.Finalized
   ) {
     if (props.canDoAction) {
-      step2StepStatus = TransactionStepStatus.COMPLETED
+      step2Status = TransactionStepStatus.COMPLETED
     } else {
-      step2StepStatus = TransactionStepStatus.LOADING
+      step2Status = TransactionStepStatus.LOADING
     }
   }
 
@@ -103,7 +103,7 @@ const steps = computed<TransactionStep[]>(() => {
     {
       title: $i18n.t('autoTeleport.steps.2.title'),
       subtitle: $i18n.t('autoTeleport.steps.2.subtitle'),
-      stepStatus: step2StepStatus,
+      stepStatus: step2Status,
     },
     {
       title: $i18n.t('autoTeleport.steps.3.title'),
@@ -118,7 +118,10 @@ const steps = computed<TransactionStep[]>(() => {
 })
 
 const btnLabel = computed(() => {
-  return 'Finish All Steps First'
+  if (!props.canDoAction) {
+    return $i18n.t('autoTeleport.finishAllStepsFirst')
+  }
+  return $i18n.t('autoTeleport.buyNFT')
 })
 
 const onClose = () => {
