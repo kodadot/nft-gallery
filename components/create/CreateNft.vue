@@ -146,10 +146,10 @@
       </NeoField>
 
       <!-- royalty -->
-      <NeoField v-if="isBasilisk">
+      <NeoField v-if="isBasilisk || isKsm">
         <RoyaltyForm
-          :amount="form.royalty.amount"
-          :address="form.royalty.address" />
+          v-model:amount="form.royalty.amount"
+          v-model:address="form.royalty.address" />
       </NeoField>
 
       <!-- explicit content -->
@@ -305,7 +305,7 @@ watch(urlPrefix, (value) => {
 
 // get/set current chain/prefix
 const currentChain = computed(() => selectChain.value as Prefix)
-const { isBasilisk, isRemark } = useIsChain(currentChain)
+const { isBasilisk, isRemark, isKsm } = useIsChain(currentChain)
 watch(currentChain, () => {
   // reset some state on chain change
   form.salePrice = 0
