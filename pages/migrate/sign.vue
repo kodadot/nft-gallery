@@ -1,5 +1,5 @@
 <template>
-  <MigrateLanding />
+  <MigrateSteps section="sign" />
 </template>
 
 <script setup lang="ts">

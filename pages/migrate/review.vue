@@ -1,5 +1,5 @@
 <template>
-  <MigrateLanding />
+  <MigrateSteps section="review" />
 </template>
 
 <script setup lang="ts">
