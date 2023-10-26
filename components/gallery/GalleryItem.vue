@@ -42,7 +42,7 @@
             v-else
             :key="nftImage"
             ref="mediaItemRef"
-            class="gallery-item-media"
+            class="gallery-item-media is-relative"
             :src="nftImage"
             :animation-src="nftAnimation"
             :mime-type="nftMimeType"
@@ -320,7 +320,7 @@ $break-point-width: 930px;
   position: absolute;
   right: 2.75rem;
   top: 2rem;
-  z-index: 1;
+  z-index: 2;
   display: none;
   width: 35px;
   height: 35px;

@@ -127,7 +127,9 @@
       :is-mobile="isMobile"
       @close="isLoaderModalVisible = false">
       <template #action-title>
-        <span>{{ $t('identity.create') }}</span>
+        <span>{{
+          $t(isClearingIdentity ? 'identity.clearing' : 'identity.create')
+        }}</span>
       </template>
     </TransactionLoader>
   </section>
@@ -210,6 +212,7 @@ const socialTabs = ref<PillTab[]>([
 
 const deposit = ref('0')
 const inputLengthLimit = ref(32)
+const isClearingIdentity = ref(false)
 
 const {
   identity: identityData,
@@ -313,6 +316,7 @@ const fetchDeposit = async () => {
 
 const deleteIdentity = async (): Promise<void> => {
   const api = await identityApi.value
+  isClearingIdentity.value = true
   initTransactionLoader()
   const cb = api.tx.identity.clearIdentity
   howAboutToExecute(accountId.value, cb, [], (block: string) => {
@@ -329,6 +333,7 @@ const deleteIdentity = async (): Promise<void> => {
 const setIdentity = async (): Promise<void> => {
   isConfirmModalActive.value = false
   const api = await identityApi.value
+  isClearingIdentity.value = false
   initTransactionLoader()
   const cb = api.tx.identity.setIdentity
   const args = [enhanceIdentityData()]

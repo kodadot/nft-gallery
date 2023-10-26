@@ -2,7 +2,7 @@
   <iframe
     title="html-embed"
     class="iframe-model__wrapper is-flex"
-    :src="src"
+    :src="animationSrc || src"
     :alt="alt"
     sandbox="allow-scripts allow-same-origin allow-modals"
     allow="accelerometer *; camera *; gyroscope *; microphone *; xr-spatial-tracking *;" />
@@ -11,6 +11,7 @@
 <script lang="ts" setup>
 defineProps<{
   src?: string
+  animationSrc?: string
   alt?: string
 }>()
 </script>

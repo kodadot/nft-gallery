@@ -64,7 +64,7 @@ export const usePreferencesStore = defineStore('preferences', {
     historyItemsPerPage: 12,
     replaceBuyNowWithYolo: false,
     hasSupport: true,
-    hasCarbonOffset: true,
+    hasCarbonOffset: false,
     enableAllArtwork: true,
     enableGyroEffect: false,
     gridSize: 'small',
