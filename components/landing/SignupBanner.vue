@@ -70,11 +70,11 @@ const submit = async () => {
   }
 }
 </script>
-<styles lang="scss" scoped>
+<style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 
 .fixed-height {
-  height: 2.5rem !important;
+  height: 2.5rem;
 }
 
 $column-gap: 20px;
@@ -145,4 +145,4 @@ $column-gap: 20px;
     }
   }
 }
-</styles>
+</style>

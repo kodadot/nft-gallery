@@ -28,7 +28,7 @@
           data-model="store"
           expanded />
         <PopularCollections v-if="isExploreItems" data-model="store" expanded />
-        <AdvancedFilter data-model="store" />
+        <AdvancedFilter v-if="!isCollectionActivityTab" data-model="store" />
       </div>
 
       <div
