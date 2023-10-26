@@ -50,7 +50,7 @@ export default function () {
     )
   }
 
-  async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
+  const getBalance = async (chainName: string, token = 'KSM', tokenId = 0) => {
     const currentAddress = accountId.value
     const prefix = networkToPrefix[chainName]
     const chain = CHAINS[prefix]
