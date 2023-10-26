@@ -271,7 +271,7 @@ const handleSubmitMint = async () => {
       scrollToTop()
       return `${collectionId.value}-${res.result.sn}`
     })
-    // 40s timeout
+    // 44s timeout
     setTimeout(() => {
       isLoading.value = false
       justMinted.value = id
