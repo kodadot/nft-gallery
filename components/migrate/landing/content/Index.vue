@@ -35,10 +35,10 @@
 
     <div v-if="accountId">
       <!-- ready state for migration here -->
-      <MigrateContentReady :key="urlPrefix" :to-review="toReview" />
+      <MigrateLandingContentReady :key="urlPrefix" :to-review="toReview" />
 
       <!-- waiting state for migration here -->
-      <MigrateContentWaiting :key="urlPrefix" :to-review="toReview" />
+      <MigrateLandingContentWaiting :key="urlPrefix" :to-review="toReview" />
     </div>
 
     <!-- empty state collection here -->
@@ -56,8 +56,6 @@
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import useMigrate from '@/components/migrate/migrate'
-import MigrateContentReady from './MigrateContentReady.vue'
-import MigrateContentWaiting from './MigrateContentWaiting.vue'
 
 const { sourceSelected, destinationSelected } = useMigrate()
 
