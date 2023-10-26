@@ -93,7 +93,7 @@
     "chartjs-plugin-zoom": "^1.2.1",
     "date-fns": "^2.30.0",
     "emoji-unicode": "^2.0.1",
-    "graphql": "^16.8.0",
+    "graphql": "^16.8.1",
     "graphql-ws": "^5.14.2",
     "highlight.js": "^11.9.0",
     "keen-slider": "^6.8.6",
