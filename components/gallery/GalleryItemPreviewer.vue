@@ -4,6 +4,8 @@
     :destroy-on-hide="false"
     :can-cancel="false"
     full-screen
+    append-to-body
+    max-height="100vh"
     root-class="gallery-item-modal"
     content-class="gallery-item-modal-content"
     @close="isFullscreen = false">
@@ -70,6 +72,9 @@ const isFullscreen = useVModel(props, 'value', emit)
     @include desktop {
       left: $fluid-container-padding;
     }
+  }
+  :deep(.gallery-item-modal-content) {
+    width: 100% !important;
   }
   &-container {
     @include ktheme() {
