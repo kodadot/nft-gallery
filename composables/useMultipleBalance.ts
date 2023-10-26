@@ -37,7 +37,7 @@ export default function () {
   const currentNetwork = computed(() =>
     isTestnet.value ? 'test-network' : 'main-network',
   )
-  function calculateUsd(amount: string, token = 'KSM') {
+  const calculateUsd = (amount: string, token = 'KSM') => {
     if (!amount) {
       return 0
     }
