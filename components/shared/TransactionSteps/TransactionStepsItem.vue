@@ -21,8 +21,9 @@
 
       <NeoIcon
         v-else-if="isWaiting"
-        class="has-text-k-grey"
+        class="has-text-k-grey opacity-20"
         icon="circle"
+        pack="fass"
         :size="iconSize" />
 
       <NeoIcon
@@ -117,5 +118,9 @@ const tryAgain = () => emit('tryAgain')
 
 .spinner {
   animation: spin 1s linear infinite;
+}
+
+.opacity-20 {
+  opacity: 20%;
 }
 </style>

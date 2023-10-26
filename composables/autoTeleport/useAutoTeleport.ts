@@ -8,7 +8,7 @@ type TransactionDetails = {
   status: ComputedRef<TransactionStatus>
   txId: ComputedRef<string | null>
   isError: Ref<boolean>
-  isLoading: Ref<boolean>
+  isLoading?: Ref<boolean>
 }
 
 export type AutoTeleportTransactions = {
@@ -20,6 +20,7 @@ export default function (
   action: ComputedRef<Actions>,
   neededAmount: ComputedRef<number>,
 ) {
+  const { fetchMultipleBalance } = useMultiBalance()
   const {
     hasEnoughInCurrentChain,
     hasEnoughInRichestChain,
@@ -40,19 +41,18 @@ export default function (
     isLoading: actionLoading,
     isError: actionIsError,
   } = useTransaction()
-  const { fetchMultipleBalance } = useMultiBalance()
+  const actionCancelled = ref(false)
 
   const transactions = computed<AutoTeleportTransactions>(() => ({
     teleport: {
       status: computed(() => teleportStatus.value),
       txId: computed(() => teleportTxId.value),
       isError: teleportIsError,
-      isLoading: ref(false),
     },
     action: {
       status: computed(() => actionStatus.value),
       txId: computed(() => ''),
-      isError: actionIsError,
+      isError: computed(() => actionIsError.value || actionCancelled.value),
       isLoading: actionLoading,
     },
   }))
@@ -100,6 +100,17 @@ export default function (
       resume()
     }
   })
+
+  watch(
+    [actionLoading, actionStatus],
+    ([loading, status], [prevLoading, prevStatus]) => {
+      actionCancelled.value =
+        !loading &&
+        prevLoading &&
+        prevStatus === TransactionStatus.Unknown &&
+        status === TransactionStatus.Unknown
+    },
+  )
 
   return {
     hasEnoughInCurrentChain,

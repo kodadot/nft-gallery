@@ -49,7 +49,7 @@
           :label="btnLabel"
           variant="k-accent"
           no-shadow
-          :disabled="!canDoAction"
+          :disabled="btnDisabled"
           class="is-flex is-flex-grow-1 btn-height"
           @click="confirm" />
       </div>
@@ -112,10 +112,15 @@ const steps = computed<TransactionStep[]>(() => {
       isError: props.transactions.action.isError.value,
       txId: props.transactions.action.txId.value,
       prefix: props.transition.destination?.prefix,
+      isLoading: props.transactions.action.isLoading?.value,
       withAction: true,
     },
   ]
 })
+
+const btnDisabled = computed(
+  () => !props.canDoAction || props.transactions.action.isLoading?.value,
+)
 
 const btnLabel = computed(() => {
   if (!props.canDoAction) {
