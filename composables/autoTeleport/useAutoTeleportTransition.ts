@@ -13,6 +13,7 @@ export default function (neededAmount: ComputedRef<number>) {
 
   const {
     amountToTeleport,
+    hasBalances,
     hasEnoughInCurrentChain,
     hasEnoughInRichestChain,
     sourceChain,
@@ -60,6 +61,7 @@ export default function (neededAmount: ComputedRef<number>) {
 
   return {
     isAvailable,
+    hasBalances,
     hasEnoughInCurrentChain,
     hasEnoughInRichestChain,
     optimalTransition,

@@ -141,9 +141,11 @@ export default function () {
       ? assets.filter((item) => chainNetworks.includes(item.chain))
       : assets
 
-    assetsToFetch.forEach((item) => {
-      getBalance(item.chain, item.token, Number(item.tokenId))
-    })
+    const promisses = await assetsToFetch.map((item) =>
+      getBalance(item.chain, item.token, Number(item.tokenId)),
+    )
+
+    return Promise.allSettled(promisses)
   }
 
   return {

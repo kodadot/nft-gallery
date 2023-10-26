@@ -115,6 +115,7 @@ const { $i18n } = useNuxtApp()
 const { chainSymbol, name } = useChain()
 const {
   isAvailable: isAutoTeleportAvailable,
+  hasBalances,
   hasEnoughInCurrentChain,
   hasEnoughInRichestChain,
   optimalTransition,
@@ -150,7 +151,10 @@ const needsAutoTelport = computed(
 )
 
 const showAutoTeleport = computed(
-  () => !hasEnoughInCurrentChain.value && isAutoTeleportAvailable.value,
+  () =>
+    !hasEnoughInCurrentChain.value &&
+    isAutoTeleportAvailable.value &&
+    hasBalances.value,
 )
 
 const allowAutoTeleport = computed(
@@ -167,6 +171,10 @@ const hasNoFundsAtAll = computed(
 const autoTeleportLabel = computed(() => {
   if (hasEnoughInCurrentChain.value) {
     return props.label
+  }
+
+  if (!hasBalances.value) {
+    return $i18n.t('autoTeleport.checking')
   }
 
   if (hasNoFundsAtAll.value) {

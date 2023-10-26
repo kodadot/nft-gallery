@@ -19,6 +19,7 @@ export default function (neededAmount: ComputedRef<number>) {
   } = useTeleport()
   const { apiInstance } = useApi()
 
+  const hasBalances = ref(false)
   const teleportTxFee = ref(0)
   const actionTxFee = ref(0)
 
@@ -26,7 +27,7 @@ export default function (neededAmount: ComputedRef<number>) {
     () => currentChain.value && getChainCurrency(currentChain.value),
   )
 
-  const targetChains = computed(() =>
+  const allowedSourceChains = computed(() =>
     currentChain.value ? teleportRoutes[currentChain.value] : [],
   )
 
@@ -39,7 +40,7 @@ export default function (neededAmount: ComputedRef<number>) {
   )
 
   const sourceChainsBalances = computed<{ [key: Chain]: string }>(() =>
-    targetChains.value.reduce(
+    allowedSourceChains.value.reduce(
       (reducer, chainPrefix) => ({
         ...reducer,
         [chainPrefix]: chainBalances[chainPrefix](),
@@ -126,16 +127,18 @@ export default function (neededAmount: ComputedRef<number>) {
   })
 
   watchSyncEffect(async () => {
-    if (targetChains.value.length) {
+    if (allowedSourceChains.value.length) {
       await fetchChainsBalances([
-        ...targetChains.value,
+        ...allowedSourceChains.value,
         currentChain.value as Chain,
       ])
+      hasBalances.value = true
     }
   })
 
   return {
     amountToTeleport,
+    hasBalances,
     hasEnoughInCurrentChain,
     hasEnoughInRichestChain,
     sourceChain: richestChain,

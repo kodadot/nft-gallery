@@ -22,6 +22,7 @@ export default function (
   const {
     hasEnoughInCurrentChain,
     hasEnoughInRichestChain,
+    hasBalances,
     optimalTransition,
   } = useAutoTeleportTransition(neededAmount)
 
@@ -86,6 +87,7 @@ export default function (
   return {
     hasEnoughInCurrentChain,
     hasEnoughInRichestChain,
+    hasBalances,
     optimalTransition,
     transactions,
     isAvailable,
