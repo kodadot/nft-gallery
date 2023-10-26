@@ -2,15 +2,13 @@ import { storeToRefs } from 'pinia'
 import { ApiPromise, WsProvider } from '@polkadot/api'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 import { CHAINS, ENDPOINT_MAP, Prefix } from '@kodadot1/static'
-import { balanceOf } from '@kodadot1/sub-api'
 import format from '@/utils/format/balance'
 import { useFiatStore } from '@/stores/fiat'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
 import { getAssetIdByAccount } from '@/utils/api/bsx/query'
 import { toDefaultAddress } from '@/utils/account'
-
+import { getNativeBalance } from '@/utils/balance'
 import { useIdentityStore } from '@/stores/identity'
-import type { PalletBalancesAccountData } from '@polkadot/types/lookup'
 
 const networkToPrefix = {
   polkadot: 'dot',
@@ -72,21 +70,13 @@ export default function () {
       provider: wsProvider,
     })
 
-    let currentBalance
-    let nativeBalance
+    const nativeBalance = await getNativeBalance({
+      address: prefixAddress,
+      api: api,
+      tokenId,
+    })
 
-    if (tokenId) {
-      nativeBalance = (
-        (await api.query.tokens.accounts(
-          prefixAddress,
-          tokenId,
-        )) as PalletBalancesAccountData
-      ).free.toString()
-      currentBalance = format(nativeBalance, chain.tokenDecimals, false)
-    } else {
-      nativeBalance = await balanceOf(api, prefixAddress)
-      currentBalance = format(nativeBalance, chain.tokenDecimals, false)
-    }
+    const currentBalance = format(nativeBalance, chain.tokenDecimals, false)
 
     let selectedTokenId = String(tokenId)
     if (chainName === 'basilisk') {
@@ -116,7 +106,7 @@ export default function () {
 
     identityStore.multiBalanceNetwork = currentNetwork.value
 
-    await wsProvider.disconnect()
+    return wsProvider.disconnect()
   }
 
   const fetchFiatPrice = async (force) => {
@@ -141,7 +131,7 @@ export default function () {
       ? assets.filter((item) => chainNetworks.includes(item.chain))
       : assets
 
-    const promisses = await assetsToFetch.map((item) =>
+    const promisses = assetsToFetch.map((item) =>
       getBalance(item.chain, item.token, Number(item.tokenId)),
     )
 
