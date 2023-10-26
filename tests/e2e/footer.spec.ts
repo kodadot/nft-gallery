@@ -68,10 +68,10 @@ const footerSocialMediaLinks = [
     linkName: 'Youtube',
     linkAddress: 'https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA/',
   },
-  {
-    linkName: 'Instagram',
-    linkAddress: 'https://www.instagram.com/kodadot.xyz/',
-  },
+  // {
+  //   linkName: 'Instagram',
+  //   linkAddress: 'https://www.instagram.com/kodadot.xyz/',
+  // },
   {
     linkName: 'Reddit',
     linkAddress: 'https://www.reddit.com/r/KodaDot/',

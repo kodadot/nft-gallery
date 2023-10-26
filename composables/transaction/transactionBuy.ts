@@ -6,9 +6,35 @@ import {
 } from '@kodadot1/minimark/v2'
 
 import { getApiCall } from '@/utils/gallery/abstractCalls'
-import { isRoyaltyValid } from '@/utils/royalty'
 import { payRoyaltyTx, somePercentFromTX } from '@/utils/support'
 import type { ActionBuy } from './types'
+import { verifyRoyalty } from './utils'
+
+function payRoyaltyAssetHub(
+  legacy,
+  api,
+  price,
+  royalty,
+  collectionId,
+  tokenId,
+) {
+  const { isValid, normalizedRoyalty } = verifyRoyalty(royalty)
+
+  if (!isValid) {
+    return
+  }
+
+  return legacy
+    ? payRoyaltyTx(api, price, normalizedRoyalty)
+    : api.tx.nfts.payTips([
+        {
+          collection: collectionId,
+          item: tokenId,
+          receiver: normalizedRoyalty.address,
+          amount: royaltyFee(price, normalizedRoyalty.amount),
+        },
+      ])
+}
 function execBuyRmrk(item: ActionBuy, api, executeTransaction) {
   const nfts = Array.isArray(item.nfts) ? item.nfts : [item.nfts]
 
@@ -27,13 +53,9 @@ function execBuyRmrk(item: ActionBuy, api, executeTransaction) {
         api.tx.balances.transfer(currentOwner, price),
         somePercentFromTX(api, price),
       ]
+      const { isValid, normalizedRoyalty } = verifyRoyalty(royalty)
 
-      const normalizedRoyalty = {
-        amount: Number(royalty?.amount ?? 0),
-        address: royalty?.address ?? '',
-      }
-
-      if (isRoyaltyValid(normalizedRoyalty)) {
+      if (isValid) {
         arg.push(payRoyaltyTx(api, price, normalizedRoyalty))
       }
 
@@ -70,18 +92,32 @@ function execBuyBasilisk(item: ActionBuy, api, executeTransaction) {
 
 function execBuyStatemine(item: ActionBuy, api, executeTransaction) {
   const nfts = Array.isArray(item.nfts) ? item.nfts : [item.nfts]
-  const transactions = nfts.map(({ id: nftId, price }) => {
+  const transactions = nfts.map(({ id: nftId, price, royalty }) => {
     const legacy = isLegacy(nftId)
-    const { id, item: token } = tokenIdToRoute(nftId)
+    const { id: collectionId, item: tokenId } = tokenIdToRoute(nftId)
     const cb = getApiCall(api, item.urlPrefix, item.interaction, legacy)
-    const arg = [id, token, price]
-    return cb(...arg)
+    const arg = [collectionId, tokenId, price]
+    const extrinsics = [cb(...arg)]
+
+    const royaltyExtrinsic = payRoyaltyAssetHub(
+      legacy,
+      api,
+      price,
+      royalty,
+      collectionId,
+      tokenId,
+    )
+    if (royaltyExtrinsic) {
+      extrinsics.push(royaltyExtrinsic)
+    }
+
+    return extrinsics
   })
 
   // TODO: implement tx fees #5130
   executeTransaction({
     cb: api.tx.utility.batchAll,
-    arg: [transactions],
+    arg: [transactions.flat()],
     successMessage: item.successMessage,
     errorMessage: item.errorMessage,
   })
