@@ -23,7 +23,7 @@ export const assignIds = <T extends TokenToMint>(tokens: T[]): (T & id)[] => {
 
 export const prepareTokenMintArgs = async (token: TokenToMint & id, api) => {
   const { id: collectionId } = token.selectedCollection as BaseMintedCollection
-  const { price, id: nextId } = token
+  const { price, id: nextId, hasRoyalty, royalty } = token
 
   const { accountId } = useAuth()
   const { $consola } = useNuxtApp()
@@ -51,9 +51,28 @@ export const prepareTokenMintArgs = async (token: TokenToMint & id, api) => {
       ? [api.tx.nfts.setPrice(collectionId, nextId, price, undefined)]
       : []
 
-  // TODO: add royalty via setAttribute
+  const txs = [create, meta, ...list]
 
-  return [create, meta, ...list]
+  if (royalty && isRoyaltyValid(royalty) && hasRoyalty) {
+    const setRoyaltyAmount = api.tx.nfts.setAttribute(
+      collectionId,
+      nextId,
+      'ItemOwner',
+      'royalty',
+      royalty.amount,
+    )
+
+    const setRoyaltyRecipient = api.tx.nfts.setAttribute(
+      collectionId,
+      nextId,
+      'ItemOwner',
+      'recipient',
+      royalty.address,
+    )
+    txs.push(setRoyaltyAmount, setRoyaltyRecipient)
+  }
+
+  return txs
 }
 
 export const prepTokens = (item: ActionMintToken) => {

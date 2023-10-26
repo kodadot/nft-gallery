@@ -107,7 +107,7 @@
       <hr class="my-6" />
 
       <!-- deposit and balance -->
-      <div class="monospace">
+      <div>
         <div class="is-flex has-text-weight-medium has-text-info">
           <div>{{ $t('mint.deposit') }}:&nbsp;</div>
           <div data-testid="collection-deposit">

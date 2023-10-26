@@ -53,12 +53,12 @@ const footerSocialMediaLinks = [
     linkAddress: 'https://twitter.com/KodaDot',
   },
   {
-    linkName: 'Discord',
-    linkAddress: 'https://discord.com/invite/u6ymnbz4PR',
+    linkName: 'Beehiiv',
+    linkAddress: 'https://kodadotweeklyroundup.beehiiv.com',
   },
   {
-    linkName: 'Substack',
-    linkAddress: 'https://kodadot.substack.com',
+    linkName: 'Linkedin',
+    linkAddress: 'https://www.linkedin.com/company/kodadot',
   },
   //{
   //  linkName: 'Medium',
@@ -68,9 +68,9 @@ const footerSocialMediaLinks = [
     linkName: 'Youtube',
     linkAddress: 'https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA/',
   },
-  //{
-  //  linkName: 'Instagram',
-  //  linkAddress: 'https://instagram.com/kodadot.xyz',
+  // {
+  //   linkName: 'Instagram',
+  //   linkAddress: 'https://www.instagram.com/kodadot.xyz/',
   // },
   {
     linkName: 'Reddit',
@@ -81,7 +81,7 @@ const footerSocialMediaLinks = [
 test('Check Footer Subscription', async ({ page }) => {
   await page.goto('/')
   const footerSubscribe = page.getByTestId('footer-subscribe')
-  await page.getByPlaceholder('jane.doe@kodadot.xyz').fill('a')
+  await footerSubscribe.getByPlaceholder('jane.doe@kodadot.xyz').fill('a')
   await footerSubscribe.locator('button').click()
   await expect(footerSubscribe.locator('.error')).toBeVisible()
 })

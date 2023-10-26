@@ -109,7 +109,6 @@ import { NeoButton } from '@kodadot1/brick'
 import { blockExplorerOf } from '@/utils/config/chain.config'
 import { simpleDivision } from '@/utils/balance'
 import { useFiatStore } from '@/stores/fiat'
-import { useIdentityStore } from '@/stores/identity'
 import { ApiFactory } from '@kodadot1/sub-api'
 
 const getApi = (from: Chain) => {
@@ -121,13 +120,14 @@ const { accountId } = useAuth()
 const { assets } = usePrefix()
 const { $i18n } = useNuxtApp()
 const fiatStore = useFiatStore()
-const identityStore = useIdentityStore()
 const { decimalsOf } = useChain()
 const fromChain = ref(Chain.KUSAMA) //Selected origin parachain
 const toChain = ref(Chain.BASILISK) //Selected destination parachain
 const amount = ref() //Required amount to be transfered is stored here
 const isLoading = ref(false)
 const unsubscribeKusamaBalance = ref()
+const { multiBalances } = useMultipleBalance()
+
 const resetStatus = () => {
   amount.value = undefined
   isLoading.value = false
@@ -137,10 +137,10 @@ const currency = computed(() => {
   switch (fromChain.value) {
     case Chain.KUSAMA:
     case Chain.BASILISK:
-    case Chain.STATEMINE:
+    case Chain.ASSETHUBKUSAMA:
       return 'KSM'
     case Chain.POLKADOT:
-    case Chain.STATEMINT:
+    case Chain.ASSETHUBPOLKADOT:
       return 'DOT'
   }
 })
@@ -156,23 +156,22 @@ const tokenFiatValue = computed(() => {
 })
 
 const allowedTransitiosn = {
-  [Chain.KUSAMA]: [Chain.BASILISK, Chain.STATEMINE],
+  [Chain.KUSAMA]: [Chain.BASILISK, Chain.ASSETHUBKUSAMA],
   [Chain.BASILISK]: [Chain.KUSAMA],
-  [Chain.STATEMINE]: [Chain.KUSAMA],
-  [Chain.POLKADOT]: [Chain.STATEMINT],
-  [Chain.STATEMINT]: [Chain.POLKADOT],
+  [Chain.ASSETHUBKUSAMA]: [Chain.KUSAMA],
+  [Chain.POLKADOT]: [Chain.ASSETHUBPOLKADOT],
+  [Chain.ASSETHUBPOLKADOT]: [Chain.POLKADOT],
 }
 const chainBalances = {
-  [Chain.KUSAMA]: () =>
-    identityStore.multiBalances.chains.kusama?.ksm?.nativeBalance,
+  [Chain.KUSAMA]: () => multiBalances.value.chains.kusama?.ksm?.nativeBalance,
   [Chain.BASILISK]: () =>
-    identityStore.multiBalances.chains.basilisk?.ksm?.nativeBalance,
-  [Chain.STATEMINE]: () =>
-    identityStore.multiBalances.chains.kusamaHub?.ksm?.nativeBalance,
+    multiBalances.value.chains.basilisk?.ksm?.nativeBalance,
+  [Chain.ASSETHUBKUSAMA]: () =>
+    multiBalances.value.chains.kusamaHub?.ksm?.nativeBalance,
   [Chain.POLKADOT]: () =>
-    identityStore.multiBalances.chains.polkadot?.dot?.nativeBalance,
-  [Chain.STATEMINT]: () =>
-    identityStore.multiBalances.chains.polkadotHub?.dot?.nativeBalance,
+    multiBalances.value.chains.polkadot?.dot?.nativeBalance,
+  [Chain.ASSETHUBPOLKADOT]: () =>
+    multiBalances.value.chains.polkadotHub?.dot?.nativeBalance,
 }
 
 const isDisabled = (chain: Chain) => {
@@ -190,7 +189,7 @@ const fromTabs = [
   },
   {
     label: getChainName('ahk'),
-    value: Chain.STATEMINE,
+    value: Chain.ASSETHUBKUSAMA,
   },
   {
     label: getChainName('dot'),
@@ -198,7 +197,7 @@ const fromTabs = [
   },
   {
     label: getChainName('ahp'),
-    value: Chain.STATEMINT,
+    value: Chain.ASSETHUBPOLKADOT,
   },
 ]
 const toTabs = [
@@ -214,8 +213,8 @@ const toTabs = [
   },
   {
     label: getChainName('ahk'),
-    value: Chain.STATEMINE,
-    disabled: computed(() => isDisabled(Chain.STATEMINE)),
+    value: Chain.ASSETHUBKUSAMA,
+    disabled: computed(() => isDisabled(Chain.ASSETHUBKUSAMA)),
   },
   {
     label: getChainName('dot'),
@@ -224,8 +223,8 @@ const toTabs = [
   },
   {
     label: getChainName('ahp'),
-    value: Chain.STATEMINT,
-    disabled: computed(() => isDisabled(Chain.STATEMINT)),
+    value: Chain.ASSETHUBPOLKADOT,
+    disabled: computed(() => isDisabled(Chain.ASSETHUBPOLKADOT)),
   },
 ]
 
@@ -233,11 +232,11 @@ const currentTokenDecimals = computed(() => {
   switch (fromChain.value) {
     case Chain.KUSAMA:
     case Chain.BASILISK:
-    case Chain.STATEMINE:
+    case Chain.ASSETHUBKUSAMA:
       return assets(5).decimals
     case Chain.POLKADOT:
       return decimalsOf('dot')
-    case Chain.STATEMINT:
+    case Chain.ASSETHUBPOLKADOT:
       return decimalsOf('ahp')
   }
 })
