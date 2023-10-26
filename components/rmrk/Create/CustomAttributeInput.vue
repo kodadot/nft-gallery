@@ -5,7 +5,8 @@
       :key="index"
       class="custom-attribute-input my-4">
       <AttributeInput
-        v-model="attributes[index]"
+        v-model:trait_type="attributes[index].trait_type"
+        v-model:value="attributes[index].value"
         :index="index"
         @remove="removeAttribute" />
     </div>
@@ -38,8 +39,8 @@ const props = withDefaults(
   },
 )
 
-const emit = defineEmits(['input'])
-const attributes = ref([])
+const emit = defineEmits(['update:modelValue'])
+const attributes = ref<Attribute[]>([])
 const disabled = computed(
   () => props.max > 0 && attributes.value.length === props.max,
 )
@@ -53,7 +54,8 @@ const addAttribute = () => {
   }
 }
 const removeAttribute = (index: number) => attributes.value.splice(index, 1)
-const handleInput = (attributes: Attribute[]) => emit('input', attributes)
+const handleInput = (attributes: Attribute[]) =>
+  emit('update:modelValue', attributes)
 
 watch(attributes.value, () => {
   handleInput(attributes.value)

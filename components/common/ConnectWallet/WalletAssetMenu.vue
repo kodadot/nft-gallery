@@ -12,22 +12,26 @@
         <NeoIcon icon="angle-right" size="medium" class="has-text-grey" />
       </a>
     </div>
-    <div
-      class="wallet-asset-footer is-flex is-justify-content-space-between py-5 is-size-7 has-text-grey">
+    <div class="wallet-asset-footer is-flex py-5 is-size-7 has-text-grey">
       <!-- light/dark mode -->
       <div class="is-align-items-center" @click="toggleColorMode">
         <NeoIcon icon="circle-half-stroke" size="medium" />
-        <span v-if="isDarkMode">{{ $t('profileMenu.lightMode') }}</span>
-        <span v-else>{{ $t('profileMenu.darkMode') }}</span>
+        <span class="is-hidden-mobile">
+          {{
+            $t(isDarkMode ? 'profileMenu.lightMode' : 'profileMenu.darkMode')
+          }}
+        </span>
       </div>
 
       <!-- language -->
-      <div data-testid="sidebar-language">
+      <div data-testid="sidebar-language" class="language-selector">
         <NeoDropdown position="top-left" aria-role="menu" mobile-modal>
           <template #trigger>
             <div class="is-flex is-align-items-center">
-              <NeoIcon icon="globe" size="medium" class="mr-1" />
-              <span>{{ $t('profileMenu.language') }}</span>
+              <NeoIcon icon="globe" size="medium" />
+              <span class="is-hidden-mobile ml-1">
+                {{ $t('profileMenu.language') }}
+              </span>
             </div>
           </template>
 
@@ -51,7 +55,7 @@
         data-testid="sidebar-link-settings"
         @click="closeModal">
         <NeoIcon icon="gear" size="medium" />
-        <span>{{ $t('settings') }}</span>
+        <span class="is-hidden-mobile">{{ $t('settings') }}</span>
       </nuxt-link>
     </div>
   </div>
@@ -123,6 +127,13 @@ const closeModal = () => {
 
 .wallet-asset-footer {
   border-top: 1px solid grey;
+  justify-content: space-between;
+  @include mobile {
+    justify-content: center;
+    .language-selector {
+      margin: 0 2rem;
+    }
+  }
 
   & > * {
     cursor: pointer;
