@@ -4,8 +4,8 @@ import {
   getChainCurrency,
   allowedTransitions as teleportRoutes,
 } from '@/utils/teleport'
-import { maxBy, toPairs } from 'lodash'
 import { chainPropListOf } from '@/utils/config/chain.config'
+import { getMaxKeyByValue } from '@/utils/math'
 
 const BUFFER_AMOUNT_PERCENT = 0.005
 const ACTION_TRANSACTION_FEE_MULTIPLIER = 3
@@ -49,8 +49,9 @@ export default function (neededAmount: ComputedRef<number>) {
   )
 
   const richestChain = computed<Chain | undefined>(() =>
-    maxBy(toPairs(sourceChainsBalances.value, (pair) => Number(pair[1]))[0]),
+    getMaxKeyByValue(sourceChainsBalances.value),
   )
+
   const richestChainBalance = computed(() =>
     richestChain.value
       ? Number(sourceChainsBalances.value[richestChain.value])
@@ -72,6 +73,10 @@ export default function (neededAmount: ComputedRef<number>) {
   )
 
   const addTeleportFee = computed(() => {
+    if (!richestChain.value) {
+      return false
+    }
+
     const sourceChainProperties = chainPropListOf(
       chainToPrefixMap[richestChain.value],
     )
