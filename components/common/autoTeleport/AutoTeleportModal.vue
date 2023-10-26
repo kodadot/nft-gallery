@@ -65,7 +65,7 @@ import TransactionSteps, {
 } from '@/components/shared/TransactionSteps/TransactionSteps.vue'
 import { type AutoTeleportTransactions } from '@/composables/autoTeleport/useAutoTeleport'
 
-const emit = defineEmits(['confirm', 'close', 'telport:retry'])
+const emit = defineEmits(['confirm', 'close', 'telport:retry', 'action:retry'])
 const props = defineProps<{
   modelValue: boolean
   transition: TeleportTransition
@@ -114,6 +114,7 @@ const steps = computed<TransactionStep[]>(() => {
       prefix: props.transition.destination?.prefix,
       isLoading: props.transactions.action.isLoading?.value,
       withAction: true,
+      retry: () => emit('action:retry'),
     },
   ]
 })

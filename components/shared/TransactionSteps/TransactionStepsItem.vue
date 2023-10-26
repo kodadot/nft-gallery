@@ -63,6 +63,7 @@
           target="_blank"
           rel="nofollow noopener noreferrer">
           View Tx
+          <NeoIcon icon="arrow-up-right" />
         </a>
       </div>
     </div>

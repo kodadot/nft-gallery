@@ -71,7 +71,8 @@
     :transactions="transactions"
     @close="isModalOpen = false"
     @confirm="transaction"
-    @telport:retry="teleport" />
+    @telport:retry="teleport"
+    @action:retry="transaction" />
 
   <AutoTeleportWelcomeModal
     :model-value="showFirstTimeTeleport"
