@@ -20,7 +20,7 @@ export type TeleportParams = {
 }
 
 export default function () {
-  const error = ref<string | null>(null)
+  const isError = ref<boolean>(false)
   const txId = ref<string | null>(null)
 
   const identityStore = useIdentityStore()
@@ -73,7 +73,7 @@ export default function () {
     let isFirstStatus = true
     initTransactionLoader()
     status.value = TransactionStatus.Sign
-    error.value = null
+    isError.value = false
 
     const transactionHandler = txCb(
       (blockHash) => {
@@ -90,7 +90,7 @@ export default function () {
       (dispatchError) => {
         showNotification(dispatchError.toString(), notificationTypes.warn)
         stopLoader()
-        error.value = dispatchError.toString()
+        isError.value = true
 
         if (onError) {
           onError()
@@ -114,8 +114,8 @@ export default function () {
     const errorHandler = () => {
       showNotification('Cancelled', notificationTypes.warn)
       stopLoader()
+      isError.value = true
 
-      error.value = 'cancelled' // TODO maybe has error
       if (onError) {
         onError()
       }
@@ -166,8 +166,8 @@ export default function () {
   return {
     chain,
     txId,
-    error,
     status,
+    isError,
     isLoading,
     isAvailable,
     chainBalances,

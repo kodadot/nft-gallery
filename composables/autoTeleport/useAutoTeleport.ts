@@ -7,8 +7,8 @@ import { type Prefix } from '@kodadot1/static'
 type TransactionDetails = {
   status: ComputedRef<TransactionStatus>
   txId: ComputedRef<string | null>
-  error: ComputedRef<string | null>
-  isLoading?: Ref<boolean>
+  isError: Ref<boolean>
+  isLoading: Ref<boolean>
 }
 
 export type AutoTeleportTransactions = {
@@ -31,13 +31,14 @@ export default function (
     getAddressByChain,
     status: teleportStatus,
     txId: teleportTxId,
-    error: teleportError,
+    isError: teleportIsError,
     isAvailable,
   } = useTeleport()
   const {
     transaction: actionTransaction,
     status: actionStatus,
     isLoading: actionLoading,
+    isError: actionIsError,
   } = useTransaction()
   const { fetchMultipleBalance } = useMultiBalance()
 
@@ -45,12 +46,13 @@ export default function (
     teleport: {
       status: computed(() => teleportStatus.value),
       txId: computed(() => teleportTxId.value),
-      error: computed(() => teleportError.value),
+      isError: teleportIsError,
+      isLoading: ref(false),
     },
     action: {
       status: computed(() => actionStatus.value),
       txId: computed(() => ''),
-      error: computed(() => ''),
+      isError: actionIsError,
       isLoading: actionLoading,
     },
   }))

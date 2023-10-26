@@ -75,7 +75,7 @@ import { type Prefix } from '@kodadot1/static'
 
 export type TransactionStepItem = {
   txId: string | null
-  error: string | null
+  isError: boolean
   status: TransactionStepStatus
   title: string
   subtitle?: string
