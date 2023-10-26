@@ -10,16 +10,20 @@
     </div>
 
     <div class="collection">
-      <div v-for="cl in collections" :key="cl.id" class="collection-card">
+      <div
+        v-for="collection in collections"
+        :key="collection.id"
+        class="collection-card"
+        :class="{ 'collection-card-empty': !collection.nftsOwned?.length }">
         <div
           class="collection-card-banner"
           :style="{
-            backgroundImage: `url(${sanitizeIpfsUrl(cl.meta?.image)})`,
+            backgroundImage: `url(${sanitizeIpfsUrl(collection.meta?.image)})`,
           }"></div>
         <div
           class="collection-card-avatar"
           :style="{
-            backgroundImage: `url(${sanitizeIpfsUrl(cl.meta?.image)})`,
+            backgroundImage: `url(${sanitizeIpfsUrl(collection.meta?.image)})`,
           }"></div>
 
         <div class="collection-card-info">
@@ -27,19 +31,22 @@
             class="is-flex is-justify-content-space-between is-align-items-center">
             <div>
               <p class="is-size-5 has-text-weight-bold">
-                {{ cl.name }}
+                {{ collection.name }}
               </p>
               <p>
                 <span class="has-text-grey mr-2">
                   {{ $t('migrate.ready.status') }}
                 </span>
                 <span>
-                  {{ cl.nftsOwned?.length }}/{{ cl.nfts?.length }} Items
+                  {{ collection.nftsOwned?.length }}/{{
+                    collection.nfts?.length
+                  }}
+                  Items
                 </span>
               </p>
             </div>
             <div>
-              <NeoButton variant="pill" @click="toReview(cl.id)">
+              <NeoButton variant="pill" @click="toReview(collection.id)">
                 {{ $t('migrate.ready.cta') }}
               </NeoButton>
             </div>
@@ -52,6 +59,7 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
+import collectionMigrateReady from '@/queries/subsquid/general/collectionMigrateReady.graphql'
 
 defineProps<{
   toReview: (string) => void
@@ -82,44 +90,19 @@ type Collections = {
   }[]
 }
 
-const collections = ref<Collections['collectionEntities']>([])
 const { data } = await useAsyncQuery<Collections>({
-  query: gql`
-    query collectionByAccount($account: String!) {
-      collectionEntities(
-        where: { currentOwner_eq: $account }
-        orderBy: blockNumber_DESC
-      ) {
-        id
-        name
-        metadata
-        meta {
-          id
-          image
-          animationUrl
-          name
-          description
-        }
-        nftsOwned: nfts(
-          where: { burned_not_eq: true, currentOwner_eq: $account }
-        ) {
-          id
-        }
-        nfts(where: { burned_not_eq: true }) {
-          id
-        }
-      }
-    }
-  `,
+  query: collectionMigrateReady,
   variables: {
     account: accountId.value,
   },
   clientId: client.value,
 })
 
-watchEffect(() => {
+const collections = computed(() => {
   if (data.value?.collectionEntities?.length) {
-    collections.value = data.value?.collectionEntities
+    return data.value?.collectionEntities
   }
+
+  return []
 })
 </script>

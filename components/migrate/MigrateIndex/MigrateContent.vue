@@ -39,18 +39,6 @@
 
       <!-- waiting state for migration here -->
       <MigrateContentWaiting :key="urlPrefix" :to-review="toReview" />
-
-      <div class="mt-8 pt-4">
-        <hr />
-        <p class="has-text-grey mb-2">
-          {{ $t('migrate.migrationNotPossible') }}
-        </p>
-        <p>
-          <span
-            v-dompurify-html="$t('migrate.migrationNotPossibleLabel')"></span>
-          <strong> Crazy dogs, Music album 101, I like good weather</strong>
-        </p>
-      </div>
     </div>
 
     <!-- empty state collection here -->
@@ -68,7 +56,7 @@
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import useMigrate from '@/components/migrate/migrate'
-import MigrateContentReady from '@/components/migrate/MigrateIndex/MigrateContentReady.vue'
+import MigrateContentReady from './MigrateContentReady.vue'
 import MigrateContentWaiting from './MigrateContentWaiting.vue'
 
 const { sourceSelected, destinationSelected } = useMigrate()
@@ -126,6 +114,10 @@ const toReview = (collectionId) => {
   @include ktheme() {
     &-card {
       position: relative;
+
+      &-empty {
+        display: none;
+      }
 
       &-banner {
         background-position: center;

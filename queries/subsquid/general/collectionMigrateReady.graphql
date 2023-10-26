@@ -1,0 +1,23 @@
+query collectionByAccount($account: String!) {
+  collectionEntities(
+    where: { currentOwner_eq: $account }
+    orderBy: blockNumber_DESC
+  ) {
+    id
+    name
+    metadata
+    meta {
+      id
+      image
+      animationUrl
+      name
+      description
+    }
+    nftsOwned: nfts(where: { burned_not_eq: true, currentOwner_eq: $account }) {
+      id
+    }
+    nfts(where: { burned_not_eq: true }) {
+      id
+    }
+  }
+}
