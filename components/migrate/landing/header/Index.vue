@@ -114,7 +114,7 @@
     <!-- spacing -->
     <div class="column"></div>
 
-    <div class="column is-5"><MigrateFaq /></div>
+    <div class="column is-5"><MigrateLandingHeaderFaq /></div>
   </div>
 </template>
 
@@ -125,7 +125,6 @@ import {
   NeoDropdownItem,
   NeoIcon,
 } from '@kodadot1/brick'
-import MigrateFaq from './MigrateHeaderFaq.vue'
 import useMigrate from '@/components/migrate/migrate'
 
 const { source, sourceSelected, destination, destinationSelected } =
