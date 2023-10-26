@@ -36,14 +36,11 @@ export default function (neededAmount: ComputedRef<number>) {
 
     let source: TeleportChain | null = null
 
-    if (hasEnoughInRichestChain.value) {
-      const name = sourceChain.value
-        ? getChainName(chainToPrefixMap[sourceChain.value])
-        : ''
+    if (hasEnoughInRichestChain.value && sourceChain.value) {
       source = {
         chain: sourceChain.value,
         prefix: chainToPrefixMap[sourceChain.value],
-        name,
+        name: getChainName(chainToPrefixMap[sourceChain.value]),
       }
     }
 

@@ -1,8 +1,7 @@
 import { TransactionStatus } from '@/composables/useTransactionStatus'
 import useAutoTeleportTransition from '@/composables/autoTeleport/useAutoTeleportTransition'
+import useAutoTeleportWatch from '@/composables/autoTeleport/useAutoTeleportWatch'
 import { Actions } from '@/composables/transaction/types'
-import { useIntervalFn } from '@vueuse/core'
-import { type Prefix } from '@kodadot1/static'
 
 type TransactionDetails = {
   status: ComputedRef<TransactionStatus>
@@ -20,7 +19,6 @@ export default function (
   action: ComputedRef<Actions>,
   neededAmount: ComputedRef<number>,
 ) {
-  const { fetchMultipleBalance } = useMultiBalance()
   const {
     hasEnoughInCurrentChain,
     hasEnoughInRichestChain,
@@ -78,47 +76,20 @@ export default function (
     })
   }
 
-  const { pause, resume, isActive } = useIntervalFn(
-    async () => {
-      await fetchMultipleBalance([
-        optimalTransition.value.source?.prefix as Prefix,
-        optimalTransition.value.destination.prefix,
-      ])
-    },
-    10000,
-    { immediate: false },
-  )
-
-  watch([isActive, hasEnoughInCurrentChain], ([active, enoughInCurrent]) => {
-    if (active && enoughInCurrent) {
-      pause()
-    }
+  useAutoTeleportWatch({
+    optimalTransition,
+    hasEnoughInCurrentChain,
+    transactions,
+    actionCancelled,
   })
-
-  watch(teleportStatus, () => {
-    if (teleportStatus.value === TransactionStatus.Finalized) {
-      resume()
-    }
-  })
-
-  watch(
-    [actionLoading, actionStatus],
-    ([loading, status], [prevLoading, prevStatus]) => {
-      actionCancelled.value =
-        !loading &&
-        prevLoading &&
-        prevStatus === TransactionStatus.Unknown &&
-        status === TransactionStatus.Unknown
-    },
-  )
 
   return {
     hasEnoughInCurrentChain,
     hasEnoughInRichestChain,
     optimalTransition,
     transactions,
-    teleport,
     isAvailable,
+    teleport,
     transaction,
   }
 }
