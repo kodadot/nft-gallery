@@ -27,6 +27,20 @@ const getAddress = (chain: string, accountId: string) => {
   return encodeAddress(publicKey, CHAINS[chain].ss58Format)
 }
 
+const clearInstanceSortFromQuery = (query) => {
+  if (Array.isArray(query.sort)) {
+    query.sort = query.sort.filter((value) => !value.startsWith('instance_'))
+    return query
+  }
+
+  if (query.sort?.startsWith('instance_')) {
+    const { _sort, ...restOfQuery } = query
+    return restOfQuery
+  }
+
+  return query
+}
+
 function getRedirectPathForPrefix({
   routeName,
   chain,
@@ -66,16 +80,15 @@ function getRedirectPathForPrefix({
     const { isRemark } = useIsChain(computed(() => chain))
 
     // https://github.com/kodadot/nft-gallery/pull/7742#issuecomment-1771105341
-    if (!isRemark.value && restOfQuery.sort) {
-      restOfQuery.sort = restOfQuery.sort.filter(
-        (value) => !value.startsWith('instance_'),
-      )
-    }
+    const finalQuery =
+      !isRemark.value && restOfQuery.sort
+        ? clearInstanceSortFromQuery(restOfQuery)
+        : restOfQuery
     return {
       params: {
         prefix: chain,
       },
-      query: restOfQuery,
+      query: finalQuery,
     }
   }
 

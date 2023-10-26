@@ -63,10 +63,28 @@
         </div>
       </div>
     </component>
-
     <template v-else>
-      <NeoSkeleton no-margin :rounded="false" height="112px" />
-      <CollectionDetail is-loading :nfts="[]" name="" />
+      <NeoSkeleton no-margin :rounded="false" height="270" />
+      <div
+        class="py-5 px-6 is-flex is-justify-content-space-between is-vcentered">
+        <NeoSkeleton
+          class="is-flex column"
+          :count="2"
+          :rounded="false"
+          height="12" />
+        <NeoSkeleton
+          :count="2"
+          :rounded="false"
+          width="40%"
+          height="12"
+          class="is-flex is-align-items-flex-end column" />
+        <NeoSkeleton
+          :count="2"
+          :rounded="false"
+          width="40%"
+          height="12"
+          class="is-flex is-align-items-flex-end column" />
+      </div>
     </template>
   </div>
 </template>
@@ -119,6 +137,7 @@ onMounted(async () => {
   isLoadingMeta.value = false
 })
 </script>
+
 <style scoped lang="scss">
 @import '@/assets/styles/abstracts/variables';
 

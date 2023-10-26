@@ -55,6 +55,7 @@
             variant="k-accent"
             no-shadow
             class="is-flex is-flex-grow-1 py-5"
+            size="large"
             @click="confirm" />
         </div>
       </div>
