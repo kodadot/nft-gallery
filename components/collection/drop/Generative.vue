@@ -55,7 +55,7 @@
                   pack="fass"
                   class="mr-4" />
                 <NeoButton
-                  class="mb-2 mt-4 mint-button"
+                  class="my-2 mint-button"
                   :tag="NuxtLink"
                   :label="$t('mint.unlockable.seeYourNft')"
                   :to="`/${urlPrefix}/gallery/${hasUserMinted}`"
@@ -65,7 +65,7 @@
               <div v-else>
                 <NeoButton
                   ref="root"
-                  class="mb-2 mt-4 mint-button"
+                  class="my-2 mint-button"
                   variant="k-accent"
                   :disabled="mintButtonDisabled"
                   :label="$t('mint.unlockable.mintThisNft')"
