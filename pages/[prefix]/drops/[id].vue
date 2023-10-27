@@ -2,6 +2,9 @@
   <UnlockableCollectionBanner :drop="drop" />
   <hr class="text-color my-0" />
   <CollectionDropContainer v-if="dropType === 'paid'" :drop="drop" />
+  <CollectionDropGenerative
+    v-else-if="dropType === 'generative'"
+    :drop="drop" />
   <CollectionUnlockableContainer v-else-if="dropType === 'drop'" :drop="drop" />
   <CollectionVoteDropContainer v-else-if="dropType === 'vote'" :drop="drop" />
 </template>

@@ -597,6 +597,7 @@
       "preparing": "Preparing Your Item...",
       "alreadyMinted": "🎉 You already have this NFT, check it here",
       "imageTip": "Examples Of Possible Drop",
+      "variations": "Variations",
       "onlyOneExample": "Example Of Drop",
       "loader": {
         "shareSuccess": "Share your success",
@@ -1006,7 +1007,8 @@
     "onChainPlaceholder": "My On-Chain Name",
     "namePlaceholder": "Full Legal Name",
     "socialsDescription": "Socials will appear on your profile page so that people can easily connect with you.",
-    "create": "Create Identity"
+    "create": "Create Identity",
+    "clearing": "Clearing Identity"
   },
   "collapse": {
     "collection": {
