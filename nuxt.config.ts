@@ -277,6 +277,9 @@ export default defineNuxtConfig({
       transakApiKey: process.env.TRANSAK_API_KEY || '',
       transakEnvironment: process.env.TRANSAK_ENV || 'PRODUCTION',
     },
+    private: {
+      e2eMnemonic: process.env.VUE_APP_MNEMONIC_E2E,
+    },
   },
   // In case of using ssr
   // privateRuntimeConfig: {}
