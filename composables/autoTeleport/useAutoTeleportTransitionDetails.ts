@@ -126,15 +126,19 @@ export default function (neededAmount: ComputedRef<number>) {
     actionTxFee.value = Number(fee) * ACTION_TRANSACTION_FEE_MULTIPLIER
   })
 
-  watchSyncEffect(async () => {
-    if (allowedSourceChains.value.length) {
-      await fetchChainsBalances([
-        ...allowedSourceChains.value,
-        currentChain.value as Chain,
-      ])
-      hasBalances.value = true
-    }
-  })
+  watch(
+    [allowedSourceChains, currentChain],
+    async () => {
+      if (allowedSourceChains.value.length && !hasEnoughInCurrentChain.value) {
+        await fetchChainsBalances([
+          ...allowedSourceChains.value,
+          currentChain.value as Chain,
+        ])
+        hasBalances.value = true
+      }
+    },
+    { immediate: true },
+  )
 
   return {
     amountToTeleport,

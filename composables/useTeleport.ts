@@ -158,7 +158,7 @@ export default function () {
     }
   }
 
-  const fetchChainsBalances = (chains: Chain[]): Promise<void> => {
+  const fetchChainsBalances = (chains: Chain[]) => {
     const chainPrefixes = chains.map((chain) => chainToPrefixMap[chain])
     return fetchMultipleBalance(chainPrefixes)
   }
