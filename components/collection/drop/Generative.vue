@@ -45,21 +45,32 @@
           </div>
           <div class="my-5">
             <div
-              class="is-flex is-justify-content-space-between is-align-items-center">
-              <div v-if="!hasUserMinted">
+              class="is-flex is-justify-content-flex-end is-align-items-center">
+              <div v-if="hasUserMinted" class="is-flex is-align-items-center">
+                <div class="mr-2">
+                  {{ $t('mint.unlockable.nftAlreadyMinted') }}
+                </div>
+                <NeoIcon
+                  icon="circle-check has-text-success"
+                  pack="fass"
+                  class="mr-4" />
+                <NeoButton
+                  class="mb-2 mt-4 mint-button"
+                  :tag="NuxtLink"
+                  :label="$t('mint.unlockable.seeYourNft')"
+                  :to="`/${urlPrefix}/gallery/${hasUserMinted}`"
+                  @click="handleSubmitMint" />
+              </div>
+
+              <div v-else>
                 <NeoButton
                   ref="root"
                   class="mb-2 mt-4 mint-button"
                   variant="k-accent"
                   :disabled="mintButtonDisabled"
-                  label="Mint"
+                  :label="$t('mint.unlockable.mintThisNft')"
                   @click="handleSubmitMint" />
               </div>
-              <nuxt-link v-else :to="`/${urlPrefix}/gallery/${hasUserMinted}`">
-                <p class="title is-size-4">
-                  [{{ $t('mint.unlockable.alreadyMinted') }}]
-                </p>
-              </nuxt-link>
             </div>
           </div>
         </div>
@@ -123,6 +134,7 @@ import { createUnlockableMetadata } from '../unlockable/utils'
 import GenerativePreview from '@/components/collection/drop/GenerativePreview.vue'
 import { DropItem } from '@/params/types'
 import { doWaifu } from '@/services/waifu'
+const NuxtLink = resolveComponent('NuxtLink')
 
 const Loader = defineAsyncComponent(
   () => import('@/components/collection/unlockable/UnlockableLoader.vue'),
@@ -257,7 +269,6 @@ const handleSubmitMint = async () => {
 
   isLoading.value = true
 
-  // return
   try {
     const id = await doWaifu(
       {

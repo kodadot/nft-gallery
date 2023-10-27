@@ -1,8 +1,8 @@
 <template>
-  <div class="fixed-size mt-6">
+  <div class="fixed-size mt-6 border">
     <div
       class="fixed-top-left border px-4 py-2 theme-background-color has-z-index-1 no-wrap">
-      {{ $t('mint.unlockable.onlyOneExample') }}
+      {{ $t('mint.unlockable.yourVariation') }}
     </div>
 
     <MediaItem
@@ -10,22 +10,34 @@
       :mime-type="generativeImageUrl ? 'text/html' : ''"
       preview
       is-detail
-      class="border" />
-    <div class="is-flex is-flex-direction-column is-align-items-center">
+      class="border-bottom" />
+    <div class="is-flex is-justify-content-center is-align-items-center py-6">
       <NeoButton
-        class="mt-4"
+        class="rounded border-k-grey hover-button"
         :loading="isLoading"
         no-shadow
+        loading-with-label
         :disabled="!accountId"
         @click="generateNft">
         {{ $t('mint.unlockable.variations') }}
+        <NeoIcon v-if="!isLoading" icon="arrow-rotate-left" pack="fasr" />
       </NeoButton>
+
+      <a
+        v-safe-href="sanitizeIpfsUrl(displayUrl)"
+        class="is-flex is-align-items-center has-text-link fixed-right"
+        rel="nofollow noopener noreferrer"
+        target="_blank"
+        role="link">
+        {{ $t('Img') }}
+        <NeoIcon icon="arrow-up-right" class="ml-1 has-text-link" />
+      </a>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { MediaItem, NeoButton } from '@kodadot1/brick'
+import { MediaItem, NeoButton, NeoIcon } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { getRandomInt } from '../unlockable/utils'
 import { encodeAddress } from '@polkadot/util-crypto'
@@ -77,16 +89,16 @@ const generateNft = async () => {
 @import '@/assets/styles/abstracts/variables';
 
 .fixed-size {
-  width: 580px;
+  width: 36rem;
   position: relative;
 
   @include mobile {
     width: 100% !important;
     height: 100% !important;
-    max-width: 560px;
+    max-width: 35rem;
   }
   @include tablet-only {
-    width: 768px;
+    width: 48rem;
   }
 }
 
@@ -99,5 +111,21 @@ const generateNft = async () => {
     left: 50%;
     transform: translateX(-50%);
   }
+}
+
+.hover-button:hover {
+  background: unset;
+  @include ktheme() {
+    border-color: theme('border-color') !important;
+  }
+}
+
+.rounded {
+  border-radius: 6rem;
+}
+
+.fixed-right {
+  position: absolute;
+  right: 2rem;
 }
 </style>
