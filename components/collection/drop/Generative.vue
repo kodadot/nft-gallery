@@ -58,8 +58,7 @@
                   class="my-2 mint-button"
                   :tag="NuxtLink"
                   :label="$t('mint.unlockable.seeYourNft')"
-                  :to="`/${urlPrefix}/gallery/${hasUserMinted}`"
-                  @click="handleSubmitMint" />
+                  :to="`/${urlPrefix}/gallery/${hasUserMinted}`" />
               </div>
 
               <div v-else>

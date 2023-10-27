@@ -13,13 +13,19 @@
       class="border-bottom" />
     <div class="is-flex is-justify-content-center is-align-items-center py-6">
       <NeoButton
-        class="rounded border-k-grey hover-button"
+        class="rounded border-k-grey hover-button fixed-width"
         :loading="isLoading"
         no-shadow
         loading-with-label
         :disabled="!accountId"
         @click="generateNft">
-        {{ $t('mint.unlockable.variations') }}
+        {{
+          $t(
+            isLoading
+              ? 'mint.unlockable.generating'
+              : 'mint.unlockable.variations',
+          )
+        }}
         <NeoIcon v-if="!isLoading" icon="arrow-rotate-left" pack="fasr" />
       </NeoButton>
 
@@ -127,5 +133,9 @@ const generateNft = async () => {
 .fixed-right {
   position: absolute;
   right: 2rem;
+}
+
+.fixed-width {
+  width: 10rem;
 }
 </style>
