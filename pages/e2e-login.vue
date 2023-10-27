@@ -17,8 +17,7 @@ export default {
     const mockAddress = ref(false)
 
     onMounted(() => {
-      const config = useRuntimeConfig()
-      const mnemonic = config.VUE_APP_MNEMONIC_E2E
+      const mnemonic = useRuntimeConfig().public.e2eMnemonic
       const { pair } = keyring.addUri(mnemonic, '', {
         name: 'mnemonic acc',
       })
