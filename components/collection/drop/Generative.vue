@@ -1,6 +1,6 @@
 <template>
   <div class="unlockable-container">
-    <Loader v-model="isLoading" :minted="justMinted" />
+    <CollectionUnlockableLoader v-model="isLoading" :minted="justMinted" />
     <CountdownTimer />
     <hr class="text-color my-0" />
     <div class="container is-fluid">
@@ -136,10 +136,6 @@ import { DropItem } from '@/params/types'
 import { doWaifu } from '@/services/waifu'
 const NuxtLink = resolveComponent('NuxtLink')
 
-const Loader = defineAsyncComponent(
-  () => import('@/components/collection/unlockable/UnlockableLoader.vue'),
-)
-
 const props = defineProps({
   drop: {
     type: Object,
@@ -182,7 +178,7 @@ const totalAvailableMintCount = computed(
 )
 
 watch(accountId, () => {
-  tryAgain({
+  refetchCollectionStats({
     account: accountId.value,
   })
 })
@@ -190,7 +186,7 @@ watch(accountId, () => {
 const {
   data: stats,
   loading: currentMintedLoading,
-  refetch: tryAgain,
+  refetch: refetchCollectionStats,
 } = useGraphql({
   queryName: 'firstNftOwnedByAccountAndCollectionId',
   variables: {
@@ -210,7 +206,7 @@ useSubscriptionGraphql({
     ) {
       id
   }`,
-  onChange: tryAgain,
+  onChange: refetchCollectionStats,
 })
 
 const mintedCount = computed(
