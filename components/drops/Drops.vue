@@ -12,7 +12,7 @@
         <DropCard :drop="drop" />
       </div>
     </div>
-    <hr />
+    <hr class="my-7" />
     <div>
       <CreateDropCard />
     </div>
