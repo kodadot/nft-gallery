@@ -57,6 +57,7 @@
           :label="$t('nft.action.confirm')"
           :disabled="disabled"
           :action="action"
+          :action-details="actionDetails"
           @confirm="confirm"
           @action:completed="$emit('completed')" />
       </div>
@@ -74,14 +75,24 @@ import ConfirmPurchaseItemRow from './ConfirmPurchaseItemRow.vue'
 import { totalPriceUsd } from '../shoppingCart/utils'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import { Actions } from '@/composables/transaction/types'
+import type { ActionDetails } from '@/components/common/autoTeleport/AutoTeleportModal.vue'
 
 const emit = defineEmits(['confirm', 'completed'])
-defineProps<{ action: Actions }>()
+defineProps<{
+  action: Actions
+}>()
 
 const prefrencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { isLogIn } = useAuth()
 const { urlPrefix } = usePrefix()
+const { $i18n } = useNuxtApp()
+
+const actionDetails = computed<ActionDetails>(() => ({
+  title: $i18n.t('autoTeleport.steps.buyNft.title'),
+  subtitle: $i18n.t('autoTeleport.steps.buyNft.subtitle'),
+  submit: $i18n.t('autoTeleport.steps.buyNft.submit'),
+}))
 
 const mode = computed(() => prefrencesStore.getCompletePurchaseModal.mode)
 

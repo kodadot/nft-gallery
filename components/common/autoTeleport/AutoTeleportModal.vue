@@ -66,12 +66,19 @@ import TransactionSteps, {
 import { TransactionStepStatus } from '@/components/shared/TransactionSteps/utils'
 import { type AutoTeleportTransactions } from '@/composables/autoTeleport/useAutoTeleport'
 
+export type ActionDetails = {
+  title: string
+  subtitle: string
+  submit: string
+}
+
 const emit = defineEmits(['confirm', 'close', 'telport:retry', 'action:retry'])
 const props = defineProps<{
   modelValue: boolean
   transition: TeleportTransition
   canDoAction: boolean
   transactions: AutoTeleportTransactions
+  actionDetails: ActionDetails
 }>()
 
 const { $i18n } = useNuxtApp()
@@ -107,8 +114,8 @@ const steps = computed<TransactionStep[]>(() => {
       stepStatus: step2Status,
     },
     {
-      title: $i18n.t('autoTeleport.steps.3.title'),
-      subtitle: $i18n.t('autoTeleport.steps.3.subtitle'),
+      title: props.actionDetails.title,
+      subtitle: props.actionDetails.subtitle,
       status: props.transactions.action.status.value,
       isError: props.transactions.action.isError.value,
       txId: props.transactions.action.txId.value,
@@ -134,7 +141,7 @@ const btnLabel = computed(() => {
   }
 
   if (!actionFinalized.value) {
-    return $i18n.t('autoTeleport.buyNFT')
+    return props.actionDetails.submit
   }
 
   return $i18n.t('autoTeleport.close')

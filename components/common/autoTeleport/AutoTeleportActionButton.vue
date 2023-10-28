@@ -64,6 +64,7 @@
     :transition="optimalTransition"
     :can-do-action="hasEnoughInCurrentChain"
     :transactions="transactions"
+    :action-details="actionDetails"
     @close="isModalOpen = false"
     @confirm="transaction"
     @telport:retry="teleport"
@@ -88,6 +89,7 @@ import OnRampModal from '@/components/shared/OnRampModal.vue'
 import AutoTeleportWelcomeModal from './AutoTeleportWelcomeModal.vue'
 import useAutoTeleport from '@/composables/autoTeleport/useAutoTeleport'
 import Loader from '@/components/shared/Loader.vue'
+import type { ActionDetails } from './AutoTeleportModal.vue'
 
 const emit = defineEmits(['confirm', 'teleport:completed', 'action:completed'])
 const props = withDefaults(
@@ -96,6 +98,7 @@ const props = withDefaults(
     label: string
     disabled: boolean
     action: Actions
+    actionDetails: ActionDetails
   }>(),
   {
     disabled: false,
