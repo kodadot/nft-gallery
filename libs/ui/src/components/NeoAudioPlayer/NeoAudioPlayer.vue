@@ -60,6 +60,7 @@
 </template>
 
 <script lang="ts" setup>
+import { computed, ref } from 'vue'
 import { useEventListener, useMediaControls } from '@vueuse/core'
 import { NeoButton, NeoIcon, NeoSkeleton } from '@kodadot1/brick'
 import { getRandomValues } from '@/components/unique/utils'

@@ -1,7 +1,8 @@
 <template>
   <div>
     <div
-      class="shopping-cart-modal-container theme-background-color border-left is-flex is-flex-direction-column">
+      class="shopping-cart-modal-container theme-background-color border-left is-flex is-flex-direction-column"
+      data-testid="shopping-cart-modal-container">
       <NeoModalHead
         :title="$t('shoppingCart.title')"
         @close="closeShoppingCart(ModalCloseType.BACK)" />
@@ -42,8 +43,9 @@
           <NeoButton
             :label="$t('shoppingCart.completePurchase')"
             :disabled="!numberOfItems"
-            class="w-full fixed-height"
+            class="w-full"
             no-shadow
+            size="large"
             variant="k-accent"
             @click="onCompletePurchase" />
         </div>
@@ -76,7 +78,8 @@
           <NeoButton
             :label="$t('shoppingCart.completePurchase')"
             disabled
-            class="w-full fixed-height"
+            class="w-full"
+            size="large"
             no-shadow
             variant="k-accent" />
         </div>
@@ -188,9 +191,5 @@ const onCompletePurchase = () => {
 
 .scroll-y {
   overflow-y: auto;
-}
-
-.fixed-height {
-  height: 3.5rem;
 }
 </style>

@@ -15,7 +15,12 @@ export function isImageVisible(type: MediaType) {
 }
 
 export async function getMimeType(mediaUrl: string) {
-  const { headers } = await $fetch.raw(mediaUrl)
+  const { headers } = await $fetch.raw(mediaUrl, {
+    method: 'HEAD',
+    headers: {
+      'cache-control': 'no-cache',
+    },
+  })
   return headers.get('content-type') || ''
 }
 

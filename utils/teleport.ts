@@ -31,8 +31,8 @@ const KNOWN_WEIGHTS: Record<string, number> = {
 export enum Chain {
   KUSAMA = 'Kusama',
   BASILISK = 'Basilisk',
-  STATEMINE = 'Statemine',
-  STATEMINT = 'Statemint',
+  ASSETHUBKUSAMA = 'AssetHubKusama',
+  ASSETHUBPOLKADOT = 'AssetHubPolkadot',
   POLKADOT = 'Polkadot',
 }
 
@@ -52,18 +52,18 @@ export type TeleportTransition = {
 }
 
 export const allowedTransitions = {
-  [Chain.KUSAMA]: [Chain.BASILISK, Chain.STATEMINE],
+  [Chain.KUSAMA]: [Chain.BASILISK, Chain.ASSETHUBKUSAMA],
   [Chain.BASILISK]: [Chain.KUSAMA],
-  [Chain.STATEMINE]: [Chain.KUSAMA],
-  [Chain.POLKADOT]: [Chain.STATEMINT],
-  [Chain.STATEMINT]: [Chain.POLKADOT],
+  [Chain.ASSETHUBKUSAMA]: [Chain.KUSAMA],
+  [Chain.POLKADOT]: [Chain.ASSETHUBPOLKADOT],
+  [Chain.ASSETHUBPOLKADOT]: [Chain.POLKADOT],
 }
 
 export const chainToPrefixMap: Record<Chain, Prefix> = {
   [Chain.KUSAMA]: 'rmrk',
   [Chain.BASILISK]: 'bsx',
-  [Chain.STATEMINE]: 'ahk',
-  [Chain.STATEMINT]: 'ahp',
+  [Chain.ASSETHUBKUSAMA]: 'ahk',
+  [Chain.ASSETHUBPOLKADOT]: 'ahp',
   [Chain.POLKADOT]: 'dot',
 }
 
@@ -71,8 +71,8 @@ export const prefixToChainMap: Partial<Record<Prefix, Chain>> = {
   rmrk: Chain.KUSAMA,
   ksm: Chain.KUSAMA,
   bsx: Chain.BASILISK,
-  ahk: Chain.STATEMINE,
-  ahp: Chain.STATEMINT,
+  ahk: Chain.ASSETHUBKUSAMA,
+  ahp: Chain.ASSETHUBPOLKADOT,
   dot: Chain.POLKADOT,
 }
 
@@ -95,8 +95,8 @@ export const whichTeleportType = ({
       return TeleprtType.RelayToPara
 
     case Chain.BASILISK:
-    case Chain.STATEMINE:
-    case Chain.STATEMINT:
+    case Chain.ASSETHUBKUSAMA:
+    case Chain.ASSETHUBPOLKADOT:
       return [Chain.KUSAMA, Chain.POLKADOT].includes(to)
         ? TeleprtType.ParaToRelay
         : TeleprtType.ParaToPara
@@ -251,10 +251,10 @@ export const getChainCurrency = (chain: Chain) => {
   switch (chain) {
     case Chain.KUSAMA:
     case Chain.BASILISK:
-    case Chain.STATEMINE:
+    case Chain.ASSETHUBKUSAMA:
       return 'KSM'
     case Chain.POLKADOT:
-    case Chain.STATEMINT:
+    case Chain.ASSETHUBPOLKADOT:
       return 'DOT'
   }
 }

@@ -11,7 +11,7 @@
           <p>{{ $t('migrate.subHeading') }}</p>
         </div>
 
-        <div class="is-flex is-align-items-center mt-4">
+        <div class="network">
           <div class="is-relative">
             <p class="text-destination has-text-grey">
               {{ $t('migrate.source') }}
@@ -114,7 +114,7 @@
     <!-- spacing -->
     <div class="column"></div>
 
-    <div class="column is-5"><MigrateFaq /></div>
+    <div class="column is-5"><MigrateLandingHeaderFaq /></div>
   </div>
 </template>
 
@@ -125,36 +125,39 @@ import {
   NeoDropdownItem,
   NeoIcon,
 } from '@kodadot1/brick'
-import MigrateFaq from './MigrateHeaderFaq.vue'
-import { availablePrefixWithIcon } from '@/utils/chain'
+import useMigrate from '@/components/migrate/migrate'
 
-const source = availablePrefixWithIcon()
-const sourceSelected = ref(
-  availablePrefixWithIcon().find((item) => item.value === 'ksm'),
-)
-
-const destination = availablePrefixWithIcon().filter(
-  (item) => item.value === 'ahp' || item.value === 'ahk',
-)
-const destinationSelected = ref(
-  availablePrefixWithIcon().find((item) => item.value === 'ahp'),
-)
-
-watchEffect(() => {
-  const chain = sourceSelected.value?.value
-
-  if (chain === 'ahk') {
-    destinationSelected.value = destination.find((item) => item.value === 'ahp')
-  }
-
-  if (chain === 'ahp') {
-    destinationSelected.value = destination.find((item) => item.value === 'ahk')
-  }
-})
+const { source, sourceSelected, destination, destinationSelected } =
+  useMigrate()
 </script>
 
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
+
+.network {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-direction: column;
+  margin-top: 2rem;
+
+  .text-destination {
+    position: absolute;
+    top: -100%;
+  }
+
+  @include mobile() {
+    .text-destination {
+      position: unset;
+      top: unset;
+    }
+  }
+
+  @include widescreen() {
+    flex-direction: row;
+    margin-top: 1rem;
+  }
+}
 
 .svg-arrow {
   @include ktheme() {
@@ -175,11 +178,6 @@ watchEffect(() => {
   h1 {
     margin-left: 4.5rem;
   }
-}
-
-.text-destination {
-  position: absolute;
-  top: -100%;
 }
 
 .chain-selector {

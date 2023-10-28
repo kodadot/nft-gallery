@@ -87,6 +87,7 @@
   "dropUpload": "Drop your file here or click to select.",
   "chainSelect": "Select Chain ({0})",
   "success": "Success",
+  "advancedFilters": "Advanced Filters",
   "search": {
     "searchCollection": "Search Collection",
     "seeAll": "See All",
@@ -461,7 +462,7 @@
     "landing": {
       "heading": "What Do You Wish To Create?",
       "collection": "Create A Collection For Your NFTs",
-      "nft": "Create Awesome NFTs From Your Art",
+      "nft": "Create awesome NFTs from your art and add them to your existing collection",
       "singleNft": "Single NFT",
       "singleNftDesc": "Create and mint a single original NFT (can have more copies)",
       "massNft": "Multiple NFTs",
@@ -596,6 +597,7 @@
       "preparing": "Preparing Your Item...",
       "alreadyMinted": "🎉 You already have this NFT, check it here",
       "imageTip": "Examples Of Possible Drop",
+      "variations": "Variations",
       "onlyOneExample": "Example Of Drop",
       "loader": {
         "shareSuccess": "Share your success",
@@ -1005,7 +1007,8 @@
     "onChainPlaceholder": "My On-Chain Name",
     "namePlaceholder": "Full Legal Name",
     "socialsDescription": "Socials will appear on your profile page so that people can easily connect with you.",
-    "create": "Create Identity"
+    "create": "Create Identity",
+    "clearing": "Clearing Identity"
   },
   "collapse": {
     "collection": {
@@ -1064,7 +1067,9 @@
     "globalOffers": "Global Offers",
     "offerStats": "Offers Stats",
     "create": {
-      "waifu": "Waifu"
+      "waifu": "Waifu",
+      "generateWaifu": "Generate Waifu",
+      "timeLimit": "Time Limited Campaign"
     }
   },
   "walletConnect": {
@@ -1142,6 +1147,13 @@
     "subscribeLabel": "Subscribe",
     "toc": "Terms of Use",
     "privacyPolicy": "Privacy Policy"
+  },
+  "signupBanner": {
+    "title": "Stay in the loop and Get",
+    "subtitle": "Sign up and receive a $20 voucher, along with the latest updates from us.",
+    "claimVoucher": "Claim Voucher!",
+    "subscribed": "Successfully subscribed!",
+    "failed": "Something went wrong subscribing you to the newsletter"
   },
   "share": {
     "copyLink": "Copy Link",
@@ -1323,7 +1335,8 @@
     "acceptedOffer": "Accepted offer",
     "listing": "Listing",
     "mint": "Mint",
-    "transfer": "Transfer"
+    "transfer": "Transfer",
+    "artView": "Art View"
   },
   "redirect": {
     "title": "Leaving Kodadot",
@@ -1444,7 +1457,34 @@
       "own": "You Own <strong>{0}</strong> From This Collection"
     },
     "migrationNotPossible": "Migration Not Possible:",
-    "migrationNotPossibleLabel": "Migration Is <strong>Not Possible</strong> For  Following Collections That You Own:"
+    "migrationNotPossibleLabel": "Migration Is <strong>Not Possible</strong> For  Following Collections That You Own:",
+    "homeButton": "Migration Homepage",
+    "review": "Review",
+    "reviewCtaUncheck": "Acknowledge Before Proceeding",
+    "reviewCtaCheck": "Proceed To Signing",
+    "sign": "Sign",
+    "collection": "Migrate Collection",
+    "collectionName": "(name will stay the same)",
+    "reviewNotes": "Please note that at this stage, only items you own can be migrated. For other items, you will need to pre-sign them to allow others to follow your migration initiative.",
+    "route": "Route",
+    "costs": "Costs",
+    "feeBreakdown": "Fee Breakdown",
+    "agreement": "I understand this action is irreversible once done.",
+    "existentialDeposit": "Existential Deposit",
+    "signNotes": "Based on your item count, you may need to sign multiple transactions for the migration. Please stay on this page until all signatures fully process to lock in the migration.",
+    "modal": {
+      "title": "Are you sure you want to leave?",
+      "subtitle": "Any progress here will be lost.",
+      "yes": "Yes, Leave",
+      "no": "Cancel"
+    },
+    "congrats": {
+      "title": "Congratulations!",
+      "subtitle": "Your migration is complete.",
+      "cta": "View Your Collection",
+      "share": "Share on",
+      "notes": "You have successfully transferred your '{0}' from the {1} network over to the {2}."
+    }
   },
   "autoTeleport" : {
     "autoTeleport": "Auto Teleport",
@@ -1499,5 +1539,6 @@
         "subtitle": "when signing this transaction, you will buy your desired NFT"
       }
     }
+   
   }
 }

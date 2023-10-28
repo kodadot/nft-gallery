@@ -149,11 +149,11 @@ export default function () {
     switch (chain) {
       case Chain.KUSAMA:
       case Chain.BASILISK:
-      case Chain.STATEMINE:
+      case Chain.ASSETHUBKUSAMA:
         return assets(5).decimals
       case Chain.POLKADOT:
         return decimalsOf('dot')
-      case Chain.STATEMINT:
+      case Chain.ASSETHUBPOLKADOT:
         return decimalsOf('ahp')
     }
   }

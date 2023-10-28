@@ -58,20 +58,14 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
-import { NeoSkeleton } from '@kodadot1/brick'
 import { formatNumber } from '@/utils/format/balance'
 
+import { NeoSkeleton } from '@kodadot1/brick'
 import { ChainToken, useIdentityStore } from '@/stores/identity'
 
-const refetchMultipleBalanceTimer = ref()
 const identityStore = useIdentityStore()
-const { fetchMultipleBalance, currentNetwork } = useMultiBalance()
 
-const {
-  multiBalances,
-  multiBalanceNetwork,
-} = storeToRefs(identityStore)
+const { multiBalances } = useMultipleBalance()
 
 const isBalanceLoading = computed(
   () => identityStore.getStatusMultiBalances === 'loading',
@@ -92,21 +86,6 @@ const isEmptyBalanceOnAllChains = computed(() => {
     (chain) =>
       filterEmptyBalanceChains(multiBalances.value.chains[chain]).length !== 0,
   )
-})
-
-onMounted(async () => {
-  if (currentNetwork.value !== multiBalanceNetwork.value) {
-    identityStore.resetMultipleBalances()
-  }
-
-  fetchMultipleBalance()
-  refetchMultipleBalanceTimer.value = setInterval(() => {
-    fetchMultipleBalance()
-  }, 30000)
-})
-
-onBeforeUnmount(() => {
-  clearInterval(refetchMultipleBalanceTimer.value)
 })
 </script>
 

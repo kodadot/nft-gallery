@@ -12,10 +12,10 @@ export default function () {
     rmrk: relayChainBlockTime,
   }
 
-  const blocktime = computed(
+  const blockTime = computed(
     () => chainBlockTimes[urlPrefix.value] ?? paraChainBlockTime,
   )
   return {
-    blocktime,
+    blockTime,
   }
 }

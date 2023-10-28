@@ -12,7 +12,8 @@
       :disable-operation="disableOperation"
       :player-cover="audioPlayerCover"
       :hover-on-cover-play="audioHoverOnCoverPlay"
-      :parent-hovering="isMediaItemHovering" />
+      :parent-hovering="isMediaItemHovering"
+      :preview="preview" />
     <div
       v-if="isLewd && isLewdBlurredLayer"
       class="nsfw-blur is-capitalized is-flex is-align-items-center is-justify-content-center is-flex-direction-column">
@@ -46,9 +47,12 @@
 </template>
 
 <script lang="ts" setup>
+import { computed, ref, watch } from 'vue'
+import { useElementHover } from '@vueuse/core'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
+
 import { getMimeType, resolveMedia } from '@/utils/gallery/media'
 import { MediaType } from '@/components/rmrk/types'
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import ImageMedia from './type/ImageMedia.vue'
 import VideoMedia from './type/VideoMedia.vue'
 import AudioMedia from './type/AudioMedia.vue'
@@ -57,7 +61,6 @@ import JsonMedia from './type/JsonMedia.vue'
 import IFrameMedia from './type/IFrameMedia.vue'
 import ObjectMedia from './type/ObjectMedia.vue'
 import Media from './type/UnknownMedia.vue'
-import { useElementHover } from '@vueuse/core'
 
 const SUFFIX = 'Media'
 const props = withDefaults(
@@ -73,6 +76,7 @@ const props = withDefaults(
     disableOperation?: boolean
     audioPlayerCover?: string
     audioHoverOnCoverPlay?: boolean
+    preview?: boolean // props for video component
   }>(),
   {
     src: '',
@@ -84,9 +88,13 @@ const props = withDefaults(
     isDetail: false,
     placeholder: '',
     disableOperation: undefined,
+    audioPlayerCover: '',
   },
 )
-const isInteractive = ref<boolean>(false)
+
+const isInteractive = computed(() => {
+  return resolveMedia(mimeType.value) === MediaType.IFRAME && !props.isDetail
+})
 const type = ref('')
 
 // props.mimeType may be empty string "". Add `image/png` as fallback
@@ -105,9 +113,7 @@ const components = {
 
 const resolveComponent = computed(() => {
   let mediaType = resolveMedia(mimeType.value)
-
   if (mediaType === MediaType.IFRAME && !props.isDetail) {
-    isInteractive.value = true
     mediaType = MediaType.IMAGE
   }
   return components[mediaType + SUFFIX]

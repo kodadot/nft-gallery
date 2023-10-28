@@ -149,7 +149,7 @@ const fromTabs = [
   },
   {
     label: getChainName('ahk'),
-    value: Chain.STATEMINE,
+    value: Chain.ASSETHUBKUSAMA,
   },
   {
     label: getChainName('dot'),
@@ -157,7 +157,7 @@ const fromTabs = [
   },
   {
     label: getChainName('ahp'),
-    value: Chain.STATEMINT,
+    value: Chain.ASSETHUBPOLKADOT,
   },
 ]
 const toTabs = [
@@ -173,8 +173,8 @@ const toTabs = [
   },
   {
     label: getChainName('ahk'),
-    value: Chain.STATEMINE,
-    disabled: computed(() => isDisabled(Chain.STATEMINE)),
+    value: Chain.ASSETHUBKUSAMA,
+    disabled: computed(() => isDisabled(Chain.ASSETHUBKUSAMA)),
   },
   {
     label: getChainName('dot'),
@@ -183,8 +183,8 @@ const toTabs = [
   },
   {
     label: getChainName('ahp'),
-    value: Chain.STATEMINT,
-    disabled: computed(() => isDisabled(Chain.STATEMINT)),
+    value: Chain.ASSETHUBPOLKADOT,
+    disabled: computed(() => isDisabled(Chain.ASSETHUBPOLKADOT)),
   },
 ]
 
