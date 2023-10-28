@@ -278,11 +278,14 @@ const imgref = ref(null)
 const { toggle, isFullscreen } = useFullscreen(imgref)
 </script>
 
-<style>
-#nft-img-container:fullscreen img {
-  width: 100vw;
-  height: 100vh;
-  object-fit: contain;
+<style lang="scss">
+#nft-img-container:fullscreen {
+  background-color: #fff;
+  img {
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain;
+  }
 }
 </style>
 <style lang="scss" scoped>
