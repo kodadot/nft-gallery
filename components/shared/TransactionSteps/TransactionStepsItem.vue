@@ -72,7 +72,7 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import { TransactionStepStatus } from '@/utils/teleport'
+import { TransactionStepStatus } from './utils'
 import { type Prefix } from '@kodadot1/static'
 
 export type TransactionStepItem = {

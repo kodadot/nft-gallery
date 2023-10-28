@@ -59,10 +59,11 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoModal } from '@kodadot1/brick'
-import { TeleportTransition, TransactionStepStatus } from '@/utils/teleport'
+import { TeleportTransition } from '@/utils/teleport'
 import TransactionSteps, {
   TransactionStep,
 } from '@/components/shared/TransactionSteps/TransactionSteps.vue'
+import { TransactionStepStatus } from '@/components/shared/TransactionSteps/utils'
 import { type AutoTeleportTransactions } from '@/composables/autoTeleport/useAutoTeleport'
 
 const emit = defineEmits(['confirm', 'close', 'telport:retry', 'action:retry'])

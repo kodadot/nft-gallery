@@ -258,10 +258,3 @@ export const getChainCurrency = (chain: Chain) => {
       return 'DOT'
   }
 }
-
-export enum TransactionStepStatus {
-  FAILED = 'failed',
-  COMPLETED = 'completed',
-  WAITING = 'waiting',
-  LOADING = 'loading',
-}

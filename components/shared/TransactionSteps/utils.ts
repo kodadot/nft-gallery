@@ -1,4 +1,3 @@
-import { TransactionStepStatus } from '@/utils/teleport'
 import { TransactionStatus } from '@/composables/useTransactionStatus'
 import { TransactionStep } from './TransactionSteps.vue'
 
@@ -39,4 +38,11 @@ export const getTransactionStepDetails = (
     subtitle: '(Waiting for your approval)',
     status: TransactionStepStatus.WAITING,
   }
+}
+
+export enum TransactionStepStatus {
+  FAILED = 'failed',
+  COMPLETED = 'completed',
+  WAITING = 'waiting',
+  LOADING = 'loading',
 }

@@ -19,12 +19,11 @@
 </template>
 
 <script setup lang="ts">
-import { TransactionStepStatus } from '@/utils/teleport'
 import TransactionStepsItem, {
   type TransactionStepItem,
 } from './TransactionStepsItem.vue'
 import { TransactionStatus } from '@/composables/useTransactionStatus'
-import { getTransactionStepDetails } from './utils'
+import { TransactionStepStatus, getTransactionStepDetails } from './utils'
 import { type Prefix } from '@kodadot1/static'
 
 export type TransactionStep = {
