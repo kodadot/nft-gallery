@@ -276,7 +276,7 @@ export default defineNuxtConfig({
       rampApiKey: process.env.RAMP_API_KEY,
       transakApiKey: process.env.TRANSAK_API_KEY || '',
       transakEnvironment: process.env.TRANSAK_ENV || 'PRODUCTION',
-      e2eMnemonic: process.env.VUE_APP_MNEMONIC_E2E,
+      e2eMnemonic: process.env.NUXT_APP_MNEMONIC_E2E,
     },
   },
   // In case of using ssr
