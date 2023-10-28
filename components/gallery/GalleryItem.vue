@@ -216,10 +216,7 @@ const canPreview = computed(() =>
 )
 
 const activeCarousel = ref(0)
-// const activeCarouselImage = computed(() => {
-//   const resource = nftResources.value?.[activeCarousel.value]
-//   return resource?.src || 'placeholder.webp'
-// })
+
 const hasResources = computed(
   () => nftResources.value && nftResources.value?.length > 1,
 )
@@ -229,12 +226,6 @@ const hasAnimatedResources = computed(
     nftResources.value?.length > 1 &&
     nftResources.value[1].animation,
 )
-
-// const previewItemSrc = computed(() => {
-//   const baseUrl =
-//     (hasResources.value && activeCarouselImage.value) || nftImage.value
-//   return baseUrl ? toOriginalContentUrl(baseUrl) : baseUrl
-// })
 
 const onNFTBought = () => {
   activeTab.value = tabs.activity
