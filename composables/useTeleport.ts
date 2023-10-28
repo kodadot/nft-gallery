@@ -23,26 +23,24 @@ export default function () {
   const isError = ref<boolean>(false)
   const txId = ref<string | null>(null)
 
-  const identityStore = useIdentityStore()
   const { isLoading, status, initTransactionLoader, stopLoader } =
     useTransactionStatus()
   const { accountId } = useAuth()
   const { assets } = usePrefix()
   const { decimalsOf } = useChain()
   const { urlPrefix } = usePrefix()
-  const { fetchMultipleBalance } = useMultiBalance()
+  const { fetchMultipleBalance, multiBalances } = useMultipleBalance()
 
   const chainBalances = {
-    [Chain.KUSAMA]: () =>
-      identityStore.multiBalances.chains.kusama?.ksm?.nativeBalance,
+    [Chain.KUSAMA]: () => multiBalances.value.chains.kusama?.ksm?.nativeBalance,
     [Chain.BASILISK]: () =>
-      identityStore.multiBalances.chains.basilisk?.ksm?.nativeBalance,
-    [Chain.STATEMINE]: () =>
-      identityStore.multiBalances.chains.kusamaHub?.ksm?.nativeBalance,
+      multiBalances.value.chains.basilisk?.ksm?.nativeBalance,
+    [Chain.ASSETHUBKUSAMA]: () =>
+      multiBalances.value.chains.kusamaHub?.ksm?.nativeBalance,
     [Chain.POLKADOT]: () =>
-      identityStore.multiBalances.chains.polkadot?.dot?.nativeBalance,
-    [Chain.STATEMINT]: () =>
-      identityStore.multiBalances.chains.polkadotHub?.dot?.nativeBalance,
+      multiBalances.value.chains.polkadot?.dot?.nativeBalance,
+    [Chain.ASSETHUBPOLKADOT]: () =>
+      multiBalances.value.chains.polkadotHub?.dot?.nativeBalance,
   }
 
   const chain = computed<Chain | null>(

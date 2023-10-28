@@ -13,7 +13,7 @@ export default function ({
   transactions: ComputedRef<AutoTeleportTransactions>
   actionCancelled: Ref<boolean>
 }) {
-  const { fetchMultipleBalance } = useMultiBalance()
+  const { fetchMultipleBalance } = useMultipleBalance()
 
   const { pause, resume, isActive } = useIntervalFn(
     async () => {

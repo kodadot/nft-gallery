@@ -9,7 +9,7 @@ import { toDefaultAddress } from '@/utils/account'
 import { storeToRefs } from 'pinia'
 import { CHAINS, ENDPOINT_MAP, Prefix } from '@kodadot1/static'
 import { getNativeBalance } from '@/utils/balance'
-
+import { useIntervalFn } from '@vueuse/core'
 import { useIdentityStore } from '@/stores/identity'
 
 const networkToPrefix = {
@@ -45,10 +45,9 @@ function calculateUsd(amount: string, tokenValue) {
   return calculateExactUsdFromToken(amountToNumber, Number(tokenValue))
 }
 
-export default function (withTimer: boolean = true) {
+export default function (refetchPeriodically: boolean = false) {
   const { accountId } = useAuth()
   const { isTestnet } = usePrefix()
-  const refetchMultipleBalanceTimer = ref()
   const identityStore = useIdentityStore()
   const fiatStore = useFiatStore()
 
@@ -145,25 +144,26 @@ export default function (withTimer: boolean = true) {
     return Promise.allSettled(promisses)
   }
 
-  if (withTimer) {
-    onMounted(async () => {
-      if (currentNetwork.value !== multiBalanceNetwork.value) {
-        identityStore.resetMultipleBalances()
-      }
+  onMounted(async () => {
+    if (
+      currentNetwork.value !== multiBalanceNetwork.value &&
+      refetchPeriodically
+    ) {
+      identityStore.resetMultipleBalances()
+    }
+  })
 
+  useIntervalFn(
+    () => {
       fetchMultipleBalance()
-      refetchMultipleBalanceTimer.value = setInterval(() => {
-        fetchMultipleBalance()
-      }, 30000)
-    })
-
-    onBeforeUnmount(() => {
-      clearInterval(refetchMultipleBalanceTimer.value)
-    })
-  }
+    },
+    30000,
+    { immediate: refetchPeriodically },
+  )
 
   return {
     multiBalances,
     currentNetwork,
+    fetchMultipleBalance,
   }
 }
