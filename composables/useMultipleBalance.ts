@@ -1,15 +1,16 @@
 import { ApiPromise, WsProvider } from '@polkadot/api'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
-import { CHAINS, ENDPOINT_MAP } from '@kodadot1/static'
-import { balanceOf } from '@kodadot1/sub-api'
 import format from '@/utils/format/balance'
 import { useFiatStore } from '@/stores/fiat'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
 import { getAssetIdByAccount } from '@/utils/api/bsx/query'
 import { toDefaultAddress } from '@/utils/account'
 
+import { storeToRefs } from 'pinia'
+import { CHAINS, ENDPOINT_MAP, Prefix } from '@kodadot1/static'
+import { getNativeBalance } from '@/utils/balance'
+
 import { useIdentityStore } from '@/stores/identity'
-import type { PalletBalancesAccountData } from '@polkadot/types/lookup'
 
 const networkToPrefix = {
   polkadot: 'dot',
@@ -20,7 +21,31 @@ const networkToPrefix = {
   polkadotHub: 'ahp',
 }
 
-export default function () {
+const prefixToNetwork = {
+  dot: 'polkadot',
+  rmrk: 'kusama',
+  ksm: 'kusama',
+  bsx: 'basilisk',
+  ahk: 'kusamaHub',
+  snek: 'basilisk-testnet',
+  ahp: 'polkadotHub',
+}
+
+const getNetwork = (prefix: Prefix) => {
+  return prefixToNetwork[prefix]
+}
+
+function calculateUsd(amount: string, tokenValue) {
+  if (!amount) {
+    return 0
+  }
+
+  const amountToNumber = Number(amount.replace(/\,/g, ''))
+
+  return calculateExactUsdFromToken(amountToNumber, Number(tokenValue))
+}
+
+export default function (withTimer: boolean = true) {
   const { accountId } = useAuth()
   const { isTestnet } = usePrefix()
   const refetchMultipleBalanceTimer = ref()
@@ -37,20 +62,8 @@ export default function () {
   const currentNetwork = computed(() =>
     isTestnet.value ? 'test-network' : 'main-network',
   )
-  const calculateUsd = (amount: string, token = 'KSM') => {
-    if (!amount) {
-      return 0
-    }
 
-    const amountToNumber = Number(amount.replace(/\,/g, ''))
-
-    return calculateExactUsdFromToken(
-      amountToNumber,
-      Number(fiatStore.getCurrentTokenValue(token)),
-    )
-  }
-
-  const getBalance = async (chainName: string, token = 'KSM', tokenId = 0) => {
+  async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
     const currentAddress = accountId.value
     const prefix = networkToPrefix[chainName]
     const chain = CHAINS[prefix]
@@ -64,28 +77,23 @@ export default function () {
       provider: wsProvider,
     })
 
-    let currentBalance
-    let nativeBalance
+    const nativeBalance = await getNativeBalance({
+      address: prefixAddress,
+      api: api,
+      tokenId,
+    })
 
-    if (tokenId) {
-      nativeBalance = (
-        (await api.query.tokens.accounts(
-          prefixAddress,
-          tokenId,
-        )) as PalletBalancesAccountData
-      ).free.toString()
-      currentBalance = format(nativeBalance, chain.tokenDecimals, false)
-    } else {
-      nativeBalance = await balanceOf(api, prefixAddress)
-      currentBalance = format(nativeBalance, chain.tokenDecimals, false)
-    }
+    const currentBalance = format(nativeBalance, chain.tokenDecimals, false)
 
     let selectedTokenId = String(tokenId)
     if (chainName === 'basilisk') {
       selectedTokenId = await getAssetIdByAccount(api, prefixAddress)
     }
 
-    const usd = calculateUsd(currentBalance, token)
+    const usd = calculateUsd(
+      currentBalance,
+      fiatStore.getCurrentTokenValue(token),
+    )
 
     identityStore.setMultiBalances({
       address: defaultAddress,
@@ -105,36 +113,57 @@ export default function () {
 
     identityStore.multiBalanceNetwork = currentNetwork.value
 
-    await wsProvider.disconnect()
+    return wsProvider.disconnect()
   }
 
-  const fetchMultipleBalance = async () => {
-    await fiatStore.fetchFiatPrice()
+  const fetchFiatPrice = async (force) => {
+    if (!force && fiatStore.incompleteFiatValues) {
+      await fiatStore.fetchFiatPrice()
+    }
+  }
+
+  const fetchMultipleBalance = async (
+    onlyPrefixes: Prefix[] = [],
+    forceFiat: boolean = false,
+  ) => {
+    await fetchFiatPrice(forceFiat)
+
     const assets = isTestnet.value
       ? multiBalanceAssetsTestnet.value
       : multiBalanceAssets.value
 
-    assets.forEach((item) => {
-      getBalance(item.chain, item.token, Number(item.tokenId))
+    const chainNetworks = onlyPrefixes.map(getNetwork).filter(Boolean)
+
+    const assetsToFetch = onlyPrefixes.length
+      ? assets.filter((item) => chainNetworks.includes(item.chain))
+      : assets
+
+    const promisses = assetsToFetch.map((item) =>
+      getBalance(item.chain, item.token, Number(item.tokenId)),
+    )
+
+    return Promise.allSettled(promisses)
+  }
+
+  if (withTimer) {
+    onMounted(async () => {
+      if (currentNetwork.value !== multiBalanceNetwork.value) {
+        identityStore.resetMultipleBalances()
+      }
+
+      fetchMultipleBalance()
+      refetchMultipleBalanceTimer.value = setInterval(() => {
+        fetchMultipleBalance()
+      }, 30000)
+    })
+
+    onBeforeUnmount(() => {
+      clearInterval(refetchMultipleBalanceTimer.value)
     })
   }
 
-  onMounted(async () => {
-    if (currentNetwork.value !== multiBalanceNetwork.value) {
-      identityStore.resetMultipleBalances()
-    }
-
-    fetchMultipleBalance()
-    refetchMultipleBalanceTimer.value = setInterval(() => {
-      fetchMultipleBalance()
-    }, 30000)
-  })
-
-  onBeforeUnmount(() => {
-    clearInterval(refetchMultipleBalanceTimer.value)
-  })
-
   return {
     multiBalances,
+    currentNetwork,
   }
 }
