@@ -18,6 +18,7 @@ export default function (neededAmount: ComputedRef<number>) {
     getAddressByChain,
   } = useTeleport()
   const { apiInstance } = useApi()
+  const { balance } = useBalance()
 
   const hasBalances = ref(false)
   const teleportTxFee = ref(0)
@@ -32,7 +33,9 @@ export default function (neededAmount: ComputedRef<number>) {
   )
 
   const currentChainBalance = computed(
-    () => currentChain.value && Number(chainBalances[currentChain.value]()),
+    () =>
+      (currentChain.value && Number(chainBalances[currentChain.value]())) ||
+      Number(balance.value),
   )
 
   const hasEnoughInCurrentChain = computed(
@@ -127,7 +130,7 @@ export default function (neededAmount: ComputedRef<number>) {
   })
 
   watch(
-    [allowedSourceChains, currentChain],
+    [allowedSourceChains, hasEnoughInCurrentChain],
     async () => {
       if (allowedSourceChains.value.length && !hasEnoughInCurrentChain.value) {
         await fetchChainsBalances([

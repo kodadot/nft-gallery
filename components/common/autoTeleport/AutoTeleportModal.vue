@@ -51,7 +51,7 @@
           no-shadow
           :disabled="btnDisabled"
           class="is-flex is-flex-grow-1 btn-height"
-          @click="confirm" />
+          @click="submit" />
       </div>
     </div>
   </NeoModal>
@@ -123,12 +123,29 @@ const btnDisabled = computed(
   () => !props.canDoAction || props.transactions.action.isLoading?.value,
 )
 
+const actionFinalized = computed(
+  () => props.transactions.action.status.value === TransactionStatus.Finalized,
+)
+
 const btnLabel = computed(() => {
   if (!props.canDoAction) {
     return $i18n.t('autoTeleport.finishAllStepsFirst')
   }
-  return $i18n.t('autoTeleport.buyNFT')
+
+  if (!actionFinalized.value) {
+    return $i18n.t('autoTeleport.buyNFT')
+  }
+
+  return $i18n.t('autoTeleport.close')
 })
+
+const submit = () => {
+  if (actionFinalized.value) {
+    onClose()
+  } else {
+    confirm()
+  }
+}
 
 const onClose = () => {
   emit('close')

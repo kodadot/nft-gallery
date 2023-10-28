@@ -5,12 +5,7 @@
       class="is-flex is-justify-content-space-between w-full mb-4">
       <div class="is-flex">
         <div class="has-accent-blur">
-          <img
-            :src="`/auto-teleport-arrow${
-              !isTelportIconActive ? '-disabled' : ''
-            }.svg`"
-            class="mr-2"
-            alt="teleport arrow" />
+          <img :src="autoTeleportIcon" class="mr-2" alt="teleport arrow" />
           <img
             v-if="isTelportIconActive"
             src="/accent-blur.svg"
@@ -141,6 +136,11 @@ const isTelportIconActive = computed(() => {
 
   return autoTeleport.value
 })
+
+const autoTeleportIcon = computed(
+  () =>
+    `/auto-teleport-arrow${!isTelportIconActive.value ? '-disabled' : ''}.svg`,
+)
 
 const hasAvailableTeleportTransition = computed(
   () => isAutoTeleportAvailable.value && optimalTransition.value.source,
