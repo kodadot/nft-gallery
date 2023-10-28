@@ -15,9 +15,7 @@ jobs:
         node-version: 18
     
     - name: Set Enviroment Variable
-      env:
-        MY_SECRET: ${{ secrets.MNEMONIC_E2E }}
-      run: echo "NUXT_APP_MNEMONIC_E2E=${MY_SECRET}" >> .env
+      run: echo VUE_APP_MNEMONIC_E2E=${{ secrets.MNEMONIC_E2E }} >> .env
 
     - name: Install dependencies
       uses: ./.github/actions/pnpm-install
