@@ -2,7 +2,9 @@ import { EntityWithId } from '@/components/rmrk/service/scheme'
 import { getValue } from '@/services/keywise'
 import { Ref } from 'vue'
 
-export function useUnlockable(entity: Ref<EntityWithId | undefined>) {
+export function useUnlockable(
+  entity: Ref<Pick<EntityWithId, 'id'> | undefined>,
+) {
   const { urlPrefix } = usePrefix()
   const unlockLink = ref('')
 
