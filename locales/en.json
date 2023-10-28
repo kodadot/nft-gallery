@@ -1491,6 +1491,23 @@
       "notes": "You have successfully transferred your '{0}' from the {1} network over to the {2}."
     }
   },
+  "transactionSteps" : {
+    "completed": {
+      "title": "Completed"
+    },
+    "error": {
+      "title": "Please sign transaction",
+      "subtitle": "Failed"
+    },
+    "loading": {
+      "title": "Transaction pending",
+      "subtitle": "(please wait)"
+    },
+    "waiting": {
+      "title": "Please sign transaction",
+      "subtitle": "(Waiting for your approval)"
+    }
+  },
   "autoTeleport" : {
     "autoTeleport": "Auto Teleport",
     "checking": "checking funds ...",

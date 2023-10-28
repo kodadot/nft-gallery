@@ -3,6 +3,7 @@ import { TransactionStep } from './TransactionSteps.vue'
 
 export const getTransactionStepDetails = (
   step: TransactionStep,
+  $t,
 ): {
   title: string
   subtitle?: string
@@ -12,30 +13,30 @@ export const getTransactionStepDetails = (
 
   if (status === TransactionStatus.Finalized) {
     return {
-      title: 'Completed',
+      title: $t('transactionSteps.completed.title'),
       status: TransactionStepStatus.COMPLETED,
     }
   }
 
   if (isError) {
     return {
-      title: 'Please sign transaction',
-      subtitle: 'Failed',
+      title: $t('transactionSteps.error.title'),
+      subtitle: $t('transactionSteps.error.subtitle'),
       status: TransactionStepStatus.FAILED,
     }
   }
 
   if (status !== TransactionStatus.Unknown || isLoading) {
     return {
-      title: 'Transaction pending',
-      subtitle: '(please wait)',
+      title: $t('transactionSteps.loading.title'),
+      subtitle: $t('transactionSteps.loading.subtitle'),
       status: TransactionStepStatus.LOADING,
     }
   }
 
   return {
-    title: 'Please sign transaction',
-    subtitle: '(Waiting for your approval)',
+    title: $t('transactionSteps.waiting.title'),
+    subtitle: $t('transactionSteps.waiting.subtitle'),
     status: TransactionStepStatus.WAITING,
   }
 }

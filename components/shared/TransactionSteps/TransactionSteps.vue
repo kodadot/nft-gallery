@@ -39,15 +39,17 @@ export type TransactionStep = {
   retry?: () => void
 }
 
+defineProps<{
+  steps: TransactionStep[]
+}>()
+
+const { $i18n } = useNuxtApp()
+
 const tryAgain = (step: TransactionStep) => {
   if (step.retry) {
     step.retry()
   }
 }
-
-defineProps<{
-  steps: TransactionStep[]
-}>()
 
 const getStepItem = (
   step: TransactionStep,
@@ -59,7 +61,7 @@ const getStepItem = (
     prefix: step.prefix,
   }
 
-  const { status, title, subtitle } = getTransactionStepDetails(step)
+  const { status, title, subtitle } = getTransactionStepDetails(step, $i18n.t)
 
   if (isAction) {
     return {
