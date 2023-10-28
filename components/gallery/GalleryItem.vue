@@ -6,19 +6,23 @@
       :subtitle="$t('mint.successCreateNewNft', [congratsNewNft])" />
     <div class="columns is-variable is-6">
       <div class="column is-two-fifths">
-        <div class="is-relative">
+        <div ref="imgref" class="is-relative">
           <!-- preview button -->
           <a
             v-if="
               canPreview &&
               !mediaItemRef?.isLewdBlurredLayer &&
-              !hasAnimatedResources
+              !hasAnimatedResources &&
+              !isFullscreen
             "
             class="fullscreen-button is-justify-content-center is-align-items-center"
-            @click="isFullscreen = true">
+            @click="toggle">
             <NeoIcon icon="expand" />
           </a>
-
+          <NeoButton v-if="isFullscreen" class="back-button" @click="toggle">
+            <NeoIcon icon="chevron-left" />
+            {{ $t('go back') }}
+          </NeoButton>
           <!-- media item -->
           <div v-if="hasResources" class="gallery-item-carousel">
             <NeoCarousel
@@ -145,22 +149,18 @@
       data-testid="carousel-related" />
 
     <CarouselTypeVisited class="mt-8" />
-
-    <GalleryItemPreviewer
-      :value="isFullscreen"
-      :item-src="previewItemSrc"
-      :gallery-item="galleryItem"
-      @input="isFullscreen = false" />
   </section>
 </template>
 
 <script setup lang="ts">
 import {
   MediaItem,
+  NeoButton,
   NeoCarousel,
   NeoCarouselItem,
   NeoIcon,
 } from '@kodadot1/brick'
+import { useFullscreen } from '@vueuse/core'
 
 import { useGalleryItem } from './useGalleryItem'
 
@@ -172,10 +172,9 @@ import GalleryItemButton from './GalleryItemButton/GalleryItemButton.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'
 import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
-import GalleryItemPreviewer from './GalleryItemPreviewer.vue'
 import { convertMarkdownToText } from '@/utils/markdown'
 import { exist } from '@/utils/exist'
-import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { generateNftImage } from '@/utils/seoImageGenerator'
 import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
 import { MediaType } from '@/components/rmrk/types'
@@ -209,7 +208,7 @@ const tabs = {
 }
 const activeTab = ref(tabs.offers)
 
-const isFullscreen = ref(false)
+// const isFullscreen = ref(false)
 const canPreview = computed(() =>
   [MediaType.VIDEO, MediaType.IMAGE, MediaType.OBJECT].includes(
     resolveMedia(nftMimeType.value),
@@ -217,10 +216,10 @@ const canPreview = computed(() =>
 )
 
 const activeCarousel = ref(0)
-const activeCarouselImage = computed(() => {
-  const resource = nftResources.value?.[activeCarousel.value]
-  return resource?.src || 'placeholder.webp'
-})
+// const activeCarouselImage = computed(() => {
+//   const resource = nftResources.value?.[activeCarousel.value]
+//   return resource?.src || 'placeholder.webp'
+// })
 const hasResources = computed(
   () => nftResources.value && nftResources.value?.length > 1,
 )
@@ -231,11 +230,11 @@ const hasAnimatedResources = computed(
     nftResources.value[1].animation,
 )
 
-const previewItemSrc = computed(() => {
-  const baseUrl =
-    (hasResources.value && activeCarouselImage.value) || nftImage.value
-  return baseUrl ? toOriginalContentUrl(baseUrl) : baseUrl
-})
+// const previewItemSrc = computed(() => {
+//   const baseUrl =
+//     (hasResources.value && activeCarouselImage.value) || nftImage.value
+//   return baseUrl ? toOriginalContentUrl(baseUrl) : baseUrl
+// })
 
 const onNFTBought = () => {
   activeTab.value = tabs.activity
@@ -283,6 +282,9 @@ useSeoMeta({
   twitterImage: seoCard,
   twitterCard: 'summary_large_image',
 })
+
+const imgref = ref(null)
+const { toggle, isFullscreen } = useFullscreen(imgref)
 </script>
 
 <style lang="scss" scoped>
@@ -315,7 +317,15 @@ $break-point-width: 930px;
     }
   }
 }
-
+.back-button {
+  position: absolute;
+  left: 0.75rem;
+  top: 2rem;
+  z-index: 99;
+  @include desktop {
+    left: $fluid-container-padding;
+  }
+}
 .fullscreen-button {
   position: absolute;
   right: 2.75rem;
