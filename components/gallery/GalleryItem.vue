@@ -6,7 +6,7 @@
       :subtitle="$t('mint.successCreateNewNft', [congratsNewNft])" />
     <div class="columns is-variable is-6">
       <div class="column is-two-fifths">
-        <div ref="imgref" class="is-relative">
+        <div id="nft-img-container" ref="imgref" class="is-relative">
           <!-- preview button -->
           <a
             v-if="
@@ -287,6 +287,13 @@ const imgref = ref(null)
 const { toggle, isFullscreen } = useFullscreen(imgref)
 </script>
 
+<style>
+#nft-img-container:fullscreen img {
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+}
+</style>
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 $break-point-width: 930px;
