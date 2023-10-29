@@ -218,6 +218,7 @@
     box-shadow: none;
     width: min-content;
     min-width: 100px;
+    max-width: 600px;
 
     @include ktheme() {
       color: theme('text-color');
