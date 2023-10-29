@@ -9,7 +9,7 @@ import { getMaxKeyByValue } from '@/utils/math'
 import { Actions } from '../transaction/types'
 import { getActionTransactionFee } from '@/utils/transactionExecutor'
 
-const BUFFER_FEE_PERCENT = 0.05
+const BUFFER_FEE_PERCENT = 0.2
 
 export default function (
   action: ComputedRef<Actions>,
@@ -46,8 +46,18 @@ export default function (
       Number(balance.value),
   )
 
+  const { existentialDeposit } = useDeposit(
+    computed(() => chainToPrefixMap[currentChain.value]),
+  )
+
+  const transferableCurrentChainBalance = computed(
+    () => Number(currentChainBalance.value) - existentialDeposit.value,
+  )
+
   const hasEnoughInCurrentChain = computed(
-    () => neededAmountWithFees.value <= Number(currentChainBalance.value),
+    () =>
+      neededAmountWithFees.value <=
+      Number(transferableCurrentChainBalance.value),
   )
 
   const sourceChainsBalances = computed<{ [key: Chain]: string }>(() =>
@@ -70,18 +80,13 @@ export default function (
       : 0,
   )
 
-  const { existentialDeposit } = useDeposit(
-    computed(() => chainToPrefixMap[currentChain.value]),
-  )
-
   const buffer = computed(() => Math.ceil(fees.value * BUFFER_FEE_PERCENT))
 
   const amountToTeleport = computed(
     () =>
       neededAmountWithFees.value +
-      existentialDeposit.value +
       buffer.value -
-      Number(currentChainBalance.value),
+      transferableCurrentChainBalance.value,
   )
 
   const hasEnoughInRichestChain = computed(
