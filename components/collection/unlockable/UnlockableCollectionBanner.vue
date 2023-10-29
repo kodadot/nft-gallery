@@ -83,10 +83,6 @@ useHead({
     height: 560px;
   }
 
-  @include ktheme() {
-    border-bottom: 1px solid theme('border-color');
-  }
-
   &-shadow {
     background: linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.2));
     position: absolute;
