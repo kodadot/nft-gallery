@@ -1511,6 +1511,7 @@
   "autoTeleport" : {
     "autoTeleport": "Auto Teleport",
     "checking": "checking funds ...",
+    "followSteps": "Follow steps",
     "signTransactions": "Sign Transactions",
     "header": "<strong>Buying</strong/> NFT on “{chainName}” and <strong>Bridging/Teleporting {amountFormatted}</strong> ~ {amountUsd} From “{sourceNetwork}”",
     "dontExit": "Don't exit this modal till transactions complete.",

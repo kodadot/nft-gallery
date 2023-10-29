@@ -35,11 +35,20 @@
           "
           class="py-2" />
 
-        <p>{{ $t('autoTeleport.dontExit') }}</p>
+        <p class="is-size-7 has-text-k-grey">
+          {{ $t('autoTeleport.dontExit') }}
+        </p>
 
-        <hr />
+        <hr class="my-4" />
 
-        <p v-dompurify-html="$t('autoTeleport.tip')" />
+        <div class="is-flex is-align-items-flex-start">
+          <NeoIcon icon="lightbulb" size="small" class="mr-2" />
+          <p v-dompurify-html="$t('autoTeleport.tip')" class="is-size-7" />
+        </div>
+
+        <p class="is-capitalized is-size-6 mt-4 mb-5">
+          {{ $t('autoTeleport.followSteps') }}:
+        </p>
 
         <TransactionSteps :steps="steps" class="mt-4" />
       </div>
@@ -58,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoModal } from '@kodadot1/brick'
+import { NeoButton, NeoIcon, NeoModal } from '@kodadot1/brick'
 import { TeleportTransition } from '@/utils/teleport'
 import TransactionSteps, {
   TransactionStep,
