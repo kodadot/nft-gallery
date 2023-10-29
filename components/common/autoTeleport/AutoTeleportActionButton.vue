@@ -157,7 +157,8 @@ const showAutoTeleport = computed(
   () =>
     !hasEnoughInCurrentChain.value &&
     isAutoTeleportAvailable.value &&
-    hasBalances.value,
+    hasBalances.value &&
+    !props.disabled,
 )
 
 const allowAutoTeleport = computed(

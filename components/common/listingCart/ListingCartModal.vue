@@ -51,11 +51,11 @@
         <div class="is-flex is-justify-content-space-between pb-5 px-6">
           <AutoTeleportActionButton
             :action="action"
+            :action-details="actionDetails"
             :amount="0"
             :disabled="Boolean(listingCartStore.incompleteListPrices)"
             :label="confirmListingLabel"
-            @confirm="confirm"
-            @action:completed="$emit('completed')" />
+            @confirm="confirm" />
         </div>
       </div>
     </NeoModal>
@@ -79,6 +79,7 @@ import AutoTeleportActionButton from '@/components/common/autoTeleport/AutoTelep
 import ListingCartSingleItemCart from './singleItemCart/ListingCartSingleItemCart.vue'
 import ListingCartMultipleItemsCart from './multipleItemsCart/ListingCartMultipleItemsCart.vue'
 import type { Actions } from '@/composables/transaction/types'
+import { ActionDetails } from '../autoTeleport/AutoTeleportModal.vue'
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
@@ -90,6 +91,12 @@ const { chainSymbol, decimals } = useChain()
 
 const fixedPrice = ref()
 const floorPricePercentAdjustment = ref()
+
+const actionDetails = computed<ActionDetails>(() => ({
+  title: $i18n.t('autoTeleport.steps.listNft.title'),
+  subtitle: $i18n.t('autoTeleport.steps.listNft.subtitle'),
+  submit: $i18n.t('autoTeleport.steps.listNft.submit'),
+}))
 
 function setFixedPrice() {
   const rate = Number(fixedPrice.value) || 0
