@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Loader v-model="isLoading" :status="status" />
     <NeoModal
       :value="preferencesStore.listingCartModalOpen"
       scroll="clip"
@@ -84,7 +83,6 @@ import { ActionDetails } from '../autoTeleport/AutoTeleportModal.vue'
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
-const { isLoading, status } = useTransaction()
 const { $i18n } = useNuxtApp()
 
 const { chainSymbol, decimals } = useChain()
