@@ -70,11 +70,16 @@ export default function (
       : 0,
   )
 
-  const buffer = computed(() => fees.value * BUFFER_FEE_PERCENT)
+  const { existentialDeposit } = useDeposit(
+    computed(() => chainToPrefixMap[currentChain.value]),
+  )
+
+  const buffer = computed(() => Math.ceil(fees.value * BUFFER_FEE_PERCENT))
 
   const amountToTeleport = computed(
     () =>
       neededAmountWithFees.value +
+      existentialDeposit.value +
       buffer.value -
       Number(currentChainBalance.value),
   )
