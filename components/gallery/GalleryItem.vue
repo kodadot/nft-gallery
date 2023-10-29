@@ -279,8 +279,11 @@ const { toggle, isFullscreen } = useFullscreen(imgref)
 </script>
 
 <style lang="scss">
+@import '@/assets/styles/abstracts/variables';
 #nft-img-container:fullscreen {
-  background-color: #fff;
+  @include ktheme() {
+    background-color: theme('background-color');
+  }
   img {
     width: 100vw;
     height: 100vh;
