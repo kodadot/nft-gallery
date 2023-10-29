@@ -9,7 +9,7 @@ import { getMaxKeyByValue } from '@/utils/math'
 import { Actions } from '../transaction/types'
 import { getActionTransactionFee } from '@/utils/transactionExecutor'
 
-const BUFFER_AMOUNT_PERCENT = 0.005
+const BUFFER_FEE_PERCENT = 0.05
 
 export default function (
   action: ComputedRef<Actions>,
@@ -35,6 +35,8 @@ export default function (
   const allowedSourceChains = computed(() =>
     currentChain.value ? teleportRoutes[currentChain.value] : [],
   )
+
+  const fees = computed(() => teleportTxFee.value + actionTxFee.value)
 
   const neededAmountWithFees = computed(() => neededAmount.value + fees.value)
 
@@ -68,11 +70,7 @@ export default function (
       : 0,
   )
 
-  const fees = computed(() => teleportTxFee.value + actionTxFee.value)
-
-  const buffer = computed(() =>
-    fees.value === 0 ? neededAmountWithFees.value * BUFFER_AMOUNT_PERCENT : 0,
-  )
+  const buffer = computed(() => fees.value * BUFFER_FEE_PERCENT)
 
   const amountToTeleport = computed(
     () =>
