@@ -70,12 +70,8 @@ const submit = async () => {
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 @import '@/assets/styles/abstracts/variables';
-
-.fixed-height {
-  height: 2.5rem;
-}
 
 $column-gap: 20px;
 
@@ -84,6 +80,9 @@ $column-gap: 20px;
   grid-template-columns: 2fr auto;
   grid-gap: $column-gap;
 
+  .fixed-height {
+    height: 2.25rem;
+  }
   @include mobile {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(2, auto);
