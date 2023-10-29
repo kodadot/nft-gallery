@@ -118,7 +118,7 @@ export const getActionTransactionFee = ({
   api: ApiPromise
   address: string
 }) => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     executeAction({
       api,
       item: action,
