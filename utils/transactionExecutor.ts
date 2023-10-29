@@ -7,6 +7,8 @@ import { toDefaultAddress } from '@/utils/account'
 import { DispatchError, Hash } from '@polkadot/types/interfaces'
 import { KODADOT_DAO } from '@/utils/support'
 import { calculateBalance } from './format/balance'
+import type { Actions } from '@/composables/transaction/types'
+import { ApiPromise } from '@polkadot/api'
 
 export type ExecResult = UnsubscribeFn | string
 export type Extrinsic = SubmittableExtrinsic<'promise'>
@@ -105,6 +107,33 @@ export const estimate = async (
     injector ? { signer: injector.signer } : {},
   )
   return info.partialFee.toString()
+}
+
+export const getActionTransactionFee = ({
+  action,
+  address,
+  api,
+}: {
+  action: Actions
+  api: ApiPromise
+  address: string
+}) => {
+  return new Promise(async (resolve, reject) => {
+    executeAction({
+      api,
+      item: action,
+      executeTransaction: async ({ cb, arg }) => {
+        try {
+          const fee = await estimate(address, cb, arg)
+          resolve(fee)
+        } catch (error) {
+          reject(error)
+        }
+      },
+      isLoading: ref(false),
+      status: '',
+    })
+  })
 }
 
 export const getTransitionFee = async (

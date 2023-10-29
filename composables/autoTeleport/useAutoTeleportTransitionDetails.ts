@@ -6,8 +6,8 @@ import {
 } from '@/utils/teleport'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { getMaxKeyByValue } from '@/utils/math'
-import { executeAction } from '@/composables/useTransaction'
 import { Actions } from '../transaction/types'
+import { getActionTransactionFee } from '@/utils/transactionExecutor'
 
 const BUFFER_AMOUNT_PERCENT = 0.005
 
@@ -36,6 +36,8 @@ export default function (
     currentChain.value ? teleportRoutes[currentChain.value] : [],
   )
 
+  const neededAmountWithFees = computed(() => neededAmount.value + fees.value)
+
   const currentChainBalance = computed(
     () =>
       (currentChain.value && Number(chainBalances[currentChain.value]())) ||
@@ -43,7 +45,7 @@ export default function (
   )
 
   const hasEnoughInCurrentChain = computed(
-    () => neededAmount.value <= Number(currentChainBalance.value),
+    () => neededAmountWithFees.value <= Number(currentChainBalance.value),
   )
 
   const sourceChainsBalances = computed<{ [key: Chain]: string }>(() =>
@@ -69,11 +71,14 @@ export default function (
   const fees = computed(() => teleportTxFee.value + actionTxFee.value)
 
   const buffer = computed(() =>
-    fees.value === 0 ? neededAmount.value * BUFFER_AMOUNT_PERCENT : fees.value,
+    fees.value === 0 ? neededAmountWithFees.value * BUFFER_AMOUNT_PERCENT : 0,
   )
 
   const amountToTeleport = computed(
-    () => neededAmount.value + buffer.value - Number(currentChainBalance.value),
+    () =>
+      neededAmountWithFees.value +
+      buffer.value -
+      Number(currentChainBalance.value),
   )
 
   const hasEnoughInRichestChain = computed(
@@ -118,32 +123,16 @@ export default function (
     }
   })
 
-  const getActionTransactionFee = () => {
-    return new Promise(async (resolve, reject) => {
-      const api = await apiInstance.value
-      const address = getAddressByChain(currentChain.value as Chain)
-
-      executeAction({
-        api,
-        item: action.value,
-        executeTransaction: async ({ cb, arg }) => {
-          try {
-            const fee = await estimate(address, cb, arg)
-            resolve(fee)
-          } catch (error) {
-            reject(error)
-          }
-        },
-        isLoading: ref(false),
-        status: '',
-      })
-    })
-  }
-
   watch(
     action,
     async () => {
-      const fee = await getActionTransactionFee()
+      const api = await apiInstance.value
+      const address = getAddressByChain(currentChain.value as Chain)
+      const fee = await getActionTransactionFee({
+        api,
+        action: action.value,
+        address,
+      })
       actionTxFee.value = Number(fee)
     },
     { immediate: true },
