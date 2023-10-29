@@ -33,7 +33,6 @@ const props = withDefaults(
     preview: false,
   },
 )
-// console.log(123,props)
 const controls = computed(() => !props.preview)
 </script>
 
