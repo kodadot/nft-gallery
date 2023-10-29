@@ -8,6 +8,7 @@
       loop
       :autoplay="preview"
       :muted="preview"
+      :poster="src"
       :src="animationSrc || src"
       controlslist="nodownload"
       data-testid="type-video"
@@ -32,7 +33,7 @@ const props = withDefaults(
     preview: false,
   },
 )
-
+// console.log(123,props)
 const controls = computed(() => !props.preview)
 </script>
 
