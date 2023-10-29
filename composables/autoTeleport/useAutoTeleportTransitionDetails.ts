@@ -6,11 +6,15 @@ import {
 } from '@/utils/teleport'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { getMaxKeyByValue } from '@/utils/math'
+import { executeAction } from '@/composables/useTransaction'
+import { Actions } from '../transaction/types'
 
 const BUFFER_AMOUNT_PERCENT = 0.005
-const ACTION_TRANSACTION_FEE_MULTIPLIER = 3
 
-export default function (neededAmount: ComputedRef<number>) {
+export default function (
+  action: ComputedRef<Actions>,
+  neededAmount: ComputedRef<number>,
+) {
   const {
     chainBalances,
     chain: currentChain,
@@ -110,24 +114,40 @@ export default function (neededAmount: ComputedRef<number>) {
   watch(fetchTeleportFee, async () => {
     if (fetchTeleportFee.value) {
       const fee = await getTeleportTransactionFee()
-      teleportTxFee.value = Number(fee || 0)
+      teleportTxFee.value = Number(fee) || 0
     }
   })
 
-  const getDummyChainTransactionFee = async () => {
-    const address = getAddressByChain(currentChain.value as Chain)
+  const getActionTransactionFee = () => {
+    return new Promise(async (resolve, reject) => {
+      const api = await apiInstance.value
+      const address = getAddressByChain(currentChain.value as Chain)
 
-    const api = await apiInstance.value
-
-    const cb = api.tx.balances.transfer
-
-    return estimate(address, cb, [address, 1000000000])
+      executeAction({
+        api,
+        item: action.value,
+        executeTransaction: async ({ cb, arg }) => {
+          try {
+            const fee = await estimate(address, cb, arg)
+            resolve(fee)
+          } catch (error) {
+            reject(error)
+          }
+        },
+        isLoading: ref(false),
+        status: '',
+      })
+    })
   }
 
-  watchSyncEffect(async () => {
-    const fee = await getDummyChainTransactionFee()
-    actionTxFee.value = Number(fee) * ACTION_TRANSACTION_FEE_MULTIPLIER
-  })
+  watch(
+    action,
+    async () => {
+      const fee = await getActionTransactionFee()
+      actionTxFee.value = Number(fee)
+    },
+    { immediate: true },
+  )
 
   watch(
     [allowedSourceChains, hasEnoughInCurrentChain],

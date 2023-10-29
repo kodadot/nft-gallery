@@ -30,6 +30,7 @@ import type {
   ObjectMessage,
 } from './transaction/types'
 import { execMintCollection } from './transaction/transactionMintCollection'
+import { ApiPromise } from '@polkadot/api'
 
 const resolveLargeSuccessNotification = (
   block: string,
@@ -114,6 +115,49 @@ const useExecuteTransaction = () => {
   }
 }
 
+export const executeAction = ({
+  item,
+  api,
+  executeTransaction,
+  isLoading,
+  status,
+}: {
+  item: Actions
+  api: ApiPromise
+  executeTransaction
+  isLoading
+  status
+}) => {
+  const map = {
+    [Interaction.BUY]: () =>
+      execBuyTx(item as ActionBuy, api, executeTransaction),
+    [Interaction.LIST]: () =>
+      execListTx(item as ActionList, api, executeTransaction),
+    [Interaction.SEND]: () =>
+      execSendTx(item as ActionSend, api, executeTransaction),
+    [ShoppingActions.MAKE_OFFER]: () =>
+      execMakeOfferTx(item as ActionOffer, api, executeTransaction),
+    [ShoppingActions.CONSUME]: () =>
+      execBurnTx(item as ActionConsume, api, executeTransaction),
+    [ShoppingActions.WITHDRAW_OFFER]: () =>
+      execWithdrawOfferTx(item as ActionWithdrawOffer, api, executeTransaction),
+    [ShoppingActions.ACCEPT_OFFER]: () =>
+      execAcceptOfferTx(item as ActionAcceptOffer, api, executeTransaction),
+    [ShoppingActions.MINTNFT]: () =>
+      execMintToken({
+        item: item as ActionMintToken,
+        api,
+        executeTransaction,
+        isLoading,
+        status,
+      }),
+    [ShoppingActions.MINT]: () =>
+      execMintCollection(item as ActionMintCollection, api, executeTransaction),
+  }
+
+  return map[item.interaction]?.() ?? 'UNKNOWN'
+}
+
 export const useTransaction = () => {
   const { apiInstance, apiInstanceByPrefix } = useApi()
   const { isLoading, status, executeTransaction, blockNumber, isError } =
@@ -126,42 +170,7 @@ export const useTransaction = () => {
       api = await apiInstanceByPrefix(prefix)
     }
 
-    const map = {
-      [Interaction.BUY]: () =>
-        execBuyTx(item as ActionBuy, api, executeTransaction),
-      [Interaction.LIST]: () =>
-        execListTx(item as ActionList, api, executeTransaction),
-      [Interaction.SEND]: () =>
-        execSendTx(item as ActionSend, api, executeTransaction),
-      [ShoppingActions.MAKE_OFFER]: () =>
-        execMakeOfferTx(item as ActionOffer, api, executeTransaction),
-      [ShoppingActions.CONSUME]: () =>
-        execBurnTx(item as ActionConsume, api, executeTransaction),
-      [ShoppingActions.WITHDRAW_OFFER]: () =>
-        execWithdrawOfferTx(
-          item as ActionWithdrawOffer,
-          api,
-          executeTransaction,
-        ),
-      [ShoppingActions.ACCEPT_OFFER]: () =>
-        execAcceptOfferTx(item as ActionAcceptOffer, api, executeTransaction),
-      [ShoppingActions.MINTNFT]: () =>
-        execMintToken({
-          item: item as ActionMintToken,
-          api,
-          executeTransaction,
-          isLoading,
-          status,
-        }),
-      [ShoppingActions.MINT]: () =>
-        execMintCollection(
-          item as ActionMintCollection,
-          api,
-          executeTransaction,
-        ),
-    }
-
-    return map[item.interaction]?.() ?? 'UNKNOWN'
+    return executeAction({ item, executeTransaction, api, isLoading, status })
   }
 
   return {

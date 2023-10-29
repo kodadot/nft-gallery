@@ -49,14 +49,13 @@
         </div>
 
         <div class="is-flex is-justify-content-space-between pb-5 px-6">
-          <NeoButton
+          <AutoTeleportActionButton
+            :action="action"
+            :amount="0"
             :disabled="Boolean(listingCartStore.incompleteListPrices)"
             :label="confirmListingLabel"
-            variant="k-accent"
-            no-shadow
-            class="is-flex is-flex-grow-1 py-5"
-            size="large"
-            @click="confirm" />
+            @confirm="confirm"
+            @action:completed="$emit('completed')" />
         </div>
       </div>
     </NeoModal>
@@ -76,14 +75,15 @@ import { useFiatStore } from '@/stores/fiat'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
 import { sum } from '@/utils/math'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
-
+import AutoTeleportActionButton from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import ListingCartSingleItemCart from './singleItemCart/ListingCartSingleItemCart.vue'
 import ListingCartMultipleItemsCart from './multipleItemsCart/ListingCartMultipleItemsCart.vue'
+import type { Actions } from '@/composables/transaction/types'
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
-const { transaction, isLoading, status } = useTransaction()
+const { isLoading, status } = useTransaction()
 const { $i18n } = useNuxtApp()
 
 const { chainSymbol, decimals } = useChain()
@@ -102,6 +102,7 @@ watch(floorPricePercentAdjustment, (rate) => {
 })
 
 const fiatStore = useFiatStore()
+const action = computed(() => getAction(listingCartStore.itemsInChain))
 const priceUSD = computed(() =>
   calculateExactUsdFromToken(
     totalNFTsPrice.value,
@@ -151,8 +152,9 @@ const confirmListingLabel = computed(() => {
       )}`
   }
 })
-async function confirm() {
-  const token = listingCartStore.itemsInChain
+
+const getAction = (items: ListCartItem[]): Actions => {
+  const token = items
     .filter((item): item is ListCartItem & { listPrice: number } =>
       Boolean(item.listPrice),
     )
@@ -161,15 +163,17 @@ async function confirm() {
       nftId: item.id,
     })) as TokenToList[]
 
-  try {
-    await transaction({
-      interaction: Interaction.LIST,
-      urlPrefix: urlPrefix.value,
-      token,
-      successMessage: $i18n.t('transaction.price.success') as string,
-      errorMessage: $i18n.t('transaction.price.error') as string,
-    })
+  return {
+    interaction: Interaction.LIST,
+    urlPrefix: urlPrefix.value,
+    token,
+    successMessage: $i18n.t('transaction.price.success') as string,
+    errorMessage: $i18n.t('transaction.price.error') as string,
+  }
+}
 
+async function confirm() {
+  try {
     listingCartStore.clearListedItems()
     preferencesStore.listingCartModalOpen = false
     resetCartToDefaults()

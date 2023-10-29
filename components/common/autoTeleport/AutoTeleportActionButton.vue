@@ -172,7 +172,7 @@ const hasNoFundsAtAll = computed(
 )
 
 const autoTeleportLabel = computed(() => {
-  if (hasEnoughInCurrentChain.value) {
+  if (hasEnoughInCurrentChain.value || props.disabled) {
     return props.label
   }
 

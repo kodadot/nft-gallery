@@ -24,7 +24,7 @@ export default function (
     hasEnoughInRichestChain,
     hasBalances,
     optimalTransition,
-  } = useAutoTeleportTransition(neededAmount)
+  } = useAutoTeleportTransition(action, neededAmount)
 
   const {
     teleport: sendXCM,
