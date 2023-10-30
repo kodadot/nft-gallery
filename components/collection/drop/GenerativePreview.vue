@@ -133,6 +133,9 @@ const generateNft = async () => {
 .fixed-right {
   position: absolute;
   right: 2rem;
+  @include mobile {
+    right: 1rem;
+  }
 }
 
 .fixed-width {
