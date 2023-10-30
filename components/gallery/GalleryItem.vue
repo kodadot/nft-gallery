@@ -284,6 +284,13 @@ const { toggle, isFullscreen } = useFullscreen(imgref)
   @include ktheme() {
     background-color: theme('background-color');
   }
+  .media-object {
+    @include ktheme() {
+      box-shadow: none;
+      border: none;
+    }
+  }
+
   img {
     width: 100vw;
     height: 100vh;
@@ -325,7 +332,7 @@ $break-point-width: 930px;
   position: absolute;
   left: 0.75rem;
   top: 2rem;
-  z-index: 99;
+  z-index: 1;
   @include desktop {
     left: $fluid-container-padding;
   }
