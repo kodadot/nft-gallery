@@ -70,6 +70,7 @@ body:
         - PolkadotJS
         - Talisman
         - SubWallet
+        - Nova Wallet
   - type: textarea
     id: Screenshots
     attributes:
