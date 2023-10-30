@@ -4,8 +4,8 @@
     <div ref="wrapper" class="w-full mt-5">
       <div v-if="tablet">
         <div class="columns">
-          <div class="column is-two-thirds mt-2">
-            <ActivityChart :events="events" />
+          <div class="column is-two-thirds">
+            <ActivityChart :events="events" class="mt-2" />
           </div>
           <div class="column">
             <OwnerInsights :owners="owners" :flippers="flippers" />
