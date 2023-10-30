@@ -165,7 +165,8 @@ const allowAutoTeleport = computed(
   () =>
     needsAutoTelport.value &&
     optimalTransition.value.source &&
-    isAutoTeleportAvailable.value,
+    isAutoTeleportAvailable.value &&
+    hasBalances.value,
 )
 
 const hasNoFundsAtAll = computed(
@@ -230,6 +231,12 @@ const submit = () => {
     transaction()
   }
 }
+
+watch(allowAutoTeleport, (allow) => {
+  if (allow) {
+    autoTeleport.value = true
+  }
+})
 
 watchSyncEffect(() => {
   if (!isModalOpen.value) {
