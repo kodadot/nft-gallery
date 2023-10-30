@@ -4,7 +4,7 @@
     <p class="has-text-grey is-size-7 mb-2">Recent NFTs</p>
     <div class="nfts">
       <a
-        v-for="nft in nfts.slice(0, 3)"
+        v-for="nft in nfts"
         :key="nft.id"
         v-safe-href="`/${urlPrefix}/gallery/${nft.id}`">
         <MediaItem
@@ -32,6 +32,8 @@ const { data } = useSearchNfts({
       currentOwner_eq: accountId.value,
     },
   ],
+  first: 3,
+  orderBy: 'updatedAt_DESC',
 })
 
 const nfts = ref<NFTWithMetadata[]>([])
@@ -40,14 +42,14 @@ watchEffect(() => {
   if (data.value?.nFTEntities) {
     const nftEntities = data.value.nFTEntities
 
-    nftEntities.forEach(async (nft) => {
+    nftEntities.forEach(async (nft, index) => {
       const nftMetadata = await getNftMetadata(nft, urlPrefix.value)
 
       if (nftMetadata.meta.image) {
         const mimeType = await getMimeType(
           sanitizeIpfsUrl(nftMetadata.meta.image),
         )
-        nfts.value.push({ ...nftMetadata, type: mimeType })
+        nfts.value[index] = { ...nftMetadata, type: mimeType }
       }
     })
   }

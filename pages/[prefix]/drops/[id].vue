@@ -1,6 +1,5 @@
 <template>
   <UnlockableCollectionBanner :drop="drop" />
-  <hr class="text-color my-0" />
   <CollectionDropContainer v-if="dropType === 'paid'" :drop="drop" />
   <CollectionDropGenerative
     v-else-if="dropType === 'generative'"
