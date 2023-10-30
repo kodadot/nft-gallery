@@ -18,3 +18,17 @@ export function transactionOfferFactory(key: 'acceptOffer' | 'withdrawOffer') {
     }
   }
 }
+
+export const verifyRoyalty = (
+  royalty?: Royalty,
+): { isValid: boolean; normalizedRoyalty: Royalty } => {
+  const normalizedRoyalty = {
+    amount: Number(royalty?.amount ?? 0),
+    address: royalty?.address ?? '',
+  }
+
+  return {
+    isValid: isRoyaltyValid(normalizedRoyalty),
+    normalizedRoyalty,
+  }
+}

@@ -46,6 +46,8 @@ export interface BaseNFTMeta {
   id: string
   image?: string
   animationUrl?: string
+  animation_url?: string
   name?: string
   description?: string
+  type?: string
 }

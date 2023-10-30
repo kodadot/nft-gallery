@@ -4,6 +4,8 @@
     :destroy-on-hide="false"
     :can-cancel="false"
     full-screen
+    append-to-body
+    max-height="100vh"
     root-class="gallery-item-modal"
     content-class="gallery-item-modal-content"
     @close="isFullscreen = false">
@@ -51,7 +53,7 @@ const isFullscreen = useVModel(props, 'value', emit)
 .gallery-item-modal {
   position: fixed;
 
-  :deep(&-content) {
+  :deep(.gallery-item-modal-content) {
     height: calc(100% - $navbar-desktop-min-height + 1px) !important;
     margin-top: calc($navbar-desktop-min-height - 1px) !important;
     border: none !important;
@@ -71,6 +73,9 @@ const isFullscreen = useVModel(props, 'value', emit)
       left: $fluid-container-padding;
     }
   }
+  :deep(.gallery-item-modal-content) {
+    width: 100% !important;
+  }
   &-container {
     @include ktheme() {
       background-color: theme('background-color');
@@ -79,7 +84,7 @@ const isFullscreen = useVModel(props, 'value', emit)
     width: 100%;
     padding: 0;
     .media-object {
-      height: 100%;
+      height: inherit !important;
       box-shadow: none;
       border: none;
     }

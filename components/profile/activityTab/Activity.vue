@@ -9,6 +9,7 @@
             <NeoButton
               no-shadow
               rounded
+              data-testid="profile-activity-button-all"
               label="All"
               variant="text"
               @click="activateAllFilter" />
@@ -16,6 +17,7 @@
               v-for="param in filters"
               :key="param"
               :label="param"
+              data-testid="profile-activity-button-filter"
               class="is-capitalized"
               :url-param="param" />
           </div>

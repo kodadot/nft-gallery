@@ -1,47 +1,33 @@
-// import path from 'path'
-// import * as fs from 'fs'
-// import Mode from 'frontmatter-markdown-loader/mode'
 import { pwa } from './utils/config/pwa'
 import { URLS, apolloClientConfig } from './utils/constants'
-// import { fromNodeMiddleware } from 'h3'
+import * as fs from 'fs'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
 export default defineNuxtConfig({
-  alias: {
-    tslib: 'tslib/tslib.es6.js',
-  },
-
-  vue: {
-    config: {
-      productionTip: false,
-      runtimeCompiler: true,
-    },
-    compilerOptions: {
-      isCustomElement: (tag) => ['model-viewer'].includes(tag),
-    },
-  },
-
   server: {
     port: 9090, // default: 3000
     host: '0.0.0.0',
   },
 
-  // bridge: {
-  //   nitro: true,
-  // },
+  vue: {
+    compilerOptions: {
+      // model-viewer from ModelMedia throw warning
+      isCustomElement: (tag) => tag.includes('model-viewer'),
+    },
+  },
 
   nitro: {
     publicAssets: [],
-    // preset: 'netlify',
-    // preset: 'service-worker'
   },
 
-  // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: false,
+  // 🔧 Cloudflare build
+  experimental: {
+    appManifest: false,
+  },
 
-  // Target: https://go.nuxtjs.dev/config-target
-  target: 'static',
+  // Disable server-side rendering
+  ssr: false,
 
   // Global page headers: https://nuxt.com/docs/api/configuration/nuxt-config#head
   app: {
@@ -151,35 +137,13 @@ export default defineNuxtConfig({
     },
   },
 
-  loadingIndicator: {
-    name: 'folding-cube',
-    color: '#fc007b',
-    background: 'black',
-  },
-
-  // Global CSS: https://go.nuxtjs.dev/config-css
+  // Global CSS: https://nuxt.com/docs/api/nuxt-config#components
   css: [
     '@/assets/styles/index.scss',
     '@fortawesome/fontawesome-svg-core/styles.css',
   ],
 
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-    // { src: '~/plugins/polkadot', mode: 'client' },
-    // { src: '~/plugins/keyboardEvents', mode: 'client' },
-    // { src: '~/plugins/piniaPersistedState', mode: 'client' },
-    // '~/plugins/filters',
-    // '~/plugins/pwa',
-    // '~/plugins/vueAudioVisual',
-    // '~/plugins/vueTippy',
-    // '~/plugins/safeHref',
-  ],
-
-  router: {
-    middleware: ['prefix', 'redirects'],
-  },
-
-  // Auto import components: https://go.nuxtjs.dev/config-components
+  // Auto import components: https://nuxt.com/docs/api/nuxt-config#components
   components: {
     dirs: [
       // ordering matters
@@ -232,7 +196,7 @@ export default defineNuxtConfig({
     ],
   },
 
-  // Modules: https://go.nuxtjs.dev/config-modules
+  // Modules: https://nuxt.com/docs/api/nuxt-config#components
   modules: [
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
@@ -249,9 +213,7 @@ export default defineNuxtConfig({
 
   i18n: {
     skipSettingLocaleOnNavigate: true,
-    vueI18nLoader: true,
     defaultLocale: 'en',
-    loadLanguagesAsync: true,
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'lang',
@@ -275,13 +237,20 @@ export default defineNuxtConfig({
 
   sitemap: {
     sitemaps: true,
-    // routes() {
-    //   const posts = fs.readdirSync('content/blog')
+    urls: () => {
+      const posts = fs.readdirSync('content/blog')
+      return posts
+        .map((post) => post.split('.')[0])
+        .map((page) => ({
+          loc: `/blog/${page}`,
+          changefreq: 'weekly',
+          priority: 0.8,
+        }))
+    },
+  },
 
-    //   return posts
-    //     .map((post) => post.split('.')[0])
-    //     .map((post) => `/blog/${post}`)
-    // },
+  routeRules: {
+    '/ahp/collection/13': { sitemap: { changefreq: 'daily', priority: 0.3 } },
   },
 
   hooks: {
@@ -297,120 +266,7 @@ export default defineNuxtConfig({
     },
   },
 
-  // buildModules: ['nuxt-webpack-optimisations'],
-
-  // webpackOptimisations: {
-  //   features: {
-  //     esbuildLoader: process.env.NODE_ENV !== 'development',
-  //   },
-  //   // https://github.com/privatenumber/esbuild-loader#%EF%B8%8F-options
-  //   esbuildLoaderOptions: {
-  //     client: {
-  //       target: 'esnext',
-  //       legalComments: 'none',
-  //     },
-  //     modern: {
-  //       target: 'esnext',
-  //     },
-  //   },
-  // },
-
-  // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-    babel: {
-      // silence babel warning regarding exceeding file sizes (>500kb)
-      compact: true,
-    },
-    optimization: {
-      runtimeChunk: true,
-      splitChunks: {
-        name: true,
-        cacheGroups: {
-          styles: {
-            name: 'styles',
-            test: /.(css|vue)$/,
-            chunks: 'all',
-            enforce: true,
-          },
-        },
-      },
-    },
-    transpile: [
-      // '@kodadot1/sub-api',
-      // '@polkadot/api',
-      // '@polkadot/rpc-core',
-      // '@polkadot/rpc-provider',
-      // '@polkadot/types',
-      // '@polkadot/extension-dapp',
-      // 'polkadot/util',
-      // '@polkadot/util-crypto',
-      // '@polkadot/keyring',
-      // '@polkadot/ui-keyring',
-      // '@polkadot/ui-settings',
-      // '@polkadot/hw-ledger',
-      // '@polkadot/types-codec',
-      // '@polkadot/wasm-bridge',
-      // '@polkadot/wasm-util',
-      // '@polkadot/wasm-crypto-wasm',
-      '@google/model-viewer', // TODO check to see if it works without transpilation in future nuxt releases
-    ],
-
-    vite: {
-      resolve: {
-        alias: {
-          './runtimeConfig': './runtimeConfig.browser',
-        },
-      },
-    },
-    // extend(config) {
-    //   // for debugging
-    //   // config.devtool = 'source-map'
-
-    //   // add frontmatter-markdown-loader
-    //   config.module.rules.push({
-    //     test: /\.md$/,
-    //     include: path.resolve(__dirname, 'content'),
-    //     loader: 'frontmatter-markdown-loader',
-    //     options: {
-    //       mode: [Mode.VUE_COMPONENT, Mode.META],
-    //       vue: {
-    //         root: 'markdown-body',
-    //       },
-    //     },
-    //   })
-
-    //   config.module.rules.push({
-    //     test: /\.mjs$/,
-    //     loader: require.resolve('babel-loader'),
-    //     query: { compact: true },
-    //   })
-
-    //   config.module.rules.push({
-    //     test: /\.js$/,
-    //     include: [path.resolve(__dirname, 'node_modules')],
-    //     use: [
-    //       { loader: require.resolve('@open-wc/webpack-import-meta-loader') },
-    //       { loader: require.resolve('babel-loader'), query: { compact: true } },
-    //     ],
-    //   })
-
-    //   config.resolve.alias['vue$'] = 'vue/dist/vue.esm.js'
-    //   config.node = {
-    //     fs: 'empty',
-    //   }
-    // },
-
-    postcss: {
-      postcssOptions: {
-        plugins: {},
-      },
-    },
-  },
-
-  // env: {
-  //   baseUrl : process.env.BASE_URL || 'http://localhost:9090',
-  // },
-  // https://nuxtjs.org/docs/configuration-glossary/configuration-env/,
+  // https://nuxt.com/docs/api/nuxt-config#runtimeconfig
   runtimeConfig: {
     public: {
       prefix: process.env.URL_PREFIX || 'rmrk',

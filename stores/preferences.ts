@@ -29,6 +29,7 @@ interface State {
   enableAllArtwork: boolean
   enableGyroEffect: boolean
   gridSize: 'small' | 'medium' | 'large'
+  subscribedToNewsletter: boolean
   // Minting
   hasSupport: boolean
   hasCarbonOffset: boolean
@@ -63,11 +64,12 @@ export const usePreferencesStore = defineStore('preferences', {
     historyItemsPerPage: 12,
     replaceBuyNowWithYolo: false,
     hasSupport: true,
-    hasCarbonOffset: true,
+    hasCarbonOffset: false,
     enableAllArtwork: true,
     enableGyroEffect: false,
     gridSize: 'small',
     visitedOnboarding: false,
+    subscribedToNewsletter: false,
   }),
   getters: {
     getsidebarFilterCollapse: (state) => state.sidebarFilterCollapseOpen,
@@ -93,6 +95,7 @@ export const usePreferencesStore = defineStore('preferences', {
     getEnableGyroEffect: (state) => state.enableGyroEffect,
     getGridSize: (state) => state.gridSize,
     getVisitedOnboarding: (state) => state.visitedOnboarding,
+    getSubscribedToNewsletter: (state) => state.subscribedToNewsletter,
   },
   actions: {
     setSidebarFilterCollapse(payload) {
@@ -183,6 +186,9 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     setVisitedOnboarding(payload: boolean) {
       this.visitedOnboarding = payload
+    },
+    setSubscribedToNewsletter(subscribed: boolean) {
+      this.subscribedToNewsletter = subscribed
     },
   },
   persist: true,

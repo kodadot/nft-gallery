@@ -4,10 +4,11 @@
     aria-label="main navigation"
     class="navbar is-fixed-top is-spaced"
     :class="{
-      'navbar-shrink': !showTopNavbar,
       'is-active': isMobileNavbarOpen,
     }">
-    <div class="container" :class="{ 'is-fluid': !isMobile }">
+    <div
+      class="container is-align-items-center"
+      :class="{ 'is-fluid': !isMobile }">
       <!-- BRAND -->
       <div class="navbar-brand">
         <nuxt-link to="/" class="navbar-item logo nuxt-link-active">
@@ -69,7 +70,9 @@
         :class="{ 'is-active': isMobileNavbarOpen }">
         <!-- NAV START -->
         <div class="navbar-start">
-          <div v-if="showSearchOnNavbar" class="navbar-item is-expanded">
+          <div
+            v-if="showSearchOnNavbar"
+            class="navbar-item is-expanded is-flex is-justify-content-center">
             <Search
               v-if="!isMobile"
               class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
@@ -81,7 +84,7 @@
 
         <!-- NAV END -->
         <div class="navbar-end">
-          <nuxt-link to="/ahk/drops" rel="nofollow">
+          <nuxt-link to="/ahp/drops" rel="nofollow">
             <div class="navbar-item" data-testid="drops">
               {{ $t('drops.title') }}
 
@@ -139,10 +142,12 @@
 
           <NotificationBoxButton
             v-if="account"
+            data-testid="navbar-button-notification"
             :show-label="isMobile"
             @closeBurgerMenu="showMobileNavbar" />
 
           <ShoppingCartButton
+            data-testid="navbar-button-cart"
             :show-label="isMobile"
             @closeBurgerMenu="showMobileNavbar" />
 
@@ -165,6 +170,7 @@
             <div v-if="!account" id="NavProfile">
               <ConnectWalletButton
                 class="button-connect-wallet"
+                data-testid="navbar-button-connect-wallet"
                 variant="connect"
                 @closeBurgerMenu="showMobileNavbar" />
             </div>
@@ -174,7 +180,7 @@
             v-if="!isMobile"
             id="NavProfile"
             :chain="urlPrefix"
-            data-testid="profileDropdown"
+            data-testid="navbar-profile-dropdown"
             @closeBurgerMenu="closeBurgerMenu" />
         </div>
         <!-- END NAV END -->

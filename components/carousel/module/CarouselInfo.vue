@@ -21,7 +21,7 @@
               chain: item.chain,
             })
           "
-          class="is-size-7 carousel-info-collection-name">
+          class="is-size-7 carousel-info-collection-name is-ellipsis">
           {{ item.collectionName || '--' }}
         </nuxt-link>
       </template>
@@ -41,7 +41,7 @@
         inline
         :prefix="item.chain"
         :unit-symbol="unitSymbol" />
-      <p class="is-size-7 chain-name">{{ chainName }}</p>
+      <p class="is-size-7 chain-name is-capitalized">{{ chainName }}</p>
     </div>
   </div>
 </template>
@@ -49,9 +49,8 @@
 <script lang="ts" setup>
 import Money from '@/components/shared/format/Money.vue'
 import type { CarouselNFT } from '@/components/base/types'
-
+import { getChainNameByPrefix } from '@/utils/chain'
 import { useCarouselUrl } from '../utils/useCarousel'
-import { NAMES } from '@/libs/static/src/names'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
 
 const CollectionDetailsPopover = defineAsyncComponent(
@@ -69,7 +68,7 @@ const { urlOf } = useCarouselUrl()
 const url = inject('itemUrl', 'gallery') as string
 const isCollection = inject<boolean>('isCollection', false)
 const chainName = computed(() => {
-  return NAMES[props.item.chain || urlPrefix.value]
+  return getChainNameByPrefix(props.item.chain || urlPrefix.value)
 })
 
 const showPrice = computed((): boolean => {

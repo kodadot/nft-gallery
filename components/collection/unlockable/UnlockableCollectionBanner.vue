@@ -21,52 +21,33 @@ import HeroButtons from '@/components/collection/unlockable/UnlockableHeroButton
 import { unlockableDesc } from '../unlockable/utils'
 import { VOTE_DROP_DESCRIPTION } from '../voteDrop/const'
 import { generateDropImage } from '@/utils/seoImageGenerator'
+import { DropItem } from '@/params/types'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
-const props = defineProps<{
-  type: string | undefined
-}>()
+const props = defineProps({
+  drop: {
+    type: Object,
+    default: () => {
+      return {} as DropItem
+    },
+  },
+})
+
 const route = useRoute()
 
-const title = computed(() => {
-  switch (props.type) {
-    case 'vote-drop':
-      return 'Referendum Mint'
-    case 'dot-drop':
-      return 'Waifu 1 DOT Mint'
-    default:
-      return 'Waifu T-Shirt Free Mint'
-  }
-})
+const title = computed(() => props.drop?.name)
 
-const banner = computed(() => {
-  switch (props.type) {
-    case 'vote-drop':
-      return '/drop/vote-drop-banner.webp'
-    default:
-      return '/unlockable-banner.svg'
-  }
-})
+const banner = computed(() => sanitizeIpfsUrl(props.drop?.banner))
 
-const image = computed(() => {
-  switch (props.type) {
-    case 'vote-drop':
-      return '/drop/vote-drop-avatar.webp'
-    case 'dot-drop':
-      return 'https://replicate.delivery/pbxt/te3utBZeR4kbi0u1Xrsrz6VhZScDhElj9ZFTKQ3fRPRYHTUiA/out-0.png'
-    case 'free-drop':
-      return 'https://replicate.delivery/pbxt/bANqMENrH1LCDdpkhycwYj5nO03pII7TFjpEfTUbTt3uvXmIA/out-2.png'
-    default:
-      return 'https://replicate.delivery/pbxt/Cxfhi4qeTNvn6kcrrKlvL1YUPBKeAmbNrrf2ATtPVd6o5gDEB/out-1.png'
-  }
-})
+const image = computed(() => sanitizeIpfsUrl(props.drop?.image))
 
 const description = computed(() => {
-  switch (props.type) {
-    case 'vote-drop':
+  switch (props.drop?.type) {
+    case 'vote':
       return VOTE_DROP_DESCRIPTION
-    case 'dot-drop':
+    case 'paid':
       return unlockableDesc(50)
-    case 'free-drop':
+    case 'drop':
       return unlockableDesc(40)
     default:
       return ''
@@ -100,10 +81,6 @@ useHead({
 
   @include desktop {
     height: 560px;
-  }
-
-  @include ktheme() {
-    border-bottom: 1px solid theme('border-color');
   }
 
   &-shadow {
