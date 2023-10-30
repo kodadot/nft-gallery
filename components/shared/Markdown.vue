@@ -1,5 +1,5 @@
 <template>
-  <div class="content-markdown" v-html="markdown.render(source)" />
+  <div v-dompurify-html="markdown.render(source)" class="content-markdown" />
 </template>
 
 <script lang="ts" setup>
