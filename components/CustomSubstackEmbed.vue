@@ -18,7 +18,6 @@ window.CustomSubstackWidget = {
 }
 
 onMounted(() => {
-  substackScript.id = 'substackSrc'
   substackScript.src = 'https://substackapi.com/widget.js'
   substackScript.async = true
   document.head.append(substackScript)
