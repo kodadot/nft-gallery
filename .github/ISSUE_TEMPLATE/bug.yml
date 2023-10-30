@@ -79,7 +79,7 @@ body:
       multiple: true
       options:
         - Basilisk
-        - MoonSama
+        - Asset Hub
         - Kusama
   - type: textarea
     id: Screenshots
