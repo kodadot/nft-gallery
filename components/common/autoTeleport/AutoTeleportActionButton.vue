@@ -10,7 +10,7 @@
             v-if="isTelportIconActive"
             src="/accent-blur.svg"
             alt="blur"
-            class="blur" />
+            class="blur autotelport-blur" />
         </div>
 
         <p
@@ -264,5 +264,11 @@ watchEffect(() => {
 <style lang="scss" scoped>
 .btn-height {
   height: 3.5rem;
+}
+
+.autotelport-blur {
+  top: -3px !important;
+  left: -4px !important;
+  transform: scale(1.5);
 }
 </style>

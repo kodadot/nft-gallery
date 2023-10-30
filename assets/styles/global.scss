@@ -551,7 +551,7 @@ a.has-text-grey {
   position: relative;
   .blur {
       position: absolute !important;
-      top: -4px;
-      left: -4px;
+      top: 0;
+      left: 0;
     }
 }
