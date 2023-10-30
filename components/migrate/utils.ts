@@ -1,5 +1,52 @@
 import { availablePrefixWithIcon } from '@/utils/chain'
 import type { Prefix } from '@kodadot1/static'
+import collectionMigrateReady from '@/queries/subsquid/general/collectionMigrateReady.graphql'
+
+type CollectionsReady = {
+  collectionEntities?: {
+    id: string
+    name: string
+    metadata: string
+    meta?: {
+      id: string
+      image: string
+      animationUrl: string
+      name: string
+      description: string
+    }
+    nftsOwned?: {
+      id: string
+    }[]
+    nfts?: {
+      id: string
+    }[]
+  }[]
+}
+
+export async function useCollectionReady() {
+  const { accountId } = useAuth()
+  const { client } = usePrefix()
+
+  const { data } = await useAsyncQuery<CollectionsReady>({
+    query: collectionMigrateReady,
+    variables: {
+      account: accountId.value,
+    },
+    clientId: client.value,
+  })
+
+  const collections = computed(() => {
+    if (data.value?.collectionEntities?.length) {
+      return data.value?.collectionEntities
+    }
+
+    return []
+  })
+
+  return {
+    collections,
+  }
+}
 
 const source = availablePrefixWithIcon().filter(
   (item) => item.value === 'ksm' || item.value === 'rmrk',

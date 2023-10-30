@@ -59,50 +59,11 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import collectionMigrateReady from '@/queries/subsquid/general/collectionMigrateReady.graphql'
+import { useCollectionReady } from '@/components/migrate/utils'
 
 defineProps<{
   toReview: (string) => void
 }>()
 
-const { accountId } = useAuth()
-const { client } = usePrefix()
-
-// fetch collections
-type Collections = {
-  collectionEntities?: {
-    id: string
-    name: string
-    metadata: string
-    meta?: {
-      id: string
-      image: string
-      animationUrl: string
-      name: string
-      description: string
-    }
-    nftsOwned?: {
-      id: string
-    }[]
-    nfts?: {
-      id: string
-    }[]
-  }[]
-}
-
-const { data } = await useAsyncQuery<Collections>({
-  query: collectionMigrateReady,
-  variables: {
-    account: accountId.value,
-  },
-  clientId: client.value,
-})
-
-const collections = computed(() => {
-  if (data.value?.collectionEntities?.length) {
-    return data.value?.collectionEntities
-  }
-
-  return []
-})
+const { collections } = await useCollectionReady()
 </script>

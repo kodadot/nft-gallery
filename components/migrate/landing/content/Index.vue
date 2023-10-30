@@ -55,7 +55,7 @@
 <script setup lang="ts">
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import Identity from '@/components/identity/IdentityIndex.vue'
-import useMigrate from '@/components/migrate/migrate'
+import useMigrate from '@/components/migrate/utils'
 
 const { sourceSelected, destinationSelected } = useMigrate()
 
