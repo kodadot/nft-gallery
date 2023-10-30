@@ -32,7 +32,7 @@
                 :icon="reasonsIcons[index]"
                 size="large"
                 class="has-text-k-accent mb-3" />
-              <img src="/accent-blur.svg" alt="blur" class="blur" />
+              <img src="/accent-blur.svg" class="blur icon-blur" alt="blur" />
             </div>
 
             <p class="has-text-weight-bold is-size-5 mb-3">
@@ -108,5 +108,10 @@ const onClose = () => {
     grid-template-columns: repeat(3, auto);
     grid-gap: 1rem;
   }
+}
+
+.icon-blur {
+  top: -8px !important;
+  left: -8px !important;
 }
 </style>
