@@ -7,7 +7,9 @@ export default function ({
   hasEnoughInCurrentChain,
   transactions,
   actionCancelled,
+  transaction: action,
 }: {
+  transaction: () => Promise<any>
   optimalTransition: Ref<TeleportTransition>
   hasEnoughInCurrentChain: ComputedRef<boolean>
   transactions: ComputedRef<AutoTeleportTransactions>
@@ -29,6 +31,7 @@ export default function ({
   watch([isActive, hasEnoughInCurrentChain], ([active, enoughInCurrent]) => {
     if (active && enoughInCurrent) {
       pause()
+      action()
     }
   })
 

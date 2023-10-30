@@ -78,6 +78,7 @@ export default function (
   }
 
   useAutoTeleportWatch({
+    transaction,
     optimalTransition,
     hasEnoughInCurrentChain,
     transactions,

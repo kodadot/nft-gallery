@@ -1559,12 +1559,12 @@
       "buyNft": {
         "title": "Buying NFT",
         "subtitle": "when signing this transaction, you will buy your desired NFT",
-        "submit": "Buy NFT"
+        "submit": "Buying NFT..."
       },
       "listNft": {
         "title": "Listing NFT",
         "subtitle": "when signing this transaction, you will list your desired NFT",
-        "submit": "List NFT"
+        "submit": "Listing NFT..."
       }
     }
    

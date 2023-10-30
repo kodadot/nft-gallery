@@ -10,7 +10,7 @@
       <NeoIcon
         v-if="isLoading"
         icon="spinner-third"
-        class="spinner"
+        class="spinner has-text-k-grey"
         :size="iconSize" />
 
       <NeoIcon

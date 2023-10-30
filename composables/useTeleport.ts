@@ -70,7 +70,6 @@ export default function () {
     await web3Enable('Kodadot')
     let isFirstStatus = true
     initTransactionLoader()
-    status.value = TransactionStatus.Sign
     isError.value = false
 
     const transactionHandler = txCb(

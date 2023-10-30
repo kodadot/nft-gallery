@@ -83,7 +83,7 @@ export type ActionDetails = {
   submit: string
 }
 
-const emit = defineEmits(['confirm', 'close', 'telport:retry', 'action:retry'])
+const emit = defineEmits(['close', 'telport:retry', 'action:retry'])
 const props = defineProps<{
   modelValue: boolean
   transition: TeleportTransition
@@ -138,9 +138,7 @@ const steps = computed<TransactionStep[]>(() => {
   ]
 })
 
-const btnDisabled = computed(
-  () => !props.canDoAction || props.transactions.action.isLoading?.value,
-)
+const btnDisabled = computed(() => !actionFinalized.value)
 
 const actionFinalized = computed(
   () => props.transactions.action.status.value === TransactionStatus.Finalized,
@@ -161,17 +159,11 @@ const btnLabel = computed(() => {
 const submit = () => {
   if (actionFinalized.value) {
     onClose()
-  } else {
-    confirm()
   }
 }
 
 const onClose = () => {
   emit('close')
-}
-
-const confirm = () => {
-  emit('confirm')
 }
 </script>
 

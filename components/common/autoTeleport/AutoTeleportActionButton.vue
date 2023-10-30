@@ -66,7 +66,6 @@
     :transactions="transactions"
     :action-details="actionDetails"
     @close="isModalOpen = false"
-    @confirm="transaction"
     @telport:retry="teleport"
     @action:retry="transaction" />
 

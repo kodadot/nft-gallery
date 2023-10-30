@@ -9,7 +9,7 @@ export const getTransactionStepDetails = (
   subtitle?: string
   status: TransactionStepStatus
 } => {
-  const { status, isError, isLoading } = step
+  const { status, isError } = step
 
   if (status === TransactionStatus.Finalized) {
     return {
@@ -26,7 +26,7 @@ export const getTransactionStepDetails = (
     }
   }
 
-  if (status !== TransactionStatus.Unknown || isLoading) {
+  if (status !== TransactionStatus.Unknown) {
     return {
       title: $t('transactionSteps.loading.title'),
       subtitle: $t('transactionSteps.loading.subtitle'),
