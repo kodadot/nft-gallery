@@ -476,6 +476,10 @@ a.has-text-grey {
   }
 }
 
+.no-hover:hover {
+  background-color: unset !important;
+}
+
 //shadow
 
 .k-shadow {

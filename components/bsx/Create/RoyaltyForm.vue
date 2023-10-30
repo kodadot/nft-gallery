@@ -12,11 +12,10 @@
     <BasicSwitch v-model="isMine" label="mint.royalty.mine" />
     <AddressInput
       v-show="!isMine"
-      v-model="destinationAddress"
+      v-model="vAddress"
       label="mint.royalty.receiver"
       :strict="false"
-      empty-on-error
-      @input="handleAddressUpdate" />
+      empty-on-error />
   </div>
 </template>
 
@@ -44,13 +43,10 @@ const vRoyalty = useVModel(props, 'amount', emit)
 const vAddress = useVModel(props, 'address', emit)
 
 const isMine = ref(true)
-const destinationAddress = ref('')
 
-watch(isMine, (value: boolean) => {
-  handleAddressUpdate(value ? accountId.value : destinationAddress.value)
+watch(isMine, () => {
+  if (isMine.value) {
+    vAddress.value = accountId.value
+  }
 })
-
-function handleAddressUpdate(value: string) {
-  vAddress.value = value
-}
 </script>
