@@ -42,8 +42,10 @@
         <hr class="my-4" />
 
         <div class="is-flex is-align-items-flex-start">
-          <NeoIcon icon="lightbulb" size="small" class="mr-2" />
-          <p v-dompurify-html="$t('autoTeleport.tip')" class="is-size-7" />
+          <NeoIcon icon="lightbulb" size="small" class="mr-2 is-block" />
+          <p
+            v-dompurify-html="$t('autoTeleport.tip')"
+            class="is-size-7 is-capitalized" />
         </div>
 
         <p class="is-capitalized is-size-6 mt-4 mb-5">
@@ -186,5 +188,9 @@ const confirm = () => {
 
 .btn-height {
   height: 3.5rem;
+}
+
+.is-line-height {
+  display: block !important;
 }
 </style>
