@@ -70,7 +70,9 @@
         :class="{ 'is-active': isMobileNavbarOpen }">
         <!-- NAV START -->
         <div class="navbar-start">
-          <div v-if="showSearchOnNavbar" class="navbar-item is-expanded">
+          <div
+            v-if="showSearchOnNavbar"
+            class="navbar-item is-expanded is-flex is-justify-content-center">
             <Search
               v-if="!isMobile"
               class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
