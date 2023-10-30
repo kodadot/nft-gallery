@@ -208,7 +208,6 @@ const tabs = {
 }
 const activeTab = ref(tabs.offers)
 
-// const isFullscreen = ref(false)
 const canPreview = computed(() =>
   [MediaType.VIDEO, MediaType.IMAGE, MediaType.OBJECT].includes(
     resolveMedia(nftMimeType.value),
