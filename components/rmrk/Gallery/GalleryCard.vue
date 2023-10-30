@@ -99,9 +99,7 @@ watchEffect(async () => {
   }
 })
 
-const isBasicImage = computed(
-  () => !animatedUrl.value || (image.value && mimeType.value.includes('audio')),
-)
+const isBasicImage = computed(() => true)
 const showPriceValue = computed(
   () => props.listed || preferencesStore.getShowPriceValue,
 )
