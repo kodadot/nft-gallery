@@ -111,7 +111,8 @@ const onClose = () => {
 }
 
 .icon-blur {
-  top: -8px !important;
+  transform: scale(1.3);
+  top: -9px !important;
   left: -8px !important;
 }
 </style>
