@@ -23,7 +23,7 @@ type CollectionsReady = {
   }[]
 }
 
-export async function useCollectionReady() {
+export async function useCollectionReady(prefix = '') {
   const { accountId } = useAuth()
   const { client } = usePrefix()
 
@@ -32,7 +32,7 @@ export async function useCollectionReady() {
     variables: {
       account: accountId.value,
     },
-    clientId: client.value,
+    clientId: prefix || client.value,
   })
 
   const collections = computed(() => {
