@@ -590,9 +590,9 @@
     "unlockable": {
       "phaseIntroduction": "We will have a 60-minute window every phase, each featuring only 10 exclusive items.",
       "readyIn": "Your mint will be ready in {0}, DO NOT CLOSE THIS WINDOW",
-      "mintLive": "Free Unlockable Mint Live",
+      "mintLive": "Free Generative Drop",
       "mintLiveSmall": "Free Unlockable Mint",
-      "takeMe": "Take Me There!",
+      "takeMe": "Claim Yours",
       "viewItem": "View Item",
       "preparing": "Preparing Your Item...",
       "alreadyMinted": "🎉 You already have this NFT, check it here",
