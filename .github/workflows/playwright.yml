@@ -17,7 +17,7 @@ jobs:
     - name: Set Enviroment Variable
       run: |
         touch .env
-        echo VUE_APP_MNEMONIC_E2E=${{ secrets.MNEMONIC_E2E }} >> .env
+        echo MNEMONIC_E2E=${{ secrets.MNEMONIC_E2E }} >> .env
 
     - name: Install dependencies
       uses: ./.github/actions/pnpm-install
