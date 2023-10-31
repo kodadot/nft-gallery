@@ -36,12 +36,14 @@
         <NeoButton
           label="Reset All"
           variant="primary"
+          flat
           class="is-flex-grow-1 mw-9 h-3_5 is-shadowless"
           @click="resetFilters">
           {{ $t('general.resetAll') }}
         </NeoButton>
         <NeoButton
           variant="k-accent"
+          no-shadow
           class="is-flex-grow-1 mw-9 h-3_5"
           @click="applyFilters">
           {{ $t('general.apply') }}
