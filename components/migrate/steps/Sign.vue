@@ -34,7 +34,13 @@
           <!-- <NeoIcon icon="circle" class="mr-4" /> -->
           <div>
             <p>Create Collection</p>
-            <p>View Tx <NeoIcon icon="arrow-up-right" /></p>
+            <nuxt-link
+              v-if="retry === 0"
+              target="_blank"
+              class="has-text-k-blue"
+              :to="`/${client}/collection/${nextId}`">
+              View Tx <NeoIcon icon="arrow-up-right" />
+            </nuxt-link>
           </div>
         </div>
       </div>
@@ -102,9 +108,6 @@
       </div>
     </div>
 
-    <p>isLoading: {{ isLoading }}</p>
-    <p>status: {{ status }}</p>
-
     <NeoButton
       label="Sign all required transactions"
       variant="k-accent"
@@ -114,7 +117,7 @@
       @click="signTransactions()" />
 
     <hr />
-    <button @click="mockStep1()">mock step 1</button>
+    <button @click="mockStep2()">mockStep2()</button>
   </div>
 </template>
 
@@ -134,7 +137,7 @@ const { setUrlPrefix, client } = usePrefix()
 const { accountId } = useAuth()
 const { nextCollectionId } = useStatemineNewCollectionId()
 const { apiInstance } = useApi()
-const { howAboutToExecute, isLoading, status } = useMetaTransaction()
+const { howAboutToExecute, status } = useMetaTransaction()
 const route = useRoute()
 
 const to = route.query.destination as Prefix
@@ -148,11 +151,13 @@ const fromCollection = collections.value.find(
   (collection) => collection.id === route.query.collectionId,
 )
 
-type Steps = 'init' | 'step1' | 'step2' | 'step3'
+type Steps = 'init' | 'step1' | 'step2' | 'step3' | 'step4'
 
 const steps = ref<Steps>('init')
 const relocationsBody = ref({})
 const nextId = ref('0')
+const iterations = ref(0)
+// const batchPresigned = ref([])
 
 const stepsIcon = (step: Steps) => {
   const iconIdle = {
@@ -193,6 +198,16 @@ const stepsIcon = (step: Steps) => {
   }
 
   return iconIdle
+}
+
+function calculateIterations(batchSize = 200) {
+  const items = parseInt(itemCount || '0')
+
+  if (items <= 0 || batchSize <= 0) {
+    return 0
+  }
+
+  return Math.ceil(items / batchSize)
 }
 
 const signTransactions = async () => {
@@ -245,7 +260,6 @@ const signTransactions = async () => {
 }
 
 const retry = ref(10)
-const newCollectionStatus = ref<'init' | 'ready'>('init')
 
 type NftId = {
   collectionEntities?: {
@@ -266,80 +280,71 @@ async function checkCollection() {
   return data.value.collectionEntities?.[0]?.id
 }
 
-// TODO: don't forget to remove mockStep1
-const mockStep1 = () => {
+// TODO: don't forget to remove mockStep2
+const mockStep2 = async () => {
   status.value = 'loader.finalized'
-  newCollectionStatus.value = 'ready'
+  nextId.value = '204'
   relocationsBody.value = {
-    from: {
-      chain: 'rmrk',
-      collection: '2A82FB6C3DF4FA783E-HRYA7N1AEJM4L',
-    },
-    to: {
-      chain: 'ahk',
-      collection: '193',
-    },
+    from: { chain: 'ksm', collection: '2A82FB6C3DF4FA783E-W2M5SWIDV9RT7' },
+    to: { chain: 'ahk', collection: '204' },
     issuer: 'DY4SQF2iD456tH89aQtz5wv1EV3BbSW8wKKuMcwbmXaj1pM',
   }
-  steps.value = 'step1'
+  retry.value = 0
+  onStep2()
 }
 
-// function calculateIterations(batchSize = 200) {
-//   const items = parseInt(itemCount || '0')
+const onStep2 = async () => {
+  steps.value = 'step2'
+  iterations.value = calculateIterations()
 
-//   if (items <= 0 || batchSize <= 0) {
-//     return 0
-//   }
-
-//   return Math.ceil(items / batchSize)
-// }
-
-watchEffect(async () => {
-  console.log({ steps: steps.value, status: status.value })
-  const step1 = steps.value === 'step1' && status.value === 'loader.finalized'
-
-  // make sure collection exist
-  if (step1 && newCollectionStatus.value === 'init' && retry.value) {
-    await delay(DETAIL_TIMEOUT)
-    const nftId = await checkCollection()
-    console.log({ nftId })
-
-    if (nftId) {
-      newCollectionStatus.value = 'ready'
-    } else {
-      retry.value -= 1
-    }
-  }
-
-  // post to /relocations after collection created
-  if (step1 && newCollectionStatus.value === 'ready') {
-    try {
-      await waifuApi('/relocations', {
-        method: 'POST',
-        body: relocationsBody.value,
-      })
-
-      steps.value = 'step2'
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  // create pre signed items
-  if (steps.value === 'step2') {
-    try {
-      // const iteration = calculateIterations()
+  try {
+    // eslint-disable-next-line no-restricted-syntax
+    for (let index = 0; index < iterations.value; index++) {
       const checkSign = await waifuApi(
-        `/relocations/rmrk/${fromCollection?.id}/iterations/0`,
+        `/relocations/${from}/${fromCollection?.id}/iterations/${index}`,
         {
           method: 'PUT',
         },
       )
 
       console.log(checkSign)
-      steps.value = 'step3'
-    } catch (error) {
-      console.error('error step2', error)
+    }
+
+    // steps.value = 'step3'
+  } catch (error) {
+    console.error('error step2', error)
+  }
+}
+
+const onStep1 = async () => {
+  try {
+    await waifuApi('/relocations', {
+      method: 'POST',
+      body: relocationsBody.value,
+    }).then(() => onStep2())
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+watchEffect(async () => {
+  console.log({ steps: steps.value, status: status.value })
+
+  // make sure collection exist
+  if (
+    steps.value === 'step1' &&
+    status.value === 'loader.finalized' &&
+    retry.value
+  ) {
+    await delay(DETAIL_TIMEOUT)
+    const collectionId = await checkCollection()
+    console.log({ collectionId })
+
+    if (collectionId) {
+      retry.value = 0
+      onStep1()
+    } else {
+      retry.value -= 1
     }
   }
 })
