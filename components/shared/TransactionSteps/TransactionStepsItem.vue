@@ -48,7 +48,11 @@
           {{ step.title }}
         </p>
         <div class="is-flex is-justify-content-space-between">
-          <p class="is-capitalized has-text-k-grey">{{ step.subtitle }}</p>
+          <p
+            class="is-capitalized has-text-k-grey"
+            :class="{ 'is-size-7': !isChild }">
+            {{ step.subtitle }}
+          </p>
 
           <NeoButton
             v-if="showTryAgain"
