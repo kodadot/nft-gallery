@@ -2,7 +2,6 @@
   <NeoField>
     <NeoSwitch
       v-model="isSwitched"
-      :rounded="false"
       :size="size"
       :disabled="disabled"
       :class="labelColor"

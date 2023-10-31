@@ -9,7 +9,9 @@
             :to="urlOf({ id: item.id, url: 'gallery', chain: item.chain })"
             :title="item.name"
             class="has-text-weight-bold carousel-info-name">
-            <span class="is-ellipsis">{{ item.name || '--' }}</span>
+            <span class="is-ellipsis"
+              >{{ item.name || '--' }}#{{ item.id }}</span
+            >
           </nuxt-link>
 
           <div class="is-flex is-flex-direction-column is-align-items-start">
