@@ -1,13 +1,106 @@
 <template>
   <div>
     <div class="mt-5">{{ $t('migrate.signNotes') }}</div>
-
-    <hr />
-    <p>
-      TODO:
-      https://github.com/kodadot/nft-gallery/issues/7562#issuecomment-1765884165
+    <p class="mt-5 has-text-grey is-size-7">
+      - Please do not exit this modal until transactions are complete -
     </p>
     <hr />
+    <p class="is-size-7">
+      <strong><NeoIcon icon="lightbulb" /> Tip</strong>: Look for popups from
+      your wallet extension for signing.
+    </p>
+
+    <p class="my-5">Follow Steps:</p>
+
+    <!-- step 1 phase -->
+    <div class="mb-5">
+      <div class="is-flex is-align-items-center mb-4">
+        <div class="mr-5"><NeoIcon v-bind="stepsIcon('step1')" /></div>
+        <div>
+          <p class="has-text-weight-bold">Initiation Phase</p>
+          <p class="is-size-7 has-text-grey">
+            Launching your journey with a first transaction that sets up
+            everything needed on the new chain.
+          </p>
+        </div>
+      </div>
+      <div class="is-flex is-size-7">
+        <div class="v-border"></div>
+        <div class="mb-4">2/2 Left</div>
+      </div>
+      <div class="is-flex is-size-7">
+        <div class="v-border"></div>
+        <div class="mb-4 is-flex">
+          <!-- <NeoIcon icon="circle" class="mr-4" /> -->
+          <div>
+            <p>Create Collection</p>
+            <p>View Tx <NeoIcon icon="arrow-up-right" /></p>
+          </div>
+        </div>
+      </div>
+      <div class="is-flex is-size-7">
+        <div class="v-border"></div>
+        <div class="mb-4 is-flex">
+          <!-- <NeoIcon icon="circle" class="mr-4" /> -->
+          <div>
+            <p>Automated Asset Preparation</p>
+            <p>No Signature Needed</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- step 2 phase -->
+    <div class="mb-5">
+      <div class="is-flex is-align-items-center mb-4">
+        <div class="mr-5"><NeoIcon v-bind="stepsIcon('step2')" /></div>
+        <div>
+          <p class="has-text-weight-bold">Migrating your items</p>
+          <p class="is-size-7 has-text-grey">
+            You will now sign transactions to migrate NFTs you own.
+          </p>
+        </div>
+      </div>
+      <div class="is-flex is-size-7">
+        <div class="v-border"></div>
+        <div class="mb-4">1/1 Left</div>
+      </div>
+      <div class="is-flex is-size-7">
+        <div class="v-border"></div>
+        <div class="mb-4 is-flex">
+          <!-- <NeoIcon icon="circle" class="mr-4" /> -->
+          <div>
+            <p>Migrating {{ itemCount }} Items</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- step 3 phase -->
+    <div class="mb-5">
+      <div class="is-flex is-align-items-center mb-4">
+        <div class="mr-5"><NeoIcon v-bind="stepsIcon('step3')" /></div>
+        <div>
+          <p class="has-text-weight-bold">Finalization</p>
+          <p class="is-size-7 has-text-grey">
+            Please authorize transactions to complete the NFT migration.
+          </p>
+        </div>
+      </div>
+      <div class="is-flex is-size-7">
+        <div class="v-border"></div>
+        <div class="mb-4">1/1 Left</div>
+      </div>
+      <div class="is-flex is-size-7">
+        <div class="v-border"></div>
+        <div class="mb-4 is-flex">
+          <!-- <NeoIcon icon="circle" class="mr-4" /> -->
+          <div>
+            <p>Finalizing {{ itemCount }} Items</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <p>isLoading: {{ isLoading }}</p>
     <p>status: {{ status }}</p>
@@ -20,13 +113,14 @@
       :disabled="steps !== 'init'"
       @click="signTransactions()" />
 
+    <hr />
     <button @click="mockStep1()">mock step 1</button>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { useStatemineNewCollectionId } from '@/composables/transaction/mintCollection/useNewCollectionId'
 import { createArgsForNftPallet } from '@/composables/transaction/mintCollection/utils'
 import { useCollectionReady } from '@/components/migrate/utils'
@@ -54,9 +148,52 @@ const fromCollection = collections.value.find(
   (collection) => collection.id === route.query.collectionId,
 )
 
-const steps = ref<'init' | 'step1' | 'step2' | 'step3'>('init')
+type Steps = 'init' | 'step1' | 'step2' | 'step3'
+
+const steps = ref<Steps>('init')
 const relocationsBody = ref({})
 const nextId = ref('0')
+
+const stepsIcon = (step: Steps) => {
+  const iconIdle = {
+    icon: 'circle',
+    class: 'fa-2x has-text-grey',
+  }
+  const iconLoading = {
+    icon: 'spinner-third',
+    class: 'fa-spin fa-2x',
+  }
+  const iconSuccess = {
+    icon: 'check',
+    class: 'fa-2x',
+  }
+
+  if (steps.value === 'step1') {
+    return {
+      step1: iconLoading,
+      step2: iconIdle,
+      step3: iconIdle,
+    }[step]
+  }
+
+  if (steps.value === 'step2') {
+    return {
+      step1: iconSuccess,
+      step2: iconLoading,
+      step3: iconIdle,
+    }[step]
+  }
+
+  if (steps.value === 'step3') {
+    return {
+      step1: iconSuccess,
+      step2: iconSuccess,
+      step3: iconLoading,
+    }[step]
+  }
+
+  return iconIdle
+}
 
 const signTransactions = async () => {
   steps.value = 'step1'
@@ -147,14 +284,15 @@ const mockStep1 = () => {
   steps.value = 'step1'
 }
 
-function calculateIterations(batchSize = 200) {
-  const items = parseInt(itemCount || '0')
+// function calculateIterations(batchSize = 200) {
+//   const items = parseInt(itemCount || '0')
 
-  if (items <= 0 || batchSize <= 0) {
-    return 0
-  }
-  return Math.floor(items / batchSize)
-}
+//   if (items <= 0 || batchSize <= 0) {
+//     return 0
+//   }
+
+//   return Math.ceil(items / batchSize)
+// }
 
 watchEffect(async () => {
   console.log({ steps: steps.value, status: status.value })
@@ -190,15 +328,16 @@ watchEffect(async () => {
   // create pre signed items
   if (steps.value === 'step2') {
     try {
-      const iteration = calculateIterations()
+      // const iteration = calculateIterations()
       const checkSign = await waifuApi(
-        `/relocations/rmrk/${fromCollection?.id}/iterations/${iteration}`,
+        `/relocations/rmrk/${fromCollection?.id}/iterations/0`,
         {
           method: 'PUT',
         },
       )
 
       console.log(checkSign)
+      steps.value = 'step3'
     } catch (error) {
       console.error('error step2', error)
     }
@@ -211,5 +350,12 @@ watchEffect(async () => {
 
 .btn-submit {
   height: 3.5rem;
+}
+
+.v-border {
+  width: 1px;
+  background-color: black;
+  margin-left: 20px;
+  margin-right: 41px;
 }
 </style>
