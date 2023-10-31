@@ -15,7 +15,7 @@
             <div>{{ $t('mint.unlockable.totalAvailableItem') }}</div>
             <div>{{ totalAvailableMintCount }} / {{ totalCount }}</div>
           </div>
-          <UnlockableTag />
+          <UnlockableTag :collection-id="collectionId" />
 
           <div>
             <div

@@ -36,7 +36,7 @@
 </template>
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import { useUnlockable } from '#imports'
+
 const props = defineProps({
   collectionId: {
     type: String,

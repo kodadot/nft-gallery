@@ -18,7 +18,7 @@
               >{{ totalAvailableMintCount }} / {{ totalCount }}</span
             >
           </div>
-          <UnlockableTag />
+          <UnlockableTag :collection-id="collectionId" />
 
           <div>
             <div
