@@ -62,7 +62,7 @@
           :maxlength="inputLengthLimit" />
       </NeoField>
 
-       <NeoField :label="`${$t('Select Blockchain')}`">
+       <NeoField :label="$t('Select Blockchain')">
         <div class="w-100">
           <NeoSelect v-model="selectChain" class="mt-3" expanded required>
             <option v-for="menu in menus" :key="menu.value" :value="menu.value">
@@ -153,7 +153,7 @@ import {
   NeoIcon,
   NeoInput,
   NeoTooltip,
-  NeoSelect
+  NeoSelect,
 } from '@kodadot1/brick'
 import PillTabs, { Icon, PillTab } from '@/components/shared/PillTabs.vue'
 import IdentityConfirmModal from '@/components/common/identity/IdentityConfirmModal.vue'
@@ -239,7 +239,6 @@ const isConfirmModalActive = ref(false)
 const isLoaderModalVisible = ref(false)
 const transactionValue = ref('')
 
-
 const menus = availablePrefixes().filter(
   (menu) => menu.value !== 'movr' && menu.value !== 'glmr',
 )
@@ -253,8 +252,7 @@ watch(urlPrefix, (value) => {
 })
 
   const currentChain = computed(() => selectChain.value as Prefix)
-watch(currentChain, () => {
-
+watch(currentChain () => {
   if (currentChain.value !== urlPrefix.value) {
     setUrlPrefix(currentChain.value as Prefix)
   }
