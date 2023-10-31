@@ -22,7 +22,7 @@ export const getValue = async (
     return ''
   }
 
-  const { url } = await keywiseApi<KeyValue>(
+  const res = await keywiseApi<KeyValue>(
     `resolve/${prefix}-${collectionId}`,
   ).catch((error: FetchError<{ message: string }>) => {
     consola.error(
@@ -30,7 +30,7 @@ export const getValue = async (
     )
     return { url: '' }
   })
-  return url
+  return res?.url
 }
 
 export default keywiseApi

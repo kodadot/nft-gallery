@@ -8,25 +8,26 @@ export function useUnlockable(
   const { urlPrefix } = usePrefix()
   const unlockLink = ref('')
 
-  const fetchUnlockLink = async (value: string) => {
-    if (value) {
-      const url = await getValue(urlPrefix.value, value)
+  const fetchUnlockLink = async () => {
+    const id = entity.value?.id
+    if (id) {
+      const url = await getValue(urlPrefix.value, id)
       unlockLink.value = url
     }
   }
 
+  onMounted(() => {
+    fetchUnlockLink()
+  })
+
   watch(
     () => entity.value?.id,
-    (val) => {
-      if (val) {
-        fetchUnlockLink(val)
-      }
+    () => {
+      fetchUnlockLink()
     },
   )
 
-  const isUnlockable = computed(() => {
-    return unlockLink.value !== ''
-  })
+  const isUnlockable = computed(() => Boolean(unlockLink.value))
 
   return {
     isUnlockable,
