@@ -77,6 +77,10 @@ export default function (
     })
   }
 
+  const reset = () => {
+    actionCancelled.value = false
+  }
+
   useAutoTeleportWatch({
     transaction,
     optimalTransition,
@@ -94,5 +98,6 @@ export default function (
     isAvailable,
     teleport,
     transaction,
+    reset,
   }
 }

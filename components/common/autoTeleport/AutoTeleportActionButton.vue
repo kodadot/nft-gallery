@@ -65,7 +65,7 @@
     :can-do-action="hasEnoughInCurrentChain"
     :transactions="transactions"
     :action-details="actionDetails"
-    @close="isModalOpen = false"
+    @close="handleAutoTeleportModalClose"
     @telport:retry="teleport"
     @action:retry="transaction" />
 
@@ -119,6 +119,7 @@ const {
   transactions,
   teleport,
   transaction,
+  reset,
 } = useAutoTeleport(
   computed<Actions>(() => action.value),
   computed(() => amount.value),
@@ -229,6 +230,11 @@ const submit = () => {
   } else {
     transaction()
   }
+}
+
+const handleAutoTeleportModalClose = () => {
+  isModalOpen.value = false
+  reset()
 }
 
 watch(allowAutoTeleport, (allow) => {
