@@ -2,6 +2,8 @@ import { availablePrefixWithIcon } from '@/utils/chain'
 import type { Prefix } from '@kodadot1/static'
 import collectionMigrateReady from '@/queries/subsquid/general/collectionMigrateReady.graphql'
 
+export type Steps = 'init' | 'step1' | 'step2' | 'step3' | 'step4'
+
 type CollectionsReady = {
   collectionEntities?: {
     id: string
