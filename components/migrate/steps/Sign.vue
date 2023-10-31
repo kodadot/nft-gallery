@@ -160,6 +160,7 @@ const mockStep2 = async () => {
     issuer: 'DY4SQF2iD456tH89aQtz5wv1EV3BbSW8wKKuMcwbmXaj1pM',
   }
   retry.value = 0
+  step1Status.value -= 1
   onStep2()
 }
 
@@ -173,19 +174,19 @@ const onStep2 = async () => {
     for (let index = 0; index < iterations.value; index++) {
       // TODO: proper api call
       let checkSign
-      // if (location.host.includes('localhost')) {
-      //   checkSign = await waifuApi(
-      //     `/relocations/${from}/${fromCollection?.id}/owners/${accountId.value}`,
-      //   )
-      //   // const checkSign = await import('./mock-ksm-step2.json')
-      // } else {
-      checkSign = await waifuApi(
-        `/relocations/${from}/${fromCollection?.id}/iterations/${index}`,
-        {
-          method: 'PUT',
-        },
-      )
-      // }
+      if (location.host.includes('localhost')) {
+        checkSign = await waifuApi(
+          `/relocations/${from}/${fromCollection?.id}/owners/${accountId.value}`,
+        )
+        // const checkSign = await import('./mock-ksm-step2.json')
+      } else {
+        checkSign = await waifuApi(
+          `/relocations/${from}/${fromCollection?.id}/iterations/${index}`,
+          {
+            method: 'PUT',
+          },
+        )
+      }
 
       const presigned = checkSign.data.map((item) => {
         const preSignInfo = api.createType('PalletNftsPreSignedMint', item.data)
