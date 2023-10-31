@@ -5,6 +5,7 @@
       'is-fixed-width': fixedWidth,
       'no-shadow': noShadow,
       'loading-with-label': loadingWithLabel,
+      flat,
     }"
     :size="size"
     :icon-right="icon"
@@ -39,6 +40,7 @@ withDefaults(
     active?: boolean
     fixedWidth?: boolean
     noShadow?: boolean
+    flat?: boolean
     variant?: NeoButtonVariant
     rounded?: boolean
     tag?:

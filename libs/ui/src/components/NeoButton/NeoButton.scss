@@ -226,6 +226,10 @@
     box-shadow: none !important;
   }
 
+  &.flat {
+    border: none;
+  }
+
   &--rounded {
     border-radius: 9999px;
     padding: 0.25rem 0.75rem;
