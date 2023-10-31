@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Loader v-model="isMinting" :status="mintStatus" :can-cancel="false" />
     <div>
       <section class="is-flex controls">
         <NeoButton class="left" @click="toOnborading">
