@@ -172,7 +172,7 @@ const stepsIcon = (step: Steps) => {
   }
   const iconSuccess = {
     icon: 'check',
-    class: 'fa-2x',
+    class: 'fa-2x has-text-k-green',
   }
 
   if (steps.value === 'step1') {
@@ -274,7 +274,7 @@ async function checkCollection() {
   return data.value.collectionEntities?.[0]?.id
 }
 
-// TODO: don't forget to remove mockStep2
+// TODO: remove mockStep2 once ready
 const mockStep2 = async () => {
   status.value = TransactionStatus.Finalized
   nextId.value = '204'
@@ -295,16 +295,20 @@ const onStep2 = async () => {
     // eslint-disable-next-line no-restricted-syntax
     for (let index = 0; index < iterations.value; index++) {
       // TODO: proper api call
-      const checkSign = await waifuApi(
-        `/relocations/${from}/${fromCollection?.id}/iterations/${index}`,
-        {
-          method: 'PUT',
-        },
-      )
-      // const checkSign = await waifuApi(
-      //   `/relocations/${from}/${fromCollection?.id}/owners/${accountId.value}`,
-      // )
-      // const checkSign = await import('./mock-ksm-step2.json')
+      let checkSign
+      if (location.host.includes('localhost')) {
+        checkSign = await waifuApi(
+          `/relocations/${from}/${fromCollection?.id}/owners/${accountId.value}`,
+        )
+        // const checkSign = await import('./mock-ksm-step2.json')
+      } else {
+        checkSign = await waifuApi(
+          `/relocations/${from}/${fromCollection?.id}/iterations/${index}`,
+          {
+            method: 'PUT',
+          },
+        )
+      }
 
       const presigned = checkSign.data.map((item) => {
         const preSignInfo = api.createType('PalletNftsPreSignedMint', item.data)
