@@ -66,6 +66,7 @@ const toReview = (collectionId, itemCount) => {
   navigateTo({
     path: '/migrate/review',
     query: {
+      accountId: accountId.value,
       collectionId: collectionId,
       source: sourceSelected.value?.value,
       destination: destinationSelected.value?.value,

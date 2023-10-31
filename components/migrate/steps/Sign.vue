@@ -143,11 +143,12 @@ const route = useRoute()
 
 const to = route.query.destination as Prefix
 const from = route.query.source as Prefix
+const fromAccountId = route.query.accountId?.toString()
 const itemCount = route.query.itemCount?.toString()
 
 setUrlPrefix(to)
 
-const { collections } = await useCollectionReady(from)
+const { collections } = await useCollectionReady(from, fromAccountId)
 const fromCollection = collections.value.find(
   (collection) => collection.id === route.query.collectionId,
 )
@@ -226,7 +227,9 @@ const signTransactions = async () => {
       collection: nextId.value,
     },
     issuer: accountId.value,
+    // issuer: fromAccountId,
   }
+  console.log(collections.value)
   console.log(relocationsBody.value)
 
   if (nextId.value && fromCollection?.metadata) {

@@ -23,14 +23,14 @@ type CollectionsReady = {
   }[]
 }
 
-export async function useCollectionReady(prefix = '') {
+export async function useCollectionReady(prefix = '', account = '') {
   const { accountId } = useAuth()
   const { client } = usePrefix()
 
   const { data } = await useAsyncQuery<CollectionsReady>({
     query: collectionMigrateReady,
     variables: {
-      account: accountId.value,
+      account: account || accountId.value,
     },
     clientId: prefix || client.value,
   })
