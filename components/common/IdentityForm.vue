@@ -62,6 +62,16 @@
           :maxlength="inputLengthLimit" />
       </NeoField>
 
+       <NeoField :label="`${$t('Select Blockchain')} *`">
+        <div class="w-100">
+          <NeoSelect v-model="selectChain" class="mt-3" expanded required>
+            <option v-for="menu in menus" :key="menu.value" :value="menu.value">
+              {{ menu.text }}
+            </option>
+          </NeoSelect>
+        </div>
+      </NeoField>
+
       <NeoField label="Any Socials?" class="mb-4">
         <div class="is-flex is-flex-direction-column">
           <p>{{ $t('identity.socialsDescription') }}</p>
@@ -143,6 +153,8 @@ import {
   NeoIcon,
   NeoInput,
   NeoTooltip,
+  NeoSelect,
+  NeoSwitch
 } from '@kodadot1/brick'
 import PillTabs, { Icon, PillTab } from '@/components/shared/PillTabs.vue'
 import IdentityConfirmModal from '@/components/common/identity/IdentityConfirmModal.vue'
@@ -152,13 +164,13 @@ import Money from '@/components/shared/format/Money.vue'
 import { useFiatStore } from '@/stores/fiat'
 import { calculateUsdFromToken } from '@/utils/calculation'
 import format from '@/utils/format/balance'
-import { getChainName } from '@/utils/chain'
+import { availablePrefixes } from '@/utils/chain'
 
 const { $i18n } = useNuxtApp()
 
 const { accountId } = useAuth()
 const { decimals } = useChain()
-const { urlPrefix } = usePrefix()
+const { urlPrefix, setUrlPrefix } = usePrefix()
 const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
 const identityStore = useIdentityStore()
 const { howAboutToExecute, isLoading, initTransactionLoader, status } =
@@ -227,6 +239,28 @@ const {
 const isConfirmModalActive = ref(false)
 const isLoaderModalVisible = ref(false)
 const transactionValue = ref('')
+
+
+const menus = availablePrefixes().filter(
+  (menu) => menu.value !== 'movr' && menu.value !== 'glmr',
+)
+const chainByPrefix = computed(() =>
+  menus.find((menu) => menu.value === urlPrefix.value),
+)
+const selectChain = ref(chainByPrefix.value?.value || menus[0].value)
+
+watch(urlPrefix, (value) => {
+  selectChain.value = value
+})
+
+  const currentChain = computed(() => selectChain.value as Prefix)
+const { isBasilisk, isRemark, isRmrk } = useIsChain(currentChain)
+watch(currentChain, () => {
+
+  if (currentChain.value !== urlPrefix.value) {
+    setUrlPrefix(currentChain.value as Prefix)
+  }
+})
 
 const activeSocials = computed(() => {
   return socialTabs.value.reduce(
