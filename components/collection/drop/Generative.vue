@@ -65,6 +65,7 @@
                   ref="root"
                   class="my-2 mint-button"
                   variant="k-accent"
+                  :loading="isImageFetching"
                   :disabled="mintButtonDisabled"
                   :label="$t('mint.unlockable.mintThisNft')"
                   @click="handleSubmitMint" />
@@ -132,6 +133,10 @@ import { createUnlockableMetadata } from '../unlockable/utils'
 import GenerativePreview from '@/components/collection/drop/GenerativePreview.vue'
 import { DropItem } from '@/params/types'
 import { doWaifu } from '@/services/waifu'
+import { makeScreenshot } from '@/services/capture'
+import { pinFileToIPFS } from '@/services/nftStorage'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
+
 const NuxtLink = resolveComponent('NuxtLink')
 
 const props = defineProps({
@@ -156,6 +161,7 @@ const selectedImage = ref<string>('')
 const { isLogIn } = useAuth()
 const justMinted = ref('')
 const isLoading = ref(false)
+const isImageFetching = ref(false)
 
 const handleSelectImage = (image: string) => {
   selectedImage.value = image
@@ -247,28 +253,34 @@ const handleSubmitMint = async () => {
     })
     return
   }
-  if (isLoading.value) {
+  if (isLoading.value || isImageFetching.value) {
     return false
   }
 
-  const hash = await createUnlockableMetadata(
-    props.drop.image,
-    description.value,
-    collectionName.value,
-    'text/html',
-    selectedImage.value,
-  )
-
-  const { accountId } = useAuth()
-
-  isLoading.value = true
-
   try {
+    isImageFetching.value = true
+
+    const imgFile = await makeScreenshot(sanitizeIpfsUrl(selectedImage.value))
+    const imageHash = await pinFileToIPFS(imgFile)
+
+    const hash = await createUnlockableMetadata(
+      imageHash,
+      description.value,
+      collectionName.value,
+      'text/html',
+      selectedImage.value,
+    )
+
+    isImageFetching.value = false
+
+    const { accountId } = useAuth()
+    isLoading.value = true
+
     const id = await doWaifu(
       {
         address: accountId.value,
         metadata: hash,
-        image: props.drop.image,
+        image: imageHash,
       },
       props.drop.id,
     ).then((res) => {
@@ -276,7 +288,7 @@ const handleSubmitMint = async () => {
       scrollToTop()
       return `${collectionId.value}-${res.result.sn}`
     })
-    // 44s timeout
+
     setTimeout(() => {
       isLoading.value = false
       justMinted.value = id
@@ -286,6 +298,7 @@ const handleSubmitMint = async () => {
   } catch (error) {
     toast($i18n.t('drops.mintPerAddress'))
     isLoading.value = false
+    isImageFetching.value = false
   }
 }
 </script>
