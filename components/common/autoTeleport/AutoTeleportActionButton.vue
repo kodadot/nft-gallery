@@ -153,6 +153,10 @@ const needsAutoTelport = computed(
   () => !hasEnoughInCurrentChain.value && hasEnoughInRichestChain.value,
 )
 
+const canAutoTeleport = computed(
+  () => optimalTransition.value.source && isAutoTeleportAvailable.value,
+)
+
 const showAutoTeleport = computed(
   () =>
     !hasEnoughInCurrentChain.value &&
@@ -162,11 +166,7 @@ const showAutoTeleport = computed(
 )
 
 const allowAutoTeleport = computed(
-  () =>
-    needsAutoTelport.value &&
-    optimalTransition.value.source &&
-    isAutoTeleportAvailable.value &&
-    hasBalances.value,
+  () => needsAutoTelport.value && canAutoTeleport.value && hasBalances.value,
 )
 
 const hasNoFundsAtAll = computed(
