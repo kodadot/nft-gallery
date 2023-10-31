@@ -62,13 +62,14 @@ const { sourceSelected, destinationSelected } = useMigrate()
 const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 
-const toReview = (collectionId) => {
+const toReview = (collectionId, itemCount) => {
   navigateTo({
     path: '/migrate/review',
     query: {
       collectionId: collectionId,
       source: sourceSelected.value?.value,
       destination: destinationSelected.value?.value,
+      itemCount,
     },
   })
 }

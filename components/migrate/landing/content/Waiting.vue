@@ -74,7 +74,7 @@
 import collectionMigrateWaiting from '@/queries/subsquid/general/collectionMigrateWaiting.graphql'
 
 defineProps<{
-  toReview: (string) => void
+  toReview: (string, number) => void
 }>()
 
 const { accountId } = useAuth()

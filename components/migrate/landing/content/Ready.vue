@@ -46,7 +46,9 @@
               </p>
             </div>
             <div>
-              <NeoButton variant="pill" @click="toReview(collection.id)">
+              <NeoButton
+                variant="pill"
+                @click="toReview(collection.id, collection.nfts?.length)">
                 {{ $t('migrate.ready.cta') }}
               </NeoButton>
             </div>
@@ -62,7 +64,7 @@ import { NeoButton } from '@kodadot1/brick'
 import { useCollectionReady } from '@/components/migrate/utils'
 
 defineProps<{
-  toReview: (string) => void
+  toReview: (string, number) => void
 }>()
 
 const { collections } = await useCollectionReady()
