@@ -252,7 +252,7 @@ watch(urlPrefix, (value) => {
 })
 const currentChain = computed(() => selectChain.value as Prefix)
 watch(currentChain, () => {
-if (currentChain.value !== urlPrefix.value) {
+  if (currentChain.value !== urlPrefix.value) {
     setUrlPrefix(currentChain.value as Prefix)
   }
 })
