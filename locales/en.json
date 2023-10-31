@@ -1388,7 +1388,8 @@
     "connectedWith": "Connected with",
     "priceForNFTs": "Price for NFT(s)",
     "royalties": "Royalties",
-    "youWillPay": "You Will Pay"
+    "youWillPay": "You Will Pay",
+    "notEnoughFuns": "Not Enough Funds"
   },
   "shoppingCart": {
     "label": "Shopping Cart",
