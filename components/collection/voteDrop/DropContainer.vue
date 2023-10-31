@@ -3,7 +3,7 @@
     <Loader v-model="isLoading" :minted="justMinted" />
     <CountdownTimer />
     <hr class="text-color my-0" />
-    <div class="container is-fluid">
+    <div class="container is-fluid pb-4">
       <div class="columns is-desktop">
         <div class="column is-half-desktop mobile-padding">
           <UnlockableCollectionInfo
