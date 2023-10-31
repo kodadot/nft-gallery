@@ -122,6 +122,7 @@
 </template>
 
 <script setup lang="ts">
+import { TransactionStatus } from '#imports'
 import type { Prefix } from '@kodadot1/static'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { useStatemineNewCollectionId } from '@/composables/transaction/mintCollection/useNewCollectionId'
@@ -157,7 +158,8 @@ const steps = ref<Steps>('init')
 const relocationsBody = ref({})
 const nextId = ref('0')
 const iterations = ref(0)
-// const batchPresigned = ref([])
+const batchPresigned = reactive({})
+const api = await apiInstance.value
 
 const stepsIcon = (step: Steps) => {
   const iconIdle = {
@@ -214,7 +216,6 @@ const signTransactions = async () => {
   steps.value = 'step1'
   nextId.value = (await nextCollectionId())?.toString() || '0'
 
-  const api = await apiInstance.value
   relocationsBody.value = {
     from: {
       chain: from,
@@ -250,13 +251,6 @@ const signTransactions = async () => {
 
     await howAboutToExecute(accountId.value, cb, args)
   }
-
-  // navigateTo({
-  //   path: '/migrate/congrats',
-  //   query: {
-  //     ...route.query,
-  //   },
-  // })
 }
 
 const retry = ref(10)
@@ -282,7 +276,7 @@ async function checkCollection() {
 
 // TODO: don't forget to remove mockStep2
 const mockStep2 = async () => {
-  status.value = 'loader.finalized'
+  status.value = TransactionStatus.Finalized
   nextId.value = '204'
   relocationsBody.value = {
     from: { chain: 'ksm', collection: '2A82FB6C3DF4FA783E-W2M5SWIDV9RT7' },
@@ -300,17 +294,33 @@ const onStep2 = async () => {
   try {
     // eslint-disable-next-line no-restricted-syntax
     for (let index = 0; index < iterations.value; index++) {
+      // TODO: proper api call
       const checkSign = await waifuApi(
         `/relocations/${from}/${fromCollection?.id}/iterations/${index}`,
         {
           method: 'PUT',
         },
       )
+      // const checkSign = await waifuApi(
+      //   `/relocations/${from}/${fromCollection?.id}/owners/${accountId.value}`,
+      // )
+      // const checkSign = await import('./mock-ksm-step2.json')
 
-      console.log(checkSign)
+      const presigned = checkSign.data.map((item) => {
+        const preSignInfo = api.createType('PalletNftsPreSignedMint', item.data)
+        const create = api.tx.nfts.mintPreSigned(
+          preSignInfo,
+          {
+            Ed25519: item.signature,
+          },
+          item.signer,
+        )
+
+        return create
+      })
+
+      batchPresigned[index] = presigned
     }
-
-    // steps.value = 'step3'
   } catch (error) {
     console.error('error step2', error)
   }
@@ -327,13 +337,11 @@ const onStep1 = async () => {
   }
 }
 
+// make sure collection exist
 watchEffect(async () => {
-  console.log({ steps: steps.value, status: status.value })
-
-  // make sure collection exist
   if (
     steps.value === 'step1' &&
-    status.value === 'loader.finalized' &&
+    status.value === TransactionStatus.Finalized &&
     retry.value
   ) {
     await delay(DETAIL_TIMEOUT)
@@ -346,6 +354,39 @@ watchEffect(async () => {
     } else {
       retry.value -= 1
     }
+  }
+})
+
+const onStep3 = async (index = 0) => {
+  steps.value = 'step3'
+  status.value = TransactionStatus.Unknown
+
+  const cb = api.tx.utility.batch
+  const args = [toRaw(batchPresigned[index])]
+
+  await howAboutToExecute(accountId.value, cb, args)
+
+  // TODO: call onStep3() again based on iterations
+}
+
+watchEffect(() => {
+  if (
+    iterations.value &&
+    iterations.value === Object.keys(batchPresigned).length
+  ) {
+    onStep3()
+  }
+})
+
+watchEffect(() => {
+  // TODO: burn items in previous chain
+  if (steps.value === 'step3' && status.value === TransactionStatus.Finalized) {
+    navigateTo({
+      path: '/migrate/congrats',
+      query: {
+        ...route.query,
+      },
+    })
   }
 })
 </script>
