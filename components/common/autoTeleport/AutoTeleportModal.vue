@@ -21,7 +21,7 @@
           @click="onClose" />
       </header>
 
-      <div class="px-6 pt-4">
+      <div class="px-6 pt-4 pb-5 limit-height">
         <ModalIdentityItem />
 
         <p
@@ -53,16 +53,16 @@
         </p>
 
         <TransactionSteps :steps="steps" class="mt-4" />
-      </div>
 
-      <div class="is-flex is-justify-content-space-between py-5 px-6">
-        <NeoButton
-          :label="btnLabel"
-          variant="k-accent"
-          no-shadow
-          :disabled="btnDisabled"
-          class="is-flex is-flex-grow-1 btn-height"
-          @click="submit" />
+        <div class="is-flex is-justify-content-space-between pt-5">
+          <NeoButton
+            :label="btnLabel"
+            variant="k-accent"
+            no-shadow
+            :disabled="btnDisabled"
+            class="is-flex is-flex-grow-1 btn-height"
+            @click="submit" />
+        </div>
       </div>
     </div>
   </NeoModal>
@@ -184,5 +184,10 @@ const onClose = () => {
 
 .is-line-height {
   display: block !important;
+}
+
+.limit-height {
+  max-height: 50vh;
+  overflow-y: auto;
 }
 </style>
