@@ -9,12 +9,13 @@ export const getTransactionStepDetails = (
   subtitle?: string
   status: TransactionStepStatus
 } => {
-  const { status, isError } = step
+  const { status, isError, isActive } = step
 
   if (status === TransactionStatus.Finalized) {
     return {
       title: $t('transactionSteps.completed.title'),
       status: TransactionStepStatus.COMPLETED,
+      subtitle: '',
     }
   }
 
@@ -36,7 +37,7 @@ export const getTransactionStepDetails = (
 
   return {
     title: $t('transactionSteps.waiting.title'),
-    subtitle: $t('transactionSteps.waiting.subtitle'),
+    subtitle: isActive ? $t('transactionSteps.waiting.subtitle') : '',
     status: TransactionStepStatus.WAITING,
   }
 }

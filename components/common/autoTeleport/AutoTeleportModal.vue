@@ -135,7 +135,15 @@ const steps = computed<TransactionStep[]>(() => {
       withAction: true,
       retry: () => emit('action:retry'),
     },
-  ]
+  ].map((step, index, array) => {
+    const prevStep = array[index - 1]
+    const status = prevStep && (prevStep.stepStatus || prevStep.status)
+
+    return {
+      ...step,
+      isActive: index === 0 || status === TransactionStepStatus.COMPLETED,
+    }
+  })
 })
 
 const btnDisabled = computed(() => !actionFinalized.value)

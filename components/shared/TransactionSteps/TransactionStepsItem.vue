@@ -39,7 +39,12 @@
       <div
         class="is-flex is-flex-direction-column"
         :class="{ 'w-full': showTryAgain }">
-        <p class="is-capitalized" :class="{ 'has-text-weight-bold': !isChild }">
+        <p
+          class="is-capitalized"
+          :class="{
+            'has-text-weight-bold': !isChild,
+            'has-text-k-grey': isWaiting && !step.isActive && isChild,
+          }">
           {{ step.title }}
         </p>
         <div class="is-flex is-justify-content-space-between">
@@ -82,6 +87,7 @@ export type TransactionStepItem = {
   title: string
   subtitle?: string
   withAction?: boolean
+  isActive: boolean
   prefix?: Prefix
 }
 

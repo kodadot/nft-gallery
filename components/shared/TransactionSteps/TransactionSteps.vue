@@ -34,6 +34,7 @@ export type TransactionStep = {
   title?: string
   subtitle?: string
   withAction?: boolean
+  isActive: boolean
   prefix?: Prefix
   retry?: () => void
 }
@@ -58,6 +59,7 @@ const getStepItem = (
     txId: step.txId,
     isError: step.isError,
     prefix: step.prefix,
+    isActive: step.isActive,
   }
 
   const { status, title, subtitle } = getTransactionStepDetails(step, $i18n.t)
