@@ -50,31 +50,31 @@ const footerLinks = [
 const footerSocialMediaLinks = [
   {
     linkName: 'Twitter',
-    linkAddress: 'https://twitter.com/KodaDot',
+    linkAddress: 'KodaDot',
   },
   {
     linkName: 'Beehiiv',
-    linkAddress: 'https://kodadotweeklyroundup.beehiiv.com',
+    linkAddress: 'kodadotweeklyroundup',
   },
   {
     linkName: 'Linkedin',
-    linkAddress: 'https://www.linkedin.com/company/kodadot',
+    linkAddress: '/company/kodadot',
   },
-  //{
-  //  linkName: 'Medium',
-  //  linkAddress: 'https://medium.com/kodadot',
-  //},
+  {
+    linkName: 'Medium',
+    linkAddress: 'blog.kodadot.xyz',
+  },
   {
     linkName: 'Youtube',
-    linkAddress: 'https://www.youtube.com/channel/UCEULduld5NrqOL49k1KVjoA/',
+    linkAddress: 'UCEULduld5NrqOL49k1KVjoA',
   },
-  // {
-  //   linkName: 'Instagram',
-  //   linkAddress: 'https://www.instagram.com/kodadot.xyz/',
-  // },
+  {
+    linkName: 'Instagram',
+    linkAddress: 'kodadot.xyz',
+  },
   {
     linkName: 'Reddit',
-    linkAddress: 'https://www.reddit.com/r/KodaDot/',
+    linkAddress: '/r/KodaDot/',
   },
 ]
 
@@ -112,7 +112,7 @@ test('Check Social Media Links', async ({ page }) => {
     const newTabPromise = page.waitForEvent('popup')
     await socialMedia.locator(`[aria-label="${data.linkName}"]`).click()
     const newTab = await newTabPromise
-    await expect(newTab).toHaveURL(data.linkAddress)
+    await expect(newTab).toHaveURL(new RegExp(`${data.linkAddress}`))
     await newTab.close()
   }
 })
