@@ -103,6 +103,7 @@ const props = withDefaults(
   }>(),
   {
     disabled: false,
+    amount: 0,
   },
 )
 

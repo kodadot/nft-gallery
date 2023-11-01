@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Loader v-if="!autoTeleport" v-model="isLoading" :status="status" />
     <NeoModal
       :value="preferencesStore.listingCartModalOpen"
       scroll="clip"
@@ -49,9 +50,7 @@
 
         <div class="is-flex is-justify-content-space-between pb-5 px-6">
           <AutoTeleportActionButton
-            :action="action"
-            :action-details="actionDetails"
-            :amount="0"
+            :actions="actions"
             :disabled="Boolean(listingCartStore.incompleteListPrices)"
             :label="confirmListingLabel"
             @confirm="confirm" />
@@ -78,23 +77,20 @@ import AutoTeleportActionButton from '@/components/common/autoTeleport/AutoTelep
 import ListingCartSingleItemCart from './singleItemCart/ListingCartSingleItemCart.vue'
 import ListingCartMultipleItemsCart from './multipleItemsCart/ListingCartMultipleItemsCart.vue'
 import type { Actions } from '@/composables/transaction/types'
-import { ActionDetails } from '../autoTeleport/AutoTeleportModal.vue'
+import { AutoTeleportAction } from '~/composables/autoTeleport/useAutoTeleport'
+import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
 const { $i18n } = useNuxtApp()
+const { transaction, isLoading, status, isError } = useTransaction()
 
 const { chainSymbol, decimals } = useChain()
 
 const fixedPrice = ref()
 const floorPricePercentAdjustment = ref()
-
-const actionDetails = computed<ActionDetails>(() => ({
-  title: $i18n.t('autoTeleport.steps.listNft.title'),
-  subtitle: $i18n.t('autoTeleport.steps.listNft.subtitle'),
-  submit: $i18n.t('autoTeleport.steps.listNft.submit'),
-}))
+const autoTeleport = ref(false)
 
 function setFixedPrice() {
   const rate = Number(fixedPrice.value) || 0
@@ -107,7 +103,18 @@ watch(floorPricePercentAdjustment, (rate) => {
 })
 
 const fiatStore = useFiatStore()
-const action = computed(() => getAction(listingCartStore.itemsInChain))
+const actions = computed<AutoTeleportAction[]>(() => [
+  {
+    action: getAction(listingCartStore.itemsInChain),
+    transaction,
+    details: {
+      isLoading,
+      status,
+      isError,
+    },
+  },
+])
+
 const priceUSD = computed(() =>
   calculateExactUsdFromToken(
     totalNFTsPrice.value,
@@ -177,8 +184,14 @@ const getAction = (items: ListCartItem[]): Actions => {
   }
 }
 
-async function confirm() {
+async function confirm({ autoteleport }: AutoTeleportActionButtonConfirmEvent) {
   try {
+    autoTeleport.value = autoteleport
+
+    if (!autoteleport) {
+      await transaction(getAction(listingCartStore.itemsInChain))
+    }
+
     listingCartStore.clearListedItems()
     preferencesStore.listingCartModalOpen = false
     resetCartToDefaults()
