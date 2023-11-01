@@ -2,6 +2,8 @@ import { TransactionStatus } from '@/composables/useTransactionStatus'
 import useAutoTeleportTransition from '@/composables/autoTeleport/useAutoTeleportTransition'
 import useAutoTeleportWatch from '@/composables/autoTeleport/useAutoTeleportWatch'
 import { Actions } from '@/composables/transaction/types'
+import { Interaction } from '@kodadot1/minimark/v2'
+import useAutoTeleportTransactionActions from './useAutoTeleportTransactionActions'
 
 type TransactionDetails = {
   status: ComputedRef<TransactionStatus>
@@ -10,13 +12,31 @@ type TransactionDetails = {
   isLoading?: Ref<boolean>
 }
 
+export type ActionTransactionDetails = [
+  TransactionDetails & { interaction: Interaction },
+]
+
 export type AutoTeleportTransactions = {
   teleport: TransactionDetails
-  action: TransactionDetails
+  actions: ActionTransactionDetails
+}
+
+export type AutoTeleportActionDetails = {
+  isLoading: Ref<boolean>
+  status: Ref<TransactionStatus>
+  isError: Ref<boolean>
+  blockNumber?: Ref<string | undefined>
+}
+
+export type AutoTeleportAction = {
+  action: Actions
+  transaction: (item: Actions, prefix: string) => Promise<any>
+  prefix?: string | undefined
+  details: AutoTeleportActionDetails
 }
 
 export default function (
-  action: ComputedRef<Actions>,
+  actions: ComputedRef<AutoTeleportAction[]>,
   neededAmount: ComputedRef<number>,
 ) {
   const {
@@ -24,7 +44,7 @@ export default function (
     hasEnoughInRichestChain,
     hasBalances,
     optimalTransition,
-  } = useAutoTeleportTransition(action, neededAmount)
+  } = useAutoTeleportTransition(actions, neededAmount)
 
   const {
     teleport: sendXCM,
@@ -34,13 +54,8 @@ export default function (
     isError: teleportIsError,
     isAvailable,
   } = useTeleport()
-  const {
-    transaction: actionTransaction,
-    status: actionStatus,
-    isLoading: actionLoading,
-    isError: actionIsError,
-  } = useTransaction()
-  const actionCancelled = ref(false)
+
+  const transactionsActions = useAutoTeleportTransactionActions(actions)
 
   const transactions = computed<AutoTeleportTransactions>(() => ({
     teleport: {
@@ -48,17 +63,8 @@ export default function (
       txId: computed(() => teleportTxId.value),
       isError: teleportIsError,
     },
-    action: {
-      status: computed(() => actionStatus.value),
-      txId: computed(() => ''),
-      isError: computed(() => actionIsError.value || actionCancelled.value),
-      isLoading: actionLoading,
-    },
+    actions: transactionsActions.value,
   }))
-
-  const transaction = async () => {
-    await actionTransaction(action.value)
-  }
 
   const teleport = async () => {
     const { destination, source, token, amount } = optimalTransition.value
@@ -77,16 +83,10 @@ export default function (
     })
   }
 
-  const reset = () => {
-    actionCancelled.value = false
-  }
-
   useAutoTeleportWatch({
-    transaction,
     optimalTransition,
     hasEnoughInCurrentChain,
     transactions,
-    actionCancelled,
   })
 
   return {
@@ -97,7 +97,5 @@ export default function (
     transactions,
     isAvailable,
     teleport,
-    transaction,
-    reset,
   }
 }

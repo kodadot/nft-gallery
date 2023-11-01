@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="(step, index) in steps" :key="index">
+    <div v-for="(step, index) in stepsWithActive" :key="index">
       <TransactionStepsItem
         class="mb-3"
         :step="getStepItem(step)"
@@ -34,25 +34,44 @@ export type TransactionStep = {
   title?: string
   subtitle?: string
   withAction?: boolean
-  isActive: boolean
   prefix?: Prefix
   retry?: () => void
 }
 
-defineProps<{
+type TransactionStepWithActive = TransactionStep & { isActive: boolean }
+
+const emit = defineEmits(['active'])
+const props = defineProps<{
   steps: TransactionStep[]
 }>()
 
 const { $i18n } = useNuxtApp()
 
-const tryAgain = (step: TransactionStep) => {
+const stepsWithActive = computed<TransactionStepWithActive[]>(() =>
+  props.steps.map((step, index, array) => {
+    const prevStep = array[index - 1]
+    const status = prevStep && (prevStep.stepStatus || prevStep.status)
+
+    return {
+      ...step,
+      isActive: index === 0 || status === TransactionStepStatus.COMPLETED,
+    }
+  }),
+)
+
+watch(stepsWithActive, () => {
+  const index = stepsWithActive.value.findLastIndex((step) => step.isActive)
+  emit('active', index)
+})
+
+const tryAgain = (step: TransactionStepWithActive) => {
   if (step.retry) {
     step.retry()
   }
 }
 
 const getStepItem = (
-  step: TransactionStep,
+  step: TransactionStepWithActive,
   isAction = false,
 ): TransactionStepItem => {
   const baseStep = {

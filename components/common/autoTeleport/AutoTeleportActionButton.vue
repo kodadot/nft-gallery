@@ -64,40 +64,42 @@
     :transition="optimalTransition"
     :can-do-action="hasEnoughInCurrentChain"
     :transactions="transactions"
-    :action-details="actionDetails"
     @close="handleAutoTeleportModalClose"
     @telport:retry="teleport"
-    @action:retry="transaction" />
+    @action:start="actionRun"
+    @action:retry="actionRun" />
 
   <AutoTeleportWelcomeModal
     :model-value="showFirstTimeTeleport"
     @close="preferencesStore.setFirstTimeAutoTeleport(false)" />
-
-  <Loader
-    v-if="!showAutoTeleport"
-    :model-value="transactions.action.isLoading?.value"
-    :status="transactions.action.status.value" />
 
   <OnRampModal v-model="onRampActive" @close="onRampActive = false" />
 </template>
 
 <script setup lang="ts">
 import { NeoButton, NeoSwitch } from '@kodadot1/brick'
-import { Actions } from '@/composables/transaction/types'
 import OnRampModal from '@/components/shared/OnRampModal.vue'
 import AutoTeleportWelcomeModal from './AutoTeleportWelcomeModal.vue'
-import useAutoTeleport from '@/composables/autoTeleport/useAutoTeleport'
-import Loader from '@/components/shared/Loader.vue'
-import type { ActionDetails } from './AutoTeleportModal.vue'
+import useAutoTeleport, {
+  type AutoTeleportAction,
+} from '@/composables/autoTeleport/useAutoTeleport'
 
-const emit = defineEmits(['confirm', 'teleport:completed', 'action:completed'])
+export type AutoTeleportActionButtonConfirmEvent = {
+  autoteleport: boolean
+}
+
+const emit = defineEmits([
+  'confirm',
+  'teleport:completed',
+  'action:completed',
+  'action:run',
+])
 const props = withDefaults(
   defineProps<{
     amount: number
     label: string
     disabled: boolean
-    action: Actions
-    actionDetails: ActionDetails
+    actions: AutoTeleportAction[]
   }>(),
   {
     disabled: false,
@@ -105,11 +107,12 @@ const props = withDefaults(
 )
 
 const amount = ref(0)
-const action = ref<Actions>(emptyObject<Actions>())
+const actions = ref<AutoTeleportAction[]>([])
 
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 const { chainSymbol, name } = useChain()
+
 const {
   isAvailable: isAutoTeleportAvailable,
   hasBalances,
@@ -118,10 +121,8 @@ const {
   optimalTransition,
   transactions,
   teleport,
-  transaction,
-  reset,
 } = useAutoTeleport(
-  computed<Actions>(() => action.value),
+  computed(() => actions.value as AutoTeleportAction[]),
   computed(() => amount.value),
 )
 
@@ -222,19 +223,30 @@ const openAutoTeleportModal = () => {
   teleport()
 }
 
+const actionRun = async (interaction) => {
+  const action = actions.value.find(
+    (action) => action.action.interaction === interaction,
+  )
+
+  if (!action) {
+    return
+  }
+
+  await action?.transaction(action.action, action.prefix || '')
+}
+
 const submit = () => {
-  emit('confirm')
+  emit('confirm', {
+    autoteleport: allowAutoTeleport.value && autoTeleport.value,
+  } as AutoTeleportActionButtonConfirmEvent)
 
   if (allowAutoTeleport.value) {
     openAutoTeleportModal()
-  } else {
-    transaction()
   }
 }
 
 const handleAutoTeleportModalClose = () => {
   isModalOpen.value = false
-  reset()
 }
 
 watch(allowAutoTeleport, (allow) => {
@@ -246,23 +258,8 @@ watch(allowAutoTeleport, (allow) => {
 watchSyncEffect(() => {
   if (!isModalOpen.value) {
     amount.value = props.amount
-    action.value = props.action
+    actions.value = props.actions
   }
-})
-
-type TeleportTransactions = 'teleport' | 'action'
-const transactionEmits: TeleportTransactions[] = ['teleport', 'action']
-
-watchEffect(() => {
-  transactionEmits.forEach((transaction: TeleportTransactions) => {
-    const details = transactions.value[transaction]
-    if (
-      details.isLoading?.value === false &&
-      details.status.value === TransactionStatus.Finalized
-    ) {
-      emit(`${transaction}:completed`)
-    }
-  })
 })
 </script>
 

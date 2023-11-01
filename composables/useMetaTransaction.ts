@@ -82,6 +82,7 @@ function useMetaTransaction() {
       }
       isLoading.value = false
       tx.value = undefined
+      isError.value = true
     }
   }
   const onTxError = async (dispatchError: DispatchError): Promise<void> => {

@@ -1557,12 +1557,12 @@
         "title": "Checking funds",
         "subtitle": "Verifying fund arrival on destination chain for seamless operations."
       },
-      "buyNft": {
+      "buy": {
         "title": "Buying NFT",
         "subtitle": "when signing this transaction, you will buy your desired NFT",
         "submit": "Buying NFT..."
       },
-      "listNft": {
+      "list": {
         "title": "Listing NFT",
         "subtitle": "when signing this transaction, you will list your desired NFT",
         "submit": "Listing NFT..."

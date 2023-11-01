@@ -6,13 +6,13 @@ import {
 } from '@/utils/teleport'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { getMaxKeyByValue } from '@/utils/math'
-import { Actions } from '../transaction/types'
 import { getActionTransactionFee } from '@/utils/transactionExecutor'
+import { AutoTeleportAction } from './useAutoTeleport'
 
 const BUFFER_FEE_PERCENT = 0.2
 
 export default function (
-  action: ComputedRef<Actions>,
+  actions: ComputedRef<AutoTeleportAction[]>,
   neededAmount: ComputedRef<number>,
 ) {
   const {
@@ -21,12 +21,12 @@ export default function (
     fetchChainsBalances,
     getAddressByChain,
   } = useTeleport()
-  const { apiInstance } = useApi()
+  const { apiInstance, apiInstanceByPrefix } = useApi()
   const { balance } = useBalance()
 
   const hasBalances = ref(false)
   const teleportTxFee = ref(0)
-  const actionTxFee = ref(0)
+  const actionTxFees = ref([])
 
   const chainSymbol = computed(
     () => currentChain.value && getChainCurrency(currentChain.value),
@@ -36,7 +36,10 @@ export default function (
     currentChain.value ? teleportRoutes[currentChain.value] : [],
   )
 
-  const fees = computed(() => teleportTxFee.value + actionTxFee.value)
+  const fees = computed(
+    () =>
+      teleportTxFee.value + actionTxFees.value.reduce((r, num) => r + num, 0),
+  )
 
   const neededAmountWithFees = computed(() => neededAmount.value + fees.value)
 
@@ -146,16 +149,26 @@ export default function (
   })
 
   watch(
-    action,
+    actions,
     async () => {
-      const api = await apiInstance.value
-      const address = getAddressByChain(currentChain.value as Chain)
-      const fee = await getActionTransactionFee({
-        api,
-        action: action.value,
-        address,
+      const feesPromisses = actions.value.map(async ({ action, prefix }) => {
+        let api = await apiInstance.value
+
+        if (prefix) {
+          api = await apiInstanceByPrefix(prefix)
+        }
+
+        const address = getAddressByChain(currentChain.value as Chain)
+        return getActionTransactionFee({
+          api,
+          action: action,
+          address,
+        })
       })
-      actionTxFee.value = Number(fee)
+
+      const fees = await Promise.all(feesPromisses)
+
+      actionTxFees.value = fees.map(Number)
     },
     { immediate: true },
   )

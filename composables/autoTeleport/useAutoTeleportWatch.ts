@@ -6,14 +6,10 @@ export default function ({
   optimalTransition,
   hasEnoughInCurrentChain,
   transactions,
-  actionCancelled,
-  transaction: action,
 }: {
-  transaction: () => Promise<any>
   optimalTransition: Ref<TeleportTransition>
   hasEnoughInCurrentChain: ComputedRef<boolean>
   transactions: ComputedRef<AutoTeleportTransactions>
-  actionCancelled: Ref<boolean>
 }) {
   const { fetchMultipleBalance } = useMultipleBalance()
 
@@ -31,7 +27,6 @@ export default function ({
   watch([isActive, hasEnoughInCurrentChain], ([active, enoughInCurrent]) => {
     if (active && enoughInCurrent) {
       pause()
-      action()
     }
   })
 
@@ -41,20 +36,6 @@ export default function ({
       if (teleportStatus === TransactionStatus.Finalized) {
         resume()
       }
-    },
-  )
-
-  watch(
-    [
-      () => transactions.value.action.isLoading?.value,
-      () => transactions.value.action.status.value,
-    ],
-    ([loading, status], [prevLoading, prevStatus]) => {
-      actionCancelled.value =
-        !loading &&
-        prevLoading &&
-        prevStatus === TransactionStatus.Unknown &&
-        status === TransactionStatus.Unknown
     },
   )
 }

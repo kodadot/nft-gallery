@@ -52,7 +52,10 @@
           {{ $t('autoTeleport.followSteps') }}:
         </p>
 
-        <TransactionSteps :steps="steps" class="mt-4" />
+        <TransactionSteps
+          :steps="steps"
+          class="mt-4"
+          @active="handleActiveStep" />
 
         <div class="is-flex is-justify-content-space-between pt-5">
           <NeoButton
@@ -83,31 +86,40 @@ export type ActionDetails = {
   submit: string
 }
 
-const emit = defineEmits(['close', 'telport:retry', 'action:retry'])
+const emit = defineEmits([
+  'close',
+  'telport:retry',
+  'action:start',
+  'action:retry',
+])
 const props = defineProps<{
   modelValue: boolean
   transition: TeleportTransition
   canDoAction: boolean
   transactions: AutoTeleportTransactions
-  actionDetails: ActionDetails
 }>()
 
+const activeStep = ref(0)
 const { $i18n } = useNuxtApp()
 const isModalActive = useVModel(props, 'modelValue')
 
-const steps = computed<TransactionStep[]>(() => {
-  let step2Status = TransactionStepStatus.WAITING
+const checkBalanceState = computed<TransactionStepStatus>(() => {
+  let status = TransactionStepStatus.WAITING
 
   if (
     props.transactions.teleport.status.value === TransactionStatus.Finalized
   ) {
     if (props.canDoAction) {
-      step2Status = TransactionStepStatus.COMPLETED
+      status = TransactionStepStatus.COMPLETED
     } else {
-      step2Status = TransactionStepStatus.LOADING
+      status = TransactionStepStatus.LOADING
     }
   }
 
+  return status
+})
+
+const steps = computed<TransactionStep[]>(() => {
   return [
     {
       title: $i18n.t('autoTeleport.steps.1.title'),
@@ -122,34 +134,38 @@ const steps = computed<TransactionStep[]>(() => {
     {
       title: $i18n.t('autoTeleport.steps.2.title'),
       subtitle: $i18n.t('autoTeleport.steps.2.subtitle'),
-      stepStatus: step2Status,
+      stepStatus: checkBalanceState.value,
     },
-    {
-      title: props.actionDetails.title,
-      subtitle: props.actionDetails.subtitle,
-      status: props.transactions.action.status.value,
-      isError: props.transactions.action.isError.value,
-      txId: props.transactions.action.txId.value,
-      prefix: props.transition.destination?.prefix,
-      isLoading: props.transactions.action.isLoading?.value,
-      withAction: true,
-      retry: () => emit('action:retry'),
-    },
-  ].map((step, index, array) => {
-    const prevStep = array[index - 1]
-    const status = prevStep && (prevStep.stepStatus || prevStep.status)
-
-    return {
-      ...step,
-      isActive: index === 0 || status === TransactionStepStatus.COMPLETED,
-    }
-  })
+    props.transactions.actions.map((action) => {
+      const { title, subtitle } = getActionDetails(action.interaction)
+      return {
+        title,
+        subtitle,
+        status: action.status,
+        isError: action.isError,
+        txId: action.txId,
+        isLoading: action.isLoading,
+        prefix: props.transition.destination?.prefix,
+        withAction: true,
+        stepStatus: undefined,
+        retry: () => emit('action:retry', action.interaction),
+      }
+    }),
+  ].flat()
 })
 
-const btnDisabled = computed(() => !actionFinalized.value)
+const handleActiveStep = (step) => {
+  activeStep.value = step
+}
 
-const actionFinalized = computed(
-  () => props.transactions.action.status.value === TransactionStatus.Finalized,
+const btnDisabled = computed(() => {
+  return !actionsFinalized.value
+})
+
+const actionsFinalized = computed(() =>
+  props.transactions.actions
+    .map((action) => action.status)
+    .every((status) => status === TransactionStatus.Finalized),
 )
 
 const btnLabel = computed(() => {
@@ -157,15 +173,38 @@ const btnLabel = computed(() => {
     return $i18n.t('autoTeleport.finishAllStepsFirst')
   }
 
-  if (!actionFinalized.value) {
-    return props.actionDetails.submit
+  if (!actionsFinalized.value) {
+    return getActionDetails(activeStepInteraction.value).submit
   }
 
   return $i18n.t('autoTeleport.close')
 })
 
+const getActionDetails = (interaction: string) => {
+  const i = interaction.toLocaleLowerCase()
+  return {
+    title: $i18n.t(`autoTeleport.steps.${i}.title`),
+    subtitle: $i18n.t(`autoTeleport.steps.${i}.subtitle`),
+    submit: $i18n.t(`autoTeleport.steps.${i}.submit`),
+  }
+}
+
+const FIRST_ACTION_STEP = 2
+const activeStepInteraction = computed(
+  () =>
+    props.transactions.actions[activeStep.value - FIRST_ACTION_STEP]
+      ?.interaction,
+)
+
+watch(activeStep, () => {
+  const isActionStep = activeStep.value >= FIRST_ACTION_STEP
+  if (isActionStep) {
+    emit('action:start', activeStepInteraction.value)
+  }
+})
+
 const submit = () => {
-  if (actionFinalized.value) {
+  if (actionsFinalized.value) {
     onClose()
   }
 }
