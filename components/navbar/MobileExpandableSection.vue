@@ -20,6 +20,8 @@
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
 
+const route = useRoute()
+
 defineProps({
   title: {
     type: String,
@@ -44,4 +46,10 @@ const isOpened = ref(false)
 const close = (): void => {
   isOpened.value = false
 }
+watch(
+  () => route.path,
+  () => {
+    isOpened.value = false
+  },
+)
 </script>
