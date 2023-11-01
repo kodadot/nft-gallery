@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="isUnlockable"
     class="unlockable-container is-flex border py-2 px-6 is-justify-content-space-between">
     <NeoTooltip
       :label="$t('unlockable.tooltip')"
@@ -21,6 +22,16 @@ import { NeoTooltip } from '@kodadot1/brick'
 import { useUnlockableIcon } from '@/composables/useUnlockableIcon'
 
 const { unlockableIcon } = useUnlockableIcon()
+
+const props = defineProps({
+  collectionId: {
+    type: String,
+    default: '',
+  },
+})
+const { isUnlockable } = useUnlockable(
+  computed(() => ({ id: props.collectionId })),
+)
 </script>
 
 <style lang="scss" scoped>

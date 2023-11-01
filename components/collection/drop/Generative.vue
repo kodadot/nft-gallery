@@ -1,8 +1,7 @@
 <template>
   <div class="unlockable-container">
     <CollectionUnlockableLoader v-model="isLoading" :minted="justMinted" />
-    <CountdownTimer />
-    <div class="container is-fluid">
+    <div class="container is-fluid border-top">
       <div class="columns is-desktop">
         <div class="column is-half-desktop mobile-padding">
           <UnlockableCollectionInfo
@@ -15,7 +14,7 @@
             <div>{{ $t('mint.unlockable.totalAvailableItem') }}</div>
             <div>{{ totalAvailableMintCount }} / {{ totalCount }}</div>
           </div>
-          <UnlockableTag />
+          <UnlockableTag :collection-id="collectionId" />
 
           <div>
             <div
@@ -65,6 +64,7 @@
                   ref="root"
                   class="my-2 mint-button"
                   variant="k-accent"
+                  :loading="isImageFetching"
                   :disabled="mintButtonDisabled"
                   :label="$t('mint.unlockable.mintThisNft')"
                   @click="handleSubmitMint" />
@@ -79,38 +79,7 @@
             @select="handleSelectImage" />
         </div>
       </div>
-      <hr class="text-color my-4" />
-      <div class="columns is-desktop">
-        <div
-          class="column is-half-desktop is-flex is-flex-direction-column is-justify-content-center order-1">
-          <div
-            class="is-flex is-align-items-center has-text-weight-bold is-size-6 mb-2">
-            <NeoIcon icon="unlock" class="mr-2" />
-            {{ $t('mint.unlockable.howItemWork') }}
-          </div>
-          <div>
-            Experience the excitement of unlocking hidden rewards! Get your
-            hands on exclusive merchandise (and an NFT!) linked to unlockable
-            content. For the next ten hours, the fastest ten individuals can
-            mint their very own anime waifu character NFT for free. Simply log
-            in with your wallet, click on the "Mint" button, and sign the
-            transaction. Afterward, check your profile to find the NFT and click
-            "Unlockable Content" to reveal the surprise. Follow the schedule so
-            you don't miss this!
-          </div>
-          <NeoButton
-            tag="a"
-            href="https://hello.kodadot.xyz/fandom-toolbox/audience-growth/unlockables"
-            target="_blank"
-            variant="secondary"
-            class="mt-2">
-            {{ $t('helper.learnMore') }}
-          </NeoButton>
-        </div>
-        <div class="column">
-          <img src="/unlockable-introduce.svg" alt="Unlockable" />
-        </div>
-      </div>
+      <CollectionUnlockableItemInfo :collection-id="collectionId" />
       <div class="my-4">
         <CarouselTypeLatestMints
           :collection-id="collectionId"
@@ -121,17 +90,20 @@
 </template>
 
 <script setup lang="ts">
-import CountdownTimer from '@/components/collection/unlockable/CountdownTimer.vue'
 import UnlockableCollectionInfo from '@/components/collection/unlockable/UnlockableCollectionInfo.vue'
 import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import CarouselTypeLatestMints from '@/components/carousel/CarouselTypeLatestMints.vue'
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import { createUnlockableMetadata } from '../unlockable/utils'
 import GenerativePreview from '@/components/collection/drop/GenerativePreview.vue'
 import { DropItem } from '@/params/types'
 import { doWaifu } from '@/services/waifu'
+import { makeScreenshot } from '@/services/capture'
+import { pinFileToIPFS } from '@/services/nftStorage'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
+
 const NuxtLink = resolveComponent('NuxtLink')
 
 const props = defineProps({
@@ -156,6 +128,7 @@ const selectedImage = ref<string>('')
 const { isLogIn } = useAuth()
 const justMinted = ref('')
 const isLoading = ref(false)
+const isImageFetching = ref(false)
 
 const handleSelectImage = (image: string) => {
   selectedImage.value = image
@@ -222,7 +195,8 @@ const mintButtonDisabled = computed(() =>
   Boolean(
     currentMintedLoading.value ||
       !mintCountAvailable.value ||
-      !selectedImage.value,
+      !selectedImage.value ||
+      !accountId.value,
   ),
 )
 
@@ -247,28 +221,34 @@ const handleSubmitMint = async () => {
     })
     return
   }
-  if (isLoading.value) {
+  if (isLoading.value || isImageFetching.value) {
     return false
   }
 
-  const hash = await createUnlockableMetadata(
-    props.drop.image,
-    description.value,
-    collectionName.value,
-    'text/html',
-    selectedImage.value,
-  )
-
-  const { accountId } = useAuth()
-
-  isLoading.value = true
-
   try {
+    isImageFetching.value = true
+
+    const imgFile = await makeScreenshot(sanitizeIpfsUrl(selectedImage.value))
+    const imageHash = await pinFileToIPFS(imgFile)
+
+    const hash = await createUnlockableMetadata(
+      imageHash,
+      description.value,
+      collectionName.value,
+      'text/html',
+      selectedImage.value,
+    )
+
+    isImageFetching.value = false
+
+    const { accountId } = useAuth()
+    isLoading.value = true
+
     const id = await doWaifu(
       {
         address: accountId.value,
         metadata: hash,
-        image: props.drop.image,
+        image: imageHash,
       },
       props.drop.id,
     ).then((res) => {
@@ -276,7 +256,7 @@ const handleSubmitMint = async () => {
       scrollToTop()
       return `${collectionId.value}-${res.result.sn}`
     })
-    // 44s timeout
+
     setTimeout(() => {
       isLoading.value = false
       justMinted.value = id
@@ -286,6 +266,7 @@ const handleSubmitMint = async () => {
   } catch (error) {
     toast($i18n.t('drops.mintPerAddress'))
     isLoading.value = false
+    isImageFetching.value = false
   }
 }
 </script>
