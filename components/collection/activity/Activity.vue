@@ -1,11 +1,11 @@
 <template>
   <div class="is-flex">
     <SidebarFilter />
-    <div ref="wrapper" class="w-full mt-5">
+    <div ref="wrapper" class="w-full mt-4">
       <div v-if="tablet">
         <div class="columns">
           <div class="column is-two-thirds">
-            <ActivityChart :events="events" />
+            <ActivityChart :events="events" class="mt-2" />
           </div>
           <div class="column">
             <OwnerInsights :owners="owners" :flippers="flippers" />

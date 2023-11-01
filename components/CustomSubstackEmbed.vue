@@ -3,9 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-useHead({
-  script: [{ src: 'https://substackapi.com/widget.js', async: true }],
-})
+const substackScript = document.createElement('script')
 
 window.CustomSubstackWidget = {
   substackUrl: 'kodadot.substack.com',
@@ -18,4 +16,14 @@ window.CustomSubstackWidget = {
     text: '#000000',
   },
 }
+
+onMounted(() => {
+  substackScript.src = 'https://substackapi.com/widget.js'
+  substackScript.async = true
+  document.head.append(substackScript)
+})
+
+onUnmounted(() => {
+  substackScript?.remove()
+})
 </script>
