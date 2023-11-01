@@ -22,7 +22,7 @@
           @click="closeBurgerMenu">
           <img
             v-if="isMobileNavbarOpen || showSearchOnNavbar"
-            class="mobile-nav-search-btn mr-2"
+            class="mobile-nav-search-btn mr-2 mt-4"
             :src="
               isDarkMode
                 ? '/search-mobile-navbar-dark.svg'
@@ -39,9 +39,12 @@
                 ref="mobilSearchRef"
                 hide-filter
                 class="is-flex-grow-1 mt-3" />
-              <button class="cancel-btn p-3" @click="hideMobileSearchBar">
+              <NeoButton
+                variant="text"
+                class="cancel-btn p-3 mt-3 is-shadowless"
+                @click="hideMobileSearchBar">
                 {{ $t('cancel') }}
-              </button>
+              </NeoButton>
             </div>
           </div>
         </div>
@@ -191,7 +194,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { nextTick } from 'vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import ChainSelectDropdown from '@/components/navbar/ChainSelectDropdown.vue'
