@@ -2,7 +2,26 @@ import { availablePrefixWithIcon } from '@/utils/chain'
 import type { Prefix } from '@kodadot1/static'
 import collectionMigrateReady from '@/queries/subsquid/general/collectionMigrateReady.graphql'
 
-export type Steps = 'init' | 'step1' | 'step2' | 'step3' | 'step4'
+export type Steps =
+  | 'init'
+  | 'step1'
+  | 'step1-check-id'
+  | 'step2'
+  | 'step3'
+  | 'step4'
+
+export const iconIdle = {
+  icon: 'circle',
+  class: 'has-text-grey',
+}
+export const iconLoading = {
+  icon: 'spinner-third',
+  class: 'fa-spin',
+}
+export const iconSuccess = {
+  icon: 'check',
+  class: 'has-text-k-green',
+}
 
 type CollectionsReady = {
   collectionEntities?: {

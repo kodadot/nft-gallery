@@ -1,49 +1,7 @@
 <template>
   <div>
     <!-- step 1 phase -->
-    <div class="mb-5">
-      <div class="is-flex is-align-items-center mb-4">
-        <div class="mr-5"><NeoIcon v-bind="stepsIcon('step1')" /></div>
-        <div>
-          <p class="has-text-weight-bold">Initiation Phase</p>
-          <p class="is-size-7 has-text-grey">
-            Launching your journey with a first transaction that sets up
-            everything needed on the new chain.
-          </p>
-        </div>
-      </div>
-      <div class="is-flex is-size-7">
-        <div class="v-border"></div>
-        <div v-if="step1Status" class="mb-4">{{ step1Status }}/2 Left</div>
-        <div v-else class="mb-4">Done</div>
-      </div>
-      <div class="is-flex is-size-7">
-        <div class="v-border"></div>
-        <div class="mb-4 is-flex">
-          <!-- <NeoIcon icon="circle" class="mr-4" /> -->
-          <div>
-            <p>Create Collection</p>
-            <nuxt-link
-              v-if="retry === 0"
-              target="_blank"
-              class="has-text-k-blue"
-              :to="`/${client}/collection/${nextId}`">
-              View Tx <NeoIcon icon="arrow-up-right" />
-            </nuxt-link>
-          </div>
-        </div>
-      </div>
-      <div class="is-flex is-size-7">
-        <div class="v-border"></div>
-        <div class="mb-4 is-flex">
-          <!-- <NeoIcon icon="circle" class="mr-4" /> -->
-          <div>
-            <p>Automated Asset Preparation</p>
-            <p>No Signature Needed</p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <MigrateStepsSignLoader1 />
 
     <!-- step 2 phase -->
     <div class="mb-5">
@@ -105,13 +63,8 @@ import { NeoIcon } from '@kodadot1/brick'
 
 const props = defineProps<{
   steps: Steps
-  step1Status: number
-  retry: number
-  nextId: string
   itemCount?: string
 }>()
-
-const { client } = usePrefix()
 
 const iconIdle = {
   icon: 'circle',
@@ -155,7 +108,7 @@ const stepsIcon = (step: Steps) => {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import '@/assets/styles/abstracts/variables';
 
 .v-border {
