@@ -1,0 +1,25 @@
+#import "../../fragments/collection.graphql"
+#import "../../fragments/collectionDetails.graphql"
+
+query collectionListWithSearch(
+  $first: Int!
+  $offset: Int
+  $search: [CollectionEntityWhereInput!]
+  $orderBy: [CollectionEntityOrderByInput!] = [blockNumber_DESC]
+) {
+  collectionEntities(
+    orderBy: $orderBy
+    limit: $first
+    offset: $offset
+    where: { AND: $search, burned_eq: false }
+  ) {
+    ...collection
+    ...collectionDetails
+  }
+  stats: collectionEntitiesConnection(
+    where: { AND: $search, burned_eq: false }
+    orderBy: blockNumber_DESC
+  ) {
+    totalCount
+  }
+}
