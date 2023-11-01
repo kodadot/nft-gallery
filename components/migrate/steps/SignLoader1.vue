@@ -43,7 +43,7 @@
       <div class="v-border"></div>
       <div class="mb-4 is-flex">
         <div class="mr-4">
-          <NeoIcon v-if="steps === 'step2'" v-bind="iconSuccess" />
+          <NeoIcon v-if="step1Iterations === 0" v-bind="iconSuccess" />
           <NeoIcon v-else-if="retry === 0" v-bind="iconLoading" />
           <NeoIcon v-else v-bind="iconIdle" />
         </div>

@@ -7,6 +7,7 @@ export type Steps =
   | 'step1'
   | 'step1-check-id'
   | 'step2'
+  | 'step2-migrate'
   | 'step3'
   | 'step4'
 
@@ -21,6 +22,16 @@ export const iconLoading = {
 export const iconSuccess = {
   icon: 'check',
   class: 'has-text-k-green',
+}
+
+export function calculateIterations(itemCount = '0', batchSize = 200) {
+  const items = parseInt(itemCount || '0')
+
+  if (items <= 0 || batchSize <= 0) {
+    return 0
+  }
+
+  return Math.ceil(items / batchSize)
 }
 
 type CollectionsReady = {
