@@ -50,7 +50,7 @@
         </NeoDropdown>
 
         <NeoDropdown
-          v-if="!isOwner"
+          v-if="isOwner && isAssetHub"
           position="bottom-left"
           append-to-body
           :mobile-modal="false">
@@ -63,17 +63,17 @@
           </template>
 
           <!-- related: #5792 -->
-          <!-- <div v-if="isOwner">
-              <NeoDropdownItem>
-                {{ $i18n.t('moreActions.delete') }}
-              </NeoDropdownItem>
-              <NeoDropdownItem>
+          <div v-if="isOwner">
+            <NeoDropdownItem @click="deleteCollection()">
+              {{ $i18n.t('moreActions.delete') }}
+            </NeoDropdownItem>
+            <!-- <NeoDropdownItem>
                 {{ $i18n.t('moreActions.customize') }}
-              </NeoDropdownItem>
-            </div> -->
-          <NeoDropdownItem disabled>
+              </NeoDropdownItem> -->
+          </div>
+          <!-- <NeoDropdownItem disabled>
             {{ $i18n.t('moreActions.reportCollection') }}
-          </NeoDropdownItem>
+          </NeoDropdownItem> -->
         </NeoDropdown>
       </div>
     </div>
@@ -100,8 +100,10 @@ import {
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 
 const route = useRoute()
-const { isCurrentOwner } = useAuth()
+const { apiInstance } = useApi()
+const { isCurrentOwner, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
+const { isAssetHub } = useIsChain(urlPrefix)
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 
@@ -130,6 +132,31 @@ const QRModalActive = ref(false)
 
 const hashtags = 'KusamaNetwork,KodaDot'
 const sharingLabel = $i18n.t('sharing.collection')
+
+const deleteCollection = async () => {
+  const id = route.params.id
+  const api = await apiInstance.value
+  const injector = await getAddress(toDefaultAddress(accountId.value))
+
+  api.tx.nfts
+    .destroy(id.toString(), {
+      itemMetadatas: '0',
+      itemConfigs: '0',
+      attributes: '0',
+    })
+    .signAndSend(
+      accountId.value,
+      { signer: injector.signer },
+      async ({ status }) => {
+        if (status.isInBlock) {
+          toast($i18n.t('Collection Deleted'))
+
+          await delay(DETAIL_TIMEOUT)
+          navigateTo(`/${urlPrefix.value}/u/${accountId.value}?tab=collections`)
+        }
+      },
+    )
+}
 </script>
 
 <style lang="scss" scoped>
