@@ -131,7 +131,7 @@ const executeStep2 = async (index = 0) => {
 }
 
 watchEffect(() => {
-  $consola.log('SignLoader2.vue', steps?.value, status.value)
+  $consola.log('SignLoader2.vue', steps.value, status.value)
 
   if (steps.value === 'step2') {
     startStep2()

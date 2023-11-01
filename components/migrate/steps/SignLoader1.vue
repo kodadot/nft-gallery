@@ -180,7 +180,7 @@ async function checkCollection() {
 const retry = ref(10)
 
 watchEffect(async () => {
-  $consola.log('SignLoader1.vue', steps?.value, status.value)
+  $consola.log('SignLoader1.vue', steps.value, status.value)
 
   if (steps.value === 'step1') {
     startStep1()
