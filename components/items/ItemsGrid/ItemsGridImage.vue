@@ -19,7 +19,7 @@
     bind-key="to"
     :media-player-cover="mediaPlayerCover"
     media-hover-on-cover-play>
-    <template #action>
+    <template v-if="!hideAction" #action>
       <div v-if="!isOwner && Number(nft?.price)" class="is-flex">
         <NeoButton
           :label="buyLabel"
@@ -80,6 +80,7 @@ const props = defineProps<{
   nft: NFTWithMetadata
   variant?: NftCardVariant
   hideMediaInfo?: boolean
+  hideAction?: boolean
 }>()
 
 const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.nft))
