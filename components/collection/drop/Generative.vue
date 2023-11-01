@@ -228,7 +228,8 @@ const mintButtonDisabled = computed(() =>
   Boolean(
     currentMintedLoading.value ||
       !mintCountAvailable.value ||
-      !selectedImage.value,
+      !selectedImage.value ||
+      !accountId.value,
   ),
 )
 
