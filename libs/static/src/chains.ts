@@ -42,13 +42,13 @@ export const CHAINS: Config<ChainProperties> = {
 export const DEFAULT_PREFIX: Prefix = 'ksm'
 
 export const chainPrefixes: Prefix[] = [
-  'bsx',
+  'ahp',
+  'ahk',
   'rmrk',
   'snek',
   'ksm',
-  'ahk',
   'dot',
-  'ahp',
+  'bsx',
   // 'movr',
   // 'glmr',
 ]
