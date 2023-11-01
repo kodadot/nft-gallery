@@ -12,15 +12,13 @@
       {{ title }}
     </div>
     <div :class="{ 'navbar-item': !noPadding }" class="navbar-item-body">
-      <slot />
+      <slot @closeMobileSubMenu="close" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { NeoIcon } from '@kodadot1/brick'
-
-const route = useRoute()
 
 defineProps({
   title: {
@@ -46,10 +44,4 @@ const isOpened = ref(false)
 const close = (): void => {
   isOpened.value = false
 }
-watch(
-  () => route.path,
-  () => {
-    isOpened.value = false
-  },
-)
 </script>
