@@ -177,7 +177,7 @@ async function checkCollection() {
   return data.value.collectionEntities?.[0]?.id
 }
 
-const retry = ref(10)
+const retry = ref(20)
 
 watchEffect(async () => {
   $consola.log('SignLoader1.vue', steps.value, status.value)
@@ -194,6 +194,7 @@ watchEffect(async () => {
   ) {
     await delay(DETAIL_TIMEOUT)
     const collectionId = await checkCollection()
+    $consola.log({ collectionId })
 
     if (collectionId) {
       validationStep1()

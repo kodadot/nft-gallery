@@ -1,7 +1,10 @@
 <template>
   <div class="mb-5">
     <div class="is-flex is-align-items-center mb-4">
-      <div class="mr-5"><NeoIcon v-bind="iconIdle" class="fa-2x" /></div>
+      <div class="mr-5">
+        <NeoIcon v-if="steps === 'step3'" v-bind="iconLoading" class="fa-2x" />
+        <NeoIcon v-else v-bind="iconIdle" class="fa-2x" />
+      </div>
       <div>
         <p class="has-text-weight-bold">Finalization</p>
         <p class="is-size-7 has-text-grey">
@@ -27,7 +30,7 @@
 
 <script setup lang="ts">
 import { NeoIcon } from '@kodadot1/brick'
-import { type Steps, iconIdle } from '@/components/migrate/utils'
+import { type Steps, iconIdle, iconLoading } from '@/components/migrate/utils'
 
 const route = useRoute()
 
