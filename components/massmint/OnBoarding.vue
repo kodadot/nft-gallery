@@ -1,15 +1,13 @@
 <template>
   <div>
     <div class="is-flex is-align-items-center mb-7 px-8">
-      <a
-        v-safe-href="
-          'https://hello.kodadot.xyz/tutorial/minting/how-to-mass-mint-nfts'
-        "
+      <nuxt-link
+        :to="'https://hello.kodadot.xyz/tutorial/minting/how-to-mass-mint-nfts'"
         class="is-size-2-desktop is-size-2-tablet is-size-3-mobile is-flex is-flex-grow-1 is-justify-content-center has-text-weight-bold"
         target="_blank"
         rel="nofollow noopener noreferrer">
         {{ $t('massmint.onboarding.pageTitle') }}
-      </a>
+      </nuxt-link>
       <NeoButton
         :label="$t('massmint.onboarding.skip')"
         icon="arrow-right"
