@@ -33,7 +33,9 @@
 
       <NeoField :label="$t('Select Blockchain')">
         <div class="w-100">
-          <NeoSelect v-model="selectChain" class="mt-3" expanded required :validation-message="$t('Select chain is required')">
+          <NeoSelect v-model="selectChain" class="mt-3"
+            expanded required
+            :validation-message="$t('Select chain is required')">
             <option v-for="menu in menus" :key="menu.value" :value="menu.value">
               {{ menu.text }}
             </option>
@@ -237,11 +239,10 @@ const {
 const isConfirmModalActive = ref(false)
 const isLoaderModalVisible = ref(false)
 const transactionValue = ref('')
-
 const menus = availablePrefixes().filter(
   (menu) => 
-    menu.value !== 'movr' && menu.value !== 'glmr' && menu.value !== 'ahk' &&
-    menu.value !== 'ahp',
+    menu.value !== 'movr' && menu.value !== 'glmr'
+    && menu.value !== 'ahk' && menu.value !== 'ahp',
 )
 const chainByPrefix = computed(() =>
   menus.find((menu) => menu.value === urlPrefix.value),
