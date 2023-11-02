@@ -592,7 +592,9 @@
       "readyIn": "Your mint will be ready in {0}, DO NOT CLOSE THIS WINDOW",
       "mintLive": "Free Generative Drop",
       "mintLiveSmall": "Free Generative Drop",
+      "freeDrop": "Free Generative Drop",
       "takeMe": "Claim Yours",
+      "claimYours": "Claim Yours",
       "viewItem": "View Item",
       "preparing": "Preparing Your Item...",
       "alreadyMinted": "🎉 You already have this NFT, check it here",
@@ -1096,6 +1098,7 @@
     "newNftHeading": "New to NFTs?",
     "ksmArtistHeading": "KSM for artists",
     "socials": "Got any questions or want to stay in touch? Drop us a line via socials.",
+    "startExploring": "Start Exploring",
     "newNft": {
       "click": "Click {0} for a step by step guide!",
       "here": "here"

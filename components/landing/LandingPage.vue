@@ -1,7 +1,8 @@
 <template>
   <div>
-    <section class="py-8 instance section-search">
-      <SearchLanding />
+    <section class="instance">
+      <MobileLanding v-if="isMobile" class="mt-6" />
+      <SearchLanding v-else class="my-8" />
     </section>
 
     <template v-if="showCarousel">
@@ -52,6 +53,7 @@
 
 <script lang="ts" setup>
 import type { Prefix } from '@kodadot1/static'
+import MobileLanding from '~/components/landing/MobileLanding.vue'
 import SearchLanding from './SearchLanding.vue'
 import TopCollections from './topCollections/TopCollections.vue'
 import CarouselTypeSpotlight from '@/components/carousel/CarouselTypeSpotlight.vue'
@@ -78,4 +80,5 @@ const showCarousel = computed(
 const showTopCollections = computed(
   () => !forbiddenPrefixesForTopCollections.includes(urlPrefix.value),
 )
+const isMobile = computed(() => useWindowSize().width.value <= 480)
 </script>

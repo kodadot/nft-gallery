@@ -1,6 +1,10 @@
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { ChainProperties } from '@/utils/api/Query'
-import { availablePrefixes, getChainName } from '@/utils/chain'
+import {
+  availablePrefixWithIcon,
+  availablePrefixes,
+  getChainName,
+} from '@/utils/chain'
 import type { Prefix } from '@kodadot1/static'
 
 export default function () {
@@ -31,6 +35,7 @@ export default function () {
   })
 
   const availableChains = computed(() => availablePrefixes())
+  const availableChainsWithIcon = computed(() => availablePrefixWithIcon())
 
   const chainSymbol = computed(() => {
     return ['rmrk', 'ksm', 'ahk', 'ahp'].includes(urlPrefix.value)
@@ -48,6 +53,7 @@ export default function () {
     offersDisabled,
     chainProperties,
     availableChains,
+    availableChainsWithIcon,
     chainSymbol,
     blockExplorer,
     name,
