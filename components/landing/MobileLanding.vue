@@ -51,11 +51,14 @@
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { availableChainsWithIcon } = useChain()
 
-const chains = computed(() =>
-  availableChainsWithIcon.value.filter((c) =>
-    popularChains.includes(String(c.value)),
-  ),
-)
+const chains = computed(() => {
+  if (isProduction) {
+    return availableChainsWithIcon.value.filter((c) =>
+      popularChains.includes(String(c.value)),
+    )
+  }
+  return availableChainsWithIcon.value
+})
 
 const chainText = (chain: string) => {
   if (chain.includes('[Beta]')) {
