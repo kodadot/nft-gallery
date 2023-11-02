@@ -46,12 +46,15 @@ export const somePercentFromTX = (api: ApiPromise, price: number | string) => {
   return asBalanceTransfer(api, resolveSupportAddress(api), fee)
 }
 
+export const royaltyFee = (price: string | number, royaltyPercent: number) =>
+  Number(price) * (royaltyPercent / 100)
+
 export const payRoyaltyTx = (
   api: ApiPromise,
   price: number | string,
   royalty: Royalty,
 ) => {
-  const fee = Number(price) * (royalty.amount / 100)
+  const fee = royaltyFee(price, royalty.amount)
   return asBalanceTransfer(api, royalty.address, fee)
 }
 

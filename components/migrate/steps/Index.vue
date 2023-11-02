@@ -52,8 +52,8 @@
           <hr />
         </div>
 
-        <MigrateReview v-if="section === 'review'" />
-        <MigrateSign v-else />
+        <MigrateStepsReview v-if="section === 'review'" />
+        <MigrateStepsSign v-else />
       </div>
     </div>
   </div>
@@ -63,8 +63,6 @@
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import IdentityItem from '@/components/identity/IdentityItem.vue'
 import MigrateModal from '@/components/migrate/MigrateModal.vue'
-import MigrateReview from '@/components/migrate/MigrateReviewSign/MigrateReview.vue'
-import MigrateSign from '@/components/migrate/MigrateReviewSign/MigrateSign.vue'
 
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()

@@ -5,10 +5,6 @@
 </template>
 
 <script lang="ts" setup>
-// useHead({
-//   script: [{ src: 'https://substackapi.com/widget.js', async: true }],
-// })
-
 onMounted(() => {
   const plugin = document.createElement('script')
   plugin.setAttribute('src', 'https://substackapi.com/widget.js')
