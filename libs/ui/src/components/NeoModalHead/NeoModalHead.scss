@@ -1,11 +1,10 @@
 @import '@/assets/styles/abstracts/variables';
 
 .modal-card-head {
-  height: 57px;
   @include ktheme {
     background: initial;
     border-bottom: 1px solid theme('border-color');
-    padding: 1.25rem 2rem;
+    padding: 1rem 2rem;
   }
   @include touch {
     & {

@@ -50,9 +50,3 @@ const close = (): void => {
   isOpened.value = false
 }
 </script>
-
-<style lang="scss" scoped>
-.navbar-head {
-  height: 57px;
-}
-</style>
