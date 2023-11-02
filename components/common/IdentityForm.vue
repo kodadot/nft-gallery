@@ -36,8 +36,8 @@
           <NeoSelect
             v-model="selectChain"
             class="mt-3"
-            
-            expanded required
+            expanded 
+            required
             :validation-message="$t('Select chain is required')">
             <option v-for="menu in menus" :key="menu.value" :value="menu.value">
               {{ menu.text }}
@@ -243,9 +243,9 @@ const isConfirmModalActive = ref(false)
 const isLoaderModalVisible = ref(false)
 const transactionValue = ref('')
 const menus = availablePrefixes().filter(
-  (menu) => 
-    menu.value !== 'movr' && 
-    menu.value !== 'glmr'&&
+  (menu) =>
+    menu.value !== 'movr' &&
+    menu.value !== 'glmr' &&
     menu.value !== 'ahk' &&
     menu.value !== 'ahp',
 )
