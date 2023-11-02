@@ -43,7 +43,7 @@ for (const route of routes) {
     const btnApply = await expandSearch.getByTestId('apply').first()
     await Promise.all([
       page.waitForResponse(
-        (resp) => resp.url().includes('squid.subsquid.io') && resp.ok(),
+        (resp) => resp.url().includes('imagedelivery.net') && resp.ok(),
       ),
       btnApply.click(),
     ])
