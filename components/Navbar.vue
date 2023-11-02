@@ -85,7 +85,7 @@
         <!-- NAV END -->
         <div class="navbar-end">
           <nuxt-link to="/ahp/drops" rel="nofollow">
-            <div class="navbar-item" data-testid="drops">
+            <div class="navbar-item navbar-head" data-testid="drops">
               {{ $t('drops.title') }}
 
               <NeoIcon

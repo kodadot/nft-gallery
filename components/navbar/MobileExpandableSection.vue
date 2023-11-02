@@ -1,5 +1,8 @@
 <template>
-  <div v-if="!isOpened" class="navbar-item" @click.stop="isOpened = !isOpened">
+  <div
+    v-if="!isOpened"
+    class="navbar-item navbar-head"
+    @click.stop="isOpened = !isOpened">
     <span>
       {{ title }}
       <NeoIcon v-if="icon" :icon="icon" :pack="iconFamily" />
@@ -7,7 +10,9 @@
     <NeoIcon class="icon--right" icon="chevron-right" />
   </div>
   <div v-else class="navbar-item--fullpage">
-    <div class="navbar-item navbar-item--reverse" @click.stop="close">
+    <div
+      class="navbar-item navbar-item-head navbar-item--reverse"
+      @click.stop="close">
       <NeoIcon icon="chevron-left" />
       {{ title }}
     </div>
@@ -45,3 +50,9 @@ const close = (): void => {
   isOpened.value = false
 }
 </script>
+
+<style lang="scss" scoped>
+.navbar-head {
+  height: 57px;
+}
+</style>

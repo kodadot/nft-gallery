@@ -29,6 +29,14 @@ body {
   @include ktheme() {
     color: theme('text-color');
   }
+
+  &.has-navbar-fixed-top { 
+    padding-top: 83px;
+    @include mobile {
+      padding-top: 57px; 
+    }
+  } 
+
   a {
     @include ktheme() {
       color: theme('text-color');
