@@ -36,6 +36,8 @@
       <ListingCartMini />
       <ListingCartModal />
     </template>
+
+    <Loader v-model="isLoading" :can-cancel="false" />
   </div>
 </template>
 
@@ -87,6 +89,14 @@ const getExploreTitle = computed(() => {
   }
 
   return $i18n.t('explore')
+})
+
+const isLoading = ref(false)
+provide('loader', {
+  isLoading,
+  updateIsLoading: (value: boolean) => {
+    isLoading.value = value
+  },
 })
 </script>
 

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Loader v-model="isLoading" :can-cancel="false" />
     <div
       class="hero-buttons is-flex is-justify-content-flex-start is-align-items-end px-2">
       <div class="is-flex">
@@ -135,10 +134,12 @@ const hashtags = 'KusamaNetwork,KodaDot'
 const sharingLabel = $i18n.t('sharing.collection')
 
 const { transaction } = useTransaction()
-const isLoading = ref(false)
+const { updateIsLoading } = inject('loader') as {
+  updateIsLoading: (value: boolean) => void
+}
 
 const deleteCollection = async () => {
-  isLoading.value = true
+  updateIsLoading(true)
   const id = route.params.id.toString()
 
   await transaction({
