@@ -1,17 +1,26 @@
 [
   {
-      "file": "file1.jpg",
-      "name": "Image1",
-      "description": "This is an image",
-      "price": 2.45
+      "file": "art1.png",
+      "name": "Art #1",
+      "description": "Description for the Art #1",
+      "price": 1
   },
   {
-      "file": "file2.jpg",
-      "name": "Image2",
-      "price": 200
+      "file": "art2.png",
+      "name": "Art #2",
+      "description": "Description for the Art #2",
+      "price": 1
   },
   {
-      "file": "file3.jpg",
-      "description": "This is another image"
+      "file": "art3.png",
+      "name": "Art #3",
+      "description": "Description for the Art #3",
+      "price": 1
+  },
+  {
+      "file": "art4.png",
+      "name": "Art #4",
+      "description": "Description for the Art #4",
+      "price": 1
   }
 ]
