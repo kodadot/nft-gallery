@@ -1,8 +1,7 @@
 <template>
   <div class="unlockable-container">
     <CollectionUnlockableLoader v-model="isLoading" :minted="justMinted" />
-    <CountdownTimer />
-    <div class="container is-fluid">
+    <div class="container is-fluid border-top">
       <div class="columns is-desktop">
         <div class="column is-half-desktop mobile-padding">
           <UnlockableCollectionInfo
@@ -91,7 +90,6 @@
 </template>
 
 <script setup lang="ts">
-import CountdownTimer from '@/components/collection/unlockable/CountdownTimer.vue'
 import UnlockableCollectionInfo from '@/components/collection/unlockable/UnlockableCollectionInfo.vue'
 import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
