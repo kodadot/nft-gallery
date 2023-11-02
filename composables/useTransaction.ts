@@ -14,11 +14,13 @@ import { execMakeOfferTx } from './transaction/transactionOffer'
 import { execWithdrawOfferTx } from './transaction/transactionOfferWithdraw'
 import { execAcceptOfferTx } from './transaction/transactionOfferAccept'
 import { execMintToken } from './transaction/transactionMintToken'
+import { execDeleteCollection } from './transaction/collection/delete'
 
-import type {
+import {
   ActionAcceptOffer,
   ActionBuy,
   ActionConsume,
+  ActionDeleteCollection,
   ActionList,
   ActionMintCollection,
   ActionMintToken,
@@ -26,6 +28,7 @@ import type {
   ActionSend,
   ActionWithdrawOffer,
   Actions,
+  Collections,
   ExecuteTransactionParams,
   ObjectMessage,
 } from './transaction/types'
@@ -156,6 +159,12 @@ export const useTransaction = () => {
       [ShoppingActions.MINT]: () =>
         execMintCollection(
           item as ActionMintCollection,
+          api,
+          executeTransaction,
+        ),
+      [Collections.DELETE]: () =>
+        execDeleteCollection(
+          item as ActionDeleteCollection,
           api,
           executeTransaction,
         ),

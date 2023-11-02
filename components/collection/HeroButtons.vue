@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Loader v-model="isLoading" :can-cancel="false" />
     <div
       class="hero-buttons is-flex is-justify-content-flex-start is-align-items-end px-2">
       <div class="is-flex">
@@ -98,11 +99,12 @@ import {
   NeoModal,
 } from '@kodadot1/brick'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
+import { Collections } from '@/composables/transaction/types'
+import collectionByIdMicro from '@/queries/subsquid/general/collectionByIdMicro.graphql'
 
 const route = useRoute()
-const { apiInstance } = useApi()
 const { isCurrentOwner, accountId } = useAuth()
-const { urlPrefix } = usePrefix()
+const { urlPrefix, client } = usePrefix()
 const { isAssetHub } = useIsChain(urlPrefix)
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
@@ -133,29 +135,46 @@ const QRModalActive = ref(false)
 const hashtags = 'KusamaNetwork,KodaDot'
 const sharingLabel = $i18n.t('sharing.collection')
 
+const { transaction } = useTransaction()
+const isLoading = ref(false)
+
+const checkCollection = async (id) => {
+  type Collection = {
+    collectionEntity?: {
+      burned: boolean
+    }
+  }
+
+  const { data }: { data: Ref<Collection> } = await useAsyncQuery({
+    query: collectionByIdMicro,
+    clientId: client.value,
+    variables: {
+      id: id.toString(),
+    },
+  })
+
+  if (!isLoading.value) {
+    return
+  }
+
+  if (data.value.collectionEntity?.burned) {
+    navigateTo(`/${urlPrefix.value}/u/${accountId.value}?tab=collections`)
+  } else {
+    await delay(DETAIL_TIMEOUT)
+    checkCollection(id)
+  }
+}
+
 const deleteCollection = async () => {
+  isLoading.value = true
   const id = route.params.id
-  const api = await apiInstance.value
-  const injector = await getAddress(toDefaultAddress(accountId.value))
 
-  api.tx.nfts
-    .destroy(id.toString(), {
-      itemMetadatas: '0',
-      itemConfigs: '0',
-      attributes: '0',
-    })
-    .signAndSend(
-      accountId.value,
-      { signer: injector.signer },
-      async ({ status }) => {
-        if (status.isInBlock) {
-          toast($i18n.t('Collection Deleted'))
+  await transaction({
+    interaction: Collections.DELETE,
+    collectionId: id.toString(),
+  })
 
-          await delay(DETAIL_TIMEOUT)
-          navigateTo(`/${urlPrefix.value}/u/${accountId.value}?tab=collections`)
-        }
-      },
-    )
+  checkCollection(id)
 }
 </script>
 
