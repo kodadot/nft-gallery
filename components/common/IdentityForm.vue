@@ -33,14 +33,14 @@
 
       <NeoField :label="$t('Select Blockchain')">
         <div class="w-100">
-          <NeoSelect v-model="selectChain" class="mt-3" expanded required>
+          <NeoSelect v-model="selectChain" class="mt-3" expanded required :validation-message="$t('Select chain is required')">
             <option v-for="menu in menus" :key="menu.value" :value="menu.value">
               {{ menu.text }}
             </option>
           </NeoSelect>
         </div>
       </NeoField>
-      
+
       <NeoField label="Handle" class="mb-5">
         <NeoInput
           v-model="identity.display.value"
@@ -71,7 +71,6 @@
           placeholder="https://example.com"
           :maxlength="inputLengthLimit" />
       </NeoField>
-
 
       <NeoField label="Any Socials?" class="mb-4">
         <div class="is-flex is-flex-direction-column">
@@ -112,7 +111,6 @@
       </p>
 
       <NeoButton
-        v-if="!isAssetHub"
         class="is-flex is-flex-grow-1 fixed-height"
         variant="k-accent"
         :label="$t('identity.create')"
@@ -230,7 +228,6 @@ const isClearingIdentity = ref(false)
 const {
   identity: identityData,
   identityApi,
-  identityPrefix,
   identityUnit,
   refetchIdentity,
 } = useIdentity({
@@ -242,13 +239,14 @@ const isLoaderModalVisible = ref(false)
 const transactionValue = ref('')
 
 const menus = availablePrefixes().filter(
-  (menu) => menu.value !== 'movr' && menu.value !== 'glmr' && menu.value !== 'ahk' && menu.value !== 'ahp',
+  (menu) => 
+    menu.value !== 'movr' && menu.value !== 'glmr' && menu.value !== 'ahk' &&
+    menu.value !== 'ahp',
 )
 const chainByPrefix = computed(() =>
   menus.find((menu) => menu.value === urlPrefix.value),
 )
 const selectChain = ref(chainByPrefix.value?.value || menus[0].value)
-const { isAssetHub } = useIsChain(currentChain)
 watch(urlPrefix, (value) => {
   selectChain.value = value
 })
