@@ -53,7 +53,7 @@ const props = defineProps<{
 
 const route = useRoute()
 const { urlPrefix, client } = usePrefix()
-const { isAssetHub, isBasilisk } = useIsChain(urlPrefix)
+const { isRemark } = useIsChain(urlPrefix)
 const preferencesStore = usePreferencesStore()
 const emit = defineEmits(['total', 'isLoading'])
 
@@ -97,8 +97,14 @@ onBeforeMount(() => {
 })
 
 const fetchPageData = async (page: number, loadDirection = 'down') => {
-  const isProfilePage =
-    route.name === 'prefix-u-id' && (isAssetHub.value || isBasilisk.value)
+  const isProfilePage = route.name === 'prefix-u-id'
+  const searchParams = isProfilePage
+    ? { currentOwner_eq: props.id, burned_eq: false }
+    : { issuer_eq: props.id }
+
+  if (isRemark.value) {
+    delete searchParams.burned_eq
+  }
 
   if (isFetchingData.value) {
     return false
@@ -107,15 +113,7 @@ const fetchPageData = async (page: number, loadDirection = 'down') => {
 
   const variables = props.id
     ? {
-        search: [
-          isProfilePage
-            ? {
-                currentOwner_eq: props.id,
-              }
-            : {
-                issuer_eq: props.id,
-              },
-        ],
+        search: [searchParams],
         first: first.value,
         offset: (page - 1) * first.value,
         orderBy: searchQuery.sortBy,

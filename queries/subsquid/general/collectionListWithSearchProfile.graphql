@@ -11,7 +11,7 @@ query collectionListWithSearch(
     orderBy: $orderBy
     limit: $first
     offset: $offset
-    where: { AND: $search, burned_eq: false }
+    where: { AND: $search }
   ) {
     ...collection
     ...collectionDetails
@@ -28,7 +28,7 @@ query collectionListWithSearch(
     }
   }
   stats: collectionEntitiesConnection(
-    where: { AND: $search, burned_eq: false }
+    where: { AND: $search }
     orderBy: blockNumber_DESC
   ) {
     totalCount
