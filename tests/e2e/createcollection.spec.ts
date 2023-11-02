@@ -41,7 +41,7 @@ test('Check if chain change works using the dropdown', async ({ page }) => {
   await expect(page.getByTestId('mockAddress')).toHaveText('true')
   await page.goto('/create/collection')
   expect(page.getByTestId('collection-chain')).toBeVisible()
-  await page.getByTestId('collection-chain').selectOption('KusamaHub [Beta]')
+  await page.getByTestId('collection-chain').selectOption('KusamaHub')
   //Check if balances and deposits shows
   await expect(page.getByTestId('collection-deposit')).toBeVisible({
     timeout: 30000,
