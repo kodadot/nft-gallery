@@ -11,14 +11,12 @@
       :class="{ 'is-fluid': !isMobile }">
       <!-- BRAND -->
       <div class="navbar-brand">
-        <ClientOnly>
-          <nuxt-link to="/" class="navbar-item logo nuxt-link-active">
-            <img
-              :src="logoSrc"
-              alt="First NFT market explorer on Kusama and Polkadot"
-              width="143" />
-          </nuxt-link>
-        </ClientOnly>
+        <nuxt-link to="/" class="navbar-item logo nuxt-link-active">
+          <img
+            :src="logoSrc"
+            alt="First NFT market explorer on Kusama and Polkadot"
+            width="143" />
+        </nuxt-link>
         <div
           class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
           @click="closeBurgerMenu">
