@@ -58,11 +58,13 @@
               class="fixed-height white-space-break-spaces-mobile code" />
             <div class="is-flex is-justify-content-flex-end mt-2">
               <NeoButton
+                v-safe-href="
+                  `/massmint/template.${activeDescriptionTab.toLowerCase()}`
+                "
                 :label="$t('massmint.onboarding.downloadTemplate')"
                 variant="text"
                 no-shadow
                 tag="a"
-                :href="`/massmint/template.${activeDescriptionTab.toLowerCase()}`"
                 download />
             </div>
           </div>
