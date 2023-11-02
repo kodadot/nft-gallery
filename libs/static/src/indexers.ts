@@ -3,13 +3,14 @@ import { ApolloEndpoint, Config, Prefix, Squid } from './types'
 type SquidEndpoint =
   | `https://squid.subsquid.io/${Squid}/graphql`
   | `https://squid.subsquid.io/${Squid}/v/${string}/graphql`
+  | `https://query-${Squid}.stellate.sh`
 
 export const INDEXERS: Config<SquidEndpoint> = {
   bsx: 'https://squid.subsquid.io/snekk/graphql',
   rmrk: 'https://squid.subsquid.io/rubick/graphql',
   ksm: 'https://squid.subsquid.io/marck/v/v2/graphql',
   snek: 'https://squid.subsquid.io/sneck/graphql',
-  ahk: 'https://squid.subsquid.io/stick/graphql',
+  ahk: 'https://query-stick.stellate.sh',
   dot: 'https://squid.subsquid.io/rubick/graphql', // TODO: change to dot indexer when available
   ahp: 'https://squid.subsquid.io/speck/graphql',
   // movr: 'https://squid.subsquid.io/antick/v/001-rc0/graphql',
