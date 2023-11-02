@@ -1,0 +1,17 @@
+[
+  {
+      "file": "file1.jpg",
+      "name": "Image1",
+      "description": "This is an image",
+      "price": 2.45
+  },
+  {
+      "file": "file2.jpg",
+      "name": "Image2",
+      "price": 200
+  },
+  {
+      "file": "file3.jpg",
+      "description": "This is another image"
+  }
+]

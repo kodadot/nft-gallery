@@ -51,6 +51,15 @@
                 descriptionTabs[activeDescriptionTab].fileStructureDescription
               "
               class="fixed-height white-space-break-spaces-mobile code" />
+            <div class="is-flex is-justify-content-flex-end mt-2">
+              <NeoButton
+                :label="$t('massmint.onboarding.downloadTemplate')"
+                variant="text"
+                no-shadow
+                tag="a"
+                :href="`/massmint/template.${activeDescriptionTab.toLowerCase()}`"
+                download />
+            </div>
           </div>
         </OnBoardingCard>
       </div>
