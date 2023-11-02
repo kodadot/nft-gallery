@@ -36,7 +36,7 @@
           <NeoSelect
             v-model="selectChain"
             class="mt-3"
-            expanded 
+            expanded
             required
             :validation-message="$t('Select chain is required')">
             <option v-for="menu in menus" :key="menu.value" :value="menu.value">
