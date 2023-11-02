@@ -19,6 +19,7 @@
           :nft="entity"
           :hide-media-info="hideMediaInfo"
           :hide-action="hideNFTHoverAction"
+          :hide-relist="hideRelist"
           :variant="
             slotProps.isMobileVariant || slotProps.grid === 'small'
               ? 'minimal'
@@ -83,6 +84,7 @@ const route = useRoute()
 
 const props = defineProps<{
   search?: Record<string, string | number>
+  hideRelist?: boolean
 }>()
 
 const emit = defineEmits(['total', 'loading'])

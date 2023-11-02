@@ -14,6 +14,7 @@
         <hr class="my-0" />
       </div>
       <ItemsGrid
+        :hide-relist="true"
         @total="(v) => (total = v)"
         @loading="
           (loading) => {

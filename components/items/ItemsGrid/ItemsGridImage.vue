@@ -38,7 +38,7 @@
           <img :src="cartIcon" class="image is-16x16" alt="cart icon" />
         </NeoButton>
       </div>
-      <div v-else-if="isOwner" class="is-flex">
+      <div v-else-if="isOwner && !hideRelist" class="is-flex">
         <NeoButton
           :label="listLabel"
           data-testid="item-buy"
@@ -81,6 +81,7 @@ const props = defineProps<{
   variant?: NftCardVariant
   hideMediaInfo?: boolean
   hideAction?: boolean
+  hideRelist?: boolean
 }>()
 
 const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.nft))
