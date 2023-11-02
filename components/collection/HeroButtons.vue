@@ -100,11 +100,10 @@ import {
 } from '@kodadot1/brick'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import { Collections } from '@/composables/transaction/types'
-import collectionByIdMicro from '@/queries/subsquid/general/collectionByIdMicro.graphql'
 
 const route = useRoute()
 const { isCurrentOwner, accountId } = useAuth()
-const { urlPrefix, client } = usePrefix()
+const { urlPrefix } = usePrefix()
 const { isAssetHub } = useIsChain(urlPrefix)
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
@@ -138,43 +137,28 @@ const sharingLabel = $i18n.t('sharing.collection')
 const { transaction } = useTransaction()
 const isLoading = ref(false)
 
-const checkCollection = async (id) => {
-  if (!isLoading.value) {
-    return
-  }
-
-  type Collection = {
-    collectionEntity?: {
-      burned: boolean
-    }
-  }
-
-  const { data }: { data: Ref<Collection> } = await useAsyncQuery({
-    query: collectionByIdMicro,
-    clientId: client.value,
-    variables: {
-      id: id.toString(),
-    },
-  })
-
-  if (data.value.collectionEntity?.burned) {
-    navigateTo(`/${urlPrefix.value}/u/${accountId.value}?tab=collections`)
-  } else {
-    await delay(DETAIL_TIMEOUT)
-    checkCollection(id)
-  }
-}
-
 const deleteCollection = async () => {
   isLoading.value = true
-  const id = route.params.id
+  const id = route.params.id.toString()
 
   await transaction({
     interaction: Collections.DELETE,
-    collectionId: id.toString(),
+    collectionId: id,
   })
 
-  checkCollection(id)
+  useSubscriptionGraphql({
+    query: `
+      collectionEntity: collectionEntityById(id: "${id}") {
+        id
+        burned
+      }
+    `,
+    onChange: ({ data }) => {
+      if (data.collectionEntity.burned) {
+        navigateTo(`/${urlPrefix.value}/u/${accountId.value}?tab=collections`)
+      }
+    },
+  })
 }
 </script>
 
