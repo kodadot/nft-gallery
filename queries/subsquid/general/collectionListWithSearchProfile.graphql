@@ -15,6 +15,17 @@ query collectionListWithSearch(
   ) {
     ...collection
     ...collectionDetails
+    nfts(where: { burned_eq: false }) {
+      id
+      metadata
+      name
+      price
+      burned
+      currentOwner
+      events(where: { interaction_eq: BUY }) {
+        meta
+      }
+    }
   }
   stats: collectionEntitiesConnection(
     where: { AND: $search, burned_eq: false }
