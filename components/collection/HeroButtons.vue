@@ -139,6 +139,10 @@ const { transaction } = useTransaction()
 const isLoading = ref(false)
 
 const checkCollection = async (id) => {
+  if (!isLoading.value) {
+    return
+  }
+
   type Collection = {
     collectionEntity?: {
       burned: boolean
@@ -152,10 +156,6 @@ const checkCollection = async (id) => {
       id: id.toString(),
     },
   })
-
-  if (!isLoading.value) {
-    return
-  }
 
   if (data.value.collectionEntity?.burned) {
     navigateTo(`/${urlPrefix.value}/u/${accountId.value}?tab=collections`)
