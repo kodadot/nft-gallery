@@ -6,19 +6,19 @@
       alt="landing page background" />
     <div
       class="is-flex is-flex-direction-column is-align-items-center search-info">
-      <h1
-        class="title is-size-3 has-text-weight-bold has-text-centered is-flex is-flex-wrap-wrap is-justify-content-center is-align-items-center">
-        {{ $t('search.landingTitle1') }}
-      </h1>
-      <h1
-        class="subtitle is-size-3 has-text-weight-bold has-text-centered is-capitalized">
-        {{ $t('search.landingTitle2') }}
-      </h1>
-      <h1 class="title is-size-3 has-text-weight-bold has-text-centered">
-        {{ $t('search.landingTitle3') }}
+      <h1 class="is-flex is-flex-direction-column is-align-items-center">
+        <span class="title is-size-3 has-text-weight-bold">
+          {{ $t('search.landingTitle1') }}
+        </span>
+        <span class="subtitle is-size-3 has-text-weight-bold is-capitalized">
+          {{ $t('search.landingTitle2') }}
+        </span>
+        <span class="title is-size-3 has-text-weight-bold">
+          {{ $t('search.landingTitle3') }}
+        </span>
       </h1>
 
-      <div class="with-divider chain-options-title is-size-6 mt-2">
+      <div class="with-divider chain-options-title is-size-6 mt-6">
         {{ $t('landing.startExploring') }}
       </div>
       <div
