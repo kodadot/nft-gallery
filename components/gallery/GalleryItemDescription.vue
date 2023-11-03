@@ -130,16 +130,25 @@
       <hr class="my-2" />
       <div v-if="nftImage" class="is-flex is-justify-content-space-between">
         <p>{{ $t('tabs.tabDetails.media') }}</p>
-        <div @click="openLink(nftImage)">
-          <a class="has-text-link" data-testid="media-link">
+        <div>
+          <a
+            v-safe-href="nftImage"
+            class="has-text-link"
+            data-testid="media-link"
+            target="_blank"
+            rel="nofollow noopener noreferrer">
             {{ nftMimeType }}
           </a>
         </div>
       </div>
       <div v-if="nftAnimation" class="is-flex is-justify-content-space-between">
         <p>{{ $t('tabs.tabDetails.animatedMedia') }}</p>
-        <div @click="openLink(nftAnimation)">
-          <a class="has-text-link">
+        <div>
+          <a
+            v-safe-href="nftAnimation"
+            class="has-text-link"
+            target="_blank"
+            rel="nofollow noopener noreferrer">
             {{ animationMediaMimeType }}
           </a>
         </div>
@@ -193,7 +202,7 @@ import {
 import Identity from '@/components/identity/IdentityIndex.vue'
 import Markdown from '@/components/shared/Markdown.vue'
 
-import { sanitizeIpfsUrl, toCloudflareIpfsUrl } from '@/utils/ipfs'
+import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 import { GalleryItem, useGalleryItem } from './useGalleryItem'
 
@@ -292,10 +301,6 @@ watchEffect(async () => {
     animationMediaMimeType.value = await getMimeType(nftAnimation.value)
   }
 })
-
-const openLink = (link) => {
-  window.open(toCloudflareIpfsUrl(link), '_blank')
-}
 </script>
 
 <style lang="scss">
