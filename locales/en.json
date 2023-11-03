@@ -1379,6 +1379,7 @@
     "upcoming": "Upcoming",
     "noUpcoming": "Nothing  here yet...",
     "mintingLive": "Minting Live",
+    "mintingEnded": "Ended",
     "mintedBy": "Minted By",
     "mintPerAddress": "Each address can mint only once",
     "recentMints": "Recent NFT Mints"
