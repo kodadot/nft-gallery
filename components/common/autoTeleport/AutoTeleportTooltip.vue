@@ -52,7 +52,7 @@
           class="has-text-link is-size-7"
           target="_blank"
           rel="nofollow noopener noreferrer"
-          >Learn more</a
+          >{{ $t('helper.learnMore') }}</a
         >
       </div>
     </template>

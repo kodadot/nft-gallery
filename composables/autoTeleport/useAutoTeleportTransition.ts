@@ -11,6 +11,7 @@ import { AutoTeleportAction } from './useAutoTeleport'
 export default function (
   actions: ComputedRef<AutoTeleportAction[]>,
   neededAmount: ComputedRef<number>,
+  feelss: boolean = false,
 ) {
   const { urlPrefix } = usePrefix()
   const { isAvailable, getChainTokenDecimals } = useTeleport()
@@ -22,7 +23,7 @@ export default function (
     hasEnoughInRichestChain,
     sourceChain,
     chainSymbol,
-  } = useAutoTeleportTransitionDetails(actions, neededAmount)
+  } = useAutoTeleportTransitionDetails(actions, neededAmount, feelss)
 
   const { formatted: amountFormatted, usd: amountUsd } = useAmount(
     amountToTeleport,

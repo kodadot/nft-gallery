@@ -139,7 +139,10 @@ export default function () {
   }
 
   const getAddressByChain = (chain: Chain) => {
-    return getss58AddressByPrefix(accountId.value, chainToPrefixMap[chain])
+    return (
+      accountId.value &&
+      getss58AddressByPrefix(accountId.value, chainToPrefixMap[chain])
+    )
   }
 
   const getChainTokenDecimals = (chain: Chain) => {

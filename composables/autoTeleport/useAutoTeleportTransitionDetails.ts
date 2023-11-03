@@ -14,6 +14,7 @@ const BUFFER_FEE_PERCENT = 0.2
 export default function (
   actions: ComputedRef<AutoTeleportAction[]>,
   neededAmount: ComputedRef<number>,
+  feelss: boolean = false,
 ) {
   const {
     chainBalances,
@@ -26,7 +27,7 @@ export default function (
 
   const hasBalances = ref(false)
   const teleportTxFee = ref(0)
-  const actionTxFees = ref([])
+  const actionTxFees = ref<number[]>([])
 
   const chainSymbol = computed(
     () => currentChain.value && getChainCurrency(currentChain.value),
@@ -41,7 +42,9 @@ export default function (
       teleportTxFee.value + actionTxFees.value.reduce((r, num) => r + num, 0),
   )
 
-  const neededAmountWithFees = computed(() => neededAmount.value + fees.value)
+  const neededAmountWithFees = computed(
+    () => Math.ceil(neededAmount.value) + fees.value,
+  )
 
   const currentChainBalance = computed(
     () =>
@@ -151,24 +154,26 @@ export default function (
   watch(
     actions,
     async () => {
-      const feesPromisses = actions.value.map(async ({ action, prefix }) => {
-        let api = await apiInstance.value
+      if (!feelss) {
+        const feesPromisses = actions.value.map(async ({ action, prefix }) => {
+          let api = await apiInstance.value
 
-        if (prefix) {
-          api = await apiInstanceByPrefix(prefix)
-        }
+          if (prefix) {
+            api = await apiInstanceByPrefix(prefix)
+          }
 
-        const address = getAddressByChain(currentChain.value as Chain)
-        return getActionTransactionFee({
-          api,
-          action: action,
-          address,
+          const address = getAddressByChain(currentChain.value as Chain)
+          return getActionTransactionFee({
+            api,
+            action: action,
+            address,
+          })
         })
-      })
 
-      const fees = await Promise.all(feesPromisses)
+        const fees = await Promise.all(feesPromisses)
 
-      actionTxFees.value = fees.map(Number)
+        actionTxFees.value = fees.map(Number)
+      }
     },
     { immediate: true },
   )

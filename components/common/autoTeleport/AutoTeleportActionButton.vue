@@ -49,9 +49,9 @@
       @click="submit" />
 
     <div v-if="showAutoTeleport" class="is-flex is-justify-content-center mt-4">
-      <span v-if="hasAvailableTeleportTransition" class="has-text-grey"
-        >Or</span
-      >
+      <span v-if="hasAvailableTeleportTransition" class="has-text-grey">{{
+        $t('or')
+      }}</span>
 
       <a class="ml-2" @click="onRampActive = true"
         >+ {{ $t('autoTeleport.addFundsViaOnramp') }}</a
@@ -100,8 +100,10 @@ const props = withDefaults(
     label: string
     disabled: boolean
     actions: AutoTeleportAction[]
+    feeless?: boolean
   }>(),
   {
+    feeless: false,
     disabled: false,
     amount: 0,
   },
@@ -123,8 +125,9 @@ const {
   transactions,
   teleport,
 } = useAutoTeleport(
-  computed(() => actions.value as AutoTeleportAction[]),
+  computed(() => actions.value),
   computed(() => amount.value),
+  props.feeless,
 )
 
 const isModalOpen = ref(false)
@@ -233,7 +236,11 @@ const actionRun = async (interaction) => {
     return
   }
 
-  await action?.transaction(action.action, action.prefix || '')
+  if (action.transaction) {
+    await action.transaction(action.action, action.prefix || '')
+  } else if (action.handler) {
+    await action.handler()
+  }
 }
 
 const submit = () => {

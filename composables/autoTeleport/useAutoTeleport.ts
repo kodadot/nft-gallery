@@ -4,6 +4,7 @@ import useAutoTeleportWatch from '@/composables/autoTeleport/useAutoTeleportWatc
 import { Actions } from '@/composables/transaction/types'
 import { Interaction } from '@kodadot1/minimark/v2'
 import useAutoTeleportTransactionActions from './useAutoTeleportTransactionActions'
+import { type Prefix } from '@kodadot1/static'
 
 type TransactionDetails = {
   status: ComputedRef<TransactionStatus>
@@ -30,21 +31,23 @@ export type AutoTeleportActionDetails = {
 
 export type AutoTeleportAction = {
   action: Actions
-  transaction: (item: Actions, prefix: string) => Promise<any>
-  prefix?: string | undefined
+  prefix?: string | Prefix
   details: AutoTeleportActionDetails
+  transaction?: (item: Actions, prefix: string) => Promise<any>
+  handler?: () => Promise<any | void>
 }
 
 export default function (
   actions: ComputedRef<AutoTeleportAction[]>,
   neededAmount: ComputedRef<number>,
+  feelss: boolean = false,
 ) {
   const {
     hasEnoughInCurrentChain,
     hasEnoughInRichestChain,
     hasBalances,
     optimalTransition,
-  } = useAutoTeleportTransition(actions, neededAmount)
+  } = useAutoTeleportTransition(actions, neededAmount, feelss)
 
   const {
     teleport: sendXCM,

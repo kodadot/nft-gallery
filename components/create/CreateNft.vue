@@ -1,10 +1,11 @@
 <template>
   <div class="is-centered columns">
-    <Loader v-model="isLoading" :status="status" />
+    <Loader v-if="!autoTeleport" v-model="isLoading" :status="status" />
     <MintConfirmModal
       v-model="modalShowStatus"
+      :auto-teleport-actions="autoTeleportActions"
       :nft-information="nftInformation"
-      @confirm="createNft" />
+      @confirm="confirm" />
     <form class="is-half column" @submit.prevent="submitHandler">
       <CreateNftPreview
         :name="form.name"
@@ -216,7 +217,7 @@
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
 import type { Ref } from 'vue'
-import type { TokenToList } from '@/composables/transaction/types'
+import type { Actions, TokenToList } from '@/composables/transaction/types'
 import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
 import {
   NeoButton,
@@ -239,12 +240,15 @@ import { balanceFrom } from '@/utils/balance'
 import { DETAIL_TIMEOUT } from '@/utils/constants'
 import { delay } from '@/utils/fetch'
 import { toNFTId } from '@/components/rmrk/service/scheme'
+import { AutoTeleportAction } from '@/composables/autoTeleport/useAutoTeleport'
+import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 
 // composables
 const { $consola } = useNuxtApp()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { accountId } = useAuth()
-const { transaction, status, isLoading, blockNumber } = useTransaction()
+const { transaction, status, isLoading, blockNumber, isError } =
+  useTransaction()
 const router = useRouter()
 const { decimals } = useChain()
 
@@ -330,6 +334,39 @@ const transactionStatus = ref<
 const createdItems = ref()
 const mintedBlockNumber = ref()
 
+const mintAction = computed<Actions>(() => ({
+  interaction: Interaction.MINTNFT,
+  urlPrefix: currentChain.value,
+  token: {
+    file: form.file,
+    name: form.name,
+    description: form.description,
+    selectedCollection: selectedCollection.value,
+    copies: form.copies,
+    nsfw: form.nsfw,
+    postfix: form.postfix,
+    price: balanceFrom(form.salePrice, decimals.value),
+    tags: form.tags,
+    secondFile: null,
+    hasRoyalty: Boolean(form.royalty.amount),
+    royalty: form.royalty,
+  },
+}))
+
+const listAction = computed<Actions>(() => {
+  const list: TokenToList[] = createdItems.value?.map((nft) => ({
+    price: balanceFrom(form.salePrice, decimals.value),
+    nftId: toNFTId(nft, String(blockNumber.value)),
+  }))
+
+  return {
+    interaction: Interaction.LIST,
+    urlPrefix: currentChain.value,
+    token: list,
+    successMessage: `[💰] Listed ${form.name} for ${form.salePrice} ${chainSymbol.value}`,
+  }
+})
+
 const submitHandler = () => {
   startSelectedCollection.value = true
   if (selectedCollection.value) {
@@ -345,34 +382,27 @@ const toggleConfirm = () => {
   modalShowStatus.value = !modalShowStatus.value
 }
 
+const confirm = ({ autoteleport }: AutoTeleportActionButtonConfirmEvent) => {
+  toggleConfirm()
+
+  if (!autoteleport) {
+    createNft()
+  }
+}
+
+const needsListing = computed(
+  () => isRemark.value && form.sale && form.salePrice,
+)
+
 const createNft = async () => {
   try {
-    toggleConfirm()
     const minted = (await transaction(
-      {
-        interaction: Interaction.MINTNFT,
-        urlPrefix: currentChain.value,
-        token: {
-          file: form.file,
-          name: form.name,
-          description: form.description,
-          selectedCollection: selectedCollection.value,
-          copies: form.copies,
-          nsfw: form.nsfw,
-          postfix: form.postfix,
-          price: balanceFrom(form.salePrice, decimals.value),
-          tags: form.tags,
-          secondFile: null,
-          hasRoyalty: Boolean(form.royalty.amount),
-          royalty: form.royalty,
-        },
-      },
+      mintAction.value,
       currentChain.value,
     )) as unknown as {
       createdNFTs?: Ref<CreatedNFT[]>
     }
-
-    if (isRemark.value && form.sale && form.salePrice) {
+    if (needsListing.value) {
       createdItems.value = minted?.createdNFTs?.value
       transactionStatus.value = 'list'
     } else {
@@ -384,7 +414,40 @@ const createNft = async () => {
   }
 }
 
+// autoteleport stuff
+const autoTeleport = ref(false)
+const autoTeleportActions = computed<AutoTeleportAction[]>(() => {
+  const actions = [
+    {
+      action: mintAction.value,
+      handler: createNft,
+      prefix: currentChain.value,
+      details: {
+        isLoading,
+        isError,
+        status,
+      },
+    },
+  ]
+
+  if (needsListing.value) {
+    actions.push({
+      action: listAction.value,
+      transaction: transaction,
+      prefix: currentChain.value,
+      details: {
+        isLoading,
+        isError,
+        status,
+      },
+    })
+  }
+
+  return actions
+})
+
 // currently, on rmrk we need to list price manually
+
 watchEffect(async () => {
   if (
     blockNumber.value &&
@@ -392,20 +455,7 @@ watchEffect(async () => {
     transactionStatus.value === 'list'
   ) {
     try {
-      const list: TokenToList[] = createdItems.value.map((nft) => ({
-        price: balanceFrom(form.salePrice, decimals.value),
-        nftId: toNFTId(nft, String(blockNumber.value)),
-      }))
-
-      await transaction(
-        {
-          interaction: Interaction.LIST,
-          urlPrefix: currentChain.value,
-          token: list,
-          successMessage: `[💰] Listed ${form.name} for ${form.salePrice} ${chainSymbol.value}`,
-        },
-        currentChain.value,
-      )
+      await transaction(listAction.value, currentChain.value)
 
       transactionStatus.value = 'checkListed'
     } catch (error) {
