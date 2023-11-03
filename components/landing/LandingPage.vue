@@ -1,7 +1,7 @@
 <template>
   <div>
     <section class="instance">
-      <MobileLanding v-if="isMobile" class="mt-6" />
+      <LandingMobileHeroBanner v-if="isMobile" class="mt-6" />
       <SearchLanding v-else class="my-8" />
     </section>
 
@@ -53,7 +53,6 @@
 
 <script lang="ts" setup>
 import type { Prefix } from '@kodadot1/static'
-import MobileLanding from '~/components/landing/MobileLanding.vue'
 import SearchLanding from './SearchLanding.vue'
 import TopCollections from './topCollections/TopCollections.vue'
 import CarouselTypeSpotlight from '@/components/carousel/CarouselTypeSpotlight.vue'
