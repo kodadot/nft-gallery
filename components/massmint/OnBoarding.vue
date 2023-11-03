@@ -59,11 +59,14 @@
                 v-safe-href="
                   `/massmint/template.${activeDescriptionTab.toLowerCase()}`
                 "
-                :label="$t('massmint.onboarding.downloadTemplate')"
                 variant="text"
+                class="has-text-link"
                 no-shadow
                 tag="a"
-                download />
+                download>
+                {{ $t('massmint.onboarding.downloadTemplate') }}
+                <NeoIcon icon="arrow-up-right" />
+              </NeoButton>
             </div>
           </div>
         </OnBoardingCard>
@@ -93,7 +96,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoButtonVariant } from '@kodadot1/brick'
+import { NeoButton, NeoButtonVariant, NeoIcon } from '@kodadot1/brick'
 import OnBoardingCard from './OnBoardingCard.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 import { descriptionTabs } from './descriptionTabs'
