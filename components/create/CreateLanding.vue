@@ -16,6 +16,7 @@
         </div>
         <button
           class="pack-box"
+          data-testid="create-landing-nft-button"
           @click="router.push({ query: { select: 'nft' } })">
           <div class="pack-content">
             <NeoIcon icon="gem" custom-size="fa-3x" />
@@ -59,7 +60,10 @@
       </div>
 
       <div v-else class="pack">
-        <div class="pack-box" @click="gotoPathAfterLogin('/create/nft')">
+        <div
+          class="pack-box"
+          data-testid="create-landing-single-nft-button"
+          @click="gotoPathAfterLogin('/create/nft')">
           <div class="pack-content">
             <NeoIcon icon="image" custom-size="fa-3x" />
             <div class="pack-content-text">
@@ -72,6 +76,7 @@
         </div>
         <div
           class="pack-box"
+          data-testid="create-landing-multiple-nft-button"
           @click="gotoPathAfterLogin(`/${urlPrefix}/massmint`)">
           <div class="pack-content">
             <NeoIcon icon="photo-film" custom-size="fa-3x" />
