@@ -68,6 +68,7 @@ const forbiddenPrefixesForTopCollections: Prefix[] = [
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
+const { width } = useWindowSize()
 
 const showSignupBanner = computed(
   () => !preferencesStore.getSubscribedToNewsletter,
@@ -79,5 +80,5 @@ const showCarousel = computed(
 const showTopCollections = computed(
   () => !forbiddenPrefixesForTopCollections.includes(urlPrefix.value),
 )
-const isMobile = computed(() => useWindowSize().width.value <= 480)
+const isMobile = computed(() => width.value <= 480)
 </script>
