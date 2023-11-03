@@ -29,7 +29,7 @@ test('Create NFT', async ({ page, Commands }) => {
     //select AHK chain on dropdown
     await page
       .getByTestId('create-nft-dropdown-select')
-      .selectOption('KusamaHub [Beta]')
+      .selectOption('KusamaHub')
     await expect(page.getByTestId('chain')).toHaveText('ahk')
     //list for sale switch
     await page.getByTestId('create-nft-sale-switch').click()
