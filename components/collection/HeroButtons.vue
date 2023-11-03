@@ -104,7 +104,7 @@ const route = useRoute()
 const { isCurrentOwner, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const { isAssetHub } = useIsChain(urlPrefix)
-const { $i18n } = useNuxtApp()
+const { $i18n, $updateLoader } = useNuxtApp()
 const { toast } = useToast()
 
 const collectionId = computed(() => route.params.id)
@@ -134,12 +134,9 @@ const hashtags = 'KusamaNetwork,KodaDot'
 const sharingLabel = $i18n.t('sharing.collection')
 
 const { transaction } = useTransaction()
-const { updateIsLoading } = inject('loader') as {
-  updateIsLoading: (value: boolean) => void
-}
 
 const deleteCollection = async () => {
-  updateIsLoading(true)
+  $updateLoader(true)
   const id = route.params.id.toString()
 
   await transaction({

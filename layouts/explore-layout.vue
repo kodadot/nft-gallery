@@ -37,7 +37,7 @@
       <ListingCartModal />
     </template>
 
-    <Loader v-model="isLoading" :can-cancel="false" />
+    <Loader v-model="$loader" :can-cancel="false" />
   </div>
 </template>
 
@@ -53,7 +53,7 @@ const { $config } = useNuxtApp()
 const route = useRoute()
 const { listingCartEnabled } = useListingCartConfig()
 const { urlPrefix } = usePrefix()
-const { $i18n } = useNuxtApp()
+const { $i18n, $loader } = useNuxtApp()
 
 useHead({
   link: [
@@ -89,14 +89,6 @@ const getExploreTitle = computed(() => {
   }
 
   return $i18n.t('explore')
-})
-
-const isLoading = ref(false)
-provide('loader', {
-  isLoading,
-  updateIsLoading: (value: boolean) => {
-    isLoading.value = value
-  },
 })
 </script>
 
