@@ -5,7 +5,7 @@ import { balanceOf } from '@kodadot1/sub-api'
 import format from '@/utils/format/balance'
 import { useFiatStore } from '@/stores/fiat'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
-import { getAssetIdByAccount } from '@/utils/api/bsx/query'
+// import { getAssetIdByAccount } from '@/utils/api/bsx/query'
 import { toDefaultAddress } from '@/utils/account'
 
 import { useIdentityStore } from '@/stores/identity'
@@ -20,113 +20,116 @@ const networkToPrefix = {
   polkadotHub: 'ahp',
 }
 
-export default function () {
-  const { accountId } = useAuth()
-  const { isTestnet } = usePrefix()
-  const refetchMultipleBalanceTimer = ref()
-  const identityStore = useIdentityStore()
+const calculateUsd = (amount: string, token = 'KSM') => {
   const fiatStore = useFiatStore()
 
-  const {
-    multiBalances,
-    multiBalanceAssets,
-    multiBalanceAssetsTestnet,
-    multiBalanceNetwork,
-  } = storeToRefs(identityStore)
-
-  const currentNetwork = computed(() =>
-    isTestnet.value ? 'test-network' : 'main-network',
-  )
-  const calculateUsd = (amount: string, token = 'KSM') => {
-    if (!amount) {
-      return 0
-    }
-
-    const amountToNumber = Number(amount.replace(/\,/g, ''))
-
-    return calculateExactUsdFromToken(
-      amountToNumber,
-      Number(fiatStore.getCurrentTokenValue(token)),
-    )
+  if (!amount) {
+    return 0
   }
 
-  const getBalance = async (chainName: string, token = 'KSM', tokenId = 0) => {
-    const currentAddress = accountId.value
-    const prefix = networkToPrefix[chainName]
-    const chain = CHAINS[prefix]
+  const amountToNumber = Number(amount.replace(/\,/g, ''))
 
-    const defaultAddress = toDefaultAddress(currentAddress)
-    const publicKey = decodeAddress(currentAddress)
-    const prefixAddress = encodeAddress(publicKey, chain.ss58Format)
-    const wsProvider = new WsProvider(ENDPOINT_MAP[prefix])
+  return calculateExactUsdFromToken(
+    amountToNumber,
+    Number(fiatStore.getCurrentTokenValue(token)),
+  )
+}
 
-    const api = await ApiPromise.create({
-      provider: wsProvider,
-    })
+const getBalances = async (chainName, tokenId, prefixAddress) => {
+  const prefix = networkToPrefix[chainName]
+  const chain = CHAINS[prefix]
 
-    let currentBalance
-    let nativeBalance
+  const wsProvider = new WsProvider(ENDPOINT_MAP[prefix])
+  const api = await ApiPromise.create({
+    provider: wsProvider,
+  })
 
-    if (tokenId) {
-      nativeBalance = (
+  const nativeBalance = tokenId
+    ? (
         (await api.query.tokens.accounts(
           prefixAddress,
           tokenId,
         )) as PalletBalancesAccountData
       ).free.toString()
-      currentBalance = format(nativeBalance, chain.tokenDecimals, false)
-    } else {
-      nativeBalance = await balanceOf(api, prefixAddress)
-      currentBalance = format(nativeBalance, chain.tokenDecimals, false)
-    }
+    : await balanceOf(api, prefixAddress)
+  const currentBalance = format(nativeBalance, chain.tokenDecimals, false)
+  await wsProvider.disconnect()
 
-    let selectedTokenId = String(tokenId)
-    if (chainName === 'basilisk') {
-      selectedTokenId = await getAssetIdByAccount(api, prefixAddress)
-    }
+  return { nativeBalance, currentBalance }
+}
 
-    const usd = calculateUsd(currentBalance, token)
+const getBalance = async (chainName: string, token = 'KSM', tokenId = 0) => {
+  const { accountId } = useAuth()
 
-    identityStore.setMultiBalances({
-      address: defaultAddress,
-      chains: {
-        [chainName]: {
-          [token.toLowerCase()]: {
-            address: prefixAddress,
-            balance: currentBalance,
-            nativeBalance,
-            usd,
-            selected: selectedTokenId === String(tokenId),
-          },
+  const currentAddress = accountId.value
+  const prefix = networkToPrefix[chainName]
+  const chain = CHAINS[prefix]
+
+  const defaultAddress = toDefaultAddress(currentAddress)
+  const publicKey = decodeAddress(currentAddress)
+  const prefixAddress = encodeAddress(publicKey, chain.ss58Format)
+
+  const balances = await getBalances(chainName, tokenId, prefixAddress)
+
+  return {
+    address: defaultAddress,
+    chains: {
+      [chainName]: {
+        [token.toLowerCase()]: {
+          address: prefixAddress,
+          balance: balances.currentBalance,
+          nativeBalance: balances.currentBalance,
+          usd: calculateUsd(balances.currentBalance, token),
+          selected: chainName === 'basilisk',
         },
       },
-      chainName,
-    })
-
-    identityStore.multiBalanceNetwork = currentNetwork.value
-
-    await wsProvider.disconnect()
+    },
+    chainName,
   }
+}
 
-  const fetchMultipleBalance = async () => {
-    await fiatStore.fetchFiatPrice()
-    const assets = isTestnet.value
-      ? multiBalanceAssetsTestnet.value
-      : multiBalanceAssets.value
+const fetchMultipleBalance = async (currentNetwork) => {
+  const fiatStore = useFiatStore()
+  const identityStore = useIdentityStore()
 
-    assets.forEach((item) => {
-      getBalance(item.chain, item.token, Number(item.tokenId))
-    })
-  }
+  const { isTestnet } = usePrefix()
+  const { multiBalanceAssets, multiBalanceAssetsTestnet } =
+    storeToRefs(identityStore)
+
+  await fiatStore.fetchFiatPrice()
+  const assets = isTestnet.value
+    ? multiBalanceAssetsTestnet.value
+    : multiBalanceAssets.value
+
+  await Promise.all(
+    assets.map(async (item) => {
+      identityStore.setMultiBalances(
+        await getBalance(item.chain, item.token, Number(item.tokenId)),
+      )
+      identityStore.multiBalanceNetwork = currentNetwork.value
+    }),
+  )
+}
+
+export default function () {
+  const { isTestnet } = usePrefix()
+  const refetchMultipleBalanceTimer = ref()
+  const identityStore = useIdentityStore()
+
+  const { multiBalances, multiBalanceNetwork } = storeToRefs(identityStore)
+
+  const currentNetwork = computed(() =>
+    isTestnet.value ? 'test-network' : 'main-network',
+  )
 
   onMounted(async () => {
     if (currentNetwork.value !== multiBalanceNetwork.value) {
       identityStore.resetMultipleBalances()
     }
 
-    fetchMultipleBalance()
+    fetchMultipleBalance(currentNetwork)
     refetchMultipleBalanceTimer.value = setInterval(() => {
-      fetchMultipleBalance()
+      fetchMultipleBalance(currentNetwork)
     }, 30000)
   })
 
