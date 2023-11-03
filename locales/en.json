@@ -1567,6 +1567,11 @@
         "subtitle": "when signing this transaction, you will list your desired NFT",
         "submit": "Listing NFT..."
       },
+      "mint": {
+        "title": "Minting NFT Collection",
+        "subtitle": "when signing this transaction, you will mint your desired NFT Collection",
+        "submit": "Minting NFT Collection..."
+      },
       "mintnft": {
         "title": "Minting NFT",
         "subtitle": "when signing this transaction, you will mint your desired NFT",

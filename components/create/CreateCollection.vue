@@ -2,9 +2,10 @@
   <div class="is-centered" :class="{ columns: classColumn }">
     <Loader v-model="isLoading" :status="status" />
     <MintConfirmModal
-      v-model="modalShowStatus"
+      v-model="confirmModal"
+      :auto-teleport-actions="actions"
       :nft-information="collectionInformation"
-      @confirm="createCollection" />
+      @confirm="handleCreateCollectionConfirmation" />
     <form
       class="is-half"
       :class="{ column: classColumn }"
@@ -161,6 +162,7 @@
 
 <script setup lang="ts">
 import type {
+  ActionMintCollection,
   BaseCollectionType,
   CollectionToMintBasilisk,
   CollectionToMintKusama,
@@ -182,6 +184,8 @@ import { Interaction } from '@kodadot1/minimark/v1'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { makeSymbol } from '@kodadot1/minimark/shared'
 import MintConfirmModal from '@/components/create/Confirm/MintConfirmModal.vue'
+import { AutoTeleportAction } from '@/composables/autoTeleport/useAutoTeleport'
+import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 
 // props
 withDefaults(
@@ -194,7 +198,7 @@ withDefaults(
 )
 
 // composables
-const { transaction, status, isLoading } = useTransaction()
+const { transaction, status, isLoading, isError } = useTransaction()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { $consola, $i18n } = useNuxtApp()
 const { isLogIn } = useAuth()
@@ -206,7 +210,7 @@ const description = ref('')
 const unlimited = ref(true)
 const max = ref(1)
 const symbol = ref('')
-const modalShowStatus = ref(false)
+const confirmModal = ref(false)
 
 const menus = availablePrefixes()
 
@@ -255,10 +259,10 @@ watch(currentChain, () => {
 })
 
 const showConfirm = () => {
-  modalShowStatus.value = true
+  confirmModal.value = true
 }
 
-const createCollection = async () => {
+const collection = computed(() => {
   let collection: BaseCollectionType = {
     file: logo.value,
     name: name.value,
@@ -278,34 +282,62 @@ const createCollection = async () => {
     collection['nftCount'] = unlimited.value ? 0 : max.value
   }
 
+  return collection
+})
+
+const mintCollectionAction = computed<ActionMintCollection>(() => ({
+  interaction: Interaction.MINT,
+  urlPrefix: currentChain.value,
+  collection: collection.value as
+    | CollectionToMintBasilisk
+    | CollectionToMintKusama
+    | CollectionToMintStatmine,
+}))
+
+const handleCreateCollectionConfirmation = async ({
+  autoteleport,
+}: AutoTeleportActionButtonConfirmEvent) => {
+  confirmModal.value = false
+
+  if (autoteleport) {
+    return
+  }
+
   if (totalCollectionDeposit.value && canDeposit.value === false) {
     return
   }
 
+  await createCollection()
+}
+
+const createCollection = async () => {
   try {
     showNotification(
       `Creating Collection: "${name.value}"`,
       notificationTypes.info,
     )
     isLoading.value = true
-    modalShowStatus.value = false
 
-    await transaction(
-      {
-        interaction: Interaction.MINT,
-        urlPrefix: currentChain.value,
-        collection: collection as
-          | CollectionToMintBasilisk
-          | CollectionToMintKusama
-          | CollectionToMintStatmine,
-      },
-      currentChain.value,
-    )
+    await transaction(mintCollectionAction.value, currentChain.value)
   } catch (error) {
     showNotification(`[ERR] ${error}`, notificationTypes.warn)
     $consola.error(error)
   }
 }
+
+// autoteleport
+const actions = computed<AutoTeleportAction[]>(() => [
+  {
+    action: mintCollectionAction.value,
+    prefix: currentChain.value,
+    handler: createCollection,
+    details: {
+      isLoading,
+      isError,
+      status,
+    },
+  },
+])
 
 onMounted(() => {
   symbol.value = makeSymbol()
