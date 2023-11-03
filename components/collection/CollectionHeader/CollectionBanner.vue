@@ -102,6 +102,7 @@ useSeoMeta({
   background-size: cover;
   height: 560px;
   position: relative;
+  background-position: 50% 50%;
 
   @include ktheme() {
     border-bottom: 1px solid theme('border-color');
