@@ -7,7 +7,7 @@
     <template v-if="showCarousel">
       <!-- spotlight -->
       <section class="py-8 instance">
-        <div class="container is-fluid">
+        <div class="container is-fluid" style="height: 25rem">
           <CarouselTypeSpotlight />
         </div>
       </section>
