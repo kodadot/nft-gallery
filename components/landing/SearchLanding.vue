@@ -1,10 +1,11 @@
 <template>
   <section class="landing-search is-flex is-align-items-center">
-    <img
+    <!-- <img
       src="/landing-blurred-header-left.png"
       class="landing-search-left"
-      alt="" />
-    <img :src="landingImage[0]" class="landing-shapes" alt="" />
+      alt="" /> -->
+    <!-- <img :src="landingImage[0]" class="landing-shapes" alt="" /> -->
+    <div></div>
     <div
       class="is-flex is-flex-direction-column is-align-items-center search-info">
       <h1
@@ -40,11 +41,12 @@
       </div>
       <UnlockableLandingTag />
     </div>
-    <img
+    <div></div>
+    <!-- <img
       src="/landing-blurred-header-right.png"
       class="landing-search-right"
-      alt="" />
-    <img :src="landingImage[1]" class="landing-shapes" alt="" />
+      alt="" /> -->
+    <!-- <img :src="landingImage[1]" class="landing-shapes" alt="" /> -->
   </section>
 </template>
 
@@ -53,7 +55,7 @@ import UnlockableLandingTag from '@/components/collection/unlockable/UnlockableL
 import Search from '@/components/search/Search.vue'
 
 const { urlPrefix, setUrlPrefix } = usePrefix()
-const { isDarkMode } = useTheme()
+// const { isDarkMode } = useTheme()
 const { availableChains } = useChain()
 
 const chainText = (chain: string) => {
@@ -63,19 +65,19 @@ const chainText = (chain: string) => {
     return chain
   }
 }
-const landingImage = computed(() => {
-  if (isDarkMode.value) {
-    return [
-      '/landing-shape-header-left-dark.svg',
-      '/landing-shape-header-right-dark.svg',
-    ]
-  } else {
-    return [
-      '/landing-shape-header-left-light.svg',
-      '/landing-shape-header-right-light.svg',
-    ]
-  }
-})
+// const landingImage = computed(() => {
+//   if (isDarkMode.value) {
+//     return [
+//       '/landing-shape-header-left-dark.svg',
+//       '/landing-shape-header-right-dark.svg',
+//     ]
+//   } else {
+//     return [
+//       '/landing-shape-header-left-light.svg',
+//       '/landing-shape-header-right-light.svg',
+//     ]
+//   }
+// })
 
 const switchChain = (value) => {
   if (value !== urlPrefix.value) {

@@ -141,7 +141,7 @@
         </a>
       </section>
     </div>
-    <img src="/blurred-landing-footer.png" class="left-blurred-image" alt="" />
+    <!-- <img src="/blurred-landing-footer.png" class="left-blurred-image" alt="" /> -->
   </footer>
 </template>
 
