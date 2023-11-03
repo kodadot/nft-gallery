@@ -9,12 +9,11 @@ import { ShoppingActions } from '@/utils/shoppingActions'
 import { execBuyTx } from './transaction/transactionBuy'
 import { execListTx } from './transaction/transactionList'
 import { execSendTx } from './transaction/transactionSend'
-import { execBurnTx } from './transaction/transactionBurn'
+import { execBurnCollection, execBurnTx } from './transaction/transactionBurn'
 import { execMakeOfferTx } from './transaction/transactionOffer'
 import { execWithdrawOfferTx } from './transaction/transactionOfferWithdraw'
 import { execAcceptOfferTx } from './transaction/transactionOfferAccept'
 import { execMintToken } from './transaction/transactionMintToken'
-import { execDeleteCollection } from './transaction/collection/delete'
 
 import {
   ActionAcceptOffer,
@@ -163,7 +162,7 @@ export const useTransaction = () => {
           executeTransaction,
         ),
       [Collections.DELETE]: () =>
-        execDeleteCollection(
+        execBurnCollection(
           item as ActionDeleteCollection,
           api,
           executeTransaction,

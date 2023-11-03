@@ -3,6 +3,13 @@ import {
   Interaction as NewInteraction,
   createInteraction as createNewInteraction,
 } from '@kodadot1/minimark/v2'
+import type { ApiPromise } from '@polkadot/api'
+import type {
+  ActionDeleteCollection,
+  ExecuteTransactionParams,
+} from '@/composables/transaction/types'
+
+import { warningMessage } from '@/utils/notification'
 
 import { isLegacy } from '@/components/unique/utils'
 import {
@@ -87,5 +94,27 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
       successMessage: item.successMessage,
       errorMessage: item.errorMessage,
     })
+  }
+}
+
+export function execBurnCollection(
+  params: ActionDeleteCollection,
+  api: ApiPromise,
+  executeTransaction: ({
+    cb,
+    arg,
+    successMessage,
+    errorMessage,
+  }: ExecuteTransactionParams) => void,
+) {
+  try {
+    const cb = api.tx.nfts.destroy
+
+    executeTransaction({
+      cb,
+      arg: [params.collectionId.toString(), {}],
+    })
+  } catch (error) {
+    warningMessage(error)
   }
 }
