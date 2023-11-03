@@ -5,7 +5,6 @@ import { balanceOf } from '@kodadot1/sub-api'
 import format from '@/utils/format/balance'
 import { useFiatStore } from '@/stores/fiat'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
-// import { getAssetIdByAccount } from '@/utils/api/bsx/query'
 import { toDefaultAddress } from '@/utils/account'
 
 import { useIdentityStore } from '@/stores/identity'
