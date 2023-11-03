@@ -1,7 +1,7 @@
 import type { SomethingWithMeta } from '@/utils/ipfs'
 import type { CarouselNFT } from '@/components/base/types'
 
-import { sanitizeIpfsUrl } from '@/utils/ipfs'
+// import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 const curatedCollection = {
   bsx: [
@@ -58,11 +58,20 @@ function updateCollections(data) {
     return
   }
 
-  collections.value = data.collectionEntities.map((e) => ({
-    ...e,
-    metadata: e.meta?.id || e.metadata,
-    image: (e.meta?.image && sanitizeIpfsUrl(e.meta?.image)) || '',
-  })) as Collections[]
+  collections.value = data.collectionEntities.map((e) => {
+    const cid = extractCid(e.meta?.image)
+    console.log('cid', cid)
+    // const image = (e.meta?.image && sanitizeIpfsUrl(e.meta?.image)) || ''
+    const image = `https://imagedelivery.net/jk5b6spi_m_-9qC4VTnjpg/${cid}/w=200`
+
+    return {
+      ...e,
+      metadata: e.meta?.id || e.metadata,
+      image,
+    }
+  }) as Collections[]
+
+  console.log('collections', collections.value)
 }
 
 export default function useCarouselSpotlight() {
