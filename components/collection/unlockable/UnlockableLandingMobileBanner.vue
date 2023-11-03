@@ -10,7 +10,7 @@
       <span>{{ $t('mint.unlockable.freeDrop') }}</span>
     </div>
     <nuxt-link class="has-text-weight-bold pr-1" to="/ahp/drops/berlin-drop">
-      {{ $t('mint.unlockable.claimYours') }}
+      {{ $t('mint.unlockable.takeMe') }}
     </nuxt-link>
   </div>
 </template>
