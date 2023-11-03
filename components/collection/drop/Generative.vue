@@ -1,8 +1,7 @@
 <template>
   <div class="unlockable-container">
     <CollectionUnlockableLoader v-model="isLoading" :minted="justMinted" />
-    <CountdownTimer />
-    <div class="container is-fluid">
+    <div class="container is-fluid border-top">
       <div class="columns is-desktop">
         <div class="column is-half-desktop mobile-padding">
           <UnlockableCollectionInfo
@@ -15,7 +14,7 @@
             <div>{{ $t('mint.unlockable.totalAvailableItem') }}</div>
             <div>{{ totalAvailableMintCount }} / {{ totalCount }}</div>
           </div>
-          <UnlockableTag />
+          <UnlockableTag :collection-id="collectionId" />
 
           <div>
             <div
@@ -80,38 +79,7 @@
             @select="handleSelectImage" />
         </div>
       </div>
-      <hr class="text-color my-4" />
-      <div class="columns is-desktop">
-        <div
-          class="column is-half-desktop is-flex is-flex-direction-column is-justify-content-center order-1">
-          <div
-            class="is-flex is-align-items-center has-text-weight-bold is-size-6 mb-2">
-            <NeoIcon icon="unlock" class="mr-2" />
-            {{ $t('mint.unlockable.howItemWork') }}
-          </div>
-          <div>
-            Experience the excitement of unlocking hidden rewards! Get your
-            hands on exclusive merchandise (and an NFT!) linked to unlockable
-            content. For the next ten hours, the fastest ten individuals can
-            mint their very own anime waifu character NFT for free. Simply log
-            in with your wallet, click on the "Mint" button, and sign the
-            transaction. Afterward, check your profile to find the NFT and click
-            "Unlockable Content" to reveal the surprise. Follow the schedule so
-            you don't miss this!
-          </div>
-          <NeoButton
-            tag="a"
-            href="https://hello.kodadot.xyz/fandom-toolbox/audience-growth/unlockables"
-            target="_blank"
-            variant="secondary"
-            class="mt-2">
-            {{ $t('helper.learnMore') }}
-          </NeoButton>
-        </div>
-        <div class="column">
-          <img src="/unlockable-introduce.svg" alt="Unlockable" />
-        </div>
-      </div>
+      <CollectionUnlockableItemInfo :collection-id="collectionId" />
       <div class="my-4">
         <CarouselTypeLatestMints
           :collection-id="collectionId"
@@ -122,13 +90,12 @@
 </template>
 
 <script setup lang="ts">
-import CountdownTimer from '@/components/collection/unlockable/CountdownTimer.vue'
 import UnlockableCollectionInfo from '@/components/collection/unlockable/UnlockableCollectionInfo.vue'
 import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import CarouselTypeLatestMints from '@/components/carousel/CarouselTypeLatestMints.vue'
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import { createUnlockableMetadata } from '../unlockable/utils'
 import GenerativePreview from '@/components/collection/drop/GenerativePreview.vue'
 import { DropItem } from '@/params/types'
@@ -228,7 +195,8 @@ const mintButtonDisabled = computed(() =>
   Boolean(
     currentMintedLoading.value ||
       !mintCountAvailable.value ||
-      !selectedImage.value,
+      !selectedImage.value ||
+      !accountId.value,
   ),
 )
 

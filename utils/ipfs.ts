@@ -9,6 +9,7 @@ import {
   ProviderKeyType,
   arweaveProviders,
   getIPFSProvider,
+  kodaImage,
 } from './config/ipfs'
 export const ipfsUrlPrefix = 'ipfs://ipfs/'
 
@@ -87,6 +88,14 @@ export const sanitizeIpfsUrl = (
   if (!ipfsUrl) {
     return ''
   }
+
+  if (!isIpfsUrl(ipfsUrl)) {
+    const kodaUrl = new URL('/type/url', kodaImage)
+    kodaUrl.searchParams.set('endpoint', ipfsUrl)
+
+    return kodaUrl.href.toString()
+  }
+
   if (ipfsUrl.includes('https://gateway.pinata.cloud')) {
     return ipfsUrl.replace(
       'https://gateway.pinata.cloud/',
@@ -110,6 +119,7 @@ export const sanitizeIpfsUrl = (
 
   return sanitizeArweaveUrl(ipfsUrl, provider as ArweaveProviders)
 }
+
 export const fetchMetadata = async <T>(
   rmrk: SomethingWithMeta,
   sanitizer: SanitizerFunc = sanitizeIpfsUrl,
