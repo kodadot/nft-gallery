@@ -7,7 +7,7 @@
         height="42"
         src="/drop/unlockable-pulse-static.svg"
         alt="unlockable icon" />
-      <span>{{ $t('mint.unlockable.freeDrop') }}</span>
+      <span>{{ $t('mint.unlockable.mintLive') }}</span>
     </div>
     <nuxt-link class="has-text-weight-bold pr-1" to="/ahk/drops/chained">
       {{ $t('mint.unlockable.takeMe') }}
