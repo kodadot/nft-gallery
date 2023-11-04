@@ -73,11 +73,12 @@ import { useFiatStore } from '@/stores/fiat'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
 import { sum } from '@/utils/math'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
-import AutoTeleportActionButton from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
+import AutoTeleportActionButton, {
+  type AutoTeleportActionButtonConfirmEvent,
+} from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import ListingCartSingleItemCart from './singleItemCart/ListingCartSingleItemCart.vue'
 import ListingCartMultipleItemsCart from './multipleItemsCart/ListingCartMultipleItemsCart.vue'
 import type { Actions } from '@/composables/transaction/types'
-import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 
 const { urlPrefix } = usePrefix()

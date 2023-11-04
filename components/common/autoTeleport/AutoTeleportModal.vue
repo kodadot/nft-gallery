@@ -78,7 +78,7 @@ import TransactionSteps, {
   TransactionStep,
 } from '@/components/shared/TransactionSteps/TransactionSteps.vue'
 import { TransactionStepStatus } from '@/components/shared/TransactionSteps/utils'
-import { type AutoTeleportTransactions } from '@/composables/autoTeleport/useAutoTeleport'
+import { type AutoTeleportTransactions } from '@/composables/autoTeleport/types'
 
 export type ActionDetails = {
   title: string
@@ -137,6 +137,7 @@ const steps = computed<TransactionStep[]>(() => {
       stepStatus: checkBalanceState.value,
     },
     props.transactions.actions.map((action) => {
+      console.log('adasdasd', action.interaction, action)
       const { title, subtitle } = getActionDetails(action.interaction)
       return {
         title,
@@ -169,7 +170,7 @@ const actionsFinalized = computed(() =>
 )
 
 const btnLabel = computed(() => {
-  if (!props.canDoAction) {
+  if (!props.canDoAction || !activeStepInteraction.value) {
     return $i18n.t('autoTeleport.finishAllStepsFirst')
   }
 

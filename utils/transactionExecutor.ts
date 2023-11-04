@@ -120,7 +120,7 @@ export const getActionTransactionFee = ({
   address: string
 }) => {
   return new Promise((resolve, reject) => {
-    // Keep in mind atm actions with ipfs file will be uploadeed, this is todo
+    // Keep in mind atm actions with ipfs file will be uploadeed
     if ([Interaction.MINT, Interaction.MINTNFT].includes(action.interaction)) {
       console.log('[ACTION FEE]: Fee not allowed', action.interaction)
       return resolve('0')

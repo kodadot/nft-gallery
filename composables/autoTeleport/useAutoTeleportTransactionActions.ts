@@ -1,7 +1,4 @@
-import type {
-  ActionTransactionDetails,
-  AutoTeleportAction,
-} from './useAutoTeleport'
+import type { ActionTransactionDetails, AutoTeleportAction } from './types'
 
 export default function (actions: ComputedRef<AutoTeleportAction[]>) {
   const transactionActions = computed<ActionTransactionDetails[]>(() => {

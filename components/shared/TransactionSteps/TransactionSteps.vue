@@ -50,19 +50,26 @@ const { $i18n } = useNuxtApp()
 const stepsWithActive = computed<TransactionStepWithActive[]>(() =>
   props.steps.map((step, index, array) => {
     const prevStep = array[index - 1]
-    const status = prevStep && (prevStep.stepStatus || prevStep.status)
+    const isStepStatusCompleted =
+      prevStep && prevStep.stepStatus === TransactionStepStatus.COMPLETED
+    const isStatusFinalized =
+      prevStep && prevStep.status === TransactionStatus.Finalized
 
     return {
       ...step,
-      isActive: index === 0 || status === TransactionStepStatus.COMPLETED,
+      isActive: index === 0 || isStepStatusCompleted || isStatusFinalized,
     }
   }),
 )
 
-watch(stepsWithActive, () => {
-  const index = stepsWithActive.value.findLastIndex((step) => step.isActive)
-  emit('active', index)
-})
+watch(
+  stepsWithActive,
+  () => {
+    const index = stepsWithActive.value.findLastIndex((step) => step.isActive)
+    emit('active', index)
+  },
+  { immediate: true },
+)
 
 const tryAgain = (step: TransactionStepWithActive) => {
   if (step.retry) {
