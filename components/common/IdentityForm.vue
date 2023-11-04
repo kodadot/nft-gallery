@@ -323,11 +323,11 @@ const hasIdentity = computed(() => {
   )
 })
 
+var Createidentity = 'Create Identity'
+  
 if (hasIdentity.value) {
   Createidentity = 'Update Identity';
 }
-
-   var Createidentity = 'Create Identity';
 
 const handleUrlPrefixChange = async () => {
   deposit.value = await fetchDeposit()
