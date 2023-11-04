@@ -116,9 +116,20 @@
       </p>
 
       <NeoButton
+        v-if="!hasIdentity"
         class="is-flex is-flex-grow-1 fixed-height"
         variant="k-accent"
-        :label="$t(Createidentity)"
+        :label="$t('identity.create')"
+        :disabled="disabled"
+        :loading="isLoading"
+        expanded
+        @click="openConfirmModal" />
+      
+      <NeoButton
+        v-if="hasIdentity"
+        class="is-flex is-flex-grow-1 fixed-height"
+        variant="k-accent"
+        :label="$t('identity.update')"
         :disabled="disabled"
         :loading="isLoading"
         expanded
@@ -247,7 +258,7 @@ const menus = availablePrefixes().filter(
     menu.value !== 'movr' &&
     menu.value !== 'glmr' &&
     menu.value !== 'ahk' &&
-    menu.value !== 'ahp',
+    menu.value !== 'ahp'
 )
 const chainByPrefix = computed(() =>
   menus.find((menu) => menu.value === urlPrefix.value),
@@ -322,14 +333,6 @@ const hasIdentity = computed(() => {
     Boolean(display || legal || web || twitter || riot || email)
   )
 })
-
-let Createidentity
-
-if (hasIdentity.value) {
-  Createidentity = 'Update Identity'
-} else {
-  Createidentity = 'Create Identity'
-}
 
 const handleUrlPrefixChange = async () => {
   deposit.value = await fetchDeposit()
