@@ -124,9 +124,9 @@ export const executeAction = ({
 }: {
   item: Actions
   api: ApiPromise
+  isLoading: Ref<boolean>
+  status: Ref<string>
   executeTransaction
-  isLoading
-  status
 }) => {
   const map = {
     [Interaction.BUY]: () =>

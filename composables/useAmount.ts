@@ -1,18 +1,18 @@
 import format from '@/utils/format/balance'
 
 export default function (
-  amount: ComputedRef<number>,
+  tokenAmount: ComputedRef<number>,
   tokenDecimals: ComputedRef<number>,
   chainSymbol: ComputedRef<string>,
 ) {
   const { getCurrentTokenValue } = useFiatStore()
 
   const amountFormatted = computed(() =>
-    format(amount.value, tokenDecimals.value, chainSymbol.value),
+    format(tokenAmount.value, tokenDecimals.value, chainSymbol.value),
   )
   const amountUsd = computed(() => {
     const value = calculateUsdFromToken(
-      Number(amount.value) * Math.pow(10, -tokenDecimals.value),
+      Number(tokenAmount.value) * Math.pow(10, -tokenDecimals.value),
       Number(getCurrentTokenValue(chainSymbol.value)),
     )
     return value ? `$${value}` : ''

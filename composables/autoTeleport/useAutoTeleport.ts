@@ -2,24 +2,27 @@ import { TransactionStatus } from '@/composables/useTransactionStatus'
 import useAutoTeleportTransition from '@/composables/autoTeleport/useAutoTeleportTransition'
 import useAutoTeleportWatch from '@/composables/autoTeleport/useAutoTeleportWatch'
 import { Actions } from '@/composables/transaction/types'
-import { Interaction } from '@kodadot1/minimark/v2'
+import { Interaction } from '@kodadot1/minimark/v1'
 import useAutoTeleportTransactionActions from './useAutoTeleportTransactionActions'
 import { type Prefix } from '@kodadot1/static'
+import type { DeepReadonly } from 'vue'
+import { ShoppingActions } from '@/utils/shoppingActions'
 
 type TransactionDetails = {
-  status: ComputedRef<TransactionStatus>
-  txId: ComputedRef<string | null>
-  isError: Ref<boolean>
-  isLoading?: Ref<boolean>
+  status: DeepReadonly<Ref<TransactionStatus>>
+  txId: DeepReadonly<Ref<string | null>>
+  isError: DeepReadonly<Ref<boolean>>
 }
 
-export type ActionTransactionDetails = [
-  TransactionDetails & { interaction: Interaction },
-]
+export type ActionTransactionDetails = TransactionDetails & {
+  isLoading: Ref<boolean>
+  interaction: Interaction | ShoppingActions
+  blockNumber?: Ref<string | undefined>
+}
 
 export type AutoTeleportTransactions = {
   teleport: TransactionDetails
-  actions: ActionTransactionDetails
+  actions: ActionTransactionDetails[]
 }
 
 export type AutoTeleportActionDetails = {
@@ -29,13 +32,16 @@ export type AutoTeleportActionDetails = {
   blockNumber?: Ref<string | undefined>
 }
 
-export type AutoTeleportAction = {
+type AutoTeleportBaseAction = {
   action: Actions
   prefix?: string | Prefix
   details: AutoTeleportActionDetails
+}
+
+export type AutoTeleportAction = {
   transaction?: (item: Actions, prefix: string) => Promise<any>
   handler?: () => Promise<any | void>
-}
+} & AutoTeleportBaseAction
 
 export default function (
   actions: ComputedRef<AutoTeleportAction[]>,
@@ -58,15 +64,15 @@ export default function (
     isAvailable,
   } = useTeleport()
 
-  const transactionsActions = useAutoTeleportTransactionActions(actions)
+  const { transactionActions } = useAutoTeleportTransactionActions(actions)
 
   const transactions = computed<AutoTeleportTransactions>(() => ({
     teleport: {
-      status: computed(() => teleportStatus.value),
-      txId: computed(() => teleportTxId.value),
-      isError: teleportIsError,
+      status: readonly(teleportStatus),
+      txId: readonly(teleportTxId),
+      isError: readonly(teleportIsError),
     },
-    actions: transactionsActions.value,
+    actions: transactionActions.value,
   }))
 
   const teleport = async () => {

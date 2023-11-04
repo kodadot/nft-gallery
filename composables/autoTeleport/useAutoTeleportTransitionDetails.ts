@@ -8,6 +8,7 @@ import { chainPropListOf } from '@/utils/config/chain.config'
 import { getMaxKeyByValue } from '@/utils/math'
 import { getActionTransactionFee } from '@/utils/transactionExecutor'
 import { AutoTeleportAction } from './useAutoTeleport'
+import { sum } from 'lodash'
 
 const BUFFER_FEE_PERCENT = 0.2
 
@@ -37,10 +38,7 @@ export default function (
     currentChain.value ? teleportRoutes[currentChain.value] : [],
   )
 
-  const fees = computed(
-    () =>
-      teleportTxFee.value + actionTxFees.value.reduce((r, num) => r + num, 0),
-  )
+  const fees = computed(() => teleportTxFee.value + sum(actionTxFees.value))
 
   const neededAmountWithFees = computed(
     () => Math.ceil(neededAmount.value) + fees.value,

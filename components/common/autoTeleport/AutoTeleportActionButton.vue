@@ -110,7 +110,7 @@ const props = withDefaults(
 )
 
 const amount = ref(0)
-const actions = ref<AutoTeleportAction[]>([])
+const autoTeleportActions = ref<AutoTeleportAction[]>([])
 
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
@@ -125,7 +125,7 @@ const {
   transactions,
   teleport,
 } = useAutoTeleport(
-  computed(() => actions.value),
+  computed<AutoTeleportAction[]>(() => autoTeleportActions.value),
   computed(() => amount.value),
   props.feeless,
 )
@@ -228,18 +228,21 @@ const openAutoTeleportModal = () => {
 }
 
 const actionRun = async (interaction) => {
-  const action = actions.value.find(
+  const autoTeleportAction = autoTeleportActions.value.find(
     (action) => action.action.interaction === interaction,
   )
 
-  if (!action) {
+  if (!autoTeleportAction) {
     return
   }
 
-  if (action.transaction) {
-    await action.transaction(action.action, action.prefix || '')
-  } else if (action.handler) {
-    await action.handler()
+  if (autoTeleportAction.transaction) {
+    await autoTeleportAction.transaction(
+      autoTeleportAction.action,
+      autoTeleportAction.prefix || '',
+    )
+  } else if (autoTeleportAction.handler) {
+    await autoTeleportAction.handler()
   }
 }
 
@@ -266,7 +269,7 @@ watch(allowAutoTeleport, (allow) => {
 watchSyncEffect(() => {
   if (!isModalOpen.value) {
     amount.value = props.amount
-    actions.value = props.actions
+    autoTeleportActions.value = props.actions
   }
 })
 </script>
