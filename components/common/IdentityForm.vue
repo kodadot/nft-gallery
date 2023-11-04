@@ -2,7 +2,7 @@
   <section>
     <form @submit.prevent>
       <h1 class="title is-size-3 mb-8 is-capitalized">
-        {{ $t('identity.setOn', [getChainName(identityPrefix)]) }}
+        {{ $t('identity.setOn', [getChainName(currentChain)]) }}
       </h1>
 
       <div v-if="hasIdentity" class="is-size-6">
@@ -30,6 +30,21 @@
         </div>
         <hr class="my-7" />
       </div>
+
+      <NeoField :label="$t('Select Blockchain')">
+        <div class="w-100">
+          <NeoSelect
+            v-model="selectChain"
+            class="mt-3"
+            expanded
+            required
+            :validation-message="$t('Select chain is required')">
+            <option v-for="menu in menus" :key="menu.value" :value="menu.value">
+              {{ menu.text }}
+            </option>
+          </NeoSelect>
+        </div>
+      </NeoField>
 
       <NeoField label="Handle" class="mb-5">
         <NeoInput
@@ -103,7 +118,7 @@
       <NeoButton
         class="is-flex is-flex-grow-1 fixed-height"
         variant="k-accent"
-        :label="$t('identity.create')"
+        :label="$t(Createidentity)"
         :disabled="disabled"
         :loading="isLoading"
         expanded
@@ -143,6 +158,7 @@ import {
   NeoIcon,
   NeoInput,
   NeoTooltip,
+  NeoSelect,
 } from '@kodadot1/brick'
 import PillTabs, { Icon, PillTab } from '@/components/shared/PillTabs.vue'
 import IdentityConfirmModal from '@/components/common/identity/IdentityConfirmModal.vue'
@@ -152,13 +168,13 @@ import Money from '@/components/shared/format/Money.vue'
 import { useFiatStore } from '@/stores/fiat'
 import { calculateUsdFromToken } from '@/utils/calculation'
 import format from '@/utils/format/balance'
-import { getChainName } from '@/utils/chain'
+import { availablePrefixes } from '@/utils/chain'
 
 const { $i18n } = useNuxtApp()
 
 const { accountId } = useAuth()
 const { decimals } = useChain()
-const { urlPrefix } = usePrefix()
+const { urlPrefix, setUrlPrefix } = usePrefix()
 const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
 const identityStore = useIdentityStore()
 const { howAboutToExecute, isLoading, initTransactionLoader, status } =
@@ -217,7 +233,6 @@ const isClearingIdentity = ref(false)
 const {
   identity: identityData,
   identityApi,
-  identityPrefix,
   identityUnit,
   refetchIdentity,
 } = useIdentity({
@@ -227,6 +242,26 @@ const {
 const isConfirmModalActive = ref(false)
 const isLoaderModalVisible = ref(false)
 const transactionValue = ref('')
+const menus = availablePrefixes().filter(
+  (menu) =>
+    menu.value !== 'movr' &&
+    menu.value !== 'glmr' &&
+    menu.value !== 'ahk' &&
+    menu.value !== 'ahp',
+)
+const chainByPrefix = computed(() =>
+  menus.find((menu) => menu.value === urlPrefix.value),
+)
+const selectChain = ref(chainByPrefix.value?.value || menus[0].value)
+watch(urlPrefix, (value) => {
+  selectChain.value = value
+})
+const currentChain = computed(() => selectChain.value as Prefix)
+watch(currentChain, () => {
+  if (currentChain.value !== urlPrefix.value) {
+    setUrlPrefix(currentChain.value as Prefix)
+  }
+})
 
 const activeSocials = computed(() => {
   return socialTabs.value.reduce(
@@ -287,6 +322,14 @@ const hasIdentity = computed(() => {
     Boolean(display || legal || web || twitter || riot || email)
   )
 })
+
+let Createidentity
+
+if (hasIdentity.value) {
+  Createidentity = 'Update Identity'
+} else {
+  Createidentity = 'Create Identity'
+}
 
 const handleUrlPrefixChange = async () => {
   deposit.value = await fetchDeposit()
