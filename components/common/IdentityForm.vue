@@ -323,10 +323,12 @@ const hasIdentity = computed(() => {
   )
 })
 
-var Createidentity = 'Create Identity'
-  
+var Createidentity;
+
 if (hasIdentity.value) {
   Createidentity = 'Update Identity';
+} else {
+  Createidentity = 'Create Identity';
 }
 
 const handleUrlPrefixChange = async () => {
