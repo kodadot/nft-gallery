@@ -314,8 +314,6 @@ const setIdentityValue = (values: Record<string, string>) => {
     }
   }, identity.value)
 }
-
-  var Createidentity = 'Create Identity';
   
 const hasIdentity = computed(() => {
   const { display, legal, web, twitter, riot, email } = identityData.value
@@ -328,6 +326,8 @@ const hasIdentity = computed(() => {
 if (hasIdentity.value) {
   Createidentity = 'Update Identity';
 }
+
+   var Createidentity = 'Create Identity';
 
 const handleUrlPrefixChange = async () => {
   deposit.value = await fetchDeposit()
