@@ -124,7 +124,7 @@
         :loading="isLoading"
         expanded
         @click="openConfirmModal" />
-      
+
       <NeoButton
         v-if="hasIdentity"
         class="is-flex is-flex-grow-1 fixed-height"
@@ -258,7 +258,7 @@ const menus = availablePrefixes().filter(
     menu.value !== 'movr' &&
     menu.value !== 'glmr' &&
     menu.value !== 'ahk' &&
-    menu.value !== 'ahp'
+    menu.value !== 'ahp',
 )
 const chainByPrefix = computed(() =>
   menus.find((menu) => menu.value === urlPrefix.value),
