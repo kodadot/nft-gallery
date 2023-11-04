@@ -314,7 +314,7 @@ const setIdentityValue = (values: Record<string, string>) => {
     }
   }, identity.value)
 }
-  
+
 const hasIdentity = computed(() => {
   const { display, legal, web, twitter, riot, email } = identityData.value
   return (
@@ -323,12 +323,12 @@ const hasIdentity = computed(() => {
   )
 })
 
-var Createidentity;
+let Createidentity
 
 if (hasIdentity.value) {
-  Createidentity = 'Update Identity';
+  Createidentity = 'Update Identity'
 } else {
-  Createidentity = 'Create Identity';
+  Createidentity = 'Create Identity'
 }
 
 const handleUrlPrefixChange = async () => {
