@@ -315,6 +315,8 @@ const setIdentityValue = (values: Record<string, string>) => {
   }, identity.value)
 }
 
+  var Createidentity = 'Create Identity';
+  
 const hasIdentity = computed(() => {
   const { display, legal, web, twitter, riot, email } = identityData.value
   return (
@@ -322,7 +324,6 @@ const hasIdentity = computed(() => {
     Boolean(display || legal || web || twitter || riot || email)
   )
 })
-  var Createidentity = 'Create Identity';
 
 if (hasIdentity.value) {
   Createidentity = 'Update Identity';
