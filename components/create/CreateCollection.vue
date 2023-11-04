@@ -184,7 +184,7 @@ import { Interaction } from '@kodadot1/minimark/v1'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { makeSymbol } from '@kodadot1/minimark/shared'
 import MintConfirmModal from '@/components/create/Confirm/MintConfirmModal.vue'
-import { AutoTeleportAction } from '@/composables/autoTeleport/useAutoTeleport'
+import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 
 // props

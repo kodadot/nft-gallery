@@ -77,8 +77,8 @@ import AutoTeleportActionButton from '@/components/common/autoTeleport/AutoTelep
 import ListingCartSingleItemCart from './singleItemCart/ListingCartSingleItemCart.vue'
 import ListingCartMultipleItemsCart from './multipleItemsCart/ListingCartMultipleItemsCart.vue'
 import type { Actions } from '@/composables/transaction/types'
-import { AutoTeleportAction } from '~/composables/autoTeleport/useAutoTeleport'
 import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
+import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()

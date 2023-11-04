@@ -6,7 +6,7 @@ import {
   prefixToChainMap,
 } from '@/utils/teleport'
 import useAutoTeleportTransitionDetails from '~/composables/autoTeleport/useAutoTeleportTransitionDetails'
-import { AutoTeleportAction } from './useAutoTeleport'
+import { AutoTeleportAction } from './types'
 
 export default function (
   actions: ComputedRef<AutoTeleportAction[]>,

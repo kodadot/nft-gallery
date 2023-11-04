@@ -19,7 +19,7 @@ import { Actions, TokenToBuy } from '@/composables/transaction/types'
 import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
 import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import { warningMessage } from '@/utils/notification'
-import { type AutoTeleportAction } from '@/composables/autoTeleport/useAutoTeleport'
+import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 
 const { transaction, status, isLoading, isError } = useTransaction()
 const { urlPrefix } = usePrefix()

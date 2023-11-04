@@ -1,47 +1,7 @@
-import { TransactionStatus } from '@/composables/useTransactionStatus'
 import useAutoTeleportTransition from '@/composables/autoTeleport/useAutoTeleportTransition'
 import useAutoTeleportWatch from '@/composables/autoTeleport/useAutoTeleportWatch'
-import { Actions } from '@/composables/transaction/types'
-import { Interaction } from '@kodadot1/minimark/v1'
 import useAutoTeleportTransactionActions from './useAutoTeleportTransactionActions'
-import { type Prefix } from '@kodadot1/static'
-import type { DeepReadonly } from 'vue'
-import { ShoppingActions } from '@/utils/shoppingActions'
-
-type TransactionDetails = {
-  status: DeepReadonly<Ref<TransactionStatus>>
-  txId: DeepReadonly<Ref<string | null>>
-  isError: DeepReadonly<Ref<boolean>>
-}
-
-export type ActionTransactionDetails = TransactionDetails & {
-  isLoading: Ref<boolean>
-  interaction: Interaction | ShoppingActions
-  blockNumber?: Ref<string | undefined>
-}
-
-export type AutoTeleportTransactions = {
-  teleport: TransactionDetails
-  actions: ActionTransactionDetails[]
-}
-
-export type AutoTeleportActionDetails = {
-  isLoading: Ref<boolean>
-  status: Ref<TransactionStatus>
-  isError: Ref<boolean>
-  blockNumber?: Ref<string | undefined>
-}
-
-type AutoTeleportBaseAction = {
-  action: Actions
-  prefix?: string | Prefix
-  details: AutoTeleportActionDetails
-}
-
-export type AutoTeleportAction = {
-  transaction?: (item: Actions, prefix: string) => Promise<any>
-  handler?: () => Promise<any | void>
-} & AutoTeleportBaseAction
+import type { AutoTeleportAction, AutoTeleportTransactions } from './types'
 
 export default function (
   actions: ComputedRef<AutoTeleportAction[]>,

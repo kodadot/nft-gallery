@@ -7,8 +7,8 @@ import {
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { getMaxKeyByValue } from '@/utils/math'
 import { getActionTransactionFee } from '@/utils/transactionExecutor'
-import { AutoTeleportAction } from './useAutoTeleport'
 import { sum } from 'lodash'
+import { AutoTeleportAction } from './types'
 
 const BUFFER_FEE_PERCENT = 0.2
 

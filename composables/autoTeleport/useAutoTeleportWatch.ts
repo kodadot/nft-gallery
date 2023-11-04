@@ -1,6 +1,6 @@
 import { useIntervalFn } from '@vueuse/core'
 import { type Prefix } from '@kodadot1/static'
-import { AutoTeleportTransactions } from './useAutoTeleport'
+import { AutoTeleportTransactions } from './types'
 
 export default function ({
   optimalTransition,

@@ -80,9 +80,8 @@
 import { NeoButton, NeoSwitch } from '@kodadot1/brick'
 import OnRampModal from '@/components/shared/OnRampModal.vue'
 import AutoTeleportWelcomeModal from './AutoTeleportWelcomeModal.vue'
-import useAutoTeleport, {
-  type AutoTeleportAction,
-} from '@/composables/autoTeleport/useAutoTeleport'
+import useAutoTeleport from '@/composables/autoTeleport/useAutoTeleport'
+import { AutoTeleportAction } from '@/composables/autoTeleport/types'
 
 export type AutoTeleportActionButtonConfirmEvent = {
   autoteleport: boolean

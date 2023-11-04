@@ -71,7 +71,7 @@ import { calculateBalanceUsdValue } from '@/utils/format/balance'
 import { BASE_FEE } from '@/utils/support'
 import ConfirmMintItem from './ConfirmMintItem.vue'
 import PriceItem from './PriceItem.vue'
-import { AutoTeleportAction } from '@/composables/autoTeleport/useAutoTeleport'
+import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 
 export type NftInformation = {
   file: Blob | null
