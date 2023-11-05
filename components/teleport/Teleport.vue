@@ -1,5 +1,5 @@
 <template>
-  <section class="mt-6 mb-7 mx-auto teleport-container">
+  <section class="mx-auto teleport-container">
     <Loader v-model="isLoading" />
     <h1 class="is-size-3 has-text-weight-bold">
       {{ $t('teleport.page') }}
@@ -24,11 +24,24 @@
           @select="onChainChange" />
       </div>
 
-      <img
-        src="/teleport/arrow.svg"
-        class="network-arrow"
-        alt="arrow"
-        width="32px" />
+      <div class="network-arrow is-flex has-text-color">
+        <svg viewBox="0 0 39 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line y1="5.5" x2="35" y2="5.5" stroke="currentColor" />
+          <line y1="11.5" x2="35" y2="11.5" stroke="currentColor" />
+          <line
+            x1="30.3536"
+            y1="1.14645"
+            x2="38.3536"
+            y2="9.14645"
+            stroke="currentColor" />
+          <line
+            x1="38.3293"
+            y1="8.87629"
+            x2="30.3293"
+            y2="15.8763"
+            stroke="currentColor" />
+        </svg>
+      </div>
 
       <div class="w-full is-relative">
         <div class="network-title">{{ $t('teleport.destination') }}</div>
@@ -98,7 +111,7 @@
         v-safe-href="explorerUrl"
         target="_blank"
         rel="nofollow noopener noreferrer"
-        class="short-address">
+        class="has-text-k-blue">
         {{ shortAddress(toAddress) }}
       </a>
     </div>
@@ -433,61 +446,18 @@ const sendXCM = async () => {
 }
 </script>
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/variables';
 
 .teleport-container {
   @include tablet {
     width: 454px;
+    margin-top: 80px;
+    margin-bottom: 94px;
   }
 
-  .short-address,
-  .max-button {
-    @include ktheme() {
-      color: theme('k-blue');
-    }
-  }
-}
-
-.input-wrapper {
-  @include ktheme() {
-    border: 1px solid theme('border-color');
-  }
-
-  .token {
-    width: 16rem;
-    position: relative;
-
-    .token-value {
-      position: absolute;
-      left: 0;
-      transform: translateX(-110%);
-
-      @include ktheme() {
-        color: theme('k-grey');
-      }
-    }
-  }
-
-  .transfer-amount {
-    border: none;
-
-    @include ktheme() {
-      color: theme('text-color');
-      border-right: 1px solid theme('border-color');
-      background: theme('background-color');
-    }
-
-    background: transparent;
-    padding: 0 0.5rem;
-    height: 54px;
-    outline: none;
-    width: 100%;
-
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none !important;
-    }
-    -moz-appearance: textfield;
+  @include mobile {
+    padding-top: 40px;
+    padding-bottom: 40px;
   }
 }
 
@@ -527,16 +497,35 @@ const sendXCM = async () => {
 }
 
 .network-arrow {
-  width: 32px;
-  flex-basis: 32px;
+  min-width: 32px;
+  line-height: 1;
 
   @include tablet {
     margin: 0 1rem;
   }
 
   @include mobile {
+    position: relative;
     transform: rotate(90deg);
-    margin: 10px 0;
+    height: 32px;
+    margin-top: 2px;
+    margin-bottom: 40px;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 0;
+      width: 8px;
+      height: 8px;
+      background: $white;
+    }
+  }
+}
+
+.dark-mode {
+  .network-arrow:before {
+    background: $background-dark;
   }
 }
 </style>
