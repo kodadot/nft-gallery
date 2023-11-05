@@ -78,7 +78,7 @@
         v-if="myBalance !== undefined"
         class="is-size-7 is-flex is-justify-content-end is-align-items-center">
         <span class="is-flex is-align-items-center">
-          <span class="mr-2">{{ $t('balance') }}:</span
+          <span class="mr-2">{{ $t('general.balance') }}:</span
           >{{ myBalanceWithoutDivision.toFixed(4) }}{{ currency }}
         </span>
         <NeoButton
