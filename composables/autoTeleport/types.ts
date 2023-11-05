@@ -23,10 +23,10 @@ export type AutoTeleportTransactions = {
 }
 
 export type AutoTeleportActionDetails = {
-  isLoading: Ref<boolean>
-  status: Ref<TransactionStatus>
-  isError: Ref<boolean>
-  blockNumber?: Ref<string | undefined>
+  isLoading: boolean
+  status: TransactionStatus
+  isError: boolean
+  blockNumber?: string | undefined
 }
 
 type AutoTeleportBaseAction = {

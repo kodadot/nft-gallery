@@ -112,6 +112,9 @@ const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 const { chainSymbol, name } = useChain()
 
+const actions = ref<AutoTeleportAction[]>([])
+const amount = ref(0)
+
 const {
   isAvailable: isAutoTeleportAvailable,
   hasBalances,
@@ -121,7 +124,7 @@ const {
   transactions,
   teleport,
 } = useAutoTeleport(
-  computed<AutoTeleportAction[]>(() => props.actions),
+  computed<AutoTeleportAction[]>(() => actions.value),
   computed(() => props.amount),
   props.feeless,
 )
@@ -224,7 +227,7 @@ const openAutoTeleportModal = () => {
 }
 
 const actionRun = async (interaction) => {
-  const autoTeleportAction = autoTeleportActions.value.find(
+  const autoTeleportAction = actions.value.find(
     (action) => action.action.interaction === interaction,
   )
 
@@ -261,6 +264,17 @@ watch(allowAutoTeleport, (allow) => {
     autoTeleport.value = true
   }
 })
+
+watch(
+  isModalOpen,
+  () => {
+    if (!isModalOpen.value) {
+      amount.value = props.amount
+      actions.value = [...props.actions]
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <style lang="scss" scoped>

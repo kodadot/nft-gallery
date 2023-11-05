@@ -73,7 +73,7 @@ import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import ConfirmPurchaseItemRow from './ConfirmPurchaseItemRow.vue'
 import { totalPriceUsd } from '../shoppingCart/utils'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
-import { AutoTeleportAction } from '@/composables/autoTeleport/useAutoTeleport'
+import { type AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { type AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 
 const emit = defineEmits(['confirm', 'completed'])

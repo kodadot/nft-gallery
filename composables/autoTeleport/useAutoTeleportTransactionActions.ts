@@ -6,12 +6,14 @@ export default function (actions: ComputedRef<AutoTeleportAction[]>) {
   const transactionActions = computed<ActionTransactionDetails[]>(() => {
     return actions.value.map<ActionTransactionDetails>((action, index) => {
       return {
-        isError:
-          action.details.isError ||
-          actionsCancelled.value.get(action.action.interaction),
-        blockNumber: action.details.blockNumber,
-        status: action.details.status,
-        isLoading: action.details.isLoading,
+        isError: toRef(
+          () =>
+            action.details.isError ||
+            actionsCancelled.value.get(action.action.interaction),
+        ),
+        blockNumber: toRef(() => action.details.blockNumber),
+        status: toRef(() => action.details.status),
+        isLoading: toRef(() => action.details.isLoading),
         interaction: actions.value[index].action.interaction,
         txId: ref(''),
       }
@@ -22,15 +24,15 @@ export default function (actions: ComputedRef<AutoTeleportAction[]>) {
     actions,
     (newActions, prevActions) => {
       newActions.forEach((action, index) => {
-        const loading = action.details.isLoading.value
-        const status = action.details.status.value
+        const loading = action.details.isLoading
+        const status = action.details.status
 
         let prevLoading = false
         let prevStatus = ''
 
         if (prevActions && prevActions.length) {
-          prevLoading = prevActions[index].details.isLoading.value
-          prevStatus = prevActions[index].details.status.value
+          prevLoading = prevActions[index].details.isLoading
+          prevStatus = prevActions[index].details.status
         }
 
         const cancelled =

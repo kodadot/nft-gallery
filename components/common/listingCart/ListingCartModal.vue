@@ -109,9 +109,9 @@ const actions = computed<AutoTeleportAction[]>(() => [
     action: getAction(listingCartStore.itemsInChain),
     transaction,
     details: {
-      isLoading,
-      status,
-      isError,
+      isLoading: isLoading.value,
+      status: status.value,
+      isError: isError.value,
     },
   },
 ])

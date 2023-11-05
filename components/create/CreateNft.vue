@@ -423,9 +423,9 @@ const autoTeleportActions = computed<AutoTeleportAction[]>(() => {
       handler: createNft,
       prefix: currentChain.value,
       details: {
-        isLoading,
-        isError,
-        status,
+        isLoading: isLoading.value,
+        isError: isError.value,
+        status: status.value,
       },
     },
   ]
@@ -436,9 +436,9 @@ const autoTeleportActions = computed<AutoTeleportAction[]>(() => {
       transaction: transaction,
       prefix: currentChain.value,
       details: {
-        isLoading,
-        isError,
-        status,
+        isLoading: isLoading.value,
+        isError: isError.value,
+        status: status.value,
       },
     })
   }

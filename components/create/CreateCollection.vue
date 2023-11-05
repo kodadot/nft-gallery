@@ -332,9 +332,9 @@ const actions = computed<AutoTeleportAction[]>(() => [
     prefix: currentChain.value,
     handler: createCollection,
     details: {
-      isLoading,
-      isError,
-      status,
+      isLoading: isLoading.value,
+      isError: isError.value,
+      status: status.value,
     },
   },
 ])

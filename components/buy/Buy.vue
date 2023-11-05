@@ -33,9 +33,9 @@ const autoteleportAction = computed<AutoTeleportAction>(() => ({
   action: buyAction.value,
   transaction: transaction,
   details: {
-    status,
-    isLoading,
-    isError,
+    status: status.value,
+    isLoading: isLoading.value,
+    isError: isError.value,
   },
 }))
 
