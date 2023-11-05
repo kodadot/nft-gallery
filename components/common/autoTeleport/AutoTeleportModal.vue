@@ -148,13 +148,12 @@ const steps = computed<TransactionStep[]>(() => {
       return {
         title,
         subtitle,
-        status: action.status,
-        isError: action.isError,
-        txId: action.txId,
-        isLoading: action.isLoading,
+        status: action.status.value,
+        isError: action.isError.value,
+        txId: action.txId.value,
+        isLoading: action.isLoading.value,
         prefix: props.transition.destination?.prefix,
         withAction: true,
-        stepStatus: undefined,
         retry: () => emit('action:retry', action.interaction),
       }
     }),
@@ -172,7 +171,7 @@ const btnDisabled = computed(() => {
 const actionsFinalized = computed(() =>
   props.transactions.actions
     .map((action) => action.status)
-    .every((status) => status === TransactionStatus.Finalized),
+    .every((status) => status.value === TransactionStatus.Finalized),
 )
 
 const btnLabel = computed(() => {

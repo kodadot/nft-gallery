@@ -22,15 +22,15 @@ export default function (actions: ComputedRef<AutoTeleportAction[]>) {
     actions,
     (newActions, prevActions) => {
       newActions.forEach((action, index) => {
-        const loading = action.details.isLoading
-        const status = action.details.status
+        const loading = action.details.isLoading.value
+        const status = action.details.status.value
 
         let prevLoading = false
         let prevStatus = ''
 
         if (prevActions && prevActions.length) {
-          prevLoading = prevActions[index].details.isLoading
-          prevStatus = prevActions[index].details.status
+          prevLoading = prevActions[index].details.isLoading.value
+          prevStatus = prevActions[index].details.status.value
         }
 
         const cancelled =

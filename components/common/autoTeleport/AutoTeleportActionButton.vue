@@ -108,9 +108,6 @@ const props = withDefaults(
   },
 )
 
-const amount = ref(0)
-const autoTeleportActions = ref<AutoTeleportAction[]>([])
-
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 const { chainSymbol, name } = useChain()
@@ -124,8 +121,8 @@ const {
   transactions,
   teleport,
 } = useAutoTeleport(
-  computed<AutoTeleportAction[]>(() => autoTeleportActions.value),
-  computed(() => amount.value),
+  computed<AutoTeleportAction[]>(() => props.actions),
+  computed(() => props.amount),
   props.feeless,
 )
 
@@ -262,13 +259,6 @@ const handleAutoTeleportModalClose = () => {
 watch(allowAutoTeleport, (allow) => {
   if (allow) {
     autoTeleport.value = true
-  }
-})
-
-watchSyncEffect(() => {
-  if (!isModalOpen.value) {
-    amount.value = props.amount
-    autoTeleportActions.value = props.actions
   }
 })
 </script>
