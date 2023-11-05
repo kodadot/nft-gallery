@@ -34,8 +34,8 @@ export default function () {
     return urlPrefix.value !== 'snek' && urlPrefix.value !== 'bsx'
   })
 
-  const availableChains = computed(() => availablePrefixes())
-  const availableChainsWithIcon = computed(() => availablePrefixWithIcon())
+  const availableChains = computed(availablePrefixes)
+  const availableChainsWithIcon = computed(availablePrefixWithIcon)
 
   const chainSymbol = computed(() => {
     return ['rmrk', 'ksm', 'ahk', 'ahp'].includes(urlPrefix.value)
