@@ -9,13 +9,6 @@ export default function (
   feelss: boolean = false,
 ) {
   const {
-    hasEnoughInCurrentChain,
-    hasEnoughInRichestChain,
-    hasBalances,
-    optimalTransition,
-  } = useAutoTeleportTransition(actions, neededAmount, feelss)
-
-  const {
     teleport: sendXCM,
     getAddressByChain,
     status: teleportStatus,
@@ -23,6 +16,18 @@ export default function (
     isError: teleportIsError,
     isAvailable,
   } = useTeleport()
+
+  const {
+    hasEnoughInCurrentChain,
+    hasEnoughInRichestChain,
+    hasBalances,
+    optimalTransition,
+  } = useAutoTeleportTransition({
+    actions,
+    neededAmount,
+    feelss,
+    teleportStatus,
+  })
 
   const { transactionActions } = useAutoTeleportTransactionActions(actions)
 

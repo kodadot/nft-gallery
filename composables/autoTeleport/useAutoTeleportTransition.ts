@@ -8,11 +8,17 @@ import {
 import useAutoTeleportTransitionDetails from '~/composables/autoTeleport/useAutoTeleportTransitionDetails'
 import { AutoTeleportAction } from './types'
 
-export default function (
-  actions: ComputedRef<AutoTeleportAction[]>,
-  neededAmount: ComputedRef<number>,
-  feelss: boolean = false,
-) {
+export default function ({
+  actions,
+  neededAmount,
+  teleportStatus,
+  feelss = false,
+}: {
+  actions: ComputedRef<AutoTeleportAction[]>
+  neededAmount: ComputedRef<number>
+  teleportStatus: Ref<string>
+  feelss: boolean
+}) {
   const { urlPrefix } = usePrefix()
   const { isAvailable, getChainTokenDecimals } = useTeleport()
 
@@ -36,7 +42,7 @@ export default function (
   )
 
   watchSyncEffect(() => {
-    if (hasEnoughInCurrentChain.value) {
+    if (teleportStatus.value === TransactionStatus.Finalized) {
       return
     }
 

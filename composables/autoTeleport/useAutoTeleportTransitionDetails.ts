@@ -11,6 +11,7 @@ import { sum } from 'lodash'
 import { AutoTeleportAction } from './types'
 
 const BUFFER_FEE_PERCENT = 0.2
+const BUFFER_AMOUNT_PERCENT = 0.05
 
 export default function (
   actions: ComputedRef<AutoTeleportAction[]>,
@@ -84,7 +85,13 @@ export default function (
       : 0,
   )
 
-  const buffer = computed(() => Math.ceil(fees.value * BUFFER_FEE_PERCENT))
+  const buffer = computed(() => {
+    const bufferFee = Math.ceil(fees.value * BUFFER_FEE_PERCENT)
+    const amountFee = Math.ceil(
+      neededAmountWithFees.value * BUFFER_AMOUNT_PERCENT,
+    )
+    return bufferFee === 0 ? amountFee : bufferFee
+  })
 
   const amountToTeleport = computed(
     () =>
