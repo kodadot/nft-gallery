@@ -23,15 +23,15 @@
       </div>
       <div
         class="is-flex is-justify-content-center is-flex-wrap-wrap is-align-items-baseline mt-4">
-        <a
+        <nuxt-link
           v-for="chain in chains"
           :key="chain.value"
-          v-safe-href="`/${chain.value}/explore/collectibles`"
+          :to="`/${chain.value}/explore/collectibles`"
           :class="[
             'mx-2 mb-3 is-inline-flex is-align-items-center',
             'chain-option active',
           ]"
-          @click.prevent="switchChain(chain.value)">
+          @click="switchChain(chain.value)">
           <img
             class="is-size-5 chain-icon"
             :src="chain.icon"
@@ -40,7 +40,7 @@
           <sup v-if="chain.text.includes('[Beta]')" class="beta-text is-size-7">
             {{ $t('beta') }}</sup
           >
-        </a>
+        </nuxt-link>
       </div>
       <CollectionUnlockableLandingMobileBanner />
     </div>
@@ -71,7 +71,6 @@ const switchChain = (value) => {
   if (value !== urlPrefix.value) {
     setUrlPrefix(value)
   }
-  navigateTo(`/${value}/explore/collectibles`)
 }
 </script>
 
