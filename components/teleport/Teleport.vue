@@ -475,6 +475,10 @@ const sendXCM = async () => {
   @include ktheme() {
     background: theme('k-shade');
   }
+
+  @include mobile {
+    width: 254px;
+  }
 }
 
 .networks {
