@@ -20,7 +20,7 @@
         </NeoButton>
       </template>
       <NeoDropdownItem
-        v-for="opt in options"
+        v-for="opt in validateOptions"
         :key="opt.value"
         :active="value === opt.value"
         @click="emit('select', opt.value)">
@@ -52,6 +52,9 @@ const emit = defineEmits(['select'])
 
 const selectedNetwork = computed<NetworkOption | undefined>(() => {
   return props.options.find((opt) => opt.value === props.value)
+})
+const validateOptions = computed(() => {
+  return props.options.filter((opt) => !opt.disabled?.value)
 })
 </script>
 
