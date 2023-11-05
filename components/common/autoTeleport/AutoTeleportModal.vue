@@ -137,7 +137,6 @@ const steps = computed<TransactionStep[]>(() => {
       stepStatus: checkBalanceState.value,
     },
     props.transactions.actions.map((action) => {
-      console.log('adasdasd', action.interaction, action)
       const { title, subtitle } = getActionDetails(action.interaction)
       return {
         title,
