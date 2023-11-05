@@ -1514,7 +1514,7 @@
     "checking": "checking funds ...",
     "followSteps": "Follow steps",
     "signTransactions": "Sign Transactions",
-    "header": "<strong>Buying</strong/> NFT on {chainName} and <strong>Bridging/Teleporting {amountFormatted}</strong> ~ {amountUsd} From {sourceNetwork}",
+    "header": "{action} on {chainName} and <strong>Bridging/Teleporting {amountFormatted}</strong> ~ {amountUsd} From {sourceNetwork}",
     "dontExit": "Don't exit this modal till transactions complete.",
     "tip": "<strong>Tip:</strong> Look for popups from your wallet extension for signing.",
     "notEnoughTokenInChain": "Not enough {0} on {1}",
@@ -1558,21 +1558,25 @@
         "subtitle": "Verifying fund arrival on destination chain for seamless operations."
       },
       "buy": {
+        "header": "<strong>Buying</strong> NFT",
         "title": "Buying NFT",
         "subtitle": "when signing this transaction, you will buy your desired NFT",
         "submit": "Buying NFT..."
       },
       "list": {
+        "header": "<strong>Listing</strong> NFT",
         "title": "Listing NFT",
         "subtitle": "when signing this transaction, you will list your desired NFT",
         "submit": "Listing NFT..."
       },
       "mint": {
+        "header": "<strong>Minting</strong> NFT Collection",
         "title": "Minting NFT Collection",
         "subtitle": "when signing this transaction, you will mint your desired NFT Collection",
         "submit": "Minting NFT Collection..."
       },
       "mintnft": {
+        "header": "<strong>Minting</strong> NFT",
         "title": "Minting NFT",
         "subtitle": "when signing this transaction, you will mint your desired NFT",
         "submit": "Minting NFT..."

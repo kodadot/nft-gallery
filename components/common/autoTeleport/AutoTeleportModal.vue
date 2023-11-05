@@ -27,6 +27,7 @@
         <p
           v-dompurify-html="
             $t('autoTeleport.header', {
+              action: mainAction,
               chainName: transition.destination.name,
               amountFormatted: transition.amountFormatted,
               amountUsd: transition.amountUsd,
@@ -117,6 +118,12 @@ const checkBalanceState = computed<TransactionStepStatus>(() => {
   }
 
   return status
+})
+
+const mainAction = computed(() => {
+  const interaction =
+    props.transactions.actions[0].interaction?.toLocaleLowerCase()
+  return $i18n.t(`autoTeleport.steps.${interaction}.header`)
 })
 
 const steps = computed<TransactionStep[]>(() => {
@@ -227,10 +234,6 @@ const onClose = () => {
 
 .btn-height {
   height: 3.5rem;
-}
-
-.is-line-height {
-  display: block !important;
 }
 
 .limit-height {
