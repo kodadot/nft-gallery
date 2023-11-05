@@ -63,9 +63,8 @@ const chains = computed(() => {
 const chainText = (chain: string) => {
   if (chain.includes('[Beta]')) {
     return chain.split(' ')[0]
-  } else {
-    return chain
   }
+  return chain
 }
 
 const switchChain = (value) => {
