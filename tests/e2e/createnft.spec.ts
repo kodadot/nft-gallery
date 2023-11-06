@@ -1,13 +1,11 @@
 import { expect, test } from './fixtures'
 
-const prefix = ['ahk', 'ahp', 'ksm']
-
 test('Create NFT', async ({ page, Commands }) => {
   await Commands.e2elogin()
   //await page.goto('/ahk/create')
-  await page.goto(`/${prefix[2]}/create`)
+  await page.goto('/ksm/create')
   await page.getByTestId('create-landing-nft-button').click()
-  await expect(page).toHaveURL(`/${prefix[2]}/create?select=nft`)
+  await expect(page).toHaveURL('/ksm/create?select=nft')
   //Single NFT
   await test.step('Single NFT', async () => {
     await Commands.acceptCookies()
