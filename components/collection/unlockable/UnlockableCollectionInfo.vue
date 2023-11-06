@@ -11,10 +11,11 @@
       <div class="overflow-wrap">
         <Markdown :source="visibleDescription" />
       </div>
-      <div class="is-flex is-justify-content-space-between">
+      <div
+        class="is-flex is-justify-content-space-between is-align-items-center">
         <NeoButton
           v-if="hasSeeAllDescriptionOption"
-          class="no-shadow is-text has-text-left p-0"
+          class="no-shadow is-text has-text-left p-0 is-underlined"
           :label="seeAllDescription ? $t('showLess') : $t('showMore')"
           @click="toggleSeeAllDescription" />
         <div v-else />
