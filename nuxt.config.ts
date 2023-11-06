@@ -1,6 +1,6 @@
+import * as fs from 'fs'
 import { pwa } from './utils/config/pwa'
 import { URLS, apolloClientConfig } from './utils/constants'
-import * as fs from 'fs'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
@@ -207,6 +207,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxt/content',
     'nuxt-simple-sitemap',
+    '@nuxt/image',
   ],
 
   pwa,
@@ -276,6 +277,20 @@ export default defineNuxtConfig({
       rampApiKey: process.env.RAMP_API_KEY,
       transakApiKey: process.env.TRANSAK_API_KEY || '',
       transakEnvironment: process.env.TRANSAK_ENV || 'PRODUCTION',
+    },
+  },
+
+  image: {
+    // Options
+    providers: {
+      myProvider: {
+        name: 'myProvider', // optional value to overrider provider name
+        provider: '~/providers/my-provider.ts', // Path to custom provider
+        options: {
+          // ... provider options
+          baseURL: 'https://imagedelivery.net/jk5b6spi_m_-9qC4VTnjpg/',
+        },
+      },
     },
   },
   // In case of using ssr
