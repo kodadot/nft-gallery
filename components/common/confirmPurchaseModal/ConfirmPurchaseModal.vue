@@ -76,7 +76,7 @@ import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import { type AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { type AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 
-const emit = defineEmits(['confirm', 'completed'])
+const emit = defineEmits(['confirm', 'completed', 'close'])
 const props = defineProps<{
   action: AutoTeleportAction
 }>()
@@ -127,6 +127,7 @@ const priceUSD = computed(() => {
 const onClose = () => {
   prefrencesStore.setCompletePurchaseModalOpen(false)
   shoppingCartStore.removeItemToBuy()
+  emit('close')
 }
 
 const confirm = (params: AutoTeleportActionButtonConfirmEvent) => {

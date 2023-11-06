@@ -96,6 +96,7 @@ const emit = defineEmits([
   'teleport:completed',
   'action:completed',
   'action:run',
+  'modal:close',
 ])
 const props = withDefaults(
   defineProps<{
@@ -118,6 +119,8 @@ const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 const { chainSymbol, name } = useChain()
 
+const amount = ref()
+
 const {
   isAvailable: isAutoTeleportAvailable,
   hasBalances,
@@ -129,7 +132,7 @@ const {
   clear,
 } = useAutoTeleport(
   computed<AutoTeleportAction[]>(() => props.actions),
-  computed(() => props.amount),
+  computed(() => amount.value),
   props.fees,
 )
 
@@ -262,11 +265,18 @@ const submit = () => {
 const handleAutoTeleportModalClose = () => {
   isModalOpen.value = false
   clear()
+  emit('modal:close')
 }
 
 watch(allowAutoTeleport, (allow) => {
   if (allow) {
     autoTeleport.value = true
+  }
+})
+
+watchSyncEffect(() => {
+  if (!isModalOpen.value) {
+    amount.value = props.amount
   }
 })
 </script>

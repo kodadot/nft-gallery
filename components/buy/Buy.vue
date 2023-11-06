@@ -3,6 +3,7 @@
     <Loader v-if="!usingAutoTeleport" v-model="isLoading" :status="status" />
     <ConfirmPurchaseModal
       :action="autoteleportAction"
+      @close="handleClose"
       @confirm="handleConfirm"
       @completed="handleActionCompleted" />
   </div>
@@ -64,19 +65,24 @@ const ShoppingCartItemToTokenToBuy = (item: ShoppingCartItem): TokenToBuy => {
   }
 }
 
+const handleClose = () => {
+  usingAutoTeleport.value = false
+}
+
 const handleActionCompleted = () => {
   preferencesStore.setTriggerBuySuccess(true)
   shoppingCartStore.clear()
+  usingAutoTeleport.value = false
 }
 
 const handleConfirm = async ({
   autoteleport,
 }: AutoTeleportActionButtonConfirmEvent) => {
+  usingAutoTeleport.value = autoteleport
+
   if (!isShoppingCartMode.value) {
     shoppingCartStore.removeItemToBuy()
   }
-
-  usingAutoTeleport.value = autoteleport
 
   if (!autoteleport) {
     await handleBuy()
@@ -120,9 +126,9 @@ const handleBuy = async () => {
 }
 
 watch(
-  [() => shoppingCartStore.itemToBuy, items],
-  ([itemToBuy, itemsInCart]) => {
-    if (itemToBuy !== undefined || itemsInCart.length !== 0) {
+  () => preferencesStore.completePurchaseModal.isOpen,
+  (isOpen, prevIsOpen) => {
+    if (isOpen && !prevIsOpen) {
       buyAction.value = getCartModeBasedBuyAction()
     }
   },

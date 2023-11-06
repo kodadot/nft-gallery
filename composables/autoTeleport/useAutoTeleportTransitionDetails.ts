@@ -163,20 +163,26 @@ export default function (
     actions,
     async () => {
       if (fees.actionAutoFees) {
-        const feesPromisses = actions.value.map(async ({ action, prefix }) => {
-          let api = await apiInstance.value
-          if (prefix) {
-            api = await apiInstanceByPrefix(prefix)
-          }
-          const address = getAddressByChain(currentChain.value as Chain)
-          return getActionTransactionFee({
-            api,
-            action: action,
-            address,
-          })
-        })
-        const fees = await Promise.all(feesPromisses)
-        actionTxFees.value = fees.map(Number)
+        try {
+          const feesPromisses = actions.value.map(
+            async ({ action, prefix }) => {
+              let api = await apiInstance.value
+              if (prefix) {
+                api = await apiInstanceByPrefix(prefix)
+              }
+              const address = getAddressByChain(currentChain.value as Chain)
+              return getActionTransactionFee({
+                api,
+                action: action,
+                address,
+              })
+            },
+          )
+          const fees = await Promise.all(feesPromisses)
+          actionTxFees.value = fees.map(Number)
+        } catch (error) {
+          console.error(`[AUTOTELEPORT]: Failed getting action fee  ${error}`)
+        }
       }
     },
     { immediate: true },
