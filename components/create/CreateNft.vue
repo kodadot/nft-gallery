@@ -6,6 +6,7 @@
       :auto-teleport-actions="autoTeleportActions"
       :nft-information="nftInformation"
       @confirm="confirm" />
+
     <form class="is-half column" @submit.prevent="submitHandler">
       <CreateNftPreview
         :name="form.name"
@@ -382,11 +383,15 @@ const toggleConfirm = () => {
   modalShowStatus.value = !modalShowStatus.value
 }
 
-const confirm = ({ autoteleport }: AutoTeleportActionButtonConfirmEvent) => {
+const confirm = async ({
+  autoteleport,
+}: AutoTeleportActionButtonConfirmEvent) => {
   toggleConfirm()
 
+  autoTeleport.value = autoteleport
+
   if (!autoteleport) {
-    createNft()
+    await createNft()
   }
 }
 
@@ -402,6 +407,7 @@ const createNft = async () => {
     )) as unknown as {
       createdNFTs?: Ref<CreatedNFT[]>
     }
+
     if (needsListing.value) {
       createdItems.value = minted?.createdNFTs?.value
       transactionStatus.value = 'list'
@@ -416,6 +422,13 @@ const createNft = async () => {
 
 // autoteleport stuff
 const autoTeleport = ref(false)
+const {
+  transaction: listTransaction,
+  isLoading: listIsLoading,
+  isError: listIsError,
+  status: listStatus,
+} = useTransaction()
+
 const autoTeleportActions = computed<AutoTeleportAction[]>(() => {
   const actions = [
     {
@@ -433,12 +446,17 @@ const autoTeleportActions = computed<AutoTeleportAction[]>(() => {
   if (needsListing.value) {
     actions.push({
       action: listAction.value,
-      transaction: transaction,
+      handler: (params: { isRetry: boolean }) => {
+        if (params.isRetry) {
+          return listNft()
+        }
+        return Promise.resolve()
+      },
       prefix: currentChain.value,
       details: {
-        isLoading: isLoading.value,
-        isError: isError.value,
-        status: status.value,
+        isLoading: listIsLoading.value,
+        isError: listIsError.value,
+        status: listStatus.value,
       },
     })
   }
@@ -447,6 +465,16 @@ const autoTeleportActions = computed<AutoTeleportAction[]>(() => {
 })
 
 // currently, on rmrk we need to list price manually
+const listNft = async () => {
+  try {
+    await listTransaction(listAction.value, currentChain.value)
+
+    transactionStatus.value = 'checkListed'
+  } catch (error) {
+    showNotification(`[ERR] ${error}`, notificationTypes.warn)
+    $consola.error(error)
+  }
+}
 
 watchEffect(async () => {
   if (
@@ -454,34 +482,29 @@ watchEffect(async () => {
     createdItems.value &&
     transactionStatus.value === 'list'
   ) {
-    try {
-      await transaction(listAction.value, currentChain.value)
-
-      transactionStatus.value = 'checkListed'
-    } catch (error) {
-      showNotification(`[ERR] ${error}`, notificationTypes.warn)
-      $consola.error(error)
-    }
+    await listNft()
   }
 })
 
 watchEffect(() => {
+  const listStatusFinalized = listStatus.value === 'loader.finalized'
+  const mintStatusFinalized = status.value === 'loader.finalized'
+
   // prepare nft blockNumber for redirect to detail page
   if (
     (transactionStatus.value === 'mint' ||
       transactionStatus.value === 'list') &&
-    status.value === 'loader.finalized' &&
+    mintStatusFinalized &&
     blockNumber.value
   ) {
     mintedBlockNumber.value = blockNumber.value
-    transactionStatus.value = 'done'
+    if (!needsListing.value) {
+      transactionStatus.value = 'done'
+    }
   }
 
   // if listing price is done, then redirect to detail page
-  if (
-    transactionStatus.value === 'checkListed' &&
-    status.value === 'loader.finalized'
-  ) {
+  if (transactionStatus.value === 'checkListed' && listStatusFinalized) {
     transactionStatus.value = 'done'
   }
 })

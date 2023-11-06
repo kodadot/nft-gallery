@@ -29,7 +29,8 @@ export default function (
     teleportStatus,
   })
 
-  const { transactionActions } = useAutoTeleportTransactionActions(actions)
+  const { transactionActions, clear } =
+    useAutoTeleportTransactionActions(actions)
 
   const transactions = computed<AutoTeleportTransactions>(() => ({
     teleport: {
@@ -71,5 +72,6 @@ export default function (
     transactions,
     isAvailable,
     teleport,
+    clear,
   }
 }

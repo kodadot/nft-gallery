@@ -98,6 +98,7 @@ const props = defineProps<{
   transition: TeleportTransition
   canDoAction: boolean
   transactions: AutoTeleportTransactions
+  autoClose: boolean
 }>()
 
 const activeStep = ref(0)
@@ -218,6 +219,12 @@ const submit = () => {
 const onClose = () => {
   emit('close')
 }
+
+watch(actionsFinalized, () => {
+  if (props.autoClose) {
+    onClose()
+  }
+})
 </script>
 
 <style lang="scss" scoped>

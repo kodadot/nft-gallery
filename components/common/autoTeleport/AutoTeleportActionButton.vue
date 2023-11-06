@@ -64,10 +64,11 @@
     :transition="optimalTransition"
     :can-do-action="hasEnoughInCurrentChain"
     :transactions="transactions"
+    :auto-close="autoCloseModal"
     @close="handleAutoTeleportModalClose"
     @telport:retry="teleport"
-    @action:start="actionRun"
-    @action:retry="actionRun" />
+    @action:start="(i) => actionRun(i)"
+    @action:retry="(i) => actionRun(i, true)" />
 
   <AutoTeleportWelcomeModal
     :model-value="showFirstTimeTeleport"
@@ -100,20 +101,19 @@ const props = withDefaults(
     disabled: boolean
     actions: AutoTeleportAction[]
     feeless?: boolean
+    autoCloseModal: boolean
   }>(),
   {
     feeless: false,
     disabled: false,
     amount: 0,
+    autoCloseModal: false,
   },
 )
 
 const preferencesStore = usePreferencesStore()
 const { $i18n } = useNuxtApp()
 const { chainSymbol, name } = useChain()
-
-const actions = ref<AutoTeleportAction[]>([])
-const amount = ref(0)
 
 const {
   isAvailable: isAutoTeleportAvailable,
@@ -123,8 +123,9 @@ const {
   optimalTransition,
   transactions,
   teleport,
+  clear,
 } = useAutoTeleport(
-  computed<AutoTeleportAction[]>(() => actions.value),
+  computed<AutoTeleportAction[]>(() => props.actions),
   computed(() => props.amount),
   props.feeless,
 )
@@ -226,8 +227,8 @@ const openAutoTeleportModal = () => {
   teleport()
 }
 
-const actionRun = async (interaction) => {
-  const autoTeleportAction = actions.value.find(
+const actionRun = async (interaction, isRetry = false) => {
+  const autoTeleportAction = props.actions.find(
     (action) => action.action.interaction === interaction,
   )
 
@@ -241,7 +242,7 @@ const actionRun = async (interaction) => {
       autoTeleportAction.prefix || '',
     )
   } else if (autoTeleportAction.handler) {
-    await autoTeleportAction.handler()
+    await autoTeleportAction.handler({ isRetry })
   }
 }
 
@@ -257,6 +258,7 @@ const submit = () => {
 
 const handleAutoTeleportModalClose = () => {
   isModalOpen.value = false
+  clear()
 }
 
 watch(allowAutoTeleport, (allow) => {
@@ -264,17 +266,6 @@ watch(allowAutoTeleport, (allow) => {
     autoTeleport.value = true
   }
 })
-
-watch(
-  isModalOpen,
-  () => {
-    if (!isModalOpen.value) {
-      amount.value = props.amount
-      actions.value = [...props.actions]
-    }
-  },
-  { immediate: true },
-)
 </script>
 
 <style lang="scss" scoped>

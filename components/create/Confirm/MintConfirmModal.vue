@@ -50,6 +50,7 @@
             :label="btnLabel"
             :disabled="disabled"
             feeless
+            auto-close-modal
             @confirm="confirm" />
         </div>
       </div>

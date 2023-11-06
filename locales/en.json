@@ -1507,6 +1507,10 @@
     "waiting": {
       "title": "Please sign transaction",
       "subtitle": "(Waiting for your approval)"
+    },
+    "uploading": {
+      "title": "Uploading data to IPFS",
+      "subtitle": "(please wait)"
     }
   },
   "autoTeleport" : {

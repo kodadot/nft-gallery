@@ -30,7 +30,11 @@ export default function (actions: ComputedRef<AutoTeleportAction[]>) {
         let prevLoading = false
         let prevStatus = ''
 
-        if (prevActions && prevActions.length) {
+        if (
+          prevActions &&
+          prevActions.length &&
+          newActions.length === prevActions.length
+        ) {
           prevLoading = prevActions[index].details.isLoading
           prevStatus = prevActions[index].details.status
         }

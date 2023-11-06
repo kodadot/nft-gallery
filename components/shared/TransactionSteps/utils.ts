@@ -27,6 +27,14 @@ export const getTransactionStepDetails = (
     }
   }
 
+  if (status == TransactionStatus.IPFS) {
+    return {
+      title: $t('transactionSteps.uploading.title'),
+      subtitle: $t('transactionSteps.uploading.subtitle'),
+      status: TransactionStepStatus.LOADING,
+    }
+  }
+
   if (status !== TransactionStatus.Unknown) {
     return {
       title: $t('transactionSteps.loading.title'),
