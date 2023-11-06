@@ -1,8 +1,8 @@
 import { TransactionStatus } from '@/composables/useTransactionStatus'
-import { TransactionStep } from './TransactionSteps.vue'
+import { type TransactionStepWithActive } from './TransactionSteps.vue'
 
 export const getTransactionStepDetails = (
-  step: TransactionStep,
+  step: TransactionStepWithActive,
   $t,
 ): {
   title: string
