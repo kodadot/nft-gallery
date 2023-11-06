@@ -30,7 +30,7 @@ test('Fill fields to check if they work', async ({ page }) => {
   await expect(
     page
       .getByTestId('collection-create')
-      .filter({ has: page.getByText('Create New Collection') }),
+      .filter({ has: page.getByText('Not Enough Funds') }),
   ).toHaveCount(1)
 })
 

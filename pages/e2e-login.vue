@@ -5,6 +5,7 @@
 </template>
 
 <script lang="ts">
+import { mnemonicGenerate } from '@polkadot/util-crypto'
 import keyring from '@polkadot/ui-keyring'
 import { ss58Of } from '@/utils/config/chain.config'
 import { useIdentityStore } from '@/stores/identity'
@@ -17,8 +18,7 @@ export default {
     const mockAddress = ref(false)
 
     onMounted(() => {
-      const mnemonicEnv = useRuntimeConfig().public.e2eMnemonic
-      const mnemonic = String(mnemonicEnv)
+      const mnemonic = mnemonicGenerate(12)
       const { pair } = keyring.addUri(mnemonic, '', {
         name: 'mnemonic acc',
       })
