@@ -11,10 +11,7 @@ export default defineNuxtConfig({
     host: '0.0.0.0',
   },
 
-  sourcemap: {
-    server: true,
-    client: true,
-  },
+  sourcemap: false,
 
   vue: {
     compilerOptions: {
