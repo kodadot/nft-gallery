@@ -81,8 +81,8 @@ const name = useVModel(props, 'modelValue', emits, {
   eventName: 'update:modelValue',
 })
 
-const searchRef = ref<typeof NeoAutocomplete>()
-const searchSuggestionRef = ref<typeof SearchSuggestion>()
+const searchRef = ref<InstanceType<typeof NeoAutocomplete>>()
+const searchSuggestionRef = ref<InstanceType<typeof SearchSuggestion>>()
 const enableSearchInCollection = ref(true)
 const inputFocused = ref(false)
 const { urlPrefix } = usePrefix()
@@ -109,6 +109,8 @@ function exitCollectionSearch() {
 
 function onEnter() {
   closeDropDown()
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   searchRef.value?.$refs?.input?.$refs?.input?.blur()
   // insert search term in history
   searchSuggestionRef.value?.insertNewHistory()
@@ -116,6 +118,8 @@ function onEnter() {
 }
 
 function focusInput() {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   searchRef.value?.focus()
 }
 
@@ -142,6 +146,8 @@ function bindSearchEvents(event: KeyboardEvent) {
 }
 
 function closeDropDown() {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   searchRef.value.isActive = false
 }
 
