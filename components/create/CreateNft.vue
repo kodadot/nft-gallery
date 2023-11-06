@@ -81,12 +81,15 @@
         required
         class="sale"
         :class="{ 'sale-on': form.sale }">
+        <span aria-hidden="true" class="hidden-sale-label">{{
+          $t('mint.nft.sale.label')
+        }}</span>
+
         <div class="w-full">
           <p>{{ $t('mint.nft.sale.message') }}</p>
         </div>
         <NeoSwitch v-model="form.sale" />
       </NeoField>
-
       <!-- list for sale price -->
       <NeoField
         v-if="form.sale"
@@ -131,6 +134,7 @@
             class="mt-3"
             type="number"
             placeholder="e.g 10"
+            min="1"
             expanded />
           <BasicSwitch
             v-if="form.copies > 1"
@@ -146,7 +150,7 @@
       </NeoField>
 
       <!-- royalty -->
-      <NeoField v-if="isBasilisk || isKsm">
+      <NeoField v-if="!isRmrk">
         <RoyaltyForm
           v-model:amount="form.royalty.amount"
           v-model:address="form.royalty.address" />
@@ -163,7 +167,7 @@
       <hr class="my-6" />
 
       <!-- deposit and balance -->
-      <div class="monospace">
+      <div>
         <div class="is-flex has-text-weight-medium has-text-info">
           <div>{{ $t('mint.deposit') }}:&nbsp;</div>
           <div>{{ totalItemDeposit }} {{ chainSymbol }}</div>
@@ -253,7 +257,7 @@ const form = reactive({
   collections: null,
   sale: false,
   salePrice: 0,
-  copies: 0,
+  copies: 1,
   postfix: false,
   nsfw: false,
   tags: [],
@@ -305,7 +309,7 @@ watch(urlPrefix, (value) => {
 
 // get/set current chain/prefix
 const currentChain = computed(() => selectChain.value as Prefix)
-const { isBasilisk, isRemark, isKsm } = useIsChain(currentChain)
+const { isBasilisk, isRemark, isRmrk } = useIsChain(currentChain)
 watch(currentChain, () => {
   // reset some state on chain change
   form.salePrice = 0

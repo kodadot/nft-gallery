@@ -37,7 +37,7 @@ export function useDrops() {
             minted: nftEntitiesConnection.totalCount,
             max: collectionEntity?.max ?? 300,
             dropStartTime: new Date(2023, 5, 6),
-            price: drop.type === 'paid' ? drop.meta : '0',
+            price: ['paid', 'generative'].includes(drop.type) ? drop.meta : '0',
           })
         }
       })

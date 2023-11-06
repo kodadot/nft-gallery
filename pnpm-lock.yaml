@@ -42,8 +42,8 @@ importers:
         specifier: 8.0.0-rc.3
         version: 8.0.0-rc.3(rollup@2.79.1)(vue@3.3.6)
       '@paraspell/sdk':
-        specifier: ^3.0.1
-        version: 3.0.1(@polkadot/api-base@10.9.1)(@polkadot/api@10.9.1)(@polkadot/apps-config@0.130.1)(@polkadot/types@10.9.1)
+        specifier: ^3.0.4
+        version: 3.0.4(@polkadot/api-base@10.9.1)(@polkadot/api@10.9.1)(@polkadot/apps-config@0.130.1)(@polkadot/types@10.9.1)
       '@pinia/nuxt':
         specifier: ^0.5.1
         version: 0.5.1(rollup@2.79.1)(typescript@4.9.5)(vue@3.3.6)
@@ -4175,8 +4175,8 @@ packages:
       '@open-web3/orml-type-definitions': 2.0.1
     dev: false
 
-  /@paraspell/sdk@3.0.1(@polkadot/api-base@10.9.1)(@polkadot/api@10.9.1)(@polkadot/apps-config@0.130.1)(@polkadot/types@10.9.1):
-    resolution: {integrity: sha512-IK2XyAY+L1KnIvarfXgxx9EVFZxQGxrvf4PHcMbafy834ApQ21jECJLM866sS4/WykGALxtXmS3g6S4namh9lA==}
+  /@paraspell/sdk@3.0.4(@polkadot/api-base@10.9.1)(@polkadot/api@10.9.1)(@polkadot/apps-config@0.130.1)(@polkadot/types@10.9.1):
+    resolution: {integrity: sha512-Fzli++1NBuBKwppeZpJuMILs4TpNtu+TZ7YdzyAKETyZHCws7Og/pRauyRtxmFDnY9rwkvdtLBSkd6pXbxI7BA==}
     peerDependencies:
       '@polkadot/api': ^10.6.1
       '@polkadot/api-base': ^10.6.1

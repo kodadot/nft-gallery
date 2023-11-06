@@ -1,3 +1,4 @@
+import { INDEXERS } from '@kodadot1/static'
 import { apolloClientConfig } from './constants'
 
 export const getWSUrlByClient = (client: string): string | null => {
@@ -6,5 +7,10 @@ export const getWSUrlByClient = (client: string): string | null => {
     return null
   }
   const { httpEndpoint } = endPoint
+
+  if (httpEndpoint === INDEXERS.ahk) {
+    return 'wss://squid.subsquid.io/stick/graphql'
+  }
+
   return httpEndpoint.replace('https://', 'wss://').replace('http://', 'wss://')
 }

@@ -70,7 +70,9 @@
         :class="{ 'is-active': isMobileNavbarOpen }">
         <!-- NAV START -->
         <div class="navbar-start">
-          <div v-if="showSearchOnNavbar" class="navbar-item is-expanded">
+          <div
+            v-if="showSearchOnNavbar"
+            class="navbar-item is-expanded is-flex is-justify-content-center">
             <Search
               v-if="!isMobile"
               class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
@@ -94,8 +96,13 @@
             </div>
           </nuxt-link>
 
-          <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
-            <NavbarExploreOptions @closeMobileNavbar="showMobileNavbar" />
+          <MobileExpandableSection
+            v-if="isMobile"
+            v-slot="{ onCloseMobileSubMenu }"
+            :title="$t('explore')">
+            <NavbarExploreOptions
+              @closeMobileNavbar="showMobileNavbar"
+              @closeMobileSubMenu="onCloseMobileSubMenu" />
           </MobileExpandableSection>
           <ExploreDropdown
             v-else
@@ -127,9 +134,12 @@
 
           <MobileExpandableSection
             v-if="isMobile"
+            v-slot="{ onCloseMobileSubMenu }"
             no-padding
             :title="$t('chainSelect', [chainName])">
-            <NavbarChainOptions @select="handleMobileChainSelect" />
+            <NavbarChainOptions
+              @select="handleMobileChainSelect"
+              @closeMobileSubMenu="onCloseMobileSubMenu" />
           </MobileExpandableSection>
 
           <ChainSelectDropdown
@@ -151,7 +161,16 @@
 
           <template v-if="isMobile">
             <template v-if="!account">
-              <MobileLanguageOption @closeLanguageOption="showMobileNavbar" />
+              <MobileExpandableSection
+                v-slot="{ onCloseMobileSubMenu }"
+                class="mobile-language"
+                :no-padding="true"
+                :title="$t('profileMenu.language')"
+                icon="globe">
+                <MobileLanguageOption
+                  @closeLanguageOption="showMobileNavbar"
+                  @closeMobileSubMenu="onCloseMobileSubMenu" />
+              </MobileExpandableSection>
               <ColorModeButton class="navbar-item" />
             </template>
             <div

@@ -1,0 +1,16 @@
+query collectionByAccount($account: String!) {
+  collectionEntities(
+    where: { nfts_some: { currentOwner_eq: $account }, issuer_not_eq: $account }
+  ) {
+    id
+    name
+    nfts(where: { currentOwner_eq: $account }) {
+      id
+    }
+    metadata
+    meta {
+      id
+      image
+    }
+  }
+}

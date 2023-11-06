@@ -48,16 +48,34 @@
 }
 
 .sale :deep(.o-field__label) {
-  background: linear-gradient(to right, white, white, white);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 1px black;
-  filter: drop-shadow(2px 2px black);
-  font-weight: bold;
+  position: relative;
+  -webkit-text-stroke: 1px #000;
+  filter: drop-shadow(1px 1px #000);
+  font-weight: 600;
   font-size: 18px;
 }
 
-.sale.sale-on :deep(.o-field__label) {
-  background: linear-gradient(to right, white, #ff7ac3, #ff7ac3);
+.sale {
+  position: relative;
+}
+
+.hidden-sale-label {
+  position: absolute;
+  left: 0;
+  top: 0px;
+  -webkit-text-stroke: 0;
+  pointer-events: none;
+  color: transparent;
+  background: linear-gradient(to right, white, white, white);
+  -webkit-background-clip: text;
   background-clip: text;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.sale.sale-on {
+  .hidden-sale-label {
+    background: linear-gradient(90deg, #ffffff 30%, #ff7ac3 100%);
+    background-clip: text;
+  }
 }

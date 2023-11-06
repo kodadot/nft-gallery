@@ -7,11 +7,19 @@ query dropCollectionById($id: String!, $account: String, $price: BigInt) {
     image
     nftCount
     issuer
+    meta {
+      description
+    }
   }
 
   nftEntitiesConnection(
     orderBy: id_ASC
-    where: { burned_eq: false, collection: { id_eq: $id }, price_eq: $price, currentOwner_eq: $account }
+    where: {
+      burned_eq: false
+      collection: { id_eq: $id }
+      price_eq: $price
+      currentOwner_eq: $account
+    }
   ) {
     totalCount
     edges {
@@ -20,5 +28,4 @@ query dropCollectionById($id: String!, $account: String, $price: BigInt) {
       }
     }
   }
-
 }

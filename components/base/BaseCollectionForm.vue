@@ -68,8 +68,8 @@ const vDescription = useVModel(props, 'description', emit)
 
 const vFile = useVModel(props, 'file', emit)
 
-const collectionName = ref<typeof BasicInput>()
-const collectionImage = ref<typeof MetadataUpload>()
+const collectionName = ref<InstanceType<typeof BasicInput>>()
+const collectionImage = ref<InstanceType<typeof MetadataUpload>>()
 
 const checkValidity = () => {
   return (
