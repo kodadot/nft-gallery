@@ -24,21 +24,17 @@ export type ExecuteTransactionParams = {
   errorMessage?: string | (() => string)
 }
 
-export interface MintTokenParams {
-  item: ActionMintToken
+type BaseMintParams<T> = {
+  item: T
   api: ApiPromise
   executeTransaction: (p: ExecuteTransactionParams) => void
   isLoading: Ref<boolean>
   status: Ref<string>
 }
 
-export interface MintCollectionParams {
-  item: ActionMintCollection
-  api: ApiPromise
-  executeTransaction: (p: ExecuteTransactionParams) => void
-  isLoading: Ref<boolean>
-  status: Ref<string>
-}
+export type MintTokenParams = BaseMintParams<ActionMintToken>
+
+export type MintCollectionParams = BaseMintParams<ActionMintCollection>
 
 export type NftCountType = {
   nftCount: number
