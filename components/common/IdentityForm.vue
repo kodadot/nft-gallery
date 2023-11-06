@@ -32,16 +32,16 @@
       </div>
 
       <NeoField :label="$t('Select Blockchain')">
-          <NeoSelect
-            v-model="selectChain"
-            class="mt-3"
-            expanded
-            required
-            :validation-message="$t('Select chain is required')">
-            <option v-for="menu in menus" :key="menu.value" :value="menu.value">
-              {{ menu.text }}
-            </option>
-          </NeoSelect>
+      <NeoSelect
+        v-model="selectChain"
+          class="mt-3"
+        expanded
+        required
+        :validation-message="$t('Select chain is required')">
+        <option v-for="menu in menus" :key="menu.value" :value="menu.value">
+            {{ menu.text }}
+        </option>
+      </NeoSelect>
       </NeoField>
 
       <NeoField label="Handle" class="mb-5">
