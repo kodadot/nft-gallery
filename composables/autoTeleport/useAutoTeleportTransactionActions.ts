@@ -1,5 +1,28 @@
 import type { ActionTransactionDetails, AutoTeleportAction } from './types'
 
+const isCancelled = (
+  action: AutoTeleportAction,
+  prevAction?: AutoTeleportAction,
+) => {
+  const loading = action.details.isLoading
+  const status = action.details.status
+
+  let prevLoading = false
+  let prevStatus = ''
+
+  if (prevAction) {
+    prevLoading = prevAction.details.isLoading
+    prevStatus = prevAction.details.status
+  }
+
+  return (
+    !loading &&
+    prevLoading &&
+    prevStatus === TransactionStatus.Unknown &&
+    status === TransactionStatus.Unknown
+  )
+}
+
 export default function (actions: ComputedRef<AutoTeleportAction[]>) {
   const actionsCancelled = ref(new Map())
 
@@ -24,27 +47,7 @@ export default function (actions: ComputedRef<AutoTeleportAction[]>) {
     actions,
     (newActions, prevActions) => {
       newActions.forEach((action, index) => {
-        const loading = action.details.isLoading
-        const status = action.details.status
-
-        let prevLoading = false
-        let prevStatus = ''
-
-        if (
-          prevActions &&
-          prevActions.length &&
-          newActions.length === prevActions.length
-        ) {
-          prevLoading = prevActions[index].details.isLoading
-          prevStatus = prevActions[index].details.status
-        }
-
-        const cancelled =
-          !loading &&
-          prevLoading &&
-          prevStatus === TransactionStatus.Unknown &&
-          status === TransactionStatus.Unknown
-
+        const cancelled = isCancelled(action, prevActions && prevActions[index])
         actionsCancelled.value.set(action.action.interaction, cancelled)
       })
     },
@@ -55,7 +58,6 @@ export default function (actions: ComputedRef<AutoTeleportAction[]>) {
     const interactions = actions.value.map(
       (action) => action.action.interaction,
     )
-
     interactions.forEach((interaction) => {
       actionsCancelled.value.set(interaction, false)
     })
