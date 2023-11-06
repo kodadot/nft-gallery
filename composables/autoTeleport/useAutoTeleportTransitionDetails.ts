@@ -107,13 +107,6 @@ export default function (
     () => (richestChainBalance.value || 0) >= amountToTeleport.value,
   )
 
-  const hasTransitionBalances = computed(() => {
-    const hasSourceChainsBalances = Object.values(
-      sourceChainsBalances.value,
-    ).every(Boolean)
-    return hasSourceChainsBalances && Boolean(currentChainBalance.value)
-  })
-
   const addTeleportFee = computed(() => {
     if (!richestChain.value) {
       return false
@@ -189,17 +182,11 @@ export default function (
   )
 
   watch(
-    [allowedSourceChains, hasEnoughInCurrentChain, hasTransitionBalances],
+    [allowedSourceChains, hasEnoughInCurrentChain],
     async () => {
-      if (
-        allowedSourceChains.value.length &&
-        !hasEnoughInCurrentChain.value &&
-        !hasTransitionBalances.value
-      ) {
+      if (allowedSourceChains.value.length && !hasEnoughInCurrentChain.value) {
         await getTransitionBalances()
         hasBalances.value = true
-      } else {
-        hasBalances.value = hasTransitionBalances.value
       }
     },
     { immediate: true },
