@@ -1,6 +1,6 @@
 <template>
   <div class="is-centered" :class="{ columns: classColumn }">
-    <Loader v-model="isLoading" :status="status" />
+    <Loader v-if="!autoTeleport" v-model="isLoading" :status="status" />
     <MintConfirmModal
       v-model="confirmModal"
       :auto-teleport-actions="actions"
@@ -211,6 +211,7 @@ const unlimited = ref(true)
 const max = ref(1)
 const symbol = ref('')
 const confirmModal = ref(false)
+const autoTeleport = ref(false)
 
 const menus = availablePrefixes()
 
@@ -298,6 +299,7 @@ const handleCreateCollectionConfirmation = async ({
   autoteleport,
 }: AutoTeleportActionButtonConfirmEvent) => {
   confirmModal.value = false
+  autoTeleport.value = autoteleport
 
   if (autoteleport) {
     return

@@ -38,7 +38,7 @@ export type TransactionStep = {
   retry?: () => void
 }
 
-type TransactionStepWithActive = TransactionStep & { isActive: boolean }
+export type TransactionStepWithActive = TransactionStep & { isActive: boolean }
 
 const emit = defineEmits(['active'])
 const props = defineProps<{
