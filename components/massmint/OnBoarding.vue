@@ -1,10 +1,13 @@
 <template>
   <div>
     <div class="is-flex is-align-items-center mb-7 px-8">
-      <div
-        class="is-size-2-desktop is-size-2-tablet is-size-3-mobile is-flex is-flex-grow-1 is-justify-content-center has-text-weight-bold">
+      <nuxt-link
+        :to="'https://hello.kodadot.xyz/tutorial/minting/how-to-mass-mint-nfts'"
+        class="is-size-2-desktop is-size-2-tablet is-size-3-mobile is-flex is-flex-grow-1 is-justify-content-center has-text-weight-bold"
+        target="_blank"
+        rel="nofollow noopener noreferrer">
         {{ $t('massmint.onboarding.pageTitle') }}
-      </div>
+      </nuxt-link>
       <NeoButton
         :label="$t('massmint.onboarding.skip')"
         icon="arrow-right"
@@ -51,6 +54,20 @@
                 descriptionTabs[activeDescriptionTab].fileStructureDescription
               "
               class="fixed-height white-space-break-spaces-mobile code" />
+            <div class="is-flex is-justify-content-flex-end mt-2">
+              <NeoButton
+                v-safe-href="
+                  `/massmint/template.${activeDescriptionTab.toLowerCase()}`
+                "
+                variant="text"
+                class="has-text-link"
+                no-shadow
+                tag="a"
+                download>
+                {{ $t('massmint.onboarding.downloadTemplate') }}
+                <NeoIcon icon="arrow-up-right" />
+              </NeoButton>
+            </div>
           </div>
         </OnBoardingCard>
       </div>
@@ -79,7 +96,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoButton, NeoButtonVariant } from '@kodadot1/brick'
+import { NeoButton, NeoButtonVariant, NeoIcon } from '@kodadot1/brick'
 import OnBoardingCard from './OnBoardingCard.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 import { descriptionTabs } from './descriptionTabs'

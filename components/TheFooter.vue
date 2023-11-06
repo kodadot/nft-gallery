@@ -88,7 +88,7 @@
         <h2 class="subtitle is-5">
           {{ $t('footer.join') }}
         </h2>
-        <ul class="footer-container-socials-list is-flex">
+        <ul class="footer-container-socials-list is-flex mb-6">
           <li
             v-for="item in socials"
             :key="item.url"
@@ -128,6 +128,17 @@
             </a>
           </li>
         </ul>
+
+        <a
+          href="https://stellate.co/?ref=powered-by"
+          target="_blank"
+          rel="nofollow noopener noreferrer">
+          <img
+            :src="`https://stellate.co/${
+              isDarkMode ? 'badge-light' : 'badge'
+            }.svg`"
+            alt="Powered by Stellate, the GraphQL API Management platform" />
+        </a>
       </section>
     </div>
     <img src="/blurred-landing-footer.png" class="left-blurred-image" alt="" />
@@ -135,8 +146,9 @@
 </template>
 
 <script lang="ts" setup>
-// import { TranslateResult } from 'vue-i18n/types'
 import { NeoIcon } from '@kodadot1/brick'
+
+const { isDarkMode } = useTheme()
 
 interface Menu {
   name: string

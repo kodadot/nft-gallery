@@ -136,6 +136,7 @@
             class="mt-3"
             type="number"
             placeholder="e.g 10"
+            min="1"
             expanded />
           <BasicSwitch
             v-if="form.copies > 1"
@@ -261,7 +262,7 @@ const form = reactive({
   collections: null,
   sale: false,
   salePrice: 0,
-  copies: 0,
+  copies: 1,
   postfix: false,
   nsfw: false,
   tags: [],
