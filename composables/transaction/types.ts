@@ -32,6 +32,14 @@ export interface MintTokenParams {
   status: Ref<string>
 }
 
+export interface MintCollectionParams {
+  item: ActionMintCollection
+  api: ApiPromise
+  executeTransaction: (p: ExecuteTransactionParams) => void
+  isLoading: Ref<boolean>
+  status: Ref<string>
+}
+
 export type NftCountType = {
   nftCount: number
 }

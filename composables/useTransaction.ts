@@ -152,7 +152,13 @@ export const executeAction = ({
         status,
       }),
     [ShoppingActions.MINT]: () =>
-      execMintCollection(item as ActionMintCollection, api, executeTransaction),
+      execMintCollection({
+        item: item as ActionMintCollection,
+        api,
+        executeTransaction,
+        isLoading,
+        status,
+      }),
   }
 
   return map[item.interaction]?.() ?? 'UNKNOWN'

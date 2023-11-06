@@ -1,18 +1,20 @@
-import type {
-  ActionMintCollection,
-  CollectionToMintStatmine,
-  ExecuteTransactionParams,
-} from '../types'
+import type { CollectionToMintStatmine, MintCollectionParams } from '../types'
 import { constructMeta } from './constructMeta'
 import { useStatemineNewCollectionId } from './useNewCollectionId'
 import { createArgsForNftPallet } from './utils'
 
-export async function execMintCollectionStatemine(
-  item: ActionMintCollection,
+export async function execMintCollectionStatemine({
+  item,
   api,
-  executeTransaction: (p: ExecuteTransactionParams) => void,
-) {
+  executeTransaction,
+  isLoading,
+  status,
+}: MintCollectionParams) {
   const { $i18n } = useNuxtApp()
+
+  isLoading.value = true
+  status.value = 'loader.ipfs'
+
   const metadata = await constructMeta(item)
   const { nftCount } = item.collection as CollectionToMintStatmine
   const { accountId } = useAuth()
