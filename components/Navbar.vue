@@ -21,7 +21,7 @@
           class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
           @click="closeBurgerMenu">
           <img
-            v-if="isMobileNavbarOpen || showSearchOnNavbar"
+            v-if="isMobileNavbarOpen || showSearchOnNavbar || isTinyMobile"
             class="mobile-nav-search-btn mr-2"
             :src="
               isDarkMode
@@ -235,8 +235,10 @@ const openMobileSearchBar = ref(false)
 const fixedTitleNavAppearDistance = ref(85)
 const lastScrollPosition = ref(0)
 const isBurgerMenuOpened = ref(false)
+const { width } = useWindowSize()
 const isMobile = ref(window.innerWidth < 1024)
 const isMobileWithoutTablet = ref(window.innerWidth < 768)
+const isTinyMobile = computed(() => width.value < 480)
 const { urlPrefix } = usePrefix()
 const { isDarkMode } = useTheme()
 const identityStore = useIdentityStore()

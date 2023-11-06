@@ -13,6 +13,11 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 18
+    
+    - name: Set Enviroment Variable
+      run: |
+        touch .env
+        echo MNEMONIC_E2E=${{ secrets.MNEMONIC_E2E }} >> .env
 
     - name: Install dependencies
       uses: ./.github/actions/pnpm-install

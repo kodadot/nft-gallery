@@ -32,6 +32,16 @@ export class Commands {
       }
     })
   }
+  async scrollDownAndStop() {
+    await this.page.evaluate(async () => {
+      const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+      // eslint-disable-next-line no-restricted-syntax
+      for (let i = 0; i < 800; i += 100) {
+        window.scrollTo(0, i)
+        await delay(200)
+      }
+    })
+  }
   async acceptCookies() {
     await this.page.getByTestId('cookie-banner-button-accept').click()
   }
