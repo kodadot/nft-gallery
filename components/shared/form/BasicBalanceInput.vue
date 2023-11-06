@@ -71,14 +71,14 @@ const props = defineProps({
 const emit = defineEmits(['input'])
 
 const vValue = useVModel(props, 'value', emit, { eventName: 'input' })
-const balance = ref<typeof NeoInput>()
+const balance = ref<InstanceType<typeof NeoInput>>()
 
 const metaValue = computed({
   get: () => simpleDivision(vValue.value, props.decimals),
   set: (value) => handleInput(value),
 })
 
-function handleInput(value: number | string): string {
+function handleInput(value: number | string) {
   checkValidity()
   let v = '0'
   try {
