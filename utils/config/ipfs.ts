@@ -1,3 +1,5 @@
+import { SERVICES } from '@kodadot1/static'
+
 const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/'
 export const CF_IMAGE_URL = 'https://imagedelivery.net/jk5b6spi_m_-9qC4VTnjpg/'
 
@@ -11,10 +13,8 @@ export type IPFSProviders =
   | 'kodadot'
   | 'image'
 
-const kodaImage =
-  window.location.host === 'kodadot.xyz'
-    ? 'https://image.w.kodadot.xyz/'
-    : 'https://image-beta.w.kodadot.xyz/'
+export const kodaImage =
+  window.location.host === 'kodadot.xyz' ? SERVICES.image : SERVICES.imageBeta
 
 const ipfsProviders: Partial<Record<IPFSProviders, string>> = {
   pinata: 'https://kodadot.mypinata.cloud/',

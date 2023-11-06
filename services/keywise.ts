@@ -16,21 +16,21 @@ export type KeyValue = {
 // todo:
 export const getValue = async (
   prefix: string,
-  nftId: string,
+  collectionId: string,
 ): Promise<string> => {
-  if (!prefix || !nftId) {
+  if (!prefix || !collectionId) {
     return ''
   }
 
-  const { url } = await keywiseApi<KeyValue>(
-    `resolve/${prefix}-${nftId}`,
+  const res = await keywiseApi<KeyValue>(
+    `resolve/${prefix}-${collectionId}`,
   ).catch((error: FetchError<{ message: string }>) => {
     consola.error(
       `[WORKER::KEYWISE] Unable to GET KEY for reasons ${error?.data?.message}`,
     )
     return { url: '' }
   })
-  return url
+  return res?.url
 }
 
 export default keywiseApi

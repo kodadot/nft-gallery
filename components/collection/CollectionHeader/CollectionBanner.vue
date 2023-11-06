@@ -144,6 +144,8 @@ useSeoMeta({
       width: 5.5rem;
       height: 5.5rem;
       border: 1px solid;
+      padding: 1rem;
+      object-fit: contain;
     }
   }
 
