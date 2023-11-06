@@ -1,4 +1,6 @@
+import { Interaction } from '@kodadot1/minimark/v1'
 import type { ActionTransactionDetails, AutoTeleportAction } from './types'
+import { ShoppingActions } from '@/utils/shoppingActions'
 
 const isCancelled = (
   action: AutoTeleportAction,
@@ -24,7 +26,9 @@ const isCancelled = (
 }
 
 export default function (actions: ComputedRef<AutoTeleportAction[]>) {
-  const actionsCancelled = ref(new Map())
+  const actionsCancelled = ref(
+    new Map<Interaction | ShoppingActions, boolean>(),
+  )
 
   const transactionActions = computed<ActionTransactionDetails[]>(() => {
     return actions.value.map<ActionTransactionDetails>((action, index) => {
@@ -32,7 +36,8 @@ export default function (actions: ComputedRef<AutoTeleportAction[]>) {
         isError: toRef(
           () =>
             action.details.isError ||
-            actionsCancelled.value.get(action.action.interaction),
+            actionsCancelled.value.get(action.action.interaction) ||
+            false,
         ),
         blockNumber: toRef(() => action.details.blockNumber),
         status: toRef(() => action.details.status),
