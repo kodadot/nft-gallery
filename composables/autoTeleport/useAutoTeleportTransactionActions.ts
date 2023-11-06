@@ -52,7 +52,7 @@ export default function (actions: ComputedRef<AutoTeleportAction[]>) {
     actions,
     (newActions, prevActions) => {
       newActions.forEach((action, index) => {
-        const cancelled = isCancelled(action, prevActions && prevActions[index])
+        const cancelled = isCancelled(action, prevActions?.[index])
         actionsCancelled.value.set(action.action.interaction, cancelled)
       })
     },
