@@ -89,6 +89,7 @@ export type ActionDetails = {
 
 const emit = defineEmits([
   'close',
+  'completed',
   'telport:retry',
   'action:start',
   'action:retry',
@@ -221,10 +222,14 @@ const onClose = () => {
 }
 
 watch(actionsFinalized, () => {
-  if (props.autoClose) {
-    setTimeout(() => {
-      onClose()
-    }, 3000)
+  if (actionsFinalized.value) {
+    emit('completed')
+
+    if (props.autoClose) {
+      setTimeout(() => {
+        onClose()
+      }, 3000)
+    }
   }
 })
 </script>

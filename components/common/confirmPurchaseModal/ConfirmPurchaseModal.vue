@@ -58,7 +58,7 @@
           :disabled="disabled"
           :actions="actions"
           @confirm="confirm"
-          @action:completed="$emit('completed')" />
+          @actions:completed="$emit('completed')" />
       </div>
     </div>
   </NeoModal>

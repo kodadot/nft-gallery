@@ -68,7 +68,8 @@
     @close="handleAutoTeleportModalClose"
     @telport:retry="teleport"
     @action:start="(i) => actionRun(i)"
-    @action:retry="(i) => actionRun(i, true)" />
+    @action:retry="(i) => actionRun(i, true)"
+    @completed="$emit('actions:completed')" />
 
   <AutoTeleportWelcomeModal
     :model-value="showFirstTimeTeleport"
@@ -94,7 +95,7 @@ export type AutoTeleportActionButtonConfirmEvent = {
 const emit = defineEmits([
   'confirm',
   'teleport:completed',
-  'action:completed',
+  'actions:completed',
   'action:run',
   'modal:close',
 ])
