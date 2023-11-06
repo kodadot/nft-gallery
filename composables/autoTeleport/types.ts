@@ -41,3 +41,5 @@ export type AutoTeleportAction = {
   transaction?: (item: Actions, prefix: string) => Promise<any>
   handler?: (params: AutoTeleportActionHandlerParams) => Promise<any | void>
 } & AutoTeleportBaseAction
+
+export type AutoTeleportFeeParams = { actions: number; actionAutoFees: boolean }

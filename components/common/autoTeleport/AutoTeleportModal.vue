@@ -222,7 +222,9 @@ const onClose = () => {
 
 watch(actionsFinalized, () => {
   if (props.autoClose) {
-    onClose()
+    setTimeout(() => {
+      onClose()
+    }, 3000)
   }
 })
 </script>

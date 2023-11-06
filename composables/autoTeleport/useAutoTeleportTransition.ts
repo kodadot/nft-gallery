@@ -6,18 +6,18 @@ import {
   prefixToChainMap,
 } from '@/utils/teleport'
 import useAutoTeleportTransitionDetails from '~/composables/autoTeleport/useAutoTeleportTransitionDetails'
-import { AutoTeleportAction } from './types'
+import type { AutoTeleportAction, AutoTeleportFeeParams } from './types'
 
 export default function ({
   actions,
   neededAmount,
   teleportStatus,
-  feelss = false,
+  fees,
 }: {
   actions: ComputedRef<AutoTeleportAction[]>
   neededAmount: ComputedRef<number>
   teleportStatus: Ref<string>
-  feelss: boolean
+  fees: AutoTeleportFeeParams
 }) {
   const { urlPrefix } = usePrefix()
   const { isAvailable, getChainTokenDecimals } = useTeleport()
@@ -29,7 +29,7 @@ export default function ({
     hasEnoughInRichestChain,
     sourceChain,
     chainSymbol,
-  } = useAutoTeleportTransitionDetails(actions, neededAmount, feelss)
+  } = useAutoTeleportTransitionDetails(actions, neededAmount, fees)
 
   const { formatted: amountFormatted, usd: amountUsd } = useAmount(
     amountToTeleport,

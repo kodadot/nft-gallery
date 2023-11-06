@@ -45,11 +45,14 @@
       <div class="py-5">
         <div class="is-flex is-justify-content-space-between px-6">
           <AutoTeleportActionButton
-            :amount="totalFee"
+            :amount="totalFee + networkFee"
             :actions="autoTeleportActions"
             :label="btnLabel"
             :disabled="disabled"
-            feeless
+            :fees="{
+              actions: networkFee,
+              actionAutoFees: false,
+            }"
             auto-close-modal
             @confirm="confirm" />
         </div>
@@ -197,7 +200,9 @@ watchEffect(async () => {
 
   if (!isBasilisk.value) {
     const fee = await getTransitionFee(accountId.value, [''], decimals.value)
-    networkFee.value = Number(fee)
+    networkFee.value = props.nftInformation.listForSale
+      ? Number(fee) * 2
+      : Number(fee)
   }
 })
 </script>

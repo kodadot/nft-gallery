@@ -8,15 +8,15 @@ import { chainPropListOf } from '@/utils/config/chain.config'
 import { getMaxKeyByValue } from '@/utils/math'
 import { getActionTransactionFee } from '@/utils/transactionExecutor'
 import { sum } from 'lodash'
-import { AutoTeleportAction } from './types'
+import type { AutoTeleportAction, AutoTeleportFeeParams } from './types'
 
 const BUFFER_FEE_PERCENT = 0.2
-const BUFFER_AMOUNT_PERCENT = 0.05
+const BUFFER_AMOUNT_PERCENT = 0.02
 
 export default function (
   actions: ComputedRef<AutoTeleportAction[]>,
   neededAmount: ComputedRef<number>,
-  feelss: boolean = false,
+  fees: AutoTeleportFeeParams = { actionAutoFees: true, actions: 0 },
 ) {
   const {
     chainBalances,
@@ -39,10 +39,13 @@ export default function (
     currentChain.value ? teleportRoutes[currentChain.value] : [],
   )
 
-  const fees = computed(() => teleportTxFee.value + sum(actionTxFees.value))
+  const totalFees = computed(
+    () =>
+      teleportTxFee.value + sum(actionTxFees.value) + Math.ceil(fees.actions),
+  )
 
   const neededAmountWithFees = computed(
-    () => Math.ceil(neededAmount.value) + fees.value,
+    () => Math.ceil(neededAmount.value) + totalFees.value,
   )
 
   const currentChainBalance = computed(
@@ -86,7 +89,7 @@ export default function (
   )
 
   const buffer = computed(() => {
-    const bufferFee = Math.ceil(fees.value * BUFFER_FEE_PERCENT)
+    const bufferFee = Math.ceil(totalFees.value * BUFFER_FEE_PERCENT)
     const amountFee = Math.ceil(
       neededAmountWithFees.value * BUFFER_AMOUNT_PERCENT,
     )
@@ -159,14 +162,12 @@ export default function (
   watch(
     actions,
     async () => {
-      if (!feelss) {
+      if (fees.actionAutoFees) {
         const feesPromisses = actions.value.map(async ({ action, prefix }) => {
           let api = await apiInstance.value
-
           if (prefix) {
             api = await apiInstanceByPrefix(prefix)
           }
-
           const address = getAddressByChain(currentChain.value as Chain)
           return getActionTransactionFee({
             api,
@@ -174,9 +175,7 @@ export default function (
             address,
           })
         })
-
         const fees = await Promise.all(feesPromisses)
-
         actionTxFees.value = fees.map(Number)
       }
     },

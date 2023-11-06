@@ -1,12 +1,16 @@
 import useAutoTeleportTransition from '@/composables/autoTeleport/useAutoTeleportTransition'
 import useAutoTeleportWatch from '@/composables/autoTeleport/useAutoTeleportWatch'
 import useAutoTeleportTransactionActions from './useAutoTeleportTransactionActions'
-import type { AutoTeleportAction, AutoTeleportTransactions } from './types'
+import type {
+  AutoTeleportAction,
+  AutoTeleportFeeParams,
+  AutoTeleportTransactions,
+} from './types'
 
 export default function (
   actions: ComputedRef<AutoTeleportAction[]>,
   neededAmount: ComputedRef<number>,
-  feelss: boolean = false,
+  fees: AutoTeleportFeeParams,
 ) {
   const {
     teleport: sendXCM,
@@ -25,7 +29,7 @@ export default function (
   } = useAutoTeleportTransition({
     actions,
     neededAmount,
-    feelss,
+    fees,
     teleportStatus,
   })
 

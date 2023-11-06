@@ -82,7 +82,10 @@ import { NeoButton, NeoSwitch } from '@kodadot1/brick'
 import OnRampModal from '@/components/shared/OnRampModal.vue'
 import AutoTeleportWelcomeModal from './AutoTeleportWelcomeModal.vue'
 import useAutoTeleport from '@/composables/autoTeleport/useAutoTeleport'
-import { AutoTeleportAction } from '@/composables/autoTeleport/types'
+import type {
+  AutoTeleportAction,
+  AutoTeleportFeeParams,
+} from '@/composables/autoTeleport/types'
 
 export type AutoTeleportActionButtonConfirmEvent = {
   autoteleport: boolean
@@ -100,11 +103,11 @@ const props = withDefaults(
     label: string
     disabled: boolean
     actions: AutoTeleportAction[]
-    feeless?: boolean
+    fees?: AutoTeleportFeeParams
     autoCloseModal: boolean
   }>(),
   {
-    feeless: false,
+    fees: () => ({ actions: 0, actionAutoFees: true }),
     disabled: false,
     amount: 0,
     autoCloseModal: false,
@@ -127,7 +130,7 @@ const {
 } = useAutoTeleport(
   computed<AutoTeleportAction[]>(() => props.actions),
   computed(() => props.amount),
-  props.feeless,
+  props.fees,
 )
 
 const isModalOpen = ref(false)
