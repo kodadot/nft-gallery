@@ -5,7 +5,15 @@
       'is-square image': !original,
       'is-detail': isDetail,
     }">
-    <img
+    <NuxtImg
+      loading="lazy"
+      provider="myProvider"
+      :nuxtimgconfig="{
+        format: 'webp',
+      }"
+      fit="cover"
+      width="200"
+      height="100"
       :src="src"
       class="is-block image-media__image no-border-radius"
       :alt="alt"
