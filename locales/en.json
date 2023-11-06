@@ -1097,6 +1097,7 @@
     "newNftHeading": "New to NFTs?",
     "ksmArtistHeading": "KSM for artists",
     "socials": "Got any questions or want to stay in touch? Drop us a line via socials.",
+    "startExploring": "Start Exploring",
     "newNft": {
       "click": "Click {0} for a step by step guide!",
       "here": "here"
@@ -1381,6 +1382,7 @@
     "upcoming": "Upcoming",
     "noUpcoming": "Nothing  here yet...",
     "mintingLive": "Minting Live",
+    "mintingEnded": "Ended",
     "mintedBy": "Minted By",
     "mintPerAddress": "Each address can mint only once",
     "recentMints": "Recent NFT Mints"

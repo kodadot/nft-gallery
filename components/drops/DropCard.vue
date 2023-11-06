@@ -18,7 +18,9 @@
                 custom-class="avatar-image" />
             </div>
 
-            <TimeTag :drop-start-time="drop.dropStartTime" />
+            <TimeTag
+              :drop-start-time="drop.dropStartTime"
+              :ended="availableCount === 0" />
           </div>
         </section>
       </div>
@@ -45,10 +47,7 @@
             <div class="is-flex is-flex-direction-column">
               <div class="has-text-grey">Available</div>
 
-              <div v-if="isFreeDrop">
-                {{ drop.max - drop.minted }}/{{ drop.max }}
-              </div>
-              <div v-else>{{ drop.minted }}/{{ drop.max }}</div>
+              <div>{{ availableCount }}/{{ drop.max }}</div>
             </div>
             <div class="is-flex is-flex-direction-column">
               <span class="has-text-grey">{{ $t('price') }}</span>
@@ -119,6 +118,14 @@ const correctUrlPrefix = computed(() => {
 
 const isFreeDrop = computed(() => {
   return !Number(props.drop?.price)
+})
+
+const availableCount = computed(() => {
+  if (isFreeDrop.value) {
+    return props.drop.max - props.drop.minted
+  } else {
+    return props.drop.minted
+  }
 })
 
 onMounted(async () => {

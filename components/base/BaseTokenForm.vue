@@ -120,8 +120,8 @@ const emit = defineEmits([
   'update:secondFile',
 ])
 
-const nftName = ref<typeof BasicInput>()
-const upload = ref<typeof MetadataUpload>()
+const nftName = ref<InstanceType<typeof BasicInput>>()
+const upload = ref<InstanceType<typeof MetadataUpload>>()
 
 const vName = useVModel(props, 'name', emit)
 
