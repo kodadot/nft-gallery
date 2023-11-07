@@ -50,7 +50,6 @@
         </NeoDropdown>
 
         <NeoDropdown
-          v-if="isOwner"
           position="bottom-left"
           append-to-body
           :mobile-modal="false">
@@ -71,9 +70,9 @@
                 {{ $i18n.t('moreActions.customize') }}
               </NeoDropdownItem> -->
           </div>
-          <!-- <NeoDropdownItem disabled>
+          <NeoDropdownItem disabled>
             {{ $i18n.t('moreActions.reportCollection') }}
-          </NeoDropdownItem> -->
+          </NeoDropdownItem>
         </NeoDropdown>
       </div>
     </div>
