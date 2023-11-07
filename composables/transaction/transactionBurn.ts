@@ -137,7 +137,7 @@ export function execBurnCollection(
     if (params.urlPrefix === 'snek' || params.urlPrefix === 'bsx') {
       executeTransaction({
         cb: api.tx.nft.destroyCollection,
-        arg: [params.collectionId.toString(), {}],
+        arg: [params.collectionId.toString()],
       })
     }
 
