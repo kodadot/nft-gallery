@@ -1,5 +1,5 @@
 <template>
-  <section class="mx-auto teleport-container">
+  <form class="mx-auto teleport-container" @submit.prevent="sendXCM">
     <Loader v-model="isLoading" />
     <h1 class="is-size-3 has-text-weight-bold">
       {{ $t('teleport.page') }}
@@ -105,8 +105,8 @@
       expanded
       :loading="isLoading"
       :disabled="isDisabledButton"
-      variant="k-accent"
-      @click="sendXCM" />
+      native-type="submit"
+      variant="k-accent" />
 
     <div>
       {{ $t('teleport.receiveValue', [amount || 0, currency, toChainLabel]) }}
@@ -118,7 +118,7 @@
         {{ shortAddress(toAddress) }}
       </a>
     </div>
-  </section>
+  </form>
 </template>
 
 <script setup lang="ts">
