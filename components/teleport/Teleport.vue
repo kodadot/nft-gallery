@@ -12,7 +12,7 @@
       >{{ $t('teleport.howItWorks') }}
     </a>
 
-    <hr class="divider my-5" />
+    <hr class="my-5" />
 
     <div
       class="is-flex is-align-items-center is-justify-content-space-between networks">
@@ -468,16 +468,6 @@ const sendXCM = async () => {
   position: absolute;
   right: 2rem;
   top: 0.75rem;
-}
-
-.divider {
-  @include ktheme() {
-    background: theme('k-shade');
-  }
-
-  @include mobile {
-    width: 254px;
-  }
 }
 
 .networks {
