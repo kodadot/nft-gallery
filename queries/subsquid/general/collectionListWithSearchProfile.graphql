@@ -11,13 +11,24 @@ query collectionListWithSearch(
     orderBy: $orderBy
     limit: $first
     offset: $offset
-    where: { AND: $search, burned_eq: false }
+    where: { AND: $search }
   ) {
     ...collection
     ...collectionDetails
+    nfts(where: { burned_eq: false }) {
+      id
+      metadata
+      name
+      price
+      burned
+      currentOwner
+      events(where: { interaction_eq: BUY }) {
+        meta
+      }
+    }
   }
   stats: collectionEntitiesConnection(
-    where: { AND: $search, burned_eq: false }
+    where: { AND: $search }
     orderBy: blockNumber_DESC
   ) {
     totalCount

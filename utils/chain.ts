@@ -60,3 +60,5 @@ export const availablePrefixWithIcon = () => {
     }
   })
 }
+
+export const popularChains = ['ksm', 'ahk', 'ahp']

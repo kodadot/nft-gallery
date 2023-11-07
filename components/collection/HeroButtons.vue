@@ -98,13 +98,13 @@ import {
   NeoModal,
 } from '@kodadot1/brick'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
+import { Collections } from '@/composables/transaction/types'
 
 const route = useRoute()
-const { apiInstance } = useApi()
 const { isCurrentOwner, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 const { isAssetHub } = useIsChain(urlPrefix)
-const { $i18n } = useNuxtApp()
+const { $i18n, $updateLoader } = useNuxtApp()
 const { toast } = useToast()
 
 const collectionId = computed(() => route.params.id)
@@ -133,29 +133,30 @@ const QRModalActive = ref(false)
 const hashtags = 'KusamaNetwork,KodaDot'
 const sharingLabel = $i18n.t('sharing.collection')
 
+const { transaction } = useTransaction()
+
 const deleteCollection = async () => {
-  const id = route.params.id
-  const api = await apiInstance.value
-  const injector = await getAddress(toDefaultAddress(accountId.value))
+  $updateLoader(true)
+  const id = route.params.id.toString()
 
-  api.tx.nfts
-    .destroy(id.toString(), {
-      itemMetadatas: '0',
-      itemConfigs: '0',
-      attributes: '0',
-    })
-    .signAndSend(
-      accountId.value,
-      { signer: injector.signer },
-      async ({ status }) => {
-        if (status.isInBlock) {
-          toast($i18n.t('Collection Deleted'))
+  await transaction({
+    interaction: Collections.DELETE,
+    collectionId: id,
+  })
 
-          await delay(DETAIL_TIMEOUT)
-          navigateTo(`/${urlPrefix.value}/u/${accountId.value}?tab=collections`)
-        }
-      },
-    )
+  useSubscriptionGraphql({
+    query: `
+      collectionEntity: collectionEntityById(id: "${id}") {
+        id
+        burned
+      }
+    `,
+    onChange: ({ data }) => {
+      if (data.collectionEntity.burned) {
+        navigateTo(`/${urlPrefix.value}/u/${accountId.value}?tab=collections`)
+      }
+    },
+  })
 }
 </script>
 

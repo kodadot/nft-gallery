@@ -590,9 +590,9 @@
     "unlockable": {
       "phaseIntroduction": "We will have a 60-minute window every phase, each featuring only 10 exclusive items.",
       "readyIn": "Your mint will be ready in {0}, DO NOT CLOSE THIS WINDOW",
-      "mintLive": "Free Unlockable Mint Live",
-      "mintLiveSmall": "Free Unlockable Mint",
-      "takeMe": "Take Me There!",
+      "mintLive": "Free Generative Drop",
+      "mintLiveSmall": "Free Generative Drop",
+      "takeMe": "Claim Yours",
       "viewItem": "View Item",
       "preparing": "Preparing Your Item...",
       "alreadyMinted": "🎉 You already have this NFT, check it here",
@@ -1096,6 +1096,7 @@
     "newNftHeading": "New to NFTs?",
     "ksmArtistHeading": "KSM for artists",
     "socials": "Got any questions or want to stay in touch? Drop us a line via socials.",
+    "startExploring": "Start Exploring",
     "newNft": {
       "click": "Click {0} for a step by step guide!",
       "here": "here"
@@ -1279,6 +1280,7 @@
       "skip": "Skip",
       "next": "Next",
       "done": "Done",
+      "downloadTemplate": "Download file template",
       "cards": {
         "0": {
           "title": "Prepare all your files",
@@ -1379,6 +1381,7 @@
     "upcoming": "Upcoming",
     "noUpcoming": "Nothing  here yet...",
     "mintingLive": "Minting Live",
+    "mintingEnded": "Ended",
     "mintedBy": "Minted By",
     "mintPerAddress": "Each address can mint only once",
     "recentMints": "Recent NFT Mints"

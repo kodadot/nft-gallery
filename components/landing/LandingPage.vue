@@ -1,7 +1,8 @@
 <template>
   <div>
-    <section class="py-8 instance section-search">
-      <SearchLanding />
+    <section class="instance">
+      <LandingMobileHeroBanner v-if="isMobile" class="mt-6" />
+      <SearchLanding v-else class="my-8" />
     </section>
 
     <template v-if="showCarousel">
@@ -67,6 +68,7 @@ const forbiddenPrefixesForTopCollections: Prefix[] = [
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
+const { width } = useWindowSize()
 
 const showSignupBanner = computed(
   () => !preferencesStore.getSubscribedToNewsletter,
@@ -78,4 +80,5 @@ const showCarousel = computed(
 const showTopCollections = computed(
   () => !forbiddenPrefixesForTopCollections.includes(urlPrefix.value),
 )
+const isMobile = computed(() => width.value <= 480)
 </script>
