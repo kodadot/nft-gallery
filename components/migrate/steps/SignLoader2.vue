@@ -80,21 +80,12 @@ const startStep2 = async () => {
   try {
     // eslint-disable-next-line no-restricted-syntax
     for (let index = 0; index < iterations.value; index++) {
-      // TODO: proper api call
-      let checkSign
-      if (location.host.includes('localhost')) {
-        checkSign = await waifuApi(
-          `/relocations/${from}/${fromCollection?.id}/owners/${accountId.value}`,
-        )
-        // const checkSign = await import('./mock-ksm-step2.json')
-      } else {
-        checkSign = await waifuApi(
-          `/relocations/${from}/${fromCollection?.id}/iterations/${index}`,
-          {
-            method: 'PUT',
-          },
-        )
-      }
+      const checkSign = await waifuApi(
+        `/relocations/${from}/${fromCollection?.id}/iterations/${index}`,
+        {
+          method: 'PUT',
+        },
+      )
 
       const presigned = checkSign.data.map((item) => {
         const preSignInfo = api.createType('PalletNftsPreSignedMint', item.data)

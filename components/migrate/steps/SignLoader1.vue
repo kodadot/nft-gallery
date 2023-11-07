@@ -100,6 +100,14 @@ const fromCollection = collections.value.find(
   (collection) => collection.id === route.query.collectionId,
 )
 
+// TODO: error on orm side (kysely-d1)
+// const deleteRelocations = async () => {
+//   const relocationsId = `${from}-${fromAccountId}`
+//   return await waifuApi(`/relocations/${relocationsId}`, {
+//     method: 'DELETE',
+//   })
+// }
+
 const startStep1 = async () => {
   step1Iterations.value -= 1
   nextId.value = (await nextCollectionId())?.toString() || '0'
@@ -112,9 +120,10 @@ const startStep1 = async () => {
       chain: to,
       collection: nextId.value,
     },
-    // issuer: accountId.value,
-    issuer: fromAccountId,
+    issuer: fromAccountId, // accountId.value
   }
+
+  // await deleteRelocations()
 
   if (nextId.value && fromCollection?.metadata) {
     const createArgs = createArgsForNftPallet(accountId.value)

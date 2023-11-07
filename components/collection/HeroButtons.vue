@@ -153,6 +153,7 @@ const deleteCollection = async () => {
     `,
     onChange: ({ data }) => {
       if (data.collectionEntity.burned) {
+        $updateLoader(false)
         navigateTo(`/${urlPrefix.value}/u/${accountId.value}?tab=collections`)
       }
     },
