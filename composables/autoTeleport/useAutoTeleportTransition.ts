@@ -11,12 +11,12 @@ import type { AutoTeleportAction, AutoTeleportFeeParams } from './types'
 export default function ({
   actions,
   neededAmount,
-  teleportStatus,
+  autoTeleportStarted,
   fees,
 }: {
   actions: ComputedRef<AutoTeleportAction[]>
   neededAmount: ComputedRef<number>
-  teleportStatus: Ref<string>
+  autoTeleportStarted: Ref<boolean>
   fees: AutoTeleportFeeParams
 }) {
   const { urlPrefix } = usePrefix()
@@ -42,7 +42,7 @@ export default function ({
   )
 
   watchSyncEffect(() => {
-    if (teleportStatus.value === TransactionStatus.Finalized) {
+    if (autoTeleportStarted.value) {
       return
     }
 

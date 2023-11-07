@@ -12,6 +12,8 @@ export default function (
   neededAmount: ComputedRef<number>,
   fees: AutoTeleportFeeParams,
 ) {
+  const autoTeleportStarted = ref(false)
+
   const {
     teleport: sendXCM,
     getAddressByChain,
@@ -30,7 +32,7 @@ export default function (
     actions,
     neededAmount,
     fees,
-    teleportStatus,
+    autoTeleportStarted,
   })
 
   const { transactionActions, clear: clearActions } =
@@ -41,6 +43,7 @@ export default function (
     teleportStatus.value = TransactionStatus.Unknown
     teleportIsError.value = false
     teleportTxId.value = ''
+    autoTeleportStarted.value = false
   }
 
   const transactions = computed<AutoTeleportTransactions>(() => ({
@@ -58,6 +61,8 @@ export default function (
     if (!source) {
       return
     }
+
+    autoTeleportStarted.value = true
 
     await sendXCM({
       amount: amount,
