@@ -139,6 +139,7 @@ const deleteCollection = async () => {
 
   await transaction({
     interaction: Collections.DELETE,
+    urlPrefix: urlPrefix.value,
     collectionId: id,
   })
 
