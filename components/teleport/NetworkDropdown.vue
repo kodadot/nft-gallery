@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full">
+  <div>
     <NeoDropdown class="w-full">
       <template #trigger="{ active }">
         <NeoButton
