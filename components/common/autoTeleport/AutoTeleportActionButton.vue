@@ -49,13 +49,19 @@
       @click="submit" />
 
     <div v-if="showAutoTeleport" class="is-flex is-justify-content-center mt-4">
-      <span v-if="hasAvailableTeleportTransition" class="has-text-grey">{{
-        $t('or')
-      }}</span>
-
-      <a class="ml-2" @click="onRampActive = true"
-        >+ {{ $t('autoTeleport.addFundsViaOnramp') }}</a
+      <span
+        v-if="hasAvailableTeleportTransition"
+        class="has-text-grey is-capitalized"
+        >{{ $t('or') }}</span
       >
+
+      <NeoButton
+        variant="text"
+        no-shadow
+        class="ml-2"
+        @click="onRampActive = true"
+        >+ {{ $t('autoTeleport.addFundsViaOnramp') }}
+      </NeoButton>
     </div>
   </div>
 
