@@ -23,14 +23,14 @@
       <div class="v-border"></div>
       <div class="mb-4 is-flex">
         <div class="mr-4">
-          <NeoIcon v-if="retry === 0" v-bind="iconSuccess" />
+          <NeoIcon v-if="step1Iterations === 0" v-bind="iconSuccess" />
           <NeoIcon v-else-if="step1Iterations === 1" v-bind="iconLoading" />
           <NeoIcon v-else v-bind="iconIdle" />
         </div>
         <div>
           <p>Create Collection</p>
           <nuxt-link
-            v-if="retry === 0"
+            v-if="step1Iterations === 0"
             target="_blank"
             class="has-text-k-blue"
             :to="`/${client}/collection/${nextId}`">
@@ -44,7 +44,6 @@
       <div class="mb-4 is-flex">
         <div class="mr-4">
           <NeoIcon v-if="step1Iterations === 0" v-bind="iconSuccess" />
-          <NeoIcon v-else-if="retry === 0" v-bind="iconLoading" />
           <NeoIcon v-else v-bind="iconIdle" />
         </div>
         <div>
@@ -99,13 +98,12 @@ const fromCollection = collections.value.find(
   (collection) => collection.id === route.query.collectionId,
 )
 
-// TODO: error on orm side (kysely-d1)
-// const deleteRelocations = async () => {
-//   const relocationsId = `${from}-${fromAccountId}`
-//   return await waifuApi(`/relocations/${relocationsId}`, {
-//     method: 'DELETE',
-//   })
-// }
+const deleteRelocations = async () => {
+  const relocationsId = `${from}-${fromAccountId}`
+  return await waifuApi(`/relocations/${relocationsId}`, {
+    method: 'DELETE',
+  })
+}
 
 const startStep1 = async () => {
   step1Iterations.value -= 1
@@ -122,7 +120,7 @@ const startStep1 = async () => {
     issuer: fromAccountId, // accountId.value
   }
 
-  // await deleteRelocations()
+  await deleteRelocations()
 
   if (nextId.value && fromCollection?.metadata) {
     const createArgs = createArgsForNftPallet(accountId.value)
