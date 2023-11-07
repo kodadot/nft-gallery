@@ -110,11 +110,11 @@ const txUrl = computed(() => {
   }
 
   if (props.step.txId) {
-    return getExtrinsicUrl(props.step.txId || '', props.step.prefix)
+    return getExtrinsicUrl(props.step.txId, props.step.prefix)
   }
 
   if (props.step.blockNumber) {
-    return getBlockUrl(props.step.blockNumber || '', props.step.prefix)
+    return getBlockUrl(props.step.blockNumber, props.step.prefix)
   }
 
   return '#'
