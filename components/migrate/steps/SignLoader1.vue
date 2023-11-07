@@ -68,7 +68,6 @@ import {
 } from '@/components/migrate/utils'
 import { useStatemineNewCollectionId } from '@/composables/transaction/mintCollection/useNewCollectionId'
 import { createArgsForNftPallet } from '@/composables/transaction/mintCollection/utils'
-import resolveQueryPath from '@/utils/queryPathResolver'
 import waifuApi from '@/services/waifu'
 
 const { accountId } = useAuth()
@@ -153,40 +152,34 @@ const startStep1 = async () => {
 
 const validationStep1 = async () => {
   step1Iterations.value -= 1
-  retry.value = 0
 
   try {
     await waifuApi('/relocations', {
       method: 'POST',
       body: relocationsBody.value,
-    }).then(() => {
-      updateSteps('step2')
     })
+    updateSteps('step2')
   } catch (error) {
     $consola.log(error)
   }
 }
 
-type NftId = {
-  collectionEntities?: {
-    id: string
-  }[]
-}
-
 async function checkCollection() {
-  const query = await resolveQueryPath(client.value, 'collectionByIds')
-  const { data }: { data: Ref<NftId> } = await useAsyncQuery({
-    query: query.default,
-    clientId: client.value,
-    variables: {
-      ids: [nextId.value],
+  useSubscriptionGraphql({
+    query: `
+      collection: collectionEntityById(id: "${nextId.value}") {
+        id
+        burned
+      }
+    `,
+    onChange: ({ data }) => {
+      $consola.log({ collectionId: data.collection })
+      if (data.collection?.id) {
+        validationStep1()
+      }
     },
   })
-
-  return data.value.collectionEntities?.[0]?.id
 }
-
-const retry = ref(20)
 
 watchEffect(async () => {
   $consola.log('SignLoader1.vue', steps.value, status.value)
@@ -198,18 +191,9 @@ watchEffect(async () => {
   // make sure collection exist before to validationStep1()
   if (
     steps.value === 'step1-check-id' &&
-    status.value === TransactionStatus.Finalized &&
-    retry.value
+    status.value === TransactionStatus.Finalized
   ) {
-    await delay(DETAIL_TIMEOUT)
-    const collectionId = await checkCollection()
-    $consola.log({ collectionId })
-
-    if (collectionId) {
-      validationStep1()
-    } else {
-      retry.value -= 1
-    }
+    await checkCollection()
   }
 })
 
