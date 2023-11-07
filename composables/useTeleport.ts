@@ -81,6 +81,7 @@ export default function (fetchBalancePeriodically: boolean = false) {
           notificationTypes.success,
         )
         status.value = TransactionStatus.Finalized
+        isLoading.value = false
 
         if (onSuccess) {
           onSuccess(blockHash)
