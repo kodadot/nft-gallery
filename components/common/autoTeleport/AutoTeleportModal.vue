@@ -253,4 +253,10 @@ watch(actionsFinalized, () => {
   max-height: 50vh;
   overflow-y: auto;
 }
+
+@include mobile() {
+  .modal-width {
+    width: unset;
+  }
+}
 </style>
