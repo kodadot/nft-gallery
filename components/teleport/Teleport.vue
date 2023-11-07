@@ -61,6 +61,7 @@
         <NeoInput
           v-model="amount"
           root-class="w-full"
+          input-class="pr-2"
           step="0.01"
           type="number"
           placeholder="Enter Amount"
