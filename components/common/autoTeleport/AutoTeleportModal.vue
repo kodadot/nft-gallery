@@ -153,6 +153,7 @@ const steps = computed<TransactionStep[]>(() => {
         status: action.status.value,
         isError: action.isError.value,
         txId: action.txId.value,
+        blockNumber: action.blockNumber?.value,
         isLoading: action.isLoading.value,
         prefix: props.transition.destination?.prefix,
         withAction: true,

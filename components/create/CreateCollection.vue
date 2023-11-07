@@ -198,7 +198,8 @@ withDefaults(
 )
 
 // composables
-const { transaction, status, isLoading, isError } = useTransaction()
+const { transaction, status, isLoading, isError, blockNumber } =
+  useTransaction()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { $consola, $i18n } = useNuxtApp()
 const { isLogIn } = useAuth()
@@ -337,6 +338,7 @@ const actions = computed<AutoTeleportAction[]>(() => [
       isLoading: isLoading.value,
       isError: isError.value,
       status: status.value,
+      blockNumber: blockNumber.value,
     },
   },
 ])

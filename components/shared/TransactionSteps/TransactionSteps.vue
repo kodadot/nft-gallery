@@ -28,6 +28,7 @@ import { type Prefix } from '@kodadot1/static'
 
 export type TransactionStep = {
   txId?: string | null
+  blockNumber?: string | null
   isError?: boolean
   status?: TransactionStatus
   stepStatus?: TransactionStepStatus
@@ -83,6 +84,7 @@ const getStepItem = (
 ): TransactionStepItem => {
   const baseStep = {
     txId: step.txId,
+    blockNumber: step.blockNumber,
     isError: step.isError,
     prefix: step.prefix,
     isActive: step.isActive,

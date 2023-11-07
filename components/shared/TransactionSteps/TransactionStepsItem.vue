@@ -64,7 +64,7 @@
         </div>
       </div>
       <div
-        v-if="isCompleted && step.txId && isChild"
+        v-if="isCompleted && isChild && (step.txId || step.blockNumber)"
         class="is-flex-shrink-0 ml-4">
         <a
           v-safe-href="txUrl"
@@ -86,6 +86,7 @@ import { type Prefix } from '@kodadot1/static'
 
 export type TransactionStepItem = {
   txId: string | null
+  blockNumber: string | null
   isError: boolean
   status: TransactionStepStatus
   title: string
@@ -102,12 +103,22 @@ const props = defineProps<{
   withAction?: boolean
 }>()
 
-const { getExtrinsicUrl } = useExplorer()
-const txUrl = computed(() =>
-  props.step.prefix
-    ? getExtrinsicUrl(props.step.txId || '', props.step.prefix)
-    : '',
-)
+const { getExtrinsicUrl, getBlockUrl } = useExplorer()
+const txUrl = computed(() => {
+  if (!props.step.prefix) {
+    return '#'
+  }
+
+  if (props.step.txId) {
+    return getExtrinsicUrl(props.step.txId || '', props.step.prefix)
+  }
+
+  if (props.step.blockNumber) {
+    return getBlockUrl(props.step.blockNumber || '', props.step.prefix)
+  }
+
+  return '#'
+})
 
 const status = computed(() => props.step.status)
 const iconSize = computed(() => (props.isChild ? 'medium' : 'large'))

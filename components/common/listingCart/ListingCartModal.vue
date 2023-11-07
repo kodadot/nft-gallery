@@ -85,7 +85,8 @@ const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
 const { $i18n } = useNuxtApp()
-const { transaction, isLoading, status, isError } = useTransaction()
+const { transaction, isLoading, status, isError, blockNumber } =
+  useTransaction()
 
 const { chainSymbol, decimals } = useChain()
 
@@ -112,6 +113,7 @@ const actions = computed<AutoTeleportAction[]>(() => [
       isLoading: isLoading.value,
       status: status.value,
       isError: isError.value,
+      blockNumber: blockNumber.value,
     },
   },
 ])

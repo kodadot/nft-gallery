@@ -22,7 +22,8 @@ import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTe
 import { warningMessage } from '@/utils/notification'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 
-const { transaction, status, isLoading, isError } = useTransaction()
+const { transaction, status, isLoading, isError, blockNumber } =
+  useTransaction()
 const { urlPrefix } = usePrefix()
 const shoppingCartStore = useShoppingCartStore()
 const preferencesStore = usePreferencesStore()
@@ -37,6 +38,7 @@ const autoteleportAction = computed<AutoTeleportAction>(() => ({
     status: status.value,
     isLoading: isLoading.value,
     isError: isError.value,
+    blockNumber: blockNumber.value,
   },
 }))
 

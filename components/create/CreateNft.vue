@@ -428,6 +428,7 @@ const {
   isLoading: listIsLoading,
   isError: listIsError,
   status: listStatus,
+  blockNumber: listBlockNumber,
 } = useTransaction()
 
 const autoTeleportActions = computed<AutoTeleportAction[]>(() => {
@@ -440,6 +441,7 @@ const autoTeleportActions = computed<AutoTeleportAction[]>(() => {
         isLoading: isLoading.value,
         isError: isError.value,
         status: status.value,
+        blockNumber: blockNumber.value,
       },
     },
   ]
@@ -458,6 +460,7 @@ const autoTeleportActions = computed<AutoTeleportAction[]>(() => {
         isLoading: listIsLoading.value,
         isError: listIsError.value,
         status: listStatus.value,
+        blockNumber: listBlockNumber.value,
       },
     })
   }
