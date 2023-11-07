@@ -50,7 +50,7 @@
         </NeoDropdown>
 
         <NeoDropdown
-          v-if="isOwner && isAssetHub"
+          v-if="isOwner"
           position="bottom-left"
           append-to-body
           :mobile-modal="false">
@@ -103,7 +103,6 @@ import { Collections } from '@/composables/transaction/types'
 const route = useRoute()
 const { isCurrentOwner, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
-const { isAssetHub } = useIsChain(urlPrefix)
 const { $i18n, $updateLoader } = useNuxtApp()
 const { toast } = useToast()
 
