@@ -52,17 +52,19 @@
       </div>
     </div>
 
-    <div class="is-flex is-flex-direction-column">
-      <div class="mb-3 mt-5">{{ $t('teleport.amount') }}</div>
+    <NeoField class="mt-5">
+      <template #label>
+        <div class="font-normal">{{ $t('teleport.amount') }}</div>
+      </template>
 
-      <div class="is-relative amount-input">
+      <div class="is-relative w-full">
         <NeoInput
           v-model="amount"
+          root-class="w-full"
           step="0.01"
           type="number"
           placeholder="Enter Amount"
           :min="0" />
-
         <div class="is-absolute-right">
           <span
             v-if="totalFiatValue"
@@ -72,23 +74,23 @@
           {{ currency }}
         </div>
       </div>
+    </NeoField>
 
-      <div
-        v-if="myBalance !== undefined"
-        class="is-size-7 is-flex is-justify-content-end is-align-items-center">
-        <span class="is-flex is-align-items-center">
-          <span class="mr-2">{{ $t('general.balance') }}:</span
-          >{{ myBalanceWithoutDivision.toFixed(4) }}{{ currency }}
-        </span>
-        <NeoButton
-          no-shadow
-          rounded
-          size="small"
-          class="ml-2"
-          @click="handleMaxClick"
-          >{{ $t('teleport.max') }}</NeoButton
-        >
-      </div>
+    <div
+      v-if="myBalance !== undefined"
+      class="is-size-7 is-flex is-justify-content-end is-align-items-center">
+      <span class="is-flex is-align-items-center">
+        <span class="mr-2">{{ $t('general.balance') }}:</span
+        >{{ myBalanceWithoutDivision.toFixed(4) }}{{ currency }}
+      </span>
+      <NeoButton
+        no-shadow
+        rounded
+        size="small"
+        class="ml-2"
+        @click="handleMaxClick"
+        >{{ $t('teleport.max') }}</NeoButton
+      >
     </div>
 
     <NeoButton
@@ -142,7 +144,7 @@ import {
 import { txCb } from '@/utils/transactionExecutor'
 import NeoInput from '~/libs/ui/src/components/NeoInput/NeoInput.vue'
 import NetworkDropdown from './NetworkDropdown.vue'
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoField } from '@kodadot1/brick'
 import { blockExplorerOf } from '@/utils/config/chain.config'
 import { simpleDivision } from '@/utils/balance'
 import { useFiatStore } from '@/stores/fiat'
@@ -466,10 +468,6 @@ const sendXCM = async () => {
   top: 0.75rem;
 }
 
-.amount-input {
-  margin-bottom: 10px;
-}
-
 .divider {
   @include ktheme() {
     background: theme('k-shade');
@@ -530,5 +528,9 @@ const sendXCM = async () => {
   .network-arrow:before {
     background: $background-dark;
   }
+}
+
+.font-normal {
+  font-weight: normal;
 }
 </style>
