@@ -54,7 +54,7 @@
 
     <NeoField class="mt-5">
       <template #label>
-        <div class="font-normal">{{ $t('teleport.amount') }}</div>
+        <div class="has-text-weight-normal">{{ $t('teleport.amount') }}</div>
       </template>
 
       <div class="is-relative w-full">
@@ -101,7 +101,8 @@
           : 'Proceed To Confirmation'
       "
       size="large"
-      class="is-size-6 submit-button my-5 w-full"
+      class="is-size-6 my-5"
+      expanded
       :loading="isLoading"
       :disabled="isDisabledButton"
       variant="k-accent"
@@ -529,9 +530,5 @@ const sendXCM = async () => {
   .network-arrow:before {
     background: $background-dark;
   }
-}
-
-.font-normal {
-  font-weight: normal;
 }
 </style>
