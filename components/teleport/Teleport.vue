@@ -109,7 +109,7 @@ const {
   isLoading,
   getAddressByChain,
   getChainTokenDecimals,
-} = useTeleport()
+} = useTeleport(true)
 
 const fiatStore = useFiatStore()
 const fromChain = ref(Chain.KUSAMA) //Selected origin parachain
