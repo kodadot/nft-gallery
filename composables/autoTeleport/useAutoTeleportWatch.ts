@@ -32,8 +32,11 @@ export default function ({
 
   watch(
     () => transactions.value.teleport.status.value,
-    (teleportStatus) => {
-      if (teleportStatus === TransactionStatus.Finalized) {
+    (teleportStatus, prevStatus) => {
+      if (
+        teleportStatus === TransactionStatus.Finalized &&
+        prevStatus !== TransactionStatus.Finalized
+      ) {
         resume()
       }
     },

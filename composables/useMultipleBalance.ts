@@ -153,13 +153,17 @@ export default function (refetchPeriodically: boolean = false) {
     }
   })
 
-  useIntervalFn(
+  const { pause: clearInterval } = useIntervalFn(
     () => {
       fetchMultipleBalance()
     },
     30000,
-    { immediateCallback: refetchPeriodically },
+    { immediate: refetchPeriodically, immediateCallback: refetchPeriodically },
   )
+
+  onUnmounted(() => {
+    clearInterval()
+  })
 
   return {
     multiBalances,
