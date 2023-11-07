@@ -158,7 +158,7 @@ export default function (refetchPeriodically: boolean = false) {
       fetchMultipleBalance()
     },
     30000,
-    { immediate: refetchPeriodically },
+    { immediateCallback: refetchPeriodically },
   )
 
   return {

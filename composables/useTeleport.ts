@@ -19,7 +19,7 @@ export type TeleportParams = {
   currency: string
 }
 
-export default function () {
+export default function (fetchBalancePeriodically: boolean = false) {
   const isError = ref<boolean>(false)
   const txId = ref<string | null>(null)
 
@@ -29,7 +29,9 @@ export default function () {
   const { assets } = usePrefix()
   const { decimalsOf } = useChain()
   const { urlPrefix } = usePrefix()
-  const { fetchMultipleBalance, multiBalances } = useMultipleBalance()
+  const { fetchMultipleBalance, multiBalances } = useMultipleBalance(
+    fetchBalancePeriodically,
+  )
 
   const chainBalances = {
     [Chain.KUSAMA]: () => multiBalances.value.chains.kusama?.ksm?.nativeBalance,
