@@ -58,7 +58,6 @@
       <div class="is-relative amount-input">
         <NeoInput
           v-model="amount"
-          class=""
           step="0.01"
           type="number"
           placeholder="Enter Amount"
