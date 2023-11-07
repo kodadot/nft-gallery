@@ -24,7 +24,9 @@ export const iconSuccess = {
   class: 'has-text-k-green',
 }
 
-export function calculateIterations(itemCount = '0', batchSize = 200) {
+export const BATCH_SIZE = 200
+
+export function calculateIterations(itemCount = '0', batchSize = BATCH_SIZE) {
   const items = parseInt(itemCount || '0')
 
   if (items <= 0 || batchSize <= 0) {

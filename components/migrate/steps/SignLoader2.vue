@@ -23,15 +23,15 @@
         <p v-else>Done</p>
       </div>
     </div>
-    <div class="is-flex is-size-7">
+    <div
+      v-for="(iteration, index) in maxIterations"
+      :key="index"
+      class="is-flex is-size-7">
       <div class="v-border"></div>
-      <div
-        v-for="(iteration, index) in maxIterations"
-        :key="index"
-        class="mb-4 is-flex">
-        <!-- <NeoIcon v-bind="iconIdle" class="mr-4" /> -->
+      <div class="mb-4 is-flex">
+        <NeoIcon v-bind="itemLeftIcons(index)" class="mr-4" />
         <div>
-          <p>Migrating {{ itemCount }} Items</p>
+          <p>Migrating {{ itemLeft(index) }} Items</p>
         </div>
       </div>
     </div>
@@ -42,6 +42,7 @@
 import type { Prefix } from '@kodadot1/static'
 import { NeoIcon } from '@kodadot1/brick'
 import {
+  BATCH_SIZE,
   type Steps,
   calculateIterations,
   iconIdle,
@@ -76,6 +77,30 @@ const maxIterations = calculateIterations(itemCount)
 const iterations = ref(maxIterations)
 const batchPresigned = reactive({})
 
+const itemLeft = (index) => {
+  if (index === maxIterations - 1) {
+    return parseInt(itemCount || '0') % BATCH_SIZE
+  }
+
+  return BATCH_SIZE
+}
+
+const itemLeftIcons = (index) => {
+  if (steps.value.includes('init') || steps.value.includes('step1')) {
+    return iconIdle
+  }
+
+  if (iterations.value < maxIterations - index) {
+    return iconSuccess
+  }
+
+  if (iterations.value <= maxIterations - index) {
+    return iconLoading
+  }
+
+  return iconIdle
+}
+
 const startStep2 = async () => {
   try {
     // eslint-disable-next-line no-restricted-syntax
@@ -105,20 +130,31 @@ const startStep2 = async () => {
 
     executeStep2()
   } catch (error) {
-    console.error('error step2', error)
+    $consola.error('error step2', error)
   }
 }
 
-const executeStep2 = async (index = 0) => {
+const executeStep2 = async () => {
   updateSteps('step2-migrate')
-  status.value = TransactionStatus.Unknown
 
-  const cb = api.tx.utility.batch
-  const args = [toRaw(batchPresigned[index])]
+  if (iterations.value && status.value === TransactionStatus.Finalized) {
+    iterations.value -= 1
+  }
 
-  await howAboutToExecute(accountId.value, cb, args)
+  if (status.value && status.value !== TransactionStatus.Finalized) {
+    await delay(DETAIL_TIMEOUT)
+    executeStep2()
+    return
+  }
 
-  // TODO: call executeStep2() again based on iterations
+  if (iterations.value) {
+    const cb = api.tx.utility.batch
+    const args = [toRaw(batchPresigned[maxIterations - iterations.value])]
+
+    await howAboutToExecute(accountId.value, cb, args)
+    await delay(DETAIL_TIMEOUT)
+    executeStep2()
+  }
 }
 
 watchEffect(() => {
@@ -128,15 +164,13 @@ watchEffect(() => {
     startStep2()
   }
 
+  // Done, move to step3
   if (
     steps.value === 'step2-migrate' &&
+    !iterations.value &&
     status.value === TransactionStatus.Finalized
   ) {
-    iterations.value -= 1
-
-    if (iterations.value === 0) {
-      updateSteps('step3')
-    }
+    updateSteps('step3')
   }
 })
 </script>
