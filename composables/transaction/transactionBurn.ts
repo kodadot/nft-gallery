@@ -8,6 +8,7 @@ import type {
   ActionDeleteCollection,
   ExecuteTransactionParams,
 } from '@/composables/transaction/types'
+import type { PalletNftsDestroyWitness } from '@polkadot/types/lookup'
 
 import { warningMessage } from '@/utils/notification'
 
@@ -97,7 +98,13 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
   }
 }
 
-export function execBurnCollection(
+type DestroyWitness = {
+  itemMetadatas?: PalletNftsDestroyWitness['itemMetadatas']
+  itemConfigs?: PalletNftsDestroyWitness['itemConfigs']
+  attributes?: PalletNftsDestroyWitness['attributes']
+}
+
+export async function execBurnCollection(
   params: ActionDeleteCollection,
   api: ApiPromise,
   executeTransaction: ({
@@ -109,10 +116,18 @@ export function execBurnCollection(
 ) {
   try {
     const cb = api.tx.nfts.destroy
+    const witness = (
+      await api.query.nfts.collection(params.collectionId)
+    ).toJSON() as DestroyWitness
+    const witnessArg = {
+      itemMetadatas: witness?.itemMetadatas,
+      itemConfigs: witness?.itemConfigs,
+      attributes: witness?.attributes,
+    }
 
     executeTransaction({
       cb,
-      arg: [params.collectionId.toString(), {}],
+      arg: [params.collectionId.toString(), witnessArg || {}],
     })
   } catch (error) {
     warningMessage(error)
