@@ -1170,7 +1170,8 @@
   "moreActions": {
     "download": "Download",
     "reportCollection": "Report Collection",
-    "delete": "Delete",
+    "deleteCollection": "Delete Collection",
+    "deleteNfts": "Delete NFTs",
     "customize": "Customize"
   },
   "collectionCard": {

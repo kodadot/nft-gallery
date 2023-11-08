@@ -14,13 +14,14 @@
     "experimentalDecorators": true,
     "noImplicitAny": false,
     "resolveJsonModule": true,
+    "verbatimModuleSyntax": false,
     "types": [
       "@nuxt/types",
       "@nuxtjs/i18n",
       "@nuxtjs/color-mode",
       "@types/node",
       "vue-apollo",
-      "vitest/globals",
+      "vitest/globals"
     ]
   },
   "exclude": ["node_modules", "dist", "**/*.spec.ts"]

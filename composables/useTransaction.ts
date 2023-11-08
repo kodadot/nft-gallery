@@ -9,7 +9,11 @@ import { ShoppingActions } from '@/utils/shoppingActions'
 import { execBuyTx } from './transaction/transactionBuy'
 import { execListTx } from './transaction/transactionList'
 import { execSendTx } from './transaction/transactionSend'
-import { execBurnCollection, execBurnTx } from './transaction/transactionBurn'
+import {
+  execBurnCollection,
+  execBurnMultiple,
+  execBurnTx,
+} from './transaction/transactionBurn'
 import { execMakeOfferTx } from './transaction/transactionOffer'
 import { execWithdrawOfferTx } from './transaction/transactionOfferWithdraw'
 import { execAcceptOfferTx } from './transaction/transactionOfferAccept'
@@ -17,6 +21,7 @@ import { execMintToken } from './transaction/transactionMintToken'
 
 import {
   ActionAcceptOffer,
+  ActionBurnMultipleNFTs,
   ActionBuy,
   ActionConsume,
   ActionDeleteCollection,
@@ -29,6 +34,7 @@ import {
   Actions,
   Collections,
   ExecuteTransactionParams,
+  NFTs,
   ObjectMessage,
 } from './transaction/types'
 import { execMintCollection } from './transaction/transactionMintCollection'
@@ -164,6 +170,12 @@ export const useTransaction = () => {
       [Collections.DELETE]: () =>
         execBurnCollection(
           item as ActionDeleteCollection,
+          api,
+          executeTransaction,
+        ),
+      [NFTs.BURN_MULTIPLE]: () =>
+        execBurnMultiple(
+          item as ActionBurnMultipleNFTs,
           api,
           executeTransaction,
         ),
