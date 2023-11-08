@@ -76,6 +76,7 @@ const { nextCollectionId } = useStatemineNewCollectionId()
 const { howAboutToExecute, status } = useMetaTransaction()
 const { $consola } = useNuxtApp()
 const route = useRoute()
+const router = useRouter()
 
 const to = route.query.destination as Prefix
 const from = route.query.source as Prefix
@@ -157,6 +158,12 @@ const validationStep1 = async () => {
       body: relocationsBody.value,
     })
     updateSteps('step2')
+    router.push({
+      query: {
+        ...route.query,
+        nextCollectionId: nextId.value,
+      },
+    })
   } catch (error) {
     $consola.log(error)
   }
@@ -172,6 +179,7 @@ async function checkCollection() {
     `,
     onChange: ({ data }) => {
       $consola.log({ collectionId: data.collection })
+
       if (data.collection?.id) {
         validationStep1()
       }

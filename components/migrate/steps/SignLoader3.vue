@@ -78,11 +78,14 @@ const { data } = useGraphql({
 })
 
 const burnItems = async (ids: string[]) => {
-  await transaction({
-    interaction: NFTs.BURN_MULTIPLE,
-    nftIds: ids,
-    urlPrefix: from,
-  })
+  await transaction(
+    {
+      interaction: NFTs.BURN_MULTIPLE,
+      nftIds: ids,
+      urlPrefix: from,
+    },
+    from,
+  )
   updateSteps('step3-burn')
 }
 
