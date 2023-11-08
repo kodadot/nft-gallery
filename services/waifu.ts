@@ -1,6 +1,7 @@
 import { $fetch, FetchError } from 'ofetch'
 import type { DropItem } from '@/params/types'
-const WAIFU_BASE_URL = 'https://waifu-me.kodadot.workers.dev'
+// const WAIFU_BASE_URL = 'https://waifu-me.kodadot.workers.dev'
+const WAIFU_BASE_URL = 'https://waifu-me.preschian-cdn.workers.dev/'
 
 const table = 'mints'
 // const campaign = 'corn'
