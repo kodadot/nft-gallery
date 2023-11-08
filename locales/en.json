@@ -526,7 +526,7 @@
         "message": "Name of your NFT. It will be visible in the gallery"
       },
       "description": {
-        "label": "NFT description",
+        "label": "Description",
         "placeholder": "Enter NFT description",
         "message": "Description of your NFT. Markdown is supported"
       },
