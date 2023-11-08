@@ -3,6 +3,7 @@
     <div
       v-for="(attribute, index) in attributes"
       :key="index"
+      :data-testid="`attr-${index}`"
       class="custom-attribute-input my-4">
       <AttributeInput
         v-model:trait_type="attributes[index].trait_type"
@@ -15,6 +16,7 @@
       class="my-4"
       :disabled="disabled"
       icon-left="plus"
+      data-testid="button-add-attribute"
       @click="addAttribute">
       Add Attribute
     </NeoButton>
