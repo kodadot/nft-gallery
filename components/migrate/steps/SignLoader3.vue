@@ -2,12 +2,7 @@
   <div class="mb-5">
     <div class="is-flex is-align-items-center mb-4">
       <div class="mr-5">
-        <NeoIcon v-if="steps === 'step4'" v-bind="iconSuccess" class="fa-2x" />
-        <NeoIcon
-          v-else-if="steps === 'step3-burn'"
-          v-bind="iconLoading"
-          class="fa-2x" />
-        <NeoIcon v-else v-bind="iconIdle" class="fa-2x" />
+        <NeoIcon v-bind="whichIcon()" class="fa-2x" />
       </div>
       <div>
         <p class="has-text-weight-bold">Finalization</p>
@@ -23,12 +18,7 @@
     <div class="is-flex is-size-7">
       <div class="v-border"></div>
       <div class="mb-4 is-flex">
-        <NeoIcon v-if="steps === 'step4'" v-bind="iconIdle" class="mr-4" />
-        <NeoIcon
-          v-else-if="steps === 'step3-burn'"
-          v-bind="iconIdle"
-          class="mr-4" />
-        <NeoIcon v-else v-bind="iconIdle" class="mr-4" />
+        <NeoIcon v-bind="whichIcon()" class="mr-4" />
         <div>
           <p>Finalizing {{ itemCount }} Items</p>
         </div>
@@ -114,4 +104,16 @@ watchEffect(() => {
     congratsPage()
   }
 })
+
+const whichIcon = () => {
+  if (steps.value === 'step4') {
+    return iconSuccess
+  }
+
+  if (steps.value === 'step3-burn') {
+    return iconLoading
+  }
+
+  return iconIdle
+}
 </script>

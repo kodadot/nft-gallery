@@ -191,7 +191,7 @@ export async function execBurnCollection(
 
     executeTransaction({
       cb,
-      arg: [params.collectionId.toString(), witnessArg || {}],
+      arg: [params.collectionId.toString(), witnessArg],
     })
   } catch (error) {
     warningMessage(error)
