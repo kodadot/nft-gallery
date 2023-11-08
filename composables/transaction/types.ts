@@ -174,6 +174,17 @@ export interface ActionMintCollection {
   errorMessage?: string
 }
 
+export enum Collections {
+  DELETE = 'delete',
+}
+
+export interface ActionDeleteCollection {
+  interaction: Collections.DELETE
+  collectionId: string
+  successMessage?: string | ((blockNumber: string) => string)
+  errorMessage?: string
+}
+
 export type Actions =
   | ActionBuy
   | ActionList
@@ -183,3 +194,4 @@ export type Actions =
   | ActionWithdrawOffer
   | ActionMintToken
   | ActionMintCollection
+  | ActionDeleteCollection

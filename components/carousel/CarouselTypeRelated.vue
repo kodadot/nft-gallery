@@ -1,9 +1,11 @@
 <template>
-  <div ref="target"></div>
-  <CarouselIndex
-    v-if="nfts && targetIsVisible"
-    :title="`${$t('nft.related')}`"
-    :nfts="nfts" />
+  <div>
+    <div ref="target"></div>
+    <CarouselIndex
+      v-if="nfts && targetIsVisible"
+      :title="`${$t('nft.related')}`"
+      :nfts="nfts" />
+  </div>
 </template>
 
 <script lang="ts" setup>

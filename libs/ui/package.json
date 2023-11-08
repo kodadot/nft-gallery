@@ -10,20 +10,20 @@
     "story:preview": "histoire preview"
   },
   "devDependencies": {
-    "@histoire/plugin-vue": "^0.17.1",
+    "@histoire/plugin-vue": "^0.17.4",
     "@oruga-ui/oruga-next": "^0.7.0",
     "@vitejs/plugin-vue": "^4.4.0",
-    "eslint": "^8.52.0",
+    "eslint": "^8.53.0",
     "eslint-plugin-vue": "^8.7.1",
-    "histoire": "^0.17.2",
+    "histoire": "^0.17.4",
     "vite": "^4.5.0"
   },
   "dependencies": {
     "@google/model-viewer": "^3.3.0",
     "@vueuse/core": "^9.13.0",
     "bulma": "0.9.4",
-    "three": "^0.157.0",
-    "vue": "^3.3.6",
+    "three": "^0.158.0",
+    "vue": "^3.3.8",
     "vue-audio-visual": "2.5.0"
   }
 }
