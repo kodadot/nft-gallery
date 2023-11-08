@@ -30,9 +30,6 @@
   .columns {
     padding: 5.25rem 0;
 
-    @include ktheme() {
-      background-color: theme('k-primaryLight');
-    }
   }
 }
 
@@ -77,5 +74,26 @@
   .hidden-sale-label {
     background: linear-gradient(90deg, #ffffff 30%, #ff7ac3 100%);
     background-clip: text;
+  }
+}
+
+.collection {
+ 
+  &__option {
+    .imag {
+      padding: 10px;
+      width: 25px;
+      height: 25px;
+      border: 1px solid black;  
+    }
+  }
+
+  &__option--set {
+    .imag {
+      @include ktheme() {
+        background: radial-gradient(ellipse at bottom, rgba(theme('k-blue'), 0.5), rgba(theme('k-blue'), 0.8) 50%);
+        box-shadow: 0px 0px 10px 10px rgba(theme('k-blue'), 0.2);
+      }
+    }
   }
 }

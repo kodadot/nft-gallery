@@ -62,18 +62,38 @@
         ref="chooseCollectionRef"
         :label="`${$t('mint.nft.collection.label')} *`"
         @click="startSelectedCollection = true">
-        <div class="w-100">
-          <p
-            :class="{
-              'has-text-danger': startSelectedCollection && !selectedCollection,
-            }">
-            {{ $t('mint.nft.collection.message') }}
+        <div>
+          <div
+            class="w-100 is-flex is-justify-content-space-between collection__option"
+            :class="{ 'collection__option--set': useCollectiveCollection }">
+            <img
+              :src="placeholder"
+              class="is-block imag no-border-radius"
+              alt="asd" />
+            <div>
+              <p>Kodadot Collective</p>
+              <p class="is-size-7">
+                Activate Kodadot Collective For Free Minting
+              </p>
+            </div>
+            <NeoSwitch v-model="useCollectiveCollection" />
+          </div>
+          <p class="w-100">
+            Mint For Free.No Fees, Just Your Creativity Unleashed.
           </p>
-          <ChooseCollectionDropdown
-            full-width
-            no-shadow
-            class="mt-3"
-            @selected-collection="onCollectionSelected" />
+          <div class="w-100 is-flex">
+            <!-- <p
+              :class="{
+                'has-text-danger': startSelectedCollection && !selectedCollection,
+              }">
+              {{ $t('mint.nft.collection.message') }}
+            </p>
+            <ChooseCollectionDropdown
+              full-width
+              no-shadow
+              class="mt-3"
+              @selected-collection="onCollectionSelected" /> -->
+          </div>
         </div>
       </NeoField>
 
@@ -242,7 +262,7 @@
 import type { Prefix } from '@kodadot1/static'
 import type { Ref } from 'vue'
 import type { TokenToList } from '@/composables/transaction/types'
-import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
+// import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
 import {
   NeoButton,
   NeoField,
@@ -264,6 +284,9 @@ import { balanceFrom } from '@/utils/balance'
 import { DETAIL_TIMEOUT } from '@/utils/constants'
 import { delay } from '@/utils/fetch'
 import { toNFTId } from '@/components/rmrk/service/scheme'
+
+const { placeholder } = useTheme()
+console.log(placeholder)
 
 // composables
 const { $consola } = useNuxtApp()
@@ -292,13 +315,14 @@ const form = reactive({
 })
 
 // select collections
+const useCollectiveCollection = ref(false)
 const selectedCollection = ref()
 const startSelectedCollection = ref<boolean>(false)
 const chooseCollectionRef = ref()
 
-const onCollectionSelected = (collection) => {
-  selectedCollection.value = collection
-}
+// const onCollectionSelected = (collection) => {
+//   selectedCollection.value = collection
+// }
 
 const modalShowStatus = ref(false)
 

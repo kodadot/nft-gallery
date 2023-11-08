@@ -24,6 +24,9 @@ export default defineNuxtConfig({
     build: {
       sourcemap: true,
     },
+    optimizeDeps: {
+      entries: ['./**/*.{vue,js,jsx,ts,tsx}'],
+    },
     plugins: [
       process.env.NODE_ENV === 'development'
         ? null
