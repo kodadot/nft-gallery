@@ -1,88 +1,67 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './fixtures'
 
-const SORT_SAMPLES = ['blockNumber_DESC', 'updatedAt_ASC']
+const collectionRoutes = [
+  '/rmrk/explore/collectibles',
+  '/ahk/explore/collectibles',
+]
 
-test.describe('Explore collections', async () => {
-  const routes = ['/rmrk/explore/collectibles', '/bsx/explore/collectibles']
-
-  for (const route of routes)
-    test(`Collections explore at ${route}`, async ({ page }) => {
-      await page.goto(route)
-      await testCollections(page)
+for (const route of collectionRoutes) {
+  test(`Collections explore at ${route}`, async ({ page, Commands }) => {
+    await page.goto(route)
+    const tabs = page.getByTestId('gallery-explore-tabs').nth(1)
+    await expect(tabs.getByText('Collections')).toBeVisible()
+    await expect(tabs.getByText('Items')).toBeVisible()
+    const sortDropdown = page.getByTestId('explore-sort-dropdown').nth(1)
+    await sortDropdown.click()
+    await sortDropdown.getByText('Newest').click()
+    await page.keyboard.press('Escape')
+    await Commands.scrollDownAndStop()
+    await page.waitForFunction(() => {
+      const images = Array.from(document.querySelectorAll('img'))
+      return images.every((img) => img.complete)
     })
-})
-
-const testCollections = async (page) => {
-  const tabs = await page.getByTestId('tabs')
-  await tabs.nth(2).waitFor()
-
-  await tabs.nth(2).getByText('Collections')
-  await tabs.nth(2).getByText('Items')
-
-  const exploreSort = await page.getByTestId('explore-sort-dropdown')
-  await exploreSort.nth(1).click()
-
-  await Promise.all(SORT_SAMPLES.map((sort) => page.$(`[value="${sort}"]`)))
-
-  await Promise.all(
-    [...Array(5).keys()].map(async (i) => {
-      const collectionIndex = await page.getByTestId(`collection-index-${i}`)
-      await collectionIndex.waitFor()
-    }),
-  )
-}
-
-test.describe('Explore items', async () => {
-  const routes = ['/rmrk/explore/items?page=1', '/bsx/explore/items?page=1']
-
-  for (const route of routes)
-    test(`Items explore at ${route}`, async ({ page }) => {
-      await page.goto(route)
-      await testItems(page)
+    await expect(page.getByTestId('collection-index-0').first()).toBeVisible({
+      timeout: 10000,
     })
-})
-
-const testItems = async (page) => {
-  const tabs = await page.getByTestId('tabs')
-  await tabs.nth(2).waitFor()
-
-  await tabs.nth(2).getByText('Collections')
-  await tabs.nth(2).getByText('Items')
-
-  const expandSearch = await page.getByTestId('expand-search')
-  await expandSearch.click()
-  const inputMin = await expandSearch.getByTestId('input-min')
-  await inputMin.type('100')
-  const btnApply = await expandSearch.getByTestId('apply').first()
-
-  await Promise.all([
-    page.waitForResponse(
-      (resp) => resp.url().includes('squid.subsquid.io') && resp.ok(),
-    ),
-    btnApply.click(),
-  ])
-
-  const exploreSort = await page.getByTestId('explore-sort-dropdown').nth(1)
-  await exploreSort.click()
-  await page.getByTestId('price_ASC').nth(1).click()
-
-  const btnAsc = await page.$('[value="price_ASC"]')
-  await btnAsc?.click()
-
-  //active and deactive buy now, since its buggy
-  await page.getByTestId('filter-checkbox-buynow').nth(1).click()
-  await page.getByTestId('filter-checkbox-buynow').nth(1).click()
-
-  await page.waitForResponse(
-    (resp) => resp.url().includes('image') && resp.status() === 200,
-  )
-  await page.waitForLoadState()
-
-  await expect(page.getByTestId('card-money').first()).toBeVisible({
-    timeout: 10000,
+    expect(
+      page.locator('[class="collection-detail__name"]').first().innerText,
+    ).not.toContain('')
   })
-  const firstItem = (await page.getByTestId('card-money')).first()
-  const moneyStr = await firstItem.innerText()
-  const money = +moneyStr.split(' ')[0]
-  expect(money).toBeGreaterThanOrEqual(100)
+}
+const routes = ['/rmrk/explore/items?page=1', '/ahk/explore/items?page=1']
+
+for (const route of routes) {
+  test(`Explore Items on ${route}`, async ({ page, Commands }) => {
+    await page.goto(route)
+    const tabs = page.getByTestId('gallery-explore-tabs').nth(1)
+    await expect(tabs.getByText('Collections')).toBeVisible()
+    await expect(tabs.getByText('Items')).toBeVisible()
+    const expandSearch = await page.getByTestId('expand-search')
+    await expandSearch.click()
+    const inputMin = await expandSearch.getByTestId('input-min')
+    await inputMin.type('100')
+    const btnApply = await expandSearch.getByTestId('apply').first()
+    await Promise.all([
+      page.waitForResponse(
+        (resp) => resp.url().includes('imagedelivery.net') && resp.ok(),
+      ),
+      btnApply.click(),
+    ])
+    const exploreSort = await page.getByTestId('explore-sort-dropdown').nth(1)
+    await exploreSort.click()
+    await page.getByTestId('price_ASC').nth(1).click()
+    const btnAsc = await page.$('[value="price_ASC"]')
+    await btnAsc?.click()
+    //active and deactive buy now, since its buggy
+    await page.getByTestId('filter-checkbox-buynow').nth(1).click()
+    await page.getByTestId('filter-checkbox-buynow').nth(1).click()
+    await Commands.scrollDownAndStop()
+    await expect(page.getByTestId('card-money').first()).toBeVisible({
+      timeout: 10000,
+    })
+    const firstItem = (await page.getByTestId('card-money')).first()
+    const moneyStr = await firstItem.innerText()
+    const money = +moneyStr.split(' ')[0]
+    expect(money).toBeGreaterThanOrEqual(100)
+  })
 }
