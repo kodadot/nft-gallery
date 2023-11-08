@@ -4,5 +4,6 @@ query collectionByIdMicro($id: String!) {
     max
     nftCount
     issuer
+    burned
   }
 }
