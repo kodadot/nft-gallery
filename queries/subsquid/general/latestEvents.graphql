@@ -9,6 +9,7 @@ query latestEvents(
       name
       price
       currentOwner
+      issuer
       meta {
         id
         name
