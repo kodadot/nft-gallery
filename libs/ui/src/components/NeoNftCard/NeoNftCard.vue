@@ -71,13 +71,13 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { NeoSkeleton, NftCardVariant } from '@kodadot1/brick'
+import { NeoSkeleton, type NftCardVariant } from '@kodadot1/brick'
 import type { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
 
 import MediaItem from '../MediaItem/MediaItem.vue'
 import NFTMediaInfoStacked from './NFTMediaInfoStacked.vue'
 import NFTMediaInfo from './NFTMediaInfo.vue'
-import { NeoNFT } from './types'
+import type { NeoNFT } from './types'
 
 const props = withDefaults(
   defineProps<{

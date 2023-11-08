@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-import { CarouselNFT } from '../base/types'
+import type { CarouselNFT } from '../base/types'
 import CollectionDetailsPopoverContent from './CollectionDetailsPopoverContent.vue'
 
 const body = ref(document.body)
