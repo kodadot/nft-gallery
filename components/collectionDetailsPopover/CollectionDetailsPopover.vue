@@ -3,12 +3,13 @@
     :append-to="body"
     placement="bottom"
     :delay="[showDelay, hideDelay]"
-    data-testid="identity">
+    data-testid="identity"
+    @show="triggered = true">
     <slot name="content" />
 
     <template #content>
       <div class="popover-container">
-        <CollectionDetailsPopoverContent :nft="nft" />
+        <CollectionDetailsPopoverContent v-if="triggered" :nft="nft" />
       </div>
     </template>
   </tippy>
@@ -19,6 +20,7 @@ import type { CarouselNFT } from '../base/types'
 import CollectionDetailsPopoverContent from './CollectionDetailsPopoverContent.vue'
 
 const body = ref(document.body)
+const triggered = ref(false)
 
 withDefaults(
   defineProps<{
