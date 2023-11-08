@@ -241,7 +241,7 @@ const isConfirmModalActive = ref(false)
 const isLoaderModalVisible = ref(false)
 const transactionValue = ref('')
 const menus = availablePrefixes().filter(
-  (menu) => menu.value !== 'movr' && menu.value !== 'glmr'
+  (menu) => menu.value !== 'movr' && menu.value !== 'glmr',
 )
 const chainByPrefix = computed(() =>
   menus.find((menu) => menu.value === urlPrefix.value),
