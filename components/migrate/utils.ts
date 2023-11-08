@@ -9,6 +9,7 @@ export type Steps =
   | 'step2'
   | 'step2-migrate'
   | 'step3'
+  | 'step3-burn'
   | 'step4'
 
 export const iconIdle = {
