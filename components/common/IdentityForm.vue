@@ -114,20 +114,9 @@
       </p>
 
       <NeoButton
-        v-if="!hasIdentity"
         class="is-flex is-flex-grow-1 fixed-height"
         variant="k-accent"
-        :label="$t('identity.create')"
-        :disabled="disabled || isAssetHub"
-        :loading="isLoading"
-        expanded
-        @click="openConfirmModal" />
-
-      <NeoButton
-        v-if="hasIdentity"
-        class="is-flex is-flex-grow-1 fixed-height"
-        variant="k-accent"
-        :label="$t('identity.update')"
+        :label="hasIdentity ? $t('identity.update') : $t('identity.create')"
         :disabled="disabled || isAssetHub"
         :loading="isLoading"
         expanded
@@ -253,10 +242,7 @@ const isLoaderModalVisible = ref(false)
 const transactionValue = ref('')
 const menus = availablePrefixes().filter(
   (menu) =>
-    menu.value !== 'movr' &&
-    menu.value !== 'glmr' &&
-    menu.value !== 'ahk' &&
-    menu.value !== 'ahp',
+    menu.value !== 'movr' && menu.value !== 'glmr'
 )
 const chainByPrefix = computed(() =>
   menus.find((menu) => menu.value === urlPrefix.value),
