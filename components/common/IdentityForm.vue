@@ -257,6 +257,8 @@ watch(currentChain, () => {
   }
 })
 
+  const { isAssetHub } = useIsChain(currentChain)
+
 const activeSocials = computed(() => {
   return socialTabs.value.reduce(
     (reducer, tab) => ({ ...reducer, [tab.value]: tab.active }),
