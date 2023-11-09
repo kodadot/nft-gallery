@@ -17,6 +17,7 @@
         :animation-src="item.animationUrl || ''"
         :title="item.name"
         disable-operation
+        preview
         :audio-player-cover="imageSrc || ''"
         audio-hover-on-cover-play />
     </nuxt-link>
