@@ -36,7 +36,7 @@ import {
   iconIdle,
   iconLoading,
   iconSuccess,
-} from '@/components/migrate/utils'
+} from '@/composables/useMigrate'
 
 const route = useRoute()
 const { transaction, status } = useTransaction()

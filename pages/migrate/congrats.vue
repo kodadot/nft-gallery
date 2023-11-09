@@ -21,7 +21,7 @@
 
         <div class="is-flex mt-5 is-justify-content-center">
           <nuxt-link :to="`/${urlPrefix}/collection/${collectionId}`">
-            <NeoButton variant="pill" class="mr-2">
+            <NeoButton variant="pill" class="mr-2" :tag="NuxtLink">
               {{ $t('migrate.congrats.cta') }}
             </NeoButton>
           </nuxt-link>
@@ -37,6 +37,8 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+
+const NuxtLink = resolveComponent('NuxtLink')
 
 definePageMeta({
   layout: 'no-footer',

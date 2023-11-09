@@ -64,7 +64,7 @@ import {
   iconLoading,
   iconSuccess,
   useCollectionReady,
-} from '@/components/migrate/utils'
+} from '@/composables/useMigrate'
 import { useStatemineNewCollectionId } from '@/composables/transaction/mintCollection/useNewCollectionId'
 import { createArgsForNftPallet } from '@/composables/transaction/mintCollection/utils'
 import waifuApi from '@/services/waifu'

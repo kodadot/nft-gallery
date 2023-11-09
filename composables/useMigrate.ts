@@ -1,5 +1,5 @@
-import { availablePrefixWithIcon } from '@/utils/chain'
 import type { Prefix } from '@kodadot1/static'
+import { availablePrefixWithIcon } from '@/utils/chain'
 import collectionMigrateReady from '@/queries/subsquid/general/collectionMigrateReady.graphql'
 
 export type Steps =
@@ -10,6 +10,7 @@ export type Steps =
   | 'step2-migrate'
   | 'step3'
   | 'step3-burn'
+  | 'step3-burn-collection'
   | 'step4'
 
 export const iconIdle = {

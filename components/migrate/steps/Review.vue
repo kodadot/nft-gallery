@@ -171,7 +171,7 @@ import {
   NeoIcon,
   NeoTooltip,
 } from '@kodadot1/brick'
-import { useCollectionReady } from '@/components/migrate/utils'
+import { useCollectionReady } from '@/composables/useMigrate'
 import { availablePrefixWithIcon } from '@/utils/chain'
 
 const route = useRoute()

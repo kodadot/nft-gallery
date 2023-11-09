@@ -61,7 +61,7 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import { useCollectionReady } from '@/components/migrate/utils'
+import { useCollectionReady } from '@/composables/useMigrate'
 
 defineProps<{
   toReview: (string, number) => void

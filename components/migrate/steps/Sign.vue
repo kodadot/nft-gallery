@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import { type Steps } from '@/components/migrate/utils'
+import { type Steps } from '@/composables/useMigrate'
 
 const { setUrlPrefix } = usePrefix()
 const route = useRoute()

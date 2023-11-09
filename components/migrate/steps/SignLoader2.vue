@@ -49,7 +49,7 @@ import {
   iconLoading,
   iconSuccess,
   useCollectionReady,
-} from '@/components/migrate/utils'
+} from '@/composables/useMigrate'
 import waifuApi from '@/services/waifu'
 
 const { accountId } = useAuth()
