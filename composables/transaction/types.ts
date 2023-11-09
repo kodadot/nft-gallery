@@ -24,13 +24,17 @@ export type ExecuteTransactionParams = {
   errorMessage?: string | (() => string)
 }
 
-export interface MintTokenParams {
-  item: ActionMintToken
+type BaseMintParams<T> = {
+  item: T
   api: ApiPromise
   executeTransaction: (p: ExecuteTransactionParams) => void
   isLoading: Ref<boolean>
   status: Ref<string>
 }
+
+export type MintTokenParams = BaseMintParams<ActionMintToken>
+
+export type MintCollectionParams = BaseMintParams<ActionMintCollection>
 
 export type NftCountType = {
   nftCount: number
@@ -177,6 +181,8 @@ export interface ActionMintCollection {
 export enum Collections {
   DELETE = 'delete',
 }
+
+export type ActionsInteractions = Interaction | ShoppingActions | Collections
 
 export interface ActionDeleteCollection {
   interaction: Collections.DELETE

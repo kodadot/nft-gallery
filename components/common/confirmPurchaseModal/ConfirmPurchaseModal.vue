@@ -7,7 +7,7 @@
     @close="onClose">
     <div class="modal-width">
       <header
-        class="py-5 px-6 is-flex is-justify-content-space-between is-align-items-center border-bottom">
+        class="py-5 pl-6 pr-5 is-flex is-justify-content-space-between is-align-items-center border-bottom">
         <span class="modal-card-title is-size-6 has-text-weight-bold">
           {{ $t('confirmPurchase.action') }}
         </span>
@@ -46,21 +46,19 @@
       <div class="is-flex is-justify-content-space-between py-4 px-6">
         {{ $t('confirmPurchase.youWillPay') }}
         <div class="is-flex">
-          <CommonTokenMoney
-            :value="totalNFTsPrice + totalRoyalties"
-            class="has-text-grey" />
+          <CommonTokenMoney :value="totalWithRoyalties" class="has-text-grey" />
           <span class="has-text-weight-bold ml-2"> {{ priceUSD }}$ </span>
         </div>
       </div>
 
       <div class="is-flex is-justify-content-space-between py-5 px-6">
-        <NeoButton
-          :label="btnLabel"
-          variant="k-accent"
-          no-shadow
+        <AutoTeleportActionButton
+          :amount="totalWithRoyalties"
+          :label="$t('nft.action.confirm')"
           :disabled="disabled"
-          class="is-flex is-flex-grow-1 btn-height"
-          @click="confirm" />
+          :actions="actions"
+          @confirm="confirm"
+          @actions:completed="$emit('completed')" />
       </div>
     </div>
   </NeoModal>
@@ -75,14 +73,20 @@ import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import ConfirmPurchaseItemRow from './ConfirmPurchaseItemRow.vue'
 import { totalPriceUsd } from '../shoppingCart/utils'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
+import { type AutoTeleportAction } from '@/composables/autoTeleport/types'
+import { type AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
+
+const emit = defineEmits(['confirm', 'completed', 'close'])
+const props = defineProps<{
+  action: AutoTeleportAction
+}>()
 
 const prefrencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { isLogIn } = useAuth()
 const { urlPrefix } = usePrefix()
-const { $i18n } = useNuxtApp()
-const { balance } = useBalance()
-const emit = defineEmits(['confirm'])
+
+const actions = computed(() => [props.action])
 
 const mode = computed(() => prefrencesStore.getCompletePurchaseModal.mode)
 
@@ -109,19 +113,11 @@ const totalRoyalties = computed(() =>
   ),
 )
 
-const balanceIsEnough = computed(
-  () => totalNFTsPrice.value + totalRoyalties.value < balance.value,
+const totalWithRoyalties = computed(
+  () => totalNFTsPrice.value + totalRoyalties.value,
 )
 
-const btnLabel = computed(() => {
-  if (balanceIsEnough.value) {
-    return $i18n.t('nft.action.confirm')
-  }
-
-  return $i18n.t('confirmPurchase.notEnoughFuns')
-})
-
-const disabled = computed(() => !balanceIsEnough.value || !isLogIn.value)
+const disabled = computed(() => !isLogIn.value)
 
 const priceUSD = computed(() => {
   const { nfts, royalties } = totalPriceUsd(items.value)
@@ -131,10 +127,11 @@ const priceUSD = computed(() => {
 const onClose = () => {
   prefrencesStore.setCompletePurchaseModalOpen(false)
   shoppingCartStore.removeItemToBuy()
+  emit('close')
 }
 
-const confirm = () => {
-  emit('confirm')
+const confirm = (params: AutoTeleportActionButtonConfirmEvent) => {
+  emit('confirm', params)
   prefrencesStore.setCompletePurchaseModalOpen(false)
 }
 </script>
