@@ -64,7 +64,7 @@
 
           <!-- related: #5792 -->
           <div v-if="isOwner">
-            <NeoDropdownItem @click="deleteCollection()">
+            <NeoDropdownItem @click="confirmDeleteModalActive = true">
               {{ $i18n.t('moreActions.delete') }}
             </NeoDropdownItem>
             <!-- <NeoDropdownItem>
@@ -84,6 +84,35 @@
         </header>
         <div class="card-content">
           <QRCode :text="currentCollectionUrl" />
+        </div>
+      </div>
+    </NeoModal>
+    <NeoModal
+      :value="confirmDeleteModalActive"
+      @close="confirmDeleteModalActive = false">
+      <div class="py-4 px-5 limit-width">
+        <div class="is-flex mb-3 is-size-6">
+          {{ $i18n.t('confirmDeleteCollection.deleteCollection') }}
+        </div>
+        <div class="has-text-grey is-size-7 mb-5">
+          {{ $i18n.t('confirmDeleteCollection.content') }}
+        </div>
+        <div>
+          <NeoButton
+            class="has-text-weight-bold mr-4"
+            variant="text"
+            no-shadow
+            @click="closeAndDelete">
+            <span class="has-text-k-red">
+              {{ $i18n.t('massmint.yesDelete') }}
+            </span>
+          </NeoButton>
+          <NeoButton
+            class="has-text-weight-bold"
+            variant="text"
+            no-shadow
+            :label="$i18n.t('cancel')"
+            @click="confirmDeleteModalActive = false" />
         </div>
       </div>
     </NeoModal>
@@ -129,6 +158,7 @@ const displaySeperator = computed(() => twitter.value)
 const isOwner = computed(() => isCurrentOwner(collection.value?.currentOwner))
 
 const QRModalActive = ref(false)
+const confirmDeleteModalActive = ref(false)
 
 const hashtags = 'KusamaNetwork,KodaDot'
 const sharingLabel = $i18n.t('sharing.collection')
@@ -158,6 +188,11 @@ const deleteCollection = async () => {
     },
   })
 }
+
+const closeAndDelete = () => {
+  confirmDeleteModalActive.value = false
+  deleteCollection()
+}
 </script>
 
 <style lang="scss" scoped>
@@ -181,5 +216,8 @@ const deleteCollection = async () => {
   @include ktheme() {
     background-color: theme('border-color');
   }
+}
+.limit-width {
+  max-width: 314px;
 }
 </style>
