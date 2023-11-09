@@ -1,6 +1,6 @@
 <template>
   <form class="mx-auto teleport-container" @submit.prevent="teleport">
-    <Loader v-model="isLoading" />
+    <Loader v-model="isLoading" :status="status" />
     <h1 class="is-size-3 has-text-weight-bold">
       {{ $t('teleport.page') }}
     </h1>
@@ -145,6 +145,7 @@ const {
   isLoading,
   getAddressByChain,
   getChainTokenDecimals,
+  status,
 } = useTeleport(true)
 
 const fiatStore = useFiatStore()
