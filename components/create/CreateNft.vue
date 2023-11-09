@@ -1,10 +1,12 @@
 <template>
   <div class="is-centered columns">
-    <Loader v-model="isLoading" :status="status" />
+    <Loader v-if="!autoTeleport" v-model="isLoading" :status="status" />
     <MintConfirmModal
       v-model="modalShowStatus"
+      :auto-teleport-actions="autoTeleportActions"
       :nft-information="nftInformation"
-      @confirm="createNft" />
+      @confirm="confirm" />
+
     <form class="is-half column" @submit.prevent="submitHandler">
       <CreateNftPreview
         :name="form.name"
@@ -12,7 +14,8 @@
         :price="form.salePrice"
         :symbol="chainSymbol"
         :chain="currentChain"
-        :image="imagePreview" />
+        :image="imagePreview"
+        data-testid="create-nft-preview-box" />
 
       <h1 class="title is-size-3 mb-7">
         {{ $t('mint.nft.create') }}
@@ -38,6 +41,7 @@
         :error="!form.name">
         <NeoInput
           v-model="form.name"
+          data-testid="create-nft-input-name"
           required
           :placeholder="$t('mint.nft.name.placeholder')" />
       </NeoField>
@@ -46,6 +50,7 @@
       <NeoField :label="`${$t('mint.nft.description.label')} (optional)`">
         <NeoInput
           v-model="form.description"
+          data-testid="create-nft-input-description"
           type="textarea"
           has-counter
           maxlength="1000"
@@ -88,7 +93,7 @@
         <div class="w-full">
           <p>{{ $t('mint.nft.sale.message') }}</p>
         </div>
-        <NeoSwitch v-model="form.sale" />
+        <NeoSwitch v-model="form.sale" data-testid="create-nft-sale-switch" />
       </NeoField>
       <!-- list for sale price -->
       <NeoField
@@ -101,8 +106,10 @@
             class="is-flex is-justify-content-space-between is-align-items-center">
             <NeoInput
               v-model="form.salePrice"
+              data-testid="create-nft-input-list-value"
               type="number"
               step="0.01"
+              min="0.01"
               pattern="[0-9]+([\.,][0-9]+)?"
               placeholder="0.01 is the minimum"
               expanded />
@@ -117,8 +124,17 @@
       <NeoField :label="`${$t('mint.blockchain.label')} *`">
         <div class="w-100">
           <p>{{ $t('mint.blockchain.message') }}</p>
-          <NeoSelect v-model="selectChain" class="mt-3" expanded required>
-            <option v-for="menu in menus" :key="menu.value" :value="menu.value">
+          <NeoSelect
+            v-model="selectChain"
+            class="mt-3"
+            data-testid="create-nft-dropdown-select"
+            expanded
+            required>
+            <option
+              v-for="menu in menus"
+              :key="menu.value"
+              :value="menu.value"
+              :data-testid="`nft-chain-dropdown-option-${menu.value}`">
               {{ menu.text }}
             </option>
           </NeoSelect>
@@ -131,13 +147,16 @@
           <p>{{ $t('mint.nft.copies.message') }}</p>
           <NeoInput
             v-model="form.copies"
+            data-testid="create-nft-input-copies"
             class="mt-3"
             type="number"
             placeholder="e.g 10"
+            min="1"
             expanded />
           <BasicSwitch
             v-if="form.copies > 1"
             v-model="form.postfix"
+            data-testid="create-nft-input-copies-switch"
             class="mt-3"
             label="mint.expert.postfix" />
         </div>
@@ -145,14 +164,18 @@
 
       <!-- nft properties -->
       <NeoField :label="`${$t('tabs.properties')} (optional)`">
-        <CustomAttributeInput v-model="form.tags" :max="10" />
+        <CustomAttributeInput
+          v-model="form.tags"
+          :max="10"
+          data-testid="create-nft-properties" />
       </NeoField>
 
       <!-- royalty -->
       <NeoField v-if="!isRmrk">
         <RoyaltyForm
           v-model:amount="form.royalty.amount"
-          v-model:address="form.royalty.address" />
+          v-model:address="form.royalty.address"
+          data-testid="create-nft-royalty" />
       </NeoField>
 
       <!-- explicit content -->
@@ -160,7 +183,7 @@
         <div class="w-full">
           <p>{{ $t('mint.nfswMessage') }}</p>
         </div>
-        <NeoSwitch v-model="form.nsfw" />
+        <NeoSwitch v-model="form.nsfw" data-testid="create-nft-nsfw-switch" />
       </NeoField>
 
       <hr class="my-6" />
@@ -169,7 +192,9 @@
       <div>
         <div class="is-flex has-text-weight-medium has-text-info">
           <div>{{ $t('mint.deposit') }}:&nbsp;</div>
-          <div>{{ totalItemDeposit }} {{ chainSymbol }}</div>
+          <div data-testid="create-nft-deposit-amount">
+            {{ deposit }} {{ chainSymbol }}
+          </div>
         </div>
         <div class="is-flex">
           <div>{{ $t('general.balance') }}:&nbsp;</div>
@@ -186,6 +211,7 @@
       <NeoButton
         expanded
         :label="$t('mint.nft.create')"
+        data-testid="create-nft-button-new"
         class="is-size-6"
         native-type="submit"
         size="medium"
@@ -195,15 +221,13 @@
         <p class="is-size-7">
           <span
             v-dompurify-html="
-              $t('mint.requiredDeposit', [
-                `${totalItemDeposit} ${chainSymbol}`,
-                'NFT',
-              ])
+              $t('mint.requiredDeposit', [`${deposit} ${chainSymbol}`, 'NFT'])
             " />
           <a
             href="https://hello.kodadot.xyz/multi-chain/fees"
             target="_blank"
             class="has-text-link"
+            data-testid="create-nft-learn-more-link"
             rel="nofollow noopener noreferrer">
             {{ $t('helper.learnMore') }}
           </a>
@@ -216,7 +240,7 @@
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
 import type { Ref } from 'vue'
-import type { TokenToList } from '@/composables/transaction/types'
+import type { Actions, TokenToList } from '@/composables/transaction/types'
 import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
 import {
   NeoButton,
@@ -239,12 +263,15 @@ import { balanceFrom } from '@/utils/balance'
 import { DETAIL_TIMEOUT } from '@/utils/constants'
 import { delay } from '@/utils/fetch'
 import { toNFTId } from '@/components/rmrk/service/scheme'
+import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
+import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 
 // composables
 const { $consola } = useNuxtApp()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { accountId } = useAuth()
-const { transaction, status, isLoading, blockNumber } = useTransaction()
+const { transaction, status, isLoading, blockNumber, isError } =
+  useTransaction()
 const router = useRouter()
 const { decimals } = useChain()
 
@@ -256,7 +283,7 @@ const form = reactive({
   collections: null,
   sale: false,
   salePrice: 0,
-  copies: 0,
+  copies: 1,
   postfix: false,
   nsfw: false,
   tags: [],
@@ -323,12 +350,49 @@ watch(currentChain, () => {
 const { balance, totalItemDeposit, chainSymbol, chain } =
   useDeposit(currentChain)
 
+const deposit = computed(() =>
+  (Number(totalItemDeposit.value) * form.copies).toFixed(4),
+)
+
 // create nft
 const transactionStatus = ref<
   'list' | 'checkListed' | 'mint' | 'done' | 'idle'
 >('idle')
 const createdItems = ref()
 const mintedBlockNumber = ref()
+
+const mintAction = computed<Actions>(() => ({
+  interaction: Interaction.MINTNFT,
+  urlPrefix: currentChain.value,
+  token: {
+    file: form.file,
+    name: form.name,
+    description: form.description,
+    selectedCollection: selectedCollection.value,
+    copies: form.copies,
+    nsfw: form.nsfw,
+    postfix: form.postfix,
+    price: balanceFrom(form.salePrice, decimals.value),
+    tags: form.tags,
+    secondFile: null,
+    hasRoyalty: Boolean(form.royalty.amount),
+    royalty: form.royalty,
+  },
+}))
+
+const listAction = computed<Actions>(() => {
+  const list: TokenToList[] = createdItems.value?.map((nft) => ({
+    price: balanceFrom(form.salePrice, decimals.value),
+    nftId: toNFTId(nft, String(blockNumber.value)),
+  }))
+
+  return {
+    interaction: Interaction.LIST,
+    urlPrefix: currentChain.value,
+    token: list,
+    successMessage: `[💰] Listed ${form.name} for ${form.salePrice} ${chainSymbol.value}`,
+  }
+})
 
 const submitHandler = () => {
   startSelectedCollection.value = true
@@ -345,34 +409,32 @@ const toggleConfirm = () => {
   modalShowStatus.value = !modalShowStatus.value
 }
 
+const confirm = async ({
+  autoteleport,
+}: AutoTeleportActionButtonConfirmEvent) => {
+  toggleConfirm()
+
+  autoTeleport.value = autoteleport
+
+  if (!autoteleport) {
+    await createNft()
+  }
+}
+
+const needsListing = computed(
+  () => isRemark.value && form.sale && form.salePrice,
+)
+
 const createNft = async () => {
   try {
-    toggleConfirm()
     const minted = (await transaction(
-      {
-        interaction: Interaction.MINTNFT,
-        urlPrefix: currentChain.value,
-        token: {
-          file: form.file,
-          name: form.name,
-          description: form.description,
-          selectedCollection: selectedCollection.value,
-          copies: form.copies,
-          nsfw: form.nsfw,
-          postfix: form.postfix,
-          price: balanceFrom(form.salePrice, decimals.value),
-          tags: form.tags,
-          secondFile: null,
-          hasRoyalty: Boolean(form.royalty.amount),
-          royalty: form.royalty,
-        },
-      },
+      mintAction.value,
       currentChain.value,
     )) as unknown as {
       createdNFTs?: Ref<CreatedNFT[]>
     }
 
-    if (isRemark.value && form.sale && form.salePrice) {
+    if (needsListing.value) {
       createdItems.value = minted?.createdNFTs?.value
       transactionStatus.value = 'list'
     } else {
@@ -384,54 +446,94 @@ const createNft = async () => {
   }
 }
 
+// autoteleport stuff
+const autoTeleport = ref(false)
+const {
+  transaction: listTransaction,
+  isLoading: listIsLoading,
+  isError: listIsError,
+  status: listStatus,
+  blockNumber: listBlockNumber,
+} = useTransaction()
+
+const autoTeleportActions = computed<AutoTeleportAction[]>(() => {
+  const actions = [
+    {
+      action: mintAction.value,
+      handler: createNft,
+      prefix: currentChain.value,
+      details: {
+        isLoading: isLoading.value,
+        isError: isError.value,
+        status: status.value,
+        blockNumber: blockNumber.value,
+      },
+    },
+  ]
+
+  if (needsListing.value) {
+    actions.push({
+      action: listAction.value,
+      handler: (params: { isRetry: boolean }) => {
+        if (params.isRetry) {
+          return listNft()
+        }
+        return Promise.resolve()
+      },
+      prefix: currentChain.value,
+      details: {
+        isLoading: listIsLoading.value,
+        isError: listIsError.value,
+        status: listStatus.value,
+        blockNumber: listBlockNumber.value,
+      },
+    })
+  }
+
+  return actions
+})
+
 // currently, on rmrk we need to list price manually
+const listNft = async () => {
+  try {
+    await listTransaction(listAction.value, currentChain.value)
+
+    transactionStatus.value = 'checkListed'
+  } catch (error) {
+    showNotification(`[ERR] ${error}`, notificationTypes.warn)
+    $consola.error(error)
+  }
+}
+
 watchEffect(async () => {
   if (
     blockNumber.value &&
     createdItems.value &&
     transactionStatus.value === 'list'
   ) {
-    try {
-      const list: TokenToList[] = createdItems.value.map((nft) => ({
-        price: balanceFrom(form.salePrice, decimals.value),
-        nftId: toNFTId(nft, String(blockNumber.value)),
-      }))
-
-      await transaction(
-        {
-          interaction: Interaction.LIST,
-          urlPrefix: currentChain.value,
-          token: list,
-          successMessage: `[💰] Listed ${form.name} for ${form.salePrice} ${chainSymbol.value}`,
-        },
-        currentChain.value,
-      )
-
-      transactionStatus.value = 'checkListed'
-    } catch (error) {
-      showNotification(`[ERR] ${error}`, notificationTypes.warn)
-      $consola.error(error)
-    }
+    await listNft()
   }
 })
 
 watchEffect(() => {
+  const listStatusFinalized = listStatus.value === 'loader.finalized'
+  const mintStatusFinalized = status.value === 'loader.finalized'
+
   // prepare nft blockNumber for redirect to detail page
   if (
     (transactionStatus.value === 'mint' ||
       transactionStatus.value === 'list') &&
-    status.value === 'loader.finalized' &&
+    mintStatusFinalized &&
     blockNumber.value
   ) {
     mintedBlockNumber.value = blockNumber.value
-    transactionStatus.value = 'done'
+    if (!needsListing.value) {
+      transactionStatus.value = 'done'
+    }
   }
 
   // if listing price is done, then redirect to detail page
-  if (
-    transactionStatus.value === 'checkListed' &&
-    status.value === 'loader.finalized'
-  ) {
+  if (transactionStatus.value === 'checkListed' && listStatusFinalized) {
     transactionStatus.value = 'done'
   }
 })

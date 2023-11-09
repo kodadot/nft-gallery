@@ -34,12 +34,9 @@ test('Check if RMRK2 NFT URL is correct', async ({ page }) => {
   )
 })
 
-//will not work because filtering on Assethubs still not implemented
-/*
 test('Check if Ahk NFT URL is correct', async ({ page }) => {
   //AHK
   await page.goto('/ahk/explore/items?listed=false&search=Susanne')
   await page.locator('[class="infinite-scroll-item"]').click()
   await expect(page).toHaveURL('/ahk/gallery/111-2')
 })
-*/

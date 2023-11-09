@@ -79,7 +79,7 @@
 </template>
 
 <script lang="ts" setup>
-import { CarouselNFT } from '../base/types'
+import type { CarouselNFT } from '../base/types'
 import {
   useBuyEvents,
   useCollectionDetails,
