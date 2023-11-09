@@ -109,24 +109,8 @@ export const flattenNFT = (data, chain) => {
 
 const sortNftByTime = (data) => data.sort((a, b) => b.unixTime - a.unixTime)
 
-export const useCarouselNftEvents = async ({ type }: Types) => {
-  const { data: dataAhk } = await useChainEvents('ahk', type)
-  const { data: dataAhp } = await useChainEvents('ahp', type)
-  const { data: dataBsx } = await useChainEvents('bsx', type)
-  const { data: dataSnek } = await useChainEvents('snek', type)
-  const { data: dataRmrk } = await useChainEvents('rmrk', type)
-  const { data: dataRmrk2 } = await useChainEvents('ksm', type)
-
+const limitDisplayNfts = (data) => {
   const nfts = ref<CarouselNFT[]>([])
-
-  const data = [
-    ...flattenNFT(dataAhk.value, 'ahk'),
-    ...flattenNFT(dataAhp.value, 'ahp'),
-    ...flattenNFT(dataBsx.value, 'bsx'),
-    ...flattenNFT(dataSnek.value, 'snek'),
-    ...flattenNFT(dataRmrk.value, 'rmrk'),
-    ...flattenNFT(dataRmrk2.value, 'ksm'),
-  ]
 
   // show 30 nfts in carousel
   const sortedNfts = sortNftByTime(data).slice(0, 30)
@@ -138,6 +122,27 @@ export const useCarouselNftEvents = async ({ type }: Types) => {
     ids: computed(() => nfts.value.map((nft) => nft.id).join()),
   }
 }
+
+export const useCarouselNftEvents = async ({ type }: Types) => {
+  const { data: dataAhk } = await useChainEvents('ahk', type)
+  const { data: dataAhp } = await useChainEvents('ahp', type)
+  const { data: dataBsx } = await useChainEvents('bsx', type)
+  const { data: dataSnek } = await useChainEvents('snek', type)
+  const { data: dataRmrk } = await useChainEvents('rmrk', type)
+  const { data: dataRmrk2 } = await useChainEvents('ksm', type)
+
+  const data = [
+    ...flattenNFT(dataAhk.value, 'ahk'),
+    ...flattenNFT(dataAhp.value, 'ahp'),
+    ...flattenNFT(dataBsx.value, 'bsx'),
+    ...flattenNFT(dataSnek.value, 'snek'),
+    ...flattenNFT(dataRmrk.value, 'rmrk'),
+    ...flattenNFT(dataRmrk2.value, 'ksm'),
+  ]
+
+  return limitDisplayNfts(data)
+}
+
 export const useCarouselGenerativeNftEvents = async (
   chain: Prefix,
   collectionIds: string[],
@@ -153,20 +158,10 @@ export const useCarouselGenerativeNftEvents = async (
     collectionIds,
   )
 
-  const nfts = ref<CarouselNFT[]>([])
-
   const data = [
     ...flattenNFT(salesData.value, chain),
     ...flattenNFT(listData.value, chain),
   ]
 
-  // show 30 nfts in carousel
-  const sortedNfts = sortNftByTime(data).slice(0, 30)
-
-  nfts.value = sortedNfts
-
-  return {
-    nfts,
-    ids: computed(() => nfts.value.map((nft) => nft.id).join()),
-  }
+  return limitDisplayNfts(data)
 }
