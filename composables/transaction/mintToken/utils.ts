@@ -37,12 +37,13 @@ export const getNameInNotifications = (item: ActionMintToken) => {
 
 export const transactionFactory = (getArgs) => {
   return async (mintTokenParams: MintTokenParams) => {
-    const { item, api, executeTransaction, isLoading, status } = mintTokenParams
+    const { item, api, executeTransaction, isLoading, status, simulate } =
+      mintTokenParams
     const { $i18n } = useNuxtApp()
 
     isLoading.value = true
     status.value = 'loader.ipfs'
-    const args = await getArgs(item, api)
+    const args = await getArgs(item, api, simulate)
 
     const nameInNotifications = getNameInNotifications(item)
 

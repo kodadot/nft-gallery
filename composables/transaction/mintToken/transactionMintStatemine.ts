@@ -1,7 +1,7 @@
 import { BaseMintedCollection } from '@/components/base/types'
 import type { ActionMintToken, MintedCollection } from '../types'
 import { TokenToMint } from '../types'
-import { constructMeta } from './constructMeta'
+import { constructSimulatableMeta } from './constructMeta'
 import { calculateFees, expandCopies, transactionFactory } from './utils'
 import { canSupport } from '@/utils/support'
 
@@ -21,14 +21,21 @@ export const assignIds = <T extends TokenToMint>(tokens: T[]): (T & id)[] => {
   })
 }
 
-export const prepareTokenMintArgs = async (token: TokenToMint & id, api) => {
+export const prepareTokenMintArgs = async (
+  token: TokenToMint & id,
+  api,
+  simulate?: boolean,
+) => {
   const { id: collectionId } = token.selectedCollection as BaseMintedCollection
   const { price, id: nextId, hasRoyalty, royalty } = token
 
   const { accountId } = useAuth()
   const { $consola } = useNuxtApp()
 
-  const metadata = await constructMeta(token).catch((e) => {
+  const metadata = await constructSimulatableMeta(
+    { tokenToMint: token },
+    simulate,
+  ).catch((e) => {
     $consola.error(
       'Error while constructing metadata for token:\n',
       token,
@@ -96,10 +103,10 @@ export const getSupportInteraction = (
   return canSupport(api, enabledFees, totalFees)
 }
 
-const getArgs = async (item: ActionMintToken, api) => {
+const getArgs = async (item: ActionMintToken, api, simulate: boolean) => {
   const tokens = prepTokens(item)
   const arg = await Promise.all(
-    tokens.map((token) => prepareTokenMintArgs(token, api)),
+    tokens.map((token) => prepareTokenMintArgs(token, api, simulate)),
   )
   const { enabledFees, feeMultiplier } = calculateFees()
   const supportInteraction = await getSupportInteraction(

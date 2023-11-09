@@ -1,6 +1,6 @@
 import type { ActionMintToken, MintedCollection, TokenToMint } from '../types'
 import { isRoyaltyValid } from '@/utils/royalty'
-import { constructMeta } from './constructMeta'
+import { constructSimulatableMeta } from './constructMeta'
 import { BaseMintedCollection } from '@/components/base/types'
 import { expandCopies, transactionFactory } from './utils'
 
@@ -8,10 +8,14 @@ const prepareTokenMintArgs = async (
   token: TokenToMint,
   api,
   nextId: number,
+  simulate: boolean,
 ) => {
   const { id: collectionId } = token.selectedCollection as BaseMintedCollection
   const { price, royalty, hasRoyalty } = token
-  const metadata = await constructMeta(token)
+  const metadata = await constructSimulatableMeta(
+    { tokenToMint: token },
+    simulate,
+  )
 
   const create = api.tx.nft.mint(collectionId, nextId, metadata)
 

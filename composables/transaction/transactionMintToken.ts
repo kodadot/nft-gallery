@@ -9,9 +9,17 @@ export function execMintToken({
   executeTransaction,
   isLoading,
   status,
+  simulate,
 }: MintTokenParams) {
   if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'ksm') {
-    return execMintRmrk({ item, api, executeTransaction, isLoading, status })
+    return execMintRmrk({
+      item,
+      api,
+      executeTransaction,
+      isLoading,
+      status,
+      simulate,
+    })
   }
 
   if (item.urlPrefix === 'snek' || item.urlPrefix === 'bsx') {
@@ -21,8 +29,10 @@ export function execMintToken({
       executeTransaction,
       isLoading,
       status,
+      simulate,
     })
   }
+
   if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
     return execMintStatemine({
       item,
@@ -30,6 +40,7 @@ export function execMintToken({
       executeTransaction,
       isLoading,
       status,
+      simulate,
     })
   }
 }

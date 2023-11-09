@@ -1,5 +1,5 @@
 import type { MintCollectionParams } from '../types'
-import { constructMeta } from './constructMeta'
+import { constructSimulatableMeta } from './constructMeta'
 import { useNewCollectionId } from './useNewCollectionId'
 import { createArgs } from './utils'
 
@@ -9,13 +9,14 @@ export async function execMintCollectionBasilisk({
   executeTransaction,
   isLoading,
   status,
+  simulate,
 }: MintCollectionParams) {
   const { $i18n } = useNuxtApp()
 
   isLoading.value = true
   status.value = 'loader.ipfs'
 
-  const metadata = await constructMeta(item)
+  const metadata = await constructSimulatableMeta(item, simulate)
 
   const cb = api.tx.nft.createCollection
 

@@ -45,12 +45,12 @@
       <div class="py-5">
         <div class="is-flex is-justify-content-space-between px-6">
           <AutoTeleportActionButton
-            :amount="totalFee + networkFee"
+            :amount="autoTeleportParams.amount"
             :actions="autoTeleportActions"
             :label="btnLabel"
             :disabled="disabled"
             :fees="{
-              actions: networkFee,
+              actions: autoTeleportParams.fees,
               actionAutoFees: false,
             }"
             auto-close-modal
@@ -70,12 +70,12 @@ import { CreateComponent } from '@/composables/useCreate'
 import { useFiatStore } from '@/stores/fiat'
 import { usePreferencesStore } from '@/stores/preferences'
 import { availablePrefixes } from '@/utils/chain'
-import { getTransitionFee } from '@/utils/transactionExecutor'
 import { calculateBalanceUsdValue } from '@/utils/format/balance'
 import { BASE_FEE } from '@/utils/support'
 import ConfirmMintItem from './ConfirmMintItem.vue'
 import PriceItem from './PriceItem.vue'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
+import useAutoTeleportActions from '@/composables/autoTeleport/useAutoTeleportActions'
 
 export type NftInformation = {
   file: Blob | null
@@ -115,6 +115,7 @@ const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 const fiatStore = useFiatStore()
 const preferencesStore = usePreferencesStore()
+const { getActionFees } = useAutoTeleportActions()
 const { isBasilisk } = useIsChain(urlPrefix)
 
 const { metadataDeposit, collectionDeposit, existentialDeposit, itemDeposit } =
@@ -187,6 +188,13 @@ const extendedInformation = computed(() => ({
   blockchain: blockchain.value,
 }))
 
+const autoTeleportParams = computed(() => {
+  return {
+    amount: totalFee.value,
+    fees: networkFee.value,
+  }
+})
+
 const onClose = () => {
   emit('update:modelValue', false)
 }
@@ -199,10 +207,7 @@ watchEffect(async () => {
   networkFee.value = 0
 
   if (!isBasilisk.value) {
-    const fee = await getTransitionFee(accountId.value, [''], decimals.value)
-    networkFee.value = props.nftInformation.listForSale
-      ? Number(fee) * 2
-      : Number(fee)
+    networkFee.value = await getActionFees(props.autoTeleportActions)
   }
 })
 </script>

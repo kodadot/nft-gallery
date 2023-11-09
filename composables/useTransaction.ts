@@ -123,11 +123,13 @@ export const executeAction = ({
   executeTransaction,
   isLoading,
   status,
+  simulate,
 }: {
   item: Actions
   api: ApiPromise
   isLoading: Ref<boolean>
   status: Ref<string>
+  simulate?: boolean
   executeTransaction
 }) => {
   const map = {
@@ -152,6 +154,7 @@ export const executeAction = ({
         executeTransaction,
         isLoading,
         status,
+        simulate,
       }),
     [ShoppingActions.MINT]: () =>
       execMintCollection({
@@ -160,6 +163,7 @@ export const executeAction = ({
         executeTransaction,
         isLoading,
         status,
+        simulate,
       }),
     [Collections.DELETE]: () =>
       execBurnCollection(

@@ -9,7 +9,6 @@ import { KODADOT_DAO } from '@/utils/support'
 import { calculateBalance } from './format/balance'
 import type { Actions } from '@/composables/transaction/types'
 import { ApiPromise } from '@polkadot/api'
-import { Interaction } from '@kodadot1/minimark/v1'
 
 export type ExecResult = UnsubscribeFn | string
 export type Extrinsic = SubmittableExtrinsic<'promise'>
@@ -120,12 +119,6 @@ export const getActionTransactionFee = ({
   address: string
 }) => {
   return new Promise((resolve, reject) => {
-    // Keep in mind atm actions with ipfs file will be uploadeed
-    if ([Interaction.MINT, Interaction.MINTNFT].includes(action.interaction)) {
-      console.log('[ACTION FEE]: Fee not allowed', action.interaction)
-      return resolve('0')
-    }
-
     executeAction({
       api,
       item: action,
@@ -139,6 +132,7 @@ export const getActionTransactionFee = ({
       },
       isLoading: ref(false),
       status: ref(''),
+      simulate: true, // this will skip the ipfs file uploading
     })
   })
 }
