@@ -74,7 +74,7 @@ const handleClose = () => {
 const handleActionCompleted = () => {
   preferencesStore.setTriggerBuySuccess(true)
   shoppingCartStore.clear()
-  usingAutoTeleport.value = false
+  handleClose()
 }
 
 const handleConfirm = async ({
@@ -95,7 +95,7 @@ const getCartModeBasedBuyAction = () => {
   if (isShoppingCartMode.value) {
     return getBuyAction(
       items.value.map(ShoppingCartItemToTokenToBuy),
-      items.value.map((item) => item?.name),
+      items.value.map((item) => item.name),
     )
   } else {
     const item = shoppingCartStore.getItemToBuy as ShoppingCartItem
