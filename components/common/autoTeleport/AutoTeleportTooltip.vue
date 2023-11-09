@@ -47,7 +47,7 @@
         </p>
       </div>
 
-      <div class="is-flex is-justify-content-start mt-4">
+      <div class="is-flex is-justify-content-start mt-4 is-hidden">
         <a
           class="has-text-link is-size-7"
           target="_blank"

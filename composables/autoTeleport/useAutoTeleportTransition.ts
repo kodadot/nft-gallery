@@ -5,7 +5,7 @@ import {
   chainToPrefixMap,
   prefixToChainMap,
 } from '@/utils/teleport'
-import useAutoTeleportTransitionDetails from '~/composables/autoTeleport/useAutoTeleportTransitionDetails'
+import useAutoTeleportTransitionDetails from '@/composables/autoTeleport/useAutoTeleportTransitionDetails'
 import type { AutoTeleportAction, AutoTeleportFeeParams } from './types'
 
 export default function ({

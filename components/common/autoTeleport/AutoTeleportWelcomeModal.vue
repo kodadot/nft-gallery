@@ -8,7 +8,7 @@
     <div class="modal-width">
       <header
         class="py-5 pl-6 pr-5 is-flex is-justify-content-space-between is-align-items-center">
-        <span class="is-capitalized is-size-3_5 has-text-weight-bold">
+        <span class="is-capitalized is-size-3-5 has-text-weight-bold">
           {{ $t('autoTeleport.welcomeToAutoTeleport') }}
         </span>
 
@@ -49,7 +49,7 @@
           {{ $t('autoTeleport.welcome.description') }}
         </p>
 
-        <div class="mt-2">
+        <div class="mt-2 is-hidden">
           <a
             class="has-text-link"
             target="_blank"
