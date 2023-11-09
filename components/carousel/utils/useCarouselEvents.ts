@@ -19,7 +19,7 @@ const nftEventVariables = {
 
 const disableChainsOnBeta = ['snek']
 
-const fetchLatestEvents = async (chain, type, where = {}) => {
+const fetchLatestEvents = async (chain, type, where = {}, limit = 5) => {
   const query = chain === 'ksm' ? latestEventsRmrkv2 : latestEvents
 
   return await useAsyncQuery({
@@ -27,7 +27,7 @@ const fetchLatestEvents = async (chain, type, where = {}) => {
     clientId: chain,
     variables: {
       // limit: limit, TODO: use limit
-      limit: 4,
+      limit,
       orderBy: 'timestamp_DESC',
       where: {
         ...nftEventVariables[type],
@@ -37,7 +37,7 @@ const fetchLatestEvents = async (chain, type, where = {}) => {
   })
 }
 
-const useChainEvents = async (chain, type, collectionIds) => {
+const useChainEvents = async (chain, type, eventQueryLimit, collectionIds) => {
   const nfts = ref<{ nft: NFTWithMetadata; timestamp: string }[]>([])
   const uniqueNftId = ref<string[]>([])
   const totalCollection = reactive({})
@@ -75,16 +75,21 @@ const useChainEvents = async (chain, type, collectionIds) => {
     pushNft(nft)
   }
 
-  const { data } = await fetchLatestEvents(chain, type, {
-    nft: {
-      ...(type === 'newestList' && { price_gt: 0 }),
-      id_not_in: [...new Set(excludeNftId.value)],
-      collection: {
-        ...(collectionIds && { id_in: collectionIds }),
-        id_not_in: [...new Set(excludeCollectionId.value)],
+  const { data } = await fetchLatestEvents(
+    chain,
+    type,
+    {
+      nft: {
+        ...(type === 'newestList' && { price_gt: 0 }),
+        id_not_in: [...new Set(excludeNftId.value)],
+        collection: {
+          ...(collectionIds && { id_in: collectionIds }),
+          id_not_in: [...new Set(excludeCollectionId.value)],
+        },
       },
     },
-  })
+    eventQueryLimit,
+  )
   data.value?.events?.forEach((nft) => limitCollection(nft))
 
   return {
@@ -150,11 +155,13 @@ export const useCarouselGenerativeNftEvents = async (
   const { data: salesData } = await useChainEvents(
     chain,
     'latestSales',
+    10, // temporary limit
     collectionIds,
   )
   const { data: listData } = await useChainEvents(
     chain,
     'newestList',
+    10, // temporary limit
     collectionIds,
   )
 
