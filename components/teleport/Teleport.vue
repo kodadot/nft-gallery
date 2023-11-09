@@ -1,88 +1,124 @@
 <template>
-  <section class="is-flex is-justify-content-center">
-    <div class="teleport-container">
-      <Loader v-model="isLoading" />
-      <h1 class="is-size-3 has-text-weight-bold">
-        {{ $i18n.t('teleport.page') }}
-      </h1>
-      <div class="mb-5">
-        <h3 class="has-text-weight-bold">{{ $i18n.t('teleport.from') }}</h3>
-        <TeleportTabs
-          :tabs="fromTabs"
+  <form class="mx-auto teleport-container" @submit.prevent="sendXCM">
+    <Loader v-model="isLoading" />
+    <h1 class="is-size-3 has-text-weight-bold">
+      {{ $t('teleport.page') }}
+    </h1>
+
+    <h2>{{ $t('teleport.subtitle') }}</h2>
+    <a
+      class="has-text-grey"
+      href="https://hello.kodadot.xyz/tutorial/teleport-bridge"
+      >{{ $t('teleport.howItWorks') }}
+    </a>
+
+    <hr class="my-5" />
+
+    <div
+      class="is-flex is-align-items-center is-justify-content-space-between networks">
+      <div class="w-full is-relative">
+        <div class="network-title">{{ $t('teleport.source') }}</div>
+        <NetworkDropdown
+          :options="fromNetworks"
           :value="fromChain"
           @select="onChainChange" />
       </div>
 
-      <div class="mb-5 is-flex is-flex-direction-column">
-        <div
-          class="is-flex is-justify-content-space-between is-align-items-center input-wrapper">
-          <input
-            v-model="amount"
-            class="transfer-amount is-flex is-align-items-center"
-            type="number"
-            placeholder="type your amount"
-            :min="0" />
-          <div
-            class="token is-flex is-align-items-center is-justify-content-center">
-            <span v-if="totalFiatValue" class="token-value is-size-7"
-              >~{{ totalFiatValue }} usd</span
-            >
-            {{ currency }}
-          </div>
-        </div>
-
-        <div
-          v-if="myBalance !== undefined"
-          class="is-size-7 is-flex is-justify-content-end is-align-items-center">
-          <span class="is-flex is-align-items-center">
-            <span class="mr-2">{{ $i18n.t('balance') }}:</span
-            >{{ myBalanceWithoutDivision.toFixed(4) }}{{ currency }}
-          </span>
-          <a class="max-button ml-2" @click="handleMaxClick">{{
-            $i18n.t('teleport.max')
-          }}</a>
-        </div>
+      <div class="network-arrow is-flex has-text-color">
+        <svg viewBox="0 0 39 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line y1="5.5" x2="35" y2="5.5" stroke="currentColor" />
+          <line y1="11.5" x2="35" y2="11.5" stroke="currentColor" />
+          <line
+            x1="30.3536"
+            y1="1.14645"
+            x2="38.3536"
+            y2="9.14645"
+            stroke="currentColor" />
+          <line
+            x1="38.3293"
+            y1="8.87629"
+            x2="30.3293"
+            y2="15.8763"
+            stroke="currentColor" />
+        </svg>
       </div>
 
-      <div class="mb-5">
-        <h3 class="has-text-weight-bold">{{ $i18n.t('teleport.to') }}</h3>
-        <TeleportTabs
-          :tabs="toTabs"
+      <div class="w-full is-relative">
+        <div class="network-title">{{ $t('teleport.destination') }}</div>
+        <NetworkDropdown
+          :options="toNetworks"
           :value="toChain"
           @select="(chain) => onChainChange(chain, false)" />
       </div>
-
-      <div class="mb-5">
-        {{
-          $i18n.t('teleport.receiveValue', [
-            amount || 0,
-            currency,
-            toChainLabel,
-          ])
-        }}
-        <a
-          v-safe-href="explorerUrl"
-          target="_blank"
-          rel="nofollow noopener noreferrer"
-          class="short-address">
-          {{ shortAddress(toAddress) }}
-        </a>
-      </div>
-
-      <NeoButton
-        :label="
-          insufficientBalance
-            ? $t('teleport.insufficientBalance', [currency])
-            : $t('teleport.send')
-        "
-        size="large"
-        class="is-size-6 submit-button"
-        :loading="isLoading"
-        :disabled="isDisabledButton"
-        variant="k-accent"
-        @click="sendXCM" />
     </div>
-  </section>
+
+    <NeoField class="mt-5">
+      <template #label>
+        <div class="has-text-weight-normal">{{ $t('teleport.amount') }}</div>
+      </template>
+
+      <div class="is-relative w-full">
+        <NeoInput
+          v-model="amount"
+          root-class="w-full"
+          input-class="pr-2"
+          step="0.01"
+          type="number"
+          placeholder="Enter Amount"
+          :min="0" />
+        <div class="is-absolute-right">
+          <span
+            v-if="totalFiatValue"
+            class="token-value is-size-7 has-text-grey"
+            >~{{ totalFiatValue }} usd</span
+          >
+          {{ currency }}
+        </div>
+      </div>
+    </NeoField>
+
+    <div
+      v-if="myBalance !== undefined"
+      class="is-size-7 is-flex is-justify-content-end is-align-items-center">
+      <span class="is-flex is-align-items-center">
+        <span class="mr-2">{{ $t('general.balance') }}:</span
+        >{{ myBalanceWithoutDivision.toFixed(4) }}{{ currency }}
+      </span>
+      <NeoButton
+        no-shadow
+        rounded
+        size="small"
+        class="ml-2"
+        @click="handleMaxClick"
+        >{{ $t('teleport.max') }}</NeoButton
+      >
+    </div>
+
+    <NeoButton
+      :label="
+        insufficientBalance
+          ? $t('teleport.insufficientBalance', [currency])
+          : 'Proceed To Confirmation'
+      "
+      size="large"
+      class="is-size-6 my-5"
+      expanded
+      :loading="isLoading"
+      :disabled="isDisabledButton"
+      native-type="submit"
+      variant="k-accent" />
+
+    <div>
+      {{ $t('teleport.receiveValue', [amount || 0, currency, toChainLabel]) }}
+      <a
+        v-safe-href="explorerUrl"
+        target="_blank"
+        rel="nofollow noopener noreferrer"
+        class="has-text-k-blue">
+        {{ shortAddress(toAddress) }}
+      </a>
+    </div>
+  </form>
 </template>
 
 <script setup lang="ts">
@@ -102,10 +138,15 @@ import Loader from '@/components/shared/Loader.vue'
 import * as paraspell from '@paraspell/sdk'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
 import shortAddress from '@/utils/shortAddress'
-import { getChainEndpointByPrefix, getChainName } from '@/utils/chain'
+import {
+  chainIcons,
+  getChainEndpointByPrefix,
+  getChainName,
+} from '@/utils/chain'
 import { txCb } from '@/utils/transactionExecutor'
-import TeleportTabs from './TeleportTabs.vue'
-import { NeoButton } from '@kodadot1/brick'
+import NeoInput from '~/libs/ui/src/components/NeoInput/NeoInput.vue'
+import NetworkDropdown from './NetworkDropdown.vue'
+import { NeoButton, NeoField } from '@kodadot1/brick'
 import { blockExplorerOf } from '@/utils/config/chain.config'
 import { simpleDivision } from '@/utils/balance'
 import { useFiatStore } from '@/stores/fiat'
@@ -118,11 +159,10 @@ const getApi = (from: Chain) => {
 
 const { accountId } = useAuth()
 const { assets } = usePrefix()
-const { $i18n } = useNuxtApp()
 const fiatStore = useFiatStore()
 const { decimalsOf } = useChain()
-const fromChain = ref(Chain.KUSAMA) //Selected origin parachain
-const toChain = ref(Chain.BASILISK) //Selected destination parachain
+const fromChain = ref(Chain.POLKADOT) //Selected origin parachain
+const toChain = ref(Chain.ASSETHUBPOLKADOT) //Selected destination parachain
 const amount = ref() //Required amount to be transfered is stored here
 const isLoading = ref(false)
 const unsubscribeKusamaBalance = ref()
@@ -178,53 +218,63 @@ const isDisabled = (chain: Chain) => {
   return !allowedTransitiosn[fromChain.value].includes(chain)
 }
 
-const fromTabs = [
+const fromNetworks = [
   {
     label: getChainName('rmrk'),
     value: Chain.KUSAMA,
+    icon: chainIcons.rmrk,
   },
   {
     label: getChainName('bsx'),
     value: Chain.BASILISK,
+    icon: chainIcons.bsx,
   },
   {
     label: getChainName('ahk'),
     value: Chain.ASSETHUBKUSAMA,
+    icon: chainIcons.ahk,
   },
   {
     label: getChainName('dot'),
     value: Chain.POLKADOT,
+    icon: chainIcons.dot,
   },
   {
     label: getChainName('ahp'),
     value: Chain.ASSETHUBPOLKADOT,
+    icon: chainIcons.ahp,
   },
 ]
-const toTabs = [
+const toNetworks = [
   {
     label: getChainName('rmrk'),
     value: Chain.KUSAMA,
     disabled: computed(() => isDisabled(Chain.KUSAMA)),
+    icon: chainIcons.rmrk,
   },
   {
     label: getChainName('bsx'),
     value: Chain.BASILISK,
     disabled: computed(() => isDisabled(Chain.BASILISK)),
+    icon: chainIcons.bsx,
   },
   {
     label: getChainName('ahk'),
     value: Chain.ASSETHUBKUSAMA,
     disabled: computed(() => isDisabled(Chain.ASSETHUBKUSAMA)),
+    icon: chainIcons.ahk,
   },
   {
     label: getChainName('dot'),
     value: Chain.POLKADOT,
     disabled: computed(() => isDisabled(Chain.POLKADOT)),
+    icon: chainIcons.dot,
   },
   {
     label: getChainName('ahp'),
     value: Chain.ASSETHUBPOLKADOT,
     disabled: computed(() => isDisabled(Chain.ASSETHUBPOLKADOT)),
+    icon: chainIcons.ahp,
   },
 ]
 
@@ -399,64 +449,76 @@ const sendXCM = async () => {
 }
 </script>
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables.scss';
+@import '@/assets/styles/abstracts/variables';
 
 .teleport-container {
-  max-width: 50rem;
-
-  .submit-button {
-    width: 100%;
-    height: 3.5rem;
+  @include tablet {
+    width: 454px;
+    margin-top: 80px;
+    margin-bottom: 94px;
   }
 
-  .short-address,
-  .max-button {
-    @include ktheme() {
-      color: theme('k-blue');
+  @include mobile {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+}
+
+.is-absolute-right {
+  position: absolute;
+  right: 2rem;
+  top: 0.75rem;
+}
+
+.networks {
+  @include tablet {
+    margin-top: 52px;
+    flex-direction: row;
+  }
+
+  @include mobile {
+    margin-top: 52px;
+    flex-direction: column;
+  }
+}
+
+.network-title {
+  position: absolute;
+  left: 0;
+  top: -28px;
+  line-height: 1;
+}
+
+.network-arrow {
+  min-width: 32px;
+  line-height: 1;
+
+  @include tablet {
+    margin: 0 1rem;
+  }
+
+  @include mobile {
+    position: relative;
+    transform: rotate(90deg);
+    height: 32px;
+    margin-top: 2px;
+    margin-bottom: 40px;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 0;
+      width: 8px;
+      height: 8px;
+      background: $white;
     }
   }
 }
 
-.input-wrapper {
-  @include ktheme() {
-    border: 1px solid theme('border-color');
-  }
-
-  .token {
-    width: 16rem;
-    position: relative;
-
-    .token-value {
-      position: absolute;
-      left: 0;
-      transform: translateX(-110%);
-
-      @include ktheme() {
-        color: theme('k-grey');
-      }
-    }
-  }
-
-  .transfer-amount {
-    border: none;
-
-    @include ktheme() {
-      color: theme('text-color');
-      border-right: 1px solid theme('border-color');
-      background: theme('background-color');
-    }
-
-    background: transparent;
-    padding: 0 0.5rem;
-    height: 54px;
-    outline: none;
-    width: 100%;
-
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none !important;
-    }
-    -moz-appearance: textfield;
+.dark-mode {
+  .network-arrow:before {
+    background: $background-dark;
   }
 }
 </style>

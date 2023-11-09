@@ -178,21 +178,51 @@ export async function execBurnCollection(
     errorMessage,
   }: ExecuteTransactionParams) => void,
 ) {
+  const collectionId = params.collectionId.toString()
+
   try {
-    const cb = api.tx.nfts.destroy
-    const witness = (
-      await api.query.nfts.collection(params.collectionId)
-    ).toJSON() as DestroyWitness
-    const witnessArg = {
-      itemMetadatas: witness?.itemMetadatas,
-      itemConfigs: witness?.itemConfigs,
-      attributes: witness?.attributes,
+    if (params.urlPrefix === 'rmrk') {
+      executeTransaction({
+        cb: api.tx.system.remark,
+        arg: [createInteraction(Interaction.CONSUME, collectionId, '')],
+      })
     }
 
-    executeTransaction({
-      cb,
-      arg: [params.collectionId.toString(), witnessArg],
-    })
+    if (params.urlPrefix === 'ksm') {
+      executeTransaction({
+        cb: api.tx.system.remark,
+        arg: [collectionId, {}],
+        // arg: [
+        //   createNewInteraction({
+        //     action: NewInteraction.DESTROY,
+        //     payload: { id: collectionId },
+        //   }),
+        // ],
+      })
+    }
+
+    if (params.urlPrefix === 'snek' || params.urlPrefix === 'bsx') {
+      executeTransaction({
+        cb: api.tx.nft.destroyCollection,
+        arg: [collectionId],
+      })
+    }
+
+    if (params.urlPrefix === 'ahk' || params.urlPrefix === 'ahp') {
+      const witness = (
+        await api.query.nfts.collection(params.collectionId)
+      ).toJSON() as DestroyWitness
+      const witnessArg = {
+        itemMetadatas: witness?.itemMetadatas,
+        itemConfigs: witness?.itemConfigs,
+        attributes: witness?.attributes,
+      }
+
+      executeTransaction({
+        cb: api.tx.nfts.destroy,
+        arg: [collectionId, witnessArg],
+      })
+    }
   } catch (error) {
     warningMessage(error)
   }

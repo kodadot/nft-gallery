@@ -50,7 +50,6 @@
         </NeoDropdown>
 
         <NeoDropdown
-          v-if="isOwner && isAssetHub"
           position="bottom-left"
           append-to-body
           :mobile-modal="false">
@@ -70,9 +69,9 @@
                 {{ $i18n.t('moreActions.customize') }}
               </NeoDropdownItem> -->
           </div>
-          <!-- <NeoDropdownItem disabled>
+          <NeoDropdownItem disabled>
             {{ $i18n.t('moreActions.reportCollection') }}
-          </NeoDropdownItem> -->
+          </NeoDropdownItem>
         </NeoDropdown>
       </div>
     </div>
@@ -103,7 +102,6 @@ import HeroButtonDeleteNfts from './HeroButtonDeleteNfts.vue'
 const route = useRoute()
 const { isCurrentOwner } = useAuth()
 const { urlPrefix } = usePrefix()
-const { isAssetHub } = useIsChain(urlPrefix)
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 

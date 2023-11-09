@@ -14,7 +14,7 @@
     "experimentalDecorators": true,
     "noImplicitAny": false,
     "resolveJsonModule": true,
-    "verbatimModuleSyntax": false,
+    "verbatimModuleSyntax": false, // TODO: would be good if true
     "types": [
       "@nuxt/types",
       "@nuxtjs/i18n",
