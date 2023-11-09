@@ -11,14 +11,20 @@
         </p>
       </div>
       <div class="preview-content border-top p-3">
-        <p class="has-text-weight-bold is-ellipsis">{{ name || 'Untitled' }}</p>
+        <p
+          class="has-text-weight-bold is-ellipsis"
+          data-testid="nft-preview-name">
+          {{ name || 'Untitled' }}
+        </p>
         <p class="is-size-7 is-ellipsis has-text-grey">
           {{ collection || $t('mint.nft.preview.noCollection') }}
         </p>
 
         <div
           class="is-flex is-justify-content-space-between is-align-items-center mt-2">
-          <p class="">{{ price || '$$$' }} {{ symbol }}</p>
+          <p class="" data-testid="nft-preview-price">
+            {{ price || '$$$' }} {{ symbol }}
+          </p>
           <p class="is-capitalized is-size-7 has-text-grey">
             {{ chain ? getChainNameByPrefix(chain) : '--' }}
           </p>
