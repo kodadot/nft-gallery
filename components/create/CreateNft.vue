@@ -190,7 +190,9 @@
       <div>
         <div class="is-flex has-text-weight-medium has-text-info">
           <div>{{ $t('mint.deposit') }}:&nbsp;</div>
-          <div data-testid="create-nft-deposit-amount">{{ deposit }} {{ chainSymbol }}</div>
+          <div data-testid="create-nft-deposit-amount">
+            {{ deposit }} {{ chainSymbol }}
+          </div>
         </div>
         <div class="is-flex">
           <div>{{ $t('general.balance') }}:&nbsp;</div>
