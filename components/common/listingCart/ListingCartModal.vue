@@ -105,9 +105,10 @@ watch(floorPricePercentAdjustment, (rate) => {
 })
 
 const fiatStore = useFiatStore()
+const action = ref<Actions>(emptyObject<Actions>())
 const actions = computed<AutoTeleportAction[]>(() => [
   {
-    action: getAction(listingCartStore.itemsInChain),
+    action: action.value,
     transaction,
     details: {
       isLoading: isLoading.value,
@@ -230,6 +231,12 @@ watch(
     }
   },
 )
+
+watchSyncEffect(() => {
+  if (!autoTeleport.value) {
+    action.value = getAction(listingCartStore.itemsInChain)
+  }
+})
 
 onUnmounted(() => {
   preferencesStore.listingCartModalOpen = false
