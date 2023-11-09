@@ -20,11 +20,13 @@
         </p>
 
         <div class="is-flex mt-5 is-justify-content-center">
-          <nuxt-link :to="`/${urlPrefix}/collection/${collectionId}`">
-            <NeoButton variant="pill" class="mr-2" :tag="NuxtLink">
-              {{ $t('migrate.congrats.cta') }}
-            </NeoButton>
-          </nuxt-link>
+          <NeoButton
+            variant="pill"
+            class="mr-2"
+            :tag="NuxtLink"
+            :to="`/${urlPrefix}/collection/${collectionId}`">
+            {{ $t('migrate.congrats.cta') }}
+          </NeoButton>
           <NeoButton variant="pill" class="ml-2">
             {{ $t('migrate.congrats.share') }}
             <NeoIcon icon="x-twitter" pack="fab" />
