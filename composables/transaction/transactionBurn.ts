@@ -3,6 +3,13 @@ import {
   Interaction as NewInteraction,
   createInteraction as createNewInteraction,
 } from '@kodadot1/minimark/v2'
+import type { ApiPromise } from '@polkadot/api'
+import type {
+  ActionDeleteCollection,
+  ExecuteTransactionParams,
+} from '@/composables/transaction/types'
+
+import { warningMessage } from '@/utils/notification'
 
 import { isLegacy } from '@/components/unique/utils'
 import {
@@ -87,5 +94,56 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
       successMessage: item.successMessage,
       errorMessage: item.errorMessage,
     })
+  }
+}
+
+export function execBurnCollection(
+  params: ActionDeleteCollection,
+  api: ApiPromise,
+  executeTransaction: ({
+    cb,
+    arg,
+    successMessage,
+    errorMessage,
+  }: ExecuteTransactionParams) => void,
+) {
+  const collectionId = params.collectionId.toString()
+
+  try {
+    if (params.urlPrefix === 'rmrk') {
+      executeTransaction({
+        cb: api.tx.system.remark,
+        arg: [createInteraction(Interaction.CONSUME, collectionId, '')],
+      })
+    }
+
+    if (params.urlPrefix === 'ksm') {
+      executeTransaction({
+        cb: api.tx.system.remark,
+        arg: [collectionId, {}],
+        // arg: [
+        //   createNewInteraction({
+        //     action: NewInteraction.DESTROY,
+        //     payload: { id: collectionId },
+        //   }),
+        // ],
+      })
+    }
+
+    if (params.urlPrefix === 'snek' || params.urlPrefix === 'bsx') {
+      executeTransaction({
+        cb: api.tx.nft.destroyCollection,
+        arg: [collectionId],
+      })
+    }
+
+    if (params.urlPrefix === 'ahk' || params.urlPrefix === 'ahp') {
+      executeTransaction({
+        cb: api.tx.nfts.destroy,
+        arg: [collectionId, {}],
+      })
+    }
+  } catch (error) {
+    warningMessage(error)
   }
 }
