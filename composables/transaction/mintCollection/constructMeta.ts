@@ -18,11 +18,6 @@ const createAttributes = (item: ActionMintCollection) => {
   return []
 }
 
-export const constructSimulatableMeta = (
-  item: ActionMintCollection,
-  simulate?: boolean,
-) => (simulate ? '' : constructMeta(item))
-
 export async function constructMeta(item: ActionMintCollection) {
   const { file, name, description } = item.collection
 

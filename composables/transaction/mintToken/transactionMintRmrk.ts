@@ -24,7 +24,7 @@ import {
   MintedCollectionKusama,
   TokenToMint,
 } from '../types'
-import { constructSimulatableMeta } from './constructMeta'
+import { constructMeta } from './constructMeta'
 import { isRoyaltyValid } from '@/utils/royalty'
 import { calculateFees, copiesToMint, getNameInNotifications } from './utils'
 
@@ -91,18 +91,11 @@ const createMintInteractionObject = (
 const processSingleTokenToMint = async (
   token: TokenToMint,
   api,
-  simulate?: boolean,
 ): Promise<{
   arg: Extrinsic[]
   createdNFTs: CreatedNFT[] | NewCreatedNFT[]
 }> => {
-  const metadata = await constructSimulatableMeta(
-    {
-      tokenToMint: token,
-      options: { enableCarbonOffset: true },
-    },
-    simulate,
-  )
+  const metadata = await constructMeta(token, { enableCarbonOffset: true })
   const onChainProperties = getOnChainProperties(token)
   const mint = createMintObject(token, metadata, getUpdateNameFn(token))
   const mintInteraction = createMintInteractionObject(mint, onChainProperties)
@@ -118,14 +111,14 @@ const processSingleTokenToMint = async (
   }
 }
 
-const getArgs = async (item: ActionMintToken, api, simulate: boolean) => {
+const getArgs = async (item: ActionMintToken, api) => {
   const { $consola } = useNuxtApp()
   const tokens = Array.isArray(item.token) ? item.token : [item.token]
 
   const argsAndNftsArray = (
     await Promise.all(
       tokens.map((token) => {
-        return processSingleTokenToMint(token, api, simulate).catch((e) => {
+        return processSingleTokenToMint(token, api).catch((e) => {
           $consola.error('Error:', e)
         })
       }),
@@ -148,12 +141,11 @@ export async function execMintRmrk({
   executeTransaction,
   isLoading,
   status,
-  simulate,
 }: MintTokenParams) {
   const { $i18n } = useNuxtApp()
   isLoading.value = true
   status.value = 'loader.ipfs'
-  const { args, createdNFTs } = await getArgs(item, api, simulate)
+  const { args, createdNFTs } = await getArgs(item, api)
 
   const nameInNotifications = getNameInNotifications(item)
 

@@ -11,24 +11,12 @@ import { uploadDirectWhenMultiple } from '@/utils/directUpload'
 import { preheatFileFromIPFS } from '@/utils/ipfs'
 import { TokenToMint } from '../types'
 
-type ConstructMetaParams = {
-  tokenToMint: TokenToMint
+export async function constructMeta(
+  tokenToMint: TokenToMint,
   options?: {
     enableCarbonOffset?: boolean
-  }
-}
-
-export async function constructSimulatableMeta(
-  parms: ConstructMetaParams,
-  simulate?: boolean,
-) {
-  return simulate ? '' : constructMeta(parms)
-}
-
-export async function constructMeta({
-  tokenToMint,
-  options,
-}: ConstructMetaParams): Promise<string> {
+  },
+): Promise<string> {
   const preferencesStore = usePreferencesStore()
   const { $consola } = useNuxtApp()
   const { file, name, description, secondFile, tags, nsfw } = tokenToMint

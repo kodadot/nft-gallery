@@ -6,8 +6,9 @@ import {
 } from '@/utils/teleport'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { getMaxKeyByValue } from '@/utils/math'
+import { getActionTransactionFee } from '@/utils/transactionExecutor'
+import { sum } from 'lodash'
 import type { AutoTeleportAction, AutoTeleportFeeParams } from './types'
-import useAutoTeleportActions from './useAutoTeleportActions'
 
 const BUFFER_FEE_PERCENT = 0.2
 const BUFFER_AMOUNT_PERCENT = 0.02
@@ -23,12 +24,12 @@ export default function (
     fetchChainsBalances,
     getAddressByChain,
   } = useTeleport()
+  const { apiInstance, apiInstanceByPrefix } = useApi()
   const { balance } = useBalance()
-  const { getActionFees } = useAutoTeleportActions()
 
   const hasBalances = ref(false)
   const teleportTxFee = ref(0)
-  const actionTxFees = ref<number>(0)
+  const actionTxFees = ref<number[]>([])
 
   const chainSymbol = computed(
     () => currentChain.value && getChainCurrency(currentChain.value),
@@ -39,7 +40,8 @@ export default function (
   )
 
   const totalFees = computed(
-    () => teleportTxFee.value + actionTxFees.value + Math.ceil(fees.actions),
+    () =>
+      teleportTxFee.value + sum(actionTxFees.value) + Math.ceil(fees.actions),
   )
 
   const neededAmountWithFees = computed(
@@ -154,7 +156,26 @@ export default function (
     actions,
     async () => {
       if (fees.actionAutoFees) {
-        actionTxFees.value = await getActionFees(actions.value)
+        try {
+          const feesPromisses = actions.value.map(
+            async ({ action, prefix }) => {
+              let api = await apiInstance.value
+              if (prefix) {
+                api = await apiInstanceByPrefix(prefix)
+              }
+              const address = getAddressByChain(currentChain.value as Chain)
+              return getActionTransactionFee({
+                api,
+                action: action,
+                address,
+              })
+            },
+          )
+          const fees = await Promise.all(feesPromisses)
+          actionTxFees.value = fees.map(Number)
+        } catch (error) {
+          console.error(`[AUTOTELEPORT]: Failed getting action fee  ${error}`)
+        }
       }
     },
     { immediate: true },

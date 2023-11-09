@@ -1,5 +1,5 @@
 import type { CollectionToMintKusama, MintCollectionParams } from '../types'
-import { constructSimulatableMeta } from './constructMeta'
+import { constructMeta } from './constructMeta'
 import {
   Interaction,
   createCollection,
@@ -18,7 +18,6 @@ export async function execMintCollectionRmrk({
   executeTransaction,
   isLoading,
   status,
-  simulate,
 }: MintCollectionParams) {
   const { isV2 } = useRmrkVersion()
   const { accountId } = useAuth()
@@ -27,7 +26,7 @@ export async function execMintCollectionRmrk({
   isLoading.value = true
   status.value = 'loader.ipfs'
 
-  const metadata = await constructSimulatableMeta(item, simulate)
+  const metadata = await constructMeta(item)
   const { symbol, name, nftCount } = item.collection as CollectionToMintKusama
 
   const mint = createCollection(

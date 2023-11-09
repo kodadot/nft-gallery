@@ -9,7 +9,6 @@ export function execMintCollection({
   executeTransaction,
   isLoading,
   status,
-  simulate,
 }: MintCollectionParams) {
   if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'ksm') {
     return execMintCollectionRmrk({
@@ -18,7 +17,6 @@ export function execMintCollection({
       executeTransaction,
       isLoading,
       status,
-      simulate,
     })
   }
 
@@ -29,7 +27,6 @@ export function execMintCollection({
       executeTransaction,
       isLoading,
       status,
-      simulate,
     })
   }
   if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
@@ -39,7 +36,6 @@ export function execMintCollection({
       executeTransaction,
       isLoading,
       status,
-      simulate,
     })
   }
 }

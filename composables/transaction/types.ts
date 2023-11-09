@@ -24,17 +24,13 @@ export type ExecuteTransactionParams = {
   errorMessage?: string | (() => string)
 }
 
-type SimulatableActionParams = {
-  simulate?: boolean
-}
-
 type BaseMintParams<T> = {
   item: T
   api: ApiPromise
   executeTransaction: (p: ExecuteTransactionParams) => void
   isLoading: Ref<boolean>
   status: Ref<string>
-} & SimulatableActionParams
+}
 
 export type MintTokenParams = BaseMintParams<ActionMintToken>
 
