@@ -38,6 +38,12 @@
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
+type Collection = Ref<{
+  collectionEntityById?: {
+    name?: string
+  }
+}>
+
 const NuxtLink = resolveComponent('NuxtLink')
 
 definePageMeta({
@@ -64,12 +70,6 @@ const { data } = useGraphql({
     id: route.query.nextCollectionId,
   },
 })
-
-type Collection = Ref<{
-  collectionEntityById?: {
-    name?: string
-  }
-}>
 
 const collectionName = computed(
   () => (data as Collection).value?.collectionEntityById?.name,
