@@ -71,5 +71,5 @@ export const getNativeBalance = async ({
     ).free.toString()
   }
 
-  return await balanceOf(api, address)
+  return balanceOf(api, address)
 }
