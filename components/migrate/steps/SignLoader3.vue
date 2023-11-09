@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
-import { NFTs } from '@/composables/transaction/types'
+import { Collections, NFTs } from '@/composables/transaction/types'
 import { NeoIcon } from '@kodadot1/brick'
 import {
   type Steps,
@@ -60,6 +60,18 @@ const { steps, updateSteps } = inject('steps') as {
   updateSteps: (step: Steps) => void
 }
 
+const whichIcon = () => {
+  if (steps.value === 'step4') {
+    return iconSuccess
+  }
+
+  if (steps.value === 'step3-burn' || steps.value === 'step3-burn-collection') {
+    return iconLoading
+  }
+
+  return iconIdle
+}
+
 const { data } = useGraphql({
   queryName: 'nftIdListByCollection',
   clientName: from,
@@ -79,6 +91,17 @@ const burnItems = async (ids: string[]) => {
     from,
   )
   updateSteps('step3-burn')
+}
+
+const burnCollection = async () => {
+  if (fromCollectionId) {
+    await transaction({
+      interaction: Collections.DELETE,
+      collectionId: fromCollectionId,
+      urlPrefix: from,
+    })
+    updateSteps('step3-burn-collection')
+  }
 }
 
 const congratsPage = () => {
@@ -103,19 +126,14 @@ watchEffect(() => {
     steps.value === 'step3-burn' &&
     status.value === TransactionStatus.Finalized
   ) {
+    burnCollection()
+  }
+
+  if (
+    steps.value === 'step3-burn-collection' &&
+    status.value === TransactionStatus.Finalized
+  ) {
     congratsPage()
   }
 })
-
-const whichIcon = () => {
-  if (steps.value === 'step4') {
-    return iconSuccess
-  }
-
-  if (steps.value === 'step3-burn') {
-    return iconLoading
-  }
-
-  return iconIdle
-}
 </script>
