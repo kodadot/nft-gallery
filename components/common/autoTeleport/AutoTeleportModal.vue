@@ -87,6 +87,8 @@ export type ActionDetails = {
   submit: string
 }
 
+const AUTOCLOSE_DEFAULT_DELAY = 3000
+
 const emit = defineEmits([
   'close',
   'completed',
@@ -94,13 +96,19 @@ const emit = defineEmits([
   'action:start',
   'action:retry',
 ])
-const props = defineProps<{
-  modelValue: boolean
-  transition: TeleportTransition
-  canDoAction: boolean
-  transactions: AutoTeleportTransactions
-  autoClose: boolean
-}>()
+const props = withDefaults(
+  defineProps<{
+    modelValue: boolean
+    transition: TeleportTransition
+    canDoAction: boolean
+    transactions: AutoTeleportTransactions
+    autoClose: boolean
+    autoCloseDelay: number
+  }>(),
+  {
+    autoCloseDelay: AUTOCLOSE_DEFAULT_DELAY,
+  },
+)
 
 const activeStep = ref(0)
 const { $i18n } = useNuxtApp()
@@ -229,7 +237,7 @@ watch(actionsFinalized, () => {
     if (props.autoClose) {
       setTimeout(() => {
         onClose()
-      }, 3000)
+      }, props.autoCloseDelay)
     }
   }
 })
