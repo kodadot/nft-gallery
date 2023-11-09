@@ -7,6 +7,9 @@ import { toDefaultAddress } from '@/utils/account'
 import { DispatchError, Hash } from '@polkadot/types/interfaces'
 import { KODADOT_DAO } from '@/utils/support'
 import { calculateBalance } from './format/balance'
+import type { Actions } from '@/composables/transaction/types'
+import { ApiPromise } from '@polkadot/api'
+import { Interaction } from '@kodadot1/minimark/v1'
 
 export type ExecResult = UnsubscribeFn | string
 export type Extrinsic = SubmittableExtrinsic<'promise'>
@@ -105,6 +108,39 @@ export const estimate = async (
     injector ? { signer: injector.signer } : {},
   )
   return info.partialFee.toString()
+}
+
+export const getActionTransactionFee = ({
+  action,
+  address,
+  api,
+}: {
+  action: Actions
+  api: ApiPromise
+  address: string
+}) => {
+  return new Promise((resolve, reject) => {
+    // Keep in mind atm actions with ipfs file will be uploadeed
+    if ([Interaction.MINT, Interaction.MINTNFT].includes(action.interaction)) {
+      console.log('[ACTION FEE]: Fee not allowed', action.interaction)
+      return resolve('0')
+    }
+
+    executeAction({
+      api,
+      item: action,
+      executeTransaction: async ({ cb, arg }) => {
+        try {
+          const fee = await estimate(address, cb, arg)
+          resolve(fee)
+        } catch (error) {
+          reject(error)
+        }
+      },
+      isLoading: ref(false),
+      status: ref(''),
+    })
+  })
 }
 
 export const getTransitionFee = async (

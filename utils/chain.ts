@@ -43,20 +43,23 @@ export const getAvailablePrefix = (prefix: string): string => {
     : ''
 }
 
-export const availablePrefixWithIcon = () => {
-  const menus = {
-    ahk: '/token/kusama_asset_hub.svg',
-    ahp: '/token/polkadot_asset_hub.svg',
-    bsx: '/token/bsx.svg',
-    snek: '/token/bsx.svg',
-    ksm: '/token/ksm.svg',
-    rmrk: '/token/ksm.svg',
-  }
+export const chainIcons = {
+  ahk: '/token/kusama_asset_hub.svg',
+  ahp: '/token/polkadot_asset_hub.svg',
+  bsx: '/token/bsx.svg',
+  snek: '/token/bsx.svg',
+  ksm: '/token/ksm.svg',
+  rmrk: '/token/ksm.svg',
+  dot: '/token/dot.svg',
+}
 
+export const availablePrefixWithIcon = () => {
   return availablePrefixes().map((chain) => {
     return {
       ...chain,
-      icon: menus[chain.value] || '',
+      icon: chainIcons[chain.value] || '',
     }
   })
 }
+
+export const popularChains = ['ksm', 'ahk', 'ahp']

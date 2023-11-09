@@ -256,8 +256,8 @@ import { useDebounceFn } from '@vueuse/core'
 import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
 import { denyList } from '@/utils/constants'
 import {
-  CollectionWithMeta,
-  NFTWithMeta,
+  type CollectionWithMeta,
+  type NFTWithMeta,
 } from '@/components/rmrk/service/scheme'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { logError, mapNFTorCollectionMetadata } from '@/utils/mappers'

@@ -180,7 +180,7 @@ const onSuccess = () => {
   width: 25rem;
 }
 
-@include touch() {
+@include mobile() {
   .modal-width {
     width: unset;
   }

@@ -20,12 +20,13 @@ const { setUrlPrefix } = usePrefix()
 const { redirectAfterChainChange } = useChainRedirect()
 const preferencesStore = usePreferencesStore()
 
-const emits = defineEmits(['select'])
+const emits = defineEmits(['select', 'closeMobileSubMenu'])
 
 const changeChain = (newChain) => {
   preferencesStore.setNotificationBoxCollapse(false)
   setUrlPrefix(newChain)
   redirectAfterChainChange(newChain)
   emits('select')
+  emits('closeMobileSubMenu')
 }
 </script>

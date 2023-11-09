@@ -10,7 +10,7 @@
 const route = useRoute()
 
 definePageMeta({
-  layout: 'no-footer',
+  layout: 'full-width-no-footer',
 })
 
 useSeoMeta({

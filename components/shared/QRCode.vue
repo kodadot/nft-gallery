@@ -8,7 +8,8 @@
 </template>
 
 <script setup lang="ts">
-import QrcodeVue, { Level } from 'qrcode.vue'
+import type { Level } from 'qrcode.vue'
+import QrcodeVue from 'qrcode.vue'
 
 withDefaults(
   defineProps<{

@@ -2,6 +2,7 @@
   <div>
     <BasicNumberInput
       v-model="vRoyalty"
+      data-testid="royalty-form-input-percentage"
       :label="$t('mint.royalty.rate')"
       expanded
       :step="0.1"
@@ -9,11 +10,15 @@
       :min="0"
       :max="99.99" />
 
-    <BasicSwitch v-model="isMine" label="mint.royalty.mine" />
+    <BasicSwitch
+      v-model="isMine"
+      label="mint.royalty.mine"
+      data-testid="royalty-form-switch" />
     <AddressInput
       v-show="!isMine"
       v-model="vAddress"
       label="mint.royalty.receiver"
+      data-testid="royalty-form-custom-address"
       :strict="false"
       empty-on-error />
   </div>
