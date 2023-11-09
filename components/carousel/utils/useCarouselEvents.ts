@@ -19,7 +19,7 @@ const nftEventVariables = {
 
 const disableChainsOnBeta = ['snek']
 
-const fetchLatestEvents = async (chain, type, where = {}, limit = 4) => {
+const fetchLatestEvents = async (chain, type, where = {}, limit = 5) => {
   const query = chain === 'ksm' ? latestEventsRmrkv2 : latestEvents
 
   return await useAsyncQuery({
