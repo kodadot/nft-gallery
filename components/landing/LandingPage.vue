@@ -38,6 +38,9 @@
 
             <!-- latest sales -->
             <LazyCarouselTypeLatestSales class="mt-8" />
+
+            <!-- generative  -->
+            <LazyCarouselTypeGenerative class="mt-8" />
           </div>
         </section>
       </ClientOnly>
