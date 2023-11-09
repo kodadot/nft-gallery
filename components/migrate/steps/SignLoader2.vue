@@ -10,17 +10,21 @@
         <NeoIcon v-else v-bind="iconIdle" class="fa-2x" />
       </div>
       <div>
-        <p class="has-text-weight-bold">Migrating your items</p>
+        <p class="has-text-weight-bold">
+          {{ $t('migrate.signStep.migratingItems') }}
+        </p>
         <p class="is-size-7 has-text-grey">
-          You will now sign transactions to migrate NFTs you own.
+          {{ $t('migrate.signStep.signtx') }}
         </p>
       </div>
     </div>
     <div class="is-flex is-size-7">
       <div class="v-border"></div>
       <div class="mb-4">
-        <p v-if="iterations">{{ iterations }}/{{ maxIterations }} Left</p>
-        <p v-else>Done</p>
+        <p v-if="iterations">
+          {{ iterations }}/{{ maxIterations }} {{ $t('migrate.signStep.left') }}
+        </p>
+        <p v-else>{{ $t('migrate.signStep.done') }}</p>
       </div>
     </div>
     <div
@@ -31,7 +35,7 @@
       <div class="mb-4 is-flex">
         <NeoIcon v-bind="itemLeftIcons(index)" class="mr-4" />
         <div>
-          <p>Migrating {{ itemLeft(index) }} Items</p>
+          <p>{{ $t('migrate.signStep.migratingNItems', itemLeft(index)) }}</p>
         </div>
       </div>
     </div>

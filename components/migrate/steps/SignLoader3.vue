@@ -5,22 +5,24 @@
         <NeoIcon v-bind="whichIcon()" class="fa-2x" />
       </div>
       <div>
-        <p class="has-text-weight-bold">Finalization</p>
+        <p class="has-text-weight-bold">
+          {{ $t('migrate.signStep.finalization') }}
+        </p>
         <p class="is-size-7 has-text-grey">
-          Please authorize transactions to complete the NFT migration.
+          {{ $t('migrate.signStep.authorize') }}
         </p>
       </div>
     </div>
     <div class="is-flex is-size-7">
       <div class="v-border"></div>
-      <div class="mb-4">1/1 Left</div>
+      <div class="mb-4">1/1 {{ $t('migrate.signStep.left') }}</div>
     </div>
     <div class="is-flex is-size-7">
       <div class="v-border"></div>
       <div class="mb-4 is-flex">
         <NeoIcon v-bind="whichIcon()" class="mr-4" />
         <div>
-          <p>Finalizing {{ itemCount }} Items</p>
+          <p>{{ $t('migrate.signStep.finalizingItems', [itemCount]) }}</p>
         </div>
       </div>
     </div>

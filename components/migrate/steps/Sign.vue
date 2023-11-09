@@ -2,12 +2,12 @@
   <div>
     <div class="mt-5">{{ $t('migrate.signNotes') }}</div>
     <p class="mt-5 has-text-grey is-size-7">
-      - Please do not exit this modal until transactions are complete -
+      {{ $t('migrate.signStep.notesModal') }}
     </p>
     <hr />
     <p class="is-size-7">
-      <strong><NeoIcon icon="lightbulb" /> Tip</strong>: Look for popups from
-      your wallet extension for signing.
+      <strong><NeoIcon icon="lightbulb" /> {{ $t('tip') }}</strong
+      >: {{ $t('migrate.signStep.notesPopup') }}
     </p>
 
     <MigrateStepsSignLoader />

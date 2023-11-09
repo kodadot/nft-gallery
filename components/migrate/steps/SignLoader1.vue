@@ -5,18 +5,21 @@
         <NeoIcon v-bind="whichIcon()" class="fa-2x" />
       </div>
       <div>
-        <p class="has-text-weight-bold">Initiation Phase</p>
+        <p class="has-text-weight-bold">
+          {{ $t('migrate.signStep.initiation') }}
+        </p>
         <p class="is-size-7 has-text-grey">
-          Launching your journey with a first transaction that sets up
-          everything needed on the new chain.
+          {{ $t('migrate.signStep.journey') }}
         </p>
       </div>
     </div>
     <div class="is-flex is-size-7">
       <div class="v-border"></div>
       <div class="mb-4">
-        <p v-if="step1Iterations">{{ step1Iterations }}/2 Left</p>
-        <p v-else>Done</p>
+        <p v-if="step1Iterations">
+          {{ step1Iterations }}/2 {{ $t('migrate.signStep.left') }}
+        </p>
+        <p v-else>{{ $t('migrate.signStep.done') }}</p>
       </div>
     </div>
     <div class="is-flex is-size-7">
@@ -28,13 +31,13 @@
           <NeoIcon v-else v-bind="iconIdle" />
         </div>
         <div>
-          <p>Create Collection</p>
+          <p>{{ $t('migrate.signStep.create collection') }}</p>
           <nuxt-link
             v-if="step1Iterations === 0"
             target="_blank"
             class="has-text-k-blue"
             :to="`/${client}/collection/${nextId}`">
-            View Tx <NeoIcon icon="arrow-up-right" />
+            {{ $t('viewtx') }} <NeoIcon icon="arrow-up-right" />
           </nuxt-link>
         </div>
       </div>
@@ -47,8 +50,8 @@
           <NeoIcon v-else v-bind="iconIdle" />
         </div>
         <div>
-          <p>Automated Asset Preparation</p>
-          <p>No Signature Needed</p>
+          <p>{{ $t('migrate.signStep.prepare') }}</p>
+          <p>{{ $t('migrate.signStep.noSignature') }}</p>
         </div>
       </div>
     </div>
