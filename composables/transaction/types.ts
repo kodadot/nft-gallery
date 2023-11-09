@@ -182,6 +182,8 @@ export enum Collections {
   DELETE = 'delete',
 }
 
+export type ActionsInteractions = Interaction | ShoppingActions | Collections
+
 export interface ActionDeleteCollection {
   interaction: Collections.DELETE
   collectionId: string

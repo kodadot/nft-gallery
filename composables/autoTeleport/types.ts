@@ -1,7 +1,8 @@
 import { TransactionStatus } from '@/composables/useTransactionStatus'
-import { Interaction } from '@kodadot1/minimark/v1'
-import { ShoppingActions } from '@/utils/shoppingActions'
-import { type Actions } from '@/composables/transaction/types'
+import type {
+  Actions,
+  ActionsInteractions,
+} from '@/composables/transaction/types'
 import { type Prefix } from '@kodadot1/static'
 import { type DeepReadonly } from 'vue'
 
@@ -13,7 +14,7 @@ type TransactionDetails = {
 
 export type ActionTransactionDetails = TransactionDetails & {
   isLoading: Ref<boolean>
-  interaction: Interaction | ShoppingActions
+  interaction: ActionsInteractions
   blockNumber?: Ref<string | undefined>
 }
 
