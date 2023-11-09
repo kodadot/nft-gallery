@@ -50,7 +50,6 @@
         </NeoDropdown>
 
         <NeoDropdown
-          v-if="isOwner && isAssetHub"
           position="bottom-left"
           append-to-body
           :mobile-modal="false">
@@ -71,9 +70,9 @@
                 {{ $i18n.t('moreActions.customize') }}
               </NeoDropdownItem> -->
           </div>
-          <!-- <NeoDropdownItem disabled>
+          <NeoDropdownItem disabled>
             {{ $i18n.t('moreActions.reportCollection') }}
-          </NeoDropdownItem> -->
+          </NeoDropdownItem>
         </NeoDropdown>
       </div>
     </div>
@@ -132,7 +131,6 @@ import { Collections } from '@/composables/transaction/types'
 const route = useRoute()
 const { isCurrentOwner, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
-const { isAssetHub } = useIsChain(urlPrefix)
 const { $i18n, $updateLoader } = useNuxtApp()
 const { toast } = useToast()
 
@@ -171,6 +169,7 @@ const deleteCollection = async () => {
 
   await transaction({
     interaction: Collections.DELETE,
+    urlPrefix: urlPrefix.value,
     collectionId: id,
   })
 
@@ -183,6 +182,7 @@ const deleteCollection = async () => {
     `,
     onChange: ({ data }) => {
       if (data.collectionEntity.burned) {
+        $updateLoader(false)
         navigateTo(`/${urlPrefix.value}/u/${accountId.value}?tab=collections`)
       }
     },

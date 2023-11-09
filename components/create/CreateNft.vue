@@ -191,7 +191,7 @@
         <div class="is-flex has-text-weight-medium has-text-info">
           <div>{{ $t('mint.deposit') }}:&nbsp;</div>
           <div data-testid="create-nft-deposit-amount">
-            {{ totalItemDeposit }} {{ chainSymbol }}
+            {{ deposit }} {{ chainSymbol }}
           </div>
         </div>
         <div class="is-flex">
@@ -219,10 +219,7 @@
         <p class="is-size-7">
           <span
             v-dompurify-html="
-              $t('mint.requiredDeposit', [
-                `${totalItemDeposit} ${chainSymbol}`,
-                'NFT',
-              ])
+              $t('mint.requiredDeposit', [`${deposit} ${chainSymbol}`, 'NFT'])
             " />
           <a
             href="https://hello.kodadot.xyz/multi-chain/fees"
@@ -347,6 +344,10 @@ watch(currentChain, () => {
 // deposit stuff
 const { balance, totalItemDeposit, chainSymbol, chain } =
   useDeposit(currentChain)
+
+const deposit = computed(() =>
+  (Number(totalItemDeposit.value) * form.copies).toFixed(4),
+)
 
 // create nft
 const transactionStatus = ref<
