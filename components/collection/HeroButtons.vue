@@ -86,35 +86,9 @@
         </div>
       </div>
     </NeoModal>
-    <NeoModal
-      :value="confirmDeleteModalActive"
-      @close="confirmDeleteModalActive = false">
-      <div class="py-4 px-5 limit-width">
-        <div class="is-flex mb-3 is-size-6">
-          {{ $i18n.t('confirmDeleteCollection.deleteCollection') }}
-        </div>
-        <div class="has-text-grey is-size-7 mb-5">
-          {{ $i18n.t('confirmDeleteCollection.content') }}
-        </div>
-        <div>
-          <NeoButton
-            class="has-text-weight-bold mr-4"
-            variant="text"
-            no-shadow
-            @click="closeAndDelete">
-            <span class="has-text-k-red">
-              {{ $i18n.t('massmint.yesDelete') }}
-            </span>
-          </NeoButton>
-          <NeoButton
-            class="has-text-weight-bold"
-            variant="text"
-            no-shadow
-            :label="$i18n.t('cancel')"
-            @click="confirmDeleteModalActive = false" />
-        </div>
-      </div>
-    </NeoModal>
+    <ConfirmDeleteCollectionModal
+      v-model="confirmDeleteModalActive"
+      @delete="closeAndDelete" />
   </div>
 </template>
 
@@ -127,6 +101,7 @@ import {
 } from '@kodadot1/brick'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import { Collections } from '@/composables/transaction/types'
+import ConfirmDeleteCollectionModal from './ConfirmDeleteCollectionModal.vue'
 
 const route = useRoute()
 const { isCurrentOwner, accountId } = useAuth()
@@ -216,8 +191,5 @@ const closeAndDelete = () => {
   @include ktheme() {
     background-color: theme('border-color');
   }
-}
-.limit-width {
-  max-width: 314px;
 }
 </style>
