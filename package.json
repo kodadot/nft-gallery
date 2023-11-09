@@ -132,6 +132,7 @@
     "@nuxtjs/color-mode": "^3.3.0",
     "@playwright/test": "^1.39.0",
     "@rollup/plugin-graphql": "^1.1.0",
+    "@sentry/vite-plugin": "^2.9.0",
     "@types/jest": "^27.5.2",
     "@types/markdown-it": "^12.2.3",
     "@typescript-eslint/eslint-plugin": "^6.9.1",

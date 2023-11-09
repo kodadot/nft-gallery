@@ -191,6 +191,7 @@ export type ActionsInteractions = Interaction | ShoppingActions | Collections
 export interface ActionDeleteCollection {
   interaction: Collections.DELETE
   collectionId: string
+  urlPrefix: string
   successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
 }

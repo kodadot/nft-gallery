@@ -1038,6 +1038,11 @@
   },
   "teleport": {
     "page": "Teleport",
+    "subtitle": "Easy Asset Teleportation from One Network to Another",
+    "howItWorks": "How It Works?",
+    "source": "Source chain",
+    "destination": "Destination",
+    "amount": "Asset Amount",
     "from": "From",
     "to": "To",
     "max": "Max",
