@@ -107,13 +107,42 @@ export function execBurnCollection(
     errorMessage,
   }: ExecuteTransactionParams) => void,
 ) {
-  try {
-    const cb = api.tx.nfts.destroy
+  const collectionId = params.collectionId.toString()
 
-    executeTransaction({
-      cb,
-      arg: [params.collectionId.toString(), {}],
-    })
+  try {
+    if (params.urlPrefix === 'rmrk') {
+      executeTransaction({
+        cb: api.tx.system.remark,
+        arg: [createInteraction(Interaction.CONSUME, collectionId, '')],
+      })
+    }
+
+    if (params.urlPrefix === 'ksm') {
+      executeTransaction({
+        cb: api.tx.system.remark,
+        arg: [collectionId, {}],
+        // arg: [
+        //   createNewInteraction({
+        //     action: NewInteraction.DESTROY,
+        //     payload: { id: collectionId },
+        //   }),
+        // ],
+      })
+    }
+
+    if (params.urlPrefix === 'snek' || params.urlPrefix === 'bsx') {
+      executeTransaction({
+        cb: api.tx.nft.destroyCollection,
+        arg: [collectionId],
+      })
+    }
+
+    if (params.urlPrefix === 'ahk' || params.urlPrefix === 'ahp') {
+      executeTransaction({
+        cb: api.tx.nfts.destroy,
+        arg: [collectionId, {}],
+      })
+    }
   } catch (error) {
     warningMessage(error)
   }
