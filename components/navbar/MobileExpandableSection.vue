@@ -12,7 +12,7 @@
       {{ title }}
     </div>
     <div :class="{ 'navbar-item': !noPadding }" class="navbar-item-body">
-      <slot />
+      <slot @closeMobileSubMenu="close" />
     </div>
   </div>
 </template>

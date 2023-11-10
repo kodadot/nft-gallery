@@ -12,7 +12,8 @@
         :price="form.salePrice"
         :symbol="chainSymbol"
         :chain="currentChain"
-        :image="imagePreview" />
+        :image="imagePreview"
+        data-testid="create-nft-preview-box" />
 
       <h1 class="title is-size-3 mb-7">
         {{ $t('mint.nft.create') }}
@@ -38,6 +39,7 @@
         :error="!form.name">
         <NeoInput
           v-model="form.name"
+          data-testid="create-nft-input-name"
           required
           :placeholder="$t('mint.nft.name.placeholder')" />
       </NeoField>
@@ -46,6 +48,7 @@
       <NeoField :label="`${$t('mint.nft.description.label')} (optional)`">
         <NeoInput
           v-model="form.description"
+          data-testid="create-nft-input-description"
           type="textarea"
           has-counter
           maxlength="1000"
@@ -88,7 +91,7 @@
         <div class="w-full">
           <p>{{ $t('mint.nft.sale.message') }}</p>
         </div>
-        <NeoSwitch v-model="form.sale" />
+        <NeoSwitch v-model="form.sale" data-testid="create-nft-sale-switch" />
       </NeoField>
       <!-- list for sale price -->
       <NeoField
@@ -101,8 +104,10 @@
             class="is-flex is-justify-content-space-between is-align-items-center">
             <NeoInput
               v-model="form.salePrice"
+              data-testid="create-nft-input-list-value"
               type="number"
               step="0.01"
+              min="0.01"
               pattern="[0-9]+([\.,][0-9]+)?"
               placeholder="0.01 is the minimum"
               expanded />
@@ -117,8 +122,17 @@
       <NeoField :label="`${$t('mint.blockchain.label')} *`">
         <div class="w-100">
           <p>{{ $t('mint.blockchain.message') }}</p>
-          <NeoSelect v-model="selectChain" class="mt-3" expanded required>
-            <option v-for="menu in menus" :key="menu.value" :value="menu.value">
+          <NeoSelect
+            v-model="selectChain"
+            class="mt-3"
+            data-testid="create-nft-dropdown-select"
+            expanded
+            required>
+            <option
+              v-for="menu in menus"
+              :key="menu.value"
+              :value="menu.value"
+              :data-testid="`nft-chain-dropdown-option-${menu.value}`">
               {{ menu.text }}
             </option>
           </NeoSelect>
@@ -131,13 +145,16 @@
           <p>{{ $t('mint.nft.copies.message') }}</p>
           <NeoInput
             v-model="form.copies"
+            data-testid="create-nft-input-copies"
             class="mt-3"
             type="number"
             placeholder="e.g 10"
+            min="1"
             expanded />
           <BasicSwitch
             v-if="form.copies > 1"
             v-model="form.postfix"
+            data-testid="create-nft-input-copies-switch"
             class="mt-3"
             label="mint.expert.postfix" />
         </div>
@@ -145,14 +162,18 @@
 
       <!-- nft properties -->
       <NeoField :label="`${$t('tabs.properties')} (optional)`">
-        <CustomAttributeInput v-model="form.tags" :max="10" />
+        <CustomAttributeInput
+          v-model="form.tags"
+          :max="10"
+          data-testid="create-nft-properties" />
       </NeoField>
 
       <!-- royalty -->
       <NeoField v-if="!isRmrk">
         <RoyaltyForm
           v-model:amount="form.royalty.amount"
-          v-model:address="form.royalty.address" />
+          v-model:address="form.royalty.address"
+          data-testid="create-nft-royalty" />
       </NeoField>
 
       <!-- explicit content -->
@@ -160,7 +181,7 @@
         <div class="w-full">
           <p>{{ $t('mint.nfswMessage') }}</p>
         </div>
-        <NeoSwitch v-model="form.nsfw" />
+        <NeoSwitch v-model="form.nsfw" data-testid="create-nft-nsfw-switch" />
       </NeoField>
 
       <hr class="my-6" />
@@ -169,7 +190,9 @@
       <div>
         <div class="is-flex has-text-weight-medium has-text-info">
           <div>{{ $t('mint.deposit') }}:&nbsp;</div>
-          <div>{{ totalItemDeposit }} {{ chainSymbol }}</div>
+          <div data-testid="create-nft-deposit-amount">
+            {{ totalItemDeposit }} {{ chainSymbol }}
+          </div>
         </div>
         <div class="is-flex">
           <div>{{ $t('general.balance') }}:&nbsp;</div>
@@ -186,6 +209,7 @@
       <NeoButton
         expanded
         :label="$t('mint.nft.create')"
+        data-testid="create-nft-button-new"
         class="is-size-6"
         native-type="submit"
         size="medium"
@@ -204,6 +228,7 @@
             href="https://hello.kodadot.xyz/multi-chain/fees"
             target="_blank"
             class="has-text-link"
+            data-testid="create-nft-learn-more-link"
             rel="nofollow noopener noreferrer">
             {{ $t('helper.learnMore') }}
           </a>
@@ -256,7 +281,7 @@ const form = reactive({
   collections: null,
   sale: false,
   salePrice: 0,
-  copies: 0,
+  copies: 1,
   postfix: false,
   nsfw: false,
   tags: [],

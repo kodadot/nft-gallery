@@ -35,13 +35,14 @@
         class="buttons-container px-4 py-3 border-top theme-background-color">
         <NeoButton
           label="Reset All"
-          variant="primary"
+          variant="text"
           class="is-flex-grow-1 mw-9 h-3_5 is-shadowless"
           @click="resetFilters">
           {{ $t('general.resetAll') }}
         </NeoButton>
         <NeoButton
           variant="k-accent"
+          no-shadow
           class="is-flex-grow-1 mw-9 h-3_5"
           @click="applyFilters">
           {{ $t('general.apply') }}

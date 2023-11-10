@@ -5,6 +5,7 @@
       no-shadow
       size="medium"
       icon-left="times"
+      data-testid="attribute-button-remove"
       @click="remove" />
     <NeoInput
       v-model="vKey"

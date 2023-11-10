@@ -17,8 +17,7 @@
         :loading="isLoading"
         no-shadow
         loading-with-label
-        :disabled="!accountId"
-        @click="generateNft">
+        @click="generateNft()">
         {{
           $t(
             isLoading
@@ -64,7 +63,10 @@ const getHash = (isDefault?: boolean) => {
     ? chainProperties.value?.ss58Format
     : getRandomInt(15000)
   // https://github.com/paritytech/ss58-registry/blob/30889d6c9d332953a6e3333b30513eef89003f64/ss58-registry.json#L1292C17-L1292C22
-  return stringToHex(encodeAddress(accountId.value, ss58Format))
+  return accountId.value
+    ? stringToHex(encodeAddress(accountId.value, ss58Format))
+    : // random value
+      ss58Format
 }
 
 const generativeImageUrl = ref(
@@ -73,15 +75,15 @@ const generativeImageUrl = ref(
 
 const isLoading = ref(false)
 
-onMounted(() => {
-  generativeImageUrl.value && emit('select', generativeImageUrl.value)
+watch([accountId], () => {
+  generateNft(true)
 })
 const displayUrl = computed(() => {
   return generativeImageUrl.value || props.image
 })
-const generateNft = async () => {
+const generateNft = (isDefault: boolean = false) => {
   isLoading.value = true
-  const metadata = `${props.content}/?hash=${getHash()}`
+  const metadata = `${props.content}/?hash=${getHash(isDefault)}`
   generativeImageUrl.value = metadata
   emit('select', generativeImageUrl.value)
 

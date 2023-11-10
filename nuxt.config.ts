@@ -1,6 +1,6 @@
-import * as fs from 'fs'
 import { pwa } from './utils/config/pwa'
 import { URLS, apolloClientConfig } from './utils/constants'
+import * as fs from 'fs'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
