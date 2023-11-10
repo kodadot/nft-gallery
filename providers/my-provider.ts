@@ -27,8 +27,8 @@ export const getImage: ProviderGetImage = (
     baseURL = useRuntimeConfig().public.siteUrl
   }
 
-  const operations = operationsGenerator(modifiers)
-  const url = joinURL(baseURL, cid, '/public', operations ?? '')
+  const operations = operationsGenerator(modifiers).replaceAll('/', ',')
+  const url = joinURL(baseURL, cid, operations ?? '')
   return {
     url,
   }
