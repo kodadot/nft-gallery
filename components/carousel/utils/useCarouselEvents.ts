@@ -19,7 +19,7 @@ const nftEventVariables = {
 
 const disableChainsOnBeta = ['snek']
 
-const fetchLatestEvents = async (chain, type, where = {}) => {
+const fetchLatestEvents = async (chain, type, where = {}, limit = 5) => {
   const query = chain === 'ksm' ? latestEventsRmrkv2 : latestEvents
 
   return await useAsyncQuery({
@@ -27,7 +27,7 @@ const fetchLatestEvents = async (chain, type, where = {}) => {
     clientId: chain,
     variables: {
       // limit: limit, TODO: use limit
-      limit: 4,
+      limit,
       orderBy: 'timestamp_DESC',
       where: {
         ...nftEventVariables[type],
@@ -37,7 +37,7 @@ const fetchLatestEvents = async (chain, type, where = {}) => {
   })
 }
 
-const useChainEvents = async (chain, type) => {
+const useChainEvents = async (chain, type, eventQueryLimit, collectionIds) => {
   const nfts = ref<{ nft: NFTWithMetadata; timestamp: string }[]>([])
   const uniqueNftId = ref<string[]>([])
   const totalCollection = reactive({})
@@ -64,7 +64,7 @@ const useChainEvents = async (chain, type) => {
       totalCollection[nft.nft.collection.id] += 1
 
       // limit nft in same collection by 3
-      if (totalCollection[nft.nft.collection.id] > 3) {
+      if (!collectionIds && totalCollection[nft.nft.collection.id] > 3) {
         return excludeCollectionId.value.push(nft.nft.collection.id)
       }
 
@@ -75,15 +75,21 @@ const useChainEvents = async (chain, type) => {
     pushNft(nft)
   }
 
-  const { data } = await fetchLatestEvents(chain, type, {
-    nft: {
-      ...(type === 'newestList' && { price_gt: 0 }),
-      id_not_in: [...new Set(excludeNftId.value)],
-      collection: {
-        id_not_in: [...new Set(excludeCollectionId.value)],
+  const { data } = await fetchLatestEvents(
+    chain,
+    type,
+    {
+      nft: {
+        ...(type === 'newestList' && { price_gt: 0 }),
+        id_not_in: [...new Set(excludeNftId.value)],
+        collection: {
+          ...(collectionIds && { id_in: collectionIds }),
+          id_not_in: [...new Set(excludeCollectionId.value)],
+        },
       },
     },
-  })
+    eventQueryLimit,
+  )
   data.value?.events?.forEach((nft) => limitCollection(nft))
 
   return {
@@ -108,24 +114,8 @@ export const flattenNFT = (data, chain) => {
 
 const sortNftByTime = (data) => data.sort((a, b) => b.unixTime - a.unixTime)
 
-export const useCarouselNftEvents = async ({ type }: Types) => {
-  const { data: dataAhk } = await useChainEvents('ahk', type)
-  const { data: dataAhp } = await useChainEvents('ahp', type)
-  const { data: dataBsx } = await useChainEvents('bsx', type)
-  const { data: dataSnek } = await useChainEvents('snek', type)
-  const { data: dataRmrk } = await useChainEvents('rmrk', type)
-  const { data: dataRmrk2 } = await useChainEvents('ksm', type)
-
+const limitDisplayNfts = (data) => {
   const nfts = ref<CarouselNFT[]>([])
-
-  const data = [
-    ...flattenNFT(dataAhk.value, 'ahk'),
-    ...flattenNFT(dataAhp.value, 'ahp'),
-    ...flattenNFT(dataBsx.value, 'bsx'),
-    ...flattenNFT(dataSnek.value, 'snek'),
-    ...flattenNFT(dataRmrk.value, 'rmrk'),
-    ...flattenNFT(dataRmrk2.value, 'ksm'),
-  ]
 
   // show 30 nfts in carousel
   const sortedNfts = sortNftByTime(data).slice(0, 30)
@@ -136,4 +126,49 @@ export const useCarouselNftEvents = async ({ type }: Types) => {
     nfts,
     ids: computed(() => nfts.value.map((nft) => nft.id).join()),
   }
+}
+
+export const useCarouselNftEvents = async ({ type }: Types) => {
+  const { data: dataAhk } = await useChainEvents('ahk', type)
+  const { data: dataAhp } = await useChainEvents('ahp', type)
+  const { data: dataBsx } = await useChainEvents('bsx', type)
+  const { data: dataSnek } = await useChainEvents('snek', type)
+  const { data: dataRmrk } = await useChainEvents('rmrk', type)
+  const { data: dataRmrk2 } = await useChainEvents('ksm', type)
+
+  const data = [
+    ...flattenNFT(dataAhk.value, 'ahk'),
+    ...flattenNFT(dataAhp.value, 'ahp'),
+    ...flattenNFT(dataBsx.value, 'bsx'),
+    ...flattenNFT(dataSnek.value, 'snek'),
+    ...flattenNFT(dataRmrk.value, 'rmrk'),
+    ...flattenNFT(dataRmrk2.value, 'ksm'),
+  ]
+
+  return limitDisplayNfts(data)
+}
+
+export const useCarouselGenerativeNftEvents = async (
+  chain: Prefix,
+  collectionIds: string[],
+) => {
+  const { data: salesData } = await useChainEvents(
+    chain,
+    'latestSales',
+    10, // temporary limit
+    collectionIds,
+  )
+  const { data: listData } = await useChainEvents(
+    chain,
+    'newestList',
+    10, // temporary limit
+    collectionIds,
+  )
+
+  const data = [
+    ...flattenNFT(salesData.value, chain),
+    ...flattenNFT(listData.value, chain),
+  ]
+
+  return limitDisplayNfts(data)
 }

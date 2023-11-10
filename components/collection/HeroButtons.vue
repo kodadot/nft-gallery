@@ -63,9 +63,8 @@
 
           <!-- related: #5792 -->
           <div v-if="isOwner">
-            <NeoDropdownItem @click="confirmDeleteModalActive = true">
-              {{ $i18n.t('moreActions.delete') }}
-            </NeoDropdownItem>
+            <HeroButtonDeleteNfts />
+            <HeroButtonDeleteCollection />
             <!-- <NeoDropdownItem>
                 {{ $i18n.t('moreActions.customize') }}
               </NeoDropdownItem> -->
@@ -86,9 +85,6 @@
         </div>
       </div>
     </NeoModal>
-    <ConfirmDeleteCollectionModal
-      v-model="confirmDeleteModalActive"
-      @delete="closeAndDelete" />
   </div>
 </template>
 
@@ -100,13 +96,13 @@ import {
   NeoModal,
 } from '@kodadot1/brick'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
-import { Collections } from '@/composables/transaction/types'
-import ConfirmDeleteCollectionModal from './ConfirmDeleteCollectionModal.vue'
+import HeroButtonDeleteCollection from './HeroButtonDeleteCollection.vue'
+import HeroButtonDeleteNfts from './HeroButtonDeleteNfts.vue'
 
 const route = useRoute()
-const { isCurrentOwner, accountId } = useAuth()
+const { isCurrentOwner } = useAuth()
 const { urlPrefix } = usePrefix()
-const { $i18n, $updateLoader } = useNuxtApp()
+const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 
 const collectionId = computed(() => route.params.id)
@@ -131,43 +127,9 @@ const displaySeperator = computed(() => twitter.value)
 const isOwner = computed(() => isCurrentOwner(collection.value?.currentOwner))
 
 const QRModalActive = ref(false)
-const confirmDeleteModalActive = ref(false)
 
 const hashtags = 'KusamaNetwork,KodaDot'
 const sharingLabel = $i18n.t('sharing.collection')
-
-const { transaction } = useTransaction()
-
-const deleteCollection = async () => {
-  $updateLoader(true)
-  const id = route.params.id.toString()
-
-  await transaction({
-    interaction: Collections.DELETE,
-    urlPrefix: urlPrefix.value,
-    collectionId: id,
-  })
-
-  useSubscriptionGraphql({
-    query: `
-      collectionEntity: collectionEntityById(id: "${id}") {
-        id
-        burned
-      }
-    `,
-    onChange: ({ data }) => {
-      if (data.collectionEntity.burned) {
-        $updateLoader(false)
-        navigateTo(`/${urlPrefix.value}/u/${accountId.value}?tab=collections`)
-      }
-    },
-  })
-}
-
-const closeAndDelete = () => {
-  confirmDeleteModalActive.value = false
-  deleteCollection()
-}
 </script>
 
 <style lang="scss" scoped>

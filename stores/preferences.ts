@@ -29,6 +29,7 @@ interface State {
   enableAllArtwork: boolean
   enableGyroEffect: boolean
   gridSize: 'small' | 'medium' | 'large'
+  firstTimeAutoTeleport: boolean
   subscribedToNewsletter: boolean
   // Minting
   hasSupport: boolean
@@ -69,6 +70,7 @@ export const usePreferencesStore = defineStore('preferences', {
     enableGyroEffect: false,
     gridSize: 'small',
     visitedOnboarding: false,
+    firstTimeAutoTeleport: true,
     subscribedToNewsletter: false,
   }),
   getters: {
@@ -95,6 +97,7 @@ export const usePreferencesStore = defineStore('preferences', {
     getEnableGyroEffect: (state) => state.enableGyroEffect,
     getGridSize: (state) => state.gridSize,
     getVisitedOnboarding: (state) => state.visitedOnboarding,
+    getFirstTimeAutoTeleport: (state) => state.firstTimeAutoTeleport,
     getSubscribedToNewsletter: (state) => state.subscribedToNewsletter,
   },
   actions: {
@@ -186,6 +189,9 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     setVisitedOnboarding(payload: boolean) {
       this.visitedOnboarding = payload
+    },
+    setFirstTimeAutoTeleport(firstTime: boolean) {
+      this.firstTimeAutoTeleport = firstTime
     },
     setSubscribedToNewsletter(subscribed: boolean) {
       this.subscribedToNewsletter = subscribed

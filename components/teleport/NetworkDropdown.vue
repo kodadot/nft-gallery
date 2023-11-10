@@ -7,7 +7,8 @@
           expanded
           rounded
           class="dropdown-trigger"
-          :icon="active ? 'chevron-up' : 'chevron-down'">
+          :icon="active ? 'chevron-up' : 'chevron-down'"
+          :active="active">
           <div class="is-flex is-flex-items-center">
             <img
               class="mr-2"
