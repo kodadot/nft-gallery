@@ -357,7 +357,7 @@ a.has-text-grey {
 
 .has-text-k-green {
   @include ktheme() {
-    color: theme('k-green');
+    color: theme('k-green') !important;
   }
 }
 .has-text-k-red {
@@ -466,6 +466,14 @@ a.has-text-grey {
 .is-cursor-pointer {
   cursor: pointer !important;
 }
+
+
+.has-text-k-accent {
+  @include ktheme() {
+    color: theme('k-accent') !important;
+  }
+}
+
 //hover
 
 .is-hoverable-item {
@@ -537,4 +545,17 @@ a.has-text-grey {
 
 .w-half {
   width: 50%;
+}
+
+.has-accent-blur {
+  position: relative;
+  .blur {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+  }
+}
+
+.is-size-3-5 {
+  font-size: 1.6rem;
 }

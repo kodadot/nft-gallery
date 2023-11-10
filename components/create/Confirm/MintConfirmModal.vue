@@ -44,25 +44,19 @@
       </div>
       <div class="py-5">
         <div class="is-flex is-justify-content-space-between px-6">
-          <NeoButton
+          <AutoTeleportActionButton
+            :amount="totalFee + networkFee"
+            :actions="autoTeleportActions"
             :label="btnLabel"
-            variant="k-accent"
-            no-shadow
             :disabled="disabled"
-            class="is-flex is-flex-grow-1 btn-height"
-            @click="confirm" />
-        </div>
-        <div v-if="disabled" class="is-flex mt-2 is-justify-content-center">
-          <a class="mr-1 has-text-k-blue" @click="openRampModal"
-            >+ {{ $t('mint.nft.modal.addFunds') }}</a
-          >
-          {{ $t('mint.nft.modal.conjunction') }}
-          <a v-safe-href="teleportLink" class="ml-1 has-text-k-blue">{{
-            $t('mint.nft.modal.teleport')
-          }}</a>
+            :fees="{
+              actions: networkFee,
+              actionAutoFees: false,
+            }"
+            auto-close-modal
+            @confirm="confirm" />
         </div>
       </div>
-      <OnRampModal v-model="rampActive" @close="closeRampModal" />
     </div>
   </NeoModal>
 </template>
@@ -72,16 +66,16 @@ import { NeoButton, NeoModal } from '@kodadot1/brick'
 import type { ChainProperties, Option } from '@kodadot1/static'
 import { BaseMintedCollection } from '@/components/base/types'
 import IdentityItem from '@/components/identity/IdentityItem.vue'
-import OnRampModal from '@/components/shared/OnRampModal.vue'
 import { CreateComponent } from '@/composables/useCreate'
 import { useFiatStore } from '@/stores/fiat'
 import { usePreferencesStore } from '@/stores/preferences'
 import { availablePrefixes } from '@/utils/chain'
 import { getTransitionFee } from '@/utils/transactionExecutor'
-import formatBalance, { calculateBalanceUsdValue } from '@/utils/format/balance'
+import { calculateBalanceUsdValue } from '@/utils/format/balance'
 import { BASE_FEE } from '@/utils/support'
 import ConfirmMintItem from './ConfirmMintItem.vue'
 import PriceItem from './PriceItem.vue'
+import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 
 export type NftInformation = {
   file: Blob | null
@@ -109,6 +103,7 @@ const props = withDefaults(
   defineProps<{
     modelValue: boolean
     nftInformation: NftInformation
+    autoTeleportActions: AutoTeleportAction[]
   }>(),
   {
     modelValue: false,
@@ -122,17 +117,11 @@ const fiatStore = useFiatStore()
 const preferencesStore = usePreferencesStore()
 const { isBasilisk } = useIsChain(urlPrefix)
 
-const {
-  balance,
-  metadataDeposit,
-  collectionDeposit,
-  existentialDeposit,
-  itemDeposit,
-} = useDeposit(urlPrefix)
+const { metadataDeposit, collectionDeposit, existentialDeposit, itemDeposit } =
+  useDeposit(urlPrefix)
 
 const emit = defineEmits(['confirm', 'update:modelValue'])
 
-const rampActive = ref(false)
 const networkFee = ref(0)
 
 const isNFT = computed(
@@ -176,25 +165,15 @@ const title = computed(() =>
     ? $i18n.t('mint.nft.modal.title')
     : $i18n.t('mint.collection.modal.title'),
 )
-const balanceIsEnough = computed(
-  () =>
-    parseFloat(formatBalance(totalFee.value, decimals.value, '')) <
-    parseFloat(balance.value),
-)
+
 const btnLabel = computed(() => {
   if (!isLogIn.value) {
     return $i18n.t('mint.nft.modal.login')
   }
-  if (!balanceIsEnough.value) {
-    return $i18n.t('mint.nft.modal.notEnoughFund', [
-      chainSymbol.value,
-      blockchain.value?.text,
-    ])
-  }
   return $i18n.t('mint.nft.modal.process')
 })
-const disabled = computed(() => !(balanceIsEnough.value && isLogIn.value))
-const teleportLink = computed(() => `/${urlPrefix.value}/teleport`)
+const disabled = computed(() => !isLogIn.value)
+
 const extendedInformation = computed(() => ({
   ...props.nftInformation,
   networkFee: networkFee.value,
@@ -208,20 +187,12 @@ const extendedInformation = computed(() => ({
   blockchain: blockchain.value,
 }))
 
-const openRampModal = () => {
-  rampActive.value = true
-}
-
-const closeRampModal = () => {
-  rampActive.value = false
-}
-
 const onClose = () => {
   emit('update:modelValue', false)
 }
 
-const confirm = () => {
-  emit('confirm')
+const confirm = (params) => {
+  emit('confirm', params)
 }
 
 watchEffect(async () => {
@@ -229,7 +200,9 @@ watchEffect(async () => {
 
   if (!isBasilisk.value) {
     const fee = await getTransitionFee(accountId.value, [''], decimals.value)
-    networkFee.value = Number(fee)
+    networkFee.value = props.nftInformation.listForSale
+      ? Number(fee) * 2
+      : Number(fee)
   }
 })
 </script>
