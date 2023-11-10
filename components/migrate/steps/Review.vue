@@ -146,6 +146,7 @@
 
     <hr />
 
+    <p class="mb-1">{{ $t('mint.estimated') }}</p>
     <div class="mb-1 is-flex is-justify-content-space-between">
       <div v-if="source?.value" class="has-text-k-grey capitalize">
         On {{ prefixToNetwork[source.value] }}

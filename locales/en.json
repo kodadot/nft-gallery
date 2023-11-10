@@ -443,7 +443,7 @@
     "mintNFTSuccess": "NFT {name} Saved in block {block}",
     "submit": "Click to create NFT(s)",
     "estimate": "Show me the transaction fees",
-    "estimated": "Transaction fees will cost about",
+    "estimated": "Estimated Fees",
     "success": "Congratulations",
     "successNewNfts": "You have successfully purchased this NFT",
     "successPurchasedNfts": "You have successfully purchased {0}",
@@ -1519,7 +1519,7 @@
       "finalizingItems": "Finalizing {0} Items"
     }
   },
-  "transactionSteps" : {
+  "transactionSteps": {
     "completed": {
       "title": "Completed"
     },
@@ -1540,7 +1540,7 @@
       "subtitle": "(please wait)"
     }
   },
-  "autoTeleport" : {
+  "autoTeleport": {
     "autoTeleport": "Auto Teleport",
     "checking": "checking funds ...",
     "followSteps": "Follow steps",
@@ -1567,15 +1567,15 @@
       "description": "With Auto Teleport on, we manage asset bridges. Your role? Approve an extra transaction each time.",
       "submit": "Got It!",
       "1": {
-        "title":"Effortless Transfers",
+        "title": "Effortless Transfers",
         "description": "Switch between networks without a worry. Auto Teleport bridges assets from your richest chain."
       },
       "2": {
-        "title":"Time-Saving",
+        "title": "Time-Saving",
         "description": "No more manual asset transfers. Let us maintain your required balance for transactions"
       },
       "3": {
-        "title":"Smooth Experience",
+        "title": "Smooth Experience",
         "description": "Relish a seamless trading experience across varied networks at a toggle-switch away."
       }
     },
@@ -1613,6 +1613,5 @@
         "submit": "Minting NFT..."
       }
     }
-   
   }
 }
