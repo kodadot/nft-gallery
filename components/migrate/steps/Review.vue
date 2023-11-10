@@ -170,9 +170,9 @@
     </NeoField>
 
     <NeoButton
-      :label="checkBalanceLabel"
+      :label="checkBalances.label"
       variant="k-accent"
-      :disabled="!agree"
+      :disabled="checkBalances.disabled"
       class="mt-4 btn-submit"
       expanded
       @click="toSign()" />
@@ -298,7 +298,7 @@ const totalDestination = computed(() => {
 
 const agree = ref(false)
 const toggleFee = ref(true)
-const checkBalanceLabel = computed(() => {
+const checkBalances = computed(() => {
   const insufficient = $i18n.t('tooltip.notEnoughBalance')
   const sourceNetwork = prefixToNetwork[sourceChain.value]
   const sourceBalances = parseFloat(sourceBalance.value)
@@ -307,22 +307,37 @@ const checkBalanceLabel = computed(() => {
   const total = parseFloat(totalDestination.value.toString())
 
   if (!agree.value) {
-    return $i18n.t('migrate.reviewCtaUncheck')
+    return {
+      label: $i18n.t('migrate.reviewCtaUncheck'),
+      disabled: true,
+    }
   }
 
   if (sourceBalances < sourceNetworkFee.value) {
-    return `${insufficient} On ${sourceNetwork}`
+    return {
+      label: `${insufficient} On ${sourceNetwork}`,
+      disabled: true,
+    }
   }
 
   if (destinationBalances < total) {
-    return `${insufficient} On ${destinationNetwork}`
+    return {
+      label: `${insufficient} On ${destinationNetwork}`,
+      disabled: true,
+    }
   }
 
   if (sourceBalances > sourceNetworkFee.value && destinationBalances > total) {
-    return $i18n.t('migrate.reviewCtaCheck')
+    return {
+      label: $i18n.t('migrate.reviewCtaCheck'),
+      disabled: false,
+    }
   }
 
-  return `${insufficient} On ${sourceNetwork} & ${destinationNetwork}`
+  return {
+    label: `${insufficient} On ${sourceNetwork} & ${destinationNetwork}`,
+    disabled: true,
+  }
 })
 
 const toSign = () => {
