@@ -289,6 +289,17 @@ export default defineNuxtConfig({
         options: {
           // ... provider options
           baseURL: 'https://imagedelivery.net/jk5b6spi_m_-9qC4VTnjpg/',
+          // baseURL: 'https://image-beta.w.kodadot.xyz/ipfs/',
+        },
+      },
+    },
+    format: ['webp'],
+    presets: {
+      avatar: {
+        modifiers: {
+          format: 'jpg',
+          width: 50,
+          height: 50,
         },
       },
     },
