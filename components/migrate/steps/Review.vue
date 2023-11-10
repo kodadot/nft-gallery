@@ -191,14 +191,11 @@ import {
 } from '@kodadot1/brick'
 import { type Prefix } from '@kodadot1/static'
 import { prefixToNetwork } from '@/composables/useMultipleBalance'
-import { useCollectionReady } from '@/composables/useMigrate'
+import { useCollectionReady, useMigrateDeposit } from '@/composables/useMigrate'
 import { availablePrefixWithIcon } from '@/utils/chain'
-import format from '@/utils/format/balance'
 
 const { $i18n } = useNuxtApp()
 const { accountId } = useAuth()
-const fiatStore = useFiatStore()
-const preferencesStore = usePreferencesStore()
 
 const route = useRoute()
 const source = availablePrefixWithIcon().find(
@@ -216,108 +213,27 @@ const collection = computed(() =>
   collections.value.find((item) => item.id === collectionId),
 )
 
-const parseDeposit = (deposit, decimals) => {
-  return parseFloat(format(deposit, decimals, false))
-}
-
 // source balance and deposit
 const sourceChain = computed(() => (source?.value || 'ksm') as Prefix)
 const {
   balance: sourceBalance,
+  chainNetworkFee: sourceNetworkFee,
   chainSymbol: sourceSymbol,
-  chain: sourcePrefix,
-} = useDeposit(sourceChain)
-const sourceDecimals = computed(() => {
-  if (sourcePrefix.value?.tokenDecimals) {
-    return sourcePrefix.value.tokenDecimals
-  }
-
-  return 12
-})
-const sourceNetworkFee = computedAsync(async () => {
-  if (fromAccountId) {
-    const fee = await getTransitionFee(
-      fromAccountId,
-      [''],
-      sourceDecimals.value,
-    )
-    return parseDeposit(parseInt(fee) * itemCount, sourceDecimals.value)
-  }
-
-  return 0
-})
-const sourceTokenPrice = computed(() =>
-  Number(fiatStore.getCurrentTokenValue(sourceSymbol.value) ?? 0),
-)
-const sourceTotalUsd = computed(
-  () => sourceNetworkFee.value * sourceTokenPrice.value,
-)
+  totalChainUsd: sourceTotalUsd,
+} = useMigrateDeposit(sourceChain, itemCount, fromAccountId)
 
 // destination balance and deposit
 const destinationChain = computed(() => (destination?.value || 'ksm') as Prefix)
 const {
   balance: destinationBalance,
-  itemDeposit,
-  existentialDeposit,
-  metadataDeposit,
-  totalCollectionDeposit,
+  chainItemDeposit: destinationItemDeposit,
+  chainNetworkFee: destinationNetworkFee,
   chainSymbol: destinationSymbol,
-  chain,
-} = useDeposit(destinationChain)
-const destinationDecimals = computed(() => {
-  if (chain.value?.tokenDecimals) {
-    return chain.value.tokenDecimals
-  }
-
-  return 12
-})
-const destinationItemDeposit = computed(() =>
-  parseDeposit(
-    (metadataDeposit.value + itemDeposit.value + existentialDeposit.value) *
-      itemCount,
-    destinationDecimals.value,
-  ),
-)
-const destinationTokenPrice = computed(() =>
-  Number(fiatStore.getCurrentTokenValue(destinationSymbol.value) ?? 0),
-)
-const kodadotFee = computed(() =>
-  parseDeposit(
-    ((preferencesStore.hasSupport ? BASE_FEE : 0) /
-      destinationTokenPrice.value) *
-      Math.pow(10, destinationDecimals.value),
-    destinationDecimals.value,
-  ),
-)
-const destinationNetworkFee = computedAsync(async () => {
-  if (accountId.value) {
-    const fee = await getTransitionFee(
-      accountId.value,
-      [''],
-      destinationDecimals.value,
-    )
-    return parseDeposit(parseInt(fee) * itemCount, destinationDecimals.value)
-  }
-
-  return 0
-})
-const totalDestination = computed(() => {
-  const total =
-    destinationNetworkFee.value +
-    parseFloat(totalCollectionDeposit.value) +
-    destinationItemDeposit.value +
-    kodadotFee.value
-
-  if (isNaN(total)) {
-    return 0
-  }
-
-  return parseFloat(total.toString()).toFixed(4)
-})
-const totalDestinationUsd = computed(
-  () =>
-    parseFloat(totalDestination.value.toString()) * destinationTokenPrice.value,
-)
+  kodadotFee,
+  totalChain: totalDestination,
+  totalChainUsd: totalDestinationUsd,
+  totalCollectionDeposit,
+} = useMigrateDeposit(destinationChain, itemCount, accountId.value)
 
 const agree = ref(false)
 const toggleFee = ref(true)
