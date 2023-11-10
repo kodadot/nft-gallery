@@ -183,7 +183,7 @@ async function checkCollection() {
     onChange: ({ data }) => {
       $consola.log({ collectionId: data.collection })
 
-      if (data.collection?.id) {
+      if (data.collection?.id && step1Iterations.value) {
         validationStep1()
       }
     },
@@ -193,7 +193,7 @@ async function checkCollection() {
 watchEffect(async () => {
   $consola.log('SignLoader1.vue', steps.value, status.value)
 
-  if (steps.value === 'step1') {
+  if (steps.value === 'step1' && step1Iterations.value) {
     startStep1()
   }
 

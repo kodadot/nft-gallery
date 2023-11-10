@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
-import { Collections, NFTs } from '@/composables/transaction/types'
+import { NFTs } from '@/composables/transaction/types'
 import { NeoIcon } from '@kodadot1/brick'
 import {
   type Steps,
@@ -93,16 +93,16 @@ const burnItems = async (ids: string[]) => {
   updateSteps('step3-burn')
 }
 
-const burnCollection = async () => {
-  if (fromCollectionId) {
-    await transaction({
-      interaction: Collections.DELETE,
-      collectionId: fromCollectionId,
-      urlPrefix: from,
-    })
-    updateSteps('step3-burn-collection')
-  }
-}
+// const burnCollection = async () => {
+//   if (fromCollectionId) {
+//     await transaction({
+//       interaction: Collections.DELETE,
+//       collectionId: fromCollectionId,
+//       urlPrefix: from,
+//     })
+//     updateSteps('step3-burn-collection')
+//   }
+// }
 
 const congratsPage = () => {
   updateSteps('step4')
@@ -126,7 +126,8 @@ watchEffect(() => {
     steps.value === 'step3-burn' &&
     status.value === TransactionStatus.Finalized
   ) {
-    burnCollection()
+    // burnCollection()
+    congratsPage()
   }
 
   if (
