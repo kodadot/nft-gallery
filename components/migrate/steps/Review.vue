@@ -93,7 +93,12 @@
                 class="is-cursor-pointer"
                 multiline-width="14rem"
                 multiline
-                label="tooltip label here">
+                :label="
+                  $t('mint.collection.modal.depositTooltip', [
+                    totalCollectionDeposit,
+                    destinationSymbol,
+                  ])
+                ">
                 <NeoIcon icon="circle-question" />
               </NeoTooltip>
             </div>
@@ -108,7 +113,12 @@
                 class="is-cursor-pointer"
                 multiline-width="14rem"
                 multiline
-                label="tooltip label here">
+                :label="
+                  $t('mint.nft.modal.depositTooltip', [
+                    destinationItemDeposit,
+                    destinationSymbol,
+                  ])
+                ">
                 <NeoIcon icon="circle-question" />
               </NeoTooltip>
             </div>
@@ -160,9 +170,7 @@
     </NeoField>
 
     <NeoButton
-      :label="
-        agree ? $t('migrate.reviewCtaCheck') : $t('migrate.reviewCtaUncheck')
-      "
+      :label="checkBalanceLabel"
       variant="k-accent"
       :disabled="!agree"
       class="mt-4 btn-submit"
@@ -185,6 +193,7 @@ import { useCollectionReady } from '@/composables/useMigrate'
 import { availablePrefixWithIcon } from '@/utils/chain'
 import format from '@/utils/format/balance'
 
+const { $i18n } = useNuxtApp()
 const { accountId } = useAuth()
 const fiatStore = useFiatStore()
 const preferencesStore = usePreferencesStore()
@@ -204,9 +213,6 @@ const { collections } = await useCollectionReady()
 const collection = computed(() =>
   collections.value.find((item) => item.id === collectionId),
 )
-
-const agree = ref(false)
-const toggleFee = ref(true)
 
 const parseDeposit = (deposit, decimals) => {
   return parseFloat(format(deposit, decimals, false))
@@ -277,12 +283,46 @@ const destinationNetworkFee = computedAsync(async () => {
   return 0
 })
 const totalDestination = computed(() => {
-  return (
+  const total =
     destinationNetworkFee.value +
     parseFloat(totalCollectionDeposit.value) +
     destinationItemDeposit.value +
     kodadotFee.value
-  )
+
+  if (isNaN(total)) {
+    return 0
+  }
+
+  return parseFloat(total.toString()).toFixed(4)
+})
+
+const agree = ref(false)
+const toggleFee = ref(true)
+const checkBalanceLabel = computed(() => {
+  const insufficient = $i18n.t('tooltip.notEnoughBalance')
+  const sourceNetwork = prefixToNetwork[sourceChain.value]
+  const sourceBalances = parseFloat(sourceBalance.value)
+  const destinationNetwork = prefixToNetwork[destinationChain.value]
+  const destinationBalances = parseFloat(destinationBalance.value)
+  const total = parseFloat(totalDestination.value.toString())
+
+  if (!agree.value) {
+    return $i18n.t('migrate.reviewCtaUncheck')
+  }
+
+  if (sourceBalances < sourceNetworkFee.value) {
+    return `${insufficient} On ${sourceNetwork}`
+  }
+
+  if (destinationBalances < total) {
+    return `${insufficient} On ${destinationNetwork}`
+  }
+
+  if (sourceBalances > sourceNetworkFee.value && destinationBalances > total) {
+    return $i18n.t('migrate.reviewCtaCheck')
+  }
+
+  return `${insufficient} On ${sourceNetwork} & ${destinationNetwork}`
 })
 
 const toSign = () => {
