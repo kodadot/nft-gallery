@@ -1614,5 +1614,9 @@
       }
     }
    
+  },
+  "confirmDeleteCollection": {
+    "deleteCollection": "Delete Collection?",
+    "content": "This will permanently remove your collection and NFTs. Your deposit will be refunded."
   }
 }
