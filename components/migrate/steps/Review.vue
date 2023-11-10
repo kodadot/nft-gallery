@@ -68,7 +68,7 @@
 
         <div v-show="toggleFee">
           <!-- paid on source chain -->
-          <p v-if="source?.value" class="mb-2">
+          <p v-if="source?.value" class="mb-2 capitalize">
             <strong>Paid On {{ prefixToNetwork[source.value] }}</strong>
           </p>
           <div class="is-flex is-justify-content-space-between mb-5">
@@ -77,7 +77,7 @@
           </div>
 
           <!-- paid on destination chain -->
-          <p v-if="destination?.value" class="mb-2">
+          <p v-if="destination?.value" class="mb-2 capitalize">
             <strong>Paid On {{ prefixToNetwork[destination.value] }}</strong>
           </p>
           <div class="is-flex is-justify-content-space-between mt-1">
@@ -147,8 +147,8 @@
     <hr />
 
     <div class="mb-1 is-flex is-justify-content-space-between">
-      <div v-if="source?.value" class="has-text-k-grey">
-        On {{ prefixToNetwork[source.value] }} - {{ sourceBalance }}
+      <div v-if="source?.value" class="has-text-k-grey capitalize">
+        On {{ prefixToNetwork[source.value] }}
       </div>
       <div class="is-flex is-align-items-center">
         <div class="has-text-k-grey is-size-7 mr-2">${{ sourceTotalUsd }}</div>
@@ -156,8 +156,8 @@
       </div>
     </div>
     <div class="pb-7 is-flex is-justify-content-space-between">
-      <div v-if="destination?.value" class="has-text-k-grey">
-        On {{ prefixToNetwork[destination.value] }} - {{ destinationBalance }}
+      <div v-if="destination?.value" class="has-text-k-grey capitalize">
+        On {{ prefixToNetwork[destination.value] }}
       </div>
       <div class="is-flex is-align-items-center">
         <div class="has-text-k-grey is-size-7 mr-2">
@@ -175,7 +175,7 @@
       :label="checkBalances.label"
       variant="k-accent"
       :disabled="checkBalances.disabled"
-      class="mt-4 btn-submit"
+      class="mt-4 btn-submit capitalize"
       expanded
       @click="toSign()" />
   </div>
@@ -300,5 +300,9 @@ const toSign = () => {
 
 .btn-submit {
   height: 3.5rem;
+}
+
+.capitalize {
+  text-transform: capitalize;
 }
 </style>
