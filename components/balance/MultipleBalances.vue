@@ -65,7 +65,7 @@ import { ChainToken, useIdentityStore } from '@/stores/identity'
 
 const identityStore = useIdentityStore()
 
-const { multiBalances } = useMultipleBalance()
+const { multiBalances } = useMultipleBalance(true)
 
 const isBalanceLoading = computed(
   () => identityStore.getStatusMultiBalances === 'loading',

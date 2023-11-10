@@ -1,7 +1,11 @@
 <template>
   <div>
-    <ConfirmPurchaseModal @confirm="onConfirm" />
-    <Loader v-model="isLoading" :status="status" />
+    <Loader v-if="!usingAutoTeleport" v-model="isLoading" :status="status" />
+    <ConfirmPurchaseModal
+      :action="autoteleportAction"
+      @close="handleClose"
+      @confirm="handleConfirm"
+      @completed="handleActionCompleted" />
   </div>
 </template>
 
@@ -10,83 +14,126 @@ import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useFiatStore } from '@/stores/fiat'
 
-import { warningMessage } from '@/utils/notification'
-import ConfirmPurchaseModal from '@/components/common/confirmPurchaseModal/ConfirmPurchaseModal.vue'
 import Loader from '@/components/shared/Loader.vue'
-import { TokenToBuy } from '@/composables/transaction/types'
+import ConfirmPurchaseModal from '@/components/common/confirmPurchaseModal/ConfirmPurchaseModal.vue'
+import { Actions, TokenToBuy } from '@/composables/transaction/types'
 import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
+import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
+import { warningMessage } from '@/utils/notification'
+import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 
+const { transaction, status, isLoading, isError, blockNumber } =
+  useTransaction()
 const { urlPrefix } = usePrefix()
 const shoppingCartStore = useShoppingCartStore()
 const preferencesStore = usePreferencesStore()
 const fiatStore = useFiatStore()
+
+const usingAutoTeleport = ref(false)
+const buyAction = ref<Actions>(emptyObject<Actions>())
+const autoteleportAction = computed<AutoTeleportAction>(() => ({
+  action: buyAction.value,
+  transaction: transaction,
+  details: {
+    status: status.value,
+    isLoading: isLoading.value,
+    isError: isError.value,
+    blockNumber: blockNumber.value,
+  },
+}))
 
 const items = computed(() =>
   shoppingCartStore.getItemsByPrefix(urlPrefix.value),
 )
 
 onMounted(async () => {
-  if (
-    fiatStore.getCurrentKSMValue === null ||
-    fiatStore.getCurrentDOTValue === null ||
-    fiatStore.getCurrentBSXValue === null
-  ) {
+  if (fiatStore.incompleteFiatValues) {
     fiatStore.fetchFiatPrice()
   }
 })
 
-const { transaction, status, isLoading } = useTransaction()
 const { $i18n } = useNuxtApp()
+
+const isShoppingCartMode = computed(
+  () => preferencesStore.getCompletePurchaseModal.mode === 'shopping-cart',
+)
 
 const ShoppingCartItemToTokenToBuy = (item: ShoppingCartItem): TokenToBuy => {
   return {
-    currentOwner: item.currentOwner,
-    price: item.price,
-    id: item.id,
-    royalty: item.royalty,
+    currentOwner: item?.currentOwner,
+    price: item?.price,
+    id: item?.id,
+    royalty: item?.royalty,
   }
 }
 
-watchEffect(() => {
-  if (
-    isLoading.value === false &&
-    status.value === TransactionStatus.Finalized
-  ) {
-    preferencesStore.setTriggerBuySuccess(true)
-    shoppingCartStore.clear()
-  }
-})
+const handleClose = () => {
+  usingAutoTeleport.value = false
+}
 
-const onConfirm = () => {
-  if (preferencesStore.getCompletePurchaseModal.mode === 'shopping-cart') {
-    handleBuy(
+const handleActionCompleted = () => {
+  preferencesStore.setTriggerBuySuccess(true)
+  shoppingCartStore.clear()
+  handleClose()
+}
+
+const handleConfirm = async ({
+  autoteleport,
+}: AutoTeleportActionButtonConfirmEvent) => {
+  usingAutoTeleport.value = autoteleport
+
+  if (!isShoppingCartMode.value) {
+    shoppingCartStore.removeItemToBuy()
+  }
+
+  if (!autoteleport) {
+    await handleBuy()
+  }
+}
+
+const getCartModeBasedBuyAction = () => {
+  if (isShoppingCartMode.value) {
+    return getBuyAction(
       items.value.map(ShoppingCartItemToTokenToBuy),
       items.value.map((item) => item.name),
     )
   } else {
     const item = shoppingCartStore.getItemToBuy as ShoppingCartItem
-    handleBuy(ShoppingCartItemToTokenToBuy(item), [item.name || ''])
-    shoppingCartStore.removeItemToBuy()
+    return getBuyAction(ShoppingCartItemToTokenToBuy(item), [item?.name || ''])
   }
 }
 
-const handleBuy = async (
+const getBuyAction = (
   nfts: TokenToBuy | TokenToBuy[],
   nftNames: string[],
-) => {
+): Actions => {
+  return {
+    interaction: ShoppingActions.BUY,
+    nfts,
+    urlPrefix: urlPrefix.value,
+    successMessage: {
+      message: $i18n.t('mint.successPurchasedNfts', [nftNames.join(', ')]),
+      large: true,
+    },
+    errorMessage: $i18n.t('transaction.buy.error'),
+  }
+}
+
+const handleBuy = async () => {
   try {
-    await transaction({
-      interaction: ShoppingActions.BUY,
-      nfts,
-      urlPrefix: urlPrefix.value,
-      successMessage: {
-        message: $i18n.t('mint.successPurchasedNfts', [nftNames.join(', ')]),
-        large: true,
-      },
-      errorMessage: $i18n.t('transaction.buy.error'),
-    })
+    await transaction(buyAction.value)
   } catch (error) {
     warningMessage(error)
   }
 }
+
+watch(
+  () => preferencesStore.completePurchaseModal.isOpen,
+  (isOpen, prevIsOpen) => {
+    if (isOpen && !prevIsOpen) {
+      buyAction.value = getCartModeBasedBuyAction()
+    }
+  },
+  { immediate: true },
+)
 </script>
