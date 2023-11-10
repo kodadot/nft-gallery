@@ -27,7 +27,12 @@
             :to="collectionPage">
             {{ $t('migrate.congrats.cta') }}
           </NeoButton>
-          <NeoButton variant="pill" class="ml-2" @click="openShareUrl()">
+          <NeoButton
+            v-safe-href="shareUrl"
+            variant="pill"
+            class="ml-2"
+            tag="a"
+            target="_blank">
             {{ $t('migrate.congrats.share') }}
             <NeoIcon icon="x-twitter" pack="fab" />
           </NeoButton>
@@ -81,10 +86,10 @@ const collectionPage = computed(
   () => `/${urlPrefix.value}/collection/${collectionId}`,
 )
 
-const openShareUrl = () => {
+const shareUrl = computed(() => {
   const shareUrl = 'https://x.com/intent/tweet?text='
   const currentUrl = `${URLS.koda.baseUrl}${collectionPage.value}`
 
-  window.open(`${shareUrl}${encodeURIComponent(currentUrl)}`, '_blank')
-}
+  return `${shareUrl}${encodeURIComponent(currentUrl)}`
+})
 </script>

@@ -68,7 +68,7 @@
 
         <div v-show="toggleFee">
           <!-- paid on source chain -->
-          <p v-if="source?.value" class="mb-2 capitalize">
+          <p v-if="source?.value" class="mb-2 is-capitalized">
             <strong>Paid On {{ prefixToNetwork[source.value] }}</strong>
           </p>
           <div class="is-flex is-justify-content-space-between mb-5">
@@ -77,7 +77,7 @@
           </div>
 
           <!-- paid on destination chain -->
-          <p v-if="destination?.value" class="mb-2 capitalize">
+          <p v-if="destination?.value" class="mb-2 is-capitalized">
             <strong>Paid On {{ prefixToNetwork[destination.value] }}</strong>
           </p>
           <div class="is-flex is-justify-content-space-between mt-1">
@@ -148,7 +148,7 @@
 
     <p class="mb-1">{{ $t('mint.estimated') }}</p>
     <div class="mb-1 is-flex is-justify-content-space-between">
-      <div v-if="source?.value" class="has-text-k-grey capitalize">
+      <div v-if="source?.value" class="has-text-k-grey is-capitalized">
         On {{ prefixToNetwork[source.value] }}
       </div>
       <div class="is-flex is-align-items-center">
@@ -157,7 +157,7 @@
       </div>
     </div>
     <div class="pb-7 is-flex is-justify-content-space-between">
-      <div v-if="destination?.value" class="has-text-k-grey capitalize">
+      <div v-if="destination?.value" class="has-text-k-grey is-capitalized">
         On {{ prefixToNetwork[destination.value] }}
       </div>
       <div class="is-flex is-align-items-center">
@@ -176,7 +176,7 @@
       :label="checkBalances.label"
       variant="k-accent"
       :disabled="checkBalances.disabled"
-      class="mt-4 btn-submit capitalize"
+      class="mt-4 btn-submit is-capitalized"
       expanded
       @click="toSign()" />
   </div>
@@ -303,7 +303,7 @@ const toSign = () => {
   height: 3.5rem;
 }
 
-.capitalize {
+.is-capitalized {
   text-transform: capitalize;
 }
 </style>
