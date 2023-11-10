@@ -60,52 +60,34 @@
 
       <div class="is-size-7">
         <p
-          class="my-2 has-text-grey is-cursor-pointer"
+          class="my-4 has-text-grey is-cursor-pointer"
           @click="toggleFee = !toggleFee">
           {{ $t('migrate.feeBreakdown') }}
           <NeoIcon :icon="toggleFee ? 'chevron-up' : 'chevron-down'" />
         </p>
 
-        <div v-if="toggleFee">
-          <p>{{ $t('mint.nft.modal.networkFee') }}</p>
-
-          <div class="is-flex is-justify-content-space-between mt-1">
-            <div>
-              <NeoIcon
-                icon="arrow-turn-up"
-                class="fa-flip-horizontal has-text-grey" />
-              {{ $t('mint.collection.submit') }}
-            </div>
-
-            <div>0.02 KSM</div>
+        <div v-show="toggleFee">
+          <!-- paid on source chain -->
+          <p v-if="source?.value" class="mb-2">
+            <strong>Paid On {{ prefixToNetwork[source.value] }}</strong>
+          </p>
+          <div class="is-flex is-justify-content-space-between mb-5">
+            <p>Burn {{ itemCount }} Items</p>
+            <p>{{ sourceNetworkFee }} {{ sourceSymbol }}</p>
           </div>
 
+          <!-- paid on destination chain -->
+          <p v-if="destination?.value" class="mb-2">
+            <strong>Paid On {{ prefixToNetwork[destination.value] }}</strong>
+          </p>
           <div class="is-flex is-justify-content-space-between mt-1">
-            <div>
-              <NeoIcon
-                icon="arrow-turn-up"
-                class="fa-flip-horizontal has-text-grey" />
-              Migrate 1790 Items
-            </div>
-
-            <div>3x 0.02 KSM</div>
+            <p>Migrate {{ itemCount }} Items</p>
+            <p>{{ destinationNetworkFee }} {{ destinationSymbol }}</p>
           </div>
-
-          <div class="is-flex is-justify-content-space-between mt-1">
-            <div>
-              <NeoIcon
-                icon="arrow-turn-up"
-                class="fa-flip-horizontal has-text-grey" />
-              Pre-Sign 210 Items
-            </div>
-
-            <div>0.01 KSM</div>
-          </div>
-
           <div
             class="has-text-grey is-flex mt-1 is-align-items-center is-justify-content-space-between">
             <div>
-              {{ $t('migrate.existentialDeposit') }}
+              {{ $t('mint.collection.modal.existentialDeposit') }}
               <NeoTooltip
                 position="top"
                 class="is-cursor-pointer"
@@ -115,7 +97,22 @@
                 <NeoIcon icon="circle-question" />
               </NeoTooltip>
             </div>
-            <Money value="100000000000" unit-symbol="KSM" inline />
+            <p>{{ totalCollectionDeposit }} {{ destinationSymbol }}</p>
+          </div>
+          <div
+            class="has-text-grey is-flex mt-1 is-align-items-center is-justify-content-space-between">
+            <div>
+              {{ $t('mint.nft.modal.existentialDeposit') }}
+              <NeoTooltip
+                position="top"
+                class="is-cursor-pointer"
+                multiline-width="14rem"
+                multiline
+                label="tooltip label here">
+                <NeoIcon icon="circle-question" />
+              </NeoTooltip>
+            </div>
+            <p>{{ destinationItemDeposit }} {{ destinationSymbol }}</p>
           </div>
 
           <div
@@ -131,7 +128,7 @@
                 <NeoIcon icon="circle-question" />
               </NeoTooltip>
             </div>
-            <div>0.1358 KSM</div>
+            <div>{{ kodadotFee }} {{ destinationSymbol }}</div>
           </div>
         </div>
       </div>
@@ -139,11 +136,22 @@
 
     <hr />
 
-    <div class="pb-7 is-flex is-justify-content-space-between">
-      <div class="">{{ $t('mint.nft.modal.totalFee') }}:</div>
+    <div class="mb-1 is-flex is-justify-content-space-between">
+      <div v-if="source?.value" class="has-text-k-grey">
+        On {{ prefixToNetwork[source.value] }} - {{ sourceBalance }}
+      </div>
       <div class="is-flex is-align-items-center">
         <div class="has-text-k-grey is-size-7 mr-2">$108</div>
-        <div>10.9 KSM</div>
+        <div>{{ sourceNetworkFee }} {{ sourceSymbol }}</div>
+      </div>
+    </div>
+    <div class="pb-7 is-flex is-justify-content-space-between">
+      <div v-if="destination?.value" class="has-text-k-grey">
+        On {{ prefixToNetwork[destination.value] }} - {{ destinationBalance }}
+      </div>
+      <div class="is-flex is-align-items-center">
+        <div class="has-text-k-grey is-size-7 mr-2">$108</div>
+        <div>{{ totalDestination }} {{ destinationSymbol }}</div>
       </div>
     </div>
 
@@ -171,19 +179,111 @@ import {
   NeoIcon,
   NeoTooltip,
 } from '@kodadot1/brick'
+import { type Prefix } from '@kodadot1/static'
+import { prefixToNetwork } from '@/composables/useMultipleBalance'
 import { useCollectionReady } from '@/composables/useMigrate'
 import { availablePrefixWithIcon } from '@/utils/chain'
+import format from '@/utils/format/balance'
+
+const { accountId } = useAuth()
+const fiatStore = useFiatStore()
+const preferencesStore = usePreferencesStore()
 
 const route = useRoute()
-
-const agree = ref(false)
-const toggleFee = ref(true)
 const source = availablePrefixWithIcon().find(
   (item) => item.value === route.query.source,
 )
 const destination = availablePrefixWithIcon().find(
   (item) => item.value === route.query.destination,
 )
+const itemCount = parseInt(route.query.itemCount?.toString() || '0')
+const fromAccountId = route.query.accountId?.toString()
+
+const collectionId = route.query.collectionId
+const { collections } = await useCollectionReady()
+const collection = computed(() =>
+  collections.value.find((item) => item.id === collectionId),
+)
+
+const agree = ref(false)
+const toggleFee = ref(true)
+
+const parseDeposit = (deposit, decimals) => {
+  return parseFloat(format(deposit, decimals, false))
+}
+
+// source balance and deposit
+const sourceChain = computed(() => (source?.value || 'ksm') as Prefix)
+const {
+  balance: sourceBalance,
+  chainSymbol: sourceSymbol,
+  chain: sourcePrefix,
+} = useDeposit(sourceChain)
+
+const sourceNetworkFee = computedAsync(async () => {
+  if (fromAccountId && sourcePrefix.value?.tokenDecimals) {
+    const fee = await getTransitionFee(
+      fromAccountId,
+      [''],
+      sourcePrefix.value.tokenDecimals,
+    )
+    return parseDeposit(
+      parseInt(fee) * itemCount,
+      sourcePrefix.value.tokenDecimals,
+    )
+  }
+
+  return 0
+})
+
+// destination balance and deposit
+const destinationChain = computed(() => (destination?.value || 'ksm') as Prefix)
+const {
+  balance: destinationBalance,
+  itemDeposit,
+  existentialDeposit,
+  metadataDeposit,
+  totalCollectionDeposit,
+  chainSymbol: destinationSymbol,
+  chain,
+} = useDeposit(destinationChain)
+const destinationItemDeposit = computed(() =>
+  parseDeposit(
+    (metadataDeposit.value + itemDeposit.value + existentialDeposit.value) *
+      itemCount,
+    chain.value?.tokenDecimals,
+  ),
+)
+const tokenPrice = computed(() =>
+  Number(fiatStore.getCurrentTokenValue(destinationSymbol.value) ?? 0),
+)
+const kodadotFee = computed(() =>
+  parseDeposit(
+    ((preferencesStore.hasSupport ? BASE_FEE : 0) / tokenPrice.value) *
+      Math.pow(10, chain.value?.tokenDecimals),
+    chain.value?.tokenDecimals,
+  ),
+)
+const destinationNetworkFee = computedAsync(async () => {
+  if (accountId.value && chain.value?.tokenDecimals) {
+    const fee = await getTransitionFee(
+      accountId.value,
+      [''],
+      chain.value.tokenDecimals,
+    )
+    return parseDeposit(parseInt(fee) * itemCount, chain.value.tokenDecimals)
+  }
+
+  return 0
+})
+const totalDestination = computed(() => {
+  return (
+    destinationNetworkFee.value +
+    parseFloat(totalCollectionDeposit.value) +
+    destinationItemDeposit.value +
+    kodadotFee.value
+  )
+})
 
 const toSign = () => {
   navigateTo({
@@ -193,12 +293,6 @@ const toSign = () => {
     },
   })
 }
-
-const collectionId = route.query.collectionId
-const { collections } = await useCollectionReady()
-const collection = computed(() =>
-  collections.value.find((item) => item.id === collectionId),
-)
 </script>
 
 <style scoped lang="scss">
