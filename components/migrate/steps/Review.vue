@@ -151,7 +151,7 @@
         On {{ prefixToNetwork[source.value] }} - {{ sourceBalance }}
       </div>
       <div class="is-flex is-align-items-center">
-        <div class="has-text-k-grey is-size-7 mr-2">$108</div>
+        <div class="has-text-k-grey is-size-7 mr-2">${{ sourceTotalUsd }}</div>
         <div>{{ sourceNetworkFee }} {{ sourceSymbol }}</div>
       </div>
     </div>
@@ -160,7 +160,9 @@
         On {{ prefixToNetwork[destination.value] }} - {{ destinationBalance }}
       </div>
       <div class="is-flex is-align-items-center">
-        <div class="has-text-k-grey is-size-7 mr-2">$108</div>
+        <div class="has-text-k-grey is-size-7 mr-2">
+          ${{ totalDestinationUsd }}
+        </div>
         <div>{{ totalDestination }} {{ destinationSymbol }}</div>
       </div>
     </div>
@@ -225,22 +227,31 @@ const {
   chainSymbol: sourceSymbol,
   chain: sourcePrefix,
 } = useDeposit(sourceChain)
+const sourceDecimals = computed(() => {
+  if (sourcePrefix.value?.tokenDecimals) {
+    return sourcePrefix.value.tokenDecimals
+  }
 
+  return 12
+})
 const sourceNetworkFee = computedAsync(async () => {
-  if (fromAccountId && sourcePrefix.value?.tokenDecimals) {
+  if (fromAccountId) {
     const fee = await getTransitionFee(
       fromAccountId,
       [''],
-      sourcePrefix.value.tokenDecimals,
+      sourceDecimals.value,
     )
-    return parseDeposit(
-      parseInt(fee) * itemCount,
-      sourcePrefix.value.tokenDecimals,
-    )
+    return parseDeposit(parseInt(fee) * itemCount, sourceDecimals.value)
   }
 
   return 0
 })
+const sourceTokenPrice = computed(() =>
+  Number(fiatStore.getCurrentTokenValue(sourceSymbol.value) ?? 0),
+)
+const sourceTotalUsd = computed(
+  () => sourceNetworkFee.value * sourceTokenPrice.value,
+)
 
 // destination balance and deposit
 const destinationChain = computed(() => (destination?.value || 'ksm') as Prefix)
@@ -253,31 +264,39 @@ const {
   chainSymbol: destinationSymbol,
   chain,
 } = useDeposit(destinationChain)
+const destinationDecimals = computed(() => {
+  if (chain.value?.tokenDecimals) {
+    return chain.value.tokenDecimals
+  }
+
+  return 12
+})
 const destinationItemDeposit = computed(() =>
   parseDeposit(
     (metadataDeposit.value + itemDeposit.value + existentialDeposit.value) *
       itemCount,
-    chain.value?.tokenDecimals,
+    destinationDecimals.value,
   ),
 )
-const tokenPrice = computed(() =>
+const destinationTokenPrice = computed(() =>
   Number(fiatStore.getCurrentTokenValue(destinationSymbol.value) ?? 0),
 )
 const kodadotFee = computed(() =>
   parseDeposit(
-    ((preferencesStore.hasSupport ? BASE_FEE : 0) / tokenPrice.value) *
-      Math.pow(10, chain.value?.tokenDecimals),
-    chain.value?.tokenDecimals,
+    ((preferencesStore.hasSupport ? BASE_FEE : 0) /
+      destinationTokenPrice.value) *
+      Math.pow(10, destinationDecimals.value),
+    destinationDecimals.value,
   ),
 )
 const destinationNetworkFee = computedAsync(async () => {
-  if (accountId.value && chain.value?.tokenDecimals) {
+  if (accountId.value) {
     const fee = await getTransitionFee(
       accountId.value,
       [''],
-      chain.value.tokenDecimals,
+      destinationDecimals.value,
     )
-    return parseDeposit(parseInt(fee) * itemCount, chain.value.tokenDecimals)
+    return parseDeposit(parseInt(fee) * itemCount, destinationDecimals.value)
   }
 
   return 0
@@ -295,6 +314,10 @@ const totalDestination = computed(() => {
 
   return parseFloat(total.toString()).toFixed(4)
 })
+const totalDestinationUsd = computed(
+  () =>
+    parseFloat(totalDestination.value.toString()) * destinationTokenPrice.value,
+)
 
 const agree = ref(false)
 const toggleFee = ref(true)
