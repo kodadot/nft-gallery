@@ -31,7 +31,7 @@
           <NeoIcon v-else v-bind="iconIdle" />
         </div>
         <div>
-          <p>{{ $t('migrate.signStep.create collection') }}</p>
+          <p>{{ $t('create collection') }}</p>
           <nuxt-link
             v-if="step1Iterations === 0"
             target="_blank"
