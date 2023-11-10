@@ -1,8 +1,11 @@
 <template>
   <figure class="image-wrapper image is-1by1" :class="customClass">
     <transition name="fade">
-      <img
+      <NuxtImg
         v-if="imageSrc"
+        width="300"
+        height="112"
+        provider="myProvider"
         :src="imageSrc || placeholder"
         :alt="alt"
         :class="['has-ratio', { 'is-rounded': rounded }]"
