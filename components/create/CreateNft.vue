@@ -56,6 +56,27 @@
           :placeholder="$t('mint.nft.description.placeholder')" />
       </NeoField>
 
+      <!-- select blockchain -->
+      <NeoField :label="`${$t('mint.blockchain.label')} *`">
+        <div class="w-100">
+          <p>{{ $t('mint.blockchain.message') }}</p>
+          <NeoSelect
+            v-model="selectChain"
+            class="mt-3"
+            data-testid="create-nft-dropdown-select"
+            expanded
+            required>
+            <option
+              v-for="menu in menus"
+              :key="menu.value"
+              :value="menu.value"
+              :data-testid="`nft-chain-dropdown-option-${menu.value}`">
+              {{ menu.text }}
+            </option>
+          </NeoSelect>
+        </div>
+      </NeoField>
+
       <!-- select collections -->
       <NeoField
         :key="`collection-${currentChain}`"
@@ -63,17 +84,65 @@
         :label="`${$t('mint.nft.collection.label')} *`"
         @click="startSelectedCollection = true">
         <div class="w-100">
-          <p
-            :class="{
-              'has-text-danger': startSelectedCollection && !selectedCollection,
-            }">
-            {{ $t('mint.nft.collection.message') }}
-          </p>
-          <ChooseCollectionDropdown
-            full-width
-            no-shadow
-            class="mt-3"
-            @selected-collection="onCollectionSelected" />
+          <div
+            v-if="showCollectiveOption"
+            class="collection__option border-bottom border-k-grey py-3">
+            <div
+              class="is-flex"
+              :class="{
+                'collection__option--set': useCollectiveCollection,
+                'collection__option--disabled': usePersonalCollection,
+              }">
+              <img
+                :src="placeholder"
+                class="collection__option__icon collection__option__icon--colored is-block no-border-radius"
+                alt="asd" />
+              <div>
+                <p>{{ $t('mint.nft.collection.collective.label') }}</p>
+                <p class="is-size-7">
+                  {{ $t('mint.nft.collection.collective.message') }}
+                </p>
+              </div>
+              <NeoSwitch
+                v-model="useCollectiveCollection"
+                :disabled="selectedCollection"
+                class="collection__option__action" />
+            </div>
+            <p v-if="useCollectiveCollection" class="w-100 pt-3">
+              {{ $t('mint.nft.collection.message') }}
+            </p>
+          </div>
+          <div class="collection__option border-bottom border-k-grey py-3">
+            <div class="is-flex">
+              <img
+                :src="placeholder"
+                class="collection__option__icon is-block no-border-radius"
+                alt="asd" />
+              <div>
+                <p>{{ $t('mint.nft.collection.personal.label') }}</p>
+                <p class="is-size-7">
+                  {{ $t('mint.nft.collection.personal.message') }}
+                </p>
+              </div>
+              <NeoButton
+                rounded
+                no-shadow
+                :disabled="useCollectiveCollection"
+                class="mt-3 collection__option__action"
+                :label="
+                  usePersonalCollection
+                    ? $t('mint.nft.collection.personal.cancel')
+                    : $t('mint.nft.collection.personal.select')
+                "
+                @click="usePersonalCollection = !usePersonalCollection" />
+            </div>
+            <ChooseCollectionDropdown
+              v-if="usePersonalCollection"
+              full-width
+              no-shadow
+              class="mt-3 is-size-12"
+              @selected-collection="onCollectionSelected" />
+          </div>
         </div>
       </NeoField>
 
@@ -115,27 +184,6 @@
               {{ isBasilisk ? 'KSM' : chainSymbol }}
             </div>
           </div>
-        </div>
-      </NeoField>
-
-      <!-- select blockchain -->
-      <NeoField :label="`${$t('mint.blockchain.label')} *`">
-        <div class="w-100">
-          <p>{{ $t('mint.blockchain.message') }}</p>
-          <NeoSelect
-            v-model="selectChain"
-            class="mt-3"
-            data-testid="create-nft-dropdown-select"
-            expanded
-            required>
-            <option
-              v-for="menu in menus"
-              :key="menu.value"
-              :value="menu.value"
-              :data-testid="`nft-chain-dropdown-option-${menu.value}`">
-              {{ menu.text }}
-            </option>
-          </NeoSelect>
         </div>
       </NeoField>
 
@@ -242,7 +290,7 @@
 import type { Prefix } from '@kodadot1/static'
 import type { Ref } from 'vue'
 import type { TokenToList } from '@/composables/transaction/types'
-import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
+// import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
 import {
   NeoButton,
   NeoField,
@@ -265,6 +313,8 @@ import { DETAIL_TIMEOUT } from '@/utils/constants'
 import { delay } from '@/utils/fetch'
 import { toNFTId } from '@/components/rmrk/service/scheme'
 
+const { placeholder } = useTheme()
+
 // composables
 const { $consola } = useNuxtApp()
 const { urlPrefix, setUrlPrefix } = usePrefix()
@@ -272,6 +322,8 @@ const { accountId } = useAuth()
 const { transaction, status, isLoading, blockNumber } = useTransaction()
 const router = useRouter()
 const { decimals } = useChain()
+
+console.log(urlPrefix)
 
 // form state
 const form = reactive({
@@ -291,10 +343,22 @@ const form = reactive({
   },
 })
 
+const showCollectiveOption = computed(
+  () => urlPrefix.value === 'ahk' || urlPrefix.value === 'ahp',
+)
+
 // select collections
+const useCollectiveCollection = ref(false)
+const usePersonalCollection = ref(false)
 const selectedCollection = ref()
 const startSelectedCollection = ref<boolean>(false)
 const chooseCollectionRef = ref()
+
+watch(useCollectiveCollection, (val) => {
+  if (val) {
+    usePersonalCollection.value = false
+  }
+})
 
 const onCollectionSelected = (collection) => {
   selectedCollection.value = collection
