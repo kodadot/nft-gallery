@@ -5,12 +5,12 @@
       <div class="is-flex mt-4">
         <img
           class="border mr-4"
-          src="https://plus.unsplash.com/premium_photo-1697188001642-92c80c7e0073?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw3fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=48&h=48&q=60"
+          :src="sanitizeIpfsUrl(collection?.meta?.image)"
           alt="My crazy adventure"
           width="48"
           height="48" />
         <div>
-          <p>My Crazy Adventure</p>
+          <p>{{ collection?.name }}</p>
           <p class="has-text-grey is-size-7">
             {{ $t('migrate.collectionName') }}
           </p>
@@ -22,7 +22,7 @@
 
     <div class="is-flex is-justify-content-space-between mb-5">
       <p>{{ $t('migrate.ready.status') }}</p>
-      <p>1790/2000</p>
+      <p>{{ collection?.nftsOwned?.length }}/{{ collection?.nfts?.length }}</p>
     </div>
 
     <div class="shade-border-color p-2 is-flex is-size-7 has-text-grey">
@@ -171,6 +171,7 @@ import {
   NeoIcon,
   NeoTooltip,
 } from '@kodadot1/brick'
+import { useCollectionReady } from '@/composables/useMigrate'
 import { availablePrefixWithIcon } from '@/utils/chain'
 
 const route = useRoute()
@@ -192,6 +193,12 @@ const toSign = () => {
     },
   })
 }
+
+const collectionId = route.query.collectionId
+const { collections } = await useCollectionReady()
+const collection = computed(() =>
+  collections.value.find((item) => item.id === collectionId),
+)
 </script>
 
 <style scoped lang="scss">
