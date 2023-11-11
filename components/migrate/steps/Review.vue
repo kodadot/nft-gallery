@@ -302,8 +302,4 @@ const toSign = () => {
 .btn-submit {
   height: 3.5rem;
 }
-
-.is-capitalized {
-  text-transform: capitalize;
-}
 </style>
