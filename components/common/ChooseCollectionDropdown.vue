@@ -8,6 +8,7 @@
       },
     ]"
     :no-shadow="noShadow"
+    data-testid="collection-dropdown"
     :disabled="!isLogIn">
     <template #trigger="{ active }">
       <NeoButton

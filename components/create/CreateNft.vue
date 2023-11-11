@@ -106,6 +106,7 @@
               <NeoSwitch
                 v-model="useCollectiveCollection"
                 :disabled="selectedCollection"
+                data-testid="select-collective-collection"
                 class="collection__option__action" />
             </div>
             <p v-if="useCollectiveCollection" class="w-100 pt-3">
@@ -129,6 +130,7 @@
                 no-shadow
                 :disabled="useCollectiveCollection"
                 class="mt-3 collection__option__action"
+                data-testid="trigger-collection-dropdown"
                 :label="
                   usePersonalCollection
                     ? $t('mint.nft.collection.personal.cancel')
