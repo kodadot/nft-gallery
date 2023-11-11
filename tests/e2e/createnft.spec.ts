@@ -91,3 +91,30 @@ test('Create NFT', async ({ page, Commands }) => {
     )
   })
 })
+
+test('Select collections', async ({ page, Commands }) => {
+  await Commands.e2elogin()
+
+  await page.goto('/ksm/create/nft')
+  const selectBtn = await page.getByTestId('trigger-collection-dropdown')
+
+  expect(
+    await page.getByTestId('select-collective-collection').count(),
+  ).toEqual(0)
+  expect(await selectBtn.count()).toEqual(1)
+
+  await selectBtn.click()
+  const dropdown = await page.getByTestId('collection-dropdown')
+  await dropdown.click()
+
+  await page.goto('/ahk/create/nft')
+  const collectiveToggle = await page.getByTestId(
+    'select-collective-collection',
+  )
+  expect(await collectiveToggle.count()).toEqual(1)
+  expect(await page.getByTestId('trigger-collection-dropdown').count()).toEqual(
+    1,
+  )
+
+  await collectiveToggle.click()
+})
