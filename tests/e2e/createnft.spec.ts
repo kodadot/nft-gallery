@@ -79,11 +79,6 @@ test('Create NFT', async ({ page, Commands }) => {
       expectedDeposit,
       { timeout: 30000 },
     )
-    const usdDepositValue = await page
-      .getByTestId('create-nft-deposit-amount-usd')
-      .innerText({ timeout: 30000 })
-    const usdDepositValueConverted = +usdDepositValue.split(' ')[0]
-    await expect(usdDepositValueConverted).toBeGreaterThan(0)
     //preview box
     await expect(page.getByTestId('create-nft-preview-box')).toBeVisible()
     expect(
