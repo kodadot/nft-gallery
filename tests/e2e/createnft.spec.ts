@@ -75,10 +75,15 @@ test('Create NFT', async ({ page, Commands }) => {
     await page.getByTestId('create-nft-nsfw-switch').click()
     //deposit check
     const expectedDeposit = `${0.0077 * numOfCopies} KSM`
-    await expect(page.getByTestId('create-nft-deposit-amount')).toHaveText(
+    await expect(page.getByTestId('create-nft-deposit-amount-ksm')).toHaveText(
       expectedDeposit,
       { timeout: 30000 },
     )
+    const usdDepositValue = await page
+      .getByTestId('create-nft-deposit-amount-usd')
+      .innerText({ timeout: 30000 })
+    const usdDepositValueConverted = +usdDepositValue.split(' ')[0]
+    await expect(usdDepositValueConverted).toBeGreaterThan(0)
     //preview box
     await expect(page.getByTestId('create-nft-preview-box')).toBeVisible()
     expect(
