@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Loader v-model="isLoading" :status="status" />
+    <Loader v-if="!autoTeleport" v-model="isLoading" :status="status" />
     <NeoModal
       :value="preferencesStore.listingCartModalOpen"
       scroll="clip"
@@ -49,14 +49,11 @@
         </div>
 
         <div class="is-flex is-justify-content-space-between pb-5 px-6">
-          <NeoButton
+          <AutoTeleportActionButton
+            :actions="actions"
             :disabled="Boolean(listingCartStore.incompleteListPrices)"
             :label="confirmListingLabel"
-            variant="k-accent"
-            no-shadow
-            class="is-flex is-flex-grow-1 py-5"
-            size="large"
-            @click="confirm" />
+            @confirm="confirm" />
         </div>
       </div>
     </NeoModal>
@@ -76,20 +73,26 @@ import { useFiatStore } from '@/stores/fiat'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
 import { sum } from '@/utils/math'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
-
+import AutoTeleportActionButton, {
+  type AutoTeleportActionButtonConfirmEvent,
+} from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import ListingCartSingleItemCart from './singleItemCart/ListingCartSingleItemCart.vue'
 import ListingCartMultipleItemsCart from './multipleItemsCart/ListingCartMultipleItemsCart.vue'
+import type { Actions } from '@/composables/transaction/types'
+import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
-const { transaction, isLoading, status } = useTransaction()
 const { $i18n } = useNuxtApp()
+const { transaction, isLoading, status, isError, blockNumber } =
+  useTransaction()
 
 const { chainSymbol, decimals } = useChain()
 
 const fixedPrice = ref()
 const floorPricePercentAdjustment = ref()
+const autoTeleport = ref(false)
 
 function setFixedPrice() {
   const rate = Number(fixedPrice.value) || 0
@@ -102,6 +105,20 @@ watch(floorPricePercentAdjustment, (rate) => {
 })
 
 const fiatStore = useFiatStore()
+const action = ref<Actions>(emptyObject<Actions>())
+const actions = computed<AutoTeleportAction[]>(() => [
+  {
+    action: action.value,
+    transaction,
+    details: {
+      isLoading: isLoading.value,
+      status: status.value,
+      isError: isError.value,
+      blockNumber: blockNumber.value,
+    },
+  },
+])
+
 const priceUSD = computed(() =>
   calculateExactUsdFromToken(
     totalNFTsPrice.value,
@@ -151,8 +168,9 @@ const confirmListingLabel = computed(() => {
       )}`
   }
 })
-async function confirm() {
-  const token = listingCartStore.itemsInChain
+
+const getAction = (items: ListCartItem[]): Actions => {
+  const token = items
     .filter((item): item is ListCartItem & { listPrice: number } =>
       Boolean(item.listPrice),
     )
@@ -161,14 +179,22 @@ async function confirm() {
       nftId: item.id,
     })) as TokenToList[]
 
+  return {
+    interaction: Interaction.LIST,
+    urlPrefix: urlPrefix.value,
+    token,
+    successMessage: $i18n.t('transaction.price.success') as string,
+    errorMessage: $i18n.t('transaction.price.error') as string,
+  }
+}
+
+async function confirm({ autoteleport }: AutoTeleportActionButtonConfirmEvent) {
   try {
-    await transaction({
-      interaction: Interaction.LIST,
-      urlPrefix: urlPrefix.value,
-      token,
-      successMessage: $i18n.t('transaction.price.success') as string,
-      errorMessage: $i18n.t('transaction.price.error') as string,
-    })
+    autoTeleport.value = autoteleport
+
+    if (!autoteleport) {
+      await transaction(getAction(listingCartStore.itemsInChain))
+    }
 
     listingCartStore.clearListedItems()
     preferencesStore.listingCartModalOpen = false
@@ -205,6 +231,12 @@ watch(
     }
   },
 )
+
+watchSyncEffect(() => {
+  if (!autoTeleport.value) {
+    action.value = getAction(listingCartStore.itemsInChain)
+  }
+})
 
 onUnmounted(() => {
   preferencesStore.listingCartModalOpen = false
