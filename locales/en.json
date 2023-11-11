@@ -532,7 +532,17 @@
       },
       "collection": {
         "label": "Select Collection",
-        "message": "Choose a collection to which you want to mint your NFT."
+        "message": "Mint For Free. No Fees. Just Your Creativity Unleashed",
+        "collective": {
+          "label": "Kodadot Collective",
+          "message": "Activate Kodadot Collective For Free Minting"
+        },
+        "personal": {
+          "label": "Your Collection",
+          "message": "Select Collection For NFT Minting",
+          "select": "Select",
+          "cancel": "Cancel"
+        }
       },
       "edition": {
         "label": "Copies",
