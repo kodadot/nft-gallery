@@ -85,6 +85,10 @@ export async function useCollectionReady(prefix = '', account = '') {
   }
 }
 
+const parseDeposit = (deposit, decimals) => {
+  return parseFloat(format(deposit, decimals, false))
+}
+
 export function useMigrateDeposit(
   prefix: ComputedRef<Prefix>,
   itemCount: number,
@@ -101,10 +105,6 @@ export function useMigrateDeposit(
   } = useDeposit(prefix)
   const fiatStore = useFiatStore()
   const preferencesStore = usePreferencesStore()
-
-  const parseDeposit = (deposit, decimals) => {
-    return parseFloat(format(deposit, decimals, false))
-  }
 
   const chainDecimals = computed(() => {
     if (chain.value?.tokenDecimals) {
