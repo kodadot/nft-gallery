@@ -113,7 +113,7 @@
               pattern="[0-9]+([\.,][0-9]+)?"
               placeholder="0.01 is the minimum"
               expanded />
-            <div class="usd-price is-size-7 has-text-grey">
+            <div class="position-absolute-right is-size-7 has-text-grey">
               ~{{ SalePriceUsd }} usd
             </div>
             <div class="form-addons">
@@ -608,7 +608,7 @@ watchEffect(async () => {
 <style lang="scss" scoped src="@/assets/styles/pages/create.scss"></style>
 
 <style lang="scss" scoped>
-.usd-price {
+.position-absolute-right {
   position: absolute;
   right: 6rem;
 }
