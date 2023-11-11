@@ -12,7 +12,7 @@
         <p class="has-text-centered has-text-grey mt-5">
           {{
             $t('migrate.congrats.notes', [
-              'Collection Name Here',
+              collectionName,
               source?.text,
               destination?.text,
             ])
@@ -20,7 +20,11 @@
         </p>
 
         <div class="is-flex mt-5 is-justify-content-center">
-          <NeoButton variant="pill" class="mr-2">
+          <NeoButton
+            variant="pill"
+            class="mr-2"
+            :tag="NuxtLink"
+            :to="`/${urlPrefix}/collection/${collectionId}`">
             {{ $t('migrate.congrats.cta') }}
           </NeoButton>
           <NeoButton variant="pill" class="ml-2">
@@ -36,10 +40,19 @@
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
+type Collection = Ref<{
+  collectionEntityById?: {
+    name?: string
+  }
+}>
+
+const NuxtLink = resolveComponent('NuxtLink')
+
 definePageMeta({
   layout: 'no-footer',
 })
 
+const { urlPrefix } = usePrefix()
 const route = useRoute()
 const source = availablePrefixWithIcon().find(
   (item) => item.value === route.query.source,
@@ -52,4 +65,16 @@ const { isDarkMode } = useTheme()
 const congratsSrc = computed(() =>
   isDarkMode.value ? '/migrate/congrats-dark.svg' : '/migrate/congrats.svg',
 )
+
+const { data } = useGraphql({
+  queryName: 'collectionByIdMinimal',
+  variables: {
+    id: route.query.nextCollectionId,
+  },
+})
+
+const collectionName = computed(
+  () => (data as Collection).value?.collectionEntityById?.name,
+)
+const collectionId = route.query.nextCollectionId?.toString()
 </script>

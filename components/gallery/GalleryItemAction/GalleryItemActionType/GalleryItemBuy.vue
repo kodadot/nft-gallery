@@ -3,42 +3,13 @@
     <GalleryItemPriceSection v-if="nft.price" title="Price" :price="nft.price">
       <div v-if="Number(nft.price)" class="is-flex desktop-full-w">
         <div class="is-flex buy-button-width">
-          <NeoTooltip
-            :active="disabled"
-            class="w-full"
-            content-class="buy-tooltip"
-            :auto-close="isMobileDevice ? true : ['outside']"
-            :position="isMobileDevice ? 'top' : 'left'"
-            :triggers="[isMobileDevice ? 'click' : 'hover']"
-            multiline>
-            <template #content>
-              <div class="is-size-6">
-                {{
-                  $t('tooltip.notEnoughBalanceChain', {
-                    chain: chainNames[urlPrefix],
-                  })
-                }}
-                <div>
-                  {{ $t('tip') }}:
-                  <nuxt-link :to="`/${urlPrefix}/teleport`" target="_blank">
-                    {{ $t('useTeleport') }}</nuxt-link
-                  >
-
-                  {{ $t('or') }}
-
-                  <a @click="addFunds"> {{ $t('addFunds') }}</a>
-                </div>
-              </div>
-            </template>
-            <NeoButton
-              :label="label"
-              size="large"
-              class="button-height w-full"
-              variant="k-accent"
-              :disabled="disabled"
-              data-testid="item-buy"
-              @click="onClick" />
-          </NeoTooltip>
+          <NeoButton
+            :label="label"
+            size="large"
+            class="button-height w-full"
+            variant="k-accent"
+            data-testid="item-buy"
+            @click="onClick" />
         </div>
 
         <NeoButton
@@ -57,25 +28,17 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoTooltip } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
-import { getKusamaAssetId } from '@/utils/api/bsx/query'
-import { useIdentityStore } from '@/stores/identity'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'
 import OnRampModal from '@/components/shared/OnRampModal.vue'
 import { openShoppingCart } from '@/components/common/shoppingCart/ShoppingCartModalConfig'
-import { NFT } from '@/components/rmrk/service/scheme'
+import type { NFT } from '@/components/rmrk/service/scheme'
 import { nftToShoppingCartItem } from '@/components/common/shoppingCart/utils'
-import { chainNames } from '@/libs/static/src/chains'
-
-import { useWindowSize } from '@vueuse/core'
 
 const props = defineProps<{ nft: NFT }>()
-const isMobileDevice = computed(() => useWindowSize().width.value < 1024)
 
-const { urlPrefix } = usePrefix()
-const { accountId } = useAuth()
 const { $i18n } = useNuxtApp()
 const preferencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
@@ -83,8 +46,6 @@ const { cartIcon } = useShoppingCartIcon(props.nft.id)
 
 const instance = getCurrentInstance()
 const { doAfterLogin } = useDoAfterlogin(instance)
-const identityStore = useIdentityStore()
-const connected = computed(() => Boolean(accountId.value))
 const showRampModal = ref(false)
 
 enum BuyStatus {
@@ -103,36 +64,6 @@ const label = computed(() => {
   return $i18n.t(
     preferencesStore.getReplaceBuyNowWithYolo ? 'YOLO' : 'nft.action.buy',
   )
-})
-
-const addFunds = () => {
-  showRampModal.value = true
-}
-
-const balance = computed<string>(() => {
-  switch (urlPrefix.value) {
-    case 'rmrk':
-    case 'ksm':
-    case 'ahk':
-    case 'ahp':
-      return identityStore.getAuthBalance
-    case 'bsx':
-      return identityStore.multiBalances.chains.basilisk?.ksm?.nativeBalance
-    case 'snek':
-      return identityStore.multiBalances.chains['basilisk-testnet']?.ksm
-        ?.nativeBalance
-    default:
-      return identityStore.getTokenBalanceOf(getKusamaAssetId(urlPrefix.value))
-  }
-})
-const disabled = computed(() => {
-  if (btnStatus.value === BuyStatus.CART) {
-    return false
-  }
-  if (!(Number(props.nft.price) && balance.value) || !connected.value) {
-    return false
-  }
-  return Number(balance.value) <= Number(props.nft.price)
 })
 
 const openCompletePurcahseModal = () => {

@@ -7,6 +7,12 @@ import { SubmittableExtrinsicFunction } from '@polkadot/api/types'
 import { XcmVersionedMultiLocation } from '@polkadot/types/lookup'
 import { AnyTuple } from '@polkadot/types/types'
 import { isFunction } from '@polkadot/util'
+import * as paraspell from '@paraspell/sdk'
+import { ApiFactory } from '@kodadot1/sub-api'
+import { getChainEndpointByPrefix } from '@/utils/chain'
+import { TeleportParams } from '@/composables/useTeleport'
+import { getAddress } from '@/utils/extension'
+import { toDefaultAddress } from '@/utils/account'
 
 type Extrisic = SubmittableExtrinsicFunction<'promise', AnyTuple>
 
@@ -30,12 +36,44 @@ export enum Chain {
   POLKADOT = 'Polkadot',
 }
 
+export type TeleportChain = {
+  prefix: Prefix
+  chain: Chain
+  name: string
+}
+
+export type TeleportTransition = {
+  source: TeleportChain | null
+  destination: TeleportChain
+  amount: number
+  amountFormatted: string
+  amountUsd: string
+  token: string
+}
+
+export const allowedTransitions = {
+  [Chain.KUSAMA]: [Chain.BASILISK, Chain.ASSETHUBKUSAMA],
+  [Chain.BASILISK]: [Chain.KUSAMA],
+  [Chain.ASSETHUBKUSAMA]: [Chain.KUSAMA],
+  [Chain.POLKADOT]: [Chain.ASSETHUBPOLKADOT],
+  [Chain.ASSETHUBPOLKADOT]: [Chain.POLKADOT],
+}
+
 export const chainToPrefixMap: Record<Chain, Prefix> = {
   [Chain.KUSAMA]: 'rmrk',
   [Chain.BASILISK]: 'bsx',
   [Chain.ASSETHUBKUSAMA]: 'ahk',
   [Chain.ASSETHUBPOLKADOT]: 'ahp',
   [Chain.POLKADOT]: 'dot',
+}
+
+export const prefixToChainMap: Partial<Record<Prefix, Chain>> = {
+  rmrk: Chain.KUSAMA,
+  ksm: Chain.KUSAMA,
+  bsx: Chain.BASILISK,
+  ahk: Chain.ASSETHUBKUSAMA,
+  ahp: Chain.ASSETHUBPOLKADOT,
+  dot: Chain.POLKADOT,
 }
 
 export enum TeleprtType {
@@ -122,4 +160,101 @@ export function getApiParams(
       : // without weight
         [{ V0: dst }, { V0: acc }, { V0: ass }, 0]
     : [dst, acc, ass, destWeight]
+}
+
+const getApi = (chain: Chain) => {
+  const endpoint = getChainEndpointByPrefix(chainToPrefixMap[chain]) as string
+  return ApiFactory.useApiInstance(endpoint)
+}
+
+export const getTransaction = async ({
+  amount,
+  from,
+  to,
+  address,
+  currency,
+}: {
+  amount: number
+  from: Chain
+  to: Chain
+  address: string
+  currency: string
+}) => {
+  const api = await getApi(from)
+
+  const telportType = whichTeleportType({
+    from: from,
+    to: to,
+  })
+
+  if (telportType === TeleprtType.RelayToPara) {
+    return paraspell
+      .Builder(api)
+      .to(Chain[to.toUpperCase()])
+      .amount(amount)
+      .address(address)
+      .build()
+  }
+
+  if (telportType === TeleprtType.ParaToRelay) {
+    return paraspell
+      .Builder(api)
+      .from(Chain[from.toUpperCase()])
+      .amount(amount)
+      .address(address)
+      .build()
+  }
+
+  if (telportType === TeleprtType.ParaToPara) {
+    return paraspell
+      .Builder(api)
+      .from(Chain[from.toUpperCase()])
+      .to(Chain[to.toUpperCase()])
+      .currency(currency)
+      .amount(amount)
+      .address(address)
+      .build()
+  }
+}
+
+export const getTransactionFee = async ({
+  amount,
+  from,
+  to,
+  toAddress,
+  fromAddress,
+  currency,
+}: TeleportParams) => {
+  const promise = await getTransaction({
+    amount: amount,
+    from: from,
+    to: to,
+    address: toAddress,
+    currency: currency,
+  })
+
+  if (!promise) {
+    return
+  }
+
+  const injector = await getAddress(toDefaultAddress(fromAddress))
+
+  const info = await promise.paymentInfo(
+    fromAddress,
+    injector ? { signer: injector.signer } : {},
+  )
+
+  return info.partialFee.toString()
+}
+
+export const getChainCurrency = (chain: Chain) => {
+  switch (chain) {
+    case Chain.KUSAMA:
+    case Chain.BASILISK:
+    case Chain.ASSETHUBKUSAMA:
+      return 'KSM'
+    case Chain.POLKADOT:
+    case Chain.ASSETHUBPOLKADOT:
+      return 'DOT'
+  }
 }

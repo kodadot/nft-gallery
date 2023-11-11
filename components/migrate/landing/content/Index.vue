@@ -55,20 +55,21 @@
 <script setup lang="ts">
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import Identity from '@/components/identity/IdentityIndex.vue'
-import useMigrate from '@/components/migrate/migrate'
 
 const { sourceSelected, destinationSelected } = useMigrate()
 
 const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 
-const toReview = (collectionId) => {
+const toReview = (collectionId, itemCount) => {
   navigateTo({
     path: '/migrate/review',
     query: {
+      accountId: accountId.value,
       collectionId: collectionId,
       source: sourceSelected.value?.value,
       destination: destinationSelected.value?.value,
+      itemCount,
     },
   })
 }

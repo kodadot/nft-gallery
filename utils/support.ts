@@ -9,6 +9,7 @@ import { Royalty } from './royalty'
 const BACKUP_PUBKEY =
   '0x9866ec0c1204773a4b95a1b374d838b5820f704a65deeaafb97f4ab96c351158' // payout bot
 export const KODADOT_DAO = 'CykZSc3szpVd95PmmJ45wE4ez7Vj3xkhRFS9H4U1WdrkaFY'
+export const KODA_BOT = 'Gn84LKb5HSxc3SACayxCzKQcWESRMcT1VUCqeZURfGj6ASi'
 const OFFSET_DAO = 'J9PSLHKjtJ9eEAX4xmCe8xNipRxNiYJTbnyfKXXRkhMmuq8'
 export const BASE_FEE = 0.5 // 50 cents
 const PERCENT = 0.03 // percent / 100
