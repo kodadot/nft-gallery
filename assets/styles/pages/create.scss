@@ -30,9 +30,6 @@
   .columns {
     padding: 5.25rem 0;
 
-    @include ktheme() {
-      background-color: theme('k-primaryLight');
-    }
   }
 }
 
@@ -77,5 +74,42 @@
   .hidden-sale-label {
     background: linear-gradient(90deg, #ffffff 30%, #ff7ac3 100%);
     background-clip: text;
+  }
+}
+
+.collection {
+ 
+  &__option {
+    &__icon {
+      padding: 10px;
+      width: 50px;
+      height: 50px;
+      border: 1px solid black;  
+      margin-right: 1rem;
+      &--colored {
+        @include ktheme() {
+          background: radial-gradient(ellipse at bottom, rgba(theme('k-blue'), 0.5), rgba(theme('k-blue'), 0.8) 50%);
+        }
+      }
+    }
+    &__action {
+      margin-left: auto;
+    }
+  }
+
+  &__option--set {
+    & > img {
+      @include ktheme() {
+        box-shadow: 0px 0px 10px 10px rgba(theme('k-blue'), 0.2);
+      }
+    }
+  }
+
+  &__option--disabled {
+    & > img {
+      @include ktheme() {
+        background: radial-gradient(ellipse at bottom, rgba(theme('k-grey'), 0.5), rgba(theme('k-grey'), 0.8) 50%) !important;
+      }
+    }
   }
 }
