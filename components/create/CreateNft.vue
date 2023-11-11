@@ -361,6 +361,7 @@ const chooseCollectionRef = ref()
 watch(useCollectiveCollection, (val) => {
   if (val) {
     usePersonalCollection.value = false
+    selectedCollection.value = 'collective'
   }
 })
 
