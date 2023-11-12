@@ -371,9 +371,21 @@ const deposit = computed(() =>
 )
 
 // usd value
-const SalePriceUsd = computed(() => toUsdPrice(form.salePrice))
-const depositUsd = computed(() => toUsdPrice(Number(deposit.value)))
-const balanceUsd = computed(() => toUsdPrice(Number(balance.value)))
+
+// when left undefined urlPrefix will be used
+const tokenType = computed(() =>
+  isBasilisk.value ? chainSymbol.value.toLowerCase() : undefined,
+)
+
+const calculateUsdValue = (amount) => {
+  // remove comma from amount - required becuase bsx balance is formatted string
+  const parsedAmount = parseFloat(amount?.replace(/,/g, '') || '0')
+  return toUsdPrice(parsedAmount, tokenType.value)
+}
+
+const SalePriceUsd = computed(() => toUsdPrice(form.salePrice, tokenType.value))
+const depositUsd = computed(() => calculateUsdValue(deposit.value))
+const balanceUsd = computed(() => calculateUsdValue(balance.value))
 
 // create nft
 const transactionStatus = ref<

@@ -1,24 +1,25 @@
-import { Prefix } from '@kodadot1/static'
-
 export default function useUsdValue() {
   const fiatStore = useFiatStore()
   const { urlPrefix } = usePrefix()
 
-  const tokenFiatValue = computed(() => {
-    const fiatValueMap: Record<Prefix, FiatPrice> = {
-      rmrk: fiatStore.getCurrentKSMValue,
-      bsx: fiatStore.getCurrentKSMValue,
-      ksm: fiatStore.getCurrentKSMValue,
-      snek: fiatStore.getCurrentKSMValue,
+  const getTokenUsdValue = (token) => {
+    const tokenMap = {
       ahk: fiatStore.getCurrentKSMValue,
-      dot: fiatStore.getCurrentDOTValue,
+      ksm: fiatStore.getCurrentKSMValue,
+      rmrk: fiatStore.getCurrentKSMValue,
+      bsx: fiatStore.getCurrentBSXValue,
+      snek: fiatStore.getCurrentBSXValue,
       ahp: fiatStore.getCurrentDOTValue,
+      dot: fiatStore.getCurrentDOTValue,
     }
-    return Number(fiatValueMap[urlPrefix.value] ?? 0)
-  })
+    return Number(tokenMap[token] || 0)
+  }
 
-  const toUsdPrice = (price: number | string) =>
-    calculateExactUsdFromToken(Number(price), tokenFiatValue.value)
+  const toUsdPrice = (price: number | string, token?: string) =>
+    calculateExactUsdFromToken(
+      Number(price),
+      getTokenUsdValue(token ?? urlPrefix.value),
+    )
 
   return {
     toUsdPrice,
