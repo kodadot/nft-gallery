@@ -252,6 +252,10 @@ export default defineNuxtConfig({
       'image-beta.w.kodadot.xyz',
       'substackcdn.com',
     ],
+    provider: 'ipx',
+    ipx: {
+      maxAge: 31536000,
+    },
   },
 
   pwa,
