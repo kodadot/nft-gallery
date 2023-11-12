@@ -131,7 +131,7 @@ useSeoMeta({
   }
 
   &-avatar {
-    padding: 0.75rem;
+    padding: 0.25rem;
 
     @include ktheme() {
       border: 1px solid theme('border-color');
@@ -144,8 +144,6 @@ useSeoMeta({
       width: 5.5rem;
       height: 5.5rem;
       border: 1px solid;
-      padding: 1rem;
-      object-fit: contain;
     }
   }
 
