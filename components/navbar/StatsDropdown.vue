@@ -12,17 +12,26 @@
           </div>
         </template>
         <NeoDropdownItem>
-          <nuxt-link data-testid="global-offers" :to="offersUrl">
+          <nuxt-link
+            :prefetch="false"
+            data-testid="global-offers"
+            :to="offersUrl">
             {{ $t('navbar.globalOffers') }}
           </nuxt-link>
         </NeoDropdownItem>
         <NeoDropdownItem>
-          <nuxt-link data-testid="offers-stats" :to="statsUrl">
+          <nuxt-link
+            :prefetch="false"
+            data-testid="offers-stats"
+            :to="statsUrl">
             {{ $t('navbar.offerStats') }}
           </nuxt-link>
         </NeoDropdownItem>
         <NeoDropdownItem>
-          <nuxt-link data-testid="series-insight" to="/series-insight">
+          <nuxt-link
+            :prefetch="false"
+            data-testid="series-insight"
+            to="/series-insight">
             Series</nuxt-link
           >
         </NeoDropdownItem>
@@ -37,20 +46,27 @@
           </div>
         </template>
         <NeoDropdownItem aria-role="menu-item">
-          <nuxt-link data-testid="spotlight" to="/spotlight">
+          <nuxt-link :prefetch="false" data-testid="spotlight" to="/spotlight">
             {{ $t('spotlight.page') }}
           </nuxt-link>
         </NeoDropdownItem>
         <NeoDropdownItem>
-          <nuxt-link data-testid="series-insight" to="/series-insight">
+          <nuxt-link
+            :prefetch="false"
+            data-testid="series-insight"
+            to="/series-insight">
             Series</nuxt-link
           >
         </NeoDropdownItem>
         <NeoDropdownItem>
-          <nuxt-link data-testid="sales" to="/sales"> Sales</nuxt-link>
+          <nuxt-link :prefetch="false" data-testid="sales" to="/sales">
+            Sales</nuxt-link
+          >
         </NeoDropdownItem>
         <NeoDropdownItem>
-          <nuxt-link data-testid="hot" to="/hot"> Hot</nuxt-link>
+          <nuxt-link :prefetch="false" data-testid="hot" to="/hot">
+            Hot</nuxt-link
+          >
         </NeoDropdownItem>
       </NeoDropdown>
     </div>

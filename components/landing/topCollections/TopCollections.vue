@@ -50,6 +50,7 @@
 
     <nuxt-link
       v-show="urlPrefix === 'rmrk' || urlPrefix === 'bsx'"
+      :prefetch="false"
       to="/series-insight"
       class="link">
       {{ $t('helper.seeMore') }} >

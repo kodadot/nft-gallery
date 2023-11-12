@@ -2,7 +2,7 @@
   <div>
     <template v-if="profileMode">
       <slot name="extra" />
-      <nuxt-link :to="`${route}/${param}`">
+      <nuxt-link :prefetch="false" :to="`${route}/${param}`">
         <slot />
       </nuxt-link>
     </template>

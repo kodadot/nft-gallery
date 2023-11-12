@@ -38,12 +38,14 @@
         :label="$t('tabs.tabActivity.from')">
         <nuxt-link
           v-if="props.row.interaction === 'BUY'"
+          :prefetch="false"
           :to="`/${urlPrefix}/u/${props.row.currentOwner}`"
           class="has-text-link">
           <Identity :address="props.row.currentOwner" />
         </nuxt-link>
         <nuxt-link
           v-else
+          :prefetch="false"
           :to="`/${urlPrefix}/u/${props.row.caller}`"
           class="has-text-link">
           <Identity :address="props.row.caller" />
@@ -59,12 +61,14 @@
         <div v-if="props.row.caller !== props.row.currentOwner">
           <nuxt-link
             v-if="props.row.interaction === 'BUY'"
+            :prefetch="false"
             :to="`/${urlPrefix}/u/${props.row.caller}`"
             class="has-text-link">
             <Identity :address="props.row.caller" />
           </nuxt-link>
           <nuxt-link
             v-else
+            :prefetch="false"
             :to="`/${urlPrefix}/u/${props.row.currentOwner}`"
             class="has-text-link">
             <Identity :address="props.row.currentOwner" />
@@ -72,6 +76,7 @@
         </div>
         <nuxt-link
           v-else-if="props.row.interaction === 'SEND'"
+          :prefetch="false"
           :to="`/${urlPrefix}/u/${props.row.meta}`"
           class="has-text-link">
           <Identity :address="props.row.meta" />

@@ -5,7 +5,10 @@
       <HeroButtons class="is-hidden-tablet" />
       <div v-if="address" class="is-flex mb-2">
         <div class="mr-2">{{ $t('activity.creator') }}</div>
-        <nuxt-link :to="`/${urlPrefix}/u/${address}`" class="has-text-link">
+        <nuxt-link
+          :prefetch="false"
+          :to="`/${urlPrefix}/u/${address}`"
+          class="has-text-link">
           <IdentityIndex ref="identity" :address="address" show-clipboard />
         </nuxt-link>
       </div>

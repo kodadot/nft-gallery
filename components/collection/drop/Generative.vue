@@ -55,6 +55,7 @@
                 <NeoButton
                   class="my-2 mint-button"
                   :tag="NuxtLink"
+                  :prefetch="false"
                   :label="$t('mint.unlockable.seeYourNft')"
                   :to="`/${urlPrefix}/gallery/${hasUserMinted}`" />
               </div>

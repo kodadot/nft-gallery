@@ -1,7 +1,9 @@
 <template>
   <div v-if="post?.title" class="article">
     <div class="is-flex is-align-items-center has-text-grey is-size-5 mb-1">
-      <nuxt-link class="has-text-grey" to="/blog">{{ $t('blog') }}</nuxt-link>
+      <nuxt-link :prefetch="false" class="has-text-grey" to="/blog">{{
+        $t('blog')
+      }}</nuxt-link>
       <NeoIcon icon="chevron-right" class="mx-5" />
       <span>{{ post?.title?.slice(0, 15) }}...</span>
     </div>

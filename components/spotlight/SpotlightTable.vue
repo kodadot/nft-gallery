@@ -30,7 +30,10 @@
         field="id"
         :label="$t('spotlight.id')">
         <template v-if="!isLoading">
-          <nuxt-link v-if="!isLoading" :to="`/${urlPrefix}/u/${props.row.id}`">
+          <nuxt-link
+            v-if="!isLoading"
+            :prefetch="false"
+            :to="`/${urlPrefix}/u/${props.row.id}`">
             <Identity :address="props.row.id" />
           </nuxt-link>
         </template>

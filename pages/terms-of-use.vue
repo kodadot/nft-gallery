@@ -18,11 +18,15 @@
     </p>
 
     <p class="mb-4">
-      We operate the website <nuxt-link to="/">kodadot.xyz</nuxt-link> (the
-      "<span class="has-text-weight-bold">Site</span>"), as well as any other
-      related products and services that refer or link to these legal terms (the
-      "<span class="has-text-weight-bold">Legal Terms</span>") (collectively,
-      the "<span class="has-text-weight-bold">Services</span>").
+      We operate the website
+      <nuxt-link :prefetch="false" to="/">kodadot.xyz</nuxt-link> (the "<span
+        class="has-text-weight-bold"
+        >Site</span
+      >"), as well as any other related products and services that refer or link
+      to these legal terms (the "<span class="has-text-weight-bold"
+        >Legal Terms</span
+      >") (collectively, the "<span class="has-text-weight-bold">Services</span
+      >").
     </p>
 
     <p class="mb-4">KodaDot - Creators Marketplace</p>
@@ -72,83 +76,121 @@
 
     <ol class="mb-4">
       <li class="mb-4 is-4">
-        <nuxt-link to="#services">OUR SERVICE</nuxt-link>
+        <nuxt-link :prefetch="false" to="#services">OUR SERVICE</nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#ip">INTELLECTUAL PROPERTY RIGHTS</nuxt-link>
+        <nuxt-link :prefetch="false" to="#ip"
+          >INTELLECTUAL PROPERTY RIGHTS</nuxt-link
+        >
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#userreps">USER REPRESENTATIONS</nuxt-link>
+        <nuxt-link :prefetch="false" to="#userreps"
+          >USER REPRESENTATIONS</nuxt-link
+        >
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#userreg">USER REGISTRATION</nuxt-link>
-      </li>
-      <li class="mb-4 is-4"><nuxt-link to="#products">PRODUCTS</nuxt-link></li>
-      <li class="mb-4 is-4">
-        <nuxt-link to="#purchases">PURCHASES AND PAYMENT</nuxt-link>
+        <nuxt-link :prefetch="false" to="#userreg">USER REGISTRATION</nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#returnno">REFUNDS POLICY</nuxt-link>
+        <nuxt-link :prefetch="false" to="#products">PRODUCTS</nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#prohibited">PROHIBITED ACTIVITIES</nuxt-link>
+        <nuxt-link :prefetch="false" to="#purchases"
+          >PURCHASES AND PAYMENT</nuxt-link
+        >
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#ugc">USER GENERATED CONTRIBUTIONS</nuxt-link>
+        <nuxt-link :prefetch="false" to="#returnno">REFUNDS POLICY</nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#license">CONTRIBUTION LICENSE</nuxt-link>
+        <nuxt-link :prefetch="false" to="#prohibited"
+          >PROHIBITED ACTIVITIES</nuxt-link
+        >
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#socialmedia">SOCIAL MEDIA</nuxt-link>
+        <nuxt-link :prefetch="false" to="#ugc"
+          >USER GENERATED CONTRIBUTIONS</nuxt-link
+        >
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#thirdparty">THIRD-PARTY WEBSITES AND CONTENT</nuxt-link>
+        <nuxt-link :prefetch="false" to="#license"
+          >CONTRIBUTION LICENSE</nuxt-link
+        >
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#sitemanage">SERVICES MANAGEMENT</nuxt-link>
+        <nuxt-link :prefetch="false" to="#socialmedia">SOCIAL MEDIA</nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#ppyes">PRIVACY POLICY</nuxt-link>
+        <nuxt-link :prefetch="false" to="#thirdparty"
+          >THIRD-PARTY WEBSITES AND CONTENT</nuxt-link
+        >
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#copyrightyes">COPYRIGHT INFRINGEMENTS</nuxt-link>
+        <nuxt-link :prefetch="false" to="#sitemanage"
+          >SERVICES MANAGEMENT</nuxt-link
+        >
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#terms">TERM AND TERMINATION</nuxt-link>
+        <nuxt-link :prefetch="false" to="#ppyes">PRIVACY POLICY</nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#modifications"
+        <nuxt-link :prefetch="false" to="#copyrightyes"
+          >COPYRIGHT INFRINGEMENTS</nuxt-link
+        >
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link :prefetch="false" to="#terms"
+          >TERM AND TERMINATION</nuxt-link
+        >
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link :prefetch="false" to="#modifications"
           >MODIFICATIONS AND INTERRUPTIONS</nuxt-link
         >
       </li>
-      <li class="mb-4 is-4"><nuxt-link to="#law">GOVERNING LAW</nuxt-link></li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#disputes">DISPUTE RESOLUTION</nuxt-link>
+        <nuxt-link :prefetch="false" to="#law">GOVERNING LAW</nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#corrections">CORRECTIONS</nuxt-link>
+        <nuxt-link :prefetch="false" to="#disputes"
+          >DISPUTE RESOLUTION</nuxt-link
+        >
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#disclaimer">DISCLAIMER</nuxt-link>
+        <nuxt-link :prefetch="false" to="#corrections">CORRECTIONS</nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#liability">LIMITATIONS OF LIABILITY</nuxt-link>
+        <nuxt-link :prefetch="false" to="#disclaimer">DISCLAIMER</nuxt-link>
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#indemnification">INDEMNIFICATION</nuxt-link>
+        <nuxt-link :prefetch="false" to="#liability"
+          >LIMITATIONS OF LIABILITY</nuxt-link
+        >
       </li>
-      <li class="mb-4 is-4"><nuxt-link to="#userdata">USER DATA</nuxt-link></li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#eletronic"
+        <nuxt-link :prefetch="false" to="#indemnification"
+          >INDEMNIFICATION</nuxt-link
+        >
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link :prefetch="false" to="#userdata">USER DATA</nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link :prefetch="false" to="#eletronic"
           >ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES</nuxt-link
         >
       </li>
       <li class="mb-4 is-4">
-        <nuxt-link to="#california">CALIFORNIA USERS AND RESIDENTS</nuxt-link>
+        <nuxt-link :prefetch="false" to="#california"
+          >CALIFORNIA USERS AND RESIDENTS</nuxt-link
+        >
       </li>
-      <li class="mb-4 is-4"><nuxt-link to="#misc">MISCELLANEOUS</nuxt-link></li>
-      <li class="mb-4 is-4"><nuxt-link to="#contact">CONTACT US</nuxt-link></li>
+      <li class="mb-4 is-4">
+        <nuxt-link :prefetch="false" to="#misc">MISCELLANEOUS</nuxt-link>
+      </li>
+      <li class="mb-4 is-4">
+        <nuxt-link :prefetch="false" to="#contact">CONTACT US</nuxt-link>
+      </li>
     </ol>
 
     <div id="services" class="mb-2">
@@ -201,9 +243,10 @@
 
       <p class="mb-4">
         Subject to your compliance with these Legal Terms, including the
-        "<nuxt-link to="#prohibited">PROHIBITED ACTIVITIES</nuxt-link>" section
-        below, we grant you a non-exclusive, non-transferable, revocable license
-        to:
+        "<nuxt-link :prefetch="false" to="#prohibited"
+          >PROHIBITED ACTIVITIES</nuxt-link
+        >" section below, we grant you a non-exclusive, non-transferable,
+        revocable license to:
       </p>
 
       <ul class="mb-4">
@@ -253,7 +296,9 @@
       </p>
 
       <p class="mb-4">
-        Please review this section and the "<nuxt-link to="#prohibited"
+        Please review this section and the "<nuxt-link
+          :prefetch="false"
+          to="#prohibited"
           >PROHIBITED ACTIVITIES</nuxt-link
         >" section carefully prior to using our Services to understand the (a)
         rights you give us and (b) obligations you have when you post or upload
@@ -324,6 +369,7 @@
       <ul class="mb-4">
         <li class="mb-2">
           confirm that you have read and agree with our "<nuxt-link
+            :prefetch="false"
             to="#prohibited"
             >PROHIBITED ACTIVITIES</nuxt-link
           >" and will not post, send, publish, upload, or transmit through the
@@ -374,8 +420,9 @@
         We respect the intellectual property rights of others. If you believe
         that any material available on or through the Services infringes upon
         any copyright you own or control, please immediately refer to the
-        "<nuxt-link to="#copyrightyes">COPYRIGHT INFRINGEMENTS</nuxt-link>"
-        section below.
+        "<nuxt-link :prefetch="false" to="#copyrightyes"
+          >COPYRIGHT INFRINGEMENTS</nuxt-link
+        >" section below.
       </p>
     </div>
 
@@ -843,8 +890,9 @@
       <p class="mb-4">
         We care about data privacy and security. Please review our Privacy
         Policy:
-        <nuxt-link to="/privacy-notice">kodadot.xyz/privacy-notice</nuxt-link>.
-        By using the Services, you agree to be bound by our Privacy Policy,
+        <nuxt-link :prefetch="false" to="/privacy-notice"
+          >kodadot.xyz/privacy-notice</nuxt-link
+        >. By using the Services, you agree to be bound by our Privacy Policy,
         which is incorporated into these Legal Terms. Please be advised the
         Services are hosted in Germany. If you access the Services from any
         other region of the world with laws or other requirements governing

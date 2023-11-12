@@ -2,7 +2,10 @@
   <div v-if="isDesktop" class="columns mb-2">
     <div class="column is-clipped">
       <div class="is-flex is-align-items-center">
-        <nuxt-link :to="`/${urlPrefix}/gallery/${event.Item.id}`" class="h-50">
+        <nuxt-link
+          :prefetch="false"
+          :to="`/${urlPrefix}/gallery/${event.Item.id}`"
+          class="h-50">
           <NeoAvatar
             :avatar="avatar"
             :placeholder="placeholder"
@@ -10,6 +13,7 @@
             :size="50" />
         </nuxt-link>
         <nuxt-link
+          :prefetch="false"
           class="is-ellipsis is-inline-block"
           :to="`/${urlPrefix}/gallery/${event.Item.id}`">
           <span class="ml-5 has-text-weight-bold is-clipped">
@@ -41,6 +45,7 @@
       <div class="h-50 is-flex is-align-items-center">
         <nuxt-link
           v-if="!!fromAddress"
+          :prefetch="false"
           :to="`/${urlPrefix}/u/${fromAddress}`"
           class="has-text-link">
           <IdentityIndex ref="identity" :address="fromAddress" show-clipboard />
@@ -55,6 +60,7 @@
       <div class="h-50 is-flex is-align-items-center">
         <nuxt-link
           v-if="!!toAddress"
+          :prefetch="false"
           :to="`/${urlPrefix}/u/${toAddress}`"
           class="has-text-link">
           <IdentityIndex ref="identity" :address="toAddress" show-clipboard />
@@ -76,7 +82,9 @@
   <!-- Mobile -->
   <div v-else class="mb-6 is-flex is-flex-direction-column gap-10px">
     <div class="is-flex h-70 line-height-1">
-      <nuxt-link :to="`/${urlPrefix}/gallery/${event.Item.id}`">
+      <nuxt-link
+        :prefetch="false"
+        :to="`/${urlPrefix}/gallery/${event.Item.id}`">
         <div class="mr-5">
           <NeoAvatar
             :avatar="avatar"
@@ -88,6 +96,7 @@
       <div
         class="is-flex is-flex-direction-column is-justify-content-center gap-10px is-flex-grow-1">
         <nuxt-link
+          :prefetch="false"
           class="is-ellipsis is-inline-block mobile-fixed-width"
           :to="`/${urlPrefix}/gallery/${event.Item.id}`">
           <span class="has-text-weight-bold">
@@ -117,6 +126,7 @@
       <div v-if="!!fromAddress" class="is-flex is-align-items-center">
         <span class="is-size-7 mr-3">{{ $t('activity.event.from') }}:</span>
         <nuxt-link
+          :prefetch="false"
           :to="`/${urlPrefix}/u/${fromAddress}`"
           class="has-text-link is-ellipsis">
           <IdentityIndex ref="identity" :address="fromAddress" show-clipboard />
@@ -126,6 +136,7 @@
       <div v-if="!!toAddress" class="is-flex is-align-items-center">
         <span class="is-size-7 mr-3">{{ $t('activity.event.to') }}:</span>
         <nuxt-link
+          :prefetch="false"
           :to="`/${urlPrefix}/u/${toAddress}`"
           class="has-text-link is-ellipsis">
           <IdentityIndex ref="identity" :address="toAddress" show-clipboard />

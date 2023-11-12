@@ -20,7 +20,9 @@
           @click="toggleSeeAllDescription" />
         <div v-else />
 
-        <nuxt-link :to="`/${urlPrefix}/collection/${collectionId}`">
+        <nuxt-link
+          :prefetch="false"
+          :to="`/${urlPrefix}/collection/${collectionId}`">
           <NeoButton
             variant="secondary"
             tag="span"

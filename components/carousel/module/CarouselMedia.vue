@@ -3,6 +3,7 @@
     class="carousel-media"
     :class="{ 'carousel-media-collection': isCollection }">
     <nuxt-link
+      :prefetch="false"
       :to="urlOf({ id: item.id, url, chain: item.chain })"
       :aria-label="`slide ${index + 1} of ${length}`"
       rel="nofollow">

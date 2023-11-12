@@ -19,7 +19,9 @@
     <Loader v-model="isLoading" :status="status" />
     <NeoTable :data="displayOffers(offers)">
       <NeoTableColumn v-slot="props" :label="$t('nft.offer.item')" sortable>
-        <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.nft.id}`">
+        <nuxt-link
+          :prefetch="false"
+          :to="`/${urlPrefix}/gallery/${props.row.nft.id}`">
           <p
             class="limit-width-text"
             :title="props.row.nft.name ? props.row.nft.name : props.row.nft.id">
@@ -39,7 +41,9 @@
         field="caller"
         :label="$t('myOffer.caller')"
         sortable>
-        <nuxt-link :to="`/${urlPrefix}/u/${props.row.caller}`">
+        <nuxt-link
+          :prefetch="false"
+          :to="`/${urlPrefix}/u/${props.row.caller}`">
           <Identity :address="props.row.caller" />
         </nuxt-link>
       </NeoTableColumn>

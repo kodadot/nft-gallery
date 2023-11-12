@@ -16,6 +16,7 @@
     :card-icon-src="cardIcon"
     :show-action-on-hover="!showActionSection"
     :link="NuxtLink"
+    :prefetch="false"
     bind-key="to"
     :media-player-cover="mediaPlayerCover"
     media-hover-on-cover-play>

@@ -3,6 +3,7 @@
     <nuxt-link
       v-for="{ avatar, id, name, updatedAt } in displayedNFTs"
       :key="id"
+      :prefetch="false"
       :to="`/${urlPrefix}/gallery/${id}`"
       class="is-flex pt-2 px-5 is-justify-content-start is-hoverable-item hoverable-lable-color">
       <div class="mr-5">

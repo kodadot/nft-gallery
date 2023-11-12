@@ -17,7 +17,10 @@
         >creating a bug issue with steps and screenshot to reproduce.</a
       >
     </p>
-    <nuxt-link :to="`/${urlPrefix}/explore/collectibles`" class="has-text-link">
+    <nuxt-link
+      :prefetch="false"
+      :to="`/${urlPrefix}/explore/collectibles`"
+      class="has-text-link">
       Explore NFTs and Collections
     </nuxt-link>
   </div>

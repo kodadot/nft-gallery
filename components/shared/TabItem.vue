@@ -3,6 +3,7 @@
     <NeoButton
       class="explore-tabs-button"
       :tag="NuxtLink || tag"
+      :prefetch="false"
       :no-shadow="noShadow"
       :active="active"
       :to="to"

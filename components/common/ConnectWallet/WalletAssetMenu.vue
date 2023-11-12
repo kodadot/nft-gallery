@@ -50,6 +50,7 @@
 
       <!-- settings -->
       <nuxt-link
+        :prefetch="false"
         to="/settings"
         class="has-text-grey is-align-items-center"
         data-testid="sidebar-link-settings"

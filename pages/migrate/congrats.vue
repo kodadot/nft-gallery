@@ -24,6 +24,7 @@
             variant="pill"
             class="mr-2"
             :tag="NuxtLink"
+            :prefetch="false"
             :to="`/${urlPrefix}/collection/${collectionId}`">
             {{ $t('migrate.congrats.cta') }}
           </NeoButton>

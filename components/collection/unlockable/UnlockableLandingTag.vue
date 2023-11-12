@@ -13,6 +13,7 @@
     </div>
     <div class="separator mx-2" />
     <nuxt-link
+      :prefetch="false"
       class="is-flex is-align-items-center has-text-weight-bold my-2"
       to="/ahk/drops/chained">
       {{ $t('mint.unlockable.takeMe') }}

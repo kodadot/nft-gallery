@@ -15,6 +15,7 @@
         <span class="mr-2">{{ $t('tabs.tabDescription.made') }}:</span>
         <nuxt-link
           v-if="nft?.issuer"
+          :prefetch="false"
           :to="`/${urlPrefix}/u/${nft?.issuer}`"
           class="has-text-link">
           <Identity ref="identity" :address="nft?.issuer" />
@@ -74,6 +75,7 @@
         <p>{{ $t('tabs.tabDetails.creator') }}</p>
         <nuxt-link
           v-if="nft?.issuer"
+          :prefetch="false"
           :to="`/${urlPrefix}/u/${nft?.issuer}`"
           class="has-text-link">
           <Identity ref="identity" :address="nft?.issuer" />
@@ -104,6 +106,7 @@
           <ol>
             <li v-for="[addr, percentile] in recipient" :key="addr" class="">
               <nuxt-link
+                :prefetch="false"
                 :to="`/${urlPrefix}/u/${addr}`"
                 class="has-text-link is-inline-block">
                 <Identity ref="identity" :address="addr" />
@@ -115,13 +118,17 @@
         <template
           v-else-if="Array.isArray(recipient) && recipient.length === 1">
           <nuxt-link
+            :prefetch="false"
             :to="`/${urlPrefix}/u/${recipient[0][0]}`"
             class="has-text-link">
             <Identity ref="identity" :address="recipient[0][0]" />
           </nuxt-link>
         </template>
         <template v-else>
-          <nuxt-link :to="`/${urlPrefix}/u/${recipient}`" class="has-text-link">
+          <nuxt-link
+            :prefetch="false"
+            :to="`/${urlPrefix}/u/${recipient}`"
+            class="has-text-link">
             <Identity ref="identity" :address="recipient" />
           </nuxt-link>
         </template>
@@ -169,7 +176,7 @@
     <!-- parent tab -->
     <div v-if="parent">
       <NeoTabItem value="3" :label="$t('tabs.parent')" class="p-5">
-        <nuxt-link :to="parentNftUrl">
+        <nuxt-link :prefetch="false" :to="parentNftUrl">
           <MediaItem
             :key="parent?.nftImage"
             :class="{

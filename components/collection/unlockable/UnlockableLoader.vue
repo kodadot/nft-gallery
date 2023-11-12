@@ -34,7 +34,7 @@
             >{{ $t('mint.unlockable.loader.onTwitter') }}
           </a>
         </div>
-        <nuxt-link :to="`/${urlPrefix}/gallery/${minted}`">
+        <nuxt-link :prefetch="false" :to="`/${urlPrefix}/gallery/${minted}`">
           <NeoButton
             class="mb-2 mt-4 loading-button is-size-6"
             variant="secondary"

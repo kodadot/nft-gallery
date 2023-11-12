@@ -2,6 +2,7 @@
   <div>
     <div class="is-flex is-flex-wrap-nowrap">
       <nuxt-link
+        :prefetch="false"
         :to="`/${urlPrefix}/explore/items`"
         class="menu-item mr-6"
         data-testid="explore-items"
@@ -9,6 +10,7 @@
         {{ $t('items') }}
       </nuxt-link>
       <nuxt-link
+        :prefetch="false"
         :to="`/${urlPrefix}/explore/collectibles`"
         class="menu-item mr-6"
         @click="emitClose">

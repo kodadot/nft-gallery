@@ -3,6 +3,7 @@
     <component
       :is="externalUrl ? 'a' : NuxtLink"
       v-if="drop.collection && !isLoadingMeta"
+      :prefetch="false"
       rel="nofollow noopener noreferrer"
       :to="`/${correctUrlPrefix}/drops/${drop.alias}`">
       <div
@@ -34,6 +35,7 @@
                 {{ $t('activity.creator') }}:
               </div>
               <nuxt-link
+                :prefetch="false"
                 :to="`/${correctUrlPrefix}/u/${drop.collection.issuer}`"
                 class="has-text-link">
                 <IdentityIndex

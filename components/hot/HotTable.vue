@@ -10,7 +10,9 @@
         {{ props.row.id }}
       </NeoTableColumn>
       <NeoTableColumn v-slot="props" label="Series Name">
-        <nuxt-link :to="`/${urlPrefix}/collection/${props.row.collectionId}`">
+        <nuxt-link
+          :prefetch="false"
+          :to="`/${urlPrefix}/collection/${props.row.collectionId}`">
           {{ props.row.name }}
         </nuxt-link>
       </NeoTableColumn>

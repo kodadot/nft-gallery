@@ -1,5 +1,7 @@
 <template>
-  <nuxt-link :to="`/${urlPrefix}/collection/${collection.id}`">
+  <nuxt-link
+    :prefetch="false"
+    :to="`/${urlPrefix}/collection/${collection.id}`">
     <div
       class="top-collections-item py-2 is-flex is-align-items-center is-justify-content-space-between is-clickable">
       <div class="is-flex is-align-items-center">

@@ -4,6 +4,7 @@
     <div class="is-flex is-align-items-center is-justify-content-space-between">
       <div class="is-flex is-align-items-center">
         <nuxt-link
+          :prefetch="false"
           class="is-size-6 break-word mr-2 has-text-link"
           :to="`/${urlPrefix}/u/${address}`">
           <span data-testid="identity-display">

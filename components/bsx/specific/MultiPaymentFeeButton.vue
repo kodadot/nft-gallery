@@ -1,5 +1,5 @@
 <template>
-  <nuxt-link :to="url">
+  <nuxt-link :prefetch="false" :to="url">
     {{ $t('general.tx.feesPaidIn', [unit]) }}
   </nuxt-link>
 </template>
