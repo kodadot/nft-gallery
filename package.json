@@ -98,7 +98,6 @@
     "graphql-ws": "^5.14.2",
     "highlight.js": "^11.9.0",
     "keen-slider": "^6.8.6",
-    "lazysizes": "^5.3.2",
     "lodash": "^4.17.21",
     "mingo": "^5.1.0",
     "nuxt": "^3.8.1",

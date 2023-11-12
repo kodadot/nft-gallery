@@ -128,9 +128,6 @@ importers:
       keen-slider:
         specifier: ^6.8.6
         version: 6.8.6
-      lazysizes:
-        specifier: ^5.3.2
-        version: 5.3.2
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -12920,10 +12917,6 @@ packages:
       picocolors: 1.0.0
       shell-quote: 1.8.1
 
-  /lazysizes@5.3.2:
-    resolution: {integrity: sha512-22UzWP+Vedi/sMeOr8O7FWimRVtiNJV2HCa+V8+peZOw6QbswN9k58VUhd7i6iK5bw5QkYrF01LJbeJe0PV8jg==}
-    dev: false
-
   /lazystream@1.0.1:
     resolution: {integrity: sha512-b94GiNHQNy6JNTrt5w6zNyffMrNkXZb3KTkCZJb2V1xaEGCk093vkZ2jk3tpaeP33/OiXC+WvK9AxUebnf5nbw==}
     engines: {node: '>= 0.6.3'}
@@ -15619,6 +15612,7 @@ packages:
     resolution: {integrity: sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==}
     engines: {node: '>=10.13.0'}
     hasBin: true
+    requiresBuild: true
     dev: true
 
   /prettier@3.0.3:

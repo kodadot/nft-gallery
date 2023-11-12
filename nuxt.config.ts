@@ -127,15 +127,12 @@ export default defineNuxtConfig({
         },
         { rel: 'icon', sizes: '32x32', href: '/favicon-32x32.png' },
         { rel: 'icon', sizes: '16x16', href: '/favicon-16x16.png' },
-        {
-          rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Fira+Code:wght@600;700&display=swap',
-        },
       ],
       script: [
         {
           src: 'https://kit.fontawesome.com/54f29b7997.js',
           crossorigin: 'anonymous',
+          async: true,
         },
         {
           src: `https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`,
@@ -235,6 +232,9 @@ export default defineNuxtConfig({
       'Work+Sans': {
         wght: '100..900',
         ital: '100..900',
+      },
+      'Fira+Code': {
+        wght: '600..700',
       },
     },
     display: 'swap',
