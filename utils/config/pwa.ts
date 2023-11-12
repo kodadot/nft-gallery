@@ -109,7 +109,7 @@ export const pwa: ModuleOptions = {
     cleanupOutdatedCaches: true,
     runtimeCaching: [
       {
-        urlPattern: '.*\\.(?:png|jpg|jpeg|svg|gif|webp|avif)$', // Регулярное выражение для кэширования изображений
+        urlPattern: '.*\\.(?:png|jpg|jpeg|svg|gif|webp|avif)$',
         handler: 'CacheFirst',
         options: {
           cacheName: 'images',

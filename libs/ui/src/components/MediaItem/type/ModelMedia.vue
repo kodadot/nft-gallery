@@ -2,6 +2,7 @@
   <div class="view-model__wrapper">
     <div class="view-model__overflow" />
     <model-viewer
+      loading="lazy"
       class="view-model__component"
       :src="animationSrc"
       auto-rotate

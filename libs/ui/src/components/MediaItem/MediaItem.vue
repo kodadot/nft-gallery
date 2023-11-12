@@ -1,7 +1,7 @@
 <template>
   <div ref="mediaItem" class="media-object" style="height: fit-content">
     <component
-      :is="resolveComponent"
+      :is="isModelVisible ? modelComponent : resolveComponent"
       :src="properSrc"
       :animation-src="animationSrc"
       :alt="title"
@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue'
+import { computed, defineAsyncComponent, ref, watch } from 'vue'
 import { useElementHover } from '@vueuse/core'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
@@ -56,11 +56,37 @@ import { MediaType } from '@/components/rmrk/types'
 import ImageMedia from './type/ImageMedia.vue'
 import VideoMedia from './type/VideoMedia.vue'
 import AudioMedia from './type/AudioMedia.vue'
-import ModelMedia from './type/ModelMedia.vue'
 import JsonMedia from './type/JsonMedia.vue'
 import IFrameMedia from './type/IFrameMedia.vue'
 import ObjectMedia from './type/ObjectMedia.vue'
 import Media from './type/UnknownMedia.vue'
+
+const mediaItem = ref<HTMLDivElement>()
+let modelComponent: any = null
+let isModelVisible = ref(false)
+let observer: IntersectionObserver
+
+onMounted(() => {
+  observer = new IntersectionObserver((entries) => {
+    if (entries.some((entry) => entry.isIntersecting)) {
+      if (mimeType.value === 'model/gltf-binary') {
+        isModelVisible.value = true
+        modelComponent = defineAsyncComponent(
+          () => import('./type/ModelMedia.vue'),
+        )
+      }
+      observer.disconnect()
+    }
+  })
+
+  observer.observe(mediaItem.value as Element)
+})
+
+onUnmounted(() => {
+  if (observer) {
+    observer.disconnect()
+  }
+})
 
 const SUFFIX = 'Media'
 const props = withDefaults(
@@ -104,7 +130,6 @@ const components = {
   ImageMedia,
   VideoMedia,
   AudioMedia,
-  ModelMedia,
   JsonMedia,
   IFrameMedia,
   ObjectMedia,
@@ -116,6 +141,9 @@ const resolveComponent = computed(() => {
   if (mediaType === MediaType.IFRAME && !props.isDetail) {
     mediaType = MediaType.IMAGE
   }
+
+  console.log(components[mediaType + SUFFIX])
+
   return components[mediaType + SUFFIX]
 })
 const properSrc = computed(() => props.src || props.placeholder)
@@ -138,7 +166,6 @@ const toggleContent = () => {
   isLewdBlurredLayer.value = !isLewdBlurredLayer.value
 }
 
-const mediaItem = ref()
 const isMediaItemHovering = useElementHover(mediaItem)
 
 defineExpose({ isLewdBlurredLayer })
