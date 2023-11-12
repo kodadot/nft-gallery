@@ -1,0 +1,7 @@
+fragment nftResources on NFTEntity {
+  resources {
+    id
+    thumb
+    src
+  }
+}
