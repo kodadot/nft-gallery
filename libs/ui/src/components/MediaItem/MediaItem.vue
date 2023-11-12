@@ -48,6 +48,7 @@
 
 <script lang="ts" setup>
 import { computed, defineAsyncComponent, ref, watch } from 'vue'
+import type { Component } from 'vue'
 import { useElementHover } from '@vueuse/core'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
@@ -61,34 +62,6 @@ import IFrameMedia from './type/IFrameMedia.vue'
 import ObjectMedia from './type/ObjectMedia.vue'
 import Media from './type/UnknownMedia.vue'
 
-const mediaItem = ref<HTMLDivElement>()
-let modelComponent: any = null
-let isModelVisible = ref(false)
-let observer: IntersectionObserver
-
-onMounted(() => {
-  observer = new IntersectionObserver((entries) => {
-    if (entries.some((entry) => entry.isIntersecting)) {
-      if (mimeType.value === 'model/gltf-binary') {
-        isModelVisible.value = true
-        modelComponent = defineAsyncComponent(
-          () => import('./type/ModelMedia.vue'),
-        )
-      }
-      observer.disconnect()
-    }
-  })
-
-  observer.observe(mediaItem.value as Element)
-})
-
-onUnmounted(() => {
-  if (observer) {
-    observer.disconnect()
-  }
-})
-
-const SUFFIX = 'Media'
 const props = withDefaults(
   defineProps<{
     src?: string
@@ -118,6 +91,35 @@ const props = withDefaults(
   },
 )
 
+const mediaItem = ref<HTMLDivElement>()
+let modelComponent: Component | null = null
+let isModelVisible = ref(false)
+let observer: IntersectionObserver
+
+onMounted(() => {
+  observer = new IntersectionObserver((entries) => {
+    if (entries.some((entry) => entry.isIntersecting)) {
+      if (mimeType.value === 'model/gltf-binary') {
+        isModelVisible.value = true
+        modelComponent = defineAsyncComponent(
+          () => import('./type/ModelMedia.vue'),
+        )
+      }
+      observer.disconnect()
+    }
+  })
+
+  observer.observe(mediaItem.value as Element)
+})
+
+onUnmounted(() => {
+  if (observer) {
+    observer.disconnect()
+  }
+})
+
+const SUFFIX = 'Media'
+
 const isInteractive = computed(() => {
   return resolveMedia(mimeType.value) === MediaType.IFRAME && !props.isDetail
 })
@@ -141,8 +143,6 @@ const resolveComponent = computed(() => {
   if (mediaType === MediaType.IFRAME && !props.isDetail) {
     mediaType = MediaType.IMAGE
   }
-
-  console.log(components[mediaType + SUFFIX])
 
   return components[mediaType + SUFFIX]
 })
