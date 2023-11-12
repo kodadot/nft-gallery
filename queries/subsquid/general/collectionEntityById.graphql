@@ -1,7 +1,6 @@
 #import "../../fragments/nftSubsquid.graphql"
 #import "../../fragments/nftDetails.graphql"
 #import "../../fragments/baseMeta.graphql"
-#import "../../fragments/nftResources.graphql"
 
 query collectionEntityById($id: String!, $nftId: String!, $limit: Int!) {
   collection: collectionEntityById(id: $id) {
@@ -14,7 +13,6 @@ query collectionEntityById($id: String!, $nftId: String!, $limit: Int!) {
     ) {
       ...nftSubsquid
       ...nftDetails
-      ...nftResources
       collection {
         id
         name
