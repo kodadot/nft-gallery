@@ -5,11 +5,14 @@
       'is-square image': !original,
       'is-detail': isDetail,
     }">
-    <img
+    <NuxtImg
       :src="src"
       class="is-block image-media__image no-border-radius"
       :alt="alt"
       data-testid="type-image"
+      loading="lazy"
+      format="webp"
+      quality="85"
       @error.once="onError" />
   </figure>
 </template>

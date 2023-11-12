@@ -4,9 +4,12 @@
     class="article"
     target="_blank"
     rel="nofollow noopener noreferrer">
-    <div
+    <NuxtImg
       class="article-image"
-      :style="{ 'background-image': `url(${image})` }" />
+      :src="image"
+      loading="lazy"
+      format="webp"
+      quality="85" />
     <div class="article-info">
       <p class="article-title">
         {{ title }}

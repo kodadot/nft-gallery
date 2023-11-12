@@ -141,7 +141,13 @@
         </a>
       </section>
     </div>
-    <img src="/blurred-landing-footer.png" class="left-blurred-image" alt="" />
+    <img
+      src="/blurred-landing-footer.webp"
+      loading="lazy"
+      class="left-blurred-image"
+      width="1500"
+      height="1400"
+      alt="" />
   </footer>
 </template>
 

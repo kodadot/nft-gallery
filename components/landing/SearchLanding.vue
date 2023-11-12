@@ -1,8 +1,11 @@
 <template>
   <section class="landing-search is-flex is-align-items-center">
     <img
-      src="/landing-blurred-header-left.png"
+      src="/landing-blurred-header-left.webp"
+      loading="lazy"
       class="landing-search-left"
+      width="740"
+      height="1000"
       alt="" />
     <img :src="landingImage[0]" class="landing-shapes" alt="" />
     <div
@@ -41,9 +44,13 @@
       <UnlockableLandingTag />
     </div>
     <img
-      src="/landing-blurred-header-right.png"
+      src="/landing-blurred-header-right.webp"
+      loading="lazy"
       class="landing-search-right"
+      width="740"
+      height="1000"
       alt="" />
+
     <img :src="landingImage[1]" class="landing-shapes" alt="" />
   </section>
 </template>
@@ -64,17 +71,12 @@ const chainText = (chain: string) => {
   }
 }
 const landingImage = computed(() => {
-  if (isDarkMode.value) {
-    return [
-      '/landing-shape-header-left-dark.svg',
-      '/landing-shape-header-right-dark.svg',
-    ]
-  } else {
-    return [
-      '/landing-shape-header-left-light.svg',
-      '/landing-shape-header-right-light.svg',
-    ]
-  }
+  const lightOrDark = isDarkMode.value ? 'dark' : 'light'
+
+  return [
+    `/landing-shape-header-left-${lightOrDark}.svg`,
+    `/landing-shape-header-right-${lightOrDark}.svg`,
+  ]
 })
 
 const switchChain = (value) => {

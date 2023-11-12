@@ -35,6 +35,9 @@ importers:
       '@kodadot1/sub-api':
         specifier: 0.2.0-rc.0
         version: 0.2.0-rc.0
+      '@nuxt/image':
+        specifier: ^1.0.0
+        version: 1.0.0(rollup@2.79.1)
       '@nuxtjs/apollo':
         specifier: 5.0.0-alpha.6
         version: 5.0.0-alpha.6(rollup@2.79.1)(typescript@4.9.5)(vue@3.3.8)
@@ -219,6 +222,9 @@ importers:
       '@nuxtjs/color-mode':
         specifier: ^3.3.0
         version: 3.3.0(rollup@2.79.1)
+      '@nuxtjs/google-fonts':
+        specifier: ^3.0.2
+        version: 3.0.2(rollup@2.79.1)
       '@playwright/test':
         specifier: ^1.39.0
         version: 1.39.0
@@ -300,6 +306,9 @@ importers:
       lint-staged:
         specifier: ^12.5.0
         version: 12.5.0
+      nuxt-purgecss:
+        specifier: ^2.0.0
+        version: 2.0.0(rollup@2.79.1)
       nuxt-simple-sitemap:
         specifier: ^3.4.1
         version: 3.4.1(nuxt@3.8.1)(rollup@2.79.1)(vite@4.4.11)(vue@3.3.8)
@@ -2874,6 +2883,14 @@ packages:
       - utf-8-validate
     dev: false
 
+  /@fullhuman/postcss-purgecss@5.0.0:
+    resolution: {integrity: sha512-onDS/b/2pMRzqSoj4qOs2tYFmOpaspjTAgvACIHMPiicu1ptajiBruTrjBzTKdxWdX0ldaBb7wj8nEaTLyFkJw==}
+    peerDependencies:
+      postcss: ^8.0.0
+    dependencies:
+      purgecss: 5.0.0
+    dev: true
+
   /@google/model-viewer@3.3.0(three@0.158.0):
     resolution: {integrity: sha512-nQQXi9VUpO7odH42EfnN5L3E/1DT5M50H7eOMd5Q9xI2X6J4we6IsfHPzxxFXffK9fMSw026OE2YAvkUcBxT3A==}
     engines: {node: '>=6.0.0'}
@@ -3628,6 +3645,38 @@ packages:
       - utf-8-validate
       - xml2js
 
+  /@nuxt/image@1.0.0(rollup@2.79.1):
+    resolution: {integrity: sha512-tiNyerofmMs5JKW5erSoHNE6opsftdORWvANkqLissTiQFwGJxmfskjcJo/hJDCy/LT0VurW8wcuK/2wB3JX3Q==}
+    engines: {node: ^14.16.0 || >=16.11.0}
+    dependencies:
+      '@nuxt/kit': 3.8.1(rollup@2.79.1)
+      consola: 3.2.3
+      defu: 6.1.3
+      h3: 1.8.2
+      image-meta: 0.2.0
+      node-fetch-native: 1.4.1
+      ohash: 1.1.3
+      pathe: 1.1.1
+      std-env: 3.4.3
+      ufo: 1.3.1
+    optionalDependencies:
+      ipx: 2.0.2
+    transitivePeerDependencies:
+      - '@azure/app-configuration'
+      - '@azure/cosmos'
+      - '@azure/data-tables'
+      - '@azure/identity'
+      - '@azure/keyvault-secrets'
+      - '@azure/storage-blob'
+      - '@capacitor/preferences'
+      - '@planetscale/database'
+      - '@upstash/redis'
+      - '@vercel/kv'
+      - idb-keyval
+      - rollup
+      - supports-color
+    dev: false
+
   /@nuxt/image@1.0.0-rc.2(rollup@2.79.1):
     resolution: {integrity: sha512-AGvg9ujhz6yj8N4Uf9rrR4bvNWvKxcu0KTJk1Sc2njMd8prFXGf+pY3zZwbXP3k2nXc1cuy/EswIBQGzt24IbQ==}
     engines: {node: ^14.16.0 || >=16.11.0}
@@ -4089,6 +4138,17 @@ packages:
       - rollup
       - supports-color
     dev: false
+
+  /@nuxtjs/google-fonts@3.0.2(rollup@2.79.1):
+    resolution: {integrity: sha512-9DY0NcBnx/I6+3Lr7NeB64k5A7GbqCN1pqVgU9ld00NEXSpDUht2+lG8mcC5UnmpTi8KCdCJckDbD/bqW3ncYg==}
+    dependencies:
+      '@nuxt/kit': 3.8.1(rollup@2.79.1)
+      google-fonts-helper: 3.3.1
+      pathe: 1.1.1
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+    dev: true
 
   /@nuxtjs/i18n@8.0.0-rc.3(rollup@2.79.1)(vue@3.3.8):
     resolution: {integrity: sha512-TrJF7OxCK1CcEnKQHcP3VjVnb0K22OdMxdbWOk/kUzD9DX6+hrcrfrQD6W7xDA5pnEhBnsw1pLT2I+DYVpK/gw==}
@@ -9434,6 +9494,10 @@ packages:
       - supports-color
     dev: true
 
+  /consola@2.15.3:
+    resolution: {integrity: sha512-9vAdYbHj6x2fLKC4+oPH0kFzY/orMZyG2Aj+kNylHxKGJ/Ed4dpNyAQYwJOdqO4zdM7XpVHmyejQDcQHrnuXbw==}
+    dev: true
+
   /consola@3.2.3:
     resolution: {integrity: sha512-I5qxpzLv+sJhTVEoLYNcTW+bThDCPsit0vLNKShZx6rLtpilNpmmeTPaeqJb9ZE9dV3DGaeby6Vuhrw38WjeyQ==}
     engines: {node: ^14.18.0 || >=16.10.0}
@@ -9567,6 +9631,7 @@ packages:
   /css-tree@2.2.1:
     resolution: {integrity: sha512-OA0mILzGc1kCOCSJerOeqDxDQ4HOh+G8NbOJFOTgOCzpw7fCBubk0fEyxp8AgOL/jvLgYA/uV0cMbe43ElF1JA==}
     engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0, npm: '>=7.0.0'}
+    requiresBuild: true
     dependencies:
       mdn-data: 2.0.28
       source-map-js: 1.0.2
@@ -11413,6 +11478,14 @@ packages:
     resolution: {integrity: sha512-IaOQ9puYtjrkq7Y0Ygl9KDZnrf/aiUJYUpVf89y8kyaxbRG7Y1SrX/jaumrv81vc61+kiMempujsM3Yw7w5qcw==}
     dev: true
 
+  /glob-all@3.3.1:
+    resolution: {integrity: sha512-Y+ESjdI7ZgMwfzanHZYQ87C59jOO0i+Hd+QYtVt9PhLi6d8wlOpzQnfBxWUlaTuAoR3TkybLqqbIoWveU4Ji7Q==}
+    hasBin: true
+    dependencies:
+      glob: 7.2.3
+      yargs: 15.4.1
+    dev: true
+
   /glob-parent@5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
     engines: {node: '>= 6'}
@@ -11510,6 +11583,15 @@ packages:
       ignore: 5.2.4
       merge2: 1.4.1
       slash: 4.0.0
+
+  /google-fonts-helper@3.3.1:
+    resolution: {integrity: sha512-zMycq4nUUaplGe7pzCOGBC52LB3VpwxS9temmCx1EucEaBdBEpG5MeQlJhtRu63gKI1hb/l+yHkasQtee59sFA==}
+    dependencies:
+      deepmerge: 4.3.1
+      hookable: 5.5.3
+      ofetch: 1.3.3
+      ufo: 1.3.1
+    dev: true
 
   /gopd@1.0.1:
     resolution: {integrity: sha512-d65bNlIadxvpb/A2abVdlqKqV563juRnZ1Wtk6s1sIR8uNsXR70xqIzVqxVf1eTqDunwT2MkczEeaezCKTZhwA==}
@@ -12043,6 +12125,10 @@ packages:
     resolution: {integrity: sha512-+oXiHwOEPr1IE5zY0tcBLED/CYcre15J4nwL50x3o0jxWqEkyjrusiKP3YSU+tr9fvJp33ZcP5Gpj2295g3aEw==}
     engines: {node: '>=10.18.0'}
 
+  /image-meta@0.2.0:
+    resolution: {integrity: sha512-ZBGjl0ZMEMeOC3Ns0wUF/5UdUmr3qQhBSCniT0LxOgGGIRHiNFOkMtIHB7EOznRU47V2AxPgiVP+s+0/UCU0Hg==}
+    dev: false
+
   /immutable@4.3.4:
     resolution: {integrity: sha512-fsXeu4J4i6WNWSikpI88v/PcVflZz+6kMhUfIwc5SY+poQRPnaf5V7qds6SUyUN3cVxEzuCab7QIoLOQ+DQ1wA==}
 
@@ -12146,6 +12232,43 @@ packages:
       sharp: 0.32.6
       ufo: 1.3.1
       xss: 1.0.14
+    dev: false
+    optional: true
+
+  /ipx@2.0.2:
+    resolution: {integrity: sha512-avedYlD04mN3alN4BYoXtZuMrQP/Fln86uN1hUFRCjzIZxl7Et3oKX+V1YTEodFvPs8tk5NAQJXZeowu0OgOKQ==}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      '@fastify/accept-negotiator': 1.1.0
+      citty: 0.1.4
+      consola: 3.2.3
+      defu: 6.1.3
+      destr: 2.0.2
+      etag: 1.8.1
+      h3: 1.8.2
+      image-meta: 0.2.0
+      listhen: 1.5.5
+      ofetch: 1.3.3
+      pathe: 1.1.1
+      sharp: 0.32.6
+      svgo: 3.0.3
+      ufo: 1.3.1
+      unstorage: 1.9.0
+      xss: 1.0.14
+    transitivePeerDependencies:
+      - '@azure/app-configuration'
+      - '@azure/cosmos'
+      - '@azure/data-tables'
+      - '@azure/identity'
+      - '@azure/keyvault-secrets'
+      - '@azure/storage-blob'
+      - '@capacitor/preferences'
+      - '@planetscale/database'
+      - '@upstash/redis'
+      - '@vercel/kv'
+      - idb-keyval
+      - supports-color
     dev: false
     optional: true
 
@@ -13409,9 +13532,11 @@ packages:
 
   /mdn-data@2.0.28:
     resolution: {integrity: sha512-aylIc7Z9y4yzHYAJNuESG3hfhC+0Ibp/MAMiaOZgNv4pmEdFyfZhhhny4MNiAfWdBQ1RQ2mfDWmM1x8SvGyp8g==}
+    requiresBuild: true
 
   /mdn-data@2.0.30:
     resolution: {integrity: sha512-GaqWWShW4kv/G9IEucWScBx9G1/vsFZZJUO+tD26M8J8z3Kw5RDQjaoZe03YAClgeS/SWPOcb4nkFBTEi5DUEA==}
+    requiresBuild: true
 
   /mdurl@1.0.1:
     resolution: {integrity: sha512-/sKlQJCBYVY9Ers9hqzKou4H6V5UWc/M59TH2dvkt+84itfnq7uFOMLpOiOS4ujvHP4etln18fmIxA5R5fll0g==}
@@ -14481,6 +14606,20 @@ packages:
     hasBin: true
     optionalDependencies:
       fsevents: 2.3.3
+
+  /nuxt-purgecss@2.0.0(rollup@2.79.1):
+    resolution: {integrity: sha512-ajTVNZ7CoHwgmR0le0mqNg+CHXuOxVAmUmvnUeBpdurHmJ2Q4fJ6xbK2vbd99Vi0COpmz/TPMNz2gGmA478kcQ==}
+    dependencies:
+      '@fullhuman/postcss-purgecss': 5.0.0
+      '@nuxt/kit': 3.8.1(rollup@2.79.1)
+      consola: 2.15.3
+      glob-all: 3.3.1
+      purgecss: 5.0.0
+    transitivePeerDependencies:
+      - postcss
+      - rollup
+      - supports-color
+    dev: true
 
   /nuxt-simple-sitemap@3.4.1(nuxt@3.8.1)(rollup@2.79.1)(vite@4.4.11)(vue@3.3.8):
     resolution: {integrity: sha512-1F7OeXQ1rnwWgHgHDeDejlslgyNMHRq1JWzFjRaE6O2QN3R6Rh5RcLzqfynQQ0HFtvv0eJ54E9+MCbvGYVFBuA==}
@@ -15591,6 +15730,16 @@ packages:
   /punycode@2.3.0:
     resolution: {integrity: sha512-rRV+zQD8tVFys26lAGR9WUuS4iUAngJScM+ZRSKtvl5tKeZ2t5bvdNFdNHBW9FWR4guGHlgmsZ1G7BSm2wTbuA==}
     engines: {node: '>=6'}
+
+  /purgecss@5.0.0:
+    resolution: {integrity: sha512-RAnuxrGuVyLLTr8uMbKaxDRGWMgK5CCYDfRyUNNcaz5P3kGgD2b7ymQGYEyo2ST7Tl/ScwFgf5l3slKMxHSbrw==}
+    hasBin: true
+    dependencies:
+      commander: 9.5.0
+      glob: 8.1.0
+      postcss: 8.4.31
+      postcss-selector-parser: 6.0.13
+    dev: true
 
   /qrcode.vue@3.4.1(vue@3.3.8):
     resolution: {integrity: sha512-wq/zHsifH4FJ1GXQi8/wNxD1KfQkckIpjK1KPTc/qwYU5/Bkd4me0w4xZSg6EXk6xLBkVDE0zxVagewv5EMAVA==}
@@ -16869,6 +17018,21 @@ packages:
       css-tree: 2.3.1
       csso: 5.0.5
       picocolors: 1.0.0
+
+  /svgo@3.0.3:
+    resolution: {integrity: sha512-X4UZvLhOglD5Xrp834HzGHf8RKUW0Ahigg/08yRO1no9t2NxffOkMiQ0WmaMIbaGlVTlSst2zWANsdhz5ybXgA==}
+    engines: {node: '>=14.0.0'}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      '@trysound/sax': 0.2.0
+      commander: 7.2.0
+      css-select: 5.1.0
+      css-tree: 2.3.1
+      csso: 5.0.5
+      picocolors: 1.0.0
+    dev: false
+    optional: true
 
   /symbol-observable@1.2.0:
     resolution: {integrity: sha512-e900nM8RRtGhlV36KGEU9k65K3mPb1WV70OdjfxlG2EAuM1noi/E/BaW/uMhL7bPEssK8QV57vN3esixjUvcXQ==}

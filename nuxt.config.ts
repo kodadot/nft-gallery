@@ -225,7 +225,34 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxt/content',
     'nuxt-simple-sitemap',
+    '@nuxtjs/google-fonts',
+    '@nuxt/image',
+    'nuxt-purgecss',
   ],
+
+  googleFonts: {
+    families: {
+      'Work+Sans': {
+        wght: '100..900',
+        ital: '100..900',
+      },
+    },
+    display: 'swap',
+    prefetch: true,
+    preconnect: true,
+    preload: true,
+  },
+
+  image: {
+    quality: 85,
+    format: ['avif', 'webp'],
+    domains: [
+      'imagedelivery.net',
+      'image.w.kodadot.xyz',
+      'image-beta.w.kodadot.xyz',
+      'substackcdn.com',
+    ],
+  },
 
   pwa,
 
