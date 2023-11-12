@@ -79,7 +79,7 @@
 <script lang="ts" setup>
 import { NeoSecondaryButton, NeoTable, NeoTableColumn } from '@kodadot1/brick'
 import Identity from '@/components/identity/IdentityIndex.vue'
-import { getKSMUSD } from '@/utils/coingecko'
+import { getPrice } from '@/utils/price'
 import formatBalance from '@/utils/format/balance'
 import { formatSecondsToDuration } from '@/utils/format/time'
 import type { Offer, OfferResponse } from '@/components/bsx/Offer/types'
@@ -234,7 +234,7 @@ watch(
   async ([offersData, collectionData]) => {
     const nftPrice = collectionData?.collectionEntity?.nfts[0]?.price
     if (offersData?.offers) {
-      const ksmPrice = await getKSMUSD()
+      const ksmPrice = await getPrice('KSM', 'number')
       const floorPrice = formatPrice(nftPrice || '')
 
       offers.value = offersData.offers
