@@ -88,6 +88,7 @@
   "chainSelect": "Select Chain ({0})",
   "success": "Success",
   "advancedFilters": "Advanced Filters",
+  "viewtx": "View Tx",
   "search": {
     "searchCollection": "Search Collection",
     "seeAll": "See All",
@@ -442,7 +443,7 @@
     "mintNFTSuccess": "NFT {name} Saved in block {block}",
     "submit": "Click to create NFT(s)",
     "estimate": "Show me the transaction fees",
-    "estimated": "Transaction fees will cost about",
+    "estimated": "Estimated Fees",
     "success": "Congratulations",
     "successNewNfts": "You have successfully purchased this NFT",
     "successPurchasedNfts": "You have successfully purchased {0}",
@@ -1176,7 +1177,8 @@
   "moreActions": {
     "download": "Download",
     "reportCollection": "Report Collection",
-    "delete": "Delete",
+    "deleteCollection": "Delete Collection",
+    "deleteNfts": "Delete NFTs",
     "customize": "Customize"
   },
   "collectionCard": {
@@ -1499,9 +1501,25 @@
       "cta": "View Your Collection",
       "share": "Share on",
       "notes": "You have successfully transferred your '{0}' from the {1} network over to the {2}."
+    },
+    "signStep": {
+      "initiation": "Initiation Phase",
+      "journey": "Launching your journey with a first transaction that sets up everything needed on the new chain.",
+      "left": "Left",
+      "done": "Done",
+      "prepare": "Automated Asset Preparation",
+      "noSignature": "No Signature Needed",
+      "notesModal": "- Please do not exit this modal until transactions are complete -",
+      "notesPopup": "Look for popups from your wallet extension for signing.",
+      "migratingItems": "Migrating your items",
+      "signtx": "You will now sign transactions to migrate NFTs you own.",
+      "migratingNItems": "Migrating {0} Items",
+      "finalization": "Finalization",
+      "authorize": "Please authorize transactions to complete the NFT migration.",
+      "finalizingItems": "Finalizing {0} Items"
     }
   },
-  "transactionSteps" : {
+  "transactionSteps": {
     "completed": {
       "title": "Completed"
     },
@@ -1522,7 +1540,7 @@
       "subtitle": "(please wait)"
     }
   },
-  "autoTeleport" : {
+  "autoTeleport": {
     "autoTeleport": "Auto Teleport",
     "checking": "checking funds ...",
     "followSteps": "Follow steps",
@@ -1549,15 +1567,15 @@
       "description": "With Auto Teleport on, we manage asset bridges. Your role? Approve an extra transaction each time.",
       "submit": "Got It!",
       "1": {
-        "title":"Effortless Transfers",
+        "title": "Effortless Transfers",
         "description": "Switch between networks without a worry. Auto Teleport bridges assets from your richest chain."
       },
       "2": {
-        "title":"Time-Saving",
+        "title": "Time-Saving",
         "description": "No more manual asset transfers. Let us maintain your required balance for transactions"
       },
       "3": {
-        "title":"Smooth Experience",
+        "title": "Smooth Experience",
         "description": "Relish a seamless trading experience across varied networks at a toggle-switch away."
       }
     },
@@ -1595,6 +1613,9 @@
         "submit": "Minting NFT..."
       }
     }
-   
+  },
+  "confirmDeleteCollection": {
+    "deleteCollection": "Delete Collection?",
+    "content": "This will permanently remove your collection and NFTs. Your deposit will be refunded."
   }
 }

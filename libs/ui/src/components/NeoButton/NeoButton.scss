@@ -242,6 +242,13 @@
         color: theme('border-color');
       }
     }
+
+    &.active {
+      @include ktheme() {
+        background-color: theme('background-color-inverse');
+        color: theme('text-color-inverse');
+      }
+    }
   }
 
   &--pill {

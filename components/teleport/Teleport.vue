@@ -24,7 +24,9 @@
           @select="onChainChange" />
       </div>
 
-      <div class="network-arrow is-flex has-text-color">
+      <div
+        class="network-arrow is-flex is-cursor-pointer py-2"
+        @click="switchChains">
         <svg viewBox="0 0 39 17" fill="none" xmlns="http://www.w3.org/2000/svg">
           <line y1="5.5" x2="35" y2="5.5" stroke="currentColor" />
           <line y1="11.5" x2="35" y2="11.5" stroke="currentColor" />
@@ -128,6 +130,7 @@ import {
   allowedTransitions,
   chainToPrefixMap,
   getChainCurrency,
+  prefixToChainMap,
 } from '@/utils/teleport'
 import Loader from '@/components/shared/Loader.vue'
 import shortAddress from '@/utils/shortAddress'
@@ -148,6 +151,7 @@ const {
   status,
 } = useTeleport(true)
 
+const { urlPrefix } = usePrefix()
 const fiatStore = useFiatStore()
 const fromChain = ref(Chain.POLKADOT) //Selected origin parachain
 const toChain = ref(Chain.ASSETHUBPOLKADOT) //Selected destination parachain
@@ -156,6 +160,12 @@ const unsubscribeKusamaBalance = ref()
 
 const resetStatus = () => {
   amount.value = undefined
+}
+
+const switchChains = () => {
+  const temp = fromChain.value
+  fromChain.value = toChain.value
+  toChain.value = temp
 }
 
 const currency = computed(() => getChainCurrency(fromChain.value))
@@ -273,6 +283,21 @@ const onChainChange = (selectedChain, setFrom = true) => {
   }
 }
 
+const setRelatedChain = () => {
+  const relatedFromChain = prefixToChainMap[urlPrefix.value] || Chain.POLKADOT
+  onChainChange(relatedFromChain, true)
+}
+
+watch(
+  urlPrefix,
+  () => {
+    setRelatedChain()
+  },
+  {
+    immediate: true,
+  },
+)
+
 const fromAddress = computed(() => getAddressByChain(fromChain.value))
 const toAddress = computed(() => getAddressByChain(toChain.value))
 
@@ -359,6 +384,13 @@ onBeforeUnmount(() => {
 .network-arrow {
   min-width: 32px;
   line-height: 1;
+
+  @include ktheme() {
+    color: theme('text-color');
+    &:hover {
+      color: theme('link-hover');
+    }
+  }
 
   @include tablet {
     margin: 0 1rem;

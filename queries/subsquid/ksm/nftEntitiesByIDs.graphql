@@ -1,0 +1,19 @@
+#import "../../fragments/nftSubsquid.graphql"
+#import "../../fragments/nftDetails.graphql"
+#import "../../fragments/baseMeta.graphql"
+#import "../../fragments/nftResources.graphql"
+
+query nftEntitiesByStrings($ids: [String!]!) {
+  nftEntities(where: { id_in: $ids }) {
+    ...nftSubsquid
+    ...nftDetails
+    ...nftResources
+    collection {
+      id
+      name
+    }
+    meta {
+      ...baseMeta
+    }
+  }
+}

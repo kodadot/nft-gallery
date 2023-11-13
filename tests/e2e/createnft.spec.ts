@@ -1,6 +1,7 @@
 import { expect, test } from './fixtures'
 
 test('Create NFT', async ({ page, Commands }) => {
+  const numOfCopies = 5
   await Commands.e2elogin()
   //await page.goto('/ahk/create')
   await page.goto('/ksm/create')
@@ -34,7 +35,9 @@ test('Create NFT', async ({ page, Commands }) => {
     //set price
     await page.getByTestId('create-nft-input-list-value').fill('5.5')
     //set number of copies
-    await page.getByTestId('create-nft-input-copies').fill('5')
+    await page
+      .getByTestId('create-nft-input-copies')
+      .fill(numOfCopies.toString())
     await expect(
       page.getByTestId('create-nft-input-copies-switch'),
     ).toBeVisible()
@@ -71,8 +74,9 @@ test('Create NFT', async ({ page, Commands }) => {
     //NSFW switch
     await page.getByTestId('create-nft-nsfw-switch').click()
     //deposit check
+    const expectedDeposit = `${0.0077 * numOfCopies} KSM`
     await expect(page.getByTestId('create-nft-deposit-amount')).toHaveText(
-      '0.0077 KSM',
+      expectedDeposit,
       { timeout: 30000 },
     )
     //preview box
