@@ -4,19 +4,26 @@ import { URLS } from './constants'
 export const COINGECKO_BASE_URL = URLS.providers.coingecko
 export const KODAPRICE_BASE_URL = URLS.providers.kodaprice
 
-const coingeckoApi = $fetch.create({
-  baseURL: COINGECKO_BASE_URL,
+let status = 0
+const baseApi = {
   headers: {
     'Content-Type': 'application/json',
   },
+  ignoreResponseError: true,
+  async onResponse({ response }) {
+    status = response.status
+  },
+}
+
+const coingeckoApi = $fetch.create({
+  ...baseApi,
+  baseURL: COINGECKO_BASE_URL,
   credentials: 'omit',
 })
 
 const kodapriceApi = $fetch.create({
+  ...baseApi,
   baseURL: KODAPRICE_BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
 })
 
 // types from https://coinprice.kodadot.workers.dev/price/kusama
@@ -27,40 +34,27 @@ type GetPrice = {
   }
 }
 
-const whichEndpoint = async (id: string, fallback = false) => {
-  if (fallback) {
-    return await coingeckoApi('/simple/price', {
-      params: {
-        ids: id,
-        vs_currencies: 'usd',
-      },
-    })
+export const getPrice = async (id: string): Promise<GetPrice> => {
+  const emptyPrice = { [id]: { usd: 0 } }
+
+  // fetch kodaprice
+  const dataKodaprice = await kodapriceApi(`/price/${id}`)
+  if (status === 200) {
+    return dataKodaprice
   }
 
-  // retry to fallback endpoint if error
-  return await kodapriceApi(`/price/${id}`, {
-    onResponseError({ request, response, options }) {
-      console.log('onResponseError', request, response, options)
-      getPrice(id, true)
+  // fallback to coingecko
+  const dataCoingecko = await coingeckoApi('/simple/price', {
+    params: {
+      ids: id,
+      vs_currencies: 'usd',
     },
   })
-}
-
-export const getPrice = async (
-  id: string,
-  fallback = false,
-): Promise<GetPrice> => {
-  try {
-    const data = await whichEndpoint(id, fallback)
-    return data
-  } catch (error) {
-    console.log(error)
-    return {
-      [id]: {
-        usd: 0,
-      },
-    }
+  if (status === 200) {
+    return dataCoingecko
   }
+
+  return emptyPrice
 }
 
 // tokenMap but reversed
