@@ -29,7 +29,7 @@ const kodapriceApi = $fetch.create({
   baseURL: KODAPRICE_BASE_URL,
 })
 
-// types from https://coinprice.kodadot.workers.dev/price/kusama
+// types from https://price.kodadot.workers.dev/price/kusama
 // or https://api.coingecko.com/api/v3/simple/price?ids=kusama&vs_currencies=usd
 type GetPrice = {
   [key: string]: {
