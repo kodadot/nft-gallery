@@ -1,4 +1,3 @@
-import { getKSMUSD } from '@/utils/coingecko'
 import { asBalanceTransfer } from '@kodadot1/sub-api'
 import { pubKeyToAddress } from './account'
 import correctFormat from './ss58Format'
@@ -21,7 +20,7 @@ export const cost = async (
   api: ApiPromise,
   fee: number = BASE_FEE,
 ): Promise<number> => {
-  const ksmPrice = await getKSMUSD()
+  const ksmPrice = await getApproximatePriceOf('kusama')
   console.log('[SUPPORT] 💋💋💋', fee / ksmPrice, 'KSM')
   const decimals: number = getTokenDecimals(api)
   return Math.round((fee / ksmPrice) * 10 ** decimals)

@@ -28,7 +28,6 @@
 </template>
 
 <script setup lang="ts">
-import { getApproximatePriceOf } from '@/utils/coingecko'
 import { calculateBalanceUsdValue, roundTo } from '@/utils/format/balance'
 
 const { decimals, chainSymbol } = useChain()
