@@ -21,7 +21,7 @@ const networkToPrefix = {
   polkadotHub: 'ahp',
 }
 
-const prefixToNetwork = {
+export const prefixToNetwork = {
   dot: 'polkadot',
   rmrk: 'kusama',
   ksm: 'kusama',

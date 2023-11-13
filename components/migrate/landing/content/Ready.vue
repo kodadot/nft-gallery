@@ -48,7 +48,7 @@
             <div>
               <NeoButton
                 variant="pill"
-                @click="toReview(collection.id, collection.nfts?.length)">
+                @click="toReview(collection.id, collection.nftsOwned?.length)">
                 {{ $t('migrate.ready.cta') }}
               </NeoButton>
             </div>

@@ -24,10 +24,15 @@
             variant="pill"
             class="mr-2"
             :tag="NuxtLink"
-            :to="`/${urlPrefix}/collection/${collectionId}`">
+            :to="collectionPage">
             {{ $t('migrate.congrats.cta') }}
           </NeoButton>
-          <NeoButton variant="pill" class="ml-2">
+          <NeoButton
+            v-safe-href="shareUrl"
+            variant="pill"
+            class="ml-2"
+            tag="a"
+            target="_blank">
             {{ $t('migrate.congrats.share') }}
             <NeoIcon icon="x-twitter" pack="fab" />
           </NeoButton>
@@ -77,4 +82,14 @@ const collectionName = computed(
   () => (data as Collection).value?.collectionEntityById?.name,
 )
 const collectionId = route.query.nextCollectionId?.toString()
+const collectionPage = computed(
+  () => `/${urlPrefix.value}/collection/${collectionId}`,
+)
+
+const shareUrl = computed(() => {
+  const shareUrl = 'https://x.com/intent/tweet?text='
+  const currentUrl = `${URLS.koda.baseUrl}${collectionPage.value}`
+
+  return `${shareUrl}${encodeURIComponent(currentUrl)}`
+})
 </script>
