@@ -25,8 +25,8 @@
 
 <script lang="ts" setup>
 import type { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
+import type { NeoButtonVariant } from '../../types'
 import { OButton } from '@oruga-ui/oruga-next'
-import { NeoButtonVariant } from '@kodadot1/brick'
 
 withDefaults(
   defineProps<{

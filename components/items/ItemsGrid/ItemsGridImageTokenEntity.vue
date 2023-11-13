@@ -20,7 +20,7 @@
     bind-key="to"
     :media-player-cover="mediaPlayerCover"
     media-hover-on-cover-play>
-    <template #action>
+    <template v-if="!hideAction" #action>
       <div v-if="!isOwner && isAvailableToBuy" class="is-flex">
         <NeoButton
           :label="buyLabel"
@@ -95,6 +95,7 @@ const props = defineProps<{
   entity: TokenEntity
   variant?: NftCardVariant
   hideMediaInfo?: boolean
+  hideAction?: boolean
 }>()
 
 const {

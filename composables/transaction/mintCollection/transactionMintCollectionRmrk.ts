@@ -1,8 +1,4 @@
-import type {
-  ActionMintCollection,
-  CollectionToMintKusama,
-  ExecuteTransactionParams,
-} from '../types'
+import type { CollectionToMintKusama, MintCollectionParams } from '../types'
 import { constructMeta } from './constructMeta'
 import {
   Interaction,
@@ -16,14 +12,19 @@ import {
 import { asSystemRemark } from '@kodadot1/minimark/common'
 import { canSupport } from '@/utils/support'
 
-export async function execMintCollectionRmrk(
-  item: ActionMintCollection,
+export async function execMintCollectionRmrk({
+  item,
   api,
-  executeTransaction: (p: ExecuteTransactionParams) => void,
-) {
+  executeTransaction,
+  isLoading,
+  status,
+}: MintCollectionParams) {
   const { isV2 } = useRmrkVersion()
   const { accountId } = useAuth()
   const { $i18n } = useNuxtApp()
+
+  isLoading.value = true
+  status.value = 'loader.ipfs'
 
   const metadata = await constructMeta(item)
   const { symbol, name, nftCount } = item.collection as CollectionToMintKusama

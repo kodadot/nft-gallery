@@ -21,7 +21,7 @@
           class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
           @click="closeBurgerMenu">
           <img
-            v-if="isMobileNavbarOpen || showSearchOnNavbar"
+            v-if="isMobileNavbarOpen || showSearchOnNavbar || isTinyMobile"
             class="mobile-nav-search-btn mr-2"
             :src="
               isDarkMode
@@ -96,8 +96,13 @@
             </div>
           </nuxt-link>
 
-          <MobileExpandableSection v-if="isMobile" :title="$t('explore')">
-            <NavbarExploreOptions @closeMobileNavbar="showMobileNavbar" />
+          <MobileExpandableSection
+            v-if="isMobile"
+            v-slot="{ onCloseMobileSubMenu }"
+            :title="$t('explore')">
+            <NavbarExploreOptions
+              @closeMobileNavbar="showMobileNavbar"
+              @closeMobileSubMenu="onCloseMobileSubMenu" />
           </MobileExpandableSection>
           <ExploreDropdown
             v-else
@@ -129,9 +134,12 @@
 
           <MobileExpandableSection
             v-if="isMobile"
+            v-slot="{ onCloseMobileSubMenu }"
             no-padding
             :title="$t('chainSelect', [chainName])">
-            <NavbarChainOptions @select="handleMobileChainSelect" />
+            <NavbarChainOptions
+              @select="handleMobileChainSelect"
+              @closeMobileSubMenu="onCloseMobileSubMenu" />
           </MobileExpandableSection>
 
           <ChainSelectDropdown
@@ -153,7 +161,16 @@
 
           <template v-if="isMobile">
             <template v-if="!account">
-              <MobileLanguageOption @closeLanguageOption="showMobileNavbar" />
+              <MobileExpandableSection
+                v-slot="{ onCloseMobileSubMenu }"
+                class="mobile-language"
+                :no-padding="true"
+                :title="$t('profileMenu.language')"
+                icon="globe">
+                <MobileLanguageOption
+                  @closeLanguageOption="showMobileNavbar"
+                  @closeMobileSubMenu="onCloseMobileSubMenu" />
+              </MobileExpandableSection>
               <ColorModeButton class="navbar-item" />
             </template>
             <div
@@ -218,8 +235,10 @@ const openMobileSearchBar = ref(false)
 const fixedTitleNavAppearDistance = ref(85)
 const lastScrollPosition = ref(0)
 const isBurgerMenuOpened = ref(false)
+const { width } = useWindowSize()
 const isMobile = ref(window.innerWidth < 1024)
 const isMobileWithoutTablet = ref(window.innerWidth < 768)
+const isTinyMobile = computed(() => width.value < 480)
 const { urlPrefix } = usePrefix()
 const { isDarkMode } = useTheme()
 const identityStore = useIdentityStore()

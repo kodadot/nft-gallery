@@ -1,5 +1,7 @@
 <template>
-  <div class="has-addons is-flex is-align-items-center" data-testid="tabs">
+  <div
+    class="has-addons is-flex is-align-items-center"
+    data-testid="gallery-explore-tabs">
     <TabOnCollection v-if="route.name?.includes('prefix-collection-id')" />
     <TabOnExplore v-else />
   </div>

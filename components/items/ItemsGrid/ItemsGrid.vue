@@ -18,6 +18,7 @@
           v-if="!isTokenEntity(entity)"
           :nft="entity"
           :hide-media-info="hideMediaInfo"
+          :hide-action="hideNFTHoverAction"
           :variant="
             slotProps.isMobileVariant || slotProps.grid === 'small'
               ? 'minimal'
@@ -27,6 +28,7 @@
           v-else
           :entity="entity"
           :hide-media-info="hideMediaInfo"
+          :hide-action="hideNFTHoverAction"
           :variant="
             slotProps.isMobileVariant || slotProps.grid === 'small'
               ? 'minimal'
@@ -88,6 +90,8 @@ const emit = defineEmits(['total', 'loading'])
 const isLoading = ref(true)
 
 const hideMediaInfo = computed(() => route.query?.art_view === 'true')
+const isTouchDevice = useMediaQuery('(hover: none)')
+const hideNFTHoverAction = computed(() => isTouchDevice.value)
 
 const gotoPage = (page: number) => {
   currentPage.value = page
@@ -139,16 +143,15 @@ const { items, fetchSearch, clearFetchResults, usingTokens } = useFetchSearch({
 watch(
   () => items.value.length,
   async () => {
-    if (
-      listingCartEnabled.value &&
-      usingTokens.value &&
-      items.value.length > 0
-    ) {
-      const nftsForPotentialList = await getTokensNfts(
-        items.value as TokenEntity[],
-      )
-
-      updatePotentialNftsForListingCart(nftsForPotentialList as NFT[])
+    if (listingCartEnabled.value && items.value.length > 0) {
+      if (usingTokens.value) {
+        const nftsForPotentialList = await getTokensNfts(
+          items.value as TokenEntity[],
+        )
+        updatePotentialNftsForListingCart(nftsForPotentialList as NFT[])
+      } else {
+        updatePotentialNftsForListingCart(items.value as NFT[])
+      }
     }
   },
   { immediate: true },
