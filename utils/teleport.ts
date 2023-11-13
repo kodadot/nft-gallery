@@ -7,6 +7,7 @@ import { SubmittableExtrinsicFunction } from '@polkadot/api/types'
 import { XcmVersionedMultiLocation } from '@polkadot/types/lookup'
 import { AnyTuple } from '@polkadot/types/types'
 import { isFunction } from '@polkadot/util'
+import * as paraspell from '@paraspell/sdk'
 import { ApiFactory } from '@kodadot1/sub-api'
 import { getChainEndpointByPrefix } from '@/utils/chain'
 import { TeleportParams } from '@/composables/useTeleport'
@@ -185,8 +186,6 @@ export const getTransaction = async ({
     from: from,
     to: to,
   })
-
-  const paraspell = await import('@paraspell/sdk')
 
   if (telportType === TeleprtType.RelayToPara) {
     return paraspell
