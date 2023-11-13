@@ -25,7 +25,6 @@ const fetchLatestEvents = async (chain, type, where = {}, limit = 5) => {
   return await useAsyncQuery({
     query,
     clientId: chain,
-    cache: true,
     variables: {
       // limit: limit, TODO: use limit
       limit,

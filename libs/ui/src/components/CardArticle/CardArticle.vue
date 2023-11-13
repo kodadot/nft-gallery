@@ -4,12 +4,7 @@
     class="article"
     target="_blank"
     rel="nofollow noopener noreferrer">
-    <NuxtImg
-      class="article-image"
-      :src="image"
-      loading="lazy"
-      format="webp"
-      quality="85" />
+    <img class="article-image" :src="image" loading="lazy" />
     <div class="article-info">
       <p class="article-title">
         {{ title }}

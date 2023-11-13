@@ -5,15 +5,12 @@
       'is-square image': !original,
       'is-detail': isDetail,
     }">
-    <NuxtImg
+    <img
       :src="src"
       class="is-block image-media__image no-border-radius"
       :alt="alt"
       data-testid="type-image"
       loading="lazy"
-      format="webp"
-      quality="85"
-      :sizes="sizes"
       @error.once="onError" />
   </figure>
 </template>
@@ -28,14 +25,12 @@ const props = defineProps<{
   placeholder: string
   isDetail?: boolean
   isDarkMode?: boolean
-  sizes?: string
 }>()
 
 const onError = (e: Event) => {
   const target = e.target as HTMLImageElement
   if (target) {
     consola.log('[KODADOT::IMAGE] unable to load', props.src, e)
-    target.removeAttribute('srcset')
     target.src = props.placeholder
   }
 }

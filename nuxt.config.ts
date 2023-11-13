@@ -223,7 +223,6 @@ export default defineNuxtConfig({
     '@nuxt/content',
     'nuxt-simple-sitemap',
     '@nuxtjs/google-fonts',
-    '@nuxt/image',
     'nuxt-purgecss',
   ],
 
@@ -243,21 +242,6 @@ export default defineNuxtConfig({
     preload: true,
     download: false,
     inject: false,
-  },
-
-  image: {
-    quality: 85,
-    format: ['avif', 'webp'],
-    domains: [
-      'imagedelivery.net',
-      'image.w.kodadot.xyz',
-      'image-beta.w.kodadot.xyz',
-      'substackcdn.com',
-    ],
-    provider: 'ipx',
-    ipx: {
-      maxAge: 31536000,
-    },
   },
 
   pwa,
