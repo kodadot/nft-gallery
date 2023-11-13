@@ -312,9 +312,6 @@ importers:
       lint-staged:
         specifier: ^12.5.0
         version: 12.5.0
-      nuxt-purgecss:
-        specifier: ^2.0.0
-        version: 2.0.0(rollup@2.79.1)
       nuxt-simple-sitemap:
         specifier: ^3.4.1
         version: 3.4.1(nuxt@3.8.1)(rollup@2.79.1)(vite@4.4.11)(vue@3.3.8)
@@ -2888,14 +2885,6 @@ packages:
       - supports-color
       - utf-8-validate
     dev: false
-
-  /@fullhuman/postcss-purgecss@5.0.0:
-    resolution: {integrity: sha512-onDS/b/2pMRzqSoj4qOs2tYFmOpaspjTAgvACIHMPiicu1ptajiBruTrjBzTKdxWdX0ldaBb7wj8nEaTLyFkJw==}
-    peerDependencies:
-      postcss: ^8.0.0
-    dependencies:
-      purgecss: 5.0.0
-    dev: true
 
   /@google/model-viewer@3.3.0(three@0.158.0):
     resolution: {integrity: sha512-nQQXi9VUpO7odH42EfnN5L3E/1DT5M50H7eOMd5Q9xI2X6J4we6IsfHPzxxFXffK9fMSw026OE2YAvkUcBxT3A==}
@@ -9483,10 +9472,6 @@ packages:
       - supports-color
     dev: true
 
-  /consola@2.15.3:
-    resolution: {integrity: sha512-9vAdYbHj6x2fLKC4+oPH0kFzY/orMZyG2Aj+kNylHxKGJ/Ed4dpNyAQYwJOdqO4zdM7XpVHmyejQDcQHrnuXbw==}
-    dev: true
-
   /consola@3.2.3:
     resolution: {integrity: sha512-I5qxpzLv+sJhTVEoLYNcTW+bThDCPsit0vLNKShZx6rLtpilNpmmeTPaeqJb9ZE9dV3DGaeby6Vuhrw38WjeyQ==}
     engines: {node: ^14.18.0 || >=16.10.0}
@@ -11470,14 +11455,6 @@ packages:
 
   /github-slugger@2.0.0:
     resolution: {integrity: sha512-IaOQ9puYtjrkq7Y0Ygl9KDZnrf/aiUJYUpVf89y8kyaxbRG7Y1SrX/jaumrv81vc61+kiMempujsM3Yw7w5qcw==}
-    dev: true
-
-  /glob-all@3.3.1:
-    resolution: {integrity: sha512-Y+ESjdI7ZgMwfzanHZYQ87C59jOO0i+Hd+QYtVt9PhLi6d8wlOpzQnfBxWUlaTuAoR3TkybLqqbIoWveU4Ji7Q==}
-    hasBin: true
-    dependencies:
-      glob: 7.2.3
-      yargs: 15.4.1
     dev: true
 
   /glob-parent@5.1.2:
@@ -14567,20 +14544,6 @@ packages:
     optionalDependencies:
       fsevents: 2.3.3
 
-  /nuxt-purgecss@2.0.0(rollup@2.79.1):
-    resolution: {integrity: sha512-ajTVNZ7CoHwgmR0le0mqNg+CHXuOxVAmUmvnUeBpdurHmJ2Q4fJ6xbK2vbd99Vi0COpmz/TPMNz2gGmA478kcQ==}
-    dependencies:
-      '@fullhuman/postcss-purgecss': 5.0.0
-      '@nuxt/kit': 3.8.1(rollup@2.79.1)
-      consola: 2.15.3
-      glob-all: 3.3.1
-      purgecss: 5.0.0
-    transitivePeerDependencies:
-      - postcss
-      - rollup
-      - supports-color
-    dev: true
-
   /nuxt-simple-sitemap@3.4.1(nuxt@3.8.1)(rollup@2.79.1)(vite@4.4.11)(vue@3.3.8):
     resolution: {integrity: sha512-1F7OeXQ1rnwWgHgHDeDejlslgyNMHRq1JWzFjRaE6O2QN3R6Rh5RcLzqfynQQ0HFtvv0eJ54E9+MCbvGYVFBuA==}
     dependencies:
@@ -15700,16 +15663,6 @@ packages:
   /punycode@2.3.0:
     resolution: {integrity: sha512-rRV+zQD8tVFys26lAGR9WUuS4iUAngJScM+ZRSKtvl5tKeZ2t5bvdNFdNHBW9FWR4guGHlgmsZ1G7BSm2wTbuA==}
     engines: {node: '>=6'}
-
-  /purgecss@5.0.0:
-    resolution: {integrity: sha512-RAnuxrGuVyLLTr8uMbKaxDRGWMgK5CCYDfRyUNNcaz5P3kGgD2b7ymQGYEyo2ST7Tl/ScwFgf5l3slKMxHSbrw==}
-    hasBin: true
-    dependencies:
-      commander: 9.5.0
-      glob: 8.1.0
-      postcss: 8.4.31
-      postcss-selector-parser: 6.0.13
-    dev: true
 
   /qrcode.vue@3.4.1(vue@3.3.8):
     resolution: {integrity: sha512-wq/zHsifH4FJ1GXQi8/wNxD1KfQkckIpjK1KPTc/qwYU5/Bkd4me0w4xZSg6EXk6xLBkVDE0zxVagewv5EMAVA==}
