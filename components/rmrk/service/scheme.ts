@@ -306,8 +306,8 @@ export const computeAndUpdateCollection = (
 type MergedData<T> = T extends Collection
   ? CollectionWithMeta
   : T extends NFT
-  ? NFTWithMeta
-  : never
+    ? NFTWithMeta
+    : never
 
 export const mergeNFTCollection = <T extends Collection | NFT>(
   item: T,
