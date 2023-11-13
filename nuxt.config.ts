@@ -295,11 +295,27 @@ export default defineNuxtConfig({
     },
     format: ['webp'],
     presets: {
-      avatar: {
+      'collection-card-image': {
         modifiers: {
-          format: 'jpg',
-          width: 50,
-          height: 50,
+          width: 66,
+          height: 65,
+        },
+      },
+      'collection-card-banner': {
+        modifiers: {
+          height: 112,
+        },
+      },
+      'collection-banner-avatar': {
+        modifiers: {
+          width: 54,
+          height: 54,
+        },
+      },
+      default: {
+        modifiers: {
+          width: 300,
+          height: 300,
         },
       },
     },
