@@ -4,7 +4,6 @@
     no-shadow
     icon-left="gift"
     :tag="NuxtLink"
-    :prefetch="false"
     :to="`/${urlPrefix}/transfer?target=${props.address}&usdamount=10&donation=true`">
   </NeoButton>
 </template>

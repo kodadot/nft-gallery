@@ -1,7 +1,6 @@
 <template>
   <div>
     <nuxt-link
-      :prefetch="false"
       data-testid="classic"
       :to="`/${urlPrefix}/create`"
       class="navbar-item"

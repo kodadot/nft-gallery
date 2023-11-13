@@ -2,7 +2,7 @@
   <div v-if="!rememberIdentity" class="set-identity">
     <div
       class="wallet-asset-container is-size-7 py-1 is-flex is-justify-content-space-between">
-      <nuxt-link :prefetch="false" to="/identity" @click="closeModal"
+      <nuxt-link to="/identity" @click="closeModal"
         >Create Your Onchain Identity</nuxt-link
       >
       <a @click="rememberIdentity = true">Close</a>

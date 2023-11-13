@@ -2,7 +2,7 @@
   <NeoDropdown animation="" :triggers="!isMobileDevice ? ['hover'] : []">
     <template #trigger>
       <div>
-        <nuxt-link :prefetch="false" :to="`/${urlPrefix}/explore/collectibles`">
+        <nuxt-link :to="`/${urlPrefix}/explore/collectibles`">
           <div class="navbar-item" data-testid="explore">
             {{ $t('explore') }}
             <svg

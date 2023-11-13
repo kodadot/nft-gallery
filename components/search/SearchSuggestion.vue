@@ -74,7 +74,6 @@
           </div>
         </div>
         <nuxt-link
-          :prefetch="false"
           class="search-footer-link"
           :to="{
             path: `/${urlPrefix}/explore/collectibles`,
@@ -137,7 +136,6 @@
           </div>
         </div>
         <nuxt-link
-          :prefetch="false"
           class="search-footer-link"
           :to="{
             path: `/${urlPrefix}/explore/items`,
@@ -230,7 +228,6 @@
           </SearchResultItem>
         </div>
         <nuxt-link
-          :prefetch="false"
           class="search-footer-link"
           :to="{ name: 'series-insight' }"
           @click="$emit('close')">

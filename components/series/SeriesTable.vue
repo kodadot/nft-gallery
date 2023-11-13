@@ -46,7 +46,6 @@
         label="Collection">
         <nuxt-link
           v-if="!isLoading"
-          :prefetch="false"
           :to="`/${urlPrefix}/collection/${props.row.id}`">
           {{ props.row.name }}
         </nuxt-link>
@@ -253,7 +252,6 @@
         :label="$t('series.chart')">
         <nuxt-link
           v-if="!isLoading"
-          :prefetch="false"
           :to="`/${urlPrefix}/collection/${props.row.id}?tab=chart&locate=true`"
           target="_blank">
           <NeoIcon icon="chart-line" />
@@ -268,7 +266,6 @@
         :label="$t('series.history')">
         <nuxt-link
           v-if="!isLoading"
-          :prefetch="false"
           :to="`/${urlPrefix}/collection/${props.row.id}?tab=history&locate=true`"
           target="_blank">
           <NeoIcon icon="list-ul" />

@@ -22,7 +22,7 @@
     <ul class="mb-4">
       <li class="mb-2">
         Visit our website at
-        <nuxt-link :prefetch="false" to="/"> https://kodadot.xyz </nuxt-link>
+        <nuxt-link to="/"> https://kodadot.xyz </nuxt-link>
         , or any website of ours that links to this privacy notice
       </li>
       <li class="mb-2">
@@ -47,7 +47,7 @@
           following each key point or by using our
         </em>
       </strong>
-      <nuxt-link :prefetch="false" to="#toc">
+      <nuxt-link to="#toc">
         <strong>
           <em> table of contents </em>
         </strong>
@@ -61,7 +61,7 @@
       When you visit, use, or navigate our Services, we may process personal
       information depending on how you interact with us and the Services, the
       choices you make, and the products and features you use. Learn more about
-      <nuxt-link :prefetch="false" to="#personalinfo">
+      <nuxt-link to="#personalinfo">
         personal information you disclose to us
       </nuxt-link>
       .
@@ -81,9 +81,7 @@
       comply with law. We may also process your information for other purposes
       with your consent. We process your information only when we have a valid
       legal reason to do so. Learn more about
-      <nuxt-link :prefetch="false" to="#infouse">
-        how we process your information
-      </nuxt-link>
+      <nuxt-link to="#infouse"> how we process your information </nuxt-link>
       .
     </p>
     <p class="mb-4">
@@ -93,7 +91,7 @@
       </strong>
       We may share information in specific situations and with specific third
       parties. Learn more about
-      <nuxt-link :prefetch="false" to="#whoshare">
+      <nuxt-link to="#whoshare">
         when and with whom we share your personal information
       </nuxt-link>
       .
@@ -107,9 +105,7 @@
       cybercriminals, or other unauthorized third parties will not be able to
       defeat our security and improperly collect, access, steal, or modify your
       information. Learn more about
-      <nuxt-link :prefetch="false" to="#infosafe">
-        how we keep your information safe
-      </nuxt-link>
+      <nuxt-link to="#infosafe"> how we keep your information safe </nuxt-link>
       .
     </p>
     <p class="mb-4">
@@ -117,9 +113,7 @@
       Depending on where you are located geographically, the applicable privacy
       law may mean you have certain rights regarding your personal information.
       Learn more about
-      <nuxt-link :prefetch="false" to="#privacyrights">
-        your privacy rights
-      </nuxt-link>
+      <nuxt-link to="#privacyrights"> your privacy rights </nuxt-link>
       .
     </p>
     <p class="mb-4">
@@ -131,90 +125,84 @@
     </p>
     <p class="mb-4">
       Want to learn more about what we do with any information we collect?
-      <nuxt-link :prefetch="false" to="#toc">
-        Review the privacy notice in full
-      </nuxt-link>
+      <nuxt-link to="#toc"> Review the privacy notice in full </nuxt-link>
       .
     </p>
     <h2 id="toc" class="heading heading-is-2">TABLE OF CONTENTS</h2>
     <ol>
       <li class="mb-4">
-        <nuxt-link :prefetch="false" to="#infocollect"
+        <nuxt-link to="#infocollect"
           >WHAT INFORMATION DO WE COLLECT?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :prefetch="false" to="#infouse">
+        <nuxt-link to="#infouse">
           HOW DO WE PROCESS YOUR INFORMATION?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :prefetch="false" to="#legalbases">
+        <nuxt-link to="#legalbases">
           WHAT LEGAL BASES DO WE RELY ON TO PROCESS YOUR PERSONAL INFORMATION?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :prefetch="false" to="#whoshare">
+        <nuxt-link to="#whoshare">
           WHEN AND WITH WHOM DO WE SHARE YOUR PERSONAL INFORMATION?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :prefetch="false" to="#cookies">
+        <nuxt-link to="#cookies">
           DO WE USE COOKIES AND OTHER TRACKING TECHNOLOGIES?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :prefetch="false" to="#sociallogins">
+        <nuxt-link to="#sociallogins">
           HOW DO WE HANDLE YOUR SOCIAL LOGINS?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :prefetch="false" to="#inforetain">
+        <nuxt-link to="#inforetain">
           HOW LONG DO WE KEEP YOUR INFORMATION?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :prefetch="false" to="#infosafe">
+        <nuxt-link to="#infosafe">
           HOW DO WE KEEP YOUR INFORMATION SAFE?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :prefetch="false" to="#infominors">
+        <nuxt-link to="#infominors">
           DO WE COLLECT INFORMATION FROM MINORS?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :prefetch="false" to="#privacyrights">
+        <nuxt-link to="#privacyrights">
           WHAT ARE YOUR PRIVACY RIGHTS?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :prefetch="false" to="#DNT">
-          CONTROLS FOR DO-NOT-TRACK FEATURES
-        </nuxt-link>
+        <nuxt-link to="#DNT"> CONTROLS FOR DO-NOT-TRACK FEATURES </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :prefetch="false" to="#caresidents">
+        <nuxt-link to="#caresidents">
           DO CALIFORNIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :prefetch="false" to="#virginia">
+        <nuxt-link to="#virginia">
           DO VIRGINIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :prefetch="false" to="#update">
-          DO WE MAKE UPDATES TO THIS NOTICE?
-        </nuxt-link>
+        <nuxt-link to="#update"> DO WE MAKE UPDATES TO THIS NOTICE? </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :prefetch="false" to="#contact">
+        <nuxt-link to="#contact">
           HOW CAN YOU CONTACT US ABOUT THIS NOTICE?
         </nuxt-link>
       </li>
       <li class="mb-4">
-        <nuxt-link :prefetch="false" to="#update">
+        <nuxt-link to="#update">
           HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM YOU?
         </nuxt-link>
       </li>
@@ -282,7 +270,7 @@
       social media account details, like your Facebook, Twitter, or other social
       media account. If you choose to register in this way, we will collect the
       information described in the section called "
-      <nuxt-link :prefetch="false" to="#sociallogins">
+      <nuxt-link to="#sociallogins">
         HOW DO WE HANDLE YOUR SOCIAL LOGINS?
       </nuxt-link>
       " below.
@@ -321,7 +309,7 @@
       Like many businesses, we also collect information through cookies and
       similar technologies. You can find out more about this in our Cookie
       Notice:
-      <nuxt-link :prefetch="false" to="/cookie-notice">
+      <nuxt-link to="/cookie-notice">
         https://kodadot.xyz/cookie-notice/
       </nuxt-link>
       .
@@ -385,7 +373,7 @@
         purposes, if this is in accordance with your marketing preferences. You
         can opt out of our marketing emails at any time. For more information,
         see "
-        <nuxt-link :prefetch="false" to="#privacyrights">
+        <nuxt-link to="#privacyrights">
           WHAT ARE YOUR PRIVACY RIGHTS?
         </nuxt-link>
         " below.
@@ -452,9 +440,7 @@
         We may process your information if you have given us permission (i.e.,
         consent) to use your personal information for a specific purpose. You
         can withdraw your consent at any time. Learn more about
-        <nuxt-link :prefetch="false" to="#withdrawconsent">
-          withdrawing your consent
-        </nuxt-link>
+        <nuxt-link to="#withdrawconsent"> withdrawing your consent </nuxt-link>
         .
       </li>
       <li class="mb-2">
@@ -510,9 +496,7 @@
       (i.e., express consent) to use your personal information for a specific
       purpose, or in situations where your permission can be inferred (i.e.,
       implied consent). You can
-      <nuxt-link :prefetch="false" to="#withdrawconsent">
-        withdraw your consent
-      </nuxt-link>
+      <nuxt-link to="#withdrawconsent"> withdraw your consent </nuxt-link>
       at any time.
     </p>
     <p class="mb-4">
@@ -608,7 +592,7 @@
       pixels) to access or store information. Specific information about how we
       use such technologies and how you can refuse certain cookies is set out in
       our Cookie Notice:
-      <nuxt-link :prefetch="false" to="/cookie-notice">
+      <nuxt-link to="/cookie-notice">
         https://kodadot.xyz/cookie-notice/
       </nuxt-link>
       .
@@ -746,7 +730,7 @@
       certain circumstances, you may also have the right to object to the
       processing of your personal information. You can make such a request by
       contacting us by using the contact details provided in the section "
-      <nuxt-link :prefetch="false" to="#contact">
+      <nuxt-link to="#contact">
         HOW CAN YOU CONTACT US ABOUT THIS NOTICE?
       </nuxt-link>
       " below.
@@ -784,7 +768,7 @@
       law, you have the right to withdraw your consent at any time. You can
       withdraw your consent at any time by contacting us by using the contact
       details provided in the section "
-      <nuxt-link :prefetch="false" to="#contact">
+      <nuxt-link to="#contact">
         HOW CAN YOU CONTACT US ABOUT THIS NOTICE?
       </nuxt-link>
       " below.
@@ -800,7 +784,7 @@
       You can unsubscribe from our marketing and promotional communications at
       any time by clicking on the unsubscribe link in the emails that we send,
       or by contacting us using the details provided in the section "
-      <nuxt-link :prefetch="false" to="#contact">
+      <nuxt-link to="#contact">
         HOW CAN YOU CONTACT US ABOUT THIS NOTICE?
       </nuxt-link>
       " below. You will then be removed from the marketing lists. However, we
@@ -838,7 +822,7 @@
         opt out of interest-based advertising by advertisers
       </a>
       on our Services. For further information, please see our Cookie Notice:
-      <nuxt-link :prefetch="false" to="/cookie-notice">
+      <nuxt-link to="/cookie-notice">
         https://kodadot.xyz/cookie-notice/
       </nuxt-link>
       .
@@ -1049,7 +1033,7 @@
     <p class="mb-4">
       More information about our data collection and sharing practices can be
       found in this privacy notice and our Cookie Notice:
-      <nuxt-link :prefetch="false" to="/cookie-notice">
+      <nuxt-link to="/cookie-notice">
         https://kodadot.xyz/cookie-notice/
       </nuxt-link>
       .
@@ -1289,19 +1273,15 @@
     <ul class="mb-4">
       <li class="mb-2">
         •
-        <nuxt-link :prefetch="false" to="#infocollect">
-          Personal data we collect
-        </nuxt-link>
+        <nuxt-link to="#infocollect"> Personal data we collect </nuxt-link>
       </li>
       <li class="mb-2">
         •
-        <nuxt-link :prefetch="false" to="#infouse">
-          How we use your personal data
-        </nuxt-link>
+        <nuxt-link to="#infouse"> How we use your personal data </nuxt-link>
       </li>
       <li class="mb-2">
         •
-        <nuxt-link :prefetch="false" to="#whoshare">
+        <nuxt-link to="#whoshare">
           When and with whom we share your personal data
         </nuxt-link>
       </li>
@@ -1334,7 +1314,7 @@
     <p class="mb-4">
       More information about our data collection and sharing practices can be
       found in this privacy notice and our Cookie Notice:
-      <nuxt-link :prefetch="false" to="/cookie-notice">
+      <nuxt-link to="/cookie-notice">
         https://kodadot.xyz/cookie-notice/
       </nuxt-link>
       .

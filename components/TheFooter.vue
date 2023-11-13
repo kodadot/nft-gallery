@@ -27,7 +27,7 @@
                 {{ item.name }}
                 <NeoIcon icon="arrow-up-right" class="ml-1 has-text-grey" />
               </a>
-              <nuxt-link v-else :prefetch="false" :to="item.url">
+              <nuxt-link v-else :to="item.url">
                 {{ item.name }}
               </nuxt-link>
             </li>
@@ -51,7 +51,7 @@
                 {{ item.name }}
                 <NeoIcon icon="arrow-up-right" class="ml-1 has-text-grey" />
               </a>
-              <nuxt-link v-else :prefetch="false" :to="item.url">
+              <nuxt-link v-else :to="item.url">
                 {{ item.name }}
               </nuxt-link>
             </li>
@@ -75,7 +75,7 @@
                 {{ item.name }}
                 <NeoIcon icon="arrow-up-right" class="ml-1 has-text-grey" />
               </a>
-              <nuxt-link v-else :prefetch="false" :to="item.url">
+              <nuxt-link v-else :to="item.url">
                 {{ item.name }}
               </nuxt-link>
             </li>

@@ -28,7 +28,6 @@
         </button>
         <nuxt-link
           v-if="urlPrefix === 'ahk'"
-          :prefetch="false"
           :class="{ 'pack-box-waifu p-0 is-relative': !isMobile }"
           class="pack-box is-flex is-align-items-center is-justify-content-center"
           :to="`/${urlPrefix}/waifu`">

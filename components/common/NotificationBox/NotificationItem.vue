@@ -1,6 +1,5 @@
 <template>
   <nuxt-link
-    :prefetch="false"
     :to="`/${urlPrefix}/gallery/${event.nft.id}`"
     class="is-flex py-3 px-6">
     <img

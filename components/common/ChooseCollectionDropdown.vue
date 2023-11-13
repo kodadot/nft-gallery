@@ -39,7 +39,7 @@
         {{ collection.name || collection.id }} - ({{ collection.totalCount }})
       </NeoDropdownItem>
       <NeoDropdownItem class="dropdown-width">
-        <nuxt-link :prefetch="false" to="/create/collection" class="w-full">
+        <nuxt-link to="/create/collection" class="w-full">
           <div class="w-full">
             <NeoIcon icon="plus" class="mr-1" />
             {{ $t('massmint.createNewCollection') }}
@@ -52,7 +52,7 @@
         {{ $t('massmint.noCollection') }}
       </NeoDropdownItem>
       <NeoDropdownItem class="dropdown-width">
-        <nuxt-link :prefetch="false" to="/create/collection" class="w-full">
+        <nuxt-link to="/create/collection" class="w-full">
           <div class="w-full">
             <NeoIcon icon="plus" class="mr-1" />
             {{ $t('massmint.createNewCollection') }}

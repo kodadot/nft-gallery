@@ -7,11 +7,7 @@
           class="snackbar is-success is-bottom-left py-2 px-4 mb-3">
           <div>
             {{ $t('cookies.notice') }}, see
-            <nuxt-link
-              :prefetch="false"
-              to="/cookie-notice"
-              target="_blank"
-              class="is-underlined"
+            <nuxt-link to="/cookie-notice" target="_blank" class="is-underlined"
               >Cookie Policy</nuxt-link
             >
             for details.

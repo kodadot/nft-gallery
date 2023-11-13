@@ -70,10 +70,7 @@
                 </div>
               </div>
             </div>
-            <nuxt-link
-              v-else
-              :prefetch="false"
-              :to="`/${urlPrefix}/gallery/${userMintedId}`">
+            <nuxt-link v-else :to="`/${urlPrefix}/gallery/${userMintedId}`">
               <p class="title is-size-4">
                 [{{ $t('mint.unlockable.alreadyMinted') }}]
               </p>

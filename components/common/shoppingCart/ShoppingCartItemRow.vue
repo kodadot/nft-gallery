@@ -5,7 +5,6 @@
     <div class="pr-2 w-full no-wrap is-clipped ellipsis">
       <div class="is-flex">
         <nuxt-link
-          :prefetch="false"
           :to="`/${urlPrefix}/gallery/${nft.id}`"
           @click="emit('click-item')">
           <BasicImage
@@ -16,7 +15,6 @@
         <div
           class="is-flex is-flex-direction-column is-justify-content-space-between ml-4 min-width w-full line-height-1">
           <nuxt-link
-            :prefetch="false"
             :to="`/${urlPrefix}/gallery/${nft.id}`"
             class="has-text-weight-bold has-text-color no-wrap is-clipped ellipsis"
             @click="emit('click-item')">

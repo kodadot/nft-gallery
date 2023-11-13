@@ -59,7 +59,6 @@
           :label="nameHeaderLabel">
           <nuxt-link
             v-if="groupKey === 'Holder' || groupKey === 'Flipper'"
-            :prefetch="false"
             :to="`/${urlPrefix}/u/${props.row[groupKey]}?tab=${
               groupKey === 'Holder' ? 'holdings' : 'gains'
             }`">
@@ -67,7 +66,6 @@
           </nuxt-link>
           <nuxt-link
             v-else
-            :prefetch="false"
             :to="`/${urlPrefix}/collection/${props.row.CollectionId}`">
             <Identity
               :address="props.row.Item.collection.issuer"
@@ -128,9 +126,7 @@
             <td
               v-show="columnsVisible['Name'].display"
               class="short-name-column">
-              <nuxt-link
-                :prefetch="false"
-                :to="`/${urlPrefix}/gallery/${item.Item.id}`">
+              <nuxt-link :to="`/${urlPrefix}/gallery/${item.Item.id}`">
                 {{ item.Item.name || item.Item.id }}
               </nuxt-link>
             </td>

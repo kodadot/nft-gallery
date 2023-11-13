@@ -200,10 +200,7 @@
           <div>{{ $t('general.balance') }}:&nbsp;</div>
           <div>{{ balance }} {{ chainSymbol }}</div>
         </div>
-        <nuxt-link
-          v-if="isBasilisk"
-          :prefetch="false"
-          :to="`/${currentChain}/assets`">
+        <nuxt-link v-if="isBasilisk" :to="`/${currentChain}/assets`">
           {{ $t('general.tx.feesPaidIn', [chainSymbol]) }}
         </nuxt-link>
       </div>

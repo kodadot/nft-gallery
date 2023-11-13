@@ -44,7 +44,6 @@
             class="mb-4"
             rounded
             :tag="NuxtLink"
-            :prefetch="false"
             size="small">
             + {{ $t('identity.set') }}
           </NeoButton>
@@ -90,7 +89,6 @@
               :label="$t('transfer')"
               variant="text"
               :tag="NuxtLink"
-              :prefetch="false"
               :to="`/${urlPrefix}/transfer?target=${id}&usdamount=10&donation=true`">
             </NeoButton>
           </div>

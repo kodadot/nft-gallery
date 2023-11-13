@@ -34,7 +34,6 @@
           <p>{{ $t('create collection') }}</p>
           <nuxt-link
             v-if="step1Iterations === 0"
-            :prefetch="false"
             target="_blank"
             class="has-text-k-blue"
             :to="`/${client}/collection/${nextId}`">

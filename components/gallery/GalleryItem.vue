@@ -75,7 +75,6 @@
                     :nft="nft">
                     <template #content>
                       <nuxt-link
-                        :prefetch="false"
                         :to="`/${urlPrefix}/collection/${collection?.id}`"
                         class="has-text-link">
                         {{ collection?.name || collection?.id }}

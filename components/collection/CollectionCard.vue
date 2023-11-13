@@ -2,7 +2,6 @@
   <div class="collection-card card" :class="{ loading: isLoading }">
     <nuxt-link
       v-if="!isLoading && collection && !isLoadingMeta"
-      :prefetch="false"
       :to="`/${urlPrefix}/collection/${collection.id}`">
       <BasicImage
         :src="image"

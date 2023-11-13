@@ -26,7 +26,6 @@
         field="nft.collection.name"
         sortable>
         <nuxt-link
-          :prefetch="false"
           :to="`/${urlPrefix}/collection/${props.row.nft.collection.id}`">
           <p
             class="limit-width-text"
@@ -49,9 +48,7 @@
         :label="$t('offer.nftName')"
         field="nft.name"
         sortable>
-        <nuxt-link
-          :prefetch="false"
-          :to="`/${urlPrefix}/gallery/${props.row.nft.id}`">
+        <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.nft.id}`">
           <p
             class="limit-width-text"
             :title="props.row.nft.name ? props.row.nft.name : props.row.nft.id">
@@ -64,9 +61,7 @@
         field="caller"
         :label="$t('offer.caller')"
         sortable>
-        <nuxt-link
-          :prefetch="false"
-          :to="`/${urlPrefix}/u/${props.row.caller}`">
+        <nuxt-link :to="`/${urlPrefix}/u/${props.row.caller}`">
           <Identity :address="props.row.caller" />
         </nuxt-link>
       </NeoTableColumn>

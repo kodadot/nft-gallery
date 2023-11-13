@@ -11,10 +11,7 @@
       :class="{ 'is-fluid': !isMobile }">
       <!-- BRAND -->
       <div class="navbar-brand">
-        <nuxt-link
-          :prefetch="false"
-          to="/"
-          class="navbar-item logo nuxt-link-active">
+        <nuxt-link to="/" class="navbar-item logo nuxt-link-active">
           <img
             :src="logoSrc"
             alt="First NFT market explorer on Kusama and Polkadot"
@@ -87,7 +84,7 @@
 
         <!-- NAV END -->
         <div class="navbar-end">
-          <nuxt-link :prefetch="false" to="/ahp/drops" rel="nofollow">
+          <nuxt-link to="/ahp/drops" rel="nofollow">
             <div class="navbar-item" data-testid="drops">
               {{ $t('drops.title') }}
 

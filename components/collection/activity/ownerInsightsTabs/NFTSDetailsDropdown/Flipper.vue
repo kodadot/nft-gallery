@@ -4,10 +4,7 @@
       v-for="{ avatar, boughtPrice, soldPrice, profit, nft } in displayedFlips"
       :key="nft.id"
       class="is-flex py-2 px-5 is-justify-content-start is-hoverable-item is-flex-direction-column">
-      <nuxt-link
-        :prefetch="false"
-        class="is-flex"
-        :to="`/${urlPrefix}/gallery/${nft.id}`">
+      <nuxt-link class="is-flex" :to="`/${urlPrefix}/gallery/${nft.id}`">
         <BasicImage
           :src="avatar"
           :alt="nft?.name"

@@ -66,10 +66,7 @@
                 {{ leftTime }}
               </div>
             </template>
-            <nuxt-link
-              v-else
-              :prefetch="false"
-              :to="`/${urlPrefix}/gallery/${hasUserMinted}`">
+            <nuxt-link v-else :to="`/${urlPrefix}/gallery/${hasUserMinted}`">
               <p class="title is-size-4">
                 [{{ $t('mint.unlockable.alreadyMinted') }}]
               </p>

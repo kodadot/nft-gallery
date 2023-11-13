@@ -26,7 +26,6 @@
         <nuxt-link
           v-for="chain in chains"
           :key="chain.value"
-          :prefetch="false"
           :to="`/${chain.value}/explore/collectibles`"
           :class="[
             'mx-2 mb-3 is-inline-flex is-align-items-center',

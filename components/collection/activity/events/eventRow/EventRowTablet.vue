@@ -1,9 +1,7 @@
 <template>
   <div class="mb-6 is-flex is-flex-direction-column gap-10px">
     <div class="is-flex height-70px line-height-1">
-      <nuxt-link
-        :prefetch="false"
-        :to="`/${urlPrefix}/gallery/${event.nft.id}`">
+      <nuxt-link :to="`/${urlPrefix}/gallery/${event.nft.id}`">
         <div class="mr-5">
           <NeoAvatar
             :avatar="avatar"
@@ -15,7 +13,6 @@
       <div
         class="is-flex is-flex-direction-column is-justify-content-center gap-10px is-flex-grow-1">
         <nuxt-link
-          :prefetch="false"
           class="is-ellipsis is-inline-block mobile-fixed-width"
           :to="`/${urlPrefix}/gallery/${event.nft.id}`">
           <span class="has-text-weight-bold">
@@ -46,7 +43,6 @@
       <div v-if="fromAddress !== blank" class="is-flex is-align-items-center">
         <span class="is-size-7 mr-3">{{ $t('activity.event.from') }}:</span>
         <nuxt-link
-          :prefetch="false"
           :to="`/${urlPrefix}/u/${fromAddress}`"
           class="has-text-link is-ellipsis">
           <IdentityIndex ref="identity" :address="fromAddress" show-clipboard />
@@ -56,7 +52,6 @@
       <div v-if="toAddress !== blank" class="is-flex is-align-items-center">
         <span class="is-size-7 mr-3">{{ $t('activity.event.to') }}:</span>
         <nuxt-link
-          :prefetch="false"
           :to="`/${urlPrefix}/u/${toAddress}`"
           class="has-text-link is-ellipsis">
           <IdentityIndex ref="identity" :address="toAddress" show-clipboard />

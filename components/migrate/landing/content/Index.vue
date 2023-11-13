@@ -6,10 +6,7 @@
           <p class="mr-4">{{ $t('migrate.resultFor') }}</p>
           <div class="is-flex">
             <Avatar :value="accountId" :size="26" class="mr-2" />
-            <nuxt-link
-              :prefetch="false"
-              class="has-text-k-blue"
-              :to="`/ksm/u/${accountId}`">
+            <nuxt-link class="has-text-k-blue" :to="`/ksm/u/${accountId}`">
               <Identity :address="accountId" hide-identity-popover />
             </nuxt-link>
             <p class="ml-4">On RMRK2</p>

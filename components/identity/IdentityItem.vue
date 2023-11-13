@@ -9,7 +9,6 @@
         no-shadow
         rounded
         :tag="NuxtLink"
-        :prefetch="false"
         :to="`/${prefix}/u/${account}`"
         size="small"
         icon="arrow-right-long"

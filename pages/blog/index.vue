@@ -23,7 +23,7 @@
         <div>
           <div class="card-tag">• {{ post.tags }}</div>
           <p class="title is-4">
-            <nuxt-link :prefetch="false" :to="post._path">
+            <nuxt-link :to="post._path">
               {{ post.title }}
             </nuxt-link>
           </p>
@@ -33,7 +33,6 @@
         <div>
           <NeoButton
             :tag="NuxtLink"
-            :prefetch="false"
             :to="post._path"
             no-shadow
             rounded
@@ -50,7 +49,6 @@
       <nuxt-link
         v-for="post in posts?.tokensPosts.slice(0, 2)"
         :key="post.title"
-        :prefetch="false"
         class="content-board is-block"
         :to="post._path">
         <div
@@ -71,7 +69,6 @@
       <nuxt-link
         v-for="post in posts?.posts"
         :key="post.title"
-        :prefetch="false"
         class="content-board is-block"
         :to="post._path">
         <div

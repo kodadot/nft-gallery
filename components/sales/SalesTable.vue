@@ -12,9 +12,7 @@
         class="front-stack-layer"
         position="centered">
         <div class="image is-48x48">
-          <nuxt-link
-            :prefetch="false"
-            :to="`/${urlPrefix}/gallery/${props.row.id}`">
+          <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.id}`">
             <BasicPopup placement="top">
               <template #content>
                 <BasicImage
@@ -36,9 +34,7 @@
         position="centered"
         field="name"
         :label="$t('name')">
-        <nuxt-link
-          :prefetch="false"
-          :to="`/${urlPrefix}/gallery/${props.row.id}`">
+        <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.id}`">
           {{ props.row.name }}
         </nuxt-link>
       </NeoTableColumn>
@@ -47,9 +43,7 @@
         position="centered"
         field="collectionId"
         label="Collection">
-        <nuxt-link
-          :prefetch="false"
-          :to="`/${urlPrefix}/collection/${props.row.collectionId}`">
+        <nuxt-link :to="`/${urlPrefix}/collection/${props.row.collectionId}`">
           {{ props.row.collectionName }}
         </nuxt-link>
       </NeoTableColumn>
@@ -58,7 +52,7 @@
         position="centered"
         field="buyer"
         :label="$t('sales.buyer')">
-        <nuxt-link :prefetch="false" :to="`/${urlPrefix}/u/${props.row.buyer}`">
+        <nuxt-link :to="`/${urlPrefix}/u/${props.row.buyer}`">
           <Identity :address="props.row.buyer" />
         </nuxt-link>
       </NeoTableColumn>

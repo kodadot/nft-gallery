@@ -34,7 +34,6 @@
       <!-- caller -->
       <NeoTableColumn v-slot="props" field="caller" :label="$t('offer.caller')">
         <nuxt-link
-          :prefetch="false"
           :to="`/${urlPrefix}/u/${props.row.caller}`"
           class="has-text-link">
           <Identity :address="props.row.caller" />

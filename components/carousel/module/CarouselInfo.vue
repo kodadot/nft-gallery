@@ -1,7 +1,6 @@
 <template>
   <div class="carousel-info is-flex is-flex-direction-column">
     <nuxt-link
-      :prefetch="false"
       :to="urlOf({ id: item.id, url, chain: item.chain })"
       :title="item.name"
       :class="[
@@ -15,7 +14,6 @@
       <template #content>
         <nuxt-link
           v-if="!isCollection && item.collectionId"
-          :prefetch="false"
           :to="
             urlOf({
               id: item.collectionId,

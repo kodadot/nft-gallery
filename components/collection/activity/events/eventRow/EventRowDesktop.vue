@@ -3,7 +3,6 @@
     <div class="column is-clipped">
       <div class="is-flex is-align-items-center">
         <nuxt-link
-          :prefetch="false"
           :to="`/${urlPrefix}/gallery/${event.nft.id}`"
           class="height-50px">
           <NeoAvatar
@@ -13,7 +12,6 @@
             :size="50" />
         </nuxt-link>
         <nuxt-link
-          :prefetch="false"
           class="is-ellipsis is-inline-block"
           :to="`/${urlPrefix}/gallery/${event.nft.id}`">
           <span class="ml-5 has-text-weight-bold is-clipped">
@@ -44,7 +42,6 @@
       <div class="height-50px is-flex is-align-items-center">
         <nuxt-link
           v-if="fromAddress !== blank"
-          :prefetch="false"
           :to="`/${urlPrefix}/u/${fromAddress}`"
           class="has-text-link">
           <IdentityIndex ref="identity" :address="fromAddress" show-clipboard />
@@ -58,7 +55,6 @@
       <div class="height-50px is-flex is-align-items-center">
         <nuxt-link
           v-if="toAddress !== blank"
-          :prefetch="false"
           :to="`/${urlPrefix}/u/${toAddress}`"
           class="has-text-link">
           <IdentityIndex ref="identity" :address="toAddress" show-clipboard />
