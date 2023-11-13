@@ -10,6 +10,7 @@ query collectionByIdMinimal($id: String!) {
       name
       type
     }
+    nftCount
     metadata
     name
     currentOwner

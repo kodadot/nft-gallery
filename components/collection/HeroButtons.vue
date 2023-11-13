@@ -63,11 +63,10 @@
 
           <!-- related: #5792 -->
           <div v-if="isOwner">
-            <HeroButtonDeleteNfts />
-            <HeroButtonDeleteCollection />
-            <!-- <NeoDropdownItem>
-                {{ $i18n.t('moreActions.customize') }}
-              </NeoDropdownItem> -->
+            <CollectionHeroButtonDeleteNfts />
+            <CollectionHeroButtonDeleteCollection />
+            <CollectionHeroButtonCustomizeCollection
+              :min="collectionNftCount" />
           </div>
           <NeoDropdownItem disabled>
             {{ $i18n.t('moreActions.reportCollection') }}
@@ -96,8 +95,6 @@ import {
   NeoModal,
 } from '@kodadot1/brick'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
-import HeroButtonDeleteCollection from './HeroButtonDeleteCollection.vue'
-import HeroButtonDeleteNfts from './HeroButtonDeleteNfts.vue'
 
 const route = useRoute()
 const { isCurrentOwner } = useAuth()
@@ -114,6 +111,7 @@ const { collection } = useCollectionMinimal({
   collectionId: collectionId.value,
 })
 const collectionIssuer = computed(() => collection.value?.issuer)
+const collectionNftCount = computed(() => collection.value?.nftCount)
 
 const { twitter } = useIdentity({
   address: collectionIssuer,

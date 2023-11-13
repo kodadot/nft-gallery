@@ -180,6 +180,7 @@ export interface ActionMintCollection {
 
 export enum Collections {
   DELETE = 'delete',
+  SET_MAX_SUPPLY = 'setCollectionMaxSupply',
 }
 
 export type ActionsInteractions = Interaction | ShoppingActions | Collections
