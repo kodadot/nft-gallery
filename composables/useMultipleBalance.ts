@@ -34,7 +34,7 @@ const calculateUsd = (amount: string, token = 'KSM') => {
   )
 }
 
-const getBalances = async (chainName, tokenId, prefixAddress) => {
+const getCombinedBalances = async (chainName, tokenId, prefixAddress) => {
   const prefix = networkToPrefix[chainName]
   const chain = CHAINS[prefix]
 
@@ -68,7 +68,7 @@ const getBalance = async (chainName: string, token = 'KSM', tokenId = 0) => {
   const publicKey = decodeAddress(currentAddress)
   const prefixAddress = encodeAddress(publicKey, chain.ss58Format)
 
-  const balances = await getBalances(chainName, tokenId, prefixAddress)
+  const balances = await getCombinedBalances(chainName, tokenId, prefixAddress)
 
   return {
     address: defaultAddress,
