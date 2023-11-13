@@ -128,7 +128,7 @@ const components = {
   Media,
 }
 
-const resolveComponent = computed<Component>(() => {
+const resolveComponent = computed(() => {
   let mediaType = resolveMedia(mimeType.value)
 
   if (mediaType === MediaType.IFRAME && !props.isDetail) {
