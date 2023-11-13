@@ -3,9 +3,9 @@
     <transition name="fade">
       <NuxtImg
         v-if="imageSrc"
-        width="300"
-        height="112"
         provider="myProvider"
+        loading="lazy"
+        :preset="preset"
         :src="imageSrc || placeholder"
         :alt="alt"
         :class="['has-ratio', { 'is-rounded': rounded }]"
@@ -31,11 +31,13 @@ const props = withDefaults(
     alt?: string
     customClass?: string
     rounded?: boolean
+    preset: string
   }>(),
   {
     src: '',
     alt: '',
     customClass: '',
+    preset: 'default',
   },
 )
 
