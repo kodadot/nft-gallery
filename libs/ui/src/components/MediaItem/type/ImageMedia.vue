@@ -11,9 +11,8 @@
       :nuxtimgconfig="{
         format: 'webp',
       }"
+      sizes="sm:100vw md:100vw lg:240px"
       fit="cover"
-      width="240"
-      height="240"
       :src="src"
       class="is-block image-media__image no-border-radius"
       :alt="alt"
