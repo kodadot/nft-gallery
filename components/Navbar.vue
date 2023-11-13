@@ -104,7 +104,7 @@
               @closeMobileNavbar="showMobileNavbar"
               @closeMobileSubMenu="onCloseMobileSubMenu" />
           </MobileExpandableSection>
-          <LazyNavbarExploreDropdown
+          <NavbarExploreDropdown
             v-else
             class="navbar-explore custom-navbar-item"
             data-testid="explore" />
@@ -193,7 +193,7 @@
             </div>
           </template>
 
-          <LazyNavbarProfileDropdown
+          <NavbarProfileDropdown
             v-if="!isMobile"
             id="NavProfile"
             :chain="urlPrefix"
