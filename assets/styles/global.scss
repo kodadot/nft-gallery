@@ -29,6 +29,7 @@ body {
   @include ktheme() {
     color: theme('text-color');
   }
+
   a {
     @include ktheme() {
       color: theme('text-color');
