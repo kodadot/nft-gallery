@@ -6,6 +6,7 @@
           v-if="!isLoading"
           :src="image"
           :alt="name"
+          preset="collection-card-image"
           custom-class="collection-card__image-wrapper-sub p-1" />
         <div
           v-else

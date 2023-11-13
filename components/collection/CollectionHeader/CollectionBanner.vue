@@ -8,12 +8,13 @@
       <div class="container is-fluid collection-banner-content">
         <div class="is-flex is-flex-direction-column is-align-items-start">
           <div class="collection-banner-avatar">
-            <img
-              v-if="collectionAvatar"
-              :src="collectionAvatar"
-              class="object-fit-cover"
-              :alt="collectionName" />
-            <img v-else :src="placeholder" alt="image placeholder" />
+            <NuxtImg
+              preset="collection-banner-avatar"
+              loading="lazy"
+              class="collection-banner-avatar-img"
+              :class="{ 'object-fit-cover': collectionAvatar }"
+              :src="collectionAvatar || placeholder"
+              :alt="collectionAvatar ? collectionName : 'image placeholder'" />
           </div>
           <h1 class="collection-banner-name">{{ collectionName }}</h1>
         </div>
@@ -139,7 +140,7 @@ useSeoMeta({
       box-shadow: theme('primary-shadow');
     }
 
-    img {
+    &-img {
       display: block;
       width: 5.5rem;
       height: 5.5rem;
