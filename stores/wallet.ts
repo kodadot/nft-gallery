@@ -1,4 +1,3 @@
-import chain from 'lodash/chain'
 import { defineStore } from 'pinia'
 import { isDateWithinLastDays } from '@/utils/datetime'
 
@@ -27,10 +26,18 @@ export const useWalletStore = defineStore('wallet', {
   getters: {
     getWalletName: (state) => state.wallet.name,
     getRecentWallet: (state) => {
-      const recent: undefined | { key; date } = chain(state.history)
-        .map((date, key) => ({ key, date: new Date(date) }))
-        .maxBy('date')
-        .value()
+      let recent: undefined | { key: string; date: Date }
+      let maxDate = new Date(0)
+
+      Object.entries(state.history).forEach(([key, isoString]) => {
+        const date = new Date(isoString)
+
+        if (date > maxDate) {
+          maxDate = date
+          recent = { key, date }
+        }
+      })
+
       return recent &&
         isDateWithinLastDays(recent.date, RECENT_WALLET_DAYS_PERIOD)
         ? recent.key
