@@ -202,6 +202,7 @@ const { toast } = useToast()
 const { replaceUrl } = useReplaceUrl()
 const { accountId } = useAuth()
 const { urlPrefix, client } = usePrefix()
+const { isRemark } = useIsChain(urlPrefix)
 const listingCartStore = useListingCartStore()
 
 const tabs = [
@@ -286,6 +287,14 @@ const interactionIn = computed(() => {
 })
 
 useAsyncData('tabs-count', async () => {
+  const searchParams = {
+    currentOwner_eq: id.value.toString(),
+  }
+
+  if (!isRemark.value) {
+    searchParams['burned_eq'] = false
+  }
+
   const query = await resolveQueryPath(client.value, 'profileTabsCount')
   const { data } = await useAsyncQuery({
     query: query.default,
@@ -294,6 +303,7 @@ useAsyncData('tabs-count', async () => {
       id: id.value,
       interactionIn: interactionIn.value,
       denyList: getDenyList(urlPrefix.value),
+      search: [searchParams],
     },
   })
 

@@ -1,6 +1,6 @@
 <template>
   <div class="mt-8 pt-4">
-    <div class="is-flex is-relative section-title">
+    <!-- <div class="is-flex is-relative section-title">
       <img src="/migrate/state-waiting.svg" alt="Ready" />
       <p>{{ $t('migrate.waiting.title') }}</p>
     </div>
@@ -52,7 +52,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="mt-8 pt-4">
       <hr />
@@ -70,11 +70,11 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton } from '@kodadot1/brick'
+// import { NeoButton } from '@kodadot1/brick'
 import collectionMigrateWaiting from '@/queries/subsquid/general/collectionMigrateWaiting.graphql'
 
 defineProps<{
-  toReview: (string) => void
+  toReview: (string, number) => void
 }>()
 
 const { accountId } = useAuth()

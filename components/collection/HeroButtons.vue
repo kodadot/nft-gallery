@@ -50,7 +50,6 @@
         </NeoDropdown>
 
         <NeoDropdown
-          v-if="!isOwner"
           position="bottom-left"
           append-to-body
           :mobile-modal="false">
@@ -63,14 +62,13 @@
           </template>
 
           <!-- related: #5792 -->
-          <!-- <div v-if="isOwner">
-              <NeoDropdownItem>
-                {{ $i18n.t('moreActions.delete') }}
-              </NeoDropdownItem>
-              <NeoDropdownItem>
+          <div v-if="isOwner">
+            <HeroButtonDeleteNfts />
+            <HeroButtonDeleteCollection />
+            <!-- <NeoDropdownItem>
                 {{ $i18n.t('moreActions.customize') }}
-              </NeoDropdownItem>
-            </div> -->
+              </NeoDropdownItem> -->
+          </div>
           <NeoDropdownItem disabled>
             {{ $i18n.t('moreActions.reportCollection') }}
           </NeoDropdownItem>
@@ -98,6 +96,8 @@ import {
   NeoModal,
 } from '@kodadot1/brick'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
+import HeroButtonDeleteCollection from './HeroButtonDeleteCollection.vue'
+import HeroButtonDeleteNfts from './HeroButtonDeleteNfts.vue'
 
 const route = useRoute()
 const { isCurrentOwner } = useAuth()

@@ -143,16 +143,15 @@ const { items, fetchSearch, clearFetchResults, usingTokens } = useFetchSearch({
 watch(
   () => items.value.length,
   async () => {
-    if (
-      listingCartEnabled.value &&
-      usingTokens.value &&
-      items.value.length > 0
-    ) {
-      const nftsForPotentialList = await getTokensNfts(
-        items.value as TokenEntity[],
-      )
-
-      updatePotentialNftsForListingCart(nftsForPotentialList as NFT[])
+    if (listingCartEnabled.value && items.value.length > 0) {
+      if (usingTokens.value) {
+        const nftsForPotentialList = await getTokensNfts(
+          items.value as TokenEntity[],
+        )
+        updatePotentialNftsForListingCart(nftsForPotentialList as NFT[])
+      } else {
+        updatePotentialNftsForListingCart(items.value as NFT[])
+      }
     }
   },
   { immediate: true },

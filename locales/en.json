@@ -88,6 +88,7 @@
   "chainSelect": "Select Chain ({0})",
   "success": "Success",
   "advancedFilters": "Advanced Filters",
+  "viewtx": "View Tx",
   "search": {
     "searchCollection": "Search Collection",
     "seeAll": "See All",
@@ -938,6 +939,7 @@
     "copyToClipboard": "Copied to clipboard",
     "copyRewardLink": "Copy Reward Me link",
     "latestSales": "Latest sales",
+    "generativeActivity": "Generative",
     "search": "Search",
     "searchResultsText": "Showing results for",
     "searchNoResultsTitle": "Whoops, Couldn't find anything matching your search",
@@ -1038,6 +1040,11 @@
   },
   "teleport": {
     "page": "Teleport",
+    "subtitle": "Easy Asset Teleportation from One Network to Another",
+    "howItWorks": "How It Works?",
+    "source": "Source chain",
+    "destination": "Destination",
+    "amount": "Asset Amount",
     "from": "From",
     "to": "To",
     "max": "Max",
@@ -1096,6 +1103,7 @@
     "newNftHeading": "New to NFTs?",
     "ksmArtistHeading": "KSM for artists",
     "socials": "Got any questions or want to stay in touch? Drop us a line via socials.",
+    "startExploring": "Start Exploring",
     "newNft": {
       "click": "Click {0} for a step by step guide!",
       "here": "here"
@@ -1169,7 +1177,8 @@
   "moreActions": {
     "download": "Download",
     "reportCollection": "Report Collection",
-    "delete": "Delete",
+    "deleteCollection": "Delete Collection",
+    "deleteNfts": "Delete NFTs",
     "customize": "Customize"
   },
   "collectionCard": {
@@ -1279,6 +1288,7 @@
       "skip": "Skip",
       "next": "Next",
       "done": "Done",
+      "downloadTemplate": "Download file template",
       "cards": {
         "0": {
           "title": "Prepare all your files",
@@ -1379,6 +1389,7 @@
     "upcoming": "Upcoming",
     "noUpcoming": "Nothing  here yet...",
     "mintingLive": "Minting Live",
+    "mintingEnded": "Ended",
     "mintedBy": "Minted By",
     "mintPerAddress": "Each address can mint only once",
     "recentMints": "Recent NFT Mints"
@@ -1490,6 +1501,122 @@
       "cta": "View Your Collection",
       "share": "Share on",
       "notes": "You have successfully transferred your '{0}' from the {1} network over to the {2}."
+    },
+    "signStep": {
+      "initiation": "Initiation Phase",
+      "journey": "Launching your journey with a first transaction that sets up everything needed on the new chain.",
+      "left": "Left",
+      "done": "Done",
+      "prepare": "Automated Asset Preparation",
+      "noSignature": "No Signature Needed",
+      "notesModal": "- Please do not exit this modal until transactions are complete -",
+      "notesPopup": "Look for popups from your wallet extension for signing.",
+      "migratingItems": "Migrating your items",
+      "signtx": "You will now sign transactions to migrate NFTs you own.",
+      "migratingNItems": "Migrating {0} Items",
+      "finalization": "Finalization",
+      "authorize": "Please authorize transactions to complete the NFT migration.",
+      "finalizingItems": "Finalizing {0} Items"
     }
+  },
+  "transactionSteps" : {
+    "completed": {
+      "title": "Completed"
+    },
+    "error": {
+      "title": "Please sign transaction",
+      "subtitle": "Failed"
+    },
+    "loading": {
+      "title": "Transaction pending",
+      "subtitle": "(please wait)"
+    },
+    "waiting": {
+      "title": "Please sign transaction",
+      "subtitle": "(Waiting for your approval)"
+    },
+    "uploading": {
+      "title": "Uploading data to IPFS",
+      "subtitle": "(please wait)"
+    }
+  },
+  "autoTeleport" : {
+    "autoTeleport": "Auto Teleport",
+    "checking": "checking funds ...",
+    "followSteps": "Follow steps",
+    "signTransactions": "Sign Transactions",
+    "header": "{action} on {chainName} and <strong>Bridging/Teleporting {amountFormatted}</strong> ~ {amountUsd} From {sourceNetwork}",
+    "dontExit": "Don't exit this modal till transactions complete.",
+    "tip": "<strong>Tip:</strong> Look for popups from your wallet extension for signing.",
+    "notEnoughTokenInChain": "Not enough {0} on {1}",
+    "teleportAndConfirm": "Teleport and confirm purchase",
+    "addFundsViaOnramp": "Add Funds Via Onramp",
+    "welcomeToAutoTeleport": "Welcome to auto teleport!",
+    "insufficientFunds": "Insufficient funds",
+    "notAvailable": "Not available",
+    "finishAllStepsFirst": "Finish All Steps First",
+    "close": "Close",
+    "tooltip": {
+      "first": "Low balance? Auto Teleport bridges required funds from your most asset rich network.",
+      "second": "Extra transaction signature in next step required",
+      "optimalTransferPath": "Optimal Transfer Path",
+      "noOptimalTransferPath": "No Route Found, Please Add Funds",
+      "noRouteFound": "No route found, please add funds"
+    },
+    "welcome": {
+      "description": "With Auto Teleport on, we manage asset bridges. Your role? Approve an extra transaction each time.",
+      "submit": "Got It!",
+      "1": {
+        "title":"Effortless Transfers",
+        "description": "Switch between networks without a worry. Auto Teleport bridges assets from your richest chain."
+      },
+      "2": {
+        "title":"Time-Saving",
+        "description": "No more manual asset transfers. Let us maintain your required balance for transactions"
+      },
+      "3": {
+        "title":"Smooth Experience",
+        "description": "Relish a seamless trading experience across varied networks at a toggle-switch away."
+      }
+    },
+    "steps": {
+      "1": {
+        "title": "Teleport/bridging",
+        "subtitle": "this transaction will get all required funds for purchase on required chain"
+      },
+      "2": {
+        "title": "Checking funds",
+        "subtitle": "Verifying fund arrival on destination chain for seamless operations."
+      },
+      "buy": {
+        "header": "<strong>Buying</strong> NFT",
+        "title": "Buying NFT",
+        "subtitle": "when signing this transaction, you will buy your desired NFT",
+        "submit": "Buying NFT..."
+      },
+      "list": {
+        "header": "<strong>Listing</strong> NFT",
+        "title": "Listing NFT",
+        "subtitle": "when signing this transaction, you will list your desired NFT",
+        "submit": "Listing NFT..."
+      },
+      "mint": {
+        "header": "<strong>Minting</strong> NFT Collection",
+        "title": "Minting NFT Collection",
+        "subtitle": "when signing this transaction, you will mint your desired NFT Collection",
+        "submit": "Minting NFT Collection..."
+      },
+      "mintnft": {
+        "header": "<strong>Minting</strong> NFT",
+        "title": "Minting NFT",
+        "subtitle": "when signing this transaction, you will mint your desired NFT",
+        "submit": "Minting NFT..."
+      }
+    }
+   
+  },
+  "confirmDeleteCollection": {
+    "deleteCollection": "Delete Collection?",
+    "content": "This will permanently remove your collection and NFTs. Your deposit will be refunded."
   }
 }
