@@ -10,7 +10,6 @@
       class="is-block image-media__image no-border-radius"
       :alt="alt"
       data-testid="type-image"
-      loading="lazy"
       @error.once="onError" />
   </figure>
 </template>

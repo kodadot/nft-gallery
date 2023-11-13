@@ -4,7 +4,7 @@
     class="article"
     target="_blank"
     rel="nofollow noopener noreferrer">
-    <img class="article-image" :src="image" loading="lazy" :alt="title" />
+    <img class="article-image" :src="image" :alt="title" />
     <div class="article-info">
       <p class="article-title">
         {{ title }}

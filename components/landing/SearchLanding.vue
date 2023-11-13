@@ -2,7 +2,6 @@
   <section class="landing-search is-flex is-align-items-center">
     <img
       src="/landing-blurred-header-left.webp"
-      loading="lazy"
       class="landing-search-left"
       width="740"
       height="1000"
@@ -45,7 +44,6 @@
     </div>
     <img
       src="/landing-blurred-header-right.webp"
-      loading="lazy"
       class="landing-search-right"
       width="740"
       height="1000"
