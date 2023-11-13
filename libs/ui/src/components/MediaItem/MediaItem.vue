@@ -1,7 +1,7 @@
 <template>
   <div ref="mediaItem" class="media-object" style="height: fit-content">
     <component
-      :is="isModelVisible ? modelComponent : resolveComponent"
+      :is="resolveComponent"
       :src="properSrc"
       :animation-src="animationSrc"
       :alt="title"
@@ -47,9 +47,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineAsyncComponent, ref, watch } from 'vue'
-import type { Component } from 'vue'
-import { useElementHover } from '@vueuse/core'
+import { type Component, computed, defineAsyncComponent, ref, watch } from 'vue'
+import { useElementHover, useElementVisibility } from '@vueuse/core'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
 import { getMimeType, resolveMedia } from '@/utils/gallery/media'
@@ -92,29 +91,22 @@ const props = withDefaults(
 )
 
 const mediaItem = ref<HTMLDivElement>()
-let modelComponent: Component | null = null
-let isModelVisible = ref(false)
-let observer: IntersectionObserver
 
-onMounted(() => {
-  observer = new IntersectionObserver((entries) => {
-    if (entries.some((entry) => entry.isIntersecting)) {
-      if (mimeType.value === 'model/gltf-binary') {
-        isModelVisible.value = true
-        modelComponent = defineAsyncComponent(
-          () => import('./type/ModelMedia.vue'),
-        )
-      }
-      observer.disconnect()
-    }
-  })
+// props.mimeType may be empty string "". Add `image/png` as fallback
+const mimeType = computed(() => props.mimeType || type.value || 'image/png')
 
-  observer.observe(mediaItem.value as Element)
+const targetIsVisible = useElementVisibility(mediaItem)
+const modelComponent = ref<Component>()
+const isModelComponentLoaded = ref(false)
+const shouldLoadModelComponent = computed(() => {
+  return targetIsVisible.value && mimeType.value === 'model/gltf-binary'
 })
-
-onUnmounted(() => {
-  if (observer) {
-    observer.disconnect()
+watch(shouldLoadModelComponent, (shouldLoad) => {
+  if (shouldLoad && !isModelComponentLoaded.value) {
+    modelComponent.value = defineAsyncComponent(
+      () => import('./type/ModelMedia.vue'),
+    )
+    isModelComponentLoaded.value = true
   }
 })
 
@@ -125,8 +117,6 @@ const isInteractive = computed(() => {
 })
 const type = ref('')
 
-// props.mimeType may be empty string "". Add `image/png` as fallback
-const mimeType = computed(() => props.mimeType || type.value || 'image/png')
 const isLewdBlurredLayer = ref(props.isLewd)
 const components = {
   ImageMedia,
@@ -138,13 +128,16 @@ const components = {
   Media,
 }
 
-const resolveComponent = computed(() => {
+const resolveComponent = computed<Component>(() => {
   let mediaType = resolveMedia(mimeType.value)
+
   if (mediaType === MediaType.IFRAME && !props.isDetail) {
     mediaType = MediaType.IMAGE
   }
 
-  return components[mediaType + SUFFIX]
+  return mediaType === 'Model'
+    ? modelComponent.value
+    : components[mediaType + SUFFIX]
 })
 const properSrc = computed(() => props.src || props.placeholder)
 
