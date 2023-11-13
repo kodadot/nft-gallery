@@ -10,6 +10,9 @@ const baseApi = {
     'Content-Type': 'application/json',
   },
   ignoreResponseError: true,
+  async onRequest() {
+    status = 0
+  },
   async onResponse({ response }) {
     status = response.status
   },
