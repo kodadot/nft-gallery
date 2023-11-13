@@ -1,6 +1,6 @@
 import { ApiPromise, WsProvider } from '@polkadot/api'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
-import { CHAINS, ENDPOINT_MAP } from '@kodadot1/static'
+import { CHAINS, ENDPOINT_MAP, Prefix } from '@kodadot1/static'
 import { balanceOf } from '@kodadot1/sub-api'
 import format from '@/utils/format/balance'
 import { useFiatStore } from '@/stores/fiat'
@@ -101,15 +101,24 @@ const getBalance = async (chainName: string, token = 'KSM', tokenId = 0) => {
   }
 }
 
+const fetchFiatPrice = async (force) => {
+  const fiatStore = useFiatStore()
+  if (!force && fiatStore.incompleteFiatValues) {
+    await fiatStore.fetchFiatPrice()
+  }
+}
+
 const fetchMultipleBalance = async (
   currentNetwork,
   onlyPrefixes: Prefix[] = [],
   forceFiat: boolean = false,
 ) => {
-  const fiatStore = useFiatStore()
+  const { isTestnet } = usePrefix()
   const identityStore = useIdentityStore()
+  const { multiBalanceAssets, multiBalanceAssetsTestnet } =
+    storeToRefs(identityStore)
 
-  await fiatStore.fetchFiatPrice(forceFiat)
+  await fetchFiatPrice(forceFiat)
   const assets = isTestnet.value
     ? multiBalanceAssetsTestnet.value
     : multiBalanceAssets.value
@@ -119,10 +128,6 @@ const fetchMultipleBalance = async (
   const assetsToFetch = onlyPrefixes.length
     ? assets.filter((item) => chainNetworks.includes(item.chain))
     : assets
-
-  const { isTestnet } = usePrefix()
-  const { multiBalanceAssets, multiBalanceAssetsTestnet } =
-    storeToRefs(identityStore)
 
   await Promise.allSettled(
     assetsToFetch.map(async (item) => {
@@ -137,25 +142,19 @@ const fetchMultipleBalance = async (
 export default function (refetchPeriodically: boolean = false) {
   const { isTestnet } = usePrefix()
   const identityStore = useIdentityStore()
-
   const { multiBalances, multiBalanceNetwork } = storeToRefs(identityStore)
 
-  const currentNetwork = computed(() =>
-    isTestnet.value ? 'test-network' : 'main-network',
-  )
+  const currNet = computed(() => `${isTestnet.value ? 'test' : 'main'}-network`)
 
-  onMounted(async () => {
-    if (
-      currentNetwork.value !== multiBalanceNetwork.value &&
-      refetchPeriodically
-    ) {
+  onMounted(() => {
+    if (currNet.value !== multiBalanceNetwork.value && refetchPeriodically) {
       identityStore.resetMultipleBalances()
     }
   })
 
   const { pause: clearInterval } = useIntervalFn(
     () => {
-      fetchMultipleBalance(currentNetwork)
+      fetchMultipleBalance(currNet)
     },
     30000,
     {
@@ -164,13 +163,11 @@ export default function (refetchPeriodically: boolean = false) {
     },
   )
 
-  onUnmounted(() => {
-    clearInterval()
-  })
+  onUnmounted(clearInterval)
 
   return {
     multiBalances,
-    currentNetwork,
+    currentNetwork: currNet,
     fetchMultipleBalance,
   }
 }
