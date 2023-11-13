@@ -19,6 +19,20 @@ const networkToPrefix = {
   polkadotHub: 'ahp',
 }
 
+export const prefixToNetwork = {
+  dot: 'polkadot',
+  rmrk: 'kusama',
+  ksm: 'kusama',
+  bsx: 'basilisk',
+  ahk: 'kusamaHub',
+  snek: 'basilisk-testnet',
+  ahp: 'polkadotHub',
+}
+
+const getNetwork = (prefix: Prefix) => {
+  return prefixToNetwork[prefix]
+}
+
 const calculateUsd = (amount: string, token = 'KSM') => {
   const fiatStore = useFiatStore()
 
@@ -87,21 +101,31 @@ const getBalance = async (chainName: string, token = 'KSM', tokenId = 0) => {
   }
 }
 
-const fetchMultipleBalance = async (currentNetwork) => {
+const fetchMultipleBalance = async (
+  currentNetwork,
+  onlyPrefixes: Prefix[] = [],
+  forceFiat: boolean = false,
+) => {
   const fiatStore = useFiatStore()
   const identityStore = useIdentityStore()
+
+  await fiatStore.fetchFiatPrice(forceFiat)
+  const assets = isTestnet.value
+    ? multiBalanceAssetsTestnet.value
+    : multiBalanceAssets.value
+
+  const chainNetworks = onlyPrefixes.map(getNetwork).filter(Boolean)
+
+  const assetsToFetch = onlyPrefixes.length
+    ? assets.filter((item) => chainNetworks.includes(item.chain))
+    : assets
 
   const { isTestnet } = usePrefix()
   const { multiBalanceAssets, multiBalanceAssetsTestnet } =
     storeToRefs(identityStore)
 
-  await fiatStore.fetchFiatPrice()
-  const assets = isTestnet.value
-    ? multiBalanceAssetsTestnet.value
-    : multiBalanceAssets.value
-
-  await Promise.all(
-    assets.map(async (item) => {
+  await Promise.allSettled(
+    assetsToFetch.map(async (item) => {
       identityStore.setMultiBalances(
         await getBalance(item.chain, item.token, Number(item.tokenId)),
       )
@@ -110,9 +134,8 @@ const fetchMultipleBalance = async (currentNetwork) => {
   )
 }
 
-export default function () {
+export default function (refetchPeriodically: boolean = false) {
   const { isTestnet } = usePrefix()
-  const refetchMultipleBalanceTimer = ref()
   const identityStore = useIdentityStore()
 
   const { multiBalances, multiBalanceNetwork } = storeToRefs(identityStore)
@@ -122,21 +145,32 @@ export default function () {
   )
 
   onMounted(async () => {
-    if (currentNetwork.value !== multiBalanceNetwork.value) {
+    if (
+      currentNetwork.value !== multiBalanceNetwork.value &&
+      refetchPeriodically
+    ) {
       identityStore.resetMultipleBalances()
     }
-
-    fetchMultipleBalance(currentNetwork)
-    refetchMultipleBalanceTimer.value = setInterval(() => {
-      fetchMultipleBalance(currentNetwork)
-    }, 30000)
   })
 
-  onBeforeUnmount(() => {
-    clearInterval(refetchMultipleBalanceTimer.value)
+  const { pause: clearInterval } = useIntervalFn(
+    () => {
+      fetchMultipleBalance(currentNetwork)
+    },
+    30000,
+    {
+      immediate: refetchPeriodically,
+      immediateCallback: refetchPeriodically,
+    },
+  )
+
+  onUnmounted(() => {
+    clearInterval()
   })
 
   return {
     multiBalances,
+    currentNetwork,
+    fetchMultipleBalance,
   }
 }
