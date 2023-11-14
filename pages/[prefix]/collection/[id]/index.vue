@@ -11,6 +11,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 
 definePageMeta({
   layout: 'explore-layout',
+  keepalive: true,
 })
 
 const preferencesStore = usePreferencesStore()
