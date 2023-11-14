@@ -26,7 +26,7 @@ export const dotHubDenyList = [
 ]
 
 export const IPFS_KODADOT_IMAGE_PLACEHOLDER =
-  'bafkreigbvowevtdh5ktnr5kyfxf2b56lp4424zj2gb6wona6if4lh35mbe'
+  'bafkreidchqftqyioy6q776xmtwj62wk3qdgrqlsdsl7gv27qkecgzfbe2i'
 
 export const MIN_CAROUSEL_NFT = 3
 
