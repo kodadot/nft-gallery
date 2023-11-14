@@ -147,7 +147,7 @@ const listLabel = computed(() => {
     (isStack.value && isThereAnythingToList.value) || !isPriceAvailable
   const isInCart = listingCartStore.isItemInCart(props.entity.id)
 
-  let label = shouldListForSale
+  const label = shouldListForSale
     ? $i18n.t('listingCart.listForSale')
     : $i18n.t('transaction.price.change')
 
