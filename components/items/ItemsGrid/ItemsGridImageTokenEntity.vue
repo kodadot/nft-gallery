@@ -142,16 +142,16 @@ const buyLabel = computed(function () {
 })
 
 const listLabel = computed(() => {
-  if (isStack.value) {
-    return isThereAnythingToList.value
-      ? $i18n.t('listingCart.listForSale')
-      : $i18n.t('transaction.price.change')
-  } else {
-    const label = Number(nftForShoppingCart.value?.price)
-      ? $i18n.t('transaction.price.change')
-      : $i18n.t('listingCart.listForSale')
-    return label + (listingCartStore.isItemInCart(props.entity.id) ? ' ✓' : '')
-  }
+  const isPriceAvailable = Number(nftForShoppingCart.value?.price)
+  const shouldListForSale =
+    (isStack.value && isThereAnythingToList.value) || !isPriceAvailable
+  const isInCart = listingCartStore.isItemInCart(props.entity.id)
+
+  let label = shouldListForSale
+    ? $i18n.t('listingCart.listForSale')
+    : $i18n.t('transaction.price.change')
+
+  return isInCart ? label + ' ✓' : label
 })
 
 const { cartIcon } = useShoppingCartIcon(props.entity.id)
