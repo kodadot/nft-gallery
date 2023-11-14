@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { getPrice } from '@/utils/price'
 
-type FiatPrice = string | number | null
+export type FiatPrice = string | number | null
 
 interface State {
   fiatPrice: {
