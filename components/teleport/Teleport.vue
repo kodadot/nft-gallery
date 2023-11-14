@@ -119,6 +119,7 @@
         class="has-text-k-blue">
         {{ shortAddress(toAddress) }}
       </a>
+      {{ $t('teleport.ownerMessage') }}
     </div>
   </form>
 </template>
