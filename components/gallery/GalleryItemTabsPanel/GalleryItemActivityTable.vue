@@ -126,7 +126,8 @@ const { urlPrefix, client } = usePrefix()
 const tokenPrice = ref(0)
 
 onMounted(async () => {
-  tokenPrice.value = await getApproximatePriceOf(chainSymbol.value)
+  const token = chainSymbol.value as Token
+  tokenPrice.value = await getPrice(token, 'number')
 })
 
 const interaction = computed(() =>

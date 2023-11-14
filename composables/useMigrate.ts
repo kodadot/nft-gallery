@@ -1,5 +1,6 @@
 import type { Prefix } from '@kodadot1/static'
 import { availablePrefixWithIcon } from '@/utils/chain'
+import format from '@/utils/format/balance'
 import collectionMigrateReady from '@/queries/subsquid/general/collectionMigrateReady.graphql'
 
 export type Steps =
@@ -81,6 +82,96 @@ export async function useCollectionReady(prefix = '', account = '') {
 
   return {
     collections,
+  }
+}
+
+const parseDeposit = (deposit, decimals) => {
+  return parseFloat(format(deposit, decimals, false))
+}
+
+export function useMigrateDeposit(
+  prefix: ComputedRef<Prefix>,
+  itemCount: number,
+  account = '',
+) {
+  const {
+    balance,
+    itemDeposit,
+    existentialDeposit,
+    metadataDeposit,
+    totalCollectionDeposit,
+    chainSymbol,
+    chain,
+  } = useDeposit(prefix)
+  const fiatStore = useFiatStore()
+  const preferencesStore = usePreferencesStore()
+
+  const chainDecimals = computed(() => {
+    if (chain.value?.tokenDecimals) {
+      return chain.value.tokenDecimals
+    }
+
+    return 12
+  })
+
+  const chainItemDeposit = computed(() =>
+    parseDeposit(
+      (metadataDeposit.value + itemDeposit.value + existentialDeposit.value) *
+        itemCount,
+      chainDecimals.value,
+    ),
+  )
+
+  const chainTokenPrice = computed(() =>
+    Number(fiatStore.getCurrentTokenValue(chainSymbol.value) ?? 0),
+  )
+
+  const kodadotFee = computed(() =>
+    parseDeposit(
+      ((preferencesStore.hasSupport ? BASE_FEE : 0) / chainTokenPrice.value) *
+        Math.pow(10, chainDecimals.value),
+      chainDecimals.value,
+    ),
+  )
+
+  const chainNetworkFee = computedAsync(async () => {
+    if (account) {
+      const fee = await getTransitionFee(account, [''], chainDecimals.value)
+      return parseDeposit(parseInt(fee) * itemCount, chainDecimals.value)
+    }
+
+    return 0
+  })
+
+  const totalChain = computed(() => {
+    const total =
+      chainNetworkFee.value +
+      parseFloat(totalCollectionDeposit.value) +
+      chainItemDeposit.value +
+      kodadotFee.value
+
+    if (isNaN(total)) {
+      return 0
+    }
+
+    return parseFloat(total.toString()).toFixed(4)
+  })
+
+  const totalChainUsd = computed(() => {
+    const amount =
+      parseFloat(totalChain.value.toString()) * chainTokenPrice.value
+    return parseFloat(amount.toString()).toFixed(2)
+  })
+
+  return {
+    balance,
+    chainItemDeposit,
+    chainNetworkFee,
+    chainSymbol,
+    kodadotFee,
+    totalChain,
+    totalChainUsd,
+    totalCollectionDeposit,
   }
 }
 

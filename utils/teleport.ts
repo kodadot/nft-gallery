@@ -52,7 +52,7 @@ export type TeleportTransition = {
 }
 
 export const allowedTransitions = {
-  [Chain.KUSAMA]: [Chain.BASILISK, Chain.ASSETHUBKUSAMA],
+  [Chain.KUSAMA]: [Chain.ASSETHUBKUSAMA, Chain.BASILISK],
   [Chain.BASILISK]: [Chain.KUSAMA],
   [Chain.ASSETHUBKUSAMA]: [Chain.KUSAMA],
   [Chain.POLKADOT]: [Chain.ASSETHUBPOLKADOT],

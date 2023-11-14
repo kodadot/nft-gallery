@@ -1,5 +1,10 @@
 <template>
-  <NeoTooltip multiline-width="256px" :position="position" multiline>
+  <NeoTooltip
+    :triggers="['hover']"
+    :auto-close="['outside', 'inside']"
+    multiline-width="256px"
+    :position="position"
+    multiline>
     <NeoIcon
       icon="fa-info-circle"
       pack="fa-regular"
@@ -47,8 +52,9 @@
         </p>
       </div>
 
-      <div class="is-flex is-justify-content-start mt-4 is-hidden">
+      <div class="is-flex is-justify-content-start mt-4">
         <a
+          href="https://hello.kodadot.xyz/tutorial/teleport/auto-teleport"
           class="has-text-link is-size-7"
           target="_blank"
           rel="nofollow noopener noreferrer"
