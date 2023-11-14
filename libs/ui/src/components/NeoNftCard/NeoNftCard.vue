@@ -23,6 +23,7 @@
           :mime-type="nft.mimeType"
           :placeholder="placeholder"
           :title="nft?.name"
+          :preview="mediaHideVideoControls"
           disable-operation
           :audio-player-cover="mediaPlayerCover"
           :audio-hover-on-cover-play="mediaHoverOnCoverPlay" />
@@ -98,6 +99,7 @@ const props = withDefaults(
     showActionOnHover?: boolean
     mediaPlayerCover?: string
     mediaHoverOnCoverPlay?: boolean
+    mediaHideVideoControls?: boolean
     hideMediaInfo?: boolean
     linkTo?: string
   }>(),
