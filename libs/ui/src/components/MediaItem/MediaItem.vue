@@ -47,8 +47,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue'
-import { useElementHover } from '@vueuse/core'
+import { type Component, computed, defineAsyncComponent, ref, watch } from 'vue'
+import { useElementHover, useElementVisibility } from '@vueuse/core'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
 import { getMimeType, resolveMedia } from '@/utils/gallery/media'
@@ -56,13 +56,11 @@ import { MediaType } from '@/components/rmrk/types'
 import ImageMedia from './type/ImageMedia.vue'
 import VideoMedia from './type/VideoMedia.vue'
 import AudioMedia from './type/AudioMedia.vue'
-import ModelMedia from './type/ModelMedia.vue'
 import JsonMedia from './type/JsonMedia.vue'
 import IFrameMedia from './type/IFrameMedia.vue'
 import ObjectMedia from './type/ObjectMedia.vue'
 import Media from './type/UnknownMedia.vue'
 
-const SUFFIX = 'Media'
 const props = withDefaults(
   defineProps<{
     src?: string
@@ -92,19 +90,38 @@ const props = withDefaults(
   },
 )
 
+const mediaItem = ref<HTMLDivElement>()
+
+// props.mimeType may be empty string "". Add `image/png` as fallback
+const mimeType = computed(() => props.mimeType || type.value || 'image/png')
+
+const targetIsVisible = useElementVisibility(mediaItem)
+const modelComponent = ref<Component>()
+const isModelComponentLoaded = ref(false)
+const shouldLoadModelComponent = computed(() => {
+  return targetIsVisible.value && mimeType.value === 'model/gltf-binary'
+})
+watch(shouldLoadModelComponent, (shouldLoad) => {
+  if (shouldLoad && !isModelComponentLoaded.value) {
+    modelComponent.value = defineAsyncComponent(
+      () => import('./type/ModelMedia.vue'),
+    )
+    isModelComponentLoaded.value = true
+  }
+})
+
+const SUFFIX = 'Media'
+
 const isInteractive = computed(() => {
   return resolveMedia(mimeType.value) === MediaType.IFRAME && !props.isDetail
 })
 const type = ref('')
 
-// props.mimeType may be empty string "". Add `image/png` as fallback
-const mimeType = computed(() => props.mimeType || type.value || 'image/png')
 const isLewdBlurredLayer = ref(props.isLewd)
 const components = {
   ImageMedia,
   VideoMedia,
   AudioMedia,
-  ModelMedia,
   JsonMedia,
   IFrameMedia,
   ObjectMedia,
@@ -113,10 +130,14 @@ const components = {
 
 const resolveComponent = computed(() => {
   let mediaType = resolveMedia(mimeType.value)
+
   if (mediaType === MediaType.IFRAME && !props.isDetail) {
     mediaType = MediaType.IMAGE
   }
-  return components[mediaType + SUFFIX]
+
+  return mediaType === 'Model'
+    ? modelComponent.value
+    : components[mediaType + SUFFIX]
 })
 const properSrc = computed(() => props.src || props.placeholder)
 
@@ -138,7 +159,6 @@ const toggleContent = () => {
   isLewdBlurredLayer.value = !isLewdBlurredLayer.value
 }
 
-const mediaItem = ref()
 const isMediaItemHovering = useElementHover(mediaItem)
 
 defineExpose({ isLewdBlurredLayer })

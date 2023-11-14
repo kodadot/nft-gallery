@@ -26,8 +26,8 @@
   }
 
   &-image {
-    background-size: cover;
-    background-position: center;
+    width: 100%;
+    object-fit: cover;
     height: 14rem;
 
     @include ktheme() {

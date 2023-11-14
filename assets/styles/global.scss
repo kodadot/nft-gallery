@@ -4,11 +4,11 @@ html {
   height: 100%;
   background-color: $white;
   // code mardkown style
-  @include meta.load-css('highlight.js/styles/atom-one-light');
+  @include meta.load-css('prism-themes/themes/prism-one-light.css');
   &.dark-mode {
     background-color: $scheme-main;
     // code mardkown style
-    @include meta.load-css('highlight.js/styles/atom-one-dark');
+    @include meta.load-css('prism-themes/themes/prism-one-dark.css');
   }
 }
 
@@ -467,7 +467,6 @@ a.has-text-grey {
 .is-cursor-pointer {
   cursor: pointer !important;
 }
-
 
 .has-text-k-accent {
   @include ktheme() {
