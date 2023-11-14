@@ -196,7 +196,7 @@
         <div class="is-flex has-text-weight-medium has-text-info">
           <div>{{ $t('mint.deposit') }}:&nbsp;</div>
           <div>
-            <span data-testid="create-nft-deposit-amount-ksm">
+            <span data-testid="create-nft-deposit-amount-token">
               {{ deposit }} {{ chainSymbol }}
             </span>
             <span
