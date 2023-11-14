@@ -3,6 +3,7 @@ import { CollectionMetadata } from '@/components/rmrk/types'
 import api from '@/utils/fetch'
 import { Collection, NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import consola from 'consola'
+
 import {
   ArweaveProviders,
   CF_IMAGE_URL,
@@ -11,6 +12,7 @@ import {
   getIPFSProvider,
   kodaImage,
 } from './config/ipfs'
+
 export const ipfsUrlPrefix = 'ipfs://ipfs/'
 
 export const fastExtract = (ipfsLink?: string): string => {
@@ -89,7 +91,7 @@ export const sanitizeIpfsUrl = (
     return ''
   }
 
-  if (!isIpfsUrl(ipfsUrl)) {
+  if (!isIpfsUrl(ipfsUrl) && !ipfsUrl.includes(kodaImage)) {
     const kodaUrl = new URL('/type/url', kodaImage)
     kodaUrl.searchParams.set('endpoint', ipfsUrl)
 
