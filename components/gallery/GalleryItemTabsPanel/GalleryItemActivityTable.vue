@@ -112,7 +112,6 @@ import formatBalance, {
   withoutDigitSeparator,
 } from '@/utils/format/balance'
 import { parseDate } from '@/utils/datetime'
-import { type Token, getPrice } from '@/utils/price'
 
 import type { Interaction } from '@/components/rmrk/service/scheme'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
@@ -127,8 +126,7 @@ const { urlPrefix, client } = usePrefix()
 const tokenPrice = ref(0)
 
 onMounted(async () => {
-  const token = chainSymbol.value as Token
-  tokenPrice.value = await getPrice(token, 'number')
+  tokenPrice.value = await getApproximatePriceOf(chainSymbol.value)
 })
 
 const interaction = computed(() =>
