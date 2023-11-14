@@ -114,7 +114,7 @@
               placeholder="0.01 is the minimum"
               expanded />
             <div class="position-absolute-right is-size-7 has-text-grey">
-              ~{{ SalePriceUsd }} usd
+              ~{{ salePriceUsd }} usd
             </div>
             <div class="form-addons">
               {{ isBasilisk ? 'KSM' : chainSymbol }}
@@ -383,7 +383,7 @@ const calculateUsdValue = (amount) => {
   return toUsdPrice(parsedAmount, tokenType.value)
 }
 
-const SalePriceUsd = computed(() => toUsdPrice(form.salePrice, tokenType.value))
+const salePriceUsd = computed(() => toUsdPrice(form.salePrice, tokenType.value))
 const depositUsd = computed(() => calculateUsdValue(deposit.value))
 const balanceUsd = computed(() => calculateUsdValue(balance.value))
 
