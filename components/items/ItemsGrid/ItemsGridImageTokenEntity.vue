@@ -19,6 +19,7 @@
     :link="NuxtLink"
     bind-key="to"
     :media-player-cover="mediaPlayerCover"
+    :media-static-video="hideVideoControls"
     media-hover-on-cover-play>
     <template v-if="!hideAction" #action>
       <div v-if="!isOwner && isAvailableToBuy" class="is-flex">
@@ -96,6 +97,7 @@ const props = defineProps<{
   variant?: NftCardVariant
   hideMediaInfo?: boolean
   hideAction?: boolean
+  hideVideoControls?: boolean
 }>()
 
 const {
