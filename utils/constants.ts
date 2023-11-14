@@ -26,7 +26,7 @@ export const dotHubDenyList = [
 ]
 
 export const IPFS_KODADOT_IMAGE_PLACEHOLDER =
-  'bafkreigbvowevtdh5ktnr5kyfxf2b56lp4424zj2gb6wona6if4lh35mbe'
+  'bafkreidchqftqyioy6q776xmtwj62wk3qdgrqlsdsl7gv27qkecgzfbe2i'
 
 export const MIN_CAROUSEL_NFT = 3
 
@@ -66,7 +66,6 @@ export const URLS = {
     newsletter: 'https://newsletter.w.kodadot.xyz',
   },
   providers: {
-    coingecko: 'https://api.coingecko.com/api/v3',
     ramp: 'https://ramp.network/buy/',
     cloudflare: 'https://cloudflare-ipfs.com/ipfs/',
     pinata: 'https://api.pinata.cloud/',
