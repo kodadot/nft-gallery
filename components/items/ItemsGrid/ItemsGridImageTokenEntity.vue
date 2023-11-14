@@ -19,7 +19,7 @@
     :link="NuxtLink"
     bind-key="to"
     :media-player-cover="mediaPlayerCover"
-    :media-hide-video-controls="hideVideoControls"
+    :media-static-video="hideVideoControls"
     media-hover-on-cover-play>
     <template v-if="!hideAction" #action>
       <div v-if="!isOwner && isAvailableToBuy" class="is-flex">

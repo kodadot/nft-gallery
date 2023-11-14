@@ -23,7 +23,8 @@
           :mime-type="nft.mimeType"
           :placeholder="placeholder"
           :title="nft?.name"
-          :preview="mediaHideVideoControls"
+          :preview="mediaStaticVideo"
+          :autoplay="autoplay"
           disable-operation
           :audio-player-cover="mediaPlayerCover"
           :audio-hover-on-cover-play="mediaHoverOnCoverPlay" />
@@ -99,7 +100,7 @@ const props = withDefaults(
     showActionOnHover?: boolean
     mediaPlayerCover?: string
     mediaHoverOnCoverPlay?: boolean
-    mediaHideVideoControls?: boolean
+    mediaStaticVideo?: boolean
     hideMediaInfo?: boolean
     linkTo?: string
   }>(),
@@ -125,6 +126,9 @@ const isStacked = computed(() =>
   props.variant ? props.variant.includes('stacked') : false,
 )
 const isMinimal = props.variant.includes('minimal')
+const autoplay = computed(() =>
+  props.mediaStaticVideo === undefined ? undefined : !props.mediaStaticVideo,
+)
 </script>
 
 <style lang="scss" scoped>

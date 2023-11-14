@@ -13,7 +13,8 @@
       :player-cover="audioPlayerCover"
       :hover-on-cover-play="audioHoverOnCoverPlay"
       :parent-hovering="isMediaItemHovering"
-      :preview="preview" />
+      :preview="preview"
+      :autoplay="autoplay" />
     <div
       v-if="isLewd && isLewdBlurredLayer"
       class="nsfw-blur is-capitalized is-flex is-align-items-center is-justify-content-center is-flex-direction-column">
@@ -76,7 +77,9 @@ const props = withDefaults(
     disableOperation?: boolean
     audioPlayerCover?: string
     audioHoverOnCoverPlay?: boolean
-    preview?: boolean // props for video component
+    // props for video component
+    preview?: boolean
+    autoplay?: boolean
   }>(),
   {
     src: '',
