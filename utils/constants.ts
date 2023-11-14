@@ -66,7 +66,6 @@ export const URLS = {
     newsletter: 'https://newsletter.w.kodadot.xyz',
   },
   providers: {
-    coingecko: 'https://api.coingecko.com/api/v3',
     ramp: 'https://ramp.network/buy/',
     cloudflare: 'https://cloudflare-ipfs.com/ipfs/',
     pinata: 'https://api.pinata.cloud/',
