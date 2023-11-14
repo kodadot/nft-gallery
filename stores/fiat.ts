@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-export type FiatPrice = string | number | null
+type FiatPrice = string | number | null
 
 interface State {
   fiatPrice: {
@@ -58,11 +58,11 @@ export const useFiatStore = defineStore('fiat', {
   },
   actions: {
     async fetchFiatPrice() {
-      const ksmPrice = await getPrice('KSM', 'object')
+      const ksmPrice = await getPrice('kusama')
       this.fiatPrice = Object.assign({}, this.fiatPrice, ksmPrice)
-      const bsxPrice = await getPrice('BSX', 'object')
+      const bsxPrice = await getPrice('basilisk')
       this.fiatPrice = Object.assign({}, this.fiatPrice, bsxPrice)
-      const dotPrice = await getPrice('DOT', 'object')
+      const dotPrice = await getPrice('polkadot')
       this.fiatPrice = Object.assign({}, this.fiatPrice, dotPrice)
     },
     setFiatPrice(payload) {
