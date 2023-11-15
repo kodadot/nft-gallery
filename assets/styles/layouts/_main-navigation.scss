@@ -257,7 +257,7 @@
       }
 
       &.is-active {
-        font-weight: bold;
+        font-weight: 700;
         background-color: transparent !important;
         @include ktheme() {
           color: theme('text-color') !important;
