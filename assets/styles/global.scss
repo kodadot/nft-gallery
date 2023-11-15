@@ -579,7 +579,7 @@ a.has-text-grey {
 }
 
 .dots::after {
-  content: ".";
+  content: "";
   display: inline-block;
   animation: dots 1.5s infinite;
 }
