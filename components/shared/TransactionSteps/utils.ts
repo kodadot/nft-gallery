@@ -5,10 +5,10 @@ export const getTransactionStepDetails = (
   step: TransactionStepWithActive,
   $t,
 ): {
-  subtitle: string
+  text: string
   status: TransactionStepStatus
 } => {
-  const { status, isError, isLast, isActive } = step
+  const { status, isError, isActive } = step
 
   if (
     status === TransactionStatus.Finalized ||
@@ -16,48 +16,39 @@ export const getTransactionStepDetails = (
   ) {
     return {
       status: TransactionStepStatus.COMPLETED,
-      subtitle: $t('transactionSteps.completed'),
+      text: $t('transactionSteps.completed'),
     }
   }
 
   if (isError || step.stepStatus === TransactionStepStatus.FAILED) {
     return {
-      subtitle: $t('transactionSteps.error'),
+      text: $t('transactionSteps.error'),
       status: TransactionStepStatus.FAILED,
     }
   }
 
   if (status == TransactionStatus.IPFS) {
     return {
-      subtitle: $t('transactionSteps.uploading'),
+      text: $t('transactionSteps.uploading'),
       status: TransactionStepStatus.LOADING,
     }
   }
 
-  if (step.withOuthSignature) {
-    const isNotLoading = step.stepStatus !== TransactionStepStatus.LOADING
+  if (
+    (status !== TransactionStatus.Unknown &&
+      step.stepStatus !== TransactionStepStatus.WAITING) ||
+    step.stepStatus === TransactionStepStatus.LOADING
+  ) {
     return {
-      subtitle: isNotLoading
-        ? $t('transactionSteps.noSignatureRequired')
-        : $t('transactionSteps.loading'),
-      status: isNotLoading
-        ? TransactionStepStatus.WAITING
-        : TransactionStepStatus.LOADING,
-    }
-  }
-
-  if (status !== TransactionStatus.Unknown) {
-    return {
-      subtitle: $t('transactionSteps.loading'),
+      text: $t('transactionSteps.loading'),
       status: TransactionStepStatus.LOADING,
     }
   }
 
   return {
-    subtitle:
-      isLast && !isActive
-        ? $t('transactionSteps.finishAbove')
-        : $t('transactionSteps.waiting'),
+    text: !isActive
+      ? $t('transactionSteps.finishAbove')
+      : $t('transactionSteps.waiting'),
     status: TransactionStepStatus.WAITING,
   }
 }

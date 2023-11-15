@@ -149,7 +149,11 @@ const steps = computed<TransactionStep[]>(() => {
       title: $i18n.t('autoTeleport.steps.2.title'),
       tooltip: $i18n.t('autoTeleport.steps.2.tooltip'),
       stepStatus: checkBalanceState.value,
-      withOuthSignature: true,
+      stepStatusTextOverride: {
+        [TransactionStepStatus.LOADING]: $i18n.t(
+          'transactionSteps.noSignatureRequired',
+        ),
+      },
     },
     props.transactions.actions.map((action) => {
       const { title } = getActionDetails(action.interaction)

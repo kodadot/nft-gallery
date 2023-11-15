@@ -28,12 +28,11 @@ export type TransactionStep = {
   tooltip?: string
   prefix?: Prefix
   retry?: () => void
-  withOuthSignature?: boolean
+  stepStatusTextOverride?: Partial<Record<TransactionStepStatus, string>>
 }
 
 export type TransactionStepWithActive = TransactionStep & {
   isActive: boolean
-  isLast: boolean
 }
 
 const emit = defineEmits(['active'])
@@ -54,7 +53,6 @@ const stepsWithActive = computed<TransactionStepWithActive[]>(() =>
     return {
       ...step,
       isActive: index === 0 || isStepStatusCompleted || isStatusFinalized,
-      isLast: index === array.length - 1,
     }
   }),
 )
@@ -84,13 +82,17 @@ const getStepItem = (step: TransactionStepWithActive): TransactionStepItem => {
     tooltip: step.tooltip,
   }
 
-  const { status, subtitle } = getTransactionStepDetails(step, $i18n.t)
+  let { status, text } = getTransactionStepDetails(step, $i18n.t)
+
+  if (step.stepStatusTextOverride?.hasOwnProperty(status)) {
+    text = step.stepStatusTextOverride[status] || ''
+  }
 
   return {
     ...baseStep,
     status: step.stepStatus ? step.stepStatus : status,
     title: step.title,
-    subtitle,
+    subtitle: text,
   }
 }
 </script>
