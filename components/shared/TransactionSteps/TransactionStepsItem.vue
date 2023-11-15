@@ -29,19 +29,21 @@
 
     <div class="is-flex is-align-items-center">
       <div class="is-flex is-flex-direction-column">
-        <p class="is-capitalized has-text-weight-bold">
-          {{ step.title }}
-
-          <NeoTooltip v-if="step.tooltip" position="top" multiline>
+        <NeoTooltip v-if="step.tooltip" position="top" multiline>
+          <p class="is-capitalized has-text-weight-bold">
+            {{ step.title }}
             <NeoIcon
               icon="fa-info-circle"
               pack="fa-regular"
               class="ml-2 has-text-k-grey" />
+          </p>
 
-            <template #content>
-              <span v-dompurify-html="step.tooltip" />
-            </template>
-          </NeoTooltip>
+          <template #content>
+            <span v-dompurify-html="step.tooltip" />
+          </template>
+        </NeoTooltip>
+        <p v-else class="is-capitalized has-text-weight-bold">
+          {{ step.title }}
         </p>
         <div class="is-flex is-align-items-center">
           <p class="is-capitalized has-text-k-grey">
