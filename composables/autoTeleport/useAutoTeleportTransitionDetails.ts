@@ -135,7 +135,7 @@ export default function (
       !teleportTxFee.value &&
       addTeleportFee.value &&
       hasEnoughInRichestChain.value &&
-      amountToTeleport.value >= 0,
+      amountToTeleport.value > 0,
   )
 
   const getTransitionBalances = () => {
