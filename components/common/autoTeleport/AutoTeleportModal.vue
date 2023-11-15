@@ -138,31 +138,29 @@ const steps = computed<TransactionStep[]>(() => {
   return [
     {
       title: $i18n.t('autoTeleport.steps.1.title'),
-      subtitle: $i18n.t('autoTeleport.steps.1.subtitle'),
+      tooltip: $i18n.t('autoTeleport.steps.1.tooltip'),
       status: props.transactions.teleport.status.value,
       isError: props.transactions.teleport.isError.value,
       txId: props.transactions.teleport.txId.value,
       prefix: props.transition.source?.prefix,
-      withAction: true,
       retry: () => emit('telport:retry'),
     },
     {
       title: $i18n.t('autoTeleport.steps.2.title'),
-      subtitle: $i18n.t('autoTeleport.steps.2.subtitle'),
+      tooltip: $i18n.t('autoTeleport.steps.2.tooltip'),
       stepStatus: checkBalanceState.value,
+      withOuthSignature: true,
     },
     props.transactions.actions.map((action) => {
-      const { title, subtitle } = getActionDetails(action.interaction)
+      const { title } = getActionDetails(action.interaction)
       return {
         title,
-        subtitle,
         status: action.status.value,
         isError: action.isError.value,
         txId: action.txId.value,
         blockNumber: action.blockNumber?.value,
         isLoading: action.isLoading.value,
         prefix: props.transition.destination?.prefix,
-        withAction: true,
         retry: () => emit('action:retry', action.interaction),
       }
     }),
@@ -185,7 +183,7 @@ const actionsFinalized = computed(() =>
 
 const btnLabel = computed(() => {
   if (!props.canDoAction || !activeStepInteraction.value) {
-    return $i18n.t('autoTeleport.finishAllStepsFirst')
+    return $i18n.t('autoTeleport.completeAllRequiredSteps')
   }
 
   if (!actionsFinalized.value) {
@@ -199,7 +197,6 @@ const getActionDetails = (interaction: string) => {
   const i = interaction.toLocaleLowerCase()
   return {
     title: $i18n.t(`autoTeleport.steps.${i}.title`),
-    subtitle: $i18n.t(`autoTeleport.steps.${i}.subtitle`),
     submit: $i18n.t(`autoTeleport.steps.${i}.submit`),
   }
 }

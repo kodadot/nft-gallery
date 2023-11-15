@@ -1,20 +1,12 @@
 <template>
   <div>
-    <div v-for="(step, index) in stepsWithActive" :key="index">
-      <TransactionStepsItem
-        class="mb-3"
-        :step="getStepItem(step)"
-        :active="false" />
-
-      <template v-if="step.withAction">
-        <TransactionStepsItem
-          class="mb-3"
-          :step="getStepItem(step, true)"
-          is-child
-          with-action
-          @try-again="tryAgain(step)" />
-      </template>
-    </div>
+    <TransactionStepsItem
+      v-for="(step, index) in stepsWithActive"
+      :key="index"
+      class="mb-5"
+      :step="getStepItem(step)"
+      with-action
+      @try-again="tryAgain(step)" />
   </div>
 </template>
 
@@ -32,14 +24,17 @@ export type TransactionStep = {
   isError?: boolean
   status?: TransactionStatus
   stepStatus?: TransactionStepStatus
-  title?: string
-  subtitle?: string
-  withAction?: boolean
+  title: string
+  tooltip?: string
   prefix?: Prefix
   retry?: () => void
+  withOuthSignature?: boolean
 }
 
-export type TransactionStepWithActive = TransactionStep & { isActive: boolean }
+export type TransactionStepWithActive = TransactionStep & {
+  isActive: boolean
+  isLast: boolean
+}
 
 const emit = defineEmits(['active'])
 const props = defineProps<{
@@ -59,6 +54,7 @@ const stepsWithActive = computed<TransactionStepWithActive[]>(() =>
     return {
       ...step,
       isActive: index === 0 || isStepStatusCompleted || isStatusFinalized,
+      isLast: index === array.length - 1,
     }
   }),
 )
@@ -78,34 +74,23 @@ const tryAgain = (step: TransactionStepWithActive) => {
   }
 }
 
-const getStepItem = (
-  step: TransactionStepWithActive,
-  isAction = false,
-): TransactionStepItem => {
+const getStepItem = (step: TransactionStepWithActive): TransactionStepItem => {
   const baseStep = {
-    txId: step.txId,
-    blockNumber: step.blockNumber,
+    txId: step.txId as string | null,
+    blockNumber: step.blockNumber as string | null,
     isError: step.isError,
     prefix: step.prefix,
     isActive: step.isActive,
+    tooltip: step.tooltip,
   }
 
-  const { status, title, subtitle } = getTransactionStepDetails(step, $i18n.t)
-
-  if (isAction) {
-    return {
-      ...baseStep,
-      status,
-      title,
-      subtitle,
-    }
-  }
+  const { status, subtitle } = getTransactionStepDetails(step, $i18n.t)
 
   return {
     ...baseStep,
     status: step.stepStatus ? step.stepStatus : status,
     title: step.title,
-    subtitle: step.subtitle,
+    subtitle,
   }
 }
 </script>

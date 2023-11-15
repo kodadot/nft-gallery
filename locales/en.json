@@ -973,6 +973,8 @@
     "tos": "KodaDot's Terms and Conditions"
   },
   "helper": {
+    "tryAgain": "Try again",
+    "viewTx": "View Tx",
     "seeMore": "See More",
     "learnMore": "Learn More",
     "noCollections": "You have no collections",
@@ -1520,26 +1522,14 @@
       "finalizingItems": "Finalizing {0} Items"
     }
   },
-  "transactionSteps": {
-    "completed": {
-      "title": "Completed"
-    },
-    "error": {
-      "title": "Please sign transaction",
-      "subtitle": "Failed"
-    },
-    "loading": {
-      "title": "Transaction pending",
-      "subtitle": "(please wait)"
-    },
-    "waiting": {
-      "title": "Please sign transaction",
-      "subtitle": "(Waiting for your approval)"
-    },
-    "uploading": {
-      "title": "Uploading data to IPFS",
-      "subtitle": "(please wait)"
-    }
+  "transactionSteps" : {
+    "completed": "Completed",
+    "error": "Failed to Sign",
+    "loading": "Transaction in Progress",
+    "waiting": "Awaiting Your Signature",
+    "noSignatureRequired": "Signature not needed",
+    "uploading": "Uploading data to IPFS",
+    "finishAbove": "Finish steps above first"
   },
   "autoTeleport": {
     "autoTeleport": "Auto Teleport",
@@ -1555,7 +1545,7 @@
     "welcomeToAutoTeleport": "Welcome to auto teleport!",
     "insufficientFunds": "Insufficient funds",
     "notAvailable": "Not available",
-    "finishAllStepsFirst": "Finish All Steps First",
+    "completeAllRequiredSteps": "Complete All Required Steps",
     "close": "Close",
     "tooltip": {
       "first": "Low balance? Auto Teleport bridges required funds from your most asset rich network.",
@@ -1583,34 +1573,30 @@
     "steps": {
       "1": {
         "title": "Teleport/bridging",
-        "subtitle": "this transaction will get all required funds for purchase on required chain"
+        "tooltip": "this transaction will get all required funds for purchase on required chain"
       },
       "2": {
         "title": "Checking funds",
-        "subtitle": "Verifying fund arrival on destination chain for seamless operations."
+        "tooltip": "Verifying fund arrival on destination chain for seamless operations.<br> this may take few seconds"
       },
       "buy": {
         "header": "<strong>Purchase</strong> NFT",
         "title": "Buying NFT",
-        "subtitle": "when signing this transaction, you will buy your desired NFT",
         "submit": "Buying NFT..."
       },
       "list": {
-        "header": "<strong>Listing</strong> NFT",
+        "header": "<strong>List</strong> NFT",
         "title": "Listing NFT",
-        "subtitle": "when signing this transaction, you will list your desired NFT",
         "submit": "Listing NFT..."
       },
       "mint": {
-        "header": "<strong>Minting</strong> NFT Collection",
+        "header": "<strong>Mint</strong> NFT Collection",
         "title": "Minting NFT Collection",
-        "subtitle": "when signing this transaction, you will mint your desired NFT Collection",
         "submit": "Minting NFT Collection..."
       },
       "mintnft": {
-        "header": "<strong>Minting</strong> NFT",
+        "header": "<strong>Mint</strong> NFT",
         "title": "Minting NFT",
-        "subtitle": "when signing this transaction, you will mint your desired NFT",
         "submit": "Minting NFT..."
       }
     }
