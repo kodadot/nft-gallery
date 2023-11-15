@@ -48,6 +48,8 @@
         <div class="is-flex is-align-items-center">
           <p class="is-capitalized has-text-k-grey">
             {{ step.subtitle }}
+
+            <span v-if="isLoading" class="dots" />
           </p>
 
           <NeoButton

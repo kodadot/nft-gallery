@@ -559,3 +559,27 @@ a.has-text-grey {
 .is-size-3-5 {
   font-size: 1.6rem;
 }
+
+// ... dots 
+@keyframes dots {
+  0% {
+    content: ".";
+  }
+  33% {
+    content: "..";
+  }
+  66% {
+    content: "...";
+  }
+}
+
+.dots {
+  text-align: center;
+  display: inline-block;
+}
+
+.dots::after {
+  content: ".";
+  display: inline-block;
+  animation: dots 1.5s infinite;
+}
