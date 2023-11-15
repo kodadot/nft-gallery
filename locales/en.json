@@ -927,6 +927,7 @@
     "chain": "Chain",
     "token": "Token",
     "usd": "USD",
+    "on": "on",
     "connect": "Connect",
     "connect_wallet": "Connect your wallet",
     "change_account": "Change account",
@@ -1532,11 +1533,11 @@
     "finishAbove": "Finish steps above first"
   },
   "autoTeleport": {
+    "bridging": "Bridging",
     "autoTeleport": "Auto Teleport",
     "checking": "checking funds ...",
     "followSteps": "Follow steps",
     "signTransactions": "Sign Transactions",
-    "header": "<strong>Bridging {amountFormatted}</strong> To {action} On {destinationNetwork}",
     "dontExit": "Stay on this page until all steps are complete.",
     "tip": "<strong>Tip:</strong> Look for popups from your wallet extension for signing.",
     "notEnoughTokenInChain": "Not enough {0} on {1}",
@@ -1580,22 +1581,26 @@
         "tooltip": "Verifying fund arrival on destination chain for seamless operations.<br> this may take few seconds"
       },
       "buy": {
-        "header": "<strong>Purchase</strong> NFT",
+        "action": "Purchase",
+        "item": "NFT",
         "title": "Buying NFT",
         "submit": "Buying NFT..."
       },
       "list": {
-        "header": "<strong>List</strong> NFT",
+        "action": "List",
+        "item": "NFT",
         "title": "Listing NFT",
         "submit": "Listing NFT..."
       },
       "mint": {
-        "header": "<strong>Mint</strong> NFT Collection",
+        "action": "Mint",
+        "item": "NFT Collection",
         "title": "Minting NFT Collection",
         "submit": "Minting NFT Collection..."
       },
       "mintnft": {
-        "header": "<strong>Mint</strong> NFT",
+        "action": "Mint",
+        "item": "NFT",
         "title": "Minting NFT",
         "submit": "Minting NFT..."
       }

@@ -24,15 +24,15 @@
       <div class="px-6 pt-4 pb-5 limit-height">
         <ModalIdentityItem />
 
-        <p
-          v-dompurify-html="
-            $t('autoTeleport.header', {
-              action: mainAction,
-              amountFormatted: transition.amountFormatted,
-              destinationNetwork: transition.destination?.name,
-            })
-          "
-          class="py-2" />
+        <p class="py-2 is-capitalized">
+          <strong>
+            {{ $t('bridging') }} {{ transition.amountFormatted }}
+          </strong>
+          {{ $t('general.to') }}
+          <strong>{{ mainActionDetails.action }}</strong>
+          {{ mainActionDetails.item }} {{ $t('general.on') }}
+          {{ transition.destination?.name }}
+        </p>
 
         <p class="is-size-7 has-text-k-grey">
           {{ $t('autoTeleport.dontExit') }}
@@ -128,10 +128,13 @@ const checkBalanceState = computed<TransactionStepStatus>(() => {
   return status
 })
 
-const mainAction = computed(() => {
+const mainActionDetails = computed(() => {
   const interaction =
     props.transactions.actions[0].interaction?.toLocaleLowerCase()
-  return $i18n.t(`autoTeleport.steps.${interaction}.header`)
+  return {
+    action: $i18n.t(`autoTeleport.steps.${interaction}.action`),
+    item: $i18n.t(`autoTeleport.steps.${interaction}.item`),
+  }
 })
 
 const steps = computed<TransactionStep[]>(() => {
