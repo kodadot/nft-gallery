@@ -21,7 +21,7 @@
           @click="onClose" />
       </header>
 
-      <div class="px-6 pt-4 pb-5 limit-height">
+      <div class="px-6 pt-4 pb-5">
         <ModalIdentityItem />
 
         <p
@@ -255,11 +255,6 @@ watch(actionsFinalized, () => {
 
 .btn-height {
   height: 3.5rem;
-}
-
-.limit-height {
-  max-height: 50vh;
-  overflow-y: auto;
 }
 
 @include mobile() {
