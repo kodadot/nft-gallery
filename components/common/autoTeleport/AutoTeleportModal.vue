@@ -28,10 +28,8 @@
           v-dompurify-html="
             $t('autoTeleport.header', {
               action: mainAction,
-              chainName: transition.destination.name,
               amountFormatted: transition.amountFormatted,
-              amountUsd: transition.amountUsd,
-              sourceNetwork: transition.source?.name,
+              destinationNetwork: transition.destination?.name,
             })
           "
           class="py-2" />
