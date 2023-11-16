@@ -10,54 +10,56 @@
           <CustomSubstackEmbed />
         </div>
       </section>
-      <section class="footer-container-info is-flex is-flex-direction-column">
-        <h2 class="subtitle is-5">Incentives</h2>
-        <div>
-          <ul class="footer-container-list">
-            <li
-              v-for="item in menuIncentives"
-              :key="item.url"
-              class="footer-container-info-list-item">
-              <a
-                v-if="item.external"
-                v-safe-href="item.url"
-                target="_blank"
-                rel="nofollow noopener noreferrer"
-                class="is-flex is-align-items-center">
-                {{ item.name }}
-                <NeoIcon icon="arrow-up-right" class="ml-1 has-text-grey" />
-              </a>
-              <nuxt-link v-else :to="item.url">
-                {{ item.name }}
-              </nuxt-link>
-            </li>
-          </ul>
-        </div>
-      </section>
-      <section class="footer-container-info is-flex is-flex-direction-column">
-        <h2 class="subtitle is-5">Marketplace</h2>
-        <div>
-          <ul class="footer-container-list">
-            <li
-              v-for="item in menuMarketplace"
-              :key="item.url"
-              class="footer-container-info-list-item">
-              <a
-                v-if="item.external"
-                v-safe-href="item.url"
-                target="_blank"
-                rel="nofollow noopener noreferrer"
-                class="is-flex is-align-items-center">
-                {{ item.name }}
-                <NeoIcon icon="arrow-up-right" class="ml-1 has-text-grey" />
-              </a>
-              <nuxt-link v-else :to="item.url">
-                {{ item.name }}
-              </nuxt-link>
-            </li>
-          </ul>
-        </div>
-      </section>
+      <div class="footer-container-links">
+        <section class="footer-container-info is-flex is-flex-direction-column">
+          <h2 class="subtitle is-5">Incentives</h2>
+          <div>
+            <ul class="footer-container-list">
+              <li
+                v-for="item in menuIncentives"
+                :key="item.url"
+                class="footer-container-info-list-item">
+                <a
+                  v-if="item.external"
+                  v-safe-href="item.url"
+                  target="_blank"
+                  rel="nofollow noopener noreferrer"
+                  class="is-flex is-align-items-center">
+                  {{ item.name }}
+                  <NeoIcon icon="arrow-up-right" class="ml-1 has-text-grey" />
+                </a>
+                <nuxt-link v-else :to="item.url">
+                  {{ item.name }}
+                </nuxt-link>
+              </li>
+            </ul>
+          </div>
+        </section>
+        <section class="footer-container-info is-flex is-flex-direction-column">
+          <h2 class="subtitle is-5">Marketplace</h2>
+          <div>
+            <ul class="footer-container-list">
+              <li
+                v-for="item in menuMarketplace"
+                :key="item.url"
+                class="footer-container-info-list-item">
+                <a
+                  v-if="item.external"
+                  v-safe-href="item.url"
+                  target="_blank"
+                  rel="nofollow noopener noreferrer"
+                  class="is-flex is-align-items-center">
+                  {{ item.name }}
+                  <NeoIcon icon="arrow-up-right" class="ml-1 has-text-grey" />
+                </a>
+                <nuxt-link v-else :to="item.url">
+                  {{ item.name }}
+                </nuxt-link>
+              </li>
+            </ul>
+          </div>
+        </section>
+      </div>
       <section class="footer-container-info is-flex is-flex-direction-column">
         <h2 class="subtitle is-5">KodaDot</h2>
         <div>
@@ -82,7 +84,6 @@
           </ul>
         </div>
       </section>
-
       <section
         class="footer-container-socials is-flex is-flex-direction-column">
         <h2 class="subtitle is-5">
@@ -92,7 +93,7 @@
           <li
             v-for="item in socials"
             :key="item.url"
-            class="footer-container-socials-list-item is-flex is-align-items-center is-justify-content-center mr-2">
+            class="footer-container-socials-list-item is-flex is-align-items-center is-justify-content-center">
             <a
               v-safe-href="item.url"
               class="is-flex icon"
