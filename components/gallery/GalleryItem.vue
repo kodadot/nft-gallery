@@ -283,7 +283,7 @@ useSeoMeta({
 
 const imgref = ref<HTMLElement | null>(null)
 const isFallbackActive = ref(false)
-const fullScreenDisabled = ref(true)
+const fullScreenDisabled = ref(false)
 const { toggle, isFullscreen, isSupported } = useFullscreen(imgref)
 
 function toggleFullscreen() {
