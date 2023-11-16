@@ -6,6 +6,6 @@
 useSeoMeta({
   title: 'Select Payment Asset',
   description: 'Select asset for paying transaction fees',
-  ogUrl: '/snek/assets',
+  ogUrl: '/bsx/assets',
 })
 </script>
