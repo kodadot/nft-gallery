@@ -30,7 +30,9 @@
     <div class="is-flex is-align-items-center">
       <div class="is-flex is-flex-direction-column">
         <NeoTooltip v-if="step.tooltip" position="top" multiline>
-          <p class="is-capitalized has-text-weight-bold">
+          <p
+            class="is-capitalized has-text-weight-bold"
+            :class="{ 'pr-8': isLoading }">
             {{ step.title }}
             <NeoIcon
               icon="fa-info-circle"
