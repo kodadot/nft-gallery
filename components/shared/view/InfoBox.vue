@@ -53,7 +53,7 @@ $border_size: 1px;
     align-items: center;
 
     .title {
-      font-weight: bold;
+      font-weight: 700;
       margin-bottom: 0;
 
       @include ktheme() {

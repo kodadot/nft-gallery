@@ -237,7 +237,7 @@ onClickOutside(actionRef, () => {
       display: none;
 
       &:checked + label {
-        font-weight: bold;
+        font-weight: 700;
       }
     }
 

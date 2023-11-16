@@ -228,11 +228,11 @@ export default defineNuxtConfig({
   googleFonts: {
     families: {
       'Work+Sans': {
-        wght: '100..900',
-        ital: '100..900',
+        wght: [400, 700],
+        ital: [400, 700],
       },
       'Fira+Code': {
-        wght: '600..700',
+        wght: [600, 700],
       },
     },
     display: 'swap',
