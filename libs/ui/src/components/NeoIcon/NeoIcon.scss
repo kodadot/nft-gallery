@@ -22,3 +22,11 @@
     color: theme('k-grey');
   }
 }
+
+
+.o-icon--spin {
+  animation-name: icon-spin;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-duration: var(--oruga-icon-spin-duration, 1.5s)
+}
