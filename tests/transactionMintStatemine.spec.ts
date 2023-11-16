@@ -8,6 +8,16 @@ import {
   expandCopies,
 } from '@/composables/transaction/mintToken/utils'
 
+const MOCK_API = {
+  query: {
+    nfts: {
+      collection: () =>
+        Promise.resolve({
+          toHuman: () => ({ items: '0' }),
+        }),
+    },
+  },
+}
 describe('transactionMintStatemine.ts functions', () => {
   describe('assignIds function', () => {
     it('should assign id correctly for a single token', () => {
@@ -234,7 +244,7 @@ describe('transactionMintStatemine.ts functions', () => {
     })
   })
   describe('prepTokens function', () => {
-    it('should correctly prepare a single token with unique id', () => {
+    it('should correctly prepare a single token with unique id', async () => {
       const token: TokenToMint = {
         name: 'test',
         selectedCollection: { alreadyMinted: 4, lastIndexUsed: 4 },
@@ -244,7 +254,7 @@ describe('transactionMintStatemine.ts functions', () => {
         token,
       }
 
-      const result = prepTokens(item)
+      const result = await prepTokens(item, MOCK_API)
 
       const expectedResult = [
         {
@@ -256,7 +266,7 @@ describe('transactionMintStatemine.ts functions', () => {
       expect(result).toEqual(expectedResult)
     })
 
-    it('should correctly prepare a single token with unique id and copies', () => {
+    it('should correctly prepare a single token with unique id and copies', async () => {
       const token: TokenToMint = {
         name: 'test',
         copies: 3,
@@ -268,7 +278,7 @@ describe('transactionMintStatemine.ts functions', () => {
         token,
       }
 
-      const result = prepTokens(item)
+      const result = await prepTokens(item, MOCK_API)
 
       const expectedResult = [
         {
@@ -297,7 +307,7 @@ describe('transactionMintStatemine.ts functions', () => {
       expect(result).toEqual(expectedResult)
     })
 
-    it('should correctly prepare an array of tokens with unique ids and no copies', () => {
+    it('should correctly prepare an array of tokens with unique ids and no copies', async () => {
       const tokens: TokenToMint[] = [
         {
           name: 'test1',
@@ -317,7 +327,7 @@ describe('transactionMintStatemine.ts functions', () => {
         token: tokens,
       }
 
-      const result = prepTokens(item)
+      const result = await prepTokens(item, MOCK_API)
 
       const expectedResult = [
         {
@@ -340,7 +350,7 @@ describe('transactionMintStatemine.ts functions', () => {
       expect(result).toEqual(expectedResult)
     })
 
-    it('should correctly prepare an array of tokens with unique ids and some have copies', () => {
+    it('should correctly prepare an array of tokens with unique ids and some have copies', async () => {
       const tokens: TokenToMint[] = [
         {
           name: 'test1',
@@ -364,7 +374,7 @@ describe('transactionMintStatemine.ts functions', () => {
         token: tokens,
       }
 
-      const result = prepTokens(item)
+      const result = await prepTokens(item, MOCK_API)
 
       const expectedResult = [
         {
