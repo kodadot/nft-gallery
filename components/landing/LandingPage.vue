@@ -67,6 +67,7 @@ const forbiddenPrefixesForTopCollections: Prefix[] = [
   'ahk',
   'ahp',
   'dot',
+  // 'ahr',
 ]
 
 const { urlPrefix } = usePrefix()
