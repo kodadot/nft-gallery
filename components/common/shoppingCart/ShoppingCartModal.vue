@@ -183,7 +183,7 @@ const onCompletePurchase = () => {
     max-width: 360px;
     width: 100%;
     @include mobile {
-      padding-top: 58px;
+      padding-top: 56px;
       max-width: 100vw;
     }
   }

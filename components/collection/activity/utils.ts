@@ -118,7 +118,9 @@ export const bin = (data: DataPoint[], binSize: BinSize): DataPoint[] => {
   const lastTimestamp = data[data.length - 1].timestamp
 
   const numBins = Math.ceil((lastTimestamp - firstTimestamp) / binSizeMillis)
-
+  if (numBins === 0) {
+    return data
+  }
   const bins = new Array(numBins).fill(null).map((_, index) => {
     const binStart = firstTimestamp + index * binSizeMillis
     const binEnd = binStart + binSizeMillis

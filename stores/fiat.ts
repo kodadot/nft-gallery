@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { getPrice } from '@/utils/coingecko'
 
 type FiatPrice = string | number | null
 

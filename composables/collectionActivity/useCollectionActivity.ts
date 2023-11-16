@@ -8,7 +8,12 @@ export const useCollectionActivity = ({ collectionId }) => {
   const flippers = ref<Flippers>()
   const offers = ref<Offer[]>([])
 
-  const queryPrefix = urlPrefix.value === 'bsx' ? 'chain-bsx' : 'subsquid'
+  const queryPrefixMap = {
+    bsx: 'chain-bsx',
+    ksm: 'chain-ksm',
+  }
+
+  const queryPrefix = queryPrefixMap[urlPrefix.value] || 'subsquid'
 
   const { data } = useGraphql({
     queryPrefix,

@@ -19,6 +19,7 @@
           :nft="entity"
           :hide-media-info="hideMediaInfo"
           :hide-action="hideNFTHoverAction"
+          hide-video-controls
           :variant="
             slotProps.isMobileVariant || slotProps.grid === 'small'
               ? 'minimal'
@@ -29,6 +30,7 @@
           :entity="entity"
           :hide-media-info="hideMediaInfo"
           :hide-action="hideNFTHoverAction"
+          hide-video-controls
           :variant="
             slotProps.isMobileVariant || slotProps.grid === 'small'
               ? 'minimal'

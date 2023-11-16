@@ -112,7 +112,6 @@ import formatBalance, {
   withoutDigitSeparator,
 } from '@/utils/format/balance'
 import { parseDate } from '@/utils/datetime'
-import { getApproximatePriceOf } from '@/utils/coingecko'
 
 import type { Interaction } from '@/components/rmrk/service/scheme'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'

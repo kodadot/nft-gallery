@@ -143,8 +143,8 @@ const buttonLabel = computed(() => {
   return needCheckEligible.value
     ? 'Check Eligibility'
     : isEligibleUser.value
-    ? 'Mint'
-    : 'Not Eligible'
+      ? 'Mint'
+      : 'Not Eligible'
 })
 
 const statusInformation = computed(() => {
@@ -157,19 +157,19 @@ const statusInformation = computed(() => {
         iconPack: 'fasr',
       }
     : isEligibleUser.value
-    ? {
-        label: $i18n.t('mint.unlockable.eligible'),
-        icon: 'circle-check',
-        iconPack: 'fasr',
-        iconClass: 'has-text-success',
-      }
-    : {
-        label: $i18n.t('mint.unlockable.exclusive'),
-        icon: 'circle-info',
-        iconClass: 'has-text-grey',
-        labelClass: 'has-text-grey',
-        iconPack: 'fasr',
-      }
+      ? {
+          label: $i18n.t('mint.unlockable.eligible'),
+          icon: 'circle-check',
+          iconPack: 'fasr',
+          iconClass: 'has-text-success',
+        }
+      : {
+          label: $i18n.t('mint.unlockable.exclusive'),
+          icon: 'circle-info',
+          iconClass: 'has-text-grey',
+          labelClass: 'has-text-grey',
+          iconPack: 'fasr',
+        }
 })
 
 const leftTime = computed(() => {

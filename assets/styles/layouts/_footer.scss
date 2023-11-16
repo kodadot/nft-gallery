@@ -6,6 +6,7 @@
   }
 
   .subtitle {
+    word-break: normal;
     font-weight: 700;
   }
 
@@ -19,10 +20,20 @@
     gap: 30px;
   }
 
+  &-links {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+
+    @include widescreen() {
+      display: contents;
+    }
+  }
+
   &-inner {
     z-index: 1;
     position: relative;
-    gap: 1rem;
+    gap: 3rem;
 
     @include mobile {
       flex-direction: column;
@@ -53,6 +64,7 @@
       grid-gap: 10px;
 
       &-item {
+        white-space: nowrap;
         a:hover {
           @include ktheme() {
             color: theme('link-hover');
@@ -71,6 +83,8 @@
     }
     &-list {
       cursor: pointer;
+      flex-wrap: wrap;
+      gap: 0.5rem;
       &-item {
         height: 33px;
         width: 33px;

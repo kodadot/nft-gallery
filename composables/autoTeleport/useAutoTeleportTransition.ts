@@ -37,9 +37,8 @@ export default function ({
     chainSymbol as ComputedRef<string>,
   )
 
-  const optimalTransition = ref<TeleportTransition>(
-    emptyObject<TeleportTransition>(),
-  )
+  const optimalTransition =
+    ref<TeleportTransition>(emptyObject<TeleportTransition>())
 
   watchSyncEffect(() => {
     if (autoTeleportStarted.value) {
