@@ -172,7 +172,6 @@ import {
 import { useFullscreen, useWindowSize } from '@vueuse/core'
 
 import { useGalleryItem } from './useGalleryItem'
-// import { isMobileDevice } from '@/utils/extension'
 
 import CarouselTypeRelated from '@/components/carousel/CarouselTypeRelated.vue'
 import CarouselTypeVisited from '@/components/carousel/CarouselTypeVisited.vue'
