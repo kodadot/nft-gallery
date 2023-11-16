@@ -29,10 +29,12 @@
 
     <div class="is-flex is-align-items-center">
       <div class="is-flex is-flex-direction-column">
-        <NeoTooltip v-if="step.tooltip" position="top" multiline>
-          <p
-            class="is-capitalized has-text-weight-bold"
-            :class="{ 'pr-8': isLoading }">
+        <NeoTooltip
+          v-if="step.tooltip"
+          position="top"
+          multiline
+          class="is-max-width-fit-content">
+          <p class="is-capitalized has-text-weight-bold">
             {{ step.title }}
             <NeoIcon
               icon="fa-info-circle"
