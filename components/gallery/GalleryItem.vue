@@ -172,7 +172,7 @@ import {
 import { useFullscreen, useWindowSize } from '@vueuse/core'
 
 import { useGalleryItem } from './useGalleryItem'
-import { isMobileDevice } from '@/utils/extension'
+// import { isMobileDevice } from '@/utils/extension'
 
 import CarouselTypeRelated from '@/components/carousel/CarouselTypeRelated.vue'
 import CarouselTypeVisited from '@/components/carousel/CarouselTypeVisited.vue'
@@ -218,11 +218,9 @@ const tabs = {
 const activeTab = ref(tabs.offers)
 
 const canPreview = computed(() =>
-  isMobileDevice
-    ? true
-    : [MediaType.VIDEO, MediaType.IMAGE, MediaType.OBJECT].includes(
-        resolveMedia(nftMimeType.value),
-      ),
+  [MediaType.VIDEO, MediaType.IMAGE, MediaType.OBJECT].includes(
+    resolveMedia(nftMimeType.value),
+  ),
 )
 
 const activeCarousel = ref(0)
