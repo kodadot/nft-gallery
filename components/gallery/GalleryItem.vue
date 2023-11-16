@@ -283,7 +283,7 @@ useSeoMeta({
 
 const imgref = ref<HTMLElement | null>(null)
 const isFallbackActive = ref(false)
-const fullScreenDisabled = ref(false)
+const fullScreenDisabled = ref(true)
 const { toggle, isFullscreen, isSupported } = useFullscreen(imgref)
 
 function toggleFullscreen() {
@@ -299,9 +299,11 @@ function toggleFullscreen() {
 
 function toggleFallback() {
   if (imgref.value) {
+    const mainElement = document.querySelector('main')
     const isCurrentlyFullscreen = imgref.value.classList.toggle(
       'fullscreen-fallback',
     )
+    mainElement?.classList.toggle('no-z-index')
     isFallbackActive.value = isCurrentlyFullscreen
     isFullscreen.value = isCurrentlyFullscreen
   }
@@ -373,13 +375,9 @@ $break-point-width: 930px;
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-
-  & > .back-button {
-    top: 6rem;
-  }
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
 }
 
 .fullscreen-button {
