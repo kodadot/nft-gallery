@@ -37,7 +37,14 @@
           no-shadow
           class="fixed-width p-1 no-border-left btn-height override-wrapper-width"
           @click.prevent="onClickShoppingCart">
-          <img :src="cartIcon" class="image is-16x16" alt="cart icon" />
+          <img
+            :src="
+              shoppingCartStore.isItemInCart(nftForShoppingCart.id)
+                ? strikedOutShoppingCartIcon
+                : shoppingCartIcon
+            "
+            class="image is-16x16"
+            alt="cart icon" />
         </NeoButton>
       </div>
       <div v-else-if="isOwner" class="is-flex">
@@ -156,7 +163,8 @@ const listLabel = computed(() => {
   return isInCart ? label + ' ✓' : label
 })
 
-const { cartIcon } = useShoppingCartIcon(props.entity.id)
+// const { cartIcon } = useShoppingCartIcon(props.entity.id)
+const { shoppingCartIcon, strikedOutShoppingCartIcon } = useShoppingCartIcon()
 
 const { nft: entity } = useNft(props.entity)
 
