@@ -45,11 +45,11 @@ export const dropsVisible = (prefix: Prefix | string) => {
 }
 
 export const assetsVisible = (prefix: Prefix | string) => {
-  return prefix === 'bsx' || prefix === 'snek'
+  return prefix === 'bsx'
 }
 
 export const incomingOfferssVisible = (prefix: Prefix | string) => {
-  return prefix === 'bsx' || prefix === 'snek'
+  return prefix === 'bsx'
 }
 
 export const explorerVisible = (prefix: Prefix | string): boolean => {
