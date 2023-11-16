@@ -62,7 +62,7 @@
 
           &--fullpage {
             position: fixed;
-            top: 59px;
+            top: 57px;
             height: 100vh;
             width: 100%;
             z-index: 100;
@@ -166,7 +166,7 @@
 
   .navbar-item {
     text-transform: capitalize;
-    font-weight: 500;
+    font-weight: 400;
     cursor: pointer;
     border-radius: 0 !important;
 
@@ -183,7 +183,7 @@
 
   .navbar-brand {
     align-items: center;
-    
+
     @include mobile {
       padding:0 $fluid-container-padding-mobile;
     }

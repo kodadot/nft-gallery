@@ -119,6 +119,7 @@
         class="has-text-k-blue">
         {{ shortAddress(toAddress) }}
       </a>
+      {{ $t('teleport.ownerMessage') }}
     </div>
   </form>
 </template>
@@ -130,6 +131,7 @@ import {
   allowedTransitions,
   chainToPrefixMap,
   getChainCurrency,
+  prefixToChainMap,
 } from '@/utils/teleport'
 import Loader from '@/components/shared/Loader.vue'
 import shortAddress from '@/utils/shortAddress'
@@ -150,6 +152,7 @@ const {
   status,
 } = useTeleport(true)
 
+const { urlPrefix } = usePrefix()
 const fiatStore = useFiatStore()
 const fromChain = ref(Chain.POLKADOT) //Selected origin parachain
 const toChain = ref(Chain.ASSETHUBPOLKADOT) //Selected destination parachain
@@ -280,6 +283,21 @@ const onChainChange = (selectedChain, setFrom = true) => {
     fromChain.value = getFirstAllowedDestination(selectedChain)
   }
 }
+
+const setRelatedChain = () => {
+  const relatedFromChain = prefixToChainMap[urlPrefix.value] || Chain.POLKADOT
+  onChainChange(relatedFromChain, true)
+}
+
+watch(
+  urlPrefix,
+  () => {
+    setRelatedChain()
+  },
+  {
+    immediate: true,
+  },
+)
 
 const fromAddress = computed(() => getAddressByChain(fromChain.value))
 const toAddress = computed(() => getAddressByChain(toChain.value))

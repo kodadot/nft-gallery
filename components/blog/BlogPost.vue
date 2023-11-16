@@ -43,7 +43,7 @@
 import { format } from 'date-fns'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { convertMarkdownToText } from '@/utils/markdown'
-import hljs from 'highlight.js'
+import Prism from 'prismjs'
 import { URLS } from '@/utils/constants'
 
 const route = useRoute()
@@ -69,7 +69,7 @@ const openShareUrl = (platform: 'twitter' | 'linkedin') => {
 }
 
 onMounted(() => {
-  hljs.highlightAll()
+  Prism.highlightAll()
 })
 
 const title = computed(() => post?.title)

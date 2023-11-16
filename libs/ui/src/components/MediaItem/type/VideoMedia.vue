@@ -6,7 +6,7 @@
       :controls="controls"
       playsinline
       loop
-      :autoplay="preview"
+      :autoplay="autoPlay"
       :muted="preview"
       :poster="src"
       :src="animationSrc || src"
@@ -25,13 +25,19 @@ const props = withDefaults(
     src?: string
     alt?: string
     preview?: boolean
+    autoplay?: boolean
   }>(),
   {
     animationSrc: '',
     src: '',
     alt: '',
     preview: false,
+    autoplay: undefined,
   },
+)
+
+const autoPlay = computed(() =>
+  props.autoplay === undefined ? props.preview : props.autoplay,
 )
 const controls = computed(() => !props.preview)
 </script>

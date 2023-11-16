@@ -31,7 +31,7 @@ import { useListingCartStore } from '@/stores/listingCart'
 import ListingCartItem from './ListingCartItem.vue'
 import ListingCartPriceInput from '../shared/ListingCartPriceInput.vue'
 import ListingCartFloorPrice from '../shared/ListingCartFloorPrice.vue'
-import { sortBy } from 'lodash'
+import sortBy from 'lodash/sortBy'
 
 const emit = defineEmits(['update:fixedPrice', 'setFixedPrice'])
 
