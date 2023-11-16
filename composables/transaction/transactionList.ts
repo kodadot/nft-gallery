@@ -119,10 +119,10 @@ export function execListTx(item: ActionList, api, executeTransaction) {
   const fnMap = {
     rmrk: execKsm,
     ksm: execKsm,
-    snek: execBsx,
     bsx: execBsx,
     ahk: execAhkOrAhp,
     ahp: execAhkOrAhp,
+    // ahr: execAhkOrAhp,
   }
 
   const { cb, arg } =
