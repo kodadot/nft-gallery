@@ -116,6 +116,7 @@ const props = defineProps({
 })
 
 const collectionId = computed(() => props.drop?.collection)
+const disabledByBackend = computed(() => props.drop?.disabled)
 
 const { neoModal } = useProgrammatic()
 const { $i18n } = useNuxtApp()
@@ -196,7 +197,8 @@ const mintButtonDisabled = computed(() =>
     currentMintedLoading.value ||
       !mintCountAvailable.value ||
       !selectedImage.value ||
-      !accountId.value,
+      !accountId.value ||
+      disabledByBackend.value,
   ),
 )
 
