@@ -10,10 +10,10 @@ export const prefixToToken = {
   ksm: 'KSM',
   rmrk: 'KSM',
   bsx: 'KSM',
-  snek: 'KSM',
   ahk: 'KSM',
   ahp: 'DOT',
   dot: 'DOT',
+  ahr: 'ROC',
 }
 
 const getTokenDecimal = (item: ShoppingCartItem) => {
