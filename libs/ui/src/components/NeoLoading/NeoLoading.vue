@@ -7,7 +7,7 @@
 </template>
 <script lang="ts">
 import { OLoading } from '@oruga-ui/oruga-next'
-import { NeoIcon } from '../..'
+import NeoIcon from '../NeoIcon/NeoIcon.vue'
 
 export default {
   components: { NeoIcon, OLoading },

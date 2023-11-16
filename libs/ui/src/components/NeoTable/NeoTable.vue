@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import { OTable } from '@oruga-ui/oruga-next'
-import { NeoLoading } from '../..'
+import NeoLoading from '../NeoLoading/NeoLoading.vue'
 
 export default {
   components: { NeoLoading, OTable },
