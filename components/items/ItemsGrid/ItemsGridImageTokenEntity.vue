@@ -163,7 +163,6 @@ const listLabel = computed(() => {
   return isInCart ? label + ' ✓' : label
 })
 
-// const { cartIcon } = useShoppingCartIcon(props.entity.id)
 const { shoppingCartIcon, strikedOutShoppingCartIcon } = useShoppingCartIcon()
 
 const { nft: entity } = useNft(props.entity)
