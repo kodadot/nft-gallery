@@ -97,6 +97,7 @@ const generateNft = (isDefault: boolean = false) => {
 
 .fixed-size {
   width: 36rem;
+  height: min-content;
   position: relative;
 
   @include mobile {
