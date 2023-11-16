@@ -21,6 +21,9 @@ export const cost = async (
   fee: number = BASE_FEE,
 ): Promise<number> => {
   const ksmPrice = await getApproximatePriceOf('kusama')
+  if (ksmPrice === 0) {
+    return 0
+  }
   console.log('[SUPPORT] 💋💋💋', fee / ksmPrice, 'KSM')
   const decimals: number = getTokenDecimals(api)
   return Math.round((fee / ksmPrice) * 10 ** decimals)
