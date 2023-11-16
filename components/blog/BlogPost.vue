@@ -125,17 +125,17 @@ useSeoMeta({
 
   h2 {
     font-size: 1.5rem;
-    font-weight: bold;
+    font-weight: 700;
   }
 
   h3 {
     font-size: 1.2rem;
-    font-weight: bold;
+    font-weight: 700;
   }
 
   h4 {
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: 700;
   }
 
   img {

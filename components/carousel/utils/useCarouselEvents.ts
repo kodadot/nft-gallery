@@ -5,6 +5,7 @@ import { formatNFT } from '@/utils/carousel'
 
 import latestEvents from '@/queries/subsquid/general/latestEvents.graphql'
 import latestEventsRmrkv2 from '@/queries/subsquid/ksm/latestEvents.graphql'
+import unionBy from 'lodash/unionBy'
 
 interface Types {
   type: 'latestSales' | 'newestList'
@@ -164,11 +165,13 @@ export const useCarouselGenerativeNftEvents = async (
     10, // temporary limit
     collectionIds,
   )
-
-  const data = [
-    ...flattenNFT(salesData.value, chain),
-    ...flattenNFT(listData.value, chain),
-  ]
+  const data = unionBy(
+    [
+      ...flattenNFT(salesData.value, chain),
+      ...flattenNFT(listData.value, chain),
+    ],
+    'id',
+  )
 
   return limitDisplayNfts(data)
 }
