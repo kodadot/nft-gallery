@@ -103,7 +103,7 @@
         :label="`${$t('price')} *`">
         <div class="w-full">
           <div
-            class="is-flex is-justify-content-space-between is-align-items-center">
+            class="is-flex is-justify-content-space-between is-align-items-center is-relative">
             <NeoInput
               v-model="form.salePrice"
               data-testid="create-nft-input-list-value"
@@ -113,6 +113,9 @@
               pattern="[0-9]+([\.,][0-9]+)?"
               placeholder="0.01 is the minimum"
               expanded />
+            <div class="position-absolute-right is-size-7 has-text-grey">
+              ~{{ salePriceUsd }} usd
+            </div>
             <div class="form-addons">
               {{ isBasilisk ? 'KSM' : chainSymbol }}
             </div>
@@ -192,13 +195,25 @@
       <div>
         <div class="is-flex has-text-weight-medium has-text-info">
           <div>{{ $t('mint.deposit') }}:&nbsp;</div>
-          <div data-testid="create-nft-deposit-amount">
-            {{ deposit }} {{ chainSymbol }}
+          <div>
+            <span data-testid="create-nft-deposit-amount-token">
+              {{ deposit }} {{ chainSymbol }}
+            </span>
+            <span
+              class="is-size-7 has-text-grey ml-2"
+              data-testid="create-nft-deposit-amount-usd">
+              {{ depositUsd }} usd
+            </span>
           </div>
         </div>
         <div class="is-flex">
           <div>{{ $t('general.balance') }}:&nbsp;</div>
-          <div>{{ balance }} {{ chainSymbol }}</div>
+          <div>
+            <span>{{ balance }} {{ chainSymbol }}</span>
+            <span class="is-size-7 has-text-grey ml-2">
+              {{ balanceUsd }} usd
+            </span>
+          </div>
         </div>
         <nuxt-link v-if="isBasilisk" :to="`/${currentChain}/assets`">
           {{ $t('general.tx.feesPaidIn', [chainSymbol]) }}
@@ -274,6 +289,7 @@ const { transaction, status, isLoading, blockNumber, isError } =
   useTransaction()
 const router = useRouter()
 const { decimals } = useChain()
+const { toUsdPrice } = useUsdValue()
 
 // form state
 const form = reactive({
@@ -353,6 +369,23 @@ const { balance, totalItemDeposit, chainSymbol, chain } =
 const deposit = computed(() =>
   (Number(totalItemDeposit.value) * form.copies).toFixed(4),
 )
+
+// usd value
+
+// when left undefined urlPrefix will be used
+const tokenType = computed(() =>
+  isBasilisk.value ? chainSymbol.value.toLowerCase() : undefined,
+)
+
+const calculateUsdValue = (amount) => {
+  // remove comma from amount - required becuase bsx balance is formatted string
+  const parsedAmount = parseFloat(amount?.replace(/,/g, '') || '0')
+  return toUsdPrice(parsedAmount, tokenType.value)
+}
+
+const salePriceUsd = computed(() => toUsdPrice(form.salePrice, tokenType.value))
+const depositUsd = computed(() => calculateUsdValue(deposit.value))
+const balanceUsd = computed(() => calculateUsdValue(balance.value))
 
 // create nft
 const transactionStatus = ref<
@@ -589,3 +622,10 @@ watchEffect(async () => {
 </script>
 
 <style lang="scss" scoped src="@/assets/styles/pages/create.scss"></style>
+
+<style lang="scss" scoped>
+.position-absolute-right {
+  position: absolute;
+  right: 6rem;
+}
+</style>

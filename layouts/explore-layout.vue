@@ -12,7 +12,7 @@
         <div v-else>
           <!-- new header component for collection here -->
           <div v-if="isCollection">
-            <CollectionBanner :key="route.path" />
+            <CollectionBanner />
             <section class="pt-5">
               <div class="container is-fluid mobile-padding">
                 <CollectionInfo />

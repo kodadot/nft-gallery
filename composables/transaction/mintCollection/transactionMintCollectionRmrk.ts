@@ -10,7 +10,6 @@ import {
   createInteraction,
 } from '@kodadot1/minimark/v2'
 import { asSystemRemark } from '@kodadot1/minimark/common'
-import { canSupport } from '@/utils/support'
 
 export async function execMintCollectionRmrk({
   item,
@@ -44,13 +43,7 @@ export async function execMintCollectionRmrk({
     : createMintInteraction(Interaction.MINT, mint)
 
   const cb = api.tx.utility.batchAll
-  const hasSupport = true
-  const arg = [
-    [
-      asSystemRemark(api, mintInteraction),
-      ...(await canSupport(api, hasSupport)),
-    ],
-  ]
+  const arg = [[asSystemRemark(api, mintInteraction)]]
   executeTransaction({
     cb,
     arg,
