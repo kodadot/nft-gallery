@@ -1,8 +1,22 @@
+<template>
+  <OTable v-bind="$attrs">
+    <!-- Pass on all named slots -->
+    <template v-for="(_, slot) in $slots" #[slot]="scope">
+      <slot :name="slot" v-bind="scope || {}" />
+    </template>
+
+    <template #loading>
+      <NeoLoading :full-page="false" :active="$attrs.loading" />
+    </template>
+  </OTable>
+</template>
+
 <script lang="ts">
 import { OTable } from '@oruga-ui/oruga-next'
+import NeoLoading from '../NeoLoading/NeoLoading.vue'
 
 export default {
-  extends: OTable,
+  components: { NeoLoading, OTable },
 }
 </script>
 

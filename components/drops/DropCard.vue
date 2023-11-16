@@ -140,7 +140,9 @@ onMounted(async () => {
   image.value = sanitizeIpfsUrl(
     metadata.image || metadata.thumbnailUri || metadata.mediaUri || '',
   )
-  externalUrl.value = metadata.external_url || ''
+  externalUrl.value = metadata.external_url?.match('kodadot')
+    ? ''
+    : metadata.external_url
   isLoadingMeta.value = false
 })
 </script>

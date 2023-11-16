@@ -21,7 +21,7 @@
         </a>
       </div>
     </template>
-    <div class="px-4">
+    <div class="px-4 pb-4">
       <NeoField>
         <NeoCheckbox v-model="artView">
           <span>{{ $t('filters.artView') }}</span>

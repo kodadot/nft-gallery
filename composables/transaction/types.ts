@@ -192,6 +192,18 @@ export interface ActionDeleteCollection {
   errorMessage?: string
 }
 
+export enum NFTs {
+  BURN_MULTIPLE = 'burnMultiple',
+}
+
+export interface ActionBurnMultipleNFTs {
+  interaction: NFTs.BURN_MULTIPLE
+  urlPrefix: string
+  nftIds: string[]
+  successMessage?: string | ((blockNumber: string) => string)
+  errorMessage?: string
+}
+
 export type Actions =
   | ActionBuy
   | ActionList
@@ -202,3 +214,4 @@ export type Actions =
   | ActionMintToken
   | ActionMintCollection
   | ActionDeleteCollection
+  | ActionBurnMultipleNFTs

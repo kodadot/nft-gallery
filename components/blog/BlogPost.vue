@@ -43,7 +43,7 @@
 import { format } from 'date-fns'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { convertMarkdownToText } from '@/utils/markdown'
-import hljs from 'highlight.js'
+import Prism from 'prismjs'
 import { URLS } from '@/utils/constants'
 
 const route = useRoute()
@@ -69,7 +69,7 @@ const openShareUrl = (platform: 'twitter' | 'linkedin') => {
 }
 
 onMounted(() => {
-  hljs.highlightAll()
+  Prism.highlightAll()
 })
 
 const title = computed(() => post?.title)
@@ -125,17 +125,17 @@ useSeoMeta({
 
   h2 {
     font-size: 1.5rem;
-    font-weight: bold;
+    font-weight: 700;
   }
 
   h3 {
     font-size: 1.2rem;
-    font-weight: bold;
+    font-weight: 700;
   }
 
   h4 {
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: 700;
   }
 
   img {

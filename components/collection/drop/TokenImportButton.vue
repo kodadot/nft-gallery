@@ -18,7 +18,6 @@
 import { NeoButton } from '@kodadot1/brick'
 import { ApiFactory } from '@kodadot1/sub-api'
 import { getChainEndpointByPrefix } from '@/utils/chain'
-import { Builder } from '@paraspell/sdk'
 import { txCb } from '@/utils/transactionExecutor'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { getAddress } from '@/utils/extension'
@@ -60,7 +59,9 @@ const handleTokenImport = async () => {
 
   const api = await getApi()
   const to = urlPrefix.value === 'ahk' ? 'Statemine' : 'Statemint'
-  const call = Builder(api)
+  const paraspell = await import('@paraspell/sdk')
+  const call = paraspell
+    .Builder(api)
     .to(to)
     .amount(props.price)
     .address(accountId.value)
