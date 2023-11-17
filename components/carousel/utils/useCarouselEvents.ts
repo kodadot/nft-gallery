@@ -150,25 +150,39 @@ export const useCarouselNftEvents = async ({ type }: Types) => {
 }
 
 export const useCarouselGenerativeNftEvents = async (
-  chain: Prefix,
-  collectionIds: string[],
+  ahkCollectionIds: string[],
+  ahpCollectionIds: string[],
 ) => {
-  const { data: salesData } = await useChainEvents(
-    chain,
+  const { data: salesDataAhk } = await useChainEvents(
+    'ahk',
     'latestSales',
-    10, // temporary limit
-    collectionIds,
+    10,
+    ahkCollectionIds,
   )
-  const { data: listData } = await useChainEvents(
-    chain,
+  const { data: listDataAhk } = await useChainEvents(
+    'ahk',
     'newestList',
-    10, // temporary limit
-    collectionIds,
+    10,
+    ahkCollectionIds,
+  )
+  const { data: salesDataAhp } = await useChainEvents(
+    'ahp',
+    'latestSales',
+    10,
+    ahpCollectionIds,
+  )
+  const { data: listDataAhp } = await useChainEvents(
+    'ahp',
+    'newestList',
+    10,
+    ahpCollectionIds,
   )
   const data = unionBy(
     [
-      ...flattenNFT(salesData.value, chain),
-      ...flattenNFT(listData.value, chain),
+      ...flattenNFT(salesDataAhk.value, 'ahk'),
+      ...flattenNFT(listDataAhk.value, 'ahk'),
+      ...flattenNFT(salesDataAhp.value, 'ahp'),
+      ...flattenNFT(listDataAhp.value, 'ahp'),
     ],
     'id',
   )

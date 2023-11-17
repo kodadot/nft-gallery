@@ -6,7 +6,13 @@
       :subtitle="$t('mint.successCreateNewNft', [congratsNewNft])" />
     <div class="columns is-variable is-6">
       <div class="column is-two-fifths">
-        <div id="nft-img-container" ref="imgref" class="is-relative">
+        <div
+          id="nft-img-container"
+          ref="imgref"
+          :class="{
+            'is-relative': !isFullscreen,
+            'fullscreen-fallback': isFallbackActive,
+          }">
           <!-- preview button -->
           <a
             v-if="
@@ -16,10 +22,13 @@
               !isFullscreen
             "
             class="fullscreen-button is-justify-content-center is-align-items-center"
-            @click="toggle">
+            @click="toggleFullscreen">
             <NeoIcon icon="expand" />
           </a>
-          <NeoButton v-if="isFullscreen" class="back-button" @click="toggle">
+          <NeoButton
+            v-if="isFullscreen"
+            class="back-button"
+            @click="toggleFullscreen">
             <NeoIcon icon="chevron-left" />
             {{ $t('go back') }}
           </NeoButton>
@@ -160,7 +169,7 @@ import {
   NeoCarouselItem,
   NeoIcon,
 } from '@kodadot1/brick'
-import { useFullscreen } from '@vueuse/core'
+import { useFullscreen, useWindowSize } from '@vueuse/core'
 
 import { useGalleryItem } from './useGalleryItem'
 
@@ -180,7 +189,6 @@ import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
 import { MediaType } from '@/components/rmrk/types'
 import { resolveMedia } from '@/utils/gallery/media'
 import UnlockableTag from './UnlockableTag.vue'
-import { useWindowSize } from '@vueuse/core'
 import { usePreferencesStore } from '@/stores/preferences'
 
 const { urlPrefix } = usePrefix()
@@ -273,13 +281,39 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
 })
 
-const imgref = ref(null)
-const { toggle, isFullscreen } = useFullscreen(imgref)
+const imgref = ref<HTMLElement | null>(null)
+const isFallbackActive = ref(false)
+const fullScreenDisabled = ref(false)
+const { toggle, isFullscreen, isSupported } = useFullscreen(imgref)
+
+function toggleFullscreen() {
+  if (!isSupported.value || fullScreenDisabled.value) {
+    toggleFallback()
+    return
+  }
+  toggle().catch(() => {
+    fullScreenDisabled.value = true
+    toggleFallback()
+  })
+}
+
+function toggleFallback() {
+  if (imgref.value) {
+    const mainElement = document.querySelector('main')
+    const isCurrentlyFullscreen = imgref.value.classList.toggle(
+      'fullscreen-fallback',
+    )
+    mainElement?.classList.toggle('no-z-index')
+    isFallbackActive.value = isCurrentlyFullscreen
+    isFullscreen.value = isCurrentlyFullscreen
+  }
+}
 </script>
 
 <style lang="scss">
 @import '@/assets/styles/abstracts/variables';
-#nft-img-container:fullscreen {
+#nft-img-container:fullscreen,
+#nft-img-container.fullscreen-fallback {
   @include ktheme() {
     background-color: theme('background-color');
   }
@@ -336,6 +370,16 @@ $break-point-width: 930px;
     left: $fluid-container-padding;
   }
 }
+
+#nft-img-container.fullscreen-fallback {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+}
+
 .fullscreen-button {
   position: absolute;
   right: 2.75rem;

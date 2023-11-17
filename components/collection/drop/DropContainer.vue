@@ -1,6 +1,9 @@
 <template>
   <div class="unlockable-container">
-    <Loader v-model="isLoading" :minted="justMinted" />
+    <CollectionUnlockableLoader
+      v-if="isLoading"
+      model-value
+      :minted="justMinted" />
     <CountdownTimer />
     <hr class="text-color my-0" />
     <div class="container is-fluid">
@@ -114,10 +117,6 @@ import { MINT_ADDRESS, countDownTime } from './const'
 import { DropItem } from '@/params/types'
 
 import { TokenToBuy } from '@/composables/transaction/types'
-
-const Loader = defineAsyncComponent(
-  () => import('@/components/collection/unlockable/UnlockableLoader.vue'),
-)
 
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue'),
