@@ -20,15 +20,10 @@
         <div
           class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
           @click="closeBurgerMenu">
-          <img
+          <NeoButton
             v-if="isMobileNavbarOpen || showSearchOnNavbar || isTinyMobile"
             class="mobile-nav-search-btn mr-2 mt-1"
-            :src="
-              isDarkMode
-                ? '/search-mobile-navbar-dark.svg'
-                : '/search-mobile-navbar.svg'
-            "
-            alt="search"
+            icon="magnifying-glass"
             @click="showMobileSearchBar" />
 
           <div v-show="openMobileSearchBar">
