@@ -3,8 +3,12 @@
     class="navbar-item is-flex is-align-items-center"
     @click="toggleShoppingCartModal">
     <span v-if="props.showLabel">{{ $t('shoppingCart.label') }}</span>
-    <div class="is-relative" :class="{ 'ml-2': showLabel }">
-      <NeoIcon icon="fa-shopping-cart-outline-sharp" pack="fa-kit fa-fw" />
+    <div class="is-relative icon" :class="{ 'ml-2': showLabel }">
+      <NeoIcon
+        class="icon"
+        icon="fa-shopping-cart-outline-sharp"
+        pack="fa-kit fa-fw"
+        size="medium" />
       <ActiveCount
         v-if="numberOfItems"
         :count="numberOfItems"
