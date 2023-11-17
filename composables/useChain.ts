@@ -9,9 +9,7 @@ import type { Prefix } from '@kodadot1/static'
 
 export default function () {
   const { urlPrefix, tokenId, assets } = usePrefix()
-  const symbol = computed(
-    () => assets(urlPrefix.value === 'snek' ? '1' : tokenId.value).symbol,
-  )
+  const symbol = computed(() => assets(tokenId.value).symbol)
   const name = computed(() => getChainName(urlPrefix.value))
 
   const chainProperties = computed<ChainProperties>(() => {
@@ -31,13 +29,14 @@ export default function () {
   })
 
   const offersDisabled = computed(() => {
-    return urlPrefix.value !== 'snek' && urlPrefix.value !== 'bsx'
+    return urlPrefix.value !== 'bsx'
   })
 
   const availableChains = computed(availablePrefixes)
   const availableChainsWithIcon = computed(availablePrefixWithIcon)
 
   const chainSymbol = computed(() => {
+    // add ahr
     return ['rmrk', 'ksm', 'ahk', 'ahp'].includes(urlPrefix.value)
       ? unit.value
       : symbol.value

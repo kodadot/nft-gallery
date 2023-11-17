@@ -125,7 +125,5 @@ const offersUrl = computed(
 )
 const statsUrl = computed(() => `/${urlPrefix.value}/stats`)
 
-const showSnekBsxOptions = computed(
-  () => props.chain === 'bsx' || props.chain === 'snek',
-)
+const showSnekBsxOptions = computed(() => props.chain === 'bsx')
 </script>
