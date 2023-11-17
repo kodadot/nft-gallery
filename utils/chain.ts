@@ -23,7 +23,7 @@ export const isProduction = window.location.hostname === 'kodadot.xyz'
 export const isBeta = window.location.hostname === 'beta.kodadot.xyz'
 
 export const disableChains = ['dot']
-export const disableChainListOnBetaEnv = ['dot', 'snek']
+export const disableChainListOnBetaEnv = ['dot'] // 'ahr'
 
 export const availablePrefixes = (): Option[] => {
   const chains = chainList()
@@ -47,10 +47,10 @@ export const chainIcons = {
   ahk: '/token/kusama_asset_hub.svg',
   ahp: '/token/polkadot_asset_hub.svg',
   bsx: '/token/bsx.svg',
-  snek: '/token/bsx.svg',
   ksm: '/token/ksm.svg',
   rmrk: '/token/ksm.svg',
   dot: '/token/dot.svg',
+  // ahr: '/token/kusama_asset_hub.svg',
 }
 
 export const availablePrefixWithIcon = () => {

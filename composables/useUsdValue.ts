@@ -8,9 +8,9 @@ export default function useUsdValue() {
       ksm: fiatStore.getCurrentKSMValue,
       rmrk: fiatStore.getCurrentKSMValue,
       bsx: fiatStore.getCurrentBSXValue,
-      snek: fiatStore.getCurrentBSXValue,
       ahp: fiatStore.getCurrentDOTValue,
       dot: fiatStore.getCurrentDOTValue,
+      ahr: fiatStore.getCurrentROCValue,
     }
     return Number(tokenMap[token] || 0)
   }

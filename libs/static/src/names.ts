@@ -4,10 +4,10 @@ export const NAMES: Record<Prefix, string> = {
   bsx: 'Basilisk',
   rmrk: 'Kusama',
   ksm: 'RMRK2',
-  snek: 'Snek [Rococo]',
   ahk: 'KusamaHub',
   dot: 'Polkadot',
   ahp: 'PolkadotHub',
+  // ahr: 'RococoHub',
   // glmr: 'Moonbeam [Beta]',
   // movr: 'Moonriver [Beta]',
 }
