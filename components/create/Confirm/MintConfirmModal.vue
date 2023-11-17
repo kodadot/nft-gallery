@@ -225,6 +225,10 @@ watchEffect(async () => {
 
 .modal-width {
   width: 25rem;
+
+  @include mobile {
+    width: unset;
+  }
 }
 .btn-height {
   height: 3.5rem;
