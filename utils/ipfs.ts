@@ -157,7 +157,6 @@ export const fetchCollectionMetadata = (
 export const preheatFileFromIPFS = (ipfsUrl: string) => {
   const url = sanitizeIpfsUrl(`${ipfsUrlPrefix}${ipfsUrl}`)
 
-  console.log('start preheatFileFromIPFS', url, ipfsUrl)
 
   // preheat to r2/cfi
   api(url)
