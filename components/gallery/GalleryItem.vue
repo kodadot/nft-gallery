@@ -85,7 +85,8 @@
                     <template #content>
                       <nuxt-link
                         :to="`/${urlPrefix}/collection/${collection?.id}`"
-                        class="has-text-link">
+                        class="has-text-link"
+                        data-testid="gallery-item-collection-link">
                         {{ collection?.name || collection?.id }}
                       </nuxt-link>
                     </template>

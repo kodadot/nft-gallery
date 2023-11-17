@@ -35,7 +35,7 @@
         <MyOffer
           :address="accountIdChanged"
           hide-heading
-          @offersIncoming="offersIncomingUpdate" />
+          @offers-incoming="offersIncomingUpdate" />
       </div>
       <template v-if="currentOfferType === SelectedOfferType.ALL">
         <OfferTable
@@ -85,7 +85,7 @@ const selectedOfferType = computed({
     router.push({
       query: { target, tab: value },
     })
-    currentOfferType.value = value
+    currentOfferType.value = value as SelectedOfferType
   },
 })
 
