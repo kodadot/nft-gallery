@@ -16,19 +16,26 @@
           class="button-height no-border-left"
           data-testid="item-add-to-cart"
           @click="onClickShoppingCart">
-          <img :src="cartIcon" class="image is-32x32" />
+          <NeoIcon
+            size="medium"
+            :icon="
+              shoppingCartStore.isItemInCart(nft.id)
+                ? 'fa-striked-out-cart-shopping'
+                : 'fa-shopping-cart-outline-sharp'
+            "
+            pack="fa-kit" />
         </NeoButton>
       </div>
 
       <div v-else>{{ $t('nft.notListed') }}</div>
     </GalleryItemPriceSection>
 
-    <OnRampModal :value="showRampModal" @close="showRampModal = false" />
+    <OnRampModal v-model="showRampModal" @close="showRampModal = false" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'
@@ -42,7 +49,6 @@ const props = defineProps<{ nft: NFT }>()
 const { $i18n } = useNuxtApp()
 const preferencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
-const { cartIcon } = useShoppingCartIcon(props.nft.id)
 
 const instance = getCurrentInstance()
 const { doAfterLogin } = useDoAfterlogin(instance)

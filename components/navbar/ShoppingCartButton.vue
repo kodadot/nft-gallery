@@ -4,10 +4,7 @@
     @click="toggleShoppingCartModal">
     <span v-if="props.showLabel">{{ $t('shoppingCart.label') }}</span>
     <div class="is-relative" :class="{ 'ml-2': showLabel }">
-      <img
-        :src="shoppingCartIcon"
-        class="image is-24x24 align"
-        alt="open shopping cart" />
+      <NeoIcon icon="fa-shopping-cart-outline-sharp" pack="fa-kit fa-fw" />
       <ActiveCount
         v-if="numberOfItems"
         :count="numberOfItems"
@@ -18,6 +15,7 @@
 </template>
 
 <script setup lang="ts">
+import { NeoIcon } from '@kodadot1/brick'
 import ActiveCount from '../explore/ActiveCount.vue'
 import { ModalCloseType } from './types'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
@@ -28,7 +26,6 @@ import {
 
 const { urlPrefix } = usePrefix()
 const { neoModal } = useProgrammatic()
-const { shoppingCartIcon } = useShoppingCartIcon()
 const shoppingCartStore = useShoppingCartStore()
 const numberOfItems = computed(
   () => shoppingCartStore.getItemsByPrefix(urlPrefix.value).length,
