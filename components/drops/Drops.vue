@@ -51,8 +51,11 @@ onBeforeMount(() => {
 }
 
 @media (min-width: 1000px) {
+  $max-card-width: 910px;
   .grid-container {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, $max-card-width));
+    max-width: calc(2 * $max-card-width);
+    margin: 0 auto;
   }
 }
 </style>
