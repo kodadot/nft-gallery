@@ -10,10 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  BLOCK_EXPLORER_WITH_QUERY,
-  blockExplorerOf,
-} from '@/utils/config/chain.config'
+import { blockExplorerOf } from '@/utils/config/chain.config'
 
 const { urlPrefix } = usePrefix()
 
@@ -35,9 +32,7 @@ const blockUrl = computed(() => {
   if (!hasBlockUrl.value || !props.blockId) {
     return '#'
   }
-  if (BLOCK_EXPLORER_WITH_QUERY.includes(urlPrefix.value)) {
-    return blockExplorer.value + props.blockId
-  }
+
   return blockExplorer.value + 'block/' + props.blockId
 })
 </script>

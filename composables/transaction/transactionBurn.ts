@@ -44,7 +44,7 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
     })
   }
 
-  if (item.urlPrefix === 'snek' || item.urlPrefix === 'bsx') {
+  if (item.urlPrefix === 'bsx') {
     const [collectionId, tokenId] = bsxParamResolver(
       item.nftId,
       Interaction.CONSUME,
@@ -85,7 +85,7 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
       })
     })
   }
-
+  // item.urlPrefix === 'ahr'
   if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
     const legacy = isLegacy(item.nftId)
     const paramResolver = assetHubParamResolver(legacy)
@@ -142,7 +142,7 @@ export function execBurnMultiple(
       errorMessage: item.errorMessage,
     })
   }
-
+  // item.urlPrefix === 'ahr'
   if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
     const arg = item.nftIds.map((nftId) => {
       const legacy = isLegacy(nftId)
@@ -201,13 +201,13 @@ export async function execBurnCollection(
       })
     }
 
-    if (params.urlPrefix === 'snek' || params.urlPrefix === 'bsx') {
+    if (params.urlPrefix === 'bsx') {
       executeTransaction({
         cb: api.tx.nft.destroyCollection,
         arg: [collectionId],
       })
     }
-
+    // item.urlPrefix === 'ahr'
     if (params.urlPrefix === 'ahk' || params.urlPrefix === 'ahp') {
       const witness = (
         await api.query.nfts.collection(params.collectionId)
