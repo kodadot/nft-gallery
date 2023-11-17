@@ -66,8 +66,6 @@ export function getAsssetBalance(
 
 export function getKusamaAssetId(prefix: string): string {
   switch (prefix) {
-    case 'snek':
-      return '5'
     case 'bsx':
       return '1'
     default:

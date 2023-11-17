@@ -41,6 +41,7 @@ export const useFiatStore = defineStore('fiat', {
     getCurrentKSMValue: (state): FiatPrice => state.fiatPrice.kusama.usd,
     getCurrentBSXValue: (state): FiatPrice => state.fiatPrice.basilisk.usd,
     getCurrentDOTValue: (state): FiatPrice => state.fiatPrice.polkadot.usd,
+    getCurrentROCValue: (_state): FiatPrice => 0,
     getCurrentTokenValue:
       (state) =>
       (token: string): FiatPrice => {
