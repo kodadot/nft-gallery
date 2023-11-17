@@ -11,10 +11,8 @@ export function getDenyList(prefix: string): string[] | undefined {
     case 'ksm':
       return denyList
     case 'bsx':
-    case 'snek':
       return bsxDenyList
     case 'ahk':
-    case 'westmint':
       return ksmHubDenyList
     case 'ahp':
       return dotHubDenyList

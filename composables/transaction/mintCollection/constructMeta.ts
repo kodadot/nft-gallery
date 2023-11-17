@@ -5,7 +5,7 @@ import { uploadDirect } from '@/utils/directUpload'
 import { getImageTypeSafe, pinImageSafe } from '@/utils/safePin'
 
 const createAttributes = (item: ActionMintCollection) => {
-  if (item.urlPrefix === 'bsx' || item.urlPrefix === 'snek') {
+  if (item.urlPrefix === 'bsx') {
     return (item.collection as CollectionToMintBasilisk).tags.map((val) => ({
       ...val,
       display_type: null,
