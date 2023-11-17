@@ -9,7 +9,7 @@
         :key="`${drop.collection?.id}=${index}`"
         class="w-full h-full"
         :data-testid="index">
-        <DropCard :drop="drop" />
+        <DropCard :drop="drop" class="h-full" />
       </div>
     </div>
     <hr class="my-7" />
