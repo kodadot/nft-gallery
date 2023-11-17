@@ -212,4 +212,10 @@ onMounted(async () => {
     }
   }
 }
+// allow text to wrap on mobile
+.is-ellipsis {
+  @include mobile {
+    white-space: unset;
+  }
+}
 </style>
