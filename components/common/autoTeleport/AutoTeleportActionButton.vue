@@ -286,6 +286,8 @@ watchSyncEffect(() => {
     amount.value = props.amount
   }
 })
+
+defineExpose({ hasBalances })
 </script>
 
 <style lang="scss" scoped>
