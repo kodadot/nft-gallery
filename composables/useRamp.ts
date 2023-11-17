@@ -13,9 +13,6 @@ interface InitRampParams {
 export default function useRamp() {
   const config = useRuntimeConfig()
   const { $consola } = useNuxtApp()
-  const { width } = useWindowSize()
-
-  const variant = computed(() => (width.value < 768 ? 'mobile' : 'desktop'))
 
   const rampInstant = ref<RampInstantSDK | null>(null)
   const rampApiKey = config.public.rampApiKey
@@ -30,7 +27,7 @@ export default function useRamp() {
         hostAppName: HOST_APP_NAME,
         hostApiKey: rampApiKey,
         hostLogoUrl: HOST_LOGO_URL,
-        variant: variant.value,
+        variant: 'auto',
       })
 
       rampInstant.value.on('PURCHASE_CREATED', () => {
