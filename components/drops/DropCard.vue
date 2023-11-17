@@ -27,8 +27,10 @@
       <div class="py-5 px-6">
         <div
           class="is-flex is-justify-content-space-between flex-direction column-gap">
-          <div class="is-flex is-flex-direction-column column-gap">
-            <span class="has-text-weight-bold">{{ drop.collection.name }}</span>
+          <div class="is-flex is-flex-direction-column column-gap is-ellipsis">
+            <span class="has-text-weight-bold is-ellipsis">{{
+              drop.collection.name
+            }}</span>
             <div v-if="drop.collection.issuer" class="is-flex">
               <div class="mr-2 has-text-grey">
                 {{ $t('activity.creator') }}:
