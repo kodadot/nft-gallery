@@ -22,7 +22,7 @@
           @click="closeBurgerMenu">
           <img
             v-if="isMobileNavbarOpen || showSearchOnNavbar || isTinyMobile"
-            class="mobile-nav-search-btn mr-2 mt-4"
+            class="mobile-nav-search-btn mr-2 mt-1"
             :src="
               isDarkMode
                 ? '/search-mobile-navbar-dark.svg'
@@ -38,10 +38,10 @@
                 v-if="isMobile"
                 ref="mobilSearchRef"
                 hide-filter
-                class="is-flex-grow-1 mt-3" />
+                class="is-flex-grow-1" />
               <NeoButton
                 variant="text"
-                class="p-3 mt-3 is-shadowless no-border is-capitalized is-clickable"
+                class="p-3 is-shadowless no-border is-capitalized is-clickable"
                 @click="hideMobileSearchBar">
                 {{ $t('cancel') }}
               </NeoButton>
