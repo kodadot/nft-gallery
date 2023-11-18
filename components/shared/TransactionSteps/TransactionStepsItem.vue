@@ -43,7 +43,7 @@
           </p>
 
           <template #content>
-            <span v-dompurify-html="step.tooltip" />
+            <span v-dompurify-html="step.tooltip" class="is-capitalized" />
           </template>
         </NeoTooltip>
         <p v-else class="is-capitalized has-text-weight-bold">
