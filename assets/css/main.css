@@ -1,0 +1,141 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --white: 255 255 255;
+    --black: 0 0 0;
+  }
+
+  :root,
+  :root.light-mode {
+    --text-color: var(--black);
+    --text-color-inverse: var(--white);
+    --border-color: var(--black);
+    --background-color: var(--white);
+    --background-color-inverse: 25 23 24;
+    --link-hover: 107 107 107;
+    --k-accent: 255 122 195;
+    --k-accent-light: 255 229 243;
+    --k-accent-hover: 255 229 243;
+    --k-accent-light-2: 255 229 243;
+    --k-accent-light-2-dark: 54 50 52;
+    --k-accent-light-2-dark-head: 25 23 24;
+    --k-accent-light-2-dark-paragraph: 25 23 24;
+    --k-green: 4 175 0;
+    --k-red: 255 87 87;
+    --k-orange: 207 154 16;
+    --k-red-accent: 255 182 182;
+    --k-red-accent-2: 255 230 230;
+    --k-grey: 153 153 153;
+    --k-grey-fix: 153 153 153;
+    --k-pink: 255 182 239;
+    --k-yellow: 254 255 182;
+    --k-blue-accent: 182 203 255;
+    --k-aqua-blue: 202 253 244;
+    --k-green-accent: 194 255 172;
+    --k-green-accent-2: 230 247 230;
+    --k-hover-grey: 107 107 107;
+    --k-blue: 97 136 231;
+    --k-blue-hover: 53 103 224;
+    --k-blue-light: 232 237 251;
+    --k-primary: 255 122 195;
+    --k-primary-light: 255 240 248;
+    --k-shade: 204 204 204;
+    --placeholder-color: 204 204 204;
+    --primary-shadow: 4px 4px #000;
+    --disabled: 243 243 243;
+    --card-border-color: 153 153 153;
+    --card-border-color-light: 204 204 204;
+    --green-border-color: 4 175 0;
+    --blue-accent-bg-color: 182 203 255;
+    --blue-light-hover-color: 232 237 251;
+    --card-hover-opacity: 0.85;
+    --separator-line-color: 204 204 204;
+    --toggle-primary: 255 122 195;
+    --toggle-active-switch: 217 217 217;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --black: 25 23 24;
+      --text-color: var(--white);
+      --text-color-inverse: var(--black);
+      --background-color: var(--black);
+      --background-color-inverse: var(--white);
+      --link-hover: 204 204 204;
+      --border-color: var(--white);
+      --k-accent: 25 23 24;
+      --k-accent-hover: 54 50 52;
+      --k-accent-light-2: 54 50 52;
+      --k-accent-light-2-dark: var(--white);
+      --k-accent-light-2-dark-head: var(--white);
+      --k-accent-light-2-dark-paragraph: 185 185 185;
+      --k-red-accent: 181 44 44;
+      --k-red-accent-2: 57 11 11;
+      --k-grey: 204 204 204;
+      --k-grey-fix: 153 153 153;
+      --k-pink: 122 42 104;
+      --k-yellow: 54 50 52;
+      --k-blue-accent: 46 80 162;
+      --k-aqua-blue: 16 97 83;
+      --k-green-accent: 5 106 2;
+      --k-green-accent-2: 10 48 9;
+      --k-blue-light: 54 50 52;
+      --k-primary-light: 54 50 52;
+      --primary-shadow: 4px 4px #fff;
+      --disabled: var(--black);
+      --card-border-color: 107 107 107;
+      --card-border-color-light: 107 107 107;
+      --green-border-color: 5 106 2;
+      --blue-accent-bg-color: 54 50 52;
+      --blue-light-hover-color: 54 50 52;
+      --blue-light-cards: 18 29 57;
+      --card-hover-opacity: 0.8;
+      --separator-line-color: 107 107 107;
+      --toggle-primary: var(--white);
+      --toggle-active-switch: 54 50 52;
+    }
+  }
+
+  :root.dark-mode {
+    --black: 25 23 24;
+    --text-color: var(--white);
+    --text-color-inverse: var(--black);
+    --background-color: var(--black);
+    --background-color-inverse: var(--white);
+    --link-hover: 204 204 204;
+    --border-color: var(--white);
+    --k-accent: 25 23 24;
+    --k-accent-hover: 54 50 52;
+    --k-accent-light-2: 54 50 52;
+    --k-accent-light-2-dark: var(--white);
+    --k-accent-light-2-dark-head: var(--white);
+    --k-accent-light-2-dark-paragraph: 185 185 185;
+    --k-red-accent: 181 44 44;
+    --k-red-accent-2: 57 11 11;
+    --k-grey: 204 204 204;
+    --k-grey-fix: 153 153 153;
+    --k-pink: 122 42 104;
+    --k-yellow: 54 50 52;
+    --k-blue-accent: 46 80 162;
+    --k-aqua-blue: 16 97 83;
+    --k-green-accent: 5 106 2;
+    --k-green-accent-2: 10 48 9;
+    --k-blue-light: 54 50 52;
+    --k-primary-light: 54 50 52;
+    --primary-shadow: 4px 4px #fff;
+    --disabled: var(--black);
+    --card-border-color: 107 107 107;
+    --card-border-color-light: 107 107 107;
+    --green-border-color: 5 106 2;
+    --blue-accent-bg-color: 54 50 52;
+    --blue-light-hover-color: 54 50 52;
+    --blue-light-cards: 18 29 57;
+    --card-hover-opacity: 0.8;
+    --separator-line-color: 107 107 107;
+    --toggle-primary: var(--white);
+    --toggle-active-switch: 54 50 52;
+  }
+}

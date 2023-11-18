@@ -11,6 +11,14 @@ export default defineNuxtConfig({
     host: '0.0.0.0',
   },
 
+  postcss: {
+    plugins: {
+      'tailwindcss/nesting': {},
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
+
   sourcemap: false,
 
   vue: {
@@ -154,6 +162,7 @@ export default defineNuxtConfig({
 
   // Global CSS: https://nuxt.com/docs/api/nuxt-config#components
   css: [
+    '@/assets/css/main.css',
     '@/assets/styles/index.scss',
     '@fortawesome/fontawesome-svg-core/styles.css',
   ],
