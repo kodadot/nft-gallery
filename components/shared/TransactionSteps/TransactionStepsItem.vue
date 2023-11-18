@@ -53,7 +53,7 @@
           <p class="is-capitalized has-text-k-grey">
             {{ step.subtitle }}
 
-            <span v-if="isLoading" class="dots" />
+            <span v-if="showDots" class="dots" />
           </p>
 
           <NeoButton
@@ -96,6 +96,7 @@ export type TransactionStepItem = {
   tooltip?: string
   isActive: boolean
   prefix?: Prefix
+  withCustomSubtitle: boolean
 }
 
 const emit = defineEmits(['tryAgain'])
@@ -128,6 +129,10 @@ const isCompleted = computed(() => status.value === 'completed')
 const isWaiting = computed(() => status.value === 'waiting')
 const isFailed = computed(() => status.value === 'failed')
 const showTryAgain = computed(() => isFailed.value)
+
+const showDots = computed(
+  () => isLoading.value && !props.step.withCustomSubtitle,
+)
 
 const tryAgain = () => emit('tryAgain')
 </script>
