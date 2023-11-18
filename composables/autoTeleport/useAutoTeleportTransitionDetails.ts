@@ -30,6 +30,10 @@ export default function (
   const hasBalances = ref(false)
   const teleportTxFee = ref(0)
   const actionTxFees = ref<number[]>([])
+  const extraActionFees = computed(() =>
+    fees.actions ? Math.ceil(fees.actions) : 0,
+  )
+  const actionAutoFees = computed(() => fees.actionAutoFees || true)
 
   const chainSymbol = computed(
     () => currentChain.value && getChainCurrency(currentChain.value),
@@ -40,8 +44,7 @@ export default function (
   )
 
   const totalFees = computed(
-    () =>
-      teleportTxFee.value + sum(actionTxFees.value) + Math.ceil(fees.actions),
+    () => teleportTxFee.value + sum(actionTxFees.value) + extraActionFees.value,
   )
 
   const neededAmountWithFees = computed(
@@ -78,8 +81,8 @@ export default function (
     ),
   )
 
-  const richestChain = computed<Chain | undefined>(() =>
-    getMaxKeyByValue(sourceChainsBalances.value),
+  const richestChain = computed<Chain | undefined>(
+    () => getMaxKeyByValue(sourceChainsBalances.value) as Chain | undefined,
   )
 
   const richestChainBalance = computed(() =>
@@ -155,7 +158,7 @@ export default function (
   watch(
     actions,
     async () => {
-      if (fees.actionAutoFees) {
+      if (actionAutoFees.value) {
         try {
           const feesPromisses = actions.value.map(
             async ({ action, prefix }) => {
