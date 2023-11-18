@@ -11,3 +11,11 @@ export const parseNftAvatar = async (
   )
   return meta.image
 }
+
+const suffixRegex = /#\d+$/
+export const addSnSuffixName = (name: string = '', sn?: string) => {
+  if (!name || !sn) {
+    return name
+  }
+  return suffixRegex.test(name) ? name : `${name} #${sn}`
+}
