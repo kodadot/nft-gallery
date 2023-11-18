@@ -224,7 +224,8 @@ const onClickListingCart = async () => {
 .in-cart-border {
   @include ktheme() {
     outline: 2px solid theme('k-blue') !important;
-    outline-offset: -1px;
+    outline-offset: -2px;
+    border-width: 2px !important;
     border-color: transparent !important;
     background-color: theme('blue-light-cards');
   }
