@@ -2,7 +2,7 @@
   <div class="unlockable-slider border slider-bar">
     <div
       v-if="value > 0"
-      class="unlockable-slider-inner slider-bar"
+      class="unlockable-slider-inner border slider-bar"
       :style="style"></div>
   </div>
 </template>
@@ -17,14 +17,9 @@ const props = withDefaults(
   },
 )
 
-const style = computed(() => {
-  const progress = props.value * 100
-
-  return {
-    width: `${progress}%`,
-    'border-right': progress === 100 ? 'none' : '',
-  }
-})
+const style = computed(() => ({
+  width: `${props.value * 100}%`,
+}))
 </script>
 
 <style lang="scss" scoped>
@@ -37,9 +32,12 @@ const style = computed(() => {
     background: theme('background-color');
   }
   &-inner {
+    position: absolute;
+    left: -1px;
+    top: -1px;
     height: 100%;
     background: $primary;
-    border-right: inherit;
+    box-sizing: content-box;
   }
 }
 
