@@ -26,7 +26,11 @@ $modal-content-border-radius: 0;
       box-shadow: none;
     }
     &.enable-mobile {
-      @include mobile {
+      @media screen and (max-width: 425px)  {
+        .modal-width {
+          width: unset;
+
+        }
         position: absolute;
         bottom: -1px;
         right: -1px;
