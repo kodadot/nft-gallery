@@ -132,8 +132,12 @@ const mainActionDetails = computed(() => {
   const interaction =
     props.transactions.actions[0].interaction?.toLocaleLowerCase()
   return {
-    action: $i18n.t(`autoTeleport.steps.${interaction}.action`),
-    item: $i18n.t(`autoTeleport.steps.${interaction}.item`),
+    action:
+      $i18n.t(`autoTeleport.steps.${interaction}.action`) ||
+      $i18n.t('autoTeleport.steps.common.action'),
+    item:
+      $i18n.t(`autoTeleport.steps.${interaction}.item`) ||
+      $i18n.t('autoTeleport.steps.common.item'),
   }
 })
 
