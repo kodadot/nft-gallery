@@ -73,6 +73,9 @@ module.exports = {
       fontFamily: {
         inherit: 'inherit',
       },
+      opacity: {
+        unset: 'unset',
+      },
     },
   },
   plugins: [],

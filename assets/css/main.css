@@ -84,6 +84,7 @@
       --k-green-accent-2: 10 48 9;
       --k-blue-light: 54 50 52;
       --k-primary-light: 54 50 52;
+      --k-shade: 153 153 153;
       --primary-shadow: 4px 4px #fff;
       --disabled: var(--black);
       --card-border-color: 107 107 107;
@@ -125,6 +126,7 @@
     --k-green-accent-2: 10 48 9;
     --k-blue-light: 54 50 52;
     --k-primary-light: 54 50 52;
+    --k-shade: 153 153 153;
     --primary-shadow: 4px 4px #fff;
     --disabled: var(--black);
     --card-border-color: 107 107 107;

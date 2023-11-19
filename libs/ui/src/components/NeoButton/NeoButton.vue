@@ -56,120 +56,147 @@ withDefaults(
 <style>
 @import url('@oruga-ui/oruga-next/dist/oruga-full.css');
 
-.is-neo {
-  @apply rounded-none font-inherit py-2;
-
-  &.o-btn--large {
-    @apply text-base h-14;
-  }
-
-  @apply shadow-primary border border-border-color text-text-color bg-background-color;
-
-  &:hover {
-    @apply bg-k-accent-hover text-text-color;
-  }
-
-  &.active {
-    @apply bg-background-color-inverse text-text-color-inverse;
-  }
-}
-
 .o-btn {
-  &--text {
-    @apply p-0 h-fit text-text-color bg-inherit border-none;
+  &.is-neo {
+    @apply rounded-none font-inherit py-2;
+
+    &.o-btn--large {
+      @apply text-base h-14;
+    }
+
+    @apply shadow-primary border border-border-color text-text-color bg-background-color;
 
     &:hover {
-      @apply text-link-hover bg-inherit;
+      @apply bg-k-accent-hover text-text-color;
+    }
+
+    &.active {
+      @apply bg-background-color-inverse text-text-color-inverse;
     }
   }
 
-  &.o-btn--disabled {
-    @apply opacity-100 bg-background-color border-none text-k-grey;
-  }
+  &.o-btn {
+    &--text {
+      @apply p-0 h-fit text-text-color bg-inherit border-none;
 
-  &--k-accent {
-    @apply bg-k-primary text-black;
-
-    &:hover {
-      @apply bg-background-color text-text-color;
-    }
-
-    &.o-btn--disabled {
-      @apply opacity-100 bg-k-shade text-k-grey border-k-grey;
-    }
-  }
-
-  &--k-blue {
-    @apply bg-k-blue text-black;
-
-    &:hover {
-      @apply bg-background-color text-text-color;
-    }
-
-    &.o-btn--disabled {
-      @apply opacity-100 bg-k-shade text-k-grey border-k-grey;
-    }
-  }
-
-  &--disabled-secondary {
-    &.o-btn--disabled {
-      @apply opacity-100 text-k-grey border-k-grey;
-    }
-  }
-
-  &--icon {
-    @apply border-none p-0 h-min;
-
-    &:hover {
-      @apply bg-transparent text-link-hover;
-    }
-
-    &.o-btn--disabled {
-      @apply opacity-100 text-k-grey;
-    }
-  }
-
-  &--border-icon {
-    @apply flex justify-center items-center p-2.5 border border-border-color bg-background-color;
-
-    &:hover {
-      @apply bg-k-accent-hover;
-    }
-
-    & .o-btn__wrapper .o-btn__label {
-      @apply text-text-color m-0 w-fit h-fit;
-    }
-
-    &.o-btn--disabled {
-      @apply opacity-100 border border-k-grey;
-
-      & .o-btn__wrapper .o-btn__label {
-        @apply text-k-grey;
+      &:hover {
+        @apply text-link-hover bg-inherit;
       }
     }
-  }
 
-  &--connect-dropdown {
-    @apply w-[120px] h-10 bg-background-color;
+    &--k-accent {
+      @apply bg-k-primary text-black;
 
-    &:hover {
-      @apply bg-k-accent-hover text-black border border-border-color;
+      &:hover {
+        @apply bg-background-color text-text-color;
+      }
+
+      &.o-btn--disabled {
+        @apply opacity-unset bg-k-shade text-k-grey border-k-grey;
+      }
     }
-  }
 
-  &--k-pink {
-    @apply border border-border-color;
+    &--k-blue {
+      @apply bg-k-blue text-black;
 
-    &:hover {
-      @apply bg-k-accent-hover;
+      &:hover {
+        @apply bg-background-color text-text-color;
+      }
+
+      &.o-btn--disabled {
+        @apply opacity-unset bg-k-shade text-k-grey border-k-grey;
+      }
     }
-  }
 
-  &--secondary {
-    @apply h-[22px] text-xs/none w-min rounded shadow-none border border-k-shade bg-background-color;
+    &--disabled-secondary {
+      &.o-btn--disabled {
+        @apply opacity-unset text-k-grey border-k-grey;
+      }
+    }
 
-    &:hover {
-      @apply bg-background-color border border-text-color text-text-color;
+    &--icon {
+      @apply border-none p-0 h-min;
+
+      &:hover {
+        @apply bg-transparent text-link-hover;
+      }
+
+      &.o-btn--disabled {
+        @apply opacity-unset text-k-grey;
+      }
+    }
+
+    &--border-icon {
+      @apply flex justify-center items-center p-2.5 border border-border-color bg-background-color;
+
+      &:hover {
+        @apply bg-k-accent-hover;
+      }
+
+      & .o-btn__wrapper .o-btn__label {
+        @apply text-text-color m-0 w-fit h-fit;
+      }
+
+      &.o-btn--disabled {
+        @apply opacity-unset border border-k-grey;
+
+        & .o-btn__wrapper .o-btn__label {
+          @apply text-k-grey;
+        }
+      }
+    }
+
+    &--connect-dropdown {
+      @apply w-[120px] h-10 bg-background-color;
+
+      &:hover {
+        @apply bg-k-accent-hover text-black border border-border-color;
+      }
+    }
+
+    &--k-pink {
+      @apply border border-border-color;
+
+      &:hover {
+        @apply bg-k-accent-hover;
+      }
+    }
+
+    &--secondary {
+      @apply h-[22px] text-xs/none w-min rounded shadow-none border border-k-shade bg-background-color;
+
+      &:hover {
+        @apply bg-background-color border border-text-color text-text-color;
+      }
+    }
+
+    &--rounded {
+      @apply rounded-full py-1 px-3 border-k-shade text-border-color;
+
+      &:hover {
+        @apply border-border-color text-border-color;
+      }
+
+      &.active {
+        @apply bg-background-color-inverse text-text-color-inverse;
+      }
+    }
+
+    &--pill {
+      @apply rounded-[3rem] shadow-none py-2 px-4 bg-background-color text-text-color border border-k-shade;
+
+      &:hover {
+        @apply border border-k-shade;
+      }
+
+      &__active,
+      &.active {
+        @apply bg-background-color-inverse text-text-color-inverse border border-background-color-inverse;
+      }
+
+      .o-btn__wrapper .o-btn__label {
+        @apply flex justify-between items-center;
+      }
     }
   }
 
@@ -185,35 +212,6 @@ withDefaults(
     @apply shadow-none;
   }
 
-  &--rounded {
-    @apply rounded-full py-1 px-3 border-k-shade text-border-color;
-
-    &:hover {
-      @apply bg-transparent border-border-color text-border-color;
-    }
-
-    &.active {
-      @apply bg-background-color-inverse text-text-color-inverse;
-    }
-  }
-
-  &--pill {
-    @apply rounded-[3rem] shadow-none py-2 px-4 bg-background-color text-text-color border border-k-shade;
-
-    &:hover {
-      @apply border border-k-shade;
-    }
-
-    &__active,
-    &.active {
-      @apply bg-background-color-inverse text-text-color-inverse border border-background-color-inverse;
-    }
-
-    .o-btn__wrapper .o-btn__label {
-      @apply flex justify-between items-center;
-    }
-  }
-
   &.loading-with-label.o-btn--loading {
     @apply text-k-grey;
 
@@ -226,7 +224,7 @@ withDefaults(
     }
   }
 
-  .is-fixed-width {
+  &.is-fixed-width {
     @apply w-40;
   }
 }
