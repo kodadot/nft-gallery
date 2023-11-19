@@ -3,7 +3,7 @@
     <div
       v-if="value > 0"
       class="unlockable-slider-inner border slider-bar"
-      :style="style"></div>
+      :style="widthStyle"></div>
   </div>
 </template>
 
@@ -17,9 +17,7 @@ const props = withDefaults(
   },
 )
 
-const style = computed(() => ({
-  width: `${props.value * 100}%`,
-}))
+const widthStyle = computed(() => ({ width: `${props.value * 100}%` }))
 </script>
 
 <style lang="scss" scoped>
