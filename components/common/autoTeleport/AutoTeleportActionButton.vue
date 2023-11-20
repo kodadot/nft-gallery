@@ -194,10 +194,7 @@ const hasNoFundsAtAll = computed(
 const confirmButtonTitle = computed(() => {
   const interaction =
     transactions.value.actions[0].interaction?.toLocaleLowerCase()
-  return (
-    $i18n.t(`autoTeleport.steps.${interaction}.confirm`) ||
-    $i18n.t('autoTeleport.steps.common.confirm')
-  )
+  return $i18n.t(`autoTeleport.steps.${interaction}.confirm`)
 })
 
 const autoTeleportLabel = computed(() => {

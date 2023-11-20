@@ -1627,13 +1627,6 @@
         "item": "NFT",
         "title": "Burning NFT",
         "submit": "Burning NFT..."
-      },
-      "common": {
-        "confirm": "Teleport and Execute",
-        "action": "Execute",
-        "item": "Item",
-        "title": "Executing",
-        "submit": "Executing..."
       }
     }
   },
