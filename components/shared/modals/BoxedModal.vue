@@ -31,11 +31,16 @@
     </header>
 
     <div
-      class="px-6 py-4 is-relative"
-      :class="{
-        'limit-height': scrollable,
-        'limit-height__loading': scrollable && loading,
-      }">
+      class="is-relative"
+      :class="[
+        {
+          'limit-height': scrollable,
+          'limit-height__loading': scrollable && loading,
+        },
+        `px-${paddingX}`,
+        `pt-${paddingTop}`,
+        `pb-${paddingBottom}`,
+      ]">
       <div v-if="loading" class="skeleton-container">
         <NeoSkeleton
           class="skeleton-backdrop"
@@ -86,11 +91,17 @@ withDefaults(
     loading?: boolean
     modalWidth?: string
     modalHeight?: string
+    paddingTop?: string
+    paddingBottom?: string
+    paddingX?: string
     scrollable?: boolean
   }>(),
   {
     modalWidth: '25rem',
     modalHeight: '50vh',
+    paddingTop: '4',
+    paddingBottom: '5',
+    paddingX: '6',
     scrollable: true,
   },
 )

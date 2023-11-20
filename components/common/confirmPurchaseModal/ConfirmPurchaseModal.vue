@@ -40,7 +40,7 @@
         </div>
       </div>
 
-      <div class="is-flex is-justify-content-space-between pt-5 pb-2">
+      <div class="is-flex is-justify-content-space-between pt-5">
         <AutoTeleportActionButton
           ref="autoteleport"
           :amount="totalWithRoyalties"
