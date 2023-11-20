@@ -5,8 +5,11 @@
     scroll="clip"
     class="top"
     @close="onClose">
-    <BoxedModal :title="$t('confirmPurchase.action')" :loading="loading">
-      <div class="pt-4">
+    <BoxedModal
+      :title="$t('confirmPurchase.action')"
+      :loading="loading"
+      @close="onClose">
+      <div>
         <ModalIdentityItem />
       </div>
       <div class="py-2">
@@ -37,7 +40,7 @@
         </div>
       </div>
 
-      <div class="is-flex is-justify-content-space-between py-5">
+      <div class="is-flex is-justify-content-space-between pt-5 pb-2">
         <AutoTeleportActionButton
           ref="autoteleport"
           :amount="totalWithRoyalties"

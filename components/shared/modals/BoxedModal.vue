@@ -6,7 +6,13 @@
         'py-5': !loading,
         'py-4': loading,
       }">
-      <NeoSkeleton v-if="loading" rounded width="150" height="35" no-margin />
+      <NeoSkeleton
+        v-if="loading"
+        rounded
+        width="150"
+        height="35"
+        no-margin
+        border-radius="4rem" />
 
       <transition name="fade">
         <span
@@ -34,7 +40,8 @@
         <NeoSkeleton
           class="skeleton-backdrop"
           rounded
-          base-border-radius="40px"
+          border-radius="20px"
+          background-color="k-grey-light"
           no-margin
           full-size></NeoSkeleton>
 
@@ -47,10 +54,10 @@
 
           <div>
             <p class="is-capitalized has-text-weight-bold is-size-6">
-              Doing some magic
+              {{ $t('general.doingSomeMagic') }}
             </p>
             <p class="is-capitalized is-size-6 has-text-k-grey">
-              Please wait
+              {{ $t('general.pleaseWait') }}
               <span class="dots" />
             </p>
           </div>
@@ -95,7 +102,8 @@ const onClose = () => emits('close')
 @import '@/assets/styles/abstracts/variables';
 
 $x-padding: 2rem;
-$y-padding: 2rem;
+$t-padding: 1.5rem;
+$b-padding: 1.25rem;
 
 .modal-width {
   min-width: v-bind(modalWidth);
@@ -112,23 +120,12 @@ $y-padding: 2rem;
 
 .skeleton {
   &-backdrop {
-    top: $x-padding;
-    left: $y-padding;
+    top: $t-padding;
+    left: $x-padding;
     width: calc(100% - $x-padding * 2);
-    height: calc(100% - $y-padding * 2);
+    height: calc(100% - ($t-padding + $b-padding));
     max-height: v-bind(modalHeight) !important;
     z-index: 2;
-  }
-
-  &-item {
-    @include ktheme() {
-      background: linear-gradient(
-        90deg,
-        theme('k-grey') 25%,
-        rgba(theme('k-grey'), 0.5) 50%,
-        theme('k-grey') 75%
-      ) !important;
-    }
   }
 
   &-content {

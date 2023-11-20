@@ -6,6 +6,9 @@
       noMargin && 'no-margin',
       fullSize && 'neo-skeleton-full-size',
     ]"
+    :style="{
+      '--border-radius': borderRadius,
+    }"
     :animated="animated"
     :active="active"
     :circle="circle"
@@ -33,6 +36,7 @@ export interface Props {
   position?: 'centered' | 'left' | 'right'
   noMargin?: boolean
   fullSize?: boolean
+  borderRadius?: string
 }
 withDefaults(defineProps<Props>(), {
   animated: true,
