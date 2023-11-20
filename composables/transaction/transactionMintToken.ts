@@ -14,7 +14,7 @@ export function execMintToken({
     return execMintRmrk({ item, api, executeTransaction, isLoading, status })
   }
 
-  if (item.urlPrefix === 'snek' || item.urlPrefix === 'bsx') {
+  if (item.urlPrefix === 'bsx') {
     return execMintBasilisk({
       item,
       api,
@@ -23,6 +23,7 @@ export function execMintToken({
       status,
     })
   }
+  // item.urlPrefix === 'ahr'
   if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
     return execMintStatemine({
       item,

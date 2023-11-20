@@ -28,7 +28,7 @@
       </template>
 
       <GalleryItemOffers
-        v-if="isSnek && nft?.collection.id && nft?.id && nft.currentOwner"
+        v-if="isBasilisk && nft?.collection.id && nft?.id && nft.currentOwner"
         :collection-id="nft?.collection.id"
         :nft-id="nft?.id"
         :account="nft?.currentOwner" />
@@ -75,7 +75,7 @@ const { offersDisabled } = useChain()
 const activeTab = ref('0')
 const collectionId = ref('')
 
-const isSnek = computed(() => ['bsx', 'snek'].includes(urlPrefix.value))
+const { isBasilisk } = useIsChain(urlPrefix)
 
 watchEffect(() => {
   if (props.activeTab) {
