@@ -76,7 +76,7 @@
         :class="{
           slot__loading: loading,
         }">
-        <slot></slot>
+        <slot />
       </div>
     </div>
   </div>
