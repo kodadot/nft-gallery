@@ -125,7 +125,6 @@ import {
   NeoDropdownItem,
   NeoIcon,
 } from '@kodadot1/brick'
-import useMigrate from '@/components/migrate/migrate'
 
 const { source, sourceSelected, destination, destinationSelected } =
   useMigrate()

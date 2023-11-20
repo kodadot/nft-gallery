@@ -1,6 +1,9 @@
 <template>
   <div class="unlockable-container">
-    <CollectionUnlockableLoader v-model="isLoading" :minted="justMinted" />
+    <CollectionUnlockableLoader
+      v-if="isLoading"
+      model-value
+      :minted="justMinted" />
     <div class="container is-fluid border-top">
       <div class="columns is-desktop">
         <div class="column is-half-desktop mobile-padding">
@@ -116,6 +119,7 @@ const props = defineProps({
 })
 
 const collectionId = computed(() => props.drop?.collection)
+const disabledByBackend = computed(() => props.drop?.disabled)
 
 const { neoModal } = useProgrammatic()
 const { $i18n } = useNuxtApp()
@@ -196,7 +200,8 @@ const mintButtonDisabled = computed(() =>
     currentMintedLoading.value ||
       !mintCountAvailable.value ||
       !selectedImage.value ||
-      !accountId.value,
+      !accountId.value ||
+      disabledByBackend.value,
   ),
 )
 

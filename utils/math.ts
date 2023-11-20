@@ -1,6 +1,7 @@
 import { Interaction } from '@/components/rmrk/service/scheme'
 import { isAfter, isBefore, isEqual, parseISO } from 'date-fns'
 import consola from 'consola'
+import maxBy from 'lodash/maxBy'
 
 export function pairListBuyEvent(events: Interaction[]): Interaction[] {
   const res: Interaction[] = []
@@ -106,3 +107,6 @@ export function mediaAbsoluteDeviation(values: number[]) {
   const devs = values.map((value) => Math.abs(value - med))
   return median(devs)
 }
+
+export const getMaxKeyByValue = (data) =>
+  maxBy(Object.keys(data), (key) => Number(data[key]))

@@ -1,6 +1,6 @@
 <template>
-  <form class="mx-auto teleport-container" @submit.prevent="sendXCM">
-    <Loader v-model="isLoading" />
+  <form class="mx-auto teleport-container" @submit.prevent="teleport">
+    <Loader v-model="isLoading" :status="status" />
     <h1 class="is-size-3 has-text-weight-bold">
       {{ $t('teleport.page') }}
     </h1>
@@ -24,7 +24,9 @@
           @select="onChainChange" />
       </div>
 
-      <div class="network-arrow is-flex has-text-color">
+      <div
+        class="network-arrow is-flex is-cursor-pointer py-2"
+        @click="switchChains">
         <svg viewBox="0 0 39 17" fill="none" xmlns="http://www.w3.org/2000/svg">
           <line y1="5.5" x2="35" y2="5.5" stroke="currentColor" />
           <line y1="11.5" x2="35" y2="11.5" stroke="currentColor" />
@@ -117,73 +119,57 @@
         class="has-text-k-blue">
         {{ shortAddress(toAddress) }}
       </a>
+      {{ $t('teleport.ownerMessage') }}
     </div>
   </form>
 </template>
 
 <script setup lang="ts">
-import { web3Enable } from '@polkadot/extension-dapp'
 import '@polkadot/api-augment'
-import { getss58AddressByPrefix, toDefaultAddress } from '@/utils/account'
-import { getAddress } from '@/utils/extension'
 import {
   Chain,
-  TeleprtType,
+  allowedTransitions,
   chainToPrefixMap,
-  whichTeleportType,
+  getChainCurrency,
+  prefixToChainMap,
 } from '@/utils/teleport'
-import { notificationTypes, showNotification } from '@/utils/notification'
-import useAuth from '@/composables/useAuth'
 import Loader from '@/components/shared/Loader.vue'
-import * as paraspell from '@paraspell/sdk'
-import { calculateExactUsdFromToken } from '@/utils/calculation'
 import shortAddress from '@/utils/shortAddress'
-import {
-  chainIcons,
-  getChainEndpointByPrefix,
-  getChainName,
-} from '@/utils/chain'
-import { txCb } from '@/utils/transactionExecutor'
+import { chainIcons, getChainName } from '@/utils/chain'
 import NeoInput from '~/libs/ui/src/components/NeoInput/NeoInput.vue'
 import NetworkDropdown from './NetworkDropdown.vue'
 import { NeoButton, NeoField } from '@kodadot1/brick'
 import { blockExplorerOf } from '@/utils/config/chain.config'
 import { simpleDivision } from '@/utils/balance'
 import { useFiatStore } from '@/stores/fiat'
-import { ApiFactory } from '@kodadot1/sub-api'
 
-const getApi = (from: Chain) => {
-  const endpoint = getChainEndpointByPrefix(chainToPrefixMap[from]) as string
-  return ApiFactory.useApiInstance(endpoint)
-}
+const {
+  chainBalances,
+  teleport: sendXCM,
+  isLoading,
+  getAddressByChain,
+  getChainTokenDecimals,
+  status,
+} = useTeleport(true)
 
-const { accountId } = useAuth()
-const { assets } = usePrefix()
+const { urlPrefix } = usePrefix()
 const fiatStore = useFiatStore()
-const { decimalsOf } = useChain()
 const fromChain = ref(Chain.POLKADOT) //Selected origin parachain
 const toChain = ref(Chain.ASSETHUBPOLKADOT) //Selected destination parachain
 const amount = ref() //Required amount to be transfered is stored here
-const isLoading = ref(false)
 const unsubscribeKusamaBalance = ref()
-const { multiBalances } = useMultipleBalance()
 
 const resetStatus = () => {
   amount.value = undefined
-  isLoading.value = false
 }
 
-const currency = computed(() => {
-  switch (fromChain.value) {
-    case Chain.KUSAMA:
-    case Chain.BASILISK:
-    case Chain.ASSETHUBKUSAMA:
-      return 'KSM'
-    case Chain.POLKADOT:
-    case Chain.ASSETHUBPOLKADOT:
-      return 'DOT'
-  }
-})
+const switchChains = () => {
+  const temp = fromChain.value
+  fromChain.value = toChain.value
+  toChain.value = temp
+}
+
+const currency = computed(() => getChainCurrency(fromChain.value))
 
 const tokenFiatValue = computed(() => {
   switch (currency.value) {
@@ -191,31 +177,13 @@ const tokenFiatValue = computed(() => {
       return fiatStore.getCurrentKSMValue
     case 'DOT':
       return fiatStore.getCurrentDOTValue
+    default:
+      return 0
   }
-  return 0
 })
 
-const allowedTransitiosn = {
-  [Chain.KUSAMA]: [Chain.BASILISK, Chain.ASSETHUBKUSAMA],
-  [Chain.BASILISK]: [Chain.KUSAMA],
-  [Chain.ASSETHUBKUSAMA]: [Chain.KUSAMA],
-  [Chain.POLKADOT]: [Chain.ASSETHUBPOLKADOT],
-  [Chain.ASSETHUBPOLKADOT]: [Chain.POLKADOT],
-}
-const chainBalances = {
-  [Chain.KUSAMA]: () => multiBalances.value.chains.kusama?.ksm?.nativeBalance,
-  [Chain.BASILISK]: () =>
-    multiBalances.value.chains.basilisk?.ksm?.nativeBalance,
-  [Chain.ASSETHUBKUSAMA]: () =>
-    multiBalances.value.chains.kusamaHub?.ksm?.nativeBalance,
-  [Chain.POLKADOT]: () =>
-    multiBalances.value.chains.polkadot?.dot?.nativeBalance,
-  [Chain.ASSETHUBPOLKADOT]: () =>
-    multiBalances.value.chains.polkadotHub?.dot?.nativeBalance,
-}
-
 const isDisabled = (chain: Chain) => {
-  return !allowedTransitiosn[fromChain.value].includes(chain)
+  return !allowedTransitions[fromChain.value].includes(chain)
 }
 
 const fromNetworks = [
@@ -278,18 +246,10 @@ const toNetworks = [
   },
 ]
 
-const currentTokenDecimals = computed(() => {
-  switch (fromChain.value) {
-    case Chain.KUSAMA:
-    case Chain.BASILISK:
-    case Chain.ASSETHUBKUSAMA:
-      return assets(5).decimals
-    case Chain.POLKADOT:
-      return decimalsOf('dot')
-    case Chain.ASSETHUBPOLKADOT:
-      return decimalsOf('ahp')
-  }
-})
+const currentTokenDecimals = computed(() =>
+  getChainTokenDecimals(fromChain.value),
+)
+
 const toChainLabel = computed(() =>
   getChainName(chainToPrefixMap[toChain.value]),
 )
@@ -309,8 +269,9 @@ const explorerUrl = computed(() => {
     toAddress.value
   }`
 })
+
 const getFirstAllowedDestination = (chain: Chain) => {
-  return allowedTransitiosn[chain][0]
+  return allowedTransitions[chain][0]
 }
 
 const onChainChange = (selectedChain, setFrom = true) => {
@@ -322,16 +283,22 @@ const onChainChange = (selectedChain, setFrom = true) => {
     fromChain.value = getFirstAllowedDestination(selectedChain)
   }
 }
-const getFromChain = (): Chain => {
-  return Chain[fromChain.value.toUpperCase()] as Chain
-}
-const getToChain = (): Chain => {
-  return Chain[toChain.value.toUpperCase()] as Chain
+
+const setRelatedChain = () => {
+  const relatedFromChain = prefixToChainMap[urlPrefix.value] || Chain.POLKADOT
+  onChainChange(relatedFromChain, true)
 }
 
-const getAddressByChain = (chain) => {
-  return getss58AddressByPrefix(accountId.value, chainToPrefixMap[chain])
-}
+watch(
+  urlPrefix,
+  () => {
+    setRelatedChain()
+  },
+  {
+    immediate: true,
+  },
+)
+
 const fromAddress = computed(() => getAddressByChain(fromChain.value))
 const toAddress = computed(() => getAddressByChain(toChain.value))
 
@@ -356,97 +323,23 @@ const handleMaxClick = () => {
     Math.floor((myBalanceWithoutDivision.value || 0) * 10 ** 4) / 10 ** 4
 }
 
+const teleport = async () => {
+  const amountValue = amount.value * Math.pow(10, currentTokenDecimals.value)
+
+  await sendXCM({
+    amount: amountValue,
+    from: fromChain.value,
+    to: toChain.value,
+    toAddress: toAddress.value,
+    fromAddress: fromAddress.value,
+    currency: currency.value,
+    onSuccess: () => resetStatus(),
+  })
+}
+
 onBeforeUnmount(() => {
   unsubscribeKusamaBalance.value && unsubscribeKusamaBalance.value()
 })
-
-const getTransaction = async () => {
-  const amountValue = amount.value * Math.pow(10, currentTokenDecimals.value)
-
-  const api = await getApi(getFromChain())
-  const telportType = whichTeleportType({
-    from: getFromChain(),
-    to: getToChain(),
-  })
-  if (telportType === TeleprtType.RelayToPara) {
-    return paraspell
-      .Builder(api)
-      .to(Chain[toChain.value.toUpperCase()])
-      .amount(amountValue)
-      .address(toAddress.value)
-      .build()
-  }
-  if (telportType === TeleprtType.ParaToRelay) {
-    return paraspell
-      .Builder(api)
-      .from(Chain[fromChain.value.toUpperCase()])
-      .amount(amountValue)
-      .address(toAddress.value)
-      .build()
-  }
-
-  if (telportType === TeleprtType.ParaToPara) {
-    return paraspell
-      .Builder(api)
-      .from(Chain[fromChain.value.toUpperCase()])
-      .to(Chain[toChain.value.toUpperCase()])
-      .currency(currency.value)
-      .amount(amountValue)
-      .address(toAddress.value)
-      .build()
-  }
-}
-
-//Used to create XCM transfer
-const sendXCM = async () => {
-  if (!amount.value || amount.value < 0) {
-    return
-  }
-  await web3Enable('Kodadot')
-  let isFirstStatus = true
-  isLoading.value = true
-  const transactionHandler = txCb(
-    (blockHash) => {
-      showNotification(
-        `Transaction finalized at blockHash ${blockHash}`,
-        notificationTypes.success,
-      )
-      resetStatus()
-    },
-    (dispatchError) => {
-      showNotification(dispatchError.toString(), notificationTypes.warn)
-      isLoading.value = false
-    },
-    ({ txHash }) => {
-      if (isFirstStatus) {
-        showNotification(
-          `Transaction hash is ${txHash.toHex()}`,
-          notificationTypes.info,
-        )
-        isFirstStatus = false
-      }
-    },
-  )
-
-  const errorHandler = () => {
-    showNotification('Cancelled', notificationTypes.warn)
-    isLoading.value = false
-  }
-
-  const promise = await getTransaction()
-  if (promise === undefined) {
-    return
-  }
-
-  const injector = await getAddress(toDefaultAddress(fromAddress.value))
-  promise
-    .signAndSend(
-      fromAddress.value,
-      { signer: injector.signer },
-      transactionHandler,
-    )
-    .catch(errorHandler)
-}
 </script>
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
@@ -492,6 +385,13 @@ const sendXCM = async () => {
 .network-arrow {
   min-width: 32px;
   line-height: 1;
+
+  @include ktheme() {
+    color: theme('text-color');
+    &:hover {
+      color: theme('link-hover');
+    }
+  }
 
   @include tablet {
     margin: 0 1rem;

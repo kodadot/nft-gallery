@@ -54,6 +54,14 @@
   opacity: 0;
 }
 
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 @keyframes cardHoverIn {
   0% {
@@ -71,4 +79,28 @@
   100% {
     box-shadow: none;
   }
+}
+
+// ... dots 
+@keyframes dots {
+  0% {
+    content: ".";
+  }
+  33% {
+    content: "..";
+  }
+  66% {
+    content: "...";
+  }
+}
+
+.dots {
+  text-align: center;
+  display: inline-block;
+}
+
+.dots::after {
+  content: "";
+  display: inline-block;
+  animation: dots 1.5s infinite;
 }

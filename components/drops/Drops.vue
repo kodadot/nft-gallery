@@ -44,15 +44,18 @@ onBeforeMount(() => {
 </script>
 
 <style lang="scss" scoped>
+$gap: 1rem;
 .grid-container {
   display: grid;
-  gap: 1rem;
+  gap: $gap;
   grid-template-columns: repeat(1, 1fr);
 }
 
 @media (min-width: 1000px) {
+  $max-card-width: calc(910px + 0.5 * #{$gap});
   .grid-container {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, $max-card-width));
+    max-width: calc(2 * $max-card-width);
   }
 }
 </style>

@@ -5,6 +5,7 @@ import { formatNFT } from '@/utils/carousel'
 
 import latestEvents from '@/queries/subsquid/general/latestEvents.graphql'
 import latestEventsRmrkv2 from '@/queries/subsquid/ksm/latestEvents.graphql'
+import unionBy from 'lodash/unionBy'
 
 interface Types {
   type: 'latestSales' | 'newestList'
@@ -17,9 +18,9 @@ const nftEventVariables = {
   newestList: { interaction_eq: 'LIST' },
 }
 
-const disableChainsOnBeta = ['snek']
+const disableChainsOnBeta = ['ahr']
 
-const fetchLatestEvents = async (chain, type, where = {}) => {
+const fetchLatestEvents = async (chain, type, where = {}, limit = 5) => {
   const query = chain === 'ksm' ? latestEventsRmrkv2 : latestEvents
 
   return await useAsyncQuery({
@@ -27,7 +28,7 @@ const fetchLatestEvents = async (chain, type, where = {}) => {
     clientId: chain,
     variables: {
       // limit: limit, TODO: use limit
-      limit: 4,
+      limit,
       orderBy: 'timestamp_DESC',
       where: {
         ...nftEventVariables[type],
@@ -37,7 +38,7 @@ const fetchLatestEvents = async (chain, type, where = {}) => {
   })
 }
 
-const useChainEvents = async (chain, type) => {
+const useChainEvents = async (chain, type, eventQueryLimit, collectionIds) => {
   const nfts = ref<{ nft: NFTWithMetadata; timestamp: string }[]>([])
   const uniqueNftId = ref<string[]>([])
   const totalCollection = reactive({})
@@ -64,7 +65,7 @@ const useChainEvents = async (chain, type) => {
       totalCollection[nft.nft.collection.id] += 1
 
       // limit nft in same collection by 3
-      if (totalCollection[nft.nft.collection.id] > 3) {
+      if (!collectionIds && totalCollection[nft.nft.collection.id] > 3) {
         return excludeCollectionId.value.push(nft.nft.collection.id)
       }
 
@@ -75,15 +76,21 @@ const useChainEvents = async (chain, type) => {
     pushNft(nft)
   }
 
-  const { data } = await fetchLatestEvents(chain, type, {
-    nft: {
-      ...(type === 'newestList' && { price_gt: 0 }),
-      id_not_in: [...new Set(excludeNftId.value)],
-      collection: {
-        id_not_in: [...new Set(excludeCollectionId.value)],
+  const { data } = await fetchLatestEvents(
+    chain,
+    type,
+    {
+      nft: {
+        ...(type === 'newestList' && { price_gt: 0 }),
+        id_not_in: [...new Set(excludeNftId.value)],
+        collection: {
+          ...(collectionIds && { id_in: collectionIds }),
+          id_not_in: [...new Set(excludeCollectionId.value)],
+        },
       },
     },
-  })
+    eventQueryLimit,
+  )
   data.value?.events?.forEach((nft) => limitCollection(nft))
 
   return {
@@ -108,24 +115,8 @@ export const flattenNFT = (data, chain) => {
 
 const sortNftByTime = (data) => data.sort((a, b) => b.unixTime - a.unixTime)
 
-export const useCarouselNftEvents = async ({ type }: Types) => {
-  const { data: dataAhk } = await useChainEvents('ahk', type)
-  const { data: dataAhp } = await useChainEvents('ahp', type)
-  const { data: dataBsx } = await useChainEvents('bsx', type)
-  const { data: dataSnek } = await useChainEvents('snek', type)
-  const { data: dataRmrk } = await useChainEvents('rmrk', type)
-  const { data: dataRmrk2 } = await useChainEvents('ksm', type)
-
+const limitDisplayNfts = (data) => {
   const nfts = ref<CarouselNFT[]>([])
-
-  const data = [
-    ...flattenNFT(dataAhk.value, 'ahk'),
-    ...flattenNFT(dataAhp.value, 'ahp'),
-    ...flattenNFT(dataBsx.value, 'bsx'),
-    ...flattenNFT(dataSnek.value, 'snek'),
-    ...flattenNFT(dataRmrk.value, 'rmrk'),
-    ...flattenNFT(dataRmrk2.value, 'ksm'),
-  ]
 
   // show 30 nfts in carousel
   const sortedNfts = sortNftByTime(data).slice(0, 30)
@@ -136,4 +127,65 @@ export const useCarouselNftEvents = async ({ type }: Types) => {
     nfts,
     ids: computed(() => nfts.value.map((nft) => nft.id).join()),
   }
+}
+
+export const useCarouselNftEvents = async ({ type }: Types) => {
+  const { data: dataAhk } = await useChainEvents('ahk', type)
+  const { data: dataAhp } = await useChainEvents('ahp', type)
+  const { data: dataBsx } = await useChainEvents('bsx', type)
+  // const { data: dataAhr } = await useChainEvents('ahr', type)
+  const { data: dataRmrk } = await useChainEvents('rmrk', type)
+  const { data: dataRmrk2 } = await useChainEvents('ksm', type)
+
+  const data = [
+    ...flattenNFT(dataAhk.value, 'ahk'),
+    ...flattenNFT(dataAhp.value, 'ahp'),
+    ...flattenNFT(dataBsx.value, 'bsx'),
+    // ...flattenNFT(dataAhr.value, 'ahr'),
+    ...flattenNFT(dataRmrk.value, 'rmrk'),
+    ...flattenNFT(dataRmrk2.value, 'ksm'),
+  ]
+
+  return limitDisplayNfts(data)
+}
+
+export const useCarouselGenerativeNftEvents = async (
+  ahkCollectionIds: string[],
+  ahpCollectionIds: string[],
+) => {
+  const { data: salesDataAhk } = await useChainEvents(
+    'ahk',
+    'latestSales',
+    10,
+    ahkCollectionIds,
+  )
+  const { data: listDataAhk } = await useChainEvents(
+    'ahk',
+    'newestList',
+    10,
+    ahkCollectionIds,
+  )
+  const { data: salesDataAhp } = await useChainEvents(
+    'ahp',
+    'latestSales',
+    10,
+    ahpCollectionIds,
+  )
+  const { data: listDataAhp } = await useChainEvents(
+    'ahp',
+    'newestList',
+    10,
+    ahpCollectionIds,
+  )
+  const data = unionBy(
+    [
+      ...flattenNFT(salesDataAhk.value, 'ahk'),
+      ...flattenNFT(listDataAhk.value, 'ahk'),
+      ...flattenNFT(salesDataAhp.value, 'ahp'),
+      ...flattenNFT(listDataAhp.value, 'ahp'),
+    ],
+    'id',
+  )
+
+  return limitDisplayNfts(data)
 }

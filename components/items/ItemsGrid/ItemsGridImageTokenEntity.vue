@@ -19,6 +19,7 @@
     :link="NuxtLink"
     bind-key="to"
     :media-player-cover="mediaPlayerCover"
+    :media-static-video="hideVideoControls"
     media-hover-on-cover-play>
     <template v-if="!hideAction" #action>
       <div v-if="!isOwner && isAvailableToBuy" class="is-flex">
@@ -36,7 +37,13 @@
           no-shadow
           class="fixed-width p-1 no-border-left btn-height override-wrapper-width"
           @click.prevent="onClickShoppingCart">
-          <img :src="cartIcon" class="image is-16x16" alt="cart icon" />
+          <NeoIcon
+            :icon="
+              shoppingCartStore.isItemInCart(nftForShoppingCart.id)
+                ? 'fa-striked-out-cart-shopping'
+                : 'fa-shopping-cart-outline-sharp'
+            "
+            pack="fa-kit" />
         </NeoButton>
       </div>
       <div v-else-if="isOwner" class="is-flex">
@@ -68,7 +75,7 @@
 <script setup lang="ts">
 // PLEASE FIX bind-key href => to
 import { resolveComponent } from 'vue'
-import { NeoButton, NeoNftCard } from '@kodadot1/brick'
+import { NeoButton, NeoIcon, NeoNftCard } from '@kodadot1/brick'
 import type { NftCardVariant } from '@kodadot1/brick'
 import type { TokenEntity } from '@/composables/useNft'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
@@ -96,6 +103,7 @@ const props = defineProps<{
   variant?: NftCardVariant
   hideMediaInfo?: boolean
   hideAction?: boolean
+  hideVideoControls?: boolean
 }>()
 
 const {
@@ -142,19 +150,17 @@ const buyLabel = computed(function () {
 })
 
 const listLabel = computed(() => {
-  if (isStack.value) {
-    return isThereAnythingToList.value
-      ? $i18n.t('listingCart.listForSale')
-      : $i18n.t('transaction.price.change')
-  } else {
-    const label = Number(nftForShoppingCart.value?.price)
-      ? $i18n.t('transaction.price.change')
-      : $i18n.t('listingCart.listForSale')
-    return label + (listingCartStore.isItemInCart(props.entity.id) ? ' ✓' : '')
-  }
-})
+  const isPriceAvailable = Number(nftForShoppingCart.value?.price)
+  const shouldListForSale =
+    (isStack.value && isThereAnythingToList.value) || !isPriceAvailable
+  const isInCart = listingCartStore.isItemInCart(props.entity.id)
 
-const { cartIcon } = useShoppingCartIcon(props.entity.id)
+  const label = shouldListForSale
+    ? $i18n.t('listingCart.listForSale')
+    : $i18n.t('transaction.price.change')
+
+  return isInCart ? label + ' ✓' : label
+})
 
 const { nft: entity } = useNft(props.entity)
 

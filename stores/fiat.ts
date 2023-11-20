@@ -1,16 +1,17 @@
 import { defineStore } from 'pinia'
-import { getPrice } from '@/utils/coingecko'
+
+type FiatPrice = string | number | null
 
 interface State {
   fiatPrice: {
     kusama: {
-      usd: string | number | null
+      usd: FiatPrice
     }
     basilisk: {
-      usd: string | number | null
+      usd: FiatPrice
     }
     polkadot: {
-      usd: string | number | null
+      usd: FiatPrice
     }
   }
 }
@@ -30,21 +31,31 @@ export const useFiatStore = defineStore('fiat', {
     },
   }),
   getters: {
-    getCurrentKSMValue: (state) => state.fiatPrice.kusama.usd,
-    getCurrentBSXValue: (state) => state.fiatPrice.basilisk.usd,
-    getCurrentDOTValue: (state) => state.fiatPrice.polkadot.usd,
-    getCurrentTokenValue: (state) => (token: string) => {
-      switch (token) {
-        case 'KSM':
-          return state.fiatPrice.kusama.usd
-        case 'BSX':
-          return state.fiatPrice.basilisk.usd
-        case 'DOT':
-          return state.fiatPrice.polkadot.usd
-        default:
-          return 0
-      }
+    incompleteFiatValues(): boolean {
+      return (
+        this.getCurrentKSMValue === null ||
+        this.getCurrentDOTValue === null ||
+        this.getCurrentBSXValue === null
+      )
     },
+    getCurrentKSMValue: (state): FiatPrice => state.fiatPrice.kusama.usd,
+    getCurrentBSXValue: (state): FiatPrice => state.fiatPrice.basilisk.usd,
+    getCurrentDOTValue: (state): FiatPrice => state.fiatPrice.polkadot.usd,
+    getCurrentROCValue: (_state): FiatPrice => 0,
+    getCurrentTokenValue:
+      (state) =>
+      (token: string): FiatPrice => {
+        switch (token) {
+          case 'KSM':
+            return state.fiatPrice.kusama.usd
+          case 'BSX':
+            return state.fiatPrice.basilisk.usd
+          case 'DOT':
+            return state.fiatPrice.polkadot.usd
+          default:
+            return 0
+        }
+      },
   },
   actions: {
     async fetchFiatPrice() {

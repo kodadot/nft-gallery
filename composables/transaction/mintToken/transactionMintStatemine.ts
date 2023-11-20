@@ -7,8 +7,12 @@ import { canSupport } from '@/utils/support'
 
 type id = { id: number }
 
-export const assignIds = <T extends TokenToMint>(tokens: T[]): (T & id)[] => {
-  let lastId = 0
+export const assignIds = <T extends TokenToMint>(
+  tokens: T[],
+  lastTokenId: number,
+): (T & id)[] => {
+  let lastId = lastTokenId || 0
+
   return tokens.map((token) => {
     const { lastIndexUsed } = token.selectedCollection as MintedCollection
 
@@ -75,10 +79,16 @@ export const prepareTokenMintArgs = async (token: TokenToMint & id, api) => {
   return txs
 }
 
-export const prepTokens = (item: ActionMintToken) => {
+export const prepTokens = async (item: ActionMintToken, api) => {
   const tokens = Array.isArray(item.token) ? item.token : [item.token]
+
+  const lastTokenId = await getNextTokenIdOnChain(
+    api,
+    (tokens[0].selectedCollection as MintedCollection).id,
+  )
   const expandedTokens = expandCopies(tokens)
-  const tokensWithIds = assignIds(expandedTokens)
+
+  const tokensWithIds = assignIds(expandedTokens, lastTokenId)
   return tokensWithIds
 }
 
@@ -96,8 +106,14 @@ export const getSupportInteraction = (
   return canSupport(api, enabledFees, totalFees)
 }
 
+const getNextTokenIdOnChain = async (api, collectionId) => {
+  return await api.query.nfts
+    .collection(collectionId)
+    .then((res) => Number(res.toHuman().items) || 0)
+}
+
 const getArgs = async (item: ActionMintToken, api) => {
-  const tokens = prepTokens(item)
+  const tokens = await prepTokens(item, api)
   const arg = await Promise.all(
     tokens.map((token) => prepareTokenMintArgs(token, api)),
   )

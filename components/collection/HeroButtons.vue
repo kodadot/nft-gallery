@@ -50,7 +50,6 @@
         </NeoDropdown>
 
         <NeoDropdown
-          v-if="isOwner && isAssetHub"
           position="bottom-left"
           append-to-body
           :mobile-modal="false">
@@ -64,16 +63,15 @@
 
           <!-- related: #5792 -->
           <div v-if="isOwner">
-            <NeoDropdownItem @click="deleteCollection()">
-              {{ $i18n.t('moreActions.delete') }}
-            </NeoDropdownItem>
+            <HeroButtonDeleteNfts />
+            <HeroButtonDeleteCollection />
             <!-- <NeoDropdownItem>
                 {{ $i18n.t('moreActions.customize') }}
               </NeoDropdownItem> -->
           </div>
-          <!-- <NeoDropdownItem disabled>
+          <NeoDropdownItem disabled>
             {{ $i18n.t('moreActions.reportCollection') }}
-          </NeoDropdownItem> -->
+          </NeoDropdownItem>
         </NeoDropdown>
       </div>
     </div>
@@ -98,13 +96,13 @@ import {
   NeoModal,
 } from '@kodadot1/brick'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
-import { Collections } from '@/composables/transaction/types'
+import HeroButtonDeleteCollection from './HeroButtonDeleteCollection.vue'
+import HeroButtonDeleteNfts from './HeroButtonDeleteNfts.vue'
 
 const route = useRoute()
-const { isCurrentOwner, accountId } = useAuth()
+const { isCurrentOwner } = useAuth()
 const { urlPrefix } = usePrefix()
-const { isAssetHub } = useIsChain(urlPrefix)
-const { $i18n, $updateLoader } = useNuxtApp()
+const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 
 const collectionId = computed(() => route.params.id)
@@ -132,32 +130,6 @@ const QRModalActive = ref(false)
 
 const hashtags = 'KusamaNetwork,KodaDot'
 const sharingLabel = $i18n.t('sharing.collection')
-
-const { transaction } = useTransaction()
-
-const deleteCollection = async () => {
-  $updateLoader(true)
-  const id = route.params.id.toString()
-
-  await transaction({
-    interaction: Collections.DELETE,
-    collectionId: id,
-  })
-
-  useSubscriptionGraphql({
-    query: `
-      collectionEntity: collectionEntityById(id: "${id}") {
-        id
-        burned
-      }
-    `,
-    onChange: ({ data }) => {
-      if (data.collectionEntity.burned) {
-        navigateTo(`/${urlPrefix.value}/u/${accountId.value}?tab=collections`)
-      }
-    },
-  })
-}
 </script>
 
 <style lang="scss" scoped>

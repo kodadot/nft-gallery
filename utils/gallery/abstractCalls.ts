@@ -55,13 +55,12 @@ export const uniqueParamResolver = (
   id: string,
   selectedAction: string,
   meta: string | number,
-  currentOwner?: string,
 ): any[] => {
   const sanitized = correctId(id)
   const [collectionId, tokenId] = sanitized.split('-')
   const actions = {
     SEND: [collectionId, tokenId, meta],
-    CONSUME: [collectionId, tokenId, currentOwner],
+    CONSUME: [collectionId, tokenId],
     BUY: [collectionId, tokenId, meta],
     LIST: [collectionId, tokenId, meta, undefined],
   }
@@ -105,9 +104,9 @@ function getActionsByPrefix(prefix: string, legacy = false): CallDictionary {
   switch (prefix) {
     case 'ahk':
     case 'ahp':
+      // case 'ahr':
       return legacy ? uniqueActionResolver : nftActionResolver
     case 'bsx':
-    case 'snek':
       return bsxActionResolver
     default:
       throw new Error('Prefix not found')

@@ -39,7 +39,7 @@
       </div>
     </div>
 
-    <div class="is-flex gap">
+    <div class="is-flex gap flex-direction">
       <div v-if="fromAddress !== blank" class="is-flex is-align-items-center">
         <span class="is-size-7 mr-3">{{ $t('activity.event.from') }}:</span>
         <nuxt-link
@@ -109,6 +109,7 @@ const getAvatar = async () => {
 
 <style scoped lang="scss">
 @import '@/assets/styles/abstracts/variables';
+$breakpoint: 400px;
 
 .fixed-width {
   width: 66px;
@@ -134,5 +135,14 @@ const getAvatar = async () => {
 
 .gap {
   gap: 1rem;
+  @include until($breakpoint) {
+    gap: 0;
+  }
+}
+
+.flex-direction {
+  @include until($breakpoint) {
+    flex-direction: column;
+  }
 }
 </style>

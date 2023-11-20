@@ -62,9 +62,9 @@ interface Collections {
 export const useCarouselRelated = async ({ collectionId }) => {
   const route = useRoute()
   const nfts = ref<CarouselNFT[]>([])
-
+  const { urlPrefix } = usePrefix()
   const { data } = useGraphql({
-    queryPrefix: 'subsquid',
+    queryPrefix: urlPrefix.value === 'ksm' ? 'chain-ksm' : 'subsquid',
     queryName: 'collectionEntityById',
     variables: {
       id: collectionId,
@@ -100,8 +100,10 @@ export const useCarouselVisited = ({ ids }) => {
     }
   }
 
+  const { urlPrefix } = usePrefix()
+
   const { data } = useGraphql({
-    queryPrefix: 'subsquid',
+    queryPrefix: urlPrefix.value === 'ksm' ? 'chain-ksm' : 'subsquid',
     queryName: 'nftEntitiesByIDs',
     variables: { ids },
   })

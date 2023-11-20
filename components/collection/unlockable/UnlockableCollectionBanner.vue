@@ -123,7 +123,7 @@ useHead({
   }
 
   &-name {
-    font-weight: bold;
+    font-weight: 700;
     font-size: 2rem;
     margin-top: 1.5rem;
 
