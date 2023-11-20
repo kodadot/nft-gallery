@@ -1,0 +1,175 @@
+@import '@oruga-ui/oruga-next/src/scss/oruga-full.scss';
+@import '../../scss/tailwind.scss';
+
+.o-btn {
+  &.is-neo {
+    @apply rounded-none font-inherit py-2;
+
+    &.o-btn--large {
+      @apply text-base h-14;
+    }
+
+    @apply shadow-primary border border-border-color text-text-color bg-background-color;
+
+    &:hover {
+      @apply bg-k-accent-hover text-text-color;
+    }
+
+    &.active {
+      @apply bg-background-color-inverse text-text-color-inverse;
+    }
+  }
+
+  &.o-btn {
+    &--text {
+      @apply p-0 h-fit text-text-color bg-inherit border-none;
+
+      &:hover {
+        @apply text-link-hover bg-inherit;
+      }
+    }
+
+    &--k-accent {
+      @apply bg-k-primary text-black;
+
+      &:hover {
+        @apply bg-background-color text-text-color;
+      }
+
+      &.o-btn--disabled {
+        @apply opacity-unset bg-k-shade text-k-grey border-k-grey;
+      }
+    }
+
+    &--k-blue {
+      @apply bg-k-blue text-black;
+
+      &:hover {
+        @apply bg-background-color text-text-color;
+      }
+
+      &.o-btn--disabled {
+        @apply opacity-unset bg-k-shade text-k-grey border-k-grey;
+      }
+    }
+
+    &--disabled-secondary {
+      &.o-btn--disabled {
+        @apply opacity-unset text-k-grey border-k-grey;
+      }
+    }
+
+    &--icon {
+      @apply border-none p-0 h-min;
+
+      &:hover {
+        @apply bg-transparent text-link-hover;
+      }
+
+      &.o-btn--disabled {
+        @apply opacity-unset text-k-grey;
+      }
+    }
+
+    &--border-icon {
+      @apply flex justify-center items-center p-2.5 border border-border-color bg-background-color;
+
+      &:hover {
+        @apply bg-k-accent-hover;
+      }
+
+      & .o-btn__wrapper .o-btn__label {
+        @apply text-text-color m-0 w-fit h-fit;
+      }
+
+      &.o-btn--disabled {
+        @apply opacity-unset border border-k-grey;
+
+        & .o-btn__wrapper .o-btn__label {
+          @apply text-k-grey;
+        }
+      }
+    }
+
+    &--connect-dropdown {
+      @apply w-[120px] h-10 bg-background-color;
+
+      &:hover {
+        @apply bg-k-accent-hover text-black border border-border-color;
+      }
+    }
+
+    &--k-pink {
+      @apply border border-border-color;
+
+      &:hover {
+        @apply bg-k-accent-hover;
+      }
+    }
+
+    &--secondary {
+      @apply h-[22px] text-xs/none w-min rounded shadow-none border border-k-shade bg-background-color;
+
+      &:hover {
+        @apply bg-background-color border border-text-color text-text-color;
+      }
+    }
+
+    &--rounded {
+      @apply rounded-full py-1 px-3 border-k-shade text-border-color;
+
+      &:hover {
+        @apply border-border-color text-border-color;
+      }
+
+      &.active {
+        @apply bg-background-color-inverse text-text-color-inverse;
+      }
+    }
+
+    &--pill {
+      @apply rounded-[3rem] shadow-none py-2 px-4 bg-background-color text-text-color border border-k-shade;
+
+      &:hover {
+        @apply border border-k-shade;
+      }
+
+      &__active,
+      &.active {
+        @apply bg-background-color-inverse text-text-color-inverse border border-background-color-inverse;
+      }
+
+      .o-btn__wrapper .o-btn__label {
+        @apply flex justify-between items-center;
+      }
+    }
+  }
+
+  &.is-text {
+    @apply border-none w-min text-k-grey underline-offset-4;
+
+    &:hover {
+      @apply text-text-color bg-none;
+    }
+  }
+
+  &.no-shadow {
+    @apply shadow-none;
+  }
+
+  &.loading-with-label.o-btn--loading {
+    @apply text-k-grey;
+
+    :deep(.o-btn__label) {
+      @apply my-0 mx-[3px];
+    }
+
+    &::after {
+      @apply relative left-0 border-2 border-k-grey rounded-full border-r-transparent border-t-transparent my-0 mx-[3px] h-[1em] w-[1em];
+    }
+  }
+
+  &.is-fixed-width {
+    @apply w-40;
+  }
+}
