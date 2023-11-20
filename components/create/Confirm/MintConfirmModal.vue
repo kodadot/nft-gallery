@@ -6,7 +6,7 @@
     class="top"
     max-height="calc(100vh - 180px)"
     @close="onClose">
-    <BoxedModal
+    <NeoModalBody
       :title="$t('mint.nft.modal.action')"
       :loading="loading"
       @close="onClose">
@@ -48,12 +48,12 @@
             @confirm="confirm" />
         </div>
       </div>
-    </BoxedModal>
+    </NeoModalBody>
   </NeoModal>
 </template>
 
 <script setup lang="ts">
-import { NeoModal } from '@kodadot1/brick'
+import { NeoModal, NeoModalBody } from '@kodadot1/brick'
 import type { ChainProperties, Option } from '@kodadot1/static'
 import { BaseMintedCollection } from '@/components/base/types'
 import IdentityItem from '@/components/identity/IdentityItem.vue'
@@ -67,7 +67,6 @@ import { BASE_FEE } from '@/utils/support'
 import ConfirmMintItem from './ConfirmMintItem.vue'
 import PriceItem from './PriceItem.vue'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
-import BoxedModal from '@/components/shared/modals/BoxedModal.vue'
 
 export type NftInformation = {
   file: Blob | null

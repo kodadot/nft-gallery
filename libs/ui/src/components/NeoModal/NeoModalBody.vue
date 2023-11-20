@@ -83,7 +83,9 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon, NeoSkeleton } from '@kodadot1/brick'
+import NeoSkeleton from '../NeoSkeleton/NeoSkeleton.vue'
+import NeoIcon from '../NeoIcon/NeoIcon.vue'
+import NeoButton from '../NeoButton/NeoButton.vue'
 
 const emits = defineEmits(['close'])
 withDefaults(

@@ -6,7 +6,7 @@
       scroll="clip"
       append-to-body
       @close="onClose">
-      <BoxedModal
+      <NeoModalBody
         modal-max-height="70vh"
         :title="title"
         padding-x="0"
@@ -48,7 +48,7 @@
             :label="confirmListingLabel"
             @confirm="confirm" />
         </div>
-      </BoxedModal>
+      </NeoModalBody>
     </NeoModal>
   </div>
 </template>
@@ -56,7 +56,7 @@
 <script setup lang="ts">
 import { Interaction } from '@kodadot1/minimark/v1'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
-import { NeoModal } from '@kodadot1/brick'
+import { NeoModal, NeoModalBody } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
 import { TokenToList } from '@/composables/transaction/types'
 import { ListCartItem, useListingCartStore } from '@/stores/listingCart'
@@ -73,7 +73,6 @@ import ListingCartSingleItemCart from './singleItemCart/ListingCartSingleItemCar
 import ListingCartMultipleItemsCart from './multipleItemsCart/ListingCartMultipleItemsCart.vue'
 import type { Actions } from '@/composables/transaction/types'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
-import BoxedModal from '@/components/shared/modals/BoxedModal.vue'
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()

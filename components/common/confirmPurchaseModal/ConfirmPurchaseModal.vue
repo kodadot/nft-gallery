@@ -5,7 +5,7 @@
     scroll="clip"
     class="top"
     @close="onClose">
-    <BoxedModal
+    <NeoModalBody
       :title="$t('confirmPurchase.action')"
       :loading="loading"
       @close="onClose">
@@ -50,12 +50,12 @@
           @confirm="confirm"
           @actions:completed="$emit('completed')" />
       </div>
-    </BoxedModal>
+    </NeoModalBody>
   </NeoModal>
 </template>
 
 <script setup lang="ts">
-import { NeoModal } from '@kodadot1/brick'
+import { NeoModal, NeoModalBody } from '@kodadot1/brick'
 import { sum } from '@/utils/math'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
