@@ -12,7 +12,8 @@
         width="150"
         height="35"
         no-margin
-        border-radius="4rem" />
+        border-radius="4rem"
+        light />
 
       <transition name="fade">
         <span
@@ -46,9 +47,9 @@
           class="skeleton-backdrop"
           rounded
           border-radius="20px"
-          background-color="k-grey-light"
           no-margin
-          full-size></NeoSkeleton>
+          full-size
+          light />
 
         <div class="skeleton-content is-flex">
           <NeoIcon
