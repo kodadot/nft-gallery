@@ -99,7 +99,7 @@ const toReview = (collectionId, itemCount) => {
 
   p {
     font-size: 1.5rem;
-    font-weight: bold;
+    font-weight: 700;
     margin-left: 2.5rem;
   }
 }

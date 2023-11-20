@@ -6,7 +6,7 @@
         <figcaption v-if="status" class="loading-text">
           {{ $t(status) }}
         </figcaption>
-        <div v-if="status" class="mt-3 mb-3 has-text-primary">
+        <div v-if="!status" class="mt-3 mb-3 has-text-primary">
           {{ $t('helper.signStuckText') }}
         </div>
       </figure>

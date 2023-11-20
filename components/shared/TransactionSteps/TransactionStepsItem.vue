@@ -1,12 +1,6 @@
 <template>
   <div class="is-flex">
-    <div v-if="isChild" class="divider mr-6 ml-3" />
-
-    <div
-      class="mr-4"
-      :class="{
-        'is-flex is-align-items-center': isWaiting,
-      }">
+    <div class="mr-4 is-flex is-align-items-center">
       <NeoIcon
         v-if="isLoading"
         icon="spinner-third"
@@ -33,54 +27,61 @@
         :size="iconSize" />
     </div>
 
-    <div
-      class="is-flex is-align-items-center"
-      :class="{ 'w-full': showTryAgain }">
-      <div
-        class="is-flex is-flex-direction-column"
-        :class="{ 'w-full': showTryAgain }">
-        <p
-          class="is-capitalized"
-          :class="{
-            'has-text-weight-bold': !isChild,
-            'has-text-k-grey': isWaiting && !step.isActive && isChild,
-          }">
+    <div class="is-flex is-align-items-center">
+      <div class="is-flex is-flex-direction-column">
+        <NeoTooltip
+          v-if="step.tooltip"
+          position="top"
+          multiline
+          class="is-max-width-fit-content">
+          <p class="is-capitalized has-text-weight-bold">
+            {{ step.title }}
+            <NeoIcon
+              icon="fa-info-circle"
+              pack="fa-regular"
+              class="ml-2 has-text-k-grey" />
+          </p>
+
+          <template #content>
+            <span v-dompurify-html="step.tooltip" />
+          </template>
+        </NeoTooltip>
+        <p v-else class="is-capitalized has-text-weight-bold">
           {{ step.title }}
         </p>
-        <div class="is-flex is-justify-content-space-between">
-          <p
-            class="is-capitalized has-text-k-grey"
-            :class="{ 'is-size-7': !isChild }">
+        <div class="is-flex is-align-items-center">
+          <p class="is-capitalized has-text-k-grey">
             {{ step.subtitle }}
+
+            <span v-if="isLoading" class="dots" />
           </p>
 
           <NeoButton
             v-if="showTryAgain"
+            class="ml-4"
             variant="pill"
             size="small"
-            @click="tryAgain"
-            >Try again</NeoButton
-          >
+            @click="tryAgain">
+            {{ $t('helper.tryAgain') }}
+          </NeoButton>
+
+          <a
+            v-if="isCompleted && (step.txId || step.blockNumber)"
+            v-safe-href="txUrl"
+            class="has-text-link ml-4 is-size-7"
+            target="_blank"
+            rel="nofollow noopener noreferrer">
+            {{ $t('helper.viewTx') }}
+            <NeoIcon icon="arrow-up-right" />
+          </a>
         </div>
-      </div>
-      <div
-        v-if="isCompleted && isChild && (step.txId || step.blockNumber)"
-        class="is-flex-shrink-0 ml-4">
-        <a
-          v-safe-href="txUrl"
-          class="has-text-link"
-          target="_blank"
-          rel="nofollow noopener noreferrer">
-          View Tx
-          <NeoIcon icon="arrow-up-right" />
-        </a>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import { TransactionStepStatus } from './utils'
 import { type Prefix } from '@kodadot1/static'
 
@@ -92,6 +93,7 @@ export type TransactionStepItem = {
   title: string
   subtitle?: string
   withAction?: boolean
+  tooltip?: string
   isActive: boolean
   prefix?: Prefix
 }
@@ -99,7 +101,6 @@ export type TransactionStepItem = {
 const emit = defineEmits(['tryAgain'])
 const props = defineProps<{
   step: TransactionStepItem
-  isChild?: boolean
   withAction?: boolean
 }>()
 
@@ -120,13 +121,13 @@ const txUrl = computed(() => {
   return '#'
 })
 
+const iconSize = 'large'
 const status = computed(() => props.step.status)
-const iconSize = computed(() => (props.isChild ? 'medium' : 'large'))
 const isLoading = computed(() => status.value === 'loading')
 const isCompleted = computed(() => status.value === 'completed')
 const isWaiting = computed(() => status.value === 'waiting')
 const isFailed = computed(() => status.value === 'failed')
-const showTryAgain = computed(() => isFailed.value && props.isChild)
+const showTryAgain = computed(() => isFailed.value)
 
 const tryAgain = () => emit('tryAgain')
 </script>

@@ -5,47 +5,50 @@ export const getTransactionStepDetails = (
   step: TransactionStepWithActive,
   $t,
 ): {
-  title: string
-  subtitle?: string
+  text: string
   status: TransactionStepStatus
 } => {
   const { status, isError, isActive } = step
 
-  if (status === TransactionStatus.Finalized) {
+  if (
+    status === TransactionStatus.Finalized ||
+    step.stepStatus === TransactionStepStatus.COMPLETED
+  ) {
     return {
-      title: $t('transactionSteps.completed.title'),
       status: TransactionStepStatus.COMPLETED,
-      subtitle: '',
+      text: $t('transactionSteps.completed'),
     }
   }
 
-  if (isError) {
+  if (isError || step.stepStatus === TransactionStepStatus.FAILED) {
     return {
-      title: $t('transactionSteps.error.title'),
-      subtitle: $t('transactionSteps.error.subtitle'),
+      text: $t('transactionSteps.error'),
       status: TransactionStepStatus.FAILED,
     }
   }
 
   if (status == TransactionStatus.IPFS) {
     return {
-      title: $t('transactionSteps.uploading.title'),
-      subtitle: $t('transactionSteps.uploading.subtitle'),
+      text: $t('transactionSteps.uploading'),
       status: TransactionStepStatus.LOADING,
     }
   }
 
-  if (status !== TransactionStatus.Unknown) {
+  if (
+    (status !== TransactionStatus.Unknown &&
+      step.stepStatus !== TransactionStepStatus.WAITING) ||
+    step.stepStatus === TransactionStepStatus.LOADING
+  ) {
     return {
-      title: $t('transactionSteps.loading.title'),
-      subtitle: $t('transactionSteps.loading.subtitle'),
+      text: $t('transactionSteps.loading'),
       status: TransactionStepStatus.LOADING,
     }
   }
 
   return {
-    title: $t('transactionSteps.waiting.title'),
-    subtitle: isActive ? $t('transactionSteps.waiting.subtitle') : '',
+    text: !isActive
+      ? $t('transactionSteps.finishAbove')
+      : $t('transactionSteps.waiting'),
     status: TransactionStepStatus.WAITING,
   }
 }

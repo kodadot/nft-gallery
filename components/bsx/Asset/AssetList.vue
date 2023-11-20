@@ -12,8 +12,9 @@
     </div>
     <Loader v-model="isLoading" :status="status" />
     <AssetTable
-      v-if="assets"
-      :asset-list="assets.assetList"
+      v-if="assetList"
+      :loading="loading"
+      :asset-list="assetList"
       :account-id="accountId"
       :current-asset="currentAsset"
       @select="handleTokenSelect" />
@@ -32,6 +33,7 @@ import { mapToId } from '@/utils/mappers'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import Loader from '@/components/shared/Loader.vue'
 import AssetTable from '@/components/bsx/Asset/AssetTable.vue'
+import { AssetItem } from './types'
 
 const { accountId } = useAuth()
 
@@ -47,16 +49,25 @@ const { result: assets } = useQuery(
   { clientId: client.value },
 )
 
+const assetList = ref<AssetItem[]>([])
+const loading = ref(true)
+
 const fetchAccountBalance = async () => {
   const { apiInstance } = useApi()
   const api = await apiInstance.value
   const mapper = (id: string) => getAsssetBalance(api, accountId.value, id)
-  assets.value.assetList.map(mapToId).map(mapper).forEach(updatedBalanceFor)
+  assetList.value.map(mapToId).map(mapper).forEach(updatedBalanceFor)
 }
 
-const updatedBalanceFor = async (balance: Promise<string>, index: number) => {
+const updatedBalanceFor = async (
+  getBalance: Promise<string>,
+  index: number,
+) => {
   try {
-    assets.value.assetList[index].balance = await balance
+    const balance = await getBalance
+    assetList.value = assetList.value.map((asset, i) => {
+      return i === index ? { ...asset, balance } : asset
+    })
   } catch (e) {
     console.warn('Unable to fetch balance', e)
   }
@@ -85,12 +96,12 @@ const handleTokenSelect = async (id: string) => {
 }
 
 watch(
-  () => accountId.value,
+  [accountId, assets],
   async () => {
     if (assets.value) {
-      console.log(assets.value)
-      await fetchAccountBalance()
-      await fetchCurrentToken()
+      assetList.value = assets.value.assetList
+      await Promise.all([fetchAccountBalance(), fetchCurrentToken()])
+      loading.value = false
     }
   },
   { immediate: true },

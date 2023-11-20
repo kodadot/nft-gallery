@@ -36,10 +36,6 @@ const onError = (e: Event) => {
 </script>
 
 <style>
-.image-container.is-square.is-detail > img {
-  object-fit: none;
-}
-
 .image-container.is-square > img {
   object-fit: cover;
 }

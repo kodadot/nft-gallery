@@ -12,16 +12,6 @@
         <MultipleBalances />
         <WalletAssetPortfolio />
       </div>
-
-      <div v-if="isSnek">
-        <hr class="my-4" />
-        <div
-          v-if="totalValue"
-          class="is-flex is-justify-content-space-between is-align-items-center my-1">
-          <span class="is-size-7"> {{ $t('spotlight.total') }}: </span>
-          <span> ${{ totalValue.toFixed(2) }} </span>
-        </div>
-      </div>
     </div>
 
     <WalletAssetMenu />
@@ -40,13 +30,10 @@ const MultipleBalances = defineAsyncComponent(
   () => import('@/components/balance/MultipleBalances.vue'),
 )
 
-const totalValue = ref(0)
 const identityStore = useIdentityStore()
-const { urlPrefix } = usePrefix()
 const { $consola } = useNuxtApp()
 
 const account = computed(() => identityStore.getAuthAddress)
-const isSnek = computed(() => urlPrefix.value === 'snek')
 
 const { display } = useIdentity({
   address: account,

@@ -11,10 +11,10 @@ const DEFAULT_BALANCE_STATE = {
   bsx: '0',
   ksm: '0',
   rmrk: '0',
-  snek: '0',
   ahk: '0',
   dot: '0',
   ahp: '0',
+  // ahr: '0',
   // glmr: '0',
   // movr: '0',
 }
@@ -34,9 +34,9 @@ export type ChainType =
   | 'polkadot'
   | 'kusama'
   | 'basilisk'
-  | 'basilisk-testnet'
   | 'kusamaHub'
   | 'polkadotHub'
+// | 'rococoHub'
 
 type ChainDetail = {
   balance: string
@@ -109,12 +109,7 @@ export const useIdentityStore = defineStore('identity', {
       { chain: 'basilisk', token: 'KSM', tokenId: getKusamaAssetId('bsx') },
     ],
     multiBalanceAssetsTestnet: [
-      { chain: 'basilisk-testnet', token: 'BSX' },
-      {
-        chain: 'basilisk-testnet',
-        token: 'KSM',
-        tokenId: getKusamaAssetId('snek'),
-      },
+      // { chain: 'rococoHub', token: 'ROC' },
     ],
   }),
   getters: {

@@ -13,12 +13,10 @@ export default function () {
       case 'ahk':
       case 'ahp':
       case 'dot':
+        // case 'ahr':
         return identityStore.getAuthBalance
       case 'bsx':
         return identityStore.multiBalances.chains.basilisk?.[token]
-          ?.nativeBalance
-      case 'snek':
-        return identityStore.multiBalances.chains['basilisk-testnet']?.[token]
           ?.nativeBalance
       default:
         return identityStore.getTokenBalanceOf(
