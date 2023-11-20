@@ -4,7 +4,6 @@
 @import '@oruga-ui/oruga-next/src/scss/utilities/_variables.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_animations.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_helpers.scss';
-@import '@/assets/styles/abstracts/variables';
 
 $modal-content-border-radius: 0;
 
@@ -29,7 +28,6 @@ $modal-content-border-radius: 0;
       @media screen and (max-width: 425px)  {
         .modal-width {
           width: unset;
-
         }
         position: absolute;
         bottom: -1px;
