@@ -38,7 +38,7 @@
         </div>
 
         <div
-          class="is-flex border-top is-justify-content-space-between py-4 px-6">
+          class="is-flex border-top is-justify-content-space-between is-ellipsis py-4 px-6">
           {{ $t('listingCart.potentialEarnings') }}
           <div class="is-flex">
             <span class="ml-2 has-text-grey"
@@ -48,7 +48,8 @@
           </div>
         </div>
 
-        <div class="is-flex is-justify-content-space-between pb-5 px-6">
+        <div
+          class="is-flex is-justify-content-space-between is-ellipsis pb-5 px-6">
           <AutoTeleportActionButton
             :actions="actions"
             :disabled="Boolean(listingCartStore.incompleteListPrices)"
