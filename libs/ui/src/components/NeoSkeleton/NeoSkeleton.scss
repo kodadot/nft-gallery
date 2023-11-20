@@ -29,13 +29,16 @@ $base-border-radius: var(--border-radius, 4px);
     }
 
     background-size: 400% 100%!important;
-    @include ktheme() {
-      background: skeletonGradient('k-shade')
+
+    &--k-shade {
+      @include ktheme() {
+        background: skeletonGradient('k-shade')
+      }
     }
 
-    &--light {
+    &--k-grey-light {
       @include ktheme() {
-        background: skeletonGradient('k-grey-light') !important
+        background: skeletonGradient('k-grey-light')
       }
     }
   }
