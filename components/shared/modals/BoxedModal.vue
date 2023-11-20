@@ -34,8 +34,8 @@
       class="is-relative"
       :class="[
         {
-          'limit-height': scrollable,
-          'limit-height__loading': scrollable && loading,
+          'limit-height__scrollabe': scrollable,
+          'limit-height__loading': loading,
         },
         `px-${paddingX}`,
         `pt-${paddingTop}`,
@@ -90,7 +90,7 @@ withDefaults(
     title: string
     loading?: boolean
     modalWidth?: string
-    modalHeight?: string
+    modalMaxHeight?: string
     paddingTop?: string
     paddingBottom?: string
     paddingX?: string
@@ -98,7 +98,7 @@ withDefaults(
   }>(),
   {
     modalWidth: '25rem',
-    modalHeight: '50vh',
+    modalMaxHeight: '50vh',
     paddingTop: '4',
     paddingBottom: '5',
     paddingX: '6',
@@ -121,10 +121,13 @@ $b-padding: 1.25rem;
 }
 
 .limit-height {
-  max-height: v-bind(modalHeight);
-  overflow-y: auto;
+  &__scrollabe {
+    max-height: v-bind(modalMaxHeight);
+    overflow-y: auto;
+  }
 
   &__loading {
+    max-height: v-bind(modalMaxHeight);
     overflow: hidden;
   }
 }
@@ -135,7 +138,7 @@ $b-padding: 1.25rem;
     left: $x-padding;
     width: calc(100% - $x-padding * 2);
     height: calc(100% - ($t-padding + $b-padding));
-    max-height: v-bind(modalHeight) !important;
+    max-height: v-bind(modalMaxHeight) !important;
     z-index: 2;
   }
 
@@ -155,6 +158,7 @@ $b-padding: 1.25rem;
   &__loading {
     opacity: 0;
     z-index: 1;
+    pointer-events: none;
   }
 }
 </style>

@@ -6,22 +6,14 @@
       scroll="clip"
       append-to-body
       @close="onClose">
-      <div class="modal-width">
-        <header
-          class="py-5 px-6 is-flex is-justify-content-space-between border-bottom is-align-items-center">
-          <span class="modal-card-title is-size-6 has-text-weight-bold">
-            {{ title }}
-          </span>
-
-          <NeoButton
-            variant="text"
-            no-shadow
-            icon="xmark"
-            size="medium"
-            @click="onClose" />
-        </header>
-
-        <div class="px-6 pt-4 limit-height">
+      <BoxedModal
+        modal-max-height="70vh"
+        :title="title"
+        padding-x="0"
+        :scrollable="false"
+        :loading="loadingAutoTeleport"
+        @close="onClose">
+        <div class="px-6 limit-height">
           <ModalIdentityItem />
 
           <ListingCartSingleItemCart
@@ -48,14 +40,15 @@
           </div>
         </div>
 
-        <div class="is-flex is-justify-content-space-between pb-5 px-6">
+        <div class="is-flex is-justify-content-space-between px-6">
           <AutoTeleportActionButton
+            ref="autoteleportButton"
             :actions="actions"
             :disabled="Boolean(listingCartStore.incompleteListPrices)"
             :label="confirmListingLabel"
             @confirm="confirm" />
         </div>
-      </div>
+      </BoxedModal>
     </NeoModal>
   </div>
 </template>
@@ -63,7 +56,7 @@
 <script setup lang="ts">
 import { Interaction } from '@kodadot1/minimark/v1'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
-import { NeoButton, NeoModal } from '@kodadot1/brick'
+import { NeoModal } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
 import { TokenToList } from '@/composables/transaction/types'
 import { ListCartItem, useListingCartStore } from '@/stores/listingCart'
@@ -80,6 +73,7 @@ import ListingCartSingleItemCart from './singleItemCart/ListingCartSingleItemCar
 import ListingCartMultipleItemsCart from './multipleItemsCart/ListingCartMultipleItemsCart.vue'
 import type { Actions } from '@/composables/transaction/types'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
+import BoxedModal from '@/components/shared/modals/BoxedModal.vue'
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
@@ -93,6 +87,11 @@ const { chainSymbol, decimals } = useChain()
 const fixedPrice = ref()
 const floorPricePercentAdjustment = ref()
 const autoTeleport = ref(false)
+const autoteleportButton = ref()
+
+const loadingAutoTeleport = computed(
+  () => !autoteleportButton.value?.hasBalances,
+)
 
 function setFixedPrice() {
   const rate = Number(fixedPrice.value) || 0
@@ -253,11 +252,6 @@ onUnmounted(() => {
 .limit-height {
   max-height: 50vh;
   overflow-y: auto;
-}
-
-.modal-width {
-  width: 25rem;
-  max-width: 30rem;
 }
 
 :deep(.identity-name-font-weight-regular) {
