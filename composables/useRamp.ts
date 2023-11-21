@@ -27,7 +27,7 @@ export default function useRamp() {
         hostAppName: HOST_APP_NAME,
         hostApiKey: rampApiKey,
         hostLogoUrl: HOST_LOGO_URL,
-        variant: 'desktop',
+        variant: 'auto',
       })
 
       rampInstant.value.on('PURCHASE_CREATED', () => {

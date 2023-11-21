@@ -54,7 +54,7 @@ const finalValue = computed(() =>
       '',
     ),
     props.round,
-    false,
+    true,
   ),
 )
 
