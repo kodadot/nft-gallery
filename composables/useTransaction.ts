@@ -40,7 +40,7 @@ import {
 import { execMintCollection } from './transaction/transactionMintCollection'
 import { ApiPromise } from '@polkadot/api'
 import { isActionValid } from './transaction/utils'
-import consola from 'consola'
+const { $consola } = useNuxtApp()
 
 const resolveLargeSuccessNotification = (
   block: string,
