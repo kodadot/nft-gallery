@@ -91,7 +91,7 @@ export const sanitizeIpfsUrl = (
     return ''
   }
 
-  if (!isIpfsUrl(ipfsUrl) && !ipfsUrl.includes(kodaImage)) {
+  if (!sanitizeIpfsCid(ipfsUrl) && !ipfsUrl.includes(kodaImage)) {
     const kodaUrl = new URL('/type/url', kodaImage)
     kodaUrl.searchParams.set('endpoint', ipfsUrl)
 
