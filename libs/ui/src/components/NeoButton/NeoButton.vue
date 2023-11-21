@@ -53,6 +53,6 @@ withDefaults(
 )
 </script>
 
-<style>
+<style lang="scss">
 @import './NeoButton.scss';
 </style>
