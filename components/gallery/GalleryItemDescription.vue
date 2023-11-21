@@ -149,7 +149,7 @@
             class="has-text-link"
             target="_blank"
             rel="nofollow noopener noreferrer">
-            {{ animationMediaMimeType }}
+            {{ nftAnimationMimeType }}
           </a>
         </div>
       </div>
@@ -171,7 +171,6 @@
       <NeoTabItem value="3" :label="$t('tabs.parent')" class="p-5">
         <nuxt-link :to="parentNftUrl">
           <MediaItem
-            :key="parent?.nftImage"
             :class="{
               'is-flex is-align-items-center is-justify-content-center h-audio':
                 resolveMedia(parent?.nftMimeType.value) == MediaType.AUDIO,
@@ -207,7 +206,7 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { GalleryItem, useGalleryItem } from './useGalleryItem'
 
 import { MediaType } from '@/components/rmrk/types'
-import { getMimeType, resolveMedia } from '@/utils/gallery/media'
+import { resolveMedia } from '@/utils/gallery/media'
 import { replaceSingularCollectionUrlByText } from '@/utils/url'
 
 const { urlPrefix } = usePrefix()
@@ -223,6 +222,7 @@ const nftMetadata = getValue('nftMetadata')
 const nftMimeType = getValue('nftMimeType')
 const nftImage = getValue('nftImage')
 const nftAnimation = getValue('nftAnimation')
+const nftAnimationMimeType = getValue('nftAnimationMimeType')
 
 const activeTab = ref('0')
 const { version } = useRmrkVersion()
@@ -284,23 +284,8 @@ const propertiesTabDisabled = computed(() => {
   return !properties.value?.length
 })
 
-const metadataMimeType = ref('application/json')
-const metadataURL = ref('')
-const animationMediaMimeType = ref('')
-
-watchEffect(async () => {
-  if (nft.value?.metadata) {
-    const sanitizeMetadata = sanitizeIpfsUrl(nft.value?.metadata)
-    const mimeType = await getMimeType(sanitizeMetadata)
-
-    metadataMimeType.value = mimeType || 'application/json'
-    metadataURL.value = sanitizeMetadata
-  }
-
-  if (nftAnimation.value) {
-    animationMediaMimeType.value = await getMimeType(nftAnimation.value)
-  }
-})
+const metadataMimeType = 'application/json'
+const metadataURL = computed(() => sanitizeIpfsUrl(nft.value?.metadata))
 </script>
 
 <style lang="scss">

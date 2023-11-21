@@ -58,7 +58,7 @@
             class="gallery-item-media is-relative"
             :src="nftImage"
             :animation-src="nftAnimation"
-            :mime-type="nftMimeType"
+            :mime-type="nftAnimationMimeType || nftMimeType"
             :title="nftMetadata?.name"
             is-detail
             :is-lewd="galleryDescriptionRef?.isLewd"
@@ -201,8 +201,15 @@ const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 const preferencesStore = usePreferencesStore()
 
 const galleryItem = useGalleryItem()
-const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType, nftResources } =
-  galleryItem
+const {
+  nft,
+  nftMetadata,
+  nftImage,
+  nftAnimation,
+  nftAnimationMimeType,
+  nftMimeType,
+  nftResources,
+} = galleryItem
 const collection = computed(() => nft.value?.collection)
 
 const triggerBuySuccess = computed(() => preferencesStore.triggerBuySuccess)

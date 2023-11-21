@@ -1,5 +1,4 @@
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import { getMimeType } from '@/utils/gallery/media'
 import { useHistoryStore } from '@/stores/history'
 import { NftResources, getNftMetadata } from '@/composables/useNft'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
@@ -16,29 +15,9 @@ export interface GalleryItem {
   nftMimeType: Ref<string>
   nftMetadata: Ref<NFTWithMetadata | undefined>
   nftAnimation: Ref<string>
+  nftAnimationMimeType: Ref<string>
   nftImage: Ref<string>
   nftResources: Ref<NftResources[] | undefined>
-}
-
-const whichMimeType = async (data) => {
-  if (data?.type) {
-    return data?.type
-  }
-  if (data?.animationUrl) {
-    return await getMimeType(sanitizeIpfsUrl(data.animationUrl))
-  }
-  if (data?.image || data?.mediaUri) {
-    return await getMimeType(sanitizeIpfsUrl(data?.image || data?.mediaUri))
-  }
-
-  return ''
-}
-
-const whichAsset = (data) => {
-  return {
-    animation_url: sanitizeIpfsUrl(data.animationUrl || ''),
-    image: sanitizeIpfsUrl(data.image || data.mediaUri || '', 'image'),
-  }
 }
 
 export const useGalleryItem = (nftId?: string): GalleryItem => {
@@ -47,6 +26,7 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
   const nft = ref<NFT>()
   const nftImage = ref('')
   const nftAnimation = ref('')
+  const nftAnimationMimeType = ref('')
   const nftMimeType = ref('')
   const nftMetadata = ref<NFTWithMetadata>()
   const nftResources = ref<NftResources[]>()
@@ -113,13 +93,14 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
       }
     })
 
-    nftMetadata.value = await getNftMetadata(nftEntity, urlPrefix.value)
-    nftMimeType.value = await whichMimeType(nftMetadata.value)
+    const metadata = await getNftMetadata(nftEntity, urlPrefix.value, true)
+    nftMetadata.value = metadata
     nftResources.value = resources
 
-    const asset = whichAsset(nftMetadata.value)
-    nftImage.value = asset.image
-    nftAnimation.value = asset.animation_url
+    nftImage.value = metadata?.image || ''
+    nftMimeType.value = metadata?.imageMimeType || ''
+    nftAnimationMimeType.value = metadata.animationUrlMimeType || ''
+    nftAnimation.value = metadata?.animationUrl || ''
 
     historyStore.addHistoryItem({
       id: nft.value.id,
@@ -139,6 +120,7 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     nft,
     nftImage,
     nftAnimation,
+    nftAnimationMimeType,
     nftMimeType,
     nftMetadata,
     nftResources,
