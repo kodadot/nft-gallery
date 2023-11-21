@@ -150,9 +150,13 @@
     }
   }
 
+  &--skip-button {
+    padding-right: 0px !important;
+  }
+
   input {
     border-radius: 0;
-    padding: 0 50px 0 42px !important;
+    padding: 0 50px 0 42px;
     height: 2.5rem;
     outline: none;
 

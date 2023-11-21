@@ -468,9 +468,9 @@ a.has-text-grey {
   cursor: pointer !important;
 }
 
-.has-text-k-accent {
+.has-text-k-primary {
   @include ktheme() {
-    color: theme('k-accent') !important;
+    color: theme('k-primary') !important;
   }
 }
 
