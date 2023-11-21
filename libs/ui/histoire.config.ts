@@ -15,6 +15,15 @@ export default defineConfig({
         allow: [searchForWorkspaceRoot(process.cwd())],
       },
     },
+    css: {
+      postcss: {
+        plugins: [
+          require('tailwindcss/nesting'),
+          require('tailwindcss'),
+          require('autoprefixer'),
+        ],
+      },
+    },
     plugins: [vue()],
     resolve: {
       alias: {
