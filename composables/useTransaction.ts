@@ -179,6 +179,11 @@ export const executeAction = ({
       execBurnMultiple(item as ActionBurnMultipleNFTs, api, executeTransaction),
   }
 
+  if (!isActionValid(item)) {
+    consola.warn(`Invalid action: ${JSON.stringify(item)}`)
+    return 'INVALID ACTION'
+  }
+
   return map[item.interaction]?.() ?? 'UNKNOWN'
 }
 
@@ -192,11 +197,6 @@ export const useTransaction = () => {
 
     if (prefix) {
       api = await apiInstanceByPrefix(prefix)
-    }
-
-    if (!isActionValid(item)) {
-      consola.warn(`Invalid action: ${JSON.stringify(item)}`)
-      return
     }
 
     return executeAction({ item, executeTransaction, api, isLoading, status })
