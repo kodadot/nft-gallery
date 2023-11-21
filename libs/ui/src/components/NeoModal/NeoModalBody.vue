@@ -101,7 +101,7 @@ withDefaults(
   }>(),
   {
     modalWidth: '25rem',
-    modalMaxHeight: '50vh',
+    modalMaxHeight: '70vh',
     paddingTop: '4',
     paddingBottom: '5',
     paddingX: '6',
