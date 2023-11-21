@@ -37,7 +37,13 @@
           no-shadow
           class="fixed-width p-1 no-border-left btn-height override-wrapper-width"
           @click.prevent="onClickShoppingCart">
-          <img :src="cartIcon" class="image is-16x16" alt="cart icon" />
+          <NeoIcon
+            :icon="
+              shoppingCartStore.isItemInCart(nftForShoppingCart.id)
+                ? 'fa-striked-out-cart-shopping'
+                : 'fa-shopping-cart-outline-sharp'
+            "
+            pack="fa-kit" />
         </NeoButton>
       </div>
       <div v-else-if="isOwner" class="is-flex">
@@ -69,7 +75,7 @@
 <script setup lang="ts">
 // PLEASE FIX bind-key href => to
 import { resolveComponent } from 'vue'
-import { NeoButton, NeoNftCard } from '@kodadot1/brick'
+import { NeoButton, NeoIcon, NeoNftCard } from '@kodadot1/brick'
 import type { NftCardVariant } from '@kodadot1/brick'
 import type { TokenEntity } from '@/composables/useNft'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
@@ -155,8 +161,6 @@ const listLabel = computed(() => {
 
   return isInCart ? label + ' ✓' : label
 })
-
-const { cartIcon } = useShoppingCartIcon(props.entity.id)
 
 const { nft: entity } = useNft(props.entity)
 
