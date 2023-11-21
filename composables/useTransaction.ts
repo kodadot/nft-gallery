@@ -183,7 +183,7 @@ export const executeAction = ({
     consola.warn(`Invalid action: ${JSON.stringify(item)}`)
     throw createError({
       statusCode: 404,
-      statusMessage: 'Interaction Not Found'
+      statusMessage: 'Interaction Not Found',
     })
   }
 
