@@ -38,6 +38,7 @@
           class="fixed-width p-1 no-border-left btn-height override-wrapper-width"
           @click.prevent="onClickShoppingCart">
           <NeoIcon
+            class="is-flex is-align-items-center is-justify-content-center"
             :icon="
               shoppingCartStore.isItemInCart(nftForShoppingCart.id)
                 ? 'fa-striked-out-cart-shopping'
