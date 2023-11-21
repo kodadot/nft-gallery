@@ -97,10 +97,10 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     nftMetadata.value = metadata
     nftResources.value = resources
 
-    nftImage.value = metadata?.image || ''
-    nftMimeType.value = metadata?.imageMimeType || ''
+    nftImage.value = metadata.image || ''
+    nftMimeType.value = metadata.imageMimeType || ''
     nftAnimationMimeType.value = metadata.animationUrlMimeType || ''
-    nftAnimation.value = metadata?.animationUrl || ''
+    nftAnimation.value = metadata.animationUrl || ''
 
     historyStore.addHistoryItem({
       id: nft.value.id,
