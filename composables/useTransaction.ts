@@ -181,7 +181,10 @@ export const executeAction = ({
 
   if (!isActionValid(item)) {
     consola.warn(`Invalid action: ${JSON.stringify(item)}`)
-    return 'INVALID ACTION'
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'Interaction Not Found'
+    })
   }
 
   return map[item.interaction]?.() ?? 'UNKNOWN'
