@@ -152,8 +152,12 @@ export default function (
     }
   })
 
+  const actionsId = computed(() =>
+    actions.value.map(({ action }) => JSON.stringify(action)).join('_'),
+  )
+
   watch(
-    actions,
+    actionsId,
     async () => {
       if (fees.actionAutoFees) {
         try {
