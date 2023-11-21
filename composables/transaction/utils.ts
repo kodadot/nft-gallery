@@ -18,6 +18,7 @@ import {
 } from '../transaction/types'
 
 import { Interaction } from '@kodadot1/minimark/v1'
+import consola from 'consola'
 
 export function transactionOfferFactory(key: 'acceptOffer' | 'withdrawOffer') {
   return function (params: ActionWithdrawOffer, api, executeTransaction) {
@@ -75,8 +76,8 @@ export function isActionValid(action: Actions): boolean {
   const checker = validityMap[action.interaction]
 
   if (!checker) {
-    // Assume the action is valid if there's no specific checker
-    return true
+    consola.error(`Interaction not found: ${action.interaction}`)
+    return false
   }
 
   return checker(action)

@@ -9,7 +9,6 @@ import { getMaxKeyByValue } from '@/utils/math'
 import { getActionTransactionFee } from '@/utils/transactionExecutor'
 import sum from 'lodash/sum'
 import type { AutoTeleportAction, AutoTeleportFeeParams } from './types'
-import { isActionValid } from '../transaction/utils'
 
 const BUFFER_FEE_PERCENT = 0.2
 const BUFFER_AMOUNT_PERCENT = 0.02
@@ -164,9 +163,6 @@ export default function (
         try {
           const feesPromisses = actions.value.map(
             async ({ action, prefix }) => {
-              if (!isActionValid(action)) {
-                return '0'
-              }
               let api = await apiInstance.value
               if (prefix) {
                 api = await apiInstanceByPrefix(prefix)

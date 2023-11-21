@@ -39,6 +39,8 @@ import {
 } from './transaction/types'
 import { execMintCollection } from './transaction/transactionMintCollection'
 import { ApiPromise } from '@polkadot/api'
+import { isActionValid } from './transaction/utils'
+import consola from 'consola'
 
 const resolveLargeSuccessNotification = (
   block: string,
@@ -190,6 +192,11 @@ export const useTransaction = () => {
 
     if (prefix) {
       api = await apiInstanceByPrefix(prefix)
+    }
+
+    if (!isActionValid(item)) {
+      consola.warn(`Invalid action: ${JSON.stringify(item)}`)
+      return
     }
 
     return executeAction({ item, executeTransaction, api, isLoading, status })
