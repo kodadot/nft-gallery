@@ -20,15 +20,10 @@
         <div
           class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
           @click="closeBurgerMenu">
-          <img
+          <NeoButton
             v-if="isMobileNavbarOpen || showSearchOnNavbar || isTinyMobile"
-            class="mobile-nav-search-btn mr-2"
-            :src="
-              isDarkMode
-                ? '/search-mobile-navbar-dark.svg'
-                : '/search-mobile-navbar.svg'
-            "
-            alt="search"
+            class="mobile-nav-search-btn mr-2 mt-1"
+            icon="magnifying-glass"
             @click="showMobileSearchBar" />
 
           <div v-show="openMobileSearchBar">
@@ -38,10 +33,13 @@
                 v-if="isMobile"
                 ref="mobilSearchRef"
                 hide-filter
-                class="is-flex-grow-1 mt-3" />
-              <button class="cancel-btn p-3" @click="hideMobileSearchBar">
+                class="is-flex-grow-1" />
+              <NeoButton
+                variant="text"
+                class="p-3 is-shadowless no-border is-capitalized is-clickable"
+                @click="hideMobileSearchBar">
                 {{ $t('cancel') }}
-              </button>
+              </NeoButton>
             </div>
           </div>
         </div>
@@ -104,7 +102,7 @@
               @closeMobileNavbar="showMobileNavbar"
               @closeMobileSubMenu="onCloseMobileSubMenu" />
           </MobileExpandableSection>
-          <ExploreDropdown
+          <NavbarExploreDropdown
             v-else
             class="navbar-explore custom-navbar-item"
             data-testid="explore" />
@@ -179,7 +177,7 @@
               @click.stop="openWalletConnectModal">
               <span>
                 {{ $t('profile.page') }}
-                <NeoIcon icon="user-circle" />
+                <NeoIcon icon="user-circle" class="icon" size="medium" />
               </span>
               <NeoIcon class="icon--right" icon="chevron-right" />
             </div>
@@ -193,7 +191,7 @@
             </div>
           </template>
 
-          <ProfileDropdown
+          <NavbarProfileDropdown
             v-if="!isMobile"
             id="NavProfile"
             :chain="urlPrefix"
@@ -208,18 +206,16 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { nextTick } from 'vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import ChainSelectDropdown from '@/components/navbar/ChainSelectDropdown.vue'
 import CreateDropdown from '@/components/navbar/CreateDropdown.vue'
-import ExploreDropdown from '@/components/navbar/ExploreDropdown.vue'
 import MobileExpandableSection from '@/components/navbar/MobileExpandableSection.vue'
 import MobileLanguageOption from '@/components/navbar/MobileLanguageOption.vue'
 import NavbarChainOptions from '@/components/navbar/NavbarChainOptions.vue'
 import NavbarExploreOptions from '@/components/navbar/NavbarExploreOptions.vue'
 import NotificationBoxButton from '@/components/navbar/NotificationBoxButton.vue'
-import ProfileDropdown from '@/components/navbar/ProfileDropdown.vue'
 import Search from '@/components/search/Search.vue'
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
 import { useEventListener } from '@vueuse/core'

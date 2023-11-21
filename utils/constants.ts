@@ -26,7 +26,7 @@ export const dotHubDenyList = [
 ]
 
 export const IPFS_KODADOT_IMAGE_PLACEHOLDER =
-  'bafkreigbvowevtdh5ktnr5kyfxf2b56lp4424zj2gb6wona6if4lh35mbe'
+  'bafkreidchqftqyioy6q776xmtwj62wk3qdgrqlsdsl7gv27qkecgzfbe2i'
 
 export const MIN_CAROUSEL_NFT = 3
 
@@ -53,7 +53,6 @@ export const URLS = {
     seoCard: 'https://og-image-green-seven.vercel.app/',
     rubick: 'https://squid.subsquid.io/rubick/graphql',
     snek: 'https://squid.subsquid.io/snekk/graphql',
-    snekRococo: 'https://squid.subsquid.io/sneck/graphql',
     marck: 'https://squid.subsquid.io/marck/graphql',
     stick: 'https://query-stick.stellate.sh',
     speck: 'https://squid.subsquid.io/speck/graphql',
@@ -67,6 +66,7 @@ export const URLS = {
   },
   providers: {
     coingecko: 'https://api.coingecko.com/api/v3',
+    kodaprice: 'https://price.kodadot.workers.dev/',
     ramp: 'https://ramp.network/buy/',
     cloudflare: 'https://cloudflare-ipfs.com/ipfs/',
     pinata: 'https://api.pinata.cloud/',
@@ -77,7 +77,6 @@ export const apolloClientConfig = {
   ...defineApolloConfig(),
   subsquid: toApolloEndpoint(process.env.SUBSQUID_ENDPOINT || URLS.koda.rubick),
   bsx: toApolloEndpoint(URLS.koda.snek),
-  snek: toApolloEndpoint(URLS.koda.snekRococo),
   rmrk2: toApolloEndpoint(URLS.koda.marck),
   ahk: toApolloEndpoint(URLS.koda.stick),
   ahp: toApolloEndpoint(URLS.koda.speck),

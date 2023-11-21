@@ -14,7 +14,7 @@
     <div class="separator mx-2" />
     <nuxt-link
       class="is-flex is-align-items-center has-text-weight-bold my-2"
-      to="/ahk/drops/chained">
+      to="/ahp/drops/pareidoscope">
       {{ $t('mint.unlockable.takeMe') }}
     </nuxt-link>
   </div>

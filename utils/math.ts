@@ -1,7 +1,7 @@
 import { Interaction } from '@/components/rmrk/service/scheme'
 import { isAfter, isBefore, isEqual, parseISO } from 'date-fns'
 import consola from 'consola'
-import { maxBy } from 'lodash'
+import maxBy from 'lodash/maxBy'
 
 export function pairListBuyEvent(events: Interaction[]): Interaction[] {
   const res: Interaction[] = []

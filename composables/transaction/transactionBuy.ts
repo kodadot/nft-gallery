@@ -128,10 +128,10 @@ export function execBuyTx(item: ActionBuy, api, executeTransaction) {
     execBuyRmrk(item, api, executeTransaction)
   }
 
-  if (item.urlPrefix === 'snek' || item.urlPrefix === 'bsx') {
+  if (item.urlPrefix === 'bsx') {
     execBuyBasilisk(item, api, executeTransaction)
   }
-
+  // item.urlPrefix === 'ahr'
   if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
     execBuyStatemine(item, api, executeTransaction)
   }

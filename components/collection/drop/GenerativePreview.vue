@@ -45,8 +45,7 @@
 import { MediaItem, NeoButton, NeoIcon } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { getRandomInt } from '../unlockable/utils'
-import { encodeAddress } from '@polkadot/util-crypto'
-import { stringToHex } from '@polkadot/util'
+import { blake2AsHex, encodeAddress } from '@polkadot/util-crypto'
 
 const props = defineProps<{
   content: string
@@ -64,7 +63,7 @@ const getHash = (isDefault?: boolean) => {
     : getRandomInt(15000)
   // https://github.com/paritytech/ss58-registry/blob/30889d6c9d332953a6e3333b30513eef89003f64/ss58-registry.json#L1292C17-L1292C22
   return accountId.value
-    ? stringToHex(encodeAddress(accountId.value, ss58Format))
+    ? blake2AsHex(encodeAddress(accountId.value, ss58Format), 256, null, true)
     : // random value
       ss58Format
 }
@@ -98,6 +97,7 @@ const generateNft = (isDefault: boolean = false) => {
 
 .fixed-size {
   width: 36rem;
+  height: min-content;
   position: relative;
 
   @include mobile {

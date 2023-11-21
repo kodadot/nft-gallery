@@ -1,7 +1,4 @@
 User-agent: *
-Disallow: */details/
-Disallow: */gallery/
-Disallow: */u/
 Disallow: */transfer
 
 Sitemap: https://kodadot.xyz/sitemap.xml

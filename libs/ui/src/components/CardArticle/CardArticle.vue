@@ -4,9 +4,7 @@
     class="article"
     target="_blank"
     rel="nofollow noopener noreferrer">
-    <div
-      class="article-image"
-      :style="{ 'background-image': `url(${image})` }" />
+    <img class="article-image" :src="image" :alt="title" />
     <div class="article-info">
       <p class="article-title">
         {{ title }}

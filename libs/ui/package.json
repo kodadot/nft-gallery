@@ -10,12 +10,12 @@
     "story:preview": "histoire preview"
   },
   "devDependencies": {
-    "@histoire/plugin-vue": "^0.17.4",
+    "@histoire/plugin-vue": "^0.17.5",
     "@oruga-ui/oruga-next": "^0.7.0",
-    "@vitejs/plugin-vue": "^4.4.0",
-    "eslint": "^8.53.0",
+    "@vitejs/plugin-vue": "^4.5.0",
+    "eslint": "^8.54.0",
     "eslint-plugin-vue": "^8.7.1",
-    "histoire": "^0.17.4",
+    "histoire": "^0.17.5",
     "vite": "^4.5.0"
   },
   "dependencies": {

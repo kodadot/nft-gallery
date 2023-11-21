@@ -17,18 +17,18 @@ const networkToPrefix = {
   kusama: 'ksm',
   basilisk: 'bsx',
   kusamaHub: 'ahk',
-  'basilisk-testnet': 'snek',
   polkadotHub: 'ahp',
+  // rococoHub: 'ahr',
 }
 
-const prefixToNetwork = {
+export const prefixToNetwork = {
   dot: 'polkadot',
   rmrk: 'kusama',
   ksm: 'kusama',
   bsx: 'basilisk',
   ahk: 'kusamaHub',
-  snek: 'basilisk-testnet',
   ahp: 'polkadotHub',
+  ahr: 'rococoHub',
 }
 
 const getNetwork = (prefix: Prefix) => {

@@ -106,7 +106,7 @@ useHead({
   }
 
   &-avatar {
-    padding: 0.75rem;
+    padding: 0.625rem;
 
     @include ktheme() {
       border: 1px solid theme('border-color');
@@ -123,7 +123,7 @@ useHead({
   }
 
   &-name {
-    font-weight: bold;
+    font-weight: 700;
     font-size: 2rem;
     margin-top: 1.5rem;
 

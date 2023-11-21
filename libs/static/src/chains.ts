@@ -26,15 +26,10 @@ export const CHAINS: Config<ChainProperties> = {
   rmrk: DEFAULT_CHAIN_PROPERTIES,
   ksm: DEFAULT_CHAIN_PROPERTIES,
   bsx: toChainProperty(10_041, 12, 'BSX', 'https://basilisk.subscan.io/'),
-  snek: toChainProperty(
-    10_041,
-    12,
-    'BSX',
-    'https://calamar.play.hydration.cloud/rococo%20basilisk/search?query='
-  ),
   ahk: toChainProperty(2, 12, 'KSM', 'https://statemine.subscan.io/'),
   dot: toChainProperty(0, 10, 'DOT', 'https://polkadot.subscan.io/'),
   ahp: toChainProperty(0, 10, 'DOT', 'https://statemint.subscan.io/'),
+  // ahr: toChainProperty(42, 12, 'ROC', 'https://rockmine.subscan.io/'),
   // movr: toChainProperty(1285, 18, 'MOVR', 'https://moonriver.subscan.io/'),
   // glmr: toChainProperty(1284, 18, 'GLMR', 'https://moonbeam.subscan.io/'),
 }
@@ -45,10 +40,10 @@ export const chainPrefixes: Prefix[] = [
   'ahp',
   'ahk',
   'rmrk',
-  'snek',
   'ksm',
   'dot',
   'bsx',
+  // 'ahr',
   // 'movr',
   // 'glmr',
 ]
@@ -63,11 +58,11 @@ export const chainPrefixesMap = chainPrefixes.reduce(
 export const chainInfo: Record<Prefix, string> = {
   bsx: 'basilisk',
   rmrk: 'kusama',
-  snek: 'snek',
   ksm: 'rmrk',
   ahk: 'statemine',
   dot: 'polkadot',
   ahp: 'statemint',
+  // ahr: 'rockmine',
   // movr: 'moonriver',
   // glmr: 'moonbeam',
 }
@@ -75,11 +70,11 @@ export const chainInfo: Record<Prefix, string> = {
 export const chainNames: Record<Prefix, string> = {
   bsx: 'Basilisk',
   rmrk: 'Kusama',
-  snek: 'Basilisk-testnet',
   ksm: 'Kusama',
   ahk: 'Kusama AssetHub',
   dot: 'Polkadot',
   ahp: 'Polkadot AssetHub',
+  // ahr: 'Rococo AssetHub',
   // movr: 'Moonriver',
   // glmr: 'Moonbeam',
 }

@@ -3,6 +3,13 @@ description: Create a report to help us improve KodaDot
 title: 'Be descriptive and short'
 labels: ['bug']
 body:
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue?
+      description: Please search to see if an issue already exists and leave a comment that you also experienced this issue or add your specifics that are related to an existing issue.
+      options:
+        - label: I have searched the existing issues
+          required: true
   - type: markdown
     attributes:
       value: |

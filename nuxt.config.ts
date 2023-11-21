@@ -127,15 +127,12 @@ export default defineNuxtConfig({
         },
         { rel: 'icon', sizes: '32x32', href: '/favicon-32x32.png' },
         { rel: 'icon', sizes: '16x16', href: '/favicon-16x16.png' },
-        {
-          rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Fira+Code:wght@600;700&display=swap',
-        },
       ],
       script: [
         {
           src: 'https://kit.fontawesome.com/54f29b7997.js',
           crossorigin: 'anonymous',
+          async: true,
         },
         {
           src: `https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`,
@@ -225,7 +222,26 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxt/content',
     'nuxt-simple-sitemap',
+    '@nuxtjs/google-fonts',
   ],
+
+  googleFonts: {
+    families: {
+      'Work+Sans': {
+        wght: [400, 700],
+        ital: [400, 700],
+      },
+      'Fira+Code': {
+        wght: [600, 700],
+      },
+    },
+    display: 'swap',
+    prefetch: true,
+    preconnect: true,
+    preload: true,
+    download: false,
+    inject: false,
+  },
 
   pwa,
 

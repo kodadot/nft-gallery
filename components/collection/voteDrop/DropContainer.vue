@@ -1,6 +1,9 @@
 <template>
   <div class="unlockable-container">
-    <Loader v-model="isLoading" :minted="justMinted" />
+    <CollectionUnlockableLoader
+      v-if="isLoading"
+      model-value
+      :minted="justMinted" />
     <CountdownTimer />
     <hr class="text-color my-0" />
     <div class="container is-fluid pb-4">
@@ -106,10 +109,6 @@ import { DropItem } from '@/params/types'
 
 import { useCheckReferenDumVote } from '@/composables/drop/useCheckReferenDumVote'
 
-const Loader = defineAsyncComponent(
-  () => import('@/components/collection/unlockable/UnlockableLoader.vue'),
-)
-
 const props = defineProps({
   drop: {
     type: Object,
@@ -143,8 +142,8 @@ const buttonLabel = computed(() => {
   return needCheckEligible.value
     ? 'Check Eligibility'
     : isEligibleUser.value
-    ? 'Mint'
-    : 'Not Eligible'
+      ? 'Mint'
+      : 'Not Eligible'
 })
 
 const statusInformation = computed(() => {
@@ -157,19 +156,19 @@ const statusInformation = computed(() => {
         iconPack: 'fasr',
       }
     : isEligibleUser.value
-    ? {
-        label: $i18n.t('mint.unlockable.eligible'),
-        icon: 'circle-check',
-        iconPack: 'fasr',
-        iconClass: 'has-text-success',
-      }
-    : {
-        label: $i18n.t('mint.unlockable.exclusive'),
-        icon: 'circle-info',
-        iconClass: 'has-text-grey',
-        labelClass: 'has-text-grey',
-        iconPack: 'fasr',
-      }
+      ? {
+          label: $i18n.t('mint.unlockable.eligible'),
+          icon: 'circle-check',
+          iconPack: 'fasr',
+          iconClass: 'has-text-success',
+        }
+      : {
+          label: $i18n.t('mint.unlockable.exclusive'),
+          icon: 'circle-info',
+          iconClass: 'has-text-grey',
+          labelClass: 'has-text-grey',
+          iconPack: 'fasr',
+        }
 })
 
 const leftTime = computed(() => {

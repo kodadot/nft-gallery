@@ -7,7 +7,7 @@ import {
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { getMaxKeyByValue } from '@/utils/math'
 import { getActionTransactionFee } from '@/utils/transactionExecutor'
-import { sum } from 'lodash'
+import sum from 'lodash/sum'
 import type { AutoTeleportAction, AutoTeleportFeeParams } from './types'
 
 const BUFFER_FEE_PERCENT = 0.2
@@ -30,6 +30,10 @@ export default function (
   const hasBalances = ref(false)
   const teleportTxFee = ref(0)
   const actionTxFees = ref<number[]>([])
+  const extraActionFees = computed(() =>
+    fees.actions ? Math.ceil(fees.actions) : 0,
+  )
+  const actionAutoFees = computed(() => fees.actionAutoFees || true)
 
   const chainSymbol = computed(
     () => currentChain.value && getChainCurrency(currentChain.value),
@@ -40,8 +44,7 @@ export default function (
   )
 
   const totalFees = computed(
-    () =>
-      teleportTxFee.value + sum(actionTxFees.value) + Math.ceil(fees.actions),
+    () => teleportTxFee.value + sum(actionTxFees.value) + extraActionFees.value,
   )
 
   const neededAmountWithFees = computed(
@@ -78,8 +81,8 @@ export default function (
     ),
   )
 
-  const richestChain = computed<Chain | undefined>(() =>
-    getMaxKeyByValue(sourceChainsBalances.value),
+  const richestChain = computed<Chain | undefined>(
+    () => getMaxKeyByValue(sourceChainsBalances.value) as Chain | undefined,
   )
 
   const richestChainBalance = computed(() =>
@@ -135,7 +138,7 @@ export default function (
       !teleportTxFee.value &&
       addTeleportFee.value &&
       hasEnoughInRichestChain.value &&
-      amountToTeleport.value,
+      amountToTeleport.value > 0,
   )
 
   const getTransitionBalances = () => {
@@ -152,10 +155,14 @@ export default function (
     }
   })
 
+  const actionsId = computed(() =>
+    actions.value.map(({ action }) => JSON.stringify(action)).join('_'),
+  )
+
   watch(
-    actions,
+    actionsId,
     async () => {
-      if (fees.actionAutoFees) {
+      if (actionAutoFees.value) {
         try {
           const feesPromisses = actions.value.map(
             async ({ action, prefix }) => {

@@ -4,11 +4,11 @@ html {
   height: 100%;
   background-color: $white;
   // code mardkown style
-  @include meta.load-css('highlight.js/styles/atom-one-light');
+  @include meta.load-css('prism-themes/themes/prism-one-light.css');
   &.dark-mode {
     background-color: $scheme-main;
     // code mardkown style
-    @include meta.load-css('highlight.js/styles/atom-one-dark');
+    @include meta.load-css('prism-themes/themes/prism-one-dark.css');
   }
 }
 
@@ -29,6 +29,7 @@ body {
   @include ktheme() {
     color: theme('text-color');
   }
+
   a {
     @include ktheme() {
       color: theme('text-color');
@@ -467,10 +468,9 @@ a.has-text-grey {
   cursor: pointer !important;
 }
 
-
-.has-text-k-accent {
+.has-text-k-primary {
   @include ktheme() {
-    color: theme('k-accent') !important;
+    color: theme('k-primary') !important;
   }
 }
 
@@ -504,6 +504,13 @@ a.has-text-grey {
 
 .has-z-index-1 {
   z-index: 1;
+}
+
+// used in gallery item to disbale <main> z-index: 100
+// when fallback fullscreen is used (on Nova wallet)
+// without this the navbar is above the fullscreen image
+.no-z-index {
+  z-index: unset !important;
 }
 
 .modal {
@@ -558,4 +565,8 @@ a.has-text-grey {
 
 .is-size-3-5 {
   font-size: 1.6rem;
+}
+
+.is-max-width-fit-content {
+  max-width: fit-content;
 }
