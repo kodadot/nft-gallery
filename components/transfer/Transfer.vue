@@ -271,7 +271,22 @@
           data-testid="transfer-tab-usd"
           @click="displayUnit = 'usd'" />
       </div>
-
+      <div
+        v-if="isAssetHub"
+        class="is-flex is-justify-content-space-between is-align-items-center mb-5">
+        <div
+          class="is-flex is-justify-content-space-between is-align-items-center">
+          {{ $t('transfers.exchangeWarning') }}
+          <!-- tips: don't use `margin` or `padding` directly on the tooltip trigger, it will cause misalignment of the tooltip -->
+          <span class="mr-2" />
+          <NeoTooltip :label="$t('transfers.exchangeWarning')"
+            ><NeoIcon icon="circle-info"
+          /></NeoTooltip>
+        </div>
+        <NeoSwitch
+          v-model="warningexchange"
+          data-testid="transfer-switch-same" />
+      </div>
       <div
         class="is-flex is-justify-content-space-between is-align-items-center mb-2">
         <span class="is-size-7">{{ $t('transfers.networkFee') }}</span>
@@ -307,7 +322,7 @@
         <NeoButton
           class="is-flex is-flex-1 fixed-height is-shadowless"
           variant="k-accent"
-          :disabled="disabled"
+          :disabled="disabled || !warningexchange"
           @click="handleOpenConfirmModal"
           >{{ $t('redirect.continue') }}</NeoButton
         >
@@ -412,6 +427,7 @@ const isMobile = computed(() => useWindowSize().width.value <= 764)
 const balance = computed(() => getBalance(unit.value) || 0)
 
 const transactionValue = ref('')
+const warningexchange = ref('')
 const sendSameAmount = ref(false)
 const displayUnit = ref<'token' | 'usd'>('token')
 const { getTokenIconBySymbol } = useIcon()
@@ -460,6 +476,8 @@ const disabled = computed(
     balanceUsdValue.value < totalUsdValue.value ||
     !hasValidTarget.value,
 )
+
+const { isAssetHub } = useIsChain(urlPrefix)
 
 const handleTokenSelect = (newToken: string) => {
   selectedTabFirst.value = false
