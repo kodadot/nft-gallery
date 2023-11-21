@@ -13,7 +13,7 @@
         </div>
 
         <NeoButton
-          class="button-height px-4 no-border-left"
+          class="button-height square-button-width no-border-left"
           data-testid="item-add-to-cart"
           @click="onClickShoppingCart">
           <NeoIcon
@@ -102,6 +102,10 @@ const onClickShoppingCart = () => {
 
 :deep(.button-height) {
   height: 55px !important;
+}
+
+.square-button-width {
+  width: 55px;
 }
 .buy-button-width {
   width: 10rem;
