@@ -76,7 +76,7 @@ import { totalPriceUsd } from '../shoppingCart/utils'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import { type AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { type AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
-import { PERCENT as SUPPORT_FEE_PERCENT } from '@/utils/support'
+import { SUPPORT_FEE_PERCENT } from '@/utils/support'
 
 const emit = defineEmits(['confirm', 'completed', 'close'])
 const props = defineProps<{

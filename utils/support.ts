@@ -11,7 +11,7 @@ export const KODADOT_DAO = 'CykZSc3szpVd95PmmJ45wE4ez7Vj3xkhRFS9H4U1WdrkaFY'
 export const KODA_BOT = 'Gn84LKb5HSxc3SACayxCzKQcWESRMcT1VUCqeZURfGj6ASi'
 const OFFSET_DAO = 'J9PSLHKjtJ9eEAX4xmCe8xNipRxNiYJTbnyfKXXRkhMmuq8'
 export const BASE_FEE = 0.5 // 50 cents
-export const PERCENT = 0.03 // percent / 100
+export const SUPPORT_FEE_PERCENT = 0.03 // percent / 100
 
 export const round = (num: number): number =>
   Math.round((num + Number.EPSILON) * 100) / 100
@@ -45,7 +45,7 @@ export const feeTx = (api: ApiPromise, price: string): Extrinsic => {
 }
 
 export const somePercentFromTX = (api: ApiPromise, price: number | string) => {
-  const fee = Number(price) * PERCENT
+  const fee = Number(price) * SUPPORT_FEE_PERCENT
   return asBalanceTransfer(api, resolveSupportAddress(api), fee)
 }
 
