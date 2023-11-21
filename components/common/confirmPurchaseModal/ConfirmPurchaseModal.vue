@@ -43,8 +43,7 @@
           <CommonTokenMoney :value="totalRoyalties" />
         </div>
       </div>
-      <div
-        class="is-flex is-justify-content-space-between is-ellipsis py-4 px-6">
+      <div class="is-flex is-justify-content-space-between py-4 px-6">
         {{ $t('confirmPurchase.youWillPay') }}
         <div class="is-flex">
           <CommonTokenMoney :value="totalWithRoyalties" class="has-text-grey" />
@@ -52,8 +51,7 @@
         </div>
       </div>
 
-      <div
-        class="is-flex is-justify-content-space-between is-ellipsis py-5 px-6">
+      <div class="is-flex is-justify-content-space-between py-5 px-6">
         <AutoTeleportActionButton
           :amount="totalWithRoyalties"
           :label="$t('nft.action.confirm')"
