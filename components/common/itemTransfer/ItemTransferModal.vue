@@ -174,6 +174,7 @@ const transfer = () => {
     successMessage: $i18n.t('transaction.item.success') as string,
     errorMessage: $i18n.t('transaction.item.error') as string,
   })
+  emit('close')
 }
 
 onMounted(() => {
