@@ -15,8 +15,8 @@
           <p class="has-text-weight-bold">
             {{ $t('general.filters') }}
           </p>
-          <a>
-            <NeoIcon icon="xmark" @click="onClose" />
+          <a @click="onClose">
+            <NeoIcon icon="xmark" />
           </a>
         </div>
         <EventTypeFilter
