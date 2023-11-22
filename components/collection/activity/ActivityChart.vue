@@ -37,12 +37,18 @@ const buyEvents = computed(() =>
   ),
 )
 const listEvents = computed(() => {
+  const CUTOFF = 0.1 // 10% of the data is outliers
   const listDataPoints = sortAsc(
     props.events
       .filter((e) => e.interaction === Interaction.LIST)
       .map(toDataPoint),
   )
-  return removeOutliers(listDataPoints)
+  const withoutOutliers = removeOutliers(listDataPoints)
+  const ratio = withoutOutliers.length / listDataPoints.length
+  if (ratio < CUTOFF) {
+    return withoutOutliers
+  }
+  return listDataPoints
 })
 
 const chartData = computed(() => {
