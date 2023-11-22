@@ -39,7 +39,7 @@ test('Check if chain change works using the dropdown', async ({
   Commands,
 }) => {
   //E2E connection
-  Commands.e2elogin()
+  await Commands.e2elogin()
   await page.goto('/create/collection')
   expect(page.getByTestId('collection-chain')).toBeVisible()
   await page.getByTestId('collection-chain').selectOption('KusamaHub')
