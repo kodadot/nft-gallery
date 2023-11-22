@@ -10,12 +10,13 @@
     class="top is-absolute background-color">
     <div class="is-flex is-flex-direction-column is-fullheight">
       <div class="is-flex-grow-1">
-        <div class="is-flex border-bottom">
-          <p class="card-header-title has-text-weight-bold">
+        <div
+          class="filters-header border-bottom is-flex is-align-items-center is-justify-content-space-between">
+          <p class="has-text-weight-bold">
             {{ $t('general.filters') }}
           </p>
-          <a class="card-header-icon">
-            <NeoIcon icon="x" @click="onClose" />
+          <a>
+            <NeoIcon icon="xmark" @click="onClose" />
           </a>
         </div>
         <EventTypeFilter
@@ -212,6 +213,15 @@ watch(() => route.query, syncFromUrl, { immediate: true })
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
+}
+
+.filters-header {
+  padding: 0 1rem;
+  min-height: $navbar-mobile-min-height;
+
+  @include ktheme() {
+    color: theme('text-color');
+  }
 }
 
 .top {
