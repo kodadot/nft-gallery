@@ -45,7 +45,10 @@ const listEvents = computed(() => {
   )
   const withoutOutliers = removeOutliers(listDataPoints)
   const ratio = withoutOutliers.length / listDataPoints.length
-  return ratio < CUTOFF ? withoutOutliers : listDataPoints
+
+  // if less than 90% of the data remains after removing outliers,
+  // use the original data
+  return ratio < 1 - CUTOFF ? listDataPoints : withoutOutliers
 })
 
 const chartData = computed(() => {
