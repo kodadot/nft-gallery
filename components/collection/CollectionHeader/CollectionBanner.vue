@@ -8,8 +8,10 @@
       <div class="container is-fluid collection-banner-content">
         <div class="is-flex is-flex-direction-column is-align-items-start">
           <div class="collection-banner-avatar">
-            <img
+            <NuxtImg
               v-if="collectionAvatar"
+              width="88"
+              height="88"
               :src="collectionAvatar"
               class="object-fit-cover"
               :alt="collectionName" />

@@ -3,6 +3,7 @@
     <component
       :is="resolveComponent"
       :src="properSrc"
+      :sizes="sizes"
       :animation-src="animationSrc"
       :alt="title"
       :placeholder="placeholder"
@@ -67,6 +68,7 @@ const props = withDefaults(
     src?: string
     animationSrc?: string
     mimeType?: string
+    sizes?: string
     title?: string
     original?: boolean
     isLewd?: boolean
@@ -83,6 +85,7 @@ const props = withDefaults(
     src: '',
     animationSrc: '',
     mimeType: '',
+    sizes: '225px md:175px lg:135px',
     title: 'KodaDot NFT',
     original: false,
     isLewd: false,
