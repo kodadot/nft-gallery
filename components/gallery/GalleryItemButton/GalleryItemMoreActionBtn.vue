@@ -11,7 +11,7 @@
       <component
         :is="isMobileDevice ? 'a' : 'div'"
         v-if="mimeType?.includes('image') && ipfsImage"
-        :href="toOriginalContentUrl(ipfsImage)"
+        v-safe-href="toOriginalContentUrl(ipfsImage)"
         target="_blank">
         <NeoDropdownItem
           data-testid="gallery-item-more-dropdown-download"
