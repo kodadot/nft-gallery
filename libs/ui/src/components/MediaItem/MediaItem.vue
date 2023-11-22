@@ -86,7 +86,7 @@ const props = withDefaults(
     src: '',
     animationSrc: '',
     mimeType: '',
-    sizes: '225px md:175px lg:135px',
+    sizes: '450px md:350px lg:270px',
     title: 'KodaDot NFT',
     original: false,
     isLewd: false,

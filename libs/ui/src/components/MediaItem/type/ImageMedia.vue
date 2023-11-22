@@ -9,6 +9,7 @@
       :src="src"
       :sizes="sizes"
       class="is-block image-media__image no-border-radius"
+      densities="x1"
       :alt="alt"
       data-testid="type-image"
       @error.once="onError" />
