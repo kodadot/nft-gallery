@@ -21,16 +21,21 @@ import consola from 'consola'
 import TheImage from '../../TheImage/TheImage.vue'
 import type { ImageComponent } from '../../TheImage/TheImage.vue'
 
-const props = defineProps<{
-  imageComponent?: ImageComponent
-  sizes?: string
-  src?: string
-  alt?: string
-  original: boolean
-  placeholder: string
-  isDetail?: boolean
-  isDarkMode?: boolean
-}>()
+const props = withDefaults(
+  defineProps<{
+    imageComponent?: ImageComponent
+    sizes?: string
+    src?: string
+    alt?: string
+    original: boolean
+    placeholder: string
+    isDetail?: boolean
+    isDarkMode?: boolean
+  }>(),
+  {
+    sizes: '450px md:350px lg:270px',
+  },
+)
 
 const onError = (e: Event) => {
   const target = e.target as HTMLImageElement
