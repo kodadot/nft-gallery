@@ -1,7 +1,7 @@
 <template>
   <header v-if="isMobile" class="modal-card-head">
     <div class="modal-card-title" @click.stop="emit('close')">
-      <NeoIcon icon="chevron-left" />
+      <NeoIcon icon="chevron-left" class="is-clickable" />
       {{ title }}
     </div>
   </header>

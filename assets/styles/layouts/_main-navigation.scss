@@ -18,14 +18,18 @@
         flex-direction: column;
 
         .navbar-item {
-          padding: 1.5rem 1.25rem;
+          display: flex;
+          align-items: center;
+          
+          height: $navbar-mobile-min-height;
+          padding: 0 1.25rem;
 
           @include mobile {
-            padding: 1rem 1.25rem;
+            padding: 0 1.25rem;
           }
 
           @include tablet-only {
-            padding: 1rem $fluid-container-padding;
+            padding: 0 $fluid-container-padding;
           }
 
           @include ktheme() {
@@ -134,6 +138,10 @@
           width: unset !important;
         }
       }
+    }
+
+    &.is-active .navbar-brand {
+      min-height: $navbar-mobile-min-height;
     }
   }
 }
