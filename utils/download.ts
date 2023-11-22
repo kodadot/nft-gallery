@@ -1,5 +1,11 @@
+import { isMobileDevice } from './extension'
 export const downloadImage = async (imageSrc: string, name = 'unnamed') => {
   if (!imageSrc) {
+    return
+  }
+
+  if (isMobileDevice) {
+    window.open(imageSrc, '_blank')
     return
   }
 
