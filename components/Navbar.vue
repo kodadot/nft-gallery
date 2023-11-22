@@ -14,8 +14,8 @@
         <nuxt-link to="/" class="navbar-item logo nuxt-link-active">
           <img
             :src="logoSrc"
-            alt="First NFT market explorer on Kusama and Polkadot"
-            width="143" />
+            alt="First NFT market explorer on Kusama and Polkadot" />
+          <!-- width="143" -->
         </nuxt-link>
         <div
           class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
@@ -252,9 +252,11 @@ const isLandingPage = computed(
   () => route.name === 'index' || route.name === 'prefix',
 )
 
-const logoSrc = computed(() =>
-  isDarkMode.value ? '/Koda_Beta_dark.svg' : '/Koda_Beta.svg',
-)
+const logoSrc = computed(() => {
+  const variant = isMobile.value ? 'Koda' : 'Koda_Beta'
+  const color = isDarkMode.value ? 'dark' : ''
+  return `/${variant}${color && `_${color}`}.svg`
+})
 
 const showSearchOnNavbar = computed(
   () =>

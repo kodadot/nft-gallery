@@ -125,6 +125,16 @@
         flex-grow: 1;
       }
     }
+
+    .navbar-brand {
+      .logo {
+        padding-left: 0 !important;
+        img {
+          height: 40px;
+          width: unset !important;
+        }
+      }
+    }
   }
 }
 
@@ -192,8 +202,8 @@
     }
 
     .logo {
-      @include touch {
-        padding-left: 0 !important;
+      img {
+        width: 143px;
       }
     }
 
