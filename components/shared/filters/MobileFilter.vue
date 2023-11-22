@@ -11,7 +11,7 @@
     <div class="is-flex is-flex-direction-column is-fullheight">
       <div class="is-flex-grow-1">
         <div
-          class="filters-header border-bottom is-flex is-align-items-center is-justify-content-space-between">
+          class="filters-header px-4 px-0 border-bottom is-flex is-align-items-center is-justify-content-space-between">
           <p class="has-text-weight-bold">
             {{ $t('general.filters') }}
           </p>
@@ -216,12 +216,7 @@ watch(() => route.query, syncFromUrl, { immediate: true })
 }
 
 .filters-header {
-  padding: 0 1rem;
   min-height: $navbar-mobile-min-height;
-
-  @include ktheme() {
-    color: theme('text-color');
-  }
 }
 
 .top {
