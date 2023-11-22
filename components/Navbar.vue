@@ -253,8 +253,8 @@ const isLandingPage = computed(
 
 const logoSrc = computed(() => {
   const variant = isMobile.value ? 'Koda' : 'Koda_Beta'
-  const color = isDarkMode.value ? 'dark' : ''
-  return `/${variant}${color && `_${color}`}.svg`
+  const color = isDarkMode.value ? '_dark' : ''
+  return `/${variant}${color}.svg`
 })
 
 const showSearchOnNavbar = computed(
