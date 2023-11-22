@@ -63,6 +63,7 @@
             is-detail
             :is-lewd="galleryDescriptionRef?.isLewd"
             :placeholder="placeholder"
+            sizes="original"
             :audio-player-cover="nftImage" />
         </div>
       </div>

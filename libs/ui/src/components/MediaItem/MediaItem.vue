@@ -68,7 +68,6 @@ const props = withDefaults(
     src?: string
     animationSrc?: string
     mimeType?: string
-    sizes?: string
     title?: string
     original?: boolean
     isLewd?: boolean
@@ -80,6 +79,8 @@ const props = withDefaults(
     // props for video component
     preview?: boolean
     autoplay?: boolean
+    // props for image component
+    sizes?: string
   }>(),
   {
     src: '',
@@ -100,6 +101,10 @@ const mediaItem = ref<HTMLDivElement>()
 
 // props.mimeType may be empty string "". Add `image/png` as fallback
 const mimeType = computed(() => props.mimeType || type.value || 'image/png')
+
+const sizes = computed(() =>
+  props.sizes === 'original' ? undefined : props.sizes,
+)
 
 const targetIsVisible = useElementVisibility(mediaItem)
 const modelComponent = ref<Component>()
