@@ -21,7 +21,7 @@
           @click="closeBurgerMenu">
           <NeoButton
             v-if="isMobileNavbarOpen || showSearchOnNavbar || isTinyMobile"
-            class="mobile-nav-search-btn mr-2 mt-1"
+            class="mobile-nav-search-btn mr-2"
             icon="magnifying-glass"
             @click="showMobileSearchBar" />
 
