@@ -8,13 +8,18 @@
           icon="ellipsis-vertical"
           :active="active" />
       </template>
-
-      <NeoDropdownItem
+      <component
+        :is="isMobileDevice ? 'a' : 'div'"
         v-if="mimeType?.includes('image') && ipfsImage"
-        data-testid="gallery-item-more-dropdown-download"
-        @click="downloadMedia">
-        Download
-      </NeoDropdownItem>
+        :href="toOriginalContentUrl(ipfsImage)"
+        target="_blank">
+        <NeoDropdownItem
+          data-testid="gallery-item-more-dropdown-download"
+          @click="downloadMedia">
+          Download
+        </NeoDropdownItem>
+      </component>
+
       <template v-if="accountId === currentOwner">
         <NeoDropdownItem @click="burn">Burn</NeoDropdownItem>
         <NeoDropdownItem v-if="price !== '0'" @click="unlist">
@@ -32,6 +37,7 @@ import { Interaction } from '@kodadot1/minimark/v1'
 import { downloadImage } from '@/utils/download'
 import { toOriginalContentUrl } from '@/utils/ipfs'
 import Loader from '@/components/shared/Loader.vue'
+import { isMobileDevice } from '@/utils/extension'
 
 const { $i18n, $consola } = useNuxtApp()
 const { toast } = useToast()
@@ -49,7 +55,7 @@ const props = defineProps<{
 }>()
 
 const downloadMedia = () => {
-  if (props.ipfsImage) {
+  if (!isMobileDevice && props.ipfsImage) {
     try {
       downloadImage(toOriginalContentUrl(props.ipfsImage), props.name)
     } catch (error) {
