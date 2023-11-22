@@ -10,8 +10,8 @@
           <div class="collection-banner-avatar">
             <NuxtImg
               v-if="collectionAvatar"
-              width="88"
               height="88"
+              densities="2x"
               :src="collectionAvatar"
               class="object-fit-cover"
               :alt="collectionName" />

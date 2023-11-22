@@ -7,8 +7,8 @@
         <div class="is-flex is-flex-direction-column is-align-items-start">
           <div class="collection-banner-avatar">
             <NuxtImg
-              width="88"
               height="88"
+              densities="2x"
               :src="image"
               alt="avatar"
               class="object-fit-cover" />
