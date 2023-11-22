@@ -26,13 +26,15 @@ $modal-content-border-radius: 0;
     }
     &.enable-mobile {
       @media screen and (max-width: 425px)  {
-        .modal-width {
+        .modal-width, &.modal-width {
           width: unset;
         }
         position: absolute;
         bottom: -1px;
         right: -1px;
         left: -1px;
+        display: flex;
+        flex-direction: column;
       }
 
     }

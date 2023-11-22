@@ -4,22 +4,23 @@
     :can-cancel="['outside', 'escape']"
     scroll="clip"
     class="top"
+    content-class="modal-width"
     @close="onClose">
-    <div class="modal-width">
-      <header
-        class="py-5 pl-6 pr-5 is-flex is-justify-content-space-between is-align-items-center border-bottom">
-        <span class="modal-card-title is-size-6 has-text-weight-bold">
-          {{ $t('confirmPurchase.action') }}
-        </span>
+    <header
+      class="py-5 pl-6 pr-5 is-flex is-justify-content-space-between is-align-items-center border-bottom">
+      <span class="modal-card-title is-size-6 has-text-weight-bold">
+        {{ $t('confirmPurchase.action') }}
+      </span>
 
-        <NeoButton
-          class="py-1 px-2"
-          variant="text"
-          no-shadow
-          icon="xmark"
-          size="medium"
-          @click="onClose" />
-      </header>
+      <NeoButton
+        class="py-1 px-2"
+        variant="text"
+        no-shadow
+        icon="xmark"
+        size="medium"
+        @click="onClose" />
+    </header>
+    <div class="is-overflow-y-auto">
       <div class="px-6 pt-4">
         <ModalIdentityItem />
       </div>

@@ -5,21 +5,22 @@
     scroll="clip"
     class="top"
     max-height="calc(100vh - 180px)"
+    content-class="modal-width"
     @close="onClose">
-    <div class="modal-width">
-      <header
-        class="modal-card-head is-flex is-justify-content-space-between is-align-items-center border-bottom">
-        <span class="modal-card-title is-size-6 has-text-weight-bold">
-          {{ $t('mint.nft.modal.action') }}
-        </span>
-        <NeoButton
-          class="py-1 px-2"
-          variant="text"
-          no-shadow
-          icon="xmark"
-          size="medium"
-          @click="onClose" />
-      </header>
+    <header
+      class="modal-card-head is-flex is-justify-content-space-between is-align-items-center border-bottom">
+      <span class="modal-card-title is-size-6 has-text-weight-bold">
+        {{ $t('mint.nft.modal.action') }}
+      </span>
+      <NeoButton
+        class="py-1 px-2"
+        variant="text"
+        no-shadow
+        icon="xmark"
+        size="medium"
+        @click="onClose" />
+    </header>
+    <div class="is-overflow-y-auto">
       <div v-if="isLogIn" class="px-6 pt-4">
         <div
           class="rounded border shade-border-color is-flex is-justify-content-start is-flex-grow-1 pl-3">
