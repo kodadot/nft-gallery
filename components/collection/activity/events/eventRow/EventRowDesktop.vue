@@ -6,6 +6,7 @@
           :to="`/${urlPrefix}/gallery/${event.nft.id}`"
           class="height-50px">
           <NeoAvatar
+            :image-component="NuxtImg"
             :avatar="avatar"
             :placeholder="placeholder"
             :name="event.nft.name"
@@ -90,6 +91,8 @@ import {
 } from './common'
 import EventTag from './EventTag.vue'
 import { NeoAvatar } from '@kodadot1/brick'
+
+const NuxtImg = resolveComponent('NuxtImg')
 
 const { urlPrefix } = usePrefix()
 const props = defineProps<{

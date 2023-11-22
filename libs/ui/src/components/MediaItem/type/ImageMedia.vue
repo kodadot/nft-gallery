@@ -5,12 +5,12 @@
       'is-square image': !original,
       'is-detail': isDetail,
     }">
-    <NuxtImg
+    <TheImage
+      :image-component="imageComponent"
+      :image-component-props="{ sizes }"
       :src="src"
-      :sizes="sizes"
-      class="is-block image-media__image no-border-radius"
-      densities="x1"
       :alt="alt"
+      class="is-block image-media__image no-border-radius"
       data-testid="type-image"
       @error.once="onError" />
   </figure>
@@ -18,8 +18,11 @@
 
 <script lang="ts" setup>
 import consola from 'consola'
+import TheImage from '../../TheImage/TheImage.vue'
+import type { ImageComponent } from '../../TheImage/TheImage.vue'
 
 const props = defineProps<{
+  imageComponent?: ImageComponent
   sizes?: string
   src?: string
   alt?: string

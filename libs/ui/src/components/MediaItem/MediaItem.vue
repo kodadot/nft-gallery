@@ -14,6 +14,7 @@
       :player-cover="audioPlayerCover"
       :hover-on-cover-play="audioHoverOnCoverPlay"
       :parent-hovering="isMediaItemHovering"
+      :image-component="imageComponent"
       :preview="preview"
       :autoplay="autoplay" />
     <div
@@ -49,7 +50,8 @@
 </template>
 
 <script lang="ts" setup>
-import { type Component, computed, defineAsyncComponent, ref, watch } from 'vue'
+import type { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
+import { computed, defineAsyncComponent, ref, watch } from 'vue'
 import { useElementHover, useElementVisibility } from '@vueuse/core'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
@@ -81,6 +83,10 @@ const props = withDefaults(
     autoplay?: boolean
     // props for image component
     sizes?: string
+    imageComponent?:
+      | string
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
+      | ConcreteComponent<{}, any, any, ComputedOptions, MethodOptions>
   }>(),
   {
     src: '',
@@ -94,6 +100,7 @@ const props = withDefaults(
     placeholder: '',
     disableOperation: undefined,
     audioPlayerCover: '',
+    imageComponent: 'img',
   },
 )
 
