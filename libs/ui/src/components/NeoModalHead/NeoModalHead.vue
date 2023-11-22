@@ -17,6 +17,7 @@
       no-shadow
       icon="xmark"
       size="medium"
+      data-testid="modal-close-button"
       @click="emit('close')" />
   </header>
 </template>
