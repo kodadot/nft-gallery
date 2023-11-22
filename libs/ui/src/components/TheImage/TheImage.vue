@@ -10,7 +10,6 @@ import type {
   MethodOptions,
   ReservedProps,
 } from 'vue'
-import omit from 'lodash/omit'
 
 export type ImageComponent =
   | 'img'
@@ -30,6 +29,16 @@ const props = withDefaults(defineProps<Props>(), {
     return {}
   },
 })
+
+const omit = <T extends object, K extends keyof T>(
+  obj: T,
+  keys: K[],
+): Omit<T, K> => {
+  const clone = { ...obj } as const
+
+  keys.forEach((key) => delete clone[key])
+  return clone
+}
 
 const attrs = computed(() => {
   const imgAttrs = omit(props, ['imageComponent', 'imageComponentProps'])
