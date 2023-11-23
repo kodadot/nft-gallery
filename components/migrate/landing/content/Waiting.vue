@@ -17,22 +17,22 @@
         <div
           class="collection-card-banner"
           :style="{
-            backgroundImage: `url(${sanitizeIpfsUrl(collection.meta?.image)})`,
+            backgroundImage: `url(${entities[collection.id]?.image})`,
           }"></div>
         <div
           class="collection-card-avatar"
           :style="{
-            backgroundImage: `url(${sanitizeIpfsUrl(collection.meta?.image)})`,
+            backgroundImage: `url(${entities[collection.id]?.image})`,
           }"></div>
 
         <div class="collection-card-info">
           <p class="is-size-5 has-text-weight-bold">{{ collection.name }}</p>
-          <p>
+          <!-- <p>
             <span class="has-text-grey mr-2">
               {{ $t('migrate.waiting.status') }}
             </span>
             <a href="#!" class="has-text-k-blue">Another nice name </a>
-          </p>
+          </p> -->
         </div>
 
         <div class="collection-card-info">
@@ -45,7 +45,9 @@
                 "></p>
             </div>
             <div>
-              <NeoButton variant="pill" @click="toReview(collection.id)">
+              <NeoButton
+                variant="pill"
+                @click="toReview(collection.id, collection.nfts?.length)">
                 {{ $t('migrate.waiting.cta') }}
               </NeoButton>
             </div>
@@ -96,5 +98,16 @@ const collections = computed(() => {
   }
 
   return []
+})
+
+const { urlPrefix } = usePrefix()
+const entities = reactive({})
+watchEffect(() => {
+  collections.value.forEach(async (collection) => {
+    entities[collection.id] = await getNftMetadata(
+      collection as unknown as MinimalNFT,
+      urlPrefix.value,
+    )
+  })
 })
 </script>

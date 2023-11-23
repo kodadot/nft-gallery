@@ -18,12 +18,12 @@
         <div
           class="collection-card-banner"
           :style="{
-            backgroundImage: `url(${sanitizeIpfsUrl(collection.meta?.image)})`,
+            backgroundImage: `url(${entities[collection.id]?.image})`,
           }"></div>
         <div
           class="collection-card-avatar"
           :style="{
-            backgroundImage: `url(${sanitizeIpfsUrl(collection.meta?.image)})`,
+            backgroundImage: `url(${entities[collection.id]?.image})`,
           }"></div>
 
         <div class="collection-card-info">
@@ -68,4 +68,15 @@ defineProps<{
 }>()
 
 const { collections } = await useCollectionReady()
+
+const { urlPrefix } = usePrefix()
+const entities = reactive({})
+watchEffect(() => {
+  collections.value.forEach(async (collection) => {
+    entities[collection.id] = await getNftMetadata(
+      collection as unknown as MinimalNFT,
+      urlPrefix.value,
+    )
+  })
+})
 </script>
