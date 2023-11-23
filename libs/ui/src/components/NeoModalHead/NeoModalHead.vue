@@ -1,7 +1,9 @@
 <template>
   <header v-if="isMobile" class="modal-card-head">
-    <div class="modal-card-title" @click.stop="emit('close')">
-      <NeoIcon icon="chevron-left" />
+    <div class="modal-card-title">
+      <a class="has-text-inherit" @click.stop="emit('close')">
+        <NeoIcon icon="chevron-left" />
+      </a>
       {{ title }}
     </div>
   </header>
