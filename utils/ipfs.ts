@@ -91,7 +91,7 @@ export const sanitizeIpfsUrl = (
     return ''
   }
 
-  if (!isIpfsUrl(ipfsUrl) && !ipfsUrl.includes(kodaImage)) {
+  if (!sanitizeIpfsCid(ipfsUrl) && !ipfsUrl.includes(kodaImage)) {
     const kodaUrl = new URL('/type/url', kodaImage)
     kodaUrl.searchParams.set('endpoint', ipfsUrl)
 
@@ -155,16 +155,12 @@ export const fetchCollectionMetadata = (
 ): Promise<CollectionMetadata> => fetchMetadata<CollectionMetadata>(rmrk)
 
 export const preheatFileFromIPFS = (ipfsUrl: string) => {
-  const url = sanitizeIpfsUrl(ipfsUrl, 'image')
-  const hash = fastExtract(url)
-  api(url)
-    .then(async () => {
-      consola.log(`[PREHEAT] ${hash}`)
+  const url = sanitizeIpfsUrl(`${ipfsUrlPrefix}${ipfsUrl}`)
 
-      // preheat to r2/cfi
-      await $fetch(hash)
-    })
-    .catch((err) => consola.warn(`[PREHEAT] ${hash} ${err.message}`))
+  // preheat to r2/cfi
+  api(url)
+    .then(async () => consola.log(`[PREHEAT] ${url}`))
+    .catch((err) => consola.error(`[PREHEAT] ${url} ${err.message}`))
 }
 
 export const getSanitizer = (

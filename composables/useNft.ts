@@ -30,6 +30,7 @@ export type NFTWithMetadata = NFT &
 export type MinimalNFT = {
   id: string
   name: string
+  sn?: string
   description?: string
   metadata: string
   meta: BaseNFTMeta
@@ -77,7 +78,7 @@ function getAttributes(nft, metadata) {
 function getGeneralMetadata<T extends MinimalNFT>(nft: T) {
   return {
     ...nft,
-    name: nft.name || nft.meta.name || nft.id,
+    name: addSnSuffixName(nft.name || nft.meta.name, nft.sn) || nft.id,
     description: nft.description || nft.meta.description || '',
     image: sanitizeIpfsUrl(nft.meta.image),
     animationUrl: sanitizeIpfsUrl(
@@ -157,7 +158,9 @@ async function getProcessMetadata<T extends MinimalNFT>(nft: T) {
 
   return {
     ...nft,
-    name: nft.name || metadata.name || nft.id,
+    name:
+      addSnSuffixName(nft.name || metadata.name, nft.sn || metadata.sn) ||
+      nft.id,
     description: nft.description || metadata.description || '',
     image,
     animationUrl,

@@ -39,6 +39,8 @@ import {
 } from './transaction/types'
 import { execMintCollection } from './transaction/transactionMintCollection'
 import { ApiPromise } from '@polkadot/api'
+import { isActionValid } from './transaction/utils'
+const { $consola } = useNuxtApp()
 
 const resolveLargeSuccessNotification = (
   block: string,
@@ -175,6 +177,14 @@ export const executeAction = ({
       ),
     [NFTs.BURN_MULTIPLE]: () =>
       execBurnMultiple(item as ActionBurnMultipleNFTs, api, executeTransaction),
+  }
+
+  if (!isActionValid(item)) {
+    $consola.warn(`Invalid action: ${JSON.stringify(item)}`)
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'Interaction Not Found',
+    })
   }
 
   return map[item.interaction]?.() ?? 'UNKNOWN'

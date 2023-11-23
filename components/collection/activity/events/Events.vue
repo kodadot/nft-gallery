@@ -3,7 +3,8 @@
     :items="events"
     :no-results-main="$t('activity.noResults')"
     :no-results-sub="$t('activity.noResultsSub')"
-    :show-no-results="events.length > 0 && !displayedEvents.length">
+    :show-no-results="events.length > 0 && !displayedEvents.length"
+    data-testid="nfts-event-table">
     <template #columns>
       <div class="column">
         <span>{{ $t('activity.event.item') }}</span>

@@ -26,7 +26,7 @@ defineProps({
   },
   round: {
     type: Number,
-    default: 4,
+    default: 2,
   },
 })
 
