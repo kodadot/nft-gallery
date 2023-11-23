@@ -95,10 +95,12 @@ export function useBuySupportFee(
     () => isRemark.value || isAssetHub.value || false,
   )
 
+  const supportFee = computed(() =>
+    hasBuySupportFee.value ? getPercentSupportFee(amount.value) : 0,
+  )
+
   return {
     hasBuySupportFee,
-    supportFee: computed(() =>
-      hasBuySupportFee.value ? getPercentSupportFee(amount.value) : 0,
-    ),
+    supportFee,
   }
 }
