@@ -1,9 +1,9 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './fixtures'
 
-test('Fill fields to check if they work', async ({ page }) => {
+test('Fill fields to check if they work', async ({ page, Commands }) => {
   //E2E connection
-  await page.goto('/e2e-login')
-  await page.waitForTimeout(10000)
+  await Commands.e2elogin()
+  //Goto
   await page.goto('/create/collection')
   //upload image logo
   await page.setInputFiles('input[type="file"]', 'tests/e2e/unsplash-image.jpg')
@@ -34,11 +34,12 @@ test('Fill fields to check if they work', async ({ page }) => {
   ).toHaveCount(1)
 })
 
-test('Check if chain change works using the dropdown', async ({ page }) => {
+test('Check if chain change works using the dropdown', async ({
+  page,
+  Commands,
+}) => {
   //E2E connection
-  await page.goto('/e2e-login')
-  await page.waitForTimeout(10000)
-  await expect(page.getByTestId('mockAddress')).toHaveText('true')
+  await Commands.e2elogin()
   await page.goto('/create/collection')
   expect(page.getByTestId('collection-chain')).toBeVisible()
   await page.getByTestId('collection-chain').selectOption('KusamaHub')
