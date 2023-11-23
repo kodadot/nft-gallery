@@ -13,19 +13,22 @@
       class="border-bottom" />
     <div class="is-flex is-justify-content-center is-align-items-center py-6">
       <NeoButton
-        class="rounded border-k-grey hover-button fixed-width"
-        :loading="isLoading"
+        v-if="isLoading"
+        class="border-k-grey hover-button fixed-width"
+        rounded
         no-shadow
-        loading-with-label
+        disabled>
+        {{ $t('mint.unlockable.generating') }}
+        <NeoIcon icon="circle-notch" spin />
+      </NeoButton>
+      <NeoButton
+        v-else
+        class="border-k-grey hover-button fixed-width"
+        rounded
+        no-shadow
+        icon="arrow-rotate-left"
         @click="generateNft()">
-        {{
-          $t(
-            isLoading
-              ? 'mint.unlockable.generating'
-              : 'mint.unlockable.variations',
-          )
-        }}
-        <NeoIcon v-if="!isLoading" icon="arrow-rotate-left" pack="fasr" />
+        {{ $t('mint.unlockable.variations') }}
       </NeoButton>
 
       <a
@@ -126,10 +129,6 @@ const generateNft = (isDefault: boolean = false) => {
   @include ktheme() {
     border-color: theme('border-color') !important;
   }
-}
-
-.rounded {
-  border-radius: 6rem;
 }
 
 .fixed-right {
