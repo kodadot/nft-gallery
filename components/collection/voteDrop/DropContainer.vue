@@ -1,6 +1,9 @@
 <template>
   <div class="unlockable-container">
-    <Loader v-model="isLoading" :minted="justMinted" />
+    <CollectionUnlockableLoader
+      v-if="isLoading"
+      model-value
+      :minted="justMinted" />
     <CountdownTimer />
     <hr class="text-color my-0" />
     <div class="container is-fluid pb-4">
@@ -105,10 +108,6 @@ import { VOTE_DROP_DESCRIPTION, countDownTime } from './const'
 import { DropItem } from '@/params/types'
 
 import { useCheckReferenDumVote } from '@/composables/drop/useCheckReferenDumVote'
-
-const Loader = defineAsyncComponent(
-  () => import('@/components/collection/unlockable/UnlockableLoader.vue'),
-)
 
 const props = defineProps({
   drop: {

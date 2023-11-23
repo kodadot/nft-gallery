@@ -1,7 +1,4 @@
-import {
-  BLOCK_EXPLORER_WITH_QUERY,
-  blockExplorerOf,
-} from '@/utils/config/chain.config'
+import { blockExplorerOf } from '@/utils/config/chain.config'
 import { type Prefix } from '@kodadot1/static'
 
 export default function () {
@@ -15,7 +12,7 @@ export default function () {
     getExplorerUrl('extrinsic', hash, prefix)
 
   const getBlockUrl = (blockId: string, prefix: Prefix) => {
-    const urlPrefix = BLOCK_EXPLORER_WITH_QUERY.includes(prefix) ? '' : 'block'
+    const urlPrefix = 'block'
     return getExplorerUrl(urlPrefix, blockId, prefix)
   }
 

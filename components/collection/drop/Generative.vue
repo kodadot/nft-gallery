@@ -1,6 +1,9 @@
 <template>
   <div class="unlockable-container">
-    <CollectionUnlockableLoader v-model="isLoading" :minted="justMinted" />
+    <CollectionUnlockableLoader
+      v-if="isLoading"
+      model-value
+      :minted="justMinted" />
     <div class="container is-fluid border-top">
       <div class="columns is-desktop">
         <div class="column is-half-desktop mobile-padding">

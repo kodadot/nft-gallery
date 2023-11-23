@@ -1,6 +1,9 @@
 <template>
   <div class="unlockable-container">
-    <Loader v-model="isLoading" :minted="justMinted" />
+    <CollectionUnlockableLoader
+      v-if="isLoading"
+      model-value
+      :minted="justMinted" />
     <CountdownTimer />
     <hr class="text-color my-0" />
     <div class="container is-fluid">
@@ -105,7 +108,6 @@ import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useC
 import { NeoButton } from '@kodadot1/brick'
 import { useCountDown } from './utils/useCountDown'
 import CarouselTypeLatestMints from '@/components/carousel/CarouselTypeLatestMints.vue'
-import Loader from '@/components/collection/unlockable/UnlockableLoader.vue'
 import { DropItem } from '@/params/types'
 
 const props = defineProps({

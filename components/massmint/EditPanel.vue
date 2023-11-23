@@ -25,6 +25,7 @@
             @click="closePanel" />
         </div>
         <NeoAvatar
+          :image-component="NuxtImg"
           :avatar="nft?.imageUrl"
           :name="nft?.name || `${nft?.id}`"
           :size="128"
@@ -88,6 +89,8 @@ const props = defineProps<{
   nft?: NFT
   open: boolean
 }>()
+
+const NuxtImg = resolveComponent('NuxtImg')
 
 const internalNfT = ref<Partial<NFT>>({})
 const dirty = ref({ name: false, description: false, price: false })

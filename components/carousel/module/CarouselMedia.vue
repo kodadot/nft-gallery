@@ -16,6 +16,7 @@
         :src="imageSrc || ''"
         :animation-src="item.animationUrl || ''"
         :title="item.name"
+        :image-component="NuxtImg"
         disable-operation
         :audio-player-cover="imageSrc || ''"
         audio-hover-on-cover-play />
@@ -36,6 +37,8 @@ const props = defineProps<{
   index: number
   length: number
 }>()
+
+const NuxtImg = resolveComponent('NuxtImg')
 
 const { urlOf } = useCarouselUrl()
 const url = inject('itemUrl', 'gallery') as string

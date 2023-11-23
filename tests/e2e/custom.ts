@@ -49,7 +49,7 @@ export class Commands {
     const newTabPromise = this.page.waitForEvent('popup')
     await clickAction
     const newTab = await newTabPromise
-    await expect(newTab).toHaveURL(url)
+    await expect(newTab).toHaveURL(new RegExp(url))
     await newTab.close()
   }
 }
