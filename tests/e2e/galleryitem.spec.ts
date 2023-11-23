@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './fixtures'
 
 test('Element existance verification', async ({ page }) => {
   await page.goto('/ahk/gallery/6-10')

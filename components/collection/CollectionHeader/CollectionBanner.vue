@@ -17,7 +17,11 @@
               :alt="collectionName" />
             <img v-else :src="placeholder" alt="image placeholder" />
           </div>
-          <h1 class="collection-banner-name">{{ collectionName }}</h1>
+          <h1
+            class="collection-banner-name"
+            data-testid="collection-banner-name">
+            {{ collectionName }}
+          </h1>
         </div>
         <HeroButtons class="is-hidden-mobile is-align-self-flex-end" />
       </div>

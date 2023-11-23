@@ -1,9 +1,7 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './fixtures'
 
-test('Check Language translations', async ({ page }) => {
-  await page.goto('/e2e-login')
-  await page.waitForTimeout(10000)
-  await expect(page.getByTestId('mockAddress')).toHaveText('true')
+test('Check Language translations', async ({ page, Commands }) => {
+  await Commands.e2elogin()
   await page.goto('')
   //DE
   await page.getByTestId('navbar-profile-dropdown').click()
