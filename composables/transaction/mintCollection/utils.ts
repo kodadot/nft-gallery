@@ -19,3 +19,12 @@ export function createArgsForNftPallet(
   }
   return [account, config]
 }
+
+export const calculateFees = () => {
+  const preferences = usePreferencesStore()
+
+  return {
+    enabledFees: preferences.getHasSupport,
+    feeMultiplier: Number(preferences.getHasSupport),
+  }
+}
