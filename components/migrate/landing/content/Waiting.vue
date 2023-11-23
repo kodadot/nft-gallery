@@ -44,13 +44,14 @@
                   $t('migrate.waiting.own', [collection.nfts?.length])
                 "></p>
             </div>
-            <div>
+            <!-- TODO: how to check if owner already migrate it -->
+            <!-- <div>
               <NeoButton
                 variant="pill"
                 @click="toReview(collection.id, collection.nfts?.length)">
                 {{ $t('migrate.waiting.cta') }}
               </NeoButton>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
