@@ -50,6 +50,12 @@
             overflow-y: auto;
             height: calc(100% - 118px);
             position: relative;
+            align-items: flex-start !important;
+            padding: 1.5rem 1.25rem !important;              
+
+            &--no-padding {
+              padding: 0 !important;
+            }
           }
 
           span {

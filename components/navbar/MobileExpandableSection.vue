@@ -11,7 +11,12 @@
       <NeoIcon icon="chevron-left" />
       {{ title }}
     </div>
-    <div :class="{ 'navbar-item': !noPadding }" class="navbar-item-body">
+    <div
+      :class="{
+        'navbar-item': !noPadding,
+        'navbar-item-body--no-padding': noPadding,
+      }"
+      class="navbar-item-body">
       <slot @closeMobileSubMenu="close" />
     </div>
   </div>
