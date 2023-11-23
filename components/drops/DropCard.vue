@@ -20,7 +20,7 @@
 
             <TimeTag
               :drop-start-time="drop.dropStartTime"
-              :ended="availableCount === 0" />
+              :ended="Boolean(drop.disabled) || availableCount === 0" />
           </div>
         </section>
       </div>
