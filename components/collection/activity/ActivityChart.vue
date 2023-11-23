@@ -2,7 +2,8 @@
   <PriceChart
     v-if="events.length > 0"
     :price-chart-data="chartData"
-    chart-height="350px" />
+    chart-height="350px"
+    data-testid="collection-activity-chart" />
 </template>
 
 <script setup lang="ts">

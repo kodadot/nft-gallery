@@ -5,6 +5,7 @@
       data-testid="shopping-cart-modal-container">
       <NeoModalHead
         :title="$t('shoppingCart.title')"
+        data-testid="shopping-cart-modal"
         @close="closeShoppingCart(ModalCloseType.BACK)" />
       <div
         v-if="numberOfItems"
@@ -26,6 +27,7 @@
             :key="item.id"
             :nft="item"
             clickable
+            data-testid="shopping-cart-item"
             class="px-6 py-2 limit-name-width"
             allow-delete
             @delete="shoppingCartStore.removeItem"

@@ -67,9 +67,6 @@
       width: 100%;
       height: 2.2rem;
       font-size: 1rem;
-      @include ktheme() {
-        box-shadow: theme('primary-shadow');
-      }
     }
 
     .wallet-menu-item {

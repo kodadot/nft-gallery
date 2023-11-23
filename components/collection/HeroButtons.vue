@@ -30,10 +30,13 @@
 
           <NeoDropdownItem
             v-clipboard:copy="currentCollectionUrl"
+            data-testid="hero-copy-link-dropdown"
             @click="toast($t('toast.urlCopy'))">
             {{ $i18n.t('share.copyLink') }}
           </NeoDropdownItem>
-          <NeoDropdownItem @click="QRModalActive = true">
+          <NeoDropdownItem
+            data-testid="hero-share-QR-dropdown"
+            @click="QRModalActive = true">
             {{ $i18n.t('share.qrCode') }}
           </NeoDropdownItem>
           <NeoDropdownItem>
@@ -43,6 +46,7 @@
               :hashtags="hashtags"
               :url="currentCollectionUrl"
               :title="sharingLabel"
+              data-testid="hero-share-twitter-dropdown"
               twitter-user="KodaDot">
               {{ $i18n.t('share.twitter') }}
             </ShareNetwork>
@@ -76,7 +80,7 @@
       </div>
     </div>
     <NeoModal :value="QRModalActive" @close="QRModalActive = false">
-      <div class="card">
+      <div class="card" data-testid="hero-share-qrcode-modal">
         <header class="card-header">
           <p class="card-header-title">{{ collection?.name }}</p>
         </header>

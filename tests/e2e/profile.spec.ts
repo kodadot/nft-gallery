@@ -1,7 +1,7 @@
 import { expect, test } from './fixtures'
 
 test('Profile Interactions', async ({ page, Commands }) => {
-  const testAddress = 'FSMdmCLv5gFZ87YerB3M8ZSQ58BGHdSnreC4J6znWpqPQK9'
+  const testAddress = 'CmWHiv7h4m9tEzKD94DH4mqwGTvsdYQe2nouWPF7ipmHpqA'
   await page.goto(`ahk/u/${testAddress}?tab=owned`)
   await Commands.scrollDownSlow()
   //test step - will check if buy now has items that are not listed
