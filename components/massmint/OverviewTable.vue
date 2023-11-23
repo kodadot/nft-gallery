@@ -31,6 +31,7 @@
             </div>
             <div class="column is-flex is-align-items-center">
               <NeoAvatar
+                :image-component="NuxtImg"
                 :avatar="nft.imageUrl"
                 :name="nft.name || `${nft.id}`"
                 :size="48"
@@ -109,6 +110,8 @@ import {
   statusTranslation,
 } from '@/composables/massmint/useMassMint'
 const { placeholder } = useTheme()
+
+const NuxtImg = resolveComponent('NuxtImg')
 
 const offset = ref(10)
 const sentinel = ref<HTMLDivElement | null>(null)
