@@ -8,17 +8,13 @@
           icon="ellipsis-vertical"
           :active="active" />
       </template>
-      <component
-        :is="isMobileDevice ? 'a' : 'div'"
+
+      <NeoDropdownItem
         v-if="mimeType?.includes('image') && ipfsImage"
-        v-safe-href="toOriginalContentUrl(ipfsImage)"
-        target="_blank">
-        <NeoDropdownItem
-          data-testid="gallery-item-more-dropdown-download"
-          @click="downloadMedia">
-          Download
-        </NeoDropdownItem>
-      </component>
+        data-testid="gallery-item-more-dropdown-download"
+        @click="downloadMedia">
+        Download
+      </NeoDropdownItem>
 
       <template v-if="accountId === currentOwner">
         <NeoDropdownItem @click="burn">Burn</NeoDropdownItem>
@@ -55,7 +51,15 @@ const props = defineProps<{
 }>()
 
 const downloadMedia = () => {
-  if (!isMobileDevice && props.ipfsImage) {
+  if (props.ipfsImage) {
+    const originalUrl = toOriginalContentUrl(props.ipfsImage)
+    if (isMobileDevice) {
+      toast($i18n.t('toast.downloadOnMobile'))
+      setTimeout(() => {
+        window.open(originalUrl, '_blank')
+      }, 2000)
+      return
+    }
     try {
       downloadImage(toOriginalContentUrl(props.ipfsImage), props.name)
     } catch (error) {
