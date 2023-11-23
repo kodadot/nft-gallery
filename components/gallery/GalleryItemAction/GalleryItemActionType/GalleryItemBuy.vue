@@ -13,11 +13,12 @@
         </div>
 
         <NeoButton
-          class="button-height no-border-left"
+          class="button-height square-button-width no-border-left"
           data-testid="item-add-to-cart"
           @click="onClickShoppingCart">
           <NeoIcon
             size="medium"
+            class="icon"
             :icon="
               shoppingCartStore.isItemInCart(nft.id)
                 ? 'fa-striked-out-cart-shopping'
@@ -103,6 +104,9 @@ const onClickShoppingCart = () => {
   height: 55px !important;
 }
 
+.square-button-width {
+  width: 55px;
+}
 .buy-button-width {
   width: 10rem;
 
