@@ -1396,7 +1396,9 @@
     "mintingEnded": "Ended",
     "mintedBy": "Minted By",
     "mintPerAddress": "Each address can mint only once",
-    "recentMints": "Recent NFT Mints"
+    "recentMints": "Recent NFT Mints",
+    "capture": "Unable to screenshot your art continuting without"
+
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
