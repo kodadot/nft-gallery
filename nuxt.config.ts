@@ -11,6 +11,14 @@ export default defineNuxtConfig({
     host: '0.0.0.0',
   },
 
+  postcss: {
+    plugins: {
+      'tailwindcss/nesting': {},
+      tailwindcss: { config: './libs/ui/tailwind.config.js' },
+      autoprefixer: {},
+    },
+  },
+
   sourcemap: false,
 
   vue: {
