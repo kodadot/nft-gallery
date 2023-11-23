@@ -44,8 +44,12 @@ export const feeTx = (api: ApiPromise, price: string): Extrinsic => {
   return asBalanceTransfer(api, resolveSupportAddress(api), price)
 }
 
+export const getPercentSupportFee = (price: number | string) => {
+  return Number(price) * SUPPORT_FEE_PERCENT
+}
+
 export const somePercentFromTX = (api: ApiPromise, price: number | string) => {
-  const fee = Number(price) * SUPPORT_FEE_PERCENT
+  const fee = getPercentSupportFee(price)
   return asBalanceTransfer(api, resolveSupportAddress(api), fee)
 }
 

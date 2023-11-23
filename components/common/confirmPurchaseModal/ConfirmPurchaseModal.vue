@@ -46,18 +46,17 @@
       <div class="is-flex is-justify-content-space-between py-4 px-6">
         {{ $t('confirmPurchase.youWillPay') }}
         <div class="is-flex">
-          <CommonTokenMoney :value="totalWithRoyalties" class="has-text-grey" />
+          <CommonTokenMoney :value="total" class="has-text-grey" />
           <span class="has-text-weight-bold ml-2"> {{ priceUSD }}$ </span>
         </div>
       </div>
 
       <div class="is-flex is-justify-content-space-between py-5 px-6">
         <AutoTeleportActionButton
-          :amount="totalWithRoyalties"
+          :amount="total"
           :label="$t('nft.action.confirm')"
           :disabled="disabled"
           :actions="actions"
-          :fees="{ actions: supportFee }"
           @confirm="confirm"
           @actions:completed="$emit('completed')" />
       </div>
@@ -76,7 +75,7 @@ import { totalPriceUsd } from '../shoppingCart/utils'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import { type AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { type AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
-import { SUPPORT_FEE_PERCENT } from '@/utils/support'
+import { useBuySupportFee } from '@/composables/transaction/utils'
 
 const emit = defineEmits(['confirm', 'completed', 'close'])
 const props = defineProps<{
@@ -87,7 +86,6 @@ const prefrencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { isLogIn } = useAuth()
 const { urlPrefix } = usePrefix()
-const { isRemark } = useIsChain(urlPrefix)
 
 const actions = computed(() => [props.action])
 
@@ -116,12 +114,10 @@ const totalRoyalties = computed(() =>
   ),
 )
 
-const totalWithRoyalties = computed(
-  () => totalNFTsPrice.value + totalRoyalties.value,
-)
+const { supportFee } = useBuySupportFee(urlPrefix, totalNFTsPrice)
 
-const supportFee = computed(() =>
-  isRemark.value ? totalNFTsPrice.value * SUPPORT_FEE_PERCENT : 0,
+const total = computed(
+  () => totalNFTsPrice.value + totalRoyalties.value + supportFee.value,
 )
 
 const disabled = computed(() => !isLogIn.value)
