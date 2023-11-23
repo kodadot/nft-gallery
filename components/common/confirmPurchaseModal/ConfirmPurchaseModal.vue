@@ -58,6 +58,7 @@
           :label="$t('nft.action.confirm')"
           :disabled="disabled"
           :actions="actions"
+          :fees="{ actions: supportFee }"
           @confirm="confirm"
           @actions:completed="$emit('completed')" />
       </div>
@@ -76,6 +77,7 @@ import { totalPriceUsd } from '../shoppingCart/utils'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import { type AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { type AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
+import { SUPPORT_FEE_PERCENT } from '@/utils/support'
 
 const emit = defineEmits(['confirm', 'completed', 'close'])
 const props = defineProps<{
@@ -86,6 +88,7 @@ const prefrencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { isLogIn } = useAuth()
 const { urlPrefix } = usePrefix()
+const { isRemark } = useIsChain(urlPrefix)
 
 const actions = computed(() => [props.action])
 
@@ -116,6 +119,10 @@ const totalRoyalties = computed(() =>
 
 const totalWithRoyalties = computed(
   () => totalNFTsPrice.value + totalRoyalties.value,
+)
+
+const supportFee = computed(() =>
+  isRemark.value ? totalNFTsPrice.value * SUPPORT_FEE_PERCENT : 0,
 )
 
 const disabled = computed(() => !isLogIn.value)

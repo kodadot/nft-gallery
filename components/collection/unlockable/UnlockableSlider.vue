@@ -1,5 +1,5 @@
 <template>
-  <div class="unlockable-slider border is-flex is-flex-1 slider-bar">
+  <div class="unlockable-slider border slider-bar">
     <div
       v-if="value > 0"
       class="unlockable-slider-inner border slider-bar"
@@ -24,6 +24,8 @@ const widthStyle = computed(() => ({ width: `${props.value * 100}%` }))
 @import '@/assets/styles/abstracts/variables.scss';
 .unlockable-slider {
   position: relative;
+  height: 14px;
+  overflow: hidden;
   @include ktheme() {
     background: theme('background-color');
   }
@@ -31,12 +33,13 @@ const widthStyle = computed(() => ({ width: `${props.value * 100}%` }))
     position: absolute;
     left: -1px;
     top: -1px;
+    height: 100%;
     background: $primary;
+    box-sizing: content-box;
   }
 }
 
 .slider-bar {
   border-radius: 2.5rem;
-  height: 14px;
 }
 </style>
