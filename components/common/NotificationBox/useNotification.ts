@@ -49,10 +49,7 @@ export const useNotification = () => {
     },
   })
   const { data: eventData, loading } = useGraphql({
-    queryPrefix:
-      urlPrefix.value === 'bsx' || urlPrefix.value === 'snek'
-        ? 'chain-bsx'
-        : 'subsquid',
+    queryPrefix: urlPrefix.value === 'bsx' ? 'chain-bsx' : 'subsquid',
     queryName: 'notificationsByAccount',
     variables: {
       account: accountId.value,

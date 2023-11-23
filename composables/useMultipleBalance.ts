@@ -17,8 +17,8 @@ const networkToPrefix = {
   kusama: 'ksm',
   basilisk: 'bsx',
   kusamaHub: 'ahk',
-  'basilisk-testnet': 'snek',
   polkadotHub: 'ahp',
+  // rococoHub: 'ahr',
 }
 
 export const prefixToNetwork = {
@@ -27,8 +27,8 @@ export const prefixToNetwork = {
   ksm: 'kusama',
   bsx: 'basilisk',
   ahk: 'kusamaHub',
-  snek: 'basilisk-testnet',
   ahp: 'polkadotHub',
+  ahr: 'rococoHub',
 }
 
 const getNetwork = (prefix: Prefix) => {

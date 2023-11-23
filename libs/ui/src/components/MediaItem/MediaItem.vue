@@ -3,6 +3,7 @@
     <component
       :is="resolveComponent"
       :src="properSrc"
+      :sizes="sizes"
       :animation-src="animationSrc"
       :alt="title"
       :placeholder="placeholder"
@@ -13,6 +14,7 @@
       :player-cover="audioPlayerCover"
       :hover-on-cover-play="audioHoverOnCoverPlay"
       :parent-hovering="isMediaItemHovering"
+      :image-component="imageComponent"
       :preview="preview"
       :autoplay="autoplay" />
     <div
@@ -48,7 +50,8 @@
 </template>
 
 <script lang="ts" setup>
-import { type Component, computed, defineAsyncComponent, ref, watch } from 'vue'
+import type { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
+import { computed, defineAsyncComponent, ref, watch } from 'vue'
 import { useElementHover, useElementVisibility } from '@vueuse/core'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
@@ -78,6 +81,12 @@ const props = withDefaults(
     // props for video component
     preview?: boolean
     autoplay?: boolean
+    // props for image component
+    sizes?: string
+    imageComponent?:
+      | string
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
+      | ConcreteComponent<{}, any, any, ComputedOptions, MethodOptions>
   }>(),
   {
     src: '',
@@ -90,6 +99,7 @@ const props = withDefaults(
     placeholder: '',
     disableOperation: undefined,
     audioPlayerCover: '',
+    imageComponent: 'img',
   },
 )
 
@@ -97,6 +107,10 @@ const mediaItem = ref<HTMLDivElement>()
 
 // props.mimeType may be empty string "". Add `image/png` as fallback
 const mimeType = computed(() => props.mimeType || type.value || 'image/png')
+
+const sizes = computed(() =>
+  props.sizes === 'original' ? undefined : props.sizes,
+)
 
 const targetIsVisible = useElementVisibility(mediaItem)
 const modelComponent = ref<Component>()

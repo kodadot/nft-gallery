@@ -1,7 +1,24 @@
 import { warningMessage } from '@/utils/notification'
 import { tokenIdToRoute } from '@/components/unique/utils'
 
-import type { ActionWithdrawOffer } from './types'
+import {
+  ActionBurnMultipleNFTs,
+  ActionBuy,
+  ActionConsume,
+  ActionDeleteCollection,
+  ActionList,
+  ActionMintCollection,
+  ActionMintToken,
+  ActionOffer,
+  ActionSend,
+  ActionWithdrawOffer,
+  Actions,
+  Collections,
+  NFTs,
+} from '../transaction/types'
+
+import { Interaction } from '@kodadot1/minimark/v1'
+import consola from 'consola'
 
 export function transactionOfferFactory(key: 'acceptOffer' | 'withdrawOffer') {
   return function (params: ActionWithdrawOffer, api, executeTransaction) {
@@ -31,4 +48,37 @@ export const verifyRoyalty = (
     isValid: isRoyaltyValid(normalizedRoyalty),
     normalizedRoyalty,
   }
+}
+
+export function isActionValid(action: Actions): boolean {
+  const hasContent = <T>(v: T | T[]): boolean =>
+    Array.isArray(v) ? v.length > 0 : Boolean(v)
+
+  const validityMap: Record<string, (action) => boolean> = {
+    [Interaction.BUY]: (action: ActionBuy) => hasContent(action.nfts),
+    [Interaction.LIST]: (action: ActionList) => hasContent(action.token),
+    [Interaction.MINTNFT]: (action: ActionMintToken) =>
+      hasContent(action.token),
+    [Interaction.SEND]: (action: ActionSend) => Boolean(action.nftId),
+    [Interaction.CONSUME]: (action: ActionConsume) => Boolean(action.nftId),
+    [ShoppingActions.MAKE_OFFER]: (action: ActionOffer) =>
+      Boolean(action.tokenId),
+    [ShoppingActions.WITHDRAW_OFFER]: (action: ActionWithdrawOffer) =>
+      Boolean(action.nftId),
+    [Interaction.MINT]: (action: ActionMintCollection) =>
+      Boolean(action.collection),
+    [Collections.DELETE]: (action: ActionDeleteCollection) =>
+      Boolean(action.collectionId),
+    [NFTs.BURN_MULTIPLE]: (action: ActionBurnMultipleNFTs) =>
+      hasContent(action.nftIds),
+  }
+
+  const checker = validityMap[action.interaction]
+
+  if (!checker) {
+    consola.error(`Interaction not found: ${action.interaction}`)
+    return false
+  }
+
+  return checker(action)
 }

@@ -28,7 +28,7 @@ const emit = defineEmits(['update:modelValue', 'check'])
 const props = withDefaults(
   defineProps<{
     modelValue: string
-    label: string
+    label?: string
     emptyOnError?: boolean
     strict: boolean
     icon?: string

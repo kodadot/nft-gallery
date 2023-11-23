@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './fixtures'
 
 test('Element existance verification', async ({ page }) => {
   await page.goto('/ahk/gallery/6-10')
@@ -26,7 +26,7 @@ test('Element existance verification', async ({ page }) => {
     .click()
   await expect(page.getByTestId('gallery-item-chart')).toBeVisible()
   //checks if page redirects properly to collection
-  await page.getByTestId('item-collection').click()
+  await page.getByTestId('gallery-item-collection-link').click()
   await expect(page).toHaveURL('/ahk/collection/6')
 })
 

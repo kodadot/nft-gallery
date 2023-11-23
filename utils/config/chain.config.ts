@@ -4,8 +4,6 @@ import { ChainProperties } from '../api/Query'
 
 import type { Prefix } from '@kodadot1/static'
 
-export const BLOCK_EXPLORER_WITH_QUERY = ['snek']
-
 export const chainPropListOf = (prefix: Prefix): ChainProperties => {
   return CHAINS[prefix]
 }

@@ -1,15 +1,19 @@
 <template>
   <div>
-    <div v-if="displayedHolders.length">
+    <div
+      v-if="displayedHolders.length"
+      data-testid="collection-holders-container">
       <div
         v-for="[holderId, holdings] in displayedHolders"
         :key="holderId"
-        class="">
+        class=""
+        data-testid="collection-nft-holder">
         <div class="is-flex is-flex-direction-column gap">
           <div class="px-5">
             <ProfileLink
               :address="holderId"
               :avatar-size="35"
+              data-testid="collection-nft-holder-address"
               class="has-text-weight-bold" />
             <div class="is-flex is-justify-content-space-between mt-2">
               <span class="is-size-7 has-text-grey">{{
@@ -41,6 +45,7 @@
             <div>
               <div
                 class="is-size-7 has-text-k-blue is-clickable"
+                data-testid="collection-holder-nft-details"
                 @click="toggleNFTDetails(holderId)">
                 {{ $t('activity.nftDetails') }}
                 <NeoIcon
