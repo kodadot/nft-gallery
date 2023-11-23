@@ -1,6 +1,6 @@
 <template>
   <div class="mt-8 pt-4">
-    <!-- <div class="is-flex is-relative section-title">
+    <div class="is-flex is-relative section-title">
       <img src="/migrate/state-waiting.svg" alt="Ready" />
       <p>{{ $t('migrate.waiting.title') }}</p>
     </div>
@@ -52,19 +52,6 @@
           </div>
         </div>
       </div>
-    </div> -->
-
-    <div class="mt-8 pt-4">
-      <hr />
-      <p class="has-text-grey mb-2">
-        {{ $t('migrate.migrationNotPossible') }}
-      </p>
-      <p>
-        <span v-dompurify-html="$t('migrate.migrationNotPossibleLabel')"></span>
-        <strong v-for="collection in collections" :key="collection.id">
-          &nbsp;{{ collection.name }},
-        </strong>
-      </p>
     </div>
   </div>
 </template>
