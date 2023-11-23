@@ -4,6 +4,7 @@
       <nuxt-link :to="`/${urlPrefix}/gallery/${event.nft.id}`">
         <div class="mr-5">
           <NeoAvatar
+            :image-component="NuxtImg"
             :avatar="avatar"
             :placeholder="placeholder"
             :name="event.nft.name"
@@ -78,6 +79,8 @@ import {
   interactionNameMap,
 } from './common'
 import { NeoAvatar } from '@kodadot1/brick'
+
+const NuxtImg = resolveComponent('NuxtImg')
 
 const { urlPrefix } = usePrefix()
 const props = defineProps<{
