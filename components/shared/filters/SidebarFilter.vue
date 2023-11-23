@@ -6,9 +6,12 @@
       <PriceFilter
         v-if="!isCollectionActivityTab"
         fluid-padding
-        data-testid="expand-search" />
+        data-testid="sidebar-price-filter" />
       <PopularCollections v-if="isExploreItems" expanded fluid-padding />
-      <AdvancedFilter v-if="!isCollectionActivityTab" fluid-padding />
+      <AdvancedFilter
+        v-if="!isCollectionActivityTab"
+        fluid-padding
+        data-testid="sidebar-advanced-filter" />
     </NeoSidebar>
   </div>
 </template>

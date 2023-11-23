@@ -3,11 +3,13 @@
     <TabItem
       :active="route.name === 'prefix-collection-id'"
       :text="`${$t('items')}`"
-      :to="toItem" />
+      :to="toItem"
+      data-testid="collection-tab-item" />
     <TabItem
       :active="route.name === 'prefix-collection-id-activity'"
       :text="`${$t('tabs.activity')}`"
-      :to="toActivity" />
+      :to="toActivity"
+      data-testid="collection-tab-activity" />
   </div>
 </template>
 

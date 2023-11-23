@@ -120,6 +120,7 @@ const props = defineProps({
 
 const collectionId = computed(() => props.drop?.collection)
 const disabledByBackend = computed(() => props.drop?.disabled)
+const defaultImage = computed(() => props.drop?.image)
 
 const { neoModal } = useProgrammatic()
 const { $i18n } = useNuxtApp()
@@ -219,6 +220,17 @@ const scrollToTop = () => {
   })
 }
 
+const tryCapture = async () => {
+  try {
+    const imgFile = await makeScreenshot(sanitizeIpfsUrl(selectedImage.value))
+    const imageHash = await pinFileToIPFS(imgFile)
+    return imageHash
+  } catch (error) {
+    toast($i18n.t('drops.capture'))
+    return defaultImage.value
+  }
+}
+
 const handleSubmitMint = async () => {
   if (!isLogIn.value) {
     neoModal.open({
@@ -233,8 +245,7 @@ const handleSubmitMint = async () => {
   try {
     isImageFetching.value = true
 
-    const imgFile = await makeScreenshot(sanitizeIpfsUrl(selectedImage.value))
-    const imageHash = await pinFileToIPFS(imgFile)
+    const imageHash = await tryCapture()
 
     const hash = await createUnlockableMetadata(
       imageHash,

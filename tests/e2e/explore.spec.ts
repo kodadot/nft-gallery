@@ -36,7 +36,7 @@ for (const route of routes) {
     const tabs = page.getByTestId('gallery-explore-tabs').nth(1)
     await expect(tabs.getByText('Collections')).toBeVisible()
     await expect(tabs.getByText('Items')).toBeVisible()
-    const expandSearch = await page.getByTestId('expand-search')
+    const expandSearch = await page.getByTestId('sidebar-price-filter')
     await expandSearch.click()
     const inputMin = await expandSearch.getByTestId('input-min')
     await inputMin.type('100')

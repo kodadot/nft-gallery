@@ -11,7 +11,7 @@ $modal-content-border-radius: 0;
 
 
 .neo-modal {
-  
+
   .o-modal__content {
     width: auto !important;
     max-height: var(--max-height);
@@ -23,6 +23,20 @@ $modal-content-border-radius: 0;
     }
     &.no-shadow {
       box-shadow: none;
+    }
+    &.enable-mobile {
+      @media screen and (max-width: 425px)  {
+        .modal-width, &.modal-width {
+          width: unset;
+        }
+        position: absolute;
+        bottom: -1px;
+        right: -1px;
+        left: -1px;
+        display: flex;
+        flex-direction: column;
+      }
+
     }
   }
 
