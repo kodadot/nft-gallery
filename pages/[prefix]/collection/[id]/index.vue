@@ -14,7 +14,7 @@ definePageMeta({
   keepalive: true,
 })
 
-const collectionid = (route.params.id || '') as string
+const collectionid = (route.params?.id ?? '') as string
 
 const preferencesStore = usePreferencesStore()
 const isSidebarOpen = computed(() => preferencesStore.getsidebarFilterCollapse)
