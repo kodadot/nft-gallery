@@ -57,9 +57,6 @@ const itemMetadata = [
 test('Item Opengraph', async ({ page }) => {
   await page.goto('/ahk/gallery/165-2')
   for (const data of itemMetadata) {
-    console.log(data.metaLocator)
-    console.log(data.attr)
-    console.log(data.content)
     await expect(page.locator(`meta${data.metaLocator}`)).toHaveAttribute(
       data.attr,
       new RegExp(data.content),
