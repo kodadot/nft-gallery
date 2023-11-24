@@ -1,15 +1,18 @@
 <template>
   <a
     v-safe-href="link"
-    class="article"
+    class="group block h-full no-underline border border-card-border-color bg-background-color hover:border-border-color"
     target="_blank"
     rel="nofollow noopener noreferrer">
-    <img class="article-image" :src="image" :alt="title" />
-    <div class="article-info">
-      <p class="article-title">
+    <img
+      class="w-full object-cover h-56 border-b border-b-card-border-color group-hover:opacity-card-hover-opacity"
+      :src="image"
+      :alt="title" />
+    <div class="p-4">
+      <p class="leading-5 text-text-color font-bold">
         {{ title }}
       </p>
-      <p class="is-size-7">
+      <p class="text-xs/5 text-text-color">
         {{ description }}
       </p>
     </div>
@@ -24,7 +27,3 @@ defineProps<{
   description: string
 }>()
 </script>
-
-<style lang="scss" scoped>
-@import './CardArticle.scss';
-</style>
