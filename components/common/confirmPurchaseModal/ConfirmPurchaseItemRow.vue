@@ -54,6 +54,10 @@ onMounted(() => {
 
 .limit-width {
   max-width: 170px;
+
+  @include mobile {
+    max-width: 100px;
+  }
 }
 
 .ellipsis {
