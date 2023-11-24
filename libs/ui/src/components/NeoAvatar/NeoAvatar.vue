@@ -8,7 +8,7 @@
     :width="size"
     :height="size"
     :style="customStyle"
-    @error="onError" />
+    @error.once="onError" />
   <img
     v-else
     :src="placeholder"
@@ -38,6 +38,7 @@ const customStyle = computed(() => ({
 const onError = (e: Event) => {
   const target = e.target as HTMLImageElement
   if (target) {
+    target.removeAttribute('srcset')
     target.src = props.placeholder
   }
 }
