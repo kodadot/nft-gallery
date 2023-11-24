@@ -1,7 +1,7 @@
 <template>
   <a
     v-safe-href="link"
-    class="group block h-full no-underline border border-card-border-color bg-background-color hover:border-border-color"
+    class="group block h-full no-underline border-default border-card-border-color bg-background-color hover:border-border-color"
     target="_blank"
     rel="nofollow noopener noreferrer">
     <img
@@ -9,10 +9,10 @@
       :src="image"
       :alt="title" />
     <div class="p-4">
-      <p class="leading-5 text-text-color font-bold">
+      <p class="leading-4.5 text-text-color font-bold">
         {{ title }}
       </p>
-      <p class="text-xs/5 text-text-color">
+      <p class="text-xs/4.5 text-text-color">
         {{ description }}
       </p>
     </div>
