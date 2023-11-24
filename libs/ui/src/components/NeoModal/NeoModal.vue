@@ -8,7 +8,11 @@
       :destroy-on-hide="destroyOnHide"
       :can-cancel="canCancel"
       :full-screen="fullScreen"
-      :content-class="[...contentClassName, noShadow ? 'no-shadow' : '']"
+      :content-class="[
+        ...contentClassName,
+        noShadow ? 'no-shadow' : '',
+        enableMobile ? 'enable-mobile' : '',
+      ]"
       :mobile-breakpoint="mobileBreakpoint"
       :root-class="rootClass"
       :style="{
@@ -34,6 +38,7 @@ const props = withDefaults(
     contentClass?: string | string[]
     rootClass?: string
     noShadow?: boolean
+    enableMobile?: boolean
     maxHeight?: string | number
     mobileBreakpoint?: string
     appendToBody?: boolean
@@ -45,6 +50,7 @@ const props = withDefaults(
     contentClass: '',
     rootClass: '',
     noShadow: false,
+    enableMobile: true,
     maxHeight: '80vh',
     mobileBreakpoint: '768px',
     appendToBody: true,

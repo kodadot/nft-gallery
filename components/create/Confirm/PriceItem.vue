@@ -50,7 +50,7 @@
             <NeoIcon icon="circle-question" />
           </NeoTooltip>
         </div>
-        <div>
+        <div class="is-flex is-align-items-center">
           {{ nft.kodadotUSDFee }} USD ~
           <Money :value="kodadotFee" :unit-symbol="chainSymbol" inline />
         </div>
