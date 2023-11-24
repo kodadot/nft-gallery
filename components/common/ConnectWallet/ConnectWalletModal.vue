@@ -1,5 +1,7 @@
 <template>
-  <div class="wallet-modal-container is-flex is-flex-direction-column">
+  <div
+    class="wallet-modal-container is-flex is-flex-direction-column"
+    data-testid="wallet-connect-sidebar-modal">
     <NeoModalHead
       :title="
         showAccount
