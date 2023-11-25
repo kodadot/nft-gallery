@@ -3,6 +3,7 @@ import { CollectionMetadata } from '@/components/rmrk/types'
 import api from '@/utils/fetch'
 import { Collection, NFT, NFTMetadata } from '@/components/rmrk/service/scheme'
 import consola from 'consola'
+import * as isIPFS from 'is-ipfs'
 
 import {
   ArweaveProviders,
@@ -83,6 +84,26 @@ const resolveArProvider = (key: ArweaveProviders = 'arweave'): string =>
 export type SomethingWithMeta = {
   metadata: string
 }
+
+export const replaceIpfsGateway = (
+  url: string,
+  provider?: ProviderKeyType,
+): string => {
+  const gateway = resolveProvider(provider)
+  const replaceGateway = new URL(gateway)
+  const currentGateway = new URL(url)
+  currentGateway.hostname = replaceGateway.hostname
+
+  return currentGateway.toString()
+}
+
+export const toExternalUrl = (url: string) => {
+  const kodaUrl = new URL('/type/url', kodaImage)
+  kodaUrl.searchParams.set('endpoint', url)
+
+  return kodaUrl.href.toString()
+}
+
 export const sanitizeIpfsUrl = (
   ipfsUrl = '',
   provider?: ProviderKeyType,
@@ -91,35 +112,25 @@ export const sanitizeIpfsUrl = (
     return ''
   }
 
-  if (!sanitizeIpfsCid(ipfsUrl) && !ipfsUrl.includes(kodaImage)) {
-    const kodaUrl = new URL('/type/url', kodaImage)
-    kodaUrl.searchParams.set('endpoint', ipfsUrl)
-
-    return kodaUrl.href.toString()
+  if (ipfsUrl.includes(kodaImage)) {
+    return ipfsUrl
   }
 
-  if (ipfsUrl.includes('https://gateway.pinata.cloud')) {
-    return ipfsUrl.replace(
-      'https://gateway.pinata.cloud/',
-      resolveProvider(provider),
-    )
+  const extract = fastExtract(ipfsUrl)
+
+  if (isIPFS.cid(extract)) {
+    return sanitizeIpfsCid(extract, provider)
   }
 
-  if (isIpfsCid(ipfsUrl)) {
-    return sanitizeIpfsCid(ipfsUrl, provider)
+  if (isIPFS.cidPath(extract)) {
+    return sanitizeIpfsCid(extract, provider)
   }
 
-  const rr = /^ipfs:\/\/ipfs/
-  if (rr.test(ipfsUrl)) {
-    return ipfsUrl.replace('ipfs://', resolveProvider(provider))
+  if (isIPFS.url(extract)) {
+    return replaceIpfsGateway(extract, provider)
   }
 
-  const ipfsRegexp = /^ipfs:\/\//
-  if (ipfsRegexp.test(ipfsUrl)) {
-    return ipfsUrl.replace('ipfs://', `${resolveProvider(provider)}ipfs/`)
-  }
-
-  return sanitizeArweaveUrl(ipfsUrl, provider as ArweaveProviders)
+  return toExternalUrl(extract)
 }
 
 export const fetchMetadata = async <T>(

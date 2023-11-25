@@ -95,6 +95,7 @@
     "emoji-unicode": "^2.0.1",
     "graphql": "^16.8.1",
     "graphql-ws": "^5.14.2",
+    "is-ipfs": "^8.0.1",
     "keen-slider": "^6.8.6",
     "lodash": "^4.17.21",
     "markdown-it": "^13.0.2",
