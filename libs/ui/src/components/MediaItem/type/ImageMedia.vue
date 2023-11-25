@@ -1,16 +1,15 @@
 <template>
   <figure
-    class="image-container"
     :class="{
-      'is-square image': !original,
-      'is-detail': isDetail,
+      'relative pt-[100%]': !original,
     }">
     <TheImage
       :image-component="imageComponent"
       :image-component-props="{ sizes }"
       :src="src"
       :alt="alt"
-      class="is-block image-media__image no-border-radius"
+      class="block rounded-none"
+      :class="{ 'object-cover absolute inset-0 w-full h-full': !original }"
       data-testid="type-image"
       @error.once="onError" />
   </figure>
@@ -25,15 +24,15 @@ const props = withDefaults(
   defineProps<{
     imageComponent?: ImageComponent
     sizes?: string
-    src?: string
+    src: string
     alt?: string
     original: boolean
     placeholder: string
-    isDetail?: boolean
-    isDarkMode?: boolean
   }>(),
   {
+    imageComponent: 'img',
     sizes: '450px md:350px lg:270px',
+    alt: '',
   },
 )
 
@@ -46,9 +45,3 @@ const onError = (e: Event) => {
   }
 }
 </script>
-
-<style>
-.image-container.is-square > img {
-  object-fit: cover;
-}
-</style>

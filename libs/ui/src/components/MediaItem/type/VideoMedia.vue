@@ -1,8 +1,8 @@
 <template>
-  <div class="video__wrapper">
-    <div class="video__overflow" />
+  <div class="w-full h-full z-10 min-w-0 relative">
+    <div class="h-0 w-full pb-[100%]" />
     <video
-      class="video__component"
+      class="absolute inset-0 min-w-0 w-full h-full flex items-center justify-center"
       :controls="controls"
       playsinline
       loop
@@ -41,36 +41,3 @@ const autoPlay = computed(() =>
 )
 const controls = computed(() => !props.preview)
 </script>
-
-<style lang="scss" scoped>
-.video {
-  &__wrapper {
-    height: 100%;
-    width: 100%;
-    z-index: 1;
-    min-width: 0;
-    position: relative;
-    box-sizing: border-box;
-  }
-
-  &__overflow {
-    height: 0;
-    width: 100%;
-    padding-bottom: 100%;
-  }
-
-  &__component {
-    inset: 0;
-    min-width: 0;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    position: absolute;
-    box-sizing: border-box;
-    -moz-box-align: center;
-    -moz-box-pack: center;
-    justify-content: center;
-  }
-}
-</style>
