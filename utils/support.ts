@@ -21,7 +21,7 @@ export type SupportTokens = 'KSM' | 'DOT'
 export const cost = async (
   api: ApiPromise,
   fee: number = BASE_FEE,
-  token: SupportTokens = 'KSM',
+  token?: SupportTokens = 'KSM',
 ): Promise<number> => {
   const tokenPrice = await getApproximatePriceOf(token)
 
@@ -37,7 +37,7 @@ export const cost = async (
 export const supportTx = async (
   api: ApiPromise,
   multiplyWith = 1,
-  token: SupportTokens,
+  token?: SupportTokens = 'KSM',
 ): Promise<Extrinsic> => {
   return asBalanceTransfer(
     api,
@@ -103,7 +103,7 @@ export const canSupport = async (
   api: ApiPromise,
   enabled: boolean,
   multiplyWith = 1,
-  token: SupportTokens,
+  token?: SupportTokens = 'KSM',
 ): Promise<[] | [Extrinsic]> => {
   return enabled ? [await supportTx(api, multiplyWith, token)] : []
 }
