@@ -29,11 +29,7 @@
       position="bottom-left">
       <template #trigger>
         <NeoButton no-shadow variant="icon">
-          <NeoIcon
-            icon="gear"
-            pack="fas"
-            size="medium"
-            :color="isDarkMode ? 'white' : 'black'" />
+          <NeoIcon icon="gear" pack="fas" size="medium" />
         </NeoButton>
       </template>
 
