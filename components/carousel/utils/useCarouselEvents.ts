@@ -38,7 +38,29 @@ const fetchLatestEvents = async (chain, type, where = {}, limit = 5) => {
   })
 }
 
-const useChainEvents = async (chain, type, eventQueryLimit, collectionIds) => {
+const createEventQuery = (
+  type,
+  excludeNftId,
+  collectionIds,
+  excludeCollectionId,
+) => ({
+  nft: {
+    ...(type === 'newestList' && { price_gt: 0 }),
+    id_not_in: [...new Set(excludeNftId.value)],
+    collection: {
+      ...(collectionIds && { id_in: collectionIds }),
+      id_not_in: [...new Set(excludeCollectionId.value)],
+    },
+  },
+})
+
+const useChainEvents = async (
+  chain,
+  type,
+  eventQueryLimit,
+  collectionIds,
+  withLastestSale = true,
+) => {
   const nfts = ref<
     { nft: NFTWithMetadata; timestamp: string; latestSalePrice?: string }[]
   >([])
@@ -56,7 +78,7 @@ const useChainEvents = async (chain, type, eventQueryLimit, collectionIds) => {
   const pushNft = (nft) => {
     if (!uniqueNftId.value.includes(nft.nft.id) && nfts.value.length < limit) {
       uniqueNftId.value.push(nft.nft.id)
-      if (type === 'latestSales') {
+      if (type === 'latestSales' && withLastestSale) {
         nft.latestSalePrice = nft.meta
       }
       nfts.value.push(nft)
@@ -80,22 +102,14 @@ const useChainEvents = async (chain, type, eventQueryLimit, collectionIds) => {
     totalCollection[nft.nft.collection.id] = 1
     pushNft(nft)
   }
-
-  const { data } = await fetchLatestEvents(
-    chain,
+  const query = createEventQuery(
     type,
-    {
-      nft: {
-        ...(type === 'newestList' && { price_gt: 0 }),
-        id_not_in: [...new Set(excludeNftId.value)],
-        collection: {
-          ...(collectionIds && { id_in: collectionIds }),
-          id_not_in: [...new Set(excludeCollectionId.value)],
-        },
-      },
-    },
-    eventQueryLimit,
+    excludeNftId,
+    collectionIds,
+    excludeCollectionId,
   )
+
+  const { data } = await fetchLatestEvents(chain, type, query, eventQueryLimit)
   data.value?.events?.forEach((nft) => limitCollection(nft))
 
   return {
@@ -164,6 +178,7 @@ export const useCarouselGenerativeNftEvents = async (
     'latestSales',
     10,
     ahkCollectionIds,
+    false,
   )
   const { data: listDataAhk } = await useChainEvents(
     'ahk',
@@ -176,6 +191,7 @@ export const useCarouselGenerativeNftEvents = async (
     'latestSales',
     10,
     ahpCollectionIds,
+    false,
   )
   const { data: listDataAhp } = await useChainEvents(
     'ahp',
