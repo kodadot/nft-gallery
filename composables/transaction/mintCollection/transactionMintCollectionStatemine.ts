@@ -2,7 +2,7 @@ import type { CollectionToMintStatmine, MintCollectionParams } from '../types'
 import { constructMeta } from './constructMeta'
 import { useStatemineNewCollectionId } from './useNewCollectionId'
 import { calculateFees, createArgsForNftPallet } from './utils'
-import { canSupport } from '@/utils/support'
+import { SupportTokens, canSupport } from '@/utils/support'
 
 export async function execMintCollectionStatemine({
   item,
@@ -49,13 +49,18 @@ export async function execMintCollectionStatemine({
     return
   }
 
-  const { enabledFees, feeMultiplier } = calculateFees()
+  const { enabledFees, feeMultiplier, token } = calculateFees()
 
   const arg = [
     [
       api.tx.nfts.create(...createArgs),
       api.tx.nfts.setCollectionMetadata(nextId, metadata),
-      ...(await canSupport(api, enabledFees, feeMultiplier)),
+      ...(await canSupport(
+        api,
+        enabledFees,
+        feeMultiplier,
+        token as SupportTokens,
+      )),
     ],
   ]
 

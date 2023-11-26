@@ -103,7 +103,7 @@ export const getSupportInteraction = (
     : 1
 
   const totalFees = feeMultiplier * howManyTimesToChargeSupportFees
-  return canSupport(api, enabledFees, totalFees)
+  return canSupport(api, enabledFees, totalFees, 'DOT')
 }
 
 const getNextTokenIdOnChain = async (api, collectionId) => {

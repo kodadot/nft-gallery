@@ -16,27 +16,33 @@ export const SUPPORT_FEE_PERCENT = 0.03 // percent / 100
 export const round = (num: number): number =>
   Math.round((num + Number.EPSILON) * 100) / 100
 
+export type SupportTokens = 'KSM' | 'DOT'
+
 export const cost = async (
   api: ApiPromise,
   fee: number = BASE_FEE,
+  token: SupportTokens = 'KSM',
 ): Promise<number> => {
-  const ksmPrice = await getApproximatePriceOf('kusama')
-  if (ksmPrice === 0) {
+  const tokenPrice = await getApproximatePriceOf(token)
+
+  if (tokenPrice === 0) {
     return 0
   }
-  console.log('[SUPPORT] 💋💋💋', fee / ksmPrice, 'KSM')
+
+  console.log('[SUPPORT] 💋💋💋', fee / tokenPrice, token)
   const decimals: number = getTokenDecimals(api)
-  return Math.round((fee / ksmPrice) * 10 ** decimals)
+  return Math.round((fee / tokenPrice) * 10 ** decimals)
 }
 
 export const supportTx = async (
   api: ApiPromise,
   multiplyWith = 1,
+  token: SupportTokens,
 ): Promise<Extrinsic> => {
   return asBalanceTransfer(
     api,
     resolveSupportAddress(api),
-    await cost(api, BASE_FEE * multiplyWith),
+    await cost(api, BASE_FEE * multiplyWith, token),
   )
 }
 
@@ -97,13 +103,15 @@ export const canSupport = async (
   api: ApiPromise,
   enabled: boolean,
   multiplyWith = 1,
+  token: SupportTokens,
 ): Promise<[] | [Extrinsic]> => {
-  return enabled ? [await supportTx(api, multiplyWith)] : []
+  return enabled ? [await supportTx(api, multiplyWith, token)] : []
 }
 
 export const canOffset = async (
   api: ApiPromise,
   enabled: boolean,
+  token: SupportTokens,
 ): Promise<[] | [Extrinsic]> => {
-  return canSupport(api, enabled, 2)
+  return canSupport(api, enabled, 2, token)
 }

@@ -1,3 +1,5 @@
+import { chainAssetOf } from '@/utils/config/chain.config'
+
 export function createArgs(
   randomId: number,
   metadata: string,
@@ -22,9 +24,12 @@ export function createArgsForNftPallet(
 
 export const calculateFees = () => {
   const preferences = usePreferencesStore()
+  const { urlPrefix } = usePrefix()
+  const { symbol } = chainAssetOf(urlPrefix.value)
 
   return {
     enabledFees: preferences.getHasSupport,
     feeMultiplier: Number(preferences.getHasSupport),
+    token: symbol,
   }
 }
