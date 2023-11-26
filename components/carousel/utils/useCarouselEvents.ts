@@ -39,7 +39,9 @@ const fetchLatestEvents = async (chain, type, where = {}, limit = 5) => {
 }
 
 const useChainEvents = async (chain, type, eventQueryLimit, collectionIds) => {
-  const nfts = ref<{ nft: NFTWithMetadata; timestamp: string }[]>([])
+  const nfts = ref<
+    { nft: NFTWithMetadata; timestamp: string; latestSalePrice?: string }[]
+  >([])
   const uniqueNftId = ref<string[]>([])
   const totalCollection = reactive({})
   const excludeCollectionId = ref<string[]>([])
@@ -54,6 +56,9 @@ const useChainEvents = async (chain, type, eventQueryLimit, collectionIds) => {
   const pushNft = (nft) => {
     if (!uniqueNftId.value.includes(nft.nft.id) && nfts.value.length < limit) {
       uniqueNftId.value.push(nft.nft.id)
+      if (type === 'latestSales') {
+        nft.latestSalePrice = nft.meta
+      }
       nfts.value.push(nft)
     }
   }
@@ -107,6 +112,7 @@ export const flattenNFT = (data, chain) => {
     return {
       ...nft.nft,
       timestamp: nft.timestamp,
+      latestSalePrice: nft.latestSalePrice,
     }
   })
 
