@@ -7,6 +7,7 @@ export interface Drop {
   chain: string
   minted: number
   max: number
+  disabled: number
   dropStartTime: Date
   price: string
   alias: string

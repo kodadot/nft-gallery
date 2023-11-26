@@ -30,7 +30,6 @@ const image = computed(() => {
 
 definePageMeta({
   layout: 'explore-layout',
-  keepalive: true,
 })
 
 useHead({

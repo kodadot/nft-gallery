@@ -11,7 +11,6 @@ import { usePreferencesStore } from '@/stores/preferences'
 const route = useRoute()
 definePageMeta({
   layout: 'explore-layout',
-  keepalive: true,
 })
 
 const collectionid = (route.params?.id ?? '') as string

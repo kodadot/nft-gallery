@@ -140,4 +140,10 @@
     --toggle-primary: var(--white);
     --toggle-active-switch: #363234;
   }
+
+  *,
+  :after,
+  :before {
+    border: 0 solid currentColor;
+  }
 }

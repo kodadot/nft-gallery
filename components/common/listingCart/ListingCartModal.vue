@@ -5,22 +5,22 @@
       :value="preferencesStore.listingCartModalOpen"
       scroll="clip"
       append-to-body
+      container-class="modal-width"
       @close="onClose">
-      <div class="modal-width">
-        <header
-          class="py-5 px-6 is-flex is-justify-content-space-between border-bottom is-align-items-center">
-          <span class="modal-card-title is-size-6 has-text-weight-bold">
-            {{ title }}
-          </span>
+      <header
+        class="py-5 px-6 is-flex is-justify-content-space-between border-bottom is-align-items-center">
+        <span class="modal-card-title is-size-6 has-text-weight-bold">
+          {{ title }}
+        </span>
 
-          <NeoButton
-            variant="text"
-            no-shadow
-            icon="xmark"
-            size="medium"
-            @click="onClose" />
-        </header>
-
+        <NeoButton
+          variant="text"
+          no-shadow
+          icon="xmark"
+          size="medium"
+          @click="onClose" />
+      </header>
+      <div class="is-overflow-y-auto">
         <div class="px-6 pt-4 limit-height">
           <ModalIdentityItem />
 
