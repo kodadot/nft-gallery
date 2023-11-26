@@ -41,7 +41,9 @@
           inline
           :prefix="item.chain"
           :unit-symbol="unitSymbol" />
-        <span class="ml-2 has-text-grey is-size-7">- Sold</span>
+        <span v-if="showSold" class="ml-2 has-text-grey is-size-7"
+          >- {{ $t('spotlight.sold') }}</span
+        >
       </div>
       <p class="is-size-7 chain-name is-capitalized">{{ chainName }}</p>
     </div>
@@ -74,6 +76,7 @@ const chainName = computed(() => {
 })
 
 const price = computed(() => props.item.latestSalePrice ?? props.item.price)
+const showSold = computed(() => Number(props.item.latestSalePrice) > 0)
 
 const showPrice = computed((): boolean => {
   return Number(price.value) > 0 && !isCollection
