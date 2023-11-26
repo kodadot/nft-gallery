@@ -59,6 +59,13 @@ module.exports = {
         unset: 'unset',
         'card-hover-opacity': 'var(--card-hover-opacity)',
       },
+      // TODO: remove it after removing .border class from global.scss
+      borderWidth: {
+        default: '1px',
+      },
+      lineHeight: {
+        4.5: '1.125rem',
+      },
     },
   },
   plugins: [],

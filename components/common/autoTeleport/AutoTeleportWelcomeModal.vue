@@ -96,6 +96,10 @@ const onClose = () => {
 
 .modal-width {
   width: 40rem;
+
+  @include mobile {
+    width: unset;
+  }
 }
 
 .btn-height {
@@ -107,6 +111,10 @@ const onClose = () => {
     display: grid;
     grid-template-columns: repeat(3, auto);
     grid-gap: 1rem;
+
+    @include mobile {
+      grid-template-columns: repeat(1, auto);
+    }
   }
 }
 
