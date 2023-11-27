@@ -1346,7 +1346,14 @@
     "yesMint": "Yes, Mint NFTS",
     "mintingYourNFTs": "Minting Your NFTs...",
     "mintDone": "All of your NFTs were successfully minted.",
-    "done": "Done"
+    "done": "Done",
+    "mobileDisclaimer": {
+      "title": "Optimization Notice",
+      "content1": "Our Massmint feature is fine-tuned for desktop use to ensure the bestminting experience",
+      "content2": "On mobile devices, you may encounter limited functionality or layout issues.",
+      "continueAnyway": "Continue Anyway",
+      "leave": "Leave"
+    }
   },
   "filters": {
     "buy": "Buy",
@@ -1399,7 +1406,6 @@
     "mintPerAddress": "Each address can mint only once",
     "recentMints": "Recent NFT Mints",
     "capture": "Unable to screenshot your art continuting without"
-
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
@@ -1526,7 +1532,7 @@
       "finalizingItems": "Finalizing {0} Items"
     }
   },
-  "transactionSteps" : {
+  "transactionSteps": {
     "completed": "Completed",
     "error": "Failed to Sign",
     "loading": "Transaction in Progress",
