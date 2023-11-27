@@ -21,6 +21,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed, defineProps } from 'vue'
 import type { ImageComponent } from '../TheImage/TheImage.vue'
 import ImageMedia from '../MediaItem/type/ImageMedia.vue'
 
