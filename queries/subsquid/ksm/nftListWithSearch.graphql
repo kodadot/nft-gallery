@@ -27,14 +27,11 @@ query nftListWithSearch(
     collection {
       id
       name
-      floorPrice: nfts (
-        where: {
-          burned_eq: false,
-          },
-        orderBy: price_ASC,
+      floorPrice: nfts(
+        where: { burned_eq: false, price_gt: "0" }
+        orderBy: price_ASC
         limit: 1
-      ) 
-      {
+      ) {
         price
       }
     }
