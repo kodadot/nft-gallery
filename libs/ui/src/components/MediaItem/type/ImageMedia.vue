@@ -18,6 +18,8 @@
 
 <script lang="ts" setup>
 import consola from 'consola'
+import { defineProps, withDefaults } from 'vue'
+
 import TheImage from '../../TheImage/TheImage.vue'
 import type { ImageComponent } from '../../TheImage/TheImage.vue'
 

@@ -19,6 +19,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed, defineProps } from 'vue'
 import type { ImageComponent } from '../TheImage/TheImage.vue'
 import TheImage from '../TheImage/TheImage.vue'
 
