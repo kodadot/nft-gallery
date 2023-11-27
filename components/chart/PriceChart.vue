@@ -27,16 +27,22 @@
       :mobile-modal="false"
       class="chart-setting-icon min-width-fit-content"
       position="bottom-left">
-      <template #trigger>
+      <template #trigger="{ active }">
         <NeoButton no-shadow variant="icon">
-          <NeoIcon icon="gear" pack="fas" size="medium" />
+          <NeoIcon
+            icon="gear"
+            pack="fass"
+            size="large"
+            :variant="!active ? 'k-grey' : undefined" />
         </NeoButton>
       </template>
 
-      <NeoDropdownItem class="px-4 py-3">
+      <NeoDropdownItem class="px-4 py-3 no-hover">
         <div
           class="w-full is-flex is-justify-content-space-between is-align-items-center">
-          <div class="no-wrap mr-5">{{ $t('activity.hideOutliers') }}</div>
+          <div class="no-wrap mr-5 is-size-7">
+            {{ $t('activity.hideOutliers') }}
+          </div>
           <NeoCheckbox v-model="vHideOutliers" class="m-0" />
         </div>
       </NeoDropdownItem>
@@ -334,7 +340,7 @@ watch([isDarkMode, selectedTimeRange], () => {
 .chart-setting-icon {
   position: absolute;
   right: 8px;
-  top: -3px;
+  top: -5px;
 }
 
 .min-width-fit-content {
