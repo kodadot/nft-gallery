@@ -122,7 +122,7 @@ const shouldLoadModelComponent = computed(() => {
 watch(shouldLoadModelComponent, (shouldLoad) => {
   if (shouldLoad && !isModelComponentLoaded.value) {
     modelComponent.value = defineAsyncComponent(
-      () => import('./type/ModelMedia.vue'),
+      async () => (await import('@kodadot1/brick')).NeoModelMedia,
     )
     isModelComponentLoaded.value = true
   }
