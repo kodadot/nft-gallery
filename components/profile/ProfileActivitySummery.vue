@@ -40,7 +40,7 @@
             <CommonTokenMoney :value="totalHoldingsBoughtValues" inline /> ⊆
           </p>
           <p class="is-size-7 has-text-grey">
-            {{ $t('profileStats.totalHoldingsBoughtValues') }}
+            {{ chainSymbol }} {{ $t('profileStats.totalHoldingsBoughtValues') }}
           </p>
         </div>
       </div>
@@ -80,6 +80,7 @@ const props = defineProps({
 
 const { $consola } = useNuxtApp()
 const { client, urlPrefix } = usePrefix()
+const { chainSymbol } = useDeposit(urlPrefix)
 
 const profileStats = ref({
   totalBuys: 'profileStats.totalBuys',
