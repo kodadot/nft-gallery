@@ -128,6 +128,7 @@ watch(shouldLoadModelComponent, (shouldLoad) => {
   }
 })
 
+const PREFIX = 'Neo'
 const SUFFIX = 'Media'
 
 const isInteractive = computed(() => {
@@ -155,7 +156,7 @@ const resolveComponent = computed(() => {
 
   return mediaType === 'Model'
     ? modelComponent.value
-    : components[mediaType + SUFFIX]
+    : components[PREFIX + mediaType + SUFFIX]
 })
 const properSrc = computed(() => props.src || props.placeholder)
 
