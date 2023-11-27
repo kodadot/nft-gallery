@@ -97,7 +97,7 @@ const props = withDefaults(
     original: false,
     isLewd: false,
     isDetail: false,
-    placeholder: '',
+    placeholder: './Koda.svg',
     disableOperation: undefined,
     audioPlayerCover: '',
     imageComponent: 'img',
