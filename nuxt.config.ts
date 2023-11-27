@@ -189,10 +189,6 @@ export default defineNuxtConfig({
         extensions: ['vue'],
       },
       {
-        path: '~/components/metadata',
-        extensions: ['vue'],
-      },
-      {
         path: '~/components/rmrk',
         extensions: ['vue'],
       },
