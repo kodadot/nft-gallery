@@ -64,7 +64,7 @@
           v-model="amount"
           root-class="w-full"
           input-class="pr-2"
-          step="0.01"
+          step="0.00001"
           type="number"
           placeholder="Enter Amount"
           :min="0" />
@@ -97,13 +97,9 @@
     </div>
 
     <NeoButton
-      :label="
-        insufficientBalance
-          ? $t('teleport.insufficientBalance', [currency])
-          : 'Proceed To Confirmation'
-      "
+      :label="teleportLabel"
       size="large"
-      class="is-size-6 my-5"
+      class="is-size-6 my-5 is-capitalized"
       expanded
       :loading="isLoading"
       :disabled="isDisabledButton"
@@ -111,7 +107,13 @@
       variant="k-accent" />
 
     <div>
-      {{ $t('teleport.receiveValue', [amount || 0, currency, toChainLabel]) }}
+      {{
+        $t('teleport.receiveValue', [
+          recieveAmount || 0,
+          currency,
+          toChainLabel,
+        ])
+      }}
       <a
         v-safe-href="explorerUrl"
         target="_blank"
@@ -131,8 +133,10 @@ import {
   allowedTransitions,
   chainToPrefixMap,
   getChainCurrency,
+  getTransactionFee,
   prefixToChainMap,
 } from '@/utils/teleport'
+import formatBalance from '@/utils/format/balance'
 import Loader from '@/components/shared/Loader.vue'
 import shortAddress from '@/utils/shortAddress'
 import { chainIcons, getChainName } from '@/utils/chain'
@@ -152,12 +156,39 @@ const {
   status,
 } = useTeleport(true)
 
+const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const fiatStore = useFiatStore()
 const fromChain = ref(Chain.POLKADOT) //Selected origin parachain
 const toChain = ref(Chain.ASSETHUBPOLKADOT) //Selected destination parachain
 const amount = ref() //Required amount to be transfered is stored here
 const unsubscribeKusamaBalance = ref()
+const teleportFee = ref()
+
+const nativeAmount = computed(
+  () => (amount.value || 0) * Math.pow(10, currentTokenDecimals.value),
+)
+const amountToTeleport = computed(() =>
+  nativeAmount.value === 0 ? 0 : nativeAmount.value - teleportFee.value,
+)
+
+const insufficientAmountAfterFees = computed(() => amountToTeleport.value < 0)
+
+const recieveAmount = computed(() =>
+  formatBalance(amountToTeleport.value, currentTokenDecimals.value, false),
+)
+
+const teleportLabel = computed(() => {
+  if (insufficientBalance.value) {
+    return $i18n.t('teleport.insufficientBalance', [currency])
+  }
+
+  if (insufficientAmountAfterFees.value) {
+    return $i18n.t('teleport.insufficientAmountAfterFees')
+  }
+
+  return $i18n.t('teleport.proceedToConfirmation')
+})
 
 const resetStatus = () => {
   amount.value = undefined
@@ -315,7 +346,12 @@ const myBalanceWithoutDivision = computed(() =>
 )
 
 const isDisabledButton = computed(() => {
-  return !amount.value || amount.value <= 0 || insufficientBalance.value
+  return (
+    !amount.value ||
+    amount.value <= 0 ||
+    insufficientBalance.value ||
+    insufficientAmountAfterFees.value
+  )
 })
 
 const handleMaxClick = () => {
@@ -324,10 +360,8 @@ const handleMaxClick = () => {
 }
 
 const teleport = async () => {
-  const amountValue = amount.value * Math.pow(10, currentTokenDecimals.value)
-
   await sendXCM({
-    amount: amountValue,
+    amount: amountToTeleport.value,
     from: fromChain.value,
     to: toChain.value,
     toAddress: toAddress.value,
@@ -336,6 +370,22 @@ const teleport = async () => {
     onSuccess: () => resetStatus(),
   })
 }
+
+watch(
+  fromChain,
+  async () => {
+    const fee = await getTransactionFee({
+      amount: 1,
+      from: fromChain.value,
+      to: toChain.value,
+      toAddress: toAddress.value,
+      fromAddress: fromAddress.value,
+      currency: currency.value,
+    })
+    teleportFee.value = Number(fee)
+  },
+  { immediate: true },
+)
 
 onBeforeUnmount(() => {
   unsubscribeKusamaBalance.value && unsubscribeKusamaBalance.value()

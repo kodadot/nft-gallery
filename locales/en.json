@@ -1054,6 +1054,8 @@
     "send": "Send",
     "receiveValue": "You will receive {0} {1} on {2} to",
     "insufficientBalance": "Insufficient {0} Balance",
+    "insufficientAmountAfterFees": "Insufficient amount after fees",
+    "proceedToConfirmation":"Proceed To Confirmation",
     "artistProfile": "Go to artist's profile",
     "usdInput": "USD Value (approx)",
     "btnCopyPayment": "Copy Payment link",
