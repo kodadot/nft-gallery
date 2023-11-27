@@ -114,6 +114,7 @@ const {
   nftForShoppingCart,
   isOwner,
   isThereAnythingToList,
+  cheapestNFT,
 } = useNftActions(props.entity)
 
 const { showCardIcon, cardIcon } = await useNftCardIcon(
@@ -136,7 +137,9 @@ const mediaPlayerCover = computed(() => nftMetadata.value?.image)
 
 const showActionSection = computed(() => {
   return (
-    !isLogIn.value && shoppingCartStore.getItemToBuy?.id === props.entity.id
+    !isLogIn.value &&
+    !!shoppingCartStore.getItemToBuy?.id &&
+    shoppingCartStore.getItemToBuy?.id === cheapestNFT.value?.id
   )
 })
 

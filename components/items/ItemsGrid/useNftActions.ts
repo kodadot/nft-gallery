@@ -172,6 +172,7 @@ export function useNftActions(entity: TokenEntity) {
 
   return {
     isOwner,
+    cheapestNFT,
     isAvailableToBuy: isAvailableToBuyComputed,
     getNFTForBuying,
     nftForShoppingCart,
