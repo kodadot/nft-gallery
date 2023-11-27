@@ -199,7 +199,7 @@ const onClickShoppingCart = async () => {
 const onClickListingCart = async () => {
   const nftsToProcess = await getTokensNfts([props.entity])
 
-  const floorPrice = nftsToProcess[0].collection.floorPrice[0].price
+  const floorPrice = nftsToProcess[0].collection.floorPrice[0]?.price || '0'
 
   for (const nft of nftsToProcess) {
     if (listingCartStore.isItemInCart(nft.id)) {
