@@ -27,12 +27,15 @@
 
         <div class="collection-card-info">
           <p class="is-size-5 has-text-weight-bold">{{ collection.name }}</p>
-          <!-- <p>
+          <p v-if="entities[collection.id]?.migrated[0]?.issuer" class="flex">
             <span class="has-text-grey mr-2">
               {{ $t('migrate.waiting.status') }}
             </span>
-            <a href="#!" class="has-text-k-blue">Another nice name </a>
-          </p> -->
+            <Avatar
+              :value="entities[collection.id]?.migrated[0]?.issuer"
+              :size="26"
+              class="mr-2" />
+          </p>
         </div>
 
         <div class="collection-card-info">
@@ -44,14 +47,13 @@
                   $t('migrate.waiting.own', [collection.nfts?.length])
                 "></p>
             </div>
-            <!-- TODO: how to check if owner already migrate it -->
-            <!-- <div>
+            <div v-if="entities[collection.id]?.migrated[0]?.issuer">
               <NeoButton
                 variant="pill"
                 @click="toReview(collection.id, collection.nfts?.length)">
                 {{ $t('migrate.waiting.cta') }}
               </NeoButton>
-            </div> -->
+            </div>
           </div>
         </div>
       </div>
@@ -60,8 +62,9 @@
 </template>
 
 <script setup lang="ts">
-// import { NeoButton } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import collectionMigrateWaiting from '@/queries/subsquid/general/collectionMigrateWaiting.graphql'
+import waifuApi from '@/services/waifu'
 
 defineProps<{
   toReview: (string, number) => void
@@ -74,6 +77,7 @@ type Collections = {
   collectionEntities?: {
     id: string
     name: string
+    currentOwner: string
     nfts?: {
       id: string
     }[]
@@ -105,10 +109,18 @@ const { urlPrefix } = usePrefix()
 const entities = reactive({})
 watchEffect(() => {
   collections.value.forEach(async (collection) => {
-    entities[collection.id] = await getNftMetadata(
+    const metadata = await getNftMetadata(
       collection as unknown as MinimalNFT,
       urlPrefix.value,
     )
+    const migrated = await waifuApi(
+      `/relocations/owners/${collection.currentOwner}`,
+    )
+
+    entities[collection.id] = {
+      ...metadata,
+      migrated: migrated.filter((item) => item.collection === collection.id),
+    }
   })
 })
 </script>

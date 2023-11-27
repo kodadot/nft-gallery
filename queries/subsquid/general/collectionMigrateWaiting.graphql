@@ -4,6 +4,7 @@ query collectionByAccount($account: String!) {
   ) {
     id
     name
+    currentOwner
     nfts(where: { currentOwner_eq: $account }) {
       id
     }

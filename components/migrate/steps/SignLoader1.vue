@@ -102,12 +102,12 @@ const fromCollection = collections.value.find(
   (collection) => collection.id === route.query.collectionId,
 )
 
-const deleteRelocations = async () => {
-  const relocationsId = `${from}-${fromAccountId}`
-  return await waifuApi(`/relocations/${relocationsId}`, {
-    method: 'DELETE',
-  })
-}
+// const deleteRelocations = async () => {
+//   const relocationsId = `${from}-${fromAccountId}`
+//   return await waifuApi(`/relocations/${relocationsId}`, {
+//     method: 'DELETE',
+//   })
+// }
 
 const startStep1 = async () => {
   step1Iterations.value -= 1
@@ -124,7 +124,7 @@ const startStep1 = async () => {
     issuer: fromAccountId, // accountId.value
   }
 
-  await deleteRelocations()
+  // await deleteRelocations()
 
   if (nextId.value && fromCollection?.metadata) {
     const createArgs = createArgsForNftPallet(accountId.value)
