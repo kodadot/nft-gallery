@@ -352,3 +352,7 @@
     height: 2.5rem;
   }
 }
+
+.has-navbar-fixed-top {
+  padding-top: $navbar-desktop-min-height !important;
+}
