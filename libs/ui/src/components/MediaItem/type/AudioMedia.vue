@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
+import { defineProps, ref, watch, withDefaults } from 'vue'
 import { useElementHover, watchDebounced } from '@vueuse/core'
 import { NeoAudioPlayer } from '@kodadot1/brick'
 import ImageMedia from './ImageMedia.vue'

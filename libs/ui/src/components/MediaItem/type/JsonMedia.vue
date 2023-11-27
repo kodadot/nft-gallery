@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import { defineProps, onMounted, ref } from 'vue'
 import api from '@/utils/fetch'
 
 const props = defineProps<{
