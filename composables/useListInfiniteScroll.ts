@@ -71,7 +71,8 @@ export default function ({
   const updateCurrentPage = () => {
     // allow page update only when current path is same as route path
     // i.e. scope it to only the page in which useListInfiniteScroll is used
-    const allowUpdate = window.location.pathname === route.path
+    const allowUpdate =
+      process.client && window.location.pathname === route.path
     if (!allowUpdate) {
       return
     }
