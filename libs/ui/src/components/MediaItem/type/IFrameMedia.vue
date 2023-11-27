@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { useElementSize } from '@vueuse/core'
 
 const wrapper = ref<HTMLDivElement>()
