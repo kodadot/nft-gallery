@@ -35,12 +35,16 @@
           ? 'is-justify-content-space-between'
           : 'is-justify-content-end',
       ]">
-      <Money
-        v-if="showPrice"
-        :value="item.price"
-        inline
-        :prefix="item.chain"
-        :unit-symbol="unitSymbol" />
+      <div v-if="showPrice" class="is-flex is-align-items-center">
+        <Money
+          :value="price"
+          inline
+          :prefix="item.chain"
+          :unit-symbol="unitSymbol" />
+        <span v-if="showSold" class="ml-2 has-text-grey is-size-7"
+          >- {{ $t('spotlight.sold') }}</span
+        >
+      </div>
       <p class="is-size-7 chain-name is-capitalized">{{ chainName }}</p>
     </div>
   </div>
@@ -71,8 +75,11 @@ const chainName = computed(() => {
   return getChainNameByPrefix(props.item.chain || urlPrefix.value)
 })
 
+const price = computed(() => props.item.latestSalePrice ?? props.item.price)
+const showSold = computed(() => Number(props.item.latestSalePrice) > 0)
+
 const showPrice = computed((): boolean => {
-  return Number(props.item.price) > 0 && !isCollection
+  return Number(price.value) > 0 && !isCollection
 })
 
 const unitSymbol = computed(() => prefixToToken[props.item.chain || 'ksm'])
