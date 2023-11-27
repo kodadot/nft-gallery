@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './fixtures'
 
 test('Should redirect from rmrk2 prefix to ksm', async ({ page }) => {
   await page.goto(

@@ -193,12 +193,12 @@ const displayedEvents = computed(() =>
     top: 0;
     right: 0;
     height: 100%;
-    padding-top: 83px;
+    padding-top: $navbar-desktop-min-height;
     max-width: 360px;
     width: 100%;
 
     @include mobile {
-      padding-top: 58px;
+      padding-top: $navbar-mobile-min-height;
       max-width: 100vw;
     }
 
