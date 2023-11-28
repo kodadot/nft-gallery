@@ -8,23 +8,15 @@ test('Transfer Page Functionality', async ({ page, Commands }) => {
     .getAttribute('data-key')
   await page.getByTestId('transfer-copy-sender-address').click()
   await Commands.copyText(`${UserAddress}`)
-  await page
-    .getByPlaceholder('Enter wallet address')
-    .fill('0xwer6544443653444422')
+  await page.getByTestId('global-address-input').fill('0xwer6544443653444422')
   await expect(page.getByTestId('addresschecker-infobox-invalid')).toBeVisible()
   await test.step('Add and Fill input recipients', async () => {
-    await page
-      .getByPlaceholder('Enter wallet address')
-      .nth(0)
-      .fill(`${UserAddress}`)
+    await page.getByTestId('global-address-input').nth(0).fill(`${UserAddress}`)
     await page.getByTestId('transfer-input-amount-token').nth(0).fill('1')
     //add recipient
     await page.getByTestId('transfer-icon-add-recipient').click()
     //fill polkadot Address and amount on last field
-    await page
-      .getByPlaceholder('Enter wallet address')
-      .nth(1)
-      .fill(`${UserAddress}`)
+    await page.getByTestId('global-address-input').nth(1).fill(`${UserAddress}`)
     await page.getByTestId('transfer-input-amount-token').nth(1).fill('5')
   })
   //triggers switch to send same amount
@@ -68,7 +60,7 @@ test('Transfer Page Functionality', async ({ page, Commands }) => {
         .getByText('KSM')
         .click()
       await page
-        .getByPlaceholder('Enter wallet address')
+        .getByTestId('global-address-input')
         .nth(0)
         .fill(`${UserAddress}`)
       await expect(

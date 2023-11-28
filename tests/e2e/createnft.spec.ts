@@ -49,13 +49,25 @@ test('Create NFT', async ({ page, Commands }) => {
     //add new attribute
     await page.getByTestId('button-add-attribute').click()
     //fill section
-    await page.getByTestId('attr-0').getByPlaceholder('Section').fill('BG')
+    await page
+      .getByTestId('attr-0')
+      .getByTestId('attribute-input-section')
+      .fill('BG')
     //fill value
-    await page.getByTestId('attr-0').getByPlaceholder('Value').fill('Red')
+    await page
+      .getByTestId('attr-0')
+      .getByTestId('attribute-input-value')
+      .fill('Red')
     //add new attribute
     await page.getByTestId('button-add-attribute').click()
-    await page.getByTestId('attr-1').getByPlaceholder('Section').fill('Dress')
-    await page.getByTestId('attr-1').getByPlaceholder('Value').fill('Blue')
+    await page
+      .getByTestId('attr-1')
+      .getByTestId('attribute-input-section')
+      .fill('Dress')
+    await page
+      .getByTestId('attr-1')
+      .getByTestId('attribute-input-value')
+      .fill('Blue')
     //remove last attribute
     await page.getByTestId('attribute-button-remove').last().click()
     await expect(page.getByTestId('attr-1')).not.toBeVisible()

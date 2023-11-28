@@ -23,7 +23,7 @@ test('Fill fields to check if they work', async ({ page, Commands }) => {
   const collectionAmount = page.getByTestId('collection-maxAmount')
   await collectionAmount.locator('.o-switch').click()
   await expect(
-    collectionAmount.getByPlaceholder('1 is the minimum'),
+    collectionAmount.getByTestId('collection-input-maximum-nfts'),
   ).toBeVisible()
   //Check if button exists
   await expect(page.getByTestId('collection-create')).toBeVisible()
