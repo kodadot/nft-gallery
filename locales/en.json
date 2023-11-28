@@ -901,7 +901,9 @@
     "noResults": "Looks Like There's Nothing Here Yet",
     "noFlips": "Looks like it's quiet in here",
     "noHolders": "Start collecting NFTs and make your mark at the top!",
-    "noResultsSub": "Check back later or reset your filters"
+    "noResultsSub": "Check back later or reset your filters",
+    "hideOutliers": "Hide Outliers",
+    "applySmoothing": "Apply Smoothing"
   },
   "profileStats": {
     "listed": "Listed",
@@ -967,7 +969,9 @@
     "noPopularCollections": "There are no popular collections now.",
     "successfullyAddedFunds": "Successfully added funds. Your funds will arrive shortly.",
     "supports": "Supports",
-    "chooseProvider": "Choose A Provider"
+    "chooseProvider": "Choose A Provider",
+    "doingSomeMagic": "Doing some magic",
+    "pleaseWait": "Please wait"
   },
   "fiatOnRamp": {
     "agree": "I agree to the",
@@ -1346,7 +1350,14 @@
     "yesMint": "Yes, Mint NFTS",
     "mintingYourNFTs": "Minting Your NFTs...",
     "mintDone": "All of your NFTs were successfully minted.",
-    "done": "Done"
+    "done": "Done",
+    "mobileDisclaimer": {
+      "title": "Optimization Notice",
+      "content1": "Our Massmint feature is fine-tuned for desktop use to ensure the best minting experience",
+      "content2": "On mobile devices, you may encounter limited functionality or layout issues.",
+      "continueAnyway": "Continue Anyway",
+      "leave": "Leave"
+    }
   },
   "filters": {
     "buy": "Buy",
@@ -1399,7 +1410,6 @@
     "mintPerAddress": "Each address can mint only once",
     "recentMints": "Recent NFT Mints",
     "capture": "Unable to screenshot your art continuting without"
-
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
@@ -1526,7 +1536,7 @@
       "finalizingItems": "Finalizing {0} Items"
     }
   },
-  "transactionSteps" : {
+  "transactionSteps": {
     "completed": "Completed",
     "error": "Failed to Sign",
     "loading": "Transaction in Progress",

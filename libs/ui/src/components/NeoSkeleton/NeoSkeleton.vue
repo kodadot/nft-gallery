@@ -5,7 +5,11 @@
       'neo-skeleton-item',
       noMargin && 'no-margin',
       fullSize && 'neo-skeleton-full-size',
+      `neo-skeleton-item--${variant}`,
     ]"
+    :style="{
+      '--border-radius': borderRadius,
+    }"
     :animated="animated"
     :active="active"
     :circle="circle"
@@ -33,11 +37,14 @@ export interface Props {
   position?: 'centered' | 'left' | 'right'
   noMargin?: boolean
   fullSize?: boolean
+  borderRadius?: string
+  variant?: 'k-shade' | 'k-grey-light'
 }
 withDefaults(defineProps<Props>(), {
   animated: true,
   active: true,
   rounded: true,
+  variant: 'k-shade',
 })
 </script>
 
