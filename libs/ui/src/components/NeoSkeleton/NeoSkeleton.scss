@@ -11,7 +11,8 @@ $grey-light: hsl(0, 0%, 71%);
 $grey-lighter: hsl(0, 0%, 86%);
 $grey-lightest: hsl(0, 0%, 93%);
 $skeleton-margin: 0.25rem;
-$base-border-radius: var(--border-radius, 4px);
+$base-border-radius: 4px;
+$skeleton-border-radius: var(--border-radius, $base-border-radius); 
 
 @function skeletonGradient($color) {
   @return linear-gradient(
