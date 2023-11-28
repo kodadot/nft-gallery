@@ -27,7 +27,7 @@
             </div>
           </section>
           <hr class="text-color my-0" />
-          <NuxtPage :keepalive="keepalive" />
+          <NuxtPage />
         </div>
       </main>
     </div>
@@ -69,8 +69,6 @@ const isExplore = computed(() => route.path.includes('/explore'))
 const isCollection = computed(
   () => route.name?.toString().includes('prefix-collection-id'),
 )
-
-const keepalive = computed(() => (isCollection.value ? false : undefined))
 
 const getExploreTitle = computed(() => {
   if (
