@@ -58,9 +58,9 @@ onMounted(() => {
 @import '@/assets/styles/abstracts/variables';
 
 .limit-width {
-  max-width: 170px;
+  width: 170px;
   @include mobile {
-    max-width: 100px;
+    width: 100px;
   }
 }
 
