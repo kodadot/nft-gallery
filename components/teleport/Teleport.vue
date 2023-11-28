@@ -147,7 +147,7 @@ import { blockExplorerOf } from '@/utils/config/chain.config'
 import { simpleDivision } from '@/utils/balance'
 import { useFiatStore } from '@/stores/fiat'
 
-const BUFFER_FEE_PERCENT = 0.1
+const BUFFER_FEE_PERCENT = 0.05
 
 const {
   chainBalances,
