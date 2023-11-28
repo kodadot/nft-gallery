@@ -64,10 +64,10 @@
           v-model="amount"
           root-class="w-full"
           input-class="pr-2"
+          min="0.01"
           step="0.00001"
           type="number"
-          placeholder="Enter Amount"
-          :min="0" />
+          placeholder="Enter Amount" />
         <div class="is-absolute-right">
           <span
             v-if="totalFiatValue"
