@@ -3,7 +3,8 @@ import type { ActionMintToken, MintedCollection } from '../types'
 import { TokenToMint } from '../types'
 import { constructMeta } from './constructMeta'
 import { calculateFees, expandCopies, transactionFactory } from './utils'
-import { canSupport } from '@/utils/support'
+import { SupportTokens, canSupport } from '@/utils/support'
+import { ApiPromise } from '@polkadot/api'
 
 type id = { id: number }
 
@@ -96,14 +97,15 @@ export const getSupportInteraction = (
   item: ActionMintToken,
   enabledFees: boolean,
   feeMultiplier: number,
-  api,
+  api: ApiPromise,
+  token: string,
 ) => {
   const howManyTimesToChargeSupportFees = Array.isArray(item.token)
     ? item.token.length
     : 1
 
   const totalFees = feeMultiplier * howManyTimesToChargeSupportFees
-  return canSupport(api, enabledFees, totalFees, 'DOT')
+  return canSupport(api, enabledFees, totalFees, token as SupportTokens)
 }
 
 const getNextTokenIdOnChain = async (api, collectionId) => {
@@ -117,12 +119,13 @@ const getArgs = async (item: ActionMintToken, api) => {
   const arg = await Promise.all(
     tokens.map((token) => prepareTokenMintArgs(token, api)),
   )
-  const { enabledFees, feeMultiplier } = calculateFees()
+  const { enabledFees, feeMultiplier, token } = calculateFees()
   const supportInteraction = await getSupportInteraction(
     item,
     enabledFees,
     feeMultiplier,
     api,
+    token,
   )
 
   return [[...arg.flat(), ...supportInteraction]]
