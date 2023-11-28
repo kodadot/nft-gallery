@@ -30,11 +30,6 @@
         mime-type="application/json" />
     </Variant>
 
-    <!-- cors origin -->
-    <!-- <Variant title="iframe">
-      <IFrameMedia src="https://kodadot.xyz/" mime-type="text/html" />
-    </Variant> -->
-
     <Variant title="pdf">
       <ObjectMedia
         src="https://image-beta.w.kodadot.xyz/ipfs/bafybeih6yrucucyamosb2nk4qch4cg4bxdv3yheortwawttslvt7ameiiu"
@@ -51,8 +46,6 @@
 
 <script lang="ts" setup>
 import { NeoAudioPlayer } from '@kodadot1/brick'
-// import AudioMedia from './type/AudioMedia.vue'
-// import IFrameMedia from './type/IFrameMedia.vue'
 
 import ImageMedia from './type/ImageMedia.vue'
 import VideoMedia from './type/VideoMedia.vue'
