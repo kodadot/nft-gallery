@@ -31,10 +31,13 @@
             <span class="has-text-grey mr-2">
               {{ $t('migrate.waiting.status') }}
             </span>
-            <Avatar
-              :value="entities[collection.id]?.migrated[0]?.issuer"
-              :size="26"
-              class="mr-2" />
+            <NuxtLink
+              :to="`/${urlPrefix}/u/${
+                entities[collection.id]?.migrated[0]?.issuer
+              }`">
+              <IdentityIndex
+                :address="entities[collection.id]?.migrated[0]?.issuer" />
+            </NuxtLink>
           </p>
         </div>
 
@@ -50,7 +53,13 @@
             <div v-if="entities[collection.id]?.migrated[0]?.issuer">
               <NeoButton
                 variant="pill"
-                @click="toReview(collection.id, collection.nfts?.length)">
+                @click="
+                  toReview(
+                    collection.id,
+                    collection.nfts?.length,
+                    entities[collection.id]?.migrated[0]?.issuer,
+                  )
+                ">
                 {{ $t('migrate.waiting.cta') }}
               </NeoButton>
             </div>
@@ -66,10 +75,7 @@ import { NeoButton } from '@kodadot1/brick'
 import collectionMigrateWaiting from '@/queries/subsquid/general/collectionMigrateWaiting.graphql'
 import waifuApi from '@/services/waifu'
 
-defineProps<{
-  toReview: (string, number) => void
-}>()
-
+const { toReview } = useMigrate()
 const { accountId } = useAuth()
 const { client } = usePrefix()
 

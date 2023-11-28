@@ -197,6 +197,7 @@ export default function useMigrate() {
   const sourceSelected = useSourceSelected()
   const destinationSelected = useDestinationSelected()
   const { urlPrefix, setUrlPrefix } = usePrefix()
+  const { accountId } = useAuth()
 
   watchEffect(() => {
     const chain = sourceSelected.value?.value
@@ -218,10 +219,25 @@ export default function useMigrate() {
     }
   })
 
+  const toReview = (collectionId, itemCount, collectionOwner = '') => {
+    navigateTo({
+      path: '/migrate/review',
+      query: {
+        accountId: accountId.value,
+        collectionId: collectionId,
+        source: sourceSelected.value?.value,
+        destination: destinationSelected.value?.value,
+        itemCount,
+        collectionOwner,
+      },
+    })
+  }
+
   return {
     source,
     sourceSelected,
     destination,
     destinationSelected,
+    toReview,
   }
 }

@@ -63,10 +63,7 @@
 import { NeoButton } from '@kodadot1/brick'
 import { useCollectionReady } from '@/composables/useMigrate'
 
-defineProps<{
-  toReview: (string, number) => void
-}>()
-
+const { toReview } = useMigrate()
 const { collections } = await useCollectionReady()
 
 const { urlPrefix } = usePrefix()
