@@ -1,6 +1,7 @@
 <template>
   <PriceChart
     v-if="events.length > 0"
+    v-model="hideOutliers"
     :price-chart-data="chartData"
     chart-height="350px"
     data-testid="collection-activity-chart" />
@@ -29,6 +30,7 @@ const props = withDefaults(
     events: () => [],
   },
 )
+const hideOutliers = ref(true)
 
 const buyEvents = computed(() =>
   sortAsc(
@@ -43,7 +45,7 @@ const listEvents = computed(() => {
       .filter((e) => e.interaction === Interaction.LIST)
       .map(toDataPoint),
   )
-  return removeOutliers(listDataPoints)
+  return hideOutliers.value ? removeOutliers(listDataPoints) : listDataPoints
 })
 
 const chartData = computed(() => {

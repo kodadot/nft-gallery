@@ -901,7 +901,8 @@
     "noResults": "Looks Like There's Nothing Here Yet",
     "noFlips": "Looks like it's quiet in here",
     "noHolders": "Start collecting NFTs and make your mark at the top!",
-    "noResultsSub": "Check back later or reset your filters"
+    "noResultsSub": "Check back later or reset your filters",
+    "hideOutliers": "Hide Outliers"
   },
   "profileStats": {
     "listed": "Listed",

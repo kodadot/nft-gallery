@@ -3,7 +3,7 @@
     <span class="chart-y-description is-size-7">
       Price ({{ chainSymbol }})
     </span>
-    <NeoDropdown class="py-0" :mobile-modal="false">
+    <NeoDropdown class="py-0 time-range-dropdown" :mobile-modal="false">
       <template #trigger="{ active }">
         <NeoButton
           :label="selectedTimeRange.label"
@@ -23,6 +23,31 @@
       </NeoDropdownItem>
     </NeoDropdown>
 
+    <NeoDropdown
+      :mobile-modal="false"
+      class="chart-setting-icon min-width-fit-content"
+      position="bottom-left">
+      <template #trigger="{ active }">
+        <NeoButton no-shadow variant="icon">
+          <NeoIcon
+            icon="gear"
+            pack="fass"
+            size="large"
+            :variant="!active ? 'k-grey' : undefined" />
+        </NeoButton>
+      </template>
+
+      <NeoDropdownItem class="px-4 py-3 no-hover">
+        <div
+          class="w-full is-flex is-justify-content-space-between is-align-items-center">
+          <div class="no-wrap mr-5 is-size-7">
+            {{ $t('activity.hideOutliers') }}
+          </div>
+          <NeoCheckbox v-model="vHideOutliers" class="m-0" />
+        </div>
+      </NeoDropdownItem>
+    </NeoDropdown>
+
     <div :class="{ content: !chartHeight }" :style="heightStyle">
       <canvas id="priceChart" />
     </div>
@@ -35,8 +60,14 @@ import 'chartjs-adapter-date-fns'
 import zoomPlugin from 'chartjs-plugin-zoom'
 import { getChartData } from '@/utils/chart'
 import { format } from 'date-fns'
-import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
-import { useEventListener } from '@vueuse/core'
+import {
+  NeoButton,
+  NeoCheckbox,
+  NeoDropdown,
+  NeoDropdownItem,
+  NeoIcon,
+} from '@kodadot1/brick'
+import { useEventListener, useVModel } from '@vueuse/core'
 ChartJS.register(zoomPlugin)
 const { $i18n } = useNuxtApp()
 const { chainSymbol } = useChain()
@@ -71,7 +102,11 @@ const setTimeRange = (value: { value: number; label: string }) => {
 const props = defineProps<{
   priceChartData?: [Date, number][][]
   chartHeight?: string
+  modelValue: boolean
 }>()
+const emit = defineEmits(['update:modelValue'])
+
+const vHideOutliers = useVModel(props, 'modelValue', emit)
 
 const heightStyle = computed(() =>
   props.chartHeight ? `height: ${props.chartHeight}` : '',
@@ -300,5 +335,17 @@ watch([isDarkMode, selectedTimeRange], () => {
 <style scoped>
 .content {
   height: 15rem;
+}
+
+.chart-setting-icon {
+  position: absolute;
+  right: 8px;
+  top: -5px;
+}
+
+.min-width-fit-content {
+  :deep(.o-drop__menu) {
+    min-width: fit-content !important;
+  }
 }
 </style>
