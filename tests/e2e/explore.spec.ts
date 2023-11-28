@@ -36,7 +36,7 @@ test('Explore Items on ahk, sort by ascending price and filter by minimum 100 KS
   const expandSearch = page.getByTestId('sidebar-price-filter')
   await expandSearch.click()
   const inputMin = expandSearch.getByTestId('input-min')
-  await inputMin.type('100')
+  await inputMin.fill('100')
   const btnApply = expandSearch.getByTestId('apply').first()
   await Promise.all([
     page.waitForResponse(
