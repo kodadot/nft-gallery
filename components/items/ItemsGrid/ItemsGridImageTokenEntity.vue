@@ -115,6 +115,7 @@ const {
   isOwner,
   isThereAnythingToList,
 } = useNftActions(props.entity)
+const cheapestNFT = ref<NFTWithMetadata>()
 
 const { showCardIcon, cardIcon } = await useNftCardIcon(
   computed(() => props.entity),
@@ -136,7 +137,9 @@ const mediaPlayerCover = computed(() => nftMetadata.value?.image)
 
 const showActionSection = computed(() => {
   return (
-    !isLogIn.value && shoppingCartStore.getItemToBuy?.id === props.entity.id
+    !isLogIn.value &&
+    shoppingCartStore.getItemToBuy?.id !== undefined &&
+    shoppingCartStore.getItemToBuy?.id === cheapestNFT.value?.id
   )
 })
 
@@ -199,7 +202,7 @@ const onClickShoppingCart = async () => {
 const onClickListingCart = async () => {
   const nftsToProcess = await getTokensNfts([props.entity])
 
-  const floorPrice = nftsToProcess[0].collection.floorPrice[0].price
+  const floorPrice = nftsToProcess[0].collection.floorPrice[0]?.price || '0'
 
   for (const nft of nftsToProcess) {
     if (listingCartStore.isItemInCart(nft.id)) {
@@ -209,6 +212,10 @@ const onClickListingCart = async () => {
     }
   }
 }
+
+onMounted(async () => {
+  cheapestNFT.value = await getNFTForBuying()
+})
 </script>
 
 <style lang="scss" scoped>

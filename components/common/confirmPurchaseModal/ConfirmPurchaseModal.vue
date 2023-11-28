@@ -32,7 +32,8 @@
           class="py-2 px-6" />
       </div>
       <div class="py-4 mx-6 border-top border-bottom card-border-color">
-        <div class="is-flex is-justify-content-space-between mb-2">
+        <div
+          class="is-flex is-justify-content-space-between is-align-items-center mb-2">
           <span class="is-size-7">{{
             $t('confirmPurchase.priceForNFTs')
           }}</span>
