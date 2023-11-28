@@ -35,16 +35,16 @@ test('Explore Items on ahk, sort by ascending price and filter by minimum 100 KS
   await expect(tabs.getByText('Items')).toBeVisible()
   const expandSearch = page.getByTestId('sidebar-price-filter')
   await expandSearch.click()
-  const inputMin = await expandSearch.getByTestId('input-min')
+  const inputMin = expandSearch.getByTestId('input-min')
   await inputMin.type('100')
-  const btnApply = await expandSearch.getByTestId('apply').first()
+  const btnApply = expandSearch.getByTestId('apply').first()
   await Promise.all([
     page.waitForResponse(
       (resp) => resp.url().includes('imagedelivery.net') && resp.ok(),
     ),
     btnApply.click(),
   ])
-  const exploreSort = await page.getByTestId('explore-sort-dropdown').nth(1)
+  const exploreSort = page.getByTestId('explore-sort-dropdown').nth(1)
   await exploreSort.click()
   await page.getByTestId('price_ASC').nth(1).click()
   const btnAsc = await page.$('[value="price_ASC"]')

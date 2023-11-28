@@ -16,7 +16,7 @@ test('Collection interactions', async ({ page, Commands }) => {
     'Geometry',
   )
   //Share Button
-  const shareBtn = await page.getByTestId('share-button').first()
+  const shareBtn = page.getByTestId('share-button').first()
   await shareBtn.click()
   await page.getByTestId('hero-copy-link-dropdown').first().click()
   await Commands.copyText('http://localhost:9090/ahp/collection/38')
