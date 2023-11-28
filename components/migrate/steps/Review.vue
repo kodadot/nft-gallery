@@ -1,33 +1,41 @@
 <template>
   <div>
-    <div class="mt-5">
-      <p class="has-text-weight-bold">{{ $t('migrate.collection') }}</p>
-      <div class="is-flex mt-4">
-        <img
-          class="border mr-4"
-          :src="sanitizeIpfsUrl(collection?.meta?.image)"
-          alt="My crazy adventure"
-          width="48"
-          height="48" />
-        <div>
-          <p>{{ collection?.name }}</p>
-          <p class="has-text-grey is-size-7">
-            {{ $t('migrate.collectionName') }}
-          </p>
+    <div v-if="collectionOwner">
+      <div class="mt-6 font-bold">Migrate Items</div>
+      <hr />
+    </div>
+    <div v-else>
+      <div class="mt-5">
+        <p class="has-text-weight-bold">{{ $t('migrate.collection') }}</p>
+        <div class="is-flex mt-4">
+          <img
+            class="border mr-4"
+            :src="sanitizeIpfsUrl(collection?.meta?.image)"
+            alt="My crazy adventure"
+            width="48"
+            height="48" />
+          <div>
+            <p>{{ collection?.name }}</p>
+            <p class="has-text-grey is-size-7">
+              {{ $t('migrate.collectionName') }}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <hr />
+      <hr />
 
-    <div class="is-flex is-justify-content-space-between mb-5">
-      <p>{{ $t('migrate.ready.status') }}</p>
-      <p>{{ collection?.nftsOwned?.length }}/{{ collection?.nfts?.length }}</p>
-    </div>
+      <div class="is-flex is-justify-content-space-between mb-5">
+        <p>{{ $t('migrate.ready.status') }}</p>
+        <p>
+          {{ collection?.nftsOwned?.length }}/{{ collection?.nfts?.length }}
+        </p>
+      </div>
 
-    <div class="border border-k-shade p-2 is-flex is-size-7 has-text-grey">
-      <NeoIcon icon="circle-info" class="mr-2" />
-      <p>{{ $t('migrate.reviewNotes') }}</p>
+      <div class="border border-k-shade p-2 is-flex is-size-7 has-text-grey">
+        <NeoIcon icon="circle-info" class="mr-2" />
+        <p>{{ $t('migrate.reviewNotes') }}</p>
+      </div>
     </div>
 
     <div>
@@ -73,7 +81,10 @@
           </p>
           <div class="is-flex is-justify-content-space-between mb-5">
             <p>Burn {{ itemCount }} Items</p>
-            <p>{{ sourceNetworkFee }} {{ sourceSymbol }}</p>
+            <p v-if="sourceNetworkFee >= 0">
+              {{ sourceNetworkFee }} {{ sourceSymbol }}
+            </p>
+            <div v-else><NeoSkeleton width="100" size="small" /></div>
           </div>
 
           <!-- paid on destination chain -->
@@ -82,9 +93,15 @@
           </p>
           <div class="is-flex is-justify-content-space-between mt-1">
             <p>Migrate {{ itemCount }} Items</p>
-            <p>{{ destinationNetworkFee }} {{ destinationSymbol }}</p>
+            <p v-if="destinationSymbol && destinationNetworkFee >= 0">
+              {{ destinationNetworkFee }} {{ destinationSymbol }}
+            </p>
+            <div v-else><NeoSkeleton width="100" size="small" /></div>
           </div>
+
+          <!-- collection existential deposit -->
           <div
+            v-if="!collectionOwner"
             class="has-text-grey is-flex mt-1 is-align-items-center is-justify-content-space-between">
             <div>
               {{ $t('mint.collection.modal.existentialDeposit') }}
@@ -102,8 +119,13 @@
                 <NeoIcon icon="circle-question" />
               </NeoTooltip>
             </div>
-            <p>{{ totalCollectionDeposit }} {{ destinationSymbol }}</p>
+            <p v-if="destinationSymbol">
+              {{ totalCollectionDeposit }} {{ destinationSymbol }}
+            </p>
+            <div v-else><NeoSkeleton width="100" size="small" /></div>
           </div>
+
+          <!-- nft existential deposit -->
           <div
             class="has-text-grey is-flex mt-1 is-align-items-center is-justify-content-space-between">
             <div>
@@ -122,9 +144,13 @@
                 <NeoIcon icon="circle-question" />
               </NeoTooltip>
             </div>
-            <p>{{ destinationItemDeposit }} {{ destinationSymbol }}</p>
+            <p v-if="destinationSymbol && destinationItemDeposit >= 0">
+              {{ destinationItemDeposit }} {{ destinationSymbol }}
+            </p>
+            <div v-else><NeoSkeleton width="100" size="small" /></div>
           </div>
 
+          <!-- kodadot fee -->
           <div
             class="is-flex mt-1 has-text-grey is-align-items-center is-justify-content-space-between">
             <div>
@@ -138,7 +164,10 @@
                 <NeoIcon icon="circle-question" />
               </NeoTooltip>
             </div>
-            <div>{{ kodadotFee }} {{ destinationSymbol }}</div>
+            <div v-if="destinationSymbol">
+              {{ kodadotFee }} {{ destinationSymbol }}
+            </div>
+            <div v-else><NeoSkeleton width="100" size="small" /></div>
           </div>
         </div>
       </div>
@@ -151,21 +180,27 @@
       <div v-if="source?.value" class="has-text-k-grey is-capitalized">
         On {{ prefixToNetwork[source.value] }}
       </div>
-      <div class="is-flex is-align-items-center">
+      <div
+        v-if="sourceSymbol && sourceNetworkFee >= 0"
+        class="is-flex is-align-items-center">
         <div class="has-text-k-grey is-size-7 mr-2">${{ sourceTotalUsd }}</div>
         <div>{{ sourceNetworkFee }} {{ sourceSymbol }}</div>
       </div>
+      <div v-else><NeoSkeleton width="100" size="small" /></div>
     </div>
     <div class="pb-7 is-flex is-justify-content-space-between">
       <div v-if="destination?.value" class="has-text-k-grey is-capitalized">
         On {{ prefixToNetwork[destination.value] }}
       </div>
-      <div class="is-flex is-align-items-center">
+      <div
+        v-if="destinationSymbol && parseFloat(totalDestination.toString())"
+        class="is-flex is-align-items-center">
         <div class="has-text-k-grey is-size-7 mr-2">
           ${{ totalDestinationUsd }}
         </div>
         <div>{{ totalDestination }} {{ destinationSymbol }}</div>
       </div>
+      <div v-else><NeoSkeleton width="100" size="small" /></div>
     </div>
 
     <NeoField>
@@ -188,6 +223,7 @@ import {
   NeoCheckbox,
   NeoField,
   NeoIcon,
+  NeoSkeleton,
   NeoTooltip,
 } from '@kodadot1/brick'
 import { type Prefix } from '@kodadot1/static'
@@ -207,6 +243,7 @@ const destination = availablePrefixWithIcon().find(
 )
 const itemCount = parseInt(route.query.itemCount?.toString() || '0')
 const fromAccountId = route.query.accountId?.toString()
+const collectionOwner = route.query.collectionOwner?.toString()
 
 const collectionId = route.query.collectionId
 const { collections } = await useCollectionReady()

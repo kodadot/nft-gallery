@@ -1,4 +1,4 @@
-query collectionByAccount($account: String!) {
+query collectionMigrateReady($account: String!) {
   collectionEntities(
     where: { currentOwner_eq: $account }
     orderBy: blockNumber_DESC
