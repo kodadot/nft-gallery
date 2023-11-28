@@ -14,21 +14,15 @@
         <nuxt-link to="/" class="navbar-item logo nuxt-link-active">
           <img
             :src="logoSrc"
-            alt="First NFT market explorer on Kusama and Polkadot"
-            width="143" />
+            alt="First NFT market explorer on Kusama and Polkadot" />
         </nuxt-link>
         <div
           class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
           @click="closeBurgerMenu">
-          <img
+          <NeoButton
             v-if="isMobileNavbarOpen || showSearchOnNavbar || isTinyMobile"
             class="mobile-nav-search-btn mr-2"
-            :src="
-              isDarkMode
-                ? '/search-mobile-navbar-dark.svg'
-                : '/search-mobile-navbar.svg'
-            "
-            alt="search"
+            icon="magnifying-glass"
             @click="showMobileSearchBar" />
 
           <div v-show="openMobileSearchBar">
@@ -38,10 +32,13 @@
                 v-if="isMobile"
                 ref="mobilSearchRef"
                 hide-filter
-                class="is-flex-grow-1 mt-3" />
-              <button class="cancel-btn p-3" @click="hideMobileSearchBar">
+                class="is-flex-grow-1" />
+              <NeoButton
+                variant="text"
+                class="p-3 is-shadowless no-border is-capitalized is-clickable"
+                @click="hideMobileSearchBar">
                 {{ $t('cancel') }}
-              </button>
+              </NeoButton>
             </div>
           </div>
         </div>
@@ -208,7 +205,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { nextTick } from 'vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import ChainSelectDropdown from '@/components/navbar/ChainSelectDropdown.vue'
@@ -254,9 +251,11 @@ const isLandingPage = computed(
   () => route.name === 'index' || route.name === 'prefix',
 )
 
-const logoSrc = computed(() =>
-  isDarkMode.value ? '/Koda_Beta_dark.svg' : '/Koda_Beta.svg',
-)
+const logoSrc = computed(() => {
+  const variant = isMobile.value ? 'Koda' : 'Koda_Beta'
+  const color = isDarkMode.value ? '_dark' : ''
+  return `/${variant}${color}.svg`
+})
 
 const showSearchOnNavbar = computed(
   () =>

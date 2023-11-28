@@ -5,6 +5,7 @@
     scroll="clip"
     class="top"
     max-height="calc(100vh - 180px)"
+    content-class="modal-width"
     @close="onClose">
     <NeoModalBody
       :title="$t('mint.nft.modal.action')"

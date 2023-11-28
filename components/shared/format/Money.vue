@@ -1,5 +1,5 @@
 <template>
-  <div :class="['money', { 'is-inline-block': inline }]">
+  <div :class="['money is-ellipsis', { 'is-inline-block': inline }]">
     <span v-if="!hideUnit">
       {{ finalValue }}
       {{ displayUnit }}
@@ -54,7 +54,7 @@ const finalValue = computed(() =>
       '',
     ),
     props.round,
-    false,
+    true,
   ),
 )
 

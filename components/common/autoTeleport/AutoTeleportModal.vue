@@ -100,10 +100,11 @@ const props = withDefaults(
     transition: TeleportTransition
     canDoAction: boolean
     transactions: AutoTeleportTransactions
-    autoClose: boolean
-    autoCloseDelay: number
+    autoClose?: boolean
+    autoCloseDelay?: number
   }>(),
   {
+    autoClose: false,
     autoCloseDelay: AUTOCLOSE_DEFAULT_DELAY,
   },
 )

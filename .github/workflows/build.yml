@@ -32,3 +32,14 @@ jobs:
 
       - run: wc -l ./.nuxt/dist/server/client.manifest.mjs
       - run: stat -c "%s" ./.nuxt/dist/server/client.manifest.mjs
+
+  build-cf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+
+      - name: Run Build
+        run: NITRO_PRESET=cloudflare-pages pnpm nuxi build

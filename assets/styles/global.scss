@@ -468,9 +468,9 @@ a.has-text-grey {
   cursor: pointer !important;
 }
 
-.has-text-k-accent {
+.has-text-k-primary {
   @include ktheme() {
-    color: theme('k-accent') !important;
+    color: theme('k-primary') !important;
   }
 }
 
@@ -569,4 +569,12 @@ a.has-text-grey {
 
 .is-max-width-fit-content {
   max-width: fit-content;
+}
+
+.is-overflow-y-auto {
+  overflow-y: auto;
+}
+
+.has-text-inherit {
+  color: inherit !important;
 }

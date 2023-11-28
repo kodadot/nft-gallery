@@ -5,6 +5,7 @@
       :value="preferencesStore.listingCartModalOpen"
       scroll="clip"
       append-to-body
+      container-class="modal-width"
       @close="onClose">
       <NeoModalBody
         modal-max-height="70vh"

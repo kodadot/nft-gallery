@@ -1147,7 +1147,8 @@
   "toast": {
     "urlCopy": "URL copied to clipboard ✓",
     "paymentLinkCopy": "Payment link copied to clipboard",
-    "downloadError": "Unable to download image"
+    "downloadError": "Unable to download image",
+    "downloadOnMobile": "To download the image, copy the URL from the address bar and open it in your browser. The page will open in 2 seconds."
   },
   "profileMenu": {
     "darkMode": "Dark Mode",
@@ -1398,7 +1399,9 @@
     "mintingEnded": "Ended",
     "mintedBy": "Minted By",
     "mintPerAddress": "Each address can mint only once",
-    "recentMints": "Recent NFT Mints"
+    "recentMints": "Recent NFT Mints",
+    "capture": "Unable to screenshot your art continuting without"
+
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
@@ -1543,7 +1546,6 @@
     "dontExit": "Stay on this page until all steps are complete.",
     "tip": "<strong>Tip:</strong> Look for popups from your wallet extension for signing.",
     "notEnoughTokenInChain": "Not enough {0} on {1}",
-    "teleportAndConfirm": "Teleport and confirm purchase",
     "addFundsViaOnramp": "Add Funds Via Onramp",
     "welcomeToAutoTeleport": "Welcome to auto teleport!",
     "insufficientFunds": "Insufficient funds",
@@ -1583,28 +1585,53 @@
         "tooltip": "Verifying fund arrival on destination chain for seamless operations.<br> this may take few seconds"
       },
       "buy": {
+        "confirm": "Teleport And Confirm Purchase",
         "action": "Purchase",
         "item": "NFT",
         "title": "Buying NFT",
         "submit": "Buying NFT..."
       },
       "list": {
+        "confirm": "Teleport And Confirm Listing(s)",
         "action": "List",
-        "item": "NFT",
+        "item": "NFT(s)",
         "title": "Listing NFT",
         "submit": "Listing NFT..."
       },
       "mint": {
-        "action": "Mint",
-        "item": "NFT Collection",
+        "confirm": "Teleport and Create Collection",
+        "action": "Create",
+        "item": "Collection",
         "title": "Minting NFT Collection",
         "submit": "Minting NFT Collection..."
       },
       "mintnft": {
+        "confirm": "Teleport and Mint NFT",
         "action": "Mint",
         "item": "NFT",
         "title": "Minting NFT",
         "submit": "Minting NFT..."
+      },
+      "send": {
+        "confirm": "Teleport and Transfer NFT",
+        "action": "Transfer",
+        "item": "NFT",
+        "title": "Transferring NFT",
+        "submit": "Transferring NFT..."
+      },
+      "delete": {
+        "confirm": "Teleport and Delete Collection",
+        "action": "Delete",
+        "item": "Collection",
+        "title": "Deleting Collection",
+        "submit": "Deleting Collection..."
+      },
+      "consume": {
+        "confirm": "Teleport and Burn NFT",
+        "action": "Burn",
+        "item": "NFT",
+        "title": "Burning NFT",
+        "submit": "Burning NFT..."
       }
     }
   },
