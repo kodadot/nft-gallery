@@ -60,10 +60,10 @@
 
           <div>
             <p class="is-capitalized has-text-weight-bold is-size-6">
-              {{ $t('general.doingSomeMagic') }}
+              Doing some magic
             </p>
             <p class="is-capitalized is-size-6 has-text-k-grey">
-              {{ $t('general.pleaseWait') }}
+              Please wait
               <span class="dots" />
             </p>
           </div>
@@ -163,5 +163,28 @@ $b-padding: 1.25rem;
     z-index: 1;
     pointer-events: none;
   }
+}
+
+@keyframes dots {
+  0% {
+    content: '.';
+  }
+  33% {
+    content: '..';
+  }
+  66% {
+    content: '...';
+  }
+}
+
+.dots {
+  text-align: center;
+  display: inline-block;
+}
+
+.dots::after {
+  content: '';
+  display: inline-block;
+  animation: dots 1.5s infinite;
 }
 </style>
