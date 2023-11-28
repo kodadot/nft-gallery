@@ -25,7 +25,7 @@
       <p>{{ collection?.nftsOwned?.length }}/{{ collection?.nfts?.length }}</p>
     </div>
 
-    <div class="shade-border-color p-2 is-flex is-size-7 has-text-grey">
+    <div class="border border-k-shade p-2 is-flex is-size-7 has-text-grey">
       <NeoIcon icon="circle-info" class="mr-2" />
       <p>{{ $t('migrate.reviewNotes') }}</p>
     </div>
@@ -176,7 +176,7 @@
       :label="checkBalances.label"
       variant="k-accent"
       :disabled="checkBalances.disabled"
-      class="mt-4 btn-submit is-capitalized"
+      class="mt-4 h-14 is-capitalized"
       expanded
       @click="toSign()" />
   </div>
@@ -289,17 +289,3 @@ const toSign = () => {
   })
 }
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.shade-border-color {
-  @include ktheme() {
-    border: 1px solid theme('k-shade');
-  }
-}
-
-.btn-submit {
-  height: 3.5rem;
-}
-</style>

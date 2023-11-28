@@ -14,7 +14,7 @@
         v-for="collection in collections"
         :key="collection.id"
         class="collection-card"
-        :class="{ 'collection-card-empty': !collection.nftsOwned?.length }">
+        :class="{ 'collection-card-empty': !collection.nfts?.length }">
         <div
           class="collection-card-banner"
           :style="{

@@ -84,6 +84,7 @@ const router = useRouter()
 const to = route.query.destination as Prefix
 const from = route.query.source as Prefix
 const fromAccountId = route.query.accountId?.toString()
+const itemCount = route.query.itemCount?.toString()
 
 const api = await apiInstance.value
 const { steps, updateSteps } = inject('steps') as {
@@ -155,18 +156,25 @@ const startStep1 = async () => {
 const validationStep1 = async () => {
   step1Iterations.value -= 1
 
+  router.push({
+    query: {
+      ...route.query,
+      nextCollectionId: nextId.value,
+    },
+  })
+
   try {
     await waifuApi('/relocations', {
       method: 'POST',
       body: relocationsBody.value,
     })
-    updateSteps('step2')
-    router.push({
-      query: {
-        ...route.query,
-        nextCollectionId: nextId.value,
-      },
-    })
+
+    // skip step2 if no items
+    if (itemCount === '0') {
+      updateSteps('step3-burn')
+    } else {
+      updateSteps('step2')
+    }
   } catch (error) {
     $consola.log(error)
   }

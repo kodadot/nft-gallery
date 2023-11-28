@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-5">
+  <div v-if="itemCount !== '0'" class="mb-5">
     <div class="is-flex is-align-items-center mb-4">
       <div class="mr-5">
         <NeoIcon v-if="iterations === 0" v-bind="iconSuccess" class="fa-2x" />
