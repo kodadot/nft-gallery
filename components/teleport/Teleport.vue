@@ -147,7 +147,7 @@ import { blockExplorerOf } from '@/utils/config/chain.config'
 import { simpleDivision } from '@/utils/balance'
 import { useFiatStore } from '@/stores/fiat'
 
-const BUFFER_FEE_PERCENT = 0.05
+const BUFFER_FEE_PERCENT = 0.01
 
 const {
   chainBalances,
@@ -163,18 +163,19 @@ const { urlPrefix } = usePrefix()
 const fiatStore = useFiatStore()
 const fromChain = ref(Chain.POLKADOT) //Selected origin parachain
 const toChain = ref(Chain.ASSETHUBPOLKADOT) //Selected destination parachain
-const amount = ref() //Required amount to be transfered is stored here
+const amount = ref(0) //Required amount to be transfered is stored here
 const unsubscribeKusamaBalance = ref()
 const teleportFee = ref()
 
-const nativeAmount = computed(
-  () => (amount.value || 0) * Math.pow(10, currentTokenDecimals.value),
-)
-const amountToTeleport = computed(() =>
-  nativeAmount.value === 0 ? 0 : nativeAmount.value - teleportFee.value,
+const nativeAmount = computed(() =>
+  Math.floor(amount.value * Math.pow(10, currentTokenDecimals.value)),
 )
 
-const insufficientAmountAfterFees = computed(() => amountToTeleport.value < 0)
+const amountToTeleport = computed(() =>
+  Math.max(nativeAmount.value - teleportFee.value, 0),
+)
+
+const insufficientAmountAfterFees = computed(() => amountToTeleport.value <= 0)
 
 const recieveAmount = computed(() =>
   formatBalance(amountToTeleport.value, currentTokenDecimals.value, false),
@@ -185,7 +186,7 @@ const teleportLabel = computed(() => {
     return $i18n.t('teleport.insufficientBalance', [currency])
   }
 
-  if (insufficientAmountAfterFees.value) {
+  if (insufficientAmountAfterFees.value && amount.value !== 0) {
     return $i18n.t('teleport.insufficientAmountAfterFees')
   }
 
@@ -193,7 +194,7 @@ const teleportLabel = computed(() => {
 })
 
 const resetStatus = () => {
-  amount.value = undefined
+  amount.value = 0
 }
 
 const switchChains = () => {
