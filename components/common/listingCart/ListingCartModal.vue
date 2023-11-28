@@ -9,7 +9,7 @@
       <NeoModalBody
         modal-max-height="70vh"
         :title="title"
-        padding-x="0"
+        content-class="pt-4 pb-5 px-0"
         :scrollable="false"
         :loading="loadingAutoTeleport"
         @close="onClose">

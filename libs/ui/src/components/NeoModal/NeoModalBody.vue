@@ -38,9 +38,7 @@
           'limit-height__scrollabe': scrollable,
           'limit-height__loading': loading,
         },
-        `px-${paddingX}`,
-        `pt-${paddingTop}`,
-        `pb-${paddingBottom}`,
+        contentClass,
       ]">
       <div v-if="loading" class="skeleton-container">
         <NeoSkeleton
@@ -94,18 +92,14 @@ withDefaults(
     loading?: boolean
     modalWidth?: string
     modalMaxHeight?: string
-    paddingTop?: string
-    paddingBottom?: string
-    paddingX?: string
+    contentClass?: string
     scrollable?: boolean
   }>(),
   {
     modalWidth: '25rem',
     modalMaxHeight: '70vh',
-    paddingTop: '4',
-    paddingBottom: '5',
-    paddingX: '6',
     scrollable: true,
+    contentClass: 'pt-4 pb-5 px-6',
   },
 )
 
