@@ -7,21 +7,14 @@
       append-to-body
       container-class="modal-width"
       @close="onClose">
-      <header
-        class="py-5 px-6 is-flex is-justify-content-space-between border-bottom is-align-items-center">
-        <span class="modal-card-title is-size-6 has-text-weight-bold">
-          {{ title }}
-        </span>
-
-        <NeoButton
-          variant="text"
-          no-shadow
-          icon="xmark"
-          size="medium"
-          @click="onClose" />
-      </header>
-      <div class="is-overflow-y-auto">
-        <div class="px-6 pt-4 limit-height">
+      <ModalBody
+        modal-max-height="70vh"
+        :title="title"
+        content-class="pt-4 pb-5 px-0"
+        :scrollable="false"
+        :loading="loadingAutoTeleport"
+        @close="onClose">
+        <div class="px-6 limit-height">
           <ModalIdentityItem />
 
           <ListingCartSingleItemCart
@@ -48,14 +41,15 @@
           </div>
         </div>
 
-        <div class="is-flex is-justify-content-space-between pb-5 px-6">
+        <div class="is-flex is-justify-content-space-between px-6">
           <AutoTeleportActionButton
+            ref="autoteleportButton"
             :actions="actions"
             :disabled="Boolean(listingCartStore.incompleteListPrices)"
             :label="confirmListingLabel"
             @confirm="confirm" />
         </div>
-      </div>
+      </ModalBody>
     </NeoModal>
   </div>
 </template>
@@ -63,7 +57,8 @@
 <script setup lang="ts">
 import { Interaction } from '@kodadot1/minimark/v1'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
-import { NeoButton, NeoModal } from '@kodadot1/brick'
+import { NeoModal } from '@kodadot1/brick'
+import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 import { TokenToList } from '@/composables/transaction/types'
 import { ListCartItem, useListingCartStore } from '@/stores/listingCart'
@@ -93,6 +88,11 @@ const { chainSymbol, decimals } = useChain()
 const fixedPrice = ref()
 const floorPricePercentAdjustment = ref()
 const autoTeleport = ref(false)
+const autoteleportButton = ref()
+
+const loadingAutoTeleport = computed(
+  () => !autoteleportButton.value?.hasBalances,
+)
 
 function setFixedPrice() {
   const rate = Number(fixedPrice.value) || 0
@@ -253,11 +253,6 @@ onUnmounted(() => {
 .limit-height {
   max-height: 50vh;
   overflow-y: auto;
-}
-
-.modal-width {
-  width: 25rem;
-  max-width: 30rem;
 }
 
 :deep(.identity-name-font-weight-regular) {
