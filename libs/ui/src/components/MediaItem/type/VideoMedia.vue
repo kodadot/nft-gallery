@@ -17,7 +17,6 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, withDefaults } from 'vue'
 
 const props = withDefaults(
   defineProps<{
