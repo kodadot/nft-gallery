@@ -355,4 +355,7 @@
 
 .has-navbar-fixed-top {
   padding-top: $navbar-desktop-min-height !important;
+  @include mobile {
+    padding-top: $navbar-mobile-min-height !important;
+  }
 }
