@@ -1,11 +1,7 @@
 <template>
   <div class="modal-width">
     <header
-      class="px-6 is-flex is-justify-content-space-between border-bottom is-align-items-center"
-      :class="{
-        'py-5': !loading,
-        'py-4': loading,
-      }">
+      class="px-6 py-4 is-flex is-justify-content-space-between border-bottom is-align-items-center">
       <NeoSkeleton
         v-if="loading"
         rounded
@@ -16,11 +12,11 @@
         variant="k-grey-light" />
 
       <transition name="fade">
-        <span
+        <div
           v-if="!loading"
-          class="modal-card-title is-size-6 has-text-weight-bold">
+          class="modal-card-title is-size-6 has-text-weight-bold line-height">
           {{ title }}
-        </span>
+        </div>
       </transition>
 
       <NeoButton
@@ -155,5 +151,9 @@ $b-padding: 1.25rem;
     z-index: 1;
     pointer-events: none;
   }
+}
+
+.line-height {
+  line-height: 2.1875rem;
 }
 </style>
