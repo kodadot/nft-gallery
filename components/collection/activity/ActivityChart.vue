@@ -35,6 +35,7 @@ const props = withDefaults(
 const hideOutliers = ref(true)
 const applySmoothing = ref(true)
 
+
 const buyEvents = computed(() =>
   sortAsc(
     props.events
