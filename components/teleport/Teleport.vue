@@ -175,7 +175,7 @@ const amountToTeleport = computed(() =>
   Math.max(nativeAmount.value - teleportFee.value, 0),
 )
 
-const insufficientAmountAfterFees = computed(() => amountToTeleport.value <= 0)
+const insufficientAmountAfterFees = computed(() => amountToTeleport.value === 0)
 
 const recieveAmount = computed(() =>
   formatBalance(amountToTeleport.value, currentTokenDecimals.value, false),
