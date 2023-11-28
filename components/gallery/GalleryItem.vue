@@ -41,7 +41,7 @@
               <NeoCarouselItem
                 v-for="resource in nftResources"
                 :key="resource.id">
-                <MediaItem
+                <BaseMediaItem
                   :key="resource.src"
                   :src="resource.src"
                   :mime-type="resource.mimeType"
@@ -52,7 +52,7 @@
               </NeoCarouselItem>
             </NeoCarousel>
           </div>
-          <MediaItem
+          <BaseMediaItem
             v-else
             :key="nftImage"
             ref="mediaItemRef"
@@ -167,7 +167,6 @@
 
 <script setup lang="ts">
 import {
-  MediaItem,
   NeoButton,
   NeoCarousel,
   NeoCarouselItem,
