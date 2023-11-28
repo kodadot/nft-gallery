@@ -58,10 +58,10 @@
 
           <div>
             <p class="is-capitalized has-text-weight-bold is-size-6">
-              Doing some magic
+              {{ $t('general.doingSomeMagic') }}
             </p>
             <p class="is-capitalized is-size-6 has-text-k-grey">
-              Please wait
+              {{ $t('general.pleaseWait') }}
               <span class="dots" />
             </p>
           </div>
@@ -81,9 +81,7 @@
 </template>
 
 <script setup lang="ts">
-import NeoSkeleton from '../NeoSkeleton/NeoSkeleton.vue'
-import NeoIcon from '../NeoIcon/NeoIcon.vue'
-import NeoButton from '../NeoButton/NeoButton.vue'
+import { NeoButton, NeoIcon, NeoSkeleton } from '@kodadot1/brick'
 
 const emits = defineEmits(['close'])
 withDefaults(
@@ -157,28 +155,5 @@ $b-padding: 1.25rem;
     z-index: 1;
     pointer-events: none;
   }
-}
-
-@keyframes dots {
-  0% {
-    content: '.';
-  }
-  33% {
-    content: '..';
-  }
-  66% {
-    content: '...';
-  }
-}
-
-.dots {
-  text-align: center;
-  display: inline-block;
-}
-
-.dots::after {
-  content: '';
-  display: inline-block;
-  animation: dots 1.5s infinite;
 }
 </style>

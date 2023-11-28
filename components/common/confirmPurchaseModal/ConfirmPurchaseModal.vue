@@ -6,7 +6,7 @@
     class="top"
     content-class="modal-width"
     @close="onClose">
-    <NeoModalBody
+    <ModalBody
       :title="$t('confirmPurchase.action')"
       :loading="loading"
       @close="onClose">
@@ -52,12 +52,13 @@
           @confirm="confirm"
           @actions:completed="$emit('completed')" />
       </div>
-    </NeoModalBody>
+    </ModalBody>
   </NeoModal>
 </template>
 
 <script setup lang="ts">
-import { NeoModal, NeoModalBody } from '@kodadot1/brick'
+import { NeoModal } from '@kodadot1/brick'
+import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { sum } from '@/utils/math'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useShoppingCartStore } from '@/stores/shoppingCart'

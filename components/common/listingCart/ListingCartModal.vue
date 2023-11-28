@@ -7,7 +7,7 @@
       append-to-body
       container-class="modal-width"
       @close="onClose">
-      <NeoModalBody
+      <ModalBody
         modal-max-height="70vh"
         :title="title"
         content-class="pt-4 pb-5 px-0"
@@ -49,7 +49,7 @@
             :label="confirmListingLabel"
             @confirm="confirm" />
         </div>
-      </NeoModalBody>
+      </ModalBody>
     </NeoModal>
   </div>
 </template>
@@ -57,7 +57,8 @@
 <script setup lang="ts">
 import { Interaction } from '@kodadot1/minimark/v1'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
-import { NeoModal, NeoModalBody } from '@kodadot1/brick'
+import { NeoModal } from '@kodadot1/brick'
+import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 import { TokenToList } from '@/composables/transaction/types'
 import { ListCartItem, useListingCartStore } from '@/stores/listingCart'

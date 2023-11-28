@@ -7,7 +7,7 @@
     max-height="calc(100vh - 180px)"
     content-class="modal-width"
     @close="onClose">
-    <NeoModalBody
+    <ModalBody
       :title="$t('mint.nft.modal.action')"
       :loading="loading"
       @close="onClose">
@@ -49,12 +49,13 @@
             @confirm="confirm" />
         </div>
       </div>
-    </NeoModalBody>
+    </ModalBody>
   </NeoModal>
 </template>
 
 <script setup lang="ts">
-import { NeoModal, NeoModalBody } from '@kodadot1/brick'
+import { NeoModal } from '@kodadot1/brick'
+import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import type { ChainProperties, Option } from '@kodadot1/static'
 import { BaseMintedCollection } from '@/components/base/types'
 import IdentityItem from '@/components/identity/IdentityItem.vue'
