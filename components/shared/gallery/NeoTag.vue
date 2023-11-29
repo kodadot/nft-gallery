@@ -47,12 +47,14 @@ const onClose = () => {
   border-radius: 1rem !important;
   background: transparent;
   font-size: 1rem !important;
+  @include ktheme() {
+    color: theme('text-color');
+  }
 
   &--primary {
     @include ktheme() {
       border: 1px solid theme('k-primary');
       background-color: theme('k-accentlight2');
-      color: theme('text-color');
       .cross-icon {
         &:hover {
           color: theme('k-grey');
@@ -64,7 +66,6 @@ const onClose = () => {
   &--transparent {
     @include ktheme() {
       border: 1px solid theme('border-color');
-      color: theme('text-color');
       background: transparent;
     }
   }
