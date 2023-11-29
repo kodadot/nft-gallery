@@ -5,11 +5,11 @@
     <div class="nfts">
       <a
         v-for="nft in nfts"
-        :key="nft.id"
-        v-safe-href="`/${urlPrefix}/gallery/${nft.id}`">
+        :key="nft?.id"
+        v-safe-href="`/${urlPrefix}/gallery/${nft?.id}`">
         <MediaItem
-          :src="sanitizeIpfsUrl(nft.meta.image)"
-          :mime-type="nft.type" />
+          :src="sanitizeIpfsUrl(nft?.meta.image)"
+          :mime-type="nft?.type" />
       </a>
     </div>
   </div>
