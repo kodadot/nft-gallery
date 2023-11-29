@@ -82,8 +82,8 @@
 import { NeoButton } from '@kodadot1/brick'
 import collectionMigrateWaiting from '@/queries/subsquid/general/collectionMigrateWaiting.graphql'
 import waifuApi from '@/services/waifu'
+import { toReview } from '@/composables/useMigrate'
 
-const { toReview } = useMigrate()
 const { accountId } = useAuth()
 const { client } = usePrefix()
 

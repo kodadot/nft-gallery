@@ -71,11 +71,10 @@
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import { useCollectionReady } from '@/composables/useMigrate'
+import { toReview, useCollectionReady } from '@/composables/useMigrate'
 import waifuApi from '@/services/waifu'
 
 const { accountId } = useAuth()
-const { toReview } = useMigrate()
 const { collections } = await useCollectionReady()
 
 const { urlPrefix } = usePrefix()
