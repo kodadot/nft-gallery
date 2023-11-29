@@ -9,7 +9,7 @@
       {{ $t('migrate.ready.desc') }}
     </div>
 
-    <div class="collection">
+    <div v-if="collections.length" class="collection">
       <div
         v-for="collection in collections"
         :key="collection.id"
@@ -58,6 +58,13 @@
           </div>
         </div>
       </div>
+    </div>
+    <div v-else class="text-center mt-8">
+      <p class="is-size-4 has-text-weight-bold">Nothing to Migrate</p>
+      <p>
+        It looks like you have no collections or items ready for migration at
+        this time.
+      </p>
     </div>
   </div>
 </template>
