@@ -902,7 +902,8 @@
     "noFlips": "Looks like it's quiet in here",
     "noHolders": "Start collecting NFTs and make your mark at the top!",
     "noResultsSub": "Check back later or reset your filters",
-    "hideOutliers": "Hide Outliers"
+    "hideOutliers": "Hide Outliers",
+    "applySmoothing": "Apply Smoothing"
   },
   "profileStats": {
     "listed": "Listed",
@@ -968,7 +969,9 @@
     "noPopularCollections": "There are no popular collections now.",
     "successfullyAddedFunds": "Successfully added funds. Your funds will arrive shortly.",
     "supports": "Supports",
-    "chooseProvider": "Choose A Provider"
+    "chooseProvider": "Choose A Provider",
+    "doingSomeMagic": "Doing some magic",
+    "pleaseWait": "Please wait"
   },
   "fiatOnRamp": {
     "agree": "I agree to the",

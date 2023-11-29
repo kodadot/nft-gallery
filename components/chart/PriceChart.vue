@@ -46,6 +46,15 @@
           <NeoCheckbox v-model="vHideOutliers" class="m-0" />
         </div>
       </NeoDropdownItem>
+      <NeoDropdownItem class="px-4 py-3 no-hover">
+        <div
+          class="w-full is-flex is-justify-content-space-between is-align-items-center">
+          <div class="no-wrap mr-5 is-size-7">
+            {{ $t('activity.applySmoothing') }}
+          </div>
+          <NeoCheckbox v-model="vApplySmoothing" class="m-0" />
+        </div>
+      </NeoDropdownItem>
     </NeoDropdown>
 
     <div :class="{ content: !chartHeight }" :style="heightStyle">
@@ -102,11 +111,13 @@ const setTimeRange = (value: { value: number; label: string }) => {
 const props = defineProps<{
   priceChartData?: [Date, number][][]
   chartHeight?: string
-  modelValue: boolean
+  hideOutliers: boolean
+  applySmoothing: boolean
 }>()
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:hideOutliers', 'update:applySmoothing'])
 
-const vHideOutliers = useVModel(props, 'modelValue', emit)
+const vHideOutliers = useVModel(props, 'hideOutliers', emit)
+const vApplySmoothing = useVModel(props, 'applySmoothing', emit)
 
 const heightStyle = computed(() =>
   props.chartHeight ? `height: ${props.chartHeight}` : '',
