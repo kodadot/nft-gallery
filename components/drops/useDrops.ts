@@ -77,14 +77,9 @@ export const useDropStatus = (id: string) => {
       ? await getDropMintedStatus(id, accountId.value)
       : null
   }
+  onBeforeMount(fetchDropStatus)
 
-  watch(accountId, () => {
-    fetchDropStatus()
-  })
-
-  onBeforeMount(() => {
-    fetchDropStatus()
-  })
+  watch(accountId, fetchDropStatus)
 
   return {
     currentAccountMintedToken,
