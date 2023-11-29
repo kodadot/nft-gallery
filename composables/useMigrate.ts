@@ -56,6 +56,12 @@ type CollectionsReady = {
     }[]
     nfts?: {
       id: string
+      name?: string
+      currentOwner?: string
+      meta?: {
+        id: string
+        image: string
+      }
     }[]
   }[]
 }

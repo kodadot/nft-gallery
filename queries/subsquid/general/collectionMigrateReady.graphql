@@ -18,6 +18,12 @@ query collectionMigrateReady($account: String!) {
     }
     nfts(where: { burned_not_eq: true }) {
       id
+      name
+      currentOwner
+      meta {
+        id
+        image
+      }
     }
   }
 }

@@ -1,7 +1,22 @@
 <template>
   <div>
     <div v-if="collectionOwner">
-      <div class="mt-6 font-bold">Migrate Items</div>
+      <div class="my-4 font-bold">Migrate Items</div>
+      <div class="max-h-40 overflow-auto">
+        <div
+          v-for="nft in collectionAnother?.nfts"
+          :key="nft.id"
+          class="flex items-center gap-4 mb-2"
+          :class="{ hidden: nft.currentOwner !== accountId }">
+          <NuxtImg
+            :src="sanitizeIpfsUrl(nft.meta?.image)"
+            :alt="nft.name"
+            width="32"
+            height="32"
+            class="border" />
+          <p>{{ nft.name }}</p>
+        </div>
+      </div>
       <hr />
     </div>
     <div v-else>
@@ -231,6 +246,7 @@ import { prefixToNetwork } from '@/composables/useMultipleBalance'
 import { useCollectionReady, useMigrateDeposit } from '@/composables/useMigrate'
 import { availablePrefixWithIcon } from '@/utils/chain'
 
+const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 const { accountId } = useAuth()
 
@@ -246,9 +262,20 @@ const fromAccountId = route.query.accountId?.toString()
 const collectionOwner = route.query.collectionOwner?.toString()
 
 const collectionId = route.query.collectionId
+
+// a collection where the owner is myself
 const { collections } = await useCollectionReady()
 const collection = computed(() =>
   collections.value.find((item) => item.id === collectionId),
+)
+
+// a collection where the owner is someone else
+const { collections: collectionsAnother } = await useCollectionReady(
+  urlPrefix.value,
+  collectionOwner,
+)
+const collectionAnother = computed(() =>
+  collectionsAnother.value.find((item) => item.id === collectionId),
 )
 
 // source balance and deposit
