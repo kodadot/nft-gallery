@@ -57,10 +57,15 @@ test('Check if chain change works using the dropdown', async ({
     await Commands.e2elogin()
     await page.goto('/create/collection')
   })
-  expect(page.getByTestId('collection-chain')).toBeVisible()
-  await page.getByTestId('collection-chain').selectOption('KusamaHub')
+
+  //Chain dropdown
+  await test.step('Wait for chain dropdown to be visible and select Kusamahub', async () => {
+    expect(page.getByTestId('collection-chain')).toBeVisible()
+    await page.getByTestId('collection-chain').selectOption('KusamaHub')
+  })
+
+  //Deposits and Balance
   await test.step('Verify if balances are loaded', async () => {
-    //Check if balances and deposits shows
     await expect(page.getByTestId('collection-deposit')).toBeVisible({
       timeout: 30000,
     })
@@ -68,6 +73,8 @@ test('Check if chain change works using the dropdown', async ({
       timeout: 30000,
     })
   })
+
+  //Dropdown change to RMRK2
   await test.step('Changes to RMRK2 and verifies if chain changed', async () => {
     await page.getByTestId('collection-chain').selectOption('RMRK2')
     await expect(page.getByTestId('chain')).toContainText('rmrk2')
