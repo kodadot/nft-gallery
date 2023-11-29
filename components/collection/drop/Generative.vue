@@ -1,6 +1,5 @@
 <template>
   <div class="unlockable-container">
-    <Loader v-model="isSubscribing" />
     <CollectionUnlockableLoader
       v-if="isLoading"
       model-value
@@ -142,7 +141,6 @@ const justMinted = ref('')
 const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isConfirmModalActive = ref(false)
-const isSubscribing = ref(false)
 
 const handleSelectImage = (image: string) => {
   selectedImage.value = image
@@ -264,13 +262,10 @@ const openConfirmModal = () => {
 
 const subscribe = async (email: string) => {
   try {
-    isSubscribing.value = true
     await newsletterApi.subscribe(email)
   } catch (error) {
     dangerMessage($i18n.t('signupBanner.failed'))
     throw error
-  } finally {
-    isSubscribing.value = false
   }
 }
 
@@ -291,7 +286,6 @@ const submitMint = async () => {
     isImageFetching.value = false
 
     const { accountId } = useAuth()
-    isLoading.value = true
 
     const id = await doWaifu(
       {
@@ -322,9 +316,12 @@ const submitMint = async () => {
 const handleConfirmMint = async ({ email }) => {
   try {
     closeConfirmModal()
+    isLoading.value = true
     await subscribe(email)
     await submitMint()
-  } catch (error) {}
+  } catch (error) {
+    isLoading.value = false
+  }
 }
 </script>
 
