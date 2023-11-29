@@ -47,9 +47,7 @@ const onClose = () => {
   border-radius: 1rem !important;
   background: transparent;
   font-size: 1rem !important;
-  @include ktheme() {
-    color: theme('text-color');
-  }
+  @apply text-text-color #{!important};
 
   &--primary {
     @include ktheme() {
