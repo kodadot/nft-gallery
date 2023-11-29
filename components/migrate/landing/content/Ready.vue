@@ -74,22 +74,25 @@ import { NeoButton } from '@kodadot1/brick'
 import { toReview, useCollectionReady } from '@/composables/useMigrate'
 import waifuApi from '@/services/waifu'
 
-const { accountId } = useAuth()
+const { urlPrefix } = usePrefix()
 const { collections } = await useCollectionReady()
 
-const { urlPrefix } = usePrefix()
 const entities = reactive({})
 watchEffect(async () => {
-  const migrated = await waifuApi(`/relocations/owners/${accountId.value}`)
-
   collections.value.forEach(async (collection) => {
     const metadata = await getNftMetadata(
       collection as unknown as MinimalNFT,
       urlPrefix.value,
     )
-    const hide = migrated?.some((item) => {
-      return item.collection === collection.id
-    })
+    const migrated = await waifuApi(
+      `/relocations/${urlPrefix.value}-${collection.id}`,
+    )
+
+    let hide = false
+
+    if (migrated) {
+      hide = Boolean(migrated)
+    }
 
     entities[collection.id] = {
       ...metadata,

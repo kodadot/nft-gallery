@@ -1,4 +1,4 @@
-query collectionByAccount($account: String!) {
+query collectionMigrateWaiting($account: String!) {
   collectionEntities(
     where: { nfts_some: { currentOwner_eq: $account }, issuer_not_eq: $account }
   ) {

@@ -128,7 +128,7 @@ watchEffect(() => {
       urlPrefix.value,
     )
     const migrated = (
-      await waifuApi(`/relocations/owners/${collection.currentOwner}`)
+      await waifuApi(`/relocations/owners/${accountId.value}`)
     ).filter((item) => item.collection === collection.id)
 
     if (migrated.length) {
