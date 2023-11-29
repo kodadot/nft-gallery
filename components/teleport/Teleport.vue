@@ -147,8 +147,6 @@ import { blockExplorerOf } from '@/utils/config/chain.config'
 import { simpleDivision } from '@/utils/balance'
 import { useFiatStore } from '@/stores/fiat'
 
-const BUFFER_FEE_PERCENT = 0.03
-
 const {
   chainBalances,
   teleport: sendXCM,
@@ -385,8 +383,7 @@ watch(
       fromAddress: fromAddress.value,
       currency: currency.value,
     })
-    teleportFee.value =
-      Number(fee) + Math.ceil(Number(fee) * BUFFER_FEE_PERCENT)
+    teleportFee.value = Number(fee)
   },
   { immediate: true },
 )
