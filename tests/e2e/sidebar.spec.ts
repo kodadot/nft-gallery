@@ -1,9 +1,11 @@
 import { expect, test } from './fixtures'
 
-test('Sidebar Interactions', async ({ page, Commands }) => {
+test('Switches trough sidebars and check if they overlap each other', async ({
+  page,
+  Commands,
+}) => {
   await Commands.e2elogin()
   await page.goto('/ahk')
-  //checks if sidebar closes when clicking another sidebar
   //profile
   await page.getByTestId('navbar-profile-dropdown').click()
   await expect(page.getByTestId('sidebar-wallet-container')).toBeVisible()
