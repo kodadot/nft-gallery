@@ -260,7 +260,6 @@ const destination = availablePrefixWithIcon().find(
 const itemCount = parseInt(route.query.itemCount?.toString() || '0')
 const fromAccountId = route.query.accountId?.toString()
 const collectionOwner = route.query.collectionOwner?.toString()
-
 const collectionId = route.query.collectionId
 
 // a collection where the owner is myself

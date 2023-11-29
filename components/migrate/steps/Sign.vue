@@ -31,6 +31,7 @@ const { setUrlPrefix } = usePrefix()
 const route = useRoute()
 
 const to = route.query.destination as Prefix
+const collectionOwner = route.query.collectionOwner?.toString()
 
 setUrlPrefix(to)
 
@@ -43,7 +44,11 @@ provide('steps', {
 })
 
 const signTransactions = async () => {
-  steps.value = 'step1'
+  if (collectionOwner) {
+    steps.value = 'step2'
+  } else {
+    steps.value = 'step1'
+  }
 }
 </script>
 

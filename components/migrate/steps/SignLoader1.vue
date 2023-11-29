@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-5">
+  <div v-if="!collectionOwner" class="mb-5">
     <div class="is-flex is-align-items-center mb-4">
       <div class="mr-5">
         <NeoIcon v-bind="whichIcon()" class="fa-2x" />
@@ -85,6 +85,7 @@ const to = route.query.destination as Prefix
 const from = route.query.source as Prefix
 const fromAccountId = route.query.accountId?.toString()
 const itemCount = route.query.itemCount?.toString()
+const collectionOwner = route.query.collectionOwner?.toString()
 
 const api = await apiInstance.value
 const { steps, updateSteps } = inject('steps') as {
