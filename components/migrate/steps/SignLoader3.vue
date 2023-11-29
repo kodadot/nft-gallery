@@ -145,7 +145,7 @@ watchEffect(() => {
   }
 
   // skip burn at the moment
-  if (steps.value === 'step3-burn') {
+  if (steps.value === 'step3-burn' || steps.value === 'step3') {
     congratsPage()
   }
 })
