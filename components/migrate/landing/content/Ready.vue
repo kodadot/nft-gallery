@@ -14,7 +14,10 @@
         v-for="collection in collections"
         :key="collection.id"
         class="collection-card"
-        :class="{ 'collection-card-empty': !collection.nfts?.length }">
+        :class="{
+          'collection-card-empty':
+            !collection.nfts?.length || entities[collection.id]?.hide,
+        }">
         <div
           class="collection-card-banner"
           :style="{
@@ -62,18 +65,30 @@
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 import { useCollectionReady } from '@/composables/useMigrate'
+import waifuApi from '@/services/waifu'
 
+const { accountId } = useAuth()
 const { toReview } = useMigrate()
 const { collections } = await useCollectionReady()
 
 const { urlPrefix } = usePrefix()
 const entities = reactive({})
-watchEffect(() => {
+watchEffect(async () => {
+  const migrated = await waifuApi(`/relocations/owners/${accountId.value}`)
+
   collections.value.forEach(async (collection) => {
-    entities[collection.id] = await getNftMetadata(
+    const metadata = await getNftMetadata(
       collection as unknown as MinimalNFT,
       urlPrefix.value,
     )
+    const hide = migrated?.some((item) => {
+      return item.collection === collection.id
+    })
+
+    entities[collection.id] = {
+      ...metadata,
+      hide,
+    }
   })
 })
 </script>
