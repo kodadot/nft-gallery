@@ -1,5 +1,6 @@
 import { CollectionWithMeta } from '../rmrk/service/scheme'
 import {
+  DropMintedStatus,
   getDropById,
   getDropMintedStatus,
   getDropStatus,
@@ -61,12 +62,7 @@ export async function useDrop(id: string) {
 }
 
 export const useDropStatus = (id: string) => {
-  const currentAccountMintedToken = ref<{
-    created_at: string
-    id: number
-    image: string
-    metadata: string
-  } | null>(null)
+  const currentAccountMintedToken = ref<DropMintedStatus | null>(null)
   const mintedDropCount = ref(0)
   const { accountId } = useAuth()
 
