@@ -1,5 +1,6 @@
 <template>
   <div class="unlockable-container">
+    <Loader v-model="isSubscribing" />
     <CollectionUnlockableLoader
       v-if="isLoading"
       model-value
@@ -90,6 +91,11 @@
       </div>
     </div>
   </div>
+
+  <CollectionDropConfirmModal
+    v-model="isConfirmModalActive"
+    @confirm="handleConfirmMint"
+    @close="closeConfirmModal" />
 </template>
 
 <script setup lang="ts">
@@ -106,6 +112,7 @@ import { doWaifu } from '@/services/waifu'
 import { makeScreenshot } from '@/services/capture'
 import { pinFileToIPFS } from '@/services/nftStorage'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import newsletterApi from '@/utils/newsletter'
 
 const NuxtLink = resolveComponent('NuxtLink')
 
@@ -134,6 +141,8 @@ const { isLogIn } = useAuth()
 const justMinted = ref('')
 const isLoading = ref(false)
 const isImageFetching = ref(false)
+const isConfirmModalActive = ref(false)
+const isSubscribing = ref(false)
 
 const handleSelectImage = (image: string) => {
   selectedImage.value = image
@@ -242,6 +251,30 @@ const handleSubmitMint = async () => {
     return false
   }
 
+  openConfirmModal()
+}
+
+const closeConfirmModal = () => {
+  isConfirmModalActive.value = false
+}
+
+const openConfirmModal = () => {
+  isConfirmModalActive.value = true
+}
+
+const subscribe = async (email: string) => {
+  try {
+    isSubscribing.value = true
+    await newsletterApi.subscribe(email)
+  } catch (error) {
+    dangerMessage($i18n.t('signupBanner.failed'))
+    throw error
+  } finally {
+    isSubscribing.value = false
+  }
+}
+
+const submitMint = async () => {
   try {
     isImageFetching.value = true
 
@@ -284,6 +317,14 @@ const handleSubmitMint = async () => {
     isLoading.value = false
     isImageFetching.value = false
   }
+}
+
+const handleConfirmMint = async ({ email }) => {
+  try {
+    closeConfirmModal()
+    await subscribe(email)
+    await submitMint()
+  } catch (error) {}
 }
 </script>
 
