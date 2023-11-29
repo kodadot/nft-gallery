@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!collectionOwner" class="mb-5">
+  <div class="mb-5">
     <div class="is-flex is-align-items-center mb-4">
       <div class="mr-5">
         <NeoIcon v-if="iterations === 0" v-bind="iconSuccess" class="fa-2x" />
@@ -126,7 +126,11 @@ const startStep2 = async () => {
       const ownerSign = checkSign.data.filter(
         (item) => item.account === accountId.value,
       )
-      nextCollectionId = ownerSign.to_collection
+
+      if (!nextCollectionId) {
+        nextCollectionId = ownerSign[0]?.to_collection
+      }
+
       const presigned = ownerSign.map((item) => {
         const preSignInfo = api.createType('PalletNftsPreSignedMint', item.data)
         const create = api.tx.nfts.mintPreSigned(
@@ -143,7 +147,7 @@ const startStep2 = async () => {
       batchPresigned[index] = presigned
     }
 
-    if (collectionOwner) {
+    if (collectionOwner && nextCollectionId) {
       router.push({
         query: {
           ...route.query,

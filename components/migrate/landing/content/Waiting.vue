@@ -55,11 +55,14 @@
               <NeoButton
                 variant="pill"
                 @click="
-                  toReview(
-                    collection.id,
-                    collection.nfts?.length,
-                    entities[collection.id]?.migrated[0]?.issuer,
-                  )
+                  toReview({
+                    collectionId: collection.id,
+                    itemCount: collection.nfts?.length,
+                    collectionOwner:
+                      entities[collection.id]?.migrated[0]?.issuer,
+                    setDestination:
+                      entities[collection.id]?.migrated[0]?.to_chain,
+                  })
                 ">
                 {{ $t('migrate.waiting.cta') }}
               </NeoButton>

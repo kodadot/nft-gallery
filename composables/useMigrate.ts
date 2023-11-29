@@ -202,7 +202,12 @@ const useDestinationSelected = () =>
     availablePrefixWithIcon().find((item) => item.value === 'ahp'),
   )
 
-export const toReview = (collectionId, itemCount, collectionOwner = '') => {
+export const toReview = ({
+  collectionId,
+  itemCount,
+  collectionOwner = '',
+  setDestination = '',
+}) => {
   const sourceSelected = useSourceSelected()
   const destinationSelected = useDestinationSelected()
   const { accountId } = useAuth()
@@ -213,7 +218,7 @@ export const toReview = (collectionId, itemCount, collectionOwner = '') => {
       accountId: accountId.value,
       collectionId: collectionId,
       source: sourceSelected.value?.value,
-      destination: destinationSelected.value?.value,
+      destination: setDestination || destinationSelected.value?.value,
       itemCount,
       collectionOwner,
     },
