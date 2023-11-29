@@ -103,7 +103,7 @@ export const canSupport = async (
   api: ApiPromise,
   enabled: boolean,
   multiplyWith = 1,
-  token?: SupportTokens = 'KSM',
+  token: SupportTokens = 'KSM',
 ): Promise<[] | [Extrinsic]> => {
   return enabled ? [await supportTx(api, multiplyWith, token)] : []
 }
