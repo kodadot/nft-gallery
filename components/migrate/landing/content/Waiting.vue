@@ -28,7 +28,7 @@
 
         <div class="collection-card-info">
           <p class="is-size-5 has-text-weight-bold">{{ collection.name }}</p>
-          <p v-if="entities[collection.id]?.migrated[0]?.issuer" class="flex">
+          <p class="flex">
             <span class="has-text-grey mr-2">
               {{ $t('migrate.waiting.status') }}
             </span>
@@ -51,7 +51,7 @@
                   $t('migrate.waiting.own', [collection.nfts?.length])
                 "></p>
             </div>
-            <div v-if="entities[collection.id]?.migrated[0]?.issuer">
+            <div>
               <NeoButton
                 variant="pill"
                 @click="
