@@ -15,7 +15,7 @@
           <div
             class="is-flex is-justify-content-space-between is-align-items-center my-5">
             <div>{{ $t('mint.unlockable.totalAvailableItem') }}</div>
-            <div>{{ totalAvailableMintCount }} / {{ totalCount }}</div>
+            <div>{{ totalAvailableMintCount }} / {{ maxCount }}</div>
           </div>
           <UnlockableTag :collection-id="collectionId" />
 
@@ -36,13 +36,13 @@
               class="is-flex is-justify-content-space-between is-align-items-center">
               <div>{{ mintedPercent }} %</div>
               <div class="has-text-weight-bold">
-                {{ mintedCount }} / {{ totalCount }}
+                {{ mintedCount }} / {{ maxCount }}
                 {{ $t('statsOverview.minted') }}
               </div>
             </div>
           </div>
           <div class="my-5">
-            <UnlockableSlider :value="mintedCount / totalCount" />
+            <UnlockableSlider :value="mintedCount / maxCount" />
           </div>
           <div class="my-5">
             <div
@@ -103,6 +103,7 @@ import { createUnlockableMetadata } from '../unlockable/utils'
 import GenerativePreview from '@/components/collection/drop/GenerativePreview.vue'
 import { DropItem } from '@/params/types'
 import { doWaifu } from '@/services/waifu'
+import { useDropStatus } from '@/components/drops/useDrops'
 import { makeScreenshot } from '@/services/capture'
 import { pinFileToIPFS } from '@/services/nftStorage'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
@@ -121,6 +122,8 @@ const props = defineProps({
 const collectionId = computed(() => props.drop?.collection)
 const disabledByBackend = computed(() => props.drop?.disabled)
 const defaultImage = computed(() => props.drop?.image)
+const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
+  useDropStatus(props.drop.alias)
 
 const { neoModal } = useProgrammatic()
 const { $i18n } = useNuxtApp()
@@ -146,60 +149,33 @@ const { data: collectionData } = useGraphql({
   },
 })
 
-const totalCount = computed(
+const maxCount = computed(
   () => collectionData.value?.collectionEntity?.max || 200,
 )
 const totalAvailableMintCount = computed(
-  () => totalCount.value - mintedCount.value,
+  () => maxCount.value - mintedCount.value,
 )
 
-watch(accountId, () => {
-  refetchCollectionStats({
-    account: accountId.value,
-  })
-})
-
-const {
-  data: stats,
-  loading: currentMintedLoading,
-  refetch: refetchCollectionStats,
-} = useGraphql({
-  queryName: 'firstNftOwnedByAccountAndCollectionId',
-  variables: {
-    id: collectionId.value,
-    account: accountId.value,
-  },
-})
-
-const hasUserMinted = computed(
-  () => stats.value?.collection.nfts?.at(0)?.id || justMinted.value,
+const hasUserMinted = computed(() =>
+  currentAccountMintedToken.value
+    ? `${collectionId.value}-${currentAccountMintedToken.value.id}`
+    : justMinted.value,
 )
 
-useSubscriptionGraphql({
-  query: `nftEntities(
-    orderBy: id_ASC,
-    where: { burned_eq: false, collection: { id_eq: "${collectionId.value}" }, currentOwner_eq: "${accountId.value}" }
-    ) {
-      id
-  }`,
-  onChange: refetchCollectionStats,
-})
-
-const mintedCount = computed(
-  () => collectionData.value?.nftEntitiesConnection?.totalCount || 0,
+const mintedCount = computed(() =>
+  Math.min(mintedDropCount.value, maxCount.value),
 )
 
 const mintedPercent = computed(() => {
-  const percent = (mintedCount.value / totalCount.value) * 100
+  const percent = (mintedCount.value / maxCount.value) * 100
   return Math.round(percent)
 })
 
-const mintCountAvailable = computed(() => mintedCount.value < totalCount.value)
+const mintCountAvailable = computed(() => mintedCount.value < maxCount.value)
 
 const mintButtonDisabled = computed(() =>
   Boolean(
-    currentMintedLoading.value ||
-      !mintCountAvailable.value ||
+    !mintCountAvailable.value ||
       !selectedImage.value ||
       !accountId.value ||
       disabledByBackend.value,
@@ -272,6 +248,8 @@ const handleSubmitMint = async () => {
       scrollToTop()
       return `${collectionId.value}-${res.result.sn}`
     })
+
+    fetchDropStatus()
 
     setTimeout(() => {
       isLoading.value = false
