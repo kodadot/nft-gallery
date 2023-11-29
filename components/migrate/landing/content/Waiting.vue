@@ -9,11 +9,12 @@
       {{ $t('migrate.waiting.desc') }}
     </div>
 
-    <div v-if="collections.length" class="collection">
+    <div v-if="Object.keys(entities).length" class="collection">
       <div
         v-for="collection in collections"
         :key="collection.id"
-        class="collection-card">
+        class="collection-card"
+        :class="{ hidden: !entities[collection.id]?.migrated[0]?.issuer }">
         <div
           class="collection-card-banner"
           :style="{
@@ -126,13 +127,15 @@ watchEffect(() => {
       collection as unknown as MinimalNFT,
       urlPrefix.value,
     )
-    const migrated = await waifuApi(
-      `/relocations/owners/${collection.currentOwner}`,
-    )
+    const migrated = (
+      await waifuApi(`/relocations/owners/${collection.currentOwner}`)
+    ).filter((item) => item.collection === collection.id)
 
-    entities[collection.id] = {
-      ...metadata,
-      migrated: migrated.filter((item) => item.collection === collection.id),
+    if (migrated.length) {
+      entities[collection.id] = {
+        ...metadata,
+        migrated,
+      }
     }
   })
 })
