@@ -2,6 +2,8 @@
   <Story title="MediaItem">
     <Variant title="image">
       <ImageMedia
+        :original="false"
+        placeholder=""
         src="https://image-beta.w.kodadot.xyz/ipfs/bafybeig6clbsbabxkku3m4furbj4klayyx7ovwtcocmgwqmv4nxllnbxxy" />
     </Variant>
 
