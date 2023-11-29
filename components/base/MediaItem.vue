@@ -51,19 +51,20 @@
 
 <script lang="ts" setup>
 import type { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
-import { computed, defineAsyncComponent, ref, watch } from 'vue'
 import { useElementHover, useElementVisibility } from '@vueuse/core'
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
-
+import {
+  NeoAudioMedia,
+  NeoButton,
+  NeoIFrameMedia,
+  NeoIcon,
+  NeoImageMedia,
+  NeoJsonMedia,
+  NeoObjectMedia,
+  NeoUnknownMedia,
+  NeoVideoMedia,
+} from '@kodadot1/brick'
 import { getMimeType, resolveMedia } from '@/utils/gallery/media'
 import { MediaType } from '@/components/rmrk/types'
-import ImageMedia from './type/ImageMedia.vue'
-import VideoMedia from './type/VideoMedia.vue'
-import AudioMedia from './type/AudioMedia.vue'
-import JsonMedia from './type/JsonMedia.vue'
-import IFrameMedia from './type/IFrameMedia.vue'
-import ObjectMedia from './type/ObjectMedia.vue'
-import Media from './type/UnknownMedia.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -121,12 +122,13 @@ const shouldLoadModelComponent = computed(() => {
 watch(shouldLoadModelComponent, (shouldLoad) => {
   if (shouldLoad && !isModelComponentLoaded.value) {
     modelComponent.value = defineAsyncComponent(
-      () => import('./type/ModelMedia.vue'),
+      async () => (await import('@kodadot1/brick')).NeoModelMedia,
     )
     isModelComponentLoaded.value = true
   }
 })
 
+const PREFIX = 'Neo'
 const SUFFIX = 'Media'
 
 const isInteractive = computed(() => {
@@ -136,13 +138,13 @@ const type = ref('')
 
 const isLewdBlurredLayer = ref(props.isLewd)
 const components = {
-  ImageMedia,
-  VideoMedia,
-  AudioMedia,
-  JsonMedia,
-  IFrameMedia,
-  ObjectMedia,
-  Media,
+  NeoImageMedia,
+  NeoVideoMedia,
+  NeoAudioMedia,
+  NeoJsonMedia,
+  NeoIFrameMedia,
+  NeoObjectMedia,
+  NeoUnknownMedia,
 }
 
 const resolveComponent = computed(() => {
@@ -154,7 +156,7 @@ const resolveComponent = computed(() => {
 
   return mediaType === 'Model'
     ? modelComponent.value
-    : components[mediaType + SUFFIX]
+    : components[PREFIX + mediaType + SUFFIX]
 })
 const properSrc = computed(() => props.src || props.placeholder)
 

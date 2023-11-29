@@ -6,22 +6,11 @@
     class="top"
     content-class="modal-width"
     @close="onClose">
-    <header
-      class="py-5 pl-6 pr-5 is-flex is-justify-content-space-between is-align-items-center border-bottom">
-      <span class="modal-card-title is-size-6 has-text-weight-bold">
-        {{ $t('confirmPurchase.action') }}
-      </span>
-
-      <NeoButton
-        class="py-1 px-2"
-        variant="text"
-        no-shadow
-        icon="xmark"
-        size="medium"
-        @click="onClose" />
-    </header>
-    <div class="is-overflow-y-auto">
-      <div class="px-6 pt-4">
+    <ModalBody
+      :title="$t('confirmPurchase.action')"
+      :loading="loading"
+      @close="onClose">
+      <div>
         <ModalIdentityItem />
       </div>
       <div class="py-2">
@@ -29,10 +18,11 @@
           v-for="nft in items"
           :key="nft.id"
           :nft="nft"
-          class="py-2 px-6" />
+          class="py-2" />
       </div>
-      <div class="py-4 mx-6 border-top border-bottom card-border-color">
-        <div class="is-flex is-justify-content-space-between mb-2">
+      <div class="py-4 border-top border-bottom card-border-color">
+        <div
+          class="is-flex is-justify-content-space-between is-align-items-center mb-2">
           <span class="is-size-7">{{
             $t('confirmPurchase.priceForNFTs')
           }}</span>
@@ -44,7 +34,7 @@
           <CommonTokenMoney :value="totalRoyalties" />
         </div>
       </div>
-      <div class="is-flex is-justify-content-space-between py-4 px-6">
+      <div class="is-flex is-justify-content-space-between py-4">
         {{ $t('confirmPurchase.youWillPay') }}
         <div class="is-flex">
           <CommonTokenMoney :value="total" class="has-text-grey" />
@@ -52,8 +42,9 @@
         </div>
       </div>
 
-      <div class="is-flex is-justify-content-space-between py-5 px-6">
+      <div class="is-flex is-justify-content-space-between pt-5">
         <AutoTeleportActionButton
+          ref="autoteleport"
           :amount="total"
           :label="$t('nft.action.confirm')"
           :disabled="disabled"
@@ -61,12 +52,13 @@
           @confirm="confirm"
           @actions:completed="$emit('completed')" />
       </div>
-    </div>
+    </ModalBody>
   </NeoModal>
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoModal } from '@kodadot1/brick'
+import { NeoModal } from '@kodadot1/brick'
+import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { sum } from '@/utils/math'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
@@ -88,7 +80,10 @@ const shoppingCartStore = useShoppingCartStore()
 const { isLogIn } = useAuth()
 const { urlPrefix } = usePrefix()
 
+const autoteleport = ref()
 const actions = computed(() => [props.action])
+
+const loading = computed(() => !autoteleport.value?.hasBalances)
 
 const mode = computed(() => prefrencesStore.getCompletePurchaseModal.mode)
 

@@ -72,6 +72,10 @@
       v-model="mintModalOpen"
       :loading="isMinting"
       @close="mintModalOpen = false" />
+    <MobileDisclaimerModal
+      v-model="MobileDisclaimerModalOpen"
+      @continue="MobileDisclaimerModalOpen = false"
+      @leave="back" />
   </div>
 </template>
 
@@ -84,10 +88,16 @@ import OverviewTable from './OverviewTable.vue'
 import ChooseCollectionDropdown from '@/components/common/ChooseCollectionDropdown.vue'
 import EditPanel from './EditPanel.vue'
 import { NFT, NFTToMint } from './types'
-import MissingInfoModal from './modals/MissingInfoModal.vue'
-import ReviewModal from './modals/ReviewModal.vue'
-import DeleteModal from './modals/DeleteModal.vue'
-import MintingModal from './modals/MintingModal.vue'
+const { width } = useWindowSize()
+const { back } = useRouter()
+
+import {
+  DeleteModal,
+  MintingModal,
+  MissingInfoModal,
+  MobileDisclaimerModal,
+  ReviewModal,
+} from './modals'
 import { MintedCollection } from '@/composables/transaction/types'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { useMassMint } from '@/composables/massmint/useMassMint'
@@ -110,6 +120,8 @@ const deleteModalOpen = ref(false)
 const missingInfoModalOpen = ref(false)
 const overViewModalOpen = ref(false)
 const mintModalOpen = ref(false)
+const MobileDisclaimerModalOpen = ref(false)
+const smallerThenDesktop = computed(() => width.value < 1024)
 
 const isMinting = ref(false)
 const mintStatus = ref('')
@@ -243,6 +255,10 @@ const onDescriptionLoaded = (entries: Record<string, Entry>) => {
     }
   })
 }
+
+onMounted(() => {
+  MobileDisclaimerModalOpen.value = smallerThenDesktop.value
+})
 </script>
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables.scss';
