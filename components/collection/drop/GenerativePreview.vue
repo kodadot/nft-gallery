@@ -5,7 +5,7 @@
       {{ $t('mint.unlockable.yourVariation') }}
     </div>
 
-    <MediaItem
+    <BaseMediaItem
       :src="sanitizeIpfsUrl(displayUrl)"
       :mime-type="generativeImageUrl ? 'text/html' : ''"
       preview
@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { MediaItem, NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { getRandomInt } from '../unlockable/utils'
 import { blake2AsHex, encodeAddress } from '@polkadot/util-crypto'
