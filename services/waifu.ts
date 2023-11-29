@@ -23,6 +23,21 @@ export const getDropById = async (id: string) => {
   })
 }
 
+export const getDropStatus = async (alias: string) => {
+  return await api<{ count: number }>(`/drops/${alias}/status`, {
+    method: 'GET',
+  })
+}
+
+export const getDropMintedStatus = async (alias: string, accountId: string) => {
+  return await api<{ id: string; image: string }>(
+    `/drops/${alias}/accounts/${accountId}`,
+    {
+      method: 'GET',
+    },
+  )
+}
+
 export const getLatestWaifuImages = async () => {
   const value = await api<{
     result: { id: string; output: string; image: string }[]
