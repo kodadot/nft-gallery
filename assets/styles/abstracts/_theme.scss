@@ -1,3 +1,5 @@
+$kAccentLight3: #ffaee1;
+
 $themes: (
   'light-mode': (
     'white': #ffffff,
@@ -15,7 +17,7 @@ $themes: (
     'k-accentlight2-dark': #363234,
     'k-accentlight2-dark-head': #191718,
     'k-accentlight2-dark-paragraph': #191718,
-    'k-accentlight3': "#FFAEE1",
+    'k-accentlight3': $kAccentLight3,
     'k-green': #04af00,
     'k-red': #ff5757,
     'k-orange': #cf9a10,
@@ -66,7 +68,7 @@ $themes: (
     'k-accentlight2-dark': #ffffff,
     'k-accentlight2-dark-head': #ffffff,
     'k-accentlight2-dark-paragraph': #b9b9b9,
-    'k-accentlight3': "#FFAEE1",
+    'k-accentlight3': $kAccentLight3,
     'k-green': #04af00,
     'k-red': #ff5757,
     'k-orange': #cf9a10,
