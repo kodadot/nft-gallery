@@ -58,4 +58,13 @@ export { default as NeoNotification } from './components/NeoNotification/NeoNoti
 export { default as NeoNotificationNotice } from './components/NeoNotification/NeoNotificationNotice.vue'
 export { default as NeoNotificationProgrammatic } from './components/NeoNotification/plugin'
 
+/** MEDIA **/
+export { default as NeoAudioMedia } from './components/MediaItem/type/AudioMedia.vue'
+export { default as NeoIFrameMedia } from './components/MediaItem/type/IFrameMedia.vue'
+export { default as NeoImageMedia } from './components/MediaItem/type/ImageMedia.vue'
+export { default as NeoJsonMedia } from './components/MediaItem/type/JsonMedia.vue'
+export { default as NeoModelMedia } from './components/MediaItem/type/ModelMedia.vue'
+export { default as NeoObjectMedia } from './components/MediaItem/type/ObjectMedia.vue'
+export { default as NeoUnknownMedia } from './components/MediaItem/type/UnknownMedia.vue'
+export { default as NeoVideoMedia } from './components/MediaItem/type/VideoMedia.vue'
 export { default as NeoAudioPlayer } from './components/NeoAudioPlayer/NeoAudioPlayer.vue'

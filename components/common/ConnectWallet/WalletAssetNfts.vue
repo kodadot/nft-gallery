@@ -7,7 +7,7 @@
         v-for="nft in nfts"
         :key="nft.id"
         v-safe-href="`/${urlPrefix}/gallery/${nft.id}`">
-        <MediaItem
+        <BaseMediaItem
           :src="sanitizeIpfsUrl(nft.meta.image)"
           :mime-type="nft.type" />
       </a>
@@ -16,7 +16,6 @@
 </template>
 
 <script setup lang="ts">
-import { MediaItem } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { getNftMetadata } from '@/composables/useNft'
 import { getMimeType } from '@/utils/gallery/media'

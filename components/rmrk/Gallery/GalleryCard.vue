@@ -11,7 +11,7 @@
           <NeoIcon icon="heart" />
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
-        <MediaItem :src="image" />
+        <BaseMediaItem :src="image" />
         <span
           v-if="parseInt(price) > 0 && showPriceValue"
           class="card-image__price">
@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import { MediaItem, NeoIcon } from '@kodadot1/brick'
+import { NeoIcon } from '@kodadot1/brick'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { getMimeType } from '@/utils/gallery/media'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
