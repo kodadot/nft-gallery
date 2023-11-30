@@ -245,7 +245,7 @@ const subscribe = async (email: string) => {
   }
 }
 
-const submitMint = async () => {
+const submitMint = async (email: string) => {
   try {
     isImageFetching.value = true
 
@@ -268,6 +268,7 @@ const submitMint = async () => {
         address: accountId.value,
         metadata: hash,
         image: imageHash,
+        email,
       },
       props.drop.id,
     ).then((res) => {
@@ -296,7 +297,7 @@ const handleConfirmMint = async ({ email }) => {
     closeConfirmModal()
     isLoading.value = true
     await subscribe(email)
-    await submitMint()
+    await submitMint(email)
   } catch (error) {
     isLoading.value = false
   }
