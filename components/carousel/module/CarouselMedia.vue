@@ -11,7 +11,7 @@
         class="card-icon"
         :src="cardIcon"
         alt="Card Icon" />
-      <MediaItem
+      <BaseMediaItem
         class="carousel-media-wrapper"
         :src="imageSrc || ''"
         :animation-src="item.animationUrl || ''"
@@ -25,8 +25,6 @@
 </template>
 
 <script lang="ts" setup>
-import { MediaItem } from '@kodadot1/brick'
-
 import type { CarouselNFT } from '@/components/base/types'
 import type { NFTWithMetadata } from '@/composables/useNft'
 

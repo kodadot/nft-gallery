@@ -104,7 +104,7 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { useCountDown } from '../unlockable/utils/useCountDown'
 import { VOTE_DROP_DESCRIPTION, countDownTime } from './const'
-
+import { useDropStatus } from '@/components/drops/useDrops'
 import { DropItem } from '@/params/types'
 
 import { useCheckReferenDumVote } from '@/composables/drop/useCheckReferenDumVote'
@@ -120,7 +120,8 @@ const props = defineProps({
 const { $i18n } = useNuxtApp()
 const { neoModal } = useProgrammatic()
 const { accountId } = useAuth()
-
+const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
+  useDropStatus(props.drop.alias)
 const collectionId = computed(() => props.drop?.collection)
 
 const imageList = ref<string[]>([])
@@ -178,7 +179,7 @@ const leftTime = computed(() => {
   return isFinish ? 'Finished' : `${hoursLeft}${minutesLeft}Left`
 })
 
-const { data: collectionData, refetch } = useGraphql({
+const { data: collectionData } = useGraphql({
   queryName: 'dropCollectionById',
   variables: {
     id: collectionId.value,
@@ -197,18 +198,8 @@ watch(collectionData, () => {
 const totalCount = 300
 
 const totalAvailableMintCount = computed(
-  () => totalCount - collectionData.value?.collectionEntity?.nftCount,
+  () => totalCount - Math.min(mintedDropCount.value, totalCount),
 )
-
-useSubscriptionGraphql({
-  query: `nftEntities(
-    orderBy: id_ASC,
-    where: { burned_eq: false, collection: { id_eq: "${collectionId.value}" }}
-    ) {
-      id
-  }`,
-  onChange: refetch,
-})
 
 const mintedCount = computed(() => totalCount - totalAvailableMintCount.value)
 
@@ -220,17 +211,15 @@ const mintedPercent = computed(() => {
 const userMintedId = computed(
   () =>
     Boolean(accountId.value) &&
-    (collectionData.value?.nftEntitiesConnection?.edges?.[0]?.node?.id ||
-      justMinted.value),
+    (currentAccountMintedToken.value
+      ? `${collectionId.value}-${currentAccountMintedToken.value.id}`
+      : justMinted.value),
 )
 
 const mintCountAvailable = computed(() => mintedCount.value < totalCount)
 
-watch(accountId, (id) => {
+watch(accountId, () => {
   justMinted.value = ''
-  refetch({
-    account: id,
-  })
 })
 
 const mintButtonDisabled = computed(
@@ -267,6 +256,8 @@ const handleMint = async () => {
       toast('mint success')
       return `${collectionId.value}-${res.result.sn}`
     })
+
+    fetchDropStatus()
     // 40s timeout
     setTimeout(() => {
       isLoading.value = false
