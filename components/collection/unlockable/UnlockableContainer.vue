@@ -3,7 +3,8 @@
     <CollectionUnlockableLoader
       v-if="isLoading"
       model-value
-      :minted="justMinted" />
+      :minted="justMinted"
+      @model-value="isLoading = false" />
     <CountdownTimer />
     <hr class="text-color my-0" />
     <div class="container is-fluid">

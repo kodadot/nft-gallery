@@ -89,10 +89,10 @@ const postTwitterUrl = computed(
       twitterText.value,
     )}`,
 )
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['modelValue'])
 
 const closeLoading = () => {
-  emit('update:modelValue', false)
+  emit('modelValue', false)
 }
 const buttonLabel = computed(() =>
   $i18n.t(
