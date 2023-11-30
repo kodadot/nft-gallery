@@ -31,7 +31,7 @@
 
         <div class="is-flex is-justify-content-space-between pt-4">
           <NeoButton
-            class="is-flex is-flex-1 btn-height is-capitalized"
+            class="is-flex is-flex-1 btn-height is-capitalized shine"
             :disabled="disabled"
             no-shadow
             variant="k-accent"
@@ -88,7 +88,9 @@ const confirm = () => {
 </script>
 
 <style lang="scss" scoped>
+@use 'sass:string';
 @import '@/assets/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/animations';
 
 .modal-width {
   width: 25rem;
@@ -96,5 +98,14 @@ const confirm = () => {
 
 .btn-height {
   height: 3.5rem;
+}
+
+.shine {
+  @include ktheme() {
+    @include shineEffect(string.unquote(theme('k-accentlight3')), lightgrey);
+    &:hover {
+      color: theme('k-accent') !important;
+    }
+  }
 }
 </style>
