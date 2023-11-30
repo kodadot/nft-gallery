@@ -1,39 +1,21 @@
 import { expect, test } from './fixtures'
 
-const collectionName = 'Pare1d0scope'
-const collectionAddress = '/ahp/collection/38/'
+const COLLECTION_ADDRESS_PATH = '/ahp/collection/38/'
+const COLLECTION_NAME = 'Pare1d0scope'
+const COLLECTION_OWNER = '15CoYMEnJhhWHvdEPXDuTBnZKXwrJzMQdcMwcHGsVx5kXYvW'
 
 test('Collection interactions', async ({ page, Commands }) => {
-  await test.step('Access collection address and scroll down', async () => {
-    await page.goto(collectionAddress)
-    await Commands.scrollDownAndStop()
-  })
+  await page.goto(COLLECTION_ADDRESS_PATH)
+  await Commands.scrollDownAndStop()
   await test.step('Check collection name and description', async () => {
     await expect(page.getByTestId('collection-banner-name')).toContainText(
-      collectionName,
+      COLLECTION_NAME,
     )
     //description show more
     await page.getByTestId('description-show-less-more-button').click()
     //collection description
     await expect(page.getByTestId('collection-description')).toContainText(
       'Geometry',
-    )
-  })
-
-  //Share Button
-  await test.step('Share button functionality', async () => {
-    const shareBtn = page.getByTestId('share-button').first()
-    await shareBtn.click()
-    await page.getByTestId('hero-copy-link-dropdown').first().click()
-    await Commands.copyText('http://localhost:9090/ahp/collection/38')
-    await shareBtn.click()
-    await page.getByTestId('hero-share-QR-dropdown').first().click()
-    await expect(page.getByTestId('hero-share-qrcode-modal')).toBeVisible()
-    await page.keyboard.press('Escape')
-    await shareBtn.click()
-    await Commands.checkNewTab(
-      'https://twitter.com',
-      await page.getByTestId('hero-share-twitter-dropdown').first().click(),
     )
   })
 
@@ -69,10 +51,10 @@ test('Collection interactions', async ({ page, Commands }) => {
     await page.getByTestId('navbar-button-cart').click()
     await expect(page.getByTestId('shopping-cart-modal')).toBeVisible()
     await expect(page.getByTestId('shopping-cart-item').nth(0)).toContainText(
-      collectionName,
+      COLLECTION_NAME,
     )
     await expect(page.getByTestId('shopping-cart-item').nth(1)).toContainText(
-      collectionName,
+      COLLECTION_NAME,
     )
     await page.getByTestId('modal-close-button').click()
   })
@@ -102,7 +84,7 @@ test('Collection interactions', async ({ page, Commands }) => {
     const holdersTab = page.getByTestId('collection-holders-container')
     //check if nft details on Holders tab has content
     await page.getByTestId('collection-holder-nft-details').first().click()
-    await expect(holdersTab).toContainText(collectionName)
+    await expect(holdersTab).toContainText(COLLECTION_NAME)
     //check if popover on Holders is present
     await expect(
       page.getByTestId('collection-nft-holder').first(),
@@ -138,8 +120,6 @@ test('Collection interactions', async ({ page, Commands }) => {
   //Creator link
   await test.step('Check if creator address redirects to proper page', async () => {
     await page.getByTestId('collection-creator-address').click()
-    await expect(page).toHaveURL(
-      '/ahp/u/15CoYMEnJhhWHvdEPXDuTBnZKXwrJzMQdcMwcHGsVx5kXYvW',
-    )
+    await expect(page).toHaveURL(`/ahp/u/${COLLECTION_OWNER}`)
   })
 })

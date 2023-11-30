@@ -1,10 +1,8 @@
 import { expect, test } from './fixtures'
 
 test('Translations', async ({ page, Commands }) => {
-  await test.step('Login and go to', async () => {
-    await Commands.e2elogin()
-    await page.goto('')
-  })
+  await Commands.e2elogin()
+  await page.goto('')
 
   //DE
   await test.step('Check German Translation', async () => {

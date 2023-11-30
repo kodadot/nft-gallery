@@ -1,9 +1,10 @@
 import { expect, test } from './fixtures'
 
+const EXPLORE_COLLECTIONS_PATH = '/ahk/explore/collectibles'
+const EXPLORE_ITEMS_PATH = '/ahk/explore/items?page=1'
+
 test('Explore collections', async ({ page, Commands }) => {
-  await test.step('Goto explore collections', async () => {
-    await page.goto('/ahk/explore/collectibles')
-  })
+  await page.goto(EXPLORE_COLLECTIONS_PATH)
 
   //Tabs
   await test.step('Verify tab existance', async () => {
@@ -41,9 +42,7 @@ test('Explore collections', async ({ page, Commands }) => {
 })
 
 test('Explore Items', async ({ page, Commands }) => {
-  await test.step('Go to explore items', async () => {
-    await page.goto('/ahk/explore/items?page=1')
-  })
+  await page.goto(EXPLORE_ITEMS_PATH)
 
   //Tabs
   await test.step('Verify tab existance', async () => {

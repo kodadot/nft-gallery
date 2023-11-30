@@ -1,14 +1,16 @@
 import { expect, test } from './fixtures'
 
+const CREATE_NFT_PATH = '/ksm/create'
+
 test('Create NFT', async ({ page, Commands }) => {
   const numOfCopies = 5
   //Login and navigation
   await test.step('Login and navigate trough create single nft menus', async () => {
     await Commands.e2elogin()
-    await page.goto('/ksm/create')
+    await page.goto(CREATE_NFT_PATH)
     await Commands.acceptCookies()
     await page.getByTestId('create-landing-nft-button').click()
-    await expect(page).toHaveURL('/ksm/create?select=nft')
+    await expect(page).toHaveURL(`${CREATE_NFT_PATH}?select=nft`)
     await page.getByTestId('create-landing-single-nft-button').click()
   })
 

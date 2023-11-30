@@ -1,11 +1,13 @@
 import { expect, test } from './fixtures'
 
+const LANDING_PATH = '/ahk'
+
 test('Switches trough sidebars and check if they overlap each other', async ({
   page,
   Commands,
 }) => {
   await Commands.e2elogin()
-  await page.goto('/ahk')
+  await page.goto(LANDING_PATH)
   //profile
   await page.getByTestId('navbar-profile-dropdown').click()
   await expect(page.getByTestId('sidebar-wallet-container')).toBeVisible()

@@ -1,10 +1,8 @@
 import { expect, test } from './fixtures'
 
 test('Switch network', async ({ page }) => {
-  await test.step('Go to Landing and wait for load state', async () => {
-    await page.goto('/')
-    await page.waitForLoadState()
-  })
+  await page.goto('/')
+  await page.waitForLoadState()
 
   //BSX
   await test.step('Switching to BSX', async () => {

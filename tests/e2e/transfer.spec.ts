@@ -1,10 +1,10 @@
 import { expect, test } from './fixtures'
 
+const TRANSFER_PATH = '/dot/transfer'
+
 test('Transfer Page Functionality', async ({ page, Commands }) => {
-  await test.step('Login and go to page', async () => {
-    await Commands.e2elogin()
-    await page.goto('/dot/transfer')
-  })
+  await Commands.e2elogin()
+  await page.goto(TRANSFER_PATH)
 
   const UserAddress =
     await test.step('Gets user address via attribute', async () => {

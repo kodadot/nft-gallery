@@ -1,11 +1,13 @@
 import { expect, test } from './fixtures'
 
+const CREATE_COLLECTION_PATH = '/create/collection'
+
 test('Fill fields to check if they work', async ({ page, Commands }) => {
   await test.step('Login and goto create collection ', async () => {
     //E2E connection
     await Commands.e2elogin()
     //Goto
-    await page.goto('/create/collection')
+    await page.goto(CREATE_COLLECTION_PATH)
   })
   await test.step('Upload image ', async () => {
     //upload image logo
@@ -55,7 +57,7 @@ test('Check if chain change works using the dropdown', async ({
 }) => {
   await test.step('Login and goto create collection', async () => {
     await Commands.e2elogin()
-    await page.goto('/create/collection')
+    await page.goto(CREATE_COLLECTION_PATH)
   })
 
   //Chain dropdown
@@ -82,7 +84,7 @@ test('Check if chain change works using the dropdown', async ({
 })
 
 test('Verifies error message if collection name is empty', async ({ page }) => {
-  await page.goto('/create/collection')
+  await page.goto(CREATE_COLLECTION_PATH)
   const collectionName = page.getByTestId('collection-name')
   await collectionName.locator('input').fill('Kodadot Warning Test')
   await collectionName.locator('input').fill('')

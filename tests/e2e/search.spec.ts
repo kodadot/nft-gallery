@@ -1,9 +1,9 @@
 import { expect, test } from './fixtures'
 
+const LANDING_PATH = '/ksm'
+
 test('Check if search provide results', async ({ page }) => {
-  await test.step('Go to landing within Kusama chain', async () => {
-    await page.goto('/ksm')
-  })
+  await page.goto(LANDING_PATH)
 
   //Search term
   await test.step('Search for the term Waifu and hover over results', async () => {
