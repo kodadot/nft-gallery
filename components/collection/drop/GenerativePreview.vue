@@ -77,9 +77,12 @@ const generativeImageUrl = ref(
 
 const isLoading = ref(false)
 
-watch([accountId], () => {
+const generateDefaultNft = () => {
   generateNft(true)
-})
+}
+onMounted(generateDefaultNft)
+watch(accountId, generateDefaultNft)
+
 const displayUrl = computed(() => {
   return generativeImageUrl.value || props.image
 })
