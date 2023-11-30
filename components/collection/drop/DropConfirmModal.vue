@@ -23,7 +23,13 @@
           required
           :placeholder="$t('mint.nft.email.placeholder')" />
 
-        <div class="is-flex is-justify-content-space-between pt-5">
+        <div class="pt-5">
+          <NeoCheckbox v-model="agree" class="is-capitalized">
+            {{ $t('drops.consent') }}
+          </NeoCheckbox>
+        </div>
+
+        <div class="is-flex is-justify-content-space-between pt-4">
           <NeoButton
             class="is-flex is-flex-1 btn-height is-capitalized"
             :disabled="disabled"
@@ -39,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoInput, NeoModal } from '@kodadot1/brick'
+import { NeoButton, NeoCheckbox, NeoInput, NeoModal } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 
@@ -51,15 +57,23 @@ const isModalActive = useVModel(props, 'modelValue')
 
 const emailInput = ref()
 const email = ref()
+const agree = ref(false)
 
-const disabled = computed(() => {
-  return !emailInput.value?.checkHtml5Validity() && email.value !== ''
-})
+const invalidEmail = computed(() => !emailInput.value?.checkHtml5Validity())
+
+const disabled = computed(
+  () => invalidEmail.value || email.value === '' || !agree.value,
+)
 
 const submitButtonText = computed(() => {
-  if (!email.value) {
+  if (invalidEmail.value) {
     return $i18n.t('drops.enterValidEmail')
   }
+
+  if (!agree.value) {
+    return $i18n.t('drops.agreeToProceed')
+  }
+
   return $i18n.t('drops.subscribeAndClaim')
 })
 
