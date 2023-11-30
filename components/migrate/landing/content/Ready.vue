@@ -9,14 +9,13 @@
       {{ $t('migrate.ready.desc') }}
     </div>
 
-    <div v-if="collections.length" class="collection">
+    <div v-if="Object.keys(entities).length" class="collection">
       <div
         v-for="collection in collections"
         :key="collection.id"
         class="collection-card"
         :class="{
-          'collection-card-empty':
-            !collection.nfts?.length || entities[collection.id]?.hide,
+          hidden: !entities[collection.id]?.id,
         }">
         <div
           class="collection-card-banner"
@@ -93,15 +92,10 @@ watchEffect(async () => {
       `/relocations/${urlPrefix.value}-${collection.id}`,
     )
 
-    let hide = false
-
-    if (migrated) {
-      hide = Boolean(migrated)
-    }
-
-    entities[collection.id] = {
-      ...metadata,
-      hide,
+    if (!migrated?.id && collection.nfts?.length) {
+      entities[collection.id] = {
+        ...metadata,
+      }
     }
   })
 })

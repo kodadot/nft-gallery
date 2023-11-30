@@ -5,7 +5,7 @@ query collectionMigrateWaiting($account: String!) {
     id
     name
     currentOwner
-    nfts(where: { currentOwner_eq: $account }) {
+    nfts(where: { currentOwner_eq: $account, burned_eq: false }) {
       id
     }
     metadata

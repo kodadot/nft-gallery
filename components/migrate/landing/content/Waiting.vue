@@ -134,7 +134,7 @@ watchEffect(() => {
       await waifuApi(`/relocations/owners/${accountId.value}`)
     ).filter((item) => item.collection === collection.id)
 
-    if (migrated.length) {
+    if (migrated.length && collection.nfts?.length) {
       entities[collection.id] = {
         ...metadata,
         migrated,
