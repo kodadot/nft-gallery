@@ -2,8 +2,10 @@
   <div class="unlockable-container">
     <CollectionUnlockableLoader
       v-if="isLoading"
+      :duration="MINTING_SECOND"
+      :minted="justMinted"
       model-value
-      :minted="justMinted" />
+      @model-value="isLoading = false" />
     <div class="container is-fluid border-top">
       <div class="columns is-desktop">
         <div class="column is-half-desktop mobile-padding">
@@ -115,6 +117,7 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import newsletterApi from '@/utils/newsletter'
 
 const NuxtLink = resolveComponent('NuxtLink')
+const MINTING_SECOND = 120
 
 const props = defineProps({
   drop: {
@@ -248,6 +251,7 @@ const subscribe = async (email: string) => {
 const submitMint = async (email: string) => {
   try {
     isImageFetching.value = true
+    isLoading.value = true
 
     const imageHash = await tryCapture()
 
@@ -284,7 +288,7 @@ const submitMint = async (email: string) => {
       justMinted.value = id
       toast('You will be redirected in few seconds', { duration: 3000 })
       return navigateTo(`/${urlPrefix.value}/gallery/${id}`)
-    }, 44000)
+    }, MINTING_SECOND * 1000)
   } catch (error) {
     toast($i18n.t('drops.mintPerAddress'))
     isLoading.value = false
