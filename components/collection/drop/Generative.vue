@@ -15,7 +15,7 @@
           <div
             class="is-flex is-justify-content-space-between is-align-items-center my-5">
             <div>{{ $t('mint.unlockable.totalAvailableItem') }}</div>
-            <div>{{ totalAvailableMintCount }} / {{ totalCount }}</div>
+            <div>{{ totalAvailableMintCount }} / {{ maxCount }}</div>
           </div>
           <UnlockableTag :collection-id="collectionId" />
 
@@ -36,13 +36,13 @@
               class="is-flex is-justify-content-space-between is-align-items-center">
               <div>{{ mintedPercent }} %</div>
               <div class="has-text-weight-bold">
-                {{ mintedCount }} / {{ totalCount }}
+                {{ mintedCount }} / {{ maxCount }}
                 {{ $t('statsOverview.minted') }}
               </div>
             </div>
           </div>
           <div class="my-5">
-            <UnlockableSlider :value="mintedCount / totalCount" />
+            <UnlockableSlider :value="mintedCount / maxCount" />
           </div>
           <div class="my-5">
             <div
@@ -90,6 +90,11 @@
       </div>
     </div>
   </div>
+
+  <CollectionDropConfirmModal
+    v-model="isConfirmModalActive"
+    @confirm="handleConfirmMint"
+    @close="closeConfirmModal" />
 </template>
 
 <script setup lang="ts">
@@ -103,9 +108,11 @@ import { createUnlockableMetadata } from '../unlockable/utils'
 import GenerativePreview from '@/components/collection/drop/GenerativePreview.vue'
 import { DropItem } from '@/params/types'
 import { doWaifu } from '@/services/waifu'
+import { useDropStatus } from '@/components/drops/useDrops'
 import { makeScreenshot } from '@/services/capture'
 import { pinFileToIPFS } from '@/services/nftStorage'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import newsletterApi from '@/utils/newsletter'
 
 const NuxtLink = resolveComponent('NuxtLink')
 
@@ -121,6 +128,8 @@ const props = defineProps({
 const collectionId = computed(() => props.drop?.collection)
 const disabledByBackend = computed(() => props.drop?.disabled)
 const defaultImage = computed(() => props.drop?.image)
+const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
+  useDropStatus(props.drop.alias)
 
 const { neoModal } = useProgrammatic()
 const { $i18n } = useNuxtApp()
@@ -134,6 +143,7 @@ const { isLogIn } = useAuth()
 const justMinted = ref('')
 const isLoading = ref(false)
 const isImageFetching = ref(false)
+const isConfirmModalActive = ref(false)
 
 const handleSelectImage = (image: string) => {
   selectedImage.value = image
@@ -146,60 +156,33 @@ const { data: collectionData } = useGraphql({
   },
 })
 
-const totalCount = computed(
+const maxCount = computed(
   () => collectionData.value?.collectionEntity?.max || 200,
 )
 const totalAvailableMintCount = computed(
-  () => totalCount.value - mintedCount.value,
+  () => maxCount.value - mintedCount.value,
 )
 
-watch(accountId, () => {
-  refetchCollectionStats({
-    account: accountId.value,
-  })
-})
-
-const {
-  data: stats,
-  loading: currentMintedLoading,
-  refetch: refetchCollectionStats,
-} = useGraphql({
-  queryName: 'firstNftOwnedByAccountAndCollectionId',
-  variables: {
-    id: collectionId.value,
-    account: accountId.value,
-  },
-})
-
-const hasUserMinted = computed(
-  () => stats.value?.collection.nfts?.at(0)?.id || justMinted.value,
+const hasUserMinted = computed(() =>
+  currentAccountMintedToken.value
+    ? `${collectionId.value}-${currentAccountMintedToken.value.id}`
+    : justMinted.value,
 )
 
-useSubscriptionGraphql({
-  query: `nftEntities(
-    orderBy: id_ASC,
-    where: { burned_eq: false, collection: { id_eq: "${collectionId.value}" }, currentOwner_eq: "${accountId.value}" }
-    ) {
-      id
-  }`,
-  onChange: refetchCollectionStats,
-})
-
-const mintedCount = computed(
-  () => collectionData.value?.nftEntitiesConnection?.totalCount || 0,
+const mintedCount = computed(() =>
+  Math.min(mintedDropCount.value, maxCount.value),
 )
 
 const mintedPercent = computed(() => {
-  const percent = (mintedCount.value / totalCount.value) * 100
+  const percent = (mintedCount.value / maxCount.value) * 100
   return Math.round(percent)
 })
 
-const mintCountAvailable = computed(() => mintedCount.value < totalCount.value)
+const mintCountAvailable = computed(() => mintedCount.value < maxCount.value)
 
 const mintButtonDisabled = computed(() =>
   Boolean(
-    currentMintedLoading.value ||
-      !mintCountAvailable.value ||
+    !mintCountAvailable.value ||
       !selectedImage.value ||
       !accountId.value ||
       disabledByBackend.value,
@@ -242,6 +225,27 @@ const handleSubmitMint = async () => {
     return false
   }
 
+  openConfirmModal()
+}
+
+const closeConfirmModal = () => {
+  isConfirmModalActive.value = false
+}
+
+const openConfirmModal = () => {
+  isConfirmModalActive.value = true
+}
+
+const subscribe = async (email: string) => {
+  try {
+    await newsletterApi.subscribe(email)
+  } catch (error) {
+    dangerMessage($i18n.t('signupBanner.failed'))
+    throw error
+  }
+}
+
+const submitMint = async (email: string) => {
   try {
     isImageFetching.value = true
 
@@ -258,13 +262,13 @@ const handleSubmitMint = async () => {
     isImageFetching.value = false
 
     const { accountId } = useAuth()
-    isLoading.value = true
 
     const id = await doWaifu(
       {
         address: accountId.value,
         metadata: hash,
         image: imageHash,
+        email,
       },
       props.drop.id,
     ).then((res) => {
@@ -272,6 +276,8 @@ const handleSubmitMint = async () => {
       scrollToTop()
       return `${collectionId.value}-${res.result.sn}`
     })
+
+    fetchDropStatus()
 
     setTimeout(() => {
       isLoading.value = false
@@ -283,6 +289,17 @@ const handleSubmitMint = async () => {
     toast($i18n.t('drops.mintPerAddress'))
     isLoading.value = false
     isImageFetching.value = false
+  }
+}
+
+const handleConfirmMint = async ({ email }) => {
+  try {
+    closeConfirmModal()
+    isLoading.value = true
+    await subscribe(email)
+    await submitMint(email)
+  } catch (error) {
+    isLoading.value = false
   }
 }
 </script>

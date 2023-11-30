@@ -18,6 +18,7 @@ module.exports = {
         'k-accent-light-2-dark-head': 'var(--k-accent-light-2-dark-head)',
         'k-accent-light-2-dark-paragraph':
           'var(--k-accent-light-2-dark-paragraph)',
+        'k-accent-light-3': 'var(--k-accent-light-3)',
         'k-green': 'var(--k-green)',
         'k-red': 'var(--k-red)',
         'k-orange': 'var(--k-orange)',
