@@ -121,7 +121,7 @@ export const multipleTokensTxs = async (
 }
 
 export const expandCopiesWithsIds = async (item: ActionMintToken, api) => {
-  const tokens = [item.token as TokenToMint]
+  const tokens = Array.isArray(item.token) ? item.token : [item.token]
 
   const lastTokenId = await lastIndexUsed(
     tokens[0].selectedCollection as MintedCollection,
