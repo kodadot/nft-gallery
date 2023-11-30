@@ -97,7 +97,8 @@ function execBuyStatemine(item: ActionBuy, api, executeTransaction) {
     const { id: collectionId, item: tokenId } = tokenIdToRoute(nftId)
     const cb = getApiCall(api, item.urlPrefix, item.interaction, legacy)
     const arg = [collectionId, tokenId, price]
-    const extrinsics = [cb(...arg)]
+
+    const extrinsics = [cb(...arg), somePercentFromTX(api, price)]
 
     const royaltyExtrinsic = payRoyaltyAssetHub(
       legacy,
@@ -114,7 +115,6 @@ function execBuyStatemine(item: ActionBuy, api, executeTransaction) {
     return extrinsics
   })
 
-  // TODO: implement tx fees #5130
   executeTransaction({
     cb: api.tx.utility.batchAll,
     arg: [transactions.flat()],

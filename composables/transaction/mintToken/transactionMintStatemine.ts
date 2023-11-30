@@ -10,12 +10,12 @@ import {
   lastIndexUsed,
   transactionFactory,
 } from './utils'
-import { canSupport } from '@/utils/support'
+import { SupportTokens, canSupport } from '@/utils/support'
 import { constructDirectoryMeta } from './constructDirectoryMeta'
 import { ApiPromise } from '@polkadot/api'
 
 interface BuildTokenTxsParams {
-  token: TokenToMint
+  token: TokenToMint & Id
   metadata: string
   api: ApiPromise
   accountId: string
@@ -124,14 +124,15 @@ export const getSupportInteraction = (
   item: ActionMintToken,
   enabledFees: boolean,
   feeMultiplier: number,
-  api,
+  api: ApiPromise,
+  tokenSymbol: SupportTokens,
 ) => {
   const howManyTimesToChargeSupportFees = Array.isArray(item.token)
     ? item.token.length
     : 1
 
   const totalFees = feeMultiplier * howManyTimesToChargeSupportFees
-  return canSupport(api, enabledFees, totalFees)
+  return canSupport(api, enabledFees, totalFees, tokenSymbol)
 }
 
 const getArgs = async (item: ActionMintToken, api) => {
@@ -143,12 +144,13 @@ const getArgs = async (item: ActionMintToken, api) => {
     const arg = await Promise.all(
       tokens.map((token) => singleTokenTxs(token, api)),
     )
-    const { enabledFees, feeMultiplier } = calculateFees()
+    const { enabledFees, feeMultiplier, token: tokenSymbol } = calculateFees()
     const supportInteraction = await getSupportInteraction(
       item,
       enabledFees,
       feeMultiplier,
       api,
+      tokenSymbol,
     )
 
     return [[...arg.flat(), ...supportInteraction]]
@@ -172,13 +174,13 @@ const getArgs = async (item: ActionMintToken, api) => {
 
   const arg = await multipleTokensTxs(tokensWithIds, metadata, api)
 
-  const { enabledFees, feeMultiplier } = calculateFees()
-
+  const { enabledFees, feeMultiplier, token: tokenSymbol } = calculateFees()
   const supportInteraction = await getSupportInteraction(
     item,
     enabledFees,
     feeMultiplier,
     api,
+    tokenSymbol,
   )
 
   return [[...arg, ...supportInteraction]]
