@@ -165,6 +165,13 @@ const amount = ref(0) //Required amount to be transfered is stored here
 const unsubscribeKusamaBalance = ref()
 const teleportFee = ref()
 
+const DOT_BUFFER_FEE = 100000000 // 0.01
+const KSM_BUFFER_FEE = 1000000000 // 0.001
+
+const teleportBufferFee = computed(() =>
+  currency.value === 'DOT' ? DOT_BUFFER_FEE : KSM_BUFFER_FEE,
+)
+
 const nativeAmount = computed(() =>
   Math.floor(amount.value * Math.pow(10, currentTokenDecimals.value)),
 )
@@ -383,7 +390,7 @@ watch(
       fromAddress: fromAddress.value,
       currency: currency.value,
     })
-    teleportFee.value = Number(fee)
+    teleportFee.value = Number(fee) + teleportBufferFee.value
   },
   { immediate: true },
 )
