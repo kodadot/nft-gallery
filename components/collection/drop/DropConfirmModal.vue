@@ -88,7 +88,6 @@ const confirm = () => {
 </script>
 
 <style lang="scss" scoped>
-@use 'sass:string';
 @import '@/assets/styles/abstracts/variables';
 @import '@/assets/styles/abstracts/animations';
 
@@ -101,10 +100,12 @@ const confirm = () => {
 }
 
 .shine {
-  @include ktheme() {
-    @include shineEffect(string.unquote(theme('k-accentlight3')), lightgrey);
-    &:hover {
-      color: theme('k-accent') !important;
+  &:not(:disabled) {
+    @include ktheme() {
+      @include shineEffect(theme('k-accentlight3'), lightgrey);
+      &:hover {
+        color: theme('k-accent') !important;
+      }
     }
   }
 }
