@@ -3,7 +3,7 @@ import { expect, test } from './fixtures'
 const collectionName = 'Pare1d0scope'
 const collectionAddress = '/ahp/collection/38/'
 
-test('Collection', async ({ page, Commands }) => {
+test('Collection interactions', async ({ page, Commands }) => {
   await page.goto(collectionAddress)
   await Commands.scrollDownAndStop()
   await expect(page.getByTestId('collection-banner-name')).toContainText(
@@ -65,6 +65,7 @@ test('Collection', async ({ page, Commands }) => {
   await page.getByTestId('filter-artview-checkbox').nth(1).click()
   //ACTIVITY TAB ----------------------------
   await page.getByTestId('collection-tab-activity').nth(1).click()
+  await Commands.scrollDownAndStop()
   //chart
   await expect(page.getByTestId('collection-activity-chart')).toBeVisible()
   //Holders Tab
@@ -77,14 +78,23 @@ test('Collection', async ({ page, Commands }) => {
   await page.getByTestId('collection-nft-holder-address').first().hover()
   await expect(page.getByTestId('identity-popover-container')).toBeVisible()
   //event filters
-  await page.getByTestId('event-checkbox-filter-sale').nth(1).click()
   const eventTable = page.getByTestId('nfts-event-table')
+  const saleFilter = page.getByTestId('event-checkbox-filter-sale').nth(1)
+  const listingFilter = page.getByTestId('event-checkbox-filter-listing').nth(1)
+  const mintFilter = page.getByTestId('event-checkbox-filter-mint').nth(1)
+  const transferFilter = page
+    .getByTestId('event-checkbox-filter-transfer')
+    .nth(1)
+  await saleFilter.check()
   await expect(eventTable).toContainText('Sale')
-  await page.getByTestId('event-checkbox-filter-listing').nth(1).click()
+  await saleFilter.uncheck()
+  await listingFilter.check()
   await expect(eventTable).toContainText('List')
-  await page.getByTestId('event-checkbox-filter-mint').nth(1).click()
+  await listingFilter.uncheck()
+  await mintFilter.check()
   await expect(eventTable).toContainText('Mint')
-  await page.getByTestId('event-checkbox-filter-transfer').nth(1).click()
+  await mintFilter.uncheck()
+  await transferFilter.check()
   await expect(eventTable).toContainText('Transfer')
   //check if creator address redirects to proper page
   await page.getByTestId('collection-creator-address').click()

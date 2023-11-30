@@ -105,7 +105,7 @@ const processSingleTokenToMint = async (
   return {
     arg: [
       ...mintInteraction.map((nft) => asSystemRemark(api, nft)),
-      ...(await canSupport(api, enabledFees, feeMultiplier)),
+      ...(await canSupport(api, enabledFees, feeMultiplier, 'KSM')),
     ],
     createdNFTs: mint,
   }

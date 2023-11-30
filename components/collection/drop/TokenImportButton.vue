@@ -15,6 +15,7 @@
 </template>
 
 <script setup lang="ts">
+import { Builder } from '@paraspell/sdk'
 import { NeoButton } from '@kodadot1/brick'
 import { ApiFactory } from '@kodadot1/sub-api'
 import { getChainEndpointByPrefix } from '@/utils/chain'
@@ -36,7 +37,7 @@ const props = defineProps({
 })
 
 const { neoModal } = useProgrammatic()
-const root = ref<Vue>()
+const root = ref()
 
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue'),
@@ -58,10 +59,8 @@ const handleTokenImport = async () => {
   }
 
   const api = await getApi()
-  const to = urlPrefix.value === 'ahk' ? 'Statemine' : 'Statemint'
-  const paraspell = await import('@paraspell/sdk')
-  const call = paraspell
-    .Builder(api)
+  const to = urlPrefix.value === 'ahk' ? 'AssetHubKusama' : 'AssetHubPolkadot'
+  const call = Builder(api)
     .to(to)
     .amount(props.price)
     .address(accountId.value)

@@ -1,7 +1,7 @@
 <template>
   <div class="my-3">
     <div v-if="url && isModelMedia" class="p-2 mx-auto">
-      <MediaItem
+      <BaseMediaItem
         :src="url"
         :mime-type="mimeType"
         :preview="false"
@@ -20,7 +20,7 @@
             <div class="content has-text-centered">
               <NeoIcon v-if="!file && !url" :icon="icon" custom-size="fa-2x" />
               <div v-if="url && !isModelMedia" @click.prevent>
-                <MediaItem
+                <BaseMediaItem
                   :src="url"
                   :mime-type="mimeType"
                   :preview="false"
@@ -53,7 +53,6 @@
 </template>
 
 <script lang="ts" setup>
-import { MediaItem } from '@kodadot1/brick'
 import { MAX_UPLOADED_FILE_SIZE } from '@/utils/constants'
 import { NeoField, NeoIcon, NeoUpload } from '@kodadot1/brick'
 import { useEventListener } from '@vueuse/core'
