@@ -90,6 +90,11 @@
       </div>
     </div>
   </div>
+
+  <CollectionDropConfirmModal
+    v-model="isConfirmModalActive"
+    @confirm="handleConfirmMint"
+    @close="closeConfirmModal" />
 </template>
 
 <script setup lang="ts">
@@ -107,6 +112,7 @@ import { useDropStatus } from '@/components/drops/useDrops'
 import { makeScreenshot } from '@/services/capture'
 import { pinFileToIPFS } from '@/services/nftStorage'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import newsletterApi from '@/utils/newsletter'
 
 const NuxtLink = resolveComponent('NuxtLink')
 
@@ -137,6 +143,7 @@ const { isLogIn } = useAuth()
 const justMinted = ref('')
 const isLoading = ref(false)
 const isImageFetching = ref(false)
+const isConfirmModalActive = ref(false)
 
 const handleSelectImage = (image: string) => {
   selectedImage.value = image
@@ -218,6 +225,27 @@ const handleSubmitMint = async () => {
     return false
   }
 
+  openConfirmModal()
+}
+
+const closeConfirmModal = () => {
+  isConfirmModalActive.value = false
+}
+
+const openConfirmModal = () => {
+  isConfirmModalActive.value = true
+}
+
+const subscribe = async (email: string) => {
+  try {
+    await newsletterApi.subscribe(email)
+  } catch (error) {
+    dangerMessage($i18n.t('signupBanner.failed'))
+    throw error
+  }
+}
+
+const submitMint = async (email: string) => {
   try {
     isImageFetching.value = true
 
@@ -234,13 +262,13 @@ const handleSubmitMint = async () => {
     isImageFetching.value = false
 
     const { accountId } = useAuth()
-    isLoading.value = true
 
     const id = await doWaifu(
       {
         address: accountId.value,
         metadata: hash,
         image: imageHash,
+        email,
       },
       props.drop.id,
     ).then((res) => {
@@ -261,6 +289,17 @@ const handleSubmitMint = async () => {
     toast($i18n.t('drops.mintPerAddress'))
     isLoading.value = false
     isImageFetching.value = false
+  }
+}
+
+const handleConfirmMint = async ({ email }) => {
+  try {
+    closeConfirmModal()
+    isLoading.value = true
+    await subscribe(email)
+    await submitMint(email)
+  } catch (error) {
+    isLoading.value = false
   }
 }
 </script>

@@ -59,6 +59,7 @@ type DoRequest = {
   address: string
   metadata: string
   image: string
+  email?: string
 }
 
 type DoResponse = {
