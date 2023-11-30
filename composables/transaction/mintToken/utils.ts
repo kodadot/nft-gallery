@@ -6,6 +6,7 @@ import {
   MintedCollection,
   TokenToMint,
 } from '../types'
+import { chainAssetOf } from '@/utils/config/chain.config'
 
 export const copiesToMint = <T extends TokenToMint>(token: T): number => {
   const { copies, selectedCollection } = token
@@ -19,6 +20,9 @@ export const copiesToMint = <T extends TokenToMint>(token: T): number => {
 
 export const calculateFees = () => {
   const preferences = usePreferencesStore()
+  const { urlPrefix } = usePrefix()
+  const { symbol } = chainAssetOf(urlPrefix.value)
+
   const enabledFees: boolean =
     preferences.getHasSupport || preferences.getHasCarbonOffset
 
@@ -26,7 +30,7 @@ export const calculateFees = () => {
     Number(preferences.getHasSupport) +
     2 * Number(preferences.getHasCarbonOffset)
 
-  return { enabledFees, feeMultiplier }
+  return { enabledFees, feeMultiplier, token: symbol }
 }
 
 export const getNameInNotifications = (item: ActionMintToken) => {

@@ -19,6 +19,8 @@ import {
 
 import { Interaction } from '@kodadot1/minimark/v1'
 import consola from 'consola'
+import { type Prefix } from '@kodadot1/static'
+import { getPercentSupportFee } from '@/utils/support'
 
 export function transactionOfferFactory(key: 'acceptOffer' | 'withdrawOffer') {
   return function (params: ActionWithdrawOffer, api, executeTransaction) {
@@ -81,4 +83,24 @@ export function isActionValid(action: Actions): boolean {
   }
 
   return checker(action)
+}
+
+export function useBuySupportFee(
+  prefix: ComputedRef<Prefix>,
+  amount: ComputedRef<string | number>,
+) {
+  const { isRemark, isAssetHub } = useIsChain(prefix)
+
+  const hasBuySupportFee = computed(
+    () => isRemark.value || isAssetHub.value || false,
+  )
+
+  const supportFee = computed(() =>
+    hasBuySupportFee.value ? getPercentSupportFee(amount.value) : 0,
+  )
+
+  return {
+    hasBuySupportFee,
+    supportFee,
+  }
 }
