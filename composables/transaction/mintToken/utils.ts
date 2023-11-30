@@ -80,3 +80,27 @@ export const expandCopies = <T extends TokenToMint>(tokens: T[]): T[] => {
       })
   })
 }
+export type Id = { id: number }
+
+export const assignIds = <T extends TokenToMint>(
+  tokens: T[],
+  lastTokenId: number,
+): (T & Id)[] =>
+  tokens.map((token, index) => {
+    const nextId = lastTokenId + 1 + index
+    return {
+      ...token,
+      id: nextId,
+    }
+  })
+
+export const lastIndexUsed = async (collection: MintedCollection, api) => {
+  const { id, lastIndexUsed } = collection
+  const lastOnChainIndex = await getNextTokenIdOnChain(api, id)
+  return Math.max(lastIndexUsed, lastOnChainIndex)
+}
+
+const getNextTokenIdOnChain = (api, collectionId) =>
+  api.query.nfts
+    .collection(collectionId)
+    .then((res) => Number(res.toHuman().items) || 0)
