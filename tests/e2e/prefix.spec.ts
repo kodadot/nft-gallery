@@ -1,7 +1,5 @@
 import { expect, test } from './fixtures'
 
-//const CHAINS2 = ['bsx', 'ahp', 'ahk', 'rmrk', 'rmrk2']
-
 const CHAINS = [
   {
     dropdownText: 'bsx',
