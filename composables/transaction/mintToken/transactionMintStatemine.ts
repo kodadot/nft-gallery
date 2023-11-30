@@ -12,37 +12,32 @@ import {
 } from './utils'
 import { canSupport } from '@/utils/support'
 import { constructDirectoryMeta } from './constructDirectoryMeta'
+import { ApiPromise } from '@polkadot/api'
 
-export const singleTokenTxs = async (token: TokenToMint & Id, api) => {
-  const { id: collectionId } = token.selectedCollection as BaseMintedCollection
+interface BuildTokenTxsParams {
+  token: TokenToMint
+  metadata: string
+  api: ApiPromise
+  accountId: string
+  collectionId: string
+}
+
+const buildTokenTxs = ({
+  token,
+  metadata,
+  api,
+  accountId,
+  collectionId,
+}: BuildTokenTxsParams) => {
   const { price, id: nextId, hasRoyalty, royalty } = token
 
-  const { accountId } = useAuth()
-  const { $consola } = useNuxtApp()
-
-  const metadata = await constructMeta(token).catch((e) => {
-    $consola.error(
-      'Error while constructing metadata for token:\n',
-      token,
-      '\n',
-      e,
-    )
-  })
-
-  const create = api.tx.nfts.mint(
-    collectionId,
-    nextId,
-    accountId.value,
-    undefined,
-  )
-
+  const create = api.tx.nfts.mint(collectionId, nextId, accountId, undefined)
   const meta = api.tx.nfts.setMetadata(collectionId, nextId, metadata)
 
   const list =
     Number(price) > 0
       ? [api.tx.nfts.setPrice(collectionId, nextId, price, undefined)]
       : []
-
   const txs = [create, meta, ...list]
 
   if (royalty && isRoyaltyValid(royalty) && hasRoyalty) {
@@ -53,7 +48,6 @@ export const singleTokenTxs = async (token: TokenToMint & Id, api) => {
       'royalty',
       royalty.amount,
     )
-
     const setRoyaltyRecipient = api.tx.nfts.setAttribute(
       collectionId,
       nextId,
@@ -67,6 +61,32 @@ export const singleTokenTxs = async (token: TokenToMint & Id, api) => {
   return txs
 }
 
+export const singleTokenTxs = async (token: TokenToMint & Id, api) => {
+  const { id: collectionId } = token.selectedCollection as BaseMintedCollection
+
+  const { accountId } = useAuth()
+  const { $consola } = useNuxtApp()
+
+  const metadata = await constructMeta(token).catch((e) => {
+    $consola.error(
+      'Error while constructing metadata for token:\n',
+      token,
+      '\n',
+      e,
+    )
+  })
+  if (!metadata) {
+    return
+  }
+  return buildTokenTxs({
+    token,
+    metadata,
+    api,
+    accountId: accountId.value,
+    collectionId,
+  })
+}
+
 export const multipleTokensTxs = async (
   tokens: (TokenToMint & Id)[],
   metadata: string[],
@@ -77,47 +97,15 @@ export const multipleTokensTxs = async (
 
   const { accountId } = useAuth()
 
-  return tokens.flatMap((token, index) => {
-    const { price, id: nextId, hasRoyalty, royalty } = token
-    const tokenMetadata = metadata[index]
-
-    const create = api.tx.nfts.mint(
+  return tokens.flatMap((token, index) =>
+    buildTokenTxs({
+      token,
+      metadata: metadata[index],
+      api,
+      accountId: accountId.value,
       collectionId,
-      nextId,
-      accountId.value,
-      undefined,
-    )
-
-    const meta = api.tx.nfts.setMetadata(collectionId, nextId, tokenMetadata)
-
-    const list =
-      Number(price) > 0
-        ? [api.tx.nfts.setPrice(collectionId, nextId, price, undefined)]
-        : []
-
-    const txs = [create, meta, ...list]
-
-    if (royalty && isRoyaltyValid(royalty) && hasRoyalty) {
-      const setRoyaltyAmount = api.tx.nfts.setAttribute(
-        collectionId,
-        nextId,
-        'ItemOwner',
-        'royalty',
-        royalty.amount,
-      )
-
-      const setRoyaltyRecipient = api.tx.nfts.setAttribute(
-        collectionId,
-        nextId,
-        'ItemOwner',
-        'recipient',
-        royalty.address,
-      )
-      txs.push(setRoyaltyAmount, setRoyaltyRecipient)
-    }
-
-    return txs
-  })
+    }),
+  )
 }
 
 export const expandCopiesWithsIds = async (item: ActionMintToken, api) => {
@@ -176,8 +164,11 @@ const getArgs = async (item: ActionMintToken, api) => {
   const tokensWithIds = assignIds(item.token, lastTokenId)
   const metadata = await constructDirectoryMeta(tokensWithIds).catch((e) => {
     $consola.error('Error while constructing metadata for tokens:\n', e)
-    throw e
   })
+
+  if (!metadata) {
+    return
+  }
 
   const arg = await multipleTokensTxs(tokensWithIds, metadata, api)
 
