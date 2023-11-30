@@ -11,7 +11,7 @@ import {
   transactionFactory,
 } from './utils'
 import { canSupport } from '@/utils/support'
-import { constructDirectoryMeta } from '../massMintTokens/constructDirectoryMeta'
+import { constructDirectoryMeta } from './constructDirectoryMeta'
 
 export const singleTokenTxs = async (token: TokenToMint & Id, api) => {
   const { id: collectionId } = token.selectedCollection as BaseMintedCollection
