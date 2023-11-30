@@ -31,7 +31,7 @@
 
         <div class="is-flex is-justify-content-space-between pt-4">
           <NeoButton
-            class="is-flex is-flex-1 btn-height is-capitalized shine"
+            class="is-flex is-flex-1 h-14 is-capitalized shine"
             :disabled="disabled"
             no-shadow
             variant="k-accent"
@@ -95,17 +95,11 @@ const confirm = () => {
   width: 25rem;
 }
 
-.btn-height {
-  height: 3.5rem;
-}
-
 .shine {
   &:not(:disabled) {
-    @include ktheme() {
-      @include shineEffect(theme('k-accentlight3'), lightgrey);
-      &:hover {
-        color: theme('k-accent') !important;
-      }
+    @include shineEffect(var(--k-accent-light-3), lightgrey);
+    &:hover {
+      color: var(--k-accent) !important;
     }
   }
 }
