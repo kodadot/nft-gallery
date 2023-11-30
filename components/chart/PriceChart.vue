@@ -237,6 +237,8 @@ const getPriceChartData = () => {
               },
             },
             tooltip: {
+              xAlign: 'center',
+              yAlign: 'top',
               callbacks: {
                 label: function (context) {
                   return `Price: ${context.parsed.y} ${chainSymbol.value}`
