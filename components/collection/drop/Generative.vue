@@ -2,6 +2,7 @@
   <div class="unlockable-container">
     <CollectionUnlockableLoader
       v-if="isLoading"
+      :duration="MINTING_SECOND"
       :minted="justMinted"
       model-value
       @model-value="isLoading = false" />
@@ -110,6 +111,7 @@ import { pinFileToIPFS } from '@/services/nftStorage'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 const NuxtLink = resolveComponent('NuxtLink')
+const MINTING_SECOND = 120
 
 const props = defineProps({
   drop: {
@@ -221,6 +223,7 @@ const handleSubmitMint = async () => {
 
   try {
     isImageFetching.value = true
+    isLoading.value = true
 
     const imageHash = await tryCapture()
 
@@ -235,7 +238,6 @@ const handleSubmitMint = async () => {
     isImageFetching.value = false
 
     const { accountId } = useAuth()
-    isLoading.value = true
 
     const id = await doWaifu(
       {
@@ -257,7 +259,7 @@ const handleSubmitMint = async () => {
       justMinted.value = id
       toast('You will be redirected in few seconds', { duration: 3000 })
       return navigateTo(`/${urlPrefix.value}/gallery/${id}`)
-    }, 44000)
+    }, MINTING_SECOND * 1000)
   } catch (error) {
     toast($i18n.t('drops.mintPerAddress'))
     isLoading.value = false
