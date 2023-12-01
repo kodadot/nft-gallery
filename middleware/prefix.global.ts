@@ -15,6 +15,15 @@ export default defineNuxtRouteMiddleware((route) => {
     (prefix) => location.hostname.startsWith(`${prefix}.`),
   )
 
+  if (
+    [urlPrefix.value, prefixInPath].includes('dot') &&
+    route.path !== '/dot/transfer'
+  ) {
+    setUrlPrefix('ahp')
+    navigateTo(route.path.replace(prefixInPath, 'ahp'))
+    return
+  }
+
   if (rmrk2ChainPrefixInHostname) {
     // fixed chain domain (for example: rmrk2.kodadot.xyz)
 
