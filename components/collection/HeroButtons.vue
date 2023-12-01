@@ -70,7 +70,8 @@
             <CollectionHeroButtonDeleteNfts />
             <CollectionHeroButtonDeleteCollection />
             <CollectionHeroButtonCustomizeCollection
-              :min="collectionNftCount" />
+              :min="collectionNftCount"
+              :max="collectionMaxCount" />
           </div>
           <NeoDropdownItem disabled>
             {{ $i18n.t('moreActions.reportCollection') }}
@@ -116,6 +117,7 @@ const { collection } = useCollectionMinimal({
 })
 const collectionIssuer = computed(() => collection.value?.issuer)
 const collectionNftCount = computed(() => collection.value?.nftCount)
+const collectionMaxCount = computed(() => collection.value?.max)
 
 const { twitter } = useIdentity({
   address: collectionIssuer,

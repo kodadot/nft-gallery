@@ -53,13 +53,14 @@ const route = useRoute()
 const props = defineProps<{
   modelValue: boolean
   min: number
+  max: number
 }>()
 const emit = defineEmits(['update:value', 'customize'])
 
 const value = useVModel(props, 'modelValue')
 
 const min = computed(() => props.min || 1)
-const max = ref(undefined)
+const max = ref(props.max)
 
 const customizeCollection = async () => {
   $updateLoader(true)

@@ -6,6 +6,7 @@
   <CollectionCustomizeModal
     v-model="customizeCollectionModalActive"
     :min="min"
+    :max="max"
     @customize="closeModal" />
 </template>
 
@@ -15,9 +16,11 @@ import { NeoDropdownItem } from '@kodadot1/brick'
 withDefaults(
   defineProps<{
     min: number
+    max: number
   }>(),
   {
     min: undefined,
+    max: undefined,
   },
 )
 
