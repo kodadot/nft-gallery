@@ -2,7 +2,6 @@
 @import '@oruga-ui/oruga-next/src/scss/utilities/_variables.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_animations.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_helpers.scss';
-@import '../../scss/variable.scss';
 
 $dropdown-menu-padding: 0;
 $dropdown-menu-margin: 1rem 0;
@@ -15,42 +14,27 @@ $dropdown-item-hover-background-color: #ffe5f3;
 @import '@oruga-ui/oruga-next/src/scss/components/_dropdown.scss';
 
 .o-drop__item {
-  @include ktheme() {
-    border-bottom: 1px solid theme('border-color');
-    color: theme('text-color')!important;
-  }
+  @apply border-b border-b-border-color text-text-color;
 
   &:hover {
-    @include ktheme() {
-      background: theme('k-accentHover');
-    }
+    @apply bg-k-accent-hover;
   }
 
   &.is-active,
   &--active,
   &[active='true'] {
-    @include ktheme() {
-      color: theme('text-color-inverse') !important;
-      background: theme('background-color-inverse') !important;
-    }
+    @apply text-text-color-inverse bg-background-color-inverse;
   }
 
   .o-tip {
-    width: 100%;
+    @apply w-full;
   }
 }
 
 .o-drop__menu {
-  @include ktheme() {
-    box-shadow: theme('primary-shadow');
-    border: 1px solid theme('border-color');
-    color: theme('text-color');
-    background: theme('background-color');
-  }
+  @apply shadow-primary border-default border-border-color text-text-color bg-background-color;
 
   &.no-shadow {
-    box-shadow: none !important;
+    @apply shadow-none;
   }
-
 }
-

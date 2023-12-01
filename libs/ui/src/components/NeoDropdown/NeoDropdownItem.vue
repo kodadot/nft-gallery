@@ -12,10 +12,6 @@ export default {
           [this.computedClass('itemDisabledClass', 'o-drop__item--disabled')]:
             this.parent.disabled || this.disabled,
         },
-        // {
-        //   [this.computedClass('itemActiveClass', 'o-drop__item--active')]:
-        //     this.isActive,
-        // },
       ]
     },
   },
