@@ -8,6 +8,6 @@
     @apply whitespace-normal;
   }
   &__menu {
-    @apply mt-4 p-0 shadow-primary border border-border-color text-text-color bg-background-color;
+    @apply mt-4 p-0 shadow-primary border-default border-border-color text-text-color bg-background-color;
   }
 }
