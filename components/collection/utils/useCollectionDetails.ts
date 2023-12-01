@@ -13,6 +13,7 @@ const differentOwner = (nft: {
 
 export const useCollectionDetails = ({ collectionId }) => {
   const { urlPrefix } = usePrefix()
+  const { apiInstance } = useApi()
   const { data } = useGraphql({
     queryPrefix: 'subsquid',
     queryName: chainsSupportingOffers.includes(urlPrefix.value)
@@ -24,7 +25,7 @@ export const useCollectionDetails = ({ collectionId }) => {
   })
   const stats = ref<Stats>({})
 
-  watch(data, () => {
+  watch(data, async () => {
     if (data.value?.stats) {
       const uniqueOwnerCount = [
         ...new Set(data.value.stats.base.map((item) => item.currentOwner)),
@@ -47,8 +48,14 @@ export const useCollectionDetails = ({ collectionId }) => {
       })
 
       const listedNfts = data.value.stats.listed
+      const api = await apiInstance.value
+      const supply = await api.query.nfts.collectionConfigOf(collectionId)
+      const supplyString = supply.toString()
+      const supplyJsonParse = JSON.parse(supplyString)
+      const getTotalSupply = supplyJsonParse.maxSupply || 'Unlimited'
 
       stats.value = {
+        maxSupply: getTotalSupply,
         listedCount: data.value.stats.listed.length,
         collectionLength: data.value.stats.base.length,
         collectionFloorPrice:

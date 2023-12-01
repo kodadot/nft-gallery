@@ -34,6 +34,7 @@
             :value="stats.uniqueOwners" />
         </div>
         <div>
+          <CollectionInfoLine title="Total Supply" :value="stats.maxSupply" />
           <CollectionInfoLine :title="$t('activity.floor')">
             <CommonTokenMoney
               :value="stats.collectionFloorPrice"

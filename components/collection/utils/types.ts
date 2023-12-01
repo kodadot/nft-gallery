@@ -8,6 +8,7 @@ export type Stats = {
   uniqueOwners?: number
   uniqueOwnersPercent?: string
   collectionTradedVolumeNumber?: string | number
+  maxSupply?: number | string
 }
 
 export type CollectionEntityMinimal = {
