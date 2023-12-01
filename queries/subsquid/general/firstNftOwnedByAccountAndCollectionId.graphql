@@ -1,8 +1,0 @@
-query firstNftOwnedByAccountAndCollectionId($id: String!, $account: String!) {
-  collection: collectionEntityById(id: $id) {
-    id
-    nfts(limit: 1, where: { currentOwner_eq:$account, burned_eq: false }) {
-      id
-    }
-  }
-}
