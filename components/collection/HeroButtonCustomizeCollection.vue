@@ -6,11 +6,10 @@
   <CollectionCustomizeModal
     v-model="customizeCollectionModalActive"
     :min="min"
-    @customize="closeAndCustomize" />
+    @customize="closeModal" />
 </template>
 
 <script setup lang="ts">
-import { Collections } from '@/composables/transaction/types'
 import { NeoDropdownItem } from '@kodadot1/brick'
 
 withDefaults(
@@ -22,27 +21,10 @@ withDefaults(
   },
 )
 
-const route = useRoute()
-const { $i18n, $updateLoader } = useNuxtApp()
-const { transaction } = useTransaction()
-const { urlPrefix } = usePrefix()
-// const { accountId } = useAuth()
-
+const { $i18n } = useNuxtApp()
 const customizeCollectionModalActive = ref(false)
 
-const customizeCollection = async () => {
-  $updateLoader(true)
-  const id = route.params.id.toString()
-
-  await transaction({
-    interaction: Collections.SET_MAX_SUPPLY,
-    urlPrefix: urlPrefix.value,
-    collectionId: id,
-  })
-}
-
-const closeAndCustomize = () => {
+const closeModal = () => {
   customizeCollectionModalActive.value = false
-  customizeCollection()
 }
 </script>

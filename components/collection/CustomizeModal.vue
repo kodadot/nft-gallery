@@ -25,7 +25,7 @@
           class="has-text-weight-bold mr-4"
           variant="text"
           no-shadow
-          @click="emit('customize')">
+          @click="customizeCollection">
           <span class="has-text-k-green">
             {{ $t('Update') }}
           </span>
@@ -43,6 +43,12 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoField, NeoInput, NeoModal } from '@kodadot1/brick'
+import { Collections } from '@/composables/transaction/types'
+
+const { $updateLoader } = useNuxtApp()
+const { transaction } = useTransaction()
+const { urlPrefix } = usePrefix()
+const route = useRoute()
 
 const props = defineProps<{
   modelValue: boolean
@@ -54,6 +60,19 @@ const value = useVModel(props, 'modelValue')
 
 const min = computed(() => props.min || 1)
 const max = ref(undefined)
+
+const customizeCollection = async () => {
+  $updateLoader(true)
+
+  await transaction({
+    interaction: Collections.SET_MAX_SUPPLY,
+    collectionId: route.params.id.toString(),
+    urlPrefix: urlPrefix.value,
+    max: Number(max.value),
+  })
+
+  emit('customize')
+}
 </script>
 
 <style lang="scss" scoped>
