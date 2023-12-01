@@ -18,7 +18,8 @@ import { execMakeOfferTx } from './transaction/transactionOffer'
 import { execWithdrawOfferTx } from './transaction/transactionOfferWithdraw'
 import { execAcceptOfferTx } from './transaction/transactionOfferAccept'
 import { execMintToken } from './transaction/transactionMintToken'
-
+import { execMintCollection } from './transaction/transactionMintCollection'
+import { execSetCollectionMaxSupply } from './transaction/transactionSetCollectionMaxSupply'
 import {
   ActionAcceptOffer,
   ActionBurnMultipleNFTs,
@@ -30,6 +31,7 @@ import {
   ActionMintToken,
   ActionOffer,
   ActionSend,
+  ActionSetCollectionMaxSupply,
   ActionWithdrawOffer,
   Actions,
   Collections,
@@ -37,7 +39,6 @@ import {
   NFTs,
   ObjectMessage,
 } from './transaction/types'
-import { execMintCollection } from './transaction/transactionMintCollection'
 import { ApiPromise } from '@polkadot/api'
 import { isActionValid } from './transaction/utils'
 const { $consola } = useNuxtApp()
@@ -172,6 +173,12 @@ export const executeAction = ({
     [Collections.DELETE]: () =>
       execBurnCollection(
         item as ActionDeleteCollection,
+        api,
+        executeTransaction,
+      ),
+    [Collections.SET_MAX_SUPPLY]: () =>
+      execSetCollectionMaxSupply(
+        item as ActionSetCollectionMaxSupply,
         api,
         executeTransaction,
       ),
