@@ -30,6 +30,7 @@ export interface CarouselNFT extends ItemResources {
   }
   name: string
   price: string
+  latestSalePrice?: string
   timestamp: string
   unixTime: number
   metadata?: string

@@ -6,20 +6,18 @@
       :src="playerCover"
       :placeholder="placeholder"
       :alt="alt"
-      :is-detail="isDetail"
-      :original="original"
-      :is-dark-mode="isDarkMode" />
+      :original="original" />
 
     <NeoAudioPlayer
       v-show="!hoverOnCoverPlay"
       ref="audioPlayer"
       :src="animationSrc"
-      class="w-full border-top" />
+      class="w-full border-t border-t-border-color" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
+import { ref, watch, withDefaults } from 'vue'
 import { useElementHover, watchDebounced } from '@vueuse/core'
 import { NeoAudioPlayer } from '@kodadot1/brick'
 import ImageMedia from './ImageMedia.vue'
@@ -35,11 +33,10 @@ const props = withDefaults(
     alt?: string
     original: boolean
     placeholder: string
-    isDetail?: boolean
-    isDarkMode?: boolean
   }>(),
   {
     parentHovering: undefined,
+    alt: '',
   },
 )
 
@@ -54,7 +51,7 @@ if (props.hoverOnCoverPlay) {
   if (props.parentHovering !== undefined) {
     watchDebounced(
       () => props.parentHovering,
-      (hovering) => handleCoverHover(hovering),
+      (hovering) => handleCoverHover(Boolean(hovering)),
       { debounce: computed(() => (props.parentHovering ? hoverDelay : 0)) },
     )
   } else {

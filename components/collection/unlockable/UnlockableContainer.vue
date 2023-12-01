@@ -3,7 +3,8 @@
     <CollectionUnlockableLoader
       v-if="isLoading"
       model-value
-      :minted="justMinted" />
+      :minted="justMinted"
+      @model-value="isLoading = false" />
     <CountdownTimer />
     <hr class="text-color my-0" />
     <div class="container is-fluid">
@@ -17,9 +18,7 @@
           <div
             class="is-flex is-justify-content-space-between is-align-items-center my-5">
             <span class="">Total available items</span>
-            <span class=""
-              >{{ totalAvailableMintCount }} / {{ totalCount }}</span
-            >
+            <span class="">{{ totalAvailableMintCount }} / {{ maxCount }}</span>
           </div>
           <UnlockableTag :collection-id="collectionId" />
 
@@ -109,6 +108,7 @@ import { NeoButton } from '@kodadot1/brick'
 import { useCountDown } from './utils/useCountDown'
 import CarouselTypeLatestMints from '@/components/carousel/CarouselTypeLatestMints.vue'
 import { DropItem } from '@/params/types'
+import { useDropStatus } from '@/components/drops/useDrops'
 
 const props = defineProps({
   drop: {
@@ -130,9 +130,11 @@ const selectedImage = ref('')
 const MAX_PER_WINDOW = 10
 
 const isLoading = ref(false)
-const { accountId, isLogIn } = useAuth()
+const { isLogIn } = useAuth()
 const { hours, minutes, seconds } = useCountDown(countDownTime)
 const justMinted = ref('')
+const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
+  useDropStatus(props.drop.alias)
 
 onMounted(async () => {
   const res = await getLatestWaifuImages()
@@ -164,29 +166,17 @@ const { data: collectionData } = useGraphql({
   },
 })
 
-const {
-  data: stats,
-  loading: currentMintedLoading,
-  refetch: tryAgain,
-} = useGraphql({
-  queryName: 'firstNftOwnedByAccountAndCollectionId',
-  variables: {
-    id: collectionId.value,
-    account: accountId.value,
-  },
-})
-
-const hasUserMinted = computed(
-  () => stats.value?.collection.nfts?.at(0)?.id || justMinted.value,
+const hasUserMinted = computed(() =>
+  currentAccountMintedToken.value
+    ? `${collectionId.value}-${currentAccountMintedToken.value.id}`
+    : justMinted.value,
 )
 
-const totalCount = computed(
+const maxCount = computed(
   () => collectionData.value?.collectionEntity?.max || 300,
 )
 const totalAvailableMintCount = computed(
-  () =>
-    totalCount.value -
-    (collectionData.value?.nftEntitiesConnection?.totalCount || 0),
+  () => maxCount.value - Math.min(mintedDropCount.value, maxCount.value),
 )
 
 const { data, refetch } = useGraphql({
@@ -200,7 +190,6 @@ const { data, refetch } = useGraphql({
 
 const refetchData = async () => {
   await refetch()
-  await tryAgain()
 }
 
 useSubscriptionGraphql({
@@ -208,12 +197,6 @@ useSubscriptionGraphql({
     nftCount
   }`,
   onChange: refetchData,
-})
-
-watch(accountId, () => {
-  tryAgain({
-    account: accountId.value,
-  })
 })
 
 const mintedCount = computed(() => data.value?.minted?.count || 0)
@@ -271,6 +254,7 @@ const handleSubmitMint = async () => {
       scrollToTop()
       return `${collectionId.value}-${res.result.sn}`
     })
+    fetchDropStatus()
     // 40s timeout
     setTimeout(() => {
       isLoading.value = false

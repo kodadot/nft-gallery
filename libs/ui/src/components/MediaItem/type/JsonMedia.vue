@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-for="item in items" :key="item.key" class="columns">
-      <div class="column">
+    <div v-for="item in items" :key="item.key">
+      <div class="py-3">
         <b>{{ item.key }}</b
         >: {{ item.value }}
       </div>

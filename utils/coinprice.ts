@@ -70,7 +70,7 @@ const tokenMap = {
 export const getApproximatePriceOf = async (id: string): Promise<number> => {
   const coinId = tokenMap[id]
 
-  console.log('Fetching price from coingecko', id, coinId)
+  console.log('Fetching price', id, coinId)
 
   const data = await getPrice(coinId)
 
