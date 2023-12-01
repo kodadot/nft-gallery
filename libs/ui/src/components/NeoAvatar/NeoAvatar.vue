@@ -5,7 +5,7 @@
     :image-component="imageComponent"
     :src="avatar"
     :alt="name"
-    class="border neo-avatar"
+    :class="className"
     :width="size"
     :height="size"
     :style="customStyle"
@@ -17,7 +17,7 @@
     :width="size"
     :height="size"
     :style="customStyle"
-    class="border neo-avatar" />
+    :class="className" />
 </template>
 
 <script setup lang="ts">
@@ -37,8 +37,6 @@ const customStyle = computed(() => ({
   width: `${props.size}px`,
   height: `${props.size}px`,
 }))
-</script>
 
-<style lang="scss">
-@import './NeoAvatar.scss';
-</style>
+const className = 'border-default border-border-color max-w-none object-cover'
+</script>
