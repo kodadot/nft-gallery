@@ -40,11 +40,11 @@
 
       <hr />
 
-      <div class="is-flex is-justify-content-space-between mb-5">
+      <div
+        v-if="collection?.nftsOwned && collection.nfts"
+        class="is-flex is-justify-content-space-between mb-5">
         <p>{{ $t('migrate.ready.status') }}</p>
-        <p>
-          {{ collection?.nftsOwned?.length }}/{{ collection?.nfts?.length }}
-        </p>
+        <p>{{ collection.nftsOwned.length }}/{{ collection.nfts.length }}</p>
       </div>
 
       <div class="border border-k-shade p-2 is-flex is-size-7 has-text-grey">
