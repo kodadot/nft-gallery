@@ -34,7 +34,10 @@
             :value="stats.uniqueOwners" />
         </div>
         <div>
-          <CollectionInfoLine title="Total Supply" :value="stats.maxSupply" />
+          <CollectionInfoLine
+            v-if="isAssetHub"
+            title="Total Supply"
+            :value="stats.maxSupply" />
           <CollectionInfoLine :title="$t('activity.floor')">
             <CommonTokenMoney
               :value="stats.collectionFloorPrice"
@@ -78,6 +81,7 @@ const chain = computed(
     availableChains.value.find((chain) => chain.value === route.params.prefix)
       ?.text,
 )
+const { isAssetHub } = useIsChain(urlPrefix)
 const address = computed(() => collectionInfo.value?.currentOwner)
 const seeAllDescription = ref(false)
 const DESCRIPTION_MAX_LENGTH = 210
