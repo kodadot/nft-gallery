@@ -3,12 +3,17 @@ import type { ActionMintToken, MintedCollection } from '../types'
 import { TokenToMint } from '../types'
 import { constructMeta } from './constructMeta'
 import { calculateFees, expandCopies, transactionFactory } from './utils'
-import { canSupport } from '@/utils/support'
+import { SupportTokens, canSupport } from '@/utils/support'
+import { ApiPromise } from '@polkadot/api'
 
 type id = { id: number }
 
-export const assignIds = <T extends TokenToMint>(tokens: T[]): (T & id)[] => {
-  let lastId = 0
+export const assignIds = <T extends TokenToMint>(
+  tokens: T[],
+  lastTokenId: number,
+): (T & id)[] => {
+  let lastId = lastTokenId || 0
+
   return tokens.map((token) => {
     const { lastIndexUsed } = token.selectedCollection as MintedCollection
 
@@ -75,10 +80,16 @@ export const prepareTokenMintArgs = async (token: TokenToMint & id, api) => {
   return txs
 }
 
-export const prepTokens = (item: ActionMintToken) => {
+export const prepTokens = async (item: ActionMintToken, api) => {
   const tokens = Array.isArray(item.token) ? item.token : [item.token]
+
+  const lastTokenId = await getNextTokenIdOnChain(
+    api,
+    (tokens[0].selectedCollection as MintedCollection).id,
+  )
   const expandedTokens = expandCopies(tokens)
-  const tokensWithIds = assignIds(expandedTokens)
+
+  const tokensWithIds = assignIds(expandedTokens, lastTokenId)
   return tokensWithIds
 }
 
@@ -86,27 +97,35 @@ export const getSupportInteraction = (
   item: ActionMintToken,
   enabledFees: boolean,
   feeMultiplier: number,
-  api,
+  api: ApiPromise,
+  token: string,
 ) => {
   const howManyTimesToChargeSupportFees = Array.isArray(item.token)
     ? item.token.length
     : 1
 
   const totalFees = feeMultiplier * howManyTimesToChargeSupportFees
-  return canSupport(api, enabledFees, totalFees)
+  return canSupport(api, enabledFees, totalFees, token as SupportTokens)
+}
+
+const getNextTokenIdOnChain = async (api, collectionId) => {
+  return await api.query.nfts
+    .collection(collectionId)
+    .then((res) => Number(res.toHuman().items) || 0)
 }
 
 const getArgs = async (item: ActionMintToken, api) => {
-  const tokens = prepTokens(item)
+  const tokens = await prepTokens(item, api)
   const arg = await Promise.all(
     tokens.map((token) => prepareTokenMintArgs(token, api)),
   )
-  const { enabledFees, feeMultiplier } = calculateFees()
+  const { enabledFees, feeMultiplier, token } = calculateFees()
   const supportInteraction = await getSupportInteraction(
     item,
     enabledFees,
     feeMultiplier,
     api,
+    token,
   )
 
   return [[...arg.flat(), ...supportInteraction]]

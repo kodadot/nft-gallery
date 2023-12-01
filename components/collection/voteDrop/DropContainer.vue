@@ -1,6 +1,10 @@
 <template>
   <div class="unlockable-container">
-    <Loader v-model="isLoading" :minted="justMinted" />
+    <CollectionUnlockableLoader
+      v-if="isLoading"
+      model-value
+      :minted="justMinted"
+      @model-value="isLoading = false" />
     <CountdownTimer />
     <hr class="text-color my-0" />
     <div class="container is-fluid pb-4">
@@ -101,14 +105,10 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { useCountDown } from '../unlockable/utils/useCountDown'
 import { VOTE_DROP_DESCRIPTION, countDownTime } from './const'
-
+import { useDropStatus } from '@/components/drops/useDrops'
 import { DropItem } from '@/params/types'
 
 import { useCheckReferenDumVote } from '@/composables/drop/useCheckReferenDumVote'
-
-const Loader = defineAsyncComponent(
-  () => import('@/components/collection/unlockable/UnlockableLoader.vue'),
-)
 
 const props = defineProps({
   drop: {
@@ -121,7 +121,8 @@ const props = defineProps({
 const { $i18n } = useNuxtApp()
 const { neoModal } = useProgrammatic()
 const { accountId } = useAuth()
-
+const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
+  useDropStatus(props.drop.alias)
 const collectionId = computed(() => props.drop?.collection)
 
 const imageList = ref<string[]>([])
@@ -143,8 +144,8 @@ const buttonLabel = computed(() => {
   return needCheckEligible.value
     ? 'Check Eligibility'
     : isEligibleUser.value
-    ? 'Mint'
-    : 'Not Eligible'
+      ? 'Mint'
+      : 'Not Eligible'
 })
 
 const statusInformation = computed(() => {
@@ -157,19 +158,19 @@ const statusInformation = computed(() => {
         iconPack: 'fasr',
       }
     : isEligibleUser.value
-    ? {
-        label: $i18n.t('mint.unlockable.eligible'),
-        icon: 'circle-check',
-        iconPack: 'fasr',
-        iconClass: 'has-text-success',
-      }
-    : {
-        label: $i18n.t('mint.unlockable.exclusive'),
-        icon: 'circle-info',
-        iconClass: 'has-text-grey',
-        labelClass: 'has-text-grey',
-        iconPack: 'fasr',
-      }
+      ? {
+          label: $i18n.t('mint.unlockable.eligible'),
+          icon: 'circle-check',
+          iconPack: 'fasr',
+          iconClass: 'has-text-success',
+        }
+      : {
+          label: $i18n.t('mint.unlockable.exclusive'),
+          icon: 'circle-info',
+          iconClass: 'has-text-grey',
+          labelClass: 'has-text-grey',
+          iconPack: 'fasr',
+        }
 })
 
 const leftTime = computed(() => {
@@ -179,7 +180,7 @@ const leftTime = computed(() => {
   return isFinish ? 'Finished' : `${hoursLeft}${minutesLeft}Left`
 })
 
-const { data: collectionData, refetch } = useGraphql({
+const { data: collectionData } = useGraphql({
   queryName: 'dropCollectionById',
   variables: {
     id: collectionId.value,
@@ -198,18 +199,8 @@ watch(collectionData, () => {
 const totalCount = 300
 
 const totalAvailableMintCount = computed(
-  () => totalCount - collectionData.value?.collectionEntity?.nftCount,
+  () => totalCount - Math.min(mintedDropCount.value, totalCount),
 )
-
-useSubscriptionGraphql({
-  query: `nftEntities(
-    orderBy: id_ASC,
-    where: { burned_eq: false, collection: { id_eq: "${collectionId.value}" }}
-    ) {
-      id
-  }`,
-  onChange: refetch,
-})
 
 const mintedCount = computed(() => totalCount - totalAvailableMintCount.value)
 
@@ -221,17 +212,15 @@ const mintedPercent = computed(() => {
 const userMintedId = computed(
   () =>
     Boolean(accountId.value) &&
-    (collectionData.value?.nftEntitiesConnection?.edges?.[0]?.node?.id ||
-      justMinted.value),
+    (currentAccountMintedToken.value
+      ? `${collectionId.value}-${currentAccountMintedToken.value.id}`
+      : justMinted.value),
 )
 
 const mintCountAvailable = computed(() => mintedCount.value < totalCount)
 
-watch(accountId, (id) => {
+watch(accountId, () => {
   justMinted.value = ''
-  refetch({
-    account: id,
-  })
 })
 
 const mintButtonDisabled = computed(
@@ -268,6 +257,8 @@ const handleMint = async () => {
       toast('mint success')
       return `${collectionId.value}-${res.result.sn}`
     })
+
+    fetchDropStatus()
     // 40s timeout
     setTimeout(() => {
       isLoading.value = false

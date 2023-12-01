@@ -11,16 +11,7 @@
           <NeoIcon icon="heart" />
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
-        <BasicImage
-          v-if="isBasicImage"
-          :src="image"
-          :alt="title"
-          custom-class="gallery__image-wrapper" />
-        <PreviewMediaResolver
-          v-else
-          :src="animatedUrl"
-          :metadata="metadata"
-          :mime-type="mimeType" />
+        <BaseMediaItem :src="image" />
         <span
           v-if="parseInt(price) > 0 && showPriceValue"
           class="card-image__price">
@@ -53,8 +44,6 @@ import { usePreferencesStore } from '@/stores/preferences'
 
 import LinkResolver from '@/components/shared/LinkResolver.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
-import BasicImage from '@/components/shared/view/BasicImage.vue'
-import PreviewMediaResolver from '@/components/media/PreviewMediaResolver.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -79,7 +68,7 @@ const props = withDefaults(
   },
 )
 
-const image = ref('')
+const image = ref('/placeholder.webp')
 const title = ref('')
 const animatedUrl = ref('')
 const mimeType = ref('')
@@ -99,9 +88,6 @@ watchEffect(async () => {
   }
 })
 
-const isBasicImage = computed(
-  () => !animatedUrl.value || (image.value && mimeType.value.includes('audio')),
-)
 const showPriceValue = computed(
   () => props.listed || preferencesStore.getShowPriceValue,
 )

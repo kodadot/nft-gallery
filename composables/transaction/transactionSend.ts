@@ -91,10 +91,11 @@ export function execSendTx(item: ActionSend, api, executeTransaction) {
     execSendRmrk(item, api, executeTransaction)
   }
 
-  if (item.urlPrefix === 'snek' || item.urlPrefix === 'bsx') {
+  if (item.urlPrefix === 'bsx') {
     execSendBasilisk(item, api, executeTransaction)
   }
 
+  // item.urlPrefix === 'ahr'
   if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
     execSendAssetHub(item, api, executeTransaction)
   }

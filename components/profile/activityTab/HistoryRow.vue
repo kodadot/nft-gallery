@@ -4,6 +4,7 @@
       <div class="is-flex is-align-items-center">
         <nuxt-link :to="`/${urlPrefix}/gallery/${event.Item.id}`" class="h-50">
           <NeoAvatar
+            :image-component="NuxtImg"
             :avatar="avatar"
             :placeholder="placeholder"
             :name="event.Item.name"
@@ -79,6 +80,7 @@
       <nuxt-link :to="`/${urlPrefix}/gallery/${event.Item.id}`">
         <div class="mr-5">
           <NeoAvatar
+            :image-component="NuxtImg"
             :avatar="avatar"
             :placeholder="placeholder"
             :name="event.Item.name"
@@ -152,6 +154,8 @@ const props = defineProps<{
   withToColumn: boolean
   variant: 'Desktop' | 'Touch'
 }>()
+
+const NuxtImg = resolveComponent('NuxtImg')
 
 const { urlPrefix } = usePrefix()
 const avatar = ref()

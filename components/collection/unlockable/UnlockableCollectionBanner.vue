@@ -6,7 +6,12 @@
       <div class="container is-fluid collection-banner-content">
         <div class="is-flex is-flex-direction-column is-align-items-start">
           <div class="collection-banner-avatar">
-            <img :src="image" alt="avatar" class="object-fit-cover" />
+            <NuxtImg
+              height="88"
+              densities="2x"
+              :src="image"
+              alt="avatar"
+              class="object-fit-cover" />
           </div>
           <h1 class="collection-banner-name">{{ title }}</h1>
         </div>
@@ -106,7 +111,7 @@ useHead({
   }
 
   &-avatar {
-    padding: 0.75rem;
+    padding: 0.625rem;
 
     @include ktheme() {
       border: 1px solid theme('border-color');
@@ -123,7 +128,7 @@ useHead({
   }
 
   &-name {
-    font-weight: bold;
+    font-weight: 700;
     font-size: 2rem;
     margin-top: 1.5rem;
 

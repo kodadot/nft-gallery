@@ -55,8 +55,13 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/styles/abstracts/variables';
+
 .limit-width {
-  max-width: 170px;
+  width: 170px;
+  @include mobile {
+    width: 100px;
+  }
 }
 
 .line-height-1 {

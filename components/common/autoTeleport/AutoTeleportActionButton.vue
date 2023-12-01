@@ -191,6 +191,12 @@ const hasNoFundsAtAll = computed(
   () => !hasEnoughInCurrentChain.value && !hasEnoughInRichestChain.value,
 )
 
+const confirmButtonTitle = computed(() => {
+  const interaction =
+    transactions.value.actions[0].interaction?.toLocaleLowerCase()
+  return $i18n.t(`autoTeleport.steps.${interaction}.confirm`)
+})
+
 const autoTeleportLabel = computed(() => {
   if (hasEnoughInCurrentChain.value || props.disabled) {
     return props.label
@@ -211,7 +217,7 @@ const autoTeleportLabel = computed(() => {
         name.value,
       ])
     } else {
-      return $i18n.t('autoTeleport.teleportAndConfirm')
+      return confirmButtonTitle.value
     }
   }
 
@@ -286,6 +292,8 @@ watchSyncEffect(() => {
     amount.value = props.amount
   }
 })
+
+defineExpose({ hasBalances })
 </script>
 
 <style lang="scss" scoped>

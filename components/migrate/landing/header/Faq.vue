@@ -97,7 +97,7 @@ const [wrapper, slider] = useKeenSlider({
   padding: 2rem 3.75rem;
 
   &-title {
-    font-weight: bold;
+    font-weight: 700;
     margin-bottom: 1rem;
     text-transform: capitalize;
   }

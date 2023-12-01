@@ -9,7 +9,7 @@
         alt="unlockable icon" />
       <span>{{ $t('mint.unlockable.mintLive') }}</span>
     </div>
-    <nuxt-link class="has-text-weight-bold" to="/ahk/drops/chained">
+    <nuxt-link class="has-text-weight-bold" to="/ahp/drops/snowflakes">
       {{ $t('mint.unlockable.takeMe') }}
     </nuxt-link>
   </div>

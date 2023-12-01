@@ -89,9 +89,6 @@ onMounted(() => {
   min-width: 0;
 }
 
-.limit-width {
-  max-width: 130px;
-}
 .ellipsis {
   text-overflow: ellipsis;
 }

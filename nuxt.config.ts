@@ -11,6 +11,14 @@ export default defineNuxtConfig({
     host: '0.0.0.0',
   },
 
+  postcss: {
+    plugins: {
+      'tailwindcss/nesting': {},
+      tailwindcss: { config: './libs/ui/tailwind.config.js' },
+      autoprefixer: {},
+    },
+  },
+
   sourcemap: false,
 
   vue: {
@@ -33,6 +41,36 @@ export default defineNuxtConfig({
             authToken: process.env.SENTRY_AUTH_TOKEN,
           }),
     ],
+    // https://github.com/nuxt/nuxt/issues/24196#issuecomment-1825484618
+    optimizeDeps:
+      process.env.NODE_ENV === 'development'
+        ? {
+            include: [
+              '@google/model-viewer',
+              '@kodadot1/minimark/common',
+              '@kodadot1/minimark/v1',
+              '@kodadot1/minimark/v2',
+              '@paraspell/sdk',
+              '@polkadot/api',
+              '@polkadot/vue-identicon',
+              '@ramp-network/ramp-instant-sdk',
+              '@transak/transak-sdk',
+              '@unhead/vue',
+              'chart.js/auto',
+              'chartjs-adapter-date-fns',
+              'chartjs-plugin-zoom',
+              'graphql-ws',
+              'keen-slider/vue',
+              'keen-slider/vue.es',
+              'lodash/isEqual',
+              'lodash/sortBy',
+              'lodash/sum',
+              'lodash/unionBy',
+              'markdown-it',
+              'prismjs',
+            ],
+          }
+        : undefined,
   },
 
   nitro: {
@@ -127,15 +165,12 @@ export default defineNuxtConfig({
         },
         { rel: 'icon', sizes: '32x32', href: '/favicon-32x32.png' },
         { rel: 'icon', sizes: '16x16', href: '/favicon-16x16.png' },
-        {
-          rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Fira+Code:wght@600;700&display=swap',
-        },
       ],
       script: [
         {
           src: 'https://kit.fontawesome.com/54f29b7997.js',
           crossorigin: 'anonymous',
+          async: true,
         },
         {
           src: `https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`,
@@ -184,10 +219,6 @@ export default defineNuxtConfig({
         extensions: ['vue'],
       },
       {
-        path: '~/components/metadata',
-        extensions: ['vue'],
-      },
-      {
         path: '~/components/rmrk',
         extensions: ['vue'],
       },
@@ -216,6 +247,7 @@ export default defineNuxtConfig({
 
   // Modules: https://nuxt.com/docs/api/nuxt-config#components
   modules: [
+    '@nuxt/image',
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
     // '@nuxtjs/sentry',
@@ -225,7 +257,36 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxt/content',
     'nuxt-simple-sitemap',
+    '@nuxtjs/google-fonts',
   ],
+
+  image: {
+    format: ['avif', 'webp'],
+    providers: {
+      customCloudflare: {
+        provider: '~/providers/cloudflare.ts',
+      },
+    },
+    provider: 'customCloudflare',
+  },
+
+  googleFonts: {
+    families: {
+      'Work+Sans': {
+        wght: [400, 700],
+        ital: [400, 700],
+      },
+      'Fira+Code': {
+        wght: [600, 700],
+      },
+    },
+    display: 'swap',
+    prefetch: true,
+    preconnect: true,
+    preload: true,
+    download: false,
+    inject: false,
+  },
 
   pwa,
 

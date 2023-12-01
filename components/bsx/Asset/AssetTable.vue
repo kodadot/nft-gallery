@@ -1,6 +1,7 @@
 <template>
   <div class="offer-table-container">
     <NeoTable
+      :loading="loading"
       :data="assetList"
       :class="{ scrollable: assetList.length > 0 }"
       pagination-position="top">
@@ -54,6 +55,7 @@ defineProps({
   accountId: { type: String, default: '' },
   currentAsset: { type: String, default: '' },
   assetList: { type: Array, default: () => emptyArray<AssetItem>() },
+  loading: { type: Boolean, required: true },
 })
 
 const tellFrens = (id: string) => {

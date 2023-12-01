@@ -97,6 +97,8 @@ const priceChart = () => {
       maintainAspectRatio: false,
       plugins: {
         tooltip: {
+          xAlign: 'center',
+          yAlign: 'top',
           callbacks: {
             afterLabel: ({ dataIndex, dataset }) => {
               return `Count: ${dataset.data[dataIndex]?.count || 0}`

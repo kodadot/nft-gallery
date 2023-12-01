@@ -443,7 +443,7 @@
     "mintNFTSuccess": "NFT {name} Saved in block {block}",
     "submit": "Click to create NFT(s)",
     "estimate": "Show me the transaction fees",
-    "estimated": "Transaction fees will cost about",
+    "estimated": "Estimated Fees",
     "success": "Congratulations",
     "successNewNfts": "You have successfully purchased this NFT",
     "successPurchasedNfts": "You have successfully purchased {0}",
@@ -901,7 +901,9 @@
     "noResults": "Looks Like There's Nothing Here Yet",
     "noFlips": "Looks like it's quiet in here",
     "noHolders": "Start collecting NFTs and make your mark at the top!",
-    "noResultsSub": "Check back later or reset your filters"
+    "noResultsSub": "Check back later or reset your filters",
+    "hideOutliers": "Hide Outliers",
+    "applySmoothing": "Apply Smoothing"
   },
   "profileStats": {
     "listed": "Listed",
@@ -914,7 +916,7 @@
     "maxSoldPrice": "Max sold price",
     "totalSellValues": "Σ sell values",
     "totalSoldItems": "Σ sold items",
-    "totalHoldingsBoughtValues": "KSM spend for holdings nfts"
+    "totalHoldingsBoughtValues": "spend for holdings nfts"
   },
   "tutorial": "Tutorial",
   "general": {
@@ -927,6 +929,7 @@
     "chain": "Chain",
     "token": "Token",
     "usd": "USD",
+    "on": "on",
     "connect": "Connect",
     "connect_wallet": "Connect your wallet",
     "change_account": "Change account",
@@ -966,13 +969,17 @@
     "noPopularCollections": "There are no popular collections now.",
     "successfullyAddedFunds": "Successfully added funds. Your funds will arrive shortly.",
     "supports": "Supports",
-    "chooseProvider": "Choose A Provider"
+    "chooseProvider": "Choose A Provider",
+    "doingSomeMagic": "Doing some magic",
+    "pleaseWait": "Please wait"
   },
   "fiatOnRamp": {
     "agree": "I agree to the",
     "tos": "KodaDot's Terms and Conditions"
   },
   "helper": {
+    "tryAgain": "Try again",
+    "viewTx": "View Tx",
     "seeMore": "See More",
     "learnMore": "Learn More",
     "noCollections": "You have no collections",
@@ -1051,12 +1058,15 @@
     "send": "Send",
     "receiveValue": "You will receive {0} {1} on {2} to",
     "insufficientBalance": "Insufficient {0} Balance",
+    "insufficientAmountAfterFees": "Insufficient amount after fees",
+    "proceedToConfirmation":"Proceed To Confirmation",
     "artistProfile": "Go to artist's profile",
     "usdInput": "USD Value (approx)",
     "btnCopyPayment": "Copy Payment link",
     "congratsSupport": "Congratulations for supporting",
     "tweetDonation": "Tweet about your awesome donation",
-    "donationSentTo": "Your donation will be sent to:"
+    "donationSentTo": "Your donation will be sent to:",
+    "ownerMessage": "(You Are Owner)"
   },
   "preferences": {
     "basic": "basic user interface",
@@ -1141,7 +1151,8 @@
   "toast": {
     "urlCopy": "URL copied to clipboard ✓",
     "paymentLinkCopy": "Payment link copied to clipboard",
-    "downloadError": "Unable to download image"
+    "downloadError": "Unable to download image",
+    "downloadOnMobile": "To download the image, copy the URL from the address bar and open it in your browser. The page will open in 2 seconds."
   },
   "profileMenu": {
     "darkMode": "Dark Mode",
@@ -1341,7 +1352,14 @@
     "yesMint": "Yes, Mint NFTS",
     "mintingYourNFTs": "Minting Your NFTs...",
     "mintDone": "All of your NFTs were successfully minted.",
-    "done": "Done"
+    "done": "Done",
+    "mobileDisclaimer": {
+      "title": "Optimization Notice",
+      "content1": "Our Massmint feature is fine-tuned for desktop use to ensure the best minting experience",
+      "content2": "On mobile devices, you may encounter limited functionality or layout issues.",
+      "continueAnyway": "Continue Anyway",
+      "leave": "Leave"
+    }
   },
   "filters": {
     "buy": "Buy",
@@ -1392,7 +1410,14 @@
     "mintingEnded": "Ended",
     "mintedBy": "Minted By",
     "mintPerAddress": "Each address can mint only once",
-    "recentMints": "Recent NFT Mints"
+    "recentMints": "Recent NFT Mints",
+    "capture": "Unable to screenshot your art continuting without",
+    "finalizeClaimNow": "Finalize Your Claim Now",
+    "subscribe": "Subscribe for priority access to new drops and key NFT market updates.",
+    "enterValidEmail": "Enter valid email address",
+    "subscribeAndClaim": "Subscribe & Claim your NFT",
+    "agreeToProceed": "Agree to proceed",
+    "consent": "I consent to receive updates."
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
@@ -1519,42 +1544,29 @@
       "finalizingItems": "Finalizing {0} Items"
     }
   },
-  "transactionSteps" : {
-    "completed": {
-      "title": "Completed"
-    },
-    "error": {
-      "title": "Please sign transaction",
-      "subtitle": "Failed"
-    },
-    "loading": {
-      "title": "Transaction pending",
-      "subtitle": "(please wait)"
-    },
-    "waiting": {
-      "title": "Please sign transaction",
-      "subtitle": "(Waiting for your approval)"
-    },
-    "uploading": {
-      "title": "Uploading data to IPFS",
-      "subtitle": "(please wait)"
-    }
+  "transactionSteps": {
+    "completed": "Completed",
+    "error": "Failed to Sign",
+    "loading": "Transaction in Progress",
+    "waiting": "Awaiting Your Signature",
+    "noSignatureRequired": "Signature not needed",
+    "uploading": "Uploading data to IPFS",
+    "finishAbove": "Finish steps above first"
   },
-  "autoTeleport" : {
+  "autoTeleport": {
+    "bridging": "Bridging",
     "autoTeleport": "Auto Teleport",
     "checking": "checking funds ...",
     "followSteps": "Follow steps",
     "signTransactions": "Sign Transactions",
-    "header": "{action} on {chainName} and <strong>Bridging/Teleporting {amountFormatted}</strong> ~ {amountUsd} From {sourceNetwork}",
-    "dontExit": "Don't exit this modal till transactions complete.",
+    "dontExit": "Stay on this page until all steps are complete.",
     "tip": "<strong>Tip:</strong> Look for popups from your wallet extension for signing.",
     "notEnoughTokenInChain": "Not enough {0} on {1}",
-    "teleportAndConfirm": "Teleport and confirm purchase",
     "addFundsViaOnramp": "Add Funds Via Onramp",
     "welcomeToAutoTeleport": "Welcome to auto teleport!",
     "insufficientFunds": "Insufficient funds",
     "notAvailable": "Not available",
-    "finishAllStepsFirst": "Finish All Steps First",
+    "completeAllRequiredSteps": "Complete All Required Steps",
     "close": "Close",
     "tooltip": {
       "first": "Low balance? Auto Teleport bridges required funds from your most asset rich network.",
@@ -1567,53 +1579,77 @@
       "description": "With Auto Teleport on, we manage asset bridges. Your role? Approve an extra transaction each time.",
       "submit": "Got It!",
       "1": {
-        "title":"Effortless Transfers",
+        "title": "Effortless Transfers",
         "description": "Switch between networks without a worry. Auto Teleport bridges assets from your richest chain."
       },
       "2": {
-        "title":"Time-Saving",
+        "title": "Time-Saving",
         "description": "No more manual asset transfers. Let us maintain your required balance for transactions"
       },
       "3": {
-        "title":"Smooth Experience",
+        "title": "Smooth Experience",
         "description": "Relish a seamless trading experience across varied networks at a toggle-switch away."
       }
     },
     "steps": {
       "1": {
         "title": "Teleport/bridging",
-        "subtitle": "this transaction will get all required funds for purchase on required chain"
+        "tooltip": "this transaction will get all required funds for purchase on required chain"
       },
       "2": {
         "title": "Checking funds",
-        "subtitle": "Verifying fund arrival on destination chain for seamless operations."
+        "tooltip": "Verifying fund arrival on destination chain for seamless operations.<br> this may take few seconds"
       },
       "buy": {
-        "header": "<strong>Buying</strong> NFT",
+        "confirm": "Teleport And Confirm Purchase",
+        "action": "Purchase",
+        "item": "NFT",
         "title": "Buying NFT",
-        "subtitle": "when signing this transaction, you will buy your desired NFT",
         "submit": "Buying NFT..."
       },
       "list": {
-        "header": "<strong>Listing</strong> NFT",
+        "confirm": "Teleport And Confirm Listing(s)",
+        "action": "List",
+        "item": "NFT(s)",
         "title": "Listing NFT",
-        "subtitle": "when signing this transaction, you will list your desired NFT",
         "submit": "Listing NFT..."
       },
       "mint": {
-        "header": "<strong>Minting</strong> NFT Collection",
+        "confirm": "Teleport and Create Collection",
+        "action": "Create",
+        "item": "Collection",
         "title": "Minting NFT Collection",
-        "subtitle": "when signing this transaction, you will mint your desired NFT Collection",
         "submit": "Minting NFT Collection..."
       },
       "mintnft": {
-        "header": "<strong>Minting</strong> NFT",
+        "confirm": "Teleport and Mint NFT",
+        "action": "Mint",
+        "item": "NFT",
         "title": "Minting NFT",
-        "subtitle": "when signing this transaction, you will mint your desired NFT",
         "submit": "Minting NFT..."
+      },
+      "send": {
+        "confirm": "Teleport and Transfer NFT",
+        "action": "Transfer",
+        "item": "NFT",
+        "title": "Transferring NFT",
+        "submit": "Transferring NFT..."
+      },
+      "delete": {
+        "confirm": "Teleport and Delete Collection",
+        "action": "Delete",
+        "item": "Collection",
+        "title": "Deleting Collection",
+        "submit": "Deleting Collection..."
+      },
+      "consume": {
+        "confirm": "Teleport and Burn NFT",
+        "action": "Burn",
+        "item": "NFT",
+        "title": "Burning NFT",
+        "submit": "Burning NFT..."
       }
     }
-   
   },
   "confirmDeleteCollection": {
     "deleteCollection": "Delete Collection?",

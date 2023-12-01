@@ -20,7 +20,7 @@ export function execMintCollection({
     })
   }
 
-  if (item.urlPrefix === 'snek' || item.urlPrefix === 'bsx') {
+  if (item.urlPrefix === 'bsx') {
     return execMintCollectionBasilisk({
       item,
       api,
@@ -29,6 +29,7 @@ export function execMintCollection({
       status,
     })
   }
+  // item.urlPrefix === 'ahr'
   if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
     return execMintCollectionStatemine({
       item,

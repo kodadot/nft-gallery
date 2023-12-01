@@ -1,3 +1,5 @@
+@import '@/assets/styles/abstracts/variables';
+
 @keyframes rotate {
   0% {
     transform: rotate(0deg);
@@ -23,13 +25,13 @@
     top: 0;
     right: 0;
     height: 100%;
-    padding-top: 83px;
+    padding-top: $navbar-desktop-min-height;
     max-width: 360px;
     width: 100%;
 
     @include mobile {
       border-left: none !important;
-      padding-top: 58px;
+      padding-top: $navbar-mobile-min-height;
       max-width: 100vw;
     }
     @include ktheme() {
@@ -67,9 +69,6 @@
       width: 100%;
       height: 2.2rem;
       font-size: 1rem;
-      @include ktheme() {
-        box-shadow: theme('primary-shadow');
-      }
     }
 
     .wallet-menu-item {

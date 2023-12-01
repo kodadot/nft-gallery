@@ -227,8 +227,8 @@ const submitButtonLabel = computed(() => {
   return !isLogIn.value
     ? $i18n.t('mint.nft.connect')
     : canDeposit.value
-    ? $i18n.t('mint.collection.create')
-    : $i18n.t('confirmPurchase.notEnoughFuns')
+      ? $i18n.t('mint.collection.create')
+      : $i18n.t('confirmPurchase.notEnoughFuns')
 })
 
 const currentChain = computed(() => {

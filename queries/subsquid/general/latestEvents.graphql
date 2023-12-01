@@ -4,10 +4,12 @@ query latestEvents(
   $where: EventWhereInput
 ) {
   events(limit: $limit, orderBy: $orderBy, where: $where) {
+    meta
     nft {
       id
       name
       price
+      sn
       currentOwner
       issuer
       meta {

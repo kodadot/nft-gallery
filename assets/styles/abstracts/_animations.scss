@@ -80,3 +80,73 @@
     box-shadow: none;
   }
 }
+
+// ... dots 
+@keyframes dots {
+  0% {
+    content: ".";
+  }
+  33% {
+    content: "..";
+  }
+  66% {
+    content: "...";
+  }
+}
+
+.dots {
+  text-align: center;
+  display: inline-block;
+}
+
+.dots::after {
+  content: "";
+  display: inline-block;
+  animation: dots 1.5s infinite;
+}
+
+@mixin shineEffect($shineColor, $shineHover) {
+  overflow: hidden;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background-color: $shineColor;
+    transform: skewX(-30deg);
+    transition: background-color 0.3s;
+    z-index: 0;
+  }
+
+  &::before {
+    left: -120%;
+    width: 15%;
+    animation: shine1 3s ease-in-out infinite;
+  }
+
+  &::after {
+    left: -115%;
+    width: 3%;
+    animation: shine2 3s ease-in-out infinite;
+  }
+  
+  &:hover {
+    &::before,
+    &::after {
+      background-color: $shineHover
+    }
+  }
+}
+
+@keyframes shine1 {
+  0% { left: -118%; }
+  100% { left: 112%; }
+}
+
+@keyframes shine2 {
+  0% { left: -100%; }
+  100% { left: 130%; }
+}
+

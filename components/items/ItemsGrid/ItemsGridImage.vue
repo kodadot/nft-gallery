@@ -18,6 +18,7 @@
     :link="NuxtLink"
     bind-key="to"
     :media-player-cover="mediaPlayerCover"
+    :media-static-video="hideVideoControls"
     media-hover-on-cover-play>
     <template v-if="!hideAction" #action>
       <div v-if="!isOwner && Number(nft?.price)" class="is-flex">
@@ -35,7 +36,14 @@
           no-shadow
           class="fixed-width p-1 no-border-left btn-height override-wrapper-width"
           @click.prevent="onClickShoppingCart">
-          <img :src="cartIcon" class="image is-16x16" alt="cart icon" />
+          <NeoIcon
+            class="icon"
+            :icon="
+              shoppingCartStore.isItemInCart(nft.id)
+                ? 'fa-striked-out-cart-shopping'
+                : 'fa-shopping-cart-outline-sharp'
+            "
+            pack="fa-kit" />
         </NeoButton>
       </div>
       <div v-else-if="isOwner" class="is-flex">
@@ -54,7 +62,7 @@
 <script setup lang="ts">
 // PLEASE FIX bind-key href => to
 import { resolveComponent } from 'vue'
-import { NeoButton, NeoNftCard } from '@kodadot1/brick'
+import { NeoButton, NeoIcon, NeoNftCard } from '@kodadot1/brick'
 import type { NftCardVariant } from '@kodadot1/brick'
 import type { NFTWithMetadata } from '@/composables/useNft'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
@@ -81,6 +89,7 @@ const props = defineProps<{
   variant?: NftCardVariant
   hideMediaInfo?: boolean
   hideAction?: boolean
+  hideVideoControls?: boolean
 }>()
 
 const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.nft))
@@ -109,8 +118,6 @@ const listLabel = computed(() => {
     : $i18n.t('listingCart.listForSale')
   return label + (listingCartStore.isItemInCart(props.nft.id) ? ' ✓' : '')
 })
-
-const { cartIcon } = useShoppingCartIcon(props.nft.id)
 
 const { nft } = useNft(props.nft)
 

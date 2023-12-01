@@ -4,13 +4,16 @@
   @include ktheme {
     background: initial;
     border-bottom: 1px solid theme('border-color');
-    padding: 1.25rem 2rem;
+    padding: 1rem 2rem;
   }
   @include touch {
     & {
       padding: 1.5rem 1.25rem;
       @include mobile {
-        padding: 1rem 1.25rem;
+        display: flex;
+        align-items: center;
+        padding: 0 1.25rem !important;
+        min-height: $navbar-mobile-min-height !important;
       }
       @include ktheme {
         background: theme('background-color-inverse');

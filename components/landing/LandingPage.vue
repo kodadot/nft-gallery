@@ -67,6 +67,7 @@ const forbiddenPrefixesForTopCollections: Prefix[] = [
   'ahk',
   'ahp',
   'dot',
+  // 'ahr',
 ]
 
 const { urlPrefix } = usePrefix()
@@ -76,7 +77,7 @@ const { width } = useWindowSize()
 const showSignupBanner = computed(
   () => !preferencesStore.getSubscribedToNewsletter,
 )
-// currently only supported on rmrk and snek
+// currently only supported on rmrk
 const showCarousel = computed(
   () => !hiddenCarrouselPrefixes.includes(urlPrefix.value),
 )
