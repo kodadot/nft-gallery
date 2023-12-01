@@ -3,7 +3,8 @@
     <CollectionUnlockableLoader
       v-if="isLoading"
       model-value
-      :minted="justMinted" />
+      :minted="justMinted"
+      @model-value="isLoading = false" />
     <CountdownTimer />
     <hr class="text-color my-0" />
     <div class="container is-fluid">
@@ -115,6 +116,7 @@ import {
 import { useCountDown } from '../unlockable/utils/useCountDown'
 import { MINT_ADDRESS, countDownTime } from './const'
 import { DropItem } from '@/params/types'
+import { useDropStatus } from '@/components/drops/useDrops'
 
 import { TokenToBuy } from '@/composables/transaction/types'
 
@@ -137,6 +139,7 @@ const props = defineProps({
 
 const collectionId = computed(() => props.drop?.collection)
 const pricePerMint = computed(() => props.drop?.meta)
+const { mintedDropCount, fetchDropStatus } = useDropStatus(props.drop.alias)
 
 const { neoModal } = useProgrammatic()
 const { $i18n } = useNuxtApp()
@@ -180,7 +183,7 @@ const totalCount = computed(
   () => collectionData.value?.collectionEntity?.nftCount || 200,
 )
 const totalAvailableMintCount = computed(
-  () => collectionData.value?.nftEntitiesConnection?.totalCount,
+  () => totalCount.value - Math.min(mintedDropCount.value, totalCount.value),
 )
 
 const { data, refetch } = useGraphql({
@@ -311,6 +314,7 @@ const handleSubmitMint = async (tokenId: string) => {
       justMinted.value = `${collectionId.value}-${res.result.sn}`
       scrollToTop()
     })
+    fetchDropStatus()
   } catch (error) {
     toast('failed to mint')
   } finally {

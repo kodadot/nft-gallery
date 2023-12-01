@@ -12,6 +12,17 @@ $grey-lighter: hsl(0, 0%, 86%);
 $grey-lightest: hsl(0, 0%, 93%);
 $skeleton-margin: 0.25rem;
 $base-border-radius: 4px;
+$skeleton-border-radius: var(--border-radius, $base-border-radius); 
+
+@function skeletonGradient($color) {
+  @return linear-gradient(
+    90deg,
+    theme($color) 25%,
+    rgba(theme($color), 0.5) 50%,
+    theme($color) 75%
+  );
+}
+
 .neo-skeleton {
   &-item {
     &.no-margin {
@@ -19,13 +30,17 @@ $base-border-radius: 4px;
     }
 
     background-size: 400% 100%!important;
-    @include ktheme() {
-      background: linear-gradient(
-        90deg,
-        theme('k-shade') 25%,
-        rgba(theme('k-shade'), 0.5) 50%,
-        theme('k-shade') 75%
-      );
+
+    &--k-shade {
+      @include ktheme() {
+        background: skeletonGradient('k-shade')
+      }
+    }
+
+    &--k-grey-light {
+      @include ktheme() {
+        background: skeletonGradient('k-grey-light')
+      }
     }
   }
 

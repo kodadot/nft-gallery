@@ -1,6 +1,7 @@
 <template>
-  <TheImage
+  <ImageMedia
     v-if="avatar"
+    :placeholder="placeholder"
     :image-component="imageComponent"
     :src="avatar"
     :alt="name"
@@ -8,10 +9,11 @@
     :width="size"
     :height="size"
     :style="customStyle"
-    @error.once="onError" />
+    :original="true" />
   <img
     v-else
     :src="placeholder"
+    :alt="name"
     :width="size"
     :height="size"
     :style="customStyle"
@@ -19,8 +21,9 @@
 </template>
 
 <script setup lang="ts">
+import { computed, defineProps } from 'vue'
 import type { ImageComponent } from '../TheImage/TheImage.vue'
-import TheImage from '../TheImage/TheImage.vue'
+import ImageMedia from '../MediaItem/type/ImageMedia.vue'
 
 const props = defineProps<{
   imageComponent?: ImageComponent
@@ -34,14 +37,6 @@ const customStyle = computed(() => ({
   width: `${props.size}px`,
   height: `${props.size}px`,
 }))
-
-const onError = (e: Event) => {
-  const target = e.target as HTMLImageElement
-  if (target) {
-    target.removeAttribute('srcset')
-    target.src = props.placeholder
-  }
-}
 </script>
 
 <style lang="scss">

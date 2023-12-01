@@ -6,22 +6,11 @@
     class="top"
     content-class="modal-width"
     @close="onClose">
-    <header
-      class="py-5 pl-6 pr-5 is-flex is-justify-content-space-between is-align-items-center border-bottom">
-      <span class="modal-card-title is-size-6 has-text-weight-bold">
-        {{ $t('confirmPurchase.action') }}
-      </span>
-
-      <NeoButton
-        class="py-1 px-2"
-        variant="text"
-        no-shadow
-        icon="xmark"
-        size="medium"
-        @click="onClose" />
-    </header>
-    <div class="is-overflow-y-auto">
-      <div class="px-6 pt-4">
+    <ModalBody
+      :title="$t('confirmPurchase.action')"
+      :loading="loading"
+      @close="onClose">
+      <div>
         <ModalIdentityItem />
       </div>
       <div class="py-2">
@@ -29,9 +18,9 @@
           v-for="nft in items"
           :key="nft.id"
           :nft="nft"
-          class="py-2 px-6" />
+          class="py-2" />
       </div>
-      <div class="py-4 mx-6 border-top border-bottom card-border-color">
+      <div class="py-4 border-top border-bottom card-border-color">
         <div
           class="is-flex is-justify-content-space-between is-align-items-center mb-2">
           <span class="is-size-7">{{
@@ -45,30 +34,31 @@
           <CommonTokenMoney :value="totalRoyalties" />
         </div>
       </div>
-      <div class="is-flex is-justify-content-space-between py-4 px-6">
+      <div class="is-flex is-justify-content-space-between py-4">
         {{ $t('confirmPurchase.youWillPay') }}
         <div class="is-flex">
-          <CommonTokenMoney :value="totalWithRoyalties" class="has-text-grey" />
+          <CommonTokenMoney :value="total" class="has-text-grey" />
           <span class="has-text-weight-bold ml-2"> {{ priceUSD }}$ </span>
         </div>
       </div>
 
-      <div class="is-flex is-justify-content-space-between py-5 px-6">
+      <div class="is-flex is-justify-content-space-between pt-5">
         <AutoTeleportActionButton
-          :amount="totalWithRoyalties"
+          ref="autoteleport"
+          :amount="total"
           :label="$t('nft.action.confirm')"
           :disabled="disabled"
           :actions="actions"
-          :fees="{ actions: supportFee }"
           @confirm="confirm"
           @actions:completed="$emit('completed')" />
       </div>
-    </div>
+    </ModalBody>
   </NeoModal>
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoModal } from '@kodadot1/brick'
+import { NeoModal } from '@kodadot1/brick'
+import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { sum } from '@/utils/math'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
@@ -78,7 +68,7 @@ import { totalPriceUsd } from '../shoppingCart/utils'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import { type AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { type AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
-import { SUPPORT_FEE_PERCENT } from '@/utils/support'
+import { useBuySupportFee } from '@/composables/transaction/utils'
 
 const emit = defineEmits(['confirm', 'completed', 'close'])
 const props = defineProps<{
@@ -89,9 +79,11 @@ const prefrencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { isLogIn } = useAuth()
 const { urlPrefix } = usePrefix()
-const { isRemark } = useIsChain(urlPrefix)
 
+const autoteleport = ref()
 const actions = computed(() => [props.action])
+
+const loading = computed(() => !autoteleport.value?.hasBalances)
 
 const mode = computed(() => prefrencesStore.getCompletePurchaseModal.mode)
 
@@ -118,12 +110,10 @@ const totalRoyalties = computed(() =>
   ),
 )
 
-const totalWithRoyalties = computed(
-  () => totalNFTsPrice.value + totalRoyalties.value,
-)
+const { supportFee } = useBuySupportFee(urlPrefix, totalNFTsPrice)
 
-const supportFee = computed(() =>
-  isRemark.value ? totalNFTsPrice.value * SUPPORT_FEE_PERCENT : 0,
+const total = computed(
+  () => totalNFTsPrice.value + totalRoyalties.value + supportFee.value,
 )
 
 const disabled = computed(() => !isLogIn.value)

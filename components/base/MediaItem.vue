@@ -1,5 +1,5 @@
 <template>
-  <div ref="mediaItem" class="h-fit">
+  <div ref="mediaItem" class="media-object" style="height: fit-content">
     <component
       :is="resolveComponent"
       :src="properSrc"
@@ -19,24 +19,29 @@
       :autoplay="autoplay" />
     <div
       v-if="isLewd && isLewdBlurredLayer"
-      class="backdrop-blur-3xl absolute top-0 w-full h-full text-text-color capitalize flex items-center justify-center flex-col px-2">
+      class="nsfw-blur is-capitalized is-flex is-align-items-center is-justify-content-center is-flex-direction-column">
       <NeoIcon icon="eye-slash" class="mb-3" />
-      <span class="font-bold">
+      <span class="has-text-weight-bold">
         {{ $t('lewd.explicit') }}
       </span>
-      <span class="text-center max-w-xs">{{ $t('lewd.explicitDesc') }}</span>
+      <span class="nsfw-desc text-align-center">{{
+        $t('lewd.explicitDesc')
+      }}</span>
     </div>
     <div
       v-if="isInteractive"
-      class="w-6 h-6 absolute top-3 right-3 flex items-center justify-center rounded-full bg-k-shade border-default border-k-grey">
-      <NeoIcon icon="code" pack="far" class="font-medium text-xs/none" />
+      class="k-shade border-k-grey is-flex is-align-items-center is-justify-content-center border is-rounded absolute-position image is-24x24">
+      <NeoIcon
+        icon="code"
+        pack="far"
+        class="is-size-7 has-text-weight-medium" />
     </div>
     <NeoButton
       v-if="isLewd"
       rounded
       no-shadow
-      class="absolute left-1/2 bottom-5 -translate-x-1/2 text-text-color bg-background-color border-none px-4 py-1 text-base"
-      :class="{ 'text-background-color bg-text-color': isLewdBlurredLayer }"
+      class="nsfw-action no-border px-4 py-1 is-size-6"
+      :class="{ hide: isLewdBlurredLayer }"
       :label="
         isLewdBlurredLayer ? $t('lewd.showContent') : $t('lewd.hideContent')
       "
@@ -45,21 +50,21 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineAsyncComponent, ref, watch } from 'vue'
+import type { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
 import { useElementHover, useElementVisibility } from '@vueuse/core'
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
-
+import {
+  NeoAudioMedia,
+  NeoButton,
+  NeoIFrameMedia,
+  NeoIcon,
+  NeoImageMedia,
+  NeoJsonMedia,
+  NeoObjectMedia,
+  NeoUnknownMedia,
+  NeoVideoMedia,
+} from '@kodadot1/brick'
 import { getMimeType, resolveMedia } from '@/utils/gallery/media'
 import { MediaType } from '@/components/rmrk/types'
-import ImageMedia from './type/ImageMedia.vue'
-import VideoMedia from './type/VideoMedia.vue'
-import AudioMedia from './type/AudioMedia.vue'
-import JsonMedia from './type/JsonMedia.vue'
-import IFrameMedia from './type/IFrameMedia.vue'
-import ObjectMedia from './type/ObjectMedia.vue'
-import Media from './type/UnknownMedia.vue'
-
-import type { ImageComponent } from '../TheImage/TheImage.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -79,7 +84,10 @@ const props = withDefaults(
     autoplay?: boolean
     // props for image component
     sizes?: string
-    imageComponent?: ImageComponent
+    imageComponent?:
+      | string
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
+      | ConcreteComponent<{}, any, any, ComputedOptions, MethodOptions>
   }>(),
   {
     src: '',
@@ -114,12 +122,13 @@ const shouldLoadModelComponent = computed(() => {
 watch(shouldLoadModelComponent, (shouldLoad) => {
   if (shouldLoad && !isModelComponentLoaded.value) {
     modelComponent.value = defineAsyncComponent(
-      () => import('./type/ModelMedia.vue'),
+      async () => (await import('@kodadot1/brick')).NeoModelMedia,
     )
     isModelComponentLoaded.value = true
   }
 })
 
+const PREFIX = 'Neo'
 const SUFFIX = 'Media'
 
 const isInteractive = computed(() => {
@@ -129,13 +138,13 @@ const type = ref('')
 
 const isLewdBlurredLayer = ref(props.isLewd)
 const components = {
-  ImageMedia,
-  VideoMedia,
-  AudioMedia,
-  JsonMedia,
-  IFrameMedia,
-  ObjectMedia,
-  Media,
+  NeoImageMedia,
+  NeoVideoMedia,
+  NeoAudioMedia,
+  NeoJsonMedia,
+  NeoIFrameMedia,
+  NeoObjectMedia,
+  NeoUnknownMedia,
 }
 
 const resolveComponent = computed(() => {
@@ -147,9 +156,8 @@ const resolveComponent = computed(() => {
 
   return mediaType === 'Model'
     ? modelComponent.value
-    : components[mediaType + SUFFIX]
+    : components[PREFIX + mediaType + SUFFIX]
 })
-
 const properSrc = computed(() => props.src || props.placeholder)
 
 const updateComponent = async () => {
@@ -174,3 +182,45 @@ const isMediaItemHovering = useElementHover(mediaItem)
 
 defineExpose({ isLewdBlurredLayer })
 </script>
+
+<style lang="scss" scoped>
+@import '@/assets/styles/abstracts/variables';
+.media-object {
+  .nsfw-blur {
+    backdrop-filter: blur(60px);
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    @include ktheme() {
+      color: theme('text-color');
+    }
+
+    .nsfw-desc {
+      max-width: 18.75rem;
+    }
+  }
+  .nsfw-action {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 1.25rem;
+    @include ktheme() {
+      color: theme('text-color') !important;
+      background: theme('background-color') !important;
+    }
+    &.hide {
+      @include ktheme() {
+        color: theme('background-color') !important;
+        background: theme('text-color') !important;
+      }
+    }
+  }
+
+  .absolute-position {
+    position: absolute;
+    right: 0.75rem;
+    top: 0.75rem;
+  }
+}
+</style>

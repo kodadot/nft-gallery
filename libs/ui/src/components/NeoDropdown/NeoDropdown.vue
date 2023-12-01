@@ -60,7 +60,7 @@ export default {
           [this.computedClass(
             'menuPositionClass',
             'o-drop__menu--',
-            this.autoPosition,
+            this.position,
           )]: this.autoPosition,
         },
         {
