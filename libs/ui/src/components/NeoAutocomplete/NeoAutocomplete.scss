@@ -2,21 +2,12 @@
 @import '@oruga-ui/oruga-next/src/scss/utilities/variables.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/animations.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/helpers.scss';
-@import '../../scss/variable.scss';
 
-
-.o-acp{
+.o-acp {
   &__item {
-    white-space: normal;
+    @apply whitespace-normal;
   }
   &__menu {
-    margin-top: 1rem;
-    padding: 0;
-    @include ktheme() {
-      box-shadow: theme('primary-shadow');
-      border: 1px solid theme('border-color');
-      color: theme('text-color');
-      background: theme('background-color');
-    }
+    @apply mt-4 p-0 shadow-primary border border-border-color text-text-color bg-background-color;
   }
 }
