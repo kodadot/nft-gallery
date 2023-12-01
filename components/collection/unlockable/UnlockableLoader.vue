@@ -23,8 +23,7 @@
           <span v-else>
             {{ $t('mint.unlockable.loader.viewNFTLater2') }}
             <span class="has-text-weight-bold">
-              {{ displaySeconds }}
-              {{ $t('mint.unlockable.loader.viewNFTLater3') }}
+              {{ displayDuration }}
             </span>
           </span>
         </div>
@@ -50,6 +49,7 @@
 <script lang="ts" setup>
 import { NeoButton, NeoLoading } from '@kodadot1/brick'
 import { resolveComponent } from 'vue'
+import { useCountDown } from './utils/useCountDown'
 
 const NuxtLink = resolveComponent('NuxtLink')
 const props = withDefaults(
@@ -57,25 +57,30 @@ const props = withDefaults(
     modelValue: boolean
     canCancel?: boolean
     minted?: string
+    duration?: number
   }>(),
   {
     modelValue: false,
     canCancel: true,
+    duration: 51, // second
     minted: '',
   },
 )
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 const isLoading = useVModel(props, 'modelValue')
-import { useCountDown } from './utils/useCountDown'
 
-const COUNT_DOWN_SECONDS = 51
-const { seconds } = useCountDown(
-  new Date().getTime() + COUNT_DOWN_SECONDS * 1000,
+const { minutes, seconds } = useCountDown(
+  new Date().getTime() + props.duration * 1000,
 )
 
-const displaySeconds = computed(() => {
-  return seconds.value >= 0 ? seconds.value : 'few'
+const displayDuration = computed(() => {
+  if (minutes.value > 0) {
+    return `${minutes.value} minute${minutes.value > 1 ? 's' : ''}${
+      seconds.value ? ` ${seconds.value} seconds` : ''
+    }`
+  }
+  return seconds.value >= 0 ? `${seconds.value} seconds` : 'few seconds'
 })
 
 const twitterText = computed(
@@ -89,10 +94,10 @@ const postTwitterUrl = computed(
       twitterText.value,
     )}`,
 )
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['modelValue'])
 
 const closeLoading = () => {
-  emit('update:modelValue', false)
+  emit('modelValue', false)
 }
 const buttonLabel = computed(() =>
   $i18n.t(
