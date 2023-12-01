@@ -12,6 +12,7 @@ import {
 import { SupportTokens, canSupport } from '@/utils/support'
 import { constructDirectoryMeta } from './constructDirectoryMeta'
 import { ApiPromise } from '@polkadot/api'
+import { usePreferencesStore } from '@/stores/preferences'
 
 interface BuildTokenTxsParams {
   token: TokenToMint & Id
@@ -58,9 +59,11 @@ const buildTokenTxs = ({ token, metadata, api }: BuildTokenTxsParams) => {
 }
 
 async function handleSingleToken(item: ActionMintToken, api: ApiPromise) {
+  const enableCarbonOffset = usePreferencesStore().getHasCarbonOffset
+
   const tokens = await expandCopiesWithsIds(item, api)
   const metadataList = await Promise.all(
-    tokens.map((token) => constructMeta(token)),
+    tokens.map((token) => constructMeta(token, { enableCarbonOffset })),
   )
   return tokens.map((token, index) => ({
     token,
@@ -69,13 +72,16 @@ async function handleSingleToken(item: ActionMintToken, api: ApiPromise) {
 }
 
 async function handleMultipleTokens(item: ActionMintToken, api: ApiPromise) {
+  const enableCarbonOffset = usePreferencesStore().getHasCarbonOffset
   const tokens = item.token as TokenToMint[]
   const lastTokenId = await lastIndexUsed(
     tokens[0].selectedCollection as MintedCollection,
     api,
   )
   const tokensWithIds = assignIds(tokens, lastTokenId)
-  const metadata = await constructDirectoryMeta(tokensWithIds)
+  const metadata = await constructDirectoryMeta(tokensWithIds, {
+    enableCarbonOffset,
+  })
   return tokensWithIds.map((token, index) => ({
     token,
     metadata: metadata[index],
