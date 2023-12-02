@@ -3,6 +3,7 @@
 @import '@oruga-ui/oruga-next/src/scss/utilities/_animations.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_helpers.scss';
 @import '@oruga-ui/oruga-next/src/scss/components/_icon.scss';
+@import '../../scss/tailwind.scss';
 
 .o-icon--success {
   @apply text-k-green;
