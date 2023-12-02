@@ -120,7 +120,7 @@ const disabled = computed(() => !isLogIn.value)
 
 const priceUSD = computed(() => {
   const { nfts, royalties } = totalPriceUsd(items.value)
-  return (nfts + royalties).toFixed(2)
+  return (nfts + royalties).toFixed(1)
 })
 
 const onClose = () => {
