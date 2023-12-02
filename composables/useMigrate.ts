@@ -160,7 +160,7 @@ export function useMigrateDeposit(
   const totalChainUsd = computed(() => {
     const amount =
       parseFloat(totalChain.value.toString()) * chainTokenPrice.value
-    return parseFloat(amount.toString()).toFixed(2)
+    return parseFloat(amount.toString()).toFixed(1)
   })
 
   return {
