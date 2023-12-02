@@ -11,6 +11,7 @@ module.exports = {
         'background-color-inverse': 'var(--background-color-inverse)',
         'link-hover': 'var(--link-hover)',
         'k-accent': 'var(--k-accent)',
+        'k-accent2': 'var(--k-accent2)',
         'k-accent-light': 'var(--k-accent-light)',
         'k-accent-hover': 'var(--k-accent-hover)',
         'k-accent-light-2': 'var(--k-accent-light-2)',

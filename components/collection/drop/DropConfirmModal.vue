@@ -99,7 +99,7 @@ const confirm = () => {
   &:not(:disabled) {
     @include shineEffect(var(--k-accent-light-3), lightgrey);
     &:hover {
-      color: var(--k-accent) !important;
+      color: var(--k-accent2) !important;
     }
   }
 }
