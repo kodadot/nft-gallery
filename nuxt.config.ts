@@ -11,6 +11,10 @@ export default defineNuxtConfig({
     host: '0.0.0.0',
   },
 
+  build: {
+    transpile: ['tslib'],
+  },
+
   postcss: {
     plugins: {
       'tailwindcss/nesting': {},
