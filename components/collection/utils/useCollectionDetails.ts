@@ -50,9 +50,15 @@ export const useCollectionDetails = ({ collectionId }) => {
       const listedNfts = data.value.stats.listed
       const api = await apiInstance.value
       const supply = await api.query.nfts.collectionConfigOf(collectionId)
+
+      // Check if supply string is not empty before parsing
       const supplyString = supply.toString()
-      const supplyJsonParse = JSON.parse(supplyString)
-      const getTotalSupply = supplyJsonParse.maxSupply || 'Unlimited'
+      const supplyJsonParse = supplyString ? JSON.parse(supplyString) : null
+
+      // Check if supplyJsonParse is not null before accessing properties
+      const getTotalSupply = supplyJsonParse
+        ? supplyJsonParse.maxSupply || 'Unlimited'
+        : 'Unlimited'
 
       stats.value = {
         maxSupply: getTotalSupply,
