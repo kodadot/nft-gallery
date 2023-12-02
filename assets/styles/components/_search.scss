@@ -44,6 +44,10 @@
     z-index: 1;
     overflow: hidden;
     pointer-events: none;
+
+    @include ktheme() {
+      filter: theme('landing-shape-header');
+    }
   }
 
   .landing-search-right {

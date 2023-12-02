@@ -1,5 +1,6 @@
 <template>
-  <div class="min-h-full is-flex is-flex-direction-column is-clipped">
+  <div
+    class="min-h-full is-flex is-flex-direction-column is-clipped has-navbar-fixed-top has-spaced-navbar-fixed-top">
     <Navbar />
     <main class="is-flex-grow-1">
       <section class="hero is-medium is-link">

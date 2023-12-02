@@ -345,7 +345,6 @@ const updateAuthBalance = () => {
 
 onMounted(() => {
   document.body.style.overflowY = 'initial'
-  document.body.className = 'has-navbar-fixed-top has-spaced-navbar-fixed-top'
   updateAuthBalanceTimer.value = setInterval(updateAuthBalance, 30000)
 })
 

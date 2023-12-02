@@ -6,7 +6,10 @@
       width="740"
       height="1000"
       alt="" />
-    <img :src="landingImage[0]" class="landing-shapes" alt="" />
+    <img
+      src="/landing-shape-header-left-light.svg"
+      class="landing-shapes"
+      alt="" />
     <div
       class="is-flex is-flex-direction-column is-align-items-center search-info">
       <h1
@@ -48,8 +51,10 @@
       width="740"
       height="1000"
       alt="" />
-
-    <img :src="landingImage[1]" class="landing-shapes" alt="" />
+    <img
+      src="/landing-shape-header-right-light.svg"
+      class="landing-shapes"
+      alt="" />
   </section>
 </template>
 
@@ -58,7 +63,6 @@ import UnlockableLandingTag from '@/components/collection/unlockable/UnlockableL
 import Search from '@/components/search/Search.vue'
 
 const { urlPrefix, setUrlPrefix } = usePrefix()
-const { isDarkMode } = useTheme()
 const { availableChains } = useChain()
 
 const chainText = (chain: string) => {
@@ -68,14 +72,6 @@ const chainText = (chain: string) => {
     return chain
   }
 }
-const landingImage = computed(() => {
-  const lightOrDark = isDarkMode.value ? 'dark' : 'light'
-
-  return [
-    `/landing-shape-header-left-${lightOrDark}.svg`,
-    `/landing-shape-header-right-${lightOrDark}.svg`,
-  ]
-})
 
 const switchChain = (value) => {
   if (value !== urlPrefix.value) {

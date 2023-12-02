@@ -48,6 +48,7 @@ $themes: (
     'blue-light-hover-color': #e8edfb,
     'card-hover-opacity': 0.85,
     'separator-line-color': #cccccc,
+    'landing-shape-header': invert(0),
   ),
   'dark-mode': (
     'white': #ffffff,
@@ -98,6 +99,7 @@ $themes: (
     'blue-light-cards': #121d39,
     'card-hover-opacity': 0.8,
     'separator-line-color': #6b6b6b,
+    'landing-shape-header': invert(1),
   ),
 );
 
