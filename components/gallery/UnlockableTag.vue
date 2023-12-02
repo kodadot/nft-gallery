@@ -19,7 +19,7 @@
         rel="nofollow noopener noreferrer"
         class="has-text-link">
         {{
-          isMobile
+          isMobileWithoutTablet
             ? $t('unlockable.claimDrop')
             : $t('unlockable.claimPhysicalDrop')
         }}
@@ -32,7 +32,6 @@
 <script lang="ts" setup>
 import { NeoTooltip } from '@kodadot1/brick'
 import { NFT } from '@/components/rmrk/service/scheme'
-import { useWindowSize } from '@vueuse/core'
 import { useUnlockableIcon } from '@/composables/useUnlockableIcon'
 
 const props = defineProps<{
@@ -40,8 +39,8 @@ const props = defineProps<{
   link: string | undefined
 }>()
 
+const { isMobileWithoutTablet } = useBreakpoints()
 const { isCurrentOwner } = useAuth()
-const isMobile = computed(() => useWindowSize().width.value < 768)
 const { unlockableIcon } = useUnlockableIcon()
 
 const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))

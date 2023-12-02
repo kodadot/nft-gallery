@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { ref, watchPostEffect } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
@@ -34,7 +34,12 @@ defineProps<{
 }>()
 
 const { width } = useWindowSize()
-const isMobile = computed(() => width.value < 1024)
+
+const isMobile = ref()
+
+watchPostEffect(() => {
+  isMobile.value = width.value < 1024
+})
 
 const emit = defineEmits(['close'])
 </script>

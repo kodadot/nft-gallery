@@ -1,7 +1,16 @@
 export default function () {
   const colorMode = useColorMode()
 
-  const isDarkMode = computed<boolean>(() => colorMode.value === 'dark')
+  const isDarkMode = ref()
+  const isLightMode = ref()
+  const placeholder = ref()
+
+  watchPostEffect(() => {
+    isDarkMode.value = colorMode.value === 'dark'
+    isLightMode.value = colorMode.value === 'light'
+    placeholder.value =
+      colorMode.value === 'dark' ? '/Kdark.webp' : '/Klight.webp'
+  })
 
   const toggleColorMode = (): void => {
     if (colorMode.value === 'dark') {
@@ -11,13 +20,9 @@ export default function () {
     }
   }
 
-  const placeholder = computed(() => {
-    return isDarkMode.value ? '/Kdark.webp' : '/Klight.webp'
-  })
-
   return {
     isDarkMode,
-    isLightMode: computed(() => !isDarkMode.value),
+    isLightMode,
     toggleColorMode,
     placeholder,
   }

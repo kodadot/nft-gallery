@@ -2,7 +2,7 @@
   <div
     v-if="isUnlockableLandingTagVisible"
     class="unlockable-landing-tag is-flex border is-justify-content-space-between is-align-items-center px-4 mt-6"
-    :class="{ 'small-size': smallWidth }">
+    :class="{ 'small-size': isLessThanCustomBreakpoint }">
     <div class="is-flex is-align-items-center">
       <img
         width="42"
@@ -24,13 +24,11 @@
 const isUnlockableLandingTagVisible = true
 const { $i18n } = useNuxtApp()
 
-const { width } = useWindowSize()
-
-const smallWidth = computed(() => width.value < 502)
+const { isLessThanCustomBreakpoint } = useBreakpoints(502)
 
 const mintLiveText = computed(() =>
   $i18n.t(
-    smallWidth.value
+    isLessThanCustomBreakpoint.value
       ? 'mint.unlockable.mintLiveSmall'
       : 'mint.unlockable.mintLive',
   ),

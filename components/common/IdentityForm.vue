@@ -116,7 +116,7 @@
       :deposit-usd="depositUsd"
       :identity="identity"
       :identity-active-socials="activeSocials"
-      :is-mobile="isMobile"
+      :is-mobile="isMobileWithoutTablet"
       @confirm="setIdentity"
       @close="isConfirmModalActive = false" />
 
@@ -124,7 +124,7 @@
       v-model="isLoaderModalVisible"
       :status="status"
       :transaction-id="transactionValue"
-      :is-mobile="isMobile"
+      :is-mobile="isMobileWithoutTablet"
       @close="isLoaderModalVisible = false">
       <template #action-title>
         <span>{{
@@ -235,7 +235,7 @@ const activeSocials = computed(() => {
   )
 })
 
-const isMobile = computed(() => useWindowSize().width.value <= 764)
+const { isMobileWithoutTablet } = useBreakpoints()
 const disabled = computed(
   () => identity.value.display.value === '' || isLoading.value,
 )

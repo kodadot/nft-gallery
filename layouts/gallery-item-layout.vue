@@ -21,6 +21,7 @@
 <script lang="ts" setup>
 const { $config } = useNuxtApp()
 const route = useRoute()
+const { isFullHD } = useBreakpoints()
 
 useHead({
   link: [
@@ -31,7 +32,4 @@ useHead({
     },
   ],
 })
-
-const { width } = useWindowSize()
-const isFullHD = computed(() => width.value >= 1440)
 </script>

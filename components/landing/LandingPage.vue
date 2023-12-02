@@ -1,7 +1,7 @@
 <template>
   <div>
     <section class="instance">
-      <LandingMobileHeroBanner v-if="isMobile" class="mt-6" />
+      <LandingMobileHeroBanner v-if="isTinyMobile" class="mt-6" />
       <SearchLanding v-else class="my-8" />
     </section>
 
@@ -72,7 +72,7 @@ const forbiddenPrefixesForTopCollections: Prefix[] = [
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
-const { width } = useWindowSize()
+const { isTinyMobile } = useBreakpoints()
 
 const showSignupBanner = computed(
   () => !preferencesStore.getSubscribedToNewsletter,
@@ -84,5 +84,4 @@ const showCarousel = computed(
 const showTopCollections = computed(
   () => !forbiddenPrefixesForTopCollections.includes(urlPrefix.value),
 )
-const isMobile = computed(() => width.value <= 480)
 </script>

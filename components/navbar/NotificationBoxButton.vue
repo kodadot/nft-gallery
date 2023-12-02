@@ -18,9 +18,7 @@ const props = defineProps<{
 const preferencesStore = usePreferencesStore()
 const emit = defineEmits(['closeBurgerMenu'])
 
-const { width } = useWindowSize()
-const isMobile = computed(() => width.value < 1024)
-const isMobileWithoutTablet = computed(() => width.value < 768)
+const { isMobile, isMobileWithoutTablet } = useBreakpoints()
 
 const { neoModal } = useProgrammatic()
 

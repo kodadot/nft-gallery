@@ -28,17 +28,17 @@
         </button>
         <nuxt-link
           v-if="urlPrefix === 'ahk'"
-          :class="{ 'pack-box-waifu p-0 is-relative': !isMobile }"
+          :class="{ 'pack-box-waifu p-0 is-relative': !isMobileWithoutTablet }"
           class="pack-box is-flex is-align-items-center is-justify-content-center"
           :to="`/${urlPrefix}/waifu`">
           <div
             :class="{
               'is-flex h-full pack-content-waifu is-flex-direction-column':
-                !isMobile,
-              'pack-content': isMobile,
+                !isMobileWithoutTablet,
+              'pack-content': isMobileWithoutTablet,
             }">
             <img
-              v-if="!isMobile"
+              v-if="!isMobileWithoutTablet"
               :src="isDarkMode ? '/waifu-dark.svg' : '/waifu.svg'"
               class="svg-one"
               alt="Create Waifu NFT" />
@@ -47,13 +47,17 @@
             <div
               class="px-3 is-flex h-full is-flex-direction-column is-justify-content-center">
               <p class="is-size-4 has-text-weight-bold">
-                {{ !isMobile ? $t('navbar.create.generateWaifu') : 'Waifu' }}
+                {{
+                  !isMobileWithoutTablet
+                    ? $t('navbar.create.generateWaifu')
+                    : 'Waifu'
+                }}
               </p>
               <p>{{ $t('createDropdown.waifu') }}</p>
             </div>
           </div>
 
-          <div v-if="!isMobile" class="time-limit px-2 py-1gi">
+          <div v-if="!isMobileWithoutTablet" class="time-limit px-2 py-1gi">
             <span class="is-size-7">{{ $t('navbar.create.timeLimit') }}</span>
           </div>
         </nuxt-link>
@@ -103,7 +107,7 @@ const { urlPrefix } = usePrefix()
 const route = useRoute()
 const router = useRouter()
 const { isDarkMode } = useTheme()
-const isMobile = computed(() => useWindowSize().width.value < 769)
+const { isMobileWithoutTablet } = useBreakpoints()
 
 const gotoPathAfterLogin = (path: RawLocation) => {
   doAfterLogin({

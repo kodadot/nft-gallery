@@ -124,7 +124,7 @@
           <hr />
           <template v-if="!nft?.burned">
             <UnlockableTag
-              v-if="isUnlockable && isMobile"
+              v-if="isUnlockable && isLessThanCustomBreakpoint"
               :nft="nft"
               :link="unlockLink"
               class="mt-4" />
@@ -132,7 +132,7 @@
             <!-- price section -->
             <GalleryItemAction :nft="nft" />
             <UnlockableTag
-              v-if="isUnlockable && !isMobile"
+              v-if="isUnlockable && !isLessThanCustomBreakpoint"
               :link="unlockLink"
               :nft="nft"
               class="mt-7" />
@@ -172,7 +172,7 @@ import {
   NeoCarouselItem,
   NeoIcon,
 } from '@kodadot1/brick'
-import { useFullscreen, useWindowSize } from '@vueuse/core'
+import { useFullscreen } from '@vueuse/core'
 
 import { useGalleryItem } from './useGalleryItem'
 
@@ -212,7 +212,7 @@ const collection = computed(() => nft.value?.collection)
 const triggerBuySuccess = computed(() => preferencesStore.triggerBuySuccess)
 
 const breakPointWidth = 930
-const isMobile = computed(() => useWindowSize().width.value < breakPointWidth)
+const { isLessThanCustomBreakpoint } = useBreakpoints(breakPointWidth)
 
 const tabs = {
   offers: '0',

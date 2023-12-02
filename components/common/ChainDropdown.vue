@@ -4,7 +4,11 @@
       <template #trigger="{ active }">
         <NeoButton
           class="chain-dropdown-text"
-          :label="isMobile ? selected?.text : `Network: ${selected?.text}`"
+          :label="
+            isMobileWithoutTablet
+              ? selected?.text
+              : `Network: ${selected?.text}`
+          "
           :icon="active ? 'chevron-up' : 'chevron-down'"
           :active="active" />
       </template>
@@ -27,7 +31,7 @@ const route = useRoute()
 const { setUrlPrefix } = usePrefix()
 const { availableChains } = useChain()
 const { redirectAfterChainChange } = useChainRedirect()
-const isMobile = computed(() => useWindowSize().width.value <= 764)
+const { isMobileWithoutTablet } = useBreakpoints()
 
 const selected = computed(() =>
   availableChains.value.find((chain) => chain.value === route.params.prefix),

@@ -33,24 +33,26 @@ const props = defineProps<{
 }>()
 
 const itemUrl = computed(() => props.itemUrl || 'gallery')
+const steps = ref()
 provide('itemUrl', itemUrl.value)
 
 const showCarousel = computed(() => props.nfts.length)
 
 const { width } = useWindowSize()
-const steps = computed(() => {
+
+watchPostEffect(() => {
   if (width.value > 1540) {
-    return 6
+    steps.value = 6
   }
   if (width.value > 1280) {
-    return 5
+    steps.value = 5
   }
   if (width.value > 1024) {
-    return 4
+    steps.value = 4
   }
   if (width.value > 768) {
-    return 2
+    steps.value = 2
   }
-  return 1
+  steps.value = 1
 })
 </script>

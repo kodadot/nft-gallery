@@ -24,9 +24,7 @@ const { neoModal } = useProgrammatic()
 
 const modal = ref<{ close: () => void; isActive?: boolean } | null>(null)
 
-const { width } = useWindowSize()
-const isMobile = computed(() => width.value < 1024)
-const isMobileWithoutTablet = computed(() => width.value < 768)
+const { isMobile, isMobileWithoutTablet } = useBreakpoints()
 
 const emit = defineEmits(['closeBurgerMenu', 'toggleConnectModal'])
 

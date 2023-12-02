@@ -388,6 +388,7 @@ const identityStore = useIdentityStore()
 const { isLogIn, accountId } = useAuth()
 const { getBalance } = useBalance()
 const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
+const { isMobile } = useBreakpoints()
 const { initTransactionLoader, isLoading, resolveStatus, status } =
   useTransactionStatus()
 const { toast } = useToast()
@@ -408,7 +409,6 @@ export type TargetAddress = {
   token?: number | string
   isInvalid?: boolean
 }
-const isMobile = computed(() => useWindowSize().width.value <= 764)
 const balance = computed(() => getBalance(unit.value) || 0)
 
 const transactionValue = ref('')
