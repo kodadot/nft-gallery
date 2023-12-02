@@ -19,8 +19,12 @@
 import type { CarouselNFT } from '../base/types'
 import CollectionDetailsPopoverContent from './CollectionDetailsPopoverContent.vue'
 
-const body = ref(document.body)
+const body = ref()
 const triggered = ref(false)
+
+onMounted(() => {
+  body.value = document.body
+})
 
 withDefaults(
   defineProps<{

@@ -30,20 +30,18 @@
       </section>
 
       <!-- at the moment lets put Carousel on Client mode only. I suspect that there is some blocked resources on Carousel component. something like async/await process -->
-      <ClientOnly>
-        <section class="py-8 instance">
-          <div class="container is-fluid">
-            <!-- new listings -->
-            <LazyCarouselTypeNewestList />
+      <section class="py-8 instance">
+        <div class="container is-fluid">
+          <!-- new listings -->
+          <LazyCarouselTypeNewestList />
 
-            <!-- latest sales -->
-            <LazyCarouselTypeLatestSales class="mt-8" />
+          <!-- latest sales -->
+          <LazyCarouselTypeLatestSales class="mt-8" />
 
-            <!-- generative  -->
-            <LazyCarouselTypeGenerative class="mt-8" />
-          </div>
-        </section>
-      </ClientOnly>
+          <!-- generative  -->
+          <LazyCarouselTypeGenerative class="mt-8" />
+        </div>
+      </section>
     </template>
 
     <section class="py-8 instance instance-accent">
