@@ -1,13 +1,11 @@
 <template>
-  <Story title="NeoButton" :layout="{ type: 'grid', width: '200px' }">
-    <Variant title="small neo button">
-      <NeoCheckbox> {{ label }} </NeoCheckbox>
-    </Variant>
+  <Story title="NeoCheckbox" :layout="{ type: 'grid', width: '200px' }">
+    <NeoCheckbox> {{ label }} </NeoCheckbox>
   </Story>
 </template>
 
 <script lang="ts" setup>
-import NeoCheckbox from './NeoCheckbox.vue'
+import { NeoCheckbox } from '@kodadot1/brick'
 
 const label = 'Sample'
 </script>

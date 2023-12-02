@@ -1,19 +1,91 @@
 <template>
   <Story title="NeoButton" :layout="{ type: 'grid', width: '200px' }">
-    <Variant title="small neo button">
-      <NeoButton :label="label" size="small" />
+    <Variant title="Secondary shadow">
+      <div style="height: 60px">
+        <NeoButton :label="label" size="small" />
+      </div>
+      <div style="height: 60px">
+        <NeoButton :label="label" />
+      </div>
+      <div style="height: 60px">
+        <NeoButton :label="label" size="large" />
+      </div>
     </Variant>
-    <Variant title="default neo button">
-      <NeoButton :label="label" />
+    <Variant title="Primary shadow">
+      <div style="height: 60px">
+        <NeoButton :label="label" variant="k-accent" size="small" />
+      </div>
+      <div style="height: 60px">
+        <NeoButton :label="label" variant="k-accent" />
+      </div>
+      <div style="height: 60px">
+        <NeoButton :label="label" variant="k-accent" size="large" />
+      </div>
     </Variant>
-    <Variant title="medium neo button">
-      <NeoButton :label="label" size="medium" />
+    <Variant title="Secondary">
+      <div style="height: 60px">
+        <NeoButton :label="label" no-shadow size="small" />
+      </div>
+      <div style="height: 60px">
+        <NeoButton :label="label" no-shadow />
+      </div>
+      <div style="height: 60px">
+        <NeoButton :label="label" no-shadow size="large" />
+      </div>
     </Variant>
-    <Variant title="large neo button">
-      <NeoButton :label="label" size="large" />
+    <Variant title="Primary">
+      <div style="height: 60px">
+        <NeoButton :label="label" variant="k-accent" no-shadow size="small" />
+      </div>
+      <div style="height: 60px">
+        <NeoButton :label="label" variant="k-accent" no-shadow />
+      </div>
+      <div style="height: 60px">
+        <NeoButton :label="label" variant="k-accent" no-shadow size="large" />
+      </div>
     </Variant>
-    <Variant title="accent neo button">
-      <NeoButton :label="label" variant="k-accent" />
+    <Variant title="Secondary rounded">
+      <div style="height: 60px">
+        <NeoButton :label="label" rounded no-shadow size="small" />
+      </div>
+      <div style="height: 60px">
+        <NeoButton :label="label" rounded no-shadow />
+      </div>
+      <div style="height: 60px">
+        <NeoButton :label="label" rounded no-shadow size="large" />
+      </div>
+    </Variant>
+    <Variant title="Primary rounded">
+      <div style="height: 60px">
+        <NeoButton
+          :label="label"
+          variant="k-accent"
+          rounded
+          no-shadow
+          size="small" />
+      </div>
+      <div style="height: 60px">
+        <NeoButton :label="label" variant="k-accent" rounded no-shadow />
+      </div>
+      <div style="height: 60px">
+        <NeoButton
+          :label="label"
+          variant="k-accent"
+          rounded
+          no-shadow
+          size="large" />
+      </div>
+    </Variant>
+    <Variant title="Outlined rounded">
+      <div style="height: 60px">
+        <NeoButton :label="label" rounded no-shadow size="small" />
+      </div>
+      <div style="height: 60px">
+        <NeoButton :label="label" rounded no-shadow />
+      </div>
+      <div style="height: 60px">
+        <NeoButton :label="label" rounded no-shadow size="large" />
+      </div>
     </Variant>
   </Story>
 </template>
