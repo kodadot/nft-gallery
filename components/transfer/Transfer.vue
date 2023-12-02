@@ -853,7 +853,9 @@ const recurringPaymentLink = computed(() => {
 })
 
 const generatePaymentLink = (addressList: string[]): string => {
-  const url = new URL(`${location.origin}${location.pathname}`)
+  const { origin, pathname } = useRequestURL()
+
+  const url = new URL(`${origin}${pathname}`)
   addressList.forEach((addr, i) => {
     url.searchParams.append(`target${i == 0 ? '' : i}`, addr)
   })

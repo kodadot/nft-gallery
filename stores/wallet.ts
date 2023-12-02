@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { isDateWithinLastDays } from '@/utils/datetime'
+import { localStorage } from '@/services/browserAPIs'
 
 type WalletHistory = { [key: string]: Date }
 interface State {
@@ -19,7 +20,7 @@ export const walletHistory = useLocalStorage<WalletHistory>(
 export const useWalletStore = defineStore('wallet', {
   state: (): State => ({
     wallet: {
-      name: localStorage.getItem('walletname') || '',
+      name: localStorage?.getItem('walletname') || '',
     },
     history: { ...walletHistory.value },
   }),
@@ -47,7 +48,7 @@ export const useWalletStore = defineStore('wallet', {
   actions: {
     setWallet({ name, extension }: { name: string; extension: string }) {
       this.wallet = Object.assign(this.wallet, { name })
-      localStorage.setItem('walletname', name)
+      localStorage?.setItem('walletname', name)
       this.setRecentWallet(extension)
     },
     setRecentWallet(extensionName: string) {

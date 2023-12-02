@@ -225,6 +225,7 @@ const web = ref('')
 const legal = ref('')
 const riot = ref('')
 const isModalActive = ref(false)
+const { href: realworldFullPath } = useRequestURL()
 
 const itemsGridSearch = computed(() => {
   const tabKey =
@@ -245,8 +246,6 @@ const itemsGridSearch = computed(() => {
 
   return query
 })
-
-const realworldFullPath = computed(() => window.location.href)
 
 const activeTab = computed({
   get: () => (route.query.tab as ProfileTab) || ProfileTab.OWNED,

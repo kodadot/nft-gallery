@@ -69,6 +69,7 @@ const props = withDefaults(
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 const isLoading = useVModel(props, 'modelValue')
+const { href } = useRequestURL()
 
 const { minutes, seconds } = useCountDown(
   new Date().getTime() + props.duration * 1000,
@@ -85,7 +86,7 @@ const displayDuration = computed(() => {
 
 const twitterText = computed(
   () =>
-    `Just minted an exclusive NFT with unlockable items on @Kodadot! 🎉 So excited to add this unique collectible to my collection. Do not miss your chance! \n\n ${location.href}`,
+    `Just minted an exclusive NFT with unlockable items on @Kodadot! 🎉 So excited to add this unique collectible to my collection. Do not miss your chance! \n\n ${href}`,
 )
 
 const postTwitterUrl = computed(

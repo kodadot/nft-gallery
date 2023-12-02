@@ -40,7 +40,11 @@ export default function ({
   const total = ref(0)
   const isFetchingData = ref(false)
 
-  const containerRef = ref<Window>(window)
+  const containerRef = ref<Window | undefined>(
+    process.client ? window : undefined,
+  )
+
+  const { pathname } = useRequestURL()
 
   useInfiniteScroll(
     containerRef,
@@ -71,8 +75,7 @@ export default function ({
   const updateCurrentPage = () => {
     // allow page update only when current path is same as route path
     // i.e. scope it to only the page in which useListInfiniteScroll is used
-    const allowUpdate =
-      process.client && window.location.pathname === route.path
+    const allowUpdate = process.client && pathname === route.path
     if (!allowUpdate) {
       return
     }
@@ -104,8 +107,10 @@ export default function ({
     }
   }, 1000)
 
-  useScroll(window, { onScroll: updateCurrentPage, throttle: 1000 })
-  useResizeObserver(document.body, onResize)
+  if (process.client) {
+    useScroll(window, { onScroll: updateCurrentPage, throttle: 1000 })
+    useResizeObserver(document.body, onResize)
+  }
 
   const replaceUrlPage = (targetPage: string) => {
     const isFirstPage = targetPage === '1'

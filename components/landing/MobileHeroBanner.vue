@@ -50,6 +50,7 @@
 <script lang="ts" setup>
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { availableChainsWithIcon } = useChain()
+const { isProduction } = useEnvironment()
 
 const chains = computed(() => {
   if (isProduction) {

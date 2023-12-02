@@ -7,12 +7,13 @@ export const rmrk2ChainPrefixesInHostname = ['rmrk2', 'rmrk']
 
 export default defineNuxtRouteMiddleware((route) => {
   const identityStore = useIdentityStore()
+  const { origin, hostname } = useRequestURL()
   const prefixInPath = route.params.prefix || route.path.split('/')[1]
   const { setUrlPrefix, urlPrefix } = usePrefix()
 
   const isAnyChainPrefixInPath = chainPrefixes.includes(prefixInPath)
   const rmrk2ChainPrefixInHostname = rmrk2ChainPrefixesInHostname.find(
-    (prefix) => location.hostname.startsWith(`${prefix}.`),
+    (prefix) => hostname.startsWith(`${prefix}.`),
   )
 
   if (rmrk2ChainPrefixInHostname) {
@@ -21,10 +22,9 @@ export default defineNuxtRouteMiddleware((route) => {
     if (isAnyChainPrefixInPath && prefixInPath && prefixInPath !== 'ksm') {
       window.open(
         // multi-chain domain (for example: kodadot.xyz)
-        `${window.location.origin.replace(
-          `${rmrk2ChainPrefixInHostname}.`,
-          '',
-        )}${route.fullPath}`,
+        `${origin.replace(`${rmrk2ChainPrefixInHostname}.`, '')}${
+          route.fullPath
+        }`,
         '_self',
       )
     } else if (urlPrefix.value !== 'ksm') {

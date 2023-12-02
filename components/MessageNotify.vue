@@ -32,6 +32,7 @@
 import { NeoMessage } from '@kodadot1/brick'
 
 const route = useRoute()
+const { origin } = useRequestURL()
 const props = defineProps<{
   title?: string
   subtitle?: string
@@ -46,7 +47,7 @@ const realDuration = computed(() => {
 const autoClose = computed(() => !props.noToast)
 
 const realworldFullPath = computed(() => {
-  return `${window.location.origin}${route.fullPath}`
+  return `${origin}${route.fullPath}`
 })
 </script>
 

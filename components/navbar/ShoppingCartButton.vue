@@ -40,8 +40,10 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits(['closeBurgerMenu'])
-const isMobile = ref(window.innerWidth < 1024)
-const isMobileWithoutTablet = ref(window.innerWidth < 768)
+
+const { width } = useWindowSize()
+const isMobile = computed(() => width.value < 1024)
+const isMobileWithoutTablet = computed(() => width.value < 768)
 
 const toggleShoppingCartModal = () => {
   if (isMobile.value) {

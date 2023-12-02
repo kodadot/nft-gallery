@@ -70,8 +70,9 @@ import { useCollectionSearch } from '@/components/search/utils/useCollectionSear
 import SearchSuggestion from '@/components/search/SearchSuggestion.vue'
 import { SearchQuery } from './types'
 import type { PropType } from 'vue'
+import { document } from '@/services/browserAPIs'
 
-const isTouchDevice = 'ontouchstart' in document.documentElement
+const isTouchDevice = 'ontouchstart' in (document?.documentElement || {})
 
 const props = defineProps({
   modelValue: {

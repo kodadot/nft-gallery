@@ -1,4 +1,5 @@
 import { Interaction } from '@kodadot1/minimark/v1'
+import consola from 'consola'
 
 import {
   showLargeNotification,
@@ -40,7 +41,6 @@ import {
 import { execMintCollection } from './transaction/transactionMintCollection'
 import { ApiPromise } from '@polkadot/api'
 import { isActionValid } from './transaction/utils'
-const { $consola } = useNuxtApp()
 
 const resolveLargeSuccessNotification = (
   block: string,
@@ -180,7 +180,7 @@ export const executeAction = ({
   }
 
   if (!isActionValid(item)) {
-    $consola.warn(`Invalid action: ${JSON.stringify(item)}`)
+    consola.warn(`Invalid action: ${JSON.stringify(item)}`)
     throw createError({
       statusCode: 404,
       statusMessage: 'Interaction Not Found',
@@ -202,7 +202,13 @@ export const useTransaction = () => {
       api = await apiInstanceByPrefix(prefix)
     }
 
-    return executeAction({ item, executeTransaction, api, isLoading, status })
+    return executeAction({
+      item,
+      executeTransaction,
+      api,
+      isLoading,
+      status,
+    })
   }
 
   return {

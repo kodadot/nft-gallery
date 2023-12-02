@@ -66,7 +66,6 @@
 <script lang="ts" setup>
 import ChartJS from 'chart.js/auto'
 import 'chartjs-adapter-date-fns'
-import zoomPlugin from 'chartjs-plugin-zoom'
 import { getChartData } from '@/utils/chart'
 import { format } from 'date-fns'
 import {
@@ -77,7 +76,13 @@ import {
   NeoIcon,
 } from '@kodadot1/brick'
 import { useEventListener, useVModel } from '@vueuse/core'
-ChartJS.register(zoomPlugin)
+
+onMounted(async () => {
+  const { default: zoomPlugin } = await import('chartjs-plugin-zoom')
+
+  ChartJS.register(zoomPlugin)
+})
+
 const { $i18n } = useNuxtApp()
 const { chainSymbol } = useChain()
 const { isDarkMode } = useTheme()
@@ -127,7 +132,10 @@ let Chart: ChartJS<'line', any, unknown>
 const onWindowResize = () => {
   Chart?.resize()
 }
-useEventListener(window, 'resize', onWindowResize)
+
+if (process.client) {
+  useEventListener(window, 'resize', onWindowResize)
+}
 
 onMounted(() => {
   getPriceChartData()

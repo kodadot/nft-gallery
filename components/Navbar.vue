@@ -231,8 +231,8 @@ const fixedTitleNavAppearDistance = ref(85)
 const lastScrollPosition = ref(0)
 const isBurgerMenuOpened = ref(false)
 const { width } = useWindowSize()
-const isMobile = ref(window.innerWidth < 1024)
-const isMobileWithoutTablet = ref(window.innerWidth < 768)
+const isMobile = computed(() => width.value < 1024)
+const isMobileWithoutTablet = computed(() => width.value < 768)
 const isTinyMobile = computed(() => width.value < 480)
 const { urlPrefix } = usePrefix()
 const { isDarkMode } = useTheme()
@@ -337,10 +337,6 @@ const hideMobileSearchBar = () => {
   setBodyScroll(true)
 }
 
-const handleResize = () => {
-  isMobile.value = window.innerWidth < 1024
-}
-
 const chainName = computed(() => getChainNameByPrefix(urlPrefix.value))
 
 const updateAuthBalance = () => {
@@ -358,8 +354,10 @@ onBeforeUnmount(() => {
   document.documentElement.classList.remove('is-clipped-touch')
   clearInterval(updateAuthBalanceTimer.value)
 })
-useEventListener(window, 'scroll', onScroll)
-useEventListener(window, 'resize', handleResize)
+
+if (process.client) {
+  useEventListener(window, 'scroll', onScroll)
+}
 </script>
 
 <style lang="scss" scoped>

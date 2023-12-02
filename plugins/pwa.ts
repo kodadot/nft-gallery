@@ -5,6 +5,10 @@ import { clearSession } from '@/utils/cachingStrategy'
 
 // export default async () => {
 export default defineNuxtPlugin(async () => {
+  if (!process.client) {
+    return
+  }
+
   if ('serviceWorker' in navigator) {
     const { Workbox } = await import('workbox-window')
     const workbox = new Workbox('/sw.js')

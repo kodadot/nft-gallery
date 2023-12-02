@@ -3,16 +3,20 @@
 </template>
 
 <script lang="ts" setup>
-import type { ChartDataset } from 'chart.js'
 import ChartJS from 'chart.js/auto'
 import 'chartjs-adapter-date-fns'
-import zoomPlugin from 'chartjs-plugin-zoom'
-import annotationPlugin from 'chartjs-plugin-annotation'
+import type { ChartDataset } from 'chart.js'
 import { useEventListener } from '@vueuse/core'
 
-// register chart plugins
-ChartJS.register(zoomPlugin)
-ChartJS.register(annotationPlugin)
+onMounted(async () => {
+  const { default: zoomPlugin } = await import('chartjs-plugin-zoom')
+  const { default: annotationPlugin } = await import(
+    'chartjs-plugin-annotation'
+  )
+
+  ChartJS.register(zoomPlugin)
+  ChartJS.register(annotationPlugin)
+})
 
 const props = defineProps<{
   labels?: string[]
@@ -29,7 +33,10 @@ onMounted(() => {
 const onWindowResize = () => {
   Chart.value?.resize()
 }
-useEventListener(window, 'resize', onWindowResize)
+
+if (process.client) {
+  useEventListener(window, 'resize', onWindowResize)
+}
 
 const renderChart = () => {
   Chart.value?.destroy()

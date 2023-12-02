@@ -25,14 +25,16 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed } from 'vue'
+import { useWindowSize } from '@vueuse/core'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
 defineProps<{
   title: string
 }>()
 
-const isMobile = ref(window.innerWidth < 1024)
+const { width } = useWindowSize()
+const isMobile = computed(() => width.value < 1024)
 
 const emit = defineEmits(['close'])
 </script>

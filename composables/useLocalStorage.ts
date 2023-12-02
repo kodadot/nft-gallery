@@ -1,15 +1,17 @@
+import { localStorage } from '@/services/browserAPIs'
+
 export default function <T>(key: string, defaultValue: T) {
   return customRef((track, trigger) => ({
     get: (): T => {
       track()
-      const value = localStorage.getItem(key)
+      const value = localStorage?.getItem(key)
       return value ? JSON.parse(value) : defaultValue
     },
     set: (value: T) => {
       if (value === null) {
-        localStorage.removeItem(key)
+        localStorage?.removeItem(key)
       } else {
-        localStorage.setItem(key, JSON.stringify(value))
+        localStorage?.setItem(key, JSON.stringify(value))
       }
       trigger()
     },

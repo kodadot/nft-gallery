@@ -47,6 +47,7 @@ import Prism from 'prismjs'
 import { URLS } from '@/utils/constants'
 
 const route = useRoute()
+const { pathname } = useRequestURL()
 const slug = route.params.slug
 
 const { data: post } = await useAsyncData('post', () =>
@@ -63,7 +64,7 @@ const openShareUrl = (platform: 'twitter' | 'linkedin') => {
       shareUrl = 'https://www.linkedin.com/shareArticle?mini=true&url='
       break
   }
-  const currentUrl = `${URLS.koda.baseUrl}${location.pathname}`
+  const currentUrl = `${URLS.koda.baseUrl}${pathname}`
 
   window.open(`${shareUrl}${encodeURIComponent(currentUrl)}`, '_blank')
 }

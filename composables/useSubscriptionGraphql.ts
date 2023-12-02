@@ -17,7 +17,7 @@ export default function ({
   const client = clientName || prefixClient.value
   const wsUrl = getWSUrlByClient(client)
 
-  if (!wsUrl) {
+  if (!wsUrl || !process.client) {
     // this client do not subscription
     return
   }

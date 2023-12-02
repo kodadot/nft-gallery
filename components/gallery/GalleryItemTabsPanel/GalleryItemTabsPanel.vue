@@ -68,6 +68,8 @@ const props = withDefaults(
   },
 )
 
+console.log('hhhhhh', props.activeTab)
+
 const { urlPrefix } = usePrefix()
 const nft = computed(() => props.galleryItem.nft.value)
 const { offersDisabled } = useChain()
@@ -77,16 +79,21 @@ const collectionId = ref('')
 
 const { isBasilisk } = useIsChain(urlPrefix)
 
-watchEffect(() => {
-  if (props.activeTab) {
-    activeTab.value = props.activeTab
-  }
-  if (offersDisabled) {
-    activeTab.value = '1'
-  }
+watchEffect(
+  () => {
+    if (props.activeTab) {
+      activeTab.value = props.activeTab
+    }
+    if (offersDisabled) {
+      activeTab.value = '1'
+    }
 
-  collectionId.value = nft.value?.collection.id || ''
-})
+    collectionId.value = nft.value?.collection.id || ''
+  },
+  {
+    flush: 'post',
+  },
+)
 </script>
 
 <style lang="scss">

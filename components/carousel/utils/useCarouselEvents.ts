@@ -1,6 +1,5 @@
 import type { CarouselNFT } from '@/components/base/types'
 import type { NFTWithMetadata } from '@/composables/useNft'
-import { isBeta, isProduction } from '@/utils/chain'
 import { formatNFT } from '@/utils/carousel'
 
 import latestEvents from '@/queries/subsquid/general/latestEvents.graphql'
@@ -10,6 +9,8 @@ import unionBy from 'lodash/unionBy'
 interface Types {
   type: 'latestSales' | 'newestList'
 }
+
+const { isProduction, isBeta } = useEnvironment()
 
 const limit = isProduction ? 15 : 8
 

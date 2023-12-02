@@ -5,8 +5,9 @@
 
 <script lang="ts" setup>
 const router = useRouter()
+const { pathname } = useRequestURL()
 
 onBeforeMount(() => {
-  router.replace(`${window.location.pathname}/collectibles`)
+  router.replace(`${pathname}/collectibles`)
 })
 </script>

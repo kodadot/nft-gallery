@@ -65,6 +65,10 @@ const bindCopyEvents = (event) => {
 }
 
 const listenGlobalKeyboardEvents = (app) => {
+  if (!process.client) {
+    return
+  }
+
   document.addEventListener('keydown', (event: KeyboardEvent) => {
     if (shouldIgnoreKeyDownEvent(event)) {
       return

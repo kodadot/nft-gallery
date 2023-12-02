@@ -139,7 +139,9 @@ watch(file, () => {
   }
 })
 
-useEventListener(window, 'paste', onPasteImage)
+if (process.client) {
+  useEventListener(window, 'paste', onPasteImage)
+}
 
 defineExpose({ checkValidity })
 </script>

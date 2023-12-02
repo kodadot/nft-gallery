@@ -53,7 +53,7 @@ import {
 } from '@kodadot1/brick'
 
 const { $i18n } = useNuxtApp()
-const currentUrl = computed(() => window.location.href)
+const { href: currentUrl } = useRequestURL()
 
 const QRModalActive = ref(false)
 

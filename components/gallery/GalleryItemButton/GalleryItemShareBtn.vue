@@ -50,10 +50,11 @@ import QRCode from '@/components/shared/QRCode.vue'
 const route = useRoute()
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
+const { origin } = useRequestURL()
 
 const isModalActive = ref(false)
 const sharingTxt = $i18n.t('sharing.nft')
-const realworldFullPathShare = ref(`${window.location.origin}${route.fullPath}`)
+const realworldFullPathShare = ref(`${origin}${route.fullPath}`)
 const twitterUri = ref(
   `https://twitter.com/intent/tweet?text=${sharingTxt}&via=KodaDot&url=${realworldFullPathShare.value}`,
 )

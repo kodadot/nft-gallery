@@ -82,8 +82,7 @@ export default defineNuxtConfig({
     appManifest: false,
   },
 
-  // Disable server-side rendering
-  ssr: false,
+  ssr: true,
 
   // Global page headers: https://nuxt.com/docs/api/configuration/nuxt-config#head
   app: {
@@ -255,6 +254,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
     '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
     '@nuxt/content',
     'nuxt-simple-sitemap',
     '@nuxtjs/google-fonts',

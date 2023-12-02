@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: false
@@ -167,6 +167,9 @@ importers:
       slugify:
         specifier: ^1.6.6
         version: 1.6.6
+      ts-invariant:
+        specifier: ^0.10.3
+        version: 0.10.3
       unzipit:
         specifier: ^1.4.3
         version: 1.4.3
@@ -228,6 +231,9 @@ importers:
       '@nuxtjs/google-fonts':
         specifier: ^3.1.0
         version: 3.1.0(rollup@2.79.1)
+      '@pinia-plugin-persistedstate/nuxt':
+        specifier: ^1.2.0
+        version: 1.2.0(@pinia/nuxt@0.5.1)(pinia@2.1.7)(rollup@2.79.1)
       '@playwright/test':
         specifier: ^1.40.0
         version: 1.40.0
@@ -3859,7 +3865,6 @@ packages:
     transitivePeerDependencies:
       - rollup
       - supports-color
-    dev: false
 
   /@nuxt/kit@3.8.0(rollup@2.79.1):
     resolution: {integrity: sha512-oIthQxeMIVs4ESVP5FqLYn8tj0S1sLd+eYreh+dNYgnJ2pTi7+THR12ONBNHjk668jqEe7ErUJ8UlGwqBzgezg==}
@@ -4015,7 +4020,6 @@ packages:
     transitivePeerDependencies:
       - rollup
       - supports-color
-    dev: false
 
   /@nuxt/schema@3.8.0(rollup@2.79.1):
     resolution: {integrity: sha512-VEDVeCjdVowhoY5vIBSz94+SSwmM204jN6TNe/ShBJ2d/vZiy9EtLbhOwqaPNFHwnN1fl/XFHThwJiexdB9D1w==}
@@ -4525,6 +4529,21 @@ packages:
     resolution: {integrity: sha512-CaRzIGfU6CUIKLPswYtOw/xbtTttqmJZpr3fhkxLvkBQMXIH14iISD763OFXtWui7DrAMBKo/bHawvFNgWGKTg==}
     dev: false
 
+  /@pinia-plugin-persistedstate/nuxt@1.2.0(@pinia/nuxt@0.5.1)(pinia@2.1.7)(rollup@2.79.1):
+    resolution: {integrity: sha512-2rtgx5viGSMQMCoFYZMHguA2FhFKCUvw0PwETfqQegsWeBHlqk1/D0G/9xqep8Hq+c1BuFx+jNLJzoLXtYfivg==}
+    peerDependencies:
+      '@pinia/nuxt': ^0.5.0
+    dependencies:
+      '@nuxt/kit': 3.8.2(rollup@2.79.1)
+      '@pinia/nuxt': 0.5.1(rollup@2.79.1)(typescript@4.9.5)(vue@3.3.9)
+      defu: 6.1.3
+      pinia-plugin-persistedstate: 3.2.0(pinia@2.1.7)
+    transitivePeerDependencies:
+      - pinia
+      - rollup
+      - supports-color
+    dev: true
+
   /@pinia/nuxt@0.5.1(rollup@2.79.1)(typescript@4.9.5)(vue@3.3.9):
     resolution: {integrity: sha512-6wT6TqY81n+7/x3Yhf0yfaJVKkZU42AGqOR0T3+UvChcaOJhSma7OWPN64v+ptYlznat+fS1VTwNAcbi2lzHnw==}
     dependencies:
@@ -4536,7 +4555,6 @@ packages:
       - supports-color
       - typescript
       - vue
-    dev: false
 
   /@pkgjs/parseargs@0.11.0:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -15604,7 +15622,6 @@ packages:
       pinia: ^2.0.0
     dependencies:
       pinia: 2.1.7(typescript@4.9.5)(vue@3.3.9)
-    dev: false
 
   /pinia@2.1.7(typescript@4.9.5)(vue@3.3.9):
     resolution: {integrity: sha512-+C2AHFtcFqjPih0zpYuvof37SFxMQ7OEG2zV9jRI12i9BOy3YQVAHwdKtyyc8pDcDyIc33WCIsZaCFWU7WWxGQ==}
@@ -15622,7 +15639,6 @@ packages:
       typescript: 4.9.5
       vue: 3.3.9(typescript@4.9.5)
       vue-demi: 0.14.6(vue@3.3.9)
-    dev: false
 
   /pirates@4.0.6:
     resolution: {integrity: sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==}

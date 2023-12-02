@@ -83,6 +83,8 @@ import { Auth, useIdentityStore } from '@/stores/identity'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem.vue'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'
 import { ModalCloseType } from '@/components/navbar/types'
+import { localStorage } from '@/services/browserAPIs'
+
 const { $i18n } = useNuxtApp()
 const selectedWalletProvider = ref<BaseDotsamaWallet>()
 const forceWalletSelect = ref(false)
@@ -100,12 +102,12 @@ const setAccount = (account: Auth) => {
   emit('connect', account)
 
   if (selectedWalletProvider.value) {
-    localStorage.setItem('wallet', selectedWalletProvider.value.extensionName)
+    localStorage?.setItem('wallet', selectedWalletProvider.value.extensionName)
   }
 }
 const setUserAuthValue = () => {
   hasUserWalletAuth.value = true
-  localStorage.setItem('user_auth_wallet_add', true.toString())
+  localStorage?.setItem('user_auth_wallet_add', true.toString())
 }
 const installedWallet = computed(() => {
   return wallets.filter((wallet) => wallet.installed)
@@ -115,7 +117,7 @@ const uninstalledWallet = computed(() => {
 })
 const showUninstalledWallet = ref(!installedWallet.value.length)
 const hasUserWalletAuth = ref(
-  Boolean(localStorage.getItem('user_auth_wallet_add')),
+  Boolean(localStorage?.getItem('user_auth_wallet_add')),
 )
 
 const toggleShowUninstalledWallet = () => {

@@ -34,8 +34,7 @@ const props = withDefaults(
 )
 
 const profileMode = !isShareMode
+const { origin } = useRequestURL()
 
-const hrefLink = computed(
-  () => `${window.location.origin}/${props.link}/${props.param}`,
-)
+const hrefLink = computed(() => `${origin}/${props.link}/${props.param}`)
 </script>

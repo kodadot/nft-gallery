@@ -22,7 +22,7 @@ export const createTokenId = (collection: string, id: string): string =>
 
 export const getRandomValues = (length: number): number[] => {
   const values = new Uint32Array(length)
-  window.crypto.getRandomValues(values)
+  crypto.getRandomValues(values)
   return Array.from(values)
 }
 

@@ -35,20 +35,21 @@
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
 // import { useState } from 'vue-gtag-next'
+import { localStorage } from '@/services/browserAPIs'
 
 // const { isEnabled } = useState()
 const hasDisplayedCookieBanner = ref(
-  localStorage.getItem('cookies_enabled') !== null || false,
+  localStorage?.getItem('cookies_enabled') !== null || false,
 )
 const acceptCookies = () => {
   // if (isEnabled) {
   //   isEnabled.value = true
   // }
-  localStorage.setItem('cookies_enabled', '1')
+  localStorage?.setItem('cookies_enabled', '1')
   hasDisplayedCookieBanner.value = true
 }
 const declineCookies = () => {
-  localStorage.setItem('cookies_enabled', '0')
+  localStorage?.setItem('cookies_enabled', '0')
   hasDisplayedCookieBanner.value = true
 }
 </script>

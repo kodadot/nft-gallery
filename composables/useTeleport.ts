@@ -4,10 +4,9 @@ import {
   chainToPrefixMap,
   prefixToChainMap,
 } from '@/utils/teleport'
-import { web3Enable } from '@polkadot/extension-dapp'
 import { notificationTypes, showNotification } from '@/utils/notification'
 import { getss58AddressByPrefix } from '@/utils/account'
-import { SubmittableResult } from '@polkadot/api'
+import type { SubmittableResult } from '@polkadot/api'
 import { txCb } from '@/utils/transactionExecutor'
 
 export type TeleportParams = {
@@ -69,7 +68,11 @@ export default function (fetchBalancePeriodically: boolean = false) {
       return
     }
 
-    await web3Enable('Kodadot')
+    if (process.client) {
+      const { web3Enable } = await import('@polkadot/extension-dapp')
+      await web3Enable('Kodadot')
+    }
+
     let isFirstStatus = true
     initTransactionLoader()
     isError.value = false

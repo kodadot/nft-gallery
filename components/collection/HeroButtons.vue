@@ -104,6 +104,7 @@ import HeroButtonDeleteCollection from './HeroButtonDeleteCollection.vue'
 import HeroButtonDeleteNfts from './HeroButtonDeleteNfts.vue'
 
 const route = useRoute()
+const { origin } = useRequestURL()
 const { isCurrentOwner } = useAuth()
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
@@ -111,8 +112,7 @@ const { toast } = useToast()
 
 const collectionId = computed(() => route.params.id)
 const currentCollectionUrl = computed(
-  () =>
-    `${window.location.origin}/${urlPrefix.value}/collection/${collectionId.value}`,
+  () => `${origin}/${urlPrefix.value}/collection/${collectionId.value}`,
 )
 const { collection } = useCollectionMinimal({
   collectionId: collectionId.value,

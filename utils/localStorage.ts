@@ -1,3 +1,5 @@
+import { localStorage } from '@/services/browserAPIs'
+
 export type VisitedNFT = {
   collection: string
   date: string
@@ -9,7 +11,7 @@ export type VisitedNFT = {
  * Get visited NFTs from localStorage
  */
 export const visitedNFT = (): VisitedNFT[] => {
-  const getHistory = localStorage.getItem('history')
+  const getHistory = localStorage?.getItem('history')
   if (!getHistory) {
     return []
   }

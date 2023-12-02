@@ -21,8 +21,10 @@ import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/vue.es'
 import { countDownTime, slidesCountOnTimeCountdown } from './const'
 import { useCountDown } from './utils/useCountDown'
+
 const animation = { duration: 30000, easing: (t) => t }
 const getPositiveNumber = (number: number) => Math.max(0, number)
+const { width } = useWindowSize()
 
 const slidesArray = Array(slidesCountOnTimeCountdown).fill(0)
 const { hours, minutes, seconds } = useCountDown(countDownTime)
@@ -32,7 +34,7 @@ const [wrapper] = useKeenSlider({
   renderMode: 'performance',
   slides: {
     origin: 'center',
-    perView: window.innerWidth / 500,
+    perView: width.value / 500,
     spacing: 10,
   },
   drag: false,

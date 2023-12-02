@@ -178,7 +178,7 @@ const toggleContent = () => {
   isLewdBlurredLayer.value = !isLewdBlurredLayer.value
 }
 
-const isMediaItemHovering = useElementHover(mediaItem)
+const isMediaItemHovering = process.client && useElementHover(mediaItem)
 
 defineExpose({ isLewdBlurredLayer })
 </script>

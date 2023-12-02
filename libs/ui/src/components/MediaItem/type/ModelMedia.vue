@@ -19,7 +19,9 @@
 </template>
 
 <script lang="ts" setup>
-import '@google/model-viewer'
+onMounted(async () => {
+  await import('@google/model-viewer')
+})
 
 defineProps<{
   animationSrc: string

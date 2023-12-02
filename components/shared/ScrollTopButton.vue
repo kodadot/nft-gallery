@@ -18,7 +18,9 @@ const onScroll = () => {
     document.documentElement.scrollTop > SHOW_SCROLL_TOP_BUTTON_HEIGHT
 }
 
-useEventListener(window, 'scroll', onScroll)
+if (process.client) {
+  useEventListener(window, 'scroll', onScroll)
+}
 
 const scrollToTop = () => {
   window.scroll({

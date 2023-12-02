@@ -6,6 +6,7 @@ import { emptyObject } from '@/utils/empty'
 import { formatAddress } from '@/utils/account'
 import { Prefix } from '@kodadot1/static'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
+import { localStorage } from '@/services/browserAPIs'
 
 const DEFAULT_BALANCE_STATE = {
   bsx: '0',
@@ -96,7 +97,7 @@ export const useIdentityStore = defineStore('identity', {
         '1': '0',
         '5': '0',
       },
-      address: localStorage.getItem('kodaauth') || '',
+      address: localStorage?.getItem('kodaauth') || '',
     },
     multiBalances: DEFAULT_MULTI_BALANCE_STATE,
     multiBalanceNetwork: 'main-network',
@@ -163,7 +164,7 @@ export const useIdentityStore = defineStore('identity', {
         tokens: emptyObject<BalanceMap>(),
       }
       this.resetMultipleBalances()
-      localStorage.removeItem('kodaauth')
+      localStorage?.removeItem('kodaauth')
     },
     resetMultipleBalances() {
       this.multiBalances.address = ''
@@ -178,7 +179,7 @@ export const useIdentityStore = defineStore('identity', {
     async setAuth(authRequest: Auth) {
       this.auth = { ...authRequest, balance: DEFAULT_BALANCE_STATE }
       await this.fetchBalance({ address: authRequest.address })
-      localStorage.setItem('kodaauth', authRequest.address || '')
+      localStorage?.setItem('kodaauth', authRequest.address || '')
     },
     setBalance(prefix: string, balance: string) {
       if (this.auth.balance) {
@@ -198,7 +199,7 @@ export const useIdentityStore = defineStore('identity', {
       if (this.auth.address) {
         const address = formatAddress(this.auth.address, ss58Prefix)
         this.auth.address = address
-        localStorage.setItem('kodaauth', address)
+        localStorage?.setItem('kodaauth', address)
       }
     },
     async setCorrectAddressBalance(apiUrl: string) {
