@@ -124,6 +124,7 @@ export const useListingCartStore = defineStore('listingCart', {
       this.allUnlistedItems = []
     },
   },
+  persist: true,
 })
 
 function existInItemIndex(id: string, items: ListCartItem[]) {

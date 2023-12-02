@@ -58,4 +58,5 @@ export const useWalletStore = defineStore('wallet', {
       walletHistory.value = history
     },
   },
+  persist: true,
 })

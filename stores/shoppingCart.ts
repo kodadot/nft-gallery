@@ -79,4 +79,5 @@ export const useShoppingCartStore = defineStore('shoppingCart', {
       localStorage.value = payload
     },
   },
+  persist: true,
 })

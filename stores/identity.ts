@@ -234,4 +234,5 @@ export const useIdentityStore = defineStore('identity', {
       }
     },
   },
+  persist: true,
 })
