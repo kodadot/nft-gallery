@@ -13,10 +13,12 @@ export default function () {
   const storage = useLocalStorage('urlPrefix', { selected: DEFAULT_PREFIX })
   const initialPrefixFromPath = getAvailablePrefix(route.path.split('/')[1])
   const identityStore = useIdentityStore()
-  const urlPrefix = useState('urlPrefix')
+  const urlPrefix = useState<Prefix>('urlPrefix', () => {
+    return getAvailablePrefix(route.params.prefix as string) as Prefix
+  })
 
   const validPrefixFromRoute = computed(() =>
-    getAvailablePrefix(route.params.prefix),
+    getAvailablePrefix(route.params.prefix as string),
   )
 
   const prefix = computed<Prefix>(
@@ -43,8 +45,8 @@ export default function () {
     { immediate: true },
   )
 
-  watch(prefix, () => {
-    urlPrefix.value = prefix.value
+  watch(prefix, (newValue) => {
+    urlPrefix.value = newValue
   })
 
   onMounted(() => {

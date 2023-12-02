@@ -95,7 +95,7 @@ export function useFetchSearch({
     }
 
     const getQueryResults = (query) => {
-      if (useTokens.value) {
+      if (query.tokenEntities) {
         return {
           entities: query.tokenEntities as TokenEntity[],
           count: query.tokenEntityCount.totalCount as number,

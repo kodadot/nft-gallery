@@ -7,9 +7,10 @@ function imagesHaveLoaded() {
 test('Check if search provide results', async ({ page }) => {
   //page.route('**', route => route.continue())
   await page.goto('/ksm')
+  await page.waitForLoadState('networkidle')
   const searchBar = page.getByTestId('search-bar')
-  await searchBar.locator('input').fill('waifu')
-  await page.locator('.search-suggestion-container').hover()
+  await searchBar.locator('input').first().fill('waifu')
+  await page.locator('.search-suggestion-container').first().hover()
   /* await Promise.all([
     page.waitForResponse(
       (resp) =>
@@ -33,7 +34,7 @@ test('Check if search provide results', async ({ page }) => {
   })
   await page.waitForFunction(imagesHaveLoaded, { timeout: 30000 })
   //switchs and check NFT results
-  await page.locator('div[aria-controls="NFTs-content"]').click()
+  await page.locator('div[aria-controls="NFTs-content"]').first().click()
   const tabNft = page.getByTestId('nft-tab')
   await expect(tabNft.locator('.search-result-item').first()).toBeVisible({
     timeout: 30000,

@@ -3,6 +3,7 @@ import { expect, test } from './fixtures'
 test('Transfer Page Functionality', async ({ page, Commands }) => {
   await Commands.e2elogin()
   await page.goto('/dot/transfer')
+  await page.waitForLoadState('networkidle')
   const UserAddress = await page
     .getByTestId('avatar-identity-icon')
     .getAttribute('data-key')
@@ -61,11 +62,11 @@ test('Transfer Page Functionality', async ({ page, Commands }) => {
     //verify if network fee is present
     await expect(page.getByTestId('transfer-network-fee')).toBeVisible()
     //last step
-    await test.step('Switch to KSM and convert address to proper chain', async () => {
+    await test.step('Switch to BSX and convert address to proper chain', async () => {
       //change to KSM chain
       await page
         .getByTestId('transfer-token-tabs-container')
-        .getByText('KSM')
+        .getByText('BSX')
         .click()
       await page
         .getByPlaceholder('Enter wallet address')

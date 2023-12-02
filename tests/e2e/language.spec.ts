@@ -3,6 +3,7 @@ import { expect, test } from './fixtures'
 test('Check Language translations', async ({ page, Commands }) => {
   await Commands.e2elogin()
   await page.goto('')
+  await page.waitForLoadState('networkidle')
   //DE
   await page.getByTestId('navbar-profile-dropdown').click()
   await page.getByTestId('sidebar-language').click()

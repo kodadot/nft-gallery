@@ -1,17 +1,25 @@
 import type { Prefix } from '@kodadot1/static'
-import type { ComputedRef } from 'vue'
+import type { Ref } from 'vue'
 
-export default function (prefix: ComputedRef<Prefix>) {
-  const isBasilisk = computed(() => prefix.value === 'bsx')
-  const isRemark = computed(
-    () => prefix.value === 'rmrk' || prefix.value === 'ksm',
-  )
+export default function (prefix: Ref<Prefix>) {
+  const isBasilisk = useState('isBasilisk')
+  const isRemark = useState('isRemark')
+  const isAssetHub = useState('isAssetHub')
+  const isRmrk = useState('isRmrk')
 
-  const isRmrk = computed(() => prefix.value === 'rmrk')
+  onMounted(() => {
+    isBasilisk.value = prefix.value === 'bsx'
+    isRemark.value = prefix.value === 'rmrk' || prefix.value === 'ksm'
+    isAssetHub.value = prefix.value === 'ahk' || prefix.value === 'ahp'
+    isRmrk.value = prefix.value === 'rmrk'
+  })
 
-  const isAssetHub = computed(
-    () => prefix.value === 'ahk' || prefix.value === 'ahp', //|| prefix.value === 'ahr'
-  )
+  watch(prefix, () => {
+    isBasilisk.value = prefix.value === 'bsx'
+    isRemark.value = prefix.value === 'rmrk' || prefix.value === 'ksm'
+    isAssetHub.value = prefix.value === 'ahk' || prefix.value === 'ahp'
+    isRmrk.value = prefix.value === 'rmrk'
+  })
 
   return {
     isBasilisk,
