@@ -1,4 +1,3 @@
-import keyring from '@polkadot/ui-keyring'
 import { cryptoWaitReady } from '@polkadot/util-crypto'
 import correctFormat from '~/utils/ss58Format'
 import { useChainStore } from '@/stores/chain'
@@ -7,7 +6,13 @@ import { useChainStore } from '@/stores/chain'
 
 // }
 
-export default defineNuxtPlugin(() => {
+export default defineNuxtPlugin(async () => {
+  if (!process.client) {
+    return
+  }
+
+  const { default: keyring } = await import('@polkadot/ui-keyring')
+
   const chainStore = useChainStore()
   const ss58Format = chainStore.getChainProperties58Format
   cryptoWaitReady().then(() => {
