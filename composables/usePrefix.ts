@@ -7,9 +7,8 @@ import { ss58Of } from '@/utils/config/chain.config'
 
 import type { Prefix } from '@kodadot1/static'
 
-const sharedPrefix = ref<Prefix>()
-
 export default function () {
+  const sharedPrefix = ref<Prefix>()
   const route = useRoute()
   const storage = useLocalStorage('urlPrefix', { selected: DEFAULT_PREFIX })
   const initialPrefixFromPath = getAvailablePrefix(route.path.split('/')[1])
