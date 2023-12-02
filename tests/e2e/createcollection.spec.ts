@@ -5,6 +5,7 @@ test('Fill fields to check if they work', async ({ page, Commands }) => {
   await Commands.e2elogin()
   //Goto
   await page.goto('/create/collection')
+  await page.waitForLoadState('networkidle')
   //upload image logo
   await page.setInputFiles('input[type="file"]', 'tests/e2e/unsplash-image.jpg')
   //checks if Collection Name Title Exists
@@ -57,6 +58,7 @@ test('Show warning message on field when collection name empty', async ({
   page,
 }) => {
   await page.goto('/create/collection')
+  await page.waitForLoadState('networkidle')
   // defines a variable containing the collection name data-testid
   const collectionName = page.getByTestId('collection-name')
   // Fill and check if Collection Name works properly by checking warning

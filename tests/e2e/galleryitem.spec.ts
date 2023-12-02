@@ -2,6 +2,7 @@ import { expect, test } from './fixtures'
 
 test('Element existance verification', async ({ page }) => {
   await page.goto('/ahk/gallery/6-10')
+  await page.waitForLoadState('networkidle')
   //activity tab
   await page
     .getByTestId('gallery-item-tabs')
@@ -32,6 +33,7 @@ test('Element existance verification', async ({ page }) => {
 
 test('Share Button Functionality', async ({ page }) => {
   await page.goto('/ahk/gallery/6-10')
+  await page.waitForLoadState('networkidle')
   const shareBtn = page.getByTestId('gallery-item-share-button')
   await shareBtn.click()
   //Copy Link
@@ -58,6 +60,7 @@ test('Share Button Functionality', async ({ page }) => {
 
 test('More Button Functionality', async ({ page }) => {
   await page.goto('/ahk/gallery/6-10')
+  await page.waitForLoadState('networkidle')
   //more button
   await page.getByTestId('gallery-item-more-button').click()
   const downloadPromise = page.waitForEvent('download')
@@ -67,6 +70,7 @@ test('More Button Functionality', async ({ page }) => {
 
 test('Description tab', async ({ page }) => {
   await page.goto('/ahk/gallery/6-10')
+  await page.waitForLoadState('networkidle')
   await page
     .getByTestId('gallery-item-description-neotabs')
     .locator('[aria-controls="0-content"]')

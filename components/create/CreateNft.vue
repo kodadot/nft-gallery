@@ -1,11 +1,13 @@
 <template>
   <div class="is-centered columns">
     <Loader v-if="!autoTeleport" v-model="isLoading" :status="status" />
-    <MintConfirmModal
-      v-model="modalShowStatus"
-      :auto-teleport-actions="autoTeleportActions"
-      :nft-information="nftInformation"
-      @confirm="confirm" />
+    <ClientOnly>
+      <MintConfirmModal
+        v-model="modalShowStatus"
+        :auto-teleport-actions="autoTeleportActions"
+        :nft-information="nftInformation"
+        @confirm="confirm" />
+    </ClientOnly>
 
     <form class="is-half column" @submit.prevent="submitHandler">
       <CreateNftPreview

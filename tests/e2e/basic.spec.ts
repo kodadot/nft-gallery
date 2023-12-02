@@ -10,6 +10,7 @@ const chains = [
 
 test('Landing Elements', async ({ page }) => {
   await page.goto('')
+  await page.waitForLoadState('networkidle')
   for (const data of chains) {
     await page.getByTestId('chain-select').click()
     await page.getByTestId(data).click()

@@ -1,11 +1,14 @@
 <template>
   <div class="is-centered" :class="{ columns: classColumn }">
     <Loader v-if="!autoTeleport" v-model="isLoading" :status="status" />
-    <MintConfirmModal
-      v-model="confirmModal"
-      :auto-teleport-actions="actions"
-      :nft-information="collectionInformation"
-      @confirm="handleCreateCollectionConfirmation" />
+    <ClientOnly>
+      <MintConfirmModal
+        v-model="confirmModal"
+        :auto-teleport-actions="actions"
+        :nft-information="collectionInformation"
+        @confirm="handleCreateCollectionConfirmation" />
+    </ClientOnly>
+
     <form
       class="is-half"
       :class="{ column: classColumn }"

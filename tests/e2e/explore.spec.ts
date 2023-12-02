@@ -5,6 +5,7 @@ test('Explore collections at ahk and sort by newest', async ({
   Commands,
 }) => {
   await page.goto('/ahk/explore/collectibles')
+  await page.waitForLoadState('networkidle')
   const tabs = page.getByTestId('gallery-explore-tabs').nth(1)
   await expect(tabs.getByText('Collections')).toBeVisible()
   await expect(tabs.getByText('Items')).toBeVisible()
@@ -30,6 +31,7 @@ test('Explore Items on ahk, sort by ascending price and filter by minimum 100 KS
   Commands,
 }) => {
   await page.goto('/ahk/explore/items?page=1')
+  await page.waitForLoadState('networkidle')
   const tabs = page.getByTestId('gallery-explore-tabs').nth(1)
   await expect(tabs.getByText('Collections')).toBeVisible()
   await expect(tabs.getByText('Items')).toBeVisible()

@@ -68,8 +68,6 @@ const props = withDefaults(
   },
 )
 
-console.log('hhhhhh', props.activeTab)
-
 const { urlPrefix } = usePrefix()
 const nft = computed(() => props.galleryItem.nft.value)
 const { offersDisabled } = useChain()

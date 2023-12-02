@@ -17,7 +17,7 @@ export default function () {
   })
 
   const decimals = computed<number>(() => {
-    return chainProperties.value.tokenDecimals
+    return chainProperties.value?.tokenDecimals
   })
 
   const decimalsOf = (urlPrefix: Prefix) => {
@@ -25,7 +25,7 @@ export default function () {
   }
 
   const unit = computed<string>(() => {
-    return chainProperties.value.tokenSymbol
+    return chainProperties.value?.tokenSymbol
   })
 
   const offersDisabled = computed(() => {
