@@ -7,7 +7,6 @@ test('Transfer Page Functionality', async ({ page, Commands }) => {
   const UserAddress = await page
     .getByTestId('avatar-identity-icon')
     .getAttribute('data-key')
-  console.log(UserAddress)
   await page.getByTestId('transfer-copy-sender-address').click()
   await Commands.copyText(`${UserAddress}`)
   await page
