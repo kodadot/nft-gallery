@@ -5,7 +5,6 @@
       :value="preferencesStore.listingCartModalOpen"
       scroll="clip"
       append-to-body
-      container-class="modal-width"
       @close="onClose">
       <ModalBody
         modal-max-height="70vh"
