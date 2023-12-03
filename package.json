@@ -27,14 +27,15 @@
     "start": "nuxi preview",
     "start:node": "PORT=9090 node .output/server/index.mjs",
     "generate:script": "node ./script/substack.mjs && cross-env NODE_OPTIONS=--openssl-legacy-provider NITRO_PRESET=netlify nuxi generate",
-    "generate": "node ./script/substack.mjs && cross-env NODE_OPTIONS=--openssl-legacy-provider nuxi build",
+    "generate": "node ./script/substack.mjs && cross-env NODE_OPTIONS=--openssl-legacy-provider nuxi build && pnpm run postbuild",
     "lint": "eslint --cache --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:quiet": "eslint --cache --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:fix": "eslint --cache --fix --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
     "test": "vitest run --reporter verbose --allowOnly",
     "test:watch": "vitest --reporter verbose",
     "test:coverage": "vitest run --coverage",
-    "prepare": "pnpm -F static build && nuxi prepare && husky install"
+    "prepare": "pnpm -F static build && nuxi prepare && husky install",
+    "postbuild": "cd .output/server/node_modules/tslib; npm pkg set 'exports[.].import.node'='./tslib.es6.mjs'"
   },
   "husky": {
     "hooks": {
