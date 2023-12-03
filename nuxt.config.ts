@@ -19,6 +19,10 @@ export default defineNuxtConfig({
     },
   },
 
+  build: {
+    transpile: ['tslib'],
+  },
+
   sourcemap: false,
 
   vue: {
