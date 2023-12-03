@@ -13,11 +13,12 @@ export default {
 @import '@oruga-ui/oruga-next/src/scss/utilities/_variables.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_animations.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_helpers.scss';
+
+$modal-zindex: 998;
+
 @import '@oruga-ui/oruga-next/src/scss/components/_modal.scss';
 
 .o-modal {
-  z-index: 998;
-
   &__content {
     border-radius: 0;
   }
