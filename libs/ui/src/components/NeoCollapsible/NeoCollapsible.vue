@@ -1,26 +1,29 @@
 <template>
   <o-collapse
-    class="neo-collapse card"
-    :class="{ disabled: disabled }"
+    class="neo-collapse max-w-full relative rounded-none shadow-none border-b border-b-border-color"
+    :class="{ 'pointer-events-none cursor-default bg-k-shade': disabled }"
     animation="slide"
     :open="false"
     content-class="collapse-content">
     <template #trigger="props">
-      <div
-        class="card-header"
-        role="button"
-        :class="{ 'active-collpase': props.open }">
+      <button
+        class="rounded-none flex items-stretch w-full cursor-pointer text-base p-0"
+        type="button"
+        :class="{
+          'bg-background-color-inverse group active': props.open,
+          'bg-transparent': !props.open,
+        }">
         <p
-          class="card-header-title is-flex is-justify-content-center is-align-items-center is-flex-grow-1 px-7">
+          class="text-text-color group-[.active]:text-text-color-inverse font-bold p-3 m-0 flex justify-center items-center grow px-7">
           <slot />
         </p>
         <a
-          class="card-header-icon is-flex is-justify-content-center is-align-items-center">
+          class="text-text-color group-[.active]:text-text-color-inverse absolute right-0 flex justify-center items-center">
           <o-icon :icon="props.open ? 'chevron-up' : 'chevron-down'"> </o-icon>
         </a>
-      </div>
+      </button>
     </template>
-    <div class="card-content">
+    <div class="p-0 bg-transparent text-text-color">
       <div class="content">
         <slot name="content" />
       </div>
@@ -34,7 +37,3 @@ defineProps<{
   disabled?: boolean
 }>()
 </script>
-
-<style lang="scss">
-@import './NeoCollapsible.scss';
-</style>
