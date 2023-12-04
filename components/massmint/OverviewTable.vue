@@ -31,6 +31,7 @@
             </div>
             <div class="column is-flex is-align-items-center">
               <NeoAvatar
+                :image-component="NuxtImg"
                 :avatar="nft.imageUrl"
                 :name="nft.name || `${nft.id}`"
                 :size="48"
@@ -110,6 +111,8 @@ import {
 } from '@/composables/massmint/useMassMint'
 const { placeholder } = useTheme()
 
+const NuxtImg = resolveComponent('NuxtImg')
+
 const offset = ref(10)
 const sentinel = ref<HTMLDivElement | null>(null)
 const emit = defineEmits(['openSideBarWith', 'delete'])
@@ -172,11 +175,6 @@ useIntersectionObserver(sentinel, handleIntersection, { threshold: 0.66 })
 <style scoped lang="scss">
 @import '@/assets/styles/abstracts/variables';
 
-.border-k-grey {
-  @include ktheme() {
-    border-color: theme('k-grey');
-  }
-}
 .border-k-shade {
   @include ktheme() {
     border-color: theme('k-shade');

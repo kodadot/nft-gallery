@@ -5,6 +5,7 @@
       data-testid="shopping-cart-modal-container">
       <NeoModalHead
         :title="$t('shoppingCart.title')"
+        data-testid="shopping-cart-modal"
         @close="closeShoppingCart(ModalCloseType.BACK)" />
       <div
         v-if="numberOfItems"
@@ -26,6 +27,7 @@
             :key="item.id"
             :nft="item"
             clickable
+            data-testid="shopping-cart-item"
             class="px-6 py-2 limit-name-width"
             allow-delete
             @delete="shoppingCartStore.removeItem"
@@ -119,7 +121,7 @@ const numberOfItems = computed(() => items.value.length)
 
 const priceUSD = computed(() => {
   const { nfts, royalties } = totalPriceUsd(items.value)
-  return (nfts + royalties).toFixed(2)
+  return (nfts + royalties).toFixed(1)
 })
 
 const isOpen = computed({
@@ -179,11 +181,11 @@ const onCompletePurchase = () => {
     top: 0;
     right: 0;
     height: 100%;
-    padding-top: 83px;
+    padding-top: $navbar-desktop-min-height;
     max-width: 360px;
     width: 100%;
     @include mobile {
-      padding-top: 56px;
+      padding-top: $navbar-mobile-min-height;
       max-width: 100vw;
     }
   }

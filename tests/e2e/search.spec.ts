@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './fixtures'
 
 function imagesHaveLoaded() {
   return Array.from(document.images).every((i) => i.complete)

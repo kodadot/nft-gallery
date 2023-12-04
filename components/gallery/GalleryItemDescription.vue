@@ -170,7 +170,7 @@
     <div v-if="parent">
       <NeoTabItem value="3" :label="$t('tabs.parent')" class="p-5">
         <nuxt-link :to="parentNftUrl">
-          <MediaItem
+          <BaseMediaItem
             :key="parent?.nftImage"
             :class="{
               'is-flex is-align-items-center is-justify-content-center h-audio':
@@ -192,7 +192,6 @@
 
 <script setup lang="ts">
 import {
-  MediaItem,
   NeoTabItem,
   NeoTable,
   NeoTableColumn,

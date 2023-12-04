@@ -336,12 +336,6 @@ a.has-text-grey {
   }
 }
 
-.border-k-grey {
-  @include ktheme() {
-    border-color: theme('k-grey') !important;
-  }
-}
-
 .border-top-k-shade {
   @include ktheme() {
     border-top: 1px solid theme('k-shade');
@@ -569,4 +563,12 @@ a.has-text-grey {
 
 .is-max-width-fit-content {
   max-width: fit-content;
+}
+
+.is-overflow-y-auto {
+  overflow-y: auto;
+}
+
+.has-text-inherit {
+  color: inherit !important;
 }

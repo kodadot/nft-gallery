@@ -41,17 +41,18 @@
               <NeoCarouselItem
                 v-for="resource in nftResources"
                 :key="resource.id">
-                <MediaItem
+                <BaseMediaItem
                   :key="resource.src"
                   :src="resource.src"
                   :mime-type="resource.mimeType"
                   :animation-src="resource.animation"
                   :audio-player-cover="galleryItem.nftImage.value"
+                  :image-component="NuxtImg"
                   is-detail />
               </NeoCarouselItem>
             </NeoCarousel>
           </div>
-          <MediaItem
+          <BaseMediaItem
             v-else
             :key="nftImage"
             ref="mediaItemRef"
@@ -63,6 +64,8 @@
             is-detail
             :is-lewd="galleryDescriptionRef?.isLewd"
             :placeholder="placeholder"
+            :image-component="NuxtImg"
+            sizes="original"
             :audio-player-cover="nftImage" />
         </div>
       </div>
@@ -164,7 +167,6 @@
 
 <script setup lang="ts">
 import {
-  MediaItem,
   NeoButton,
   NeoCarousel,
   NeoCarouselItem,
@@ -191,6 +193,8 @@ import { MediaType } from '@/components/rmrk/types'
 import { resolveMedia } from '@/utils/gallery/media'
 import UnlockableTag from './UnlockableTag.vue'
 import { usePreferencesStore } from '@/stores/preferences'
+
+const NuxtImg = resolveComponent('NuxtImg')
 
 const { urlPrefix } = usePrefix()
 const route = useRoute()

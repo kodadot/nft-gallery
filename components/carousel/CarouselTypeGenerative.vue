@@ -10,5 +10,8 @@
 <script lang="ts" setup>
 import { useCarouselGenerativeNftEvents } from './utils/useCarouselEvents'
 
-const { nfts, ids } = await useCarouselGenerativeNftEvents(['176'], ['38'])
+const { nfts, ids } = await useCarouselGenerativeNftEvents(
+  ['176'],
+  ['38', '40', '46'],
+)
 </script>

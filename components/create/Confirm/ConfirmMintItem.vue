@@ -77,7 +77,10 @@ watchEffect(() => {
 @import '@/assets/styles/abstracts/variables';
 
 .limit-width {
-  max-width: 170px;
+  width: 170px;
+  @include mobile {
+    width: 100px;
+  }
 }
 
 .ellipsis {

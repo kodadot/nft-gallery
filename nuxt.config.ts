@@ -11,6 +11,14 @@ export default defineNuxtConfig({
     host: '0.0.0.0',
   },
 
+  postcss: {
+    plugins: {
+      'tailwindcss/nesting': {},
+      tailwindcss: { config: './libs/ui/tailwind.config.js' },
+      autoprefixer: {},
+    },
+  },
+
   sourcemap: false,
 
   vue: {
@@ -33,6 +41,36 @@ export default defineNuxtConfig({
             authToken: process.env.SENTRY_AUTH_TOKEN,
           }),
     ],
+    // https://github.com/nuxt/nuxt/issues/24196#issuecomment-1825484618
+    optimizeDeps:
+      process.env.NODE_ENV === 'development'
+        ? {
+            include: [
+              '@google/model-viewer',
+              '@kodadot1/minimark/common',
+              '@kodadot1/minimark/v1',
+              '@kodadot1/minimark/v2',
+              '@paraspell/sdk',
+              '@polkadot/api',
+              '@polkadot/vue-identicon',
+              '@ramp-network/ramp-instant-sdk',
+              '@transak/transak-sdk',
+              '@unhead/vue',
+              'chart.js/auto',
+              'chartjs-adapter-date-fns',
+              'chartjs-plugin-zoom',
+              'graphql-ws',
+              'keen-slider/vue',
+              'keen-slider/vue.es',
+              'lodash/isEqual',
+              'lodash/sortBy',
+              'lodash/sum',
+              'lodash/unionBy',
+              'markdown-it',
+              'prismjs',
+            ],
+          }
+        : undefined,
   },
 
   nitro: {
@@ -181,10 +219,6 @@ export default defineNuxtConfig({
         extensions: ['vue'],
       },
       {
-        path: '~/components/metadata',
-        extensions: ['vue'],
-      },
-      {
         path: '~/components/rmrk',
         extensions: ['vue'],
       },
@@ -213,6 +247,7 @@ export default defineNuxtConfig({
 
   // Modules: https://nuxt.com/docs/api/nuxt-config#components
   modules: [
+    '@nuxt/image',
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
     // '@nuxtjs/sentry',
@@ -224,6 +259,16 @@ export default defineNuxtConfig({
     'nuxt-simple-sitemap',
     '@nuxtjs/google-fonts',
   ],
+
+  image: {
+    format: ['avif', 'webp'],
+    providers: {
+      customCloudflare: {
+        provider: '~/providers/cloudflare.ts',
+      },
+    },
+    provider: 'customCloudflare',
+  },
 
   googleFonts: {
     families: {

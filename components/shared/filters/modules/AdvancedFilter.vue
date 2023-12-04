@@ -9,7 +9,9 @@
         role="button"
         :aria-expanded="open">
         <p class="py-3 px-4 is-size-7 has-text-grey">
-          <span>{{ $t('advancedFilters') }}</span>
+          <span data-testid="advanced-filter-collapsible">{{
+            $t('advancedFilters')
+          }}</span>
           <span v-if="artView" class="ml-2 has-text-primary"
             >({{ $t('offer.active') }})</span
           >
@@ -23,7 +25,7 @@
     </template>
     <div class="px-4 pb-4">
       <NeoField>
-        <NeoCheckbox v-model="artView">
+        <NeoCheckbox v-model="artView" data-testid="filter-artview-checkbox">
           <span>{{ $t('filters.artView') }}</span>
           <NeoIcon class="ml-2" size="small" icon="frame" />
         </NeoCheckbox>

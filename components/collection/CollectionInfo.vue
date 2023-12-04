@@ -5,17 +5,23 @@
       <HeroButtons class="is-hidden-tablet" />
       <div v-if="address" class="is-flex mb-2">
         <div class="mr-2">{{ $t('activity.creator') }}</div>
-        <nuxt-link :to="`/${urlPrefix}/u/${address}`" class="has-text-link">
+        <nuxt-link
+          :to="`/${urlPrefix}/u/${address}`"
+          class="has-text-link"
+          data-testid="collection-creator-address">
           <IdentityIndex ref="identity" :address="address" show-clipboard />
         </nuxt-link>
       </div>
       <div class="overflow-wrap">
-        <Markdown :source="visibleDescription" />
+        <Markdown
+          :source="visibleDescription"
+          data-testid="collection-description" />
       </div>
       <NeoButton
         v-if="hasSeeAllDescriptionOption"
         class="no-shadow is-text is-underlined has-text-left p-0"
         :label="seeAllDescription ? $t('showLess') : $t('showMore')"
+        data-testid="description-show-less-more-button"
         @click="toggleSeeAllDescription" />
     </div>
     <div>
