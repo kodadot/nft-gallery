@@ -1,9 +1,7 @@
-import {
-  assignIds,
-  prepTokens,
-} from '@/composables/transaction/mintToken/transactionMintStatemine'
+import { expandCopiesWithsIds } from '@/composables/transaction/mintToken/transactionMintStatemine'
 import { TokenToMint } from '@/composables/transaction/types'
 import {
+  assignIds,
   copiesToMint,
   expandCopies,
 } from '@/composables/transaction/mintToken/utils'
@@ -24,7 +22,7 @@ describe('transactionMintStatemine.ts functions', () => {
       const tokens: TokenToMint[] = [
         { selectedCollection: { lastIndexUsed: 4 } },
       ]
-      const result = assignIds(tokens)
+      const result = assignIds(tokens, 4)
       expect(result).toEqual([
         { selectedCollection: { lastIndexUsed: 4 }, id: 5 },
       ])
@@ -36,7 +34,7 @@ describe('transactionMintStatemine.ts functions', () => {
         { selectedCollection: { alreadyMinted: 2, lastIndexUsed: 2 } },
         { selectedCollection: { alreadyMinted: 2, lastIndexUsed: 2 } },
       ]
-      const result = assignIds(tokens)
+      const result = assignIds(tokens, 2)
       expect(result).toEqual([
         { selectedCollection: { alreadyMinted: 2, lastIndexUsed: 2 }, id: 3 },
         { selectedCollection: { alreadyMinted: 2, lastIndexUsed: 2 }, id: 4 },
@@ -243,7 +241,7 @@ describe('transactionMintStatemine.ts functions', () => {
       expect(result[2].name).toBe('test')
     })
   })
-  describe('prepTokens function', () => {
+  describe('expandCopiesWithsIds function', () => {
     it('should correctly prepare a single token with unique id', async () => {
       const token: TokenToMint = {
         name: 'test',
@@ -254,7 +252,7 @@ describe('transactionMintStatemine.ts functions', () => {
         token,
       }
 
-      const result = await prepTokens(item, MOCK_API)
+      const result = await expandCopiesWithsIds(item, MOCK_API)
 
       const expectedResult = [
         {
@@ -278,7 +276,7 @@ describe('transactionMintStatemine.ts functions', () => {
         token,
       }
 
-      const result = await prepTokens(item, MOCK_API)
+      const result = await expandCopiesWithsIds(item, MOCK_API)
 
       const expectedResult = [
         {
@@ -311,15 +309,15 @@ describe('transactionMintStatemine.ts functions', () => {
       const tokens: TokenToMint[] = [
         {
           name: 'test1',
-          selectedCollection: { alreadyMinted: 2, lastIndexUsed: 3 },
+          selectedCollection: { alreadyMinted: 2, lastIndexUsed: 3, id: 1234 },
         },
         {
           name: 'test2',
-          selectedCollection: { alreadyMinted: 2, lastIndexUsed: 3 },
+          selectedCollection: { alreadyMinted: 2, lastIndexUsed: 3, id: 1234 },
         },
         {
           name: 'test3',
-          selectedCollection: { alreadyMinted: 2, lastIndexUsed: 3 },
+          selectedCollection: { alreadyMinted: 2, lastIndexUsed: 3, id: 1234 },
         },
       ]
 
@@ -327,22 +325,22 @@ describe('transactionMintStatemine.ts functions', () => {
         token: tokens,
       }
 
-      const result = await prepTokens(item, MOCK_API)
+      const result = await expandCopiesWithsIds(item, MOCK_API)
 
       const expectedResult = [
         {
           name: 'test1',
-          selectedCollection: { alreadyMinted: 2, lastIndexUsed: 3 },
+          selectedCollection: { alreadyMinted: 2, lastIndexUsed: 3, id: 1234 },
           id: 4,
         },
         {
           name: 'test2',
-          selectedCollection: { alreadyMinted: 2, lastIndexUsed: 3 },
+          selectedCollection: { alreadyMinted: 2, lastIndexUsed: 3, id: 1234 },
           id: 5,
         },
         {
           name: 'test3',
-          selectedCollection: { alreadyMinted: 2, lastIndexUsed: 3 },
+          selectedCollection: { alreadyMinted: 2, lastIndexUsed: 3, id: 1234 },
           id: 6,
         },
       ]
@@ -351,22 +349,27 @@ describe('transactionMintStatemine.ts functions', () => {
     })
 
     it('should correctly prepare an array of tokens with unique ids and some have copies', async () => {
+      const selectedCollection = {
+        alreadyMinted: 6,
+        lastIndexUsed: 7,
+        id: 1234,
+      }
       const tokens: TokenToMint[] = [
         {
           name: 'test1',
           copies: 2,
           postfix: true,
-          selectedCollection: { alreadyMinted: 6, lastIndexUsed: 7 },
+          selectedCollection,
         },
         {
           name: 'test2',
-          selectedCollection: { alreadyMinted: 6, lastIndexUsed: 7 },
+          selectedCollection,
         },
         {
           name: 'test3',
           copies: 3,
           postfix: true,
-          selectedCollection: { alreadyMinted: 6, lastIndexUsed: 7 },
+          selectedCollection,
         },
       ]
 
@@ -374,47 +377,47 @@ describe('transactionMintStatemine.ts functions', () => {
         token: tokens,
       }
 
-      const result = await prepTokens(item, MOCK_API)
+      const result = await expandCopiesWithsIds(item, MOCK_API)
 
       const expectedResult = [
         {
           name: 'test1 #1',
           copies: 2,
           postfix: true,
-          selectedCollection: { alreadyMinted: 6, lastIndexUsed: 7 },
+          selectedCollection,
           id: 8,
         },
         {
           name: 'test1 #2',
           copies: 2,
           postfix: true,
-          selectedCollection: { alreadyMinted: 6, lastIndexUsed: 7 },
+          selectedCollection,
           id: 9,
         },
         {
           name: 'test2',
-          selectedCollection: { alreadyMinted: 6, lastIndexUsed: 7 },
+          selectedCollection,
           id: 10,
         },
         {
           name: 'test3 #1',
           copies: 3,
           postfix: true,
-          selectedCollection: { alreadyMinted: 6, lastIndexUsed: 7 },
+          selectedCollection,
           id: 11,
         },
         {
           name: 'test3 #2',
           copies: 3,
           postfix: true,
-          selectedCollection: { alreadyMinted: 6, lastIndexUsed: 7 },
+          selectedCollection,
           id: 12,
         },
         {
           name: 'test3 #3',
           copies: 3,
           postfix: true,
-          selectedCollection: { alreadyMinted: 6, lastIndexUsed: 7 },
+          selectedCollection,
           id: 13,
         },
       ]
