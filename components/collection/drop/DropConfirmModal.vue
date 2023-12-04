@@ -20,7 +20,7 @@
           <span>{{ $t('drops.plusGetA') }}</span>
 
           <div class="voucher px-2 is-flex is-align-items-center">
-            <img :src="voucherIcon" alt="shop voucher" />
+            <img :src="signUpVoucherIcon" alt="shop voucher" />
           </div>
 
           <span>{{ $t('drops.voucherToOurShop') }}</span>
@@ -71,7 +71,7 @@ const props = defineProps<{ modelValue: boolean }>()
 
 const isModalActive = useVModel(props, 'modelValue')
 
-const { voucherIcon } = useShopVoucherIcon()
+const { signUpVoucherIcon } = useIcon()
 
 const emailInput = ref()
 const email = ref()
