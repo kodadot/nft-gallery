@@ -15,6 +15,22 @@
         {{ $t('drops.subscribe') }}
       </p>
 
+      <div class="mb-5">
+        <div class="is-capitalized is-flex is-align-items-center">
+          <span>{{ $t('drops.plusGetA') }}</span>
+
+          <div class="voucher px-2 is-flex is-align-items-center">
+            <img :src="voucherIcon" alt="shop voucher" />
+          </div>
+
+          <span>{{ $t('drops.voucherToOurShop') }}</span>
+        </div>
+
+        <p class="has-text-k-grey is-capitalized mt-3 is-size-7">
+          ({{ $t('drops.justConfirmSubscriptionViaEmail') }})
+        </p>
+      </div>
+
       <form @submit.prevent="confirm">
         <NeoInput
           ref="emailInput"
@@ -55,6 +71,8 @@ const props = defineProps<{ modelValue: boolean }>()
 
 const isModalActive = useVModel(props, 'modelValue')
 
+const { voucherIcon } = useShopVoucherIcon()
+
 const emailInput = ref()
 const email = ref()
 const agree = ref(false)
@@ -93,6 +111,12 @@ const confirm = () => {
 
 .modal-width {
   width: 25rem;
+}
+
+.voucher {
+  img {
+    width: 58px;
+  }
 }
 
 .shine {
