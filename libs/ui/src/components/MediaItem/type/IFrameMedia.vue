@@ -1,9 +1,9 @@
 <template>
-  <div ref="wrapper" class="iframe-wrapper">
+  <div ref="wrapper" class="relative w-full h-full aspect-square">
     <iframe
       ref="iframe"
       title="html-embed"
-      class="iframe-model__wrapper is-flex"
+      class="absolute flex w-[1080px] h-[1080px] aspect-square origin-top-left"
       :src="animationSrc || src"
       :alt="alt"
       sandbox="allow-scripts allow-same-origin allow-modals"
@@ -25,7 +25,7 @@ watchEffect(() => {
       return
     }
 
-    const scale = Math.min(width.value / 1000, height.value / 1000)
+    const scale = Math.min(width.value / 1080, height.value / 1080)
 
     iframe.value.style.transform = `scale(${scale})`
   }
@@ -37,19 +37,3 @@ defineProps<{
   alt?: string
 }>()
 </script>
-
-<style scoped>
-.iframe-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  aspect-ratio: 1;
-}
-.iframe-model__wrapper {
-  height: 1000px;
-  aspect-ratio: 1;
-  width: 1000px;
-  position: absolute;
-  transform-origin: top left;
-}
-</style>
