@@ -50,7 +50,7 @@ watchEffect(async () => {
     )
     const price = roundTo(tokenAmount, 4)
     priceChain.value = `${price} ${chainSymbol.value}`
-    priceUsd.value = `${roundTo(tokenAmount * tokenPrice, 4)}`
+    priceUsd.value = `${roundTo(tokenAmount * tokenPrice, 1)}`
   }
 })
 </script>
