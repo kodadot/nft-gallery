@@ -37,7 +37,7 @@
           <CollectionInfoLine
             v-if="isAssetHub"
             :title="$t('activity.totalSupply')"
-            :value="stats.maxSupply || $t('unlimited')" />
+            :value="stats.maxSupply || $t('helper.unlimited')" />
           <CollectionInfoLine :title="$t('activity.floor')">
             <CommonTokenMoney
               :value="stats.collectionFloorPrice"
