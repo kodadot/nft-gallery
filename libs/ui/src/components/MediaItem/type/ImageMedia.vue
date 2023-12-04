@@ -1,9 +1,7 @@
 <template>
   <figure
-    class="image-container"
     :class="{
-      'is-square image': !original,
-      'is-detail': isDetail,
+      'relative pt-[100%]': !original,
     }">
     <!-- load normal image -->
     <TheImage
@@ -12,7 +10,8 @@
       :image-component-props="{ sizes }"
       :src="src"
       :alt="alt"
-      class="is-block image-media__image no-border-radius"
+      class="block rounded-none"
+      :class="{ 'object-cover absolute inset-0 w-full h-full': !original }"
       data-testid="type-image"
       @error.once="() => onError('error-1')" />
     <!-- if fail, try to load original url -->
@@ -44,16 +43,14 @@ const props = withDefaults(
   defineProps<{
     imageComponent?: ImageComponent
     sizes?: string
-    src?: string
+    src: string
     alt?: string
     original: boolean
     placeholder: string
-    isDetail?: boolean
-    isDarkMode?: boolean
   }>(),
   {
-    sizes: '450px md:350px lg:270px',
     imageComponent: 'img',
+    sizes: '450px md:350px lg:270px',
     src: '',
     alt: '',
   },
@@ -67,9 +64,3 @@ const onError = async (phase: Status) => {
   status.value = phase
 }
 </script>
-
-<style>
-.image-container.is-square > img {
-  object-fit: cover;
-}
-</style>
