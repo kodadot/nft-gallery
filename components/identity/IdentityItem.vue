@@ -15,6 +15,15 @@
         @click="closeModal">
         {{ buttonLabel }}
       </NeoButton>
+      <hr class="my-1" />
+      <NeoButton
+        no-shadow
+        rounded
+        size="small"
+        icon="right-from-bracket"
+        @click="logout">
+        {{ switchAccountLabel }}
+      </NeoButton>
     </div>
     <div v-else class="identity-container">
       <div class="has-text-grey is-size-6">
@@ -37,11 +46,24 @@ import { NeoButton } from '@kodadot1/brick'
 import Avatar from '@/components/shared/Avatar.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import { resolveComponent } from 'vue'
+import { useShoppingCartStore } from '@/stores/shoppingCart'
+import { useIdentityStore } from '@/stores/identity'
 
 const NuxtLink = resolveComponent('NuxtLink')
 const { neoModal } = useProgrammatic()
+const identityStore = useIdentityStore()
+const shoppingCartStore = useShoppingCartStore()
+const walletStore = useWalletStore()
 
 const closeModal = () => neoModal.closeAll()
+const logout = () => {
+  identityStore.resetAuth()
+  sessionStorage.clear()
+  localStorage.clear()
+  shoppingCartStore.clear()
+
+  walletHistory.value = walletStore.history
+}
 
 withDefaults(
   defineProps<{
@@ -50,11 +72,13 @@ withDefaults(
     prefix: string
     variant?: 'normal' | 'button'
     buttonLabel?: string
+    switchAccountLabel?: string
     hideIdentityPopover?: boolean
     disableIdentityLink?: boolean
   }>(),
   {
     variant: 'normal',
+    switchAccountLabel: 'Switch Account',
     buttonLabel: 'View Profile',
     hideIdentityPopover: false,
     disableIdentityLink: false,

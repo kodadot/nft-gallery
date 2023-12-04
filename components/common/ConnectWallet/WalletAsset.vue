@@ -6,7 +6,7 @@
       <WalletAssetIdentity />
       <WalletAssetNfts />
 
-      <hr class="my-4" />
+      <hr class="my-8" />
 
       <div>
         <MultipleBalances />
