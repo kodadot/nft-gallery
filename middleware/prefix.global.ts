@@ -17,7 +17,7 @@ export default defineNuxtRouteMiddleware((route) => {
 
   if (
     [urlPrefix.value, prefixInPath].includes('dot') &&
-    route.path !== '/dot/transfer'
+    route.name !== 'prefix-transfer'
   ) {
     setUrlPrefix('ahp')
     navigateTo(route.path.replace(prefixInPath, 'ahp'))
