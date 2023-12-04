@@ -19,8 +19,8 @@
         <div class="is-capitalized is-flex is-align-items-center">
           <span>{{ $t('drops.plusGetA') }}</span>
 
-          <div class="voucher px-2 is-flex is-align-items-center">
-            <img :src="signUpVoucherIcon" alt="shop voucher" />
+          <div class="px-2 is-flex is-align-items-center">
+            <img width="58" :src="signUpVoucherIcon" alt="shop voucher" />
           </div>
 
           <span>{{ $t('drops.voucherToOurShop') }}</span>
@@ -111,12 +111,6 @@ const confirm = () => {
 
 .modal-width {
   width: 25rem;
-}
-
-.voucher {
-  img {
-    width: 58px;
-  }
 }
 
 .shine {
