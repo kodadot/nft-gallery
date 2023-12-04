@@ -1417,7 +1417,10 @@
     "enterValidEmail": "Enter valid email address",
     "subscribeAndClaim": "Subscribe & Claim your NFT",
     "agreeToProceed": "Agree to proceed",
-    "consent": "I consent to receive updates."
+    "consent": "I consent to receive updates.",
+    "plusGetA": "+ Get a",
+    "voucherToOurShop": "Voucher to our shop",
+    "justConfirmSubscriptionViaEmail": "Just confirm your subscription via email"
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
