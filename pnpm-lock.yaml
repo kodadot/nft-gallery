@@ -24,8 +24,8 @@ importers:
         specifier: workspace:*
         version: link:libs/ui
       '@kodadot1/minimark':
-        specifier: ^0.1.11
-        version: 0.1.11(@polkadot/api@10.9.1)(@polkadot/util-crypto@12.4.2)
+        specifier: ^0.1.12
+        version: 0.1.12(@polkadot/api@10.9.1)(@polkadot/util-crypto@12.4.2)
       '@kodadot1/minipfs':
         specifier: 0.4.1-rc.0
         version: 0.4.1-rc.0
@@ -3265,8 +3265,8 @@ packages:
     engines: {node: '>=14.0'}
     dev: false
 
-  /@kodadot1/minimark@0.1.11(@polkadot/api@10.9.1)(@polkadot/util-crypto@12.4.2):
-    resolution: {integrity: sha512-TKZVuwyr6usta2pt1gZKaf5XcmZqUctRVhHZe1loCN3LCnnaWZsFJAHYldCmu/lPyGrXS2MZhNbqqRGo+X005A==}
+  /@kodadot1/minimark@0.1.12(@polkadot/api@10.9.1)(@polkadot/util-crypto@12.4.2):
+    resolution: {integrity: sha512-bE+eYBShQ7+umHCMsE6Xb/65uiV/WCSkZaL20+U9hnGMuiycKvdEKC0AA60RbYV2Vrm3A8vZLgtwwCvWwKHDPw==}
     peerDependencies:
       '@polkadot/api': ~10.x
     dependencies:
