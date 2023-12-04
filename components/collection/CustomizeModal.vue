@@ -71,6 +71,8 @@ const customizeCollection = async () => {
     urlPrefix: urlPrefix.value,
     max: Number(max.value),
   })
+    .then(() => $updateLoader(false))
+    .catch(() => $updateLoader(false))
 
   emit('customize')
 }
