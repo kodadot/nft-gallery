@@ -46,7 +46,7 @@ import { NeoButton, NeoField, NeoInput, NeoModal } from '@kodadot1/brick'
 import { Collections } from '@/composables/transaction/types'
 
 const { $updateLoader } = useNuxtApp()
-const { transaction } = useTransaction()
+const { transaction, status } = useTransaction()
 const { urlPrefix } = usePrefix()
 const route = useRoute()
 
@@ -63,6 +63,7 @@ const min = computed(() => props.min || 1)
 const max = ref(props.max)
 
 const customizeCollection = async () => {
+  emit('customize')
   $updateLoader(true)
 
   await transaction({
@@ -71,10 +72,10 @@ const customizeCollection = async () => {
     urlPrefix: urlPrefix.value,
     max: Number(max.value),
   })
-    .then(() => $updateLoader(false))
-    .catch(() => $updateLoader(false))
 
-  emit('customize')
+  if (status.value === TransactionStatus.Finalized) {
+    $updateLoader(false)
+  }
 }
 </script>
 

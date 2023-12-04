@@ -1,5 +1,7 @@
 <template>
-  <NeoDropdownItem @click="customizeCollectionModalActive = true">
+  <NeoDropdownItem
+    :disabled="max"
+    @click="customizeCollectionModalActive = true">
     {{ $i18n.t('moreActions.customize') }}
   </NeoDropdownItem>
 
