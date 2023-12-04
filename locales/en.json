@@ -1502,8 +1502,6 @@
       "cta": "Migrate Items",
       "own": "You Own <strong>{0}</strong> From This Collection"
     },
-    "migrationNotPossible": "Migration Not Possible:",
-    "migrationNotPossibleLabel": "Migration Is <strong>Not Possible</strong> For  Following Collections That You Own:",
     "homeButton": "Migration Homepage",
     "review": "Review",
     "reviewCtaUncheck": "Acknowledge Before Proceeding",
