@@ -1,6 +1,6 @@
 import { ActionSetCollectionMaxSupply, ExecuteTransactionParams } from './types'
 
-export async function execSetCollectionMaxSupply(
+export function execSetCollectionMaxSupply(
   params: ActionSetCollectionMaxSupply,
   api,
   executeTransaction: ({
