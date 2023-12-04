@@ -5,6 +5,7 @@
     :native-value="checkboxValue"
     :disabled="disabled"
     :label-class="labelClass"
+    :size="size"
     @update:modelValue="updateValue">
     <slot />
   </o-checkbox>
@@ -17,6 +18,7 @@ const props = defineProps<{
   disabled?: boolean
   modelValue: boolean
   labelClass?: string
+  size?: string
 }>()
 
 const emit = defineEmits(['update:modelValue'])
