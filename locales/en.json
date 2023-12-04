@@ -869,6 +869,7 @@
     "totalItems": "Σ Items",
     "todayTraded": "24H",
     "totalTraded": "Σ VOLUME TRADED",
+    "totalSupply": "Total Supply",
     "highestSale": "HIGHEST SALE",
     "totalBuys": "Σ BUYS",
     "unique": "UNIQUE",
@@ -992,7 +993,8 @@
       "copy": "Kodadot link successfully copied"
     },
     "builtOn": "Built on",
-    "signStuckText": "Stuck? Make sure to check for any popups and SIGN the transaction."
+    "signStuckText": "Stuck? Make sure to check for any popups and SIGN the transaction.",
+    "unlimited": "Unlimited"
   },
   "cookies": {
     "notice": "We use cookies for better service",
