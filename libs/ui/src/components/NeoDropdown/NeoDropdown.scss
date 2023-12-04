@@ -7,23 +7,25 @@ $dropdown-menu-padding: 0;
 $dropdown-menu-margin: 1rem 0;
 $dropdown-menu-border-radius: 0;
 
-$dropdown-menu-box-shadow: 4px 4px hsl(0deg, 0%, 4%);
-$dropdown-item-hover-color: #1f1f1f;
-$dropdown-item-hover-background-color: #ffe5f3;
+$dropdown-menu-box-shadow: var(--primary-shadow);
+$dropdown-menu-background: var(--background-color);
+$dropdown-item-color: var(--text-color);
+$dropdown-item-hover-color: var(--text-color);
+$dropdown-item-hover-background-color: var(--k-accent-hover);
 
 @import '@oruga-ui/oruga-next/src/scss/components/_dropdown.scss';
 
 .o-drop__item {
-  @apply border-b border-b-border-color text-text-color;
-
-  &:hover {
-    @apply bg-k-accent-hover;
-  }
+  @apply border-b border-b-border-color;
 
   &.is-active,
   &--active,
   &[active='true'] {
     @apply text-text-color-inverse bg-background-color-inverse;
+
+    &:hover {
+      @apply text-text-color-inverse bg-background-color-inverse;
+    }
   }
 
   .o-tip {
@@ -32,7 +34,7 @@ $dropdown-item-hover-background-color: #ffe5f3;
 }
 
 .o-drop__menu {
-  @apply shadow-primary border-default border-border-color text-text-color bg-background-color;
+  @apply border-default border-border-color text-text-color;
 
   &.no-shadow {
     @apply shadow-none;
