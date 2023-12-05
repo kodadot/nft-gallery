@@ -106,7 +106,7 @@
               :class="{ 'my-4': isMobile, 'my-6': !isMobile }">
               <NeoIcon pack="fasl" icon="eye" class="mr-1" />
               <span v-if="pageViewCount === null">--</span>
-              <span v-else>{{ pageViewCount }}</span>
+              <span v-else>{{ formatNumber(pageViewCount) }}</span>
             </div>
 
             <div class="is-flex is-flex-direction-row is-flex-wrap-wrap">
@@ -196,7 +196,7 @@ import { convertMarkdownToText } from '@/utils/markdown'
 import { exist } from '@/utils/exist'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { generateNftImage } from '@/utils/seoImageGenerator'
-import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
+import { formatBalanceEmptyOnZero, formatNumber } from '@/utils/format/balance'
 import { MediaType } from '@/components/rmrk/types'
 import { resolveMedia } from '@/utils/gallery/media'
 import UnlockableTag from './UnlockableTag.vue'
