@@ -384,6 +384,12 @@ importers:
 
   libs/ui:
     dependencies:
+      '@fortawesome/fontawesome-svg-core':
+        specifier: ^6.4.2
+        version: 6.4.2
+      '@fortawesome/vue-fontawesome':
+        specifier: ^3.0.5
+        version: 3.0.5(@fortawesome/fontawesome-svg-core@6.4.2)(vue@3.3.9)
       '@google/model-viewer':
         specifier: ^3.3.0
         version: 3.3.0(three@0.158.0)
