@@ -1,13 +1,8 @@
-@import '../../scss/theme';
 @import '@oruga-ui/oruga-next/src/scss/utilities/expressions.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/variables.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/animations.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/helpers.scss';
-@import '../../scss/variable.scss';
 
+$loading-overlay: rgb(0 0 0 / 0.5);
 
 @import '@oruga-ui/oruga-next/src/scss/components/loading.scss';
-
-.o-load__overlay {
-  background-color: rgba(0, 0, 0, 0.5);
-}

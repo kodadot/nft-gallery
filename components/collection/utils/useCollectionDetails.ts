@@ -49,6 +49,7 @@ export const useCollectionDetails = ({ collectionId }) => {
       const listedNfts = data.value.stats.listed
 
       stats.value = {
+        maxSupply: data.value.stats.max,
         listedCount: data.value.stats.listed.length,
         collectionLength: data.value.stats.base.length,
         collectionFloorPrice:

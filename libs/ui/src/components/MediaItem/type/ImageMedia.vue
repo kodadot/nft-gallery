@@ -7,7 +7,7 @@
     <TheImage
       v-if="status === 'ok'"
       :image-component="imageComponent"
-      :image-component-props="{ sizes }"
+      :image-component-props="imageComponentProps"
       :src="src"
       :alt="alt"
       class="block rounded-none"
@@ -35,13 +35,18 @@
 
 <script lang="ts" setup>
 import consola from 'consola'
+import { computed, defineProps, withDefaults } from 'vue'
 
 import TheImage from '../../TheImage/TheImage.vue'
-import type { ImageComponent } from '../../TheImage/TheImage.vue'
+import type {
+  ImageComponent,
+  ImageComponentProps,
+} from '../../TheImage/TheImage.vue'
 
 const props = withDefaults(
   defineProps<{
     imageComponent?: ImageComponent
+    imageComponentProps?: ImageComponentProps
     sizes?: string
     src: string
     alt?: string
@@ -50,6 +55,7 @@ const props = withDefaults(
   }>(),
   {
     imageComponent: 'img',
+    imageComponentProps: undefined,
     sizes: '450px md:350px lg:270px',
     src: '',
     alt: '',
@@ -63,4 +69,16 @@ const onError = async (phase: Status) => {
   consola.log('[KODADOT::IMAGE] unable to load:', `${phase}:`, props.src)
   status.value = phase
 }
+
+// Ignore sizes if width and height are provided
+const sizes = computed(() =>
+  props.imageComponentProps?.width && props.imageComponentProps?.height
+    ? undefined
+    : props.sizes,
+)
+
+const imageComponentProps = computed(() => ({
+  ...(props.imageComponentProps || {}),
+  sizes: sizes.value,
+}))
 </script>

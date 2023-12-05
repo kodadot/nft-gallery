@@ -1,10 +1,11 @@
-query collectionByAccount($account: String!) {
+query collectionMigrateWaiting($account: String!) {
   collectionEntities(
     where: { nfts_some: { currentOwner_eq: $account }, issuer_not_eq: $account }
   ) {
     id
     name
-    nfts(where: { currentOwner_eq: $account }) {
+    currentOwner
+    nfts(where: { currentOwner_eq: $account, burned_eq: false }) {
       id
     }
     metadata

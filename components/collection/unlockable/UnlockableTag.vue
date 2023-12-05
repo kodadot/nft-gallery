@@ -19,9 +19,9 @@
 
 <script lang="ts" setup>
 import { NeoTooltip } from '@kodadot1/brick'
-import { useUnlockableIcon } from '@/composables/useUnlockableIcon'
+import { useIcon } from '@/composables/useIcon'
 
-const { unlockableIcon } = useUnlockableIcon()
+const { unlockableIcon } = useIcon()
 
 const props = defineProps({
   collectionId: {
