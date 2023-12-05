@@ -80,4 +80,20 @@ export const pinFileToIPFS = async (file: Blob): Promise<string> => {
   return value.cid
 }
 
+export const pinDirectory = async (files: File[]): Promise<string> => {
+  const formData = new FormData()
+  files.forEach((file) => formData.append('file', file, file.name))
+
+  const response = await nftStorageApi('/pinFile', {
+    method: 'POST',
+    body: formData,
+  }).catch((error: FetchError) => {
+    throw new Error(
+      `[NFT::STORAGE] Unable to PIN Directory for reasons ${error.data}`,
+    )
+  })
+
+  return response.value.cid
+}
+
 export default nftStorageApi

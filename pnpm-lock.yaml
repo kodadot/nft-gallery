@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: false
@@ -24,8 +24,8 @@ importers:
         specifier: workspace:*
         version: link:libs/ui
       '@kodadot1/minimark':
-        specifier: ^0.1.10
-        version: 0.1.10(@polkadot/api@10.9.1)(@polkadot/util-crypto@12.4.2)
+        specifier: ^0.1.13
+        version: 0.1.13(@polkadot/api@10.9.1)(@polkadot/util-crypto@12.4.2)
       '@kodadot1/minipfs':
         specifier: 0.4.1-rc.0
         version: 0.4.1-rc.0
@@ -384,6 +384,12 @@ importers:
 
   libs/ui:
     dependencies:
+      '@fortawesome/fontawesome-svg-core':
+        specifier: ^6.4.2
+        version: 6.4.2
+      '@fortawesome/vue-fontawesome':
+        specifier: ^3.0.5
+        version: 3.0.5(@fortawesome/fontawesome-svg-core@6.4.2)(vue@3.3.9)
       '@google/model-viewer':
         specifier: ^3.3.0
         version: 3.3.0(three@0.158.0)
@@ -3265,14 +3271,14 @@ packages:
     engines: {node: '>=14.0'}
     dev: false
 
-  /@kodadot1/minimark@0.1.10(@polkadot/api@10.9.1)(@polkadot/util-crypto@12.4.2):
-    resolution: {integrity: sha512-7BSZvFpaKjjbsexj0mJWlqmXlgfvF/xbIrxrcNuDTr1aCL1RnCqFGSC0nY30cc0qNW8hAUwGo4B4G9a/pr//xg==}
+  /@kodadot1/minimark@0.1.13(@polkadot/api@10.9.1)(@polkadot/util-crypto@12.4.2):
+    resolution: {integrity: sha512-AUCZoCutnzVpwzWRkdtGvUV1yLCJLb9spgc7oau1ryaWRcaVLaa0mzruu3zyznYr17KuEtdvSGzAL0fpqBurtg==}
     peerDependencies:
       '@polkadot/api': ~10.x
     dependencies:
       '@polkadot/api': 10.9.1
-      '@polkadot/keyring': 12.4.2(@polkadot/util-crypto@12.4.2)(@polkadot/util@12.4.2)
-      '@polkadot/util': 12.4.2
+      '@polkadot/keyring': 12.6.1(@polkadot/util-crypto@12.4.2)(@polkadot/util@12.6.1)
+      '@polkadot/util': 12.6.1
       nanoid: 3.3.4
       slugify: 1.6.6
     transitivePeerDependencies:
@@ -4990,6 +4996,18 @@ packages:
       '@polkadot/util-crypto': 12.4.2
     dependencies:
       '@polkadot/util': 12.4.2
+      '@polkadot/util-crypto': 12.4.2(@polkadot/util@12.4.2)
+      tslib: 2.6.2
+    dev: false
+
+  /@polkadot/keyring@12.6.1(@polkadot/util-crypto@12.4.2)(@polkadot/util@12.6.1):
+    resolution: {integrity: sha512-cicTctZr5Jy5vgNT2FsNiKoTZnz6zQkgDoIYv79NI+p1Fhwc9C+DN/iMCnk3Cm9vR2gSAd2fSV+Y5iKVDhAmUw==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@polkadot/util': 12.6.1
+      '@polkadot/util-crypto': 12.6.1
+    dependencies:
+      '@polkadot/util': 12.6.1
       '@polkadot/util-crypto': 12.4.2(@polkadot/util@12.4.2)
       tslib: 2.6.2
     dev: false

@@ -191,13 +191,12 @@ export async function execBurnCollection(
     if (params.urlPrefix === 'ksm') {
       executeTransaction({
         cb: api.tx.system.remark,
-        arg: [collectionId, {}],
-        // arg: [
-        //   createNewInteraction({
-        //     action: NewInteraction.DESTROY,
-        //     payload: { id: collectionId },
-        //   }),
-        // ],
+        arg: [
+          createNewInteraction({
+            action: NewInteraction.DESTROY,
+            payload: { id: collectionId },
+          }),
+        ],
       })
     }
 

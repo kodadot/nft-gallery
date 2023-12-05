@@ -15,6 +15,22 @@
         {{ $t('drops.subscribe') }}
       </p>
 
+      <div class="mb-5">
+        <div class="is-capitalized is-flex is-align-items-center">
+          <span>{{ $t('drops.plusGetA') }}</span>
+
+          <div class="px-2 is-flex is-align-items-center">
+            <img width="58" :src="signUpVoucherIcon" alt="shop voucher" />
+          </div>
+
+          <span>{{ $t('drops.voucherToOurShop') }}</span>
+        </div>
+
+        <p class="has-text-k-grey is-capitalized mt-3 is-size-7">
+          ({{ $t('drops.justConfirmSubscriptionViaEmail') }})
+        </p>
+      </div>
+
       <form @submit.prevent="confirm">
         <NeoInput
           ref="emailInput"
@@ -54,6 +70,8 @@ const { $i18n } = useNuxtApp()
 const props = defineProps<{ modelValue: boolean }>()
 
 const isModalActive = useVModel(props, 'modelValue')
+
+const { signUpVoucherIcon } = useIcon()
 
 const emailInput = ref()
 const email = ref()
@@ -95,12 +113,11 @@ const confirm = () => {
   width: 25rem;
 }
 
-.shine {
-  &:not(:disabled) {
-    @include shineEffect(var(--k-accent-light-3), lightgrey);
-    &:hover {
-      color: var(--k-accent) !important;
-    }
+.shine:not(:hover):not(:disabled) {
+  @include shineEffect(var(--k-accent-light-3), lightgrey, false);
+
+  &:hover {
+    color: var(--k-accent2) !important;
   }
 }
 </style>

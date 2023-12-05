@@ -4,6 +4,7 @@
     attached
     closable
     class="tag"
+    data-testid="neo-tag-component"
     :class="[`tag--${variant}`, `tag-size--${size}`]">
     <slot></slot>
     <NeoIcon

@@ -1,5 +1,3 @@
-@import '../../scss/variable.scss';
-@import '../../scss/theme.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/expressions.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/variables.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/animations.scss';
@@ -14,25 +12,17 @@ $input-textarea-padding: 0.75rem 1rem;
 
 .neo-input {
   .o-input {
-    outline: none;
-    box-shadow: none;
-    @include ktheme() {
-      border: 1px solid theme('k-grey-fix');
-      background-color: theme('background-color');
-      color: theme('text-color');
+    @apply outline-none shadow-none border-default border-k-grey-fix bg-background-color text-text-color;
 
-      &:focus {
-        border: 1px solid theme('text-color');
-      }
+    &:focus {
+      @apply border-default border-text-color;
     }
 
     &--danger {
-      @include ktheme() {
-        border: 1px solid theme('k-red');
+      @apply border-default border-k-red;
 
-        &:focus {
-          border: 1px solid theme('k-red');
-        }
+      &:focus {
+        @apply border-default border-k-red;
       }
     }
   }

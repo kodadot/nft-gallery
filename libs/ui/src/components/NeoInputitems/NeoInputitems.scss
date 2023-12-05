@@ -13,38 +13,24 @@ $autocomplete-menu-border-radius: 0;
 @import '@oruga-ui/oruga-next/src/scss/components/inputitems.scss';
 
 .o-inputit__container {
-  padding-top: 0;
-  @include ktheme() {
-    background-color: theme('background-color');
-  }
-  .o-input.neo-input {
-    outline: none;
-    box-shadow: none;
-    @include ktheme() {
-      border: 1px solid theme('k-grey-fix');
-      background-color: theme('background-color');
-      color: theme('text-color');
+  @apply pt-0 bg-background-color;
 
-      &:focus {
-        border: 1px solid theme('text-color');
-      }
+  .o-input.neo-input {
+    @apply outline-none shadow-none border-default border-k-grey-fix bg-background-color text-text-color;
+
+    &:focus {
+      @apply border-text-color;
     }
   }
 
   .o-acp__menu {
-    width: 100% !important;
-    @include ktheme() {
-      box-shadow: theme('primary-shadow');
-      border: 1px solid theme('border-color');
-      background: theme('background-color');
-    }
+    @apply w-full shadow-primary border-default border-border-color bg-background-color;
 
     .o-acp__item {
-      color: inherit;
+      @apply text-inherit;
+
       &:hover {
-        @include ktheme() {
-          color: theme('k-hovergrey');
-        }
+        @apply text-k-hover-grey;
       }
     }
   }

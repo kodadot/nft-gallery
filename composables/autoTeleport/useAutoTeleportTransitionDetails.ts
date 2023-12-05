@@ -205,6 +205,7 @@ export default function (
     hasEnoughInCurrentChain,
     hasEnoughInRichestChain,
     sourceChain: richestChain,
+    txFees: totalFees,
     chainSymbol,
   }
 }

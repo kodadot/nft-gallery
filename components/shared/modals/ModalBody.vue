@@ -91,6 +91,7 @@ withDefaults(
   }>(),
   {
     modalWidth: '25rem',
+    modalMaxWidth: '30rem',
     modalMaxHeight: '70vh',
     scrollable: true,
     contentClass: 'pt-4 pb-5 px-6',
@@ -108,7 +109,8 @@ $t-padding: 1.5rem;
 $b-padding: 1.25rem;
 
 .modal-width {
-  min-width: v-bind(modalWidth);
+  width: v-bind(modalWidth);
+  max-width: v-bind(modalMaxHeight);
 }
 
 .limit-height {

@@ -29,6 +29,7 @@ export default function ({
     hasEnoughInRichestChain,
     sourceChain,
     chainSymbol,
+    txFees,
   } = useAutoTeleportTransitionDetails(actions, neededAmount, fees)
 
   const { formatted: amountFormatted, usd: amountUsd } = useAmount(
@@ -66,6 +67,7 @@ export default function ({
       amountFormatted: amountFormatted.value,
       amountUsd: amountUsd.value,
       token: chainSymbol.value as string,
+      txFees: txFees.value,
     }
   })
 
