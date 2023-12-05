@@ -110,6 +110,7 @@
   <CollectionDropAddFundsModal
     v-model="isAddFundModalActive"
     :minimum-funds="minimumFunds"
+    :token="token"
     @close="isAddFundModalActive = false" />
 </template>
 
@@ -156,9 +157,9 @@ const minimumFundsDict: Record<Prefix, number> = {
   dot: defaultMinimumFunds,
 }
 const minimumFunds = computed(
-  () => minimumFundsDict[urlPrefix.value] || defaultMinimumFunds,
+  () => minimumFundsDict[props.drop.chain] || defaultMinimumFunds,
 )
-const { getAuthBalance } = useIdentityStore()
+const { getAuthBalanceByChain } = useIdentityStore()
 
 const collectionId = computed(() => props.drop?.collection)
 const disabledByBackend = computed(() => props.drop?.disabled)
@@ -184,10 +185,11 @@ const isAddFundModalActive = ref(false)
 const isRequireFunds = computed(
   () =>
     props.drop.meta &&
-    formatBsxBalanceToNumber(props.drop.meta) > Number(getAuthBalance),
+    formatBsxBalanceToNumber(props.drop.meta) >
+      Number(getAuthBalanceByChain(props.drop.chain)),
 )
 
-const token = computed(() => prefixToToken[urlPrefix.value])
+const token = computed(() => prefixToToken[props.drop.chain])
 
 const handleSelectImage = (image: string) => {
   selectedImage.value = image

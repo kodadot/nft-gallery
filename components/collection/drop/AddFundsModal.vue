@@ -77,11 +77,11 @@
 import { NeoButton, NeoIcon, NeoModal, NeoTooltip } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import OnRampModal from '@/components/shared/OnRampModal.vue'
-import { prefixToToken } from '@/components/common/shoppingCart/utils'
 
 type Props = {
   modelValue: boolean
   minimumFunds: number
+  token: string
 }
 
 withDefaults(defineProps<Props>(), {
@@ -90,8 +90,6 @@ withDefaults(defineProps<Props>(), {
 
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
-
-const token = computed(() => prefixToToken[urlPrefix.value])
 
 const onRampActive = ref(false)
 

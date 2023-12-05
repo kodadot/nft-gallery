@@ -4,7 +4,7 @@ import { defineStore } from 'pinia'
 import consola from 'consola'
 import { emptyObject } from '@/utils/empty'
 import { formatAddress } from '@/utils/account'
-import { Prefix } from '@kodadot1/static'
+import type { Prefix } from '@kodadot1/static'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
 const DEFAULT_BALANCE_STATE = {
@@ -124,6 +124,9 @@ export const useIdentityStore = defineStore('identity', {
       return state.auth.balance
         ? state.auth.balance[urlPrefix.value] || '0'
         : '0'
+    },
+    getAuthBalanceByChain: (state) => (prefix: Prefix) => {
+      return state.auth.balance ? state.auth.balance[prefix] || '0' : '0'
     },
     getTotalUsd: (state) => {
       if (
