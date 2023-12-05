@@ -5,8 +5,10 @@ import { resolve } from 'path'
 import { searchForWorkspaceRoot } from 'vite'
 
 export default defineConfig({
-  sandboxDarkClass: 'dark-mode',
   setupFile: '/src/histoire.setup.ts',
+  theme: {
+    darkClass: 'dark-mode',
+  },
   plugins: [HstVue()],
   vite: {
     // https://stackoverflow.com/questions/74902697/error-the-request-url-is-outside-of-vite-serving-allow-list-after-git-init
