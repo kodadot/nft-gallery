@@ -103,7 +103,7 @@
 
             <div
               class="text-k-hover-grey flex items-center"
-              :class="{ 'my-4': isMobile, 'my-6': !isMobile }">
+              :class="isMobile ? 'my-4' : 'my-6'">
               <NeoIcon pack="fasl" icon="eye" class="mr-1" />
               <span v-if="pageViewCount === null">--</span>
               <span v-else>{{ formatNumber(pageViewCount) }}</span>
