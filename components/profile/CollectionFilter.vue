@@ -1,0 +1,159 @@
+<template>
+  <NeoDropdown
+    v-model="checked"
+    :disabled="collections.length === 0"
+    class="py-0"
+    scrollable
+    :mobile-modal="false"
+    :close-on-click="false"
+    multiple>
+    <template #trigger="{ active }">
+      <NeoButton
+        :active="active"
+        no-shadow
+        rounded
+        label="Collections"
+        :icon="active ? 'chevron-up' : 'chevron-down'" />
+
+      <ActiveCount :count="checked.length" position="top-right" />
+    </template>
+
+    <NeoDropdownItem
+      v-for="collection in collections"
+      :key="collection.id"
+      class="is-flex no-border is-justify-content-center is-align-items-center max-width"
+      aria-role="listitem"
+      :value="collection.id">
+      <NeoCheckbox
+        :model-value="isSelected(collection)"
+        class="m-0"
+        label-class="m-0" />
+
+      <div
+        class="is-flex is-align-items-center filter-container pl-2 is-flex-grow-1 min-width-0">
+        <img
+          :src="sanitizeIpfsUrl(collection.meta.image)"
+          class="image is-32x32 is-flex-shrink-0 border mr-2"
+          :alt="collection.name || collection.id" />
+        <div
+          class="is-flex is-flex-direction-column is-flex-grow-1 min-width-0">
+          <div class="is-ellipsis">
+            {{ collection.name || collection.id }}
+          </div>
+
+          <div
+            class="is-flex is-justify-content-space-between is-size-7 has-text-grey">
+            <div>{{ $t('search.owners') }}: {{ collection.owners }}</div>
+          </div>
+        </div>
+
+        <div class="rounded ml-5 px-3 k-grey-light">
+          {{ collection.owned }}
+        </div>
+      </div>
+    </NeoDropdownItem>
+  </NeoDropdown>
+</template>
+
+<script setup lang="ts">
+import {
+  NeoButton,
+  NeoCheckbox,
+  NeoDropdown,
+  NeoDropdownItem,
+} from '@kodadot1/brick'
+import collectionListWithSearch from '@/queries/subsquid/general/collectionListWithSearch.graphql'
+import ActiveCount from '../explore/ActiveCount.vue'
+import { CollectionEntityMinimal } from '@/components/collection/utils/types'
+import { getDenyList } from '@/utils/prefix'
+
+type Collection = CollectionEntityMinimal & {
+  owners: number
+  owned: number
+}
+
+const props = defineProps<{
+  id: string
+  search: Record<string, string | number>
+  tabKey: string
+}>()
+
+const checked = ref<string[]>([])
+
+const { urlPrefix, client } = usePrefix()
+const { replaceUrl } = useReplaceUrl()
+const { accountId } = useAuth()
+
+const collections = ref<Collection[]>([])
+
+const nonCollectionSearchParams = computed(() => {
+  const search = { ...props.search }
+  delete search.collection
+  return search
+})
+
+useLazyAsyncData('profileCollections', async () => {
+  await getProfileCollections()
+})
+
+const getProfileCollections = async () => {
+  const collectionSearch = {
+    nfts_some: props.search,
+  }
+
+  const { data } = await useAsyncQuery({
+    query: collectionListWithSearch,
+    variables: {
+      search: [collectionSearch],
+      denyList: getDenyList(urlPrefix.value),
+      first: 100,
+      offset: 0,
+    },
+    clientId: client.value,
+  })
+
+  const collectionEntities = data.value?.collectionEntities || []
+
+  collections.value = formatCollections(collectionEntities)
+}
+
+const formatCollections = (collectionEntities) => {
+  return collectionEntities.map((collection) => {
+    const currentOwners = collection.nfts.map((nft) => nft.currentOwner)
+
+    return {
+      ...collection,
+      owners: new Set(currentOwners).size,
+      owned: currentOwners.filter(
+        (currentOwner: string) => accountId.value === currentOwner,
+      ).length,
+    }
+  })
+}
+
+const isSelected = (collection: Collection) => {
+  return checked.value.includes(collection.id)
+}
+
+watch(checked, (value) => {
+  replaceUrl({ collections: value.toString() })
+})
+
+watch(nonCollectionSearchParams, (x, y) => console.log(x, y))
+
+watch(
+  [() => props.tabKey, nonCollectionSearchParams],
+  () => {
+    checked.value = []
+    collections.value = []
+    getProfileCollections()
+  },
+  { deep: true },
+)
+</script>
+
+<style scoped lang="scss">
+.rounded {
+  border-radius: 1rem;
+}
+</style>

@@ -149,6 +149,12 @@
               :label="$t('activity.sold')"
               url-param="sold"
               class="ml-4" />
+
+            <CollectionFilter
+              :id="id.toString()"
+              :search="itemsGridSearch"
+              :tab-key="tabKey"
+              class="ml-4" />
           </div>
           <div class="is-hidden-mobile">
             <ProfileGrid class="is-hidden-mobile" />
@@ -187,6 +193,7 @@ import { useListingCartStore } from '@/stores/listingCart'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { chainsWithMintInteraction } from '@/composables/collectionActivity/helpers'
 import { Interaction } from '@kodadot1/minimark/v1'
+import CollectionFilter from './CollectionFilter.vue'
 
 enum ProfileTab {
   OWNED = 'owned',
@@ -226,11 +233,13 @@ const legal = ref('')
 const riot = ref('')
 const isModalActive = ref(false)
 
+const tabKey = computed(() =>
+  activeTab.value === ProfileTab.OWNED ? 'currentOwner_eq' : 'issuer_eq',
+)
+
 const itemsGridSearch = computed(() => {
-  const tabKey =
-    activeTab.value === ProfileTab.OWNED ? 'currentOwner_eq' : 'issuer_eq'
   const query: Record<string, unknown> = {
-    [tabKey]: id.value,
+    [tabKey.value]: id.value,
   }
 
   if (listed.value) {
@@ -242,6 +251,19 @@ const itemsGridSearch = computed(() => {
       AND: { caller_not_eq: id.value },
     }
   }
+
+  const collections = route.query.collections
+    ?.toString()
+    .split(',')
+    .filter(Boolean)
+
+  if (collections?.length !== 0) {
+    query['collection'] = {
+      id_in: collections,
+    }
+  }
+
+  console.log('new saearch')
 
   return query
 })
