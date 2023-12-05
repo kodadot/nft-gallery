@@ -74,7 +74,7 @@
         <div
           class="is-flex is-flex-direction-column is-justify-content-space-between h-full">
           <!-- title section -->
-          <div class="pb-4">
+          <div class="pb-2">
             <div class="is-flex is-justify-content-space-between">
               <div class="name-container">
                 <h1 class="title" data-testid="item-title">
@@ -102,10 +102,18 @@
             </div>
 
             <div
-              class="is-flex is-flex-direction-row is-flex-wrap-wrap py-4 pt-8">
+              class="text-k-hover-grey flex items-center"
+              :class="{ 'my-4': isMobile, 'my-6': !isMobile }">
+              <NeoIcon pack="fasl" icon="eye" class="mr-1" />
+              <span v-if="pageViewCount === null">--</span>
+              <span v-else>{{ pageViewCount }}</span>
+            </div>
+
+            <div class="is-flex is-flex-direction-row is-flex-wrap-wrap">
               <IdentityItem
                 v-if="nft?.issuer"
-                class="gallery-avatar mr-4"
+                class="gallery-avatar"
+                :class="{ 'mr-4': isMobile, 'mr-8': !isMobile }"
                 :label="$t('creator')"
                 :prefix="urlPrefix"
                 :account="nft?.issuer"
@@ -203,6 +211,7 @@ const { placeholder } = useTheme()
 const mediaItemRef = ref<{ isLewdBlurredLayer: boolean } | null>(null)
 const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 const preferencesStore = usePreferencesStore()
+const pageViewCount = usePageViews()
 
 const galleryItem = useGalleryItem()
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType, nftResources } =
