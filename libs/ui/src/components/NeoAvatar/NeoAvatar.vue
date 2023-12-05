@@ -3,11 +3,14 @@
     v-if="avatar"
     :placeholder="placeholder"
     :image-component="imageComponent"
+    :image-component-props="{
+      width: size,
+      height: size,
+      fit: 'cover',
+    }"
     :src="avatar"
     :alt="name"
     class="border neo-avatar"
-    :width="size"
-    :height="size"
     :style="customStyle"
     :original="true" />
   <img

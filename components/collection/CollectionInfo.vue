@@ -34,6 +34,10 @@
             :value="stats.uniqueOwners" />
         </div>
         <div>
+          <CollectionInfoLine
+            v-if="isAssetHub"
+            :title="$t('activity.totalSupply')"
+            :value="stats.maxSupply || $t('helper.unlimited')" />
           <CollectionInfoLine :title="$t('activity.floor')">
             <CommonTokenMoney
               :value="stats.collectionFloorPrice"
@@ -71,6 +75,7 @@ import {
 const route = useRoute()
 const { urlPrefix } = usePrefix()
 const { availableChains } = useChain()
+const { isAssetHub } = useIsChain(urlPrefix)
 const collectionId = computed(() => route.params.id)
 const chain = computed(
   () =>

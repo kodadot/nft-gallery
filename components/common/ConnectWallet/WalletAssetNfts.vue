@@ -3,14 +3,14 @@
     <hr class="my-4" />
     <p class="has-text-grey is-size-7 mb-2">Recent NFTs</p>
     <div class="nfts">
-      <a
+      <NuxtLink
         v-for="nft in nfts"
-        :key="nft.id"
-        v-safe-href="`/${urlPrefix}/gallery/${nft.id}`">
+        :key="nft?.id"
+        :to="`/${urlPrefix}/gallery/${nft?.id}`">
         <BaseMediaItem
-          :src="sanitizeIpfsUrl(nft.meta.image)"
-          :mime-type="nft.type" />
-      </a>
+          :src="sanitizeIpfsUrl(nft?.meta.image)"
+          :mime-type="nft?.type" />
+      </NuxtLink>
     </div>
   </div>
 </template>

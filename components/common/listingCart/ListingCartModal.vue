@@ -5,7 +5,6 @@
       :value="preferencesStore.listingCartModalOpen"
       scroll="clip"
       append-to-body
-      container-class="modal-width"
       @close="onClose">
       <ModalBody
         modal-max-height="70vh"
@@ -30,14 +29,21 @@
             @setFixedPrice="setFixedPrice" />
         </div>
 
-        <div
-          class="is-flex border-top is-justify-content-space-between py-4 px-6">
-          {{ $t('listingCart.potentialEarnings') }}
-          <div class="is-flex">
-            <span class="ml-2 has-text-grey"
-              >{{ totalNFTsPrice.toFixed(4) }} {{ chainSymbol }}</span
-            >
-            <span class="has-text-weight-bold ml-2"> ${{ priceUSD }} </span>
+        <div class="border-top pt-5 pb-4 px-6">
+          <div class="is-flex is-justify-content-space-between">
+            {{ $t('listingCart.potentialEarnings') }}
+            <div class="is-flex">
+              <span class="ml-2 has-text-grey"
+                >{{ totalNFTsPrice.toFixed(4) }} {{ chainSymbol }}</span
+              >
+              <span class="has-text-weight-bold ml-2"> ${{ priceUSD }} </span>
+            </div>
+          </div>
+
+          <div
+            class="is-flex is-justify-content-space-between has-text-grey pb-4 mt-3 border-bottom-k-shade">
+            <span>{{ $t('listingCart.listingFees') }}</span>
+            <span class="ml-2">{{ teleportTransitionTxFees }}</span>
           </div>
         </div>
 
@@ -62,7 +68,7 @@ import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 import { TokenToList } from '@/composables/transaction/types'
 import { ListCartItem, useListingCartStore } from '@/stores/listingCart'
-import { calculateBalance } from '@/utils/format/balance'
+import format, { calculateBalance } from '@/utils/format/balance'
 import { warningMessage } from '@/utils/notification'
 import { useFiatStore } from '@/stores/fiat'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
@@ -92,6 +98,14 @@ const autoteleportButton = ref()
 
 const loadingAutoTeleport = computed(
   () => !autoteleportButton.value?.hasBalances,
+)
+
+const teleportTransitionTxFees = computed(() =>
+  format(
+    autoteleportButton.value?.optimalTransition.txFees || 0,
+    decimals.value,
+    chainSymbol.value,
+  ),
 )
 
 function setFixedPrice() {
