@@ -3,7 +3,6 @@
     v-model="checked"
     :disabled="collections.length === 0"
     class="py-0"
-    scrollable
     :mobile-modal="false"
     :close-on-click="false"
     multiple>
@@ -18,40 +17,41 @@
       <ActiveCount :count="checked.length" position="top-right" />
     </template>
 
-    <NeoDropdownItem
-      v-for="collection in collections"
-      :key="collection.id"
-      class="is-flex no-border is-justify-content-center is-align-items-center max-width"
-      aria-role="listitem"
-      :value="collection.id">
-      <NeoCheckbox
-        :model-value="isSelected(collection)"
-        class="m-0"
-        label-class="m-0" />
-
-      <div
-        class="is-flex is-align-items-center filter-container pl-2 is-flex-grow-1 min-width-0">
-        <img
-          :src="sanitizeIpfsUrl(collection.meta.image)"
-          class="image is-32x32 is-flex-shrink-0 border mr-2"
-          :alt="collection.name || collection.id" />
+    <div class="py-5">
+      <NeoDropdownItem
+        v-for="collection in collections"
+        :key="collection.id"
+        class="is-flex no-border is-justify-content-center is-align-items-center"
+        aria-role="listitem"
+        :value="collection.id">
+        <NeoCheckbox
+          :model-value="isSelected(collection)"
+          class="m-0 pointer-events-none"
+          label-class="m-0" />
         <div
-          class="is-flex is-flex-direction-column is-flex-grow-1 min-width-0">
-          <div class="is-ellipsis">
-            {{ collection.name || collection.id }}
-          </div>
-
+          class="is-flex is-align-items-center filter-container pl-2 is-flex-grow-1 min-width-0">
+          <img
+            :src="sanitizeIpfsUrl(collection.meta.image)"
+            class="image is-32x32 is-flex-shrink-0 border mr-2"
+            :alt="collection.name || collection.id" />
           <div
-            class="is-flex is-justify-content-space-between is-size-7 has-text-grey">
-            <div>{{ $t('search.owners') }}: {{ collection.owners }}</div>
+            class="is-flex is-flex-direction-column is-flex-grow-1 min-width-0">
+            <div class="is-ellipsis">
+              {{ collection.name || collection.id }}
+            </div>
+
+            <div
+              class="is-flex is-justify-content-space-between is-size-7 has-text-grey">
+              <div>{{ $t('search.owners') }}: {{ collection.owners }}</div>
+            </div>
+          </div>
+
+          <div class="rounded ml-5 px-3 k-grey-light">
+            {{ collection.owned }}
           </div>
         </div>
-
-        <div class="rounded ml-5 px-3 k-grey-light">
-          {{ collection.owned }}
-        </div>
-      </div>
-    </NeoDropdownItem>
+      </NeoDropdownItem>
+    </div>
   </NeoDropdown>
 </template>
 
@@ -66,6 +66,7 @@ import collectionListWithSearch from '@/queries/subsquid/general/collectionListW
 import ActiveCount from '../explore/ActiveCount.vue'
 import { CollectionEntityMinimal } from '@/components/collection/utils/types'
 import { getDenyList } from '@/utils/prefix'
+import isEqual from 'lodash/isEqual'
 
 type Collection = CollectionEntityMinimal & {
   owners: number
@@ -82,7 +83,6 @@ const checked = ref<string[]>([])
 
 const { urlPrefix, client } = usePrefix()
 const { replaceUrl } = useReplaceUrl()
-const { accountId } = useAuth()
 
 const collections = ref<Collection[]>([])
 
@@ -125,7 +125,7 @@ const formatCollections = (collectionEntities) => {
       ...collection,
       owners: new Set(currentOwners).size,
       owned: currentOwners.filter(
-        (currentOwner: string) => accountId.value === currentOwner,
+        (currentOwner: string) => props.id === currentOwner,
       ).length,
     }
   })
@@ -139,11 +139,13 @@ watch(checked, (value) => {
   replaceUrl({ collections: value.toString() })
 })
 
-watch(nonCollectionSearchParams, (x, y) => console.log(x, y))
-
 watch(
   [() => props.tabKey, nonCollectionSearchParams],
-  () => {
+  ([tabKey, search], [oldTabKey, oldSearch]) => {
+    if (isEqual(search, oldSearch) || tabKey === oldTabKey) {
+      return
+    }
+
     checked.value = []
     collections.value = []
     getProfileCollections()

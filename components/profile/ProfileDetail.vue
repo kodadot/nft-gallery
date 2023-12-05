@@ -263,8 +263,6 @@ const itemsGridSearch = computed(() => {
     }
   }
 
-  console.log('new saearch')
-
   return query
 })
 
