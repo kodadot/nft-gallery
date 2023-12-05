@@ -113,7 +113,7 @@
               <IdentityItem
                 v-if="nft?.issuer"
                 class="gallery-avatar"
-                :class="{ 'mr-4': isMobile, 'mr-8': !isMobile }"
+                :class="isMobile ? 'mr-4' : 'mr-8'"
                 :label="$t('creator')"
                 :prefix="urlPrefix"
                 :account="nft?.issuer"
