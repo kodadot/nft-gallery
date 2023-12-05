@@ -66,6 +66,10 @@ type DoResponse = {
   result: {
     sn: string
     collection: string
+    chain: string
+    txHash?: string
+    timestamp?: string
+    image?: string
   }
 }
 export const doWaifu = async (body: DoRequest, campaign: string) => {
