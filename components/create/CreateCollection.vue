@@ -68,6 +68,7 @@
             v-model="max"
             class="mt-3"
             type="number"
+            data-testid="collection-input-maximum-nfts"
             placeholder="1 is the minimum"
             :min="1" />
         </div>

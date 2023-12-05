@@ -869,6 +869,7 @@
     "totalItems": "Σ Items",
     "todayTraded": "24H",
     "totalTraded": "Σ VOLUME TRADED",
+    "totalSupply": "Total Supply",
     "highestSale": "HIGHEST SALE",
     "totalBuys": "Σ BUYS",
     "unique": "UNIQUE",
@@ -992,7 +993,8 @@
       "copy": "Kodadot link successfully copied"
     },
     "builtOn": "Built on",
-    "signStuckText": "Stuck? Make sure to check for any popups and SIGN the transaction."
+    "signStuckText": "Stuck? Make sure to check for any popups and SIGN the transaction.",
+    "unlimited": "Unlimited"
   },
   "cookies": {
     "notice": "We use cookies for better service",
@@ -1417,7 +1419,10 @@
     "enterValidEmail": "Enter valid email address",
     "subscribeAndClaim": "Subscribe & Claim your NFT",
     "agreeToProceed": "Agree to proceed",
-    "consent": "I consent to receive updates."
+    "consent": "I consent to receive updates.",
+    "plusGetA": "+ Get a",
+    "voucherToOurShop": "Voucher to our shop",
+    "justConfirmSubscriptionViaEmail": "Just confirm your subscription via email"
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
@@ -1452,6 +1457,7 @@
     "fixedPrice": "Fixed Price",
     "collectionFloorPrice": "Collection Floor Price",
     "potentialEarnings": "Potential Earnings",
+    "listingFees": "Listing Fees",
     "listForSale": "List For Sale",
     "chooseAPrice": "Choose a price",
     "floorPrice": "Floor Price",
@@ -1498,8 +1504,6 @@
       "cta": "Migrate Items",
       "own": "You Own <strong>{0}</strong> From This Collection"
     },
-    "migrationNotPossible": "Migration Not Possible:",
-    "migrationNotPossibleLabel": "Migration Is <strong>Not Possible</strong> For  Following Collections That You Own:",
     "homeButton": "Migration Homepage",
     "review": "Review",
     "reviewCtaUncheck": "Acknowledge Before Proceeding",
