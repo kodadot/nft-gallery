@@ -1,4 +1,4 @@
-query collectionByAccount($account: String!) {
+query collectionMigrateReady($account: String!) {
   collectionEntities(
     where: { currentOwner_eq: $account }
     orderBy: blockNumber_DESC
@@ -18,6 +18,12 @@ query collectionByAccount($account: String!) {
     }
     nfts(where: { burned_not_eq: true }) {
       id
+      name
+      currentOwner
+      meta {
+        id
+        image
+      }
     }
   }
 }

@@ -56,6 +56,12 @@ type CollectionsReady = {
     }[]
     nfts?: {
       id: string
+      name?: string
+      currentOwner?: string
+      meta?: {
+        id: string
+        image: string
+      }
     }[]
   }[]
 }
@@ -106,6 +112,9 @@ export function useMigrateDeposit(
   const fiatStore = useFiatStore()
   const preferencesStore = usePreferencesStore()
 
+  const route = useRoute()
+  const collectionOwner = route.query.collectionOwner?.toString()
+
   const chainDecimals = computed(() => {
     if (chain.value?.tokenDecimals) {
       return chain.value.tokenDecimals
@@ -144,11 +153,12 @@ export function useMigrateDeposit(
   })
 
   const totalChain = computed(() => {
-    const total =
-      chainNetworkFee.value +
-      parseFloat(totalCollectionDeposit.value) +
-      chainItemDeposit.value +
-      kodadotFee.value
+    let total =
+      chainNetworkFee.value + chainItemDeposit.value + kodadotFee.value
+
+    if (!collectionOwner) {
+      total += parseFloat(totalCollectionDeposit.value)
+    }
 
     if (isNaN(total)) {
       return 0
@@ -191,6 +201,29 @@ const useDestinationSelected = () =>
   useState('destinationSelected', () =>
     availablePrefixWithIcon().find((item) => item.value === 'ahp'),
   )
+
+export const toReview = ({
+  collectionId,
+  itemCount,
+  collectionOwner = '',
+  setDestination = '',
+}) => {
+  const sourceSelected = useSourceSelected()
+  const destinationSelected = useDestinationSelected()
+  const { accountId } = useAuth()
+
+  navigateTo({
+    path: '/migrate/review',
+    query: {
+      accountId: accountId.value,
+      collectionId: collectionId,
+      source: sourceSelected.value?.value,
+      destination: setDestination || destinationSelected.value?.value,
+      itemCount,
+      collectionOwner,
+    },
+  })
+}
 
 // default composables
 export default function useMigrate() {

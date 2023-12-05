@@ -5,6 +5,7 @@
         v-model="inputValue"
         :icon-right="iconRight"
         :placeholder="placeholder"
+        data-testid="global-address-input"
         icon-right-clickable
         @icon-right-click="clearIconClick" />
     </NeoField>

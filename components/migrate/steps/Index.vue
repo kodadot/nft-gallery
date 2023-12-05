@@ -34,7 +34,7 @@
 
         <div
           v-if="accountId"
-          class="rounded shade-border-color is-flex is-justify-content-start is-flex-grow-1 pl-3">
+          class="rounded-full border border-k-shade is-flex is-justify-content-start is-flex-grow-1 pl-3">
           <IdentityItem
             :label="$t('confirmPurchase.connectedWith')"
             hide-identity-popover
@@ -96,17 +96,3 @@ onBeforeMount(() => {
   }
 })
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.rounded {
-  border-radius: 10rem;
-}
-
-.shade-border-color {
-  @include ktheme() {
-    border: 1px solid theme('k-shade');
-  }
-}
-</style>
