@@ -3,9 +3,14 @@
     v-if="avatar"
     :placeholder="placeholder"
     :image-component="imageComponent"
+    :image-component-props="{
+      width: size,
+      height: size,
+      fit: 'cover',
+    }"
     :src="avatar"
     :alt="name"
-    :class="className"
+    class="border-default border-border-color max-w-none object-cover"
     :width="size"
     :height="size"
     :style="customStyle"
@@ -37,6 +42,4 @@ const customStyle = computed(() => ({
   width: `${props.size}px`,
   height: `${props.size}px`,
 }))
-
-const className = 'border-default border-border-color max-w-none object-cover'
 </script>

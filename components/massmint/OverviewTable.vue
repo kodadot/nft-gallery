@@ -196,4 +196,8 @@ useIntersectionObserver(sentinel, handleIntersection, { threshold: 0.66 })
   white-space: nowrap;
   max-width: 90%;
 }
+
+.column figure {
+  margin: 0;
+}
 </style>

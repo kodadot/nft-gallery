@@ -1,5 +1,3 @@
-@import '../../scss/variable.scss';
-@import '../../scss/theme.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/expressions.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/variables.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/animations.scss';
@@ -12,39 +10,30 @@ $field-label-font-weight: 700;
 
 .o-field {
   &--error .o-input {
-    @include ktheme() {
-      border-color: theme('k-red') !important;
-    }
+    @apply border-k-red;
+
     &::placeholder {
-      @include ktheme() {
-        color: theme('k-red') !important;
-      }
+      @apply text-k-red;
     }
   }
 
   .o-field__label {
-    margin-bottom: 0.75rem;
-    @include ktheme() {
-      color: theme('text-color');
-    }
+    @apply mb-3 text-text-color;
   }
 
   &.o-field--focused {
     input,
     textarea {
-      outline: none;
+      @apply outline-none;
     }
   }
 
   .o-field__message-danger {
-    @include ktheme() {
-      color: theme('k-red');
-    }
+    @apply text-k-red;
   }
 
   .o-field--addons > :not(:first-child):not(:last-child) button,
   .o-field--addons > button:not(:first-child):not(:last-child) {
-    border-right: 0;
-    border-left: 0;
+    @apply border-l-0 border-r-0;
   }
 }

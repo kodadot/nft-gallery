@@ -293,7 +293,7 @@ watchSyncEffect(() => {
   }
 })
 
-defineExpose({ hasBalances })
+defineExpose({ hasBalances, optimalTransition })
 </script>
 
 <style lang="scss" scoped>

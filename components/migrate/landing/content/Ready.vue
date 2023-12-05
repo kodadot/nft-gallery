@@ -9,21 +9,23 @@
       {{ $t('migrate.ready.desc') }}
     </div>
 
-    <div class="collection">
+    <div v-if="Object.keys(entities).length" class="collection">
       <div
         v-for="collection in collections"
         :key="collection.id"
         class="collection-card"
-        :class="{ 'collection-card-empty': !collection.nftsOwned?.length }">
+        :class="{
+          hidden: !entities[collection.id]?.id,
+        }">
         <div
           class="collection-card-banner"
           :style="{
-            backgroundImage: `url(${sanitizeIpfsUrl(collection.meta?.image)})`,
+            backgroundImage: `url(${entities[collection.id]?.image})`,
           }"></div>
         <div
           class="collection-card-avatar"
           :style="{
-            backgroundImage: `url(${sanitizeIpfsUrl(collection.meta?.image)})`,
+            backgroundImage: `url(${entities[collection.id]?.image})`,
           }"></div>
 
         <div class="collection-card-info">
@@ -48,7 +50,12 @@
             <div>
               <NeoButton
                 variant="pill"
-                @click="toReview(collection.id, collection.nftsOwned?.length)">
+                @click="
+                  toReview({
+                    collectionId: collection.id,
+                    itemCount: collection.nfts?.length,
+                  })
+                ">
                 {{ $t('migrate.ready.cta') }}
               </NeoButton>
             </div>
@@ -56,16 +63,40 @@
         </div>
       </div>
     </div>
+    <div v-else class="text-center mt-8">
+      <p class="is-size-4 has-text-weight-bold">Nothing to Migrate</p>
+      <p>
+        It looks like you have no collections or items ready for migration at
+        this time.
+      </p>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import { useCollectionReady } from '@/composables/useMigrate'
+import { toReview, useCollectionReady } from '@/composables/useMigrate'
+import waifuApi from '@/services/waifu'
 
-defineProps<{
-  toReview: (string, number) => void
-}>()
-
+const { urlPrefix } = usePrefix()
 const { collections } = await useCollectionReady()
+
+const entities = reactive({})
+watchEffect(async () => {
+  collections.value.forEach(async (collection) => {
+    const metadata = await getNftMetadata(
+      collection as unknown as MinimalNFT,
+      urlPrefix.value,
+    )
+    const migrated = await waifuApi(
+      `/relocations/${urlPrefix.value}-${collection.id}`,
+    )
+
+    if (!migrated?.id && collection.nfts?.length) {
+      entities[collection.id] = {
+        ...metadata,
+      }
+    }
+  })
+})
 </script>

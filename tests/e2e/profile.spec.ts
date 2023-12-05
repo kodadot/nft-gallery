@@ -1,9 +1,11 @@
 import { expect, test } from './fixtures'
 
+const KSM_TEST_ADDRESS = 'CmWHiv7h4m9tEzKD94DH4mqwGTvsdYQe2nouWPF7ipmHpqA'
+
 test('Profile Interactions', async ({ page, Commands }) => {
-  const testAddress = 'CmWHiv7h4m9tEzKD94DH4mqwGTvsdYQe2nouWPF7ipmHpqA'
-  await page.goto(`ahk/u/${testAddress}?tab=owned`)
+  await page.goto(`ahk/u/${KSM_TEST_ADDRESS}?tab=owned`)
   await Commands.scrollDownSlow()
+
   //test step - will check if buy now has items that are not listed
   await test.step('Buy Now', async () => {
     await Commands.acceptCookies()
@@ -13,7 +15,8 @@ test('Profile Interactions', async ({ page, Commands }) => {
       await expect(li.getByText('KSM')).toBeVisible()
     }
   })
-  //test step
+
+  //Activity
   await test.step('Activity Tab', async () => {
     await page.getByTestId('profile-tabs').last().click()
     //usually sale and buy are active when you enter the page
@@ -52,14 +55,15 @@ test('Profile Interactions', async ({ page, Commands }) => {
     //ALL
     await page.getByTestId('profile-activity-button-all').click()
   })
-  //test step
+
+  //PROFILE LINKS
   await test.step('Profile Links', async () => {
     //copy address
     await page
       .getByTestId('profile-identity-buttons')
       .getByText('Copy Address')
       .click()
-    await Commands.copyText(testAddress)
+    await Commands.copyText(KSM_TEST_ADDRESS)
     //QR Code
     await page
       .getByTestId('profile-identity-buttons')
@@ -73,7 +77,7 @@ test('Profile Interactions', async ({ page, Commands }) => {
       .getByText('Transfer')
       .click()
     await expect(page).toHaveURL(
-      `/ahk/transfer?target=${testAddress}&usdamount=10&donation=true`,
+      `/ahk/transfer?target=${KSM_TEST_ADDRESS}&usdamount=10&donation=true`,
     )
   })
 })
