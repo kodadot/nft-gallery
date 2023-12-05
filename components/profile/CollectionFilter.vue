@@ -3,7 +3,7 @@
     v-model="checked"
     :disabled="collections.length === 0"
     class="py-0"
-    :mobile-modal="false"
+    :mobile-modal="true"
     :close-on-click="false"
     multiple>
     <template #trigger="{ active }">
@@ -17,7 +17,7 @@
       <ActiveCount :count="checked.length" position="top-right" />
     </template>
 
-    <div class="py-5">
+    <div class="py-5 width">
       <NeoDropdownItem
         v-for="collection in collections"
         :key="collection.id"
@@ -155,7 +155,16 @@ watch(
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/styles/abstracts/variables';
+
 .rounded {
   border-radius: 1rem;
+}
+.width {
+  width: 300px;
+
+  @include mobile {
+    width: unset;
+  }
 }
 </style>
