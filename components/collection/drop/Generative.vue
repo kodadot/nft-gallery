@@ -64,14 +64,24 @@
                   :to="`/${urlPrefix}/gallery/${hasUserMinted}`" />
               </div>
 
-              <div v-else>
+              <div v-else class="is-flex">
+                <div class="is-flex is-align-items-center mr-5">
+                  <NeoIcon icon="circle-info" class="mr-3" />
+                  <div
+                    v-dompurify-html="
+                      $t('mint.unlockable.minimumFundsDescription', [
+                        `${minimumFunds} ${token}`,
+                      ])
+                    "
+                    class="minimum-funds-description" />
+                </div>
                 <NeoButton
                   ref="root"
                   class="my-2 mint-button"
                   variant="k-accent"
                   :loading="isImageFetching"
                   :disabled="mintButtonDisabled"
-                  :label="$t('mint.unlockable.mintThisNft')"
+                  :label="$t('mint.unlockable.claimNftNow')"
                   @click="handleSubmitMint" />
               </div>
             </div>
@@ -97,6 +107,10 @@
     v-model="isConfirmModalActive"
     @confirm="handleConfirmMint"
     @close="closeConfirmModal" />
+  <CollectionDropAddFundsModal
+    v-model="isAddFundModalActive"
+    :minimum-funds="minimumFunds"
+    @close="isAddFundModalActive = false" />
 </template>
 
 <script setup lang="ts">
@@ -105,7 +119,7 @@ import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlide
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import CarouselTypeLatestMints from '@/components/carousel/CarouselTypeLatestMints.vue'
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { createUnlockableMetadata } from '../unlockable/utils'
 import GenerativePreview from '@/components/collection/drop/GenerativePreview.vue'
 import { DropItem } from '@/params/types'
@@ -115,6 +129,10 @@ import { makeScreenshot } from '@/services/capture'
 import { pinFileToIPFS } from '@/services/nftStorage'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import newsletterApi from '@/utils/newsletter'
+import { formatBsxBalanceToNumber } from '@/utils/format/balance'
+import type { Prefix } from '@kodadot1/static'
+import { prefixToToken } from '@/components/common/shoppingCart/utils'
+import { useIdentityStore } from '@/stores/identity'
 
 const NuxtLink = resolveComponent('NuxtLink')
 const MINTING_SECOND = 120
@@ -127,6 +145,20 @@ const props = defineProps({
     },
   },
 })
+
+const defaultMinimumFunds = 0.2
+const minimumFundsDict: Record<Prefix, number> = {
+  ahp: defaultMinimumFunds,
+  ahk: defaultMinimumFunds,
+  bsx: defaultMinimumFunds,
+  rmrk: defaultMinimumFunds,
+  ksm: defaultMinimumFunds,
+  dot: defaultMinimumFunds,
+}
+const minimumFunds = computed(
+  () => minimumFundsDict[urlPrefix.value] || defaultMinimumFunds,
+)
+const { getAuthBalance } = useIdentityStore()
 
 const collectionId = computed(() => props.drop?.collection)
 const disabledByBackend = computed(() => props.drop?.disabled)
@@ -147,6 +179,15 @@ const justMinted = ref('')
 const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isConfirmModalActive = ref(false)
+const isAddFundModalActive = ref(false)
+
+const isRequireFunds = computed(
+  () =>
+    props.drop.meta &&
+    formatBsxBalanceToNumber(props.drop.meta) > Number(getAuthBalance),
+)
+
+const token = computed(() => prefixToToken[urlPrefix.value])
 
 const handleSelectImage = (image: string) => {
   selectedImage.value = image
@@ -228,7 +269,11 @@ const handleSubmitMint = async () => {
     return false
   }
 
-  openConfirmModal()
+  if (isRequireFunds.value) {
+    openAddFundModal()
+  } else {
+    openConfirmModal()
+  }
 }
 
 const closeConfirmModal = () => {
@@ -237,6 +282,10 @@ const closeConfirmModal = () => {
 
 const openConfirmModal = () => {
   isConfirmModalActive.value = true
+}
+
+const openAddFundModal = () => {
+  isAddFundModalActive.value = true
 }
 
 const subscribe = async (email: string) => {
@@ -320,5 +369,9 @@ const handleConfirmMint = async ({ email }) => {
 
 .order-1 {
   order: 1;
+}
+
+.minimum-funds-description {
+  max-width: 308px;
 }
 </style>

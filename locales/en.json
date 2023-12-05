@@ -603,6 +603,8 @@
       "onlyOneExample": "Example Of Drop",
       "mintThisNft": "Mint This NFT",
       "seeYourNft": "See Your NFT",
+      "minimumFundsDescription": "Holding a Minimum of <strong>{0}</strong> in Your Wallet is Required for This Free Mint.",
+      "claimNftNow": "Claim NFT Now",
       "nftAlreadyMinted": "NFT Already Minted",
       "yourVariation": "Your Unique Variation",
       "loader": {
@@ -620,7 +622,20 @@
       "ayeVotersOnly": "For Aye Voters Only",
       "eligible": "You Are Eligible",
       "exclusive": "Exclusive Access Only",
-      "howItemWork": "How unlockable item works"
+      "howItemWork": "How unlockable item works",
+      "addFundsModal": {
+        "title": "Action Required",
+        "textP1": "To participate in this free, gasless drop, your wallet must hold a minimum of <strong>{0}</<strong>",
+        "textP2": "Please add funds to continue",
+        "howToAddFunds": "How to add funds",
+        "tooltip": {
+          "title": "Adding {0} to Your Wallet",
+          "onramp": "<strong>Onramp:</strong> Buy {0} with fiat via onramp in your wallet.",
+          "exchange": "<strong>Exchange:</strong> Purchase on a crypto exchange and transfer to your wallet.",
+          "transfer": "<strong>Transfer:</strong> Move {0} from another account to your wallet.",
+          "note": "Transactions may require a network confirmation"
+        }
+      }
     },
     "blockchain": {
       "label": "Select Blockchain",
@@ -1061,7 +1076,7 @@
     "receiveValue": "You will receive {0} {1} on {2} to",
     "insufficientBalance": "Insufficient {0} Balance",
     "insufficientAmountAfterFees": "Insufficient amount after fees",
-    "proceedToConfirmation":"Proceed To Confirmation",
+    "proceedToConfirmation": "Proceed To Confirmation",
     "artistProfile": "Go to artist's profile",
     "usdInput": "USD Value (approx)",
     "btnCopyPayment": "Copy Payment link",
