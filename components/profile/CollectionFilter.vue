@@ -98,7 +98,7 @@ useLazyAsyncData('profileCollections', async () => {
 
 const getProfileCollections = async () => {
   const collectionSearch = {
-    nfts_some: props.search,
+    nfts_some: nonCollectionSearchParams.value,
   }
 
   const { data } = await useAsyncQuery({
@@ -140,14 +140,13 @@ watch(checked, (value) => {
 })
 
 watch(
-  [() => props.tabKey, nonCollectionSearchParams],
-  ([tabKey, search], [oldTabKey, oldSearch]) => {
-    if (isEqual(search, oldSearch) || tabKey === oldTabKey) {
-      return
+  [() => props.tabKey, () => props.search],
+  ([, search], [, oldSearch]) => {
+    if (isEqual(search.collection, oldSearch.collection)) {
+      checked.value = []
+      collections.value = []
     }
 
-    checked.value = []
-    collections.value = []
     getProfileCollections()
   },
   { deep: true },
