@@ -14,11 +14,6 @@
             :description="description" />
           <hr class="mb-4" />
 
-          <div
-            class="is-flex is-justify-content-space-between is-align-items-center my-5">
-            <div>{{ $t('mint.unlockable.totalAvailableItem') }}</div>
-            <div>{{ totalAvailableMintCount }} / {{ maxCount }}</div>
-          </div>
           <UnlockableTag :collection-id="collectionId" />
 
           <div>
@@ -196,9 +191,6 @@ const { data: collectionData } = useGraphql({
 
 const maxCount = computed(
   () => collectionData.value?.collectionEntity?.max || 200,
-)
-const totalAvailableMintCount = computed(
-  () => maxCount.value - mintedCount.value,
 )
 
 const hasUserMinted = computed(() =>
