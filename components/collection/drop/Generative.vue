@@ -110,6 +110,7 @@
     @confirm="handleConfirmMint"
     @close="closeConfirmModal" />
   <CollectionDropAddFundsModal
+    v-if="minimumFunds"
     v-model="isAddFundModalActive"
     :minimum-funds="minimumFunds"
     :token="token"
