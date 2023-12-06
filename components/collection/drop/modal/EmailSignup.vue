@@ -8,10 +8,10 @@
   </p>
 
   <div class="mb-5">
-    <div class="is-capitalized is-flex is-align-items-center">
+    <div class="is-capitalized is-flex is-align-items-center voucher-container">
       <span>{{ $t('drops.plusGetA') }}</span>
 
-      <div class="px-2 is-flex is-align-items-center">
+      <div class="is-flex is-align-items-center">
         <img width="58" :src="signUpVoucherIcon" alt="shop voucher" />
       </div>
 
@@ -99,6 +99,15 @@ const confirm = () => {
 
   &:hover {
     color: var(--k-accent2) !important;
+  }
+}
+
+.voucher-container {
+  gap: 0.5rem;
+
+  @include mobile {
+    flex-direction: column !important;
+    align-items: flex-start !important;
   }
 }
 </style>
