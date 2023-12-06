@@ -45,7 +45,13 @@
     </p>
     <p class="is-capitalized is-size-7 text-center mt-2">
       {{ $t('drops.artBy', [mintedNft.name]) }}
-      <span class="has-text-k-blue">{{ mintedNft.collectionName }}</span>
+      <a
+        v-safe-href="collectionUrl"
+        class="has-text-link"
+        target="_blank"
+        rel="nofollow noopener noreferrer">
+        {{ mintedNft.collectionName }}
+      </a>
     </p>
   </div>
 
@@ -125,6 +131,10 @@ const txUrl = computed(() =>
     props.mintedNft.txHash || '',
     props.mintedNft.chain as Prefix,
   ),
+)
+
+const collectionUrl = computed(
+  () => `/${props.mintedNft.chain}/collection/${props.mintedNft.collection}`,
 )
 
 const nftPath = computed(
