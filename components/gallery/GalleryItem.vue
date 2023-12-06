@@ -47,7 +47,6 @@
                   :mime-type="resource.mimeType"
                   :animation-src="resource.animation"
                   :audio-player-cover="galleryItem.nftImage.value"
-                  :image-component="NuxtImg"
                   is-detail />
               </NeoCarouselItem>
             </NeoCarousel>
@@ -64,8 +63,6 @@
             is-detail
             :is-lewd="galleryDescriptionRef?.isLewd"
             :placeholder="placeholder"
-            :image-component="NuxtImg"
-            sizes="original"
             :audio-player-cover="nftImage" />
         </div>
       </div>
@@ -193,8 +190,6 @@ import { MediaType } from '@/components/rmrk/types'
 import { resolveMedia } from '@/utils/gallery/media'
 import UnlockableTag from './UnlockableTag.vue'
 import { usePreferencesStore } from '@/stores/preferences'
-
-const NuxtImg = resolveComponent('NuxtImg')
 
 const { urlPrefix } = usePrefix()
 const route = useRoute()
