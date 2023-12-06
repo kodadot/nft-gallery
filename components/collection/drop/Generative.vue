@@ -105,7 +105,6 @@
     @confirm="handleConfirmMint"
     @close="closeConfirmModal" />
   <CollectionDropAddFundsModal
-    v-if="minimumFunds"
     v-model="isAddFundModalActive"
     :minimum-funds="minimumFunds"
     :token="token"
@@ -131,6 +130,10 @@ import newsletterApi from '@/utils/newsletter'
 import { formatBsxBalanceToNumber } from '@/utils/format/balance'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
 import { useIdentityStore } from '@/stores/identity'
+import {
+  DOT_EXISTENTIAL_DEPOSIT,
+  KSM_EXISTENTIAL_DEPOSIT,
+} from '@/components/collection/unlockable/const'
 
 const NuxtLink = resolveComponent('NuxtLink')
 const MINTING_SECOND = 120
@@ -144,10 +147,12 @@ const props = defineProps({
   },
 })
 
-const minimumFunds = computed<number | undefined>(
-  () => props.drop.meta && formatBsxBalanceToNumber(props.drop.meta),
+useMultipleBalance(true)
+
+const minimumFunds = computed<number>(
+  () => (props.drop.meta && formatBsxBalanceToNumber(props.drop.meta)) || 0,
 )
-const { getAuthBalanceByChain } = useIdentityStore()
+const store = useIdentityStore()
 
 const collectionId = computed(() => props.drop?.collection)
 const disabledByBackend = computed(() => props.drop?.disabled)
@@ -169,12 +174,6 @@ const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isConfirmModalActive = ref(false)
 const isAddFundModalActive = ref(false)
-
-const isRequireFunds = computed(
-  () =>
-    minimumFunds.value &&
-    minimumFunds.value > Number(getAuthBalanceByChain(props.drop.chain)),
-)
 
 const token = computed(() => prefixToToken[props.drop.chain])
 
@@ -255,10 +254,20 @@ const handleSubmitMint = async () => {
     return false
   }
 
-  if (isRequireFunds.value) {
-    openAddFundModal()
-  } else {
+  const dropChainBalance = Number(store.getAuthBalanceByChain(props.drop.chain))
+  const relayChainBalance = Number(
+    store.getAuthBalanceByRelayChain(props.drop.chain),
+  )
+  const existentialDeposit =
+    token.value === 'KSM' ? KSM_EXISTENTIAL_DEPOSIT : DOT_EXISTENTIAL_DEPOSIT
+
+  if (
+    dropChainBalance >= minimumFunds.value ||
+    relayChainBalance >= existentialDeposit + minimumFunds.value
+  ) {
     openConfirmModal()
+  } else {
+    openAddFundModal()
   }
 }
 
