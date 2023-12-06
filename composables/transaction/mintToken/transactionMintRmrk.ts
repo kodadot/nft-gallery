@@ -27,6 +27,8 @@ import {
 import { constructMeta } from './constructMeta'
 import { isRoyaltyValid } from '@/utils/royalty'
 import { calculateFees, copiesToMint, getNameInNotifications } from './utils'
+import { constructDirectoryMeta } from './constructDirectoryMeta'
+import { usePreferencesStore } from '@/stores/preferences'
 
 const getOnChainProperties = ({ tags, royalty, hasRoyalty }: TokenToMint) => {
   let onChainProperties = convertAttributesToProperties(tags)
@@ -88,50 +90,70 @@ const createMintInteractionObject = (
   return mint.map((nft) => createMintInteraction(Interaction.MINTNFT, nft))
 }
 
-const processSingleTokenToMint = async (
-  token: TokenToMint,
+const processTokens = async (
+  tokens: TokenToMint[],
+  metadata: string | string[],
   api,
-): Promise<{
-  arg: Extrinsic[]
-  createdNFTs: CreatedNFT[] | NewCreatedNFT[]
-}> => {
-  const metadata = await constructMeta(token, { enableCarbonOffset: true })
-  const onChainProperties = getOnChainProperties(token)
-  const mint = createMintObject(token, metadata, getUpdateNameFn(token))
-  const mintInteraction = createMintInteractionObject(mint, onChainProperties)
+): Promise<
+  Array<{ arg: Extrinsic[]; createdNFTs: CreatedNFT[] | NewCreatedNFT[] }>
+> => {
+  return tokens.map((token, index) => {
+    const tokenMetadata = Array.isArray(metadata) ? metadata[index] : metadata
+    const onChainProperties = getOnChainProperties(token)
+    const mint = createMintObject(token, tokenMetadata, getUpdateNameFn(token))
+    const mintInteraction = createMintInteractionObject(mint, onChainProperties)
 
-  const { enabledFees, feeMultiplier } = calculateFees()
+    const arg = [...mintInteraction.map((nft) => asSystemRemark(api, nft))]
 
-  return {
-    arg: [
-      ...mintInteraction.map((nft) => asSystemRemark(api, nft)),
-      ...(await canSupport(api, enabledFees, feeMultiplier, 'KSM')),
-    ],
-    createdNFTs: mint,
-  }
+    return {
+      arg,
+      createdNFTs: mint,
+    }
+  })
 }
 
 const getArgs = async (item: ActionMintToken, api) => {
+  const preferencesStore = usePreferencesStore()
+  const enableCarbonOffset = preferencesStore.getHasCarbonOffset
   const { $consola } = useNuxtApp()
-  const tokens = Array.isArray(item.token) ? item.token : [item.token]
 
-  const argsAndNftsArray = (
-    await Promise.all(
-      tokens.map((token) => {
-        return processSingleTokenToMint(token, api).catch((e) => {
-          $consola.error('Error:', e)
+  try {
+    const isMultipleTokens = Array.isArray(item.token)
+    const tokens = (
+      isMultipleTokens ? item.token : [item.token]
+    ) as TokenToMint[]
+    const metadata = isMultipleTokens
+      ? await constructDirectoryMeta(tokens, {
+          enableCarbonOffset,
         })
-      }),
-    )
-  ).filter(Boolean)
+      : await constructMeta(tokens[0], { enableCarbonOffset })
 
-  const args = argsAndNftsArray.map((argsAndNfts) => argsAndNfts?.arg).flat()
-  const createdNFTs = ref(
-    argsAndNftsArray.map((argsAndNfts) => argsAndNfts?.createdNFTs).flat(),
-  )
-  return {
-    args,
-    createdNFTs,
+    const results = await processTokens(tokens, metadata, api)
+
+    const { enabledFees, feeMultiplier } = calculateFees()
+    const totalFees = feeMultiplier * tokens.length
+    const supportInteraction = await canSupport(
+      api,
+      enabledFees,
+      totalFees,
+      'KSM',
+    )
+
+    const args = results
+      .map(({ arg }) => arg)
+      .flat()
+      .concat(supportInteraction)
+    const createdNFTs = ref(
+      results.map(({ createdNFTs }) => createdNFTs).flat(),
+    )
+
+    return {
+      args,
+      createdNFTs,
+    }
+  } catch (e) {
+    $consola.error('Error:', e)
+    throw e
   }
 }
 
