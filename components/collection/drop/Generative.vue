@@ -65,7 +65,9 @@
               </div>
 
               <div v-else class="is-flex">
-                <div class="is-flex is-align-items-center mr-5">
+                <div
+                  v-if="minimumFunds"
+                  class="is-flex is-align-items-center mr-5">
                   <NeoIcon icon="circle-info" class="mr-3" />
                   <div
                     v-dompurify-html="
@@ -131,7 +133,6 @@ import { pinFileToIPFS } from '@/services/nftStorage'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import newsletterApi from '@/utils/newsletter'
 import { formatBsxBalanceToNumber } from '@/utils/format/balance'
-import type { Prefix } from '@kodadot1/static'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
 import { useIdentityStore } from '@/stores/identity'
 
@@ -147,17 +148,8 @@ const props = defineProps({
   },
 })
 
-const defaultMinimumFunds = 0.2
-const minimumFundsDict: Record<Prefix, number> = {
-  ahp: defaultMinimumFunds,
-  ahk: defaultMinimumFunds,
-  bsx: defaultMinimumFunds,
-  rmrk: defaultMinimumFunds,
-  ksm: defaultMinimumFunds,
-  dot: defaultMinimumFunds,
-}
-const minimumFunds = computed(
-  () => minimumFundsDict[props.drop.chain] || defaultMinimumFunds,
+const minimumFunds = computed<number | undefined>(
+  () => props.drop.meta && formatBsxBalanceToNumber(props.drop.meta),
 )
 const { getAuthBalanceByChain } = useIdentityStore()
 
@@ -184,9 +176,8 @@ const isAddFundModalActive = ref(false)
 
 const isRequireFunds = computed(
   () =>
-    props.drop.meta &&
-    formatBsxBalanceToNumber(props.drop.meta) >
-      Number(getAuthBalanceByChain(props.drop.chain)),
+    minimumFunds.value &&
+    minimumFunds.value > Number(getAuthBalanceByChain(props.drop.chain)),
 )
 
 const token = computed(() => prefixToToken[props.drop.chain])
@@ -374,6 +365,6 @@ const handleConfirmMint = async ({ email }) => {
 }
 
 .minimum-funds-description {
-  max-width: 308px;
+  max-width: 314px;
 }
 </style>
