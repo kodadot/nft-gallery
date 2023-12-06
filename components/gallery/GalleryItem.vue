@@ -102,7 +102,7 @@
             </div>
 
             <div
-              class="text-k-hover-grey flex items-center"
+              class="text-neutral-7 flex items-center"
               :class="isMobile ? 'my-4' : 'my-6'">
               <NeoIcon pack="fasl" icon="eye" class="mr-1" />
               <span v-if="pageViewCount === null">--</span>
