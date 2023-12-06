@@ -7,6 +7,7 @@
     @close="onClose">
     <ModalBody
       :title="$t('mint.unlockable.addFundsModal.title')"
+      :scrollable="false"
       @close="onClose">
       <div
         class="rounded border shade-border-color is-flex is-justify-content-start is-flex-grow-1 pl-3 mb-6">
@@ -152,10 +153,6 @@ const onShowRamp = () => {
 
   .o-tip__trigger > * {
     height: initial;
-  }
-
-  .limit-height__scrollabe {
-    overflow-y: initial !important;
   }
 }
 </style>
