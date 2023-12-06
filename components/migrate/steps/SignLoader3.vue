@@ -1,5 +1,27 @@
 <template>
   <div class="mb-5">
+    <div class="flex items-center mb-4">
+      <div class="mr-5">
+        <NeoIcon
+          v-if="fromNfts?.length === nextNfts?.length"
+          v-bind="iconSuccess"
+          class="fa-2x" />
+        <NeoIcon v-else v-bind="iconIdle" class="fa-2x" />
+      </div>
+      <div>
+        <p class="has-text-weight-bold">Comprehensive Collection Scan</p>
+        <p class="is-size-7 has-text-grey">
+          Verifying your collection on the destination chain.
+        </p>
+      </div>
+    </div>
+    <div class="flex is-size-7 mb-4">
+      <div class="v-border"></div>
+      <div>
+        <p class="text-k-grey italic">no action needed</p>
+      </div>
+    </div>
+
     <div class="is-flex is-align-items-center mb-4">
       <div class="mr-5">
         <NeoIcon v-bind="whichIcon()" class="fa-2x" />
@@ -145,7 +167,7 @@ watchDebounced(
     if (
       steps.value === 'step3' &&
       nextCollectionId.value &&
-      !nextNfts.value?.length
+      fromNfts.value?.length !== nextNfts.value?.length
     ) {
       await checkNextNfts()
     }
@@ -154,13 +176,7 @@ watchDebounced(
 )
 
 watchEffect(async () => {
-  $consola.info(
-    'SignLoader3',
-    steps.value,
-    nextCollectionId.value,
-    fromNfts.value,
-    nextNfts.value,
-  )
+  $consola.info('SignLoader3', steps.value, fromNfts.value, nextNfts.value)
 
   // burn items
   if (
