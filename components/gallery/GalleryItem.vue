@@ -43,7 +43,7 @@
                 :key="resource.id">
                 <BaseMediaItem
                   :key="resource.src"
-                  :src="resource.src"
+                  :src="toOriginalContentUrl(resource.src || '')"
                   :mime-type="resource.mimeType"
                   :animation-src="resource.animation"
                   :audio-player-cover="galleryItem.nftImage.value"

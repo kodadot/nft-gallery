@@ -118,7 +118,7 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     nftResources.value = resources
 
     const asset = whichAsset(nftMetadata.value)
-    nftImage.value = `${asset.image}?original=true`
+    nftImage.value = toOriginalContentUrl(asset.image)
     nftAnimation.value = asset.animation_url
 
     historyStore.addHistoryItem({
