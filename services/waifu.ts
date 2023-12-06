@@ -69,6 +69,7 @@ export type DoResult = {
   txHash?: string
   timestamp?: string
   image?: string
+  name: string
 }
 
 type DoResponse = {

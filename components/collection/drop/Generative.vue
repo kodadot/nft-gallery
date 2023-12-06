@@ -295,7 +295,7 @@ const submitMint = async (email: string) => {
     mintedNft.value = {
       ...result,
       id,
-      name: 'TODO',
+      name: result.name,
       collectionName: collectionName.value,
     }
   } catch (error) {
