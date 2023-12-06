@@ -15,11 +15,6 @@
             :description="VOTE_DROP_DESCRIPTION" />
           <hr class="mb-4" />
 
-          <div
-            class="is-flex is-justify-content-space-between is-align-items-center my-5">
-            <span> {{ $t('mint.unlockable.totalAvailableItem') }}</span>
-            <span>{{ totalAvailableMintCount }} / {{ totalCount }}</span>
-          </div>
           <UnlockableTag :collection-id="collectionId" />
 
           <div>
