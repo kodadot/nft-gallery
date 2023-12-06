@@ -70,18 +70,9 @@ const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 const isLoading = useVModel(props, 'modelValue')
 
-const { minutes, seconds } = useCountDown(
+const { displayDuration } = useCountDown(
   new Date().getTime() + props.duration * 1000,
 )
-
-const displayDuration = computed(() => {
-  if (minutes.value > 0) {
-    return `${minutes.value} minute${minutes.value > 1 ? 's' : ''}${
-      seconds.value ? ` ${seconds.value} seconds` : ''
-    }`
-  }
-  return seconds.value >= 0 ? `${seconds.value} seconds` : 'few seconds'
-})
 
 const twitterText = computed(
   () =>

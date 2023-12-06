@@ -21,9 +21,20 @@ export const useCountDown = (countDownTime: number) => {
   onBeforeMount(() => {
     clearInterval(timer.value)
   })
+
+  const displayDuration = computed(() => {
+    if (minutes.value > 0) {
+      return `${minutes.value} minute${minutes.value > 1 ? 's' : ''}${
+        seconds.value ? ` ${seconds.value} seconds` : ''
+      }`
+    }
+    return seconds.value >= 0 ? `${seconds.value} seconds` : 'few seconds'
+  })
+
   return {
     hours,
     minutes,
     seconds,
+    displayDuration,
   }
 }
