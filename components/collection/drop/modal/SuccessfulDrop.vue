@@ -18,7 +18,7 @@
       </a>
 
       <NeoIcon
-        class="has-text-k-grey opacity-20 mx-2 circle"
+        class="has-text-k-grey opacity-20 mx-2 is-size-8"
         icon="circle"
         pack="fass"
         size="small" />
@@ -159,9 +159,3 @@ const handleShareOnTelegram = () => {
   shareOnTelegram(sharingTxt, nftFullUrl.value)
 }
 </script>
-
-<style scoped>
-.circle {
-  font-size: 0.5rem;
-}
-</style>

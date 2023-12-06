@@ -13,7 +13,7 @@
         icon="spinner-third"
         class="spinner has-text-k-grey mr-6"
         size="large"
-        spin></NeoIcon>
+        spin />
 
       <div>
         <p class="is-capitalized has-text-weight-bold is-size-6">
