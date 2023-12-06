@@ -76,5 +76,3 @@ const confirm = () => {
   email.value = undefined
 }
 </script>
-
-<style scoped></style>

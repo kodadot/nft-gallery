@@ -1,5 +1,5 @@
 <template>
-  <div class="is-relative h-full skeleton-container">
+  <div class="h-full skeleton-container">
     <NeoSkeleton
       class="skeleton-backdrop"
       rounded
@@ -42,6 +42,10 @@ withDefaults(
 
 <style scoped lang="scss">
 .skeleton {
+  &-container {
+    position: relative;
+  }
+
   &-backdrop {
     z-index: 2;
   }

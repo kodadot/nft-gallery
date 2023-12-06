@@ -7,7 +7,7 @@
     {{ $t('drops.stayTuned') }}
   </p>
 
-  <div class="height">
+  <div class="min-height">
     <SkeletonLoader :title="$t('drops.preparingYourNft')" :subtitle="est" />
   </div>
 </template>
@@ -27,7 +27,7 @@ const est = computed(() => `Est ~ ${displayDuration.value}`)
 </script>
 
 <style lang="scss" scoped>
-.height {
+.min-height {
   height: 200px;
 }
 </style>
