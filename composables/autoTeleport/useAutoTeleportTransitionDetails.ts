@@ -27,7 +27,8 @@ export default function (
   const { apiInstance, apiInstanceByPrefix } = useApi()
   const { balance } = useBalance()
 
-  const hasBalances = ref(false)
+  const fetched = reactive({ teleportTxFee: false })
+
   const teleportTxFee = ref(0)
   const actionTxFees = ref<number[]>([])
   const extraActionFees = computed(() =>
@@ -71,6 +72,10 @@ export default function (
       Number(transferableCurrentChainBalance.value),
   )
 
+  const needsSourceChainBalances = computed(
+    () => !hasEnoughInCurrentChain.value,
+  )
+
   const sourceChainsBalances = computed<{ [key: Chain]: string }>(() =>
     allowedSourceChains.value.reduce(
       (reducer, chainPrefix) => ({
@@ -80,6 +85,18 @@ export default function (
       {},
     ),
   )
+
+  const hasBalances = computed(
+    () =>
+      Boolean(currentChainBalance.value) &&
+      Object.values(sourceChainsBalances.value).every(Boolean),
+  )
+
+  const isFetchingDetails = computed(
+    () => !Object.values(fetched).every(Boolean),
+  )
+
+  const isReady = computed(() => hasBalances.value && !isFetchingDetails.value)
 
   const richestChain = computed<Chain | undefined>(
     () => getMaxKeyByValue(sourceChainsBalances.value) as Chain | undefined,
@@ -150,8 +167,10 @@ export default function (
 
   watch(fetchTeleportFee, async () => {
     if (fetchTeleportFee.value) {
+      fetched.teleportTxFee = false
       const fee = await getTeleportTransactionFee()
       teleportTxFee.value = Number(fee) || 0
+      fetched.teleportTxFee = true
     }
   })
 
@@ -189,11 +208,10 @@ export default function (
   )
 
   watch(
-    [allowedSourceChains, hasEnoughInCurrentChain],
+    [allowedSourceChains, needsSourceChainBalances],
     async () => {
-      if (allowedSourceChains.value.length && !hasEnoughInCurrentChain.value) {
+      if (allowedSourceChains.value.length && needsSourceChainBalances.value) {
         await getTransitionBalances()
-        hasBalances.value = true
       }
     },
     { immediate: true },
@@ -201,7 +219,7 @@ export default function (
 
   return {
     amountToTeleport,
-    hasBalances,
+    isReady,
     hasEnoughInCurrentChain,
     hasEnoughInRichestChain,
     sourceChain: richestChain,
