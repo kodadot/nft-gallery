@@ -62,12 +62,20 @@ type DoRequest = {
   email?: string
 }
 
-type DoResponse = {
-  result: {
-    sn: string
-    collection: string
-  }
+export type DoResult = {
+  sn: string
+  collection: string
+  chain: string
+  txHash?: string
+  timestamp?: string
+  image?: string
+  name: string
 }
+
+type DoResponse = {
+  result: DoResult
+}
+
 export const doWaifu = async (body: DoRequest, campaign: string) => {
   const value = await api<DoResponse>(`do/${campaign}`, {
     method: 'POST',

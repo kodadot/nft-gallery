@@ -12,7 +12,7 @@ const { urlPrefix } = usePrefix()
 
 const checkRouteAvailability = () => {
   if (!explorerVisible(urlPrefix.value)) {
-    navigateTo('/')
+    navigateTo('/ahp/explore/collectibles')
   }
 }
 

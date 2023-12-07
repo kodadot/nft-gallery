@@ -75,7 +75,7 @@
         <div
           class="is-flex is-flex-direction-column is-justify-content-space-between h-full">
           <!-- title section -->
-          <div class="pb-4">
+          <div class="pb-2">
             <div class="is-flex is-justify-content-space-between">
               <div class="name-container">
                 <h1 class="title" data-testid="item-title">
@@ -103,10 +103,18 @@
             </div>
 
             <div
-              class="is-flex is-flex-direction-row is-flex-wrap-wrap py-4 pt-8">
+              class="text-neutral-7 flex items-center"
+              :class="isMobile ? 'my-4' : 'my-6'">
+              <NeoIcon pack="fasl" icon="eye" class="mr-1" />
+              <span v-if="pageViewCount === null">--</span>
+              <span v-else>{{ formatNumber(pageViewCount) }}</span>
+            </div>
+
+            <div class="is-flex is-flex-direction-row is-flex-wrap-wrap">
               <IdentityItem
                 v-if="nft?.issuer"
-                class="gallery-avatar mr-4"
+                class="gallery-avatar"
+                :class="isMobile ? 'mr-4' : 'mr-8'"
                 :label="$t('creator')"
                 :prefix="urlPrefix"
                 :account="nft?.issuer"
@@ -189,7 +197,7 @@ import { convertMarkdownToText } from '@/utils/markdown'
 import { exist } from '@/utils/exist'
 import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import { generateNftImage } from '@/utils/seoImageGenerator'
-import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
+import { formatBalanceEmptyOnZero, formatNumber } from '@/utils/format/balance'
 import { MediaType } from '@/components/rmrk/types'
 import { resolveMedia } from '@/utils/gallery/media'
 import UnlockableTag from './UnlockableTag.vue'
@@ -204,6 +212,7 @@ const { placeholder } = useTheme()
 const mediaItemRef = ref<{ isLewdBlurredLayer: boolean } | null>(null)
 const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 const preferencesStore = usePreferencesStore()
+const pageViewCount = usePageViews()
 
 const galleryItem = useGalleryItem()
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType, nftResources } =

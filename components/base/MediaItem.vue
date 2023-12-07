@@ -189,9 +189,8 @@ defineExpose({ isLewdBlurredLayer })
     top: 0;
     height: 100%;
     width: 100%;
-    @include ktheme() {
-      color: theme('text-color');
-    }
+    background-color: rgb(0 0 0 / 50%);
+    color: #fff;
 
     .nsfw-desc {
       max-width: 18.75rem;
