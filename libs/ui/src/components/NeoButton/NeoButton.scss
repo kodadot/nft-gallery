@@ -169,7 +169,7 @@
     }
 
     &::after {
-      @apply relative left-0 top-0 border-2 border-k-grey rounded-full border-r-transparent border-t-transparent h-[1em] w-[1.11em] #{!important};
+      @apply relative left-0 top-0 border-2 border-k-grey rounded-full border-r-transparent border-t-transparent #{!important};
     }
   }
 
