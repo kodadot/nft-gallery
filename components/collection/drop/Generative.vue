@@ -69,9 +69,16 @@
                   ref="root"
                   class="my-2 mint-button"
                   variant="k-accent"
-                  :loading="isImageFetching"
+                  :loading="isImageFetching || isWalletConnecting"
                   :disabled="mintButtonDisabled"
-                  :label="$t('mint.unlockable.mintThisNft')"
+                  :loading-with-label="isWalletConnecting"
+                  :label="
+                    $t(
+                      isWalletConnecting
+                        ? 'shoppingCart.wallet'
+                        : 'mint.unlockable.mintThisNft',
+                    )
+                  "
                   @click="handleSubmitMint" />
               </div>
             </div>
@@ -103,7 +110,6 @@
 import UnlockableCollectionInfo from '@/components/collection/unlockable/UnlockableCollectionInfo.vue'
 import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
-import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import CarouselTypeLatestMints from '@/components/carousel/CarouselTypeLatestMints.vue'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { createUnlockableMetadata } from '../unlockable/utils'
@@ -127,14 +133,14 @@ const props = defineProps({
     },
   },
 })
-
+const isWalletConnecting = ref(false)
 const collectionId = computed(() => props.drop?.collection)
 const disabledByBackend = computed(() => props.drop?.disabled)
 const defaultImage = computed(() => props.drop?.image)
 const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
   useDropStatus(props.drop.alias)
-
-const { neoModal } = useProgrammatic()
+const instance = getCurrentInstance()
+const { doAfterLogin } = useDoAfterlogin(instance)
 const { $i18n } = useNuxtApp()
 const root = ref()
 
@@ -183,13 +189,14 @@ const mintedPercent = computed(() => {
 
 const mintCountAvailable = computed(() => mintedCount.value < maxCount.value)
 
-const mintButtonDisabled = computed(() =>
-  Boolean(
-    !mintCountAvailable.value ||
-      !selectedImage.value ||
-      !accountId.value ||
-      disabledByBackend.value,
-  ),
+const mintButtonDisabled = computed(
+  () =>
+    isLogIn.value &&
+    Boolean(
+      !mintCountAvailable.value ||
+        !selectedImage.value ||
+        disabledByBackend.value,
+    ),
 )
 
 const description = computed(
@@ -217,11 +224,18 @@ const tryCapture = async () => {
   }
 }
 
+const clearWalletConnecting = () => {
+  isWalletConnecting.value = false
+}
+
 const handleSubmitMint = async () => {
   if (!isLogIn.value) {
-    neoModal.open({
-      ...ConnectWalletModalConfig,
+    isWalletConnecting.value = true
+    doAfterLogin({
+      onLoginSuccess: clearWalletConnecting,
+      onCancel: clearWalletConnecting,
     })
+
     return
   }
   if (isLoading.value || isImageFetching.value) {
@@ -264,8 +278,6 @@ const submitMint = async (email: string) => {
     )
 
     isImageFetching.value = false
-
-    const { accountId } = useAuth()
 
     const id = await doWaifu(
       {
