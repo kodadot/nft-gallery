@@ -1,3 +1,18 @@
+const getFormattedDuration = ({
+  seconds,
+  minutes,
+}: {
+  seconds: number
+  minutes: number
+}) => {
+  if (minutes > 0) {
+    return `${minutes} minute${minutes > 1 ? 's' : ''}${
+      seconds ? ` ${seconds} seconds` : ''
+    }`
+  }
+  return seconds >= 0 ? `${seconds} seconds` : 'few seconds'
+}
+
 export const useCountDown = (countDownTime: number) => {
   const hours = ref(0)
   const minutes = ref(0)
@@ -22,14 +37,9 @@ export const useCountDown = (countDownTime: number) => {
     clearInterval(timer.value)
   })
 
-  const displayDuration = computed(() => {
-    if (minutes.value > 0) {
-      return `${minutes.value} minute${minutes.value > 1 ? 's' : ''}${
-        seconds.value ? ` ${seconds.value} seconds` : ''
-      }`
-    }
-    return seconds.value >= 0 ? `${seconds.value} seconds` : 'few seconds'
-  })
+  const displayDuration = computed(() =>
+    getFormattedDuration({ seconds: seconds.value, minute$: minutes.value }),
+  )
 
   return {
     hours,
