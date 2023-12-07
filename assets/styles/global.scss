@@ -336,15 +336,15 @@ a.has-text-grey {
   }
 }
 
-.border-k-grey {
-  @include ktheme() {
-    border-color: theme('k-grey') !important;
-  }
-}
-
 .border-top-k-shade {
   @include ktheme() {
     border-top: 1px solid theme('k-shade');
+  }
+}
+
+.border-bottom-k-shade {
+  @include ktheme() {
+    border-bottom: 1px solid theme('k-shade');
   }
 }
 
@@ -550,6 +550,11 @@ a.has-text-grey {
   border-radius: 50%;
 }
 
+.is-rounded-small {
+  border-radius: 4rem;
+}
+
+
 .w-half {
   width: 50%;
 }
@@ -565,6 +570,10 @@ a.has-text-grey {
 
 .is-size-3-5 {
   font-size: 1.6rem;
+}
+
+.is-size-8 {
+  font-size: 0.5rem;
 }
 
 .is-max-width-fit-content {

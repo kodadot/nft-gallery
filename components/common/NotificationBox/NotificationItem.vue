@@ -1,7 +1,7 @@
 <template>
   <nuxt-link
     :to="`/${urlPrefix}/gallery/${event.nft.id}`"
-    class="is-flex py-3 px-6">
+    class="is-flex py-3 px-6 notify-item">
     <img
       v-if="avatar"
       :src="avatar"

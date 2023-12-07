@@ -17,7 +17,7 @@ const isSidebarOpen = computed(() => preferencesStore.getsidebarFilterCollapse)
 
 const checkRouteAvailability = () => {
   if (!explorerVisible(urlPrefix.value)) {
-    navigateTo('/')
+    navigateTo('/ahp/explore/items')
   }
 }
 
