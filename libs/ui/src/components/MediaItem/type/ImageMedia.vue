@@ -47,6 +47,7 @@ const props = withDefaults(
   defineProps<{
     imageComponent?: ImageComponent
     imageComponentProps?: ImageComponentProps
+    mimeType: string
     sizes?: string
     src: string
     alt?: string
@@ -64,18 +65,29 @@ const props = withDefaults(
 
 type Status = 'ok' | 'error-1' | 'error-2'
 const status = ref<Status>('ok')
+const isGif = computed(() => props.mimeType === 'image/gif')
+
+const toOriginalContentUrl = (baseurl: string) => {
+  const url = new URL(baseurl)
+  url.searchParams.append('original', 'true')
+  return url.toString()
+}
 
 const onError = async (phase: Status) => {
   consola.log('[KODADOT::IMAGE] unable to load:', `${phase}:`, props.src)
   status.value = phase
 }
 
-// Ignore sizes if width and height are provided
 const sizes = computed(() =>
   (props.imageComponentProps?.width && props.imageComponentProps?.height) ||
-  props.sizes === 'original'
+  props.sizes === 'original' ||
+  isGif.value
     ? undefined
     : props.sizes,
+)
+
+const src = computed(() =>
+  isGif.value ? toOriginalContentUrl(props.src) : props.src,
 )
 
 const imageComponentProps = computed(() => ({

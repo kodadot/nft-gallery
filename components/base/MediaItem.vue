@@ -4,6 +4,7 @@
       :is="resolveComponent"
       :src="properSrc"
       :sizes="sizes"
+      :mime-type="mimeType"
       :animation-src="animationSrc"
       :alt="title"
       :placeholder="placeholder"
