@@ -1430,7 +1430,8 @@
     "youSuccessfullyClaimedNft": "You successfully claimed {0} NFT",
     "artBy": "{0} By",
     "viewNft": "View NFT",
-    "listNft": "List NFT"
+    "listNft": "List NFT",
+    "canList": "NFT ready for listing!"
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",

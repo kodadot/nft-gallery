@@ -87,6 +87,7 @@
     :claiming="isLoading"
     :minting-seconds="MINTING_SECOND"
     :minted-nft="mintedNft"
+    :can-list-nft="canListMintedNft"
     @confirm="handleConfirmMint"
     @close="closeConfirmModal"
     @list="handleList" />
@@ -116,7 +117,7 @@ import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 
 const NuxtLink = resolveComponent('NuxtLink')
-const MINTING_SECOND = 30
+const MINTING_SECOND = 59
 
 const props = defineProps({
   drop: {
@@ -169,6 +170,8 @@ const { data: collectionData } = useGraphql({
     id: collectionId.value,
   },
 })
+
+const canListMintedNft = computed(() => Boolean(mintedNftWithMetadata.value))
 
 const maxCount = computed(
   () => collectionData.value?.collectionEntity?.max || 200,
@@ -249,6 +252,15 @@ const subscribe = async (email: string) => {
   }
 }
 
+const subscribeToMintedNft = (id: string, onReady: (data) => void) => {
+  useSubscriptionGraphql({
+    query: `nftEntityById(id: "${id}") {
+    id
+  }`,
+    onChange: onReady,
+  })
+}
+
 const submitMint = async (email: string) => {
   try {
     isImageFetching.value = true
@@ -282,6 +294,13 @@ const submitMint = async (email: string) => {
 
     const id = `${collectionId.value}-${result.sn}`
 
+    subscribeToMintedNft(id, async () => {
+      mintedNftWithMetadata.value = await fetchNft(id)
+      if (mintedNftWithMetadata.value) {
+        toast($i18n.t('drops.canList'))
+      }
+    })
+
     isLoading.value = false
 
     mintedNft.value = {
@@ -312,7 +331,7 @@ const handleList = async () => {
   isConfirmModalActive.value = false
 
   if (!mintedNftWithMetadata.value) {
-    mintedNftWithMetadata.value = await fetchNft(mintedNft.value?.id)
+    return
   }
 
   if (!listingCartStore.isItemInCart(mintedNftWithMetadata.value?.id)) {

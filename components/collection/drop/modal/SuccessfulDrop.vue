@@ -100,6 +100,7 @@
 
     <NeoButton
       class="border-k-grey hover-button w-full ml-4"
+      :disabled="!canListNft"
       rounded
       no-shadow
       @click="listNft"
@@ -119,6 +120,7 @@ const { $i18n } = useNuxtApp()
 const emit = defineEmits(['list'])
 const props = defineProps<{
   mintedNft: DropMintedNft
+  canListNft: boolean
 }>()
 
 const sharingTxt = $i18n.t('sharing.nft')
@@ -144,7 +146,7 @@ const nftPath = computed(
 const nftFullUrl = computed(() => `${window.location.origin}${nftPath.value}`)
 
 const viewNft = () => {
-  navigateTo(nftPath.value)
+  window.open(nftFullUrl.value, '_blank')
 }
 
 const listNft = () => {
@@ -158,4 +160,13 @@ const handleShareOnX = () => {
 const handleShareOnTelegram = () => {
   shareOnTelegram(sharingTxt, nftFullUrl.value)
 }
+
+watch(
+  () => props.canListNft,
+  (canListNft) => {
+    if (canListNft) {
+      toast($i18n.t('drops.canList'))
+    }
+  },
+)
 </script>

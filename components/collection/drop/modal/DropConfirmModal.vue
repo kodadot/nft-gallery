@@ -17,6 +17,7 @@
         <SuccessfulDrop
           v-else-if="successfulDrop && mintedNft"
           :minted-nft="mintedNft"
+          :can-list-nft="canListNft"
           @list="$emit('list')" />
       </transition>
     </ModalBody>
@@ -36,6 +37,7 @@ const props = defineProps<{
   claiming: boolean
   mintingSeconds: number
   mintedNft?: DropMintedNft
+  canListNft: boolean
 }>()
 
 const { $i18n } = useNuxtApp()
