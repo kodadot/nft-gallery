@@ -149,7 +149,7 @@
     @apply border-none w-min text-k-grey underline-offset-4;
 
     &:hover {
-      @apply text-text-color bg-none;
+      @apply text-text-color bg-transparent;
     }
   }
 
@@ -160,12 +160,16 @@
   &.loading-with-label.o-btn--loading {
     @apply text-k-grey #{!important};
 
-    :deep(.o-btn__label) {
-      @apply my-0 mx-[3px] #{!important};
+    .o-btn__label {
+      @apply mr-3 #{!important};
+    }
+
+    .o-btn__wrapper {
+      @apply w-auto #{!important};
     }
 
     &::after {
-        @apply relative left-0 border-2 border-k-grey rounded-full border-r-transparent border-t-transparent my-0 ml-1 mx-[3px] h-[1em] w-[1em] #{!important};
+      @apply relative left-0 top-0 border-2 border-k-grey rounded-full border-r-transparent border-t-transparent #{!important};
     }
   }
 

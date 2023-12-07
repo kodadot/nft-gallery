@@ -46,6 +46,7 @@
   "Maximum NFTs in collection": "Maximum NFTs in collection",
   "name": "Name",
   "simple": "Simple",
+  "confirmed": "Confirmed",
   "creative": "Creative",
   "multipleNFTS": "Multiple NFT's",
   "about": "About",
@@ -603,6 +604,8 @@
       "onlyOneExample": "Example Of Drop",
       "mintThisNft": "Mint This NFT",
       "seeYourNft": "See Your NFT",
+      "minimumFundsDescription": "Holding a Minimum of <strong>{0}</strong> in Your Wallet is Required for This Free Mint.",
+      "claimNftNow": "Claim NFT Now",
       "nftAlreadyMinted": "NFT Already Minted",
       "yourVariation": "Your Unique Variation",
       "loader": {
@@ -616,11 +619,23 @@
       },
       "open": "Open",
       "phase": "Mint Phase",
-      "totalAvailableItem": "Total available items",
       "ayeVotersOnly": "For Aye Voters Only",
       "eligible": "You Are Eligible",
       "exclusive": "Exclusive Access Only",
-      "howItemWork": "How unlockable item works"
+      "howItemWork": "How unlockable item works",
+      "addFundsModal": {
+        "title": "Action Required",
+        "textP1": "To participate in this free, gasless drop, your wallet must hold a minimum of <strong>{0}</<strong>",
+        "textP2": "Please add funds to continue",
+        "howToAddFunds": "How to add funds",
+        "tooltip": {
+          "title": "Adding {0} to Your Wallet",
+          "onramp": "<strong>Onramp:</strong> Buy {0} with fiat via onramp in your wallet.",
+          "exchange": "<strong>Exchange:</strong> Purchase on a crypto exchange and transfer to your wallet.",
+          "transfer": "<strong>Transfer:</strong> Move {0} from another account to your wallet.",
+          "note": "Transactions may require a network confirmation"
+        }
+      }
     },
     "blockchain": {
       "label": "Select Blockchain",
@@ -869,6 +884,7 @@
     "totalItems": "Σ Items",
     "todayTraded": "24H",
     "totalTraded": "Σ VOLUME TRADED",
+    "totalSupply": "Total Supply",
     "highestSale": "HIGHEST SALE",
     "totalBuys": "Σ BUYS",
     "unique": "UNIQUE",
@@ -971,7 +987,8 @@
     "supports": "Supports",
     "chooseProvider": "Choose A Provider",
     "doingSomeMagic": "Doing some magic",
-    "pleaseWait": "Please wait"
+    "pleaseWait": "Please wait",
+    "copy": "Copy"
   },
   "fiatOnRamp": {
     "agree": "I agree to the",
@@ -992,7 +1009,8 @@
       "copy": "Kodadot link successfully copied"
     },
     "builtOn": "Built on",
-    "signStuckText": "Stuck? Make sure to check for any popups and SIGN the transaction."
+    "signStuckText": "Stuck? Make sure to check for any popups and SIGN the transaction.",
+    "unlimited": "Unlimited"
   },
   "cookies": {
     "notice": "We use cookies for better service",
@@ -1059,7 +1077,7 @@
     "receiveValue": "You will receive {0} {1} on {2} to",
     "insufficientBalance": "Insufficient {0} Balance",
     "insufficientAmountAfterFees": "Insufficient amount after fees",
-    "proceedToConfirmation":"Proceed To Confirmation",
+    "proceedToConfirmation": "Proceed To Confirmation",
     "artistProfile": "Go to artist's profile",
     "usdInput": "USD Value (approx)",
     "btnCopyPayment": "Copy Payment link",
@@ -1417,7 +1435,18 @@
     "enterValidEmail": "Enter valid email address",
     "subscribeAndClaim": "Subscribe & Claim your NFT",
     "agreeToProceed": "Agree to proceed",
-    "consent": "I consent to receive updates."
+    "consent": "I consent to receive updates.",
+    "plusGetA": "+ Get a",
+    "voucherToOurShop": "Voucher to our shop",
+    "justConfirmSubscriptionViaEmail": "Just confirm your subscription via email",
+    "claimingDrop": "Claiming drop",
+    "stayTuned": "Stay tuned — Your unique NFT is finalizing!",
+    "preparingYourNft": "Preparing Your NFT",
+    "youSuccessfullyClaimedNft": "You successfully claimed {0} NFT",
+    "artBy": "{0} By",
+    "viewNft": "View NFT",
+    "listNft": "List NFT",
+    "canList": "NFT ready for listing!"
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
@@ -1452,6 +1481,7 @@
     "fixedPrice": "Fixed Price",
     "collectionFloorPrice": "Collection Floor Price",
     "potentialEarnings": "Potential Earnings",
+    "listingFees": "Listing Fees",
     "listForSale": "List For Sale",
     "chooseAPrice": "Choose a price",
     "floorPrice": "Floor Price",
@@ -1498,8 +1528,6 @@
       "cta": "Migrate Items",
       "own": "You Own <strong>{0}</strong> From This Collection"
     },
-    "migrationNotPossible": "Migration Not Possible:",
-    "migrationNotPossibleLabel": "Migration Is <strong>Not Possible</strong> For  Following Collections That You Own:",
     "homeButton": "Migration Homepage",
     "review": "Review",
     "reviewCtaUncheck": "Acknowledge Before Proceeding",

@@ -1,6 +1,7 @@
 query collectionStatsById($id: String!) {
   stats: collectionEntityById(id: $id) {
     id
+    max
     base: nfts(where: { burned_eq: false }) {
       id
       currentOwner

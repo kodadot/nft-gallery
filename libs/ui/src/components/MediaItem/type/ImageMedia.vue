@@ -1,18 +1,17 @@
 <template>
   <figure
-    class="image-container"
     :class="{
-      'is-square image': !original,
-      'is-detail': isDetail,
+      'relative pt-[100%]': !original,
     }">
     <!-- load normal image -->
     <TheImage
       v-if="status === 'ok'"
       :image-component="imageComponent"
-      :image-component-props="{ sizes }"
+      :image-component-props="imageComponentProps"
       :src="src"
       :alt="alt"
-      class="is-block image-media__image no-border-radius"
+      class="block rounded-none"
+      :class="{ 'object-cover absolute inset-0 w-full h-full': !original }"
       data-testid="type-image"
       @error.once="() => onError('error-1')" />
     <!-- if fail, try to load original url -->
@@ -36,24 +35,28 @@
 
 <script lang="ts" setup>
 import consola from 'consola'
+import { computed, defineProps, withDefaults } from 'vue'
 
 import TheImage from '../../TheImage/TheImage.vue'
-import type { ImageComponent } from '../../TheImage/TheImage.vue'
+import type {
+  ImageComponent,
+  ImageComponentProps,
+} from '../../TheImage/TheImage.vue'
 
 const props = withDefaults(
   defineProps<{
     imageComponent?: ImageComponent
+    imageComponentProps?: ImageComponentProps
     sizes?: string
-    src?: string
+    src: string
     alt?: string
     original: boolean
     placeholder: string
-    isDetail?: boolean
-    isDarkMode?: boolean
   }>(),
   {
-    sizes: '450px md:350px lg:270px',
     imageComponent: 'img',
+    imageComponentProps: undefined,
+    sizes: '450px md:350px lg:270px',
     src: '',
     alt: '',
   },
@@ -66,10 +69,16 @@ const onError = async (phase: Status) => {
   consola.log('[KODADOT::IMAGE] unable to load:', `${phase}:`, props.src)
   status.value = phase
 }
-</script>
 
-<style>
-.image-container.is-square > img {
-  object-fit: cover;
-}
-</style>
+// Ignore sizes if width and height are provided
+const sizes = computed(() =>
+  props.imageComponentProps?.width && props.imageComponentProps?.height
+    ? undefined
+    : props.sizes,
+)
+
+const imageComponentProps = computed(() => ({
+  ...(props.imageComponentProps || {}),
+  sizes: sizes.value,
+}))
+</script>

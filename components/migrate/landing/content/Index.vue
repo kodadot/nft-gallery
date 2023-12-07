@@ -35,10 +35,10 @@
 
     <div v-if="accountId">
       <!-- ready state for migration here -->
-      <MigrateLandingContentReady :key="urlPrefix" :to-review="toReview" />
+      <MigrateLandingContentReady :key="urlPrefix" />
 
       <!-- waiting state for migration here -->
-      <MigrateLandingContentWaiting :key="urlPrefix" :to-review="toReview" />
+      <MigrateLandingContentWaiting :key="urlPrefix" />
     </div>
 
     <!-- empty state collection here -->
@@ -56,23 +56,8 @@
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import Identity from '@/components/identity/IdentityIndex.vue'
 
-const { sourceSelected, destinationSelected } = useMigrate()
-
 const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
-
-const toReview = (collectionId, itemCount) => {
-  navigateTo({
-    path: '/migrate/review',
-    query: {
-      accountId: accountId.value,
-      collectionId: collectionId,
-      source: sourceSelected.value?.value,
-      destination: destinationSelected.value?.value,
-      itemCount,
-    },
-  })
-}
 </script>
 
 <style lang="scss">

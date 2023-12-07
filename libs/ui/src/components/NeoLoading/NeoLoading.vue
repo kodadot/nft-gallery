@@ -1,7 +1,7 @@
 <template>
   <OLoading v-bind="$attrs">
     <slot>
-      <NeoIcon icon="spinner-third" spin size="large" class="has-text-white" />
+      <NeoIcon icon="spinner-third" spin size="large" class="text-white" />
     </slot>
   </OLoading>
 </template>

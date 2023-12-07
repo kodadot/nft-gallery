@@ -3,7 +3,8 @@
     <CollectionUnlockableLoader
       v-if="isLoading"
       model-value
-      :minted="justMinted" />
+      :minted="justMinted"
+      @model-value="isLoading = false" />
     <CountdownTimer />
     <hr class="text-color my-0" />
     <div class="container is-fluid">
@@ -13,12 +14,6 @@
             :collection-id="collectionId"
             :description="description" />
           <hr class="mb-4" />
-
-          <div
-            class="is-flex is-justify-content-space-between is-align-items-center my-5">
-            <div>Total available items</div>
-            <div>{{ totalAvailableMintCount }} / {{ totalCount }}</div>
-          </div>
           <UnlockableTag :collection-id="collectionId" />
 
           <div>

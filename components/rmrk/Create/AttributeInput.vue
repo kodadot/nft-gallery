@@ -11,12 +11,14 @@
       v-model="vKey"
       placeholder="Section"
       expanded
+      data-testid="attribute-input-section"
       :disabled="disabled"
       spellcheck="true" />
     <NeoInput
       v-model="vValue"
       placeholder="Value"
       expanded
+      data-testid="attribute-input-value"
       spellcheck="true"
       :disabled="disabled" />
   </NeoField>

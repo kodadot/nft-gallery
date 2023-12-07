@@ -110,6 +110,8 @@ export default function (refetchPeriodically: boolean = false) {
       chainName,
     })
 
+    identityStore.setBalance(prefix, currentBalance)
+
     identityStore.multiBalanceNetwork = currentNetwork.value
 
     return wsProvider.disconnect()
