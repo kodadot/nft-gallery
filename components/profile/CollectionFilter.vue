@@ -17,7 +17,7 @@
       <ActiveCount :count="checked.length" position="top-right" />
     </template>
 
-    <div class="py-5 width">
+    <div class="py-5 dropdown-width">
       <NeoDropdownItem
         v-for="collection in collections"
         :key="collection.id"
@@ -26,8 +26,7 @@
         :value="collection.id">
         <NeoCheckbox
           :model-value="isSelected(collection)"
-          class="m-0 pointer-events-none"
-          label-class="m-0" />
+          class="m-0 pointer-events-none" />
         <div
           class="is-flex is-align-items-center filter-container pl-2 is-flex-grow-1 min-width-0">
           <img
@@ -159,8 +158,8 @@ watch(
 .rounded {
   border-radius: 1rem;
 }
-.width {
-  width: 300px;
+.dropdown-width {
+  width: 18.75rem;
 
   @include mobile {
     width: unset;
