@@ -296,9 +296,6 @@ const submitMint = async (email: string) => {
 
     subscribeToMintedNft(id, async () => {
       mintedNftWithMetadata.value = await fetchNft(id)
-      if (mintedNftWithMetadata.value) {
-        toast($i18n.t('drops.canList'))
-      }
     })
 
     isLoading.value = false
