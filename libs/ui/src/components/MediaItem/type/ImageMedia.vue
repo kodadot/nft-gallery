@@ -72,7 +72,8 @@ const onError = async (phase: Status) => {
 
 // Ignore sizes if width and height are provided
 const sizes = computed(() =>
-  props.imageComponentProps?.width && props.imageComponentProps?.height
+  (props.imageComponentProps?.width && props.imageComponentProps?.height) ||
+  props.sizes === 'original'
     ? undefined
     : props.sizes,
 )
