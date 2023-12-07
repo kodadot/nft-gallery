@@ -1,7 +1,8 @@
 <template>
   <figure
     :class="{
-      'relative pt-[100%]': !original,
+      'relative pt-[100%]': !original && !isFullscreen,
+      'pt-0': isFullscreen,
     }">
     <!-- load normal image -->
     <TheImage
@@ -11,7 +12,10 @@
       :src="src"
       :alt="alt"
       class="block rounded-none"
-      :class="{ 'object-cover absolute inset-0 w-full h-full': !original }"
+      :class="{
+        'object-cover absolute inset-0 w-full h-full':
+          !original && !isFullscreen,
+      }"
       data-testid="type-image"
       @error.once="() => onError('error-1')" />
     <!-- if fail, try to load original url -->
@@ -53,6 +57,7 @@ const props = withDefaults(
     alt?: string
     original: boolean
     placeholder: string
+    isFullscreen?: boolean
   }>(),
   {
     imageComponent: 'img',
@@ -60,6 +65,7 @@ const props = withDefaults(
     sizes: '450px md:350px lg:270px',
     src: '',
     alt: '',
+    isFullscreen: false,
   },
 )
 

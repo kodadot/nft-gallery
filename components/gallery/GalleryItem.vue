@@ -48,7 +48,8 @@
                   :animation-src="resource.animation"
                   :audio-player-cover="galleryItem.nftImage.value"
                   :image-component="NuxtImg"
-                  sizes="1000px"
+                  :is-fullscreen="isFullscreen"
+                  :sizes="sizes"
                   is-detail />
               </NeoCarouselItem>
             </NeoCarousel>
@@ -62,11 +63,12 @@
             :animation-src="nftAnimation"
             :mime-type="nftMimeType"
             :title="nftMetadata?.name"
+            :is-fullscreen="isFullscreen"
             is-detail
             :is-lewd="galleryDescriptionRef?.isLewd"
             :placeholder="placeholder"
             :image-component="NuxtImg"
-            sizes="1000px"
+            :sizes="sizes"
             :audio-player-cover="nftImage" />
         </div>
       </div>
@@ -303,6 +305,11 @@ const imgref = ref<HTMLElement | null>(null)
 const isFallbackActive = ref(false)
 const fullScreenDisabled = ref(false)
 const { toggle, isFullscreen, isSupported } = useFullscreen(imgref)
+const sizes = ref<string>('1000px')
+
+watch(isFullscreen, (value) => {
+  sizes.value = value ? 'original' : '1000px'
+})
 
 function toggleFullscreen() {
   if (!isSupported.value || fullScreenDisabled.value) {

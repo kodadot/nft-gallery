@@ -11,6 +11,7 @@
       :original="original"
       :is-lewd="isLewd"
       :is-detail="isDetail"
+      :is-fullscreen="isFullscreen"
       :disable-operation="disableOperation"
       :player-cover="audioPlayerCover"
       :hover-on-cover-play="audioHoverOnCoverPlay"
@@ -80,6 +81,7 @@ const props = withDefaults(
     disableOperation?: boolean
     audioPlayerCover?: string
     audioHoverOnCoverPlay?: boolean
+    isFullscreen?: boolean
     // props for video component
     preview?: boolean
     autoplay?: boolean
@@ -101,6 +103,7 @@ const props = withDefaults(
     placeholder: './Koda.svg',
     disableOperation: undefined,
     audioPlayerCover: '',
+    isFullscreen: false,
     imageComponent: 'img',
   },
 )
