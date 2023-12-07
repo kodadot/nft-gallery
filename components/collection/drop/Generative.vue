@@ -117,7 +117,7 @@ import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 
 const NuxtLink = resolveComponent('NuxtLink')
-const MINTING_SECOND = 59
+const MINTING_SECOND = 120
 
 const props = defineProps({
   drop: {
