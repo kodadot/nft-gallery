@@ -131,6 +131,7 @@ const props = defineProps({
 const collectionId = computed(() => props.drop?.collection)
 const disabledByBackend = computed(() => props.drop?.disabled)
 const defaultImage = computed(() => props.drop?.image)
+const defaultName = computed(() => props.drop?.name)
 const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
   useDropStatus(props.drop.alias)
 
@@ -258,7 +259,7 @@ const submitMint = async (email: string) => {
     const hash = await createUnlockableMetadata(
       imageHash,
       description.value,
-      collectionName.value,
+      collectionName.value || defaultName.value,
       'text/html',
       selectedImage.value,
     )
