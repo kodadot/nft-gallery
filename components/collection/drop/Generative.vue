@@ -14,11 +14,6 @@
             :description="description" />
           <hr class="mb-4" />
 
-          <div
-            class="is-flex is-justify-content-space-between is-align-items-center my-5">
-            <div>{{ $t('mint.unlockable.totalAvailableItem') }}</div>
-            <div>{{ totalAvailableMintCount }} / {{ maxCount }}</div>
-          </div>
           <UnlockableTag :collection-id="collectionId" />
 
           <div>
@@ -105,7 +100,7 @@ import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlide
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import CarouselTypeLatestMints from '@/components/carousel/CarouselTypeLatestMints.vue'
-import { NeoButton } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { createUnlockableMetadata } from '../unlockable/utils'
 import GenerativePreview from '@/components/collection/drop/GenerativePreview.vue'
 import { DropItem } from '@/params/types'
@@ -161,9 +156,6 @@ const { data: collectionData } = useGraphql({
 
 const maxCount = computed(
   () => collectionData.value?.collectionEntity?.max || 200,
-)
-const totalAvailableMintCount = computed(
-  () => maxCount.value - mintedCount.value,
 )
 
 const hasUserMinted = computed(() =>

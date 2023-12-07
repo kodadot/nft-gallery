@@ -68,6 +68,10 @@ module.exports = {
       lineHeight: {
         4.5: '1.125rem',
       },
+      animation: {
+        'icon-spin':
+          'icon-spin infinite linear var(--oruga-icon-spin-duration, 1.5s)',
+      },
     },
   },
   plugins: [],

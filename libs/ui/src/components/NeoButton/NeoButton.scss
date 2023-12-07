@@ -149,7 +149,7 @@
     @apply border-none w-min text-k-grey underline-offset-4;
 
     &:hover {
-      @apply text-text-color bg-none;
+      @apply text-text-color bg-transparent;
     }
   }
 
