@@ -101,6 +101,7 @@ const gotoPage = (page: number) => {
   endPage.value = page
   isFetchingData.value = false
   isLoading.value = true
+  total.value = 0
 
   clearFetchResults()
   fetchSearch({ page, search: parseSearch(props.search) })
