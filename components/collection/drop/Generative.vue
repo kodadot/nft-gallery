@@ -132,6 +132,8 @@ const isWalletConnecting = ref(false)
 const collectionId = computed(() => props.drop?.collection)
 const disabledByBackend = computed(() => props.drop?.disabled)
 const defaultImage = computed(() => props.drop?.image)
+const defaultName = computed(() => props.drop?.name)
+const defaultMax = computed(() => props.drop?.max || 255)
 const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
   useDropStatus(props.drop.alias)
 const instance = getCurrentInstance()
@@ -161,7 +163,7 @@ const { data: collectionData } = useGraphql({
 })
 
 const maxCount = computed(
-  () => collectionData.value?.collectionEntity?.max || 200,
+  () => collectionData.value?.collectionEntity?.max || defaultMax.value,
 )
 
 const hasUserMinted = computed(() =>
@@ -264,7 +266,7 @@ const submitMint = async (email: string) => {
     const hash = await createUnlockableMetadata(
       imageHash,
       description.value,
-      collectionName.value,
+      collectionName.value || defaultName.value,
       'text/html',
       selectedImage.value,
     )
