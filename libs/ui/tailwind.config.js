@@ -50,6 +50,22 @@ module.exports = {
         'separator-line-color': 'var(--separator-line-color)',
         'toggle-primary': 'var(--toggle-primary)',
         'toggle-active-switch': 'var(--toggle-active-switch)',
+
+        neutral: {
+          1: '#ffffff',
+          2: '#fcfcfc',
+          3: '#f5f5f5',
+          4: '#f0f0f0',
+          5: '#d9d9d9',
+          6: '#bfbfbf',
+          7: '#8c8c8c',
+          8: '#595959',
+          9: '#454545',
+          10: '#262626',
+          11: '#1f1f1f',
+          12: '#141414',
+          13: '#000000',
+        },
       },
       boxShadow: {
         primary: 'var(--primary-shadow)',
@@ -67,6 +83,10 @@ module.exports = {
       },
       lineHeight: {
         4.5: '1.125rem',
+      },
+      animation: {
+        'icon-spin':
+          'icon-spin infinite linear var(--oruga-icon-spin-duration, 1.5s)',
       },
     },
   },
