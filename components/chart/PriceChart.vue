@@ -37,18 +37,24 @@
         </NeoButton>
       </template>
 
-      <NeoDropdownItem class="px-4 py-3 no-hover">
+      <NeoDropdownItem class="no-hover px-0 py-0">
         <div
           class="w-full is-flex is-justify-content-space-between is-align-items-center">
-          <NeoCheckbox v-model="vHideOutliers" class="m-0 no-wrap">
+          <NeoCheckbox
+            v-model="vHideOutliers"
+            class="m-0 no-wrap"
+            root-class="settings-checkbox px-4 py-3">
             {{ $t('activity.hideOutliers') }}
           </NeoCheckbox>
         </div>
       </NeoDropdownItem>
-      <NeoDropdownItem class="px-4 py-3 no-hover">
+      <NeoDropdownItem class="no-hover px-0 py-0">
         <div
           class="w-full is-flex is-justify-content-space-between is-align-items-center">
-          <NeoCheckbox v-model="vApplySmoothing" class="m-0 no-wrap">
+          <NeoCheckbox
+            v-model="vApplySmoothing"
+            class="m-0 no-wrap"
+            root-class="settings-checkbox px-4 py-3">
             {{ $t('activity.applySmoothing') }}
           </NeoCheckbox>
         </div>
@@ -358,5 +364,9 @@ watch([isDarkMode, selectedTimeRange], () => {
   :deep(.o-drop__menu) {
     min-width: fit-content !important;
   }
+}
+
+.settings-checkbox {
+  flex: auto;
 }
 </style>
