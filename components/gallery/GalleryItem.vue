@@ -43,11 +43,16 @@
                 :key="resource.id">
                 <BaseMediaItem
                   :key="resource.src"
-                  :src="resource.src"
+                  :src="
+                    isFullscreen
+                      ? `${resource.src}?original=true`
+                      : resource.src
+                  "
                   :mime-type="resource.mimeType"
                   :animation-src="resource.animation"
                   :audio-player-cover="galleryItem.nftImage.value"
                   :image-component="NuxtImg"
+                  sizes="original"
                   is-detail />
               </NeoCarouselItem>
             </NeoCarousel>
