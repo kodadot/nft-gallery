@@ -40,19 +40,17 @@
       <NeoDropdownItem class="px-4 py-3 no-hover">
         <div
           class="w-full is-flex is-justify-content-space-between is-align-items-center">
-          <div class="no-wrap mr-5 is-size-7">
+          <NeoCheckbox v-model="vHideOutliers" class="m-0 no-wrap">
             {{ $t('activity.hideOutliers') }}
-          </div>
-          <NeoCheckbox v-model="vHideOutliers" class="m-0" />
+          </NeoCheckbox>
         </div>
       </NeoDropdownItem>
       <NeoDropdownItem class="px-4 py-3 no-hover">
         <div
           class="w-full is-flex is-justify-content-space-between is-align-items-center">
-          <div class="no-wrap mr-5 is-size-7">
+          <NeoCheckbox v-model="vApplySmoothing" class="m-0 no-wrap">
             {{ $t('activity.applySmoothing') }}
-          </div>
-          <NeoCheckbox v-model="vApplySmoothing" class="m-0" />
+          </NeoCheckbox>
         </div>
       </NeoDropdownItem>
     </NeoDropdown>
