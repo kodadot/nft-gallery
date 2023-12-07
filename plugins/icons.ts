@@ -18,6 +18,10 @@ export default defineNuxtPlugin((nuxtApp) => {
       fasr: {
         iconPrefix: 'fa-fw fa-',
       },
+      // fa-sharp light
+      fasl: {
+        iconPrefix: 'fa-fw fa-',
+      },
       // fa brands
       fab: {
         iconPrefix: 'fa-fw fa-',
