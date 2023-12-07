@@ -97,7 +97,7 @@ export function useNftCardIcon<
   },
 >(nft: Ref<T>) {
   const isAudio = ref(false)
-  const { unlockableIcon } = useUnlockableIcon()
+  const { unlockableIcon } = useIcon()
 
   const cardIcon = computed(() => {
     if (isAudio) {
