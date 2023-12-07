@@ -20,7 +20,10 @@ const getFormattedDuration = ({ seconds, minutes }: Duration): string => {
   return formattedMinutes || formattedSeconds || 'few seconds'
 }
 
-export const useCountDown = (countDownTime: number) => {
+export const useCountDown = (
+  countDownTime: number,
+  immediate: boolean = true,
+) => {
   const hours = ref(0)
   const minutes = ref(0)
   const seconds = ref(0)
@@ -35,9 +38,15 @@ export const useCountDown = (countDownTime: number) => {
     seconds.value = Math.floor((distance % (1000 * 60)) / 1000)
   }
 
-  countdown()
-  onMounted(() => {
+  const start = () => {
+    countdown()
     timer.value = setInterval(countdown, 1000)
+  }
+
+  onMounted(() => {
+    if (immediate) {
+      start()
+    }
   })
 
   onBeforeMount(() => {
@@ -53,5 +62,6 @@ export const useCountDown = (countDownTime: number) => {
     minutes,
     seconds,
     displayDuration,
+    start,
   }
 }

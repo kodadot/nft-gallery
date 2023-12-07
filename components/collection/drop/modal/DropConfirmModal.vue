@@ -10,9 +10,7 @@
       <transition name="fade">
         <EmailSignup v-if="needsEmail" @confirm="handleEmailSignupConfirm" />
 
-        <ClaimingDrop
-          v-else-if="claimingDrop"
-          :minting-seconds="mintingSeconds" />
+        <ClaimingDrop v-else-if="claimingDrop" :est="displayDuration" />
 
         <SuccessfulDrop
           v-else-if="successfulDrop && mintedNft"
@@ -30,6 +28,7 @@ import EmailSignup from './EmailSignup.vue'
 import ClaimingDrop from './ClaimingDrop.vue'
 import SuccessfulDrop from './SuccessfulDrop.vue'
 import { DropMintedNft } from '../Generative.vue'
+import { useCountDown } from '@/components/collection/unlockable/utils/useCountDown'
 
 const emit = defineEmits(['confirm', 'completed', 'close', 'list'])
 const props = defineProps<{
@@ -40,6 +39,12 @@ const props = defineProps<{
   canListNft: boolean
 }>()
 
+const {
+  displayDuration,
+  seconds,
+  start: startCountDown,
+} = useCountDown(new Date().getTime() + props.mintingSeconds * 1000, false)
+
 const { $i18n } = useNuxtApp()
 
 const isModalActive = useVModel(props, 'modelValue')
@@ -47,7 +52,7 @@ const isModalActive = useVModel(props, 'modelValue')
 const email = ref<string>()
 
 const successfulDrop = computed(() => !!props.mintedNft)
-const claimingDrop = computed(() => props.claiming)
+const claimingDrop = computed(() => props.claiming && seconds.value > 0)
 const needsEmail = computed(
   () => !email.value && !claimingDrop.value && !successfulDrop.value,
 )
@@ -77,4 +82,13 @@ const confirm = () => {
   emit('confirm', { email: email.value })
   email.value = undefined
 }
+
+watch(
+  () => props.claiming,
+  (claiming) => {
+    if (claiming) {
+      startCountDown()
+    }
+  },
+)
 </script>
