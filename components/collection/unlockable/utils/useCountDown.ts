@@ -45,7 +45,7 @@ export const useCountDown = (countDownTime: number) => {
   })
 
   const displayDuration = computed(() =>
-    getFormattedDuration({ seconds: seconds.value, minute$: minutes.value }),
+    getFormattedDuration({ seconds: seconds.value, minutes: minutes.value }),
   )
 
   return {
