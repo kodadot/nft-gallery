@@ -27,14 +27,13 @@ export default function (
   const { apiInstance, apiInstanceByPrefix } = useApi()
   const { balance } = useBalance()
 
-  const fetched = reactive({ teleportTxFee: false })
+  const fetched = ref({ teleportTxFee: false, actionTxFees: false })
 
   const teleportTxFee = ref(0)
   const actionTxFees = ref<number[]>([])
   const extraActionFees = computed(() =>
     fees.actions ? Math.ceil(fees.actions) : 0,
   )
-  const actionAutoFees = computed(() => fees.actionAutoFees || true)
 
   const chainSymbol = computed(
     () => currentChain.value && getChainCurrency(currentChain.value),
@@ -76,6 +75,10 @@ export default function (
     () => !hasEnoughInCurrentChain.value,
   )
 
+  const actionAutoFees = computed(() =>
+    fees.actionAutoFees ? needsSourceChainBalances.value : false,
+  )
+
   const sourceChainsBalances = computed<{ [key: Chain]: string }>(() =>
     allowedSourceChains.value.reduce(
       (reducer, chainPrefix) => ({
@@ -92,11 +95,14 @@ export default function (
       Object.values(sourceChainsBalances.value).every(Boolean),
   )
 
-  const isFetchingDetails = computed(
-    () => !Object.values(fetched).every(Boolean),
+  const isFetchingDetails = computed(() =>
+    [
+      fetched.value.teleportTxFee,
+      actionAutoFees.value || fetched.value.actionTxFees,
+    ].every(Boolean),
   )
 
-  const isReady = computed(() => hasBalances.value && !isFetchingDetails.value)
+  const isReady = computed(() => hasBalances.value && isFetchingDetails.value)
 
   const richestChain = computed<Chain | undefined>(
     () => getMaxKeyByValue(sourceChainsBalances.value) as Chain | undefined,
@@ -167,10 +173,10 @@ export default function (
 
   watch(fetchTeleportFee, async () => {
     if (fetchTeleportFee.value) {
-      fetched.teleportTxFee = false
+      fetched.value.teleportTxFee = false
       const fee = await getTeleportTransactionFee()
       teleportTxFee.value = Number(fee) || 0
-      fetched.teleportTxFee = true
+      fetched.value.teleportTxFee = true
     }
   })
 
@@ -183,6 +189,7 @@ export default function (
     async () => {
       if (actionAutoFees.value) {
         try {
+          fetched.value.actionTxFees = false
           const feesPromisses = actions.value.map(
             async ({ action, prefix }) => {
               let api = await apiInstance.value
@@ -201,6 +208,8 @@ export default function (
           actionTxFees.value = fees.map(Number)
         } catch (error) {
           console.error(`[AUTOTELEPORT]: Failed getting action fee  ${error}`)
+        } finally {
+          fetched.value.actionTxFees = true
         }
       }
     },
