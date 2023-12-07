@@ -105,7 +105,8 @@
   animation: dots 1.5s infinite;
 }
 
-@mixin shineEffect($shineColor, $shineHover) {
+@mixin shineEffect($shineColor, $shineHover, $overChild: true) {
+  position: relative;
   overflow: hidden;
 
   &::before,
@@ -117,7 +118,7 @@
     background-color: $shineColor;
     transform: skewX(-30deg);
     transition: background-color 0.3s;
-    z-index: 0;
+    z-index: 1;
   }
 
   &::before {
@@ -136,6 +137,12 @@
     &::before,
     &::after {
       background-color: $shineHover
+    }
+  }
+
+  @if not $overChild {
+    > :first-child {
+      z-index: 2;
     }
   }
 }

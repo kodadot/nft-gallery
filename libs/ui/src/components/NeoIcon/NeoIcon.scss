@@ -1,5 +1,3 @@
-@import '../../scss/theme';
-
 @import '@oruga-ui/oruga-next/src/scss/utilities/_expressions.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_variables.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_animations.scss';
@@ -7,26 +5,17 @@
 @import '@oruga-ui/oruga-next/src/scss/components/_icon.scss';
 
 .o-icon--success {
-  @include ktheme() {
-    color: theme('k-green');
-  }
+  @apply text-k-green;
 }
+
 .o-icon--primary {
-  @include ktheme() {
-    color: theme('k-primary');
-  }
+  @apply text-k-primary;
 }
 
 .o-icon--k-grey {
-  @include ktheme() {
-    color: theme('k-grey');
-  }
+  @apply text-k-grey;
 }
 
-
 .o-icon--spin {
-  animation-name: icon-spin;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-  animation-duration: var(--oruga-icon-spin-duration, 1.5s)
+  @apply animate-icon-spin;
 }

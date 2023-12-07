@@ -6,29 +6,22 @@
 
 $switch-padding: 0;
 $switch-width: 3rem;
+$switch-background: #{var(--background-color)};
+$switch-border-color: #{var(--border-color)};
+$switch-active-background-color: #{var(--toggle-primary)};
+$switch-action-background: #{var(--toggle-active-switch)};
+$switch-action-checked-background: #{var(--background-color)};
 
 @import '@oruga-ui/oruga-next/src/scss/components/_switch.scss';
 
 .o-switch {
-  @include ktheme() {
-    --oruga-switch-background: #{theme('background-color')};
-    --oruga-switch-border-color: #{theme('border-color')};
-    --oruga-switch-active-background-color: #{theme('toggle-primary')};
-    --oruga-switch-action-background: #{theme('toggle-active-switch')};
-    --oruga-switch-action-checked-background: #{theme('background-color')};
-  }
   &__check-switch {
-    height: 1.5rem;
-    width: 1.5rem;
-    border: 1px solid var(--oruga-switch-border-color);
-    margin-left: -1px;
-    box-shadow: none;
+    @apply h-6 w-6 shadow-none border border-border-color -ml-px;
   }
   &__check {
-    height: 1.5rem;
-    border: 1px solid;
+    @apply h-6 border;
   }
   &__check--checked &__check-switch {
-    background-color: var(--oruga-switch-action-checked-background);
+    @apply bg-background-color;
   }
 }

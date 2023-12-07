@@ -46,23 +46,7 @@
       no-shadow
       :disabled="isDisabled"
       class="is-flex is-flex-grow-1 btn-height is-capitalized"
-      @click="submit" />
-
-    <div v-if="showAutoTeleport" class="is-flex is-justify-content-center mt-4">
-      <span
-        v-if="hasAvailableTeleportTransition"
-        class="has-text-grey is-capitalized"
-        >{{ $t('or') }}</span
-      >
-
-      <NeoButton
-        variant="text"
-        no-shadow
-        class="ml-2"
-        @click="onRampActive = true"
-        >+ {{ $t('autoTeleport.addFundsViaOnramp') }}
-      </NeoButton>
-    </div>
+      @click="handleSubmit" />
   </div>
 
   <AutoTeleportModal
@@ -197,6 +181,8 @@ const confirmButtonTitle = computed(() => {
   return $i18n.t(`autoTeleport.steps.${interaction}.confirm`)
 })
 
+const showAddFunds = computed(() => hasBalances.value && hasNoFundsAtAll.value)
+
 const autoTeleportLabel = computed(() => {
   if (hasEnoughInCurrentChain.value || props.disabled) {
     return props.label
@@ -206,8 +192,8 @@ const autoTeleportLabel = computed(() => {
     return $i18n.t('autoTeleport.checking')
   }
 
-  if (hasNoFundsAtAll.value) {
-    return $i18n.t('autoTeleport.insufficientFunds')
+  if (showAddFunds.value) {
+    return `+ ${$i18n.t('autoTeleport.addFundsViaOnramp')}`
   }
 
   if (allowAutoTeleport.value) {
@@ -225,8 +211,12 @@ const autoTeleportLabel = computed(() => {
 })
 
 const isDisabled = computed(() => {
-  if (props.disabled || hasNoFundsAtAll.value) {
+  if (props.disabled) {
     return true
+  }
+
+  if (showAddFunds.value) {
+    return false
   }
 
   if (hasEnoughInCurrentChain.value) {
@@ -265,6 +255,14 @@ const actionRun = async (interaction, isRetry = false) => {
   }
 }
 
+const handleSubmit = () => {
+  if (showAddFunds.value) {
+    onRampActive.value = true
+  } else {
+    submit()
+  }
+}
+
 const submit = () => {
   emit('confirm', {
     autoteleport: allowAutoTeleport.value && autoTeleport.value,
@@ -293,7 +291,7 @@ watchSyncEffect(() => {
   }
 })
 
-defineExpose({ hasBalances })
+defineExpose({ hasBalances, optimalTransition })
 </script>
 
 <style lang="scss" scoped>

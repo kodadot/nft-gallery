@@ -49,6 +49,7 @@ export type TeleportTransition = {
   amountFormatted: string
   amountUsd: string
   token: string
+  txFees: number
 }
 
 export const allowedTransitions = {

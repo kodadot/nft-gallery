@@ -83,6 +83,10 @@ const menus = ref([
     label: 'Onchain Identity',
     to: '/identity',
   },
+  {
+    label: 'Migrate',
+    to: '/migrate',
+  },
 ])
 
 watchEffect(() => {
