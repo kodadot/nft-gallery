@@ -1,16 +1,23 @@
-const getFormattedDuration = ({
-  seconds,
-  minutes,
-}: {
+type Duration = {
   seconds: number
   minutes: number
-}) => {
-  if (minutes > 0) {
-    return `${minutes} minute${minutes > 1 ? 's' : ''}${
-      seconds ? ` ${seconds} seconds` : ''
-    }`
+}
+
+const pluralize = (count: number, singular: string, plural: string): string =>
+  count === 1 ? singular : plural
+
+const formatTimeUnit = (value: number, unit: string): string =>
+  value > 0 ? `${value} ${pluralize(value, unit, unit + 's')}` : ''
+
+const getFormattedDuration = ({ seconds, minutes }: Duration): string => {
+  const formattedMinutes = formatTimeUnit(minutes, 'minute')
+  const formattedSeconds = formatTimeUnit(seconds, 'second')
+
+  if (formattedMinutes && formattedSeconds) {
+    return `${formattedMinutes} ${formattedSeconds}`
   }
-  return seconds >= 0 ? `${seconds} seconds` : 'few seconds'
+
+  return formattedMinutes || formattedSeconds || 'few seconds'
 }
 
 export const useCountDown = (countDownTime: number) => {
