@@ -132,6 +132,7 @@ const collectionId = computed(() => props.drop?.collection)
 const disabledByBackend = computed(() => props.drop?.disabled)
 const defaultImage = computed(() => props.drop?.image)
 const defaultName = computed(() => props.drop?.name)
+const defaultMax = computed(() => props.drop?.max || 255)
 const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
   useDropStatus(props.drop.alias)
 
@@ -161,7 +162,7 @@ const { data: collectionData } = useGraphql({
 })
 
 const maxCount = computed(
-  () => collectionData.value?.collectionEntity?.max || 200,
+  () => collectionData.value?.collectionEntity?.max || defaultMax.value,
 )
 const totalAvailableMintCount = computed(
   () => maxCount.value - mintedCount.value,
