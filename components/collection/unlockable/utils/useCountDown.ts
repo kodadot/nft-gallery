@@ -1,3 +1,25 @@
+type Duration = {
+  seconds: number
+  minutes: number
+}
+
+const pluralize = (count: number, singular: string, plural: string): string =>
+  count === 1 ? singular : plural
+
+const formatTimeUnit = (value: number, unit: string): string =>
+  value > 0 ? `${value} ${pluralize(value, unit, unit + 's')}` : ''
+
+const getFormattedDuration = ({ seconds, minutes }: Duration): string => {
+  const formattedMinutes = formatTimeUnit(minutes, 'minute')
+  const formattedSeconds = formatTimeUnit(seconds, 'second')
+
+  if (formattedMinutes && formattedSeconds) {
+    return `${formattedMinutes} ${formattedSeconds}`
+  }
+
+  return formattedMinutes || formattedSeconds || 'few seconds'
+}
+
 export const useCountDown = (countDownTime: number) => {
   const hours = ref(0)
   const minutes = ref(0)
@@ -21,9 +43,15 @@ export const useCountDown = (countDownTime: number) => {
   onBeforeMount(() => {
     clearInterval(timer.value)
   })
+
+  const displayDuration = computed(() =>
+    getFormattedDuration({ seconds: seconds.value, minutes: minutes.value }),
+  )
+
   return {
     hours,
     minutes,
     seconds,
+    displayDuration,
   }
 }
