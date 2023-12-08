@@ -1,6 +1,8 @@
 <template>
   <a class="navbar-item" @click="toggleNotificationModal">
-    <span v-if="props.showLabel">{{ $t('notification.notifications') }}</span>
+    <span class="notification-label">
+      {{ $t('notification.notifications') }}
+    </span>
     <NeoIcon icon="bell" class="icon" size="medium" />
   </a>
 </template>
@@ -10,10 +12,6 @@ import { NeoIcon } from '@kodadot1/brick'
 import { NotificationBoxModalConfig } from '@/components/common/NotificationBox/useNotificationBox'
 import { usePreferencesStore } from '@/stores/preferences'
 import { ModalCloseType } from './types'
-
-const props = defineProps<{
-  showLabel: boolean
-}>()
 
 const preferencesStore = usePreferencesStore()
 const emit = defineEmits(['closeBurgerMenu'])
@@ -47,3 +45,21 @@ function toggleNotificationModal() {
   }
 }
 </script>
+
+<style scoped lang="scss">
+.notification-label {
+  display: block;
+
+  @media (min-width: 1024px) {
+    display: none;
+  }
+}
+
+.icon {
+  margin-left: 0.5rem !important;
+
+  @media (min-width: 1024px) {
+    margin-left: 0 !important;
+  }
+}
+</style>

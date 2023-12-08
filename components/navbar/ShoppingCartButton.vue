@@ -2,8 +2,8 @@
   <div
     class="navbar-item is-flex is-align-items-center"
     @click="toggleShoppingCartModal">
-    <span v-if="props.showLabel">{{ $t('shoppingCart.label') }}</span>
-    <div class="is-relative icon" :class="{ 'ml-2': showLabel }">
+    <span class="shopping-cart-label">{{ $t('shoppingCart.label') }}</span>
+    <div class="is-relative icon icon-wrapper">
       <NeoIcon
         class="icon"
         icon="fa-shopping-cart-outline-sharp"
@@ -34,10 +34,6 @@ const shoppingCartStore = useShoppingCartStore()
 const numberOfItems = computed(
   () => shoppingCartStore.getItemsByPrefix(urlPrefix.value).length,
 )
-
-const props = defineProps<{
-  showLabel: boolean
-}>()
 
 const emit = defineEmits(['closeBurgerMenu'])
 const isMobile = ref(window.innerWidth < 1024)
@@ -75,5 +71,21 @@ const toggleShoppingCartModal = () => {
 .align {
   display: inline-flex;
   vertical-align: middle;
+}
+
+.icon-wrapper {
+  margin-left: 0.5rem !important;
+
+  @media (min-width: 1024px) {
+    margin-left: 0 !important;
+  }
+}
+
+.shopping-cart-label {
+  display: block;
+
+  @media (min-width: 1024px) {
+    display: none;
+  }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="is-flex is-align-items-center">
+  <div class="is-align-items-center">
     <a
       v-if="account"
       class="navbar-item"

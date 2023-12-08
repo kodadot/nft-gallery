@@ -157,6 +157,15 @@
   width: 100vw;
   background: $white;
 
+  .container {
+    @media (min-width: 1024px) {
+      max-width: none !important;
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+      width: 100%;
+    }
+  }
+
   @include mobile {
     min-height: $navbar-mobile-min-height;
   }
@@ -205,7 +214,7 @@
     align-items: center;
 
     @include mobile {
-      padding:0 $fluid-container-padding-mobile;
+      padding: 0 $fluid-container-padding-mobile;
     }
     @include tablet-only {
       padding: 0 $fluid-container-padding;

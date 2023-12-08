@@ -6,9 +6,7 @@
     :class="{
       'is-active': isMobileNavbarOpen,
     }">
-    <div
-      class="container is-align-items-center"
-      :class="{ 'is-fluid': !isMobile }">
+    <div class="container is-align-items-center">
       <!-- BRAND -->
       <div class="navbar-brand">
         <nuxt-link to="/" class="navbar-item logo nuxt-link-active">
@@ -29,7 +27,7 @@
           class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
           @click="closeBurgerMenu">
           <NeoButton
-            v-if="isMobileNavbarOpen || showSearchOnNavbar || isTinyMobile"
+            v-if="isMobileNavbarOpen || showSearchOnNavbar"
             class="mobile-nav-search-btn mr-2"
             icon="magnifying-glass"
             @click="showMobileSearchBar" />
@@ -37,11 +35,10 @@
           <div v-show="openMobileSearchBar">
             <div
               class="fixed-stack is-flex is-align-items-center is-justify-content-space-between p-2">
-              <Search
-                v-if="isMobile"
+              <LazySearch
                 ref="mobilSearchRef"
                 hide-filter
-                class="is-flex-grow-1" />
+                class="is-flex-grow-1 search" />
               <NeoButton
                 variant="text"
                 class="p-3 is-shadowless no-border is-capitalized is-clickable"
@@ -79,8 +76,7 @@
           <div
             v-if="showSearchOnNavbar"
             class="navbar-item is-expanded is-flex is-justify-content-center">
-            <Search
-              v-if="!isMobile"
+            <LazySearch
               class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
               hide-filter
               search-column-class="is-flex-grow-1" />
@@ -103,15 +99,14 @@
           </nuxt-link>
 
           <MobileExpandableSection
-            v-if="isMobile"
             v-slot="{ onCloseMobileSubMenu }"
+            class="mobile-expandable-section"
             :title="$t('explore')">
             <NavbarExploreOptions
               @closeMobileNavbar="showMobileNavbar"
               @closeMobileSubMenu="onCloseMobileSubMenu" />
           </MobileExpandableSection>
           <NavbarExploreDropdown
-            v-else
             class="navbar-explore custom-navbar-item"
             data-testid="explore" />
 
@@ -127,7 +122,6 @@
             v-show="isCreateVisible"
             class="navbar-create custom-navbar-item ml-0"
             data-testid="create"
-            :is-mobile="isMobile"
             :chain="urlPrefix"
             @closeMobileNavbar="showMobileNavbar" />
 
@@ -139,8 +133,8 @@
           :chain="urlPrefix" /> -->
 
           <MobileExpandableSection
-            v-if="isMobile"
             v-slot="{ onCloseMobileSubMenu }"
+            class="mobile-expandable-section"
             no-padding
             :title="$t('chainSelect', [chainName])">
             <NavbarChainOptions
@@ -149,23 +143,20 @@
           </MobileExpandableSection>
 
           <ChainSelectDropdown
-            v-else
             id="NavChainSelect"
             class="navbar-chain custom-navbar-item"
             data-testid="chain-select" />
 
           <NotificationBoxButton
-            v-if="account"
+            v-if="Boolean(account)"
             data-testid="navbar-button-notification"
-            :show-label="isMobile"
             @closeBurgerMenu="showMobileNavbar" />
 
           <ShoppingCartButton
             data-testid="navbar-button-cart"
-            :show-label="isMobile"
             @closeBurgerMenu="showMobileNavbar" />
 
-          <template v-if="isMobile">
+          <div class="mobile-account">
             <template v-if="!account">
               <MobileExpandableSection
                 v-slot="{ onCloseMobileSubMenu }"
@@ -197,11 +188,11 @@
                 variant="connect"
                 @closeBurgerMenu="showMobileNavbar" />
             </div>
-          </template>
+          </div>
 
           <NavbarProfileDropdown
-            v-if="!isMobile"
             id="NavProfile"
+            class="navbar-profile"
             :chain="urlPrefix"
             data-testid="navbar-profile-dropdown"
             @closeBurgerMenu="closeBurgerMenu" />
@@ -224,7 +215,6 @@ import MobileLanguageOption from '@/components/navbar/MobileLanguageOption.vue'
 import NavbarChainOptions from '@/components/navbar/NavbarChainOptions.vue'
 import NavbarExploreOptions from '@/components/navbar/NavbarExploreOptions.vue'
 import NotificationBoxButton from '@/components/navbar/NotificationBoxButton.vue'
-import Search from '@/components/search/Search.vue'
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
 import { useEventListener } from '@vueuse/core'
 
@@ -240,9 +230,7 @@ const fixedTitleNavAppearDistance = ref(85)
 const lastScrollPosition = ref(0)
 const isBurgerMenuOpened = ref(false)
 const { width } = useWindowSize()
-const isMobile = ref(window.innerWidth < 1024)
-const isMobileWithoutTablet = ref(window.innerWidth < 768)
-const isTinyMobile = computed(() => width.value < 480)
+const isMobileWithoutTablet = ref(width.value < 768)
 const { urlPrefix } = usePrefix()
 const identityStore = useIdentityStore()
 const isMobileNavbarOpen = ref(false)
@@ -339,10 +327,6 @@ const hideMobileSearchBar = () => {
   setBodyScroll(true)
 }
 
-const handleResize = () => {
-  isMobile.value = window.innerWidth < 1024
-}
-
 const chainName = computed(() => getChainNameByPrefix(urlPrefix.value))
 
 const updateAuthBalance = () => {
@@ -361,7 +345,6 @@ onBeforeUnmount(() => {
   clearInterval(updateAuthBalanceTimer.value)
 })
 useEventListener(window, 'scroll', onScroll)
-useEventListener(window, 'resize', handleResize)
 </script>
 
 <style lang="scss" scoped>
@@ -379,6 +362,42 @@ useEventListener(window, 'resize', handleResize)
     &:hover {
       background-color: unset;
     }
+  }
+}
+
+.search,
+.mobile-expandable-section,
+.mobile-account {
+  display: block;
+
+  @media (min-width: 1024px) {
+    display: none;
+  }
+}
+
+.navbar-profile {
+  display: none;
+
+  @media (min-width: 1024px) {
+    display: flex;
+  }
+}
+
+.search-navbar,
+.navbar-explore,
+.navbar-chain {
+  display: none;
+
+  @media (min-width: 1024px) {
+    display: block;
+  }
+}
+
+.mobile-nav-search-btn {
+  display: inline-flex;
+
+  @media (min-width: 480px) {
+    display: none;
   }
 }
 </style>
