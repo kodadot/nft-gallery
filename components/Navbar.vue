@@ -12,9 +12,10 @@
       <!-- BRAND -->
       <div class="navbar-brand">
         <nuxt-link to="/" class="navbar-item logo nuxt-link-active">
-          <img
-            :src="logoSrc"
-            alt="First NFT market explorer on Kusama and Polkadot" />
+          <div
+            role="img"
+            aria-label="First NFT market explorer on Kusama and Polkadot"
+            class="logo-image" />
         </nuxt-link>
         <div
           class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
@@ -235,7 +236,6 @@ const isMobile = ref(window.innerWidth < 1024)
 const isMobileWithoutTablet = ref(window.innerWidth < 768)
 const isTinyMobile = computed(() => width.value < 480)
 const { urlPrefix } = usePrefix()
-const { isDarkMode } = useTheme()
 const identityStore = useIdentityStore()
 const isMobileNavbarOpen = ref(false)
 const updateAuthBalanceTimer = ref()
@@ -250,12 +250,6 @@ const isCreateVisible = computed(() => createVisible(urlPrefix.value))
 const isLandingPage = computed(
   () => route.name === 'index' || route.name === 'prefix',
 )
-
-const logoSrc = computed(() => {
-  const variant = isMobile.value ? 'Koda' : 'Koda_Beta'
-  const color = isDarkMode.value ? '_dark' : ''
-  return `/${variant}${color}.svg`
-})
 
 const showSearchOnNavbar = computed(
   () =>

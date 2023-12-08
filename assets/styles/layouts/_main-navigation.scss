@@ -20,7 +20,7 @@
         .navbar-item {
           display: flex;
           align-items: center;
-          
+
           height: $navbar-mobile-min-height;
           padding: 0 1.25rem;
 
@@ -51,7 +51,7 @@
             height: calc(100% - 118px);
             position: relative;
             align-items: flex-start !important;
-            padding: 1.5rem 1.25rem !important;              
+            padding: 1.5rem 1.25rem !important;
 
             &--no-padding {
               padding: 0 !important;
@@ -139,9 +139,10 @@
     .navbar-brand {
       .logo {
         padding-left: 0 !important;
-        img {
+
+        .logo-image {
+          width: 40px;
           height: 40px;
-          width: unset !important;
         }
       }
     }
@@ -216,8 +217,19 @@
     }
 
     .logo {
-      img {
+      .logo-image {
         width: 143px;
+        height: 40px;
+        background-size: contain;
+        background-repeat: no-repeat;
+
+        @include ktheme() {
+          background-image: theme('mobile-logo');
+
+          @media (min-width: 1024px) {
+            background-image: theme('desktop-logo');
+          }
+        }
       }
     }
 
