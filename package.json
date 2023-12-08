@@ -116,7 +116,6 @@
     "vue-apollo": "^3.1.1",
     "vue-audio-visual": "2.5.0",
     "vue-dompurify-html": "^4.1.4",
-    "vue-social-sharing": "4.0.0-alpha4",
     "vue-tippy": "^6.3.1",
     "wavesurfer.js": "^7.4.11",
     "workbox-window": "^6.6.0"

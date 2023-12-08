@@ -15,15 +15,10 @@
 <script setup lang="ts">
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import SkeletonLoader from '@/components/shared/SkeletonLoader.vue'
-import { useCountDown } from '@/components/collection/unlockable/utils/useCountDown'
 
-const props = defineProps<{ mintingSeconds: number }>()
+const props = defineProps<{ est: string }>()
 
-const { displayDuration } = useCountDown(
-  new Date().getTime() + props.mintingSeconds * 1000,
-)
-
-const est = computed(() => `Est ~ ${displayDuration.value}`)
+const est = computed(() => `Est ~ ${props.est}`)
 </script>
 
 <style lang="scss" scoped>

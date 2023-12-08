@@ -39,17 +39,10 @@
             @click="QRModalActive = true">
             {{ $i18n.t('share.qrCode') }}
           </NeoDropdownItem>
-          <NeoDropdownItem>
-            <ShareNetwork
-              tag="div"
-              network="twitter"
-              :hashtags="hashtags"
-              :url="currentCollectionUrl"
-              :title="sharingLabel"
-              data-testid="hero-share-twitter-dropdown"
-              twitter-user="KodaDot">
-              {{ $i18n.t('share.twitter') }}
-            </ShareNetwork>
+          <NeoDropdownItem
+            data-testid="hero-share-twitter-dropdown"
+            @click="shareUrlToX">
+            {{ $i18n.t('share.twitter') }}
           </NeoDropdownItem>
         </NeoDropdown>
 
@@ -106,12 +99,22 @@ const { isCurrentOwner } = useAuth()
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
+const { shareOnX } = useSocialShare()
 
 const collectionId = computed(() => route.params.id)
 const currentCollectionUrl = computed(
   () =>
     `${window.location.origin}/${urlPrefix.value}/collection/${collectionId.value}`,
 )
+
+const shareUrlToX = () => {
+  shareOnX(
+    `${$i18n.t('sharing.collection')} ${
+      currentCollectionUrl.value
+    } \n#Polkadot @polkadot`,
+    '',
+  )
+}
 const { collection } = useCollectionMinimal({
   collectionId: collectionId.value,
 })
@@ -131,9 +134,6 @@ const displaySeperator = computed(() => twitter.value)
 const isOwner = computed(() => isCurrentOwner(collection.value?.currentOwner))
 
 const QRModalActive = ref(false)
-
-const hashtags = 'KusamaNetwork,KodaDot'
-const sharingLabel = $i18n.t('sharing.collection')
 </script>
 
 <style lang="scss" scoped>

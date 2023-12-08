@@ -1,6 +1,6 @@
 <template>
-  <Story title="NeoNftCard">
-    <Variant title="Nft Card">
+  <Story title="NeoModal">
+    <Variant title="Modal">
       <NeoModal :value="modalActive" @close="modalActive = false">
         Modal Content
       </NeoModal>

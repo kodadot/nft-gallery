@@ -49,7 +49,7 @@
 <script lang="ts" setup>
 import { NeoButton, NeoLoading } from '@kodadot1/brick'
 import { resolveComponent } from 'vue'
-import { useCountDown } from './utils/useCountDown'
+import { getCountDownTime, useCountDown } from './utils/useCountDown'
 
 const NuxtLink = resolveComponent('NuxtLink')
 const props = withDefaults(
@@ -70,9 +70,9 @@ const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 const isLoading = useVModel(props, 'modelValue')
 
-const { displayDuration } = useCountDown(
-  new Date().getTime() + props.duration * 1000,
-)
+const { displayDuration } = useCountDown({
+  countDownTime: getCountDownTime(props.duration),
+})
 
 const twitterText = computed(
   () =>
