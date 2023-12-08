@@ -110,11 +110,13 @@
     @confirm="handleConfirmMint"
     @close="closeConfirmModal"
     @list="handleList" />
+
   <CollectionDropAddFundsModal
     v-model="isAddFundModalActive"
     :minimum-funds="minimumFunds"
     :token="token"
     @close="isAddFundModalActive = false" />
+
   <ListingCartModal />
 </template>
 

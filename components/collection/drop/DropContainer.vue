@@ -145,7 +145,7 @@ const imageList = ref<string[]>([])
 const resultList = ref<any[]>([])
 const { urlPrefix } = usePrefix()
 const { isLogIn } = useAuth()
-const { hours, minutes } = useCountDown(countDownTime)
+const { hours, minutes } = useCountDown({ countDownTime })
 const justMinted = ref('')
 const isLoading = ref(false)
 

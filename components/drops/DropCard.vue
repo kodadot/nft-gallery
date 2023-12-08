@@ -119,7 +119,7 @@ const correctUrlPrefix = computed(() => {
 })
 
 const isFreeDrop = computed(() => {
-  return !Number(props.drop?.price)
+  return true // !Number(props.drop?.price)
 })
 
 const availableCount = computed(() => {

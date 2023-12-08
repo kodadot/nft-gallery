@@ -1,7 +1,8 @@
 <template>
   <figure
     :class="{
-      'relative pt-[100%]': !original,
+      'relative pt-[100%]': !original && !isFullscreen,
+      'pt-0': isFullscreen,
     }">
     <!-- load normal image -->
     <TheImage
@@ -11,7 +12,10 @@
       :src="src"
       :alt="alt"
       class="block rounded-none"
-      :class="{ 'object-cover absolute inset-0 w-full h-full': !original }"
+      :class="{
+        'object-cover absolute inset-0 w-full h-full':
+          !original && !isFullscreen,
+      }"
       data-testid="type-image"
       @error.once="() => onError('error-1')" />
     <!-- if fail, try to load original url -->
@@ -47,11 +51,13 @@ const props = withDefaults(
   defineProps<{
     imageComponent?: ImageComponent
     imageComponentProps?: ImageComponentProps
+    mimeType: string
     sizes?: string
     src: string
     alt?: string
     original: boolean
     placeholder: string
+    isFullscreen?: boolean
   }>(),
   {
     imageComponent: 'img',
@@ -59,22 +65,35 @@ const props = withDefaults(
     sizes: '450px md:350px lg:270px',
     src: '',
     alt: '',
+    isFullscreen: false,
   },
 )
 
 type Status = 'ok' | 'error-1' | 'error-2'
 const status = ref<Status>('ok')
+const isGif = computed(() => props.mimeType === 'image/gif')
+
+const toOriginalContentUrl = (baseurl: string) => {
+  const url = new URL(baseurl)
+  url.searchParams.append('original', 'true')
+  return url.toString()
+}
 
 const onError = async (phase: Status) => {
   consola.log('[KODADOT::IMAGE] unable to load:', `${phase}:`, props.src)
   status.value = phase
 }
 
-// Ignore sizes if width and height are provided
 const sizes = computed(() =>
-  props.imageComponentProps?.width && props.imageComponentProps?.height
+  (props.imageComponentProps?.width && props.imageComponentProps?.height) ||
+  props.sizes === 'original' ||
+  isGif.value
     ? undefined
     : props.sizes,
+)
+
+const src = computed(() =>
+  isGif.value ? toOriginalContentUrl(props.src) : props.src,
 )
 
 const imageComponentProps = computed(() => ({
