@@ -13,8 +13,8 @@
         <ClaimingDrop v-else-if="claimingDrop" :est="displayDuration" />
 
         <SuccessfulDrop
-          v-else-if="successfulDrop && mintedNft"
-          :minted-nft="mintedNft"
+          v-else-if="successfulDrop && sanitizedMintedNft"
+          :minted-nft="sanitizedMintedNft"
           :can-list-nft="canListNft"
           @list="$emit('list')" />
       </transition>
@@ -28,7 +28,10 @@ import EmailSignup from './EmailSignup.vue'
 import ClaimingDrop from './ClaimingDrop.vue'
 import SuccessfulDrop from './SuccessfulDrop.vue'
 import { DropMintedNft } from '../Generative.vue'
-import { useCountDown } from '@/components/collection/unlockable/utils/useCountDown'
+import {
+  getCountDownTime,
+  useCountDown,
+} from '@/components/collection/unlockable/utils/useCountDown'
 
 const emit = defineEmits(['confirm', 'completed', 'close', 'list'])
 const props = defineProps<{
@@ -39,11 +42,9 @@ const props = defineProps<{
   canListNft: boolean
 }>()
 
-const {
-  displayDuration,
-  seconds,
-  start: startCountDown,
-} = useCountDown(new Date().getTime() + props.mintingSeconds * 1000, false)
+const { displayDuration, distance, startCountDown } = useCountDown({
+  immediate: false,
+})
 
 const { $i18n } = useNuxtApp()
 
@@ -51,8 +52,10 @@ const isModalActive = useVModel(props, 'modelValue')
 
 const email = ref<string>()
 
-const successfulDrop = computed(() => !!props.mintedNft)
-const claimingDrop = computed(() => props.claiming && seconds.value > 0)
+const successfulDrop = computed(() => Boolean(sanitizedMintedNft.value))
+const claimingDrop = computed(() =>
+  nftCoverLoaded.value ? false : distance.value > 0,
+)
 const needsEmail = computed(
   () => !email.value && !claimingDrop.value && !successfulDrop.value,
 )
@@ -87,8 +90,37 @@ watch(
   () => props.claiming,
   (claiming) => {
     if (claiming) {
-      startCountDown()
+      startCountDown(getCountDownTime(props.mintingSeconds))
     }
   },
 )
+
+// Nft cover handling
+const nftCoverLoaded = ref(false)
+const sanitizedMintedNft = computed<DropMintedNft | undefined>(
+  () =>
+    props.mintedNft && {
+      ...props.mintedNft,
+      image: sanitizeIpfsUrl(props.mintedNft.image),
+    },
+)
+
+const preloadImage = (src: string, onLoad: () => void) => {
+  const image = new Image()
+  image.src = src
+
+  image.addEventListener('load', onLoad, true)
+
+  return () => {
+    image.removeEventListener('load', onLoad)
+  }
+}
+
+watch(sanitizedMintedNft, (mintedNft) => {
+  if (mintedNft?.image) {
+    preloadImage(mintedNft.image, () => {
+      nftCoverLoaded.value = true
+    })
+  }
+})
 </script>
