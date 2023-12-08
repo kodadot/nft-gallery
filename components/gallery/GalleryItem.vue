@@ -43,11 +43,13 @@
                 :key="resource.id">
                 <BaseMediaItem
                   :key="resource.src"
-                  :src="resource.src"
+                  :src="getMediaSrc(resource.src)"
                   :mime-type="resource.mimeType"
                   :animation-src="resource.animation"
                   :audio-player-cover="galleryItem.nftImage.value"
                   :image-component="NuxtImg"
+                  :is-fullscreen="isFullscreen"
+                  :sizes="sizes"
                   is-detail />
               </NeoCarouselItem>
             </NeoCarousel>
@@ -57,15 +59,16 @@
             :key="nftImage"
             ref="mediaItemRef"
             class="gallery-item-media is-relative"
-            :src="nftImage"
+            :src="getMediaSrc(nftImage)"
             :animation-src="nftAnimation"
             :mime-type="nftMimeType"
             :title="nftMetadata?.name"
+            :is-fullscreen="isFullscreen"
             is-detail
             :is-lewd="galleryDescriptionRef?.isLewd"
             :placeholder="placeholder"
             :image-component="NuxtImg"
-            sizes="original"
+            :sizes="sizes"
             :audio-player-cover="nftImage" />
         </div>
       </div>
@@ -194,7 +197,7 @@ import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vu
 import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
 import { convertMarkdownToText } from '@/utils/markdown'
 import { exist } from '@/utils/exist'
-import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import { generateNftImage } from '@/utils/seoImageGenerator'
 import { formatBalanceEmptyOnZero, formatNumber } from '@/utils/format/balance'
 import { MediaType } from '@/components/rmrk/types'
@@ -252,6 +255,9 @@ const onNFTBought = () => {
   activeTab.value = tabs.activity
 }
 
+const getMediaSrc = (src: string | undefined) =>
+  src && isFullscreen.value ? toOriginalContentUrl(src) : src
+
 watch(triggerBuySuccess, (value, oldValue) => {
   if (value && !oldValue) {
     onNFTBought()
@@ -299,6 +305,11 @@ const imgref = ref<HTMLElement | null>(null)
 const isFallbackActive = ref(false)
 const fullScreenDisabled = ref(false)
 const { toggle, isFullscreen, isSupported } = useFullscreen(imgref)
+const sizes = ref<string>('1000px')
+
+watch(isFullscreen, (value) => {
+  sizes.value = value ? 'original' : '1000px'
+})
 
 function toggleFullscreen() {
   if (!isSupported.value || fullScreenDisabled.value) {
