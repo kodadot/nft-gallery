@@ -1,5 +1,5 @@
 export const preloadImage = (src: string): Promise<boolean> => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     try {
       const image = new Image()
       image.src = src
