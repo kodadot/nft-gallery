@@ -29,7 +29,6 @@ import EmailSignup from './EmailSignup.vue'
 import ClaimingDrop from './ClaimingDrop.vue'
 import SuccessfulDrop from './SuccessfulDrop.vue'
 import { DropMintedNft } from '../Generative.vue'
-
 import {
   getCountDownTime,
   useCountDown,
