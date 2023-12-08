@@ -54,6 +54,8 @@ export const POPULAR_COLLECTIONS = {
     'u-31848', // Ajuna Network Promo Collection
   ],
   ahp: [
+    '50', // .motherboard
+    '49', // wallstreet
     '46', // Snowflakes
     '40', // Swirls
     '38', // Generativ Art - Pare1d0scope
