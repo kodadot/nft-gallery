@@ -1,0 +1,20 @@
+query collectionByIdMinimal($id: String!) {
+  collectionEntityById(id: $id) {
+    id
+    issuer
+    royalty
+    meta {
+      animationUrl
+      description
+      id
+      image
+      name
+      type
+    }
+    nftCount
+    max
+    metadata
+    name
+    currentOwner
+  }
+}
