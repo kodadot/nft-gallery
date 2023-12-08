@@ -53,7 +53,19 @@
                   :to="`/${urlPrefix}/gallery/${hasUserMinted}`" />
               </div>
 
-              <div v-else>
+              <div v-else class="is-flex">
+                <div
+                  v-if="minimumFunds"
+                  class="is-flex is-align-items-center mr-5">
+                  <NeoIcon icon="circle-info" class="mr-3" />
+                  <div
+                    v-dompurify-html="
+                      $t('mint.unlockable.minimumFundsDescription', [
+                        `${minimumFunds} ${token}`,
+                      ])
+                    "
+                    class="minimum-funds-description" />
+                </div>
                 <NeoButton
                   ref="root"
                   class="my-2 mint-button"
@@ -65,7 +77,7 @@
                     $t(
                       isWalletConnecting
                         ? 'shoppingCart.wallet'
-                        : 'mint.unlockable.mintThisNft',
+                        : 'mint.unlockable.claimNftNow',
                     )
                   "
                   @click="handleSubmitMint" />
@@ -98,7 +110,11 @@
     @confirm="handleConfirmMint"
     @close="closeConfirmModal"
     @list="handleList" />
-
+  <CollectionDropAddFundsModal
+    v-model="isAddFundModalActive"
+    :minimum-funds="minimumFunds"
+    :token="token"
+    @close="isAddFundModalActive = false" />
   <ListingCartModal />
 </template>
 
@@ -117,6 +133,13 @@ import { makeScreenshot } from '@/services/capture'
 import { pinFileToIPFS } from '@/services/nftStorage'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import newsletterApi from '@/utils/newsletter'
+import { formatBsxBalanceToNumber } from '@/utils/format/balance'
+import { prefixToToken } from '@/components/common/shoppingCart/utils'
+import { useIdentityStore } from '@/stores/identity'
+import {
+  DOT_EXISTENTIAL_DEPOSIT,
+  KSM_EXISTENTIAL_DEPOSIT,
+} from '@/components/collection/unlockable/const'
 import DropConfirmModal from './modal/DropConfirmModal.vue'
 import ListingCartModal from '@/components/common/listingCart/ListingCartModal.vue'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
@@ -133,6 +156,14 @@ const props = defineProps({
     },
   },
 })
+
+useMultipleBalance(true)
+
+const minimumFunds = computed<number>(
+  () => (props.drop.meta && formatBsxBalanceToNumber(props.drop.meta)) || 0,
+)
+const store = useIdentityStore()
+
 const isWalletConnecting = ref(false)
 const collectionId = computed(() => props.drop?.collection)
 const disabledByBackend = computed(() => props.drop?.disabled)
@@ -157,6 +188,9 @@ const selectedImage = ref<string>('')
 const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isConfirmModalActive = ref(false)
+const isAddFundModalActive = ref(false)
+
+const token = computed(() => prefixToToken[props.drop.chain])
 
 export type DropMintedNft = DoResult & {
   id: string
@@ -247,7 +281,21 @@ const handleSubmitMint = async () => {
     return false
   }
 
-  openConfirmModal()
+  const dropChainBalance = Number(store.getAuthBalanceByChain(props.drop.chain))
+  const relayChainBalance = Number(
+    store.getAuthBalanceByRelayChain(props.drop.chain),
+  )
+  const existentialDeposit =
+    token.value === 'KSM' ? KSM_EXISTENTIAL_DEPOSIT : DOT_EXISTENTIAL_DEPOSIT
+
+  if (
+    dropChainBalance >= minimumFunds.value ||
+    relayChainBalance >= existentialDeposit + minimumFunds.value
+  ) {
+    openConfirmModal()
+  } else {
+    openAddFundModal()
+  }
 }
 
 const closeConfirmModal = () => {
@@ -256,6 +304,10 @@ const closeConfirmModal = () => {
 
 const openConfirmModal = () => {
   isConfirmModalActive.value = true
+}
+
+const openAddFundModal = () => {
+  isAddFundModalActive.value = true
 }
 
 const subscribe = async (email: string) => {
@@ -377,5 +429,9 @@ onBeforeUnmount(clear)
 
 .order-1 {
   order: 1;
+}
+
+.minimum-funds-description {
+  max-width: 314px;
 }
 </style>
