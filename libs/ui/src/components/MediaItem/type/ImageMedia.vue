@@ -65,14 +65,6 @@ const props = withDefaults(
   },
 )
 
-console.log(
-  props.original,
-  props.isFullscreen,
-  props.alt,
-  props.sizes,
-  props.mimeType,
-)
-
 type Status = 'ok' | 'error-1' | 'error-2'
 const status = ref<Status>('ok')
 const isGif = computed(() => props.mimeType === 'image/gif')
