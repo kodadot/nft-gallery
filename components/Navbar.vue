@@ -12,10 +12,18 @@
       <!-- BRAND -->
       <div class="navbar-brand">
         <nuxt-link to="/" class="navbar-item logo nuxt-link-active">
-          <div
-            role="img"
-            aria-label="First NFT market explorer on Kusama and Polkadot"
-            class="logo-image" />
+          <ThemedImage
+            class="desktop-logo"
+            src="desktop-logo"
+            alt="First NFT market explorer on Kusama and Polkadot"
+            :width="143"
+            :height="40" />
+          <ThemedImage
+            class="mobile-logo"
+            src="mobile-logo"
+            alt="First NFT market explorer on Kusama and Polkadot"
+            :width="40"
+            :height="40" />
         </nuxt-link>
         <div
           class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"

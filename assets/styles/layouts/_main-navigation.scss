@@ -139,11 +139,6 @@
     .navbar-brand {
       .logo {
         padding-left: 0 !important;
-
-        .logo-image {
-          width: 40px;
-          height: 40px;
-        }
       }
     }
 
@@ -217,18 +212,19 @@
     }
 
     .logo {
-      .logo-image {
-        width: 143px;
-        height: 40px;
-        background-size: contain;
-        background-repeat: no-repeat;
+      .desktop-logo {
+        display: none;
 
-        @include ktheme() {
-          background-image: theme('mobile-logo');
+        @media (min-width: 1024px) {
+          display: block;
+        }
+      }
 
-          @media (min-width: 1024px) {
-            background-image: theme('desktop-logo');
-          }
+      .mobile-logo {
+        display: block;
+
+        @media (min-width: 1024px) {
+          display: none;
         }
       }
     }

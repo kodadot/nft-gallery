@@ -134,10 +134,11 @@
           href="https://stellate.co/?ref=powered-by"
           target="_blank"
           rel="nofollow noopener noreferrer">
-          <div
-            role="img"
-            aria-label="Powered by Stellate, the GraphQL API Management platform"
-            class="stellate" />
+          <ThemedImage
+            src="stellate"
+            alt="Powered by Stellate, the GraphQL API Management platform"
+            :width="136"
+            :height="60" />
         </a>
       </section>
     </div>
@@ -277,18 +278,3 @@ const socials = [
   },
 ]
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.stellate {
-  width: 136px;
-  height: 60px;
-  background-size: contain;
-  background-repeat: no-repeat;
-
-  @include ktheme() {
-    background-image: theme('stellate');
-  }
-}
-</style>

@@ -16,7 +16,7 @@
         :triggers="['hover']">
         <template #trigger>
           <a class="navbar-item my-4" role="button">
-            <div role="img" aria-label="profile" class="profile" />
+            <ThemedImage src="profile" alt="profile" :width="27" :height="27" />
           </a>
         </template>
 
@@ -99,20 +99,3 @@ const toggleLanguageMenu = () => {
   languageDropdown.value?.toggle()
 }
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.profile {
-  --size: 27px;
-
-  width: var(--size);
-  height: var(--size);
-  background-size: contain;
-  background-repeat: no-repeat;
-
-  @include ktheme() {
-    background-image: theme('profile');
-  }
-}
-</style>

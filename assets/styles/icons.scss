@@ -1,0 +1,13 @@
+:root {
+  --mobile-logo: url('/Koda.svg');
+  --desktop-logo: url('/Koda_Beta.svg');
+  --profile: url('/profile.svg');
+  --stellate: url('https://stellate.co/badge.svg');
+}
+
+:root.dark-mode {
+  --mobile-logo: url('/Koda_dark.svg');
+  --desktop-logo: url('/Koda_Beta_dark.svg');
+  --profile: url('/profile-dark.svg');
+  --stellate: url('https://stellate.co/badge-light.svg');
+}
