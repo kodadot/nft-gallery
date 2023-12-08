@@ -23,11 +23,13 @@
 </template>
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
+import { preloadImage } from '@/utils/dom'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import EmailSignup from './EmailSignup.vue'
 import ClaimingDrop from './ClaimingDrop.vue'
 import SuccessfulDrop from './SuccessfulDrop.vue'
 import { DropMintedNft } from '../Generative.vue'
+
 import {
   getCountDownTime,
   useCountDown,
@@ -51,11 +53,21 @@ const { $i18n } = useNuxtApp()
 const isModalActive = useVModel(props, 'modelValue')
 
 const email = ref<string>()
+const nftCoverLoaded = ref(false)
 
 const successfulDrop = computed(() => Boolean(sanitizedMintedNft.value))
 const claimingDrop = computed(() =>
   nftCoverLoaded.value ? false : distance.value > 0,
 )
+
+const sanitizedMintedNft = computed<DropMintedNft | undefined>(
+  () =>
+    props.mintedNft && {
+      ...props.mintedNft,
+      image: sanitizeIpfsUrl(props.mintedNft.image),
+    },
+)
+
 const needsEmail = computed(
   () => !email.value && !claimingDrop.value && !successfulDrop.value,
 )
@@ -95,32 +107,9 @@ watch(
   },
 )
 
-// Nft cover handling
-const nftCoverLoaded = ref(false)
-const sanitizedMintedNft = computed<DropMintedNft | undefined>(
-  () =>
-    props.mintedNft && {
-      ...props.mintedNft,
-      image: sanitizeIpfsUrl(props.mintedNft.image),
-    },
-)
-
-const preloadImage = (src: string, onLoad: () => void) => {
-  const image = new Image()
-  image.src = src
-
-  image.addEventListener('load', onLoad, true)
-
-  return () => {
-    image.removeEventListener('load', onLoad)
-  }
-}
-
-watch(sanitizedMintedNft, (mintedNft) => {
+watch(sanitizedMintedNft, async (mintedNft) => {
   if (mintedNft?.image) {
-    preloadImage(mintedNft.image, () => {
-      nftCoverLoaded.value = true
-    })
+    nftCoverLoaded.value = await preloadImage(mintedNft.image)
   }
 })
 </script>
