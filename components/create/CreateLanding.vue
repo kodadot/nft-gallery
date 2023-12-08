@@ -37,11 +37,13 @@
                 !isMobile,
               'pack-content': isMobile,
             }">
-            <img
-              v-if="!isMobile"
-              :src="isDarkMode ? '/waifu-dark.svg' : '/waifu.svg'"
-              class="svg-one"
-              alt="Create Waifu NFT" />
+            <div v-if="!isMobile" class="w-full h-full">
+              <ThemedImage
+                src="waifu"
+                class="w-full"
+                :height="164"
+                alt="Create Waifu NFT" />
+            </div>
             <NeoIcon v-else icon="wand-magic-sparkles" custom-size="fa-3x" />
 
             <div
@@ -102,7 +104,6 @@ const { doAfterLogin } = useDoAfterlogin(instance)
 const { urlPrefix } = usePrefix()
 const route = useRoute()
 const router = useRouter()
-const { isDarkMode } = useTheme()
 const isMobile = computed(() => useWindowSize().width.value < 769)
 
 const gotoPathAfterLogin = (path: RawLocation) => {

@@ -12,7 +12,11 @@
       <span>{{ $t('drops.plusGetA') }}</span>
 
       <div class="is-flex is-align-items-center">
-        <img width="58" :src="signUpVoucherIcon" alt="shop voucher" />
+        <ThemedImage
+          src="signup-voucher"
+          alt="shop voucher"
+          :width="58"
+          :height="30" />
       </div>
 
       <span>{{ $t('drops.voucherToOurShop') }}</span>
@@ -57,7 +61,6 @@ import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 const emit = defineEmits(['confirm'])
 
 const { $i18n } = useNuxtApp()
-const { signUpVoucherIcon } = useIcon()
 
 const emailInput = ref()
 const email = ref()

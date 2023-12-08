@@ -3,6 +3,15 @@
   --desktop-logo: url('/Koda_Beta.svg');
   --profile: url('/profile.svg');
   --stellate: url('https://stellate.co/badge.svg');
+  --empty-cart: url('/cart/empty-cart.svg');
+  --waifu: url('/waifu.svg');
+  --landing-shape-header-left: url('/landing-shape-header-left-light.svg');
+  --landing-shape-header-right: url('/landing-shape-header-right-light.svg');
+  --congrats: url('/migrate/congrats.svg');
+  --unlockable: url('/unlockable.svg');
+  --signup-voucher: url('/signup-voucher.svg');
+  --transak: url('/onramp-providers/transak-logo.svg');
+  --ramp: url('/onramp-providers/ramp-logo.svg');
 }
 
 :root.dark-mode {
@@ -10,4 +19,13 @@
   --desktop-logo: url('/Koda_Beta_dark.svg');
   --profile: url('/profile-dark.svg');
   --stellate: url('https://stellate.co/badge-light.svg');
+  --empty-cart: url('/cart/empty-cart-dark.svg');
+  --waifu: url('/waifu-dark.svg');
+  --landing-shape-header-left: url('/landing-shape-header-left-dark.svg');
+  --landing-shape-header-right: url('/landing-shape-header-right-dark.svg');
+  --congrats: url('/migrate/congrats-dark.svg');
+  --unlockable: url('/unlockable-dark.svg');
+  --signup-voucher: url('/signup-voucher-dark.svg');
+  --transak: url('/onramp-providers/transak-logo-dark.svg');
+  --ramp: url('/onramp-providers/ramp-logo-dark.svg');
 }

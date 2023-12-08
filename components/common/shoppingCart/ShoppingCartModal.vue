@@ -57,10 +57,11 @@
         class="is-flex is-justify-content-space-between px-6 py-4 is-flex-direction-column h-full">
         <div
           class="is-flex is-align-items-center is-flex-direction-column pt-8">
-          <img
-            :src="emptyCartPlaceholder"
-            alt="empty cart"
-            width="140"
+          <ThemedImage
+            src="empty-cart"
+            alt="empty card"
+            :width="140"
+            :height="133"
             class="mb-5" />
           <span class="has-text-weight-bold mb-2">{{
             $t('shoppingCart.emptyCart.line1')
@@ -105,16 +106,11 @@ const prefrencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { urlPrefix } = usePrefix()
 const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
-const { isDarkMode } = useTheme()
 
 const emit = defineEmits(['close'])
 
 const items = computed(() =>
   shoppingCartStore.getItemsByPrefix(urlPrefix.value),
-)
-
-const emptyCartPlaceholder = computed(() =>
-  isDarkMode.value ? '/cart/empty-cart-dark.svg' : '/cart/empty-cart.svg',
 )
 
 const numberOfItems = computed(() => items.value.length)

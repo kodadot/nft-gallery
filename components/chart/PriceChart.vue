@@ -137,15 +137,11 @@ onMounted(() => {
   getPriceChartData()
 })
 
-const lineColor = computed(() => {
-  if (isDarkMode.value) {
-    return 'white'
-  } else {
-    return '#181717'
-  }
-})
-
-const gridColor = computed(() => (isDarkMode.value ? '#6b6b6b' : '#cccccc'))
+const colors = computed(() =>
+  isDarkMode.value
+    ? { line: 'white', grid: '#6b6b6b' }
+    : { line: '#181717', grid: '#cccccc' },
+)
 
 const displayChartData = computed(() => {
   if (props.priceChartData) {
@@ -286,8 +282,8 @@ const getPriceChartData = () => {
               },
               grid: {
                 drawOnChartArea: false,
-                borderColor: lineColor.value,
-                color: gridColor.value,
+                borderColor: colors.value.line,
+                color: colors.value.grid,
               },
               ticks: {
                 callback: (value) => {
@@ -298,7 +294,7 @@ const getPriceChartData = () => {
                 },
                 maxRotation: 0,
                 minRotation: 0,
-                color: lineColor.value,
+                color: colors.value.line,
               },
             },
             y: {
@@ -307,12 +303,12 @@ const getPriceChartData = () => {
                   return `${Number(value).toFixed(2)}  `
                 },
                 stepSize: 3,
-                color: lineColor.value,
+                color: colors.value.line,
               },
               grid: {
                 drawTicks: false,
-                color: gridColor.value,
-                borderColor: lineColor.value,
+                color: colors.value.grid,
+                borderColor: colors.value.line,
               },
             },
           },

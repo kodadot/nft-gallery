@@ -39,10 +39,18 @@
             }"
             @click="onSelect(provider.value)">
             <div class="is-flex is-justify-content-center">
-              <img
-                :alt="`${provider.value} provider logo`"
-                :src="provider.image"
-                class="provider-logo" />
+              <ThemedImage
+                v-if="provider.service === 'ramp'"
+                src="ramp"
+                :height="30"
+                class="provider-logo"
+                alt="ramp provider logo" />
+              <ThemedImage
+                v-else-if="provider.service === 'transak'"
+                src="transak"
+                :height="41"
+                class="provider-logo"
+                alt="transak provider logo" />
               <p v-if="provider.disabled" class="ml-2 is-size-7 has-text-grey">
                 {{ $t('soon') }}
               </p>
@@ -90,26 +98,18 @@ const agreeTos = ref<boolean>(false)
 const { init: initTransak } = useTransak()
 const { init: initRamp } = useRamp()
 
-const { isDarkMode } = useTheme()
-
-const getImage = (service: string) => {
-  return `/onramp-providers/${service}-logo${
-    isDarkMode.value ? '-dark' : ''
-  }.svg`
-}
-
 const getSupportedTokensToText = (tokens: string[]) =>
   tokens.map((token) => `$${token}`).join(', ')
 
 const providers = computed(() => [
   {
-    image: getImage('transak'),
+    service: 'transak',
     disabled: false,
     supports: ['DOT', 'KSM'],
     value: Provider.TRANSAK,
   },
   {
-    image: getImage('ramp'),
+    service: 'ramp',
     disabled: false,
     supports: ['DOT', 'KSM'],
     value: Provider.RAMP,

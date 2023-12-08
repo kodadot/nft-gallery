@@ -44,6 +44,12 @@
     z-index: 1;
     overflow: hidden;
     pointer-events: none;
+    align-self: stretch;
+    width: 20%;
+
+    &-right {
+      background-position: right;
+    }
   }
 
   .landing-search-right {

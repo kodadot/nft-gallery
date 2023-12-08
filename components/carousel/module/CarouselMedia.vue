@@ -7,7 +7,7 @@
       :aria-label="`slide ${index + 1} of ${length}`"
       rel="nofollow">
       <img
-        v-if="showCardIcon"
+        v-if="!showCardIcon"
         class="card-icon"
         :src="cardIcon"
         alt="Card Icon" />

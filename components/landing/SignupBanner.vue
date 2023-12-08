@@ -7,7 +7,11 @@
         </h3>
 
         <div class="ml-4 is-relative signup-banner-voucher is-flex-shrink-0">
-          <img :src="signUpVoucherIcon" alt="signup voucher" />
+          <ThemedImage
+            src="signup-voucher"
+            alt="signup voucher"
+            :width="77"
+            :height="37" />
           <img
             src="/signup-voucher-blur.svg"
             alt="signup voucher blur"
@@ -48,8 +52,6 @@ import { usePreferencesStore } from '@/stores/preferences'
 
 const { $i18n } = useNuxtApp()
 const preferencesStore = usePreferencesStore()
-
-const { signUpVoucherIcon } = useIcon()
 
 const email = ref()
 const loading = ref(false)

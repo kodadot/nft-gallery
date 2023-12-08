@@ -7,7 +7,12 @@
       multiline
       multiline-width="15rem">
       <div class="is-flex is-align-items-center">
-        <img class="mr-2" :src="unlockableIcon" alt="Unlockable Icon" />
+        <ThemedImage
+          src="unlockable"
+          alt="Unlockable Icon"
+          class="mr-2"
+          :width="24"
+          :height="24" />
         <span class="has-text-grey is-size-7">{{ $t('unlockable.item') }}</span>
       </div>
     </NeoTooltip>
@@ -33,7 +38,6 @@
 import { NeoTooltip } from '@kodadot1/brick'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { useWindowSize } from '@vueuse/core'
-import { useIcon } from '@/composables/useIcon'
 
 const props = defineProps<{
   nft: NFT | undefined
@@ -42,7 +46,6 @@ const props = defineProps<{
 
 const { isCurrentOwner } = useAuth()
 const isMobile = computed(() => useWindowSize().width.value < 768)
-const { unlockableIcon } = useIcon()
 
 const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
 </script>

@@ -7,7 +7,12 @@
       multiline
       multiline-width="15rem">
       <div class="is-flex is-align-items-center">
-        <img class="mr-2" :src="unlockableIcon" alt="Unlockable Icon" />
+        <ThemedImage
+          src="unlockable"
+          alt="Unlockable Icon"
+          class="mr-2"
+          :width="24"
+          :height="24" />
         <span class="has-text-grey is-size-7">{{ $t('unlockable.item') }}</span>
       </div>
     </NeoTooltip>
@@ -19,9 +24,6 @@
 
 <script lang="ts" setup>
 import { NeoTooltip } from '@kodadot1/brick'
-import { useIcon } from '@/composables/useIcon'
-
-const { unlockableIcon } = useIcon()
 
 const props = defineProps({
   collectionId: {

@@ -14,13 +14,9 @@ const getTokenIconBySymbol = (token: string) => {
 export const useIcon = () => {
   const { isDarkMode } = useTheme()
 
-  const signUpVoucherIcon = computed(() =>
-    isDarkMode.value ? '/signup-voucher-dark.svg' : '/signup-voucher.svg',
-  )
-
   const unlockableIcon = computed(() =>
     isDarkMode.value ? '/unlockable-dark.svg' : '/unlockable.svg',
   )
 
-  return { getTokenIconBySymbol, signUpVoucherIcon, unlockableIcon }
+  return { getTokenIconBySymbol, unlockableIcon }
 }
