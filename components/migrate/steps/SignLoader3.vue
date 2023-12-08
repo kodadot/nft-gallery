@@ -141,11 +141,14 @@ const burnItems = async () => {
 
 const burnCollection = async () => {
   if (fromCollectionId) {
-    await transaction({
-      interaction: Collections.DELETE,
-      collectionId: fromCollectionId,
-      urlPrefix: from,
-    })
+    await transaction(
+      {
+        interaction: Collections.DELETE,
+        collectionId: fromCollectionId,
+        urlPrefix: from,
+      },
+      from,
+    )
     updateSteps('step3-burn-collection')
   }
 }
