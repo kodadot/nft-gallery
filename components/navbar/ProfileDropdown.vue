@@ -16,7 +16,7 @@
         :triggers="['hover']">
         <template #trigger>
           <a class="navbar-item my-4" role="button">
-            <img :src="profileIcon" alt="profile" />
+            <div role="img" aria-label="profile" class="profile" />
           </a>
         </template>
 
@@ -75,16 +75,12 @@ import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useC
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
 
 const identityStore = useIdentityStore()
-const { isDarkMode } = useTheme()
 const { neoModal } = useProgrammatic()
 
 const languageDropdown = ref(null)
 const modal = ref<{ close: () => void; isActive?: boolean } | null>(null)
 
 const account = computed(() => identityStore.getAuthAddress)
-const profileIcon = computed(() =>
-  isDarkMode.value ? '/profile-dark.svg' : '/profile.svg',
-)
 const langsFlags = computed(() => langsFlagsList)
 
 const toggleWalletConnectModal = () => {
@@ -103,3 +99,20 @@ const toggleLanguageMenu = () => {
   languageDropdown.value?.toggle()
 }
 </script>
+
+<style scoped lang="scss">
+@import '@/assets/styles/abstracts/variables';
+
+.profile {
+  --size: 27px;
+
+  width: var(--size);
+  height: var(--size);
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  @include ktheme() {
+    background-image: theme('profile');
+  }
+}
+</style>
