@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: false
@@ -182,9 +182,6 @@ importers:
       vue-dompurify-html:
         specifier: ^4.1.4
         version: 4.1.4(vue@3.3.9)
-      vue-social-sharing:
-        specifier: 4.0.0-alpha4
-        version: 4.0.0-alpha4(vue@3.3.9)
       vue-tippy:
         specifier: ^6.3.1
         version: 6.3.1(vue@3.3.9)
@@ -19275,14 +19272,6 @@ packages:
     dependencies:
       '@vue/devtools-api': 6.5.0
       vue: 3.3.9(typescript@4.9.5)
-
-  /vue-social-sharing@4.0.0-alpha4(vue@3.3.9):
-    resolution: {integrity: sha512-hMbgpZkY5aRAiznSB/sgzdMVgdSbkmIHEaELX7pUbuUd6KS1Z/GAi7a/q0Qn+GFn0+6qMMvwyp3ZOE0+WYPQ1w==}
-    peerDependencies:
-      vue: ^3.0.0
-    dependencies:
-      vue: 3.3.9(typescript@4.9.5)
-    dev: false
 
   /vue-tippy@6.3.1(vue@3.3.9):
     resolution: {integrity: sha512-U2jpGwmwg+u/a36/XDnGlOF+W944xHGlVELsrTNWmZ0nUi2E/VW0c/buBkzntFUwRh6BHwFWcKL8BHcyG2mogQ==}
