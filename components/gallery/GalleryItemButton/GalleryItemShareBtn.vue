@@ -51,17 +51,16 @@ const route = useRoute()
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 
+const { shareOnX } = useSocialShare()
+
 const isModalActive = ref(false)
 const sharingTxt = $i18n.t('sharing.nft')
 const realworldFullPathShare = ref(`${window.location.origin}${route.fullPath}`)
-const twitterUri = ref(
-  `https://twitter.com/intent/tweet?text=${sharingTxt}&via=KodaDot&url=${realworldFullPathShare.value}`,
-)
 
 const label = computed(() => (isMobileDevice ? '' : 'Share'))
 const icon = computed(() => (isMobileDevice ? 'share' : ''))
 
 const actionTwitterShare = (): void => {
-  window.open(twitterUri.value, '_blank')
+  shareOnX(sharingTxt, realworldFullPathShare.value)
 }
 </script>
