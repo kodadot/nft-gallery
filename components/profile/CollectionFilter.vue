@@ -66,7 +66,6 @@ import collectionListWithSearch from '@/queries/subsquid/general/collectionListW
 import ActiveCount from '../explore/ActiveCount.vue'
 import { CollectionEntityMinimal } from '@/components/collection/utils/types'
 import { getDenyList } from '@/utils/prefix'
-import isEqual from 'lodash/isEqual'
 
 type Collection = CollectionEntityMinimal & {
   owners: number
@@ -135,19 +134,23 @@ const isSelected = (collection: Collection) => {
   return checked.value.includes(collection.id)
 }
 
+const syncCheckedCollections = () => {
+  const filteredChecked = collections.value
+    .map((c) => c.id)
+    .filter((id) => checked.value.includes(id))
+
+  checked.value = filteredChecked
+}
+
 watch(checked, (value) => {
   replaceUrl({ collections: value.toString() })
 })
 
 watch(
-  [() => props.tabKey, () => props.search],
-  ([, search], [, oldSearch]) => {
-    if (isEqual(search.collection, oldSearch.collection)) {
-      checked.value = []
-      collections.value = []
-    }
-
-    getProfileCollections()
+  () => props.search,
+  async () => {
+    await getProfileCollections()
+    syncCheckedCollections()
   },
   { deep: true },
 )
