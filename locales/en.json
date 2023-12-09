@@ -1085,7 +1085,7 @@
     "tweetDonation": "Tweet about your awesome donation",
     "donationSentTo": "Your donation will be sent to:",
     "ownerMessage": "(You Are Owner)",
-    "insufficientExistentialDeposit": "Due to the upcoming funds being below the Existential Deposit, there is a risk of potential loss."
+    "insufficientExistentialDeposit": "Sending less funds Existential Deposit will result in loss, min value to send is [ {0} + fees ] {1}"
   },
   "preferences": {
     "basic": "basic user interface",

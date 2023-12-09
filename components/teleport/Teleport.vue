@@ -103,7 +103,12 @@
       "
       target="_blank"
       class="has-text-danger">
-      {{ $t('teleport.insufficientExistentialDeposit') }}
+      {{
+        $t('teleport.insufficientExistentialDeposit', [
+          targetExistentialDepositAmount,
+          currency,
+        ])
+      }}
     </a>
 
     <NeoButton
@@ -187,6 +192,12 @@ const nativeAmount = computed(() =>
   Math.floor(amount.value * Math.pow(10, currentTokenDecimals.value)),
 )
 
+const targetExistentialDepositAmount = computed(() =>
+  Number(
+    targetExistentialDeposit.value / Math.pow(10, targetTokenDecimals.value),
+  ),
+)
+
 const amountToTeleport = computed(() =>
   Math.max(nativeAmount.value - teleportFee.value, 0),
 )
@@ -197,11 +208,15 @@ const recieveAmount = computed(() =>
   formatBalance(amountToTeleport.value, currentTokenDecimals.value, false),
 )
 
-const insufficientExistentialDeposit = computed(() => {
-  const deposit = existentialDeposit[chainToPrefixMap[toChain.value]]
+const targetExistentialDeposit = computed(
+  () => existentialDeposit[chainToPrefixMap[toChain.value]],
+)
 
+const insufficientExistentialDeposit = computed(() => {
   return Boolean(
-    deposit && amountToTeleport.value && deposit > amountToTeleport.value,
+    targetExistentialDeposit.value &&
+      amountToTeleport.value &&
+      targetExistentialDeposit.value > amountToTeleport.value,
   )
 })
 
@@ -307,6 +322,8 @@ const toNetworks = [
 const currentTokenDecimals = computed(() =>
   getChainTokenDecimals(fromChain.value),
 )
+
+const targetTokenDecimals = computed(() => getChainTokenDecimals(toChain.value))
 
 const toChainLabel = computed(() =>
   getChainName(chainToPrefixMap[toChain.value]),
