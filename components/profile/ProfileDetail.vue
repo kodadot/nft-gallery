@@ -152,6 +152,7 @@
 
             <CollectionFilter
               :id="id.toString()"
+              v-model="collections"
               :search="itemsGridSearch"
               :tab-key="tabKey"
               class="ml-4" />
@@ -237,6 +238,10 @@ const tabKey = computed(() =>
   activeTab.value === ProfileTab.OWNED ? 'currentOwner_eq' : 'issuer_eq',
 )
 
+const collections = ref(
+  route.query.collections?.toString().split(',').filter(Boolean) || [],
+)
+
 const itemsGridSearch = computed(() => {
   const query: Record<string, unknown> = {
     [tabKey.value]: id.value,
@@ -252,14 +257,9 @@ const itemsGridSearch = computed(() => {
     }
   }
 
-  const collections = route.query.collections
-    ?.toString()
-    .split(',')
-    .filter(Boolean)
-
-  if (collections?.length !== 0) {
+  if (collections.value?.length) {
     query['collection'] = {
-      id_in: collections,
+      id_in: collections.value,
     }
   }
 
@@ -343,6 +343,12 @@ watch(itemsGridSearch, (searchTerm, prevSearchTerm) => {
   if (JSON.stringify(searchTerm) !== JSON.stringify(prevSearchTerm)) {
     listingCartStore.clear()
   }
+})
+
+watch(collections, (value) => {
+  replaceUrl({
+    collections: Boolean(value.toString()) ? value.toString() : undefined,
+  })
 })
 </script>
 
