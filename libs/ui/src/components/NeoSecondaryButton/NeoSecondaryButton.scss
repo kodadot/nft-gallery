@@ -1,34 +1,23 @@
-@import '@oruga-ui/oruga-next/src/scss/oruga-full.scss';
-@import '../../scss/variable.scss';
-@import '../../scss/theme.scss';
-
-.button-override {
-  border-radius: 0;
-  padding: 6px 16px;
-}
+@import '@oruga-ui/oruga-next/src/scss/utilities/_expressions.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_variables.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_animations.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_helpers.scss';
+@import '@oruga-ui/oruga-next/src/scss/components/_button.scss';
 
 .o-btn {
   &--primary {
-    @include ktheme() {
-      background-color: theme('background-color');
-      color: theme('text-color');
-      border: 1px solid theme('k-primary');
-      &:hover {
-        background-color: theme('k-primaryLight');
-        color: theme('text-color');
-      }
+    @apply bg-background-color text-text-color border-default border-k-primary;
+
+    &:hover {
+      @apply bg-k-primary-light text-text-color;
     }
   }
 
   &--info {
-    @include ktheme() {
-      background-color: theme('background-color');
-      color: theme('text-color');
-      border: 1px solid theme('k-blue');
-      &:hover {
-        background-color: theme('k-blueLight');
-        color: theme('text-color');
-      }
+    @apply bg-background-color text-text-color border-default border-k-blue;
+
+    &:hover {
+      @apply bg-k-blue-light text-text-color;
     }
   }
 }

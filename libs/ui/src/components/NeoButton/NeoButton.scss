@@ -1,5 +1,8 @@
-@import '@oruga-ui/oruga-next/src/scss/oruga-full.scss';
-@import '../../scss/tailwind.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_expressions.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_variables.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_animations.scss';
+@import '@oruga-ui/oruga-next/src/scss/utilities/_helpers.scss';
+@import '@oruga-ui/oruga-next/src/scss/components/_button.scss';
 
 .o-btn {
   &.is-neo {

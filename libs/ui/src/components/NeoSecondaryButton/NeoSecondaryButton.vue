@@ -1,5 +1,5 @@
 <template>
-  <o-button :variant="variant" outlined class="button-override">
+  <o-button :variant="variant" outlined class="rounded-none py-1.5 px-4">
     <slot />
   </o-button>
 </template>
