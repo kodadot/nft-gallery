@@ -96,6 +96,16 @@
       >
     </div>
 
+    <a
+      v-if="insufficientExistentialDeposit"
+      v-safe-href="
+        `https://support.polkadot.network/support/solutions/articles/65000168651-what-is-the-existential-deposit`
+      "
+      target="_blank"
+      class="has-text-danger">
+      {{ $t('teleport.insufficientExistentialDeposit') }}
+    </a>
+
     <NeoButton
       :label="teleportLabel"
       size="large"
@@ -146,6 +156,7 @@ import { NeoButton, NeoField } from '@kodadot1/brick'
 import { blockExplorerOf } from '@/utils/config/chain.config'
 import { simpleDivision } from '@/utils/balance'
 import { useFiatStore } from '@/stores/fiat'
+import { existentialDeposit } from '@kodadot1/static'
 
 const {
   chainBalances,
@@ -185,6 +196,14 @@ const insufficientAmountAfterFees = computed(() => amountToTeleport.value === 0)
 const recieveAmount = computed(() =>
   formatBalance(amountToTeleport.value, currentTokenDecimals.value, false),
 )
+
+const insufficientExistentialDeposit = computed(() => {
+  const deposit = existentialDeposit[chainToPrefixMap[toChain.value]]
+
+  return Boolean(
+    deposit && amountToTeleport.value && deposit > amountToTeleport.value,
+  )
+})
 
 const teleportLabel = computed(() => {
   if (insufficientBalance.value) {

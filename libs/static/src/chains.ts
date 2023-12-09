@@ -86,3 +86,11 @@ export const chainList = (): Option[] => {
     value: prefix,
   }))
 }
+
+export const existentialDeposit: Record<'ksm' | 'ahk' | 'dot' | 'ahp', number> =
+  {
+    ksm: 333333333,
+    ahk: 33333333,
+    dot: 10000000000,
+    ahp: 1000000000,
+  }
