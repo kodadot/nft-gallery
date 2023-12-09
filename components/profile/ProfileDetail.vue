@@ -250,7 +250,8 @@ const itemsGridSearch = computed(() => {
   if (listed.value) {
     query['price_gt'] = 0
   }
-  if (sold.value) {
+
+  if (addSold.value) {
     query['events_some'] = {
       interaction_eq: 'BUY',
       AND: { caller_not_eq: id.value },
@@ -278,6 +279,9 @@ const activeTab = computed({
 const listed = computed(() => route.query.buy_now === 'true')
 
 const sold = computed(() => route.query.sold === 'true')
+const addSold = computed(
+  () => activeTab.value === ProfileTab.OWNED && sold.value,
+)
 
 const isMyProfile = computed(() => id.value === accountId.value)
 const hasBlockExplorer = computed(() => hasExplorer(urlPrefix.value))
