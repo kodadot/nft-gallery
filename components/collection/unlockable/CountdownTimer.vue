@@ -25,7 +25,7 @@ const animation = { duration: 30000, easing: (t) => t }
 const getPositiveNumber = (number: number) => Math.max(0, number)
 
 const slidesArray = Array(slidesCountOnTimeCountdown).fill(0)
-const { hours, minutes, seconds } = useCountDown(countDownTime)
+const { hours, minutes, seconds } = useCountDown({ countDownTime })
 
 const [wrapper] = useKeenSlider({
   loop: true,

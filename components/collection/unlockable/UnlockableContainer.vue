@@ -126,7 +126,7 @@ const MAX_PER_WINDOW = 10
 
 const isLoading = ref(false)
 const { isLogIn } = useAuth()
-const { hours, minutes, seconds } = useCountDown(countDownTime)
+const { hours, minutes, seconds } = useCountDown({ countDownTime })
 const justMinted = ref('')
 const { currentAccountMintedToken, fetchDropStatus } = useDropStatus(
   props.drop.alias,

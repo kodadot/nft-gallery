@@ -553,6 +553,11 @@ a.has-text-grey {
   border-radius: 50%;
 }
 
+.is-rounded-small {
+  border-radius: 4rem;
+}
+
+
 .w-half {
   width: 50%;
 }
@@ -568,6 +573,10 @@ a.has-text-grey {
 
 .is-size-3-5 {
   font-size: 1.6rem;
+}
+
+.is-size-8 {
+  font-size: 0.5rem;
 }
 
 .is-max-width-fit-content {
