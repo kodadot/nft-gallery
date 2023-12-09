@@ -280,7 +280,7 @@ const listed = computed(() => route.query.buy_now === 'true')
 
 const sold = computed(() => route.query.sold === 'true')
 const addSold = computed(
-  () => activeTab.value === ProfileTab.OWNED && sold.value,
+  () => activeTab.value === ProfileTab.CREATED && sold.value,
 )
 
 const isMyProfile = computed(() => id.value === accountId.value)
