@@ -132,6 +132,7 @@ const {
 const skeletonCount = first.value
 
 const resetPage = useDebounceFn(() => {
+  isLoading.value = true
   gotoPage(1)
 }, 500)
 
@@ -180,8 +181,7 @@ watch(
       return
     }
     if (!isEqual(newSearch, oldSearch)) {
-      isLoading.value = true
-      gotoPage(1)
+      resetPage()
     }
   },
   { deep: true },
