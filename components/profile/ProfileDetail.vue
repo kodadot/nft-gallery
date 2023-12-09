@@ -351,7 +351,7 @@ watch(itemsGridSearch, (searchTerm, prevSearchTerm) => {
 
 watch(collections, (value) => {
   replaceUrl({
-    collections: Boolean(value.toString()) ? value.toString() : undefined,
+    collections: value.length ? value.toString() : undefined,
   })
 })
 </script>
