@@ -289,6 +289,7 @@ const interactionIn = computed(() => {
 useAsyncData('tabs-count', async () => {
   const searchParams = {
     currentOwner_eq: id.value.toString(),
+    nfts_some: { burned_eq: false },
   }
 
   if (!isRemark.value) {

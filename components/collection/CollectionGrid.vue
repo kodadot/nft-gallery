@@ -95,8 +95,13 @@ onBeforeMount(() => {
 
 const fetchPageData = async (page: number, loadDirection = 'down') => {
   const isProfilePage = route.name === 'prefix-u-id'
+
   const searchParams = isProfilePage
-    ? { currentOwner_eq: props.id, burned_eq: false }
+    ? {
+        currentOwner_eq: props.id,
+        burned_eq: false,
+        nfts_some: { burned_eq: false },
+      }
     : { issuer_eq: props.id }
 
   if (isRemark.value) {
