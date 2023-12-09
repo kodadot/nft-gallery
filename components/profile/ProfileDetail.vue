@@ -162,7 +162,7 @@
           </div>
         </div>
         <hr class="my-0" />
-        <ItemsGrid :search="itemsGridSearch" />
+        <ItemsGrid :search="itemsGridSearch" disable-auto-page-reset />
       </div>
 
       <CollectionGrid

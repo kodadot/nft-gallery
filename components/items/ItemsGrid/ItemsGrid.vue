@@ -83,9 +83,15 @@ const { listingCartEnabled } = useListingCartConfig()
 const listingCartStore = useListingCartStore()
 const route = useRoute()
 
-const props = defineProps<{
-  search?: Record<string, string | number>
-}>()
+const props = withDefaults(
+  defineProps<{
+    search?: Record<string, string | number>
+    disableAutoPageReset: boolean
+  }>(),
+  {
+    disableAutoPageReset: false,
+  },
+)
 
 const emit = defineEmits(['total', 'loading'])
 
@@ -131,17 +137,19 @@ const {
 
 const skeletonCount = first.value
 
-const resetPage = useDebounceFn(() => {
+const resetPage = () => {
   isLoading.value = true
   gotoPage(1)
-}, 500)
+}
+
+const debouncedResetPage = useDebounceFn(resetPage, 500)
 
 const { items, fetchSearch, clearFetchResults, usingTokens } = useFetchSearch({
   first,
   total,
   isFetchingData,
   isLoading,
-  resetSearch: resetPage,
+  resetSearch: props.disableAutoPageReset ? () => ({}) : debouncedResetPage,
 })
 
 watch(
