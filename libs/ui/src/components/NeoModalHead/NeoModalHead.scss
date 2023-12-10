@@ -15,15 +15,9 @@
         padding: 0 1.25rem !important;
         min-height: $navbar-mobile-min-height !important;
       }
-      @include ktheme {
-        background: theme('background-color-inverse');
-      }
       .modal-card-title {
         font-size: 1rem;
         line-height: 1.5;
-        @include ktheme {
-          color: theme('text-color-inverse');
-        }
       }
     }
   }
