@@ -144,12 +144,19 @@ export default function (
       amountToTeleport.value > 0,
   )
 
-  const needsTeleport = computed(
-    () => currentChainBalance.value && !hasEnoughInCurrentChain.value,
-  )
+  const doesNotNeedsTeleport = computed<boolean>(() => {
+    const needsTeleport =
+      Boolean(currentChainBalance.value) && !hasEnoughInCurrentChain.value
+
+    if (!needsTeleport) {
+      return true
+    }
+
+    return Boolean(richestChain.value) && !hasEnoughInRichestChain.value
+  })
 
   const hasFetchedDetails = computed(() => {
-    if (!needsTeleport.value) {
+    if (doesNotNeedsTeleport.value) {
       return true
     }
 
