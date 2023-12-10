@@ -151,7 +151,7 @@
               class="ml-4" />
           </div>
           <div class="is-hidden-mobile">
-            <ProfileGrid class="is-hidden-mobile" />
+            <GridLayoutControls class="is-hidden-mobile" />
           </div>
         </div>
         <hr class="my-0" />
@@ -174,7 +174,6 @@ import { NeoButton, NeoModal } from '@kodadot1/brick'
 import TabItem from '@/components/shared/TabItem.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import ItemsGrid from '@/components/items/ItemsGrid/ItemsGrid.vue'
-import ProfileGrid from './ProfileGrid.vue'
 import ProfileActivity from './ProfileActivitySummery.vue'
 import FilterButton from './FilterButton.vue'
 import ChainDropdown from '@/components/common/ChainDropdown.vue'
@@ -187,6 +186,7 @@ import { useListingCartStore } from '@/stores/listingCart'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { chainsWithMintInteraction } from '@/composables/collectionActivity/helpers'
 import { Interaction } from '@kodadot1/minimark/v1'
+import GridLayoutControls from '@/components/shared/GridLayoutControls.vue'
 
 enum ProfileTab {
   OWNED = 'owned',
