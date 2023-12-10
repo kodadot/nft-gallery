@@ -1,4 +1,3 @@
-@import '../../scss/theme.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/expressions.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/variables.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/animations.scss';
@@ -7,7 +6,7 @@
 $steps-details-background-color: hsla(0, 0%, 0%, 0);
 $steps-details-padding: 0.5em !default;
 $steps-font-size: var(--step-size, 0.85rem);
-$steps-active-color: #6188e7;
+$steps-active-color: rgb(var(--steps-active-color));
 $steps-previous-color: #6188e7;
 $steps-divider-height: 2px;
 
@@ -28,37 +27,22 @@ $steps-content-padding: 1rem !default;
 .o-steps {
   // Base styles - Themed
   &__marker {
-    @include ktheme() {
-      background: theme('background-color');
-    }
+    @apply bg-background-color;
   }
 
   .o-icon {
-    @include ktheme() {
-      color: theme('background-color');
-    }
+    @apply bg-background-color;
   }
 
   &__divider {
-    @include ktheme() {
-      background: linear-gradient(
-        to left,
-        theme('k-shade') 50%,
-        $steps-active-color 50%
-      );
-      background-size: 200% 100%;
-      background-position: right bottom;
-    }
+    @apply bg-gradient-to-l from-k-shade/50 to-steps-active-color/50 bg-[length:200%_100%] bg-[right_bottom];
   }
 
   // oruga mixes the step size and the titlle font size together ($steps-font-size)
   // we need to override the title font size to make it bigger (12px / 0.75rem
   &__title {
-    font-size: 0.75rem !important;
-
-    @include ktheme() {
-      color: theme('k-grey');
-    }
+    @apply text-xs #{!important};
+    @apply text-k-grey;
   }
 
   // Navigation Items
@@ -67,7 +51,7 @@ $steps-content-padding: 1rem !default;
     &--last {
       &.o-steps__nav-item-active {
         .o-steps__marker {
-          background-color: $steps-active-color;
+          @apply bg-steps-active-color;
         }
       }
     }
@@ -80,7 +64,7 @@ $steps-content-padding: 1rem !default;
       // move divider to right side (color it active)
       // this is required becuase of the theme override above of the divider background
       .o-steps__divider {
-        background-position: left bottom;
+        @apply bg-[left_bottom];
       }
     }
 
@@ -90,6 +74,7 @@ $steps-content-padding: 1rem !default;
         border-color: $steps-previous-color;
         background-color: $steps-previous-color;
       }
+
       .o-steps__title {
         color: $steps-previous-color;
       }
@@ -97,7 +82,7 @@ $steps-content-padding: 1rem !default;
       // move divider to right side (color it active)
       // this is required becuase of the theme override above of the divider background
       .o-steps__divider {
-        background-position: left bottom;
+        @apply bg-[left_bottom];
       }
     }
   }
