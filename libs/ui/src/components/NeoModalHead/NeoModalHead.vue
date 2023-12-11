@@ -4,6 +4,7 @@
     <button
       type="button"
       class="w-full h-full text-left cursor-pointer p-0 bg-transparent text-base/normal text-text-color-inverse"
+      data-testid="modal-close-button"
       @click="emit('close')">
       <NeoIcon icon="chevron-left" />
       <span>{{ title }}</span>
