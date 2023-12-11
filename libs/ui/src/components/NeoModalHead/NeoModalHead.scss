@@ -9,15 +9,25 @@
   @include touch {
     & {
       padding: 1.5rem 1.25rem;
+
+      .modal-card-title {
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+
+      @include ktheme {
+        background: theme('background-color-inverse');
+
+        .modal-card-close-button, .modal-card-title {
+          color: theme('text-color-inverse');
+        }
+      }
+
       @include mobile {
         display: flex;
         align-items: center;
         padding: 0 1.25rem !important;
         min-height: $navbar-mobile-min-height !important;
-      }
-      .modal-card-title {
-        font-size: 1rem;
-        line-height: 1.5;
       }
     }
   }

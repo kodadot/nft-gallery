@@ -14,7 +14,7 @@
       {{ title }}
     </span>
     <NeoButton
-      class="py-1 px-2"
+      class="py-1 px-2 modal-card-close-button"
       variant="text"
       no-shadow
       icon="xmark"
