@@ -8,6 +8,7 @@
       v-if="total !== 0 && (!isLoading || !isFetchingData)"
       :id="scrollContainerId"
       v-slot="slotProps"
+      :grid-section="gridSection"
       class="my-5">
       <div
         v-for="(entity, index) in items"
@@ -53,6 +54,7 @@
     <!-- skeleton on first load -->
     <DynamicGrid
       v-if="total === 0 && (isLoading || isFetchingData)"
+      :grid-section="gridSection"
       class="my-5">
       <NeoNftCardSkeleton
         v-for="n in skeletonCount"
@@ -78,6 +80,7 @@ import isEqual from 'lodash/isEqual'
 import { useListingCartStore } from '@/stores/listingCart'
 import { getTokensNfts } from './useNftActions'
 import { NFT } from '@/components/rmrk/service/scheme'
+import { type GridSection } from '@/stores/preferences'
 
 const { listingCartEnabled } = useListingCartConfig()
 const listingCartStore = useListingCartStore()
@@ -85,6 +88,7 @@ const route = useRoute()
 
 const props = defineProps<{
   search?: Record<string, string | number>
+  gridSection?: GridSection
 }>()
 
 const emit = defineEmits(['total', 'loading'])

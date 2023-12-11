@@ -13,23 +13,27 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoField } from '@kodadot1/brick'
-import { usePreferencesStore } from '@/stores/preferences'
+import {
+  DEFAULT_GRID_SECTION,
+  type GridSection,
+  type GridSize,
+  largeGridLayout,
+  smallGridLayout,
+  usePreferencesStore,
+} from '@/stores/preferences'
 
-type GridSize = 'large' | 'medium' | 'small'
 type Grid = { icon: string; size: GridSize; class: string }
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
-    sizes: GridSize[]
+    sizes?: GridSize[]
+    section: GridSection
   }>(),
   {
     sizes: () => ['small', 'large', 'medium'],
+    section: DEFAULT_GRID_SECTION,
   },
 )
-
-const smallGridLayout = 'is-half-desktop is-half-tablet is-half-mobile'
-const largeGridLayout =
-  'is-one-quarter-desktop is-one-third-tablet is-half-mobile'
 
 const grids: Grid[] = [
   {
@@ -51,10 +55,15 @@ const grids: Grid[] = [
 
 const preferencesStore = usePreferencesStore()
 
-const gridSize = computed(() => preferencesStore.getGridSize)
+const gridSize = computed(
+  () => preferencesStore.getGridConfigBySection(props.section)?.size,
+)
 
-const changeGridLayout = (layout: string, grid: GridSize) => {
-  preferencesStore.setGalleryLayoutClass(layout)
-  preferencesStore.setGridSize(grid)
+const changeGridLayout = (layoutClass: string, size: GridSize) => {
+  preferencesStore.setGridConfig({
+    section: props.section,
+    size: size,
+    class: layoutClass,
+  })
 }
 </script>

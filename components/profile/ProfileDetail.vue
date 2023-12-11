@@ -151,11 +151,13 @@
               class="ml-4" />
           </div>
           <div class="is-hidden-mobile">
-            <GridLayoutControls class="is-hidden-mobile" />
+            <GridLayoutControls
+              class="is-hidden-mobile"
+              section="profile-gallery" />
           </div>
         </div>
         <hr class="my-0" />
-        <ItemsGrid :search="itemsGridSearch" />
+        <ItemsGrid grid-section="profile-gallery" :search="itemsGridSearch" />
       </div>
 
       <CollectionGrid
