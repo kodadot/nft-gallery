@@ -13,10 +13,16 @@ import type { AutoTeleportAction, AutoTeleportFeeParams } from './types'
 const BUFFER_FEE_PERCENT = 0.2
 const BUFFER_AMOUNT_PERCENT = 0.02
 
+const DEFAULT_AUTO_TELEPORT_FEE_PARAMS = {
+  actionAutoFees: true,
+  actions: 0,
+  actionLazyFetch: false,
+}
+
 export default function (
   actions: ComputedRef<AutoTeleportAction[]>,
   neededAmount: ComputedRef<number>,
-  fees: AutoTeleportFeeParams = { actionAutoFees: true, actions: 0 },
+  feesParams: AutoTeleportFeeParams = DEFAULT_AUTO_TELEPORT_FEE_PARAMS,
 ) {
   const {
     chainBalances,
@@ -24,11 +30,12 @@ export default function (
     fetchChainsBalances,
     getAddressByChain,
   } = useTeleport()
+  const fees = { ...DEFAULT_AUTO_TELEPORT_FEE_PARAMS, ...feesParams }
+
   const { apiInstance, apiInstanceByPrefix } = useApi()
   const { balance } = useBalance()
 
   const fetched = ref({ teleportTxFee: false, actionTxFees: false })
-
   const teleportTxFee = ref(0)
   const actionTxFees = ref<number[]>([])
   const extraActionFees = computed(() =>
@@ -76,7 +83,9 @@ export default function (
   )
 
   const actionAutoFees = computed(() =>
-    fees.actionAutoFees ? needsSourceChainBalances.value : false,
+    fees.actionAutoFees
+      ? fees.actionLazyFetch || needsSourceChainBalances.value
+      : false,
   )
 
   const sourceChainsBalances = computed<{ [key: Chain]: string }>(() =>
@@ -202,6 +211,15 @@ export default function (
   watch(
     actionsId,
     async () => {
+      console.log(
+        'action' + actionAutoFees.value,
+        fees.actionAutoFees,
+        fees.actionLazyFetch,
+        needsSourceChainBalances.value,
+        feesParams,
+        fees,
+      )
+
       if (actionAutoFees.value) {
         try {
           fetched.value.actionTxFees = false

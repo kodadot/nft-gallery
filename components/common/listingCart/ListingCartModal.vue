@@ -52,6 +52,7 @@
             ref="autoteleportButton"
             :actions="actions"
             :disabled="Boolean(listingCartStore.incompleteListPrices)"
+            :fees="{ actionLazyFetch: true }"
             :label="confirmListingLabel"
             @confirm="confirm" />
         </div>
