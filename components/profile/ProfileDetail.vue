@@ -245,6 +245,7 @@ const collections = ref(
 const itemsGridSearch = computed(() => {
   const query: Record<string, unknown> = {
     [tabKey.value]: id.value,
+    burned_eq: false,
   }
 
   if (listed.value) {
