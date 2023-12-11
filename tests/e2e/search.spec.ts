@@ -7,14 +7,14 @@ test('Check if search provide results', async ({ page }) => {
 
   //Search term
   await test.step('Search for the term Waifu and hover over results', async () => {
-    const searchBar = page.getByTestId('search-bar')
+    const searchBar = page.getByTestId('search-bar').last()
     await searchBar.locator('input').fill('waifu')
-    await page.locator('.search-suggestion-container').hover()
+    await page.locator('.search-suggestion-container').last().hover()
   })
 
   //check contents of Collection Tab
   await test.step('Switches to Collection tab and wait for results to load', async () => {
-    const tabCollection = page.getByTestId('collection-tab')
+    const tabCollection = page.getByTestId('collection-tab').last()
     await expect(
       tabCollection.locator('.neo-skeleton-item').first(),
     ).not.toBeVisible({ timeout: 30000 })
@@ -28,7 +28,7 @@ test('Check if search provide results', async ({ page }) => {
 
   //Switchs to NFT tab
   await test.step('Switches to NFT tab and wait for results to load', async () => {
-    await page.locator('div[aria-controls="NFTs-content"]').click()
+    await page.locator('div[aria-controls="NFTs-content"]').last().click()
     const tabNft = page.getByTestId('nft-tab')
     await expect(tabNft.locator('.neo-skeleton-item').first()).not.toBeVisible({
       timeout: 30000,
