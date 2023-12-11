@@ -25,7 +25,7 @@
         <p v-if="Number(props.row.meta)">
           {{ formatPrice(props.row.meta)[0] }}
           <span class="has-text-grey">
-            (${{ formatPrice(props.row.meta)[1] }})</span
+            ~${{ formatPrice(props.row.meta)[1] }}</span
           >
         </p>
       </NeoTableColumn>
