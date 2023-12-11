@@ -211,15 +211,6 @@ export default function (
   watch(
     actionsId,
     async () => {
-      console.log(
-        'action' + actionAutoFees.value,
-        fees.actionAutoFees,
-        fees.actionLazyFetch,
-        needsSourceChainBalances.value,
-        feesParams,
-        fees,
-      )
-
       if (actionAutoFees.value) {
         try {
           fetched.value.actionTxFees = false
