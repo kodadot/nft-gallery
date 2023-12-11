@@ -100,7 +100,7 @@ export function useNftCardIcon<
   const { unlockableIcon } = useIcon()
 
   const cardIcon = computed(() => {
-    if (!isAudio) {
+    if (isAudio) {
       return '/sound.svg'
     }
     return unlockableIcon.value

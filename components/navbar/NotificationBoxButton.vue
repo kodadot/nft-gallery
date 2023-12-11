@@ -3,7 +3,7 @@
     <span class="notification-label">
       {{ $t('notification.notifications') }}
     </span>
-    <NeoIcon icon="bell" class="icon" size="medium" />
+    <NeoIcon icon="bell" class="icon notification-icon" size="medium" />
   </a>
 </template>
 
@@ -55,7 +55,7 @@ function toggleNotificationModal() {
   }
 }
 
-.icon {
+.notification-icon {
   margin-left: 0.5rem !important;
 
   @media (min-width: 1024px) {

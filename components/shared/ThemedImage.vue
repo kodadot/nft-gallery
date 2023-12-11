@@ -1,8 +1,8 @@
 <template>
   <div
-    class="image"
+    class="themed-image"
     :class="{
-      'square-image': isSquare,
+      'themed-square-image': isSquare,
     }"
     role="img"
     :aria-label="alt"
@@ -37,13 +37,13 @@ defineProps<{
 }>()
 </script>
 <style lang="scss" scoped>
-.image {
+.themed-image {
   background-image: var(--src);
   background-size: contain;
   background-repeat: no-repeat;
 }
 
-.square-image {
+.themed-square-image {
   width: 100%;
   aspect-ratio: 1;
 }
