@@ -1,8 +1,9 @@
-query collectionByIdMinimal($id: String!) {
+query collectionByIdMinimalWithRoyalty($id: String!) {
   collectionEntityById(id: $id) {
     id
     issuer
     royalty
+    recipient
     meta {
       animationUrl
       description

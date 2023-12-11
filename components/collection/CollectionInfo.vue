@@ -12,9 +12,12 @@
           <IdentityIndex ref="identity" :address="address" show-clipboard />
         </nuxt-link>
       </div>
-      <div v-if="royalty" class="is-flex mb-2">
+      <div v-if="recipient" class="is-flex mb-2">
         <div class="mr-2 is-capitalized">{{ $t('royalty') }}</div>
-        {{ royalty }}%
+        <nuxt-link :to="`/${urlPrefix}/u/${recipient}`" class="has-text-link">
+          <IdentityIndex ref="identity" :address="recipient" show-clipboard />
+        </nuxt-link>
+        &nbsp;({{ royalty }}%)
       </div>
       <div class="overflow-wrap">
         <Markdown
@@ -87,6 +90,7 @@ const chain = computed(
       ?.text,
 )
 const address = computed(() => collectionInfo.value?.currentOwner)
+const recipient = computed(() => collectionInfo.value?.recipient)
 const royalty = computed(() => collectionInfo.value?.royalty)
 const seeAllDescription = ref(false)
 const DESCRIPTION_MAX_LENGTH = 210
