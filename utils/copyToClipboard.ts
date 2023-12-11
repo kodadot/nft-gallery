@@ -1,14 +1,21 @@
 export function copyToClipboard(
   value: string,
-  options = { toast: true, toastMessage: 'Copied to clipboard' },
+  options?: {
+    toast?: boolean
+    toastMessage?: string
+  },
 ) {
   const { copy } = useClipboard()
   const { toast } = useToast()
 
+  // Set default values for options
+  const { toast: shouldToast = true, toastMessage = 'Copied to clipboard' } =
+    options ?? {}
+
   copy(value)
   fallbackCopyToClipboard(value)
-  if (options.toast) {
-    toast(options.toastMessage)
+  if (shouldToast) {
+    toast(toastMessage)
   }
 }
 

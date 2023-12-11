@@ -3,7 +3,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     beforeMount(el, { value, arg }) {
       const clickEventHandler = () => {
         if (arg === 'copy') {
-          copyToClipboard(value, { toast: false, toastMessage: '' })
+          copyToClipboard(value, { toast: false })
         }
       }
       el.addEventListener('click', clickEventHandler)
