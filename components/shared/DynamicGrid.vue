@@ -45,7 +45,7 @@ const updateColumns = () => {
       containerWidth.value / props.defaultWidth[grid.value],
     )
 
-    cols.value = isMobileVariant.value ? 1 : getCols
+    cols.value = isMobileVariant.value ? 2 : getCols
   }
 }
 
