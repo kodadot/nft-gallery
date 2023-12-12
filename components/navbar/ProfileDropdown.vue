@@ -70,10 +70,12 @@
 import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
 import Avatar from '@/components/shared/Avatar.vue'
 import { useIdentityStore } from '@/stores/identity'
-import { langsFlags as langsFlagsList } from '@/utils/config/i18n'
+import {
+  langsFlags as langsFlagsList,
+  setUserLocale,
+} from '@/utils/config/i18n'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
-import { setUserLocale } from '@/utils/config/i18n'
 
 const identityStore = useIdentityStore()
 const { isDarkMode } = useTheme()
