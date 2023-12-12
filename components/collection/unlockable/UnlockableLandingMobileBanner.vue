@@ -9,8 +9,11 @@
         alt="unlockable icon" />
       <span>{{ $t('mint.unlockable.mintLive') }}</span>
     </div>
-    <nuxt-link class="has-text-weight-bold" to="/ahp/drops/wallstreet">
+    <nuxt-link class="has-text-weight-bold" :to="DEFAULT_DROP">
       {{ $t('mint.unlockable.takeMe') }}
     </nuxt-link>
   </div>
 </template>
+<script lang="ts" setup>
+import { DEFAULT_DROP } from '@/components/collection/drop/const'
+</script>

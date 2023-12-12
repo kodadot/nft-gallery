@@ -14,13 +14,15 @@
     <div class="separator mx-2" />
     <nuxt-link
       class="is-flex is-align-items-center has-text-weight-bold my-2"
-      to="/ahp/drops/wallstreet">
+      :to="DEFAULT_DROP">
       {{ $t('mint.unlockable.takeMe') }}
     </nuxt-link>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { DEFAULT_DROP } from '@/components/collection/drop/const'
+
 const isUnlockableLandingTagVisible = true
 const { $i18n } = useNuxtApp()
 

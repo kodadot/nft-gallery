@@ -1,3 +1,5 @@
+import { AHP_POPULAR_DROP_COLLECTIONS } from '@/components/collection/drop/const'
+
 export const POPULAR_COLLECTIONS = {
   ksm: [
     'be15890524c6e9b359-WIZARD', // Manta Wizard
@@ -54,11 +56,7 @@ export const POPULAR_COLLECTIONS = {
     'u-31848', // Ajuna Network Promo Collection
   ],
   ahp: [
-    '50', // .motherboard
-    '49', // wallstreet
-    '46', // Snowflakes
-    '40', // Swirls
-    '38', // Generativ Art - Pare1d0scope
+    ...AHP_POPULAR_DROP_COLLECTIONS,
     '10', // Kodachain - Berlin Onchain Exhibition
     '11', // Kodachain - Sub0 Opening Party 2023
     '13', // The sub0 2023 Biodiversity Collection
