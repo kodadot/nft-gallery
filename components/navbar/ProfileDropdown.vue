@@ -59,7 +59,7 @@
         aria-role="listitem"
         :value="lang.value"
         :class="{ 'is-active': $i18n.locale === lang.value }"
-        @click="$i18n.locale = lang.value">
+        @click="() => setUserLocale(lang.value)">
         <span>{{ lang.flag }} {{ lang.label }}</span>
       </NeoDropdownItem>
     </NeoDropdown>
@@ -73,6 +73,7 @@ import { useIdentityStore } from '@/stores/identity'
 import { langsFlags as langsFlagsList } from '@/utils/config/i18n'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
+import { setUserLocale } from '@/utils/config/i18n'
 
 const identityStore = useIdentityStore()
 const { isDarkMode } = useTheme()
