@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'text-color': 'var(--text-color)',
+        'text-color': 'rgb(var(--text-color) / <alpha-value>)',
         'text-color-inverse': 'var(--text-color-inverse)',
         'border-color': 'var(--border-color)',
         'background-color': 'var(--background-color)',
