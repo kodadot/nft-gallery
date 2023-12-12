@@ -14,6 +14,3 @@
     </nuxt-link>
   </div>
 </template>
-<script lang="ts" setup>
-import { DEFAULT_DROP } from '@/components/collection/drop/const'
-</script>

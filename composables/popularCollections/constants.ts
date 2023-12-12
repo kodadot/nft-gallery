@@ -1,5 +1,3 @@
-import { AHP_POPULAR_DROP_COLLECTIONS } from '@/components/collection/drop/const'
-
 export const POPULAR_COLLECTIONS = {
   ksm: [
     'be15890524c6e9b359-WIZARD', // Manta Wizard

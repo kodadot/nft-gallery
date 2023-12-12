@@ -21,8 +21,6 @@
 </template>
 
 <script lang="ts" setup>
-import { DEFAULT_DROP } from '@/components/collection/drop/const'
-
 const isUnlockableLandingTagVisible = true
 const { $i18n } = useNuxtApp()
 
