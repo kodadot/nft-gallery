@@ -8,12 +8,14 @@
     @close="onClose">
     <ModalBody :title="title" @close="onClose">
       <transition name="fade">
-        <EmailSignup v-if="needsEmail" @confirm="handleEmailSignupConfirm" />
+        <EmailSignup
+          v-if="isEmailSignupStep"
+          @confirm="handleEmailSignupConfirm" />
 
-        <ClaimingDrop v-else-if="claimingDrop" :est="displayDuration" />
+        <ClaimingDrop v-else-if="isClaimingDropStep" :est="displayDuration" />
 
         <SuccessfulDrop
-          v-else-if="successfulDrop && sanitizedMintedNft"
+          v-else-if="isSuccessfulDropStep"
           :minted-nft="sanitizedMintedNft"
           :can-list-nft="canListNft"
           @list="$emit('list')" />
@@ -34,6 +36,8 @@ import {
   useCountDown,
 } from '@/components/collection/unlockable/utils/useCountDown'
 
+type ModalStep = 'email' | 'claiming' | 'succeded'
+
 const emit = defineEmits(['confirm', 'completed', 'close', 'list'])
 const props = defineProps<{
   modelValue: boolean
@@ -51,13 +55,10 @@ const { $i18n } = useNuxtApp()
 
 const isModalActive = useVModel(props, 'modelValue')
 
+const modalStep = ref<ModalStep>('email')
 const email = ref<string>()
 const nftCoverLoaded = ref(false)
-
-const successfulDrop = computed(() => Boolean(sanitizedMintedNft.value))
-const claimingDrop = computed(() =>
-  nftCoverLoaded.value ? false : distance.value > 0,
-)
+const retry = ref(3)
 
 const sanitizedMintedNft = computed<DropMintedNft | undefined>(
   () =>
@@ -67,16 +68,24 @@ const sanitizedMintedNft = computed<DropMintedNft | undefined>(
     },
 )
 
-const needsEmail = computed(
-  () => !email.value && !claimingDrop.value && !successfulDrop.value,
-)
+const isEmailSignupStep = computed(() => modalStep.value === 'email')
+const isClaimingDropStep = computed(() => modalStep.value === 'claiming')
+const isSuccessfulDropStep = computed(() => modalStep.value === 'succeded')
+
+const moveSuccessfulDrop = computed(() => {
+  if (nftCoverLoaded.value) {
+    return true
+  }
+
+  return !(distance.value > 0) && sanitizedMintedNft.value && retry.value === 0
+})
 
 const title = computed(() => {
-  if (needsEmail.value) {
+  if (isEmailSignupStep.value) {
     return $i18n.t('drops.finalizeClaimNow')
   }
 
-  if (claimingDrop.value) {
+  if (isClaimingDropStep.value) {
     return $i18n.t('drops.claimingDrop')
   }
 
@@ -106,9 +115,28 @@ watch(
   },
 )
 
-watch(sanitizedMintedNft, async (mintedNft) => {
-  if (mintedNft?.image) {
-    nftCoverLoaded.value = await preloadImage(mintedNft.image)
+watch([sanitizedMintedNft, retry], async ([mintedNft]) => {
+  if (mintedNft?.image && retry.value) {
+    try {
+      nftCoverLoaded.value = await preloadImage(mintedNft.image)
+    } catch (error) {
+      retry.value -= 1
+    }
+  }
+})
+
+watch(
+  () => props.claiming,
+  (claiming: boolean) => {
+    if (claiming) {
+      modalStep.value = 'claiming'
+    }
+  },
+)
+
+watch(moveSuccessfulDrop, (value) => {
+  if (value) {
+    modalStep.value = 'succeded'
   }
 })
 </script>
