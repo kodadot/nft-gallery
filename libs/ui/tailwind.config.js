@@ -88,6 +88,11 @@ module.exports = {
         'icon-spin':
           'icon-spin infinite linear var(--oruga-icon-spin-duration, 1.5s)',
       },
+      // TODO: remove it after removing bulma
+      padding: {
+        'tw-5': '1.25rem',
+        'tw-8': '2rem',
+      },
     },
   },
   plugins: [],
