@@ -139,4 +139,13 @@ watch(moveSuccessfulDrop, (value) => {
     modalStep.value = 'succeded'
   }
 })
+
+watch(
+  () => props.modelValue,
+  (isOpen) => {
+    if (isOpen) {
+      modalStep.value = 'email'
+    }
+  },
+)
 </script>
