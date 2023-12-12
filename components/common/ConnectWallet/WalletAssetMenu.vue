@@ -42,7 +42,7 @@
             :data-testid="`sidebar-language-${lang.value}`"
             :value="lang.value"
             :class="{ 'is-active': $i18n.locale === lang.value }"
-            @click="() => setUserLocale(lang.value)">
+            @click="setUserLocale(lang.value)">
             <span>{{ lang.flag }} {{ lang.label }}</span>
           </NeoDropdownItem>
         </NeoDropdown>
