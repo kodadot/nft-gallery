@@ -1,5 +1,7 @@
 <template>
-  <form class="mx-auto teleport-container" @submit.prevent="teleport">
+  <form
+    class="mx-auto teleport-container"
+    @submit.prevent="checkEDBeforeTeleport">
     <Loader v-model="isLoading" :status="status" />
     <h1 class="is-size-3 has-text-weight-bold">
       {{ $t('teleport.page') }}
@@ -81,35 +83,57 @@
 
     <div
       v-if="myBalance !== undefined"
-      class="is-size-7 is-flex is-justify-content-end is-align-items-center">
-      <span class="is-flex is-align-items-center">
-        <span class="mr-2">{{ $t('general.balance') }}:</span
-        >{{ myBalanceWithoutDivision.toFixed(4) }}{{ currency }}
-      </span>
-      <NeoButton
-        no-shadow
-        rounded
-        size="small"
-        class="ml-2"
-        @click="handleMaxClick"
-        >{{ $t('teleport.max') }}</NeoButton
-      >
+      class="is-size-7 is-flex is-justify-content-space-between is-align-items-center">
+      <div
+        v-if="insufficientExistentialDeposit"
+        class="has-text-danger is-flex is-align-items-center">
+        <NeoIcon
+          icon="triangle-exclamation"
+          pack="fasr"
+          class="mr-3"
+          size="medium" />
+        <span>{{ $t('teleport.fundsAtRisk') }} -&nbsp;</span>
+        <NeoTooltip
+          multiline
+          :multiline-width="256"
+          :auto-close="['outside', 'inside']">
+          <u>{{ $t('teleport.why') }}</u>
+          <template #content>
+            <div class="has-text-left py-2 is-flex is-flex-direction-column">
+              <span class="mb-3">
+                {{
+                  $t('teleport.existentialDepositTooltip', [
+                    targetExistentialDepositAmount,
+                  ])
+                }}
+              </span>
+              <a
+                v-safe-href="
+                  'https://hello.kodadot.xyz/multi-chain/existential-deposit'
+                "
+                target="_blank"
+                class="has-text-k-blue">
+                {{ $t('teleport.whatIsExistentialDeposit') }}
+              </a>
+            </div>
+          </template>
+        </NeoTooltip>
+      </div>
+      <div class="is-flex">
+        <span class="is-flex is-align-items-center">
+          <span class="mr-2">{{ $t('general.balance') }}:</span
+          >{{ myBalanceWithoutDivision.toFixed(4) }}{{ currency }}
+        </span>
+        <NeoButton
+          no-shadow
+          rounded
+          size="small"
+          class="ml-2"
+          @click="handleMaxClick"
+          >{{ $t('teleport.max') }}</NeoButton
+        >
+      </div>
     </div>
-
-    <a
-      v-if="insufficientExistentialDeposit"
-      v-safe-href="
-        `https://support.polkadot.network/support/solutions/articles/65000168651-what-is-the-existential-deposit`
-      "
-      target="_blank"
-      class="has-text-danger">
-      {{
-        $t('teleport.insufficientExistentialDeposit', [
-          targetExistentialDepositAmount,
-          currency,
-        ])
-      }}
-    </a>
 
     <NeoButton
       :label="teleportLabel"
@@ -139,6 +163,16 @@
       {{ $t('teleport.ownerMessage') }}
     </div>
   </form>
+  <EDWarningModal
+    v-model="insufficientEDModalOpen"
+    :existential-deposit="targetExistentialDepositAmount"
+    @continue="
+      () => {
+        insufficientEDModalOpen = false
+        teleport()
+      }
+    "
+    @close="insufficientEDModalOpen = false" />
 </template>
 
 <script setup lang="ts">
@@ -155,13 +189,19 @@ import formatBalance from '@/utils/format/balance'
 import Loader from '@/components/shared/Loader.vue'
 import shortAddress from '@/utils/shortAddress'
 import { chainIcons, getChainName } from '@/utils/chain'
-import NeoInput from '~/libs/ui/src/components/NeoInput/NeoInput.vue'
 import NetworkDropdown from './NetworkDropdown.vue'
-import { NeoButton, NeoField } from '@kodadot1/brick'
+import {
+  NeoButton,
+  NeoField,
+  NeoIcon,
+  NeoInput,
+  NeoTooltip,
+} from '@kodadot1/brick'
 import { blockExplorerOf } from '@/utils/config/chain.config'
 import { simpleDivision } from '@/utils/balance'
 import { useFiatStore } from '@/stores/fiat'
 import { existentialDeposit } from '@kodadot1/static'
+import EDWarningModal from './EDWarningModal.vue'
 
 const {
   chainBalances,
@@ -180,6 +220,7 @@ const toChain = ref(Chain.ASSETHUBPOLKADOT) //Selected destination parachain
 const amount = ref(0) //Required amount to be transfered is stored here
 const unsubscribeKusamaBalance = ref()
 const teleportFee = ref()
+const insufficientEDModalOpen = ref(false)
 
 const DOT_BUFFER_FEE = 100000000 // 0.01
 const KSM_BUFFER_FEE = 1000000000 // 0.001
@@ -222,7 +263,7 @@ const insufficientExistentialDeposit = computed(() => {
 
 const teleportLabel = computed(() => {
   if (insufficientBalance.value) {
-    return $i18n.t('teleport.insufficientBalance', [currency])
+    return $i18n.t('teleport.insufficientBalance', [currency.value])
   }
 
   if (insufficientAmountAfterFees.value && amount.value !== 0) {
@@ -401,6 +442,14 @@ const isDisabledButton = computed(() => {
 const handleMaxClick = () => {
   amount.value =
     Math.floor((myBalanceWithoutDivision.value || 0) * 10 ** 4) / 10 ** 4
+}
+
+const checkEDBeforeTeleport = () => {
+  if (insufficientExistentialDeposit.value) {
+    insufficientEDModalOpen.value = true
+  } else {
+    teleport()
+  }
 }
 
 const teleport = async () => {

@@ -1085,7 +1085,15 @@
     "tweetDonation": "Tweet about your awesome donation",
     "donationSentTo": "Your donation will be sent to:",
     "ownerMessage": "(You Are Owner)",
-    "insufficientExistentialDeposit": "Sending less than the required Existential Deposit amount will result in fund loss, min value to send is [ {0} + fees ] {1}"
+    "insufficientExistentialDeposit": "Transferring Less Than {0} + Fees Will Lead To An Irreversible",
+    "fundsAtRisk": "Funds at risk",
+    "fundLossRisk": "Funds Loss Risk",
+    "lossOfFunds": "Loss Of Funds.",
+    "why": "Why?",
+    "existentialDepositTooltip": "Amounts Below {0} + Fees Risk Being Lost. Enter The Minimum To Proceed.",
+    "whatIsExistentialDeposit": "What is Existential Deposit?",
+    "checkboxLabel": "I understand this action will lead to an irreversible loss of funds."
+
   },
   "preferences": {
     "basic": "basic user interface",
