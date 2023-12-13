@@ -23,12 +23,13 @@
         }
       }
 
-      @include mobile {
-        display: flex;
-        align-items: center;
-        padding: 0 1.25rem !important;
-        min-height: $navbar-mobile-min-height !important;
-      }
+
     }
+  }
+  @include mobile {
+    display: flex;
+    align-items: center;
+    padding: 0 1.25rem !important;
+    min-height: $navbar-mobile-min-height !important;
   }
 }
