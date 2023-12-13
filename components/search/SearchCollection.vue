@@ -8,9 +8,9 @@
         :sort-option="sortOption"
         @input="updateSortBy" />
       <div
-        class="is-flex layout-search"
+        class="flex layout-search"
         :class="{
-          'is-flex-grow-1 ': !hideSearch,
+          'flex-grow ': !hideSearch,
         }">
         <NeoField v-if="!hideSearch" expanded class="control">
           <NeoInput
@@ -25,7 +25,7 @@
         <BasicSwitch
           v-if="!isMoonRiver"
           v-model="vListed"
-          class="is-flex control mb-5"
+          class="flex control mb-5"
           :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
           size="is-medium"
           label-color="has-text-success"
@@ -34,7 +34,7 @@
         <BasicSwitch
           v-if="showOwnerSwitch"
           v-model="vOwned"
-          class="is-flex control mb-5"
+          class="flex control mb-5"
           :label="'sort.own'"
           size="is-medium"
           label-color="has-text-success"

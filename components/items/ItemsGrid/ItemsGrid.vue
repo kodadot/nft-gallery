@@ -1,5 +1,5 @@
 <template>
-  <div class="is-flex-grow-1">
+  <div class="flex-grow">
     <LoadPreviousPage
       v-if="startPage > 1 && !isLoading && total > 0"
       @click="reachTopHandler" />

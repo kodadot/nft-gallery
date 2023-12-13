@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="navbar-item is-flex is-align-items-center"
-    @click="toggleShoppingCartModal">
+  <div class="navbar-item flex items-center" @click="toggleShoppingCartModal">
     <span v-if="props.showLabel">{{ $t('shoppingCart.label') }}</span>
     <div class="is-relative icon" :class="{ 'ml-2': showLabel }">
       <NeoIcon

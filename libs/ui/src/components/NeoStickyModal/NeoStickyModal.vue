@@ -13,7 +13,7 @@
     @update:active="updateActive">
     <div
       :class="[
-        'is-flex is-flex-direction-column is-justify-content-space-between',
+        'flex flex-col justify-between',
         {
           'modal-width': !isMobile,
           'h-full pb-6': isMobile,
@@ -21,10 +21,9 @@
       ]">
       <header
         :class="{
-          'is-flex is-justify-content-center is-align-items-center is-relative px-6 py-3':
+          'flex justify-center items-center is-relative px-6 py-3':
             !isBoxedHeader,
-          'py-5 px-6 is-flex is-justify-content-space-between border-bottom':
-            isBoxedHeader,
+          'py-5 px-6 flex justify-between border-bottom': isBoxedHeader,
         }">
         <div
           :class="{
@@ -57,7 +56,7 @@
 
       <div
         :class="[
-          'is-flex is-flex-direction-column px-6 py-5 border-top-k-shade',
+          'flex flex-col px-6 py-5 border-top-k-shade',
           {
             'pb-6': isMobile,
           },

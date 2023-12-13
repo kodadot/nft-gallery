@@ -1,12 +1,10 @@
 <template>
-  <div
-    class="explore is-flex is-flex-wrap-wrap"
-    :class="{ 'has-gap': !isActivityTab }">
+  <div class="explore flex flex-wrap" :class="{ 'has-gap': !isActivityTab }">
     <ExploreTabs />
-    <div class="explore-menu is-flex is-flex-wrap-wrap">
+    <div class="explore-menu flex flex-wrap">
       <FilterFloatButton v-if="isActivityTab" />
       <FilterMenuButton v-else />
-      <ExploreOffer v-if="!isActivityTab" class="is-flex-grow-1" />
+      <ExploreOffer v-if="!isActivityTab" class="flex-grow" />
       <ChainDropdown
         v-if="!route.name?.includes('prefix-collection-id')"
         class="flex-grow-1" />

@@ -14,10 +14,10 @@
         <div
           v-if="showField(key, field)"
           :key="key"
-          class="is-flex is-justify-content-space-between is-align-items-center py-4"
+          class="flex justify-between items-center py-4"
           :class="{ 'border-top-k-shade': index !== 0 }">
           <span
-            class="has-text-weight-bold is-size-6 is-capitalized is-flex is-justify-content-center">
+            class="has-text-weight-bold is-size-6 is-capitalized flex justify-center">
             <NeoIcon
               v-if="field.icon"
               class="mr-2"
@@ -25,7 +25,7 @@
               :pack="field.icon?.pack" />
             <span>{{ field.label }}</span>
           </span>
-          <span class="is-flex is-align-items-center">
+          <span class="flex items-center">
             <span class="ml-2 is-size-6">
               {{ field.value || '--' }}
             </span>
@@ -35,12 +35,11 @@
     </template>
 
     <template #footer>
-      <div
-        class="is-flex is-justify-content-space-between is-align-items-center mb-3">
+      <div class="flex justify-between items-center mb-3">
         <span class="has-text-weight-bold is-size-6">{{
           $t('identity.deposit')
         }}</span>
-        <div class="is-flex is-align-items-center">
+        <div class="flex items-center">
           <span class="has-text-grey mr-1 is-size-7">({{ depositUsd }})</span>
           <span class="has-text-weight-bold is-size-5"> {{ deposit }}</span>
         </div>
@@ -50,7 +49,7 @@
         :label="$t('identity.create')"
         variant="k-accent"
         no-shadow
-        class="is-flex is-flex-grow-1 btn-height"
+        class="flex flex-grow btn-height"
         @click="emit('confirm')" />
     </template>
   </NeoStickyModal>

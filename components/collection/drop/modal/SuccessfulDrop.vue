@@ -1,13 +1,13 @@
 <template>
   <div
-    class="border border-k-shade is-rounded-small py-2 px-5 is-flex mb-7 is-flex is-align-items-center is-justify-content-space-between">
-    <div class="has-text-k-green is-flex">
+    class="border border-k-shade is-rounded-small py-2 px-5 flex mb-7 flex items-center justify-between">
+    <div class="has-text-k-green flex">
       <NeoIcon icon="check" />
 
       <p class="ml-3 is-size-7">{{ $t('confirmed') }}</p>
     </div>
 
-    <div class="is-flex is-align-items-center">
+    <div class="flex items-center">
       <a
         v-safe-href="txUrl"
         class="has-text-link ml-3 is-size-7"
@@ -56,10 +56,9 @@
   </div>
 
   <div class="mt-5 mb-6">
-    <div
-      class="is-flex is-justify-content-space-around px-8 is-align-items-center w-full">
+    <div class="flex justify-around px-8 items-center w-full">
       <NeoButton variant="icon" no-shadow @click="handleShareOnX">
-        <div class="is-flex is-flex-direction-column has-text-k-grey">
+        <div class="flex flex-col has-text-k-grey">
           <NeoIcon pack="fab" icon="x-twitter" />
           <span class="text-center mt-1">X</span>
         </div>
@@ -70,7 +69,7 @@
         no-shadow
         class="mx-7"
         @click="handleShareOnTelegram">
-        <div class="is-flex is-flex-direction-column has-text-k-grey">
+        <div class="flex flex-col has-text-k-grey">
           <NeoIcon pack="fab" icon="telegram" />
           <span class="text-center mt-1">Telegram</span>
         </div>
@@ -81,7 +80,7 @@
         variant="icon"
         no-shadow
         @click="toast($t('general.copyToClipboard'))">
-        <div class="is-flex is-flex-direction-column has-text-k-grey">
+        <div class="flex flex-col has-text-k-grey">
           <NeoIcon icon="link" />
           <span class="text-center mt-1">{{ $t('general.copy') }}</span>
         </div>
@@ -89,7 +88,7 @@
     </div>
   </div>
 
-  <div class="is-flex">
+  <div class="flex">
     <NeoButton
       class="border-k-grey hover-button w-full"
       rounded

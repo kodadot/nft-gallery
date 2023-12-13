@@ -1,6 +1,6 @@
 <template>
   <div
-    class="is-flex is-align-items-center m-0"
+    class="flex items-center m-0"
     :class="isMobileDevice ? 'navbar-item' : ''"
     @click="toggleColorMode">
     <ColorScheme placeholder="...">

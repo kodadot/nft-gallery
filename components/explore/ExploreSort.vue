@@ -27,7 +27,7 @@
         v-for="option in options"
         :key="option"
         aria-role="listitem"
-        class="is-flex"
+        class="flex"
         :data-testid="option"
         :value="option">
         <span>

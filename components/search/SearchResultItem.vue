@@ -7,7 +7,7 @@
       </div>
       <div
         v-if="isLoading"
-        class="media-content is-flex is-flex-direction-column is-justify-content-center pt-2">
+        class="media-content flex flex-col justify-center pt-2">
         <NeoSkeleton
           :count="1"
           :width="240"

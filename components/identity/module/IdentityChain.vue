@@ -1,8 +1,6 @@
 <template v-else>
   <div>
-    <span
-      v-if="showOnchainIdentity"
-      class="is-inline-flex is-align-items-center">
+    <span v-if="showOnchainIdentity" class="is-inline-flex items-center">
       {{ shortenedAddress }}
       <img
         v-if="isFetchingIdentity"

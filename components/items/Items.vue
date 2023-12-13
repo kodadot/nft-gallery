@@ -1,10 +1,9 @@
 <template>
-  <div class="is-flex is-align-self-flex-start">
+  <div class="flex self-start">
     <SidebarFilter />
-    <div class="is-flex-grow-1 pb-8">
+    <div class="flex-grow pb-8">
       <div class="is-hidden-mobile">
-        <div
-          class="is-flex is-justify-content-space-between pb-4 pt-5 is-align-content-center">
+        <div class="flex justify-between pb-4 pt-5 content-center">
           <BreadcrumbsFilter />
           <div v-if="isLoading">
             <NeoSkeleton no-margin :width="80" />

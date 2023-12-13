@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="level my-4 collection is-align-items-center mb-5">
+    <div class="level my-4 collection items-center mb-5">
       <div
         v-for="key in keysObject"
         :key="key"
@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-    <div v-if="data" class="level my-4 collection is-align-items-center mb-5">
+    <div v-if="data" class="level my-4 collection items-center mb-5">
       <div
         v-for="data in offerStats"
         :key="data.status"

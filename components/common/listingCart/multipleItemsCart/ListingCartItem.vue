@@ -16,16 +16,15 @@
           " />
       </template>
       <template v-if="!nft.discarded" #footer>
-        <div
-          class="mt-4 is-flex is-justify-content-space-between is-align-items-start">
-          <div class="is-flex is-flex-direction-column">
+        <div class="mt-4 flex justify-between items-start">
+          <div class="flex flex-col">
             <div class="has-text-grey is-size-7">
               {{ $t('activity.floor') }}
             </div>
             <span>{{ floor }}</span>
           </div>
 
-          <div class="is-flex is-align-items-end">
+          <div class="flex items-end">
             <ListingCartPriceInput v-model="listingCartItem" />
           </div>
         </div>

@@ -10,7 +10,7 @@
       :scrollable="false"
       @close="onClose">
       <div
-        class="rounded border shade-border-color is-flex is-justify-content-start is-flex-grow-1 pl-3 mb-6">
+        class="rounded border shade-border-color flex justify-start flex-grow pl-3 mb-6">
         <IdentityItem
           :label="$t('confirmPurchase.connectedWith')"
           hide-identity-popover
@@ -30,7 +30,7 @@
       <p class="mb-4">{{ $t('mint.unlockable.addFundsModal.textP2') }}</p>
       <NeoTooltip multiline multiline-width="256px" content-class="p-4">
         <div
-          class="is-flex is-justify-items-space-between is-align-items-center has-text-grey add-funds-note">
+          class="flex justify-between items-center has-text-grey add-funds-note">
           <NeoIcon icon="circle-info" class="mr-3" />
           <p class="is-size-7">
             {{ $t('mint.unlockable.addFundsModal.howToAddFunds') }}
@@ -60,9 +60,9 @@
           </p>
         </template>
       </NeoTooltip>
-      <div class="is-flex">
+      <div class="flex">
         <NeoButton
-          class="is-flex-1 h-14 is-capitalized shine"
+          class="flex-1 h-14 is-capitalized shine"
           no-shadow
           variant="k-accent"
           @click="onShowRamp">

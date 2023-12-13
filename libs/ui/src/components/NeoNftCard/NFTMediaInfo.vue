@@ -1,8 +1,8 @@
 <template>
   <div
-    class="nft-media-info is-flex is-flex-direction-column"
+    class="nft-media-info flex flex-col"
     :class="`nft-media-info__${variant}`">
-    <div class="is-flex is-flex-direction-column">
+    <div class="flex flex-col">
       <span
         class="is-ellipsis has-text-weight-bold"
         data-testid="nft-name"
@@ -25,12 +25,8 @@
     </div>
 
     <div
-      class="is-flex is-align-items-center mt-2 is-ellipsis nft-media-info-footer"
-      :class="[
-        showPrice
-          ? 'is-justify-content-space-between'
-          : 'is-justify-content-end',
-      ]">
+      class="flex items-center mt-2 is-ellipsis nft-media-info-footer"
+      :class="[showPrice ? 'justify-between' : 'justify-end']">
       <CommonTokenMoney
         v-if="showPrice"
         :value="nft.price ?? nft.cheapest?.price"

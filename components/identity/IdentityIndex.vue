@@ -4,7 +4,7 @@
       ((showTwitter && twitter) || !showTwitter) &&
       ((showDiscord && discord) || !showDiscord)
     "
-    class="is-flex-wrap-wrap is-flex-grow-1">
+    class="flex-wrap flex-grow">
     <IdentitySocial
       v-if="(showTwitter && twitter) || (showDiscord && discord)"
       :twitter="twitter"

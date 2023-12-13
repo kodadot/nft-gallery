@@ -2,13 +2,13 @@
   <div class="py-5">
     <ListingCartItemDetails :nft="item">
       <template #right>
-        <div class="is-flex is-align-items-end">
+        <div class="flex items-end">
           {{ itemPrice }}
         </div>
       </template>
 
       <template #footer>
-        <div class="mt-5 is-flex is-justify-content-space-between">
+        <div class="mt-5 flex justify-between">
           <div>
             {{ $t('listingCart.floorPrice') }}
           </div>

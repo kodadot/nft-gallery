@@ -1,5 +1,5 @@
 <template>
-  <div class="is-flex is-justify-content-end gallery-item-transfer">
+  <div class="flex justify-end gallery-item-transfer">
     <NeoButton
       :label="$t('transaction.transfer')"
       size="large"

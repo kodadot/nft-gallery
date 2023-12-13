@@ -49,7 +49,7 @@
           </NeoButton>
 
           <div
-            class="is-flex is-align-items-center is-justify-content-center is-flex-wrap-wrap"
+            class="flex items-center justify-center flex-wrap"
             data-testid="profile-identity-buttons">
             <NeoButton
               v-safe-href="`https://subscan.io/account/${id}`"
@@ -94,13 +94,13 @@
           </div>
         </div>
       </div>
-      <div class="columns is-centered is-align-items-center">
+      <div class="columns is-centered items-center">
         <div
           class="column is-12-mobile is-6-tablet is-7-desktop is-8-widescreen">
           <ProfileActivity :id="id" />
         </div>
       </div>
-      <div class="is-flex is-hidden-touch is-hidden-desktop-only">
+      <div class="flex is-hidden-touch is-hidden-desktop-only">
         <TabItem
           v-for="tab in tabs"
           :key="tab"
@@ -116,7 +116,7 @@
           v-if="activeTab !== ProfileTab.ACTIVITY"
           class="ml-6" />
       </div>
-      <div class="is-flex is-flex-direction-row is-hidden-widescreen mobile">
+      <div class="flex flex-row is-hidden-widescreen mobile">
         <TabItem
           v-for="tab in tabs"
           :key="tab"
@@ -126,7 +126,7 @@
           :show-active-check="false"
           class="is-capitalized"
           @click="() => switchToTab(tab)" />
-        <div class="is-flex mt-4 is-flex-wrap-wrap">
+        <div class="flex mt-4 flex-wrap">
           <ChainDropdown class="mr-4" />
           <OrderByDropdown v-if="activeTab !== ProfileTab.ACTIVITY" />
         </div>
@@ -136,10 +136,9 @@
     <div class="container is-fluid pb-6">
       <div
         v-if="[ProfileTab.OWNED, ProfileTab.CREATED].includes(activeTab)"
-        class="is-flex-grow-1">
-        <div
-          class="is-flex is-justify-content-space-between pb-4 pt-5 is-align-content-center">
-          <div class="is-flex">
+        class="flex-grow">
+        <div class="flex justify-between pb-4 pt-5 content-center">
+          <div class="flex">
             <FilterButton
               :label="$t('sort.listed')"
               url-param="buy_now"

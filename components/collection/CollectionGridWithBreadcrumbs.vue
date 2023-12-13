@@ -1,7 +1,6 @@
 <template>
   <div class="collections pb-6">
-    <div
-      class="is-flex is-flex-direction-row is-justify-content-space-between py-5">
+    <div class="flex flex-row justify-between py-5">
       <BreadcrumbsFilter />
 
       <div v-if="total">{{ total }} {{ $t('items') }}</div>

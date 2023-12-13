@@ -11,20 +11,16 @@
           <UnlockableTag :collection-id="collectionId" />
 
           <div>
-            <div
-              class="is-flex is-justify-content-space-between is-align-items-center my-5">
+            <div class="flex justify-between items-center my-5">
               <div class="has-text-weight-bold is-size-5">
                 {{ $t('mint.unlockable.phase') }}
               </div>
-              <div
-                v-if="mintCountAvailable"
-                class="is-flex is-align-items-center">
+              <div v-if="mintCountAvailable" class="flex items-center">
                 <img src="/unlockable-pulse.svg" alt="open" />
                 {{ $t('mint.unlockable.open') }}
               </div>
             </div>
-            <div
-              class="is-flex is-justify-content-space-between is-align-items-center">
+            <div class="flex justify-between items-center">
               <div>{{ mintedPercent }} %</div>
               <div class="has-text-weight-bold">
                 {{ mintedCount }} / {{ maxCount }}
@@ -36,9 +32,8 @@
             <UnlockableSlider :value="mintedCount / maxCount" />
           </div>
           <div class="my-5">
-            <div
-              class="is-flex is-justify-content-flex-end is-align-items-center">
-              <div v-if="hasUserMinted" class="is-flex is-align-items-center">
+            <div class="flex justify-end items-center">
+              <div v-if="hasUserMinted" class="flex items-center">
                 <div class="mr-2">
                   {{ $t('mint.unlockable.nftAlreadyMinted') }}
                 </div>
@@ -53,10 +48,8 @@
                   :to="`/${urlPrefix}/gallery/${hasUserMinted}`" />
               </div>
 
-              <div v-else class="is-flex">
-                <div
-                  v-if="minimumFunds"
-                  class="is-flex is-align-items-center mr-5">
+              <div v-else class="flex">
+                <div v-if="minimumFunds" class="flex items-center mr-5">
                   <NeoIcon icon="circle-info" class="mr-3" />
                   <div
                     v-dompurify-html="
@@ -85,7 +78,7 @@
             </div>
           </div>
         </div>
-        <div class="column pt-5 is-flex is-justify-content-center">
+        <div class="column pt-5 flex justify-center">
           <GenerativePreview
             :content="drop.content"
             :image="drop.image"

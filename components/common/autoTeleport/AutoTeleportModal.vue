@@ -7,7 +7,7 @@
     @close="onClose">
     <div class="modal-width">
       <header
-        class="py-5 pl-6 pr-5 is-flex is-justify-content-space-between is-align-items-center border-bottom">
+        class="py-5 pl-6 pr-5 flex justify-between items-center border-bottom">
         <span class="modal-card-title is-size-6 has-text-weight-bold">
           {{ $t('autoTeleport.signTransactions') }}
         </span>
@@ -40,7 +40,7 @@
 
         <hr class="my-4" />
 
-        <div class="is-flex is-align-items-flex-start">
+        <div class="flex items-start">
           <NeoIcon icon="lightbulb" size="small" class="mr-2 is-block" />
           <p
             v-dompurify-html="$t('autoTeleport.tip')"
@@ -56,13 +56,13 @@
           class="mt-4"
           @active="handleActiveStep" />
 
-        <div class="is-flex is-justify-content-space-between pt-5">
+        <div class="flex justify-between pt-5">
           <NeoButton
             :label="btnLabel"
             variant="k-accent"
             no-shadow
             :disabled="btnDisabled"
-            class="is-flex is-flex-grow-1 btn-height"
+            class="flex flex-grow btn-height"
             @click="submit" />
         </div>
       </div>

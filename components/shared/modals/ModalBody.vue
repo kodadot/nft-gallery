@@ -1,7 +1,6 @@
 <template>
   <div class="modal-width">
-    <header
-      class="px-6 py-4 is-flex is-justify-content-space-between border-bottom is-align-items-center">
+    <header class="px-6 py-4 flex justify-between border-bottom items-center">
       <NeoSkeleton
         v-if="loading"
         rounded
