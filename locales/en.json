@@ -1084,7 +1084,8 @@
     "congratsSupport": "Congratulations for supporting",
     "tweetDonation": "Tweet about your awesome donation",
     "donationSentTo": "Your donation will be sent to:",
-    "ownerMessage": "(You Are Owner)"
+    "ownerMessage": "(You Are Owner)",
+    "insufficientExistentialDeposit": "Sending less than the required Existential Deposit amount will result in fund loss, min value to send is [ {0} + fees ] {1}"
   },
   "preferences": {
     "basic": "basic user interface",
