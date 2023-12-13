@@ -13,13 +13,13 @@
 </template>
 
 <script lang="ts" setup>
-import { langsFlags } from '@/utils/config/i18n'
+import { langsFlags, setUserLocale } from '@/utils/config/i18n'
 
 const { $i18n } = useNuxtApp()
 const emit = defineEmits(['closeLanguageOption', 'closeMobileSubMenu'])
 
 const setUserLang = (value: string) => {
-  $i18n.locale.value = value
+  setUserLocale(value)
   emit('closeLanguageOption')
   emit('closeMobileSubMenu')
 }
