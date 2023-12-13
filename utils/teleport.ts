@@ -13,6 +13,7 @@ import { getChainEndpointByPrefix } from '@/utils/chain'
 import { TeleportParams } from '@/composables/useTeleport'
 import { getAddress } from '@/utils/extension'
 import { toDefaultAddress } from '@/utils/account'
+import { existentialDeposit } from '@kodadot1/static'
 
 type Extrisic = SubmittableExtrinsicFunction<'promise', AnyTuple>
 
@@ -259,3 +260,7 @@ export const getChainCurrency = (chain: Chain) => {
       return 'DOT'
   }
 }
+
+export const getChainExistentialDeposit = (
+  chain: Chain | undefined | null,
+): number => (chain ? existentialDeposit[chainToPrefixMap[chain]] : 0)
