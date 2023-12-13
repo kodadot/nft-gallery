@@ -26,7 +26,7 @@ const props = withDefaults(
       large: 16 * 20, // 20rem
     }),
     mobileVariant: true,
-    mobileCols: 2,
+    mobileCols: 1,
   },
 )
 

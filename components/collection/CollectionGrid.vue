@@ -8,7 +8,6 @@
       v-if="!isLoading && total"
       :id="scrollContainerId"
       grid-size="medium"
-      :mobile-cols="1"
       :default-width="GRID_DEFAULT_WIDTH">
       <div
         v-for="(collection, index) in collections"
@@ -23,7 +22,6 @@
       v-else-if="isLoading"
       :id="scrollContainerId"
       grid-size="medium"
-      :mobile-cols="1"
       :default-width="GRID_DEFAULT_WIDTH">
       <CollectionCard v-for="n in skeletonCount" :key="n" is-loading />
     </DynamicGrid>
