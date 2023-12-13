@@ -1,22 +1,23 @@
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.directive('clipboard', {
-    beforeMount(el, { value, arg }) {
+    beforeMount(el, binding) {
+      el._clipboardValue = binding.value
+
       const clickEventHandler = () => {
-        if (arg === 'copy') {
-          copyToClipboard(value, { toast: false })
+        if (binding.arg === 'copy') {
+          console.log('copy', el._clipboardValue)
+          copyToClipboard(el._clipboardValue, { toast: false })
         }
       }
       el.addEventListener('click', clickEventHandler)
-
-      el._cleanup = () => el.removeEventListener('click', clickEventHandler)
+      el._clickEventHandler = clickEventHandler
     },
-    updated(el, { value, arg }) {
-      el.dataset._clipboard_value = value
-      el.dataset._clipboard_arg = arg
+    updated(el, binding) {
+      el._clipboardValue = binding.value
     },
     unmounted(el) {
-      if (el._cleanup) {
-        el._cleanup()
+      if (el._clickEventHandler) {
+        el.removeEventListener('click', el._clickEventHandler)
       }
     },
   })

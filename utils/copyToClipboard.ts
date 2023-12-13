@@ -5,7 +5,7 @@ export function copyToClipboard(
     toastMessage?: string
   },
 ) {
-  const { copy } = useClipboard()
+  const { copy } = useClipboard({ legacy: true })
   const { toast } = useToast()
 
   // Set default values for options
