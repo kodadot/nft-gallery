@@ -1,7 +1,7 @@
 <template>
   <NeoDropdown
     v-model="checked"
-    :disabled="collections.length === 0"
+    :disabled="isDisabled"
     :scrollable="collections.length > 4"
     class="py-0"
     :mobile-modal="true"
@@ -80,11 +80,16 @@ const props = defineProps<{
   tabKey: string
 }>()
 
+const isLoading = ref(false)
 const checked = useVModel(props, 'modelValue')
 
 const { urlPrefix, client } = usePrefix()
 
 const collections = ref<Collection[]>([])
+
+const isDisabled = computed(
+  () => collections.value.length === 0 || isLoading.value,
+)
 
 const nonCollectionSearchParams = computed(() => {
   const search = { ...props.search }
@@ -92,14 +97,12 @@ const nonCollectionSearchParams = computed(() => {
   return search
 })
 
-useLazyAsyncData('profileCollections', async () => {
-  await getProfileCollections()
-})
-
 const getProfileCollections = async () => {
   const collectionSearch = {
     nfts_some: nonCollectionSearchParams.value,
   }
+
+  isLoading.value = true
 
   const { data } = await useAsyncQuery({
     query: collectionListWithSearch,
@@ -110,6 +113,7 @@ const getProfileCollections = async () => {
       offset: 0,
     },
     clientId: client.value,
+    cache: true,
   })
 
   const collectionEntities = data.value?.collectionEntities || []
@@ -117,6 +121,8 @@ const getProfileCollections = async () => {
   collections.value = formatCollections(collectionEntities)
 
   syncCheckedCollections()
+
+  isLoading.value = false
 }
 
 const formatCollections = (collectionEntities) => {
@@ -150,12 +156,18 @@ const syncCheckedCollections = () => {
 }
 
 watch(
-  () => props.search,
-  async () => {
-    await getProfileCollections()
+  nonCollectionSearchParams,
+  async (search, prevSearch) => {
+    if (!isEqual(search, prevSearch)) {
+      await getProfileCollections()
+    }
   },
   { deep: true },
 )
+
+useLazyAsyncData('profileCollections', async () => {
+  await getProfileCollections()
+})
 </script>
 
 <style scoped lang="scss">
