@@ -1,10 +1,12 @@
-export const DEFAULT_DROP = '/ahp/drops/wallstreet'
+export const DEFAULT_DROP = '/ahp/drops/whirls'
 
 export const AHK_GENERATIVE_DROPS = [
   '176', // Chained
 ]
 
 export const AHP_GENERATIVE_DROPS = [
+  '52', // Whirls
+  '51', // Chroma
   '50', // .motherboard
   '49', // wallstreet
   '46', // Snowflakes
