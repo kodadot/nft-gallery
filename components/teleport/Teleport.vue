@@ -96,6 +96,21 @@
       >
     </div>
 
+    <a
+      v-if="insufficientExistentialDeposit"
+      v-safe-href="
+        `https://support.polkadot.network/support/solutions/articles/65000168651-what-is-the-existential-deposit`
+      "
+      target="_blank"
+      class="has-text-danger">
+      {{
+        $t('teleport.insufficientExistentialDeposit', [
+          targetExistentialDepositAmount,
+          currency,
+        ])
+      }}
+    </a>
+
     <NeoButton
       :label="teleportLabel"
       size="large"
@@ -146,6 +161,7 @@ import { NeoButton, NeoField } from '@kodadot1/brick'
 import { blockExplorerOf } from '@/utils/config/chain.config'
 import { simpleDivision } from '@/utils/balance'
 import { useFiatStore } from '@/stores/fiat'
+import { existentialDeposit } from '@kodadot1/static'
 
 const {
   chainBalances,
@@ -176,6 +192,12 @@ const nativeAmount = computed(() =>
   Math.floor(amount.value * Math.pow(10, currentTokenDecimals.value)),
 )
 
+const targetExistentialDepositAmount = computed(() =>
+  Number(
+    targetExistentialDeposit.value / Math.pow(10, targetTokenDecimals.value),
+  ),
+)
+
 const amountToTeleport = computed(() =>
   Math.max(nativeAmount.value - teleportFee.value, 0),
 )
@@ -185,6 +207,18 @@ const insufficientAmountAfterFees = computed(() => amountToTeleport.value === 0)
 const recieveAmount = computed(() =>
   formatBalance(amountToTeleport.value, currentTokenDecimals.value, false),
 )
+
+const targetExistentialDeposit = computed(
+  () => existentialDeposit[chainToPrefixMap[toChain.value]],
+)
+
+const insufficientExistentialDeposit = computed(() => {
+  return Boolean(
+    targetExistentialDeposit.value &&
+      amountToTeleport.value &&
+      targetExistentialDeposit.value > amountToTeleport.value,
+  )
+})
 
 const teleportLabel = computed(() => {
   if (insufficientBalance.value) {
@@ -288,6 +322,8 @@ const toNetworks = [
 const currentTokenDecimals = computed(() =>
   getChainTokenDecimals(fromChain.value),
 )
+
+const targetTokenDecimals = computed(() => getChainTokenDecimals(toChain.value))
 
 const toChainLabel = computed(() =>
   getChainName(chainToPrefixMap[toChain.value]),
