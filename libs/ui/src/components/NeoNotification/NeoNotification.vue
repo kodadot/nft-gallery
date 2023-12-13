@@ -8,7 +8,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../scss/_theme.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_expressions.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_variables.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_animations.scss';
@@ -16,33 +15,24 @@ export default {
 @import '@oruga-ui/oruga-next/src/scss/components/_notification.scss';
 
 .o-notices {
-  top: 4.5rem;
+  @apply top-[4.5rem];
 
   .o-notification {
-    padding: 1rem 2rem;
+    @apply py-4 px-8;
 
     &--component {
-      padding: 0 !important;
-      background-color: unset;
+      @apply p-0 #{!important};
+      @apply bg-[unset];
     }
   }
 }
 
 .is-neo-toast {
-  font-size: 12px;
-  border-radius: 0;
-  padding: 0.5rem 1rem !important;
+  @apply text-xs rounded-none bg-background-color border-default border-border-color shadow-primary text-text-color;
+  @apply py-2 px-4 #{!important};
 
-  @include ktheme() {
-    background-color: theme('background-color');
-    border: 1px solid theme('border-color');
-    box-shadow: theme('primary-shadow');
-    color: theme('text-color');
-    -webkit-box-shadow: theme('primary-shadow');
-
-    &:hover {
-      background-color: theme('k-accentlight');
-    }
+  &:hover {
+    @apply bg-k-accent-light;
   }
 }
 </style>

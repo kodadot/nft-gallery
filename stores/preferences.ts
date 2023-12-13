@@ -59,6 +59,7 @@ interface State {
   hasCarbonOffset: boolean
   // Mass Mint
   visitedOnboarding: boolean
+  userLocale: string
 }
 
 export const usePreferencesStore = defineStore('preferences', {
@@ -94,6 +95,7 @@ export const usePreferencesStore = defineStore('preferences', {
     visitedOnboarding: false,
     firstTimeAutoTeleport: true,
     subscribedToNewsletter: false,
+    userLocale: 'en',
   }),
   getters: {
     getsidebarFilterCollapse: (state) => state.sidebarFilterCollapseOpen,
@@ -121,6 +123,7 @@ export const usePreferencesStore = defineStore('preferences', {
     getVisitedOnboarding: (state) => state.visitedOnboarding,
     getFirstTimeAutoTeleport: (state) => state.firstTimeAutoTeleport,
     getSubscribedToNewsletter: (state) => state.subscribedToNewsletter,
+    getUserLocale: (state) => state.userLocale,
   },
   actions: {
     setSidebarFilterCollapse(payload) {
@@ -220,6 +223,9 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     setSubscribedToNewsletter(subscribed: boolean) {
       this.subscribedToNewsletter = subscribed
+    },
+    setUserLocale(locale: string) {
+      this.userLocale = locale
     },
   },
   persist: true,
