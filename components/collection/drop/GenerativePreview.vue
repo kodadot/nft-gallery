@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed-size mt-6 border">
+  <div class="fixed-size border">
     <div
       class="fixed-top-left border px-4 py-2 theme-background-color has-z-index-1 no-wrap">
       {{ $t('mint.unlockable.yourVariation') }}

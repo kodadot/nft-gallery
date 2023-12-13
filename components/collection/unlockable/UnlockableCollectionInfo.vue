@@ -2,7 +2,7 @@
   <div
     class="is-flex is-justify-content-space-between mobile-flex-direction-column">
     <div class="is-flex is-flex-direction-column is-flex-grow-1 max-width">
-      <div class="is-flex mt-6 is-justify-content-space-between mb-2">
+      <div class="is-flex is-justify-content-space-between mb-2">
         <div class="mr-2 has-text-weight-bold is-size-5 mb-1">
           About Collection
         </div>
