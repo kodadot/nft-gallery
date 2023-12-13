@@ -10,4 +10,8 @@ useSeoMeta({
   description: 'View all drops',
   ogUrl: route.path,
 })
+
+definePageMeta({
+  layout: 'no-footer',
+})
 </script>

@@ -8,10 +8,11 @@
 </template>
 
 <script lang="ts" setup>
+import { AHK_GENERATIVE_DROPS, AHP_GENERATIVE_DROPS } from '@/utils/drop'
 import { useCarouselGenerativeNftEvents } from './utils/useCarouselEvents'
 
 const { nfts, ids } = await useCarouselGenerativeNftEvents(
-  ['176'],
-  ['38', '40', '46', '49', '50', '51', '52'],
+  AHK_GENERATIVE_DROPS,
+  AHP_GENERATIVE_DROPS,
 )
 </script>
