@@ -5,7 +5,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 
       const clickEventHandler = () => {
         if (binding.arg === 'copy') {
-          console.log('copy', el._clipboardValue)
           copyToClipboard(el._clipboardValue, { toast: false })
         }
       }
