@@ -80,7 +80,7 @@ import isEqual from 'lodash/isEqual'
 import { useListingCartStore } from '@/stores/listingCart'
 import { getTokensNfts } from './useNftActions'
 import { NFT } from '@/components/rmrk/service/scheme'
-import { type GridSection } from '@/stores/preferences'
+import { GridSection } from '@/stores/preferences'
 
 const { listingCartEnabled } = useListingCartConfig()
 const listingCartStore = useListingCartStore()

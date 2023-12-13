@@ -15,7 +15,7 @@
 import { NeoButton, NeoField } from '@kodadot1/brick'
 import {
   DEFAULT_GRID_SECTION,
-  type GridSection,
+  GridSection,
   type GridSize,
   largeGridLayout,
   smallGridLayout,

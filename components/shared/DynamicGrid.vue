@@ -8,7 +8,7 @@
 import { useResizeObserver } from '@vueuse/core'
 import {
   DEFAULT_GRID_SECTION,
-  type GridSection,
+  GridSection,
   type GridSize,
   usePreferencesStore,
 } from '@/stores/preferences'

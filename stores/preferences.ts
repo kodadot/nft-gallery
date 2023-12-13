@@ -5,8 +5,12 @@ type CompletePurchaseModalState = {
   mode: 'shopping-cart' | 'buy-now'
 }
 
-export const DEFAULT_GRID_SECTION = 'explore-gallery'
-export type GridSection = 'profile-gallery' | typeof DEFAULT_GRID_SECTION
+export enum GridSection {
+  EXPLORE_GALLERY = 'explore-gallery',
+  PROFILE_GALLERY = 'profile-gallery',
+}
+
+export const DEFAULT_GRID_SECTION = GridSection.EXPLORE_GALLERY
 export type GridSize = 'small' | 'medium' | 'large'
 type GridConfig = { section: GridSection; class: string; size: GridSize }
 
@@ -16,7 +20,11 @@ export const largeGridLayout =
 
 const defaultGridConfigs: GridConfig[] = [
   { section: DEFAULT_GRID_SECTION, class: smallGridLayout, size: 'small' },
-  { section: 'profile-gallery', class: largeGridLayout, size: 'large' },
+  {
+    section: GridSection.PROFILE_GALLERY,
+    class: largeGridLayout,
+    size: 'large',
+  },
 ]
 
 interface State {
