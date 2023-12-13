@@ -140,3 +140,7 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+@import './NeoMessage.scss';
+</style>
