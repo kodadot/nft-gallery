@@ -1,4 +1,3 @@
-@import '../../scss/_theme.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_expressions.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_variables.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_animations.scss';
@@ -9,105 +8,82 @@ $tabs-font-size: 1rem;
 @import '@oruga-ui/oruga-next/src/scss/components/_tabs.scss';
 
 .neo-tabs--toggle {
-  @include ktheme() {
-    background: theme('background-color');
-    box-shadow: theme('primary-shadow');
-  }
+  @apply bg-background-color shadow-primary;
 
   .o-tabs__content {
-    padding: 0;
+    @apply p-0;
   }
 }
 
 .o-tabs {
   &__nav {
-    overflow: auto;
-    white-space: nowrap;
+    @apply overflow-auto whitespace-nowrap;
 
     &--toggle {
-      padding-bottom: 0;
+      @apply pb-0;
 
       & + .o-tabs__content {
-        @include ktheme() {
-          border: 1px solid theme('border-color');
-          border-top: 0;
-        }
+        @apply border-default border-border-color border-t-0;
       }
     }
 
     &-item {
       &-default {
-        @include ktheme() {
-          color: theme('text-color');
-          margin-bottom: 1.5rem;
-          border-bottom-color: theme('k-shade');
+        @apply text-text-color mb-6 border-b-k-shade;
 
-          &--active {
-            font-weight: 700;
-          }
+        &--active {
+          @apply font-bold;
+        }
 
-          &:hover:not(.o-tabs__nav-item-default--active) {
-            background-color: unset;
+        &:hover:not(.o-tabs__nav-item-default--active) {
+          @apply bg-[unset];
 
-            .o-tabs__nav-item-text,
-            span,
-            div {
-              color: theme('link-hover');
-            }
+          .o-tabs__nav-item-text,
+          span,
+          div {
+            @apply text-link-hover;
           }
         }
       }
 
       &-toggle {
-        @include ktheme() {
-          border: 1px solid theme('border-color');
-          color: theme('text-color');
-          border-right: 0;
+        @apply border-default border-border-color border-r-0 text-text-color;
 
-          &--active {
-            background-color: theme('background-color-inverse');
-            color: theme('text-color-inverse');
+        &--active {
+          @apply bg-background-color-inverse text-text-color-inverse;
+        }
+
+        &--disabled {
+          @apply cursor-auto opacity-unset text-text-color/50;
+          @apply text-text-color/50 #{!important};
+
+          .o-tip {
+            @apply pointer-events-auto;
           }
 
-          &--disabled {
-            cursor: auto;
-            opacity: unset;
-            color: rgba($color: theme('text-color'), $alpha: 0.5) !important;
-
-            .o-tip {
-              pointer-events: all;
-            }
-
-            &:hover {
-              background-color: inherit !important;
-            }
+          &:hover {
+            @apply bg-inherit #{!important};
           }
+        }
 
-          &:hover:not(.o-tabs__nav-item-toggle--active) {
-            background-color: theme('k-accentlight2');
-            border-color: theme('border-color');
-          }
+        &:hover:not(.o-tabs__nav-item-toggle--active) {
+          @apply bg-k-accent-light-2 border-border-color;
         }
       }
 
       &-wrapper:last-child {
         button.o-tabs__nav-item-toggle {
-          @include ktheme() {
-            border-right: 1px solid theme('border-color');
-          }
+          @apply border-r border-border-color;
         }
       }
     }
   }
 
   .o-tab-item__content {
-    height: 100%;
+    @apply h-full;
   }
 
-  &__content {
-    &--fixed {
-      height: 20rem;
-      overflow-y: auto;
-    }
+  &__content--fixed {
+    @apply h-[20rem] overflow-y-auto;
   }
 }
