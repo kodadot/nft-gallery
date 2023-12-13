@@ -16,7 +16,7 @@
         <div
           :class="{
             'modal-card-title text-base font-bold': isBoxedHeader,
-            'text-xl font-bold': !isBoxedHeader,
+            'text-xl/normal font-bold': !isBoxedHeader,
           }">
           <slot name="header" />
         </div>
