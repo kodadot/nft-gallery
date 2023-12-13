@@ -92,6 +92,8 @@ module.exports = {
       padding: {
         'tw-5': '1.25rem',
         'tw-8': '2rem',
+        'button-x': 'calc(0.75em - 1px)',
+        'button-y': 'calc(0.5em - 1px)',
       },
     },
   },
