@@ -1,5 +1,5 @@
-@import '../../scss/variable.scss';
-@import '../../scss/animation.scss';
+@import '@/assets/styles/abstracts/variables';
+@import '@/assets/styles/abstracts/animations';
 
 @function hex-to-rgba($hex, $alpha: 1) {
   @return rgba(red($hex), green($hex), blue($hex), $alpha);

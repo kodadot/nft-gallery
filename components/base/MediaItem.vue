@@ -55,7 +55,6 @@
 import type { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
 import { useElementHover, useElementVisibility } from '@vueuse/core'
 import {
-  NeoAudioMedia,
   NeoButton,
   NeoIFrameMedia,
   NeoIcon,
@@ -65,6 +64,7 @@ import {
   NeoUnknownMedia,
   NeoVideoMedia,
 } from '@kodadot1/brick'
+import AudioMedia from '@/components/shared/audioPlayer/AudioPlayer.vue'
 import { getMimeType, resolveMedia } from '@/utils/gallery/media'
 import { MediaType } from '@/components/rmrk/types'
 
@@ -140,7 +140,7 @@ const isLewdBlurredLayer = ref(props.isLewd)
 const components = {
   NeoImageMedia,
   NeoVideoMedia,
-  NeoAudioMedia,
+  NeoAudioMedia: AudioMedia,
   NeoJsonMedia,
   NeoIFrameMedia,
   NeoObjectMedia,

@@ -26,5 +26,5 @@ withDefaults(
 </script>
 
 <style lang="scss" scoped>
-@import './NeoNftCard.scss';
+@import './NftCard.scss';
 </style>

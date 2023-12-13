@@ -1,5 +1,5 @@
 <template>
-  <NeoNftCard
+  <NftCard
     v-if="entity"
     :nft="entity"
     :link-to="linkTo"
@@ -70,14 +70,14 @@
         </template>
       </div>
     </template>
-  </NeoNftCard>
+  </NftCard>
 </template>
 
 <script setup lang="ts">
 // PLEASE FIX bind-key href => to
 import { resolveComponent } from 'vue'
-import { NeoButton, NeoIcon, NeoNftCard } from '@kodadot1/brick'
-import type { NftCardVariant } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import type { NftCardVariant } from '@/components/shared/nftCard/types'
 import type { TokenEntity } from '@/composables/useNft'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { useListingCartStore } from '@/stores/listingCart'

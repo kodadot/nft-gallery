@@ -34,12 +34,12 @@
           <slot name="action" />
         </div>
       </div>
-      <NFTMediaInfoStacked
+      <NftMediaInfoStacked
         v-if="isStacked && !hideMediaInfo"
         :token="nft"
         :variant="variant"
         :prefix="prefix" />
-      <NFTMediaInfo
+      <NftMediaInfo
         v-else-if="!hideMediaInfo"
         :nft="nft"
         :variant="variant"
@@ -73,13 +73,14 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { NeoSkeleton, type NftCardVariant } from '@kodadot1/brick'
+import { NeoSkeleton } from '@kodadot1/brick'
 import type { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
 
-import MediaItem from '../MediaItem/MediaItem.vue'
-import NFTMediaInfoStacked from './NFTMediaInfoStacked.vue'
-import NFTMediaInfo from './NFTMediaInfo.vue'
-import type { NeoNFT } from './types'
+import MediaItem from '@/components/base/MediaItem.vue'
+
+import NftMediaInfoStacked from './NftMediaInfoStacked.vue'
+import NftMediaInfo from './NftMediaInfo.vue'
+import type { NeoNFT, NftCardVariant } from './types'
 
 const props = withDefaults(
   defineProps<{
@@ -132,5 +133,5 @@ const autoplay = computed(() =>
 </script>
 
 <style lang="scss" scoped>
-@import './NeoNftCard.scss';
+@import './NftCard.scss';
 </style>

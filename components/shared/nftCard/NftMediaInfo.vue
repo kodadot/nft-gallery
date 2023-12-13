@@ -44,11 +44,10 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { type NftCardVariant } from '@kodadot1/brick'
 
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { getChainNameByPrefix } from '@/utils/chain'
-import type { NeoNFT } from './types'
+import type { NeoNFT, NftCardVariant } from './types'
 
 const props = withDefaults(
   defineProps<{
@@ -70,5 +69,5 @@ const isMinimal = computed(() =>
 </script>
 
 <style lang="scss" scoped>
-@import './NeoNftCard.scss';
+@import './NftCard.scss';
 </style>
