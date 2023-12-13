@@ -10,7 +10,7 @@
 
     <div v-if="!desktop" class="is-flex is-justify-content-flex-end my-5">
       <Pagination
-        v-model="currentPage"
+        :value="currentPage"
         :total="total"
         :per-page="itemsPerPage"
         :range-before="2"
@@ -119,6 +119,7 @@ onMounted(() => {
 })
 
 const updateCurrentPage = (value) => {
+  console.log(value)
   currentPage.value = value
 }
 
