@@ -25,10 +25,7 @@
           v-for="chain in chains"
           :key="chain.value"
           :to="`/${chain.value}/explore/collectibles`"
-          :class="[
-            'mx-2 mb-3 is-inline-flex items-center',
-            'chain-option active',
-          ]"
+          :class="['mx-2 mb-3 inline-flex items-center', 'chain-option active']"
           @click="switchChain(chain.value)">
           <img
             class="is-size-5 chain-icon"
