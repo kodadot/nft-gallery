@@ -79,7 +79,7 @@ const moveSuccessfulDrop = computed(() => {
     return true
   }
 
-  return !(distance.value > 0) && sanitizedMintedNft.value && retry.value === 0
+  return distance.value <= 0 && sanitizedMintedNft.value && retry.value === 0
 })
 
 const title = computed(() => {
