@@ -7,19 +7,17 @@
     content-class="modal-width"
     @close="onClose">
     <ModalBody :title="title" @close="onClose">
-      <transition name="fade">
-        <EmailSignup
-          v-if="isEmailSignupStep"
-          @confirm="handleEmailSignupConfirm" />
+      <EmailSignup
+        v-if="isEmailSignupStep"
+        @confirm="handleEmailSignupConfirm" />
 
-        <ClaimingDrop v-else-if="isClaimingDropStep" :est="displayDuration" />
+      <ClaimingDrop v-else-if="isClaimingDropStep" :est="displayDuration" />
 
-        <SuccessfulDrop
-          v-else-if="isSuccessfulDropStep"
-          :minted-nft="sanitizedMintedNft"
-          :can-list-nft="canListNft"
-          @list="$emit('list')" />
-      </transition>
+      <SuccessfulDrop
+        v-else-if="isSuccessfulDropStep"
+        :minted-nft="sanitizedMintedNft"
+        :can-list-nft="canListNft"
+        @list="$emit('list')" />
     </ModalBody>
   </NeoModal>
 </template>
