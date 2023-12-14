@@ -72,7 +72,7 @@
           :amount="minimumFunds"
           :hide-top="!canAutoTeleport"
           interaction="drop"
-          @actions:completed="$emit('confirm')" />
+          @modal:close="handleModalClose" />
       </div>
     </ModalBody>
   </NeoModal>
@@ -108,6 +108,12 @@ const loading = computed(() => !autoteleport.value?.hasBalances)
 
 const onClose = () => {
   emit('update:modelValue', false)
+}
+
+const handleModalClose = (completed: boolean) => {
+  if (completed) {
+    emit('confirm')
+  }
 }
 </script>
 

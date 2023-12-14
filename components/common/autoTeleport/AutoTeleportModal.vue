@@ -239,7 +239,7 @@ const submit = () => {
 }
 
 const onClose = () => {
-  emit('close')
+  emit('close', autoteleportFinalized.value)
 }
 
 watch(autoteleportFinalized, () => {

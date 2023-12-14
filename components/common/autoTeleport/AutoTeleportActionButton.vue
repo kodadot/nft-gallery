@@ -280,10 +280,10 @@ const submit = () => {
   }
 }
 
-const handleAutoTeleportModalClose = () => {
+const handleAutoTeleportModalClose = (completed: boolean) => {
   isModalOpen.value = false
   clear()
-  emit('modal:close')
+  emit('modal:close', completed)
 }
 
 watch(allowAutoTeleport, (allow) => {
