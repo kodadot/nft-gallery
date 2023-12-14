@@ -62,7 +62,7 @@
                     v-dompurify-html="
                       $t('mint.unlockable.minimumFundsDescription', [
                         formattedMinimumFunds,
-                        urlPrefix,
+                        chain,
                       ])
                     "
                     class="minimum-funds-description" />
@@ -117,8 +117,8 @@
     :minimum-funds="minimumFunds"
     :formatted-minimum-funds="formattedMinimumFunds"
     :token="token"
-    :chain="urlPrefix"
-    @close="isAddFundModalActive = false"
+    :chain="chain"
+    @close="closeAddFundModal"
     @confirm="handleDropAddModalConfirm" />
 
   <ListingCartModal />
@@ -189,6 +189,7 @@ const isAddFundModalActive = ref(false)
 const mintedNft = ref<DropMintedNft>()
 const mintedNftWithMetadata = ref<NFTWithMetadata>()
 
+const chain = computed(() => urlPrefix.value.toUpperCase())
 const collectionId = computed(() => props.drop?.collection)
 const disabledByBackend = computed(() => props.drop?.disabled)
 const defaultImage = computed(() => props.drop?.image)

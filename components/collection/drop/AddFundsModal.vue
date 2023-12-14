@@ -102,9 +102,7 @@ const { accountId } = useAuth()
 
 const autoteleport = ref()
 
-const canAutoTeleport = computed(() =>
-  Boolean(autoteleport.value?.canAutoTeleport),
-)
+const canAutoTeleport = computed(() => autoteleport.value?.canAutoTeleport)
 
 const loading = computed(() => !autoteleport.value?.hasBalances)
 
