@@ -1,0 +1,192 @@
+// This styles from bulma
+
+.message {
+  @apply bg-[whitesmoke] rounded text-base;
+}
+
+.message:not(:last-child) {
+  @apply mb-6;
+}
+
+.message strong {
+  @apply text-current;
+}
+
+.message a:not(.button):not(.tag):not(.dropdown-item) {
+  @apply text-current underline;
+}
+
+.message.is-small {
+  @apply text-xs;
+}
+
+.message.is-medium {
+  @apply text-xl;
+}
+
+.message.is-large {
+  @apply text-2xl;
+}
+
+.message.is-white {
+  @apply bg-white;
+}
+
+.message.is-white .message-header {
+  @apply bg-white text-[#0a0a0a];
+}
+
+.message.is-white .message-body {
+  @apply border-white;
+}
+
+.message.is-black {
+  @apply bg-[#fafafa];
+}
+
+.message.is-black .message-header {
+  @apply bg-[#0a0a0a] text-white;
+}
+
+.message.is-black .message-body {
+  @apply border-[#0a0a0a];
+}
+
+.message.is-light {
+  @apply bg-[#fafafa];
+}
+
+.message.is-light .message-header {
+  @apply bg-[whitesmoke] text-[rgb(0_0_0_/_0.7)];
+}
+
+.message.is-light .message-body {
+  @apply border-[whitesmoke];
+}
+
+.message.is-dark {
+  @apply bg-[#fafafa];
+}
+
+.message.is-dark .message-header {
+  @apply bg-[#363636] text-white;
+}
+
+.message.is-dark .message-body {
+  @apply border-[#363636];
+}
+
+.message.is-primary {
+  @apply bg-[#ebfffc];
+}
+
+.message.is-primary .message-header {
+  @apply bg-[#00d1b2] text-white;
+}
+
+.message.is-primary .message-body {
+  @apply border-[#00d1b2] text-[#00947e];
+}
+
+.message.is-link {
+  @apply bg-[#eff1fa];
+}
+
+.message.is-link .message-header {
+  @apply bg-[#485fc7] text-white;
+}
+
+.message.is-link .message-body {
+  @apply border-[#485fc7] text-[#3850b7];
+}
+
+.message.is-info {
+  @apply bg-[#eff5fb];
+}
+
+.message.is-info .message-header {
+  @apply bg-[#3e8ed0] text-white;
+}
+
+.message.is-info .message-body {
+  @apply border-[#3e8ed0] text-[#296fa8];
+}
+
+.message.is-success {
+  @apply bg-[#effaf5];
+}
+
+.message.is-success .message-header {
+  @apply bg-[#48c78e] text-white;
+}
+
+.message.is-success .message-body {
+  @apply border-[#48c78e] text-[#257953];
+}
+
+.message.is-warning {
+  @apply bg-[#fffaeb];
+}
+
+.message.is-warning .message-header {
+  @apply bg-[#ffe08a] text-[rgb(0_0_0_/_0.7)];
+}
+
+.message.is-warning .message-body {
+  @apply border-[#ffe08a] text-[#946c00];
+}
+
+.message.is-danger {
+  @apply bg-[#feecf0];
+}
+
+.message.is-danger .message-header {
+  @apply bg-[#f14668] text-white;
+}
+
+.message.is-danger .message-body {
+  @apply border-[#f14668] text-[#cc0f35];
+}
+
+.message-header {
+  @apply relative flex items-center justify-between font-bold text-white leading-tight py-3 px-4 bg-[#4a4a4a] rounded-[4px_4px_0_0];
+}
+
+.message-header .delete {
+  @apply flex-grow-0 flex-shrink-0 ml-3;
+}
+
+.message-header + .message-body {
+  @apply border-0 rounded-tl-none rounded-tr-none;
+}
+
+.message-body {
+  @apply rounded text-[#4a4a4a] px-5 py-6 border-[#dbdbdb] border-solid border-t-0 border-r-0 border-b-0 border-l-4;
+}
+
+.message-body code,
+.message-body pre {
+  @apply bg-white;
+}
+
+.message-body pre code {
+  @apply bg-transparent;
+}
+
+.media {
+  @apply flex items-start;
+}
+
+.media-content {
+  @apply basis-auto flex-grow flex-shrink;
+}
+
+@media screen and (max-width: 768px) {
+  .media-content {
+    @apply overflow-x-auto;
+  }
+}
+
+.media-left {
+  @apply basis-auto flex-grow-0 flex-shrink-0 mr-4;
+}
