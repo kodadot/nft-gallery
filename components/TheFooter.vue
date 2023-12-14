@@ -1,6 +1,6 @@
 <template>
   <footer class="footer-container section" data-testid="footer-container">
-    <div class="footer-container-inner flex items-center justify-between">
+    <div class="footer-container-inner flex items-start justify-between">
       <section class="footer-container-subs flex flex-col">
         <h2 class="subtitle is-5">
           {{ $t('footer.subscribe') }}
