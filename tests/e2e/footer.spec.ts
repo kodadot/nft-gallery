@@ -74,7 +74,7 @@ const footerSocialMediaLinks = [
   },
   {
     linkName: 'Reddit',
-    linkAddress: '/r/KodaDot/',
+    linkAddress: 'KodaDot',
   },
 ]
 

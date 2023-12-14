@@ -7,7 +7,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../scss/_theme.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_expressions.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_variables.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_animations.scss';
@@ -15,8 +14,6 @@ export default {
 @import '@oruga-ui/oruga-next/src/scss/components/_slider.scss';
 
 .o-slide__fill {
-  @include ktheme() {
-    background: theme('k-primary');
-  }
+  @apply bg-k-primary;
 }
 </style>
