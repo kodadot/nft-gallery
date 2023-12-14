@@ -14,7 +14,7 @@
     <div class="separator mx-2" />
     <nuxt-link
       class="flex items-center has-text-weight-bold my-2"
-      to="/ahp/drops/wallstreet">
+      :to="DEFAULT_DROP">
       {{ $t('mint.unlockable.takeMe') }}
     </nuxt-link>
   </div>
