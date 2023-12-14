@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'text-color': 'var(--text-color)',
+        'text-color': 'rgb(var(--text-color) / <alpha-value>)',
         'text-color-inverse': 'var(--text-color-inverse)',
         'border-color': 'var(--border-color)',
         'background-color': 'var(--background-color)',
@@ -87,6 +87,10 @@ module.exports = {
       animation: {
         'icon-spin':
           'icon-spin infinite linear var(--oruga-icon-spin-duration, 1.5s)',
+      },
+      padding: {
+        'button-x': 'calc(0.75em - 1px)',
+        'button-y': 'calc(0.5em - 1px)',
       },
     },
   },
