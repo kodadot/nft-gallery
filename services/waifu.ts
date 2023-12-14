@@ -62,6 +62,12 @@ type DoRequest = {
   email?: string
 }
 
+type DoSubmitDropRequest = {
+  sn: string
+  hash: string
+  account: string
+}
+
 export type DoResult = {
   sn: string
   collection: string
@@ -82,6 +88,20 @@ export const doWaifu = async (body: DoRequest, campaign: string) => {
     body,
   }).catch((error: FetchError) => {
     throw new Error(`[WAIFU::DO] Unable to CAMPAIGN for reasons ${error.data}`)
+  })
+
+  return value
+}
+
+export const doSubmitDrop = async (
+  body: DoSubmitDropRequest,
+  campaign: string,
+) => {
+  const value = await api<DoResponse>(`do/${campaign}`, {
+    method: 'PUT',
+    body,
+  }).catch((error: FetchError) => {
+    throw new Error(`[DROP::DO] Unable to CAMPAIGN for reasons ${error.data}`)
   })
 
   return value
