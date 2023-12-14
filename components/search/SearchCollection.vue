@@ -10,7 +10,7 @@
       <div
         class="flex layout-search"
         :class="{
-          'flex-grow ': !hideSearch,
+          'flex-grow': !hideSearch,
         }">
         <NeoField v-if="!hideSearch" expanded class="control">
           <NeoInput
