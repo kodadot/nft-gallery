@@ -162,7 +162,9 @@
           </div>
         </div>
         <hr class="my-0" />
-        <ItemsGrid :search="itemsGridSearch" disable-auto-page-reset />
+        <ItemsGrid
+          :search="itemsGridSearch"
+          :reset-search-query-params="['sort']" />
       </div>
 
       <CollectionGrid

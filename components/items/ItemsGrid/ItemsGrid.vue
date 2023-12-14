@@ -83,15 +83,10 @@ const { listingCartEnabled } = useListingCartConfig()
 const listingCartStore = useListingCartStore()
 const route = useRoute()
 
-const props = withDefaults(
-  defineProps<{
-    search?: Record<string, string | number>
-    disableAutoPageReset: boolean
-  }>(),
-  {
-    disableAutoPageReset: false,
-  },
-)
+const props = defineProps<{
+  search?: Record<string, string | number>
+  resetSearchQueryParams?: string[]
+}>()
 
 const emit = defineEmits(['total', 'loading'])
 
@@ -149,7 +144,8 @@ const { items, fetchSearch, clearFetchResults, usingTokens } = useFetchSearch({
   total,
   isFetchingData,
   isLoading,
-  resetSearch: props.disableAutoPageReset ? () => ({}) : debouncedResetPage,
+  resetSearch: debouncedResetPage,
+  resetSearchQueryParams: props.resetSearchQueryParams,
 })
 
 watch(
