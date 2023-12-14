@@ -119,7 +119,6 @@ onMounted(() => {
 })
 
 const updateCurrentPage = (value) => {
-  console.log(value)
   currentPage.value = value
 }
 
