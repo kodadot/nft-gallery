@@ -10,7 +10,7 @@
 
           <UnlockableTag :collection-id="collectionId" />
 
-          <MintSection
+          <CollectionDropMintSection
             v-if="!isMobile"
             :has-user-minted="hasUserMinted"
             :is-wallet-connecting="isWalletConnecting"
@@ -30,7 +30,7 @@
             @select="handleSelectImage" />
         </div>
 
-        <MintSection
+        <CollectionDropMintSection
           v-if="isMobile"
           class="column"
           :has-user-minted="hasUserMinted"
@@ -76,7 +76,6 @@
 import UnlockableCollectionInfo from '@/components/collection/unlockable/UnlockableCollectionInfo.vue'
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
 import CarouselTypeLatestMints from '@/components/carousel/CarouselTypeLatestMints.vue'
-import MintSection from '~/components/collection/drop/MintSection.vue'
 import { createUnlockableMetadata } from '../unlockable/utils'
 import GenerativePreview from '@/components/collection/drop/GenerativePreview.vue'
 import { DropItem } from '@/params/types'
