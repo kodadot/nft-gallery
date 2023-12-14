@@ -83,42 +83,10 @@
 
     <div
       v-if="myBalance !== undefined"
-      class="is-size-7 is-flex is-justify-content-space-between is-align-items-center">
-      <div
+      class="is-size-7 is-flex justify-content align-items flex-direction">
+      <TeleportFundsAtRiskWarning
         v-if="insufficientExistentialDeposit"
-        class="has-text-danger is-flex is-align-items-center">
-        <NeoIcon
-          icon="triangle-exclamation"
-          pack="fasr"
-          class="mr-3"
-          size="medium" />
-        <span>{{ $t('teleport.fundsAtRisk') }} -&nbsp;</span>
-        <NeoTooltip
-          multiline
-          :multiline-width="256"
-          :auto-close="['outside', 'inside']">
-          <u>{{ $t('teleport.why') }}</u>
-          <template #content>
-            <div class="has-text-left py-2 is-flex is-flex-direction-column">
-              <span class="mb-3">
-                {{
-                  $t('teleport.existentialDepositTooltip', [
-                    targetExistentialDepositAmount,
-                  ])
-                }}
-              </span>
-              <a
-                v-safe-href="
-                  'https://hello.kodadot.xyz/multi-chain/existential-deposit'
-                "
-                target="_blank"
-                class="has-text-k-blue">
-                {{ $t('teleport.whatIsExistentialDeposit') }}
-              </a>
-            </div>
-          </template>
-        </NeoTooltip>
-      </div>
+        :target-existential-deposit-amount="targetExistentialDepositAmount" />
       <div class="is-flex">
         <span class="is-flex is-align-items-center">
           <span class="mr-2">{{ $t('general.balance') }}:</span
@@ -163,7 +131,7 @@
       {{ $t('teleport.ownerMessage') }}
     </div>
   </form>
-  <EDWarningModal
+  <TeleportEdWarningModal
     v-model="insufficientEDModalOpen"
     :existential-deposit="targetExistentialDepositAmount"
     @continue="
@@ -190,18 +158,11 @@ import Loader from '@/components/shared/Loader.vue'
 import shortAddress from '@/utils/shortAddress'
 import { chainIcons, getChainName } from '@/utils/chain'
 import NetworkDropdown from './NetworkDropdown.vue'
-import {
-  NeoButton,
-  NeoField,
-  NeoIcon,
-  NeoInput,
-  NeoTooltip,
-} from '@kodadot1/brick'
+import { NeoButton, NeoField, NeoInput } from '@kodadot1/brick'
 import { blockExplorerOf } from '@/utils/config/chain.config'
 import { simpleDivision } from '@/utils/balance'
 import { useFiatStore } from '@/stores/fiat'
 import { existentialDeposit } from '@kodadot1/static'
-import EDWarningModal from './EDWarningModal.vue'
 
 const {
   chainBalances,
@@ -486,6 +447,20 @@ onBeforeUnmount(() => {
 </script>
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
+$xs-breakpoint: 400px;
+
+.flex-direction {
+  @include until($xs-breakpoint) {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+}
+.align-items {
+  align-items: center;
+  @include until($xs-breakpoint) {
+    align-items: flex-start;
+  }
+}
 
 .teleport-container {
   @include tablet {
@@ -497,6 +472,13 @@ onBeforeUnmount(() => {
   @include mobile {
     padding-top: 40px;
     padding-bottom: 40px;
+  }
+}
+
+.justify-content {
+  justify-content: space-between;
+  @include until($xs-breakpoint) {
+    justify-content: flex-end;
   }
 }
 
