@@ -36,7 +36,11 @@ import {
   useCountDown,
 } from '@/components/collection/unlockable/utils/useCountDown'
 
-type ModalStep = 'email' | 'claiming' | 'succeded'
+enum ModalStep {
+  EMAIL = 'email',
+  CLAIMING = 'claiming',
+  SUCCEEDED = 'succeded',
+}
 
 const emit = defineEmits(['confirm', 'completed', 'close', 'list'])
 const props = defineProps<{
@@ -55,7 +59,7 @@ const { $i18n } = useNuxtApp()
 
 const isModalActive = useVModel(props, 'modelValue')
 
-const modalStep = ref<ModalStep>('email')
+const modalStep = ref<ModalStep>(ModalStep.EMAIL)
 const email = ref<string>()
 const nftCoverLoaded = ref(false)
 const retry = ref(3)
@@ -125,27 +129,13 @@ watch([sanitizedMintedNft, retry], async ([mintedNft]) => {
   }
 })
 
-watch(
-  () => props.claiming,
-  (claiming: boolean) => {
-    if (claiming) {
-      modalStep.value = 'claiming'
-    }
-  },
-)
-
-watch(moveSuccessfulDrop, (value) => {
-  if (value) {
-    modalStep.value = 'succeded'
+watchEffect(() => {
+  if (props.claiming && isEmailSignupStep.value) {
+    modalStep.value = ModalStep.CLAIMING
+  } else if (moveSuccessfulDrop.value && isClaimingDropStep.value) {
+    modalStep.value = ModalStep.SUCCEEDED
+  } else if (!props.modelValue && isSuccessfulDropStep.value) {
+    modalStep.value = ModalStep.EMAIL
   }
 })
-
-watch(
-  () => props.modelValue,
-  (isOpen) => {
-    if (isOpen) {
-      modalStep.value = 'email'
-    }
-  },
-)
 </script>
