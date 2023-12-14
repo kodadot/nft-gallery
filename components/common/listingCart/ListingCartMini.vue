@@ -1,9 +1,9 @@
 <template>
   <transition name="slide">
     <div v-if="listingCartStore.count" class="listing-container">
-      <div class="is-inline-flex items-center">
+      <div class="inline-flex items-center">
         <div class="k-shadow theme-background-color border py-4 px-6">
-          <div class="is-inline-flex items-center">
+          <div class="inline-flex items-center">
             <div>
               <b>{{ listingCartStore.count }}</b>
               {{ $t('listingCart.item', listingCartStore.count) }}
