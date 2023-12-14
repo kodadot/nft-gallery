@@ -61,7 +61,8 @@
                   <div
                     v-dompurify-html="
                       $t('mint.unlockable.minimumFundsDescription', [
-                        `${minimumFunds} ${token}`,
+                        formattedMinimumFunds,
+                        urlPrefix,
                       ])
                     "
                     class="minimum-funds-description" />
@@ -114,8 +115,11 @@
   <CollectionDropAddFundsModal
     v-model="isAddFundModalActive"
     :minimum-funds="minimumFunds"
+    :formatted-minimum-funds="formattedMinimumFunds"
     :token="token"
-    @close="isAddFundModalActive = false" />
+    :chain="urlPrefix"
+    @close="isAddFundModalActive = false"
+    @confirm="handleDropAddModalConfirm" />
 
   <ListingCartModal />
 </template>
@@ -135,20 +139,21 @@ import { makeScreenshot } from '@/services/capture'
 import { pinFileToIPFS } from '@/services/nftStorage'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import newsletterApi from '@/utils/newsletter'
-import { formatBsxBalanceToNumber } from '@/utils/format/balance'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
-import { useIdentityStore } from '@/stores/identity'
-import {
-  DOT_EXISTENTIAL_DEPOSIT,
-  KSM_EXISTENTIAL_DEPOSIT,
-} from '@/components/collection/unlockable/const'
 import DropConfirmModal from './modal/DropConfirmModal.vue'
 import ListingCartModal from '@/components/common/listingCart/ListingCartModal.vue'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
+import { existentialDeposit } from '@kodadot1/static'
 
 const NuxtLink = resolveComponent('NuxtLink')
 const MINTING_SECOND = 120
+
+export type DropMintedNft = DoResult & {
+  id: string
+  collectionName: string
+  name: string
+}
 
 const props = defineProps({
   drop: {
@@ -159,53 +164,57 @@ const props = defineProps({
   },
 })
 
-useMultipleBalance(true)
-
-const minimumFunds = computed<number>(
-  () => (props.drop.meta && formatBsxBalanceToNumber(props.drop.meta)) || 0,
-)
-const store = useIdentityStore()
-
-const isWalletConnecting = ref(false)
-const collectionId = computed(() => props.drop?.collection)
-const disabledByBackend = computed(() => props.drop?.disabled)
-const defaultImage = computed(() => props.drop?.image)
-const defaultName = computed(() => props.drop?.name)
-const defaultMax = computed(() => props.drop?.max || 255)
-const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
-  useDropStatus(props.drop.alias)
 const instance = getCurrentInstance()
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
 
-const { doAfterLogin } = useDoAfterlogin(instance)
 const { $i18n } = useNuxtApp()
-const root = ref()
-
+const { decimals, chainSymbol } = useChain()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
-
 const { urlPrefix } = usePrefix()
+const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
+  useDropStatus(props.drop.alias)
+const { doAfterLogin } = useDoAfterlogin(instance)
+const { fetchMultipleBalance } = useMultipleBalance()
+const { chainBalances, chain: currentChain } = useTeleport()
+
+const isWalletConnecting = ref(false)
+const root = ref()
 const selectedImage = ref<string>('')
 const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isConfirmModalActive = ref(false)
 const isAddFundModalActive = ref(false)
-
-const token = computed(() => prefixToToken[props.drop.chain])
-
-export type DropMintedNft = DoResult & {
-  id: string
-  collectionName: string
-  name: string
-}
-
 const mintedNft = ref<DropMintedNft>()
 const mintedNftWithMetadata = ref<NFTWithMetadata>()
 
-const handleSelectImage = (image: string) => {
-  selectedImage.value = image
-}
+const collectionId = computed(() => props.drop?.collection)
+const disabledByBackend = computed(() => props.drop?.disabled)
+const defaultImage = computed(() => props.drop?.image)
+const defaultName = computed(() => props.drop?.name)
+const defaultMax = computed(() => props.drop?.max || 255)
+const token = computed(() => prefixToToken[props.drop.chain])
+const currentChainBalance = computed(
+  () =>
+    (currentChain.value && Number(chainBalances[currentChain.value]())) || 0,
+)
+const minimumFunds = computed<number>(() => props.drop.meta || 0)
+
+const { formatted: formattedMinimumFunds } = useAmount(
+  computed(() => props.drop.meta || 0),
+  decimals,
+  chainSymbol,
+  2,
+)
+
+const transferableDropChainBalance = computed(
+  () => currentChainBalance.value - existentialDeposit[urlPrefix.value],
+)
+
+const hasMinimumFunds = computed(
+  () => transferableDropChainBalance.value >= minimumFunds.value,
+)
 
 const { data: collectionData } = useGraphql({
   queryName: 'unlockableCollectionById',
@@ -254,6 +263,10 @@ const collectionName = computed(
   () => collectionData.value?.collectionEntity?.name,
 )
 
+const handleSelectImage = (image: string) => {
+  selectedImage.value = image
+}
+
 const tryCapture = async () => {
   try {
     const imgFile = await makeScreenshot(sanitizeIpfsUrl(selectedImage.value))
@@ -279,21 +292,12 @@ const handleSubmitMint = async () => {
 
     return
   }
+
   if (isLoading.value || isImageFetching.value) {
     return false
   }
 
-  const dropChainBalance = Number(store.getAuthBalanceByChain(props.drop.chain))
-  const relayChainBalance = Number(
-    store.getAuthBalanceByRelayChain(props.drop.chain),
-  )
-  const existentialDeposit =
-    token.value === 'KSM' ? KSM_EXISTENTIAL_DEPOSIT : DOT_EXISTENTIAL_DEPOSIT
-
-  if (
-    dropChainBalance >= minimumFunds.value ||
-    relayChainBalance >= existentialDeposit + minimumFunds.value
-  ) {
+  if (hasMinimumFunds.value) {
     openConfirmModal()
   } else {
     openAddFundModal()
@@ -310,6 +314,10 @@ const openConfirmModal = () => {
 
 const openAddFundModal = () => {
   isAddFundModalActive.value = true
+}
+
+const closeAddFundModal = () => {
+  isAddFundModalActive.value = false
 }
 
 const subscribe = async (email: string) => {
@@ -416,6 +424,13 @@ const clear = () => {
   listingCartStore.removeItem(mintedNftWithMetadata.value?.id)
 }
 
+const handleDropAddModalConfirm = () => {
+  closeAddFundModal()
+  openConfirmModal()
+  fetchMultipleBalance([urlPrefix.value])
+}
+
+onBeforeMount(fetchMultipleBalance)
 onBeforeUnmount(clear)
 </script>
 

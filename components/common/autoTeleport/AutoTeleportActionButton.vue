@@ -55,6 +55,7 @@
     :can-do-action="hasEnoughInCurrentChain"
     :transactions="transactions"
     :auto-close="autoCloseModal"
+    :interaction="interaction"
     @close="handleAutoTeleportModalClose"
     @telport:retry="teleport"
     @action:start="(i) => actionRun(i)"
@@ -92,17 +93,20 @@ const emit = defineEmits([
 const props = withDefaults(
   defineProps<{
     amount: number
-    label: string
+    label?: string
     disabled: boolean
-    actions: AutoTeleportAction[]
+    actions?: AutoTeleportAction[]
     fees?: AutoTeleportFeeParams
     autoCloseModal: boolean
+    interaction?: string
   }>(),
   {
     fees: () => ({ actions: 0, actionAutoFees: true }),
     disabled: false,
     amount: 0,
     autoCloseModal: false,
+    actions: () => [],
+    label: '',
   },
 )
 
@@ -177,6 +181,7 @@ const hasNoFundsAtAll = computed(
 
 const confirmButtonTitle = computed(() => {
   const interaction =
+    props.interaction ||
     transactions.value.actions[0].interaction?.toLocaleLowerCase()
   return $i18n.t(`autoTeleport.steps.${interaction}.confirm`)
 })
@@ -185,7 +190,7 @@ const showAddFunds = computed(() => hasBalances.value && hasNoFundsAtAll.value)
 
 const autoTeleportLabel = computed(() => {
   if (hasEnoughInCurrentChain.value || props.disabled) {
-    return props.label
+    return props.label || confirmButtonTitle.value
   }
 
   if (!hasBalances.value) {

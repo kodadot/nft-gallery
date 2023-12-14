@@ -102,6 +102,7 @@ const props = withDefaults(
     transactions: AutoTeleportTransactions
     autoClose?: boolean
     autoCloseDelay?: number
+    interaction?: string
   }>(),
   {
     autoClose: false,
@@ -129,14 +130,16 @@ const checkBalanceState = computed<TransactionStepStatus>(() => {
   return status
 })
 
-const mainActionDetails = computed(() => {
-  const interaction =
-    props.transactions.actions[0].interaction?.toLocaleLowerCase()
-  return {
-    action: $i18n.t(`autoTeleport.steps.${interaction}.action`),
-    item: $i18n.t(`autoTeleport.steps.${interaction}.item`),
-  }
-})
+const mainInteraction = computed(
+  () =>
+    props.interaction ||
+    props.transactions.actions[0].interaction?.toLocaleLowerCase(),
+)
+
+const mainActionDetails = computed(() => ({
+  action: $i18n.t(`autoTeleport.steps.${mainInteraction.value}.action`),
+  item: $i18n.t(`autoTeleport.steps.${mainInteraction.value}.item`),
+}))
 
 const steps = computed<TransactionStep[]>(() => {
   return [
@@ -180,7 +183,7 @@ const handleActiveStep = (step) => {
 }
 
 const btnDisabled = computed(() => {
-  return !actionsFinalized.value
+  return !autoteleportFinalized.value
 })
 
 const actionsFinalized = computed(() =>
@@ -189,8 +192,14 @@ const actionsFinalized = computed(() =>
     .every((status) => status.value === TransactionStatus.Finalized),
 )
 
+const hasActions = computed(() => props.transactions.actions.length)
+
+const autoteleportFinalized = computed(() =>
+  hasActions.value ? actionsFinalized.value : props.canDoAction,
+)
+
 const btnLabel = computed(() => {
-  if (!props.canDoAction || !activeStepInteraction.value) {
+  if (!hasActions.value || !props.canDoAction || !activeStepInteraction.value) {
     return $i18n.t('autoTeleport.completeAllRequiredSteps')
   }
 
@@ -224,7 +233,7 @@ watch(activeStep, () => {
 })
 
 const submit = () => {
-  if (actionsFinalized.value) {
+  if (autoteleportFinalized.value) {
     onClose()
   }
 }
@@ -233,8 +242,8 @@ const onClose = () => {
   emit('close')
 }
 
-watch(actionsFinalized, () => {
-  if (actionsFinalized.value) {
+watch(autoteleportFinalized, () => {
+  if (autoteleportFinalized.value) {
     emit('completed')
 
     if (props.autoClose) {

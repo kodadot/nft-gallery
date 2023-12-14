@@ -11,6 +11,7 @@
   "collections": "Collections",
   "items": "Items",
   "users": "Users",
+  "bridging": "Bridging",
   "recent": "Recent",
   "user": "User",
   "soon": "Soon",
@@ -604,7 +605,7 @@
       "onlyOneExample": "Example Of Drop",
       "mintThisNft": "Mint This NFT",
       "seeYourNft": "See Your NFT",
-      "minimumFundsDescription": "Holding a Minimum of <strong>{0}</strong> in Your Wallet is Required for This Free Mint.",
+      "minimumFundsDescription": "Holding a Minimum of <strong>{0} on {1}</strong> in Your Wallet is Required for This Free Mint.",
       "claimNftNow": "Claim NFT Now",
       "nftAlreadyMinted": "NFT Already Minted",
       "yourVariation": "Your Unique Variation",
@@ -625,7 +626,7 @@
       "howItemWork": "How unlockable item works",
       "addFundsModal": {
         "title": "Action Required",
-        "textP1": "To participate in this free, gasless drop, your wallet must hold a minimum of <strong>{0}</<strong>",
+        "textP1": "To participate in this free, gasless drop, your wallet must hold a minimum of <strong>{0} on {1}</<strong>",
         "textP2": "Please add funds to continue",
         "howToAddFunds": "How to add funds",
         "tooltip": {
@@ -1447,7 +1448,8 @@
     "artBy": "{0} By",
     "viewNft": "View NFT",
     "listNft": "List NFT",
-    "canList": "NFT ready for listing!"
+    "canList": "NFT ready for listing!",
+    "teleportRequiredAmount": "Teleport required amount"
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
@@ -1649,6 +1651,11 @@
         "item": "Collection",
         "title": "Minting NFT Collection",
         "submit": "Minting NFT Collection..."
+      },
+      "drop": {
+        "confirm": "Teleport Required Amount",
+        "action": "Claim free",
+        "item": "NFT"
       },
       "mintnft": {
         "confirm": "Teleport and Mint NFT",
