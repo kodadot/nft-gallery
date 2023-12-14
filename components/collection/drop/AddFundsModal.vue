@@ -29,7 +29,7 @@
           ])
         "
         class="mb-4" />
-      <template v-if="!hasSource">
+      <template v-if="!canAutoTeleport">
         <p class="mb-4">{{ $t('mint.unlockable.addFundsModal.textP2') }}</p>
         <NeoTooltip multiline multiline-width="256px" content-class="p-4">
           <div
@@ -70,6 +70,7 @@
         <AutoTeleportActionButton
           ref="autoteleport"
           :amount="minimumFunds"
+          :hide-top="!canAutoTeleport"
           interaction="drop"
           @actions:completed="$emit('confirm')" />
       </div>
@@ -101,8 +102,8 @@ const { accountId } = useAuth()
 
 const autoteleport = ref()
 
-const hasSource = computed(() =>
-  Boolean(autoteleport.value?.optimalTransition?.source),
+const canAutoTeleport = computed(() =>
+  Boolean(autoteleport.value?.canAutoTeleport),
 )
 
 const loading = computed(() => !autoteleport.value?.hasBalances)

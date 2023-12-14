@@ -1,7 +1,7 @@
 <template>
   <div class="is-flex is-flex-direction-column w-full">
     <div
-      v-if="showAutoTeleport"
+      v-if="showAutoTeleport && !hideTop"
       class="is-flex is-justify-content-space-between w-full mb-4">
       <div class="is-flex">
         <div class="has-accent-blur">
@@ -99,6 +99,7 @@ const props = withDefaults(
     fees?: AutoTeleportFeeParams
     autoCloseModal: boolean
     interaction?: string
+    hideTop?: boolean
   }>(),
   {
     fees: () => ({ actions: 0, actionAutoFees: true }),
@@ -107,6 +108,7 @@ const props = withDefaults(
     autoCloseModal: false,
     actions: () => [],
     label: '',
+    hideTop: false,
   },
 )
 
@@ -296,7 +298,7 @@ watchSyncEffect(() => {
   }
 })
 
-defineExpose({ hasBalances, optimalTransition })
+defineExpose({ hasBalances, optimalTransition, canAutoTeleport })
 </script>
 
 <style lang="scss" scoped>
