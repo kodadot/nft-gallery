@@ -34,7 +34,8 @@
     "test": "vitest run --reporter verbose --allowOnly",
     "test:watch": "vitest --reporter verbose",
     "test:coverage": "vitest run --coverage",
-    "prepare": "pnpm -F static build && nuxi prepare && husky install"
+    "prepare": "pnpm -F static build && nuxi prepare && husky install",
+    "generate-types": "graphql-codegen"
   },
   "husky": {
     "hooks": {
@@ -68,7 +69,7 @@
     "@kodadot1/static": "workspace:*",
     "@kodadot1/sub-api": "0.2.0-rc.0",
     "@nuxt/image": "^1.1.0",
-    "@nuxtjs/apollo": "5.0.0-alpha.6",
+    "@nuxtjs/apollo": "5.0.0-alpha.10",
     "@nuxtjs/i18n": "8.0.0-rc.3",
     "@paraspell/sdk": "^3.0.5",
     "@pinia/nuxt": "^0.5.1",
@@ -128,6 +129,10 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/plugin-transform-runtime": "^7.23.4",
     "@babel/preset-env": "^7.23.3",
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/client-preset": "^4.1.0",
+    "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-resolvers": "^4.0.1",
     "@nuxt/content": "^2.9.0",
     "@nuxt/types": "^2.17.2",
     "@nuxtjs/color-mode": "^3.3.2",

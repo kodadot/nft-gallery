@@ -4,6 +4,7 @@ import type { RowSeries } from '@/components/series/types'
 import { formatNFT, setCarouselMetadata } from '@/utils/carousel'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { sortItemListByIds } from '@/utils/sorting'
+import { popularCollectionList } from '~/queries/typed-queries/popularCollectionList'
 
 export const useCarouselUrl = () => {
   const { urlPrefix } = usePrefix()
@@ -17,18 +18,17 @@ export const useCarouselUrl = () => {
   }
 }
 
-const popularCollectionsGraphql = {
-  queryPrefix: 'subsquid',
-  queryName: 'popularCollectionList',
-  variables: {
+export const useCarouselPopularCollections = () => {
+  const {
+    result: data,
+    loading,
+    error,
+  } = useQuery(popularCollectionList, {
     orderDirection: 'ASC',
     limit: 10,
     dateRange: '7 DAY',
     orderBy: 'volume',
-  },
-}
-export const useCarouselPopularCollections = () => {
-  const { data } = useGraphql(popularCollectionsGraphql)
+  })
   const nfts = ref<RowSeries[]>([])
 
   const handleResult = ({ data: result }) => {
