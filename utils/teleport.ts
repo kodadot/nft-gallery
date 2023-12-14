@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Prefix } from '@kodadot1/static'
+import { Prefix, existentialDeposit } from '@kodadot1/static'
 import type { ApiPromise } from '@polkadot/api'
 import { SubmittableExtrinsicFunction } from '@polkadot/api/types'
 import { XcmVersionedMultiLocation } from '@polkadot/types/lookup'
@@ -13,7 +13,6 @@ import { getChainEndpointByPrefix } from '@/utils/chain'
 import { TeleportParams } from '@/composables/useTeleport'
 import { getAddress } from '@/utils/extension'
 import { toDefaultAddress } from '@/utils/account'
-import { existentialDeposit } from '@kodadot1/static'
 
 type Extrisic = SubmittableExtrinsicFunction<'promise', AnyTuple>
 
