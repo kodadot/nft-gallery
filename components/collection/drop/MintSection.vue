@@ -67,7 +67,7 @@
                   : 'mint.unlockable.claimNftNow',
               )
             "
-            @click="emit('mint1')" />
+            @click="emit('mint')" />
         </div>
       </div>
     </div>
