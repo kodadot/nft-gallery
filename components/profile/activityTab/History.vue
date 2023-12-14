@@ -10,7 +10,7 @@
 
     <div v-if="!desktop" class="flex justify-end my-5">
       <Pagination
-        v-model="currentPage"
+        :value="currentPage"
         :total="total"
         :per-page="itemsPerPage"
         :range-before="2"
