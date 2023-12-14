@@ -19,7 +19,7 @@ export const unlockableDesc = (value: number) => `
 export async function createUnlockableMetadata(
   imageHash: string,
   description: string,
-  name: string = UNLOCKABLE_NAME,
+  name: string,
   mimeType: string = 'image/png',
   animationUrl?: string,
 ) {

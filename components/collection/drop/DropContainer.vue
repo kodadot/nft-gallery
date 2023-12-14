@@ -14,12 +14,6 @@
             :collection-id="collectionId"
             :description="description" />
           <hr class="mb-4" />
-
-          <div
-            class="is-flex is-justify-content-space-between is-align-items-center my-5">
-            <div>Total available items</div>
-            <div>{{ totalAvailableMintCount }} / {{ totalCount }}</div>
-          </div>
           <UnlockableTag :collection-id="collectionId" />
 
           <div>
@@ -151,7 +145,7 @@ const imageList = ref<string[]>([])
 const resultList = ref<any[]>([])
 const { urlPrefix } = usePrefix()
 const { isLogIn } = useAuth()
-const { hours, minutes } = useCountDown(countDownTime)
+const { hours, minutes } = useCountDown({ countDownTime })
 const justMinted = ref('')
 const isLoading = ref(false)
 
