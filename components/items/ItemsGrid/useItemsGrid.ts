@@ -185,13 +185,13 @@ export function useFetchSearch({
     fetchSearch({ search })
   }
 
-  const watchResetSearchValues = computed(() =>
+  const resetSearchQueryParamsValues = computed(() =>
     Object.fromEntries(
       resetSearchQueryParams.map((key) => [key, route.query[key]]),
     ),
   )
 
-  watch(watchResetSearchValues, (currentQuery, prevQuery) => {
+  watch(resetSearchQueryParamsValues, (currentQuery, prevQuery) => {
     if (isEqual(currentQuery, prevQuery)) {
       return
     }
