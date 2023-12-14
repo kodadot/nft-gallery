@@ -96,7 +96,8 @@ const isEmptyBalanceOnAllChains = computed(() => {
     justify-content: space-between;
 
     & > * {
-      flex: 1;
+      flex-shrink: 1;
+      flex-basis: 0%;
     }
   }
 }
