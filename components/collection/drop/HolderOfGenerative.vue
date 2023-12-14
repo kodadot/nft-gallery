@@ -133,6 +133,8 @@ import holderOfCollectionById from '@/queries/subsquid/general/holderOfCollectio
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 import Loader from '@/components/shared/Loader.vue'
 
+const holderOfCollectionId = '290' // ChaosFlakes | todo: mock for testing, should be fetched from backend
+
 const props = defineProps({
   drop: {
     type: Object,
@@ -148,13 +150,11 @@ export type DropMintedNft = DoResult & {
   name: string
 }
 
-const holderOfCollectionId = '32' // todo: mock for testing, should be fetched from backend
-
 useMultipleBalance(true)
 
 const minimumFunds = computed<number>(
   () =>
-    0.2 || // todo: mock minimum for testing
+    0.01 || // todo: mock minimum for testing
     (props.drop.meta && formatBsxBalanceToNumber(props.drop.meta)) ||
     0,
 )
@@ -162,13 +162,13 @@ const store = useIdentityStore()
 
 const isWalletConnecting = ref(false)
 const collectionId = computed(() => props.drop?.collection)
-const disabledByBackend = computed(() => props.drop?.disabled && false) // todo: mock for testing
+const disabledByBackend = computed(() => props.drop?.disabled)
 const defaultImage = computed(() => props.drop?.image)
 const defaultName = computed(() => props.drop?.name)
 const defaultMax = computed(() => props.drop?.max || 255)
 const { mintedDropCount, fetchDropStatus } = useDropStatus(props.drop.alias)
 const instance = getCurrentInstance()
-
+const mintNftSN = ref('0')
 const { doAfterLogin } = useDoAfterlogin(instance)
 const { $i18n, $consola } = useNuxtApp()
 const root = ref()
@@ -318,30 +318,30 @@ const mintNft = async () => {
 
     initTransactionLoader()
     const cb = api.tx.nfts.mint
-    howAboutToExecute(
+    mintNftSN.value = collectionRes.items
+    howAboutToExecute(accountId.value, cb, [
+      collectionId.value,
+      collectionRes.items,
       accountId.value,
-      cb,
-      [
-        collectionId.value,
-        collectionRes.items,
-        accountId.value,
-        {
-          ownedItem: holderOfCollectionData.value?.nftEntities?.at(
-            mintedAmountForCurrentUser.value,
-          ).sn,
-          mintPrice: null,
-        },
-      ],
-      () => {
-        submitMint(collectionRes.items)
+      {
+        ownedItem: holderOfCollectionData.value?.nftEntities?.at(
+          mintedAmountForCurrentUser.value,
+        ).sn,
+        mintPrice: null,
       },
-    )
+    ])
   } catch (e) {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
     $consola.error(e)
     isTransactionLoading.value = false
   }
 }
+
+watch(status, (curStatus) => {
+  if (curStatus === TransactionStatus.Block) {
+    submitMint(mintNftSN.value)
+  }
+})
 
 const clearWalletConnecting = () => {
   isWalletConnecting.value = false
