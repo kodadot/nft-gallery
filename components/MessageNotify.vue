@@ -59,7 +59,7 @@ const realworldFullPath = computed(() => {
   &--toast {
     z-index: 100;
     position: fixed;
-    border-radius: 0;
+    border-radius: 0 !important;
     top: 100px;
     right: 0;
     margin-left: auto;
@@ -73,7 +73,8 @@ const realworldFullPath = computed(() => {
   }
 
   .message-body {
-    border: none;
+    border-left-width: 0;
+    border-radius: 0;
   }
 
   .congrats-message {
