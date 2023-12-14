@@ -84,10 +84,10 @@ useResizeObserver(wrapper, (entry) => {
 .gap {
   gap: 2.5rem;
 }
-.flex-basis-two-thirds {
+.is-flex-basis-two-thirds {
   flex-basis: 66.6%;
 }
-.flex-basis-auto {
+.is-flex-basis-auto {
   flex-basis: auto;
 }
 
