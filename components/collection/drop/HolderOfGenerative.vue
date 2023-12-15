@@ -266,7 +266,7 @@ const mintButtonLabel = computed(() => {
       ? isHolderOfTargetCollection.value &&
         maxMintLimitForCurrentUser.value > mintedAmountForCurrentUser.value
         ? $i18n.t('mint.unlockable.claimPaidNft', [
-            `${minimumFunds.value} ${token.value}`,
+            `${minimumFunds.value / 10} ${token.value}`,
           ])
         : $i18n.t('mint.unlockable.notEligibility')
       : $i18n.t('mint.unlockable.checkEligibility')
@@ -314,9 +314,8 @@ const mintNft = async () => {
     }
 
     initTransactionLoader()
-    const cb = api.tx.nfts.mint
-    mintNftSN.value = collectionRes.items
-    howAboutToExecute(accountId.value, cb, [
+    const cb = api.tx.utility.batchAll
+    const mint = api.tx.nfts.mint(
       collectionId.value,
       collectionRes.items,
       accountId.value,
@@ -326,7 +325,15 @@ const mintNft = async () => {
         ).sn,
         mintPrice: null,
       },
-    ])
+    )
+
+    const transfer = api.tx.balances.transfer(
+      '5GGWQ1yiSvS2rPciRtAuK2xQTuxCcgoGZ7dTSzHWws4ELzwD',
+      2e9,
+    )
+
+    mintNftSN.value = collectionRes.items
+    howAboutToExecute(accountId.value, cb, [mint, transfer])
   } catch (e) {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
     $consola.error(e)
