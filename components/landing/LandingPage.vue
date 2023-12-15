@@ -25,7 +25,8 @@
       <!-- top collections -->
       <section v-if="showTopCollections" class="py-8 instance">
         <div class="container is-fluid">
-          <TopCollections class="my-5" />
+          <LandingTopCollectionsAh v-if="isAssetHub" class="my-5" />
+          <LandingTopCollections v-else class="my-5" />
         </div>
       </section>
 
@@ -34,13 +35,13 @@
         <section class="py-8 instance">
           <div class="container is-fluid">
             <!-- new listings -->
-            <LazyCarouselTypeNewestList />
+            <!-- <LazyCarouselTypeNewestList /> -->
 
             <!-- latest sales -->
-            <LazyCarouselTypeLatestSales class="mt-8" />
+            <!-- <LazyCarouselTypeLatestSales class="mt-8" /> -->
 
             <!-- generative  -->
-            <LazyCarouselTypeGenerative class="mt-8" />
+            <!-- <LazyCarouselTypeGenerative class="mt-8" /> -->
           </div>
         </section>
       </ClientOnly>
@@ -57,20 +58,20 @@
 <script lang="ts" setup>
 import type { Prefix } from '@kodadot1/static'
 import SearchLanding from './SearchLanding.vue'
-import TopCollections from './topCollections/TopCollections.vue'
 import CarouselTypeSpotlight from '@/components/carousel/CarouselTypeSpotlight.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 
 const hiddenCarrouselPrefixes: Prefix[] = ['dot']
 const forbiddenPrefixesForTopCollections: Prefix[] = [
   'ksm',
-  'ahk',
-  'ahp',
+  // 'ahk',
+  // 'ahp',
   'dot',
   // 'ahr',
 ]
 
 const { urlPrefix } = usePrefix()
+const { isAssetHub } = useIsChain(urlPrefix)
 const preferencesStore = usePreferencesStore()
 const { width } = useWindowSize()
 
