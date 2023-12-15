@@ -71,7 +71,7 @@
           ref="autoteleport"
           :amount="minimumFunds"
           :hide-top="!canAutoTeleport"
-          interaction="drop"
+          interaction="generative_drop"
           @modal:close="handleModalClose" />
       </div>
     </ModalBody>
