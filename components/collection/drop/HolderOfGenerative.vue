@@ -37,8 +37,10 @@
             <UnlockableSlider :value="mintedCount / maxCount" />
           </div>
           <div class="my-5">
-            <div class="is-flex is-justify-content-space-between">
-              <div v-if="hasUserMinted" class="is-flex is-align-items-center">
+            <div
+              v-if="hasUserMinted"
+              class="is-flex is-justify-content-flex-end is-align-items-center">
+              <div class="is-flex is-align-items-center">
                 <div class="mr-2">
                   {{ $t('mint.unlockable.nftAlreadyMinted') }}
                 </div>
@@ -52,7 +54,9 @@
                   :label="$t('mint.unlockable.seeYourNft')"
                   :to="`/${urlPrefix}/gallery/${hasUserMinted}`" />
               </div>
-              <div v-if="!hasUserMinted" class="mt-4">
+            </div>
+            <div v-else class="is-flex is-justify-content-space-between">
+              <div class="mt-4">
                 <CollectionDropHolderOfCollection
                   :is-holder="isHolderOfTargetCollection"
                   :collection-id="holderOfCollectionId" />
@@ -71,7 +75,7 @@
                 </div>
               </div>
 
-              <div v-if="!hasUserMinted" class="is-flex">
+              <div class="is-flex">
                 <NeoButton
                   ref="root"
                   class="my-2 mint-button"
