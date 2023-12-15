@@ -38,7 +38,7 @@
           </div>
           <div class="my-5">
             <div class="is-flex is-justify-content-space-between">
-              <!-- <div v-if="hasUserMinted" class="is-flex is-align-items-center">
+              <div v-if="hasUserMinted" class="is-flex is-align-items-center">
                 <div class="mr-2">
                   {{ $t('mint.unlockable.nftAlreadyMinted') }}
                 </div>
@@ -50,9 +50,9 @@
                   class="my-2 mint-button"
                   :tag="NuxtLink"
                   :label="$t('mint.unlockable.seeYourNft')"
-                  :to="`/${urlPrefix}/u/${accountId}`" />
-              </div> -->
-              <div class="mt-4">
+                  :to="`/${urlPrefix}/gallery/${hasUserMinted}`" />
+              </div>
+              <div v-if="!hasUserMinted" class="mt-4">
                 <CollectionDropHolderOfCollection
                   :is-holder="isHolderOfTargetCollection"
                   :collection-id="holderOfCollectionId" />
@@ -70,7 +70,8 @@
                     class="minimum-funds-description" />
                 </div>
               </div>
-              <div class="is-flex">
+
+              <div v-if="!hasUserMinted" class="is-flex">
                 <NeoButton
                   ref="root"
                   class="my-2 mint-button"
@@ -135,6 +136,8 @@ import Loader from '@/components/shared/Loader.vue'
 
 const holderOfCollectionId = '50' // ChaosFlakes | todo: mock for testing, should be fetched from backend
 
+const NuxtLink = resolveComponent('NuxtLink')
+
 const props = defineProps({
   drop: {
     type: Object,
@@ -163,13 +166,14 @@ const disabledByBackend = computed(() => props.drop?.disabled)
 const defaultImage = computed(() => props.drop?.image)
 const defaultName = computed(() => props.drop?.name)
 const defaultMax = computed(() => props.drop?.max || 255)
-const { mintedDropCount, fetchDropStatus } = useDropStatus(props.drop.alias)
+const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
+  useDropStatus(props.drop.alias)
 const instance = getCurrentInstance()
 const mintNftSN = ref('0')
 const { doAfterLogin } = useDoAfterlogin(instance)
 const { $i18n, $consola } = useNuxtApp()
 const root = ref()
-
+const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
 
@@ -246,11 +250,11 @@ const maxCount = computed(
   () => collectionData.value?.collectionEntity?.max || defaultMax.value,
 )
 
-// const hasUserMinted = computed(() =>
-//   currentAccountMintedToken.value
-//     ? `${collectionId.value}-${currentAccountMintedToken.value.id}`
-//     : mintedNft.value?.id,
-// )
+const hasUserMinted = computed(() =>
+  currentAccountMintedToken.value
+    ? `${collectionId.value}-${currentAccountMintedToken.value.id}`
+    : mintedNft.value?.id,
+)
 
 const mintedCount = computed(() =>
   Math.min(mintedDropCount.value, maxCount.value),
