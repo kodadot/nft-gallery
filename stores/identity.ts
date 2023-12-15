@@ -166,7 +166,7 @@ export const useIdentityStore = defineStore('identity', {
       }
 
       const { isTestnet } = usePrefix()
-      const assets = isTestnet.value
+      const assets = isTestnet
         ? state.multiBalanceAssetsTestnet
         : state.multiBalanceAssets
 
