@@ -248,7 +248,9 @@ export const getTransactionFee = async ({
   return info.partialFee.toString()
 }
 
-export const getChainCurrency = (chain: Chain) => {
+export type Currency = 'KSM' | 'DOT'
+
+export const getChainCurrency = (chain: Chain): Currency => {
   switch (chain) {
     case Chain.KUSAMA:
     case Chain.BASILISK:

@@ -1085,7 +1085,7 @@
     "tweetDonation": "Tweet about your awesome donation",
     "donationSentTo": "Your donation will be sent to:",
     "ownerMessage": "(You Are Owner)",
-    "insufficientExistentialDeposit": "Transferring Less Than {0} + Fees Will Lead To An Irreversible",
+    "insufficientExistentialDeposit": "Transferring Less Than {0} {1} (existential deposit) + Fees Will Lead To An Irreversible",
     "fundsAtRisk": "Funds at risk",
     "fundLossRisk": "Funds Loss Risk",
     "lossOfFunds": "Loss Of Funds.",

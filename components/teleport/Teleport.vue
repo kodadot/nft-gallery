@@ -134,6 +134,7 @@
   <TeleportEdWarningModal
     v-model="insufficientEDModalOpen"
     :existential-deposit="targetExistentialDepositAmount"
+    :currency="currency"
     @continue="
       () => {
         insufficientEDModalOpen = false
