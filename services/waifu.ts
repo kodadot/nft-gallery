@@ -110,6 +110,7 @@ export const doSubmitDrop = async (
 type UpdateMetadataRequest = {
   sn: string
   metadata: string
+  account?: string
 }
 
 export const claimDropItem = async (
