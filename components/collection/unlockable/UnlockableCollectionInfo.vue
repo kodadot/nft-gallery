@@ -23,7 +23,6 @@
           rounded
           :tag="NuxtLink"
           :to="`/${urlPrefix}/collection/${collectionId}`"
-          target="_blank"
           icon="arrow-right">
           <span>View Collection</span>
         </NeoButton>
