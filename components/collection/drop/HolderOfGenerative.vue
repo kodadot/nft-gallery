@@ -341,7 +341,9 @@ const mintNft = async () => {
     )
 
     mintNftSN.value = collectionRes.items
-    howAboutToExecute(accountId.value, cb, [mint, transfer])
+    howAboutToExecute(accountId.value, cb, [[mint, transfer]], () => {
+      submitMint(collectionRes.items)
+    })
   } catch (e) {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
     $consola.error(e)
