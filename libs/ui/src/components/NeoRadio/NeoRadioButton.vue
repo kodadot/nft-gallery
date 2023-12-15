@@ -1,8 +1,7 @@
 <template>
-  <div class="control neo-radio-button" :class="{ 'is-expanded': expanded }">
+  <div class="neo-radio-button">
     <label
       ref="label"
-      class="button"
       :class="labelClass"
       :disabled="disabledNull"
       @click="focus">
@@ -11,6 +10,7 @@
         ref="input"
         v-model="computedValue"
         type="radio"
+        class="hidden"
         :disabled="disabled"
         :required="required"
         :name="name"
@@ -33,7 +33,6 @@ export default {
       type: String,
       default: 'is-primary',
     },
-    expanded: Boolean,
     rounded: Boolean,
   },
   data() {
@@ -68,36 +67,17 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import '../../scss/_theme.scss';
-@import '../../scss/variable.scss';
-
+<style lang="scss" scoped>
 .neo-radio-button {
-  input[type='radio'] {
-    display: none;
-  }
-
   label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &.button {
-      text-transform: capitalize;
-      @include ktheme() {
-        border-color: theme('background-color-inverse');
-      }
-    }
+    @apply flex items-center justify-center text-base/normal h-10 rounded py-button-y px-button-x bg-background-color cursor-pointer capitalize border-default border-background-color-inverse;
 
     &.is-selected {
-      @include ktheme() {
-        color: theme('text-color-inverse');
-        background-color: theme('background-color-inverse');
-      }
+      @apply text-text-color-inverse bg-background-color-inverse;
     }
 
     &.is-rounded {
-      border-radius: $radius-rounded;
+      @apply rounded-full;
     }
   }
 }
