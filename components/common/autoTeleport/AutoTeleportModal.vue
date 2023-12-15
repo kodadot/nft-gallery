@@ -194,11 +194,19 @@ const actionsFinalized = computed(() =>
 
 const hasActions = computed(() => props.transactions.actions.length)
 
+const hasCompletedBalanceCheck = computed(
+  () => steps.value[1].stepStatus === TransactionStepStatus.COMPLETED,
+)
+
 const autoteleportFinalized = computed(() =>
-  hasActions.value ? actionsFinalized.value : props.canDoAction,
+  hasActions.value ? actionsFinalized.value : hasCompletedBalanceCheck.value,
 )
 
 const btnLabel = computed(() => {
+  if (!hasActions.value && hasCompletedBalanceCheck.value) {
+    return $i18n.t('redirect.continue')
+  }
+
   if (!hasActions.value || !props.canDoAction || !activeStepInteraction.value) {
     return $i18n.t('autoTeleport.completeAllRequiredSteps')
   }

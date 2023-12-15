@@ -1653,7 +1653,7 @@
         "submit": "Minting NFT Collection..."
       },
       "drop": {
-        "confirm": "Teleport Required Amount",
+        "confirm": "Teleport required amount",
         "action": "Claim free",
         "item": "NFT"
       },
