@@ -38,7 +38,7 @@
           </div>
           <div class="my-5">
             <div class="is-flex is-justify-content-space-between">
-              <!-- <div v-if="hasUserMinted" class="is-flex is-align-items-center">
+              <div v-if="hasUserMinted" class="is-flex is-align-items-center">
                 <div class="mr-2">
                   {{ $t('mint.unlockable.nftAlreadyMinted') }}
                 </div>
@@ -50,8 +50,8 @@
                   class="my-2 mint-button"
                   :tag="NuxtLink"
                   :label="$t('mint.unlockable.seeYourNft')"
-                  :to="`/${urlPrefix}/u/${accountId}`" />
-              </div> -->
+                  :to="`/${urlPrefix}/gallery/${hasUserMinted}`" />
+              </div>
               <div class="mt-4">
                 <CollectionDropHolderOfCollection
                   :is-holder="isHolderOfTargetCollection"
@@ -133,6 +133,8 @@ import holderOfCollectionById from '@/queries/subsquid/general/holderOfCollectio
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 import Loader from '@/components/shared/Loader.vue'
 
+const NuxtLink = resolveComponent('NuxtLink')
+
 const holderOfCollectionId = '290' // ChaosFlakes | todo: mock for testing, should be fetched from backend
 
 const props = defineProps({
@@ -166,7 +168,10 @@ const disabledByBackend = computed(() => props.drop?.disabled)
 const defaultImage = computed(() => props.drop?.image)
 const defaultName = computed(() => props.drop?.name)
 const defaultMax = computed(() => props.drop?.max || 255)
-const { mintedDropCount, fetchDropStatus } = useDropStatus(props.drop.alias)
+const { currentAccountMintedToken, fetchDropStatus } = useDropStatus(
+  props.drop.alias,
+)
+
 const instance = getCurrentInstance()
 const mintNftSN = ref('0')
 const { doAfterLogin } = useDoAfterlogin(instance)
@@ -236,6 +241,10 @@ const { data: holderOfCollectionData } = await useAsyncData(
   },
 )
 
+const mintedDropCount = computed(
+  () => collectionData.value?.collection?.totalCount || 0,
+)
+
 const mintedAmountForCurrentUser = computed(
   () => collectionData.value?.nftEntitiesConnection?.totalCount || 0, // todo: fetch from backend
 )
@@ -247,11 +256,11 @@ const maxCount = computed(
   () => collectionData.value?.collectionEntity?.max || defaultMax.value,
 )
 
-// const hasUserMinted = computed(() =>
-//   currentAccountMintedToken.value
-//     ? `${collectionId.value}-${currentAccountMintedToken.value.id}`
-//     : mintedNft.value?.id,
-// )
+const hasUserMinted = computed(() =>
+  currentAccountMintedToken.value
+    ? `${collectionId.value}-${currentAccountMintedToken.value.id}`
+    : mintedNft.value?.id,
+)
 
 const mintedCount = computed(() =>
   Math.min(mintedDropCount.value, maxCount.value),

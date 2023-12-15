@@ -42,4 +42,13 @@ query unlockableCollectionById(
   ) {
     totalCount
   }
+  collection: nftEntitiesConnection(
+    where: {
+      burned_eq: false
+      collection: { id_eq: $id }
+    }
+    orderBy: blockNumber_DESC
+  ) {
+    totalCount
+  }
 }
