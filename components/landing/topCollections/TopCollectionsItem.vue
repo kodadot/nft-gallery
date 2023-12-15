@@ -149,7 +149,6 @@ const diffPercentString = computed(() => {
 })
 
 const usdValue = computed(() => toUsdPrice(volume.value, chainName))
-// calculateUsdFromToken(volume.value, fiatStore.getCurrentKSMValue as number),
 
 const color = computed(() => {
   if (diffPercent.value) {

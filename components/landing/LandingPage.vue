@@ -25,8 +25,7 @@
       <!-- top collections -->
       <section v-if="showTopCollections" class="py-8 instance">
         <div class="container is-fluid">
-          <LandingTopCollectionsAh v-if="isAssetHub" class="my-5" />
-          <LandingTopCollections v-else class="my-5" />
+          <LandingTopCollections class="my-5" />
         </div>
       </section>
 
@@ -65,7 +64,6 @@ const hiddenCarrouselPrefixes: Prefix[] = ['dot']
 const forbiddenPrefixesForTopCollections: Prefix[] = ['ksm', 'dot']
 
 const { urlPrefix } = usePrefix()
-const { isAssetHub } = useIsChain(urlPrefix)
 const preferencesStore = usePreferencesStore()
 const { width } = useWindowSize()
 
