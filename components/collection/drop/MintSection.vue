@@ -58,7 +58,7 @@
             class="my-2 mint-button"
             variant="k-accent"
             :loading="isImageFetching || isWalletConnecting"
-            :disabled="mintButtonDisabled"
+            :disabled="disabled"
             :loading-with-label="isWalletConnecting"
             :label="
               $t(
@@ -83,6 +83,7 @@ const NuxtLink = resolveComponent('NuxtLink')
 const props = defineProps<{
   mintedCount: number
   maxCount: number
+  mintCountAvailable: boolean
   token: string
   minimumFunds: number
   isImageFetching: boolean
@@ -99,12 +100,6 @@ const mintedPercent = computed(() => {
   const percent = (props.mintedCount / props.maxCount) * 100
   return Math.round(percent)
 })
-
-const mintCountAvailable = computed(() => props.mintedCount < props.maxCount)
-
-const mintButtonDisabled = computed(
-  () => props.disabled || !mintCountAvailable.value,
-)
 </script>
 
 <style scoped lang="scss">

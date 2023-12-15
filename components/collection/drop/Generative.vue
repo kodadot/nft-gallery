@@ -19,6 +19,7 @@
             :token="token"
             :max-count="maxCount"
             :minted-count="mintedCount"
+            :mint-count-available="mintCountAvailable"
             :disabled="mintButtonDisabled"
             @mint="handleSubmitMint" />
         </div>
@@ -180,9 +181,16 @@ const mintedCount = computed(() =>
   Math.min(mintedDropCount.value, maxCount.value),
 )
 
+const mintCountAvailable = computed(() => mintedCount.value < maxCount.value)
+
 const mintButtonDisabled = computed(
   () =>
-    isLogIn.value && Boolean(!selectedImage.value || disabledByBackend.value),
+    isLogIn.value &&
+    Boolean(
+      !mintCountAvailable.value ||
+        !selectedImage.value ||
+        disabledByBackend.value,
+    ),
 )
 
 const description = computed(
