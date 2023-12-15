@@ -35,7 +35,7 @@ $steps-content-padding: 1rem !default;
   }
 
   &__divider {
-    @apply bg-gradient-to-l from-k-shade/50 to-steps-active-color/50 bg-[length:200%_100%] bg-[right_bottom];
+    @apply bg-none bg-k-shade bg-[length:200%_100%] bg-[right_bottom];
   }
 
   // oruga mixes the step size and the titlle font size together ($steps-font-size)
@@ -64,7 +64,7 @@ $steps-content-padding: 1rem !default;
       // move divider to right side (color it active)
       // this is required becuase of the theme override above of the divider background
       .o-steps__divider {
-        @apply bg-[left_bottom];
+        @apply bg-k-blue bg-[left_bottom];
       }
     }
 
@@ -82,7 +82,7 @@ $steps-content-padding: 1rem !default;
       // move divider to right side (color it active)
       // this is required becuase of the theme override above of the divider background
       .o-steps__divider {
-        @apply bg-[left_bottom];
+        @apply bg-k-blue bg-[left_bottom];
       }
     }
   }
