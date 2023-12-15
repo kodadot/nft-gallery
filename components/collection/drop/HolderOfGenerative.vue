@@ -133,7 +133,7 @@ import holderOfCollectionById from '@/queries/subsquid/general/holderOfCollectio
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 import Loader from '@/components/shared/Loader.vue'
 
-const holderOfCollectionId = '290' // ChaosFlakes | todo: mock for testing, should be fetched from backend
+const holderOfCollectionId = '50' // ChaosFlakes | todo: mock for testing, should be fetched from backend
 
 const props = defineProps({
   drop: {
@@ -153,10 +153,7 @@ export type DropMintedNft = DoResult & {
 useMultipleBalance(true)
 
 const minimumFunds = computed<number>(
-  () =>
-    0.01 || // todo: mock minimum for testing
-    (props.drop.meta && formatBsxBalanceToNumber(props.drop.meta)) ||
-    0,
+  () => (props.drop.meta && formatBsxBalanceToNumber(props.drop.meta)) || 0.2,
 )
 const store = useIdentityStore()
 

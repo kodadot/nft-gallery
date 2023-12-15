@@ -2,7 +2,7 @@
   <UnlockableCollectionBanner :drop="drop" />
   <CollectionDropContainer v-if="dropType === 'paid'" :drop="drop" />
   <CollectionDropHolderOfGenerative
-    v-else-if="dropType === 'generative' && drop.alias === 'flatwhite'"
+    v-else-if="dropType === 'generative' && drop.alias === 'chroma'"
     :drop="drop" />
   <CollectionDropGenerative
     v-else-if="dropType === 'generative'"
