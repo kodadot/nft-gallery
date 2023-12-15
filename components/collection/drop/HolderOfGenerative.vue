@@ -194,6 +194,12 @@ const token = computed(() => prefixToToken[props.drop.chain])
 const mintedNft = ref<DropMintedNft>()
 const mintedNftWithMetadata = ref<NFTWithMetadata>()
 
+const { totalItemDeposit, chainSymbol: depositChainSymbol } = useDeposit(
+  computed(() => props.drop.chain),
+)
+
+const depositAmount = computed(() => Number(totalItemDeposit.value).toFixed(4))
+
 const handleSelectImage = (image: string) => {
   selectedImage.value = image
 }
@@ -269,7 +275,7 @@ const mintButtonLabel = computed(() => {
       ? isHolderOfTargetCollection.value &&
         maxMintLimitForCurrentUser.value > mintedAmountForCurrentUser.value
         ? $i18n.t('mint.unlockable.claimPaidNft', [
-            `${minimumFunds.value} ${token.value}`,
+            `${depositAmount.value} ${depositChainSymbol.value}`,
           ])
         : $i18n.t('mint.unlockable.notEligibility')
       : $i18n.t('mint.unlockable.checkEligibility')

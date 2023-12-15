@@ -66,6 +66,7 @@ type DoSubmitDropRequest = {
   sn: string
   hash: string
   account: string
+  email?: string
 }
 
 export type DoResult = {
