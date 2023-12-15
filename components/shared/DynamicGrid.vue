@@ -17,6 +17,7 @@ const props = withDefaults(
     }
     gridSize?: 'small' | 'medium' | 'large'
     mobileVariant?: boolean
+    mobileCols?: number
   }>(),
   {
     defaultWidth: () => ({
@@ -25,6 +26,7 @@ const props = withDefaults(
       large: 16 * 20, // 20rem
     }),
     mobileVariant: true,
+    mobileCols: 1,
   },
 )
 
@@ -45,7 +47,7 @@ const updateColumns = () => {
       containerWidth.value / props.defaultWidth[grid.value],
     )
 
-    cols.value = isMobileVariant.value ? 1 : getCols
+    cols.value = isMobileVariant.value ? props.mobileCols : getCols
   }
 }
 
