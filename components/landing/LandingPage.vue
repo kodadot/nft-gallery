@@ -35,13 +35,13 @@
         <section class="py-8 instance">
           <div class="container is-fluid">
             <!-- new listings -->
-            <!-- <LazyCarouselTypeNewestList /> -->
+            <LazyCarouselTypeNewestList />
 
             <!-- latest sales -->
-            <!-- <LazyCarouselTypeLatestSales class="mt-8" /> -->
+            <LazyCarouselTypeLatestSales class="mt-8" />
 
             <!-- generative  -->
-            <!-- <LazyCarouselTypeGenerative class="mt-8" /> -->
+            <LazyCarouselTypeGenerative class="mt-8" />
           </div>
         </section>
       </ClientOnly>
@@ -62,13 +62,7 @@ import CarouselTypeSpotlight from '@/components/carousel/CarouselTypeSpotlight.v
 import { usePreferencesStore } from '@/stores/preferences'
 
 const hiddenCarrouselPrefixes: Prefix[] = ['dot']
-const forbiddenPrefixesForTopCollections: Prefix[] = [
-  'ksm',
-  // 'ahk',
-  // 'ahp',
-  'dot',
-  // 'ahr',
-]
+const forbiddenPrefixesForTopCollections: Prefix[] = ['ksm', 'dot']
 
 const { urlPrefix } = usePrefix()
 const { isAssetHub } = useIsChain(urlPrefix)
