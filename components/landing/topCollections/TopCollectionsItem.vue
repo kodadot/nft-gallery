@@ -18,10 +18,12 @@
           </div>
           <div class="is-flex is-justify-content-start">
             <div class="is-hidden-mobile">
-              <div v-if="collection.floorPrice" class="no-wrap">
+              <div
+                v-if="collection.floorPrice || collection.floor"
+                class="no-wrap">
                 {{ $t('general.floor') }}:
                 <CommonTokenMoney
-                  :value="collection.floorPrice"
+                  :value="collection.floorPrice || collection.floor"
                   inline
                   :round="2" />
               </div>
