@@ -10,17 +10,8 @@
       :scrollable="false"
       :loading="loading"
       @close="onClose">
-      <div
-        class="rounded border shade-border-color is-flex is-justify-content-start is-flex-grow-1 pl-3 mb-6">
-        <IdentityItem
-          :label="$t('confirmPurchase.connectedWith')"
-          hide-identity-popover
-          disable-identity-link
-          :prefix="urlPrefix"
-          :account="accountId"
-          class="identity-name-font-weight-regular"
-          data-testid="item-creator" />
-      </div>
+      <ModalIdentityItem class="mb-5" />
+
       <p
         v-dompurify-html="
           $t('mint.unlockable.addFundsModal.textP1', [
@@ -82,6 +73,7 @@
 import { NeoIcon, NeoModal, NeoTooltip } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import AutoTeleportActionButton from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
+import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 
 const emit = defineEmits(['confirm', 'update:modelValue'])
 withDefaults(
@@ -97,13 +89,9 @@ withDefaults(
   },
 )
 
-const { urlPrefix } = usePrefix()
-const { accountId } = useAuth()
-
 const autoteleport = ref()
 
 const canAutoTeleport = computed(() => autoteleport.value?.canAutoTeleport)
-
 const loading = computed(() => !autoteleport.value?.hasBalances)
 
 const onClose = () => {
@@ -119,16 +107,6 @@ const handleModalClose = (completed: boolean) => {
 
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
-
-.shade-border-color {
-  @include ktheme() {
-    border-color: theme('k-shade');
-  }
-}
-
-.rounded {
-  border-radius: 10rem;
-}
 
 .add-funds-note {
   cursor: default;
