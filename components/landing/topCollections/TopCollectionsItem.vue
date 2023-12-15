@@ -46,7 +46,11 @@
             <CommonTokenMoney :value="volume" inline :round="2" />
           </div>
           <div class="no-wrap is-hidden-mobile">
-            <BasicMoney :value="usdValue" inline :unit="'USD'" :round="0" />
+            <BasicMoney
+              :value="usdValue"
+              inline
+              hide-unit
+              :round="0" />&nbsp;USD
           </div>
 
           <div class="is-hidden-tablet is-size-7 no-wrap">
@@ -70,10 +74,8 @@
 
 <script lang="ts" setup>
 import { TimeRange } from '@/components/series/types'
-import { calculateUsdFromToken } from '@/utils/calculation'
 import { CollectionEntityWithVolumes } from './utils/types'
 import { getChainNameByPrefix } from '@/utils/chain'
-import { useFiatStore } from '@/stores/fiat'
 
 const BasicImage = defineAsyncComponent(
   () => import('@/components/shared/view/BasicImage.vue'),
@@ -89,7 +91,7 @@ const BasicMoney = defineAsyncComponent(
 
 const { urlPrefix } = usePrefix()
 const { placeholder } = useTheme()
-const fiatStore = useFiatStore()
+const { toUsdPrice } = useUsdValue()
 const props = defineProps<{
   collection: CollectionEntityWithVolumes
   index: number
@@ -146,9 +148,8 @@ const diffPercentString = computed(() => {
   return `${sign.value} ${Math.abs(Math.round(diffPercent.value))}%`
 })
 
-const usdValue = computed(() =>
-  calculateUsdFromToken(volume.value, fiatStore.getCurrentKSMValue as number),
-)
+const usdValue = computed(() => toUsdPrice(volume.value, chainName))
+// calculateUsdFromToken(volume.value, fiatStore.getCurrentKSMValue as number),
 
 const color = computed(() => {
   if (diffPercent.value) {
