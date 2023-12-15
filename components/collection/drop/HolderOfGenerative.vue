@@ -116,7 +116,7 @@ import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { createUnlockableMetadata } from '../unlockable/utils'
 import GenerativePreview from '@/components/collection/drop/GenerativePreview.vue'
 import { DropItem } from '@/params/types'
-import { DoResult, doSubmitDrop } from '@/services/waifu'
+import { DoResult, claimDropItem } from '@/services/waifu'
 import { useDropStatus } from '@/components/drops/useDrops'
 import { makeScreenshot } from '@/services/capture'
 import { pinFileToIPFS } from '@/services/nftStorage'
@@ -412,10 +412,10 @@ const submitMint = async (sn: string) => {
 
     isImageFetching.value = false
 
-    const { result } = await doSubmitDrop(
+    const { result } = await claimDropItem(
       {
         account: accountId.value,
-        hash,
+        metadata: hash,
         sn,
       },
       props.drop.id,
