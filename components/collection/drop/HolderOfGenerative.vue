@@ -195,7 +195,9 @@ const { totalItemDeposit, chainSymbol: depositChainSymbol } = useDeposit(
   computed(() => props.drop.chain),
 )
 
-const depositAmount = computed(() => Number(totalItemDeposit.value).toFixed(4))
+const depositAmount = computed(() =>
+  (Number(totalItemDeposit.value) - 0.1).toFixed(4),
+)
 
 const handleSelectImage = (image: string) => {
   selectedImage.value = image
