@@ -38,8 +38,3 @@
 ## Screenshot 📸
 
 - [ ] My fix has changed **something** on UI; a screenshot is best to understand changes for others.
-
-## Copilot Summary
-copilot:summary
-
-copilot:poem
