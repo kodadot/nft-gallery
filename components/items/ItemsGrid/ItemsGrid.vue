@@ -90,6 +90,7 @@ const route = useRoute()
 
 const props = defineProps<{
   search?: Record<string, string | number>
+  resetSearchQueryParams?: string[]
   gridSection?: GridSection
 }>()
 
@@ -107,6 +108,7 @@ const gotoPage = (page: number) => {
   endPage.value = page
   isFetchingData.value = false
   isLoading.value = true
+  total.value = 0
 
   clearFetchResults()
   fetchSearch({ page, search: parseSearch(props.search) })
@@ -136,16 +138,20 @@ const {
 
 const skeletonCount = first.value
 
-const resetPage = useDebounceFn(() => {
+const resetPage = () => {
+  isLoading.value = true
   gotoPage(1)
-}, 500)
+}
+
+const debouncedResetPage = useDebounceFn(resetPage, 500)
 
 const { items, fetchSearch, clearFetchResults, usingTokens } = useFetchSearch({
   first,
   total,
   isFetchingData,
   isLoading,
-  resetSearch: resetPage,
+  resetSearch: debouncedResetPage,
+  resetSearchQueryParams: props.resetSearchQueryParams,
 })
 
 watch(
@@ -185,8 +191,7 @@ watch(
       return
     }
     if (!isEqual(newSearch, oldSearch)) {
-      isLoading.value = true
-      gotoPage(1)
+      resetPage()
     }
   },
   { deep: true },
