@@ -62,6 +62,7 @@
                     v-dompurify-html="
                       $t('mint.unlockable.minimumFundsDescription', [
                         `${minimumFunds} ${token}`,
+                        chainName,
                       ])
                     "
                     class="minimum-funds-description" />
@@ -186,6 +187,7 @@ const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
 
 const { urlPrefix } = usePrefix()
+const { name: chainName } = useChain()
 const selectedImage = ref<string>('')
 const isLoading = ref(false)
 const isImageFetching = ref(false)
