@@ -1,7 +1,7 @@
 <template>
   <div class="is-flex is-flex-direction-column w-full">
     <div
-      v-if="showAutoTeleport"
+      v-if="showAutoTeleport && !hideTop"
       class="is-flex is-justify-content-space-between w-full mb-4">
       <div class="is-flex">
         <div class="has-accent-blur">
@@ -55,6 +55,7 @@
     :can-do-action="hasEnoughInCurrentChain"
     :transactions="transactions"
     :auto-close="autoCloseModal"
+    :interaction="interaction"
     @close="handleAutoTeleportModalClose"
     @telport:retry="teleport"
     @action:start="(i) => actionRun(i)"
@@ -77,6 +78,7 @@ import type {
   AutoTeleportAction,
   AutoTeleportFeeParams,
 } from '@/composables/autoTeleport/types'
+import { ActionlessInteraction, getActionDetails } from './utils'
 
 export type AutoTeleportActionButtonConfirmEvent = {
   autoteleport: boolean
@@ -92,17 +94,22 @@ const emit = defineEmits([
 const props = withDefaults(
   defineProps<{
     amount: number
-    label: string
+    label?: string
     disabled: boolean
-    actions: AutoTeleportAction[]
+    actions?: AutoTeleportAction[]
     fees?: AutoTeleportFeeParams
     autoCloseModal: boolean
+    interaction?: ActionlessInteraction
+    hideTop?: boolean
   }>(),
   {
     fees: () => ({ actions: 0, actionAutoFees: true }),
     disabled: false,
     amount: 0,
     autoCloseModal: false,
+    actions: () => [],
+    label: '',
+    hideTop: false,
   },
 )
 
@@ -175,17 +182,18 @@ const hasNoFundsAtAll = computed(
   () => !hasEnoughInCurrentChain.value && !hasEnoughInRichestChain.value,
 )
 
-const confirmButtonTitle = computed(() => {
+const confirmButtonTitle = computed<string>(() => {
   const interaction =
-    transactions.value.actions[0].interaction?.toLocaleLowerCase()
-  return $i18n.t(`autoTeleport.steps.${interaction}.confirm`)
+    props.interaction || transactions.value.actions[0].interaction
+
+  return getActionDetails(interaction).confirm
 })
 
 const showAddFunds = computed(() => hasBalances.value && hasNoFundsAtAll.value)
 
 const autoTeleportLabel = computed(() => {
   if (hasEnoughInCurrentChain.value || props.disabled) {
-    return props.label
+    return props.label || confirmButtonTitle.value
   }
 
   if (!isReady.value) {
@@ -273,10 +281,10 @@ const submit = () => {
   }
 }
 
-const handleAutoTeleportModalClose = () => {
+const handleAutoTeleportModalClose = (completed: boolean) => {
   isModalOpen.value = false
   clear()
-  emit('modal:close')
+  emit('modal:close', completed)
 }
 
 watch(allowAutoTeleport, (allow) => {
@@ -291,7 +299,7 @@ watchSyncEffect(() => {
   }
 })
 
-defineExpose({ isReady, optimalTransition })
+defineExpose({ isReady, optimalTransition, canAutoTeleport })
 </script>
 
 <style lang="scss" scoped>
