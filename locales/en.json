@@ -604,8 +604,9 @@
       "onlyOneExample": "Example Of Drop",
       "mintThisNft": "Mint This NFT",
       "seeYourNft": "See Your NFT",
-      "minimumFundsDescription": "Holding a Minimum of <strong>{0}</strong> in Your Wallet is Required for This Free Mint.",
+      "minimumFundsDescription": "Holding a Minimum of <strong>{0} On {1}</strong> in Your Wallet is Required",
       "claimNftNow": "Claim NFT Now",
+      "claimPaidNft": "Claim For {0}",
       "nftAlreadyMinted": "NFT Already Minted",
       "yourVariation": "Your Unique Variation",
       "loader": {
@@ -623,6 +624,8 @@
       "eligible": "You Are Eligible",
       "exclusive": "Exclusive Access Only",
       "howItemWork": "How unlockable item works",
+      "checkEligibility": "Check Eligibility",
+      "notEligibility": "Not Eligible",
       "addFundsModal": {
         "title": "Action Required",
         "textP1": "To participate in this free, gasless drop, your wallet must hold a minimum of <strong>{0}</<strong>",
@@ -1084,7 +1087,16 @@
     "congratsSupport": "Congratulations for supporting",
     "tweetDonation": "Tweet about your awesome donation",
     "donationSentTo": "Your donation will be sent to:",
-    "ownerMessage": "(You Are Owner)"
+    "ownerMessage": "(You Are Owner)",
+    "insufficientExistentialDeposit": "Transferring Less Than {0} {1} (existential deposit) + Fees Will Lead To An Irreversible",
+    "fundsAtRisk": "Funds at risk",
+    "fundLossRisk": "Funds Loss Risk",
+    "lossOfFunds": "Loss Of Funds.",
+    "why": "Why?",
+    "existentialDepositTooltip": "Amounts Below {0} + Fees Risk Being Lost. Enter The Minimum To Proceed.",
+    "whatIsExistentialDeposit": "What is Existential Deposit?",
+    "checkboxLabel": "I understand this action will lead to an irreversible loss of funds."
+
   },
   "preferences": {
     "basic": "basic user interface",
