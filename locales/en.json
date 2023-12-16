@@ -11,6 +11,9 @@
   "collections": "Collections",
   "items": "Items",
   "users": "Users",
+  "burn": "Burn",
+  "purchase":"Purchase",
+  "delete": "Delete",
   "bridging": "Bridging",
   "recent": "Recent",
   "user": "User",
@@ -937,6 +940,8 @@
   },
   "tutorial": "Tutorial",
   "general": {
+    "nft": "NFT",
+    "nfts": "NFT(s)",
     "apply": "Apply",
     "resetAll": "Reset All",
     "filters": "Filters",
@@ -1449,7 +1454,8 @@
     "viewNft": "View NFT",
     "listNft": "List NFT",
     "canList": "NFT ready for listing!",
-    "teleportRequiredAmount": "Teleport required amount"
+    "teleportRequiredAmount": "Teleport required amount",
+    "claimFree": "Claim free"
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
@@ -1633,57 +1639,34 @@
       },
       "buy": {
         "confirm": "Teleport And Confirm Purchase",
-        "action": "Purchase",
-        "item": "NFT",
-        "title": "Buying NFT",
-        "submit": "Buying NFT..."
+        "title": "Buying NFT"
       },
       "list": {
         "confirm": "Teleport And Confirm Listing(s)",
-        "action": "List",
-        "item": "NFT(s)",
-        "title": "Listing NFT",
-        "submit": "Listing NFT..."
+        "title": "Listing NFT"
       },
       "mint": {
         "confirm": "Teleport and Create Collection",
-        "action": "Create",
-        "item": "Collection",
-        "title": "Minting NFT Collection",
-        "submit": "Minting NFT Collection..."
+        "title": "Minting NFT Collection"
       },
-      "generative_drop": {
-        "confirm": "Teleport required amount",
-        "action": "Claim free",
-        "item": "NFT"
+      "free_drop": {
+        "confirm": "Teleport required amount"
       },
       "mintnft": {
         "confirm": "Teleport and Mint NFT",
-        "action": "Mint",
-        "item": "NFT",
-        "title": "Minting NFT",
-        "submit": "Minting NFT..."
+        "title": "Minting NFT"
       },
       "send": {
         "confirm": "Teleport and Transfer NFT",
-        "action": "Transfer",
-        "item": "NFT",
-        "title": "Transferring NFT",
-        "submit": "Transferring NFT..."
+        "title": "Transferring NFT"
       },
       "delete": {
         "confirm": "Teleport and Delete Collection",
-        "action": "Delete",
-        "item": "Collection",
-        "title": "Deleting Collection",
-        "submit": "Deleting Collection..."
+        "title": "Deleting Collection"
       },
       "consume": {
         "confirm": "Teleport and Burn NFT",
-        "action": "Burn",
-        "item": "NFT",
-        "title": "Burning NFT",
-        "submit": "Burning NFT..."
+        "title": "Burning NFT"
       }
     }
   },

@@ -62,7 +62,7 @@
           ref="autoteleport"
           :amount="minimumFunds"
           :hide-top="!canAutoTeleport"
-          interaction="generative_drop"
+          :interaction="interaction"
           @modal:close="handleModalClose" />
       </div>
     </ModalBody>
@@ -74,22 +74,19 @@ import { NeoIcon, NeoModal, NeoTooltip } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import AutoTeleportActionButton from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
+import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 
 const emit = defineEmits(['confirm', 'update:modelValue'])
-withDefaults(
-  defineProps<{
-    modelValue: boolean
-    minimumFunds: number
-    formattedMinimumFunds: string
-    token: string
-    chain: string
-  }>(),
-  {
-    modelValue: false,
-  },
-)
+defineProps<{
+  modelValue: boolean
+  minimumFunds: number
+  formattedMinimumFunds: string
+  token: string
+  chain: string
+}>()
 
 const autoteleport = ref()
+const interaction = ActionlessInteraction.FREE_DROP // Check drop type
 
 const canAutoTeleport = computed(() => autoteleport.value?.canAutoTeleport)
 const loading = computed(() => !autoteleport.value?.hasBalances)

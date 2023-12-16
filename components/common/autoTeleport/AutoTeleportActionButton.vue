@@ -78,6 +78,7 @@ import type {
   AutoTeleportAction,
   AutoTeleportFeeParams,
 } from '@/composables/autoTeleport/types'
+import { ActionlessInteraction, getActionDetails } from './utils'
 
 export type AutoTeleportActionButtonConfirmEvent = {
   autoteleport: boolean
@@ -98,7 +99,7 @@ const props = withDefaults(
     actions?: AutoTeleportAction[]
     fees?: AutoTeleportFeeParams
     autoCloseModal: boolean
-    interaction?: string
+    interaction?: ActionlessInteraction
     hideTop?: boolean
   }>(),
   {
@@ -181,11 +182,11 @@ const hasNoFundsAtAll = computed(
   () => !hasEnoughInCurrentChain.value && !hasEnoughInRichestChain.value,
 )
 
-const confirmButtonTitle = computed(() => {
+const confirmButtonTitle = computed<string>(() => {
   const interaction =
-    props.interaction ||
-    transactions.value.actions[0].interaction?.toLocaleLowerCase()
-  return $i18n.t(`autoTeleport.steps.${interaction}.confirm`)
+    props.interaction || transactions.value.actions[0].interaction
+
+  return getActionDetails(interaction)?.confirm || ''
 })
 
 const showAddFunds = computed(() => hasBalances.value && hasNoFundsAtAll.value)

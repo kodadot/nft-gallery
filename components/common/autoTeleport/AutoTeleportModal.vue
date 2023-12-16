@@ -78,6 +78,7 @@ import TransactionSteps, {
 } from '@/components/shared/TransactionSteps/TransactionSteps.vue'
 import { TransactionStepStatus } from '@/components/shared/TransactionSteps/utils'
 import { type AutoTeleportTransactions } from '@/composables/autoTeleport/types'
+import { AutoTeleportInteractions, getActionDetails } from './utils'
 
 export type ActionDetails = {
   title: string
@@ -102,7 +103,7 @@ const props = withDefaults(
     transactions: AutoTeleportTransactions
     autoClose?: boolean
     autoCloseDelay?: number
-    interaction?: string
+    interaction?: AutoTeleportInteractions
   }>(),
   {
     autoClose: false,
@@ -131,15 +132,17 @@ const checkBalanceState = computed<TransactionStepStatus>(() => {
 })
 
 const mainInteraction = computed(
-  () =>
-    props.interaction ||
-    props.transactions.actions[0].interaction?.toLocaleLowerCase(),
+  () => props.interaction || props.transactions.actions[0].interaction,
 )
 
-const mainActionDetails = computed(() => ({
-  action: $i18n.t(`autoTeleport.steps.${mainInteraction.value}.action`),
-  item: $i18n.t(`autoTeleport.steps.${mainInteraction.value}.item`),
-}))
+const mainActionDetails = computed(() => {
+  const details = getActionDetails(mainInteraction.value)
+
+  return {
+    action: details.action,
+    item: details.item,
+  }
+})
 
 const steps = computed<TransactionStep[]>(() => {
   return [
@@ -163,9 +166,8 @@ const steps = computed<TransactionStep[]>(() => {
       },
     },
     props.transactions.actions.map((action) => {
-      const { title } = getActionDetails(action.interaction)
       return {
-        title,
+        title: getActionDetails(action.interaction)?.title,
         status: action.status.value,
         isError: action.isError.value,
         txId: action.txId.value,
@@ -202,7 +204,7 @@ const autoteleportFinalized = computed(() =>
   hasActions.value ? actionsFinalized.value : hasCompletedBalanceCheck.value,
 )
 
-const btnLabel = computed(() => {
+const btnLabel = computed<string>(() => {
   if (!hasActions.value && hasCompletedBalanceCheck.value) {
     return $i18n.t('redirect.continue')
   }
@@ -212,19 +214,11 @@ const btnLabel = computed(() => {
   }
 
   if (!actionsFinalized.value) {
-    return getActionDetails(activeStepInteraction.value).submit
+    return getActionDetails(activeStepInteraction.value)?.submit || ''
   }
 
   return $i18n.t('autoTeleport.close')
 })
-
-const getActionDetails = (interaction: string) => {
-  const i = interaction.toLocaleLowerCase()
-  return {
-    title: $i18n.t(`autoTeleport.steps.${i}.title`),
-    submit: $i18n.t(`autoTeleport.steps.${i}.submit`),
-  }
-}
 
 const FIRST_ACTION_STEP = 2
 const activeStepInteraction = computed(
