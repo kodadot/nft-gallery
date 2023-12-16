@@ -25,6 +25,13 @@ export const langsFlags = [
   },
 ]
 
+export const setUserLocale = (locale: string) => {
+  const { $i18n } = useNuxtApp()
+  const preferenceStore = usePreferencesStore()
+  preferenceStore.setUserLocale(locale)
+  $i18n.locale.value = locale
+}
+
 const md = MarkdownIt({
   breaks: false,
 })
