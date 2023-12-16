@@ -77,16 +77,27 @@ import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 
 const emit = defineEmits(['confirm', 'update:modelValue'])
-defineProps<{
-  modelValue: boolean
-  minimumFunds: number
-  formattedMinimumFunds: string
-  token: string
-  chain: string
-}>()
+const props = withDefaults(
+  defineProps<{
+    modelValue: boolean
+    minimumFunds: number
+    formattedMinimumFunds: string
+    token: string
+    chain: string
+    free: boolean
+  }>(),
+  {
+    free: false,
+  },
+)
 
 const autoteleport = ref()
-const interaction = ActionlessInteraction.FREE_DROP // Check drop type
+const interaction = computed(() => {
+  //tmp solution till drop type check is fixed
+  return props.free
+    ? ActionlessInteraction.FREE_DROP
+    : ActionlessInteraction.DROP
+})
 
 const canAutoTeleport = computed(() => autoteleport.value?.canAutoTeleport)
 const loading = computed(() => !autoteleport.value?.hasBalances)

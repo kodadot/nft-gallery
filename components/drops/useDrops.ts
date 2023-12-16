@@ -7,6 +7,7 @@ import {
   getDrops,
 } from '@/services/waifu'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
+import { existentialDeposit } from '@kodadot1/static'
 
 export interface Drop {
   collection: CollectionWithMeta
@@ -81,5 +82,44 @@ export const useDropStatus = (id: string) => {
     currentAccountMintedToken,
     mintedDropCount,
     fetchDropStatus,
+  }
+}
+
+export const useDropMinimumFunds = (drop) => {
+  const { chainBalances, chain: currentChain } = useTeleport()
+  const { urlPrefix } = usePrefix()
+  const { decimals, chainSymbol } = useChain()
+  const { fetchMultipleBalance } = useMultipleBalance()
+
+  const meta = computed(() => drop.meta || 0)
+
+  const currentChainBalance = computed(
+    () =>
+      (currentChain.value && Number(chainBalances[currentChain.value]())) || 0,
+  )
+
+  const minimumFunds = computed<number>(() => meta.value)
+
+  const transferableDropChainBalance = computed(
+    () => currentChainBalance.value - existentialDeposit[urlPrefix.value],
+  )
+
+  const hasMinimumFunds = computed(
+    () => transferableDropChainBalance.value >= minimumFunds.value,
+  )
+
+  const { formatted: formattedMinimumFunds } = useAmount(
+    meta,
+    decimals,
+    chainSymbol,
+    2,
+  )
+
+  onBeforeMount(fetchMultipleBalance)
+
+  return {
+    minimumFunds,
+    hasMinimumFunds,
+    formattedMinimumFunds,
   }
 }

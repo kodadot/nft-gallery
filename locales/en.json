@@ -608,7 +608,8 @@
       "onlyOneExample": "Example Of Drop",
       "mintThisNft": "Mint This NFT",
       "seeYourNft": "See Your NFT",
-      "minimumFundsDescription": "Holding a Minimum of <strong>{0} on {1}</strong> in Your Wallet is Required for This Free Mint.",
+      "minimumFundsDescription": "Holding a Minimum of <strong>{0} on {1}</strong> in Your Wallet is Required",
+      "freeMinimumFundsDescription": "Holding a Minimum of <strong>{0} on {1}</strong> in Your Wallet is Required for This Free Mint.",
       "claimNftNow": "Claim NFT Now",
       "claimPaidNft": "Claim For {0}",
       "nftAlreadyMinted": "NFT Already Minted",
@@ -1458,7 +1459,8 @@
     "listNft": "List NFT",
     "canList": "NFT ready for listing!",
     "teleportRequiredAmount": "Teleport required amount",
-    "claimFree": "Claim free"
+    "claimFree": "Claim free",
+    "claim": "Claim"
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
