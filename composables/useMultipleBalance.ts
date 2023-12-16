@@ -129,7 +129,7 @@ export default function (refetchPeriodically: boolean = false) {
   ) => {
     await fetchFiatPrice(forceFiat)
 
-    const assets = isTestnet
+    const assets = isTestnet.value
       ? multiBalanceAssetsTestnet.value
       : multiBalanceAssets.value
 

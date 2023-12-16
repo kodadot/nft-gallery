@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Prefix, existentialDeposit } from '@kodadot1/static'
+import { Prefix } from '@kodadot1/static'
 import type { ApiPromise } from '@polkadot/api'
 import { SubmittableExtrinsicFunction } from '@polkadot/api/types'
 import { XcmVersionedMultiLocation } from '@polkadot/types/lookup'
@@ -261,7 +261,3 @@ export const getChainCurrency = (chain: Chain): Currency => {
       return 'DOT'
   }
 }
-
-export const getChainExistentialDeposit = (
-  chain: Chain | undefined | null,
-): number => (chain ? existentialDeposit[chainToPrefixMap[chain]] : 0)

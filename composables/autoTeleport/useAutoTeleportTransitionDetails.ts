@@ -2,7 +2,6 @@ import {
   type Chain,
   chainToPrefixMap,
   getChainCurrency,
-  getChainExistentialDeposit,
   allowedTransitions as teleportRoutes,
 } from '@/utils/teleport'
 import { chainPropListOf } from '@/utils/config/chain.config'
@@ -65,13 +64,12 @@ export default function (
       Number(balance.value),
   )
 
-  const currentChainExistentialDeposit = computed(() =>
-    getChainExistentialDeposit(currentChain.value),
+  const { existentialDeposit } = useDeposit(
+    computed(() => chainToPrefixMap[currentChain.value]),
   )
 
   const transferableCurrentChainBalance = computed(
-    () =>
-      Number(currentChainBalance.value) - currentChainExistentialDeposit.value,
+    () => Number(currentChainBalance.value) - existentialDeposit.value,
   )
 
   const hasEnoughInCurrentChain = computed(
@@ -110,14 +108,9 @@ export default function (
     () => getMaxKeyByValue(sourceChainsBalances.value) as Chain | undefined,
   )
 
-  const richestChainExistentialDeposit = computed(() =>
-    getChainExistentialDeposit(richestChain.value),
-  )
-
   const richestChainBalance = computed(() =>
     richestChain.value
-      ? Number(sourceChainsBalances.value[richestChain.value]) -
-        richestChainExistentialDeposit.value
+      ? Number(sourceChainsBalances.value[richestChain.value])
       : 0,
   )
 

@@ -117,16 +117,4 @@ export const formatBsxBalanceToNumber = (amount) => {
   return parseFloat(format(amount, 12, false).replace(/,/g, ''))
 }
 
-export const roundAmount = (
-  value: string,
-  limit: number,
-  disableFilter: boolean,
-) => {
-  const number = Number(value.replace(/,/g, ''))
-  if (disableFilter) {
-    return parseFloat(number.toString())
-  }
-  return roundTo(value, limit)
-}
-
 export default format
