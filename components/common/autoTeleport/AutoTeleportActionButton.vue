@@ -186,7 +186,7 @@ const confirmButtonTitle = computed<string>(() => {
   const interaction =
     props.interaction || transactions.value.actions[0].interaction
 
-  return getActionDetails(interaction)?.confirm || ''
+  return getActionDetails(interaction).confirm
 })
 
 const showAddFunds = computed(() => hasBalances.value && hasNoFundsAtAll.value)

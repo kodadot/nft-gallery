@@ -167,7 +167,7 @@ const steps = computed<TransactionStep[]>(() => {
     },
     props.transactions.actions.map((action) => {
       return {
-        title: getActionDetails(action.interaction)?.title,
+        title: getActionDetails(action.interaction).title,
         status: action.status.value,
         isError: action.isError.value,
         txId: action.txId.value,
@@ -214,7 +214,7 @@ const btnLabel = computed<string>(() => {
   }
 
   if (!actionsFinalized.value) {
-    return getActionDetails(activeStepInteraction.value)?.submit || ''
+    return getActionDetails(activeStepInteraction.value).submit
   }
 
   return $i18n.t('autoTeleport.close')
