@@ -68,7 +68,7 @@
                   <div
                     v-dompurify-html="
                       $t('mint.unlockable.minimumFundsDescription', [
-                        formattedMinimumFunds,
+                        `${minimumFunds} ${token}`,
                         chainName,
                       ])
                     "
@@ -109,11 +109,8 @@
   <CollectionDropAddFundsModal
     v-model="isAddFundModalActive"
     :minimum-funds="minimumFunds"
-    :formatted-minimum-funds="formattedMinimumFunds"
     :token="token"
-    :chain="chainName"
-    @close="closeAddFundModal"
-    @confirm="handleDropAddModalConfirm" />
+    @close="isAddFundModalActive = false" />
 </template>
 
 <script setup lang="ts">
@@ -126,11 +123,17 @@ import { createUnlockableMetadata } from '../unlockable/utils'
 import GenerativePreview from '@/components/collection/drop/GenerativePreview.vue'
 import { DropItem } from '@/params/types'
 import { DoResult, claimDropItem } from '@/services/waifu'
-import { useDropMinimumFunds, useDropStatus } from '@/components/drops/useDrops'
+import { useDropStatus } from '@/components/drops/useDrops'
 import { makeScreenshot } from '@/services/capture'
 import { pinFileToIPFS } from '@/services/nftStorage'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import { formatBsxBalanceToNumber } from '@/utils/format/balance'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
+import { useIdentityStore } from '@/stores/identity'
+import {
+  DOT_EXISTENTIAL_DEPOSIT,
+  KSM_EXISTENTIAL_DEPOSIT,
+} from '@/components/collection/unlockable/const'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import holderOfCollectionById from '@/queries/subsquid/general/holderOfCollectionById.graphql'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
@@ -155,10 +158,12 @@ export type DropMintedNft = DoResult & {
   name: string
 }
 
-const { fetchMultipleBalance } = useMultipleBalance()
+useMultipleBalance(true)
 
-const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
-  useDropMinimumFunds(props.drop)
+const minimumFunds = computed<number>(
+  () => (props.drop.meta && formatBsxBalanceToNumber(props.drop.meta)) || 0.2,
+)
+const store = useIdentityStore()
 
 const isWalletConnecting = ref(false)
 const collectionId = computed(() => props.drop?.collection)
@@ -378,7 +383,16 @@ const handleSubmitMint = async () => {
     return false
   }
 
-  if (hasMinimumFunds.value) {
+  const dropChainBalance = Number(store.getAuthBalanceByChain(props.drop.chain))
+  const relayChainBalance = Number(
+    store.getAuthBalanceByRelayChain(props.drop.chain),
+  )
+  const existentialDeposit =
+    token.value === 'KSM' ? KSM_EXISTENTIAL_DEPOSIT : DOT_EXISTENTIAL_DEPOSIT
+  if (
+    dropChainBalance >= minimumFunds.value ||
+    relayChainBalance >= existentialDeposit + minimumFunds.value
+  ) {
     mintNft()
   } else {
     openAddFundModal()
@@ -387,10 +401,6 @@ const handleSubmitMint = async () => {
 
 const openAddFundModal = () => {
   isAddFundModalActive.value = true
-}
-
-const closeAddFundModal = () => {
-  isAddFundModalActive.value = false
 }
 
 const subscribeToMintedNft = (id: string, onReady: (data) => void) => {
@@ -448,11 +458,6 @@ const submitMint = async (sn: string) => {
     isImageFetching.value = false
     throw error
   }
-}
-
-const handleDropAddModalConfirm = () => {
-  closeAddFundModal()
-  fetchMultipleBalance([urlPrefix.value])
 }
 </script>
 
