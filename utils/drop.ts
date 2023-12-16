@@ -1,4 +1,4 @@
-export const DEFAULT_DROP = '/ahp/drops/whirls'
+export const DEFAULT_DROP = '/ahp/drops/chroma'
 
 export const AHK_GENERATIVE_DROPS = [
   '176', // Chained

@@ -24,8 +24,3 @@
 ## Screenshot 📸
 
 - [ ] My fix has changed UI
-
-## Copilot Summary
-copilot:summary
-
-copilot:poem

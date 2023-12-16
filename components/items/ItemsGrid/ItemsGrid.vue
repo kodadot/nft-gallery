@@ -8,6 +8,7 @@
       v-if="total !== 0 && (!isLoading || !isFetchingData)"
       :id="scrollContainerId"
       v-slot="slotProps"
+      :mobile-cols="2"
       class="my-5">
       <div
         v-for="(entity, index) in items"
@@ -53,7 +54,8 @@
     <!-- skeleton on first load -->
     <DynamicGrid
       v-if="total === 0 && (isLoading || isFetchingData)"
-      class="my-5">
+      class="my-5"
+      :mobile-cols="2">
       <NeoNftCardSkeleton
         v-for="n in skeletonCount"
         :key="n"
