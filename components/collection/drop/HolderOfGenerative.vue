@@ -69,6 +69,7 @@
                     v-dompurify-html="
                       $t('mint.unlockable.minimumFundsDescription', [
                         `${minimumFunds} ${token}`,
+                        chainName,
                       ])
                     "
                     class="minimum-funds-description" />
@@ -194,6 +195,7 @@ const {
   status,
 } = useMetaTransaction()
 
+const chainName = computed(() => getChainName(props.drop.chain))
 const token = computed(() => prefixToToken[props.drop.chain])
 
 const mintedNft = ref<DropMintedNft>()
