@@ -114,7 +114,7 @@ const amount = ref()
 
 const {
   isAvailable: isAutoTeleportAvailable,
-  hasBalances,
+  isReady,
   hasEnoughInCurrentChain,
   hasEnoughInRichestChain,
   optimalTransition,
@@ -163,12 +163,12 @@ const showAutoTeleport = computed(
   () =>
     !hasEnoughInCurrentChain.value &&
     isAutoTeleportAvailable.value &&
-    hasBalances.value &&
+    isReady.value &&
     !props.disabled,
 )
 
 const allowAutoTeleport = computed(
-  () => needsAutoTelport.value && canAutoTeleport.value && hasBalances.value,
+  () => needsAutoTelport.value && canAutoTeleport.value && isReady.value,
 )
 
 const hasNoFundsAtAll = computed(
@@ -188,7 +188,7 @@ const autoTeleportLabel = computed(() => {
     return props.label
   }
 
-  if (!hasBalances.value) {
+  if (!isReady.value) {
     return $i18n.t('autoTeleport.checking')
   }
 
@@ -291,7 +291,7 @@ watchSyncEffect(() => {
   }
 })
 
-defineExpose({ hasBalances, optimalTransition })
+defineExpose({ isReady, optimalTransition })
 </script>
 
 <style lang="scss" scoped>

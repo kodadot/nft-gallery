@@ -604,7 +604,7 @@
       "onlyOneExample": "Example Of Drop",
       "mintThisNft": "Mint This NFT",
       "seeYourNft": "See Your NFT",
-      "minimumFundsDescription": "Holding a Minimum of <strong>{0}</strong> in Your Wallet is Required",
+      "minimumFundsDescription": "Holding a Minimum of <strong>{0} On {1}</strong> in Your Wallet is Required",
       "claimNftNow": "Claim NFT Now",
       "claimPaidNft": "Claim For {0}",
       "nftAlreadyMinted": "NFT Already Minted",
@@ -1088,7 +1088,15 @@
     "tweetDonation": "Tweet about your awesome donation",
     "donationSentTo": "Your donation will be sent to:",
     "ownerMessage": "(You Are Owner)",
-    "insufficientExistentialDeposit": "Sending less than the required Existential Deposit amount will result in fund loss, min value to send is [ {0} + fees ] {1}"
+    "insufficientExistentialDeposit": "Transferring Less Than {0} {1} (existential deposit) + Fees Will Lead To An Irreversible",
+    "fundsAtRisk": "Funds at risk",
+    "fundLossRisk": "Funds Loss Risk",
+    "lossOfFunds": "Loss Of Funds.",
+    "why": "Why?",
+    "existentialDepositTooltip": "Amounts Below {0} + Fees Risk Being Lost. Enter The Minimum To Proceed.",
+    "whatIsExistentialDeposit": "What is Existential Deposit?",
+    "checkboxLabel": "I understand this action will lead to an irreversible loss of funds."
+
   },
   "preferences": {
     "basic": "basic user interface",
