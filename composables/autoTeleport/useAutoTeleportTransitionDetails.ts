@@ -2,6 +2,7 @@ import {
   type Chain,
   chainToPrefixMap,
   getChainCurrency,
+  getChainExistentialDeposit,
   allowedTransitions as teleportRoutes,
 } from '@/utils/teleport'
 import { chainPropListOf } from '@/utils/config/chain.config'
@@ -35,7 +36,12 @@ export default function (
   const { apiInstance, apiInstanceByPrefix } = useApi()
   const { balance } = useBalance()
 
-  const fetched = ref({ teleportTxFee: false, actionTxFees: false })
+  const fetched = ref({
+    teleportTxFee: false,
+    actionTxFees: false,
+    balances: false,
+  })
+
   const teleportTxFee = ref(0)
   const actionTxFees = ref<number[]>([])
   const extraActionFees = computed(() =>
@@ -64,12 +70,13 @@ export default function (
       Number(balance.value),
   )
 
-  const { existentialDeposit } = useDeposit(
-    computed(() => chainToPrefixMap[currentChain.value]),
+  const currentChainExistentialDeposit = computed(() =>
+    getChainExistentialDeposit(currentChain.value),
   )
 
   const transferableCurrentChainBalance = computed(
-    () => Number(currentChainBalance.value) - existentialDeposit.value,
+    () =>
+      Number(currentChainBalance.value) - currentChainExistentialDeposit.value,
   )
 
   const hasEnoughInCurrentChain = computed(
@@ -100,17 +107,23 @@ export default function (
 
   const hasBalances = computed(
     () =>
-      Boolean(currentChainBalance.value) &&
-      Object.values(sourceChainsBalances.value).every(Boolean),
+      (Boolean(currentChainBalance.value) &&
+        Object.values(sourceChainsBalances.value).every(Boolean)) ||
+      fetched.value.balances,
   )
 
   const richestChain = computed<Chain | undefined>(
     () => getMaxKeyByValue(sourceChainsBalances.value) as Chain | undefined,
   )
 
+  const richestChainExistentialDeposit = computed(() =>
+    getChainExistentialDeposit(richestChain.value),
+  )
+
   const richestChainBalance = computed(() =>
     richestChain.value
-      ? Number(sourceChainsBalances.value[richestChain.value])
+      ? Number(sourceChainsBalances.value[richestChain.value]) -
+        richestChainExistentialDeposit.value
       : 0,
   )
 
@@ -244,7 +257,9 @@ export default function (
     [allowedSourceChains, needsSourceChainBalances],
     async () => {
       if (allowedSourceChains.value.length && needsSourceChainBalances.value) {
+        fetched.value.balances = false
         await getTransitionBalances()
+        fetched.value.balances = true
       }
     },
     { immediate: true },
