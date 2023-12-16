@@ -446,6 +446,9 @@ a.has-text-grey {
     background-color: theme('k-redaccent');
   }
 }
+.k-grey-light {
+  background-color: var(--k-grey-light) !important;
+}
 .theme-background-color {
   @include ktheme() {
     background-color: theme('background-color');
@@ -586,4 +589,16 @@ a.has-text-grey {
 
 .has-text-inherit {
   color: inherit !important;
+}
+
+.cursor-default {
+  cursor: default;
+}
+
+.min-width-0 {
+  min-width: 0;
+}
+
+.pointer-events-none {
+  pointer-events: none !important;
 }

@@ -26,6 +26,7 @@ query unlockableCollectionById(
       where: { burned_eq: false, AND: $search }
     ) {
       id
+      sn
       metadata
       name
       price
