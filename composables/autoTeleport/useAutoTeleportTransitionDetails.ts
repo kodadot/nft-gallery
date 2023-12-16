@@ -36,7 +36,12 @@ export default function (
   const { apiInstance, apiInstanceByPrefix } = useApi()
   const { balance } = useBalance()
 
-  const fetched = ref({ teleportTxFee: false, actionTxFees: false })
+  const fetched = ref({
+    teleportTxFee: false,
+    actionTxFees: false,
+    balances: false,
+  })
+
   const teleportTxFee = ref(0)
   const actionTxFees = ref<number[]>([])
   const extraActionFees = computed(() =>
@@ -102,8 +107,9 @@ export default function (
 
   const hasBalances = computed(
     () =>
-      Boolean(currentChainBalance.value) &&
-      Object.values(sourceChainsBalances.value).every(Boolean),
+      (Boolean(currentChainBalance.value) &&
+        Object.values(sourceChainsBalances.value).every(Boolean)) ||
+      fetched.value.balances,
   )
 
   const richestChain = computed<Chain | undefined>(
@@ -251,7 +257,9 @@ export default function (
     [allowedSourceChains, needsSourceChainBalances],
     async () => {
       if (allowedSourceChains.value.length && needsSourceChainBalances.value) {
+        fetched.value.balances = false
         await getTransitionBalances()
+        fetched.value.balances = true
       }
     },
     { immediate: true },

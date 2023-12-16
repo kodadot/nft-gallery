@@ -189,7 +189,7 @@ const confirmButtonTitle = computed<string>(() => {
   return getActionDetails(interaction).confirm
 })
 
-const showAddFunds = computed(() => hasBalances.value && hasNoFundsAtAll.value)
+const showAddFunds = computed(() => isReady.value && hasNoFundsAtAll.value)
 
 const autoTeleportLabel = computed(() => {
   if (hasEnoughInCurrentChain.value || props.disabled) {

@@ -100,7 +100,7 @@ const interaction = computed(() => {
 })
 
 const canAutoTeleport = computed(() => autoteleport.value?.canAutoTeleport)
-const loading = computed(() => !autoteleport.value?.hasBalances)
+const loading = computed(() => !autoteleport.value?.isReady)
 
 const onClose = () => {
   emit('update:modelValue', false)
