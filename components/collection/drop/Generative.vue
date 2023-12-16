@@ -187,13 +187,13 @@ const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
 
 const { urlPrefix } = usePrefix()
-const { name: chainName } = useChain()
 const selectedImage = ref<string>('')
 const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isConfirmModalActive = ref(false)
 const isAddFundModalActive = ref(false)
 
+const chainName = computed(() => getChainName(props.drop.chain))
 const token = computed(() => prefixToToken[props.drop.chain])
 
 export type DropMintedNft = DoResult & {

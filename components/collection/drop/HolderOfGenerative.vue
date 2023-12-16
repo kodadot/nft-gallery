@@ -181,7 +181,6 @@ const root = ref()
 const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
-const { name: chainName } = useChain()
 
 const { client } = usePrefix()
 const selectedImage = ref<string>('')
@@ -196,6 +195,7 @@ const {
   status,
 } = useMetaTransaction()
 
+const chainName = computed(() => getChainName(props.drop.chain))
 const token = computed(() => prefixToToken[props.drop.chain])
 
 const mintedNft = ref<DropMintedNft>()
