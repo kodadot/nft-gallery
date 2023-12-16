@@ -13,7 +13,7 @@ $steps-divider-height: 2px;
 $steps-marker-background: #fff;
 $steps-marker-border: 0.2em solid $grey-light !default;
 
-$steps-marker-color: $primary-invert !default;
+$steps-marker-color: var(--background-color) !default;
 $steps-marker-font-weight: 700 !default;
 $steps-marker-rounded-border-radius: $base-rounded-border-radius !default;
 $steps-color: $grey-lighter !default;
