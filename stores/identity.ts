@@ -19,16 +19,6 @@ const DEFAULT_BALANCE_STATE = {
   // movr: '0',
 }
 
-const prefixToToken = {
-  ksm: 'KSM',
-  rmrk: 'KSM',
-  bsx: 'KSM',
-  ahk: 'KSM',
-  ahp: 'DOT',
-  dot: 'DOT',
-  ahr: 'ROC',
-}
-
 export interface IdentityMap {
   [address: string]: Registration
 }
@@ -134,14 +124,6 @@ export const useIdentityStore = defineStore('identity', {
       return state.auth.balance
         ? state.auth.balance[urlPrefix.value] || '0'
         : '0'
-    },
-    getAuthBalanceByChain: (state) => (prefix: Prefix) => {
-      return state.auth.balance ? state.auth.balance[prefix] || '0' : '0'
-    },
-    getAuthBalanceByRelayChain: (state) => (prefix: Prefix) => {
-      const relayChain = prefixToToken[prefix] === 'DOT' ? 'dot' : 'ksm'
-
-      return state.auth.balance ? state.auth.balance[relayChain] || '0' : '0'
     },
     getTotalUsd: (state) => {
       if (
