@@ -172,7 +172,6 @@ const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
 const { urlPrefix } = usePrefix()
-const { name: chainName } = useChain()
 const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
   useDropStatus(props.drop.alias)
 const { doAfterLogin } = useDoAfterlogin(instance)
@@ -195,6 +194,7 @@ const disabledByBackend = computed(() => props.drop?.disabled)
 const defaultImage = computed(() => props.drop?.image)
 const defaultName = computed(() => props.drop?.name)
 const defaultMax = computed(() => props.drop?.max || 255)
+const chainName = computed(() => getChainName(props.drop.chain))
 const token = computed(() => prefixToToken[props.drop.chain])
 
 const { data: collectionData } = useGraphql({

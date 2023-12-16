@@ -173,7 +173,6 @@ const mintNftSN = ref('0')
 const { doAfterLogin } = useDoAfterlogin(instance)
 const { $i18n, $consola } = useNuxtApp()
 const root = ref()
-const { name: chainName } = useChain()
 const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
@@ -191,6 +190,7 @@ const {
   status,
 } = useMetaTransaction()
 
+const chainName = computed(() => getChainName(props.drop.chain))
 const token = computed(() => prefixToToken[props.drop.chain])
 
 const mintedNft = ref<DropMintedNft>()
