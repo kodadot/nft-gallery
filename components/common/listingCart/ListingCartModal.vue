@@ -52,6 +52,7 @@
             ref="autoteleportButton"
             :actions="actions"
             :disabled="Boolean(listingCartStore.incompleteListPrices)"
+            :fees="{ actionLazyFetch: true }"
             :label="confirmListingLabel"
             @confirm="confirm" />
         </div>
@@ -96,9 +97,7 @@ const floorPricePercentAdjustment = ref()
 const autoTeleport = ref(false)
 const autoteleportButton = ref()
 
-const loadingAutoTeleport = computed(
-  () => !autoteleportButton.value?.hasBalances,
-)
+const loadingAutoTeleport = computed(() => !autoteleportButton.value?.isReady)
 
 const teleportTransitionTxFees = computed(() =>
   format(

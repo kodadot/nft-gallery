@@ -46,4 +46,5 @@ export type AutoTeleportAction = {
 export type AutoTeleportFeeParams = {
   actions?: number
   actionAutoFees?: boolean
+  actionLazyFetch?: boolean
 }

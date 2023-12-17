@@ -6,7 +6,12 @@
 
 <script setup lang="ts">
 import { useResizeObserver } from '@vueuse/core'
-import { usePreferencesStore } from '@/stores/preferences'
+import {
+  DEFAULT_GRID_SECTION,
+  GridSection,
+  type GridSize,
+  usePreferencesStore,
+} from '@/stores/preferences'
 
 const props = withDefaults(
   defineProps<{
@@ -15,8 +20,9 @@ const props = withDefaults(
       medium: number
       large: number
     }
-    gridSize?: 'small' | 'medium' | 'large'
+    gridSize?: GridSize
     mobileVariant?: boolean
+    gridSection?: GridSection
     mobileCols?: number
   }>(),
   {
@@ -26,6 +32,7 @@ const props = withDefaults(
       large: 16 * 20, // 20rem
     }),
     mobileVariant: true,
+    gridSection: DEFAULT_GRID_SECTION,
     mobileCols: 1,
   },
 )
@@ -36,7 +43,12 @@ const cols = ref(5)
 const containerWidth = ref(0)
 const container = ref<HTMLDivElement | null>(null)
 
-const grid = computed(() => props.gridSize || preferencesStore.getGridSize)
+const grid = computed(
+  () =>
+    props.gridSize ||
+    (props.gridSection &&
+      preferencesStore.getGridConfigBySection(props.gridSection)?.size),
+)
 const isMobileVariant = computed(
   () => props.mobileVariant && containerWidth.value <= 768,
 )
