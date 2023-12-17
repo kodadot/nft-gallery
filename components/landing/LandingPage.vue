@@ -25,7 +25,7 @@
       <!-- top collections -->
       <section v-if="showTopCollections" class="py-8 instance">
         <div class="container is-fluid">
-          <TopCollections class="my-5" />
+          <LandingTopCollections class="my-5" />
         </div>
       </section>
 
@@ -57,18 +57,11 @@
 <script lang="ts" setup>
 import type { Prefix } from '@kodadot1/static'
 import SearchLanding from './SearchLanding.vue'
-import TopCollections from './topCollections/TopCollections.vue'
 import CarouselTypeSpotlight from '@/components/carousel/CarouselTypeSpotlight.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 
 const hiddenCarrouselPrefixes: Prefix[] = ['dot']
-const forbiddenPrefixesForTopCollections: Prefix[] = [
-  'ksm',
-  'ahk',
-  'ahp',
-  'dot',
-  // 'ahr',
-]
+const forbiddenPrefixesForTopCollections: Prefix[] = ['ksm', 'dot']
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
