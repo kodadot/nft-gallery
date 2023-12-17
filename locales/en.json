@@ -144,10 +144,10 @@
   },
   "topCollections": {
     "timeFrames": {
-      "week": "7 Days",
-      "month": "30 Days",
-      "quarter": "90 Days",
-      "all": "All"
+      "week": "7D",
+      "month": "30D",
+      "quarter": "90D",
+      "all": "ALL"
     }
   },
   "funfacts": {
