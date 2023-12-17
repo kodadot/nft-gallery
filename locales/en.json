@@ -11,6 +11,10 @@
   "collections": "Collections",
   "items": "Items",
   "users": "Users",
+  "burn": "Burn",
+  "purchase":"Purchase",
+  "delete": "Delete",
+  "bridging": "Bridging",
   "recent": "Recent",
   "user": "User",
   "soon": "Soon",
@@ -140,10 +144,10 @@
   },
   "topCollections": {
     "timeFrames": {
-      "week": "7 Days",
-      "month": "30 Days",
-      "quarter": "90 Days",
-      "all": "All"
+      "week": "7D",
+      "month": "30D",
+      "quarter": "90D",
+      "all": "ALL"
     }
   },
   "funfacts": {
@@ -605,8 +609,10 @@
       "onlyOneExample": "Example Of Drop",
       "mintThisNft": "Mint This NFT",
       "seeYourNft": "See Your NFT",
-      "minimumFundsDescription": "Holding a Minimum of <strong>{0}</strong> in Your Wallet is Required for This Free Mint.",
+      "minimumFundsDescription": "Holding a Minimum of <strong>{0} On {1}</strong> in Your Wallet is Required",
+      "freeMinimumFundsDescription": "Holding a Minimum of <strong>{0} On {1}</strong> in Your Wallet is Required for This Free Mint.",
       "claimNftNow": "Claim NFT Now",
+      "claimPaidNft": "Claim For {0}",
       "nftAlreadyMinted": "NFT Already Minted",
       "yourVariation": "Your Unique Variation",
       "loader": {
@@ -624,9 +630,11 @@
       "eligible": "You Are Eligible",
       "exclusive": "Exclusive Access Only",
       "howItemWork": "How unlockable item works",
+      "checkEligibility": "Check Eligibility",
+      "notEligibility": "Not Eligible",
       "addFundsModal": {
         "title": "Action Required",
-        "textP1": "To participate in this free, gasless drop, your wallet must hold a minimum of <strong>{0}</<strong>",
+        "textP1": "To participate in this free, gasless drop, your wallet must hold a minimum of <strong>{0} on {1}</<strong>",
         "textP2": "Please add funds to continue",
         "howToAddFunds": "How to add funds",
         "tooltip": {
@@ -937,6 +945,8 @@
   },
   "tutorial": "Tutorial",
   "general": {
+    "nft": "NFT",
+    "nfts": "NFT(s)",
     "apply": "Apply",
     "resetAll": "Reset All",
     "filters": "Filters",
@@ -1086,7 +1096,15 @@
     "tweetDonation": "Tweet about your awesome donation",
     "donationSentTo": "Your donation will be sent to:",
     "ownerMessage": "(You Are Owner)",
-    "insufficientExistentialDeposit": "Sending less than the required Existential Deposit amount will result in fund loss, min value to send is [ {0} + fees ] {1}"
+    "insufficientExistentialDeposit": "Transferring Less Than {0} {1} (existential deposit) + Fees Will Lead To An Irreversible",
+    "fundsAtRisk": "Funds at risk",
+    "fundLossRisk": "Funds Loss Risk",
+    "lossOfFunds": "Loss Of Funds.",
+    "why": "Why?",
+    "existentialDepositTooltip": "Amounts Below {0} + Fees Risk Being Lost. Enter The Minimum To Proceed.",
+    "whatIsExistentialDeposit": "What is Existential Deposit?",
+    "checkboxLabel": "I understand this action will lead to an irreversible loss of funds."
+
   },
   "preferences": {
     "basic": "basic user interface",
@@ -1448,7 +1466,10 @@
     "artBy": "{0} By",
     "viewNft": "View NFT",
     "listNft": "List NFT",
-    "canList": "NFT ready for listing!"
+    "canList": "NFT ready for listing!",
+    "teleportRequiredAmount": "Teleport required amount",
+    "claimFree": "Claim free",
+    "claim": "Claim"
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
@@ -1632,52 +1653,34 @@
       },
       "buy": {
         "confirm": "Teleport And Confirm Purchase",
-        "action": "Purchase",
-        "item": "NFT",
-        "title": "Buying NFT",
-        "submit": "Buying NFT..."
+        "title": "Buying NFT"
       },
       "list": {
         "confirm": "Teleport And Confirm Listing(s)",
-        "action": "List",
-        "item": "NFT(s)",
-        "title": "Listing NFT",
-        "submit": "Listing NFT..."
+        "title": "Listing NFT"
       },
       "mint": {
         "confirm": "Teleport and Create Collection",
-        "action": "Create",
-        "item": "Collection",
-        "title": "Minting NFT Collection",
-        "submit": "Minting NFT Collection..."
+        "title": "Minting NFT Collection"
+      },
+      "free_drop": {
+        "confirm": "Teleport required amount"
       },
       "mintnft": {
         "confirm": "Teleport and Mint NFT",
-        "action": "Mint",
-        "item": "NFT",
-        "title": "Minting NFT",
-        "submit": "Minting NFT..."
+        "title": "Minting NFT"
       },
       "send": {
         "confirm": "Teleport and Transfer NFT",
-        "action": "Transfer",
-        "item": "NFT",
-        "title": "Transferring NFT",
-        "submit": "Transferring NFT..."
+        "title": "Transferring NFT"
       },
       "delete": {
         "confirm": "Teleport and Delete Collection",
-        "action": "Delete",
-        "item": "Collection",
-        "title": "Deleting Collection",
-        "submit": "Deleting Collection..."
+        "title": "Deleting Collection"
       },
       "consume": {
         "confirm": "Teleport and Burn NFT",
-        "action": "Burn",
-        "item": "NFT",
-        "title": "Burning NFT",
-        "submit": "Burning NFT..."
+        "title": "Burning NFT"
       }
     }
   },

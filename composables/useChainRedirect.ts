@@ -53,6 +53,8 @@ function getRedirectPathForPrefix({
   if (routeName === 'prefix-u-id') {
     const accountId = getAddress(chain, route.params.id)
 
+    delete route.query.collections
+
     return {
       params: {
         prefix: chain,
