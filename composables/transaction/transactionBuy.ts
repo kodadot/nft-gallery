@@ -9,8 +9,26 @@ import { getApiCall } from '@/utils/gallery/abstractCalls'
 import { payRoyaltyTx, somePercentFromTX } from '@/utils/support'
 import type { ActionBuy } from './types'
 import { verifyRoyalty } from './utils'
+import { existentialDeposit } from '@kodadot1/static'
+import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
+const changeAddress = (address: string): string => {
+  const { chainProperties } = useChain()
 
-function payRoyaltyAssetHub(
+  const publicKey = decodeAddress(address)
+  const chainAddress = encodeAddress(
+    publicKey,
+    chainProperties.value.ss58Format,
+  )
+  return chainAddress
+}
+
+const getFallbackAddress = () => {
+  const FALBACK_ROYALTY_RECIPIENT =
+    '5EUDt8Gu6e1tQozggApnHbzFTqwGwZs7696Hupk595XTa2Ht' // subtrate format. TODO: change to real royalty recipient
+  return changeAddress(FALBACK_ROYALTY_RECIPIENT)
+}
+
+async function payRoyaltyAssetHub(
   legacy,
   api,
   price,
@@ -20,9 +38,27 @@ function payRoyaltyAssetHub(
 ) {
   const { isValid, normalizedRoyalty } = verifyRoyalty(royalty)
 
+  const { urlPrefix } = usePrefix()
+
   if (!isValid) {
     return
   }
+
+  const balanceOfRoyaltyReceiver = await getNativeBalance({
+    address: normalizedRoyalty.address,
+    api,
+  })
+  const royaltyAmount = royaltyFee(price, normalizedRoyalty.amount)
+
+  const accountBalanceWithRoyalty =
+    Number(balanceOfRoyaltyReceiver) + royaltyAmount
+
+  const targetExistentialDeposit = existentialDeposit[urlPrefix.value]
+
+  const receiverAddress =
+    accountBalanceWithRoyalty >= targetExistentialDeposit
+      ? normalizedRoyalty.address
+      : getFallbackAddress()
 
   return legacy
     ? payRoyaltyTx(api, price, normalizedRoyalty)
@@ -30,11 +66,12 @@ function payRoyaltyAssetHub(
         {
           collection: collectionId,
           item: tokenId,
-          receiver: normalizedRoyalty.address,
-          amount: royaltyFee(price, normalizedRoyalty.amount),
+          receiver: receiverAddress,
+          amount: royaltyAmount,
         },
       ])
 }
+
 function execBuyRmrk(item: ActionBuy, api, executeTransaction) {
   const nfts = Array.isArray(item.nfts) ? item.nfts : [item.nfts]
 
@@ -90,30 +127,33 @@ function execBuyBasilisk(item: ActionBuy, api, executeTransaction) {
   })
 }
 
-function execBuyStatemine(item: ActionBuy, api, executeTransaction) {
+async function execBuyStatemine(item: ActionBuy, api, executeTransaction) {
   const nfts = Array.isArray(item.nfts) ? item.nfts : [item.nfts]
-  const transactions = nfts.map(({ id: nftId, price, royalty }) => {
-    const legacy = isLegacy(nftId)
-    const { id: collectionId, item: tokenId } = tokenIdToRoute(nftId)
-    const cb = getApiCall(api, item.urlPrefix, item.interaction, legacy)
-    const arg = [collectionId, tokenId, price]
+  const transactions = await Promise.all(
+    nfts.map(async ({ id: nftId, price, royalty }) => {
+      const legacy = isLegacy(nftId)
+      const { id: collectionId, item: tokenId } = tokenIdToRoute(nftId)
+      const cb = getApiCall(api, item.urlPrefix, item.interaction, legacy)
+      const arg = [collectionId, tokenId, price]
 
-    const extrinsics = [cb(...arg), somePercentFromTX(api, price)]
+      const extrinsics = [cb(...arg), somePercentFromTX(api, price)]
 
-    const royaltyExtrinsic = payRoyaltyAssetHub(
-      legacy,
-      api,
-      price,
-      royalty,
-      collectionId,
-      tokenId,
-    )
-    if (royaltyExtrinsic) {
-      extrinsics.push(royaltyExtrinsic)
-    }
+      const royaltyExtrinsic = await payRoyaltyAssetHub(
+        legacy,
+        api,
+        price,
+        royalty,
+        collectionId,
+        tokenId,
+      )
+      if (royaltyExtrinsic) {
+        extrinsics.push(royaltyExtrinsic)
+      }
 
-    return extrinsics
-  })
+      return extrinsics
+    }),
+  )
+  debugger
 
   executeTransaction({
     cb: api.tx.utility.batchAll,
@@ -123,7 +163,7 @@ function execBuyStatemine(item: ActionBuy, api, executeTransaction) {
   })
 }
 
-export function execBuyTx(item: ActionBuy, api, executeTransaction) {
+export async function execBuyTx(item: ActionBuy, api, executeTransaction) {
   if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'ksm') {
     execBuyRmrk(item, api, executeTransaction)
   }
@@ -133,6 +173,6 @@ export function execBuyTx(item: ActionBuy, api, executeTransaction) {
   }
   // item.urlPrefix === 'ahr'
   if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
-    execBuyStatemine(item, api, executeTransaction)
+    await execBuyStatemine(item, api, executeTransaction)
   }
 }
