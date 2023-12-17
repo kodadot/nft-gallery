@@ -11,21 +11,22 @@ import type { ActionBuy } from './types'
 import { verifyRoyalty } from './utils'
 import { existentialDeposit } from '@kodadot1/static'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
-const changeAddress = (address: string): string => {
+const formatAddress = (address: string): string => {
   const { chainProperties } = useChain()
 
   const publicKey = decodeAddress(address)
-  const chainAddress = encodeAddress(
-    publicKey,
-    chainProperties.value.ss58Format,
-  )
-  return chainAddress
+  return encodeAddress(publicKey, chainProperties.value.ss58Format)
 }
 
 const getFallbackAddress = () => {
+  // subtrate format
+  // TODO:
+  //  1.change to real royalty recipient
+  //  2. move to static?
+
   const FALBACK_ROYALTY_RECIPIENT =
-    '5EUDt8Gu6e1tQozggApnHbzFTqwGwZs7696Hupk595XTa2Ht' // subtrate format. TODO: change to real royalty recipient
-  return changeAddress(FALBACK_ROYALTY_RECIPIENT)
+    '5EUDt8Gu6e1tQozggApnHbzFTqwGwZs7696Hupk595XTa2Ht'
+  return formatAddress(FALBACK_ROYALTY_RECIPIENT)
 }
 
 async function payRoyaltyAssetHub(
@@ -153,7 +154,6 @@ async function execBuyStatemine(item: ActionBuy, api, executeTransaction) {
       return extrinsics
     }),
   )
-  debugger
 
   executeTransaction({
     cb: api.tx.utility.batchAll,
