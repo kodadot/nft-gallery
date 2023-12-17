@@ -49,14 +49,19 @@ test('Collection interactions', async ({ page, Commands }) => {
     await page.locator('[class="infinite-scroll-item"]').nth(1).hover()
     await page.getByTestId('item-add-to-cart').nth(1).click()
     await page.getByTestId('navbar-button-cart').click()
-    await expect(page.getByTestId('shopping-cart-modal')).toBeVisible()
+    await expect(
+      page.getByTestId('shopping-cart-modal-container'),
+    ).toBeVisible()
     await expect(page.getByTestId('shopping-cart-item').nth(0)).toContainText(
       COLLECTION_NAME,
     )
     await expect(page.getByTestId('shopping-cart-item').nth(1)).toContainText(
       COLLECTION_NAME,
     )
-    await page.getByTestId('modal-close-button').click()
+    await page
+      .getByTestId('modal-close-button')
+      .and(page.locator(':visible'))
+      .click()
   })
 
   //art view
