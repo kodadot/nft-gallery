@@ -107,6 +107,6 @@ export const lastIndexUsed = async (collection: MintedCollection, api) => {
 
 const getLastIndexUsedOnChain = async (api, collectionId) => {
   const collectionItems = await api.query.nfts.item.entries(collectionId)
-  const itemIds = collectionItems.map(([key]) => Number(key.args[1].toHuman()))
+  const itemIds = collectionItems.map(([key]) => key.args[1].toNumber())
   return Math.max(...itemIds)
 }
