@@ -33,14 +33,14 @@
       <ClientOnly>
         <section class="py-8 instance">
           <div class="container is-fluid">
-            <!-- new listings -->
-            <LazyCarouselTypeNewestList />
+            <!-- generative  -->
+            <LazyCarouselTypeGenerative class="mt-8" />
 
             <!-- latest sales -->
             <LazyCarouselTypeLatestSales class="mt-8" />
 
-            <!-- generative  -->
-            <LazyCarouselTypeGenerative class="mt-8" />
+            <!-- new listings -->
+            <LazyCarouselTypeNewestList />
           </div>
         </section>
       </ClientOnly>
