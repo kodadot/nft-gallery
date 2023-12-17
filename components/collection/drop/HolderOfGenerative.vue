@@ -1,7 +1,7 @@
 <template>
   <div class="unlockable-container">
     <Loader v-model="isLoading" :status="status" />
-    <div class="container is-fluid border-top">
+    <div class="container is-fluid border-top pt-6">
       <div class="columns is-desktop">
         <div class="column is-half-desktop mobile-padding">
           <UnlockableCollectionInfo
@@ -11,91 +11,46 @@
 
           <UnlockableTag :collection-id="collectionId" />
 
-          <div>
-            <div
-              class="is-flex is-justify-content-space-between is-align-items-center my-5">
-              <div class="has-text-weight-bold is-size-5">
-                {{ $t('mint.unlockable.phase') }}
-              </div>
-              <div
-                v-if="mintCountAvailable"
-                class="is-flex is-align-items-center">
-                <img src="/unlockable-pulse.svg" alt="open" />
-                {{ $t('mint.unlockable.open') }}
-              </div>
-            </div>
-            <div
-              class="is-flex is-justify-content-space-between is-align-items-center">
-              <div>{{ mintedPercent }} %</div>
-              <div class="has-text-weight-bold">
-                {{ mintedCount }} / {{ maxCount }}
-                {{ $t('statsOverview.minted') }}
-              </div>
-            </div>
-          </div>
-          <div class="my-5">
-            <UnlockableSlider :value="mintedCount / maxCount" />
-          </div>
-          <div class="my-5">
-            <div
-              v-if="hasUserMinted"
-              class="is-flex is-justify-content-flex-end is-align-items-center">
-              <div class="is-flex is-align-items-center">
-                <div class="mr-2">
-                  {{ $t('mint.unlockable.nftAlreadyMinted') }}
-                </div>
-                <NeoIcon
-                  icon="circle-check has-text-success"
-                  pack="fass"
-                  class="mr-4" />
-                <NeoButton
-                  class="my-2 mint-button"
-                  :tag="NuxtLink"
-                  :label="$t('mint.unlockable.seeYourNft')"
-                  :to="`/${urlPrefix}/gallery/${hasUserMinted}`" />
-              </div>
-            </div>
-            <div v-else class="is-flex is-justify-content-space-between">
-              <div class="mt-4">
-                <CollectionDropHolderOfCollection
-                  :is-holder="isHolderOfTargetCollection"
-                  :collection-id="holderOfCollectionId" />
-
-                <div
-                  v-if="minimumFunds"
-                  class="is-flex is-align-items-center mr-5 mt-5">
-                  <NeoIcon icon="circle-info" class="mr-3" />
-                  <div
-                    v-dompurify-html="
-                      $t('mint.unlockable.minimumFundsDescription', [
-                        formattedMinimumFunds,
-                        chainName,
-                      ])
-                    "
-                    class="minimum-funds-description" />
-                </div>
-              </div>
-
-              <div class="is-flex">
-                <NeoButton
-                  ref="root"
-                  class="my-2 mint-button"
-                  variant="k-accent"
-                  :loading="isImageFetching || isWalletConnecting"
-                  :disabled="mintButtonDisabled"
-                  :loading-with-label="isWalletConnecting"
-                  :label="mintButtonLabel"
-                  @click="handleSubmitMint" />
-              </div>
-            </div>
-          </div>
+          <CollectionDropMintSection
+            v-if="!isMobile"
+            :has-user-minted="hasUserMinted"
+            :is-wallet-connecting="isWalletConnecting"
+            :is-image-fetching="isImageFetching"
+            :minimum-funds="minimumFunds"
+            :minimum-funds-description="minimumFundsDescription"
+            :max-count="maxCount"
+            :minted-count="mintedCount"
+            :mint-count-available="mintCountAvailable"
+            :disabled="mintButtonDisabled"
+            :is-holder-of-target-collection="isHolderOfTargetCollection"
+            :holder-of-collection-id="holderOfCollectionId"
+            :mint-button-label="mintButtonLabel"
+            @mint="handleSubmitMint" />
         </div>
+
         <div class="column pt-5 is-flex is-justify-content-center">
           <GenerativePreview
             :content="drop.content"
             :image="drop.image"
             @select="handleSelectImage" />
         </div>
+
+        <CollectionDropMintSection
+          v-if="isMobile"
+          class="column"
+          :has-user-minted="hasUserMinted"
+          :is-wallet-connecting="isWalletConnecting"
+          :is-image-fetching="isImageFetching"
+          :minimum-funds="minimumFunds"
+          :minimum-funds-description="minimumFundsDescription"
+          :max-count="maxCount"
+          :minted-count="mintedCount"
+          :mint-count-available="mintCountAvailable"
+          :disabled="mintButtonDisabled"
+          :is-holder-of-target-collection="isHolderOfTargetCollection"
+          :holder-of-collection-id="holderOfCollectionId"
+          :mint-button-label="mintButtonLabel"
+          @mint="handleSubmitMint" />
       </div>
       <CollectionUnlockableItemInfo :collection-id="collectionId" />
       <div class="my-4">
@@ -118,10 +73,8 @@
 
 <script setup lang="ts">
 import UnlockableCollectionInfo from '@/components/collection/unlockable/UnlockableCollectionInfo.vue'
-import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
 import CarouselTypeLatestMints from '@/components/carousel/CarouselTypeLatestMints.vue'
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { createUnlockableMetadata } from '../unlockable/utils'
 import GenerativePreview from '@/components/collection/drop/GenerativePreview.vue'
 import { DropItem } from '@/params/types'
@@ -137,8 +90,6 @@ import unlockableCollectionById from '@/queries/subsquid/general/unlockableColle
 import Loader from '@/components/shared/Loader.vue'
 
 const holderOfCollectionId = '50' // ChaosFlakes | todo: mock for testing, should be fetched from backend
-
-const NuxtLink = resolveComponent('NuxtLink')
 
 const props = defineProps({
   drop: {
@@ -157,8 +108,17 @@ export type DropMintedNft = DoResult & {
 
 const { fetchMultipleBalance } = useMultipleBalance()
 
+const { width } = useWindowSize()
+const isMobile = computed(() => width.value <= 768)
+
 const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
   useDropMinimumFunds(props.drop)
+const minimumFundsDescription = computed(() =>
+  $i18n.t('mint.unlockable.minimumFundsDescription', [
+    formattedMinimumFunds.value,
+    chainName.value,
+  ]),
+)
 
 const isWalletConnecting = ref(false)
 const collectionId = computed(() => props.drop?.collection)
@@ -172,7 +132,6 @@ const instance = getCurrentInstance()
 const mintNftSN = ref('0')
 const { doAfterLogin } = useDoAfterlogin(instance)
 const { $i18n, $consola } = useNuxtApp()
-const root = ref()
 const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
@@ -260,11 +219,6 @@ const hasUserMinted = computed(() =>
 const mintedCount = computed(() =>
   Math.min(mintedDropCount.value, maxCount.value),
 )
-
-const mintedPercent = computed(() => {
-  const percent = (mintedCount.value / maxCount.value) * 100
-  return Math.round(percent)
-})
 
 const mintCountAvailable = computed(() => mintedCount.value < maxCount.value)
 
@@ -457,18 +411,7 @@ const handleDropAddModalConfirm = () => {
 </script>
 
 <style scoped lang="scss">
-.unlockable-container {
-  .mint-button {
-    width: 14rem;
-    height: 3.5rem;
-  }
-}
-
 .order-1 {
   order: 1;
-}
-
-.minimum-funds-description {
-  max-width: 314px;
 }
 </style>

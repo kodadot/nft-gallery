@@ -16,11 +16,12 @@
             :is-wallet-connecting="isWalletConnecting"
             :is-image-fetching="isImageFetching"
             :minimum-funds="minimumFunds"
-            :token="token"
+            :minimum-funds-description="minimumFundsDescription"
             :max-count="maxCount"
             :minted-count="mintedCount"
             :mint-count-available="mintCountAvailable"
             :disabled="mintButtonDisabled"
+            :mint-button-label="mintButtonLabel"
             @mint="handleSubmitMint" />
         </div>
 
@@ -38,10 +39,12 @@
           :is-wallet-connecting="isWalletConnecting"
           :is-image-fetching="isImageFetching"
           :minimum-funds="minimumFunds"
+          :minimum-funds-description="minimumFundsDescription"
           :max-count="maxCount"
           :minted-count="mintedCount"
-          :token="token"
+          :mint-count-available="mintCountAvailable"
           :disabled="mintButtonDisabled"
+          :mint-button-label="mintButtonLabel"
           @mint="handleSubmitMint" />
       </div>
 
@@ -115,12 +118,10 @@ const props = defineProps({
 
 useMultipleBalance(true)
 
-const store = useIdentityStore()
-
 const { width } = useWindowSize()
 const isMobile = computed(() => width.value <= 768)
 
-  useDropStatus(props.drop.alias)
+useDropStatus(props.drop.alias)
 const instance = getCurrentInstance()
 const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
@@ -136,9 +137,14 @@ const { doAfterLogin } = useDoAfterlogin(instance)
 const { fetchMultipleBalance } = useMultipleBalance()
 const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
   useDropMinimumFunds(props.drop)
+const minimumFundsDescription = computed(() =>
+  $i18n.t('mint.unlockable.freeMinimumFundsDescription', [
+    formattedMinimumFunds.value,
+    chainName.value,
+  ]),
+)
 
 const isWalletConnecting = ref(false)
-const root = ref()
 const selectedImage = ref<string>('')
 const isLoading = ref(false)
 const isImageFetching = ref(false)
@@ -189,6 +195,13 @@ const mintButtonDisabled = computed(
         disabledByBackend.value,
     ),
 )
+
+const mintButtonLabel = computed(() => {
+  if (isWalletConnecting.value) {
+    return $i18n.t('shoppingCart.wallet')
+  }
+  return $i18n.t('mint.unlockable.claimNftNow')
+})
 
 const description = computed(
   () => collectionData.value?.collectionEntity?.meta?.description,
@@ -372,9 +385,5 @@ onBeforeUnmount(clear)
 
 .order-1 {
   order: 1;
-}
-
-.minimum-funds-description {
-  max-width: 314px;
 }
 </style>

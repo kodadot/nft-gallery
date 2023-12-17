@@ -26,33 +26,41 @@
     </div>
 
     <div class="my-5">
-      <div class="is-flex is-justify-content-flex-end is-align-items-center">
-        <div v-if="hasUserMinted" class="is-flex is-align-items-center">
-          <div class="mr-2">
-            {{ $t('mint.unlockable.nftAlreadyMinted') }}
-          </div>
-          <NeoIcon
-            icon="circle-check has-text-success"
-            pack="fass"
-            class="mr-4" />
-          <NeoButton
-            class="my-2 mint-button"
-            :tag="NuxtLink"
-            :label="$t('mint.unlockable.seeYourNft')"
-            :to="`/${urlPrefix}/gallery/${hasUserMinted}`" />
+      <div
+        v-if="hasUserMinted"
+        class="is-flex is-justify-content-flex-end is-align-items-center">
+        <div class="mr-2">
+          {{ $t('mint.unlockable.nftAlreadyMinted') }}
         </div>
+        <NeoIcon
+          icon="circle-check has-text-success"
+          pack="fass"
+          class="mr-4" />
+        <NeoButton
+          class="my-2 mint-button"
+          :tag="NuxtLink"
+          :label="$t('mint.unlockable.seeYourNft')"
+          :to="`/${urlPrefix}/gallery/${hasUserMinted}`" />
+      </div>
 
-        <div v-else class="is-flex">
+      <div
+        v-else-if="showHolderOfCollection"
+        class="columns holder-of-collection">
+        <div class="column">
+          <CollectionDropHolderOfCollection
+            class="mt-4 mb-5"
+            :is-holder="isHolderOfTargetCollection"
+            :collection-id="holderOfCollectionId" />
+
           <div v-if="minimumFunds" class="is-flex is-align-items-center mr-5">
             <NeoIcon icon="circle-info" class="mr-3" />
             <div
-              v-dompurify-html="
-                $t('mint.unlockable.minimumFundsDescription', [
-                  `${minimumFunds} ${token}`,
-                ])
-              "
+              v-dompurify-html="minimumFundsDescription"
               class="minimum-funds-description" />
           </div>
+        </div>
+
+        <div class="column has-text-right">
           <NeoButton
             ref="root"
             class="my-2 mint-button"
@@ -60,15 +68,28 @@
             :loading="isImageFetching || isWalletConnecting"
             :disabled="disabled"
             :loading-with-label="isWalletConnecting"
-            :label="
-              $t(
-                isWalletConnecting
-                  ? 'shoppingCart.wallet'
-                  : 'mint.unlockable.claimNftNow',
-              )
-            "
+            :label="mintButtonLabel"
             @click="emit('mint')" />
         </div>
+      </div>
+
+      <div v-else class="is-flex is-justify-content-flex-end">
+        <div v-if="minimumFunds" class="is-flex is-align-items-center mr-5">
+          <NeoIcon icon="circle-info" class="mr-3" />
+          <div
+            v-dompurify-html="minimumFundsDescription"
+            class="minimum-funds-description" />
+        </div>
+
+        <NeoButton
+          ref="root"
+          class="my-2 mint-button"
+          variant="k-accent"
+          :loading="isImageFetching || isWalletConnecting"
+          :disabled="disabled"
+          :loading-with-label="isWalletConnecting"
+          :label="mintButtonLabel"
+          @click="emit('mint')" />
       </div>
     </div>
   </div>
@@ -80,17 +101,27 @@ import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
 const NuxtLink = resolveComponent('NuxtLink')
 
-const props = defineProps<{
-  mintedCount: number
-  maxCount: number
-  mintCountAvailable: boolean
-  token: string
-  minimumFunds: number
-  isImageFetching: boolean
-  isWalletConnecting: boolean
-  disabled: boolean
-  hasUserMinted: string
-}>()
+const props = withDefaults(
+  defineProps<{
+    mintedCount: number
+    mintCountAvailable: boolean
+    maxCount: number
+    minimumFunds: number
+    minimumFundsDescription: string
+    isImageFetching: boolean
+    isWalletConnecting: boolean
+    disabled: boolean
+    mintButtonLabel: string
+    hasUserMinted?: string
+    isHolderOfTargetCollection?: boolean
+    holderOfCollectionId?: string
+  }>(),
+  {
+    hasUserMinted: undefined,
+    isHolderOfTargetCollection: false,
+    holderOfCollectionId: '',
+  },
+)
 
 const emit = defineEmits(['mint'])
 
@@ -100,11 +131,27 @@ const mintedPercent = computed(() => {
   const percent = (props.mintedCount / props.maxCount) * 100
   return Math.round(percent)
 })
+
+const showHolderOfCollection = computed(() => !!props.holderOfCollectionId)
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/styles/abstracts/variables';
+
+.minimum-funds-description {
+  max-width: 314px;
+}
+
 .mint-button {
   width: 14rem;
   height: 3.5rem;
+}
+
+.holder-of-collection {
+  @include mobile {
+    .mint-button {
+      width: 100%;
+    }
+  }
 }
 </style>
