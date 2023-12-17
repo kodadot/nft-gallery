@@ -18,15 +18,15 @@
       </div>
 
       <div
-        v-for="(chain, key) in multiBalances.chains"
+        v-for="(data, key) in multiBalancesChainsList"
         :key="key"
         class="is-size-6">
         <div
-          v-for="token in filterEmptyBalanceChains(chain)"
+          v-for="token in filterEmptyBalanceChains(data.chain)"
           :key="token.name"
           class="balance-row">
           <div class="is-capitalized is-flex-grow-3">
-            {{ key }}
+            {{ data.key }}
           </div>
           <div class="has-text-right is-flex-grow-1">
             {{ token.name.toUpperCase() }}
@@ -61,11 +61,31 @@
 import { formatNumber } from '@/utils/format/balance'
 
 import { NeoSkeleton } from '@kodadot1/brick'
-import { ChainToken, useIdentityStore } from '@/stores/identity'
+import { ChainToken, type ChainType, useIdentityStore } from '@/stores/identity'
 
+const displayChainOrder: ChainType[] = [
+  'polkadot',
+  'polkadotHub',
+  'kusama',
+  'kusamaHub',
+  'basilisk',
+]
 const identityStore = useIdentityStore()
 
 const { multiBalances } = useMultipleBalance(true)
+
+const multiBalancesChainsList = computed(() => {
+  return Object.keys(multiBalances.value.chains)
+    .sort(
+      (a, b) =>
+        displayChainOrder.indexOf(a as ChainType) -
+        displayChainOrder.indexOf(b as ChainType),
+    )
+    .map((key) => ({
+      key,
+      chain: multiBalances.value.chains[key],
+    }))
+})
 
 const isBalanceLoading = computed(
   () => identityStore.getStatusMultiBalances === 'loading',
