@@ -24,7 +24,10 @@
 import { useUnlockableTag } from './utils/useUnlockableTag'
 const isUnlockableLandingTagVisible = true
 
-const { to, actionText, mintStatusText, smallWidth } = useUnlockableTag()
+const { width } = useWindowSize()
+const smallWidth = computed(() => width.value < 502)
+
+const { to, actionText, mintStatusText } = useUnlockableTag(smallWidth.value)
 </script>
 
 <style lang="scss" scoped>

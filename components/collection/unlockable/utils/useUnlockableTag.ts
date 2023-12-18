@@ -1,12 +1,10 @@
 import { getDropDetails } from '@/components/drops/useDrops'
 
-export const useUnlockableTag = (responsive: boolean = true) => {
+export const useUnlockableTag = (small: boolean) => {
   const { $i18n } = useNuxtApp()
-  const { width } = useWindowSize()
 
   const drop = ref()
 
-  const smallWidth = computed(() => width.value < 502 && responsive)
   const isMintedOut = computed(() => drop.value?.isMintedOut)
   const isFree = computed(() => drop.value?.isFree)
 
@@ -19,7 +17,7 @@ export const useUnlockableTag = (responsive: boolean = true) => {
       ? 'mint.unlockable.freeMintLive'
       : 'mint.unlockable.mintLive'
 
-    if (smallWidth.value) {
+    if (small) {
       mintLive += 'Small'
     }
 
@@ -50,6 +48,5 @@ export const useUnlockableTag = (responsive: boolean = true) => {
     to,
     actionText,
     mintStatusText,
-    smallWidth,
   }
 }
