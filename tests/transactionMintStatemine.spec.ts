@@ -13,7 +13,7 @@ const MOCK_API = (desiredLastIndexUsed) => ({
         entries: (collectionId) =>
           Promise.resolve(
             Array.from({ length: desiredLastIndexUsed }, (_, index) => [
-              { args: [collectionId, { toHuman: () => index + 1 }] },
+              { args: [collectionId, { toNumber: () => index + 1 }] },
               {},
             ]),
           ),

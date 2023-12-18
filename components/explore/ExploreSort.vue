@@ -61,7 +61,7 @@ const route = useRoute()
 const router = useRouter()
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
-const { isRemark } = useIsChain(urlPrefix)
+const { isRemark, isAssetHub } = useIsChain(urlPrefix)
 
 const isItems = computed(
   () => route.path.includes('items') || route.path.includes('collection'),
@@ -77,6 +77,10 @@ const options = computed(() => {
     }
   } else {
     sortBy = NFT_SQUID_SORT_COLLECTIONS
+
+    if (isAssetHub.value) {
+      sortBy = [...sortBy, 'volume_DESC']
+    }
   }
 
   return sortBy
