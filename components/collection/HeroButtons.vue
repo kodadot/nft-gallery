@@ -2,9 +2,8 @@
   <div>
     <div
       class="hero-buttons is-flex is-justify-content-flex-start is-align-items-end px-2">
-      <div class="is-flex">
+      <div v-if="twitter" class="is-flex">
         <NeoButton
-          v-if="twitter"
           icon="x-twitter"
           icon-pack="fab"
           class="square-32"
