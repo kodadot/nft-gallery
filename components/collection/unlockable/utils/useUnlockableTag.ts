@@ -11,15 +11,18 @@ const useUnlockableTagTexts = ({
 }) => {
   const { $i18n } = useNuxtApp()
 
-  const mintStatusText = computed(() => {
-    if (isMintedOut.value) {
-      return $i18n.t('mint.unlockable.mintedOut')
-    }
+  const mintLiveText = computed(() => {
     const mintTypeKey = isFree.value
       ? 'mint.unlockable.freeMintLive'
       : 'mint.unlockable.mintLive'
     return $i18n.t(small ? `${mintTypeKey}Small` : mintTypeKey)
   })
+
+  const mintStatusText = computed(() =>
+    isMintedOut.value
+      ? $i18n.t('mint.unlockable.mintedOut')
+      : mintLiveText.value,
+  )
 
   const actionText = computed(() =>
     $i18n.t(
