@@ -35,7 +35,7 @@
 
   <BaseMediaItem
     class="border border-k-shade"
-    :src="sanitizeIpfsUrl(mintedNft.image)"
+    :src="mintedNft.image"
     preview
     is-detail />
 
@@ -113,9 +113,6 @@
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { DropMintedNft } from '../Generative.vue'
 import { Prefix } from '@kodadot1/static'
-const { getExtrinsicUrl } = useExplorer()
-
-const { $i18n } = useNuxtApp()
 
 const emit = defineEmits(['list'])
 const props = defineProps<{
@@ -123,10 +120,12 @@ const props = defineProps<{
   canListNft: boolean
 }>()
 
-const sharingTxt = $i18n.t('sharing.nft')
-
+const { $i18n } = useNuxtApp()
 const { toast } = useToast()
+const { getExtrinsicUrl } = useExplorer()
 const { shareOnX, shareOnTelegram } = useSocialShare()
+
+const sharingTxt = $i18n.t('sharing.nft')
 
 const txUrl = computed(() =>
   getExtrinsicUrl(

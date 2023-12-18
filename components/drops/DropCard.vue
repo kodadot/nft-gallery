@@ -47,9 +47,9 @@
           </div>
           <div class="is-flex justify-content-space-between" style="gap: 2rem">
             <div class="is-flex is-flex-direction-column">
-              <div class="has-text-grey">Available</div>
+              <div class="has-text-grey">{{ $t('statsOverview.minted') }}</div>
 
-              <div>{{ availableCount }}/{{ drop.max }}</div>
+              <div>{{ drop.minted }}/{{ drop.max }}</div>
             </div>
             <div class="is-flex is-flex-direction-column">
               <span class="has-text-grey">{{ $t('price') }}</span>
@@ -119,7 +119,7 @@ const correctUrlPrefix = computed(() => {
 })
 
 const isFreeDrop = computed(() => {
-  return !Number(props.drop?.price)
+  return true // !Number(props.drop?.price)
 })
 
 const availableCount = computed(() => {

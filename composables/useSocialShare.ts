@@ -13,7 +13,11 @@ export default function () {
     text: string,
     url: string = realworldFullPathShare.value,
   ) => {
-    open(`https://twitter.com/intent/tweet?text=${text}&via=KodaDot&url=${url}`)
+    open(
+      `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+        text,
+      )}&via=KodaDot&url=${url}`,
+    )
   }
 
   const shareOnTelegram = (

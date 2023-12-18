@@ -88,6 +88,10 @@ $b-padding: 1.25rem;
 .modal-width {
   width: v-bind(modalWidth);
   max-width: v-bind(modalMaxHeight);
+
+  @include mobile {
+    width: unset;
+  }
 }
 
 .limit-height {

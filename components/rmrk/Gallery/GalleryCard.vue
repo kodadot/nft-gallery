@@ -11,7 +11,7 @@
           <NeoIcon icon="heart" />
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
-        <BaseMediaItem :src="image" />
+        <BaseMediaItem :src="image" :animation-src="animatedUrl" />
         <span
           v-if="parseInt(price) > 0 && showPriceValue"
           class="card-image__price">
