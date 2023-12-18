@@ -2,22 +2,18 @@
 @import '@oruga-ui/oruga-next/src/scss/utilities/variables.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/animations.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/helpers.scss';
-@import '../../scss/variable.scss';
 
 $select-padding: 0.5rem;
 $select-height: 3rem;
 $select-border-radius: 0;
 
 @import '@oruga-ui/oruga-next/src/scss/components/select.scss';
+
 .neo-select.o-ctrl-sel {
-  display: inline-block;
-  max-width: 100%;
+  @apply inline-block max-w-full;
 
   .o-sel {
-    @include ktheme() {
-      color: theme('text-color');
-      border-color: theme('k-grey');
-    }
+    @apply text-text-color border-k-grey;
   }
 }
 
