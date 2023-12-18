@@ -9,10 +9,8 @@
 
 <script setup lang="ts">
 import InfoBox from '@/components/shared/view/InfoBox.vue'
-import { MINT_ADDRESS } from '@/components/collection/drop/const'
 import { NeoIcon } from '@kodadot1/brick'
 import { NFT } from '@/components/rmrk/service/scheme'
-import { Interaction } from '@kodadot1/minimark/v1'
 import { DEFAULT_COLLECTION_MAX, useDrop } from '../drops/useDrops'
 
 const props = defineProps<{
@@ -20,36 +18,13 @@ const props = defineProps<{
 }>()
 
 const alreadyClaimed = ref(false)
+const { apiInstance } = useApi()
 
 const isHolderOfCollection = computed(() =>
   Object.keys(HOLDER_OF_DROP_MAP).includes(props.nft.collection.id),
 )
 
-const owners = computed(() => {
-  const set = new Set([
-    ...(props.nft?.events?.map((event) => event.currentOwner).filter(Boolean) ||
-      []),
-    props.nft.currentOwner,
-  ])
-
-  set.delete(MINT_ADDRESS)
-
-  return [...set]
-})
-
 const exclusiveCollectionId = HOLDER_OF_DROP_MAP[props.nft.collection.id]
-
-const { data } = useSearchNfts({
-  search: {
-    collection: { id_eq: exclusiveCollectionId },
-    events_some: {
-      AND: {
-        interaction_eq: Interaction.MINT,
-        currentOwner_in: owners.value,
-      },
-    },
-  },
-})
 
 const exclusiveDrop = await useDrop(
   DROP_COLLECTION_TO_ALIAS_MAP[exclusiveCollectionId],
@@ -60,6 +35,21 @@ const hasAvailable = computed(() => {
   return Math.min(exclusiveDrop?.minted || 0, chainMax) < chainMax
 })
 
+const checkIfAlreadyClaimed = async () => {
+  const api = await apiInstance.value
+
+  const claimed = await api.query.nfts.attribute(
+    props.nft.collection.id,
+    props.nft.sn,
+    { Pallet: null },
+    '0x0033000000',
+  )
+
+  const wasUsed = claimed.toHuman()
+
+  return wasUsed !== null
+}
+
 const showWarning = computed(
   () =>
     isHolderOfCollection.value &&
@@ -69,17 +59,9 @@ const showWarning = computed(
     hasAvailable.value,
 )
 
-watch(
-  data,
-  () => {
-    const nFTEntities = data.value?.nFTEntities || []
-
-    if (nFTEntities.length) {
-      alreadyClaimed.value = true
-    }
-  },
-  { immediate: true },
-)
+onBeforeMount(async () => {
+  alreadyClaimed.value = await checkIfAlreadyClaimed()
+})
 </script>
 
 <style scoped></style>
