@@ -9,32 +9,22 @@
         height="42"
         src="/drop/unlockable-pulse-static.svg"
         alt="unlockable icon" />
-      <span> {{ mintLiveText }} </span>
+      <span> {{ mintStatusText }} </span>
     </div>
     <div class="separator mx-2" />
     <nuxt-link
       class="is-flex is-align-items-center has-text-weight-bold my-2"
-      :to="DEFAULT_DROP">
-      {{ $t('mint.unlockable.takeMe') }}
+      :to="to">
+      {{ actionText }}
     </nuxt-link>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { useUnlockableTag } from './utils/useUnlockableTag'
 const isUnlockableLandingTagVisible = true
-const { $i18n } = useNuxtApp()
 
-const { width } = useWindowSize()
-
-const smallWidth = computed(() => width.value < 502)
-
-const mintLiveText = computed(() =>
-  $i18n.t(
-    smallWidth.value
-      ? 'mint.unlockable.mintLiveSmall'
-      : 'mint.unlockable.mintLive',
-  ),
-)
+const { to, actionText, mintStatusText, smallWidth } = useUnlockableTag()
 </script>
 
 <style lang="scss" scoped>

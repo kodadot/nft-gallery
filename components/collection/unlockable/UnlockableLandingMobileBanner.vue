@@ -7,10 +7,15 @@
         height="42"
         src="/drop/unlockable-pulse-static.svg"
         alt="unlockable icon" />
-      <span>{{ $t('mint.unlockable.mintLive') }}</span>
+      <span>{{ mintStatusText }}</span>
     </div>
-    <nuxt-link class="has-text-weight-bold" :to="DEFAULT_DROP">
-      {{ $t('mint.unlockable.takeMe') }}
+    <nuxt-link class="has-text-weight-bold" :to="to">
+      {{ actionText }}
     </nuxt-link>
   </div>
 </template>
+<script setup>
+import { useUnlockableTag } from './utils/useUnlockableTag'
+
+const { to, actionText, mintStatusText } = useUnlockableTag(false)
+</script>

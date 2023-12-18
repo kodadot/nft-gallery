@@ -9,6 +9,7 @@ import {
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 import { existentialDeposit } from '@kodadot1/static'
 import { chainPropListOf } from '@/utils/config/chain.config'
+import { DropItem } from '@/params/types'
 
 export interface Drop {
   collection: CollectionWithMeta
@@ -39,22 +40,57 @@ export function useDrops() {
       watchEffect(async () => {
         if (collectionData.value?.collectionEntity) {
           const { collectionEntity } = collectionData.value
-          const chainMax = collectionEntity?.max ?? 300
-          const { count } = await getDropStatus(drop.alias)
-          drops.value.push({
-            ...drop,
-            collection: collectionEntity,
-            minted: Math.min(count, chainMax),
-            max: chainMax,
-            dropStartTime: new Date(2023, 5, 6),
-            price: ['paid', 'generative'].includes(drop.type) ? drop.meta : '0',
-          })
+          const newDrop = await getFormattedDropItem(collectionEntity, drop)
+          drops.value.push(newDrop)
         }
       })
     }, [])
   })
 
   return drops
+}
+
+const getFormattedDropItem = async (collection, drop: DropItem) => {
+  const chainMax = collection?.max ?? 300
+  const { count } = await getDropStatus(drop.alias)
+  const price = ['paid', 'generative'].includes(drop.type) ? drop.meta : '0'
+  return {
+    ...drop,
+    collection: collection,
+    minted: Math.min(count, chainMax),
+    max: chainMax,
+    dropStartTime: new Date(2023, 5, 6),
+    price,
+    isMintedOut: count >= chainMax,
+    isFree: !Number(price),
+  }
+}
+
+export const getDropDetails = async ({
+  collectionId,
+  chain,
+  alias,
+}: {
+  collectionId: string
+  chain: string
+  alias: string
+}) => {
+  const { client } = usePrefix()
+
+  const { data: collectionData } = await useAsyncQuery({
+    clientId: client.value,
+    query: unlockableCollectionById,
+    variables: {
+      id: collectionId,
+      clientId: chain,
+    },
+  })
+
+  const { collectionEntity } = collectionData.value
+
+  const drop = await useDrop(alias)
+
+  return getFormattedDropItem(collectionEntity, drop)
 }
 
 export async function useDrop(id: string) {
