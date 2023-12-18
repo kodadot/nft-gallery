@@ -78,6 +78,7 @@ import TransactionSteps, {
 } from '@/components/shared/TransactionSteps/TransactionSteps.vue'
 import { TransactionStepStatus } from '@/components/shared/TransactionSteps/utils'
 import { type AutoTeleportTransactions } from '@/composables/autoTeleport/types'
+import { AutoTeleportInteractions, getActionDetails } from './utils'
 
 export type ActionDetails = {
   title: string
@@ -102,6 +103,7 @@ const props = withDefaults(
     transactions: AutoTeleportTransactions
     autoClose?: boolean
     autoCloseDelay?: number
+    interaction?: AutoTeleportInteractions
   }>(),
   {
     autoClose: false,
@@ -129,12 +131,16 @@ const checkBalanceState = computed<TransactionStepStatus>(() => {
   return status
 })
 
+const mainInteraction = computed(
+  () => props.interaction || props.transactions.actions[0].interaction,
+)
+
 const mainActionDetails = computed(() => {
-  const interaction =
-    props.transactions.actions[0].interaction?.toLocaleLowerCase()
+  const details = getActionDetails(mainInteraction.value)
+
   return {
-    action: $i18n.t(`autoTeleport.steps.${interaction}.action`),
-    item: $i18n.t(`autoTeleport.steps.${interaction}.item`),
+    action: details.action,
+    item: details.item,
   }
 })
 
@@ -160,9 +166,8 @@ const steps = computed<TransactionStep[]>(() => {
       },
     },
     props.transactions.actions.map((action) => {
-      const { title } = getActionDetails(action.interaction)
       return {
-        title,
+        title: getActionDetails(action.interaction).title,
         status: action.status.value,
         isError: action.isError.value,
         txId: action.txId.value,
@@ -180,7 +185,7 @@ const handleActiveStep = (step) => {
 }
 
 const btnDisabled = computed(() => {
-  return !actionsFinalized.value
+  return !autoteleportFinalized.value
 })
 
 const actionsFinalized = computed(() =>
@@ -189,8 +194,22 @@ const actionsFinalized = computed(() =>
     .every((status) => status.value === TransactionStatus.Finalized),
 )
 
-const btnLabel = computed(() => {
-  if (!props.canDoAction || !activeStepInteraction.value) {
+const hasActions = computed(() => props.transactions.actions.length)
+
+const hasCompletedBalanceCheck = computed(
+  () => steps.value[1].stepStatus === TransactionStepStatus.COMPLETED,
+)
+
+const autoteleportFinalized = computed(() =>
+  hasActions.value ? actionsFinalized.value : hasCompletedBalanceCheck.value,
+)
+
+const btnLabel = computed<string>(() => {
+  if (!hasActions.value && hasCompletedBalanceCheck.value) {
+    return $i18n.t('redirect.continue')
+  }
+
+  if (!hasActions.value || !props.canDoAction || !activeStepInteraction.value) {
     return $i18n.t('autoTeleport.completeAllRequiredSteps')
   }
 
@@ -200,14 +219,6 @@ const btnLabel = computed(() => {
 
   return $i18n.t('autoTeleport.close')
 })
-
-const getActionDetails = (interaction: string) => {
-  const i = interaction.toLocaleLowerCase()
-  return {
-    title: $i18n.t(`autoTeleport.steps.${i}.title`),
-    submit: $i18n.t(`autoTeleport.steps.${i}.submit`),
-  }
-}
 
 const FIRST_ACTION_STEP = 2
 const activeStepInteraction = computed(
@@ -224,17 +235,17 @@ watch(activeStep, () => {
 })
 
 const submit = () => {
-  if (actionsFinalized.value) {
+  if (autoteleportFinalized.value) {
     onClose()
   }
 }
 
 const onClose = () => {
-  emit('close')
+  emit('close', autoteleportFinalized.value)
 }
 
-watch(actionsFinalized, () => {
-  if (actionsFinalized.value) {
+watch(autoteleportFinalized, () => {
+  if (autoteleportFinalized.value) {
     emit('completed')
 
     if (props.autoClose) {

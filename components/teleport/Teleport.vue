@@ -1,5 +1,7 @@
 <template>
-  <form class="mx-auto teleport-container" @submit.prevent="teleport">
+  <form
+    class="mx-auto teleport-container"
+    @submit.prevent="checkEDBeforeTeleport">
     <Loader v-model="isLoading" :status="status" />
     <h1 class="is-size-3 has-text-weight-bold">
       {{ $t('teleport.page') }}
@@ -81,35 +83,25 @@
 
     <div
       v-if="myBalance !== undefined"
-      class="is-size-7 is-flex is-justify-content-end is-align-items-center">
-      <span class="is-flex is-align-items-center">
-        <span class="mr-2">{{ $t('general.balance') }}:</span
-        >{{ myBalanceWithoutDivision.toFixed(4) }}{{ currency }}
-      </span>
-      <NeoButton
-        no-shadow
-        rounded
-        size="small"
-        class="ml-2"
-        @click="handleMaxClick"
-        >{{ $t('teleport.max') }}</NeoButton
-      >
+      class="is-size-7 is-flex justify-content align-items flex-direction">
+      <TeleportFundsAtRiskWarning
+        v-if="insufficientExistentialDeposit"
+        :target-existential-deposit-amount="targetExistentialDepositAmount" />
+      <div class="is-flex">
+        <span class="is-flex is-align-items-center">
+          <span class="mr-2">{{ $t('general.balance') }}:</span
+          >{{ myBalanceWithoutDivision.toFixed(4) }}{{ currency }}
+        </span>
+        <NeoButton
+          no-shadow
+          rounded
+          size="small"
+          class="ml-2"
+          @click="handleMaxClick"
+          >{{ $t('teleport.max') }}</NeoButton
+        >
+      </div>
     </div>
-
-    <a
-      v-if="insufficientExistentialDeposit"
-      v-safe-href="
-        `https://support.polkadot.network/support/solutions/articles/65000168651-what-is-the-existential-deposit`
-      "
-      target="_blank"
-      class="has-text-danger">
-      {{
-        $t('teleport.insufficientExistentialDeposit', [
-          targetExistentialDepositAmount,
-          currency,
-        ])
-      }}
-    </a>
 
     <NeoButton
       :label="teleportLabel"
@@ -139,6 +131,17 @@
       {{ $t('teleport.ownerMessage') }}
     </div>
   </form>
+  <TeleportEdWarningModal
+    v-model="insufficientEDModalOpen"
+    :existential-deposit="targetExistentialDepositAmount"
+    :currency="currency"
+    @continue="
+      () => {
+        insufficientEDModalOpen = false
+        teleport()
+      }
+    "
+    @close="insufficientEDModalOpen = false" />
 </template>
 
 <script setup lang="ts">
@@ -155,9 +158,8 @@ import formatBalance from '@/utils/format/balance'
 import Loader from '@/components/shared/Loader.vue'
 import shortAddress from '@/utils/shortAddress'
 import { chainIcons, getChainName } from '@/utils/chain'
-import NeoInput from '~/libs/ui/src/components/NeoInput/NeoInput.vue'
 import NetworkDropdown from './NetworkDropdown.vue'
-import { NeoButton, NeoField } from '@kodadot1/brick'
+import { NeoButton, NeoField, NeoInput } from '@kodadot1/brick'
 import { blockExplorerOf } from '@/utils/config/chain.config'
 import { simpleDivision } from '@/utils/balance'
 import { useFiatStore } from '@/stores/fiat'
@@ -180,6 +182,7 @@ const toChain = ref(Chain.ASSETHUBPOLKADOT) //Selected destination parachain
 const amount = ref(0) //Required amount to be transfered is stored here
 const unsubscribeKusamaBalance = ref()
 const teleportFee = ref()
+const insufficientEDModalOpen = ref(false)
 
 const DOT_BUFFER_FEE = 100000000 // 0.01
 const KSM_BUFFER_FEE = 1000000000 // 0.001
@@ -222,7 +225,7 @@ const insufficientExistentialDeposit = computed(() => {
 
 const teleportLabel = computed(() => {
   if (insufficientBalance.value) {
-    return $i18n.t('teleport.insufficientBalance', [currency])
+    return $i18n.t('teleport.insufficientBalance', [currency.value])
   }
 
   if (insufficientAmountAfterFees.value && amount.value !== 0) {
@@ -403,6 +406,14 @@ const handleMaxClick = () => {
     Math.floor((myBalanceWithoutDivision.value || 0) * 10 ** 4) / 10 ** 4
 }
 
+const checkEDBeforeTeleport = () => {
+  if (insufficientExistentialDeposit.value) {
+    insufficientEDModalOpen.value = true
+  } else {
+    teleport()
+  }
+}
+
 const teleport = async () => {
   await sendXCM({
     amount: amountToTeleport.value,
@@ -437,6 +448,20 @@ onBeforeUnmount(() => {
 </script>
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
+$xs-breakpoint: 400px;
+
+.flex-direction {
+  @include until($xs-breakpoint) {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+}
+.align-items {
+  align-items: center;
+  @include until($xs-breakpoint) {
+    align-items: flex-start;
+  }
+}
 
 .teleport-container {
   @include tablet {
@@ -448,6 +473,13 @@ onBeforeUnmount(() => {
   @include mobile {
     padding-top: 40px;
     padding-bottom: 40px;
+  }
+}
+
+.justify-content {
+  justify-content: space-between;
+  @include until($xs-breakpoint) {
+    justify-content: flex-end;
   }
 }
 

@@ -66,8 +66,12 @@ $table-th-font-weight: 400;
   }
 
   &--hoverable {
-    tbody tr:hover td {
-      @apply bg-k-accent-light-2;
+    tbody tr {
+      @apply bg-inherit #{!important};
+
+      &:hover td {
+        @apply bg-k-accent-light-2;
+      }
     }
   }
 }
