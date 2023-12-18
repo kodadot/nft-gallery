@@ -21,6 +21,8 @@ export interface Drop {
   alias: string
 }
 
+export const DEFAULT_COLLECTION_MAX = 300
+
 const futureDate = new Date()
 futureDate.setDate(futureDate.getDate() * 7) // i weeks in the future
 
@@ -39,7 +41,7 @@ export function useDrops() {
       watchEffect(async () => {
         if (collectionData.value?.collectionEntity) {
           const { collectionEntity } = collectionData.value
-          const chainMax = collectionEntity?.max ?? 300
+          const chainMax = collectionEntity?.max ?? DEFAULT_COLLECTION_MAX
           const { count } = await getDropStatus(drop.alias)
           drops.value.push({
             ...drop,

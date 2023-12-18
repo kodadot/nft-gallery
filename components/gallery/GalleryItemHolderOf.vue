@@ -1,8 +1,8 @@
 <template>
-  <InfoBox v-if="isHolderOfCollection && alreadyClaimed" variant="warning">
+  <InfoBox v-if="showWarning" variant="warning">
     <div class="is-flex is-align-items-center">
       <NeoIcon icon="triangle-exclamation" class="mr-2" />
-      <span> {{ $t('drops.holderOfClaimed', [exclusiveCollectionName]) }}</span>
+      <span> {{ $t('drops.holderOfClaimed', [exclusiveDrop?.name]) }}</span>
     </div>
   </InfoBox>
 </template>
@@ -13,13 +13,13 @@ import { MINT_ADDRESS } from '@/components/collection/drop/const'
 import { NeoIcon } from '@kodadot1/brick'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { Interaction } from '@kodadot1/minimark/v1'
+import { DEFAULT_COLLECTION_MAX, useDrop } from '../drops/useDrops'
 
 const props = defineProps<{
   nft: NFT
 }>()
 
 const alreadyClaimed = ref(false)
-const exclusiveCollectionName = ref('')
 
 const isHolderOfCollection = computed(() =>
   Object.keys(HOLDER_OF_DROP_MAP).includes(props.nft.collection.id),
@@ -51,14 +51,34 @@ const { data } = useSearchNfts({
   },
 })
 
-watch(data, () => {
-  const { nFTEntities } = data.value
+const exclusiveDrop = await useDrop(
+  DROP_COLLECTION_TO_ALIAS_MAP[exclusiveCollectionId],
+)
 
-  if (nFTEntities.length) {
-    alreadyClaimed.value = true
-    exclusiveCollectionName.value = nFTEntities[0].collection.name
-  }
+const hasAvailable = computed(() => {
+  const chainMax = exclusiveDrop?.max ?? DEFAULT_COLLECTION_MAX
+  return Math.min(exclusiveDrop?.minted || 0, chainMax) < chainMax
 })
+
+const showWarning = computed(
+  () =>
+    isHolderOfCollection.value &&
+    alreadyClaimed.value &&
+    Boolean(exclusiveDrop) &&
+    !exclusiveDrop.disabled &&
+    hasAvailable.value,
+)
+
+watch(
+  () => data.value?.nFTEntities?.length,
+  () => {
+    const { nFTEntities } = data.value
+
+    if (nFTEntities.length) {
+      alreadyClaimed.value = true
+    }
+  },
+)
 </script>
 
 <style scoped></style>
