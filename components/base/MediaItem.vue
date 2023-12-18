@@ -21,7 +21,7 @@
       :autoplay="autoplay" />
     <div
       v-if="isLewd && isLewdBlurredLayer"
-      class="nsfw-blur is-capitalized is-flex is-align-items-center is-justify-content-center is-flex-direction-column">
+      class="nsfw-blur is-capitalized flex items-center justify-center flex-col">
       <NeoIcon icon="eye-slash" class="mb-3" />
       <span class="has-text-weight-bold">
         {{ $t('lewd.explicit') }}
@@ -32,7 +32,7 @@
     </div>
     <div
       v-if="isInteractive"
-      class="k-shade border-k-grey is-flex is-align-items-center is-justify-content-center border is-rounded absolute-position image is-24x24">
+      class="k-shade border-k-grey flex items-center justify-center border is-rounded absolute-position image is-24x24">
       <NeoIcon
         icon="code"
         pack="far"

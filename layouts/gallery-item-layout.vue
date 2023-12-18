@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-full is-flex is-flex-direction-column is-clipped">
+  <div class="min-h-full flex flex-col is-clipped">
     <Navbar />
-    <main class="is-flex-grow-1 py-8">
+    <main class="flex-grow py-8">
       <div class="container" :class="{ 'is-fluid': !isFullHD }">
         <Error
           v-if="$nuxt.isOffline"

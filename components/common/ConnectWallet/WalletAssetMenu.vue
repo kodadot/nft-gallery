@@ -1,6 +1,6 @@
 <template>
   <div
-    class="wallet-asset-container mt-4 is-flex is-flex-direction-column is-justify-content-space-between"
+    class="wallet-asset-container mt-4 flex flex-col justify-between"
     data-testid="sidebar-wallet-container">
     <div>
       <a
@@ -12,9 +12,9 @@
         <NeoIcon icon="angle-right" size="medium" class="has-text-grey" />
       </a>
     </div>
-    <div class="wallet-asset-footer is-flex py-5 is-size-7 has-text-grey">
+    <div class="wallet-asset-footer flex py-5 is-size-7 has-text-grey">
       <!-- light/dark mode -->
-      <div class="is-align-items-center" @click="toggleColorMode">
+      <div class="items-center" @click="toggleColorMode">
         <NeoIcon icon="circle-half-stroke" size="medium" />
         <span class="is-hidden-mobile">
           {{
@@ -27,7 +27,7 @@
       <div data-testid="sidebar-language" class="language-selector">
         <NeoDropdown position="top-left" aria-role="menu" mobile-modal>
           <template #trigger>
-            <div class="is-flex is-align-items-center">
+            <div class="flex items-center">
               <NeoIcon icon="globe" size="medium" />
               <span class="is-hidden-mobile ml-1">
                 {{ $t('profileMenu.language') }}
@@ -51,7 +51,7 @@
       <!-- settings -->
       <nuxt-link
         to="/settings"
-        class="has-text-grey is-align-items-center"
+        class="has-text-grey items-center"
         data-testid="sidebar-link-settings"
         @click="closeModal">
         <NeoIcon icon="gear" size="medium" />

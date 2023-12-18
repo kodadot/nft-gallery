@@ -1,8 +1,8 @@
 <template>
   <nuxt-link :to="`/${urlPrefix}/collection/${collection.id}`">
     <div
-      class="top-collections-item py-2 is-flex is-align-items-center is-justify-content-space-between is-clickable">
-      <div class="is-flex is-align-items-center">
+      class="top-collections-item py-2 flex items-center justify-between is-clickable">
+      <div class="flex items-center">
         <div class="p-4 has-text-weight-bold">
           {{ index }}
         </div>
@@ -12,11 +12,11 @@
             rounded
             :src="collection.image || placeholder" />
         </div>
-        <div class="px-2 is-flex is-flex-direction-column">
+        <div class="px-2 flex flex-col">
           <div class="has-text-weight-bold no-wrap">
             {{ truncateStr(collection.name, 12) }}
           </div>
-          <div class="is-flex is-justify-content-start">
+          <div class="flex justify-start">
             <div class="is-hidden-mobile">
               <div
                 v-if="collection.floorPrice || collection.floor"
@@ -39,9 +39,8 @@
           </div>
         </div>
       </div>
-      <div class="is-justify-content-end px-2 is-flex w-160">
-        <div
-          class="has-text-right is-flex-direction-column is-align-items-center is-flex is-size-7-mobile">
+      <div class="justify-end px-2 flex w-160">
+        <div class="has-text-right flex-col items-center flex is-size-7-mobile">
           <div class="no-wrap">
             <CommonTokenMoney :value="volume" inline :round="2" />
           </div>
@@ -62,7 +61,7 @@
         </div>
         <div
           v-if="diffPercentString"
-          class="is-hidden-mobile is-justify-content-center is-align-items-center is-flex px-2">
+          class="is-hidden-mobile justify-center items-center flex px-2">
           <div class="is-size-6 no-wrap" :class="color">
             {{ diffPercentString }}
           </div>

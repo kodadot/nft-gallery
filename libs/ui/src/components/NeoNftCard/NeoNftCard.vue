@@ -30,7 +30,7 @@
           :audio-hover-on-cover-play="mediaHoverOnCoverPlay" />
         <div
           :class="[showActionOnHover ? 'show-on-hover' : 'show-always']"
-          class="w-full is-flex is-justify-content-center action-container">
+          class="w-full flex justify-center action-container">
           <slot name="action" />
         </div>
       </div>
@@ -56,14 +56,14 @@
       </div>
       <div class="nft-media-info" :class="`nft-media-info__${variant}`">
         <NeoSkeleton size="medium" no-margin />
-        <div v-if="!isMinimal" class="is-flex mt-2">
+        <div v-if="!isMinimal" class="flex mt-2">
           <NeoSkeleton
             size="small"
             position="centered"
             no-margin
             width="150px" />
         </div>
-        <div class="is-flex mt-4">
+        <div class="flex mt-4">
           <NeoSkeleton size="small" no-margin width="100px" />
         </div>
       </div>

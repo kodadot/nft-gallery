@@ -1,5 +1,5 @@
 <template>
-  <section class="is-flex is-justify-content-center">
+  <section class="flex justify-center">
     <div
       :class="[
         'transfer-card',
@@ -16,8 +16,7 @@
         :total-usd-value="totalUsdValue"
         :is-mobile="isMobile"
         @close="isLoaderModalVisible = false" />
-      <div
-        class="is-flex is-justify-content-space-between is-align-items-center mb-2">
+      <div class="flex justify-between items-center mb-2">
         <p class="has-text-weight-bold is-size-3">
           {{ $t('transfer') }} {{ unit }}
         </p>
@@ -68,12 +67,12 @@
             $t('transfers.tooltip', [unit, chainNames[urlPrefix]])
           "></span>
       </div>
-      <div class="is-flex is-justify-content-space-between">
-        <div class="is-flex is-flex-direction-column">
+      <div class="flex justify-between">
+        <div class="flex flex-col">
           <span class="has-text-weight-bold is-size-6 mb-1">{{
             $t('transfers.sender')
           }}</span>
-          <div v-if="accountId" class="is-flex is-align-items-center">
+          <div v-if="accountId" class="flex items-center">
             <Avatar
               :value="accountId"
               :size="32"
@@ -94,11 +93,11 @@
           </div>
           <Auth v-else />
         </div>
-        <div class="is-flex is-flex-direction-column is-align-items-end">
+        <div class="flex flex-col items-end">
           <span class="has-text-weight-bold is-size-6 mb-1">{{
             $t('general.balance')
           }}</span>
-          <div class="is-flex is-align-items-center">
+          <div class="flex items-center">
             <img class="mr-2 is-32x32" :src="tokenIcon" alt="token" />
             <Money :value="balance" inline />
           </div>
@@ -109,24 +108,23 @@
 
       <hr />
 
-      <div v-if="!isMobile" class="is-flex">
+      <div v-if="!isMobile" class="flex">
         <div
-          class="has-text-weight-bold is-size-6 mb-3 is-flex-1 mr-2 is-flex-grow-2">
+          class="has-text-weight-bold is-size-6 mb-3 flex-1 mr-2 flex-grow-[2]">
           {{ $t('transfers.recipient') }}
         </div>
-        <div
-          class="has-text-weight-bold is-size-6 mb-3 is-flex-1 is-flex-grow-1">
+        <div class="has-text-weight-bold is-size-6 mb-3 flex-1 flex-grow">
           {{ $t('amount') }}
         </div>
       </div>
-      <div class="is-flex-grow-1 is-flex-direction-column">
+      <div class="flex-grow flex-col">
         <div
           v-for="(destinationAddress, index) in targetAddresses"
           :key="index"
           class="mb-3">
           <div
             v-if="isMobile"
-            class="has-text-weight-bold is-size-6 mb-3 is-flex is-align-items-center is-justify-content-space-between">
+            class="has-text-weight-bold is-size-6 mb-3 flex items-center justify-between">
             {{ $t('transfers.recipient') }} {{ index + 1 }}
             <a v-if="targetAddresses.length > 1" @click="deleteAddress(index)">
               <NeoIcon class="p-3" icon="trash" />
@@ -134,15 +132,15 @@
           </div>
           <div
             :class="[
-              'is-flex',
+              'flex',
               {
-                'is-flex-direction-column': isMobile,
+                'flex-col': isMobile,
               },
             ]">
             <AddressInput
               v-model="destinationAddress.address"
               label=""
-              class="is-flex-1 is-flex-grow-2"
+              class="flex-1 flex-grow-[2]"
               :class="[
                 {
                   'mr-2': !isMobile,
@@ -153,9 +151,7 @@
               :is-invalid="isTargetAddressInvalid(destinationAddress)"
               placeholder="Enter wallet address"
               disable-error />
-            <div
-              class="is-flex-1"
-              :class="{ 'is-flex is-flex-grow-1': !isMobile }">
+            <div class="flex-1" :class="{ 'flex flex-grow': !isMobile }">
               <div v-if="displayUnit === 'token'" class="is-relative">
                 <NeoInput
                   v-model="destinationAddress.token"
@@ -189,7 +185,7 @@
                 @update:modelValue="onUsdFieldChange(destinationAddress)" />
               <a
                 v-if="!isMobile && targetAddresses.length > 1"
-                class="is-flex"
+                class="flex"
                 data-testid="transfer-remove-recipient"
                 @click="deleteAddress(index)">
                 <NeoIcon class="p-3" icon="trash" />
@@ -210,16 +206,14 @@
       </div>
 
       <div
-        class="mb-5 is-flex is-justify-content-center is-clickable"
+        class="mb-5 flex justify-center is-clickable"
         data-testid="transfer-icon-add-recipient"
         @click="addAddress">
         {{ $t('transfers.addAddress') }}
         <NeoIcon class="ml-2" icon="plus" />
       </div>
-      <div
-        class="is-flex is-justify-content-space-between is-align-items-center mb-5">
-        <div
-          class="is-flex is-justify-content-space-between is-align-items-center">
+      <div class="flex justify-between items-center mb-5">
+        <div class="flex justify-between items-center">
           {{ $t('transfers.sendSameAmount') }}
           <!-- tips: don't use `margin` or `padding` directly on the tooltip trigger, it will cause misalignment of the tooltip -->
           <span class="mr-2" />
@@ -232,12 +226,11 @@
           data-testid="transfer-switch-same" />
       </div>
 
-      <div
-        class="is-flex is-justify-content-space-between is-align-items-center mb-5">
+      <div class="flex justify-between items-center mb-5">
         <span class="has-text-weight-bold is-size-6">{{
           $t('transfers.displayUnit')
         }}</span>
-        <div class="is-flex is-align-items-center">
+        <div class="flex items-center">
           <span class="is-size-6 mr-1"
             >{{ $t('transfers.transferable') }}:
           </span>
@@ -252,8 +245,7 @@
         </div>
       </div>
 
-      <div
-        class="is-flex field has-addons is-flex-grow-1 is-justify-content-center mb-4">
+      <div class="flex field has-addons flex-grow justify-center mb-4">
         <TabItem
           :active="displayUnit === 'token'"
           :text="unit"
@@ -272,12 +264,9 @@
           @click="displayUnit = 'usd'" />
       </div>
 
-      <div
-        class="is-flex is-justify-content-space-between is-align-items-center mb-2">
+      <div class="flex justify-between items-center mb-2">
         <span class="is-size-7">{{ $t('transfers.networkFee') }}</span>
-        <div
-          class="is-flex is-align-items-center"
-          data-testid="transfer-network-fee">
+        <div class="flex items-center" data-testid="transfer-network-fee">
           <span class="is-size-7 has-text-grey mr-1"
             >({{ displayTxFeeValue[0] }})</span
           >
@@ -285,12 +274,11 @@
         </div>
       </div>
 
-      <div
-        class="is-flex is-justify-content-space-between is-align-items-center mb-6">
+      <div class="flex justify-between items-center mb-6">
         <span class="has-text-weight-bold is-size-6">{{
           $t('spotlight.total')
         }}</span>
-        <div class="is-flex is-align-items-center">
+        <div class="flex items-center">
           <span class="is-size-7 has-text-grey mr-1"
             >({{ displayTotalValue[0] }})</span
           >
@@ -303,9 +291,9 @@
         </div>
       </div>
 
-      <div class="is-flex">
+      <div class="flex">
         <NeoButton
-          class="is-flex is-flex-1 fixed-height is-shadowless"
+          class="flex flex-1 fixed-height is-shadowless"
           variant="k-accent"
           :disabled="disabled"
           @click="handleOpenConfirmModal"

@@ -5,7 +5,7 @@
     class="border-bottom"
     :class="{ 'fluid-padding-left': fluidPadding }">
     <template #trigger="{ open }">
-      <div class="is-flex" role="button" :aria-expanded="open">
+      <div class="flex" role="button" :aria-expanded="open">
         <p class="card-header-title has-text-weight-normal">
           {{ $t('general.popularCollectionsHeading') }}
         </p>
@@ -22,16 +22,15 @@
         <NeoCheckbox
           :model-value="checkedCollections.includes(collection.id)"
           class="w-full"
-          label-class="is-flex-grow-1"
+          label-class="flex-grow"
           @update:modelValue="toggleCollection(collection)">
           <div
-            class="is-flex is-align-items-center filter-container pl-2 is-flex-grow-1 min-width-0">
+            class="flex items-center filter-container pl-2 flex-grow min-width-0">
             <img
               :src="sanitizeIpfsUrl(collection.meta.image)"
-              class="image is-32x32 is-flex-shrink-0 border mr-2"
+              class="image is-32x32 flex-shrink-0 border mr-2"
               :alt="collection.meta.name || collection.id" />
-            <div
-              class="is-flex is-flex-direction-column is-flex-grow-1 min-width-0">
+            <div class="flex flex-col flex-grow min-width-0">
               <NeoTooltip
                 :active="isCutArray[index].value"
                 :label="collection.meta.name || collection.id"
@@ -43,8 +42,7 @@
                   {{ collection.meta.name || collection.id }}
                 </div>
               </NeoTooltip>
-              <div
-                class="is-flex is-justify-content-space-between is-size-7 has-text-grey">
+              <div class="flex justify-between is-size-7 has-text-grey">
                 <div>{{ $t('search.owners') }}: {{ collection.owners }}</div>
                 <div class="is-capitalized">{{ collection.chain }}</div>
               </div>

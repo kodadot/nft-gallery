@@ -1,7 +1,7 @@
 <template>
   <div
-    class="container is-fluid is-flex border-top is-justify-content-space-between is-align-items-center py-3 mt-7">
-    <div class="is-flex is-align-items-center">
+    class="container is-fluid flex border-top justify-between items-center py-3 mt-7">
+    <div class="flex items-center">
       <img
         width="42"
         height="42"

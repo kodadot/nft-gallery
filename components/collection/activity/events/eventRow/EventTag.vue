@@ -1,6 +1,6 @@
 <template>
   <div
-    class="border is-size-7 is-justify-content-center py-1 my-2 is-flex is-align-items-center fixed-width fixed-height"
+    class="border is-size-7 justify-center py-1 my-2 flex items-center fixed-width fixed-height"
     :class="getInteractionColor(interaction, { distinguishBuyAndSell })">
     {{ interactionName }}
   </div>

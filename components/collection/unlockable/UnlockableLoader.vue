@@ -10,7 +10,7 @@
         @click="closeLoading" />
       <img src="/unlockable-loader.svg" />
       <div
-        class="is-flex is-flex-direction-column is-align-items-center px-5 has-text-centered is-capitalized">
+        class="flex flex-col items-center px-5 has-text-centered is-capitalized">
         <div class="has-text-weight-bold mb-2">{{ $t('mint.success') }}</div>
         <div>
           {{ $t('mint.unlockable.loader.viewNFT1') }}
