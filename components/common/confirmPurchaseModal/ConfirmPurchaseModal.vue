@@ -81,7 +81,7 @@ const { urlPrefix } = usePrefix()
 const autoteleport = ref()
 const actions = computed(() => [props.action])
 
-const loading = computed(() => !autoteleport.value?.hasBalances)
+const loading = computed(() => !autoteleport.value?.isReady)
 
 const mode = computed(() => prefrencesStore.getCompletePurchaseModal.mode)
 

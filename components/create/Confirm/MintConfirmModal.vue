@@ -118,7 +118,7 @@ const emit = defineEmits(['confirm', 'update:modelValue'])
 const networkFee = ref(0)
 const autoteleport = ref()
 
-const loading = computed(() => !autoteleport.value?.hasBalances)
+const loading = computed(() => !autoteleport.value?.isReady)
 
 const isNFT = computed(
   () => props.nftInformation.mintType === CreateComponent.NFT,

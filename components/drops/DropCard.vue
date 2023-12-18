@@ -46,9 +46,9 @@
           </div>
           <div class="flex justify-content-space-between" style="gap: 2rem">
             <div class="flex flex-col">
-              <div class="has-text-grey">Available</div>
+              <div class="has-text-grey">{{ $t('statsOverview.minted') }}</div>
 
-              <div>{{ availableCount }}/{{ drop.max }}</div>
+              <div>{{ drop.minted }}/{{ drop.max }}</div>
             </div>
             <div class="flex flex-col">
               <span class="has-text-grey">{{ $t('price') }}</span>

@@ -9,7 +9,7 @@
       <ExploreSort />
       <ExploreOffer class="flex-grow" />
       <ChainDropdown v-if="!route.name?.includes('prefix-collection-id')" />
-      <ExploreGrid v-if="!isCollection" />
+      <GridLayoutControls v-if="!isCollection" />
     </div>
   </div>
 </template>
@@ -17,10 +17,10 @@
 <script setup lang="ts">
 import ExploreTabs from './ExploreTabs.vue'
 import ExploreSort from './ExploreSort.vue'
-import ExploreGrid from './ExploreGrid.vue'
 import ExploreOffer from './ExploreOffer.vue'
 import FilterMenuButton from './FilterMenuButton.vue'
 import ChainDropdown from '@/components/common/ChainDropdown.vue'
+import GridLayoutControls from '@/components/shared/GridLayoutControls.vue'
 
 const route = useRoute()
 

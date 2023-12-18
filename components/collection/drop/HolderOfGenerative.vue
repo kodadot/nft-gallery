@@ -1,5 +1,6 @@
 <template>
   <div class="unlockable-container">
+    <Loader v-model="isLoading" :status="status" />
     <div class="container is-fluid border-top">
       <div class="columns is-desktop">
         <div class="column is-half-desktop mobile-padding">
@@ -11,16 +12,20 @@
           <UnlockableTag :collection-id="collectionId" />
 
           <div>
-            <div class="flex justify-between items-center my-5">
+            <div
+              class="is-flex is-justify-content-space-between is-align-items-center my-5">
               <div class="has-text-weight-bold is-size-5">
                 {{ $t('mint.unlockable.phase') }}
               </div>
-              <div v-if="mintCountAvailable" class="flex items-center">
+              <div
+                v-if="mintCountAvailable"
+                class="is-flex is-align-items-center">
                 <img src="/unlockable-pulse.svg" alt="open" />
                 {{ $t('mint.unlockable.open') }}
               </div>
             </div>
-            <div class="flex justify-between items-center">
+            <div
+              class="is-flex is-justify-content-space-between is-align-items-center">
               <div>{{ mintedPercent }} %</div>
               <div class="has-text-weight-bold">
                 {{ mintedCount }} / {{ maxCount }}
@@ -32,8 +37,10 @@
             <UnlockableSlider :value="mintedCount / maxCount" />
           </div>
           <div class="my-5">
-            <div class="flex justify-end items-center">
-              <div v-if="hasUserMinted" class="flex items-center">
+            <div
+              v-if="hasUserMinted"
+              class="is-flex is-justify-content-flex-end is-align-items-center">
+              <div class="is-flex is-align-items-center">
                 <div class="mr-2">
                   {{ $t('mint.unlockable.nftAlreadyMinted') }}
                 </div>
@@ -47,19 +54,30 @@
                   :label="$t('mint.unlockable.seeYourNft')"
                   :to="`/${urlPrefix}/gallery/${hasUserMinted}`" />
               </div>
+            </div>
+            <div v-else class="columns">
+              <div class="column">
+                <CollectionDropHolderOfCollection
+                  class="mt-4"
+                  :is-holder="isHolderOfTargetCollection"
+                  :collection-id="holderOfCollectionId" />
 
-              <div v-else class="flex">
-                <div v-if="minimumFunds" class="flex items-center mr-5">
+                <div
+                  v-if="minimumFunds"
+                  class="is-flex is-align-items-center mr-5 mt-5">
                   <NeoIcon icon="circle-info" class="mr-3" />
                   <div
                     v-dompurify-html="
-                      $t('mint.unlockable.freeMinimumFundsDescription', [
+                      $t('mint.unlockable.minimumFundsDescription', [
                         formattedMinimumFunds,
                         chainName,
                       ])
                     "
                     class="minimum-funds-description" />
                 </div>
+              </div>
+
+              <div class="column has-text-right">
                 <NeoButton
                   ref="root"
                   class="my-2 mint-button"
@@ -67,19 +85,13 @@
                   :loading="isImageFetching || isWalletConnecting"
                   :disabled="mintButtonDisabled"
                   :loading-with-label="isWalletConnecting"
-                  :label="
-                    $t(
-                      isWalletConnecting
-                        ? 'shoppingCart.wallet'
-                        : 'mint.unlockable.claimNftNow',
-                    )
-                  "
+                  :label="mintButtonLabel"
                   @click="handleSubmitMint" />
               </div>
             </div>
           </div>
         </div>
-        <div class="column pt-5 flex justify-center">
+        <div class="column pt-5 is-flex is-justify-content-center">
           <GenerativePreview
             :content="drop.content"
             :image="drop.image"
@@ -95,27 +107,14 @@
     </div>
   </div>
 
-  <DropConfirmModal
-    v-model="isConfirmModalActive"
-    :claiming="isLoading"
-    :minting-seconds="MINTING_SECOND"
-    :minted-nft="mintedNft"
-    :can-list-nft="canListMintedNft"
-    @confirm="handleConfirmMint"
-    @close="closeConfirmModal"
-    @list="handleList" />
-
   <CollectionDropAddFundsModal
     v-model="isAddFundModalActive"
     :minimum-funds="minimumFunds"
     :formatted-minimum-funds="formattedMinimumFunds"
     :token="token"
     :chain="chainName"
-    free
     @close="closeAddFundModal"
     @confirm="handleDropAddModalConfirm" />
-
-  <ListingCartModal />
 </template>
 
 <script setup lang="ts">
@@ -127,26 +126,20 @@ import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { createUnlockableMetadata } from '../unlockable/utils'
 import GenerativePreview from '@/components/collection/drop/GenerativePreview.vue'
 import { DropItem } from '@/params/types'
-import { DoResult, doWaifu } from '@/services/waifu'
+import { DoResult, claimDropItem } from '@/services/waifu'
 import { useDropMinimumFunds, useDropStatus } from '@/components/drops/useDrops'
 import { makeScreenshot } from '@/services/capture'
 import { pinFileToIPFS } from '@/services/nftStorage'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import newsletterApi from '@/utils/newsletter'
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
-import DropConfirmModal from './modal/DropConfirmModal.vue'
-import ListingCartModal from '@/components/common/listingCart/ListingCartModal.vue'
-import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
+import holderOfCollectionById from '@/queries/subsquid/general/holderOfCollectionById.graphql'
+import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
+import Loader from '@/components/shared/Loader.vue'
+
+const holderOfCollectionId = '50' // ChaosFlakes | todo: mock for testing, should be fetched from backend
 
 const NuxtLink = resolveComponent('NuxtLink')
-const MINTING_SECOND = 120
-
-export type DropMintedNft = DoResult & {
-  id: string
-  collectionName: string
-  name: string
-}
 
 const props = defineProps({
   drop: {
@@ -157,48 +150,104 @@ const props = defineProps({
   },
 })
 
-const instance = getCurrentInstance()
-const listingCartStore = useListingCartStore()
-const preferencesStore = usePreferencesStore()
+export type DropMintedNft = DoResult & {
+  id: string
+  collectionName: string
+  name: string
+}
 
-const { $i18n } = useNuxtApp()
-const { toast } = useToast()
-const { accountId, isLogIn } = useAuth()
-const { urlPrefix } = usePrefix()
-const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
-  useDropStatus(props.drop.alias)
-const { doAfterLogin } = useDoAfterlogin(instance)
 const { fetchMultipleBalance } = useMultipleBalance()
+
 const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
   useDropMinimumFunds(props.drop)
 
 const isWalletConnecting = ref(false)
-const root = ref()
-const selectedImage = ref<string>('')
-const isLoading = ref(false)
-const isImageFetching = ref(false)
-const isConfirmModalActive = ref(false)
-const isAddFundModalActive = ref(false)
-const mintedNft = ref<DropMintedNft>()
-const mintedNftWithMetadata = ref<NFTWithMetadata>()
-
 const collectionId = computed(() => props.drop?.collection)
 const disabledByBackend = computed(() => props.drop?.disabled)
 const defaultImage = computed(() => props.drop?.image)
 const defaultName = computed(() => props.drop?.name)
 const defaultMax = computed(() => props.drop?.max || 255)
+const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
+  useDropStatus(props.drop.alias)
+const instance = getCurrentInstance()
+const mintNftSN = ref('0')
+const { doAfterLogin } = useDoAfterlogin(instance)
+const { $i18n, $consola } = useNuxtApp()
+const root = ref()
+const { urlPrefix } = usePrefix()
+const { toast } = useToast()
+const { accountId, isLogIn } = useAuth()
+
+const { client } = usePrefix()
+const selectedImage = ref<string>('')
+const isLoading = ref(false)
+const isImageFetching = ref(false)
+const isAddFundModalActive = ref(false)
+
+const {
+  howAboutToExecute,
+  isLoading: isTransactionLoading,
+  initTransactionLoader,
+  status,
+} = useMetaTransaction()
+
 const chainName = computed(() => getChainName(props.drop.chain))
 const token = computed(() => prefixToToken[props.drop.chain])
 
-const { data: collectionData } = useGraphql({
-  queryName: 'unlockableCollectionById',
-  variables: {
-    id: collectionId.value,
+const mintedNft = ref<DropMintedNft>()
+const mintedNftWithMetadata = ref<NFTWithMetadata>()
+
+const { totalItemDeposit, chainSymbol: depositChainSymbol } = useDeposit(
+  computed(() => props.drop.chain),
+)
+
+const depositAmount = computed(() =>
+  (Number(totalItemDeposit.value) - 0.1).toFixed(4),
+)
+
+const handleSelectImage = (image: string) => {
+  selectedImage.value = image
+}
+
+const { data: collectionData } = await useAsyncData(
+  'unlockableCollectionData',
+  async () =>
+    await useAsyncQuery({
+      clientId: client.value,
+      query: unlockableCollectionById,
+      variables: {
+        id: collectionId.value,
+        search: { currentOwner_eq: accountId.value },
+      },
+    }).then((res) => res.data.value),
+  {
+    watch: [accountId],
   },
-})
+)
 
-const canListMintedNft = computed(() => Boolean(mintedNftWithMetadata.value))
+const { data: holderOfCollectionData } = await useAsyncData(
+  'holderOfCollectionData',
+  async () =>
+    await useAsyncQuery({
+      clientId: client.value,
+      query: holderOfCollectionById,
+      variables: {
+        id: holderOfCollectionId,
+        account: accountId.value,
+      },
+    }).then((res) => res.data.value),
+  {
+    watch: [accountId],
+  },
+)
 
+const mintedAmountForCurrentUser = computed(
+  () => collectionData.value?.nftEntitiesConnection?.totalCount || 0, // todo: fetch from backend
+)
+
+const maxMintLimitForCurrentUser = computed(
+  () => holderOfCollectionData.value?.nftEntitiesConnection?.totalCount || 0,
+)
 const maxCount = computed(
   () => collectionData.value?.collectionEntity?.max || defaultMax.value,
 )
@@ -220,13 +269,31 @@ const mintedPercent = computed(() => {
 
 const mintCountAvailable = computed(() => mintedCount.value < maxCount.value)
 
+const isHolderOfTargetCollection = computed(
+  () => maxMintLimitForCurrentUser.value > 0,
+)
+
+const mintButtonLabel = computed(() => {
+  return isWalletConnecting.value
+    ? $i18n.t('shoppingCart.wallet')
+    : isLogIn.value
+      ? isHolderOfTargetCollection.value &&
+        maxMintLimitForCurrentUser.value > mintedAmountForCurrentUser.value
+        ? $i18n.t('mint.unlockable.claimPaidNft', [
+            `${depositAmount.value} ${depositChainSymbol.value}`,
+          ])
+        : $i18n.t('mint.unlockable.notEligibility')
+      : $i18n.t('mint.unlockable.checkEligibility')
+})
 const mintButtonDisabled = computed(
   () =>
     isLogIn.value &&
     Boolean(
       !mintCountAvailable.value ||
         !selectedImage.value ||
-        disabledByBackend.value,
+        disabledByBackend.value ||
+        !isHolderOfTargetCollection.value ||
+        maxMintLimitForCurrentUser.value <= mintedAmountForCurrentUser.value,
     ),
 )
 
@@ -236,10 +303,6 @@ const description = computed(
 const collectionName = computed(
   () => collectionData.value?.collectionEntity?.name,
 )
-
-const handleSelectImage = (image: string) => {
-  selectedImage.value = image
-}
 
 const tryCapture = async () => {
   try {
@@ -251,6 +314,52 @@ const tryCapture = async () => {
     return defaultImage.value
   }
 }
+
+const mintNft = async () => {
+  try {
+    isLoading.value = true
+
+    const { apiInstance } = useApi()
+    const api = await apiInstance.value
+    const collectionRes = (
+      await api.query.nfts.collection(collectionId.value)
+    ).toJSON() as {
+      items: string
+    }
+
+    initTransactionLoader()
+    const cb = api.tx.utility.batchAll
+    const mint = api.tx.nfts.mint(
+      collectionId.value,
+      collectionRes.items,
+      accountId.value,
+      {
+        ownedItem: holderOfCollectionData.value?.nftEntities?.at(
+          mintedAmountForCurrentUser.value,
+        ).sn,
+        mintPrice: null,
+      },
+    )
+
+    const transfer = api.tx.balances.transfer(
+      '5GGWQ1yiSvS2rPciRtAuK2xQTuxCcgoGZ7dTSzHWws4ELzwD',
+      2e9,
+    )
+
+    mintNftSN.value = collectionRes.items
+    howAboutToExecute(accountId.value, cb, [[mint, transfer]])
+  } catch (e) {
+    showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
+    $consola.error(e)
+    isTransactionLoading.value = false
+  }
+}
+
+watch(status, (curStatus) => {
+  if (curStatus === TransactionStatus.Block) {
+    submitMint(mintNftSN.value)
+  }
+})
 
 const clearWalletConnecting = () => {
   isWalletConnecting.value = false
@@ -266,24 +375,15 @@ const handleSubmitMint = async () => {
 
     return
   }
-
   if (isLoading.value || isImageFetching.value) {
     return false
   }
 
   if (hasMinimumFunds.value) {
-    openConfirmModal()
+    mintNft()
   } else {
     openAddFundModal()
   }
-}
-
-const closeConfirmModal = () => {
-  isConfirmModalActive.value = false
-}
-
-const openConfirmModal = () => {
-  isConfirmModalActive.value = true
 }
 
 const openAddFundModal = () => {
@@ -292,15 +392,6 @@ const openAddFundModal = () => {
 
 const closeAddFundModal = () => {
   isAddFundModalActive.value = false
-}
-
-const subscribe = async (email: string) => {
-  try {
-    await newsletterApi.subscribe(email)
-  } catch (error) {
-    dangerMessage($i18n.t('signupBanner.failed'))
-    throw error
-  }
 }
 
 const subscribeToMintedNft = (id: string, onReady: (data) => void) => {
@@ -312,10 +403,9 @@ const subscribeToMintedNft = (id: string, onReady: (data) => void) => {
   })
 }
 
-const submitMint = async (email: string) => {
+const submitMint = async (sn: string) => {
   try {
     isImageFetching.value = true
-    isLoading.value = true
 
     const imageHash = await tryCapture()
 
@@ -329,12 +419,11 @@ const submitMint = async (email: string) => {
 
     isImageFetching.value = false
 
-    const { result } = await doWaifu(
+    const { result } = await claimDropItem(
       {
-        address: accountId.value,
+        account: accountId.value,
         metadata: hash,
-        image: imageHash,
-        email,
+        sn,
       },
       props.drop.id,
     )
@@ -362,49 +451,10 @@ const submitMint = async (email: string) => {
   }
 }
 
-const handleConfirmMint = async ({ email }) => {
-  try {
-    isLoading.value = true
-    await subscribe(email)
-    await submitMint(email)
-  } catch (error) {
-    isLoading.value = false
-    isConfirmModalActive.value = false
-  }
-}
-
-const handleList = async () => {
-  isConfirmModalActive.value = false
-
-  if (!mintedNftWithMetadata.value) {
-    return
-  }
-
-  if (!listingCartStore.isItemInCart(mintedNftWithMetadata.value?.id)) {
-    const floorPrice =
-      mintedNftWithMetadata.value?.collection.floorPrice[0]?.price || '0'
-
-    listingCartStore.setItem(
-      nftToListingCartItem(mintedNftWithMetadata.value, floorPrice),
-    )
-  }
-
-  preferencesStore.listingCartModalOpen = true
-}
-
-const clear = () => {
-  isConfirmModalActive.value = false
-  preferencesStore.listingCartModalOpen = false
-  listingCartStore.removeItem(mintedNftWithMetadata.value?.id)
-}
-
 const handleDropAddModalConfirm = () => {
   closeAddFundModal()
-  openConfirmModal()
   fetchMultipleBalance([urlPrefix.value])
 }
-
-onBeforeUnmount(clear)
 </script>
 
 <style scoped lang="scss">
@@ -414,6 +464,9 @@ onBeforeUnmount(clear)
   .mint-button {
     width: 14rem;
     height: 3.5rem;
+    @include mobile {
+      width: 100%;
+    }
   }
 }
 
