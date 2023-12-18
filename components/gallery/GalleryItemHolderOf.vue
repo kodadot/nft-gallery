@@ -69,16 +69,13 @@ const showWarning = computed(
     hasAvailable.value,
 )
 
-watch(
-  () => data.value?.nFTEntities?.length,
-  () => {
-    const { nFTEntities } = data.value
+watch(data, () => {
+  const { nFTEntities } = data.value
 
-    if (nFTEntities.length) {
-      alreadyClaimed.value = true
-    }
-  },
-)
+  if (nFTEntities.length) {
+    alreadyClaimed.value = true
+  }
+})
 </script>
 
 <style scoped></style>
