@@ -3,17 +3,16 @@
     <div
       v-for="{ avatar, boughtPrice, soldPrice, profit, nft } in displayedFlips"
       :key="nft.id"
-      class="is-flex py-2 px-5 is-justify-content-start is-hoverable-item is-flex-direction-column">
-      <nuxt-link class="is-flex" :to="`/${urlPrefix}/gallery/${nft.id}`">
+      class="flex py-2 px-5 justify-start is-hoverable-item flex-col">
+      <nuxt-link class="flex" :to="`/${urlPrefix}/gallery/${nft.id}`">
         <BasicImage
           :src="avatar"
           :alt="nft?.name"
           class="border mr-5 image-size pt-0" />
         <span>{{ nft.name }}</span>
       </nuxt-link>
-      <div
-        class="is-flex is-flex-direction-column is-justify-content-space-between mt-3">
-        <div class="is-flex is-justify-content-space-between no-wrap">
+      <div class="flex flex-col justify-between mt-3">
+        <div class="flex justify-between no-wrap">
           <span class="is-size-7 has-text-grey">{{
             $t('activity.profit')
           }}</span>
@@ -25,13 +24,13 @@
             >{{ profit === 0 ? '--' : `${format(profit)}%` }}</span
           >
         </div>
-        <div class="is-flex is-justify-content-space-between no-wrap">
+        <div class="flex justify-between no-wrap">
           <span class="is-size-7 has-text-grey">{{
             $t('activity.bought')
           }}</span>
           <Money :value="boughtPrice" />
         </div>
-        <div class="is-flex is-justify-content-space-between no-wrap">
+        <div class="flex justify-between no-wrap">
           <span class="is-size-7 has-text-grey">{{ $t('activity.sold') }}</span>
           <Money :value="soldPrice" />
         </div>

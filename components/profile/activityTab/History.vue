@@ -8,7 +8,7 @@
       :desktop="desktop"
       :update-current-page="updateCurrentPage" />
 
-    <div v-if="!desktop" class="is-flex is-justify-content-flex-end my-5">
+    <div v-if="!desktop" class="flex justify-end my-5">
       <Pagination
         :value="currentPage"
         :total="total"

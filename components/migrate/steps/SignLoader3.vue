@@ -1,6 +1,6 @@
 <template>
   <div class="mb-5">
-    <div class="is-flex is-align-items-center mb-4">
+    <div class="flex items-center mb-4">
       <div class="mr-5">
         <NeoIcon v-bind="whichIcon()" class="fa-2x" />
       </div>
@@ -13,13 +13,13 @@
         </p>
       </div>
     </div>
-    <div class="is-flex is-size-7">
+    <div class="flex is-size-7">
       <div class="v-border"></div>
       <div class="mb-4">1/1 {{ $t('migrate.signStep.left') }}</div>
     </div>
-    <div class="is-flex is-size-7">
+    <div class="flex is-size-7">
       <div class="v-border"></div>
-      <div class="mb-4 is-flex">
+      <div class="mb-4 flex">
         <NeoIcon v-bind="whichIcon()" class="mr-4" />
         <div>
           <p>{{ $t('migrate.signStep.finalizingItems', [itemCount]) }}</p>

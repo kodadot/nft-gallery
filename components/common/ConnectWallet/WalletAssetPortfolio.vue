@@ -1,5 +1,5 @@
 <template>
-  <div class="is-flex is-align-items-center is-justify-content-space-between">
+  <div class="flex items-center justify-between">
     <div>
       <NeoButton
         v-if="isBasilisk"

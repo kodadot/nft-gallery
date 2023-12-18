@@ -6,8 +6,7 @@
     class="top"
     @close="onClose">
     <div class="modal-width">
-      <header
-        class="py-5 pl-6 pr-5 is-flex is-justify-content-space-between is-align-items-center">
+      <header class="py-5 pl-6 pr-5 flex justify-between items-center">
         <span class="is-capitalized is-size-3-5 has-text-weight-bold">
           {{ $t('autoTeleport.welcomeToAutoTeleport') }}
         </span>
@@ -58,12 +57,12 @@
           >
         </div>
 
-        <div class="is-flex is-justify-content-space-between mt-4">
+        <div class="flex justify-between mt-4">
           <NeoButton
             :label="$t('autoTeleport.welcome.submit')"
             variant="k-accent"
             no-shadow
-            class="is-flex is-flex-grow-1 btn-height"
+            class="flex flex-grow btn-height"
             @click="onClose" />
         </div>
       </div>

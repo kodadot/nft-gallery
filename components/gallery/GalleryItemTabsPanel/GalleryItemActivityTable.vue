@@ -1,6 +1,6 @@
 <template>
   <div
-    class="gallery-item-activity-table is-flex is-flex-direction-column"
+    class="gallery-item-activity-table flex flex-col"
     data-testid="gallery-item-activity-table">
     <NeoTable
       v-if="events.length"

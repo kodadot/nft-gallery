@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-full is-flex is-flex-direction-column is-clipped">
+  <div class="min-h-full flex flex-col is-clipped">
     <Navbar />
-    <main class="is-flex-grow-1">
+    <main class="flex-grow">
       <section class="hero is-medium is-link">
         <div class="hero-body">
           <h1 class="subtitle has-text-centered has-text-weight-bold is-size-3">
