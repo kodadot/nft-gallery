@@ -10,15 +10,11 @@ import { payRoyaltyTx, somePercentFromTX } from '@/utils/support'
 import type { ActionBuy } from './types'
 import { verifyRoyalty } from './utils'
 import { existentialDeposit } from '@kodadot1/static'
-import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
-const formatAddress = (address: string): string => {
-  const { chainProperties } = useChain()
-
-  const publicKey = decodeAddress(address)
-  return encodeAddress(publicKey, chainProperties.value.ss58Format)
-}
+import { encodeAddress } from '@polkadot/util-crypto'
 
 const getFallbackAddress = () => {
+  const { chainProperties } = useChain()
+
   // subtrate format
   // TODO:
   //  1.change to real royalty recipient
@@ -26,7 +22,11 @@ const getFallbackAddress = () => {
 
   const FALBACK_ROYALTY_RECIPIENT =
     '5EUDt8Gu6e1tQozggApnHbzFTqwGwZs7696Hupk595XTa2Ht'
-  return formatAddress(FALBACK_ROYALTY_RECIPIENT)
+
+  return encodeAddress(
+    FALBACK_ROYALTY_RECIPIENT,
+    chainProperties.value.ss58Format,
+  )
 }
 
 async function payRoyaltyAssetHub(
@@ -45,16 +45,18 @@ async function payRoyaltyAssetHub(
     return
   }
 
-  const balanceOfRoyaltyReceiver = await getNativeBalance({
-    address: normalizedRoyalty.address,
-    api,
-  })
-  const royaltyAmount = royaltyFee(price, normalizedRoyalty.amount)
+  const balanceOfRoyaltyReceiver = BigInt(
+    await getNativeBalance({
+      address: normalizedRoyalty.address,
+      api,
+    }),
+  )
 
-  const accountBalanceWithRoyalty =
-    Number(balanceOfRoyaltyReceiver) + royaltyAmount
+  const royaltyAmount = BigInt(royaltyFee(price, normalizedRoyalty.amount))
 
-  const targetExistentialDeposit = existentialDeposit[urlPrefix.value]
+  const accountBalanceWithRoyalty = balanceOfRoyaltyReceiver + royaltyAmount
+
+  const targetExistentialDeposit = BigInt(existentialDeposit[urlPrefix.value])
 
   const receiverAddress =
     accountBalanceWithRoyalty >= targetExistentialDeposit
