@@ -55,9 +55,10 @@
                   :to="`/${urlPrefix}/gallery/${hasUserMinted}`" />
               </div>
             </div>
-            <div v-else class="is-flex is-justify-content-space-between">
-              <div class="mt-4">
+            <div v-else class="columns">
+              <div class="column">
                 <CollectionDropHolderOfCollection
+                  class="mt-4"
                   :is-holder="isHolderOfTargetCollection"
                   :collection-id="holderOfCollectionId" />
 
@@ -76,7 +77,7 @@
                 </div>
               </div>
 
-              <div class="is-flex">
+              <div class="column has-text-right">
                 <NeoButton
                   ref="root"
                   class="my-2 mint-button"
@@ -457,10 +458,15 @@ const handleDropAddModalConfirm = () => {
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/styles/abstracts/variables';
+
 .unlockable-container {
   .mint-button {
     width: 14rem;
     height: 3.5rem;
+    @include mobile {
+      width: 100%;
+    }
   }
 }
 
