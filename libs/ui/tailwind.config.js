@@ -27,6 +27,7 @@ module.exports = {
         'k-red-accent-2': 'var(--k-red-accent-2)',
         'k-grey': 'var(--k-grey)',
         'k-grey-fix': 'var(--k-grey-fix)',
+        'k-grey-light': 'rgb(var(--k-grey-light) / <alpha-value>)',
         'k-pink': 'var(--k-pink)',
         'k-yellow': 'var(--k-yellow)',
         'k-blue-accent': 'var(--k-blue-accent)',
