@@ -39,7 +39,7 @@ module.exports = {
         'k-blue-light': 'var(--k-blue-light)',
         'k-primary': 'var(--k-primary)',
         'k-primary-light': 'var(--k-primary-light)',
-        'k-shade': 'var(--k-shade)',
+        'k-shade': 'rgb(var(--k-shade) / <alpha-value>)',
         'placeholder-color': 'var(--placeholder-color)',
         disabled: 'var(--disabled)',
         'card-border-color': 'var(--card-border-color)',
@@ -50,6 +50,7 @@ module.exports = {
         'separator-line-color': 'var(--separator-line-color)',
         'toggle-primary': 'var(--toggle-primary)',
         'toggle-active-switch': 'var(--toggle-active-switch)',
+        'steps-active-color': 'rgb(var(--steps-active-color) / <alpha-value>)',
 
         neutral: {
           1: '#ffffff',

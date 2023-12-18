@@ -7,6 +7,7 @@
     --white: #ffffff;
     --black: #000000;
     --k-accent-light-3: #ffaee1;
+    --steps-active-color: 97 136 231;
   }
 
   :root,
@@ -45,7 +46,7 @@
     --k-blue-light: #e8edfb;
     --k-primary: #ff7ac3;
     --k-primary-light: #fff0f8;
-    --k-shade: #cccccc;
+    --k-shade: 204 204 204;
     --placeholder-color: #cccccc;
     --primary-shadow: 4px 4px #000;
     --disabled: #f3f3f3;
@@ -88,7 +89,7 @@
     --k-green-accent-2: #0a3009;
     --k-blue-light: #363234;
     --k-primary-light: #363234;
-    --k-shade: #999999;
+    --k-shade: 153 153 153;
     --primary-shadow: 4px 4px #fff;
     --disabled: var(--black);
     --card-border-color: #6b6b6b;
