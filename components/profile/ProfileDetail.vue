@@ -104,7 +104,7 @@
         <TabItem
           v-for="tab in tabs"
           :key="tab"
-          class="is-capitalized"
+          class="capitalize"
           data-testid="profile-tabs"
           :active="activeTab === tab"
           :count="counts[tab]"
@@ -124,7 +124,7 @@
           :text="tab"
           :count="counts[tab]"
           :show-active-check="false"
-          class="is-capitalized"
+          class="capitalize"
           @click="() => switchToTab(tab)" />
         <div class="flex mt-4 flex-wrap">
           <ChainDropdown class="mr-4" />

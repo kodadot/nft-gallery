@@ -47,7 +47,7 @@
 
           <hr class="my-4" />
 
-          <h2 class="mb-2 has-text-weight-bold has-text-color is-capitalized">
+          <h2 class="mb-2 has-text-weight-bold has-text-color capitalize">
             {{ $t('transaction.transferTo') }}
           </h2>
 
@@ -67,7 +67,7 @@
             :label="transferItemLabel"
             variant="k-accent"
             no-shadow
-            class="flex flex-grow py-5 is-capitalized btn-height"
+            class="flex flex-grow py-5 capitalize btn-height"
             @click="transfer" />
 
           <div class="mt-3 flex justify-between has-text-grey">

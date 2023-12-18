@@ -17,7 +17,7 @@
           class="flex justify-between items-center py-4"
           :class="{ 'border-top-k-shade': index !== 0 }">
           <span
-            class="has-text-weight-bold is-size-6 is-capitalized flex justify-center">
+            class="has-text-weight-bold is-size-6 capitalize flex justify-center">
             <NeoIcon
               v-if="field.icon"
               class="mr-2"

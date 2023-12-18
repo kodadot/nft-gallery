@@ -12,7 +12,7 @@
         class="title is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered flex flex-wrap justify-center items-center mb-0">
         {{ $t('search.landingTitle1') }}
         <span
-          class="subtitle is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered is-capitalized ml-4">
+          class="subtitle is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered capitalize ml-4">
           {{ $t('search.landingTitle2') }}
         </span>
       </h1>

@@ -45,7 +45,7 @@
       variant="k-accent"
       no-shadow
       :disabled="isDisabled"
-      class="flex flex-grow btn-height is-capitalized"
+      class="flex flex-grow btn-height capitalize"
       @click="handleSubmit" />
   </div>
 
