@@ -9,7 +9,7 @@
           class="dropdown-trigger"
           :icon="active ? 'chevron-up' : 'chevron-down'"
           :active="active">
-          <div class="is-flex is-flex-items-center">
+          <div class="flex flex-items-center">
             <img
               class="mr-2"
               width="24"
@@ -25,7 +25,7 @@
         :key="opt.value"
         :active="value === opt.value"
         @click="emit('select', opt.value)">
-        <div class="is-flex is-flex-items-center">
+        <div class="flex flex-items-center">
           <img class="mr-2" width="24" height="24" :src="opt.icon" alt="icon" />
           <span>{{ opt.label }}</span>
         </div>

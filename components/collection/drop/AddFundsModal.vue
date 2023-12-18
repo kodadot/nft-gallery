@@ -8,116 +8,113 @@
     <ModalBody
       :title="$t('mint.unlockable.addFundsModal.title')"
       :scrollable="false"
+      :loading="loading"
       @close="onClose">
-      <div
-        class="rounded border shade-border-color is-flex is-justify-content-start is-flex-grow-1 pl-3 mb-6">
-        <IdentityItem
-          :label="$t('confirmPurchase.connectedWith')"
-          hide-identity-popover
-          disable-identity-link
-          :prefix="urlPrefix"
-          :account="accountId"
-          class="identity-name-font-weight-regular"
-          data-testid="item-creator" />
-      </div>
+      <ModalIdentityItem class="mb-5" />
+
       <p
         v-dompurify-html="
           $t('mint.unlockable.addFundsModal.textP1', [
-            `${minimumFunds} ${token}`,
+            formattedMinimumFunds,
+            chain,
           ])
         "
         class="mb-4" />
-      <p class="mb-4">{{ $t('mint.unlockable.addFundsModal.textP2') }}</p>
-      <NeoTooltip multiline multiline-width="256px" content-class="p-4">
-        <div
-          class="is-flex is-justify-items-space-between is-align-items-center has-text-grey add-funds-note">
-          <NeoIcon icon="circle-info" class="mr-3" />
-          <p class="is-size-7">
-            {{ $t('mint.unlockable.addFundsModal.howToAddFunds') }}
-          </p>
-        </div>
-        <template #content>
-          <h3 class="tooltip__title">
-            {{ $t('mint.unlockable.addFundsModal.tooltip.title', [token]) }}
-          </h3>
-          <p
-            v-dompurify-html="
-              $t('mint.unlockable.addFundsModal.tooltip.onramp', [token])
-            "
-            class="tooltip__text mb-2" />
-          <p
-            v-dompurify-html="
-              $t('mint.unlockable.addFundsModal.tooltip.exchange')
-            "
-            class="tooltip__text mb-2"></p>
-          <p
-            v-dompurify-html="
-              $t('mint.unlockable.addFundsModal.tooltip.transfer', [token])
-            "
-            class="tooltip__text mb-6" />
-          <p class="tooltip__note has-text-grey">
-            {{ $t('mint.unlockable.addFundsModal.tooltip.note') }}
-          </p>
-        </template>
-      </NeoTooltip>
-      <div class="is-flex">
-        <NeoButton
-          class="is-flex-1 h-14 is-capitalized shine"
-          no-shadow
-          variant="k-accent"
-          @click="onShowRamp">
-          {{ $t('autoTeleport.addFundsViaOnramp') }}
-        </NeoButton>
+      <template v-if="!canAutoTeleport">
+        <p class="mb-4">{{ $t('mint.unlockable.addFundsModal.textP2') }}</p>
+        <NeoTooltip multiline multiline-width="256px" content-class="p-4">
+          <div
+            class="flex justify-between items-center has-text-grey add-funds-note">
+            <NeoIcon icon="circle-info" class="mr-3" />
+            <p class="is-size-7">
+              {{ $t('mint.unlockable.addFundsModal.howToAddFunds') }}
+            </p>
+          </div>
+          <template #content>
+            <h3 class="tooltip__title">
+              {{ $t('mint.unlockable.addFundsModal.tooltip.title', [token]) }}
+            </h3>
+            <p
+              v-dompurify-html="
+                $t('mint.unlockable.addFundsModal.tooltip.onramp', [token])
+              "
+              class="tooltip__text mb-2" />
+            <p
+              v-dompurify-html="
+                $t('mint.unlockable.addFundsModal.tooltip.exchange')
+              "
+              class="tooltip__text mb-2"></p>
+
+            <p
+              v-dompurify-html="
+                $t('mint.unlockable.addFundsModal.tooltip.transfer', [token])
+              "
+              class="tooltip__text mb-6" />
+            <p class="tooltip__note has-text-grey">
+              {{ $t('mint.unlockable.addFundsModal.tooltip.note') }}
+            </p>
+          </template>
+        </NeoTooltip>
+      </template>
+
+      <div class="flex">
+        <AutoTeleportActionButton
+          ref="autoteleport"
+          :amount="minimumFunds"
+          :hide-top="!canAutoTeleport"
+          :interaction="interaction"
+          @modal:close="handleModalClose" />
       </div>
     </ModalBody>
   </NeoModal>
-  <OnRampModal v-model="onRampActive" @close="onRampActive = false" />
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon, NeoModal, NeoTooltip } from '@kodadot1/brick'
+import { NeoIcon, NeoModal, NeoTooltip } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
-import OnRampModal from '@/components/shared/OnRampModal.vue'
-
-type Props = {
-  modelValue: boolean
-  minimumFunds: number
-  token: string
-}
-
-withDefaults(defineProps<Props>(), {
-  modelValue: false,
-})
-
-const { urlPrefix } = usePrefix()
-const { accountId } = useAuth()
-
-const onRampActive = ref(false)
+import AutoTeleportActionButton from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
+import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
+import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 
 const emit = defineEmits(['confirm', 'update:modelValue'])
+const props = withDefaults(
+  defineProps<{
+    modelValue: boolean
+    minimumFunds: number
+    formattedMinimumFunds: string
+    token: string
+    chain: string
+    free: boolean
+  }>(),
+  {
+    free: false,
+  },
+)
+
+const autoteleport = ref()
+const interaction = computed(() => {
+  //tmp solution till drop type check is fixed
+  return props.free
+    ? ActionlessInteraction.FREE_DROP
+    : ActionlessInteraction.DROP
+})
+
+const canAutoTeleport = computed(() => autoteleport.value?.canAutoTeleport)
+const loading = computed(() => !autoteleport.value?.isReady)
 
 const onClose = () => {
   emit('update:modelValue', false)
 }
 
-const onShowRamp = () => {
-  onRampActive.value = true
-  onClose()
+const handleModalClose = (completed: boolean) => {
+  if (completed) {
+    emit('confirm')
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
-
-.shade-border-color {
-  @include ktheme() {
-    border-color: theme('k-shade');
-  }
-}
-
-.rounded {
-  border-radius: 10rem;
-}
 
 .add-funds-note {
   cursor: default;
@@ -153,6 +150,12 @@ const onShowRamp = () => {
 
   .o-tip__trigger > * {
     height: initial;
+  }
+}
+
+@include mobile() {
+  .modal-width {
+    width: unset;
   }
 }
 </style>

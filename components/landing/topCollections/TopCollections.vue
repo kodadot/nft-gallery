@@ -1,9 +1,8 @@
 <template>
   <div>
-    <div class="is-flex is-justify-content-space-between mobile">
+    <div class="flex justify-between mobile">
       <div class="title is-2">{{ $t('general.topCollectionsHeading') }}</div>
-      <div
-        class="top-collection-controls buttons is-align-items-flex-start pt-2">
+      <div class="top-collection-controls buttons items-start pt-2">
         <NeoButton
           v-for="{ value, label } in timeRanges"
           :key="value"
@@ -28,8 +27,8 @@
       <div
         v-for="index in limit"
         :key="index"
-        class="top-collections-item py-2 is-flex is-align-items-center is-justify-content-space-between">
-        <div class="is-flex is-align-items-center">
+        class="top-collections-item py-2 flex items-center justify-between">
+        <div class="flex items-center">
           <div class="p-4 has-text-weight-bold">
             {{ index }}
           </div>

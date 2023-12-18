@@ -8,10 +8,8 @@
       class="hover-color"
       :accept="accept"
       @update:modelValue="onFileSelected">
-      <div class="has-text-centered is-flex is-justify-content-center p-5">
-        <div
-          v-if="!selectedFile"
-          class="is-flex is-flex-direction-column limit-width">
+      <div class="has-text-centered flex justify-center p-5">
+        <div v-if="!selectedFile" class="flex flex-col limit-width">
           <slot name="title">
             <span class="mb-4 has-text-left">{{ title }}</span>
           </slot>
@@ -25,12 +23,10 @@
           </p>
         </div>
         <img v-else-if="loading" src="/preloader.svg" width="200" />
-        <div v-else class="is-flex is-align-items-center">
-          <div
-            class="is-flex is-flex-direction-column is-justify-content-space-between">
+        <div v-else class="flex items-center">
+          <div class="flex flex-col justify-between">
             <NeoIcon icon="circle-check" class="check-icon has-text-k-green" />
-            <div
-              class="is-flex is-align-items-center mt-6 is-flex-direction-column">
+            <div class="flex items-center mt-6 flex-col">
               <span class="has-text-grey mr-5 mb-4">
                 {{ selectedFile?.name }} {{ $t('uploaded') }}
               </span>

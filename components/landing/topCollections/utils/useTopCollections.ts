@@ -17,6 +17,7 @@ import {
   TopCollectionListResult,
 } from './types'
 import topCollectionList from '@/queries/subsquid/general/topCollectionList.graphql'
+import topCollectionsListAh from '@/queries/subsquid/general/topCollections.graphql'
 import collectionsSales from '@/queries/subsquid/general/collectionsSales.graphql'
 
 const proccessData = (
@@ -45,7 +46,8 @@ const proccessData = (
 }
 
 export const useTopCollections = (limit: number) => {
-  const { client } = usePrefix()
+  const { client, urlPrefix } = usePrefix()
+  const { isAssetHub } = useIsChain(urlPrefix)
   const topCollectionWithVolumeList = useState<CollectionEntityWithVolumes[]>(
     'topCollectionWithVolumeList',
     () => [],
@@ -53,9 +55,8 @@ export const useTopCollections = (limit: number) => {
   const error = ref(null)
   // const loading = ref(false)
   const collectionsSalesResults = ref<CollectionsSalesResult>()
-
   const { result: topCollections, loading } = useQuery(
-    topCollectionList,
+    isAssetHub.value ? topCollectionsListAh : topCollectionList,
     { orderBy: 'volume_DESC', limit },
     { clientId: client.value },
   )

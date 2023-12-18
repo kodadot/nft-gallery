@@ -1,15 +1,14 @@
 <template>
   <div>
-    <div class="is-flex is-justify-content-space-between">
-      <div class="is-flex pr-2">
+    <div class="flex justify-between">
+      <div class="flex pr-2">
         <div>
           <BasicImage
             :src="avatar"
             :alt="nft.name"
             class="border image is-48x48" />
         </div>
-        <div
-          class="is-flex is-flex-direction-column is-justify-content-space-between ml-4 limit-width">
+        <div class="flex flex-col justify-between ml-4 limit-width">
           <div class="has-text-color line-height-1 no-wrap is-clipped ellipsis">
             {{ nft.name }}
           </div>
@@ -18,8 +17,7 @@
           </div>
         </div>
       </div>
-      <div
-        class="is-flex is-align-items-end no-wrap has-text-grey line-height-1">
+      <div class="flex items-end no-wrap has-text-grey line-height-1">
         <template v-if="isNFT">
           <template v-if="showPrice">
             <CommonTokenMoney :value="price" />
@@ -31,7 +29,7 @@
         </template>
       </div>
     </div>
-    <div v-if="isNFT" class="is-flex mt-4 is-align-items-center">
+    <div v-if="isNFT" class="flex mt-4 items-center">
       <div class="has-text-grey mr-2">
         {{ $t('mint.nft.modal.intoCollection') }}
       </div>

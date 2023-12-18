@@ -49,7 +49,7 @@
           </NeoButton>
 
           <div
-            class="is-flex is-align-items-center is-justify-content-center is-flex-wrap-wrap"
+            class="flex items-center justify-center flex-wrap"
             data-testid="profile-identity-buttons">
             <NeoButton
               v-safe-href="`https://subscan.io/account/${id}`"
@@ -94,13 +94,13 @@
           </div>
         </div>
       </div>
-      <div class="columns is-centered is-align-items-center">
+      <div class="columns is-centered items-center">
         <div
           class="column is-12-mobile is-6-tablet is-7-desktop is-8-widescreen">
           <ProfileActivity :id="id" />
         </div>
       </div>
-      <div class="is-flex is-hidden-touch is-hidden-desktop-only">
+      <div class="flex is-hidden-touch is-hidden-desktop-only">
         <TabItem
           v-for="tab in tabs"
           :key="tab"
@@ -116,7 +116,7 @@
           v-if="activeTab !== ProfileTab.ACTIVITY"
           class="ml-6" />
       </div>
-      <div class="is-flex is-flex-direction-row is-hidden-widescreen mobile">
+      <div class="flex flex-row is-hidden-widescreen mobile">
         <TabItem
           v-for="tab in tabs"
           :key="tab"
@@ -126,7 +126,7 @@
           :show-active-check="false"
           class="is-capitalized"
           @click="() => switchToTab(tab)" />
-        <div class="is-flex mt-4 is-flex-wrap-wrap">
+        <div class="flex mt-4 flex-wrap">
           <ChainDropdown class="mr-4" />
           <OrderByDropdown v-if="activeTab !== ProfileTab.ACTIVITY" />
         </div>
@@ -136,10 +136,9 @@
     <div class="container is-fluid pb-6">
       <div
         v-if="[ProfileTab.OWNED, ProfileTab.CREATED].includes(activeTab)"
-        class="is-flex-grow-1">
-        <div
-          class="is-flex is-justify-content-space-between pb-4 pt-5 is-align-content-center">
-          <div class="is-flex">
+        class="flex-grow">
+        <div class="flex justify-between pb-4 pt-5 content-center">
+          <div class="flex">
             <FilterButton
               :label="$t('sort.listed')"
               url-param="buy_now"
@@ -149,13 +148,25 @@
               :label="$t('activity.sold')"
               url-param="sold"
               class="ml-4" />
+
+            <CollectionFilter
+              :id="id.toString()"
+              v-model="collections"
+              :search="itemsGridSearch"
+              :tab-key="tabKey"
+              class="ml-4" />
           </div>
           <div class="is-hidden-mobile">
-            <ProfileGrid class="is-hidden-mobile" />
+            <GridLayoutControls
+              class="is-hidden-mobile"
+              :section="gridSection" />
           </div>
         </div>
         <hr class="my-0" />
-        <ItemsGrid :search="itemsGridSearch" />
+        <ItemsGrid
+          :search="itemsGridSearch"
+          :grid-section="gridSection"
+          :reset-search-query-params="['sort']" />
       </div>
 
       <CollectionGrid
@@ -174,7 +185,6 @@ import { NeoButton, NeoModal } from '@kodadot1/brick'
 import TabItem from '@/components/shared/TabItem.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import ItemsGrid from '@/components/items/ItemsGrid/ItemsGrid.vue'
-import ProfileGrid from './ProfileGrid.vue'
 import ProfileActivity from './ProfileActivitySummery.vue'
 import FilterButton from './FilterButton.vue'
 import ChainDropdown from '@/components/common/ChainDropdown.vue'
@@ -187,6 +197,8 @@ import { useListingCartStore } from '@/stores/listingCart'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { chainsWithMintInteraction } from '@/composables/collectionActivity/helpers'
 import { Interaction } from '@kodadot1/minimark/v1'
+import CollectionFilter from './CollectionFilter.vue'
+import GridLayoutControls from '@/components/shared/GridLayoutControls.vue'
 
 enum ProfileTab {
   OWNED = 'owned',
@@ -195,6 +207,7 @@ enum ProfileTab {
   ACTIVITY = 'activity',
 }
 
+const gridSection = GridSection.PROFILE_GALLERY
 const NuxtLink = resolveComponent('NuxtLink')
 
 const route = useRoute()
@@ -226,20 +239,34 @@ const legal = ref('')
 const riot = ref('')
 const isModalActive = ref(false)
 
+const tabKey = computed(() =>
+  activeTab.value === ProfileTab.OWNED ? 'currentOwner_eq' : 'issuer_eq',
+)
+
+const collections = ref(
+  route.query.collections?.toString().split(',').filter(Boolean) || [],
+)
+
 const itemsGridSearch = computed(() => {
-  const tabKey =
-    activeTab.value === ProfileTab.OWNED ? 'currentOwner_eq' : 'issuer_eq'
   const query: Record<string, unknown> = {
-    [tabKey]: id.value,
+    [tabKey.value]: id.value,
+    burned_eq: false,
   }
 
   if (listed.value) {
     query['price_gt'] = 0
   }
-  if (sold.value) {
+
+  if (addSold.value) {
     query['events_some'] = {
       interaction_eq: 'BUY',
       AND: { caller_not_eq: id.value },
+    }
+  }
+
+  if (collections.value?.length) {
+    query['collection'] = {
+      id_in: collections.value,
     }
   }
 
@@ -258,6 +285,9 @@ const activeTab = computed({
 const listed = computed(() => route.query.buy_now === 'true')
 
 const sold = computed(() => route.query.sold === 'true')
+const addSold = computed(
+  () => activeTab.value === ProfileTab.CREATED && sold.value,
+)
 
 const isMyProfile = computed(() => id.value === accountId.value)
 const hasBlockExplorer = computed(() => hasExplorer(urlPrefix.value))
@@ -323,6 +353,12 @@ watch(itemsGridSearch, (searchTerm, prevSearchTerm) => {
   if (JSON.stringify(searchTerm) !== JSON.stringify(prevSearchTerm)) {
     listingCartStore.clear()
   }
+})
+
+watch(collections, (value) => {
+  replaceUrl({
+    collections: value.length ? value.toString() : undefined,
+  })
 })
 </script>
 

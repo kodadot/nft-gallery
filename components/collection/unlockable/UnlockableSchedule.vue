@@ -1,9 +1,8 @@
 <template>
   <div>
     <div v-for="(item, index) in phaseList" :key="index" class="r mt-5">
-      <div
-        class="is-flex is-justify-content-space-between is-align-items-center">
-        <div class="is-flex is-align-items-center">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center">
           <svg
             v-if="item.status === 'close'"
             width="24"
@@ -63,10 +62,10 @@
 
           <span class="ml-2">{{ item.title }}</span>
         </div>
-        <div class="is-flex is-align-items-center">
+        <div class="flex items-center">
           <span class="mr-2">{{ getStatusName(item.status) }}</span>
           <span
-            class="is-flex"
+            class="flex"
             @click="phaseList[index].expand = !phaseList[index].expand">
             <svg
               v-if="item.expand"
@@ -95,16 +94,14 @@
         </div>
       </div>
       <div v-if="item.expand" class="hsa-border-left mt-4 pl-5">
-        <div
-          class="is-flex is-justify-content-space-between is-align-items-center">
+        <div class="flex justify-between items-center">
           <div>
             <span class="has-text-grey">From</span> 9AM
             <span class="has-text-grey">UTC+1</span>
           </div>
           <span class="has-text-grey">Available for mint</span>
         </div>
-        <div
-          class="is-flex is-justify-content-space-between is-align-items-center">
+        <div class="flex justify-between items-center">
           <div>
             <span class="has-text-grey">To</span> 11PM
             <span class="has-text-grey">UTC+1</span>

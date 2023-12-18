@@ -1,8 +1,7 @@
 <template>
   <div class="columns mb-6">
     <div class="column is-5">
-      <div
-        class="is-flex is-flex-direction-column is-justify-content-space-between h-full">
+      <div class="flex flex-col justify-between h-full">
         <div>
           <div class="migrate-title">
             <img src="/migrate/title-arrow.svg" alt="Migrate Your Art" />
@@ -24,7 +23,7 @@
                   variant="pill"
                   :active="active"
                   class="chain-selector">
-                  <div class="is-flex">
+                  <div class="flex">
                     <img
                       :src="sourceSelected?.icon"
                       :alt="sourceSelected?.text"
@@ -42,7 +41,7 @@
                 aria-role="listitem"
                 :value="item"
                 :active="item.value === sourceSelected?.value">
-                <div class="is-flex">
+                <div class="flex">
                   <img
                     :src="item.icon"
                     :alt="item.text"
@@ -96,7 +95,7 @@
                 :value="item"
                 :active="item.value === destinationSelected?.value"
                 :disabled="sourceSelected?.value === item.value">
-                <div class="is-flex">
+                <div class="flex">
                   <img
                     :src="item.icon"
                     :alt="item.text"

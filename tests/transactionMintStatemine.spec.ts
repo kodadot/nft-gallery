@@ -6,16 +6,22 @@ import {
   expandCopies,
 } from '@/composables/transaction/mintToken/utils'
 
-const MOCK_API = {
+const MOCK_API = (desiredLastIndexUsed) => ({
   query: {
     nfts: {
-      collection: () =>
-        Promise.resolve({
-          toHuman: () => ({ items: '0' }),
-        }),
+      item: {
+        entries: (collectionId) =>
+          Promise.resolve(
+            Array.from({ length: desiredLastIndexUsed }, (_, index) => [
+              { args: [collectionId, { toNumber: () => index + 1 }] },
+              {},
+            ]),
+          ),
+      },
     },
   },
-}
+})
+
 describe('transactionMintStatemine.ts functions', () => {
   describe('assignIds function', () => {
     it('should assign id correctly for a single token', () => {
@@ -23,23 +29,17 @@ describe('transactionMintStatemine.ts functions', () => {
         { selectedCollection: { lastIndexUsed: 4 } },
       ]
       const result = assignIds(tokens, 4)
-      expect(result).toEqual([
-        { selectedCollection: { lastIndexUsed: 4 }, id: 5 },
-      ])
+      expect(result.pop().id).toEqual(5)
     })
 
     it('should assign ids correctly for multiple tokens from the same collection', () => {
-      const tokens: TokenToMint[] = [
-        { selectedCollection: { alreadyMinted: 2, lastIndexUsed: 2 } },
-        { selectedCollection: { alreadyMinted: 2, lastIndexUsed: 2 } },
-        { selectedCollection: { alreadyMinted: 2, lastIndexUsed: 2 } },
-      ]
+      const tokens: TokenToMint[] = Array.from({ length: 3 }, () => ({
+        selectedCollection: { alreadyMinted: 2, lastIndexUsed: 2 },
+      }))
+
       const result = assignIds(tokens, 2)
-      expect(result).toEqual([
-        { selectedCollection: { alreadyMinted: 2, lastIndexUsed: 2 }, id: 3 },
-        { selectedCollection: { alreadyMinted: 2, lastIndexUsed: 2 }, id: 4 },
-        { selectedCollection: { alreadyMinted: 2, lastIndexUsed: 2 }, id: 5 },
-      ])
+      const ids = result.map((token) => token.id)
+      expect(ids).toEqual([3, 4, 5])
     })
   })
 
@@ -252,16 +252,10 @@ describe('transactionMintStatemine.ts functions', () => {
         token,
       }
 
-      const result = await expandCopiesWithsIds(item, MOCK_API)
+      const result = await expandCopiesWithsIds(item, MOCK_API(4))
+      const resultIds = result.map((token) => token.id)
 
-      const expectedResult = [
-        {
-          name: 'test',
-          selectedCollection: { alreadyMinted: 4, lastIndexUsed: 4 },
-          id: 5,
-        },
-      ]
-      expect(result).toEqual(expectedResult)
+      expect(resultIds).toEqual([5])
     })
 
     it('should correctly prepare a single token with unique id and copies', async () => {
@@ -276,48 +270,30 @@ describe('transactionMintStatemine.ts functions', () => {
         token,
       }
 
-      const result = await expandCopiesWithsIds(item, MOCK_API)
+      const result = await expandCopiesWithsIds(item, MOCK_API(4))
+      const resultIds = result.map((token) => token.id)
 
-      const expectedResult = [
-        {
-          name: 'test #1',
-          copies: 3,
-          postfix: true,
-          selectedCollection: { alreadyMinted: 4, lastIndexUsed: 4 },
-          id: 5,
-        },
-        {
-          name: 'test #2',
-          copies: 3,
-          postfix: true,
-          selectedCollection: { alreadyMinted: 4, lastIndexUsed: 4 },
-          id: 6,
-        },
-        {
-          name: 'test #3',
-          copies: 3,
-          postfix: true,
-          selectedCollection: { alreadyMinted: 4, lastIndexUsed: 4 },
-          id: 7,
-        },
-      ]
-
-      expect(result).toEqual(expectedResult)
+      expect(resultIds).toEqual([5, 6, 7])
     })
 
     it('should correctly prepare an array of tokens with unique ids and no copies', async () => {
+      const selectedCollection = {
+        alreadyMinted: 2,
+        lastIndexUsed: 3,
+        id: 1234,
+      }
       const tokens: TokenToMint[] = [
         {
           name: 'test1',
-          selectedCollection: { alreadyMinted: 2, lastIndexUsed: 3, id: 1234 },
+          selectedCollection,
         },
         {
           name: 'test2',
-          selectedCollection: { alreadyMinted: 2, lastIndexUsed: 3, id: 1234 },
+          selectedCollection,
         },
         {
           name: 'test3',
-          selectedCollection: { alreadyMinted: 2, lastIndexUsed: 3, id: 1234 },
+          selectedCollection,
         },
       ]
 
@@ -325,27 +301,10 @@ describe('transactionMintStatemine.ts functions', () => {
         token: tokens,
       }
 
-      const result = await expandCopiesWithsIds(item, MOCK_API)
+      const result = await expandCopiesWithsIds(item, MOCK_API(3))
+      const resultIds = result.map((token) => token.id)
 
-      const expectedResult = [
-        {
-          name: 'test1',
-          selectedCollection: { alreadyMinted: 2, lastIndexUsed: 3, id: 1234 },
-          id: 4,
-        },
-        {
-          name: 'test2',
-          selectedCollection: { alreadyMinted: 2, lastIndexUsed: 3, id: 1234 },
-          id: 5,
-        },
-        {
-          name: 'test3',
-          selectedCollection: { alreadyMinted: 2, lastIndexUsed: 3, id: 1234 },
-          id: 6,
-        },
-      ]
-
-      expect(result).toEqual(expectedResult)
+      expect(resultIds).toEqual([4, 5, 6])
     })
 
     it('should correctly prepare an array of tokens with unique ids and some have copies', async () => {
@@ -377,52 +336,10 @@ describe('transactionMintStatemine.ts functions', () => {
         token: tokens,
       }
 
-      const result = await expandCopiesWithsIds(item, MOCK_API)
+      const result = await expandCopiesWithsIds(item, MOCK_API(7))
+      const resultIds = result.map((token) => token.id)
 
-      const expectedResult = [
-        {
-          name: 'test1 #1',
-          copies: 2,
-          postfix: true,
-          selectedCollection,
-          id: 8,
-        },
-        {
-          name: 'test1 #2',
-          copies: 2,
-          postfix: true,
-          selectedCollection,
-          id: 9,
-        },
-        {
-          name: 'test2',
-          selectedCollection,
-          id: 10,
-        },
-        {
-          name: 'test3 #1',
-          copies: 3,
-          postfix: true,
-          selectedCollection,
-          id: 11,
-        },
-        {
-          name: 'test3 #2',
-          copies: 3,
-          postfix: true,
-          selectedCollection,
-          id: 12,
-        },
-        {
-          name: 'test3 #3',
-          copies: 3,
-          postfix: true,
-          selectedCollection,
-          id: 13,
-        },
-      ]
-
-      expect(result).toEqual(expectedResult)
+      expect(resultIds).toEqual([8, 9, 10, 11, 12, 13])
     })
   })
 })

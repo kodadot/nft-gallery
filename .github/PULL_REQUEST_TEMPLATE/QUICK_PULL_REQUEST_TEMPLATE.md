@@ -17,7 +17,3 @@
 
 - [ ] My DOT address: [Payout](https://canary.kodadot.xyz/dot/transfer/?target=<My_Polkadot_Address_check_https://github.com/kodadot/nft-gallery/blob/main/REWARDS.md#creating-your-dot-address>)
 
-## Copilot Summary
-copilot:summary
-
-copilot:poem

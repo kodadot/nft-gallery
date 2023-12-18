@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-full is-flex is-flex-direction-column is-clipped">
+  <div class="min-h-full flex flex-col is-clipped">
     <Navbar />
-    <main class="is-flex-grow-1">
+    <main class="flex-grow">
       <Error
         v-if="$nuxt.isOffline"
         :has-img="false"

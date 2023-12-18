@@ -2,7 +2,7 @@
   <div ref="container">
     <div
       v-if="showNoResults"
-      class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center py-8">
+      class="flex flex-col items-center justify-center py-8">
       <span class="has-text-weight-bold is-size-5 has-text-centered">{{
         noResultsMain
       }}</span>

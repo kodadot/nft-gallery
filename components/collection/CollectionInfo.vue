@@ -1,9 +1,8 @@
 <template>
-  <div
-    class="is-flex is-justify-content-space-between mobile-flex-direction-column gap">
-    <div class="is-flex is-flex-direction-column is-flex-grow-1 max-width">
+  <div class="flex justify-between mobile-flex-direction-column gap">
+    <div class="flex flex-col flex-grow max-width">
       <HeroButtons class="is-hidden-tablet" />
-      <div v-if="address" class="is-flex mb-2">
+      <div v-if="address" class="flex mb-2">
         <div class="mr-2">{{ $t('activity.creator') }}</div>
         <nuxt-link
           :to="`/${urlPrefix}/u/${address}`"
@@ -11,6 +10,13 @@
           data-testid="collection-creator-address">
           <IdentityIndex ref="identity" :address="address" show-clipboard />
         </nuxt-link>
+      </div>
+      <div v-if="recipient" class="flex mb-2">
+        <div class="mr-2 is-capitalized">{{ $t('royalty') }}</div>
+        <nuxt-link :to="`/${urlPrefix}/u/${recipient}`" class="has-text-link">
+          <IdentityIndex ref="identity" :address="recipient" show-clipboard />
+        </nuxt-link>
+        &nbsp;({{ royalty }}%)
       </div>
       <div class="overflow-wrap">
         <Markdown
@@ -25,7 +31,7 @@
         @click="toggleSeeAllDescription" />
     </div>
     <div>
-      <div class="is-flex gap mobile-flex-direction-column mobile-no-gap">
+      <div class="flex gap mobile-flex-direction-column mobile-no-gap">
         <div>
           <CollectionInfoLine :title="$t('activity.network')" :value="chain" />
           <CollectionInfoLine title="Items" :value="stats.collectionLength" />
@@ -83,6 +89,8 @@ const chain = computed(
       ?.text,
 )
 const address = computed(() => collectionInfo.value?.currentOwner)
+const recipient = computed(() => collectionInfo.value?.recipient)
+const royalty = computed(() => collectionInfo.value?.royalty)
 const seeAllDescription = ref(false)
 const DESCRIPTION_MAX_LENGTH = 210
 

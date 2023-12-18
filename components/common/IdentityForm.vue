@@ -10,10 +10,8 @@
         <div class="mb-4">
           {{ $t('identity.establishedIdentity') }}
         </div>
-        <div
-          class="is-flex is-justify-content-space-between is-align-items-flex-end">
-          <div
-            class="is-flex is-justify-content-space-between is-align-items-center">
+        <div class="flex justify-between items-end">
+          <div class="flex justify-between items-center">
             <Avatar :value="accountId" :size="34" />
             <div class="ml-4">
               <div class="has-text-grey">{{ $t('identity.existing') }}</div>
@@ -63,7 +61,7 @@
       </NeoField>
 
       <NeoField label="Any Socials?" class="mb-4">
-        <div class="is-flex is-flex-direction-column">
+        <div class="flex flex-col">
           <p>{{ $t('identity.socialsDescription') }}</p>
 
           <PillTabs
@@ -101,7 +99,7 @@
       </p>
 
       <NeoButton
-        class="is-flex is-flex-grow-1 fixed-height"
+        class="flex flex-grow fixed-height"
         variant="k-accent"
         :label="$t('identity.create')"
         :disabled="disabled"
