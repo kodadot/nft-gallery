@@ -1,5 +1,9 @@
 export const DEFAULT_DROP = '/ahp/drops/chroma'
 
+export const HOLDER_OF_DROP_MAP = {
+  '50': '51',
+}
+
 export const AHK_GENERATIVE_DROPS = [
   '176', // Chained
 ]

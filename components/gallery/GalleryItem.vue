@@ -141,6 +141,7 @@
               class="mt-4" />
 
             <!-- price section -->
+            <GalleryItemHolderOf v-if="nft" :nft="nft" />
             <GalleryItemAction :nft="nft" />
             <UnlockableTag
               v-if="isUnlockable && !isMobile"
@@ -195,6 +196,7 @@ import GalleryItemButton from './GalleryItemButton/GalleryItemButton.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vue'
 import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
+import GalleryItemHolderOf from './GalleryItemHolderOf.vue'
 import { convertMarkdownToText } from '@/utils/markdown'
 import { exist } from '@/utils/exist'
 import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'

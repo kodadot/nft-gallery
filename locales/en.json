@@ -12,7 +12,7 @@
   "items": "Items",
   "users": "Users",
   "burn": "Burn",
-  "purchase":"Purchase",
+  "purchase": "Purchase",
   "delete": "Delete",
   "bridging": "Bridging",
   "recent": "Recent",
@@ -1103,7 +1103,6 @@
     "existentialDepositTooltip": "Amounts Below {0} + Fees Risk Being Lost. Enter The Minimum To Proceed.",
     "whatIsExistentialDeposit": "What is Existential Deposit?",
     "checkboxLabel": "I understand this action will lead to an irreversible loss of funds."
-
   },
   "preferences": {
     "basic": "basic user interface",
@@ -1468,7 +1467,8 @@
     "canList": "NFT ready for listing!",
     "teleportRequiredAmount": "Teleport required amount",
     "claimFree": "Claim free",
-    "claim": "Claim"
+    "claim": "Claim",
+    "holderOfClaimed": "{0} drop already claimed with this NFT. Claim rights are not renewed after resale."
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",

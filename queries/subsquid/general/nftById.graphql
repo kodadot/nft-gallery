@@ -19,6 +19,7 @@ query nftById($id: String!) {
     events {
       interaction
       timestamp
+      currentOwner
       meta
     }
     meta {
