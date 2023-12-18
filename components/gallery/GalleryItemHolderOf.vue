@@ -27,7 +27,8 @@ const isHolderOfCollection = computed(() =>
 
 const owners = computed(() => {
   const set = new Set([
-    ...(props.nft?.events.map((event) => event.currentOwner)).filter(Boolean),
+    ...(props.nft?.events?.map((event) => event.currentOwner).filter(Boolean) ||
+      []),
     props.nft.currentOwner,
   ])
 
