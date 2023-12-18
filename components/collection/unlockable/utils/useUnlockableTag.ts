@@ -54,11 +54,7 @@ export const useUnlockableTag = (small: boolean) => {
   )
 
   onBeforeMount(async () => {
-    drop.value = await getDropDetails({
-      alias: DEFAULT_DROP.alias,
-      collectionId: DEFAULT_DROP.id,
-      chain: DEFAULT_DROP.chain,
-    })
+    drop.value = await getDropDetails(DEFAULT_DROP.alias)
   })
 
   return {

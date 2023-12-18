@@ -66,29 +66,18 @@ const getFormattedDropItem = async (collection, drop: DropItem) => {
   }
 }
 
-export const getDropDetails = async ({
-  collectionId,
-  chain,
-  alias,
-}: {
-  collectionId: string
-  chain: string
-  alias: string
-}) => {
-  const { client } = usePrefix()
+export const getDropDetails = async (alias: string) => {
+  const drop = await useDrop(alias)
 
   const { data: collectionData } = await useAsyncQuery({
-    clientId: client.value,
+    clientId: drop.chain,
     query: unlockableCollectionById,
     variables: {
-      id: collectionId,
-      clientId: chain,
+      id: drop.collection,
     },
   })
 
   const { collectionEntity } = collectionData.value
-
-  const drop = await useDrop(alias)
 
   return getFormattedDropItem(collectionEntity, drop)
 }
