@@ -24,7 +24,3 @@ withDefaults(
   { hideMediaInfo: false },
 )
 </script>
-
-<style lang="scss" scoped>
-@import './NftCard.scss';
-</style>

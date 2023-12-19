@@ -94,8 +94,6 @@ const collectionNameLabel = computed(() => props.token.collection.name || '--')
 </script>
 
 <style lang="scss" scoped>
-@import './NftCard.scss';
-
 .staked-primary-title {
   margin-top: 6px;
 }

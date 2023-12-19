@@ -67,7 +67,3 @@ const isMinimal = computed(() =>
   props.variant ? props.variant.includes('minimal') : false,
 )
 </script>
-
-<style lang="scss" scoped>
-@import './NftCard.scss';
-</style>

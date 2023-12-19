@@ -131,7 +131,3 @@ const autoplay = computed(() =>
   props.mediaStaticVideo === undefined ? undefined : !props.mediaStaticVideo,
 )
 </script>
-
-<style lang="scss" scoped>
-@import './NftCard.scss';
-</style>
