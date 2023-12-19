@@ -45,6 +45,15 @@ const curatedCollection = {
     '138', // Season 23
     '131', // Forgive me not
   ],
+  ahp: [
+    '52', // Whirls
+    '51', // Chroma Lattice
+    '50', // .motherboard,
+    '49', // Wall Street Art
+    '46', // Snowflakes
+    '40', // Swirls
+    '38', // Pare1d0scope
+  ],
 }
 
 type Collections = CarouselNFT & SomethingWithMeta
