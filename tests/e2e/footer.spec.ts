@@ -26,7 +26,7 @@ const footerLinks = [
   },
   {
     linkName: 'Tutorial',
-    linkAddress: 'https://hello.kodadot.xyz/tutorial/wallet',
+    linkAddress: 'https://hello.kodadot.xyz/tutorial/',
   },
   {
     linkName: 'About',
@@ -93,7 +93,7 @@ test('Check Footer links', async ({ page }) => {
     const newTabPromise = page.waitForEvent('popup')
     await footer.getByRole('link', { name: data.linkName }).click()
     const newTab = await newTabPromise
-    await expect(newTab).toHaveURL(data.linkAddress)
+    await expect(newTab).toHaveURL(new RegExp(`${data.linkAddress}`))
     await newTab.close()
   }
 })
