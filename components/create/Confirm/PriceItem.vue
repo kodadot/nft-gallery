@@ -3,7 +3,7 @@
     <div class="border-top pt-4 card-border-color is-size-7">
       <template v-if="hasMultipleFees">
         <div
-          class="has-text-grey mb-4 is-flex is-align-items-center is-cursor-pointer"
+          class="has-text-grey mb-4 flex items-center is-cursor-pointer"
           @click="toggle">
           <div class="mr-1">Fee Breakdown</div>
           <NeoIcon
@@ -14,15 +14,13 @@
       </template>
     </div>
     <div v-if="rotate" class="is-size-7">
-      <div
-        v-if="networkFee"
-        class="is-flex mb-2 is-align-items-center is-justify-content-space-between">
+      <div v-if="networkFee" class="flex mb-2 items-center justify-between">
         <div>{{ $t('mint.nft.modal.networkFee') }}</div>
         <Money :value="networkFee" :unit-symbol="chainSymbol" inline />
       </div>
       <div
         v-if="existentialDeposit"
-        class="has-text-grey is-flex mb-2 is-align-items-center is-justify-content-space-between">
+        class="has-text-grey flex mb-2 items-center justify-between">
         <div>
           {{ depositText }}
           <NeoTooltip
@@ -38,7 +36,7 @@
       </div>
       <div
         v-if="kodadotFee"
-        class="is-flex mb-2 has-text-grey is-align-items-center is-justify-content-space-between">
+        class="flex mb-2 has-text-grey items-center justify-between">
         <div>
           {{ $t('mint.nft.modal.kodadotFee') }}
           <NeoTooltip
@@ -50,15 +48,13 @@
             <NeoIcon icon="circle-question" />
           </NeoTooltip>
         </div>
-        <div class="is-flex is-align-items-center">
+        <div class="flex items-center">
           {{ nft.kodadotUSDFee }} USD ~
           <Money :value="kodadotFee" :unit-symbol="chainSymbol" inline />
         </div>
       </div>
-      <div
-        v-if="carbonlessFee"
-        class="is-flex mb-2 is-align-items-center is-justify-content-space-between">
-        <div class="is-flex k-green is-align-items-center">
+      <div v-if="carbonlessFee" class="flex mb-2 items-center justify-between">
+        <div class="flex k-green items-center">
           {{ $t('mint.nft.modal.carbonless') }}
           <svg
             class="ml-2"
@@ -79,9 +75,9 @@
       </div>
     </div>
     <div
-      class="mt-4 pt-4 pb-5 border-top card-border-color is-flex is-justify-content-space-between">
+      class="mt-4 pt-4 pb-5 border-top card-border-color flex justify-between">
       <div class="">{{ $t('mint.nft.modal.totalFee') }}:</div>
-      <div class="is-flex is-align-items-end">
+      <div class="flex items-end">
         <div class="has-text-k-grey is-size-7 mr-2">
           $ {{ nft.totalUSDFee }}
         </div>

@@ -1,8 +1,7 @@
 <template>
   <div>
-    <div
-      class="hero-buttons is-flex is-justify-content-flex-start is-align-items-end px-2">
-      <div class="is-flex">
+    <div class="hero-buttons flex justify-start items-end px-2">
+      <div class="flex">
         <NeoDropdown position="bottom-left" :mobile-modal="false">
           <template #trigger="{ active }">
             <NeoButton

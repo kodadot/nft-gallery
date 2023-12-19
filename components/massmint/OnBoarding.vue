@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="is-flex is-align-items-center mb-7 px-8">
+    <div class="flex items-center mb-7 px-8">
       <nuxt-link
         :to="'https://hello.kodadot.xyz/tutorial/minting/how-to-mass-mint-nfts'"
-        class="is-size-2-desktop is-size-2-tablet is-size-3-mobile is-flex is-flex-grow-1 is-justify-content-center has-text-weight-bold"
+        class="is-size-2-desktop is-size-2-tablet is-size-3-mobile flex flex-grow justify-center has-text-weight-bold"
         target="_blank"
         rel="nofollow noopener noreferrer">
         {{ $t('massmint.onboarding.pageTitle') }}
@@ -16,7 +16,7 @@
     <div class="is-relative mb-6">
       <div
         ref="carouselRef"
-        class="carousel is-flex is-flex-wrap-nowrap"
+        class="carousel flex flex-nowrap"
         :class="`slide-${currentSlide}`">
         <OnBoardingCard
           v-for="(card, index) in cards"
@@ -32,12 +32,11 @@
             <p class="is-size-6 mb-5">
               {{ $t('massmint.onboarding.cards.1.instructions') }}
             </p>
-            <div
-              class="is-flex is-justify-content-space-between is-align-items-center mb-4 column-mobile">
+            <div class="flex justify-between items-center mb-4 column-mobile">
               <span class="is-size-6 has-text-weight-bold">
                 {{ $t('massmint.onboarding.cards.1.codeStructure') }}:
               </span>
-              <div class="is-flex tab-gap">
+              <div class="flex tab-gap">
                 <NeoButton
                   v-for="tab in descriptionTabs"
                   :key="tab"
@@ -54,7 +53,7 @@
                 descriptionTabs[activeDescriptionTab].fileStructureDescription
               "
               class="fixed-height white-space-break-spaces-mobile code" />
-            <div class="is-flex is-justify-content-flex-end mt-2">
+            <div class="flex justify-end mt-2">
               <NeoButton
                 v-safe-href="
                   `/massmint/template.${activeDescriptionTab.toLowerCase()}`
@@ -85,10 +84,10 @@
       </Transition>
     </div>
 
-    <div class="is-flex is-justify-content-center">
+    <div class="flex justify-center">
       <NeoButton
         :label="btn.label"
-        class="is-flex-grow-1 limit-width h-auto py-3"
+        class="flex-grow limit-width h-auto py-3"
         :variant="btn.variant"
         @click="btn.onClick" />
     </div>

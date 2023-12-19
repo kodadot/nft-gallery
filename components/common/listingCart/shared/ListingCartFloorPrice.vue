@@ -6,7 +6,7 @@
         >{{ (floorPricePercentAdjustment * 100 - 100).toFixed(0) }}%</span
       >
     </div>
-    <div class="py-2 is-flex is-justify-content-start is-flex-grow-1">
+    <div class="py-2 flex justify-start flex-grow">
       <NeoButton
         class="mr-2"
         label="-5%"

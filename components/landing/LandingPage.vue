@@ -40,7 +40,7 @@
             <LazyCarouselTypeLatestSales class="mt-8" />
 
             <!-- new listings -->
-            <LazyCarouselTypeNewestList />
+            <LazyCarouselTypeNewestList class="mt-8" />
           </div>
         </section>
       </ClientOnly>

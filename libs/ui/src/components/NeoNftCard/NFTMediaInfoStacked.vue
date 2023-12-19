@@ -1,11 +1,9 @@
 <template>
-  <div
-    class="is-flex is-flex-direction-column"
-    :class="[`nft-media-info__${variant}`]">
+  <div class="flex flex-col" :class="[`nft-media-info__${variant}`]">
     <div
-      class="is-flex is-flex-direction-column mb-2"
+      class="flex flex-col mb-2"
       :class="{ 'px-3 pt-4 staked-primary-title': !isMinimal }">
-      <div class="is-flex is-justify-content-space-between">
+      <div class="flex justify-between">
         <span
           class="is-ellipsis has-text-weight-bold"
           data-testid="nft-name"
@@ -24,7 +22,7 @@
     </div>
 
     <div
-      class="is-flex is-justify-content-space-between is-align-items-center"
+      class="flex justify-between items-center"
       :class="{ 'border-top card-border-color pt-2 px-3': !isMinimal }">
       <template v-if="!isMinimal">
         <a class="is-ellipsis pr-1" :v-safe-href="collectionUrl">

@@ -2,7 +2,7 @@
   <NeoModal :value="isModalActive" scroll="clip" @close="emit('close')">
     <div class="p-6 modal-width">
       <div class="border-bottom border-grey">
-        <p class="is-flex is-justify-content-center pb-4 is-size-5">
+        <p class="flex justify-center pb-4 is-size-5">
           {{ $t('massmint.reviewTtile') }}
         </p>
       </div>
@@ -36,18 +36,18 @@
             {{ $t('massmint.reallyProcceed') }}
           </div>
         </div>
-        <div class="is-flex pt-6">
+        <div class="flex pt-6">
           <NeoButton
             :label="$t('massmint.yesMint')"
             :variant="mintBtnVariant"
             no-shadow
-            class="min-width btn-height is-flex is-flex-1"
+            class="min-width btn-height flex flex-1"
             @click="emit('mint')" />
           <NeoButton
             :label="$t('massmint.cancel')"
             :variant="cancelBtnVariant"
             no-shadow
-            class="min-width ml-5 btn-height is-flex is-flex-1"
+            class="min-width ml-5 btn-height flex flex-1"
             @click="emit('close')" />
         </div>
       </div>

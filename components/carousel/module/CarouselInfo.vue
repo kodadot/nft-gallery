@@ -1,5 +1,5 @@
 <template>
-  <div class="carousel-info is-flex is-flex-direction-column">
+  <div class="carousel-info flex flex-col">
     <nuxt-link
       :to="urlOf({ id: item.id, url, chain: item.chain })"
       :title="item.name"
@@ -29,13 +29,9 @@
 
     <div
       v-if="!isCollection"
-      class="carousel-meta is-flex"
-      :class="[
-        showPrice
-          ? 'is-justify-content-space-between'
-          : 'is-justify-content-end',
-      ]">
-      <div v-if="showPrice" class="is-flex is-align-items-center">
+      class="carousel-meta flex"
+      :class="[showPrice ? 'justify-between' : 'justify-end']">
+      <div v-if="showPrice" class="flex items-center">
         <Money
           :value="price"
           inline

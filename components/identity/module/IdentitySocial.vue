@@ -11,7 +11,7 @@
       </span>
     </a>
 
-    <div v-if="showDiscord && discord" class="is-flex is-align-items-center">
+    <div v-if="showDiscord && discord" class="flex items-center">
       <NeoIcon pack="fab" icon="discord" />
       <span class="aligned ml-2">
         {{ discord }}

@@ -16,8 +16,7 @@
 
     <hr class="my-5" />
 
-    <div
-      class="is-flex is-align-items-center is-justify-content-space-between networks">
+    <div class="flex items-center justify-between networks">
       <div class="w-full is-relative">
         <div class="network-title">{{ $t('teleport.source') }}</div>
         <NetworkDropdown
@@ -27,7 +26,7 @@
       </div>
 
       <div
-        class="network-arrow is-flex is-cursor-pointer py-2"
+        class="network-arrow flex is-cursor-pointer py-2"
         @click="switchChains">
         <svg viewBox="0 0 39 17" fill="none" xmlns="http://www.w3.org/2000/svg">
           <line y1="5.5" x2="35" y2="5.5" stroke="currentColor" />
@@ -83,12 +82,12 @@
 
     <div
       v-if="myBalance !== undefined"
-      class="is-size-7 is-flex justify-content align-items flex-direction">
+      class="is-size-7 flex justify-content align-items flex-direction">
       <TeleportFundsAtRiskWarning
         v-if="insufficientExistentialDeposit"
         :target-existential-deposit-amount="targetExistentialDepositAmount" />
-      <div class="is-flex">
-        <span class="is-flex is-align-items-center">
+      <div class="flex">
+        <span class="flex items-center">
           <span class="mr-2">{{ $t('general.balance') }}:</span
           >{{ myBalanceWithoutDivision.toFixed(4) }}{{ currency }}
         </span>
