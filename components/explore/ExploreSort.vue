@@ -79,7 +79,7 @@ const options = computed(() => {
     sortBy = NFT_SQUID_SORT_COLLECTIONS
 
     if (isAssetHub.value) {
-      sortBy = [...sortBy, 'volume_DESC']
+      sortBy = [...sortBy, 'volume_DESC', 'highestSale_DESC']
     }
   }
 
