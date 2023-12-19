@@ -14,14 +14,7 @@ import { encodeAddress } from '@polkadot/util-crypto'
 
 const getFallbackAddress = () => {
   const { chainProperties } = useChain()
-
-  // subtrate format
-  // TODO:
-  //  1.change to real royalty recipient
-  //  2. move to static?
-
-  const FALBACK_ROYALTY_RECIPIENT =
-    '5EUDt8Gu6e1tQozggApnHbzFTqwGwZs7696Hupk595XTa2Ht'
+  const FALBACK_ROYALTY_RECIPIENT = KODADOT_DAO
 
   return encodeAddress(
     FALBACK_ROYALTY_RECIPIENT,
