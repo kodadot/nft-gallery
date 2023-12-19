@@ -152,23 +152,14 @@ const limitDisplayNfts = (data) => {
 export const useCarouselNftEvents = ({ type }: Types) => {
   const nfts = ref<CarouselNFT[]>([])
   const items = computed(() => limitDisplayNfts(nfts.value))
+  const chains = ['ahk', 'ahp', 'bsx', 'rmrk', 'ksm']
 
   onMounted(async () => {
-    useChainEvents('ahk', type, limit, null).then(({ data }) =>
-      nfts.value.push(...flattenNFT(data.value, 'ahk')),
-    )
-    useChainEvents('ahp', type, limit, null).then(({ data }) =>
-      nfts.value.push(...flattenNFT(data.value, 'ahp')),
-    )
-    useChainEvents('bsx', type, limit, null).then(({ data }) =>
-      nfts.value.push(...flattenNFT(data.value, 'bsx')),
-    )
-    useChainEvents('rmrk', type, limit, null).then(({ data }) =>
-      nfts.value.push(...flattenNFT(data.value, 'rmrk')),
-    )
-    useChainEvents('ksm', type, limit, null).then(({ data }) =>
-      nfts.value.push(...flattenNFT(data.value, 'ksm')),
-    )
+    for (const chain of chains) {
+      useChainEvents(chain, type, limit, null).then(({ data }) =>
+        nfts.value.push(...flattenNFT(data.value, chain)),
+      )
+    }
   })
 
   return computed(() => items.value.nfts)
