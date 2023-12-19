@@ -26,7 +26,7 @@ const footerLinks = [
   },
   {
     linkName: 'Tutorial',
-    linkAddress: 'https://hello.kodadot.xyz/tutorial/wallet',
+    linkAddress: 'https://hello.kodadot.xyz/tutorial/before-you-start',
   },
   {
     linkName: 'About',
