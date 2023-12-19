@@ -59,7 +59,7 @@ const showWarning = computed(
     hasAvailable.value,
 )
 
-onBeforeMount(async () => {
+onMounted(async () => {
   alreadyClaimed.value = await checkIfAlreadyClaimed()
 })
 </script>
