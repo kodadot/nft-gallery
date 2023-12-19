@@ -1,15 +1,12 @@
 import { getDropDetails } from '@/components/drops/useDrops'
 
-const useUnlockableTagTexts = ({
-  isMintedOut,
-  isFree,
-  small,
-}: {
-  isMintedOut: ComputedRef<boolean>
-  isFree: ComputedRef<boolean>
-  small: boolean
-}) => {
+export const useUnlockableTag = (small: boolean) => {
   const { $i18n } = useNuxtApp()
+
+  const drop = ref()
+
+  const isMintedOut = computed(() => drop.value?.isMintedOut)
+  const isFree = computed(() => drop.value?.isFree)
 
   const mintLiveText = computed(() => {
     const mintTypeKey = isFree.value
@@ -31,24 +28,6 @@ const useUnlockableTagTexts = ({
         : 'mint.unlockable.takeMe',
     ),
   )
-
-  return {
-    actionText,
-    mintStatusText,
-  }
-}
-
-export const useUnlockableTag = (small: boolean) => {
-  const drop = ref()
-
-  const isMintedOut = computed(() => drop.value?.isMintedOut)
-  const isFree = computed(() => drop.value?.isFree)
-
-  const { actionText, mintStatusText } = useUnlockableTagTexts({
-    isFree,
-    isMintedOut,
-    small,
-  })
 
   const to = computed(() =>
     isMintedOut.value
