@@ -8,17 +8,18 @@ export const useUnlockableTag = (small: boolean) => {
   const isMintedOut = computed(() => drop.value?.isMintedOut)
   const isFree = computed(() => drop.value?.isFree)
 
-  const mintLiveText = computed(() => {
-    const mintTypeKey = isFree.value
+  const mintStatusKey = computed(() => {
+    if (isMintedOut.value) {
+      return 'mint.unlockable.mintedOut'
+    }
+
+    return isFree.value
       ? 'mint.unlockable.freeMintLive'
       : 'mint.unlockable.mintLive'
-    return $i18n.t(small ? `${mintTypeKey}Small` : mintTypeKey)
   })
 
   const mintStatusText = computed(() =>
-    isMintedOut.value
-      ? $i18n.t('mint.unlockable.mintedOut')
-      : mintLiveText.value,
+    $i18n.t(small ? `${mintStatusKey.value}Small` : mintStatusKey.value),
   )
 
   const actionText = computed(() =>

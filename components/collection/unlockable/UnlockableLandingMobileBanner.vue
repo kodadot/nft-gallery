@@ -17,5 +17,5 @@
 <script setup>
 import { useUnlockableTag } from './utils/useUnlockableTag'
 
-const { to, actionText, mintStatusText } = useUnlockableTag(false)
+const { to, actionText, mintStatusText } = useUnlockableTag(true)
 </script>
