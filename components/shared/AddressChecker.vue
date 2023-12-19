@@ -34,7 +34,7 @@
         " />
 
       <template v-if="isWrongNetworkAddress" #footer>
-        <div class="is-flex is-align-items-center">
+        <div class="flex items-center">
           <NeoButton
             no-shadow
             rounded

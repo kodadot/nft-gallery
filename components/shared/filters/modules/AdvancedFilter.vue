@@ -4,10 +4,7 @@
     animation="slide"
     :class="{ 'fluid-padding-left': fluidPadding }">
     <template #trigger="{ open }">
-      <div
-        class="is-flex is-justify-content-space-between"
-        role="button"
-        :aria-expanded="open">
+      <div class="flex justify-between" role="button" :aria-expanded="open">
         <p class="py-3 px-4 is-size-7 has-text-grey">
           <span data-testid="advanced-filter-collapsible">{{
             $t('advancedFilters')

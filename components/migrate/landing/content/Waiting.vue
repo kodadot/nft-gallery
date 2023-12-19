@@ -1,6 +1,6 @@
 <template>
   <div class="mt-8 pt-4">
-    <div class="is-flex is-relative section-title">
+    <div class="flex is-relative section-title">
       <img src="/migrate/state-waiting.svg" alt="Ready" />
       <p>{{ $t('migrate.waiting.title') }}</p>
     </div>
@@ -43,8 +43,7 @@
         </div>
 
         <div class="collection-card-info">
-          <div
-            class="is-flex is-justify-content-space-between is-align-items-center">
+          <div class="flex justify-between items-center">
             <div>
               <p
                 v-dompurify-html="

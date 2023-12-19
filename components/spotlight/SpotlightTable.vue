@@ -17,7 +17,7 @@
       @sort="onSort">
       <template #top-left>
         <NeoField class="mb-0">
-          <div class="control is-flex">
+          <div class="control flex">
             <NeoSwitch v-model="onlyWithIdentity">
               {{ $t('spotlight.filter_accounts') }}
             </NeoSwitch>

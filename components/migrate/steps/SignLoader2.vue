@@ -1,6 +1,6 @@
 <template>
   <div class="mb-5">
-    <div class="is-flex is-align-items-center mb-4">
+    <div class="flex items-center mb-4">
       <div class="mr-5">
         <NeoIcon v-if="iterations === 0" v-bind="iconSuccess" class="fa-2x" />
         <NeoIcon
@@ -18,7 +18,7 @@
         </p>
       </div>
     </div>
-    <div class="is-flex is-size-7">
+    <div class="flex is-size-7">
       <div class="v-border"></div>
       <div class="mb-4">
         <p v-if="iterations">
@@ -30,9 +30,9 @@
     <div
       v-for="(iteration, index) in maxIterations"
       :key="index"
-      class="is-flex is-size-7">
+      class="flex is-size-7">
       <div class="v-border"></div>
-      <div class="mb-4 is-flex">
+      <div class="mb-4 flex">
         <NeoIcon v-bind="itemLeftIcons(index)" class="mr-4" />
         <div>
           <p>{{ $t('migrate.signStep.migratingNItems', itemLeft(index)) }}</p>

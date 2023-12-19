@@ -19,7 +19,7 @@
           }}
         </p>
 
-        <div class="is-flex mt-5 is-justify-content-center">
+        <div class="flex mt-5 justify-center">
           <NeoButton
             variant="pill"
             class="mr-2"

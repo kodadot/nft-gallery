@@ -1,6 +1,6 @@
 <template>
   <div class="fixed-height border">
-    <div class="py-4 px-5 is-flex border-bottom" aria-label="controls">
+    <div class="py-4 px-5 flex border-bottom" aria-label="controls">
       <div
         class="mr-4 is-clickable"
         :class="{ 'has-text-weight-bold': activeTab === Tabs.holders }"

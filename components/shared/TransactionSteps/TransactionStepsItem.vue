@@ -1,6 +1,6 @@
 <template>
-  <div class="is-flex">
-    <div class="mr-4 is-flex is-align-items-center">
+  <div class="flex">
+    <div class="mr-4 flex items-center">
       <NeoIcon
         v-if="isLoading"
         icon="spinner-third"
@@ -27,8 +27,8 @@
         :size="iconSize" />
     </div>
 
-    <div class="is-flex is-align-items-center">
-      <div class="is-flex is-flex-direction-column">
+    <div class="flex items-center">
+      <div class="flex flex-col">
         <NeoTooltip
           v-if="step.tooltip"
           position="top"
@@ -49,7 +49,7 @@
         <p v-else class="is-capitalized has-text-weight-bold">
           {{ step.title }}
         </p>
-        <div class="is-flex is-align-items-center">
+        <div class="flex items-center">
           <p class="is-capitalized has-text-k-grey">
             {{ step.subtitle }}
 

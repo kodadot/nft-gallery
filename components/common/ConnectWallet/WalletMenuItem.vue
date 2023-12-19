@@ -1,12 +1,11 @@
 <template>
   <div class="wallet-menu-item">
     <button
-      class="button my-0 is-flex is-justify-content-space-between is-align-items-center"
+      class="button my-0 flex justify-between items-center"
       @click="onClickWallet(wallet)">
       <span>
-        <div
-          class="is-flex is-justify-content-space-between is-align-items-center">
-          <span class="is-flex is-align-items-center">
+        <div class="flex justify-between items-center">
+          <span class="flex items-center">
             <img
               :src="wallet.img"
               :alt="wallet.extensionName"
@@ -33,7 +32,7 @@
     </button>
     <div
       v-if="isAuth && walletAccounts.length === 0"
-      class="pl-5 pt-2 pb-2 is-flex is-align-items-center auth-tip">
+      class="pl-5 pt-2 pb-2 flex items-center auth-tip">
       <NeoIcon icon="spinner-third" />
       <span class="has-text-grey is-size-7 pl-4">
         {{ $t('walletConnect.authTip') }}
@@ -46,14 +45,14 @@
         :key="option.address"
         class="account-item">
         <a
-          class="pl-5 is-flex is-align-items-center"
+          class="pl-5 flex items-center"
           :value="option.address"
           @click="emitAccountChange(option)">
           <Avatar
             :size="33"
             :value="option.address"
             class="mr-2 image-outline" />
-          <div class="is-flex is-flex-direction-column">
+          <div class="flex flex-col">
             <span class="has-text-grey is-size-7 account-name">{{
               option.name
             }}</span>

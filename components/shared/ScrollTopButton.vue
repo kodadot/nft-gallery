@@ -1,7 +1,7 @@
 <template>
   <button
     v-if="showBtn"
-    class="scroll-top-button button is-justify-content-center"
+    class="scroll-top-button button justify-center"
     @click="scrollToTop">
     <NeoIcon icon="chevron-up" />
   </button>

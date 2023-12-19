@@ -2,8 +2,7 @@
   <NeoModal :value="isModalActive" scroll="clip" @close="emit('close')">
     <div class="p-6 modal-width">
       <div class="border-bottom border-grey">
-        <p
-          class="has-text-weight-bold pb-4 is-size-5 is-flex is-justify-content-center px-0">
+        <p class="has-text-weight-bold pb-4 is-size-5 flex justify-center px-0">
           {{ $t('massmint.missingRequiredInfo') }}
         </p>
       </div>
@@ -41,12 +40,12 @@
           {{ $t('massmint.cantMintNote') }}
         </div>
       </div>
-      <div class="is-flex is-justify-content-center pt-5 px-8">
+      <div class="flex justify-center pt-5 px-8">
         <NeoButton
           :label="$t('massmint.goBack')"
           variant="k-accent"
           no-shadow
-          class="is-flex is-flex-grow-1 btn-height"
+          class="flex flex-grow btn-height"
           @click="emit('close')" />
       </div>
     </div>
