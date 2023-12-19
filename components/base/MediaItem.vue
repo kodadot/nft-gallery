@@ -21,7 +21,7 @@
       :autoplay="autoplay" />
     <div
       v-if="isLewd && isLewdBlurredLayer"
-      class="nsfw-blur is-capitalized flex items-center justify-center flex-col">
+      class="nsfw-blur flex capitalize items-center justify-center flex-col">
       <NeoIcon icon="eye-slash" class="mb-3" />
       <span class="has-text-weight-bold">
         {{ $t('lewd.explicit') }}

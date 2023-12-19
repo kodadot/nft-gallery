@@ -96,9 +96,7 @@
         <p>{{ nft?.royalty }}%</p>
       </div>
 
-      <div
-        v-if="recipient"
-        class="recipient flex justify-between is-capitalized">
+      <div v-if="recipient" class="recipient flex justify-between capitalize">
         <p>{{ $t('transfers.recipients') }}</p>
         <template v-if="Array.isArray(recipient) && recipient.length > 1">
           <ol>
