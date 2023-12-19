@@ -63,7 +63,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/vue-fontawesome": "^3.0.5",
     "@kodadot1/brick": "workspace:*",
-    "@kodadot1/minimark": "^0.1.10",
+    "@kodadot1/minimark": "^0.1.13",
     "@kodadot1/minipfs": "0.4.1-rc.0",
     "@kodadot1/static": "workspace:*",
     "@kodadot1/sub-api": "0.2.0-rc.0",
@@ -116,7 +116,6 @@
     "vue-apollo": "^3.1.1",
     "vue-audio-visual": "2.5.0",
     "vue-dompurify-html": "^4.1.4",
-    "vue-social-sharing": "4.0.0-alpha4",
     "vue-tippy": "^6.3.1",
     "wavesurfer.js": "^7.4.11",
     "workbox-window": "^6.6.0"

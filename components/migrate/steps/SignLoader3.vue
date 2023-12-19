@@ -1,6 +1,6 @@
 <template>
   <div class="mb-5">
-    <div class="is-flex is-align-items-center mb-4">
+    <div class="flex items-center mb-4">
       <div class="mr-5">
         <NeoIcon v-bind="whichIcon()" class="fa-2x" />
       </div>
@@ -13,13 +13,13 @@
         </p>
       </div>
     </div>
-    <div class="is-flex is-size-7">
+    <div class="flex is-size-7">
       <div class="v-border"></div>
       <div class="mb-4">1/1 {{ $t('migrate.signStep.left') }}</div>
     </div>
-    <div class="is-flex is-size-7">
+    <div class="flex is-size-7">
       <div class="v-border"></div>
-      <div class="mb-4 is-flex">
+      <div class="mb-4 flex">
         <NeoIcon v-bind="whichIcon()" class="mr-4" />
         <div>
           <p>{{ $t('migrate.signStep.finalizingItems', [itemCount]) }}</p>
@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
-import { NFTs } from '@/composables/transaction/types'
+// import { NFTs } from '@/composables/transaction/types'
 import { NeoIcon } from '@kodadot1/brick'
 import {
   type Steps,
@@ -41,7 +41,8 @@ import {
 } from '@/composables/useMigrate'
 
 const route = useRoute()
-const { transaction, status } = useTransaction()
+// const { transaction, status } = useTransaction()
+const { status } = useTransaction()
 
 const from = route.query.source as Prefix
 const fromAccountId = route.query.accountId?.toString()
@@ -81,17 +82,17 @@ const { data } = useGraphql({
   },
 })
 
-const burnItems = async (ids: string[]) => {
-  await transaction(
-    {
-      interaction: NFTs.BURN_MULTIPLE,
-      nftIds: ids,
-      urlPrefix: from,
-    },
-    from,
-  )
-  updateSteps('step3-burn')
-}
+// const burnItems = async (ids: string[]) => {
+//   await transaction(
+//     {
+//       interaction: NFTs.BURN_MULTIPLE,
+//       nftIds: ids,
+//       urlPrefix: from,
+//     },
+//     from,
+//   )
+//   updateSteps('step3-burn')
+// }
 
 // const burnCollection = async () => {
 //   if (fromCollectionId) {
@@ -117,11 +118,16 @@ const congratsPage = () => {
 watchEffect(() => {
   const nfts = (data.value as NftIds)?.nfts
 
+  // burn items
   if (steps.value === 'step3' && nfts?.length) {
-    const ids = nfts.map((nft) => nft.id)
-    burnItems(ids)
+    // const ids = nfts.map((nft) => nft.id)
+    // burnItems(ids)
+
+    // skip burn at the moment
+    congratsPage()
   }
 
+  // ensure to burn items
   if (
     steps.value === 'step3-burn' &&
     status.value === TransactionStatus.Finalized
@@ -130,10 +136,16 @@ watchEffect(() => {
     congratsPage()
   }
 
+  // ensure to burn collection
   if (
     steps.value === 'step3-burn-collection' &&
     status.value === TransactionStatus.Finalized
   ) {
+    congratsPage()
+  }
+
+  // skip burn at the moment
+  if (steps.value === 'step3-burn' || steps.value === 'step3') {
     congratsPage()
   }
 })

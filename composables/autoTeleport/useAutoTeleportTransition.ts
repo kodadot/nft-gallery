@@ -24,11 +24,12 @@ export default function ({
 
   const {
     amountToTeleport,
-    hasBalances,
     hasEnoughInCurrentChain,
     hasEnoughInRichestChain,
     sourceChain,
     chainSymbol,
+    txFees,
+    isReady,
   } = useAutoTeleportTransitionDetails(actions, neededAmount, fees)
 
   const { formatted: amountFormatted, usd: amountUsd } = useAmount(
@@ -47,7 +48,7 @@ export default function ({
 
     let source: TeleportChain | null = null
 
-    if (hasEnoughInRichestChain.value && sourceChain.value) {
+    if (hasEnoughInRichestChain.value && sourceChain.value && isReady.value) {
       source = {
         chain: sourceChain.value,
         prefix: chainToPrefixMap[sourceChain.value],
@@ -66,12 +67,13 @@ export default function ({
       amountFormatted: amountFormatted.value,
       amountUsd: amountUsd.value,
       token: chainSymbol.value as string,
+      txFees: txFees.value,
     }
   })
 
   return {
     isAvailable,
-    hasBalances,
+    isReady,
     hasEnoughInCurrentChain,
     hasEnoughInRichestChain,
     optimalTransition,

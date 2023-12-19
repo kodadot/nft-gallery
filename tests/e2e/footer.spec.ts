@@ -74,14 +74,14 @@ const footerSocialMediaLinks = [
   },
   {
     linkName: 'Reddit',
-    linkAddress: '/r/KodaDot/',
+    linkAddress: 'KodaDot',
   },
 ]
 
 test('Check Footer Subscription', async ({ page }) => {
   await page.goto('/')
   const footerSubscribe = page.getByTestId('footer-subscribe')
-  await footerSubscribe.getByPlaceholder('jane.doe@kodadot.xyz').fill('a')
+  await footerSubscribe.locator('input').fill('a')
   await footerSubscribe.locator('button').click()
   await expect(footerSubscribe.locator('.error')).toBeVisible()
 })

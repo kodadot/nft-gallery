@@ -1,15 +1,14 @@
 <template>
   <div
     v-if="isOpen"
-    class="notification-modal-container theme-background-color border-left is-flex is-flex-direction-column"
+    class="notification-modal-container theme-background-color border-left flex flex-col"
     data-testid="notification-modal-container">
     <NeoModalHead
       :title="$t('notification.notifications')"
       @close="closeModal" />
     <div class="px-0 pt-0 pb-3 theme-background-color">
       <div class="notification-filter theme-background-color px-6 pt-4 pb-5">
-        <div
-          class="is-flex is-justify-content-space-between is-align-items-center pb-4">
+        <div class="flex justify-between items-center pb-4">
           <span> {{ $t('notification.filters') }} </span>
           <NeoButton
             v-if="!showFilter"
@@ -29,13 +28,11 @@
           </NeoButton>
         </div>
         <div v-if="showFilter" class="filter-option">
-          <div
-            v-if="collections.length > 0"
-            class="is-flex is-flex-direction-column pb-4">
+          <div v-if="collections.length > 0" class="flex flex-col pb-4">
             <span class="is-size-7 has-text-grey mb-2">
               {{ $t('notification.byCollection') }}
             </span>
-            <div class="is-flex is-flex-wrap-wrap filter-list">
+            <div class="flex flex-wrap filter-list">
               <div
                 v-for="(item, index) in collections"
                 :key="`${item}-${index}`"
@@ -48,11 +45,11 @@
               </div>
             </div>
           </div>
-          <div class="is-flex is-flex-direction-column pb-4">
+          <div class="flex flex-col pb-4">
             <span class="is-size-7 has-text-grey mb-2">{{
               $t('notification.byEvent')
             }}</span>
-            <div class="is-flex is-flex-wrap-wrap filter-list">
+            <div class="flex flex-wrap filter-list">
               <div
                 v-for="event in eventTypes"
                 :key="event"
@@ -67,7 +64,7 @@
           </div>
         </div>
         <div v-if="!showFilter && !isFilterEmpty" class="filter-option">
-          <div class="is-flex filter-display-list pb-3 is-flex-wrap-wrap">
+          <div class="flex filter-display-list pb-3 flex-wrap">
             <NeoTag
               v-if="collectionFilter"
               class="no-wrap mr-1 mb-1 rounded"
@@ -94,7 +91,7 @@
           <p>{{ $t('notification.emptyTipLine1') }}</p>
           <p>{{ $t('notification.emptyTipLine2') }}</p>
         </div>
-        <div v-else class="is-flex is-flex-direction-column">
+        <div v-else class="flex flex-col">
           <NotificationItem
             v-for="(event, index) in displayedEvents"
             :key="`${event.id}-${index}`"

@@ -1,5 +1,5 @@
 <template>
-  <div class="is-flex-grow-1">
+  <div class="flex-grow">
     <LoadPreviousPage
       v-if="startPage > 1 && !isLoading && total > 0"
       @click="reachTopHandler" />
@@ -8,6 +8,8 @@
       v-if="total !== 0 && (!isLoading || !isFetchingData)"
       :id="scrollContainerId"
       v-slot="slotProps"
+      :grid-section="gridSection"
+      :mobile-cols="2"
       class="my-5">
       <div
         v-for="(entity, index) in items"
@@ -53,7 +55,9 @@
     <!-- skeleton on first load -->
     <DynamicGrid
       v-if="total === 0 && (isLoading || isFetchingData)"
-      class="my-5">
+      :grid-section="gridSection"
+      class="my-5"
+      :mobile-cols="2">
       <NeoNftCardSkeleton
         v-for="n in skeletonCount"
         :key="n"
@@ -78,6 +82,7 @@ import isEqual from 'lodash/isEqual'
 import { useListingCartStore } from '@/stores/listingCart'
 import { getTokensNfts } from './useNftActions'
 import { NFT } from '@/components/rmrk/service/scheme'
+import { GridSection } from '@/stores/preferences'
 
 const { listingCartEnabled } = useListingCartConfig()
 const listingCartStore = useListingCartStore()
@@ -85,6 +90,8 @@ const route = useRoute()
 
 const props = defineProps<{
   search?: Record<string, string | number>
+  resetSearchQueryParams?: string[]
+  gridSection?: GridSection
 }>()
 
 const emit = defineEmits(['total', 'loading'])
@@ -101,6 +108,7 @@ const gotoPage = (page: number) => {
   endPage.value = page
   isFetchingData.value = false
   isLoading.value = true
+  total.value = 0
 
   clearFetchResults()
   fetchSearch({ page, search: parseSearch(props.search) })
@@ -130,16 +138,20 @@ const {
 
 const skeletonCount = first.value
 
-const resetPage = useDebounceFn(() => {
+const resetPage = () => {
+  isLoading.value = true
   gotoPage(1)
-}, 500)
+}
+
+const debouncedResetPage = useDebounceFn(resetPage, 500)
 
 const { items, fetchSearch, clearFetchResults, usingTokens } = useFetchSearch({
   first,
   total,
   isFetchingData,
   isLoading,
-  resetSearch: resetPage,
+  resetSearch: debouncedResetPage,
+  resetSearchQueryParams: props.resetSearchQueryParams,
 })
 
 watch(
@@ -179,8 +191,7 @@ watch(
       return
     }
     if (!isEqual(newSearch, oldSearch)) {
-      isLoading.value = true
-      gotoPage(1)
+      resetPage()
     }
   },
   { deep: true },

@@ -1,8 +1,8 @@
 <template>
   <div data-testid="item-section-buy">
     <GalleryItemPriceSection v-if="nft.price" title="Price" :price="nft.price">
-      <div v-if="Number(nft.price)" class="is-flex desktop-full-w">
-        <div class="is-flex buy-button-width">
+      <div v-if="Number(nft.price)" class="flex desktop-full-w">
+        <div class="flex buy-button-width">
           <NeoButton
             :label="label"
             size="large"

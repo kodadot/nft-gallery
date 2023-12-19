@@ -26,7 +26,7 @@
       <div />
     </slot>
   </o-tooltip>
-  <div v-else class="wrapper">
+  <div v-else class="h-full">
     <slot>
       <div />
     </slot>
@@ -110,6 +110,5 @@ const handleClick = (event: MouseEvent) => {
 </script>
 
 <style lang="scss">
-// @import '@oruga-ui/oruga-next/dist/oruga.min.css';
 @import './NeoTooltip.scss';
 </style>

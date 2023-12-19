@@ -21,7 +21,7 @@
               !hasAnimatedResources &&
               !isFullscreen
             "
-            class="fullscreen-button is-justify-content-center is-align-items-center"
+            class="fullscreen-button justify-center items-center"
             @click="toggleFullscreen">
             <NeoIcon icon="expand" />
           </a>
@@ -43,11 +43,13 @@
                 :key="resource.id">
                 <BaseMediaItem
                   :key="resource.src"
-                  :src="resource.src"
+                  :src="getMediaSrc(resource.src)"
                   :mime-type="resource.mimeType"
                   :animation-src="resource.animation"
                   :audio-player-cover="galleryItem.nftImage.value"
                   :image-component="NuxtImg"
+                  :is-fullscreen="isFullscreen"
+                  :sizes="sizes"
                   is-detail />
               </NeoCarouselItem>
             </NeoCarousel>
@@ -57,25 +59,25 @@
             :key="nftImage"
             ref="mediaItemRef"
             class="gallery-item-media is-relative"
-            :src="nftImage"
+            :src="getMediaSrc(nftImage)"
             :animation-src="nftAnimation"
             :mime-type="nftMimeType"
             :title="nftMetadata?.name"
+            :is-fullscreen="isFullscreen"
             is-detail
             :is-lewd="galleryDescriptionRef?.isLewd"
             :placeholder="placeholder"
             :image-component="NuxtImg"
-            sizes="original"
+            :sizes="sizes"
             :audio-player-cover="nftImage" />
         </div>
       </div>
 
       <div class="py-8 column">
-        <div
-          class="is-flex is-flex-direction-column is-justify-content-space-between h-full">
+        <div class="flex flex-col justify-between h-full">
           <!-- title section -->
-          <div class="pb-4">
-            <div class="is-flex is-justify-content-space-between">
+          <div class="pb-2">
+            <div class="flex justify-between">
               <div class="name-container">
                 <h1 class="title" data-testid="item-title">
                   {{ nftMetadata?.name }}
@@ -102,10 +104,18 @@
             </div>
 
             <div
-              class="is-flex is-flex-direction-row is-flex-wrap-wrap py-4 pt-8">
+              class="text-neutral-7 flex items-center"
+              :class="isMobile ? 'my-4' : 'my-6'">
+              <NeoIcon pack="fasl" icon="eye" class="mr-1" />
+              <span v-if="pageViewCount === null">--</span>
+              <span v-else>{{ formatNumber(pageViewCount) }}</span>
+            </div>
+
+            <div class="flex flex-row flex-wrap">
               <IdentityItem
                 v-if="nft?.issuer"
-                class="gallery-avatar mr-4"
+                class="gallery-avatar"
+                :class="isMobile ? 'mr-4' : 'mr-8'"
                 :label="$t('creator')"
                 :prefix="urlPrefix"
                 :account="nft?.issuer"
@@ -186,9 +196,9 @@ import GalleryItemTabsPanel from './GalleryItemTabsPanel/GalleryItemTabsPanel.vu
 import GalleryItemAction from './GalleryItemAction/GalleryItemAction.vue'
 import { convertMarkdownToText } from '@/utils/markdown'
 import { exist } from '@/utils/exist'
-import { sanitizeIpfsUrl } from '@/utils/ipfs'
+import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import { generateNftImage } from '@/utils/seoImageGenerator'
-import { formatBalanceEmptyOnZero } from '@/utils/format/balance'
+import { formatBalanceEmptyOnZero, formatNumber } from '@/utils/format/balance'
 import { MediaType } from '@/components/rmrk/types'
 import { resolveMedia } from '@/utils/gallery/media'
 import UnlockableTag from './UnlockableTag.vue'
@@ -203,6 +213,7 @@ const { placeholder } = useTheme()
 const mediaItemRef = ref<{ isLewdBlurredLayer: boolean } | null>(null)
 const galleryDescriptionRef = ref<{ isLewd: boolean } | null>(null)
 const preferencesStore = usePreferencesStore()
+const pageViewCount = usePageViews()
 
 const galleryItem = useGalleryItem()
 const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType, nftResources } =
@@ -242,6 +253,9 @@ const hasAnimatedResources = computed(
 const onNFTBought = () => {
   activeTab.value = tabs.activity
 }
+
+const getMediaSrc = (src: string | undefined) =>
+  src && isFullscreen.value ? toOriginalContentUrl(src) : src
 
 watch(triggerBuySuccess, (value, oldValue) => {
   if (value && !oldValue) {
@@ -290,6 +304,11 @@ const imgref = ref<HTMLElement | null>(null)
 const isFallbackActive = ref(false)
 const fullScreenDisabled = ref(false)
 const { toggle, isFullscreen, isSupported } = useFullscreen(imgref)
+const sizes = ref<string>('1000px')
+
+watch(isFullscreen, (value) => {
+  sizes.value = value ? 'original' : '1000px'
+})
 
 function toggleFullscreen() {
   if (!isSupported.value || fullScreenDisabled.value) {

@@ -4,7 +4,7 @@
     <NeoModal :value="isModalActive" scroll="clip" @close="onClose">
       <div class="modal-width">
         <header
-          class="border-bottom border-grey is-flex is-align-items-center is-justify-content-space-between px-6">
+          class="border-bottom border-grey flex items-center justify-between px-6">
           <p class="py-5 is-size-6 has-text-weight-bold">
             {{ $t('transaction.transferNft') }}
           </p>
@@ -21,7 +21,7 @@
         <div class="px-6 pt-4 pb-5">
           <ModalIdentityItem />
 
-          <div class="mt-4 is-flex">
+          <div class="mt-4 flex">
             <div>
               <BasicImage
                 :src="avatar"
@@ -30,7 +30,7 @@
             </div>
 
             <div
-              class="is-flex is-flex-direction-column is-justify-content-space-between ml-4 limit-width w-full is-clipped">
+              class="flex flex-col justify-between ml-4 limit-width w-full is-clipped">
               <div
                 class="has-text-weight-bold has-text-color line-height-1 no-wrap is-ellipsis">
                 {{ nft.name }}
@@ -40,14 +40,14 @@
               </div>
             </div>
 
-            <div class="ml-4 is-flex is-align-items-end no-wrap">
+            <div class="ml-4 flex items-end no-wrap">
               {{ nftPrice }}
             </div>
           </div>
 
           <hr class="my-4" />
 
-          <h2 class="mb-2 has-text-weight-bold has-text-color is-capitalized">
+          <h2 class="mb-2 has-text-weight-bold has-text-color capitalize">
             {{ $t('transaction.transferTo') }}
           </h2>
 
@@ -55,23 +55,22 @@
             v-model="address"
             :is-invalid="isYourAddress"
             label=""
-            class="is-flex-1"
+            class="flex-1"
             placeholder="Enter wallet address"
             with-address-check
             @check="handleAddressCheck" />
         </div>
 
-        <div class="px-6 pb-4 is-flex is-flex-direction-column">
+        <div class="px-6 pb-4 flex flex-col">
           <NeoButton
             :disabled="isDisabled"
             :label="transferItemLabel"
             variant="k-accent"
             no-shadow
-            class="is-flex is-flex-grow-1 py-5 is-capitalized btn-height"
+            class="flex flex-grow py-5 capitalize btn-height"
             @click="transfer" />
 
-          <div
-            class="mt-3 is-flex is-justify-items-space-between has-text-grey">
+          <div class="mt-3 flex justify-between has-text-grey">
             <NeoIcon icon="circle-info" size="small" class="mr-4" />
 
             <p class="is-size-7">

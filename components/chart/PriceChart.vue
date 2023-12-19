@@ -15,7 +15,7 @@
       <NeoDropdownItem
         v-for="range in timeRangeList"
         :key="range.value"
-        class="is-flex is-justify-content-center px-0 is-align-items-center"
+        class="flex justify-center px-0 items-center"
         :active="selectedTimeRange.value === range.value"
         :value="selectedTimeRange"
         @click="setTimeRange({ value: range.value, label: range.label })">
@@ -37,22 +37,24 @@
         </NeoButton>
       </template>
 
-      <NeoDropdownItem class="px-4 py-3 no-hover">
-        <div
-          class="w-full is-flex is-justify-content-space-between is-align-items-center">
-          <div class="no-wrap mr-5 is-size-7">
+      <NeoDropdownItem class="no-hover px-0 py-0">
+        <div class="w-full flex justify-between items-center">
+          <NeoCheckbox
+            v-model="vHideOutliers"
+            class="m-0 no-wrap"
+            root-class="settings-checkbox px-4 py-3">
             {{ $t('activity.hideOutliers') }}
-          </div>
-          <NeoCheckbox v-model="vHideOutliers" class="m-0" />
+          </NeoCheckbox>
         </div>
       </NeoDropdownItem>
-      <NeoDropdownItem class="px-4 py-3 no-hover">
-        <div
-          class="w-full is-flex is-justify-content-space-between is-align-items-center">
-          <div class="no-wrap mr-5 is-size-7">
+      <NeoDropdownItem class="no-hover px-0 py-0">
+        <div class="w-full flex justify-between items-center">
+          <NeoCheckbox
+            v-model="vApplySmoothing"
+            class="m-0 no-wrap"
+            root-class="settings-checkbox px-4 py-3">
             {{ $t('activity.applySmoothing') }}
-          </div>
-          <NeoCheckbox v-model="vApplySmoothing" class="m-0" />
+          </NeoCheckbox>
         </div>
       </NeoDropdownItem>
     </NeoDropdown>
@@ -360,5 +362,9 @@ watch([isDarkMode, selectedTimeRange], () => {
   :deep(.o-drop__menu) {
     min-width: fit-content !important;
   }
+}
+
+.settings-checkbox {
+  flex: auto;
 }
 </style>

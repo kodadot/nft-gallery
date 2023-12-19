@@ -1,6 +1,5 @@
 <template>
-  <div
-    class="container is-flex is-align-items-center is-justify-content-center is-flex-direction-column">
+  <div class="container flex items-center justify-center flex-col">
     <div>
       <h1 class="title is-size-2 mb-7">{{ $t('mint.landing.heading') }}</h1>
 
@@ -29,12 +28,11 @@
         <nuxt-link
           v-if="urlPrefix === 'ahk'"
           :class="{ 'pack-box-waifu p-0 is-relative': !isMobile }"
-          class="pack-box is-flex is-align-items-center is-justify-content-center"
+          class="pack-box flex items-center justify-center"
           :to="`/${urlPrefix}/waifu`">
           <div
             :class="{
-              'is-flex h-full pack-content-waifu is-flex-direction-column':
-                !isMobile,
+              'flex h-full pack-content-waifu flex-col': !isMobile,
               'pack-content': isMobile,
             }">
             <img
@@ -44,8 +42,7 @@
               alt="Create Waifu NFT" />
             <NeoIcon v-else icon="wand-magic-sparkles" custom-size="fa-3x" />
 
-            <div
-              class="px-3 is-flex h-full is-flex-direction-column is-justify-content-center">
+            <div class="px-3 flex h-full flex-col justify-center">
               <p class="is-size-4 has-text-weight-bold">
                 {{ !isMobile ? $t('navbar.create.generateWaifu') : 'Waifu' }}
               </p>

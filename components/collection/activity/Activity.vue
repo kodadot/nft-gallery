@@ -1,5 +1,5 @@
 <template>
-  <div class="is-flex">
+  <div class="flex">
     <SidebarFilter />
     <div ref="wrapper" class="w-full mt-4">
       <div v-if="tablet">
@@ -14,7 +14,7 @@
         <BreadcrumbsFilter />
       </div>
       <div v-else>
-        <div class="is-flex is-flex-direction-column gap">
+        <div class="flex flex-col gap">
           <OwnerInsights :owners="owners" :flippers="flippers" />
           <div class="max-width">
             <ActivityChart :events="events" />

@@ -5,7 +5,7 @@
     :title="title"
     :is-button-hidden="true">
     <template #default>
-      <div class="is-flex is-justify-content-space-between">
+      <div class="flex justify-between">
         <NeoTable v-for="ktype in types" :key="ktype" :data="updateData[ktype]">
           <NeoTableColumn v-slot="props" field="text" :label="labels[ktype]">
             {{ props.row.text }}

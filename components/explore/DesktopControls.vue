@@ -1,15 +1,15 @@
 <template>
-  <div class="explore is-flex is-flex-wrap-wrap">
-    <div class="is-flex is-align-content-center gap">
+  <div class="explore flex flex-wrap">
+    <div class="flex content-center gap">
       <FilterMenuButton />
       <ExploreTabs />
     </div>
 
-    <div v-if="!isActivityTab" class="explore-menu is-flex">
+    <div v-if="!isActivityTab" class="explore-menu flex">
       <ExploreSort />
-      <ExploreOffer class="is-flex-grow-1" />
+      <ExploreOffer class="flex-grow" />
       <ChainDropdown v-if="!route.name?.includes('prefix-collection-id')" />
-      <ExploreGrid v-if="!isCollection" />
+      <GridLayoutControls v-if="!isCollection" />
     </div>
   </div>
 </template>
@@ -17,10 +17,10 @@
 <script setup lang="ts">
 import ExploreTabs from './ExploreTabs.vue'
 import ExploreSort from './ExploreSort.vue'
-import ExploreGrid from './ExploreGrid.vue'
 import ExploreOffer from './ExploreOffer.vue'
 import FilterMenuButton from './FilterMenuButton.vue'
 import ChainDropdown from '@/components/common/ChainDropdown.vue'
+import GridLayoutControls from '@/components/shared/GridLayoutControls.vue'
 
 const route = useRoute()
 

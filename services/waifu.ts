@@ -62,12 +62,27 @@ type DoRequest = {
   email?: string
 }
 
-type DoResponse = {
-  result: {
-    sn: string
-    collection: string
-  }
+type DoSubmitDropRequest = {
+  sn: string
+  hash: string
+  account: string
+  email?: string
 }
+
+export type DoResult = {
+  sn: string
+  collection: string
+  chain: string
+  txHash?: string
+  timestamp?: string
+  image?: string
+  name: string
+}
+
+type DoResponse = {
+  result: DoResult
+}
+
 export const doWaifu = async (body: DoRequest, campaign: string) => {
   const value = await api<DoResponse>(`do/${campaign}`, {
     method: 'POST',
@@ -79,9 +94,24 @@ export const doWaifu = async (body: DoRequest, campaign: string) => {
   return value
 }
 
+export const doSubmitDrop = async (
+  body: DoSubmitDropRequest,
+  campaign: string,
+) => {
+  const value = await api<DoResponse>(`do/${campaign}`, {
+    method: 'PUT',
+    body,
+  }).catch((error: FetchError) => {
+    throw new Error(`[DROP::DO] Unable to CAMPAIGN for reasons ${error.data}`)
+  })
+
+  return value
+}
+
 type UpdateMetadataRequest = {
   sn: string
   metadata: string
+  account?: string
 }
 
 export const claimDropItem = async (

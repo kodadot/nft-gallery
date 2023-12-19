@@ -1,6 +1,6 @@
 <template>
-  <div class="mb-5">
-    <div class="is-flex is-align-items-center mb-4">
+  <div v-if="!collectionOwner" class="mb-5">
+    <div class="flex items-center mb-4">
       <div class="mr-5">
         <NeoIcon v-bind="whichIcon()" class="fa-2x" />
       </div>
@@ -13,7 +13,7 @@
         </p>
       </div>
     </div>
-    <div class="is-flex is-size-7">
+    <div class="flex is-size-7">
       <div class="v-border"></div>
       <div class="mb-4">
         <p v-if="step1Iterations">
@@ -22,9 +22,9 @@
         <p v-else>{{ $t('migrate.signStep.done') }}</p>
       </div>
     </div>
-    <div class="is-flex is-size-7">
+    <div class="flex is-size-7">
       <div class="v-border"></div>
-      <div class="mb-4 is-flex">
+      <div class="mb-4 flex">
         <div class="mr-4">
           <NeoIcon v-if="step1Iterations === 0" v-bind="iconSuccess" />
           <NeoIcon v-else-if="step1Iterations === 1" v-bind="iconLoading" />
@@ -42,9 +42,9 @@
         </div>
       </div>
     </div>
-    <div class="is-flex is-size-7">
+    <div class="flex is-size-7">
       <div class="v-border"></div>
-      <div class="mb-4 is-flex">
+      <div class="mb-4 flex">
         <div class="mr-4">
           <NeoIcon v-if="step1Iterations === 0" v-bind="iconSuccess" />
           <NeoIcon v-else v-bind="iconIdle" />
@@ -84,6 +84,7 @@ const router = useRouter()
 const to = route.query.destination as Prefix
 const from = route.query.source as Prefix
 const fromAccountId = route.query.accountId?.toString()
+const collectionOwner = route.query.collectionOwner?.toString()
 
 const api = await apiInstance.value
 const { steps, updateSteps } = inject('steps') as {
@@ -102,13 +103,6 @@ const fromCollection = collections.value.find(
   (collection) => collection.id === route.query.collectionId,
 )
 
-const deleteRelocations = async () => {
-  const relocationsId = `${from}-${fromAccountId}`
-  return await waifuApi(`/relocations/${relocationsId}`, {
-    method: 'DELETE',
-  })
-}
-
 const startStep1 = async () => {
   step1Iterations.value -= 1
   nextId.value = (await nextCollectionId())?.toString() || '0'
@@ -123,8 +117,6 @@ const startStep1 = async () => {
     },
     issuer: fromAccountId, // accountId.value
   }
-
-  await deleteRelocations()
 
   if (nextId.value && fromCollection?.metadata) {
     const createArgs = createArgsForNftPallet(accountId.value)
@@ -155,18 +147,20 @@ const startStep1 = async () => {
 const validationStep1 = async () => {
   step1Iterations.value -= 1
 
+  router.push({
+    query: {
+      ...route.query,
+      nextCollectionId: nextId.value,
+    },
+  })
+
   try {
     await waifuApi('/relocations', {
       method: 'POST',
       body: relocationsBody.value,
     })
+
     updateSteps('step2')
-    router.push({
-      query: {
-        ...route.query,
-        nextCollectionId: nextId.value,
-      },
-    })
   } catch (error) {
     $consola.log(error)
   }

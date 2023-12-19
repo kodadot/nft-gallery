@@ -7,17 +7,19 @@
     --white: #ffffff;
     --black: #000000;
     --k-accent-light-3: #ffaee1;
+    --steps-active-color: 97 136 231;
   }
 
   :root,
   :root .light-mode {
-    --text-color: var(--black);
+    --text-color: 0 0 0;
     --text-color-inverse: var(--white);
     --border-color: var(--black);
     --background-color: var(--white);
     --background-color-inverse: #191718;
     --link-hover: #6b6b6b;
     --k-accent: #ff7ac3;
+    --k-accent2: #ff7ac3;
     --k-accent-light: #ffe5f3;
     --k-accent-hover: #ffe5f3;
     --k-accent-light-2: #ffe5f3;
@@ -31,6 +33,7 @@
     --k-red-accent-2: #ffe6e6;
     --k-grey: #999999;
     --k-grey-fix: #999999;
+    --k-grey-light: 245 245 245;
     --k-pink: #ffb6ef;
     --k-yellow: #feffb6;
     --k-blue-accent: #b6cbff;
@@ -43,7 +46,7 @@
     --k-blue-light: #e8edfb;
     --k-primary: #ff7ac3;
     --k-primary-light: #fff0f8;
-    --k-shade: #cccccc;
+    --k-shade: 204 204 204;
     --placeholder-color: #cccccc;
     --primary-shadow: 4px 4px #000;
     --disabled: #f3f3f3;
@@ -60,13 +63,14 @@
 
   .dark-mode {
     --black: #191718;
-    --text-color: var(--white);
+    --text-color: 255 255 255;
     --text-color-inverse: var(--black);
     --background-color: #191718;
     --background-color-inverse: var(--white);
     --link-hover: #cccccc;
     --border-color: var(--white);
     --k-accent: #191718;
+    --k-accent2: var(--white);
     --k-accent-hover: #363234;
     --k-accent-light-2: #363234;
     --k-accent-light-2-dark: var(--white);
@@ -76,6 +80,7 @@
     --k-red-accent-2: #390b0b;
     --k-grey: #cccccc;
     --k-grey-fix: #999999;
+    --k-grey-light: 31 31 31;
     --k-pink: #7a2a68;
     --k-yellow: #363234;
     --k-blue-accent: #2e50a2;
@@ -84,7 +89,7 @@
     --k-green-accent-2: #0a3009;
     --k-blue-light: #363234;
     --k-primary-light: #363234;
-    --k-shade: #999999;
+    --k-shade: 153 153 153;
     --primary-shadow: 4px 4px #fff;
     --disabled: var(--black);
     --card-border-color: #6b6b6b;

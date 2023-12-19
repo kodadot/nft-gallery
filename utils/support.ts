@@ -51,7 +51,8 @@ export const feeTx = (api: ApiPromise, price: string): Extrinsic => {
 }
 
 export const getPercentSupportFee = (price: number | string) => {
-  return Number(price) * SUPPORT_FEE_PERCENT
+  // it has to be an integer
+  return Math.floor(Number(price) * SUPPORT_FEE_PERCENT)
 }
 
 export const somePercentFromTX = (api: ApiPromise, price: number | string) => {
@@ -60,7 +61,8 @@ export const somePercentFromTX = (api: ApiPromise, price: number | string) => {
 }
 
 export const royaltyFee = (price: string | number, royaltyPercent: number) =>
-  Number(price) * (royaltyPercent / 100)
+  // it has to be an integer
+  Math.floor(Number(price) * (royaltyPercent / 100))
 
 export const payRoyaltyTx = (
   api: ApiPromise,

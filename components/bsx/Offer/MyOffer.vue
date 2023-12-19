@@ -5,7 +5,7 @@
         {{ $t('myOffer.bsxTitle') }}
       </h1>
     </div>
-    <div class="is-flex is-justify-content-space-between is-align-items-center">
+    <div class="flex justify-between items-center">
       <NeoSelect v-model="selectedStatus">
         <option
           v-for="option in getUniqType()"

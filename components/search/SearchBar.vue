@@ -34,8 +34,8 @@
     <div class="search-bar-bg"></div>
     <div
       v-if="isCollectionSearchMode"
-      class="search-bar-collection-search is-flex is-align-items-center">
-      <span class="is-flex is-align-items-center">{{
+      class="search-bar-collection-search flex items-center">
+      <span class="flex items-center">{{
         $i18n.t('search.searchCollection')
       }}</span>
       <svg

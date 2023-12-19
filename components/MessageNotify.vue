@@ -8,13 +8,12 @@
     :auto-close="autoClose"
     @close="$emit('close')">
     <img src="/congrats-message-header.svg" class="congrats-message" />
-    <div class="is-flex is-flex-direction-column">
+    <div class="flex flex-col">
       <div class="title is-3 mb-4">
         {{ title }}
       </div>
       <hr class="my-2" />
-      <div
-        class="is-flex is-align-items-center is-justify-content-space-between">
+      <div class="flex items-center justify-between">
         <span class="subtitle is-6 mb-0">
           {{ subtitle }}
         </span>
@@ -59,7 +58,7 @@ const realworldFullPath = computed(() => {
   &--toast {
     z-index: 100;
     position: fixed;
-    border-radius: 0;
+    border-radius: 0 !important;
     top: 100px;
     right: 0;
     margin-left: auto;
@@ -73,7 +72,8 @@ const realworldFullPath = computed(() => {
   }
 
   .message-body {
-    border: none;
+    border-left-width: 0;
+    border-radius: 0;
   }
 
   .congrats-message {

@@ -1,7 +1,6 @@
 <template>
   <div class="modal-width">
-    <header
-      class="px-6 py-4 is-flex is-justify-content-space-between border-bottom is-align-items-center">
+    <header class="px-6 py-4 flex justify-between border-bottom items-center">
       <NeoSkeleton
         v-if="loading"
         rounded
@@ -36,32 +35,8 @@
         },
         contentClass,
       ]">
-      <div v-if="loading" class="skeleton-container">
-        <NeoSkeleton
-          class="skeleton-backdrop"
-          rounded
-          border-radius="20px"
-          no-margin
-          full-size
-          variant="k-grey-light" />
-
-        <div class="skeleton-content is-flex">
-          <NeoIcon
-            icon="spinner-third"
-            class="spinner has-text-k-grey mr-6"
-            size="large"
-            spin></NeoIcon>
-
-          <div>
-            <p class="is-capitalized has-text-weight-bold is-size-6">
-              {{ $t('general.doingSomeMagic') }}
-            </p>
-            <p class="is-capitalized is-size-6 has-text-k-grey">
-              {{ $t('general.pleaseWait') }}
-              <span class="dots" />
-            </p>
-          </div>
-        </div>
+      <div v-if="loading">
+        <SkeletonLoader class="modal-skeleton" />
       </div>
 
       <div
@@ -77,7 +52,8 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon, NeoSkeleton } from '@kodadot1/brick'
+import { NeoButton, NeoSkeleton } from '@kodadot1/brick'
+import SkeletonLoader from '@/components/shared/SkeletonLoader.vue'
 
 const emits = defineEmits(['close'])
 withDefaults(
@@ -91,6 +67,7 @@ withDefaults(
   }>(),
   {
     modalWidth: '25rem',
+    modalMaxWidth: '30rem',
     modalMaxHeight: '70vh',
     scrollable: true,
     contentClass: 'pt-4 pb-5 px-6',
@@ -100,7 +77,7 @@ withDefaults(
 const onClose = () => emits('close')
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '@/assets/styles/abstracts/variables';
 
 $x-padding: 2rem;
@@ -108,7 +85,12 @@ $t-padding: 1.5rem;
 $b-padding: 1.25rem;
 
 .modal-width {
-  min-width: v-bind(modalWidth);
+  width: v-bind(modalWidth);
+  max-width: v-bind(modalMaxHeight);
+
+  @include mobile {
+    width: unset;
+  }
 }
 
 .limit-height {
@@ -123,25 +105,16 @@ $b-padding: 1.25rem;
   }
 }
 
-.skeleton {
-  &-backdrop {
-    top: $t-padding;
-    left: $x-padding;
-    width: calc(100% - $x-padding * 2);
-    height: calc(100% - ($t-padding + $b-padding));
-    max-height: v-bind(modalMaxHeight) !important;
-    z-index: 2;
-  }
-
-  &-content {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 3;
+.modal-skeleton {
+  position: unset !important;
+  .skeleton {
+    &-backdrop {
+      top: $t-padding;
+      left: $x-padding;
+      width: calc(100% - $x-padding * 2);
+      height: calc(100% - ($t-padding + $b-padding));
+      max-height: v-bind(modalMaxHeight) !important;
+    }
   }
 }
 

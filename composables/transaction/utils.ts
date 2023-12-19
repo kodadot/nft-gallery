@@ -11,6 +11,7 @@ import {
   ActionMintToken,
   ActionOffer,
   ActionSend,
+  ActionSetCollectionMaxSupply,
   ActionWithdrawOffer,
   Actions,
   Collections,
@@ -70,6 +71,8 @@ export function isActionValid(action: Actions): boolean {
     [Interaction.MINT]: (action: ActionMintCollection) =>
       Boolean(action.collection),
     [Collections.DELETE]: (action: ActionDeleteCollection) =>
+      Boolean(action.collectionId),
+    [Collections.SET_MAX_SUPPLY]: (action: ActionSetCollectionMaxSupply) =>
       Boolean(action.collectionId),
     [NFTs.BURN_MULTIPLE]: (action: ActionBurnMultipleNFTs) =>
       hasContent(action.nftIds),

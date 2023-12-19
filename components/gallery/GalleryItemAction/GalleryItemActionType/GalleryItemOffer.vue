@@ -48,22 +48,18 @@
         </template>
 
         <template #content>
-          <div
-            v-if="!confirm"
-            class="offer is-flex is-justify-content-space-between is-align-items-center">
+          <div v-if="!confirm" class="offer flex justify-between items-center">
             <input
               v-model="offerPrice"
-              class="input-price is-flex is-align-items-center px-4"
+              class="input-price flex items-center px-4"
               type="number"
               placeholder="Your Offer"
               :min="MIN_OFFER_PRICE" />
             <div class="px-4">KSM</div>
           </div>
-          <div
-            v-else
-            class="offer is-flex is-justify-content-space-evenly is-align-items-center">
+          <div v-else class="offer flex justify-evenly items-center">
             <img src="/timer.svg" />
-            <div class="is-flex offer-days">
+            <div class="flex offer-days">
               <div v-for="day in days" :key="day">
                 <input
                   :id="`${day}`"

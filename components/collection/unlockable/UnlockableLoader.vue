@@ -9,8 +9,7 @@
         size="medium"
         @click="closeLoading" />
       <img src="/unlockable-loader.svg" />
-      <div
-        class="is-flex is-flex-direction-column is-align-items-center px-5 has-text-centered is-capitalized">
+      <div class="flex flex-col items-center px-5 has-text-centered capitalize">
         <div class="has-text-weight-bold mb-2">{{ $t('mint.success') }}</div>
         <div>
           {{ $t('mint.unlockable.loader.viewNFT1') }}
@@ -49,7 +48,7 @@
 <script lang="ts" setup>
 import { NeoButton, NeoLoading } from '@kodadot1/brick'
 import { resolveComponent } from 'vue'
-import { useCountDown } from './utils/useCountDown'
+import { getCountDownTime, useCountDown } from './utils/useCountDown'
 
 const NuxtLink = resolveComponent('NuxtLink')
 const props = withDefaults(
@@ -70,17 +69,8 @@ const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 const isLoading = useVModel(props, 'modelValue')
 
-const { minutes, seconds } = useCountDown(
-  new Date().getTime() + props.duration * 1000,
-)
-
-const displayDuration = computed(() => {
-  if (minutes.value > 0) {
-    return `${minutes.value} minute${minutes.value > 1 ? 's' : ''}${
-      seconds.value ? ` ${seconds.value} seconds` : ''
-    }`
-  }
-  return seconds.value >= 0 ? `${seconds.value} seconds` : 'few seconds'
+const { displayDuration } = useCountDown({
+  countDownTime: getCountDownTime(props.duration),
 })
 
 const twitterText = computed(

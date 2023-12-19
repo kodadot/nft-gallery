@@ -1,8 +1,8 @@
 <template>
   <div
     v-if="count"
-    class="count is-flex is-justify-content-center is-align-items-center"
-    :class="{ rounded: rounded }">
+    class="count flex justify-center items-center"
+    :class="[`count--${position}`, { rounded: rounded }]">
     {{ count }}
   </div>
 </template>
@@ -12,10 +12,12 @@ withDefaults(
   defineProps<{
     count?: number
     rounded?: boolean
+    position?: string
   }>(),
   {
     rounded: false,
     count: 0,
+    position: 'top-left' as 'top-left' | 'top-right',
   },
 )
 </script>
@@ -25,12 +27,20 @@ withDefaults(
 
 .count {
   position: absolute;
-  bottom: 1.5rem;
-  left: -0.75rem;
   height: 1.5rem;
   width: 1.5rem;
   line-height: 1.5rem;
   text-align: center;
+
+  &--top-left {
+    bottom: 1.5rem;
+    left: -0.75rem;
+  }
+
+  &--top-right {
+    bottom: 1.5rem;
+    right: -0.75rem;
+  }
 
   @include ktheme() {
     border: 1px solid theme('border-color');

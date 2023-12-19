@@ -4,12 +4,14 @@
       :is="resolveComponent"
       :src="properSrc"
       :sizes="sizes"
+      :mime-type="mimeType"
       :animation-src="animationSrc"
       :alt="title"
       :placeholder="placeholder"
       :original="original"
       :is-lewd="isLewd"
       :is-detail="isDetail"
+      :is-fullscreen="isFullscreen"
       :disable-operation="disableOperation"
       :player-cover="audioPlayerCover"
       :hover-on-cover-play="audioHoverOnCoverPlay"
@@ -19,7 +21,7 @@
       :autoplay="autoplay" />
     <div
       v-if="isLewd && isLewdBlurredLayer"
-      class="nsfw-blur is-capitalized is-flex is-align-items-center is-justify-content-center is-flex-direction-column">
+      class="nsfw-blur flex capitalize items-center justify-center flex-col">
       <NeoIcon icon="eye-slash" class="mb-3" />
       <span class="has-text-weight-bold">
         {{ $t('lewd.explicit') }}
@@ -30,7 +32,7 @@
     </div>
     <div
       v-if="isInteractive"
-      class="k-shade border-k-grey is-flex is-align-items-center is-justify-content-center border is-rounded absolute-position image is-24x24">
+      class="k-shade border-k-grey flex items-center justify-center border is-rounded absolute-position image is-24x24">
       <NeoIcon
         icon="code"
         pack="far"
@@ -79,6 +81,7 @@ const props = withDefaults(
     disableOperation?: boolean
     audioPlayerCover?: string
     audioHoverOnCoverPlay?: boolean
+    isFullscreen?: boolean
     // props for video component
     preview?: boolean
     autoplay?: boolean
@@ -100,6 +103,7 @@ const props = withDefaults(
     placeholder: './Koda.svg',
     disableOperation: undefined,
     audioPlayerCover: '',
+    isFullscreen: false,
     imageComponent: 'img',
   },
 )
@@ -108,10 +112,6 @@ const mediaItem = ref<HTMLDivElement>()
 
 // props.mimeType may be empty string "". Add `image/png` as fallback
 const mimeType = computed(() => props.mimeType || type.value || 'image/png')
-
-const sizes = computed(() =>
-  props.sizes === 'original' ? undefined : props.sizes,
-)
 
 const targetIsVisible = useElementVisibility(mediaItem)
 const modelComponent = ref<Component>()
@@ -192,9 +192,8 @@ defineExpose({ isLewdBlurredLayer })
     top: 0;
     height: 100%;
     width: 100%;
-    @include ktheme() {
-      color: theme('text-color');
-    }
+    background-color: rgb(0 0 0 / 50%);
+    color: #fff;
 
     .nsfw-desc {
       max-width: 18.75rem;

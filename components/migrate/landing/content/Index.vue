@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="is-flex flex-column is-justify-content-space-between">
+    <div class="flex flex-column justify-between">
       <div>
-        <div v-if="accountId" class="is-flex flex-column is-align-items-center">
+        <div v-if="accountId" class="flex flex-column items-center">
           <p class="mr-4">{{ $t('migrate.resultFor') }}</p>
-          <div class="is-flex">
+          <div class="flex">
             <Avatar :value="accountId" :size="26" class="mr-2" />
             <nuxt-link class="has-text-k-blue" :to="`/ksm/u/${accountId}`">
               <Identity :address="accountId" hide-identity-popover />
@@ -12,7 +12,7 @@
             <p class="ml-4">On RMRK2</p>
           </div>
         </div>
-        <div v-else class="is-flex is-align-items-center">
+        <div v-else class="flex items-center">
           <p class="mr-4">{{ $t('migrate.connect') }}</p>
           <ConnectWalletButton no-shadow variant="k-accent" />
         </div>
@@ -23,7 +23,7 @@
           multiline
           multiline-width="16rem"
           :label="$t('migrate.tooltipCollectionLabel')">
-          <div class="is-flex is-align-items-center">
+          <div class="flex items-center">
             <NeoIcon icon="circle-question" class="mr-2" />
             <p>{{ $t('migrate.tooltipCollection') }}</p>
           </div>
@@ -35,10 +35,10 @@
 
     <div v-if="accountId">
       <!-- ready state for migration here -->
-      <MigrateLandingContentReady :key="urlPrefix" :to-review="toReview" />
+      <MigrateLandingContentReady :key="urlPrefix" />
 
       <!-- waiting state for migration here -->
-      <MigrateLandingContentWaiting :key="urlPrefix" :to-review="toReview" />
+      <MigrateLandingContentWaiting :key="urlPrefix" />
     </div>
 
     <!-- empty state collection here -->
@@ -56,23 +56,8 @@
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import Identity from '@/components/identity/IdentityIndex.vue'
 
-const { sourceSelected, destinationSelected } = useMigrate()
-
 const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
-
-const toReview = (collectionId, itemCount) => {
-  navigateTo({
-    path: '/migrate/review',
-    query: {
-      accountId: accountId.value,
-      collectionId: collectionId,
-      source: sourceSelected.value?.value,
-      destination: destinationSelected.value?.value,
-      itemCount,
-    },
-  })
-}
 </script>
 
 <style lang="scss">
@@ -157,7 +142,7 @@ const toReview = (collectionId, itemCount) => {
   @include mobile() {
     grid-template-columns: repeat(1, minmax(0, 1fr));
 
-    &-card-info .is-flex {
+    &-card-info .flex {
       flex-direction: column;
       gap: 1rem;
     }

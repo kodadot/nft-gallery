@@ -21,28 +21,26 @@
           class="py-2" />
       </div>
       <div class="py-4 border-top border-bottom card-border-color">
-        <div
-          class="is-flex is-justify-content-space-between is-align-items-center mb-2">
+        <div class="flex justify-between items-center mb-2">
           <span class="is-size-7">{{
             $t('confirmPurchase.priceForNFTs')
           }}</span>
           <CommonTokenMoney :value="totalNFTsPrice" />
         </div>
-        <div
-          class="is-flex is-justify-content-space-between has-text-grey is-size-7">
+        <div class="flex justify-between has-text-grey is-size-7">
           {{ $t('confirmPurchase.royalties') }}
           <CommonTokenMoney :value="totalRoyalties" />
         </div>
       </div>
-      <div class="is-flex is-justify-content-space-between py-4">
+      <div class="flex justify-between py-4">
         {{ $t('confirmPurchase.youWillPay') }}
-        <div class="is-flex">
+        <div class="flex">
           <CommonTokenMoney :value="total" class="has-text-grey" />
           <span class="has-text-weight-bold ml-2"> {{ priceUSD }}$ </span>
         </div>
       </div>
 
-      <div class="is-flex is-justify-content-space-between pt-5">
+      <div class="flex justify-between pt-5">
         <AutoTeleportActionButton
           ref="autoteleport"
           :amount="total"
@@ -83,7 +81,7 @@ const { urlPrefix } = usePrefix()
 const autoteleport = ref()
 const actions = computed(() => [props.action])
 
-const loading = computed(() => !autoteleport.value?.hasBalances)
+const loading = computed(() => !autoteleport.value?.isReady)
 
 const mode = computed(() => prefrencesStore.getCompletePurchaseModal.mode)
 
@@ -120,7 +118,7 @@ const disabled = computed(() => !isLogIn.value)
 
 const priceUSD = computed(() => {
   const { nfts, royalties } = totalPriceUsd(items.value)
-  return (nfts + royalties).toFixed(2)
+  return (nfts + royalties).toFixed(1)
 })
 
 const onClose = () => {

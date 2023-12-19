@@ -1,15 +1,14 @@
 <template>
   <div>
     <div
-      class="shopping-cart-modal-container theme-background-color border-left is-flex is-flex-direction-column"
+      class="shopping-cart-modal-container theme-background-color border-left flex flex-col"
       data-testid="shopping-cart-modal-container">
       <NeoModalHead
         :title="$t('shoppingCart.title')"
-        data-testid="shopping-cart-modal"
         @close="closeShoppingCart(ModalCloseType.BACK)" />
       <div
         v-if="numberOfItems"
-        class="mx-6 py-4 border-bottom border-k-shade is-flex is-justify-content-space-between is-align-items-center">
+        class="mx-6 py-4 border-bottom border-k-shade flex justify-between items-center">
         <span> {{ numberOfItems }} {{ $t('items') }}</span>
 
         <NeoButton
@@ -20,8 +19,7 @@
           @click="clearAllItems" />
       </div>
       <div v-if="numberOfItems" class="scroll-y">
-        <div
-          class="theme-background-color is-flex is-flex-grow-1 is-flex-direction-column py-2">
+        <div class="theme-background-color flex flex-grow flex-col py-2">
           <ShoppingCartItemRow
             v-for="item in sortedItems"
             :key="item.id"
@@ -33,15 +31,14 @@
             @delete="shoppingCartStore.removeItem"
             @click-item="closeShoppingCart" />
         </div>
-        <div
-          class="is-flex is-justify-content-space-between mx-6 py-4 border-top border-k-shade">
+        <div class="flex justify-between mx-6 py-4 border-top border-k-shade">
           {{ $t('shoppingCart.total') }}
-          <div class="is-flex">
+          <div class="flex">
             <CommonTokenMoney :value="totalPrice" class="has-text-grey" />
             <span class="has-text-weight-bold ml-4"> ${{ priceUSD }} </span>
           </div>
         </div>
-        <div class="is-flex is-justify-content-center mx-6 pt-4 pb-5">
+        <div class="flex justify-center mx-6 pt-4 pb-5">
           <NeoButton
             :label="$t('shoppingCart.completePurchase')"
             :disabled="!numberOfItems"
@@ -52,11 +49,8 @@
             @click="onCompletePurchase" />
         </div>
       </div>
-      <div
-        v-else
-        class="is-flex is-justify-content-space-between px-6 py-4 is-flex-direction-column h-full">
-        <div
-          class="is-flex is-align-items-center is-flex-direction-column pt-8">
+      <div v-else class="flex justify-between px-6 py-4 flex-col h-full">
+        <div class="flex items-center flex-col pt-8">
           <img
             :src="emptyCartPlaceholder"
             alt="empty cart"
@@ -121,7 +115,7 @@ const numberOfItems = computed(() => items.value.length)
 
 const priceUSD = computed(() => {
   const { nfts, royalties } = totalPriceUsd(items.value)
-  return (nfts + royalties).toFixed(2)
+  return (nfts + royalties).toFixed(1)
 })
 
 const isOpen = computed({

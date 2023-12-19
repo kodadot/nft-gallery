@@ -49,6 +49,7 @@ export const useCollectionDetails = ({ collectionId }) => {
       const listedNfts = data.value.stats.listed
 
       stats.value = {
+        maxSupply: data.value.stats.max,
         listedCount: data.value.stats.listed.length,
         collectionLength: data.value.stats.base.length,
         collectionFloorPrice:
@@ -116,9 +117,13 @@ export function useCollectionSoldData({ address, collectionId }) {
 }
 
 export const useCollectionMinimal = ({ collectionId }) => {
+  const { urlPrefix } = usePrefix()
+  const { isAssetHub } = useIsChain(urlPrefix)
   const collection = ref()
   const { data } = useGraphql({
-    queryName: 'collectionByIdMinimal',
+    queryName: isAssetHub.value
+      ? 'collectionByIdMinimalWithRoyalty'
+      : 'collectionByIdMinimal',
     variables: {
       id: collectionId,
     },

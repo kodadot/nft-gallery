@@ -15,26 +15,17 @@
             :description="description" />
           <hr class="mb-4" />
 
-          <div
-            class="is-flex is-justify-content-space-between is-align-items-center my-5">
-            <span class="">Total available items</span>
-            <span class="">{{ totalAvailableMintCount }} / {{ maxCount }}</span>
-          </div>
           <UnlockableTag :collection-id="collectionId" />
 
           <div>
-            <div
-              class="is-flex is-justify-content-space-between is-align-items-center my-5">
+            <div class="flex justify-between items-center my-5">
               <span class="has-text-weight-bold is-size-5">First Phase</span
-              ><span
-                v-if="mintCountAvailable"
-                class="is-flex is-align-items-center">
+              ><span v-if="mintCountAvailable" class="flex items-center">
                 <img src="/unlockable-pulse.svg" alt="open" />
                 Open</span
               >
             </div>
-            <div
-              class="is-flex is-justify-content-space-between is-align-items-center">
+            <div class="flex justify-between items-center">
               <span>Free</span
               ><span class="has-text-weight-bold">
                 {{ currentMintedCount }} / {{ MAX_PER_WINDOW }} Minted</span
@@ -53,7 +44,7 @@
                 :disabled="mintButtonDisabled"
                 label="Mint"
                 @click="handleSubmitMint" />
-              <div class="is-flex is-align-items-center mt-2">
+              <div class="flex items-center mt-2">
                 <svg
                   width="20"
                   height="21"
@@ -75,7 +66,7 @@
             </nuxt-link>
           </div>
         </div>
-        <div class="column pt-5 is-flex is-justify-content-center">
+        <div class="column pt-5 flex justify-center">
           <ImageSlider
             v-if="imageList.length"
             :image-list="imageList"
@@ -131,10 +122,11 @@ const MAX_PER_WINDOW = 10
 
 const isLoading = ref(false)
 const { isLogIn } = useAuth()
-const { hours, minutes, seconds } = useCountDown(countDownTime)
+const { hours, minutes, seconds } = useCountDown({ countDownTime })
 const justMinted = ref('')
-const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
-  useDropStatus(props.drop.alias)
+const { currentAccountMintedToken, fetchDropStatus } = useDropStatus(
+  props.drop.alias,
+)
 
 onMounted(async () => {
   const res = await getLatestWaifuImages()
@@ -159,24 +151,10 @@ const handleSelectImage = (image: string) => {
   selectedImage.value = image
 }
 
-const { data: collectionData } = useGraphql({
-  queryName: 'unlockableCollectionById',
-  variables: {
-    id: collectionId.value,
-  },
-})
-
 const hasUserMinted = computed(() =>
   currentAccountMintedToken.value
     ? `${collectionId.value}-${currentAccountMintedToken.value.id}`
     : justMinted.value,
-)
-
-const maxCount = computed(
-  () => collectionData.value?.collectionEntity?.max || 300,
-)
-const totalAvailableMintCount = computed(
-  () => maxCount.value - Math.min(mintedDropCount.value, maxCount.value),
 )
 
 const { data, refetch } = useGraphql({

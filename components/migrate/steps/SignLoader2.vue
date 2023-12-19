@@ -1,6 +1,6 @@
 <template>
   <div class="mb-5">
-    <div class="is-flex is-align-items-center mb-4">
+    <div class="flex items-center mb-4">
       <div class="mr-5">
         <NeoIcon v-if="iterations === 0" v-bind="iconSuccess" class="fa-2x" />
         <NeoIcon
@@ -18,7 +18,7 @@
         </p>
       </div>
     </div>
-    <div class="is-flex is-size-7">
+    <div class="flex is-size-7">
       <div class="v-border"></div>
       <div class="mb-4">
         <p v-if="iterations">
@@ -30,9 +30,9 @@
     <div
       v-for="(iteration, index) in maxIterations"
       :key="index"
-      class="is-flex is-size-7">
+      class="flex is-size-7">
       <div class="v-border"></div>
-      <div class="mb-4 is-flex">
+      <div class="mb-4 flex">
         <NeoIcon v-bind="itemLeftIcons(index)" class="mr-4" />
         <div>
           <p>{{ $t('migrate.signStep.migratingNItems', itemLeft(index)) }}</p>
@@ -61,10 +61,13 @@ const { apiInstance } = useApi()
 const { howAboutToExecute, status } = useMetaTransaction()
 const { $consola } = useNuxtApp()
 const route = useRoute()
+const router = useRouter()
 
 const from = route.query.source as Prefix
 const fromAccountId = route.query.accountId?.toString()
 const itemCount = route.query.itemCount?.toString()
+const collectionOwner = route.query.collectionOwner?.toString()
+const collectionId = route.query.collectionId
 
 const { collections } = await useCollectionReady(from, fromAccountId)
 const fromCollection = collections.value.find(
@@ -106,17 +109,29 @@ const itemLeftIcons = (index) => {
 }
 
 const startStep2 = async () => {
+  let nextCollectionId
   try {
     // eslint-disable-next-line no-restricted-syntax
     for (let index = 0; index < iterations.value; index++) {
+      const fromCollectionId = collectionOwner
+        ? collectionId
+        : fromCollection?.id
       const checkSign = await waifuApi(
-        `/relocations/${from}/${fromCollection?.id}/iterations/${index}`,
+        `/relocations/${from}/${fromCollectionId}/iterations/${index}`,
         {
           method: 'PUT',
         },
       )
 
-      const presigned = checkSign.data.map((item) => {
+      const ownerSign = checkSign.data.filter(
+        (item) => item.account === accountId.value,
+      )
+
+      if (!nextCollectionId) {
+        nextCollectionId = ownerSign[0]?.to_collection
+      }
+
+      const presigned = ownerSign.map((item) => {
         const preSignInfo = api.createType('PalletNftsPreSignedMint', item.data)
         const create = api.tx.nfts.mintPreSigned(
           preSignInfo,
@@ -130,6 +145,15 @@ const startStep2 = async () => {
       })
 
       batchPresigned[index] = presigned
+    }
+
+    if (collectionOwner && nextCollectionId) {
+      router.push({
+        query: {
+          ...route.query,
+          nextCollectionId,
+        },
+      })
     }
 
     executeStep2()

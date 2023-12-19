@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <section class="is-flex controls">
+      <section class="flex controls">
         <NeoButton class="left" @click="toOnborading">
           <NeoIcon icon="arrow-left" class="mr-1" />
           {{ $t('massmint.backToOnbaording') }}
@@ -34,9 +34,9 @@
       :open="sideBarOpen"
       @close="sideBarOpen = false"
       @save="updateNFT" />
-    <div class="mt-6 is-flex is-justify-content-center w-full">
+    <div class="mt-6 flex justify-center w-full">
       <NeoButton
-        class="is-flex is-flex-grow-1 limit-width"
+        class="flex flex-grow limit-width"
         variant="k-accent"
         size="large"
         :disabled="!mediaLoaded"

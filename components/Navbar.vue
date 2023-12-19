@@ -6,9 +6,7 @@
     :class="{
       'is-active': isMobileNavbarOpen,
     }">
-    <div
-      class="container is-align-items-center"
-      :class="{ 'is-fluid': !isMobile }">
+    <div class="container items-center" :class="{ 'is-fluid': !isMobile }">
       <!-- BRAND -->
       <div class="navbar-brand">
         <nuxt-link to="/" class="navbar-item logo nuxt-link-active">
@@ -17,7 +15,7 @@
             alt="First NFT market explorer on Kusama and Polkadot" />
         </nuxt-link>
         <div
-          class="is-hidden-desktop is-flex is-flex-grow-1 is-align-items-center is-justify-content-flex-end"
+          class="is-hidden-desktop flex flex-grow items-center justify-end"
           @click="closeBurgerMenu">
           <NeoButton
             v-if="isMobileNavbarOpen || showSearchOnNavbar || isTinyMobile"
@@ -26,16 +24,15 @@
             @click="showMobileSearchBar" />
 
           <div v-show="openMobileSearchBar">
-            <div
-              class="fixed-stack is-flex is-align-items-center is-justify-content-space-between p-2">
+            <div class="fixed-stack flex items-center justify-between p-2">
               <Search
                 v-if="isMobile"
                 ref="mobilSearchRef"
                 hide-filter
-                class="is-flex-grow-1" />
+                class="flex-grow" />
               <NeoButton
                 variant="text"
-                class="p-3 is-shadowless no-border is-capitalized is-clickable"
+                class="p-3 is-shadowless no-border capitalize is-clickable"
                 @click="hideMobileSearchBar">
                 {{ $t('cancel') }}
               </NeoButton>
@@ -69,12 +66,12 @@
         <div class="navbar-start">
           <div
             v-if="showSearchOnNavbar"
-            class="navbar-item is-expanded is-flex is-justify-content-center">
+            class="navbar-item is-expanded flex justify-center">
             <Search
               v-if="!isMobile"
-              class="search-navbar is-flex-grow-1 pb-0 is-hidden-touch"
+              class="search-navbar flex-grow pb-0 is-hidden-touch"
               hide-filter
-              search-column-class="is-flex-grow-1" />
+              search-column-class="flex-grow" />
           </div>
         </div>
         <!-- END NAV START -->

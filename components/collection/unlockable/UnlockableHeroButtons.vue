@@ -1,8 +1,7 @@
 <template>
   <div>
-    <div
-      class="hero-buttons is-flex is-justify-content-flex-start is-align-items-end px-2">
-      <div class="is-flex">
+    <div class="hero-buttons flex justify-start items-end px-2">
+      <div class="flex">
         <NeoDropdown position="bottom-left" :mobile-modal="false">
           <template #trigger="{ active }">
             <NeoButton
@@ -20,16 +19,8 @@
           <NeoDropdownItem @click="QRModalActive = true">
             {{ $t('share.qrCode') }}
           </NeoDropdownItem>
-          <NeoDropdownItem>
-            <ShareNetwork
-              tag="div"
-              network="twitter"
-              :hashtags="hashtags"
-              :url="currentUrl"
-              :title="sharingLabel"
-              twitter-user="KodaDot">
-              {{ $t('share.twitter') }}
-            </ShareNetwork>
+          <NeoDropdownItem @click="shareUrlToX">
+            {{ $t('share.twitter') }}
           </NeoDropdownItem>
         </NeoDropdown>
       </div>
@@ -54,11 +45,18 @@ import {
 
 const { $i18n } = useNuxtApp()
 const currentUrl = computed(() => window.location.href)
+const { shareOnX } = useSocialShare()
 
 const QRModalActive = ref(false)
 
-const hashtags = 'KusamaNetwork,KodaDot'
-const sharingLabel = $i18n.t('sharing.collection')
+const shareUrlToX = () => {
+  shareOnX(
+    `${$i18n.t('sharing.collection')} ${
+      currentUrl.value
+    } \n#Polkadot @polkadot`,
+    '',
+  )
+}
 
 const { toast } = useToast()
 </script>
