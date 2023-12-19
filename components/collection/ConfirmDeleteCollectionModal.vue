@@ -1,7 +1,7 @@
 <template>
   <NeoModal :value="value" @close="value = false">
     <div class="py-4 px-5 limit-width">
-      <div class="is-flex mb-3 is-size-6">
+      <div class="flex mb-3 is-size-6">
         {{ $i18n.t('confirmDeleteCollection.deleteCollection') }}
       </div>
       <div class="has-text-grey is-size-7 mb-5">

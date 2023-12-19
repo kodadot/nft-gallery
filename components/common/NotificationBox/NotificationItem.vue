@@ -1,7 +1,7 @@
 <template>
   <nuxt-link
     :to="`/${urlPrefix}/gallery/${event.nft.id}`"
-    class="is-flex py-3 px-6 notify-item">
+    class="flex py-3 px-6 notify-item">
     <img
       v-if="avatar"
       :src="avatar"
@@ -12,8 +12,8 @@
       :src="placeholder"
       :alt="displayName"
       class="border image is-48x48" />
-    <div class="notify-content ml-5 is-flex is-flex-direction-column">
-      <div class="is-flex is-justify-content-space-between">
+    <div class="notify-content ml-5 flex flex-col">
+      <div class="flex justify-between">
         <NeoTooltip :label="displayName" :delay="1000" class="nft-name mr-4">
           <div class="is-ellipsis max-width has-text-weight-bold">
             {{ displayName }}
@@ -23,11 +23,11 @@
           <Money :value="event.meta" />
         </div>
       </div>
-      <div class="is-flex is-justify-content-space-between">
+      <div class="flex justify-between">
         <div>
-          <div class="height-50px is-flex is-align-items-center">
+          <div class="height-50px flex items-center">
             <div
-              class="event-type mr-4 border is-size-7 is-justify-content-center py-1 is-flex is-align-items-center"
+              class="event-type mr-4 border is-size-7 justify-center py-1 flex items-center"
               :class="[
                 getInteractionColor(event.interaction),
                 event.interaction === Interaction.ACCEPTED_OFFER

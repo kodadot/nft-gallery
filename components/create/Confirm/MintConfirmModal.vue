@@ -13,7 +13,7 @@
       @close="onClose">
       <div v-if="isLogIn">
         <div
-          class="rounded border shade-border-color is-flex is-justify-content-start is-flex-grow-1 pl-3">
+          class="rounded border shade-border-color flex justify-start flex-grow pl-3">
           <IdentityItem
             :label="$t('confirmPurchase.connectedWith')"
             hide-identity-popover
@@ -34,7 +34,7 @@
         <PriceItem :nft="extendedInformation" />
       </div>
       <div class="pt-5">
-        <div class="is-flex is-justify-content-space-between">
+        <div class="flex justify-between">
           <AutoTeleportActionButton
             ref="autoteleport"
             :amount="totalFee + networkFee"

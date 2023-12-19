@@ -21,7 +21,7 @@
               !hasAnimatedResources &&
               !isFullscreen
             "
-            class="fullscreen-button is-justify-content-center is-align-items-center"
+            class="fullscreen-button justify-center items-center"
             @click="toggleFullscreen">
             <NeoIcon icon="expand" />
           </a>
@@ -74,11 +74,10 @@
       </div>
 
       <div class="py-8 column">
-        <div
-          class="is-flex is-flex-direction-column is-justify-content-space-between h-full">
+        <div class="flex flex-col justify-between h-full">
           <!-- title section -->
           <div class="pb-2">
-            <div class="is-flex is-justify-content-space-between">
+            <div class="flex justify-between">
               <div class="name-container">
                 <h1 class="title" data-testid="item-title">
                   {{ nftMetadata?.name }}
@@ -112,7 +111,7 @@
               <span v-else>{{ formatNumber(pageViewCount) }}</span>
             </div>
 
-            <div class="is-flex is-flex-direction-row is-flex-wrap-wrap">
+            <div class="flex flex-row flex-wrap">
               <IdentityItem
                 v-if="nft?.issuer"
                 class="gallery-avatar"

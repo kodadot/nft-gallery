@@ -8,7 +8,7 @@
       full-size
       variant="k-grey-light" />
 
-    <div class="skeleton-content is-flex">
+    <div class="skeleton-content flex">
       <NeoIcon
         icon="spinner-third"
         class="spinner has-text-k-grey mr-6"
@@ -16,10 +16,10 @@
         spin />
 
       <div>
-        <p class="is-capitalized has-text-weight-bold is-size-6">
+        <p class="capitalize has-text-weight-bold is-size-6">
           {{ title || $t('general.doingSomeMagic') }}
         </p>
-        <p class="is-capitalized is-size-6 has-text-k-grey">
+        <p class="capitalize is-size-6 has-text-k-grey">
           {{ subtitle || $t('general.pleaseWait') }}
           <span v-if="!subtitle" class="dots" />
         </p>

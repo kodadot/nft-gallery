@@ -19,7 +19,7 @@
           </a>
         </div>
       </template>
-      <div class="is-flex is-justify-content-space-between box-container">
+      <div class="flex justify-between box-container">
         <NeoField grouped group-multiline>
           <div class="control">
             <NeoCheckbox v-model="showDetailIcon">NFT Details</NeoCheckbox>

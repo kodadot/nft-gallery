@@ -430,6 +430,8 @@
       "price_DESC": "Price: High to Low",
       "price_ASC": "Price: Low to High",
       "sn_ASC": "Alphabetically",
+      "volume_DESC": "Volume",
+      "highestSale_DESC": "Highest Sale",
       "listed": "Buy now",
       "sortBy": "Sort By"
     }

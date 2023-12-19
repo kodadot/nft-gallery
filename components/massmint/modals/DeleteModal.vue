@@ -1,8 +1,7 @@
 <template>
   <NeoModal :value="isModalActive" scroll="clip" @close="emit('close')">
     <div class="p-6 modal-width">
-      <div
-        class="is-flex is-justify-content-center is-size-5 pb-4 border-bottom border-grey">
+      <div class="flex justify-center is-size-5 pb-4 border-bottom border-grey">
         <span>
           {{ $t('massmint.areYouSureDelete') }}
           <br />
@@ -12,9 +11,9 @@
           ?
         </span>
       </div>
-      <div class="is-flex mt-6">
+      <div class="flex mt-6">
         <NeoButton
-          class="mr-3 is-flex is-flex-grow-1 is-flex-1 btn-height"
+          class="mr-3 flex flex-grow flex-1 btn-height"
           no-shadow
           variant="k-accent"
           :label="$t('massmint.yesDelete')"
@@ -22,7 +21,7 @@
         <NeoButton
           :label="$t('massmint.cancel')"
           no-shadow
-          class="is-flex is-flex-grow-1 is-flex-1 btn-height"
+          class="flex flex-grow flex-1 btn-height"
           @click="emit('close')" />
       </div>
     </div>

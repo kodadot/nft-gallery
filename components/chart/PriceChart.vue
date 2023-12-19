@@ -15,7 +15,7 @@
       <NeoDropdownItem
         v-for="range in timeRangeList"
         :key="range.value"
-        class="is-flex is-justify-content-center px-0 is-align-items-center"
+        class="flex justify-center px-0 items-center"
         :active="selectedTimeRange.value === range.value"
         :value="selectedTimeRange"
         @click="setTimeRange({ value: range.value, label: range.label })">
@@ -38,8 +38,7 @@
       </template>
 
       <NeoDropdownItem class="no-hover px-0 py-0">
-        <div
-          class="w-full is-flex is-justify-content-space-between is-align-items-center">
+        <div class="w-full flex justify-between items-center">
           <NeoCheckbox
             v-model="vHideOutliers"
             class="m-0 no-wrap"
@@ -49,8 +48,7 @@
         </div>
       </NeoDropdownItem>
       <NeoDropdownItem class="no-hover px-0 py-0">
-        <div
-          class="w-full is-flex is-justify-content-space-between is-align-items-center">
+        <div class="w-full flex justify-between items-center">
           <NeoCheckbox
             v-model="vApplySmoothing"
             class="m-0 no-wrap"
