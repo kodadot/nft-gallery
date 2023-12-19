@@ -9,7 +9,7 @@
         <span class="title is-size-3 has-text-weight-bold">
           {{ $t('search.landingTitle1') }}
         </span>
-        <span class="subtitle is-size-3 has-text-weight-bold is-capitalized">
+        <span class="subtitle is-size-3 has-text-weight-bold capitalize">
           {{ $t('search.landingTitle2') }}
         </span>
         <span class="title is-size-3 has-text-weight-bold">

@@ -1,7 +1,7 @@
 <template>
   <section>
     <form @submit.prevent>
-      <h1 class="title is-size-3 mb-8 is-capitalized">
+      <h1 class="title is-size-3 mb-8 capitalize">
         {{ $t('identity.setOn', [getChainName(identityPrefix)]) }}
       </h1>
 

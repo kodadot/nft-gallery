@@ -40,10 +40,10 @@
     is-detail />
 
   <div class="py-5 border-bottom-k-shade">
-    <p class="is-size-6 is-capitalized has-text-weight-bold text-center">
+    <p class="is-size-6 capitalize has-text-weight-bold text-center">
       {{ $t('drops.youSuccessfullyClaimedNft', [1]) }}
     </p>
-    <p class="is-capitalized is-size-7 text-center mt-2">
+    <p class="capitalize is-size-7 text-center mt-2">
       {{ $t('drops.artBy', [mintedNft.name]) }}
       <a
         v-safe-href="collectionUrl"
