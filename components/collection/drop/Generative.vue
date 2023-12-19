@@ -368,12 +368,12 @@ const submitMint = async () => {
   }
 }
 
-const handleEmailSubscription = async (email) => {
+const handleEmailSubscription = async (email: string) => {
   emailConfirmed.value = undefined
   await subscribe(email)
 }
 
-const checkSubscription = async (email) => {
+const checkSubscription = async (email: string) => {
   try {
     checkingSubscription.value = true
     const response = await getSubscription(email)

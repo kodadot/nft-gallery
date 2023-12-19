@@ -80,5 +80,3 @@ const submit = () => {
   emit('check')
 }
 </script>
-
-<style scoped></style>
