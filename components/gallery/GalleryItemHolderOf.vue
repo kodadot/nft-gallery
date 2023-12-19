@@ -8,16 +8,14 @@
 </template>
 
 <script setup lang="ts">
-import InfoBox from '@/components/shared/view/InfoBox.vue'
 import { NeoIcon } from '@kodadot1/brick'
 import { NFT } from '@/components/rmrk/service/scheme'
-import { DEFAULT_COLLECTION_MAX, useDrop } from '../drops/useDrops'
+import { useDrop } from '../drops/useDrops'
 
 const props = defineProps<{
   nft: NFT
 }>()
 
-const alreadyClaimed = ref(false)
 const { apiInstance } = useApi()
 
 const isHolderOfCollection = computed(() =>
@@ -50,16 +48,17 @@ const checkIfAlreadyClaimed = async () => {
   return wasUsed !== null
 }
 
-const showWarning = computed(
-  () =>
-    isHolderOfCollection.value &&
-    alreadyClaimed.value &&
-    Boolean(exclusiveDrop) &&
-    !exclusiveDrop.disabled &&
-    hasAvailable.value,
+const isActiveDrop = computed(
+  () => Boolean(exclusiveDrop) && !exclusiveDrop.disabled && hasAvailable.value,
 )
 
-onMounted(async () => {
-  alreadyClaimed.value = await checkIfAlreadyClaimed()
-})
+const showWarning = computed(
+  () =>
+    isHolderOfCollection.value && alreadyClaimed.value && isActiveDrop.value,
+)
+
+const { data: alreadyClaimed } = useAsyncData(
+  'checkIfAlreadyClaimed',
+  checkIfAlreadyClaimed,
+)
 </script>

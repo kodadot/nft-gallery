@@ -21,8 +21,6 @@ export interface Drop {
   alias: string
 }
 
-export const DEFAULT_COLLECTION_MAX = 300
-
 const futureDate = new Date()
 futureDate.setDate(futureDate.getDate() * 7) // i weeks in the future
 
