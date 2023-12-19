@@ -98,10 +98,13 @@
   <DropConfirmModal
     v-model="isConfirmModalActive"
     :claiming="isLoading"
+    :email-confirmed="emailConfirmed"
+    :checking-subscription="checkingSubscription"
     :minting-seconds="MINTING_SECOND"
     :minted-nft="mintedNft"
     :can-list-nft="canListMintedNft"
-    @confirm="handleConfirmMint"
+    @subscribe="handleEmailSubscription"
+    @check-subscription="checkSubscription"
     @close="closeConfirmModal"
     @list="handleList" />
 
@@ -178,6 +181,9 @@ const selectedImage = ref<string>('')
 const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isConfirmModalActive = ref(false)
+const checkingSubscription = ref(false)
+const subscriptionEmail = ref()
+const emailConfirmed = ref<boolean | undefined>()
 const isAddFundModalActive = ref(false)
 const mintedNft = ref<DropMintedNft>()
 const mintedNftWithMetadata = ref<NFTWithMetadata>()
@@ -312,7 +318,7 @@ const subscribeToMintedNft = (id: string, onReady: (data) => void) => {
   })
 }
 
-const submitMint = async (email: string) => {
+const submitMint = async () => {
   try {
     isImageFetching.value = true
     isLoading.value = true
@@ -334,7 +340,7 @@ const submitMint = async (email: string) => {
         address: accountId.value,
         metadata: hash,
         image: imageHash,
-        email,
+        email: subscriptionEmail.value,
       },
       props.drop.id,
     )
@@ -362,11 +368,31 @@ const submitMint = async (email: string) => {
   }
 }
 
-const handleConfirmMint = async ({ email }) => {
+const handleEmailSubscription = async (email) => {
+  emailConfirmed.value = undefined
+  await subscribe(email)
+}
+
+const checkSubscription = async (email) => {
+  try {
+    checkingSubscription.value = true
+    const response = await getSubscription(email)
+
+    emailConfirmed.value = response.status === 'active'
+
+    if (emailConfirmed.value) {
+      subscriptionEmail.value = response.email
+    }
+  } catch (error) {
+  } finally {
+    checkingSubscription.value = false
+  }
+}
+
+const startMinting = async () => {
   try {
     isLoading.value = true
-    await subscribe(email)
-    await submitMint(email)
+    await submitMint()
   } catch (error) {
     isLoading.value = false
     isConfirmModalActive.value = false
@@ -403,6 +429,12 @@ const handleDropAddModalConfirm = () => {
   openConfirmModal()
   fetchMultipleBalance([urlPrefix.value])
 }
+
+watch([isConfirmModalActive, emailConfirmed], ([modalActive, confirmed]) => {
+  if (modalActive && confirmed) {
+    startMinting()
+  }
+})
 
 onBeforeUnmount(clear)
 </script>

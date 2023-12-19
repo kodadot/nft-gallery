@@ -11,7 +11,7 @@ const api = $fetch.create({
   credentials: 'omit',
 })
 
-async function subscribe(email: string) {
+export async function subscribe(email: string) {
   const body = {
     email: email,
   }
@@ -28,4 +28,19 @@ async function subscribe(email: string) {
   }
 }
 
-export default { subscribe }
+type SubscriptionByEmailResponse = {
+  email: string
+  status: 'pending' | 'active'
+}
+
+export async function getSubscription(email: string) {
+  try {
+    return api<SubscriptionByEmailResponse>(`/subscribe/${email}`, {
+      method: 'GET',
+    })
+  } catch (e) {
+    throw new Error('[NEWSLETTER] Unable to get subscription' + e)
+  }
+}
+
+export default { subscribe, getSubscription }

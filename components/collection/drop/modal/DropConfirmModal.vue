@@ -11,6 +11,14 @@
         v-if="isEmailSignupStep"
         @confirm="handleEmailSignupConfirm" />
 
+      <ConfirmEmail
+        v-else-if="isEmailConfirmStep && email"
+        :email="email"
+        :email-confirmed="emailConfirmed"
+        :checking="checkingSubscription"
+        @change="handleEmailChange"
+        @check="handleEmailSubscriptionCheck" />
+
       <ClaimingDrop v-else-if="isClaimingDropStep" :est="displayDuration" />
 
       <SuccessfulDrop
@@ -28,6 +36,7 @@ import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import EmailSignup from './EmailSignup.vue'
 import ClaimingDrop from './ClaimingDrop.vue'
 import SuccessfulDrop from './SuccessfulDrop.vue'
+import ConfirmEmail from './ConfirmEmail.vue'
 import { DropMintedNft } from '../Generative.vue'
 import {
   getCountDownTime,
@@ -36,17 +45,26 @@ import {
 
 enum ModalStep {
   EMAIL = 'email',
+  CONFIRM_EMAIL = 'confirm_email',
   CLAIMING = 'claiming',
   SUCCEEDED = 'succeded',
 }
 
-const emit = defineEmits(['confirm', 'completed', 'close', 'list'])
+const emit = defineEmits([
+  'completed',
+  'close',
+  'list',
+  'subscribe',
+  'check-subscription',
+])
 const props = defineProps<{
   modelValue: boolean
   claiming: boolean
   mintingSeconds: number
   mintedNft?: DropMintedNft
   canListNft: boolean
+  checkingSubscription: boolean
+  emailConfirmed?: boolean
 }>()
 
 const { displayDuration, distance, startCountDown } = useCountDown({
@@ -70,9 +88,16 @@ const sanitizedMintedNft = computed<DropMintedNft | undefined>(
     },
 )
 
-const isEmailSignupStep = computed(() => modalStep.value === 'email')
-const isClaimingDropStep = computed(() => modalStep.value === 'claiming')
-const isSuccessfulDropStep = computed(() => modalStep.value === 'succeded')
+const isEmailSignupStep = computed(() => modalStep.value === ModalStep.EMAIL)
+const isEmailConfirmStep = computed(
+  () => modalStep.value === ModalStep.CONFIRM_EMAIL,
+)
+const isClaimingDropStep = computed(
+  () => modalStep.value === ModalStep.CLAIMING,
+)
+const isSuccessfulDropStep = computed(
+  () => modalStep.value === ModalStep.SUCCEEDED,
+)
 
 const moveSuccessfulDrop = computed(() => {
   if (nftCoverLoaded.value) {
@@ -98,14 +123,18 @@ const onClose = () => {
   emit('close')
 }
 
-const handleEmailSignupConfirm = (value: string) => {
-  email.value = value
-  confirm()
+const handleEmailChange = () => {
+  email.value = undefined
+  modalStep.value = ModalStep.EMAIL
 }
 
-const confirm = () => {
-  emit('confirm', { email: email.value })
-  email.value = undefined
+const handleEmailSignupConfirm = (value: string) => {
+  email.value = value
+  emit('subscribe', value)
+}
+
+const handleEmailSubscriptionCheck = () => {
+  emit('check-subscription', email.value)
 }
 
 watch(
@@ -128,7 +157,10 @@ watch([sanitizedMintedNft, retry], async ([mintedNft]) => {
 })
 
 watchEffect(() => {
-  if (props.claiming && isEmailSignupStep.value) {
+  const claiming = props.claiming
+  if (email.value && isEmailSignupStep.value) {
+    modalStep.value = ModalStep.CONFIRM_EMAIL
+  } else if (claiming && isEmailConfirmStep.value) {
     modalStep.value = ModalStep.CLAIMING
   } else if (moveSuccessfulDrop.value && isClaimingDropStep.value) {
     modalStep.value = ModalStep.SUCCEEDED
