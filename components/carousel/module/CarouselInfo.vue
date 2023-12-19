@@ -10,22 +10,24 @@
       <span class="is-ellipsis">{{ item.name || '--' }}</span>
       <span v-if="isCollection" class="carousel-info-arrow">----></span>
     </nuxt-link>
-    <CollectionDetailsPopover v-if="item?.collectionId" :nft="item">
-      <template #content>
-        <nuxt-link
-          v-if="!isCollection && item.collectionId"
-          :to="
-            urlOf({
-              id: item.collectionId,
-              url: 'collection',
-              chain: item.chain,
-            })
-          "
-          class="is-size-7 carousel-info-collection-name is-ellipsis">
-          {{ item.collectionName || '--' }}
-        </nuxt-link>
-      </template>
-    </CollectionDetailsPopover>
+    <div class="min-h-[1.5rem]">
+      <CollectionDetailsPopover v-if="item?.collectionId" :nft="item">
+        <template #content>
+          <nuxt-link
+            v-if="!isCollection && item.collectionId"
+            :to="
+              urlOf({
+                id: item.collectionId,
+                url: 'collection',
+                chain: item.chain,
+              })
+            "
+            class="is-size-7 carousel-info-collection-name is-ellipsis">
+            {{ item.collectionName || '--' }}
+          </nuxt-link>
+        </template>
+      </CollectionDetailsPopover>
+    </div>
 
     <div
       v-if="!isCollection"
