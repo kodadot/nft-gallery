@@ -1,7 +1,5 @@
 <template>
-  <div
-    v-if="total > perPage"
-    class="is-align-self-flex-end is-flex is-justify-content-flex-end">
+  <div v-if="total > perPage" class="self-end flex justify-end">
     <NeoPagination
       v-model:current="current"
       :total="total"

@@ -8,10 +8,10 @@
   </p>
 
   <div class="mb-5">
-    <div class="is-capitalized is-flex is-align-items-center voucher-container">
+    <div class="is-capitalized flex items-center voucher-container">
       <span>{{ $t('drops.plusGetA') }}</span>
 
-      <div class="is-flex is-align-items-center">
+      <div class="flex items-center">
         <img width="58" :src="signUpVoucherIcon" alt="shop voucher" />
       </div>
 
@@ -37,9 +37,9 @@
       </NeoCheckbox>
     </div>
 
-    <div class="is-flex is-justify-content-space-between pt-4">
+    <div class="flex justify-between pt-4">
       <NeoButton
-        class="is-flex is-flex-1 h-14 is-capitalized shine"
+        class="flex flex-1 h-14 is-capitalized shine"
         :disabled="disabled"
         no-shadow
         variant="k-accent"

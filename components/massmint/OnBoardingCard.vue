@@ -3,7 +3,7 @@
     class="carousel-card p-7 mobile-padding"
     :class="{ 'not-active': !active }">
     <div class="card__content">
-      <div class="is-flex is-justify-content-space-between">
+      <div class="flex justify-between">
         <p
           class="title is-size-3-desktop is-size-3-tablet is-size-5-mobile is-capitalized">
           {{ title }}

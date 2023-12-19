@@ -8,7 +8,7 @@
       full-size
       variant="k-grey-light" />
 
-    <div class="skeleton-content is-flex">
+    <div class="skeleton-content flex">
       <NeoIcon
         icon="spinner-third"
         class="spinner has-text-k-grey mr-6"

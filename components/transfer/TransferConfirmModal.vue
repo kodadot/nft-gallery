@@ -14,23 +14,21 @@
     </template>
 
     <template #body>
-      <div
-        class="is-flex is-justify-content-space-between is-align-items-center py-4">
+      <div class="flex justify-between items-center py-4">
         <span class="has-text-weight-bold is-size-6">{{
           $t('activity.network')
         }}</span>
-        <span class="is-flex is-align-items-center">
+        <span class="flex items-center">
           <img class="mr-2 image is-24x24" :src="tokenIcon" alt="token" />
           {{ network }}
         </span>
       </div>
 
-      <div
-        class="is-flex is-justify-content-space-between is-align-items-center py-4 border-top-k-shade">
+      <div class="flex justify-between items-center py-4 border-top-k-shade">
         <span class="has-text-weight-bold is-size-6 is-capitalized">{{
           $t('general.from')
         }}</span>
-        <span class="is-flex is-align-items-center">
+        <span class="flex items-center">
           <Avatar :value="accountId" :size="24" />
           <span class="ml-2 is-size-6">
             <Identity :address="accountId" hide-identity-popover />
@@ -38,14 +36,11 @@
         </span>
       </div>
 
-      <div
-        class="is-flex is-justify-content-space-between is-align-items-center py-4 border-top-k-shade">
+      <div class="flex justify-between items-center py-4 border-top-k-shade">
         <span class="has-text-weight-bold is-size-6">{{
           $t('transfers.sendTo')
         }}</span>
-        <div
-          v-if="targetAddresses.length === 1"
-          class="is-flex is-align-items-center">
+        <div v-if="targetAddresses.length === 1" class="flex items-center">
           <Avatar :value="targetAddresses[0].address" :size="24" />
           <span class="mx-2 is-size-6">
             <Identity
@@ -75,12 +70,11 @@
             v-for="(address, index) in targetAddresses"
             :key="address.address"
             class="py-4 border-top-k-shade is-size-7">
-            <div
-              class="is-flex is-justify-content-space-between is-align-items-center mb-2">
+            <div class="flex justify-between items-center mb-2">
               <span class="has-text-grey"
                 >{{ $t('transfers.recipient') }} {{ index + 1 }}</span
               >
-              <div class="is-flex is-align-items-center">
+              <div class="flex items-center">
                 <Avatar :value="address.address" :size="18" />
                 <span class="mx-2 is-size-6">
                   <Identity :address="address.address" hide-identity-popover />
@@ -93,11 +87,10 @@
                 </NeoTooltip>
               </div>
             </div>
-            <div
-              class="is-flex is-justify-content-space-between is-align-items-center">
+            <div class="flex justify-between items-center">
               <span class="has-text-grey">{{ $t('amount') }}</span>
 
-              <div class="is-flex is-align-items-center">
+              <div class="flex items-center">
                 <span class="has-text-grey"
                   >({{ address.token }} {{ unit }})</span
                 >
@@ -110,12 +103,11 @@
     </template>
 
     <template #footer>
-      <div
-        class="is-flex is-justify-content-space-between is-align-items-center mb-3">
+      <div class="flex justify-between items-center mb-3">
         <span class="has-text-weight-bold is-size-6">{{
           $t('transfers.totalAmount')
         }}</span>
-        <div class="is-flex is-align-items-center">
+        <div class="flex items-center">
           <span class="has-text-grey mr-1 is-size-7"
             >({{ displayTotalValue[0] }})</span
           >
@@ -129,7 +121,7 @@
         :label="$t('teleport.send')"
         variant="k-accent"
         no-shadow
-        class="fixed-button-height is-flex is-flex-1"
+        class="fixed-button-height flex flex-1"
         @click="confirmTransfer" />
     </template>
   </NeoStickyModal>

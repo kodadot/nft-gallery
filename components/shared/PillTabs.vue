@@ -1,5 +1,5 @@
 <template>
-  <div class="is-flex mb-2 pill-tabs-container">
+  <div class="flex mb-2 pill-tabs-container">
     <NeoButton
       v-for="tab in tabs"
       :key="tab.value"

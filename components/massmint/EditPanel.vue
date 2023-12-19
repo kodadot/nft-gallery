@@ -9,11 +9,10 @@
     :can-cancel="true"
     :on-cancel="closePanel">
     <div
-      class="border-left theme-background-color navbar-margin p-5 is-flex is-flex-direction-column is-align-items-center is-justify-content-space-between h-full">
-      <div
-        class="is-flex w-full is-flex-direction-column is-justify-content-space-between is-align-items-center">
-        <div class="is-flex w-full">
-          <div class="is-flex is-justify-content-center is-flex-grow-1">
+      class="border-left theme-background-color navbar-margin p-5 flex flex-col items-center justify-between h-full">
+      <div class="flex w-full flex-col justify-between items-center">
+        <div class="flex w-full">
+          <div class="flex justify-center flex-grow">
             {{ $t('massmint.edit') }} #{{ nft?.id }}
           </div>
 
@@ -50,14 +49,14 @@
               height="10rem" />
           </NeoField>
           <NeoField :label="$t('massmint.price')" class="w-full">
-            <div class="is-flex">
+            <div class="flex">
               <NeoInput
                 v-model="price"
                 type="number"
                 step="any"
-                class="is-flex is-flex-grow-2" />
+                class="flex flex-grow-[2]" />
               <div
-                class="border-top border-right border-bottom px-5 is-flex is-flex-grow-1 is-justify-content-center is-align-items-center">
+                class="border-top border-right border-bottom px-5 flex flex-grow justify-center items-center">
                 KSM
               </div>
             </div>

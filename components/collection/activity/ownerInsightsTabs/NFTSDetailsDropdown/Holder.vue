@@ -4,11 +4,11 @@
       v-for="{ avatar, id, name, updatedAt } in displayedNFTs"
       :key="id"
       :to="`/${urlPrefix}/gallery/${id}`"
-      class="is-flex pt-2 px-5 is-justify-content-start is-hoverable-item hoverable-lable-color">
+      class="flex pt-2 px-5 justify-start is-hoverable-item hoverable-lable-color">
       <div class="mr-5">
         <BasicImage :src="avatar" :alt="name" class="border image-size pt-0" />
       </div>
-      <div class="is-flex is-flex-direction-column">
+      <div class="flex flex-col">
         {{ name }}
         <span class="is-size-7 has-text-grey">{{
           timeAgo(new Date(updatedAt).getTime())

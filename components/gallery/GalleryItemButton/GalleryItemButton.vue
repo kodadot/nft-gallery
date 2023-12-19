@@ -1,5 +1,5 @@
 <template>
-  <div class="buttons is-align-content-start gallery-button">
+  <div class="buttons content-start gallery-button">
     <GalleryItemShareBtn data-testid="gallery-item-share-button" />
     <GalleryItemMoreActionBtn
       :ipfs-image="nftMetadata?.image"

@@ -34,7 +34,7 @@
 
         <div
           v-if="accountId"
-          class="rounded-full border border-k-shade is-flex is-justify-content-start is-flex-grow-1 pl-3">
+          class="rounded-full border border-k-shade flex justify-start flex-grow pl-3">
           <IdentityItem
             :label="$t('confirmPurchase.connectedWith')"
             hide-identity-popover
@@ -45,7 +45,7 @@
             data-testid="item-creator" />
         </div>
         <div v-else>
-          <div class="is-flex is-align-items-center">
+          <div class="flex items-center">
             <p class="mr-4">{{ $t('migrate.connect') }}</p>
             <ConnectWalletButton no-shadow variant="k-accent" />
           </div>

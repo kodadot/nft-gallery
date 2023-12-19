@@ -11,7 +11,7 @@
       class="ml-2 has-text-k-grey" />
 
     <template #content>
-      <div class="is-flex is-size-6 mb-2">
+      <div class="flex is-size-6 mb-2">
         <NeoIcon icon="fa-info-circle" pack="fa-regular" class="mr-2" />
 
         <span class="has-text-weight-bold">{{
@@ -27,7 +27,7 @@
       </p>
 
       <div v-if="transition.source" class="w-full">
-        <div class="is-flex is-justify-content-space-between mb-2">
+        <div class="flex justify-between mb-2">
           <span>{{ transition.source.name }}</span>
 
           <span> -> </span>
@@ -38,7 +38,7 @@
           </span>
         </div>
 
-        <div class="is-flex is-justify-content-space-between">
+        <div class="flex justify-between">
           <span class="has-text-k-grey">{{ $t('amount') }}</span>
 
           <span
@@ -52,7 +52,7 @@
         </p>
       </div>
 
-      <div class="is-flex is-justify-content-start mt-4">
+      <div class="flex justify-start mt-4">
         <a
           href="https://hello.kodadot.xyz/tutorial/teleport/auto-teleport"
           class="has-text-link is-size-7"

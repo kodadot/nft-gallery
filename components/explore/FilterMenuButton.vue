@@ -1,10 +1,7 @@
 <template>
-  <div class="has-addons is-flex is-align-items-center" data-testid="tabs">
+  <div class="has-addons flex items-center" data-testid="tabs">
     <a
-      :class="[
-        { disabled: disabled },
-        'is-hidden-mobile is-flex is-align-items-center',
-      ]"
+      :class="[{ disabled: disabled }, 'is-hidden-mobile flex items-center']"
       @click="toggleSidebarFilters">
       <NeoIcon
         :icon="isSidebarFiltersOpen && !disabled ? 'times' : 'bars'"
