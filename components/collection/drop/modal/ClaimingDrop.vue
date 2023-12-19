@@ -3,7 +3,7 @@
     <ModalIdentityItem />
   </div>
 
-  <p class="py-5 is-capitalized">
+  <p class="py-5 capitalize">
     {{ $t('drops.stayTuned') }}
   </p>
 

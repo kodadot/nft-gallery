@@ -12,7 +12,7 @@
         </nuxt-link>
       </div>
       <div v-if="recipient" class="flex mb-2">
-        <div class="mr-2 is-capitalized">{{ $t('royalty') }}</div>
+        <div class="mr-2 capitalize">{{ $t('royalty') }}</div>
         <nuxt-link :to="`/${urlPrefix}/u/${recipient}`" class="has-text-link">
           <IdentityIndex ref="identity" :address="recipient" show-clipboard />
         </nuxt-link>

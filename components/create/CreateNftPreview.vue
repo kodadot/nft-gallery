@@ -24,7 +24,7 @@
           <p class="" data-testid="nft-preview-price">
             {{ price || '$$$' }} {{ symbol }}
           </p>
-          <p class="is-capitalized is-size-7 has-text-grey">
+          <p class="capitalize is-size-7 has-text-grey">
             {{ chain ? getChainNameByPrefix(chain) : '--' }}
           </p>
         </div>
