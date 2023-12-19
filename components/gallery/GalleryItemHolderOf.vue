@@ -63,5 +63,3 @@ onMounted(async () => {
   alreadyClaimed.value = await checkIfAlreadyClaimed()
 })
 </script>
-
-<style scoped></style>
