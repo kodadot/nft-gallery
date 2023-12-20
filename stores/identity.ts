@@ -4,7 +4,7 @@ import { defineStore } from 'pinia'
 import consola from 'consola'
 import { emptyObject } from '@/utils/empty'
 import { formatAddress } from '@/utils/account'
-import { Prefix } from '@kodadot1/static'
+import type { Prefix } from '@kodadot1/static'
 import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
 const DEFAULT_BALANCE_STATE = {
@@ -148,7 +148,7 @@ export const useIdentityStore = defineStore('identity', {
       }
 
       const { isTestnet } = usePrefix()
-      const assets = isTestnet.value
+      const assets = isTestnet
         ? state.multiBalanceAssetsTestnet
         : state.multiBalanceAssets
 

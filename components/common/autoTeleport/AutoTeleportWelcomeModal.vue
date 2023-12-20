@@ -6,9 +6,8 @@
     class="top"
     @close="onClose">
     <div class="modal-width">
-      <header
-        class="py-5 pl-6 pr-5 is-flex is-justify-content-space-between is-align-items-center">
-        <span class="is-capitalized is-size-3-5 has-text-weight-bold">
+      <header class="py-5 pl-6 pr-5 flex justify-between items-center">
+        <span class="capitalize is-size-3-5 has-text-weight-bold">
           {{ $t('autoTeleport.welcomeToAutoTeleport') }}
         </span>
 
@@ -31,7 +30,7 @@
               <NeoIcon
                 :icon="reasonsIcons[index]"
                 size="large"
-                class="has-text-k-accent mb-3" />
+                class="has-text-k-primary mb-3" />
               <img src="/accent-blur.svg" class="blur icon-blur" alt="blur" />
             </div>
 
@@ -45,7 +44,7 @@
           </div>
         </div>
 
-        <p class="mt-4 is-capitalized">
+        <p class="mt-4 capitalize">
           {{ $t('autoTeleport.welcome.description') }}
         </p>
 
@@ -58,12 +57,12 @@
           >
         </div>
 
-        <div class="is-flex is-justify-content-space-between mt-4">
+        <div class="flex justify-between mt-4">
           <NeoButton
             :label="$t('autoTeleport.welcome.submit')"
             variant="k-accent"
             no-shadow
-            class="is-flex is-flex-grow-1 btn-height"
+            class="flex flex-grow btn-height"
             @click="onClose" />
         </div>
       </div>
@@ -96,6 +95,10 @@ const onClose = () => {
 
 .modal-width {
   width: 40rem;
+
+  @include mobile {
+    width: unset;
+  }
 }
 
 .btn-height {
@@ -107,6 +110,10 @@ const onClose = () => {
     display: grid;
     grid-template-columns: repeat(3, auto);
     grid-gap: 1rem;
+
+    @include mobile {
+      grid-template-columns: repeat(1, auto);
+    }
   }
 }
 

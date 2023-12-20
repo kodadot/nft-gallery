@@ -1,13 +1,15 @@
 <template>
-  <div class="is-flex field has-addons is-flex-grow-1">
+  <div class="flex field has-addons flex-grow">
     <TabItem
       :active="route.name === 'prefix-collection-id'"
       :text="`${$t('items')}`"
-      :to="toItem" />
+      :to="toItem"
+      data-testid="collection-tab-item" />
     <TabItem
       :active="route.name === 'prefix-collection-id-activity'"
       :text="`${$t('tabs.activity')}`"
-      :to="toActivity" />
+      :to="toActivity"
+      data-testid="collection-tab-activity" />
   </div>
 </template>
 

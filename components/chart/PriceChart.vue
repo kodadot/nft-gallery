@@ -3,7 +3,7 @@
     <span class="chart-y-description is-size-7">
       Price ({{ chainSymbol }})
     </span>
-    <NeoDropdown class="py-0" :mobile-modal="false">
+    <NeoDropdown class="py-0 time-range-dropdown" :mobile-modal="false">
       <template #trigger="{ active }">
         <NeoButton
           :label="selectedTimeRange.label"
@@ -15,11 +15,47 @@
       <NeoDropdownItem
         v-for="range in timeRangeList"
         :key="range.value"
-        class="is-flex is-justify-content-center px-0 is-align-items-center"
+        class="flex justify-center px-0 items-center"
         :active="selectedTimeRange.value === range.value"
         :value="selectedTimeRange"
         @click="setTimeRange({ value: range.value, label: range.label })">
         {{ range.label }}
+      </NeoDropdownItem>
+    </NeoDropdown>
+
+    <NeoDropdown
+      :mobile-modal="false"
+      class="chart-setting-icon min-width-fit-content"
+      position="bottom-left">
+      <template #trigger="{ active }">
+        <NeoButton no-shadow variant="icon">
+          <NeoIcon
+            icon="gear"
+            pack="fass"
+            size="large"
+            :variant="!active ? 'k-grey' : undefined" />
+        </NeoButton>
+      </template>
+
+      <NeoDropdownItem class="no-hover px-0 py-0">
+        <div class="w-full flex justify-between items-center">
+          <NeoCheckbox
+            v-model="vHideOutliers"
+            class="m-0 no-wrap"
+            root-class="settings-checkbox px-4 py-3">
+            {{ $t('activity.hideOutliers') }}
+          </NeoCheckbox>
+        </div>
+      </NeoDropdownItem>
+      <NeoDropdownItem class="no-hover px-0 py-0">
+        <div class="w-full flex justify-between items-center">
+          <NeoCheckbox
+            v-model="vApplySmoothing"
+            class="m-0 no-wrap"
+            root-class="settings-checkbox px-4 py-3">
+            {{ $t('activity.applySmoothing') }}
+          </NeoCheckbox>
+        </div>
       </NeoDropdownItem>
     </NeoDropdown>
 
@@ -35,8 +71,14 @@ import 'chartjs-adapter-date-fns'
 import zoomPlugin from 'chartjs-plugin-zoom'
 import { getChartData } from '@/utils/chart'
 import { format } from 'date-fns'
-import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
-import { useEventListener } from '@vueuse/core'
+import {
+  NeoButton,
+  NeoCheckbox,
+  NeoDropdown,
+  NeoDropdownItem,
+  NeoIcon,
+} from '@kodadot1/brick'
+import { useEventListener, useVModel } from '@vueuse/core'
 ChartJS.register(zoomPlugin)
 const { $i18n } = useNuxtApp()
 const { chainSymbol } = useChain()
@@ -71,7 +113,13 @@ const setTimeRange = (value: { value: number; label: string }) => {
 const props = defineProps<{
   priceChartData?: [Date, number][][]
   chartHeight?: string
+  hideOutliers: boolean
+  applySmoothing: boolean
 }>()
+const emit = defineEmits(['update:hideOutliers', 'update:applySmoothing'])
+
+const vHideOutliers = useVModel(props, 'hideOutliers', emit)
+const vApplySmoothing = useVModel(props, 'applySmoothing', emit)
 
 const heightStyle = computed(() =>
   props.chartHeight ? `height: ${props.chartHeight}` : '',
@@ -191,6 +239,8 @@ const getPriceChartData = () => {
               },
             },
             tooltip: {
+              xAlign: 'center',
+              yAlign: 'top',
               callbacks: {
                 label: function (context) {
                   return `Price: ${context.parsed.y} ${chainSymbol.value}`
@@ -300,5 +350,21 @@ watch([isDarkMode, selectedTimeRange], () => {
 <style scoped>
 .content {
   height: 15rem;
+}
+
+.chart-setting-icon {
+  position: absolute;
+  right: 8px;
+  top: -5px;
+}
+
+.min-width-fit-content {
+  :deep(.o-drop__menu) {
+    min-width: fit-content !important;
+  }
+}
+
+.settings-checkbox {
+  flex: auto;
 }
 </style>

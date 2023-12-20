@@ -5,7 +5,7 @@
     class="border-bottom"
     :class="{ 'fluid-padding-left': fluidPadding }">
     <template #trigger="{ open }">
-      <div class="is-flex" role="button" :aria-expanded="open">
+      <div class="flex" role="button" :aria-expanded="open">
         <p class="card-header-title has-text-weight-normal">Event Type</p>
         <a class="card-header-icon">
           <NeoIcon :icon="open ? 'minus' : 'plus'" />
@@ -14,21 +14,35 @@
     </template>
     <div class="p-4">
       <NeoField>
-        <NeoCheckbox v-model="sale">{{ $t('filters.sale') }}</NeoCheckbox>
-      </NeoField>
-      <NeoField>
-        <NeoCheckbox v-model="offer">{{ $t('filters.offer') }}</NeoCheckbox>
-      </NeoField>
-      <NeoField>
-        <NeoCheckbox v-model="listing">{{ $t('filters.listing') }}</NeoCheckbox>
-      </NeoField>
-      <NeoField>
-        <NeoCheckbox v-model="mint">{{ $t('filters.mint') }}</NeoCheckbox>
-      </NeoField>
-      <NeoField>
-        <NeoCheckbox v-model="transfer">{{
-          $t('filters.transfer')
+        <NeoCheckbox v-model="sale" data-testid="event-checkbox-filter-sale">{{
+          $t('filters.sale')
         }}</NeoCheckbox>
+      </NeoField>
+      <NeoField>
+        <NeoCheckbox
+          v-model="offer"
+          data-testid="event-checkbox-filter-offer"
+          >{{ $t('filters.offer') }}</NeoCheckbox
+        >
+      </NeoField>
+      <NeoField>
+        <NeoCheckbox
+          v-model="listing"
+          data-testid="event-checkbox-filter-listing"
+          >{{ $t('filters.listing') }}</NeoCheckbox
+        >
+      </NeoField>
+      <NeoField>
+        <NeoCheckbox v-model="mint" data-testid="event-checkbox-filter-mint">{{
+          $t('filters.mint')
+        }}</NeoCheckbox>
+      </NeoField>
+      <NeoField>
+        <NeoCheckbox
+          v-model="transfer"
+          data-testid="event-checkbox-filter-transfer"
+          >{{ $t('filters.transfer') }}</NeoCheckbox
+        >
       </NeoField>
     </div>
   </NeoCollapse>

@@ -22,13 +22,13 @@
     :media-static-video="hideVideoControls"
     media-hover-on-cover-play>
     <template v-if="!hideAction" #action>
-      <div v-if="!isOwner && isAvailableToBuy" class="is-flex">
+      <div v-if="!isOwner && isAvailableToBuy" class="flex">
         <NeoButton
           :label="buyLabel"
           data-testid="item-buy"
           no-shadow
           :loading="showActionSection"
-          class="is-flex-grow-1 btn-height"
+          class="flex-grow btn-height"
           loading-with-label
           @click.prevent="onClickBuy">
         </NeoButton>
@@ -38,6 +38,7 @@
           class="fixed-width p-1 no-border-left btn-height override-wrapper-width"
           @click.prevent="onClickShoppingCart">
           <NeoIcon
+            class="icon"
             :icon="
               shoppingCartStore.isItemInCart(nftForShoppingCart.id)
                 ? 'fa-striked-out-cart-shopping'
@@ -46,14 +47,14 @@
             pack="fa-kit" />
         </NeoButton>
       </div>
-      <div v-else-if="isOwner" class="is-flex">
+      <div v-else-if="isOwner" class="flex">
         <template v-if="isStack">
           <NeoButton
             v-if="isThereAnythingToList !== undefined"
             :label="listLabel"
             data-testid="item-buy"
             no-shadow
-            class="is-flex-grow-1 btn-height"
+            class="flex-grow btn-height"
             @click.prevent="onClickListingCart">
           </NeoButton>
         </template>
@@ -63,7 +64,7 @@
             :label="listLabel"
             data-testid="item-buy"
             no-shadow
-            class="is-flex-grow-1 btn-height"
+            class="flex-grow btn-height"
             @click.prevent="onClickListingCart">
           </NeoButton>
         </template>
@@ -114,6 +115,7 @@ const {
   isOwner,
   isThereAnythingToList,
 } = useNftActions(props.entity)
+const cheapestNFT = ref<NFTWithMetadata>()
 
 const { showCardIcon, cardIcon } = await useNftCardIcon(
   computed(() => props.entity),
@@ -135,7 +137,9 @@ const mediaPlayerCover = computed(() => nftMetadata.value?.image)
 
 const showActionSection = computed(() => {
   return (
-    !isLogIn.value && shoppingCartStore.getItemToBuy?.id === props.entity.id
+    !isLogIn.value &&
+    shoppingCartStore.getItemToBuy?.id !== undefined &&
+    shoppingCartStore.getItemToBuy?.id === cheapestNFT.value?.id
   )
 })
 
@@ -198,7 +202,7 @@ const onClickShoppingCart = async () => {
 const onClickListingCart = async () => {
   const nftsToProcess = await getTokensNfts([props.entity])
 
-  const floorPrice = nftsToProcess[0].collection.floorPrice[0].price
+  const floorPrice = nftsToProcess[0].collection.floorPrice[0]?.price || '0'
 
   for (const nft of nftsToProcess) {
     if (listingCartStore.isItemInCart(nft.id)) {
@@ -208,6 +212,10 @@ const onClickListingCart = async () => {
     }
   }
 }
+
+onMounted(async () => {
+  cheapestNFT.value = await getNFTForBuying()
+})
 </script>
 
 <style lang="scss" scoped>

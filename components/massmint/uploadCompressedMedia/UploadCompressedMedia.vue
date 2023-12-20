@@ -1,7 +1,7 @@
 <template>
   <div>
     <NeoCollapsible :disabled="disabled">
-      <div class="is-flex">
+      <div class="flex">
         {{ $t('massmint.uploadPics') }}
         <NeoIcon
           v-if="showCheckmark"

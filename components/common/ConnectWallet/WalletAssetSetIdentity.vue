@@ -1,7 +1,6 @@
 <template>
   <div v-if="!rememberIdentity" class="set-identity">
-    <div
-      class="wallet-asset-container is-size-7 py-1 is-flex is-justify-content-space-between">
+    <div class="wallet-asset-container is-size-7 py-1 flex justify-between">
       <nuxt-link to="/identity" @click="closeModal"
         >Create Your Onchain Identity</nuxt-link
       >

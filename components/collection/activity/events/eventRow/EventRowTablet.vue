@@ -1,17 +1,17 @@
 <template>
-  <div class="mb-6 is-flex is-flex-direction-column gap-10px">
-    <div class="is-flex height-70px line-height-1">
+  <div class="mb-6 flex flex-col gap-10px">
+    <div class="flex height-70px line-height-1">
       <nuxt-link :to="`/${urlPrefix}/gallery/${event.nft.id}`">
         <div class="mr-5">
           <NeoAvatar
+            :image-component="NuxtImg"
             :avatar="avatar"
             :placeholder="placeholder"
             :name="event.nft.name"
             :size="70" />
         </div>
       </nuxt-link>
-      <div
-        class="is-flex is-flex-direction-column is-justify-content-center gap-10px is-flex-grow-1">
+      <div class="flex flex-col justify-center gap-10px flex-grow">
         <nuxt-link
           class="is-ellipsis is-inline-block mobile-fixed-width"
           :to="`/${urlPrefix}/gallery/${event.nft.id}`">
@@ -21,14 +21,14 @@
         </nuxt-link>
 
         <div
-          class="border is-size-7 is-justify-content-center is-flex is-align-items-center fixed-width fixed-height"
+          class="border is-size-7 justify-center flex items-center fixed-width fixed-height"
           :class="getInteractionColor(event.interaction)">
           {{ interactionName }}
         </div>
       </div>
     </div>
-    <div class="is-flex">
-      <div class="is-flex is-justify-content-space-between is-flex-grow-1">
+    <div class="flex">
+      <div class="flex justify-between flex-grow">
         <CommonTokenMoney v-if="amount !== blank" :value="amount" />
         <span v-else>
           {{ blank }}
@@ -39,8 +39,8 @@
       </div>
     </div>
 
-    <div class="is-flex gap flex-direction">
-      <div v-if="fromAddress !== blank" class="is-flex is-align-items-center">
+    <div class="flex gap flex-direction">
+      <div v-if="fromAddress !== blank" class="flex items-center">
         <span class="is-size-7 mr-3">{{ $t('activity.event.from') }}:</span>
         <nuxt-link
           :to="`/${urlPrefix}/u/${fromAddress}`"
@@ -49,7 +49,7 @@
         </nuxt-link>
       </div>
 
-      <div v-if="toAddress !== blank" class="is-flex is-align-items-center">
+      <div v-if="toAddress !== blank" class="flex items-center">
         <span class="is-size-7 mr-3">{{ $t('activity.event.to') }}:</span>
         <nuxt-link
           :to="`/${urlPrefix}/u/${toAddress}`"
@@ -78,6 +78,8 @@ import {
   interactionNameMap,
 } from './common'
 import { NeoAvatar } from '@kodadot1/brick'
+
+const NuxtImg = resolveComponent('NuxtImg')
 
 const { urlPrefix } = usePrefix()
 const props = defineProps<{

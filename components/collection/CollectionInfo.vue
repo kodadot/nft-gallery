@@ -1,25 +1,37 @@
 <template>
-  <div
-    class="is-flex is-justify-content-space-between mobile-flex-direction-column gap">
-    <div class="is-flex is-flex-direction-column is-flex-grow-1 max-width">
+  <div class="flex justify-between mobile-flex-direction-column gap">
+    <div class="flex flex-col flex-grow max-width">
       <HeroButtons class="is-hidden-tablet" />
-      <div v-if="address" class="is-flex mb-2">
+      <div v-if="address" class="flex mb-2">
         <div class="mr-2">{{ $t('activity.creator') }}</div>
-        <nuxt-link :to="`/${urlPrefix}/u/${address}`" class="has-text-link">
+        <nuxt-link
+          :to="`/${urlPrefix}/u/${address}`"
+          class="has-text-link"
+          data-testid="collection-creator-address">
           <IdentityIndex ref="identity" :address="address" show-clipboard />
         </nuxt-link>
       </div>
+      <div v-if="recipient" class="flex mb-2">
+        <div class="mr-2 capitalize">{{ $t('royalty') }}</div>
+        <nuxt-link :to="`/${urlPrefix}/u/${recipient}`" class="has-text-link">
+          <IdentityIndex ref="identity" :address="recipient" show-clipboard />
+        </nuxt-link>
+        &nbsp;({{ royalty }}%)
+      </div>
       <div class="overflow-wrap">
-        <Markdown :source="visibleDescription" />
+        <Markdown
+          :source="visibleDescription"
+          data-testid="collection-description" />
       </div>
       <NeoButton
         v-if="hasSeeAllDescriptionOption"
         class="no-shadow is-text is-underlined has-text-left p-0"
         :label="seeAllDescription ? $t('showLess') : $t('showMore')"
+        data-testid="description-show-less-more-button"
         @click="toggleSeeAllDescription" />
     </div>
     <div>
-      <div class="is-flex gap mobile-flex-direction-column mobile-no-gap">
+      <div class="flex gap mobile-flex-direction-column mobile-no-gap">
         <div>
           <CollectionInfoLine :title="$t('activity.network')" :value="chain" />
           <CollectionInfoLine title="Items" :value="stats.collectionLength" />
@@ -28,6 +40,10 @@
             :value="stats.uniqueOwners" />
         </div>
         <div>
+          <CollectionInfoLine
+            v-if="isAssetHub"
+            :title="$t('activity.totalSupply')"
+            :value="stats.maxSupply || $t('helper.unlimited')" />
           <CollectionInfoLine :title="$t('activity.floor')">
             <CommonTokenMoney
               :value="stats.collectionFloorPrice"
@@ -65,6 +81,7 @@ import {
 const route = useRoute()
 const { urlPrefix } = usePrefix()
 const { availableChains } = useChain()
+const { isAssetHub } = useIsChain(urlPrefix)
 const collectionId = computed(() => route.params.id)
 const chain = computed(
   () =>
@@ -72,6 +89,8 @@ const chain = computed(
       ?.text,
 )
 const address = computed(() => collectionInfo.value?.currentOwner)
+const recipient = computed(() => collectionInfo.value?.recipient)
+const royalty = computed(() => collectionInfo.value?.royalty)
 const seeAllDescription = ref(false)
 const DESCRIPTION_MAX_LENGTH = 210
 

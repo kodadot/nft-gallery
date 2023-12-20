@@ -5,7 +5,7 @@
     class="border-bottom"
     :class="{ 'fluid-padding-left': fluidPadding }">
     <template #trigger="{ open }">
-      <div class="is-flex" role="button" :aria-expanded="open">
+      <div class="flex" role="button" :aria-expanded="open">
         <p class="card-header-title has-text-weight-normal">
           {{ $t('tabs.tabActivity.price') }}
         </p>
@@ -16,7 +16,7 @@
     </template>
     <form class="p-4" @submit.prevent="apply">
       <div
-        class="is-flex input-container mb-4"
+        class="flex input-container mb-4"
         :class="[inputFocused ? 'input-focused' : '']">
         <NeoInput
           v-model="range.min"
@@ -28,7 +28,7 @@
           data-testid="input-min"
           @focus="toggleInputFocused"
           @blur="toggleInputFocused" />
-        <div class="is-flex is-align-items-center">
+        <div class="flex items-center">
           <svg
             width="28"
             height="8"
@@ -51,8 +51,8 @@
           @focus="toggleInputFocused"
           @blur="toggleInputFocused" />
       </div>
-      <div class="is-flex">
-        <div class="unit mr-2 is-flex is-align-items-center py-1 px-3">
+      <div class="flex">
+        <div class="unit mr-2 flex items-center py-1 px-3">
           {{ unit }}
         </div>
         <NeoButton

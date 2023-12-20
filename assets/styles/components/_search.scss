@@ -24,9 +24,6 @@
     }
   }
 
-  .landing-search-bar {
-    width: 602px;
-  }
 
   %landing-search-image-position {
     height: 334px;
@@ -75,17 +72,8 @@
 
   @include touch {
     padding: 0;
-
-    .landing-search-bar {
-      width: 70%;
-    }
   }
 
-  @include mobile {
-    .landing-search-bar {
-      width: 90%;
-    }
-  }
 }
 
 .search-bar-container {
@@ -150,9 +138,13 @@
     }
   }
 
+  &--skip-button {
+    padding-right: 0px !important;
+  }
+
   input {
     border-radius: 0;
-    padding: 0 50px 0 42px !important;
+    padding: 0 50px 0 42px;
     height: 2.5rem;
     outline: none;
 

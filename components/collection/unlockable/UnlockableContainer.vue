@@ -3,7 +3,8 @@
     <CollectionUnlockableLoader
       v-if="isLoading"
       model-value
-      :minted="justMinted" />
+      :minted="justMinted"
+      @model-value="isLoading = false" />
     <CountdownTimer />
     <hr class="text-color my-0" />
     <div class="container is-fluid">
@@ -14,28 +15,17 @@
             :description="description" />
           <hr class="mb-4" />
 
-          <div
-            class="is-flex is-justify-content-space-between is-align-items-center my-5">
-            <span class="">Total available items</span>
-            <span class=""
-              >{{ totalAvailableMintCount }} / {{ totalCount }}</span
-            >
-          </div>
           <UnlockableTag :collection-id="collectionId" />
 
           <div>
-            <div
-              class="is-flex is-justify-content-space-between is-align-items-center my-5">
+            <div class="flex justify-between items-center my-5">
               <span class="has-text-weight-bold is-size-5">First Phase</span
-              ><span
-                v-if="mintCountAvailable"
-                class="is-flex is-align-items-center">
+              ><span v-if="mintCountAvailable" class="flex items-center">
                 <img src="/unlockable-pulse.svg" alt="open" />
                 Open</span
               >
             </div>
-            <div
-              class="is-flex is-justify-content-space-between is-align-items-center">
+            <div class="flex justify-between items-center">
               <span>Free</span
               ><span class="has-text-weight-bold">
                 {{ currentMintedCount }} / {{ MAX_PER_WINDOW }} Minted</span
@@ -54,7 +44,7 @@
                 :disabled="mintButtonDisabled"
                 label="Mint"
                 @click="handleSubmitMint" />
-              <div class="is-flex is-align-items-center mt-2">
+              <div class="flex items-center mt-2">
                 <svg
                   width="20"
                   height="21"
@@ -76,7 +66,7 @@
             </nuxt-link>
           </div>
         </div>
-        <div class="column pt-5 is-flex is-justify-content-center">
+        <div class="column pt-5 flex justify-center">
           <ImageSlider
             v-if="imageList.length"
             :image-list="imageList"
@@ -109,6 +99,7 @@ import { NeoButton } from '@kodadot1/brick'
 import { useCountDown } from './utils/useCountDown'
 import CarouselTypeLatestMints from '@/components/carousel/CarouselTypeLatestMints.vue'
 import { DropItem } from '@/params/types'
+import { useDropStatus } from '@/components/drops/useDrops'
 
 const props = defineProps({
   drop: {
@@ -130,9 +121,12 @@ const selectedImage = ref('')
 const MAX_PER_WINDOW = 10
 
 const isLoading = ref(false)
-const { accountId, isLogIn } = useAuth()
-const { hours, minutes, seconds } = useCountDown(countDownTime)
+const { isLogIn } = useAuth()
+const { hours, minutes, seconds } = useCountDown({ countDownTime })
 const justMinted = ref('')
+const { currentAccountMintedToken, fetchDropStatus } = useDropStatus(
+  props.drop.alias,
+)
 
 onMounted(async () => {
   const res = await getLatestWaifuImages()
@@ -157,36 +151,10 @@ const handleSelectImage = (image: string) => {
   selectedImage.value = image
 }
 
-const { data: collectionData } = useGraphql({
-  queryName: 'unlockableCollectionById',
-  variables: {
-    id: collectionId.value,
-  },
-})
-
-const {
-  data: stats,
-  loading: currentMintedLoading,
-  refetch: tryAgain,
-} = useGraphql({
-  queryName: 'firstNftOwnedByAccountAndCollectionId',
-  variables: {
-    id: collectionId.value,
-    account: accountId.value,
-  },
-})
-
-const hasUserMinted = computed(
-  () => stats.value?.collection.nfts?.at(0)?.id || justMinted.value,
-)
-
-const totalCount = computed(
-  () => collectionData.value?.collectionEntity?.max || 300,
-)
-const totalAvailableMintCount = computed(
-  () =>
-    totalCount.value -
-    (collectionData.value?.nftEntitiesConnection?.totalCount || 0),
+const hasUserMinted = computed(() =>
+  currentAccountMintedToken.value
+    ? `${collectionId.value}-${currentAccountMintedToken.value.id}`
+    : justMinted.value,
 )
 
 const { data, refetch } = useGraphql({
@@ -200,7 +168,6 @@ const { data, refetch } = useGraphql({
 
 const refetchData = async () => {
   await refetch()
-  await tryAgain()
 }
 
 useSubscriptionGraphql({
@@ -208,12 +175,6 @@ useSubscriptionGraphql({
     nftCount
   }`,
   onChange: refetchData,
-})
-
-watch(accountId, () => {
-  tryAgain({
-    account: accountId.value,
-  })
 })
 
 const mintedCount = computed(() => data.value?.minted?.count || 0)
@@ -271,6 +232,7 @@ const handleSubmitMint = async () => {
       scrollToTop()
       return `${collectionId.value}-${res.result.sn}`
     })
+    fetchDropStatus()
     // 40s timeout
     setTimeout(() => {
       isLoading.value = false

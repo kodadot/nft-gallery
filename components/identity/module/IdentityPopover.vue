@@ -4,11 +4,13 @@
     :append-to="body"
     boundary="viewport"
     :delay="0"
-    data-testid="identity-tippy-link">
+    data-testid="identity-tippy-link"
+    :on-show="() => (showContent = true)">
     <slot name="content" />
 
     <template #content>
       <div
+        v-if="showContent"
         class="popover-content-container p-5"
         data-testid="identity-popover-container">
         <IdentityPopoverHeader />
@@ -29,6 +31,8 @@ const body = ref(document.body)
 const { nftEntities } = useIdentitySoldData({
   address,
 })
+
+const showContent = ref(false)
 </script>
 
 <style lang="scss" scoped>

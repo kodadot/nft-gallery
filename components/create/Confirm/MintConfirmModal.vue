@@ -5,24 +5,15 @@
     scroll="clip"
     class="top"
     max-height="calc(100vh - 180px)"
+    content-class="modal-width"
     @close="onClose">
-    <div class="modal-width">
-      <header
-        class="modal-card-head is-flex is-justify-content-space-between is-align-items-center border-bottom">
-        <span class="modal-card-title is-size-6 has-text-weight-bold">
-          {{ $t('mint.nft.modal.action') }}
-        </span>
-        <NeoButton
-          class="py-1 px-2"
-          variant="text"
-          no-shadow
-          icon="xmark"
-          size="medium"
-          @click="onClose" />
-      </header>
-      <div v-if="isLogIn" class="px-6 pt-4">
+    <ModalBody
+      :title="$t('mint.nft.modal.action')"
+      :loading="loading"
+      @close="onClose">
+      <div v-if="isLogIn">
         <div
-          class="rounded border shade-border-color is-flex is-justify-content-start is-flex-grow-1 pl-3">
+          class="rounded border shade-border-color flex justify-start flex-grow pl-3">
           <IdentityItem
             :label="$t('confirmPurchase.connectedWith')"
             hide-identity-popover
@@ -33,18 +24,19 @@
             data-testid="item-creator" />
         </div>
       </div>
-      <div class="px-6 mt-4 has-text-weight-bold">
+      <div class="mt-4 has-text-weight-bold">
         {{ title }}
       </div>
       <div class="py-4">
-        <ConfirmMintItem :nft="extendedInformation" class="px-6" />
+        <ConfirmMintItem :nft="extendedInformation" />
       </div>
-      <div class="px-6">
+      <div>
         <PriceItem :nft="extendedInformation" />
       </div>
-      <div class="py-5">
-        <div class="is-flex is-justify-content-space-between px-6">
+      <div class="pt-5">
+        <div class="flex justify-between">
           <AutoTeleportActionButton
+            ref="autoteleport"
             :amount="totalFee + networkFee"
             :actions="autoTeleportActions"
             :label="btnLabel"
@@ -57,12 +49,13 @@
             @confirm="confirm" />
         </div>
       </div>
-    </div>
+    </ModalBody>
   </NeoModal>
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoModal } from '@kodadot1/brick'
+import { NeoModal } from '@kodadot1/brick'
+import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import type { ChainProperties, Option } from '@kodadot1/static'
 import { BaseMintedCollection } from '@/components/base/types'
 import IdentityItem from '@/components/identity/IdentityItem.vue'
@@ -123,6 +116,9 @@ const { metadataDeposit, collectionDeposit, existentialDeposit, itemDeposit } =
 const emit = defineEmits(['confirm', 'update:modelValue'])
 
 const networkFee = ref(0)
+const autoteleport = ref()
+
+const loading = computed(() => !autoteleport.value?.isReady)
 
 const isNFT = computed(
   () => props.nftInformation.mintType === CreateComponent.NFT,
@@ -223,9 +219,6 @@ watchEffect(async () => {
   border-radius: 10rem;
 }
 
-.modal-width {
-  width: 25rem;
-}
 .btn-height {
   height: 3.5rem;
 }

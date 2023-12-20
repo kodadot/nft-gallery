@@ -6,8 +6,8 @@
           {{ $t('signupBanner.title') }}
         </h3>
 
-        <div class="ml-4 is-relative signup-banner-voucher is-flex-shrink-0">
-          <img :src="logoSrc" alt="signup voucher" />
+        <div class="ml-4 is-relative signup-banner-voucher flex-shrink-0">
+          <img :src="signUpVoucherIcon" alt="signup voucher" />
           <img
             src="/signup-voucher-blur.svg"
             alt="signup voucher blur"
@@ -48,11 +48,8 @@ import { usePreferencesStore } from '@/stores/preferences'
 
 const { $i18n } = useNuxtApp()
 const preferencesStore = usePreferencesStore()
-const { isDarkMode } = useTheme()
 
-const logoSrc = computed(() =>
-  isDarkMode.value ? '/signup-voucher-dark.svg' : '/signup-voucher.svg',
-)
+const { signUpVoucherIcon } = useIcon()
 
 const email = ref()
 const loading = ref(false)

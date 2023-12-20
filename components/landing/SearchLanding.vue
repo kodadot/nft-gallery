@@ -1,5 +1,5 @@
 <template>
-  <section class="landing-search is-flex is-align-items-center">
+  <section class="landing-search flex items-center">
     <img
       src="/landing-blurred-header-left.webp"
       class="landing-search-left"
@@ -7,13 +7,12 @@
       height="1000"
       alt="" />
     <img :src="landingImage[0]" class="landing-shapes" alt="" />
-    <div
-      class="is-flex is-flex-direction-column is-align-items-center search-info">
+    <div class="flex flex-col items-center search-info">
       <h1
-        class="title is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered is-flex is-flex-wrap-wrap is-justify-content-center is-align-items-center mb-0">
+        class="title is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered flex flex-wrap justify-center items-center mb-0">
         {{ $t('search.landingTitle1') }}
         <span
-          class="subtitle is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered is-capitalized ml-4">
+          class="subtitle is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered capitalize ml-4">
           {{ $t('search.landingTitle2') }}
         </span>
       </h1>
@@ -21,13 +20,9 @@
         class="title is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered">
         {{ $t('search.landingTitle3') }}
       </h1>
-      <Search
-        hide-filter
-        class="landing-search-bar"
-        search-column-class="is-flex-grow-1" />
       <div
         id="networkList"
-        class="is-flex is-justify-content-center is-flex-wrap-wrap is-align-items-baseline mt-4">
+        class="flex justify-center flex-wrap items-baseline mt-4">
         <a
           v-for="chain in availableChains"
           :key="chain.value"
@@ -55,7 +50,6 @@
 
 <script lang="ts" setup>
 import UnlockableLandingTag from '@/components/collection/unlockable/UnlockableLandingTag.vue'
-import Search from '@/components/search/Search.vue'
 
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { isDarkMode } = useTheme()

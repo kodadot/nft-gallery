@@ -3,7 +3,7 @@
     <div
       v-for="(_, index) in slidesArray"
       :key="index"
-      class="keen-slider__slide is-flex no-wrap">
+      class="keen-slider__slide flex no-wrap">
       <div class="no-wrap">
         <span class="mr-4 has-text-grey">Mint Phase Ends In</span
         ><span class="has-text-inverse"
@@ -25,7 +25,7 @@ const animation = { duration: 30000, easing: (t) => t }
 const getPositiveNumber = (number: number) => Math.max(0, number)
 
 const slidesArray = Array(slidesCountOnTimeCountdown).fill(0)
-const { hours, minutes, seconds } = useCountDown(countDownTime)
+const { hours, minutes, seconds } = useCountDown({ countDownTime })
 
 const [wrapper] = useKeenSlider({
   loop: true,

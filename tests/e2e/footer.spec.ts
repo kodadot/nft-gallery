@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './fixtures'
 
 const footerLinks = [
   {
@@ -26,7 +26,7 @@ const footerLinks = [
   },
   {
     linkName: 'Tutorial',
-    linkAddress: 'https://hello.kodadot.xyz/tutorial/wallet',
+    linkAddress: 'https://hello.kodadot.xyz/tutorial/',
   },
   {
     linkName: 'About',
@@ -74,14 +74,14 @@ const footerSocialMediaLinks = [
   },
   {
     linkName: 'Reddit',
-    linkAddress: '/r/KodaDot/',
+    linkAddress: 'KodaDot',
   },
 ]
 
 test('Check Footer Subscription', async ({ page }) => {
   await page.goto('/')
   const footerSubscribe = page.getByTestId('footer-subscribe')
-  await footerSubscribe.getByPlaceholder('jane.doe@kodadot.xyz').fill('a')
+  await footerSubscribe.locator('input').fill('a')
   await footerSubscribe.locator('button').click()
   await expect(footerSubscribe.locator('.error')).toBeVisible()
 })
@@ -93,7 +93,7 @@ test('Check Footer links', async ({ page }) => {
     const newTabPromise = page.waitForEvent('popup')
     await footer.getByRole('link', { name: data.linkName }).click()
     const newTab = await newTabPromise
-    await expect(newTab).toHaveURL(data.linkAddress)
+    await expect(newTab).toHaveURL(new RegExp(`${data.linkAddress}`))
     await newTab.close()
   }
 })

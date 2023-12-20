@@ -1,7 +1,7 @@
 <template>
   <div>
     <NeoCollapsible :disabled="disabled">
-      <div class="is-flex">
+      <div class="flex">
         {{ $t('massmint.overviewTable') }}
       </div>
       <template #content>
@@ -15,10 +15,10 @@
               {{ $t('massmint.description') }}
             </div>
             <div class="column has-text-grey">{{ $t('massmint.price') }}</div>
-            <div class="column has-text-grey is-flex is-justify-content-center">
+            <div class="column has-text-grey flex justify-center">
               <span class="pl-2">{{ $t('massmint.status') }}</span>
             </div>
-            <div class="column has-text-grey is-flex is-justify-content-center">
+            <div class="column has-text-grey flex justify-center">
               {{ $t('massmint.operation') }}
             </div>
           </div>
@@ -26,17 +26,18 @@
             v-for="nft in displayedNFTS"
             :key="nft.id"
             class="columns is-variable is-1 is-mobile border-bottom border-k-shade m-0 py-1 px-4">
-            <div class="column is-flex is-align-items-center is-1">
+            <div class="column flex items-center is-1">
               {{ nft.id }}
             </div>
-            <div class="column is-flex is-align-items-center">
+            <div class="column flex items-center">
               <NeoAvatar
+                :image-component="NuxtImg"
                 :avatar="nft.imageUrl"
                 :name="nft.name || `${nft.id}`"
                 :size="48"
                 :placeholder="placeholder" />
             </div>
-            <div class="column is-flex is-align-items-center">
+            <div class="column flex items-center">
               <div
                 class="is-clickable"
                 :class="{
@@ -46,7 +47,7 @@
                 {{ nft.name || '*' + $t('massmint.nameRequired') }}
               </div>
             </div>
-            <div class="column is-3 is-flex is-align-items-center">
+            <div class="column is-3 flex items-center">
               <div
                 class="is-clickable clip-text"
                 :class="{
@@ -56,7 +57,7 @@
                 {{ nft.description || $t('massmint.descriptionMissing') }}
               </div>
             </div>
-            <div class="column is-flex is-align-items-center">
+            <div class="column flex items-center">
               <div class="is-clickable" @click="openSideBarWith(nft)">
                 <CommonTokenMoney
                   v-if="nft.price"
@@ -66,17 +67,16 @@
                 </div>
               </div>
             </div>
-            <div class="column is-flex is-align-items-center">
-              <div class="is-flex is-align-items-center pl-2">
+            <div class="column flex items-center">
+              <div class="flex items-center pl-2">
                 <div
-                  class="border is-size-7 is-justify-content-center py-2 is-flex is-align-items-center fixed-width"
+                  class="border is-size-7 justify-center py-2 flex items-center fixed-width"
                   :class="statusClass(nft.status)">
                   {{ statusTranslation(nft.status) }}
                 </div>
               </div>
             </div>
-            <div
-              class="column is-flex is-align-items-center is-justify-content-center">
+            <div class="column flex items-center justify-center">
               <NeoButton
                 icon="edit"
                 size="large"
@@ -109,6 +109,8 @@ import {
   statusTranslation,
 } from '@/composables/massmint/useMassMint'
 const { placeholder } = useTheme()
+
+const NuxtImg = resolveComponent('NuxtImg')
 
 const offset = ref(10)
 const sentinel = ref<HTMLDivElement | null>(null)
@@ -172,11 +174,6 @@ useIntersectionObserver(sentinel, handleIntersection, { threshold: 0.66 })
 <style scoped lang="scss">
 @import '@/assets/styles/abstracts/variables';
 
-.border-k-grey {
-  @include ktheme() {
-    border-color: theme('k-grey');
-  }
-}
 .border-k-shade {
   @include ktheme() {
     border-color: theme('k-shade');
@@ -197,5 +194,9 @@ useIntersectionObserver(sentinel, handleIntersection, { threshold: 0.66 })
   text-overflow: ellipsis;
   white-space: nowrap;
   max-width: 90%;
+}
+
+.column figure {
+  margin: 0;
 }
 </style>

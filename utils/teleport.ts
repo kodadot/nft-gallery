@@ -1,7 +1,7 @@
 // Copyright 2017-2021 @polkadot/app-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Prefix } from '@kodadot1/static'
+import { Prefix, existentialDeposit } from '@kodadot1/static'
 import type { ApiPromise } from '@polkadot/api'
 import { SubmittableExtrinsicFunction } from '@polkadot/api/types'
 import { XcmVersionedMultiLocation } from '@polkadot/types/lookup'
@@ -49,6 +49,7 @@ export type TeleportTransition = {
   amountFormatted: string
   amountUsd: string
   token: string
+  txFees: number
 }
 
 export const allowedTransitions = {
@@ -247,7 +248,9 @@ export const getTransactionFee = async ({
   return info.partialFee.toString()
 }
 
-export const getChainCurrency = (chain: Chain) => {
+export type Currency = 'KSM' | 'DOT'
+
+export const getChainCurrency = (chain: Chain): Currency => {
   switch (chain) {
     case Chain.KUSAMA:
     case Chain.BASILISK:
@@ -258,3 +261,7 @@ export const getChainCurrency = (chain: Chain) => {
       return 'DOT'
   }
 }
+
+export const getChainExistentialDeposit = (
+  chain: Chain | undefined | null,
+): number => (chain ? existentialDeposit[chainToPrefixMap[chain]] : 0)

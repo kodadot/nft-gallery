@@ -1,5 +1,7 @@
 <template>
-  <div class="wallet-modal-container is-flex is-flex-direction-column">
+  <div
+    class="wallet-modal-container flex flex-col"
+    data-testid="wallet-connect-sidebar-modal">
     <NeoModalHead
       :title="
         showAccount
@@ -20,7 +22,7 @@
       </div>
 
       <a
-        class="is-flex is-align-items-center pt-4 pb-3 is-size-7 has-text-grey more-option-button mx-6 my-0"
+        class="flex items-center pt-4 pb-3 is-size-7 has-text-grey more-option-button mx-6 my-0"
         @click="toggleShowUninstalledWallet">
         {{ $i18n.t('walletConnect.moreOption') }}
         <NeoIcon
@@ -48,7 +50,7 @@
           class="confirm-button"
           no-shadow
           @click="setUserAuthValue">
-          <span class="is-flex is-align-items-center is-justify-content-center">
+          <span class="flex items-center justify-center">
             {{ $i18n.t('walletConnect.confirm') }}
             <NeoIcon class="ml-2" icon="chevron-right" />
           </span>
@@ -62,7 +64,7 @@
         {{ $i18n.t('walletConnect.walletAnswer') }}
       </div>
       <a
-        class="is-size-7 has-text-link is-flex is-align-items-center"
+        class="is-size-7 has-text-link flex items-center"
         href="https://docs.kodadot.xyz/tutorial-overview.html"
         target="_blank"
         rel="nofollow noopener noreferrer">

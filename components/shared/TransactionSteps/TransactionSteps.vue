@@ -84,8 +84,11 @@ const getStepItem = (step: TransactionStepWithActive): TransactionStepItem => {
 
   let { status, text } = getTransactionStepDetails(step, $i18n.t)
 
-  if (step.stepStatusTextOverride?.hasOwnProperty(status)) {
-    text = step.stepStatusTextOverride[status] || ''
+  const withCustomSubtitle =
+    step.stepStatusTextOverride?.hasOwnProperty(status) || false
+
+  if (withCustomSubtitle) {
+    text = step.stepStatusTextOverride?.[status] || ''
   }
 
   return {
@@ -93,6 +96,7 @@ const getStepItem = (step: TransactionStepWithActive): TransactionStepItem => {
     status: step.stepStatus ? step.stepStatus : status,
     title: step.title,
     subtitle: text,
+    withCustomSubtitle,
   }
 }
 </script>

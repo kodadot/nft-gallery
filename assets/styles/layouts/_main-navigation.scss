@@ -18,14 +18,18 @@
         flex-direction: column;
 
         .navbar-item {
-          padding: 1.5rem 1.25rem;
+          display: flex;
+          align-items: center;
+          
+          height: $navbar-mobile-min-height;
+          padding: 0 1.25rem;
 
           @include mobile {
-            padding: 1rem 1.25rem;
+            padding: 0 1.25rem;
           }
 
           @include tablet-only {
-            padding: 1rem $fluid-container-padding;
+            padding: 0 $fluid-container-padding;
           }
 
           @include ktheme() {
@@ -46,6 +50,12 @@
             overflow-y: auto;
             height: calc(100% - 118px);
             position: relative;
+            align-items: flex-start !important;
+            padding: 1.5rem 1.25rem !important;              
+
+            &--no-padding {
+              padding: 0 !important;
+            }
           }
 
           span {
@@ -125,6 +135,20 @@
         flex-grow: 1;
       }
     }
+
+    .navbar-brand {
+      .logo {
+        padding-left: 0 !important;
+        img {
+          height: 40px;
+          width: unset !important;
+        }
+      }
+    }
+
+    &.is-active .navbar-brand {
+      min-height: $navbar-mobile-min-height;
+    }
   }
 }
 
@@ -161,6 +185,8 @@
           height: 40px;
         }
       }
+
+      max-width: 100% !important;
     }
   }
 
@@ -192,8 +218,8 @@
     }
 
     .logo {
-      @include touch {
-        padding-left: 0 !important;
+      img {
+        width: 143px;
       }
     }
 
@@ -285,7 +311,7 @@
     box-sizing: border-box;
     position: fixed;
     width: 100%;
-    height: 70px;
+    height: $navbar-desktop-min-height;
     top: 0;
     left: 0;
     z-index: 989;
@@ -308,6 +334,11 @@
         top: 10%;
       }
     }
+
+    @include mobile {
+      height: $navbar-mobile-min-height !important;
+    }
+
     @include touch {
       $touch-padding-x: 20px;
     }
@@ -321,5 +352,12 @@
 
   .language-heading {
     height: 2.5rem;
+  }
+}
+
+.has-navbar-fixed-top {
+  padding-top: $navbar-desktop-min-height !important;
+  @include mobile {
+    padding-top: $navbar-mobile-min-height !important;
   }
 }

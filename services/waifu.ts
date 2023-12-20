@@ -2,14 +2,10 @@ import { $fetch, FetchError } from 'ofetch'
 import type { DropItem } from '@/params/types'
 const WAIFU_BASE_URL = 'https://waifu-me.kodadot.workers.dev'
 
-const table = 'mints'
-// const campaign = 'corn'
-
 const api = $fetch.create({
   baseURL: WAIFU_BASE_URL,
 })
 
-type MintResponse = Response<any>
 // type ClaimResponse = Response<any>
 type Response<T> = {
   result: T
@@ -27,43 +23,24 @@ export const getDropById = async (id: string) => {
   })
 }
 
-// URL should be sanitized ipfs://ipfs/Qm...
-export const sendWaifu = async (
-  email: string,
-  url: string,
-  image: string,
-): Promise<MintResponse> => {
-  const body = {
-    address: email,
-    metadata: url,
-    image,
-    table,
-  }
-  const value = await api<Response<typeof body>>('mint', {
-    method: 'POST',
-    body,
-  }).catch((error: FetchError) => {
-    throw new Error(`[WAIFU::MINT] Unable to MINT for reasons ${error.data}`)
+export const getDropStatus = async (alias: string) => {
+  return await api<{ count: number }>(`/drops/${alias}/status`, {
+    method: 'GET',
   })
-  return value
 }
 
-export const claimWaifu = async (claimId: string, address: string) => {
-  const body = {
-    claimId,
-    address,
-    email: '',
-    table,
-  }
-  const value = await api<typeof body>('claim-me', {
-    method: 'POST',
-    body,
-  }).catch((error: FetchError) => {
-    throw new Error(`[WAIFU::CLAIM] Unable to CLAIM for reasons ${error.data}`)
-  })
-
-  return value
+export type DropMintedStatus = {
+  created_at: string
+  id: number
+  image: string
+  metadata: string
 }
+export const getDropMintedStatus = async (alias: string, accountId: string) => {
+  return await api<DropMintedStatus>(`/drops/${alias}/accounts/${accountId}`, {
+    method: 'GET',
+  })
+}
+
 export const getLatestWaifuImages = async () => {
   const value = await api<{
     result: { id: string; output: string; image: string }[]
@@ -82,14 +59,30 @@ type DoRequest = {
   address: string
   metadata: string
   image: string
+  email?: string
+}
+
+type DoSubmitDropRequest = {
+  sn: string
+  hash: string
+  account: string
+  email?: string
+}
+
+export type DoResult = {
+  sn: string
+  collection: string
+  chain: string
+  txHash?: string
+  timestamp?: string
+  image?: string
+  name: string
 }
 
 type DoResponse = {
-  result: {
-    sn: string
-    collection: string
-  }
+  result: DoResult
 }
+
 export const doWaifu = async (body: DoRequest, campaign: string) => {
   const value = await api<DoResponse>(`do/${campaign}`, {
     method: 'POST',
@@ -101,9 +94,24 @@ export const doWaifu = async (body: DoRequest, campaign: string) => {
   return value
 }
 
+export const doSubmitDrop = async (
+  body: DoSubmitDropRequest,
+  campaign: string,
+) => {
+  const value = await api<DoResponse>(`do/${campaign}`, {
+    method: 'PUT',
+    body,
+  }).catch((error: FetchError) => {
+    throw new Error(`[DROP::DO] Unable to CAMPAIGN for reasons ${error.data}`)
+  })
+
+  return value
+}
+
 type UpdateMetadataRequest = {
   sn: string
   metadata: string
+  account?: string
 }
 
 export const claimDropItem = async (

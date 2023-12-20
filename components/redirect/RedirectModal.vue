@@ -12,7 +12,7 @@
         {{ props.i18n.t('redirect.safetyTips') }}
       </p>
     </div>
-    <div class="is-flex">
+    <div class="flex">
       <NeoButton
         class="mr-2"
         no-shadow

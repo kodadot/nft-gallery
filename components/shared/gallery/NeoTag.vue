@@ -4,6 +4,7 @@
     attached
     closable
     class="tag"
+    data-testid="neo-tag-component"
     :class="[`tag--${variant}`, `tag-size--${size}`]">
     <slot></slot>
     <NeoIcon
@@ -47,12 +48,12 @@ const onClose = () => {
   border-radius: 1rem !important;
   background: transparent;
   font-size: 1rem !important;
+  @apply text-text-color #{!important};
 
   &--primary {
     @include ktheme() {
       border: 1px solid theme('k-primary');
       background-color: theme('k-accentlight2');
-      color: theme('text-color');
       .cross-icon {
         &:hover {
           color: theme('k-grey');
@@ -64,7 +65,6 @@ const onClose = () => {
   &--transparent {
     @include ktheme() {
       border: 1px solid theme('border-color');
-      color: theme('text-color');
       background: transparent;
     }
   }

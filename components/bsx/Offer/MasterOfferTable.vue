@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="is-flex is-align-items-start is-justify-content-center mb-5">
+    <div class="flex items-center justify-center mb-5">
       <AddressInput
         v-model="destinationAddress"
         :empty-on-error="false"

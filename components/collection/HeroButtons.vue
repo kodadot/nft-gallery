@@ -1,10 +1,8 @@
 <template>
   <div>
-    <div
-      class="hero-buttons is-flex is-justify-content-flex-start is-align-items-end px-2">
-      <div class="is-flex">
+    <div class="hero-buttons flex justify-start items-end px-2">
+      <div v-if="twitter" class="flex">
         <NeoButton
-          v-if="twitter"
           icon="x-twitter"
           icon-pack="fab"
           class="square-32"
@@ -15,7 +13,7 @@
         v-if="displaySeperator"
         class="vertical-seperator mx-4 is-hidden-mobile" />
 
-      <div class="is-flex">
+      <div class="flex">
         <NeoDropdown
           position="bottom-left"
           append-to-body
@@ -30,22 +28,19 @@
 
           <NeoDropdownItem
             v-clipboard:copy="currentCollectionUrl"
+            data-testid="hero-copy-link-dropdown"
             @click="toast($t('toast.urlCopy'))">
             {{ $i18n.t('share.copyLink') }}
           </NeoDropdownItem>
-          <NeoDropdownItem @click="QRModalActive = true">
+          <NeoDropdownItem
+            data-testid="hero-share-QR-dropdown"
+            @click="QRModalActive = true">
             {{ $i18n.t('share.qrCode') }}
           </NeoDropdownItem>
-          <NeoDropdownItem>
-            <ShareNetwork
-              tag="div"
-              network="twitter"
-              :hashtags="hashtags"
-              :url="currentCollectionUrl"
-              :title="sharingLabel"
-              twitter-user="KodaDot">
-              {{ $i18n.t('share.twitter') }}
-            </ShareNetwork>
+          <NeoDropdownItem
+            data-testid="hero-share-twitter-dropdown"
+            @click="shareUrlToX">
+            {{ $i18n.t('share.twitter') }}
           </NeoDropdownItem>
         </NeoDropdown>
 
@@ -63,11 +58,11 @@
 
           <!-- related: #5792 -->
           <div v-if="isOwner">
-            <HeroButtonDeleteNfts />
-            <HeroButtonDeleteCollection />
-            <!-- <NeoDropdownItem>
-                {{ $i18n.t('moreActions.customize') }}
-              </NeoDropdownItem> -->
+            <CollectionHeroButtonDeleteNfts />
+            <CollectionHeroButtonDeleteCollection />
+            <CollectionHeroButtonCustomizeCollection
+              :min="collectionNftCount"
+              :max="collectionMaxCount" />
           </div>
           <NeoDropdownItem disabled>
             {{ $i18n.t('moreActions.reportCollection') }}
@@ -76,7 +71,7 @@
       </div>
     </div>
     <NeoModal :value="QRModalActive" @close="QRModalActive = false">
-      <div class="card">
+      <div class="card" data-testid="hero-share-qrcode-modal">
         <header class="card-header">
           <p class="card-header-title">{{ collection?.name }}</p>
         </header>
@@ -96,24 +91,34 @@ import {
   NeoModal,
 } from '@kodadot1/brick'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
-import HeroButtonDeleteCollection from './HeroButtonDeleteCollection.vue'
-import HeroButtonDeleteNfts from './HeroButtonDeleteNfts.vue'
 
 const route = useRoute()
 const { isCurrentOwner } = useAuth()
 const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
+const { shareOnX } = useSocialShare()
 
 const collectionId = computed(() => route.params.id)
 const currentCollectionUrl = computed(
   () =>
     `${window.location.origin}/${urlPrefix.value}/collection/${collectionId.value}`,
 )
+
+const shareUrlToX = () => {
+  shareOnX(
+    `${$i18n.t('sharing.collection')} ${
+      currentCollectionUrl.value
+    } \n#Polkadot @polkadot`,
+    '',
+  )
+}
 const { collection } = useCollectionMinimal({
   collectionId: collectionId.value,
 })
 const collectionIssuer = computed(() => collection.value?.issuer)
+const collectionNftCount = computed(() => collection.value?.nftCount)
+const collectionMaxCount = computed(() => collection.value?.max)
 
 const { twitter } = useIdentity({
   address: collectionIssuer,
@@ -127,9 +132,6 @@ const displaySeperator = computed(() => twitter.value)
 const isOwner = computed(() => isCurrentOwner(collection.value?.currentOwner))
 
 const QRModalActive = ref(false)
-
-const hashtags = 'KusamaNetwork,KodaDot'
-const sharingLabel = $i18n.t('sharing.collection')
 </script>
 
 <style lang="scss" scoped>

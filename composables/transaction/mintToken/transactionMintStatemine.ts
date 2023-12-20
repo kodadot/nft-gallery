@@ -1,60 +1,41 @@
-import { BaseMintedCollection } from '@/components/base/types'
 import type { ActionMintToken, MintedCollection } from '../types'
 import { TokenToMint } from '../types'
 import { constructMeta } from './constructMeta'
-import { calculateFees, expandCopies, transactionFactory } from './utils'
-import { canSupport } from '@/utils/support'
+import {
+  Id,
+  assignIds,
+  calculateFees,
+  expandCopies,
+  lastIndexUsed,
+  transactionFactory,
+} from './utils'
+import { SupportTokens, canSupport } from '@/utils/support'
+import { constructDirectoryMeta } from './constructDirectoryMeta'
+import { ApiPromise } from '@polkadot/api'
+import { usePreferencesStore } from '@/stores/preferences'
 
-type id = { id: number }
-
-export const assignIds = <T extends TokenToMint>(
-  tokens: T[],
-  lastTokenId: number,
-): (T & id)[] => {
-  let lastId = lastTokenId || 0
-
-  return tokens.map((token) => {
-    const { lastIndexUsed } = token.selectedCollection as MintedCollection
-
-    lastId = Math.max(lastIndexUsed, lastId)
-
-    return {
-      ...token,
-      id: ++lastId,
-    }
-  })
+interface BuildTokenTxsParams {
+  token: TokenToMint & Id
+  metadata: string
+  api: ApiPromise
 }
 
-export const prepareTokenMintArgs = async (token: TokenToMint & id, api) => {
-  const { id: collectionId } = token.selectedCollection as BaseMintedCollection
-  const { price, id: nextId, hasRoyalty, royalty } = token
-
+const buildTokenTxs = ({ token, metadata, api }: BuildTokenTxsParams) => {
   const { accountId } = useAuth()
-  const { $consola } = useNuxtApp()
-
-  const metadata = await constructMeta(token).catch((e) => {
-    $consola.error(
-      'Error while constructing metadata for token:\n',
-      token,
-      '\n',
-      e,
-    )
-  })
-
+  const collectionId = token.selectedCollection?.id
+  const { price, id: nextId, hasRoyalty, royalty } = token
   const create = api.tx.nfts.mint(
     collectionId,
     nextId,
     accountId.value,
     undefined,
   )
-
   const meta = api.tx.nfts.setMetadata(collectionId, nextId, metadata)
 
   const list =
     Number(price) > 0
       ? [api.tx.nfts.setPrice(collectionId, nextId, price, undefined)]
       : []
-
   const txs = [create, meta, ...list]
 
   if (royalty && isRoyaltyValid(royalty) && hasRoyalty) {
@@ -65,7 +46,6 @@ export const prepareTokenMintArgs = async (token: TokenToMint & id, api) => {
       'royalty',
       royalty.amount,
     )
-
     const setRoyaltyRecipient = api.tx.nfts.setAttribute(
       collectionId,
       nextId,
@@ -75,54 +55,83 @@ export const prepareTokenMintArgs = async (token: TokenToMint & id, api) => {
     )
     txs.push(setRoyaltyAmount, setRoyaltyRecipient)
   }
-
   return txs
 }
 
-export const prepTokens = async (item: ActionMintToken, api) => {
+async function handleSingleToken(item: ActionMintToken, api: ApiPromise) {
+  const enableCarbonOffset = usePreferencesStore().getHasCarbonOffset
+
+  const tokens = await expandCopiesWithsIds(item, api)
+  const metadataList = await Promise.all(
+    tokens.map((token) => constructMeta(token, { enableCarbonOffset })),
+  )
+  return tokens.map((token, index) => ({
+    token,
+    metadata: metadataList[index],
+  }))
+}
+
+async function handleMultipleTokens(item: ActionMintToken, api: ApiPromise) {
+  const enableCarbonOffset = usePreferencesStore().getHasCarbonOffset
+  const tokens = item.token as TokenToMint[]
+  const lastTokenId = await lastIndexUsed(
+    tokens[0].selectedCollection as MintedCollection,
+    api,
+  )
+  const tokensWithIds = assignIds(tokens, lastTokenId)
+  const metadata = await constructDirectoryMeta(tokensWithIds, {
+    enableCarbonOffset,
+  })
+  return tokensWithIds.map((token, index) => ({
+    token,
+    metadata: metadata[index],
+  }))
+}
+export const expandCopiesWithsIds = async (item: ActionMintToken, api) => {
   const tokens = Array.isArray(item.token) ? item.token : [item.token]
 
-  const lastTokenId = await getNextTokenIdOnChain(
+  const lastTokenId = await lastIndexUsed(
+    tokens[0].selectedCollection as MintedCollection,
     api,
-    (tokens[0].selectedCollection as MintedCollection).id,
   )
   const expandedTokens = expandCopies(tokens)
 
-  const tokensWithIds = assignIds(expandedTokens, lastTokenId)
-  return tokensWithIds
+  return assignIds(expandedTokens, lastTokenId)
 }
 
 export const getSupportInteraction = (
   item: ActionMintToken,
   enabledFees: boolean,
   feeMultiplier: number,
-  api,
+  api: ApiPromise,
+  tokenSymbol: SupportTokens,
 ) => {
   const howManyTimesToChargeSupportFees = Array.isArray(item.token)
     ? item.token.length
     : 1
 
   const totalFees = feeMultiplier * howManyTimesToChargeSupportFees
-  return canSupport(api, enabledFees, totalFees)
+  return canSupport(api, enabledFees, totalFees, tokenSymbol)
 }
 
-const getNextTokenIdOnChain = async (api, collectionId) => {
-  return await api.query.nfts
-    .collection(collectionId)
-    .then((res) => Number(res.toHuman().items) || 0)
-}
-
-const getArgs = async (item: ActionMintToken, api) => {
-  const tokens = await prepTokens(item, api)
-  const arg = await Promise.all(
-    tokens.map((token) => prepareTokenMintArgs(token, api)),
-  )
-  const { enabledFees, feeMultiplier } = calculateFees()
+const getArgs = async (item: ActionMintToken, api: ApiPromise) => {
+  const { enabledFees, feeMultiplier, token: tokenSymbol } = calculateFees()
   const supportInteraction = await getSupportInteraction(
     item,
     enabledFees,
     feeMultiplier,
     api,
+    tokenSymbol,
+  )
+
+  const tokenTxsArgs = Array.isArray(item.token)
+    ? await handleMultipleTokens(item, api)
+    : await handleSingleToken(item, api)
+
+  const arg = await Promise.all(
+    tokenTxsArgs.map(({ token, metadata }) =>
+      buildTokenTxs({ token, metadata, api }),
+    ),
   )
 
   return [[...arg.flat(), ...supportInteraction]]

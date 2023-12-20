@@ -1,6 +1,6 @@
 <template>
-  <div class="is-flex is-justify-content-space-between">
-    <div class="is-flex pr-2">
+  <div class="flex justify-between">
+    <div class="flex pr-2">
       <div>
         <BasicImage
           :src="avatar"
@@ -8,8 +8,7 @@
           class="border image is-48x48" />
       </div>
 
-      <div
-        class="is-flex is-flex-direction-column is-justify-content-space-between ml-4 limit-width">
+      <div class="flex flex-col justify-between ml-4 limit-width">
         <div
           class="has-text-weight-bold has-text-color line-height-1 no-wrap is-clipped ellipsis">
           {{ nft.name }}
@@ -20,7 +19,7 @@
       </div>
     </div>
 
-    <div class="is-flex is-align-items-end no-wrap line-height-1">
+    <div class="flex items-end no-wrap line-height-1">
       <CommonTokenMoney :value="nft.price" />
     </div>
   </div>
@@ -53,7 +52,11 @@ onMounted(() => {
 @import '@/assets/styles/abstracts/variables';
 
 .limit-width {
-  max-width: 170px;
+  width: 170px;
+
+  @include mobile {
+    width: 100px;
+  }
 }
 
 .ellipsis {

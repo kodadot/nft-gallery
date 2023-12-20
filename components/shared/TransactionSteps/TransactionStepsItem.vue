@@ -1,6 +1,6 @@
 <template>
-  <div class="is-flex">
-    <div class="mr-4 is-flex is-align-items-center">
+  <div class="flex">
+    <div class="mr-4 flex items-center">
       <NeoIcon
         v-if="isLoading"
         icon="spinner-third"
@@ -27,14 +27,14 @@
         :size="iconSize" />
     </div>
 
-    <div class="is-flex is-align-items-center">
-      <div class="is-flex is-flex-direction-column">
+    <div class="flex items-center">
+      <div class="flex flex-col">
         <NeoTooltip
           v-if="step.tooltip"
           position="top"
           multiline
           class="is-max-width-fit-content">
-          <p class="is-capitalized has-text-weight-bold">
+          <p class="capitalize has-text-weight-bold">
             {{ step.title }}
             <NeoIcon
               icon="fa-info-circle"
@@ -43,17 +43,17 @@
           </p>
 
           <template #content>
-            <span v-dompurify-html="step.tooltip" />
+            <span v-dompurify-html="step.tooltip" class="capitalize" />
           </template>
         </NeoTooltip>
-        <p v-else class="is-capitalized has-text-weight-bold">
+        <p v-else class="capitalize has-text-weight-bold">
           {{ step.title }}
         </p>
-        <div class="is-flex is-align-items-center">
-          <p class="is-capitalized has-text-k-grey">
+        <div class="flex items-center">
+          <p class="capitalize has-text-k-grey">
             {{ step.subtitle }}
 
-            <span v-if="isLoading" class="dots" />
+            <span v-if="showDots" class="dots" />
           </p>
 
           <NeoButton
@@ -96,6 +96,7 @@ export type TransactionStepItem = {
   tooltip?: string
   isActive: boolean
   prefix?: Prefix
+  withCustomSubtitle: boolean
 }
 
 const emit = defineEmits(['tryAgain'])
@@ -128,6 +129,10 @@ const isCompleted = computed(() => status.value === 'completed')
 const isWaiting = computed(() => status.value === 'waiting')
 const isFailed = computed(() => status.value === 'failed')
 const showTryAgain = computed(() => isFailed.value)
+
+const showDots = computed(
+  () => isLoading.value && !props.step.withCustomSubtitle,
+)
 
 const tryAgain = () => emit('tryAgain')
 </script>

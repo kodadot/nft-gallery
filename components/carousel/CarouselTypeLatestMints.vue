@@ -4,7 +4,7 @@
 
     <CarouselList v-if="showCarousel" :nfts="nfts" :step="3">
       <template #card-info="{ item }">
-        <div class="carousel-info is-flex is-flex-direction-column">
+        <div class="carousel-info flex flex-col">
           <nuxt-link
             :to="urlOf({ id: item.id, url: 'gallery', chain: item.chain })"
             :title="item.name"
@@ -14,9 +14,8 @@
             >
           </nuxt-link>
 
-          <div class="is-flex is-flex-direction-column is-align-items-start">
-            <div
-              class="is-flex is-justify-content-space-between is-align-items-center">
+          <div class="flex flex-col items-start">
+            <div class="flex justify-between items-center">
               <p class="is-size-7 chain-name">{{ $t('drops.mintedBy') }}</p>
               <nuxt-link
                 :to="`/${urlPrefix}/u/${item.currentOwner}`"

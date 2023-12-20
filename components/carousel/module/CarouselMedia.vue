@@ -11,11 +11,12 @@
         class="card-icon"
         :src="cardIcon"
         alt="Card Icon" />
-      <MediaItem
+      <BaseMediaItem
         class="carousel-media-wrapper"
         :src="imageSrc || ''"
         :animation-src="item.animationUrl || ''"
         :title="item.name"
+        :image-component="NuxtImg"
         disable-operation
         :audio-player-cover="imageSrc || ''"
         audio-hover-on-cover-play />
@@ -24,8 +25,6 @@
 </template>
 
 <script lang="ts" setup>
-import { MediaItem } from '@kodadot1/brick'
-
 import type { CarouselNFT } from '@/components/base/types'
 import type { NFTWithMetadata } from '@/composables/useNft'
 
@@ -36,6 +35,8 @@ const props = defineProps<{
   index: number
   length: number
 }>()
+
+const NuxtImg = resolveComponent('NuxtImg')
 
 const { urlOf } = useCarouselUrl()
 const url = inject('itemUrl', 'gallery') as string

@@ -6,6 +6,9 @@
       :root-class="`gallery-search ${
         isCollectionSearchMode && 'is-collection-search'
       }`"
+      :class="{
+        'gallery-search--skip-button': isTouchDevice,
+      }"
       :placeholder="placeholderContent"
       icon="search"
       icon-pack="fasr"
@@ -31,8 +34,8 @@
     <div class="search-bar-bg"></div>
     <div
       v-if="isCollectionSearchMode"
-      class="search-bar-collection-search is-flex is-align-items-center">
-      <span class="is-flex is-align-items-center">{{
+      class="search-bar-collection-search flex items-center">
+      <span class="flex items-center">{{
         $i18n.t('search.searchCollection')
       }}</span>
       <svg
@@ -47,11 +50,13 @@
       </svg>
     </div>
     <img
+      v-if="!isTouchDevice"
       class="search-bar-keyboard-icon"
       :class="{ 'is-invisible': name || inputFocused }"
       src="/search-k-keyboard.svg"
       alt="press k to focus search input" />
     <img
+      v-if="!isTouchDevice"
       class="search-bar-keyboard-icon"
       :class="{ 'is-invisible': !name && !inputFocused }"
       src="/k-search-enter.svg"
@@ -65,6 +70,8 @@ import { useCollectionSearch } from '@/components/search/utils/useCollectionSear
 import SearchSuggestion from '@/components/search/SearchSuggestion.vue'
 import { SearchQuery } from './types'
 import type { PropType } from 'vue'
+
+const isTouchDevice = 'ontouchstart' in document.documentElement
 
 const props = defineProps({
   modelValue: {

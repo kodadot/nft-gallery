@@ -4,13 +4,6 @@ import { NFTListSold } from '@/components/identity/utils/useIdentity'
 import { chainsSupportingOffers } from './useCollectionDetails.config'
 import { Stats } from './types'
 
-const differentOwner = (nft: {
-  issuer: string
-  currentOwner: string
-}): boolean => {
-  return nft.currentOwner !== nft.issuer
-}
-
 export const useCollectionDetails = ({ collectionId }) => {
   const { urlPrefix } = usePrefix()
   const { data } = useGraphql({
@@ -30,8 +23,7 @@ export const useCollectionDetails = ({ collectionId }) => {
         ...new Set(data.value.stats.base.map((item) => item.currentOwner)),
       ].length
 
-      const differentOwnerCount =
-        data.value.stats.base.filter(differentOwner).length
+      const collectionLength = data.value.stats.base.length
 
       const maxOffer = computed(() => {
         if (!chainsSupportingOffers.includes(urlPrefix.value)) {
@@ -49,8 +41,9 @@ export const useCollectionDetails = ({ collectionId }) => {
       const listedNfts = data.value.stats.listed
 
       stats.value = {
+        maxSupply: data.value.stats.max,
         listedCount: data.value.stats.listed.length,
-        collectionLength: data.value.stats.base.length,
+        collectionLength,
         collectionFloorPrice:
           listedNfts.length > 0
             ? Math.min(...listedNfts.map((item) => parseInt(item.price)))
@@ -58,7 +51,7 @@ export const useCollectionDetails = ({ collectionId }) => {
         uniqueOwners: uniqueOwnerCount,
         bestOffer: maxOffer.value,
         uniqueOwnersPercent: `${(
-          (uniqueOwnerCount / (uniqueOwnerCount + differentOwnerCount)) *
+          (uniqueOwnerCount / collectionLength) *
           100
         ).toFixed(2)}%`,
         collectionTradedVolumeNumber: Number(
@@ -116,9 +109,13 @@ export function useCollectionSoldData({ address, collectionId }) {
 }
 
 export const useCollectionMinimal = ({ collectionId }) => {
+  const { urlPrefix } = usePrefix()
+  const { isAssetHub } = useIsChain(urlPrefix)
   const collection = ref()
   const { data } = useGraphql({
-    queryName: 'collectionByIdMinimal',
+    queryName: isAssetHub.value
+      ? 'collectionByIdMinimalWithRoyalty'
+      : 'collectionByIdMinimal',
     variables: {
       id: collectionId,
     },

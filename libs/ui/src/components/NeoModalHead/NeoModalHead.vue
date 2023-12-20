@@ -1,14 +1,18 @@
 <template>
-  <header v-if="isMobile" class="modal-card-head">
-    <div class="modal-card-title" @click.stop="emit('close')">
+  <header
+    class="flex lg:hidden py-0 px-tw-5 min-h-[64px] items-center border-b border-border-color bg-background-color-inverse">
+    <button
+      type="button"
+      class="w-full h-full text-left cursor-pointer p-0 bg-transparent text-base/normal text-text-color-inverse"
+      data-testid="modal-close-button"
+      @click="emit('close')">
       <NeoIcon icon="chevron-left" />
-      {{ title }}
-    </div>
+      <span>{{ title }}</span>
+    </button>
   </header>
   <header
-    v-else
-    class="modal-card-head is-flex is-justify-content-space-between border-bottom">
-    <span class="modal-card-title is-size-6 has-text-weight-bold">
+    class="hidden lg:flex py-4 px-tw-8 justify-between items-center border-b border-border-color bg-background-color">
+    <span class="text-base font-bold">
       {{ title }}
     </span>
     <NeoButton
@@ -17,23 +21,17 @@
       no-shadow
       icon="xmark"
       size="medium"
+      data-testid="modal-close-button"
       @click="emit('close')" />
   </header>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
 defineProps<{
   title: string
 }>()
 
-const isMobile = ref(window.innerWidth < 1024)
-
 const emit = defineEmits(['close'])
 </script>
-
-<style lang="scss" scoped>
-@import './NeoModalHead.scss';
-</style>

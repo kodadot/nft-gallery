@@ -1,24 +1,21 @@
 <template>
-  <div class="popover-stats-container is-flex is-flex-direction-column pt-2">
+  <div class="popover-stats-container flex flex-col pt-2">
     <div class="pb-2">
-      <div
-        class="is-flex is-align-items-center is-justify-content-space-between">
+      <div class="flex items-center justify-between">
         <span class="is-size-6">{{ $t('profile.collected') }}</span>
 
         <p class="is-size-6" data-testid="identity-collected">
           {{ totalCollected }}
         </p>
       </div>
-      <div
-        class="is-flex is-align-items-center is-justify-content-space-between">
+      <div class="flex items-center justify-between">
         <span class="is-size-6">{{ $t('profile.created') }}</span>
 
         <p class="is-size-6" data-testid="identity-created">
           {{ totalCreated }}
         </p>
       </div>
-      <div
-        class="is-flex is-align-items-center is-justify-content-space-between">
+      <div class="flex items-center justify-between">
         <span class="is-size-6">{{ $t('profile.sold') }}</span>
 
         <p class="is-size-6" data-testid="identity-sold">
@@ -30,7 +27,7 @@
       <h6 class="popover-user-heading pb-2">
         {{ $t('profile.highestSales') }}
       </h6>
-      <div class="is-flex sold-items">
+      <div class="flex sold-items">
         <div v-for="nft in soldItems" :key="nft.id" class="sold-item border">
           <GalleryCard
             :id="nft.id"

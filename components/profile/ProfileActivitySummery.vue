@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="stats" class="level my-4 collection is-align-items-center">
+    <div v-if="stats" class="level my-4 collection items-center">
       <div class="level-item has-text-centered">
         <div>
           <p class="title">{{ listedCount }} ⊆ {{ totalSoldItems }}</p>
@@ -40,7 +40,7 @@
             <CommonTokenMoney :value="totalHoldingsBoughtValues" inline /> ⊆
           </p>
           <p class="is-size-7 has-text-grey">
-            {{ $t('profileStats.totalHoldingsBoughtValues') }}
+            {{ chainSymbol }} {{ $t('profileStats.totalHoldingsBoughtValues') }}
           </p>
         </div>
       </div>
@@ -80,6 +80,7 @@ const props = defineProps({
 
 const { $consola } = useNuxtApp()
 const { client, urlPrefix } = usePrefix()
+const { chainSymbol } = useDeposit(urlPrefix)
 
 const profileStats = ref({
   totalBuys: 'profileStats.totalBuys',

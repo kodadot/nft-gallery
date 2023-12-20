@@ -1,48 +1,46 @@
-@import '../../scss/variable.scss';
-@import '../../scss/animation.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_expressions.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_variables.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_animations.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/_helpers.scss';
 
 $modal-content-border-radius: 0;
+$modal-overlay-background-color: rgb(0 0 0 / 0.17);
 
 @import '@oruga-ui/oruga-next/src/scss/components/_modal.scss';
 
-
 .neo-modal {
-  
   .o-modal__content {
-    width: auto !important;
-    max-height: var(--max-height);
-    @include ktheme() {
-      box-shadow: theme('primary-shadow');
-      border: 1px solid theme('border-color');
-      color: theme('text-color');
-      background: theme('background-color');
-    }
+    @apply w-auto max-h-[var(--max-height)] shadow-primary border-default border-border-color text-text-color bg-background-color;
+
     &.no-shadow {
-      box-shadow: none;
+      @apply shadow-none;
+    }
+
+    &.enable-mobile {
+      @media screen and (max-width: 425px) {
+        @apply absolute -bottom-[1px] -right-[1px] -left-[1px] flex flex-col;
+
+        .modal-width,
+        &.modal-width {
+          @apply w-[unset];
+        }
+      }
     }
   }
 
   .o-modal__content--full-screen {
-    width: 100%!important;
-    max-height: 100vh !important;
-  }
-
-  .o-modal__overlay {
-    background-color: rgba(0, 0, 0, 0.17);
+    @apply w-full h-screen;
   }
 
   .modal-card-head {
-    background: unset;
+    @apply bg-[unset];
   }
 
   .card {
-    border-radius: 0;
+    @apply rounded-none;
   }
-  &.append-to-body{
-    z-index: 999;
+
+  &.append-to-body {
+    @apply z-[999];
   }
 }

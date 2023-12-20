@@ -1,32 +1,41 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './fixtures'
+
+const CHAINS = [
+  {
+    dropdownText: 'bsx',
+    chainIdText: 'bsx',
+  },
+  {
+    dropdownText: 'ahp',
+    chainIdText: 'ahp',
+  },
+  {
+    dropdownText: 'ahk',
+    chainIdText: 'ahk',
+  },
+  {
+    dropdownText: 'rmrk',
+    chainIdText: 'rmrk',
+  },
+  {
+    dropdownText: 'ksm',
+    chainIdText: 'rmrk2',
+  },
+]
 
 test('Switch network', async ({ page }) => {
   await page.goto('/')
   await page.waitForLoadState()
-  //BSX
-  await page.getByTestId('chain-select').click()
-  await page.getByTestId('chain-dropdown-bsx').click()
-  await expect(page.getByTestId('chain')).toHaveText('bsx')
-  //AHP
-  await page.getByTestId('chain-select').click()
-  await page.getByTestId('chain-dropdown-ahp').click()
-  await expect(page.getByTestId('chain')).toHaveText('ahp')
-  //AHK
-  await page.getByTestId('chain-select').click()
-  await page.getByTestId('chain-dropdown-ahk').click()
-  await expect(page.getByTestId('chain')).toHaveText('ahk')
-  //RMRK2
-  await page.getByTestId('chain-select').click()
-  await page.getByTestId('chain-dropdown-ksm').click()
-  await expect(page.getByTestId('chain')).toHaveText('rmrk2')
-  //RMRK1
-  await page.getByTestId('chain-select').click()
-  await page.getByTestId('chain-dropdown-rmrk').click()
-  await expect(page.getByTestId('chain')).toHaveText('rmrk')
+  for (const data of CHAINS) {
+    await test.step(`Switching to ${data.chainIdText}`, async () => {
+      await page.getByTestId('chain-select').click()
+      await page.getByTestId(`chain-dropdown-${data.dropdownText}`).click()
+      await expect(page.getByTestId('chain')).toHaveText(data.chainIdText)
+    })
+  }
 })
 
 test('Check if RMRK2 NFT URL is correct', async ({ page }) => {
-  //RMRK2
   await page.goto('/ksm/explore/items?listed=false&search=Spirit+Key+%232112')
   await page.locator('[class="infinite-scroll-item"]').click()
   await expect(page).toHaveURL(
@@ -35,8 +44,7 @@ test('Check if RMRK2 NFT URL is correct', async ({ page }) => {
 })
 
 test('Check if Ahk NFT URL is correct', async ({ page }) => {
-  //AHK
-  await page.goto('/ahk/explore/items?listed=false&search=Susanne')
+  await page.goto('/ahk/explore/items?listed=false&search=pixelated')
   await page.locator('[class="infinite-scroll-item"]').click()
-  await expect(page).toHaveURL('/ahk/gallery/111-2')
+  await expect(page).toHaveURL('/ahk/gallery/224-6')
 })

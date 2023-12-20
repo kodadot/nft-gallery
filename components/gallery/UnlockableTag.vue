@@ -1,17 +1,16 @@
 <template>
-  <div
-    class="unlockable-container is-flex border py-2 px-6 is-justify-content-space-between">
+  <div class="unlockable-container flex border py-2 px-6 justify-between">
     <NeoTooltip
       :active="!isOwner"
       :label="$t('unlockable.tooltip')"
       multiline
       multiline-width="15rem">
-      <div class="is-flex is-align-items-center">
+      <div class="flex items-center">
         <img class="mr-2" :src="unlockableIcon" alt="Unlockable Icon" />
         <span class="has-text-grey is-size-7">{{ $t('unlockable.item') }}</span>
       </div>
     </NeoTooltip>
-    <div class="is-flex is-align-items-center">
+    <div class="flex items-center">
       <a
         v-if="isOwner && link"
         v-safe-href="link"
@@ -33,7 +32,7 @@
 import { NeoTooltip } from '@kodadot1/brick'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { useWindowSize } from '@vueuse/core'
-import { useUnlockableIcon } from '@/composables/useUnlockableIcon'
+import { useIcon } from '@/composables/useIcon'
 
 const props = defineProps<{
   nft: NFT | undefined
@@ -42,7 +41,7 @@ const props = defineProps<{
 
 const { isCurrentOwner } = useAuth()
 const isMobile = computed(() => useWindowSize().width.value < 768)
-const { unlockableIcon } = useUnlockableIcon()
+const { unlockableIcon } = useIcon()
 
 const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
 </script>

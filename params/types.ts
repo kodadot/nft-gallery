@@ -69,5 +69,7 @@ export type DropItem = {
   alias: string
   type: DropType
   meta: string
-  disabled: boolean
+  disabled: number
+  minted?: number
+  max?: number
 }

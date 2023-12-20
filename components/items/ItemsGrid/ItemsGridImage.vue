@@ -21,13 +21,13 @@
     :media-static-video="hideVideoControls"
     media-hover-on-cover-play>
     <template v-if="!hideAction" #action>
-      <div v-if="!isOwner && Number(nft?.price)" class="is-flex">
+      <div v-if="!isOwner && Number(nft?.price)" class="flex">
         <NeoButton
           :label="buyLabel"
           data-testid="item-buy"
           no-shadow
           :loading="showActionSection"
-          class="is-flex-grow-1 btn-height"
+          class="flex-grow btn-height"
           loading-with-label
           @click.prevent="onClickBuy">
         </NeoButton>
@@ -37,6 +37,7 @@
           class="fixed-width p-1 no-border-left btn-height override-wrapper-width"
           @click.prevent="onClickShoppingCart">
           <NeoIcon
+            class="icon"
             :icon="
               shoppingCartStore.isItemInCart(nft.id)
                 ? 'fa-striked-out-cart-shopping'
@@ -45,12 +46,12 @@
             pack="fa-kit" />
         </NeoButton>
       </div>
-      <div v-else-if="isOwner" class="is-flex">
+      <div v-else-if="isOwner" class="flex">
         <NeoButton
           :label="listLabel"
           data-testid="item-buy"
           no-shadow
-          class="is-flex-grow-1 btn-height"
+          class="flex-grow btn-height"
           @click.prevent="onClickListingCart">
         </NeoButton>
       </div>

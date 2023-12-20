@@ -1,14 +1,14 @@
 <template>
-  <div class="is-flex">
+  <div class="flex">
     <div
-      class="is-flex price-input border border-k-shade"
+      class="flex price-input border border-k-shade"
       :class="{ 'price-input__fullwidth': fullWidth }">
       <input
         v-model="model"
         type="text"
         class="price-input height-40 theme-background-color has-text-color"
         :placeholder="$t('offer.price')" />
-      <div class="px-5 is-flex is-align-items-center">{{ chainSymbol }}</div>
+      <div class="px-5 flex items-center">{{ chainSymbol }}</div>
     </div>
     <NeoButton
       v-if="check"

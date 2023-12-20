@@ -1,8 +1,8 @@
 <template>
   <div data-testid="item-section-buy">
     <GalleryItemPriceSection v-if="nft.price" title="Price" :price="nft.price">
-      <div v-if="Number(nft.price)" class="is-flex desktop-full-w">
-        <div class="is-flex buy-button-width">
+      <div v-if="Number(nft.price)" class="flex desktop-full-w">
+        <div class="flex buy-button-width">
           <NeoButton
             :label="label"
             size="large"
@@ -13,11 +13,12 @@
         </div>
 
         <NeoButton
-          class="button-height no-border-left"
+          class="button-height square-button-width no-border-left"
           data-testid="item-add-to-cart"
           @click="onClickShoppingCart">
           <NeoIcon
             size="medium"
+            class="icon"
             :icon="
               shoppingCartStore.isItemInCart(nft.id)
                 ? 'fa-striked-out-cart-shopping'
@@ -103,6 +104,9 @@ const onClickShoppingCart = () => {
   height: 55px !important;
 }
 
+.square-button-width {
+  width: 55px;
+}
 .buy-button-width {
   width: 10rem;
 

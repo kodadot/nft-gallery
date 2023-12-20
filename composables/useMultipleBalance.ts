@@ -110,6 +110,8 @@ export default function (refetchPeriodically: boolean = false) {
       chainName,
     })
 
+    identityStore.setBalance(prefix, currentBalance)
+
     identityStore.multiBalanceNetwork = currentNetwork.value
 
     return wsProvider.disconnect()
@@ -127,7 +129,7 @@ export default function (refetchPeriodically: boolean = false) {
   ) => {
     await fetchFiatPrice(forceFiat)
 
-    const assets = isTestnet.value
+    const assets = isTestnet
       ? multiBalanceAssetsTestnet.value
       : multiBalanceAssets.value
 

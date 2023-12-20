@@ -3,7 +3,8 @@
     <CollectionUnlockableLoader
       v-if="isLoading"
       model-value
-      :minted="justMinted" />
+      :minted="justMinted"
+      @model-value="isLoading = false" />
     <CountdownTimer />
     <hr class="text-color my-0" />
     <div class="container is-fluid pb-4">
@@ -14,28 +15,19 @@
             :description="VOTE_DROP_DESCRIPTION" />
           <hr class="mb-4" />
 
-          <div
-            class="is-flex is-justify-content-space-between is-align-items-center my-5">
-            <span> {{ $t('mint.unlockable.totalAvailableItem') }}</span>
-            <span>{{ totalAvailableMintCount }} / {{ totalCount }}</span>
-          </div>
           <UnlockableTag :collection-id="collectionId" />
 
           <div>
-            <div
-              class="is-flex is-justify-content-space-between is-align-items-center my-5">
+            <div class="flex justify-between items-center my-5">
               <div class="has-text-weight-bold is-size-5">
                 {{ $t('mint.unlockable.phase') }}
               </div>
-              <span
-                v-if="mintCountAvailable"
-                class="is-flex is-align-items-center">
+              <span v-if="mintCountAvailable" class="flex items-center">
                 <img src="/unlockable-pulse.svg" alt="open" />
                 {{ $t('mint.unlockable.open') }}</span
               >
             </div>
-            <div
-              class="is-flex is-justify-content-space-between is-align-items-center">
+            <div class="flex justify-between items-center">
               <span>{{ mintedPercent }} %</span
               ><span class="has-text-weight-bold">
                 {{ mintedCount }} / {{ totalCount }}
@@ -47,10 +39,8 @@
             <UnlockableSlider :value="mintedCount / totalCount" />
           </div>
           <div class="my-5">
-            <div
-              v-if="!userMintedId"
-              class="is-flex is-justify-content-space-between">
-              <div class="is-flex is-align-items-center">
+            <div v-if="!userMintedId" class="flex justify-between">
+              <div class="flex items-center">
                 <NeoIcon
                   :icon="statusInformation.icon"
                   class="mr-2"
@@ -67,7 +57,7 @@
                   :disabled="mintButtonDisabled"
                   :label="buttonLabel"
                   @click="handleMint" />
-                <div class="is-flex is-align-items-center mt-2">
+                <div class="flex items-center mt-2">
                   <NeoIcon icon="timer" class="mr-2" />
                   {{ leftTime }}
                 </div>
@@ -80,7 +70,7 @@
             </nuxt-link>
           </div>
         </div>
-        <div class="column pt-5 is-flex is-justify-content-center">
+        <div class="column pt-5 flex justify-center">
           <ImageSlider
             v-if="imageList.length"
             :image-list="imageList"
@@ -104,7 +94,7 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { useCountDown } from '../unlockable/utils/useCountDown'
 import { VOTE_DROP_DESCRIPTION, countDownTime } from './const'
-
+import { useDropStatus } from '@/components/drops/useDrops'
 import { DropItem } from '@/params/types'
 
 import { useCheckReferenDumVote } from '@/composables/drop/useCheckReferenDumVote'
@@ -120,13 +110,14 @@ const props = defineProps({
 const { $i18n } = useNuxtApp()
 const { neoModal } = useProgrammatic()
 const { accountId } = useAuth()
-
+const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
+  useDropStatus(props.drop.alias)
 const collectionId = computed(() => props.drop?.collection)
 
 const imageList = ref<string[]>([])
 const { urlPrefix } = usePrefix()
 const { isLogIn } = useAuth()
-const { hours, minutes } = useCountDown(countDownTime)
+const { hours, minutes } = useCountDown({ countDownTime })
 const justMinted = ref('')
 const isLoading = ref(false)
 
@@ -178,7 +169,7 @@ const leftTime = computed(() => {
   return isFinish ? 'Finished' : `${hoursLeft}${minutesLeft}Left`
 })
 
-const { data: collectionData, refetch } = useGraphql({
+const { data: collectionData } = useGraphql({
   queryName: 'dropCollectionById',
   variables: {
     id: collectionId.value,
@@ -197,18 +188,8 @@ watch(collectionData, () => {
 const totalCount = 300
 
 const totalAvailableMintCount = computed(
-  () => totalCount - collectionData.value?.collectionEntity?.nftCount,
+  () => totalCount - Math.min(mintedDropCount.value, totalCount),
 )
-
-useSubscriptionGraphql({
-  query: `nftEntities(
-    orderBy: id_ASC,
-    where: { burned_eq: false, collection: { id_eq: "${collectionId.value}" }}
-    ) {
-      id
-  }`,
-  onChange: refetch,
-})
 
 const mintedCount = computed(() => totalCount - totalAvailableMintCount.value)
 
@@ -220,17 +201,15 @@ const mintedPercent = computed(() => {
 const userMintedId = computed(
   () =>
     Boolean(accountId.value) &&
-    (collectionData.value?.nftEntitiesConnection?.edges?.[0]?.node?.id ||
-      justMinted.value),
+    (currentAccountMintedToken.value
+      ? `${collectionId.value}-${currentAccountMintedToken.value.id}`
+      : justMinted.value),
 )
 
 const mintCountAvailable = computed(() => mintedCount.value < totalCount)
 
-watch(accountId, (id) => {
+watch(accountId, () => {
   justMinted.value = ''
-  refetch({
-    account: id,
-  })
 })
 
 const mintButtonDisabled = computed(
@@ -267,6 +246,8 @@ const handleMint = async () => {
       toast('mint success')
       return `${collectionId.value}-${res.result.sn}`
     })
+
+    fetchDropStatus()
     // 40s timeout
     setTimeout(() => {
       isLoading.value = false

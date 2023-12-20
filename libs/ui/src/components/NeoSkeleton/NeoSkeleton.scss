@@ -2,7 +2,6 @@
 @import '@oruga-ui/oruga-next/src/scss/utilities/variables.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/animations.scss';
 @import '@oruga-ui/oruga-next/src/scss/utilities/helpers.scss';
-@import '../../scss/variable.scss';
 
 $grey-darker: hsl(0, 0%, 21%);
 $grey-dark: hsl(0, 0%, 29%);
@@ -12,29 +11,27 @@ $grey-lighter: hsl(0, 0%, 86%);
 $grey-lightest: hsl(0, 0%, 93%);
 $skeleton-margin: 0.25rem;
 $base-border-radius: 4px;
+$skeleton-border-radius: var(--border-radius, $base-border-radius);
+
 .neo-skeleton {
   &-item {
     &.no-margin {
-      margin: 0 !important;
+      @apply m-0 #{!important};
     }
 
-    background-size: 400% 100%!important;
-    @include ktheme() {
-      background: linear-gradient(
-        90deg,
-        theme('k-shade') 25%,
-        rgba(theme('k-shade'), 0.5) 50%,
-        theme('k-shade') 75%
-      );
+    @apply bg-[length:400%_100%] #{!important};
+
+    &--k-shade {
+      @apply bg-gradient-to-r from-k-shade from-25% via-k-shade/50 via-50% to-k-shade to-75%;
+    }
+
+    &--k-grey-light {
+      @apply bg-gradient-to-r from-k-grey-light from-25% via-k-grey-light/50 via-50% to-k-grey-light to-75%;
     }
   }
 
   &-full-size {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
+    @apply absolute left-0 top-0 w-full h-full;
   }
 }
 

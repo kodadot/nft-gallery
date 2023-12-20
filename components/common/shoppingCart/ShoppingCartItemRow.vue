@@ -1,9 +1,7 @@
 <template>
-  <div
-    ref="hoverRef"
-    class="is-flex is-justify-content-space-between background-hover">
+  <div ref="hoverRef" class="flex justify-between background-hover">
     <div class="pr-2 w-full no-wrap is-clipped ellipsis">
-      <div class="is-flex">
+      <div class="flex">
         <nuxt-link
           :to="`/${urlPrefix}/gallery/${nft.id}`"
           @click="emit('click-item')">
@@ -13,14 +11,14 @@
             class="border image is-48x48" />
         </nuxt-link>
         <div
-          class="is-flex is-flex-direction-column is-justify-content-space-between ml-4 min-width w-full line-height-1">
+          class="flex flex-col justify-between ml-4 min-width w-full line-height-1">
           <nuxt-link
             :to="`/${urlPrefix}/gallery/${nft.id}`"
             class="has-text-weight-bold has-text-color no-wrap is-clipped ellipsis"
             @click="emit('click-item')">
             {{ nft.name }}
           </nuxt-link>
-          <div class="is-flex is-justify-content-space-between w-full">
+          <div class="flex justify-between w-full">
             <div class="no-wrap is-clipped ellipsis">
               {{ nft.collection?.name || nft.collection.id }}
             </div>
@@ -32,9 +30,7 @@
         </div>
       </div>
     </div>
-    <div
-      v-if="isHovered"
-      class="is-flex is-justify-content-end is-align-self-center h-full ml-2">
+    <div v-if="isHovered" class="flex justify-end self-center h-full ml-2">
       <NeoButton
         variant="text"
         class="inherit-background-color"
@@ -89,9 +85,6 @@ onMounted(() => {
   min-width: 0;
 }
 
-.limit-width {
-  max-width: 130px;
-}
 .ellipsis {
   text-overflow: ellipsis;
 }

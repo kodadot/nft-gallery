@@ -1,29 +1,33 @@
 <template>
   <div>
-    <div v-if="displayedHolders.length">
+    <div
+      v-if="displayedHolders.length"
+      data-testid="collection-holders-container">
       <div
         v-for="[holderId, holdings] in displayedHolders"
         :key="holderId"
-        class="">
-        <div class="is-flex is-flex-direction-column gap">
+        class=""
+        data-testid="collection-nft-holder">
+        <div class="flex flex-col gap">
           <div class="px-5">
             <ProfileLink
               :address="holderId"
               :avatar-size="35"
+              data-testid="collection-nft-holder-address"
               class="has-text-weight-bold" />
-            <div class="is-flex is-justify-content-space-between mt-2">
+            <div class="flex justify-between mt-2">
               <span class="is-size-7 has-text-grey">{{
                 $t('activity.owned')
               }}</span>
               <span>{{ holdings.nftCount }}</span>
             </div>
-            <div class="is-flex is-justify-content-space-between">
+            <div class="flex justify-between">
               <span class="is-size-7 has-text-grey">{{
                 $t('activity.totalBought')
               }}</span>
               <CommonTokenMoney :value="holdings.totalBought" />
             </div>
-            <div class="is-flex is-justify-content-space-between">
+            <div class="flex justify-between">
               <span class="is-size-7 has-text-grey">{{
                 $t('activity.totalSold')
               }}</span>
@@ -32,7 +36,7 @@
                 :value="holdings.totalSold" />
               <span v-else>--</span>
             </div>
-            <div class="is-flex is-justify-content-space-between">
+            <div class="flex justify-between">
               <span class="is-size-7 has-text-grey">{{
                 $t('activity.date')
               }}</span>
@@ -41,6 +45,7 @@
             <div>
               <div
                 class="is-size-7 has-text-k-blue is-clickable"
+                data-testid="collection-holder-nft-details"
                 @click="toggleNFTDetails(holderId)">
                 {{ $t('activity.nftDetails') }}
                 <NeoIcon
@@ -63,9 +68,7 @@
       </div>
       <div ref="target" />
     </div>
-    <div
-      v-else
-      class="is-flex is-justify-content-center is-align-items-center pt-6 px-6">
+    <div v-else class="flex justify-center items-center pt-6 px-6">
       <div class="has-text-grey has-text-centered">
         {{ $t('activity.noHolders') }}
       </div>
