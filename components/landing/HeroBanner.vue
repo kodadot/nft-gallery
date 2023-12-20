@@ -1,9 +1,24 @@
 <template>
-  <section class="is-relative landing-search flex items-center">
+  <section
+    :class="[
+      'is-relative landing-search flex items-center',
+      isMobile ? 'mt-6' : 'my-8',
+    ]">
     <img
+      v-if="isMobile"
       class="landing-image"
       src="/landing-mobile-shape.svg"
       alt="landing page background" />
+    <template v-else>
+      <img
+        src="/landing-blurred-header-left.webp"
+        class="landing-search-left"
+        width="740"
+        height="1000"
+        alt="" />
+      <img :src="landingImage[0]" class="landing-shapes" alt="" />
+    </template>
+
     <div class="flex flex-col items-center search-info">
       <h1 class="flex flex-col items-center">
         <span class="title is-size-3 has-text-weight-bold">
@@ -37,14 +52,37 @@
           >
         </nuxt-link>
       </div>
-      <CollectionUnlockableLandingMobileBanner />
+      <CollectionUnlockableLandingMobileBanner v-if="isMobile" />
+      <CollectionUnlockableLandingTag v-else />
     </div>
+
+    <template v-if="!isMobile">
+      <img
+        src="/landing-blurred-header-right.webp"
+        class="landing-search-right"
+        width="740"
+        height="1000"
+        alt="" />
+      <img :src="landingImage[1]" class="landing-shapes" alt="" />
+    </template>
   </section>
 </template>
 
 <script lang="ts" setup>
+const { width } = useWindowSize()
+const isMobile = computed(() => width.value <= 480)
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { availableChainsWithIcon } = useChain()
+const { isDarkMode } = useTheme()
+
+const landingImage = computed(() => {
+  const lightOrDark = isDarkMode.value ? 'dark' : 'light'
+
+  return [
+    `/landing-shape-header-left-${lightOrDark}.svg`,
+    `/landing-shape-header-right-${lightOrDark}.svg`,
+  ]
+})
 
 const chains = computed(() => {
   if (isProduction) {
