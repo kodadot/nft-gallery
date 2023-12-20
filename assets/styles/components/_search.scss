@@ -300,11 +300,18 @@
   }
 }
 
+
 @media screen and (max-width: 1123px) {
   .landing-search {
     justify-content: space-evenly;
   }
   .landing-shapes {
     display: none;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .landing-search {
+    justify-content: center;
   }
 }
