@@ -1,9 +1,8 @@
 <template>
   <CarouselIndex
-    :key="ids"
     data-testid="generative-activity"
     :title="$t('general.generativeActivity')"
-    :nfts="nfts"
+    :nfts="nfts.value"
     action-type="pagination" />
 </template>
 
@@ -11,7 +10,7 @@
 import { AHK_GENERATIVE_DROPS, AHP_GENERATIVE_DROPS } from '@/utils/drop'
 import { useCarouselGenerativeNftEvents } from './utils/useCarouselEvents'
 
-const { nfts, ids } = await useCarouselGenerativeNftEvents(
+const nfts = useCarouselGenerativeNftEvents(
   AHK_GENERATIVE_DROPS,
   AHP_GENERATIVE_DROPS,
 )
