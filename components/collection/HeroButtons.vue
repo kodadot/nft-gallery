@@ -138,7 +138,6 @@ const QRModalActive = ref(false)
 @import '@/assets/styles/abstracts/variables';
 @include mobile {
   .hero-buttons {
-    flex: 1;
     margin-top: 0;
     margin-bottom: 1.5rem;
   }
