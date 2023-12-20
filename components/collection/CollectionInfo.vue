@@ -2,7 +2,7 @@
   <div class="md:flex justify-between content-center">
     <div class="max-w-screen-sm">
       <CollectionHeroButtons class="is-hidden-tablet" />
-      <div v-if="address" class="flex mb-2">
+      <div v-if="address" class="flex mb-4">
         <div
           class="rounded-full w-full md:w-auto border border-k-shade flex justify-start px-3">
           <IdentityItem
@@ -14,18 +14,30 @@
         </div>
       </div>
 
-      <div class="mb-2">
+      <div class="mb-4">
         <span v-if="recipient" class="inline">
           <span class="capitalize text-neutral-7">{{ $t('royalty') }}</span>
           &nbsp;{{ royalty }}%
           <NeoTooltip
             multiline
             position="bottom"
-            class="text-neutral-7"
-            :label="`Recipient Address: ${shortAddress(recipient, 6, -6)}`">
+            :auto-close="['outside', 'inside']"
+            class="text-neutral-7">
             <NeoIcon class="icon" icon="info-circle" />
+
+            <template #content>
+              Recipient Address:
+              <nuxt-link
+                :to="`/${urlPrefix}/u/${recipient}`"
+                class="has-text-link">
+                <IdentityIndex
+                  ref="identity"
+                  :address="recipient"
+                  show-clipboard />
+              </nuxt-link>
+            </template>
           </NeoTooltip>
-          <span class="text-neutral-5 mx-1">•</span>&nbsp;
+          <span class="text-neutral-5 mx-1">•</span>
         </span>
         <span>
           <span class="capitalize text-neutral-7">{{ $t('created') }}</span
@@ -33,8 +45,9 @@
           <span class="text-neutral-5 mx-1">•</span>&nbsp;
         </span>
         <span>
-          <span class="capitalize text-neutral-7">
-            {{ $t('activity.network') }} </span
+          <span class="capitalize text-neutral-7">{{
+            $t('activity.network')
+          }}</span
           >&nbsp;{{ chain }}
         </span>
       </div>
