@@ -39,7 +39,7 @@ export function useDrops() {
       watchEffect(async () => {
         if (collectionData.value?.collectionEntity) {
           const { collectionEntity } = collectionData.value
-          const chainMax = collectionEntity?.max ?? DEFAULT_COLLECTION_MAX
+          const chainMax = collectionEntity?.max ?? FALLBACK_DROP_COLLECTION_MAX
           const { count } = await getDropStatus(drop.alias)
           drops.value.push({
             ...drop,

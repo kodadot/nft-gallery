@@ -29,7 +29,7 @@ const exclusiveDrop = await useDrop(
 )
 
 const hasAvailable = computed(() => {
-  const chainMax = exclusiveDrop?.max ?? DEFAULT_COLLECTION_MAX
+  const chainMax = exclusiveDrop?.max ?? FALLBACK_DROP_COLLECTION_MAX
   return Math.min(exclusiveDrop?.minted || 0, chainMax) < chainMax
 })
 
