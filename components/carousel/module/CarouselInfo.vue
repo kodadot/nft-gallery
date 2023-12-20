@@ -10,8 +10,8 @@
       <span class="is-ellipsis">{{ item.name || '--' }}</span>
       <span v-if="isCollection" class="carousel-info-arrow">----></span>
     </nuxt-link>
-    <div class="min-h-[1.5rem]">
-      <CollectionDetailsPopover v-if="item?.collectionId" :nft="item">
+    <div v-if="item?.collectionId" class="min-h-[1.5rem]">
+      <CollectionDetailsPopover :nft="item">
         <template #content>
           <nuxt-link
             v-if="!isCollection && item.collectionId"
