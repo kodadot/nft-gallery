@@ -1485,7 +1485,8 @@
     "emailNotConfirmed": "Email not confirmed. Please confirm your email address and check again",
     "noEmail": "No email?",
     "checkSpamFolder": "Or check your Spam folder.",
-    "wrongEmail": "Wrong email?"
+    "wrongEmail": "Wrong email?",
+    "confirmYourSubscription": "Confirm Your Subscription"
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",

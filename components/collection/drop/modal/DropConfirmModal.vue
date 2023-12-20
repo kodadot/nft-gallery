@@ -116,6 +116,10 @@ const title = computed(() => {
     return $i18n.t('drops.claimingDrop')
   }
 
+  if (isEmailConfirmStep.value) {
+    return $i18n.t('drops.confirmYourSubscription')
+  }
+
   return $i18n.t('success')
 })
 
@@ -158,7 +162,9 @@ watch([sanitizedMintedNft, retry], async ([mintedNft]) => {
 
 watchEffect(() => {
   const claiming = props.claiming
-  if (email.value && isEmailSignupStep.value) {
+  if (props.emailConfirmed && !email.value && isEmailSignupStep.value) {
+    modalStep.value = ModalStep.CLAIMING
+  } else if (email.value && isEmailSignupStep.value) {
     modalStep.value = ModalStep.CONFIRM_EMAIL
   } else if (claiming && isEmailConfirmStep.value) {
     modalStep.value = ModalStep.CLAIMING

@@ -182,7 +182,6 @@ const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isConfirmModalActive = ref(false)
 const checkingSubscription = ref(false)
-const subscriptionEmail = ref()
 const emailConfirmed = ref<boolean | undefined>()
 const isAddFundModalActive = ref(false)
 const mintedNft = ref<DropMintedNft>()
@@ -340,7 +339,7 @@ const submitMint = async () => {
         address: accountId.value,
         metadata: hash,
         image: imageHash,
-        email: subscriptionEmail.value,
+        email: preferencesStore.getNewsletterSubscription.email,
       },
       props.drop.id,
     )
@@ -381,7 +380,11 @@ const checkSubscription = async (email: string) => {
     emailConfirmed.value = response.status === 'active'
 
     if (emailConfirmed.value) {
-      subscriptionEmail.value = response.email
+      preferencesStore.setNewsletterSubscription({
+        subscribed: true,
+        confirmed: true,
+        email: response.email,
+      })
     }
   } catch (error) {
   } finally {
@@ -433,6 +436,12 @@ const handleDropAddModalConfirm = () => {
 watch([isConfirmModalActive, emailConfirmed], ([modalActive, confirmed]) => {
   if (modalActive && confirmed) {
     startMinting()
+  }
+})
+
+onMounted(() => {
+  if (preferencesStore.getNewsletterSubscription.confirmed) {
+    emailConfirmed.value = true
   }
 })
 

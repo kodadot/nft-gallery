@@ -27,6 +27,12 @@ const defaultGridConfigs: GridConfig[] = [
   },
 ]
 
+type NewsletterSubscription = {
+  subscribed: boolean
+  confirmed: boolean
+  email?: string
+}
+
 interface State {
   sidebarFilterCollapseOpen: boolean
   mobileFilterCollapseOpen: boolean
@@ -60,6 +66,7 @@ interface State {
   // Mass Mint
   visitedOnboarding: boolean
   userLocale: string
+  newsletterSubscription: NewsletterSubscription
 }
 
 export const usePreferencesStore = defineStore('preferences', {
@@ -96,6 +103,11 @@ export const usePreferencesStore = defineStore('preferences', {
     firstTimeAutoTeleport: true,
     subscribedToNewsletter: false,
     userLocale: 'en',
+    newsletterSubscription: {
+      subscribed: false,
+      confirmed: false,
+      email: undefined,
+    },
   }),
   getters: {
     getsidebarFilterCollapse: (state) => state.sidebarFilterCollapseOpen,
@@ -124,6 +136,7 @@ export const usePreferencesStore = defineStore('preferences', {
     getFirstTimeAutoTeleport: (state) => state.firstTimeAutoTeleport,
     getSubscribedToNewsletter: (state) => state.subscribedToNewsletter,
     getUserLocale: (state) => state.userLocale,
+    getNewsletterSubscription: (state) => state.newsletterSubscription,
   },
   actions: {
     setSidebarFilterCollapse(payload) {
@@ -226,6 +239,9 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     setUserLocale(locale: string) {
       this.userLocale = locale
+    },
+    setNewsletterSubscription(subscription: NewsletterSubscription) {
+      this.newsletterSubscription = subscription
     },
   },
   persist: true,
