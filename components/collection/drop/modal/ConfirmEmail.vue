@@ -9,7 +9,7 @@
   </p>
 
   <div>
-    <img src="/email-subscription.svg" />
+    <img :src="emailSubscriptionImage" />
   </div>
 
   <hr class="m-0 mb-2 mt-5" />
@@ -63,7 +63,11 @@ const props = defineProps<{
 }>()
 
 const { $i18n } = useNuxtApp()
+const { isDarkMode } = useTheme()
 
+const emailSubscriptionImage = computed(() =>
+  isDarkMode.value ? '/email-subscription-dark.svg' : '/email-subscription.svg',
+)
 const disabled = computed(() => props.checking || props.resending)
 const emailNotConfirmed = computed(() => props.emailConfirmed === false)
 
