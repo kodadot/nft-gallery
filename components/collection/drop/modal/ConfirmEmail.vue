@@ -17,7 +17,9 @@
   <div class="capitalize is-size-7 has-text-k-grey">
     <p>
       {{ $t('drops.noEmail') }}
-      <a class="has-text-k-blue">{{ $t('general.resend') }}</a>
+      <a class="has-text-k-blue" @click="$emit('resend')">{{
+        $t('general.resend')
+      }}</a>
       {{ $t('drops.checkSpamFolder') }}
     </p>
 
@@ -33,7 +35,7 @@
     <NeoButton
       class="flex flex-1 h-14 capitalize shine"
       :disabled="disabled"
-      :loading="checking"
+      :loading="disabled"
       loading-with-label
       no-shadow
       variant="k-accent"
@@ -52,21 +54,26 @@
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import { NeoButton } from '@kodadot1/brick'
 
-const emit = defineEmits(['check', 'change'])
+const emit = defineEmits(['check', 'change', 'resend'])
 const props = defineProps<{
   email: string
   emailConfirmed?: boolean
   checking: boolean
+  resending: boolean
 }>()
 
 const { $i18n } = useNuxtApp()
 
-const disabled = computed(() => props.checking)
+const disabled = computed(() => props.checking || props.resending)
 const emailNotConfirmed = computed(() => props.emailConfirmed === false)
 
 const submitButtonText = computed(() => {
   if (props.checking) {
     return $i18n.t('general.checking')
+  }
+
+  if (props.resending) {
+    return $i18n.t('general.resending')
   }
 
   if (emailNotConfirmed.value) {

@@ -101,11 +101,13 @@
     :email-confirmed="emailConfirmed"
     :subscription-email="preferencesStore.getNewsletterSubscription.email"
     :checking-subscription="checkingSubscription"
+    :resending-confirmation-email="resendingConfirmationEmail"
     :minting-seconds="MINTING_SECOND"
     :minted-nft="mintedNft"
     :can-list-nft="canListMintedNft"
     @subscribe="handleEmailSubscription"
     @check-subscription="checkSubscription"
+    @resend-confirmation-email="handleResendConfirmationEmail"
     @close="closeConfirmModal"
     @list="handleList" />
 
@@ -183,6 +185,7 @@ const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isConfirmModalActive = ref(false)
 const checkingSubscription = ref(false)
+const resendingConfirmationEmail = ref(false)
 const emailConfirmed = ref<boolean | undefined>()
 const isAddFundModalActive = ref(false)
 const mintedNft = ref<DropMintedNft>()
@@ -373,6 +376,19 @@ const handleEmailSubscription = async (email: string) => {
   await subscribe(email)
 }
 
+const handleResendConfirmationEmail = async (email: string) => {
+  try {
+    emailConfirmed.value = undefined
+    resendingConfirmationEmail.value = true
+    await resendConfirmationEmail(email)
+    toast($i18n.t('drops.emailConfirmationSent'))
+  } catch (error) {
+    toast($i18n.t('drops.failedEmailConfirmation'))
+  } finally {
+    resendingConfirmationEmail.value = false
+  }
+}
+
 const checkSubscription = async (email: string) => {
   try {
     checkingSubscription.value = true
@@ -388,6 +404,7 @@ const checkSubscription = async (email: string) => {
       })
     }
   } catch (error) {
+    toast($i18n.t('drops.failedEamilConfirmation'))
   } finally {
     checkingSubscription.value = false
   }

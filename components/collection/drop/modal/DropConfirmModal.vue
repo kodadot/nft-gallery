@@ -16,7 +16,9 @@
         :email="email"
         :email-confirmed="emailConfirmed"
         :checking="checkingSubscription"
+        :resending="resendingConfirmationEmail"
         @change="handleEmailChange"
+        @resend="handleConfirmationEmailResend"
         @check="handleEmailSubscriptionCheck" />
 
       <ClaimingDrop v-else-if="isClaimingDropStep" :est="displayDuration" />
@@ -56,6 +58,7 @@ const emit = defineEmits([
   'list',
   'subscribe',
   'check-subscription',
+  'resend-confirmation-email',
 ])
 const props = defineProps<{
   modelValue: boolean
@@ -65,6 +68,7 @@ const props = defineProps<{
   mintedNft?: DropMintedNft
   canListNft: boolean
   checkingSubscription: boolean
+  resendingConfirmationEmail: boolean
   emailConfirmed?: boolean
 }>()
 
@@ -138,6 +142,10 @@ const handleEmailChange = () => {
 const handleEmailSignupConfirm = (value: string) => {
   email.value = value
   emit('subscribe', value)
+}
+
+const handleConfirmationEmailResend = () => {
+  emit('resend-confirmation-email', email.value)
 }
 
 const handleEmailSubscriptionCheck = () => {

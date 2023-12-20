@@ -43,4 +43,15 @@ export async function getSubscription(email: string) {
   }
 }
 
+export async function resendConfirmationEmail(email: string) {
+  try {
+    return api('/subscribe/resend-confirmation', {
+      method: 'PUT',
+      body: { email },
+    })
+  } catch (e) {
+    throw new Error('[NEWSLETTER] Unable to resend confirmation email' + e)
+  }
+}
+
 export default { subscribe, getSubscription }

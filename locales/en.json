@@ -952,6 +952,7 @@
   "tutorial": "Tutorial",
   "general": {
     "checking": "Checking",
+    "resending": "Resending",
     "checkAgain": "Check again",
     "resend": "Resend",
     "changeIt": "Change it",
@@ -1486,7 +1487,10 @@
     "noEmail": "No email?",
     "checkSpamFolder": "Or check your Spam folder.",
     "wrongEmail": "Wrong email?",
-    "confirmYourSubscription": "Confirm Your Subscription"
+    "confirmYourSubscription": "Confirm Your Subscription",
+    "emailConfirmationSent": "Email confirmation sent",
+    "failedEmailConfirmation": "Failed sending email confirmation",
+    "failedCheckingSubscription": "Failed checking subscription"
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
