@@ -1,5 +1,5 @@
 <template>
-  <div class="md:flex justify-between content-center">
+  <div class="md:flex justify-between">
     <div class="max-w-screen-sm">
       <CollectionHeroButtons class="is-hidden-tablet" />
       <div v-if="address" class="flex mb-4">
@@ -37,12 +37,12 @@
               </nuxt-link>
             </template>
           </NeoTooltip>
-          <span class="text-neutral-5 mx-1">•</span>
+          <span class="text-neutral-5 mx-2">•</span>
         </span>
         <span>
           <span class="capitalize text-neutral-7">{{ $t('created') }}</span
           >&nbsp;{{ new Date(createdAt).toLocaleDateString() }}
-          <span class="text-neutral-5 mx-1">•</span>&nbsp;
+          <span class="text-neutral-5 mx-2">•</span>
         </span>
         <span>
           <span class="capitalize text-neutral-7">{{
