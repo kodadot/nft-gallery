@@ -25,7 +25,7 @@
           v-for="token in filterEmptyBalanceChains(data.chain)"
           :key="token.name"
           class="balance-row">
-          <div class="is-capitalized flex-grow-[3]">
+          <div class="capitalize flex-grow-[3]">
             {{ data.key }}
           </div>
           <div class="has-text-right flex-grow">

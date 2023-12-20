@@ -12,7 +12,7 @@
         class="title is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered flex flex-wrap justify-center items-center mb-0">
         {{ $t('search.landingTitle1') }}
         <span
-          class="subtitle is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered is-capitalized ml-4">
+          class="subtitle is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered capitalize ml-4">
           {{ $t('search.landingTitle2') }}
         </span>
       </h1>
@@ -20,10 +20,6 @@
         class="title is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered">
         {{ $t('search.landingTitle3') }}
       </h1>
-      <Search
-        hide-filter
-        class="landing-search-bar"
-        search-column-class="flex-grow" />
       <div
         id="networkList"
         class="flex justify-center flex-wrap items-baseline mt-4">
@@ -54,7 +50,6 @@
 
 <script lang="ts" setup>
 import UnlockableLandingTag from '@/components/collection/unlockable/UnlockableLandingTag.vue'
-import Search from '@/components/search/Search.vue'
 
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { isDarkMode } = useTheme()

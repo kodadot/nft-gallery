@@ -11,11 +11,11 @@
               :alt="wallet.extensionName"
               width="32"
               style="vertical-align: middle" />
-            <span class="is-size-6 ml-2 is-capitalized">{{ wallet.name }}</span>
+            <span class="is-size-6 ml-2 capitalize">{{ wallet.name }}</span>
 
             <NeoTag
               v-if="isRecent(wallet)"
-              class="is-capitalized ml-2"
+              class="capitalize ml-2"
               variant="transparent"
               size="small">
               {{ $t('recent') }}

@@ -3,7 +3,7 @@
     <div class="events py-5 px-6 flex flex-col">
       <div class="events-filter flex flex-wrap" data-testid="events-filter">
         <a
-          class="is-capitalized flex items-center"
+          class="capitalize flex items-center"
           data-testid="gallery-item-activity-filter-all"
           @click="checkAll">
           {{ $t('tabs.tabActivity.all') }}
@@ -12,7 +12,7 @@
         <label
           v-for="(value, name) in filters"
           :key="name"
-          class="is-clickable is-capitalized events-checkbox-container"
+          class="is-clickable capitalize events-checkbox-container"
           :data-testid="name"
           :class="cssActive(value)">
           <input

@@ -25,7 +25,7 @@
       </div>
 
       <div class="flex justify-between items-center py-4 border-top-k-shade">
-        <span class="has-text-weight-bold is-size-6 is-capitalized">{{
+        <span class="has-text-weight-bold is-size-6 capitalize">{{
           $t('general.from')
         }}</span>
         <span class="flex items-center">

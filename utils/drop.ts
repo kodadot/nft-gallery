@@ -1,4 +1,8 @@
-export const DEFAULT_DROP = '/ahp/drops/chroma'
+export const DEFAULT_DROP = {
+  alias: 'chroma',
+  id: '51',
+  chain: 'ahp',
+}
 
 export const AHK_GENERATIVE_DROPS = [
   '176', // Chained

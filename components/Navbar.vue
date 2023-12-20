@@ -19,7 +19,7 @@
           @click="closeBurgerMenu">
           <NeoButton
             v-if="isMobileNavbarOpen || showSearchOnNavbar || isTinyMobile"
-            class="mobile-nav-search-btn mr-2"
+            class="square-40 mr-2"
             icon="magnifying-glass"
             @click="showMobileSearchBar" />
 
@@ -32,7 +32,7 @@
                 class="flex-grow" />
               <NeoButton
                 variant="text"
-                class="p-3 is-shadowless no-border is-capitalized is-clickable"
+                class="p-3 is-shadowless no-border capitalize is-clickable"
                 @click="hideMobileSearchBar">
                 {{ $t('cancel') }}
               </NeoButton>
@@ -360,6 +360,11 @@ useEventListener(window, 'resize', handleResize)
 </script>
 
 <style lang="scss" scoped>
+.square-40 {
+  width: 40px;
+  height: 40px;
+}
+
 :deep(.navbar-explore) {
   .navbar-item {
     height: 4.5rem;
