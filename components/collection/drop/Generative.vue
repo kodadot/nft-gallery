@@ -99,6 +99,7 @@
     v-model="isConfirmModalActive"
     :claiming="isLoading"
     :email-confirmed="emailConfirmed"
+    :subscription-email="preferencesStore.getNewsletterSubscription.email"
     :checking-subscription="checkingSubscription"
     :minting-seconds="MINTING_SECOND"
     :minted-nft="mintedNft"

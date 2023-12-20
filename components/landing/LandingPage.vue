@@ -65,7 +65,7 @@ const preferencesStore = usePreferencesStore()
 const { width } = useWindowSize()
 
 const showSignupBanner = computed(
-  () => !preferencesStore.getSubscribedToNewsletter,
+  () => !preferencesStore.getNewsletterSubscription.subscribed,
 )
 // currently only supported on rmrk
 const showCarousel = computed(

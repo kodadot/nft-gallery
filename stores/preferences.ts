@@ -59,7 +59,6 @@ interface State {
   enableAllArtwork: boolean
   enableGyroEffect: boolean
   firstTimeAutoTeleport: boolean
-  subscribedToNewsletter: boolean
   // Minting
   hasSupport: boolean
   hasCarbonOffset: boolean
@@ -101,7 +100,6 @@ export const usePreferencesStore = defineStore('preferences', {
     gridSize: 'small',
     visitedOnboarding: false,
     firstTimeAutoTeleport: true,
-    subscribedToNewsletter: false,
     userLocale: 'en',
     newsletterSubscription: {
       subscribed: false,
@@ -134,7 +132,6 @@ export const usePreferencesStore = defineStore('preferences', {
     getEnableGyroEffect: (state) => state.enableGyroEffect,
     getVisitedOnboarding: (state) => state.visitedOnboarding,
     getFirstTimeAutoTeleport: (state) => state.firstTimeAutoTeleport,
-    getSubscribedToNewsletter: (state) => state.subscribedToNewsletter,
     getUserLocale: (state) => state.userLocale,
     getNewsletterSubscription: (state) => state.newsletterSubscription,
   },
@@ -233,9 +230,6 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     setFirstTimeAutoTeleport(firstTime: boolean) {
       this.firstTimeAutoTeleport = firstTime
-    },
-    setSubscribedToNewsletter(subscribed: boolean) {
-      this.subscribedToNewsletter = subscribed
     },
     setUserLocale(locale: string) {
       this.userLocale = locale

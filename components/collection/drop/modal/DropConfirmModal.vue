@@ -60,6 +60,7 @@ const emit = defineEmits([
 const props = defineProps<{
   modelValue: boolean
   claiming: boolean
+  subscriptionEmail?: string
   mintingSeconds: number
   mintedNft?: DropMintedNft
   canListNft: boolean
@@ -77,6 +78,7 @@ const isModalActive = useVModel(props, 'modelValue')
 
 const modalStep = ref<ModalStep>(ModalStep.EMAIL)
 const email = ref<string>()
+const changeEmail = ref(false)
 const nftCoverLoaded = ref(false)
 const retry = ref(3)
 
@@ -130,6 +132,7 @@ const onClose = () => {
 const handleEmailChange = () => {
   email.value = undefined
   modalStep.value = ModalStep.EMAIL
+  changeEmail.value = true
 }
 
 const handleEmailSignupConfirm = (value: string) => {
@@ -162,8 +165,15 @@ watch([sanitizedMintedNft, retry], async ([mintedNft]) => {
 
 watchEffect(() => {
   const claiming = props.claiming
-  if (props.emailConfirmed && !email.value && isEmailSignupStep.value) {
+  const alreadyConfirmed = props.emailConfirmed && !email.value
+  const alreadySubscribed =
+    props.subscriptionEmail && !email.value && !changeEmail.value
+
+  if (alreadyConfirmed && isEmailSignupStep.value) {
     modalStep.value = ModalStep.CLAIMING
+  } else if (alreadySubscribed && isEmailSignupStep.value) {
+    email.value = props.subscriptionEmail
+    modalStep.value = ModalStep.CONFIRM_EMAIL
   } else if (email.value && isEmailSignupStep.value) {
     modalStep.value = ModalStep.CONFIRM_EMAIL
   } else if (claiming && isEmailConfirmStep.value) {
