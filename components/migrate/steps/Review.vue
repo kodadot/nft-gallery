@@ -91,7 +91,7 @@
 
         <div v-show="toggleFee">
           <!-- paid on source chain -->
-          <p v-if="source?.value" class="mb-2 is-capitalized">
+          <p v-if="source?.value" class="mb-2 capitalize">
             <strong>Paid On {{ prefixToNetwork[source.value] }}</strong>
           </p>
           <div class="flex justify-between mb-5">
@@ -103,7 +103,7 @@
           </div>
 
           <!-- paid on destination chain -->
-          <p v-if="destination?.value" class="mb-2 is-capitalized">
+          <p v-if="destination?.value" class="mb-2 capitalize">
             <strong>Paid On {{ prefixToNetwork[destination.value] }}</strong>
           </p>
           <div class="flex justify-between mt-1">
@@ -190,7 +190,7 @@
 
     <p class="mb-1">{{ $t('mint.estimated') }}</p>
     <div class="mb-1 flex justify-between">
-      <div v-if="source?.value" class="has-text-k-grey is-capitalized">
+      <div v-if="source?.value" class="has-text-k-grey capitalize">
         On {{ prefixToNetwork[source.value] }}
       </div>
       <div
@@ -202,7 +202,7 @@
       <div v-else><NeoSkeleton width="100" size="small" /></div>
     </div>
     <div class="pb-7 flex justify-between">
-      <div v-if="destination?.value" class="has-text-k-grey is-capitalized">
+      <div v-if="destination?.value" class="has-text-k-grey capitalize">
         On {{ prefixToNetwork[destination.value] }}
       </div>
       <div
@@ -224,7 +224,7 @@
       :label="checkBalances.label"
       variant="k-accent"
       :disabled="checkBalances.disabled"
-      class="mt-4 h-14 is-capitalized"
+      class="mt-4 h-14 capitalize"
       expanded
       @click="toSign()" />
   </div>

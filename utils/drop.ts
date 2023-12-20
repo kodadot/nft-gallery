@@ -1,4 +1,8 @@
-export const DEFAULT_DROP = '/ahp/drops/chroma'
+export const DEFAULT_DROP = {
+  alias: 'chroma',
+  id: '51',
+  chain: 'ahp',
+}
 
 export const HOLDER_OF_DROP_MAP = {
   '50': '51',

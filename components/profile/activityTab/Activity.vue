@@ -17,7 +17,7 @@
               :key="param"
               :label="param"
               data-testid="profile-activity-button-filter"
-              class="is-capitalized"
+              class="capitalize"
               :url-param="param" />
           </div>
           <div v-if="desktop">

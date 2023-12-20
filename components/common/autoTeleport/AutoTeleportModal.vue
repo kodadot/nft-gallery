@@ -24,7 +24,7 @@
       <div class="px-6 pt-4 pb-5 limit-height">
         <ModalIdentityItem />
 
-        <p class="py-2 is-capitalized">
+        <p class="py-2 capitalize">
           <strong>
             {{ $t('bridging') }} {{ transition.amountFormatted }}
           </strong>
@@ -44,10 +44,10 @@
           <NeoIcon icon="lightbulb" size="small" class="mr-2 is-block" />
           <p
             v-dompurify-html="$t('autoTeleport.tip')"
-            class="is-size-7 is-capitalized" />
+            class="is-size-7 capitalize" />
         </div>
 
-        <p class="is-capitalized is-size-6 mt-4 mb-5">
+        <p class="capitalize is-size-6 mt-4 mb-5">
           {{ $t('autoTeleport.followSteps') }}:
         </p>
 

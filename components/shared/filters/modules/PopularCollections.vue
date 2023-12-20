@@ -44,7 +44,7 @@
               </NeoTooltip>
               <div class="flex justify-between is-size-7 has-text-grey">
                 <div>{{ $t('search.owners') }}: {{ collection.owners }}</div>
-                <div class="is-capitalized">{{ collection.chain }}</div>
+                <div class="capitalize">{{ collection.chain }}</div>
               </div>
             </div>
           </div>

@@ -1,21 +1,54 @@
 <template>
-  <section class="is-relative landing-search flex items-center">
+  <section
+    :class="[
+      'is-relative landing-search flex items-center',
+      isMobile ? 'mt-6' : 'my-8',
+    ]">
     <img
+      v-if="isMobile"
       class="landing-image"
       src="/landing-mobile-shape.svg"
       alt="landing page background" />
+    <template v-else>
+      <img
+        src="/landing-blurred-header-left.webp"
+        class="landing-search-left"
+        width="740"
+        height="1000"
+        alt="landing-left-bg" />
+      <img
+        :src="landingImage[0]"
+        class="landing-shapes"
+        alt="landing-left-image" />
+    </template>
+
     <div class="flex flex-col items-center search-info">
-      <h1 class="flex flex-col items-center">
+      <h1 v-if="isMobile" class="flex flex-col items-center">
         <span class="title is-size-3 has-text-weight-bold">
           {{ $t('search.landingTitle1') }}
         </span>
-        <span class="subtitle is-size-3 has-text-weight-bold is-capitalized">
+        <span class="subtitle is-size-3 has-text-weight-bold capitalize">
           {{ $t('search.landingTitle2') }}
         </span>
         <span class="title is-size-3 has-text-weight-bold">
           {{ $t('search.landingTitle3') }}
         </span>
       </h1>
+      <template v-else>
+        <h1
+          class="title is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered flex is-flex-direction-column flex-wrap justify-center items-center mb-0">
+          <div>
+            {{ $t('search.landingTitle1') }}
+            <span
+              class="subtitle is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered capitalize ml-4">
+              {{ $t('search.landingTitle2') }}
+            </span>
+          </div>
+          <div>
+            {{ $t('search.landingTitle3') }}
+          </div>
+        </h1>
+      </template>
 
       <div class="with-divider chain-options-title is-size-6 mt-6">
         {{ $t('landing.startExploring') }}
@@ -37,14 +70,40 @@
           >
         </nuxt-link>
       </div>
-      <CollectionUnlockableLandingMobileBanner />
+      <CollectionUnlockableLandingMobileBanner v-if="isMobile" />
+      <CollectionUnlockableLandingTag v-else />
     </div>
+
+    <template v-if="!isMobile">
+      <img
+        src="/landing-blurred-header-right.webp"
+        class="landing-search-right"
+        width="740"
+        height="1000"
+        alt="landing-right-bg" />
+      <img
+        :src="landingImage[1]"
+        class="landing-shapes"
+        alt="landing-right-image" />
+    </template>
   </section>
 </template>
 
 <script lang="ts" setup>
+const { width } = useWindowSize()
+const isMobile = computed(() => width.value <= 480)
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { availableChainsWithIcon } = useChain()
+const { isDarkMode } = useTheme()
+
+const landingImage = computed(() => {
+  const lightOrDark = isDarkMode.value ? 'dark' : 'light'
+
+  return [
+    `/landing-shape-header-left-${lightOrDark}.svg`,
+    `/landing-shape-header-right-${lightOrDark}.svg`,
+  ]
+})
 
 const chains = computed(() => {
   if (isProduction) {

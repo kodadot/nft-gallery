@@ -18,8 +18,8 @@
           class="is-hidden-desktop flex flex-grow items-center justify-end"
           @click="closeBurgerMenu">
           <NeoButton
-            v-if="isMobileNavbarOpen || showSearchOnNavbar || isTinyMobile"
-            class="mobile-nav-search-btn mr-2"
+            v-if="isMobileNavbarOpen || isTinyMobile"
+            class="square-40 mr-2"
             icon="magnifying-glass"
             @click="showMobileSearchBar" />
 
@@ -32,7 +32,7 @@
                 class="flex-grow" />
               <NeoButton
                 variant="text"
-                class="p-3 is-shadowless no-border is-capitalized is-clickable"
+                class="p-3 is-shadowless no-border capitalize is-clickable"
                 @click="hideMobileSearchBar">
                 {{ $t('cancel') }}
               </NeoButton>
@@ -64,9 +64,7 @@
         :class="{ 'is-active': isMobileNavbarOpen }">
         <!-- NAV START -->
         <div class="navbar-start">
-          <div
-            v-if="showSearchOnNavbar"
-            class="navbar-item is-expanded flex justify-center">
+          <div class="navbar-item is-expanded flex justify-center">
             <Search
               v-if="!isMobile"
               class="search-navbar flex-grow pb-0 is-hidden-touch"
@@ -222,9 +220,7 @@ import { createVisible } from '@/utils/config/permission.config'
 import ShoppingCartButton from './navbar/ShoppingCartButton.vue'
 
 const { neoModal } = useProgrammatic()
-const showTopNavbar = ref(true)
 const openMobileSearchBar = ref(false)
-const fixedTitleNavAppearDistance = ref(85)
 const lastScrollPosition = ref(0)
 const isBurgerMenuOpened = ref(false)
 const { width } = useWindowSize()
@@ -239,25 +235,15 @@ const updateAuthBalanceTimer = ref()
 
 const mobilSearchRef = ref<{ focusInput: () => void } | null>(null)
 
-const route = useRoute()
-
 const account = computed(() => identityStore.getAuthAddress)
 
 const isCreateVisible = computed(() => createVisible(urlPrefix.value))
-const isLandingPage = computed(
-  () => route.name === 'index' || route.name === 'prefix',
-)
 
 const logoSrc = computed(() => {
   const variant = isMobile.value ? 'Koda' : 'Koda_Beta'
   const color = isDarkMode.value ? '_dark' : ''
   return `/${variant}${color}.svg`
 })
-
-const showSearchOnNavbar = computed(
-  () =>
-    !isLandingPage.value || !showTopNavbar.value || isBurgerMenuOpened.value,
-)
 
 const handleMobileChainSelect = () => {
   showMobileNavbar()
@@ -288,27 +274,6 @@ const closeBurgerMenu = () => {
 watch([isBurgerMenuOpened], () => {
   setBodyScroll(!isBurgerMenuOpened.value)
 })
-
-const onScroll = () => {
-  const currentScrollPosition = document.documentElement.scrollTop
-  const searchBarPosition = document
-    .getElementById('networkList')
-    ?.getBoundingClientRect()?.top
-  if (currentScrollPosition <= 0) {
-    showTopNavbar.value = true
-    return
-  }
-  if (Math.abs(currentScrollPosition - lastScrollPosition.value) < 30) {
-    return
-  }
-  if (isLandingPage.value && searchBarPosition) {
-    showTopNavbar.value = searchBarPosition > fixedTitleNavAppearDistance.value
-  } else {
-    showTopNavbar.value =
-      currentScrollPosition < fixedTitleNavAppearDistance.value
-  }
-  lastScrollPosition.value = currentScrollPosition
-}
 
 const setBodyScroll = (allowScroll: boolean) => {
   nextTick(() => {
@@ -355,11 +320,15 @@ onBeforeUnmount(() => {
   document.documentElement.classList.remove('is-clipped-touch')
   clearInterval(updateAuthBalanceTimer.value)
 })
-useEventListener(window, 'scroll', onScroll)
 useEventListener(window, 'resize', handleResize)
 </script>
 
 <style lang="scss" scoped>
+.square-40 {
+  width: 40px;
+  height: 40px;
+}
+
 :deep(.navbar-explore) {
   .navbar-item {
     height: 4.5rem;
