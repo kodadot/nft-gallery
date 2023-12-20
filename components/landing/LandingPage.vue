@@ -1,8 +1,7 @@
 <template>
   <div>
     <section class="instance">
-      <LandingMobileHeroBanner v-if="isMobile" class="mt-6" />
-      <SearchLanding v-else class="my-8" />
+      <LandingHeroBanner />
     </section>
 
     <template v-if="showCarousel">
@@ -53,7 +52,6 @@
 
 <script lang="ts" setup>
 import type { Prefix } from '@kodadot1/static'
-import SearchLanding from './SearchLanding.vue'
 import CarouselTypeSpotlight from '@/components/carousel/CarouselTypeSpotlight.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 
@@ -62,7 +60,6 @@ const forbiddenPrefixesForTopCollections: Prefix[] = ['ksm', 'dot']
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
-const { width } = useWindowSize()
 
 const showSignupBanner = computed(
   () => !preferencesStore.getSubscribedToNewsletter,
@@ -74,5 +71,4 @@ const showCarousel = computed(
 const showTopCollections = computed(
   () => !forbiddenPrefixesForTopCollections.includes(urlPrefix.value),
 )
-const isMobile = computed(() => width.value <= 480)
 </script>
