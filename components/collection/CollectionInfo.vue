@@ -49,6 +49,11 @@
             $t('activity.network')
           }}</span
           >&nbsp;{{ chain }}
+          <span class="text-neutral-5 mx-2">•</span>
+        </span>
+        <span>
+          <span class="capitalize text-neutral-7">{{ $t('supply') }}</span
+          >&nbsp;{{ stats.maxSupply || $t('helper.unlimited') }}
         </span>
       </div>
       <div class="break-words">
@@ -81,8 +86,16 @@
         :title="$t('series.owners')"
         :value="stats.uniqueOwners" />
       <CollectionInfoLine title="Listed/Supply">
-        {{ stats.collectionLength }} /
-        {{ stats.maxSupply || $t('helper.unlimited') }}
+        <span class="text-xs text-neutral-7 leading-6 font-normal mr-2"
+          >{{
+            Math.floor(
+              (Number(stats.listedCount) / Number(stats.collectionLength)) *
+                100,
+            )
+          }}%</span
+        >
+        {{ stats.listedCount }} /
+        {{ stats.collectionLength }}
       </CollectionInfoLine>
     </div>
   </div>
