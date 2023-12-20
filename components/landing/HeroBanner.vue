@@ -20,7 +20,7 @@
     </template>
 
     <div class="flex flex-col items-center search-info">
-      <h1 class="flex flex-col items-center">
+      <h1 v-if="isMobile" class="flex flex-col items-center">
         <span class="title is-size-3 has-text-weight-bold">
           {{ $t('search.landingTitle1') }}
         </span>
@@ -31,6 +31,20 @@
           {{ $t('search.landingTitle3') }}
         </span>
       </h1>
+      <template v-else>
+        <h1
+          class="title is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered flex flex-wrap justify-center items-center mb-0">
+          {{ $t('search.landingTitle1') }}
+          <span
+            class="subtitle is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered capitalize ml-4">
+            {{ $t('search.landingTitle2') }}
+          </span>
+        </h1>
+        <h1
+          class="is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered">
+          {{ $t('search.landingTitle3') }}
+        </h1>
+      </template>
 
       <div class="with-divider chain-options-title is-size-6 mt-6">
         {{ $t('landing.startExploring') }}
