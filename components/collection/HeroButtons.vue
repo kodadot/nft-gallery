@@ -1,9 +1,8 @@
 <template>
   <div>
     <div class="hero-buttons flex justify-start items-end px-2">
-      <div class="flex">
+      <div v-if="twitter" class="flex">
         <NeoButton
-          v-if="twitter"
           icon="x-twitter"
           icon-pack="fab"
           class="square-32"
