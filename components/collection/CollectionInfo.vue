@@ -10,7 +10,7 @@
             :prefix="urlPrefix"
             :account="address"
             class="identity-name-font-weight-regular"
-            data-testid="item-creator" />
+            data-testid="collection-creator-address" />
         </div>
       </div>
 

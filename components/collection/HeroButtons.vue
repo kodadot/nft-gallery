@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="hero-buttons flex justify-start items-end px-2">
+    <div class="hero-buttons flex justify-end items-end px-2">
       <div v-if="twitter" class="flex">
         <NeoButton
           icon="x-twitter"
@@ -136,9 +136,8 @@ const QRModalActive = ref(false)
 
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
-.hero-buttons {
-  @include mobile {
-    justify-content: space-between !important;
+@include mobile {
+  .hero-buttons {
     flex: 1;
     margin-top: 0;
     margin-bottom: 1.5rem;
