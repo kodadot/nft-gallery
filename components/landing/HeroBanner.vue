@@ -15,8 +15,11 @@
         class="landing-search-left"
         width="740"
         height="1000"
-        alt="" />
-      <img :src="landingImage[0]" class="landing-shapes" alt="" />
+        alt="landing-left-bg" />
+      <img
+        :src="landingImage[0]"
+        class="landing-shapes"
+        alt="landing-left-image" />
     </template>
 
     <div class="flex flex-col items-center search-info">
@@ -33,16 +36,17 @@
       </h1>
       <template v-else>
         <h1
-          class="title is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered flex flex-wrap justify-center items-center mb-0">
-          {{ $t('search.landingTitle1') }}
-          <span
-            class="subtitle is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered capitalize ml-4">
-            {{ $t('search.landingTitle2') }}
-          </span>
-        </h1>
-        <h1
-          class="is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered">
-          {{ $t('search.landingTitle3') }}
+          class="title is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered flex is-flex-direction-column flex-wrap justify-center items-center mb-0">
+          <div>
+            {{ $t('search.landingTitle1') }}
+            <span
+              class="subtitle is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered capitalize ml-4">
+              {{ $t('search.landingTitle2') }}
+            </span>
+          </div>
+          <div>
+            {{ $t('search.landingTitle3') }}
+          </div>
         </h1>
       </template>
 
@@ -76,8 +80,11 @@
         class="landing-search-right"
         width="740"
         height="1000"
-        alt="" />
-      <img :src="landingImage[1]" class="landing-shapes" alt="" />
+        alt="landing-right-bg" />
+      <img
+        :src="landingImage[1]"
+        class="landing-shapes"
+        alt="landing-right-image" />
     </template>
   </section>
 </template>
