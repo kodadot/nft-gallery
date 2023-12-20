@@ -1,10 +1,9 @@
 <template>
   <CarouselIndex
-    :key="ids"
     data-testid="latest-sales"
     :title="$t('general.latestSales')"
     :subtitle="`${$t('general.latestSalesheading')} ${urlPrefix}`"
-    :nfts="nfts"
+    :nfts="nfts.value"
     action-type="pagination" />
 </template>
 
@@ -12,5 +11,5 @@
 import { useCarouselNftEvents } from './utils/useCarouselEvents'
 
 const { urlPrefix } = usePrefix()
-const { nfts, ids } = await useCarouselNftEvents({ type: 'latestSales' })
+const nfts = useCarouselNftEvents({ type: 'latestSales' })
 </script>

@@ -1,10 +1,8 @@
 <template>
   <div>
-    <div
-      class="hero-buttons is-flex is-justify-content-flex-start is-align-items-end px-2">
-      <div class="is-flex">
+    <div class="hero-buttons flex justify-start items-end px-2">
+      <div v-if="twitter" class="flex">
         <NeoButton
-          v-if="twitter"
           icon="x-twitter"
           icon-pack="fab"
           class="square-32"
@@ -15,7 +13,7 @@
         v-if="displaySeperator"
         class="vertical-seperator mx-4 is-hidden-mobile" />
 
-      <div class="is-flex">
+      <div class="flex">
         <NeoDropdown
           position="bottom-left"
           append-to-body

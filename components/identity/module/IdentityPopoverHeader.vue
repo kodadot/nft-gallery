@@ -1,8 +1,8 @@
 <template>
   <div class="popover-header pb-2">
     <h6 class="popover-user-heading">{{ $t('user') }}</h6>
-    <div class="is-flex is-align-items-center is-justify-content-space-between">
-      <div class="is-flex is-align-items-center">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center">
         <nuxt-link
           class="is-size-6 break-word mr-2 has-text-link"
           :to="`/${urlPrefix}/u/${address}`">

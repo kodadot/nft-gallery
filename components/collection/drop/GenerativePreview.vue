@@ -11,7 +11,7 @@
       preview
       is-detail
       class="border-bottom" />
-    <div class="is-flex is-justify-content-center is-align-items-center py-6">
+    <div class="flex justify-center items-center py-6">
       <NeoButton
         v-if="isLoading"
         class="border-k-grey hover-button fixed-width"
@@ -33,7 +33,7 @@
 
       <a
         v-safe-href="sanitizeIpfsUrl(displayUrl)"
-        class="is-flex is-align-items-center has-text-link fixed-right"
+        class="flex items-center has-text-link fixed-right"
         rel="nofollow noopener noreferrer"
         target="_blank"
         role="link">

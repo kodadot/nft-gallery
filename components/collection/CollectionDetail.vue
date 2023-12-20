@@ -1,6 +1,6 @@
 <template>
   <div class="collection-detail">
-    <div class="collection-detail__header is-12 is-flex">
+    <div class="collection-detail__header is-12 flex">
       <div class="collection-detail__header-image-wrapper">
         <BasicImage
           v-if="!isLoading"
@@ -20,9 +20,7 @@
         <NeoSkeleton no-margin size="medium" width="100px" />
       </span>
     </div>
-    <div
-      v-if="nfts && !isLoading"
-      class="is-flex is-justify-content-space-around is-vcentered">
+    <div v-if="nfts && !isLoading" class="flex justify-around is-vcentered">
       <div class="detail-item has-text-centered column">
         <p class="detail-item__title has-text-grey">
           {{ $t('collectionCard.volume') }}
@@ -43,11 +41,11 @@
         {{ collectionLength }}
       </div>
     </div>
-    <div v-else class="is-flex is-justify-content-space-around is-vcentered">
+    <div v-else class="flex justify-around is-vcentered">
       <div
         v-for="n in DESC_SKELETON_COUNT"
         :key="n"
-        class="is-flex is-align-items-center detail-item column px-5">
+        class="flex items-center detail-item column px-5">
         <NeoSkeleton no-margin size="medium" position="centered" />
       </div>
     </div>

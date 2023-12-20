@@ -2,7 +2,7 @@
   <NeoModal :value="isModalActive" scroll="clip" @close="onClose">
     <div class="modal-width">
       <div
-        class="border-bottom border-grey is-flex is-align-items-center is-justify-content-space-between px-6">
+        class="border-bottom border-grey flex items-center justify-between px-6">
         <p class="py-5 is-size-6 has-text-weight-bold">
           {{ $t('general.chooseProvider') }}
         </p>
@@ -16,10 +16,8 @@
           @click="onClose" />
       </div>
       <div class="px-6 py-3">
-        <div class="mb-4 is-flex">
-          <NeoCheckbox
-            v-model="agreeTos"
-            class="is-align-self-flex-start pt-1" />
+        <div class="mb-4 flex">
+          <NeoCheckbox v-model="agreeTos" class="self-start pt-1" />
           <div>
             {{ $t('fiatOnRamp.agree') }}
             <a
@@ -33,12 +31,12 @@
         </div>
         <div v-for="(provider, index) in providers" :key="provider.value">
           <div
-            class="provider is-clickable is-flex is-justify-content-center is-align-items-start is-flex-direction-column my-4"
+            class="provider is-clickable flex justify-center items-start flex-col my-4"
             :class="{
               provider__disabled: provider.disabled || !agreeTos,
             }"
             @click="onSelect(provider.value)">
-            <div class="is-flex is-justify-content-center">
+            <div class="flex justify-center">
               <img
                 :alt="`${provider.value} provider logo`"
                 :src="provider.image"
@@ -48,8 +46,7 @@
               </p>
             </div>
 
-            <div
-              class="mt-4 is-flex is-align-items-center is-justify-content-space-between w-full">
+            <div class="mt-4 flex items-center justify-between w-full">
               <div class="is-size-7 has-text-grey">
                 {{ $t('general.supports') }}
               </div>
