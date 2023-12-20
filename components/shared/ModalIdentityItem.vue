@@ -18,6 +18,7 @@ import IdentityItem from '@/components/identity/IdentityItem.vue'
 const { isLogIn, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 </script>
+
 <style scoped>
 .rounded {
   border-radius: 10rem;
