@@ -51,7 +51,7 @@ export function useDrops() {
 }
 
 const getFormattedDropItem = async (collection, drop: DropItem) => {
-  const chainMax = collection?.max ?? 300
+  const chainMax = collection?.max ?? FALLBACK_DROP_COLLECTION_MAX
   const { count } = await getDropStatus(drop.alias)
   const price = ['paid', 'generative'].includes(drop.type) ? drop.meta : '0'
   return {
