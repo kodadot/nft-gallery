@@ -27,6 +27,13 @@ const defaultGridConfigs: GridConfig[] = [
   },
 ]
 
+export const DEFAULT_NEWSLETTER_SUBSCRIPTION = {
+  subscribed: false,
+  confirmed: false,
+  email: undefined,
+  id: undefined,
+}
+
 type NewsletterSubscription = {
   subscribed: boolean
   confirmed: boolean
@@ -102,12 +109,7 @@ export const usePreferencesStore = defineStore('preferences', {
     visitedOnboarding: false,
     firstTimeAutoTeleport: true,
     userLocale: 'en',
-    newsletterSubscription: {
-      subscribed: false,
-      confirmed: false,
-      email: undefined,
-      id: undefined,
-    },
+    newsletterSubscription: { ...DEFAULT_NEWSLETTER_SUBSCRIPTION },
   }),
   getters: {
     getsidebarFilterCollapse: (state) => state.sidebarFilterCollapseOpen,

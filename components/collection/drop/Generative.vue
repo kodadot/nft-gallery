@@ -105,6 +105,7 @@ import DropConfirmModal from './modal/DropConfirmModal.vue'
 import ListingCartModal from '@/components/common/listingCart/ListingCartModal.vue'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
+import { DEFAULT_NEWSLETTER_SUBSCRIPTION } from '@/stores/preferences'
 
 const MINTING_SECOND = 120
 
@@ -296,6 +297,7 @@ const subscribe = async (email: string) => {
     })
   } catch (error) {
     dangerMessage($i18n.t('signupBanner.failed'))
+    preferencesStore.setNewsletterSubscription(DEFAULT_NEWSLETTER_SUBSCRIPTION)
     throw error
   } finally {
     subscribingToNewsletter.value = false

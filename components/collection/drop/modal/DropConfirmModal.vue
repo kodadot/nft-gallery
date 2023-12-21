@@ -193,7 +193,6 @@ watchEffect(() => {
     !props.subscribingToNewsletter
   ) {
     modalStep.value = ModalStep.CONFIRM_EMAIL
-    console.log('2')
   } else if (claiming && isEmailConfirmStep.value) {
     modalStep.value = ModalStep.CLAIMING
   } else if (moveSuccessfulDrop.value && isClaimingDropStep.value) {
