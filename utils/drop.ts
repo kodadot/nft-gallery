@@ -17,6 +17,7 @@ export const AHK_GENERATIVE_DROPS = [
 ]
 
 export const AHP_GENERATIVE_DROPS = [
+  '60', // Christmas City
   '52', // Whirls
   '51', // Chroma
   '50', // .motherboard
