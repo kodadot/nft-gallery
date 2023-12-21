@@ -68,6 +68,7 @@
     :minting-seconds="MINTING_SECOND"
     :minted-nft="mintedNft"
     :can-list-nft="canListMintedNft"
+    :send-confirmation-email-on-modal-open="sendConfirmationEmailOnModalOpen"
     @subscribe="handleEmailSubscription"
     @check-subscription="handleCheckSubscription"
     @resend-confirmation-email="handleResendConfirmationEmail"
@@ -160,6 +161,7 @@ const isConfirmModalActive = ref(false)
 const checkingSubscription = ref(false)
 const subscribingToNewsletter = ref(false)
 const resendingConfirmationEmail = ref(false)
+const sendConfirmationEmailOnModalOpen = ref(false)
 const isAddFundModalActive = ref(false)
 const mintedNft = ref<DropMintedNft>()
 const mintedNftWithMetadata = ref<NFTWithMetadata>()
@@ -455,6 +457,7 @@ watch([isConfirmModalActive, emailConfirmed], ([modalActive, confirmed]) => {
 onMounted(async () => {
   if (!emailConfirmed.value && subscriptionId.value) {
     await checkSubscription(subscriptionId.value)
+    sendConfirmationEmailOnModalOpen.value = true
   }
 })
 

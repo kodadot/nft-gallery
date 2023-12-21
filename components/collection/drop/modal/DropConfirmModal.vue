@@ -72,6 +72,7 @@ const props = defineProps<{
   resendingConfirmationEmail: boolean
   emailConfirmed: boolean
   subscribingToNewsletter: boolean
+  sendConfirmationEmailOnModalOpen: boolean
 }>()
 
 const { displayDuration, distance, startCountDown } = useCountDown({
@@ -202,17 +203,18 @@ watchEffect(() => {
   }
 })
 
-watchEffect(() => {
-  const isModalOpen = props.modelValue
-
-  if (
-    isModalOpen &&
-    isEmailConfirmStep.value &&
-    props.subscriptionEmail &&
-    !resentInitialConfirmationEmail.value
-  ) {
-    handleConfirmationEmailResend()
-    resentInitialConfirmationEmail.value = true
-  }
-})
+watch(
+  [() => props.modelValue, isEmailConfirmStep, modalStep],
+  ([isModalOpen, emailConfirmStep]) => {
+    if (
+      isModalOpen &&
+      emailConfirmStep &&
+      !resentInitialConfirmationEmail.value &&
+      props.sendConfirmationEmailOnModalOpen
+    ) {
+      handleConfirmationEmailResend()
+      resentInitialConfirmationEmail.value = true
+    }
+  },
+)
 </script>
