@@ -83,6 +83,7 @@ const isModalActive = useVModel(props, 'modelValue')
 const modalStep = ref<ModalStep>(ModalStep.EMAIL)
 const email = ref<string>()
 const changeEmail = ref(false)
+const resentInitialConfirmationEmail = ref(false)
 const nftCoverLoaded = ref(false)
 const retry = ref(3)
 
@@ -173,6 +174,7 @@ watch([sanitizedMintedNft, retry], async ([mintedNft]) => {
 
 watchEffect(() => {
   const claiming = props.claiming
+  const isModalOpen = props.modelValue
   const alreadyConfirmed = props.emailConfirmed && !email.value
   const alreadySubscribed =
     props.subscriptionEmail && !email.value && !changeEmail.value
@@ -190,6 +192,16 @@ watchEffect(() => {
     modalStep.value = ModalStep.SUCCEEDED
   } else if (!props.modelValue && isSuccessfulDropStep.value) {
     modalStep.value = ModalStep.EMAIL
+  }
+
+  if (
+    isModalOpen &&
+    isEmailConfirmStep.value &&
+    props.subscriptionEmail &&
+    !resentInitialConfirmationEmail.value
+  ) {
+    handleConfirmationEmailResend()
+    resentInitialConfirmationEmail.value = true
   }
 })
 </script>
