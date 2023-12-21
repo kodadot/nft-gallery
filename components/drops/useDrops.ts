@@ -7,6 +7,9 @@ import {
   getDrops,
 } from '@/services/waifu'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
+import { existentialDeposit } from '@kodadot1/static'
+import { chainPropListOf } from '@/utils/config/chain.config'
+import { DropItem } from '@/params/types'
 
 export interface Drop {
   collection: CollectionWithMeta
@@ -37,22 +40,46 @@ export function useDrops() {
       watchEffect(async () => {
         if (collectionData.value?.collectionEntity) {
           const { collectionEntity } = collectionData.value
-          const chainMax = collectionEntity?.max ?? 300
-          const { count } = await getDropStatus(drop.alias)
-          drops.value.push({
-            ...drop,
-            collection: collectionEntity,
-            minted: Math.min(count, chainMax),
-            max: chainMax,
-            dropStartTime: new Date(2023, 5, 6),
-            price: ['paid', 'generative'].includes(drop.type) ? drop.meta : '0',
-          })
+          const newDrop = await getFormattedDropItem(collectionEntity, drop)
+          drops.value.push(newDrop)
         }
       })
     }, [])
   })
 
   return drops
+}
+
+const getFormattedDropItem = async (collection, drop: DropItem) => {
+  const chainMax = collection?.max ?? FALLBACK_DROP_COLLECTION_MAX
+  const { count } = await getDropStatus(drop.alias)
+  const price = ['paid', 'generative'].includes(drop.type) ? drop.meta : '0'
+  return {
+    ...drop,
+    collection: collection,
+    minted: Math.min(count, chainMax),
+    max: chainMax,
+    dropStartTime: new Date(2023, 5, 6),
+    price,
+    isMintedOut: count >= chainMax,
+    isFree: !Number(price),
+  }
+}
+
+export const getDropDetails = async (alias: string) => {
+  const drop = await useDrop(alias)
+
+  const { data: collectionData } = await useAsyncQuery({
+    clientId: drop.chain,
+    query: unlockableCollectionById,
+    variables: {
+      id: drop.collection,
+    },
+  })
+
+  const { collectionEntity } = collectionData.value
+
+  return getFormattedDropItem(collectionEntity, drop)
 }
 
 export async function useDrop(id: string) {
@@ -81,5 +108,42 @@ export const useDropStatus = (id: string) => {
     currentAccountMintedToken,
     mintedDropCount,
     fetchDropStatus,
+  }
+}
+
+export const useDropMinimumFunds = (drop) => {
+  const chainProperties = chainPropListOf(drop.chain)
+
+  const { chainBalances } = useTeleport()
+  const { urlPrefix } = usePrefix()
+  const { fetchMultipleBalance } = useMultipleBalance()
+
+  const currentChain = computed(() => prefixToChainMap[drop.chain])
+  const meta = computed(() => drop.meta || 0)
+  const currentChainBalance = computed(
+    () =>
+      (currentChain.value && Number(chainBalances[currentChain.value]())) || 0,
+  )
+  const minimumFunds = computed<number>(() => meta.value)
+  const transferableDropChainBalance = computed(
+    () => currentChainBalance.value - existentialDeposit[urlPrefix.value],
+  )
+  const hasMinimumFunds = computed(
+    () => transferableDropChainBalance.value >= minimumFunds.value,
+  )
+
+  const { formatted: formattedMinimumFunds } = useAmount(
+    meta,
+    computed(() => chainProperties.tokenDecimals),
+    computed(() => chainProperties.tokenSymbol),
+    2,
+  )
+
+  onBeforeMount(fetchMultipleBalance)
+
+  return {
+    minimumFunds,
+    hasMinimumFunds,
+    formattedMinimumFunds,
   }
 }

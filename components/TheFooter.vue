@@ -1,17 +1,16 @@
 <template>
   <footer class="footer-container section" data-testid="footer-container">
-    <div
-      class="footer-container-inner is-flex is-align-items-start is-justify-content-space-between">
-      <section class="footer-container-subs is-flex is-flex-direction-column">
+    <div class="footer-container-inner flex items-start justify-between">
+      <section class="footer-container-subs flex flex-col">
         <h2 class="subtitle is-5">
           {{ $t('footer.subscribe') }}
         </h2>
-        <div class="is-flex is-align-items-center footer-container-subs-items">
+        <div class="flex items-center footer-container-subs-items">
           <CustomSubstackEmbed />
         </div>
       </section>
       <div class="footer-container-links">
-        <section class="footer-container-info is-flex is-flex-direction-column">
+        <section class="footer-container-info flex flex-col">
           <h2 class="subtitle is-5">Incentives</h2>
           <div>
             <ul class="footer-container-list">
@@ -24,7 +23,7 @@
                   v-safe-href="item.url"
                   target="_blank"
                   rel="nofollow noopener noreferrer"
-                  class="is-flex is-align-items-center">
+                  class="flex items-center">
                   {{ item.name }}
                   <NeoIcon icon="arrow-up-right" class="ml-1 has-text-grey" />
                 </a>
@@ -35,7 +34,7 @@
             </ul>
           </div>
         </section>
-        <section class="footer-container-info is-flex is-flex-direction-column">
+        <section class="footer-container-info flex flex-col">
           <h2 class="subtitle is-5">Marketplace</h2>
           <div>
             <ul class="footer-container-list">
@@ -48,7 +47,7 @@
                   v-safe-href="item.url"
                   target="_blank"
                   rel="nofollow noopener noreferrer"
-                  class="is-flex is-align-items-center">
+                  class="flex items-center">
                   {{ item.name }}
                   <NeoIcon icon="arrow-up-right" class="ml-1 has-text-grey" />
                 </a>
@@ -60,7 +59,7 @@
           </div>
         </section>
       </div>
-      <section class="footer-container-info is-flex is-flex-direction-column">
+      <section class="footer-container-info flex flex-col">
         <h2 class="subtitle is-5">KodaDot</h2>
         <div>
           <ul class="footer-container-list">
@@ -73,7 +72,7 @@
                 v-safe-href="item.url"
                 target="_blank"
                 rel="nofollow noopener noreferrer"
-                class="is-flex is-align-items-center">
+                class="flex items-center">
                 {{ item.name }}
                 <NeoIcon icon="arrow-up-right" class="ml-1 has-text-grey" />
               </a>
@@ -84,19 +83,18 @@
           </ul>
         </div>
       </section>
-      <section
-        class="footer-container-socials is-flex is-flex-direction-column">
+      <section class="footer-container-socials flex flex-col">
         <h2 class="subtitle is-5">
           {{ $t('footer.join') }}
         </h2>
-        <ul class="footer-container-socials-list is-flex mb-6">
+        <ul class="footer-container-socials-list flex mb-6">
           <li
             v-for="item in socials"
             :key="item.url"
-            class="footer-container-socials-list-item is-flex is-align-items-center is-justify-content-center">
+            class="footer-container-socials-list-item flex items-center justify-center">
             <a
               v-safe-href="item.url"
-              class="is-flex icon"
+              class="flex icon"
               rel="nofollow noopener noreferrer"
               target="_blank"
               role="link"

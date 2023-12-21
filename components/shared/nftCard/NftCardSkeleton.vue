@@ -7,7 +7,7 @@
     </div>
     <div v-if="!hideMediaInfo" class="nft-media-info">
       <NeoSkeleton size="medium" no-margin />
-      <div class="is-flex mt-4">
+      <div class="flex mt-4">
         <NeoSkeleton size="small" no-margin width="100px" />
       </div>
     </div>

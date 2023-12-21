@@ -1,11 +1,11 @@
 <template>
-  <div class="is-flex is-align-items-center is-justify-content-space-between">
+  <div class="flex items-center justify-between">
     <IdentityItem
       :account="account"
       :label="display || shortenedAddress"
       :prefix="urlPrefix"
       variant="button" />
-    <div class="is-flex is-flex-direction-column">
+    <div class="flex flex-col">
       <a v-clipboard:copy="account" @click="toast('Copied to clipboard')">
         <NeoIcon icon="copy" />
       </a>

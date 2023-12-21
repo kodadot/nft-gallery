@@ -1,5 +1,5 @@
 <template>
-  <div class="is-flex is-align-items-center">
+  <div class="flex items-center">
     <Avatar :size="48" :value="account" />
     <div v-if="variant === 'button'" class="identity-item-button pl-3">
       <div class="has-text-weight-bold identity-item-button-label mb-1">

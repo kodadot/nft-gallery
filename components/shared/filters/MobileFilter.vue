@@ -8,10 +8,10 @@
     :can-cancel="['escape']"
     :on-cancel="onClose"
     class="top is-absolute background-color">
-    <div class="is-flex is-flex-direction-column is-fullheight">
-      <div class="is-flex-grow-1">
+    <div class="flex flex-col is-fullheight">
+      <div class="flex-grow">
         <div
-          class="filters-header px-4 px-0 border-bottom is-flex is-align-items-center is-justify-content-space-between">
+          class="filters-header px-4 px-0 border-bottom flex items-center justify-between">
           <p class="has-text-weight-bold">
             {{ $t('general.filters') }}
           </p>
@@ -37,14 +37,14 @@
         <NeoButton
           label="Reset All"
           variant="text"
-          class="is-flex-grow-1 mw-9 h-3_5 is-shadowless"
+          class="flex-grow mw-9 h-3_5 is-shadowless"
           @click="resetFilters">
           {{ $t('general.resetAll') }}
         </NeoButton>
         <NeoButton
           variant="k-accent"
           no-shadow
-          class="is-flex-grow-1 mw-9 h-3_5"
+          class="flex-grow mw-9 h-3_5"
           @click="applyFilters">
           {{ $t('general.apply') }}
         </NeoButton>

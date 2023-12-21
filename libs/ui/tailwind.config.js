@@ -27,6 +27,7 @@ module.exports = {
         'k-red-accent-2': 'var(--k-red-accent-2)',
         'k-grey': 'var(--k-grey)',
         'k-grey-fix': 'var(--k-grey-fix)',
+        'k-grey-light': 'rgb(var(--k-grey-light) / <alpha-value>)',
         'k-pink': 'var(--k-pink)',
         'k-yellow': 'var(--k-yellow)',
         'k-blue-accent': 'var(--k-blue-accent)',
@@ -39,7 +40,7 @@ module.exports = {
         'k-blue-light': 'var(--k-blue-light)',
         'k-primary': 'var(--k-primary)',
         'k-primary-light': 'var(--k-primary-light)',
-        'k-shade': 'var(--k-shade)',
+        'k-shade': 'rgb(var(--k-shade) / <alpha-value>)',
         'placeholder-color': 'var(--placeholder-color)',
         disabled: 'var(--disabled)',
         'card-border-color': 'var(--card-border-color)',
@@ -50,6 +51,7 @@ module.exports = {
         'separator-line-color': 'var(--separator-line-color)',
         'toggle-primary': 'var(--toggle-primary)',
         'toggle-active-switch': 'var(--toggle-active-switch)',
+        'steps-active-color': 'rgb(var(--steps-active-color) / <alpha-value>)',
 
         neutral: {
           1: '#ffffff',
@@ -88,7 +90,10 @@ module.exports = {
         'icon-spin':
           'icon-spin infinite linear var(--oruga-icon-spin-duration, 1.5s)',
       },
+      // TODO: remove it after removing bulma
       padding: {
+        'tw-5': '1.25rem',
+        'tw-8': '2rem',
         'button-x': 'calc(0.75em - 1px)',
         'button-y': 'calc(0.5em - 1px)',
       },

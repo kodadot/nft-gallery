@@ -1,8 +1,44 @@
 import { defineStore } from 'pinia'
 
-type completePurchaseModalState = {
+type CompletePurchaseModalState = {
   isOpen: boolean
   mode: 'shopping-cart' | 'buy-now'
+}
+
+export enum GridSection {
+  EXPLORE_GALLERY = 'explore-gallery',
+  PROFILE_GALLERY = 'profile-gallery',
+}
+
+export const DEFAULT_GRID_SECTION = GridSection.EXPLORE_GALLERY
+export type GridSize = 'small' | 'medium' | 'large'
+type GridConfig = { section: GridSection; class: string; size: GridSize }
+
+export const smallGridLayout = 'is-half-desktop is-half-tablet is-half-mobile'
+export const largeGridLayout =
+  'is-one-quarter-desktop is-one-third-tablet is-half-mobile'
+
+const defaultGridConfigs: GridConfig[] = [
+  { section: DEFAULT_GRID_SECTION, class: smallGridLayout, size: 'small' },
+  {
+    section: GridSection.PROFILE_GALLERY,
+    class: largeGridLayout,
+    size: 'large',
+  },
+]
+
+export const DEFAULT_NEWSLETTER_SUBSCRIPTION = {
+  subscribed: false,
+  confirmed: false,
+  email: undefined,
+  id: undefined,
+}
+
+type NewsletterSubscription = {
+  subscribed: boolean
+  confirmed: boolean
+  id?: string
+  email?: string
 }
 
 interface State {
@@ -11,10 +47,12 @@ interface State {
   notificationBoxCollapseOpen: boolean
   shoppingCartCollapseOpen: boolean
   listingCartModalOpen: boolean
-  completePurchaseModal: completePurchaseModalState
+  completePurchaseModal: CompletePurchaseModalState
   triggerBuySuccess: boolean
+  // Layout
   layoutClass: string
-  galleryLayoutClass: string
+  gridConfigs: GridConfig[]
+  gridSize: GridSize
   advancedUI: boolean
   theatreView: string
   compactGalleryItem: boolean
@@ -28,15 +66,14 @@ interface State {
   replaceBuyNowWithYolo: boolean
   enableAllArtwork: boolean
   enableGyroEffect: boolean
-  gridSize: 'small' | 'medium' | 'large'
   firstTimeAutoTeleport: boolean
-  subscribedToNewsletter: boolean
   // Minting
   hasSupport: boolean
   hasCarbonOffset: boolean
   // Mass Mint
   visitedOnboarding: boolean
   userLocale: string
+  newsletterSubscription: NewsletterSubscription
 }
 
 export const usePreferencesStore = defineStore('preferences', {
@@ -52,8 +89,7 @@ export const usePreferencesStore = defineStore('preferences', {
     },
     triggerBuySuccess: false,
     layoutClass: 'is-one-quarter-desktop is-one-third-tablet',
-    galleryLayoutClass:
-      'is-one-quarter-desktop is-one-third-tablet is-half-mobile',
+    gridConfigs: defaultGridConfigs,
     advancedUI: false,
     theatreView: 'default',
     compactGalleryItem: true,
@@ -72,8 +108,8 @@ export const usePreferencesStore = defineStore('preferences', {
     gridSize: 'small',
     visitedOnboarding: false,
     firstTimeAutoTeleport: true,
-    subscribedToNewsletter: false,
     userLocale: 'en',
+    newsletterSubscription: { ...DEFAULT_NEWSLETTER_SUBSCRIPTION },
   }),
   getters: {
     getsidebarFilterCollapse: (state) => state.sidebarFilterCollapseOpen,
@@ -83,7 +119,8 @@ export const usePreferencesStore = defineStore('preferences', {
     getCompletePurchaseModal: (state) => state.completePurchaseModal,
     getTriggerBuySuccess: (state) => state.triggerBuySuccess,
     getLayoutClass: (state) => state.layoutClass,
-    getGalleryLayoutClass: (state) => state.galleryLayoutClass,
+    getGridConfigBySection: (state) => (section: GridSection) =>
+      state.gridConfigs.find((grid) => grid.section === section),
     getTheatreView: (state) => state.theatreView,
     getCompactCollection: (state) => state.compactCollection,
     getShowPriceValue: (state) => state.showPriceGallery,
@@ -97,11 +134,10 @@ export const usePreferencesStore = defineStore('preferences', {
     getHasCarbonOffset: (state) => state.hasCarbonOffset,
     getLoadAllArtwork: (state) => state.enableAllArtwork,
     getEnableGyroEffect: (state) => state.enableGyroEffect,
-    getGridSize: (state) => state.gridSize,
     getVisitedOnboarding: (state) => state.visitedOnboarding,
     getFirstTimeAutoTeleport: (state) => state.firstTimeAutoTeleport,
-    getSubscribedToNewsletter: (state) => state.subscribedToNewsletter,
     getUserLocale: (state) => state.userLocale,
+    getNewsletterSubscription: (state) => state.newsletterSubscription,
   },
   actions: {
     setSidebarFilterCollapse(payload) {
@@ -116,7 +152,7 @@ export const usePreferencesStore = defineStore('preferences', {
     setShoppingCartCollapse(payload) {
       this.shoppingCartCollapseOpen = payload
     },
-    setCompletePurchaseModal(payload: completePurchaseModalState) {
+    setCompletePurchaseModal(payload: CompletePurchaseModalState) {
       this.completePurchaseModal = payload
     },
     setCompletePurchaseModalOpen(payload) {
@@ -128,15 +164,11 @@ export const usePreferencesStore = defineStore('preferences', {
     setLayoutClass(payload) {
       this.layoutClass = payload
     },
-    setGalleryLayoutClass(payload) {
-      this.galleryLayoutClass = payload
-    },
     setAdvancedUI(payload) {
       // if set to false reset state back to default
       if (!payload) {
         this.layoutClass = 'is-one-quarter-desktop is-one-third-tablet'
-        this.galleryLayoutClass =
-          'is-one-quarter-desktop is-one-third-tablet is-half-mobile'
+        this.gridConfigs = defaultGridConfigs
         this.theatreView = 'theatre'
         this.compactGalleryItem = true
         this.compactCollection = false
@@ -190,17 +222,24 @@ export const usePreferencesStore = defineStore('preferences', {
     setGridSize(payload) {
       this.gridSize = payload
     },
+    setGridConfig({ class: layoutClass, size, section }: GridConfig) {
+      const gridConfig = this.getGridConfigBySection(section)
+      if (gridConfig) {
+        gridConfig.size = size
+        gridConfig.class = layoutClass
+      }
+    },
     setVisitedOnboarding(payload: boolean) {
       this.visitedOnboarding = payload
     },
     setFirstTimeAutoTeleport(firstTime: boolean) {
       this.firstTimeAutoTeleport = firstTime
     },
-    setSubscribedToNewsletter(subscribed: boolean) {
-      this.subscribedToNewsletter = subscribed
-    },
     setUserLocale(locale: string) {
       this.userLocale = locale
+    },
+    setNewsletterSubscription(subscription: NewsletterSubscription) {
+      this.newsletterSubscription = subscription
     },
   },
   persist: true,

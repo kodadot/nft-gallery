@@ -1,5 +1,5 @@
 <template>
-  <div class="is-flex is-align-items-center">
+  <div class="flex items-center">
     <a
       v-if="account"
       class="navbar-item"
@@ -8,7 +8,7 @@
       @click="toggleWalletConnectModal">
       <Avatar :value="account" class="navbar__avatar-icon" :size="27" />
     </a>
-    <div v-else class="is-flex is-align-items-center">
+    <div v-else class="flex items-center">
       <NeoDropdown
         position="bottom-left"
         aria-role="menu"
@@ -21,9 +21,7 @@
         </template>
 
         <NeoDropdownItem aria-role="menuitem">
-          <div
-            class="is-flex is-align-items-center"
-            @click="toggleLanguageMenu">
+          <div class="flex items-center" @click="toggleLanguageMenu">
             {{ $t('profileMenu.language') }}&nbsp;<NeoIcon icon="globe" />
           </div>
         </NeoDropdownItem>
@@ -48,7 +46,7 @@
       :toggle="toggleLanguageMenu">
       <NeoDropdownItem
         aria-role="listitem"
-        class="is-active is-flex is-align-items-center language-heading is-size-6"
+        class="is-active flex items-center language-heading is-size-6"
         @click="toggleLanguageMenu">
         <span>{{ $t('profileMenu.language') }} <NeoIcon icon="globe" /></span>
       </NeoDropdownItem>

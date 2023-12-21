@@ -30,9 +30,9 @@
         </div>
 
         <div class="border-top pt-5 pb-4 px-6">
-          <div class="is-flex is-justify-content-space-between">
+          <div class="flex justify-between">
             {{ $t('listingCart.potentialEarnings') }}
-            <div class="is-flex">
+            <div class="flex">
               <span class="ml-2 has-text-grey"
                 >{{ totalNFTsPrice.toFixed(4) }} {{ chainSymbol }}</span
               >
@@ -41,17 +41,18 @@
           </div>
 
           <div
-            class="is-flex is-justify-content-space-between has-text-grey pb-4 mt-3 border-bottom-k-shade">
+            class="flex justify-between has-text-grey pb-4 mt-3 border-bottom-k-shade">
             <span>{{ $t('listingCart.listingFees') }}</span>
             <span class="ml-2">{{ teleportTransitionTxFees }}</span>
           </div>
         </div>
 
-        <div class="is-flex is-justify-content-space-between px-6">
+        <div class="flex justify-between px-6">
           <AutoTeleportActionButton
             ref="autoteleportButton"
             :actions="actions"
             :disabled="Boolean(listingCartStore.incompleteListPrices)"
+            :fees="{ actionLazyFetch: true }"
             :label="confirmListingLabel"
             @confirm="confirm" />
         </div>
@@ -96,9 +97,7 @@ const floorPricePercentAdjustment = ref()
 const autoTeleport = ref(false)
 const autoteleportButton = ref()
 
-const loadingAutoTeleport = computed(
-  () => !autoteleportButton.value?.hasBalances,
-)
+const loadingAutoTeleport = computed(() => !autoteleportButton.value?.isReady)
 
 const teleportTransitionTxFees = computed(() =>
   format(

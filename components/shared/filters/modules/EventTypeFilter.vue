@@ -5,7 +5,7 @@
     class="border-bottom"
     :class="{ 'fluid-padding-left': fluidPadding }">
     <template #trigger="{ open }">
-      <div class="is-flex" role="button" :aria-expanded="open">
+      <div class="flex" role="button" :aria-expanded="open">
         <p class="card-header-title has-text-weight-normal">Event Type</p>
         <a class="card-header-icon">
           <NeoIcon :icon="open ? 'minus' : 'plus'" />

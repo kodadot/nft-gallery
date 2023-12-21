@@ -22,13 +22,13 @@
     :media-static-video="hideVideoControls"
     media-hover-on-cover-play>
     <template v-if="!hideAction" #action>
-      <div v-if="!isOwner && isAvailableToBuy" class="is-flex">
+      <div v-if="!isOwner && isAvailableToBuy" class="flex">
         <NeoButton
           :label="buyLabel"
           data-testid="item-buy"
           no-shadow
           :loading="showActionSection"
-          class="is-flex-grow-1 btn-height"
+          class="flex-grow btn-height"
           loading-with-label
           @click.prevent="onClickBuy">
         </NeoButton>
@@ -47,14 +47,14 @@
             pack="fa-kit" />
         </NeoButton>
       </div>
-      <div v-else-if="isOwner" class="is-flex">
+      <div v-else-if="isOwner" class="flex">
         <template v-if="isStack">
           <NeoButton
             v-if="isThereAnythingToList !== undefined"
             :label="listLabel"
             data-testid="item-buy"
             no-shadow
-            class="is-flex-grow-1 btn-height"
+            class="flex-grow btn-height"
             @click.prevent="onClickListingCart">
           </NeoButton>
         </template>
@@ -64,7 +64,7 @@
             :label="listLabel"
             data-testid="item-buy"
             no-shadow
-            class="is-flex-grow-1 btn-height"
+            class="flex-grow btn-height"
             @click.prevent="onClickListingCart">
           </NeoButton>
         </template>

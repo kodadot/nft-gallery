@@ -2,8 +2,7 @@
   <div ref="player">
     <audio ref="audio" :src="src" />
 
-    <div
-      class="px-6 py-5 is-flex is-justify-items-center is-align-items-center">
+    <div class="px-6 py-5 flex justify-items-center items-center">
       <div>
         <NeoButton
           :loading="playDisabled"
@@ -31,8 +30,7 @@
       <div
         class="ml-4 w-full"
         :class="{
-          'is-flex is-align-items-center is-justify-items-center':
-            !isWaveformReady,
+          'flex items-center justify-items-center': !isWaveformReady,
         }">
         <Waveform
           v-show="isWaveformReady"

@@ -7,8 +7,8 @@
     @close="emit('close')"
     @update:active="updateActive">
     <div :class="{ 'desktop-width': !isMobile }">
-      <div v-if="isFinalStep" class="is-flex py-5 px-6 is-align-items-center">
-        <div class="is-flex-grow-1 text-align-center">{{ $t('success') }}</div>
+      <div v-if="isFinalStep" class="flex py-5 px-6 items-center">
+        <div class="flex-grow text-align-center">{{ $t('success') }}</div>
         <NeoButton
           variant="text"
           no-shadow
@@ -18,9 +18,9 @@
       </div>
       <div
         v-else
-        class="is-flex is-justify-content-space-between is-align-items-center py-5 px-6 border-bottom border-k-shade">
+        class="flex justify-between items-center py-5 px-6 border-bottom border-k-shade">
         <span>Tx:</span>
-        <div class="is-flex">
+        <div class="flex">
           <slot name="action-title">
             <span>{{ `${$t('teleport.send')} ${totalUsdValue}$` }}</span>
             <span class="has-text-grey ml-1 is-uppercase">{{
@@ -60,7 +60,7 @@
         <div v-if="activeStep === 2" class="text-align-center has-text-grey">
           {{ `Est. waiting time ~ ${estimatedTimeLeft} seconds` }}
         </div>
-        <div v-if="isFinalStep" class="is-flex is-justify-content-center mb-4">
+        <div v-if="isFinalStep" class="flex justify-center mb-4">
           <NeoButton
             v-safe-href="explorerLink"
             tag="a"

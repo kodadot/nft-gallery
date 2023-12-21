@@ -1,9 +1,9 @@
 <template>
-  <div class="is-flex is-flex-direction-column w-full">
+  <div class="flex flex-col w-full">
     <div
-      v-if="showAutoTeleport"
-      class="is-flex is-justify-content-space-between w-full mb-4">
-      <div class="is-flex">
+      v-if="showAutoTeleport && !hideTop"
+      class="flex justify-between w-full mb-4">
+      <div class="flex">
         <div class="has-accent-blur">
           <img :src="autoTeleportIcon" class="mr-2" alt="teleport arrow" />
           <img
@@ -27,7 +27,7 @@
 
       <div
         v-if="!hasAvailableTeleportTransition"
-        class="is-flex is-align-items-center"
+        class="flex items-center"
         :class="{ 'has-text-k-grey': !hasAvailableTeleportTransition }">
         <span class="is-size-7">{{ $t('autoTeleport.notAvailable') }}</span>
 
@@ -45,7 +45,7 @@
       variant="k-accent"
       no-shadow
       :disabled="isDisabled"
-      class="is-flex is-flex-grow-1 btn-height is-capitalized"
+      class="flex flex-grow btn-height capitalize"
       @click="handleSubmit" />
   </div>
 
@@ -55,6 +55,7 @@
     :can-do-action="hasEnoughInCurrentChain"
     :transactions="transactions"
     :auto-close="autoCloseModal"
+    :interaction="interaction"
     @close="handleAutoTeleportModalClose"
     @telport:retry="teleport"
     @action:start="(i) => actionRun(i)"
@@ -77,6 +78,7 @@ import type {
   AutoTeleportAction,
   AutoTeleportFeeParams,
 } from '@/composables/autoTeleport/types'
+import { ActionlessInteraction, getActionDetails } from './utils'
 
 export type AutoTeleportActionButtonConfirmEvent = {
   autoteleport: boolean
@@ -92,17 +94,22 @@ const emit = defineEmits([
 const props = withDefaults(
   defineProps<{
     amount: number
-    label: string
+    label?: string
     disabled: boolean
-    actions: AutoTeleportAction[]
+    actions?: AutoTeleportAction[]
     fees?: AutoTeleportFeeParams
     autoCloseModal: boolean
+    interaction?: ActionlessInteraction
+    hideTop?: boolean
   }>(),
   {
     fees: () => ({ actions: 0, actionAutoFees: true }),
     disabled: false,
     amount: 0,
     autoCloseModal: false,
+    actions: () => [],
+    label: '',
+    hideTop: false,
   },
 )
 
@@ -114,7 +121,7 @@ const amount = ref()
 
 const {
   isAvailable: isAutoTeleportAvailable,
-  hasBalances,
+  isReady,
   hasEnoughInCurrentChain,
   hasEnoughInRichestChain,
   optimalTransition,
@@ -163,32 +170,33 @@ const showAutoTeleport = computed(
   () =>
     !hasEnoughInCurrentChain.value &&
     isAutoTeleportAvailable.value &&
-    hasBalances.value &&
+    isReady.value &&
     !props.disabled,
 )
 
 const allowAutoTeleport = computed(
-  () => needsAutoTelport.value && canAutoTeleport.value && hasBalances.value,
+  () => needsAutoTelport.value && canAutoTeleport.value && isReady.value,
 )
 
 const hasNoFundsAtAll = computed(
   () => !hasEnoughInCurrentChain.value && !hasEnoughInRichestChain.value,
 )
 
-const confirmButtonTitle = computed(() => {
+const confirmButtonTitle = computed<string>(() => {
   const interaction =
-    transactions.value.actions[0].interaction?.toLocaleLowerCase()
-  return $i18n.t(`autoTeleport.steps.${interaction}.confirm`)
+    props.interaction || transactions.value.actions[0].interaction
+
+  return getActionDetails(interaction).confirm
 })
 
-const showAddFunds = computed(() => hasBalances.value && hasNoFundsAtAll.value)
+const showAddFunds = computed(() => isReady.value && hasNoFundsAtAll.value)
 
 const autoTeleportLabel = computed(() => {
   if (hasEnoughInCurrentChain.value || props.disabled) {
-    return props.label
+    return props.label || confirmButtonTitle.value
   }
 
-  if (!hasBalances.value) {
+  if (!isReady.value) {
     return $i18n.t('autoTeleport.checking')
   }
 
@@ -273,10 +281,10 @@ const submit = () => {
   }
 }
 
-const handleAutoTeleportModalClose = () => {
+const handleAutoTeleportModalClose = (completed: boolean) => {
   isModalOpen.value = false
   clear()
-  emit('modal:close')
+  emit('modal:close', completed)
 }
 
 watch(allowAutoTeleport, (allow) => {
@@ -291,7 +299,7 @@ watchSyncEffect(() => {
   }
 })
 
-defineExpose({ hasBalances, optimalTransition })
+defineExpose({ isReady, optimalTransition, canAutoTeleport })
 </script>
 
 <style lang="scss" scoped>

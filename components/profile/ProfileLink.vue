@@ -1,7 +1,7 @@
 <template>
   <div>
     <LinkResolver
-      class="is-flex is-align-items-center"
+      class="flex items-center"
       :route="`/${urlPrefix}/u`"
       :param="address"
       link="u">

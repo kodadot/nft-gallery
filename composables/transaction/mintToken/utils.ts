@@ -101,11 +101,12 @@ export const assignIds = <T extends TokenToMint>(
 
 export const lastIndexUsed = async (collection: MintedCollection, api) => {
   const { id, lastIndexUsed } = collection
-  const lastOnChainIndex = await getNextTokenIdOnChain(api, id)
+  const lastOnChainIndex = await getLastIndexUsedOnChain(api, id)
   return Math.max(lastIndexUsed, lastOnChainIndex)
 }
 
-const getNextTokenIdOnChain = (api, collectionId) =>
-  api.query.nfts
-    .collection(collectionId)
-    .then((res) => Number(res.toHuman().items) || 0)
+const getLastIndexUsedOnChain = async (api, collectionId) => {
+  const collectionItems = await api.query.nfts.item.entries(collectionId)
+  const itemIds = collectionItems.map(([key]) => key.args[1].toNumber())
+  return Math.max(...itemIds)
+}

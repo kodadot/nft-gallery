@@ -1,7 +1,7 @@
 <template>
   <div v-if="isDesktop" class="columns mb-2">
     <div class="column is-clipped">
-      <div class="is-flex is-align-items-center">
+      <div class="flex items-center">
         <nuxt-link :to="`/${urlPrefix}/gallery/${event.Item.id}`" class="h-50">
           <NeoAvatar
             :image-component="NuxtImg"
@@ -21,7 +21,7 @@
     </div>
 
     <div class="column is-1">
-      <div class="h-50 is-flex is-align-items-center">
+      <div class="h-50 flex items-center">
         <EventTag
           :interaction="event.Type"
           :interaction-name="interactionName"
@@ -30,7 +30,7 @@
     </div>
 
     <div class="column is-ellipsis">
-      <div class="h-50 is-flex is-align-items-center">
+      <div class="h-50 flex items-center">
         <div v-if="parseInt(event.Amount)">
           <CommonTokenMoney :value="event.Amount" />
         </div>
@@ -39,7 +39,7 @@
     </div>
 
     <div class="column">
-      <div class="h-50 is-flex is-align-items-center">
+      <div class="h-50 flex items-center">
         <nuxt-link
           v-if="!!fromAddress"
           :to="`/${urlPrefix}/u/${fromAddress}`"
@@ -53,7 +53,7 @@
     </div>
 
     <div v-if="withToColumn" class="column">
-      <div class="h-50 is-flex is-align-items-center">
+      <div class="h-50 flex items-center">
         <nuxt-link
           v-if="!!toAddress"
           :to="`/${urlPrefix}/u/${toAddress}`"
@@ -67,7 +67,7 @@
     </div>
 
     <div class="column">
-      <div class="h-50 is-flex is-align-items-center">
+      <div class="h-50 flex items-center">
         <NeoTooltip :label="event.Date" position="left">
           <BlockExplorerLink :block-id="event.Block" :text="event.Time" />
         </NeoTooltip>
@@ -75,8 +75,8 @@
     </div>
   </div>
   <!-- Mobile -->
-  <div v-else class="mb-6 is-flex is-flex-direction-column gap-10px">
-    <div class="is-flex h-70 line-height-1">
+  <div v-else class="mb-6 flex flex-col gap-10px">
+    <div class="flex h-70 line-height-1">
       <nuxt-link :to="`/${urlPrefix}/gallery/${event.Item.id}`">
         <div class="mr-5">
           <NeoAvatar
@@ -87,8 +87,7 @@
             :size="70" />
         </div>
       </nuxt-link>
-      <div
-        class="is-flex is-flex-direction-column is-justify-content-center gap-10px is-flex-grow-1">
+      <div class="flex flex-col justify-center gap-10px flex-grow">
         <nuxt-link
           class="is-ellipsis is-inline-block mobile-fixed-width"
           :to="`/${urlPrefix}/gallery/${event.Item.id}`">
@@ -103,8 +102,8 @@
           distinguish-buy-and-sell />
       </div>
     </div>
-    <div class="is-flex">
-      <div class="is-flex is-justify-content-space-between is-flex-grow-1">
+    <div class="flex">
+      <div class="flex justify-between flex-grow">
         <div v-if="parseInt(event.Amount)">
           <CommonTokenMoney :value="event.Amount" />
         </div>
@@ -115,8 +114,8 @@
       </div>
     </div>
 
-    <div class="is-flex gap">
-      <div v-if="!!fromAddress" class="is-flex is-align-items-center">
+    <div class="flex gap">
+      <div v-if="!!fromAddress" class="flex items-center">
         <span class="is-size-7 mr-3">{{ $t('activity.event.from') }}:</span>
         <nuxt-link
           :to="`/${urlPrefix}/u/${fromAddress}`"
@@ -125,7 +124,7 @@
         </nuxt-link>
       </div>
 
-      <div v-if="!!toAddress" class="is-flex is-align-items-center">
+      <div v-if="!!toAddress" class="flex items-center">
         <span class="is-size-7 mr-3">{{ $t('activity.event.to') }}:</span>
         <nuxt-link
           :to="`/${urlPrefix}/u/${toAddress}`"

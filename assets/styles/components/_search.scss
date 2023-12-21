@@ -24,9 +24,6 @@
     }
   }
 
-  .landing-search-bar {
-    width: 602px;
-  }
 
   %landing-search-image-position {
     height: 334px;
@@ -75,17 +72,8 @@
 
   @include touch {
     padding: 0;
-
-    .landing-search-bar {
-      width: 70%;
-    }
   }
 
-  @include mobile {
-    .landing-search-bar {
-      width: 90%;
-    }
-  }
 }
 
 .search-bar-container {
@@ -312,11 +300,18 @@
   }
 }
 
+
 @media screen and (max-width: 1123px) {
   .landing-search {
     justify-content: space-evenly;
   }
   .landing-shapes {
     display: none;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .landing-search {
+    justify-content: center;
   }
 }
