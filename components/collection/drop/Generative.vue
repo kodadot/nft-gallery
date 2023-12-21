@@ -377,7 +377,7 @@ const checkSubscription = async (email: string) => {
       })
     }
   } catch (error) {
-    toast($i18n.t('drops.failedEamilConfirmation'))
+    toast($i18n.t('drops.failedCheckingSubscription'))
   } finally {
     checkingSubscription.value = false
   }
