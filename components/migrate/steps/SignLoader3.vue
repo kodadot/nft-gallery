@@ -35,13 +35,13 @@
         </p>
       </div>
     </div>
-    <div class="is-flex is-size-7">
+    <div class="flex is-size-7">
       <div class="v-border"></div>
       <div class="mb-4">1/1 {{ $t('migrate.signStep.left') }}</div>
     </div>
-    <div class="is-flex is-size-7">
+    <div class="flex is-size-7">
       <div class="v-border"></div>
-      <div class="mb-4 is-flex">
+      <div class="mb-4 flex">
         <NeoIcon v-bind="whichIcon()" class="mr-4" />
         <div>
           <p>{{ $t('migrate.signStep.finalizingItems', [itemCount]) }}</p>

@@ -2,13 +2,13 @@
   <section>
     <Loader v-model="isLoading" :status="status" />
 
-    <p class="title is-size-4 is-capitalized">I want to be</p>
+    <p class="title is-size-4 capitalize">I want to be</p>
     <RadioSelect v-model="form.gender" :options="gender" rounded multiline />
 
-    <p class="title is-size-4 is-capitalized">on</p>
+    <p class="title is-size-4 capitalize">on</p>
     <RadioSelect v-model="form.art" :options="art" rounded separated />
 
-    <p class="title is-size-4 is-capitalized">by method</p>
+    <p class="title is-size-4 capitalize">by method</p>
     <RadioSelect
       v-model="form.style"
       :options="isPhoto ? filmTypes : styles"
@@ -16,7 +16,7 @@
       rounded
       show-empty />
 
-    <p class="title is-size-4 is-capitalized">displaying</p>
+    <p class="title is-size-4 capitalize">displaying</p>
     <RadioSelect
       v-model="form.framing"
       :options="framing"
@@ -24,7 +24,7 @@
       show-empty
       rounded />
 
-    <p class="title is-size-4 is-capitalized">having</p>
+    <p class="title is-size-4 capitalize">having</p>
     <RadioSelect
       v-model="form.having"
       :options="accessories"
@@ -32,7 +32,7 @@
       show-empty
       rounded />
 
-    <p class="title is-size-4 is-capitalized">wearing</p>
+    <p class="title is-size-4 capitalize">wearing</p>
     <RadioSelect
       v-model="form.wearing"
       :options="clothes"
@@ -40,7 +40,7 @@
       show-empty
       rounded />
 
-    <p class="title is-size-4 is-capitalized">in light</p>
+    <p class="title is-size-4 capitalize">in light</p>
     <RadioSelect
       v-model="form.lighting"
       :options="lights"
@@ -48,7 +48,7 @@
       rounded
       show-empty />
 
-    <!-- <p class="title is-size-4 is-capitalized">art inspired by</p>
+    <!-- <p class="title is-size-4 capitalize">art inspired by</p>
     <RadioSelect
       v-model="form.inspiredBy"
       :options="inspiredBy"

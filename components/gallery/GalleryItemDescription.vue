@@ -11,7 +11,7 @@
       :label="$t('tabs.description')"
       class="p-5"
       data-testid="gallery-item-description-tab-content">
-      <div class="mb-3 is-flex" data-testid="gallery-item-description-tab">
+      <div class="mb-3 flex" data-testid="gallery-item-description-tab">
         <span class="mr-2">{{ $t('tabs.tabDescription.made') }}:</span>
         <nuxt-link
           v-if="nft?.issuer"
@@ -66,11 +66,11 @@
       :label="$t('tabs.details')"
       class="p-5"
       data-testid="gallery-item-details-tab-content">
-      <!-- <div class="is-flex is-justify-content-space-between">
+      <!-- <div class="flex justify-between">
         <p>Contract Address</p>
         <p>--</p>
       </div> -->
-      <div class="is-flex is-justify-content-space-between">
+      <div class="flex justify-between">
         <p>{{ $t('tabs.tabDetails.creator') }}</p>
         <nuxt-link
           v-if="nft?.issuer"
@@ -79,26 +79,24 @@
           <Identity ref="identity" :address="nft?.issuer" />
         </nuxt-link>
       </div>
-      <div class="is-flex is-justify-content-space-between">
+      <div class="flex justify-between">
         <p>{{ $t('tabs.tabDetails.blockchain') }}</p>
         <p>{{ urlPrefix }}</p>
       </div>
-      <div v-if="version" class="is-flex is-justify-content-space-between">
+      <div v-if="version" class="flex justify-between">
         <p>{{ $t('tabs.tabDetails.version') }}</p>
         <p>{{ version }}</p>
       </div>
-      <!-- <div class="is-flex is-justify-content-space-between">
+      <!-- <div class="flex justify-between">
         <p>Token Standard</p>
         <p>--</p>
       </div> -->
-      <div v-if="nft?.royalty" class="is-flex is-justify-content-space-between">
+      <div v-if="nft?.royalty" class="flex justify-between">
         <p>{{ $t('tabs.tabDetails.royalties') }}</p>
         <p>{{ nft?.royalty }}%</p>
       </div>
 
-      <div
-        v-if="recipient"
-        class="recipient is-flex is-justify-content-space-between is-capitalized">
+      <div v-if="recipient" class="recipient flex justify-between capitalize">
         <p>{{ $t('transfers.recipients') }}</p>
         <template v-if="Array.isArray(recipient) && recipient.length > 1">
           <ol>
@@ -128,7 +126,7 @@
       </div>
 
       <hr class="my-2" />
-      <div v-if="nftImage" class="is-flex is-justify-content-space-between">
+      <div v-if="nftImage" class="flex justify-between">
         <p>{{ $t('tabs.tabDetails.media') }}</p>
         <div>
           <a
@@ -141,7 +139,7 @@
           </a>
         </div>
       </div>
-      <div v-if="nftAnimation" class="is-flex is-justify-content-space-between">
+      <div v-if="nftAnimation" class="flex justify-between">
         <p>{{ $t('tabs.tabDetails.animatedMedia') }}</p>
         <div>
           <a
@@ -153,7 +151,7 @@
           </a>
         </div>
       </div>
-      <div class="is-flex is-justify-content-space-between">
+      <div class="flex justify-between">
         <p>{{ $t('tabs.tabDetails.metadata') }}</p>
         <a
           v-safe-href="metadataURL"
@@ -173,7 +171,7 @@
           <BaseMediaItem
             :key="parent?.nftImage"
             :class="{
-              'is-flex is-align-items-center is-justify-content-center h-audio':
+              'flex items-center justify-center h-audio':
                 resolveMedia(parent?.nftMimeType.value) == MediaType.AUDIO,
             }"
             class="gallery-parent-item"

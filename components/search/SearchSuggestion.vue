@@ -33,14 +33,13 @@
             @click="gotoCollectionItem(item)">
             <SearchResultItem :image="item.image">
               <template #content>
-                <div
-                  class="is-flex is-flex-direction-row is-justify-content-space-between pt-2 pr-2">
+                <div class="flex flex-row justify-between pt-2 pr-2">
                   <span class="main-title name">{{ item.name }}</span>
                   <span class="has-text-grey">
                     {{ item.chain }}
                   </span>
                 </div>
-                <div class="is-flex is-justify-content-space-between pr-2">
+                <div class="flex justify-between pr-2">
                   <NeoSkeleton
                     v-if="item.floorPrice === undefined"
                     :count="1"
@@ -118,13 +117,11 @@
             @click="gotoGalleryItem(item)">
             <SearchResultItem :image="item.image">
               <template #content>
-                <div
-                  class="is-flex is-flex-direction-row is-justify-content-space-between pt-2 pr-2">
+                <div class="flex flex-row justify-between pt-2 pr-2">
                   <span class="main-title name">{{ item.name }}</span>
                   <span>{{ urlPrefix.toUpperCase() }}</span>
                 </div>
-                <div
-                  class="is-flex is-flex-direction-row is-justify-content-space-between pr-2">
+                <div class="flex flex-row justify-between pr-2">
                   <span class="name">{{ item.collection?.name }}</span>
                   <span v-if="item.price && parseFloat(item.price) > 0">
                     {{ $t('offer.price') }}:
@@ -173,14 +170,14 @@
       <div
         v-for="item in filterSearch"
         :key="item.id"
-        class="is-flex is-align-items-center is-justify-content-space-between mb-1 search-history-item"
+        class="flex items-center justify-between mb-1 search-history-item"
         @click="goToExploreResults(item)">
-        <div class="is-flex is-align-items-center">
+        <div class="flex items-center">
           <NeoIcon icon="history" />
           <div class="ml-3 history-label">{{ item.name }}</div>
         </div>
         <div
-          class="remove-search-history is-flex is-align-items-center"
+          class="remove-search-history flex items-center"
           @click.stop.prevent="removeSearchHistory(item.name)">
           <svg
             width="12"
@@ -216,8 +213,7 @@
               <div class="pr-2 pt-2">
                 <span class="main-title name">{{ item.name }}</span>
               </div>
-              <div
-                class="is-flex is-flex-direction-row is-justify-content-space-between pr-2 secondary-info">
+              <div class="flex flex-row justify-between pr-2 secondary-info">
                 <span>{{ $t('search.units') }}: {{ item.total }}</span>
                 <span
                   >{{ $t('search.owners') }}: {{ item.uniqueCollectors }}</span

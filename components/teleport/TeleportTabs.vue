@@ -1,5 +1,5 @@
 <template>
-  <div class="teleport-tabs field has-addons is-flex" data-testid="tabs">
+  <div class="teleport-tabs field has-addons flex" data-testid="tabs">
     <p class="control">
       <NeoButton
         v-for="tab in tabs"

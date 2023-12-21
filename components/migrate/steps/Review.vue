@@ -22,7 +22,7 @@
     <div v-else>
       <div class="mt-5">
         <p class="has-text-weight-bold">{{ $t('migrate.collection') }}</p>
-        <div class="is-flex mt-4">
+        <div class="flex mt-4">
           <img
             class="border mr-4"
             :src="collectionMetadata?.image"
@@ -42,12 +42,12 @@
 
       <div
         v-if="collection?.nftsOwned && collection?.nfts"
-        class="is-flex is-justify-content-space-between mb-5">
+        class="flex justify-between mb-5">
         <p>{{ $t('migrate.ready.status') }}</p>
         <p>{{ collection.nftsOwned.length }}/{{ collection.nfts.length }}</p>
       </div>
 
-      <div class="border border-k-shade p-2 is-flex is-size-7 has-text-grey">
+      <div class="border border-k-shade p-2 flex is-size-7 has-text-grey">
         <NeoIcon icon="circle-info" class="mr-2" />
         <p>{{ $t('migrate.reviewNotes') }}</p>
       </div>
@@ -56,7 +56,7 @@
     <div>
       <p class="has-text-weight-bold mt-5">{{ $t('migrate.route') }}:</p>
       <NeoButton rounded variant="pill" class="mt-2 no-hover">
-        <div class="is-flex is-align-items-center">
+        <div class="flex items-center">
           <img
             width="20"
             :src="source?.icon"
@@ -65,7 +65,7 @@
           {{ source?.text }}
         </div>
         <NeoIcon icon="chevron-right" class="mx-4" />
-        <div class="is-flex is-align-items-center">
+        <div class="flex items-center">
           <img
             width="20"
             :src="destination?.icon"
@@ -91,10 +91,10 @@
 
         <div v-show="toggleFee">
           <!-- paid on source chain -->
-          <p v-if="source?.value" class="mb-2 is-capitalized">
+          <p v-if="source?.value" class="mb-2 capitalize">
             <strong>Paid On {{ prefixToNetwork[source.value] }}</strong>
           </p>
-          <div class="is-flex is-justify-content-space-between mb-5">
+          <div class="flex justify-between mb-5">
             <p>Burn {{ itemCount }} Items</p>
             <p v-if="sourceNetworkFee >= 0">
               {{ sourceNetworkFee }} {{ sourceSymbol }}
@@ -103,10 +103,10 @@
           </div>
 
           <!-- paid on destination chain -->
-          <p v-if="destination?.value" class="mb-2 is-capitalized">
+          <p v-if="destination?.value" class="mb-2 capitalize">
             <strong>Paid On {{ prefixToNetwork[destination.value] }}</strong>
           </p>
-          <div class="is-flex is-justify-content-space-between mt-1">
+          <div class="flex justify-between mt-1">
             <p>Migrate {{ itemCount }} Items</p>
             <p v-if="destinationSymbol && destinationNetworkFee >= 0">
               {{ destinationNetworkFee }} {{ destinationSymbol }}
@@ -117,7 +117,7 @@
           <!-- collection existential deposit -->
           <div
             v-if="!collectionOwner"
-            class="has-text-grey is-flex mt-1 is-align-items-center is-justify-content-space-between">
+            class="has-text-grey flex mt-1 items-center justify-between">
             <div>
               {{ $t('mint.collection.modal.existentialDeposit') }}
               <NeoTooltip
@@ -141,8 +141,7 @@
           </div>
 
           <!-- nft existential deposit -->
-          <div
-            class="has-text-grey is-flex mt-1 is-align-items-center is-justify-content-space-between">
+          <div class="has-text-grey flex mt-1 items-center justify-between">
             <div>
               {{ $t('mint.nft.modal.existentialDeposit') }}
               <NeoTooltip
@@ -166,8 +165,7 @@
           </div>
 
           <!-- kodadot fee -->
-          <div
-            class="is-flex mt-1 has-text-grey is-align-items-center is-justify-content-space-between">
+          <div class="flex mt-1 has-text-grey items-center justify-between">
             <div>
               {{ $t('mint.nft.modal.kodadotFee') }}
               <NeoTooltip
@@ -191,25 +189,25 @@
     <hr />
 
     <p class="mb-1">{{ $t('mint.estimated') }}</p>
-    <div class="mb-1 is-flex is-justify-content-space-between">
-      <div v-if="source?.value" class="has-text-k-grey is-capitalized">
+    <div class="mb-1 flex justify-between">
+      <div v-if="source?.value" class="has-text-k-grey capitalize">
         On {{ prefixToNetwork[source.value] }}
       </div>
       <div
         v-if="sourceSymbol && sourceNetworkFee >= 0"
-        class="is-flex is-align-items-center">
+        class="flex items-center">
         <div class="has-text-k-grey is-size-7 mr-2">${{ sourceTotalUsd }}</div>
         <div>{{ sourceNetworkFee }} {{ sourceSymbol }}</div>
       </div>
       <div v-else><NeoSkeleton width="100" size="small" /></div>
     </div>
-    <div class="pb-7 is-flex is-justify-content-space-between">
-      <div v-if="destination?.value" class="has-text-k-grey is-capitalized">
+    <div class="pb-7 flex justify-between">
+      <div v-if="destination?.value" class="has-text-k-grey capitalize">
         On {{ prefixToNetwork[destination.value] }}
       </div>
       <div
         v-if="destinationSymbol && parseFloat(totalDestination.toString())"
-        class="is-flex is-align-items-center">
+        class="flex items-center">
         <div class="has-text-k-grey is-size-7 mr-2">
           ${{ totalDestinationUsd }}
         </div>
@@ -226,7 +224,7 @@
       :label="checkBalances.label"
       variant="k-accent"
       :disabled="checkBalances.disabled"
-      class="mt-4 h-14 is-capitalized"
+      class="mt-4 h-14 capitalize"
       expanded
       @click="toSign()" />
   </div>

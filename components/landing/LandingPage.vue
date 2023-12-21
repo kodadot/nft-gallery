@@ -1,8 +1,7 @@
 <template>
   <div>
     <section class="instance">
-      <LandingMobileHeroBanner v-if="isMobile" class="mt-6" />
-      <SearchLanding v-else class="my-8" />
+      <LandingHeroBanner />
     </section>
 
     <template v-if="showCarousel">
@@ -29,21 +28,18 @@
         </div>
       </section>
 
-      <!-- at the moment lets put Carousel on Client mode only. I suspect that there is some blocked resources on Carousel component. something like async/await process -->
-      <ClientOnly>
-        <section class="py-8 instance">
-          <div class="container is-fluid">
-            <!-- generative  -->
-            <LazyCarouselTypeGenerative class="mt-8" />
+      <section class="py-8 instance">
+        <div class="container is-fluid">
+          <!-- generative  -->
+          <LazyCarouselTypeGenerative class="mt-8" />
 
-            <!-- latest sales -->
-            <LazyCarouselTypeLatestSales class="mt-8" />
+          <!-- latest sales -->
+          <LazyCarouselTypeLatestSales class="mt-8" />
 
-            <!-- new listings -->
-            <LazyCarouselTypeNewestList />
-          </div>
-        </section>
-      </ClientOnly>
+          <!-- new listings -->
+          <LazyCarouselTypeNewestList class="mt-8" />
+        </div>
+      </section>
     </template>
 
     <section class="py-8 instance instance-accent">
@@ -56,7 +52,6 @@
 
 <script lang="ts" setup>
 import type { Prefix } from '@kodadot1/static'
-import SearchLanding from './SearchLanding.vue'
 import CarouselTypeSpotlight from '@/components/carousel/CarouselTypeSpotlight.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 
@@ -65,7 +60,6 @@ const forbiddenPrefixesForTopCollections: Prefix[] = ['ksm', 'dot']
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
-const { width } = useWindowSize()
 
 const showSignupBanner = computed(
   () => !preferencesStore.getSubscribedToNewsletter,
@@ -77,5 +71,4 @@ const showCarousel = computed(
 const showTopCollections = computed(
   () => !forbiddenPrefixesForTopCollections.includes(urlPrefix.value),
 )
-const isMobile = computed(() => width.value <= 480)
 </script>

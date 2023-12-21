@@ -1,6 +1,6 @@
 <template>
   <NeoSwitch v-model="model" :type="type">
-    <div class="is-flex is-align-items-center">
+    <div class="flex items-center">
       <span class="mr-2">
         {{
           modelValue ? `${$t(activeMessage)}${priceString}` : $t(passiveMessage)

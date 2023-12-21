@@ -12,7 +12,7 @@
   "items": "Items",
   "users": "Users",
   "burn": "Burn",
-  "purchase":"Purchase",
+  "purchase": "Purchase",
   "delete": "Delete",
   "bridging": "Bridging",
   "recent": "Recent",
@@ -430,6 +430,8 @@
       "price_DESC": "Price: High to Low",
       "price_ASC": "Price: Low to High",
       "sn_ASC": "Alphabetically",
+      "volume_DESC": "Volume",
+      "highestSale_DESC": "Highest Sale",
       "listed": "Buy now",
       "sortBy": "Sort By"
     }
@@ -596,8 +598,12 @@
     "unlockable": {
       "phaseIntroduction": "We will have a 60-minute window every phase, each featuring only 10 exclusive items.",
       "readyIn": "Your mint will be ready in {0}, DO NOT CLOSE THIS WINDOW",
-      "mintLive": "Free Generative Drop",
-      "mintLiveSmall": "Free Generative Drop",
+      "mintLive": "Generative Drop Minting Now",
+      "mintLiveSmall": "Generative Drop",
+      "freeMintLive": "Free Generative Drop",
+      "freeMintLiveSmall": "Free Generative Drop",
+      "mintedOut": "Generative Drop Minted Out",
+      "mintedOutSmall": "Drop Minted Out",
       "takeMe": "Claim Yours",
       "viewItem": "View Item",
       "preparing": "Preparing Your Item...",
@@ -631,6 +637,7 @@
       "howItemWork": "How unlockable item works",
       "checkEligibility": "Check Eligibility",
       "notEligibility": "Not Eligible",
+      "seeListings": "See Listings",
       "addFundsModal": {
         "title": "Action Required",
         "textP1": "To participate in this free, gasless drop, your wallet must hold a minimum of <strong>{0} on {1}</<strong>",
@@ -1103,7 +1110,6 @@
     "existentialDepositTooltip": "Amounts Below {0} + Fees Risk Being Lost. Enter The Minimum To Proceed.",
     "whatIsExistentialDeposit": "What is Existential Deposit?",
     "checkboxLabel": "I understand this action will lead to an irreversible loss of funds."
-
   },
   "preferences": {
     "basic": "basic user interface",

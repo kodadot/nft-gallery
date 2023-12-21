@@ -1,6 +1,5 @@
 <template>
-  <div
-    class="rounded border border-k-shade is-flex is-justify-content-start is-flex-grow-1 pl-3">
+  <div class="rounded border border-k-shade flex justify-start flex-grow pl-3">
     <IdentityItem
       v-if="isLogIn"
       :label="$t('confirmPurchase.connectedWith')"
@@ -19,6 +18,7 @@ import IdentityItem from '@/components/identity/IdentityItem.vue'
 const { isLogIn, accountId } = useAuth()
 const { urlPrefix } = usePrefix()
 </script>
+
 <style scoped>
 .rounded {
   border-radius: 10rem;
