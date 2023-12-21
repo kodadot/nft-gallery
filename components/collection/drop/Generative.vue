@@ -461,7 +461,7 @@ watch([isConfirmModalActive, emailConfirmed], ([modalActive, confirmed]) => {
 onMounted(async () => {
   if (!emailConfirmed.value && subscriptionId.value) {
     await checkSubscription(subscriptionId.value)
-    sendConfirmationEmailOnModalOpen.value = true
+    sendConfirmationEmailOnModalOpen.value = !emailConfirmed.value
   }
 })
 
