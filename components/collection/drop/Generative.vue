@@ -63,12 +63,13 @@
     :email-confirmed="emailConfirmed"
     :subscription-email="preferencesStore.getNewsletterSubscription.email"
     :checking-subscription="checkingSubscription"
+    :subscribing-to-newsletter="subscribingToNewsletter"
     :resending-confirmation-email="resendingConfirmationEmail"
     :minting-seconds="MINTING_SECOND"
     :minted-nft="mintedNft"
     :can-list-nft="canListMintedNft"
     @subscribe="handleEmailSubscription"
-    @check-subscription="checkSubscription"
+    @check-subscription="handleCheckSubscription"
     @resend-confirmation-email="handleResendConfirmationEmail"
     @close="closeConfirmModal"
     @list="handleList" />
@@ -156,6 +157,7 @@ const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isConfirmModalActive = ref(false)
 const checkingSubscription = ref(false)
+const subscribingToNewsletter = ref(false)
 const resendingConfirmationEmail = ref(false)
 const isAddFundModalActive = ref(false)
 const mintedNft = ref<DropMintedNft>()
@@ -170,6 +172,10 @@ const chainName = computed(() => getChainName(props.drop.chain))
 const token = computed(() => prefixToToken[props.drop.chain])
 const emailConfirmed = computed<boolean>(
   () => preferencesStore.getNewsletterSubscription.confirmed,
+)
+
+const subscriptionId = computed(
+  () => preferencesStore.getNewsletterSubscription.id,
 )
 
 const { data: collectionData } = useGraphql({
@@ -280,10 +286,19 @@ const closeAddFundModal = () => {
 
 const subscribe = async (email: string) => {
   try {
-    await newsletterApi.subscribe(email)
+    subscribingToNewsletter.value = true
+    const response = await newsletterApi.subscribe(email)
+    preferencesStore.setNewsletterSubscription({
+      email,
+      subscribed: true,
+      confirmed: false,
+      id: response.id,
+    })
   } catch (error) {
     dangerMessage($i18n.t('signupBanner.failed'))
     throw error
+  } finally {
+    subscribingToNewsletter.value = false
   }
 }
 
@@ -350,10 +365,10 @@ const handleEmailSubscription = async (email: string) => {
   await subscribe(email)
 }
 
-const handleResendConfirmationEmail = async (email: string) => {
+const handleResendConfirmationEmail = async () => {
   try {
     resendingConfirmationEmail.value = true
-    await resendConfirmationEmail(email)
+    await resendConfirmationEmail(subscriptionId.value as string)
     toast($i18n.t('drops.emailConfirmationSent'))
   } catch (error) {
     toast($i18n.t('drops.failedEmailConfirmation'))
@@ -362,10 +377,14 @@ const handleResendConfirmationEmail = async (email: string) => {
   }
 }
 
-const checkSubscription = async (email: string) => {
+const handleCheckSubscription = async () => {
+  await checkSubscription(subscriptionId.value as string)
+}
+
+const checkSubscription = async (subscriptionId: string) => {
   try {
     checkingSubscription.value = true
-    const response = await getSubscription(email)
+    const response = await getSubscription(subscriptionId)
 
     const subscriptionConfirmed = response.status === 'active'
 
@@ -374,6 +393,7 @@ const checkSubscription = async (email: string) => {
         subscribed: true,
         confirmed: true,
         email: response.email,
+        id: response.id,
       })
     }
   } catch (error) {
@@ -431,9 +451,8 @@ watch([isConfirmModalActive, emailConfirmed], ([modalActive, confirmed]) => {
 })
 
 onMounted(async () => {
-  const email = preferencesStore.getNewsletterSubscription.email
-  if (!emailConfirmed.value && email) {
-    await checkSubscription(email)
+  if (!emailConfirmed.value && subscriptionId.value) {
+    await checkSubscription(subscriptionId.value)
   }
 })
 

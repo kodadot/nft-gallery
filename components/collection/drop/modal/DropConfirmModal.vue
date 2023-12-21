@@ -9,6 +9,7 @@
     <ModalBody :title="title" @close="onClose">
       <EmailSignup
         v-if="isEmailSignupStep"
+        :subscribing="subscribingToNewsletter"
         @confirm="handleEmailSignupConfirm" />
 
       <ConfirmEmail
@@ -70,6 +71,7 @@ const props = defineProps<{
   checkingSubscription: boolean
   resendingConfirmationEmail: boolean
   emailConfirmed: boolean
+  subscribingToNewsletter: boolean
 }>()
 
 const { displayDuration, distance, startCountDown } = useCountDown({
@@ -174,6 +176,7 @@ watch([sanitizedMintedNft, retry], async ([mintedNft]) => {
 
 watchEffect(() => {
   const claiming = props.claiming
+  const subcriptionEmail = props.subscriptionEmail
   const alreadyConfirmed = props.emailConfirmed && !email.value
   const alreadySubscribed =
     props.subscriptionEmail && !email.value && !changeEmail.value
@@ -183,8 +186,14 @@ watchEffect(() => {
   } else if (alreadySubscribed && isEmailSignupStep.value) {
     email.value = props.subscriptionEmail
     modalStep.value = ModalStep.CONFIRM_EMAIL
-  } else if (email.value && isEmailSignupStep.value) {
+  } else if (
+    email.value &&
+    isEmailSignupStep.value &&
+    subcriptionEmail &&
+    !props.subscribingToNewsletter
+  ) {
     modalStep.value = ModalStep.CONFIRM_EMAIL
+    console.log('2')
   } else if (claiming && isEmailConfirmStep.value) {
     modalStep.value = ModalStep.CLAIMING
   } else if (moveSuccessfulDrop.value && isClaimingDropStep.value) {

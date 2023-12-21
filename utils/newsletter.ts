@@ -17,7 +17,7 @@ export async function subscribe(email: string) {
   }
 
   try {
-    const data = await api('/subscribe', {
+    const data = await api<{ id: string }>('/subscribe', {
       method: 'POST',
       body: body,
     })
@@ -29,15 +29,19 @@ export async function subscribe(email: string) {
 }
 
 type SubscriptionByEmailResponse = {
+  id: string
   email: string
   status: 'pending' | 'active'
 }
 
-export async function getSubscription(email: string) {
+export async function getSubscription(subscriptionId: string) {
   try {
-    const data = await api<SubscriptionByEmailResponse>(`/subscribe/${email}`, {
-      method: 'GET',
-    })
+    const data = await api<SubscriptionByEmailResponse>(
+      `/subscribe/${subscriptionId}`,
+      {
+        method: 'GET',
+      },
+    )
 
     return data
   } catch (e) {
@@ -45,11 +49,11 @@ export async function getSubscription(email: string) {
   }
 }
 
-export async function resendConfirmationEmail(email: string) {
+export async function resendConfirmationEmail(subscriptionId: string) {
   try {
     const data = await api('/subscribe/resend-confirmation', {
       method: 'PUT',
-      body: { email },
+      body: { subscriptionId },
     })
 
     return data

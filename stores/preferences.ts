@@ -30,6 +30,7 @@ const defaultGridConfigs: GridConfig[] = [
 type NewsletterSubscription = {
   subscribed: boolean
   confirmed: boolean
+  id?: string
   email?: string
 }
 
@@ -105,6 +106,7 @@ export const usePreferencesStore = defineStore('preferences', {
       subscribed: false,
       confirmed: false,
       email: undefined,
+      id: undefined,
     },
   }),
   getters: {
