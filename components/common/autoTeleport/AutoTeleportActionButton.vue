@@ -1,9 +1,9 @@
 <template>
-  <div class="is-flex is-flex-direction-column w-full">
+  <div class="flex flex-col w-full">
     <div
       v-if="showAutoTeleport && !hideTop"
-      class="is-flex is-justify-content-space-between w-full mb-4">
-      <div class="is-flex">
+      class="flex justify-between w-full mb-4">
+      <div class="flex">
         <div class="has-accent-blur">
           <img :src="autoTeleportIcon" class="mr-2" alt="teleport arrow" />
           <img
@@ -27,7 +27,7 @@
 
       <div
         v-if="!hasAvailableTeleportTransition"
-        class="is-flex is-align-items-center"
+        class="flex items-center"
         :class="{ 'has-text-k-grey': !hasAvailableTeleportTransition }">
         <span class="is-size-7">{{ $t('autoTeleport.notAvailable') }}</span>
 
@@ -45,7 +45,7 @@
       variant="k-accent"
       no-shadow
       :disabled="isDisabled"
-      class="is-flex is-flex-grow-1 btn-height is-capitalized"
+      class="flex flex-grow btn-height capitalize"
       @click="handleSubmit" />
   </div>
 

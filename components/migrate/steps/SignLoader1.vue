@@ -1,6 +1,6 @@
 <template>
   <div v-if="!collectionOwner" class="mb-5">
-    <div class="is-flex is-align-items-center mb-4">
+    <div class="flex items-center mb-4">
       <div class="mr-5">
         <NeoIcon v-bind="whichIcon()" class="fa-2x" />
       </div>
@@ -13,7 +13,7 @@
         </p>
       </div>
     </div>
-    <div class="is-flex is-size-7">
+    <div class="flex is-size-7">
       <div class="v-border"></div>
       <div class="mb-4">
         <p v-if="step1Iterations">
@@ -22,9 +22,9 @@
         <p v-else>{{ $t('migrate.signStep.done') }}</p>
       </div>
     </div>
-    <div class="is-flex is-size-7">
+    <div class="flex is-size-7">
       <div class="v-border"></div>
-      <div class="mb-4 is-flex">
+      <div class="mb-4 flex">
         <div class="mr-4">
           <NeoIcon v-if="step1Iterations === 0" v-bind="iconSuccess" />
           <NeoIcon v-else-if="step1Iterations === 1" v-bind="iconLoading" />
@@ -42,9 +42,9 @@
         </div>
       </div>
     </div>
-    <div class="is-flex is-size-7">
+    <div class="flex is-size-7">
       <div class="v-border"></div>
-      <div class="mb-4 is-flex">
+      <div class="mb-4 flex">
         <div class="mr-4">
           <NeoIcon v-if="step1Iterations === 0" v-bind="iconSuccess" />
           <NeoIcon v-else v-bind="iconIdle" />

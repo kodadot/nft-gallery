@@ -4,7 +4,7 @@
 
     <div class="preview-card border theme-background-color">
       <div
-        class="preview-image is-flex is-align-items-center"
+        class="preview-image flex items-center"
         :style="{ backgroundImage: `url(${image})` }">
         <p v-if="!image" class="p-4 is-size-7 text-align-center">
           {{ $t('mint.nft.preview.uploadArt') }}
@@ -20,12 +20,11 @@
           {{ collection || $t('mint.nft.preview.noCollection') }}
         </p>
 
-        <div
-          class="is-flex is-justify-content-space-between is-align-items-center mt-2">
+        <div class="flex justify-between items-center mt-2">
           <p class="" data-testid="nft-preview-price">
             {{ price || '$$$' }} {{ symbol }}
           </p>
-          <p class="is-capitalized is-size-7 has-text-grey">
+          <p class="capitalize is-size-7 has-text-grey">
             {{ chain ? getChainNameByPrefix(chain) : '--' }}
           </p>
         </div>

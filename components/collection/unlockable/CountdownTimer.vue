@@ -3,7 +3,7 @@
     <div
       v-for="(_, index) in slidesArray"
       :key="index"
-      class="keen-slider__slide is-flex no-wrap">
+      class="keen-slider__slide flex no-wrap">
       <div class="no-wrap">
         <span class="mr-4 has-text-grey">Mint Phase Ends In</span
         ><span class="has-text-inverse"

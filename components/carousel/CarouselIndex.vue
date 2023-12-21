@@ -6,6 +6,7 @@
 
     <CarouselList
       v-if="showCarousel"
+      :key="nftIds"
       :nfts="nfts"
       :gallery-item-carousel="galleryItemCarousel"
       :step="steps" />
@@ -36,6 +37,7 @@ const itemUrl = computed(() => props.itemUrl || 'gallery')
 provide('itemUrl', itemUrl.value)
 
 const showCarousel = computed(() => props.nfts.length)
+const nftIds = computed(() => props.nfts.map((nft) => nft.id).join(''))
 
 const { width } = useWindowSize()
 const steps = computed(() => {

@@ -15,31 +15,31 @@
         ] in displayedFlippers"
         :key="flipperId"
         class="hide-last-hr">
-        <div class="is-flex is-flex-direction-column gap">
+        <div class="flex flex-col gap">
           <div class="px-5">
             <ProfileLink
               :address="flipperId"
               :avatar-size="35"
               class="has-text-weight-bold" />
-            <div class="is-flex is-justify-content-space-between mt-2">
+            <div class="flex justify-between mt-2">
               <span class="is-size-7 has-text-grey">{{
                 $t('activity.owned')
               }}</span>
               <span>{{ owned }}</span>
             </div>
-            <div class="is-flex is-justify-content-space-between">
+            <div class="flex justify-between">
               <span class="is-size-7 has-text-grey">{{
                 $t('activity.totalBought')
               }}</span>
               <CommonTokenMoney :value="totalBought" />
             </div>
-            <div class="is-flex is-justify-content-space-between">
+            <div class="flex justify-between">
               <span class="is-size-7 has-text-grey">{{
                 $t('activity.totalSold')
               }}</span>
               <CommonTokenMoney :value="totalsold" />
             </div>
-            <div class="is-flex is-justify-content-space-between">
+            <div class="flex justify-between">
               <span class="is-size-7 has-text-grey">{{
                 $t('activity.bestFlip')
               }}</span>
@@ -51,7 +51,7 @@
                 >{{ bestFlip === 0 ? '--' : `${format(bestFlip)}%` }}</span
               >
             </div>
-            <div class="is-flex is-justify-content-space-between">
+            <div class="flex justify-between">
               <span class="is-size-7 has-text-grey">{{
                 $t('activity.latestActivity')
               }}</span>
@@ -80,9 +80,7 @@
       <div ref="target" />
     </div>
 
-    <div
-      v-else
-      class="is-flex is-justify-content-center is-align-items-center pt-6">
+    <div v-else class="flex justify-center items-center pt-6">
       <div class="has-text-grey">
         {{ $t('activity.noFlips') }}
       </div>

@@ -17,5 +17,6 @@ query collectionByIdMinimalWithRoyalty($id: String!) {
     metadata
     name
     currentOwner
+    createdAt
   }
 }

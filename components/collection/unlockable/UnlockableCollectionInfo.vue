@@ -1,8 +1,7 @@
 <template>
-  <div
-    class="is-flex is-justify-content-space-between mobile-flex-direction-column">
-    <div class="is-flex is-flex-direction-column is-flex-grow-1 max-width">
-      <div class="is-flex mt-6 is-justify-content-space-between mb-2">
+  <div class="flex justify-between mobile-flex-direction-column">
+    <div class="flex flex-col flex-grow max-width">
+      <div class="flex justify-between mb-2">
         <div class="mr-2 has-text-weight-bold is-size-5 mb-1">
           About Collection
         </div>
@@ -11,8 +10,7 @@
       <div class="overflow-wrap">
         <Markdown :source="visibleDescription" />
       </div>
-      <div
-        class="is-flex is-justify-content-space-between is-align-items-center">
+      <div class="flex justify-between items-center">
         <NeoButton
           v-if="hasSeeAllDescriptionOption"
           class="no-shadow is-text has-text-left p-0 is-underlined"
@@ -29,7 +27,7 @@
       </div>
     </div>
     <div>
-      <div class="is-flex gap mobile-flex-direction-column mobile-no-gap"></div>
+      <div class="flex gap mobile-flex-direction-column mobile-no-gap"></div>
     </div>
   </div>
 </template>

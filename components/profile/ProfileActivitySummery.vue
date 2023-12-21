@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="stats" class="level my-4 collection is-align-items-center">
+    <div v-if="stats" class="level my-4 collection items-center">
       <div class="level-item has-text-centered">
         <div>
           <p class="title">{{ listedCount }} ⊆ {{ totalSoldItems }}</p>

@@ -1,40 +1,31 @@
 <template>
   <div
     v-if="isUnlockableLandingTagVisible"
-    class="unlockable-landing-tag is-flex border is-justify-content-space-between is-align-items-center px-4 mt-6"
+    class="unlockable-landing-tag flex border justify-between items-center px-4 mt-6"
     :class="{ 'small-size': smallWidth }">
-    <div class="is-flex is-align-items-center">
+    <div class="flex items-center">
       <img
         width="42"
         height="42"
         src="/drop/unlockable-pulse-static.svg"
         alt="unlockable icon" />
-      <span> {{ mintLiveText }} </span>
+      <span> {{ mintStatusText }} </span>
     </div>
     <div class="separator mx-2" />
-    <nuxt-link
-      class="is-flex is-align-items-center has-text-weight-bold my-2"
-      :to="DEFAULT_DROP">
-      {{ $t('mint.unlockable.takeMe') }}
+    <nuxt-link class="flex items-center has-text-weight-bold my-2" :to="to">
+      {{ actionText }}
     </nuxt-link>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { useUnlockableTag } from './utils/useUnlockableTag'
 const isUnlockableLandingTagVisible = true
-const { $i18n } = useNuxtApp()
 
 const { width } = useWindowSize()
-
 const smallWidth = computed(() => width.value < 502)
 
-const mintLiveText = computed(() =>
-  $i18n.t(
-    smallWidth.value
-      ? 'mint.unlockable.mintLiveSmall'
-      : 'mint.unlockable.mintLive',
-  ),
-)
+const { to, actionText, mintStatusText } = useUnlockableTag(smallWidth.value)
 </script>
 
 <style lang="scss" scoped>
