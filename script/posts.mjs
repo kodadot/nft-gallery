@@ -4,7 +4,7 @@ import consola from 'consola'
 
 async function init() {
   try {
-    const response = await fetch('http://localhost:8787/index')
+    const response = await fetch('https://newsletter.kodadot.workers.dev/index')
     const json = await response.json()
 
     await fs.writeFile('./script/posts.json', JSON.stringify(json, null, 2))
