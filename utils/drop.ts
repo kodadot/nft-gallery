@@ -1,6 +1,6 @@
 export const DEFAULT_DROP = {
-  alias: 'chroma',
-  id: '51',
+  alias: 'christmascity',
+  id: '60',
   chain: 'ahp',
 }
 
