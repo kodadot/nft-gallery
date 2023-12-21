@@ -3,7 +3,7 @@
     <p>{{ $t('migrate.modal.title') }}</p>
     <p class="has-text-grey is-size-7">{{ $t('migrate.modal.subtitle') }}</p>
 
-    <div class="mt-5 is-flex">
+    <div class="mt-5 flex">
       <p
         class="mr-5 has-text-weight-bold is-cursor-pointer"
         @click="$emit('close', true)">

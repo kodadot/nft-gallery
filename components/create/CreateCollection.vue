@@ -59,7 +59,7 @@
         data-testid="collection-maxAmount"
         required>
         <div class="w-full">
-          <div class="is-flex is-justify-content-space-between">
+          <div class="flex justify-between">
             <p>{{ $t('mint.unlimited') }}</p>
             <NeoSwitch v-model="unlimited" position="left" />
           </div>
@@ -110,13 +110,13 @@
 
       <!-- deposit and balance -->
       <div>
-        <div class="is-flex has-text-weight-medium has-text-info">
+        <div class="flex has-text-weight-medium has-text-info">
           <div>{{ $t('mint.deposit') }}:&nbsp;</div>
           <div data-testid="collection-deposit">
             {{ totalCollectionDeposit }} {{ chainSymbol }}
           </div>
         </div>
-        <div class="is-flex">
+        <div class="flex">
           <div>{{ $t('general.balance') }}:&nbsp;</div>
           <div data-testid="collection-balance">
             {{ balance }} {{ chainSymbol }}
@@ -138,7 +138,7 @@
         size="medium"
         data-testid="collection-create"
         :loading="isLoading" />
-      <div class="p-4 is-flex">
+      <div class="p-4 flex">
         <NeoIcon icon="circle-info" size="medium" class="mr-4" />
         <p class="is-size-7">
           <span

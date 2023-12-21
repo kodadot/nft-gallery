@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="is-flex is-flex-wrap-nowrap">
+    <div class="flex flex-nowrap">
       <nuxt-link
         :to="`/${urlPrefix}/explore/items`"
         class="menu-item mr-6"
@@ -23,11 +23,11 @@
     </div>
 
     <hr aria-role="menuitem" class="dropdown-divider my-4" />
-    <div class="is-flex">
+    <div class="flex">
       <span
         v-for="option in filteredChains"
         :key="option.value"
-        class="menu-item mr-4 is-capitalized no-wrap"
+        class="menu-item mr-4 capitalize no-wrap"
         :value="option.value"
         @click="setSelectedChain(option.value)">
         {{ option.text }}

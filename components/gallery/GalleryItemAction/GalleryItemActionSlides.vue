@@ -1,6 +1,6 @@
 <template>
   <div
-    class="slide is-flex"
+    class="slide flex"
     :class="{ 'slide-active': active, 'slide-disabled': disabled }">
     <slot name="entry"></slot>
 

@@ -18,20 +18,16 @@
           <UnlockableTag :collection-id="collectionId" />
 
           <div>
-            <div
-              class="is-flex is-justify-content-space-between is-align-items-center my-5">
+            <div class="flex justify-between items-center my-5">
               <div class="has-text-weight-bold is-size-5">
                 {{ $t('mint.unlockable.phase') }}
               </div>
-              <span
-                v-if="mintCountAvailable"
-                class="is-flex is-align-items-center">
+              <span v-if="mintCountAvailable" class="flex items-center">
                 <img src="/unlockable-pulse.svg" alt="open" />
                 {{ $t('mint.unlockable.open') }}</span
               >
             </div>
-            <div
-              class="is-flex is-justify-content-space-between is-align-items-center">
+            <div class="flex justify-between items-center">
               <span>{{ mintedPercent }} %</span
               ><span class="has-text-weight-bold">
                 {{ mintedCount }} / {{ totalCount }}
@@ -43,10 +39,8 @@
             <UnlockableSlider :value="mintedCount / totalCount" />
           </div>
           <div class="my-5">
-            <div
-              v-if="!userMintedId"
-              class="is-flex is-justify-content-space-between">
-              <div class="is-flex is-align-items-center">
+            <div v-if="!userMintedId" class="flex justify-between">
+              <div class="flex items-center">
                 <NeoIcon
                   :icon="statusInformation.icon"
                   class="mr-2"
@@ -63,7 +57,7 @@
                   :disabled="mintButtonDisabled"
                   :label="buttonLabel"
                   @click="handleMint" />
-                <div class="is-flex is-align-items-center mt-2">
+                <div class="flex items-center mt-2">
                   <NeoIcon icon="timer" class="mr-2" />
                   {{ leftTime }}
                 </div>
@@ -76,7 +70,7 @@
             </nuxt-link>
           </div>
         </div>
-        <div class="column pt-5 is-flex is-justify-content-center">
+        <div class="column pt-5 flex justify-center">
           <ImageSlider
             v-if="imageList.length"
             :image-list="imageList"

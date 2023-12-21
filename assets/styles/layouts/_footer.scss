@@ -106,11 +106,13 @@
 
   #custom-substack-embed .custom-substack-widget {
     border-radius: 0;
+    flex-direction: row;
+    flex-wrap: nowrap;
     height: 2.2rem;
 
-    @include touch {
+
+    @include until-widescreen {
       flex-direction: column;
-      flex-wrap: nowrap;
       height: 4.4rem;
     }
     @include ktheme() {
@@ -127,7 +129,7 @@
       padding-bottom: 0;
       line-height: 1;
 
-      @include touch {
+      @include until-widescreen {
         flex-basis: 100%;
       }
 
@@ -153,7 +155,7 @@
         }
       }
 
-      @include touch {
+      @include until-widescreen {
         width: 100%;
         border-left: none;
         border-top: 1px solid;

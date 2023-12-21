@@ -1,7 +1,7 @@
 <template>
   <NeoModal :value="value" @close="value = false">
     <div class="py-4 px-5 limit-width">
-      <div class="is-flex mb-3 is-size-6 has-text-weight-bold">
+      <div class="flex mb-3 is-size-6 has-text-weight-bold">
         {{ 'Customize Collection' }}
       </div>
       <div class="has-text-grey is-size-7 mb-5">
@@ -20,7 +20,7 @@
             :min="min" />
         </div>
       </NeoField>
-      <div class="is-flex is-justify-content-flex-end">
+      <div class="flex justify-end">
         <NeoButton
           class="has-text-weight-bold mr-4"
           variant="text"

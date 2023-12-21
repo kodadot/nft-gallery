@@ -3,22 +3,22 @@
     <ModalIdentityItem />
   </div>
 
-  <p class="py-5 is-capitalized">
+  <p class="py-5 capitalize">
     {{ $t('drops.subscribe') }}
   </p>
 
   <div class="mb-5">
-    <div class="is-capitalized is-flex is-align-items-center voucher-container">
+    <div class="capitalize flex items-center voucher-container">
       <span>{{ $t('drops.plusGetA') }}</span>
 
-      <div class="is-flex is-align-items-center">
+      <div class="flex items-center">
         <img width="58" :src="signUpVoucherIcon" alt="shop voucher" />
       </div>
 
       <span>{{ $t('drops.voucherToOurShop') }}</span>
     </div>
 
-    <p class="has-text-k-grey is-capitalized mt-3 is-size-7">
+    <p class="has-text-k-grey capitalize mt-3 is-size-7">
       ({{ $t('drops.justConfirmSubscriptionViaEmail') }})
     </p>
   </div>
@@ -32,17 +32,19 @@
       :placeholder="$t('mint.nft.email.placeholder')" />
 
     <div class="pt-5">
-      <NeoCheckbox v-model="agree" class="is-capitalized">
+      <NeoCheckbox v-model="agree" class="capitalize">
         {{ $t('drops.consent') }}
       </NeoCheckbox>
     </div>
 
-    <div class="is-flex is-justify-content-space-between pt-4">
+    <div class="flex justify-between pt-4">
       <NeoButton
-        class="is-flex is-flex-1 h-14 is-capitalized shine"
+        class="flex flex-1 h-14 capitalize shine"
         :disabled="disabled"
+        :loading="loading"
         no-shadow
         variant="k-accent"
+        loading-with-label
         native-type="submit">
         {{ submitButtonText }}
       </NeoButton>
@@ -55,6 +57,9 @@ import { NeoButton, NeoCheckbox, NeoInput } from '@kodadot1/brick'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 
 const emit = defineEmits(['confirm'])
+const props = defineProps<{
+  subscribing: boolean
+}>()
 
 const { $i18n } = useNuxtApp()
 const { signUpVoucherIcon } = useIcon()
@@ -66,12 +71,22 @@ const agree = ref(false)
 const invalidEmail = computed(() => !emailInput.value?.checkHtml5Validity())
 
 const disabled = computed(
-  () => invalidEmail.value || email.value === '' || !agree.value,
+  () =>
+    invalidEmail.value ||
+    email.value === '' ||
+    !agree.value ||
+    props.subscribing,
 )
+
+const loading = computed(() => props.subscribing)
 
 const submitButtonText = computed(() => {
   if (invalidEmail.value) {
     return $i18n.t('drops.enterValidEmail')
+  }
+
+  if (props.subscribing) {
+    return $i18n.t('general.subscribing')
   }
 
   if (!agree.value) {

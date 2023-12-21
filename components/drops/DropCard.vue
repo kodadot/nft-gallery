@@ -8,9 +8,9 @@
       <div
         class="drop-card-banner"
         :style="{ backgroundImage: `url(${image})` }">
-        <section class="h-full is-flex">
+        <section class="h-full flex">
           <div
-            class="is-flex is-justify-content-space-between p-6 w-full flex-direction align-items">
+            class="flex justify-between p-6 w-full flex-direction align-items">
             <div class="avatar">
               <BasicImage
                 :src="image"
@@ -25,13 +25,12 @@
         </section>
       </div>
       <div class="py-5 px-6">
-        <div
-          class="is-flex is-justify-content-space-between flex-direction column-gap">
-          <div class="is-flex is-flex-direction-column column-gap is-ellipsis">
+        <div class="flex justify-between flex-direction column-gap">
+          <div class="flex flex-col column-gap is-ellipsis">
             <span class="has-text-weight-bold is-ellipsis">{{
               drop.collection.name
             }}</span>
-            <div v-if="drop.collection.issuer" class="is-flex">
+            <div v-if="drop.collection.issuer" class="flex">
               <div class="mr-2 has-text-grey">
                 {{ $t('activity.creator') }}:
               </div>
@@ -45,13 +44,13 @@
               </nuxt-link>
             </div>
           </div>
-          <div class="is-flex justify-content-space-between" style="gap: 2rem">
-            <div class="is-flex is-flex-direction-column">
-              <div class="has-text-grey">Available</div>
+          <div class="flex justify-content-space-between" style="gap: 2rem">
+            <div class="flex flex-col">
+              <div class="has-text-grey">{{ $t('statsOverview.minted') }}</div>
 
-              <div>{{ availableCount }}/{{ drop.max }}</div>
+              <div>{{ drop.minted }}/{{ drop.max }}</div>
             </div>
-            <div class="is-flex is-flex-direction-column">
+            <div class="flex flex-col">
               <span class="has-text-grey">{{ $t('price') }}</span>
               <span v-if="isFreeDrop">{{ $t('free') }}</span>
               <Money
@@ -66,10 +65,9 @@
     </component>
     <template v-else>
       <NeoSkeleton no-margin :rounded="false" height="270" />
-      <div
-        class="py-5 px-6 is-flex is-justify-content-space-between is-vcentered">
+      <div class="py-5 px-6 flex justify-between is-vcentered">
         <NeoSkeleton
-          class="is-flex column"
+          class="flex column"
           :count="2"
           :rounded="false"
           height="12" />
@@ -78,13 +76,13 @@
           :rounded="false"
           width="40%"
           height="12"
-          class="is-flex is-align-items-flex-end column" />
+          class="flex items-end column" />
         <NeoSkeleton
           :count="2"
           :rounded="false"
           width="40%"
           height="12"
-          class="is-flex is-align-items-flex-end column" />
+          class="flex items-end column" />
       </div>
     </template>
   </div>

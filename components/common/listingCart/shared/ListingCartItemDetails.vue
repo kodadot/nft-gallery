@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="is-flex is-justify-content-space-between">
-      <div class="is-flex">
+    <div class="flex justify-between">
+      <div class="flex">
         <div>
           <BasicImage
             :src="avatar"
@@ -10,8 +10,7 @@
             :class="{ 'is-50-percent': discarded }" />
         </div>
 
-        <div
-          class="is-flex is-flex-direction-column is-justify-content-space-between ml-4 limit-width">
+        <div class="flex flex-col justify-between ml-4 limit-width">
           <div
             class="has-text-weight-bold line-height-1 no-wrap is-clipped is-ellipsis"
             :class="[discarded ? 'has-text-grey' : 'has-text-color']">
