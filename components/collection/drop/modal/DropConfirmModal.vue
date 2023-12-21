@@ -69,7 +69,7 @@ const props = defineProps<{
   canListNft: boolean
   checkingSubscription: boolean
   resendingConfirmationEmail: boolean
-  emailConfirmed?: boolean
+  emailConfirmed: boolean
 }>()
 
 const { displayDuration, distance, startCountDown } = useCountDown({

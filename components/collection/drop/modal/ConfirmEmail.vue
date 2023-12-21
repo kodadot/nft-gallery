@@ -14,7 +14,7 @@
 
   <hr class="m-0 mb-2 mt-5" />
 
-  <div class="capitalize is-size-7 has-text-k-grey">
+  <div class="capitalize text-xs has-text-k-grey">
     <p>
       {{ $t('drops.noEmail') }}
       <a class="has-text-k-blue" @click="$emit('resend')">{{
@@ -51,13 +51,12 @@
 </template>
 
 <script setup lang="ts">
-import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import { NeoButton } from '@kodadot1/brick'
 
 const emit = defineEmits(['check', 'change', 'resend'])
 const props = defineProps<{
   email: string
-  emailConfirmed?: boolean
+  emailConfirmed: boolean
   checking: boolean
   resending: boolean
 }>()
@@ -65,11 +64,12 @@ const props = defineProps<{
 const { $i18n } = useNuxtApp()
 const { isDarkMode } = useTheme()
 
+const emailNotConfirmed = ref(false)
+
 const emailSubscriptionImage = computed(() =>
   isDarkMode.value ? '/email-subscription-dark.svg' : '/email-subscription.svg',
 )
 const disabled = computed(() => props.checking || props.resending)
-const emailNotConfirmed = computed(() => props.emailConfirmed === false)
 
 const submitButtonText = computed(() => {
   if (props.checking) {
@@ -86,6 +86,16 @@ const submitButtonText = computed(() => {
 
   return $i18n.t('drops.iveConfirmed')
 })
+
+watch(
+  [() => props.checking, () => props.emailConfirmed, () => props.resending],
+  ([checking, emailConfirmed], [oldChecking]) => {
+    emailNotConfirmed.value = false
+    if (!checking && oldChecking) {
+      emailNotConfirmed.value = !emailConfirmed
+    }
+  },
+)
 
 const submit = () => {
   emit('check')

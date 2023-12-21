@@ -157,7 +157,6 @@ const isImageFetching = ref(false)
 const isConfirmModalActive = ref(false)
 const checkingSubscription = ref(false)
 const resendingConfirmationEmail = ref(false)
-const emailConfirmed = ref<boolean | undefined>()
 const isAddFundModalActive = ref(false)
 const mintedNft = ref<DropMintedNft>()
 const mintedNftWithMetadata = ref<NFTWithMetadata>()
@@ -169,6 +168,9 @@ const defaultName = computed(() => props.drop?.name)
 const defaultMax = computed(() => props.drop?.max || 255)
 const chainName = computed(() => getChainName(props.drop.chain))
 const token = computed(() => prefixToToken[props.drop.chain])
+const emailConfirmed = computed<boolean>(
+  () => preferencesStore.getNewsletterSubscription.confirmed,
+)
 
 const { data: collectionData } = useGraphql({
   queryName: 'unlockableCollectionById',
@@ -345,13 +347,11 @@ const submitMint = async () => {
 }
 
 const handleEmailSubscription = async (email: string) => {
-  emailConfirmed.value = undefined
   await subscribe(email)
 }
 
 const handleResendConfirmationEmail = async (email: string) => {
   try {
-    emailConfirmed.value = undefined
     resendingConfirmationEmail.value = true
     await resendConfirmationEmail(email)
     toast($i18n.t('drops.emailConfirmationSent'))
@@ -367,9 +367,9 @@ const checkSubscription = async (email: string) => {
     checkingSubscription.value = true
     const response = await getSubscription(email)
 
-    emailConfirmed.value = response.status === 'active'
+    const subscriptionConfirmed = response.status === 'active'
 
-    if (emailConfirmed.value) {
+    if (subscriptionConfirmed) {
       preferencesStore.setNewsletterSubscription({
         subscribed: true,
         confirmed: true,
@@ -430,9 +430,10 @@ watch([isConfirmModalActive, emailConfirmed], ([modalActive, confirmed]) => {
   }
 })
 
-onMounted(() => {
-  if (preferencesStore.getNewsletterSubscription.confirmed) {
-    emailConfirmed.value = true
+onMounted(async () => {
+  const email = preferencesStore.getNewsletterSubscription.email
+  if (!emailConfirmed.value && email) {
+    await checkSubscription(email)
   }
 })
 
