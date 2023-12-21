@@ -1492,7 +1492,7 @@
     "emailConfirmationSent": "Email confirmation sent",
     "failedEmailConfirmation": "Failed sending email confirmation",
     "failedCheckingSubscription": "Failed checking subscription",
-    "holderOfClaimed": "{0} drop already claimed with this NFT. Claim rights are not renewed after resale.",
+    "holderOfClaimed": "{0} drop already claimed with this NFT. Claim rights are not renewed after resale."
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
