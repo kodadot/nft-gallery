@@ -50,7 +50,7 @@ export const ENDPOINT_MAP: Config<WS_URL> = {
   ksm: KUSAMA_ENDPOINTS[0],
   ahk: 'wss://kusama-asset-hub-rpc.polkadot.io',
   dot: POLKADOT_ENDPOINTS[0],
-  ahp: 'wss://polkadot-asset-hub-rpc.polkadot.io',
+  ahp: 'wss://sys.ibp.network/statemint',
   // ahr: 'wss://rococo-asset-hub-rpc.polkadot.io',
   // glmr: 'wss://public-rpc.pinknode.io/moonbeam',
   // movr: 'wss://wss.api.moonriver.moonbeam.network',
