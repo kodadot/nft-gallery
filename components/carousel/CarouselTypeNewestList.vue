@@ -1,9 +1,8 @@
 <template>
   <CarouselIndex
-    :key="ids"
     :title="$t('general.newestListHeading')"
     :subtitle="$t('general.newestListDesc')"
-    :nfts="nfts"
+    :nfts="nfts.value"
     action-type="link"
     :link-url="`/${urlPrefix}/explore/items/?search=&sort=updatedAt_DESC`"
     :link-text="$t('helper.seeMore')" />
@@ -13,5 +12,5 @@
 import { useCarouselNftEvents } from './utils/useCarouselEvents'
 
 const { urlPrefix } = usePrefix()
-const { nfts, ids } = await useCarouselNftEvents({ type: 'newestList' })
+const nfts = useCarouselNftEvents({ type: 'newestList' })
 </script>

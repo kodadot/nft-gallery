@@ -60,7 +60,7 @@ export const getNativeBalance = async ({
 }: {
   address: string
   api: ApiPromise
-  tokenId: number
+  tokenId?: number
 }): Promise<string | number> => {
   if (tokenId) {
     return (

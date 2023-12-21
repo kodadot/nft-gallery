@@ -1,7 +1,7 @@
 <template>
   <transition name="slide">
     <div v-if="!hasDisplayedCookieBanner" class="cookie-banner">
-      <div class="notices is-bottom is-flex w-100 is-align-items-center">
+      <div class="notices is-bottom flex items-center w-100">
         <div
           role="alertdialog"
           class="snackbar is-success is-bottom-left py-2 px-4 mb-3">

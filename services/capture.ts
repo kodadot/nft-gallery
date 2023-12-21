@@ -5,11 +5,16 @@ const api = $fetch.create({
   baseURL: CAPTURE_BASE_URL,
 })
 
-export const makeScreenshot = async (url: string) => {
+type Settings = {
+  delay?: number
+}
+
+export const makeScreenshot = async (url: string, settings?: Settings) => {
   const value = await api<any>('/screenshot', {
     method: 'POST',
     body: {
       url,
+      settings,
     },
   }).catch((error: FetchError) => {
     throw new Error(`[Capture::makeScreenshot] failed ${error.message}`)

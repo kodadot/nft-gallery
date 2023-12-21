@@ -1,8 +1,8 @@
 <template>
-  <div class="is-flex is-flex-direction-column wallet-asset">
+  <div class="flex flex-col wallet-asset">
     <WalletAssetSetIdentity v-if="!display" />
 
-    <div class="is-flex is-flex-direction-column wallet-asset-container mt-4">
+    <div class="flex flex-col wallet-asset-container mt-4">
       <WalletAssetIdentity />
       <WalletAssetNfts />
 

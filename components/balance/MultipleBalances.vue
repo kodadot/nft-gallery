@@ -7,14 +7,14 @@
     </div>
     <div v-else class="balance">
       <div class="balance-row has-text-grey is-size-7">
-        <div class="is-flex-grow-3">{{ $t('general.chain') }}</div>
-        <div class="has-text-right is-flex-grow-1">
+        <div class="flex-grow-[3]">{{ $t('general.chain') }}</div>
+        <div class="has-text-right flex-grow">
           {{ $t('general.token') }}
         </div>
-        <div class="has-text-right is-flex-grow-2">
+        <div class="has-text-right flex-grow-[2]">
           {{ $t('general.balance') }}
         </div>
-        <div class="has-text-right is-flex-grow-2">{{ $t('general.usd') }}</div>
+        <div class="has-text-right flex-grow-[2]">{{ $t('general.usd') }}</div>
       </div>
 
       <div
@@ -25,17 +25,17 @@
           v-for="token in filterEmptyBalanceChains(data.chain)"
           :key="token.name"
           class="balance-row">
-          <div class="is-capitalized is-flex-grow-3">
+          <div class="capitalize flex-grow-[3]">
             {{ data.key }}
           </div>
-          <div class="has-text-right is-flex-grow-1">
+          <div class="has-text-right flex-grow">
             {{ token.name.toUpperCase() }}
           </div>
 
-          <div class="has-text-right is-flex-grow-2">
+          <div class="has-text-right flex-grow-[2]">
             {{ formatNumber(token.details?.balance) }}
           </div>
-          <div class="has-text-right is-flex-grow-2">
+          <div class="has-text-right flex-grow-[2]">
             ${{ formatNumber(token.details?.usd || '0') }}
           </div>
         </div>
@@ -48,7 +48,7 @@
     </div>
 
     <hr class="my-2" />
-    <p class="is-flex is-justify-content-space-between is-align-items-flex-end">
+    <p class="flex justify-between items-end">
       <span class="is-size-7"> {{ $t('spotlight.total') }}: </span>
       <span class="is-size-6"
         >${{ formatNumber(identityStore.getTotalUsd) }}</span
@@ -116,7 +116,8 @@ const isEmptyBalanceOnAllChains = computed(() => {
     justify-content: space-between;
 
     & > * {
-      flex: 1;
+      flex-shrink: 1;
+      flex-basis: 0%;
     }
   }
 }

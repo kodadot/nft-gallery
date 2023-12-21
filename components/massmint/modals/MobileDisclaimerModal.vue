@@ -6,7 +6,7 @@
     content-class="mx-4"
     :can-cancel="false">
     <div class="px-6 py-5 modal-width">
-      <div class="is-flex is-size-5 mb-4 is-align-items-center">
+      <div class="flex is-size-5 mb-4 items-center">
         <NeoIcon icon="triangle-exclamation" pack="fasr" class="mr-3" />
         <span class="has-text-weight-bold">
           {{ $t('massmint.mobileDisclaimer.title') }}
@@ -20,7 +20,7 @@
         <br />
         {{ $t('massmint.mobileDisclaimer.content2') }}
       </div>
-      <div class="is-flex mt-5 is-align-items-center">
+      <div class="flex mt-5 items-center">
         <NeoButton
           variant="text"
           class="mr-4"

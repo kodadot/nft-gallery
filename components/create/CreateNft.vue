@@ -102,8 +102,7 @@
         :error="!form.salePrice"
         :label="`${$t('price')} *`">
         <div class="w-full">
-          <div
-            class="is-flex is-justify-content-space-between is-align-items-center is-relative">
+          <div class="flex justify-between items-center is-relative">
             <NeoInput
               v-model="form.salePrice"
               data-testid="create-nft-input-list-value"
@@ -193,7 +192,7 @@
 
       <!-- deposit and balance -->
       <div>
-        <div class="is-flex has-text-weight-medium has-text-info">
+        <div class="flex has-text-weight-medium has-text-info">
           <div>{{ $t('mint.deposit') }}:&nbsp;</div>
           <div>
             <span data-testid="create-nft-deposit-amount-token">
@@ -206,7 +205,7 @@
             </span>
           </div>
         </div>
-        <div class="is-flex">
+        <div class="flex">
           <div>{{ $t('general.balance') }}:&nbsp;</div>
           <div>
             <span>{{ balance }} {{ chainSymbol }}</span>
@@ -231,7 +230,7 @@
         native-type="submit"
         size="medium"
         :loading="isLoading" />
-      <div class="p-4 is-flex">
+      <div class="p-4 flex">
         <NeoIcon icon="circle-info" size="medium" class="mr-4" />
         <p class="is-size-7">
           <span

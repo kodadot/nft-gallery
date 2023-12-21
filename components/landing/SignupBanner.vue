@@ -6,7 +6,7 @@
           {{ $t('signupBanner.title') }}
         </h3>
 
-        <div class="ml-4 is-relative signup-banner-voucher is-flex-shrink-0">
+        <div class="ml-4 is-relative signup-banner-voucher flex-shrink-0">
           <img :src="signUpVoucherIcon" alt="signup voucher" />
           <img
             src="/signup-voucher-blur.svg"
@@ -57,8 +57,13 @@ const loading = ref(false)
 const submit = async () => {
   try {
     loading.value = true
-    await newsletterApi.subscribe(email.value)
-    preferencesStore.setSubscribedToNewsletter(true)
+    const response = await newsletterApi.subscribe(email.value)
+    preferencesStore.setNewsletterSubscription({
+      email: email.value,
+      subscribed: true,
+      confirmed: false,
+      id: response.id,
+    })
     successMessage($i18n.t('signupBanner.subscribed'))
   } catch (error) {
     dangerMessage($i18n.t('signupBanner.failed'))

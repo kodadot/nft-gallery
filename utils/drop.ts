@@ -1,10 +1,23 @@
-export const DEFAULT_DROP = '/ahp/drops/chroma'
+export const DEFAULT_DROP = {
+  alias: 'christmascity',
+  id: '60',
+  chain: 'ahp',
+}
+
+export const HOLDER_OF_DROP_MAP = {
+  '50': '51',
+}
+
+export const DROP_COLLECTION_TO_ALIAS_MAP = {
+  '51': 'chroma',
+}
 
 export const AHK_GENERATIVE_DROPS = [
   '176', // Chained
 ]
 
 export const AHP_GENERATIVE_DROPS = [
+  '60', // Christmas City
   '52', // Whirls
   '51', // Chroma
   '50', // .motherboard
@@ -15,3 +28,5 @@ export const AHP_GENERATIVE_DROPS = [
 ]
 
 export const AHP_POPULAR_DROP_COLLECTIONS = [...AHP_GENERATIVE_DROPS]
+
+export const FALLBACK_DROP_COLLECTION_MAX = 300

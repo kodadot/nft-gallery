@@ -87,7 +87,7 @@ Repotrends - new issues and pull requests
 --
 - [repotrends.com/kodadot/nft-gallery](https://www.repotrends.com/kodadot/nft-gallery)
 
-![image](https://github.com/kodadot/nft-gallery/assets/5887929/49ce2716-c207-4b8a-a58c-1317fb62ec5b)
+![image](https://github.com/kodadot/nft-gallery/assets/5887929/0a5efda6-3093-4a07-9aaa-eadc9439f4af)
 
 
 Recent Contributors ✨
