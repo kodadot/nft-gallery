@@ -51,7 +51,7 @@ export async function getSubscription(subscriptionId: string) {
 
 export async function resendConfirmationEmail(subscriptionId: string) {
   try {
-    const data = await api('/subscribe/resend-confirmation', {
+    const data = await api<{ id: string }>('/subscribe/resend-confirmation', {
       method: 'PUT',
       body: { subscriptionId },
     })

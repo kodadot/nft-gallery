@@ -372,7 +372,11 @@ const handleEmailSubscription = async (email: string) => {
 const handleResendConfirmationEmail = async () => {
   try {
     resendingConfirmationEmail.value = true
-    await resendConfirmationEmail(subscriptionId.value as string)
+    const data = await resendConfirmationEmail(subscriptionId.value as string)
+    preferencesStore.setNewsletterSubscription({
+      ...preferencesStore.getNewsletterSubscription,
+      id: data.id,
+    })
     toast($i18n.t('drops.emailConfirmationSent'))
   } catch (error) {
     toast($i18n.t('drops.failedEmailConfirmation'))
