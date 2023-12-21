@@ -3,7 +3,7 @@ import { Config } from './types'
 type WS_URL = `wss://${string}` | `ws://${string}`
 
 const KUSAMA_ENDPOINTS: WS_URL[] = [
-  'wss://kusama-rpc.polkadot.io',
+  // 'wss://kusama-rpc.polkadot.io',
   // 'wss://kusama.public.curie.radiumblock.co/ws', // https://github.com/polkadot-js/apps/issues/9763
   'wss://rpc.ibp.network/kusama',
   'wss://rpc.dotters.network/kusama',
@@ -12,10 +12,10 @@ const KUSAMA_ENDPOINTS: WS_URL[] = [
 ]
 
 const POLKADOT_ENDPOINTS: WS_URL[] = [
-  'wss://rpc.polkadot.io',
-  'wss://polkadot.public.curie.radiumblock.co/ws',
+  // 'wss://rpc.polkadot.io',
   'wss://rpc.ibp.network/polkadot',
   'wss://rpc.dotters.network/polkadot',
+  'wss://polkadot.public.curie.radiumblock.co/ws',
   'wss://1rpc.io/dot',
   'wss://polkadot-rpc.dwellir.com',
 ]
@@ -26,20 +26,20 @@ export const ALTERNATIVE_ENDPOINT_MAP: Config<WS_URL[]> = {
   rmrk: KUSAMA_ENDPOINTS,
   ksm: KUSAMA_ENDPOINTS,
   ahk: [
-    'wss://kusama-asset-hub-rpc.polkadot.io',
-    'wss://statemine-rpc.dwellir.com',
     'wss://sys.ibp.network/statemine',
     'wss://sys.dotters.network/statemine',
+    'wss://statemine-rpc.dwellir.com',
+    'wss://kusama-asset-hub-rpc.polkadot.io',
     'wss://rpc-asset-hub-kusama.luckyfriday.io',
     'wss://statemine.public.curie.radiumblock.co/ws',
   ],
   dot: POLKADOT_ENDPOINTS,
   ahp: [
+    'wss://sys.ibp.network/statemint',
+    'wss://sys.dotters.network/statemint',
     'wss://polkadot-asset-hub-rpc.polkadot.io',
     'wss://statemint-rpc.dwellir.com',
     'wss://statemint-rpc-tn.dwellir.com',
-    'wss://sys.ibp.network/statemint',
-    'wss://sys.dotters.network/statemint',
   ],
   // ahr: ['wss://rococo-asset-hub-rpc.polkadot.io'],
   // glmr: ['wss://public-rpc.pinknode.io/moonbeam'],
