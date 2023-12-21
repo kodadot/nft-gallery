@@ -3,17 +3,19 @@
     <div class="title is-2">{{ $t('general.featuredArticlesHeading') }}</div>
 
     <div class="columns">
-      <div v-for="article in articles" :key="article.title" class="column">
+      <div
+        v-for="article in articles.slice(0, 4)"
+        :key="article.id"
+        class="column">
         <CardArticle
-          :link="article.link"
-          :description="article.description"
-          :image="article.image"
+          :link="article.web_url"
+          :image="article.thumbnail_url"
           :title="article.title" />
       </div>
     </div>
 
     <a
-      href="https://kodadot.substack.com/"
+      href="https://kodadotweeklyroundup.beehiiv.com/"
       class="link"
       target="_blank"
       rel="nofollow noopener noreferrer">
@@ -24,16 +26,17 @@
 
 <script lang="ts" setup>
 import { CardArticle } from '@kodadot1/brick'
-import substack from '@/script/substack.json'
+import posts from '@/script/posts.json'
 
 interface Articles {
+  id: string
   title: string
-  description: string
-  image: string
-  link: string
+  subtitle: string
+  thumbnail_url: string
+  web_url: string
 }
 
-const articles: Articles[] = substack.post
+const articles: Articles[] = posts
 </script>
 
 <style scoped>
