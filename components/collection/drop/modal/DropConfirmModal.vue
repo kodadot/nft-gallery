@@ -174,7 +174,6 @@ watch([sanitizedMintedNft, retry], async ([mintedNft]) => {
 
 watchEffect(() => {
   const claiming = props.claiming
-  const isModalOpen = props.modelValue
   const alreadyConfirmed = props.emailConfirmed && !email.value
   const alreadySubscribed =
     props.subscriptionEmail && !email.value && !changeEmail.value
@@ -193,6 +192,10 @@ watchEffect(() => {
   } else if (!props.modelValue && isSuccessfulDropStep.value) {
     modalStep.value = ModalStep.EMAIL
   }
+})
+
+watchEffect(() => {
+  const isModalOpen = props.modelValue
 
   if (
     isModalOpen &&
