@@ -62,7 +62,7 @@ const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
 
 const showSignupBanner = computed(
-  () => !preferencesStore.getSubscribedToNewsletter,
+  () => !preferencesStore.getNewsletterSubscription.subscribed,
 )
 // currently only supported on rmrk
 const showCarousel = computed(
