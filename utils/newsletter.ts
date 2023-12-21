@@ -35,9 +35,11 @@ type SubscriptionByEmailResponse = {
 
 export async function getSubscription(email: string) {
   try {
-    return api<SubscriptionByEmailResponse>(`/subscribe/${email}`, {
+    const data = await api<SubscriptionByEmailResponse>(`/subscribe/${email}`, {
       method: 'GET',
     })
+
+    return data
   } catch (e) {
     throw new Error('[NEWSLETTER] Unable to get subscription' + e)
   }
@@ -45,10 +47,12 @@ export async function getSubscription(email: string) {
 
 export async function resendConfirmationEmail(email: string) {
   try {
-    return api('/subscribe/resend-confirmation', {
+    const data = await api('/subscribe/resend-confirmation', {
       method: 'PUT',
       body: { email },
     })
+
+    return data
   } catch (e) {
     throw new Error('[NEWSLETTER] Unable to resend confirmation email' + e)
   }
