@@ -46,6 +46,7 @@ const curatedCollection = {
     '131', // Forgive me not
   ],
   ahp: [
+    '60', //Christmas City
     '52', // Whirls
     '51', // Chroma Lattice
     '50', // .motherboard,
