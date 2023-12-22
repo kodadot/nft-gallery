@@ -4,6 +4,6 @@
 
 <script lang="ts" setup>
 definePageMeta({
-  layout: 'full-width-layout',
+  layout: 'full-width-no-footer',
 })
 </script>
