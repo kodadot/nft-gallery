@@ -122,9 +122,12 @@ export default function (
 
   const richestChainBalance = computed(() =>
     richestChain.value
-      ? Number(sourceChainsBalances.value[richestChain.value]) -
-        richestChainExistentialDeposit.value
+      ? Number(sourceChainsBalances.value[richestChain.value])
       : 0,
+  )
+
+  const transferableRichestChainBalance = computed(
+    () => richestChainBalance.value - richestChainExistentialDeposit.value,
   )
 
   const buffer = computed(() => {
@@ -135,15 +138,32 @@ export default function (
     return bufferFee === 0 ? amountFee : bufferFee
   })
 
-  const amountToTeleport = computed(
-    () =>
-      neededAmountWithFees.value +
-      buffer.value -
-      transferableCurrentChainBalance.value,
+  const teleportRequiredAmount = computed(
+    () => neededAmountWithFees.value + buffer.value,
+  )
+
+  const onlyRequiredAmountToTeleport = computed(
+    () => teleportRequiredAmount.value - transferableCurrentChainBalance.value,
+  )
+
+  const amountToTeleport = computed(() =>
+    shouldTeleportAllBalance.value
+      ? richestChainBalance.value - teleportRequiredAmount.value
+      : onlyRequiredAmountToTeleport.value,
+  )
+
+  const shouldTeleportAllBalance = computed<boolean>(() =>
+    richestChain.value
+      ? richestChainBalance.value - onlyRequiredAmountToTeleport.value <=
+          richestChainExistentialDeposit.value && !hasEnoughInCurrentChain.value
+      : false,
   )
 
   const hasEnoughInRichestChain = computed(
-    () => (richestChainBalance.value || 0) >= amountToTeleport.value,
+    () =>
+      (shouldTeleportAllBalance.value
+        ? richestChainBalance.value
+        : transferableRichestChainBalance.value || 0) >= amountToTeleport.value,
   )
 
   const addTeleportFee = computed(() => {
