@@ -5,6 +5,7 @@ export const useUnlockableTag = (small: boolean) => {
 
   const drop = ref()
 
+  const isReady = computed(() => Boolean(drop.value))
   const isMintedOut = computed(() => drop.value?.isMintedOut)
   const isFree = computed(() => drop.value?.isFree)
 
@@ -44,5 +45,6 @@ export const useUnlockableTag = (small: boolean) => {
     to,
     actionText,
     mintStatusText,
+    isReady,
   }
 }
