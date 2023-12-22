@@ -140,6 +140,7 @@
               class="mt-4" />
 
             <!-- price section -->
+            <GalleryItemHolderOf v-if="nft && isAssetHub" :nft="nft" />
             <GalleryItemAction :nft="nft" />
             <UnlockableTag
               v-if="isUnlockable && !isMobile"
@@ -207,6 +208,7 @@ import { usePreferencesStore } from '@/stores/preferences'
 const NuxtImg = resolveComponent('NuxtImg')
 
 const { urlPrefix } = usePrefix()
+const { isAssetHub } = useIsChain(urlPrefix)
 const route = useRoute()
 const router = useRouter()
 const { placeholder } = useTheme()
