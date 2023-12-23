@@ -138,17 +138,16 @@ export default function (
     return bufferFee === 0 ? amountFee : bufferFee
   })
 
-  const teleportRequiredAmount = computed(
-    () => neededAmountWithFees.value + buffer.value,
-  )
-
   const onlyRequiredAmountToTeleport = computed(
-    () => teleportRequiredAmount.value - transferableCurrentChainBalance.value,
+    () =>
+      neededAmountWithFees.value +
+      buffer.value -
+      transferableCurrentChainBalance.value,
   )
 
   const amountToTeleport = computed(() =>
     shouldTeleportAllBalance.value
-      ? richestChainBalance.value - teleportRequiredAmount.value
+      ? richestChainBalance.value - (buffer.value + totalFees.value)
       : onlyRequiredAmountToTeleport.value,
   )
 
@@ -177,9 +176,9 @@ export default function (
     return sourceChainProperties?.tokenSymbol === chainSymbol.value
   })
 
-  const fetchTeleportFee = computed(
+  const fetchTeleportFee = computed<boolean>(
     () =>
-      richestChain.value &&
+      Boolean(richestChain.value) &&
       !teleportTxFee.value &&
       addTeleportFee.value &&
       hasEnoughInRichestChain.value &&
