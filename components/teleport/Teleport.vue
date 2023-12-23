@@ -213,8 +213,16 @@ const recieveAmount = computed(() =>
 const targetExistentialDeposit = computed(
   () => existentialDeposit[chainToPrefixMap[toChain.value]],
 )
+const recieverBalance = computed(
+  () => Number(chainBalances[toChain.value]()) || 0,
+)
 
 const insufficientExistentialDeposit = computed(() => {
+  // any balance in the reciever account indicates that the account already exists
+  // and therefore must contain the existential deposit
+  if (recieverBalance.value > 0) {
+    return false
+  }
   return Boolean(
     targetExistentialDeposit.value &&
       amountToTeleport.value &&
