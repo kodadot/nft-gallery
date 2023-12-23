@@ -24,6 +24,19 @@ export default function () {
     return chainPropListOf(urlPrefix).tokenDecimals
   }
 
+  const withDecimals = (value: number) => {
+    // if already with decimals
+    if (value.toString().length === decimals.value) {
+      return value
+    }
+
+    return value * Math.pow(10, decimals.value)
+  }
+
+  const withoutDecimals = (value: number, digits = 4) => {
+    return Number((value / Math.pow(10, decimals.value)).toFixed(digits))
+  }
+
   const unit = computed<string>(() => {
     return chainProperties.value.tokenSymbol
   })
@@ -48,6 +61,8 @@ export default function () {
   return {
     decimals,
     decimalsOf,
+    withDecimals,
+    withoutDecimals,
     unit,
     offersDisabled,
     chainProperties,
