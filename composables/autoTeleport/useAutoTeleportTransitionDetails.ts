@@ -151,19 +151,22 @@ export default function (
       : onlyRequiredAmountToTeleport.value,
   )
 
-  const shouldTeleportAllBalance = computed<boolean>(() =>
-    richestChain.value
-      ? richestChainBalance.value - onlyRequiredAmountToTeleport.value <=
-          richestChainExistentialDeposit.value && !hasEnoughInCurrentChain.value
-      : false,
+  const shouldTeleportAllBalance = computed<boolean>(
+    () =>
+      Boolean(richestChain.value) &&
+      !hasEnoughInCurrentChain.value &&
+      richestChainBalance.value - onlyRequiredAmountToTeleport.value <=
+        richestChainExistentialDeposit.value,
   )
 
-  const hasEnoughInRichestChain = computed(
-    () =>
+  const hasEnoughInRichestChain = computed(() => {
+    const balance =
       (shouldTeleportAllBalance.value
         ? richestChainBalance.value
-        : transferableRichestChainBalance.value || 0) >= amountToTeleport.value,
-  )
+        : transferableRichestChainBalance.value) || 0
+
+    return balance >= amountToTeleport.value
+  })
 
   const addTeleportFee = computed(() => {
     if (!richestChain.value) {
