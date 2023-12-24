@@ -43,7 +43,14 @@ $table-th-font-weight: 400;
 
   @media (max-width: 1024px) {
     tbody tr {
-      @apply pt-6 bg-background-color;
+      @apply pt-6 bg-background-color shadow-none border-t-default border-t-k-shade;
+
+      &:first-child {
+        @apply border-t-0;
+      }
+      &:last-child {
+        @apply pb-6;
+      }
     }
 
     &__td {
@@ -57,10 +64,9 @@ $table-th-font-weight: 400;
         @apply border-b-default border-b-k-shade;
       }
     }
-
     &--hoverable {
       tbody tr:hover td {
-        @apply bg-background-color;
+        @apply bg-transparent #{!important};
       }
     }
   }
