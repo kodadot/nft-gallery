@@ -7,15 +7,20 @@
         height="42"
         src="/drop/unlockable-pulse-static.svg"
         alt="unlockable icon" />
-      <span>{{ mintStatusText }}</span>
+      <NeoSkeleton v-if="!isReady" height="15" no-margin width="120" />
+      <span v-else>{{ mintStatusText }}</span>
     </div>
-    <nuxt-link class="has-text-weight-bold" :to="to">
-      {{ actionText }}
-    </nuxt-link>
+    <div class="flex items-center">
+      <NeoSkeleton v-if="!isReady" height="15" no-margin width="80" />
+      <nuxt-link v-else class="has-text-weight-bold" :to="to">
+        {{ actionText }}
+      </nuxt-link>
+    </div>
   </div>
 </template>
 <script setup>
 import { useUnlockableTag } from './utils/useUnlockableTag'
+import { NeoSkeleton } from '@kodadot1/brick'
 
-const { to, actionText, mintStatusText } = useUnlockableTag(true)
+const { to, actionText, mintStatusText, isReady } = useUnlockableTag(true)
 </script>

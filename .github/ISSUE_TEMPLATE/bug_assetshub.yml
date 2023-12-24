@@ -1,7 +1,7 @@
-name: 🐞₷ Bug Report Polkadot & Kusama Asset Hubs (known as Statemint & Statemine)
-description: Create a report to help us improve KodaDot on Asset Hubs
+name: 🐞₷ Bug Report Polkadot Assets Hub & Kusama Asset Hub
+description: Create a report to help us improve KodaDot on Polkadot Asset Hub
 title: 'Be descriptive and short'
-labels: ['A-statemine', 'bug', 'p2']
+labels: ['A-statemint-ahp', 'bug', 'p2']
 body:
   - type: markdown
     attributes:
@@ -79,6 +79,12 @@ body:
       placeholder: Paste from your clipboard or upload screenshots/video
     validations:
       required: true
+  - type: textarea
+    id: wallet_address
+    attributes:
+      label: Wallet Address & Transaction hash
+      description: Putting your address & transaction hash will help us with investigation
+      placeholder: Putting your address & transaction hash will help us with investigation
   - type: textarea
     id: logs
     attributes:

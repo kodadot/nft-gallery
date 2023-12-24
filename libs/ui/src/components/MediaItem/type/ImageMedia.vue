@@ -75,7 +75,12 @@ const className = computed(() =>
     : 'block rounded-none',
 )
 
+const isBlob = computed(() => props.src.startsWith('blob:'))
+
 const toOriginalContentUrl = (baseurl: string) => {
+  if (isBlob.value) {
+    return baseurl
+  }
   const url = new URL(baseurl)
   url.searchParams.append('original', 'true')
   return url.toString()

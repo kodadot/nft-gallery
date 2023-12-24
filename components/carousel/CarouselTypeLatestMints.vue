@@ -9,9 +9,7 @@
             :to="urlOf({ id: item.id, url: 'gallery', chain: item.chain })"
             :title="item.name"
             class="has-text-weight-bold carousel-info-name">
-            <span class="is-ellipsis"
-              >{{ item.name || '--' }}#{{ item.id }}</span
-            >
+            <span class="is-ellipsis">{{ item.name || '--' }}</span>
           </nuxt-link>
 
           <div class="flex flex-col items-start">
@@ -74,5 +72,6 @@ const { data: latestEvents } = useGraphql({
 const nfts = computed(() =>
   flattenNFT(latestEvents.value?.events || [], urlPrefix.value),
 )
+
 const showCarousel = computed(() => nfts.value.length)
 </script>

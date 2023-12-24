@@ -51,7 +51,7 @@ export function useDrops() {
 }
 
 const getFormattedDropItem = async (collection, drop: DropItem) => {
-  const chainMax = collection?.max ?? 300
+  const chainMax = collection?.max ?? FALLBACK_DROP_COLLECTION_MAX
   const { count } = await getDropStatus(drop.alias)
   const price = ['paid', 'generative'].includes(drop.type) ? drop.meta : '0'
   return {
@@ -124,12 +124,14 @@ export const useDropMinimumFunds = (drop) => {
     () =>
       (currentChain.value && Number(chainBalances[currentChain.value]())) || 0,
   )
-  const minimumFunds = computed<number>(() => meta.value)
+  const minimumFunds = computed<number>(() => meta.value || 0)
   const transferableDropChainBalance = computed(
     () => currentChainBalance.value - existentialDeposit[urlPrefix.value],
   )
   const hasMinimumFunds = computed(
-    () => transferableDropChainBalance.value >= minimumFunds.value,
+    () =>
+      !minimumFunds.value ||
+      transferableDropChainBalance.value >= minimumFunds.value,
   )
 
   const { formatted: formattedMinimumFunds } = useAmount(
