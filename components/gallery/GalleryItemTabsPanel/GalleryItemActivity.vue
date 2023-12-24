@@ -61,7 +61,7 @@ const checkAll = () => {
 
 const cssActive = (value) => {
   return {
-    'events-checkbox-active': interactions.value.find(
+    'has-text-weight-bold': interactions.value.find(
       (interaction) => interaction === value,
     ),
   }
@@ -81,29 +81,17 @@ const cssActive = (value) => {
   }
 
   &-filter {
-    column-gap: 0.625rem;
+    column-gap: 1.75rem;
     row-gap: 1rem;
 
     @include mobile {
-      column-gap: 1rem;
+      column-gap: 3rem;
     }
   }
 
   .events-checkbox-container {
-    @include ktheme() {
-      border: 1px solid theme('k-shade');
-      &:hover {
-        border-color: theme('border-color');
-      }
-    }
-    border-radius: 25px;
-    padding: 5px 20px;
-  }
-
-  .events-checkbox-active {
-    @include ktheme() {
-      background-color: theme('k-shade');
-      color: theme('black');
+    &:hover {
+      @apply text-k-hover-grey;
     }
   }
 }
