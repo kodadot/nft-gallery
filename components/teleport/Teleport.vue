@@ -62,7 +62,7 @@
 
       <div class="is-relative w-full">
         <NeoInput
-          v-model="amount"
+          v-model="displayAmount"
           root-class="w-full"
           input-class="pr-2"
           min="0.01"
@@ -84,12 +84,19 @@
       v-if="myBalance !== undefined"
       class="is-size-7 flex justify-content align-items flex-direction">
       <TeleportFundsAtRiskWarning
-        v-if="insufficientExistentialDeposit"
-        :target-existential-deposit-amount="targetExistentialDepositAmount" />
+        v-if="showEDWarning && !isDisabledButton"
+        :target-existential-deposit="targetExistentialDeposit.displayValue"
+        :source-existential-deposit="sourceExistentialDeposit.displayValue"
+        :reason="warningReason" />
       <div class="flex">
         <span class="flex items-center">
           <span class="mr-2">{{ $t('general.balance') }}:</span
-          >{{ myBalanceWithoutDivision.toFixed(4) }}{{ currency }}
+          >{{
+            withoutDecimals({
+              value: myBalance,
+              prefix: chainToPrefixMap[fromChain],
+            })
+          }}{{ currency }}
         </span>
         <NeoButton
           no-shadow
@@ -115,7 +122,7 @@
     <div>
       {{
         $t('teleport.receiveValue', [
-          recieveAmount || 0,
+          amountAfterFees.displayValue || 0,
           currency,
           toChainLabel,
         ])
@@ -132,7 +139,9 @@
   </form>
   <TeleportEdWarningModal
     v-model="insufficientEDModalOpen"
-    :existential-deposit="targetExistentialDepositAmount"
+    :target-existential-deposit="targetExistentialDeposit.displayValue"
+    :source-existential-deposit="sourceExistentialDeposit.displayValue"
+    :reason="warningReason"
     :currency="currency"
     @continue="
       () => {
@@ -148,6 +157,7 @@ import '@polkadot/api-augment'
 import {
   Chain,
   allowedTransitions,
+  chainToPrecisionMap,
   chainToPrefixMap,
   getChainCurrency,
   getTransactionFee,
@@ -160,9 +170,13 @@ import { chainIcons, getChainName } from '@/utils/chain'
 import NetworkDropdown from './NetworkDropdown.vue'
 import { NeoButton, NeoField, NeoInput } from '@kodadot1/brick'
 import { blockExplorerOf } from '@/utils/config/chain.config'
-import { simpleDivision } from '@/utils/balance'
 import { useFiatStore } from '@/stores/fiat'
 import { existentialDeposit } from '@kodadot1/static'
+
+type ValuePair = {
+  value: number
+  displayValue: number | string
+}
 
 const {
   chainBalances,
@@ -175,49 +189,73 @@ const {
 
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
+const { withDecimals, withoutDecimals } = useChain()
 const fiatStore = useFiatStore()
 const fromChain = ref(Chain.POLKADOT) //Selected origin parachain
 const toChain = ref(Chain.ASSETHUBPOLKADOT) //Selected destination parachain
 const amount = ref(0) //Required amount to be transfered is stored here
+
+const displayAmount = computed({
+  get: () =>
+    withoutDecimals({
+      value: amount.value,
+      prefix: chainToPrefixMap[fromChain.value],
+    }),
+  set: (newValue) => {
+    amount.value = withDecimals(newValue, chainToPrefixMap[fromChain.value])
+  },
+})
 const unsubscribeKusamaBalance = ref()
 const teleportFee = ref()
 const insufficientEDModalOpen = ref(false)
 
-const DOT_BUFFER_FEE = 100000000 // 0.01
-const KSM_BUFFER_FEE = 1000000000 // 0.001
+const DOT_BUFFER_FEE = 10000000 // 0.01
+const KSM_BUFFER_FEE = 100000000 // 0.001
 
 const teleportBufferFee = computed(() =>
   currency.value === 'DOT' ? DOT_BUFFER_FEE : KSM_BUFFER_FEE,
 )
 
-const nativeAmount = computed(() =>
-  Math.floor(amount.value * Math.pow(10, currentTokenDecimals.value)),
-)
-
-const targetExistentialDepositAmount = computed(() =>
-  Number(
-    targetExistentialDeposit.value / Math.pow(10, targetTokenDecimals.value),
+const sourceExistentialDeposit: ValuePair = reactive({
+  value: computed(() => existentialDeposit[chainToPrefixMap[fromChain.value]]),
+  displayValue: computed(() =>
+    withoutDecimals({
+      value: sourceExistentialDeposit.value,
+      prefix: chainToPrefixMap[fromChain.value],
+      digits: chainToPrecisionMap[fromChain.value],
+    }),
   ),
+})
+
+const targetExistentialDeposit: ValuePair = reactive({
+  value: computed(() => existentialDeposit[chainToPrefixMap[toChain.value]]),
+  displayValue: computed(() =>
+    withoutDecimals({
+      value: targetExistentialDeposit.value,
+      prefix: chainToPrefixMap[toChain.value],
+      digits: chainToPrecisionMap[toChain.value],
+    }),
+  ),
+})
+
+const amountAfterFees: ValuePair = reactive({
+  value: computed(() => Math.max(amount.value - teleportFee.value, 0)),
+  displayValue: computed(() =>
+    formatBalance(amountAfterFees.value, currentTokenDecimals.value, false),
+  ),
+})
+
+const warningReason = computed(() =>
+  insufficientExistentialDepositOnTargetChain.value ? 'target' : 'source',
 )
 
-const amountToTeleport = computed(() =>
-  Math.max(nativeAmount.value - teleportFee.value, 0),
-)
+const insufficientAmountAfterFees = computed(() => amountAfterFees.value === 0)
 
-const insufficientAmountAfterFees = computed(() => amountToTeleport.value === 0)
-
-const recieveAmount = computed(() =>
-  formatBalance(amountToTeleport.value, currentTokenDecimals.value, false),
-)
-
-const targetExistentialDeposit = computed(
-  () => existentialDeposit[chainToPrefixMap[toChain.value]],
-)
 const recieverBalance = computed(
   () => Number(chainBalances[toChain.value]()) || 0,
 )
 
-const insufficientExistentialDeposit = computed(() => {
+const insufficientExistentialDepositOnTargetChain = computed(() => {
   // any balance in the reciever account indicates that the account already exists
   // and therefore must contain the existential deposit
   if (recieverBalance.value > 0) {
@@ -225,10 +263,27 @@ const insufficientExistentialDeposit = computed(() => {
   }
   return Boolean(
     targetExistentialDeposit.value &&
-      amountToTeleport.value &&
-      targetExistentialDeposit.value > amountToTeleport.value,
+      amountAfterFees.value &&
+      targetExistentialDeposit.value > amountAfterFees.value,
   )
 })
+const insufficientExistentialDepositOnSourceChain = computed(() => {
+  const remainingBalance = myBalance.value - amount.value
+  // allowed to send the entire balance, as this will not result in loss of funds
+  // on the source chain due to existential deposit
+  if (remainingBalance === 0) {
+    return false
+  }
+  return remainingBalance < sourceExistentialDeposit.value
+})
+
+const insufficientBalance = computed(() => amount.value > myBalance.value)
+
+const showEDWarning = computed(
+  () =>
+    insufficientExistentialDepositOnTargetChain.value ||
+    insufficientExistentialDepositOnSourceChain.value,
+)
 
 const teleportLabel = computed(() => {
   if (insufficientBalance.value) {
@@ -333,8 +388,6 @@ const currentTokenDecimals = computed(() =>
   getChainTokenDecimals(fromChain.value),
 )
 
-const targetTokenDecimals = computed(() => getChainTokenDecimals(toChain.value))
-
 const toChainLabel = computed(() =>
   getChainName(chainToPrefixMap[toChain.value]),
 )
@@ -388,15 +441,7 @@ const fromAddress = computed(() => getAddressByChain(fromChain.value))
 const toAddress = computed(() => getAddressByChain(toChain.value))
 
 const totalFiatValue = computed(() =>
-  calculateExactUsdFromToken(amount.value, Number(tokenFiatValue.value)),
-)
-
-const insufficientBalance = computed(
-  () => Number(amount.value) > myBalanceWithoutDivision.value,
-)
-
-const myBalanceWithoutDivision = computed(() =>
-  simpleDivision(myBalance.value, currentTokenDecimals.value),
+  calculateExactUsdFromToken(displayAmount.value, Number(tokenFiatValue.value)),
 )
 
 const isDisabledButton = computed(() => {
@@ -409,12 +454,11 @@ const isDisabledButton = computed(() => {
 })
 
 const handleMaxClick = () => {
-  amount.value =
-    Math.floor((myBalanceWithoutDivision.value || 0) * 10 ** 4) / 10 ** 4
+  amount.value = myBalance.value
 }
 
 const checkEDBeforeTeleport = () => {
-  if (insufficientExistentialDeposit.value) {
+  if (showEDWarning.value) {
     insufficientEDModalOpen.value = true
   } else {
     teleport()
@@ -423,7 +467,7 @@ const checkEDBeforeTeleport = () => {
 
 const teleport = async () => {
   await sendXCM({
-    amount: amountToTeleport.value,
+    amount: amountAfterFees.value,
     from: fromChain.value,
     to: toChain.value,
     toAddress: toAddress.value,
