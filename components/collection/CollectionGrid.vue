@@ -26,7 +26,10 @@
       <CollectionCard v-for="n in skeletonCount" :key="n" is-loading />
     </DynamicGrid>
 
-    <EmptyResult v-else />
+    <template v-else>
+      <slot v-if="slots['empty-result']" name="empty-result"></slot>
+      <EmptyResult v-else />
+    </template>
 
     <ScrollTopButton />
   </div>
@@ -47,7 +50,7 @@ import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 const props = defineProps<{
   id?: string
 }>()
-
+const slots = useSlots()
 const route = useRoute()
 const { urlPrefix, client } = usePrefix()
 const { isRemark } = useIsChain(urlPrefix)

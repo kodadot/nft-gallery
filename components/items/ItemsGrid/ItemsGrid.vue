@@ -64,7 +64,11 @@
         :hide-media-info="hideMediaInfo" />
     </DynamicGrid>
 
-    <EmptyResult v-if="total === 0 && (!isLoading || !isFetchingData)" />
+    <template v-if="total === 0 && (!isLoading || !isFetchingData)">
+      <slot v-if="slots['empty-result']" name="empty-result"></slot>
+      <EmptyResult v-else />
+    </template>
+
     <ScrollTopButton />
   </div>
 </template>
@@ -83,6 +87,7 @@ import { useListingCartStore } from '@/stores/listingCart'
 import { getTokensNfts } from './useNftActions'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { GridSection } from '@/stores/preferences'
+const slots = useSlots()
 
 const { listingCartEnabled } = useListingCartConfig()
 const listingCartStore = useListingCartStore()

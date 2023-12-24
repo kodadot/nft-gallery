@@ -166,13 +166,21 @@
         <ItemsGrid
           :search="itemsGridSearch"
           :grid-section="gridSection"
-          :reset-search-query-params="['sort']" />
+          :reset-search-query-params="['sort']">
+          <template #empty-result>
+            <ProfileEmptyResult />
+          </template>
+        </ItemsGrid>
       </div>
 
       <CollectionGrid
         v-if="activeTab === ProfileTab.COLLECTIONS"
         :id="id"
-        class="pt-7" />
+        class="pt-7">
+        <template #empty-result>
+          <ProfileEmptyResult />
+        </template>
+      </CollectionGrid>
 
       <Activity v-if="activeTab === ProfileTab.ACTIVITY" :id="id" />
     </div>
@@ -199,6 +207,7 @@ import { chainsWithMintInteraction } from '@/composables/collectionActivity/help
 import { Interaction } from '@kodadot1/minimark/v1'
 import CollectionFilter from './CollectionFilter.vue'
 import GridLayoutControls from '@/components/shared/GridLayoutControls.vue'
+import ProfileEmptyResult from '@/components/profile/ProfileEmptyResult.vue'
 
 enum ProfileTab {
   OWNED = 'owned',
