@@ -12,13 +12,13 @@ export const SERVICES: Record<string, string> = {
 export const EXPLORERS: Record<Prefix, string> = {
   rmrk: 'https://kusama.subscan.io/account/',
   ksm: 'https://kusama.subscan.io/account/',
-  bsx: 'https://basilisk.subscan.io/account/',
   ahk: 'https://assethub-kusama.subscan.io/account/',
   dot: 'https://polkadot.subscan.io/account/',
   ahp: 'https://assethub-polkadot.subscan.io/account/',
   // ahr: 'https://assethub-rococo.subscan.io/account/',
   // movr: 'https://moonriver.subscan.io/account/',
   // glmr: 'https://moonbeam.subscan.io/account/',
+  // bsx: 'https://basilisk.subscan.io/account/',
 }
 
 export const hasExplorer = (prefix: Prefix): boolean => {
