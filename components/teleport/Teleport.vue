@@ -183,7 +183,7 @@ const unsubscribeKusamaBalance = ref()
 const teleportFee = ref()
 const insufficientEDModalOpen = ref(false)
 
-const DOT_BUFFER_FEE = 100000000 // 0.01
+const DOT_BUFFER_FEE = 150000000 // 0.015
 const KSM_BUFFER_FEE = 1000000000 // 0.001
 
 const teleportBufferFee = computed(() =>
