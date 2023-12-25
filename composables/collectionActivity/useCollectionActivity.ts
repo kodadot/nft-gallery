@@ -1,5 +1,5 @@
 import { Flippers, InteractionWithNFT, Offer, Owners } from './types'
-import { getFlippers, getOffers, getOwners } from './helpers'
+import { getFlippers, getOwners } from './helpers'
 
 export const useCollectionActivity = ({ collectionId }) => {
   const { urlPrefix } = usePrefix()
@@ -9,7 +9,6 @@ export const useCollectionActivity = ({ collectionId }) => {
   const offers = ref<Offer[]>([])
 
   const queryPrefixMap = {
-    bsx: 'chain-bsx',
     ksm: 'chain-ksm',
   }
 
@@ -36,10 +35,6 @@ export const useCollectionActivity = ({ collectionId }) => {
         )
         .flat()
       events.value = interactions
-
-      if (urlPrefix.value === 'bsx') {
-        offers.value = getOffers(result.collection.nfts)
-      }
 
       // not to repeat ref names
       const ownersTemp = getOwners(result.collection.nfts)
