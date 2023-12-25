@@ -104,9 +104,7 @@ const placeholderContent = computed(() =>
     : $i18n.t('general.searchPlaceholder'),
 )
 
-const showDefaultSuggestions = computed(
-  () => urlPrefix.value === 'rmrk' || urlPrefix.value === 'bsx',
-)
+const showDefaultSuggestions = computed(() => urlPrefix.value === 'rmrk')
 
 function exitCollectionSearch() {
   if (isCollectionSearchMode.value && !name.value) {
