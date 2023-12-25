@@ -5,7 +5,6 @@ import consola from 'consola'
 import { emptyObject } from '@/utils/empty'
 import { formatAddress } from '@/utils/account'
 import type { Prefix } from '@kodadot1/static'
-import { getKusamaAssetId } from '@/utils/api/bsx/query'
 
 const DEFAULT_BALANCE_STATE = {
   bsx: '0',
@@ -30,12 +29,7 @@ type ChangeAddressRequest = {
   apiUrl?: string
 }
 
-export type ChainType =
-  | 'polkadot'
-  | 'kusama'
-  | 'basilisk'
-  | 'kusamaHub'
-  | 'polkadotHub'
+export type ChainType = 'polkadot' | 'kusama' | 'kusamaHub' | 'polkadotHub'
 // | 'rococoHub'
 
 type ChainDetail = {
@@ -105,8 +99,6 @@ export const useIdentityStore = defineStore('identity', {
       { chain: 'kusamaHub' },
       { chain: 'polkadot', token: 'DOT' },
       { chain: 'polkadotHub', token: 'DOT' },
-      { chain: 'basilisk', token: 'BSX' },
-      { chain: 'basilisk', token: 'KSM', tokenId: getKusamaAssetId('bsx') },
     ],
     multiBalanceAssetsTestnet: [
       // { chain: 'rococoHub', token: 'ROC' },

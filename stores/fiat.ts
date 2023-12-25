@@ -61,8 +61,6 @@ export const useFiatStore = defineStore('fiat', {
     async fetchFiatPrice() {
       const ksmPrice = await getPrice('kusama')
       this.fiatPrice = Object.assign({}, this.fiatPrice, ksmPrice)
-      const bsxPrice = await getPrice('basilisk')
-      this.fiatPrice = Object.assign({}, this.fiatPrice, bsxPrice)
       const dotPrice = await getPrice('polkadot')
       this.fiatPrice = Object.assign({}, this.fiatPrice, dotPrice)
     },
