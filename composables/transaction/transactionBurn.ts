@@ -15,7 +15,6 @@ import { warningMessage } from '@/utils/notification'
 import { isLegacy } from '@/components/unique/utils'
 import {
   assetHubParamResolver,
-  bsxParamResolver,
   getApiCall,
 } from '@/utils/gallery/abstractCalls'
 import type { ActionBurnMultipleNFTs, ActionConsume } from './types'
@@ -44,47 +43,6 @@ export function execBurnTx(item: ActionConsume, api, executeTransaction) {
     })
   }
 
-  if (item.urlPrefix === 'bsx') {
-    const [collectionId, tokenId] = bsxParamResolver(
-      item.nftId,
-      Interaction.CONSUME,
-      '',
-    )
-    const hasOffers = ref(false)
-    const { data } = useGraphql({
-      queryName: 'acceptableOfferListByNftId',
-      queryPrefix: 'chain-bsx',
-      variables: {
-        id: item.nftId,
-      },
-    })
-
-    watch(data, () => {
-      hasOffers.value = Boolean(data.value.offers.length)
-      const offerWithdrawArgs = data.value.offers.map(
-        (offer: { caller: string }) => {
-          return api.tx.marketplace.withdrawOffer(
-            collectionId,
-            tokenId,
-            offer.caller,
-          )
-        },
-      )
-      const cb = hasOffers.value
-        ? api.tx.utility.batchAll
-        : getApiCall(api, item.urlPrefix, Interaction.CONSUME)
-      const arg = hasOffers.value
-        ? [[...offerWithdrawArgs, api.tx.nft.burn(collectionId, tokenId)]]
-        : bsxParamResolver(item.nftId, Interaction.CONSUME, '')
-
-      executeTransaction({
-        cb,
-        arg,
-        successMessage: item.successMessage,
-        errorMessage: item.errorMessage,
-      })
-    })
-  }
   // item.urlPrefix === 'ahr'
   if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
     const legacy = isLegacy(item.nftId)
@@ -200,12 +158,6 @@ export async function execBurnCollection(
       })
     }
 
-    if (params.urlPrefix === 'bsx') {
-      executeTransaction({
-        cb: api.tx.nft.destroyCollection,
-        arg: [collectionId],
-      })
-    }
     // item.urlPrefix === 'ahr'
     if (params.urlPrefix === 'ahk' || params.urlPrefix === 'ahp') {
       const witness = (
