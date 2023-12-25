@@ -91,6 +91,10 @@ const generateNft = (isDefault: boolean = false) => {
   }, 3000)
 }
 
+watch(isLoading, (loading) => {
+  document.body.style.cursor = loading ? 'wait' : 'initial'
+})
+
 watch(
   accountId,
   () => {
