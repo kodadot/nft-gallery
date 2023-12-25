@@ -268,11 +268,6 @@ const fromNetworks = [
     icon: chainIcons.rmrk,
   },
   {
-    label: getChainName('bsx'),
-    value: Chain.BASILISK,
-    icon: chainIcons.bsx,
-  },
-  {
     label: getChainName('ahk'),
     value: Chain.ASSETHUBKUSAMA,
     icon: chainIcons.ahk,
@@ -294,12 +289,6 @@ const toNetworks = [
     value: Chain.KUSAMA,
     disabled: computed(() => isDisabled(Chain.KUSAMA)),
     icon: chainIcons.rmrk,
-  },
-  {
-    label: getChainName('bsx'),
-    value: Chain.BASILISK,
-    disabled: computed(() => isDisabled(Chain.BASILISK)),
-    icon: chainIcons.bsx,
   },
   {
     label: getChainName('ahk'),
