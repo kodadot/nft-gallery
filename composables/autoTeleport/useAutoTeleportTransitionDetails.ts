@@ -179,7 +179,7 @@ export default function (
     return sourceChainProperties?.tokenSymbol === chainSymbol.value
   })
 
-  const fetchTeleportFee = computed<boolean>(
+  const canGetTeleportFee = computed<boolean>(
     () =>
       Boolean(richestChain.value) &&
       !teleportTxFee.value &&
@@ -230,8 +230,8 @@ export default function (
     ])
   }
 
-  watch(fetchTeleportFee, async () => {
-    if (fetchTeleportFee.value) {
+  watch(canGetTeleportFee, async () => {
+    if (canGetTeleportFee.value) {
       fetched.value.teleportTxFee = false
       const fee = await getTeleportTransactionFee()
       teleportTxFee.value = Number(fee) || 0
