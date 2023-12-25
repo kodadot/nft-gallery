@@ -1,3 +1,5 @@
+// TODO: REMOVE!!!
+
 import { Interaction } from '@kodadot1/minimark/v1'
 import { hasMarketplace } from './prefix'
 
@@ -75,11 +77,7 @@ export const getActionList = (
   return [...new Set(baseActions)]
 }
 
-export const getChainSpecificActions = (prefix: string, isOwner: boolean) => {
-  if (prefix === 'bsx') {
-    return !isOwner ? makeOfferActions : []
-  }
-
+export const getChainSpecificActions = (_prefix: string, _isOwner: boolean) => {
   return []
 }
 
