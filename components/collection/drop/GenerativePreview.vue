@@ -92,7 +92,9 @@ const generateNft = (isDefault: boolean = false) => {
 }
 
 watch(isLoading, (loading) => {
-  document.body.style.cursor = loading ? 'wait' : 'initial'
+  if (process.client) {
+    document.body.style.cursor = loading ? 'wait' : 'initial'
+  }
 })
 
 watch(
