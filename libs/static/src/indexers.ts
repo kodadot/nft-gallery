@@ -6,7 +6,6 @@ type SquidEndpoint =
   | `https://query-${Squid}.stellate.sh`
 
 export const INDEXERS: Config<SquidEndpoint> = {
-  bsx: 'https://squid.subsquid.io/snekk/graphql',
   rmrk: 'https://squid.subsquid.io/rubick/graphql',
   ksm: 'https://squid.subsquid.io/marck/v/v2/graphql',
   ahk: 'https://query-stick.stellate.sh',
@@ -15,6 +14,7 @@ export const INDEXERS: Config<SquidEndpoint> = {
   // ahr: 'https://squid.subsquid.io/snack/graphql',
   // movr: 'https://squid.subsquid.io/antick/v/001-rc0/graphql',
   // glmr: 'https://squid.subsquid.io/click/v/002/graphql',
+  // bsx: 'https://squid.subsquid.io/snekk/graphql',
 }
 
 export const toApolloEndpoint = (httpEndpoint: string): ApolloEndpoint => ({
