@@ -29,7 +29,7 @@ export default function () {
   })
 
   const offersDisabled = computed(() => {
-    return urlPrefix.value !== 'bsx'
+    return true
   })
 
   const availableChains = computed(availablePrefixes)

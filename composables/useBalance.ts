@@ -5,8 +5,7 @@ export default function () {
   const { urlPrefix } = usePrefix()
   const identityStore = useIdentityStore()
 
-  const getBalance = (token: string) => {
-    token = token.toLocaleLowerCase()
+  const getBalance = (_token: string) => {
     switch (urlPrefix.value) {
       case 'rmrk':
       case 'ksm':
@@ -15,9 +14,6 @@ export default function () {
       case 'dot':
         // case 'ahr':
         return identityStore.getAuthBalance
-      case 'bsx':
-        return identityStore.multiBalances.chains.basilisk?.[token]
-          ?.nativeBalance
       default:
         return identityStore.getTokenBalanceOf(
           getKusamaAssetId(urlPrefix.value),
