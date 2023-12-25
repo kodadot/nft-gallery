@@ -25,13 +25,13 @@ const DEFAULT_CHAIN_PROPERTIES: ChainProperties = toChainProperty(
 export const CHAINS: Config<ChainProperties> = {
   rmrk: DEFAULT_CHAIN_PROPERTIES,
   ksm: DEFAULT_CHAIN_PROPERTIES,
-  bsx: toChainProperty(10_041, 12, 'BSX', 'https://basilisk.subscan.io/'),
   ahk: toChainProperty(2, 12, 'KSM', 'https://statemine.subscan.io/'),
   dot: toChainProperty(0, 10, 'DOT', 'https://polkadot.subscan.io/'),
   ahp: toChainProperty(0, 10, 'DOT', 'https://statemint.subscan.io/'),
   // ahr: toChainProperty(42, 12, 'ROC', 'https://rockmine.subscan.io/'),
   // movr: toChainProperty(1285, 18, 'MOVR', 'https://moonriver.subscan.io/'),
   // glmr: toChainProperty(1284, 18, 'GLMR', 'https://moonbeam.subscan.io/'),
+  // bsx: toChainProperty(10_041, 12, 'BSX', 'https://basilisk.subscan.io/'),
 }
 
 export const DEFAULT_PREFIX: Prefix = 'ahp'
@@ -42,10 +42,10 @@ export const chainPrefixes: Prefix[] = [
   'rmrk',
   'ksm',
   'dot',
-  'bsx',
   // 'ahr',
   // 'movr',
   // 'glmr',
+  // 'bsx',
 ]
 export const chainPrefixesMap = chainPrefixes.reduce(
   (acc: Partial<Record<Prefix, Prefix>>, prefix: Prefix) => ({
@@ -56,7 +56,6 @@ export const chainPrefixesMap = chainPrefixes.reduce(
 ) as Record<Prefix, Prefix>
 
 export const chainInfo: Record<Prefix, string> = {
-  bsx: 'basilisk',
   rmrk: 'kusama',
   ksm: 'rmrk',
   ahk: 'statemine',
@@ -65,10 +64,10 @@ export const chainInfo: Record<Prefix, string> = {
   // ahr: 'rockmine',
   // movr: 'moonriver',
   // glmr: 'moonbeam',
+  // bsx: 'basilisk',
 }
 
 export const chainNames: Record<Prefix, string> = {
-  bsx: 'Basilisk',
   rmrk: 'Kusama',
   ksm: 'Kusama',
   ahk: 'Kusama AssetHub',
@@ -77,6 +76,7 @@ export const chainNames: Record<Prefix, string> = {
   // ahr: 'Rococo AssetHub',
   // movr: 'Moonriver',
   // glmr: 'Moonbeam',
+  // bsx: 'Basilisk',
 }
 
 export const chainList = (): Option[] => {
@@ -93,5 +93,4 @@ export const existentialDeposit: Record<Prefix, number> = {
   ahk: 33333333,
   dot: 10000000000,
   ahp: 1000000000,
-  bsx: 1000000000000,
 }
