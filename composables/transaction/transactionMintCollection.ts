@@ -1,5 +1,4 @@
 import { MintCollectionParams } from './types'
-import { execMintCollectionBasilisk } from './mintCollection/transactionMintCollectionBasilisk'
 import { execMintCollectionRmrk } from './mintCollection/transactionMintCollectionRmrk'
 import { execMintCollectionStatemine } from './mintCollection/transactionMintCollectionStatemine'
 
@@ -20,15 +19,6 @@ export function execMintCollection({
     })
   }
 
-  if (item.urlPrefix === 'bsx') {
-    return execMintCollectionBasilisk({
-      item,
-      api,
-      executeTransaction,
-      isLoading,
-      status,
-    })
-  }
   // item.urlPrefix === 'ahr'
   if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
     return execMintCollectionStatemine({
