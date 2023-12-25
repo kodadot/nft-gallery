@@ -1,6 +1,7 @@
 import { prefixToToken } from '@/components/common/shoppingCart/utils'
+import { DropItem } from '@/params/types'
 
-export default (drop) => {
+export default (drop?: DropItem) => {
   const defaultImage = computed(() => drop?.image)
   const defaultName = computed(() => drop?.name)
   const defaultMax = computed(() => drop?.max || 255)

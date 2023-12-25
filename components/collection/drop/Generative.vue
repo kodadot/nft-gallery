@@ -97,15 +97,12 @@ import GenerativePreview from '@/components/collection/drop/GenerativePreview.vu
 import { DropItem } from '@/params/types'
 import { doWaifu } from '@/services/waifu'
 import { useDropMinimumFunds, useDropStatus } from '@/components/drops/useDrops'
-import { makeScreenshot } from '@/services/capture'
-import { pinFileToIPFS } from '@/services/nftStorage'
-import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import DropConfirmModal from './modal/DropConfirmModal.vue'
 import ListingCartModal from '@/components/common/listingCart/ListingCartModal.vue'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
-import useGenerativeDrop from './composables/useGenerativeDrop'
-import useDropNewsletter from './composables/useGenerativeDropNewsletter'
+import useGenerativeDropMint from './composables/useGenerativeDropMint'
+import useGenerativeDropNewsletter from './composables/useGenerativeDropNewsletter'
 import useGenerativeDropDetails from './composables/useGenerativeDropDetails'
 
 const MINTING_SECOND = 120
@@ -159,7 +156,7 @@ const {
   sendConfirmationEmailOnModalOpen,
   subscriptionId,
   emailConfirmed,
-} = useDropNewsletter()
+} = useGenerativeDropNewsletter()
 
 const minimumFundsDescription = computed(() =>
   $i18n.t('mint.unlockable.freeMinimumFundsDescription', [
@@ -169,7 +166,6 @@ const minimumFundsDescription = computed(() =>
 )
 
 const isWalletConnecting = ref(false)
-const selectedImage = ref<string>('')
 const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isConfirmModalActive = ref(false)
@@ -189,12 +185,16 @@ const {
   hasUserMinted,
   mintedCount,
   mintCountAvailable,
-} = useGenerativeDrop({
+  selectedImage,
+  tryCapture,
+  subscribeToMintedNft,
+} = useGenerativeDropMint({
   collectionData,
   defaultMax,
   currentAccountMintedToken,
   collectionId,
   mintedDropCount,
+  defaultImage,
 })
 
 const canListMintedNft = computed(() => Boolean(mintedNftWithMetadata.value))
@@ -225,20 +225,6 @@ const collectionName = computed(
 
 const handleSelectImage = (image: string) => {
   selectedImage.value = image
-}
-
-const tryCapture = async () => {
-  try {
-    // Remove delay after 24.12.2023
-    const imgFile = await makeScreenshot(sanitizeIpfsUrl(selectedImage.value), {
-      delay: 45000,
-    })
-    const imageHash = await pinFileToIPFS(imgFile)
-    return imageHash
-  } catch (error) {
-    toast($i18n.t('drops.capture'))
-    return defaultImage.value
-  }
 }
 
 const clearWalletConnecting = () => {
@@ -281,15 +267,6 @@ const openAddFundModal = () => {
 
 const closeAddFundModal = () => {
   isAddFundModalActive.value = false
-}
-
-const subscribeToMintedNft = (id: string, onReady: (data) => void) => {
-  useSubscriptionGraphql({
-    query: `nftEntityById(id: "${id}") {
-    id
-  }`,
-    onChange: onReady,
-  })
 }
 
 const submitMint = async () => {
