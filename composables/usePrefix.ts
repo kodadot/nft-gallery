@@ -57,12 +57,8 @@ export default function () {
 
   const tokenId = computed(() => getKusamaAssetId(urlPrefix.value))
 
-  const assets = (id: string | number) => {
-    if (prefix.value === 'bsx') {
-      useAssetsStore().fetchAssetList()
-    }
-    return useAssetsStore().getAssetById(String(id))
-  }
+  const assets = (id: string | number) =>
+    useAssetsStore().getAssetById(String(id))
 
   const isTestnet = false // computed(() => prefix.value === 'ahr')
 
