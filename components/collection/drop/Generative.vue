@@ -95,7 +95,7 @@ import CarouselTypeLatestMints from '@/components/carousel/CarouselTypeLatestMin
 import { createUnlockableMetadata } from '../unlockable/utils'
 import GenerativePreview from '@/components/collection/drop/GenerativePreview.vue'
 import { DropItem } from '@/params/types'
-import { DoResult, doWaifu } from '@/services/waifu'
+import { doWaifu } from '@/services/waifu'
 import { useDropMinimumFunds, useDropStatus } from '@/components/drops/useDrops'
 import { makeScreenshot } from '@/services/capture'
 import { pinFileToIPFS } from '@/services/nftStorage'
@@ -110,12 +110,6 @@ import useGenerativeDropDetails from './composables/useGenerativeDropDetails'
 
 const MINTING_SECOND = 120
 
-export type DropMintedNft = DoResult & {
-  id: string
-  collectionName: string
-  name: string
-}
-
 const props = defineProps({
   drop: {
     type: Object,
@@ -124,8 +118,6 @@ const props = defineProps({
     },
   },
 })
-
-useMultipleBalance(true)
 
 const { width } = useWindowSize()
 const isMobile = computed(() => width.value <= 768)
