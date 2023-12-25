@@ -126,8 +126,11 @@ export default function (
       : 0,
   )
 
-  const transferableRichestChainBalance = computed(
-    () => richestChainBalance.value - richestChainExistentialDeposit.value,
+  const transferableRichestChainBalance = computed(() =>
+    Math.max(
+      richestChainBalance.value - richestChainExistentialDeposit.value,
+      0,
+    ),
   )
 
   const buffer = computed(() => {
@@ -138,7 +141,7 @@ export default function (
     return bufferFee === 0 ? amountFee : bufferFee
   })
 
-  const onlyRequiredAmountToTeleport = computed(
+  const requiredAmountToTeleport = computed(
     () =>
       neededAmountWithFees.value +
       buffer.value -
@@ -148,22 +151,27 @@ export default function (
   const amountToTeleport = computed(() =>
     shouldTeleportAllBalance.value
       ? richestChainBalance.value - (buffer.value + totalFees.value)
-      : onlyRequiredAmountToTeleport.value,
+      : requiredAmountToTeleport.value,
   )
 
-  const shouldTeleportAllBalance = computed<boolean>(
-    () =>
-      Boolean(richestChain.value) &&
-      !hasEnoughInCurrentChain.value &&
-      richestChainBalance.value - onlyRequiredAmountToTeleport.value <=
-        richestChainExistentialDeposit.value,
-  )
+  const shouldTeleportAllBalance = computed<boolean>(() => {
+    const hasRichesChain = Boolean(richestChain.value)
+    const doesntHaveEnoughInCurrentChain = !hasEnoughInCurrentChain.value
+    const willRemainingRichestChainBalanceBeSlashed =
+      richestChainBalance.value - requiredAmountToTeleport.value <=
+      richestChainExistentialDeposit.value
+
+    return (
+      hasRichesChain &&
+      doesntHaveEnoughInCurrentChain &&
+      willRemainingRichestChainBalanceBeSlashed
+    )
+  })
 
   const hasEnoughInRichestChain = computed(() => {
-    const balance =
-      (shouldTeleportAllBalance.value
-        ? richestChainBalance.value
-        : transferableRichestChainBalance.value) || 0
+    const balance = shouldTeleportAllBalance.value
+      ? richestChainBalance.value
+      : transferableRichestChainBalance.value
 
     return balance >= amountToTeleport.value
   })
