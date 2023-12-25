@@ -36,7 +36,7 @@ export default function (
   const { apiInstance, apiInstanceByPrefix } = useApi()
   const { balance } = useBalance()
 
-  const fetched = ref({
+  const hasFetched = reactive({
     teleportTxFee: false,
     actionTxFees: false,
     balances: false,
@@ -109,7 +109,7 @@ export default function (
     () =>
       (Boolean(currentChainBalance.value) &&
         Object.values(sourceChainsBalances.value).every(Boolean)) ||
-      fetched.value.balances,
+      hasFetched.balances,
   )
 
   const richestChain = computed<Chain | undefined>(
@@ -213,8 +213,8 @@ export default function (
     }
 
     return [
-      fetched.value.teleportTxFee,
-      actionAutoFees.value || fetched.value.actionTxFees,
+      hasFetched.teleportTxFee,
+      actionAutoFees.value || hasFetched.actionTxFees,
     ].every(Boolean)
   })
 
@@ -240,10 +240,10 @@ export default function (
 
   watch(canGetTeleportFee, async () => {
     if (canGetTeleportFee.value) {
-      fetched.value.teleportTxFee = false
+      hasFetched.teleportTxFee = false
       const fee = await getTeleportTransactionFee()
       teleportTxFee.value = Number(fee) || 0
-      fetched.value.teleportTxFee = true
+      hasFetched.teleportTxFee = true
     }
   })
 
@@ -256,7 +256,7 @@ export default function (
     async () => {
       if (actionAutoFees.value) {
         try {
-          fetched.value.actionTxFees = false
+          hasFetched.actionTxFees = false
           const feesPromisses = actions.value.map(
             async ({ action, prefix }) => {
               let api = await apiInstance.value
@@ -276,7 +276,7 @@ export default function (
         } catch (error) {
           console.error(`[AUTOTELEPORT]: Failed getting action fee  ${error}`)
         } finally {
-          fetched.value.actionTxFees = true
+          hasFetched.actionTxFees = true
         }
       }
     },
@@ -287,9 +287,9 @@ export default function (
     [allowedSourceChains, needsSourceChainBalances],
     async () => {
       if (allowedSourceChains.value.length && needsSourceChainBalances.value) {
-        fetched.value.balances = false
+        hasFetched.balances = false
         await getTransitionBalances()
-        fetched.value.balances = true
+        hasFetched.balances = true
       }
     },
     { immediate: true },
