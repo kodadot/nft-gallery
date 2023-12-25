@@ -31,7 +31,7 @@
 
     <div
       v-if="!isCollection"
-      class="carousel-meta flex"
+      class="flex items-center mt-4"
       :class="[showPrice ? 'justify-between' : 'justify-end']">
       <div v-if="showPrice" class="flex items-center">
         <Money
