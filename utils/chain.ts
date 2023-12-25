@@ -46,7 +46,6 @@ export const getAvailablePrefix = (prefix: string): string => {
 export const chainIcons = {
   ahk: '/token/kusama_asset_hub.svg',
   ahp: '/token/polkadot_asset_hub.svg',
-  bsx: '/token/bsx.svg',
   ksm: '/token/ksm.svg',
   rmrk: '/token/ksm.svg',
   dot: '/token/dot.svg',
