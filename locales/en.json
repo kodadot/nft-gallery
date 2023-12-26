@@ -837,9 +837,9 @@
     "holdings": "Holdings",
     "gains": "Gains",
     "showQr": "Show QR",
-    "searchNoResultsTitle": "No Assets On Selected Chain",
-    "searchNoResultsText": "Explore Artist's Portfolio On Other Networks ({0})",
-    "searchNoResultsButton": "Explore On {0}",
+    "searchNoResultsTitle": "No assets on selected chain",
+    "searchNoResultsText": "Explore artist's portfolio on other networks ({0})",
+    "searchNoResultsButton": "Explore on {0}",
     "collectedFromCreator": "Collected {0} NFT(s) from this creator",
     "highestSales": "Highest Sales"
   },
