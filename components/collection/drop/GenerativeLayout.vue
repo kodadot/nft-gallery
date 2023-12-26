@@ -22,6 +22,8 @@
             :mint-count-available="mintCountAvailable"
             :disabled="mintButtonDisabled"
             :mint-button-label="mintButtonLabel"
+            :is-holder-of-target-collection="isHolderOfTargetCollection"
+            :holder-of-collection-id="holderOfCollectionId"
             @mint="handleSubmitMint" />
         </div>
 
@@ -45,6 +47,8 @@
           :mint-count-available="mintCountAvailable"
           :disabled="mintButtonDisabled"
           :mint-button-label="mintButtonLabel"
+          :is-holder-of-target-collection="isHolderOfTargetCollection"
+          :holder-of-collection-id="holderOfCollectionId"
           @mint="handleSubmitMint" />
       </div>
 

@@ -1,65 +1,25 @@
 <template>
-  <div class="unlockable-container">
-    <Loader v-model="isLoading" :status="status" />
-    <div class="container is-fluid border-top pt-6">
-      <div class="columns is-desktop">
-        <div class="column is-half-desktop mobile-padding">
-          <UnlockableCollectionInfo
-            :collection-id="collectionId"
-            :description="description" />
-          <hr class="mb-4" />
+  <Loader v-model="isLoading" :status="status" />
 
-          <UnlockableTag :collection-id="collectionId" />
-
-          <CollectionDropMintSection
-            v-if="!isMobile"
-            :has-user-minted="hasUserMinted"
-            :is-wallet-connecting="isWalletConnecting"
-            :is-image-fetching="isImageFetching"
-            :minimum-funds="minimumFunds"
-            :minimum-funds-description="minimumFundsDescription"
-            :max-count="maxCount"
-            :minted-count="mintedCount"
-            :mint-count-available="mintCountAvailable"
-            :disabled="mintButtonDisabled"
-            :is-holder-of-target-collection="isHolderOfTargetCollection"
-            :holder-of-collection-id="holderOfCollectionId"
-            :mint-button-label="mintButtonLabel"
-            @mint="handleSubmitMint" />
-        </div>
-
-        <div class="column pt-5 is-flex is-justify-content-center">
-          <GenerativePreview
-            :content="drop.content"
-            :image="drop.image"
-            @select="handleSelectImage" />
-        </div>
-
-        <CollectionDropMintSection
-          v-if="isMobile"
-          class="column"
-          :has-user-minted="hasUserMinted"
-          :is-wallet-connecting="isWalletConnecting"
-          :is-image-fetching="isImageFetching"
-          :minimum-funds="minimumFunds"
-          :minimum-funds-description="minimumFundsDescription"
-          :max-count="maxCount"
-          :minted-count="mintedCount"
-          :mint-count-available="mintCountAvailable"
-          :disabled="mintButtonDisabled"
-          :is-holder-of-target-collection="isHolderOfTargetCollection"
-          :holder-of-collection-id="holderOfCollectionId"
-          :mint-button-label="mintButtonLabel"
-          @mint="handleSubmitMint" />
-      </div>
-      <CollectionUnlockableItemInfo :collection-id="collectionId" />
-      <div class="my-4">
-        <CarouselTypeLatestMints
-          :collection-id="collectionId"
-          interaction="MINT" />
-      </div>
-    </div>
-  </div>
+  <CollectionDropGenerativeLayout
+    :collection-id="collectionId"
+    :description="description"
+    :drop="drop"
+    :is-holder-of-target-collection="isHolderOfTargetCollection"
+    :holder-of-collection-id="holderOfCollectionId"
+    :has-user-minted="hasUserMinted"
+    :is-wallet-connecting="isWalletConnecting"
+    :is-image-fetching="isImageFetching"
+    :minimum-funds="minimumFunds"
+    :minimum-funds-description="minimumFundsDescription"
+    :max-count="maxCount"
+    :minted-count="mintedCount"
+    :mint-count-available="mintCountAvailable"
+    :disabled="mintButtonDisabled"
+    :mint-button-label="mintButtonLabel"
+    :mint-button-disabled="mintButtonDisabled"
+    :handle-select-image="handleSelectImage"
+    :handle-submit-mint="handleSubmitMint" />
 
   <CollectionDropAddFundsModal
     v-model="isAddFundModalActive"
@@ -72,11 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import UnlockableCollectionInfo from '@/components/collection/unlockable/UnlockableCollectionInfo.vue'
-import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
-import CarouselTypeLatestMints from '@/components/carousel/CarouselTypeLatestMints.vue'
 import { createUnlockableMetadata } from '../unlockable/utils'
-import GenerativePreview from '@/components/collection/drop/GenerativePreview.vue'
 import { DropItem } from '@/params/types'
 import { claimDropItem } from '@/services/waifu'
 import { useDropMinimumFunds, useDropStatus } from '@/components/drops/useDrops'
@@ -99,9 +55,6 @@ const props = defineProps({
 })
 
 const { fetchMultipleBalance } = useMultipleBalance()
-
-const { width } = useWindowSize()
-const isMobile = computed(() => width.value <= 768)
 
 const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
   useDropMinimumFunds(props.drop)
