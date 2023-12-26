@@ -265,6 +265,7 @@ import { fetchCollectionSuggestion } from './utils/collectionSearch'
 import { NeoIcon, NeoSkeleton, NeoTabItem, NeoTabs } from '@kodadot1/brick'
 import Money from '@/components/shared/format/Money.vue'
 import type { SearchQuery } from './types'
+import { queryPrefix } from '@/composables/useSearchNfts'
 
 const props = defineProps({
   name: {
@@ -559,7 +560,9 @@ const updateSuggestion = useDebounceFn(async (value: string) => {
 
 const updateNftSuggestion = async () => {
   try {
-    const queryNft = await resolveQueryPath(client.value, 'nftListWithSearch')
+    const prefix = queryPrefix[client.value] || client.value
+
+    const queryNft = await resolveQueryPath(prefix, 'nftListWithSearch')
     const { data } = await useAsyncQuery({
       query: queryNft.default,
       clientId: client.value,

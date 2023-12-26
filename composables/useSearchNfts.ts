@@ -1,3 +1,8 @@
+export const queryPrefix = {
+  ksm: 'chain-ksm',
+  rmrk: 'chain-rmrk',
+}
+
 export default function useSearchNfts({
   search,
   first = 10,
@@ -6,10 +11,6 @@ export default function useSearchNfts({
 }) {
   const { client } = usePrefix()
   const chainPrefix = prefix || client.value
-  const queryPrefix = {
-    ksm: 'chain-ksm',
-    rmrk: 'chain-rmrk',
-  }
 
   const { data } = useGraphql({
     queryPrefix: queryPrefix[chainPrefix] || client.value,
