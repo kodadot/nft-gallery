@@ -119,7 +119,7 @@ export const useDropMinimumFunds = (drop) => {
   const { fetchMultipleBalance } = useMultipleBalance()
 
   const currentChain = computed(() => prefixToChainMap[drop.chain])
-  const meta = computed(() => drop.meta || 0)
+  const meta = computed(() => Number(drop.meta) || 0)
   const currentChainBalance = computed(
     () =>
       (currentChain.value && Number(chainBalances[currentChain.value]())) || 0,
