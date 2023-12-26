@@ -186,6 +186,8 @@ const {
   mintedCount,
   mintCountAvailable,
   selectedImage,
+  description,
+  collectionName,
   tryCapture,
   subscribeToMintedNft,
 } = useGenerativeDropMint({
@@ -215,13 +217,6 @@ const mintButtonLabel = computed(() => {
   }
   return $i18n.t('mint.unlockable.claimNftNow')
 })
-
-const description = computed(
-  () => collectionData.value?.collectionEntity?.meta?.description,
-)
-const collectionName = computed(
-  () => collectionData.value?.collectionEntity?.name,
-)
 
 const handleSelectImage = (image: string) => {
   selectedImage.value = image

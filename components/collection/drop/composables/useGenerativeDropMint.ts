@@ -46,6 +46,13 @@ export default ({
 
   const mintCountAvailable = computed(() => mintedCount.value < maxCount.value)
 
+  const description = computed(
+    () => collectionData.value?.collectionEntity?.meta?.description,
+  )
+  const collectionName = computed(
+    () => collectionData.value?.collectionEntity?.name,
+  )
+
   const tryCapture = async () => {
     try {
       const imgFile = await makeScreenshot(sanitizeIpfsUrl(selectedImage.value))
@@ -74,6 +81,8 @@ export default ({
     mintedCount,
     mintCountAvailable,
     selectedImage,
+    description,
+    collectionName,
     tryCapture,
     subscribeToMintedNft,
   }

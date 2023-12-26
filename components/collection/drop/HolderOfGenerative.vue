@@ -78,16 +78,14 @@ import CarouselTypeLatestMints from '@/components/carousel/CarouselTypeLatestMin
 import { createUnlockableMetadata } from '../unlockable/utils'
 import GenerativePreview from '@/components/collection/drop/GenerativePreview.vue'
 import { DropItem } from '@/params/types'
-import { DoResult, claimDropItem } from '@/services/waifu'
+import { claimDropItem } from '@/services/waifu'
 import { useDropMinimumFunds, useDropStatus } from '@/components/drops/useDrops'
-import { makeScreenshot } from '@/services/capture'
-import { pinFileToIPFS } from '@/services/nftStorage'
-import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import { prefixToToken } from '@/components/common/shoppingCart/utils'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import holderOfCollectionById from '@/queries/subsquid/general/holderOfCollectionById.graphql'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 import Loader from '@/components/shared/Loader.vue'
+import useGenerativeDropMint from './composables/useGenerativeDropMint'
+import useGenerativeDropDetails from './composables/useGenerativeDropDetails'
 
 const holderOfCollectionId = '50' // ChaosFlakes | todo: mock for testing, should be fetched from backend
 
@@ -99,12 +97,6 @@ const props = defineProps({
     },
   },
 })
-
-export type DropMintedNft = DoResult & {
-  id: string
-  collectionName: string
-  name: string
-}
 
 const { fetchMultipleBalance } = useMultipleBalance()
 
@@ -121,11 +113,6 @@ const minimumFundsDescription = computed(() =>
 )
 
 const isWalletConnecting = ref(false)
-const collectionId = computed(() => props.drop?.collection)
-const disabledByBackend = computed(() => props.drop?.disabled)
-const defaultImage = computed(() => props.drop?.image)
-const defaultName = computed(() => props.drop?.name)
-const defaultMax = computed(() => props.drop?.max || 255)
 const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
   useDropStatus(props.drop.alias)
 const instance = getCurrentInstance()
@@ -137,10 +124,19 @@ const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
 
 const { client } = usePrefix()
-const selectedImage = ref<string>('')
 const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isAddFundModalActive = ref(false)
+
+const {
+  defaultName,
+  defaultImage,
+  defaultMax,
+  collectionId,
+  chainName,
+  disabledByBackend,
+  token,
+} = useGenerativeDropDetails(props.drop)
 
 const {
   howAboutToExecute,
@@ -148,12 +144,6 @@ const {
   initTransactionLoader,
   status,
 } = useMetaTransaction()
-
-const chainName = computed(() => getChainName(props.drop.chain))
-const token = computed(() => prefixToToken[props.drop.chain])
-
-const mintedNft = ref<DropMintedNft>()
-const mintedNftWithMetadata = ref<NFTWithMetadata>()
 
 const { totalItemDeposit, chainSymbol: depositChainSymbol } = useDeposit(
   computed(() => props.drop.chain),
@@ -183,6 +173,27 @@ const { data: collectionData } = await useAsyncData(
   },
 )
 
+const {
+  maxCount,
+  mintedNft,
+  mintedNftWithMetadata,
+  hasUserMinted,
+  mintedCount,
+  mintCountAvailable,
+  selectedImage,
+  description,
+  collectionName,
+  tryCapture,
+  subscribeToMintedNft,
+} = useGenerativeDropMint({
+  collectionData,
+  defaultMax,
+  currentAccountMintedToken,
+  collectionId,
+  mintedDropCount,
+  defaultImage,
+})
+
 const { data: holderOfCollectionData } = await useAsyncData(
   'holderOfCollectionData',
   async () =>
@@ -206,21 +217,6 @@ const mintedAmountForCurrentUser = computed(
 const maxMintLimitForCurrentUser = computed(
   () => holderOfCollectionData.value?.nftEntitiesConnection?.totalCount || 0,
 )
-const maxCount = computed(
-  () => collectionData.value?.collectionEntity?.max || defaultMax.value,
-)
-
-const hasUserMinted = computed(() =>
-  currentAccountMintedToken.value
-    ? `${collectionId.value}-${currentAccountMintedToken.value.id}`
-    : mintedNft.value?.id,
-)
-
-const mintedCount = computed(() =>
-  Math.min(mintedDropCount.value, maxCount.value),
-)
-
-const mintCountAvailable = computed(() => mintedCount.value < maxCount.value)
 
 const isHolderOfTargetCollection = computed(
   () => maxMintLimitForCurrentUser.value > 0,
@@ -249,24 +245,6 @@ const mintButtonDisabled = computed(
         maxMintLimitForCurrentUser.value <= mintedAmountForCurrentUser.value,
     ),
 )
-
-const description = computed(
-  () => collectionData.value?.collectionEntity?.meta?.description,
-)
-const collectionName = computed(
-  () => collectionData.value?.collectionEntity?.name,
-)
-
-const tryCapture = async () => {
-  try {
-    const imgFile = await makeScreenshot(sanitizeIpfsUrl(selectedImage.value))
-    const imageHash = await pinFileToIPFS(imgFile)
-    return imageHash
-  } catch (error) {
-    toast($i18n.t('drops.capture'))
-    return defaultImage.value
-  }
-}
 
 const mintNft = async () => {
   try {
@@ -345,15 +323,6 @@ const openAddFundModal = () => {
 
 const closeAddFundModal = () => {
   isAddFundModalActive.value = false
-}
-
-const subscribeToMintedNft = (id: string, onReady: (data) => void) => {
-  useSubscriptionGraphql({
-    query: `nftEntityById(id: "${id}") {
-    id
-  }`,
-    onChange: onReady,
-  })
 }
 
 const submitMint = async (sn: string) => {
