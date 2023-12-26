@@ -44,6 +44,7 @@ $table-th-font-weight: 400;
   @media (max-width: 1024px) {
     tbody tr {
       @apply pt-6 bg-background-color shadow-none border-t-default border-t-k-shade;
+      @apply mx-6 #{!important};
 
       &:first-child {
         @apply border-t-0;
@@ -58,7 +59,7 @@ $table-th-font-weight: 400;
         @apply text-xs/4.5 text-k-grey;
       }
 
-      @apply my-0 mx-6 py-1 px-0;
+      @apply my-0 mx-0 py-1 px-0;
 
       &:last-child {
         @apply border-b-default border-b-k-shade;
