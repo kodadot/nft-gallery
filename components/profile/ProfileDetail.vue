@@ -168,7 +168,8 @@
           :grid-section="gridSection"
           :reset-search-query-params="['sort']">
           <template #empty-result>
-            <ProfileEmptyResult />
+            <ProfileEmptyResult
+              :has-asset-prefix-list="hasAssetPrefixMap[activeTab]" />
           </template>
         </ItemsGrid>
       </div>
@@ -208,6 +209,8 @@ import { Interaction } from '@kodadot1/minimark/v1'
 import CollectionFilter from './CollectionFilter.vue'
 import GridLayoutControls from '@/components/shared/GridLayoutControls.vue'
 import ProfileEmptyResult from '@/components/profile/ProfileEmptyResult.vue'
+import { CHAINS, type Prefix } from '@kodadot1/static'
+import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 
 enum ProfileTab {
   OWNED = 'owned',
@@ -239,6 +242,9 @@ const switchToTab = (tab: ProfileTab) => {
 }
 
 const counts = ref({})
+
+const hasAssetPrefixMap = ref<Partial<Record<ProfileTab, Prefix[]>>>({})
+
 const id = computed(() => route.params.id || '')
 const email = ref('')
 const twitter = ref('')
@@ -357,6 +363,72 @@ useAsyncData('tabs-count', async () => {
     [ProfileTab.COLLECTIONS]: data.value?.collections.totalCount,
   }
 })
+
+const fetchTabsCount = async (chain: Prefix) => {
+  const account = id.value.toString()
+
+  const chainData = CHAINS[chain]
+
+  const publicKey = decodeAddress(account)
+  const prefixAddress = encodeAddress(publicKey, chainData.ss58Format)
+  const searchParams = {
+    currentOwner_eq: prefixAddress,
+  }
+  const { isRemark } = useIsChain(computed(() => chain))
+
+  if (!isRemark.value) {
+    searchParams['burned_eq'] = false
+  }
+
+  const query = await resolveQueryPath(chain, 'profileTabsCount')
+  const { data } = await useAsyncQuery({
+    query: query.default,
+    clientId: chain,
+    variables: {
+      id: prefixAddress,
+      interactionIn: [],
+      denyList: getDenyList(urlPrefix.value),
+      search: [searchParams],
+    },
+  })
+  if (!data.value) {
+    return
+  }
+
+  updateEmptyResultTab(ProfileTab.OWNED, data.value?.owned?.totalCount, chain)
+  updateEmptyResultTab(
+    ProfileTab.CREATED,
+    data.value?.created?.totalCount,
+    chain,
+  )
+  updateEmptyResultTab(
+    ProfileTab.COLLECTIONS,
+    data.value?.collections?.totalCount,
+    chain,
+  )
+}
+
+useAsyncData('tabs-empty-result', async () => {
+  hasAssetPrefixMap.value = {
+    [ProfileTab.OWNED]: [],
+    [ProfileTab.CREATED]: [],
+    [ProfileTab.COLLECTIONS]: [],
+  }
+
+  for (const chain of ['ahp', 'ahk', 'ksm', 'rmrk']) {
+    await fetchTabsCount(chain as Prefix)
+  }
+})
+
+const updateEmptyResultTab = (
+  tab: ProfileTab,
+  count: number,
+  prefix: Prefix,
+) => {
+  if (count && hasAssetPrefixMap.value[tab]) {
+    hasAssetPrefixMap.value[tab]!.push(prefix)
+  }
+}
 
 watch(itemsGridSearch, (searchTerm, prevSearchTerm) => {
   if (JSON.stringify(searchTerm) !== JSON.stringify(prevSearchTerm)) {

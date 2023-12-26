@@ -3,12 +3,13 @@
     <div class="title is-4">
       {{ $t('profile.searchNoResultsTitle') }}
     </div>
-    <div class="subtitle is-6">
-      {{ $t('profile.searchNoResultsText', [totalChainsLength - 1]) }}
+    <div v-if="totalChainsLength" class="subtitle is-6">
+      {{ $t('profile.searchNoResultsText', [totalChainsLength]) }}
     </div>
     <NeoButton
+      v-if="totalChainsLength"
       variant="pill"
-      :label="$t('profile.searchNoResultsButton', [nextPrefix.toUpperCase()])"
+      :label="$t('profile.searchNoResultsButton', [nextPrefix?.toUpperCase()])"
       @click="switchToPrefix(nextPrefix)" />
   </section>
 </template>
@@ -17,16 +18,15 @@
 import { NeoButton } from '@kodadot1/brick'
 import type { Prefix } from '@kodadot1/static'
 
+const props = defineProps({
+  hasAssetPrefixList: { type: Array<Prefix>, default: () => [] },
+})
+
 const { redirectAfterChainChange } = useChainRedirect()
-const { urlPrefix, setUrlPrefix } = usePrefix()
-const { availableChains } = useChain()
-const totalChainsLength = computed(() => availableChains.value.length)
+const { setUrlPrefix } = usePrefix()
+const totalChainsLength = computed(() => props.hasAssetPrefixList.length)
 const nextPrefix = computed(() => {
-  const index = availableChains.value.findIndex(
-    (option) => option.value === urlPrefix.value,
-  )
-  return availableChains.value[(index + 1) % totalChainsLength.value]
-    .value as Prefix
+  return props.hasAssetPrefixList[0]
 })
 
 const switchToPrefix = (targetPrefix: Prefix) => {
