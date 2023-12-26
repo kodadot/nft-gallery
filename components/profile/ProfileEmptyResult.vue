@@ -19,14 +19,14 @@ import { NeoButton } from '@kodadot1/brick'
 import { type Prefix, chainNames } from '@kodadot1/static'
 
 const props = defineProps({
-  hasAssetPrefixList: { type: Array<Prefix>, default: () => [] },
+  prefixListWithAsset: { type: Array<Prefix>, default: () => [] },
 })
 
 const { redirectAfterChainChange } = useChainRedirect()
 const { setUrlPrefix } = usePrefix()
-const totalChainsLength = computed(() => props.hasAssetPrefixList.length)
+const totalChainsLength = computed(() => props.prefixListWithAsset.length)
 const nextPrefix = computed(() => {
-  return props.hasAssetPrefixList[0]
+  return props.prefixListWithAsset[0]
 })
 
 const switchToPrefix = (targetPrefix: Prefix) => {
