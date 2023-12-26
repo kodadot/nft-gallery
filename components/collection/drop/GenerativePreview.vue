@@ -37,7 +37,7 @@
         rel="nofollow noopener noreferrer"
         target="_blank"
         role="link">
-        {{ $t('Img') }}
+        {{ $t('img') }}
         <NeoIcon icon="arrow-up-right" class="ml-1 has-text-link" />
       </a>
     </div>
