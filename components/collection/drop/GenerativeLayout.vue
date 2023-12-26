@@ -15,12 +15,13 @@
             :has-user-minted="hasUserMinted"
             :is-wallet-connecting="isWalletConnecting"
             :is-image-fetching="isImageFetching"
+            :is-loading="isLoading"
             :minimum-funds="minimumFunds"
             :minimum-funds-description="minimumFundsDescription"
             :max-count="maxCount"
             :minted-count="mintedCount"
             :mint-count-available="mintCountAvailable"
-            :disabled="mintButtonDisabled"
+            :mint-button-disabled="mintButtonDisabled"
             :mint-button-label="mintButtonLabel"
             :is-holder-of-target-collection="isHolderOfTargetCollection"
             :holder-of-collection-id="holderOfCollectionId"
@@ -40,12 +41,13 @@
           :has-user-minted="hasUserMinted"
           :is-wallet-connecting="isWalletConnecting"
           :is-image-fetching="isImageFetching"
+          :is-loading="isLoading"
           :minimum-funds="minimumFunds"
           :minimum-funds-description="minimumFundsDescription"
           :max-count="maxCount"
           :minted-count="mintedCount"
           :mint-count-available="mintCountAvailable"
-          :disabled="mintButtonDisabled"
+          :mint-button-disabled="mintButtonDisabled"
           :mint-button-label="mintButtonLabel"
           :is-holder-of-target-collection="isHolderOfTargetCollection"
           :holder-of-collection-id="holderOfCollectionId"
@@ -82,7 +84,7 @@ withDefaults(
     minimumFundsDescription: string
     isImageFetching: boolean
     isWalletConnecting: boolean
-    disabled: boolean
+    isLoading: boolean
     mintButtonLabel: string
     hasUserMinted?: string
     isHolderOfTargetCollection?: boolean

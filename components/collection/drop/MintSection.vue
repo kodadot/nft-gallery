@@ -61,8 +61,8 @@
             ref="root"
             class="my-2 mint-button"
             variant="k-accent"
-            :loading="isImageFetching || isWalletConnecting"
-            :disabled="disabled"
+            :loading="loading"
+            :disabled="mintButtonDisabled"
             :loading-with-label="isWalletConnecting"
             :label="mintButtonLabel"
             @click="emit('mint')" />
@@ -81,8 +81,8 @@
           ref="root"
           class="my-2 mint-button"
           variant="k-accent"
-          :loading="isImageFetching || isWalletConnecting"
-          :disabled="disabled"
+          :loading="loading"
+          :disabled="mintButtonDisabled"
           :loading-with-label="isWalletConnecting"
           :label="mintButtonLabel"
           @click="emit('mint')" />
@@ -106,7 +106,8 @@ const props = withDefaults(
     minimumFundsDescription: string
     isImageFetching: boolean
     isWalletConnecting: boolean
-    disabled: boolean
+    isLoading: boolean
+    mintButtonDisabled: boolean
     mintButtonLabel: string
     hasUserMinted?: string
     isHolderOfTargetCollection?: boolean
@@ -122,6 +123,10 @@ const props = withDefaults(
 const emit = defineEmits(['mint'])
 
 const { urlPrefix } = usePrefix()
+
+const loading = computed(
+  () => props.isImageFetching || props.isWalletConnecting || props.isLoading,
+)
 
 const mintedPercent = computed(() => {
   const percent = (props.mintedCount / props.maxCount) * 100
