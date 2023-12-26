@@ -8,7 +8,9 @@
           <div v-if="isLoading">
             <NeoSkeleton no-margin :width="80" />
           </div>
-          <div v-else-if="total">{{ total }} {{ $t('items') }}</div>
+          <div v-else-if="total" class="shrink-0">
+            {{ total }} {{ $t('items') }}
+          </div>
         </div>
         <hr class="my-0" />
       </div>
