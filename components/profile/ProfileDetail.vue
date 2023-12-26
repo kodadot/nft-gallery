@@ -179,7 +179,10 @@
         :id="id"
         class="pt-7">
         <template #empty-result>
-          <ProfileEmptyResult />
+          <ProfileEmptyResult
+            :has-asset-prefix-list="
+              hasAssetPrefixMap[ProfileTab.COLLECTIONS]
+            " />
         </template>
       </CollectionGrid>
 
