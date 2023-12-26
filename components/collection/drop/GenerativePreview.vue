@@ -14,7 +14,7 @@
     <div class="flex justify-center items-center py-6">
       <NeoButton
         v-if="isLoading"
-        class="border-k-grey hover-button fixed-width"
+        class="border-k-grey hover-button fixed-width pointer-events-auto cursor-wait"
         rounded
         no-shadow
         disabled>
@@ -90,12 +90,6 @@ const generateNft = (isDefault: boolean = false) => {
     isLoading.value = false
   }, 3000)
 }
-
-watch(isLoading, (loading) => {
-  if (process.client) {
-    document.body.style.cursor = loading ? 'wait' : 'initial'
-  }
-})
 
 watch(
   accountId,
