@@ -167,11 +167,9 @@
           :search="itemsGridSearch"
           :grid-section="gridSection"
           :reset-search-query-params="['sort']">
-          <template #empty-result>
+          <template v-if="hasAssetPrefixMap[activeTab].length" #empty-result>
             <ProfileEmptyResult
-              v-if="hasAssetPrefixMap[activeTab].length"
               :has-asset-prefix-list="hasAssetPrefixMap[activeTab]" />
-            <EmptyResult v-else />
           </template>
         </ItemsGrid>
       </div>
@@ -180,13 +178,11 @@
         v-if="activeTab === ProfileTab.COLLECTIONS"
         :id="id"
         class="pt-7">
-        <template #empty-result>
+        <template v-if="hasAssetPrefixMap[activeTab].length" #empty-result>
           <ProfileEmptyResult
-            v-if="hasAssetPrefixMap[ProfileTab.COLLECTIONS].length"
             :has-asset-prefix-list="
               hasAssetPrefixMap[ProfileTab.COLLECTIONS]
             " />
-          <EmptyResult v-else />
         </template>
       </CollectionGrid>
 
