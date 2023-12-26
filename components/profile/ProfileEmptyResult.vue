@@ -25,9 +25,7 @@ const props = defineProps({
 const { redirectAfterChainChange } = useChainRedirect()
 const { setUrlPrefix } = usePrefix()
 const totalChainsLength = computed(() => props.hasAssetPrefixList.length)
-const nextPrefix = computed(() => {
-  return props.hasAssetPrefixList[0]
-})
+const nextPrefix = computed(() => props.hasAssetPrefixList[0])
 
 const switchToPrefix = (targetPrefix: Prefix) => {
   setUrlPrefix(targetPrefix)
