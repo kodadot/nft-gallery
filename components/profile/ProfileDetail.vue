@@ -213,7 +213,6 @@ import { chainsWithMintInteraction } from '@/composables/collectionActivity/help
 import { Interaction } from '@kodadot1/minimark/v1'
 import CollectionFilter from './CollectionFilter.vue'
 import GridLayoutControls from '@/components/shared/GridLayoutControls.vue'
-import ProfileEmptyResult from '@/components/profile/ProfileEmptyResult.vue'
 import { CHAINS, type Prefix } from '@kodadot1/static'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 
@@ -369,13 +368,10 @@ useAsyncData('tabs-count', async () => {
   }
 })
 
-const fetchTabsCount = async (chain: Prefix) => {
+const fetchTabsCountByNetwork = async (chain: Prefix) => {
   const account = id.value.toString()
-
-  const chainData = CHAINS[chain]
-  loadingOtherNetwork.value = true
   const publicKey = decodeAddress(account)
-  const prefixAddress = encodeAddress(publicKey, chainData.ss58Format)
+  const prefixAddress = encodeAddress(publicKey, CHAINS[chain].ss58Format)
   const searchParams = {
     currentOwner_eq: prefixAddress,
   }
@@ -412,7 +408,6 @@ const fetchTabsCount = async (chain: Prefix) => {
     data.value?.collections?.totalCount,
     chain,
   )
-  loadingOtherNetwork.value = false
 }
 
 useAsyncData('tabs-empty-result', async () => {
@@ -421,10 +416,11 @@ useAsyncData('tabs-empty-result', async () => {
     [ProfileTab.CREATED]: [],
     [ProfileTab.COLLECTIONS]: [],
   }
-
+  loadingOtherNetwork.value = true
   for (const chain of ['ahp', 'ahk', 'ksm', 'rmrk']) {
-    await fetchTabsCount(chain as Prefix)
+    await fetchTabsCountByNetwork(chain as Prefix)
   }
+  loadingOtherNetwork.value = false
 })
 
 const updateEmptyResultTab = (

@@ -9,14 +9,14 @@
     <NeoButton
       v-if="totalChainsLength"
       variant="pill"
-      :label="$t('profile.searchNoResultsButton', [nextPrefix?.toUpperCase()])"
+      :label="$t('profile.searchNoResultsButton', [chainNames[nextPrefix]])"
       @click="switchToPrefix(nextPrefix)" />
   </section>
 </template>
 
 <script lang="ts" setup>
 import { NeoButton } from '@kodadot1/brick'
-import type { Prefix } from '@kodadot1/static'
+import { type Prefix, chainNames } from '@kodadot1/static'
 
 const props = defineProps({
   hasAssetPrefixList: { type: Array<Prefix>, default: () => [] },
