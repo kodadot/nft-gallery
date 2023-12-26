@@ -19,7 +19,7 @@
     </DynamicGrid>
 
     <DynamicGrid
-      v-else-if="isLoading"
+      v-else-if="isLoading || loadingOtherNetwork"
       :id="scrollContainerId"
       grid-size="medium"
       :default-width="GRID_DEFAULT_WIDTH">
@@ -49,6 +49,7 @@ import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 
 const props = defineProps<{
   id?: string
+  loadingOtherNetwork?: boolean
 }>()
 const slots = useSlots()
 const route = useRoute()

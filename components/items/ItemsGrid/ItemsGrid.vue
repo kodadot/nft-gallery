@@ -54,7 +54,7 @@
 
     <!-- skeleton on first load -->
     <DynamicGrid
-      v-if="total === 0 && (isLoading || isFetchingData)"
+      v-if="total === 0 && (isLoading || isFetchingData || loadingOtherNetwork)"
       :grid-section="gridSection"
       class="my-5"
       :mobile-cols="2">
@@ -97,6 +97,7 @@ const props = defineProps<{
   search?: Record<string, string | number>
   resetSearchQueryParams?: string[]
   gridSection?: GridSection
+  loadingOtherNetwork?: boolean
 }>()
 
 const emit = defineEmits(['total', 'loading'])

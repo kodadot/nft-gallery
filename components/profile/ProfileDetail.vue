@@ -166,6 +166,7 @@
         <ItemsGrid
           :search="itemsGridSearch"
           :grid-section="gridSection"
+          :loading-other-network="loadingOtherNetwork"
           :reset-search-query-params="['sort']">
           <template v-if="hasAssetPrefixMap[activeTab].length" #empty-result>
             <ProfileEmptyResult
@@ -177,6 +178,7 @@
       <CollectionGrid
         v-if="activeTab === ProfileTab.COLLECTIONS"
         :id="id"
+        :loading-other-network="loadingOtherNetwork"
         class="pt-7">
         <template v-if="hasAssetPrefixMap[activeTab].length" #empty-result>
           <ProfileEmptyResult
@@ -247,7 +249,7 @@ const switchToTab = (tab: ProfileTab) => {
 const counts = ref({})
 
 const hasAssetPrefixMap = ref<Partial<Record<ProfileTab, Prefix[]>>>({})
-
+const loadingOtherNetwork = ref(false)
 const id = computed(() => route.params.id || '')
 const email = ref('')
 const twitter = ref('')
@@ -371,7 +373,7 @@ const fetchTabsCount = async (chain: Prefix) => {
   const account = id.value.toString()
 
   const chainData = CHAINS[chain]
-
+  loadingOtherNetwork.value = true
   const publicKey = decodeAddress(account)
   const prefixAddress = encodeAddress(publicKey, chainData.ss58Format)
   const searchParams = {
@@ -394,6 +396,7 @@ const fetchTabsCount = async (chain: Prefix) => {
       search: [searchParams],
     },
   })
+
   if (!data.value) {
     return
   }
@@ -409,6 +412,7 @@ const fetchTabsCount = async (chain: Prefix) => {
     data.value?.collections?.totalCount,
     chain,
   )
+  loadingOtherNetwork.value = false
 }
 
 useAsyncData('tabs-empty-result', async () => {
