@@ -211,6 +211,9 @@ const formatPrice = (price) => {
   .gallery-item-activity-table {
     :deep(.o-table__td) {
       border-bottom: inherit !important;
+      &:before {
+        font-weight: 400 !important;
+      }
     }
   }
 }
