@@ -169,7 +169,9 @@
           :reset-search-query-params="['sort']">
           <template #empty-result>
             <ProfileEmptyResult
+              v-if="hasAssetPrefixMap[activeTab].length"
               :has-asset-prefix-list="hasAssetPrefixMap[activeTab]" />
+            <EmptyResult v-else />
           </template>
         </ItemsGrid>
       </div>
@@ -180,9 +182,11 @@
         class="pt-7">
         <template #empty-result>
           <ProfileEmptyResult
+            v-if="hasAssetPrefixMap[ProfileTab.COLLECTIONS].length"
             :has-asset-prefix-list="
               hasAssetPrefixMap[ProfileTab.COLLECTIONS]
             " />
+          <EmptyResult v-else />
         </template>
       </CollectionGrid>
 
