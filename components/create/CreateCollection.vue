@@ -54,7 +54,6 @@
 
       <!-- collection max nfts -->
       <NeoField
-        v-if="!isBasilisk"
         :label="$t('Maximum NFTs in collection')"
         data-testid="collection-maxAmount"
         required>
@@ -122,9 +121,6 @@
             {{ balance }} {{ chainSymbol }}
           </div>
         </div>
-        <nuxt-link v-if="isBasilisk" :to="`/${currentChain}/assets`">
-          {{ $t('general.tx.feesPaidIn', [chainSymbol]) }}
-        </nuxt-link>
       </div>
 
       <hr class="my-6" />
@@ -236,7 +232,7 @@ const currentChain = computed(() => {
   return selectBlockchain.value as Prefix
 })
 
-const { isAssetHub, isBasilisk, isRemark } = useIsChain(currentChain)
+const { isAssetHub, isRemark } = useIsChain(currentChain)
 const { balance, totalCollectionDeposit, chainSymbol, chain } =
   useDeposit(currentChain)
 
@@ -274,10 +270,6 @@ const collection = computed(() => {
 
   if (isAssetHub.value) {
     collection['nftCount'] = unlimited.value ? 0 : max.value
-  }
-
-  if (isBasilisk.value) {
-    collection['tags'] = []
   }
 
   if (isRemark.value) {
