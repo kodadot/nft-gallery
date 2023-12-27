@@ -57,9 +57,9 @@ import DropConfirmModal from './modal/DropConfirmModal.vue'
 import ListingCartModal from '@/components/common/listingCart/ListingCartModal.vue'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
-import useGenerativeDropMint from './composables/useGenerativeDropMint'
-import useGenerativeDropNewsletter from './composables/useGenerativeDropNewsletter'
-import useGenerativeDropDetails from './composables/useGenerativeDropDetails'
+import useGenerativeDropMint from '@/composables/drop/useGenerativeDropMint'
+import useGenerativeDropNewsletter from '@/composables/drop/useGenerativeDropNewsletter'
+import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
 
 const MINTING_SECOND = 120
 
