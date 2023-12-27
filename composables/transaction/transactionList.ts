@@ -6,7 +6,6 @@ import {
 
 import {
   assetHubParamResolver,
-  bsxParamResolver,
   getApiCall,
 } from '@/utils/gallery/abstractCalls'
 import { warningMessage } from '@/utils/notification'
@@ -68,25 +67,6 @@ const execKsm = (isSingle: boolean, item: ActionList, api) => {
   }
 }
 
-const execBsx = (isSingle: boolean, item: ActionList, api) => {
-  if (isSingle) {
-    const token = item.token as TokenToList
-    return {
-      cb: getApiCall(api, item.urlPrefix, Interaction.LIST),
-      arg: bsxParamResolver(token.nftId, Interaction.LIST, token.price),
-    }
-  } else {
-    const tokens = item.token as TokenToList[]
-    const cb = getApiCall(api, item.urlPrefix, Interaction.LIST)
-    const args = tokens.map((token) =>
-      cb(...bsxParamResolver(token.nftId, Interaction.LIST, token.price)),
-    )
-    return {
-      cb: api.tx.utility.batchAll,
-      arg: [args],
-    }
-  }
-}
 const execAhkOrAhp = (isSingle: boolean, item: ActionList, api) => {
   const getParams = (token: TokenToList) => {
     const legacy = isLegacy(token.nftId)
