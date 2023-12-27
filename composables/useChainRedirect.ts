@@ -1,7 +1,6 @@
 import { CHAINS, Prefix } from '@kodadot1/static'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 import {
-  assetsVisible,
   createVisible,
   incomingOfferssVisible,
 } from '@/utils/config/permission.config'
@@ -113,7 +112,7 @@ export default function () {
       return
     }
 
-    const isAssets = routeName.includes('-assets')
+    // const isAssets = routeName.includes('-assets')
     const isSimpleCreate = routeName.includes('-create')
     const isIncomingOffers = routeName.includes('-incomingOffers')
 
@@ -125,8 +124,6 @@ export default function () {
         chain: newChain,
         route,
       })
-    } else if (isAssets && assetsVisible(newChain)) {
-      redirectLocation = { path: `/${newChain}/assets` }
     } else if (isSimpleCreate && createVisible(newChain)) {
       redirectLocation = { path: `/${newChain}/create` }
     } else if (isIncomingOffers && incomingOfferssVisible(newChain)) {
