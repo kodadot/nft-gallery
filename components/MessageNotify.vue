@@ -17,20 +17,18 @@
         <span class="subtitle is-6 mb-0">
           {{ subtitle }}
         </span>
-        <ShowQRModal
-          class="share-option"
-          :address="realworldFullPath"
-          :title="$t('sharing.nft')"
-          type="is-primary" />
+
+        <ShareButton no-shadow />
       </div>
     </div>
   </NeoMessage>
 </template>
 
 <script lang="ts" setup>
+import ShareButton from '@/components/common/ShareButton.vue'
+
 import { NeoMessage } from '@kodadot1/brick'
 
-const route = useRoute()
 const props = defineProps<{
   title?: string
   subtitle?: string
@@ -43,10 +41,6 @@ const realDuration = computed(() => {
 })
 
 const autoClose = computed(() => !props.noToast)
-
-const realworldFullPath = computed(() => {
-  return `${window.location.origin}${route.fullPath}`
-})
 </script>
 
 <style lang="scss">
