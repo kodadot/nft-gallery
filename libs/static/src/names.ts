@@ -9,5 +9,4 @@ export const NAMES: Record<Prefix, string> = {
   // ahr: 'RococoHub',
   // glmr: 'Moonbeam [Beta]',
   // movr: 'Moonriver [Beta]',
-  // bsx: 'Basilisk',
 }

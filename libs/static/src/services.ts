@@ -18,7 +18,6 @@ export const EXPLORERS: Record<Prefix, string> = {
   // ahr: 'https://assethub-rococo.subscan.io/account/',
   // movr: 'https://moonriver.subscan.io/account/',
   // glmr: 'https://moonbeam.subscan.io/account/',
-  // bsx: 'https://basilisk.subscan.io/account/',
 }
 
 export const hasExplorer = (prefix: Prefix): boolean => {

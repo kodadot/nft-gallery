@@ -14,7 +14,6 @@ export const INDEXERS: Config<SquidEndpoint> = {
   // ahr: 'https://squid.subsquid.io/snack/graphql',
   // movr: 'https://squid.subsquid.io/antick/v/001-rc0/graphql',
   // glmr: 'https://squid.subsquid.io/click/v/002/graphql',
-  // bsx: 'https://squid.subsquid.io/snekk/graphql',
 }
 
 export const toApolloEndpoint = (httpEndpoint: string): ApolloEndpoint => ({

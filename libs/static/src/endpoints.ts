@@ -38,7 +38,6 @@ export const ALTERNATIVE_ENDPOINT_MAP: Config<WS_URL[]> = {
   // ahr: ['wss://rococo-asset-hub-rpc.polkadot.io'],
   // glmr: ['wss://public-rpc.pinknode.io/moonbeam'],
   // movr: ['wss://wss.api.moonriver.moonbeam.network'],
-  // bsx: ['wss://rpc.basilisk.cloud', 'wss://basilisk-rpc.dwellir.com'],
 }
 
 export const ENDPOINT_MAP: Config<WS_URL> = {
@@ -50,5 +49,4 @@ export const ENDPOINT_MAP: Config<WS_URL> = {
   // ahr: 'wss://rococo-asset-hub-rpc.polkadot.io',
   // glmr: 'wss://public-rpc.pinknode.io/moonbeam',
   // movr: 'wss://wss.api.moonriver.moonbeam.network',
-  // bsx: 'wss://rpc.basilisk.cloud',
 }

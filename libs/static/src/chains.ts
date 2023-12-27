@@ -31,7 +31,6 @@ export const CHAINS: Config<ChainProperties> = {
   // ahr: toChainProperty(42, 12, 'ROC', 'https://rockmine.subscan.io/'),
   // movr: toChainProperty(1285, 18, 'MOVR', 'https://moonriver.subscan.io/'),
   // glmr: toChainProperty(1284, 18, 'GLMR', 'https://moonbeam.subscan.io/'),
-  // bsx: toChainProperty(10_041, 12, 'BSX', 'https://basilisk.subscan.io/'),
 }
 
 export const DEFAULT_PREFIX: Prefix = 'ahp'
@@ -45,7 +44,6 @@ export const chainPrefixes: Prefix[] = [
   // 'ahr',
   // 'movr',
   // 'glmr',
-  // 'bsx',
 ]
 export const chainPrefixesMap = chainPrefixes.reduce(
   (acc: Partial<Record<Prefix, Prefix>>, prefix: Prefix) => ({
@@ -64,7 +62,6 @@ export const chainInfo: Record<Prefix, string> = {
   // ahr: 'rockmine',
   // movr: 'moonriver',
   // glmr: 'moonbeam',
-  // bsx: 'basilisk',
 }
 
 export const chainNames: Record<Prefix, string> = {
@@ -76,7 +73,6 @@ export const chainNames: Record<Prefix, string> = {
   // ahr: 'Rococo AssetHub',
   // movr: 'Moonriver',
   // glmr: 'Moonbeam',
-  // bsx: 'Basilisk',
 }
 
 export const chainList = (): Option[] => {
