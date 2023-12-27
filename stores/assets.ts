@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import assetListQuery from '@/queries/subsquid/bsx/assetList.graphql'
 import type { Prefix } from '@kodadot1/static'
 
 export type TokenProperty = {
@@ -31,20 +30,6 @@ export const useAssetsStore = defineStore('assets', {
     },
     setLocalPrefix(payload: Prefix) {
       this.localPrefix = payload
-    },
-    async fetchAssetList() {
-      const { urlPrefix } = usePrefix()
-      if (this.localPrefix === urlPrefix.value) {
-        return
-      }
-      this.setLocalPrefix(urlPrefix.value)
-      const { data: assetList } = await useAsyncQuery(assetListQuery, {})
-
-      // if (error) {
-      //   assetList.value = [chainAssetOf(urlPrefix.value)]
-      // }
-
-      this.setAssetList(assetList)
     },
   },
 })
