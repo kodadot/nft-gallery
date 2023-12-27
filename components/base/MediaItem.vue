@@ -64,7 +64,7 @@ import {
   NeoUnknownMedia,
   NeoVideoMedia,
 } from '@kodadot1/brick'
-import AudioMedia from '@/components/shared/audioPlayer/AudioPlayer.vue'
+import AudioMedia from '@/components/shared/AudioMedia.vue'
 import { getMimeType, resolveMedia } from '@/utils/gallery/media'
 import { MediaType } from '@/components/rmrk/types'
 
