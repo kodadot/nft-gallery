@@ -88,7 +88,6 @@ import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import GalleryItemActionSlides from '../GalleryItemActionSlides.vue'
 import { ConnectWalletModalConfig } from '@/components/common/ConnectWallet/useConnectWallet'
 import { MIN_OFFER_PRICE } from '@/utils/constants'
-import { getAsssetBalance } from '@/utils/api/bsx/query'
 import Loader from '@/components/shared/Loader.vue'
 
 const props = defineProps<{
@@ -100,7 +99,7 @@ const props = defineProps<{
 
 const { apiInstance } = useApi()
 const route = useRoute()
-const { urlPrefix, tokenId } = usePrefix()
+const { urlPrefix } = usePrefix()
 const { neoModal } = useProgrammatic()
 const { $i18n } = useNuxtApp()
 const { transaction, status, isLoading } = useTransaction()
@@ -109,17 +108,6 @@ const { decimals } = useChain()
 const connected = computed(() => Boolean(accountId.value))
 
 const balance = ref<string>('0')
-onMounted(() => {
-  fetchBalance()
-})
-
-const fetchBalance = async () => {
-  const { apiInstance } = useApi()
-  const api = await apiInstance.value
-  getAsssetBalance(api, accountId.value, tokenId.value).then((data) => {
-    balance.value = data
-  })
-}
 
 const price = ref('')
 const offerPrice = ref<number>()
