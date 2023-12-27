@@ -8,7 +8,7 @@
             :description="description" />
           <hr />
 
-          <UnlockableTag :collection-id="collectionId" />
+          <CollectionUnlockableTag :collection-id="collectionId" />
 
           <CollectionDropMintSection
             v-if="!isMobile"
@@ -29,7 +29,7 @@
         </div>
 
         <div class="column pt-5 is-flex is-justify-content-center">
-          <GenerativePreview
+          <CollectionDropGenerativePreview
             :content="drop.content"
             :image="drop.image"
             @select="handleSelectImage" />
@@ -66,9 +66,6 @@
 
 <script setup lang="ts">
 import UnlockableCollectionInfo from '@/components/collection/unlockable/UnlockableCollectionInfo.vue'
-import UnlockableTag from '@/components/collection/unlockable/UnlockableTag.vue'
-import CarouselTypeLatestMints from '@/components/carousel/CarouselTypeLatestMints.vue'
-import GenerativePreview from '@/components/collection/drop/GenerativePreview.vue'
 
 withDefaults(
   defineProps<{
