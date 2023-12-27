@@ -1,16 +1,12 @@
 import { getVolume } from '@/utils/math'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { NFTListSold } from '@/components/identity/utils/useIdentity'
-import { chainsSupportingOffers } from './useCollectionDetails.config'
 import { Stats } from './types'
 
 export const useCollectionDetails = ({ collectionId }) => {
-  const { urlPrefix } = usePrefix()
   const { data } = useGraphql({
     queryPrefix: 'subsquid',
-    queryName: chainsSupportingOffers.includes(urlPrefix.value)
-      ? 'collectionStatsByIdWithOffers'
-      : 'collectionStatsById',
+    queryName: 'collectionStatsById',
     variables: {
       id: collectionId,
     },
@@ -26,16 +22,17 @@ export const useCollectionDetails = ({ collectionId }) => {
       const collectionLength = data.value.stats.base.length
 
       const maxOffer = computed(() => {
-        if (!chainsSupportingOffers.includes(urlPrefix.value)) {
-          return undefined
-        }
-        const offresPerNft = data.value.stats.base.map((nft) =>
-          nft.offers.map((offer) => Number(offer.price)),
-        )
-        const highestOffer = Math.max(
-          ...offresPerNft.map((nftOffers) => Math.max(...nftOffers)),
-        )
-        return highestOffer
+        return undefined
+        // if (!chainsSupportingOffers.includes(urlPrefix.value)) {
+        //   return undefined
+        // }
+        // const offresPerNft = data.value.stats.base.map((nft) =>
+        //   nft.offers.map((offer) => Number(offer.price)),
+        // )
+        // const highestOffer = Math.max(
+        //   ...offresPerNft.map((nftOffers) => Math.max(...nftOffers)),
+        // )
+        // return highestOffer
       })
 
       const listedNfts = data.value.stats.listed
