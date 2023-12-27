@@ -1,5 +1,4 @@
 import { useFiatStore } from '@/stores/fiat'
-import { useIdentityStore } from '@/stores/identity'
 
 export type Token = 'BSX' | 'KSM'
 
@@ -10,14 +9,9 @@ export const ksmToBsx = (value: number): number => {
   return value * (Number(KSMToUsd) / Number(BSXToUsd))
 }
 
-export const getBalance = (token?: Token): number => {
+export const getBalance = (_token?: Token): number => {
   const { balance } = useAuth()
-  const { tokenId } = usePrefix()
-  const identityStore = useIdentityStore()
 
-  if (token === 'KSM') {
-    return Number(identityStore.getTokenBalanceOf(tokenId.value))
-  }
   return Number(balance.value)
 }
 

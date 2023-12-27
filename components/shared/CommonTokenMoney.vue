@@ -1,16 +1,16 @@
 <template>
-  <TokenMoney
-    v-if="tokenId"
+  <!-- <TokenMoney
+    v-if="false"
     :value="value"
     :data-testid="dataCy"
     :round="round"
-    inline />
-  <Money v-else :value="value" :data-testid="dataCy" inline :round="round" />
+    inline /> -->
+  <Money :value="value" :data-testid="dataCy" inline :round="round" />
 </template>
 
 <script lang="ts" setup>
 import Money from '@/components/shared/format/Money.vue'
-import TokenMoney from '@/components/bsx/format/TokenMoney.vue'
+// import TokenMoney from '@/components/bsx/format/TokenMoney.vue'
 
 defineProps({
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -29,6 +29,4 @@ defineProps({
     default: 2,
   },
 })
-
-const { tokenId } = usePrefix()
 </script>

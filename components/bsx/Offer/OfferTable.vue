@@ -71,7 +71,7 @@
         field="formatPrice"
         :label="$t('offer.price')"
         sortable>
-        <Money :value="props.row.price" :token-id="tokenId" inline />
+        <Money :value="props.row.price" inline />
       </NeoTableColumn>
       <NeoTableColumn
         v-slot="props"
@@ -157,7 +157,7 @@ import {
 } from '@kodadot1/brick'
 
 import Identity from '@/components/identity/IdentityIndex.vue'
-import Money from '@/components/bsx/format/TokenMoney.vue'
+import Money from '@/components/shared/format/Money.vue'
 
 withDefaults(
   defineProps<{
@@ -175,7 +175,7 @@ withDefaults(
 )
 
 const route = useRoute()
-const { urlPrefix, tokenId } = usePrefix()
+const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
 const { replaceUrl } = useReplaceUrl()
 
