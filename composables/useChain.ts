@@ -28,9 +28,8 @@ export default function () {
     return chainProperties.value.tokenSymbol
   })
 
-  const offersDisabled = computed(() => {
-    return urlPrefix.value !== 'bsx'
-  })
+  // TODO: offers will be enabled in the future (with atomic swaps)
+  const offersDisabled = computed(() => true)
 
   const availableChains = computed(availablePrefixes)
   const availableChainsWithIcon = computed(availablePrefixWithIcon)
