@@ -31,7 +31,7 @@
 
     <div
       v-if="!isCollection"
-      class="carousel-meta flex"
+      class="flex items-center mt-4"
       :class="[showPrice ? 'justify-between' : 'justify-end']">
       <div v-if="showPrice" class="flex items-center">
         <Money
@@ -43,7 +43,7 @@
           >- {{ $t('spotlight.sold') }}</span
         >
       </div>
-      <p class="is-size-7 chain-name capitalize">{{ chainName }}</p>
+      <p class="is-size-7 chain-name uppercase">{{ chainName }}</p>
     </div>
   </div>
 </template>
