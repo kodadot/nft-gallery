@@ -28,21 +28,6 @@ export const POPULAR_COLLECTIONS = {
     'c8d5ea648c93514667-MSHRMTPIA', // Mushroom Topia
     '8453d0ccb4cb7e9e59-A51', // Alien Ant Pharm
   ],
-  bsx: [
-    '1865909717', //Berliner
-    '3268254081', //Ancient Civilizations
-    '2551182625', //Luna Witches
-    '3579963603', //Hooker's Urban
-    '3929608780', //Sentinels of the New Age
-    '608015335', //Cascadia
-    '1825819407', //KoDragons
-    '945672150', //NAGA KADAL
-    '2349262476', //Beyond boundaries
-    '3715754953', //Coalesce
-    '2385422779', //Fli.
-    '2334273319', //Guardians and Creatures
-    '1635680444', //KODACHAINS
-  ],
   ahk: [
     'u-2024', // The Decoded Hybrid Collection
     'u-2023', // The Decoded Hybrid Collection: Gold Edition
