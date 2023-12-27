@@ -63,14 +63,14 @@ import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetail
 
 const MINTING_SECOND = 120
 
-const props = defineProps({
-  drop: {
-    type: Object,
-    default: () => {
-      return {} as DropItem
-    },
+const props = withDefaults(
+  defineProps<{
+    drop: DropItem
+  }>(),
+  {
+    drop: () => ({}) as DropItem,
   },
-})
+)
 
 const instance = getCurrentInstance()
 const listingCartStore = useListingCartStore()
