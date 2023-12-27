@@ -23,6 +23,7 @@
                     targetExistentialDeposit,
                   ])
             }}
+            <b>{{ $t('teleport.lossOfFunds') }}</b>
           </span>
           <a
             v-safe-href="

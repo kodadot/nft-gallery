@@ -269,7 +269,7 @@ export const getChainExistentialDeposit = (
 export const chainToPrecisionMap: Record<Chain, number> = {
   [Chain.KUSAMA]: 4,
   [Chain.BASILISK]: 4,
-  [Chain.ASSETHUBKUSAMA]: 5,
+  [Chain.ASSETHUBKUSAMA]: 6,
   [Chain.ASSETHUBPOLKADOT]: 5,
   [Chain.POLKADOT]: 4,
 }
