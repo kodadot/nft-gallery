@@ -7,7 +7,6 @@ import { formatAddress } from '@/utils/account'
 import type { Prefix } from '@kodadot1/static'
 
 const DEFAULT_BALANCE_STATE = {
-  bsx: '0',
   ksm: '0',
   rmrk: '0',
   ahk: '0',
