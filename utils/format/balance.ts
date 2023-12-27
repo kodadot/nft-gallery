@@ -91,10 +91,6 @@ export const formatBalanceEmptyOnZero = (
     : trimAll(format(amount, decimals || 12, symbol || 'KSM'))
 }
 
-export const formatBsxBalanceToNumber = (amount) => {
-  return parseFloat(format(amount, 12, false).replace(/,/g, ''))
-}
-
 export const roundAmount = (
   value: string,
   limit: number,
