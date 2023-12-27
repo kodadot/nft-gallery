@@ -48,7 +48,6 @@ export const URLS = {
     netlify: 'https://beta.kodadot.xyz/.netlify/functions/',
     seoCard: 'https://og-image-green-seven.vercel.app/',
     rubick: 'https://squid.subsquid.io/rubick/graphql',
-    snek: 'https://squid.subsquid.io/snekk/graphql',
     marck: 'https://squid.subsquid.io/marck/graphql',
     stick: 'https://query-stick.stellate.sh',
     speck: 'https://squid.subsquid.io/speck/graphql',
@@ -73,7 +72,6 @@ export const URLS = {
 export const apolloClientConfig = {
   ...defineApolloConfig(),
   subsquid: toApolloEndpoint(process.env.SUBSQUID_ENDPOINT || URLS.koda.rubick),
-  bsx: toApolloEndpoint(URLS.koda.snek),
   rmrk2: toApolloEndpoint(URLS.koda.marck),
   ahk: toApolloEndpoint(URLS.koda.stick),
   ahp: toApolloEndpoint(URLS.koda.speck),
