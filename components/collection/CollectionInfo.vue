@@ -85,7 +85,7 @@
       <CollectionInfoLine
         :title="$t('series.owners')"
         :value="stats.uniqueOwners" />
-      <CollectionInfoLine title="Listed/Supply">
+      <CollectionInfoLine :title="$t('activity.listedAndMinted')">
         <span class="text-xs text-neutral-7 leading-6 font-normal mr-2"
           >{{
             Math.floor(

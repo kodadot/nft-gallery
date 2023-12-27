@@ -7,7 +7,7 @@ query collectionStatsById($id: String!) {
       currentOwner
       issuer
     }
-    listed: nfts(where: { price_gt: "0" }) {
+    listed: nfts(where: { price_gt: "0", burned_eq: false }) {
       id
       price
   	}
