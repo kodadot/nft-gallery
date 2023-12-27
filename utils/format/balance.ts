@@ -91,28 +91,6 @@ export const formatBalanceEmptyOnZero = (
     : trimAll(format(amount, decimals || 12, symbol || 'KSM'))
 }
 
-export const formatBsxBalanceEmptyOnZero = (
-  amount: string,
-  decimals?: number,
-  symbol?: string,
-): string => {
-  if (amount === '0' || amount == undefined) {
-    return ''
-  }
-
-  const formatedBalance = format(amount, decimals || 12, symbol || 'BSX')
-  const number = Number(formatedBalance.split(' ')[0].replace(/,/g, ''))
-  const hasDecimals = number % 1 !== 0
-  const fractionDigits = hasDecimals ? decimals : 0
-
-  return (
-    number.toLocaleString(undefined, {
-      minimumFractionDigits: fractionDigits,
-      maximumFractionDigits: fractionDigits,
-    }) + ' BSX'
-  )
-}
-
 export const formatBsxBalanceToNumber = (amount) => {
   return parseFloat(format(amount, 12, false).replace(/,/g, ''))
 }
