@@ -18,15 +18,13 @@
           {{ subtitle }}
         </span>
 
-        <ShareButton no-shadow />
+        <ShareDropdown no-shadow />
       </div>
     </div>
   </NeoMessage>
 </template>
 
 <script lang="ts" setup>
-import ShareButton from '@/components/common/ShareButton.vue'
-
 import { NeoMessage } from '@kodadot1/brick'
 
 const props = defineProps<{
