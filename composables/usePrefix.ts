@@ -1,5 +1,4 @@
 import { DEFAULT_PREFIX } from '@kodadot1/static'
-import { getKusamaAssetId } from '@/utils/api/bsx/query'
 import { useIdentityStore } from '@/stores/identity'
 import { useAssetsStore } from '@/stores/assets'
 import { getAvailablePrefix } from '@/utils/chain'
@@ -55,8 +54,6 @@ export default function () {
     return urlPrefix.value
   })
 
-  const tokenId = computed(() => getKusamaAssetId(urlPrefix.value))
-
   const assets = (id: string | number) =>
     useAssetsStore().getAssetById(String(id))
 
@@ -66,7 +63,6 @@ export default function () {
     urlPrefix,
     setUrlPrefix,
     client,
-    tokenId,
     assets,
     isTestnet,
   }
