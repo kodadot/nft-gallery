@@ -3,7 +3,7 @@
     <div class="container is-fluid border-top pt-6">
       <div class="columns is-desktop">
         <div class="column is-half-desktop mobile-padding">
-          <UnlockableCollectionInfo
+          <CollectionUnlockableCollectionInfo
             :collection-id="collectionId"
             :description="description" />
           <hr />
@@ -65,19 +65,19 @@
 </template>
 
 <script setup lang="ts">
-import UnlockableCollectionInfo from '@/components/collection/unlockable/UnlockableCollectionInfo.vue'
+import { DropItem } from '@/params/types'
 
 withDefaults(
   defineProps<{
     collectionId: string
     description?: string
-    drop: any
+    drop: DropItem
     mintButtonDisabled: boolean
 
     mintedCount: number
     mintCountAvailable: boolean
     maxCount: number
-    minimumFunds: number
+    minimumFunds: bigint
     minimumFundsDescription: string
     isImageFetching: boolean
     isWalletConnecting: boolean
@@ -91,6 +91,7 @@ withDefaults(
     handleSubmitMint: () => void
   }>(),
   {
+    description: undefined,
     hasUserMinted: undefined,
     isHolderOfTargetCollection: false,
     holderOfCollectionId: '',

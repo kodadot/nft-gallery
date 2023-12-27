@@ -274,9 +274,8 @@ const handleCheckSubscription = async () => {
   await checkSubscription(subscriptionId.value as string)
 }
 
-const handleResendConfirmationEmail = async () => {
-  await resendConfirmationEmail(subscriptionId.value as string)
-}
+const handleResendConfirmationEmail = () =>
+  resendConfirmationEmail(subscriptionId.value as string)
 
 const startMinting = async () => {
   try {

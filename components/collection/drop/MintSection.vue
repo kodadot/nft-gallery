@@ -102,7 +102,7 @@ const props = withDefaults(
     mintedCount: number
     mintCountAvailable: boolean
     maxCount: number
-    minimumFunds: number
+    minimumFunds: bigint
     minimumFundsDescription: string
     isImageFetching: boolean
     isWalletConnecting: boolean

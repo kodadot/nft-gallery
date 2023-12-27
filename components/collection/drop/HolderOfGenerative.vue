@@ -45,14 +45,14 @@ import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetail
 
 const holderOfCollectionId = '50' // ChaosFlakes | todo: mock for testing, should be fetched from backend
 
-const props = defineProps({
-  drop: {
-    type: Object,
-    default: () => {
-      return {} as DropItem
-    },
+const props = withDefaults(
+  defineProps<{
+    drop: DropItem
+  }>(),
+  {
+    drop: () => ({}) as DropItem,
   },
-})
+)
 
 const { fetchMultipleBalance } = useMultipleBalance()
 

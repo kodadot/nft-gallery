@@ -8,6 +8,15 @@ export type DropMintedNft = DoResult & {
   name: string
 }
 
+type GenerativeDropMintParams = {
+  mintedDropCount: Ref<number>
+  collectionId: Ref<string>
+  defaultImage: Ref<string>
+  currentAccountMintedToken: Ref<DropMintedStatus | null>
+  defaultMax: Ref<number>
+  collectionData: Ref
+}
+
 export default ({
   collectionData,
   defaultMax,
@@ -15,14 +24,7 @@ export default ({
   collectionId,
   mintedDropCount,
   defaultImage,
-}: {
-  mintedDropCount: Ref<number>
-  collectionId: Ref
-  defaultImage: Ref
-  currentAccountMintedToken: Ref<DropMintedStatus | null>
-  defaultMax: Ref<number>
-  collectionData: Ref
-}) => {
+}: GenerativeDropMintParams) => {
   const { toast } = useToast()
   const { $i18n } = useNuxtApp()
 
