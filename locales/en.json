@@ -768,19 +768,10 @@
     "activeWallets": "Active wallets",
     "offers": "Offers",
     "values": "VALUES",
-    "bsxTitle": "Basilisk Marketplace Statistics",
     "uniqueOwners": "Unique Owners",
     "highestSale": "Highest Sale",
     "floorPrice": "Floor Price",
     "totalVolume": "Total Volume"
-  },
-  "myOffer": {
-    "bsxTitle": "Incoming Offers",
-    "price": "Amount",
-    "caller": "Offer Maker",
-    "date": "Time",
-    "needLogin": "Connect wallet to see your offers here.",
-    "empty": "There are currently no offers."
   },
   "loader": {
     "broadcast": "Broadcasting the tx to blockchain",

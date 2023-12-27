@@ -495,16 +495,7 @@
     "createdCollections": "Colecciones creadas",
     "activeWallets": "Carteras activas",
     "offers": "Ofertas",
-    "values": "VALORES",
-    "bsxTitle": "Estadísticas del Marketplace Basilisk"
-  },
-  "myOffer": {
-    "bsxTitle": "Ofertas recibidas",
-    "price": "Monto",
-    "caller": "Creador de Ofertas",
-    "date": "Fecha",
-    "needLogin": "Conecta la cartera para ver tus ofertas aquí.",
-    "empty": "Actualmente no hay ofertas."
+    "values": "VALORES"
   },
   "loader": {
     "casting": "(1/3) Transmitiendo el tx a la blockchain",
