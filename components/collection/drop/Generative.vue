@@ -236,10 +236,7 @@ const handleSelectImage = (image: string) => {
 
 const tryCapture = async () => {
   try {
-    // Remove delay after 24.12.2023
-    const imgFile = await makeScreenshot(sanitizeIpfsUrl(selectedImage.value), {
-      delay: 45000,
-    })
+    const imgFile = await makeScreenshot(sanitizeIpfsUrl(selectedImage.value))
     const imageHash = await pinFileToIPFS(imgFile)
     return imageHash
   } catch (error) {
