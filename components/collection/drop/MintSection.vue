@@ -24,7 +24,7 @@
     </div>
 
     <div class="my-5">
-      <div v-if="hasUserMinted" class="flex justify-end items-center">
+      <div v-if="userMintedNftId" class="flex justify-end items-center">
         <div class="mr-2">
           {{ $t('mint.unlockable.nftAlreadyMinted') }}
         </div>
@@ -36,7 +36,7 @@
           class="my-2 mint-button"
           :tag="NuxtLink"
           :label="$t('mint.unlockable.seeYourNft')"
-          :to="`/${urlPrefix}/gallery/${hasUserMinted}`" />
+          :to="`/${urlPrefix}/gallery/${userMintedNftId}`" />
       </div>
 
       <div
@@ -109,12 +109,12 @@ const props = withDefaults(
     isLoading: boolean
     mintButtonDisabled: boolean
     mintButtonLabel: string
-    hasUserMinted?: string
+    userMintedNftId?: string
     isHolderOfTargetCollection?: boolean
     holderOfCollectionId?: string
   }>(),
   {
-    hasUserMinted: undefined,
+    userMintedNftId: undefined,
     isHolderOfTargetCollection: false,
     holderOfCollectionId: '',
   },

@@ -36,7 +36,7 @@ export default ({
     () => collectionData.value?.collectionEntity?.max || defaultMax.value,
   )
 
-  const hasUserMinted = computed(() =>
+  const userMintedNftId = computed(() =>
     currentAccountMintedToken.value
       ? `${collectionId.value}-${currentAccountMintedToken.value.id}`
       : mintedNft.value?.id,
@@ -79,7 +79,7 @@ export default ({
     maxCount,
     mintedNft,
     mintedNftWithMetadata,
-    hasUserMinted,
+    userMintedNftId,
     mintedCount,
     mintCountAvailable,
     selectedImage,

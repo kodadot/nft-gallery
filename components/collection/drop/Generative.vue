@@ -1,6 +1,6 @@
 <template>
   <CollectionDropGenerativeLayout
-    :has-user-minted="hasUserMinted"
+    :user-minted-nft-id="userMintedNftId"
     :is-wallet-connecting="isWalletConnecting"
     :is-image-fetching="isImageFetching"
     :is-loading="isLoading"
@@ -134,7 +134,7 @@ const {
   maxCount,
   mintedNft,
   mintedNftWithMetadata,
-  hasUserMinted,
+  userMintedNftId,
   mintedCount,
   mintCountAvailable,
   selectedImage,

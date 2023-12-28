@@ -12,7 +12,7 @@
 
           <CollectionDropMintSection
             v-if="!isMobile"
-            :has-user-minted="hasUserMinted"
+            :user-minted-nft-id="userMintedNftId"
             :is-wallet-connecting="isWalletConnecting"
             :is-image-fetching="isImageFetching"
             :is-loading="isLoading"
@@ -38,7 +38,7 @@
         <CollectionDropMintSection
           v-if="isMobile"
           class="column"
-          :has-user-minted="hasUserMinted"
+          :user-minted-nft-id="userMintedNftId"
           :is-wallet-connecting="isWalletConnecting"
           :is-image-fetching="isImageFetching"
           :is-loading="isLoading"
@@ -83,7 +83,7 @@ withDefaults(
     isWalletConnecting: boolean
     isLoading: boolean
     mintButtonLabel: string
-    hasUserMinted?: string
+    userMintedNftId?: string
     isHolderOfTargetCollection?: boolean
     holderOfCollectionId?: string
 
@@ -92,7 +92,7 @@ withDefaults(
   }>(),
   {
     description: undefined,
-    hasUserMinted: undefined,
+    userMintedNftId: undefined,
     isHolderOfTargetCollection: false,
     holderOfCollectionId: '',
   },
