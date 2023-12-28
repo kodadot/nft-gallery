@@ -1,5 +1,4 @@
 import { useResizeObserver } from '@vueuse/core'
-import { type Ref } from 'vue/types'
 
 export default function (container: Ref<HTMLDivElement | null>) {
   const desktop = ref(true)
