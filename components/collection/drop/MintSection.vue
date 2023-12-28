@@ -48,10 +48,10 @@
             :is-holder="isHolderOfTargetCollection"
             :collection-id="holderOfCollectionId" />
 
-          <div v-if="minimumFunds" class="flex items-center mr-5">
+          <div v-if="minimumFunds.amount" class="flex items-center mr-5">
             <NeoIcon icon="circle-info" class="mr-3" />
             <div
-              v-dompurify-html="minimumFundsDescription"
+              v-dompurify-html="minimumFunds.description"
               class="minimum-funds-description" />
           </div>
         </div>
@@ -62,18 +62,18 @@
             class="my-2 mint-button"
             variant="k-accent"
             :loading="loading"
-            :disabled="mintButtonDisabled"
+            :disabled="mintButton.disabled"
             :loading-with-label="isWalletConnecting"
-            :label="mintButtonLabel"
+            :label="mintButton.label"
             @click="emit('mint')" />
         </div>
       </div>
 
       <div v-else class="flex justify-end">
-        <div v-if="minimumFunds" class="flex items-center mr-5">
+        <div v-if="minimumFunds.amount" class="flex items-center mr-5">
           <NeoIcon icon="circle-info" class="mr-3" />
           <div
-            v-dompurify-html="minimumFundsDescription"
+            v-dompurify-html="minimumFunds.description"
             class="minimum-funds-description" />
         </div>
 
@@ -82,9 +82,9 @@
           class="my-2 mint-button"
           variant="k-accent"
           :loading="loading"
-          :disabled="mintButtonDisabled"
+          :disabled="mintButton.disabled"
           :loading-with-label="isWalletConnecting"
-          :label="mintButtonLabel"
+          :label="mintButton.label"
           @click="emit('mint')" />
       </div>
     </div>
@@ -102,13 +102,11 @@ const props = withDefaults(
     mintedCount: number
     mintCountAvailable: boolean
     maxCount: number
-    minimumFunds: bigint
-    minimumFundsDescription: string
+    minimumFunds: { amount: bigint; description: string }
     isImageFetching: boolean
     isWalletConnecting: boolean
     isLoading: boolean
-    mintButtonDisabled: boolean
-    mintButtonLabel: string
+    mintButton: { label: string; disabled: boolean }
     userMintedNftId?: string
     isHolderOfTargetCollection?: boolean
     holderOfCollectionId?: string

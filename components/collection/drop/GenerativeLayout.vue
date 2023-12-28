@@ -17,12 +17,10 @@
             :is-image-fetching="isImageFetching"
             :is-loading="isLoading"
             :minimum-funds="minimumFunds"
-            :minimum-funds-description="minimumFundsDescription"
             :max-count="maxCount"
             :minted-count="mintedCount"
             :mint-count-available="mintCountAvailable"
-            :mint-button-disabled="mintButtonDisabled"
-            :mint-button-label="mintButtonLabel"
+            :mint-button="mintButton"
             :is-holder-of-target-collection="isHolderOfTargetCollection"
             :holder-of-collection-id="holderOfCollectionId"
             @mint="handleSubmitMint" />
@@ -43,12 +41,10 @@
           :is-image-fetching="isImageFetching"
           :is-loading="isLoading"
           :minimum-funds="minimumFunds"
-          :minimum-funds-description="minimumFundsDescription"
           :max-count="maxCount"
           :minted-count="mintedCount"
           :mint-count-available="mintCountAvailable"
-          :mint-button-disabled="mintButtonDisabled"
-          :mint-button-label="mintButtonLabel"
+          :mint-button="mintButton"
           :is-holder-of-target-collection="isHolderOfTargetCollection"
           :holder-of-collection-id="holderOfCollectionId"
           @mint="handleSubmitMint" />
@@ -72,17 +68,15 @@ withDefaults(
     collectionId: string
     description?: string
     drop: DropItem
-    mintButtonDisabled: boolean
+    mintButton: { label: string; disabled: boolean }
 
     mintedCount: number
     mintCountAvailable: boolean
     maxCount: number
-    minimumFunds: bigint
-    minimumFundsDescription: string
+    minimumFunds: { amount: bigint; description: string }
     isImageFetching: boolean
     isWalletConnecting: boolean
     isLoading: boolean
-    mintButtonLabel: string
     userMintedNftId?: string
     isHolderOfTargetCollection?: boolean
     holderOfCollectionId?: string

@@ -11,13 +11,11 @@
     :is-wallet-connecting="isWalletConnecting"
     :is-image-fetching="isImageFetching"
     :is-loading="isLoading"
-    :minimum-funds="minimumFunds"
-    :minimum-funds-description="minimumFundsDescription"
+    :minimum-funds="minimumFundsProps"
     :max-count="maxCount"
     :minted-count="mintedCount"
     :mint-count-available="mintCountAvailable"
-    :mint-button-label="mintButtonLabel"
-    :mint-button-disabled="mintButtonDisabled"
+    :mint-button="mintButtonProps"
     :handle-select-image="handleSelectImage"
     :handle-submit-mint="handleSubmitMint" />
 
@@ -64,6 +62,11 @@ const minimumFundsDescription = computed(() =>
     chainName.value,
   ]),
 )
+
+const minimumFundsProps = computed(() => ({
+  amount: minimumFunds.value,
+  description: minimumFundsDescription.value,
+}))
 
 const isWalletConnecting = ref(false)
 const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
@@ -198,6 +201,11 @@ const mintButtonDisabled = computed(
         maxMintLimitForCurrentUser.value <= mintedAmountForCurrentUser.value,
     ),
 )
+
+const mintButtonProps = computed(() => ({
+  disabled: mintButtonDisabled.value,
+  label: mintButtonLabel.value,
+}))
 
 const mintNft = async () => {
   try {
