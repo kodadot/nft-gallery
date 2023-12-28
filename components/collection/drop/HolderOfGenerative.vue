@@ -5,8 +5,7 @@
     :collection-id="collectionId"
     :description="description"
     :drop="drop"
-    :is-holder-of-target-collection="isHolderOfTargetCollection"
-    :holder-of-collection-id="holderOfCollectionId"
+    :holder-of-collection="holderOfCollection"
     :user-minted-nft-id="userMintedNftId"
     :is-wallet-connecting="isWalletConnecting"
     :is-image-fetching="isImageFetching"
@@ -179,6 +178,11 @@ const maxMintLimitForCurrentUser = computed(
 const isHolderOfTargetCollection = computed(
   () => maxMintLimitForCurrentUser.value > 0,
 )
+
+const holderOfCollection = computed(() => ({
+  id: holderOfCollectionId,
+  isHolderOfTargetCollection: isHolderOfTargetCollection.value,
+}))
 
 const mintButtonLabel = computed(() => {
   return isWalletConnecting.value

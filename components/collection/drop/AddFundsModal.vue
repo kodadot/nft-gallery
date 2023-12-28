@@ -84,7 +84,7 @@ const props = withDefaults(
     formattedMinimumFunds: string
     token: string
     chain: string
-    free: boolean
+    free?: boolean
   }>(),
   {
     free: false,

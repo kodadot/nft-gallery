@@ -45,8 +45,8 @@
         <div class="column">
           <CollectionDropHolderOfCollection
             class="mt-4 mb-5"
-            :is-holder="isHolderOfTargetCollection"
-            :collection-id="holderOfCollectionId" />
+            :is-holder="holderOfCollection.isHolderOfTargetCollection"
+            :collection-id="holderOfCollection.id" />
 
           <div v-if="minimumFunds.amount" class="flex items-center mr-5">
             <NeoIcon icon="circle-info" class="mr-3" />
@@ -108,13 +108,11 @@ const props = withDefaults(
     isLoading: boolean
     mintButton: { label: string; disabled: boolean }
     userMintedNftId?: string
-    isHolderOfTargetCollection?: boolean
-    holderOfCollectionId?: string
+    holderOfCollection?: { id?: string; isHolderOfTargetCollection?: boolean }
   }>(),
   {
     userMintedNftId: undefined,
-    isHolderOfTargetCollection: false,
-    holderOfCollectionId: '',
+    holderOfCollection: () => ({ id: '', isHolderOfTargetCollection: false }),
   },
 )
 
@@ -131,7 +129,7 @@ const mintedPercent = computed(() => {
   return Math.round(percent)
 })
 
-const showHolderOfCollection = computed(() => !!props.holderOfCollectionId)
+const showHolderOfCollection = computed(() => !!props.holderOfCollection.id)
 </script>
 
 <style scoped lang="scss">

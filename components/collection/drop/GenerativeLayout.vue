@@ -21,8 +21,7 @@
             :minted-count="mintedCount"
             :mint-count-available="mintCountAvailable"
             :mint-button="mintButton"
-            :is-holder-of-target-collection="isHolderOfTargetCollection"
-            :holder-of-collection-id="holderOfCollectionId"
+            :holder-of-collection="holderOfCollection"
             @mint="handleSubmitMint" />
         </div>
 
@@ -45,8 +44,7 @@
           :minted-count="mintedCount"
           :mint-count-available="mintCountAvailable"
           :mint-button="mintButton"
-          :is-holder-of-target-collection="isHolderOfTargetCollection"
-          :holder-of-collection-id="holderOfCollectionId"
+          :holder-of-collection="holderOfCollection"
           @mint="handleSubmitMint" />
       </div>
 
@@ -69,7 +67,6 @@ withDefaults(
     description?: string
     drop: DropItem
     mintButton: { label: string; disabled: boolean }
-
     mintedCount: number
     mintCountAvailable: boolean
     maxCount: number
@@ -78,8 +75,7 @@ withDefaults(
     isWalletConnecting: boolean
     isLoading: boolean
     userMintedNftId?: string
-    isHolderOfTargetCollection?: boolean
-    holderOfCollectionId?: string
+    holderOfCollection?: { id?: string; isHolderOfTargetCollection?: boolean }
 
     handleSelectImage: (image: string) => void
     handleSubmitMint: () => void
@@ -87,8 +83,7 @@ withDefaults(
   {
     description: '',
     userMintedNftId: undefined,
-    isHolderOfTargetCollection: false,
-    holderOfCollectionId: '',
+    holderOfCollection: () => ({ id: '', isHolderOfTargetCollection: false }),
   },
 )
 
