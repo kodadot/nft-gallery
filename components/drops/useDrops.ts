@@ -10,6 +10,7 @@ import unlockableCollectionById from '@/queries/subsquid/general/unlockableColle
 import { existentialDeposit } from '@kodadot1/static'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { DropItem } from '@/params/types'
+import { FUTURE_DROP_DATE } from '@/utils/drop'
 
 export interface Drop {
   collection: CollectionWithMeta
@@ -59,7 +60,7 @@ const getFormattedDropItem = async (collection, drop: DropItem) => {
     collection: collection,
     minted: Math.min(count, chainMax),
     max: chainMax,
-    dropStartTime: new Date(2023, 5, 6),
+    dropStartTime: FUTURE_DROP_DATE,
     price,
     isMintedOut: count >= chainMax,
     isFree: !Number(price),
