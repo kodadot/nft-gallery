@@ -32,7 +32,7 @@
         :class="{
           'flex items-center justify-items-center': !isWaveformReady,
         }">
-        <NeoWaveform
+        <Waveform
           v-show="isWaveformReady"
           :class="{
             'is-clickable': canStartPlaying,
@@ -62,7 +62,7 @@ import { computed, ref } from 'vue'
 import { useEventListener, useMediaControls } from '@vueuse/core'
 import { NeoButton, NeoIcon, NeoSkeleton } from '@kodadot1/brick'
 import { getRandomValues } from '@/components/unique/utils'
-import NeoWaveform from './NeoWaveform.vue'
+import Waveform from './Waveform.vue'
 
 defineProps<{
   src?: string
@@ -119,7 +119,7 @@ const pushToActionStack = ({ promise, reject }) => {
 const play = (time?: number) => {
   return new Promise((resolve, reject) => {
     if (!canPlay.value) {
-      return reject(new Error("Player: Can't play"))
+      return reject(new Error("Player: Can't play")) // eslint-disable-line quotes
     }
     flushPreviouseActions()
       .then(() => {
@@ -150,7 +150,7 @@ const play = (time?: number) => {
 const pause = async () => {
   return new Promise((resolve, reject) => {
     if (!canPause.value) {
-      return reject(new Error("Player: Can't pause"))
+      return reject(new Error("Player: Can't pause")) // eslint-disable-line quotes
     }
 
     flushPreviouseActions()

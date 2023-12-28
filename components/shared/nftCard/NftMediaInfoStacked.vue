@@ -60,9 +60,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { NeoNFT } from './types'
+import type { NeoNFT, NftCardVariant } from './types'
 import { computed } from 'vue'
-import { NeoButton, type NftCardVariant } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 
@@ -92,8 +92,6 @@ const collectionNameLabel = computed(() => props.token.collection.name || '--')
 </script>
 
 <style lang="scss" scoped>
-@import './NeoNftCard.scss';
-
 .staked-primary-title {
   margin-top: 6px;
 }

@@ -100,7 +100,7 @@ const { urlPrefix } = usePrefix()
 const route = useRoute()
 const router = useRouter()
 const { isDarkMode } = useTheme()
-const isMobile = computed(() => useWindowSize().width.value < 769)
+const { isMobile } = useViewport()
 
 const gotoPathAfterLogin = (path: RawLocation) => {
   doAfterLogin({

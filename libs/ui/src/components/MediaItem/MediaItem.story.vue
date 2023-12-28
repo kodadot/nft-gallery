@@ -2,7 +2,10 @@
   <Story title="MediaItem">
     <Variant title="image">
       <ImageMedia
-        src="https://image-beta.w.kodadot.xyz/ipfs/bafybeig6clbsbabxkku3m4furbj4klayyx7ovwtcocmgwqmv4nxllnbxxy" />
+        src="https://image-beta.w.kodadot.xyz/ipfs/bafybeig6clbsbabxkku3m4furbj4klayyx7ovwtcocmgwqmv4nxllnbxxy"
+        :original="true"
+        :placeholder="''"
+        mime-type="image/png" />
     </Variant>
 
     <Variant title="video">
@@ -10,13 +13,6 @@
         src="https://image-beta.w.kodadot.xyz/ipfs/bafybeib22hxgpef7lpoltxsi2p2bm7jjhnntwedeupdjcz4pxgfps6dz7i"
         animation-src="https://image-beta.w.kodadot.xyz/ipfs/bafybeigy4tyylo7hvk5qovlqwahl5dnh56wzdt3rrawceyqrlmvmbw7sey"
         mime-type="video/mp4" />
-    </Variant>
-
-    <Variant title="audio">
-      <NeoAudioPlayer
-        src="https://image-beta.w.kodadot.xyz/ipfs/bafybeig6dnjacg4sipst4tkxm36ykkfuqkkb5dvfaale4u65hjtdlspvri"
-        animation-src="https://image-beta.w.kodadot.xyz/ipfs/bafybeibuet6ba3xquuhiurq2on2i5ccibuh3s7aiqp6c2gqlokgtgwvu5y"
-        mime-type="audio/mpeg" />
     </Variant>
 
     <Variant title="3d">
@@ -45,8 +41,6 @@
 </template>
 
 <script lang="ts" setup>
-import { NeoAudioPlayer } from '@kodadot1/brick'
-
 import ImageMedia from './type/ImageMedia.vue'
 import VideoMedia from './type/VideoMedia.vue'
 import JsonMedia from './type/JsonMedia.vue'
