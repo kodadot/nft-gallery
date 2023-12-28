@@ -1,6 +1,3 @@
-@import '../../scss/variable.scss';
-@import '../../scss/animation.scss';
-
 @function hex-to-rgba($hex, $alpha: 1) {
   @return rgba(red($hex), green($hex), blue($hex), $alpha);
 }

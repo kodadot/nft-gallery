@@ -5,10 +5,10 @@
     </section>
 
     <template v-if="showCarousel">
-      <!-- spotlight -->
-      <section class="py-8 instance">
+      <!-- top collections -->
+      <section v-if="showTopCollections" class="py-8 instance">
         <div class="container is-fluid">
-          <CarouselTypeSpotlight />
+          <LandingTopCollections class="my-5" />
         </div>
       </section>
 
@@ -20,13 +20,6 @@
           </div>
         </section>
       </transition>
-
-      <!-- top collections -->
-      <section v-if="showTopCollections" class="py-8 instance">
-        <div class="container is-fluid">
-          <LandingTopCollections class="my-5" />
-        </div>
-      </section>
 
       <section class="py-8 instance">
         <div class="container is-fluid">
@@ -52,7 +45,6 @@
 
 <script lang="ts" setup>
 import type { Prefix } from '@kodadot1/static'
-import CarouselTypeSpotlight from '@/components/carousel/CarouselTypeSpotlight.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 
 const hiddenCarrouselPrefixes: Prefix[] = ['dot']

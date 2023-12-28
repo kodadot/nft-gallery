@@ -20,10 +20,15 @@
         class="is-flex is-flex-direction-column px-4 bakground-warning-red border border-color-k-red">
         <span class="my-3">
           {{
-            $t('teleport.insufficientExistentialDeposit', [
-              existentialDeposit,
-              currency,
-            ])
+            reason === 'source'
+              ? $t('teleport.sourceExistentialDepositWarning', [
+                  sourceExistentialDeposit,
+                  currency,
+                ])
+              : $t('teleport.targetExistentialDepositWarning', [
+                  targetExistentialDeposit,
+                  currency,
+                ])
           }}
           <b>{{ $t('teleport.lossOfFunds') }}</b>
         </span>
@@ -57,8 +62,10 @@ import { NeoButton, NeoCheckbox, NeoIcon, NeoModal } from '@kodadot1/brick'
 
 const props = defineProps<{
   modelValue: boolean
-  existentialDeposit: number
+  sourceExistentialDeposit: number | string
+  targetExistentialDeposit: number | string
   currency: Currency
+  reason: 'source' | 'target'
 }>()
 
 const isModalActive = useVModel(props, 'modelValue')
