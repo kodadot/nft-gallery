@@ -6,27 +6,27 @@ interface DoFetchParams {
   variables?: Record<string, unknown>
 }
 
-type UseGraphqlParams = {
+type UseGraphqlParams<T> = {
   queryPrefix?: string
   queryName: string
   clientName?: string | ComputedRef<string>
   variables?: Record<string, unknown> | ComputedRef<Record<string, unknown>>
   disabled?: ComputedRef<boolean>
-  data?: Ref<unknown>
+  data?: Ref<T | undefined>
   error?: Ref<unknown>
   loading?: Ref<boolean>
 }
 
-export default function ({
+export default function <T = unknown>({
   queryPrefix = '',
   queryName,
   clientName = '',
   variables = {},
   disabled = computed(() => false),
-  data = ref(),
+  data = ref<T>(),
   error = ref(),
   loading = ref(true),
-}: UseGraphqlParams) {
+}: UseGraphqlParams<T>) {
   const { client: clientPrefix } = usePrefix()
   const { $consola } = useNuxtApp()
 
@@ -39,7 +39,7 @@ export default function ({
     const query = await resolveQueryPath(prefix, queryName)
 
     try {
-      const { data: result } = await useAsyncQuery({
+      const { data: result } = await useAsyncQuery<T>({
         query: query.default,
         variables: {
           ...variables,

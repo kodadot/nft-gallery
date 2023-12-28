@@ -85,7 +85,7 @@ withDefaults(
     handleSubmitMint: () => void
   }>(),
   {
-    description: undefined,
+    description: '',
     userMintedNftId: undefined,
     isHolderOfTargetCollection: false,
     holderOfCollectionId: '',

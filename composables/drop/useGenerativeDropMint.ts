@@ -8,13 +8,22 @@ export type DropMintedNft = DoResult & {
   name: string
 }
 
+export type UnlockableCollectionById = {
+  collectionEntity: {
+    meta: { description: string }
+    name: string
+    max: number
+  }
+  nftEntitiesConnection: { totalCount: number }
+}
+
 type GenerativeDropMintParams = {
   mintedDropCount: Ref<number>
   collectionId: Ref<string>
   defaultImage: Ref<string>
   currentAccountMintedToken: Ref<DropMintedStatus | null>
   defaultMax: Ref<number>
-  collectionData: Ref
+  collectionData: Ref<UnlockableCollectionById | undefined | null>
 }
 
 export default ({
