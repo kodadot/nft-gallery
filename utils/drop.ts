@@ -31,4 +31,4 @@ export const AHP_GENERATIVE_DROPS = [
 export const AHP_POPULAR_DROP_COLLECTIONS = [...AHP_GENERATIVE_DROPS]
 
 export const FALLBACK_DROP_COLLECTION_MAX = 300
-export const FUTURE_DROP_DATE = new Date(2023, 11, 28, 17)
+export const FUTURE_DROP_DATE = new Date(Date.UTC(23, 11, 28, 18, 0, 0))
