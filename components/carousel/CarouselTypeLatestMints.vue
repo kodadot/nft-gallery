@@ -14,7 +14,7 @@
 
           <div class="flex flex-col items-start">
             <div class="flex justify-between items-center">
-              <p class="is-size-7 has-text-k-grey">
+              <p class="is-size-7 text-k-grey">
                 {{ $t('drops.mintedBy') }}
               </p>
               <nuxt-link
@@ -26,7 +26,7 @@
                   show-clipboard />
               </nuxt-link>
             </div>
-            <p class="is-size-7 has-text-k-grey">{{ item.timestamp }}</p>
+            <p class="is-size-7 text-k-grey">{{ item.timestamp }}</p>
           </div>
         </div>
       </template>

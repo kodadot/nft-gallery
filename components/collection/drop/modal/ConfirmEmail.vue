@@ -14,7 +14,7 @@
 
   <hr class="m-0 mb-2 mt-5" />
 
-  <div class="capitalize text-xs has-text-k-grey">
+  <div class="capitalize text-xs text-k-grey">
     <p>
       {{ $t('drops.noEmail') }}
       <a class="has-text-k-blue" @click="$emit('resend')">{{

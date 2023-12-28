@@ -31,7 +31,7 @@
         v-if="showPrice"
         :value="nft.price ?? nft.cheapest?.price"
         data-testid="card-money" />
-      <span v-if="!isMinimal" class="has-text-k-grey capitalize is-size-7">{{
+      <span v-if="!isMinimal" class="text-k-grey capitalize is-size-7">{{
         getChainNameByPrefix(prefix)
       }}</span>
     </div>
