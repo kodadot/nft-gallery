@@ -104,7 +104,6 @@
 }
 
 .chain-name {
-  text-transform: uppercase;
   @include ktheme() {
     color: theme('k-grey');
   }
