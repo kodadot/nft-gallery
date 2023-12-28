@@ -27,6 +27,20 @@ const defaultGridConfigs: GridConfig[] = [
   },
 ]
 
+export const DEFAULT_NEWSLETTER_SUBSCRIPTION = {
+  subscribed: false,
+  confirmed: false,
+  email: undefined,
+  id: undefined,
+}
+
+type NewsletterSubscription = {
+  subscribed: boolean
+  confirmed: boolean
+  id?: string
+  email?: string
+}
+
 interface State {
   sidebarFilterCollapseOpen: boolean
   mobileFilterCollapseOpen: boolean
@@ -53,13 +67,13 @@ interface State {
   enableAllArtwork: boolean
   enableGyroEffect: boolean
   firstTimeAutoTeleport: boolean
-  subscribedToNewsletter: boolean
   // Minting
   hasSupport: boolean
   hasCarbonOffset: boolean
   // Mass Mint
   visitedOnboarding: boolean
   userLocale: string
+  newsletterSubscription: NewsletterSubscription
 }
 
 export const usePreferencesStore = defineStore('preferences', {
@@ -94,8 +108,8 @@ export const usePreferencesStore = defineStore('preferences', {
     gridSize: 'small',
     visitedOnboarding: false,
     firstTimeAutoTeleport: true,
-    subscribedToNewsletter: false,
     userLocale: 'en',
+    newsletterSubscription: { ...DEFAULT_NEWSLETTER_SUBSCRIPTION },
   }),
   getters: {
     getsidebarFilterCollapse: (state) => state.sidebarFilterCollapseOpen,
@@ -122,8 +136,8 @@ export const usePreferencesStore = defineStore('preferences', {
     getEnableGyroEffect: (state) => state.enableGyroEffect,
     getVisitedOnboarding: (state) => state.visitedOnboarding,
     getFirstTimeAutoTeleport: (state) => state.firstTimeAutoTeleport,
-    getSubscribedToNewsletter: (state) => state.subscribedToNewsletter,
     getUserLocale: (state) => state.userLocale,
+    getNewsletterSubscription: (state) => state.newsletterSubscription,
   },
   actions: {
     setSidebarFilterCollapse(payload) {
@@ -221,11 +235,11 @@ export const usePreferencesStore = defineStore('preferences', {
     setFirstTimeAutoTeleport(firstTime: boolean) {
       this.firstTimeAutoTeleport = firstTime
     },
-    setSubscribedToNewsletter(subscribed: boolean) {
-      this.subscribedToNewsletter = subscribed
-    },
     setUserLocale(locale: string) {
       this.userLocale = locale
+    },
+    setNewsletterSubscription(subscription: NewsletterSubscription) {
+      this.newsletterSubscription = subscription
     },
   },
   persist: true,

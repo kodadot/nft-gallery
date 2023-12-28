@@ -39,6 +39,7 @@ export default function ({
     const query = await resolveQueryPath(prefix, queryName)
 
     try {
+      loading.value = true
       const { data: result } = await useAsyncQuery({
         query: query.default,
         variables: {

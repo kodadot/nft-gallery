@@ -27,7 +27,7 @@ const route = useRoute()
 const { setUrlPrefix } = usePrefix()
 const { availableChains } = useChain()
 const { redirectAfterChainChange } = useChainRedirect()
-const isMobile = computed(() => useWindowSize().width.value <= 764)
+const { isMobile } = useViewport()
 
 const selected = computed(() =>
   availableChains.value.find((chain) => chain.value === route.params.prefix),

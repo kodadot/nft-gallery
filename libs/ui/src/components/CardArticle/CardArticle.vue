@@ -12,7 +12,7 @@
       <p class="leading-4.5 text-text-color font-bold">
         {{ title }}
       </p>
-      <p class="text-xs/4.5 text-text-color">
+      <p v-if="description" class="text-xs/4.5 text-text-color">
         {{ description }}
       </p>
     </div>
@@ -24,6 +24,6 @@ defineProps<{
   link: string
   image: string
   title: string
-  description: string
+  description?: string
 }>()
 </script>

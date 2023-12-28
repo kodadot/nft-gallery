@@ -79,14 +79,15 @@ body:
         - Talisman
         - SubWallet
         - Nova Wallet
+        - Other
   - type: dropdown
     id: wallet-selector
     attributes:
       label: At which chain did you encounter bug?
       multiple: true
       options:
-        - Basilisk
-        - Asset Hub
+        - Asset Hub Kusama
+        - Asset Hub Polkadot
         - Kusama
   - type: textarea
     id: Screenshots
@@ -96,6 +97,12 @@ body:
       placeholder: Paste from your clipboard or upload screenshots/video
     validations:
       required: true
+  - type: textarea
+    id: wallet_address
+    attributes:
+      label: Wallet Address & Transaction hash
+      description: Putting your address & transaction hash will help us with investigation
+      placeholder: Putting your address & transaction hash will help us with investigation
   - type: textarea
     id: logs
     attributes:
@@ -108,7 +115,7 @@ body:
     attributes:
       label: Payment link for reward
       description: Whenever you will be actively participating to get your bug fixed, helping elaborating and testing to get bug mitigated, you are eliglible for recieving reward. Read more how to share your address for reciving rewards https://github.com/kodadot/nft-gallery/blob/main/CONTRIBUTING.md#sharing-your-address-to-receive-reward
-      value: 'https://kodadot.xyz/ksm/transfer/?target=%3CMy_Kusama_Address_check_https://github.com/kodadot/nft-gallery/blob/main/CONTRIBUTING.md#creating-your-ksm-address%3E'
+      value: 'https://kodadot.xyz/dot/transfer/?target=%3CMy_Polkadot_Address_check_https://github.com/kodadot/nft-gallery/blob/main/CONTRIBUTING.md#creating-your-ksm-address%3E'
   - type: checkboxes
     id: terms
     attributes:

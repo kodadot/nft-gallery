@@ -1,15 +1,14 @@
 <template>
   <div>
     <section class="instance">
-      <LandingMobileHeroBanner v-if="isMobile" class="mt-6" />
-      <SearchLanding v-else class="my-8" />
+      <LandingHeroBanner />
     </section>
 
     <template v-if="showCarousel">
-      <!-- spotlight -->
-      <section class="py-8 instance">
+      <!-- top collections -->
+      <section v-if="showTopCollections" class="py-8 instance">
         <div class="container is-fluid">
-          <CarouselTypeSpotlight />
+          <LandingTopCollections class="my-5" />
         </div>
       </section>
 
@@ -21,13 +20,6 @@
           </div>
         </section>
       </transition>
-
-      <!-- top collections -->
-      <section v-if="showTopCollections" class="py-8 instance">
-        <div class="container is-fluid">
-          <LandingTopCollections class="my-5" />
-        </div>
-      </section>
 
       <section class="py-8 instance">
         <div class="container is-fluid">
@@ -53,8 +45,6 @@
 
 <script lang="ts" setup>
 import type { Prefix } from '@kodadot1/static'
-import SearchLanding from './SearchLanding.vue'
-import CarouselTypeSpotlight from '@/components/carousel/CarouselTypeSpotlight.vue'
 import { usePreferencesStore } from '@/stores/preferences'
 
 const hiddenCarrouselPrefixes: Prefix[] = ['dot']
@@ -62,10 +52,9 @@ const forbiddenPrefixesForTopCollections: Prefix[] = ['ksm', 'dot']
 
 const { urlPrefix } = usePrefix()
 const preferencesStore = usePreferencesStore()
-const { width } = useWindowSize()
 
 const showSignupBanner = computed(
-  () => !preferencesStore.getSubscribedToNewsletter,
+  () => !preferencesStore.getNewsletterSubscription.subscribed,
 )
 // currently only supported on rmrk
 const showCarousel = computed(
@@ -74,5 +63,4 @@ const showCarousel = computed(
 const showTopCollections = computed(
   () => !forbiddenPrefixesForTopCollections.includes(urlPrefix.value),
 )
-const isMobile = computed(() => width.value <= 480)
 </script>

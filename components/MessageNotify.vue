@@ -17,11 +17,8 @@
         <span class="subtitle is-6 mb-0">
           {{ subtitle }}
         </span>
-        <ShowQRModal
-          class="share-option"
-          :address="realworldFullPath"
-          :title="$t('sharing.nft')"
-          type="is-primary" />
+
+        <ShareDropdown no-shadow mobile-modal />
       </div>
     </div>
   </NeoMessage>
@@ -30,7 +27,6 @@
 <script lang="ts" setup>
 import { NeoMessage } from '@kodadot1/brick'
 
-const route = useRoute()
 const props = defineProps<{
   title?: string
   subtitle?: string
@@ -43,10 +39,6 @@ const realDuration = computed(() => {
 })
 
 const autoClose = computed(() => !props.noToast)
-
-const realworldFullPath = computed(() => {
-  return `${window.location.origin}${route.fullPath}`
-})
 </script>
 
 <style lang="scss">
