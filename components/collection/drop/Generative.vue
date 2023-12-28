@@ -127,8 +127,7 @@ const props = defineProps({
 
 useMultipleBalance(true)
 
-const { width } = useWindowSize()
-const isMobile = computed(() => width.value <= 768)
+const { isMobile } = useViewport()
 
 useDropStatus(props.drop.alias)
 const instance = getCurrentInstance()
@@ -236,10 +235,7 @@ const handleSelectImage = (image: string) => {
 
 const tryCapture = async () => {
   try {
-    // Remove delay after 24.12.2023
-    const imgFile = await makeScreenshot(sanitizeIpfsUrl(selectedImage.value), {
-      delay: 45000,
-    })
+    const imgFile = await makeScreenshot(sanitizeIpfsUrl(selectedImage.value))
     const imageHash = await pinFileToIPFS(imgFile)
     return imageHash
   } catch (error) {

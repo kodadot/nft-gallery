@@ -15,10 +15,15 @@
         <div class="has-text-left py-2 is-flex is-flex-direction-column">
           <span class="mb-3">
             {{
-              $t('teleport.existentialDepositTooltip', [
-                targetExistentialDepositAmount,
-              ])
+              reason === 'source'
+                ? $t('teleport.sourceExistentialDepositWarning', [
+                    sourceExistentialDeposit,
+                  ])
+                : $t('teleport.targetExistentialDepositWarning', [
+                    targetExistentialDeposit,
+                  ])
             }}
+            <b>{{ $t('teleport.lossOfFunds') }}</b>
           </span>
           <a
             v-safe-href="
@@ -37,6 +42,8 @@
 <script setup lang="ts">
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 defineProps<{
-  targetExistentialDepositAmount: number
+  targetExistentialDeposit: number | string
+  sourceExistentialDeposit: number | string
+  reason: 'source' | 'target'
 }>()
 </script>
