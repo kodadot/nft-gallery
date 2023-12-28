@@ -102,9 +102,3 @@
     }
   }
 }
-
-.chain-name {
-  @include ktheme() {
-    color: theme('k-grey');
-  }
-}

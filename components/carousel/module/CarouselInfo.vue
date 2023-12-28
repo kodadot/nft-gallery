@@ -43,7 +43,7 @@
           >- {{ $t('spotlight.sold') }}</span
         >
       </div>
-      <p class="is-size-7 chain-name capitalize">{{ chainName }}</p>
+      <p class="is-size-7 has-text-k-grey capitalize">{{ chainName }}</p>
     </div>
   </div>
 </template>

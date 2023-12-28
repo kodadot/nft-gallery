@@ -14,7 +14,9 @@
 
           <div class="flex flex-col items-start">
             <div class="flex justify-between items-center">
-              <p class="is-size-7 chain-name">{{ $t('drops.mintedBy') }}</p>
+              <p class="is-size-7 has-text-k-grey">
+                {{ $t('drops.mintedBy') }}
+              </p>
               <nuxt-link
                 :to="`/${urlPrefix}/u/${item.currentOwner}`"
                 class="has-text-link ml-2">
@@ -24,7 +26,7 @@
                   show-clipboard />
               </nuxt-link>
             </div>
-            <p class="is-size-7 chain-name">{{ item.timestamp }}</p>
+            <p class="is-size-7 has-text-k-grey">{{ item.timestamp }}</p>
           </div>
         </div>
       </template>
