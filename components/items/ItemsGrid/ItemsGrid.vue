@@ -42,7 +42,7 @@
 
       <!-- skeleton on fetching next page -->
       <template v-if="isLoading || isFetchingData">
-        <NeoNftCardSkeleton
+        <NftCardSkeleton
           v-for="n in skeletonCount"
           :key="n"
           :hide-media-info="hideMediaInfo" />
@@ -58,7 +58,7 @@
       :grid-section="gridSection"
       class="my-5"
       :mobile-cols="2">
-      <NeoNftCardSkeleton
+      <NftCardSkeleton
         v-for="n in skeletonCount"
         :key="n"
         :hide-media-info="hideMediaInfo" />
@@ -74,7 +74,6 @@
 </template>
 
 <script setup lang="ts">
-import { NeoNftCardSkeleton } from '@kodadot1/brick'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import ItemsGridImage from './ItemsGridImage.vue'
 import ItemsGridImageTokenEntity from './ItemsGridImageTokenEntity.vue'

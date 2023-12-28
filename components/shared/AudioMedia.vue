@@ -1,6 +1,6 @@
 <template>
   <div data-testid="type-audio">
-    <ImageMedia
+    <NeoImageMedia
       v-if="playerCover"
       ref="cover"
       :src="playerCover"
@@ -8,7 +8,7 @@
       :alt="alt"
       :original="original" />
 
-    <NeoAudioPlayer
+    <AudioPlayer
       v-show="!hoverOnCoverPlay"
       ref="audioPlayer"
       :src="animationSrc"
@@ -19,8 +19,7 @@
 <script lang="ts" setup>
 import { ref, watch, withDefaults } from 'vue'
 import { useElementHover, watchDebounced } from '@vueuse/core'
-import { NeoAudioPlayer } from '@kodadot1/brick'
-import ImageMedia from './ImageMedia.vue'
+import { NeoImageMedia } from '@kodadot1/brick'
 
 const props = withDefaults(
   defineProps<{
