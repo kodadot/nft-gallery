@@ -7,6 +7,7 @@ import MarkdownIt from 'markdown-it'
 import Prism from 'prismjs'
 
 const markdown = new MarkdownIt({
+  breaks: true,
   highlight: (code: string, lang: string) => {
     if (lang && Prism.languages[lang]) {
       return `<pre class="language-${lang}"><code>${Prism.highlight(
