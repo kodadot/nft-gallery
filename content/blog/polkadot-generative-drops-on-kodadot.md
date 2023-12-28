@@ -76,10 +76,14 @@ Collect the NFTs because we are preparing for you a collecting experience. Some 
 
 ## Why should I list my NFT for sale?
 
-- Profit Potential: The primary reason for listing NFTs soon after purchase is the potential for profit. If the NFT has gained popularity or increased in value since its acquisition, selling it quickly can yield a significant return on investment.
-- Market Trends and Hype: The value of NFTs can be highly dependent on current trends and hype. Listing them while they are still in high demand ensures that the seller capitalizes on these market sentiments.
-- Volume growth: Listing an NFT soon after purchase can contribute to the overall activity and health of the NFT collection. And with that, we all benefit.
-- Experimentation and Learning: For newcomers to the NFT space, quick buying and selling can serve as a learning experience, helping them understand market dynamics without committing to long-term investments.
-- Traders will be rewarded too: We encourage you to trade your newly obtained NFTs. List it for sale, or buy a new one, and contribute to the growing volume of the collection. Remember, traders will be rewarded on KodaDot.
+**Profit Potential:** The primary reason for listing NFTs soon after purchase is the potential for profit. If the NFT has gained popularity or increased in value since its acquisition, selling it quickly can yield a significant return on investment.
+
+**Market Trends and Hype:** The value of NFTs can be highly dependent on current trends and hype. Listing them while they are still in high demand ensures that the seller capitalizes on these market sentiments.
+
+**Volume growth:** Listing an NFT soon after purchase can contribute to the overall activity and health of the NFT collection. And with that, we all benefit.
+
+**Experimentation and Learning:** For newcomers to the NFT space, quick buying and selling can serve as a learning experience, helping them understand market dynamics without committing to long-term investments.
+
+**Traders will be rewarded too:** We encourage you to trade your newly obtained NFTs. List it for sale, or buy a new one, and contribute to the growing volume of the collection. Remember, traders will be rewarded on KodaDot.
 
 It’s an amazing time at KodaDot, mixing art, code, and fun. I can’t wait to see what awesome art everyone’s going to create and collect next!
