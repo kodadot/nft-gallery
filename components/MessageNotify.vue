@@ -18,7 +18,7 @@
           {{ subtitle }}
         </span>
 
-        <ShareDropdown no-shadow />
+        <ShareDropdown no-shadow mobile-modal />
       </div>
     </div>
   </NeoMessage>

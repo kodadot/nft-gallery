@@ -127,8 +127,7 @@ const props = defineProps({
 
 useMultipleBalance(true)
 
-const { width } = useWindowSize()
-const isMobile = computed(() => width.value <= 768)
+const { isMobile } = useViewport()
 
 useDropStatus(props.drop.alias)
 const instance = getCurrentInstance()

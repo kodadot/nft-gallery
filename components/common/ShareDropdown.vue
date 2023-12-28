@@ -1,8 +1,8 @@
 <template>
-  <NeoDropdown position="bottom-left" :mobile-modal="false">
+  <NeoDropdown position="bottom-left" :mobile-modal="mobileModal">
     <template #trigger="{ active }">
       <NeoButton
-        :class="isMobileDevice ? 'icon-action' : ''"
+        :class="isMobile ? 'icon-action' : ''"
         :label="label"
         :icon="icon"
         :no-shadow="noShadow"
@@ -47,30 +47,31 @@ import {
   NeoDropdownItem,
   NeoModal,
 } from '@kodadot1/brick'
-import { isMobileDevice } from '@/utils/extension'
 import QRCode from '@/components/shared/QRCode.vue'
 
 withDefaults(
   defineProps<{
     noShadow: boolean
+    mobileModal: boolean
   }>(),
   {
     noShadow: false,
+    mobileModal: false,
   },
 )
 
 const route = useRoute()
 const { $i18n } = useNuxtApp()
 const { toast } = useToast()
-
+const { isMobile } = useViewport()
 const { shareOnX } = useSocialShare()
 
 const isModalActive = ref(false)
 const sharingTxt = $i18n.t('sharing.nft')
 const realworldFullPathShare = ref(`${window.location.origin}${route.fullPath}`)
 
-const label = computed(() => (isMobileDevice ? '' : 'Share'))
-const icon = computed(() => (isMobileDevice ? 'share' : ''))
+const label = computed(() => (isMobile.value ? '' : 'Share'))
+const icon = computed(() => (isMobile.value ? 'share' : ''))
 
 const actionTwitterShare = (): void => {
   shareOnX(sharingTxt, realworldFullPathShare.value)
