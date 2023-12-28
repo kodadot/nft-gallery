@@ -912,6 +912,7 @@
     "volume": "Volume",
     "network": "Network",
     "creator": "Creator",
+    "listedAndMinted": "Listed/Minted",
     "owned": "Owned",
     "totalBought": "Total Bought",
     "totalSold": "Total Sold",
