@@ -510,7 +510,7 @@ const goToExploreResults = (item) => {
 const { data: defaultCollectionSuggestions } = await useAsyncData(
   'defaultCollectionSuggestions',
   async () => {
-    if (showDefaultSuggestions.value) {
+    if (props.showDefaultSuggestions) {
       try {
         const { data: result } = await useAsyncQuery({
           query: seriesInsightList,
