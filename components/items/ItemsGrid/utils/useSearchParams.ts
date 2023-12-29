@@ -6,9 +6,15 @@ function useSearchKeywords() {
   return {
     keywords: computed(() => {
       const search = route.query.search
+      const conditions = [{ name_containsInsensitive: search }]
+
+      if (!isNaN(search)) {
+        conditions.push({ sn_contains: search })
+      }
+
       return search?.length
         ? {
-            OR: [{ name_containsInsensitive: search }, { sn_contains: search }],
+            OR: conditions,
           }
         : {}
     }),
