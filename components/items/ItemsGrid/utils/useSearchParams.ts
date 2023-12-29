@@ -8,7 +8,7 @@ function useSearchKeywords() {
       const search = route.query.search
       return search?.length
         ? {
-            OR: [{ name_containsInsensitive: search }, { id_endsWith: search }],
+            OR: [{ name_containsInsensitive: search }, { sn_contains: search }],
           }
         : {}
     }),
