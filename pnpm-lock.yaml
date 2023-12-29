@@ -337,7 +337,7 @@ importers:
         specifier: ^0.34.6
         version: 0.34.6(jsdom@19.0.0)(sass@1.69.6)
       vue:
-        specifier: ^3.3.9
+        specifier: ^3.4.0
         version: 3.4.0(typescript@4.9.5)
       vue-debounce-decorator:
         specifier: ^1.0.1
@@ -4339,6 +4339,7 @@ packages:
     dependencies:
       is-glob: 4.0.3
       micromatch: 4.0.5
+      napi-wasm: 1.1.0
     bundledDependencies:
       - napi-wasm
 
@@ -14069,6 +14070,9 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
+
+  /napi-wasm@1.1.0:
+    resolution: {integrity: sha512-lHwIAJbmLSjF9VDRm9GoVOy9AGp3aIvkjv+Kvz9h16QR3uSVYH78PNQUnT2U4X53mhlnV2M7wrhibQ3GHicDmg==}
 
   /natural-compare-lite@1.4.0:
     resolution: {integrity: sha512-Tj+HTDSJJKaZnfiuw+iaF9skdPpTo2GtEly5JHnWV/hfv2Qj/9RKsGISQtLh2ox3l5EAGw487hnBee0sIJ6v2g==}
