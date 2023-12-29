@@ -5,10 +5,10 @@ function useSearchKeywords() {
 
   return {
     keywords: computed(() => {
-      const search = route.query.search
+      const search = route.query.search?.toString()
       const conditions = [{ name_containsInsensitive: search }]
 
-      if (!isNaN(search)) {
+      if (!isNaN(Number(search))) {
         conditions.push({ sn_contains: search })
       }
 
