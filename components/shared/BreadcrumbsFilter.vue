@@ -1,58 +1,60 @@
 <template>
-  <NeoField grouped group-multiline class="filters-tag">
-    <template v-for="(value, key) in breads" :key="key">
-      <NeoTag
-        v-if="key === 'search'"
-        key="search"
-        class="control"
-        :variant="isCollectionSearchMode ? 'k-blue' : undefined"
-        closable
-        @close="removeBread('search')">
-        {{ `${$t('general.search')}: ${value}` }}
-      </NeoTag>
-      <NeoTag
-        v-else-if="key === 'min'"
-        key="min"
-        class="control"
-        closable
-        @close="removeBread('min')">
-        {{ `${$t('Min')}:` }}
-        <CommonTokenMoney :value="value" />
-      </NeoTag>
-      <NeoTag
-        v-else-if="key === 'max'"
-        key="max"
-        class="control"
-        closable
-        @close="removeBread('max')">
-        {{ `${$t('Max')}:` }}
-        <CommonTokenMoney :value="value" />
-      </NeoTag>
-      <template v-else-if="key === 'collections'">
+  <NeoField grouped group-multiline>
+    <div class="flex flex-wrap gap-3">
+      <template v-for="(value, key) in breads" :key="key">
         <NeoTag
-          v-for="item in collections"
-          :key="`${key}-${item.id}`"
+          v-if="key === 'search'"
+          key="search"
+          class="control"
+          :variant="isCollectionSearchMode ? 'k-blue' : undefined"
+          closable
+          @close="removeBread('search')">
+          {{ `${$t('general.search')}: ${value}` }}
+        </NeoTag>
+        <NeoTag
+          v-else-if="key === 'min'"
+          key="min"
           class="control"
           closable
-          @close="removeCollection(item.id)">
-          {{ item.meta.name }}
+          @close="removeBread('min')">
+          {{ `${$t('Min')}:` }}
+          <CommonTokenMoney :value="value" />
+        </NeoTag>
+        <NeoTag
+          v-else-if="key === 'max'"
+          key="max"
+          class="control"
+          closable
+          @close="removeBread('max')">
+          {{ `${$t('Max')}:` }}
+          <CommonTokenMoney :value="value" />
+        </NeoTag>
+        <template v-else-if="key === 'collections'">
+          <NeoTag
+            v-for="item in collections"
+            :key="`${key}-${item.id}`"
+            class="control"
+            closable
+            @close="removeCollection(item.id)">
+            {{ item.meta.name }}
+          </NeoTag>
+        </template>
+
+        <NeoTag
+          v-else
+          :key="key"
+          class="control"
+          closable
+          @close="closeTag(String(key))">
+          {{ queryMapTranslation[String(key)] }}
         </NeoTag>
       </template>
-
-      <NeoTag
-        v-else
-        :key="key"
-        class="control"
-        closable
-        @close="closeTag(String(key))">
-        {{ queryMapTranslation[String(key)] }}
-      </NeoTag>
-    </template>
-    <div
-      v-if="isAnyFilterActive"
-      class="control py-1 is-clickable"
-      @click="clearAllFilters">
-      <span>{{ $t('sort.clearAll') }}</span>
+      <div
+        v-if="isAnyFilterActive"
+        class="control py-1 is-clickable"
+        @click="clearAllFilters">
+        <span>{{ $t('sort.clearAll') }}</span>
+      </div>
     </div>
   </NeoField>
 </template>
