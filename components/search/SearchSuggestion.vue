@@ -264,7 +264,6 @@ import { fetchCollectionSuggestion } from './utils/collectionSearch'
 import { NeoIcon, NeoSkeleton, NeoTabItem, NeoTabs } from '@kodadot1/brick'
 import Money from '@/components/shared/format/Money.vue'
 import type { SearchQuery } from './types'
-import { POPULAR_COLLECTIONS as ALL_POPULAR_COLLECTIONS } from '@/composables/popularCollections/constants'
 
 const props = defineProps({
   name: {
