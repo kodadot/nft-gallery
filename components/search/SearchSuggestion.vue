@@ -214,9 +214,9 @@
                 <span class="main-title name">{{ item.name }}</span>
               </div>
               <div class="flex flex-row justify-between pr-2 secondary-info">
-                <span>{{ $t('search.units') }}: {{ item.total }}</span>
-                <span
-                  >{{ $t('search.owners') }}: {{ item.uniqueCollectors }}</span
+                <span>{{ $t('search.units') }}: {{ item.nftCount }}</span>
+                <span v-if="item.owners"
+                  >{{ $t('search.owners') }}: {{ item.owners }}</span
                 >
                 <span>{{ urlPrefix.toUpperCase() }}</span>
               </div>
@@ -260,11 +260,11 @@ import { logError, mapNFTorCollectionMetadata } from '@/utils/mappers'
 import { processMetadata } from '@/utils/cachingStrategy'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '@/utils/uniquery'
-import { RowSeries } from '@/components/series/types'
 import { fetchCollectionSuggestion } from './utils/collectionSearch'
 import { NeoIcon, NeoSkeleton, NeoTabItem, NeoTabs } from '@kodadot1/brick'
 import Money from '@/components/shared/format/Money.vue'
 import type { SearchQuery } from './types'
+import { POPULAR_COLLECTIONS as ALL_POPULAR_COLLECTIONS } from '@/composables/popularCollections/constants'
 
 const props = defineProps({
   name: {
@@ -421,6 +421,7 @@ const resetSelectedIndex = () => {
 }
 
 const { urlPrefix, client } = usePrefix()
+const { isRmrk, isAssetHub } = useIsChain(urlPrefix)
 
 const gotoGalleryItem = (item: NFTWithMeta) => {
   router.push(`/${urlPrefix.value}/gallery/${item.id}`)
@@ -507,35 +508,75 @@ const goToExploreResults = (item) => {
     search: item.name,
   })
 }
+
+const useSeries = computed(() => isRmrk.value)
+
+const getDefaultSuggestions = async () => {
+  const queryMap = {
+    ahk: 'chain-ahk',
+    ahp: 'chain-ahk',
+  }
+
+  const querySearchDefaultSuggestions = await resolveQueryPath(
+    queryMap[client.value] || client.value,
+    'searchDefaultSuggestions',
+  )
+
+  const variables = {
+    limit: searchSuggestionEachTypeMaxNum,
+    orderBy:
+      isAssetHub.value || useSeries.value ? 'volume_DESC' : 'blockNumber_DESC',
+  }
+
+  if (!useSeries.value) {
+    Object.assign(variables, {
+      list: ALL_POPULAR_COLLECTIONS[urlPrefix.value] || [],
+    })
+  }
+
+  const { data: result } = await useAsyncQuery({
+    query: useSeries.value
+      ? seriesInsightList
+      : querySearchDefaultSuggestions.default,
+    clientId: client.value,
+    variables: variables,
+  })
+
+  return result.value?.collectionEntities || []
+}
+
+const getFormattedDefaultSuggestions = (collections) => {
+  return collections.map((collection) => {
+    const image = useSeries.value
+      ? collection.image || collection.mediaUri
+      : collection.meta.image
+
+    return {
+      id: collection.id,
+      name: collection.name,
+      image: sanitizeIpfsUrl(image || '', 'image'),
+      nftCount: useSeries.value ? collection.total : collection.nftCount,
+      owners: useSeries.value
+        ? collection.uniqueCollectors
+        : collection.ownerCount,
+    }
+  })
+}
+
 const { data: defaultCollectionSuggestions } = await useAsyncData(
   'defaultCollectionSuggestions',
   async () => {
     if (props.showDefaultSuggestions) {
       try {
-        const { data: result } = await useAsyncQuery({
-          query: seriesInsightList,
-          clientId: client.value,
-          variables: {
-            limit: searchSuggestionEachTypeMaxNum,
-            orderBy: 'volume_DESC',
-          },
-        })
-        const { collectionEntities: collections } = result.value
-        const collectionResult: (CollectionWithMeta & RowSeries)[] =
-          collections.map((data) => {
-            return {
-              ...data,
-              image: sanitizeIpfsUrl(
-                data.image || data.mediaUri || '',
-                'image',
-              ),
-            }
-          })
-        return collectionResult
+        const collections = await getDefaultSuggestions()
+        return getFormattedDefaultSuggestions(collections)
       } catch (e) {
         $consola.warn(e, 'Error while fetching default suggestions')
       }
     }
+  },
+  {
+    watch: [urlPrefix],
   },
 )
 

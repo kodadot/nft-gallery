@@ -94,6 +94,7 @@ const searchSuggestionRef = ref<InstanceType<typeof SearchSuggestion>>()
 const enableSearchInCollection = ref(true)
 const inputFocused = ref(false)
 const { urlPrefix } = usePrefix()
+const { isAssetHub, isRemark, isBasilisk } = useIsChain(urlPrefix)
 
 const { isCollectionSearchMode, setCollectionSearchMode } =
   useCollectionSearch()
@@ -106,7 +107,7 @@ const placeholderContent = computed(() =>
 )
 
 const showDefaultSuggestions = computed(
-  () => urlPrefix.value === 'rmrk' || urlPrefix.value === 'bsx',
+  () => isRemark.value || isBasilisk.value || isAssetHub.value,
 )
 
 function exitCollectionSearch() {
