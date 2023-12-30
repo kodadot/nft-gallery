@@ -87,6 +87,5 @@ withDefaults(
   },
 )
 
-const { width } = useWindowSize()
-const isMobile = computed(() => width.value <= 768)
+const { isMobile } = useViewport()
 </script>

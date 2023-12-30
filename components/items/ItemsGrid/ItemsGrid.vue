@@ -42,7 +42,7 @@
 
       <!-- skeleton on fetching next page -->
       <template v-if="isLoading || isFetchingData">
-        <NeoNftCardSkeleton
+        <NftCardSkeleton
           v-for="n in skeletonCount"
           :key="n"
           :hide-media-info="hideMediaInfo" />
@@ -54,23 +54,26 @@
 
     <!-- skeleton on first load -->
     <DynamicGrid
-      v-if="total === 0 && (isLoading || isFetchingData)"
+      v-if="total === 0 && (isLoading || isFetchingData || loadingOtherNetwork)"
       :grid-section="gridSection"
       class="my-5"
       :mobile-cols="2">
-      <NeoNftCardSkeleton
+      <NftCardSkeleton
         v-for="n in skeletonCount"
         :key="n"
         :hide-media-info="hideMediaInfo" />
     </DynamicGrid>
 
-    <EmptyResult v-if="total === 0 && (!isLoading || !isFetchingData)" />
+    <template v-if="total === 0 && (!isLoading || !isFetchingData)">
+      <slot v-if="slots['empty-result']" name="empty-result"></slot>
+      <EmptyResult v-else />
+    </template>
+
     <ScrollTopButton />
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoNftCardSkeleton } from '@kodadot1/brick'
 import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 import ItemsGridImage from './ItemsGridImage.vue'
 import ItemsGridImageTokenEntity from './ItemsGridImageTokenEntity.vue'
@@ -83,6 +86,7 @@ import { useListingCartStore } from '@/stores/listingCart'
 import { getTokensNfts } from './useNftActions'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { GridSection } from '@/stores/preferences'
+const slots = useSlots()
 
 const { listingCartEnabled } = useListingCartConfig()
 const listingCartStore = useListingCartStore()
@@ -92,6 +96,7 @@ const props = defineProps<{
   search?: Record<string, string | number>
   resetSearchQueryParams?: string[]
   gridSection?: GridSection
+  loadingOtherNetwork?: boolean
 }>()
 
 const emit = defineEmits(['total', 'loading'])

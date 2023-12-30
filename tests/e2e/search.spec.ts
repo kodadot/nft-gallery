@@ -7,9 +7,9 @@ test('Check if search provide results', async ({ page }) => {
 
   //Search term
   await test.step('Search for the term Waifu and hover over results', async () => {
-    const searchBar = page.getByTestId('search-bar')
-    await searchBar.locator('input').fill('waifu')
-    await page.locator('.search-suggestion-container').hover()
+    await expect(page.getByTestId('search-bar').first()).toBeVisible()
+    await page.getByTestId('search-bar-input').fill('waifu')
+    await page.locator('[class="search-suggestion-container"]').hover()
   })
 
   //check contents of Collection Tab

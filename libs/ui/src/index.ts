@@ -1,5 +1,4 @@
 export { default as CardArticle } from './components/CardArticle/CardArticle.vue'
-export { default as MediaItem } from './components/MediaItem/MediaItem.vue'
 export { default as NeoButton } from './components/NeoButton/NeoButton.vue'
 export { default as NeoSecondaryButton } from './components/NeoSecondaryButton/NeoSecondaryButton.vue'
 export { default as NeoDropdown } from './components/NeoDropdown/NeoDropdown.vue'
@@ -8,12 +7,9 @@ export { default as NeoSelect } from './components/NeoSelect/NeoSelect.vue'
 export { default as NeoSidebar } from './components/NeoSidebar/NeoSidebar.vue'
 export { default as NeoCheckbox } from './components/NeoCheckbox/NeoCheckbox.vue'
 export { type NeoButtonVariant } from './types'
-export { type NftCardVariant } from './types'
 
 export { default as TheButton } from './components/TheButton/TheButton.vue'
 export { default as NeoTooltip } from './components/NeoTooltip/NeoTooltip.vue'
-export { default as NeoNftCard } from './components/NeoNftCard/NeoNftCard.vue'
-export { default as NeoNftCardSkeleton } from './components/NeoNftCard/NeoNftCardSkeleton.vue'
 export { default as NeoTabs } from './components/NeoTabs/NeoTabs.vue'
 export { default as NeoTabItem } from './components/NeoTabs/NeoTabItem.vue'
 export { default as NeoIcon } from './components/NeoIcon/NeoIcon.vue'
@@ -59,7 +55,6 @@ export { default as NeoNotificationNotice } from './components/NeoNotification/N
 export { default as NeoNotificationProgrammatic } from './components/NeoNotification/plugin'
 
 /** MEDIA **/
-export { default as NeoAudioMedia } from './components/MediaItem/type/AudioMedia.vue'
 export { default as NeoIFrameMedia } from './components/MediaItem/type/IFrameMedia.vue'
 export { default as NeoImageMedia } from './components/MediaItem/type/ImageMedia.vue'
 export { default as NeoJsonMedia } from './components/MediaItem/type/JsonMedia.vue'
@@ -67,4 +62,3 @@ export { default as NeoModelMedia } from './components/MediaItem/type/ModelMedia
 export { default as NeoObjectMedia } from './components/MediaItem/type/ObjectMedia.vue'
 export { default as NeoUnknownMedia } from './components/MediaItem/type/UnknownMedia.vue'
 export { default as NeoVideoMedia } from './components/MediaItem/type/VideoMedia.vue'
-export { default as NeoAudioPlayer } from './components/NeoAudioPlayer/NeoAudioPlayer.vue'

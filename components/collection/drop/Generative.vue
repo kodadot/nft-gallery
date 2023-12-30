@@ -235,7 +235,7 @@ const submitMint = async () => {
 
     const hash = await createUnlockableMetadata(
       imageHash,
-      description.value,
+      description.value as string,
       collectionName.value || defaultName.value,
       'text/html',
       selectedImage.value,

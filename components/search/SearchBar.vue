@@ -10,6 +10,7 @@
         'gallery-search--skip-button': isTouchDevice,
       }"
       :placeholder="placeholderContent"
+      data-testid="search-bar-input"
       icon="search"
       icon-pack="fasr"
       :open-on-focus="showDefaultSuggestions"
