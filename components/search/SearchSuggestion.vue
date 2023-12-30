@@ -517,9 +517,9 @@ const getDefaultSuggestions = async () => {
     ahp: 'chain-ahk',
   }
 
-  const querySearchDefaultSuggestions = await resolveQueryPath(
+  const queryCollectionMinimalSearch = await resolveQueryPath(
     queryMap[client.value] || client.value,
-    'searchDefaultSuggestions',
+    'collectionMinimalSearch',
   )
 
   const variables = {
@@ -537,7 +537,7 @@ const getDefaultSuggestions = async () => {
   const { data: result } = await useAsyncQuery({
     query: useSeries.value
       ? seriesInsightList
-      : querySearchDefaultSuggestions.default,
+      : queryCollectionMinimalSearch.default,
     clientId: client.value,
     variables: variables,
   })

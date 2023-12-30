@@ -1,6 +1,6 @@
 #import "../../fragments/collectionDetails.graphql"
 
-query searchDefaultSuggestions(
+query collectionMinimalSearch(
   $list: [String!]
   $limit: Int
   $orderBy: [CollectionEntityOrderByInput!]
