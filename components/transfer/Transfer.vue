@@ -361,6 +361,7 @@ import AddressChecker from '@/components/shared/AddressChecker.vue'
 import TabItem from '@/components/shared/TabItem.vue'
 import Auth from '@/components/shared/Auth.vue'
 import { useIdentityStore } from '@/stores/identity'
+import useExistentialDeposit from '@/composables/useExistentialDeposit'
 
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue'),
@@ -456,7 +457,7 @@ const totalValues: {
     usd: computed(() =>
       Number(
         calculateUsdFromToken(
-          withoutDecimals(totalValues.withoutFee.token),
+          withoutDecimals({ value: totalValues.withoutFee.token }),
           Number(currentTokenValue.value),
         ).toFixed(4),
       ),
@@ -467,7 +468,7 @@ const totalValues: {
     usd: computed(() =>
       Number(
         calculateUsdFromToken(
-          withoutDecimals(totalValues.withFee.token),
+          withoutDecimals({ value: totalValues.withFee.token }),
           Number(currentTokenValue.value),
         ).toFixed(4),
       ),
@@ -497,19 +498,19 @@ const disabled = computed(() => {
 const displayValues = computed(() => ({
   fee: getDisplayUnitBasedValues(
     calculateExactUsdFromToken(
-      withoutDecimals(txFee.value),
+      withoutDecimals({ value: txFee.value }),
       Number(currentTokenValue.value),
     ),
-    withoutDecimals(txFee.value),
+    withoutDecimals({ value: txFee.value }),
   ),
   total: {
     withoutFee: getDisplayUnitBasedValues(
       totalValues.withoutFee.usd,
-      withoutDecimals(totalValues.withoutFee.token),
+      withoutDecimals({ value: totalValues.withoutFee.token }),
     ),
     withFee: getDisplayUnitBasedValues(
       totalValues.withFee.usd,
-      withoutDecimals(totalValues.withFee.token),
+      withoutDecimals({ value: totalValues.withFee.token }),
     ),
   },
 }))
