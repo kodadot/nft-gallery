@@ -10,7 +10,6 @@ import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 
 import { useListingCartStore } from '@/stores/listingCart'
 import { NFT, TokenId } from '@/components/rmrk/service/scheme'
-import { LocationQueryValue } from '#vue-router'
 
 const DEFAULT_RESET_SEARCH_QUERY_PARAMS = [
   'sort',
@@ -128,14 +127,13 @@ export function useFetchSearch({
       orderBy: getRouteQueryOrDefault(route.query.sort, ['blockNumber_DESC']),
     }
 
-    const isPriceSortActive = (
-      sort?: LocationQueryValue | LocationQueryValue[],
-    ) => {
+    type SortBy = string | null
+    const isPriceSortActive = (sort?: SortBy | SortBy[]) => {
       if (!sort) {
         return false
       }
       const sortArray = Array.isArray(sort) ? sort : [sort]
-      return sortArray.some((s) => (s ?? '').includes('price'))
+      return sortArray.some((sortBy) => (sortBy ?? '').includes('price'))
     }
     watch(
       () => route.query.sort,
