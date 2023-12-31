@@ -127,8 +127,7 @@ export function useFetchSearch({
       orderBy: getRouteQueryOrDefault(route.query.sort, ['blockNumber_DESC']),
     }
 
-    type SortBy = string | null
-    const isPriceSortActive = (sort?: SortBy | SortBy[]) => {
+    const isPriceSortActive = (sort?: string | null | (string | null)[]) => {
       if (!sort) {
         return false
       }
