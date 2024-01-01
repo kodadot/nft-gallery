@@ -52,7 +52,7 @@ export const useTopCollections = (limit: number) => {
     'topCollectionWithVolumeList',
     () => [],
   )
-  const loading = ref(false)
+  const loading = ref(true)
   const collectionsSalesResults = ref<CollectionsSalesResult>()
 
   const {
@@ -97,13 +97,13 @@ export const useTopCollections = (limit: number) => {
     }
   })
 
-  watch(urlPrefix, () => refresh())
-
   watch(topCollectionLoading, (value) => {
     if (value) {
       loading.value = true
     }
   })
+
+  watch(urlPrefix, () => refresh())
 
   return {
     data: topCollectionWithVolumeList,

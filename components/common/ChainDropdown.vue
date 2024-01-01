@@ -27,14 +27,16 @@
 <script setup lang="ts">
 import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     showNetworkLabel: boolean
     position?: 'bottom-left'
+    redirect?: boolean
   }>(),
   {
     showNetworkLabel: true,
     position: undefined,
+    redirect: true,
   },
 )
 
@@ -52,6 +54,8 @@ const selected = computed(() =>
 
 function onSwitchChain(chain) {
   setUrlPrefix(chain)
-  redirectAfterChainChange(chain)
+  if (props.redirect) {
+    redirectAfterChainChange(chain)
+  }
 }
 </script>
