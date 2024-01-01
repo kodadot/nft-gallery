@@ -19,7 +19,7 @@
             :minimum-funds-description="minimumFundsDescription"
             :max-count="maxCount"
             :minted-count="mintedCount"
-            :mint-count-available="mintCountAvailable"
+            :mint-count-available="mintCountAvailable || !disabledByBackend"
             :disabled="mintButtonDisabled"
             :mint-button-label="mintButtonLabel"
             @mint="handleSubmitMint" />
