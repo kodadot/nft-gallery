@@ -11,7 +11,7 @@
           :label="`${$t(`topCollections.timeFrames.${label}`)}`"
           @click="setTimeRange(value)" />
       </div>
-      <div>
+      <div class="pt-2">
         <ChainDropdown
           position="bottom-left"
           :show-network-label="false"
