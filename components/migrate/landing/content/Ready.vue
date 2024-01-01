@@ -52,7 +52,7 @@
                 @click="
                   toReview({
                     collectionId: collection.id,
-                    itemCount: collection.nfts?.length,
+                    itemCount: collection.nftsOwned?.length,
                   })
                 ">
                 {{ $t('migrate.ready.cta') }}

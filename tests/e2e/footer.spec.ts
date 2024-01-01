@@ -1,5 +1,7 @@
 import { expect, test } from './fixtures'
 
+const pageWithFooter = '/settings'
+
 const footerLinks = [
   {
     linkName: 'Ambassador Program',
@@ -79,7 +81,7 @@ const footerSocialMediaLinks = [
 ]
 
 test('Check Footer Subscription', async ({ page }) => {
-  await page.goto('/')
+  await page.goto(pageWithFooter)
   const footerSubscribe = page.getByTestId('footer-subscribe')
   await footerSubscribe.locator('input').fill('a')
   await footerSubscribe.locator('button').click()
@@ -87,7 +89,7 @@ test('Check Footer Subscription', async ({ page }) => {
 })
 
 test('Check Footer links', async ({ page }) => {
-  await page.goto('/')
+  await page.goto(pageWithFooter)
   for (const data of footerLinks) {
     const footer = page.getByTestId('footer-container')
     const newTabPromise = page.waitForEvent('popup')
@@ -99,14 +101,14 @@ test('Check Footer links', async ({ page }) => {
 })
 
 test('Check blog link', async ({ page }) => {
-  await page.goto('/')
+  await page.goto(pageWithFooter)
   const footer = page.getByTestId('footer-container')
   await footer.getByRole('link', { name: 'Blog' }).click()
   await expect(page).toHaveURL('http://localhost:9090/blog')
 })
 
 test('Check Social Media Links', async ({ page }) => {
-  await page.goto('/')
+  await page.goto(pageWithFooter)
   for (const data of footerSocialMediaLinks) {
     const socialMedia = page.locator('.footer-container-socials-list')
     const newTabPromise = page.waitForEvent('popup')

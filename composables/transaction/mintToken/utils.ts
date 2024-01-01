@@ -102,7 +102,7 @@ export const assignIds = <T extends TokenToMint>(
 export const lastIndexUsed = async (collection: MintedCollection, api) => {
   const { id, lastIndexUsed } = collection
   const lastOnChainIndex = await getLastIndexUsedOnChain(api, id)
-  return Math.max(lastIndexUsed, lastOnChainIndex)
+  return Math.max(lastIndexUsed, lastOnChainIndex, 0)
 }
 
 const getLastIndexUsedOnChain = async (api, collectionId) => {

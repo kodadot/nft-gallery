@@ -1,6 +1,9 @@
 <template>
   <div class="buttons content-start gallery-button">
-    <GalleryItemShareBtn data-testid="gallery-item-share-button" />
+    <div data-testid="gallery-item-share-button">
+      <ShareDropdown />
+    </div>
+
     <GalleryItemMoreActionBtn
       :ipfs-image="nftMetadata?.image"
       :mime-type="nftMimeType"
@@ -12,7 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import GalleryItemShareBtn from './GalleryItemShareBtn.vue'
 import GalleryItemMoreActionBtn from './GalleryItemMoreActionBtn.vue'
 import { GalleryItem } from '../useGalleryItem'
 
