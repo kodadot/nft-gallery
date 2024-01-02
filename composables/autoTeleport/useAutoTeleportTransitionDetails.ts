@@ -160,11 +160,14 @@ export default function (
     const willRemainingRichestChainBalanceBeSlashed =
       richestChainBalance.value - requiredAmountToTeleport.value <=
       richestChainExistentialDeposit.value
+    const hasRequiredAmountInRichestChain =
+      richestChainBalance.value >= requiredAmountToTeleport.value
 
     return (
       hasRichesChain &&
       doesntHaveEnoughInCurrentChain &&
-      willRemainingRichestChainBalanceBeSlashed
+      willRemainingRichestChainBalanceBeSlashed &&
+      hasRequiredAmountInRichestChain
     )
   })
 
@@ -214,7 +217,7 @@ export default function (
 
     return [
       hasFetched.teleportTxFee,
-      actionAutoFees.value || hasFetched.actionTxFees,
+      actionAutoFees.value ? hasFetched.actionTxFees : true,
     ].every(Boolean)
   })
 
