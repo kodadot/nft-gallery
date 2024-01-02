@@ -168,7 +168,9 @@
           :grid-section="gridSection"
           :loading-other-network="loadingOtherNetwork"
           :reset-search-query-params="['sort']">
-          <template v-if="hasAssetPrefixMap[activeTab].length" #empty-result>
+          <template
+            v-if="hasAssetPrefixMap[activeTab].length && !listed && !addSold"
+            #empty-result>
             <ProfileEmptyResult
               :prefix-list-with-asset="hasAssetPrefixMap[activeTab]" />
           </template>
