@@ -18,7 +18,11 @@
       class="object-fit-cove mr-3 border" />
     <div>
       <div class="is-size-7 has-text-grey">Exclusive to NFT owners of</div>
-      <div class="is-size-6">{{ collection?.name }}</div>
+      <div class="is-size-6">
+        <nuxt-link :to="`/${urlPrefix}/collection/${collectionId}`">
+          {{ collection?.name }}
+        </nuxt-link>
+      </div>
     </div>
   </div>
 </template>
@@ -38,6 +42,8 @@ const props = defineProps({
     default: '',
   },
 })
+
+const { urlPrefix } = usePrefix()
 
 const { collection } = useCollectionMinimal({
   collectionId: props.collectionId,

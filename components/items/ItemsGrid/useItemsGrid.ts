@@ -56,7 +56,7 @@ export function useFetchSearch({
     search?: { [key: string]: string | number }[]
   }
 
-  const getSearchCriteria = (searchParams) => {
+  const getSearchCriteria = (searchParams, reducer = {}) => {
     const mapping = {
       currentOwner_eq: (value) => ({ owner: value }),
       issuer_eq: (value) => ({ issuer: value }),
@@ -69,12 +69,16 @@ export function useFetchSearch({
 
     return searchParams.reduce((acc, curr) => {
       for (const [key, value] of Object.entries(curr)) {
+        if (Array.isArray(value)) {
+          return getSearchCriteria(value, acc)
+        }
+
         if (mapping[key]) {
           Object.assign(acc, mapping[key](value))
         }
       }
       return acc
-    }, {})
+    }, reducer)
   }
 
   async function fetchSearch({

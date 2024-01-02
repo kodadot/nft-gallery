@@ -190,27 +190,25 @@
 
     <p class="mb-1">{{ $t('mint.estimated') }}</p>
     <div class="mb-1 flex justify-between">
-      <div v-if="source?.value" class="has-text-k-grey capitalize">
+      <div v-if="source?.value" class="text-k-grey capitalize">
         On {{ prefixToNetwork[source.value] }}
       </div>
       <div
         v-if="sourceSymbol && sourceNetworkFee >= 0"
         class="flex items-center">
-        <div class="has-text-k-grey is-size-7 mr-2">${{ sourceTotalUsd }}</div>
+        <div class="text-k-grey is-size-7 mr-2">${{ sourceTotalUsd }}</div>
         <div>{{ sourceNetworkFee }} {{ sourceSymbol }}</div>
       </div>
       <div v-else><NeoSkeleton width="100" size="small" /></div>
     </div>
     <div class="pb-7 flex justify-between">
-      <div v-if="destination?.value" class="has-text-k-grey capitalize">
+      <div v-if="destination?.value" class="text-k-grey capitalize">
         On {{ prefixToNetwork[destination.value] }}
       </div>
       <div
         v-if="destinationSymbol && parseFloat(totalDestination.toString())"
         class="flex items-center">
-        <div class="has-text-k-grey is-size-7 mr-2">
-          ${{ totalDestinationUsd }}
-        </div>
+        <div class="text-k-grey is-size-7 mr-2">${{ totalDestinationUsd }}</div>
         <div>{{ totalDestination }} {{ destinationSymbol }}</div>
       </div>
       <div v-else><NeoSkeleton width="100" size="small" /></div>
