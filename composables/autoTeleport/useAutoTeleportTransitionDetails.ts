@@ -217,7 +217,7 @@ export default function (
 
     return [
       hasFetched.teleportTxFee,
-      actionAutoFees.value || hasFetched.actionTxFees,
+      actionAutoFees.value ? hasFetched.actionTxFees : true,
     ].every(Boolean)
   })
 
