@@ -1,6 +1,6 @@
 export const DEFAULT_DROP = {
-  alias: 'genera',
-  id: '63',
+  alias: 'split',
+  id: '66',
   chain: 'ahp',
 }
 
@@ -17,6 +17,7 @@ export const AHK_GENERATIVE_DROPS = [
 ]
 
 export const AHP_GENERATIVE_DROPS = [
+  '66', // Split
   '63', // Genera
   '60', // Christmas City
   '52', // Whirls
