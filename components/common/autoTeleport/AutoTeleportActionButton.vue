@@ -93,7 +93,7 @@ const emit = defineEmits([
 ])
 const props = withDefaults(
   defineProps<{
-    amount: number
+    amount: number | bigint
     label?: string
     disabled: boolean
     actions?: AutoTeleportAction[]

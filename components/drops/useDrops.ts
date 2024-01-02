@@ -120,12 +120,12 @@ export const useDropMinimumFunds = (drop) => {
   const { fetchMultipleBalance } = useMultipleBalance()
 
   const currentChain = computed(() => prefixToChainMap[drop.chain])
-  const meta = computed(() => drop.meta || 0)
+  const meta = computed<bigint>(() => BigInt(drop.meta) || BigInt(0))
   const currentChainBalance = computed(
     () =>
       (currentChain.value && Number(chainBalances[currentChain.value]())) || 0,
   )
-  const minimumFunds = computed<number>(() => meta.value || 0)
+  const minimumFunds = computed<bigint>(() => meta.value)
   const transferableDropChainBalance = computed(
     () => currentChainBalance.value - existentialDeposit[urlPrefix.value],
   )
