@@ -11,7 +11,7 @@
           :label="`${$t(`topCollections.timeFrames.${label}`)}`"
           @click="setTimeRange(value)" />
       </div>
-      <div class="pt-2 pb-5">
+      <div class="pt-2">
         <ChainDropdown
           position="bottom-left"
           :show-network-label="false"
@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <div class="top-collections-grid mb-5">
+    <div class="top-collections-grid my-5">
       <template v-if="loading">
         <div
           v-for="index in limit"
