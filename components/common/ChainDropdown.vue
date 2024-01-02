@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NeoDropdown :position="position">
+    <NeoDropdown :position="position" :mobile-modal="mobileModal">
       <template #trigger="{ active }">
         <NeoButton
           class="chain-dropdown-text"
@@ -32,11 +32,13 @@ const props = withDefaults(
     showNetworkLabel: boolean
     position?: 'bottom-left'
     redirect?: boolean
+    mobileModal?: boolean
   }>(),
   {
     showNetworkLabel: true,
     position: undefined,
     redirect: true,
+    mobileModal: false,
   },
 )
 
