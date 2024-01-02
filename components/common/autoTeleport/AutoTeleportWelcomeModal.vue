@@ -38,7 +38,7 @@
               {{ $t(`autoTeleport.welcome.${x}.title`) }}
             </p>
 
-            <p class="has-text-k-grey">
+            <p class="text-k-grey">
               {{ $t(`autoTeleport.welcome.${x}.description`) }}
             </p>
           </div>
