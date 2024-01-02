@@ -19,7 +19,7 @@
           {{ $t('autoTeleport.autoTeleport') }}
         </p>
 
-        <AutoTeleportTooltip
+        <AutoTeleportPopover
           v-if="hasAvailableTeleportTransition"
           position="top"
           :transition="optimalTransition" />
@@ -31,7 +31,7 @@
         :class="{ 'text-k-grey': !hasAvailableTeleportTransition }">
         <span class="is-size-7">{{ $t('autoTeleport.notAvailable') }}</span>
 
-        <AutoTeleportTooltip position="left" :transition="optimalTransition" />
+        <AutoTeleportPopover position="left" :transition="optimalTransition" />
       </div>
 
       <NeoSwitch
