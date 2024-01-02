@@ -15,7 +15,7 @@
 
         <p
           class="has-text-weight-bold"
-          :class="{ 'has-text-k-grey': !hasAvailableTeleportTransition }">
+          :class="{ 'text-k-grey': !hasAvailableTeleportTransition }">
           {{ $t('autoTeleport.autoTeleport') }}
         </p>
 
@@ -28,7 +28,7 @@
       <div
         v-if="!hasAvailableTeleportTransition"
         class="flex items-center"
-        :class="{ 'has-text-k-grey': !hasAvailableTeleportTransition }">
+        :class="{ 'text-k-grey': !hasAvailableTeleportTransition }">
         <span class="is-size-7">{{ $t('autoTeleport.notAvailable') }}</span>
 
         <AutoTeleportTooltip position="left" :transition="optimalTransition" />

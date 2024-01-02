@@ -5,9 +5,18 @@ function useSearchKeywords() {
 
   return {
     keywords: computed(() => {
-      return route.query.search?.length
-        ? [{ name_containsInsensitive: route.query.search }]
-        : []
+      const search = route.query.search?.toString()
+      const conditions = [{ name_containsInsensitive: search }]
+
+      if (!isNaN(Number(search))) {
+        conditions.push({ sn_contains: search })
+      }
+
+      return search?.length
+        ? {
+            OR: conditions,
+          }
+        : {}
     }),
   }
 }
@@ -109,7 +118,7 @@ export function useSearchParams() {
 
   const searchParams = computed(() => {
     return [
-      ...keywords.value,
+      keywords.value,
       ...priceRange.value,
       ...owner.value,
       ...collectionId.value,

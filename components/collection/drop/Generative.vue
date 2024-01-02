@@ -7,7 +7,7 @@
     :minimum-funds="minimumFundsProps"
     :max-count="maxCount"
     :minted-count="mintedCount"
-    :mint-count-available="mintCountAvailable"
+    :mint-count-available="mintCountAvailable || !disabledByBackend"
     :mint-button="mintButtonProps"
     :collection-id="collectionId"
     :description="description"

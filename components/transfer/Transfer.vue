@@ -11,9 +11,9 @@
       <TransactionLoader
         v-model="isLoaderModalVisible"
         :status="status"
-        :total-token-amount="totalTokenAmount"
+        :total-token-amount="withoutDecimals(totalValues.withoutFee.token)"
         :transaction-id="transactionValue"
-        :total-usd-value="totalUsdValue"
+        :total-usd-value="totalValues.withoutFee.usd"
         :is-mobile="isMobile"
         @close="isLoaderModalVisible = false" />
       <div class="flex justify-between items-center mb-2">
@@ -99,10 +99,10 @@
           }}</span>
           <div class="flex items-center">
             <img class="mr-2 is-32x32" :src="tokenIcon" alt="token" />
-            <Money :value="balance" inline />
+            <Money :value="balance.token" inline />
           </div>
 
-          <span class="has-text-grey">≈ ${{ balanceUsdValue }}</span>
+          <span class="has-text-grey">≈ ${{ balance.usd }}</span>
         </div>
       </div>
 
@@ -237,10 +237,10 @@
           <span
             v-if="displayUnit === 'token'"
             class="has-text-weight-bold is-size-6">
-            <Money :value="balance" inline />
+            <Money :value="transferableBalance.token" inline />
           </span>
           <span v-else class="has-text-weight-bold is-size-6"
-            >{{ balanceUsdValue }} USD</span
+            >{{ transferableBalance.usd }} USD</span
           >
         </div>
       </div>
@@ -268,9 +268,9 @@
         <span class="is-size-7">{{ $t('transfers.networkFee') }}</span>
         <div class="flex items-center" data-testid="transfer-network-fee">
           <span class="is-size-7 has-text-grey mr-1"
-            >({{ displayTxFeeValue[0] }})</span
+            >({{ displayValues.fee[0] }})</span
           >
-          <span class="is-size-7">{{ displayTxFeeValue[1] }}</span>
+          <span class="is-size-7">{{ displayValues.fee[1] }}</span>
         </div>
       </div>
 
@@ -280,13 +280,13 @@
         }}</span>
         <div class="flex items-center">
           <span class="is-size-7 has-text-grey mr-1"
-            >({{ displayTotalValue[0] }})</span
+            >({{ displayValues.total.withFee[0] }})</span
           >
 
           <span
             class="has-text-weight-bold is-size-6"
             data-testid="transfer-total-amount"
-            >{{ displayTotalValue[1] }}</span
+            >{{ displayValues.total.withFee[1] }}</span
           >
         </div>
       </div>
@@ -302,7 +302,7 @@
       </div>
       <TransferConfirmModal
         :is-modal-active="isTransferModalVisible"
-        :display-total-value="displayTotalValue"
+        :display-total-value="displayValues.total.withoutFee"
         :token-icon="tokenIcon"
         :unit="unit"
         :is-mobile="isMobile"
@@ -361,6 +361,7 @@ import AddressChecker from '@/components/shared/AddressChecker.vue'
 import TabItem from '@/components/shared/TabItem.vue'
 import Auth from '@/components/shared/Auth.vue'
 import { useIdentityStore } from '@/stores/identity'
+import useExistentialDeposit from '@/composables/useExistentialDeposit'
 
 const Money = defineAsyncComponent(
   () => import('@/components/shared/format/Money.vue'),
@@ -369,7 +370,7 @@ const Money = defineAsyncComponent(
 const route = useRoute()
 const router = useRouter()
 const { $consola } = useNuxtApp()
-const { unit, decimals } = useChain()
+const { unit, decimals, withDecimals, withoutDecimals } = useChain()
 const { apiInstance } = useApi()
 const { urlPrefix } = usePrefix()
 const identityStore = useIdentityStore()
@@ -379,16 +380,12 @@ const { fetchFiatPrice, getCurrentTokenValue } = useFiatStore()
 const { initTransactionLoader, isLoading, resolveStatus, status } =
   useTransactionStatus()
 const { toast } = useToast()
-const isTransferModalVisible = ref(false)
-const isLoaderModalVisible = ref(false)
+const { getTokenIconBySymbol } = useIcon()
+const { tokens } = useToken()
+const { chainExistentialDeposit } = useExistentialDeposit()
 
-watch(isLoading, (newValue, oldValue) => {
-  // trigger modal only when loading change from false => true
-  // we want to keep modal open when loading changes true => false
-  if (newValue && !oldValue) {
-    isLoaderModalVisible.value = isLoading.value
-  }
-})
+const DOT_BUFFER_FEE = 10000000 // 0.001
+const KSM_BUFFER_FEE = 100000000 // 0.0001
 
 export type TargetAddress = {
   address: string
@@ -396,28 +393,146 @@ export type TargetAddress = {
   token?: number | string
   isInvalid?: boolean
 }
-const isMobile = computed(() => useWindowSize().width.value <= 764)
-const balance = computed(() => getBalance(unit.value) || 0)
 
+const isTransferModalVisible = ref(false)
+const isLoaderModalVisible = ref(false)
 const transactionValue = ref('')
 const sendSameAmount = ref(false)
 const displayUnit = ref<'token' | 'usd'>('token')
-const { getTokenIconBySymbol } = useIcon()
-
-const { tokens } = useToken()
-
 const selectedTabFirst = ref(true)
-const tokenIcon = computed(() => getTokenIconBySymbol(unit.value))
-
 const tokenTabs = ref<PillTab[]>([])
-
 const targetAddresses = ref<TargetAddress[]>([{ address: '' }])
+const txFee = ref<number>(0)
+
+// Computed refs
+
+// balance related
+const balance = computed(() => {
+  const tokenAmount = Number(getBalance(unit.value)) || 0
+  const usdAmount = calculateBalanceUsdValue(
+    tokenAmount * Number(currentTokenValue.value),
+    decimals.value,
+    2,
+  )
+
+  return {
+    token: tokenAmount,
+    usd: usdAmount,
+  }
+})
+
+const transferableBalance = computed(() => {
+  const tokenDeduction = txFee.value + chainExistentialDeposit.value
+  const tokenAmount = Math.max(balance.value.token - tokenDeduction, 0)
+  const usdAmount = calculateBalanceUsdValue(
+    tokenAmount * Number(currentTokenValue.value),
+    decimals.value,
+    2,
+  )
+
+  return {
+    token: tokenAmount,
+    usd: usdAmount,
+  }
+})
+
+const totalValues: {
+  withoutFee: {
+    token: number
+    usd: number
+  }
+  withFee: {
+    token: number
+    usd: number
+  }
+} = reactive({
+  withoutFee: {
+    token: computed(() => {
+      const sumTokens = getNumberSumOfObjectField(
+        targetAddresses.value,
+        'token',
+      )
+      return withDecimals(sumTokens)
+    }),
+    usd: computed(() =>
+      Number(
+        calculateUsdFromToken(
+          withoutDecimals({ value: totalValues.withoutFee.token }),
+          Number(currentTokenValue.value),
+        ).toFixed(4),
+      ),
+    ),
+  },
+  withFee: {
+    token: computed(() => totalValues.withoutFee.token + txFee.value),
+    usd: computed(() =>
+      Number(
+        calculateUsdFromToken(
+          withoutDecimals({ value: totalValues.withFee.token }),
+          Number(currentTokenValue.value),
+        ).toFixed(4),
+      ),
+    ),
+  },
+})
+const txFeeBuffer = computed(() => {
+  switch (urlPrefix.value) {
+    case 'ksm':
+      return KSM_BUFFER_FEE
+    case 'dot':
+      return DOT_BUFFER_FEE
+    default:
+      return 0
+  }
+})
+
+// ui related
+const isMobile = computed(() => useWindowSize().width.value <= 764)
+const tokenIcon = computed(() => getTokenIconBySymbol(unit.value))
+const disabled = computed(() => {
+  const tryingToSendTooMuch =
+    totalValues.withoutFee.token > transferableBalance.value.token
+  return !isLogIn.value || tryingToSendTooMuch || !hasValidTarget.value
+})
+
+const displayValues = computed(() => ({
+  fee: getDisplayUnitBasedValues(
+    calculateExactUsdFromToken(
+      withoutDecimals({ value: txFee.value }),
+      Number(currentTokenValue.value),
+    ),
+    withoutDecimals({ value: txFee.value }),
+  ),
+  total: {
+    withoutFee: getDisplayUnitBasedValues(
+      totalValues.withoutFee.usd,
+      withoutDecimals({ value: totalValues.withoutFee.token }),
+    ),
+    withFee: getDisplayUnitBasedValues(
+      totalValues.withFee.usd,
+      withoutDecimals({ value: totalValues.withFee.token }),
+    ),
+  },
+}))
+
+// others
 
 const hasValidTarget = computed(() =>
   targetAddresses.value.some(
     (item) => isAddress(item.address) && !item.isInvalid && item.token,
   ),
 )
+
+const currentTokenValue = computed(() => getCurrentTokenValue(unit.value))
+
+const recurringPaymentLink = computed(() => {
+  const addressList = targetAddresses.value
+    .filter((item) => isAddress(item.address) && !item.isInvalid)
+    .map((item) => item.address)
+  return generatePaymentLink(addressList)
+})
+
+// END computed refs
 
 const getDisplayUnitBasedValues = (
   usdValue: number,
@@ -427,27 +542,6 @@ const getDisplayUnitBasedValues = (
     ? [`$${usdValue}`, `${tokenAmount} ${unit.value}`]
     : [`${tokenAmount} ${unit.value}`, `$${usdValue}`]
 }
-
-const displayTotalValue = computed(() =>
-  getDisplayUnitBasedValues(totalUsdValue.value, totalTokenAmount.value),
-)
-
-const txFee = ref<number>(0)
-
-const txFeeUsdValue = computed(() =>
-  calculateExactUsdFromToken(txFee.value, Number(currentTokenValue.value)),
-)
-
-const displayTxFeeValue = computed(() =>
-  getDisplayUnitBasedValues(txFeeUsdValue.value, txFee.value),
-)
-
-const disabled = computed(
-  () =>
-    !isLogIn.value ||
-    balanceUsdValue.value < totalUsdValue.value ||
-    !hasValidTarget.value,
-)
 
 const handleTokenSelect = (newToken: string) => {
   selectedTabFirst.value = false
@@ -480,18 +574,6 @@ const generateTokenTabs = (
       }) as PillTab,
   )
 }
-
-watch(
-  tokens,
-  (items) => {
-    tokenTabs.value = generateTokenTabs(
-      items,
-      unit.value,
-      selectedTabFirst.value,
-    )
-  },
-  { immediate: true },
-)
 
 const checkQueryParams = () => {
   const { query } = route
@@ -544,41 +626,6 @@ const checkQueryParams = () => {
     }))
   }
 }
-
-watch(sendSameAmount, (value) => {
-  if (value) {
-    const tokenAmount = targetAddresses.value[0]?.token
-    const usdAmount = targetAddresses.value[0]?.usd
-    targetAddresses.value = targetAddresses.value.map((address) => ({
-      ...address,
-      token: tokenAmount,
-      usd: usdAmount,
-    }))
-  }
-})
-
-const totalTokenAmount = computed(() =>
-  Number(
-    Number(getNumberSumOfObjectField(targetAddresses.value, 'token')).toFixed(
-      4,
-    ),
-  ),
-)
-const totalUsdValue = computed(() =>
-  calculateUsdFromToken(
-    totalTokenAmount.value,
-    Number(currentTokenValue.value),
-  ),
-)
-
-const currentTokenValue = computed(() => getCurrentTokenValue(unit.value))
-const balanceUsdValue = computed(() =>
-  calculateBalanceUsdValue(
-    Number(balance.value) * Number(currentTokenValue.value),
-    decimals.value,
-    2,
-  ),
-)
 
 const onAmountFieldChange = (target: TargetAddress) => {
   /* calculating usd value on the basis of price entered */
@@ -651,14 +698,6 @@ const updateTargetAdressesOnTokenSwitch = () => {
   })
 }
 
-watch(
-  unit,
-  () => {
-    updateTargetAdressesOnTokenSwitch()
-  },
-  { immediate: true },
-)
-
 const handleOpenConfirmModal = () => {
   if (!disabled.value) {
     targetAddresses.value = targetAddresses.value.filter(
@@ -687,27 +726,12 @@ const getTransactionFee = async () => {
 const calculateTransactionFee = async () => {
   txFee.value = 0
   const fee = await getTransactionFee()
-  txFee.value = Number((Number(fee) / Math.pow(10, decimals.value)).toFixed(4))
+  txFee.value = Number(fee) + txFeeBuffer.value
 }
 
 const updateAuthBalance = () => {
   accountId.value && identityStore.fetchBalance({ address: accountId.value })
 }
-
-watch(urlPrefix, updateAuthBalance)
-
-onMounted(() => {
-  calculateTransactionFee()
-  updateAuthBalance()
-})
-
-watchDebounced(
-  [urlPrefix, () => targetAddresses.value.length],
-  () => {
-    calculateTransactionFee()
-  },
-  { debounce: 500 },
-)
 
 const getAmountToTransfer = (amount: number, decimals: number) =>
   String(calculateBalance(Number(amount), decimals))
@@ -767,16 +791,6 @@ const submit = async (
 
           targetAddresses.value = [{ address: '' }]
 
-          // not sure what is the purpose of this
-          // but it causes the explorer url in Transaction Loader to become wrong
-          // after the transaction is finalized
-          // also causes:
-          //https://github.com/kodadot/nft-gallery/issues/6944
-
-          // if (route.query && !route.query.donation) {
-          //    router.push(route.path)
-          // }
-
           isLoading.value = false
         },
         (dispatchError) => {
@@ -832,14 +846,6 @@ const onTxError = async (dispatchError: DispatchError): Promise<void> => {
   isLoading.value = false
 }
 
-const recurringPaymentLink = computed(() => {
-  const addressList = targetAddresses.value
-    .filter((item) => isAddress(item.address) && !item.isInvalid)
-    .map((item) => item.address)
-
-  return generatePaymentLink(addressList)
-})
-
 const generatePaymentLink = (addressList: string[]): string => {
   const url = new URL(`${location.origin}${location.pathname}`)
   addressList.forEach((addr, i) => {
@@ -864,10 +870,6 @@ const deleteAddress = (index: number) => {
   targetAddresses.value.splice(index, 1)
 }
 
-onMounted(() => {
-  fetchFiatPrice().then(checkQueryParams)
-})
-
 const routerReplace = ({ params = {}, query = {} }) => {
   router
     .replace({
@@ -879,6 +881,64 @@ const routerReplace = ({ params = {}, query = {} }) => {
     })
     .catch(() => null) // null to further not throw navigation errors
 }
+
+// watchers
+
+watch(isLoading, (newValue, oldValue) => {
+  // trigger modal only when loading change from false => true
+  // we want to keep modal open when loading changes true => false
+  if (newValue && !oldValue) {
+    isLoaderModalVisible.value = isLoading.value
+  }
+})
+
+watch(
+  tokens,
+  (items) => {
+    tokenTabs.value = generateTokenTabs(
+      items,
+      unit.value,
+      selectedTabFirst.value,
+    )
+  },
+  { immediate: true },
+)
+
+watch(sendSameAmount, (value) => {
+  if (value) {
+    const tokenAmount = targetAddresses.value[0]?.token
+    const usdAmount = targetAddresses.value[0]?.usd
+    targetAddresses.value = targetAddresses.value.map((address) => ({
+      ...address,
+      token: tokenAmount,
+      usd: usdAmount,
+    }))
+  }
+})
+
+watch(
+  unit,
+  () => {
+    updateTargetAdressesOnTokenSwitch()
+  },
+  { immediate: true },
+)
+
+watch(urlPrefix, updateAuthBalance)
+
+onMounted(() => {
+  calculateTransactionFee()
+  updateAuthBalance()
+  fetchFiatPrice().then(checkQueryParams)
+})
+
+watchDebounced(
+  [urlPrefix, () => targetAddresses.value.length],
+  () => {
+    calculateTransactionFee()
+  },
+  { debounce: 500 },
+)
 
 watchDebounced(
   () => targetAddresses.value[0]?.usd,
