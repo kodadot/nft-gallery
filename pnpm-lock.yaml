@@ -410,7 +410,7 @@ importers:
         specifier: ^0.17.6
         version: 0.17.6(histoire@0.17.6)(vite@4.4.12)(vue@3.3.9)
       '@oruga-ui/oruga-next':
-        specifier: ^0.7.0
+        specifier: 0.7.0
         version: 0.7.0(vue@3.3.9)
       '@vitejs/plugin-vue':
         specifier: ^4.5.0
