@@ -160,11 +160,14 @@ export default function (
     const willRemainingRichestChainBalanceBeSlashed =
       richestChainBalance.value - requiredAmountToTeleport.value <=
       richestChainExistentialDeposit.value
+    const hasRequiredAmountInRichestChain =
+      richestChainBalance.value >= requiredAmountToTeleport.value
 
     return (
       hasRichesChain &&
       doesntHaveEnoughInCurrentChain &&
-      willRemainingRichestChainBalanceBeSlashed
+      willRemainingRichestChainBalanceBeSlashed &&
+      hasRequiredAmountInRichestChain
     )
   })
 
