@@ -4,7 +4,7 @@
       <NeoIcon
         v-if="isLoading"
         icon="spinner-third"
-        class="spinner has-text-k-grey"
+        class="spinner text-k-grey"
         :size="iconSize" />
 
       <NeoIcon
@@ -15,7 +15,7 @@
 
       <NeoIcon
         v-else-if="isWaiting"
-        class="has-text-k-grey opacity-20"
+        class="text-k-grey opacity-20"
         icon="circle"
         pack="fass"
         :size="iconSize" />
@@ -39,7 +39,7 @@
             <NeoIcon
               icon="fa-info-circle"
               pack="fa-regular"
-              class="ml-2 has-text-k-grey" />
+              class="ml-2 text-k-grey" />
           </p>
 
           <template #content>
@@ -50,7 +50,7 @@
           {{ step.title }}
         </p>
         <div class="flex items-center">
-          <p class="capitalize has-text-k-grey">
+          <p class="capitalize text-k-grey">
             {{ step.subtitle }}
 
             <span v-if="showDots" class="dots" />
