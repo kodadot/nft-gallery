@@ -17,7 +17,7 @@ type Settings = {
 
 export const makeScreenshot = async (url: string, settings?: Settings) => {
   const finalApi = settings?.webgl ? vercel : api
-  const value = await finalApi<'blob'>('/screenshot', {
+  const value = await finalApi<any, 'blob'>('/screenshot', {
     method: 'POST',
     body: {
       url,
