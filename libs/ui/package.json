@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@histoire/plugin-vue": "^0.17.6",
-    "@oruga-ui/oruga-next": "^0.7.0",
+    "@oruga-ui/oruga-next": "0.7.0",
     "@vitejs/plugin-vue": "^4.5.0",
     "autoprefixer": "^10.4.16",
     "eslint": "^8.54.0",
