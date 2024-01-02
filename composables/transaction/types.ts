@@ -11,6 +11,7 @@ type SuccessFunctionMessage = (blockNumber: string) => string
 export type ObjectMessage = {
   message: string | SuccessFunctionMessage
   large: boolean
+  shareLink?: string
 }
 export type ExecuteTransactionSuccessMessage =
   | string

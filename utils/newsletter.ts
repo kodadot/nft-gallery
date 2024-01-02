@@ -11,7 +11,7 @@ const api = $fetch.create({
   credentials: 'omit',
 })
 
-export async function subscribe(email: string) {
+async function subscribe(email: string) {
   const body = {
     email: email,
   }
@@ -34,7 +34,7 @@ type SubscriptionByEmailResponse = {
   status: 'pending' | 'active'
 }
 
-export async function getSubscription(subscriptionId: string) {
+async function getSubscription(subscriptionId: string) {
   try {
     const data = await api<SubscriptionByEmailResponse>(
       `/subscribe/${subscriptionId}`,
@@ -49,7 +49,7 @@ export async function getSubscription(subscriptionId: string) {
   }
 }
 
-export async function resendConfirmationEmail(subscriptionId: string) {
+async function resendConfirmationEmail(subscriptionId: string) {
   try {
     const data = await api<{ id: string }>('/subscribe/resend-confirmation', {
       method: 'PUT',
@@ -62,4 +62,4 @@ export async function resendConfirmationEmail(subscriptionId: string) {
   }
 }
 
-export default { subscribe, getSubscription }
+export default { subscribe, getSubscription, resendConfirmationEmail }
