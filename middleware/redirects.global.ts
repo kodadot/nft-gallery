@@ -44,7 +44,6 @@ export default defineNuxtRouteMiddleware((route) => {
   }
 
   if (redirectValue) {
-    console.log(redirectValue)
     return navigateTo(redirectValue, { external: true })
   }
 })
