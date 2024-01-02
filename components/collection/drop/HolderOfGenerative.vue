@@ -108,8 +108,7 @@ export type DropMintedNft = DoResult & {
 
 const { fetchMultipleBalance } = useMultipleBalance()
 
-const { width } = useWindowSize()
-const isMobile = computed(() => width.value <= 768)
+const { isMobile } = useViewport()
 
 const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
   useDropMinimumFunds(props.drop)

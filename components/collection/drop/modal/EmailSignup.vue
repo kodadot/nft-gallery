@@ -18,7 +18,7 @@
       <span>{{ $t('drops.voucherToOurShop') }}</span>
     </div>
 
-    <p class="has-text-k-grey capitalize mt-3 is-size-7">
+    <p class="text-k-grey capitalize mt-3 is-size-7">
       ({{ $t('drops.justConfirmSubscriptionViaEmail') }})
     </p>
   </div>
@@ -41,8 +41,10 @@
       <NeoButton
         class="flex flex-1 h-14 capitalize shine"
         :disabled="disabled"
+        :loading="loading"
         no-shadow
         variant="k-accent"
+        loading-with-label
         native-type="submit">
         {{ submitButtonText }}
       </NeoButton>
@@ -55,6 +57,9 @@ import { NeoButton, NeoCheckbox, NeoInput } from '@kodadot1/brick'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 
 const emit = defineEmits(['confirm'])
+const props = defineProps<{
+  subscribing: boolean
+}>()
 
 const { $i18n } = useNuxtApp()
 const { signUpVoucherIcon } = useIcon()
@@ -66,12 +71,22 @@ const agree = ref(false)
 const invalidEmail = computed(() => !emailInput.value?.checkHtml5Validity())
 
 const disabled = computed(
-  () => invalidEmail.value || email.value === '' || !agree.value,
+  () =>
+    invalidEmail.value ||
+    email.value === '' ||
+    !agree.value ||
+    props.subscribing,
 )
+
+const loading = computed(() => props.subscribing)
 
 const submitButtonText = computed(() => {
   if (invalidEmail.value) {
     return $i18n.t('drops.enterValidEmail')
+  }
+
+  if (props.subscribing) {
+    return $i18n.t('general.subscribing')
   }
 
   if (!agree.value) {

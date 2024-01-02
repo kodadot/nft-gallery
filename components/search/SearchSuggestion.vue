@@ -119,7 +119,7 @@
               <template #content>
                 <div class="flex flex-row justify-between pt-2 pr-2">
                   <span class="main-title name">{{ item.name }}</span>
-                  <span>{{ urlPrefix.toUpperCase() }}</span>
+                  <span class="capitalize">{{ urlPrefix }}</span>
                 </div>
                 <div class="flex flex-row justify-between pr-2">
                   <span class="name">{{ item.collection?.name }}</span>
@@ -218,7 +218,7 @@
                 <span
                   >{{ $t('search.owners') }}: {{ item.uniqueCollectors }}</span
                 >
-                <span>{{ urlPrefix.toUpperCase() }}</span>
+                <span class="capitalize">{{ urlPrefix }}</span>
               </div>
             </template>
           </SearchResultItem>
@@ -290,7 +290,6 @@ const activeSearchTab = ref('Collections')
 const activeTrendingTab = ref('Trending')
 const selectedIndex = ref(-1)
 const isCollectionResultLoading = ref(false)
-const isNFTResultLoading = ref(false)
 const nftResult = ref([] as NFTWithMeta[])
 const collectionResult = ref([] as CollectionWithMeta[])
 const searched = ref([] as NFTWithMeta[])
@@ -540,6 +539,12 @@ const { data: defaultCollectionSuggestions } = await useAsyncData(
   },
 )
 
+const {
+  data: dataNFTs,
+  loading: isNFTResultLoading,
+  refetch: fetchSearchNFTs,
+} = useSearchNfts({ ...queryVariables.value, immediate: false })
+
 const updateSuggestion = useDebounceFn(async (value: string) => {
   //To handle empty string
   if (!value) {
@@ -550,22 +555,14 @@ const updateSuggestion = useDebounceFn(async (value: string) => {
   }
 
   isCollectionResultLoading.value = true
-  isNFTResultLoading.value = true
   query.value.search = value
   searchString.value = value
-  await updateNftSuggestion()
+  await fetchSearchNFTs(queryVariables.value)
   await updateCollectionSuggestion(value)
 }, 200)
 
-const updateNftSuggestion = async () => {
+const updateNftSuggestion = async (nFTEntities) => {
   try {
-    const queryNft = await resolveQueryPath(client.value, 'nftListWithSearch')
-    const { data } = await useAsyncQuery({
-      query: queryNft.default,
-      clientId: client.value,
-      variables: queryVariables.value,
-    })
-    const { nFTEntities } = data.value
     const nftList = unwrapSafe(
       nFTEntities.slice(0, searchSuggestionEachTypeMaxNum),
     )
@@ -585,7 +582,6 @@ const updateNftSuggestion = async () => {
   } catch (e) {
     logError(e, (msg) => $consola.warn('[PREFETCH] Unable fo fetch', msg))
   }
-  isNFTResultLoading.value = false
 }
 
 const updateCollectionSuggestion = async (value: string) => {
@@ -652,6 +648,10 @@ const fetchCollectionStats = async (
 
   return collection
 }
+
+watch(dataNFTs, async (data) => {
+  await updateNftSuggestion(data.nFTEntities || [])
+})
 
 watch(
   () => props.name,

@@ -31,7 +31,6 @@
 <script lang="ts" setup>
 import { NeoTooltip } from '@kodadot1/brick'
 import { NFT } from '@/components/rmrk/service/scheme'
-import { useWindowSize } from '@vueuse/core'
 import { useIcon } from '@/composables/useIcon'
 
 const props = defineProps<{
@@ -40,7 +39,7 @@ const props = defineProps<{
 }>()
 
 const { isCurrentOwner } = useAuth()
-const isMobile = computed(() => useWindowSize().width.value < 768)
+const { isMobile } = useViewport()
 const { unlockableIcon } = useIcon()
 
 const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))

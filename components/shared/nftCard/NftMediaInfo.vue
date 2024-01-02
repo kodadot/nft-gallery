@@ -31,7 +31,7 @@
         v-if="showPrice"
         :value="nft.price ?? nft.cheapest?.price"
         data-testid="card-money" />
-      <span v-if="!isMinimal" class="chain-name capitalize is-size-7">{{
+      <span v-if="!isMinimal" class="text-k-grey capitalize is-size-7">{{
         getChainNameByPrefix(prefix)
       }}</span>
     </div>
@@ -40,11 +40,10 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { type NftCardVariant } from '@kodadot1/brick'
 
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { getChainNameByPrefix } from '@/utils/chain'
-import type { NeoNFT } from './types'
+import type { NeoNFT, NftCardVariant } from './types'
 
 const props = withDefaults(
   defineProps<{
@@ -64,7 +63,3 @@ const isMinimal = computed(() =>
   props.variant ? props.variant.includes('minimal') : false,
 )
 </script>
-
-<style lang="scss" scoped>
-@import './NeoNftCard.scss';
-</style>

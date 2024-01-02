@@ -19,7 +19,16 @@ definePageMeta({
   layout: 'unlockable-mint-layout',
 })
 const { params } = useRoute()
+const { redirectAfterChainChange } = useChainRedirect()
+const { urlPrefix, setUrlPrefix } = usePrefix()
 
 const drop = await useDrop(params.id.toString())
 const dropType = computed(() => drop?.type)
+
+onMounted(() => {
+  if (drop?.chain && urlPrefix.value !== drop?.chain) {
+    setUrlPrefix(drop?.chain)
+    redirectAfterChainChange(drop?.chain)
+  }
+})
 </script>

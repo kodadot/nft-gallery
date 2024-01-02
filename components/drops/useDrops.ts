@@ -10,6 +10,7 @@ import unlockableCollectionById from '@/queries/subsquid/general/unlockableColle
 import { existentialDeposit } from '@kodadot1/static'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { DropItem } from '@/params/types'
+import { FUTURE_DROP_DATE } from '@/utils/drop'
 
 export interface Drop {
   collection: CollectionWithMeta
@@ -51,7 +52,7 @@ export function useDrops() {
 }
 
 const getFormattedDropItem = async (collection, drop: DropItem) => {
-  const chainMax = collection?.max ?? 300
+  const chainMax = collection?.max ?? FALLBACK_DROP_COLLECTION_MAX
   const { count } = await getDropStatus(drop.alias)
   const price = ['paid', 'generative'].includes(drop.type) ? drop.meta : '0'
   return {
@@ -59,7 +60,7 @@ const getFormattedDropItem = async (collection, drop: DropItem) => {
     collection: collection,
     minted: Math.min(count, chainMax),
     max: chainMax,
-    dropStartTime: new Date(2023, 5, 6),
+    dropStartTime: count >= 5 ? Date.now() - 1e10 : FUTURE_DROP_DATE, // this is a bad hack to make the drop appear as "live" in the UI
     price,
     isMintedOut: count >= chainMax,
     isFree: !Number(price),
@@ -124,12 +125,14 @@ export const useDropMinimumFunds = (drop) => {
     () =>
       (currentChain.value && Number(chainBalances[currentChain.value]())) || 0,
   )
-  const minimumFunds = computed<number>(() => meta.value)
+  const minimumFunds = computed<number>(() => meta.value || 0)
   const transferableDropChainBalance = computed(
     () => currentChainBalance.value - existentialDeposit[urlPrefix.value],
   )
   const hasMinimumFunds = computed(
-    () => transferableDropChainBalance.value >= minimumFunds.value,
+    () =>
+      !minimumFunds.value ||
+      transferableDropChainBalance.value >= minimumFunds.value,
   )
 
   const { formatted: formattedMinimumFunds } = useAmount(

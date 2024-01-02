@@ -5,10 +5,7 @@
     multiline-width="256px"
     :position="position"
     multiline>
-    <NeoIcon
-      icon="fa-info-circle"
-      pack="fa-regular"
-      class="ml-2 has-text-k-grey" />
+    <NeoIcon icon="fa-info-circle" pack="fa-regular" class="ml-2 text-k-grey" />
 
     <template #content>
       <div class="flex is-size-6 mb-2">
@@ -34,12 +31,12 @@
 
           <span>
             <span>{{ transition.destination.name }} </span>
-            <span class="has-text-k-grey"> ({{ transition.token }}) </span>
+            <span class="text-k-grey"> ({{ transition.token }}) </span>
           </span>
         </div>
 
         <div class="flex justify-between">
-          <span class="has-text-k-grey">{{ $t('amount') }}</span>
+          <span class="text-k-grey">{{ $t('amount') }}</span>
 
           <span
             >{{ transition.amountFormatted }} ~ {{ transition.amountUsd }}</span
@@ -47,7 +44,7 @@
         </div>
       </div>
       <div v-else>
-        <p class="mb-2 has-text-k-grey has-text-left">
+        <p class="mb-2 text-k-grey has-text-left">
           {{ $t('autoTeleport.tooltip.noRouteFound') }}
         </p>
       </div>

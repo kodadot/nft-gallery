@@ -34,7 +34,7 @@
           {{ transition.destination?.name }}
         </p>
 
-        <p class="is-size-7 has-text-k-grey">
+        <p class="is-size-7 text-k-grey">
           {{ $t('autoTeleport.dontExit') }}
         </p>
 

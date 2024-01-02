@@ -19,7 +19,7 @@
             :minimum-funds-description="minimumFundsDescription"
             :max-count="maxCount"
             :minted-count="mintedCount"
-            :mint-count-available="mintCountAvailable"
+            :mint-count-available="mintCountAvailable || !disabledByBackend"
             :disabled="mintButtonDisabled"
             :mint-button-label="mintButtonLabel"
             @mint="handleSubmitMint" />
@@ -60,10 +60,18 @@
   <DropConfirmModal
     v-model="isConfirmModalActive"
     :claiming="isLoading"
+    :email-confirmed="emailConfirmed"
+    :subscription-email="preferencesStore.getNewsletterSubscription.email"
+    :checking-subscription="checkingSubscription"
+    :subscribing-to-newsletter="subscribingToNewsletter"
+    :resending-confirmation-email="resendingConfirmationEmail"
     :minting-seconds="MINTING_SECOND"
     :minted-nft="mintedNft"
     :can-list-nft="canListMintedNft"
-    @confirm="handleConfirmMint"
+    :send-confirmation-email-on-modal-open="sendConfirmationEmailOnModalOpen"
+    @subscribe="handleEmailSubscription"
+    @check-subscription="handleCheckSubscription"
+    @resend-confirmation-email="handleResendConfirmationEmail"
     @close="closeConfirmModal"
     @list="handleList" />
 
@@ -98,6 +106,7 @@ import DropConfirmModal from './modal/DropConfirmModal.vue'
 import ListingCartModal from '@/components/common/listingCart/ListingCartModal.vue'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
+import { DEFAULT_NEWSLETTER_SUBSCRIPTION } from '@/stores/preferences'
 
 const MINTING_SECOND = 120
 
@@ -118,8 +127,7 @@ const props = defineProps({
 
 useMultipleBalance(true)
 
-const { width } = useWindowSize()
-const isMobile = computed(() => width.value <= 768)
+const { isMobile } = useViewport()
 
 useDropStatus(props.drop.alias)
 const instance = getCurrentInstance()
@@ -149,6 +157,10 @@ const selectedImage = ref<string>('')
 const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isConfirmModalActive = ref(false)
+const checkingSubscription = ref(false)
+const subscribingToNewsletter = ref(false)
+const resendingConfirmationEmail = ref(false)
+const sendConfirmationEmailOnModalOpen = ref(false)
 const isAddFundModalActive = ref(false)
 const mintedNft = ref<DropMintedNft>()
 const mintedNftWithMetadata = ref<NFTWithMetadata>()
@@ -160,6 +172,13 @@ const defaultName = computed(() => props.drop?.name)
 const defaultMax = computed(() => props.drop?.max || 255)
 const chainName = computed(() => getChainName(props.drop.chain))
 const token = computed(() => prefixToToken[props.drop.chain])
+const emailConfirmed = computed<boolean>(
+  () => preferencesStore.getNewsletterSubscription.confirmed,
+)
+
+const subscriptionId = computed(
+  () => preferencesStore.getNewsletterSubscription.id,
+)
 
 const { data: collectionData } = useGraphql({
   queryName: 'unlockableCollectionById',
@@ -269,10 +288,20 @@ const closeAddFundModal = () => {
 
 const subscribe = async (email: string) => {
   try {
-    await newsletterApi.subscribe(email)
+    subscribingToNewsletter.value = true
+    const response = await newsletterApi.subscribe(email)
+    preferencesStore.setNewsletterSubscription({
+      email,
+      subscribed: true,
+      confirmed: false,
+      id: response.id,
+    })
   } catch (error) {
     dangerMessage($i18n.t('signupBanner.failed'))
+    preferencesStore.setNewsletterSubscription(DEFAULT_NEWSLETTER_SUBSCRIPTION)
     throw error
+  } finally {
+    subscribingToNewsletter.value = false
   }
 }
 
@@ -285,7 +314,7 @@ const subscribeToMintedNft = (id: string, onReady: (data) => void) => {
   })
 }
 
-const submitMint = async (email: string) => {
+const submitMint = async () => {
   try {
     isImageFetching.value = true
     isLoading.value = true
@@ -307,7 +336,7 @@ const submitMint = async (email: string) => {
         address: accountId.value,
         metadata: hash,
         image: imageHash,
-        email,
+        email: preferencesStore.getNewsletterSubscription.email,
       },
       props.drop.id,
     )
@@ -335,11 +364,56 @@ const submitMint = async (email: string) => {
   }
 }
 
-const handleConfirmMint = async ({ email }) => {
+const handleEmailSubscription = async (email: string) => {
+  await subscribe(email)
+}
+
+const handleResendConfirmationEmail = async () => {
+  try {
+    resendingConfirmationEmail.value = true
+    const data = await resendConfirmationEmail(subscriptionId.value as string)
+    preferencesStore.setNewsletterSubscription({
+      ...preferencesStore.getNewsletterSubscription,
+      id: data.id,
+    })
+    toast($i18n.t('drops.emailConfirmationSent'))
+  } catch (error) {
+    toast($i18n.t('drops.failedEmailConfirmation'))
+  } finally {
+    resendingConfirmationEmail.value = false
+  }
+}
+
+const handleCheckSubscription = async () => {
+  await checkSubscription(subscriptionId.value as string)
+}
+
+const checkSubscription = async (subscriptionId: string) => {
+  try {
+    checkingSubscription.value = true
+    const response = await getSubscription(subscriptionId)
+
+    const subscriptionConfirmed = response.status === 'active'
+
+    if (subscriptionConfirmed) {
+      preferencesStore.setNewsletterSubscription({
+        subscribed: true,
+        confirmed: true,
+        email: response.email,
+        id: response.id,
+      })
+    }
+  } catch (error) {
+    toast($i18n.t('drops.failedCheckingSubscription'))
+  } finally {
+    checkingSubscription.value = false
+  }
+}
+
+const startMinting = async () => {
   try {
     isLoading.value = true
-    await subscribe(email)
-    await submitMint(email)
+    await submitMint()
   } catch (error) {
     isLoading.value = false
     isConfirmModalActive.value = false
@@ -376,6 +450,19 @@ const handleDropAddModalConfirm = () => {
   openConfirmModal()
   fetchMultipleBalance([urlPrefix.value])
 }
+
+watch([isConfirmModalActive, emailConfirmed], ([modalActive, confirmed]) => {
+  if (modalActive && confirmed) {
+    startMinting()
+  }
+})
+
+onMounted(async () => {
+  if (!emailConfirmed.value && subscriptionId.value) {
+    await checkSubscription(subscriptionId.value)
+    sendConfirmationEmailOnModalOpen.value = !emailConfirmed.value
+  }
+})
 
 onBeforeUnmount(clear)
 </script>
