@@ -11,7 +11,12 @@
           <NeoIcon icon="heart" />
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
         </span>
-        <BaseMediaItem :src="image" :animation-src="animatedUrl" />
+        <BaseMediaItem
+          :src="image"
+          :animation-src="animatedUrl"
+          :mime-type="mimeType"
+          :audio-player-cover="image"
+          audio-hover-on-cover-play />
         <span
           v-if="parseInt(price) > 0 && showPriceValue"
           class="card-image__price">
@@ -78,7 +83,9 @@ watchEffect(async () => {
   if (props.metadata) {
     const meta = await processSingleMetadata<NFTMetadata>(props.metadata)
 
-    image.value = sanitizeIpfsUrl(meta.image || meta.thumbnailUri)
+    image.value = sanitizeIpfsUrl(
+      meta.image || meta.thumbnailUri || meta.mediaUri,
+    )
     title.value = meta.name
     animatedUrl.value = sanitizeIpfsUrl(
       meta.animation_url || meta.mediaUri || '',
