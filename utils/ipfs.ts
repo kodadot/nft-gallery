@@ -158,7 +158,9 @@ export const preheatFileFromIPFS = (ipfsUrl: string) => {
   const url = sanitizeIpfsUrl(`${ipfsUrlPrefix}${ipfsUrl}`)
 
   // preheat to r2/cfi
-  api(url)
+  api(url, {
+    redirect: 'manual', // no need to hit cf-images if the file exists
+  })
     .then(async () => consola.log(`[PREHEAT] ${url}`))
     .catch((err) => consola.error(`[PREHEAT] ${url} ${err.message}`))
 }

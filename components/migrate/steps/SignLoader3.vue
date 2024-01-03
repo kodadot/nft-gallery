@@ -2,6 +2,28 @@
   <div class="mb-5">
     <div class="flex items-center mb-4">
       <div class="mr-5">
+        <NeoIcon
+          v-if="fromNfts?.length === nextNfts?.length"
+          v-bind="iconSuccess"
+          class="fa-2x" />
+        <NeoIcon v-else v-bind="iconIdle" class="fa-2x" />
+      </div>
+      <div>
+        <p class="has-text-weight-bold">Comprehensive Collection Scan</p>
+        <p class="is-size-7 has-text-grey">
+          Verifying your collection on the destination chain.
+        </p>
+      </div>
+    </div>
+    <div class="flex is-size-7 mb-4">
+      <div class="v-border"></div>
+      <div>
+        <p class="text-k-grey italic">no action needed</p>
+      </div>
+    </div>
+
+    <div class="is-flex is-align-items-center mb-4">
+      <div class="mr-5">
         <NeoIcon v-bind="whichIcon()" class="fa-2x" />
       </div>
       <div>
@@ -31,7 +53,7 @@
 
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
-// import { NFTs } from '@/composables/transaction/types'
+import { Collections, NFTs } from '@/composables/transaction/types'
 import { NeoIcon } from '@kodadot1/brick'
 import {
   type Steps,
@@ -39,14 +61,20 @@ import {
   iconLoading,
   iconSuccess,
 } from '@/composables/useMigrate'
+import nftIdListByCollection from '@/queries/subsquid/general/nftIdListByCollection.graphql'
 
 const route = useRoute()
-// const { transaction, status } = useTransaction()
-const { status } = useTransaction()
+const { transaction, status } = useTransaction()
+const { urlPrefix } = usePrefix()
+const { accountId } = useAuth()
+const { $consola } = useNuxtApp()
 
 const from = route.query.source as Prefix
 const fromAccountId = route.query.accountId?.toString()
 const fromCollectionId = route.query.collectionId?.toString()
+const nextCollectionId = computed(
+  () => route.query.nextCollectionId?.toString(),
+)
 
 const itemCount = route.query.itemCount?.toString()
 
@@ -73,7 +101,7 @@ const whichIcon = () => {
   return iconIdle
 }
 
-const { data } = useGraphql({
+const { data: getFromNfts } = useGraphql({
   queryName: 'nftIdListByCollection',
   clientName: from,
   variables: {
@@ -81,29 +109,49 @@ const { data } = useGraphql({
     search: [{ currentOwner_eq: fromAccountId }],
   },
 })
+const fromNfts = computed(() => (getFromNfts.value as NftIds)?.nfts)
 
-// const burnItems = async (ids: string[]) => {
-//   await transaction(
-//     {
-//       interaction: NFTs.BURN_MULTIPLE,
-//       nftIds: ids,
-//       urlPrefix: from,
-//     },
-//     from,
-//   )
-//   updateSteps('step3-burn')
-// }
+const nextNfts = ref()
+const checkNextNfts = async () => {
+  const { data } = await useAsyncQuery({
+    query: nftIdListByCollection,
+    variables: {
+      id: nextCollectionId.value,
+      search: [{ currentOwner_eq: accountId.value }],
+    },
+    clientId: urlPrefix.value,
+  })
 
-// const burnCollection = async () => {
-//   if (fromCollectionId) {
-//     await transaction({
-//       interaction: Collections.DELETE,
-//       collectionId: fromCollectionId,
-//       urlPrefix: from,
-//     })
-//     updateSteps('step3-burn-collection')
-//   }
-// }
+  nextNfts.value = (data.value as NftIds)?.nfts
+}
+
+const burnItems = async () => {
+  const ids = fromNfts.value?.map((item) => item.id) || []
+
+  await transaction(
+    {
+      interaction: NFTs.BURN_MULTIPLE,
+      nftIds: ids,
+      urlPrefix: from,
+    },
+    from,
+  )
+  updateSteps('step3-burn')
+}
+
+const burnCollection = async () => {
+  if (fromCollectionId) {
+    await transaction(
+      {
+        interaction: Collections.DELETE,
+        collectionId: fromCollectionId,
+        urlPrefix: from,
+      },
+      from,
+    )
+    updateSteps('step3-burn-collection')
+  }
+}
 
 const congratsPage = () => {
   updateSteps('step4')
@@ -115,16 +163,30 @@ const congratsPage = () => {
   })
 }
 
-watchEffect(() => {
-  const nfts = (data.value as NftIds)?.nfts
+// check next nfts
+watchDebounced(
+  [steps, nextCollectionId, nextNfts],
+  async () => {
+    if (
+      steps.value === 'step3' &&
+      nextCollectionId.value &&
+      fromNfts.value?.length !== nextNfts.value?.length
+    ) {
+      await checkNextNfts()
+    }
+  },
+  { debounce: 1000 },
+)
+
+watchEffect(async () => {
+  $consola.info('SignLoader3', steps.value, fromNfts.value, nextNfts.value)
 
   // burn items
-  if (steps.value === 'step3' && nfts?.length) {
-    // const ids = nfts.map((nft) => nft.id)
-    // burnItems(ids)
-
-    // skip burn at the moment
-    congratsPage()
+  if (
+    steps.value === 'step3' &&
+    fromNfts.value?.length === nextNfts.value?.length
+  ) {
+    burnItems()
   }
 
   // ensure to burn items
@@ -132,8 +194,7 @@ watchEffect(() => {
     steps.value === 'step3-burn' &&
     status.value === TransactionStatus.Finalized
   ) {
-    // burnCollection()
-    congratsPage()
+    burnCollection()
   }
 
   // ensure to burn collection
@@ -141,11 +202,6 @@ watchEffect(() => {
     steps.value === 'step3-burn-collection' &&
     status.value === TransactionStatus.Finalized
   ) {
-    congratsPage()
-  }
-
-  // skip burn at the moment
-  if (steps.value === 'step3-burn' || steps.value === 'step3') {
     congratsPage()
   }
 })
