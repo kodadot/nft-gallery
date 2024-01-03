@@ -525,11 +525,15 @@ const { data: topCollections, refresh: getTopCollection } = useTopCollections(
   props.showDefaultSuggestions,
 )
 
-watch(topCollections, (data) => {
-  defaultCollectionSuggestions.value = getFormattedDefaultSuggestions(
-    data,
-  ).slice(0, searchSuggestionEachTypeMaxNum)
-})
+watch(
+  topCollections,
+  (data) => {
+    defaultCollectionSuggestions.value = getFormattedDefaultSuggestions(
+      data,
+    ).slice(0, searchSuggestionEachTypeMaxNum)
+  },
+  { immediate: true },
+)
 
 watch(
   () => props.showDefaultSuggestions,
