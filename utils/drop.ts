@@ -4,6 +4,8 @@ export const DEFAULT_DROP = {
   chain: 'ahp',
 }
 
+export const PAID_GENERATIVE_ALIAS_LIST = ['coretime']
+
 export const HOLDER_OF_DROP_MAP = {
   '50': '51',
 }
