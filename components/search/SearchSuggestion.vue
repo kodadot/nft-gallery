@@ -520,17 +520,25 @@ const getFormattedDefaultSuggestions = (
   }))
 }
 
-if (props.showDefaultSuggestions) {
-  const { data: topCollections } = useTopCollections(
-    searchSuggestionEachTypeMaxNum,
-  )
+const { data: topCollections, refresh: getTopCollection } = useTopCollections(
+  searchSuggestionEachTypeMaxNum,
+  props.showDefaultSuggestions,
+)
 
-  watch(topCollections, (data) => {
-    defaultCollectionSuggestions.value = getFormattedDefaultSuggestions(
-      data,
-    ).slice(0, searchSuggestionEachTypeMaxNum)
-  })
-}
+watch(topCollections, (data) => {
+  defaultCollectionSuggestions.value = getFormattedDefaultSuggestions(
+    data,
+  ).slice(0, searchSuggestionEachTypeMaxNum)
+})
+
+watch(
+  () => props.showDefaultSuggestions,
+  (showDefaultSuggestions) => {
+    if (showDefaultSuggestions) {
+      getTopCollection()
+    }
+  },
+)
 
 const {
   data: dataNFTs,
