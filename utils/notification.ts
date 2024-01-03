@@ -41,16 +41,19 @@ export const showLargeNotification = ({
   message,
   title,
   duration = 10000,
+  shareLink = undefined,
 }: {
   message: string
   title?: string
   duration?: number
+  shareLink?: string
 }): void => {
   Notif.open({
     component: h(MessageNotify, {
       title: title,
       subtitle: message,
       noToast: true,
+      shareLink,
     }),
     duration,
     variant: 'component',

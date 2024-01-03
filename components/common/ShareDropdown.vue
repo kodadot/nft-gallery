@@ -10,7 +10,7 @@
     </template>
 
     <NeoDropdownItem
-      v-clipboard:copy="realworldFullPathShare"
+      v-clipboard:copy="shareLink"
       @click="toast(String($t('toast.urlCopy')))">
       {{ $t('share.copyLink') }}
     </NeoDropdownItem>
@@ -33,7 +33,7 @@
       </header>
       <div class="card-content">
         <QRCode
-          :text="realworldFullPathShare"
+          :text="shareLink"
           data-testid="gallery-item-share-dropdown-qrcode" />
       </div>
     </div>
@@ -49,10 +49,11 @@ import {
 } from '@kodadot1/brick'
 import QRCode from '@/components/shared/QRCode.vue'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     noShadow: boolean
     mobileModal: boolean
+    link?: string
   }>(),
   {
     noShadow: false,
@@ -69,11 +70,14 @@ const { shareOnX } = useSocialShare()
 const isModalActive = ref(false)
 const sharingTxt = $i18n.t('sharing.nft')
 const realworldFullPathShare = ref(`${window.location.origin}${route.fullPath}`)
+const shareLink = computed(() =>
+  props.link ? props.link : realworldFullPathShare.value,
+)
 
 const label = computed(() => (isMobile.value ? '' : 'Share'))
 const icon = computed(() => (isMobile.value ? 'share' : ''))
 
 const actionTwitterShare = (): void => {
-  shareOnX(sharingTxt, realworldFullPathShare.value)
+  shareOnX(sharingTxt, shareLink.value)
 }
 </script>

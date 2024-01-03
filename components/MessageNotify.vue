@@ -18,7 +18,7 @@
           {{ subtitle }}
         </span>
 
-        <ShareDropdown no-shadow mobile-modal />
+        <ShareDropdown no-shadow mobile-modal :link="shareLink" />
       </div>
     </div>
   </NeoMessage>
@@ -32,6 +32,7 @@ const props = defineProps<{
   subtitle?: string
   duration?: number
   noToast?: boolean
+  shareLink?: string
 }>()
 
 const realDuration = computed(() => {

@@ -123,13 +123,15 @@ export function useMigrateDeposit(
     return 12
   })
 
-  const chainItemDeposit = computed(() =>
-    parseDeposit(
+  const chainItemDeposit = computed(() => {
+    // Calculate the sum of all deposits and then multiply by itemCount squared
+    const total =
       (metadataDeposit.value + itemDeposit.value + existentialDeposit.value) *
-        itemCount,
-      chainDecimals.value,
-    ),
-  )
+      itemCount *
+      itemCount
+
+    return parseDeposit(total, chainDecimals.value)
+  })
 
   const chainTokenPrice = computed(() =>
     Number(fiatStore.getCurrentTokenValue(chainSymbol.value) ?? 0),
@@ -146,7 +148,10 @@ export function useMigrateDeposit(
   const chainNetworkFee = computedAsync(async () => {
     if (account) {
       const fee = await getTransitionFee(account, [''], chainDecimals.value)
-      return parseDeposit(parseInt(fee) * itemCount, chainDecimals.value)
+      return parseDeposit(
+        parseInt(fee) * itemCount * itemCount,
+        chainDecimals.value,
+      )
     }
 
     return 0

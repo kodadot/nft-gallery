@@ -25,8 +25,8 @@
         <div class="flex mt-4">
           <img
             class="border mr-4"
-            :src="sanitizeIpfsUrl(collection?.meta?.image)"
-            alt="My crazy adventure"
+            :src="collectionMetadata?.image"
+            :alt="collection?.name"
             width="48"
             height="48" />
           <div>
@@ -347,4 +347,10 @@ const toSign = () => {
     },
   })
 }
+
+const collectionMetadata = computedAsync(async () => {
+  if (collection.value) {
+    return await getNftMetadata(collection.value as MinimalNFT, urlPrefix.value)
+  }
+})
 </script>

@@ -80,11 +80,11 @@ const emit = defineEmits(['confirm', 'update:modelValue'])
 const props = withDefaults(
   defineProps<{
     modelValue: boolean
-    minimumFunds: number
+    minimumFunds: bigint
     formattedMinimumFunds: string
     token: string
     chain: string
-    free: boolean
+    free?: boolean
   }>(),
   {
     free: false,
