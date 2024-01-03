@@ -99,18 +99,21 @@
 
     <NeoButton
       class="border-k-grey hover-button w-full ml-4"
-      :disabled="!canListNft"
+      :disabled="cantList"
+      :loading="cantList"
+      variant="k-accent"
       rounded
       no-shadow
+      loading-with-label
       @click="listNft"
-      >{{ $t('drops.listNft') }}</NeoButton
+      >{{ cantList ? $t('loading') : $t('drops.listNft') }}</NeoButton
     >
   </div>
 </template>
 
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import { DropMintedNft } from '../Generative.vue'
+import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
 import { Prefix } from '@kodadot1/static'
 
 const emit = defineEmits(['list'])
@@ -142,6 +145,8 @@ const nftPath = computed(
 )
 
 const nftFullUrl = computed(() => `${window.location.origin}${nftPath.value}`)
+
+const cantList = computed(() => !props.canListNft)
 
 const viewNft = () => {
   window.open(nftFullUrl.value, '_blank')
