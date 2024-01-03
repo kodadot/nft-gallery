@@ -56,7 +56,7 @@ export function useFetchSearch({
     search?: { [key: string]: string | number }[]
   }
 
-  const getSearchCriteria = (searchParams) => {
+  const getSearchCriteria = (searchParams, reducer = {}) => {
     const mapping = {
       currentOwner_eq: (value) => ({ owner: value }),
       issuer_eq: (value) => ({ issuer: value }),
@@ -69,12 +69,16 @@ export function useFetchSearch({
 
     return searchParams.reduce((acc, curr) => {
       for (const [key, value] of Object.entries(curr)) {
+        if (Array.isArray(value)) {
+          return getSearchCriteria(value, acc)
+        }
+
         if (mapping[key]) {
           Object.assign(acc, mapping[key](value))
         }
       }
       return acc
-    }, {})
+    }, reducer)
   }
 
   async function fetchSearch({
@@ -126,6 +130,24 @@ export function useFetchSearch({
       offset: (page - 1) * first.value,
       orderBy: getRouteQueryOrDefault(route.query.sort, ['blockNumber_DESC']),
     }
+
+    const isPriceSortActive = (sort?: string | null | (string | null)[]) => {
+      if (!sort) {
+        return false
+      }
+      const sortArray = Array.isArray(sort) ? sort : [sort]
+      return sortArray.some((sortBy) => (sortBy ?? '').includes('price'))
+    }
+    watch(
+      () => route.query.sort,
+      (newSort, oldSort) => {
+        const priceSortHasBeenActivated =
+          isPriceSortActive(newSort) && !isPriceSortActive(oldSort)
+        if (priceSortHasBeenActivated && route.query.listed !== 'true') {
+          route.query.listed = 'true'
+        }
+      },
+    )
 
     const searchForToken = getSearchCriteria(
       search?.length ? search : searchParams.value,

@@ -14,7 +14,7 @@
     <div class="flex justify-center items-center py-6">
       <NeoButton
         v-if="isLoading"
-        class="border-k-grey hover-button fixed-width"
+        class="border-k-grey hover-button fixed-width pointer-events-auto cursor-wait"
         rounded
         no-shadow
         disabled>
@@ -37,7 +37,7 @@
         rel="nofollow noopener noreferrer"
         target="_blank"
         role="link">
-        {{ $t('Img') }}
+        {{ $t('img') }}
         <NeoIcon icon="arrow-up-right" class="ml-1 has-text-link" />
       </a>
     </div>

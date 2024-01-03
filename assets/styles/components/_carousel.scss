@@ -81,12 +81,6 @@
     position: relative;
   }
 
-  .chain-name {
-    @include ktheme() {
-      color: theme('k-grey');
-    }
-  }
-
   .dots {
     display: flex;
     padding: 32px 0;

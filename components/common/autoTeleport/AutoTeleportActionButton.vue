@@ -15,11 +15,11 @@
 
         <p
           class="has-text-weight-bold"
-          :class="{ 'has-text-k-grey': !hasAvailableTeleportTransition }">
+          :class="{ 'text-k-grey': !hasAvailableTeleportTransition }">
           {{ $t('autoTeleport.autoTeleport') }}
         </p>
 
-        <AutoTeleportTooltip
+        <AutoTeleportPopover
           v-if="hasAvailableTeleportTransition"
           position="top"
           :transition="optimalTransition" />
@@ -28,10 +28,10 @@
       <div
         v-if="!hasAvailableTeleportTransition"
         class="flex items-center"
-        :class="{ 'has-text-k-grey': !hasAvailableTeleportTransition }">
+        :class="{ 'text-k-grey': !hasAvailableTeleportTransition }">
         <span class="is-size-7">{{ $t('autoTeleport.notAvailable') }}</span>
 
-        <AutoTeleportTooltip position="left" :transition="optimalTransition" />
+        <AutoTeleportPopover position="left" :transition="optimalTransition" />
       </div>
 
       <NeoSwitch
@@ -93,7 +93,7 @@ const emit = defineEmits([
 ])
 const props = withDefaults(
   defineProps<{
-    amount: number
+    amount: number | bigint
     label?: string
     disabled: boolean
     actions?: AutoTeleportAction[]

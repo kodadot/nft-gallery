@@ -49,7 +49,7 @@ const resolveLargeSuccessNotification = (
   const { $i18n } = useNuxtApp()
   const title = $i18n.t('mint.success')
   const message = resolveSuccessMessage(block, objectMessage.message)
-  showLargeNotification({ message, title })
+  showLargeNotification({ message, title, shareLink: objectMessage.shareLink })
 }
 
 const resolveMessage = (message?: string | (() => string)) => {

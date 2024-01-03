@@ -6,6 +6,11 @@ import {
   getChainName,
 } from '@/utils/chain'
 import type { Prefix } from '@kodadot1/static'
+export type WithoutDecimalsParams = {
+  value: number
+  digits?: number
+  prefix?: Prefix
+}
 
 export default function () {
   const { urlPrefix } = usePrefix()
@@ -21,6 +26,28 @@ export default function () {
 
   const decimalsOf = (urlPrefix: Prefix) => {
     return chainPropListOf(urlPrefix).tokenDecimals
+  }
+
+  const withDecimals = (value: number, prefix = urlPrefix.value) => {
+    const decimals = chainPropListOf(prefix).tokenDecimals
+    // if already with decimals
+    if (value.toString().length === decimals) {
+      return value
+    }
+
+    return Math.trunc(value * Math.pow(10, decimals))
+  }
+
+  const withoutDecimals = ({
+    value,
+    digits = 4,
+    prefix = urlPrefix.value,
+  }: WithoutDecimalsParams) => {
+    return Number(
+      (value / Math.pow(10, chainPropListOf(prefix).tokenDecimals)).toFixed(
+        digits,
+      ),
+    )
   }
 
   const unit = computed<string>(() => {
@@ -41,6 +68,8 @@ export default function () {
   return {
     decimals,
     decimalsOf,
+    withDecimals,
+    withoutDecimals,
     unit,
     offersDisabled,
     chainProperties,
