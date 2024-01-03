@@ -66,7 +66,10 @@ export default ({
 
   const tryCapture = async () => {
     try {
-      const imgFile = await makeScreenshot(sanitizeIpfsUrl(selectedImage.value))
+      const imgFile = await makeScreenshot(
+        sanitizeIpfsUrl(selectedImage.value),
+        { webgl: true },
+      )
       const imageHash = await pinFileToIPFS(imgFile)
       return imageHash
     } catch (error) {
