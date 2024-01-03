@@ -214,10 +214,10 @@
                 <span class="main-title name">{{ item.name }}</span>
               </div>
               <div class="flex flex-row justify-between pr-2 secondary-info">
-                <span>{{ $t('search.units') }}: {{ item.nftCount }}</span>
-                <span v-if="item.owners"
-                  >{{ $t('search.owners') }}: {{ item.owners }}</span
+                <span v-if="item.nftCount"
+                  >{{ $t('search.units') }}: {{ item.nftCount }}</span
                 >
+                <span>{{ $t('search.owners') }}: {{ item.owners }}</span>
                 <span class="capitalize">{{ urlPrefix }}</span>
               </div>
             </template>
@@ -249,7 +249,6 @@
 
 <script setup lang="ts">
 import { useDebounceFn } from '@vueuse/core'
-import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
 import { denyList } from '@/utils/constants'
 import {
   type CollectionWithMeta,
@@ -263,7 +262,8 @@ import { unwrapSafe } from '@/utils/uniquery'
 import { fetchCollectionSuggestion } from './utils/collectionSearch'
 import { NeoIcon, NeoSkeleton, NeoTabItem, NeoTabs } from '@kodadot1/brick'
 import Money from '@/components/shared/format/Money.vue'
-import type { SearchQuery } from './types'
+import type { DefaultCollectionSuggestion, SearchQuery } from './types'
+import { useTopCollections } from '../landing/topCollections/utils/useTopCollections'
 
 const props = defineProps({
   name: {
@@ -293,6 +293,7 @@ const nftResult = ref([] as NFTWithMeta[])
 const collectionResult = ref([] as CollectionWithMeta[])
 const searched = ref([] as NFTWithMeta[])
 const searchString = ref('')
+const defaultCollectionSuggestions = ref<DefaultCollectionSuggestion[]>([])
 
 onMounted(() => {
   getSearchHistory()
@@ -420,7 +421,6 @@ const resetSelectedIndex = () => {
 }
 
 const { urlPrefix, client } = usePrefix()
-const { isRmrk, isAssetHub } = useIsChain(urlPrefix)
 
 const gotoGalleryItem = (item: NFTWithMeta) => {
   router.push(`/${urlPrefix.value}/gallery/${item.id}`)
@@ -508,76 +508,29 @@ const goToExploreResults = (item) => {
   })
 }
 
-const useSeries = computed(() => isRmrk.value)
+const getFormattedDefaultSuggestions = (
+  collections,
+): DefaultCollectionSuggestion[] => {
+  return collections.map((collection) => ({
+    id: collection.id,
+    name: collection.name,
+    image: collection.image,
+    nftCount: collection.nftCount,
+    owners: collection.ownerCount || collection.uniqueCollectors,
+  }))
+}
 
-const getDefaultSuggestions = async () => {
-  const queryMap = {
-    ahk: 'chain-ahk',
-    ahp: 'chain-ahk',
-  }
-
-  const queryCollectionMinimalSearch = await resolveQueryPath(
-    queryMap[client.value] || client.value,
-    'collectionMinimalSearch',
+if (props.showDefaultSuggestions) {
+  const { data: topCollections } = useTopCollections(
+    searchSuggestionEachTypeMaxNum,
   )
 
-  const variables = {
-    limit: searchSuggestionEachTypeMaxNum,
-    orderBy:
-      isAssetHub.value || useSeries.value ? 'volume_DESC' : 'blockNumber_DESC',
-  }
-
-  if (!useSeries.value) {
-    Object.assign(variables, {
-      list: ALL_POPULAR_COLLECTIONS[urlPrefix.value] || [],
-    })
-  }
-
-  const { data: result } = await useAsyncQuery({
-    query: useSeries.value
-      ? seriesInsightList
-      : queryCollectionMinimalSearch.default,
-    clientId: client.value,
-    variables: variables,
-  })
-
-  return result.value?.collectionEntities || []
-}
-
-const getFormattedDefaultSuggestions = (collections) => {
-  return collections.map((collection) => {
-    const image = useSeries.value
-      ? collection.image || collection.mediaUri
-      : collection.meta.image
-
-    return {
-      id: collection.id,
-      name: collection.name,
-      image: sanitizeIpfsUrl(image || '', 'image'),
-      nftCount: useSeries.value ? collection.total : collection.nftCount,
-      owners: useSeries.value
-        ? collection.uniqueCollectors
-        : collection.ownerCount,
-    }
+  watch(topCollections, (data) => {
+    defaultCollectionSuggestions.value = getFormattedDefaultSuggestions(
+      data,
+    ).slice(0, searchSuggestionEachTypeMaxNum)
   })
 }
-
-const { data: defaultCollectionSuggestions } = await useAsyncData(
-  'defaultCollectionSuggestions',
-  async () => {
-    if (props.showDefaultSuggestions) {
-      try {
-        const collections = await getDefaultSuggestions()
-        return getFormattedDefaultSuggestions(collections)
-      } catch (e) {
-        $consola.warn(e, 'Error while fetching default suggestions')
-      }
-    }
-  },
-  {
-    watch: [urlPrefix],
-  },
-)
 
 const {
   data: dataNFTs,

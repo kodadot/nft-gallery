@@ -94,7 +94,7 @@ const searchSuggestionRef = ref<InstanceType<typeof SearchSuggestion>>()
 const enableSearchInCollection = ref(true)
 const inputFocused = ref(false)
 const { urlPrefix } = usePrefix()
-const { isAssetHub, isRemark, isBasilisk } = useIsChain(urlPrefix)
+const { isAssetHub, isRmrk } = useIsChain(urlPrefix)
 
 const { isCollectionSearchMode, setCollectionSearchMode } =
   useCollectionSearch()
@@ -106,9 +106,7 @@ const placeholderContent = computed(() =>
     : $i18n.t('general.searchPlaceholder'),
 )
 
-const showDefaultSuggestions = computed(
-  () => isRemark.value || isBasilisk.value || isAssetHub.value,
-)
+const showDefaultSuggestions = computed(() => isRmrk.value || isAssetHub.value)
 
 function exitCollectionSearch() {
   if (isCollectionSearchMode.value && !name.value) {

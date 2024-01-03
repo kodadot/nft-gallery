@@ -1,6 +1,4 @@
-query topCollections(
-	$limit: Int
-) {
+query topCollections($limit: Int) {
   collectionEntities(
     orderBy: volume_DESC
     limit: $limit
@@ -13,5 +11,6 @@ query topCollections(
     volume
     floor
     nftCount
+    ownerCount
   }
 }

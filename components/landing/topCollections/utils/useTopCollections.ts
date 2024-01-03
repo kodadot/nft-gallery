@@ -55,11 +55,19 @@ export const useTopCollections = (limit: number) => {
   const error = ref(null)
   // const loading = ref(false)
   const collectionsSalesResults = ref<CollectionsSalesResult>()
-  const { result: topCollections, loading } = useQuery(
-    isAssetHub.value ? topCollectionsListAh : topCollectionList,
-    { orderBy: 'volume_DESC', limit },
-    { clientId: client.value },
-  )
+
+  const {
+    data: topCollections,
+    pending: loading,
+    refresh,
+  } = useAsyncData(async () => {
+    const { data } = await useAsyncQuery<TopCollectionListResult>({
+      query: isAssetHub.value ? topCollectionsListAh : topCollectionList,
+      variables: { orderBy: 'volume_DESC', limit },
+      clientId: client.value,
+    })
+    return data.value
+  })
 
   watch([topCollections, error], () => {
     if (error.value) {
@@ -90,6 +98,8 @@ export const useTopCollections = (limit: number) => {
       )
     }
   })
+
+  watch(urlPrefix, () => refresh())
 
   return {
     data: topCollectionWithVolumeList,
