@@ -98,7 +98,8 @@
     >
 
     <NeoButton
-      class="border-k-grey hover-button w-full ml-4"
+      class="hover-button w-full ml-4"
+      :class="{ border: canListNft }"
       :disabled="cantList"
       :loading="cantList"
       variant="k-accent"
