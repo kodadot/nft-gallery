@@ -135,11 +135,14 @@ function onInputFocus() {
 }
 
 function onInputBlur() {
-  emits('blur')
-  inputFocused.value = false
-  if (!name.value) {
-    enableSearchInCollection.value = true
-  }
+  // don't remove timeout,  blur is triggered before click this allows the click event to be called
+  setTimeout(() => {
+    emits('blur')
+    inputFocused.value = false
+    if (!name.value) {
+      enableSearchInCollection.value = true
+    }
+  }, 200)
 }
 
 function bindSearchEvents(event: KeyboardEvent) {
