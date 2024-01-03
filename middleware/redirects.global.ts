@@ -9,9 +9,9 @@ export default defineNuxtRouteMiddleware((route) => {
       replaceValue: '/ahp/drops',
     },
     {
-      replaceValue: () => `/${urlPrefix.value}/explore/collectibles`,
       cond: (val) =>
         val.startsWith(`/${urlPrefix.value}`) && val.endsWith('collections'),
+      replaceValue: () => `/${urlPrefix.value}/explore/collectibles`,
     },
     {
       cond: (val) =>

@@ -119,7 +119,7 @@
               <template #content>
                 <div class="flex flex-row justify-between pt-2 pr-2">
                   <span class="main-title name">{{ item.name }}</span>
-                  <span>{{ urlPrefix.toUpperCase() }}</span>
+                  <span class="capitalize">{{ urlPrefix }}</span>
                 </div>
                 <div class="flex flex-row justify-between pr-2">
                   <span class="name">{{ item.collection?.name }}</span>
@@ -218,7 +218,7 @@
                 <span v-if="item.owners"
                   >{{ $t('search.owners') }}: {{ item.owners }}</span
                 >
-                <span>{{ urlPrefix.toUpperCase() }}</span>
+                <span class="capitalize">{{ urlPrefix }}</span>
               </div>
             </template>
           </SearchResultItem>

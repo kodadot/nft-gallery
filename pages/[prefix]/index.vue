@@ -5,11 +5,11 @@
 <script lang="ts" setup>
 definePageMeta({
   layout: 'full-width-layout',
-})
-
-const router = useRouter()
-
-onBeforeMount(() => {
-  router.replace('/')
+  middleware: [
+    () => {
+      const router = useRouter()
+      router.push({ path: '/' })
+    },
+  ],
 })
 </script>

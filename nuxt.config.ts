@@ -48,6 +48,7 @@ export default defineNuxtConfig({
             include: [
               '@google/model-viewer',
               '@kodadot1/minimark/common',
+              '@kodadot1/minimark/shared',
               '@kodadot1/minimark/v1',
               '@kodadot1/minimark/v2',
               '@paraspell/sdk',

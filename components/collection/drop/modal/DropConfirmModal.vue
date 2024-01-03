@@ -149,11 +149,11 @@ const handleEmailSignupConfirm = (value: string) => {
 }
 
 const handleConfirmationEmailResend = () => {
-  emit('resend-confirmation-email', email.value)
+  emit('resend-confirmation-email')
 }
 
 const handleEmailSubscriptionCheck = () => {
-  emit('check-subscription', email.value)
+  emit('check-subscription')
 }
 
 watch(
