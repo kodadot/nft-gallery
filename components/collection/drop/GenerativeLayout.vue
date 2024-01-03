@@ -20,6 +20,7 @@
             :max-count="maxCount"
             :minted-count="mintedCount"
             :mint-count-available="mintCountAvailable"
+            :disabled-by-backend="drop.disabled"
             :mint-button="mintButton"
             :holder-of-collection="holderOfCollection"
             @mint="handleSubmitMint" />
@@ -43,6 +44,7 @@
           :max-count="maxCount"
           :minted-count="mintedCount"
           :mint-count-available="mintCountAvailable"
+          :disabled-by-backend="drop.disabled"
           :mint-button="mintButton"
           :holder-of-collection="holderOfCollection"
           @mint="handleSubmitMint" />
