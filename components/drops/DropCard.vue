@@ -116,7 +116,7 @@ const isFreeDrop = computed(() => {
   return !Number(props.drop.price)
 })
 
-const availableCount = computed(() => props.drop.minted)
+const availableCount = computed(() => props.drop.minted === props.drop.max)
 
 onMounted(async () => {
   if (!props.drop?.collection) {
