@@ -26,6 +26,7 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
+import { type Prefix } from '@kodadot1/static'
 
 const props = withDefaults(
   defineProps<{
@@ -33,25 +34,33 @@ const props = withDefaults(
     position?: 'bottom-left'
     redirect?: boolean
     mobileModal?: boolean
+    exclude: Prefix[]
   }>(),
   {
     showNetworkLabel: true,
     position: undefined,
     redirect: true,
     mobileModal: false,
+    exclude: () => [],
   },
 )
 
 const route = useRoute()
 const { setUrlPrefix, urlPrefix } = usePrefix()
-const { availableChains } = useChain()
+const { availableChains: allChains } = useChain()
 const { redirectAfterChainChange } = useChainRedirect()
 const { isMobile } = useViewport()
 
 const prefix = computed(() => route.params.prefix || urlPrefix.value)
 
 const selected = computed(() =>
-  availableChains.value.find((chain) => chain.value === prefix.value),
+  allChains.value.find((chain) => chain.value === prefix.value),
+)
+
+const availableChains = computed(() =>
+  allChains.value.filter(
+    (chain) => !props.exclude.includes(chain.value as Prefix),
+  ),
 )
 
 function onSwitchChain(chain) {

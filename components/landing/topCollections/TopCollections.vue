@@ -16,6 +16,7 @@
           position="bottom-left"
           :show-network-label="false"
           :redirect="false"
+          :exclude="['ksm']"
           mobile-modal />
       </div>
     </div>
