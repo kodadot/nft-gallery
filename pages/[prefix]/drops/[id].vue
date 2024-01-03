@@ -5,10 +5,7 @@
     v-else-if="dropType === 'generative' && drop.alias === 'chroma'"
     :drop="drop" />
   <CollectionDropPaidGenerative
-    v-else-if="
-      dropType === 'generative' &&
-      PAID_GENERATIVE_ALIAS_LIST.includes(drop.alias)
-    "
+    v-else-if="dropType === 'generative' && Number(drop.price)"
     :drop="drop" />
   <CollectionDropGenerative
     v-else-if="dropType === 'generative'"
@@ -20,7 +17,6 @@
 <script lang="ts" setup>
 import { useDrop } from '@/components/drops/useDrops'
 import UnlockableCollectionBanner from '@/components/collection/unlockable/UnlockableCollectionBanner.vue'
-import { PAID_GENERATIVE_ALIAS_LIST } from '@/utils/drop'
 
 definePageMeta({
   layout: 'unlockable-mint-layout',

@@ -70,7 +70,7 @@ withDefaults(
     mintedCount: number
     mintCountAvailable: boolean
     maxCount: number
-    minimumFunds: { amount: bigint; description: string }
+    minimumFunds: { amount: number; description: string }
     isImageFetching: boolean
     isWalletConnecting: boolean
     isLoading: boolean

@@ -186,8 +186,8 @@ const mintNft = async () => {
     }
 
     initTransactionLoader()
-    const cb = api.tx.utility.batchAll
-    const mint = api.tx.nfts.mint(
+    const cb = api.tx.nfts.mint
+    const args = [
       collectionId.value,
       collectionRes.items,
       accountId.value,
@@ -195,15 +195,10 @@ const mintNft = async () => {
         ownedItem: null,
         mintPrice: price.value,
       },
-    )
-
-    const transfer = api.tx.balances.transfer(
-      '5GGWQ1yiSvS2rPciRtAuK2xQTuxCcgoGZ7dTSzHWws4ELzwD',
-      2e9,
-    )
+    ]
 
     mintNftSN.value = collectionRes.items
-    howAboutToExecute(accountId.value, cb, [[mint, transfer]])
+    howAboutToExecute(accountId.value, cb, args)
   } catch (e) {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
     $consola.error(e)
