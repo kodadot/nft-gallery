@@ -98,12 +98,16 @@
     >
 
     <NeoButton
-      class="border-k-grey hover-button w-full ml-4"
-      :disabled="!canListNft"
+      class="hover-button w-full ml-4"
+      :class="{ border: canListNft }"
+      :disabled="cantList"
+      :loading="cantList"
+      variant="k-accent"
       rounded
       no-shadow
+      loading-with-label
       @click="listNft"
-      >{{ $t('drops.listNft') }}</NeoButton
+      >{{ cantList ? $t('loading') : $t('drops.listNft') }}</NeoButton
     >
   </div>
 </template>
@@ -142,6 +146,8 @@ const nftPath = computed(
 )
 
 const nftFullUrl = computed(() => `${window.location.origin}${nftPath.value}`)
+
+const cantList = computed(() => !props.canListNft)
 
 const viewNft = () => {
   window.open(nftFullUrl.value, '_blank')
