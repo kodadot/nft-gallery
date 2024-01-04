@@ -110,7 +110,7 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import { DropMintedNft } from '../Generative.vue'
+import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
 import { Prefix } from '@kodadot1/static'
 
 const emit = defineEmits(['list'])
