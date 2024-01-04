@@ -1,7 +1,6 @@
 import { DoResult, DropMintedStatus } from '@/services/waifu'
 import { makeScreenshot } from '@/services/capture'
 import { pinFileToIPFS } from '@/services/nftStorage'
-import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 
 export type DropMintedNft = DoResult & {
   id: string
@@ -14,7 +13,6 @@ export type UnlockableCollectionById = {
     meta: { description: string }
     name: string
     max: number
-    nftCount: number
   }
   nftEntitiesConnection: { totalCount: number }
 }
@@ -38,8 +36,6 @@ export default ({
 }: GenerativeDropMintParams) => {
   const { toast } = useToast()
   const { $i18n } = useNuxtApp()
-  const listingCartStore = useListingCartStore()
-  const preferencesStore = usePreferencesStore()
 
   const mintedNft = ref<DropMintedNft>()
   const mintedNftWithMetadata = ref<NFTWithMetadata>()
@@ -68,12 +64,6 @@ export default ({
     () => collectionData.value?.collectionEntity?.name,
   )
 
-  const nftCount = computed(
-    () => collectionData.value?.collectionEntity?.nftCount,
-  )
-
-  const canListMintedNft = computed(() => Boolean(mintedNftWithMetadata.value))
-
   const tryCapture = async () => {
     try {
       const imgFile = await makeScreenshot(
@@ -97,28 +87,6 @@ export default ({
     })
   }
 
-  const listMintedNft = async () => {
-    if (!mintedNftWithMetadata.value) {
-      return
-    }
-
-    if (!listingCartStore.isItemInCart(mintedNftWithMetadata.value?.id)) {
-      const floorPrice =
-        mintedNftWithMetadata.value?.collection.floorPrice[0]?.price || '0'
-
-      listingCartStore.setItem(
-        nftToListingCartItem(mintedNftWithMetadata.value, floorPrice),
-      )
-    }
-
-    preferencesStore.listingCartModalOpen = true
-  }
-
-  onBeforeUnmount(() => {
-    preferencesStore.listingCartModalOpen = false
-    listingCartStore.removeItem(mintedNftWithMetadata.value?.id)
-  })
-
   return {
     maxCount,
     mintedNft,
@@ -129,9 +97,6 @@ export default ({
     selectedImage,
     description,
     collectionName,
-    canListMintedNft,
-    nftCount,
-    listMintedNft,
     tryCapture,
     subscribeToMintedNft,
   }

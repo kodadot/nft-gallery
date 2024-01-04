@@ -1,4 +1,6 @@
 <template>
+  <Loader v-model="isLoading" :status="status" />
+
   <CollectionDropGenerativeLayout
     :collection-id="collectionId"
     :description="description"
@@ -15,22 +17,14 @@
     :handle-select-image="handleSelectImage"
     :handle-submit-mint="handleSubmitMint" />
 
-  <CollectionDropModalPaidMint
-    v-model="isMintModalActive"
-    :action="action"
-    :to-mint-nft="toMintNft"
-    :minted-nft="mintedNft"
+  <CollectionDropAddFundsModal
+    v-model="isAddFundModalActive"
     :minimum-funds="minimumFunds"
-    :has-minimum-funds="hasMinimumFunds"
-    :can-list-nft="canListMintedNft"
     :formatted-minimum-funds="formattedMinimumFunds"
     :token="token"
     :chain="chainName"
-    @confirm="handleConfirmPaidMint"
-    @close="closeMintModal"
-    @list="handleList" />
-
-  <ListingCartModal />
+    @close="closeAddFundModal"
+    @confirm="handleDropAddModalConfirm" />
 </template>
 
 <script setup lang="ts">
@@ -40,21 +34,12 @@ import { claimDropItem } from '@/services/waifu'
 import { useDropMinimumFunds, useDropStatus } from '@/components/drops/useDrops'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
+import Loader from '@/components/shared/Loader.vue'
 import useGenerativeDropMint, {
   type UnlockableCollectionById,
 } from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
 import formatBalance from '@/utils/format/balance'
-import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
-import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
-
-export type ToMintNft = {
-  name: string
-  collectionName: string
-  image: string
-  price: string
-  priceUSD: string
-}
 
 const props = withDefaults(
   defineProps<{
@@ -65,7 +50,7 @@ const props = withDefaults(
   },
 )
 
-useMultipleBalance()
+const { fetchMultipleBalance } = useMultipleBalance()
 const { chainSymbol, decimals } = useChain()
 
 const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
@@ -76,14 +61,6 @@ const minimumFundsDescription = computed(() =>
     chainName.value,
   ]),
 )
-
-const toMintNft = computed<ToMintNft>(() => ({
-  image: sanitizeIpfsUrl(selectedImage.value),
-  name: `${collectionName.value || ''} #${nftCount.value || ''}`,
-  collectionName: collectionName.value || '',
-  price: price.value as string,
-  priceUSD: priceUSD.value,
-}))
 
 const minimumFundsProps = computed(() => ({
   amount: minimumFunds.value,
@@ -97,13 +74,14 @@ const instance = getCurrentInstance()
 const mintNftSN = ref('0')
 const { doAfterLogin } = useDoAfterlogin(instance)
 const { $i18n, $consola } = useNuxtApp()
+const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
 
 const { client } = usePrefix()
 const isLoading = ref(false)
 const isImageFetching = ref(false)
-const isMintModalActive = ref(false)
+const isAddFundModalActive = ref(false)
 
 const {
   defaultName,
@@ -116,25 +94,12 @@ const {
   price,
 } = useGenerativeDropDetails(props.drop)
 
-const { usd: priceUSD } = useAmount(price, decimals, chainSymbol)
-
 const {
   howAboutToExecute,
   isLoading: isTransactionLoading,
   initTransactionLoader,
-  isError,
   status,
 } = useMetaTransaction()
-
-const action = computed<AutoTeleportAction>(() => ({
-  interaction: ActionlessInteraction.PAID_DROP,
-  handler: () => mintNft(),
-  details: {
-    isLoading: isTransactionLoading.value,
-    status: status.value,
-    isError: isError.value,
-  },
-}))
 
 const handleSelectImage = (image: string) => {
   selectedImage.value = image
@@ -163,14 +128,11 @@ const {
   userMintedNftId,
   mintedCount,
   mintCountAvailable,
-  canListMintedNft,
   selectedImage,
   description,
   collectionName,
-  nftCount,
   tryCapture,
   subscribeToMintedNft,
-  listMintedNft,
 } = useGenerativeDropMint({
   collectionData,
   defaultMax,
@@ -268,15 +230,19 @@ const handleSubmitMint = async () => {
     return false
   }
 
-  openMintModal()
+  if (hasMinimumFunds.value) {
+    mintNft()
+  } else {
+    openAddFundModal()
+  }
 }
 
-const openMintModal = () => {
-  isMintModalActive.value = true
+const openAddFundModal = () => {
+  isAddFundModalActive.value = true
 }
 
-const closeMintModal = () => {
-  isMintModalActive.value = false
+const closeAddFundModal = () => {
+  isAddFundModalActive.value = false
 }
 
 const submitMint = async (sn: string) => {
@@ -318,40 +284,20 @@ const submitMint = async (sn: string) => {
     mintedNft.value = {
       ...result,
       id,
-      collection: result.collection,
-      chain: result.chain,
       name: result.name,
-      image: result.image,
-      txHash: result.txHash.versionstamp,
-      collectionName: collectionName.value as string,
+      collectionName: collectionName.value,
     }
   } catch (error) {
     toast($i18n.t('drops.mintPerAddress'))
     isImageFetching.value = false
-    closeMintModal()
     throw error
   }
 }
 
-const handleList = () => {
-  closeMintModal()
-  listMintedNft()
+const handleDropAddModalConfirm = () => {
+  closeAddFundModal()
+  fetchMultipleBalance([urlPrefix.value])
 }
-
-const handleConfirmPaidMint = () => {
-  mintNft()
-}
-
-const stopMint = () => {
-  isMintModalActive.value = false
-  isLoading.value = false
-}
-
-watch([isTransactionLoading, status], ([loading, status], [wasLoading]) => {
-  if (wasLoading && !loading && status === TransactionStatus.Unknown) {
-    stopMint()
-  }
-})
 </script>
 
 <style scoped lang="scss">

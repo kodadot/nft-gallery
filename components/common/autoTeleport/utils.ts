@@ -5,7 +5,7 @@ import {
 } from '@/composables/transaction/types'
 
 export enum ActionlessInteraction {
-  PAID_DROP = 'PAID_DROP',
+  DROP = 'DROP',
   FREE_DROP = 'FREE_DROP',
 }
 
@@ -35,8 +35,8 @@ const interactionMap: {
     action: 'drops.claimFree',
     item: 'general.nft',
   },
-  [ActionlessInteraction.PAID_DROP]: {
-    action: 'mint',
+  [ActionlessInteraction.DROP]: {
+    action: 'drops.claim',
     item: 'general.nft',
   },
 }

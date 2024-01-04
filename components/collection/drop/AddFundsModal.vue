@@ -96,7 +96,7 @@ const interaction = computed(() => {
   //tmp solution till drop type check is fixed
   return props.free
     ? ActionlessInteraction.FREE_DROP
-    : ActionlessInteraction.PAID_DROP
+    : ActionlessInteraction.DROP
 })
 
 const canAutoTeleport = computed(() => autoteleport.value?.canAutoTeleport)

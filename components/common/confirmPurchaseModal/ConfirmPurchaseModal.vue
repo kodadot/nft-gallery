@@ -14,13 +14,12 @@
         <ModalIdentityItem />
       </div>
       <div class="py-2">
-        <ConfirmNftPurchaseItemRow
+        <ConfirmPurchaseItemRow
           v-for="nft in items"
           :key="nft.id"
           :nft="nft"
           class="py-2" />
       </div>
-
       <div class="py-4 border-top border-bottom card-border-color">
         <div class="flex justify-between items-center mb-2">
           <span class="is-size-7">{{
@@ -62,6 +61,7 @@ import { sum } from '@/utils/math'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
+import ConfirmPurchaseItemRow from './ConfirmPurchaseItemRow.vue'
 import { totalPriceUsd } from '../shoppingCart/utils'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import { type AutoTeleportAction } from '@/composables/autoTeleport/types'

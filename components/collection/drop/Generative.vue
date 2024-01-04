@@ -53,6 +53,7 @@ import { doWaifu } from '@/services/waifu'
 import { useDropMinimumFunds, useDropStatus } from '@/components/drops/useDrops'
 import DropConfirmModal from './modal/DropConfirmModal.vue'
 import ListingCartModal from '@/components/common/listingCart/ListingCartModal.vue'
+import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import useGenerativeDropMint, {
   type UnlockableCollectionById,
@@ -139,7 +140,6 @@ const {
   mintedNft,
   mintedNftWithMetadata,
   userMintedNftId,
-  canListMintedNft,
   mintedCount,
   mintCountAvailable,
   selectedImage,
@@ -147,7 +147,6 @@ const {
   collectionName,
   tryCapture,
   subscribeToMintedNft,
-  listMintedNft,
 } = useGenerativeDropMint({
   collectionData,
   defaultMax,
@@ -156,6 +155,8 @@ const {
   mintedDropCount,
   defaultImage,
 })
+
+const canListMintedNft = computed(() => Boolean(mintedNftWithMetadata.value))
 
 const mintButtonDisabled = computed(
   () =>
@@ -298,7 +299,21 @@ const startMinting = async () => {
 
 const handleList = async () => {
   isConfirmModalActive.value = false
-  listMintedNft()
+
+  if (!mintedNftWithMetadata.value) {
+    return
+  }
+
+  if (!listingCartStore.isItemInCart(mintedNftWithMetadata.value?.id)) {
+    const floorPrice =
+      mintedNftWithMetadata.value?.collection.floorPrice[0]?.price || '0'
+
+    listingCartStore.setItem(
+      nftToListingCartItem(mintedNftWithMetadata.value, floorPrice),
+    )
+  }
+
+  preferencesStore.listingCartModalOpen = true
 }
 
 const clear = () => {

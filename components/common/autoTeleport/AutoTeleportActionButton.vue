@@ -55,7 +55,6 @@
     :can-do-action="hasEnoughInCurrentChain"
     :transactions="transactions"
     :auto-close="autoCloseModal"
-    :auto-close-delay="autoCloseModalDelayModal"
     :interaction="interaction"
     @close="handleAutoTeleportModalClose"
     @telport:retry="teleport"
@@ -80,7 +79,6 @@ import type {
   AutoTeleportFeeParams,
 } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction, getActionDetails } from './utils'
-import { getAutoTeleportActionInteraction } from '@/composables/autoTeleport/useAutoTeleportTransactionActions'
 
 export type AutoTeleportActionButtonConfirmEvent = {
   autoteleport: boolean
@@ -101,12 +99,10 @@ const props = withDefaults(
     actions?: AutoTeleportAction[]
     fees?: AutoTeleportFeeParams
     autoCloseModal: boolean
-    autoCloseModalDelayModal?: number
     interaction?: ActionlessInteraction
     hideTop?: boolean
   }>(),
   {
-    autoCloseModalDelayModal: undefined,
     fees: () => ({ actions: 0, actionAutoFees: true }),
     disabled: false,
     amount: 0,
@@ -250,14 +246,14 @@ const openAutoTeleportModal = () => {
 
 const actionRun = async (interaction, isRetry = false) => {
   const autoTeleportAction = props.actions.find(
-    (action) => getAutoTeleportActionInteraction(action) === interaction,
+    (action) => action.action.interaction === interaction,
   )
 
   if (!autoTeleportAction) {
     return
   }
 
-  if (autoTeleportAction.transaction && autoTeleportAction.action) {
+  if (autoTeleportAction.transaction) {
     await autoTeleportAction.transaction(
       autoTeleportAction.action,
       autoTeleportAction.prefix || '',
