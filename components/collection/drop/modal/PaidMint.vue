@@ -100,8 +100,8 @@ const moveSuccessfulDrop = computed(() => {
 
   return (
     sanitizedMintedNft.value &&
-    (retry.value === 0 ||
-      props.action.details.status === TransactionStatus.Finalized)
+    retry.value === 0 &&
+    props.action.details.status === TransactionStatus.Finalized
   )
 })
 
