@@ -5,7 +5,9 @@
         <div class="has-text-weight-bold is-size-5">
           {{ $t('mint.unlockable.phase') }}
         </div>
-        <div v-if="mintCountAvailable" class="flex items-center">
+        <div
+          v-if="mintCountAvailable && !disabledByBackend"
+          class="flex items-center">
           <img src="/unlockable-pulse.svg" alt="open" />
           {{ $t('mint.unlockable.open') }}
         </div>
@@ -101,6 +103,7 @@ const props = withDefaults(
   defineProps<{
     mintedCount: number
     mintCountAvailable: boolean
+    disabledByBackend: number
     maxCount: number
     minimumFunds: { amount: bigint; description: string }
     isImageFetching: boolean
