@@ -300,6 +300,7 @@ const submitMint = async (sn: string) => {
         metadata: hash,
         image: imageHash,
         sn,
+        image: imageHash,
       },
       props.drop.id,
     )
