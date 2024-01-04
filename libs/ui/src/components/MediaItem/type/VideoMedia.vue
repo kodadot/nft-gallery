@@ -2,6 +2,7 @@
   <div class="w-full h-full z-10 min-w-0 relative">
     <div class="h-0 w-full pb-[100%]" />
     <video
+      ref="video"
       class="absolute inset-0 min-w-0 w-full h-full flex items-center justify-center"
       :controls="controls"
       playsinline
@@ -17,6 +18,8 @@
 </template>
 
 <script lang="ts" setup>
+import { useEventListener } from '@vueuse/core'
+
 const props = withDefaults(
   defineProps<{
     animationSrc?: string
@@ -34,8 +37,17 @@ const props = withDefaults(
   },
 )
 
+const video = ref()
+
 const autoPlay = computed(() =>
   props.autoplay === undefined ? props.preview : props.autoplay,
 )
 const controls = computed(() => !props.preview)
+
+if (!autoPlay.value && props.src) {
+  useEventListener(video, 'loadeddata', () => {
+    video.value.play()
+    video.value.pause()
+  })
+}
 </script>
