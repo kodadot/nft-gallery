@@ -30,14 +30,17 @@
     }
 
     &--k-accent {
-      @apply bg-k-primary text-black;
+      @apply bg-k-primary;
+      @apply text-black #{!important};
 
       &:hover {
-        @apply bg-background-color text-text-color;
+        @apply bg-background-color;
+        @apply text-text-color #{!important};
       }
 
       &.o-btn--disabled {
-        @apply opacity-unset bg-k-shade text-k-grey border-k-grey;
+        @apply opacity-unset bg-k-shade border-k-grey;
+        @apply text-k-grey #{!important};
       }
     }
 
