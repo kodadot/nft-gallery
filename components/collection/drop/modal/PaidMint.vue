@@ -78,7 +78,7 @@ enum ModalStep {
 const { $i18n } = useNuxtApp()
 
 const { retry, nftCoverLoaded, sanitizedMintedNft } = usePreloadMintedNftCover(
-  props.mintedNft,
+  computed(() => props.mintedNft),
 )
 
 const mintOverview = ref()

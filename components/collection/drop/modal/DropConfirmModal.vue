@@ -91,7 +91,7 @@ const { $i18n } = useNuxtApp()
 const isModalActive = useVModel(props, 'modelValue')
 
 const { retry, nftCoverLoaded, sanitizedMintedNft } = usePreloadMintedNftCover(
-  props.mintedNft,
+  computed(() => props.mintedNft),
 )
 
 const modalStep = ref<ModalStep>(ModalStep.EMAIL)
