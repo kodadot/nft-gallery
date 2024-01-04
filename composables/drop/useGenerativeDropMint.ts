@@ -14,6 +14,7 @@ export type UnlockableCollectionById = {
     meta: { description: string }
     name: string
     max: number
+    nftCount: number
   }
   nftEntitiesConnection: { totalCount: number }
 }
@@ -65,6 +66,10 @@ export default ({
   )
   const collectionName = computed(
     () => collectionData.value?.collectionEntity?.name,
+  )
+
+  const nftCount = computed(
+    () => collectionData.value?.collectionEntity?.nftCount,
   )
 
   const canListMintedNft = computed(() => Boolean(mintedNftWithMetadata.value))
@@ -125,6 +130,7 @@ export default ({
     description,
     collectionName,
     canListMintedNft,
+    nftCount,
     listMintedNft,
     tryCapture,
     subscribeToMintedNft,

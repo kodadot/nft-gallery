@@ -79,7 +79,7 @@ const minimumFundsDescription = computed(() =>
 
 const toMintNft = computed<ToMintNft>(() => ({
   image: sanitizeIpfsUrl(selectedImage.value),
-  name: `${collectionName.value || ''}`,
+  name: `${collectionName.value || ''} #${nftCount.value || ''}`,
   collectionName: collectionName.value || '',
   price: price.value as string,
   priceUSD: priceUSD.value,
@@ -167,6 +167,7 @@ const {
   selectedImage,
   description,
   collectionName,
+  nftCount,
   tryCapture,
   subscribeToMintedNft,
   listMintedNft,
