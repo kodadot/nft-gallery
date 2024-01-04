@@ -44,12 +44,12 @@ withDefaults(defineProps<Props>(), {
   active: true,
   rounded: true,
   variant: 'k-shade',
-  height: '',
-  width: '',
+  height: undefined,
+  width: undefined,
   count: 1,
-  size: 'medium',
+  size: undefined,
   position: 'left',
-  borderRadius: '',
+  borderRadius: undefined,
 })
 </script>
 
