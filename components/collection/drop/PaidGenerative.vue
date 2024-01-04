@@ -169,6 +169,7 @@ const {
   collectionName,
   tryCapture,
   subscribeToMintedNft,
+  listMintedNft,
 } = useGenerativeDropMint({
   collectionData,
   defaultMax,
@@ -317,7 +318,7 @@ const submitMint = async (sn: string) => {
       ...result,
       id,
       collection: result.collection,
-      chain: result.drop,
+      chain: result.chain,
       name: result.name,
       image: result.image,
       txHash: result.txHash.versionstamp,
@@ -331,7 +332,10 @@ const submitMint = async (sn: string) => {
   }
 }
 
-const handleList = () => {}
+const handleList = () => {
+  closeMintModal()
+  listMintedNft()
+}
 
 const handleConfirmPaidMint = () => {
   mintNft()
