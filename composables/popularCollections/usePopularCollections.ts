@@ -1,4 +1,3 @@
-import { POPULAR_COLLECTIONS as ALL_POPULAR_COLLECTIONS } from './constants'
 import { CollectionEntityMinimal } from '@/components/collection/utils/types'
 
 type CollectionData = {

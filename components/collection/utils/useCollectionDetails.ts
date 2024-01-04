@@ -4,16 +4,22 @@ import { NFTListSold } from '@/components/identity/utils/useIdentity'
 import { chainsSupportingOffers } from './useCollectionDetails.config'
 import { Stats } from './types'
 
-export const useCollectionDetails = ({ collectionId }) => {
+export const useCollectionDetails = ({
+  collectionId,
+}: {
+  collectionId: Ref<string>
+}) => {
+  const variables = computed(() => ({
+    id: collectionId.value,
+  }))
+
   const { urlPrefix } = usePrefix()
-  const { data } = useGraphql({
+  const { data, refetch } = useGraphql({
     queryPrefix: 'subsquid',
     queryName: chainsSupportingOffers.includes(urlPrefix.value)
       ? 'collectionStatsByIdWithOffers'
       : 'collectionStatsById',
-    variables: {
-      id: collectionId,
-    },
+    variables: variables.value,
   })
   const stats = ref<Stats>({})
 
@@ -60,6 +66,8 @@ export const useCollectionDetails = ({ collectionId }) => {
       }
     }
   })
+
+  watch(variables, () => refetch(variables.value))
 
   return {
     stats,
@@ -108,17 +116,24 @@ export function useCollectionSoldData({ address, collectionId }) {
   return { nftEntities }
 }
 
-export const useCollectionMinimal = ({ collectionId }) => {
+export const useCollectionMinimal = ({
+  collectionId,
+}: {
+  collectionId: Ref<string>
+}) => {
   const { urlPrefix } = usePrefix()
   const { isAssetHub } = useIsChain(urlPrefix)
   const collection = ref()
-  const { data } = useGraphql({
+
+  const variables = computed(() => ({
+    id: collectionId.value,
+  }))
+
+  const { data, refetch } = useGraphql({
     queryName: isAssetHub.value
       ? 'collectionByIdMinimalWithRoyalty'
       : 'collectionByIdMinimal',
-    variables: {
-      id: collectionId,
-    },
+    variables: variables.value,
   })
 
   watch(data, (result) => {
@@ -126,6 +141,8 @@ export const useCollectionMinimal = ({ collectionId }) => {
       collection.value = result.collectionEntityById
     }
   })
+
+  watch(variables, () => refetch(variables.value))
 
   return { collection }
 }

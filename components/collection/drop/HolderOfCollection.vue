@@ -46,6 +46,6 @@ const props = defineProps({
 const { urlPrefix } = usePrefix()
 
 const { collection } = useCollectionMinimal({
-  collectionId: props.collectionId,
+  collectionId: computed(() => props.collectionId),
 })
 </script>
