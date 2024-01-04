@@ -49,26 +49,29 @@
               height="10rem" />
           </NeoField>
           <NeoField :label="$t('massmint.price')" class="w-full">
-            <div class="flex">
+            <div class="relative w-100">
               <NeoInput
                 v-model="price"
+                input-class="pr-8"
                 type="number"
+                placeholder="0"
                 step="any"
-                class="flex flex-grow-[2]" />
-              <div
-                class="border-top border-right border-bottom px-5 flex flex-grow justify-center items-center">
-                KSM
+                min="0" />
+              <div class="absolute right-2 top-3 has-text-grey">
+                {{ unit }}
               </div>
             </div>
           </NeoField>
         </form>
       </div>
-      <NeoButton
-        class="w-full"
-        :label="$t('massmint.save')"
-        variant="k-accent"
-        :disabled="!name"
-        @click="save" />
+      <div class="pt-2 w-full">
+        <NeoButton
+          class="w-full"
+          :label="$t('massmint.save')"
+          variant="k-accent"
+          :disabled="!name"
+          @click="save" />
+      </div>
     </div>
   </NeoSidebar>
 </template>
@@ -82,7 +85,6 @@ import {
   NeoSidebar,
 } from '@kodadot1/brick'
 import { NFT } from './types'
-const { placeholder } = useTheme()
 
 const props = defineProps<{
   nft?: NFT
@@ -90,6 +92,9 @@ const props = defineProps<{
 }>()
 
 const NuxtImg = resolveComponent('NuxtImg')
+
+const { placeholder } = useTheme()
+const { unit } = useChain()
 
 const internalNfT = ref<Partial<NFT>>({})
 const dirty = ref({ name: false, description: false, price: false })
