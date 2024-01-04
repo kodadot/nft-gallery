@@ -40,7 +40,7 @@ import EmailSignup from './EmailSignup.vue'
 import ClaimingDrop from './ClaimingDrop.vue'
 import SuccessfulDrop from './SuccessfulDrop.vue'
 import ConfirmEmail from './ConfirmEmail.vue'
-import { DropMintedNft } from '../Generative.vue'
+import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
 import {
   getCountDownTime,
   useCountDown,
