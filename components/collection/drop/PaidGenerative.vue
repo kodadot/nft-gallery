@@ -103,7 +103,7 @@ const { accountId, isLogIn } = useAuth()
 const { client } = usePrefix()
 const isLoading = ref(false)
 const isImageFetching = ref(false)
-const isMintModalActive = ref(true)
+const isMintModalActive = ref(false)
 
 const {
   defaultName,
@@ -335,6 +335,17 @@ const handleList = () => {}
 const handleConfirmPaidMint = () => {
   mintNft()
 }
+
+const stopMint = () => {
+  isMintModalActive.value = false
+  isLoading.value = false
+}
+
+watch([isTransactionLoading, status], ([loading, status], [wasLoading]) => {
+  if (wasLoading && !loading && status === TransactionStatus.Unknown) {
+    stopMint()
+  }
+})
 </script>
 
 <style scoped lang="scss">
