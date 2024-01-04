@@ -112,7 +112,7 @@ import {
 const route = useRoute()
 const { urlPrefix } = usePrefix()
 const { availableChains } = useChain()
-const collectionId = computed(() => route.params.id)
+const collectionId = computed(() => route.params.id.toString())
 const chain = computed(
   () =>
     availableChains.value.find((chain) => chain.value === route.params.prefix)
@@ -148,9 +148,9 @@ const visibleDescription = computed(() => {
 })
 
 const { collection: collectionInfo } = useCollectionMinimal({
-  collectionId: collectionId.value,
+  collectionId,
 })
 const { stats } = useCollectionDetails({
-  collectionId: collectionId.value,
+  collectionId,
 })
 </script>

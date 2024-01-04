@@ -107,6 +107,8 @@ const getBuyAction = (
   nfts: TokenToBuy | TokenToBuy[],
   nftNames: string[],
 ): Actions => {
+  const firstNftId = Array.isArray(nfts) ? nfts[0].id : nfts.id
+
   return {
     interaction: ShoppingActions.BUY,
     nfts,
@@ -114,6 +116,7 @@ const getBuyAction = (
     successMessage: {
       message: $i18n.t('mint.successPurchasedNfts', [nftNames.join(', ')]),
       large: true,
+      shareLink: `${window.location.origin}/${urlPrefix.value}/gallery/${firstNftId}`,
     },
     errorMessage: $i18n.t('transaction.buy.error'),
   }

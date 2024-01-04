@@ -22,7 +22,7 @@ const DEFAULT_AUTO_TELEPORT_FEE_PARAMS = {
 
 export default function (
   actions: ComputedRef<AutoTeleportAction[]>,
-  neededAmount: ComputedRef<number>,
+  neededAmount: ComputedRef<number | bigint>,
   feesParams: AutoTeleportFeeParams = DEFAULT_AUTO_TELEPORT_FEE_PARAMS,
 ) {
   const {
@@ -61,7 +61,7 @@ export default function (
   )
 
   const neededAmountWithFees = computed(
-    () => Math.ceil(neededAmount.value) + totalFees.value,
+    () => Math.ceil(Number(neededAmount.value)) + totalFees.value,
   )
 
   const currentChainBalance = computed(
@@ -160,11 +160,14 @@ export default function (
     const willRemainingRichestChainBalanceBeSlashed =
       richestChainBalance.value - requiredAmountToTeleport.value <=
       richestChainExistentialDeposit.value
+    const hasRequiredAmountInRichestChain =
+      richestChainBalance.value >= requiredAmountToTeleport.value
 
     return (
       hasRichesChain &&
       doesntHaveEnoughInCurrentChain &&
-      willRemainingRichestChainBalanceBeSlashed
+      willRemainingRichestChainBalanceBeSlashed &&
+      hasRequiredAmountInRichestChain
     )
   })
 
@@ -214,7 +217,7 @@ export default function (
 
     return [
       hasFetched.teleportTxFee,
-      actionAutoFees.value || hasFetched.actionTxFees,
+      actionAutoFees.value ? hasFetched.actionTxFees : true,
     ].every(Boolean)
   })
 

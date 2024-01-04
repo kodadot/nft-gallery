@@ -5,6 +5,7 @@
   "exploreItems": "Explore Items on",
   "exploreCollections": "Explore Collections on",
   "credit": "Credit",
+  "img": "Img",
   "gallery": "Gallery",
   "collection": "Collection",
   "creator": "Creator",
@@ -33,6 +34,7 @@
   "flippers": "Flippers",
   "assets": "Assets",
   "tip": "Tip",
+  "loading": "Loading",
   "useTeleport": "Use Teleport",
   "addFunds": "Add Funds",
   "or": "or",
@@ -1497,7 +1499,13 @@
     "emailConfirmationSent": "Email confirmation sent",
     "failedEmailConfirmation": "Failed sending email confirmation",
     "failedCheckingSubscription": "Failed checking subscription",
-    "holderOfClaimed": "{0} drop already claimed with this NFT. Claim rights are not renewed after resale."
+    "holderOfClaimed": "{0} drop already claimed with this NFT. Claim rights are not renewed after resale.",
+    "mintDrop": "Mint Drop",
+    "yourWalletNeeds": "Your wallet needs a minimum of {0} to claim this drop.",
+    "pleaseAddFunds": "Please add funds to proceed.",
+    "youCanContinueWithAutoteleport": "You can continue with Auto Teleport enabled.",
+    "proceedToSigning": "Proceed to signing",
+    "signTransaction": "Sign Transaction"
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
@@ -1693,6 +1701,10 @@
       },
       "free_drop": {
         "confirm": "Teleport required amount"
+      },
+      "paid_drop": {
+        "confirm": "Teleport and claim NFT",
+        "title": "Minting NFT"
       },
       "mintnft": {
         "confirm": "Teleport and Mint NFT",

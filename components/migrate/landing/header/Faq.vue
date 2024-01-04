@@ -1,5 +1,5 @@
 <template>
-  <div class="slide">
+  <div class="slide-faq">
     <div ref="wrapper" class="keen-slider">
       <div v-for="faq in 4" :key="faq" class="keen-slider__slide">
         <div class="faq">
@@ -12,16 +12,16 @@
     </div>
 
     <NeoIcon
-      class="slide-arrow slide-arrow-left"
+      class="slide-faq-arrow slide-faq-arrow-left"
       icon="chevron-left"
       @click="slider?.prev()" />
     <NeoIcon
-      class="slide-arrow slide-arrow-right"
+      class="slide-faq-arrow slide-faq-arrow-right"
       icon="chevron-right"
       @click="slider?.next()" />
 
-    <div class="slide-pin">FAQ</div>
-    <div class="slide-number">{{ slide + 1 }} / {{ slideLength }}</div>
+    <div class="slide-faq-pin">FAQ</div>
+    <div class="slide-faq-number">{{ slide + 1 }} / {{ slideLength }}</div>
   </div>
 </template>
 
@@ -45,10 +45,8 @@ const [wrapper, slider] = useKeenSlider({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.slide {
-  position: relative;
+.slide-faq {
+  @apply w-full relative;
 
   &-pin {
     border-radius: 4.625rem;
@@ -57,11 +55,7 @@ const [wrapper, slider] = useKeenSlider({
     position: absolute;
     top: calc(-34px / 2);
     left: calc(-52px / 2);
-
-    @include ktheme() {
-      background-color: theme('background-color');
-      border: 1px solid theme('border-color');
-    }
+    @apply border bg-background-color;
   }
 
   &-number {
@@ -88,9 +82,7 @@ const [wrapper, slider] = useKeenSlider({
 }
 
 .keen-slider {
-  @include ktheme() {
-    border: 1px solid theme('card-border-color');
-  }
+  @apply border;
 }
 
 .faq {

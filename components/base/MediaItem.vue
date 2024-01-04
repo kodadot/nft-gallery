@@ -100,7 +100,7 @@ const props = withDefaults(
     original: false,
     isLewd: false,
     isDetail: false,
-    placeholder: './Koda.svg',
+    placeholder: '/Koda.svg',
     disableOperation: undefined,
     audioPlayerCover: '',
     isFullscreen: false,
