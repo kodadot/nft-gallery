@@ -1,7 +1,7 @@
 import format, { roundAmount } from '@/utils/format/balance'
 
 export default function (
-  tokenAmount: ComputedRef<number | bigint>,
+  tokenAmount: ComputedRef<number | bigint | string | undefined>,
   tokenDecimals: ComputedRef<number>,
   chainSymbol: ComputedRef<string>,
   round: undefined | number = undefined,

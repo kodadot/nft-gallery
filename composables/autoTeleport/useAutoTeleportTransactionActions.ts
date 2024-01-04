@@ -1,5 +1,8 @@
-import type { ActionTransactionDetails, AutoTeleportAction } from './types'
-import type { ActionsInteractions } from '../transaction/types'
+import type {
+  ActionTransactionDetails,
+  AutoTeleportAction,
+  AutoteleportInteraction,
+} from './types'
 
 const isCancelled = (
   action: AutoTeleportAction,
@@ -24,8 +27,14 @@ const isCancelled = (
   )
 }
 
+export const getAutoTeleportActionInteraction = (
+  autoTeleportAction: AutoTeleportAction,
+): AutoteleportInteraction =>
+  (autoTeleportAction.action?.interaction ||
+    autoTeleportAction.interaction) as AutoteleportInteraction
+
 export default function (actions: ComputedRef<AutoTeleportAction[]>) {
-  const actionsCancelled = ref(new Map<ActionsInteractions, boolean>())
+  const actionsCancelled = ref(new Map<AutoteleportInteraction, boolean>())
 
   const transactionActions = computed<ActionTransactionDetails[]>(() => {
     return actions.value.map<ActionTransactionDetails>((action, index) => {
@@ -33,13 +42,15 @@ export default function (actions: ComputedRef<AutoTeleportAction[]>) {
         isError: toRef(
           () =>
             action.details.isError ||
-            actionsCancelled.value.get(action.action.interaction) ||
+            actionsCancelled.value.get(
+              getAutoTeleportActionInteraction(action),
+            ) ||
             false,
         ),
         blockNumber: toRef(() => action.details.blockNumber),
         status: toRef(() => action.details.status),
         isLoading: toRef(() => action.details.isLoading),
-        interaction: actions.value[index].action.interaction,
+        interaction: getAutoTeleportActionInteraction(actions.value[index]),
         txId: ref(''),
       }
     })
@@ -50,16 +61,17 @@ export default function (actions: ComputedRef<AutoTeleportAction[]>) {
     (newActions, prevActions) => {
       newActions.forEach((action, index) => {
         const cancelled = isCancelled(action, prevActions?.[index])
-        actionsCancelled.value.set(action.action.interaction, cancelled)
+        actionsCancelled.value.set(
+          getAutoTeleportActionInteraction(action),
+          cancelled,
+        )
       })
     },
     { immediate: true, deep: true },
   )
 
   const clear = () => {
-    const interactions = actions.value.map(
-      (action) => action.action.interaction,
-    )
+    const interactions = actions.value.map(getAutoTeleportActionInteraction)
     interactions.forEach((interaction) => {
       actionsCancelled.value.set(interaction, false)
     })
