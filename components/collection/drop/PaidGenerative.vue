@@ -297,6 +297,7 @@ const submitMint = async (sn: string) => {
       {
         account: accountId.value,
         metadata: hash,
+        image: imageHash,
         sn,
       },
       props.drop.id,
@@ -317,7 +318,7 @@ const submitMint = async (sn: string) => {
       id,
       collection: result.collection,
       chain: result.drop,
-      name: `${collectionName.value} ${result.sn}`,
+      name: result.name,
       image: result.image,
       txHash: result.txHash.versionstamp,
       collectionName: collectionName.value as string,
