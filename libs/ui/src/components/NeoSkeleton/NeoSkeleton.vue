@@ -25,7 +25,6 @@
 import { OSkeleton } from '@oruga-ui/oruga-next'
 
 export interface Props {
-  itemClass?: string
   animated?: boolean
   active?: boolean
   circle?: boolean
@@ -45,6 +44,12 @@ withDefaults(defineProps<Props>(), {
   active: true,
   rounded: true,
   variant: 'k-shade',
+  height: '',
+  width: '',
+  count: 1,
+  size: 'medium',
+  position: 'left',
+  borderRadius: '',
 })
 </script>
 
