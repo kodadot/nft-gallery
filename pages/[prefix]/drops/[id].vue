@@ -4,6 +4,9 @@
   <CollectionDropHolderOfGenerative
     v-else-if="dropType === 'generative' && drop.alias === 'chroma'"
     :drop="drop" />
+  <CollectionDropPaidGenerative
+    v-else-if="dropType === 'generative' && Number(drop.price)"
+    :drop="drop" />
   <CollectionDropGenerative
     v-else-if="dropType === 'generative'"
     :drop="drop" />

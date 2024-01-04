@@ -54,7 +54,7 @@ export function useDrops() {
 const getFormattedDropItem = async (collection, drop: DropItem) => {
   const chainMax = collection?.max ?? FALLBACK_DROP_COLLECTION_MAX
   const { count } = await getDropStatus(drop.alias)
-  const price = ['paid', 'generative'].includes(drop.type) ? drop.meta : '0'
+  const price = drop.price || 0
   return {
     ...drop,
     collection: collection,
@@ -120,12 +120,12 @@ export const useDropMinimumFunds = (drop) => {
   const { fetchMultipleBalance } = useMultipleBalance()
 
   const currentChain = computed(() => prefixToChainMap[drop.chain])
-  const meta = computed<bigint>(() => BigInt(drop.meta) || BigInt(0))
+  const meta = computed<number>(() => Number(drop.meta) || 0)
   const currentChainBalance = computed(
     () =>
       (currentChain.value && Number(chainBalances[currentChain.value]())) || 0,
   )
-  const minimumFunds = computed<bigint>(() => meta.value)
+  const minimumFunds = computed<number>(() => meta.value)
   const transferableDropChainBalance = computed(
     () => currentChainBalance.value - existentialDeposit[urlPrefix.value],
   )
@@ -139,7 +139,7 @@ export const useDropMinimumFunds = (drop) => {
     meta,
     computed(() => chainProperties.tokenDecimals),
     computed(() => chainProperties.tokenSymbol),
-    2,
+    4,
   )
 
   onBeforeMount(fetchMultipleBalance)

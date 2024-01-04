@@ -72,4 +72,5 @@ export type DropItem = {
   disabled: number
   minted?: number
   max?: number
+  price?: string
 }

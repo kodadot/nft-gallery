@@ -53,11 +53,7 @@
             <div class="flex flex-col">
               <span class="has-text-grey">{{ $t('price') }}</span>
               <span v-if="isFreeDrop">{{ $t('free') }}</span>
-              <Money
-                v-else
-                :value="drop.price"
-                :prefix="correctUrlPrefix"
-                inline />
+              <Money v-else :value="drop.price" :prefix="drop.chain" inline />
             </div>
           </div>
         </div>
@@ -117,16 +113,10 @@ const correctUrlPrefix = computed(() => {
 })
 
 const isFreeDrop = computed(() => {
-  return true // !Number(props.drop?.price)
+  return !Number(props.drop.price)
 })
 
-const availableCount = computed(() => {
-  if (isFreeDrop.value) {
-    return props.drop.max - props.drop.minted
-  } else {
-    return props.drop.minted
-  }
-})
+const availableCount = computed(() => props.drop.minted === props.drop.max)
 
 onMounted(async () => {
   if (!props.drop?.collection) {

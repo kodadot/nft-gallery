@@ -112,6 +112,7 @@ type UpdateMetadataRequest = {
   sn: string
   metadata: string
   account?: string
+  image?: string
 }
 
 export const claimDropItem = async (
