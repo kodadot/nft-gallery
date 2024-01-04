@@ -2,7 +2,9 @@
   <div class="flex justify-between">
     <div class="flex pr-2">
       <div>
-        <BasicImage :src="image" :alt="name" class="border image is-48x48" />
+        <slot name="image">
+          <BasicImage :src="image" :alt="name" class="border image is-48x48" />
+        </slot>
       </div>
 
       <div class="flex flex-col justify-between ml-4 limit-width">
@@ -23,7 +25,6 @@
 </template>
 
 <script setup lang="ts">
-import BasicImage from '@/components/shared/view/BasicImage.vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 
 defineProps<{

@@ -3,10 +3,19 @@
 
   <div class="pt-2 pb-5">
     <ConfirmPurchaseItemRow
-      :image="toMintNft.image"
       :name="toMintNft.name"
       :collection-name="toMintNft.collectionName"
-      :price="toMintNft.price" />
+      :price="toMintNft.price">
+      <template #image>
+        <BaseMediaItem
+          :src="toMintNft.image"
+          :alt="toMintNft.name"
+          mime-type="text/html"
+          preview
+          is-detail
+          class="border image is-48x48" />
+      </template>
+    </ConfirmPurchaseItemRow>
 
     <hr class="my-4" />
 
