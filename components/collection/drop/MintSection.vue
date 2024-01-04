@@ -71,8 +71,8 @@
         </div>
       </div>
 
-      <div v-else class="flex justify-end">
-        <div v-if="minimumFunds.amount" class="flex items-center mr-5">
+      <div v-else class="flex justify-end flex-wrap">
+        <div v-if="minimumFunds.amount" class="flex items-center">
           <NeoIcon icon="circle-info" class="mr-3" />
           <div
             v-dompurify-html="minimumFunds.description"
@@ -81,7 +81,7 @@
 
         <NeoButton
           ref="root"
-          class="my-2 mint-button"
+          class="ml-5 my-2 mint-button"
           variant="k-accent"
           :loading="loading"
           :disabled="mintButton.disabled"
