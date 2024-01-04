@@ -78,7 +78,7 @@ export default ({
     try {
       const imgFile = await makeScreenshot(
         sanitizeIpfsUrl(selectedImage.value),
-        { webgl: true },
+        { webgl: false },
       )
       const imageHash = await pinFileToIPFS(imgFile)
       return imageHash
