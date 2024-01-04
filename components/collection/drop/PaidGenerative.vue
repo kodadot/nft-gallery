@@ -298,7 +298,6 @@ const submitMint = async (sn: string) => {
       {
         account: accountId.value,
         metadata: hash,
-        image: imageHash,
         sn,
         image: imageHash,
       },
