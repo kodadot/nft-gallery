@@ -56,10 +56,10 @@
           </div>
           <BaseMediaItem
             v-else
-            :key="nftImage"
+            :key="image"
             ref="mediaItemRef"
             class="gallery-item-media is-relative"
-            :src="getMediaSrc(nftImage)"
+            :src="getMediaSrc(image)"
             :animation-src="nftAnimation"
             :mime-type="nftAnimationMimeType || nftMimeType"
             :title="nftMetadata?.name"
@@ -69,7 +69,7 @@
             :placeholder="placeholder"
             :image-component="NuxtImg"
             :sizes="sizes"
-            :audio-player-cover="nftImage" />
+            :audio-player-cover="image" />
         </div>
       </div>
 
@@ -262,6 +262,14 @@ const hasAnimatedResources = computed(
 const onNFTBought = () => {
   activeTab.value = tabs.activity
 }
+
+const image = computed(() => {
+  if (!nftImage.value) {
+    return sanitizeIpfsUrl(nft.value?.meta?.image)
+  }
+
+  return nftImage.value
+})
 
 const getMediaSrc = (src: string | undefined) =>
   src && isFullscreen.value ? toOriginalContentUrl(src) : src

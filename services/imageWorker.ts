@@ -1,6 +1,11 @@
+import { kodaImage } from '@/utils/config/ipfs'
+
 type StreamDownload = {
   url: string
   uid: string
+  detail?: {
+    thumbnail: string
+  }
   video?: {
     default?: {
       url: string
@@ -9,11 +14,15 @@ type StreamDownload = {
   }
 }
 
-export async function getMp4(url): Promise<StreamDownload> {
+const workerUrl = new URL(kodaImage)
+
+export async function getCloudflareMp4(url): Promise<StreamDownload> {
   const kodaUrl = new URL(url)
   const infura = `https://kodadot1.infura-ipfs.io${kodaUrl.pathname}`
 
-  const video = await $fetch('http://localhost:8787/video/download', {
+  workerUrl.pathname = '/video/download'
+
+  const video = await $fetch(workerUrl.toString(), {
     method: 'POST',
     body: {
       videoUrl: infura,

@@ -2,7 +2,7 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { useHistoryStore } from '@/stores/history'
 import { NftResources, getNftMetadata } from '@/composables/useNft'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
-import { getMp4 } from '@/services/imageWorker'
+import { getCloudflareMp4 } from '@/services/imageWorker'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import type { NFTWithMetadata } from '@/composables/useNft'
 import type { Ref } from 'vue'
@@ -103,12 +103,13 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     nftAnimationMimeType.value = metadata.animationUrlMimeType || ''
     nftAnimation.value = metadata.animationUrl || ''
 
-    // use cf-video
+    // use cf-video & replace the video thumbnail
     if (nftAnimationMimeType.value.includes('video')) {
-      const streams = await getMp4(metadata.animationUrl)
+      const streams = await getCloudflareMp4(metadata.animationUrl)
 
       if (streams.uid && streams.video?.default?.percentComplete === 100) {
         nftAnimation.value = streams.video.default.url
+        nftImage.value = streams.detail?.thumbnail || ''
       }
     }
 
