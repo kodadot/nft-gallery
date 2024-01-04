@@ -11,6 +11,7 @@ import { existentialDeposit } from '@kodadot1/static'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { DropItem } from '@/params/types'
 import { FUTURE_DROP_DATE } from '@/utils/drop'
+import { isProduction } from '@/utils/chain'
 
 export interface Drop {
   collection: CollectionWithMeta
@@ -31,21 +32,23 @@ export function useDrops() {
   onMounted(async () => {
     const dropsList = await getDrops()
 
-    dropsList.forEach((drop) => {
-      const { result: collectionData } = useQuery(
-        unlockableCollectionById,
-        { id: drop.collection },
-        { clientId: drop.chain },
-      )
+    dropsList
+      .filter((drop) => !isProduction || drop.chain !== 'ahk')
+      .forEach((drop) => {
+        const { result: collectionData } = useQuery(
+          unlockableCollectionById,
+          { id: drop.collection },
+          { clientId: drop.chain },
+        )
 
-      watchEffect(async () => {
-        if (collectionData.value?.collectionEntity) {
-          const { collectionEntity } = collectionData.value
-          const newDrop = await getFormattedDropItem(collectionEntity, drop)
-          drops.value.push(newDrop)
-        }
+        watchEffect(async () => {
+          if (collectionData.value?.collectionEntity) {
+            const { collectionEntity } = collectionData.value
+            const newDrop = await getFormattedDropItem(collectionEntity, drop)
+            drops.value.push(newDrop)
+          }
+        })
       })
-    }, [])
   })
 
   return drops
