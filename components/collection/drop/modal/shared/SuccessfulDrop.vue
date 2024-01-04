@@ -18,7 +18,7 @@
       </a>
 
       <NeoIcon
-        class="has-text-k-grey opacity-20 mx-2 is-size-8"
+        class="text-k-grey opacity-20 mx-2 is-size-8"
         icon="circle"
         pack="fass"
         size="small" />
@@ -27,7 +27,7 @@
         v-clipboard:copy="txUrl"
         icon="copy"
         pack="fass"
-        class="has-text-k-grey is-clickable"
+        class="text-k-grey is-clickable"
         data-testid="tx-clipboard"
         @click="toast($t('general.copyToClipboard'))" />
     </div>
@@ -58,7 +58,7 @@
   <div class="mt-5 mb-6">
     <div class="flex justify-around px-8 items-center w-full">
       <NeoButton variant="icon" no-shadow @click="handleShareOnX">
-        <div class="flex flex-col has-text-k-grey">
+        <div class="flex flex-col text-k-grey">
           <NeoIcon pack="fab" icon="x-twitter" />
           <span class="text-center mt-1">X</span>
         </div>
@@ -69,7 +69,7 @@
         no-shadow
         class="mx-7"
         @click="handleShareOnTelegram">
-        <div class="flex flex-col has-text-k-grey">
+        <div class="flex flex-col text-k-grey">
           <NeoIcon pack="fab" icon="telegram" />
           <span class="text-center mt-1">Telegram</span>
         </div>
@@ -80,7 +80,7 @@
         variant="icon"
         no-shadow
         @click="toast($t('general.copyToClipboard'))">
-        <div class="flex flex-col has-text-k-grey">
+        <div class="flex flex-col text-k-grey">
           <NeoIcon icon="link" />
           <span class="text-center mt-1">{{ $t('general.copy') }}</span>
         </div>
@@ -98,19 +98,23 @@
     >
 
     <NeoButton
-      class="border-k-grey hover-button w-full ml-4"
-      :disabled="!canListNft"
+      class="hover-button w-full ml-4"
+      :class="{ border: canListNft }"
+      :disabled="cantList"
+      :loading="cantList"
+      variant="k-accent"
       rounded
       no-shadow
+      loading-with-label
       @click="listNft"
-      >{{ $t('drops.listNft') }}</NeoButton
+      >{{ cantList ? $t('loading') : $t('drops.listNft') }}</NeoButton
     >
   </div>
 </template>
 
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import { DropMintedNft } from '../Generative.vue'
+import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
 import { Prefix } from '@kodadot1/static'
 
 const emit = defineEmits(['list'])
@@ -142,6 +146,8 @@ const nftPath = computed(
 )
 
 const nftFullUrl = computed(() => `${window.location.origin}${nftPath.value}`)
+
+const cantList = computed(() => !props.canListNft)
 
 const viewNft = () => {
   window.open(nftFullUrl.value, '_blank')

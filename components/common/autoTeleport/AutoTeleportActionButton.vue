@@ -15,11 +15,11 @@
 
         <p
           class="has-text-weight-bold"
-          :class="{ 'has-text-k-grey': !hasAvailableTeleportTransition }">
+          :class="{ 'text-k-grey': !hasAvailableTeleportTransition }">
           {{ $t('autoTeleport.autoTeleport') }}
         </p>
 
-        <AutoTeleportTooltip
+        <AutoTeleportPopover
           v-if="hasAvailableTeleportTransition"
           position="top"
           :transition="optimalTransition" />
@@ -28,10 +28,10 @@
       <div
         v-if="!hasAvailableTeleportTransition"
         class="flex items-center"
-        :class="{ 'has-text-k-grey': !hasAvailableTeleportTransition }">
+        :class="{ 'text-k-grey': !hasAvailableTeleportTransition }">
         <span class="is-size-7">{{ $t('autoTeleport.notAvailable') }}</span>
 
-        <AutoTeleportTooltip position="left" :transition="optimalTransition" />
+        <AutoTeleportPopover position="left" :transition="optimalTransition" />
       </div>
 
       <NeoSwitch
@@ -55,6 +55,7 @@
     :can-do-action="hasEnoughInCurrentChain"
     :transactions="transactions"
     :auto-close="autoCloseModal"
+    :auto-close-delay="autoCloseModalDelayModal"
     :interaction="interaction"
     @close="handleAutoTeleportModalClose"
     @telport:retry="teleport"
@@ -79,6 +80,7 @@ import type {
   AutoTeleportFeeParams,
 } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction, getActionDetails } from './utils'
+import { getAutoTeleportActionInteraction } from '@/composables/autoTeleport/useAutoTeleportTransactionActions'
 
 export type AutoTeleportActionButtonConfirmEvent = {
   autoteleport: boolean
@@ -93,16 +95,18 @@ const emit = defineEmits([
 ])
 const props = withDefaults(
   defineProps<{
-    amount: number
+    amount: number | bigint
     label?: string
     disabled: boolean
     actions?: AutoTeleportAction[]
     fees?: AutoTeleportFeeParams
     autoCloseModal: boolean
+    autoCloseModalDelayModal?: number
     interaction?: ActionlessInteraction
     hideTop?: boolean
   }>(),
   {
+    autoCloseModalDelayModal: undefined,
     fees: () => ({ actions: 0, actionAutoFees: true }),
     disabled: false,
     amount: 0,
@@ -246,14 +250,14 @@ const openAutoTeleportModal = () => {
 
 const actionRun = async (interaction, isRetry = false) => {
   const autoTeleportAction = props.actions.find(
-    (action) => action.action.interaction === interaction,
+    (action) => getAutoTeleportActionInteraction(action) === interaction,
   )
 
   if (!autoTeleportAction) {
     return
   }
 
-  if (autoTeleportAction.transaction) {
+  if (autoTeleportAction.transaction && autoTeleportAction.action) {
     await autoTeleportAction.transaction(
       autoTeleportAction.action,
       autoTeleportAction.prefix || '',

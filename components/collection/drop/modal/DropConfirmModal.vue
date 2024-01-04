@@ -22,7 +22,14 @@
         @resend="handleConfirmationEmailResend"
         @check="handleEmailSubscriptionCheck" />
 
-      <ClaimingDrop v-else-if="isClaimingDropStep" :est="displayDuration" />
+      <WaitingDrop
+        v-else-if="isClaimingDropStep"
+        :title="$t('drops.preparingYourNft')"
+        :subtitle="est">
+        <p class="py-5 capitalize">
+          {{ $t('drops.stayTuned') }}
+        </p>
+      </WaitingDrop>
 
       <SuccessfulDrop
         v-else-if="isSuccessfulDropStep"
@@ -34,17 +41,17 @@
 </template>
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
-import { preloadImage } from '@/utils/dom'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
-import EmailSignup from './EmailSignup.vue'
-import ClaimingDrop from './ClaimingDrop.vue'
-import SuccessfulDrop from './SuccessfulDrop.vue'
-import ConfirmEmail from './ConfirmEmail.vue'
-import { DropMintedNft } from '../Generative.vue'
+import EmailSignup from './newsletter/EmailSignup.vue'
+import ConfirmEmail from './newsletter/ConfirmEmail.vue'
+import WaitingDrop from './shared/WaitingDrop.vue'
+import SuccessfulDrop from './shared/SuccessfulDrop.vue'
+import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
 import {
   getCountDownTime,
   useCountDown,
 } from '@/components/collection/unlockable/utils/useCountDown'
+import { usePreloadMintedNftCover } from './utils'
 
 enum ModalStep {
   EMAIL = 'email',
@@ -83,20 +90,14 @@ const { $i18n } = useNuxtApp()
 
 const isModalActive = useVModel(props, 'modelValue')
 
+const { retry, nftCoverLoaded, sanitizedMintedNft } = usePreloadMintedNftCover(
+  computed(() => props.mintedNft),
+)
+
 const modalStep = ref<ModalStep>(ModalStep.EMAIL)
 const email = ref<string>()
 const changeEmail = ref(false)
 const resentInitialConfirmationEmail = ref(false)
-const nftCoverLoaded = ref(false)
-const retry = ref(3)
-
-const sanitizedMintedNft = computed<DropMintedNft | undefined>(
-  () =>
-    props.mintedNft && {
-      ...props.mintedNft,
-      image: sanitizeIpfsUrl(props.mintedNft.image),
-    },
-)
 
 const isEmailSignupStep = computed(() => modalStep.value === ModalStep.EMAIL)
 const isEmailConfirmStep = computed(
@@ -116,6 +117,8 @@ const moveSuccessfulDrop = computed(() => {
 
   return distance.value <= 0 && sanitizedMintedNft.value && retry.value === 0
 })
+
+const est = computed(() => `Est ~ ${displayDuration.value}`)
 
 const title = computed(() => {
   if (isEmailSignupStep.value) {
@@ -149,11 +152,11 @@ const handleEmailSignupConfirm = (value: string) => {
 }
 
 const handleConfirmationEmailResend = () => {
-  emit('resend-confirmation-email', email.value)
+  emit('resend-confirmation-email')
 }
 
 const handleEmailSubscriptionCheck = () => {
-  emit('check-subscription', email.value)
+  emit('check-subscription')
 }
 
 watch(
@@ -164,16 +167,6 @@ watch(
     }
   },
 )
-
-watch([sanitizedMintedNft, retry], async ([mintedNft]) => {
-  if (mintedNft?.image && retry.value) {
-    try {
-      nftCoverLoaded.value = await preloadImage(mintedNft.image)
-    } catch (error) {
-      retry.value -= 1
-    }
-  }
-})
 
 watchEffect(() => {
   const claiming = props.claiming

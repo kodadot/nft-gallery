@@ -119,7 +119,7 @@
               <template #content>
                 <div class="flex flex-row justify-between pt-2 pr-2">
                   <span class="main-title name">{{ item.name }}</span>
-                  <span>{{ urlPrefix.toUpperCase() }}</span>
+                  <span class="capitalize">{{ urlPrefix }}</span>
                 </div>
                 <div class="flex flex-row justify-between pr-2">
                   <span class="name">{{ item.collection?.name }}</span>
@@ -214,11 +214,11 @@
                 <span class="main-title name">{{ item.name }}</span>
               </div>
               <div class="flex flex-row justify-between pr-2 secondary-info">
-                <span>{{ $t('search.units') }}: {{ item.total }}</span>
-                <span
-                  >{{ $t('search.owners') }}: {{ item.uniqueCollectors }}</span
+                <span v-if="item.nftCount"
+                  >{{ $t('search.units') }}: {{ item.nftCount }}</span
                 >
-                <span>{{ urlPrefix.toUpperCase() }}</span>
+                <span>{{ $t('search.owners') }}: {{ item.owners }}</span>
+                <span class="capitalize">{{ urlPrefix }}</span>
               </div>
             </template>
           </SearchResultItem>
@@ -249,7 +249,6 @@
 
 <script setup lang="ts">
 import { useDebounceFn } from '@vueuse/core'
-import seriesInsightList from '@/queries/rmrk/subsquid/seriesInsightList.graphql'
 import { denyList } from '@/utils/constants'
 import {
   type CollectionWithMeta,
@@ -260,11 +259,11 @@ import { logError, mapNFTorCollectionMetadata } from '@/utils/mappers'
 import { processMetadata } from '@/utils/cachingStrategy'
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { unwrapSafe } from '@/utils/uniquery'
-import { RowSeries } from '@/components/series/types'
 import { fetchCollectionSuggestion } from './utils/collectionSearch'
 import { NeoIcon, NeoSkeleton, NeoTabItem, NeoTabs } from '@kodadot1/brick'
 import Money from '@/components/shared/format/Money.vue'
-import type { SearchQuery } from './types'
+import type { DefaultCollectionSuggestion, SearchQuery } from './types'
+import { useTopCollections } from '../landing/topCollections/utils/useTopCollections'
 
 const props = defineProps({
   name: {
@@ -294,6 +293,7 @@ const nftResult = ref([] as NFTWithMeta[])
 const collectionResult = ref([] as CollectionWithMeta[])
 const searched = ref([] as NFTWithMeta[])
 const searchString = ref('')
+const defaultCollectionSuggestions = ref<DefaultCollectionSuggestion[]>([])
 
 onMounted(() => {
   getSearchHistory()
@@ -507,34 +507,39 @@ const goToExploreResults = (item) => {
     search: item.name,
   })
 }
-const { data: defaultCollectionSuggestions } = await useAsyncData(
-  'defaultCollectionSuggestions',
-  async () => {
-    if (showDefaultSuggestions.value) {
-      try {
-        const { data: result } = await useAsyncQuery({
-          query: seriesInsightList,
-          clientId: client.value,
-          variables: {
-            limit: searchSuggestionEachTypeMaxNum,
-            orderBy: 'volume_DESC',
-          },
-        })
-        const { collectionEntities: collections } = result.value
-        const collectionResult: (CollectionWithMeta & RowSeries)[] =
-          collections.map((data) => {
-            return {
-              ...data,
-              image: sanitizeIpfsUrl(
-                data.image || data.mediaUri || '',
-                'image',
-              ),
-            }
-          })
-        return collectionResult
-      } catch (e) {
-        $consola.warn(e, 'Error while fetching default suggestions')
-      }
+
+const getFormattedDefaultSuggestions = (
+  collections,
+): DefaultCollectionSuggestion[] => {
+  return collections.map((collection) => ({
+    id: collection.id,
+    name: collection.name,
+    image: collection.image,
+    nftCount: collection.nftCount,
+    owners: collection.ownerCount || collection.uniqueCollectors,
+  }))
+}
+
+const { data: topCollections, refresh: getTopCollection } = useTopCollections(
+  searchSuggestionEachTypeMaxNum,
+  props.showDefaultSuggestions,
+)
+
+watch(
+  topCollections,
+  (data) => {
+    defaultCollectionSuggestions.value = getFormattedDefaultSuggestions(
+      data,
+    ).slice(0, searchSuggestionEachTypeMaxNum)
+  },
+  { immediate: true },
+)
+
+watch(
+  () => props.showDefaultSuggestions,
+  (showDefaultSuggestions) => {
+    if (showDefaultSuggestions) {
+      getTopCollection()
     }
   },
 )

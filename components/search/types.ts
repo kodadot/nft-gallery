@@ -24,3 +24,11 @@ export type SearchSuggestion = Record<
   string,
   (NFTWithMeta | CollectionWithMeta)[]
 >
+
+export type DefaultCollectionSuggestion = {
+  id: string
+  name: string
+  image: string
+  nftCount?: number
+  owners: number
+}

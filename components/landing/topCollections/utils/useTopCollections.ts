@@ -45,55 +45,75 @@ const proccessData = (
   })
 }
 
-export const useTopCollections = (limit: number) => {
+export const useTopCollections = (limit: number, immediate = true) => {
   const { client, urlPrefix } = usePrefix()
   const { isAssetHub } = useIsChain(urlPrefix)
   const topCollectionWithVolumeList = useState<CollectionEntityWithVolumes[]>(
     'topCollectionWithVolumeList',
     () => [],
   )
-  const error = ref(null)
-  // const loading = ref(false)
+  const loading = ref(true)
   const collectionsSalesResults = ref<CollectionsSalesResult>()
-  const { result: topCollections, loading } = useQuery(
-    isAssetHub.value ? topCollectionsListAh : topCollectionList,
-    { orderBy: 'volume_DESC', limit },
-    { clientId: client.value },
+
+  const {
+    data: topCollections,
+    pending: topCollectionLoading,
+    refresh,
+  } = useAsyncData(
+    'topCollections',
+    async () => {
+      const { data } = await useAsyncQuery<TopCollectionListResult>({
+        query: isAssetHub.value ? topCollectionsListAh : topCollectionList,
+        variables: { orderBy: 'volume_DESC', limit },
+        clientId: client.value,
+      })
+      return data.value
+    },
+    {
+      immediate,
+    },
   )
 
-  watch([topCollections, error], () => {
-    if (error.value) {
-      loading.value = false
-      return
-    }
+  watch([topCollections], async () => {
     if (topCollections.value) {
-      const ids = (
-        topCollections.value as TopCollectionListResult
-      ).collectionEntities.map((c) => c.id)
+      const ids = topCollections.value.collectionEntities.map((c) => c.id)
 
-      const { onResult } = useQuery(
-        collectionsSales,
-        { ids },
-        { clientId: client.value },
-      )
-      onResult((result) => (collectionsSalesResults.value = result.data))
+      const { data } = await useAsyncQuery<CollectionsSalesResult>({
+        query: collectionsSales,
+        variables: { ids },
+        clientId: client.value,
+      })
+
+      topCollectionWithVolumeList.value = []
+      collectionsSalesResults.value = data.value
     }
   })
 
   watch(collectionsSalesResults, () => {
-    if (collectionsSalesResults.value) {
-      const collectionsList = (topCollections.value as TopCollectionListResult)
-        .collectionEntities
+    if (
+      collectionsSalesResults.value &&
+      topCollections.value?.collectionEntities.length
+    ) {
       topCollectionWithVolumeList.value = proccessData(
-        collectionsList,
+        topCollections.value.collectionEntities,
         collectionsSalesResults.value.collectionsSales,
       )
+
+      loading.value = false
     }
   })
 
+  watch(topCollectionLoading, (value) => {
+    if (value) {
+      loading.value = true
+    }
+  })
+
+  watch(urlPrefix, () => refresh())
+
   return {
     data: topCollectionWithVolumeList,
-    error,
     loading,
+    refresh,
   }
 }

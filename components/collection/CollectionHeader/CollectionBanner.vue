@@ -40,7 +40,8 @@ import { convertMarkdownToText } from '@/utils/markdown'
 const collectionId = computed(() => route.params.id)
 const route = useRoute()
 const { placeholder } = useTheme()
-const { data } = useGraphql({
+
+const { data, refetch } = useGraphql({
   queryName: 'collectionById',
   variables: {
     id: collectionId.value,
@@ -53,6 +54,13 @@ const collectionName = ref('--')
 const bannerImageUrl = computed(
   () => collectionAvatar.value && toOriginalContentUrl(collectionAvatar.value),
 )
+
+watch(collectionId, () => {
+  refetch({
+    id: collectionId.value,
+  })
+  collectionAvatar.value = ''
+})
 
 watchEffect(async () => {
   const collection = data.value?.collectionEntity

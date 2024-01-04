@@ -94,6 +94,7 @@ const searchSuggestionRef = ref<InstanceType<typeof SearchSuggestion>>()
 const enableSearchInCollection = ref(true)
 const inputFocused = ref(false)
 const { urlPrefix } = usePrefix()
+const { isAssetHub, isRmrk } = useIsChain(urlPrefix)
 
 const { isCollectionSearchMode, setCollectionSearchMode } =
   useCollectionSearch()
@@ -105,9 +106,7 @@ const placeholderContent = computed(() =>
     : $i18n.t('general.searchPlaceholder'),
 )
 
-const showDefaultSuggestions = computed(
-  () => urlPrefix.value === 'rmrk' || urlPrefix.value === 'bsx',
-)
+const showDefaultSuggestions = computed(() => isRmrk.value || isAssetHub.value)
 
 function exitCollectionSearch() {
   if (isCollectionSearchMode.value && !name.value) {
@@ -136,11 +135,14 @@ function onInputFocus() {
 }
 
 function onInputBlur() {
-  emits('blur')
-  inputFocused.value = false
-  if (!name.value) {
-    enableSearchInCollection.value = true
-  }
+  // don't remove timeout,  blur is triggered before click this allows the click event to be called
+  setTimeout(() => {
+    emits('blur')
+    inputFocused.value = false
+    if (!name.value) {
+      enableSearchInCollection.value = true
+    }
+  }, 200)
 }
 
 function bindSearchEvents(event: KeyboardEvent) {
