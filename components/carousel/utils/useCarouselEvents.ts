@@ -174,8 +174,8 @@ export const useCarouselNftEvents = ({
   return computed(() => items.value.nfts)
 }
 
-const GENERATIVE_LIMIT_AHK = 10
-const GENERATIVE_LIMIT_AHP = 12
+const AHK_GENERATIVE_LIMIT = 10
+const AHP_GENERATIVE_LIMIT = 12
 export const useCarouselGenerativeNftEvents = (
   ahkCollectionIds: string[],
   ahpCollectionIds: string[],
@@ -186,10 +186,10 @@ export const useCarouselGenerativeNftEvents = (
 
   onMounted(() => {
     eventType.forEach((type) => {
-      useChainEvents('ahk', type, GENERATIVE_LIMIT_AHK, ahkCollectionIds).then(
+      useChainEvents('ahk', type, AHK_GENERATIVE_LIMIT, ahkCollectionIds).then(
         ({ data }) => nfts.value.push(...flattenNFT(data.value, 'ahk')),
       )
-      useChainEvents('ahp', type, GENERATIVE_LIMIT_AHP, ahpCollectionIds).then(
+      useChainEvents('ahp', type, AHP_GENERATIVE_LIMIT, ahpCollectionIds).then(
         ({ data }) => nfts.value.push(...flattenNFT(data.value, 'ahp')),
       )
     })
