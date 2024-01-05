@@ -34,7 +34,7 @@ $table-th-font-weight: 400;
   }
 
   &__th {
-    @apply text-xs text-k-grey bg-background-color;
+    @apply text-xs text-k-grey bg-background-color #{!important};
   }
 
   &__detail {
