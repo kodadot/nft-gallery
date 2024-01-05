@@ -224,7 +224,6 @@
           </SearchResultItem>
         </div>
         <nuxt-link
-          v-show="urlPrefix === 'rmrk'"
           class="search-footer-link"
           :to="{ name: 'series-insight' }"
           @click="$emit('close')">
@@ -285,7 +284,7 @@ const props = defineProps({
 
 const query = toRef(props, 'query', {})
 
-const searchSuggestionEachTypeMaxNum = 5
+const searchSuggestionEachTypeMaxNum = 12
 const activeSearchTab = ref('Collections')
 const activeTrendingTab = ref('Trending')
 const selectedIndex = ref(-1)
