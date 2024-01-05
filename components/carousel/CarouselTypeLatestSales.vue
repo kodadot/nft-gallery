@@ -17,7 +17,7 @@ const nfts = useCarouselNftEvents({
   limit: {
     ahp: limit + 1,
     rmrk: limit - 1,
-    ksm: limit - 1,
+    ksm: limit - 3,
   },
 })
 </script>
