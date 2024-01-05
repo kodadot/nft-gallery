@@ -2,16 +2,16 @@ import type { CarouselNFT } from '@/components/base/types'
 import type { NFTWithMetadata } from '@/composables/useNft'
 import { isBeta, isProduction } from '@/utils/chain'
 import { formatNFT } from '@/utils/carousel'
-
+import { Prefix } from '@kodadot1/static'
 import latestEvents from '@/queries/subsquid/general/latestEvents.graphql'
 import latestEventsRmrkv2 from '@/queries/subsquid/ksm/latestEvents.graphql'
 import unionBy from 'lodash/unionBy'
 
-interface Types {
-  type: 'latestSales' | 'newestList'
-}
+type CarouselEventsChainLimit = Partial<Record<Prefix, number>>
 
-const limit = isProduction ? 15 : 8
+type Types = 'latestSales' | 'newestList'
+
+export const limit = isProduction ? 15 : 8
 
 const nftEventVariables = {
   latestSales: { interaction_eq: 'BUY' },
@@ -149,14 +149,23 @@ const limitDisplayNfts = (data) => {
   }
 }
 
-export const useCarouselNftEvents = ({ type }: Types) => {
+export const useCarouselNftEvents = ({
+  type,
+  limit: chainLimits,
+}: {
+  type: Types
+  limit?: CarouselEventsChainLimit
+}) => {
   const nfts = ref<CarouselNFT[]>([])
   const items = computed(() => limitDisplayNfts(nfts.value))
   const chains = ['ahk', 'ahp', 'bsx', 'rmrk', 'ksm']
 
   onMounted(async () => {
     for (const chain of chains) {
-      useChainEvents(chain, type, limit, null).then(({ data }) =>
+      const chainLimit =
+        chainLimits && chainLimits[chain] ? chainLimits[chain] : limit
+
+      useChainEvents(chain, type, chainLimit, null).then(({ data }) =>
         nfts.value.push(...flattenNFT(data.value, chain)),
       )
     }
@@ -165,7 +174,8 @@ export const useCarouselNftEvents = ({ type }: Types) => {
   return computed(() => items.value.nfts)
 }
 
-const generativeLimit = 10
+const GENERATIVE_LIMIT_AHK = 10
+const GENERATIVE_LIMIT_AHP = 12
 export const useCarouselGenerativeNftEvents = (
   ahkCollectionIds: string[],
   ahpCollectionIds: string[],
@@ -176,10 +186,10 @@ export const useCarouselGenerativeNftEvents = (
 
   onMounted(() => {
     eventType.forEach((type) => {
-      useChainEvents('ahk', type, generativeLimit, ahkCollectionIds).then(
+      useChainEvents('ahk', type, GENERATIVE_LIMIT_AHK, ahkCollectionIds).then(
         ({ data }) => nfts.value.push(...flattenNFT(data.value, 'ahk')),
       )
-      useChainEvents('ahp', type, generativeLimit, ahpCollectionIds).then(
+      useChainEvents('ahp', type, GENERATIVE_LIMIT_AHP, ahpCollectionIds).then(
         ({ data }) => nfts.value.push(...flattenNFT(data.value, 'ahp')),
       )
     })

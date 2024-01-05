@@ -8,8 +8,16 @@
 </template>
 
 <script lang="ts" setup>
-import { useCarouselNftEvents } from './utils/useCarouselEvents'
+import { limit, useCarouselNftEvents } from './utils/useCarouselEvents'
 
 const { urlPrefix } = usePrefix()
-const nfts = useCarouselNftEvents({ type: 'latestSales' })
+
+const nfts = useCarouselNftEvents({
+  type: 'latestSales',
+  limit: {
+    ahp: limit + 1,
+    rmrk: limit - 1,
+    ksm: limit - 1,
+  },
+})
 </script>
