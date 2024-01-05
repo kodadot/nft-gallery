@@ -7,7 +7,7 @@ import { Stats } from './types'
 export const useCollectionDetails = ({
   collectionId,
 }: {
-  collectionId: Ref<string>
+  collectionId: ComputedRef<string>
 }) => {
   const variables = computed(() => ({
     id: collectionId.value,
