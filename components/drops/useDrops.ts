@@ -124,11 +124,12 @@ export const useDropMinimumFunds = (drop) => {
 
   const currentChain = computed(() => prefixToChainMap[drop.chain])
   const meta = computed<number>(() => Number(drop.meta) || 0)
+  const price = computed<number>(() => Number(drop.price) || 0)
   const currentChainBalance = computed(
     () =>
       (currentChain.value && Number(chainBalances[currentChain.value]())) || 0,
   )
-  const minimumFunds = computed<number>(() => meta.value)
+  const minimumFunds = computed<number>(() => price.value || meta.value)
   const transferableDropChainBalance = computed(
     () => currentChainBalance.value - existentialDeposit[urlPrefix.value],
   )
