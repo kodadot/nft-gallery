@@ -224,6 +224,7 @@
           </SearchResultItem>
         </div>
         <nuxt-link
+          v-show="urlPrefix === 'rmrk'"
           class="search-footer-link"
           :to="{ name: 'series-insight' }"
           @click="$emit('close')">
