@@ -31,7 +31,7 @@
       <div class="flex">
         <CommonTokenMoney :value="toMintNft.price" class="has-text-grey" />
         <span class="has-text-weight-bold ml-2">
-          {{ toMintNft.priceUSD }}$
+          {{ toMintNft.priceUSD }}
         </span>
       </div>
     </div>
