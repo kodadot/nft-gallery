@@ -80,7 +80,7 @@ const emit = defineEmits(['confirm', 'update:modelValue'])
 const props = withDefaults(
   defineProps<{
     modelValue: boolean
-    minimumFunds: bigint
+    minimumFunds: number
     formattedMinimumFunds: string
     token: string
     chain: string
@@ -96,7 +96,7 @@ const interaction = computed(() => {
   //tmp solution till drop type check is fixed
   return props.free
     ? ActionlessInteraction.FREE_DROP
-    : ActionlessInteraction.DROP
+    : ActionlessInteraction.PAID_DROP
 })
 
 const canAutoTeleport = computed(() => autoteleport.value?.canAutoTeleport)

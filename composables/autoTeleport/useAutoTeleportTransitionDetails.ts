@@ -22,7 +22,7 @@ const DEFAULT_AUTO_TELEPORT_FEE_PARAMS = {
 
 export default function (
   actions: ComputedRef<AutoTeleportAction[]>,
-  neededAmount: ComputedRef<number>,
+  neededAmount: ComputedRef<number | bigint>,
   feesParams: AutoTeleportFeeParams = DEFAULT_AUTO_TELEPORT_FEE_PARAMS,
 ) {
   const {
@@ -61,7 +61,7 @@ export default function (
   )
 
   const neededAmountWithFees = computed(
-    () => Math.ceil(neededAmount.value) + totalFees.value,
+    () => Math.ceil(Number(neededAmount.value)) + totalFees.value,
   )
 
   const currentChainBalance = computed(
