@@ -174,7 +174,7 @@ export const useCarouselNftEvents = ({
 }
 
 const AHK_GENERATIVE_LIMIT = 10
-const AHP_GENERATIVE_LIMIT = 12
+const AHP_GENERATIVE_LIMIT = 18
 export const useCarouselGenerativeNftEvents = (
   ahkCollectionIds: string[],
   ahpCollectionIds: string[],
