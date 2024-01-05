@@ -80,7 +80,7 @@
             <div class="flex justify-between">
               <div class="name-container">
                 <h1 class="title" data-testid="item-title">
-                  {{ nft?.name || nftMetadata?.name }}
+                  {{ title }}
                   <span v-if="nft?.burned" class="has-text-danger">「🔥」</span>
                 </h1>
                 <h2 class="subtitle" data-testid="item-collection">
@@ -292,7 +292,12 @@ onMounted(() => {
 
 const { isUnlockable, unlockLink } = useUnlockable(collection)
 
-const title = computed(() => nftMetadata.value?.name || '')
+const title = computed(() =>
+  addSnSuffixName(
+    nft.value?.name || nftMetadata.value?.name || '',
+    nft.value?.sn,
+  ),
+)
 const seoDescription = computed(
   () => convertMarkdownToText(nftMetadata.value?.description) || '',
 )
