@@ -9,6 +9,7 @@ export default (drop: DropItem) => {
   const disabledByBackend = computed(() => drop?.disabled)
   const chainName = computed(() => getChainName(drop.chain))
   const token = computed(() => prefixToToken[drop.chain])
+  const price = computed(() => drop?.price)
 
   return {
     defaultMax,
@@ -18,5 +19,6 @@ export default (drop: DropItem) => {
     chainName,
     disabledByBackend,
     token,
+    price,
   }
 }

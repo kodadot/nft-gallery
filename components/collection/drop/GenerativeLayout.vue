@@ -20,6 +20,7 @@
             :max-count="maxCount"
             :minted-count="mintedCount"
             :mint-count-available="mintCountAvailable"
+            :disabled-by-backend="drop.disabled"
             :mint-button="mintButton"
             :holder-of-collection="holderOfCollection"
             @mint="handleSubmitMint" />
@@ -43,6 +44,7 @@
           :max-count="maxCount"
           :minted-count="mintedCount"
           :mint-count-available="mintCountAvailable"
+          :disabled-by-backend="drop.disabled"
           :mint-button="mintButton"
           :holder-of-collection="holderOfCollection"
           @mint="handleSubmitMint" />
@@ -70,7 +72,7 @@ withDefaults(
     mintedCount: number
     mintCountAvailable: boolean
     maxCount: number
-    minimumFunds: { amount: bigint; description: string }
+    minimumFunds: { amount: number; description: string }
     isImageFetching: boolean
     isWalletConnecting: boolean
     isLoading: boolean

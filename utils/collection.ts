@@ -1,4 +1,4 @@
-export const POPULAR_COLLECTIONS = {
+export const ALL_POPULAR_COLLECTIONS = {
   ksm: [
     'be15890524c6e9b359-WIZARD', // Manta Wizard
     '66241b171becfd500e-EGG', //KU EGGS

@@ -45,7 +45,7 @@ const proccessData = (
   })
 }
 
-export const useTopCollections = (limit: number) => {
+export const useTopCollections = (limit: number, immediate = true) => {
   const { client, urlPrefix } = usePrefix()
   const { isAssetHub } = useIsChain(urlPrefix)
   const topCollectionWithVolumeList = useState<CollectionEntityWithVolumes[]>(
@@ -59,14 +59,20 @@ export const useTopCollections = (limit: number) => {
     data: topCollections,
     pending: topCollectionLoading,
     refresh,
-  } = useAsyncData('topCollections', async () => {
-    const { data } = await useAsyncQuery<TopCollectionListResult>({
-      query: isAssetHub.value ? topCollectionsListAh : topCollectionList,
-      variables: { orderBy: 'volume_DESC', limit },
-      clientId: client.value,
-    })
-    return data.value
-  })
+  } = useAsyncData(
+    'topCollections',
+    async () => {
+      const { data } = await useAsyncQuery<TopCollectionListResult>({
+        query: isAssetHub.value ? topCollectionsListAh : topCollectionList,
+        variables: { orderBy: 'volume_DESC', limit },
+        clientId: client.value,
+      })
+      return data.value
+    },
+    {
+      immediate,
+    },
+  )
 
   watch([topCollections], async () => {
     if (topCollections.value) {
@@ -108,5 +114,6 @@ export const useTopCollections = (limit: number) => {
   return {
     data: topCollectionWithVolumeList,
     loading,
+    refresh,
   }
 }

@@ -40,7 +40,6 @@ import {
 } from './transaction/types'
 import { ApiPromise } from '@polkadot/api'
 import { isActionValid } from './transaction/utils'
-const { $consola } = useNuxtApp()
 
 const resolveLargeSuccessNotification = (
   block: string,
@@ -186,6 +185,7 @@ export const executeAction = ({
   }
 
   if (!isActionValid(item)) {
+    const { $consola } = useNuxtApp()
     $consola.warn(`Invalid action: ${JSON.stringify(item)}`)
     throw createError({
       statusCode: 404,

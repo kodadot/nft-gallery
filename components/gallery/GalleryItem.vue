@@ -56,12 +56,12 @@
           </div>
           <BaseMediaItem
             v-else
-            :key="nftImage"
+            :key="image"
             ref="mediaItemRef"
             class="gallery-item-media is-relative"
-            :src="getMediaSrc(nftImage)"
+            :src="getMediaSrc(image)"
             :animation-src="nftAnimation"
-            :mime-type="nftMimeType"
+            :mime-type="nftAnimationMimeType || nftMimeType"
             :title="nftMetadata?.name"
             :is-fullscreen="isFullscreen"
             is-detail
@@ -69,7 +69,7 @@
             :placeholder="placeholder"
             :image-component="NuxtImg"
             :sizes="sizes"
-            :audio-player-cover="nftImage" />
+            :audio-player-cover="image" />
         </div>
       </div>
 
@@ -80,7 +80,7 @@
             <div class="flex justify-between">
               <div class="name-container">
                 <h1 class="title" data-testid="item-title">
-                  {{ nftMetadata?.name }}
+                  {{ title }}
                   <span v-if="nft?.burned" class="has-text-danger">「🔥」</span>
                 </h1>
                 <h2 class="subtitle" data-testid="item-collection">
@@ -218,8 +218,15 @@ const preferencesStore = usePreferencesStore()
 const pageViewCount = usePageViews()
 
 const galleryItem = useGalleryItem()
-const { nft, nftMetadata, nftImage, nftAnimation, nftMimeType, nftResources } =
-  galleryItem
+const {
+  nft,
+  nftMetadata,
+  nftImage,
+  nftAnimation,
+  nftAnimationMimeType,
+  nftMimeType,
+  nftResources,
+} = galleryItem
 const collection = computed(() => nft.value?.collection)
 
 const triggerBuySuccess = computed(() => preferencesStore.triggerBuySuccess)
@@ -256,6 +263,14 @@ const onNFTBought = () => {
   activeTab.value = tabs.activity
 }
 
+const image = computed(() => {
+  if (!nftImage.value) {
+    return sanitizeIpfsUrl(nft.value?.meta?.image)
+  }
+
+  return nftImage.value
+})
+
 const getMediaSrc = (src: string | undefined) =>
   src && isFullscreen.value ? toOriginalContentUrl(src) : src
 
@@ -277,7 +292,12 @@ onMounted(() => {
 
 const { isUnlockable, unlockLink } = useUnlockable(collection)
 
-const title = computed(() => nftMetadata.value?.name || '')
+const title = computed(() =>
+  addSnSuffixName(
+    nft.value?.name || nftMetadata.value?.name || '',
+    nft.value?.sn,
+  ),
+)
 const seoDescription = computed(
   () => convertMarkdownToText(nftMetadata.value?.description) || '',
 )

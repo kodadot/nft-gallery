@@ -3,12 +3,10 @@
     <ModalIdentityItem />
   </div>
 
-  <p class="py-5 capitalize">
-    {{ $t('drops.stayTuned') }}
-  </p>
+  <slot />
 
   <div class="min-height">
-    <SkeletonLoader :title="$t('drops.preparingYourNft')" :subtitle="est" />
+    <SkeletonLoader :title="title" :subtitle="subtitle" />
   </div>
 </template>
 
@@ -16,9 +14,10 @@
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import SkeletonLoader from '@/components/shared/SkeletonLoader.vue'
 
-const props = defineProps<{ est: string }>()
-
-const est = computed(() => `Est ~ ${props.est}`)
+defineProps<{
+  title: string
+  subtitle: string
+}>()
 </script>
 
 <style lang="scss" scoped>
