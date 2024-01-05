@@ -104,8 +104,13 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     nftAnimation.value = metadata.animationUrl || ''
 
     // use cf-video & replace the video thumbnail
-    if (nftAnimationMimeType.value.includes('video')) {
-      const streams = await getCloudflareMp4(metadata.animationUrl)
+    if (
+      nftAnimationMimeType.value.includes('video') ||
+      nftMimeType.value.includes('video')
+    ) {
+      const streams = await getCloudflareMp4(
+        metadata.animationUrl || metadata.image,
+      )
 
       if (streams.uid && streams.video?.default?.percentComplete === 100) {
         nftAnimation.value = streams.video.default.url

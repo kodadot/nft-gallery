@@ -126,11 +126,11 @@
       </div>
 
       <hr class="my-2" />
-      <div v-if="nftImage" class="flex justify-between">
+      <div v-if="mediaUrl" class="flex justify-between">
         <p>{{ $t('tabs.tabDetails.media') }}</p>
         <div>
           <a
-            v-safe-href="nftImage"
+            v-safe-href="mediaUrl"
             class="has-text-link"
             data-testid="media-link"
             target="_blank"
@@ -139,11 +139,11 @@
           </a>
         </div>
       </div>
-      <div v-if="nftAnimation" class="flex justify-between">
+      <div v-if="animatedMediaUrl" class="flex justify-between">
         <p>{{ $t('tabs.tabDetails.animatedMedia') }}</p>
         <div>
           <a
-            v-safe-href="nftAnimation"
+            v-safe-href="animatedMediaUrl"
             class="has-text-link"
             target="_blank"
             rel="nofollow noopener noreferrer">
@@ -284,6 +284,24 @@ const propertiesTabDisabled = computed(() => {
 
 const metadataMimeType = 'application/json'
 const metadataURL = computed(() => sanitizeIpfsUrl(nft.value?.metadata))
+
+const isCloudflareStream = (url: string) => url.includes('cloudflarestream.com')
+
+const mediaUrl = computed(() => {
+  if (isCloudflareStream(nftImage.value)) {
+    return sanitizeIpfsUrl(nft.value.meta?.image)
+  }
+
+  return nftImage.value
+})
+
+const animatedMediaUrl = computed(() => {
+  if (isCloudflareStream(nftAnimation.value)) {
+    return sanitizeIpfsUrl(nft.value.meta?.animation_url)
+  }
+
+  return nftAnimation.value
+})
 </script>
 
 <style lang="scss">
