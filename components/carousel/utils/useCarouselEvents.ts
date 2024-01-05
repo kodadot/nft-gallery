@@ -162,8 +162,7 @@ export const useCarouselNftEvents = ({
 
   onMounted(async () => {
     for (const chain of chains) {
-      const chainLimit =
-        chainLimits && chainLimits[chain] ? chainLimits[chain] : limit
+      const chainLimit = chainLimits?.[chain] ? chainLimits[chain] : limit
 
       useChainEvents(chain, type, chainLimit, null).then(({ data }) =>
         nfts.value.push(...flattenNFT(data.value, chain)),
