@@ -173,7 +173,7 @@ export const useCarouselNftEvents = ({
   return computed(() => items.value.nfts)
 }
 
-const AHK_GENERATIVE_LIMIT = 10
+const AHK_GENERATIVE_LIMIT = 6
 const AHP_GENERATIVE_LIMIT = 18
 export const useCarouselGenerativeNftEvents = (
   ahkCollectionIds: string[],
