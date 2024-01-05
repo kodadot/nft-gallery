@@ -17,10 +17,10 @@ type StreamDownload = {
 const workerUrl = new URL(kodaImage)
 
 export async function getCloudflareMp4(url): Promise<StreamDownload> {
+  workerUrl.pathname = '/video/download'
+
   const kodaUrl = new URL(url)
   const infura = `https://kodadot1.infura-ipfs.io${kodaUrl.pathname}`
-
-  workerUrl.pathname = '/video/download'
 
   const video = await $fetch(workerUrl.toString(), {
     method: 'POST',
@@ -30,4 +30,13 @@ export async function getCloudflareMp4(url): Promise<StreamDownload> {
   })
 
   return video as StreamDownload
+}
+
+export async function getMetadata(url: string) {
+  workerUrl.pathname = '/metadata'
+  workerUrl.searchParams.set('url', url)
+
+  const metadata = await $fetch(workerUrl.toString())
+
+  return metadata as unknown as NFTWithMetadata
 }

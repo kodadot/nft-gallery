@@ -5,7 +5,7 @@ import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { getMimeType, isAudio as isAudioMimeType } from '@/utils/gallery/media'
 import unionBy from 'lodash/unionBy'
 import type { Ref } from 'vue'
-import { kodaImage } from '@/utils/config/ipfs'
+import { getMetadata } from '@/services/imageWorker'
 
 export type NftResources = {
   id: string
@@ -182,12 +182,7 @@ export async function getNftMetadata<T extends NFTWithMetadata>(
   unify = false,
 ) {
   if (unify) {
-    const metadataUrl = new URL(kodaImage)
-    metadataUrl.pathname = '/metadata'
-    metadataUrl.searchParams.set('url', sanitizeIpfsUrl(nft.meta.id))
-    const metadata = await fetch(metadataUrl.toString())
-
-    return metadata as unknown as NFTWithMetadata
+    return await getMetadata(sanitizeIpfsUrl(nft.meta.id))
   }
 
   // if subsquid already give us the metadata, we don't need to fetch it again
