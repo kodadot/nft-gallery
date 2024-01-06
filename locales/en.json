@@ -684,7 +684,8 @@
     "smallDisplay": "Small Display",
     "largeDisplay": "Large Display",
     "emptyAddress": "Receiver address cannot be empty",
-    "emptyListAmount": "Amount should be greater than 0"
+    "emptyListAmount": "Amount should be greater than 0",
+    "supportFee": "Activating this feature supports Kodadot in offsetting initial storage costs for your JPEGs. This preference can be modified at any time in the settings."
   },
   "nft": {
     "carbonless": "This NFT is carbonless",
