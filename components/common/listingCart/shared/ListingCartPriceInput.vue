@@ -14,7 +14,7 @@
       <div class="px-3 flex items-center">{{ chainSymbol }}</div>
     </div>
     <NeoButton
-      v-if="true"
+      v-if="check"
       no-shadow
       class="border-k-shade hover:!border-border-color ml-2 h-10"
       icon-pack="fas"
