@@ -4,7 +4,7 @@
       :is="externalUrl ? 'a' : NuxtLink"
       v-if="drop.collection && !isLoadingMeta"
       rel="nofollow noopener noreferrer"
-      :to="`/${drop.chain}/drops/${drop.alias}`">
+      :to="`/${dropPrefix}/drops/${drop.alias}`">
       <div
         class="drop-card-banner"
         :style="{ backgroundImage: `url(${image})` }">
@@ -33,7 +33,7 @@
                 {{ $t('activity.creator') }}:
               </div>
               <nuxt-link
-                :to="`/${drop.chain}/u/${drop.collection.issuer}`"
+                :to="`/${dropPrefix}/u/${drop.collection.issuer}`"
                 class="has-text-link">
                 <IdentityIndex
                   ref="identity"
@@ -51,7 +51,7 @@
             <div class="flex flex-col">
               <span class="has-text-grey">{{ $t('price') }}</span>
               <span v-if="isFreeDrop">{{ $t('free') }}</span>
-              <Money v-else :value="drop.price" :prefix="drop.chain" inline />
+              <Money v-else :value="drop.price" :prefix="dropPrefix" inline />
             </div>
           </div>
         </div>
@@ -105,6 +105,7 @@ const props = defineProps<Props>()
 const image = ref('')
 const externalUrl = ref()
 
+const dropPrefix = computed(() => props.drop.chain)
 const isFreeDrop = computed(() => !Number(props.drop.price))
 const ended = computed(() => props.drop.minted === props.drop.max)
 
