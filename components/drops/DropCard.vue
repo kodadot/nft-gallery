@@ -4,7 +4,7 @@
       :is="externalUrl ? 'a' : NuxtLink"
       v-if="drop.collection && !isLoadingMeta"
       rel="nofollow noopener noreferrer"
-      :to="`/${correctUrlPrefix}/drops/${drop.alias}`">
+      :to="`/${drop.chain}/drops/${drop.alias}`">
       <div
         class="drop-card-banner"
         :style="{ backgroundImage: `url(${image})` }">
@@ -18,9 +18,7 @@
                 custom-class="avatar-image" />
             </div>
 
-            <TimeTag
-              :drop-start-time="drop.dropStartTime"
-              :ended="availableCount === 0" />
+            <TimeTag :drop-start-time="drop.dropStartTime" :ended="ended" />
           </div>
         </section>
       </div>
@@ -35,7 +33,7 @@
                 {{ $t('activity.creator') }}:
               </div>
               <nuxt-link
-                :to="`/${correctUrlPrefix}/u/${drop.collection.issuer}`"
+                :to="`/${drop.chain}/u/${drop.collection.issuer}`"
                 class="has-text-link">
                 <IdentityIndex
                   ref="identity"
@@ -88,7 +86,6 @@
 import { NeoSkeleton } from '@kodadot1/brick'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import BasicImage from '@/components/shared/view/BasicImage.vue'
 
 import type { Metadata } from '@/components/rmrk/service/scheme'
 import TimeTag from './TimeTag.vue'
@@ -108,15 +105,8 @@ const props = defineProps<Props>()
 const image = ref('')
 const externalUrl = ref()
 
-const correctUrlPrefix = computed(() => {
-  return props.drop.chain
-})
-
-const isFreeDrop = computed(() => {
-  return !Number(props.drop.price)
-})
-
-const availableCount = computed(() => props.drop.minted === props.drop.max)
+const isFreeDrop = computed(() => !Number(props.drop.price))
+const ended = computed(() => props.drop.minted === props.drop.max)
 
 onMounted(async () => {
   if (!props.drop?.collection) {
