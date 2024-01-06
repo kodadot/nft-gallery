@@ -155,7 +155,7 @@ const limitDisplayNfts = (data) => {
 
 export const useCarouselNftEvents = ({
   type,
-  limit: chainLimits,
+  limit: nftsLimit,
 }: {
   type: Types
   limit?: CarouselEventsChainLimit
@@ -166,9 +166,10 @@ export const useCarouselNftEvents = ({
 
   onMounted(async () => {
     for (const chain of chains) {
-      const chainLimit = chainLimits?.[chain] ? chainLimits[chain] : limit
+      const nftLimit = nftsLimit?.[chain] ? nftsLimit[chain] : limit
+      const queryLimit = nftLimit > limit ? nftLimit : limit
 
-      useChainEvents(chain, type, limit, null, true, chainLimit).then(
+      useChainEvents(chain, type, queryLimit, null, true, nftLimit).then(
         ({ data }) => nfts.value.push(...flattenNFT(data.value, chain)),
       )
     }
