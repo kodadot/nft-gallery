@@ -188,26 +188,29 @@ export const useCarouselGenerativeNftEvents = (
   const nfts = ref<CarouselNFT[]>([])
 
   const eventType = ['latestSales', 'newestList']
+  const chainsInfo: Partial<
+    Record<Prefix, { limit: number; collectionIds: string[] }>
+  > = {
+    ahk: { limit: AHK_GENERATIVE_LIMIT, collectionIds: ahkCollectionIds },
+    ahp: { limit: AHP_GENERATIVE_LIMIT, collectionIds: ahpCollectionIds },
+  }
 
   onMounted(() => {
     eventType.forEach((type) => {
-      useChainEvents(
-        'ahk',
-        type,
-        GENERATIVE_QUERY_LIMIT,
-        ahkCollectionIds,
-        true,
-        Math.floor(AHK_GENERATIVE_LIMIT / eventType.length),
-      ).then(({ data }) => nfts.value.push(...flattenNFT(data.value, 'ahk')))
-
-      useChainEvents(
-        'ahp',
-        type,
-        GENERATIVE_QUERY_LIMIT,
-        ahpCollectionIds,
-        true,
-        Math.floor(AHP_GENERATIVE_LIMIT / eventType.length),
-      ).then(({ data }) => nfts.value.push(...flattenNFT(data.value, 'ahp')))
+      Object.entries(chainsInfo).forEach(
+        ([chain, { limit: chainLimit, collectionIds }]) => {
+          useChainEvents(
+            chain,
+            type,
+            GENERATIVE_QUERY_LIMIT,
+            collectionIds,
+            true,
+            Math.floor(chainLimit / eventType.length),
+          ).then(({ data }) =>
+            nfts.value.push(...flattenNFT(data.value, chain)),
+          )
+        },
+      )
     })
   })
 
