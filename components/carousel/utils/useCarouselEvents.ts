@@ -60,6 +60,7 @@ const useChainEvents = async (
   eventQueryLimit,
   collectionIds,
   withLastestSale = true,
+  nftLimit = limit,
 ) => {
   const nfts = ref<
     { nft: NFTWithMetadata; timestamp: string; latestSalePrice?: string }[]
@@ -78,7 +79,7 @@ const useChainEvents = async (
   const pushNft = (nft) => {
     if (
       !uniqueNftId.value.includes(nft.nft.id) &&
-      nfts.value.length < eventQueryLimit
+      nfts.value.length < nftLimit
     ) {
       uniqueNftId.value.push(nft.nft.id)
       if (type === 'latestSales' && withLastestSale) {
@@ -167,8 +168,8 @@ export const useCarouselNftEvents = ({
     for (const chain of chains) {
       const chainLimit = chainLimits?.[chain] ? chainLimits[chain] : limit
 
-      useChainEvents(chain, type, chainLimit, null).then(({ data }) =>
-        nfts.value.push(...flattenNFT(data.value, chain)),
+      useChainEvents(chain, type, limit, null, true, chainLimit).then(
+        ({ data }) => nfts.value.push(...flattenNFT(data.value, chain)),
       )
     }
   })
@@ -176,8 +177,10 @@ export const useCarouselNftEvents = ({
   return computed(() => items.value.nfts)
 }
 
+const GENERATIVE_QUERY_LIMIT = 10
 const AHK_GENERATIVE_LIMIT = 6
 const AHP_GENERATIVE_LIMIT = 18
+
 export const useCarouselGenerativeNftEvents = (
   ahkCollectionIds: string[],
   ahpCollectionIds: string[],
@@ -188,19 +191,23 @@ export const useCarouselGenerativeNftEvents = (
 
   onMounted(() => {
     eventType.forEach((type) => {
-      const ahkEventTypeLimit = Math.floor(
-        AHK_GENERATIVE_LIMIT / eventType.length,
-      )
-      useChainEvents('ahk', type, ahkEventTypeLimit, ahkCollectionIds).then(
-        ({ data }) => nfts.value.push(...flattenNFT(data.value, 'ahk')),
-      )
+      useChainEvents(
+        'ahk',
+        type,
+        GENERATIVE_QUERY_LIMIT,
+        ahkCollectionIds,
+        true,
+        Math.floor(AHK_GENERATIVE_LIMIT / eventType.length),
+      ).then(({ data }) => nfts.value.push(...flattenNFT(data.value, 'ahk')))
 
-      const ahpEventTypeLimit = Math.floor(
-        AHP_GENERATIVE_LIMIT / eventType.length,
-      )
-      useChainEvents('ahp', type, ahpEventTypeLimit, ahpCollectionIds).then(
-        ({ data }) => nfts.value.push(...flattenNFT(data.value, 'ahp')),
-      )
+      useChainEvents(
+        'ahp',
+        type,
+        GENERATIVE_QUERY_LIMIT,
+        ahpCollectionIds,
+        true,
+        Math.floor(AHP_GENERATIVE_LIMIT / eventType.length),
+      ).then(({ data }) => nfts.value.push(...flattenNFT(data.value, 'ahp')))
     })
   })
 
