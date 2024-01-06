@@ -76,7 +76,10 @@ const useChainEvents = async (
   }
 
   const pushNft = (nft) => {
-    if (!uniqueNftId.value.includes(nft.nft.id) && nfts.value.length < limit) {
+    if (
+      !uniqueNftId.value.includes(nft.nft.id) &&
+      nfts.value.length < eventQueryLimit
+    ) {
       uniqueNftId.value.push(nft.nft.id)
       if (type === 'latestSales' && withLastestSale) {
         nft.latestSalePrice = nft.meta
@@ -185,10 +188,17 @@ export const useCarouselGenerativeNftEvents = (
 
   onMounted(() => {
     eventType.forEach((type) => {
-      useChainEvents('ahk', type, AHK_GENERATIVE_LIMIT, ahkCollectionIds).then(
+      const ahkEventTypeLimit = parseInt(
+        AHK_GENERATIVE_LIMIT / eventType.length,
+      )
+      useChainEvents('ahk', type, ahkEventTypeLimit, ahkCollectionIds).then(
         ({ data }) => nfts.value.push(...flattenNFT(data.value, 'ahk')),
       )
-      useChainEvents('ahp', type, AHP_GENERATIVE_LIMIT, ahpCollectionIds).then(
+
+      const ahpEventTypeLimit = parseInt(
+        AHP_GENERATIVE_LIMIT / eventType.length,
+      )
+      useChainEvents('ahp', type, ahpEventTypeLimit, ahpCollectionIds).then(
         ({ data }) => nfts.value.push(...flattenNFT(data.value, 'ahp')),
       )
     })
