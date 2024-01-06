@@ -13,8 +13,7 @@ export type WithoutDecimalsParams = {
 }
 
 export default function () {
-  const { urlPrefix, tokenId, assets } = usePrefix()
-  const symbol = computed(() => assets(tokenId.value).symbol)
+  const { urlPrefix } = usePrefix()
   const name = computed(() => getChainName(urlPrefix.value))
 
   const chainProperties = computed<ChainProperties>(() => {
@@ -55,19 +54,13 @@ export default function () {
     return chainProperties.value.tokenSymbol
   })
 
-  const offersDisabled = computed(() => {
-    return urlPrefix.value !== 'bsx'
-  })
+  // TODO: offers will be enabled in the future (with atomic swaps)
+  const offersDisabled = computed(() => true)
 
   const availableChains = computed(availablePrefixes)
   const availableChainsWithIcon = computed(availablePrefixWithIcon)
 
-  const chainSymbol = computed(() => {
-    // add ahr
-    return ['rmrk', 'ksm', 'ahk', 'ahp'].includes(urlPrefix.value)
-      ? unit.value
-      : symbol.value
-  })
+  const chainSymbol = computed(() => unit.value)
 
   const blockExplorer = computed<string>(() => {
     return chainProperties.value.blockExplorer ?? 'https://kusama.subscan.io/'

@@ -1,8 +1,8 @@
 <template>
   <div class="flex items-center justify-between">
-    <div>
+    <!-- <div>
       <NeoButton
-        v-if="isBasilisk"
+        v-if="isAssetHub"
         v-safe-href="`/${urlPrefix}/assets`"
         no-shadow
         rounded
@@ -11,7 +11,7 @@
         icon="arrow-right-long">
         Portfolio View
       </NeoButton>
-    </div>
+    </div> -->
 
     <a class="has-text-grey is-size-7" @click="rampActive = true"
       >+ {{ $t('addFunds') }}</a
@@ -22,11 +22,12 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton } from '@kodadot1/brick'
+// import { NeoButton } from '@kodadot1/brick'
 import OnRampModal from '@/components/shared/OnRampModal.vue'
 
-const { urlPrefix } = usePrefix()
-const { isBasilisk } = useIsChain(urlPrefix)
+// TODO: implement isAssetHub for assets
+// const { urlPrefix } = usePrefix()
+// const { isAssetHub } = useIsChain(urlPrefix)
 const rampActive = ref(false)
 </script>
 

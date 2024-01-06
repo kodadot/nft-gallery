@@ -68,7 +68,6 @@ const displayChainOrder: ChainType[] = [
   'polkadotHub',
   'kusama',
   'kusamaHub',
-  'basilisk',
 ]
 const identityStore = useIdentityStore()
 

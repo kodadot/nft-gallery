@@ -1,7 +1,6 @@
 import { expect, test } from './fixtures'
 
 const chains = [
-  'chain-dropdown-bsx',
   'chain-dropdown-ksm',
   'chain-dropdown-ahp',
   'chain-dropdown-ahk',

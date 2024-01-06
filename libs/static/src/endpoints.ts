@@ -17,9 +17,8 @@ const POLKADOT_ENDPOINTS: WS_URL[] = [
   'wss://polkadot-rpc.dwellir.com',
 ]
 
-// Someone from BSX team told me that Polkadot API takes Array of endpoints
+// Someone from HydraDX team told me that Polkadot API takes Array of endpoints
 export const ALTERNATIVE_ENDPOINT_MAP: Config<WS_URL[]> = {
-  bsx: ['wss://rpc.basilisk.cloud', 'wss://basilisk-rpc.dwellir.com'],
   rmrk: KUSAMA_ENDPOINTS,
   ksm: KUSAMA_ENDPOINTS,
   ahk: [
@@ -42,7 +41,6 @@ export const ALTERNATIVE_ENDPOINT_MAP: Config<WS_URL[]> = {
 }
 
 export const ENDPOINT_MAP: Config<WS_URL> = {
-  bsx: 'wss://rpc.basilisk.cloud',
   rmrk: KUSAMA_ENDPOINTS[0],
   ksm: KUSAMA_ENDPOINTS[0],
   ahk: 'wss://sys.ibp.network/statemine',

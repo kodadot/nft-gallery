@@ -519,16 +519,7 @@
     "createdCollections": "Erstellte Sammlungen",
     "activeWallets": "Aktive Konten",
     "offers": "Angebote",
-    "values": "VALUES",
-    "bsxTitle": "Basilisk Marktplatz Statistiken"
-  },
-  "myOffer": {
-    "bsxTitle": "Eingehende Angebote",
-    "price": "Menge",
-    "caller": "Angebotsmacher",
-    "date": "Zeit",
-    "needLogin": "Verbinde deine Wallet um deine Angebote zu sehen.",
-    "empty": "Zur Zeit gibt es keine Angebote."
+    "values": "VALUES"
   },
   "loader": {
     "casting": "(1/3) Bereite die tx zur Blockcahin vor",

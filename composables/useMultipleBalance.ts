@@ -3,7 +3,6 @@ import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
 import format from '@/utils/format/balance'
 import { useFiatStore } from '@/stores/fiat'
 import { calculateExactUsdFromToken } from '@/utils/calculation'
-import { getAssetIdByAccount } from '@/utils/api/bsx/query'
 import { toDefaultAddress } from '@/utils/account'
 
 import { storeToRefs } from 'pinia'
@@ -15,7 +14,6 @@ import { useIdentityStore } from '@/stores/identity'
 const networkToPrefix = {
   polkadot: 'dot',
   kusama: 'ksm',
-  basilisk: 'bsx',
   kusamaHub: 'ahk',
   polkadotHub: 'ahp',
   // rococoHub: 'ahr',
@@ -25,10 +23,9 @@ export const prefixToNetwork = {
   dot: 'polkadot',
   rmrk: 'kusama',
   ksm: 'kusama',
-  bsx: 'basilisk',
   ahk: 'kusamaHub',
   ahp: 'polkadotHub',
-  ahr: 'rococoHub',
+  // ahr: 'rococoHub',
 }
 
 const getNetwork = (prefix: Prefix) => {
@@ -84,10 +81,7 @@ export default function (refetchPeriodically: boolean = false) {
 
     const currentBalance = format(nativeBalance, chain.tokenDecimals, false)
 
-    let selectedTokenId = String(tokenId)
-    if (chainName === 'basilisk') {
-      selectedTokenId = await getAssetIdByAccount(api, prefixAddress)
-    }
+    const selectedTokenId = String(tokenId)
 
     const usd = calculateUsd(
       currentBalance,
