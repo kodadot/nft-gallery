@@ -35,7 +35,7 @@ const preferencesStore = usePreferencesStore()
 const listingCartStore = useListingCartStore()
 
 const { stats } = useCollectionDetails({
-  collectionId: props.nft.collection.id,
+  collectionId: computed(() => props.nft.collection.id),
 })
 const nftPrice = computed(() => props.nft.price || '')
 

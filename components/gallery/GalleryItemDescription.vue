@@ -126,11 +126,11 @@
       </div>
 
       <hr class="my-2" />
-      <div v-if="nftImage" class="flex justify-between">
+      <div v-if="mediaUrl" class="flex justify-between">
         <p>{{ $t('tabs.tabDetails.media') }}</p>
         <div>
           <a
-            v-safe-href="nftImage"
+            v-safe-href="mediaUrl"
             class="has-text-link"
             data-testid="media-link"
             target="_blank"
@@ -139,15 +139,15 @@
           </a>
         </div>
       </div>
-      <div v-if="nftAnimation" class="flex justify-between">
+      <div v-if="animatedMediaUrl" class="flex justify-between">
         <p>{{ $t('tabs.tabDetails.animatedMedia') }}</p>
         <div>
           <a
-            v-safe-href="nftAnimation"
+            v-safe-href="animatedMediaUrl"
             class="has-text-link"
             target="_blank"
             rel="nofollow noopener noreferrer">
-            {{ animationMediaMimeType }}
+            {{ nftAnimationMimeType }}
           </a>
         </div>
       </div>
@@ -204,7 +204,7 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { GalleryItem, useGalleryItem } from './useGalleryItem'
 
 import { MediaType } from '@/components/rmrk/types'
-import { getMimeType, resolveMedia } from '@/utils/gallery/media'
+import { resolveMedia } from '@/utils/gallery/media'
 import { replaceSingularCollectionUrlByText } from '@/utils/url'
 
 const { urlPrefix } = usePrefix()
@@ -220,6 +220,7 @@ const nftMetadata = getValue('nftMetadata')
 const nftMimeType = getValue('nftMimeType')
 const nftImage = getValue('nftImage')
 const nftAnimation = getValue('nftAnimation')
+const nftAnimationMimeType = getValue('nftAnimationMimeType')
 
 const activeTab = ref('0')
 const { version } = useRmrkVersion()
@@ -264,7 +265,7 @@ const parentNftUrl = computed(() => {
 
 const properties = computed(() => {
   const attributes = (nftMetadata.value?.attributes ||
-    nftMetadata.value?.meta.attributes ||
+    nftMetadata.value?.meta?.attributes ||
     []) as Array<{ trait_type: string; value: string; key?: string }>
 
   return attributes.map(({ trait_type, key, value }) => ({
@@ -281,22 +282,25 @@ const propertiesTabDisabled = computed(() => {
   return !properties.value?.length
 })
 
-const metadataMimeType = ref('application/json')
-const metadataURL = ref('')
-const animationMediaMimeType = ref('')
+const metadataMimeType = 'application/json'
+const metadataURL = computed(() => sanitizeIpfsUrl(nft.value?.metadata))
 
-watchEffect(async () => {
-  if (nft.value?.metadata) {
-    const sanitizeMetadata = sanitizeIpfsUrl(nft.value?.metadata)
-    const mimeType = await getMimeType(sanitizeMetadata)
+const isCloudflareStream = (url: string) => url.includes('cloudflarestream.com')
 
-    metadataMimeType.value = mimeType || 'application/json'
-    metadataURL.value = sanitizeMetadata
+const mediaUrl = computed(() => {
+  if (isCloudflareStream(nftImage.value)) {
+    return sanitizeIpfsUrl(nft.value.meta?.image)
   }
 
-  if (nftAnimation.value) {
-    animationMediaMimeType.value = await getMimeType(nftAnimation.value)
+  return nftImage.value
+})
+
+const animatedMediaUrl = computed(() => {
+  if (isCloudflareStream(nftAnimation.value)) {
+    return sanitizeIpfsUrl(nft.value.meta?.animation_url)
   }
+
+  return nftAnimation.value
 })
 </script>
 
