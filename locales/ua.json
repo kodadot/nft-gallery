@@ -9,7 +9,6 @@
   "account": "Обліковий запис",
   "accounts": "Облікові записи",
   "transfer": "Передача",
-  "incomingOffers": "Вхідні пропозиції",
   "transform": "Перетворення",
   "settings": "Налаштування",
   "first NFT market explorer on Kusama and Polkadot": "перший дослідник ринку NFT на Kusama та Polkadot",
@@ -426,7 +425,6 @@
     "buyDisabled": "Недостатньо балансу",
     "holdings": "Nfts належать",
     "gains": "Отримано",
-    "makeOfferDisabled": "Ви вже зробили пропозицію для цього NFT",
     "needToUploadNFTFile": "Вам потрібно завантажити файл NFT",
     "needToSetValidPrice": "Щоб перерахувати NFT, ціна має бути більше 0",
     "notEnoughBalance": "Недостатньо коштів",
@@ -485,16 +483,10 @@
   },
   "statsOverview": {
     "buys": "Купує",
-    "offerStats": {
-      "status": "Стан",
-      "totalCount": "Загальна кількість",
-      "totalPrice": "Загальна ціна"
-    },
     "listed": "У списку",
     "minted": "Викарбуваний",
     "createdCollections": "Створені колекції",
     "activeWallets": "Активні гаманці",
-    "offers": "Пропозиції",
     "values": "ЗНАЧЕННЯ"
   },
   "Завантаження": {
