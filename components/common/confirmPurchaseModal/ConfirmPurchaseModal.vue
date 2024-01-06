@@ -32,6 +32,12 @@
           {{ $t('confirmPurchase.royalties') }}
           <CommonTokenMoney :value="totalRoyalties" />
         </div>
+        <div class="flex justify-between has-text-grey is-size-7">
+          <div>
+            {{ $t('mint.nft.modal.kodadotFee') }}
+          </div>
+          <CommonTokenMoney :value="supportFee" />
+        </div>
       </div>
       <div class="flex justify-between py-4">
         {{ $t('confirmPurchase.youWillPay') }}
