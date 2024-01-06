@@ -36,7 +36,7 @@
           <div>
             {{ $t('mint.nft.modal.kodadotFee') }}
           </div>
-          <CommonTokenMoney :value="supportFee" />
+          {{ SUPPORT_FEE_PERCENT * 100 }}%
         </div>
       </div>
       <div class="flex justify-between py-4">
