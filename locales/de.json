@@ -11,7 +11,6 @@
   "amount": "Menge",
   "transfer": "Transfer",
   "assets": "Posten",
-  "incomingOffers": "Eingehende Angebote",
   "transform": "Umwandeln",
   "settings": "Einstellungen",
   "first NFT market explorer on Kusama and Polkadot": "erster NFT marktexplorer auf Kusama und Polkadot",
@@ -448,7 +447,6 @@
     "buyDisabled": "Nicht genug Guthaben",
     "holdings": "NFTs im Besitz von",
     "gains": "Gewinne",
-    "makeOfferDisabled": "Du hast schon ein Angebot für dieses NFT gemacht",
     "needToUploadNFTFile": "Du musst ein NFT hochladen",
     "needToSetValidPrice": "Der Preis muss höher als 0 sein, um dein NFT zu listen",
     "notEnoughBalance": "Unzureichendes Guthaben",
@@ -480,45 +478,14 @@
     },
     "properties": {
       "label": "Merkmale"
-    },
-    "offer": {
-      "label": "Angebote ({0})",
-      "count": "Anzahl an Angeboten {0}",
-      "empty": "Zur Zeit gibt es keine Angebote für dieses NFT.",
-      "item": "Gegenstand",
-      "status": "Angebotsstatus",
-      "date": "Datum",
-      "title": "Gebote auf dem Marktplatz"
     }
-  },
-  "offer": {
-    "caller": "Aussteller",
-    "price": "Preis",
-    "expiration": "Ablaufend",
-    "action": "Aktion",
-    "daySelectLabel": "Angebot läuft ab in",
-    "daySelectPlaceholder": "Wähle Datum zum Ablaufen",
-    "days": "Tage",
-    "collection": "Sammlung",
-    "nftName": "Name",
-    "accept": "NFT hat einen neuen Besitzer",
-    "withdraw": "Dein Angebot wurde zurückgenommen",
-    "burnedToggle": "Zeige verbrannte NFTs",
-    "offersCreated": "Gebote eingereicht",
-    "incomingOffers": "Eingehende Angebote"
   },
   "statsOverview": {
     "buys": "Käufe",
-    "offerStats": {
-      "status": "Status",
-      "totalCount": "Insgesamte Anzahl",
-      "totalPrice": "Insgesamter Preis"
-    },
     "listed": "Gelistet",
     "minted": "Gemintet",
     "createdCollections": "Erstellte Sammlungen",
     "activeWallets": "Aktive Konten",
-    "offers": "Angebote",
     "values": "VALUES"
   },
   "loader": {
@@ -753,9 +720,7 @@
     "exploreTabOrder": "Standard Tab im Explorer"
   },
   "navbar": {
-    "teleport": "Teleportieren",
-    "globalOffers": "Alle Angebote",
-    "offerStats": "Angebotsstatistik"
+    "teleport": "Teleportieren"
   },
   "walletConnect": {
     "walletHeading": "Wallet verbinden",

@@ -38,7 +38,6 @@
   "useTeleport": "Use Teleport",
   "addFunds": "Add Funds",
   "or": "or",
-  "incomingOffers": "Incoming Offers",
   "transform": "Transform",
   "settings": "Settings",
   "first NFT market explorer on Kusama and Polkadot": "first NFT market explorer on Kusama and Polkadot",
@@ -673,7 +672,6 @@
     "buyDisabled": "Not enough balance",
     "holdings": "Nfts owned by",
     "gains": "Gained by",
-    "makeOfferDisabled": "You have already made an offer for this NFT",
     "needToUploadNFTFile": "You need to upload NFT file",
     "failedMaxSize": "Your File is too large",
     "needToSetValidPrice": "To list NFT, price has to be more than 0",
@@ -718,57 +716,17 @@
     "properties": {
       "label": "Attributes"
     },
-    "offer": {
-      "label": "Offers ({0})",
-      "count": "Number of offers {0}",
-      "empty": "There are currently no offers for this NFT.",
-      "item": "Item",
-      "status": "Offer status",
-      "date": "Date",
-      "title": "Global Marketplace Offers"
-    },
     "notification": {
       "nftChanged": "[{chain}::{action}] Owner changed or NFT does not exist",
       "info": "[{action}] NFT: {itemId}"
     }
   },
-  "offer": {
-    "caller": "From",
-    "status": "Status",
-    "withdrawn": "Cancelled",
-    "active": "Active",
-    "accepted": "Accepted",
-    "inactive": "Inactive",
-    "price": "Price",
-    "usdPrice": "USD Price",
-    "expiration": "Expiration",
-    "expired": "offer has expired",
-    "action": "Action",
-    "daySelectLabel": "offer expires in",
-    "daySelectPlaceholder": "select day to expire",
-    "days": "days",
-    "collection": "Collection",
-    "nftName": "Name",
-    "accept": "NFT has new a owner",
-    "withdraw": "your offer has been withdrawn",
-    "burnedToggle": "Show Burned Nfts",
-    "allOffers": "All Offers",
-    "offersCreated": "Offers Created",
-    "incomingOffers": "Incoming Offers",
-    "floorDifferences": "Floor Difference"
-  },
   "statsOverview": {
     "buys": "Buys",
-    "offerStats": {
-      "status": "Status",
-      "totalCount": "Total Count",
-      "totalPrice": "Total price"
-    },
     "listed": "Listed",
     "minted": "Minted",
     "createdCollections": "Created Collections",
     "activeWallets": "Active wallets",
-    "offers": "Offers",
     "values": "VALUES",
     "uniqueOwners": "Unique Owners",
     "highestSale": "Highest Sale",
@@ -903,7 +861,6 @@
     "distribution": "DISTRIBUTION",
     "floorPrice": "FLOOR PRICE",
     "floor": "Floor",
-    "bestOffer": "Best Offer",
     "volume": "Volume",
     "network": "Network",
     "creator": "Creator",
@@ -1133,8 +1090,6 @@
   "navbar": {
     "teleport": "Teleport",
     "teleportBridge": "Teleport Bridge",
-    "globalOffers": "Global Offers",
-    "offerStats": "Offers Stats",
     "create": {
       "waifu": "Waifu",
       "generateWaifu": "Generate Waifu",
@@ -1249,8 +1204,6 @@
     "description": "Description",
     "details": "Details",
     "parent": "Parent",
-    "offers": "Offers",
-    "offersDisabled": "Offers Are Not Available on this chain",
     "activity": "Activity",
     "chart": "Chart",
     "rarity": "Rarity by Kodadot",
@@ -1316,10 +1269,6 @@
     "consume": {
       "success": "Item burned",
       "error": "Failed to burn item"
-    },
-    "offer": {
-      "success": "Offer successfully created",
-      "error": "Offer creation failed"
     },
     "unlist": {
       "success": "Item successfully unlisted",
@@ -1411,7 +1360,6 @@
   "filters": {
     "buy": "Buy",
     "sale": "Sale",
-    "offer": "Offer",
     "acceptedOffer": "Accepted offer",
     "listing": "Listing",
     "mint": "Mint",
