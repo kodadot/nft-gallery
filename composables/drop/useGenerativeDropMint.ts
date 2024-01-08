@@ -41,20 +41,20 @@ export default ({
   const { $i18n } = useNuxtApp()
   const listingCartStore = useListingCartStore()
   const preferencesStore = usePreferencesStore()
-  const imageData = ref('')
+  const imageDataPayload = ref<{ hash: string; image: string }>()
+
+  const mintedNft = ref<DropMintedNft>()
+  const mintedNftWithMetadata = ref<NFTWithMetadata>()
+  const selectedImage = ref<string>('')
 
   useEventListener(window, 'message', (res) => {
     if (
       res?.data?.type === 'kodahash/render/completed' &&
       res?.data?.payload.image
     ) {
-      imageData.value = res?.data?.payload.image
+      imageDataPayload.value = res?.data?.payload
     }
   })
-
-  const mintedNft = ref<DropMintedNft>()
-  const mintedNftWithMetadata = ref<NFTWithMetadata>()
-  const selectedImage = ref<string>('')
 
   const maxCount = computed(
     () => collectionData.value?.collectionEntity?.max || defaultMax.value,
@@ -98,10 +98,12 @@ export default ({
 
   const getCaptureImageFile = async () => {
     try {
-      if (!imageData.value) {
+      const selectedImageHash = selectedImage.value.split('?hash=')[1]
+      const isTheSameImage = selectedImageHash === imageDataPayload.value?.hash
+      if (!imageDataPayload.value?.image || !isTheSameImage) {
         throw new Error('Not loaded, try screenshot service')
       }
-      const res = (await fetch(imageData.value)) as any
+      const res = (await fetch(imageDataPayload.value.image)) as any
       return new File([res], 'image.png', { type: 'image/png' })
     } catch (error) {
       return await makeScreenshot(sanitizeIpfsUrl(selectedImage.value), {
