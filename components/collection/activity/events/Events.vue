@@ -52,7 +52,7 @@ import {
   OfferInteraction,
 } from '@/composables/collectionActivity/types'
 import ResponsiveTable from '@/components/shared/ResponsiveTable.vue'
-import { getFromAddress, getToAddress } from './eventRow/common'
+import { blank, getFromAddress, getToAddress } from './eventRow/common'
 
 const props = withDefaults(
   defineProps<{
@@ -110,7 +110,7 @@ const filteredEvents = computed(() => {
 
 const getEventAddresses = (event): string[] => {
   return [getFromAddress(event), getToAddress(event)].filter(
-    (address) => address !== '--',
+    (address) => address !== blank,
   )
 }
 
