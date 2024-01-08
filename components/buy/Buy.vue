@@ -155,30 +155,31 @@ const handleNftChange = (
   updatedNft: { id: string; price: string },
 ) => {
   const newPrice = updatedNft.price
-  const isNotListed = newPrice === '0'
+  const isNotListedAnymore = newPrice === '0'
 
   if (item.price === newPrice) {
     return
   }
 
-  if (isShoppingCartMode.value) {
-    if (isNotListed) {
+  if (isNotListedAnymore) {
+    if (isShoppingCartMode.value) {
       shoppingCartStore.removeItem(item.id)
     } else {
-      shoppingCartStore.updateItem({
-        ...item,
-        price: newPrice,
-      })
-    }
-  } else {
-    if (isNotListed) {
       shoppingCartStore.removeItemToBuy()
-    } else {
-      shoppingCartStore.setItemToBuy({
-        ...item,
-        price: newPrice,
-      })
     }
+    return
+  }
+
+  if (isShoppingCartMode.value) {
+    shoppingCartStore.updateItem({
+      ...item,
+      price: newPrice,
+    })
+  } else {
+    shoppingCartStore.setItemToBuy({
+      ...item,
+      price: newPrice,
+    })
   }
 }
 
