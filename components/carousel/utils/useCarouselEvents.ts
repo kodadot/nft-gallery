@@ -7,6 +7,8 @@ import latestEvents from '@/queries/subsquid/general/latestEvents.graphql'
 import latestEventsRmrkv2 from '@/queries/subsquid/ksm/latestEvents.graphql'
 import unionBy from 'lodash/unionBy'
 
+const MAX_NFT_CAROUSEL_AMOUNT = 30
+
 type CarouselEventsChainLimit = Partial<Record<Prefix, number>>
 
 type Types = 'latestSales' | 'newestList'
@@ -142,8 +144,7 @@ const sortNftByTime = (data) => data.sort((a, b) => b.unixTime - a.unixTime)
 const limitDisplayNfts = (data) => {
   const nfts = ref<CarouselNFT[]>([])
 
-  // show 30 nfts in carousel
-  const sortedNfts = sortNftByTime(data).slice(0, 30)
+  const sortedNfts = sortNftByTime(data).slice(0, MAX_NFT_CAROUSEL_AMOUNT)
 
   nfts.value = sortedNfts
 
@@ -163,11 +164,17 @@ export const useCarouselNftEvents = ({
   const nfts = ref<CarouselNFT[]>([])
   const items = computed(() => limitDisplayNfts(nfts.value))
   const chains = ['ahk', 'ahp', 'bsx', 'rmrk', 'ksm']
+  const nftPerChain = MAX_NFT_CAROUSEL_AMOUNT / chains.length
 
   onMounted(async () => {
     for (const chain of chains) {
-      const nftLimit = nftsLimit?.[chain] ? nftsLimit[chain] : limit
-      const queryLimit = nftLimit > limit ? nftLimit : limit
+      let nftLimit = nftPerChain
+
+      if (nftsLimit?.[chain]) {
+        nftLimit = nftsLimit[chain] + nftPerChain
+      }
+
+      const queryLimit = Math.max(nftLimit, limit)
 
       useChainEvents(chain, type, queryLimit, null, true, nftLimit).then(
         ({ data }) => nfts.value.push(...flattenNFT(data.value, chain)),
