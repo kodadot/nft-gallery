@@ -13,7 +13,7 @@ type CarouselEventsChainLimit = Partial<Record<Prefix, number>>
 
 type Types = 'latestSales' | 'newestList'
 
-export const limit = isProduction ? 15 : 8
+const limit = isProduction ? 15 : 8
 
 const nftEventVariables = {
   latestSales: { interaction_eq: 'BUY' },
