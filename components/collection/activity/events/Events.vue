@@ -28,11 +28,8 @@
 
     <template #rows="{ variant }">
       <EventRow
-        v-for="(event, i) in displayedEvents.slice(
-          0,
-          displayedEvents.length - 1,
-        )"
-        :key="i"
+        v-for="event in displayedEvents.slice(0, displayedEvents.length - 1)"
+        :key="event.id"
         :variant="variant"
         :event="event" />
       <div ref="sentinel" />
@@ -47,7 +44,7 @@
 import EventRow from './EventRow.vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import { Interaction } from '@kodadot1/minimark/v1'
-import { isAnyActivityFilterActive } from '../utils'
+import { isAnyActivityFilterActive, isAnyEventTypeFilterActive } from '../utils'
 import { mintInteraction } from '@/composables/collectionActivity/helpers'
 import {
   InteractionWithNFT,
@@ -55,6 +52,7 @@ import {
   OfferInteraction,
 } from '@/composables/collectionActivity/types'
 import ResponsiveTable from '@/components/shared/ResponsiveTable.vue'
+import { getFromAddress, getToAddress } from './eventRow/common'
 
 const props = withDefaults(
   defineProps<{
@@ -65,10 +63,19 @@ const props = withDefaults(
   },
 )
 
+const route = useRoute()
+
+const isOnlyVerifiedUsersFilterActive = computed(() =>
+  is(route.query?.verified as string),
+)
+
+const { urlPrefix } = usePrefix()
+const { getIdentityId, clientName } = useIdentityQuery(urlPrefix)
+
 const offset = ref(10)
 
 const filteredEvents = computed(() => {
-  const query = useRoute().query
+  const query = route.query
   const noFilterisActive = !isAnyActivityFilterActive()
   // don't filter events if no filter is applied
   if (noFilterisActive) {
@@ -83,10 +90,53 @@ const filteredEvents = computed(() => {
     [OfferInteraction]: is(query?.offer as string),
   }
 
+  const identityIds =
+    identities.value?.identities?.map((identity) => identity.id) || []
+
+  const filterByVerifiedIdentity = isOnlyVerifiedUsersFilterActive.value
+
   return props.events.filter((event) => {
-    return InteractionToKeep[event.interaction]
+    const active = getEventAddresses(event)
+      .map(getIdentityId)
+      .some((x) => identityIds.includes(x))
+
+    if (!isAnyEventTypeFilterActive() && filterByVerifiedIdentity) {
+      return active
+    }
+
+    return InteractionToKeep[event.interaction] && active
   })
 })
+
+const getEventAddresses = (event): string[] => {
+  return [getFromAddress(event), getToAddress(event)].filter((a) => a !== '--')
+}
+
+const eventsAddresses = computed(() => {
+  const addresses = props.events.map(getEventAddresses).flat()
+
+  return [...new Set([...addresses])].map(getIdentityId)
+})
+
+const { data: identities, refetch: getIdentities } = useGraphql({
+  clientName,
+  queryName: 'identities',
+  disabled: computed(() => true),
+  variables: { where: {} },
+})
+
+watch(
+  eventsAddresses,
+  () => {
+    getIdentities({
+      where: {
+        id_in: eventsAddresses.value,
+        display_isNull: false,
+      },
+    })
+  },
+  { immediate: true },
+)
 
 const displayedEvents = ref<(InteractionWithNFT | Offer)[]>([])
 
