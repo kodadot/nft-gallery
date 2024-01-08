@@ -2,6 +2,7 @@
   <div>
     <Loader v-if="!usingAutoTeleport" v-model="isLoading" :status="status" />
     <ConfirmPurchaseModal
+      :loading="!hasSyncedPrices"
       :action="autoteleportAction"
       @close="handleClose"
       @confirm="handleConfirm"
@@ -21,6 +22,7 @@ import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
 import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import { warningMessage } from '@/utils/notification'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
+import _ from 'lodash'
 
 const { transaction, status, isLoading, isError, blockNumber } =
   useTransaction()
@@ -29,8 +31,15 @@ const shoppingCartStore = useShoppingCartStore()
 const preferencesStore = usePreferencesStore()
 const fiatStore = useFiatStore()
 
+const nftSubscription = reactive<{
+  unsubscribe: () => void
+  nftIds: string[]
+}>({ unsubscribe: () => ({}), nftIds: [] })
+
+const hasSyncedPrices = ref(false)
 const usingAutoTeleport = ref(false)
 const buyAction = ref<Actions>(emptyObject<Actions>())
+
 const autoteleportAction = computed<AutoTeleportAction>(() => ({
   action: buyAction.value,
   transaction: transaction,
@@ -135,6 +144,77 @@ watch(
   (isOpen, prevIsOpen) => {
     if (isOpen && !prevIsOpen) {
       buyAction.value = getCartModeBasedBuyAction()
+    }
+  },
+  { immediate: true },
+)
+
+const updateNftPrice = (
+  item: ShoppingCartItem,
+  updatedNft: { id: string; price: string },
+) => {
+  const newPrice = updatedNft.price
+
+  if (item.price === newPrice) {
+    return
+  }
+
+  if (isShoppingCartMode.value) {
+    shoppingCartStore.updateItem({
+      ...item,
+      price: newPrice,
+    })
+  } else {
+    shoppingCartStore.setItemToBuy({
+      ...item,
+      price: newPrice,
+    })
+  }
+}
+
+const watchNftChanges = (nftIds: string[]) => {
+  if (_.isEqual(nftIds, nftSubscription.nftIds)) {
+    return
+  }
+
+  hasSyncedPrices.value = false
+  nftSubscription.unsubscribe()
+  nftSubscription.nftIds = nftIds
+
+  nftSubscription.unsubscribe = useSubscriptionGraphql({
+    query: `nftEntities(where: {
+        id_in: ${JSON.stringify(nftIds)}
+    }) {
+      id
+      price
+    }`,
+    onChange: ({ data: { nftEntities: updatedNfts } }) => {
+      updatedNfts.forEach((updatedNft) => {
+        const item = isShoppingCartMode.value
+          ? items.value.find((item) => item.id === updatedNft.id)
+          : shoppingCartStore.itemToBuy
+
+        if (item) {
+          updateNftPrice(item, updatedNft)
+        }
+      })
+
+      hasSyncedPrices.value = true
+    },
+  })
+}
+
+watch(
+  [() => shoppingCartStore.getItemToBuy, items],
+  () => {
+    const nftIds = (
+      isShoppingCartMode.value
+        ? items.value.map((item) => item.id)
+        : [shoppingCartStore.itemToBuy?.id]
+    ).filter(Boolean) as string[]
+
+    if (nftIds.length) {
+      watchNftChanges(nftIds)
     }
   },
   { immediate: true },

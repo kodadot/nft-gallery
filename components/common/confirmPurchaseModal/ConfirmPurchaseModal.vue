@@ -71,6 +71,7 @@ import { useBuySupportFee } from '@/composables/transaction/utils'
 const emit = defineEmits(['confirm', 'completed', 'close'])
 const props = defineProps<{
   action: AutoTeleportAction
+  loading: boolean
 }>()
 
 const prefrencesStore = usePreferencesStore()
@@ -81,7 +82,7 @@ const { urlPrefix } = usePrefix()
 const autoteleport = ref()
 const actions = computed(() => [props.action])
 
-const loading = computed(() => !autoteleport.value?.isReady)
+const loading = computed(() => !autoteleport.value?.isReady || props.loading)
 
 const mode = computed(() => prefrencesStore.getCompletePurchaseModal.mode)
 
