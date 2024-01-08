@@ -109,7 +109,9 @@ const filteredEvents = computed(() => {
 })
 
 const getEventAddresses = (event): string[] => {
-  return [getFromAddress(event), getToAddress(event)].filter((a) => a !== '--')
+  return [getFromAddress(event), getToAddress(event)].filter(
+    (address) => address !== '--',
+  )
 }
 
 const eventsAddresses = computed(() => {
