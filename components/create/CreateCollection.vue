@@ -308,10 +308,6 @@ const handleCreateCollectionConfirmation = async ({
 
 const createCollection = async () => {
   try {
-    showNotification(
-      `Creating Collection: "${name.value}"`,
-      notificationTypes.info,
-    )
     isLoading.value = true
 
     await transaction(mintCollectionAction.value, currentChain.value)
