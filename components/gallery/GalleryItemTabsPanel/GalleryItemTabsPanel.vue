@@ -5,29 +5,6 @@
     expanded
     data-testid="gallery-item-tabs"
     content-class="o-tabs__content--fixed gallery-item-tab-panel">
-    <!-- offers -->
-    <NeoTabItem
-      value="0"
-      data-testid="offer-list"
-      :disabled="offersDisabled"
-      :label="$t('tabs.offers')"
-      tag="div"
-      class="p-5">
-      <template #header>
-        <NeoTooltip
-          v-if="offersDisabled"
-          :label="$t('tabs.offersDisabled')"
-          content-class="offers-disabled-tooltip"
-          stop-events
-          append-to-body>
-          {{ $t('tabs.offers') }}
-        </NeoTooltip>
-        <div v-else>
-          {{ $t('tabs.offers') }}
-        </div>
-      </template>
-    </NeoTabItem>
-
     <!-- activity -->
     <NeoTabItem
       value="1"
@@ -44,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoTabItem, NeoTabs, NeoTooltip } from '@kodadot1/brick'
+import { NeoTabItem, NeoTabs } from '@kodadot1/brick'
 
 import { GalleryItem } from '../useGalleryItem'
 import GalleryItemActivity from './GalleryItemActivity.vue'
@@ -61,17 +38,13 @@ const props = withDefaults(
 )
 
 const nft = computed(() => props.galleryItem.nft.value)
-const { offersDisabled } = useChain()
 
-const activeTab = ref('0')
+const activeTab = ref('1')
 const collectionId = ref('')
 
 watchEffect(() => {
   if (props.activeTab) {
     activeTab.value = props.activeTab
-  }
-  if (offersDisabled) {
-    activeTab.value = '1'
   }
 
   collectionId.value = nft.value?.collection.id || ''
