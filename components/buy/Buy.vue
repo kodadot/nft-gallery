@@ -81,6 +81,7 @@ const handleClose = () => {
 }
 
 const handleActionCompleted = () => {
+  nftSubscription.unsubscribe()
   preferencesStore.setTriggerBuySuccess(true)
   shoppingCartStore.clear()
   handleClose()
