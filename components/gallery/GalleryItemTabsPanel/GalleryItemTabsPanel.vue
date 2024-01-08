@@ -26,13 +26,6 @@
           {{ $t('tabs.offers') }}
         </div>
       </template>
-
-      <!-- <GalleryItemOffers
-        v-if="isAssetHub && nft?.collection.id && nft?.id && nft.currentOwner"
-        :collection-id="nft?.collection.id"
-        :nft-id="nft?.id"
-        :account="nft?.currentOwner" />
-      <div v-else></div> -->
     </NeoTabItem>
 
     <!-- activity -->
@@ -56,7 +49,6 @@ import { NeoTabItem, NeoTabs, NeoTooltip } from '@kodadot1/brick'
 import { GalleryItem } from '../useGalleryItem'
 import GalleryItemActivity from './GalleryItemActivity.vue'
 import GalleryItemChart from './GalleryItemChart.vue'
-// import GalleryItemOffers from './GalleryItemOffers.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -68,15 +60,11 @@ const props = withDefaults(
   },
 )
 
-// TODO: enable once offers are implemented
-// const { urlPrefix } = usePrefix()
 const nft = computed(() => props.galleryItem.nft.value)
 const { offersDisabled } = useChain()
 
 const activeTab = ref('0')
 const collectionId = ref('')
-
-// const { isAssetHub } = useIsChain(urlPrefix)
 
 watchEffect(() => {
   if (props.activeTab) {

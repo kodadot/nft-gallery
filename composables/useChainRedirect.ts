@@ -109,9 +109,7 @@ export default function () {
       return
     }
 
-    // const isAssets = routeName.includes('-assets')
     const isSimpleCreate = routeName.includes('-create')
-    // const isIncomingOffers = routeName.includes('-incomingOffers')
 
     let redirectLocation: RawLocation = { path: `/${newChain}` }
 

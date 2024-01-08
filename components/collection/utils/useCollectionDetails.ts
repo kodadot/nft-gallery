@@ -27,20 +27,6 @@ export const useCollectionDetails = ({
 
       const collectionLength = data.value.stats.base.length
 
-      const maxOffer = computed(() => {
-        return undefined
-        // if (!chainsSupportingOffers.includes(urlPrefix.value)) {
-        //   return undefined
-        // }
-        // const offresPerNft = data.value.stats.base.map((nft) =>
-        //   nft.offers.map((offer) => Number(offer.price)),
-        // )
-        // const highestOffer = Math.max(
-        //   ...offresPerNft.map((nftOffers) => Math.max(...nftOffers)),
-        // )
-        // return highestOffer
-      })
-
       const listedNfts = data.value.stats.listed
 
       stats.value = {
@@ -52,7 +38,6 @@ export const useCollectionDetails = ({
             ? Math.min(...listedNfts.map((item) => parseInt(item.price)))
             : undefined,
         uniqueOwners: uniqueOwnerCount,
-        bestOffer: maxOffer.value,
         uniqueOwnersPercent: `${(
           (uniqueOwnerCount / collectionLength) *
           100

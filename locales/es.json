@@ -9,7 +9,6 @@
   "account": "Cuenta",
   "accounts": "Cuentas",
   "transfer": "Transferencia",
-  "incomingOffers": "Ofertas Recibidas",
   "transform": "Transformar",
   "settings": "Ajustes",
   "first NFT market explorer on Kusama and Polkadot": "Primer explorador de mercado NFT en Kusama y Polkadot",
@@ -426,7 +425,6 @@
     "buyDisabled": "No hay suficiente saldo",
     "holdings": "NFTs propiedad de",
     "gains": "Ganado por",
-    "makeOfferDisabled": "Ya has hecho una oferta por este NFT",
     "needToUploadNFTFile": "Necesitas subir el archivo NFT",
     "needToSetValidPrice": "Para enumerar NFT, el precio debe ser mayor que 0",
     "notEnoughBalance": "Fondos insuficientes",
@@ -458,43 +456,14 @@
     },
     "properties": {
       "label": "Características"
-    },
-    "offer": {
-      "label": "Ofertas ({0})",
-      "count": "Número de ofertas {0}",
-      "empty": "Actualmente no hay ofertas para este NFT.",
-      "item": "Artículo",
-      "status": "Estado de las ofertas",
-      "date": "Fecha",
-      "title": "Ofertas del mercado global"
     }
-  },
-  "offer": {
-    "caller": "Creador",
-    "price": "Precio",
-    "expiration": "Caducidad",
-    "action": "Acción",
-    "daySelectLabel": "oferta caduca en",
-    "daySelectPlaceholder": "seleccione el día para caducar",
-    "days": "días",
-    "collection": "Colección",
-    "nftName": "Nombre",
-    "accept": "NFT tiene un nuevo dueño",
-    "withdraw": "tu oferta ha sido retirada",
-    "burnedToggle": "Mostrar NFTs grabados"
   },
   "statsOverview": {
     "buys": "Compras",
-    "offerStats": {
-      "status": "Estado",
-      "totalCount": "Cuenta total",
-      "totalPrice": "Precio total"
-    },
     "listed": "Listado",
     "minted": "Minted",
     "createdCollections": "Colecciones creadas",
     "activeWallets": "Carteras activas",
-    "offers": "Ofertas",
     "values": "VALORES"
   },
   "loader": {

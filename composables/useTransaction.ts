@@ -28,7 +28,6 @@ import {
   ActionList,
   ActionMintCollection,
   ActionMintToken,
-  // ActionOffer,
   ActionSend,
   ActionSetCollectionMaxSupply,
   ActionWithdrawOffer,
@@ -144,8 +143,6 @@ export const executeAction = ({
       execListTx(item as ActionList, api, executeTransaction),
     [Interaction.SEND]: () =>
       execSendTx(item as ActionSend, api, executeTransaction),
-    // [ShoppingActions.MAKE_OFFER]: () =>
-    //   execMakeOfferTx(item as ActionOffer, api, executeTransaction),
     [ShoppingActions.CONSUME]: () =>
       execBurnTx(item as ActionConsume, api, executeTransaction),
     [ShoppingActions.WITHDRAW_OFFER]: () =>
