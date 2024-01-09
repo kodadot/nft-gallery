@@ -5,7 +5,7 @@
         {{ $t('identity.setOn', [getChainName(identityPrefix)]) }}
       </h1>
 
-      <div v-if="hasIdentity" class="is-size-6">
+      <div v-if="alreadyHasIdentity" class="is-size-6">
         <hr class="my-7" />
         <div class="mb-4">
           {{ $t('identity.establishedIdentity') }}
@@ -217,6 +217,7 @@ const {
   identityApi,
   identityPrefix,
   identityUnit,
+  hasIdentity,
   refetchIdentity,
 } = useIdentity({
   address: accountId,
@@ -225,6 +226,8 @@ const {
 const isConfirmModalActive = ref(false)
 const isLoaderModalVisible = ref(false)
 const transactionValue = ref('')
+
+const alreadyHasIdentity = computed(() => accountId.value && hasIdentity.value)
 
 const activeSocials = computed(() => {
   return socialTabs.value.reduce(
@@ -277,14 +280,6 @@ const setIdentityValue = (values: Record<string, string>) => {
     }
   }, identity.value)
 }
-
-const hasIdentity = computed(() => {
-  const { display, legal, web, twitter, riot, email } = identityData.value
-  return (
-    accountId.value &&
-    Boolean(display || legal || web || twitter || riot || email)
-  )
-})
 
 const handleUrlPrefixChange = async () => {
   deposit.value = await fetchDeposit()

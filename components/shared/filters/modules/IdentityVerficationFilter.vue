@@ -7,7 +7,7 @@
     <template #trigger="{ open }">
       <div class="flex" role="button" :aria-expanded="open">
         <p class="card-header-title has-text-weight-normal">
-          {{ $t('massmint.status') }}
+          {{ $t('filters.identityVerification') }}
         </p>
         <a class="card-header-icon">
           <NeoIcon :icon="open ? 'minus' : 'plus'" />
@@ -16,27 +16,23 @@
     </template>
     <div class="p-4">
       <NeoField>
-        <NeoCheckbox v-model="listed" data-testid="filter-checkbox-buynow">
-          {{ $t('sort.listed') }}</NeoCheckbox
+        <NeoCheckbox
+          v-model="onlyVerified"
+          data-testid="event-checkbox-filter-only-verified-identities"
+          >{{ $t('filters.onlyVerifiedIdentities') }}</NeoCheckbox
         >
-      </NeoField>
-      <NeoField>
-        <NeoCheckbox v-model="owned" :disabled="!accountId">
-          {{ $t('sort.own') }}
-        </NeoCheckbox>
       </NeoField>
     </div>
   </NeoCollapse>
 </template>
 
 <script lang="ts" setup>
-import { useExploreFiltersStore } from '@/stores/exploreFilters'
+import { useAcivityFiltersStore } from '@/stores/activityFilters'
 import { NeoCheckbox, NeoCollapse, NeoField, NeoIcon } from '@kodadot1/brick'
 
-const exploreFiltersStore = useExploreFiltersStore()
+const activityFiltersStore = useAcivityFiltersStore()
 const route = useRoute()
-const { accountId } = useAuth()
-const { replaceUrl: replaceURL } = useReplaceUrl()
+const { replaceUrl: replaceURL } = useReplaceUrl({ resetPage: false })
 
 type DataModel = 'query' | 'store'
 
@@ -55,26 +51,15 @@ const props = withDefaults(
 
 const emit = defineEmits(['resetPage'])
 
-const listed =
+const onlyVerified =
   props.dataModel === 'query'
     ? computed({
-        get: () => route.query?.listed?.toString() === 'true',
-        set: (value) => applyToUrl({ listed: String(value) }),
+        get: () => route.query?.verified?.toString() === 'true',
+        set: (value) => applyToUrl({ verified: String(value) }),
       })
     : computed({
-        get: () => exploreFiltersStore.listed,
-        set: (value) => exploreFiltersStore.setListed(value),
-      })
-
-const owned =
-  props.dataModel === 'query'
-    ? computed({
-        get: () => route.query?.owned?.toString() === 'true',
-        set: (value) => applyToUrl({ owned: String(value) }),
-      })
-    : computed({
-        get: () => exploreFiltersStore.owned,
-        set: (value) => exploreFiltersStore.setOwned(value),
+        get: () => activityFiltersStore.getEventTypeFilters.sale,
+        set: (value) => activityFiltersStore.setVerified(value),
       })
 
 const applyToUrl = (queryCondition: { [key: string]: any }) => {

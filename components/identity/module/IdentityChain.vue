@@ -1,5 +1,12 @@
 <template v-else>
-  <div>
+  <div :class="{ 'flex items-center': showBadge }">
+    <NeoIcon
+      v-if="showBadge"
+      icon="badge-check"
+      class="mr-1"
+      pack="fass"
+      size="small" />
+
     <span v-if="showOnchainIdentity" class="inline-flex items-center">
       {{ shortenedAddress }}
       <img
@@ -29,6 +36,7 @@
 import { GenericAccountId } from '@polkadot/types/generic/AccountId'
 import { isMobileDevice } from '@/utils/extension'
 import IdentityPopover from './IdentityPopover.vue'
+import { NeoIcon } from '@kodadot1/brick'
 
 type IdentityFields = Record<string, string>
 type Address = string | GenericAccountId | undefined
@@ -38,6 +46,7 @@ defineProps<{
   hideIdentityPopover?: boolean
   isFetchingIdentity?: boolean
   showClipboard?: boolean
+  showBadge?: boolean
   identity?: IdentityFields
   address?: Address
   shortenedAddress?: string
