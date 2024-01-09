@@ -61,7 +61,7 @@
               <div class="is-clickable" @click="openSideBarWith(nft)">
                 <CommonTokenMoney
                   v-if="nft.price"
-                  :value="nft.price * Math.pow(10, 12)" />
+                  :value="getNativeNftPrice(nft)" />
                 <div v-else class="has-text-k-orange">
                   {{ $t('massmint.priceMissing') }}
                 </div>
@@ -108,9 +108,11 @@ import {
   statusClass,
   statusTranslation,
 } from '@/composables/massmint/useMassMint'
-const { placeholder } = useTheme()
 
 const NuxtImg = resolveComponent('NuxtImg')
+
+const { placeholder } = useTheme()
+const { decimals } = useChain()
 
 const offset = ref(10)
 const sentinel = ref<HTMLDivElement | null>(null)
@@ -168,6 +170,10 @@ const handleIntersection = (entries: IntersectionObserverEntry[]) => {
     offset.value += 10
   }
 }
+
+const getNativeNftPrice = (nft: NFT): string =>
+  String((nft?.price || 0) * Math.pow(10, decimals.value))
+
 useIntersectionObserver(sentinel, handleIntersection, { threshold: 0.66 })
 </script>
 
