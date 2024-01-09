@@ -19,6 +19,7 @@
       :identity="identity"
       :address="address"
       :show-clipboard="showClipboard"
+      :show-badge="showIdentityBadge"
       :shortened-address="shortenedAddress"
       :name="name" />
   </div>
@@ -42,6 +43,7 @@ const props = defineProps<{
   showTwitter?: boolean
   showDiscord?: boolean
   showOnchainIdentity?: boolean
+  showBadge?: boolean
   hideIdentityPopover?: boolean
   showClipboard?: boolean
   customNameOption?: string
@@ -54,10 +56,15 @@ const {
   twitter,
   discord,
   name,
+  hasIdentity,
 } = useIdentity({
   address: computed(() => props.address),
   customNameOption: props.customNameOption || '',
 })
+
+const showIdentityBadge = computed(() =>
+  Boolean(props.showBadge && hasIdentity.value),
+)
 
 provide('address', props.address)
 provide(
