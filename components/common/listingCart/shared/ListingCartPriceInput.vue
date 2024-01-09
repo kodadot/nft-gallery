@@ -1,19 +1,22 @@
 <template>
   <div class="flex">
     <div
-      class="flex price-input border border-k-shade"
+      class="flex focus-within:!border-border-color border border-k-shade h-10"
       :class="{ 'price-input__fullwidth': fullWidth }">
       <input
         v-model="model"
-        type="text"
-        class="price-input height-40 theme-background-color has-text-color"
+        type="number"
+        step="0.01"
+        min="0.001"
+        pattern="[0-9]+([\.,][0-9]+)?"
+        class="indent-2.5 border-none outline-none w-20 theme-background-color has-text-color"
         :placeholder="$t('offer.price')" />
-      <div class="px-5 flex items-center">{{ chainSymbol }}</div>
+      <div class="px-3 flex items-center">{{ chainSymbol }}</div>
     </div>
     <NeoButton
       v-if="check"
       no-shadow
-      class="shade-border-color ml-2 height-40"
+      class="border-k-shade hover:!border-border-color ml-2 h-10"
       icon-pack="fas"
       icon="check"
       @click="emit('confirm')" />
@@ -31,53 +34,14 @@ const props = defineProps<{
 const emit = defineEmits(['confirm'])
 const model = useVModel(props, 'modelValue')
 const { chainSymbol } = useChain()
-
-watch(model, (newValue) => {
-  const sanitizedValue = Number(
-    (newValue?.toString() ?? '').replace(/[^0-9.]/g, ''),
-  )
-  if (sanitizedValue !== newValue) {
-    model.value = sanitizedValue
-  }
-})
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.price-input {
-  @include ktheme() {
-    &:focus-within {
-      border-color: theme('border-color') !important;
-    }
-  }
-
-  input {
-    border: none;
-    outline: none;
-    width: 5em;
-    text-indent: 10px;
-  }
-}
-
 .price-input__fullwidth {
   width: 100%;
 
   input {
     width: 100%;
-  }
-}
-
-.height-40 {
-  height: 40px;
-}
-
-.shade-border-color {
-  @include ktheme() {
-    border-color: theme('k-shade');
-    &:hover {
-      border-color: theme('border-color');
-    }
   }
 }
 </style>

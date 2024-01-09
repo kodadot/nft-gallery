@@ -9,7 +9,7 @@ import {
 } from '@kodadot1/minimark/v2'
 import { checkAddress, isAddress } from '@polkadot/util-crypto'
 
-import { isLegacy, tokenIdToRoute } from '@/components/unique/utils'
+import { isLegacy } from '@/components/unique/utils'
 import { ss58Of } from '@/utils/config/chain.config'
 import { warningMessage } from '@/utils/notification'
 import correctFormat from '@/utils/ss58Format'
@@ -51,22 +51,6 @@ function execSendRmrk(item: ActionSend, api, executeTransaction) {
   })
 }
 
-function execSendBasilisk(item: ActionSend, api, executeTransaction) {
-  const { id, item: token } = tokenIdToRoute(item.tokenId)
-
-  executeTransaction({
-    cb: api.tx.utility.batchAll,
-    arg: [
-      [
-        api.tx.marketplace.setPrice(id, token, 0),
-        api.tx.nft.transfer(id, token, item.address),
-      ],
-    ],
-    successMessage: item.successMessage,
-    errorMessage: item.errorMessage,
-  })
-}
-
 // note: price is automatically set to 0
 // https://github.com/paritytech/substrate/blob/e6a13b807a88d25aa1cd0d320edb9412c3692c67/frame/uniques/src/functions.rs#LL58C2-L58C51
 function execSendAssetHub(item: ActionSend, api, executeTransaction) {
@@ -89,10 +73,6 @@ export function execSendTx(item: ActionSend, api, executeTransaction) {
 
   if (item.urlPrefix === 'rmrk' || item.urlPrefix === 'ksm') {
     execSendRmrk(item, api, executeTransaction)
-  }
-
-  if (item.urlPrefix === 'bsx') {
-    execSendBasilisk(item, api, executeTransaction)
   }
 
   // item.urlPrefix === 'ahr'

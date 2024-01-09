@@ -44,14 +44,6 @@ export const dropsVisible = (prefix: Prefix | string) => {
   return prefix === 'ahk' || prefix === 'ahp'
 }
 
-export const assetsVisible = (prefix: Prefix | string) => {
-  return prefix === 'bsx'
-}
-
-export const incomingOfferssVisible = (prefix: Prefix | string) => {
-  return prefix === 'bsx'
-}
-
 export const explorerVisible = (prefix: Prefix | string): boolean => {
   return hasExplorer[prefix] ?? true
 }

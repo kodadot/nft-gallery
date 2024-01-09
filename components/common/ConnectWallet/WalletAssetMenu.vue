@@ -66,7 +66,7 @@ import { NeoDropdown, NeoDropdownItem, NeoIcon } from '@kodadot1/brick'
 import { langsFlags, setUserLocale } from '@/utils/config/i18n'
 
 const { urlPrefix } = usePrefix()
-const { isBasilisk } = useIsChain(urlPrefix)
+// const { isAssetHub } = useIsChain(urlPrefix)
 const { toggleColorMode, isDarkMode } = useTheme()
 const { neoModal } = useProgrammatic()
 
@@ -89,19 +89,20 @@ const menus = ref([
   },
 ])
 
-watchEffect(() => {
-  if (isBasilisk.value) {
-    menus.value.push({
-      label: 'Incoming Offers',
-      to: `/${urlPrefix.value}/incomingoffers`,
-    })
+// TODO: enable when asset hub offers are ready
+// watchEffect(() => {
+//   if (isAssetHub.value) {
+//     menus.value.push({
+//       label: 'Incoming Offers',
+//       to: `/${urlPrefix.value}/incomingoffers`,
+//     })
 
-    menus.value.push({
-      label: 'Assets',
-      to: `/${urlPrefix.value}/assets`,
-    })
-  }
-})
+//     menus.value.push({
+//       label: 'Assets',
+//       to: `/${urlPrefix.value}/assets`,
+//     })
+//   }
+// })
 
 const closeModal = () => {
   neoModal.closeAll()

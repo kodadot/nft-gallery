@@ -285,7 +285,7 @@ const props = defineProps({
 
 const query = toRef(props, 'query', {})
 
-const searchSuggestionEachTypeMaxNum = 5
+const searchSuggestionEachTypeMaxNum = 12
 const activeSearchTab = ref('Collections')
 const activeTrendingTab = ref('Trending')
 const selectedIndex = ref(-1)

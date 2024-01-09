@@ -10,7 +10,6 @@
   "amount": "Сумма",
   "transfer": "Перевод",
   "assets": "Активы",
-  "incomingOffers": "Входящие предложения",
   "transform": "Преобразовать",
   "settings": " Настройки",
   "first NFT market explorer on Kusama and Polkadot": "Первый эксплорер маркетов NFT для Kusama и Polkadot",
@@ -441,7 +440,6 @@
     "buyDisabled": "Недостаточно баланса",
     "holdings": "NFTs принадлежат",
     "gains": "Получено",
-    "makeOfferDisabled": "Вы уже сделали предложение для этого NFT",
     "needToUploadNFTFile": "Вам нужно загрузить файл NFT",
     "needToSetValidPrice": "Чтобы перечислить NFT, цена должна быть больше 0",
     "notEnoughBalance": "Недостаточно средств",
@@ -496,32 +494,15 @@
     "nftName": "Название",
     "accept": "NFT имеет нового владельца",
     "withdraw": "ваше предложение было отозвано",
-    "burnedToggle": "Показать сожженные NFT",
-    "offersCreated": "Созданные предложения",
-    "incomingOffers": "Входящие предложения"
+    "burnedToggle": "Показать сожженные NFT"
   },
   "statsOverview": {
     "buys": "Покупает",
-    "offerStats": {
-      "status": "Состояние",
-      "totalCount": "Общее количество",
-      "totalPrice": "Общая цена"
-    },
     "listed": "В списке",
     "minted": "Отчеканенный",
     "createdCollections": "Созданные коллекции",
     "activeWallets": "Активные кошельки",
-    "offers": "Предложения",
-    "values": "ЗНАЧЕНИЕ",
-    "bsxTitle": "Статистика Basilisk Marketplace"
-  },
-  "myOffer": {
-    "bsxTitle": "Входящие предложения",
-    "price": "Сумма",
-    "caller": "Автор предложений",
-    "date": "Время",
-    "needLogin": "Подключите кошелек, чтобы увидеть ваши предложения здесь.",
-    "empty": "Сейчас нет предложений."
+    "values": "ЗНАЧЕНИЕ"
   },
   "Загрузка": {
     "casting": "(1/3) Трансляция tx в блокчейн",
@@ -758,9 +739,7 @@
     "exploreTabOrder": "Вкладка по умолчанию в обзоре"
   },
   "навигационная панель": {
-    "teleport": "Телепорт",
-    "globalOffers": "Глобальные предложения",
-    "offerStats": "Статистика предложений"
+    "teleport": "Телепорт"
   },
   "walletConnect": {
     "walletHeading": "Подключить кошелек",

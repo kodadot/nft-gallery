@@ -16,10 +16,6 @@ export const ksmHubDenyList = [
   'Eipd9P7j9XC7voYxYgAoyE6wwt8BmpLDNC89RAU2cf6Qtrk', // No metadata
 ]
 
-export const bsxDenyList = [
-  'bXjMVEdCzhjYbPc5rJk7NvPSDRiiNuCT3GdqohFp3wdpzJL6Z', // Beeple, copycat
-]
-
 export const dotHubDenyList = [
   '128qRiVjxU3TuT37tg7AX99zwqfPtj2t4nDKUv9Dvi5wzxuF', // RMRK test
   '155HWw3J9jyYphMm5is4vp9Bzj7ZRRd6HEzCPdWd8cq97KfT', // Very old unreacheable IPFS
@@ -52,7 +48,6 @@ export const URLS = {
     netlify: 'https://beta.kodadot.xyz/.netlify/functions/',
     seoCard: 'https://og-image-green-seven.vercel.app/',
     rubick: 'https://squid.subsquid.io/rubick/graphql',
-    snek: 'https://squid.subsquid.io/snekk/graphql',
     marck: 'https://squid.subsquid.io/marck/graphql',
     stick: 'https://query-stick.stellate.sh',
     speck: 'https://squid.subsquid.io/speck/graphql',
@@ -77,7 +72,6 @@ export const URLS = {
 export const apolloClientConfig = {
   ...defineApolloConfig(),
   subsquid: toApolloEndpoint(process.env.SUBSQUID_ENDPOINT || URLS.koda.rubick),
-  bsx: toApolloEndpoint(URLS.koda.snek),
   rmrk2: toApolloEndpoint(URLS.koda.marck),
   ahk: toApolloEndpoint(URLS.koda.stick),
   ahp: toApolloEndpoint(URLS.koda.speck),

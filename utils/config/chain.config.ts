@@ -1,5 +1,4 @@
 import { CHAINS } from '@kodadot1/static'
-import { AssetItem } from '@/components/bsx/Asset/types'
 import { ChainProperties } from '../api/Query'
 
 import type { Prefix } from '@kodadot1/static'
@@ -16,6 +15,13 @@ export const blockExplorerOf = (prefix: Prefix): string | undefined => {
   return chainPropListOf(prefix).blockExplorer
 }
 
+type AssetItem = {
+  id: string
+  name: string
+  symbol: string
+  decimals: number
+}
+
 export const chainAssetOf = (prefix: Prefix): AssetItem => {
   const { tokenDecimals: decimals, tokenSymbol: symbol } =
     chainPropListOf(prefix)
@@ -30,7 +36,6 @@ export const chainAssetOf = (prefix: Prefix): AssetItem => {
 export const defultTokenChain: Record<string, Prefix> = {
   KSM: 'ksm',
   DOT: 'dot',
-  BSX: 'bsx',
   // GLMR: 'glmr',
   // MOVR: 'movr',
 }

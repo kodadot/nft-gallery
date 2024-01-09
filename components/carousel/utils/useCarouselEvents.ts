@@ -163,7 +163,8 @@ export const useCarouselNftEvents = ({
 }) => {
   const nfts = ref<CarouselNFT[]>([])
   const items = computed(() => limitDisplayNfts(nfts.value))
-  const chains = ['ahk', 'ahp', 'bsx', 'rmrk', 'ksm']
+
+  const chains = ['ahk', 'ahp', 'rmrk', 'ksm']
   const nftPerChain = MAX_NFT_CAROUSEL_AMOUNT / chains.length
 
   onMounted(async () => {

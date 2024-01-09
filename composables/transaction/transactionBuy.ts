@@ -104,25 +104,6 @@ function execBuyRmrk(item: ActionBuy, api, executeTransaction) {
   })
 }
 
-function execBuyBasilisk(item: ActionBuy, api, executeTransaction) {
-  const nfts = Array.isArray(item.nfts) ? item.nfts : [item.nfts]
-
-  const transactions = nfts.map(({ id: nftId }) => {
-    const { id, item: token } = tokenIdToRoute(nftId)
-    const cb = getApiCall(api, item.urlPrefix, item.interaction)
-    const arg = [id, token]
-    return cb(...arg)
-  })
-
-  // TODO: implement tx fees #5130
-  executeTransaction({
-    cb: api.tx.utility.batchAll,
-    arg: [transactions],
-    successMessage: item.successMessage,
-    errorMessage: item.errorMessage,
-  })
-}
-
 async function execBuyStatemine(item: ActionBuy, api, executeTransaction) {
   const nfts = Array.isArray(item.nfts) ? item.nfts : [item.nfts]
   const transactions = await Promise.all(
@@ -163,9 +144,6 @@ export async function execBuyTx(item: ActionBuy, api, executeTransaction) {
     execBuyRmrk(item, api, executeTransaction)
   }
 
-  if (item.urlPrefix === 'bsx') {
-    execBuyBasilisk(item, api, executeTransaction)
-  }
   // item.urlPrefix === 'ahr'
   if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
     await execBuyStatemine(item, api, executeTransaction)
