@@ -2,6 +2,7 @@ import { DoResult, DropMintedStatus } from '@/services/waifu'
 import { makeScreenshot } from '@/services/capture'
 import { pinFileToIPFS } from '@/services/nftStorage'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
+import { useEventListener } from '@vueuse/core'
 
 export type DropMintedNft = DoResult & {
   id: string
@@ -40,10 +41,20 @@ export default ({
   const { $i18n } = useNuxtApp()
   const listingCartStore = useListingCartStore()
   const preferencesStore = usePreferencesStore()
+  const imageDataPayload = ref<{ hash: string; image: string }>()
 
   const mintedNft = ref<DropMintedNft>()
   const mintedNftWithMetadata = ref<NFTWithMetadata>()
   const selectedImage = ref<string>('')
+
+  useEventListener(window, 'message', (res) => {
+    if (
+      res?.data?.type === 'kodahash/render/completed' &&
+      res?.data?.payload.image
+    ) {
+      imageDataPayload.value = res?.data?.payload
+    }
+  })
 
   const maxCount = computed(
     () => collectionData.value?.collectionEntity?.max || defaultMax.value,
@@ -76,15 +87,28 @@ export default ({
 
   const tryCapture = async () => {
     try {
-      const imgFile = await makeScreenshot(
-        sanitizeIpfsUrl(selectedImage.value),
-        { webgl: false },
-      )
+      const imgFile = await getCaptureImageFile()
       const imageHash = await pinFileToIPFS(imgFile)
       return imageHash
     } catch (error) {
       toast($i18n.t('drops.capture'))
       return defaultImage.value
+    }
+  }
+
+  const getCaptureImageFile = async () => {
+    try {
+      const selectedImageHash = selectedImage.value.split('?hash=')[1]
+      const isTheSameImage = selectedImageHash === imageDataPayload.value?.hash
+      if (!imageDataPayload.value?.image || !isTheSameImage) {
+        throw new Error('Not loaded, try screenshot service')
+      }
+      const res = (await fetch(imageDataPayload.value.image)) as any
+      return new File([res], 'image.png', { type: 'image/png' })
+    } catch (error) {
+      return await makeScreenshot(sanitizeIpfsUrl(selectedImage.value), {
+        webgl: false,
+      })
     }
   }
 
