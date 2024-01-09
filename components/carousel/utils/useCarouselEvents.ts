@@ -1,6 +1,8 @@
 import type { CarouselNFT } from '@/components/base/types'
 import type { NFTWithMetadata } from '@/composables/useNft'
+import type { Prefix } from '@kodadot1/static'
 import { formatNFT } from '@/utils/carousel'
+import { AHK_GENERATIVE_DROPS, AHP_GENERATIVE_DROPS } from '@/utils/drop'
 
 import latestEvents from '@/queries/subsquid/general/latestEvents.graphql'
 import latestEventsRmrkv2 from '@/queries/subsquid/ksm/latestEvents.graphql'
@@ -152,42 +154,60 @@ const sortNfts = (data) => {
   }
 }
 
+const CAROUSEL_LIMIT: Partial<Record<Prefix, number>> = {
+  ahp: 15,
+  ahk: 9,
+  dot: 3,
+  ksm: 3,
+}
+
 export const useCarouselNftEvents = ({ type }: Types) => {
   const nfts = ref<CarouselNFT[]>([])
   const items = computed(() => sortNfts(nfts.value))
 
-  // total 30 items will show up on the carousel
-  // sum from limits on the third parameter of useEvents
-  const { data: ahp } = useEvents('ahp', type, 15)
-  const { data: ahk } = useEvents('ahk', type, 9)
-  const { data: ksm } = useEvents('ksm', type, 3)
-  const { data: rmrk } = useEvents('rmrk', type, 3)
+  const eventsDataRefs = Object.keys(CAROUSEL_LIMIT).map((chain) => {
+    const { data } = useEvents(chain, type, CAROUSEL_LIMIT[chain])
+    return data
+  })
 
-  watchEffect(async () => {
-    nfts.value = [...ahp.value, ...ahk.value, ...ksm.value, ...rmrk.value]
+  watchEffect(() => {
+    nfts.value = eventsDataRefs.flatMap((dataRef) => dataRef.value)
   })
 
   return computed(() => items.value.nfts)
 }
 
-export const useCarouselGenerativeNftEvents = (
-  ahkCollections,
-  ahpCollections,
-) => {
-  const nfts = ref<CarouselNFT[]>([])
+const GENERATIVE_CONFIG: Partial<
+  Record<Prefix, { limit: number; collections: string[] }>
+> = {
+  ahp: {
+    limit: 6,
+    collections: AHP_GENERATIVE_DROPS,
+  },
+  ahk: {
+    limit: 3,
+    collections: AHK_GENERATIVE_DROPS,
+  },
+}
 
-  const { data: ahpList } = useEvents('ahp', 'newestList', 6, ahpCollections)
-  const { data: ahpSales } = useEvents('ahp', 'latestSales', 6, ahpCollections)
-  const { data: ahkList } = useEvents('ahk', 'newestList', 3, ahkCollections)
-  const { data: ahkSales } = useEvents('ahk', 'latestSales', 3, ahkCollections)
+export const useCarouselGenerativeNftEvents = () => {
+  const nfts = ref<CarouselNFT[]>([])
+  const eventType = ['newestList', 'latestSales']
+
+  const eventsDataRefs = Object.keys(GENERATIVE_CONFIG).map((chain) => {
+    return eventType.map((eventName) => {
+      const { data } = useEvents(
+        chain,
+        eventName,
+        GENERATIVE_CONFIG[chain].limit,
+        GENERATIVE_CONFIG[chain].collections,
+      )
+      return data
+    })
+  })
 
   watchEffect(() => {
-    nfts.value = [
-      ...ahpList.value,
-      ...ahpSales.value,
-      ...ahkList.value,
-      ...ahkSales.value,
-    ]
+    nfts.value = eventsDataRefs.flat().flatMap((dataRef) => dataRef.value)
   })
 
   return computed(() => sortNfts(unionBy(nfts.value, 'id')).nfts)
