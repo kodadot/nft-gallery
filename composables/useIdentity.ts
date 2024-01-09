@@ -8,13 +8,12 @@ export type IdentityFields = Record<string, string>
 
 export const useIdentityQuery = (urlPrefix: Ref<Prefix>) => {
   const isDotAddress = computed(() => ['dot', 'ahp'].includes(urlPrefix.value))
+  const clientName = computed(() => (isDotAddress.value ? 'pid' : 'kid'))
 
   const getIdentityId = (address: string) =>
     isDotAddress.value
       ? accountToPublicKey(address)
       : getss58AddressByPrefix(address, 'rmrk')
-
-  const clientName = computed(() => (isDotAddress.value ? 'pid' : 'kid'))
 
   return { isDotAddress, getIdentityId, clientName }
 }
