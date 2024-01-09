@@ -51,6 +51,7 @@ export async function execMintCollectionStatemine({
 
   const { enabledFees, feeMultiplier, token } = calculateFees()
 
+  // tmp solution, remove when maxSupply bug is fixed, see #8391
   const maxSupplyArg = maxSupply
     ? [api.tx.nfts.setCollectionMaxSupply(nextId, maxSupply)]
     : []
