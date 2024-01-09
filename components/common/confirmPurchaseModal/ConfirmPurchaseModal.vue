@@ -30,7 +30,7 @@
         </div>
         <div class="flex justify-between has-text-grey is-size-7">
           <div>
-            {{ $t('Service Commission') }}
+            {{ $t('mint.nft.modal.serviceFee') }}
             ({{ SUPPORT_FEE_PERCENT * 100 }}%)
             <NeoTooltip
               class="is-cursor-pointer"

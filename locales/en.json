@@ -588,6 +588,7 @@
         "price": "Price",
         "network": "Network",
         "intoCollection": "Into Collection",
+        "serviceFee": "Service Commission",
         "networkFee": "Network Fee",
         "existentialDeposit": "NFT Existential Deposit",
         "depositTooltip": "A deposit of {0} {1} is required to create an item. Please note, this initial deposit is refundable. ",
