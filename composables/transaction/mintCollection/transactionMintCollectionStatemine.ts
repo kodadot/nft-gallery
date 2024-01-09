@@ -51,10 +51,15 @@ export async function execMintCollectionStatemine({
 
   const { enabledFees, feeMultiplier, token } = calculateFees()
 
+  const maxSupplyArg = maxSupply
+    ? [api.tx.nfts.setCollectionMaxSupply(nextId, maxSupply)]
+    : []
+
   const arg = [
     [
       api.tx.nfts.create(...createArgs),
       api.tx.nfts.setCollectionMetadata(nextId, metadata),
+      ...maxSupplyArg,
       ...(await canSupport(
         api,
         enabledFees,
