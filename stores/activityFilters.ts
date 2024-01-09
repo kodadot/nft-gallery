@@ -7,6 +7,8 @@ interface State {
   listing: boolean
   mint: boolean
   transfer: boolean
+  // identity verification
+  verified: boolean
   // price
   min: number | undefined
   max: number | undefined
@@ -21,6 +23,7 @@ export const useAcivityFiltersStore = defineStore('activityFilters', {
     transfer: false,
     min: undefined,
     max: undefined,
+    verified: false,
   }),
   getters: {
     getEventTypeFilters: ({ sale, offer, listing, mint, transfer }) => ({
@@ -47,6 +50,9 @@ export const useAcivityFiltersStore = defineStore('activityFilters', {
     },
     setTransfer(payload) {
       this.transfer = payload
+    },
+    setVerified(payload) {
+      this.verified = payload
     },
     setMin(payload) {
       this.min = payload

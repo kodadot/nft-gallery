@@ -126,6 +126,7 @@ const queryMapTranslation = {
   listing: $i18n.t('filters.listing'),
   mint: $i18n.t('filters.mint'),
   transfer: $i18n.t('filters.transfer'),
+  verified: $i18n.t('filters.onlyVerifiedIdentities'),
 }
 
 onMounted(() => {
