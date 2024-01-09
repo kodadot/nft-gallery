@@ -30,6 +30,8 @@ const { urlPrefix } = usePrefix()
 const shoppingCartStore = useShoppingCartStore()
 const preferencesStore = usePreferencesStore()
 const fiatStore = useFiatStore()
+const { toast } = useToast()
+const { $i18n } = useNuxtApp()
 
 const nftSubscription = reactive<{
   unsubscribe: () => void
@@ -60,8 +62,6 @@ onMounted(async () => {
     fiatStore.fetchFiatPrice()
   }
 })
-
-const { $i18n } = useNuxtApp()
 
 const isShoppingCartMode = computed(
   () => preferencesStore.getCompletePurchaseModal.mode === 'shopping-cart',
@@ -161,13 +161,15 @@ const handleNftChange = (
     return
   }
 
+  const name = nftSubscription.nftIds.length > 1 ? item.name : ''
+
   if (isNotListedAnymore) {
     if (isShoppingCartMode.value) {
       shoppingCartStore.removeItem(item.id)
     } else {
       shoppingCartStore.removeItemToBuy()
     }
-    return
+    return toast($i18n.t('buyModal.nftNotListedAnymore', [name]))
   }
 
   if (isShoppingCartMode.value) {
@@ -181,6 +183,8 @@ const handleNftChange = (
       price: newPrice,
     })
   }
+
+  toast($i18n.t('buyModal.nftPriceUpdated', [name]))
 }
 
 const watchNftChanges = (nftIds: string[]) => {
@@ -223,6 +227,11 @@ watch(
         ? items.value.map((item) => item.id)
         : [shoppingCartStore.itemToBuy?.id]
     ).filter(Boolean) as string[]
+
+    if (preferencesStore.completePurchaseModal.isOpen && nftIds.length === 0) {
+      preferencesStore.completePurchaseModal.isOpen = false
+      return
+    }
 
     if (nftIds.length) {
       watchNftChanges(nftIds)
