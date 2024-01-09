@@ -9,7 +9,7 @@ import unionBy from 'lodash/unionBy'
 
 const MAX_NFT_CAROUSEL_AMOUNT = 30
 
-type CarouselEventsChainLimit = Partial<Record<Prefix, number>>
+type CarouselEventsChainLimitDifference = Partial<Record<Prefix, number>>
 
 type Types = 'latestSales' | 'newestList'
 
@@ -156,10 +156,10 @@ const limitDisplayNfts = (data) => {
 
 export const useCarouselNftEvents = ({
   type,
-  limit: nftsLimit,
+  limitDifference,
 }: {
   type: Types
-  limit?: CarouselEventsChainLimit
+  limitDifference?: CarouselEventsChainLimitDifference
 }) => {
   const nfts = ref<CarouselNFT[]>([])
   const items = computed(() => limitDisplayNfts(nfts.value))
@@ -171,8 +171,8 @@ export const useCarouselNftEvents = ({
     for (const chain of chains) {
       let nftLimit = nftPerChain
 
-      if (nftsLimit?.[chain]) {
-        nftLimit = nftsLimit[chain] + nftPerChain
+      if (limitDifference?.[chain]) {
+        nftLimit = limitDifference[chain] + nftPerChain
       }
 
       const queryLimit = Math.max(nftLimit, limit)

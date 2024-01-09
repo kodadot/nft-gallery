@@ -14,7 +14,7 @@ const { urlPrefix } = usePrefix()
 
 const nfts = useCarouselNftEvents({
   type: 'latestSales',
-  limit: {
+  limitDifference: {
     ahp: 3,
     rmrk: -1,
     ksm: -3,

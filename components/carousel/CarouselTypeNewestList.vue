@@ -14,8 +14,8 @@ import { useCarouselNftEvents } from './utils/useCarouselEvents'
 const { urlPrefix } = usePrefix()
 const nfts = useCarouselNftEvents({
   type: 'newestList',
-  limit: {
-    ahp: +3,
+  limitDifference: {
+    ahp: 3,
     rmrk: -1,
     ksm: -3,
   },
