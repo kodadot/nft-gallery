@@ -7,7 +7,7 @@
       append-to-body
       @close="onClose">
       <ModalBody
-        modal-max-height="70vh"
+        modal-max-height="100vh"
         :title="title"
         content-class="pt-4 pb-5 px-0"
         :scrollable="false"
