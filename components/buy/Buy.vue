@@ -22,7 +22,7 @@ import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
 import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import { warningMessage } from '@/utils/notification'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
-import _ from 'lodash'
+import isEqual from 'lodash/isEqual'
 
 const { transaction, status, isLoading, isError, blockNumber } =
   useTransaction()
@@ -188,7 +188,7 @@ const handleNftChange = (
 }
 
 const watchNftChanges = (nftIds: string[]) => {
-  if (_.isEqual(nftIds, nftSubscription.nftIds)) {
+  if (isEqual(nftIds, nftSubscription.nftIds)) {
     return
   }
 
