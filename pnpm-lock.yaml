@@ -1,4 +1,4 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
 
 settings:
   autoInstallPeers: false
@@ -5397,7 +5397,7 @@ packages:
       '@substrate/connect': 0.7.0-alpha.0
       eventemitter3: 4.0.7
       mock-socket: 9.3.1
-      nock: 13.3.8
+      nock: 13.4.0
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -5891,7 +5891,7 @@ packages:
       '@polkadot/x-global': 12.5.1
       '@polkadot/x-textdecoder': 12.5.1
       '@polkadot/x-textencoder': 12.5.1
-      '@types/bn.js': 5.1.1
+      '@types/bn.js': 5.1.5
       bn.js: 5.2.1
       tslib: 2.6.2
     dev: false
@@ -9246,7 +9246,7 @@ packages:
   /axios@0.24.0:
     resolution: {integrity: sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==}
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.4
     transitivePeerDependencies:
       - debug
     dev: false
@@ -9254,7 +9254,7 @@ packages:
   /axios@0.25.0:
     resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
     dependencies:
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.4
     transitivePeerDependencies:
       - debug
     dev: true
@@ -11759,8 +11759,8 @@ packages:
     resolution: {integrity: sha512-W7cHV7Hrwjid6lWmy0IhsWDFQboWSng25U3VVywpHOTJnnAZNPScog67G+cVpeX9f7yDD21ih0WDrMMT+JoaYg==}
     dev: true
 
-  /follow-redirects@1.15.2:
-    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+  /follow-redirects@1.15.4:
+    resolution: {integrity: sha512-Cr4D/5wlrb0z9dgERpUL3LrmPKVDsETIJhaCMeDfuFYcqa5bldGV6wBsAN6X/vxlXQtFBMrXdXxdL8CbDTGniw==}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
