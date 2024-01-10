@@ -1,13 +1,13 @@
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { getDenyList } from '@/utils/prefix'
 import isEqual from 'lodash/isEqual'
-import { useSearchParams } from './utils/useSearchParams'
+import {
+  useItemsGridQueryParams,
+  useSearchParams,
+} from './utils/useSearchParams'
 import { Ref } from 'vue'
-
 import type { NFTWithMetadata, TokenEntity } from '@/composables/useNft'
-
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
-
 import { useListingCartStore } from '@/stores/listingCart'
 import { NFT, TokenId } from '@/components/rmrk/service/scheme'
 
@@ -49,6 +49,7 @@ export function useFetchSearch({
   const loadedPages = ref([] as number[])
 
   const { searchParams } = useSearchParams()
+  const { searchBySn } = useItemsGridQueryParams()
 
   interface FetchSearchParams {
     page?: number
@@ -123,12 +124,16 @@ export function useFetchSearch({
       }
     }
 
+    const defaultOrderBy = searchBySn.value
+      ? 'blockNumber_ASC'
+      : 'blockNumber_DESC'
+
     // Query path and variables
     const queryPath = getQueryPath(client.value)
     const defaultSearchVariables = {
       first: first.value,
       offset: (page - 1) * first.value,
-      orderBy: getRouteQueryOrDefault(route.query.sort, ['blockNumber_DESC']),
+      orderBy: getRouteQueryOrDefault(route.query.sort, [defaultOrderBy]),
     }
 
     const isPriceSortActive = (sort?: string | null | (string | null)[]) => {
