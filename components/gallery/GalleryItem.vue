@@ -235,11 +235,10 @@ const breakPointWidth = 930
 const isMobile = computed(() => useWindowSize().width.value < breakPointWidth)
 
 const tabs = {
-  offers: '0',
   activity: '1',
   chart: '2',
 }
-const activeTab = ref(tabs.offers)
+const activeTab = ref(tabs.activity)
 
 const canPreview = computed(() =>
   [MediaType.VIDEO, MediaType.IMAGE, MediaType.OBJECT].includes(

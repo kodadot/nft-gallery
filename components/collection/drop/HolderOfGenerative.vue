@@ -198,14 +198,14 @@ const mintButtonLabel = computed(() => {
 })
 const mintButtonDisabled = computed(
   () =>
-    isLogIn.value &&
-    Boolean(
-      !mintCountAvailable.value ||
+    !mintCountAvailable.value ||
+    disabledByBackend.value ||
+    (isLogIn.value &&
+      Boolean(
         !selectedImage.value ||
-        disabledByBackend.value ||
-        !isHolderOfTargetCollection.value ||
-        maxMintLimitForCurrentUser.value <= mintedAmountForCurrentUser.value,
-    ),
+          !isHolderOfTargetCollection.value ||
+          maxMintLimitForCurrentUser.value <= mintedAmountForCurrentUser.value,
+      )),
 )
 
 const mintButtonProps = computed(() => ({

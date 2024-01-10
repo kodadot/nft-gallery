@@ -10,7 +10,7 @@
         min="0.001"
         pattern="[0-9]+([\.,][0-9]+)?"
         class="indent-2.5 border-none outline-none w-20 theme-background-color has-text-color"
-        :placeholder="$t('offer.price')" />
+        :placeholder="$t('price')" />
       <div class="px-3 flex items-center">{{ chainSymbol }}</div>
     </div>
     <NeoButton

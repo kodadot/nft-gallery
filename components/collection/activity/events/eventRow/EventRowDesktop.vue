@@ -45,7 +45,11 @@
           v-if="fromAddress !== blank"
           :to="`/${urlPrefix}/u/${fromAddress}`"
           class="has-text-link">
-          <IdentityIndex ref="identity" :address="fromAddress" show-clipboard />
+          <IdentityIndex
+            ref="identity"
+            :address="fromAddress"
+            show-clipboard
+            show-badge />
         </nuxt-link>
         <div v-else>
           {{ blank }}
@@ -58,7 +62,11 @@
           v-if="toAddress !== blank"
           :to="`/${urlPrefix}/u/${toAddress}`"
           class="has-text-link">
-          <IdentityIndex ref="identity" :address="toAddress" show-clipboard />
+          <IdentityIndex
+            ref="identity"
+            :address="toAddress"
+            show-clipboard
+            show-badge />
         </nuxt-link>
         <div v-else>
           {{ blank }}

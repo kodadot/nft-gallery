@@ -1,0 +1,12 @@
+query identities($where: IdentityWhereInput!) {
+  identities: identities(where: $where) {
+    id
+    display
+    legal
+    email
+    riot
+    twitter
+    image
+    web
+  }
+}
