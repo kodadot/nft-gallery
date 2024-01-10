@@ -24,8 +24,8 @@ import { useReadyItems, useWaitingItems } from '@/composables/useMigrate'
 
 const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
-const { entities: readyItems } = await useReadyItems()
-const { entities: waitingItems } = await useWaitingItems()
+const { entities: readyItems } = useReadyItems()
+const { entities: waitingItems } = useWaitingItems()
 
 const isReady = computed(() => Object.keys(readyItems).length)
 const isWaiting = computed(() => Object.keys(waitingItems).length)

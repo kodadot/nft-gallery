@@ -69,5 +69,5 @@
 import { NeoButton } from '@kodadot1/brick'
 import { toReview, useReadyItems } from '@/composables/useMigrate'
 
-const { collections, entities } = await useReadyItems()
+const { collections, entities } = useReadyItems()
 </script>

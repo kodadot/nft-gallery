@@ -284,46 +284,49 @@ type Collections = {
   }[]
 }
 
-export const useWaitingItems = async () => {
+export const useWaitingItems = () => {
   const { urlPrefix } = usePrefix()
   const { accountId } = useAuth()
   const { client } = usePrefix()
 
+  const collections = ref<Collections['collectionEntities']>([])
   const entities = reactive({})
 
-  const { data } = await useAsyncQuery<Collections>({
-    query: collectionMigrateWaiting,
-    variables: {
-      account: accountId.value,
-    },
-    clientId: client.value,
-  })
-
-  const collections = computed(() => {
-    if (data.value?.collectionEntities?.length) {
-      return data.value?.collectionEntities
-    }
-
-    return []
-  })
-
-  watchEffect(() => {
-    collections.value.forEach(async (collection) => {
-      const metadata = await getNftMetadata(
-        collection as unknown as NFTWithMetadata,
-        urlPrefix.value,
-      )
-      const migrated = (
-        await waifuApi(`/relocations/owners/${accountId.value}`)
-      ).filter((item) => item.collection === collection.id)
-
-      if (migrated.length && collection.nfts?.length) {
-        entities[collection.id] = {
-          ...metadata,
-          migrated,
-        }
-      }
+  const fetchWaitingItems = async () => {
+    const { data } = await useAsyncQuery<Collections>({
+      query: collectionMigrateWaiting,
+      variables: {
+        account: accountId.value,
+      },
+      clientId: client.value,
     })
+
+    if (data.value?.collectionEntities?.length) {
+      collections.value = data.value?.collectionEntities
+
+      collections.value.forEach(async (collection) => {
+        const metadata = await getNftMetadata(
+          collection as unknown as NFTWithMetadata,
+          urlPrefix.value,
+        )
+        const migrated = (
+          await waifuApi(`/relocations/owners/${accountId.value}`)
+        ).filter((item) => item.collection === collection.id)
+
+        if (migrated.length && collection.nfts?.length) {
+          entities[collection.id] = {
+            ...metadata,
+            migrated,
+          }
+        }
+      })
+    }
+  }
+
+  watchEffect(async () => {
+    if (!collections.value?.length) {
+      await fetchWaitingItems()
+    }
   })
 
   return {
@@ -334,28 +337,39 @@ export const useWaitingItems = async () => {
 
 // fetch items for ready section
 // -------------------------------
-export const useReadyItems = async () => {
-  const { collections } = await useCollectionReady()
+export const useReadyItems = () => {
   const { urlPrefix } = usePrefix()
 
+  const collections = ref<CollectionsReady['collectionEntities']>([])
   const entities = reactive({})
 
-  watchEffect(async () => {
-    collections.value.forEach(async (collection) => {
-      const metadata = await getNftMetadata(
-        collection as unknown as NFTWithMetadata,
-        urlPrefix.value,
-      )
-      const migrated = await waifuApi(
-        `/relocations/${urlPrefix.value}-${collection.id}`,
-      )
+  const fetchCollections = async () => {
+    const { collections } = await useCollectionReady()
+    return collections.value
+  }
 
-      if (!migrated?.id && collection.nfts?.length) {
-        entities[collection.id] = {
-          ...metadata,
+  watchEffect(async () => {
+    const cols = await fetchCollections()
+    // console.log('collections', cols, cols.length)
+    if (cols.length) {
+      collections.value = cols
+
+      cols.forEach(async (collection) => {
+        const metadata = await getNftMetadata(
+          collection as unknown as NFTWithMetadata,
+          urlPrefix.value,
+        )
+        const migrated = await waifuApi(
+          `/relocations/${urlPrefix.value}-${collection.id}`,
+        )
+
+        if (!migrated?.id && collection.nfts?.length) {
+          entities[collection.id] = {
+            ...metadata,
+          }
         }
-      }
-    })
+      })
+    }
   })
 
   return {

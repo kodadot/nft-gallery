@@ -79,5 +79,5 @@ import { toReview, useWaitingItems } from '@/composables/useMigrate'
 
 const { urlPrefix } = usePrefix()
 
-const { entities, collections } = await useWaitingItems()
+const { entities, collections } = useWaitingItems()
 </script>
