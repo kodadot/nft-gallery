@@ -69,6 +69,7 @@
   "theatre": "theatre",
   "view": "view",
   "price": "Price",
+  "active": "Active",
   "lowestPrice": "Lowest Price",
   "royalty": "royalty",
   "Instance_tooltip": "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
@@ -587,6 +588,7 @@
         "price": "Price",
         "network": "Network",
         "intoCollection": "Into Collection",
+        "serviceFee": "Service Commission",
         "networkFee": "Network Fee",
         "existentialDeposit": "NFT Existential Deposit",
         "depositTooltip": "A deposit of {0} {1} is required to create an item. Please note, this initial deposit is refundable. ",
@@ -682,7 +684,8 @@
     "smallDisplay": "Small Display",
     "largeDisplay": "Large Display",
     "emptyAddress": "Receiver address cannot be empty",
-    "emptyListAmount": "Amount should be greater than 0"
+    "emptyListAmount": "Amount should be greater than 0",
+    "supportFee": "Activating this feature supports Kodadot in offsetting initial storage costs for your JPEGs. This preference can be modified at any time in the settings."
   },
   "nft": {
     "carbonless": "This NFT is carbonless",

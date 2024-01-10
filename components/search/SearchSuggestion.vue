@@ -124,7 +124,7 @@
                 <div class="flex flex-row justify-between pr-2">
                   <span class="name">{{ item.collection?.name }}</span>
                   <span v-if="item.price && parseFloat(item.price) > 0">
-                    {{ $t('offer.price') }}:
+                    {{ $t('price') }}:
                     <Money :value="item.price" :prefix="item.chain" inline />
                   </span>
                 </div>
