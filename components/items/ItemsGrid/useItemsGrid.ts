@@ -57,6 +57,9 @@ export function useFetchSearch({
     search?: { [key: string]: string | number }[]
   }
 
+  const hasBlockNumberSort = (items: string[]) =>
+    ['blockNumber_DESC', 'blockNumber_ASC'].some((sort) => items.includes(sort))
+
   const getSearchCriteria = (searchParams, reducer = {}) => {
     const mapping = {
       currentOwner_eq: (value) => ({ owner: value }),
@@ -107,11 +110,13 @@ export function useFetchSearch({
       ? 'tokenListWithSearch'
       : 'nftListWithSearch'
 
-    const getRouteQueryOrderByDefault = (query, defaultValue) => {
-      let orderBy = query?.length ? query : defaultValue
-      if (searchBySn.value) {
-        orderBy = [orderBy].flat().filter((o) => o !== 'blockNumber_DESC')
-        orderBy.push('blockNumber_ASC')
+    const getRouteQueryOrderByDefault = (query, defaultValue: string[]) => {
+      query = [query].filter(Boolean).flat() as string[]
+      let orderBy = query.length ? query : defaultValue
+      if (searchBySn.value && !hasBlockNumberSort(query)) {
+        orderBy = [...orderBy, 'blockNumber_ASC'].filter(
+          (o) => o !== 'blockNumber_DESC',
+        )
       }
       return orderBy
     }
