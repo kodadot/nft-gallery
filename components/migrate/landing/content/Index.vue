@@ -1,79 +1,38 @@
 <template>
   <div>
-    <div class="flex flex-column justify-between">
-      <div>
-        <div v-if="accountId" class="flex flex-column items-center">
-          <p class="mr-4">{{ $t('migrate.resultFor') }}</p>
-          <div class="flex">
-            <Avatar :value="accountId" :size="26" class="mr-2" />
-            <nuxt-link class="has-text-k-blue" :to="`/ksm/u/${accountId}`">
-              <Identity :address="accountId" hide-identity-popover />
-            </nuxt-link>
-            <p class="ml-4">On RMRK2</p>
-          </div>
-        </div>
-        <div v-else class="flex items-center">
-          <p class="mr-4">{{ $t('migrate.connect') }}</p>
-          <ConnectWalletButton no-shadow variant="k-accent" />
-        </div>
-      </div>
-
-      <div class="question">
-        <NeoTooltip
-          multiline
-          multiline-width="16rem"
-          :label="$t('migrate.tooltipCollectionLabel')">
-          <div class="flex items-center">
-            <NeoIcon icon="circle-question" class="mr-2" />
-            <p>{{ $t('migrate.tooltipCollection') }}</p>
-          </div>
-        </NeoTooltip>
-      </div>
-    </div>
-
-    <hr />
-
-    <div v-if="accountId">
+    <div v-if="accountId && (isReady || isWaiting)">
       <!-- ready state for migration here -->
-      <MigrateLandingContentReady :key="urlPrefix" />
+      <MigrateLandingContentReady v-if="isReady" :key="urlPrefix" />
 
       <!-- waiting state for migration here -->
-      <MigrateLandingContentWaiting :key="urlPrefix" />
+      <MigrateLandingContentWaiting v-if="isWaiting" :key="urlPrefix" />
     </div>
 
     <!-- empty state collection here -->
-    <!-- <div class="has-text-centered">
+    <div v-else class="has-text-centered">
       <p class="is-size-4 has-text-weight-bold">Nothing to Migrate</p>
       <p>
         It looks like you have no collections or items ready for migration at
         this time.
       </p>
-    </div> -->
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
-import Identity from '@/components/identity/IdentityIndex.vue'
+import { useReadyItems, useWaitingItems } from '@/composables/useMigrate'
 
 const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
+const { entities: readyItems } = await useReadyItems()
+const { entities: waitingItems } = await useWaitingItems()
+
+const isReady = computed(() => Object.keys(readyItems).length)
+const isWaiting = computed(() => Object.keys(waitingItems).length)
 </script>
 
 <style lang="scss">
 @import '@/assets/styles/abstracts/variables';
-
-.question {
-  font-size: 12px;
-
-  @include ktheme() {
-    color: theme('k-grey');
-  }
-
-  @include mobile() {
-    text-align: center;
-  }
-}
 
 .section-title {
   img {
@@ -146,13 +105,6 @@ const { urlPrefix } = usePrefix()
       flex-direction: column;
       gap: 1rem;
     }
-  }
-}
-
-.flex-column {
-  @include mobile() {
-    flex-direction: column;
-    gap: 1rem;
   }
 }
 </style>

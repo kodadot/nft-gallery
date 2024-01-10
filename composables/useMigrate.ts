@@ -2,6 +2,8 @@ import type { Prefix } from '@kodadot1/static'
 import { availablePrefixWithIcon } from '@/utils/chain'
 import format from '@/utils/format/balance'
 import collectionMigrateReady from '@/queries/subsquid/general/collectionMigrateReady.graphql'
+import collectionMigrateWaiting from '@/queries/subsquid/general/collectionMigrateWaiting.graphql'
+import waifuApi from '@/services/waifu'
 
 export type Steps =
   | 'init'
@@ -261,5 +263,103 @@ export default function useMigrate() {
     sourceSelected,
     destination,
     destinationSelected,
+  }
+}
+
+// fetch items for waiting section
+// -------------------------------
+type Collections = {
+  collectionEntities?: {
+    id: string
+    name: string
+    currentOwner: string
+    nfts?: {
+      id: string
+    }[]
+    metadata: string
+    meta?: {
+      id: string
+      image: string
+    }
+  }[]
+}
+
+export const useWaitingItems = async () => {
+  const { urlPrefix } = usePrefix()
+  const { accountId } = useAuth()
+  const { client } = usePrefix()
+
+  const entities = reactive({})
+
+  const { data } = await useAsyncQuery<Collections>({
+    query: collectionMigrateWaiting,
+    variables: {
+      account: accountId.value,
+    },
+    clientId: client.value,
+  })
+
+  const collections = computed(() => {
+    if (data.value?.collectionEntities?.length) {
+      return data.value?.collectionEntities
+    }
+
+    return []
+  })
+
+  watchEffect(() => {
+    collections.value.forEach(async (collection) => {
+      const metadata = await getNftMetadata(
+        collection as unknown as NFTWithMetadata,
+        urlPrefix.value,
+      )
+      const migrated = (
+        await waifuApi(`/relocations/owners/${accountId.value}`)
+      ).filter((item) => item.collection === collection.id)
+
+      if (migrated.length && collection.nfts?.length) {
+        entities[collection.id] = {
+          ...metadata,
+          migrated,
+        }
+      }
+    })
+  })
+
+  return {
+    collections,
+    entities,
+  }
+}
+
+// fetch items for ready section
+// -------------------------------
+export const useReadyItems = async () => {
+  const { collections } = await useCollectionReady()
+  const { urlPrefix } = usePrefix()
+
+  const entities = reactive({})
+
+  watchEffect(async () => {
+    collections.value.forEach(async (collection) => {
+      const metadata = await getNftMetadata(
+        collection as unknown as NFTWithMetadata,
+        urlPrefix.value,
+      )
+      const migrated = await waifuApi(
+        `/relocations/${urlPrefix.value}-${collection.id}`,
+      )
+
+      if (!migrated?.id && collection.nfts?.length) {
+        entities[collection.id] = {
+          ...metadata,
+        }
+      }
+    })
+  })
+
+  return {
+    collections,
+    entities,
   }
 }
