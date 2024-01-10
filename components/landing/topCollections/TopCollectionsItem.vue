@@ -42,7 +42,7 @@
       <div class="justify-end px-2 flex w-160">
         <div class="has-text-right flex-col items-center flex is-size-7-mobile">
           <div class="no-wrap">
-            <CommonTokenMoney :value="volume" inline :round="1" />
+            <CommonTokenMoney :value="volume" inline :round="2" />
           </div>
           <div class="no-wrap is-hidden-mobile">
             <BasicMoney
