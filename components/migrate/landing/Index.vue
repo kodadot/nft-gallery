@@ -11,7 +11,7 @@
           <div class="flex">
             <Avatar :value="accountId" :size="26" class="mr-2" />
             <nuxt-link
-              class="text-k-blue"
+              class="!text-k-blue"
               :to="`/${sourceSelected?.value}/u/${accountId}`">
               <IdentityIndex :address="accountId" hide-identity-popover />
             </nuxt-link>
