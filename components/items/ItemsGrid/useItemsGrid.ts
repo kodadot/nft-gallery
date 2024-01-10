@@ -107,8 +107,13 @@ export function useFetchSearch({
       ? 'tokenListWithSearch'
       : 'nftListWithSearch'
 
-    const getRouteQueryOrDefault = (query, defaultValue) => {
-      return query?.length ? query : defaultValue
+    const getRouteQueryOrderByDefault = (query, defaultValue) => {
+      let orderBy = query?.length ? query : defaultValue
+      if (searchBySn.value) {
+        orderBy = [orderBy].flat().filter((o) => o !== 'blockNumber_DESC')
+        orderBy.push('blockNumber_ASC')
+      }
+      return orderBy
     }
 
     const getQueryResults = (query) => {
@@ -124,16 +129,14 @@ export function useFetchSearch({
       }
     }
 
-    const defaultOrderBy = searchBySn.value
-      ? 'blockNumber_ASC'
-      : 'blockNumber_DESC'
-
     // Query path and variables
     const queryPath = getQueryPath(client.value)
     const defaultSearchVariables = {
       first: first.value,
       offset: (page - 1) * first.value,
-      orderBy: getRouteQueryOrDefault(route.query.sort, [defaultOrderBy]),
+      orderBy: getRouteQueryOrderByDefault(route.query.sort, [
+        'blockNumber_DESC',
+      ]),
     }
 
     const isPriceSortActive = (sort?: string | null | (string | null)[]) => {
