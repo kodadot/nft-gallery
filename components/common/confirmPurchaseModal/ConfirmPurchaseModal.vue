@@ -28,6 +28,21 @@
           }}</span>
           <CommonTokenMoney :value="totalNFTsPrice" />
         </div>
+        <div class="flex justify-between has-text-grey is-size-7 mb-2">
+          <div>
+            {{ $t('mint.nft.modal.serviceFee') }}
+            ({{ SUPPORT_FEE_PERCENT * 100 }}%)
+            <NeoTooltip
+              class="is-cursor-pointer"
+              position="top"
+              multiline-width="14rem"
+              :label="$t('tooltip.supportFee')"
+              multiline>
+              <NeoIcon icon="circle-question" />
+            </NeoTooltip>
+          </div>
+          <CommonTokenMoney :value="supportFee" />
+        </div>
         <div class="flex justify-between has-text-grey is-size-7">
           {{ $t('confirmPurchase.royalties') }}
           <CommonTokenMoney :value="totalRoyalties" />
@@ -56,7 +71,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoModal } from '@kodadot1/brick'
+import { NeoIcon, NeoModal, NeoTooltip } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { sum } from '@/utils/math'
 import { usePreferencesStore } from '@/stores/preferences'
