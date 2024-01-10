@@ -53,6 +53,7 @@ const props = defineProps<{
 }>()
 const slots = useSlots()
 const route = useRoute()
+const { accountId } = useAuth()
 const { urlPrefix, client } = usePrefix()
 const { isRemark } = useIsChain(urlPrefix)
 const preferencesStore = usePreferencesStore()
@@ -103,6 +104,10 @@ const fetchPageData = async (page: number, loadDirection = 'down') => {
     ? { currentOwner_eq: props.id, burned_eq: false }
     : { issuer_eq: props.id }
 
+  if (isProfilePage && accountId.value !== props.id) {
+    Object.assign(searchParams, { nftCount_not_eq: 0 })
+  }
+
   if (isRemark.value) {
     delete searchParams.burned_eq
   }
@@ -127,6 +132,8 @@ const fetchPageData = async (page: number, loadDirection = 'down') => {
         first: first.value,
         offset: (page - 1) * first.value,
       }
+  console.log(variables)
+
   const { data: result } = await useAsyncQuery({
     query: isProfilePage
       ? collectionListWithSearchProfile
