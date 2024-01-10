@@ -159,12 +159,9 @@ const {
 
 const mintButtonDisabled = computed(
   () =>
-    isLogIn.value &&
-    Boolean(
-      !mintCountAvailable.value ||
-        !selectedImage.value ||
-        disabledByBackend.value,
-    ),
+    !mintCountAvailable.value ||
+    disabledByBackend.value ||
+    (isLogIn.value && Boolean(!selectedImage.value)),
 )
 
 const mintButtonLabel = computed(() => {

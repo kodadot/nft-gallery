@@ -69,6 +69,7 @@
   "theatre": "theatre",
   "view": "view",
   "price": "Price",
+  "active": "Active",
   "lowestPrice": "Lowest Price",
   "royalty": "royalty",
   "Instance_tooltip": "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
@@ -1364,7 +1365,11 @@
     "listing": "Listing",
     "mint": "Mint",
     "transfer": "Transfer",
-    "artView": "Art View"
+    "artView": "Art View",
+    "offer": "Offer",
+    "verified": "Verified",
+    "onlyVerifiedIdentities": "Only Verified Identities",
+    "identityVerification": "Identity Verification"
   },
   "redirect": {
     "title": "Leaving Kodadot",
