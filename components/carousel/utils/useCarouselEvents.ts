@@ -155,8 +155,8 @@ const sortNfts = (data) => {
 }
 
 const CAROUSEL_LIMIT: Partial<Record<Prefix, number>> = {
-  ahp: 15,
-  ahk: 9,
+  ahp: 12,
+  ahk: 12,
   rmrk: 3,
   ksm: 3,
 }
@@ -181,7 +181,7 @@ const GENERATIVE_CONFIG: Partial<
   Record<Prefix, { limit: number; collections: string[] }>
 > = {
   ahp: {
-    limit: 6,
+    limit: 9,
     collections: AHP_GENERATIVE_DROPS,
   },
   ahk: {
