@@ -28,7 +28,7 @@
           }}</span>
           <CommonTokenMoney :value="totalNFTsPrice" />
         </div>
-        <div class="flex justify-between has-text-grey is-size-7">
+        <div class="flex justify-between has-text-grey is-size-7 mb-2">
           <div>
             {{ $t('mint.nft.modal.serviceFee') }}
             ({{ SUPPORT_FEE_PERCENT * 100 }}%)
