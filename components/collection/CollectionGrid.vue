@@ -132,8 +132,6 @@ const fetchPageData = async (page: number, loadDirection = 'down') => {
         first: first.value,
         offset: (page - 1) * first.value,
       }
-  console.log(variables)
-
   const { data: result } = await useAsyncQuery({
     query: isProfilePage
       ? collectionListWithSearchProfile
