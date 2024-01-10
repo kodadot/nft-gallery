@@ -302,7 +302,7 @@ export const useWaitingItems = () => {
     })
 
     if (data.value?.collectionEntities?.length) {
-      collections.value = data.value?.collectionEntities
+      collections.value = data.value.collectionEntities
 
       collections.value.forEach(async (collection) => {
         const metadata = await getNftMetadata(
