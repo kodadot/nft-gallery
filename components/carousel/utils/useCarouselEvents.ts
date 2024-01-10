@@ -155,10 +155,10 @@ const sortNfts = (data) => {
 }
 
 const CAROUSEL_LIMIT: Partial<Record<Prefix, number>> = {
-  ahp: 12,
-  ahk: 12,
-  rmrk: 3,
-  ksm: 3,
+  ahp: 11,
+  ahk: 11,
+  rmrk: 4,
+  ksm: 4,
 }
 
 export const useCarouselNftEvents = ({ type }: Types) => {
