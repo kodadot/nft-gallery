@@ -75,7 +75,7 @@ export function roundTo(value: number | string, limit = 2) {
   const number = Number(value.toString().replace(/,/g, ''))
   const hasDecimals = number % 1 !== 0
   const fractionDigits = hasDecimals ? limit : 0
-  return number.toLocaleString(undefined, {
+  return number.toLocaleString('en-GB', {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
   })
@@ -99,10 +99,10 @@ export const roundAmount = (
   const number = Number(value.replace(/,/g, ''))
 
   return parseFloat(
-    (disableFilter ? number.toString() : roundTo(value, limit)).replace(
-      /,/g,
-      '',
-    ),
+    (disableFilter
+      ? number.toLocaleString('en-GB')
+      : roundTo(value, limit)
+    ).replace(/,/g, ''),
   )
 }
 
