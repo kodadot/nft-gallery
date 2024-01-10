@@ -10,8 +10,10 @@
           <p class="mr-4">{{ $t('migrate.resultFor') }}</p>
           <div class="flex">
             <Avatar :value="accountId" :size="26" class="mr-2" />
-            <nuxt-link class="has-text-k-blue" :to="`/ksm/u/${accountId}`">
-              <Identity :address="accountId" hide-identity-popover />
+            <nuxt-link
+              class="text-k-blue"
+              :to="`/${sourceSelected?.value}/u/${accountId}`">
+              <IdentityIndex :address="accountId" hide-identity-popover />
             </nuxt-link>
             <p class="ml-4">{{ sourceSelected?.text }}</p>
           </div>
@@ -42,7 +44,6 @@
 
 <script setup lang="ts">
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
-import Identity from '@/components/identity/IdentityIndex.vue'
 
 const { accountId } = useAuth()
 const { sourceSelected } = useMigrate()
