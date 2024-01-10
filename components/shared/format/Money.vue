@@ -30,6 +30,7 @@ const props = withDefaults(
   }>(),
   {
     value: 0,
+    round: 4,
     unitSymbol: '',
     prefix: undefined,
   },
@@ -52,8 +53,8 @@ const finalValue = computed(() =>
       tokenDecimals.value,
       '',
     ),
-    props.round || 4,
-    props.round === undefined,
+    props.round,
+    true,
   ),
 )
 </script>
