@@ -7,7 +7,6 @@ export default function useUsdValue() {
       ahk: fiatStore.getCurrentKSMValue,
       ksm: fiatStore.getCurrentKSMValue,
       rmrk: fiatStore.getCurrentKSMValue,
-      bsx: fiatStore.getCurrentBSXValue,
       ahp: fiatStore.getCurrentDOTValue,
       dot: fiatStore.getCurrentDOTValue,
       ahr: fiatStore.getCurrentROCValue,

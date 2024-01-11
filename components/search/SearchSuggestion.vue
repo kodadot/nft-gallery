@@ -124,7 +124,7 @@
                 <div class="flex flex-row justify-between pr-2">
                   <span class="name">{{ item.collection?.name }}</span>
                   <span v-if="item.price && parseFloat(item.price) > 0">
-                    {{ $t('offer.price') }}:
+                    {{ $t('price') }}:
                     <Money :value="item.price" :prefix="item.chain" inline />
                   </span>
                 </div>
@@ -224,6 +224,7 @@
           </SearchResultItem>
         </div>
         <nuxt-link
+          v-show="urlPrefix === 'rmrk'"
           class="search-footer-link"
           :to="{ name: 'series-insight' }"
           @click="$emit('close')">
@@ -284,7 +285,7 @@ const props = defineProps({
 
 const query = toRef(props, 'query', {})
 
-const searchSuggestionEachTypeMaxNum = 5
+const searchSuggestionEachTypeMaxNum = 12
 const activeSearchTab = ref('Collections')
 const activeTrendingTab = ref('Trending')
 const selectedIndex = ref(-1)

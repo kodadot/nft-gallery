@@ -7,9 +7,6 @@ interface State {
     kusama: {
       usd: FiatPrice
     }
-    basilisk: {
-      usd: FiatPrice
-    }
     polkadot: {
       usd: FiatPrice
     }
@@ -22,9 +19,6 @@ export const useFiatStore = defineStore('fiat', {
       kusama: {
         usd: null,
       },
-      basilisk: {
-        usd: null,
-      },
       polkadot: {
         usd: null,
       },
@@ -33,13 +27,10 @@ export const useFiatStore = defineStore('fiat', {
   getters: {
     incompleteFiatValues(): boolean {
       return (
-        this.getCurrentKSMValue === null ||
-        this.getCurrentDOTValue === null ||
-        this.getCurrentBSXValue === null
+        this.getCurrentKSMValue === null || this.getCurrentDOTValue === null
       )
     },
     getCurrentKSMValue: (state): FiatPrice => state.fiatPrice.kusama.usd,
-    getCurrentBSXValue: (state): FiatPrice => state.fiatPrice.basilisk.usd,
     getCurrentDOTValue: (state): FiatPrice => state.fiatPrice.polkadot.usd,
     getCurrentROCValue: (_state): FiatPrice => 0,
     getCurrentTokenValue:
@@ -48,8 +39,6 @@ export const useFiatStore = defineStore('fiat', {
         switch (token) {
           case 'KSM':
             return state.fiatPrice.kusama.usd
-          case 'BSX':
-            return state.fiatPrice.basilisk.usd
           case 'DOT':
             return state.fiatPrice.polkadot.usd
           default:
@@ -61,8 +50,6 @@ export const useFiatStore = defineStore('fiat', {
     async fetchFiatPrice() {
       const ksmPrice = await getPrice('kusama')
       this.fiatPrice = Object.assign({}, this.fiatPrice, ksmPrice)
-      const bsxPrice = await getPrice('basilisk')
-      this.fiatPrice = Object.assign({}, this.fiatPrice, bsxPrice)
       const dotPrice = await getPrice('polkadot')
       this.fiatPrice = Object.assign({}, this.fiatPrice, dotPrice)
     },

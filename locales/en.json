@@ -38,7 +38,6 @@
   "useTeleport": "Use Teleport",
   "addFunds": "Add Funds",
   "or": "or",
-  "incomingOffers": "Incoming Offers",
   "transform": "Transform",
   "settings": "Settings",
   "first NFT market explorer on Kusama and Polkadot": "first NFT market explorer on Kusama and Polkadot",
@@ -70,6 +69,7 @@
   "theatre": "theatre",
   "view": "view",
   "price": "Price",
+  "active": "Active",
   "lowestPrice": "Lowest Price",
   "royalty": "royalty",
   "Instance_tooltip": "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
@@ -588,6 +588,7 @@
         "price": "Price",
         "network": "Network",
         "intoCollection": "Into Collection",
+        "serviceFee": "Service Commission",
         "networkFee": "Network Fee",
         "existentialDeposit": "NFT Existential Deposit",
         "depositTooltip": "A deposit of {0} {1} is required to create an item. Please note, this initial deposit is refundable. ",
@@ -673,7 +674,6 @@
     "buyDisabled": "Not enough balance",
     "holdings": "Nfts owned by",
     "gains": "Gained by",
-    "makeOfferDisabled": "You have already made an offer for this NFT",
     "needToUploadNFTFile": "You need to upload NFT file",
     "failedMaxSize": "Your File is too large",
     "needToSetValidPrice": "To list NFT, price has to be more than 0",
@@ -684,7 +684,8 @@
     "smallDisplay": "Small Display",
     "largeDisplay": "Large Display",
     "emptyAddress": "Receiver address cannot be empty",
-    "emptyListAmount": "Amount should be greater than 0"
+    "emptyListAmount": "Amount should be greater than 0",
+    "supportFee": "Activating this feature supports Kodadot in offsetting initial storage costs for your JPEGs. This preference can be modified at any time in the settings."
   },
   "nft": {
     "carbonless": "This NFT is carbonless",
@@ -718,71 +719,22 @@
     "properties": {
       "label": "Attributes"
     },
-    "offer": {
-      "label": "Offers ({0})",
-      "count": "Number of offers {0}",
-      "empty": "There are currently no offers for this NFT.",
-      "item": "Item",
-      "status": "Offer status",
-      "date": "Date",
-      "title": "Global Marketplace Offers"
-    },
     "notification": {
       "nftChanged": "[{chain}::{action}] Owner changed or NFT does not exist",
       "info": "[{action}] NFT: {itemId}"
     }
   },
-  "offer": {
-    "caller": "From",
-    "status": "Status",
-    "withdrawn": "Cancelled",
-    "active": "Active",
-    "accepted": "Accepted",
-    "inactive": "Inactive",
-    "price": "Price",
-    "usdPrice": "USD Price",
-    "expiration": "Expiration",
-    "expired": "offer has expired",
-    "action": "Action",
-    "daySelectLabel": "offer expires in",
-    "daySelectPlaceholder": "select day to expire",
-    "days": "days",
-    "collection": "Collection",
-    "nftName": "Name",
-    "accept": "NFT has new a owner",
-    "withdraw": "your offer has been withdrawn",
-    "burnedToggle": "Show Burned Nfts",
-    "allOffers": "All Offers",
-    "offersCreated": "Offers Created",
-    "incomingOffers": "Incoming Offers",
-    "floorDifferences": "Floor Difference"
-  },
   "statsOverview": {
     "buys": "Buys",
-    "offerStats": {
-      "status": "Status",
-      "totalCount": "Total Count",
-      "totalPrice": "Total price"
-    },
     "listed": "Listed",
     "minted": "Minted",
     "createdCollections": "Created Collections",
     "activeWallets": "Active wallets",
-    "offers": "Offers",
     "values": "VALUES",
-    "bsxTitle": "Basilisk Marketplace Statistics",
     "uniqueOwners": "Unique Owners",
     "highestSale": "Highest Sale",
     "floorPrice": "Floor Price",
     "totalVolume": "Total Volume"
-  },
-  "myOffer": {
-    "bsxTitle": "Incoming Offers",
-    "price": "Amount",
-    "caller": "Offer Maker",
-    "date": "Time",
-    "needLogin": "Connect wallet to see your offers here.",
-    "empty": "There are currently no offers."
   },
   "loader": {
     "broadcast": "Broadcasting the tx to blockchain",
@@ -912,7 +864,6 @@
     "distribution": "DISTRIBUTION",
     "floorPrice": "FLOOR PRICE",
     "floor": "Floor",
-    "bestOffer": "Best Offer",
     "volume": "Volume",
     "network": "Network",
     "creator": "Creator",
@@ -1028,6 +979,7 @@
     "viewTx": "View Tx",
     "seeMore": "See More",
     "learnMore": "Learn More",
+    "learnMoreAboutEd": "Learn more about Existential deposit",
     "noCollections": "You have no collections",
     "noInfinityCollections": "You have no collections with unlimited NFTs",
     "indexerReadOnly": "App is in read-only mode, try reload app or visit Discord",
@@ -1142,8 +1094,6 @@
   "navbar": {
     "teleport": "Teleport",
     "teleportBridge": "Teleport Bridge",
-    "globalOffers": "Global Offers",
-    "offerStats": "Offers Stats",
     "create": {
       "waifu": "Waifu",
       "generateWaifu": "Generate Waifu",
@@ -1196,7 +1146,7 @@
       "balance": "Balance",
       "empty": "There are currently no assets for this user."
     },
-    "emptyAsset": "You've got zero balance on this address across chains we monitor. If you want to buy small amount of crypto, click on Add funds through our verified on-ramp partner."
+    "emptyAsset": "Your wallet is empty. Top up to explore and acquire NFTs."
   },
   "ramp": {
     "selectAccount": "Select your account and click on buy.",
@@ -1258,8 +1208,6 @@
     "description": "Description",
     "details": "Details",
     "parent": "Parent",
-    "offers": "Offers",
-    "offersDisabled": "Offers Are Not Available on this chain",
     "activity": "Activity",
     "chart": "Chart",
     "rarity": "Rarity by Kodadot",
@@ -1325,10 +1273,6 @@
     "consume": {
       "success": "Item burned",
       "error": "Failed to burn item"
-    },
-    "offer": {
-      "success": "Offer successfully created",
-      "error": "Offer creation failed"
     },
     "unlist": {
       "success": "Item successfully unlisted",
@@ -1420,12 +1364,15 @@
   "filters": {
     "buy": "Buy",
     "sale": "Sale",
-    "offer": "Offer",
     "acceptedOffer": "Accepted offer",
     "listing": "Listing",
     "mint": "Mint",
     "transfer": "Transfer",
-    "artView": "Art View"
+    "artView": "Art View",
+    "offer": "Offer",
+    "verified": "Verified",
+    "onlyVerifiedIdentities": "Only Verified Identities",
+    "identityVerification": "Identity Verification"
   },
   "redirect": {
     "title": "Leaving Kodadot",
@@ -1505,7 +1452,8 @@
     "pleaseAddFunds": "Please add funds to proceed.",
     "youCanContinueWithAutoteleport": "You can continue with Auto Teleport enabled.",
     "proceedToSigning": "Proceed to signing",
-    "signTransaction": "Sign Transaction"
+    "signTransaction": "Sign Transaction",
+    "paidDropWhyTooltip": "A balance above <strong>{0}</strong> is required to maintain your account's activity, covering the <strong>{1} Existential Deposit,</strong> and to enable seamless future actions."
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
@@ -1594,7 +1542,7 @@
     "sign": "Sign",
     "collection": "Migrate Collection",
     "collectionName": "(name will stay the same)",
-    "reviewNotes": "Please note that at this stage, only items you own can be migrated. For other items, you will need to pre-sign them to allow others to follow your migration initiative.",
+    "reviewNotes": "Please note that at this stage, only items you own can be migrated.",
     "route": "Route",
     "costs": "Costs",
     "feeBreakdown": "Fee Breakdown",

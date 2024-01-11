@@ -6,7 +6,6 @@ type SquidEndpoint =
   | `https://query-${Squid}.stellate.sh`
 
 export const INDEXERS: Config<SquidEndpoint> = {
-  bsx: 'https://squid.subsquid.io/snekk/graphql',
   rmrk: 'https://squid.subsquid.io/rubick/graphql',
   ksm: 'https://squid.subsquid.io/marck/v/v2/graphql',
   ahk: 'https://query-stick.stellate.sh',

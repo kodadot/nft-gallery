@@ -3,15 +3,6 @@
     <!-- price -->
     <GalleryItemPriceBuy v-if="!isOwner && nft" :nft="nft" />
 
-    <!-- highest offer -->
-    <GalleryItemPriceOffer
-      v-if="!offersDisabled && !isOwner && nft?.id && nft.currentOwner"
-      :nft-id="nft.id"
-      :collection-id="nft.collection.id"
-      :current-owner="nft.currentOwner"
-      :account="nft.currentOwner"
-      class="mt-2" />
-
     <!-- change price as an owner -->
     <GalleryItemPriceRelist
       v-if="isOwner && nft?.id && nft?.price && nft?.collection.id"
@@ -28,7 +19,6 @@
 
 <script lang="ts" setup>
 import GalleryItemPriceBuy from './GalleryItemActionType/GalleryItemBuy.vue'
-import GalleryItemPriceOffer from './GalleryItemActionType/GalleryItemOffer.vue'
 import GalleryItemPriceRelist from './GalleryItemActionType/GalleryItemRelist.vue'
 import GalleryItemPriceTransfer from './GalleryItemActionType/GalleryItemTransfer.vue'
 
@@ -38,7 +28,6 @@ const props = defineProps<{
 }>()
 
 const { isCurrentOwner } = useAuth()
-const { offersDisabled } = useChain()
 const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
 </script>
 

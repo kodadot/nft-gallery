@@ -9,7 +9,7 @@ query nftById($id: String!) {
       id
       name
       floorPrice: nfts(
-        where: { burned_eq: false }
+        where: { burned_eq: false, price_not_eq: "0" }
         orderBy: price_ASC
         limit: 1
       ) {

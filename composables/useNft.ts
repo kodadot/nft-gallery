@@ -5,6 +5,7 @@ import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { getMimeType, isAudio as isAudioMimeType } from '@/utils/gallery/media'
 import unionBy from 'lodash/unionBy'
 import type { Ref } from 'vue'
+import { getMetadata } from '@/services/imageWorker'
 
 export type NftResources = {
   id: string
@@ -24,8 +25,14 @@ export type ItemResources = {
   resources?: NftResources[]
 }
 
+type baseMimeType = {
+  imageMimeType?: string
+  animationUrlMimeType?: string
+}
+
 export type NFTWithMetadata = NFT &
-  NFTMetadata & { meta: BaseNFTMeta } & ItemResources
+  NFTMetadata & { meta: BaseNFTMeta } & ItemResources &
+  baseMimeType
 
 export type MinimalNFT = {
   id: string
@@ -75,7 +82,7 @@ function getAttributes(nft, metadata) {
     : attr
 }
 
-function getGeneralMetadata<T extends MinimalNFT>(nft: T) {
+function getGeneralMetadata<T extends NFTWithMetadata>(nft: T) {
   return {
     ...nft,
     name: addSnSuffixName(nft.name || nft.meta.name, nft.sn) || nft.id,
@@ -136,7 +143,7 @@ export async function useNftMimeType<
   }
 }
 
-async function getRmrk2Resources<T extends MinimalNFT>(nft: T) {
+async function getRmrk2Resources<T extends NFTWithMetadata>(nft: T) {
   const thumb = nft.resources?.[0]?.thumb
   const src = nft.resources?.[0]?.src
   const image = sanitizeIpfsUrl(thumb || src || '')
@@ -149,7 +156,7 @@ async function getRmrk2Resources<T extends MinimalNFT>(nft: T) {
   }
 }
 
-async function getProcessMetadata<T extends MinimalNFT>(nft: T) {
+async function getProcessMetadata<T extends NFTWithMetadata>(nft: T) {
   const metadata = await processSingleMetadata<NFTMetadata>(nft.metadata)
   const image = sanitizeIpfsUrl(
     metadata.image || metadata.mediaUri || metadata.thumbnailUri || '',
@@ -169,10 +176,15 @@ async function getProcessMetadata<T extends MinimalNFT>(nft: T) {
   }
 }
 
-export async function getNftMetadata<T extends MinimalNFT>(
+export async function getNftMetadata<T extends NFTWithMetadata>(
   nft: T,
   prefix: string,
+  unify = false,
 ) {
+  if (unify) {
+    return await getMetadata(sanitizeIpfsUrl(nft.meta.id))
+  }
+
   // if subsquid already give us the metadata, we don't need to fetch it again
   if (nft.meta?.image) {
     return getGeneralMetadata(nft)
@@ -186,7 +198,7 @@ export async function getNftMetadata<T extends MinimalNFT>(
   return await getProcessMetadata(nft)
 }
 
-export default function useNftMetadata<T extends MinimalNFT>(nft: T) {
+export default function useNftMetadata<T extends NFTWithMetadata>(nft: T) {
   const item = ref<
     T & {
       name: string

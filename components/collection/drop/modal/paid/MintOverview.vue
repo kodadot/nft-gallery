@@ -31,20 +31,55 @@
       <div class="flex">
         <CommonTokenMoney :value="toMintNft.price" class="has-text-grey" />
         <span class="has-text-weight-bold ml-2">
-          {{ toMintNft.priceUSD }}$
+          {{ toMintNft.priceUSD }}
         </span>
       </div>
     </div>
   </div>
 
-  <div v-if="!hasMinimumFunds" class="border k-orange-light border-k-orange2">
+  <div
+    v-if="!hasMinimumFunds"
+    class="border border-k-orange2 bg-k-orange-light">
     <div class="p-4 flex gap-3">
-      <NeoIcon icon="circle-exclamation-check" size="large" />
+      <NeoIcon
+        icon="circle-exclamation-check"
+        class="text-k-orange3"
+        size="large" />
 
-      <p class="is-size-7">
-        {{ $t('drops.yourWalletNeeds', [formattedMinimumFunds]) }}
-      </p>
+      <div class="is-size-7">
+        <span class="has-text-color">
+          {{ $t('drops.yourWalletNeeds', [formattedMinimumFunds]) }}
+        </span>
+
+        <tippy placement="left" :append-to="body" class="float-right">
+          <p class="lowercase text-k-orange3">
+            {{ $t('teleport.why') }}
+          </p>
+
+          <template #content>
+            <div
+              class="theme-background-color text-xs border p-4 text-left w-[15rem]">
+              <p
+                v-dompurify-html="
+                  $t('drops.paidDropWhyTooltip', [
+                    formattedMinimumFunds,
+                    formattedExistentialDeposit,
+                  ])
+                " />
+
+              <a
+                href="https://hello.kodadot.xyz/multi-chain/existential-deposit"
+                class="has-text-link is-size-7 capitalize mt-5 block"
+                target="_blank"
+                rel="nofollow noopener noreferrer"
+                >{{ $t('helper.learnMoreAboutEd') }}</a
+              >
+            </div>
+          </template>
+        </tippy>
+      </div>
     </div>
+
     <div class="py-2 border-top border-k-orange2 text-center">
       <p class="is-size-7">
         {{
@@ -88,8 +123,10 @@ defineProps<{
   minimumFunds: number
   hasMinimumFunds: boolean
   formattedMinimumFunds: string
+  formattedExistentialDeposit: string
 }>()
 
+const body = ref(document.body)
 const autoteleport = ref()
 
 const canAutoTeleport = computed(() => autoteleport.value?.canAutoTeleport)

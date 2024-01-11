@@ -24,33 +24,6 @@ export const nftActionResolver: CallDictionary = {
   // REVOKE: ['uniques', 'cancelApproval'],
 }
 
-export const bsxActionResolver: CallDictionary = {
-  SEND: ['nft', 'transfer'],
-  CONSUME: ['nft', 'burn'],
-  BUY: ['marketplace', 'buy'],
-  LIST: ['marketplace', 'setPrice'],
-  MAKE_OFFER: ['marketplace', 'makeOffer'],
-}
-
-export const bsxParamResolver = (
-  id: string,
-  selectedAction: string,
-  meta: string | number,
-  currentOwner?: string,
-  expiration?: number,
-): any[] => {
-  const [collectionId, tokenId] = id.split('-')
-  const actions = {
-    SEND: [collectionId, tokenId, meta],
-    CONSUME: [collectionId, tokenId],
-    BUY: [collectionId, tokenId],
-    LIST: [collectionId, tokenId, meta],
-    MAKE_OFFER: [collectionId, tokenId, meta, expiration ?? 1000000], // TODO: this is a hack
-  }
-
-  return actions[selectedAction]
-}
-
 export const uniqueParamResolver = (
   id: string,
   selectedAction: string,
@@ -106,8 +79,6 @@ function getActionsByPrefix(prefix: string, legacy = false): CallDictionary {
     case 'ahp':
       // case 'ahr':
       return legacy ? uniqueActionResolver : nftActionResolver
-    case 'bsx':
-      return bsxActionResolver
     default:
       throw new Error('Prefix not found')
   }

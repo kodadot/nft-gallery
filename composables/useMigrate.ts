@@ -2,6 +2,8 @@ import type { Prefix } from '@kodadot1/static'
 import { availablePrefixWithIcon } from '@/utils/chain'
 import format from '@/utils/format/balance'
 import collectionMigrateReady from '@/queries/subsquid/general/collectionMigrateReady.graphql'
+import collectionMigrateWaiting from '@/queries/subsquid/general/collectionMigrateWaiting.graphql'
+import waifuApi from '@/services/waifu'
 
 export type Steps =
   | 'init'
@@ -261,5 +263,125 @@ export default function useMigrate() {
     sourceSelected,
     destination,
     destinationSelected,
+  }
+}
+
+// fetch items for waiting section
+// -------------------------------
+type Collections = {
+  collectionEntities?: {
+    id: string
+    name: string
+    currentOwner: string
+    nfts?: {
+      id: string
+    }[]
+    metadata: string
+    meta?: {
+      id: string
+      image: string
+    }
+  }[]
+}
+
+export const useWaitingItems = () => {
+  const { urlPrefix } = usePrefix()
+  const { accountId } = useAuth()
+  const { client } = usePrefix()
+
+  const collections = ref<Collections['collectionEntities']>([])
+  const entities = reactive({})
+  const loading = ref(true)
+
+  const fetchWaitingItems = async () => {
+    const { data } = await useAsyncQuery<Collections>({
+      query: collectionMigrateWaiting,
+      variables: {
+        account: accountId.value,
+      },
+      clientId: client.value,
+    })
+
+    if (data.value?.collectionEntities?.length) {
+      collections.value = data.value.collectionEntities
+
+      for (const collection of collections.value) {
+        const metadata = await getNftMetadata(
+          collection as unknown as NFTWithMetadata,
+          urlPrefix.value,
+        )
+        const migrated = (
+          await waifuApi(`/relocations/owners/${accountId.value}`)
+        ).filter((item) => item.collection === collection.id)
+
+        if (migrated.length && collection.nfts?.length) {
+          entities[collection.id] = {
+            ...metadata,
+            migrated,
+          }
+        }
+      }
+    }
+
+    loading.value = false
+  }
+
+  watchEffect(async () => {
+    if (!collections.value?.length) {
+      await fetchWaitingItems()
+    }
+  })
+
+  return {
+    collections,
+    entities,
+    loading,
+  }
+}
+
+// fetch items for ready section
+// -------------------------------
+export const useReadyItems = () => {
+  const { urlPrefix } = usePrefix()
+
+  const collections = ref<CollectionsReady['collectionEntities']>([])
+  const entities = reactive({})
+  const loading = ref(true)
+
+  const fetchCollections = async () => {
+    const { collections } = await useCollectionReady()
+    return collections.value
+  }
+
+  watchEffect(async () => {
+    const cols = await fetchCollections()
+
+    if (cols.length) {
+      collections.value = cols
+
+      for (const collection of cols) {
+        const metadata = await getNftMetadata(
+          collection as unknown as NFTWithMetadata,
+          urlPrefix.value,
+        )
+        const migrated = await waifuApi(
+          `/relocations/${urlPrefix.value}-${collection.id}`,
+        )
+
+        if (!migrated?.id && collection.nfts?.length) {
+          entities[collection.id] = {
+            ...metadata,
+          }
+        }
+      }
+    }
+
+    loading.value = false
+  })
+
+  return {
+    collections,
+    entities,
+    loading,
   }
 }

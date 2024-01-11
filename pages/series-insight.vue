@@ -13,11 +13,6 @@
           src="/rmrk-logo-pink-faded.png"
           alt="RMRK"
           class="chain-logo is-hidden-mobile" />
-        <img
-          v-else-if="isBasilisk"
-          src="/bsx-logo.png"
-          alt="BSX"
-          class="chain-logo is-hidden-mobile" />
       </div>
     </div>
 
@@ -29,7 +24,7 @@
 import { seriesInsightVisible } from '@/utils/config/permission.config'
 
 const { urlPrefix } = usePrefix()
-const { isRemark, isBasilisk } = useIsChain(urlPrefix)
+const { isRemark } = useIsChain(urlPrefix)
 
 const checkRouteAvailability = () => {
   if (!seriesInsightVisible(urlPrefix.value)) {

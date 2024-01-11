@@ -32,7 +32,6 @@ export const getInteractionColor = (key: string) => {
 export const useNotification = () => {
   const { apiInstance } = useApi()
   const { accountId } = useAuth()
-  const { urlPrefix } = usePrefix()
   const collections = ref<FilterOption[]>([])
   const events = ref<Event[]>([])
 
@@ -49,7 +48,7 @@ export const useNotification = () => {
     },
   })
   const { data: eventData, loading } = useGraphql({
-    queryPrefix: urlPrefix.value === 'bsx' ? 'chain-bsx' : 'subsquid',
+    queryPrefix: 'subsquid',
     queryName: 'notificationsByAccount',
     variables: {
       account: accountId.value,

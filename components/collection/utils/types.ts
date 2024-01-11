@@ -4,7 +4,6 @@ export type Stats = {
   listedCount?: number
   collectionLength?: number
   collectionFloorPrice?: number
-  bestOffer?: number
   uniqueOwners?: number
   uniqueOwnersPercent?: string
   collectionTradedVolumeNumber?: string | number

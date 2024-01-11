@@ -17,6 +17,7 @@
         :minimum-funds="minimumFunds"
         :has-minimum-funds="hasMinimumFunds"
         :formatted-minimum-funds="formattedMinimumFunds"
+        :formatted-existential-deposit="formattedExistentialDeposit"
         :action="action"
         @confirm="handleConfirm"
         @close="handleModalClose" />
@@ -64,6 +65,7 @@ const props = defineProps<{
   minimumFunds: number
   hasMinimumFunds: boolean
   formattedMinimumFunds: string
+  formattedExistentialDeposit: string
 
   mintedNft?: DropMintedNft
   canListNft: boolean

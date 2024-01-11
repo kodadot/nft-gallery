@@ -9,7 +9,6 @@
   "account": "Conta",
   "accounts": "Contas",
   "transfer": "Transferência",
-  "incomingOffers": "Ofertas Recebidas",
   "transform": "Transformar",
   "settings": "Configurações",
   "first NFT market explorer on Kusama and Polkadot": "Primeiro explorador de NFT's do mercado na Kusama e Polkadot",
@@ -426,7 +425,6 @@
     "buyDisabled": "Não há saldo suficiente",
     "holdings": "Nfts de propriedade de",
     "gains": "Ganho por",
-    "makeOfferDisabled": "Você já fez uma oferta para este NFT",
     "needToUploadNFTFile": "Você precisa fazer o upload do arquivo NFT",
     "needToSetValidPrice": "Para listar NFT, o preço deve ser maior que 0",
     "notEnoughBalance": "Fundos insuficientes",
@@ -458,53 +456,15 @@
     },
     "properties": {
       "label": "Características"
-    },
-    "offer": {
-      "label": "Ofertas ({0})",
-      "count": "Número de ofertas {0}",
-      "empty": "No momento não há ofertas para este NFT.",
-      "item": "Item",
-      "status": "Status das ofertas",
-      "date": "Data",
-      "title": "Ofertas do mercado de maneira global"
     }
-  },
-  "offer": {
-    "caller": "Criador",
-    "price": "Preço",
-    "expiration": "Expiração",
-    "action": "Ação",
-    "daySelectLabel": "oferta expira em",
-    "daySelectPlaceholder": "selecione o dia para expirar",
-    "days": "dias",
-    "collection": "Coleção",
-    "nftName": "Nome",
-    "accept": "NFT tem novo dono",
-    "withdraw": "sua oferta foi retirada",
-    "burnedToggle": "Mostrar Nfts Queimados"
   },
   "statsOverview": {
     "buys": "Compras",
-    "offerStats": {
-      "status": "Status",
-      "totalCount": "Contagem total",
-      "totalPrice": "Preço total"
-    },
     "listed": "Listado",
     "minted": "Minted",
     "createdCollections": "coleções Criadas",
     "activeWallets": "Carteiras ativas",
-    "offers": "Ofertas",
-    "values": "VALORES",
-    "bsxTitle": "Estatísticas do Marketplace Basilisk"
-  },
-  "myOffer": {
-    "bsxTitle": "Ofertas recebidas",
-    "price": "Quantia",
-    "caller": "Criador de Ofertas",
-    "date": "Tempo",
-    "needLogin": "Conecte a carteira para ver suas ofertas aqui.",
-    "empty": "No momento não há ofertas."
+    "values": "VALORES"
   },
   "loader": {
     "casting": "(1/3) Transmitindo o tx para a blockchain",
