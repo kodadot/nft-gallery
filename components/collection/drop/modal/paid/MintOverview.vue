@@ -49,16 +49,14 @@
           {{ $t('drops.yourWalletNeeds', [formattedMinimumFunds]) }}
         </span>
 
-        <NeoTooltip
-          multiline
-          position="left"
-          root-class="float-right"
-          multiline-width="250px"
-          :auto-close="['outside', 'inside']">
-          <p class="lowercase has-text-k-orange3">{{ $t('teleport.why') }}</p>
+        <tippy placement="left" :append-to="body" class="float-right">
+          <p class="lowercase has-text-k-orange3">
+            {{ $t('teleport.why') }}
+          </p>
 
           <template #content>
-            <div class="py-2 text-left">
+            <div
+              class="theme-background-color text-xs border p-4 text-left w-[15rem]">
               <p
                 v-dompurify-html="
                   $t('drops.paidDropWhyTooltip', [
@@ -76,7 +74,7 @@
               >
             </div>
           </template>
-        </NeoTooltip>
+        </tippy>
       </div>
     </div>
 
@@ -108,7 +106,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import { NeoIcon } from '@kodadot1/brick'
 import AutoTeleportActionButton from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import type { ToMintNft } from '../../PaidGenerative.vue'
@@ -126,6 +124,7 @@ defineProps<{
   formattedExistentialDeposit: string
 }>()
 
+const body = ref(document.body)
 const autoteleport = ref()
 
 const canAutoTeleport = computed(() => autoteleport.value?.canAutoTeleport)
