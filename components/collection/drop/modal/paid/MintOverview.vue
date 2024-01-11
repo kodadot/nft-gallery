@@ -37,11 +37,13 @@
     </div>
   </div>
 
-  <div v-if="!hasMinimumFunds" class="border k-orange-light border-k-orange2">
+  <div
+    v-if="!hasMinimumFunds"
+    class="border border-k-orange2 bg-k-orange-light">
     <div class="p-4 flex gap-3">
       <NeoIcon
         icon="circle-exclamation-check"
-        class="has-text-k-orange3"
+        class="text-k-orange3"
         size="large" />
 
       <div class="is-size-7">
@@ -50,7 +52,7 @@
         </span>
 
         <tippy placement="left" :append-to="body" class="float-right">
-          <p class="lowercase has-text-k-orange3">
+          <p class="lowercase text-k-orange3">
             {{ $t('teleport.why') }}
           </p>
 

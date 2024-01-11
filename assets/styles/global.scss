@@ -336,12 +336,6 @@ a.has-text-grey {
   }
 }
 
-.border-k-orange2 {
-  @include ktheme() {
-    border-color: theme('border-k-orange2') !important;
-  }
-}
-
 .border-top-k-shade {
   @include ktheme() {
     border-top: 1px solid theme('k-shade');
@@ -396,12 +390,6 @@ a.has-text-grey {
   }
 }
 
-.has-text-k-orange3 {
-  @include ktheme() {
-    color: theme('k-orange3');
-  }
-}
-
 .has-background-inverse {
   @include ktheme() {
     background: theme('text-color');
@@ -445,11 +433,6 @@ a.has-text-grey {
 .k-red {
   @include ktheme() {
     background-color: theme('k-red');
-  }
-}
-.k-orange-light {
-  @include ktheme() {
-    background-color: theme('k-orange-light');
   }
 }
 .k-redaccent {
