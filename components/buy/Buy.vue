@@ -190,8 +190,8 @@ const handleNftChange = (
   toast($i18n.t('buyModal.nftPriceUpdated', [name]))
 }
 
-const watchNftsChanges = (nftIds: string[]) => {
-  if (isEqual(nftIds, nftSubscription.nftIds)) {
+const watchNftsChanges = (nftIds: string[], force: boolean = false) => {
+  if (isEqual(nftIds, nftSubscription.nftIds) && !force) {
     return
   }
 
@@ -228,7 +228,7 @@ watch(
     () => shoppingCartStore.getItemToBuy,
     items,
   ],
-  ([isModalOpen]) => {
+  ([isModalOpen], [wasModalOpen]) => {
     const nftIds = (
       isShoppingCartMode.value
         ? items.value.map((item) => item.id)
@@ -241,7 +241,7 @@ watch(
     }
 
     if (nftIds.length) {
-      watchNftsChanges(nftIds)
+      watchNftsChanges(nftIds, isModalOpen && !wasModalOpen)
     }
   },
   { immediate: true },
