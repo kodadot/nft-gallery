@@ -2,7 +2,7 @@
   <div class="mb-2">
     <div
       v-if="isEmptyBalanceOnAllChains && !isBalanceLoading"
-      class="is-size-7 py-4 flex flex-col items-center">
+      class="text-xs py-4 flex flex-col items-center">
       <div class="mb-3 text-align-center">
         {{ $t('asset.emptyAsset') }}
       </div>
