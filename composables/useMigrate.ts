@@ -305,7 +305,7 @@ export const useWaitingItems = () => {
     if (data.value?.collectionEntities?.length) {
       collections.value = data.value.collectionEntities
 
-      collections.value.forEach(async (collection) => {
+      for (const collection of collections.value) {
         const metadata = await getNftMetadata(
           collection as unknown as NFTWithMetadata,
           urlPrefix.value,
@@ -320,7 +320,7 @@ export const useWaitingItems = () => {
             migrated,
           }
         }
-      })
+      }
     }
 
     loading.value = false
@@ -359,7 +359,7 @@ export const useReadyItems = () => {
     if (cols.length) {
       collections.value = cols
 
-      cols.forEach(async (collection) => {
+      for (const collection of cols) {
         const metadata = await getNftMetadata(
           collection as unknown as NFTWithMetadata,
           urlPrefix.value,
@@ -373,7 +373,7 @@ export const useReadyItems = () => {
             ...metadata,
           }
         }
-      })
+      }
     }
 
     loading.value = false
