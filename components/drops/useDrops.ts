@@ -7,7 +7,6 @@ import {
   getDrops,
 } from '@/services/waifu'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
-import { existentialDeposit } from '@kodadot1/static'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { DropItem } from '@/params/types'
 import { FUTURE_DROP_DATE } from '@/utils/drop'
@@ -115,11 +114,12 @@ export const useDropStatus = (id: string) => {
   }
 }
 
+const MINIMUM_FUNDS_ROUND = 4
 export const useDropMinimumFunds = (drop) => {
   const chainProperties = chainPropListOf(drop.chain)
 
   const { chainBalances } = useTeleport()
-  const { urlPrefix } = usePrefix()
+  const { existentialDeposit } = useChain()
   const { fetchMultipleBalance } = useMultipleBalance()
 
   const currentChain = computed(() => prefixToChainMap[drop.chain])
@@ -130,20 +130,30 @@ export const useDropMinimumFunds = (drop) => {
       (currentChain.value && Number(chainBalances[currentChain.value]())) || 0,
   )
   const minimumFunds = computed<number>(() => price.value || meta.value)
+
   const transferableDropChainBalance = computed(
-    () => currentChainBalance.value - existentialDeposit[urlPrefix.value],
+    () => currentChainBalance.value - existentialDeposit.value,
   )
   const hasMinimumFunds = computed(
     () =>
       !minimumFunds.value ||
       transferableDropChainBalance.value >= minimumFunds.value,
   )
+  const tokenDecimals = computed(() => chainProperties.tokenDecimals)
+  const tokenSymbol = computed(() => chainProperties.tokenSymbol)
 
   const { formatted: formattedMinimumFunds } = useAmount(
     meta,
-    computed(() => chainProperties.tokenDecimals),
-    computed(() => chainProperties.tokenSymbol),
-    4,
+    tokenDecimals,
+    tokenSymbol,
+    MINIMUM_FUNDS_ROUND,
+  )
+
+  const { formatted: formattedExistentialDeposit } = useAmount(
+    existentialDeposit,
+    tokenDecimals,
+    tokenSymbol,
+    MINIMUM_FUNDS_ROUND,
   )
 
   onBeforeMount(fetchMultipleBalance)
@@ -152,5 +162,6 @@ export const useDropMinimumFunds = (drop) => {
     minimumFunds,
     hasMinimumFunds,
     formattedMinimumFunds,
+    formattedExistentialDeposit,
   }
 }

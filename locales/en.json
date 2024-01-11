@@ -588,6 +588,7 @@
         "price": "Price",
         "network": "Network",
         "intoCollection": "Into Collection",
+        "serviceFee": "Service Commission",
         "networkFee": "Network Fee",
         "existentialDeposit": "NFT Existential Deposit",
         "depositTooltip": "A deposit of {0} {1} is required to create an item. Please note, this initial deposit is refundable. ",
@@ -683,7 +684,8 @@
     "smallDisplay": "Small Display",
     "largeDisplay": "Large Display",
     "emptyAddress": "Receiver address cannot be empty",
-    "emptyListAmount": "Amount should be greater than 0"
+    "emptyListAmount": "Amount should be greater than 0",
+    "supportFee": "Activating this feature supports Kodadot in offsetting initial storage costs for your JPEGs. This preference can be modified at any time in the settings."
   },
   "nft": {
     "carbonless": "This NFT is carbonless",
@@ -977,6 +979,7 @@
     "viewTx": "View Tx",
     "seeMore": "See More",
     "learnMore": "Learn More",
+    "learnMoreAboutEd": "Learn more about Existential deposit",
     "noCollections": "You have no collections",
     "noInfinityCollections": "You have no collections with unlimited NFTs",
     "indexerReadOnly": "App is in read-only mode, try reload app or visit Discord",
@@ -1143,7 +1146,7 @@
       "balance": "Balance",
       "empty": "There are currently no assets for this user."
     },
-    "emptyAsset": "You've got zero balance on this address across chains we monitor. If you want to buy small amount of crypto, click on Add funds through our verified on-ramp partner."
+    "emptyAsset": "Your wallet is empty. Top up to explore and acquire NFTs."
   },
   "ramp": {
     "selectAccount": "Select your account and click on buy.",
@@ -1449,7 +1452,8 @@
     "pleaseAddFunds": "Please add funds to proceed.",
     "youCanContinueWithAutoteleport": "You can continue with Auto Teleport enabled.",
     "proceedToSigning": "Proceed to signing",
-    "signTransaction": "Sign Transaction"
+    "signTransaction": "Sign Transaction",
+    "paidDropWhyTooltip": "A balance above <strong>{0}</strong> is required to maintain your account's activity, covering the <strong>{1} Existential Deposit,</strong> and to enable seamless future actions."
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
@@ -1538,7 +1542,7 @@
     "sign": "Sign",
     "collection": "Migrate Collection",
     "collectionName": "(name will stay the same)",
-    "reviewNotes": "Please note that at this stage, only items you own can be migrated. For other items, you will need to pre-sign them to allow others to follow your migration initiative.",
+    "reviewNotes": "Please note that at this stage, only items you own can be migrated.",
     "route": "Route",
     "costs": "Costs",
     "feeBreakdown": "Fee Breakdown",

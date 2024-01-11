@@ -73,7 +73,7 @@ const chainName = computed(() => {
   return getChainNameByPrefix(props.item.chain || urlPrefix.value)
 })
 
-const price = computed(() => props.item.latestSalePrice ?? props.item.price)
+const price = computed(() => props.item.latestSalePrice || props.item.price)
 const showSold = computed(() => Number(props.item.latestSalePrice) > 0)
 
 const showPrice = computed((): boolean => {

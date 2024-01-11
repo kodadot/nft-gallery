@@ -24,6 +24,7 @@
     :has-minimum-funds="hasMinimumFunds"
     :can-list-nft="canListMintedNft"
     :formatted-minimum-funds="formattedMinimumFunds"
+    :formatted-existential-deposit="formattedExistentialDeposit"
     :token="token"
     :chain="chainName"
     @confirm="handleConfirmPaidMint"
@@ -68,8 +69,12 @@ const props = withDefaults(
 useMultipleBalance()
 const { chainSymbol, decimals } = useChain()
 
-const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
-  useDropMinimumFunds(props.drop)
+const {
+  hasMinimumFunds,
+  formattedMinimumFunds,
+  minimumFunds,
+  formattedExistentialDeposit,
+} = useDropMinimumFunds(props.drop)
 const minimumFundsDescription = computed(() =>
   $i18n.t('mint.unlockable.minimumFundsDescription', [
     formattedMinimumFunds.value,
@@ -195,10 +200,10 @@ const mintButtonLabel = computed(() => {
         }`,
       ])
 })
-const mintButtonDisabled = computed(
+const mintButtonDisabled = computed<boolean>(
   () =>
     !mintCountAvailable.value ||
-    disabledByBackend.value ||
+    Boolean(disabledByBackend.value) ||
     (isLogIn.value &&
       Boolean(
         !selectedImage.value ||
