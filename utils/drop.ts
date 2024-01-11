@@ -17,6 +17,7 @@ export const AHK_GENERATIVE_DROPS = [
 ]
 
 export const AHP_GENERATIVE_DROPS = [
+  '76', // Assemblies
   '66', // Split
   '63', // Genera
   '60', // Christmas City
