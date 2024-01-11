@@ -96,7 +96,9 @@ const GalleryCard = defineAsyncComponent(
 const { urlPrefix } = usePrefix()
 
 const { stats } = useCollectionDetails({
-  collectionId: props.nft?.collection?.id || props.nft?.collectionId,
+  collectionId: computed(
+    () => (props.nft?.collection?.id || props.nft?.collectionId) as string,
+  ),
 })
 
 const { highestBuyPrice } = useBuyEvents({

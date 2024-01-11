@@ -77,6 +77,7 @@ export interface NFTMetadata extends Metadata, ItemResources {
   image_ar?: string
   properties?: Record<string, { value: string; type: string }>
   unlockable?: boolean
+  sn?: string
 }
 
 export type CollectionMetadata = Metadata

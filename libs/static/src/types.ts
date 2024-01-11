@@ -1,9 +1,9 @@
-export type Prefix = 'bsx' | 'rmrk' | 'ksm' | 'ahk' | 'dot' | 'ahp'
+export type Prefix = 'rmrk' | 'ksm' | 'ahk' | 'dot' | 'ahp'
 //  | 'ahr'
 // | 'glmr'
 // | 'movr'
 
-export type Squid = 'rubick' | 'snekk' | 'marck' | 'stick' | 'speck'
+export type Squid = 'rubick' | 'marck' | 'stick' | 'speck'
 // | 'snack'
 // | 'click'
 // | 'antick'

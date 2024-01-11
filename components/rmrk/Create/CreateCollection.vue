@@ -128,12 +128,6 @@ const submit = async () => {
     }
   })
 
-  showNotification(
-    // Add your i18n integration if needed
-    `Creating collection ${base.value.name}`,
-    notificationTypes.info,
-  )
-
   try {
     transaction({
       interaction: Interaction.MINT,

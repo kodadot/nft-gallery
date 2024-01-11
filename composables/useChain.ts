@@ -11,10 +11,10 @@ export type WithoutDecimalsParams = {
   digits?: number
   prefix?: Prefix
 }
+import { existentialDeposit as chainsExistentialDeposit } from '@kodadot1/static'
 
 export default function () {
-  const { urlPrefix, tokenId, assets } = usePrefix()
-  const symbol = computed(() => assets(tokenId.value).symbol)
+  const { urlPrefix } = usePrefix()
   const name = computed(() => getChainName(urlPrefix.value))
 
   const chainProperties = computed<ChainProperties>(() => {
@@ -51,23 +51,21 @@ export default function () {
     )
   }
 
+  const existentialDeposit = computed<number>(
+    () => chainsExistentialDeposit[urlPrefix.value],
+  )
+
   const unit = computed<string>(() => {
     return chainProperties.value.tokenSymbol
   })
 
-  const offersDisabled = computed(() => {
-    return urlPrefix.value !== 'bsx'
-  })
+  // TODO: offers will be enabled in the future (with atomic swaps)
+  const offersDisabled = computed(() => true)
 
   const availableChains = computed(availablePrefixes)
   const availableChainsWithIcon = computed(availablePrefixWithIcon)
 
-  const chainSymbol = computed(() => {
-    // add ahr
-    return ['rmrk', 'ksm', 'ahk', 'ahp'].includes(urlPrefix.value)
-      ? unit.value
-      : symbol.value
-  })
+  const chainSymbol = computed(() => unit.value)
 
   const blockExplorer = computed<string>(() => {
     return chainProperties.value.blockExplorer ?? 'https://kusama.subscan.io/'
@@ -85,5 +83,6 @@ export default function () {
     chainSymbol,
     blockExplorer,
     name,
+    existentialDeposit,
   }
 }

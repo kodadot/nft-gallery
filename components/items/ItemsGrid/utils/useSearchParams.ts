@@ -1,18 +1,27 @@
 import { getCollectionIds } from '@/utils/queryParams'
+
+export const useItemsGridQueryParams = () => {
+  const route = useRoute()
+
+  const search = computed(() => route.query.search?.toString())
+  const searchBySn = computed(() => !isNaN(Number(search.value)))
+
+  return { searchBySn, search }
+}
+
 // search items by keywords
 function useSearchKeywords() {
-  const route = useRoute()
+  const { search, searchBySn } = useItemsGridQueryParams()
 
   return {
     keywords: computed(() => {
-      const search = route.query.search?.toString()
-      const conditions = [{ name_containsInsensitive: search }]
+      const conditions = [{ name_containsInsensitive: search.value }]
 
-      if (!isNaN(Number(search))) {
-        conditions.push({ sn_contains: search })
+      if (searchBySn.value) {
+        conditions.push({ sn_contains: search.value })
       }
 
-      return search?.length
+      return search.value?.length
         ? {
             OR: conditions,
           }

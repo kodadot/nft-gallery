@@ -116,7 +116,7 @@
               ~{{ salePriceUsd }} usd
             </div>
             <div class="form-addons">
-              {{ isBasilisk ? 'KSM' : chainSymbol }}
+              {{ chainSymbol }}
             </div>
           </div>
         </div>
@@ -214,9 +214,6 @@
             </span>
           </div>
         </div>
-        <nuxt-link v-if="isBasilisk" :to="`/${currentChain}/assets`">
-          {{ $t('general.tx.feesPaidIn', [chainSymbol]) }}
-        </nuxt-link>
       </div>
 
       <hr class="my-6" />
@@ -350,7 +347,7 @@ watch(urlPrefix, (value) => {
 
 // get/set current chain/prefix
 const currentChain = computed(() => selectChain.value as Prefix)
-const { isBasilisk, isRemark, isRmrk } = useIsChain(currentChain)
+const { isRemark, isRmrk } = useIsChain(currentChain)
 watch(currentChain, () => {
   // reset some state on chain change
   form.salePrice = 0
@@ -372,9 +369,8 @@ const deposit = computed(() =>
 // usd value
 
 // when left undefined urlPrefix will be used
-const tokenType = computed(() =>
-  isBasilisk.value ? chainSymbol.value.toLowerCase() : undefined,
-)
+// TODO: evaluate better
+const tokenType = computed(() => undefined)
 
 const calculateUsdValue = (amount) => {
   // remove comma from amount - required becuase bsx balance is formatted string

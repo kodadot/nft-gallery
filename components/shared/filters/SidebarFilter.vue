@@ -1,7 +1,10 @@
 <template>
   <div :class="{ 'bordered sticky': open }" class="is-hidden-mobile">
     <NeoSidebar :reduce="false" :open="open" fullheight>
-      <EventTypeFilter v-if="isCollectionActivityTab" expanded fluid-padding />
+      <template v-if="isCollectionActivityTab">
+        <EventTypeFilter expanded fluid-padding />
+        <IdentityVerficationFilter expanded fluid-padding />
+      </template>
       <StatusFilter v-else expanded fluid-padding />
       <PriceFilter
         v-if="!isCollectionActivityTab"

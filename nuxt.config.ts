@@ -259,6 +259,7 @@ export default defineNuxtConfig({
     '@nuxt/content',
     'nuxt-simple-sitemap',
     '@nuxtjs/google-fonts',
+    '@nuxtjs/device',
   ],
 
   image: {

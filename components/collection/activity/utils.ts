@@ -96,7 +96,7 @@ const mean = (arr: DataPoint[]): number => {
   return sum / arr.length
 }
 
-export const isAnyActivityFilterActive = (): boolean => {
+export const isAnyEventTypeFilterActive = (): boolean => {
   const query = useRoute().query
 
   return (
@@ -106,6 +106,12 @@ export const isAnyActivityFilterActive = (): boolean => {
     readParam(query?.transfer) ||
     readParam(query?.offer)
   )
+}
+
+export const isAnyActivityFilterActive = (): boolean => {
+  const query = useRoute().query
+
+  return isAnyEventTypeFilterActive() || readParam(query?.verified)
 }
 
 export const bin = (data: DataPoint[], binSize: BinSize): DataPoint[] => {
