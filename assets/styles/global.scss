@@ -396,6 +396,12 @@ a.has-text-grey {
   }
 }
 
+.has-text-k-orange3 {
+  @include ktheme() {
+    color: theme('k-orange3');
+  }
+}
+
 .has-background-inverse {
   @include ktheme() {
     background: theme('text-color');

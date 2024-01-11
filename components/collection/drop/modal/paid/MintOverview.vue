@@ -39,12 +39,47 @@
 
   <div v-if="!hasMinimumFunds" class="border k-orange-light border-k-orange2">
     <div class="p-4 flex gap-3">
-      <NeoIcon icon="circle-exclamation-check" size="large" />
+      <NeoIcon
+        icon="circle-exclamation-check"
+        class="has-text-k-orange3"
+        size="large" />
 
-      <p class="is-size-7">
-        {{ $t('drops.yourWalletNeeds', [formattedMinimumFunds]) }}
-      </p>
+      <div class="is-size-7">
+        <span class="has-text-color">
+          {{ $t('drops.yourWalletNeeds', [formattedMinimumFunds]) }}
+        </span>
+
+        <NeoTooltip
+          multiline
+          position="left"
+          root-class="float-right"
+          multiline-width="250px"
+          :auto-close="['outside', 'inside']">
+          <p class="lowercase has-text-k-orange3">{{ $t('teleport.why') }}</p>
+
+          <template #content>
+            <div class="py-2 text-left">
+              <p
+                v-dompurify-html="
+                  $t('drops.paidDropWhyTooltip', [
+                    formattedMinimumFunds,
+                    formattedExistentialDeposit,
+                  ])
+                " />
+
+              <a
+                href="https://hello.kodadot.xyz/multi-chain/existential-deposit"
+                class="has-text-link is-size-7 capitalize mt-5 block"
+                target="_blank"
+                rel="nofollow noopener noreferrer"
+                >{{ $t('helper.learnMoreAboutEd') }}</a
+              >
+            </div>
+          </template>
+        </NeoTooltip>
+      </div>
     </div>
+
     <div class="py-2 border-top border-k-orange2 text-center">
       <p class="is-size-7">
         {{
@@ -73,7 +108,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import AutoTeleportActionButton from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import type { ToMintNft } from '../../PaidGenerative.vue'
@@ -88,6 +123,7 @@ defineProps<{
   minimumFunds: number
   hasMinimumFunds: boolean
   formattedMinimumFunds: string
+  formattedExistentialDeposit: string
 }>()
 
 const autoteleport = ref()
