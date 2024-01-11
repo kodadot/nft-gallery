@@ -291,6 +291,7 @@ export const useWaitingItems = () => {
 
   const collections = ref<Collections['collectionEntities']>([])
   const entities = reactive({})
+  const loading = ref(true)
 
   const fetchWaitingItems = async () => {
     const { data } = await useAsyncQuery<Collections>({
@@ -321,6 +322,8 @@ export const useWaitingItems = () => {
         }
       })
     }
+
+    loading.value = false
   }
 
   watchEffect(async () => {
@@ -332,6 +335,7 @@ export const useWaitingItems = () => {
   return {
     collections,
     entities,
+    loading,
   }
 }
 
@@ -342,6 +346,7 @@ export const useReadyItems = () => {
 
   const collections = ref<CollectionsReady['collectionEntities']>([])
   const entities = reactive({})
+  const loading = ref(true)
 
   const fetchCollections = async () => {
     const { collections } = await useCollectionReady()
@@ -350,7 +355,7 @@ export const useReadyItems = () => {
 
   watchEffect(async () => {
     const cols = await fetchCollections()
-    // console.log('collections', cols, cols.length)
+
     if (cols.length) {
       collections.value = cols
 
@@ -370,10 +375,13 @@ export const useReadyItems = () => {
         }
       })
     }
+
+    loading.value = false
   })
 
   return {
     collections,
     entities,
+    loading,
   }
 }

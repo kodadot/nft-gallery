@@ -1,15 +1,22 @@
 <template>
   <div>
-    <div v-if="accountId && (isReady || isWaiting)">
+    <div v-if="loadingReady || loadingWaiting">
+      <NeoSkeleton animated height="4rem" />
+    </div>
+    <div v-else-if="accountId && (isReady || isWaiting)">
       <!-- ready state for migration here -->
-      <MigrateLandingContentReady v-if="isReady" :key="urlPrefix" />
+      <MigrateLandingContentReady v-if="isReady" :key="`${urlPrefix}-ready`" />
 
       <!-- waiting state for migration here -->
-      <MigrateLandingContentWaiting v-if="isWaiting" :key="urlPrefix" />
+      <MigrateLandingContentWaiting
+        v-if="isWaiting"
+        :key="`${urlPrefix}-waiting`" />
     </div>
 
     <!-- empty state collection here -->
-    <div v-else class="has-text-centered">
+    <div
+      v-else-if="!loadingReady && !loadingWaiting && !isReady && !isWaiting"
+      class="has-text-centered">
       <p class="is-size-4 has-text-weight-bold">Nothing to Migrate</p>
       <p>
         It looks like you have no collections or items ready for migration at
@@ -20,12 +27,13 @@
 </template>
 
 <script setup lang="ts">
+import { NeoSkeleton } from '@kodadot1/brick'
 import { useReadyItems, useWaitingItems } from '@/composables/useMigrate'
 
 const { accountId } = useAuth()
 const { urlPrefix } = usePrefix()
-const { entities: readyItems } = useReadyItems()
-const { entities: waitingItems } = useWaitingItems()
+const { entities: readyItems, loading: loadingReady } = useReadyItems()
+const { entities: waitingItems, loading: loadingWaiting } = useWaitingItems()
 
 const isReady = computed(() => Object.keys(readyItems).length)
 const isWaiting = computed(() => Object.keys(waitingItems).length)
