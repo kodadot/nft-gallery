@@ -338,8 +338,13 @@ const interactionIn = computed(() => {
 })
 
 useAsyncData('tabs-count', async () => {
+  const address = id.value.toString()
   const searchParams = {
-    currentOwner_eq: id.value.toString(),
+    currentOwner_eq: address,
+  }
+
+  if (accountId.value !== address) {
+    Object.assign(searchParams, { nftCount_not_eq: 0 })
   }
 
   if (!isRemark.value) {
