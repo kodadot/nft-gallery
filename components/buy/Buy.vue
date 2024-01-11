@@ -157,7 +157,7 @@ const handleNftChange = (
   const newPrice = updatedNft.price
   const isNotListedAnymore = newPrice === '0'
 
-  if (item.price === newPrice) {
+  if (item.price === newPrice && !isNotListedAnymore) {
     return
   }
 
@@ -169,6 +169,9 @@ const handleNftChange = (
     } else {
       shoppingCartStore.removeItemToBuy()
     }
+    nftSubscription.nftIds = nftSubscription.nftIds.filter(
+      (id) => item.id !== id,
+    )
     return toast($i18n.t('buyModal.nftNotListedAnymore', [name]))
   }
 
@@ -187,7 +190,7 @@ const handleNftChange = (
   toast($i18n.t('buyModal.nftPriceUpdated', [name]))
 }
 
-const watchNftChanges = (nftIds: string[]) => {
+const watchNftsChanges = (nftIds: string[]) => {
   if (isEqual(nftIds, nftSubscription.nftIds)) {
     return
   }
@@ -220,21 +223,25 @@ const watchNftChanges = (nftIds: string[]) => {
 }
 
 watch(
-  [() => shoppingCartStore.getItemToBuy, items],
-  () => {
+  [
+    () => preferencesStore.completePurchaseModal.isOpen,
+    () => shoppingCartStore.getItemToBuy,
+    items,
+  ],
+  ([isModalOpen]) => {
     const nftIds = (
       isShoppingCartMode.value
         ? items.value.map((item) => item.id)
         : [shoppingCartStore.itemToBuy?.id]
     ).filter(Boolean) as string[]
 
-    if (preferencesStore.completePurchaseModal.isOpen && nftIds.length === 0) {
+    if (isModalOpen && nftIds.length === 0) {
       preferencesStore.completePurchaseModal.isOpen = false
       return
     }
 
     if (nftIds.length) {
-      watchNftChanges(nftIds)
+      watchNftsChanges(nftIds)
     }
   },
   { immediate: true },
