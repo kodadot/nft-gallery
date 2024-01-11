@@ -68,7 +68,7 @@
   <div
     v-if="!isEmptyBalanceOnAllChains && !isBalanceLoading"
     class="flex items-center justify-between">
-    <a class="has-text-grey is-size-7" @click="openRampModal"
+    <a class="text-grey text-xs" @click="openRampModal"
       >+ {{ $t('addFunds') }}</a
     >
   </div>
