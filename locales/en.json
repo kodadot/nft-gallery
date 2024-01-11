@@ -1540,7 +1540,7 @@
     "sign": "Sign",
     "collection": "Migrate Collection",
     "collectionName": "(name will stay the same)",
-    "reviewNotes": "Please note that at this stage, only items you own can be migrated. For other items, you will need to pre-sign them to allow others to follow your migration initiative.",
+    "reviewNotes": "Please note that at this stage, only items you own can be migrated.",
     "route": "Route",
     "costs": "Costs",
     "feeBreakdown": "Fee Breakdown",
