@@ -1,13 +1,13 @@
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { getDenyList } from '@/utils/prefix'
 import isEqual from 'lodash/isEqual'
-import { useSearchParams } from './utils/useSearchParams'
+import {
+  useItemsGridQueryParams,
+  useSearchParams,
+} from './utils/useSearchParams'
 import { Ref } from 'vue'
-
 import type { NFTWithMetadata, TokenEntity } from '@/composables/useNft'
-
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
-
 import { useListingCartStore } from '@/stores/listingCart'
 import { NFT, TokenId } from '@/components/rmrk/service/scheme'
 
@@ -49,12 +49,16 @@ export function useFetchSearch({
   const loadedPages = ref([] as number[])
 
   const { searchParams } = useSearchParams()
+  const { searchBySn } = useItemsGridQueryParams()
 
   interface FetchSearchParams {
     page?: number
     loadDirection?: 'up' | 'down'
     search?: { [key: string]: string | number }[]
   }
+
+  const hasBlockNumberSort = (items: string[]) =>
+    ['blockNumber_DESC', 'blockNumber_ASC'].some((sort) => items.includes(sort))
 
   const getSearchCriteria = (searchParams, reducer = {}) => {
     const mapping = {
@@ -106,8 +110,15 @@ export function useFetchSearch({
       ? 'tokenListWithSearch'
       : 'nftListWithSearch'
 
-    const getRouteQueryOrDefault = (query, defaultValue) => {
-      return query?.length ? query : defaultValue
+    const getRouteQueryOrderByDefault = (query, defaultValue: string[]) => {
+      query = [query].filter(Boolean).flat() as string[]
+      let orderBy = query.length ? query : defaultValue
+      if (searchBySn.value && !hasBlockNumberSort(query)) {
+        orderBy = [...orderBy, 'blockNumber_ASC'].filter(
+          (o) => o !== 'blockNumber_DESC',
+        )
+      }
+      return orderBy
     }
 
     const getQueryResults = (query) => {
@@ -128,7 +139,9 @@ export function useFetchSearch({
     const defaultSearchVariables = {
       first: first.value,
       offset: (page - 1) * first.value,
-      orderBy: getRouteQueryOrDefault(route.query.sort, ['blockNumber_DESC']),
+      orderBy: getRouteQueryOrderByDefault(route.query.sort, [
+        'blockNumber_DESC',
+      ]),
     }
 
     const isPriceSortActive = (sort?: string | null | (string | null)[]) => {
