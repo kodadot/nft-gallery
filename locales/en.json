@@ -1146,7 +1146,7 @@
       "balance": "Balance",
       "empty": "There are currently no assets for this user."
     },
-    "emptyAsset": "You've got zero balance on this address across chains we monitor. If you want to buy small amount of crypto, click on Add funds through our verified on-ramp partner."
+    "emptyAsset": "Your wallet is empty. Top up to explore and acquire NFTs."
   },
   "ramp": {
     "selectAccount": "Select your account and click on buy.",
