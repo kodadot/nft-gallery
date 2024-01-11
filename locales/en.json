@@ -979,6 +979,7 @@
     "viewTx": "View Tx",
     "seeMore": "See More",
     "learnMore": "Learn More",
+    "learnMoreAboutEd": "Learn more about Existential deposit",
     "noCollections": "You have no collections",
     "noInfinityCollections": "You have no collections with unlimited NFTs",
     "indexerReadOnly": "App is in read-only mode, try reload app or visit Discord",
@@ -1451,7 +1452,8 @@
     "pleaseAddFunds": "Please add funds to proceed.",
     "youCanContinueWithAutoteleport": "You can continue with Auto Teleport enabled.",
     "proceedToSigning": "Proceed to signing",
-    "signTransaction": "Sign Transaction"
+    "signTransaction": "Sign Transaction",
+    "paidDropWhyTooltip": "A balance above <strong>{0}</strong> is required to maintain your account's activity, covering the <strong>{1} Existential Deposit,</strong> and to enable seamless future actions."
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
