@@ -3,7 +3,7 @@
     <div
       v-if="isEmptyBalanceOnAllChains && !isBalanceLoading"
       class="text-xs py-4 flex flex-col items-center">
-      <div class="mb-3 text-align-center">
+      <div class="mb-3 text-center">
         {{ $t('asset.emptyAsset') }}
       </div>
       <NeoButton
