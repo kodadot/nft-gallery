@@ -2,8 +2,17 @@
   <div class="mb-2">
     <div
       v-if="isEmptyBalanceOnAllChains && !isBalanceLoading"
-      class="has-text-grey">
-      {{ $t('asset.emptyAsset') }}
+      class="is-size-7 py-4 flex flex-col items-center">
+      <div class="mb-3 text-align-center">
+        {{ $t('asset.emptyAsset') }}
+      </div>
+      <NeoButton
+        variant="pill"
+        size="small"
+        class="px-4 py-1"
+        @click="openRampModal"
+        >+ {{ $t('addFunds') }}</NeoButton
+      >
     </div>
     <div v-else class="balance">
       <div class="balance-row has-text-grey is-size-7">
@@ -55,13 +64,23 @@
       >
     </p>
   </div>
+
+  <div
+    v-if="!isEmptyBalanceOnAllChains && !isBalanceLoading"
+    class="flex items-center justify-between">
+    <a class="has-text-grey is-size-7" @click="openRampModal"
+      >+ {{ $t('addFunds') }}</a
+    >
+  </div>
+  <OnRampModal :value="rampActive" @close="rampActive = false" />
 </template>
 
 <script setup lang="ts">
 import { formatNumber } from '@/utils/format/balance'
 
-import { NeoSkeleton } from '@kodadot1/brick'
+import { NeoButton, NeoSkeleton } from '@kodadot1/brick'
 import { ChainToken, type ChainType, useIdentityStore } from '@/stores/identity'
+import OnRampModal from '@/components/shared/OnRampModal.vue'
 
 const displayChainOrder: ChainType[] = [
   'polkadot',
@@ -70,8 +89,13 @@ const displayChainOrder: ChainType[] = [
   'kusamaHub',
 ]
 const identityStore = useIdentityStore()
+const rampActive = ref(false)
 
 const { multiBalances } = useMultipleBalance(true)
+
+const openRampModal = () => {
+  rampActive.value = true
+}
 
 const multiBalancesChainsList = computed(() => {
   return Object.keys(multiBalances.value.chains)
