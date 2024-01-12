@@ -1,16 +1,17 @@
-@import '@oruga-ui/oruga-next/src/scss/utilities/expressions.scss';
-@import '@oruga-ui/oruga-next/src/scss/utilities/variables.scss';
-@import '@oruga-ui/oruga-next/src/scss/utilities/animations.scss';
-@import '@oruga-ui/oruga-next/src/scss/utilities/helpers.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_variables.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_animations.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_helpers.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_root.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_base.scss';
 
-$inputitems-border-width: 0;
-$inputitems-border-radius: 0;
-$inputitems-item-border-radius: 0;
+$taginput-border-width: 0;
+$taginput-border-radius: 0;
+$taginput-item-border-radius: 0;
 $autocomplete-menu-border-radius: 0;
 
 @import '../NeoInput/NeoInput.scss';
-@import '@oruga-ui/oruga-next/src/scss/components/autocomplete.scss';
-@import '@oruga-ui/oruga-next/src/scss/components/inputitems.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/components/autocomplete.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/components/taginput.scss';
 
 .o-inputit__container {
   @apply pt-0 bg-background-color;

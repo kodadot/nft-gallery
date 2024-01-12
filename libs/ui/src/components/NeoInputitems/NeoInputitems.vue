@@ -1,8 +1,8 @@
 <script lang="ts">
-import { OInputitems } from '@oruga-ui/oruga-next'
+import { OTaginput } from '@oruga-ui/oruga-next'
 
 export default {
-  mixins: [OInputitems],
+  mixins: [OTaginput],
 }
 </script>
 

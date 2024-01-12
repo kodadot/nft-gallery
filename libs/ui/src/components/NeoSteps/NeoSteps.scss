@@ -1,7 +1,8 @@
-@import '@oruga-ui/oruga-next/src/scss/utilities/expressions.scss';
-@import '@oruga-ui/oruga-next/src/scss/utilities/variables.scss';
-@import '@oruga-ui/oruga-next/src/scss/utilities/animations.scss';
-@import '@oruga-ui/oruga-next/src/scss/utilities/helpers.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_variables.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_animations.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_helpers.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_root.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_base.scss';
 
 $steps-details-background-color: hsla(0, 0%, 0%, 0);
 $steps-details-padding: 0.5em !default;
@@ -22,7 +23,7 @@ $steps-item-line-height: $base-line-height !default;
 $steps-link-color: hsl(0, 0%, 29%) !default;
 $steps-content-padding: 1rem !default;
 
-@import '@oruga-ui/oruga-next/src/scss/components/steps';
+@import '@oruga-ui/theme-oruga/dist/scss/components/steps';
 
 .o-steps {
   // Base styles - Themed

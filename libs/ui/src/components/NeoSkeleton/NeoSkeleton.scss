@@ -1,7 +1,8 @@
-@import '@oruga-ui/oruga-next/src/scss/utilities/expressions.scss';
-@import '@oruga-ui/oruga-next/src/scss/utilities/variables.scss';
-@import '@oruga-ui/oruga-next/src/scss/utilities/animations.scss';
-@import '@oruga-ui/oruga-next/src/scss/utilities/helpers.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_variables.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_animations.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_helpers.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_root.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_base.scss';
 
 $skeleton-margin: 0.25rem;
 $base-border-radius: 4px;
@@ -29,4 +30,4 @@ $skeleton-border-radius: var(--border-radius, $base-border-radius);
   }
 }
 
-@import '@oruga-ui/oruga-next/src/scss/components/skeleton.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/components/skeleton.scss';

@@ -1,8 +1,9 @@
 @import '../../scss/_theme.scss';
-@import '@oruga-ui/oruga-next/src/scss/utilities/_expressions.scss';
-@import '@oruga-ui/oruga-next/src/scss/utilities/_variables.scss';
-@import '@oruga-ui/oruga-next/src/scss/utilities/_animations.scss';
-@import '@oruga-ui/oruga-next/src/scss/utilities/_helpers.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_variables.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_animations.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_helpers.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_root.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_base.scss';
 
 $switch-padding: 0;
 $switch-width: 3rem;
@@ -12,7 +13,7 @@ $switch-active-background-color: #{var(--toggle-primary)};
 $switch-action-background: #{var(--toggle-active-switch)};
 $switch-action-checked-background: #{var(--background-color)};
 
-@import '@oruga-ui/oruga-next/src/scss/components/_switch.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/components/_switch.scss';
 
 .o-switch {
   &__check-switch {

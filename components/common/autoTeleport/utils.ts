@@ -63,7 +63,7 @@ export const getActionDetails = (
 
   const { action, item } = getTransalationKey(interaction)
 
-  const i = interaction.toLocaleLowerCase()
+  const i = interaction?.toLocaleLowerCase()
 
   const title = getTranslation(`autoTeleport.steps.${i}.title`)
 

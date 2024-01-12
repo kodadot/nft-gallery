@@ -1,7 +1,8 @@
-@import '@oruga-ui/oruga-next/src/scss/utilities/_expressions.scss';
-@import '@oruga-ui/oruga-next/src/scss/utilities/_variables.scss';
-@import '@oruga-ui/oruga-next/src/scss/utilities/_animations.scss';
-@import '@oruga-ui/oruga-next/src/scss/utilities/_helpers.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_variables.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_animations.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_helpers.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_root.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_base.scss';
 
 $dropdown-menu-padding: 0;
 $dropdown-menu-margin: 1rem 0;
@@ -13,7 +14,7 @@ $dropdown-item-color: var(--text-color);
 $dropdown-item-hover-color: var(--text-color);
 $dropdown-item-hover-background-color: var(--k-accent-hover);
 
-@import '@oruga-ui/oruga-next/src/scss/components/_dropdown.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/components/_dropdown.scss';
 
 .o-drop__item {
   @apply border-b border-b-border-color;

@@ -7,11 +7,13 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@oruga-ui/oruga-next/src/scss/utilities/_expressions.scss';
-@import '@oruga-ui/oruga-next/src/scss/utilities/_variables.scss';
-@import '@oruga-ui/oruga-next/src/scss/utilities/_animations.scss';
-@import '@oruga-ui/oruga-next/src/scss/utilities/_helpers.scss';
-@import '@oruga-ui/oruga-next/src/scss/components/_slider.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_variables.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_animations.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_helpers.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_root.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_base.scss';
+
+@import '@oruga-ui/theme-oruga/dist/scss/components/_slider.scss';
 
 .o-slide__fill {
   @apply bg-k-primary;

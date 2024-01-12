@@ -8,14 +8,15 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@oruga-ui/oruga-next/src/scss/utilities/_expressions.scss';
-@import '@oruga-ui/oruga-next/src/scss/utilities/_variables.scss';
-@import '@oruga-ui/oruga-next/src/scss/utilities/_animations.scss';
-@import '@oruga-ui/oruga-next/src/scss/utilities/_helpers.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_variables.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_animations.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_helpers.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_root.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/utils/_base.scss';
 
 $modal-zindex: 998;
 $modal-overlay-background-color: rgb(0 0 0 / 0.17);
 $modal-content-border-radius: 0;
 
-@import '@oruga-ui/oruga-next/src/scss/components/_modal.scss';
+@import '@oruga-ui/theme-oruga/dist/scss/components/_modal.scss';
 </style>
