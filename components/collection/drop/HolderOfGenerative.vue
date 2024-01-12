@@ -7,6 +7,7 @@
     :drop="drop"
     :holder-of-collection="holderOfCollection"
     :user-minted-nft-id="userMintedNftId"
+    :user-minted-count="mintedAmountForCurrentUser"
     :is-wallet-connecting="isWalletConnecting"
     :is-image-fetching="isImageFetching"
     :is-loading="isLoading"
@@ -137,6 +138,7 @@ const {
   userMintedNftId,
   mintedCount,
   mintCountAvailable,
+  mintedAmountForCurrentUser,
   selectedImage,
   description,
   collectionName,
@@ -167,10 +169,6 @@ const { data: holderOfCollectionData } = await useAsyncData(
   },
 )
 
-const mintedAmountForCurrentUser = computed(
-  () => collectionData.value?.nftEntitiesConnection?.totalCount || 0, // todo: fetch from backend
-)
-
 const maxMintLimitForCurrentUser = computed(
   () => holderOfCollectionData.value?.nftEntitiesConnection?.totalCount || 0,
 )
@@ -196,10 +194,10 @@ const mintButtonLabel = computed(() => {
         : $i18n.t('mint.unlockable.notEligibility')
       : $i18n.t('mint.unlockable.checkEligibility')
 })
-const mintButtonDisabled = computed(
+const mintButtonDisabled = computed<boolean>(
   () =>
     !mintCountAvailable.value ||
-    disabledByBackend.value ||
+    Boolean(disabledByBackend.value) ||
     (isLogIn.value &&
       Boolean(
         !selectedImage.value ||

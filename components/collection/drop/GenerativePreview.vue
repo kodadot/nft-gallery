@@ -47,10 +47,11 @@
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import { getRandomInt } from '../unlockable/utils'
+import { getRandomIntFromRange } from '../unlockable/utils'
 import { blake2AsHex, encodeAddress } from '@polkadot/util-crypto'
 
 const props = defineProps<{
+  minted: number
   content: string
   image?: string
 }>()
@@ -60,10 +61,17 @@ const emit = defineEmits(['select'])
 const { accountId } = useAuth()
 const { chainProperties } = useChain()
 
+const STEP = 64
+const entropyRange = computed<[number, number]>(() => [
+  STEP * props.minted,
+  STEP * (props.minted + 1),
+])
+
 const getHash = (isDefault?: boolean) => {
   const ss58Format = isDefault
     ? chainProperties.value?.ss58Format
-    : getRandomInt(15000)
+    : getRandomIntFromRange(entropyRange.value[0], entropyRange.value[1])
+
   // https://github.com/paritytech/ss58-registry/blob/30889d6c9d332953a6e3333b30513eef89003f64/ss58-registry.json#L1292C17-L1292C22
   return accountId.value
     ? blake2AsHex(encodeAddress(accountId.value, ss58Format), 256, null, true)
