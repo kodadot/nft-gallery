@@ -661,9 +661,19 @@ const checkQueryParams = () => {
 
   if (targets.length) {
     targetAddresses.value = queryTargetAddresses.map(getQueryTargetAddress)
-    sendSameAmount.value =
-      new Set(queryTargetAddresses.map((x) => x.usdamount)).size == 1
+    sendSameAmount.value = getInitialSendSameAmount(
+      queryTargetAddresses,
+      usdAmounts.length !== 0 ? 'usdamount' : 'amount',
+    )
   }
+}
+
+const getInitialSendSameAmount = (
+  queryTargetAddresses: QueryTargetAddress[],
+  keyToCheck: string,
+): boolean => {
+  const items = queryTargetAddresses.map((x) => x[keyToCheck])
+  return new Set(items).size === 1 && items.length !== 1
 }
 
 const onAmountFieldChange = (target: TargetAddress) => {
