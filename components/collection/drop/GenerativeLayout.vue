@@ -13,6 +13,7 @@
           <CollectionDropMintSection
             v-if="!isMobile"
             :user-minted-nft-id="userMintedNftId"
+            :collection-id="collectionId"
             :is-wallet-connecting="isWalletConnecting"
             :is-image-fetching="isImageFetching"
             :is-loading="isLoading"
@@ -36,6 +37,7 @@
         <CollectionDropMintSection
           v-if="isMobile"
           class="column"
+          :collection-id="collectionId"
           :user-minted-nft-id="userMintedNftId"
           :is-wallet-connecting="isWalletConnecting"
           :is-image-fetching="isImageFetching"
