@@ -23,6 +23,24 @@
             {{ collectionName }}
           </h1>
         </div>
+
+        <!-- migration is ready -->
+        <div
+          v-if="isMigrate"
+          class="bg-background-color py-[10px] px-[18px] border rounded-full capitalize relative overflow-hidden">
+          <div class="flex gap-4">
+            <img
+              src="/migrate/state-ready.svg"
+              alt="Ready"
+              class="absolute top-1/2 transform -translate-y-1/2 left-0" />
+            <p class="ml-6">{{ $t('migrate.ready.title') }}</p>
+            <p class="text-k-grey">-</p>
+            <nuxt-link to="/migrate" class="font-bold">
+              {{ $t('migrate.cta') }}
+            </nuxt-link>
+          </div>
+        </div>
+
         <HeroButtons class="is-hidden-mobile self-end" />
       </div>
     </section>
@@ -40,6 +58,7 @@ import { convertMarkdownToText } from '@/utils/markdown'
 const collectionId = computed(() => route.params.id)
 const route = useRoute()
 const { placeholder } = useTheme()
+const { accountId } = useAuth()
 
 const { data, refetch } = useGraphql({
   queryName: 'collectionById',
@@ -50,6 +69,7 @@ const { data, refetch } = useGraphql({
 
 const collectionAvatar = ref('')
 const collectionName = ref('--')
+const isMigrate = ref(false)
 
 const bannerImageUrl = computed(
   () => collectionAvatar.value && toOriginalContentUrl(collectionAvatar.value),
@@ -67,6 +87,8 @@ watchEffect(async () => {
   const metadata = collection?.metadata
   const image = collection?.meta?.image
   const name = collection?.name
+
+  isMigrate.value = collection?.currentOwner === accountId.value
 
   if (image && name) {
     collectionAvatar.value = sanitizeIpfsUrl(image)
