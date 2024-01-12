@@ -1,6 +1,6 @@
 <template>
   <div class="info-box" :class="`info-box__${variant}`">
-    <div class="header-container box-padding">
+    <div v-if="title" class="header-container box-padding">
       <p class="is-size-6 title">{{ title }}</p>
 
       <NeoButton
@@ -26,8 +26,8 @@ import { NeoButton } from '@kodadot1/brick'
 const emit = defineEmits(['close'])
 
 defineProps<{
-  title: string
-  variant: 'success' | 'fail'
+  variant: 'success' | 'fail' | 'warning'
+  title?: string
 }>()
 
 const onClose = () => {
@@ -43,6 +43,17 @@ const onClose = () => {
 }
 
 $border_size: 1px;
+
+@mixin variantTheme($borderColor, $backgroundColor) {
+  border: $border_size solid $borderColor;
+  background-color: $backgroundColor;
+
+  .header-container {
+    @include ktheme() {
+      border-bottom: $border_size solid $borderColor;
+    }
+  }
+}
 
 .info-box {
   width: 100%;
@@ -70,27 +81,22 @@ $border_size: 1px;
 
   &__success {
     @include ktheme() {
-      border: $border_size solid theme('green-border-color');
-      background-color: theme('k-greenaccent2');
-    }
-
-    .header-container {
-      @include ktheme() {
-        border-bottom: $border_size solid theme('green-border-color');
-      }
+      @include variantTheme(
+        theme('green-border-color'),
+        theme('k-greenaccent2')
+      );
     }
   }
 
   &__fail {
     @include ktheme() {
-      border: $border_size solid theme('k-red');
-      background-color: theme('k-redaccent2');
+      @include variantTheme(theme('k-red'), theme('k-redaccent2'));
     }
+  }
 
-    .header-container {
-      @include ktheme() {
-        border-bottom: $border_size solid theme('k-red');
-      }
+  &__warning {
+    @include ktheme() {
+      @include variantTheme(theme('k-orange'), theme('k-yellow'));
     }
   }
 }

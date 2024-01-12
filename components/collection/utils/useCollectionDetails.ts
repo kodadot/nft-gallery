@@ -1,19 +1,21 @@
 import { getVolume } from '@/utils/math'
 import { NFT } from '@/components/rmrk/service/scheme'
 import { NFTListSold } from '@/components/identity/utils/useIdentity'
-import { chainsSupportingOffers } from './useCollectionDetails.config'
 import { Stats } from './types'
 
-export const useCollectionDetails = ({ collectionId }) => {
-  const { urlPrefix } = usePrefix()
-  const { data } = useGraphql({
+export const useCollectionDetails = ({
+  collectionId,
+}: {
+  collectionId: ComputedRef<string>
+}) => {
+  const variables = computed(() => ({
+    id: collectionId.value,
+  }))
+
+  const { data, refetch } = useGraphql({
     queryPrefix: 'subsquid',
-    queryName: chainsSupportingOffers.includes(urlPrefix.value)
-      ? 'collectionStatsByIdWithOffers'
-      : 'collectionStatsById',
-    variables: {
-      id: collectionId,
-    },
+    queryName: 'collectionStatsById',
+    variables: variables.value,
   })
   const stats = ref<Stats>({})
 
@@ -24,19 +26,6 @@ export const useCollectionDetails = ({ collectionId }) => {
       ].length
 
       const collectionLength = data.value.stats.base.length
-
-      const maxOffer = computed(() => {
-        if (!chainsSupportingOffers.includes(urlPrefix.value)) {
-          return undefined
-        }
-        const offresPerNft = data.value.stats.base.map((nft) =>
-          nft.offers.map((offer) => Number(offer.price)),
-        )
-        const highestOffer = Math.max(
-          ...offresPerNft.map((nftOffers) => Math.max(...nftOffers)),
-        )
-        return highestOffer
-      })
 
       const listedNfts = data.value.stats.listed
 
@@ -49,7 +38,6 @@ export const useCollectionDetails = ({ collectionId }) => {
             ? Math.min(...listedNfts.map((item) => parseInt(item.price)))
             : undefined,
         uniqueOwners: uniqueOwnerCount,
-        bestOffer: maxOffer.value,
         uniqueOwnersPercent: `${(
           (uniqueOwnerCount / collectionLength) *
           100
@@ -60,6 +48,8 @@ export const useCollectionDetails = ({ collectionId }) => {
       }
     }
   })
+
+  watch(variables, () => refetch(variables.value))
 
   return {
     stats,
@@ -108,17 +98,24 @@ export function useCollectionSoldData({ address, collectionId }) {
   return { nftEntities }
 }
 
-export const useCollectionMinimal = ({ collectionId }) => {
+export const useCollectionMinimal = ({
+  collectionId,
+}: {
+  collectionId: Ref<string>
+}) => {
   const { urlPrefix } = usePrefix()
   const { isAssetHub } = useIsChain(urlPrefix)
   const collection = ref()
-  const { data } = useGraphql({
+
+  const variables = computed(() => ({
+    id: collectionId.value,
+  }))
+
+  const { data, refetch } = useGraphql({
     queryName: isAssetHub.value
       ? 'collectionByIdMinimalWithRoyalty'
       : 'collectionByIdMinimal',
-    variables: {
-      id: collectionId,
-    },
+    variables: variables.value,
   })
 
   watch(data, (result) => {
@@ -126,6 +123,8 @@ export const useCollectionMinimal = ({ collectionId }) => {
       collection.value = result.collectionEntityById
     }
   })
+
+  watch(variables, () => refetch(variables.value))
 
   return { collection }
 }

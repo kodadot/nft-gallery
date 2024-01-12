@@ -19,14 +19,17 @@
     </DynamicGrid>
 
     <DynamicGrid
-      v-else-if="isLoading"
+      v-else-if="isLoading || loadingOtherNetwork"
       :id="scrollContainerId"
       grid-size="medium"
       :default-width="GRID_DEFAULT_WIDTH">
       <CollectionCard v-for="n in skeletonCount" :key="n" is-loading />
     </DynamicGrid>
 
-    <EmptyResult v-else />
+    <template v-else>
+      <slot v-if="slots['empty-result']" name="empty-result"></slot>
+      <EmptyResult v-else />
+    </template>
 
     <ScrollTopButton />
   </div>
@@ -46,9 +49,11 @@ import DynamicGrid from '@/components/shared/DynamicGrid.vue'
 
 const props = defineProps<{
   id?: string
+  loadingOtherNetwork?: boolean
 }>()
-
+const slots = useSlots()
 const route = useRoute()
+const { accountId } = useAuth()
 const { urlPrefix, client } = usePrefix()
 const { isRemark } = useIsChain(urlPrefix)
 const preferencesStore = usePreferencesStore()
@@ -98,6 +103,10 @@ const fetchPageData = async (page: number, loadDirection = 'down') => {
   const searchParams = isProfilePage
     ? { currentOwner_eq: props.id, burned_eq: false }
     : { issuer_eq: props.id }
+
+  if (isProfilePage && accountId.value !== props.id) {
+    Object.assign(searchParams, { nftCount_not_eq: 0 })
+  }
 
   if (isRemark.value) {
     delete searchParams.burned_eq

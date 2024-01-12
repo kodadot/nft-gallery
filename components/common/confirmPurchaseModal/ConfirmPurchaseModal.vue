@@ -14,18 +14,34 @@
         <ModalIdentityItem />
       </div>
       <div class="py-2">
-        <ConfirmPurchaseItemRow
+        <ConfirmNftPurchaseItemRow
           v-for="nft in items"
           :key="nft.id"
           :nft="nft"
           class="py-2" />
       </div>
+
       <div class="py-4 border-top border-bottom card-border-color">
         <div class="flex justify-between items-center mb-2">
           <span class="is-size-7">{{
             $t('confirmPurchase.priceForNFTs')
           }}</span>
           <CommonTokenMoney :value="totalNFTsPrice" />
+        </div>
+        <div class="flex justify-between has-text-grey is-size-7 mb-2">
+          <div>
+            {{ $t('mint.nft.modal.serviceFee') }}
+            ({{ SUPPORT_FEE_PERCENT * 100 }}%)
+            <NeoTooltip
+              class="is-cursor-pointer"
+              position="top"
+              multiline-width="14rem"
+              :label="$t('tooltip.supportFee')"
+              multiline>
+              <NeoIcon icon="circle-question" />
+            </NeoTooltip>
+          </div>
+          <CommonTokenMoney :value="supportFee" />
         </div>
         <div class="flex justify-between has-text-grey is-size-7">
           {{ $t('confirmPurchase.royalties') }}
@@ -55,13 +71,12 @@
 </template>
 
 <script setup lang="ts">
-import { NeoModal } from '@kodadot1/brick'
+import { NeoIcon, NeoModal, NeoTooltip } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { sum } from '@/utils/math'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
-import ConfirmPurchaseItemRow from './ConfirmPurchaseItemRow.vue'
 import { totalPriceUsd } from '../shoppingCart/utils'
 import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
 import { type AutoTeleportAction } from '@/composables/autoTeleport/types'
@@ -71,6 +86,7 @@ import { useBuySupportFee } from '@/composables/transaction/utils'
 const emit = defineEmits(['confirm', 'completed', 'close'])
 const props = defineProps<{
   action: AutoTeleportAction
+  loading: boolean
 }>()
 
 const prefrencesStore = usePreferencesStore()
@@ -81,7 +97,7 @@ const { urlPrefix } = usePrefix()
 const autoteleport = ref()
 const actions = computed(() => [props.action])
 
-const loading = computed(() => !autoteleport.value?.isReady)
+const loading = computed(() => !autoteleport.value?.isReady || props.loading)
 
 const mode = computed(() => prefrencesStore.getCompletePurchaseModal.mode)
 

@@ -47,9 +47,6 @@
     "coingecko_ksm_markets": {
       "href": "https://www.coingecko.com/en/coins/kusama#markets"
     },
-    "basilisk_website": {
-      "href": "https://bsx.fi"
-    },
     "ramp_network": {
       "href": "https://ramp.network",
       "supported_countries": {

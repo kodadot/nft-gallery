@@ -1,8 +1,6 @@
 import type { ApiPromise } from '@polkadot/api'
 import { balanceOf } from '@kodadot1/sub-api'
 
-import type { PalletBalancesAccountData } from '@polkadot/types/lookup'
-
 export declare type Unsubscribe = () => void
 export type UnsubscribePromise = Promise<Unsubscribe>
 
@@ -56,20 +54,11 @@ export function subscribeBalance(
 export const getNativeBalance = async ({
   address,
   api,
-  tokenId = 0,
+  _tokenId = 0,
 }: {
   address: string
   api: ApiPromise
-  tokenId: number
+  tokenId?: number
 }): Promise<string | number> => {
-  if (tokenId) {
-    return (
-      (await api.query.tokens.accounts(
-        address,
-        tokenId,
-      )) as PalletBalancesAccountData
-    ).free.toString()
-  }
-
   return balanceOf(api, address)
 }

@@ -55,7 +55,6 @@
 import type { ComputedOptions, ConcreteComponent, MethodOptions } from 'vue'
 import { useElementHover, useElementVisibility } from '@vueuse/core'
 import {
-  NeoAudioMedia,
   NeoButton,
   NeoIFrameMedia,
   NeoIcon,
@@ -65,6 +64,7 @@ import {
   NeoUnknownMedia,
   NeoVideoMedia,
 } from '@kodadot1/brick'
+import AudioMedia from '@/components/shared/AudioMedia.vue'
 import { getMimeType, resolveMedia } from '@/utils/gallery/media'
 import { MediaType } from '@/components/rmrk/types'
 
@@ -100,7 +100,7 @@ const props = withDefaults(
     original: false,
     isLewd: false,
     isDetail: false,
-    placeholder: './Koda.svg',
+    placeholder: '/Koda.svg',
     disableOperation: undefined,
     audioPlayerCover: '',
     isFullscreen: false,
@@ -140,7 +140,7 @@ const isLewdBlurredLayer = ref(props.isLewd)
 const components = {
   NeoImageMedia,
   NeoVideoMedia,
-  NeoAudioMedia,
+  NeoAudioMedia: AudioMedia,
   NeoJsonMedia,
   NeoIFrameMedia,
   NeoObjectMedia,

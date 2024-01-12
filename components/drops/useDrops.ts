@@ -7,9 +7,10 @@ import {
   getDrops,
 } from '@/services/waifu'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
-import { existentialDeposit } from '@kodadot1/static'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { DropItem } from '@/params/types'
+import { FUTURE_DROP_DATE } from '@/utils/drop'
+import { isProduction } from '@/utils/chain'
 
 export interface Drop {
   collection: CollectionWithMeta
@@ -30,36 +31,38 @@ export function useDrops() {
   onMounted(async () => {
     const dropsList = await getDrops()
 
-    dropsList.forEach((drop) => {
-      const { result: collectionData } = useQuery(
-        unlockableCollectionById,
-        { id: drop.collection },
-        { clientId: drop.chain },
-      )
+    dropsList
+      .filter((drop) => !isProduction || drop.chain !== 'ahk')
+      .forEach((drop) => {
+        const { result: collectionData } = useQuery(
+          unlockableCollectionById,
+          { id: drop.collection },
+          { clientId: drop.chain },
+        )
 
-      watchEffect(async () => {
-        if (collectionData.value?.collectionEntity) {
-          const { collectionEntity } = collectionData.value
-          const newDrop = await getFormattedDropItem(collectionEntity, drop)
-          drops.value.push(newDrop)
-        }
+        watchEffect(async () => {
+          if (collectionData.value?.collectionEntity) {
+            const { collectionEntity } = collectionData.value
+            const newDrop = await getFormattedDropItem(collectionEntity, drop)
+            drops.value.push(newDrop)
+          }
+        })
       })
-    }, [])
   })
 
   return drops
 }
 
 const getFormattedDropItem = async (collection, drop: DropItem) => {
-  const chainMax = collection?.max ?? 300
+  const chainMax = collection?.max ?? FALLBACK_DROP_COLLECTION_MAX
   const { count } = await getDropStatus(drop.alias)
-  const price = ['paid', 'generative'].includes(drop.type) ? drop.meta : '0'
+  const price = drop.price || 0
   return {
     ...drop,
     collection: collection,
     minted: Math.min(count, chainMax),
     max: chainMax,
-    dropStartTime: new Date(2023, 5, 6),
+    dropStartTime: count >= 5 ? Date.now() - 1e10 : FUTURE_DROP_DATE, // this is a bad hack to make the drop appear as "live" in the UI
     price,
     isMintedOut: count >= chainMax,
     isFree: !Number(price),
@@ -111,32 +114,46 @@ export const useDropStatus = (id: string) => {
   }
 }
 
+const MINIMUM_FUNDS_ROUND = 4
 export const useDropMinimumFunds = (drop) => {
   const chainProperties = chainPropListOf(drop.chain)
 
   const { chainBalances } = useTeleport()
-  const { urlPrefix } = usePrefix()
+  const { existentialDeposit } = useChain()
   const { fetchMultipleBalance } = useMultipleBalance()
 
   const currentChain = computed(() => prefixToChainMap[drop.chain])
-  const meta = computed(() => drop.meta || 0)
+  const meta = computed<number>(() => Number(drop.meta) || 0)
+  const price = computed<number>(() => Number(drop.price) || 0)
   const currentChainBalance = computed(
     () =>
       (currentChain.value && Number(chainBalances[currentChain.value]())) || 0,
   )
-  const minimumFunds = computed<number>(() => meta.value)
+  const minimumFunds = computed<number>(() => price.value || meta.value)
+
   const transferableDropChainBalance = computed(
-    () => currentChainBalance.value - existentialDeposit[urlPrefix.value],
+    () => currentChainBalance.value - existentialDeposit.value,
   )
   const hasMinimumFunds = computed(
-    () => transferableDropChainBalance.value >= minimumFunds.value,
+    () =>
+      !minimumFunds.value ||
+      transferableDropChainBalance.value >= minimumFunds.value,
   )
+  const tokenDecimals = computed(() => chainProperties.tokenDecimals)
+  const tokenSymbol = computed(() => chainProperties.tokenSymbol)
 
   const { formatted: formattedMinimumFunds } = useAmount(
     meta,
-    computed(() => chainProperties.tokenDecimals),
-    computed(() => chainProperties.tokenSymbol),
-    2,
+    tokenDecimals,
+    tokenSymbol,
+    MINIMUM_FUNDS_ROUND,
+  )
+
+  const { formatted: formattedExistentialDeposit } = useAmount(
+    existentialDeposit,
+    tokenDecimals,
+    tokenSymbol,
+    MINIMUM_FUNDS_ROUND,
   )
 
   onBeforeMount(fetchMultipleBalance)
@@ -145,5 +162,6 @@ export const useDropMinimumFunds = (drop) => {
     minimumFunds,
     hasMinimumFunds,
     formattedMinimumFunds,
+    formattedExistentialDeposit,
   }
 }

@@ -37,7 +37,7 @@
       }
 
       &.o-btn--disabled {
-        @apply opacity-unset bg-k-shade text-k-grey border-k-grey;
+        @apply opacity-unset bg-k-shade border-k-grey text-k-grey;
       }
     }
 

@@ -45,7 +45,11 @@
         <nuxt-link
           :to="`/${urlPrefix}/u/${fromAddress}`"
           class="has-text-link is-ellipsis">
-          <IdentityIndex ref="identity" :address="fromAddress" show-clipboard />
+          <IdentityIndex
+            ref="identity"
+            :address="fromAddress"
+            show-clipboard
+            show-badge />
         </nuxt-link>
       </div>
 
@@ -54,7 +58,11 @@
         <nuxt-link
           :to="`/${urlPrefix}/u/${toAddress}`"
           class="has-text-link is-ellipsis">
-          <IdentityIndex ref="identity" :address="toAddress" show-clipboard />
+          <IdentityIndex
+            ref="identity"
+            :address="toAddress"
+            show-clipboard
+            show-badge />
         </nuxt-link>
       </div>
     </div>

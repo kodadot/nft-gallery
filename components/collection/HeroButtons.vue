@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="hero-buttons flex justify-start items-end px-2">
+    <div class="hero-buttons flex justify-end items-end px-2">
       <div v-if="twitter" class="flex">
         <NeoButton
           icon="x-twitter"
@@ -99,7 +99,7 @@ const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 const { shareOnX } = useSocialShare()
 
-const collectionId = computed(() => route.params.id)
+const collectionId = computed(() => route.params.id.toString())
 const currentCollectionUrl = computed(
   () =>
     `${window.location.origin}/${urlPrefix.value}/collection/${collectionId.value}`,
@@ -114,7 +114,7 @@ const shareUrlToX = () => {
   )
 }
 const { collection } = useCollectionMinimal({
-  collectionId: collectionId.value,
+  collectionId,
 })
 const collectionIssuer = computed(() => collection.value?.issuer)
 const collectionNftCount = computed(() => collection.value?.nftCount)
@@ -136,10 +136,8 @@ const QRModalActive = ref(false)
 
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
-.hero-buttons {
-  @include mobile {
-    justify-content: space-between !important;
-    flex: 1;
+@include mobile {
+  .hero-buttons {
     margin-top: 0;
     margin-bottom: 1.5rem;
   }

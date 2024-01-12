@@ -2,10 +2,6 @@ import { expect, test } from './fixtures'
 
 const CHAINS = [
   {
-    dropdownText: 'bsx',
-    chainIdText: 'bsx',
-  },
-  {
     dropdownText: 'ahp',
     chainIdText: 'ahp',
   },

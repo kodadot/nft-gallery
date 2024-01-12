@@ -1,8 +1,8 @@
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import { getMimeType } from '@/utils/gallery/media'
 import { useHistoryStore } from '@/stores/history'
 import { NftResources, getNftMetadata } from '@/composables/useNft'
 import useSubscriptionGraphql from '@/composables/useSubscriptionGraphql'
+import { getCloudflareMp4 } from '@/services/imageWorker'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import type { NFTWithMetadata } from '@/composables/useNft'
 import type { Ref } from 'vue'
@@ -16,29 +16,9 @@ export interface GalleryItem {
   nftMimeType: Ref<string>
   nftMetadata: Ref<NFTWithMetadata | undefined>
   nftAnimation: Ref<string>
+  nftAnimationMimeType: Ref<string>
   nftImage: Ref<string>
   nftResources: Ref<NftResources[] | undefined>
-}
-
-const whichMimeType = async (data) => {
-  if (data?.type) {
-    return data?.type
-  }
-  if (data?.animationUrl) {
-    return await getMimeType(sanitizeIpfsUrl(data.animationUrl))
-  }
-  if (data?.image || data?.mediaUri) {
-    return await getMimeType(sanitizeIpfsUrl(data?.image || data?.mediaUri))
-  }
-
-  return ''
-}
-
-const whichAsset = (data) => {
-  return {
-    animation_url: sanitizeIpfsUrl(data.animationUrl || ''),
-    image: sanitizeIpfsUrl(data.image || data.mediaUri || '', 'image'),
-  }
 }
 
 export const useGalleryItem = (nftId?: string): GalleryItem => {
@@ -47,6 +27,7 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
   const nft = ref<NFT>()
   const nftImage = ref('')
   const nftAnimation = ref('')
+  const nftAnimationMimeType = ref('')
   const nftMimeType = ref('')
   const nftMetadata = ref<NFTWithMetadata>()
   const nftResources = ref<NftResources[]>()
@@ -61,6 +42,7 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     ahk: 'chain-ahk',
   }
 
+  const { isIos, isSafari } = useDevice()
   const { urlPrefix } = usePrefix()
   const { data, refetch } = useGraphql({
     queryName: 'nftById',
@@ -113,13 +95,39 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
       }
     })
 
-    nftMetadata.value = await getNftMetadata(nftEntity, urlPrefix.value)
-    nftMimeType.value = await whichMimeType(nftMetadata.value)
+    const metadata = await getNftMetadata(nftEntity, urlPrefix.value, true)
+    nftMetadata.value = metadata
     nftResources.value = resources
 
-    const asset = whichAsset(nftMetadata.value)
-    nftImage.value = asset.image
-    nftAnimation.value = asset.animation_url
+    nftImage.value = metadata.image || ''
+    nftMimeType.value = metadata.imageMimeType || ''
+    nftAnimation.value = metadata.animationUrl || ''
+    nftAnimationMimeType.value = metadata.animationUrlMimeType || ''
+
+    // use cf-video & replace the video thumbnail
+    if (
+      nftAnimationMimeType.value.includes('video') ||
+      nftMimeType.value.includes('video')
+    ) {
+      // fallback to cloudflare-ipfs for ios & safari while video is still processing to cf-stream
+      if (isIos || isSafari) {
+        nftImage.value = sanitizeIpfsUrl(nft.value.meta?.image, 'cloudflare')
+        nftAnimation.value = sanitizeIpfsUrl(
+          nft.value.meta?.animation_url,
+          'cloudflare',
+        )
+      }
+
+      // serve video from cloudflare stream
+      const streams = await getCloudflareMp4(
+        metadata.animationUrl || metadata.image,
+      )
+
+      if (streams.uid && streams.video?.default?.percentComplete === 100) {
+        nftAnimation.value = streams.video.default.url
+        nftImage.value = streams.detail?.thumbnail || ''
+      }
+    }
 
     historyStore.addHistoryItem({
       id: nft.value.id,
@@ -139,6 +147,7 @@ export const useGalleryItem = (nftId?: string): GalleryItem => {
     nft,
     nftImage,
     nftAnimation,
+    nftAnimationMimeType,
     nftMimeType,
     nftMetadata,
     nftResources,

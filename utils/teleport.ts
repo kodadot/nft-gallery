@@ -30,7 +30,6 @@ const KNOWN_WEIGHTS: Record<string, number> = {
 
 export enum Chain {
   KUSAMA = 'Kusama',
-  BASILISK = 'Basilisk',
   ASSETHUBKUSAMA = 'AssetHubKusama',
   ASSETHUBPOLKADOT = 'AssetHubPolkadot',
   POLKADOT = 'Polkadot',
@@ -53,8 +52,7 @@ export type TeleportTransition = {
 }
 
 export const allowedTransitions = {
-  [Chain.KUSAMA]: [Chain.ASSETHUBKUSAMA, Chain.BASILISK],
-  [Chain.BASILISK]: [Chain.KUSAMA],
+  [Chain.KUSAMA]: [Chain.ASSETHUBKUSAMA],
   [Chain.ASSETHUBKUSAMA]: [Chain.KUSAMA],
   [Chain.POLKADOT]: [Chain.ASSETHUBPOLKADOT],
   [Chain.ASSETHUBPOLKADOT]: [Chain.POLKADOT],
@@ -62,7 +60,6 @@ export const allowedTransitions = {
 
 export const chainToPrefixMap: Record<Chain, Prefix> = {
   [Chain.KUSAMA]: 'rmrk',
-  [Chain.BASILISK]: 'bsx',
   [Chain.ASSETHUBKUSAMA]: 'ahk',
   [Chain.ASSETHUBPOLKADOT]: 'ahp',
   [Chain.POLKADOT]: 'dot',
@@ -71,7 +68,6 @@ export const chainToPrefixMap: Record<Chain, Prefix> = {
 export const prefixToChainMap: Partial<Record<Prefix, Chain>> = {
   rmrk: Chain.KUSAMA,
   ksm: Chain.KUSAMA,
-  bsx: Chain.BASILISK,
   ahk: Chain.ASSETHUBKUSAMA,
   ahp: Chain.ASSETHUBPOLKADOT,
   dot: Chain.POLKADOT,
@@ -95,7 +91,6 @@ export const whichTeleportType = ({
     case Chain.POLKADOT:
       return TeleprtType.RelayToPara
 
-    case Chain.BASILISK:
     case Chain.ASSETHUBKUSAMA:
     case Chain.ASSETHUBPOLKADOT:
       return [Chain.KUSAMA, Chain.POLKADOT].includes(to)
@@ -253,7 +248,6 @@ export type Currency = 'KSM' | 'DOT'
 export const getChainCurrency = (chain: Chain): Currency => {
   switch (chain) {
     case Chain.KUSAMA:
-    case Chain.BASILISK:
     case Chain.ASSETHUBKUSAMA:
       return 'KSM'
     case Chain.POLKADOT:
@@ -265,3 +259,11 @@ export const getChainCurrency = (chain: Chain): Currency => {
 export const getChainExistentialDeposit = (
   chain: Chain | undefined | null,
 ): number => (chain ? existentialDeposit[chainToPrefixMap[chain]] : 0)
+
+export const chainToPrecisionMap: Record<Chain, number> = {
+  [Chain.KUSAMA]: 4,
+  [Chain.BASILISK]: 4,
+  [Chain.ASSETHUBKUSAMA]: 6,
+  [Chain.ASSETHUBPOLKADOT]: 5,
+  [Chain.POLKADOT]: 4,
+}

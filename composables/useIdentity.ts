@@ -1,10 +1,22 @@
 import type { ComputedRef } from 'vue'
 import { accountToPublicKey, getss58AddressByPrefix } from '@/utils/account'
 import { chainPropListOf } from '@/utils/config/chain.config'
-
+import { type Prefix } from '@kodadot1/static'
 import shortAddress from '@/utils/shortAddress'
 
 export type IdentityFields = Record<string, string>
+
+export const useIdentityQuery = (urlPrefix: Ref<Prefix>) => {
+  const isDotAddress = computed(() => ['dot', 'ahp'].includes(urlPrefix.value))
+  const clientName = computed(() => (isDotAddress.value ? 'pid' : 'kid'))
+
+  const getIdentityId = (address: string) =>
+    isDotAddress.value
+      ? accountToPublicKey(address)
+      : getss58AddressByPrefix(address, 'rmrk')
+
+  return { isDotAddress, getIdentityId, clientName }
+}
 
 export default function useIdentity({
   address = computed(() => ''),
@@ -15,14 +27,10 @@ export default function useIdentity({
 }) {
   const { urlPrefix } = usePrefix()
   const { apiInstanceByPrefix } = useApi()
-  const isDotAddress = computed(() => ['dot', 'ahp'].includes(urlPrefix.value))
-  const id = computed(
-    () =>
-      address.value &&
-      (isDotAddress.value
-        ? accountToPublicKey(address.value)
-        : getss58AddressByPrefix(address.value, 'rmrk')),
-  )
+  const { isDotAddress, getIdentityId, clientName } =
+    useIdentityQuery(urlPrefix)
+
+  const id = computed(() => address.value && getIdentityId(address.value))
 
   const identityPrefix = computed(() => (isDotAddress.value ? 'dot' : 'rmrk'))
 
@@ -31,7 +39,6 @@ export default function useIdentity({
   )
 
   const identityApi = computed(() => apiInstanceByPrefix(identityPrefix.value))
-  const clientName = computed(() => (isDotAddress.value ? 'pid' : 'kid'))
 
   const { data, refetch, loading } = useGraphql({
     clientName,
@@ -51,6 +58,11 @@ export default function useIdentity({
     displayName({ customNameOption, identity, shortenedAddress }),
   )
 
+  const hasIdentity = computed(() => {
+    const { display, legal, web, twitter, riot, email } = identity.value
+    return Boolean(display || legal || web || twitter || riot || email)
+  })
+
   watch(urlPrefix, () => {
     refetch()
   })
@@ -64,6 +76,7 @@ export default function useIdentity({
     identityApi,
     identityPrefix,
     identityUnit,
+    hasIdentity,
     refetchIdentity: refetch,
   }
 }

@@ -9,7 +9,6 @@ import { chainPropListOf } from '@/utils/config/chain.config'
 export const prefixToToken = {
   ksm: 'KSM',
   rmrk: 'KSM',
-  bsx: 'KSM',
   ahk: 'KSM',
   ahp: 'DOT',
   dot: 'DOT',

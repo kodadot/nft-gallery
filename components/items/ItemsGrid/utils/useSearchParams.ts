@@ -1,13 +1,31 @@
 import { getCollectionIds } from '@/utils/queryParams'
+
+export const useItemsGridQueryParams = () => {
+  const route = useRoute()
+
+  const search = computed(() => route.query.search?.toString())
+  const searchBySn = computed(() => !isNaN(Number(search.value)))
+
+  return { searchBySn, search }
+}
+
 // search items by keywords
 function useSearchKeywords() {
-  const route = useRoute()
+  const { search, searchBySn } = useItemsGridQueryParams()
 
   return {
     keywords: computed(() => {
-      return route.query.search?.length
-        ? [{ name_containsInsensitive: route.query.search }]
-        : []
+      const conditions = [{ name_containsInsensitive: search.value }]
+
+      if (searchBySn.value) {
+        conditions.push({ sn_contains: search.value })
+      }
+
+      return search.value?.length
+        ? {
+            OR: conditions,
+          }
+        : {}
     }),
   }
 }
@@ -109,7 +127,7 @@ export function useSearchParams() {
 
   const searchParams = computed(() => {
     return [
-      ...keywords.value,
+      keywords.value,
       ...priceRange.value,
       ...owner.value,
       ...collectionId.value,

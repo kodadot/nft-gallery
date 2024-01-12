@@ -5,6 +5,7 @@ import type {
 } from '@/composables/transaction/types'
 import { type Prefix } from '@kodadot1/static'
 import { type DeepReadonly } from 'vue'
+import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 
 type TransactionDetails = {
   status: DeepReadonly<Ref<TransactionStatus>>
@@ -31,7 +32,8 @@ export type AutoTeleportActionDetails = {
 }
 
 type AutoTeleportBaseAction = {
-  action: Actions
+  action?: Actions
+  interaction?: ActionlessInteraction
   prefix?: string | Prefix
   details: AutoTeleportActionDetails
 }
@@ -48,3 +50,6 @@ export type AutoTeleportFeeParams = {
   actionAutoFees?: boolean
   actionLazyFetch?: boolean
 }
+
+export type AutoteleportInteraction = ActionsInteractions &
+  ActionlessInteraction

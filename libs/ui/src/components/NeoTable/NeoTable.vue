@@ -34,7 +34,7 @@ $table-th-font-weight: 400;
   }
 
   &__th {
-    @apply text-xs text-k-grey bg-background-color;
+    @apply text-xs text-k-grey bg-background-color #{!important};
   }
 
   &__detail {
@@ -43,7 +43,15 @@ $table-th-font-weight: 400;
 
   @media (max-width: 1024px) {
     tbody tr {
-      @apply pt-6 bg-background-color;
+      @apply pt-6 bg-background-color shadow-none border-t-default border-t-k-shade;
+      @apply mx-6 #{!important};
+
+      &:first-child {
+        @apply border-t-0;
+      }
+      &:last-child {
+        @apply pb-6;
+      }
     }
 
     &__td {
@@ -51,16 +59,15 @@ $table-th-font-weight: 400;
         @apply text-xs/4.5 text-k-grey;
       }
 
-      @apply my-0 mx-6 py-1 px-0;
+      @apply my-0 mx-0 py-1 px-0;
 
       &:last-child {
         @apply border-b-default border-b-k-shade;
       }
     }
-
     &--hoverable {
       tbody tr:hover td {
-        @apply bg-background-color;
+        @apply bg-transparent #{!important};
       }
     }
   }

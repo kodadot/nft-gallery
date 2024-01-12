@@ -77,21 +77,8 @@
     }
   }
 
-  .carousel-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 16px;
-  }
-
   .navigation-wrapper {
     position: relative;
-  }
-
-  .chain-name {
-    @include ktheme() {
-      color: theme('k-grey');
-    }
   }
 
   .dots {

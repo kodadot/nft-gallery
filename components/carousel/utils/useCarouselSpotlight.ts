@@ -4,16 +4,6 @@ import type { CarouselNFT } from '@/components/base/types'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 const curatedCollection = {
-  bsx: [
-    '1865909717', // 'Berliner'
-    '21032023', // 'Spring Waifus 🐞
-    '2551182625', // Luna Witches (deepologics)
-    '2608295324', // Deity
-    '3579963603', // Hooker's Urban
-    '945672150', // NAGA KADAL
-    '1825819407', // KoDragons
-    '1635680444', // KODACHAINS
-  ],
   rmrk: [
     '900D19DC7D3C444E4C-MECHWOM', // Mechanical Woman (deepologics)
     '4A43156FE23E061C03-SNK', // Snek-Frens
@@ -46,6 +36,7 @@ const curatedCollection = {
     '131', // Forgive me not
   ],
   ahp: [
+    '60', // Christmas City
     '52', // Whirls
     '51', // Chroma Lattice
     '50', // .motherboard,

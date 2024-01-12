@@ -10,7 +10,7 @@
             $t('advancedFilters')
           }}</span>
           <span v-if="artView" class="ml-2 has-text-primary"
-            >({{ $t('offer.active') }})</span
+            >({{ $t('active') }})</span
           >
         </p>
         <a class="card-header-icon mr-1 has-text-grey">

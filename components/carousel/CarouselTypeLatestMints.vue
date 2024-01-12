@@ -9,14 +9,14 @@
             :to="urlOf({ id: item.id, url: 'gallery', chain: item.chain })"
             :title="item.name"
             class="has-text-weight-bold carousel-info-name">
-            <span class="is-ellipsis"
-              >{{ item.name || '--' }}#{{ item.id }}</span
-            >
+            <span class="is-ellipsis">{{ item.name || '--' }}</span>
           </nuxt-link>
 
           <div class="flex flex-col items-start">
             <div class="flex justify-between items-center">
-              <p class="is-size-7 chain-name">{{ $t('drops.mintedBy') }}</p>
+              <p class="is-size-7 text-k-grey">
+                {{ $t('drops.mintedBy') }}
+              </p>
               <nuxt-link
                 :to="`/${urlPrefix}/u/${item.currentOwner}`"
                 class="has-text-link ml-2">
@@ -26,7 +26,7 @@
                   show-clipboard />
               </nuxt-link>
             </div>
-            <p class="is-size-7 chain-name">{{ item.timestamp }}</p>
+            <p class="is-size-7 text-k-grey">{{ item.timestamp }}</p>
           </div>
         </div>
       </template>
@@ -74,5 +74,6 @@ const { data: latestEvents } = useGraphql({
 const nfts = computed(() =>
   flattenNFT(latestEvents.value?.events || [], urlPrefix.value),
 )
+
 const showCarousel = computed(() => nfts.value.length)
 </script>

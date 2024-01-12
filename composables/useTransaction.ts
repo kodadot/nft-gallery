@@ -14,7 +14,6 @@ import {
   execBurnMultiple,
   execBurnTx,
 } from './transaction/transactionBurn'
-import { execMakeOfferTx } from './transaction/transactionOffer'
 import { execWithdrawOfferTx } from './transaction/transactionOfferWithdraw'
 import { execAcceptOfferTx } from './transaction/transactionOfferAccept'
 import { execMintToken } from './transaction/transactionMintToken'
@@ -29,7 +28,6 @@ import {
   ActionList,
   ActionMintCollection,
   ActionMintToken,
-  ActionOffer,
   ActionSend,
   ActionSetCollectionMaxSupply,
   ActionWithdrawOffer,
@@ -41,7 +39,6 @@ import {
 } from './transaction/types'
 import { ApiPromise } from '@polkadot/api'
 import { isActionValid } from './transaction/utils'
-const { $consola } = useNuxtApp()
 
 const resolveLargeSuccessNotification = (
   block: string,
@@ -50,7 +47,7 @@ const resolveLargeSuccessNotification = (
   const { $i18n } = useNuxtApp()
   const title = $i18n.t('mint.success')
   const message = resolveSuccessMessage(block, objectMessage.message)
-  showLargeNotification({ message, title })
+  showLargeNotification({ message, title, shareLink: objectMessage.shareLink })
 }
 
 const resolveMessage = (message?: string | (() => string)) => {
@@ -146,8 +143,6 @@ export const executeAction = ({
       execListTx(item as ActionList, api, executeTransaction),
     [Interaction.SEND]: () =>
       execSendTx(item as ActionSend, api, executeTransaction),
-    [ShoppingActions.MAKE_OFFER]: () =>
-      execMakeOfferTx(item as ActionOffer, api, executeTransaction),
     [ShoppingActions.CONSUME]: () =>
       execBurnTx(item as ActionConsume, api, executeTransaction),
     [ShoppingActions.WITHDRAW_OFFER]: () =>
@@ -187,6 +182,7 @@ export const executeAction = ({
   }
 
   if (!isActionValid(item)) {
+    const { $consola } = useNuxtApp()
     $consola.warn(`Invalid action: ${JSON.stringify(item)}`)
     throw createError({
       statusCode: 404,

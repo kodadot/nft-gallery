@@ -108,7 +108,6 @@ const { urlPrefix } = usePrefix()
 const { $i18n } = useNuxtApp()
 const fiatStore = useFiatStore()
 const preferencesStore = usePreferencesStore()
-const { isBasilisk } = useIsChain(urlPrefix)
 
 const { metadataDeposit, collectionDeposit, existentialDeposit, itemDeposit } =
   useDeposit(urlPrefix)
@@ -194,12 +193,10 @@ const confirm = (params) => {
 watchEffect(async () => {
   networkFee.value = 0
 
-  if (!isBasilisk.value) {
-    const fee = await getTransitionFee(accountId.value, [''], decimals.value)
-    networkFee.value = props.nftInformation.listForSale
-      ? Number(fee) * 2
-      : Number(fee)
-  }
+  const fee = await getTransitionFee(accountId.value, [''], decimals.value)
+  networkFee.value = props.nftInformation.listForSale
+    ? Number(fee) * 2
+    : Number(fee)
 })
 </script>
 

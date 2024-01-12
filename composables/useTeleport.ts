@@ -35,8 +35,6 @@ export default function (fetchBalancePeriodically: boolean = false) {
 
   const chainBalances = {
     [Chain.KUSAMA]: () => multiBalances.value.chains.kusama?.ksm?.nativeBalance,
-    [Chain.BASILISK]: () =>
-      multiBalances.value.chains.basilisk?.ksm?.nativeBalance,
     [Chain.ASSETHUBKUSAMA]: () =>
       multiBalances.value.chains.kusamaHub?.ksm?.nativeBalance,
     [Chain.POLKADOT]: () =>

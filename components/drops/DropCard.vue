@@ -4,7 +4,7 @@
       :is="externalUrl ? 'a' : NuxtLink"
       v-if="drop.collection && !isLoadingMeta"
       rel="nofollow noopener noreferrer"
-      :to="`/${correctUrlPrefix}/drops/${drop.alias}`">
+      :to="`/${dropPrefix}/drops/${drop.alias}`">
       <div
         class="drop-card-banner"
         :style="{ backgroundImage: `url(${image})` }">
@@ -18,9 +18,7 @@
                 custom-class="avatar-image" />
             </div>
 
-            <TimeTag
-              :drop-start-time="drop.dropStartTime"
-              :ended="Boolean(drop.disabled) || availableCount === 0" />
+            <TimeTag :drop-start-time="drop.dropStartTime" :ended="ended" />
           </div>
         </section>
       </div>
@@ -35,7 +33,7 @@
                 {{ $t('activity.creator') }}:
               </div>
               <nuxt-link
-                :to="`/${correctUrlPrefix}/u/${drop.collection.issuer}`"
+                :to="`/${dropPrefix}/u/${drop.collection.issuer}`"
                 class="has-text-link">
                 <IdentityIndex
                   ref="identity"
@@ -53,11 +51,7 @@
             <div class="flex flex-col">
               <span class="has-text-grey">{{ $t('price') }}</span>
               <span v-if="isFreeDrop">{{ $t('free') }}</span>
-              <Money
-                v-else
-                :value="drop.price"
-                :prefix="correctUrlPrefix"
-                inline />
+              <Money v-else :value="drop.price" :prefix="dropPrefix" inline />
             </div>
           </div>
         </div>
@@ -92,7 +86,6 @@
 import { NeoSkeleton } from '@kodadot1/brick'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import BasicImage from '@/components/shared/view/BasicImage.vue'
 
 import type { Metadata } from '@/components/rmrk/service/scheme'
 import TimeTag from './TimeTag.vue'
@@ -112,21 +105,9 @@ const props = defineProps<Props>()
 const image = ref('')
 const externalUrl = ref()
 
-const correctUrlPrefix = computed(() => {
-  return props.drop.chain
-})
-
-const isFreeDrop = computed(() => {
-  return true // !Number(props.drop?.price)
-})
-
-const availableCount = computed(() => {
-  if (isFreeDrop.value) {
-    return props.drop.max - props.drop.minted
-  } else {
-    return props.drop.minted
-  }
-})
+const dropPrefix = computed(() => props.drop.chain)
+const isFreeDrop = computed(() => !Number(props.drop.price))
+const ended = computed(() => props.drop.minted === props.drop.max)
 
 onMounted(async () => {
   if (!props.drop?.collection) {

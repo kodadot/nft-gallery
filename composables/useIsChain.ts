@@ -2,7 +2,6 @@ import type { Prefix } from '@kodadot1/static'
 import type { ComputedRef } from 'vue'
 
 export default function (prefix: ComputedRef<Prefix>) {
-  const isBasilisk = computed(() => prefix.value === 'bsx')
   const isRemark = computed(
     () => prefix.value === 'rmrk' || prefix.value === 'ksm',
   )
@@ -14,7 +13,6 @@ export default function (prefix: ComputedRef<Prefix>) {
   )
 
   return {
-    isBasilisk,
     isRemark,
     isAssetHub,
     isRmrk,

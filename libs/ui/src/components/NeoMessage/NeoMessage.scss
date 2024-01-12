@@ -1,7 +1,7 @@
 // This styles from bulma
 
 .message {
-  @apply bg-[whitesmoke] rounded text-base;
+  @apply bg-[whitesmoke] rounded-none text-base;
 }
 
 .message:not(:last-child) {

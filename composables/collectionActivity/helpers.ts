@@ -5,8 +5,6 @@ import {
   InteractionWithNFT,
   NFTHistoryState,
   NFTMap,
-  Offer,
-  OfferInteraction,
   Owners,
 } from './types'
 import type { Prefix } from '@kodadot1/static'
@@ -96,20 +94,6 @@ const updateOwnerWithNewNft = ({
       : owner.lastActivityTimestamp
   owner.nfts = [...owner.nfts, nft]
   return owner
-}
-
-export const getOffers = (nfts): Offer[] => {
-  return nfts
-    .map((nft) =>
-      nft.offers.map((offer) => ({
-        ...offer,
-        price: parseInt(offer.price),
-        timestamp: new Date(offer.updatedAt).getTime(),
-        interaction: OfferInteraction,
-        nft: { ...nft, events: undefined, offers: undefined },
-      })),
-    )
-    .flat()
 }
 
 export const getOwners = (nfts) => {

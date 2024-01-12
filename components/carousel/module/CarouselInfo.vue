@@ -10,8 +10,8 @@
       <span class="is-ellipsis">{{ item.name || '--' }}</span>
       <span v-if="isCollection" class="carousel-info-arrow">----></span>
     </nuxt-link>
-    <div class="min-h-[1.5rem]">
-      <CollectionDetailsPopover v-if="item?.collectionId" :nft="item">
+    <div v-if="item?.collectionId" class="min-h-[1.5rem]">
+      <CollectionDetailsPopover :nft="item">
         <template #content>
           <nuxt-link
             v-if="!isCollection && item.collectionId"
@@ -31,7 +31,7 @@
 
     <div
       v-if="!isCollection"
-      class="carousel-meta flex"
+      class="flex items-center mt-4"
       :class="[showPrice ? 'justify-between' : 'justify-end']">
       <div v-if="showPrice" class="flex items-center">
         <Money
@@ -43,7 +43,7 @@
           >- {{ $t('spotlight.sold') }}</span
         >
       </div>
-      <p class="is-size-7 chain-name capitalize">{{ chainName }}</p>
+      <p class="is-size-7 text-k-grey capitalize">{{ chainName }}</p>
     </div>
   </div>
 </template>
@@ -73,7 +73,7 @@ const chainName = computed(() => {
   return getChainNameByPrefix(props.item.chain || urlPrefix.value)
 })
 
-const price = computed(() => props.item.latestSalePrice ?? props.item.price)
+const price = computed(() => props.item.latestSalePrice || props.item.price)
 const showSold = computed(() => Number(props.item.latestSalePrice) > 0)
 
 const showPrice = computed((): boolean => {

@@ -9,7 +9,7 @@
       {{ $t('migrate.ready.desc') }}
     </div>
 
-    <div v-if="Object.keys(entities).length" class="collection">
+    <div class="collection">
       <div
         v-for="collection in collections"
         :key="collection.id"
@@ -52,7 +52,7 @@
                 @click="
                   toReview({
                     collectionId: collection.id,
-                    itemCount: collection.nfts?.length,
+                    itemCount: collection.nftsOwned?.length,
                   })
                 ">
                 {{ $t('migrate.ready.cta') }}
@@ -62,40 +62,12 @@
         </div>
       </div>
     </div>
-    <div v-else class="text-center mt-8">
-      <p class="is-size-4 has-text-weight-bold">Nothing to Migrate</p>
-      <p>
-        It looks like you have no collections or items ready for migration at
-        this time.
-      </p>
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
-import { toReview, useCollectionReady } from '@/composables/useMigrate'
-import waifuApi from '@/services/waifu'
+import { toReview, useReadyItems } from '@/composables/useMigrate'
 
-const { urlPrefix } = usePrefix()
-const { collections } = await useCollectionReady()
-
-const entities = reactive({})
-watchEffect(async () => {
-  collections.value.forEach(async (collection) => {
-    const metadata = await getNftMetadata(
-      collection as unknown as MinimalNFT,
-      urlPrefix.value,
-    )
-    const migrated = await waifuApi(
-      `/relocations/${urlPrefix.value}-${collection.id}`,
-    )
-
-    if (!migrated?.id && collection.nfts?.length) {
-      entities[collection.id] = {
-        ...metadata,
-      }
-    }
-  })
-})
+const { collections, entities } = useReadyItems()
 </script>

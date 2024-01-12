@@ -1,13 +1,13 @@
 import resolveQueryPath from '@/utils/queryPathResolver'
 import { getDenyList } from '@/utils/prefix'
 import isEqual from 'lodash/isEqual'
-import { useSearchParams } from './utils/useSearchParams'
+import {
+  useItemsGridQueryParams,
+  useSearchParams,
+} from './utils/useSearchParams'
 import { Ref } from 'vue'
-
 import type { NFTWithMetadata, TokenEntity } from '@/composables/useNft'
-
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
-
 import { useListingCartStore } from '@/stores/listingCart'
 import { NFT, TokenId } from '@/components/rmrk/service/scheme'
 
@@ -49,6 +49,7 @@ export function useFetchSearch({
   const loadedPages = ref([] as number[])
 
   const { searchParams } = useSearchParams()
+  const { searchBySn } = useItemsGridQueryParams()
 
   interface FetchSearchParams {
     page?: number
@@ -56,7 +57,10 @@ export function useFetchSearch({
     search?: { [key: string]: string | number }[]
   }
 
-  const getSearchCriteria = (searchParams) => {
+  const hasBlockNumberSort = (items: string[]) =>
+    ['blockNumber_DESC', 'blockNumber_ASC'].some((sort) => items.includes(sort))
+
+  const getSearchCriteria = (searchParams, reducer = {}) => {
     const mapping = {
       currentOwner_eq: (value) => ({ owner: value }),
       issuer_eq: (value) => ({ issuer: value }),
@@ -69,12 +73,16 @@ export function useFetchSearch({
 
     return searchParams.reduce((acc, curr) => {
       for (const [key, value] of Object.entries(curr)) {
+        if (Array.isArray(value)) {
+          return getSearchCriteria(value, acc)
+        }
+
         if (mapping[key]) {
           Object.assign(acc, mapping[key](value))
         }
       }
       return acc
-    }, {})
+    }, reducer)
   }
 
   async function fetchSearch({
@@ -102,8 +110,15 @@ export function useFetchSearch({
       ? 'tokenListWithSearch'
       : 'nftListWithSearch'
 
-    const getRouteQueryOrDefault = (query, defaultValue) => {
-      return query?.length ? query : defaultValue
+    const getRouteQueryOrderByDefault = (query, defaultValue: string[]) => {
+      query = [query].filter(Boolean).flat() as string[]
+      let orderBy = query.length ? query : defaultValue
+      if (searchBySn.value && !hasBlockNumberSort(query)) {
+        orderBy = [...orderBy, 'blockNumber_ASC'].filter(
+          (o) => o !== 'blockNumber_DESC',
+        )
+      }
+      return orderBy
     }
 
     const getQueryResults = (query) => {
@@ -124,8 +139,28 @@ export function useFetchSearch({
     const defaultSearchVariables = {
       first: first.value,
       offset: (page - 1) * first.value,
-      orderBy: getRouteQueryOrDefault(route.query.sort, ['blockNumber_DESC']),
+      orderBy: getRouteQueryOrderByDefault(route.query.sort, [
+        'blockNumber_DESC',
+      ]),
     }
+
+    const isPriceSortActive = (sort?: string | null | (string | null)[]) => {
+      if (!sort) {
+        return false
+      }
+      const sortArray = Array.isArray(sort) ? sort : [sort]
+      return sortArray.some((sortBy) => (sortBy ?? '').includes('price'))
+    }
+    watch(
+      () => route.query.sort,
+      (newSort, oldSort) => {
+        const priceSortHasBeenActivated =
+          isPriceSortActive(newSort) && !isPriceSortActive(oldSort)
+        if (priceSortHasBeenActivated && route.query.listed !== 'true') {
+          route.query.listed = 'true'
+        }
+      },
+    )
 
     const searchForToken = getSearchCriteria(
       search?.length ? search : searchParams.value,
