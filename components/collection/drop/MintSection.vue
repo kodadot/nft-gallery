@@ -64,10 +64,10 @@
             class="my-2 mint-button"
             variant="k-accent"
             :loading="loading"
-            :disabled="mintButton.disabled"
+            :disabled="mintButtonDisabled"
             :loading-with-label="isWalletConnecting"
-            :label="mintButton.label"
-            @click="emit('mint')" />
+            :label="mintButtonLabel"
+            @click="handleMint" />
         </div>
       </div>
 
@@ -84,10 +84,10 @@
           class="ml-5 my-2 mint-button"
           variant="k-accent"
           :loading="loading"
-          :disabled="mintButton.disabled"
+          :disabled="mintButtonDisabled"
           :loading-with-label="isWalletConnecting"
-          :label="mintButton.label"
-          @click="emit('mint')" />
+          :label="mintButtonLabel"
+          @click="handleMint" />
       </div>
     </div>
   </div>
@@ -105,13 +105,14 @@ const props = withDefaults(
     mintCountAvailable: boolean
     disabledByBackend: number
     maxCount: number
-    minimumFunds: { amount: bigint; description: string }
+    minimumFunds: { amount: number; description: string }
     isImageFetching: boolean
     isWalletConnecting: boolean
     isLoading: boolean
     mintButton: { label: string; disabled: boolean }
     userMintedNftId?: string
     holderOfCollection?: { id?: string; isHolderOfTargetCollection?: boolean }
+    collectionId: string
   }>(),
   {
     userMintedNftId: undefined,
@@ -121,6 +122,7 @@ const props = withDefaults(
 
 const emit = defineEmits(['mint'])
 
+const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 
 const loading = computed(
@@ -131,6 +133,28 @@ const mintedPercent = computed(() => {
   const percent = (props.mintedCount / props.maxCount) * 100
   return Math.round(percent)
 })
+
+const isMintedOut = computed(() => !props.mintCountAvailable)
+
+const mintButtonLabel = computed(() =>
+  isMintedOut.value
+    ? $i18n.t('mint.unlockable.seeListings')
+    : props.mintButton.label,
+)
+
+const mintButtonDisabled = computed(() =>
+  isMintedOut.value ? false : props.mintButton.disabled,
+)
+
+const handleMint = () => {
+  if (isMintedOut.value) {
+    return navigateTo(
+      `/${urlPrefix.value}/explore/items?listed=true&collections=${props.collectionId}`,
+    )
+  }
+
+  emit('mint')
+}
 
 const showHolderOfCollection = computed(() => !!props.holderOfCollection.id)
 </script>
