@@ -9,8 +9,8 @@
         <NeoIcon v-else v-bind="iconIdle" class="fa-2x" />
       </div>
       <div>
-        <p class="has-text-weight-bold">Comprehensive Collection Scan</p>
-        <p class="is-size-7 has-text-grey">
+        <p class="font-bold text-xl">Comprehensive Collection Scan</p>
+        <p class="text-k-grey">
           Verifying your collection on the destination chain.
         </p>
       </div>
@@ -27,10 +27,10 @@
         <NeoIcon v-bind="whichIcon()" class="fa-2x" />
       </div>
       <div>
-        <p class="has-text-weight-bold">
+        <p class="font-bold text-xl">
           {{ $t('migrate.signStep.finalization') }}
         </p>
-        <p class="is-size-7 has-text-grey">
+        <p class="text-k-grey">
           {{ $t('migrate.signStep.authorize') }}
         </p>
       </div>

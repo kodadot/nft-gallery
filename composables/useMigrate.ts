@@ -18,7 +18,8 @@ export type Steps =
 
 export const iconIdle = {
   icon: 'circle',
-  class: 'has-text-grey',
+  class: 'text-k-grey-light',
+  pack: 'fass',
 }
 export const iconLoading = {
   icon: 'spinner-third',

@@ -5,10 +5,10 @@
         <NeoIcon v-bind="whichIcon()" class="fa-2x" />
       </div>
       <div>
-        <p class="has-text-weight-bold">
+        <p class="font-bold text-xl">
           {{ $t('migrate.signStep.initiation') }}
         </p>
-        <p class="is-size-7 has-text-grey">
+        <p class="text-k-grey">
           {{ $t('migrate.signStep.journey') }}
         </p>
       </div>
@@ -51,7 +51,7 @@
         </div>
         <div>
           <p>{{ $t('migrate.signStep.prepare') }}</p>
-          <p>{{ $t('migrate.signStep.noSignature') }}</p>
+          <p class="text-k-grey">{{ $t('migrate.signStep.noSignature') }}</p>
         </div>
       </div>
     </div>
