@@ -310,11 +310,6 @@ a.has-text-grey {
     border-right: 1px solid theme('border-color');
   }
 }
-.border {
-  @include ktheme() {
-    border: 1px solid theme('border-color') !important;
-  }
-}
 
 .no-border {
   border: none !important;
@@ -544,7 +539,6 @@ a.has-text-grey {
 .is-rounded-small {
   border-radius: 4rem;
 }
-
 
 .w-half {
   width: 50%;

@@ -10,12 +10,22 @@
       >: {{ $t('migrate.signStep.notesPopup') }}
     </p>
 
+    <p class="my-5">Follow Steps:</p>
+    <div
+      v-if="showStartSigning"
+      class="mb-6 w-full rounded-full border border-toggle-active-switch px-4 py-[10px] text-center capitalize hover:cursor-pointer hover:bg-background-color-inverse hover:text-text-color-inverse">
+      <div class="flex gap-4 w-full justify-center" @click="startSigning()">
+        <p>Click here to start signing</p>
+        <NeoIcon icon="chevrons-right" />
+      </div>
+    </div>
+
     <MigrateStepsSignLoader />
 
     <NeoButton
       label="Sign all required transactions"
       variant="k-accent"
-      class="mt-4 btn-submit"
+      class="mt-4 h-14 capitalize"
       expanded
       :disabled="steps !== 'init'"
       @click="signTransactions()" />
@@ -50,12 +60,10 @@ const signTransactions = async () => {
     steps.value = 'step1'
   }
 }
-</script>
 
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.btn-submit {
-  height: 3.5rem;
+const showStartSigning = ref(true)
+const startSigning = async () => {
+  await signTransactions()
+  showStartSigning.value = false
 }
-</style>
+</script>
