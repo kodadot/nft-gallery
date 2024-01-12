@@ -584,16 +584,11 @@ const generateTokenTabs = (
 const getQueryMultipleKeys = (
   queryKey: string,
   filter: (value: [string, any]) => boolean,
-) => {
-  return (
-    Object.entries(route.query)
-      .filter(([key]) => key.startsWith(queryKey))
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      .filter(filter)
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      .map(([_, value]) => value as string)
-  )
-}
+) =>
+  Object.entries(route.query)
+    .filter(([key]) => key.startsWith(queryKey))
+    .filter(filter)
+    .map(([, value]) => value as string)
 
 const getQueryTargetAddresses = () =>
   getQueryMultipleKeys('target', ([_, address]) => {
