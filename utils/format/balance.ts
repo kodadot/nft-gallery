@@ -98,7 +98,9 @@ const roundAmount = (
 ) => {
   const number = Number(value.replace(/,/g, ''))
 
-  return disableFilter ? parseFloat(number.toString()) : roundTo(value, limit)
+  return disableFilter
+    ? parseFloat(number.toString()).toLocaleString()
+    : roundTo(value, limit)
 }
 
 export const formatAmountWithRound = (
