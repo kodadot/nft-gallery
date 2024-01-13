@@ -13,14 +13,14 @@
             :src="collection.image || placeholder" />
         </div>
         <div class="px-2 flex flex-col">
-          <div class="has-text-weight-bold no-wrap">
+          <div class="has-text-weight-bold whitespace-nowrap">
             {{ truncateStr(collection.name, 12) }}
           </div>
           <div class="flex justify-start">
             <div class="is-hidden-mobile">
               <div
                 v-if="collection.floorPrice || collection.floor"
-                class="no-wrap">
+                class="whitespace-nowrap">
                 {{ $t('general.floor') }}:
                 <CommonTokenMoney
                   :value="collection.floorPrice || collection.floor"
@@ -40,10 +40,10 @@
       </div>
       <div class="justify-end px-2 flex w-160">
         <div class="has-text-right flex-col items-center flex text-xs-mobile">
-          <div class="no-wrap">
+          <div class="whitespace-nowrap">
             <CommonTokenMoney :value="volume" inline :round="1" />
           </div>
-          <div class="no-wrap is-hidden-mobile">
+          <div class="whitespace-nowrap is-hidden-mobile">
             <BasicMoney
               :value="usdValue"
               inline
@@ -51,7 +51,7 @@
               :round="0" />&nbsp;USD
           </div>
 
-          <div class="is-hidden-tablet text-xs no-wrap">
+          <div class="is-hidden-tablet text-xs whitespace-nowrap">
             <div v-if="diffPercentString" :class="color">
               {{ diffPercentString }}
             </div>
@@ -61,7 +61,7 @@
         <div
           v-if="diffPercentString"
           class="is-hidden-mobile justify-center items-center flex px-2">
-          <div class="is-size-6 no-wrap" :class="color">
+          <div class="is-size-6 whitespace-nowrap" :class="color">
             {{ diffPercentString }}
           </div>
         </div>

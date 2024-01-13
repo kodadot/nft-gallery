@@ -45,7 +45,7 @@
 
           <NeoDropdownItem
             v-clipboard:copy="recurringPaymentLink"
-            class="no-wrap"
+            class="whitespace-nowrap"
             data-testid="transfer-dropdown-recurring"
             @click="toast($t('toast.urlCopy'))">
             <NeoIcon icon="rotate" class="mr-2" />{{

@@ -12,7 +12,7 @@
         <span>{{ nft.name }}</span>
       </nuxt-link>
       <div class="flex flex-col justify-between mt-3">
-        <div class="flex justify-between no-wrap">
+        <div class="flex justify-between whitespace-nowrap">
           <span class="text-xs has-text-grey">{{ $t('activity.profit') }}</span>
           <span
             :class="{
@@ -22,11 +22,11 @@
             >{{ profit === 0 ? '--' : `${format(profit)}%` }}</span
           >
         </div>
-        <div class="flex justify-between no-wrap">
+        <div class="flex justify-between whitespace-nowrap">
           <span class="text-xs has-text-grey">{{ $t('activity.bought') }}</span>
           <Money :value="boughtPrice" />
         </div>
-        <div class="flex justify-between no-wrap">
+        <div class="flex justify-between whitespace-nowrap">
           <span class="text-xs has-text-grey">{{ $t('activity.sold') }}</span>
           <Money :value="soldPrice" />
         </div>

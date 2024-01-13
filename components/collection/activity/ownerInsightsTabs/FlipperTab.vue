@@ -55,7 +55,9 @@
               <span class="text-xs has-text-grey">{{
                 $t('activity.latestActivity')
               }}</span>
-              <span class="no-wrap">{{ timeAgo(latestflipTimestamp) }}</span>
+              <span class="whitespace-nowrap">{{
+                timeAgo(latestflipTimestamp)
+              }}</span>
             </div>
             <div>
               <div

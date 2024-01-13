@@ -32,15 +32,15 @@
             <div
               class="flex flex-col justify-between ml-4 limit-width w-full is-clipped">
               <div
-                class="has-text-weight-bold has-text-color line-height-1 no-wrap is-ellipsis">
+                class="has-text-weight-bold has-text-color line-height-1 whitespace-nowrap is-ellipsis">
                 {{ nft.name }}
               </div>
-              <div class="line-height-1 no-wrap is-ellipsis">
+              <div class="line-height-1 whitespace-nowrap is-ellipsis">
                 {{ nft.collection?.name || nft.collection.id }}
               </div>
             </div>
 
-            <div class="ml-4 flex items-end no-wrap">
+            <div class="ml-4 flex items-end whitespace-nowrap">
               {{ nftPrice }}
             </div>
           </div>
