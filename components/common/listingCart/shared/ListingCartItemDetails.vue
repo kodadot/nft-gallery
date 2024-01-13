@@ -12,12 +12,12 @@
 
         <div class="flex flex-col justify-between ml-4 limit-width">
           <div
-            class="has-text-weight-bold line-height-1 no-wrap is-clipped is-ellipsis"
+            class="has-text-weight-bold line-height-1 whitespace-nowrap is-clipped is-ellipsis"
             :class="[discarded ? 'has-text-grey' : 'has-text-color']">
             {{ nft.name }}
           </div>
           <div
-            class="line-height-1 no-wrap is-clipped is-ellipsis"
+            class="line-height-1 whitespace-nowrap is-clipped is-ellipsis"
             :class="{ 'has-text-grey': discarded }">
             {{ nft.collection?.name || nft.collection.id }}
           </div>

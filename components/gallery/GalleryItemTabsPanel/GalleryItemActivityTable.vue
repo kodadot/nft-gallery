@@ -85,7 +85,9 @@
         field="timestamp"
         :label="$t('tabs.tabActivity.date')">
         <NeoTooltip :label="parseDate(props.row.timestamp)" position="left">
-          <span class="no-wrap">{{ formatToNow(props.row.timestamp) }}</span>
+          <span class="whitespace-nowrap">{{
+            formatToNow(props.row.timestamp)
+          }}</span>
         </NeoTooltip>
       </NeoTableColumn>
     </NeoTable>

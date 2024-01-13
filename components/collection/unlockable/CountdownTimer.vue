@@ -3,8 +3,8 @@
     <div
       v-for="(_, index) in slidesArray"
       :key="index"
-      class="keen-slider__slide flex no-wrap">
-      <div class="no-wrap">
+      class="keen-slider__slide flex whitespace-nowrap">
+      <div class="whitespace-nowrap">
         <span class="mr-4 has-text-grey">Mint Phase Ends In</span
         ><span class="has-text-inverse"
           >{{ getPositiveNumber(hours) }} Hours :
