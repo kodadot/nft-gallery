@@ -31,7 +31,7 @@
       <div class="v-border"></div>
       <div class="mb-4 flex">
         <NeoIcon v-bind="itemLeftIcons(index)" class="mr-4" />
-        <div>
+        <div :class="itemLeftTextColor(index)">
           <p>{{ $t('migrate.signStep.migratingNItems', itemLeft(index)) }}</p>
         </div>
       </div>
@@ -103,6 +103,14 @@ const itemLeftIcons = (index) => {
   }
 
   return iconIdle
+}
+
+const itemLeftTextColor = (index) => {
+  if (itemLeftIcons(index).icon === 'circle') {
+    return 'text-k-grey'
+  }
+
+  return 'text-text-color'
 }
 
 const startStep2 = async () => {

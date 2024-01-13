@@ -1,11 +1,11 @@
 <template>
-  <div v-if="!collectionOwner" class="mb-5">
+  <div v-if="!collectionOwner" class="mb-5" :class="textStatus">
     <div class="flex items-center mb-4">
       <div class="mr-5">
         <NeoIcon v-bind="whichIcon()" class="fa-2x" />
       </div>
       <div>
-        <p class="font-bold text-xl">
+        <p class="font-bold text-xl text-text-color">
           {{ $t('migrate.signStep.initiation') }}
         </p>
         <p class="text-k-grey">
@@ -15,7 +15,7 @@
     </div>
     <div class="flex">
       <div class="v-border"></div>
-      <div class="mb-4">
+      <div class="mb-4 text-text-color">
         <p v-if="step1Iterations">
           {{ step1Iterations }}/2 {{ $t('migrate.signStep.left') }}
         </p>
@@ -213,4 +213,12 @@ const whichIcon = () => {
 
   return iconIdle
 }
+
+const textStatus = computed(() => {
+  if (whichIcon().icon === 'circle') {
+    return 'text-k-grey'
+  }
+
+  return ''
+})
 </script>
