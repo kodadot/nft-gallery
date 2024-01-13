@@ -35,7 +35,7 @@
               <template #content>
                 <div class="flex flex-row justify-between pt-2 pr-2">
                   <span class="main-title name">{{ item.name }}</span>
-                  <span class="has-text-grey">
+                  <span class="text-k-grey">
                     {{ item.chain }}
                   </span>
                 </div>
@@ -63,7 +63,7 @@
                     :height="22"
                     size="medium"
                     active />
-                  <span v-else class="has-text-grey">
+                  <span v-else class="text-k-grey">
                     {{ $t('search.units') }}:
                     {{ item.totalCount || 0 }}
                   </span>

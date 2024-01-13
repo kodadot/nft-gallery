@@ -5,7 +5,7 @@
       :key="index"
       class="keen-slider__slide flex whitespace-nowrap">
       <div class="whitespace-nowrap">
-        <span class="mr-4 has-text-grey">Mint Phase Ends In</span
+        <span class="mr-4 text-k-grey">Mint Phase Ends In</span
         ><span class="has-text-inverse"
           >{{ getPositiveNumber(hours) }} Hours :
           {{ getPositiveNumber(minutes) }} Minutes :

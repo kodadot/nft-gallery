@@ -9,7 +9,7 @@
         <p class="has-text-centered is-size-5">
           {{ $t('migrate.congrats.subtitle') }}
         </p>
-        <p class="has-text-centered has-text-grey mt-5">
+        <p class="has-text-centered text-k-grey mt-5">
           {{
             $t('migrate.congrats.notes', [
               collectionName,

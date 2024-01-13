@@ -8,7 +8,7 @@
       v-model="floorPricePercentAdjustment"
       show-current-floor-price />
 
-    <div class="pt-3 has-text-grey">-Or-</div>
+    <div class="pt-3 text-k-grey">-Or-</div>
     <div class="pt-3">{{ $t('listingCart.fixedPrice') }}</div>
 
     <ListingCartPriceInput

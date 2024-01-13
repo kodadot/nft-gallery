@@ -24,7 +24,7 @@
         :label="`${$t(`tabs.tabActivity.price`)} (${chainSymbol})`">
         <p v-if="Number(props.row.meta)">
           {{ formatPrice(props.row.meta)[0] }}
-          <span class="has-text-grey">
+          <span class="text-k-grey">
             ${{ formatPrice(props.row.meta)[1] }}</span
           >
         </p>

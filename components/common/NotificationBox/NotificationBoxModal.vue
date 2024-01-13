@@ -29,7 +29,7 @@
         </div>
         <div v-if="showFilter" class="filter-option">
           <div v-if="collections.length > 0" class="flex flex-col pb-4">
-            <span class="text-xs has-text-grey mb-2">
+            <span class="text-xs text-k-grey mb-2">
               {{ $t('notification.byCollection') }}
             </span>
             <div class="flex flex-wrap filter-list">
@@ -46,7 +46,7 @@
             </div>
           </div>
           <div class="flex flex-col pb-4">
-            <span class="text-xs has-text-grey mb-2">{{
+            <span class="text-xs text-k-grey mb-2">{{
               $t('notification.byEvent')
             }}</span>
             <div class="flex flex-wrap filter-list">

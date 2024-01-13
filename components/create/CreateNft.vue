@@ -112,7 +112,7 @@
               pattern="[0-9]+([\.,][0-9]+)?"
               placeholder="0.01 is the minimum"
               expanded />
-            <div class="position-absolute-right text-xs has-text-grey">
+            <div class="position-absolute-right text-xs text-k-grey">
               ~{{ salePriceUsd }} usd
             </div>
             <div class="form-addons">
@@ -199,7 +199,7 @@
               {{ deposit }} {{ chainSymbol }}
             </span>
             <span
-              class="text-xs has-text-grey ml-2"
+              class="text-xs text-k-grey ml-2"
               data-testid="create-nft-deposit-amount-usd">
               {{ depositUsd }} usd
             </span>
@@ -209,9 +209,7 @@
           <div>{{ $t('general.balance') }}:&nbsp;</div>
           <div>
             <span>{{ balance }} {{ chainSymbol }}</span>
-            <span class="text-xs has-text-grey ml-2">
-              {{ balanceUsd }} usd
-            </span>
+            <span class="text-xs text-k-grey ml-2"> {{ balanceUsd }} usd </span>
           </div>
         </div>
       </div>

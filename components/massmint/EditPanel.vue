@@ -57,7 +57,7 @@
                 placeholder="0"
                 step="any"
                 min="0" />
-              <div class="absolute right-2 top-3 has-text-grey">
+              <div class="absolute right-2 top-3 text-k-grey">
                 {{ unit }}
               </div>
             </div>

@@ -13,7 +13,7 @@
         <p class="has-text-weight-bold">
           {{ $t('migrate.signStep.migratingItems') }}
         </p>
-        <p class="text-xs has-text-grey">
+        <p class="text-xs text-k-grey">
           {{ $t('migrate.signStep.signtx') }}
         </p>
       </div>

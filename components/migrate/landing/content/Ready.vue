@@ -5,7 +5,7 @@
       <p>{{ $t('migrate.ready.title') }}</p>
     </div>
 
-    <div class="has-text-grey mt-2">
+    <div class="text-k-grey mt-2">
       {{ $t('migrate.ready.desc') }}
     </div>
 
@@ -35,7 +35,7 @@
                 {{ collection.name }}
               </p>
               <p>
-                <span class="has-text-grey mr-2">
+                <span class="text-k-grey mr-2">
                   {{ $t('migrate.ready.status') }}
                 </span>
                 <span>

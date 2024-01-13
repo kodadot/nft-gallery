@@ -204,23 +204,9 @@ hr {
   }
 }
 
-.has-text-grey {
-  @include ktheme() {
-    color: theme('k-grey') !important;
-  }
-}
-
 .has-text-inverse {
   @include ktheme() {
     color: theme('text-color-inverse');
-  }
-}
-
-a.has-text-grey {
-  @include ktheme() {
-    &:hover {
-      color: theme('text-color') !important;
-    }
   }
 }
 

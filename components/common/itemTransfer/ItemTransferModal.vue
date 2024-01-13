@@ -70,7 +70,7 @@
             class="flex flex-grow py-5 capitalize btn-height"
             @click="transfer" />
 
-          <div class="mt-3 flex justify-between has-text-grey">
+          <div class="mt-3 flex justify-between text-k-grey">
             <NeoIcon icon="circle-info" size="small" class="mr-4" />
 
             <p class="text-xs">

@@ -8,7 +8,7 @@
         <p class="has-text-weight-bold">
           {{ $t('migrate.signStep.initiation') }}
         </p>
-        <p class="text-xs has-text-grey">
+        <p class="text-xs text-k-grey">
           {{ $t('migrate.signStep.journey') }}
         </p>
       </div>

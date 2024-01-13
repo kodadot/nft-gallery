@@ -14,12 +14,12 @@
             {{ nft.name }}
           </div>
           <div
-            class="line-height-1 whitespace-nowrap has-text-grey is-clipped ellipsis">
+            class="line-height-1 whitespace-nowrap text-k-grey is-clipped ellipsis">
             {{ label }}:
           </div>
         </div>
       </div>
-      <div class="flex items-end whitespace-nowrap has-text-grey line-height-1">
+      <div class="flex items-end whitespace-nowrap text-k-grey line-height-1">
         <template v-if="isNFT">
           <template v-if="showPrice">
             <CommonTokenMoney :value="price" />
@@ -32,7 +32,7 @@
       </div>
     </div>
     <div v-if="isNFT" class="flex mt-4 items-center">
-      <div class="has-text-grey mr-2">
+      <div class="text-k-grey mr-2">
         {{ $t('mint.nft.modal.intoCollection') }}
       </div>
       <NeoIcon icon="arrow-right-long" class="text-k-grey mr-4" />

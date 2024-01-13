@@ -10,7 +10,7 @@
       </div>
       <div>
         <p class="has-text-weight-bold">Comprehensive Collection Scan</p>
-        <p class="text-xs has-text-grey">
+        <p class="text-xs text-k-grey">
           Verifying your collection on the destination chain.
         </p>
       </div>
@@ -30,7 +30,7 @@
         <p class="has-text-weight-bold">
           {{ $t('migrate.signStep.finalization') }}
         </p>
-        <p class="text-xs has-text-grey">
+        <p class="text-xs text-k-grey">
           {{ $t('migrate.signStep.authorize') }}
         </p>
       </div>
