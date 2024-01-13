@@ -197,13 +197,6 @@ body {
   }
 }
 
-.h-full {
-  height: 100% !important;
-}
-
-.w-full {
-  width: 100%;
-}
 hr {
   height: 1px;
   @include ktheme() {
@@ -214,12 +207,6 @@ hr {
 .has-text-grey {
   @include ktheme() {
     color: theme('k-grey') !important;
-  }
-}
-
-.has-text-grey-fix {
-  @include ktheme() {
-    color: theme('k-grey-fix') !important;
   }
 }
 
