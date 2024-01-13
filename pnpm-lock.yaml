@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: false
@@ -27,8 +27,8 @@ importers:
         specifier: ^0.1.13
         version: 0.1.13(@polkadot/api@10.9.1)(@polkadot/util-crypto@12.4.2)
       '@kodadot1/minipfs':
-        specifier: 0.4.1-rc.0
-        version: 0.4.1-rc.0
+        specifier: 0.4.2-rc.0
+        version: 0.4.2-rc.0
       '@kodadot1/static':
         specifier: workspace:*
         version: link:libs/static
@@ -3257,8 +3257,8 @@ packages:
       - '@polkadot/util-crypto'
     dev: false
 
-  /@kodadot1/minipfs@0.4.1-rc.0:
-    resolution: {integrity: sha512-pKFUZ1qpNLJ4qt8KwjI7uaNUU46fP3MCNOblplb9NSrK5IIGjV18dTacTMvEbR3BVc1D+MKiehPjdap0iKgqTw==}
+  /@kodadot1/minipfs@0.4.2-rc.0:
+    resolution: {integrity: sha512-sZievAE9OfG9Islrxa8viHPXCeR4xAHeG3DSyJSOq/RgjNF23vgRCoJukLfuTbEZ6N9zsOSKrOqQlL0Jba44Iw==}
     dependencies:
       ofetch: 1.3.3
     dev: false
