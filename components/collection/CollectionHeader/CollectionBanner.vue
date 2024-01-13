@@ -27,20 +27,23 @@
         </div>
 
         <!-- migration is ready -->
-        <div v-if="isMigrate" class="lg:flex-1 text-center">
+        <div v-if="isMigrate">
           <div
-            class="bg-background-color py-[10px] px-[18px] border rounded-full capitalize relative overflow-hidden hidden lg:inline-block">
-            <div class="flex gap-4">
+            class="rounded-full border justify-between items-center px-4 bg-background-color hidden lg:flex">
+            <div class="flex items-center">
               <img
+                width="42"
+                height="42"
                 src="/migrate/state-ready.svg"
-                alt="Ready"
-                class="absolute top-1/2 transform -translate-y-1/2 left-0" />
-              <p class="ml-6">{{ $t('migrate.ready.title') }}</p>
-              <p class="text-k-grey">-</p>
-              <nuxt-link to="/migrate" class="font-bold">
-                {{ $t('migrate.cta') }}
-              </nuxt-link>
+                alt="unlockable icon" />
+              <span> {{ $t('migrate.ready.title') }} </span>
             </div>
+            <div class="w-4 h-[1px] bg-separator-line-color mx-2" />
+            <nuxt-link
+              class="flex items-center has-text-weight-bold my-2"
+              to="/migrate">
+              {{ $t('migrate.cta') }}
+            </nuxt-link>
           </div>
         </div>
 
