@@ -49,7 +49,7 @@
               height="10rem" />
           </NeoField>
           <NeoField :label="$t('massmint.price')" class="w-full">
-            <div class="relative w-100">
+            <div class="relative w-full">
               <NeoInput
                 v-model="price"
                 input-class="pr-8"

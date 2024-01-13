@@ -3,7 +3,7 @@
     <div
       :class="[
         'transfer-card',
-        'w-100',
+        'w-full',
         {
           'theme-background-color k-shadow border py-8 px-7': !isMobile,
         },

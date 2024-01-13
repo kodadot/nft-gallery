@@ -64,7 +64,7 @@
         ref="chooseCollectionRef"
         :label="`${$t('mint.nft.collection.label')} *`"
         @click="startSelectedCollection = true">
-        <div class="w-100">
+        <div class="w-full">
           <p
             :class="{
               'has-text-danger': startSelectedCollection && !selectedCollection,
@@ -124,7 +124,7 @@
 
       <!-- select blockchain -->
       <NeoField :label="`${$t('mint.blockchain.label')} *`">
-        <div class="w-100">
+        <div class="w-full">
           <p>{{ $t('mint.blockchain.message') }}</p>
           <NeoSelect
             v-model="selectChain"
@@ -145,7 +145,7 @@
 
       <!-- no of copies -->
       <NeoField :label="`${$t('mint.nft.copies.label')} (optional)`">
-        <div class="w-100">
+        <div class="w-full">
           <p>{{ $t('mint.nft.copies.message') }}</p>
           <NeoInput
             v-model="form.copies"
