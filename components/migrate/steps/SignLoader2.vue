@@ -13,12 +13,12 @@
         <p class="has-text-weight-bold">
           {{ $t('migrate.signStep.migratingItems') }}
         </p>
-        <p class="is-size-7 has-text-grey">
+        <p class="text-xs has-text-grey">
           {{ $t('migrate.signStep.signtx') }}
         </p>
       </div>
     </div>
-    <div class="flex is-size-7">
+    <div class="flex text-xs">
       <div class="v-border"></div>
       <div class="mb-4">
         <p v-if="iterations">
@@ -30,7 +30,7 @@
     <div
       v-for="(iteration, index) in maxIterations"
       :key="index"
-      class="flex is-size-7">
+      class="flex text-xs">
       <div class="v-border"></div>
       <div class="mb-4 flex">
         <NeoIcon v-bind="itemLeftIcons(index)" class="mr-4" />

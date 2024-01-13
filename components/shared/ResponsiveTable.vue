@@ -9,7 +9,7 @@
       <span class="has-text-grey">{{ noResultsSub }}</span>
     </div>
     <div v-else-if="items.length > 0">
-      <div v-if="desktop" class="columns is-size-7 has-text-grey">
+      <div v-if="desktop" class="columns text-xs has-text-grey">
         <slot name="columns" />
       </div>
       <slot name="rows" :variant="variant" />

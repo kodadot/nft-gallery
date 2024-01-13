@@ -17,7 +17,7 @@
       alt="avatar"
       class="object-fit-cove mr-3 border" />
     <div>
-      <div class="is-size-7 has-text-grey">Exclusive to NFT owners of</div>
+      <div class="text-xs has-text-grey">Exclusive to NFT owners of</div>
       <div class="is-size-6">
         <nuxt-link :to="`/${urlPrefix}/collection/${collectionId}`">
           {{ collection?.name }}

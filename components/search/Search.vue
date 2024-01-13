@@ -12,7 +12,7 @@
         @enter="nativeSearch"
         @blur="onBlur" />
       <div v-if="!isVisible && hideSearchInput">
-        <div v-if="priceRangeDirty" class="is-size-7">
+        <div v-if="priceRangeDirty" class="text-xs">
           <PriceRange inline />
         </div>
       </div>

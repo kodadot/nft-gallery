@@ -10,12 +10,12 @@
       </div>
       <div>
         <p class="has-text-weight-bold">Comprehensive Collection Scan</p>
-        <p class="is-size-7 has-text-grey">
+        <p class="text-xs has-text-grey">
           Verifying your collection on the destination chain.
         </p>
       </div>
     </div>
-    <div class="flex is-size-7 mb-4">
+    <div class="flex text-xs mb-4">
       <div class="v-border"></div>
       <div>
         <p class="text-k-grey italic">no action needed</p>
@@ -30,16 +30,16 @@
         <p class="has-text-weight-bold">
           {{ $t('migrate.signStep.finalization') }}
         </p>
-        <p class="is-size-7 has-text-grey">
+        <p class="text-xs has-text-grey">
           {{ $t('migrate.signStep.authorize') }}
         </p>
       </div>
     </div>
-    <div class="flex is-size-7">
+    <div class="flex text-xs">
       <div class="v-border"></div>
       <div class="mb-4">1/1 {{ $t('migrate.signStep.left') }}</div>
     </div>
-    <div class="flex is-size-7">
+    <div class="flex text-xs">
       <div class="v-border"></div>
       <div class="mb-4 flex">
         <NeoIcon v-bind="whichIcon()" class="mr-4" />

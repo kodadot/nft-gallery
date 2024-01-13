@@ -8,12 +8,12 @@
         <p class="has-text-weight-bold">
           {{ $t('migrate.signStep.initiation') }}
         </p>
-        <p class="is-size-7 has-text-grey">
+        <p class="text-xs has-text-grey">
           {{ $t('migrate.signStep.journey') }}
         </p>
       </div>
     </div>
-    <div class="flex is-size-7">
+    <div class="flex text-xs">
       <div class="v-border"></div>
       <div class="mb-4">
         <p v-if="step1Iterations">
@@ -22,7 +22,7 @@
         <p v-else>{{ $t('migrate.signStep.done') }}</p>
       </div>
     </div>
-    <div class="flex is-size-7">
+    <div class="flex text-xs">
       <div class="v-border"></div>
       <div class="mb-4 flex">
         <div class="mr-4">
@@ -42,7 +42,7 @@
         </div>
       </div>
     </div>
-    <div class="flex is-size-7">
+    <div class="flex text-xs">
       <div class="v-border"></div>
       <div class="mb-4 flex">
         <div class="mr-4">

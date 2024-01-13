@@ -34,7 +34,7 @@
           {{ transition.destination?.name }}
         </p>
 
-        <p class="is-size-7 text-k-grey">
+        <p class="text-xs text-k-grey">
           {{ $t('autoTeleport.dontExit') }}
         </p>
 
@@ -44,7 +44,7 @@
           <NeoIcon icon="lightbulb" size="small" class="mr-2 is-block" />
           <p
             v-dompurify-html="$t('autoTeleport.tip')"
-            class="is-size-7 capitalize" />
+            class="text-xs capitalize" />
         </div>
 
         <p class="capitalize is-size-6 mt-4 mb-5">
