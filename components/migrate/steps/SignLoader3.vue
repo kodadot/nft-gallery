@@ -15,7 +15,7 @@
         </p>
       </div>
     </div>
-    <div class="flex is-size-7 mb-4">
+    <div class="flex mb-4">
       <div class="v-border"></div>
       <div>
         <p class="text-k-grey italic">no action needed</p>
@@ -35,11 +35,11 @@
         </p>
       </div>
     </div>
-    <div class="flex is-size-7">
+    <div class="flex">
       <div class="v-border"></div>
       <div class="mb-4">1/1 {{ $t('migrate.signStep.left') }}</div>
     </div>
-    <div class="flex is-size-7">
+    <div class="flex">
       <div class="v-border"></div>
       <div class="mb-4 flex">
         <NeoIcon v-bind="whichIcon()" class="mr-4" />

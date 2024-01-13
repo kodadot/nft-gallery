@@ -18,7 +18,7 @@
         </p>
       </div>
     </div>
-    <div class="flex is-size-7">
+    <div class="flex">
       <div class="v-border"></div>
       <div class="mb-4">
         <p v-if="iterations">
@@ -27,10 +27,7 @@
         <p v-else>{{ $t('migrate.signStep.done') }}</p>
       </div>
     </div>
-    <div
-      v-for="(iteration, index) in maxIterations"
-      :key="index"
-      class="flex is-size-7">
+    <div v-for="(iteration, index) in maxIterations" :key="index" class="flex">
       <div class="v-border"></div>
       <div class="mb-4 flex">
         <NeoIcon v-bind="itemLeftIcons(index)" class="mr-4" />

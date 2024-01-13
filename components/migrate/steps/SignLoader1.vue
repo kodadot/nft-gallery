@@ -13,7 +13,7 @@
         </p>
       </div>
     </div>
-    <div class="flex is-size-7">
+    <div class="flex">
       <div class="v-border"></div>
       <div class="mb-4">
         <p v-if="step1Iterations">
@@ -22,7 +22,7 @@
         <p v-else>{{ $t('migrate.signStep.done') }}</p>
       </div>
     </div>
-    <div class="flex is-size-7">
+    <div class="flex">
       <div class="v-border"></div>
       <div class="mb-4 flex">
         <div class="mr-4">
@@ -42,7 +42,7 @@
         </div>
       </div>
     </div>
-    <div class="flex is-size-7">
+    <div class="flex">
       <div class="v-border"></div>
       <div class="mb-4 flex">
         <div class="mr-4">
@@ -51,7 +51,9 @@
         </div>
         <div>
           <p>{{ $t('migrate.signStep.prepare') }}</p>
-          <p class="text-k-grey">{{ $t('migrate.signStep.noSignature') }}</p>
+          <p class="text-k-grey text-xs">
+            {{ $t('migrate.signStep.noSignature') }}
+          </p>
         </div>
       </div>
     </div>
