@@ -6,42 +6,45 @@
 
     <section class="h-full py-8">
       <div class="container is-fluid collection-banner-content">
-        <div class="flex flex-col items-start">
-          <div class="collection-banner-avatar">
-            <NuxtImg
-              v-if="collectionAvatar"
-              height="88"
-              densities="2x"
-              :src="collectionAvatar"
-              class="object-fit-cover"
-              :alt="collectionName" />
-            <img v-else :src="placeholder" alt="image placeholder" />
+        <div class="lg:flex-1">
+          <div class="flex flex-col items-start">
+            <div class="collection-banner-avatar">
+              <NuxtImg
+                v-if="collectionAvatar"
+                height="88"
+                densities="2x"
+                :src="collectionAvatar"
+                class="object-fit-cover"
+                :alt="collectionName" />
+              <img v-else :src="placeholder" alt="image placeholder" />
+            </div>
+            <h1
+              class="collection-banner-name"
+              data-testid="collection-banner-name">
+              {{ collectionName }}
+            </h1>
           </div>
-          <h1
-            class="collection-banner-name"
-            data-testid="collection-banner-name">
-            {{ collectionName }}
-          </h1>
         </div>
 
         <!-- migration is ready -->
-        <div
-          v-if="isMigrate"
-          class="bg-background-color py-[10px] px-[18px] border rounded-full capitalize relative overflow-hidden">
-          <div class="flex gap-4">
-            <img
-              src="/migrate/state-ready.svg"
-              alt="Ready"
-              class="absolute top-1/2 transform -translate-y-1/2 left-0" />
-            <p class="ml-6">{{ $t('migrate.ready.title') }}</p>
-            <p class="text-k-grey">-</p>
-            <nuxt-link to="/migrate" class="font-bold">
-              {{ $t('migrate.cta') }}
-            </nuxt-link>
+        <div v-if="isMigrate" class="lg:flex-1 text-center">
+          <div
+            class="bg-background-color py-[10px] px-[18px] border rounded-full capitalize relative overflow-hidden hidden lg:inline-block">
+            <div class="flex gap-4">
+              <img
+                src="/migrate/state-ready.svg"
+                alt="Ready"
+                class="absolute top-1/2 transform -translate-y-1/2 left-0" />
+              <p class="ml-6">{{ $t('migrate.ready.title') }}</p>
+              <p class="text-k-grey">-</p>
+              <nuxt-link to="/migrate" class="font-bold">
+                {{ $t('migrate.cta') }}
+              </nuxt-link>
+            </div>
           </div>
         </div>
 
-        <HeroButtons class="is-hidden-mobile self-end" />
+        <HeroButtons class="is-hidden-mobile self-end lg:flex-1" />
       </div>
     </section>
   </div>
@@ -54,11 +57,12 @@ import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import HeroButtons from '@/components/collection/HeroButtons.vue'
 import { generateCollectionImage } from '@/utils/seoImageGenerator'
 import { convertMarkdownToText } from '@/utils/markdown'
+import { useReadyItems } from '@/composables/useMigrate'
 
 const collectionId = computed(() => route.params.id)
 const route = useRoute()
 const { placeholder } = useTheme()
-const { accountId } = useAuth()
+const { entities } = useReadyItems()
 
 const { data, refetch } = useGraphql({
   queryName: 'collectionById',
@@ -88,7 +92,7 @@ watchEffect(async () => {
   const image = collection?.meta?.image
   const name = collection?.name
 
-  isMigrate.value = collection?.currentOwner === accountId.value
+  isMigrate.value = entities[collectionId.value.toString()]?.name
 
   if (image && name) {
     collectionAvatar.value = sanitizeIpfsUrl(image)
