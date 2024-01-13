@@ -29,10 +29,7 @@ futureDate.setDate(futureDate.getDate() * 7) // i weeks in the future
 export function useDrops() {
   const drops = ref<Drop[]>([])
   const dropsList = ref<DropItem[]>([])
-  const loading = computed(
-    () =>
-      drops.value.length === 0 || drops.value.length !== dropsList.value.length,
-  )
+  const count = computed(() => dropsList.value.length)
 
   onMounted(async () => {
     dropsList.value = await getDrops()
@@ -56,7 +53,7 @@ export function useDrops() {
       })
   })
 
-  return { drops, loading }
+  return { drops, count }
 }
 
 const getFormattedDropItem = async (collection, drop: DropItem) => {

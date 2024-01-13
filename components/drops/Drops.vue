@@ -4,18 +4,16 @@
       {{ $i18n.t('drops.title') }}
     </h1>
     <div class="grid-container">
-      <template v-if="loading">
-        <DropsDropCardSkeleton v-for="x in skeletonCount" :key="x" />
-      </template>
-      <template v-else>
-        <div
-          v-for="(drop, index) in drops"
-          :key="`${drop.collection?.id}=${index}`"
-          class="w-full h-full"
-          :data-testid="index">
-          <DropCard :drop="drop" />
-        </div>
-      </template>
+      <DropsDropCardSkeleton
+        v-for="x in skeletonCount"
+        :key="`skeleton-${x}`" />
+      <div
+        v-for="(drop, index) in drops"
+        :key="`${drop.collection?.id}=${index}`"
+        class="w-full h-full"
+        :data-testid="index">
+        <DropCard :drop="drop" />
+      </div>
     </div>
     <hr class="my-7" />
     <div>
@@ -27,15 +25,18 @@
 <script lang="ts" setup>
 import DropCard from '@/components/drops/DropCard.vue'
 import CreateDropCard from '@/components/drops/CreateDropCard.vue'
-
 import { useDrops } from './useDrops'
 import { dropsVisible } from '@/utils/config/permission.config'
 
+const DEFAULT_SKELETON_COUNT = 2
+
 const { $i18n } = useNuxtApp()
-const { drops, loading } = useDrops()
+const { drops, count } = useDrops()
 const { urlPrefix } = usePrefix()
 
-const skeletonCount = ref(2)
+const skeletonCount = computed(
+  () => (count.value || DEFAULT_SKELETON_COUNT) - drops.value.length,
+)
 
 const checkRouteAvailability = () => {
   if (!dropsVisible(urlPrefix.value)) {
