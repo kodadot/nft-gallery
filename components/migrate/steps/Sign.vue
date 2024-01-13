@@ -11,14 +11,16 @@
     </p>
 
     <p class="my-5">Follow Steps:</p>
-    <div
+    <NeoButton
       v-if="showStartSigning"
-      class="mb-6 w-full rounded-full border border-toggle-active-switch px-4 py-[10px] text-center capitalize hover:cursor-pointer hover:bg-background-color-inverse hover:text-text-color-inverse">
-      <div class="flex gap-4 w-full justify-center" @click="startSigning()">
+      variant="pill"
+      class="w-full mb-6"
+      @click="startSigning()">
+      <div class="flex gap-4 w-full justify-center">
         <p>Click here to start signing</p>
         <NeoIcon icon="chevrons-right" />
       </div>
-    </div>
+    </NeoButton>
 
     <MigrateStepsSignLoader />
 
