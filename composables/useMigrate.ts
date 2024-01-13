@@ -20,14 +20,17 @@ export const iconIdle = {
   icon: 'circle',
   class: 'text-k-grey-light',
   pack: 'fass',
+  textColor: 'text-k-grey',
 }
 export const iconLoading = {
   icon: 'spinner-third',
   class: 'fa-spin',
+  textColor: '',
 }
 export const iconSuccess = {
   icon: 'check',
   class: 'has-text-k-green',
+  textColor: '',
 }
 
 export const BATCH_SIZE = 200

@@ -43,7 +43,7 @@
       <div class="v-border"></div>
       <div class="mb-4 flex">
         <NeoIcon v-bind="whichIcon()" class="mr-4" />
-        <div :class="textColor">
+        <div :class="whichIcon().textColor">
           <p>{{ $t('migrate.signStep.finalizingItems', [itemCount]) }}</p>
         </div>
       </div>
@@ -100,14 +100,6 @@ const whichIcon = () => {
 
   return iconIdle
 }
-
-const textColor = computed(() => {
-  if (whichIcon().icon === 'circle') {
-    return 'text-k-grey'
-  }
-
-  return 'text-text-color'
-})
 
 const { data: getFromNfts } = useGraphql({
   queryName: 'nftIdListByCollection',

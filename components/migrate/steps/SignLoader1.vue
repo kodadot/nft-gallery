@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!collectionOwner" class="mb-5" :class="textStatus">
+  <div v-if="!collectionOwner" class="mb-5" :class="whichIcon().textColor">
     <div class="flex items-center mb-4">
       <div class="mr-5">
         <NeoIcon v-bind="whichIcon()" class="fa-2x" />
@@ -213,12 +213,4 @@ const whichIcon = () => {
 
   return iconIdle
 }
-
-const textStatus = computed(() => {
-  if (whichIcon().icon === 'circle') {
-    return 'text-k-grey'
-  }
-
-  return ''
-})
 </script>
