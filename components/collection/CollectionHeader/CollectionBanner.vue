@@ -13,7 +13,7 @@
               height="88"
               densities="2x"
               :src="collectionAvatar"
-              class="object-fit-cover"
+              class="object-cover"
               :alt="collectionName" />
             <img v-else :src="placeholder" alt="image placeholder" />
           </div>
