@@ -204,12 +204,6 @@ hr {
   }
 }
 
-.has-text-inverse {
-  @include ktheme() {
-    color: theme('text-color-inverse');
-  }
-}
-
 .snackbar {
   @include ktheme() {
     border-radius: 0;
