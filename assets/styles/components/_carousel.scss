@@ -5,6 +5,9 @@
   }
 
   .carousel-item {
+    a:hover {
+      color: unset !important;
+    }
     @include ktheme() {
       background: theme('background-color');
       border: 1px solid theme('card-border-color');
@@ -62,9 +65,6 @@
       &-name {
         @include ktheme() {
           color: theme('k-grey');
-          &:hover {
-            color: theme('text-color');
-          }
         }
       }
     }
