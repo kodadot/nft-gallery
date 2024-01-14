@@ -1,28 +1,28 @@
 <template>
-  <div v-if="!collectionOwner" class="mb-5">
+  <div v-if="!collectionOwner" class="mb-5" :class="whichIcon().textColor">
     <div class="flex items-center mb-4">
       <div class="mr-5">
         <NeoIcon v-bind="whichIcon()" class="fa-2x" />
       </div>
       <div>
-        <p class="has-text-weight-bold">
+        <p class="font-bold text-xl text-text-color">
           {{ $t('migrate.signStep.initiation') }}
         </p>
-        <p class="is-size-7 has-text-grey">
+        <p class="text-k-grey">
           {{ $t('migrate.signStep.journey') }}
         </p>
       </div>
     </div>
-    <div class="flex is-size-7">
+    <div class="flex">
       <div class="v-border"></div>
-      <div class="mb-4">
+      <div class="mb-4 text-text-color">
         <p v-if="step1Iterations">
           {{ step1Iterations }}/2 {{ $t('migrate.signStep.left') }}
         </p>
         <p v-else>{{ $t('migrate.signStep.done') }}</p>
       </div>
     </div>
-    <div class="flex is-size-7">
+    <div class="flex">
       <div class="v-border"></div>
       <div class="mb-4 flex">
         <div class="mr-4">
@@ -42,7 +42,7 @@
         </div>
       </div>
     </div>
-    <div class="flex is-size-7">
+    <div class="flex">
       <div class="v-border"></div>
       <div class="mb-4 flex">
         <div class="mr-4">
@@ -51,7 +51,9 @@
         </div>
         <div>
           <p>{{ $t('migrate.signStep.prepare') }}</p>
-          <p>{{ $t('migrate.signStep.noSignature') }}</p>
+          <p class="text-k-grey text-xs">
+            {{ $t('migrate.signStep.noSignature') }}
+          </p>
         </div>
       </div>
     </div>

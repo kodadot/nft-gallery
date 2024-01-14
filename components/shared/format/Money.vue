@@ -11,11 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  checkInvalidBalanceFilter,
-  default as formatBalance,
-  roundAmount,
-} from '@/utils/format/balance'
+import { formatAmountWithRound } from '@/utils/format/balance'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import type { Prefix } from '@kodadot1/static'
 
@@ -46,14 +42,6 @@ const displayUnit = computed(
     (props.prefix ? chainPropListOf(props.prefix).tokenSymbol : unit.value),
 )
 const finalValue = computed(() =>
-  roundAmount(
-    formatBalance(
-      checkInvalidBalanceFilter(props.value),
-      tokenDecimals.value,
-      '',
-    ),
-    props.round || 4,
-    props.round === undefined,
-  ),
+  formatAmountWithRound(props.value, tokenDecimals.value, props.round),
 )
 </script>
