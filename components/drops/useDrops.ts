@@ -28,10 +28,13 @@ futureDate.setDate(futureDate.getDate() * 7) // i weeks in the future
 
 export function useDrops() {
   const drops = ref<Drop[]>([])
-  onMounted(async () => {
-    const dropsList = await getDrops()
+  const dropsList = ref<DropItem[]>([])
+  const count = computed(() => dropsList.value.length)
 
-    dropsList
+  onMounted(async () => {
+    dropsList.value = await getDrops()
+
+    dropsList.value
       .filter((drop) => !isProduction || drop.chain !== 'ahk')
       .forEach((drop) => {
         const { result: collectionData } = useQuery(
@@ -50,7 +53,7 @@ export function useDrops() {
       })
   })
 
-  return drops
+  return { drops, count }
 }
 
 const getFormattedDropItem = async (collection, drop: DropItem) => {
