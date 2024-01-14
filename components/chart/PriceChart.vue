@@ -70,6 +70,15 @@
 </template>
 
 <script lang="ts" setup>
+import { getChartDataByTimeRange } from '@/utils/chart'
+import {
+  NeoButton,
+  NeoCheckbox,
+  NeoDropdown,
+  NeoDropdownItem,
+  NeoIcon,
+} from '@kodadot1/brick'
+import { useEventListener, useVModel } from '@vueuse/core'
 import {
   ChartData,
   ChartDataset,
@@ -86,17 +95,8 @@ import {
 } from 'chart.js'
 import 'chartjs-adapter-date-fns'
 import zoomPlugin from 'chartjs-plugin-zoom'
-import { Line } from 'vue-chartjs'
-import { getChartData } from '@/utils/chart'
 import { format } from 'date-fns'
-import {
-  NeoButton,
-  NeoCheckbox,
-  NeoDropdown,
-  NeoDropdownItem,
-  NeoIcon,
-} from '@kodadot1/brick'
-import { useEventListener, useVModel } from '@vueuse/core'
+import { Line } from 'vue-chartjs'
 
 ChartJS.register(
   zoomPlugin,
@@ -174,23 +174,6 @@ const displayChartData = computed(() => {
   }
 })
 
-const getChartDataByTimeRange = (data: [Date, number][], timeRange: number) => {
-  if (!data) {
-    return
-  }
-  if (timeRange === 0) {
-    return data
-  } else {
-    const now = new Date()
-    const startDate = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate() - selectedTimeRange.value.value,
-    )
-    return data.filter((item) => item[0] >= startDate)
-  }
-}
-
 const commonStyle = computed(() => {
   return {
     tension: 0.2,
@@ -205,48 +188,35 @@ const commonStyle = computed(() => {
   }
 })
 
-const chartData = computed<ChartData<'line', (number | Point | null)[], Date>>(
-  () => {
-    console.log('updateing chart')
-    const priceChartData = displayChartData.value
-    if (priceChartData?.length) {
-      console.log('Should have data')
-      const saleValues = getChartData(priceChartData[0]).map(
-        (item) => item.y,
-      ) as number[]
-      const listValues = getChartData(priceChartData[1]).map(
-        (item) => item.y,
-      ) as number[]
-      const labels = getChartData(priceChartData[0]).map((item) => item.x)
-      console.log('labels', labels)
-      console.log('saleValues', saleValues)
-      return {
-        labels,
-        datasets: [
-          {
-            label: 'Sale',
-            data: saleValues,
-            borderColor: '#FF7AC3',
-            pointBackgroundColor: '#FF7AC3',
-            pointBorderColor: '#FF7AC3',
-            ...commonStyle.value,
-          } as ChartDataset<'line', (number | Point | null)[]>,
-          {
-            label: 'List',
-            data: listValues,
-            borderColor: '#6188E7',
-            pointBackgroundColor: '#6188E7',
-            pointBorderColor: '#6188E7',
-            ...commonStyle.value,
-          } as ChartDataset<'line', (number | Point | null)[]>,
-        ],
-      }
-    }
+const chartData = computed<ChartData<'line', Point[], unknown>>(() => {
+  if (displayChartData.value?.length) {
+    const salePoints = getChartPoints(displayChartData.value[0])
+    const listPoints = getChartPoints(displayChartData.value[1])
     return {
-      datasets: [],
+      datasets: [
+        {
+          label: 'Sale',
+          data: salePoints,
+          borderColor: '#FF7AC3',
+          pointBackgroundColor: '#FF7AC3',
+          pointBorderColor: '#FF7AC3',
+          ...commonStyle.value,
+        } as ChartDataset<'line', Point[]>,
+        {
+          label: 'List',
+          data: listPoints,
+          borderColor: '#6188E7',
+          pointBackgroundColor: '#6188E7',
+          pointBorderColor: '#6188E7',
+          ...commonStyle.value,
+        } as ChartDataset<'line', Point[]>,
+      ],
     }
-  },
-)
+  }
+  return {
+    datasets: [],
+  }
+})
 
 const chartOptions = computed<ChartOptions<'line'>>(() => ({
   maintainAspectRatio: false,
