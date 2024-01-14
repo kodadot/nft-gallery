@@ -114,7 +114,6 @@ export const useDropStatus = (id: string) => {
   }
 }
 
-const MINIMUM_FUNDS_ROUND = 4
 export const useDropMinimumFunds = (drop) => {
   const chainProperties = chainPropListOf(drop.chain)
 
@@ -146,14 +145,12 @@ export const useDropMinimumFunds = (drop) => {
     meta,
     tokenDecimals,
     tokenSymbol,
-    MINIMUM_FUNDS_ROUND,
   )
 
   const { formatted: formattedExistentialDeposit } = useAmount(
     existentialDeposit,
     tokenDecimals,
     tokenSymbol,
-    MINIMUM_FUNDS_ROUND,
   )
 
   onBeforeMount(fetchMultipleBalance)
