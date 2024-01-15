@@ -35,7 +35,7 @@
         <div class="is-flex py-4">
           <NeoCheckbox
             v-model="checked"
-            class="mr-3 is-size-7"
+            class="mr-3 text-xs"
             :label="$t('teleport.checkboxLabel')" />
         </div>
       </div>

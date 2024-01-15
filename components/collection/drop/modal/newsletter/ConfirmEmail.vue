@@ -46,7 +46,7 @@
   </div>
 
   <div v-if="emailNotConfirmed" class="mt-4 text-center capitalize">
-    <p class="has-text-k-red is-size-7">{{ $t('drops.emailNotConfirmed') }}</p>
+    <p class="has-text-k-red text-xs">{{ $t('drops.emailNotConfirmed') }}</p>
   </div>
 </template>
 

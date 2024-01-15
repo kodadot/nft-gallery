@@ -51,7 +51,7 @@
           </div>
 
           <div v-if="!isMobile" class="time-limit px-2 py-1gi">
-            <span class="is-size-7">{{ $t('navbar.create.timeLimit') }}</span>
+            <span class="text-xs">{{ $t('navbar.create.timeLimit') }}</span>
           </div>
         </nuxt-link>
       </div>

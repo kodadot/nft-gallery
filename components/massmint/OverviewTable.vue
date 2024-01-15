@@ -70,7 +70,7 @@
             <div class="column flex items-center">
               <div class="flex items-center pl-2">
                 <div
-                  class="border is-size-7 justify-center py-2 flex items-center fixed-width"
+                  class="border text-xs justify-center py-2 flex items-center fixed-width"
                   :class="statusClass(nft.status)">
                   {{ statusTranslation(nft.status) }}
                 </div>

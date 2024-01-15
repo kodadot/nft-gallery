@@ -16,7 +16,7 @@
       </nuxt-link>
       <span class="menu-item is-disabled has-text-k-shade">
         {{ $t('users') }}
-        <span class="text-vertical-align-top is-size-7">
+        <span class="text-vertical-align-top text-xs">
           {{ $t('soon') }}
         </span>
       </span>
@@ -33,7 +33,7 @@
         {{ option.text }}
         <span
           v-if="option.isBeta"
-          class="text-vertical-align-top has-text-k-shade is-size-7">
+          class="text-vertical-align-top has-text-k-shade text-xs">
           {{ $t('beta') }}
         </span>
       </span>

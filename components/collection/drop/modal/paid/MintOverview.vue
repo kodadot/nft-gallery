@@ -20,7 +20,7 @@
     <hr class="my-4" />
 
     <div class="flex justify-between items-center">
-      <span class="is-size-7">{{ $t('confirmPurchase.priceForNFTs') }}</span>
+      <span class="text-xs">{{ $t('confirmPurchase.priceForNFTs') }}</span>
       <CommonTokenMoney :value="toMintNft.price" />
     </div>
 
@@ -46,7 +46,7 @@
         class="text-k-orange3"
         size="large" />
 
-      <div class="is-size-7">
+      <div class="text-xs">
         <span class="has-text-color">
           {{ $t('drops.yourWalletNeeds', [formattedMinimumFunds]) }}
         </span>
@@ -69,7 +69,7 @@
 
               <a
                 href="https://hello.kodadot.xyz/multi-chain/existential-deposit"
-                class="has-text-link is-size-7 capitalize mt-5 block"
+                class="has-text-link text-xs capitalize mt-5 block"
                 target="_blank"
                 rel="nofollow noopener noreferrer"
                 >{{ $t('helper.learnMoreAboutEd') }}</a
@@ -81,7 +81,7 @@
     </div>
 
     <div class="py-2 border-top border-k-orange2 text-center">
-      <p class="is-size-7">
+      <p class="text-xs">
         {{
           canAutoTeleport
             ? $t('drops.youCanContinueWithAutoteleport')

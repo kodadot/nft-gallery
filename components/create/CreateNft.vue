@@ -117,7 +117,7 @@
               pattern="[0-9]+([\.,][0-9]+)?"
               placeholder="0.01 is the minimum"
               expanded />
-            <div class="position-absolute-right is-size-7 has-text-grey">
+            <div class="position-absolute-right text-xs has-text-grey">
               ~{{ salePriceUsd }} usd
             </div>
             <div class="form-addons">
@@ -204,7 +204,7 @@
               {{ deposit }} {{ chainSymbol }}
             </span>
             <span
-              class="is-size-7 has-text-grey ml-2"
+              class="text-xs has-text-grey ml-2"
               data-testid="create-nft-deposit-amount-usd">
               {{ depositUsd }} usd
             </span>
@@ -214,7 +214,7 @@
           <div>{{ $t('general.balance') }}:&nbsp;</div>
           <div>
             <span>{{ balance }} {{ chainSymbol }}</span>
-            <span class="is-size-7 has-text-grey ml-2">
+            <span class="text-xs has-text-grey ml-2">
               {{ balanceUsd }} usd
             </span>
           </div>
@@ -234,7 +234,7 @@
         :loading="isLoading" />
       <div class="p-4 flex">
         <NeoIcon icon="circle-info" size="medium" class="mr-4" />
-        <p class="is-size-7">
+        <p class="text-xs">
           <span
             v-dompurify-html="
               $t('mint.requiredDeposit', [`${deposit} ${chainSymbol}`, 'NFT'])

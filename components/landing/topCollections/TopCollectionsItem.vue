@@ -33,14 +33,13 @@
               {{ chainName }}
             </div>
           </div>
-          <div
-            class="capitalize has-text-grey is-hidden-tablet is-size-7-mobile">
+          <div class="capitalize has-text-grey is-hidden-tablet text-xs-mobile">
             {{ chainName }}
           </div>
         </div>
       </div>
       <div class="justify-end px-2 flex w-160">
-        <div class="has-text-right flex-col items-center flex is-size-7-mobile">
+        <div class="has-text-right flex-col items-center flex text-xs-mobile">
           <div class="no-wrap">
             <CommonTokenMoney :value="volume" inline :round="1" />
           </div>
@@ -52,7 +51,7 @@
               :round="0" />&nbsp;USD
           </div>
 
-          <div class="is-hidden-tablet is-size-7 no-wrap">
+          <div class="is-hidden-tablet text-xs no-wrap">
             <div v-if="diffPercentString" :class="color">
               {{ diffPercentString }}
             </div>

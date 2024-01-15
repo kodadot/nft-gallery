@@ -42,7 +42,7 @@
                   {{ collection.meta.name || collection.id }}
                 </div>
               </NeoTooltip>
-              <div class="flex justify-between is-size-7 has-text-grey">
+              <div class="flex justify-between text-xs has-text-grey">
                 <div>{{ $t('search.owners') }}: {{ collection.owners }}</div>
                 <div class="capitalize">{{ collection.chain }}</div>
               </div>

@@ -69,7 +69,7 @@
           <div
             v-for="(address, index) in targetAddresses"
             :key="address.address"
-            class="py-4 border-top-k-shade is-size-7">
+            class="py-4 border-top-k-shade text-xs">
             <div class="flex justify-between items-center mb-2">
               <span class="has-text-grey"
                 >{{ $t('transfers.recipient') }} {{ index + 1 }}</span
@@ -108,7 +108,7 @@
           $t('transfers.totalAmount')
         }}</span>
         <div class="flex items-center">
-          <span class="has-text-grey mr-1 is-size-7"
+          <span class="has-text-grey mr-1 text-xs"
             >({{ displayTotalValue[0] }})</span
           >
           <span class="has-text-weight-bold is-size-5">

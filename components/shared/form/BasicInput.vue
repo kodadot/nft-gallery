@@ -2,7 +2,7 @@
   <NeoField :label="$i18n.t(label)">
     <template v-if="message" #label>
       <div>{{ $i18n.t(label) }}</div>
-      <div class="has-text-weight-light is-size-7 mb-3">
+      <div class="has-text-weight-light text-xs mb-3">
         {{ message }}
       </div>
     </template>

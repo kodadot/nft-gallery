@@ -12,7 +12,7 @@
       <CollectionDetailsPopover
         v-if="!isMinimal && (nft.collection.name || nft.collection.id)"
         :show-delay="collectionPopoverShowDelay"
-        class="is-size-7 nft-info-collection-name is-ellipsis"
+        class="text-xs nft-info-collection-name is-ellipsis"
         :nft="nft">
         <template #content>
           <a
@@ -31,7 +31,7 @@
         v-if="showPrice"
         :value="nft.price ?? nft.cheapest?.price"
         data-testid="card-money" />
-      <span v-if="!isMinimal" class="text-k-grey capitalize is-size-7">{{
+      <span v-if="!isMinimal" class="text-k-grey capitalize text-xs">{{
         getChainNameByPrefix(prefix)
       }}</span>
     </div>
