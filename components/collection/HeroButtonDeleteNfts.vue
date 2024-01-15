@@ -1,4 +1,9 @@
 <template>
+  <SigningModal
+    v-model="isLoading"
+    :status="status"
+    :title="$t('moreActions.deletingNfts')" />
+
   <NeoDropdownItem @click="deleteNfts()">
     {{ $i18n.t('moreActions.deleteNfts') }}
   </NeoDropdownItem>
@@ -9,11 +14,12 @@ import { NFTs } from '@/composables/transaction/types'
 import { NeoDropdownItem } from '@kodadot1/brick'
 
 const route = useRoute()
-const { $i18n, $updateLoader } = useNuxtApp()
+const { $i18n } = useNuxtApp()
 const { transaction, status } = useTransaction()
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
 
+const isLoading = ref(false)
 const id = route.params.id.toString()
 
 type NftIds = {
@@ -31,7 +37,7 @@ const { data } = useGraphql({
 })
 
 const deleteNfts = async () => {
-  $updateLoader(true)
+  isLoading.value = true
   const nfts = (data.value as NftIds).nfts
   const ids = nfts?.map((nft) => nft.id)
 
@@ -54,7 +60,7 @@ const deleteNfts = async () => {
           data.nftEntities.length === 0 ||
           status.value === TransactionStatus.Finalized
         ) {
-          $updateLoader(false)
+          isLoading.value = false
         }
       },
     })

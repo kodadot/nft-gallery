@@ -1200,6 +1200,7 @@
     "reportCollection": "Report Collection",
     "deleteCollection": "Delete Collection",
     "deleteNfts": "Delete NFTs",
+    "deletingNfts": "Deleting NFTs",
     "customize": "Customize"
   },
   "collectionCard": {
