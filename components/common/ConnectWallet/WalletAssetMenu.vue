@@ -110,6 +110,8 @@ const closeModal = () => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/abstracts/variables';
+
 .wallet-asset-container {
   @apply border-t;
   height: 100%;
