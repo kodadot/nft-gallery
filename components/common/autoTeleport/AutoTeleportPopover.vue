@@ -51,7 +51,7 @@
         <div class="flex justify-start mt-5">
           <a
             href="https://hello.kodadot.xyz/tutorial/teleport/auto-teleport"
-            class="has-text-link is-size-7"
+            class="has-text-link text-xs"
             target="_blank"
             rel="nofollow noopener noreferrer"
             >{{ $t('helper.learnMore') }}</a

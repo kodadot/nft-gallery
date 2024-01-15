@@ -22,7 +22,7 @@
                 chain: item.chain,
               })
             "
-            class="is-size-7 carousel-info-collection-name is-ellipsis">
+            class="text-xs carousel-info-collection-name is-ellipsis">
             {{ item.collectionName || '--' }}
           </nuxt-link>
         </template>
@@ -39,11 +39,11 @@
           inline
           :prefix="item.chain"
           :unit-symbol="unitSymbol" />
-        <span v-if="showSold" class="ml-2 has-text-grey is-size-7"
+        <span v-if="showSold" class="ml-2 has-text-grey text-xs"
           >- {{ $t('spotlight.sold') }}</span
         >
       </div>
-      <p class="is-size-7 text-k-grey capitalize">{{ chainName }}</p>
+      <p class="text-xs text-k-grey capitalize">{{ chainName }}</p>
     </div>
   </div>
 </template>

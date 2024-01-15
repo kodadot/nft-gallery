@@ -18,7 +18,7 @@
       <template v-if="!nft.discarded" #footer>
         <div class="mt-4 flex justify-between items-start">
           <div class="flex flex-col">
-            <div class="has-text-grey is-size-7">
+            <div class="has-text-grey text-xs">
               {{ $t('activity.floor') }}
             </div>
             <span>{{ floor }}</span>

@@ -12,7 +12,7 @@
         <NeoIcon icon="angle-right" size="medium" class="has-text-grey" />
       </a>
     </div>
-    <div class="wallet-asset-footer flex py-5 is-size-7 has-text-grey">
+    <div class="wallet-asset-footer flex py-5 text-xs has-text-grey">
       <!-- light/dark mode -->
       <div class="items-center" @click="toggleColorMode">
         <NeoIcon icon="circle-half-stroke" size="medium" />

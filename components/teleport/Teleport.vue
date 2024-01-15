@@ -70,9 +70,7 @@
           type="number"
           placeholder="Enter Amount" />
         <div class="is-absolute-right">
-          <span
-            v-if="totalFiatValue"
-            class="token-value is-size-7 has-text-grey"
+          <span v-if="totalFiatValue" class="token-value text-xs has-text-grey"
             >~{{ totalFiatValue }} usd</span
           >
           {{ currency }}
@@ -82,7 +80,7 @@
 
     <div
       v-if="myBalance !== undefined"
-      class="is-size-7 flex justify-content align-items flex-direction">
+      class="text-xs flex justify-content align-items flex-direction">
       <TeleportFundsAtRiskWarning
         v-if="showEDWarning && !isDisabledButton"
         :target-existential-deposit="targetExistentialDeposit.displayValue"

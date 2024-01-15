@@ -65,7 +65,7 @@
             :src="chain.icon"
             :alt="chain.text" />
           <span>{{ chainText(chain.text) }}</span>
-          <sup v-if="chain.text.includes('[Beta]')" class="beta-text is-size-7">
+          <sup v-if="chain.text.includes('[Beta]')" class="beta-text text-xs">
             {{ $t('beta') }}</sup
           >
         </nuxt-link>

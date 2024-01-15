@@ -1,8 +1,6 @@
 <template>
   <div class="common-price-chart" data-testid="gallery-item-chart">
-    <span class="chart-y-description is-size-7">
-      Price ({{ chainSymbol }})
-    </span>
+    <span class="chart-y-description text-xs"> Price ({{ chainSymbol }}) </span>
     <NeoDropdown class="py-0 time-range-dropdown" :mobile-modal="false">
       <template #trigger="{ active }">
         <NeoButton

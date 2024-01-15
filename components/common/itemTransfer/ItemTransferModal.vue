@@ -73,7 +73,7 @@
           <div class="mt-3 flex justify-between has-text-grey">
             <NeoIcon icon="circle-info" size="small" class="mr-4" />
 
-            <p class="is-size-7">
+            <p class="text-xs">
               {{ $t('transaction.wrongAddressCannotRecoveredWarning') }}
             </p>
           </div>

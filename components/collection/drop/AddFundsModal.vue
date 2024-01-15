@@ -26,7 +26,7 @@
           <div
             class="flex justify-between items-center has-text-grey add-funds-note">
             <NeoIcon icon="circle-info" class="mr-3" />
-            <p class="is-size-7">
+            <p class="text-xs">
               {{ $t('mint.unlockable.addFundsModal.howToAddFunds') }}
             </p>
           </div>
