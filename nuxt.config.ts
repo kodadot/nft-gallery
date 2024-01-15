@@ -1,7 +1,6 @@
 import { pwa } from './utils/config/pwa'
 import { URLS, apolloClientConfig } from './utils/constants'
 import * as fs from 'fs'
-import { sentryVitePlugin } from '@sentry/vite-plugin'
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
@@ -28,51 +27,7 @@ export default defineNuxtConfig({
     },
   },
 
-  vite: {
-    build: {
-      sourcemap: true,
-    },
-    plugins: [
-      process.env.NODE_ENV === 'development'
-        ? null
-        : sentryVitePlugin({
-            org: 'kodadot',
-            project: 'nft-gallery',
-            authToken: process.env.SENTRY_AUTH_TOKEN,
-          }),
-    ],
-    // https://github.com/nuxt/nuxt/issues/24196#issuecomment-1825484618
-    optimizeDeps:
-      process.env.NODE_ENV === 'development'
-        ? {
-            include: [
-              '@google/model-viewer',
-              '@kodadot1/minimark/common',
-              '@kodadot1/minimark/shared',
-              '@kodadot1/minimark/v1',
-              '@kodadot1/minimark/v2',
-              '@paraspell/sdk',
-              '@polkadot/api',
-              '@polkadot/vue-identicon',
-              '@ramp-network/ramp-instant-sdk',
-              '@transak/transak-sdk',
-              '@unhead/vue',
-              'chart.js/auto',
-              'chartjs-adapter-date-fns',
-              'chartjs-plugin-zoom',
-              'graphql-ws',
-              'keen-slider/vue',
-              'keen-slider/vue.es',
-              'lodash/isEqual',
-              'lodash/sortBy',
-              'lodash/sum',
-              'lodash/unionBy',
-              'markdown-it',
-              'prismjs',
-            ],
-          }
-        : undefined,
-  },
+  vite: {},
 
   nitro: {
     publicAssets: [],
