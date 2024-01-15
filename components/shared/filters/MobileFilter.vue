@@ -32,8 +32,7 @@
         <AdvancedFilter v-if="!isCollectionActivityTab" data-model="store" />
       </div>
 
-      <div
-        class="buttons-container px-4 py-3 border-top theme-background-color">
+      <div class="buttons-container px-4 py-3 border-t theme-background-color">
         <NeoButton
           label="Reset All"
           variant="text"

@@ -31,7 +31,7 @@
             @delete="shoppingCartStore.removeItem"
             @click-item="closeShoppingCart" />
         </div>
-        <div class="flex justify-between mx-6 py-4 border-top border-k-shade">
+        <div class="flex justify-between mx-6 py-4 border-t border-k-shade">
           {{ $t('shoppingCart.total') }}
           <div class="flex">
             <CommonTokenMoney :value="totalPrice" class="has-text-grey" />

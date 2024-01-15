@@ -110,12 +110,8 @@ const closeModal = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 .wallet-asset-container {
-  @include ktheme() {
-    border-top: 1px solid theme('border-color');
-  }
+  @apply border-t;
   height: 100%;
 }
 
@@ -131,7 +127,7 @@ const closeModal = () => {
 }
 
 .wallet-asset-footer {
-  border-top: 1px solid grey;
+  border-t: 1px solid grey;
   justify-content: space-between;
   @include mobile {
     justify-content: center;

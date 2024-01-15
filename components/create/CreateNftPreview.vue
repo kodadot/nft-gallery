@@ -10,7 +10,7 @@
           {{ $t('mint.nft.preview.uploadArt') }}
         </p>
       </div>
-      <div class="preview-content border-top p-3">
+      <div class="preview-content border-t p-3">
         <p
           class="has-text-weight-bold is-ellipsis"
           data-testid="nft-preview-name">

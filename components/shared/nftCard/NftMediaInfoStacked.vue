@@ -23,7 +23,7 @@
 
     <div
       class="flex justify-between items-center"
-      :class="{ 'border-top card-border-color pt-2 px-3': !isMinimal }">
+      :class="{ 'border-t card-border-color pt-2 px-3': !isMinimal }">
       <template v-if="!isMinimal">
         <a class="is-ellipsis pr-1" :v-safe-href="collectionUrl">
           {{ collectionNameLabel }}

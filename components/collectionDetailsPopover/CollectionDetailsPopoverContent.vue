@@ -146,9 +146,7 @@ const { nftEntities: soldItems } = useCollectionSoldData({
 }
 
 .sales-container {
-  @include ktheme() {
-    border-top: 1px solid theme('k-grey');
-  }
+  @apply border-t border-k-grey;
 }
 
 .sold-items {

@@ -29,7 +29,7 @@
             @setFixedPrice="setFixedPrice" />
         </div>
 
-        <div class="border-top pt-5 pb-4 px-6">
+        <div class="border-t pt-5 pb-4 px-6">
           <div class="flex justify-between">
             {{ $t('listingCart.potentialEarnings') }}
             <div class="flex">
