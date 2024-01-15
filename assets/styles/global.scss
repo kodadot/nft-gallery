@@ -291,12 +291,6 @@ a.has-text-grey {
   padding-left: $fluid-container-padding;
 }
 
-.card-border-color {
-  @include ktheme() {
-    border-color: theme('card-border-color');
-  }
-}
-
 .border-k-shade {
   @include ktheme() {
     border-color: theme('k-shade') !important;

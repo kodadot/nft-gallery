@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="border-t pt-4 card-border-color text-xs">
+    <div class="border-t pt-4 border-border-color text-xs">
       <template v-if="hasMultipleFees">
         <div
           class="has-text-grey mb-4 flex items-center is-cursor-pointer"
@@ -74,7 +74,8 @@
         </div>
       </div>
     </div>
-    <div class="mt-4 pt-4 pb-5 border-t card-border-color flex justify-between">
+    <div
+      class="mt-4 pt-4 pb-5 border-t border-border-color flex justify-between">
       <div class="">{{ $t('mint.nft.modal.totalFee') }}:</div>
       <div class="flex items-end">
         <div class="text-k-grey text-xs mr-2">$ {{ nft.totalUSDFee }}</div>
