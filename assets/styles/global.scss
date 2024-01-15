@@ -291,11 +291,6 @@ a.has-text-grey {
   padding-left: $fluid-container-padding;
 }
 
-.border-top {
-  @include ktheme() {
-    border-top: 1px solid theme('border-color');
-  }
-}
 .border-left {
   @include ktheme() {
     border-left: 1px solid theme('border-color');
@@ -316,12 +311,6 @@ a.has-text-grey {
 .border-k-shade {
   @include ktheme() {
     border-color: theme('k-shade') !important;
-  }
-}
-
-.border-top-k-shade {
-  @include ktheme() {
-    border-top: 1px solid theme('k-shade');
   }
 }
 

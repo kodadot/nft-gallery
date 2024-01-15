@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="isOpen"
-    class="notification-modal-container theme-background-color border-left flex flex-col"
+    class="notification-modal-container theme-background-color border-l flex flex-col"
     data-testid="notification-modal-container">
     <NeoModalHead
       :title="$t('notification.notifications')"

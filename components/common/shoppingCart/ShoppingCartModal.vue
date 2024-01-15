@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="shopping-cart-modal-container theme-background-color border-left flex flex-col"
+      class="shopping-cart-modal-container theme-background-color border-l flex flex-col"
       data-testid="shopping-cart-modal-container">
       <NeoModalHead
         :title="$t('shoppingCart.title')"
