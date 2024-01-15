@@ -30,7 +30,7 @@ export default defineNuxtConfig({
   vite: {},
 
   build: {
-    transpile: ['tslib'],
+    transpile: ['tslib', 'graphql-ws', '@polkadot/x-global'],
   },
 
   nitro: {

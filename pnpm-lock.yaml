@@ -6,6 +6,7 @@ settings:
 
 overrides:
   '@apollo/federation': 0.38.1
+  '@polkadot/x-global': 12.6.2
 
 importers:
 
@@ -5053,7 +5054,7 @@ packages:
       '@polkadot/types': 10.9.1
       '@polkadot/util': 12.4.2
       '@polkadot/util-crypto': 12.4.2(@polkadot/util@12.4.2)
-      '@polkadot/x-global': 12.4.2
+      '@polkadot/x-global': 12.6.2
       tslib: 2.6.2
     transitivePeerDependencies:
       - bufferutil
@@ -5367,7 +5368,7 @@ packages:
       '@polkadot/util': 12.4.2
       '@polkadot/util-crypto': 12.4.2(@polkadot/util@12.4.2)
       '@polkadot/x-fetch': 12.4.2
-      '@polkadot/x-global': 12.4.2
+      '@polkadot/x-global': 12.6.2
       '@polkadot/x-ws': 12.4.2
       eventemitter3: 5.0.1
       mock-socket: 9.3.0
@@ -5392,7 +5393,7 @@ packages:
       '@polkadot/util': 8.7.1
       '@polkadot/util-crypto': 8.7.1(@polkadot/util@8.7.1)
       '@polkadot/x-fetch': 8.7.1
-      '@polkadot/x-global': 8.7.1
+      '@polkadot/x-global': 12.6.2
       '@polkadot/x-ws': 8.7.1
       '@substrate/connect': 0.7.0-alpha.0
       eventemitter3: 4.0.7
@@ -5414,7 +5415,7 @@ packages:
       '@polkadot/util': 10.4.2
       '@polkadot/util-crypto': 10.4.2(@polkadot/util@10.4.2)
       '@polkadot/x-fetch': 10.4.2
-      '@polkadot/x-global': 10.4.2
+      '@polkadot/x-global': 12.6.2
       '@polkadot/x-ws': 10.4.2
       eventemitter3: 5.0.1
       mock-socket: 9.3.1
@@ -5863,7 +5864,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.22.15
       '@polkadot/x-bigint': 10.4.2
-      '@polkadot/x-global': 10.4.2
+      '@polkadot/x-global': 12.6.2
       '@polkadot/x-textdecoder': 10.4.2
       '@polkadot/x-textencoder': 10.4.2
       '@types/bn.js': 5.1.1
@@ -5875,7 +5876,7 @@ packages:
     engines: {node: '>=16'}
     dependencies:
       '@polkadot/x-bigint': 12.4.2
-      '@polkadot/x-global': 12.4.2
+      '@polkadot/x-global': 12.6.2
       '@polkadot/x-textdecoder': 12.4.2
       '@polkadot/x-textencoder': 12.4.2
       '@types/bn.js': 5.1.1
@@ -5888,7 +5889,7 @@ packages:
     engines: {node: '>=16'}
     dependencies:
       '@polkadot/x-bigint': 12.5.1
-      '@polkadot/x-global': 12.5.1
+      '@polkadot/x-global': 12.6.2
       '@polkadot/x-textdecoder': 12.5.1
       '@polkadot/x-textencoder': 12.5.1
       '@types/bn.js': 5.1.5
@@ -5901,7 +5902,7 @@ packages:
     engines: {node: '>=18'}
     dependencies:
       '@polkadot/x-bigint': 12.6.1
-      '@polkadot/x-global': 12.6.1
+      '@polkadot/x-global': 12.6.2
       '@polkadot/x-textdecoder': 12.6.1
       '@polkadot/x-textencoder': 12.6.1
       '@types/bn.js': 5.1.5
@@ -5941,7 +5942,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.22.15
       '@polkadot/x-bigint': 8.7.1
-      '@polkadot/x-global': 8.7.1
+      '@polkadot/x-global': 12.6.2
       '@polkadot/x-textdecoder': 8.7.1
       '@polkadot/x-textencoder': 8.7.1
       '@types/bn.js': 5.1.5
@@ -6267,14 +6268,14 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@babel/runtime': 7.22.15
-      '@polkadot/x-global': 10.4.2
+      '@polkadot/x-global': 12.6.2
     dev: false
 
   /@polkadot/x-bigint@12.4.2:
     resolution: {integrity: sha512-VRbkhdIf7CyWiUSyHemYi2fFWjBetUGyqpzsIHEclmzvqhKPfs7Kd2ZRdoXKU5QM56eD0sV2pyJxL34dv36/rw==}
     engines: {node: '>=16'}
     dependencies:
-      '@polkadot/x-global': 12.4.2
+      '@polkadot/x-global': 12.6.2
       tslib: 2.6.2
     dev: false
 
@@ -6282,7 +6283,7 @@ packages:
     resolution: {integrity: sha512-Fw39eoN9v0sqxSzfSC5awaDVdzojIiE7d1hRSQgVSrES+8whWvtbYMR0qwbVhTuW7DvogHmye41P9xKMlXZysg==}
     engines: {node: '>=16'}
     dependencies:
-      '@polkadot/x-global': 12.5.1
+      '@polkadot/x-global': 12.6.2
       tslib: 2.6.2
     dev: false
 
@@ -6290,7 +6291,7 @@ packages:
     resolution: {integrity: sha512-YlABeVIlgYQZJ4ZpW/+akFGGxw5jMGt4g5vaP7EumlORGneJHzzWJYDmI5v2y7j1zvC9ofOle7z4tRmtN/QDew==}
     engines: {node: '>=18'}
     dependencies:
-      '@polkadot/x-global': 12.6.1
+      '@polkadot/x-global': 12.6.2
       tslib: 2.6.2
     dev: false
 
@@ -6307,7 +6308,7 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@babel/runtime': 7.22.15
-      '@polkadot/x-global': 8.7.1
+      '@polkadot/x-global': 12.6.2
     dev: false
 
   /@polkadot/x-fetch@10.4.2:
@@ -6315,7 +6316,7 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@babel/runtime': 7.22.15
-      '@polkadot/x-global': 10.4.2
+      '@polkadot/x-global': 12.6.2
       '@types/node-fetch': 2.6.4
       node-fetch: 3.3.2
     dev: false
@@ -6324,7 +6325,7 @@ packages:
     resolution: {integrity: sha512-QEtYIUO6q6LupYkOl+vRwAkbBSSNHbALG8Y3+L/tFDubeXQl79vCkJFmsjhLewpsDIwTFTPNOwzA0ZEyb+0HZw==}
     engines: {node: '>=16'}
     dependencies:
-      '@polkadot/x-global': 12.4.2
+      '@polkadot/x-global': 12.6.2
       node-fetch: 3.3.2
       tslib: 2.6.2
     dev: false
@@ -6343,39 +6344,11 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@babel/runtime': 7.22.15
-      '@polkadot/x-global': 8.7.1
+      '@polkadot/x-global': 12.6.2
       '@types/node-fetch': 2.6.4
       node-fetch: 2.7.0
     transitivePeerDependencies:
       - encoding
-    dev: false
-
-  /@polkadot/x-global@10.4.2:
-    resolution: {integrity: sha512-g6GXHD/ykZvHap3M6wh19dO70Zm43l4jEhlxf5LtTo5/0/UporFCXr2YJYZqfbn9JbQwl1AU+NroYio+vtJdiA==}
-    engines: {node: '>=14.0.0'}
-    dependencies:
-      '@babel/runtime': 7.22.15
-    dev: false
-
-  /@polkadot/x-global@12.4.2:
-    resolution: {integrity: sha512-CwbjSt1Grmn56xAj+hGC8ZB0uZxMl92K+VkBH0KxjgcbAX/D24ZD/0ds8pAnUYrO4aYHYq2j2MAGVSMdHcMBAQ==}
-    engines: {node: '>=16'}
-    dependencies:
-      tslib: 2.6.2
-    dev: false
-
-  /@polkadot/x-global@12.5.1:
-    resolution: {integrity: sha512-6K0YtWEg0eXInDOihU5aSzeb1t9TiDdX9ZuRly+58ALSqw5kPZYmQLbzE1d8HWzyXRXK+YH65GtLzfMGqfYHmw==}
-    engines: {node: '>=16'}
-    dependencies:
-      tslib: 2.6.2
-    dev: false
-
-  /@polkadot/x-global@12.6.1:
-    resolution: {integrity: sha512-w5t19HIdBPuyu7X/AiCyH2DsKqxBF0KpF4Ymolnx8PfcSIgnq9ZOmgs74McPR6FgEmeEkr9uNKujZrsfURi1ug==}
-    engines: {node: '>=18'}
-    dependencies:
-      tslib: 2.6.2
     dev: false
 
   /@polkadot/x-global@12.6.2:
@@ -6385,26 +6358,12 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@polkadot/x-global@6.11.1:
-    resolution: {integrity: sha512-lsBK/e4KbjfieyRmnPs7bTiGbP/6EoCZz7rqD/voNS5qsJAaXgB9LR+ilubun9gK/TDpebyxgO+J19OBiQPIRw==}
-    engines: {node: '>=14.0.0'}
-    dependencies:
-      '@babel/runtime': 7.22.15
-    dev: false
-
-  /@polkadot/x-global@8.7.1:
-    resolution: {integrity: sha512-WOgUor16IihgNVdiTVGAWksYLUAlqjmODmIK1cuWrLOZtV1VBomWcb3obkO9sh5P6iWziAvCB/i+L0vnTN9ZCA==}
-    engines: {node: '>=14.0.0'}
-    dependencies:
-      '@babel/runtime': 7.22.15
-    dev: false
-
   /@polkadot/x-randomvalues@10.4.2:
     resolution: {integrity: sha512-mf1Wbpe7pRZHO0V3V89isPLqZOy5XGX2bCqsfUWHgb1NvV1MMx5TjVjdaYyNlGTiOkAmJKlOHshcfPU2sYWpNg==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@babel/runtime': 7.22.15
-      '@polkadot/x-global': 10.4.2
+      '@polkadot/x-global': 12.6.2
     dev: false
 
   /@polkadot/x-randomvalues@12.4.2(@polkadot/util@12.4.2)(@polkadot/wasm-util@7.2.2):
@@ -6416,7 +6375,7 @@ packages:
     dependencies:
       '@polkadot/util': 12.4.2
       '@polkadot/wasm-util': 7.2.2(@polkadot/util@12.4.2)
-      '@polkadot/x-global': 12.4.2
+      '@polkadot/x-global': 12.6.2
       tslib: 2.6.2
     dev: false
 
@@ -6438,7 +6397,7 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@babel/runtime': 7.22.15
-      '@polkadot/x-global': 6.11.1
+      '@polkadot/x-global': 12.6.2
     dev: false
 
   /@polkadot/x-randomvalues@8.7.1:
@@ -6446,7 +6405,7 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@babel/runtime': 7.22.15
-      '@polkadot/x-global': 8.7.1
+      '@polkadot/x-global': 12.6.2
     dev: false
 
   /@polkadot/x-rxjs@6.11.1:
@@ -6462,14 +6421,14 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@babel/runtime': 7.22.15
-      '@polkadot/x-global': 10.4.2
+      '@polkadot/x-global': 12.6.2
     dev: false
 
   /@polkadot/x-textdecoder@12.4.2:
     resolution: {integrity: sha512-cyUoKwdSIiBXAaWnGdMYqnaNHc5NV9skQh/fITis3ufKKi3pMwxJ5IwhhfDZpuKDl/3fDXF40Z3fqtTeUnoRXA==}
     engines: {node: '>=16'}
     dependencies:
-      '@polkadot/x-global': 12.4.2
+      '@polkadot/x-global': 12.6.2
       tslib: 2.6.2
     dev: false
 
@@ -6477,7 +6436,7 @@ packages:
     resolution: {integrity: sha512-j2YZGWfwhMC8nHW3BXq10fAPY02ObLL/qoTjCMJ1Cmc/OGq18Ep7k9cXXbjFAq3wf3tUUewt/u/hStKCk3IvfQ==}
     engines: {node: '>=16'}
     dependencies:
-      '@polkadot/x-global': 12.5.1
+      '@polkadot/x-global': 12.6.2
       tslib: 2.6.2
     dev: false
 
@@ -6485,7 +6444,7 @@ packages:
     resolution: {integrity: sha512-IasodJeV1f2Nr/VtA207+LXCQEqYcG8y9qB/EQcRsrEP58NbwwxM5Z2obV0lSjJOxRTJ4/OlhUwnLHwcbIp6+g==}
     engines: {node: '>=18'}
     dependencies:
-      '@polkadot/x-global': 12.6.1
+      '@polkadot/x-global': 12.6.2
       tslib: 2.6.2
     dev: false
 
@@ -6502,7 +6461,7 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@babel/runtime': 7.22.15
-      '@polkadot/x-global': 6.11.1
+      '@polkadot/x-global': 12.6.2
     dev: false
 
   /@polkadot/x-textdecoder@8.7.1:
@@ -6510,7 +6469,7 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@babel/runtime': 7.22.15
-      '@polkadot/x-global': 8.7.1
+      '@polkadot/x-global': 12.6.2
     dev: false
 
   /@polkadot/x-textencoder@10.4.2:
@@ -6518,14 +6477,14 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@babel/runtime': 7.22.15
-      '@polkadot/x-global': 10.4.2
+      '@polkadot/x-global': 12.6.2
     dev: false
 
   /@polkadot/x-textencoder@12.4.2:
     resolution: {integrity: sha512-xrcwx55B2K7j9CnVucGLFl0qd5sb7W5Ei6dOsWgDnZNjZPBqsx9jTBQSBv9HmyHE4GEnF4z0rpO0msy3S7Sj9Q==}
     engines: {node: '>=16'}
     dependencies:
-      '@polkadot/x-global': 12.4.2
+      '@polkadot/x-global': 12.6.2
       tslib: 2.6.2
     dev: false
 
@@ -6533,7 +6492,7 @@ packages:
     resolution: {integrity: sha512-1JNNpOGb4wD+c7zFuOqjibl49LPnHNr4rj4s3WflLUIZvOMY6euoDuN3ISjQSHCLlVSoH0sOCWA3qXZU4bCTDQ==}
     engines: {node: '>=16'}
     dependencies:
-      '@polkadot/x-global': 12.5.1
+      '@polkadot/x-global': 12.6.2
       tslib: 2.6.2
     dev: false
 
@@ -6541,7 +6500,7 @@ packages:
     resolution: {integrity: sha512-sTq/+tXqBhGe01a1rjieSHFh3y935vuRgtahVgVJZnfqh5SmLPgSN5tTPxZWzyx7gHIfotle8laTJbJarv7V1A==}
     engines: {node: '>=18'}
     dependencies:
-      '@polkadot/x-global': 12.6.1
+      '@polkadot/x-global': 12.6.2
       tslib: 2.6.2
     dev: false
 
@@ -6558,7 +6517,7 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@babel/runtime': 7.22.15
-      '@polkadot/x-global': 6.11.1
+      '@polkadot/x-global': 12.6.2
     dev: false
 
   /@polkadot/x-textencoder@8.7.1:
@@ -6566,7 +6525,7 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@babel/runtime': 7.22.15
-      '@polkadot/x-global': 8.7.1
+      '@polkadot/x-global': 12.6.2
     dev: false
 
   /@polkadot/x-ws@10.4.2:
@@ -6574,7 +6533,7 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@babel/runtime': 7.22.15
-      '@polkadot/x-global': 10.4.2
+      '@polkadot/x-global': 12.6.2
       '@types/websocket': 1.0.6
       websocket: 1.0.34
     transitivePeerDependencies:
@@ -6585,7 +6544,7 @@ packages:
     resolution: {integrity: sha512-dYUtpbPa/JNd94tPAM9iHMzhR8MZ4wtOPh8gvueQRRYC8ZYQ9NPwjbBImY2FRfx7wCG1tFLAR6OEw4ToLLJNsA==}
     engines: {node: '>=16'}
     dependencies:
-      '@polkadot/x-global': 12.4.2
+      '@polkadot/x-global': 12.6.2
       tslib: 2.6.2
       ws: 8.14.2
     transitivePeerDependencies:
@@ -6610,7 +6569,7 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@babel/runtime': 7.22.15
-      '@polkadot/x-global': 8.7.1
+      '@polkadot/x-global': 12.6.2
       '@types/websocket': 1.0.6
       websocket: 1.0.34
     transitivePeerDependencies:

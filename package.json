@@ -175,7 +175,8 @@
   },
   "pnpm": {
     "overrides": {
-      "@apollo/federation": "0.38.1"
+      "@apollo/federation": "0.38.1",
+      "@polkadot/x-global": "12.6.2"
     }
   }
 }
