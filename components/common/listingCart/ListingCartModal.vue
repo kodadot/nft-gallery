@@ -1,6 +1,11 @@
 <template>
   <div>
-    <Loader v-if="!autoTeleport" v-model="isLoading" :status="status" />
+    <SigningModal
+      v-if="!autoTeleport"
+      v-model="isLoading"
+      :title="$t('listingCart.listingNft')"
+      :status="status" />
+
     <NeoModal
       :value="preferencesStore.listingCartModalOpen"
       scroll="clip"

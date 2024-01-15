@@ -1497,7 +1497,8 @@
     "chooseAPrice": "Choose a price",
     "floorPrice": "Floor Price",
     "inputPriceFirst": "Input Price First",
-    "setAllTo": "Set All To"
+    "setAllTo": "Set All To",
+    "listingNft": "Listing NFT"
   },
   "migrate": {
     "cta": "Migrate Now",
