@@ -1255,6 +1255,7 @@
     "transfer": "Transfer",
     "transferTo": "Transfer to",
     "transferNft": "Transfer NFT",
+    "transferingNft": "Transfering NFT",
     "inputAddressFirst": "Input address first",
     "addressIncorrect": "Address Incorrect",
     "wrongAddressCannotRecoveredWarning": "Items sent to the wrong address cannot be recovered.",
