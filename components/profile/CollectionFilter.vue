@@ -46,7 +46,7 @@
             </div>
           </div>
 
-          <div class="rounded ml-5 px-3 k-grey-light">
+          <div class="rounded ml-5 px-3 bg-k-grey-light">
             {{ collection.owned }}
           </div>
         </div>

@@ -391,9 +391,6 @@ a.has-text-grey {
   }
 }
 
-.k-grey-light {
-  background-color: var(--k-grey-light) !important;
-}
 .theme-background-color {
   @include ktheme() {
     background-color: theme('background-color');
