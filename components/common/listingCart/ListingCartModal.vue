@@ -3,7 +3,7 @@
     <SigningModal
       v-if="!autoTeleport"
       v-model="isLoading"
-      :title="$t('listingCart.listingNft')"
+      :title="$t('listingCart.listingNft', itemCount)"
       :status="status" />
 
     <NeoModal
@@ -101,6 +101,7 @@ const fixedPrice = ref()
 const floorPricePercentAdjustment = ref()
 const autoTeleport = ref(false)
 const autoteleportButton = ref()
+const itemCount = ref(listingCartStore.count)
 
 const loadingAutoTeleport = computed(() => !autoteleportButton.value?.isReady)
 
@@ -209,6 +210,7 @@ const getAction = (items: ListCartItem[]): Actions => {
 async function confirm({ autoteleport }: AutoTeleportActionButtonConfirmEvent) {
   try {
     autoTeleport.value = autoteleport
+    itemCount.value = listingCartStore.count
 
     if (!autoteleport) {
       await transaction(getAction(listingCartStore.itemsInChain))
