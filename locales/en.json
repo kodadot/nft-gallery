@@ -598,7 +598,8 @@
         "carbonless": "Carbonless",
         "totalFee": "Fees Total"
       },
-      "minting": "Minting NFT"
+      "minting": "Minting NFT",
+      "burning": "Burning NFT"
     },
     "unlockable": {
       "phaseIntroduction": "We will have a 60-minute window every phase, each featuring only 10 exclusive items.",
