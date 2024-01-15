@@ -316,7 +316,7 @@
 <script lang="ts" setup>
 import { ApiFactory } from '@kodadot1/sub-api'
 import { ALTERNATIVE_ENDPOINT_MAP, chainNames } from '@kodadot1/static'
-import { zipWith } from 'lodash'
+import zipWith from 'lodash/zipWith'
 import { isAddress } from '@polkadot/util-crypto'
 import { DispatchError } from '@polkadot/types/interfaces'
 
@@ -894,7 +894,7 @@ const generatePaymentLink = (addressList: TargetAddress[]): string => {
   const url = new URL(`${location.origin}${location.pathname}`)
 
   addressList.forEach((addr, i) => {
-    const suffix = i == 0 ? '' : i
+    const suffix = i === 0 ? '' : i
     url.searchParams.append(`target${suffix}`, addr.address)
 
     if (displayUnit.value === 'usd') {
