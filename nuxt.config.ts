@@ -29,6 +29,10 @@ export default defineNuxtConfig({
 
   vite: {},
 
+  build: {
+    transpile: ['tslib'],
+  },
+
   nitro: {
     publicAssets: [],
   },
