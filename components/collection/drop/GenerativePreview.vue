@@ -59,7 +59,6 @@ const props = defineProps<{
 const emit = defineEmits(['select'])
 
 const { accountId } = useAuth()
-const { chainProperties } = useChain()
 
 const STEP = 64
 const entropyRange = computed<[number, number]>(() => [
@@ -69,7 +68,7 @@ const entropyRange = computed<[number, number]>(() => [
 
 const getHash = (isDefault?: boolean) => {
   const ss58Format = isDefault
-    ? chainProperties.value?.ss58Format
+    ? entropyRange.value[0]
     : getRandomIntFromRange(entropyRange.value[0], entropyRange.value[1])
 
   // https://github.com/paritytech/ss58-registry/blob/30889d6c9d332953a6e3333b30513eef89003f64/ss58-registry.json#L1292C17-L1292C22
