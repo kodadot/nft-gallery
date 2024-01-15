@@ -27,7 +27,7 @@
         <div>
           <div class="height-50px flex items-center">
             <div
-              class="event-type mr-4 border is-size-7 justify-center py-1 flex items-center"
+              class="event-type mr-4 border text-xs justify-center py-1 flex items-center"
               :class="[
                 getInteractionColor(event.interaction),
                 event.interaction === Interaction.ACCEPTED_OFFER

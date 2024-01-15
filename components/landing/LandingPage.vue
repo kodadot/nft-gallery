@@ -12,6 +12,13 @@
         </div>
       </section>
 
+      <section class="py-8 instance">
+        <div class="container is-fluid">
+          <!-- generative  -->
+          <LazyCarouselTypeGenerative />
+        </div>
+      </section>
+
       <!-- email signup banner -->
       <transition name="slide">
         <section v-if="showSignupBanner" class="py-5 instance">
@@ -23,11 +30,8 @@
 
       <section class="py-8 instance">
         <div class="container is-fluid">
-          <!-- generative  -->
-          <LazyCarouselTypeGenerative class="mt-8" />
-
           <!-- latest sales -->
-          <LazyCarouselTypeLatestSales class="mt-8" />
+          <LazyCarouselTypeLatestSales />
 
           <!-- new listings -->
           <LazyCarouselTypeNewestList class="mt-8" />

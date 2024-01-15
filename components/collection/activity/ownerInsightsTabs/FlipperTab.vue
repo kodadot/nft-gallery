@@ -22,25 +22,25 @@
               :avatar-size="35"
               class="has-text-weight-bold" />
             <div class="flex justify-between mt-2">
-              <span class="is-size-7 has-text-grey">{{
+              <span class="text-xs has-text-grey">{{
                 $t('activity.owned')
               }}</span>
               <span>{{ owned }}</span>
             </div>
             <div class="flex justify-between">
-              <span class="is-size-7 has-text-grey">{{
+              <span class="text-xs has-text-grey">{{
                 $t('activity.totalBought')
               }}</span>
               <CommonTokenMoney :value="totalBought" />
             </div>
             <div class="flex justify-between">
-              <span class="is-size-7 has-text-grey">{{
+              <span class="text-xs has-text-grey">{{
                 $t('activity.totalSold')
               }}</span>
               <CommonTokenMoney :value="totalsold" />
             </div>
             <div class="flex justify-between">
-              <span class="is-size-7 has-text-grey">{{
+              <span class="text-xs has-text-grey">{{
                 $t('activity.bestFlip')
               }}</span>
               <span
@@ -52,7 +52,7 @@
               >
             </div>
             <div class="flex justify-between">
-              <span class="is-size-7 has-text-grey">{{
+              <span class="text-xs has-text-grey">{{
                 $t('activity.latestActivity')
               }}</span>
               <TimeAgo
@@ -61,7 +61,7 @@
             </div>
             <div>
               <div
-                class="is-size-7 has-text-k-blue is-clickable"
+                class="text-xs has-text-k-blue is-clickable"
                 @click="toggleNFTDetails(flipperId)">
                 {{ $t('activity.nftDetails') }}
                 <NeoIcon

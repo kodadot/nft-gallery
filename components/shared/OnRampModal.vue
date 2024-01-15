@@ -41,17 +41,17 @@
                 :alt="`${provider.value} provider logo`"
                 :src="provider.image"
                 class="provider-logo" />
-              <p v-if="provider.disabled" class="ml-2 is-size-7 has-text-grey">
+              <p v-if="provider.disabled" class="ml-2 text-xs has-text-grey">
                 {{ $t('soon') }}
               </p>
             </div>
 
             <div class="mt-4 flex items-center justify-between w-full">
-              <div class="is-size-7 has-text-grey">
+              <div class="text-xs has-text-grey">
                 {{ $t('general.supports') }}
               </div>
 
-              <div class="is-size-7 has-text-grey">
+              <div class="text-xs has-text-grey">
                 {{ getSupportedTokensToText(provider.supports) }}
               </div>
             </div>

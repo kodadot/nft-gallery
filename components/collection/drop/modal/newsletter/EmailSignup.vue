@@ -18,7 +18,7 @@
       <span>{{ $t('drops.voucherToOurShop') }}</span>
     </div>
 
-    <p class="text-k-grey capitalize mt-3 is-size-7">
+    <p class="text-k-grey capitalize mt-3 text-xs">
       ({{ $t('drops.justConfirmSubscriptionViaEmail') }})
     </p>
   </div>

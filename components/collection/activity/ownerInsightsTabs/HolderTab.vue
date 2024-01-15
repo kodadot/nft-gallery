@@ -16,19 +16,19 @@
               data-testid="collection-nft-holder-address"
               class="has-text-weight-bold" />
             <div class="flex justify-between mt-2">
-              <span class="is-size-7 has-text-grey">{{
+              <span class="text-xs has-text-grey">{{
                 $t('activity.owned')
               }}</span>
               <span>{{ holdings.nftCount }}</span>
             </div>
             <div class="flex justify-between">
-              <span class="is-size-7 has-text-grey">{{
+              <span class="text-xs has-text-grey">{{
                 $t('activity.totalBought')
               }}</span>
               <CommonTokenMoney :value="holdings.totalBought" />
             </div>
             <div class="flex justify-between">
-              <span class="is-size-7 has-text-grey">{{
+              <span class="text-xs has-text-grey">{{
                 $t('activity.totalSold')
               }}</span>
               <CommonTokenMoney
@@ -37,14 +37,14 @@
               <span v-else>--</span>
             </div>
             <div class="flex justify-between">
-              <span class="is-size-7 has-text-grey">{{
+              <span class="text-xs has-text-grey">{{
                 $t('activity.date')
               }}</span>
               <TimeAgo :timestamp="holdings.lastActivityTimestamp" />
             </div>
             <div>
               <div
-                class="is-size-7 has-text-k-blue is-clickable"
+                class="text-xs has-text-k-blue is-clickable"
                 data-testid="collection-holder-nft-details"
                 @click="toggleNFTDetails(holderId)">
                 {{ $t('activity.nftDetails') }}

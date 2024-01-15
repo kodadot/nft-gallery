@@ -13,9 +13,7 @@
       </nuxt-link>
       <div class="flex flex-col justify-between mt-3">
         <div class="flex justify-between no-wrap">
-          <span class="is-size-7 has-text-grey">{{
-            $t('activity.profit')
-          }}</span>
+          <span class="text-xs has-text-grey">{{ $t('activity.profit') }}</span>
           <span
             :class="{
               'has-text-k-green': profit > 0,
@@ -25,13 +23,11 @@
           >
         </div>
         <div class="flex justify-between no-wrap">
-          <span class="is-size-7 has-text-grey">{{
-            $t('activity.bought')
-          }}</span>
+          <span class="text-xs has-text-grey">{{ $t('activity.bought') }}</span>
           <Money :value="boughtPrice" />
         </div>
         <div class="flex justify-between no-wrap">
-          <span class="is-size-7 has-text-grey">{{ $t('activity.sold') }}</span>
+          <span class="text-xs has-text-grey">{{ $t('activity.sold') }}</span>
           <Money :value="soldPrice" />
         </div>
       </div>

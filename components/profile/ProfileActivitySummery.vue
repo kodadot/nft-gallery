@@ -4,7 +4,7 @@
       <div class="level-item has-text-centered">
         <div>
           <p class="title">{{ listedCount }} ⊆ {{ totalSoldItems }}</p>
-          <p class="is-size-7 has-text-grey">
+          <p class="text-xs has-text-grey">
             {{ $t('profileStats.listed') }} /
             {{ $t('profileStats.totalSoldItems') }}
           </p>
@@ -27,7 +27,7 @@
             <CommonTokenMoney :value="highestBuyPrice" inline /> ⊆
             <CommonTokenMoney :value="totalAmountSpend" inline />
           </p>
-          <p class="is-size-7 has-text-grey">
+          <p class="text-xs has-text-grey">
             {{ $t('profileStats.highestBuy') }} /
             {{ $t('profileStats.totalAmountSpend') }}
           </p>
@@ -39,7 +39,7 @@
           <p class="title">
             <CommonTokenMoney :value="totalHoldingsBoughtValues" inline /> ⊆
           </p>
-          <p class="is-size-7 has-text-grey">
+          <p class="text-xs has-text-grey">
             {{ chainSymbol }} {{ $t('profileStats.totalHoldingsBoughtValues') }}
           </p>
         </div>
@@ -51,7 +51,7 @@
             <CommonTokenMoney :value="maxSoldPrice" inline /> ⊆
             <CommonTokenMoney :value="totalSell" inline />
           </p>
-          <p class="is-size-7 has-text-grey">
+          <p class="text-xs has-text-grey">
             {{ $t('profileStats.maxSoldPrice') }} /
             {{ $t('profileStats.totalSellValues') }}
           </p>

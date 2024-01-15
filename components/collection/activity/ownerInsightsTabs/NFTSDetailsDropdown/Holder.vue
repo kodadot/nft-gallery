@@ -11,7 +11,7 @@
       <div class="flex flex-col">
         {{ name }}
         <TimeAgo
-          custom-class="is-size-7 has-text-grey"
+          custom-class="text-xs has-text-grey"
           :timestamp="new Date(updatedAt).getTime()" />
       </div>
     </nuxt-link>

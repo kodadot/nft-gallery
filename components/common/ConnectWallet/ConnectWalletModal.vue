@@ -22,7 +22,7 @@
       </div>
 
       <a
-        class="flex items-center pt-4 pb-3 is-size-7 has-text-grey more-option-button mx-6 my-0"
+        class="flex items-center pt-4 pb-3 text-xs has-text-grey more-option-button mx-6 my-0"
         @click="toggleShowUninstalledWallet">
         {{ $i18n.t('walletConnect.moreOption') }}
         <NeoIcon
@@ -60,11 +60,11 @@
 
     <footer v-if="!showAccount" class="px-6 py-4">
       <div>{{ $i18n.t('walletConnect.walletQuestion') }}</div>
-      <div class="is-size-7">
+      <div class="text-xs">
         {{ $i18n.t('walletConnect.walletAnswer') }}
       </div>
       <a
-        class="is-size-7 has-text-link flex items-center"
+        class="text-xs has-text-link flex items-center"
         href="https://docs.kodadot.xyz/tutorial-overview.html"
         target="_blank"
         rel="nofollow noopener noreferrer">
