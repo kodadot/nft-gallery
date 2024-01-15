@@ -391,12 +391,6 @@ a.has-text-grey {
   }
 }
 
-.has-background-k-grey {
-  @include ktheme() {
-    background-color: theme('k-grey');
-  }
-}
-
 .is-cursor-pointer {
   cursor: pointer !important;
 }
