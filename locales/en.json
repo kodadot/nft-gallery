@@ -1681,7 +1681,7 @@
   },
   "buyModal": {
     "nftPriceUpdated": "NFT {0} price updated",
-    "nftNotListedAnymore": "NFT {0} is not listed anymore"
-  },
-  "signingModal" : "Signing Modal"
+    "nftNotListedAnymore": "NFT {0} is not listed anymore",
+    "buyingNft": "Buying NFT"
+  }
 }

@@ -1,6 +1,11 @@
 <template>
   <div>
-    <Loader v-if="!usingAutoTeleport" v-model="isLoading" :status="status" />
+    <SigningModal
+      v-if="!usingAutoTeleport"
+      v-model="isLoading"
+      :title="$t('buyModal.buyingNft')"
+      :status="status" />
+
     <ConfirmPurchaseModal
       :loading="!hasSyncedPrices"
       :action="autoteleportAction"
@@ -15,7 +20,6 @@ import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useFiatStore } from '@/stores/fiat'
 
-import Loader from '@/components/shared/Loader.vue'
 import ConfirmPurchaseModal from '@/components/common/confirmPurchaseModal/ConfirmPurchaseModal.vue'
 import { Actions, TokenToBuy } from '@/composables/transaction/types'
 import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
