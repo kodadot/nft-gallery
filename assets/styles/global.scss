@@ -391,16 +391,6 @@ a.has-text-grey {
   }
 }
 
-.k-red {
-  @include ktheme() {
-    background-color: theme('k-red');
-  }
-}
-.k-redaccent {
-  @include ktheme() {
-    background-color: theme('k-redaccent');
-  }
-}
 .k-grey-light {
   background-color: var(--k-grey-light) !important;
 }
