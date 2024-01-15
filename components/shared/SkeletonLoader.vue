@@ -20,7 +20,7 @@
         size="large"
         spin />
 
-      <div :class="{ 'w-52': showDots }">
+      <div :class="{ 'w-52': fixedWidth }">
         <p class="capitalize has-text-weight-bold is-size-6">
           {{ title || $t('general.doingSomeMagic') }}
         </p>
@@ -50,6 +50,11 @@ const props = withDefaults(
 )
 
 const showDots = computed(() => props.withDots || !props.subtitle)
+const fixedWidth = computed(() => {
+  const title = props.title || ''
+  const subtitle = props.subtitle || ''
+  return subtitle.length > title.length && showDots.value
+})
 </script>
 
 <style scoped lang="scss">
