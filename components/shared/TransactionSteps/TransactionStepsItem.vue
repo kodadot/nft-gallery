@@ -68,7 +68,7 @@
           <a
             v-if="isCompleted && (step.txId || step.blockNumber)"
             v-safe-href="txUrl"
-            class="has-text-link ml-4 is-size-7"
+            class="has-text-link ml-4 text-xs"
             target="_blank"
             rel="nofollow noopener noreferrer">
             {{ $t('helper.viewTx') }}

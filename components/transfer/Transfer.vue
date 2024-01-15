@@ -265,12 +265,12 @@
       </div>
 
       <div class="flex justify-between items-center mb-2">
-        <span class="is-size-7">{{ $t('transfers.networkFee') }}</span>
+        <span class="text-xs">{{ $t('transfers.networkFee') }}</span>
         <div class="flex items-center" data-testid="transfer-network-fee">
-          <span class="is-size-7 has-text-grey mr-1"
+          <span class="text-xs has-text-grey mr-1"
             >({{ displayValues.fee[0] }})</span
           >
-          <span class="is-size-7">{{ displayValues.fee[1] }}</span>
+          <span class="text-xs">{{ displayValues.fee[1] }}</span>
         </div>
       </div>
 
@@ -279,7 +279,7 @@
           $t('spotlight.total')
         }}</span>
         <div class="flex items-center">
-          <span class="is-size-7 has-text-grey mr-1"
+          <span class="text-xs has-text-grey mr-1"
             >({{ displayValues.total.withFee[0] }})</span
           >
 
