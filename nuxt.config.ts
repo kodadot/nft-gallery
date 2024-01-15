@@ -75,7 +75,7 @@ export default defineNuxtConfig({
   },
 
   build: {
-    transpile: ['tslib', 'graphql-ws', '@polkadot/x-global'],
+    transpile: ['graphql-ws', '@polkadot/x-global'],
   },
 
   nitro: {
