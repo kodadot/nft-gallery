@@ -385,12 +385,6 @@ a.has-text-grey {
   }
 }
 
-.has-background-inverse {
-  @include ktheme() {
-    background: theme('text-color');
-  }
-}
-
 .is-cursor-pointer {
   cursor: pointer !important;
 }
