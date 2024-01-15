@@ -2,7 +2,13 @@
   <form
     class="mx-auto teleport-container"
     @submit.prevent="checkEDBeforeTeleport">
-    <Loader v-model="isLoading" :status="status" />
+    <SigningModal
+      v-model="isLoading"
+      :status="status"
+      :title="
+        $t('teleport.bridging', [amountAfterFees.displayValue, currency])
+      " />
+
     <h1 class="is-size-3 has-text-weight-bold">
       {{ $t('teleport.page') }}
     </h1>
@@ -164,7 +170,6 @@ import {
   prefixToChainMap,
 } from '@/utils/teleport'
 import formatBalance from '@/utils/format/balance'
-import Loader from '@/components/shared/Loader.vue'
 import shortAddress from '@/utils/shortAddress'
 import { chainIcons, getChainName } from '@/utils/chain'
 import NetworkDropdown from './NetworkDropdown.vue'

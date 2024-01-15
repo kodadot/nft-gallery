@@ -1076,7 +1076,8 @@
     "why": "Why?",
     "existentialDepositTooltip": "Amounts Below {0} + Fees Risk Being Lost. Enter The Minimum To Proceed.",
     "whatIsExistentialDeposit": "What is Existential Deposit?",
-    "checkboxLabel": "I understand this action will lead to an irreversible loss of funds."
+    "checkboxLabel": "I understand this action will lead to an irreversible loss of funds.",
+    "bridging": "Bridging {0} {1}"
   },
   "preferences": {
     "basic": "basic user interface",
