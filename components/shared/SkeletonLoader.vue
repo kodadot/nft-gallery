@@ -20,7 +20,7 @@
         size="large"
         spin />
 
-      <div>
+      <div :class="{ 'w-52': showDots }">
         <p class="capitalize has-text-weight-bold is-size-6">
           {{ title || $t('general.doingSomeMagic') }}
         </p>
