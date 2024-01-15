@@ -103,16 +103,10 @@ import BasicImage from '@/components/shared/view/BasicImage.vue'
 import BasicPopup from '@/components/shared/view/BasicPopup.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import Money from '@/components/shared/format/Money.vue'
+import { parseDate } from '@/utils/datetime'
 
 const sales = ref([])
 const { client, urlPrefix } = usePrefix()
-
-const parseDate = (ts: number) => {
-  return new Date(ts).toLocaleString('en-GB', {
-    timeZone: 'UTC',
-    timeZoneName: 'short',
-  })
-}
 
 const { pending, refresh: refreshNftSales } = useLazyAsyncData(
   'data',
