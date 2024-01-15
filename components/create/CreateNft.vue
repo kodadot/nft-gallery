@@ -1,6 +1,11 @@
 <template>
   <div class="is-centered columns">
-    <Loader v-if="!autoTeleport" v-model="isLoading" :status="status" />
+    <SigningModal
+      v-if="!autoTeleport"
+      v-model="isLoading"
+      :title="$t('signingModal.mintingNft')"
+      :status="status" />
+
     <MintConfirmModal
       v-model="modalShowStatus"
       :auto-teleport-actions="autoTeleportActions"
@@ -613,6 +618,10 @@ watchEffect(async () => {
       retry.value -= 1
     }
   }
+})
+
+watchEffect(() => {
+  console.log('status', status.value)
 })
 </script>
 
