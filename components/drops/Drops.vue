@@ -3,7 +3,10 @@
     <h1 class="title is-2 mb-7">
       {{ $i18n.t('drops.title') }}
     </h1>
-    <div v-if="drops.length" class="grid-container">
+    <div class="grid-container">
+      <DropsDropCardSkeleton
+        v-for="x in skeletonCount"
+        :key="`skeleton-${x}`" />
       <div
         v-for="(drop, index) in drops"
         :key="`${drop.collection?.id}=${index}`"
@@ -22,13 +25,18 @@
 <script lang="ts" setup>
 import DropCard from '@/components/drops/DropCard.vue'
 import CreateDropCard from '@/components/drops/CreateDropCard.vue'
-
 import { useDrops } from './useDrops'
 import { dropsVisible } from '@/utils/config/permission.config'
 
+const DEFAULT_SKELETON_COUNT = 2
+
 const { $i18n } = useNuxtApp()
-const drops = useDrops()
+const { drops, count } = useDrops()
 const { urlPrefix } = usePrefix()
+
+const skeletonCount = computed(
+  () => (count.value || DEFAULT_SKELETON_COUNT) - drops.value.length,
+)
 
 const checkRouteAvailability = () => {
   if (!dropsVisible(urlPrefix.value)) {
