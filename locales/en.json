@@ -523,7 +523,8 @@
         "title": "Mint Collection",
         "existentialDeposit": "Collection Existential Deposit",
         "depositTooltip": "A deposit of {0} {1} is required to create a collection. Please note, this initial deposit is refundable. "
-      }
+      },
+      "minting": "Minting Collection"
     },
     "nft": {
       "art": {
@@ -596,7 +597,8 @@
         "kodadotTooltip": "By keeping this option active, you're contributing to initial costs borne by Kodadot for storing your JPEGs on your behalf. You may change this preference anytime in the settings. ",
         "carbonless": "Carbonless",
         "totalFee": "Fees Total"
-      }
+      },
+      "minting": "Minting NFT"
     },
     "unlockable": {
       "phaseIntroduction": "We will have a 60-minute window every phase, each featuring only 10 exclusive items.",
@@ -1681,8 +1683,5 @@
     "nftPriceUpdated": "NFT {0} price updated",
     "nftNotListedAnymore": "NFT {0} is not listed anymore"
   },
-  "signingModal" : {
-    "title": "Signing Modal",
-    "mintingNft": "Minting NFT"
-  }
+  "signingModal" : "Signing Modal"
 }

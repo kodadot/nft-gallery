@@ -6,7 +6,7 @@
     class="top"
     content-class="modal-width"
     @close="onClose">
-    <ModalBody :title="$t('signingModal.title')" @close="onClose">
+    <ModalBody :title="$t('signingModal')" @close="onClose">
       <SigningModalBody :title="title" :subtitle="subtitle" />
     </ModalBody>
   </NeoModal>

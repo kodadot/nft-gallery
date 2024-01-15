@@ -3,7 +3,7 @@
     <SigningModal
       v-if="!autoTeleport"
       v-model="isLoading"
-      :title="$t('signingModal.mintingNft')"
+      :title="$t('mint.nft.minting')"
       :status="status" />
 
     <MintConfirmModal
