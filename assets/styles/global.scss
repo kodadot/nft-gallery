@@ -311,14 +311,6 @@ a.has-text-grey {
   }
 }
 
-.no-border {
-  border: none !important;
-}
-
-.no-border-radius {
-  border-radius: 0 !important;
-}
-
 .card-border-color {
   @include ktheme() {
     border-color: theme('card-border-color');
