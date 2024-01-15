@@ -35,8 +35,6 @@
 <script lang="ts" setup>
 import CarouselMedia from './CarouselMedia.vue'
 import CarouselInfo from './CarouselInfo.vue'
-const NuxtLink = resolveComponent('NuxtLink')
-
 import type { CarouselNFT } from '@/components/base/types'
 
 import 'keen-slider/keen-slider.min.css'
