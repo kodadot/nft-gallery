@@ -7,7 +7,10 @@
     content-class="modal-width"
     @close="onClose">
     <ModalBody :title="$t('drops.signTransaction')" @close="onClose">
-      <SigningModalBody :title="title" :subtitle="subtitle" />
+      <SigningModalBody
+        :title="title"
+        :subtitle="subtitle"
+        :show-subtitle-dots="isLoading" />
     </ModalBody>
   </NeoModal>
 </template>
@@ -27,16 +30,25 @@ const { $i18n } = useNuxtApp()
 const isModalActive = useVModel(props, 'modelValue')
 
 const statusTransalationsKeys: Partial<Record<TransactionStatus, string>> = {
-  [TransactionStatus.Block]: 'transactionSteps.loading',
-  [TransactionStatus.Casting]: 'transactionSteps.loading',
-  [TransactionStatus.Sign]: 'transactionSteps.loading',
-  [TransactionStatus.Broadcast]: 'transactionSteps.loading',
   [TransactionStatus.Finalized]: 'transactionSteps.completed',
   [TransactionStatus.IPFS]: 'transactionSteps.uploading',
 }
 
+const isLoading = computed(() =>
+  [
+    TransactionStatus.Block,
+    TransactionStatus.Casting,
+    TransactionStatus.Sign,
+    TransactionStatus.Broadcast,
+  ].includes(props.status),
+)
+
 const subtitle = computed(() =>
-  $i18n.t(statusTransalationsKeys[props.status] || 'transactionSteps.waiting'),
+  isLoading.value
+    ? $i18n.t('transactionSteps.loading')
+    : $i18n.t(
+        statusTransalationsKeys[props.status] || 'transactionSteps.waiting',
+      ),
 )
 
 const onClose = () => {

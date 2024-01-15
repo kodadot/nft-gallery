@@ -13,17 +13,27 @@
   </slot>
 
   <div class="min-height">
-    <SkeletonLoader :title="title" :subtitle="subtitle" solid />
+    <SkeletonLoader
+      :title="title"
+      :subtitle="subtitle"
+      :with-dots="showSubtitleDots"
+      solid />
   </div>
 </template>
 
 <script setup lang="ts">
 import { NeoIcon } from '@kodadot1/brick'
 
-defineProps<{
-  title: string
-  subtitle: string
-}>()
+withDefaults(
+  defineProps<{
+    title: string
+    subtitle: string
+    showSubtitleDots?: boolean
+  }>(),
+  {
+    showSubtitleDots: false,
+  },
+)
 </script>
 
 <style lang="scss" scoped>

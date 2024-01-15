@@ -26,7 +26,7 @@
         </p>
         <p class="capitalize is-size-6 text-k-grey">
           {{ subtitle || $t('general.pleaseWait') }}
-          <span v-if="!subtitle" class="dots" />
+          <span v-if="showDots" class="dots" />
         </p>
       </div>
     </div>
@@ -36,16 +36,20 @@
 <script setup lang="ts">
 import { NeoIcon, NeoSkeleton } from '@kodadot1/brick'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     title?: string
     subtitle?: string
+    withDots?: boolean
     solid?: boolean
   }>(),
   {
+    withDots: false,
     solid: false,
   },
 )
+
+const showDots = computed(() => props.withDots || !props.subtitle)
 </script>
 
 <style scoped lang="scss">
