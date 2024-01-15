@@ -391,17 +391,6 @@ a.has-text-grey {
   }
 }
 
-.k-aqua-blue {
-  @include ktheme() {
-    background-color: theme('k-aqua-blue');
-  }
-}
-.k-greenaccent {
-  @include ktheme() {
-    background-color: theme('k-greenaccent');
-  }
-}
-
 .k-shade {
   @include ktheme() {
     background-color: theme('k-shade');
