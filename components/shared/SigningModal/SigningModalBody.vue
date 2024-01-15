@@ -18,8 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import ModalIdentityItem from '@/components/shared/ModalIdentityItem.vue'
-import SkeletonLoader from '@/components/shared/SkeletonLoader.vue'
 import { NeoIcon } from '@kodadot1/brick'
 
 defineProps<{
