@@ -619,10 +619,6 @@ watchEffect(async () => {
     }
   }
 })
-
-watchEffect(() => {
-  console.log('status', status.value)
-})
 </script>
 
 <style lang="scss" scoped src="@/assets/styles/pages/create.scss"></style>
