@@ -178,14 +178,6 @@ useIntersectionObserver(sentinel, handleIntersection, { threshold: 0.66 })
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.border-k-shade {
-  @include ktheme() {
-    border-color: theme('k-shade');
-  }
-}
-
 .limit-height {
   max-height: 30rem;
   overflow-y: auto;

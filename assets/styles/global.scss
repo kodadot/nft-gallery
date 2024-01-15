@@ -291,12 +291,6 @@ a.has-text-grey {
   padding-left: $fluid-container-padding;
 }
 
-.border-k-shade {
-  @include ktheme() {
-    border-color: theme('k-shade') !important;
-  }
-}
-
 .border-bottom-k-shade {
   @include ktheme() {
     border-bottom: 1px solid theme('k-shade');
