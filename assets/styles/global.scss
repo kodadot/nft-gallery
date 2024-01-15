@@ -391,11 +391,6 @@ a.has-text-grey {
   }
 }
 
-.k-green {
-  @include ktheme() {
-    background-color: theme('k-green');
-  }
-}
 .k-red {
   @include ktheme() {
     background-color: theme('k-red');
