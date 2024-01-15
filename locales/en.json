@@ -1496,6 +1496,7 @@
     "setAllTo": "Set All To"
   },
   "migrate": {
+    "cta": "Migrate Now",
     "source": "Source",
     "destination": "Destination",
     "heading": "Migrate Your Art",
