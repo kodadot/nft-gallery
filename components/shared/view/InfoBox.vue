@@ -50,7 +50,7 @@ $border_size: 1px;
 
   .header-container {
     @include ktheme() {
-      border-b: $border_size solid $borderColor;
+      border-bottom: $border_size solid $borderColor;
     }
   }
 }

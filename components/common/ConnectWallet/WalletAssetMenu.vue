@@ -129,7 +129,7 @@ const closeModal = () => {
 }
 
 .wallet-asset-footer {
-  border-t: 1px solid grey;
+  border-top: 1px solid grey;
   justify-content: space-between;
   @include mobile {
     justify-content: center;
