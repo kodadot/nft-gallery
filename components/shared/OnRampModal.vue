@@ -1,8 +1,7 @@
 <template>
   <NeoModal :value="isModalActive" scroll="clip" @close="onClose">
     <div class="modal-width">
-      <div
-        class="border-bottom border-grey flex items-center justify-between px-6">
+      <div class="border-b border-grey flex items-center justify-between px-6">
         <p class="py-5 is-size-6 has-text-weight-bold">
           {{ $t('general.chooseProvider') }}
         </p>

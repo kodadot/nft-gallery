@@ -123,10 +123,10 @@ const closeModal = () => {
   display: flex;
   justify-content: space-between;
   padding: 1rem 0;
-  border-bottom: 1px solid grey;
+  @apply border-b border-k-grey;
 
   &:last-child {
-    border-bottom: 0;
+    @apply border-b-0;
   }
 }
 

@@ -206,9 +206,7 @@ const displayedEvents = computed(() =>
       top: 0;
       z-index: 1;
       & > div:last-child {
-        @include ktheme() {
-          border-bottom: 1px solid theme('k-grey');
-        }
+        @apply border-b border-k-grey;
       }
 
       .filter-item {

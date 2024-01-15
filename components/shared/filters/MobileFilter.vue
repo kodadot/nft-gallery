@@ -11,7 +11,7 @@
     <div class="flex flex-col is-fullheight">
       <div class="flex-grow">
         <div
-          class="filters-header px-4 px-0 border-bottom flex items-center justify-between">
+          class="filters-header px-0 border-b flex items-center justify-between">
           <p class="has-text-weight-bold">
             {{ $t('general.filters') }}
           </p>

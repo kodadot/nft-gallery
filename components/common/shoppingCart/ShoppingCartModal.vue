@@ -8,7 +8,7 @@
         @close="closeShoppingCart(ModalCloseType.BACK)" />
       <div
         v-if="numberOfItems"
-        class="mx-6 py-4 border-bottom border-k-shade flex justify-between items-center">
+        class="mx-6 py-4 border-b border-k-shade flex justify-between items-center">
         <span> {{ numberOfItems }} {{ $t('items') }}</span>
 
         <NeoButton

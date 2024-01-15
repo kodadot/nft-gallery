@@ -41,7 +41,7 @@
           </div>
 
           <div
-            class="flex justify-between has-text-grey pb-4 mt-3 border-bottom-k-shade">
+            class="flex justify-between has-text-grey pb-4 mt-3 border-b-k-shade">
             <span>{{ $t('listingCart.listingFees') }}</span>
             <span class="ml-2">{{ teleportTransitionTxFees }}</span>
           </div>

@@ -210,7 +210,8 @@ const formatPrice = (price) => {
 @include touch {
   .gallery-item-activity-table {
     :deep(.o-table__td) {
-      border-bottom: inherit !important;
+      @apply border-inherit;
+
       &:before {
         font-weight: 400 !important;
       }

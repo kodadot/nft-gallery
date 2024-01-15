@@ -10,7 +10,7 @@
         </div>
       </div>
     </NeoModal>
-    <div class="container is-fluid py-7 border-bottom">
+    <div class="container is-fluid py-7 border-b">
       <div class="columns is-centered">
         <div class="column is-half has-text-centered">
           <div class="container image is-64x64 mb-2">
@@ -480,7 +480,7 @@ watch(collections, (value) => {
       &:nth-child(1),
       &:nth-child(2) {
         :deep(.explore-tabs-button) {
-          border-bottom: none;
+          @apply border-0;
         }
       }
       &:nth-child(2n + 1) {
