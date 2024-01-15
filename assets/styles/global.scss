@@ -391,12 +391,6 @@ a.has-text-grey {
   }
 }
 
-.k-blueaccent {
-  @include ktheme() {
-    background-color: theme('k-blueaccent');
-  }
-}
-
 .has-background-k-grey {
   @include ktheme() {
     background-color: theme('k-grey');
