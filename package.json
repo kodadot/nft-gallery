@@ -27,7 +27,7 @@
     "start": "nuxi preview",
     "start:node": "PORT=9090 node .output/server/index.mjs",
     "generate:script": "node ./script/posts.mjs && cross-env NODE_OPTIONS=--openssl-legacy-provider NITRO_PRESET=netlify nuxi generate",
-    "generate": "node ./script/posts.mjs && cross-env NODE_OPTIONS=--openssl-legacy-provider nuxi build",
+    "generate": "node ./script/posts.mjs && cross-env NODE_OPTIONS='--max-old-space-size=4096' NODE_OPTIONS=--openssl-legacy-provider nuxi build",
     "lint": "eslint --cache --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:quiet": "eslint --cache --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
     "lint:fix": "eslint --cache --fix --quiet --ignore-path .gitignore --ext .js,.ts,.vue .",
