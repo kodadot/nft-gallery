@@ -1,6 +1,11 @@
 <template>
   <div class="h-full skeleton-container">
+    <div
+      v-if="solid"
+      class="relative w-full h-full rounded-[1.25rem] bg-k-grey-light" />
+
     <NeoSkeleton
+      v-else
       class="skeleton-backdrop"
       rounded
       border-radius="20px"
@@ -35,8 +40,11 @@ withDefaults(
   defineProps<{
     title?: string
     subtitle?: string
+    solid?: boolean
   }>(),
-  {},
+  {
+    solid: false,
+  },
 )
 </script>
 

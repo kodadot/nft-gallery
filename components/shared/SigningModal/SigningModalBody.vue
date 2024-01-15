@@ -13,7 +13,7 @@
   </slot>
 
   <div class="min-height">
-    <SkeletonLoader :title="title" :subtitle="subtitle" />
+    <SkeletonLoader :title="title" :subtitle="subtitle" solid />
   </div>
 </template>
 
