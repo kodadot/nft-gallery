@@ -71,8 +71,8 @@ const isGif = computed(() => props.mimeType === 'image/gif')
 
 const className = computed(() =>
   !props.original && !props.isFullscreen
-    ? 'object-cover absolute inset-0 w-full h-full'
-    : 'block rounded-none',
+    ? 'object-cover absolute inset-0 w-full h-full !rounded-none'
+    : 'block !rounded-none',
 )
 
 const isBlob = computed(() => props.src.startsWith('blob:'))

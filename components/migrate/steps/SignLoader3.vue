@@ -9,13 +9,13 @@
         <NeoIcon v-else v-bind="iconIdle" class="fa-2x" />
       </div>
       <div>
-        <p class="has-text-weight-bold">Comprehensive Collection Scan</p>
-        <p class="text-xs has-text-grey">
+        <p class="font-bold text-xl">Comprehensive Collection Scan</p>
+        <p class="text-k-grey">
           Verifying your collection on the destination chain.
         </p>
       </div>
     </div>
-    <div class="flex text-xs mb-4">
+    <div class="flex mb-4">
       <div class="v-border"></div>
       <div>
         <p class="text-k-grey italic">no action needed</p>
@@ -27,23 +27,23 @@
         <NeoIcon v-bind="whichIcon()" class="fa-2x" />
       </div>
       <div>
-        <p class="has-text-weight-bold">
+        <p class="font-bold text-xl">
           {{ $t('migrate.signStep.finalization') }}
         </p>
-        <p class="text-xs has-text-grey">
+        <p class="text-k-grey">
           {{ $t('migrate.signStep.authorize') }}
         </p>
       </div>
     </div>
-    <div class="flex text-xs">
+    <div class="flex">
       <div class="v-border"></div>
       <div class="mb-4">1/1 {{ $t('migrate.signStep.left') }}</div>
     </div>
-    <div class="flex text-xs">
+    <div class="flex">
       <div class="v-border"></div>
       <div class="mb-4 flex">
         <NeoIcon v-bind="whichIcon()" class="mr-4" />
-        <div>
+        <div :class="whichIcon().textColor">
           <p>{{ $t('migrate.signStep.finalizingItems', [itemCount]) }}</p>
         </div>
       </div>

@@ -55,10 +55,7 @@
           {{ $t('profile.highestSales') }}
         </h6>
         <div class="flex sold-items">
-          <div
-            v-for="nftItem in soldItems"
-            :key="nftItem.id"
-            class="sold-item border">
+          <div v-for="nftItem in soldItems" :key="nftItem.id" class="sold-item">
             <GalleryCard
               :id="nftItem.id"
               hide-name

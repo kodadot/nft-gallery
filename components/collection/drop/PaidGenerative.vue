@@ -45,7 +45,7 @@ import useGenerativeDropMint, {
   type UnlockableCollectionById,
 } from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
-import formatBalance from '@/utils/format/balance'
+import { formatAmountWithRound } from '@/utils/format/balance'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 
@@ -195,7 +195,7 @@ const mintButtonLabel = computed(() => {
   return isWalletConnecting.value
     ? $i18n.t('shoppingCart.wallet')
     : $i18n.t('mint.unlockable.claimPaidNft', [
-        `${formatBalance(price.value || '', decimals.value, '')} ${
+        `${formatAmountWithRound(price.value || '', decimals.value)} ${
           chainSymbol.value
         }`,
       ])
