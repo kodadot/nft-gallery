@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="shopping-cart-modal-container theme-background-color border-left flex flex-col"
+      class="shopping-cart-modal-container bg-background-color border-left flex flex-col"
       data-testid="shopping-cart-modal-container">
       <NeoModalHead
         :title="$t('shoppingCart.title')"
@@ -19,7 +19,7 @@
           @click="clearAllItems" />
       </div>
       <div v-if="numberOfItems" class="scroll-y">
-        <div class="theme-background-color flex flex-grow flex-col py-2">
+        <div class="bg-background-color flex flex-grow flex-col py-2">
           <ShoppingCartItemRow
             v-for="item in sortedItems"
             :key="item.id"

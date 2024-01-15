@@ -76,7 +76,7 @@ defineProps<{
 const promptModal = async () => {
   const instance = neoModal.open({
     component: MigrateModal,
-    contentClass: 'k-shadow border theme-background-color',
+    contentClass: 'k-shadow border bg-background-color',
     trapFocus: true,
   })
   const result: boolean = await instance.promise

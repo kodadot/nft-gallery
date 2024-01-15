@@ -58,7 +58,7 @@
 
           <template #content>
             <div
-              class="theme-background-color text-xs border p-4 text-left w-[15rem]">
+              class="bg-background-color text-xs border p-4 text-left w-[15rem]">
               <p
                 v-dompurify-html="
                   $t('drops.paidDropWhyTooltip', [

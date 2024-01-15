@@ -2,7 +2,7 @@
   <transition name="slide">
     <div v-if="listingCartStore.count" class="listing-container">
       <div class="inline-flex items-center">
-        <div class="k-shadow theme-background-color border py-4 px-6">
+        <div class="k-shadow bg-background-color border py-4 px-6">
           <div class="inline-flex items-center">
             <div>
               <b>{{ listingCartStore.count }}</b>

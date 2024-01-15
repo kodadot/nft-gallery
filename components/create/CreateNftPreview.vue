@@ -2,7 +2,7 @@
   <div class="preview">
     <p class="has-text-weight-bold">{{ $t('mint.nft.preview.title') }}</p>
 
-    <div class="preview-card border theme-background-color">
+    <div class="preview-card border bg-background-color">
       <div
         class="preview-image flex items-center"
         :style="{ backgroundImage: `url(${image})` }">
