@@ -74,6 +74,10 @@ export default defineNuxtConfig({
         : undefined,
   },
 
+  build: {
+    transpile: ['tslib', 'graphql-ws', '@polkadot/x-global'],
+  },
+
   nitro: {
     publicAssets: [],
   },
@@ -84,7 +88,7 @@ export default defineNuxtConfig({
   },
 
   // Disable server-side rendering
-  ssr: false,
+  // ssr: false,
 
   // Global page headers: https://nuxt.com/docs/api/configuration/nuxt-config#head
   app: {
