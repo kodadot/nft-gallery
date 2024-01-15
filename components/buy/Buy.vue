@@ -3,7 +3,7 @@
     <SigningModal
       v-if="!usingAutoTeleport"
       v-model="isLoading"
-      :title="$t('buyModal.buyingNft')"
+      :title="$t('buyModal.buyingNft', itemCount)"
       :status="status" />
 
     <ConfirmPurchaseModal
@@ -45,6 +45,7 @@ const nftSubscription = reactive<{
 const hasSyncedPrices = ref(false)
 const usingAutoTeleport = ref(false)
 const buyAction = ref<Actions>(emptyObject<Actions>())
+const itemCount = ref(1)
 
 const autoteleportAction = computed<AutoTeleportAction>(() => ({
   action: buyAction.value,
@@ -95,6 +96,7 @@ const handleConfirm = async ({
   autoteleport,
 }: AutoTeleportActionButtonConfirmEvent) => {
   usingAutoTeleport.value = autoteleport
+  itemCount.value = isShoppingCartMode.value ? items.value.length : 1
 
   if (!isShoppingCartMode.value) {
     shoppingCartStore.removeItemToBuy()
