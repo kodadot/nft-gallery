@@ -1,14 +1,14 @@
 <template>
   <div v-if="post?.title" class="article">
-    <div class="flex items-center has-text-grey is-size-5 mb-1">
-      <nuxt-link class="has-text-grey" to="/blog">{{ $t('blog') }}</nuxt-link>
+    <div class="flex items-center text-k-grey is-size-5 mb-1">
+      <nuxt-link class="text-k-grey" to="/blog">{{ $t('blog') }}</nuxt-link>
       <NeoIcon icon="chevron-right" class="mx-5" />
       <span>{{ post?.title?.slice(0, 15) }}...</span>
     </div>
     <h1>{{ post?.title }}</h1>
     <p v-if="post?.subtitle" class="subtitle">{{ post?.subtitle }}</p>
 
-    <div class="flex justify-between items-center has-text-grey mt-5">
+    <div class="flex justify-between items-center text-k-grey mt-5">
       <div
         v-if="post?.date"
         class="border border-k-shade fixed-border-radius px-4 py-1">

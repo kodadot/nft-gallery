@@ -8,17 +8,17 @@
         <div class="limit-height">
           <div
             class="columns is-variable is-1 is-mobile m-0 px-4 py-1 border-b border-k-grey">
-            <div class="column has-text-grey is-1">#</div>
-            <div class="column has-text-grey">{{ $t('massmint.image') }}</div>
-            <div class="column has-text-grey">{{ $t('massmint.name') }}</div>
-            <div class="column is-3 has-text-grey">
+            <div class="column text-k-grey is-1">#</div>
+            <div class="column text-k-grey">{{ $t('massmint.image') }}</div>
+            <div class="column text-k-grey">{{ $t('massmint.name') }}</div>
+            <div class="column is-3 text-k-grey">
               {{ $t('massmint.description') }}
             </div>
-            <div class="column has-text-grey">{{ $t('massmint.price') }}</div>
-            <div class="column has-text-grey flex justify-center">
+            <div class="column text-k-grey">{{ $t('massmint.price') }}</div>
+            <div class="column text-k-grey flex justify-center">
               <span class="pl-2">{{ $t('massmint.status') }}</span>
             </div>
-            <div class="column has-text-grey flex justify-center">
+            <div class="column text-k-grey flex justify-center">
               {{ $t('massmint.operation') }}
             </div>
           </div>

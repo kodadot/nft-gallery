@@ -27,7 +27,7 @@
       <span
         v-for="option in filteredChains"
         :key="option.value"
-        class="menu-item mr-4 capitalize no-wrap"
+        class="menu-item mr-4 capitalize whitespace-nowrap"
         :value="option.value"
         @click="setSelectedChain(option.value)">
         {{ option.text }}

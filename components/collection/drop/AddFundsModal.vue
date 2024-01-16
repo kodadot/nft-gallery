@@ -24,7 +24,7 @@
         <p class="mb-4">{{ $t('mint.unlockable.addFundsModal.textP2') }}</p>
         <NeoTooltip multiline multiline-width="256px" content-class="p-4">
           <div
-            class="flex justify-between items-center has-text-grey add-funds-note">
+            class="flex justify-between items-center text-k-grey add-funds-note">
             <NeoIcon icon="circle-info" class="mr-3" />
             <p class="text-xs">
               {{ $t('mint.unlockable.addFundsModal.howToAddFunds') }}
@@ -50,7 +50,7 @@
                 $t('mint.unlockable.addFundsModal.tooltip.transfer', [token])
               "
               class="tooltip__text mb-6" />
-            <p class="tooltip__note has-text-grey">
+            <p class="tooltip__note text-k-grey">
               {{ $t('mint.unlockable.addFundsModal.tooltip.note') }}
             </p>
           </template>

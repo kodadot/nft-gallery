@@ -17,7 +17,7 @@
       </NeoButton>
     </div>
     <div v-else class="identity-container">
-      <div class="has-text-grey is-size-6">
+      <div class="text-k-grey is-size-6">
         {{ label }}
       </div>
       <component

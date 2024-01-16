@@ -10,7 +10,7 @@
       </div>
       <div class="flex flex-col">
         {{ name }}
-        <span class="text-xs has-text-grey">{{
+        <span class="text-xs text-k-grey">{{
           timeAgo(new Date(updatedAt).getTime())
         }}</span>
       </div>

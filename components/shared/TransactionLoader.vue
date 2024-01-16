@@ -23,7 +23,7 @@
         <div class="flex">
           <slot name="action-title">
             <span>{{ `${$t('teleport.send')} ${totalUsdValue}$` }}</span>
-            <span class="has-text-grey ml-1 is-uppercase">{{
+            <span class="text-k-grey ml-1 is-uppercase">{{
               `(${totalTokenAmount} ${urlPrefix})`
             }}</span>
           </slot>
@@ -57,7 +57,7 @@
             </div>
           </NeoStepItem>
         </NeoSteps>
-        <div v-if="activeStep === 2" class="text-align-center has-text-grey">
+        <div v-if="activeStep === 2" class="text-align-center text-k-grey">
           {{ `Est. waiting time ~ ${estimatedTimeLeft} seconds` }}
         </div>
         <div v-if="isFinalStep" class="flex justify-center mb-4">

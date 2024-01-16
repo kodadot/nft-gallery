@@ -2,7 +2,7 @@
   <div class="preview">
     <p class="has-text-weight-bold">{{ $t('mint.nft.preview.title') }}</p>
 
-    <div class="preview-card border theme-background-color">
+    <div class="preview-card border bg-background-color">
       <div
         class="preview-image flex items-center"
         :style="{ backgroundImage: `url(${image})` }">
@@ -16,7 +16,7 @@
           data-testid="nft-preview-name">
           {{ name || 'Untitled' }}
         </p>
-        <p class="text-xs is-ellipsis has-text-grey">
+        <p class="text-xs is-ellipsis text-k-grey">
           {{ collection || $t('mint.nft.preview.noCollection') }}
         </p>
 
@@ -24,7 +24,7 @@
           <p class="" data-testid="nft-preview-price">
             {{ price || '$$$' }} {{ symbol }}
           </p>
-          <p class="capitalize text-xs has-text-grey">
+          <p class="capitalize text-xs text-k-grey">
             {{ chain ? getChainNameByPrefix(chain) : '--' }}
           </p>
         </div>

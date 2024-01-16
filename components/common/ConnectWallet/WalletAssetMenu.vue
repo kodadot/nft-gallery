@@ -9,10 +9,10 @@
         v-safe-href="menu.to"
         class="wallet-asset-menu">
         <span>{{ menu.label }}</span>
-        <NeoIcon icon="angle-right" size="medium" class="has-text-grey" />
+        <NeoIcon icon="angle-right" size="medium" class="text-k-grey" />
       </a>
     </div>
-    <div class="wallet-asset-footer flex py-5 text-xs has-text-grey">
+    <div class="wallet-asset-footer flex py-5 text-xs text-k-grey">
       <!-- light/dark mode -->
       <div class="items-center" @click="toggleColorMode">
         <NeoIcon icon="circle-half-stroke" size="medium" />
@@ -51,7 +51,7 @@
       <!-- settings -->
       <nuxt-link
         to="/settings"
-        class="has-text-grey items-center"
+        class="text-k-grey items-center"
         data-testid="sidebar-link-settings"
         @click="closeModal">
         <NeoIcon icon="gear" size="medium" />

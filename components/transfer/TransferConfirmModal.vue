@@ -71,7 +71,7 @@
             :key="address.address"
             class="py-4 border-t-k-shade text-xs">
             <div class="flex justify-between items-center mb-2">
-              <span class="has-text-grey"
+              <span class="text-k-grey"
                 >{{ $t('transfers.recipient') }} {{ index + 1 }}</span
               >
               <div class="flex items-center">
@@ -88,10 +88,10 @@
               </div>
             </div>
             <div class="flex justify-between items-center">
-              <span class="has-text-grey">{{ $t('amount') }}</span>
+              <span class="text-k-grey">{{ $t('amount') }}</span>
 
               <div class="flex items-center">
-                <span class="has-text-grey"
+                <span class="text-k-grey"
                   >({{ address.token }} {{ unit }})</span
                 >
                 <span class="ml-1 is-size-6">${{ address.usd }}</span>
@@ -108,7 +108,7 @@
           $t('transfers.totalAmount')
         }}</span>
         <div class="flex items-center">
-          <span class="has-text-grey mr-1 text-xs"
+          <span class="text-k-grey mr-1 text-xs"
             >({{ displayTotalValue[0] }})</span
           >
           <span class="has-text-weight-bold is-size-5">

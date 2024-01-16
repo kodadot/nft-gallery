@@ -151,18 +151,10 @@ body {
   max-height: 24px;
 }
 
-.w-100 {
-  width: 100% !important;
-}
-
 .short-identity__table {
   max-width: 50em;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.no-wrap {
-  white-space: nowrap;
 }
 
 .collapseHidden {
@@ -176,10 +168,6 @@ body {
     border: 1px solid theme('border-color');
   }
   border-radius: 50%;
-}
-
-.object-fit-cover {
-  object-fit: cover;
 }
 
 .box {
@@ -209,43 +197,10 @@ body {
   }
 }
 
-.h-full {
-  height: 100% !important;
-}
-
-.w-full {
-  width: 100%;
-}
 hr {
   height: 1px;
   @include ktheme() {
     background: theme('k-shade');
-  }
-}
-
-.has-text-grey {
-  @include ktheme() {
-    color: theme('k-grey') !important;
-  }
-}
-
-.has-text-grey-fix {
-  @include ktheme() {
-    color: theme('k-grey-fix') !important;
-  }
-}
-
-.has-text-inverse {
-  @include ktheme() {
-    color: theme('text-color-inverse');
-  }
-}
-
-a.has-text-grey {
-  @include ktheme() {
-    &:hover {
-      color: theme('text-color') !important;
-    }
   }
 }
 
@@ -330,77 +285,6 @@ a.has-text-grey {
 .has-text-color {
   @include ktheme() {
     color: theme('text-color') !important;
-  }
-}
-
-.has-background-inverse {
-  @include ktheme() {
-    background: theme('text-color');
-  }
-}
-
-.k-pink {
-  @include ktheme() {
-    background-color: theme('k-pink');
-  }
-}
-
-.k-aqua-blue {
-  @include ktheme() {
-    background-color: theme('k-aqua-blue');
-  }
-}
-.k-greenaccent {
-  @include ktheme() {
-    background-color: theme('k-greenaccent');
-  }
-}
-
-.k-shade {
-  @include ktheme() {
-    background-color: theme('k-shade');
-  }
-}
-
-.k-yellow {
-  @include ktheme() {
-    background-color: theme('k-yellow');
-  }
-}
-
-.k-green {
-  @include ktheme() {
-    background-color: theme('k-green');
-  }
-}
-.k-red {
-  @include ktheme() {
-    background-color: theme('k-red');
-  }
-}
-.k-redaccent {
-  @include ktheme() {
-    background-color: theme('k-redaccent');
-  }
-}
-.k-grey-light {
-  background-color: var(--k-grey-light) !important;
-}
-.theme-background-color {
-  @include ktheme() {
-    background-color: theme('background-color');
-  }
-}
-
-.k-blueaccent {
-  @include ktheme() {
-    background-color: theme('k-blueaccent');
-  }
-}
-
-.has-background-k-grey {
-  @include ktheme() {
-    background-color: theme('k-grey');
   }
 }
 

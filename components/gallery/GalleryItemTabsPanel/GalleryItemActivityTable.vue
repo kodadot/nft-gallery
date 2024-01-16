@@ -24,7 +24,7 @@
         :label="`${$t(`tabs.tabActivity.price`)} (${chainSymbol})`">
         <p v-if="Number(props.row.meta)">
           {{ formatPrice(props.row.meta)[0] }}
-          <span class="has-text-grey">
+          <span class="text-k-grey">
             ${{ formatPrice(props.row.meta)[1] }}</span
           >
         </p>
@@ -85,7 +85,9 @@
         field="timestamp"
         :label="$t('tabs.tabActivity.date')">
         <NeoTooltip :label="parseDate(props.row.timestamp)" position="left">
-          <span class="no-wrap">{{ formatToNow(props.row.timestamp) }}</span>
+          <span class="whitespace-nowrap">{{
+            formatToNow(props.row.timestamp)
+          }}</span>
         </NeoTooltip>
       </NeoTableColumn>
     </NeoTable>
