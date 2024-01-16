@@ -40,7 +40,7 @@
           $t('identity.deposit')
         }}</span>
         <div class="flex items-center">
-          <span class="has-text-grey mr-1 text-xs">({{ depositUsd }})</span>
+          <span class="text-k-grey mr-1 text-xs">({{ depositUsd }})</span>
           <span class="has-text-weight-bold is-size-5"> {{ deposit }}</span>
         </div>
       </div>

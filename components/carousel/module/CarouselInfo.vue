@@ -38,7 +38,7 @@
           inline
           :prefix="item.chain"
           :unit-symbol="unitSymbol" />
-        <span v-if="showSold" class="ml-2 has-text-grey text-xs"
+        <span v-if="showSold" class="ml-2 text-k-grey text-xs"
           >- {{ $t('spotlight.sold') }}</span
         >
       </div>

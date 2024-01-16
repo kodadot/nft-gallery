@@ -1,7 +1,7 @@
 <template>
   <div class="flex gallery-action-section">
     <div class="gallery-action-section-info">
-      <div class="has-text-grey gallery-action-section-info-title">
+      <div class="text-k-grey gallery-action-section-info-title">
         {{ title }}
       </div>
       <div
@@ -17,7 +17,7 @@
 
         <div
           v-if="Number(price)"
-          class="has-text-grey flex items-center gallery-action-section-price-sub">
+          class="text-k-grey flex items-center gallery-action-section-price-sub">
           {{ priceUsd }} USD
         </div>
       </div>

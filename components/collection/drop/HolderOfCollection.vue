@@ -7,7 +7,7 @@
         'mr-3',
         {
           'has-text-success': isHolder,
-          'has-text-grey': !isHolder,
+          'text-k-grey': !isHolder,
         },
       ]" />
     <NuxtImg
@@ -17,7 +17,7 @@
       alt="avatar"
       class="object-fit-cove mr-3 border" />
     <div>
-      <div class="text-xs has-text-grey">Exclusive to NFT owners of</div>
+      <div class="text-xs text-k-grey">Exclusive to NFT owners of</div>
       <div class="is-size-6">
         <nuxt-link :to="`/${urlPrefix}/collection/${collectionId}`">
           {{ collection?.name }}

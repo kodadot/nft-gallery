@@ -22,7 +22,7 @@
       </div>
 
       <a
-        class="flex items-center pt-4 pb-3 text-xs has-text-grey more-option-button mx-6 my-0"
+        class="flex items-center pt-4 pb-3 text-xs text-k-grey more-option-button mx-6 my-0"
         @click="toggleShowUninstalledWallet">
         {{ $i18n.t('walletConnect.moreOption') }}
         <NeoIcon

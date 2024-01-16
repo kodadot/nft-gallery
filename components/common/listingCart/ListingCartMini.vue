@@ -11,7 +11,7 @@
             <div class="mx-4" />
             <NeoButton
               :disabled="!listingCartStore.count"
-              class="has-text-grey selection-button"
+              class="text-k-grey selection-button"
               variant="text"
               no-shadow
               @click="listingCartStore.clearListedItems">
@@ -20,7 +20,7 @@
             <div class="mx-4 divider has-background-k-grey" />
             <NeoButton
               variant="text"
-              class="has-text-grey selection-button"
+              class="text-k-grey selection-button"
               no-shadow
               @click="listingCartStore.addAllToCart">
               {{ $t('listingCart.selectAll') }}

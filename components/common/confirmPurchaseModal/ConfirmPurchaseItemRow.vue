@@ -9,16 +9,16 @@
 
       <div class="flex flex-col justify-between ml-4 limit-width">
         <div
-          class="has-text-weight-bold has-text-color line-height-1 no-wrap is-clipped ellipsis">
+          class="has-text-weight-bold has-text-color line-height-1 whitespace-nowrap is-clipped ellipsis">
           {{ name }}
         </div>
-        <div class="line-height-1 no-wrap is-clipped ellipsis">
+        <div class="line-height-1 whitespace-nowrap is-clipped ellipsis">
           {{ collectionName }}
         </div>
       </div>
     </div>
 
-    <div class="flex items-end no-wrap line-height-1">
+    <div class="flex items-end whitespace-nowrap line-height-1">
       <CommonTokenMoney :value="price" />
     </div>
   </div>

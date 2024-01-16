@@ -39,7 +39,7 @@
         <div class="w-full flex justify-between items-center">
           <NeoCheckbox
             v-model="vHideOutliers"
-            class="m-0 no-wrap"
+            class="m-0 whitespace-nowrap"
             root-class="flex-auto px-4 py-3">
             {{ $t('activity.hideOutliers') }}
           </NeoCheckbox>
@@ -49,7 +49,7 @@
         <div class="w-full flex justify-between items-center">
           <NeoCheckbox
             v-model="vApplySmoothing"
-            class="m-0 no-wrap"
+            class="m-0 whitespace-nowrap"
             root-class="flex-auto px-4 py-3">
             {{ $t('activity.applySmoothing') }}
           </NeoCheckbox>

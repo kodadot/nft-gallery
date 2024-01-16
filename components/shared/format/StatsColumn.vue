@@ -2,7 +2,7 @@
   <div class="level-item has-text-centered">
     <div>
       <p class="title">{{ value }}</p>
-      <p class="text-xs has-text-grey">
+      <p class="text-xs text-k-grey">
         {{ $t(header) }}
       </p>
     </div>
