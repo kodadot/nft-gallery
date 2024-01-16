@@ -2,7 +2,7 @@
   <div>
     <Loader :model-value="isLoading" />
     <NeoField grouped>
-      <NeoField class="has-text-right" expanded>
+      <NeoField class="text-right" expanded>
         <NeoSelect v-model="nbRows">
           <option value="10">10</option>
           <option value="20">20</option>
