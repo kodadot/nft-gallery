@@ -13,8 +13,6 @@
           <CollectionDropMintSection
             v-if="!isMobile"
             :user-minted-nft-id="userMintedNftId"
-            :user-minted-count="userMintedCount"
-            :user-max-available-to-mint="userMaxAvailableToMint"
             :collection-id="collectionId"
             :is-wallet-connecting="isWalletConnecting"
             :is-image-fetching="isImageFetching"
@@ -41,8 +39,6 @@
           class="column"
           :collection-id="collectionId"
           :user-minted-nft-id="userMintedNftId"
-          :user-minted-count="userMintedCount"
-          :user-max-available-to-mint="userMaxAvailableToMint"
           :is-wallet-connecting="isWalletConnecting"
           :is-image-fetching="isImageFetching"
           :is-loading="isLoading"
@@ -82,10 +78,15 @@ withDefaults(
     isImageFetching: boolean
     isWalletConnecting: boolean
     isLoading: boolean
-    holderOfCollection?: { id?: string; isHolderOfTargetCollection?: boolean }
+    holderOfCollection?: {
+      id?: string
+      isHolder?: boolean
+      amount?: {
+        total: number
+        used: number
+      }
+    }
     userMintedNftId?: string
-    userMintedCount: number
-    userMaxAvailableToMint: number
 
     handleSelectImage: (image: string) => void
     handleSubmitMint: () => void

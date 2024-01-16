@@ -41,17 +41,12 @@
           :to="`/${urlPrefix}/gallery/${userMintedNftId}`" />
       </div>
 
-      <HolderOfGenerativeMintRequirements
+      <HolderOfCollectionMintRequirements
         v-else-if="showHolderOfCollection"
         class="my-5"
-        :holder-of-collection="{
-          isHolder: holderOfCollection.isHolderOfTargetCollection,
-          collectionId: holderOfCollection.id,
-        }"
+        :holder-of-collection="holderOfCollection"
         :minimum-funds="minimumFunds"
-        :is-minted-out="isMintedOut"
-        :user-max-available-to-mint="userMaxAvailableToMint"
-        :user-minted-count="userMintedCount">
+        :is-minted-out="isMintedOut">
         <NeoButton
           ref="root"
           class="ml-5 my-2 mint-button"
@@ -61,7 +56,7 @@
           :loading-with-label="isWalletConnecting"
           :label="mintButtonLabel"
           @click="handleMint" />
-      </HolderOfGenerativeMintRequirements>
+      </HolderOfCollectionMintRequirements>
 
       <div v-else class="flex justify-end flex-wrap">
         <div v-if="minimumFunds.amount" class="flex items-center">
@@ -88,7 +83,7 @@
 <script setup lang="ts">
 import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import HolderOfGenerativeMintRequirements from './HolderOfGenerativeMintRequirements.vue'
+import HolderOfCollectionMintRequirements from './HolderOfCollectionMintRequirements.vue'
 
 const NuxtLink = resolveComponent('NuxtLink')
 
@@ -104,15 +99,20 @@ const props = withDefaults(
     isLoading: boolean
     mintButton: { label: string; disabled: boolean }
     userMintedNftId?: string
-    userMaxAvailableToMint: number
-    userMintedCount: number
-    holderOfCollection?: { id?: string; isHolderOfTargetCollection?: boolean }
+    holderOfCollection?: {
+      id?: string
+      isHolder?: boolean
+      amount?: {
+        total: number
+        used: number
+      }
+    }
     collectionId: string
     availableToMint?: number
   }>(),
   {
     userMintedNftId: undefined,
-    holderOfCollection: () => ({ id: '', isHolderOfTargetCollection: false }),
+    holderOfCollection: () => ({ id: '', isHolder: false }),
   },
 )
 
