@@ -15,10 +15,10 @@
           :loading="loading"
           @fileSelected="onFileSelected">
           <template #title>
-            <span class="mb-4 has-text-left">{{
+            <span class="mb-4 text-left">{{
               $t('massmint.uploadDescriptionTip')
             }}</span>
-            <span class="has-text-left"
+            <span class="text-left"
               ><b>{{ $t('massmint.supportedFormats') }}</b>
               {{ acceptedMediaFormatsString }}</span
             >

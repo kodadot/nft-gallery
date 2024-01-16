@@ -14,7 +14,7 @@
         label="Collections"
         value="Collections"
         data-testid="collection-tab"
-        item-header-class="has-text-left is-block mb-0 pb-4 px-0 pt-0">
+        item-header-class="text-left is-block mb-0 pb-4 px-0 pt-0">
         <div v-if="isCollectionResultLoading">
           <SearchResultItem
             v-for="item in searchSuggestionEachTypeMaxNum"
@@ -97,7 +97,7 @@
       <NeoTabItem
         label="NFTs"
         value="NFTs"
-        item-header-class="has-text-left is-block mb-0 pb-4 px-0 pt-0"
+        item-header-class="text-left is-block mb-0 pb-4 px-0 pt-0"
         data-testid="nft-tab">
         <div v-if="isNFTResultLoading">
           <SearchResultItem
@@ -157,7 +157,7 @@
       <NeoTabItem
         disabled
         value="User"
-        item-header-class="has-text-left is-block mb-0 pb-4 px-0 pt-0">
+        item-header-class="text-left is-block mb-0 pb-4 px-0 pt-0">
         <template #header>
           {{ $t('user') }}
           <span class="small-soon-text">
@@ -201,7 +201,7 @@
       <NeoTabItem
         label="Trending"
         value="Trending"
-        item-header-class="has-text-left is-block mb-0 pb-4 px-0 pt-0">
+        item-header-class="text-left is-block mb-0 pb-4 px-0 pt-0">
         <div
           v-for="(item, idx) in defaultCollectionSuggestions"
           :key="item.id"
