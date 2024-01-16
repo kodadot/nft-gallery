@@ -155,7 +155,7 @@
   -webkit-transition: 0.3s ease;
   width: 100vw;
   background: $white;
-  @apply z-[999];
+  @apply z-[999] #{!important};
 
   @include mobile {
     min-height: $navbar-mobile-min-height;
