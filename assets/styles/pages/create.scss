@@ -60,17 +60,10 @@
 }
 
 .hidden-sale-label {
-  position: absolute;
-  left: 0;
-  top: 0px;
-  -webkit-text-stroke: 0;
-  pointer-events: none;
-  color: transparent;
+  @apply absolute pointer-events-none text-transparent bg-clip-text font-bold text-lg left-0 top-0;
   background: linear-gradient(to right, white, white, white);
+  -webkit-text-stroke: 0;
   -webkit-background-clip: text;
-  background-clip: text;
-  font-weight: 700;
-  font-size: 18px;
 }
 
 .sale.sale-on {
