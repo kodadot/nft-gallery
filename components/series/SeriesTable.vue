@@ -247,7 +247,7 @@
 
       <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered has-text-centered"
+        cell-class="is-vcentered text-center"
         field="chart"
         :label="$t('series.chart')">
         <nuxt-link
@@ -261,7 +261,7 @@
 
       <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered has-text-centered"
+        cell-class="is-vcentered text-center"
         field="history"
         :label="$t('series.history')">
         <nuxt-link
@@ -274,7 +274,7 @@
       </NeoTableColumn>
       <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered has-text-centered history"
+        cell-class="is-vcentered text-center history"
         field="buyHistory"
         :label="$t('series.buyHistory')">
         <NeoSkeleton v-if="isLoading" :active="isLoading" />
@@ -285,7 +285,7 @@
           :values="props.row.buyHistory.yAxisList" />
       </NeoTableColumn>
       <template #empty>
-        <div v-if="!isLoading" class="w-full has-text-centered">
+        <div v-if="!isLoading" class="w-full text-center">
           {{ $t('spotlight.empty') }}
         </div>
         <NeoSkeleton :active="isLoading" />

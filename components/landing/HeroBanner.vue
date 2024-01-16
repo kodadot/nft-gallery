@@ -36,11 +36,11 @@
       </h1>
       <template v-else>
         <h1
-          class="title is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered flex is-flex-direction-column flex-wrap justify-center items-center mb-0">
+          class="title is-size-1 is-size-2-mobile has-text-weight-bold text-center flex is-flex-direction-column flex-wrap justify-center items-center mb-0">
           <div>
             {{ $t('search.landingTitle1') }}
             <span
-              class="subtitle is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered capitalize ml-4">
+              class="subtitle is-size-1 is-size-2-mobile has-text-weight-bold text-center capitalize ml-4">
               {{ $t('search.landingTitle2') }}
             </span>
           </div>

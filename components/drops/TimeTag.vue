@@ -1,6 +1,6 @@
 <template>
   <div class="tag-container flex border py-1 px-2 justify-between items-center">
-    <div v-if="!ended" class="image is-24x24 has-text-centered">
+    <div v-if="!ended" class="image is-24x24 text-center">
       <img v-if="isMintingLive" src="/drop/unlockable-pulse.svg" />
       <NeoIcon v-else icon="calendar-day" variant="k-grey" />
     </div>
