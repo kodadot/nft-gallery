@@ -65,11 +65,7 @@ const [wrapper, slider] = useKeenSlider({
   }
 
   &-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    z-index: 1;
+    @apply absolute -translate-y-2/4 cursor-pointer z-[1] top-2/4;
 
     &-left {
       left: 1.25rem;

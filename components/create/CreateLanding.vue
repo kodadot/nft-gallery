@@ -141,9 +141,7 @@ const gotoPathAfterLogin = (path: RawLocation) => {
   gap: 1.5rem;
 
   &-box {
-    cursor: pointer;
-    font-size: unset;
-    padding: 4rem 2rem;
+    @apply cursor-pointer text-[unset] px-8 py-16;
 
     @include ktheme() {
       background-color: theme('background-color');

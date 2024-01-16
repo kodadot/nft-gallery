@@ -15,7 +15,7 @@
   }
 
   &:not(.loading) {
-    cursor: pointer;
+    @apply cursor-pointer;
   }
 
   a:hover {

@@ -20,7 +20,7 @@
         .navbar-item {
           display: flex;
           align-items: center;
-          
+
           height: $navbar-mobile-min-height;
           padding: 0 1.25rem;
 
@@ -51,7 +51,7 @@
             height: calc(100% - 118px);
             position: relative;
             align-items: flex-start !important;
-            padding: 1.5rem 1.25rem !important;              
+            padding: 1.5rem 1.25rem !important;
 
             &--no-padding {
               padding: 0 !important;
@@ -191,10 +191,8 @@
   }
 
   .navbar-item {
-    text-transform: capitalize;
-    font-weight: 400;
-    cursor: pointer;
     border-radius: 0 !important;
+    @apply capitalize font-normal cursor-pointer;
 
     @include ktheme() {
       color: theme('text-color');
@@ -277,7 +275,7 @@
   }
   .navbar-explore {
     .menu-item {
-      cursor: pointer;
+      @apply cursor-pointer;
       @include ktheme() {
         color: theme('text-color');
       }
@@ -299,7 +297,7 @@
         }
       }
       &.is-disabled {
-        cursor: not-allowed;
+        @apply cursor-not-allowed;
         @include ktheme() {
           color: theme('k-shade');
         }
@@ -345,9 +343,7 @@
   }
 
   .cancel-btn {
-    cursor: pointer;
-    border: none;
-    text-transform: capitalize;
+    @apply cursor-pointer capitalize border-[none];
   }
 
   .language-heading {

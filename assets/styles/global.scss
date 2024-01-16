@@ -340,10 +340,6 @@ hr {
   }
 }
 
-.is-cursor-pointer {
-  cursor: pointer !important;
-}
-
 .has-text-k-primary {
   @include ktheme() {
     color: theme('k-primary') !important;
@@ -451,10 +447,6 @@ hr {
 
 .has-text-inherit {
   color: inherit !important;
-}
-
-.cursor-default {
-  cursor: default;
 }
 
 .min-width-0 {

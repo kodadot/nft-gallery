@@ -73,13 +73,7 @@
   width: 100%;
 
   .search-bar-collection-search {
-    z-index: 2;
-    position: absolute;
-    left: 2.5rem;
-    top: 0.5rem;
-    height: 1.5rem;
-    gap: 0.35rem;
-    cursor: default;
+    @apply z-[2] absolute h-6 gap-[0.35rem] cursor-default left-10 top-2;
     span {
       height: 1.25rem;
       padding: 0 1rem;
@@ -184,8 +178,8 @@
   }
 
   .link-item {
+    @apply cursor-pointer;
     border: 1px solid transparent;
-    cursor: pointer;
     padding: 10px $desktop-padding-x;
     font-size: 16px;
     &:hover {
@@ -255,7 +249,7 @@
   }
 
   .search-history {
-    cursor: pointer;
+    @apply cursor-pointer;
 
     @include ktheme() {
       color: theme('k-grey');

@@ -83,7 +83,7 @@ defineProps<{
     }
 
     &:hover {
-      cursor: not-allowed;
+      @apply cursor-not-allowed;
     }
   }
 

@@ -98,8 +98,7 @@ const onClose = () => {
     }
 
     &:first-child {
-      margin-right: 0.3rem;
-      cursor: default;
+      @apply cursor-default mr-[0.3rem];
     }
     &.is-delete {
       &:hover,

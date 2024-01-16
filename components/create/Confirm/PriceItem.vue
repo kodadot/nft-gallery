@@ -3,7 +3,7 @@
     <div class="border-top pt-4 card-border-color text-xs">
       <template v-if="hasMultipleFees">
         <div
-          class="text-k-grey mb-4 flex items-center is-cursor-pointer"
+          class="text-k-grey mb-4 flex items-center cursor-pointer"
           @click="toggle">
           <div class="mr-1">Fee Breakdown</div>
           <NeoIcon
@@ -25,7 +25,7 @@
           {{ depositText }}
           <NeoTooltip
             position="top"
-            class="is-cursor-pointer"
+            class="cursor-pointer"
             multiline-width="14rem"
             multiline
             :label="depositTooltip">
@@ -40,7 +40,7 @@
         <div>
           {{ $t('mint.nft.modal.kodadotFee') }}
           <NeoTooltip
-            class="is-cursor-pointer"
+            class="cursor-pointer"
             position="top"
             multiline-width="14rem"
             :label="$t('mint.nft.modal.kodadotTooltip')"

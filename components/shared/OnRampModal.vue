@@ -166,7 +166,7 @@ const onSuccess = () => {
   }
 
   &__disabled {
-    cursor: default !important;
+    @apply cursor-default #{!important};
     .provider-logo {
       opacity: 30%;
     }

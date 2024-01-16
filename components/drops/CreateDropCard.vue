@@ -18,20 +18,17 @@
     </div>
   </a>
 </template>
+
 <script setup lang="ts">
 import CreateDropGallery from './CreateDropGallery.vue'
 import { NeoButton } from '@kodadot1/brick'
 </script>
+
 <style scoped lang="scss">
 @import '@/assets/styles/abstracts/variables';
 .drop-card {
-  width: 350px;
-  height: 141px;
-  display: flex;
-  align-items: center;
-  column-gap: 2.5rem;
   border: 1px solid #cecbcb;
-  cursor: pointer;
+  @apply w-[350px] h-[141px] flex items-center gap-x-10 cursor-pointer;
 
   a:hover {
     color: unset;
