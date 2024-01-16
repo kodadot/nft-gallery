@@ -11,7 +11,7 @@
       <div class="has-text-centered flex justify-center p-5">
         <div v-if="!selectedFile" class="flex flex-col limit-width">
           <slot name="title">
-            <span class="mb-4 has-text-left">{{ title }}</span>
+            <span class="mb-4 text-left">{{ title }}</span>
           </slot>
           <NeoIcon
             :icon="icon"
