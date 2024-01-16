@@ -59,12 +59,8 @@ export const getChartDataByTimeRange = (data: ChartData, timeRange: number) => {
     return data
   } else {
     const now = new Date()
-    const startDate = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate() - timeRange,
-    )
-    return data.filter((item) => item[0] >= startDate)
+    now.setDate(now.getDate() - timeRange)
+    return data.filter((item) => item[0] >= now)
   }
 }
 
