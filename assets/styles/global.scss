@@ -387,13 +387,12 @@ hr {
 }
 
 // Transak
-
 .transak_modal-overlay {
-  @apply z-[999] max-h-[600px];
+  @apply z-[999] max-h-[600px] #{!important};
 }
 
 .transak_modal {
-  @apply z-[1000] max-h-[600px];
+  @apply z-[1000] max-h-[600px] #{!important};
 }
 
 #transakOnOffRampWidget {
