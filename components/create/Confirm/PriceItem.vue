@@ -54,7 +54,7 @@
         </div>
       </div>
       <div v-if="carbonlessFee" class="flex mb-2 items-center justify-between">
-        <div class="flex k-green items-center">
+        <div class="flex text-k-green items-center">
           {{ $t('mint.nft.modal.carbonless') }}
           <svg
             class="ml-2"
@@ -152,14 +152,6 @@ const toggle = () => {
 }
 </script>
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-.k-green {
-  @include ktheme {
-    color: theme('k-green');
-    background: none;
-  }
-}
-
 .transition {
   transition: transform 0.3s;
 }

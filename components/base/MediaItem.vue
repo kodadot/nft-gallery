@@ -32,7 +32,7 @@
     </div>
     <div
       v-if="isInteractive"
-      class="k-shade border-k-grey flex items-center justify-center border is-rounded absolute-position image is-24x24">
+      class="bg-k-shade border-k-grey flex items-center justify-center border is-rounded absolute-position image is-24x24">
       <NeoIcon icon="code" pack="far" class="text-xs has-text-weight-medium" />
     </div>
     <NeoButton

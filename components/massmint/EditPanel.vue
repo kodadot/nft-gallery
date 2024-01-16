@@ -9,7 +9,7 @@
     :can-cancel="true"
     :on-cancel="closePanel">
     <div
-      class="border-left theme-background-color navbar-margin p-5 flex flex-col items-center justify-between h-full">
+      class="border-left bg-background-color navbar-margin p-5 flex flex-col items-center justify-between h-full">
       <div class="flex w-full flex-col justify-between items-center">
         <div class="flex w-full">
           <div class="flex justify-center flex-grow">

@@ -1,5 +1,5 @@
 <template>
-  <div ref="wrapper" class="p-4 keen-slider has-background-inverse">
+  <div ref="wrapper" class="p-4 keen-slider bg-text-color">
     <div
       v-for="(_, index) in slidesArray"
       :key="index"

@@ -1,13 +1,13 @@
 <template>
   <div
     v-if="isOpen"
-    class="notification-modal-container theme-background-color border-left flex flex-col"
+    class="notification-modal-container bg-background-color border-left flex flex-col"
     data-testid="notification-modal-container">
     <NeoModalHead
       :title="$t('notification.notifications')"
       @close="closeModal" />
-    <div class="px-0 pt-0 pb-3 theme-background-color">
-      <div class="notification-filter theme-background-color px-6 pt-4 pb-5">
+    <div class="px-0 pt-0 pb-3 bg-background-color">
+      <div class="notification-filter bg-background-color px-6 pt-4 pb-5">
         <div class="flex justify-between items-center pb-4">
           <span> {{ $t('notification.filters') }} </span>
           <NeoButton
