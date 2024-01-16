@@ -12,7 +12,7 @@
     </div>
   </slot>
 
-  <div class="min-height">
+  <div class="h-[200px]">
     <SkeletonLoader
       :title="title"
       :subtitle="subtitle"
@@ -35,9 +35,3 @@ withDefaults(
   },
 )
 </script>
-
-<style lang="scss" scoped>
-.min-height {
-  height: 200px;
-}
-</style>
