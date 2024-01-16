@@ -5,7 +5,3 @@ export default {
   extends: OTabItem,
 }
 </script>
-
-<style lang="scss">
-@import './NeoTabs.scss';
-</style>

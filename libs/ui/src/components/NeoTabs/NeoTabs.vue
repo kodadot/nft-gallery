@@ -32,7 +32,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss">
-@import './NeoTabs.scss';
-</style>
