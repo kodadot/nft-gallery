@@ -15,10 +15,10 @@
           </slot>
           <NeoIcon
             :icon="icon"
-            class="icon-size has-text-grey py-3"
+            class="icon-size text-k-grey py-3"
             custom-size="fa-2x"
             pack="fass" />
-          <p class="has-text-grey mt-8">
+          <p class="text-k-grey mt-8">
             {{ subtitle }}
           </p>
         </div>
@@ -27,10 +27,10 @@
           <div class="flex flex-col justify-between">
             <NeoIcon icon="circle-check" class="check-icon has-text-k-green" />
             <div class="flex items-center mt-6 flex-col">
-              <span class="has-text-grey mr-5 mb-4">
+              <span class="text-k-grey mr-5 mb-4">
                 {{ selectedFile?.name }} {{ $t('uploaded') }}
               </span>
-              <span class="has-text-grey mr-5">
+              <span class="text-k-grey mr-5">
                 {{ subtitle }}
               </span>
             </div>

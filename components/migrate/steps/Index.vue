@@ -18,12 +18,12 @@
             icon="dash"
             class="mx-4"
             :class="{
-              'has-text-grey': section === 'review',
+              'text-k-grey': section === 'review',
               'has-text-color': section === 'sign',
             }" />
           <span
             :class="{
-              'has-text-grey': section === 'review',
+              'text-k-grey': section === 'review',
               'has-text-weight-bold': section === 'sign',
             }">
             {{ $t('migrate.sign') }}

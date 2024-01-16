@@ -34,7 +34,7 @@
         <div class="flex justify-between mx-6 py-4 border-top border-k-shade">
           {{ $t('shoppingCart.total') }}
           <div class="flex">
-            <CommonTokenMoney :value="totalPrice" class="has-text-grey" />
+            <CommonTokenMoney :value="totalPrice" class="text-k-grey" />
             <span class="has-text-weight-bold ml-4"> ${{ priceUSD }} </span>
           </div>
         </div>

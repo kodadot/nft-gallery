@@ -6,10 +6,10 @@
       <span class="has-text-weight-bold is-size-5 has-text-centered">{{
         noResultsMain
       }}</span>
-      <span class="has-text-grey">{{ noResultsSub }}</span>
+      <span class="text-k-grey">{{ noResultsSub }}</span>
     </div>
     <div v-else-if="items.length > 0">
-      <div v-if="desktop" class="columns text-xs has-text-grey">
+      <div v-if="desktop" class="columns text-xs text-k-grey">
         <slot name="columns" />
       </div>
       <slot name="rows" :variant="variant" />

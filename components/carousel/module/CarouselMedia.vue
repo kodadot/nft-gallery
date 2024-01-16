@@ -2,10 +2,7 @@
   <div
     class="carousel-media"
     :class="{ 'carousel-media-collection': isCollection }">
-    <nuxt-link
-      :to="urlOf({ id: item.id, url, chain: item.chain })"
-      :aria-label="`slide ${index + 1} of ${length}`"
-      rel="nofollow">
+    <div :aria-label="`slide ${index + 1} of ${length}`">
       <img
         v-if="showCardIcon"
         class="card-icon"
@@ -20,15 +17,13 @@
         disable-operation
         :audio-player-cover="imageSrc || ''"
         audio-hover-on-cover-play />
-    </nuxt-link>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import type { CarouselNFT } from '@/components/base/types'
 import type { NFTWithMetadata } from '@/composables/useNft'
-
-import { useCarouselUrl } from '../utils/useCarousel'
 
 const props = defineProps<{
   item: CarouselNFT | NFTWithMetadata
@@ -38,8 +33,6 @@ const props = defineProps<{
 
 const NuxtImg = resolveComponent('NuxtImg')
 
-const { urlOf } = useCarouselUrl()
-const url = inject('itemUrl', 'gallery') as string
 const isCollection = inject('isCollection', false)
 
 const { urlPrefix } = usePrefix()

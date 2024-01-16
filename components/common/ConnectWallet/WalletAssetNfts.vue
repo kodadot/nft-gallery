@@ -1,7 +1,7 @@
 <template>
   <div v-if="nfts.length">
     <hr class="my-4" />
-    <p class="has-text-grey text-xs mb-2">Recent NFTs</p>
+    <p class="text-k-grey text-xs mb-2">Recent NFTs</p>
     <div class="nfts">
       <NuxtLink
         v-for="nft in nfts"

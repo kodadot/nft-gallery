@@ -29,14 +29,14 @@
         </div>
         <div v-if="showFilter" class="filter-option">
           <div v-if="collections.length > 0" class="flex flex-col pb-4">
-            <span class="text-xs has-text-grey mb-2">
+            <span class="text-xs text-k-grey mb-2">
               {{ $t('notification.byCollection') }}
             </span>
             <div class="flex flex-wrap filter-list">
               <div
                 v-for="(item, index) in collections"
                 :key="`${item}-${index}`"
-                class="filter-item rounded is-clickable px-3 mr-1 py-1 mb-1 no-wrap"
+                class="filter-item rounded is-clickable px-3 mr-1 py-1 mb-1 whitespace-nowrap"
                 :class="{
                   activated: collectionFilter?.id === item.id,
                 }"
@@ -46,14 +46,14 @@
             </div>
           </div>
           <div class="flex flex-col pb-4">
-            <span class="text-xs has-text-grey mb-2">{{
+            <span class="text-xs text-k-grey mb-2">{{
               $t('notification.byEvent')
             }}</span>
             <div class="flex flex-wrap filter-list">
               <div
                 v-for="event in eventTypes"
                 :key="event"
-                class="filter-item rounded is-clickable px-3 mr-1 py-1 no-wrap"
+                class="filter-item rounded is-clickable px-3 mr-1 py-1 whitespace-nowrap"
                 :class="{
                   activated: eventFilter.includes(event),
                 }"
@@ -67,7 +67,7 @@
           <div class="flex filter-display-list pb-3 flex-wrap">
             <NeoTag
               v-if="collectionFilter"
-              class="no-wrap mr-1 mb-1 rounded"
+              class="whitespace-nowrap mr-1 mb-1 rounded"
               closable
               @close="collectionFilter = null">
               {{ collectionFilter.name }}
@@ -75,7 +75,7 @@
             <NeoTag
               v-for="event in eventFilter"
               :key="event"
-              class="no-wrap mb-1 mr-1 rounded"
+              class="whitespace-nowrap mb-1 mr-1 rounded"
               closable
               @close="toggleEventFilter(event)">
               {{ getInteractionName(event) }}

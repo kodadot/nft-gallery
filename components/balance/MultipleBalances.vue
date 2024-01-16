@@ -15,7 +15,7 @@
       >
     </div>
     <div v-else class="balance">
-      <div class="balance-row has-text-grey text-xs">
+      <div class="balance-row text-k-grey text-xs">
         <div class="flex-grow-[3]">{{ $t('general.chain') }}</div>
         <div class="has-text-right flex-grow">
           {{ $t('general.token') }}

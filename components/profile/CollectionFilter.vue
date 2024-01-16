@@ -41,7 +41,7 @@
             </div>
 
             <div
-              class="is-flex is-justify-content-space-between text-xs has-text-grey">
+              class="is-flex is-justify-content-space-between text-xs text-k-grey">
               <div>{{ $t('search.owners') }}: {{ collection.owners }}</div>
             </div>
           </div>
