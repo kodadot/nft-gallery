@@ -7,6 +7,8 @@
     :drop="drop"
     :holder-of-collection="holderOfCollection"
     :user-minted-nft-id="userMintedNftId"
+    :user-minted-count="mintedAmountForCurrentUser"
+    :user-max-available-to-mint="1"
     :is-wallet-connecting="isWalletConnecting"
     :is-image-fetching="isImageFetching"
     :is-loading="isLoading"
@@ -16,7 +18,8 @@
     :mint-count-available="mintCountAvailable"
     :mint-button="mintButtonProps"
     :handle-select-image="handleSelectImage"
-    :handle-submit-mint="handleSubmitMint" />
+    :handle-submit-mint="handleSubmitMint"
+    :max-available-to-mint="1" />
 
   <CollectionDropAddFundsModal
     v-model="isAddFundModalActive"
@@ -137,6 +140,7 @@ const {
   userMintedNftId,
   mintedCount,
   mintCountAvailable,
+  mintedAmountForCurrentUser,
   selectedImage,
   description,
   collectionName,
@@ -165,10 +169,6 @@ const { data: holderOfCollectionData } = await useAsyncData(
   {
     watch: [accountId],
   },
-)
-
-const mintedAmountForCurrentUser = computed(
-  () => collectionData.value?.nftEntitiesConnection?.totalCount || 0, // todo: fetch from backend
 )
 
 const maxMintLimitForCurrentUser = computed(

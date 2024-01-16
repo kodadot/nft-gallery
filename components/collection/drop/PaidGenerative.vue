@@ -4,6 +4,8 @@
     :description="description"
     :drop="drop"
     :user-minted-nft-id="userMintedNftId"
+    :user-max-available-to-mint="Infinity"
+    :user-minted-count="mintedAmountForCurrentUser"
     :is-wallet-connecting="isWalletConnecting"
     :is-image-fetching="isImageFetching"
     :is-loading="isLoading"
@@ -168,6 +170,7 @@ const {
   userMintedNftId,
   mintedCount,
   mintCountAvailable,
+  mintedAmountForCurrentUser,
   canListMintedNft,
   selectedImage,
   description,
@@ -184,10 +187,6 @@ const {
   mintedDropCount,
   defaultImage,
 })
-
-const mintedAmountForCurrentUser = computed(
-  () => collectionData.value?.nftEntitiesConnection?.totalCount || 0, // todo: fetch from backend
-)
 
 const maxMintLimitForCurrentUser = computed(() => maxCount.value)
 

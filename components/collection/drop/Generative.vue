@@ -1,13 +1,15 @@
 <template>
   <CollectionDropGenerativeLayout
     :user-minted-nft-id="userMintedNftId"
+    :user-minted-count="mintedAmountForCurrentUser"
+    :user-max-available-to-mint="1"
     :is-wallet-connecting="isWalletConnecting"
     :is-image-fetching="isImageFetching"
     :is-loading="isLoading"
     :minimum-funds="minimumFundsProps"
     :max-count="maxCount"
     :minted-count="mintedCount"
-    :mint-count-available="mintCountAvailable || !disabledByBackend"
+    :mint-count-available="mintCountAvailable && !disabledByBackend"
     :mint-button="mintButtonProps"
     :collection-id="collectionId"
     :description="description"
@@ -142,6 +144,7 @@ const {
   canListMintedNft,
   mintedCount,
   mintCountAvailable,
+  mintedAmountForCurrentUser,
   selectedImage,
   description,
   collectionName,
@@ -157,10 +160,10 @@ const {
   defaultImage,
 })
 
-const mintButtonDisabled = computed(
+const mintButtonDisabled = computed<boolean>(
   () =>
     !mintCountAvailable.value ||
-    disabledByBackend.value ||
+    Boolean(disabledByBackend.value) ||
     (isLogIn.value && Boolean(!selectedImage.value)),
 )
 

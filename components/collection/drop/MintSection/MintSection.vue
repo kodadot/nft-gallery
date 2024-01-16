@@ -25,7 +25,7 @@
       <UnlockableSlider :value="mintedCount / maxCount" />
     </div>
 
-    <div class="my-5">
+    <div>
       <div v-if="userMintedNftId" class="flex justify-end items-center">
         <div class="mr-2">
           {{ $t('mint.unlockable.nftAlreadyMinted') }}
@@ -41,44 +41,17 @@
           :to="`/${urlPrefix}/gallery/${userMintedNftId}`" />
       </div>
 
-      <div
-        v-else-if="showHolderOfCollection"
-        class="columns holder-of-collection">
-        <div class="column">
-          <CollectionDropHolderOfCollection
-            class="mt-4 mb-5"
-            :is-holder="holderOfCollection.isHolderOfTargetCollection"
-            :collection-id="holderOfCollection.id" />
-
-          <div v-if="minimumFunds.amount" class="flex items-center mr-5">
-            <NeoIcon icon="circle-info" class="mr-3" />
-            <div
-              v-dompurify-html="minimumFunds.description"
-              class="minimum-funds-description" />
-          </div>
-        </div>
-
-        <div class="column has-text-right">
-          <NeoButton
-            ref="root"
-            class="my-2 mint-button"
-            variant="k-accent"
-            :loading="loading"
-            :disabled="mintButtonDisabled"
-            :loading-with-label="isWalletConnecting"
-            :label="mintButtonLabel"
-            @click="handleMint" />
-        </div>
-      </div>
-
-      <div v-else class="flex justify-end flex-wrap">
-        <div v-if="minimumFunds.amount" class="flex items-center">
-          <NeoIcon icon="circle-info" class="mr-3" />
-          <div
-            v-dompurify-html="minimumFunds.description"
-            class="minimum-funds-description" />
-        </div>
-
+      <CollectionDropMintSectionMintRequirements
+        v-else-if="useRequirements"
+        class="my-5"
+        :holder-of-collection="{
+          isHolder: holderOfCollection.isHolderOfTargetCollection,
+          collectionId: holderOfCollection.id,
+        }"
+        :minimum-funds="minimumFunds"
+        :is-minted-out="isMintedOut"
+        :user-max-available-to-mint="userMaxAvailableToMint"
+        :user-minted-count="userMintedCount">
         <NeoButton
           ref="root"
           class="ml-5 my-2 mint-button"
@@ -88,7 +61,7 @@
           :loading-with-label="isWalletConnecting"
           :label="mintButtonLabel"
           @click="handleMint" />
-      </div>
+      </CollectionDropMintSectionMintRequirements>
     </div>
   </div>
 </template>
@@ -111,8 +84,11 @@ const props = withDefaults(
     isLoading: boolean
     mintButton: { label: string; disabled: boolean }
     userMintedNftId?: string
+    userMaxAvailableToMint: number
+    userMintedCount: number
     holderOfCollection?: { id?: string; isHolderOfTargetCollection?: boolean }
     collectionId: string
+    availableToMint?: number
   }>(),
   {
     userMintedNftId: undefined,
@@ -124,6 +100,9 @@ const emit = defineEmits(['mint'])
 
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
+
+// make dynmic when dynamic stages is added
+const useRequirements = true
 
 const loading = computed(
   () => props.isImageFetching || props.isWalletConnecting || props.isLoading,
@@ -155,16 +134,10 @@ const handleMint = () => {
 
   emit('mint')
 }
-
-const showHolderOfCollection = computed(() => !!props.holderOfCollection.id)
 </script>
 
 <style scoped lang="scss">
 @import '@/assets/styles/abstracts/variables';
-
-.minimum-funds-description {
-  max-width: 314px;
-}
 
 .mint-button {
   width: 14rem;

@@ -83,6 +83,10 @@ export default ({
     () => collectionData.value?.collectionEntity?.nftCount,
   )
 
+  const mintedAmountForCurrentUser = computed(
+    () => collectionData.value?.nftEntitiesConnection?.totalCount || 0, // todo: fetch from backend
+  )
+
   const canListMintedNft = computed(() => Boolean(mintedNftWithMetadata.value))
 
   const tryCapture = async () => {
@@ -155,6 +159,7 @@ export default ({
     collectionName,
     canListMintedNft,
     nftCount,
+    mintedAmountForCurrentUser,
     listMintedNft,
     tryCapture,
     subscribeToMintedNft,
