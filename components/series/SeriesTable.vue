@@ -2,7 +2,7 @@
   <div>
     <Loader :model-value="isLoading" />
     <NeoField grouped>
-      <NeoField class="has-text-right" expanded>
+      <NeoField class="text-right" expanded>
         <NeoSelect v-model="nbRows">
           <option value="10">10</option>
           <option value="20">20</option>
@@ -247,7 +247,7 @@
 
       <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered has-text-centered"
+        cell-class="is-vcentered text-center"
         field="chart"
         :label="$t('series.chart')">
         <nuxt-link
@@ -261,7 +261,7 @@
 
       <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered has-text-centered"
+        cell-class="is-vcentered text-center"
         field="history"
         :label="$t('series.history')">
         <nuxt-link
@@ -274,7 +274,7 @@
       </NeoTableColumn>
       <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered has-text-centered w-52 h-24"
+        cell-class="is-vcentered text-center w-52 h-24"
         field="buyHistory"
         :label="$t('series.buyHistory')">
         <NeoSkeleton v-if="isLoading" :active="isLoading" />
@@ -285,7 +285,7 @@
           :values="props.row.buyHistory.yAxisList" />
       </NeoTableColumn>
       <template #empty>
-        <div v-if="!isLoading" class="w-full has-text-centered">
+        <div v-if="!isLoading" class="w-full text-center">
           {{ $t('spotlight.empty') }}
         </div>
         <NeoSkeleton :active="isLoading" />

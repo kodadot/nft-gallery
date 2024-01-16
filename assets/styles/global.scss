@@ -382,10 +382,6 @@ hr {
   }
 }
 
-.text-align-center {
-  text-align: center;
-}
-
 // Transak
 .transak_modal-overlay {
   @apply z-[999] max-h-[600px] #{!important};
@@ -450,8 +446,4 @@ hr {
 
 .min-width-0 {
   min-width: 0;
-}
-
-.pointer-events-none {
-  pointer-events: none !important;
 }

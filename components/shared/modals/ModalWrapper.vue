@@ -23,7 +23,7 @@
           </p>
           <slot name="hint" />
         </header>
-        <div class="card-content has-text-centered">
+        <div class="card-content text-center">
           <slot></slot>
         </div>
       </div>

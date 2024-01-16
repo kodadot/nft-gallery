@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <div class="content-headline has-text-centered">
+    <div class="content-headline text-center">
       <h1 class="title is-1 relative z-[1]">KodaDot Blog</h1>
       <div class="relative z-[1] text-2xl mb-20 font-medium">
         Let’s Explore The NFT Universe
@@ -131,8 +131,6 @@ const { data: posts } = useAsyncData('posts', async () => {
   max-width: 60rem;
 
   &-headline {
-    position: relative;
-
     &-cover {
       position: absolute;
       top: -100%;

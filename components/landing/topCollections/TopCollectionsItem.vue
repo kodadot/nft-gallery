@@ -39,7 +39,7 @@
         </div>
       </div>
       <div class="justify-end px-2 flex w-160">
-        <div class="has-text-right flex-col items-center flex text-xs-mobile">
+        <div class="text-right flex-col items-center flex text-xs-mobile">
           <div class="whitespace-nowrap">
             <CommonTokenMoney :value="volume" inline :round="1" />
           </div>

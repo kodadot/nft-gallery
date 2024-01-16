@@ -67,7 +67,7 @@
       <div ref="target" />
     </div>
     <div v-else class="flex justify-center items-center pt-6 px-6">
-      <div class="text-k-grey has-text-centered">
+      <div class="text-k-grey text-center">
         {{ $t('activity.noHolders') }}
       </div>
     </div>
