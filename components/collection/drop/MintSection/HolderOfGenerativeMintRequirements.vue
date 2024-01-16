@@ -65,16 +65,6 @@
         </div>
       </div>
     </div>
-    <div v-else class="flex justify-end flex-wrap">
-      <div v-if="minimumFunds.amount" class="flex items-center">
-        <NeoIcon icon="circle-info" class="mr-3" />
-        <div
-          v-dompurify-html="minimumFunds.description"
-          class="minimum-funds-description" />
-      </div>
-
-      <slot />
-    </div>
   </div>
 </template>
 
@@ -83,32 +73,17 @@ import MintRequirementItem from './MintRequirementItem.vue'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 
-enum MintRequirementType {
-  MINIMUM_FUNDS = 'minimum_funds',
-  HOLDER_OF_COLLECTION = 'holder_of_collection',
-}
+const props = defineProps<{
+  holderOfCollection: {
+    isHolder?: boolean
+    collectionId?: string
+  }
+  minimumFunds: { amount: number; description: string }
 
-const props = withDefaults(
-  defineProps<{
-    holderOfCollection: {
-      isHolder?: boolean
-      collectionId?: string
-    }
-    minimumFunds: { amount: number; description: string }
-
-    isMintedOut: boolean
-    userMintedCount: number
-    userMaxAvailableToMint: number
-
-    requirements: MintRequirementType[]
-  }>(),
-  {
-    requirements: () => [
-      MintRequirementType.HOLDER_OF_COLLECTION,
-      MintRequirementType.MINIMUM_FUNDS,
-    ],
-  },
-)
+  isMintedOut: boolean
+  userMintedCount: number
+  userMaxAvailableToMint: number
+}>()
 
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
@@ -130,22 +105,10 @@ const canMintAsManyNftsAsPossible = computed(
 
 const checkMinimumFunds = computed(() => Boolean(props.minimumFunds.amount))
 
-const conditionsStates = computed(() => {
-  const conditions: boolean[] = []
-
-  if (props.requirements.includes(MintRequirementType.MINIMUM_FUNDS)) {
-    conditions.push(checkMinimumFunds.value)
-  }
-
-  if (
-    props.requirements.includes(MintRequirementType.HOLDER_OF_COLLECTION) &&
-    showHolderOfCollection.value
-  ) {
-    conditions.push(Boolean(props.holderOfCollection.isHolder))
-  }
-
-  return conditions
-})
+const conditionsStates = computed(() => [
+  Boolean(props.holderOfCollection.isHolder),
+  checkMinimumFunds.value,
+])
 
 const requirementsCompleted = computed(() =>
   conditionsStates.value.every(Boolean),
@@ -181,8 +144,4 @@ const available = computed(() =>
 )
 </script>
 
-<style scoped lang="scss">
-.minimum-funds-description {
-  max-width: 314px;
-}
-</style>
+<style scoped lang="scss"></style>

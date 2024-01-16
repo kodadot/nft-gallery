@@ -41,8 +41,8 @@
           :to="`/${urlPrefix}/gallery/${userMintedNftId}`" />
       </div>
 
-      <CollectionDropMintSectionMintRequirements
-        v-else-if="useRequirements"
+      <HolderOfGenerativeMintRequirements
+        v-else-if="showHolderOfCollection"
         class="my-5"
         :holder-of-collection="{
           isHolder: holderOfCollection.isHolderOfTargetCollection,
@@ -61,7 +61,26 @@
           :loading-with-label="isWalletConnecting"
           :label="mintButtonLabel"
           @click="handleMint" />
-      </CollectionDropMintSectionMintRequirements>
+      </HolderOfGenerativeMintRequirements>
+
+      <div v-else class="flex justify-end flex-wrap">
+        <div v-if="minimumFunds.amount" class="flex items-center">
+          <NeoIcon icon="circle-info" class="mr-3" />
+          <div
+            v-dompurify-html="minimumFunds.description"
+            class="minimum-funds-description" />
+        </div>
+
+        <NeoButton
+          ref="root"
+          class="ml-5 my-2 mint-button"
+          variant="k-accent"
+          :loading="loading"
+          :disabled="mintButtonDisabled"
+          :loading-with-label="isWalletConnecting"
+          :label="mintButtonLabel"
+          @click="handleMint" />
+      </div>
     </div>
   </div>
 </template>
@@ -69,6 +88,7 @@
 <script setup lang="ts">
 import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import HolderOfGenerativeMintRequirements from './HolderOfGenerativeMintRequirements.vue'
 
 const NuxtLink = resolveComponent('NuxtLink')
 
@@ -101,9 +121,6 @@ const emit = defineEmits(['mint'])
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 
-// make dynmic when dynamic stages is added
-const useRequirements = true
-
 const loading = computed(
   () => props.isImageFetching || props.isWalletConnecting || props.isLoading,
 )
@@ -125,6 +142,8 @@ const mintButtonDisabled = computed(() =>
   isMintedOut.value ? false : props.mintButton.disabled,
 )
 
+const showHolderOfCollection = computed(() => !!props.holderOfCollection.id)
+
 const handleMint = () => {
   if (isMintedOut.value) {
     return navigateTo(
@@ -138,6 +157,10 @@ const handleMint = () => {
 
 <style scoped lang="scss">
 @import '@/assets/styles/abstracts/variables';
+
+.minimum-funds-description {
+  max-width: 314px;
+}
 
 .mint-button {
   width: 14rem;
