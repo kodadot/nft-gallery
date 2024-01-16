@@ -1,0 +1,10 @@
+// we can override the variables here
+$base-font-family: 'monospace';
+$primary: blue;
+
+@import '@oruga-ui/theme-oruga/dist/scss/oruga-full.scss';
+
+// or override css classes directly
+.o-tab-item__content {
+  background-color: darkgray;
+}

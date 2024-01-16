@@ -18,6 +18,8 @@
     "typescript": "^4.9.3"
   },
   "dependencies": {
-    "@oruga-ui/oruga": "npm:@oruga-ui/oruga-next@^0.8.2"
+    "@oruga-ui/oruga": "npm:@oruga-ui/oruga-next@^0.8.2",
+    "@oruga-ui/theme-oruga": "^0.2.1",
+    "sass": "^1.69.7"
   }
 }

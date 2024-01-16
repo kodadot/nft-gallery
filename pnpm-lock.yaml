@@ -354,6 +354,12 @@ importers:
       '@oruga-ui/oruga':
         specifier: npm:@oruga-ui/oruga-next@^0.8.2
         version: /@oruga-ui/oruga-next@0.8.2(vue@3.4.7)
+      '@oruga-ui/theme-oruga':
+        specifier: ^0.2.1
+        version: 0.2.1
+      sass:
+        specifier: ^1.69.7
+        version: 1.69.7
     devDependencies:
       '@nuxt/eslint-config':
         specifier: ^0.1.1
@@ -4636,6 +4642,10 @@ packages:
       vue: ^3.0.0
     dependencies:
       vue: 3.4.7(typescript@4.9.5)
+    dev: false
+
+  /@oruga-ui/theme-oruga@0.2.1:
+    resolution: {integrity: sha512-z4DaydFDHvYaYv9/jyElm93t6jDC0H/Z09OPsFa7v4FtdOeEZcZ+a7/M4K3vsiHOM4iI0PctcTOj1NxUEQuE5Q==}
     dev: false
 
   /@parallel-finance/type-definitions@1.7.17:
