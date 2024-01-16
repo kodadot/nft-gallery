@@ -13,7 +13,7 @@
         :scrollable="false"
         :loading="loadingAutoTeleport"
         @close="onClose">
-        <div class="px-6 limit-height">
+        <div class="px-6 max-h-[50vh] overflow-y-auto">
           <ModalIdentityItem />
 
           <ListingCartSingleItemCart
@@ -257,17 +257,6 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.rounded {
-  border-radius: 10rem;
-}
-
-.limit-height {
-  max-height: 50vh;
-  overflow-y: auto;
-}
-
 :deep(.identity-name-font-weight-regular) {
   .identity-name {
     font-weight: unset !important;

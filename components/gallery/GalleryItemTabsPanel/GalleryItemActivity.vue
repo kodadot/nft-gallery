@@ -90,14 +90,14 @@ const cssActive = (value) => {
   }
 
   .events-checkbox-container {
+    @apply px-5 py-[5px] rounded-[25px];
+
     @include ktheme() {
       border: 1px solid theme('k-shade');
       &:hover {
         border-color: theme('border-color');
       }
     }
-    border-radius: 25px;
-    padding: 5px 20px;
   }
 
   .events-checkbox-active {

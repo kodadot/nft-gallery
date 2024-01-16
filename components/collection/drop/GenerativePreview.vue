@@ -121,10 +121,8 @@ watch(
 }
 
 .fixed-top-left {
-  border-radius: 3rem;
-  position: absolute;
-  left: 26px;
-  top: -14px;
+  @apply absolute rounded-[3rem] left-[26px] -top-3.5;
+
   @include mobile {
     left: 50%;
     transform: translateX(-50%);

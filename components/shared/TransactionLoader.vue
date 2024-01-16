@@ -171,13 +171,6 @@ const checkIconForStep = (step: number) =>
   width: 27rem;
 }
 :deep(.mobile-modal) {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  border-radius: 0.75rem 0.75rem 0 0;
-  border-right: 0 !important;
-  border-left: 0 !important;
-  border-bottom: 0 !important;
+  @apply fixed rounded-[0.75rem_0.75rem_0_0] border-b-0 border-x-0 bottom-0 inset-x-0;
 }
 </style>

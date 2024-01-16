@@ -59,7 +59,7 @@ export default {
           'is-selected': this.isSelected,
           'is-disabled': this.disabled,
           'is-focused': this.isFocused,
-          'is-rounded': this.rounded,
+          'rounded-full': this.rounded,
         },
       ]
     },
@@ -76,7 +76,7 @@ export default {
       @apply text-text-color-inverse bg-background-color-inverse;
     }
 
-    &.is-rounded {
+    &.rounded-full {
       @apply rounded-full;
     }
   }

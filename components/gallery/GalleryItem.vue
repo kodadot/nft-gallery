@@ -475,11 +475,12 @@ $break-point-width: 930px;
 
     .o-car__indicator {
       &__item {
+        @apply rounded-[50%];
+
         @include ktheme() {
           background: theme('background-color-inverse');
           border: theme('background-color-inverse');
         }
-        border-radius: 50%;
 
         &--active {
           @include ktheme() {

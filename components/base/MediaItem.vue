@@ -30,7 +30,7 @@
     </div>
     <div
       v-if="isInteractive"
-      class="bg-k-shade border-k-grey flex items-center justify-center border is-rounded absolute-position image is-24x24">
+      class="bg-k-shade border-k-grey flex items-center justify-center border rounded-full absolute right-3 top-3 image is-24x24">
       <NeoIcon icon="code" pack="far" class="text-xs has-text-weight-medium" />
     </div>
     <NeoButton
@@ -209,12 +209,6 @@ defineExpose({ isLewdBlurredLayer })
         background: theme('text-color') !important;
       }
     }
-  }
-
-  .absolute-position {
-    position: absolute;
-    right: 0.75rem;
-    top: 0.75rem;
   }
 }
 </style>
