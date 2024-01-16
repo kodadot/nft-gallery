@@ -212,13 +212,13 @@ watch(() => route.query, syncFromUrl, { immediate: true })
   min-height: $navbar-mobile-min-height;
 }
 
-:deep(.background-color .o-side) {
-  &__content {
+:deep(.background-color) {
+  .o-side__content {
     @include ktheme() {
       background-color: theme('background-color');
     }
   }
-  &__overlay {
+  .o-side__overlay {
     @include ktheme() {
       background-color: theme('background-color');
       opacity: 0.86;
