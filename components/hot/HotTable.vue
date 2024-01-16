@@ -117,8 +117,4 @@ const fetchHotNfts = async () => {
   background: $frosted-glass-background;
   backdrop-filter: $frosted-glass-backdrop-filter;
 }
-
-.front-stack-layer {
-  z-index: 1;
-}
 </style>

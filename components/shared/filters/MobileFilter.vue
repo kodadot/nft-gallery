@@ -7,8 +7,8 @@
     :open="open"
     :can-cancel="['escape']"
     :on-cancel="onClose"
-    class="top is-absolute background-color">
-    <div class="flex flex-col is-fullheight">
+    class="z-[1000] absolute background-color">
+    <div class="flex flex-col h-full">
       <div class="flex-grow">
         <div
           class="filters-header px-4 px-0 border-bottom flex items-center justify-between">
@@ -36,14 +36,14 @@
         <NeoButton
           label="Reset All"
           variant="text"
-          class="flex-grow mw-9 h-3_5 is-shadowless"
+          class="flex-grow min-w-36 h-14 is-shadowless"
           @click="resetFilters">
           {{ $t('general.resetAll') }}
         </NeoButton>
         <NeoButton
           variant="k-accent"
           no-shadow
-          class="flex-grow mw-9 h-3_5"
+          class="flex-grow min-w-36 h-14"
           @click="applyFilters">
           {{ $t('general.apply') }}
         </NeoButton>
@@ -200,12 +200,6 @@ watch(() => route.query, syncFromUrl, { immediate: true })
 
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
-.is-fullheight {
-  height: 100%;
-}
-.is-absolute {
-  position: absolute;
-}
 .buttons-container {
   position: sticky;
   bottom: 0;
@@ -218,20 +212,7 @@ watch(() => route.query, syncFromUrl, { immediate: true })
   min-height: $navbar-mobile-min-height;
 }
 
-.top {
-  z-index: 1000;
-}
-.h-3_5 {
-  height: 3.5rem !important;
-}
-.mw-9 {
-  min-width: 9rem;
-}
-</style>
-
-<style lang="scss">
-@import '@/assets/styles/abstracts/variables';
-.background-color .o-side {
+:deep(.background-color .o-side) {
   &__content {
     @include ktheme() {
       background-color: theme('background-color');

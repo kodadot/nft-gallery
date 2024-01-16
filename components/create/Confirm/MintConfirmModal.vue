@@ -3,7 +3,7 @@
     :value="modelValue"
     :can-cancel="['outside', 'escape']"
     scroll="clip"
-    class="top"
+    class="z-[1000]"
     max-height="calc(100vh - 180px)"
     content-class="modal-width"
     @close="onClose">
@@ -203,9 +203,6 @@ watchEffect(async () => {
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 
-.top {
-  z-index: 1000;
-}
 .shade-border-color {
   @include ktheme() {
     border-color: theme('k-shade');

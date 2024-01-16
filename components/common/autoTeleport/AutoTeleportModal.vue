@@ -3,7 +3,7 @@
     :value="isModalActive"
     :can-cancel="['outside', 'escape']"
     scroll="clip"
-    class="top"
+    class="z-[1000]"
     @close="onClose">
     <div class="modal-width">
       <header
@@ -259,10 +259,6 @@ watch(autoteleportFinalized, () => {
 
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
-
-.top {
-  z-index: 1000;
-}
 
 .modal-width {
   width: 25rem;

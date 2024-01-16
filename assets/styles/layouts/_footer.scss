@@ -11,13 +11,12 @@
   }
 
   .container {
-    z-index: 1;
+    @apply z-[1] gap-[30px];
     @include mobile {
       flex-direction: column;
       gap: 50px;
       align-items: center !important;
     }
-    gap: 30px;
   }
 
   &-links {
@@ -31,9 +30,7 @@
   }
 
   &-inner {
-    z-index: 1;
-    position: relative;
-    gap: 3rem;
+    @apply z-[1] relative gap-12;
 
     @include mobile {
       flex-direction: column;

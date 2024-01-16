@@ -20,7 +20,7 @@
         .navbar-item {
           display: flex;
           align-items: center;
-          
+
           height: $navbar-mobile-min-height;
           padding: 0 1.25rem;
 
@@ -51,7 +51,7 @@
             height: calc(100% - 118px);
             position: relative;
             align-items: flex-start !important;
-            padding: 1.5rem 1.25rem !important;              
+            padding: 1.5rem 1.25rem !important;
 
             &--no-padding {
               padding: 0 !important;
@@ -71,11 +71,7 @@
           }
 
           &--fullpage {
-            position: fixed;
-            top: 57px;
-            height: 100vh;
-            width: 100%;
-            z-index: 100;
+            @apply fixed h-screen w-full z-[100] top-[57px];
 
             @include ktheme() {
               background: theme('background-color');
@@ -153,13 +149,13 @@
 }
 
 .navbar {
+  min-height: $navbar-desktop-min-height;
   transform: translateZ(0px);
   transition: 0.3s ease;
   -webkit-transition: 0.3s ease;
-  z-index: 999 !important;
-  min-height: $navbar-desktop-min-height;
   width: 100vw;
   background: $white;
+  @apply z-[999];
 
   @include mobile {
     min-height: $navbar-mobile-min-height;
@@ -308,15 +304,8 @@
   }
 
   .fixed-stack {
-    box-sizing: border-box;
-    position: fixed;
-    width: 100%;
     height: $navbar-desktop-min-height;
-    top: 0;
-    left: 0;
-    z-index: 989;
-    border-radius: 0;
-    overflow: hidden;
+    @apply box-border fixed w-full z-[989] overflow-hidden rounded-none left-0 top-0;
 
     @include ktheme() {
       border-bottom: 1px solid theme('border-color');

@@ -49,13 +49,7 @@ const autoClose = computed(() => !props.noToast)
   max-width: 500px;
 
   &--toast {
-    z-index: 100;
-    position: fixed;
-    border-radius: 0 !important;
-    top: 100px;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
+    @apply z-[100] fixed mx-auto rounded-none right-0 top-[100px];
   }
 
   @include ktheme() {

@@ -133,7 +133,7 @@ const largeDisplay = computed(
         top: 10px;
         right: 10px;
         font-size: 14px;
-        z-index: 3;
+        @apply z-[3];
         transition: all 0.3s;
 
         @include ktheme() {
@@ -149,7 +149,7 @@ const largeDisplay = computed(
         bottom: 10px;
         left: 10px;
         font-size: 14px;
-        z-index: 3;
+        @apply z-[3];
         transition: all 0.3s ease;
 
         @include ktheme() {
@@ -188,7 +188,7 @@ const largeDisplay = computed(
     &:hover .card-content {
       bottom: 0;
       opacity: 1;
-      z-index: 2;
+      @apply z-[2];
       background: $frosted-glass-background;
       backdrop-filter: $frosted-glass-backdrop-filter;
     }

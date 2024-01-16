@@ -372,17 +372,6 @@ hr {
   }
 }
 
-.has-z-index-1 {
-  z-index: 1;
-}
-
-// used in gallery item to disbale <main> z-index: 100
-// when fallback fullscreen is used (on Nova wallet)
-// without this the navbar is above the fullscreen image
-.no-z-index {
-  z-index: unset !important;
-}
-
 .modal {
   .modal-content {
     border: none !important;
@@ -400,12 +389,11 @@ hr {
 // Transak
 
 .transak_modal-overlay {
-  z-index: 999 !important;
+  @apply z-[999] max-h-[600px];
 }
 
 .transak_modal {
-  z-index: 1000 !important;
-  max-height: 600px !important;
+  @apply z-[1000] max-h-[600px];
 }
 
 #transakOnOffRampWidget {

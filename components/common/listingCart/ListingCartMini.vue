@@ -57,7 +57,7 @@ onBeforeUnmount(() => {
   position: fixed;
   right: 96px;
   bottom: 36px;
-  z-index: 998;
+  @apply z-[998];
   .selection-button:not([disabled='disabled']):hover {
     @include ktheme() {
       color: theme('text-color') !important;

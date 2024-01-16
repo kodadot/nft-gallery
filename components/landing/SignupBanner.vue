@@ -138,11 +138,7 @@ $column-gap: 20px;
     display: flex;
     align-items: center;
     .blur {
-      transform: scale(2);
-      top: 0;
-      left: 0;
-      position: absolute;
-      z-index: -1;
+      @apply absolute scale-[2] left-0 top-0 -z-[1];
     }
   }
 }

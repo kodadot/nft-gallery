@@ -3,7 +3,7 @@
     :value="isModalActive"
     :can-cancel="['outside', 'escape']"
     scroll="clip"
-    class="top"
+    class="z-[1000]"
     content-class="modal-width"
     @close="onClose">
     <ModalBody
@@ -148,23 +148,6 @@ const confirm = (params: AutoTeleportActionButtonConfirmEvent) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.top {
-  z-index: 1000;
-}
-.shade-border-color {
-  @include ktheme() {
-    border-color: theme('k-shade');
-  }
-}
-.modal-width {
-  width: 25rem;
-}
-.btn-height {
-  height: 3.5rem;
-}
-
 :deep(.identity-name-font-weight-regular) {
   .identity-name {
     font-weight: unset !important;

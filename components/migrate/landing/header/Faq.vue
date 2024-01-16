@@ -69,7 +69,7 @@ const [wrapper, slider] = useKeenSlider({
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    z-index: 1;
+    @apply z-[1];
 
     &-left {
       left: 1.25rem;

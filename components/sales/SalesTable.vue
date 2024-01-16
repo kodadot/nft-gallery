@@ -9,7 +9,7 @@
         v-slot="props"
         field="image"
         label=""
-        class="front-stack-layer"
+        class="z-10"
         position="centered">
         <div class="image is-48x48">
           <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.id}`">
@@ -23,7 +23,7 @@
               <BasicImage
                 :src="props.row.image"
                 :alt="props.row.name"
-                class="popup-image" />
+                class="w-72 h-72" />
             </BasicPopup>
           </nuxt-link>
         </div>
@@ -143,20 +143,3 @@ watch(client, (value) => {
   }
 })
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.history {
-  width: 200px;
-  height: 100px;
-}
-
-.front-stack-layer {
-  z-index: 1;
-}
-.popup-image {
-  width: 300px;
-  height: 300px;
-}
-</style>

@@ -348,7 +348,7 @@ function toggleFallback() {
     const isCurrentlyFullscreen = imgref.value.classList.toggle(
       'fullscreen-fallback',
     )
-    mainElement?.classList.toggle('no-z-index')
+    mainElement?.classList.toggle('!z-[unset]')
     isFallbackActive.value = isCurrentlyFullscreen
     isFullscreen.value = isCurrentlyFullscreen
   }
@@ -407,33 +407,18 @@ $break-point-width: 930px;
   }
 }
 .back-button {
-  position: absolute;
-  left: 0.75rem;
-  top: 2rem;
-  z-index: 1;
+  @apply absolute z-[1] left-3 top-8;
   @include desktop {
     left: $fluid-container-padding;
   }
 }
 
 #nft-img-container.fullscreen-fallback {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 9999;
+  @apply fixed w-screen h-screen z-[9999] left-0 top-0;
 }
 
 .fullscreen-button {
-  position: absolute;
-  right: 2.75rem;
-  top: 2rem;
-  z-index: 2;
-  display: none;
-  width: 35px;
-  height: 35px;
-  border: 1px solid;
+  @apply absolute z-[2] hidden w-[35px] h-[35px] border border-solid right-11 top-8;
   @include ktheme() {
     background-color: rgba(theme('background-color'), 0.15);
     border-color: rgba(theme('background-color'), 0.3);
