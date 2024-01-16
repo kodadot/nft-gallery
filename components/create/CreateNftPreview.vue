@@ -6,7 +6,7 @@
       <div
         class="preview-image flex items-center"
         :style="{ backgroundImage: `url(${image})` }">
-        <p v-if="!image" class="p-4 text-xs text-align-center">
+        <p v-if="!image" class="p-4 text-xs text-center">
           {{ $t('mint.nft.preview.uploadArt') }}
         </p>
       </div>

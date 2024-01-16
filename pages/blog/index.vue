@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <div class="content-headline has-text-centered">
+    <div class="content-headline text-center">
       <h1 class="title is-1">KodaDot Blog</h1>
       <div class="subtitle has-text-weight-medium">
         Let’s Explore The NFT Universe

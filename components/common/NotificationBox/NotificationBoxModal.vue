@@ -83,11 +83,11 @@
           </div>
         </div>
       </div>
-      <div v-if="loading" class="empty-tip">
+      <div v-if="loading" class="empty-tip text-center">
         <p>{{ $t('notification.loadingTip') }}</p>
       </div>
       <div v-else>
-        <div v-if="allEvents.length === 0" class="empty-tip">
+        <div v-if="allEvents.length === 0" class="empty-tip text-center">
           <p>{{ $t('notification.emptyTipLine1') }}</p>
           <p>{{ $t('notification.emptyTipLine2') }}</p>
         </div>
@@ -232,7 +232,6 @@ const displayedEvents = computed(() =>
     .empty-tip {
       @include ktheme() {
         color: theme('k-grey');
-        text-align: center;
       }
     }
   }

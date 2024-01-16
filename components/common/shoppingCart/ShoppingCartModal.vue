@@ -59,7 +59,7 @@
           <span class="has-text-weight-bold mb-2">{{
             $t('shoppingCart.emptyCart.line1')
           }}</span>
-          <span class="text-align-center mb-5">{{
+          <span class="text-center mb-5">{{
             $t('shoppingCart.emptyCart.line2')
           }}</span>
           <NeoButton

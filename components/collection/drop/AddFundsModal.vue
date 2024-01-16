@@ -120,28 +120,6 @@ const handleModalClose = (completed: boolean) => {
   cursor: default;
   margin-bottom: 16px;
 }
-.tooltip {
-  &__title {
-    font-size: 16px;
-    font-weight: 700;
-    line-height: normal;
-    margin-bottom: 12px;
-    text-align: left;
-  }
-
-  &__text {
-    font-size: 12px;
-    font-weight: 400;
-    letter-spacing: 0.24px;
-    line-height: normal;
-    text-align: left;
-  }
-
-  &__note {
-    font-style: italic;
-    text-align: left;
-  }
-}
 
 .add-funds-modal {
   .o-tip {
