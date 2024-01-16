@@ -130,9 +130,7 @@
                 {{ item.Item.name || item.Item.id }}
               </nuxt-link>
             </td>
-            <td
-              v-show="columnsVisible['Amount'].display"
-              class="has-text-right">
+            <td v-show="columnsVisible['Amount'].display" class="text-right">
               {{ item.Amount }}
             </td>
             <td v-show="columnsVisible['Bought'].display">

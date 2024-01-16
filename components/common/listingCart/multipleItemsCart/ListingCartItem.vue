@@ -3,7 +3,7 @@
     <ListingCartItemDetails :nft="nft" :discarded="nft.discarded">
       <template #right>
         <NeoButton
-          class="has-text-grey pt-4"
+          class="text-k-grey pt-4"
           variant="text"
           no-shadow
           :icon="nft.discarded ? 'plus' : 'trash'"
@@ -18,7 +18,7 @@
       <template v-if="!nft.discarded" #footer>
         <div class="mt-4 flex justify-between items-start">
           <div class="flex flex-col">
-            <div class="has-text-grey text-xs">
+            <div class="text-k-grey text-xs">
               {{ $t('activity.floor') }}
             </div>
             <span>{{ floor }}</span>

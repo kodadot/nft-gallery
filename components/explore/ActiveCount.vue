@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="count"
-    class="count flex justify-center items-center"
+    class="count text-center flex justify-center items-center"
     :class="[`count--${position}`, { rounded: rounded }]">
     {{ count }}
   </div>
@@ -30,7 +30,6 @@ withDefaults(
   height: 1.5rem;
   width: 1.5rem;
   line-height: 1.5rem;
-  text-align: center;
 
   &--top-left {
     bottom: 1.5rem;

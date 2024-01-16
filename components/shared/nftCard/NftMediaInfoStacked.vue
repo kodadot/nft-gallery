@@ -13,7 +13,7 @@
         <span v-if="!isMinimal">x{{ token.supply }}</span>
       </div>
 
-      <div v-if="!isMinimal" class="text-xs has-text-grey">
+      <div v-if="!isMinimal" class="text-xs text-k-grey">
         {{ $t('lowestPrice') }}:
         <CommonTokenMoney
           :value="token.cheapest?.price"

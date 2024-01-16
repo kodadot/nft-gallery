@@ -33,7 +33,7 @@
           <div class="flex justify-between">
             {{ $t('listingCart.potentialEarnings') }}
             <div class="flex">
-              <span class="ml-2 has-text-grey"
+              <span class="ml-2 text-k-grey"
                 >{{ totalNFTsPrice.toFixed(4) }} {{ chainSymbol }}</span
               >
               <span class="has-text-weight-bold ml-2"> ${{ priceUSD }} </span>
@@ -41,7 +41,7 @@
           </div>
 
           <div
-            class="flex justify-between has-text-grey pb-4 mt-3 border-bottom-k-shade">
+            class="flex justify-between text-k-grey pb-4 mt-3 border-bottom-k-shade">
             <span>{{ $t('listingCart.listingFees') }}</span>
             <span class="ml-2">{{ teleportTransitionTxFees }}</span>
           </div>

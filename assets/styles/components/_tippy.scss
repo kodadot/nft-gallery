@@ -3,7 +3,5 @@
     background: theme('background-color');
     color: theme('text-color');
   }
-  display: inline-block;
-  padding: 0;
-  text-align: left;
+  @apply inline-block text-left p-0;
 }

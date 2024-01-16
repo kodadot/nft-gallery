@@ -8,7 +8,7 @@
     @update:active="updateActive">
     <div :class="{ 'desktop-width': !isMobile }">
       <div v-if="isFinalStep" class="flex py-5 px-6 items-center">
-        <div class="flex-grow text-align-center">{{ $t('success') }}</div>
+        <div class="flex-grow text-center">{{ $t('success') }}</div>
         <NeoButton
           variant="text"
           no-shadow
@@ -23,7 +23,7 @@
         <div class="flex">
           <slot name="action-title">
             <span>{{ `${$t('teleport.send')} ${totalUsdValue}$` }}</span>
-            <span class="has-text-grey ml-1 is-uppercase">{{
+            <span class="text-k-grey ml-1 is-uppercase">{{
               `(${totalTokenAmount} ${urlPrefix})`
             }}</span>
           </slot>
@@ -52,12 +52,12 @@
             :clickable="false"
             :label="steps[i - 1].label"
             :variant="i == 3 ? 'last' : undefined">
-            <div class="px-4 text-align-center">
+            <div class="px-4 text-center">
               {{ steps[i - 1].tip }}
             </div>
           </NeoStepItem>
         </NeoSteps>
-        <div v-if="activeStep === 2" class="text-align-center has-text-grey">
+        <div v-if="activeStep === 2" class="text-center text-k-grey">
           {{ `Est. waiting time ~ ${estimatedTimeLeft} seconds` }}
         </div>
         <div v-if="isFinalStep" class="flex justify-center mb-4">

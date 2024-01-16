@@ -29,7 +29,7 @@
     <div class="flex justify-between">
       {{ $t('confirmPurchase.youWillPay') }}:
       <div class="flex">
-        <CommonTokenMoney :value="toMintNft.price" class="has-text-grey" />
+        <CommonTokenMoney :value="toMintNft.price" class="text-k-grey" />
         <span class="has-text-weight-bold ml-2">
           {{ toMintNft.priceUSD }}
         </span>
@@ -58,7 +58,7 @@
 
           <template #content>
             <div
-              class="theme-background-color text-xs border p-4 text-left w-[15rem]">
+              class="bg-background-color text-xs border p-4 text-left w-[15rem]">
               <p
                 v-dompurify-html="
                   $t('drops.paidDropWhyTooltip', [

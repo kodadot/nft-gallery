@@ -14,7 +14,7 @@
           <div class="flex justify-between items-center">
             <Avatar :value="accountId" :size="34" />
             <div class="ml-4">
-              <div class="has-text-grey">{{ $t('identity.existing') }}</div>
+              <div class="text-k-grey">{{ $t('identity.existing') }}</div>
               <div>{{ identityData.display }}</div>
             </div>
           </div>

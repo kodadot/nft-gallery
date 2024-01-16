@@ -22,25 +22,25 @@
               :avatar-size="35"
               class="has-text-weight-bold" />
             <div class="flex justify-between mt-2">
-              <span class="text-xs has-text-grey">{{
+              <span class="text-xs text-k-grey">{{
                 $t('activity.owned')
               }}</span>
               <span>{{ owned }}</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-xs has-text-grey">{{
+              <span class="text-xs text-k-grey">{{
                 $t('activity.totalBought')
               }}</span>
               <CommonTokenMoney :value="totalBought" />
             </div>
             <div class="flex justify-between">
-              <span class="text-xs has-text-grey">{{
+              <span class="text-xs text-k-grey">{{
                 $t('activity.totalSold')
               }}</span>
               <CommonTokenMoney :value="totalsold" />
             </div>
             <div class="flex justify-between">
-              <span class="text-xs has-text-grey">{{
+              <span class="text-xs text-k-grey">{{
                 $t('activity.bestFlip')
               }}</span>
               <span
@@ -52,11 +52,11 @@
               >
             </div>
             <div class="flex justify-between">
-              <span class="text-xs has-text-grey">{{
+              <span class="text-xs text-k-grey">{{
                 $t('activity.latestActivity')
               }}</span>
               <TimeAgo
-                custom-class="no-wrap"
+                custom-class="whitespace-nowrap"
                 :timestamp="latestflipTimestamp" />
             </div>
             <div>
@@ -83,7 +83,7 @@
     </div>
 
     <div v-else class="flex justify-center items-center pt-6">
-      <div class="has-text-grey">
+      <div class="text-k-grey">
         {{ $t('activity.noFlips') }}
       </div>
     </div>
