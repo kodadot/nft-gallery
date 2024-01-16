@@ -26,7 +26,7 @@
 
       <div v-if="!hideName" class="card-content">
         <span
-          class="has-text-centered has-text-primary"
+          class="text-center has-text-primary"
           :class="{ 'title is-4': largeDisplay }"
           :title="name">
           <div class="has-text-overflow-ellipsis">

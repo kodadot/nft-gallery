@@ -17,7 +17,7 @@
           :expanded="expanded"
           :accept="accept">
           <section class="section">
-            <div class="content has-text-centered">
+            <div class="content text-center">
               <NeoIcon v-if="!file && !url" :icon="icon" custom-size="fa-2x" />
               <div v-if="url && !isModelMedia" @click.prevent>
                 <BaseMediaItem

@@ -77,8 +77,7 @@ watchEffect(async () => {
     align-items: flex-start;
 
     .gallery-action-section-info {
-      min-width: 10rem;
-      text-align: left;
+      @apply min-w-[10rem] text-left;
 
       .gallery-action-section-info-title {
         font-size: 0.8rem;

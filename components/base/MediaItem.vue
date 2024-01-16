@@ -26,9 +26,7 @@
       <span class="has-text-weight-bold">
         {{ $t('lewd.explicit') }}
       </span>
-      <span class="nsfw-desc text-align-center">{{
-        $t('lewd.explicitDesc')
-      }}</span>
+      <span class="nsfw-desc text-center">{{ $t('lewd.explicitDesc') }}</span>
     </div>
     <div
       v-if="isInteractive"

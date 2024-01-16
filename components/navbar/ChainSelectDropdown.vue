@@ -11,7 +11,7 @@
     <NeoDropdownItem
       v-for="option in availableChains"
       :key="option.value"
-      class="has-text-centered"
+      class="text-center"
       aria-role="listitem"
       :value="option.value"
       :class="{ 'is-active': selected === option.value }"

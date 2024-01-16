@@ -58,7 +58,7 @@
           </div>
         </div>
 
-        <div class="column has-text-right">
+        <div class="column text-right">
           <NeoButton
             ref="root"
             class="my-2 mint-button"

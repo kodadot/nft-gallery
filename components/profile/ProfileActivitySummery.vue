@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="stats" class="level my-4 collection items-center">
-      <div class="level-item has-text-centered">
+      <div class="level-item text-center">
         <div>
           <p class="title">{{ listedCount }} ⊆ {{ totalSoldItems }}</p>
           <p class="text-xs text-k-grey">
@@ -21,7 +21,7 @@
         :header="profileStats.totalBuys"
         inline />
 
-      <div class="level-item has-text-centered">
+      <div class="level-item text-center">
         <div>
           <p class="title">
             <CommonTokenMoney :value="highestBuyPrice" inline /> ⊆
@@ -34,7 +34,7 @@
         </div>
       </div>
 
-      <div class="level-item has-text-centered">
+      <div class="level-item text-center">
         <div>
           <p class="title">
             <CommonTokenMoney :value="totalHoldingsBoughtValues" inline /> ⊆
@@ -45,7 +45,7 @@
         </div>
       </div>
 
-      <div class="level-item has-text-centered">
+      <div class="level-item text-center">
         <div>
           <p class="title">
             <CommonTokenMoney :value="maxSoldPrice" inline /> ⊆

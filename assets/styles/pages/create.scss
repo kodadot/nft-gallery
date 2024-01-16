@@ -37,13 +37,9 @@
 }
 
 .form-addons {
+  @apply text-center leading-[3rem] h-12 w-16 border-l-[none];
   @include ktheme() {
     border: 1px solid theme('card-border-color');
-    border-left: none;
-    text-align: center;
-    line-height: 3rem;
-    height: 3rem;
-    width: 4rem;
   }
 }
 

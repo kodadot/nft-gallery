@@ -141,7 +141,7 @@
 
       <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered has-text-centered history"
+        cell-class="is-vcentered text-center history"
         field="soldHistory"
         :label="$t('spotlight.soldHistory')">
         <NeoSkeleton :active="isLoading" />
@@ -154,11 +154,11 @@
 
       <template #detail="props">
         <SpotlightDetail v-if="props.row.total" :account="props.row.id" />
-        <div v-else class="has-text-centered">{{ $t('spotlight.empty') }}</div>
+        <div v-else class="text-center">{{ $t('spotlight.empty') }}</div>
       </template>
 
       <template #empty>
-        <div v-if="!isLoading" class="w-full has-text-centered">
+        <div v-if="!isLoading" class="w-full text-center">
           {{ $t('spotlight.empty') }}
         </div>
         <NeoSkeleton :active="isLoading"> </NeoSkeleton>
