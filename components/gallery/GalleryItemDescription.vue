@@ -1,12 +1,12 @@
 <template>
-  <NeoTabs
+  <o-tabs
     v-model="activeTab"
     expanded
     content-class="o-tabs__content--fixed"
     type="toggle"
     data-testid="gallery-item-description-neotabs">
     <!-- description tab -->
-    <NeoTabItem
+    <o-tab-item
       value="0"
       :label="$t('tabs.description')"
       class="p-5"
@@ -25,10 +25,10 @@
         v-if="nftMetadata"
         :source="descSource"
         class="gallery-item-desc-markdown" />
-    </NeoTabItem>
+    </o-tab-item>
 
     <!-- properties tab -->
-    <NeoTabItem
+    <o-tab-item
       value="1"
       :disabled="propertiesTabDisabled"
       :label="$t('tabs.properties')"
@@ -58,10 +58,10 @@
         </NeoTableColumn>
       </NeoTable>
       <div v-else></div>
-    </NeoTabItem>
+    </o-tab-item>
 
     <!-- details tab -->
-    <NeoTabItem
+    <o-tab-item
       value="2"
       :label="$t('tabs.details')"
       class="p-5"
@@ -162,11 +162,11 @@
           >{{ metadataMimeType }}</a
         >
       </div>
-    </NeoTabItem>
+    </o-tab-item>
 
     <!-- parent tab -->
     <div v-if="parent">
-      <NeoTabItem value="3" :label="$t('tabs.parent')" class="p-5">
+      <o-tab-item value="3" :label="$t('tabs.parent')" class="p-5">
         <nuxt-link :to="parentNftUrl">
           <BaseMediaItem
             :key="parent?.nftImage"
@@ -183,19 +183,13 @@
             {{ parent?.nftMetadata?.value?.name }}
           </p>
         </nuxt-link>
-      </NeoTabItem>
+      </o-tab-item>
     </div>
-  </NeoTabs>
+  </o-tabs>
 </template>
 
 <script setup lang="ts">
-import {
-  NeoTabItem,
-  NeoTable,
-  NeoTableColumn,
-  NeoTabs,
-  NeoTooltip,
-} from '@kodadot1/brick'
+import { NeoTable, NeoTableColumn, NeoTooltip } from '@kodadot1/brick'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import Markdown from '@/components/shared/Markdown.vue'
 

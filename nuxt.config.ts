@@ -6,6 +6,8 @@ import { sentryVitePlugin } from '@sentry/vite-plugin'
 const baseUrl = process.env.BASE_URL || 'http://localhost:9090'
 
 export default defineNuxtConfig({
+  extends: ['@kodadot1/fragment'],
+
   server: {
     port: 9090, // default: 3000
     host: '0.0.0.0',
