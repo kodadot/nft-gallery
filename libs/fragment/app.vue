@@ -1,0 +1,3 @@
+<template>
+  <HelloWorld />
+</template>

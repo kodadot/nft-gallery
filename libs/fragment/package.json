@@ -1,0 +1,20 @@
+{
+  "name": "@kodadot1/fragment",
+  "type": "module",
+  "version": "1.0.0",
+  "main": "./nuxt.config.ts",
+  "scripts": {
+    "dev": "nuxi dev .playground",
+    "build": "nuxt build .playground",
+    "generate": "nuxt generate .playground",
+    "preview": "nuxt preview .playground",
+    "lint": "eslint .",
+    "postinstall": "nuxt prepare .playground"
+  },
+  "devDependencies": {
+    "@nuxt/eslint-config": "^0.1.1",
+    "eslint": "^8.28.0",
+    "nuxt": "^3.6.2",
+    "typescript": "^4.9.3"
+  }
+}
