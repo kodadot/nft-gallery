@@ -15,7 +15,7 @@
         ] in displayedFlippers"
         :key="flipperId"
         class="hide-last-hr">
-        <div class="flex flex-col gap">
+        <div class="flex flex-col gap-2">
           <div class="px-5">
             <ProfileLink
               :address="flipperId"
@@ -61,7 +61,7 @@
             </div>
             <div>
               <div
-                class="text-xs has-text-k-blue is-clickable"
+                class="text-xs has-text-k-blue cursor-pointer"
                 @click="toggleNFTDetails(flipperId)">
                 {{ $t('activity.nftDetails') }}
                 <NeoIcon
@@ -137,9 +137,6 @@ const isNFTDetailsOpen = ref(isFlipperMoreNFTSectionOpen)
 </script>
 
 <style lang="scss" scoped>
-.gap {
-  gap: 0.5rem;
-}
 .hide-last-hr:last-child > hr {
   display: none;
 }

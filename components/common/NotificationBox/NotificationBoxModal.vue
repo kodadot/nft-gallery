@@ -36,7 +36,7 @@
               <div
                 v-for="(item, index) in collections"
                 :key="`${item}-${index}`"
-                class="filter-item rounded is-clickable px-3 mr-1 py-1 mb-1 whitespace-nowrap"
+                class="filter-item rounded cursor-pointer px-3 mr-1 py-1 mb-1 whitespace-nowrap"
                 :class="{
                   activated: collectionFilter?.id === item.id,
                 }"
@@ -53,7 +53,7 @@
               <div
                 v-for="event in eventTypes"
                 :key="event"
-                class="filter-item rounded is-clickable px-3 mr-1 py-1 whitespace-nowrap"
+                class="filter-item rounded cursor-pointer px-3 mr-1 py-1 whitespace-nowrap"
                 :class="{
                   activated: eventFilter.includes(event),
                 }"

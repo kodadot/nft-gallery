@@ -31,7 +31,7 @@
         </div>
         <div v-for="(provider, index) in providers" :key="provider.value">
           <div
-            class="provider is-clickable flex justify-center items-start flex-col my-4"
+            class="provider cursor-pointer flex justify-center items-start flex-col my-4"
             :class="{
               provider__disabled: provider.disabled || !agreeTos,
             }"

@@ -11,7 +11,7 @@
       v-if="closable"
       aria-close-label="clear filter"
       icon="xmark"
-      class="ml-2 is-clickable cross-icon"
+      class="ml-2 cursor-pointer cross-icon"
       @click="onClose" />
   </div>
 </template>

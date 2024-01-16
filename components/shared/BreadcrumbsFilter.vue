@@ -51,7 +51,7 @@
       </template>
       <div
         v-if="isAnyFilterActive"
-        class="control py-1 is-clickable"
+        class="control py-1 cursor-pointer"
         @click="clearAllFilters">
         <span>{{ $t('sort.clearAll') }}</span>
       </div>

@@ -1,7 +1,7 @@
 <template>
   <nuxt-link :to="`/${urlPrefix}/collection/${collection.id}`">
     <div
-      class="top-collections-item py-2 flex items-center justify-between is-clickable">
+      class="top-collections-item py-2 flex items-center justify-between cursor-pointer">
       <div class="flex items-center">
         <div class="p-4 has-text-weight-bold">
           {{ index }}
