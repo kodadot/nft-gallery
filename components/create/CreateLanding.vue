@@ -32,7 +32,7 @@
           :to="`/${urlPrefix}/waifu`">
           <div
             :class="{
-              'flex h-full pack-content-waifu flex-col': !isMobile,
+              'flex h-full pack-content-waifu text-center flex-col': !isMobile,
               'pack-content': isMobile,
             }">
             <img
@@ -158,8 +158,7 @@ const gotoPathAfterLogin = (path: RawLocation) => {
   }
 
   &-content {
-    text-align: center;
-    width: 14rem;
+    @apply text-center w-56;
 
     &-text {
       margin-top: 2rem;
@@ -181,8 +180,6 @@ const gotoPathAfterLogin = (path: RawLocation) => {
   }
 
   &-content-waifu {
-    text-align: center;
-
     &-text {
       margin-top: 2rem;
     }
@@ -197,10 +194,7 @@ const gotoPathAfterLogin = (path: RawLocation) => {
     }
 
     &-content {
-      display: flex;
-      gap: 2rem;
-      text-align: left;
-      width: 100%;
+      @apply flex gap-8 text-left w-full;
 
       &-text {
         margin-top: 0;
