@@ -359,6 +359,7 @@ function toggleFallback() {
 @import '@/assets/styles/abstracts/variables';
 #nft-img-container:fullscreen,
 #nft-img-container.fullscreen-fallback {
+  overflow: auto;
   @include ktheme() {
     background-color: theme('background-color');
   }
@@ -407,7 +408,7 @@ $break-point-width: 930px;
   }
 }
 .back-button {
-  @apply absolute z-[1] left-3 top-8;
+  @apply fixed z-[1] left-3 top-8;
   @include desktop {
     left: $fluid-container-padding;
   }
