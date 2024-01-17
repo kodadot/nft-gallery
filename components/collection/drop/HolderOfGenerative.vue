@@ -348,23 +348,21 @@ const submitMint = async (sn: string) => {
   }
 }
 
+const checkAlreadyClaimedNfts = async () => {
+  const nftIds = holderOfCollectionData.value.nftEntities.map((nft) => nft.sn)
+  const claimed = await Promise.all(
+    nftIds.map((sn) => isNftClaimed(sn, holderOfCollectionId)),
+  )
+
+  amountClaimedNfts.value = claimed.filter(Boolean).length
+}
+
 const handleDropAddModalConfirm = () => {
   closeAddFundModal()
   fetchMultipleBalance([urlPrefix.value])
 }
 
-watch(
-  holderOfCollectionData,
-  async () => {
-    const nftIds = holderOfCollectionData.value.nftEntities.map((nft) => nft.sn)
-    const claimed = await Promise.all(
-      nftIds.map((sn) => isNftClaimed(sn, collectionId.value)),
-    )
-
-    amountClaimedNfts.value = claimed.filter(Boolean).length
-  },
-  { immediate: true },
-)
+watch(holderOfCollectionData, checkAlreadyClaimedNfts, { immediate: true })
 </script>
 
 <style scoped lang="scss">
