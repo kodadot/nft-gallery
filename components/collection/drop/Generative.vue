@@ -7,7 +7,7 @@
     :minimum-funds="minimumFundsProps"
     :max-count="maxCount"
     :minted-count="mintedCount"
-    :mint-count-available="mintCountAvailable && !disabledByBackend"
+    :mint-count-available="mintCountAvailable || !disabledByBackend"
     :mint-button="mintButtonProps"
     :collection-id="collectionId"
     :description="description"
@@ -119,6 +119,7 @@ const minimumFundsDescription = computed(() =>
 const minimumFundsProps = computed(() => ({
   amount: minimumFunds.value,
   description: minimumFundsDescription.value,
+  hasAmount: hasMinimumFunds.value,
 }))
 
 const isWalletConnecting = ref(false)
