@@ -371,7 +371,7 @@ const checkAvailableNftsToClaim = async () => {
   const claimed = await Promise.all(
     nftIds.map((sn) => isNftClaimed(sn, holderOfCollectionId)),
   )
-  availableNfts.value = claimed.filter((x) => !Boolean(x)).length
+  availableNfts.value = claimed.filter((x) => !x).length
 }
 
 const handleDropAddModalConfirm = () => {
