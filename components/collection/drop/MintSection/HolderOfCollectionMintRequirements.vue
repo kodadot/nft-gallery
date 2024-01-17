@@ -14,7 +14,7 @@
               <p class="capitalize">
                 Holder of NFT from
                 <nuxt-link
-                  class="text-link-hover"
+                  class="has-text-link"
                   :to="`/${urlPrefix}/collection/${props.holderOfCollection.id}`">
                   {{ collection?.name }}
                 </nuxt-link>
@@ -58,7 +58,9 @@
               </div>
             </div>
           </MintRequirementItem>
-          <MintRequirementItem v-if="checkMinimumFunds" fulfilled>
+          <MintRequirementItem
+            v-if="checkMinimumFunds"
+            :fulfilled="minimumFunds.hasAmount">
             <p v-dompurify-html="minimumFunds.description" />
           </MintRequirementItem>
         </div>
@@ -98,7 +100,7 @@ const props = defineProps<{
       used: number
     }
   }
-  minimumFunds: { amount: number; description: string }
+  minimumFunds: { amount: number; description: string; hasAmount: boolean }
   isMintedOut: boolean
 }>()
 
@@ -115,7 +117,10 @@ const showHolderOfCollection = computed(() => !!props.holderOfCollection.id)
 const checkMinimumFunds = computed(() => Boolean(props.minimumFunds.amount))
 
 const readyToMint = computed(
-  () => Boolean(props.holderOfCollection.isHolder) && checkMinimumFunds.value,
+  () =>
+    Boolean(props.holderOfCollection.isHolder) &&
+    checkMinimumFunds.value &&
+    props.minimumFunds.hasAmount,
 )
 
 const availableForMint = computed(

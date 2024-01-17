@@ -71,6 +71,7 @@ const minimumFundsDescription = computed(() =>
 const minimumFundsProps = computed(() => ({
   amount: minimumFunds.value,
   description: minimumFundsDescription.value,
+  hasAmount: hasMinimumFunds.value,
 }))
 
 const isWalletConnecting = ref(false)

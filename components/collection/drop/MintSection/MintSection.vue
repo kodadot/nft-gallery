@@ -93,7 +93,7 @@ const props = withDefaults(
     mintCountAvailable: boolean
     disabledByBackend: number
     maxCount: number
-    minimumFunds: { amount: number; description: string }
+    minimumFunds: { amount: number; description: string; hasAmount: boolean }
     isImageFetching: boolean
     isWalletConnecting: boolean
     isLoading: boolean
