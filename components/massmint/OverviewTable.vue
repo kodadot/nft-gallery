@@ -51,7 +51,7 @@
               <div
                 class="is-clickable clip-text"
                 :class="{
-                  'has-text-k-orange': !nft.description,
+                  'text-k-orange': !nft.description,
                 }"
                 @click="openSideBarWith(nft)">
                 {{ nft.description || $t('massmint.descriptionMissing') }}
@@ -62,7 +62,7 @@
                 <CommonTokenMoney
                   v-if="nft.price"
                   :value="getNativeNftPrice(nft)" />
-                <div v-else class="has-text-k-orange">
+                <div v-else class="text-k-orange">
                   {{ $t('massmint.priceMissing') }}
                 </div>
               </div>
