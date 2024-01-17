@@ -28,7 +28,7 @@
           </div>
         </div>
         <NeoButton
-          class="h-full no-border-left py-4 px-7"
+          class="h-full border-l-0 py-4 px-7"
           :variant="'k-accent'"
           @click="preferencesStore.listingCartModalOpen = true">
           {{ $t('listingCart.listItem', listingCartStore.count) }}
@@ -57,7 +57,7 @@ onBeforeUnmount(() => {
   position: fixed;
   right: 96px;
   bottom: 36px;
-  z-index: 998;
+  @apply z-[998];
   .selection-button:not([disabled='disabled']):hover {
     @include ktheme() {
       color: theme('text-color') !important;

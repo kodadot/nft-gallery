@@ -24,7 +24,7 @@
         <p class="mb-4">{{ $t('mint.unlockable.addFundsModal.textP2') }}</p>
         <NeoTooltip multiline multiline-width="256px" content-class="p-4">
           <div
-            class="flex justify-between items-center text-k-grey add-funds-note">
+            class="flex justify-between items-center text-k-grey cursor-default mb-4">
             <NeoIcon icon="circle-info" class="mr-3" />
             <p class="text-xs">
               {{ $t('mint.unlockable.addFundsModal.howToAddFunds') }}
@@ -115,11 +115,6 @@ const handleModalClose = (completed: boolean) => {
 
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
-
-.add-funds-note {
-  cursor: default;
-  margin-bottom: 16px;
-}
 
 .add-funds-modal {
   .o-tip {

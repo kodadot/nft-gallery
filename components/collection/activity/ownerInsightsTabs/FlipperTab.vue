@@ -15,7 +15,7 @@
         ] in displayedFlippers"
         :key="flipperId"
         class="hide-last-hr">
-        <div class="flex flex-col gap">
+        <div class="flex flex-col gap-2">
           <div class="px-5">
             <ProfileLink
               :address="flipperId"
@@ -55,13 +55,13 @@
               <span class="text-xs text-k-grey">{{
                 $t('activity.latestActivity')
               }}</span>
-              <span class="whitespace-nowrap">{{
-                timeAgo(latestflipTimestamp)
-              }}</span>
+              <TimeAgo
+                custom-class="whitespace-nowrap"
+                :timestamp="latestflipTimestamp" />
             </div>
             <div>
               <div
-                class="text-xs has-text-k-blue is-clickable"
+                class="text-xs has-text-k-blue cursor-pointer"
                 @click="toggleNFTDetails(flipperId)">
                 {{ $t('activity.nftDetails') }}
                 <NeoIcon
@@ -96,7 +96,6 @@ import { NeoIcon } from '@kodadot1/brick'
 import { format } from '@/components/collection/activity/utils'
 
 import NFTsDetaislDropdown from './NFTsDetaislDropdown.vue'
-import { timeAgo } from '@/components/collection/utils/timeAgo'
 import { Flippers } from '@/composables/collectionActivity/types'
 
 const props = defineProps<{
@@ -137,9 +136,6 @@ const isNFTDetailsOpen = ref(isFlipperMoreNFTSectionOpen)
 </script>
 
 <style lang="scss" scoped>
-.gap {
-  gap: 0.5rem;
-}
 .hide-last-hr:last-child > hr {
   display: none;
 }

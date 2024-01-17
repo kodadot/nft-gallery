@@ -10,9 +10,9 @@
       </div>
       <div class="flex flex-col">
         {{ name }}
-        <span class="text-xs text-k-grey">{{
-          timeAgo(new Date(updatedAt).getTime())
-        }}</span>
+        <TimeAgo
+          custom-class="text-xs text-k-grey"
+          :timestamp="new Date(updatedAt).getTime()" />
       </div>
     </nuxt-link>
     <div ref="target" />
@@ -24,7 +24,6 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { NFTExcludingEvents } from '@/composables/collectionActivity/types'
-import { timeAgo } from '@/components/collection/utils/timeAgo'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 
 const { placeholder } = useTheme()

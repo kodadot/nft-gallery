@@ -13,7 +13,7 @@
         :scrollable="false"
         :loading="loadingAutoTeleport"
         @close="onClose">
-        <div class="px-6 limit-height">
+        <div class="px-6 max-h-[50vh] overflow-y-auto">
           <ModalIdentityItem />
 
           <ListingCartSingleItemCart
@@ -29,7 +29,7 @@
             @setFixedPrice="setFixedPrice" />
         </div>
 
-        <div class="border-top pt-5 pb-4 px-6">
+        <div class="border-t pt-5 pb-4 px-6">
           <div class="flex justify-between">
             {{ $t('listingCart.potentialEarnings') }}
             <div class="flex">
@@ -41,7 +41,7 @@
           </div>
 
           <div
-            class="flex justify-between text-k-grey pb-4 mt-3 border-bottom-k-shade">
+            class="flex justify-between text-k-grey pb-4 mt-3 border-b-k-shade">
             <span>{{ $t('listingCart.listingFees') }}</span>
             <span class="ml-2">{{ teleportTransitionTxFees }}</span>
           </div>
@@ -257,17 +257,6 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.rounded {
-  border-radius: 10rem;
-}
-
-.limit-height {
-  max-height: 50vh;
-  overflow-y: auto;
-}
-
 :deep(.identity-name-font-weight-regular) {
   .identity-name {
     font-weight: unset !important;

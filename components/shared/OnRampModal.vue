@@ -1,8 +1,7 @@
 <template>
   <NeoModal :value="isModalActive" scroll="clip" @close="onClose">
     <div class="modal-width">
-      <div
-        class="border-bottom border-grey flex items-center justify-between px-6">
+      <div class="border-b border-grey flex items-center justify-between px-6">
         <p class="py-5 is-size-6 has-text-weight-bold">
           {{ $t('general.chooseProvider') }}
         </p>
@@ -31,7 +30,7 @@
         </div>
         <div v-for="(provider, index) in providers" :key="provider.value">
           <div
-            class="provider is-clickable flex justify-center items-start flex-col my-4"
+            class="provider cursor-pointer flex justify-center items-start flex-col my-4"
             :class="{
               provider__disabled: provider.disabled || !agreeTos,
             }"
@@ -166,7 +165,7 @@ const onSuccess = () => {
   }
 
   &__disabled {
-    cursor: default !important;
+    @apply cursor-default #{!important};
     .provider-logo {
       opacity: 30%;
     }

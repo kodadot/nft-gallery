@@ -1,5 +1,5 @@
 .modal.is-active {
-  z-index: 998;
+  @apply z-[998];
 }
 
 .modal-background {

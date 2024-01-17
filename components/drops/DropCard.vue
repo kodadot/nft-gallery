@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="drop.collection && !isLoadingMeta"
-      class="drop-card border card-border-color">
+      class="drop-card border border-border-color">
       <component
         :is="externalUrl ? 'a' : NuxtLink"
         rel="nofollow noopener noreferrer"

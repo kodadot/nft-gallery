@@ -206,7 +206,7 @@
       </div>
 
       <div
-        class="mb-5 flex justify-center is-clickable"
+        class="mb-5 flex justify-center cursor-pointer"
         data-testid="transfer-icon-add-recipient"
         @click="addAddress">
         {{ $t('transfers.addAddress') }}
@@ -968,7 +968,7 @@ watchDebounced(
   }
 }
 :deep(.o-drop__menu.no-border-bottom) {
-  border-bottom: none;
+  @apply border-b-0;
 }
 
 .is-absolute-right {

@@ -55,7 +55,7 @@
 
     <div>
       <p class="has-text-weight-bold mt-5">{{ $t('migrate.route') }}:</p>
-      <NeoButton rounded variant="pill" class="mt-2 no-hover">
+      <NeoButton rounded variant="pill" class="mt-2 no-hover cursor-default">
         <div class="flex items-center">
           <img
             width="20"
@@ -83,7 +83,7 @@
 
       <div class="text-xs">
         <p
-          class="my-4 text-k-grey is-cursor-pointer"
+          class="my-4 text-k-grey cursor-pointer"
           @click="toggleFee = !toggleFee">
           {{ $t('migrate.feeBreakdown') }}
           <NeoIcon :icon="toggleFee ? 'chevron-up' : 'chevron-down'" />
@@ -122,7 +122,7 @@
               {{ $t('mint.collection.modal.existentialDeposit') }}
               <NeoTooltip
                 position="top"
-                class="is-cursor-pointer"
+                class="cursor-pointer"
                 multiline-width="14rem"
                 multiline
                 :label="
@@ -146,7 +146,7 @@
               {{ $t('mint.nft.modal.existentialDeposit') }}
               <NeoTooltip
                 position="top"
-                class="is-cursor-pointer"
+                class="cursor-pointer"
                 multiline-width="14rem"
                 multiline
                 :label="
@@ -169,7 +169,7 @@
             <div>
               {{ $t('mint.nft.modal.kodadotFee') }}
               <NeoTooltip
-                class="is-cursor-pointer"
+                class="cursor-pointer"
                 position="top"
                 multiline-width="14rem"
                 :label="$t('mint.nft.modal.kodadotTooltip')"

@@ -22,7 +22,7 @@
       <NeoDropdownItem
         v-for="collection in collections"
         :key="collection.id"
-        class="is-flex no-border is-justify-content-center is-align-items-center"
+        class="is-flex border-0 is-justify-content-center is-align-items-center"
         aria-role="listitem"
         :value="collection.id">
         <NeoCheckbox
@@ -46,7 +46,7 @@
             </div>
           </div>
 
-          <div class="rounded ml-5 px-3 bg-k-grey-light">
+          <div class="rounded-2xl ml-5 px-3 bg-k-grey-light">
             {{ collection.owned }}
           </div>
         </div>
@@ -173,9 +173,6 @@ useLazyAsyncData('profileCollections', async () => {
 <style scoped lang="scss">
 @import '@/assets/styles/abstracts/variables';
 
-.rounded {
-  border-radius: 1rem;
-}
 .dropdown-width {
   width: 18.75rem;
 

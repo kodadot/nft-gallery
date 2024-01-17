@@ -33,9 +33,7 @@
         <span v-else>
           {{ blank }}
         </span>
-        <span>
-          {{ timeAgo(event.timestamp) }}
-        </span>
+        <TimeAgo :timestamp="event.timestamp" />
       </div>
     </div>
 
@@ -75,7 +73,6 @@ import {
   Offer,
 } from '@/composables/collectionActivity/types'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
-import { timeAgo } from '@/components/collection/utils/timeAgo'
 import {
   blank,
   getAmount,

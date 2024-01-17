@@ -113,9 +113,7 @@ const closeModal = () => {
 @import '@/assets/styles/abstracts/variables';
 
 .wallet-asset-container {
-  @include ktheme() {
-    border-top: 1px solid theme('border-color');
-  }
+  @apply border-t;
   height: 100%;
 }
 
@@ -123,10 +121,10 @@ const closeModal = () => {
   display: flex;
   justify-content: space-between;
   padding: 1rem 0;
-  border-bottom: 1px solid grey;
+  @apply border-b border-k-grey;
 
   &:last-child {
-    border-bottom: 0;
+    @apply border-b-0;
   }
 }
 
@@ -141,9 +139,7 @@ const closeModal = () => {
   }
 
   & > * {
-    cursor: pointer;
-    display: flex;
-    gap: 0.25rem;
+    @apply cursor-pointer flex gap-1;
 
     &:hover {
       @include ktheme() {

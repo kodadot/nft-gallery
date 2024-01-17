@@ -32,7 +32,7 @@
         v-slot="props"
         field="image"
         label=""
-        header-class="front-stack-layer"
+        header-class="z-10"
         cell-class="is-vcentered">
         <div class="image is-48x48 mb-2">
           <BasicImage :src="props.row.image" :alt="props.row.name" rounded />
@@ -274,7 +274,7 @@
       </NeoTableColumn>
       <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered text-center history"
+        cell-class="is-vcentered text-center w-52 h-24"
         field="buyHistory"
         :label="$t('series.buyHistory')">
         <NeoSkeleton v-if="isLoading" :active="isLoading" />
@@ -502,15 +502,3 @@ watch(nbDays, (value: string) => {
     .catch((e) => $consola.warn(e))
 })
 </script>
-<style lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.history {
-  width: 200px;
-  height: 100px;
-}
-
-.front-stack-layer {
-  z-index: 1;
-}
-</style>

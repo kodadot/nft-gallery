@@ -24,7 +24,7 @@
         </span>
       </div>
 
-      <div class="flex justify-between items-center py-4 border-top-k-shade">
+      <div class="flex justify-between items-center py-4 border-t-k-shade">
         <span class="has-text-weight-bold is-size-6 capitalize">{{
           $t('general.from')
         }}</span>
@@ -36,7 +36,7 @@
         </span>
       </div>
 
-      <div class="flex justify-between items-center py-4 border-top-k-shade">
+      <div class="flex justify-between items-center py-4 border-t-k-shade">
         <span class="has-text-weight-bold is-size-6">{{
           $t('transfers.sendTo')
         }}</span>
@@ -54,7 +54,10 @@
             <NeoIcon icon="circle-info" class="is-size-6" pack="far" />
           </NeoTooltip>
         </div>
-        <div v-else class="is-clickable" @click="isExpandList = !isExpandList">
+        <div
+          v-else
+          class="cursor-pointer"
+          @click="isExpandList = !isExpandList">
           <span class="mx-2 is-size-6">
             {{ targetAddresses.length }} {{ $t('transfers.recipients') }}
           </span>
@@ -69,7 +72,7 @@
           <div
             v-for="(address, index) in targetAddresses"
             :key="address.address"
-            class="py-4 border-top-k-shade text-xs">
+            class="py-4 border-t-k-shade text-xs">
             <div class="flex justify-between items-center mb-2">
               <span class="text-k-grey"
                 >{{ $t('transfers.recipient') }} {{ index + 1 }}</span
