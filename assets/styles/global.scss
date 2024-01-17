@@ -282,12 +282,6 @@ hr {
   }
 }
 
-.has-text-color {
-  @include ktheme() {
-    color: theme('text-color') !important;
-  }
-}
-
 .is-cursor-pointer {
   cursor: pointer !important;
 }
