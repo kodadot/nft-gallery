@@ -12,7 +12,7 @@
         <label
           v-for="(value, name) in filters"
           :key="name"
-          class="is-clickable capitalize events-checkbox-container"
+          class="cursor-pointer capitalize events-checkbox-container"
           :data-testid="name"
           :class="cssActive(value)">
           <input

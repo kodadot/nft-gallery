@@ -206,7 +206,7 @@
       </div>
 
       <div
-        class="mb-5 flex justify-center is-clickable"
+        class="mb-5 flex justify-center cursor-pointer"
         data-testid="transfer-icon-add-recipient"
         @click="addAddress">
         {{ $t('transfers.addAddress') }}

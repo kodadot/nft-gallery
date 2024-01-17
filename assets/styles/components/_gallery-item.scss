@@ -72,7 +72,7 @@
     }
   }
   a {
-    cursor: pointer;
+    @apply cursor-pointer;
     @include ktheme() {
       color: theme('k-blue') !important;
       &:hover {

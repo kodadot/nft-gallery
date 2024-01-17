@@ -11,7 +11,7 @@
       v-if="closable"
       aria-close-label="clear filter"
       icon="xmark"
-      class="ml-2 is-clickable cross-icon"
+      class="ml-2 cursor-pointer cross-icon"
       @click="onClose" />
   </div>
 </template>
@@ -96,8 +96,7 @@ const onClose = () => {
     }
 
     &:first-child {
-      margin-right: 0.3rem;
-      cursor: default;
+      @apply cursor-default mr-[0.3rem];
     }
     &.is-delete {
       &:hover,

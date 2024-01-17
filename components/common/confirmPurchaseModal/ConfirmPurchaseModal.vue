@@ -31,7 +31,7 @@
             {{ $t('mint.nft.modal.serviceFee') }}
             ({{ SUPPORT_FEE_PERCENT * 100 }}%)
             <NeoTooltip
-              class="is-cursor-pointer"
+              class="cursor-pointer"
               position="top"
               multiline-width="14rem"
               :label="$t('tooltip.supportFee')"
