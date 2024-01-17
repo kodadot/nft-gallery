@@ -38,7 +38,7 @@
             </div>
             <div class="flex justify-between">
               <span class="text-xs text-k-grey">{{ $t('activity.date') }}</span>
-              <span>{{ timeAgo(holdings.lastActivityTimestamp) }}</span>
+              <TimeAgo :timestamp="holdings.lastActivityTimestamp" />
             </div>
             <div>
               <div
@@ -80,7 +80,6 @@ import { Owners } from '@/composables/collectionActivity/types'
 import { NeoIcon } from '@kodadot1/brick'
 
 import NFTsDetaislDropdown from './NFTsDetaislDropdown.vue'
-import { timeAgo } from '@/components/collection/utils/timeAgo'
 
 const props = defineProps<{
   owners?: Owners

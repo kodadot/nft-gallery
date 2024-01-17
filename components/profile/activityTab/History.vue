@@ -71,11 +71,8 @@ import { formatDistanceToNow } from 'date-fns'
 import { exist } from '@/utils/exist'
 import { usePreferencesStore } from '@/stores/preferences'
 
-import {
-  HistoryEventType,
-  InteractionBsxOnly,
-  parseDate,
-} from '@/utils/historyEvent'
+import { HistoryEventType, InteractionBsxOnly } from '@/utils/historyEvent'
+import { parseDate } from '@/utils/datetime'
 
 import { Interaction as EventInteraction } from '@/components/rmrk/service/scheme'
 import ResponsiveTable from '@/components/shared/ResponsiveTable.vue'
