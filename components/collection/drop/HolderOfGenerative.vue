@@ -48,6 +48,16 @@ import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetail
 
 const holderOfCollectionId = '50' // ChaosFlakes | todo: mock for testing, should be fetched from backend
 
+export type HolderOfCollectionProp = {
+  id: string
+  isHolder: boolean
+  hasAvailable: boolean
+  amount: {
+    total: number
+    available: number
+  }
+}
+
 const props = withDefaults(
   defineProps<{
     drop: DropItem
@@ -90,7 +100,7 @@ const { client } = usePrefix()
 const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isAddFundModalActive = ref(false)
-const amountClaimedNfts = ref(0)
+const availableNfts = ref(0)
 
 const {
   defaultName,
@@ -183,12 +193,15 @@ const isHolderOfTargetCollection = computed(
   () => maxMintLimitForCurrentUser.value > 0,
 )
 
-const holderOfCollection = computed(() => ({
+const hasAvailableNfts = computed(() => availableNfts.value !== 0)
+
+const holderOfCollection = computed<HolderOfCollectionProp>(() => ({
   id: holderOfCollectionId,
   isHolder: isHolderOfTargetCollection.value,
+  hasAvailable: hasAvailableNfts.value,
   amount: {
     total: maxMintLimitForCurrentUser.value,
-    used: amountClaimedNfts.value,
+    available: availableNfts.value,
   },
 }))
 
@@ -198,7 +211,8 @@ const mintButtonLabel = computed(() => {
     : isLogIn.value
       ? isHolderOfTargetCollection.value &&
         maxMintLimitForCurrentUser.value > mintedAmountForCurrentUser.value &&
-        hasMinimumFunds.value
+        hasMinimumFunds.value &&
+        hasAvailableNfts.value
         ? $i18n.t('mint.unlockable.claimPaidNft', [
             `${depositAmount.value} ${depositChainSymbol.value}`,
           ])
@@ -351,13 +365,13 @@ const submitMint = async (sn: string) => {
   }
 }
 
-const checkAlreadyClaimedNfts = async () => {
+const checkAvailableNftsToClaim = async () => {
   const nftIds = holderOfCollectionData.value.nftEntities.map((nft) => nft.sn)
   const claimed = await Promise.all(
     nftIds.map((sn) => isNftClaimed(sn, holderOfCollectionId)),
   )
 
-  amountClaimedNfts.value = claimed.filter(Boolean).length
+  availableNfts.value = claimed.filter((x) => !Boolean(x)).length
 }
 
 const handleDropAddModalConfirm = () => {
@@ -365,7 +379,7 @@ const handleDropAddModalConfirm = () => {
   fetchMultipleBalance([urlPrefix.value])
 }
 
-watch(holderOfCollectionData, checkAlreadyClaimedNfts, { immediate: true })
+watch(holderOfCollectionData, checkAvailableNftsToClaim, { immediate: true })
 </script>
 
 <style scoped lang="scss">

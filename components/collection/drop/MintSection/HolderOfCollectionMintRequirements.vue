@@ -9,7 +9,7 @@
         <div class="flex gap-4 flex-col w-full">
           <MintRequirementItem
             v-if="showHolderOfCollection && collection"
-            :fulfilled="Boolean(holderOfCollection.isHolder)">
+            :fulfilled="fulfillsHolderOfCollection">
             <div class="flex justify-between items-center w-full">
               <p class="capitalize">
                 Holder of NFT from
@@ -25,7 +25,7 @@
                   {{ $t('mint.unlockable.availableForMint') }}
                 </span>
                 <span
-                  >{{ props.holderOfCollection.amount?.used }}/{{
+                  >{{ props.holderOfCollection.amount?.available }}/{{
                     props.holderOfCollection.amount?.total
                   }}</span
                 >
@@ -58,9 +58,7 @@
               </div>
             </div>
           </MintRequirementItem>
-          <MintRequirementItem
-            v-if="checkMinimumFunds"
-            :fulfilled="minimumFunds.hasAmount">
+          <MintRequirementItem :fulfilled="fulfillsMinimumFunds">
             <p v-dompurify-html="minimumFunds.description" />
           </MintRequirementItem>
         </div>
@@ -92,16 +90,10 @@
 import MintRequirementItem from './MintRequirementItem.vue'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import type { HolderOfCollectionProp } from '../HolderOfGenerative.vue'
 
 const props = defineProps<{
-  holderOfCollection: {
-    id?: string
-    isHolder?: boolean
-    amount?: {
-      total: number
-      used: number
-    }
-  }
+  holderOfCollection: HolderOfCollectionProp
   minimumFunds: { amount: number; description: string; hasAmount: boolean }
   isMintedOut: boolean
 }>()
@@ -116,20 +108,22 @@ const { collection } = useCollectionMinimal({
 
 const showHolderOfCollection = computed(() => !!props.holderOfCollection.id)
 
-const checkMinimumFunds = computed(() => Boolean(props.minimumFunds.amount))
-
-const readyToMint = computed(
+const fulfillsHolderOfCollection = computed(
   () =>
     Boolean(props.holderOfCollection.isHolder) &&
-    checkMinimumFunds.value &&
-    props.minimumFunds.hasAmount &&
-    availableForMint.value !== 0,
+    props.holderOfCollection.hasAvailable,
+)
+
+const fulfillsMinimumFunds = computed(
+  () => Boolean(props.minimumFunds.amount) && props.minimumFunds.hasAmount,
+)
+
+const readyToMint = computed(
+  () => fulfillsHolderOfCollection.value && fulfillsMinimumFunds.value,
 )
 
 const availableForMint = computed(
-  () =>
-    (props.holderOfCollection.amount?.total || 0) -
-    (props.holderOfCollection.amount?.used || 0),
+  () => props.holderOfCollection.amount?.available || 0,
 )
 
 const mintLabel = computed(() => {

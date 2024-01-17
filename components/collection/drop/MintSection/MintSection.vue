@@ -84,6 +84,7 @@
 import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import HolderOfCollectionMintRequirements from './HolderOfCollectionMintRequirements.vue'
+import type { HolderOfCollectionProp } from '../HolderOfGenerative.vue'
 
 const NuxtLink = resolveComponent('NuxtLink')
 
@@ -99,20 +100,12 @@ const props = withDefaults(
     isLoading: boolean
     mintButton: { label: string; disabled: boolean }
     userMintedNftId?: string
-    holderOfCollection?: {
-      id?: string
-      isHolder?: boolean
-      amount?: {
-        total: number
-        used: number
-      }
-    }
+    holderOfCollection?: HolderOfCollectionProp
     collectionId: string
     availableToMint?: number
   }>(),
   {
     userMintedNftId: undefined,
-    holderOfCollection: () => ({ id: '', isHolder: false }),
   },
 )
 
@@ -142,7 +135,9 @@ const mintButtonDisabled = computed(() =>
   isMintedOut.value ? false : props.mintButton.disabled,
 )
 
-const showHolderOfCollection = computed(() => !!props.holderOfCollection.id)
+const showHolderOfCollection = computed(
+  () => !!props.holderOfCollection?.id && props.holderOfCollection,
+)
 
 const handleMint = () => {
   if (isMintedOut.value) {

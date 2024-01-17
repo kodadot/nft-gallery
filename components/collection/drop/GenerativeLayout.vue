@@ -64,6 +64,7 @@
 
 <script setup lang="ts">
 import { DropItem } from '@/params/types'
+import type { HolderOfCollectionProp } from './HolderOfGenerative.vue'
 
 withDefaults(
   defineProps<{
@@ -78,14 +79,7 @@ withDefaults(
     isImageFetching: boolean
     isWalletConnecting: boolean
     isLoading: boolean
-    holderOfCollection?: {
-      id?: string
-      isHolder?: boolean
-      amount?: {
-        total: number
-        used: number
-      }
-    }
+    holderOfCollection?: HolderOfCollectionProp
     userMintedNftId?: string
 
     handleSelectImage: (image: string) => void
