@@ -49,7 +49,7 @@
         :is-minted-out="isMintedOut">
         <NeoButton
           ref="root"
-          class="ml-5 my-2 mint-button"
+          class="mint-button"
           variant="k-accent"
           :loading="loading"
           :disabled="mintButtonDisabled"

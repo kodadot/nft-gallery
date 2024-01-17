@@ -67,7 +67,7 @@
       </div>
 
       <div
-        class="flex items-center mt-2"
+        class="flex items-start md:items-center mt-6 flex-col md:flex-row"
         :class="[isMintedOut ? 'justify-end' : 'justify-between']">
         <div
           v-if="!isMintedOut"
@@ -80,7 +80,9 @@
           <NeoIcon v-if="readyToMint" class="ml-1" icon="check" />
         </div>
 
-        <slot />
+        <div class="mt-[24px] md:mt-0">
+          <slot />
+        </div>
       </div>
     </div>
   </div>
