@@ -246,12 +246,6 @@ hr {
   padding-left: $fluid-container-padding;
 }
 
-.has-text-k-shade {
-  @include ktheme() {
-    color: theme('k-shade');
-  }
-}
-
 .is-cursor-pointer {
   cursor: pointer !important;
 }
