@@ -136,5 +136,3 @@ const mintLabel = computed(() => {
   return $i18n.t('mint.unlockable.requirementsNotMet')
 })
 </script>
-
-<style scoped lang="scss"></style>

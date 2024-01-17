@@ -31,5 +31,3 @@ const iconClass = computed(() => {
   return props.fulfilled ? 'text-k-green' : 'text-k-red'
 })
 </script>
-
-<style scoped></style>
