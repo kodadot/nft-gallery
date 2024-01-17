@@ -63,13 +63,7 @@
 
         &::before,
         &::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 1px;
-          height: 39px;
-          z-index: 1;
+          @apply content-[''] absolute w-px h-[39px] z-[1] left-0 top-0;
 
           @include ktheme() {
             background: theme('card-border-color');

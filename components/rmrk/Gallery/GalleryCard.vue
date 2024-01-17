@@ -174,7 +174,7 @@ const largeDisplay = computed(
     &:hover .card-content {
       bottom: 0;
       opacity: 1;
-      z-index: 2;
+      @apply z-[2];
       background: $frosted-glass-background;
       backdrop-filter: $frosted-glass-backdrop-filter;
     }

@@ -199,11 +199,7 @@ const displayedEvents = computed(() =>
     }
 
     .notification-filter {
-      flex-shrink: 0;
-      flex-grow: 0;
-      position: sticky;
-      top: 0;
-      z-index: 1;
+      @apply shrink-0 grow-0 sticky z-[1] top-0;
       & > div:last-child {
         @apply border-b border-k-grey;
       }

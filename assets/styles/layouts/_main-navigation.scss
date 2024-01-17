@@ -71,11 +71,7 @@
           }
 
           &--fullpage {
-            position: fixed;
-            top: 57px;
-            height: 100vh;
-            width: 100%;
-            z-index: 100;
+            @apply fixed h-screen w-full z-[100] top-[57px];
 
             @include ktheme() {
               background: theme('background-color');
@@ -148,13 +144,13 @@
 }
 
 .navbar {
+  min-height: $navbar-desktop-min-height;
   transform: translateZ(0px);
   transition: 0.3s ease;
   -webkit-transition: 0.3s ease;
-  z-index: 999 !important;
-  min-height: $navbar-desktop-min-height;
   width: 100vw;
   background: $white;
+  @apply z-[999] #{!important};
 
   @include mobile {
     min-height: $navbar-mobile-min-height;

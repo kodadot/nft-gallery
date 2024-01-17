@@ -1,7 +1,7 @@
 <template>
   <div class="unlockable-image-slider mt-6">
     <div
-      class="unlockable-image-tip border px-4 py-2 bg-background-color has-z-index-1 whitespace-nowrap">
+      class="unlockable-image-tip border px-4 py-2 bg-background-color z-10 whitespace-nowrap">
       {{ title || $t('mint.unlockable.imageTip') }}
     </div>
     <div ref="container" class="keen-slider">
