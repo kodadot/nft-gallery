@@ -1,4 +1,4 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
 
 settings:
   autoInstallPeers: false
@@ -102,17 +102,17 @@ importers:
         specifier: ^4.22.2
         version: 4.22.2
       chart.js:
-        specifier: ^3.9.1
-        version: 3.9.1
+        specifier: ^4.4.1
+        version: 4.4.1
       chartjs-adapter-date-fns:
-        specifier: ^2.0.1
-        version: 2.0.1(chart.js@3.9.1)
+        specifier: ^3.0.0
+        version: 3.0.0(chart.js@4.4.1)(date-fns@2.30.0)
       chartjs-plugin-annotation:
-        specifier: ^2.2.1
-        version: 2.2.1(chart.js@3.9.1)
+        specifier: ^3.0.1
+        version: 3.0.1(chart.js@4.4.1)
       chartjs-plugin-zoom:
-        specifier: ^1.2.1
-        version: 1.2.1(chart.js@3.9.1)
+        specifier: ^2.0.1
+        version: 2.0.1(chart.js@4.4.1)
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
@@ -182,6 +182,9 @@ importers:
       vue-audio-visual:
         specifier: 2.5.0
         version: 2.5.0
+      vue-chartjs:
+        specifier: ^5.3.0
+        version: 5.3.0(chart.js@4.4.1)(vue@3.4.7)
       vue-dompurify-html:
         specifier: ^4.1.4
         version: 4.1.4(vue@3.4.7)
@@ -3277,6 +3280,10 @@ packages:
       - bufferutil
       - supports-color
       - utf-8-validate
+    dev: false
+
+  /@kurkle/color@0.3.2:
+    resolution: {integrity: sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==}
     dev: false
 
   /@kwsites/file-exists@1.1.1:
@@ -9733,32 +9740,37 @@ packages:
     resolution: {integrity: sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==}
     dev: true
 
-  /chart.js@3.9.1:
-    resolution: {integrity: sha512-Ro2JbLmvg83gXF5F4sniaQ+lTbSv18E+TIf2cOeiH1Iqd2PGFOtem+DUufMZsCJwFE7ywPOpfXFBwRTGq7dh6w==}
+  /chart.js@4.4.1:
+    resolution: {integrity: sha512-C74QN1bxwV1v2PEujhmKjOZ7iUM4w6BWs23Md/6aOZZSlwMzeCIDGuZay++rBgChYru7/+QFeoQW0fQoP534Dg==}
+    engines: {pnpm: '>=7'}
+    dependencies:
+      '@kurkle/color': 0.3.2
     dev: false
 
-  /chartjs-adapter-date-fns@2.0.1(chart.js@3.9.1):
-    resolution: {integrity: sha512-v3WV9rdnQ05ce3A0ZCjzUekJCAbfm6+3HqSoeY2BIkdMYZoYr/4T+ril1tZyDl869lz6xdNVMXejUFT9YKpw4A==}
+  /chartjs-adapter-date-fns@3.0.0(chart.js@4.4.1)(date-fns@2.30.0):
+    resolution: {integrity: sha512-Rs3iEB3Q5pJ973J93OBTpnP7qoGwvq3nUnoMdtxO+9aoJof7UFcRbWcIDteXuYd1fgAvct/32T9qaLyLuZVwCg==}
     peerDependencies:
       chart.js: '>=2.8.0'
+      date-fns: '>=2.0.0'
     dependencies:
-      chart.js: 3.9.1
+      chart.js: 4.4.1
+      date-fns: 2.30.0
     dev: false
 
-  /chartjs-plugin-annotation@2.2.1(chart.js@3.9.1):
-    resolution: {integrity: sha512-RL9UtrFr2SXd7C47zD0MZqn6ZLgrcRt3ySC6cYal2amBdANcYB1QcwFXcpKWAYnO4SGJYRok7P5rKDDNgJMA/w==}
+  /chartjs-plugin-annotation@3.0.1(chart.js@4.4.1):
+    resolution: {integrity: sha512-hlIrXXKqSDgb+ZjVYHefmlZUXK8KbkCPiynSVrTb/HjTMkT62cOInaT1NTQCKtxKKOm9oHp958DY3RTAFKtkHg==}
     peerDependencies:
-      chart.js: '>=3.7.0'
+      chart.js: '>=4.0.0'
     dependencies:
-      chart.js: 3.9.1
+      chart.js: 4.4.1
     dev: false
 
-  /chartjs-plugin-zoom@1.2.1(chart.js@3.9.1):
-    resolution: {integrity: sha512-2zbWvw2pljrtMLMXkKw1uxYzAne5PtjJiOZftcut4Lo3Ee8qUt95RpMKDWrZ+pBZxZKQKOD/etdU4pN2jxZUmg==}
+  /chartjs-plugin-zoom@2.0.1(chart.js@4.4.1):
+    resolution: {integrity: sha512-ogOmLu6e+Q7E1XWOCOz9YwybMslz9qNfGV2a+qjfmqJYpsw5ZMoRHZBUyW+NGhkpQ5PwwPA/+rikHpBZb7PZuA==}
     peerDependencies:
-      chart.js: ^3.2.0
+      chart.js: '>=3.2.0'
     dependencies:
-      chart.js: 3.9.1
+      chart.js: 4.4.1
       hammerjs: 2.0.8
     dev: false
 
@@ -19074,6 +19086,16 @@ packages:
     resolution: {integrity: sha512-oYATTQyh8XVkUWe2kaKxhxKVuuzK2Qcehe+yr3bGiaQAhK3ry2kYE4FWOfL+KO3hVFwCdLmzDQTzYhTi9C+R2A==}
     dependencies:
       ufo: 1.3.2
+
+  /vue-chartjs@5.3.0(chart.js@4.4.1)(vue@3.4.7):
+    resolution: {integrity: sha512-8XqX0JU8vFZ+WA2/knz4z3ThClduni2Nm0BMe2u0mXgTfd9pXrmJ07QBI+WAij5P/aPmPMX54HCE1seWL37ZdQ==}
+    peerDependencies:
+      chart.js: ^4.1.1
+      vue: ^3.0.0-0 || ^2.7.0
+    dependencies:
+      chart.js: 4.4.1
+      vue: 3.4.7(typescript@4.9.5)
+    dev: false
 
   /vue-demi@0.13.11(vue@3.4.7):
     resolution: {integrity: sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==}
