@@ -75,9 +75,7 @@ defineProps<{
 }
 
 .sales-container {
-  @include ktheme() {
-    border-top: 1px solid theme('k-grey');
-  }
+  @apply border-t border-k-grey;
 }
 
 .popover-user-heading {

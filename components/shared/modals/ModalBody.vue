@@ -1,6 +1,6 @@
 <template>
   <div class="modal-width">
-    <header class="px-6 py-4 flex justify-between border-bottom items-center">
+    <header class="px-6 py-4 flex justify-between border-b items-center">
       <NeoSkeleton
         v-if="loading"
         rounded
@@ -120,9 +120,7 @@ $b-padding: 1.25rem;
 
 .slot {
   &__loading {
-    opacity: 0;
-    z-index: 1;
-    pointer-events: none;
+    @apply opacity-0 z-[1] pointer-events-none;
   }
 }
 

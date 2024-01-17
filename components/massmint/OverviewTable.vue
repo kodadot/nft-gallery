@@ -7,25 +7,25 @@
       <template #content>
         <div class="limit-height">
           <div
-            class="columns is-variable is-1 is-mobile m-0 px-4 py-1 border-bottom border-k-grey">
-            <div class="column has-text-grey is-1">#</div>
-            <div class="column has-text-grey">{{ $t('massmint.image') }}</div>
-            <div class="column has-text-grey">{{ $t('massmint.name') }}</div>
-            <div class="column is-3 has-text-grey">
+            class="columns is-variable is-1 is-mobile m-0 px-4 py-1 border-b border-k-grey">
+            <div class="column text-k-grey is-1">#</div>
+            <div class="column text-k-grey">{{ $t('massmint.image') }}</div>
+            <div class="column text-k-grey">{{ $t('massmint.name') }}</div>
+            <div class="column is-3 text-k-grey">
               {{ $t('massmint.description') }}
             </div>
-            <div class="column has-text-grey">{{ $t('massmint.price') }}</div>
-            <div class="column has-text-grey flex justify-center">
+            <div class="column text-k-grey">{{ $t('massmint.price') }}</div>
+            <div class="column text-k-grey flex justify-center">
               <span class="pl-2">{{ $t('massmint.status') }}</span>
             </div>
-            <div class="column has-text-grey flex justify-center">
+            <div class="column text-k-grey flex justify-center">
               {{ $t('massmint.operation') }}
             </div>
           </div>
           <div
             v-for="nft in displayedNFTS"
             :key="nft.id"
-            class="columns is-variable is-1 is-mobile border-bottom border-k-shade m-0 py-1 px-4">
+            class="columns is-variable is-1 is-mobile border-b border-k-shade m-0 py-1 px-4">
             <div class="column flex items-center is-1">
               {{ nft.id }}
             </div>
@@ -178,14 +178,6 @@ useIntersectionObserver(sentinel, handleIntersection, { threshold: 0.66 })
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.border-k-shade {
-  @include ktheme() {
-    border-color: theme('k-shade');
-  }
-}
-
 .limit-height {
   max-height: 30rem;
   overflow-y: auto;

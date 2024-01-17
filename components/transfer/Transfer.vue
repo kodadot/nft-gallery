@@ -3,7 +3,7 @@
     <div
       :class="[
         'transfer-card',
-        'w-100',
+        'w-full',
         {
           'theme-background-color k-shadow border py-8 px-7': !isMobile,
         },
@@ -45,7 +45,7 @@
 
           <NeoDropdownItem
             v-clipboard:copy="recurringPaymentLink"
-            class="no-wrap"
+            class="whitespace-nowrap"
             data-testid="transfer-dropdown-recurring"
             @click="toast($t('toast.urlCopy'))">
             <NeoIcon icon="rotate" class="mr-2" />{{
@@ -102,7 +102,7 @@
             <Money :value="balance.token" inline />
           </div>
 
-          <span class="has-text-grey">≈ ${{ balance.usd }}</span>
+          <span class="text-k-grey">≈ ${{ balance.usd }}</span>
         </div>
       </div>
 
@@ -166,7 +166,7 @@
                   @update:modelValue="
                     onAmountFieldChange(destinationAddress)
                   " />
-                <div class="is-absolute-right has-text-grey">
+                <div class="is-absolute-right text-k-grey">
                   {{ unit }}
                 </div>
               </div>
@@ -179,7 +179,7 @@
                 step="0.01"
                 min="0"
                 icon-right="usd"
-                icon-right-class="has-text-grey"
+                icon-right-class="text-k-grey"
                 data-testid="transfer-input-amount-usd"
                 @focus="onAmountFieldFocus(destinationAddress, 'usd')"
                 @update:modelValue="onUsdFieldChange(destinationAddress)" />
@@ -267,7 +267,7 @@
       <div class="flex justify-between items-center mb-2">
         <span class="text-xs">{{ $t('transfers.networkFee') }}</span>
         <div class="flex items-center" data-testid="transfer-network-fee">
-          <span class="text-xs has-text-grey mr-1"
+          <span class="text-xs text-k-grey mr-1"
             >({{ displayValues.fee[0] }})</span
           >
           <span class="text-xs">{{ displayValues.fee[1] }}</span>
@@ -279,7 +279,7 @@
           $t('spotlight.total')
         }}</span>
         <div class="flex items-center">
-          <span class="text-xs has-text-grey mr-1"
+          <span class="text-xs text-k-grey mr-1"
             >({{ displayValues.total.withFee[0] }})</span
           >
 
@@ -968,7 +968,7 @@ watchDebounced(
   }
 }
 :deep(.o-drop__menu.no-border-bottom) {
-  border-bottom: none;
+  @apply border-b-0;
 }
 
 .is-absolute-right {

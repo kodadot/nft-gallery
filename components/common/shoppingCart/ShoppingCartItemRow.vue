@@ -1,6 +1,6 @@
 <template>
   <div ref="hoverRef" class="flex justify-between background-hover">
-    <div class="pr-2 w-full no-wrap is-clipped ellipsis">
+    <div class="pr-2 w-full whitespace-nowrap is-clipped ellipsis">
       <div class="flex">
         <nuxt-link
           :to="`/${urlPrefix}/gallery/${nft.id}`"
@@ -14,12 +14,12 @@
           class="flex flex-col justify-between ml-4 min-width w-full line-height-1">
           <nuxt-link
             :to="`/${urlPrefix}/gallery/${nft.id}`"
-            class="has-text-weight-bold has-text-color no-wrap is-clipped ellipsis"
+            class="has-text-weight-bold has-text-color whitespace-nowrap is-clipped ellipsis"
             @click="emit('click-item')">
             {{ nft.name }}
           </nuxt-link>
           <div class="flex justify-between w-full">
-            <div class="no-wrap is-clipped ellipsis">
+            <div class="whitespace-nowrap is-clipped ellipsis">
               {{ nft.collection?.name || nft.collection.id }}
             </div>
 

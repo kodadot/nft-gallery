@@ -2,7 +2,7 @@
   <transition name="slide">
     <div v-if="listingCartStore.count" class="listing-container">
       <div class="inline-flex items-center">
-        <div class="k-shadow theme-background-color border py-4 px-6">
+        <div class="k-shadow bg-background-color border py-4 px-6">
           <div class="inline-flex items-center">
             <div>
               <b>{{ listingCartStore.count }}</b>
@@ -11,16 +11,16 @@
             <div class="mx-4" />
             <NeoButton
               :disabled="!listingCartStore.count"
-              class="has-text-grey selection-button"
+              class="text-k-grey selection-button"
               variant="text"
               no-shadow
               @click="listingCartStore.clearListedItems">
               {{ $t('sort.clearAll') }}
             </NeoButton>
-            <div class="mx-4 divider has-background-k-grey" />
+            <div class="mx-4 divider bg-k-grey" />
             <NeoButton
               variant="text"
-              class="has-text-grey selection-button"
+              class="text-k-grey selection-button"
               no-shadow
               @click="listingCartStore.addAllToCart">
               {{ $t('listingCart.selectAll') }}
@@ -28,7 +28,7 @@
           </div>
         </div>
         <NeoButton
-          class="h-full no-border-left py-4 px-7"
+          class="h-full border-l-0 py-4 px-7"
           :variant="'k-accent'"
           @click="preferencesStore.listingCartModalOpen = true">
           {{ $t('listingCart.listItem', listingCartStore.count) }}

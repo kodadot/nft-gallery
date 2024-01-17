@@ -26,20 +26,18 @@
       <span class="has-text-weight-bold">
         {{ $t('lewd.explicit') }}
       </span>
-      <span class="nsfw-desc text-align-center">{{
-        $t('lewd.explicitDesc')
-      }}</span>
+      <span class="nsfw-desc text-center">{{ $t('lewd.explicitDesc') }}</span>
     </div>
     <div
       v-if="isInteractive"
-      class="k-shade border-k-grey flex items-center justify-center border is-rounded absolute-position image is-24x24">
+      class="bg-k-shade border-k-grey flex items-center justify-center border is-rounded absolute-position image is-24x24">
       <NeoIcon icon="code" pack="far" class="text-xs has-text-weight-medium" />
     </div>
     <NeoButton
       v-if="isLewd"
       rounded
       no-shadow
-      class="nsfw-action no-border px-4 py-1 is-size-6"
+      class="nsfw-action border-0 px-4 py-1 is-size-6"
       :class="{ hide: isLewdBlurredLayer }"
       :label="
         isLewdBlurredLayer ? $t('lewd.showContent') : $t('lewd.hideContent')

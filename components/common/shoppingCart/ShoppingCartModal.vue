@@ -1,14 +1,14 @@
 <template>
   <div>
     <div
-      class="shopping-cart-modal-container theme-background-color border-left flex flex-col"
+      class="shopping-cart-modal-container bg-background-color border-l flex flex-col"
       data-testid="shopping-cart-modal-container">
       <NeoModalHead
         :title="$t('shoppingCart.title')"
         @close="closeShoppingCart(ModalCloseType.BACK)" />
       <div
         v-if="numberOfItems"
-        class="mx-6 py-4 border-bottom border-k-shade flex justify-between items-center">
+        class="mx-6 py-4 border-b border-k-shade flex justify-between items-center">
         <span> {{ numberOfItems }} {{ $t('items') }}</span>
 
         <NeoButton
@@ -19,7 +19,7 @@
           @click="clearAllItems" />
       </div>
       <div v-if="numberOfItems" class="scroll-y">
-        <div class="theme-background-color flex flex-grow flex-col py-2">
+        <div class="bg-background-color flex flex-grow flex-col py-2">
           <ShoppingCartItemRow
             v-for="item in sortedItems"
             :key="item.id"
@@ -31,10 +31,10 @@
             @delete="shoppingCartStore.removeItem"
             @click-item="closeShoppingCart" />
         </div>
-        <div class="flex justify-between mx-6 py-4 border-top border-k-shade">
+        <div class="flex justify-between mx-6 py-4 border-t border-k-shade">
           {{ $t('shoppingCart.total') }}
           <div class="flex">
-            <CommonTokenMoney :value="totalPrice" class="has-text-grey" />
+            <CommonTokenMoney :value="totalPrice" class="text-k-grey" />
             <span class="has-text-weight-bold ml-4"> ${{ priceUSD }} </span>
           </div>
         </div>
@@ -59,7 +59,7 @@
           <span class="has-text-weight-bold mb-2">{{
             $t('shoppingCart.emptyCart.line1')
           }}</span>
-          <span class="text-align-center mb-5">{{
+          <span class="text-center mb-5">{{
             $t('shoppingCart.emptyCart.line2')
           }}</span>
           <NeoButton

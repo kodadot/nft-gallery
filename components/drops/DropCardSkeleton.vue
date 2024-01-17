@@ -1,5 +1,5 @@
 <template>
-  <div class="border card-border-color">
+  <div class="border border-border-color">
     <NeoSkeleton no-margin :rounded="false" height="272" />
     <div class="py-4 px-5 flex items-center justify-between">
       <div class="w-52">

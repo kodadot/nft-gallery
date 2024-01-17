@@ -4,7 +4,7 @@
     <NeoModal :value="isModalActive" scroll="clip" @close="onClose">
       <div class="modal-width">
         <header
-          class="border-bottom border-grey flex items-center justify-between px-6">
+          class="border-b border-grey flex items-center justify-between px-6">
           <p class="py-5 is-size-6 has-text-weight-bold">
             {{ $t('transaction.transferNft') }}
           </p>
@@ -32,15 +32,15 @@
             <div
               class="flex flex-col justify-between ml-4 limit-width w-full is-clipped">
               <div
-                class="has-text-weight-bold has-text-color line-height-1 no-wrap is-ellipsis">
+                class="has-text-weight-bold has-text-color line-height-1 whitespace-nowrap is-ellipsis">
                 {{ nft.name }}
               </div>
-              <div class="line-height-1 no-wrap is-ellipsis">
+              <div class="line-height-1 whitespace-nowrap is-ellipsis">
                 {{ nft.collection?.name || nft.collection.id }}
               </div>
             </div>
 
-            <div class="ml-4 flex items-end no-wrap">
+            <div class="ml-4 flex items-end whitespace-nowrap">
               {{ nftPrice }}
             </div>
           </div>
@@ -70,7 +70,7 @@
             class="flex flex-grow py-5 capitalize btn-height"
             @click="transfer" />
 
-          <div class="mt-3 flex justify-between has-text-grey">
+          <div class="mt-3 flex justify-between text-k-grey">
             <NeoIcon icon="circle-info" size="small" class="mr-4" />
 
             <p class="text-xs">

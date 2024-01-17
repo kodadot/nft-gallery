@@ -151,18 +151,10 @@ body {
   max-height: 24px;
 }
 
-.w-100 {
-  width: 100% !important;
-}
-
 .short-identity__table {
   max-width: 50em;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.no-wrap {
-  white-space: nowrap;
 }
 
 .collapseHidden {
@@ -176,10 +168,6 @@ body {
     border: 1px solid theme('border-color');
   }
   border-radius: 50%;
-}
-
-.object-fit-cover {
-  object-fit: cover;
 }
 
 .box {
@@ -209,43 +197,10 @@ body {
   }
 }
 
-.h-full {
-  height: 100% !important;
-}
-
-.w-full {
-  width: 100%;
-}
 hr {
   height: 1px;
   @include ktheme() {
     background: theme('k-shade');
-  }
-}
-
-.has-text-grey {
-  @include ktheme() {
-    color: theme('k-grey') !important;
-  }
-}
-
-.has-text-grey-fix {
-  @include ktheme() {
-    color: theme('k-grey-fix') !important;
-  }
-}
-
-.has-text-inverse {
-  @include ktheme() {
-    color: theme('text-color-inverse');
-  }
-}
-
-a.has-text-grey {
-  @include ktheme() {
-    &:hover {
-      color: theme('text-color') !important;
-    }
   }
 }
 
@@ -290,58 +245,6 @@ a.has-text-grey {
 .fluid-padding-left {
   padding-left: $fluid-container-padding;
 }
-.border-bottom {
-  @include ktheme() {
-    border-bottom: 1px solid theme('border-color');
-  }
-}
-.border-top {
-  @include ktheme() {
-    border-top: 1px solid theme('border-color');
-  }
-}
-.border-left {
-  @include ktheme() {
-    border-left: 1px solid theme('border-color');
-  }
-}
-.border-right {
-  @include ktheme() {
-    border-right: 1px solid theme('border-color');
-  }
-}
-
-.no-border {
-  border: none !important;
-}
-
-.no-border-radius {
-  border-radius: 0 !important;
-}
-
-.card-border-color {
-  @include ktheme() {
-    border-color: theme('card-border-color');
-  }
-}
-
-.border-k-shade {
-  @include ktheme() {
-    border-color: theme('k-shade') !important;
-  }
-}
-
-.border-top-k-shade {
-  @include ktheme() {
-    border-top: 1px solid theme('k-shade');
-  }
-}
-
-.border-bottom-k-shade {
-  @include ktheme() {
-    border-bottom: 1px solid theme('k-shade');
-  }
-}
 
 .has-text-k-shade {
   @include ktheme() {
@@ -382,77 +285,6 @@ a.has-text-grey {
 .has-text-color {
   @include ktheme() {
     color: theme('text-color') !important;
-  }
-}
-
-.has-background-inverse {
-  @include ktheme() {
-    background: theme('text-color');
-  }
-}
-
-.k-pink {
-  @include ktheme() {
-    background-color: theme('k-pink');
-  }
-}
-
-.k-aqua-blue {
-  @include ktheme() {
-    background-color: theme('k-aqua-blue');
-  }
-}
-.k-greenaccent {
-  @include ktheme() {
-    background-color: theme('k-greenaccent');
-  }
-}
-
-.k-shade {
-  @include ktheme() {
-    background-color: theme('k-shade');
-  }
-}
-
-.k-yellow {
-  @include ktheme() {
-    background-color: theme('k-yellow');
-  }
-}
-
-.k-green {
-  @include ktheme() {
-    background-color: theme('k-green');
-  }
-}
-.k-red {
-  @include ktheme() {
-    background-color: theme('k-red');
-  }
-}
-.k-redaccent {
-  @include ktheme() {
-    background-color: theme('k-redaccent');
-  }
-}
-.k-grey-light {
-  background-color: var(--k-grey-light) !important;
-}
-.theme-background-color {
-  @include ktheme() {
-    background-color: theme('background-color');
-  }
-}
-
-.k-blueaccent {
-  @include ktheme() {
-    background-color: theme('k-blueaccent');
-  }
-}
-
-.has-background-k-grey {
-  @include ktheme() {
-    background-color: theme('k-grey');
   }
 }
 
@@ -509,10 +341,6 @@ a.has-text-grey {
   }
 }
 
-.text-align-center {
-  text-align: center;
-}
-
 // Transak
 
 .transak_modal-overlay {
@@ -526,10 +354,6 @@ a.has-text-grey {
 
 #transakOnOffRampWidget {
   height: 100% !important;
-}
-
-.no-border-left {
-  border-left: none !important;
 }
 
 .is-rounded {
@@ -579,8 +403,4 @@ a.has-text-grey {
 
 .min-width-0 {
   min-width: 0;
-}
-
-.pointer-events-none {
-  pointer-events: none !important;
 }
