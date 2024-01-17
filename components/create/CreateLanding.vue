@@ -50,7 +50,9 @@
             </div>
           </div>
 
-          <div v-if="!isMobile" class="time-limit px-2 py-1gi">
+          <div
+            v-if="!isMobile"
+            class="time-limit absolute rounded-[6rem] top-4 px-2 py-1gi">
             <span class="text-xs">{{ $t('navbar.create.timeLimit') }}</span>
           </div>
         </nuxt-link>
@@ -169,9 +171,6 @@ const gotoPathAfterLogin = (path: RawLocation) => {
     width: 17rem;
 
     .time-limit {
-      position: absolute;
-      top: 1rem;
-      border-radius: 6rem;
       @include ktheme() {
         border: 1px solid theme('k-grey');
         background-color: theme('background-color');

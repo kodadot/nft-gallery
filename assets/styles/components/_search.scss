@@ -81,9 +81,8 @@
     gap: 0.35rem;
     cursor: default;
     span {
-      height: 1.25rem;
-      padding: 0 1rem;
-      border-radius: 4rem;
+      @apply h-5 px-4 py-0 rounded-[4rem];
+
       @include ktheme() {
         background: theme('blue-accent-bg-color');
       }
@@ -130,9 +129,7 @@
   }
 
   input {
-    border-radius: 0;
-    padding: 0 50px 0 42px;
-    height: 2.5rem;
+    @apply h-10 pl-[42px] pr-[50px] py-0 rounded-none;
     outline: none;
 
     &::placeholder {

@@ -11,7 +11,7 @@
     <div class="flex justify-between items-center text-k-grey mt-5">
       <div
         v-if="post?.date"
-        class="border border-k-shade fixed-border-radius px-4 py-1">
+        class="border border-k-shade rounded-[3rem] px-4 py-1">
         {{ format(new Date(post?.date), 'dd.MM.yyyy') }}
       </div>
 
@@ -104,10 +104,6 @@ useSeoMeta({
     }
   }
 
-  .fixed-border-radius {
-    border-radius: 3rem;
-  }
-
   h1,
   h2,
   h3,
@@ -138,8 +134,7 @@ useSeoMeta({
   }
 
   img {
-    border-radius: 1rem;
-    margin: 2.5rem 0;
+    @apply mx-0 my-10 rounded-2xl;
   }
 
   p,

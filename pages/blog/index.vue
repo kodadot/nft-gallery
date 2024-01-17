@@ -231,10 +231,7 @@ const { data: posts } = useAsyncData('posts', async () => {
   }
 
   &-list {
-    border-radius: 2.5rem;
-    overflow: hidden;
-    display: flex;
-    height: 22rem;
+    @apply overflow-hidden flex h-[22rem] rounded-[2.5rem];
 
     @include touch {
       height: auto;
