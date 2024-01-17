@@ -35,7 +35,7 @@
 
           <NeoDropdownItem
             v-if="accountId"
-            v-clipboard:copy="generatePaymentLink([accountId])"
+            v-clipboard:copy="generatePaymentLink([targetAddresses[0]])"
             data-testid="transfer-dropdown-pay-me"
             @click="toast($t('toast.urlCopy'))">
             <NeoIcon icon="sack-dollar" class="mr-2" />{{
@@ -316,7 +316,7 @@
 <script lang="ts" setup>
 import { ApiFactory } from '@kodadot1/sub-api'
 import { ALTERNATIVE_ENDPOINT_MAP, chainNames } from '@kodadot1/static'
-
+import zipWith from 'lodash/zipWith'
 import { isAddress } from '@polkadot/util-crypto'
 import { DispatchError } from '@polkadot/types/interfaces'
 
@@ -386,6 +386,12 @@ const { chainExistentialDeposit } = useExistentialDeposit()
 
 const DOT_BUFFER_FEE = 10000000 // 0.001
 const KSM_BUFFER_FEE = 100000000 // 0.0001
+
+type QueryTargetAddress = {
+  target: string
+  usdamount?: string
+  amount?: string
+}
 
 export type TargetAddress = {
   address: string
@@ -526,10 +532,10 @@ const hasValidTarget = computed(() =>
 const currentTokenValue = computed(() => getCurrentTokenValue(unit.value))
 
 const recurringPaymentLink = computed(() => {
-  const addressList = targetAddresses.value
-    .filter((item) => isAddress(item.address) && !item.isInvalid)
-    .map((item) => item.address)
-  return generatePaymentLink(addressList)
+  const addresses = targetAddresses.value.filter(
+    (item) => isAddress(item.address) && !item.isInvalid && item.usd,
+  )
+  return generatePaymentLink(addresses)
 })
 
 // END computed refs
@@ -575,56 +581,94 @@ const generateTokenTabs = (
   )
 }
 
-const checkQueryParams = () => {
-  const { query } = route
-  const targets = Object.entries(query)
-    .filter(([key]) => key.startsWith('target'))
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    .filter(([_, address]) => {
-      if (isAddress(address as string)) {
-        return true
-      }
-      showNotification(
-        `Unable to use target address ${address}`,
-        notificationTypes.warn,
-      )
-      return false
-    })
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    .map(([_, address]) => address as string)
-  if (targets.length > 0) {
-    targetAddresses.value = targets.map((address) => ({
-      address,
-    }))
-  }
+const getQueryMultipleKeys = (
+  queryKey: string,
+  filter: (value: [string, any]) => boolean,
+) =>
+  Object.entries(route.query)
+    .filter(([key]) => key.startsWith(queryKey))
+    .filter(filter)
+    .map(([, value]) => value as string)
 
-  if (query.amount) {
-    const tokenAmount = Number(query.amount)
-    const usdValue = calculateUsdFromToken(
+const getQueryTargetAddresses = () =>
+  getQueryMultipleKeys('target', ([_, address]) => {
+    if (isAddress(address as string)) {
+      return true
+    }
+    showNotification(
+      `Unable to use target address ${address}`,
+      notificationTypes.warn,
+    )
+    return false
+  })
+
+const isNumber = (value) => !isNaN(Number(value))
+
+const getQueryUsdAmounts = () =>
+  getQueryMultipleKeys('usdamount', ([_, usdamount]) => isNumber(usdamount))
+
+const getQueryAmounts = () =>
+  getQueryMultipleKeys('amount', ([_, amount]) => isNumber(amount))
+
+const getQueryTargetAddress = ({
+  target,
+  usdamount,
+  amount,
+}: QueryTargetAddress): TargetAddress => {
+  let tokenAmount = Number(amount)
+  let usdValue = Number(usdamount)
+
+  if (amount) {
+    usdValue = calculateUsdFromToken(
       tokenAmount,
       Number(currentTokenValue.value),
     )
-
-    sendSameAmount.value = true
-    targetAddresses.value = targetAddresses.value.map((address) => ({
-      ...address,
-      usd: usdValue,
-      token: tokenAmount,
-    }))
-  } else if (query.usdamount) {
-    const usdValue = Number(query.usdamount)
-    const tokenAmount = calculateTokenFromUsd(
+  } else if (usdamount) {
+    tokenAmount = calculateTokenFromUsd(
       Number(getCurrentTokenValue(unit.value)),
       usdValue,
     )
-    sendSameAmount.value = true
-
-    targetAddresses.value = targetAddresses.value.map((address) => ({
-      ...address,
-      usd: usdValue,
-      token: tokenAmount,
-    }))
   }
+
+  return {
+    address: target,
+    usd: usdValue,
+    token: tokenAmount,
+  }
+}
+
+const checkQueryParams = () => {
+  const targets = getQueryTargetAddresses()
+  const usdAmounts = getQueryUsdAmounts()
+  const amounts = getQueryAmounts()
+
+  const queryTargetAddresses = zipWith(
+    targets,
+    usdAmounts,
+    amounts,
+    (target, usdamount, amount) =>
+      ({
+        target,
+        usdamount,
+        amount,
+      }) as QueryTargetAddress,
+  )
+
+  if (targets.length) {
+    targetAddresses.value = queryTargetAddresses.map(getQueryTargetAddress)
+    sendSameAmount.value = getInitialSendSameAmount(
+      queryTargetAddresses,
+      usdAmounts.length !== 0 ? 'usdamount' : 'amount',
+    )
+  }
+}
+
+const getInitialSendSameAmount = (
+  queryTargetAddresses: QueryTargetAddress[],
+  keyToCheck: string,
+): boolean => {
+  const items = queryTargetAddresses.map((x) => x[keyToCheck])
+  return new Set(items).size === 1 && items.length !== 1
 }
 
 const onAmountFieldChange = (target: TargetAddress) => {
@@ -846,15 +890,19 @@ const onTxError = async (dispatchError: DispatchError): Promise<void> => {
   isLoading.value = false
 }
 
-const generatePaymentLink = (addressList: string[]): string => {
+const generatePaymentLink = (addressList: TargetAddress[]): string => {
   const url = new URL(`${location.origin}${location.pathname}`)
+
   addressList.forEach((addr, i) => {
-    url.searchParams.append(`target${i == 0 ? '' : i}`, addr)
+    const suffix = i === 0 ? '' : i
+    url.searchParams.append(`target${suffix}`, addr.address)
+
+    if (displayUnit.value === 'usd') {
+      url.searchParams.append(`usdamount${suffix}`, String(addr.usd))
+    } else {
+      url.searchParams.append(`amount${suffix}`, String(addr.token))
+    }
   })
-  url.searchParams.append(
-    'usdamount',
-    String(targetAddresses.value[0]?.usd || 0),
-  )
 
   return url.toString()
 }
