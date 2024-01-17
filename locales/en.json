@@ -618,7 +618,7 @@
       "mintThisNft": "Mint This NFT",
       "seeYourNft": "See Your NFT",
       "minimumFundsDescription": "Holding a Minimum of <strong>{0} On {1}</strong> in Your Wallet is Required",
-      "minimumFundsHolderOfDescription": "Holding a Minimum of <strong>{0}</strong> On {1} in Your Wallet is Required",
+      "holderOfCollectionMinimumFundsDescription": "Holding a Minimum of <strong>{0}</strong> On {1} in Your Wallet",
       "freeMinimumFundsDescription": "Holding a Minimum of <strong>{0} On {1}</strong> in Your Wallet is Required for This Free Mint.",
       "claimNftNow": "Claim NFT Now",
       "claimPaidNft": "Claim For {0}",
