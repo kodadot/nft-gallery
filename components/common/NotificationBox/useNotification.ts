@@ -21,9 +21,9 @@ export const getInteractionName = (key: string) => {
 
 export const getInteractionColor = (key: string) => {
   const colorMap = {
-    [Interaction.SALE]: 'k-pink',
-    [Interaction.OFFER]: 'k-greenaccent',
-    [Interaction.ACCEPTED_OFFER]: 'k-blueaccent',
+    [Interaction.SALE]: 'bg-k-pink',
+    [Interaction.OFFER]: 'bg-k-green-accent',
+    [Interaction.ACCEPTED_OFFER]: 'bg-k-blue-accent',
   }
 
   return colorMap[key]
