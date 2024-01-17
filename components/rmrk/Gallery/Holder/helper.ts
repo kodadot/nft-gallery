@@ -10,8 +10,3 @@ export const parsePriceForItem = (item, decimals, unit) => {
   item['Percentage'] =
     item['Bought'] && item['Sale'] ? (item['Sale'] / item['Bought']) * 100 : 0
 }
-
-export const parseDate = (date: Date): string => {
-  const utcDate: string = date.toUTCString()
-  return utcDate.substring(4)
-}

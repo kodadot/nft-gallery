@@ -19,13 +19,6 @@ export const HistoryEventType = {
   ...Interaction,
 }
 
-export const parseDate = (date: Date): string => {
-  return date.toLocaleString('en-GB', {
-    timeZone: 'UTC',
-    timeZoneName: 'short',
-  })
-}
-
 export const parseChartAmount = (amount: string, decimals: number): number => {
   return parseFloat(formatBalance(amount, decimals))
 }

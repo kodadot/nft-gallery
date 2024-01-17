@@ -55,9 +55,9 @@
               <span class="text-xs text-k-grey">{{
                 $t('activity.latestActivity')
               }}</span>
-              <span class="whitespace-nowrap">{{
-                timeAgo(latestflipTimestamp)
-              }}</span>
+              <TimeAgo
+                custom-class="whitespace-nowrap"
+                :timestamp="latestflipTimestamp" />
             </div>
             <div>
               <div
@@ -96,7 +96,6 @@ import { NeoIcon } from '@kodadot1/brick'
 import { format } from '@/components/collection/activity/utils'
 
 import NFTsDetaislDropdown from './NFTsDetaislDropdown.vue'
-import { timeAgo } from '@/components/collection/utils/timeAgo'
 import { Flippers } from '@/composables/collectionActivity/types'
 
 const props = defineProps<{
