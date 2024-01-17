@@ -657,9 +657,10 @@
       "requirements": "Requirements",
       "connectWallet": "Connect wallet to proceed",
       "availableForMint": "Available for mint",
-      "readyToMint": "Ready to Mint",
-      "nftsRemaining": "{0} NFTs Remaining",
-      "requirementsNotMet": "Requirements not met"
+      "readyToMint": "Ready to Mint: {0} NFTs Remaining",
+      "requirementsNotMet": "Requirements not met",
+      "holderOfWarning1": "Each Motherboard collection NFT allows you to <strong>mint one</strong> new NFT.",
+      "holderOfWarning2": "After a claim, that NFT <strong>can't be</strong> used for another mint."
     },
     "blockchain": {
       "label": "Select Blockchain",

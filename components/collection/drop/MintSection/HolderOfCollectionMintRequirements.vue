@@ -6,47 +6,57 @@
 
     <div>
       <div class="flex justify-between">
-        <div class="flex gap-4 flex-col">
+        <div class="flex gap-4 flex-col w-full">
           <MintRequirementItem
             v-if="showHolderOfCollection && collection"
-            :fulfilled="holderOfCollection.isHolder || false">
-            <p class="capitalize">
-              Holder of NFT from
-              <nuxt-link
-                class="text-link-hover"
-                :to="`/${urlPrefix}/collection/${props.holderOfCollection.collectionId}`">
-                {{ collection?.name }}
-              </nuxt-link>
-              collection
-            </p>
+            :fulfilled="Boolean(holderOfCollection.isHolder)">
+            <div class="flex justify-between items-center w-full">
+              <p class="capitalize">
+                Holder of NFT from
+                <nuxt-link
+                  class="text-link-hover"
+                  :to="`/${urlPrefix}/collection/${props.holderOfCollection.id}`">
+                  {{ collection?.name }}
+                </nuxt-link>
+                collection
+              </p>
+              <div v-if="!isMintedOut" class="text-xs">
+                <span class="text-k-grey capitalize mr-2">
+                  {{ $t('mint.unlockable.availableForMint') }}
+                </span>
+                <span
+                  >{{ props.holderOfCollection.amount?.used }}/{{
+                    props.holderOfCollection.amount?.total
+                  }}</span
+                >
+
+                <NeoTooltip
+                  position="top"
+                  multiline
+                  multiline-width="15rem"
+                  root-class="ml-2"
+                  content-class="capitalize">
+                  <NeoIcon
+                    icon="fa-info-circle"
+                    pack="fa-regular"
+                    class="text-k-grey" />
+
+                  <template #content>
+                    <p
+                      v-dompurify-html="$t('mint.unlockable.holderOfWarning1')"
+                      class="mb-3" />
+                    <p
+                      v-dompurify-html="
+                        $t('mint.unlockable.holderOfWarning2')
+                      " />
+                  </template>
+                </NeoTooltip>
+              </div>
+            </div>
           </MintRequirementItem>
           <MintRequirementItem v-if="checkMinimumFunds" fulfilled>
             <p v-dompurify-html="minimumFunds.description" />
           </MintRequirementItem>
-        </div>
-
-        <div v-if="!isMintedOut" class="text-xs">
-          <span class="text-k-grey capitalize mr-2">
-            {{ $t('mint.unlockable.availableForMint') }}
-          </span>
-          <span
-            >{{ props.holderOfCollection.amount?.used }}/{{
-              props.holderOfCollection.amount?.total
-            }}</span
-          >
-
-          <NeoTooltip
-            multiline
-            position="top"
-            :auto-close="['outside', 'inside']"
-            class="text-neutral-7">
-            <NeoIcon
-              icon="fa-info-circle"
-              pack="fa-regular"
-              class="ml-2 text-k-grey" />
-
-            <template #content> </template>
-          </NeoTooltip>
         </div>
       </div>
 
@@ -110,7 +120,10 @@ const mintLabel = computed(() => {
   }
 
   if (readyToMint.value) {
-    return $i18n.t('mint.unlockable.readyToMint')
+    return $i18n.t('mint.unlockable.readyToMint', [
+      props.holderOfCollection.amount?.total -
+        props.holderOfCollection.amount?.used,
+    ])
   }
 
   return $i18n.t('mint.unlockable.requirementsNotMet')

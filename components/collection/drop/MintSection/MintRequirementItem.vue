@@ -2,9 +2,7 @@
   <div class="flex items-center">
     <NeoIcon class="mr-4" :icon="icon" :class="iconClass" />
 
-    <div>
-      <slot />
-    </div>
+    <slot />
   </div>
 </template>
 

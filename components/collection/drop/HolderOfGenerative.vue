@@ -16,8 +16,7 @@
     :mint-count-available="mintCountAvailable"
     :mint-button="mintButtonProps"
     :handle-select-image="handleSelectImage"
-    :handle-submit-mint="handleSubmitMint"
-    :max-available-to-mint="1" />
+    :handle-submit-mint="handleSubmitMint" />
 
   <CollectionDropAddFundsModal
     v-model="isAddFundModalActive"
@@ -198,10 +197,10 @@ const mintButtonLabel = computed(() => {
         : $i18n.t('mint.unlockable.notEligibility')
       : $i18n.t('mint.unlockable.checkEligibility')
 })
-const mintButtonDisabled = computed(
+const mintButtonDisabled = computed<boolean>(
   () =>
     !mintCountAvailable.value ||
-    disabledByBackend.value ||
+    Boolean(disabledByBackend.value) ||
     (isLogIn.value &&
       Boolean(
         !selectedImage.value ||
