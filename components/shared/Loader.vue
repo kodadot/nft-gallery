@@ -118,8 +118,6 @@ onBeforeMount(() => {
 }
 
 .loading-icon {
-  @include ktheme() {
-    border-bottom: 1px solid theme('k-shade');
-  }
+  @apply border-b border-k-shade;
 }
 </style>

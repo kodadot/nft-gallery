@@ -80,7 +80,7 @@
       </div>
     </div>
 
-    <div class="py-2 border-top border-k-orange2 text-center">
+    <div class="py-2 border-t border-k-orange2 text-center">
       <p class="text-xs">
         {{
           canAutoTeleport

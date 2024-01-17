@@ -147,10 +147,7 @@ useSeoMeta({
   height: 560px;
   position: relative;
   background-position: 50% 50%;
-
-  @include ktheme() {
-    border-bottom: 1px solid theme('border-color');
-  }
+  @apply border-b;
 
   &-shadow {
     background: linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.2));

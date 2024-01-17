@@ -18,7 +18,7 @@
       </div>
       <div
         v-else
-        class="flex justify-between items-center py-5 px-6 border-bottom border-k-shade">
+        class="flex justify-between items-center py-5 px-6 border-b border-k-shade">
         <span>Tx:</span>
         <div class="flex">
           <slot name="action-title">
@@ -178,6 +178,6 @@ const checkIconForStep = (step: number) =>
   border-radius: 0.75rem 0.75rem 0 0;
   border-right: 0 !important;
   border-left: 0 !important;
-  border-bottom: 0 !important;
+  @apply border-0;
 }
 </style>

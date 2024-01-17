@@ -21,7 +21,7 @@
           class="py-2" />
       </div>
 
-      <div class="py-4 border-top border-bottom card-border-color">
+      <div class="py-4 border-t border-b border-border-color">
         <div class="flex justify-between items-center mb-2">
           <span class="text-xs">{{ $t('confirmPurchase.priceForNFTs') }}</span>
           <CommonTokenMoney :value="totalNFTsPrice" />

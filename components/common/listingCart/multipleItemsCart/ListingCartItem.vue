@@ -1,5 +1,5 @@
 <template>
-  <div class="border-top border-k-shade py-5">
+  <div class="border-t border-k-shade py-5">
     <ListingCartItemDetails :nft="nft" :discarded="nft.discarded">
       <template #right>
         <NeoButton
