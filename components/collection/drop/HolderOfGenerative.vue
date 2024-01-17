@@ -32,7 +32,11 @@
 import { createUnlockableMetadata } from '../unlockable/utils'
 import { DropItem } from '@/params/types'
 import { claimDropItem } from '@/services/waifu'
-import { useDropMinimumFunds, useDropStatus } from '@/components/drops/useDrops'
+import {
+  useDropMinimumFunds,
+  useDropStatus,
+  useHolderOfCollectionDrop,
+} from '@/components/drops/useDrops'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import holderOfCollectionById from '@/queries/subsquid/general/holderOfCollectionById.graphql'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
@@ -72,6 +76,7 @@ const minimumFundsProps = computed(() => ({
 const isWalletConnecting = ref(false)
 const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
   useDropStatus(props.drop.alias)
+const { isNftClaimed } = useHolderOfCollectionDrop()
 const instance = getCurrentInstance()
 const mintNftSN = ref('0')
 const { doAfterLogin } = useDoAfterlogin(instance)
@@ -84,6 +89,7 @@ const { client } = usePrefix()
 const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isAddFundModalActive = ref(false)
+const amountClaimedNfts = ref(0)
 
 const {
   defaultName,
@@ -181,7 +187,7 @@ const holderOfCollection = computed(() => ({
   isHolder: isHolderOfTargetCollection.value,
   amount: {
     total: maxMintLimitForCurrentUser.value,
-    used: 0,
+    used: amountClaimedNfts.value,
   },
 }))
 
@@ -345,6 +351,19 @@ const handleDropAddModalConfirm = () => {
   closeAddFundModal()
   fetchMultipleBalance([urlPrefix.value])
 }
+
+watch(
+  holderOfCollectionData,
+  async () => {
+    const nftIds = holderOfCollectionData.value.nftEntities.map((nft) => nft.sn)
+    const claimed = await Promise.all(
+      nftIds.map((sn) => isNftClaimed(sn, collectionId.value)),
+    )
+
+    amountClaimedNfts.value = claimed.filter(Boolean).length
+  },
+  { immediate: true },
+)
 </script>
 
 <style scoped lang="scss">

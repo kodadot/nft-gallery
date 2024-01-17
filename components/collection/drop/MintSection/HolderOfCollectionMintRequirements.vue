@@ -43,7 +43,11 @@
 
                   <template #content>
                     <p
-                      v-dompurify-html="$t('mint.unlockable.holderOfWarning1')"
+                      v-dompurify-html="
+                        $t('mint.unlockable.holderOfWarning1', [
+                          collection?.name,
+                        ])
+                      "
                       class="mb-3" />
                     <p
                       v-dompurify-html="
@@ -114,16 +118,19 @@ const readyToMint = computed(
   () => Boolean(props.holderOfCollection.isHolder) && checkMinimumFunds.value,
 )
 
+const availableForMint = computed(
+  () =>
+    (props.holderOfCollection.amount?.total || 0) -
+    (props.holderOfCollection.amount?.used || 0),
+)
+
 const mintLabel = computed(() => {
   if (!accountId.value) {
     return $i18n.t('mint.unlockable.connectWallet')
   }
 
   if (readyToMint.value) {
-    return $i18n.t('mint.unlockable.readyToMint', [
-      props.holderOfCollection.amount?.total -
-        props.holderOfCollection.amount?.used,
-    ])
+    return $i18n.t('mint.unlockable.readyToMint', [availableForMint.value])
   }
 
   return $i18n.t('mint.unlockable.requirementsNotMet')

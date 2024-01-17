@@ -165,3 +165,24 @@ export const useDropMinimumFunds = (drop) => {
     formattedExistentialDeposit,
   }
 }
+
+export const useHolderOfCollectionDrop = () => {
+  const { apiInstance } = useApi()
+
+  const isNftClaimed = async (sn: string, collectionId: string) => {
+    const api = await apiInstance.value
+
+    const claimed = await api.query.nfts.attribute(
+      collectionId,
+      sn,
+      { Pallet: null },
+      '0x0033000000',
+    )
+
+    const wasUsed = claimed.toHuman()
+
+    return wasUsed !== null
+  }
+
+  return { isNftClaimed }
+}
