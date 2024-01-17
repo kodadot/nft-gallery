@@ -120,7 +120,8 @@ const readyToMint = computed(
   () =>
     Boolean(props.holderOfCollection.isHolder) &&
     checkMinimumFunds.value &&
-    props.minimumFunds.hasAmount,
+    props.minimumFunds.hasAmount &&
+    availableForMint.value !== 0,
 )
 
 const availableForMint = computed(
