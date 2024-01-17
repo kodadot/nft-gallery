@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center">
-    <NeoIcon class="mr-4" :icon="icon" :class="iconClass" />
+    <NeoIcon class="mr-4" :icon="icon.name" :class="icon.class" />
 
     <slot />
   </div>
@@ -15,19 +15,19 @@ const props = defineProps<{
 
 const { accountId } = useAuth()
 
-const icon = computed(() => {
+const icon = computed<{ name: string; class: string }>(() => {
   if (!accountId.value) {
-    return 'lock-keyhole'
+    return {
+      name: 'lock-keyhole',
+      class: 'text-k-grey',
+    }
   }
 
-  return props.fulfilled ? 'check' : 'xmark'
-})
-
-const iconClass = computed(() => {
-  if (!accountId.value) {
-    return 'text-k-grey'
-  }
-
-  return props.fulfilled ? 'text-k-green' : 'text-k-red'
+  return props.fulfilled
+    ? {
+        name: 'check',
+        class: 'text-k-green',
+      }
+    : { name: 'xmark', class: 'text-k-red' }
 })
 </script>
