@@ -67,8 +67,7 @@ const showAllEmotes = () => {
   }
 
   .buttons button {
-    border-radius: 0;
-    justify-content: space-between;
+    @apply justify-between rounded-none;
   }
 }
 

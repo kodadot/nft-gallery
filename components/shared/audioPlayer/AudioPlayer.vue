@@ -22,7 +22,7 @@
 
       <div
         class="ml-4 duration"
-        :class="{ 'is-clickable': canStartPlaying }"
+        :class="{ 'cursor-pointer': canStartPlaying }"
         @click="goToEnd">
         {{ formattedDuration }}
       </div>
@@ -35,7 +35,7 @@
         <Waveform
           v-show="isWaveformReady"
           :class="{
-            'is-clickable': canStartPlaying,
+            'cursor-pointer': canStartPlaying,
           }"
           :get-media="() => $refs.audio"
           @play="play"

@@ -6,20 +6,20 @@
       v-if="avatar"
       :src="avatar"
       :alt="displayName"
-      class="border image is-48x48" />
+      class="border object-cover image is-48x48" />
     <img
       v-else
       :src="placeholder"
       :alt="displayName"
-      class="border image is-48x48" />
-    <div class="notify-content ml-5 flex flex-col">
+      class="border object-cover image is-48x48" />
+    <div class="flex-1 overflow-visible ml-5 flex flex-col">
       <div class="flex justify-between">
-        <NeoTooltip :label="displayName" :delay="1000" class="nft-name mr-4">
-          <div class="is-ellipsis max-width has-text-weight-bold">
+        <NeoTooltip :label="displayName" :delay="1000" class="w-0 flex-1 mr-4">
+          <div class="is-ellipsis max-w-[8rem] has-text-weight-bold">
             {{ displayName }}
           </div>
         </NeoTooltip>
-        <div class="nft-price is-ellipsis">
+        <div class="overflow-auto is-ellipsis">
           <Money :value="event.meta" />
         </div>
       </div>
@@ -27,7 +27,7 @@
         <div>
           <div class="height-50px flex items-center">
             <div
-              class="event-type mr-4 border text-xs justify-center py-1 flex items-center"
+              class="leading-3 whitespace-nowrap rounded-[2rem] mr-4 border text-xs justify-center py-1 flex items-center"
               :class="[
                 getInteractionColor(event.interaction),
                 event.interaction === Interaction.ACCEPTED_OFFER
@@ -83,9 +83,6 @@ const displayName = computed(
 <style scoped lang="scss">
 @import '@/assets/styles/abstracts/variables';
 
-.max-width {
-  max-width: 8rem;
-}
 .notify-item {
   &:hover {
     @include ktheme() {
@@ -93,24 +90,5 @@ const displayName = computed(
       background-color: theme('k-accentlight2');
     }
   }
-  img {
-    object-fit: cover;
-  }
-}
-.notify-content {
-  flex: 1;
-  overflow: visible;
-}
-.nft-price {
-  overflow: auto;
-}
-.nft-name {
-  width: 0;
-  flex: 1;
-}
-.event-type {
-  line-height: 0.75rem;
-  border-radius: 2rem;
-  white-space: nowrap;
 }
 </style>

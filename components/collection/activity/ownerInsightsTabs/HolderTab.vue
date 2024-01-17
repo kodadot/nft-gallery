@@ -42,7 +42,7 @@
             </div>
             <div>
               <div
-                class="text-xs has-text-k-blue is-clickable"
+                class="text-xs has-text-k-blue cursor-pointer"
                 data-testid="collection-holder-nft-details"
                 @click="toggleNFTDetails(holderId)">
                 {{ $t('activity.nftDetails') }}

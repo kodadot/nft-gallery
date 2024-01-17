@@ -3,7 +3,7 @@
     :class="[
       disabled
         ? 'hover:pointer-events-none hover:cursor-not-allowed'
-        : 'selectable-image',
+        : 'selectable-image hover:cursor-pointer',
       { 'is-selected': selected },
     ]"
     :src="src"
@@ -36,6 +36,5 @@ const handleClick = () => {
 }
 .selectable-image:hover {
   border: 4px $link-light solid;
-  cursor: pointer;
 }
 </style>
