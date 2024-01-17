@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="text-k-grey mb-6">
+    <p class="text-k-grey mb-5">
       {{ $t('mint.unlockable.requirements') }}
     </p>
 

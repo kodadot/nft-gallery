@@ -229,7 +229,8 @@ const mintButtonDisabled = computed<boolean>(
           !isHolderOfTargetCollection.value ||
           maxMintLimitForCurrentUser.value <=
             mintedAmountForCurrentUser.value ||
-          !hasMinimumFunds.value,
+          !hasMinimumFunds.value ||
+          !hasAvailableNfts.value,
       )),
 )
 
