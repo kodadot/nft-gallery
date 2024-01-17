@@ -1,7 +1,7 @@
 <template>
   <div class="fixed-size border">
     <div
-      class="fixed-top-left border px-4 py-2 theme-background-color has-z-index-1 no-wrap">
+      class="fixed-top-left border px-4 py-2 bg-background-color z-[1] whitespace-nowrap">
       {{ $t('mint.unlockable.yourVariation') }}
     </div>
 
@@ -10,7 +10,7 @@
       :mime-type="generativeImageUrl ? 'text/html' : ''"
       preview
       is-detail
-      class="border-bottom" />
+      class="border-b" />
     <div class="flex justify-center items-center py-6">
       <NeoButton
         v-if="isLoading"
@@ -121,10 +121,8 @@ watch(
 }
 
 .fixed-top-left {
-  border-radius: 3rem;
-  position: absolute;
-  left: 26px;
-  top: -14px;
+  @apply absolute rounded-[3rem] left-[26px] -top-3.5;
+
   @include mobile {
     left: 50%;
     transform: translateX(-50%);

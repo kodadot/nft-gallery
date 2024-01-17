@@ -1,5 +1,5 @@
 <template>
-  <div id="Error" class="container has-text-centered">
+  <div id="Error" class="container text-center">
     <h1 class="title">{{ error.statusCode }} - {{ headline }}</h1>
     <p class="subtitle">{{ error.message || 'Something went wrong' }}</p>
     <p v-if="error.path" class="subtitle">Path: {{ error.path }}</p>

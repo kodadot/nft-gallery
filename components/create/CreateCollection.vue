@@ -136,7 +136,7 @@
         :loading="isLoading" />
       <div class="p-4 flex">
         <NeoIcon icon="circle-info" size="medium" class="mr-4" />
-        <p class="is-size-7">
+        <p class="text-xs">
           <span
             v-dompurify-html="
               $t('mint.requiredDeposit', [

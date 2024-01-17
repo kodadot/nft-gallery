@@ -5,7 +5,7 @@
         v-if="imageSrc"
         :src="imageSrc || placeholder"
         :alt="alt"
-        :class="['has-ratio', { 'is-rounded': rounded }]"
+        :class="['has-ratio', { 'rounded-full': rounded }]"
         @load="onImageLoad"
         @error="onImageError" />
     </transition>

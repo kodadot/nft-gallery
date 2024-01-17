@@ -23,11 +23,11 @@ export const statusTranslation = (status?: Status): string => {
 
 export const statusClass = (status?: Status) => {
   const statusMap: Record<Status, string> = {
-    [Status.Ok]: 'k-greenaccent',
-    [Status.Incomplete]: 'k-redaccent',
-    [Status.Description]: 'k-yellow',
-    [Status.Price]: 'k-yellow',
-    [Status.Optional]: 'k-yellow',
+    [Status.Ok]: 'bg-k-green-accent',
+    [Status.Incomplete]: 'bg-k-red-accent',
+    [Status.Description]: 'bg-k-yellow',
+    [Status.Price]: 'bg-k-yellow',
+    [Status.Optional]: 'bg-k-yellow',
   }
 
   return status ? statusMap[status] : ''

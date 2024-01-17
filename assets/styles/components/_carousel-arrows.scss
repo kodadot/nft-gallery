@@ -9,11 +9,8 @@
 
   width: $side-x;
   height: $side-x;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  @apply absolute -translate-y-2/4 cursor-pointer top-2/4;
   -webkit-transform: translateY(-50%);
-  cursor: pointer;
 
   &-left {
     left: -30px;

@@ -19,12 +19,13 @@ export default function ({
 
   if (!wsUrl) {
     // this client do not subscription
-    return
+    return () => {}
   }
 
   const wsClient = createClient({
     url: wsUrl,
   })
+
   wsClient.subscribe(
     {
       query: `
@@ -53,4 +54,6 @@ export default function ({
       },
     },
   )
+
+  return () => wsClient.dispose()
 }

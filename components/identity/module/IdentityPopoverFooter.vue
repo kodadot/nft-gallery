@@ -28,7 +28,7 @@
         {{ $t('profile.highestSales') }}
       </h6>
       <div class="flex sold-items">
-        <div v-for="nft in soldItems" :key="nft.id" class="sold-item border">
+        <div v-for="nft in soldItems" :key="nft.id" class="sold-item">
           <GalleryCard
             :id="nft.id"
             hide-name
@@ -75,9 +75,7 @@ defineProps<{
 }
 
 .sales-container {
-  @include ktheme() {
-    border-top: 1px solid theme('k-grey');
-  }
+  @apply border-t border-k-grey;
 }
 
 .popover-user-heading {

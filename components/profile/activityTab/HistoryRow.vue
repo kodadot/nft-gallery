@@ -116,7 +116,7 @@
 
     <div class="flex gap">
       <div v-if="!!fromAddress" class="flex items-center">
-        <span class="is-size-7 mr-3">{{ $t('activity.event.from') }}:</span>
+        <span class="text-xs mr-3">{{ $t('activity.event.from') }}:</span>
         <nuxt-link
           :to="`/${urlPrefix}/u/${fromAddress}`"
           class="has-text-link is-ellipsis">
@@ -125,7 +125,7 @@
       </div>
 
       <div v-if="!!toAddress" class="flex items-center">
-        <span class="is-size-7 mr-3">{{ $t('activity.event.to') }}:</span>
+        <span class="text-xs mr-3">{{ $t('activity.event.to') }}:</span>
         <nuxt-link
           :to="`/${urlPrefix}/u/${toAddress}`"
           class="has-text-link is-ellipsis">

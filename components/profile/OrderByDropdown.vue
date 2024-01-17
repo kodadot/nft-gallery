@@ -14,7 +14,7 @@
           :active="active"
           type="button"
           :icon="active ? 'chevron-up' : 'chevron-down'"
-          class="has-text-left"
+          class="text-left"
           data-testid="explore-sort">
           {{ $i18n.t('sort.collection.sortBy') }}
         </NeoButton>
