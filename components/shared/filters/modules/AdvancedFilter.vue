@@ -5,7 +5,7 @@
     :class="{ 'fluid-padding-left': fluidPadding }">
     <template #trigger="{ open }">
       <div class="flex justify-between" role="button" :aria-expanded="open">
-        <p class="py-3 px-4 is-size-7 has-text-grey">
+        <p class="py-3 px-4 text-xs text-k-grey">
           <span data-testid="advanced-filter-collapsible">{{
             $t('advancedFilters')
           }}</span>
@@ -13,7 +13,7 @@
             >({{ $t('active') }})</span
           >
         </p>
-        <a class="card-header-icon mr-1 has-text-grey">
+        <a class="card-header-icon mr-1 text-k-grey">
           <NeoIcon
             size="small"
             :icon="open ? 'chevron-down' : 'chevron-right'" />

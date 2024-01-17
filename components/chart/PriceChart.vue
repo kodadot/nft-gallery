@@ -1,8 +1,6 @@
 <template>
   <div class="common-price-chart" data-testid="gallery-item-chart">
-    <span class="chart-y-description is-size-7">
-      Price ({{ chainSymbol }})
-    </span>
+    <span class="chart-y-description text-xs"> Price ({{ chainSymbol }}) </span>
     <NeoDropdown class="py-0 time-range-dropdown" :mobile-modal="false">
       <template #trigger="{ active }">
         <NeoButton
@@ -41,7 +39,7 @@
         <div class="w-full flex justify-between items-center">
           <NeoCheckbox
             v-model="vHideOutliers"
-            class="m-0 no-wrap"
+            class="m-0 whitespace-nowrap"
             root-class="flex-auto px-4 py-3">
             {{ $t('activity.hideOutliers') }}
           </NeoCheckbox>
@@ -51,7 +49,7 @@
         <div class="w-full flex justify-between items-center">
           <NeoCheckbox
             v-model="vApplySmoothing"
-            class="m-0 no-wrap"
+            class="m-0 whitespace-nowrap"
             root-class="flex-auto px-4 py-3">
             {{ $t('activity.applySmoothing') }}
           </NeoCheckbox>

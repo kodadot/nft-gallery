@@ -91,14 +91,27 @@ export const formatBalanceEmptyOnZero = (
     : trimAll(format(amount, decimals || 12, symbol || 'KSM'))
 }
 
-export const roundAmount = (
+const roundAmount = (
   value: string,
-  limit: number,
-  disableFilter: boolean,
+  limit?: number,
+  disableFilter?: boolean,
 ) => {
   const number = Number(value.replace(/,/g, ''))
 
-  return disableFilter ? parseFloat(number.toString()) : roundTo(value, limit)
+  return disableFilter
+    ? parseFloat(number.toString()).toLocaleString()
+    : roundTo(value, limit)
 }
+
+export const formatAmountWithRound = (
+  value: string | number | bigint,
+  tokenDecimals: number,
+  round?: number,
+) =>
+  roundAmount(
+    format(checkInvalidBalanceFilter(value), tokenDecimals, ''),
+    round || 4,
+    round === undefined,
+  )
 
 export default format

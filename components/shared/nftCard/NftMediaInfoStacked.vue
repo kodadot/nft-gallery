@@ -13,7 +13,7 @@
         <span v-if="!isMinimal">x{{ token.supply }}</span>
       </div>
 
-      <div v-if="!isMinimal" class="is-size-7 has-text-grey">
+      <div v-if="!isMinimal" class="text-xs text-k-grey">
         {{ $t('lowestPrice') }}:
         <CommonTokenMoney
           :value="token.cheapest?.price"
@@ -33,7 +33,7 @@
           variant="text"
           tag="a"
           :v-safe-href="collectionUrl"
-          class="is-size-7 nft-info-collection-name"
+          class="text-xs nft-info-collection-name"
           label="Visit"
           icon="arrow-right" />
       </template>
@@ -42,7 +42,7 @@
         <CollectionDetailsPopover
           v-if="collectionNameLabel"
           :show-delay="collectionPopoverShowDelay"
-          class="is-size-7 nft-info-collection-name is-ellipsis"
+          class="text-xs nft-info-collection-name is-ellipsis"
           :nft="token">
           <template #content>
             <a

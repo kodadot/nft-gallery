@@ -41,12 +41,12 @@
             </div>
 
             <div
-              class="is-flex is-justify-content-space-between is-size-7 has-text-grey">
+              class="is-flex is-justify-content-space-between text-xs text-k-grey">
               <div>{{ $t('search.owners') }}: {{ collection.owners }}</div>
             </div>
           </div>
 
-          <div class="rounded ml-5 px-3 k-grey-light">
+          <div class="rounded ml-5 px-3 bg-k-grey-light">
             {{ collection.owned }}
           </div>
         </div>

@@ -31,7 +31,7 @@
             height="48" />
           <div>
             <p>{{ collection?.name }}</p>
-            <p class="has-text-grey is-size-7">
+            <p class="text-k-grey text-xs">
               {{ $t('migrate.collectionName') }}
             </p>
           </div>
@@ -47,7 +47,7 @@
         <p>{{ collection.nftsOwned.length }}/{{ collection.nfts.length }}</p>
       </div>
 
-      <div class="border border-k-shade p-2 flex is-size-7 has-text-grey">
+      <div class="border border-k-shade p-2 flex text-xs text-k-grey">
         <NeoIcon icon="circle-info" class="mr-2" />
         <p>{{ $t('migrate.reviewNotes') }}</p>
       </div>
@@ -81,9 +81,9 @@
     <div>
       <div class="has-text-weight-bold mt-5">{{ $t('migrate.costs') }}</div>
 
-      <div class="is-size-7">
+      <div class="text-xs">
         <p
-          class="my-4 has-text-grey is-cursor-pointer"
+          class="my-4 text-k-grey is-cursor-pointer"
           @click="toggleFee = !toggleFee">
           {{ $t('migrate.feeBreakdown') }}
           <NeoIcon :icon="toggleFee ? 'chevron-up' : 'chevron-down'" />
@@ -117,7 +117,7 @@
           <!-- collection existential deposit -->
           <div
             v-if="!collectionOwner"
-            class="has-text-grey flex mt-1 items-center justify-between">
+            class="text-k-grey flex mt-1 items-center justify-between">
             <div>
               {{ $t('mint.collection.modal.existentialDeposit') }}
               <NeoTooltip
@@ -141,7 +141,7 @@
           </div>
 
           <!-- nft existential deposit -->
-          <div class="has-text-grey flex mt-1 items-center justify-between">
+          <div class="text-k-grey flex mt-1 items-center justify-between">
             <div>
               {{ $t('mint.nft.modal.existentialDeposit') }}
               <NeoTooltip
@@ -165,7 +165,7 @@
           </div>
 
           <!-- kodadot fee -->
-          <div class="flex mt-1 has-text-grey items-center justify-between">
+          <div class="flex mt-1 text-k-grey items-center justify-between">
             <div>
               {{ $t('mint.nft.modal.kodadotFee') }}
               <NeoTooltip
@@ -196,7 +196,7 @@
       <div
         v-if="sourceSymbol && sourceNetworkFee >= 0"
         class="flex items-center">
-        <div class="text-k-grey is-size-7 mr-2">${{ sourceTotalUsd }}</div>
+        <div class="text-k-grey text-xs mr-2">${{ sourceTotalUsd }}</div>
         <div>{{ sourceNetworkFee }} {{ sourceSymbol }}</div>
       </div>
       <div v-else><NeoSkeleton width="100" size="small" /></div>
@@ -208,7 +208,7 @@
       <div
         v-if="destinationSymbol && parseFloat(totalDestination.toString())"
         class="flex items-center">
-        <div class="text-k-grey is-size-7 mr-2">${{ totalDestinationUsd }}</div>
+        <div class="text-k-grey text-xs mr-2">${{ totalDestinationUsd }}</div>
         <div>{{ totalDestination }} {{ destinationSymbol }}</div>
       </div>
       <div v-else><NeoSkeleton width="100" size="small" /></div>

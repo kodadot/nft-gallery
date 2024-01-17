@@ -27,27 +27,19 @@
 
   %landing-search-image-position {
     height: 334px;
-    pointer-events: none;
+    @apply pointer-events-none;
   }
 
   .landing-search-left {
-    position: absolute;
-    left: 0rem;
-    top: -6rem;
-    pointer-events: none;
+    @apply absolute top-[-6rem] pointer-events-none left-0;
   }
 
   .landing-shapes {
-    z-index: 1;
-    overflow: hidden;
-    pointer-events: none;
+    @apply z-[1] overflow-hidden pointer-events-none;
   }
 
   .landing-search-right {
-    position: absolute;
-    right: 0rem;
-    top: -6rem;
-    pointer-events: none;
+    @apply absolute top-[-6rem] pointer-events-none right-0;
   }
 
   .chain-option {
@@ -111,12 +103,7 @@
   }
 
   .search-bar-keyboard-icon {
-    z-index: 2;
-    position: absolute;
-    right: 18px;
-    top: 9px;
-    height: 23px;
-    pointer-events: none;
+    @apply z-[2] absolute h-[23px] pointer-events-none right-[18px] top-[9px];
   }
 
   .o-acp__menu {

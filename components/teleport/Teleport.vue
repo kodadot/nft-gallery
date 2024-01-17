@@ -9,7 +9,7 @@
 
     <h2>{{ $t('teleport.subtitle') }}</h2>
     <a
-      class="has-text-grey"
+      class="text-k-grey"
       href="https://hello.kodadot.xyz/tutorial/teleport-bridge"
       >{{ $t('teleport.howItWorks') }}
     </a>
@@ -70,9 +70,7 @@
           type="number"
           placeholder="Enter Amount" />
         <div class="is-absolute-right">
-          <span
-            v-if="totalFiatValue"
-            class="token-value is-size-7 has-text-grey"
+          <span v-if="totalFiatValue" class="token-value text-xs text-k-grey"
             >~{{ totalFiatValue }} usd</span
           >
           {{ currency }}
@@ -82,7 +80,7 @@
 
     <div
       v-if="myBalance !== undefined"
-      class="is-size-7 flex justify-content align-items flex-direction">
+      class="text-xs flex justify-content align-items flex-direction">
       <TeleportFundsAtRiskWarning
         v-if="showEDWarning && !isDisabledButton"
         :target-existential-deposit="targetExistentialDeposit.displayValue"

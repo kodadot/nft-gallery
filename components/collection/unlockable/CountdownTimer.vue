@@ -1,12 +1,12 @@
 <template>
-  <div ref="wrapper" class="p-4 keen-slider has-background-inverse">
+  <div ref="wrapper" class="p-4 keen-slider bg-text-color">
     <div
       v-for="(_, index) in slidesArray"
       :key="index"
-      class="keen-slider__slide flex no-wrap">
-      <div class="no-wrap">
-        <span class="mr-4 has-text-grey">Mint Phase Ends In</span
-        ><span class="has-text-inverse"
+      class="keen-slider__slide flex whitespace-nowrap">
+      <div class="whitespace-nowrap">
+        <span class="mr-4 text-k-grey">Mint Phase Ends In</span
+        ><span class="text-text-color-inverse"
           >{{ getPositiveNumber(hours) }} Hours :
           {{ getPositiveNumber(minutes) }} Minutes :
           {{ getPositiveNumber(seconds) }} Seconds</span

@@ -4,7 +4,7 @@
       <div class="flex mb-3 is-size-6 has-text-weight-bold">
         {{ 'Customize Collection' }}
       </div>
-      <div class="has-text-grey is-size-7 mb-5">
+      <div class="text-k-grey text-xs mb-5">
         This will update the Maximum items in your collection
       </div>
       <!-- collection max nfts -->

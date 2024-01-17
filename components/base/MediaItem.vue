@@ -26,17 +26,12 @@
       <span class="has-text-weight-bold">
         {{ $t('lewd.explicit') }}
       </span>
-      <span class="nsfw-desc text-align-center">{{
-        $t('lewd.explicitDesc')
-      }}</span>
+      <span class="nsfw-desc text-center">{{ $t('lewd.explicitDesc') }}</span>
     </div>
     <div
       v-if="isInteractive"
-      class="k-shade border-k-grey flex items-center justify-center border is-rounded absolute-position image is-24x24">
-      <NeoIcon
-        icon="code"
-        pack="far"
-        class="is-size-7 has-text-weight-medium" />
+      class="bg-k-shade border-k-grey flex items-center justify-center border is-rounded absolute-position image is-24x24">
+      <NeoIcon icon="code" pack="far" class="text-xs has-text-weight-medium" />
     </div>
     <NeoButton
       v-if="isLewd"

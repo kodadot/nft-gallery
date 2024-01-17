@@ -5,7 +5,7 @@
       <p>{{ $t('migrate.waiting.title') }}</p>
     </div>
 
-    <div class="has-text-grey mt-2">
+    <div class="text-k-grey mt-2">
       {{ $t('migrate.waiting.desc') }}
     </div>
 
@@ -29,7 +29,7 @@
         <div class="collection-card-info">
           <p class="is-size-5 has-text-weight-bold">{{ collection.name }}</p>
           <p class="flex">
-            <span class="has-text-grey mr-2">
+            <span class="text-k-grey mr-2">
               {{ $t('migrate.waiting.status') }}
             </span>
             <NuxtLink

@@ -1,7 +1,7 @@
 <template>
   <div class="mx-5 my-4">
     <p>{{ $t('migrate.modal.title') }}</p>
-    <p class="has-text-grey is-size-7">{{ $t('migrate.modal.subtitle') }}</p>
+    <p class="text-k-grey text-xs">{{ $t('migrate.modal.subtitle') }}</p>
 
     <div class="mt-5 flex">
       <p

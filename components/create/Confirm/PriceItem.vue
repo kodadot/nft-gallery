@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="border-top pt-4 card-border-color is-size-7">
+    <div class="border-top pt-4 card-border-color text-xs">
       <template v-if="hasMultipleFees">
         <div
-          class="has-text-grey mb-4 flex items-center is-cursor-pointer"
+          class="text-k-grey mb-4 flex items-center is-cursor-pointer"
           @click="toggle">
           <div class="mr-1">Fee Breakdown</div>
           <NeoIcon
@@ -13,14 +13,14 @@
         </div>
       </template>
     </div>
-    <div v-if="rotate" class="is-size-7">
+    <div v-if="rotate" class="text-xs">
       <div v-if="networkFee" class="flex mb-2 items-center justify-between">
         <div>{{ $t('mint.nft.modal.networkFee') }}</div>
         <Money :value="networkFee" :unit-symbol="chainSymbol" inline />
       </div>
       <div
         v-if="existentialDeposit"
-        class="has-text-grey flex mb-2 items-center justify-between">
+        class="text-k-grey flex mb-2 items-center justify-between">
         <div>
           {{ depositText }}
           <NeoTooltip
@@ -36,7 +36,7 @@
       </div>
       <div
         v-if="kodadotFee"
-        class="flex mb-2 has-text-grey items-center justify-between">
+        class="flex mb-2 text-k-grey items-center justify-between">
         <div>
           {{ $t('mint.nft.modal.kodadotFee') }}
           <NeoTooltip
@@ -54,7 +54,7 @@
         </div>
       </div>
       <div v-if="carbonlessFee" class="flex mb-2 items-center justify-between">
-        <div class="flex k-green items-center">
+        <div class="flex text-k-green items-center">
           {{ $t('mint.nft.modal.carbonless') }}
           <svg
             class="ml-2"
@@ -78,7 +78,7 @@
       class="mt-4 pt-4 pb-5 border-top card-border-color flex justify-between">
       <div class="">{{ $t('mint.nft.modal.totalFee') }}:</div>
       <div class="flex items-end">
-        <div class="text-k-grey is-size-7 mr-2">$ {{ nft.totalUSDFee }}</div>
+        <div class="text-k-grey text-xs mr-2">$ {{ nft.totalUSDFee }}</div>
         <Money :value="nft.totalFee" :unit-symbol="chainSymbol" inline />
       </div>
     </div>
@@ -152,14 +152,6 @@ const toggle = () => {
 }
 </script>
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-.k-green {
-  @include ktheme {
-    color: theme('k-green');
-    background: none;
-  }
-}
-
 .transition {
   transition: transform 0.3s;
 }

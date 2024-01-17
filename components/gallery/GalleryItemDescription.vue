@@ -106,7 +106,7 @@
                 class="has-text-link is-inline-block">
                 <Identity ref="identity" :address="addr" />
               </nuxt-link>
-              <span className="is-size-7">({{ percentile }}%)</span>
+              <span className="text-xs">({{ percentile }}%)</span>
             </li>
           </ol>
         </template>

@@ -1,7 +1,9 @@
 <template>
   <BasicImage
     :class="[
-      disabled ? 'selectable-image-disabled' : 'selectable-image',
+      disabled
+        ? 'hover:pointer-events-none hover:cursor-not-allowed'
+        : 'selectable-image',
       { 'is-selected': selected },
     ]"
     :src="src"
@@ -35,10 +37,5 @@ const handleClick = () => {
 .selectable-image:hover {
   border: 4px $link-light solid;
   cursor: pointer;
-}
-
-.selectable-image-disabled:hover {
-  pointer-events: none;
-  cursor: not-allowed;
 }
 </style>

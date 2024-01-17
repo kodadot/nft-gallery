@@ -2,7 +2,7 @@
   <div>
     <div v-if="showCurrentFloorPrice" class="pt-4">
       {{ $t('listingCart.collectionFloorPrice') }}
-      <span v-if="floorPricePercentAdjustment !== 1" class="has-text-grey"
+      <span v-if="floorPricePercentAdjustment !== 1" class="text-k-grey"
         >{{ (floorPricePercentAdjustment * 100 - 100).toFixed(0) }}%</span
       >
     </div>
