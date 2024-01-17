@@ -9,7 +9,7 @@
 
       <NeoIcon
         v-else-if="isCompleted"
-        class="has-text-k-green"
+        class="text-k-green"
         icon="check"
         :size="iconSize" />
 

@@ -16,7 +16,7 @@
           <span class="text-xs text-k-grey">{{ $t('activity.profit') }}</span>
           <span
             :class="{
-              'has-text-k-green': profit > 0,
+              'text-k-green': profit > 0,
               'text-k-red': profit < 0,
             }"
             >{{ profit === 0 ? '--' : `${format(profit)}%` }}</span

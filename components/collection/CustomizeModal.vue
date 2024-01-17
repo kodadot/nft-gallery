@@ -26,7 +26,7 @@
           variant="text"
           no-shadow
           @click="customizeCollection">
-          <span class="has-text-k-green">
+          <span class="text-k-green">
             {{ $t('Update') }}
           </span>
         </NeoButton>

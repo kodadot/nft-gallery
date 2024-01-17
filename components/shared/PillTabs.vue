@@ -22,7 +22,7 @@
 
       <NeoIcon
         v-if="tab.ticked"
-        class="ml-2 has-text-k-green"
+        class="ml-2 text-k-green"
         icon="fa-check"
         pack="fa-solid" />
     </NeoButton>
