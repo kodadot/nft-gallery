@@ -1,6 +1,4 @@
 .notices {
-  @apply flex overflow-hidden pointer-events-none fixed z-[1000] p-[2em] inset-0;
-
   &.is-bottom {
     flex-direction: column-reverse;
   }

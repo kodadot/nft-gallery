@@ -36,7 +36,7 @@
               <div
                 v-for="(item, index) in collections"
                 :key="`${item}-${index}`"
-                class="filter-item rounded is-clickable px-3 mr-1 py-1 mb-1 whitespace-nowrap"
+                class="filter-item rounded cursor-pointer px-3 mr-1 py-1 mb-1 whitespace-nowrap"
                 :class="{
                   activated: collectionFilter?.id === item.id,
                 }"
@@ -53,7 +53,7 @@
               <div
                 v-for="event in eventTypes"
                 :key="event"
-                class="filter-item rounded is-clickable px-3 mr-1 py-1 whitespace-nowrap"
+                class="filter-item rounded cursor-pointer px-3 mr-1 py-1 whitespace-nowrap"
                 :class="{
                   activated: eventFilter.includes(event),
                 }"
@@ -181,8 +181,7 @@ const displayedEvents = computed(() =>
 <style scoped lang="scss">
 @import '@/assets/styles/abstracts/variables';
 .rounded {
-  border-radius: 2rem;
-  overflow: hidden;
+  @apply overflow-hidden rounded-[2rem];
 }
 .notification-box-modal {
   .notification-modal-container {
@@ -200,11 +199,7 @@ const displayedEvents = computed(() =>
     }
 
     .notification-filter {
-      flex-shrink: 0;
-      flex-grow: 0;
-      position: sticky;
-      top: 0;
-      z-index: 1;
+      @apply shrink-0 grow-0 sticky z-[1] top-0;
       & > div:last-child {
         @apply border-b border-k-grey;
       }

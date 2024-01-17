@@ -5,7 +5,7 @@
     <div :aria-label="`slide ${index + 1} of ${length}`">
       <img
         v-if="showCardIcon"
-        class="card-icon"
+        class="absolute z-[1] right-4 top-4"
         :src="cardIcon"
         alt="Card Icon" />
       <BaseMediaItem
@@ -46,18 +46,4 @@ watch(
     imageSrc.value = nft.image
   },
 )
-
-// onMounted(async () => {
-//   if (!props.item.image) {
-
-//   }
-// })
 </script>
-<style lang="scss" scoped>
-.card-icon {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  z-index: 1;
-}
-</style>

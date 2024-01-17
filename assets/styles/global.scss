@@ -288,10 +288,6 @@ hr {
   }
 }
 
-.is-cursor-pointer {
-  cursor: pointer !important;
-}
-
 .has-text-k-primary {
   @include ktheme() {
     color: theme('k-primary') !important;
@@ -320,17 +316,6 @@ hr {
   }
 }
 
-.has-z-index-1 {
-  z-index: 1;
-}
-
-// used in gallery item to disbale <main> z-index: 100
-// when fallback fullscreen is used (on Nova wallet)
-// without this the navbar is above the fullscreen image
-.no-z-index {
-  z-index: unset !important;
-}
-
 .modal {
   .modal-content {
     border: none !important;
@@ -342,26 +327,20 @@ hr {
 }
 
 // Transak
-
 .transak_modal-overlay {
-  z-index: 999 !important;
+  @apply z-[999] max-h-[600px] #{!important};
 }
 
 .transak_modal {
-  z-index: 1000 !important;
-  max-height: 600px !important;
+  @apply z-[1000] max-h-[600px] #{!important};
 }
 
 #transakOnOffRampWidget {
   height: 100% !important;
 }
 
-.is-rounded {
-  border-radius: 50%;
-}
-
-.is-rounded-small {
-  border-radius: 4rem;
+.no-border-left {
+  border-left: none !important;
 }
 
 .w-half {
@@ -395,10 +374,6 @@ hr {
 
 .has-text-inherit {
   color: inherit !important;
-}
-
-.cursor-default {
-  cursor: default;
 }
 
 .min-width-0 {

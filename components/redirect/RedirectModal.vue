@@ -65,9 +65,3 @@ const handleRedirect = () => {
   }
 }
 </style>
-
-<style lang="scss">
-.redirect-modal {
-  z-index: 1000;
-}
-</style>

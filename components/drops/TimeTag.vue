@@ -1,5 +1,6 @@
 <template>
-  <div class="tag-container flex border py-1 px-2 justify-between items-center">
+  <div
+    class="tag-container rounded-[2rem] flex border py-1 px-2 justify-between items-center">
     <div v-if="!ended" class="image is-24x24 text-center">
       <img v-if="isMintingLive" src="/drop/unlockable-pulse.svg" />
       <NeoIcon v-else icon="calendar-day" variant="k-grey" />
@@ -42,7 +43,6 @@ const displayText = computed(() => {
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables.scss';
 .tag-container {
-  border-radius: 2rem;
   @include ktheme() {
     border-color: theme('k-shade');
     background-color: theme('background-color');

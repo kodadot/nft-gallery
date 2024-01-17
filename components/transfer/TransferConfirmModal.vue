@@ -54,7 +54,10 @@
             <NeoIcon icon="circle-info" class="is-size-6" pack="far" />
           </NeoTooltip>
         </div>
-        <div v-else class="is-clickable" @click="isExpandList = !isExpandList">
+        <div
+          v-else
+          class="cursor-pointer"
+          @click="isExpandList = !isExpandList">
           <span class="mx-2 is-size-6">
             {{ targetAddresses.length }} {{ $t('transfers.recipients') }}
           </span>

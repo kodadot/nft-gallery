@@ -6,8 +6,7 @@
 }
 
 .card.bordered {
-  border-radius: 4px;
-  box-shadow: none;
+  @apply rounded shadow-none;
 
   @include ktheme() {
     border-top: 1px solid theme('k-primary');

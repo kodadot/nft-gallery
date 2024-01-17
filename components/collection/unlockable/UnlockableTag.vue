@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="isUnlockable"
-    class="unlockable-container flex border py-2 px-6 justify-between">
+    class="unlockable-container rounded-[2rem] flex border py-2 px-6 justify-between">
     <NeoTooltip
       :label="$t('unlockable.tooltip')"
       multiline
@@ -37,7 +37,6 @@ const { isUnlockable } = useUnlockable(
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables.scss';
 .unlockable-container {
-  border-radius: 2rem;
   @include ktheme() {
     border-color: theme('k-shade');
   }
