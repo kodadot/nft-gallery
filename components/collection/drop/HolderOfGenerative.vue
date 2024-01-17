@@ -366,7 +366,7 @@ const submitMint = async (sn: string) => {
   }
 }
 
-const checkAvailableNftsToClaim = async () => {
+const checkAvailableNfts = async () => {
   const nftEntities = holderOfCollectionData.value?.nftEntities || []
   const nftIds = nftEntities.map((nft) => nft.sn)
   const claimed = await Promise.all(
@@ -380,7 +380,7 @@ const handleDropAddModalConfirm = () => {
   fetchMultipleBalance([urlPrefix.value])
 }
 
-watch(holderOfCollectionData, checkAvailableNftsToClaim, { immediate: true })
+watch(holderOfCollectionData, checkAvailableNfts, { immediate: true })
 </script>
 
 <style scoped lang="scss">
