@@ -106,12 +106,7 @@
       }
 
       .button-connect-wallet {
-        width: 80%;
-        height: 67px;
-        border-radius: 0;
-        display: block;
-        margin: 0 auto 20px;
-        text-transform: capitalize;
+        @apply w-4/5 h-[67px] block capitalize mt-0 mb-5 mx-auto rounded-none;
 
         @include ktheme() {
           box-shadow: theme('primary-shadow');
@@ -187,10 +182,7 @@
   }
 
   .navbar-item {
-    text-transform: capitalize;
-    font-weight: 400;
-    cursor: pointer;
-    border-radius: 0 !important;
+    @apply capitalize font-normal cursor-pointer rounded-none #{!important};
 
     @include ktheme() {
       color: theme('text-color');
@@ -254,14 +246,15 @@
   }
 
   &__avatar-icon {
-    border-radius: 24.5px;
+    @apply rounded-[24.5px];
+
     @include ktheme() {
       border: 1.5px solid theme('text-color');
     }
   }
 
   button.button.is-bordered-light {
-    border-radius: 0;
+    @apply rounded-none;
   }
 
   .text-vertical-align-top {

@@ -110,7 +110,7 @@ const largeDisplay = computed(
 .nft-card {
   position: relative;
   overflow: hidden;
-  border-radius: 0px !important;
+  @apply border-none #{!important};
 
   .has-text-overflow-ellipsis {
     overflow: hidden;
@@ -127,14 +127,7 @@ const largeDisplay = computed(
 
     .card-image {
       &__emotes {
-        position: absolute;
-        border-radius: 4px;
-        padding: 3px 8px;
-        top: 10px;
-        right: 10px;
-        font-size: 14px;
-        @apply z-[3];
-        transition: all 0.3s;
+        @apply absolute rounded text-sm z-[3] transition-all duration-[0.3s] px-2 py-[3px] right-2.5 top-2.5;
 
         @include ktheme() {
           color: theme('white');
@@ -143,14 +136,7 @@ const largeDisplay = computed(
       }
 
       &__price {
-        position: absolute;
-        border-radius: 4px;
-        padding: 3px 8px;
-        bottom: 10px;
-        left: 10px;
-        font-size: 14px;
-        @apply z-[3];
-        transition: all 0.3s ease;
+        @apply absolute rounded text-sm z-[3] transition-all duration-[0.3s] ease-[ease] px-2 py-[3px] left-2.5 bottom-2.5;
 
         @include ktheme() {
           background: theme('k-shade');
@@ -165,7 +151,7 @@ const largeDisplay = computed(
   }
 
   .card-content {
-    border-radius: 0;
+    @apply rounded-none;
   }
 
   @media screen and (min-width: 1024px) {
@@ -211,6 +197,6 @@ const largeDisplay = computed(
 
 <style lang="scss">
 .gallery__image-wrapper img {
-  border-radius: 0px !important;
+  @apply border-none #{!important};
 }
 </style>

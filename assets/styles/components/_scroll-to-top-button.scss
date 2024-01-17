@@ -1,11 +1,5 @@
 .scroll-top-button {
-  position: fixed !important;
-  right: 42px;
-  bottom: 100px;
-  width: 35px;
-  height: 35px !important;
-  border-radius: 0 !important;
-  @apply z-[998];
+  @apply fixed w-[35px] h-[35px] z-[998] rounded-none right-[42px] bottom-[100px] #{!important};
 
   @include ktheme() {
     box-shadow: theme('primary-shadow');
