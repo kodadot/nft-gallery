@@ -22,7 +22,7 @@
 
       <NeoIcon
         v-else-if="isFailed"
-        class="has-text-k-red"
+        class="text-k-red"
         icon="xmark"
         :size="iconSize" />
     </div>

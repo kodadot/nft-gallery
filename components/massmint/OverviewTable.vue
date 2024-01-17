@@ -41,7 +41,7 @@
               <div
                 class="is-clickable"
                 :class="{
-                  'has-text-k-red': !nft.name,
+                  'text-k-red': !nft.name,
                 }"
                 @click="openSideBarWith(nft)">
                 {{ nft.name || '*' + $t('massmint.nameRequired') }}

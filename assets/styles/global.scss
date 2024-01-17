@@ -259,11 +259,6 @@ hr {
     color: theme('k-green') !important;
   }
 }
-.has-text-k-red {
-  @include ktheme() {
-    color: theme('k-red');
-  }
-}
 
 .is-cursor-pointer {
   cursor: pointer !important;

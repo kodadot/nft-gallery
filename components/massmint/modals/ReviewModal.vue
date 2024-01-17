@@ -13,7 +13,7 @@
 
           <div
             v-if="numMissingDescriptions || numMissingPrices"
-            class="has-text-k-red mt-4">
+            class="text-k-red mt-4">
             <div>{{ $t('massmint.note') }}</div>
             <div v-if="numMissingDescriptions" class="pl-3">
               •
