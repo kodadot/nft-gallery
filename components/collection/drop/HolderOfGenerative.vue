@@ -197,7 +197,8 @@ const mintButtonLabel = computed(() => {
     ? $i18n.t('shoppingCart.wallet')
     : isLogIn.value
       ? isHolderOfTargetCollection.value &&
-        maxMintLimitForCurrentUser.value > mintedAmountForCurrentUser.value
+        maxMintLimitForCurrentUser.value > mintedAmountForCurrentUser.value &&
+        hasMinimumFunds.value
         ? $i18n.t('mint.unlockable.claimPaidNft', [
             `${depositAmount.value} ${depositChainSymbol.value}`,
           ])
@@ -212,7 +213,9 @@ const mintButtonDisabled = computed<boolean>(
       Boolean(
         !selectedImage.value ||
           !isHolderOfTargetCollection.value ||
-          maxMintLimitForCurrentUser.value <= mintedAmountForCurrentUser.value,
+          maxMintLimitForCurrentUser.value <=
+            mintedAmountForCurrentUser.value ||
+          !hasMinimumFunds.value,
       )),
 )
 
