@@ -17,7 +17,7 @@
   <div class="capitalize text-xs text-k-grey">
     <p>
       {{ $t('drops.noEmail') }}
-      <a class="has-text-k-blue" @click="$emit('resend')">{{
+      <a class="text-k-blue hover:text-k-blue-hover" @click="$emit('resend')">{{
         $t('general.resend')
       }}</a>
       {{ $t('drops.checkSpamFolder') }}
@@ -25,7 +25,7 @@
 
     <p class="mt-2">
       {{ $t('drops.wrongEmail') }}
-      <a class="has-text-k-blue" @click="$emit('change')">{{
+      <a class="text-k-blue hover:text-k-blue-hover" @click="$emit('change')">{{
         $t('general.changeIt')
       }}</a>
     </p>

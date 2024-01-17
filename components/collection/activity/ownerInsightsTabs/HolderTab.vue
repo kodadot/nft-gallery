@@ -42,7 +42,7 @@
             </div>
             <div>
               <div
-                class="text-xs has-text-k-blue is-clickable"
+                class="text-xs text-k-blue hover:text-k-blue-hover is-clickable"
                 data-testid="collection-holder-nft-details"
                 @click="toggleNFTDetails(holderId)">
                 {{ $t('activity.nftDetails') }}

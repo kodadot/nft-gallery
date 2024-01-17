@@ -271,17 +271,6 @@ hr {
   }
 }
 
-.has-text-k-blue {
-  @include ktheme() {
-    color: theme('k-blue');
-  }
-  &:hover {
-    @include ktheme() {
-      color: theme('k-blue-hover');
-    }
-  }
-}
-
 .is-cursor-pointer {
   cursor: pointer !important;
 }
