@@ -298,20 +298,6 @@ hr {
   }
 }
 
-//hover
-
-.is-hoverable-item {
-  @include ktheme() {
-    &:hover {
-      background-color: theme('k-accentlight2');
-    }
-  }
-}
-
-.no-hover:hover {
-  background-color: unset !important;
-}
-
 //shadow
 
 .k-shadow {
