@@ -18,7 +18,7 @@
       </div>
       <div
         v-else
-        class="flex justify-between items-center py-5 px-6 border-bottom border-k-shade">
+        class="flex justify-between items-center py-5 px-6 border-b border-k-shade">
         <span>Tx:</span>
         <div class="flex">
           <slot name="action-title">

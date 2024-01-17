@@ -39,7 +39,7 @@
     preview
     is-detail />
 
-  <div class="py-5 border-bottom-k-shade">
+  <div class="py-5 border-b-k-shade">
     <p class="is-size-6 capitalize has-text-weight-bold text-center">
       {{ $t('drops.youSuccessfullyClaimedNft', [1]) }}
     </p>

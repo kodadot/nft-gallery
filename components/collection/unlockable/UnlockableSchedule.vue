@@ -93,7 +93,7 @@
           </span>
         </div>
       </div>
-      <div v-if="item.expand" class="hsa-border-left mt-4 pl-5">
+      <div v-if="item.expand" class="border-l border-k-shade mt-4 pl-5">
         <div class="flex justify-between items-center">
           <div>
             <span class="text-k-grey">From</span> 9AM
@@ -154,12 +154,3 @@ const getStatusName = (status: 'close' | 'open' | 'upcoming') => {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables.scss';
-.hsa-border-left {
-  @include ktheme() {
-    border-left: 1px solid theme('k-shade');
-  }
-}
-</style>

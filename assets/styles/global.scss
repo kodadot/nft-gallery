@@ -245,58 +245,6 @@ hr {
 .fluid-padding-left {
   padding-left: $fluid-container-padding;
 }
-.border-bottom {
-  @include ktheme() {
-    border-bottom: 1px solid theme('border-color');
-  }
-}
-.border-top {
-  @include ktheme() {
-    border-top: 1px solid theme('border-color');
-  }
-}
-.border-left {
-  @include ktheme() {
-    border-left: 1px solid theme('border-color');
-  }
-}
-.border-right {
-  @include ktheme() {
-    border-right: 1px solid theme('border-color');
-  }
-}
-
-.no-border {
-  border: none !important;
-}
-
-.no-border-radius {
-  border-radius: 0 !important;
-}
-
-.card-border-color {
-  @include ktheme() {
-    border-color: theme('card-border-color');
-  }
-}
-
-.border-k-shade {
-  @include ktheme() {
-    border-color: theme('k-shade') !important;
-  }
-}
-
-.border-top-k-shade {
-  @include ktheme() {
-    border-top: 1px solid theme('k-shade');
-  }
-}
-
-.border-bottom-k-shade {
-  @include ktheme() {
-    border-bottom: 1px solid theme('k-shade');
-  }
-}
 
 .has-text-k-shade {
   @include ktheme() {

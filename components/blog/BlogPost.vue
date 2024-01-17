@@ -20,14 +20,14 @@
           icon="x-twitter"
           icon-pack="fab"
           no-shadow
-          class="no-border is-text is-size-4 p-0 mr-4"
+          class="border-0 is-text is-size-4 p-0 mr-4"
           @click="openShareUrl('twitter')" />
 
         <NeoButton
           icon="linkedin"
           icon-pack="fab"
           no-shadow
-          class="no-border is-text is-size-4 p-0"
+          class="border-0 is-text is-size-4 p-0"
           @click="openShareUrl('linkedin')" />
       </div>
     </div>

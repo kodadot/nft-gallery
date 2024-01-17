@@ -76,9 +76,7 @@ const cssActive = (value) => {
 }
 
 .events {
-  @include ktheme() {
-    border-bottom: 1px solid theme('border-color');
-  }
+  @apply border-b;
 
   &-filter {
     column-gap: 0.625rem;

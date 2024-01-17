@@ -1,7 +1,7 @@
 <template>
   <NeoModal :value="isModalActive" scroll="clip" @close="emit('close')">
     <div class="p-6 modal-width">
-      <div class="border-bottom border-grey">
+      <div class="border-b border-grey">
         <p class="has-text-weight-bold pb-4 is-size-5 flex justify-center px-0">
           {{ $t('massmint.missingRequiredInfo') }}
         </p>
