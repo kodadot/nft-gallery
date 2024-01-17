@@ -49,13 +49,7 @@ const autoClose = computed(() => !props.noToast)
   max-width: 500px;
 
   &--toast {
-    z-index: 100;
-    position: fixed;
-    border-radius: 0 !important;
-    top: 100px;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
+    @apply z-[100] fixed mx-auto rounded-none right-0 top-[100px] #{!important};
   }
 
   @include ktheme() {
@@ -65,8 +59,7 @@ const autoClose = computed(() => !props.noToast)
   }
 
   .message-body {
-    border-left-width: 0;
-    border-radius: 0;
+    @apply rounded-none border-l-0;
   }
 
   .congrats-message {

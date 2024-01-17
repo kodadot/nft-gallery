@@ -47,12 +47,3 @@ const toggleSidebarFilters = () =>
 
 const openMobileFilters = () => preferencesStore.setMobileFilterCollapse(true)
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-a.disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-</style>

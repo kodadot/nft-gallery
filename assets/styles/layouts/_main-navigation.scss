@@ -20,7 +20,7 @@
         .navbar-item {
           display: flex;
           align-items: center;
-          
+
           height: $navbar-mobile-min-height;
           padding: 0 1.25rem;
 
@@ -51,7 +51,7 @@
             height: calc(100% - 118px);
             position: relative;
             align-items: flex-start !important;
-            padding: 1.5rem 1.25rem !important;              
+            padding: 1.5rem 1.25rem !important;
 
             &--no-padding {
               padding: 0 !important;
@@ -110,12 +110,7 @@
       }
 
       .button-connect-wallet {
-        width: 80%;
-        height: 67px;
-        border-radius: 0;
-        display: block;
-        margin: 0 auto 20px;
-        text-transform: capitalize;
+        @apply w-4/5 h-[67px] block capitalize mt-0 mb-5 mx-auto rounded-none;
 
         @include ktheme() {
           box-shadow: theme('primary-shadow');
@@ -191,10 +186,7 @@
   }
 
   .navbar-item {
-    text-transform: capitalize;
-    font-weight: 400;
-    cursor: pointer;
-    border-radius: 0 !important;
+    @apply capitalize font-normal cursor-pointer rounded-none #{!important};
 
     @include ktheme() {
       color: theme('text-color');
@@ -258,14 +250,15 @@
   }
 
   &__avatar-icon {
-    border-radius: 24.5px;
+    @apply rounded-[24.5px];
+
     @include ktheme() {
       border: 1.5px solid theme('text-color');
     }
   }
 
   button.button.is-bordered-light {
-    border-radius: 0;
+    @apply rounded-none;
   }
 
   .text-vertical-align-top {
@@ -277,7 +270,7 @@
   }
   .navbar-explore {
     .menu-item {
-      cursor: pointer;
+      @apply cursor-pointer;
       @include ktheme() {
         color: theme('text-color');
       }
@@ -299,7 +292,7 @@
         }
       }
       &.is-disabled {
-        cursor: not-allowed;
+        @apply cursor-not-allowed;
         @include ktheme() {
           color: theme('k-shade');
         }
@@ -308,15 +301,8 @@
   }
 
   .fixed-stack {
-    box-sizing: border-box;
-    position: fixed;
-    width: 100%;
     height: $navbar-desktop-min-height;
-    top: 0;
-    left: 0;
-    z-index: 989;
-    border-radius: 0;
-    overflow: hidden;
+    @apply box-border fixed w-full z-[989] overflow-hidden rounded-none left-0 top-0;
 
     @include ktheme() {
       border-bottom: 1px solid theme('border-color');
@@ -345,9 +331,7 @@
   }
 
   .cancel-btn {
-    cursor: pointer;
-    border: none;
-    text-transform: capitalize;
+    @apply cursor-pointer capitalize border-[none];
   }
 
   .language-heading {

@@ -1,11 +1,11 @@
 <template>
   <a
     v-safe-href="link"
-    class="group block h-full no-underline border-default border-card-border-color bg-background-color hover:border-border-color"
+    class="group block h-full no-underline border-default border-border-border-color bg-background-color hover:border-border-color"
     target="_blank"
     rel="nofollow noopener noreferrer">
     <img
-      class="w-full object-cover h-56 border-b border-b-card-border-color group-hover:opacity-card-hover-opacity"
+      class="w-full object-cover h-56 border-b border-b-border-border-color group-hover:opacity-card-hover-opacity"
       :src="image"
       :alt="title" />
     <div class="p-4">

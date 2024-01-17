@@ -253,10 +253,8 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
 }
 
 .carousel-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 25%;
-  transition: background-color 0.2s ease-in-out;
+  @apply w-2.5 h-2.5 transition-[background-color] duration-[0.2s] ease-[ease-in-out] rounded-[25%];
+
   @include ktheme() {
     background-color: theme('k-shade');
   }

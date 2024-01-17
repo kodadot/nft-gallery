@@ -16,7 +16,7 @@
       </nuxt-link>
       <span class="menu-item is-disabled has-text-k-shade">
         {{ $t('users') }}
-        <span class="text-vertical-align-top is-size-7">
+        <span class="text-vertical-align-top text-xs">
           {{ $t('soon') }}
         </span>
       </span>
@@ -27,13 +27,13 @@
       <span
         v-for="option in filteredChains"
         :key="option.value"
-        class="menu-item mr-4 capitalize no-wrap"
+        class="menu-item mr-4 capitalize whitespace-nowrap"
         :value="option.value"
         @click="setSelectedChain(option.value)">
         {{ option.text }}
         <span
           v-if="option.isBeta"
-          class="text-vertical-align-top has-text-k-shade is-size-7">
+          class="text-vertical-align-top has-text-k-shade text-xs">
           {{ $t('beta') }}
         </span>
       </span>

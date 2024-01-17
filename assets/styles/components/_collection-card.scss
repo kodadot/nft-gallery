@@ -1,7 +1,6 @@
 .collection-card {
   font-family: 'Work Sans';
-  border-radius: 0;
-  box-shadow: none;
+  @apply shadow-none rounded-none;
 
   @include ktheme() {
     border: 1px solid theme('card-border-color');
@@ -15,7 +14,7 @@
   }
 
   &:not(.loading) {
-    cursor: pointer;
+    @apply cursor-pointer;
   }
 
   a:hover {

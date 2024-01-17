@@ -3,7 +3,7 @@
     <div
       v-for="item in qrCodeList"
       :key="item.title"
-      class="column is-half has-text-centered mb-3">
+      class="column is-half text-center mb-3">
       <a v-safe-href="item.link">{{ item.title }}</a>
       <img :src="item.img" class="is-half px-8 mt-2" :alt="item.title" />
     </div>

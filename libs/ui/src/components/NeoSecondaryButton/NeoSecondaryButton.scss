@@ -2,11 +2,6 @@
 @import '../../scss/variable.scss';
 @import '../../scss/theme.scss';
 
-.button-override {
-  border-radius: 0;
-  padding: 6px 16px;
-}
-
 .o-btn {
   &--primary {
     @include ktheme() {

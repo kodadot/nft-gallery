@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <div class="content-headline has-text-centered">
+    <div class="content-headline text-center">
       <h1 class="title is-1">KodaDot Blog</h1>
       <div class="subtitle has-text-weight-medium">
         Let’s Explore The NFT Universe
@@ -189,13 +189,13 @@ const { data: posts } = useAsyncData('posts', async () => {
     border-radius: 1rem;
     overflow: hidden;
 
+    &-cover {
+      @apply border-b border-card-border-color;
+    }
+
     @include ktheme() {
       border: 1px solid theme('card-border-color');
       background-color: theme('background-color');
-
-      &-cover {
-        border-bottom: 1px solid theme('card-border-color');
-      }
 
       &:hover {
         border-color: theme('border-color');
@@ -231,10 +231,7 @@ const { data: posts } = useAsyncData('posts', async () => {
   }
 
   &-list {
-    border-radius: 2.5rem;
-    overflow: hidden;
-    display: flex;
-    height: 22rem;
+    @apply overflow-hidden flex h-[22rem] rounded-[2.5rem];
 
     @include touch {
       height: auto;

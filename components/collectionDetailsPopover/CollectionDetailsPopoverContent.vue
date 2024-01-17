@@ -134,9 +134,7 @@ const { nftEntities: soldItems } = useCollectionSoldData({
 }
 
 .popover-header {
-  @include ktheme() {
-    border-bottom: 1px solid theme('k-grey');
-  }
+  @apply border-b border-k-grey;
 
   .popover-user-heading {
     font-size: 12px;
@@ -148,9 +146,7 @@ const { nftEntities: soldItems } = useCollectionSoldData({
 }
 
 .sales-container {
-  @include ktheme() {
-    border-top: 1px solid theme('k-grey');
-  }
+  @apply border-t border-k-grey;
 }
 
 .sold-items {

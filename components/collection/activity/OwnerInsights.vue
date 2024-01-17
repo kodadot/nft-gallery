@@ -1,20 +1,20 @@
 <template>
-  <div class="fixed-height border">
-    <div class="py-4 px-5 flex border-bottom" aria-label="controls">
+  <div class="h-[350px] border">
+    <div class="py-4 px-5 flex border-b" aria-label="controls">
       <div
-        class="mr-4 is-clickable"
+        class="mr-4 cursor-pointer"
         :class="{ 'has-text-weight-bold': activeTab === Tabs.holders }"
         @click="changeTab(Tabs.holders)">
         {{ $t('holders') }}
       </div>
       <div
-        class="is-clickable"
+        class="cursor-pointer"
         :class="{ 'has-text-weight-bold': activeTab === Tabs.flippers }"
         @click="changeTab(Tabs.flippers)">
         {{ $t('flippers') }}
       </div>
     </div>
-    <div ref="container" class="py-4 limit-height is-scrollable">
+    <div ref="container" class="py-4 max-h-[290px] overflow-y-auto">
       <HoldersTab v-if="activeTab === Tabs.holders" :owners="owners" />
       <FlippersTab v-if="activeTab === Tabs.flippers" :flippers="flippers" />
     </div>
@@ -57,15 +57,3 @@ const changeTab = (tab: Tabs) => {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.fixed-height {
-  height: 350px;
-}
-.limit-height {
-  max-height: 290px;
-}
-.is-scrollable {
-  overflow-y: auto;
-}
-</style>

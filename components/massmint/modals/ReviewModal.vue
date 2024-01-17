@@ -1,7 +1,7 @@
 <template>
   <NeoModal :value="isModalActive" scroll="clip" @close="emit('close')">
     <div class="p-6 modal-width">
-      <div class="border-bottom border-grey">
+      <div class="border-b border-grey">
         <p class="flex justify-center pb-4 is-size-5">
           {{ $t('massmint.reviewTtile') }}
         </p>

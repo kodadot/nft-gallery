@@ -1,7 +1,7 @@
 <template>
   <NeoModal :value="isModalActive" scroll="clip" @close="emit('close')">
     <div class="p-6 modal-width">
-      <div class="flex justify-center is-size-5 pb-4 border-bottom border-grey">
+      <div class="flex justify-center is-size-5 pb-4 border-b border-grey">
         <span>
           {{ $t('massmint.areYouSureDelete') }}
           <br />

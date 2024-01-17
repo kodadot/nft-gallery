@@ -21,19 +21,17 @@
           class="py-2" />
       </div>
 
-      <div class="py-4 border-top border-bottom card-border-color">
+      <div class="py-4 border-t border-b border-border-color">
         <div class="flex justify-between items-center mb-2">
-          <span class="is-size-7">{{
-            $t('confirmPurchase.priceForNFTs')
-          }}</span>
+          <span class="text-xs">{{ $t('confirmPurchase.priceForNFTs') }}</span>
           <CommonTokenMoney :value="totalNFTsPrice" />
         </div>
-        <div class="flex justify-between has-text-grey is-size-7 mb-2">
+        <div class="flex justify-between text-k-grey text-xs mb-2">
           <div>
             {{ $t('mint.nft.modal.serviceFee') }}
             ({{ SUPPORT_FEE_PERCENT * 100 }}%)
             <NeoTooltip
-              class="is-cursor-pointer"
+              class="cursor-pointer"
               position="top"
               multiline-width="14rem"
               :label="$t('tooltip.supportFee')"
@@ -43,7 +41,7 @@
           </div>
           <CommonTokenMoney :value="supportFee" />
         </div>
-        <div class="flex justify-between has-text-grey is-size-7">
+        <div class="flex justify-between text-k-grey text-xs">
           {{ $t('confirmPurchase.royalties') }}
           <CommonTokenMoney :value="totalRoyalties" />
         </div>
@@ -51,7 +49,7 @@
       <div class="flex justify-between py-4">
         {{ $t('confirmPurchase.youWillPay') }}
         <div class="flex">
-          <CommonTokenMoney :value="total" class="has-text-grey" />
+          <CommonTokenMoney :value="total" class="text-k-grey" />
           <span class="has-text-weight-bold ml-2"> {{ priceUSD }}$ </span>
         </div>
       </div>

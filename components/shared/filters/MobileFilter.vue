@@ -11,7 +11,7 @@
     <div class="flex flex-col is-fullheight">
       <div class="flex-grow">
         <div
-          class="filters-header px-4 px-0 border-bottom flex items-center justify-between">
+          class="filters-header px-0 border-b flex items-center justify-between">
           <p class="has-text-weight-bold">
             {{ $t('general.filters') }}
           </p>
@@ -32,8 +32,7 @@
         <AdvancedFilter v-if="!isCollectionActivityTab" data-model="store" />
       </div>
 
-      <div
-        class="buttons-container px-4 py-3 border-top theme-background-color">
+      <div class="buttons-container px-4 py-3 border-t bg-background-color">
         <NeoButton
           label="Reset All"
           variant="text"

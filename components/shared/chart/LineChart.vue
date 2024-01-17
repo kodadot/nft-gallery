@@ -1,5 +1,5 @@
 <template>
-  <canvas id="lineChart" ref="canvas" />
+  <canvas id="lineChart" ref="canvas" class="hover:cursor-grabbing" />
 </template>
 
 <script lang="ts" setup>
@@ -59,9 +59,3 @@ const renderChart = () => {
   }
 }
 </script>
-
-<style scoped lang="scss">
-canvas:active {
-  cursor: grabbing;
-}
-</style>

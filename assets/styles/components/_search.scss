@@ -27,27 +27,19 @@
 
   %landing-search-image-position {
     height: 334px;
-    pointer-events: none;
+    @apply pointer-events-none;
   }
 
   .landing-search-left {
-    position: absolute;
-    left: 0rem;
-    top: -6rem;
-    pointer-events: none;
+    @apply absolute top-[-6rem] pointer-events-none left-0;
   }
 
   .landing-shapes {
-    z-index: 1;
-    overflow: hidden;
-    pointer-events: none;
+    @apply z-[1] overflow-hidden pointer-events-none;
   }
 
   .landing-search-right {
-    position: absolute;
-    right: 0rem;
-    top: -6rem;
-    pointer-events: none;
+    @apply absolute top-[-6rem] pointer-events-none right-0;
   }
 
   .chain-option {
@@ -81,17 +73,10 @@
   width: 100%;
 
   .search-bar-collection-search {
-    z-index: 2;
-    position: absolute;
-    left: 2.5rem;
-    top: 0.5rem;
-    height: 1.5rem;
-    gap: 0.35rem;
-    cursor: default;
+    @apply z-[2] absolute h-6 gap-[0.35rem] cursor-default left-10 top-2;
     span {
-      height: 1.25rem;
-      padding: 0 1rem;
-      border-radius: 4rem;
+      @apply h-5 px-4 py-0 rounded-[4rem];
+
       @include ktheme() {
         background: theme('blue-accent-bg-color');
       }
@@ -111,12 +96,7 @@
   }
 
   .search-bar-keyboard-icon {
-    z-index: 2;
-    position: absolute;
-    right: 18px;
-    top: 9px;
-    height: 23px;
-    pointer-events: none;
+    @apply z-[2] absolute h-[23px] pointer-events-none right-[18px] top-[9px];
   }
 
   .o-acp__menu {
@@ -143,9 +123,7 @@
   }
 
   input {
-    border-radius: 0;
-    padding: 0 50px 0 42px;
-    height: 2.5rem;
+    @apply h-10 pl-[42px] pr-[50px] py-0 rounded-none;
     outline: none;
 
     &::placeholder {
@@ -197,8 +175,8 @@
   }
 
   .link-item {
+    @apply cursor-pointer;
     border: 1px solid transparent;
-    cursor: pointer;
     padding: 10px $desktop-padding-x;
     font-size: 16px;
     &:hover {
@@ -268,7 +246,7 @@
   }
 
   .search-history {
-    cursor: pointer;
+    @apply cursor-pointer;
 
     @include ktheme() {
       color: theme('k-grey');

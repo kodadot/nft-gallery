@@ -80,7 +80,7 @@
       </NeoTableColumn>
 
       <template #empty>
-        <div v-if="!pending" class="w-100 has-text-centered">
+        <div v-if="!pending" class="w-full text-center">
           {{ $t('spotlight.empty') }}
         </div>
         <NeoSkeleton :active="pending" />

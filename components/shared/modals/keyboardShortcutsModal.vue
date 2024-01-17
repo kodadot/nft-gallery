@@ -28,7 +28,7 @@
       </div>
     </template>
     <template #hint>
-      <p class="box has-text-right is-size-7">
+      <p class="box text-right text-xs">
         press <kbd type="is-primary" rounded>?</kbd> to open shortcuts menu
       </p>
     </template>

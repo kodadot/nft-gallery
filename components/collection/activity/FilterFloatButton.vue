@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed-bottom-middle has-min-width">
+  <div class="fixed -translate-x-2/4 z-[1] left-2/4 bottom-6 min-w-[134px]">
     <NeoButton expanded @click="openMobileFilters">
       {{ $t('general.filters')
       }}<span v-if="numOfActiveFilters">: {{ numOfActiveFilters }}</span>
@@ -20,23 +20,3 @@ const numOfActiveFilters = computed(
 )
 const openMobileFilters = () => preferencesStore.setMobileFilterCollapse(true)
 </script>
-
-<style lang="scss" scoped>
-a.disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-.fixed-bottom-middle {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1;
-}
-
-.has-min-width {
-  min-width: 134px;
-}
-</style>

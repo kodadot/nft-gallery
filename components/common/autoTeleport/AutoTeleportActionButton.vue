@@ -29,7 +29,7 @@
         v-if="!hasAvailableTeleportTransition"
         class="flex items-center"
         :class="{ 'text-k-grey': !hasAvailableTeleportTransition }">
-        <span class="is-size-7">{{ $t('autoTeleport.notAvailable') }}</span>
+        <span class="text-xs">{{ $t('autoTeleport.notAvailable') }}</span>
 
         <AutoTeleportPopover position="left" :transition="optimalTransition" />
       </div>
