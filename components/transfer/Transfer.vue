@@ -5,7 +5,7 @@
         'transfer-card',
         'w-full',
         {
-          'theme-background-color k-shadow border py-8 px-7': !isMobile,
+          'bg-background-color k-shadow border py-8 px-7': !isMobile,
         },
       ]">
       <TransactionLoader

@@ -37,14 +37,14 @@ export const getInteractionColor = (
   interaction: string,
   { distinguishBuyAndSell }: MappingOptions = defaultMappingOptions,
 ) => {
-  const sellColor = 'k-pink'
-  const buyColor = 'k-aqua-blue'
+  const sellColor = 'bg-k-pink'
+  const buyColor = 'bg-k-aqua-blue'
   return {
-    [mintInteraction()]: 'k-yellow',
-    [Interaction.LIST]: 'k-blueaccent',
+    [mintInteraction()]: 'bg-k-yellow',
+    [Interaction.LIST]: 'bg-k-blue-accent',
     [Interaction.BUY]: distinguishBuyAndSell ? buyColor : sellColor,
-    [OfferInteraction]: 'k-greenaccent',
-    [Interaction.SEND]: 'theme-background-color',
+    [OfferInteraction]: 'bg-k-green-accent',
+    [Interaction.SEND]: 'bg-background-color',
     SELL: sellColor,
   }[interaction]
 }
