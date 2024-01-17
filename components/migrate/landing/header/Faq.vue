@@ -49,13 +49,7 @@ const [wrapper, slider] = useKeenSlider({
   @apply w-full relative;
 
   &-pin {
-    border-radius: 4.625rem;
-    line-height: 1;
-    padding: 0.5rem 0.625rem;
-    position: absolute;
-    top: calc(-34px / 2);
-    left: calc(-52px / 2);
-    @apply border bg-background-color;
+    @apply leading-none absolute top-[calc(-34px_/_2)] left-[calc(-52px_/_2)] px-2.5 py-2 rounded-[4.625rem] border bg-background-color;
   }
 
   &-number {

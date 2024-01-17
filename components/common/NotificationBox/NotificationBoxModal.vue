@@ -181,8 +181,7 @@ const displayedEvents = computed(() =>
 <style scoped lang="scss">
 @import '@/assets/styles/abstracts/variables';
 .rounded {
-  border-radius: 2rem;
-  overflow: hidden;
+  @apply overflow-hidden rounded-[2rem];
 }
 .notification-box-modal {
   .notification-modal-container {

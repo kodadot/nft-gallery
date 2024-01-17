@@ -13,7 +13,7 @@
       @close="onClose">
       <div v-if="isLogIn">
         <div
-          class="rounded border shade-border-color flex justify-start flex-grow pl-3">
+          class="rounded-[10rem] border shade-border-color flex justify-start flex-grow pl-3">
           <IdentityItem
             :label="$t('confirmPurchase.connectedWith')"
             hide-identity-popover
@@ -210,10 +210,6 @@ watchEffect(async () => {
   @include ktheme() {
     border-color: theme('k-shade');
   }
-}
-
-.rounded {
-  border-radius: 10rem;
 }
 
 .btn-height {

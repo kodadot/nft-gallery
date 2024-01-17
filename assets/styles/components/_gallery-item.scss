@@ -1,6 +1,6 @@
 .gallery-avatar {
   .avatar {
-    border-radius: 50%;
+    @apply rounded-[50%];
     & > div {
       display: flex;
       align-items: center;

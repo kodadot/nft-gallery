@@ -45,10 +45,8 @@ const onClose = () => {
 @import '@/assets/styles/abstracts/variables';
 
 .tag {
-  border-radius: 1rem !important;
   background: transparent;
-  font-size: 1rem !important;
-  @apply text-text-color #{!important};
+  @apply text-base rounded-2xl text-text-color #{!important};
 
   &--primary {
     @include ktheme() {

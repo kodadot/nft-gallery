@@ -352,12 +352,8 @@ hr {
   height: 100% !important;
 }
 
-.is-rounded {
-  border-radius: 50%;
-}
-
-.is-rounded-small {
-  border-radius: 4rem;
+.no-border-left {
+  border-left: none !important;
 }
 
 .w-half {
