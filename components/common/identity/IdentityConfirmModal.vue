@@ -15,7 +15,7 @@
           v-if="showField(key, field)"
           :key="key"
           class="flex justify-between items-center py-4"
-          :class="{ 'border-top-k-shade': index !== 0 }">
+          :class="{ 'border-t-k-shade': index !== 0 }">
           <span
             class="has-text-weight-bold is-size-6 capitalize flex justify-center">
             <NeoIcon
@@ -40,7 +40,7 @@
           $t('identity.deposit')
         }}</span>
         <div class="flex items-center">
-          <span class="has-text-grey mr-1 is-size-7">({{ depositUsd }})</span>
+          <span class="text-k-grey mr-1 text-xs">({{ depositUsd }})</span>
           <span class="has-text-weight-bold is-size-5"> {{ deposit }}</span>
         </div>
       </div>

@@ -5,7 +5,7 @@
     theme="polkadot"
     :value="value"
     data-testid="avatar-identity-icon"
-    class="avatar" />
+    class="avatar rounded-full" />
 </template>
 
 <script lang="ts" setup>
@@ -30,6 +30,5 @@ withDefaults(
   @include ktheme() {
     border: 1px solid theme('border-color');
   }
-  border-radius: 50%;
 }
 </style>

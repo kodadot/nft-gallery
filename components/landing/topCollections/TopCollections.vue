@@ -39,7 +39,7 @@
             <NeoSkeleton width="70%" />
             <NeoSkeleton width="20%" size="small" />
           </div>
-          <div class="is-pulled-right has-text-right px-4" style="width: 20%">
+          <div class="is-pulled-right text-right px-4" style="width: 20%">
             <NeoSkeleton width="80%" position="right" />
             <NeoSkeleton width="70%" size="small" position="right" />
           </div>

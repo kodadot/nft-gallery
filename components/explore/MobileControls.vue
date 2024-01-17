@@ -4,9 +4,8 @@
     <div class="explore-menu flex flex-wrap">
       <FilterFloatButton v-if="isActivityTab" />
       <FilterMenuButton v-else />
-      <ExploreOffer v-if="!isActivityTab" class="flex-grow" />
       <ChainDropdown
-        v-if="!route.name?.includes('prefix-collection-id')"
+        v-if="!route.name?.toString().includes('prefix-collection-id')"
         class="flex-grow-1" />
       <ExploreSort v-if="!isActivityTab" />
     </div>
@@ -16,7 +15,6 @@
 <script setup lang="ts">
 import ExploreTabs from './ExploreTabs.vue'
 import ExploreSort from './ExploreSort.vue'
-import ExploreOffer from './ExploreOffer.vue'
 import FilterMenuButton from './FilterMenuButton.vue'
 import FilterFloatButton from '@/components/collection/activity/FilterFloatButton.vue'
 import ChainDropdown from '@/components/common/ChainDropdown.vue'
@@ -24,7 +22,7 @@ import ChainDropdown from '@/components/common/ChainDropdown.vue'
 const route = useRoute()
 
 const isActivityTab = computed(
-  () => route.name?.includes('prefix-collection-id-activity'),
+  () => route.name?.toString().includes('prefix-collection-id-activity'),
 )
 </script>
 

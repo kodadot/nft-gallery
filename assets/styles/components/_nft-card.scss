@@ -8,7 +8,8 @@
 
   @include ktheme() {
     background: theme('background-color');
-    border: 1px solid theme('card-border-color');
+    border: 1px solid theme('k-grey');
+
     .border-stacked {
       border-color: theme('card-border-color-light') !important;
     }
@@ -38,7 +39,7 @@
     .show-on-hover,
     .show-always {
       display: flex !important;
-      z-index: 10;
+      @apply z-10;
     }
   }
 
@@ -66,10 +67,7 @@
   }
 }
 .card-icon {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  z-index: 1;
+  @apply absolute z-[1] right-4 top-4;
 }
 .nft-media {
   box-shadow: none;

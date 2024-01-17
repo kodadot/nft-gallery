@@ -10,15 +10,15 @@
         <NeoIcon v-else v-bind="iconIdle" class="fa-2x" />
       </div>
       <div>
-        <p class="has-text-weight-bold">
+        <p class="font-bold text-xl">
           {{ $t('migrate.signStep.migratingItems') }}
         </p>
-        <p class="is-size-7 has-text-grey">
+        <p class="text-k-grey">
           {{ $t('migrate.signStep.signtx') }}
         </p>
       </div>
     </div>
-    <div class="flex is-size-7">
+    <div class="flex">
       <div class="v-border"></div>
       <div class="mb-4">
         <p v-if="iterations">
@@ -27,14 +27,11 @@
         <p v-else>{{ $t('migrate.signStep.done') }}</p>
       </div>
     </div>
-    <div
-      v-for="(iteration, index) in maxIterations"
-      :key="index"
-      class="flex is-size-7">
+    <div v-for="(iteration, index) in maxIterations" :key="index" class="flex">
       <div class="v-border"></div>
       <div class="mb-4 flex">
         <NeoIcon v-bind="itemLeftIcons(index)" class="mr-4" />
-        <div>
+        <div :class="itemLeftIcons(index).textColor">
           <p>{{ $t('migrate.signStep.migratingNItems', itemLeft(index)) }}</p>
         </div>
       </div>

@@ -1,14 +1,15 @@
 <template>
-  <div class="h-full skeleton-container">
+  <div class="h-full relative">
     <NeoSkeleton
-      class="skeleton-backdrop"
+      class="z-[2]"
       rounded
       border-radius="20px"
       no-margin
       full-size
       variant="k-grey-light" />
 
-    <div class="skeleton-content flex">
+    <div
+      class="flex justify-center w-full absolute -translate-x-2/4 -translate-y-2/4 z-[3] left-2/4 top-2/4">
       <NeoIcon
         icon="spinner-third"
         class="spinner text-k-grey mr-6"
@@ -39,26 +40,3 @@ withDefaults(
   {},
 )
 </script>
-
-<style scoped lang="scss">
-.skeleton {
-  &-container {
-    position: relative;
-  }
-
-  &-backdrop {
-    z-index: 2;
-  }
-
-  &-content {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 3;
-  }
-}
-</style>

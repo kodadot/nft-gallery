@@ -142,8 +142,8 @@ const statusInformation = computed(() => {
     ? {
         label: $i18n.t('mint.unlockable.ayeVotersOnly'),
         icon: 'circle-info',
-        iconClass: 'has-text-grey',
-        labelClass: 'has-text-grey',
+        iconClass: 'text-k-grey',
+        labelClass: 'text-k-grey',
         iconPack: 'fasr',
       }
     : isEligibleUser.value
@@ -156,8 +156,8 @@ const statusInformation = computed(() => {
       : {
           label: $i18n.t('mint.unlockable.exclusive'),
           icon: 'circle-info',
-          iconClass: 'has-text-grey',
-          labelClass: 'has-text-grey',
+          iconClass: 'text-k-grey',
+          labelClass: 'text-k-grey',
           iconPack: 'fasr',
         }
 })

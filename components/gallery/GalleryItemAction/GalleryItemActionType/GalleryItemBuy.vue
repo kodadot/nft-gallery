@@ -13,7 +13,7 @@
         </div>
 
         <NeoButton
-          class="button-height square-button-width no-border-left"
+          class="button-height square-button-width border-l-0"
           data-testid="item-add-to-cart"
           @click="onClickShoppingCart">
           <NeoIcon

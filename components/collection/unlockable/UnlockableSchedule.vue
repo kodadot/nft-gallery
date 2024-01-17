@@ -93,18 +93,18 @@
           </span>
         </div>
       </div>
-      <div v-if="item.expand" class="hsa-border-left mt-4 pl-5">
+      <div v-if="item.expand" class="border-l border-k-shade mt-4 pl-5">
         <div class="flex justify-between items-center">
           <div>
-            <span class="has-text-grey">From</span> 9AM
-            <span class="has-text-grey">UTC+1</span>
+            <span class="text-k-grey">From</span> 9AM
+            <span class="text-k-grey">UTC+1</span>
           </div>
-          <span class="has-text-grey">Available for mint</span>
+          <span class="text-k-grey">Available for mint</span>
         </div>
         <div class="flex justify-between items-center">
           <div>
-            <span class="has-text-grey">To</span> 11PM
-            <span class="has-text-grey">UTC+1</span>
+            <span class="text-k-grey">To</span> 11PM
+            <span class="text-k-grey">UTC+1</span>
           </div>
           <span class="">10 NFTs</span>
         </div>
@@ -154,12 +154,3 @@ const getStatusName = (status: 'close' | 'open' | 'upcoming') => {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables.scss';
-.hsa-border-left {
-  @include ktheme() {
-    border-left: 1px solid theme('k-shade');
-  }
-}
-</style>

@@ -6,11 +6,14 @@
           v-for="(item, index) in nfts"
           :key="`${item.id}-${index}`"
           class="keen-slider__slide carousel-item">
-          <div class="h-full flex flex-col">
+          <NuxtLink
+            class="h-full flex flex-col"
+            :to="urlOf({ id: item.id, url, chain: item.chain })"
+            rel="nofollow">
             <CarouselMedia :item="item" :index="index" :length="nfts.length" />
             <CarouselInfo v-if="!slots['card-info']" :item="item" />
             <slot name="card-info" :item="item" />
-          </div>
+          </NuxtLink>
         </div>
       </div>
       <Transition name="fade">
@@ -36,13 +39,14 @@ import type { CarouselNFT } from '@/components/base/types'
 
 import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/vue'
-import { CarouselWheelsPlugin } from '../utils/useCarousel'
+import { CarouselWheelsPlugin, useCarouselUrl } from '../utils/useCarousel'
 
 const slots = useSlots()
 const props = defineProps<{
   nfts: CarouselNFT[]
   step: number
 }>()
+const { urlOf } = useCarouselUrl()
 
 const url = inject('itemUrl', 'gallery') as string
 const isCollection = computed(() => url.includes('collection'))

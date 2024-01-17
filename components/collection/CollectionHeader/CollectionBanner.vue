@@ -6,24 +6,48 @@
 
     <section class="h-full py-8">
       <div class="container is-fluid collection-banner-content">
-        <div class="flex flex-col items-start">
-          <div class="collection-banner-avatar">
-            <NuxtImg
-              v-if="collectionAvatar"
-              height="88"
-              densities="2x"
-              :src="collectionAvatar"
-              class="object-fit-cover"
-              :alt="collectionName" />
-            <img v-else :src="placeholder" alt="image placeholder" />
+        <div class="lg:flex-1">
+          <div class="flex flex-col items-start">
+            <div class="collection-banner-avatar">
+              <NuxtImg
+                v-if="collectionAvatar"
+                height="88"
+                densities="2x"
+                :src="collectionAvatar"
+                class="object-fit-cover"
+                :alt="collectionName" />
+              <img v-else :src="placeholder" alt="image placeholder" />
+            </div>
+            <h1
+              class="collection-banner-name"
+              data-testid="collection-banner-name">
+              {{ collectionName }}
+            </h1>
           </div>
-          <h1
-            class="collection-banner-name"
-            data-testid="collection-banner-name">
-            {{ collectionName }}
-          </h1>
         </div>
-        <HeroButtons class="is-hidden-mobile self-end" />
+
+        <!-- migration is ready -->
+        <div v-if="isMigrate">
+          <div
+            class="rounded-full border justify-between items-center px-4 bg-background-color hidden lg:flex">
+            <div class="flex items-center">
+              <img
+                width="42"
+                height="42"
+                src="/migrate/state-ready.svg"
+                alt="unlockable icon" />
+              <span> {{ $t('migrate.ready.title') }} </span>
+            </div>
+            <div class="w-4 h-[1px] bg-separator-line-color mx-2" />
+            <nuxt-link
+              class="flex items-center has-text-weight-bold my-2"
+              to="/migrate">
+              {{ $t('migrate.cta') }}
+            </nuxt-link>
+          </div>
+        </div>
+
+        <HeroButtons class="is-hidden-mobile self-end lg:flex-1" />
       </div>
     </section>
   </div>
@@ -36,10 +60,12 @@ import { sanitizeIpfsUrl, toOriginalContentUrl } from '@/utils/ipfs'
 import HeroButtons from '@/components/collection/HeroButtons.vue'
 import { generateCollectionImage } from '@/utils/seoImageGenerator'
 import { convertMarkdownToText } from '@/utils/markdown'
+import { useReadyItems } from '@/composables/useMigrate'
 
 const collectionId = computed(() => route.params.id)
 const route = useRoute()
 const { placeholder } = useTheme()
+const { entities } = useReadyItems()
 
 const { data, refetch } = useGraphql({
   queryName: 'collectionById',
@@ -50,6 +76,7 @@ const { data, refetch } = useGraphql({
 
 const collectionAvatar = ref('')
 const collectionName = ref('--')
+const isMigrate = ref(false)
 
 const bannerImageUrl = computed(
   () => collectionAvatar.value && toOriginalContentUrl(collectionAvatar.value),
@@ -67,6 +94,8 @@ watchEffect(async () => {
   const metadata = collection?.metadata
   const image = collection?.meta?.image
   const name = collection?.name
+
+  isMigrate.value = entities[collectionId.value.toString()]?.name
 
   if (image && name) {
     collectionAvatar.value = sanitizeIpfsUrl(image)
@@ -118,10 +147,7 @@ useSeoMeta({
   height: 560px;
   position: relative;
   background-position: 50% 50%;
-
-  @include ktheme() {
-    border-bottom: 1px solid theme('border-color');
-  }
+  @apply border-b;
 
   &-shadow {
     background: linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.2));

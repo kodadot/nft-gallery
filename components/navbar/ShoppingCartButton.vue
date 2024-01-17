@@ -11,7 +11,7 @@
         v-if="numberOfItems"
         :count="numberOfItems"
         rounded
-        class="count-position is-size-7" />
+        class="count-position text-xs" />
     </div>
   </div>
 </template>

@@ -9,7 +9,7 @@
 
     <h2>{{ $t('teleport.subtitle') }}</h2>
     <a
-      class="has-text-grey"
+      class="text-k-grey"
       href="https://hello.kodadot.xyz/tutorial/teleport-bridge"
       >{{ $t('teleport.howItWorks') }}
     </a>
@@ -25,9 +25,7 @@
           @select="onChainChange" />
       </div>
 
-      <div
-        class="network-arrow flex is-cursor-pointer py-2"
-        @click="switchChains">
+      <div class="network-arrow flex cursor-pointer py-2" @click="switchChains">
         <svg viewBox="0 0 39 17" fill="none" xmlns="http://www.w3.org/2000/svg">
           <line y1="5.5" x2="35" y2="5.5" stroke="currentColor" />
           <line y1="11.5" x2="35" y2="11.5" stroke="currentColor" />
@@ -70,9 +68,7 @@
           type="number"
           placeholder="Enter Amount" />
         <div class="is-absolute-right">
-          <span
-            v-if="totalFiatValue"
-            class="token-value is-size-7 has-text-grey"
+          <span v-if="totalFiatValue" class="token-value text-xs text-k-grey"
             >~{{ totalFiatValue }} usd</span
           >
           {{ currency }}
@@ -82,7 +78,7 @@
 
     <div
       v-if="myBalance !== undefined"
-      class="is-size-7 flex justify-content align-items flex-direction">
+      class="text-xs flex justify-content align-items flex-direction">
       <TeleportFundsAtRiskWarning
         v-if="showEDWarning && !isDisabledButton"
         :target-existential-deposit="targetExistentialDeposit.displayValue"

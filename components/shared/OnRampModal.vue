@@ -1,8 +1,7 @@
 <template>
   <NeoModal :value="isModalActive" scroll="clip" @close="onClose">
     <div class="modal-width">
-      <div
-        class="border-bottom border-grey flex items-center justify-between px-6">
+      <div class="border-b border-grey flex items-center justify-between px-6">
         <p class="py-5 is-size-6 has-text-weight-bold">
           {{ $t('general.chooseProvider') }}
         </p>
@@ -31,7 +30,7 @@
         </div>
         <div v-for="(provider, index) in providers" :key="provider.value">
           <div
-            class="provider is-clickable flex justify-center items-start flex-col my-4"
+            class="provider cursor-pointer flex justify-center items-start flex-col my-4"
             :class="{
               provider__disabled: provider.disabled || !agreeTos,
             }"
@@ -41,17 +40,17 @@
                 :alt="`${provider.value} provider logo`"
                 :src="provider.image"
                 class="provider-logo" />
-              <p v-if="provider.disabled" class="ml-2 is-size-7 has-text-grey">
+              <p v-if="provider.disabled" class="ml-2 text-xs text-k-grey">
                 {{ $t('soon') }}
               </p>
             </div>
 
             <div class="mt-4 flex items-center justify-between w-full">
-              <div class="is-size-7 has-text-grey">
+              <div class="text-xs text-k-grey">
                 {{ $t('general.supports') }}
               </div>
 
-              <div class="is-size-7 has-text-grey">
+              <div class="text-xs text-k-grey">
                 {{ getSupportedTokensToText(provider.supports) }}
               </div>
             </div>
@@ -166,7 +165,7 @@ const onSuccess = () => {
   }
 
   &__disabled {
-    cursor: default !important;
+    @apply cursor-default #{!important};
     .provider-logo {
       opacity: 30%;
     }

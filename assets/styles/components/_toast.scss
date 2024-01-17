@@ -1,27 +1,11 @@
 .notices {
-  bottom: 0;
-  display: flex;
-  left: 0;
-  overflow: hidden;
-  padding: 2em;
-  pointer-events: none;
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 1000;
-
   &.is-bottom {
     flex-direction: column-reverse;
   }
 
   .snackbar {
-    align-items: center;
+    @apply items-center inline-flex justify-around min-h-[3em] pointer-events-auto mx-0 my-[0.5em];
     animation-duration: 0.15s;
-    display: inline-flex;
-    justify-content: space-around;
-    margin: 0.5em 0;
-    min-height: 3em;
-    pointer-events: auto;
   }
 
   .bar {

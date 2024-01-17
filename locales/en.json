@@ -1496,6 +1496,7 @@
     "setAllTo": "Set All To"
   },
   "migrate": {
+    "cta": "Migrate Now",
     "source": "Source",
     "destination": "Destination",
     "heading": "Migrate Your Art",
@@ -1675,5 +1676,9 @@
   "confirmDeleteCollection": {
     "deleteCollection": "Delete Collection?",
     "content": "This will permanently remove your collection and NFTs. Your deposit will be refunded."
+  },
+  "buyModal": {
+    "nftPriceUpdated": "NFT {0} price updated",
+    "nftNotListedAnymore": "NFT {0} is not listed anymore"
   }
 }
