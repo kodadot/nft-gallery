@@ -52,9 +52,7 @@ const { toast } = useToast()
 }
 
 .popover-header {
-  @include ktheme() {
-    border-bottom: 1px solid theme('k-grey');
-  }
+  @apply border-b border-k-grey;
 
   .popover-user-heading {
     font-size: 12px;

@@ -1,14 +1,14 @@
 <template>
   <div>
     <div
-      class="shopping-cart-modal-container bg-background-color border-left flex flex-col"
+      class="shopping-cart-modal-container bg-background-color border-l flex flex-col"
       data-testid="shopping-cart-modal-container">
       <NeoModalHead
         :title="$t('shoppingCart.title')"
         @close="closeShoppingCart(ModalCloseType.BACK)" />
       <div
         v-if="numberOfItems"
-        class="mx-6 py-4 border-bottom border-k-shade flex justify-between items-center">
+        class="mx-6 py-4 border-b border-k-shade flex justify-between items-center">
         <span> {{ numberOfItems }} {{ $t('items') }}</span>
 
         <NeoButton
@@ -31,7 +31,7 @@
             @delete="shoppingCartStore.removeItem"
             @click-item="closeShoppingCart" />
         </div>
-        <div class="flex justify-between mx-6 py-4 border-top border-k-shade">
+        <div class="flex justify-between mx-6 py-4 border-t border-k-shade">
           {{ $t('shoppingCart.total') }}
           <div class="flex">
             <CommonTokenMoney :value="totalPrice" class="text-k-grey" />

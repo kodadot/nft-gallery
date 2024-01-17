@@ -3,7 +3,7 @@
     href="https://form.kodadot.xyz/drop-page-interest"
     target="_blank"
     rel="noopener noreferrer"
-    class="drop-card border card-border-color">
+    class="drop-card border border-border-color">
     <CreateDropGallery />
     <div class="inner_card">
       <p>Create Your Own</p>

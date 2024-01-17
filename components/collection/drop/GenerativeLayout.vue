@@ -1,6 +1,6 @@
 <template>
   <div class="unlockable-container">
-    <div class="container is-fluid border-top pt-6">
+    <div class="container is-fluid border-t pt-6">
       <div class="columns is-desktop">
         <div class="column is-half-desktop mobile-padding">
           <CollectionUnlockableCollectionInfo

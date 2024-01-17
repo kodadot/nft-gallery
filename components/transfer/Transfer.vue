@@ -968,7 +968,7 @@ watchDebounced(
   }
 }
 :deep(.o-drop__menu.no-border-bottom) {
-  border-bottom: none;
+  @apply border-b-0;
 }
 
 .is-absolute-right {

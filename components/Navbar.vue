@@ -32,7 +32,7 @@
                 class="flex-grow" />
               <NeoButton
                 variant="text"
-                class="p-3 is-shadowless no-border capitalize"
+                class="p-3 is-shadowless border-0 capitalize"
                 @click="hideMobileSearchBar">
                 {{ $t('cancel') }}
               </NeoButton>

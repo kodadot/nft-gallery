@@ -28,7 +28,7 @@
           </div>
         </div>
         <NeoButton
-          class="h-full no-border-left py-4 px-7"
+          class="h-full border-l-0 py-4 px-7"
           :variant="'k-accent'"
           @click="preferencesStore.listingCartModalOpen = true">
           {{ $t('listingCart.listItem', listingCartStore.count) }}

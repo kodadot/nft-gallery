@@ -1,6 +1,6 @@
 <template>
   <div class="h-[350px] border">
-    <div class="py-4 px-5 flex border-bottom" aria-label="controls">
+    <div class="py-4 px-5 flex border-b" aria-label="controls">
       <div
         class="mr-4 cursor-pointer"
         :class="{ 'has-text-weight-bold': activeTab === Tabs.holders }"

@@ -52,9 +52,7 @@ const handleRedirect = () => {
     background: theme('background-color');
   }
   .redirect-header {
-    @include ktheme() {
-      border-bottom: 1px solid theme('k-grey');
-    }
+    @apply border-b border-k-grey;
   }
   p.link {
     word-break: break-all;
