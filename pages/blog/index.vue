@@ -172,13 +172,13 @@ const { data: posts } = useAsyncData('posts', async () => {
     border-radius: 1rem;
     overflow: hidden;
 
+    &-cover {
+      @apply border-b border-card-border-color;
+    }
+
     @include ktheme() {
       border: 1px solid theme('card-border-color');
       background-color: theme('background-color');
-
-      &-cover {
-        border-bottom: 1px solid theme('card-border-color');
-      }
 
       &:hover {
         border-color: theme('border-color');

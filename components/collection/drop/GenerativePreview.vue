@@ -10,7 +10,7 @@
       :mime-type="generativeImageUrl ? 'text/html' : ''"
       preview
       is-detail
-      class="border-bottom" />
+      class="border-b" />
     <div class="flex justify-center items-center py-6">
       <NeoButton
         v-if="isLoading"

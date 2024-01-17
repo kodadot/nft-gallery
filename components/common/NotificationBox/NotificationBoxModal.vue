@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="isOpen"
-    class="notification-modal-container bg-background-color border-left flex flex-col"
+    class="notification-modal-container bg-background-color border-l flex flex-col"
     data-testid="notification-modal-container">
     <NeoModalHead
       :title="$t('notification.notifications')"
@@ -202,9 +202,7 @@ const displayedEvents = computed(() =>
     .notification-filter {
       @apply shrink-0 grow-0 sticky z-[1] top-0;
       & > div:last-child {
-        @include ktheme() {
-          border-bottom: 1px solid theme('k-grey');
-        }
+        @apply border-b border-k-grey;
       }
 
       .filter-item {

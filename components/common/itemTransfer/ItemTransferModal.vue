@@ -4,7 +4,7 @@
     <NeoModal :value="isModalActive" scroll="clip" @close="onClose">
       <div class="modal-width">
         <header
-          class="border-bottom border-grey flex items-center justify-between px-6">
+          class="border-b border-grey flex items-center justify-between px-6">
           <p class="py-5 is-size-6 has-text-weight-bold">
             {{ $t('transaction.transferNft') }}
           </p>
