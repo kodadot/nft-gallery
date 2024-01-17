@@ -366,11 +366,11 @@ const submitMint = async (sn: string) => {
 }
 
 const checkAvailableNftsToClaim = async () => {
-  const nftIds = holderOfCollectionData.value.nftEntities.map((nft) => nft.sn)
+  const nftEntities = holderOfCollectionData.value?.nftEntities || []
+  const nftIds = nftEntities.map((nft) => nft.sn)
   const claimed = await Promise.all(
     nftIds.map((sn) => isNftClaimed(sn, holderOfCollectionId)),
   )
-
   availableNfts.value = claimed.filter((x) => !Boolean(x)).length
 }
 
