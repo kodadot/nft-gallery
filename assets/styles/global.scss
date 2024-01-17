@@ -292,12 +292,6 @@ hr {
   cursor: pointer !important;
 }
 
-.has-text-k-primary {
-  @include ktheme() {
-    color: theme('k-primary') !important;
-  }
-}
-
 //shadow
 
 .k-shadow {
