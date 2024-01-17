@@ -139,9 +139,7 @@ const closeModal = () => {
   }
 
   & > * {
-    cursor: pointer;
-    display: flex;
-    gap: 0.25rem;
+    @apply cursor-pointer flex gap-1;
 
     &:hover {
       @include ktheme() {

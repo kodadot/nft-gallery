@@ -92,12 +92,7 @@
   }
 
   .dot {
-    border: none;
-    width: 10px;
-    height: 10px;
-    margin: 0 12px;
-    padding: 5px;
-    cursor: pointer;
+    @apply w-2.5 h-2.5 cursor-pointer mx-3 my-0 p-[5px] border-[none];
 
     &:focus {
       outline: none;

@@ -27,7 +27,7 @@
         v-clipboard:copy="txUrl"
         icon="copy"
         pack="fass"
-        class="text-k-grey is-clickable"
+        class="text-k-grey cursor-pointer"
         data-testid="tx-clipboard"
         @click="toast($t('general.copyToClipboard'))" />
     </div>

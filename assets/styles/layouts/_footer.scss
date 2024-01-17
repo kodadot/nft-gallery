@@ -79,9 +79,8 @@
       align-items: center !important;
     }
     &-list {
-      cursor: pointer;
-      flex-wrap: wrap;
-      gap: 0.5rem;
+      @apply cursor-pointer flex-wrap gap-2;
+
       &-item {
         height: 33px;
         width: 33px;

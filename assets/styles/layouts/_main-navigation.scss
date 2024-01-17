@@ -266,7 +266,7 @@
   }
   .navbar-explore {
     .menu-item {
-      cursor: pointer;
+      @apply cursor-pointer;
       @include ktheme() {
         color: theme('text-color');
       }
@@ -288,7 +288,7 @@
         }
       }
       &.is-disabled {
-        cursor: not-allowed;
+        @apply cursor-not-allowed;
         @include ktheme() {
           color: theme('k-shade');
         }
@@ -327,9 +327,7 @@
   }
 
   .cancel-btn {
-    cursor: pointer;
-    border: none;
-    text-transform: capitalize;
+    @apply cursor-pointer capitalize border-[none];
   }
 
   .language-heading {
