@@ -88,7 +88,6 @@ withDefaults(
   {
     description: '',
     userMintedNftId: undefined,
-    holderOfCollection: () => ({ id: '', isHolderOfTargetCollection: false }),
   },
 )
 

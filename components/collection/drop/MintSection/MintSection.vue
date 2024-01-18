@@ -42,7 +42,7 @@
       </div>
 
       <HolderOfCollectionMintRequirements
-        v-else-if="showHolderOfCollection"
+        v-else-if="showHolderOfCollection && holderOfCollection"
         class="my-5"
         :holder-of-collection="holderOfCollection"
         :minimum-funds="minimumFunds"
@@ -135,9 +135,7 @@ const mintButtonDisabled = computed(() =>
   isMintedOut.value ? false : props.mintButton.disabled,
 )
 
-const showHolderOfCollection = computed(
-  () => !!props.holderOfCollection?.id && props.holderOfCollection,
-)
+const showHolderOfCollection = computed(() => !!props.holderOfCollection?.id)
 
 const handleMint = () => {
   if (isMintedOut.value) {
