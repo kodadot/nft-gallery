@@ -122,12 +122,6 @@ body {
   padding-right: $fluid-container-padding;
 }
 
-.control-label {
-  @include ktheme() {
-    color: theme('text-color');
-  }
-}
-
 @include mobile {
   .column-padding {
     padding-left: 10px !important;
@@ -205,17 +199,10 @@ hr {
 }
 
 .snackbar {
-  @include ktheme() {
-    border-radius: 0;
-    color: theme('text-color');
-    background: theme('background-color');
-    box-shadow: theme('primary-shadow');
-    border: 1px solid theme('border-color');
+  @apply text-text-color bg-background-color border border-border-color shadow-primary;
 
-    .button {
-      background-color: theme('k-accentlight2') !important;
-      color: theme('text-color') !important;
-    }
+  .button {
+    @apply bg-k-accent-light-2 text-text-color;
   }
 }
 
@@ -227,85 +214,19 @@ hr {
 // global table css
 
 .table {
-  @include ktheme() {
-    background-color: theme('background-color');
-    color: theme('text-color');
+  @apply bg-background-color text-text-color;
 
-    &.is-hoverable tbody tr:not(.is-selected):hover {
-      background-color: theme('background-color');
-    }
+  &.is-hoverable tbody tr:not(.is-selected):hover {
+    @apply bg-background-color;
+  }
 
-    th {
-      color: theme('text-color');
-      background-color: theme('background-color') !important;
-    }
+  th {
+    @apply text-text-color bg-background-color;
   }
 }
 
 .fluid-padding-left {
   padding-left: $fluid-container-padding;
-}
-
-.has-text-k-shade {
-  @include ktheme() {
-    color: theme('k-shade');
-  }
-}
-
-//colors
-
-.has-text-k-green {
-  @include ktheme() {
-    color: theme('k-green') !important;
-  }
-}
-.has-text-k-red {
-  @include ktheme() {
-    color: theme('k-red');
-  }
-}
-
-.has-text-k-orange {
-  @include ktheme() {
-    color: theme('k-orange');
-  }
-}
-
-.has-text-k-blue {
-  @include ktheme() {
-    color: theme('k-blue');
-  }
-  &:hover {
-    @include ktheme() {
-      color: theme('k-blue-hover');
-    }
-  }
-}
-
-.has-text-color {
-  @include ktheme() {
-    color: theme('text-color') !important;
-  }
-}
-
-.has-text-k-primary {
-  @include ktheme() {
-    color: theme('k-primary') !important;
-  }
-}
-
-//hover
-
-.is-hoverable-item {
-  @include ktheme() {
-    &:hover {
-      background-color: theme('k-accentlight2');
-    }
-  }
-}
-
-.no-hover:hover {
-  background-color: unset !important;
 }
 
 //shadow
@@ -370,10 +291,6 @@ hr {
 
 .is-overflow-y-auto {
   overflow-y: auto;
-}
-
-.has-text-inherit {
-  color: inherit !important;
 }
 
 .min-width-0 {

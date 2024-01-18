@@ -7,7 +7,7 @@
         </p>
       </div>
       <div class="pt-4">
-        <div class="has-text-weight-bold has-text-k-red">
+        <div class="has-text-weight-bold text-k-red">
           <div>{{ $t('massmint.required') }}</div>
 
           <div class="pl-3">
@@ -16,7 +16,7 @@
         </div>
         <div
           v-if="numMissingDescriptions || numMissingPrices"
-          class="has-text-k-red mt-3">
+          class="text-k-red mt-3">
           <div>{{ $t('massmint.optional') }}</div>
 
           <div v-if="numMissingDescriptions" class="pl-3">

@@ -1,7 +1,7 @@
 <template>
   <div
     class="border border-k-shade rounded-[4rem] py-2 px-5 mb-7 flex items-center justify-between">
-    <div class="has-text-k-green flex">
+    <div class="text-k-green flex">
       <NeoIcon icon="check" />
 
       <p class="ml-3 text-xs">{{ $t('confirmed') }}</p>

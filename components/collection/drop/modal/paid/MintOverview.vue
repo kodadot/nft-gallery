@@ -47,7 +47,7 @@
         size="large" />
 
       <div class="text-xs">
-        <span class="has-text-color">
+        <span class="text-text-color">
           {{ $t('drops.yourWalletNeeds', [formattedMinimumFunds]) }}
         </span>
 

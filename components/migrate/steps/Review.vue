@@ -55,7 +55,10 @@
 
     <div>
       <p class="has-text-weight-bold mt-5">{{ $t('migrate.route') }}:</p>
-      <NeoButton rounded variant="pill" class="mt-2 no-hover cursor-default">
+      <NeoButton
+        rounded
+        variant="pill"
+        class="mt-2 hover:bg-transparent cursor-default">
         <div class="flex items-center">
           <img
             width="20"

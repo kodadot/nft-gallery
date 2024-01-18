@@ -30,7 +30,7 @@
               <NeoIcon
                 :icon="reasonsIcons[index]"
                 size="large"
-                class="has-text-k-primary mb-3" />
+                class="text-k-primary mb-3" />
               <img src="/accent-blur.svg" class="blur icon-blur" alt="blur" />
             </div>
 

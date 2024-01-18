@@ -19,7 +19,7 @@
             class="mx-4"
             :class="{
               'text-k-grey': section === 'review',
-              'has-text-color': section === 'sign',
+              'text-text-color': section === 'sign',
             }" />
           <span
             :class="{
