@@ -1,8 +1,13 @@
 <template>
   <UnlockableCollectionBanner :drop="drop" />
   <CollectionDropContainer v-if="dropType === 'paid'" :drop="drop" />
+  <CollectionDropMultiPhaseGenerative
+    v-else-if="
+      dropType === 'generative' && drop.holds && drop.alias === 'flatwhite'
+    "
+    :drop="drop" />
   <CollectionDropHolderOfGenerative
-    v-else-if="dropType === 'generative' && drop.alias === 'chroma'"
+    v-else-if="dropType === 'generative' && drop.holds"
     :drop="drop" />
   <CollectionDropPaidGenerative
     v-else-if="dropType === 'generative' && Number(drop.price)"

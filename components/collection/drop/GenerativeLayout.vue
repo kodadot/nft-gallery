@@ -24,6 +24,7 @@
             :disabled-by-backend="drop.disabled"
             :mint-button="mintButton"
             :holder-of-collection="holderOfCollection"
+            :mint-phases="mintPhases"
             @mint="handleSubmitMint" />
         </div>
 
@@ -49,6 +50,7 @@
           :disabled-by-backend="drop.disabled"
           :mint-button="mintButton"
           :holder-of-collection="holderOfCollection"
+          :mint-phases="mintPhases"
           @mint="handleSubmitMint" />
       </div>
 
@@ -64,7 +66,7 @@
 
 <script setup lang="ts">
 import { DropItem } from '@/params/types'
-import type { HolderOfCollectionProp } from './HolderOfGenerative.vue'
+import { HolderOfCollectionProp, MintPhase } from './types'
 
 withDefaults(
   defineProps<{
@@ -81,6 +83,7 @@ withDefaults(
     isLoading: boolean
     holderOfCollection?: HolderOfCollectionProp
     userMintedNftId?: string
+    mintPhases: MintPhase[]
 
     handleSelectImage: (image: string) => void
     handleSubmitMint: () => void
@@ -88,7 +91,7 @@ withDefaults(
   {
     description: '',
     userMintedNftId: undefined,
-    holderOfCollection: () => ({ id: '', isHolderOfTargetCollection: false }),
+    mintPhases: () => [],
   },
 )
 

@@ -1,92 +1,33 @@
 <template>
   <div>
-    <div>
-      <div class="flex justify-between items-center mb-5">
-        <div class="has-text-weight-bold is-size-5">
-          {{ $t('mint.unlockable.phase') }}
-        </div>
-        <div
-          v-if="mintCountAvailable && !disabledByBackend"
-          class="flex items-center">
-          <img src="/unlockable-pulse.svg" alt="open" />
-          {{ $t('mint.unlockable.open') }}
-        </div>
-      </div>
-      <div class="flex justify-between items-center">
-        <div>{{ mintedPercent }} %</div>
-        <div class="has-text-weight-bold">
-          {{ mintedCount }} / {{ maxCount }}
-          {{ $t('statsOverview.minted') }}
-        </div>
-      </div>
-    </div>
-
-    <div class="my-5">
-      <UnlockableSlider :value="mintedCount / maxCount" />
-    </div>
-
-    <div>
-      <div v-if="userMintedNftId" class="flex justify-end items-center">
-        <div class="mr-2">
-          {{ $t('mint.unlockable.nftAlreadyMinted') }}
-        </div>
-        <NeoIcon
-          icon="circle-check has-text-success"
-          pack="fass"
-          class="mr-4" />
-        <NeoButton
-          class="my-2 mint-button"
-          :tag="NuxtLink"
-          :label="$t('mint.unlockable.seeYourNft')"
-          :to="`/${urlPrefix}/gallery/${userMintedNftId}`" />
-      </div>
-
-      <HolderOfCollectionMintRequirements
-        v-else-if="showHolderOfCollection"
-        class="my-5"
-        :holder-of-collection="holderOfCollection"
+    <div v-for="phase in phases" :key="phase.type">
+      <MintPhase
+        :title="phase.name"
+        :subtitle="$t('mint.unlockable.phase')"
+        :max-count="phase.count.max"
+        :minted-count="phase.count.minted"
+        :mint-count-available="mintCountAvailable"
+        :disabled-by-backend="disabledByBackend"
         :minimum-funds="minimumFunds"
-        :is-minted-out="isMintedOut">
-        <NeoButton
-          ref="root"
-          class="mint-button"
-          variant="k-accent"
-          :loading="loading"
-          :disabled="mintButtonDisabled"
-          :loading-with-label="isWalletConnecting"
-          :label="mintButtonLabel"
-          @click="handleMint" />
-      </HolderOfCollectionMintRequirements>
+        :is-image-fetching="isImageFetching"
+        :is-wallet-connecting="isWalletConnecting"
+        :is-loading="isLoading"
+        :mint-button="mintButton"
+        :user-minted-nft-id="userMintedNftId"
+        :holder-of-collection="holderOfCollection"
+        :collection-id="collectionId"
+        :available-to-mint="availableToMint"
+        :is-phase-open="phase.isPhaseOpen" />
 
-      <div v-else class="flex justify-end flex-wrap">
-        <div v-if="minimumFunds.amount" class="flex items-center">
-          <NeoIcon icon="circle-info" class="mr-3" />
-          <div
-            v-dompurify-html="minimumFunds.description"
-            class="minimum-funds-description" />
-        </div>
-
-        <NeoButton
-          ref="root"
-          class="ml-5 my-2 mint-button"
-          variant="k-accent"
-          :loading="loading"
-          :disabled="mintButtonDisabled"
-          :loading-with-label="isWalletConnecting"
-          :label="mintButtonLabel"
-          @click="handleMint" />
-      </div>
+      <hr />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import HolderOfCollectionMintRequirements from './HolderOfCollectionMintRequirements.vue'
 import type { HolderOfCollectionProp } from '../HolderOfGenerative.vue'
-
-const NuxtLink = resolveComponent('NuxtLink')
+import MintPhase from './MintPhase/MintPhase.vue'
+import { MinimumFundsProp, MintPhase as MintPhaseType } from '../types'
 
 const props = withDefaults(
   defineProps<{
@@ -94,7 +35,7 @@ const props = withDefaults(
     mintCountAvailable: boolean
     disabledByBackend: number
     maxCount: number
-    minimumFunds: { amount: number; description: string; hasAmount: boolean }
+    minimumFunds: MinimumFundsProp
     isImageFetching: boolean
     isWalletConnecting: boolean
     isLoading: boolean
@@ -103,70 +44,26 @@ const props = withDefaults(
     holderOfCollection?: HolderOfCollectionProp
     collectionId: string
     availableToMint?: number
+    mintPhases?: MintPhaseType[]
   }>(),
   {
     userMintedNftId: undefined,
+    mintPhases: () => [],
   },
 )
 
-const emit = defineEmits(['mint'])
-
 const { $i18n } = useNuxtApp()
-const { urlPrefix } = usePrefix()
 
-const loading = computed(
-  () => props.isImageFetching || props.isWalletConnecting || props.isLoading,
-)
+const phases = computed(() =>
+  props.mintPhases.map((phase) => {
+    const title = phase.name || $i18n.t('mint.unlockable.phase')
+    const isPhaseOpen = props.mintCountAvailable && !props.disabledByBackend
 
-const mintedPercent = computed(() => {
-  const percent = (props.mintedCount / props.maxCount) * 100
-  return Math.round(percent)
-})
-
-const isMintedOut = computed(() => !props.mintCountAvailable)
-
-const mintButtonLabel = computed(() =>
-  isMintedOut.value
-    ? $i18n.t('mint.unlockable.seeListings')
-    : props.mintButton.label,
-)
-
-const mintButtonDisabled = computed(() =>
-  isMintedOut.value ? false : props.mintButton.disabled,
-)
-
-const showHolderOfCollection = computed(
-  () => !!props.holderOfCollection?.id && props.holderOfCollection,
-)
-
-const handleMint = () => {
-  if (isMintedOut.value) {
-    return navigateTo(
-      `/${urlPrefix.value}/explore/items?listed=true&collections=${props.collectionId}`,
-    )
-  }
-
-  emit('mint')
-}
-</script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.minimum-funds-description {
-  max-width: 314px;
-}
-
-.mint-button {
-  width: 14rem;
-  height: 3.5rem;
-}
-
-.holder-of-collection {
-  @include mobile {
-    .mint-button {
-      width: 100%;
+    return {
+      ...phase,
+      title: title,
+      isPhaseOpen: phase.disabled ? false : isPhaseOpen,
     }
-  }
-}
-</style>
+  }),
+)
+</script>
