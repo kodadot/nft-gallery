@@ -23,7 +23,7 @@
         <div class="flex">
           <slot name="action-title">
             <span>{{ `${$t('teleport.send')} ${totalUsdValue}$` }}</span>
-            <span class="text-k-grey ml-1 is-uppercase">{{
+            <span class="text-k-grey ml-1 uppercase">{{
               `(${totalTokenAmount} ${urlPrefix})`
             }}</span>
           </slot>

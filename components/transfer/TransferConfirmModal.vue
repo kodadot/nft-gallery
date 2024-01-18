@@ -9,7 +9,7 @@
     <template #header>
       <span>
         {{ $t('teleport.send') }}
-        <span class="is-uppercase">{{ unit }}</span>
+        <span class="uppercase">{{ unit }}</span>
       </span>
     </template>
 
