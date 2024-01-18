@@ -1,8 +1,6 @@
 <template>
   <section class="mb-5">
-    <h1 class="heading heading-is-4 has-text-weight-bold is-uppercase">
-      Cookie Policy
-    </h1>
+    <h1 class="heading heading-is-4 font-bold is-uppercase">Cookie Policy</h1>
 
     <time class="mb-6">Last updated May 16, 2023</time>
 

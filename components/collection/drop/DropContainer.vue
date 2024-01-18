@@ -18,7 +18,7 @@
 
           <div>
             <div class="flex justify-between items-center my-5">
-              <div class="has-text-weight-bold is-size-5">Mint Phase</div>
+              <div class="font-bold is-size-5">Mint Phase</div>
               <div v-if="mintCountAvailable" class="flex items-center">
                 <img src="/unlockable-pulse.svg" alt="open" />
                 {{ $t('mint.unlockable.open') }}
@@ -26,7 +26,7 @@
             </div>
             <div class="flex justify-between items-center">
               <div>{{ mintedPercent }} %</div>
-              <div class="has-text-weight-bold">
+              <div class="font-bold">
                 {{ mintedCount }} / {{ totalCount }} Minted
               </div>
             </div>

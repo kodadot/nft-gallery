@@ -28,7 +28,7 @@
           :key="index"
           class="top-collections-item py-2 flex items-center justify-between">
           <div class="flex items-center">
-            <div class="p-4 has-text-weight-bold">
+            <div class="p-4 font-bold">
               {{ index }}
             </div>
             <div>

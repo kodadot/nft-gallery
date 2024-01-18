@@ -10,10 +10,10 @@
         <div
           v-if="Number(price)"
           data-testid="money"
-          class="gallery-action-section-price has-text-weight-bold">
+          class="gallery-action-section-price font-bold">
           {{ priceChain }}
         </div>
-        <div v-else class="has-text-weight-bold is-size-3">--</div>
+        <div v-else class="font-bold is-size-3">--</div>
 
         <div
           v-if="Number(price)"

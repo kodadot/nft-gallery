@@ -13,7 +13,7 @@
       <transition name="fade">
         <div
           v-if="!loading"
-          class="modal-card-title is-size-6 has-text-weight-bold line-height">
+          class="modal-card-title is-size-6 font-bold line-height">
           {{ title }}
         </div>
       </transition>

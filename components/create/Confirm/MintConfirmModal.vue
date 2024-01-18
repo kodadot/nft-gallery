@@ -24,7 +24,7 @@
             data-testid="item-creator" />
         </div>
       </div>
-      <div class="mt-4 has-text-weight-bold">
+      <div class="mt-4 font-bold">
         {{ title }}
       </div>
       <div class="py-4">

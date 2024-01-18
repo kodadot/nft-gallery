@@ -55,7 +55,7 @@
           class="content-board-cover"
           :style="{ backgroundImage: `url(${post.image})` }"></div>
         <div class="content-board-text">
-          <p class="has-text-weight-bold">{{ post.title }}</p>
+          <p class="font-bold">{{ post.title }}</p>
           <div class="content-board-subtitle">
             {{ post.subtitle }}
           </div>
@@ -75,7 +75,7 @@
           class="content-board-cover"
           :style="{ backgroundImage: `url(${post.image})` }"></div>
         <div class="content-board-text">
-          <p class="has-text-weight-bold">{{ post.title }}</p>
+          <p class="font-bold">{{ post.title }}</p>
           <div class="content-board-subtitle">
             {{ post.subtitle }}
           </div>

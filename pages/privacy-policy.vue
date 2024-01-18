@@ -1,8 +1,6 @@
 <template>
   <section class="mb-5">
-    <h1 class="heading heading-is-4 has-text-weight-bold is-uppercase">
-      PRIVACY POLICY
-    </h1>
+    <h1 class="heading heading-is-4 font-bold is-uppercase">PRIVACY POLICY</h1>
 
     <time class="mb-6">Last updated September 01, 2023</time>
 
