@@ -66,8 +66,8 @@ useHead({
 })
 
 const isExplore = computed(() => route.path.includes('/explore'))
-const isCollection = computed(
-  () => route.name?.toString().includes('prefix-collection-id'),
+const isCollection = computed(() =>
+  route.name?.toString().includes('prefix-collection-id'),
 )
 
 const getExploreTitle = computed(() => {
