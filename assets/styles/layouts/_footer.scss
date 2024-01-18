@@ -11,13 +11,12 @@
   }
 
   .container {
-    z-index: 1;
+    @apply z-[1] gap-[30px];
     @include mobile {
       flex-direction: column;
       gap: 50px;
       align-items: center !important;
     }
-    gap: 30px;
   }
 
   &-links {
@@ -31,9 +30,7 @@
   }
 
   &-inner {
-    z-index: 1;
-    position: relative;
-    gap: 3rem;
+    @apply z-[1] relative gap-12;
 
     @include mobile {
       flex-direction: column;
@@ -82,9 +79,8 @@
       align-items: center !important;
     }
     &-list {
-      cursor: pointer;
-      flex-wrap: wrap;
-      gap: 0.5rem;
+      @apply cursor-pointer flex-wrap gap-2;
+
       &-item {
         height: 33px;
         width: 33px;
@@ -105,11 +101,7 @@
   }
 
   #custom-substack-embed .custom-substack-widget {
-    border-radius: 0;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    height: 2.2rem;
-
+    @apply flex-row flex-nowrap h-[2.2rem] rounded-none;
 
     @include until-widescreen {
       flex-direction: column;
@@ -121,13 +113,7 @@
     }
 
     input {
-      font-weight: 400;
-      border-radius: 0;
-      font-size: 16px;
-      padding-left: 24px;
-      padding-top: 0;
-      padding-bottom: 0;
-      line-height: 1;
+      @apply font-normal text-base leading-none pl-6 py-0 rounded-none;
 
       @include until-widescreen {
         flex-basis: 100%;

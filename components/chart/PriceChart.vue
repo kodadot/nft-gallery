@@ -58,17 +58,17 @@
     </NeoDropdown>
 
     <div :class="{ content: !chartHeight }" :style="heightStyle">
-      <canvas id="priceChart" />
+      <Line
+        ref="chart"
+        :data="chartData"
+        :options="chartOptions"
+        :plugins="chartPlugins" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import ChartJS from 'chart.js/auto'
-import 'chartjs-adapter-date-fns'
-import zoomPlugin from 'chartjs-plugin-zoom'
-import { getChartData } from '@/utils/chart'
-import { format } from 'date-fns'
+import { getChartDataByTimeRange } from '@/utils/chart'
 import {
   NeoButton,
   NeoCheckbox,
@@ -77,8 +77,35 @@ import {
   NeoIcon,
 } from '@kodadot1/brick'
 import { useEventListener, useVModel } from '@vueuse/core'
+import {
+  ChartData,
+  ChartDataset,
+  Chart as ChartJS,
+  ChartOptions,
+  Legend,
+  LineElement,
+  LinearScale,
+  Point,
+  PointElement,
+  TimeScale,
+  Title,
+  Tooltip,
+} from 'chart.js'
+import 'chartjs-adapter-date-fns'
+import zoomPlugin from 'chartjs-plugin-zoom'
+import { format } from 'date-fns'
+import { Line } from 'vue-chartjs'
 
-ChartJS.register(zoomPlugin)
+ChartJS.register(
+  zoomPlugin,
+  LinearScale,
+  TimeScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+)
 
 const props = defineProps<{
   priceChartData?: [Date, number][][]
@@ -123,16 +150,12 @@ const vApplySmoothing = useVModel(props, 'applySmoothing', emit)
 const heightStyle = computed(() =>
   props.chartHeight ? `height: ${props.chartHeight}` : '',
 )
-let Chart: ChartJS<'line', any, unknown>
+let chart = ref<InstanceType<typeof ChartJS> | null>(null)
 
 const onWindowResize = () => {
-  Chart?.resize()
+  chart.value?.resize()
 }
 useEventListener(window, 'resize', onWindowResize)
-
-onMounted(() => {
-  getPriceChartData()
-})
 
 const lineColor = computed(() => (isDarkMode.value ? '#fff' : '#181717'))
 const gridColor = computed(() => (isDarkMode.value ? '#6b6b6b' : '#cccccc'))
@@ -149,194 +172,165 @@ const displayChartData = computed(() => {
   }
 })
 
-const getChartDataByTimeRange = (data: [Date, number][], timeRange: number) => {
-  if (!data) {
-    return
+const commonStyle = computed(() => {
+  return {
+    tension: 0.2,
+    pointRadius: 6,
+    pointHoverRadius: 6,
+    pointHoverBackgroundColor: isDarkMode.value ? '#181717' : 'white',
+    borderJoinStyle: 'round' as const,
+    radius: 0,
+    pointStyle: 'rect',
+    borderWidth: 1,
+    lineTension: 0,
   }
-  if (timeRange === 0) {
-    return data
-  } else {
-    const now = new Date()
-    const startDate = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate() - selectedTimeRange.value.value,
-    )
-    return data.filter((item) => item[0] >= startDate)
-  }
-}
+})
 
-const getPriceChartData = () => {
-  Chart?.destroy()
-  const priceChartData = displayChartData.value
-
-  if (priceChartData?.length) {
-    const ctx = (
-      document?.getElementById('priceChart') as HTMLCanvasElement
-    )?.getContext('2d')
-    if (ctx) {
-      const commonStyle = {
-        tension: 0.2,
-        pointRadius: 6,
-        pointHoverRadius: 6,
-        pointHoverBackgroundColor: isDarkMode.value ? '#181717' : 'white',
-        borderJoinStyle: 'round' as const,
-        radius: 0,
-        pointStyle: 'rect',
-        borderWidth: 1,
-        lineTension: 0,
-      }
-      const chart = new ChartJS(ctx, {
-        type: 'line',
-        data: {
-          datasets: [
-            {
-              label: 'Sale',
-              data: getChartData(priceChartData[0]),
-              borderColor: '#FF7AC3',
-              pointBackgroundColor: '#FF7AC3',
-              pointBorderColor: '#FF7AC3',
-              ...commonStyle,
-            },
-            {
-              label: 'List',
-              data: getChartData(priceChartData[1]),
-              borderColor: '#6188E7',
-              pointBackgroundColor: '#6188E7',
-              pointBorderColor: '#6188E7',
-              ...commonStyle,
-            },
-          ],
-        },
-        options: {
-          maintainAspectRatio: false,
-          responsive: true,
-          responsiveAnimationDuration: 0,
-          transitions: {
-            resize: {
-              animation: {
-                duration: 0,
-              },
-            },
-          },
-          plugins: {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            customCanvasBackgroundColor: {
-              color: isDarkMode.value ? '#181717' : 'white',
-            },
-            legend: {
-              labels: {
-                usePointStyle: true,
-              },
-            },
-            tooltip: {
-              xAlign: 'center',
-              yAlign: 'top',
-              callbacks: {
-                label: function (context) {
-                  return `Price: ${context.parsed.y} ${chainSymbol.value}`
-                },
-                title: function (context) {
-                  return format(context[0].parsed.x, 'MMM dd HH:mm')
-                },
-              },
-            },
-            zoom: {
-              limits: {
-                x: { min: 0, minRange: 0 },
-                y: { min: 0, minRange: 0 },
-              },
-              pan: {
-                enabled: false,
-              },
-              zoom: {
-                wheel: {
-                  enabled: false,
-                },
-                pinch: {
-                  enabled: false,
-                },
-                mode: 'xy',
-                onZoomComplete({ chart }) {
-                  chart.update('none')
-                },
-              },
-            },
-          },
-          scales: {
-            x: {
-              type: 'time',
-              time: {
-                displayFormats: {
-                  hour: 'HH:mm',
-                  minute: 'HH:mm',
-                },
-                unit: 'hour',
-              },
-              grid: {
-                drawOnChartArea: false,
-                borderColor: lineColor.value,
-                color: gridColor.value,
-              },
-              ticks: {
-                callback: (value) => {
-                  return value
-                },
-                major: {
-                  enabled: true,
-                },
-                maxRotation: 0,
-                minRotation: 0,
-                color: lineColor.value,
-              },
-            },
-            y: {
-              ticks: {
-                callback: (value) => {
-                  return `${Number(value).toFixed(2)}  `
-                },
-                stepSize: 3,
-                color: lineColor.value,
-              },
-              grid: {
-                drawTicks: false,
-                color: gridColor.value,
-                borderColor: lineColor.value,
-              },
-            },
-          },
-        },
-        plugins: [
-          {
-            id: 'customCanvasBackgroundColor',
-            beforeDraw: (chart, args, options) => {
-              const { ctx } = chart
-              ctx.save()
-              ctx.globalCompositeOperation = 'destination-over'
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              ctx.fillStyle = options.color || '#FFFFFF'
-              ctx.fillRect(0, 0, chart.width, chart.height)
-              ctx.restore()
-            },
-          },
-        ],
-      })
-
-      Chart = chart
+const chartData = computed<ChartData<'line', Point[], unknown>>(() => {
+  if (displayChartData.value?.length) {
+    const salePoints = getChartPoints(displayChartData.value[0])
+    const listPoints = getChartPoints(displayChartData.value[1])
+    return {
+      datasets: [
+        {
+          label: 'Sale',
+          data: salePoints,
+          borderColor: '#FF7AC3',
+          pointBackgroundColor: '#FF7AC3',
+          pointBorderColor: '#FF7AC3',
+          ...commonStyle.value,
+        } as ChartDataset<'line', Point[]>,
+        {
+          label: 'List',
+          data: listPoints,
+          borderColor: '#6188E7',
+          pointBackgroundColor: '#6188E7',
+          pointBorderColor: '#6188E7',
+          ...commonStyle.value,
+        } as ChartDataset<'line', Point[]>,
+      ],
     }
   }
-}
-watch(
-  () => props.priceChartData,
-  () => {
-    getPriceChartData()
-  },
-)
-watch([isDarkMode, selectedTimeRange], () => {
-  getPriceChartData()
+  return {
+    datasets: [],
+  }
 })
+
+const chartOptions = computed<ChartOptions<'line'>>(() => ({
+  maintainAspectRatio: false,
+  responsive: true,
+  responsiveAnimationDuration: 0,
+  transitions: {
+    resize: {
+      animation: {
+        duration: 0,
+      },
+    },
+  },
+  plugins: {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    customCanvasBackgroundColor: {
+      color: isDarkMode.value ? '#181717' : 'white',
+    },
+    legend: {
+      labels: {
+        usePointStyle: true,
+      },
+    },
+    tooltip: {
+      xAlign: 'center',
+      yAlign: 'top',
+      callbacks: {
+        label: function (context) {
+          return `Price: ${context.parsed.y} ${chainSymbol.value}`
+        },
+        title: function (context) {
+          return format(context[0].parsed.x, 'yyyy-MM-dd HH:mm')
+        },
+      },
+    },
+    zoom: {
+      limits: {
+        x: { min: 0, minRange: 0 },
+        y: { min: 0, minRange: 0 },
+      },
+      pan: {
+        enabled: false,
+      },
+      zoom: {
+        wheel: {
+          enabled: false,
+        },
+        pinch: {
+          enabled: false,
+        },
+        mode: 'xy',
+        onZoomComplete({ chart }) {
+          chart.update('none')
+        },
+      },
+    },
+  },
+  scales: {
+    x: {
+      type: 'time',
+      time: {
+        displayFormats: {
+          hour: 'HH:mm',
+          minute: 'HH:mm',
+        },
+        unit: 'hour',
+      },
+      grid: {
+        drawOnChartArea: false,
+        borderColor: lineColor.value,
+        color: gridColor.value,
+      },
+      ticks: {
+        callback: (value) => {
+          return format(Number(value), 'MMM dd')
+        },
+        major: {
+          enabled: true,
+        },
+        maxRotation: 0,
+        minRotation: 0,
+        color: lineColor.value,
+      },
+    },
+    y: {
+      ticks: {
+        callback: (value) => {
+          return `${Number(value).toFixed(2)}  `
+        },
+        stepSize: 3,
+        color: lineColor.value,
+      },
+      grid: {
+        drawTicks: false,
+        color: gridColor.value,
+        borderColor: lineColor.value,
+      },
+    },
+  },
+}))
+
+const chartPlugins = computed(() => [
+  {
+    id: 'customCanvasBackgroundColor',
+    beforeDraw: (chart, args, options) => {
+      const { ctx } = chart
+      ctx.save()
+      ctx.globalCompositeOperation = 'destination-over'
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      ctx.fillStyle = options.color || '#FFFFFF'
+      ctx.fillRect(0, 0, chart.width, chart.height)
+      ctx.restore()
+    },
+  },
+])
 </script>
 
 <style scoped>

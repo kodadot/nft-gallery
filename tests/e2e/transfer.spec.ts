@@ -59,11 +59,14 @@ test('Transfer Page Functionality', async ({ page, Commands }) => {
   //Recurring payment
   await test.step('Switchs to USD tab, fill inputs and verifies if total sums up', async () => {
     await page.getByTestId('transfer-tab-usd').click()
+    await page.getByTestId('transfer-switch-same').click()
     await page.getByTestId('transfer-input-amount-usd').nth(0).fill('5')
+    await page.getByTestId('global-address-input').nth(1).fill(`${UserAddress}`)
+    await page.getByTestId('transfer-input-amount-usd').nth(1).fill('10')
     await page.getByTestId('transfer-button-options').click()
     await page.getByTestId('transfer-dropdown-recurring').click()
     Commands.copyText(
-      `http://localhost:9090/dot/transfer?target=${UserAddress}&target1=${UserAddress}&usdamount=5`,
+      `http://localhost:9090/dot/transfer?target=${UserAddress}&usdamount=5&target1=${UserAddress}&usdamount1=10`,
     )
   })
 

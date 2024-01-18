@@ -39,7 +39,7 @@
             </div>
             <div class="column flex items-center">
               <div
-                class="is-clickable"
+                class="cursor-pointer"
                 :class="{
                   'text-k-red': !nft.name,
                 }"
@@ -49,7 +49,7 @@
             </div>
             <div class="column is-3 flex items-center">
               <div
-                class="is-clickable clip-text"
+                class="cursor-pointer clip-text"
                 :class="{
                   'text-k-orange': !nft.description,
                 }"
@@ -58,7 +58,7 @@
               </div>
             </div>
             <div class="column flex items-center">
-              <div class="is-clickable" @click="openSideBarWith(nft)">
+              <div class="cursor-pointer" @click="openSideBarWith(nft)">
                 <CommonTokenMoney
                   v-if="nft.price"
                   :value="getNativeNftPrice(nft)" />

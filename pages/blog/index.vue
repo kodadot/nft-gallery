@@ -1,8 +1,8 @@
 <template>
   <div class="content">
     <div class="content-headline text-center">
-      <h1 class="title is-1">KodaDot Blog</h1>
-      <div class="subtitle has-text-weight-medium">
+      <h1 class="title is-1 relative z-[1]">KodaDot Blog</h1>
+      <div class="relative z-[1] text-2xl mb-20 font-medium">
         Let’s Explore The NFT Universe
       </div>
       <img
@@ -14,7 +14,7 @@
     <div
       v-for="post in posts?.featured.slice(0, 1)"
       :key="post.title"
-      class="content-featured content-list">
+      class="relative z-[1] mb-20 content-list">
       <div
         class="content-list-cover"
         :style="{ backgroundImage: `url(${post.image})` }"></div>
@@ -130,15 +130,7 @@ const { data: posts } = useAsyncData('posts', async () => {
   margin: 0 auto;
   max-width: 60rem;
 
-  &-featured {
-    position: relative;
-    z-index: 1;
-    margin-bottom: 5rem;
-  }
-
   &-headline {
-    position: relative;
-
     &-cover {
       position: absolute;
       top: -100%;
@@ -148,8 +140,6 @@ const { data: posts } = useAsyncData('posts', async () => {
     }
 
     h1 {
-      position: relative;
-      z-index: 1;
       letter-spacing: -0.02em;
       @include ktheme() {
         color: theme('text-color-inverse');
@@ -164,13 +154,6 @@ const { data: posts } = useAsyncData('posts', async () => {
           0px -1px 0 theme('text-color'),
           4px 4px theme('text-color');
       }
-    }
-
-    .subtitle {
-      position: relative;
-      z-index: 1;
-      font-size: 1.5rem;
-      margin-bottom: 5rem;
     }
 
     @include touch {
@@ -231,10 +214,7 @@ const { data: posts } = useAsyncData('posts', async () => {
   }
 
   &-list {
-    border-radius: 2.5rem;
-    overflow: hidden;
-    display: flex;
-    height: 22rem;
+    @apply overflow-hidden flex h-[22rem] rounded-[2.5rem];
 
     @include touch {
       height: auto;

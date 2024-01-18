@@ -13,7 +13,7 @@
         <NeoIcon
           v-clipboard:copy="address"
           icon="copy"
-          class="has-text-link is-clickable"
+          class="has-text-link cursor-pointer"
           data-testid="identity-clipboard"
           @click="toast('Copied to clipboard')" />
       </div>

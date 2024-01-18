@@ -25,9 +25,7 @@
           @select="onChainChange" />
       </div>
 
-      <div
-        class="network-arrow flex is-cursor-pointer py-2"
-        @click="switchChains">
+      <div class="network-arrow flex cursor-pointer py-2" @click="switchChains">
         <svg viewBox="0 0 39 17" fill="none" xmlns="http://www.w3.org/2000/svg">
           <line y1="5.5" x2="35" y2="5.5" stroke="currentColor" />
           <line y1="11.5" x2="35" y2="11.5" stroke="currentColor" />

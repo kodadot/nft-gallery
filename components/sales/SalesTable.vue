@@ -9,7 +9,7 @@
         v-slot="props"
         field="image"
         label=""
-        class="front-stack-layer"
+        class="z-10"
         position="centered">
         <div class="image is-48x48">
           <nuxt-link :to="`/${urlPrefix}/gallery/${props.row.id}`">
@@ -23,7 +23,7 @@
               <BasicImage
                 :src="props.row.image"
                 :alt="props.row.name"
-                class="popup-image" />
+                class="w-72 h-72" />
             </BasicPopup>
           </nuxt-link>
         </div>
@@ -103,16 +103,10 @@ import BasicImage from '@/components/shared/view/BasicImage.vue'
 import BasicPopup from '@/components/shared/view/BasicPopup.vue'
 import Identity from '@/components/identity/IdentityIndex.vue'
 import Money from '@/components/shared/format/Money.vue'
+import { parseDate } from '@/utils/datetime'
 
 const sales = ref([])
 const { client, urlPrefix } = usePrefix()
-
-const parseDate = (ts: number) => {
-  return new Date(ts).toLocaleString('en-GB', {
-    timeZone: 'UTC',
-    timeZoneName: 'short',
-  })
-}
 
 const { pending, refresh: refreshNftSales } = useLazyAsyncData(
   'data',
@@ -143,20 +137,3 @@ watch(client, (value) => {
   }
 })
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.history {
-  width: 200px;
-  height: 100px;
-}
-
-.front-stack-layer {
-  z-index: 1;
-}
-.popup-image {
-  width: 300px;
-  height: 300px;
-}
-</style>

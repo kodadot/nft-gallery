@@ -176,7 +176,7 @@ const changeAddress = () => {
 watch(
   () => props.address,
   (address) => {
-    if (address !== '') {
+    if (Boolean(address) && address !== '') {
       addressCheck.value = getAddressCheck(address)
       showAddressCheck.value = !addressCheck.value.valid
     } else {

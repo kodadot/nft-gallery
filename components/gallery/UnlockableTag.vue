@@ -48,8 +48,8 @@ const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables.scss';
 .unlockable-container {
-  max-width: 60%;
-  border-radius: 2rem;
+  @apply max-w-[60%] rounded-[2rem];
+
   @include ktheme() {
     border-color: theme('k-shade');
   }
