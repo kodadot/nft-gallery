@@ -104,8 +104,8 @@ const mintPhases = computed(() =>
       .filter(Boolean).length
 
     const phaseMintedOut = phaseMax === phaseMinted
-    const active = false
-    const disabled = phaseMintedOut || !active
+    const active = !phaseMintedOut
+    const disabled = !active
 
     return {
       name: name,

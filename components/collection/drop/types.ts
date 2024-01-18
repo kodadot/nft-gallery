@@ -14,6 +14,11 @@ export type MinimumFundsProp = {
   hasAmount: boolean
 }
 
+export type MintButtonProp = {
+  label: string
+  disabled: boolean
+}
+
 export enum DropType {
   HOLDER_OF = 'holder_of',
   PAID = 'paid',
@@ -29,4 +34,10 @@ export type MintPhase = {
     minted: number
     max: number
   }
+}
+
+export enum MintPhaseState {
+  OPEN = 'open',
+  CLOSED = 'closed',
+  WAITING = 'waiting',
 }

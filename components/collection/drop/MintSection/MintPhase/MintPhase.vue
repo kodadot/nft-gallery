@@ -18,9 +18,9 @@
       :available-to-mint="availableToMint" />
   </template>
 
-  <NeoCollapse v-else animation="slide" :open="false">
+  <NeoCollapse v-else animation="slide" :open="isLastPhase && !hasOpen">
     <template #trigger="props">
-      <MintPhaseHeader :title="title">
+      <MintPhaseHeader :title="title" :subtitle="subtitle">
         <NeoIcon :icon="props.open ? 'chevron-up' : 'chevron-down'" />
       </MintPhaseHeader>
     </template>
@@ -46,14 +46,16 @@
 import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
 import type { HolderOfCollectionProp } from '../../HolderOfGenerative.vue'
 import MintPhaseHeader from './MintPhaseHeader.vue'
-import { MinimumFundsProp } from '../../types'
+import { MinimumFundsProp, MintPhaseState } from '../../types'
 import MintPhaseBody from './MintPhaseBody.vue'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     title: string
     subtitle: string
-    isPhaseOpen: boolean
+    state: MintPhaseState
+    isLastPhase: boolean
+    hasOpen: boolean
 
     mintedCount: number
     mintCountAvailable: boolean
@@ -73,4 +75,6 @@ withDefaults(
     userMintedNftId: undefined,
   },
 )
+
+const isPhaseOpen = computed(() => props.state === MintPhaseState.OPEN)
 </script>
