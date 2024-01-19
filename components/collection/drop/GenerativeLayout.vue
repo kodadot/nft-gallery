@@ -18,8 +18,6 @@
             :is-image-fetching="isImageFetching"
             :is-loading="isLoading"
             :minimum-funds="minimumFunds"
-            :max-count="maxCount"
-            :minted-count="mintedCount"
             :mint-count-available="mintCountAvailable"
             :disabled-by-backend="drop.disabled"
             :mint-button="mintButton"
@@ -44,8 +42,6 @@
           :is-image-fetching="isImageFetching"
           :is-loading="isLoading"
           :minimum-funds="minimumFunds"
-          :max-count="maxCount"
-          :minted-count="mintedCount"
           :mint-count-available="mintCountAvailable"
           :disabled-by-backend="drop.disabled"
           :mint-button="mintButton"
@@ -74,9 +70,7 @@ withDefaults(
     description?: string
     drop: DropItem
     mintButton: { label: string; disabled: boolean }
-    mintedCount: number
     mintCountAvailable: boolean
-    maxCount: number
     minimumFunds: { amount: number; description: string; hasAmount: boolean }
     isImageFetching: boolean
     isWalletConnecting: boolean

@@ -11,8 +11,6 @@
     :is-image-fetching="isImageFetching"
     :is-loading="isLoading"
     :minimum-funds="minimumFundsProps"
-    :max-count="maxCount"
-    :minted-count="mintedCount"
     :mint-count-available="mintCountAvailable"
     :mint-button="mintButtonProps"
     :handle-select-image="handleSelectImage"

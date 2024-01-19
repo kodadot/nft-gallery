@@ -5,7 +5,6 @@
     <MintPhaseBody
       :minted-count="mintedCount"
       :mint-count-available="mintCountAvailable"
-      :disabled-by-backend="disabledByBackend"
       :max-count="maxCount"
       :minimum-funds="minimumFunds"
       :is-image-fetching="isImageFetching"
@@ -28,7 +27,6 @@
     <MintPhaseBody
       :minted-count="mintedCount"
       :mint-count-available="mintCountAvailable"
-      :disabled-by-backend="disabledByBackend"
       :max-count="maxCount"
       :minimum-funds="minimumFunds"
       :is-image-fetching="isImageFetching"
@@ -59,7 +57,6 @@ const props = withDefaults(
 
     mintedCount: number
     mintCountAvailable: boolean
-    disabledByBackend: number
     maxCount: number
     minimumFunds: MinimumFundsProp
     isImageFetching: boolean

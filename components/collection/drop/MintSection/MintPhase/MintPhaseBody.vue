@@ -75,7 +75,6 @@ const props = withDefaults(
   defineProps<{
     mintedCount: number
     mintCountAvailable: boolean
-    disabledByBackend: number
     maxCount: number
     minimumFunds: MinimumFundsProp
     isImageFetching: boolean
