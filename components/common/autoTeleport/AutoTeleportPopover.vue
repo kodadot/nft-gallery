@@ -3,7 +3,7 @@
     <NeoIcon icon="fa-info-circle" pack="fa-regular" class="ml-2 text-k-grey" />
 
     <template #content>
-      <div class="w-[16rem] theme-background-color text-xs border p-4">
+      <div class="w-[16rem] bg-background-color text-xs border p-4">
         <div class="flex is-size-6 mb-3">
           <NeoIcon icon="fa-info-circle" pack="fa-regular" class="mr-2" />
 
@@ -12,12 +12,12 @@
           }}</span>
         </div>
 
-        <p class="has-text-left mb-2">{{ $t('autoTeleport.tooltip.first') }}</p>
-        <p class="has-text-left mb-3">
+        <p class="text-left mb-2">{{ $t('autoTeleport.tooltip.first') }}</p>
+        <p class="text-left mb-3">
           {{ $t('autoTeleport.tooltip.second') }}
         </p>
 
-        <p class="has-text-weight-bold has-text-left mb-3">
+        <p class="has-text-weight-bold text-left mb-3">
           {{ $t('autoTeleport.tooltip.optimalTransferPath') }}
         </p>
 
@@ -43,7 +43,7 @@
           </div>
         </div>
         <div v-else>
-          <p class="mb-2 text-k-grey has-text-left">
+          <p class="mb-2 text-k-grey text-left">
             {{ $t('autoTeleport.tooltip.noRouteFound') }}
           </p>
         </div>

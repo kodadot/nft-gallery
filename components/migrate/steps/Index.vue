@@ -18,12 +18,12 @@
             icon="dash"
             class="mx-4"
             :class="{
-              'has-text-grey': section === 'review',
-              'has-text-color': section === 'sign',
+              'text-k-grey': section === 'review',
+              'text-text-color': section === 'sign',
             }" />
           <span
             :class="{
-              'has-text-grey': section === 'review',
+              'text-k-grey': section === 'review',
               'has-text-weight-bold': section === 'sign',
             }">
             {{ $t('migrate.sign') }}
@@ -76,7 +76,7 @@ defineProps<{
 const promptModal = async () => {
   const instance = neoModal.open({
     component: MigrateModal,
-    contentClass: 'k-shadow border theme-background-color',
+    contentClass: 'k-shadow border bg-background-color',
     trapFocus: true,
   })
   const result: boolean = await instance.promise

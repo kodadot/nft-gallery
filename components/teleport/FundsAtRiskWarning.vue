@@ -12,7 +12,7 @@
       :auto-close="['outside', 'inside']">
       <u>{{ $t('teleport.why') }}</u>
       <template #content>
-        <div class="has-text-left py-2 is-flex is-flex-direction-column">
+        <div class="text-left py-2 is-flex is-flex-direction-column">
           <span class="mb-3">
             {{
               reason === 'source'
@@ -30,7 +30,7 @@
               'https://hello.kodadot.xyz/multi-chain/existential-deposit'
             "
             target="_blank"
-            class="has-text-k-blue">
+            class="text-k-blue hover:text-k-blue-hover">
             {{ $t('teleport.whatIsExistentialDeposit') }}
           </a>
         </div>

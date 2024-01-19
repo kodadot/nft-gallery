@@ -15,51 +15,53 @@
         ] in displayedFlippers"
         :key="flipperId"
         class="hide-last-hr">
-        <div class="flex flex-col gap">
+        <div class="flex flex-col gap-2">
           <div class="px-5">
             <ProfileLink
               :address="flipperId"
               :avatar-size="35"
               class="has-text-weight-bold" />
             <div class="flex justify-between mt-2">
-              <span class="text-xs has-text-grey">{{
+              <span class="text-xs text-k-grey">{{
                 $t('activity.owned')
               }}</span>
               <span>{{ owned }}</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-xs has-text-grey">{{
+              <span class="text-xs text-k-grey">{{
                 $t('activity.totalBought')
               }}</span>
               <CommonTokenMoney :value="totalBought" />
             </div>
             <div class="flex justify-between">
-              <span class="text-xs has-text-grey">{{
+              <span class="text-xs text-k-grey">{{
                 $t('activity.totalSold')
               }}</span>
               <CommonTokenMoney :value="totalsold" />
             </div>
             <div class="flex justify-between">
-              <span class="text-xs has-text-grey">{{
+              <span class="text-xs text-k-grey">{{
                 $t('activity.bestFlip')
               }}</span>
               <span
                 :class="{
-                  'has-text-k-green': bestFlip > 0,
-                  'has-text-k-red': bestFlip < 0,
+                  'text-k-green': bestFlip > 0,
+                  'text-k-red': bestFlip < 0,
                 }"
                 >{{ bestFlip === 0 ? '--' : `${format(bestFlip)}%` }}</span
               >
             </div>
             <div class="flex justify-between">
-              <span class="text-xs has-text-grey">{{
+              <span class="text-xs text-k-grey">{{
                 $t('activity.latestActivity')
               }}</span>
-              <span class="no-wrap">{{ timeAgo(latestflipTimestamp) }}</span>
+              <TimeAgo
+                custom-class="whitespace-nowrap"
+                :timestamp="latestflipTimestamp" />
             </div>
             <div>
               <div
-                class="text-xs has-text-k-blue is-clickable"
+                class="text-xs text-k-blue hover:text-k-blue-hover cursor-pointer"
                 @click="toggleNFTDetails(flipperId)">
                 {{ $t('activity.nftDetails') }}
                 <NeoIcon
@@ -81,7 +83,7 @@
     </div>
 
     <div v-else class="flex justify-center items-center pt-6">
-      <div class="has-text-grey">
+      <div class="text-k-grey">
         {{ $t('activity.noFlips') }}
       </div>
     </div>
@@ -94,7 +96,6 @@ import { NeoIcon } from '@kodadot1/brick'
 import { format } from '@/components/collection/activity/utils'
 
 import NFTsDetaislDropdown from './NFTsDetaislDropdown.vue'
-import { timeAgo } from '@/components/collection/utils/timeAgo'
 import { Flippers } from '@/composables/collectionActivity/types'
 
 const props = defineProps<{
@@ -135,9 +136,6 @@ const isNFTDetailsOpen = ref(isFlipperMoreNFTSectionOpen)
 </script>
 
 <style lang="scss" scoped>
-.gap {
-  gap: 0.5rem;
-}
 .hide-last-hr:last-child > hr {
   display: none;
 }

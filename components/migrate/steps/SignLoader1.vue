@@ -35,7 +35,7 @@
           <nuxt-link
             v-if="step1Iterations === 0"
             target="_blank"
-            class="has-text-k-blue"
+            class="text-k-blue hover:text-k-blue-hover"
             :to="`/${client}/collection/${nextId}`">
             {{ $t('viewtx') }} <NeoIcon icon="arrow-up-right" />
           </nuxt-link>

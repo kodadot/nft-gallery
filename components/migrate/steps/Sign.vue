@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mt-5">{{ $t('migrate.signNotes') }}</div>
-    <p class="mt-5 has-text-grey text-xs">
+    <p class="mt-5 text-k-grey text-xs">
       {{ $t('migrate.signStep.notesModal') }}
     </p>
     <hr />

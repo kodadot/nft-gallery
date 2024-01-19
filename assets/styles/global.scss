@@ -122,12 +122,6 @@ body {
   padding-right: $fluid-container-padding;
 }
 
-.control-label {
-  @include ktheme() {
-    color: theme('text-color');
-  }
-}
-
 @include mobile {
   .column-padding {
     padding-left: 10px !important;
@@ -151,18 +145,10 @@ body {
   max-height: 24px;
 }
 
-.w-100 {
-  width: 100% !important;
-}
-
 .short-identity__table {
   max-width: 50em;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.no-wrap {
-  white-space: nowrap;
 }
 
 .collapseHidden {
@@ -176,10 +162,6 @@ body {
     border: 1px solid theme('border-color');
   }
   border-radius: 50%;
-}
-
-.object-fit-cover {
-  object-fit: cover;
 }
 
 .box {
@@ -209,13 +191,6 @@ body {
   }
 }
 
-.h-full {
-  height: 100% !important;
-}
-
-.w-full {
-  width: 100%;
-}
 hr {
   height: 1px;
   @include ktheme() {
@@ -223,44 +198,11 @@ hr {
   }
 }
 
-.has-text-grey {
-  @include ktheme() {
-    color: theme('k-grey') !important;
-  }
-}
-
-.has-text-grey-fix {
-  @include ktheme() {
-    color: theme('k-grey-fix') !important;
-  }
-}
-
-.has-text-inverse {
-  @include ktheme() {
-    color: theme('text-color-inverse');
-  }
-}
-
-a.has-text-grey {
-  @include ktheme() {
-    &:hover {
-      color: theme('text-color') !important;
-    }
-  }
-}
-
 .snackbar {
-  @include ktheme() {
-    border-radius: 0;
-    color: theme('text-color');
-    background: theme('background-color');
-    box-shadow: theme('primary-shadow');
-    border: 1px solid theme('border-color');
+  @apply text-text-color bg-background-color border border-border-color shadow-primary;
 
-    .button {
-      background-color: theme('k-accentlight2') !important;
-      color: theme('text-color') !important;
-    }
+  .button {
+    @apply bg-k-accent-light-2 text-text-color;
   }
 }
 
@@ -272,212 +214,19 @@ a.has-text-grey {
 // global table css
 
 .table {
-  @include ktheme() {
-    background-color: theme('background-color');
-    color: theme('text-color');
+  @apply bg-background-color text-text-color;
 
-    &.is-hoverable tbody tr:not(.is-selected):hover {
-      background-color: theme('background-color');
-    }
+  &.is-hoverable tbody tr:not(.is-selected):hover {
+    @apply bg-background-color;
+  }
 
-    th {
-      color: theme('text-color');
-      background-color: theme('background-color') !important;
-    }
+  th {
+    @apply text-text-color bg-background-color;
   }
 }
 
 .fluid-padding-left {
   padding-left: $fluid-container-padding;
-}
-.border-bottom {
-  @include ktheme() {
-    border-bottom: 1px solid theme('border-color');
-  }
-}
-.border-top {
-  @include ktheme() {
-    border-top: 1px solid theme('border-color');
-  }
-}
-.border-left {
-  @include ktheme() {
-    border-left: 1px solid theme('border-color');
-  }
-}
-.border-right {
-  @include ktheme() {
-    border-right: 1px solid theme('border-color');
-  }
-}
-
-.no-border {
-  border: none !important;
-}
-
-.no-border-radius {
-  border-radius: 0 !important;
-}
-
-.card-border-color {
-  @include ktheme() {
-    border-color: theme('card-border-color');
-  }
-}
-
-.border-k-shade {
-  @include ktheme() {
-    border-color: theme('k-shade') !important;
-  }
-}
-
-.border-top-k-shade {
-  @include ktheme() {
-    border-top: 1px solid theme('k-shade');
-  }
-}
-
-.border-bottom-k-shade {
-  @include ktheme() {
-    border-bottom: 1px solid theme('k-shade');
-  }
-}
-
-.has-text-k-shade {
-  @include ktheme() {
-    color: theme('k-shade');
-  }
-}
-
-//colors
-
-.has-text-k-green {
-  @include ktheme() {
-    color: theme('k-green') !important;
-  }
-}
-.has-text-k-red {
-  @include ktheme() {
-    color: theme('k-red');
-  }
-}
-
-.has-text-k-orange {
-  @include ktheme() {
-    color: theme('k-orange');
-  }
-}
-
-.has-text-k-blue {
-  @include ktheme() {
-    color: theme('k-blue');
-  }
-  &:hover {
-    @include ktheme() {
-      color: theme('k-blue-hover');
-    }
-  }
-}
-
-.has-text-color {
-  @include ktheme() {
-    color: theme('text-color') !important;
-  }
-}
-
-.has-background-inverse {
-  @include ktheme() {
-    background: theme('text-color');
-  }
-}
-
-.k-pink {
-  @include ktheme() {
-    background-color: theme('k-pink');
-  }
-}
-
-.k-aqua-blue {
-  @include ktheme() {
-    background-color: theme('k-aqua-blue');
-  }
-}
-.k-greenaccent {
-  @include ktheme() {
-    background-color: theme('k-greenaccent');
-  }
-}
-
-.k-shade {
-  @include ktheme() {
-    background-color: theme('k-shade');
-  }
-}
-
-.k-yellow {
-  @include ktheme() {
-    background-color: theme('k-yellow');
-  }
-}
-
-.k-green {
-  @include ktheme() {
-    background-color: theme('k-green');
-  }
-}
-.k-red {
-  @include ktheme() {
-    background-color: theme('k-red');
-  }
-}
-.k-redaccent {
-  @include ktheme() {
-    background-color: theme('k-redaccent');
-  }
-}
-.k-grey-light {
-  background-color: var(--k-grey-light) !important;
-}
-.theme-background-color {
-  @include ktheme() {
-    background-color: theme('background-color');
-  }
-}
-
-.k-blueaccent {
-  @include ktheme() {
-    background-color: theme('k-blueaccent');
-  }
-}
-
-.has-background-k-grey {
-  @include ktheme() {
-    background-color: theme('k-grey');
-  }
-}
-
-.is-cursor-pointer {
-  cursor: pointer !important;
-}
-
-.has-text-k-primary {
-  @include ktheme() {
-    color: theme('k-primary') !important;
-  }
-}
-
-//hover
-
-.is-hoverable-item {
-  @include ktheme() {
-    &:hover {
-      background-color: theme('k-accentlight2');
-    }
-  }
-}
-
-.no-hover:hover {
-  background-color: unset !important;
 }
 
 //shadow
@@ -486,17 +235,6 @@ a.has-text-grey {
   @include ktheme() {
     box-shadow: theme('primary-shadow');
   }
-}
-
-.has-z-index-1 {
-  z-index: 1;
-}
-
-// used in gallery item to disbale <main> z-index: 100
-// when fallback fullscreen is used (on Nova wallet)
-// without this the navbar is above the fullscreen image
-.no-z-index {
-  z-index: unset !important;
 }
 
 .modal {
@@ -509,19 +247,13 @@ a.has-text-grey {
   }
 }
 
-.text-align-center {
-  text-align: center;
-}
-
 // Transak
-
 .transak_modal-overlay {
-  z-index: 999 !important;
+  @apply z-[999] max-h-[600px] #{!important};
 }
 
 .transak_modal {
-  z-index: 1000 !important;
-  max-height: 600px !important;
+  @apply z-[1000] max-h-[600px] #{!important};
 }
 
 #transakOnOffRampWidget {
@@ -530,14 +262,6 @@ a.has-text-grey {
 
 .no-border-left {
   border-left: none !important;
-}
-
-.is-rounded {
-  border-radius: 50%;
-}
-
-.is-rounded-small {
-  border-radius: 4rem;
 }
 
 .w-half {
@@ -569,18 +293,6 @@ a.has-text-grey {
   overflow-y: auto;
 }
 
-.has-text-inherit {
-  color: inherit !important;
-}
-
-.cursor-default {
-  cursor: default;
-}
-
 .min-width-0 {
   min-width: 0;
-}
-
-.pointer-events-none {
-  pointer-events: none !important;
 }

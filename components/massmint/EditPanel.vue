@@ -9,7 +9,7 @@
     :can-cancel="true"
     :on-cancel="closePanel">
     <div
-      class="border-left theme-background-color navbar-margin p-5 flex flex-col items-center justify-between h-full">
+      class="border-l bg-background-color navbar-margin p-5 flex flex-col items-center justify-between h-full">
       <div class="flex w-full flex-col justify-between items-center">
         <div class="flex w-full">
           <div class="flex justify-center flex-grow">
@@ -49,7 +49,7 @@
               height="10rem" />
           </NeoField>
           <NeoField :label="$t('massmint.price')" class="w-full">
-            <div class="relative w-100">
+            <div class="relative w-full">
               <NeoInput
                 v-model="price"
                 input-class="pr-8"
@@ -57,7 +57,7 @@
                 placeholder="0"
                 step="any"
                 min="0" />
-              <div class="absolute right-2 top-3 has-text-grey">
+              <div class="absolute right-2 top-3 text-k-grey">
                 {{ unit }}
               </div>
             </div>

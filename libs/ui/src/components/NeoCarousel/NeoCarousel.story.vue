@@ -3,9 +3,7 @@
     <Variant title="NeoCarousel">
       <NeoCarousel>
         <NeoCarouselItem v-for="(carousel, i) in carousels" :key="i">
-          <section
-            class="ex-slide"
-            :style="{ 'background-color': carousel.color }">
+          <section :style="{ 'background-color': carousel.color }">
             <h1>{{ carousel.text }}</h1>
           </section>
         </NeoCarouselItem>
@@ -26,11 +24,3 @@ const carousels = [
   { text: 'Slide 5', color: '#005c98' },
 ]
 </script>
-
-<style>
-.ex-slide {
-  padding: 9rem 4.5rem;
-  color: #fff;
-  text-align: center;
-}
-</style>

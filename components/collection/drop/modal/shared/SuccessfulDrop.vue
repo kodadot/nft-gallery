@@ -1,7 +1,7 @@
 <template>
   <div
-    class="border border-k-shade is-rounded-small py-2 px-5 mb-7 flex items-center justify-between">
-    <div class="has-text-k-green flex">
+    class="border border-k-shade rounded-[4rem] py-2 px-5 mb-7 flex items-center justify-between">
+    <div class="text-k-green flex">
       <NeoIcon icon="check" />
 
       <p class="ml-3 text-xs">{{ $t('confirmed') }}</p>
@@ -27,7 +27,7 @@
         v-clipboard:copy="txUrl"
         icon="copy"
         pack="fass"
-        class="text-k-grey is-clickable"
+        class="text-k-grey cursor-pointer"
         data-testid="tx-clipboard"
         @click="toast($t('general.copyToClipboard'))" />
     </div>
@@ -39,7 +39,7 @@
     preview
     is-detail />
 
-  <div class="py-5 border-bottom-k-shade">
+  <div class="py-5 border-b-k-shade">
     <p class="is-size-6 capitalize has-text-weight-bold text-center">
       {{ $t('drops.youSuccessfullyClaimedNft', [1]) }}
     </p>

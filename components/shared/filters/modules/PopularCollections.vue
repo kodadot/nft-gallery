@@ -2,7 +2,7 @@
   <NeoCollapse
     :open="expanded"
     animation="slide"
-    class="border-bottom"
+    class="border-b"
     :class="{ 'fluid-padding-left': fluidPadding }">
     <template #trigger="{ open }">
       <div class="flex" role="button" :aria-expanded="open">
@@ -42,7 +42,7 @@
                   {{ collection.meta.name || collection.id }}
                 </div>
               </NeoTooltip>
-              <div class="flex justify-between text-xs has-text-grey">
+              <div class="flex justify-between text-xs text-k-grey">
                 <div>{{ $t('search.owners') }}: {{ collection.owners }}</div>
                 <div class="capitalize">{{ collection.chain }}</div>
               </div>
@@ -51,7 +51,7 @@
         </NeoCheckbox>
       </NeoField>
     </div>
-    <div v-else class="p-4 is-size-6 has-text-grey">
+    <div v-else class="p-4 is-size-6 text-k-grey">
       {{ $t('general.noPopularCollections') }}
     </div>
   </NeoCollapse>

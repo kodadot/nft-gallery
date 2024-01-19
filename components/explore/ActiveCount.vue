@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="count"
-    class="count flex justify-center items-center"
+    class="count absolute h-6 w-6 leading-6 text-center flex justify-center items-center"
     :class="[`count--${position}`, { rounded: rounded }]">
     {{ count }}
   </div>
@@ -26,12 +26,6 @@ withDefaults(
 @import '@/assets/styles/abstracts/variables';
 
 .count {
-  position: absolute;
-  height: 1.5rem;
-  width: 1.5rem;
-  line-height: 1.5rem;
-  text-align: center;
-
   &--top-left {
     bottom: 1.5rem;
     left: -0.75rem;
@@ -47,9 +41,5 @@ withDefaults(
     background: theme('k-primary');
     color: theme('black');
   }
-}
-
-.rounded {
-  border-radius: 10rem;
 }
 </style>

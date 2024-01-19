@@ -3,7 +3,7 @@
     :value="isModalActive"
     :can-cancel="['outside', 'escape']"
     scroll="clip"
-    class="top"
+    class="z-[1000]"
     @close="onClose">
     <div class="modal-width">
       <header class="py-5 pl-6 pr-5 flex justify-between items-center">
@@ -30,7 +30,7 @@
               <NeoIcon
                 :icon="reasonsIcons[index]"
                 size="large"
-                class="has-text-k-primary mb-3" />
+                class="text-k-primary mb-3" />
               <img src="/accent-blur.svg" class="blur icon-blur" alt="blur" />
             </div>
 
@@ -88,10 +88,6 @@ const onClose = () => {
 
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
-
-.top {
-  z-index: 1000;
-}
 
 .modal-width {
   width: 40rem;

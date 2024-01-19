@@ -2,7 +2,7 @@
   <div>
     <Loader :model-value="isLoading" />
     <NeoField grouped>
-      <NeoField class="has-text-right" expanded>
+      <NeoField class="text-right" expanded>
         <NeoSelect v-model="nbRows">
           <option value="10">10</option>
           <option value="20">20</option>
@@ -32,7 +32,7 @@
         v-slot="props"
         field="image"
         label=""
-        header-class="front-stack-layer"
+        header-class="z-10"
         cell-class="is-vcentered">
         <div class="image is-48x48 mb-2">
           <BasicImage :src="props.row.image" :alt="props.row.name" rounded />
@@ -247,7 +247,7 @@
 
       <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered has-text-centered"
+        cell-class="is-vcentered text-center"
         field="chart"
         :label="$t('series.chart')">
         <nuxt-link
@@ -261,7 +261,7 @@
 
       <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered has-text-centered"
+        cell-class="is-vcentered text-center"
         field="history"
         :label="$t('series.history')">
         <nuxt-link
@@ -274,7 +274,7 @@
       </NeoTableColumn>
       <NeoTableColumn
         v-slot="props"
-        cell-class="is-vcentered has-text-centered history"
+        cell-class="is-vcentered text-center w-52 h-24"
         field="buyHistory"
         :label="$t('series.buyHistory')">
         <NeoSkeleton v-if="isLoading" :active="isLoading" />
@@ -285,7 +285,7 @@
           :values="props.row.buyHistory.yAxisList" />
       </NeoTableColumn>
       <template #empty>
-        <div v-if="!isLoading" class="w-100 has-text-centered">
+        <div v-if="!isLoading" class="w-full text-center">
           {{ $t('spotlight.empty') }}
         </div>
         <NeoSkeleton :active="isLoading" />
@@ -502,15 +502,3 @@ watch(nbDays, (value: string) => {
     .catch((e) => $consola.warn(e))
 })
 </script>
-<style lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.history {
-  width: 200px;
-  height: 100px;
-}
-
-.front-stack-layer {
-  z-index: 1;
-}
-</style>

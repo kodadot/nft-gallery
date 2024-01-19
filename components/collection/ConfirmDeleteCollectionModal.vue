@@ -4,7 +4,7 @@
       <div class="flex mb-3 is-size-6">
         {{ $i18n.t('confirmDeleteCollection.deleteCollection') }}
       </div>
-      <div class="has-text-grey text-xs mb-5">
+      <div class="text-k-grey text-xs mb-5">
         {{ $i18n.t('confirmDeleteCollection.content') }}
       </div>
       <div>
@@ -13,7 +13,7 @@
           variant="text"
           no-shadow
           @click="emit('delete')">
-          <span class="has-text-k-red">
+          <span class="text-k-red">
             {{ $i18n.t('massmint.yesDelete') }}
           </span>
         </NeoButton>
