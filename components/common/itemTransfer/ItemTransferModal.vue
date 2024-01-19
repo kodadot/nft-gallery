@@ -32,7 +32,7 @@
             <div
               class="flex flex-col justify-between ml-4 limit-width w-full is-clipped">
               <div
-                class="has-text-weight-bold has-text-color line-height-1 whitespace-nowrap is-ellipsis">
+                class="has-text-weight-bold text-text-color line-height-1 whitespace-nowrap is-ellipsis">
                 {{ nft.name }}
               </div>
               <div class="line-height-1 whitespace-nowrap is-ellipsis">
@@ -47,7 +47,7 @@
 
           <hr class="my-4" />
 
-          <h2 class="mb-2 has-text-weight-bold has-text-color capitalize">
+          <h2 class="mb-2 has-text-weight-bold text-text-color capitalize">
             {{ $t('transaction.transferTo') }}
           </h2>
 

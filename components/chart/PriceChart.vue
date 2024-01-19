@@ -35,7 +35,7 @@
         </NeoButton>
       </template>
 
-      <NeoDropdownItem class="no-hover px-0 py-0">
+      <NeoDropdownItem class="hover:bg-transparent px-0 py-0">
         <div class="w-full flex justify-between items-center">
           <NeoCheckbox
             v-model="vHideOutliers"
@@ -45,7 +45,7 @@
           </NeoCheckbox>
         </div>
       </NeoDropdownItem>
-      <NeoDropdownItem class="no-hover px-0 py-0">
+      <NeoDropdownItem class="hover:bg-transparent px-0 py-0">
         <div class="w-full flex justify-between items-center">
           <NeoCheckbox
             v-model="vApplySmoothing"

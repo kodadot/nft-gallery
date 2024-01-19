@@ -86,12 +86,10 @@ const collectionIdList = computed(
   () => breads.value.collections?.split(',') || [],
 )
 
-const collections = computed<Collection[]>(
-  () =>
-    collectionArray.value?.filter(
-      (collection) =>
-        collectionIdList.value?.find((id) => collection.id === id),
-    ),
+const collections = computed<Collection[]>(() =>
+  collectionArray.value?.filter((collection) =>
+    collectionIdList.value?.find((id) => collection.id === id),
+  ),
 )
 
 const { isCollectionSearchMode } = useCollectionSearch()

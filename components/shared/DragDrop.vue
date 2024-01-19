@@ -25,7 +25,7 @@
         <img v-else-if="loading" src="/preloader.svg" width="200" />
         <div v-else class="flex items-center">
           <div class="flex flex-col justify-between">
-            <NeoIcon icon="circle-check" class="check-icon has-text-k-green" />
+            <NeoIcon icon="circle-check" class="check-icon text-k-green" />
             <div class="flex items-center mt-6 flex-col">
               <span class="text-k-grey mr-5 mb-4">
                 {{ selectedFile?.name }} {{ $t('uploaded') }}

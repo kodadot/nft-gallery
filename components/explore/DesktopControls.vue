@@ -23,11 +23,11 @@ import GridLayoutControls from '@/components/shared/GridLayoutControls.vue'
 
 const route = useRoute()
 
-const isCollection = computed(
-  () => route.name?.toString().includes('prefix-explore-collectibles'),
+const isCollection = computed(() =>
+  route.name?.toString().includes('prefix-explore-collectibles'),
 )
-const isActivityTab = computed(
-  () => route.name?.toString().includes('prefix-collection-id-activity'),
+const isActivityTab = computed(() =>
+  route.name?.toString().includes('prefix-collection-id-activity'),
 )
 </script>
 

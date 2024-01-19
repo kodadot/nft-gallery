@@ -10,7 +10,7 @@
         <span class="mt-6">{{ $t('massmint.mintingYourNFTs') }}</span>
       </div>
       <div v-else class="flex flex-col items-center">
-        <NeoIcon icon="circle-check" class="check-icon has-text-k-green" />
+        <NeoIcon icon="circle-check" class="check-icon text-k-green" />
         <span class="mt-4">{{ $t('massmint.mintDone') }}</span>
         <div class="flex w-full justify-center pt-6 px-7">
           <NeoButton
