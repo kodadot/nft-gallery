@@ -39,10 +39,17 @@ export default ({
 }: GenerativeDropMintParams) => {
   const { toast } = useToast()
   const { $i18n } = useNuxtApp()
+  const { isLogIn } = useAuth()
+
+  const { doAfterLogin } = useDoAfterlogin(getCurrentInstance())
   const listingCartStore = useListingCartStore()
   const preferencesStore = usePreferencesStore()
-  const imageDataPayload = ref<{ hash: string; image: string }>()
 
+  const isWalletConnecting = ref(false)
+  const isLoading = ref(false)
+  const isImageFetching = ref(false)
+
+  const imageDataPayload = ref<{ hash: string; image: string }>()
   const mintedNft = ref<DropMintedNft>()
   const mintedNftWithMetadata = ref<NFTWithMetadata>()
   const selectedImage = ref<string>('')
@@ -88,6 +95,28 @@ export default ({
   )
 
   const canListMintedNft = computed(() => Boolean(mintedNftWithMetadata.value))
+
+  const clearWalletConnecting = () => {
+    isWalletConnecting.value = false
+  }
+
+  const preSubmitMint = (): boolean => {
+    if (!isLogIn.value) {
+      isWalletConnecting.value = true
+      doAfterLogin({
+        onLoginSuccess: clearWalletConnecting,
+        onCancel: clearWalletConnecting,
+      })
+
+      return false
+    }
+
+    if (isLoading.value || isImageFetching.value) {
+      return false
+    }
+
+    return true
+  }
 
   const tryCapture = async () => {
     try {
@@ -160,6 +189,9 @@ export default ({
     canListMintedNft,
     nftCount,
     mintedAmountForCurrentUser,
+    isLoading,
+    isImageFetching,
+    preSubmitMint,
     listMintedNft,
     tryCapture,
     subscribeToMintedNft,

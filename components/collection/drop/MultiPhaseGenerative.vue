@@ -71,17 +71,13 @@ const minimumFundsProps = computed(() => ({
 const isWalletConnecting = ref(false)
 const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
   useDropStatus(props.drop.alias)
-const instance = getCurrentInstance()
 const mintNftSN = ref('0')
-const { doAfterLogin } = useDoAfterlogin(instance)
 const { $i18n, $consola } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 const { accountId, isLogIn } = useAuth()
 
 const { client } = usePrefix()
-const isLoading = ref(false)
-const isImageFetching = ref(false)
 const isAddFundModalActive = ref(false)
 
 const {
@@ -141,8 +137,11 @@ const {
   selectedImage,
   description,
   collectionName,
+  isLoading,
+  isImageFetching,
   tryCapture,
   subscribeToMintedNft,
+  preSubmitMint,
 } = useGenerativeDropMint({
   collectionData,
   defaultMax,
@@ -247,21 +246,8 @@ watch(status, (curStatus) => {
   }
 })
 
-const clearWalletConnecting = () => {
-  isWalletConnecting.value = false
-}
-
 const handleSubmitMint = async () => {
-  if (!isLogIn.value) {
-    isWalletConnecting.value = true
-    doAfterLogin({
-      onLoginSuccess: clearWalletConnecting,
-      onCancel: clearWalletConnecting,
-    })
-
-    return
-  }
-  if (isLoading.value || isImageFetching.value) {
+  if (!preSubmitMint()) {
     return false
   }
 
