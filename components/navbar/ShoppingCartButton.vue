@@ -11,7 +11,7 @@
         v-if="numberOfItems"
         :count="numberOfItems"
         rounded
-        class="count-position text-xs" />
+        class="right-[-0.5rem] top-[-0.5rem] !left-[unset] !bottom-[unset] text-xs" />
     </div>
   </div>
 </template>
@@ -63,13 +63,6 @@ const toggleShoppingCartModal = () => {
 </script>
 
 <style scoped lang="scss">
-.count-position {
-  right: -0.75rem;
-  top: -0.75rem;
-  left: unset;
-  bottom: unset;
-}
-
 .align {
   display: inline-flex;
   vertical-align: middle;
