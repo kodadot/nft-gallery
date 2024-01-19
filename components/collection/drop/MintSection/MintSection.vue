@@ -38,7 +38,6 @@ import {
 
 const props = withDefaults(
   defineProps<{
-    mintedCount: number
     mintButton: MintButtonProp
     minimumFunds: MinimumFundsProp
     mintCountAvailable: boolean
