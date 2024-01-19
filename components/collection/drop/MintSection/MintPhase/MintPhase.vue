@@ -6,6 +6,9 @@
       :minted-count="mintedCount"
       :mint-count-available="mintCountAvailable"
       :max-count="maxCount"
+      :state="state"
+      :type="type"
+      :has-phase-open="hasPhaseOpen"
       :minimum-funds="minimumFunds"
       :is-image-fetching="isImageFetching"
       :is-wallet-connecting="isWalletConnecting"
@@ -14,10 +17,11 @@
       :user-minted-nft-id="userMintedNftId"
       :holder-of-collection="holderOfCollection"
       :collection-id="collectionId"
-      :available-to-mint="availableToMint" />
+      :available-to-mint="availableToMint"
+      @mint="mint" />
   </template>
 
-  <NeoCollapse v-else animation="slide" :open="isLastPhase && !hasOpen">
+  <NeoCollapse v-else animation="slide" :open="isLastPhase && !hasPhaseOpen">
     <template #trigger="props">
       <MintPhaseHeader :title="title" :subtitle="subtitle">
         <NeoIcon :icon="props.open ? 'chevron-up' : 'chevron-down'" />
@@ -28,6 +32,9 @@
       :minted-count="mintedCount"
       :mint-count-available="mintCountAvailable"
       :max-count="maxCount"
+      :state="state"
+      :type="type"
+      :has-phase-open="hasPhaseOpen"
       :minimum-funds="minimumFunds"
       :is-image-fetching="isImageFetching"
       :is-wallet-connecting="isWalletConnecting"
@@ -36,7 +43,8 @@
       :user-minted-nft-id="userMintedNftId"
       :holder-of-collection="holderOfCollection"
       :collection-id="collectionId"
-      :available-to-mint="availableToMint" />
+      :available-to-mint="availableToMint"
+      @mint="mint" />
   </NeoCollapse>
 </template>
 
@@ -44,16 +52,18 @@
 import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
 import type { HolderOfCollectionProp } from '../../HolderOfGenerative.vue'
 import MintPhaseHeader from './MintPhaseHeader.vue'
-import { MinimumFundsProp, MintPhaseState } from '../../types'
+import { MinimumFundsProp, MintPhaseState, PhaseType } from '../../types'
 import MintPhaseBody from './MintPhaseBody.vue'
 
+const emit = defineEmits(['mint'])
 const props = withDefaults(
   defineProps<{
     title: string
     subtitle: string
     state: MintPhaseState
     isLastPhase: boolean
-    hasOpen: boolean
+    hasPhaseOpen: boolean
+    type: PhaseType
 
     mintedCount: number
     mintCountAvailable: boolean
@@ -74,4 +84,5 @@ const props = withDefaults(
 )
 
 const isPhaseOpen = computed(() => props.state === MintPhaseState.OPEN)
+const mint = () => emit('mint')
 </script>

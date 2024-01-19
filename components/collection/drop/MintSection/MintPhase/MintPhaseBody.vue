@@ -25,7 +25,7 @@
     </div>
 
     <HolderOfCollectionMintRequirements
-      v-else-if="showHolderOfCollection"
+      v-else-if="showHolderOfCollection && holderOfCollection"
       class="my-5"
       :holder-of-collection="holderOfCollection"
       :minimum-funds="minimumFunds"
@@ -67,7 +67,7 @@ import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlide
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import HolderOfCollectionMintRequirements from '../HolderOfCollectionMintRequirements.vue'
 import type { HolderOfCollectionProp } from '../../HolderOfGenerative.vue'
-import { MinimumFundsProp } from '../../types'
+import { MinimumFundsProp, MintPhaseState, PhaseType } from '../../types'
 
 const NuxtLink = resolveComponent('NuxtLink')
 
@@ -76,6 +76,9 @@ const props = withDefaults(
     mintedCount: number
     mintCountAvailable: boolean
     maxCount: number
+    state: MintPhaseState
+    type: PhaseType
+    hasPhaseOpen: boolean
     minimumFunds: MinimumFundsProp
     isImageFetching: boolean
     isWalletConnecting: boolean
@@ -107,18 +110,32 @@ const mintedPercent = computed(() => {
 
 const isMintedOut = computed(() => !props.mintCountAvailable)
 
-const mintButtonLabel = computed(() =>
-  isMintedOut.value
-    ? $i18n.t('mint.unlockable.seeListings')
-    : props.mintButton.label,
-)
+const mintButtonLabel = computed(() => {
+  if (props.state !== MintPhaseState.OPEN) {
+    return $i18n.t('mint.unlockable.phaseNotOpen')
+  }
 
-const mintButtonDisabled = computed(() =>
-  isMintedOut.value ? false : props.mintButton.disabled,
-)
+  if (isMintedOut.value) {
+    return $i18n.t('mint.unlockable.seeListings')
+  }
+
+  return props.mintButton.label
+})
+
+const mintButtonDisabled = computed(() => {
+  if (props.state !== MintPhaseState.OPEN) {
+    return true
+  }
+
+  if (isMintedOut.value) {
+    return false
+  }
+
+  return props.mintButton.disabled
+})
 
 const showHolderOfCollection = computed(
-  () => !!props.holderOfCollection?.id && props.holderOfCollection,
+  () => !!props.holderOfCollection?.id && props.type === PhaseType.HOLDER_OF,
 )
 
 const handleMint = () => {
@@ -142,13 +159,5 @@ const handleMint = () => {
 .mint-button {
   width: 14rem;
   height: 3.5rem;
-}
-
-.holder-of-collection {
-  @include mobile {
-    .mint-button {
-      width: 100%;
-    }
-  }
 }
 </style>

@@ -44,7 +44,7 @@ import useGenerativeDropMint, {
   type UnlockableCollectionById,
 } from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
-import { DropType, type HolderOfCollectionProp, MintPhase } from './types'
+import { type HolderOfCollectionProp, MintPhase } from './types'
 
 const props = withDefaults(
   defineProps<{
@@ -90,12 +90,16 @@ const isImageFetching = ref(false)
 const isAddFundModalActive = ref(false)
 const availableNfts = ref(0)
 
-const phasesTypes = [DropType.HOLDER_OF, DropType.PAID]
+const phases = DROP_PHASES[props.drop.alias] || []
 
 const mintPhases = computed(() =>
-  phasesTypes.map((type, index) => {
-    const name = index === 0 ? 'Private Mint' : 'Public Mint'
-    const phaseMax = maxCount.value / phasesTypes.length
+  phases.map((phase, index) => {
+    const name =
+      index === 0
+        ? $i18n.t('mint.unlockable.privateMint')
+        : $i18n.t('mint.unlockable.publicMint')
+
+    const phaseMax = phase.amount || maxCount.value
     const phaseMinted = new Array(maxCount.value)
       .fill(true, 0, mintedCount.value)
       .slice(phaseMax * index, phaseMax * (index + 1))
@@ -107,7 +111,7 @@ const mintPhases = computed(() =>
 
     return {
       name: name,
-      type,
+      type: phase.type,
       disabled: disabled,
       mintedOut: phaseMintedOut,
       count: {

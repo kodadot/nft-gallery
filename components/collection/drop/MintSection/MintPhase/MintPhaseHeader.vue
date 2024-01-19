@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-between items-center mb-5">
-    <dib class="flex gap-5 items-center">
+    <div class="flex gap-5 items-center">
       <div class="has-text-weight-bold is-size-5">
         {{ title }}
       </div>
@@ -8,7 +8,7 @@
       <div v-if="subtitle" class="text-k-grey is-size-6">
         {{ subtitle }}
       </div>
-    </dib>
+    </div>
 
     <slot>
       <div v-if="isPhaseOpen" class="flex items-center">

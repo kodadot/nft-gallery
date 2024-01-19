@@ -19,14 +19,19 @@ export type MintButtonProp = {
   disabled: boolean
 }
 
-export enum DropType {
+export enum PhaseType {
   HOLDER_OF = 'holder_of',
   PAID = 'paid',
 }
 
+export type DropPhase = {
+  type: PhaseType
+  amount?: number
+}
+
 export type MintPhase = {
   name: string
-  type: DropType
+  type: PhaseType
   disabled: boolean
   mintCountAvailable: boolean
   mintedOut: boolean

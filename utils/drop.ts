@@ -1,3 +1,5 @@
+import { type DropPhase, PhaseType } from '@/components/collection/drop/types'
+
 export const DEFAULT_DROP = {
   alias: 'cpu',
   id: '77',
@@ -30,6 +32,19 @@ export const AHP_GENERATIVE_DROPS = [
   '40', // Swirls
   '38', // Generativ Art - Pare1d0scope
 ]
+
+export const DROP_PHASES: Record<string, DropPhase[]> = {
+  flatwhite: [
+    {
+      type: PhaseType.HOLDER_OF,
+      amount: 512,
+    },
+    {
+      type: PhaseType.PAID,
+      amount: 512,
+    },
+  ],
+}
 
 export const AHP_POPULAR_DROP_COLLECTIONS = [...AHP_GENERATIVE_DROPS]
 

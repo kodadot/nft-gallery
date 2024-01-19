@@ -7,8 +7,9 @@
         :max-count="phase.count.max"
         :minted-count="phase.count.minted"
         :state="phase.state"
-        :has-open="hasOpen"
         :is-last-phase="phase.isLast"
+        :type="phase.type"
+        :has-phase-open="hasPhaseOpen"
         :mint-count-available="mintCountAvailable"
         :disabled-by-backend="disabledByBackend"
         :minimum-funds="minimumFunds"
@@ -19,7 +20,8 @@
         :user-minted-nft-id="userMintedNftId"
         :holder-of-collection="holderOfCollection"
         :collection-id="collectionId"
-        :available-to-mint="availableToMint" />
+        :available-to-mint="availableToMint"
+        @mint="() => $emit('mint', phase.type)" />
 
       <hr v-if="phases.length - 1 !== index" />
     </div>
@@ -36,6 +38,7 @@ import {
   MintPhase as MintPhaseType,
 } from '../types'
 
+defineEmits(['mint'])
 const props = withDefaults(
   defineProps<{
     mintButton: MintButtonProp
@@ -59,7 +62,7 @@ const props = withDefaults(
 
 const { $i18n } = useNuxtApp()
 
-const hasOpen = computed(() =>
+const hasPhaseOpen = computed(() =>
   phases.value.map((phase) => phase.state).includes(MintPhaseState.OPEN),
 )
 
