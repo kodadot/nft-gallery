@@ -23,7 +23,7 @@ withDefaults(
   defineProps<{
     title: string
     subtitle?: string
-    isPhaseOpen: boolean
+    isPhaseOpen?: boolean
   }>(),
   {
     isPhaseOpen: false,

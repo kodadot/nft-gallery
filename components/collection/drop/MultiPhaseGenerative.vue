@@ -44,7 +44,8 @@ import useGenerativeDropMint, {
   type UnlockableCollectionById,
 } from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
-import { type HolderOfCollectionProp, MintPhase } from './types'
+import useDropPhases from '@/composables/drop/useDropPhases'
+import { type HolderOfCollectionProp } from './types'
 
 const props = withDefaults(
   defineProps<{
@@ -89,38 +90,6 @@ const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isAddFundModalActive = ref(false)
 const availableNfts = ref(0)
-
-const phases = DROP_PHASES[props.drop.alias] || []
-
-const mintPhases = computed(() =>
-  phases.map((phase, index) => {
-    const name =
-      index === 0
-        ? $i18n.t('mint.unlockable.privateMint')
-        : $i18n.t('mint.unlockable.publicMint')
-
-    const phaseMax = phase.amount || maxCount.value
-    const phaseMinted = new Array(maxCount.value)
-      .fill(true, 0, mintedCount.value)
-      .slice(phaseMax * index, phaseMax * (index + 1))
-      .filter(Boolean).length
-
-    const phaseMintedOut = phaseMax === phaseMinted
-    const active = !phaseMintedOut
-    const disabled = !active
-
-    return {
-      name: name,
-      type: phase.type,
-      disabled: disabled,
-      mintedOut: phaseMintedOut,
-      count: {
-        max: phaseMax,
-        minted: phaseMinted,
-      },
-    } as MintPhase
-  }),
-)
 
 const {
   defaultName,
@@ -188,6 +157,12 @@ const {
   collectionId,
   mintedDropCount,
   defaultImage,
+})
+
+const { mintPhases } = useDropPhases({
+  phases: DROP_PHASES[props.drop.alias] || [],
+  maxCount,
+  mintedCount,
 })
 
 const { data: holderOfCollectionData } = await useAsyncData(
