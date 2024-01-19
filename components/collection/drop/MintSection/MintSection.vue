@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="phase in phases" :key="phase.type">
+    <div v-for="(phase, index) in phases" :key="phase.type">
       <MintPhase
         :title="phase.name"
         :subtitle="phase.subtitle"
@@ -21,7 +21,7 @@
         :collection-id="collectionId"
         :available-to-mint="availableToMint" />
 
-      <hr />
+      <hr v-if="phases.length - 1 !== index" />
     </div>
   </div>
 </template>
