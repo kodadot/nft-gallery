@@ -6,6 +6,7 @@
 
     <NeoSkeleton
       v-else
+      id="skeleton-backdrop"
       class="z-[2]"
       rounded
       border-radius="20px"
