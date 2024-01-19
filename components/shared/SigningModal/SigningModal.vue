@@ -3,8 +3,6 @@
     :value="isModalActive"
     :can-cancel="['outside', 'escape']"
     scroll="clip"
-    class="top"
-    content-class="modal-width"
     @close="onClose">
     <ModalBody :title="$t('drops.signTransaction')" @close="onClose">
       <SigningModalBody
