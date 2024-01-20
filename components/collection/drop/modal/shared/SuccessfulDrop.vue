@@ -114,7 +114,7 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
+import type { DropMintedNft } from '@/composables/drop/useGenerativeDropSubmit'
 import { Prefix } from '@kodadot1/static'
 
 const emit = defineEmits(['list'])

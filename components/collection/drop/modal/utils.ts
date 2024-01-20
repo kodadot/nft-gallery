@@ -1,4 +1,4 @@
-import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
+import type { DropMintedNft } from '@/composables/drop/useGenerativeDropSubmit'
 
 export const usePreloadMintedNftCover = (
   mintedNft: ComputedRef<DropMintedNft | undefined>,

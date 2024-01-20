@@ -1,17 +1,74 @@
 import holderOfCollectionById from '@/queries/subsquid/general/holderOfCollectionById.graphql'
 import { type HolderOfCollectionProp } from '@/components/collection/drop/types'
 import { useHolderOfCollectionDrop } from '@/components/drops/useDrops'
+import useGenerativeDropSubmit from '@/composables/drop/useGenerativeDropSubmit'
+import { DropMintedStatus } from '@/services/waifu'
+import { createUnlockableMetadata } from '@/components/collection/unlockable/utils'
+import { claimDropItem } from '@/services/waifu'
+import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 
 type HolderOfCollectionByIdQuery = {
   nftEntitiesConnection: { totalCount: number }
   nftEntities: any[]
 }
 
-export default (holderOfCollectionId: ComputedRef<string | undefined>) => {
+type HolderOfCollectionDropMintParams = {
+  holderOfCollectionId: ComputedRef<string | undefined>
+  defaultImage: Ref<string>
+  collectionId: Ref<string>
+  currentAccountMintedToken: Ref<DropMintedStatus | null>
+  description: Ref<string | undefined>
+  defaultName: Ref<string | undefined>
+  collectionName: Ref<string | undefined>
+  mintedAmountForCurrentUser: Ref<number>
+  dropAlias: string
+  fetchDropStatus: () => Promise<void>
+}
+
+export default ({
+  holderOfCollectionId,
+  defaultImage,
+  collectionId,
+  currentAccountMintedToken,
+  description,
+  defaultName,
+  collectionName,
+  mintedAmountForCurrentUser,
+  dropAlias,
+  fetchDropStatus,
+}: HolderOfCollectionDropMintParams) => {
   const { client } = usePrefix()
   const { accountId } = useAuth()
-  const availableNfts = ref(0)
+  const { $i18n, $consola } = useNuxtApp()
   const { isNftClaimed } = useHolderOfCollectionDrop()
+  const { toast } = useToast()
+
+  const {
+    isLoading,
+    isImageFetching,
+    isWalletConnecting,
+    selectedImage,
+    userMintedNftId,
+    mintNftSN,
+    mintedNft,
+    mintedNftWithMetadata,
+    preSubmitMint,
+    tryCapture,
+    subscribeToMintedNft,
+  } = useGenerativeDropSubmit({
+    defaultImage,
+    collectionId,
+    currentAccountMintedToken,
+  })
+
+  const {
+    howAboutToExecute,
+    isLoading: isTransactionLoading,
+    initTransactionLoader,
+    status,
+  } = useMetaTransaction()
+
+  const availableNfts = ref(0)
 
   const { data: holderOfCollectionData } = useAsyncData(
     'holderOfCollectionData',
@@ -49,6 +106,100 @@ export default (holderOfCollectionId: ComputedRef<string | undefined>) => {
     },
   }))
 
+  const mintNft = async () => {
+    try {
+      isLoading.value = true
+
+      const { apiInstance } = useApi()
+      const api = await apiInstance.value
+      const collectionRes = (
+        await api.query.nfts.collection(collectionId.value)
+      ).toJSON() as {
+        items: string
+      }
+
+      initTransactionLoader()
+      const cb = api.tx.utility.batchAll
+      const mint = api.tx.nfts.mint(
+        collectionId.value,
+        collectionRes.items,
+        accountId.value,
+        {
+          ownedItem: holderOfCollectionData.value?.nftEntities?.at(
+            mintedAmountForCurrentUser.value,
+          ).sn,
+          mintPrice: null,
+        },
+      )
+
+      const transfer = api.tx.balances.transfer(
+        '5GGWQ1yiSvS2rPciRtAuK2xQTuxCcgoGZ7dTSzHWws4ELzwD',
+        2e9,
+      )
+
+      mintNftSN.value = collectionRes.items
+      howAboutToExecute(accountId.value, cb, [[mint, transfer]])
+    } catch (e) {
+      showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
+      $consola.error(e)
+      isTransactionLoading.value = false
+    }
+  }
+
+  const submitMint = async (sn: string) => {
+    try {
+      isImageFetching.value = true
+
+      const imageHash = await tryCapture()
+
+      const hash = await createUnlockableMetadata(
+        imageHash,
+        description.value || '',
+        (collectionName.value || defaultName.value) as string,
+        'text/html',
+        selectedImage.value,
+      )
+
+      isImageFetching.value = false
+
+      const { result } = await claimDropItem(
+        {
+          account: accountId.value,
+          metadata: hash,
+          sn,
+        },
+        dropAlias,
+      )
+
+      await fetchDropStatus()
+
+      const id = `${collectionId.value}-${result.sn}`
+
+      subscribeToMintedNft(id, async () => {
+        mintedNftWithMetadata.value = await fetchNft(id)
+      })
+
+      isLoading.value = false
+
+      mintedNft.value = {
+        ...result,
+        id,
+        name: result.name,
+        collectionName: collectionName.value,
+      }
+    } catch (error) {
+      toast($i18n.t('drops.mintPerAddress'))
+      isImageFetching.value = false
+      throw error
+    }
+  }
+
+  watch(status, (curStatus) => {
+    if (curStatus === TransactionStatus.Block) {
+      submitMint(mintNftSN.value)
+    }
+  })
+
   const checkAvailableNfts = async () => {
     const nftEntities = holderOfCollectionData.value?.nftEntities || []
     const nftIds = nftEntities.map((nft) => nft.sn)
@@ -63,10 +214,17 @@ export default (holderOfCollectionId: ComputedRef<string | undefined>) => {
   watch(holderOfCollectionData, checkAvailableNfts, { immediate: true })
 
   return {
-    holderOfCollectionData,
     maxMintLimitForCurrentUser,
     isHolderOfTargetCollection,
     holderOfCollection,
     hasAvailableNfts,
+    isLoading,
+    status,
+    isImageFetching,
+    isWalletConnecting,
+    selectedImage,
+    userMintedNftId,
+    preSubmitMint,
+    mintNft,
   }
 }

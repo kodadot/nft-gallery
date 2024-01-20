@@ -46,7 +46,7 @@ import EmailSignup from './newsletter/EmailSignup.vue'
 import ConfirmEmail from './newsletter/ConfirmEmail.vue'
 import WaitingDrop from './shared/WaitingDrop.vue'
 import SuccessfulDrop from './shared/SuccessfulDrop.vue'
-import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
+import type { DropMintedNft } from '@/composables/drop/useGenerativeDropSubmit'
 import {
   getCountDownTime,
   useCountDown,
