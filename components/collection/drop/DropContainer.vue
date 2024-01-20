@@ -321,8 +321,4 @@ const handleSubmitMint = async (tokenId: string) => {
     height: 3.5rem;
   }
 }
-
-.order-1 {
-  order: 1;
-}
 </style>

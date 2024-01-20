@@ -271,8 +271,4 @@ const handleMint = async () => {
     height: 3.5rem;
   }
 }
-
-.order-1 {
-  order: 1;
-}
 </style>

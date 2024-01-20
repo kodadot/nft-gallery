@@ -221,9 +221,3 @@ const handleDropAddModalConfirm = () => {
   fetchMultipleBalance([urlPrefix.value])
 }
 </script>
-
-<style scoped lang="scss">
-.order-1 {
-  order: 1;
-}
-</style>

@@ -74,8 +74,6 @@ export default ({
     status,
   } = useMetaTransaction()
 
-  const availableNfts = ref(0)
-
   const { data: holderOfCollectionData } = useAsyncData(
     'holderOfCollectionData',
     async () =>
@@ -91,6 +89,8 @@ export default ({
       watch: [accountId],
     },
   )
+
+  const availableNfts = ref(0)
 
   const maxMintLimitForCurrentUser = computed(
     () => holderOfCollectionData.value?.nftEntitiesConnection?.totalCount || 0,

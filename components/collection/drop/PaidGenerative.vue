@@ -357,9 +357,3 @@ watch([isTransactionLoading, status], ([loading, status], [wasLoading]) => {
   }
 })
 </script>
-
-<style scoped lang="scss">
-.order-1 {
-  order: 1;
-}
-</style>
