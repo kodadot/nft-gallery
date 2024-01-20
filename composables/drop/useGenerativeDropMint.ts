@@ -24,6 +24,7 @@ export default ({
   mintedDropCount,
 }: GenerativeDropMintParams) => {
   const imageDataPayload = ref<ImageDataPayload>()
+  const selectedImage = ref<string>('')
 
   const maxCount = computed(
     () => collectionData.value?.collectionEntity?.max || defaultMax.value,
@@ -68,5 +69,6 @@ export default ({
     nftCount,
     mintedAmountForCurrentUser,
     imageDataPayload,
+    selectedImage,
   }
 }

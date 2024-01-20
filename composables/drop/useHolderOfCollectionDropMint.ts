@@ -24,6 +24,7 @@ type HolderOfCollectionDropMintParams = {
   mintedAmountForCurrentUser: Ref<number>
   dropAlias: string
   imageDataPayload: Ref<ImageDataPayload | undefined>
+  selectedImage: Ref<string>
   fetchDropStatus: () => Promise<void>
 }
 
@@ -38,6 +39,7 @@ export default ({
   mintedAmountForCurrentUser,
   dropAlias,
   imageDataPayload,
+  selectedImage,
   fetchDropStatus,
 }: HolderOfCollectionDropMintParams) => {
   const { client } = usePrefix()
@@ -50,7 +52,6 @@ export default ({
     isLoading,
     isImageFetching,
     isWalletConnecting,
-    selectedImage,
     userMintedNftId,
     mintNftSN,
     mintedNft,
@@ -63,6 +64,7 @@ export default ({
     imageDataPayload,
     collectionId,
     currentAccountMintedToken,
+    selectedImage,
   })
 
   const {

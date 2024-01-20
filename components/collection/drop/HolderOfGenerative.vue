@@ -117,6 +117,7 @@ const {
   collectionName,
   description,
   imageDataPayload,
+  selectedImage,
 } = useGenerativeDropMint({
   collectionData,
   defaultMax,
@@ -132,7 +133,6 @@ const {
   isLoading,
   isImageFetching,
   isWalletConnecting,
-  selectedImage,
   userMintedNftId,
   preSubmitMint,
   mintNft,
@@ -147,6 +147,7 @@ const {
   mintedAmountForCurrentUser,
   collectionName,
   imageDataPayload,
+  selectedImage,
   fetchDropStatus,
 })
 

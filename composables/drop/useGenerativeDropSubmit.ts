@@ -16,6 +16,7 @@ type GenerativeDropMintParams = {
   defaultImage: Ref<string>
   collectionId: Ref<string>
   currentAccountMintedToken: Ref<DropMintedStatus | null>
+  selectedImage: Ref<string>
 }
 
 export default ({
@@ -23,6 +24,7 @@ export default ({
   currentAccountMintedToken,
   collectionId,
   imageDataPayload,
+  selectedImage,
 }: GenerativeDropMintParams) => {
   const { toast } = useToast()
   const { $i18n } = useNuxtApp()
@@ -38,7 +40,6 @@ export default ({
   const isWalletConnecting = ref(false)
   const isLoading = ref(false)
   const isImageFetching = ref(false)
-  const selectedImage = ref<string>('')
 
   const clearWalletConnecting = () => {
     isWalletConnecting.value = false
@@ -136,7 +137,6 @@ export default ({
     isWalletConnecting,
     canListMintedNft,
     userMintedNftId,
-    selectedImage,
     listMintedNft,
     preSubmitMint,
     tryCapture,
