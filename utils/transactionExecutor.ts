@@ -34,6 +34,11 @@ const exec = async (
     const transfer = await callback(...params)
     const address = typeof account === 'string' ? account : account.address
     const injector = await getAddress(toDefaultAddress(address))
+
+    if (!injector) {
+      throw new Error('Ups! We cannot find your wallet, please login again.')
+    }
+
     const hasCallback = typeof statusCb === 'function'
 
     const options = injector ? { signer: injector.signer } : undefined
