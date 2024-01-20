@@ -2,9 +2,10 @@
   <div>
     <SigningModal
       v-if="!usingAutoTeleport"
-      v-model="isLoading"
       :title="$t('buyModal.buyingNft', itemCount)"
-      :status="status" />
+      :is-loading="isLoading"
+      :status="status"
+      @try-again="handleBuy" />
 
     <ConfirmPurchaseModal
       :loading="!hasSyncedPrices"
