@@ -1,3 +1,5 @@
+import { useEventListener } from '@vueuse/core'
+
 export type UnlockableCollectionById = {
   collectionEntity: {
     meta: { description: string }
@@ -14,11 +16,15 @@ type GenerativeDropMintParams = {
   collectionData: Ref<UnlockableCollectionById | undefined | null>
 }
 
+export type ImageDataPayload = { hash: string; image: string }
+
 export default ({
   collectionData,
   defaultMax,
   mintedDropCount,
 }: GenerativeDropMintParams) => {
+  const imageDataPayload = ref<ImageDataPayload>()
+
   const maxCount = computed(
     () => collectionData.value?.collectionEntity?.max || defaultMax.value,
   )
@@ -44,6 +50,15 @@ export default ({
     () => collectionData.value?.nftEntitiesConnection?.totalCount || 0, // todo: fetch from backend
   )
 
+  useEventListener(window, 'message', (res) => {
+    if (
+      res?.data?.type === 'kodahash/render/completed' &&
+      res?.data?.payload.image
+    ) {
+      imageDataPayload.value = res?.data?.payload
+    }
+  })
+
   return {
     maxCount,
     mintedCount,
@@ -52,5 +67,6 @@ export default ({
     collectionName,
     nftCount,
     mintedAmountForCurrentUser,
+    imageDataPayload,
   }
 }

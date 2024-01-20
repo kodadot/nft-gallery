@@ -2,8 +2,8 @@ import { DoResult } from '@/services/waifu'
 import { makeScreenshot } from '@/services/capture'
 import { pinFileToIPFS } from '@/services/nftStorage'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
-import { useEventListener } from '@vueuse/core'
 import { DropMintedStatus } from '@/services/waifu'
+import { ImageDataPayload } from './useGenerativeDropMint'
 
 export type DropMintedNft = DoResult & {
   id: string
@@ -12,6 +12,7 @@ export type DropMintedNft = DoResult & {
 }
 
 type GenerativeDropMintParams = {
+  imageDataPayload: Ref<ImageDataPayload | undefined>
   defaultImage: Ref<string>
   collectionId: Ref<string>
   currentAccountMintedToken: Ref<DropMintedStatus | null>
@@ -21,6 +22,7 @@ export default ({
   defaultImage,
   currentAccountMintedToken,
   collectionId,
+  imageDataPayload,
 }: GenerativeDropMintParams) => {
   const { toast } = useToast()
   const { $i18n } = useNuxtApp()
@@ -36,17 +38,7 @@ export default ({
   const isWalletConnecting = ref(false)
   const isLoading = ref(false)
   const isImageFetching = ref(false)
-  const imageDataPayload = ref<{ hash: string; image: string }>()
   const selectedImage = ref<string>('')
-
-  useEventListener(window, 'message', (res) => {
-    if (
-      res?.data?.type === 'kodahash/render/completed' &&
-      res?.data?.payload.image
-    ) {
-      imageDataPayload.value = res?.data?.payload
-    }
-  })
 
   const clearWalletConnecting = () => {
     isWalletConnecting.value = false

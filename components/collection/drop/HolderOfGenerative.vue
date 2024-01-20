@@ -93,10 +93,6 @@ const depositAmount = computed(() =>
   (Number(totalItemDeposit.value) - 0.1).toFixed(4),
 )
 
-const handleSelectImage = (image: string) => {
-  selectedImage.value = image
-}
-
 const { data: collectionData } = await useAsyncData(
   'unlockableCollectionData',
   async () =>
@@ -120,6 +116,7 @@ const {
   mintedAmountForCurrentUser,
   collectionName,
   description,
+  imageDataPayload,
 } = useGenerativeDropMint({
   collectionData,
   defaultMax,
@@ -140,6 +137,7 @@ const {
   preSubmitMint,
   mintNft,
 } = useHolderOfCollectionDropMint({
+  dropAlias: props.drop.id,
   holderOfCollectionId,
   defaultImage,
   defaultName,
@@ -148,7 +146,7 @@ const {
   description,
   mintedAmountForCurrentUser,
   collectionName,
-  dropAlias: props.drop.id,
+  imageDataPayload,
   fetchDropStatus,
 })
 
@@ -185,6 +183,10 @@ const mintButtonProps = computed(() => ({
   disabled: mintButtonDisabled.value,
   label: mintButtonLabel.value,
 }))
+
+const handleSelectImage = (image: string) => {
+  selectedImage.value = image
+}
 
 const handleSubmitMint = async () => {
   if (!preSubmitMint()) {

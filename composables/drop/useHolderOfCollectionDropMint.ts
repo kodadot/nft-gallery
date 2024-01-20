@@ -6,6 +6,7 @@ import { DropMintedStatus } from '@/services/waifu'
 import { createUnlockableMetadata } from '@/components/collection/unlockable/utils'
 import { claimDropItem } from '@/services/waifu'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
+import { ImageDataPayload } from './useGenerativeDropMint'
 
 type HolderOfCollectionByIdQuery = {
   nftEntitiesConnection: { totalCount: number }
@@ -22,6 +23,7 @@ type HolderOfCollectionDropMintParams = {
   collectionName: Ref<string | undefined>
   mintedAmountForCurrentUser: Ref<number>
   dropAlias: string
+  imageDataPayload: Ref<ImageDataPayload | undefined>
   fetchDropStatus: () => Promise<void>
 }
 
@@ -35,6 +37,7 @@ export default ({
   collectionName,
   mintedAmountForCurrentUser,
   dropAlias,
+  imageDataPayload,
   fetchDropStatus,
 }: HolderOfCollectionDropMintParams) => {
   const { client } = usePrefix()
@@ -57,6 +60,7 @@ export default ({
     subscribeToMintedNft,
   } = useGenerativeDropSubmit({
     defaultImage,
+    imageDataPayload,
     collectionId,
     currentAccountMintedToken,
   })
