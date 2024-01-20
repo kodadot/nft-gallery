@@ -8,7 +8,9 @@
       <SigningModalBody
         :title="title"
         :subtitle="subtitle"
-        :show-subtitle-dots="isLoading" />
+        :failed="isCancelled"
+        :show-subtitle-dots="isLoading"
+        @try-again="() => $emit('tryAgain')" />
     </ModalBody>
   </NeoModal>
 </template>
@@ -17,15 +19,17 @@ import { NeoModal } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { TransactionStatus } from '@/composables/useTransactionStatus'
 
+defineEmits(['tryAgain'])
 const props = defineProps<{
-  modelValue: boolean
+  isLoading: boolean
   status: TransactionStatus
   title: string
 }>()
 
 const { $i18n } = useNuxtApp()
 
-const isModalActive = useVModel(props, 'modelValue')
+const isModalActive = ref(false)
+const isCancelled = ref(false)
 
 const statusTransalationsKeys: Partial<Record<TransactionStatus, string>> = {
   [TransactionStatus.Finalized]: 'transactionSteps.completed',
@@ -52,4 +56,19 @@ const subtitle = computed(() =>
 const onClose = () => {
   isModalActive.value = false
 }
+
+watch(
+  [() => props.status, () => props.isLoading],
+  ([status, loading], [prevStatus, wasLoading]) => {
+    if (loading) {
+      isModalActive.value = true
+    }
+
+    isCancelled.value =
+      !loading &&
+      wasLoading &&
+      prevStatus === TransactionStatus.Unknown &&
+      status === TransactionStatus.Unknown
+  },
+)
 </script>

@@ -16,21 +16,23 @@
 
     <div
       class="flex justify-center w-full absolute -translate-x-2/4 -translate-y-2/4 z-[3] left-2/4 top-2/4">
-      <NeoIcon
-        icon="spinner-third"
-        class="spinner text-k-grey mr-6"
-        size="large"
-        spin />
+      <slot>
+        <NeoIcon
+          icon="spinner-third"
+          class="spinner text-k-grey mr-6"
+          size="large"
+          spin />
 
-      <div :class="{ 'w-52': fixedWidth }">
-        <p class="capitalize has-text-weight-bold is-size-6">
-          {{ title || $t('general.doingSomeMagic') }}
-        </p>
-        <p class="capitalize is-size-6 text-k-grey">
-          {{ subtitle || $t('general.pleaseWait') }}
-          <span v-if="showDots" class="dots" />
-        </p>
-      </div>
+        <div :class="{ 'w-52': fixedWidth }">
+          <p class="capitalize font-bold text-base">
+            {{ title || $t('general.doingSomeMagic') }}
+          </p>
+          <p class="capitalize text-base text-k-grey">
+            {{ subtitle || $t('general.pleaseWait') }}
+            <span v-if="showDots" class="dots" />
+          </p>
+        </div>
+      </slot>
     </div>
   </div>
 </template>

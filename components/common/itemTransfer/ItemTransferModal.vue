@@ -1,9 +1,10 @@
 <template>
   <div>
     <SigningModal
-      v-model="isLoading"
       :title="$t('transaction.transferingNft')"
-      :status="status" />
+      :is-loading="isLoading"
+      :status="status"
+      @try-again="transfer" />
 
     <NeoModal :value="isModalActive" scroll="clip" @close="onClose">
       <div class="modal-width">
