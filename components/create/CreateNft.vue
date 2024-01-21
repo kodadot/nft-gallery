@@ -2,9 +2,10 @@
   <div class="is-centered columns">
     <SigningModal
       v-if="!autoTeleport"
-      v-model="isLoading"
+      :is-loading="isLoading"
       :title="$t('mint.nft.minting')"
-      :status="status" />
+      :status="status"
+      @try-again="createNft" />
 
     <MintConfirmModal
       v-model="modalShowStatus"
