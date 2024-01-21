@@ -2,9 +2,10 @@
   <div class="is-centered" :class="{ columns: classColumn }">
     <SigningModal
       v-if="!autoTeleport"
-      v-model="isLoading"
       :title="$t('mint.collection.minting')"
-      :status="status" />
+      :is-loading="isLoading"
+      :status="status"
+      @try-again="createCollection" />
 
     <MintConfirmModal
       v-model="confirmModal"
