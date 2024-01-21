@@ -3,11 +3,10 @@
     class="mx-auto teleport-container"
     @submit.prevent="checkEDBeforeTeleport">
     <SigningModal
-      v-model="isLoading"
+      :title="$t('teleport.bridging', [amountAfterFees.displayValue, currency])"
+      :is-loading="isLoading"
       :status="status"
-      :title="
-        $t('teleport.bridging', [amountAfterFees.displayValue, currency])
-      " />
+      @try-again="teleport" />
 
     <h1 class="is-size-3 has-text-weight-bold">
       {{ $t('teleport.page') }}
