@@ -20,13 +20,6 @@
       </NeoField>
       <NeoField>
         <NeoCheckbox
-          v-model="offer"
-          data-testid="event-checkbox-filter-offer"
-          >{{ $t('filters.offer') }}</NeoCheckbox
-        >
-      </NeoField>
-      <NeoField>
-        <NeoCheckbox
           v-model="listing"
           data-testid="event-checkbox-filter-listing"
           >{{ $t('filters.listing') }}</NeoCheckbox
@@ -82,17 +75,6 @@ const sale =
     : computed({
         get: () => activityFiltersStore.getEventTypeFilters.sale,
         set: (value) => activityFiltersStore.setSale(value),
-      })
-
-const offer =
-  props.dataModel === 'query'
-    ? computed({
-        get: () => route.query?.offer?.toString() === 'true',
-        set: (value) => applyToUrl({ offer: String(value) }),
-      })
-    : computed({
-        get: () => activityFiltersStore.getEventTypeFilters.offer,
-        set: (value) => activityFiltersStore.setOffer(value),
       })
 
 const listing =
