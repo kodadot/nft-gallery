@@ -9,7 +9,7 @@
 
     <h2>{{ $t('teleport.subtitle') }}</h2>
     <a
-      class="!text-k-grey"
+      class="!text-k-blue hover:!text-k-blue-hover"
       href="https://hello.kodadot.xyz/tutorial/teleport-bridge"
       >{{ $t('teleport.howItWorks') }}
     </a>
@@ -127,7 +127,7 @@
         v-safe-href="explorerUrl"
         target="_blank"
         rel="nofollow noopener noreferrer"
-        class="!text-k-blue !hover:text-k-blue-hover">
+        class="!text-k-blue hover:!text-k-blue-hover">
         {{ shortAddress(toAddress) }}
       </a>
       {{ $t('teleport.ownerMessage') }}
