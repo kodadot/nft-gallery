@@ -17,7 +17,7 @@
           :label="seeAllDescription ? $t('showLess') : $t('showMore')"
           @click="toggleSeeAllDescription" />
         <NeoButton
-          variant="secondary"
+          variant="outlined-rounded"
           rounded
           :tag="NuxtLink"
           :to="`/${urlPrefix}/collection/${collectionId}`"
