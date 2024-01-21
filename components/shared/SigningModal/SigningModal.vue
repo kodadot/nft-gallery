@@ -64,6 +64,11 @@ watch(
       isModalActive.value = true
     }
 
+    if (status === TransactionStatus.Finalized) {
+      isModalActive.value = false
+      return
+    }
+
     isCancelled.value =
       !loading &&
       wasLoading &&
