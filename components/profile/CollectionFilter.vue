@@ -22,7 +22,7 @@
       <NeoDropdownItem
         v-for="collection in collections"
         :key="collection.id"
-        class="is-flex !border-0 is-justify-content-center is-align-items-center"
+        class="is-flex border-none is-justify-content-center is-align-items-center"
         aria-role="listitem"
         :value="collection.id">
         <NeoCheckbox
