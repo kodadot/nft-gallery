@@ -1,8 +1,9 @@
 <template>
   <SigningModal
-    v-model="isLoading"
     :title="$t('mint.nft.minting')"
-    :status="status" />
+    :is-loading="isLoading"
+    :status="status"
+    @try-again="mintNft" />
 
   <CollectionDropGenerativeLayout
     :collection-id="collectionId"
