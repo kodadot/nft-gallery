@@ -9,7 +9,7 @@
 
     <h2>{{ $t('teleport.subtitle') }}</h2>
     <a
-      class="text-k-grey"
+      class="!text-k-grey"
       href="https://hello.kodadot.xyz/tutorial/teleport-bridge"
       >{{ $t('teleport.howItWorks') }}
     </a>
