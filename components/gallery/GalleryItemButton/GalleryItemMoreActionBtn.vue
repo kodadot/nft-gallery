@@ -1,9 +1,10 @@
 <template>
   <div>
     <SigningModal
-      v-model="isLoading"
+      :title="$t('mint.nft.burning')"
+      :is-loading="isLoading"
       :status="status"
-      :title="$t('mint.nft.burning')" />
+      @try-again="burn" />
 
     <NeoDropdown position="bottom-left" :mobile-modal="false">
       <template #trigger="{ active }">
