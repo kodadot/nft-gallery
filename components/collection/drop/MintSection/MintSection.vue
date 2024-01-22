@@ -10,7 +10,7 @@
         :is-last-phase="phase.isLast"
         :type="phase.type"
         :has-phase-open="hasPhaseOpen"
-        :mint-count-available="mintCountAvailable"
+        :is-minted-out="phase.mintedOut"
         :disabled-by-backend="disabledByBackend"
         :minimum-funds="minimumFunds"
         :is-image-fetching="isImageFetching"
@@ -43,7 +43,6 @@ const props = withDefaults(
   defineProps<{
     mintButton: MintButtonProp
     minimumFunds: MinimumFundsProp
-    mintCountAvailable: boolean
     disabledByBackend: number
     isImageFetching: boolean
     isWalletConnecting: boolean

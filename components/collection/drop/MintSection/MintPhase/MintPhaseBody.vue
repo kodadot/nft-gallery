@@ -66,15 +66,19 @@
 import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import HolderOfCollectionMintRequirements from '../HolderOfCollectionMintRequirements.vue'
-import type { HolderOfCollectionProp } from '../../HolderOfGenerative.vue'
-import { MinimumFundsProp, MintPhaseState, PhaseType } from '../../types'
+import {
+  HolderOfCollectionProp,
+  MinimumFundsProp,
+  MintPhaseState,
+  PhaseType,
+} from '../../types'
 
 const NuxtLink = resolveComponent('NuxtLink')
 
 const props = withDefaults(
   defineProps<{
     mintedCount: number
-    mintCountAvailable: boolean
+    isMintedOut: boolean
     maxCount: number
     state: MintPhaseState
     type: PhaseType
@@ -88,6 +92,7 @@ const props = withDefaults(
     holderOfCollection?: HolderOfCollectionProp
     collectionId: string
     availableToMint?: number
+    isLastPhase: boolean
   }>(),
   {
     userMintedNftId: undefined,
@@ -109,26 +114,27 @@ const mintedPercent = computed(() => {
 })
 
 const isMintedOut = computed(() => !props.mintCountAvailable)
+const showMintedOut = computed(() => isMintedOut.value && props.isLastPhase)
 
 const mintButtonLabel = computed(() => {
-  if (props.state !== MintPhaseState.OPEN) {
-    return $i18n.t('mint.unlockable.phaseNotOpen')
+  if (showMintedOut.value) {
+    return $i18n.t('mint.unlockable.seeListings')
   }
 
-  if (isMintedOut.value) {
-    return $i18n.t('mint.unlockable.seeListings')
+  if (props.state !== MintPhaseState.OPEN) {
+    return $i18n.t('mint.unlockable.phaseNotOpen')
   }
 
   return props.mintButton.label
 })
 
 const mintButtonDisabled = computed(() => {
-  if (props.state !== MintPhaseState.OPEN) {
-    return true
+  if (showMintedOut.value) {
+    return false
   }
 
-  if (isMintedOut.value) {
-    return false
+  if (props.state !== MintPhaseState.OPEN) {
+    return true
   }
 
   return props.mintButton.disabled
