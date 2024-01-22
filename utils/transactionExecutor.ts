@@ -36,7 +36,7 @@ const exec = async (
     const injector = await getAddress(toDefaultAddress(address))
 
     if (!injector) {
-      throw new Error('Oops! We can't find your wallet, please log in again.')
+      throw new Error("Oops! We can't find your wallet, please log in again.")
     }
 
     const hasCallback = typeof statusCb === 'function'
