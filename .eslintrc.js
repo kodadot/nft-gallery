@@ -19,7 +19,7 @@ module.exports = {
   plugins: ['prettier', '@typescript-eslint', 'unicorn'],
   rules: {
     'prettier/prettier': [
-      'warn',
+      'error',
       {
         singleQuote: true,
       },
