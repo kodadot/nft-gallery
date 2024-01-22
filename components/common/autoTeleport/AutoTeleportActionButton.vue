@@ -14,7 +14,7 @@
         </div>
 
         <p
-          class="has-text-weight-bold"
+          class="font-bold"
           :class="{ 'text-k-grey': !hasAvailableTeleportTransition }">
           {{ $t('autoTeleport.autoTeleport') }}
         </p>

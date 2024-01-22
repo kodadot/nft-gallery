@@ -5,9 +5,7 @@
         <span>
           {{ $t('massmint.areYouSureDelete') }}
           <br />
-          <span class="has-text-weight-bold">
-            “{{ nft.name }} #{{ nft.id }}”
-          </span>
+          <span class="font-bold"> “{{ nft.name }} #{{ nft.id }}” </span>
           ?
         </span>
       </div>

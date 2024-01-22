@@ -3,7 +3,7 @@
     <div
       :title="item.name"
       :class="[
-        'has-text-weight-bold carousel-info-name',
+        'font-bold carousel-info-name',
         { 'carousel-info-collection': isCollection },
       ]">
       <span class="is-ellipsis">{{ item.name || '--' }}</span>

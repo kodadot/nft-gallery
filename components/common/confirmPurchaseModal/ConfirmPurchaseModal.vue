@@ -50,7 +50,7 @@
         {{ $t('confirmPurchase.youWillPay') }}
         <div class="flex">
           <CommonTokenMoney :value="total" class="text-k-grey" />
-          <span class="has-text-weight-bold ml-2"> {{ priceUSD }}$ </span>
+          <span class="font-bold ml-2"> {{ priceUSD }}$ </span>
         </div>
       </div>
 

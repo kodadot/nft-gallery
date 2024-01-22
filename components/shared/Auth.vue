@@ -2,7 +2,7 @@
   <div v-if="account">
     <div class="auth-avatar">
       <Avatar :value="account" :size="size" />
-      <span class="subtitle has-text-weight-bold auth-avatar-title">
+      <span class="subtitle font-bold auth-avatar-title">
         <Identity :address="account" hide-identity-popover />
       </span>
     </div>
