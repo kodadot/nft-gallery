@@ -32,7 +32,9 @@ body {
 
   a {
     @include ktheme() {
-      color: theme('text-color');
+      &:not(.text-k-grey) {
+        color: theme('text-color');
+      }
     }
     &:hover {
       @include ktheme() {
