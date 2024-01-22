@@ -8,6 +8,8 @@ import { claimDropItem } from '@/services/waifu'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import { ImageDataPayload } from './useGenerativeDropMint'
 
+const KODA_MINTER = '5GGWQ1yiSvS2rPciRtAuK2xQTuxCcgoGZ7dTSzHWws4ELzwD'
+
 type HolderOfCollectionByIdQuery = {
   nftEntitiesConnection: { totalCount: number }
   nftEntities: any[]
@@ -138,10 +140,7 @@ export default ({
         },
       )
 
-      const transfer = api.tx.balances.transfer(
-        '5GGWQ1yiSvS2rPciRtAuK2xQTuxCcgoGZ7dTSzHWws4ELzwD',
-        2e9,
-      )
+      const transfer = api.tx.balances.transfer(KODA_MINTER, 2e9)
 
       mintNftSN.value = collectionRes.items
       howAboutToExecute(accountId.value, cb, [[mint, transfer]])

@@ -38,6 +38,7 @@ import useGenerativeDropMint, {
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
 import useDropPhases from '@/composables/drop/useDropPhases'
 import useHolderOfCollectionDropMint from '@/composables/drop/useHolderOfCollectionDropMint'
+import { PhaseType } from './types'
 
 const props = withDefaults(
   defineProps<{
@@ -141,7 +142,7 @@ const {
   isWalletConnecting,
   userMintedNftId,
   preSubmitMint,
-  mintNft,
+  mintNft: mintHolderOfCollectionNft,
 } = useHolderOfCollectionDropMint({
   dropAlias: props.drop.id,
   holderOfCollectionId,
@@ -196,16 +197,20 @@ const handleSelectImage = (image: string) => {
   selectedImage.value = image
 }
 
-const handleSubmitMint = async () => {
+const submits: Partial<Record<PhaseType, () => Promise<void>>> = {
+  holder_of: mintHolderOfCollectionNft,
+}
+
+const handleSubmitMint = async (type: PhaseType) => {
   if (!preSubmitMint()) {
     return false
   }
 
-  if (hasMinimumFunds.value) {
-    mintNft()
-  } else {
-    openAddFundModal()
+  if (!hasMinimumFunds.value) {
+    return openAddFundModal()
   }
+
+  submits[type]?.()
 }
 
 const openAddFundModal = () => {

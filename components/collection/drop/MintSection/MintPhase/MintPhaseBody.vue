@@ -113,8 +113,7 @@ const mintedPercent = computed(() => {
   return Math.round(percent)
 })
 
-const isMintedOut = computed(() => !props.mintCountAvailable)
-const showMintedOut = computed(() => isMintedOut.value && props.isLastPhase)
+const showMintedOut = computed(() => props.isMintedOut && props.isLastPhase)
 
 const mintButtonLabel = computed(() => {
   if (showMintedOut.value) {
@@ -145,7 +144,7 @@ const showHolderOfCollection = computed(
 )
 
 const handleMint = () => {
-  if (isMintedOut.value) {
+  if (props.isMintedOut) {
     return navigateTo(
       `/${urlPrefix.value}/explore/items?listed=true&collections=${props.collectionId}`,
     )

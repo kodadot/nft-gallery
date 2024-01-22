@@ -62,7 +62,7 @@
 
 <script setup lang="ts">
 import { DropItem } from '@/params/types'
-import { HolderOfCollectionProp, MintPhase } from './types'
+import { HolderOfCollectionProp, MintPhase, PhaseType } from './types'
 
 withDefaults(
   defineProps<{
@@ -80,7 +80,7 @@ withDefaults(
     mintPhases: MintPhase[]
 
     handleSelectImage: (image: string) => void
-    handleSubmitMint: () => void
+    handleSubmitMint: (type: PhaseType) => void
   }>(),
   {
     description: '',
