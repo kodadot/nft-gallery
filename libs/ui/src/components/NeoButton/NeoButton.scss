@@ -91,6 +91,22 @@
       }
     }
 
+    &--outlined-rounded {
+      @apply h-[35px] w-min rounded shadow-none border border-card-border-color-light bg-background-color;
+
+      &:hover {
+        @apply bg-background-color border border-text-color text-text-color;
+      }
+
+      &.o-btn--disabled {
+        @apply opacity-unset border border-k-grey;
+
+        & .o-btn__wrapper .o-btn__label {
+          @apply text-k-grey;
+        }
+      }
+    }
+
     &--connect-dropdown {
       @apply w-[120px] h-10 bg-background-color;
 
