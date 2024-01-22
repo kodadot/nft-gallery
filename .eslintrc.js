@@ -18,12 +18,6 @@ module.exports = {
   },
   plugins: ['prettier', '@typescript-eslint', 'unicorn'],
   rules: {
-    'prettier/prettier': [
-      'error',
-      {
-        singleQuote: true,
-      },
-    ],
     'no-empty-function': 'warn',
     'no-trailing-spaces': 'error',
     'unicorn/no-for-loop': 'error',
