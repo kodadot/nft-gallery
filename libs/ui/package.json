@@ -27,8 +27,8 @@
     "@google/model-viewer": "^3.4.0",
     "@vueuse/core": "^9.13.0",
     "bulma": "0.9.4",
-    "three": "^0.160.0",
-    "vue": "^3.4.14",
+    "three": "^0.160.1",
+    "vue": "^3.4.15",
     "vue-audio-visual": "2.5.0"
   }
 }
