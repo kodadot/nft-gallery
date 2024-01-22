@@ -55,7 +55,13 @@
             <div v-if="diffPercentString" :class="color">
               {{ diffPercentString }}
             </div>
-            <div v-else :class="color">--</div>
+            <div v-else :class="color">
+              <BasicMoney
+                :value="usdValue"
+                inline
+                hide-unit
+                :round="0" />&nbsp;USD
+            </div>
           </div>
         </div>
         <div
