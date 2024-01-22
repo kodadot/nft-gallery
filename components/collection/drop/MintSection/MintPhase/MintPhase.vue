@@ -1,10 +1,10 @@
 <template>
-  <template v-if="isPhaseOpen">
-    <MintPhaseHeader :title="title" is-phase-open />
+  <template v-if="showPhaseOpen">
+    <MintPhaseHeader :title="title" :is-phase-open="isPhaseOpen" />
 
     <MintPhaseBody
       :minted-count="mintedCount"
-      :mint-count-available="mintCountAvailable"
+      :is-minted-out="isMintedOut"
       :max-count="maxCount"
       :state="state"
       :type="type"
@@ -18,6 +18,7 @@
       :holder-of-collection="holderOfCollection"
       :collection-id="collectionId"
       :available-to-mint="availableToMint"
+      :is-last-phase="isLastPhase"
       @mint="mint" />
   </template>
 
@@ -30,7 +31,7 @@
 
     <MintPhaseBody
       :minted-count="mintedCount"
-      :mint-count-available="mintCountAvailable"
+      :is-minted-out="isMintedOut"
       :max-count="maxCount"
       :state="state"
       :type="type"
@@ -44,6 +45,7 @@
       :holder-of-collection="holderOfCollection"
       :collection-id="collectionId"
       :available-to-mint="availableToMint"
+      :is-last-phase="isLastPhase"
       @mint="mint" />
   </NeoCollapse>
 </template>
@@ -68,9 +70,9 @@ const props = withDefaults(
     isLastPhase: boolean
     hasPhaseOpen: boolean
     type: PhaseType
+    isMintedOut: boolean
 
     mintedCount: number
-    mintCountAvailable: boolean
     maxCount: number
     minimumFunds: MinimumFundsProp
     isImageFetching: boolean
@@ -88,5 +90,10 @@ const props = withDefaults(
 )
 
 const isPhaseOpen = computed(() => props.state === MintPhaseState.OPEN)
+
+const showPhaseOpen = computed(
+  () => isPhaseOpen.value || (props.isLastPhase && !props.hasPhaseOpen),
+)
+
 const mint = () => emit('mint')
 </script>
