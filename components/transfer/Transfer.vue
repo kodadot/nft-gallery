@@ -11,7 +11,10 @@
       <TransactionLoader
         v-model="isLoaderModalVisible"
         :status="status"
-        :total-token-amount="withoutDecimals(totalValues.withoutFee.token)"
+        :total-token-amount="
+          withoutDecimals({ value: totalValues.withoutFee.token })
+        "
+        :unit="unit"
         :transaction-id="transactionValue"
         :total-usd-value="totalValues.withoutFee.usd"
         :is-mobile="isMobile"
