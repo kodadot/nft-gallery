@@ -12,7 +12,7 @@
       <div class="flex-grow">
         <div
           class="filters-header px-0 border-b flex items-center justify-between">
-          <p class="has-text-weight-bold">
+          <p class="font-bold">
             {{ $t('general.filters') }}
           </p>
           <a @click="onClose">

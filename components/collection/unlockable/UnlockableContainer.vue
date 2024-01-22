@@ -19,7 +19,7 @@
 
           <div>
             <div class="flex justify-between items-center my-5">
-              <span class="has-text-weight-bold is-size-5">First Phase</span
+              <span class="font-bold is-size-5">First Phase</span
               ><span v-if="mintCountAvailable" class="flex items-center">
                 <img src="/unlockable-pulse.svg" alt="open" />
                 Open</span
@@ -27,7 +27,7 @@
             </div>
             <div class="flex justify-between items-center">
               <span>Free</span
-              ><span class="has-text-weight-bold">
+              ><span class="font-bold">
                 {{ currentMintedCount }} / {{ MAX_PER_WINDOW }} Minted</span
               >
             </div>

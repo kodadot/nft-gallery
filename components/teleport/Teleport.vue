@@ -3,7 +3,7 @@
     class="mx-auto teleport-container"
     @submit.prevent="checkEDBeforeTeleport">
     <Loader v-model="isLoading" :status="status" />
-    <h1 class="is-size-3 has-text-weight-bold">
+    <h1 class="is-size-3 font-bold">
       {{ $t('teleport.page') }}
     </h1>
 
@@ -55,7 +55,7 @@
 
     <NeoField class="mt-5">
       <template #label>
-        <div class="has-text-weight-normal">{{ $t('teleport.amount') }}</div>
+        <div class="font-normal">{{ $t('teleport.amount') }}</div>
       </template>
 
       <div class="is-relative w-full">

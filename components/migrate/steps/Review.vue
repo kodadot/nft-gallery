@@ -21,7 +21,7 @@
     </div>
     <div v-else>
       <div class="mt-5">
-        <p class="has-text-weight-bold">{{ $t('migrate.collection') }}</p>
+        <p class="font-bold">{{ $t('migrate.collection') }}</p>
         <div class="flex mt-4">
           <img
             class="border mr-4"
@@ -54,7 +54,7 @@
     </div>
 
     <div>
-      <p class="has-text-weight-bold mt-5">{{ $t('migrate.route') }}:</p>
+      <p class="font-bold mt-5">{{ $t('migrate.route') }}:</p>
       <NeoButton
         rounded
         variant="pill"
@@ -82,7 +82,7 @@
     <hr />
 
     <div>
-      <div class="has-text-weight-bold mt-5">{{ $t('migrate.costs') }}</div>
+      <div class="font-bold mt-5">{{ $t('migrate.costs') }}</div>
 
       <div class="text-xs">
         <p

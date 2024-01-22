@@ -7,7 +7,7 @@
     @close="onClose">
     <div class="modal-width">
       <header class="py-5 pl-6 pr-5 flex justify-between items-center">
-        <span class="capitalize is-size-3-5 has-text-weight-bold">
+        <span class="capitalize is-size-3-5 font-bold">
           {{ $t('autoTeleport.welcomeToAutoTeleport') }}
         </span>
 
@@ -34,7 +34,7 @@
               <img src="/accent-blur.svg" class="blur icon-blur" alt="blur" />
             </div>
 
-            <p class="has-text-weight-bold is-size-5 mb-3">
+            <p class="font-bold is-size-5 mb-3">
               {{ $t(`autoTeleport.welcome.${x}.title`) }}
             </p>
 

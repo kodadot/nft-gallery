@@ -7,7 +7,7 @@
     @close="onClose">
     <div class="modal-width">
       <header class="py-5 pl-6 pr-5 flex justify-between items-center border-b">
-        <span class="modal-card-title is-size-6 has-text-weight-bold">
+        <span class="modal-card-title is-size-6 font-bold">
           {{ $t('autoTeleport.signTransactions') }}
         </span>
 

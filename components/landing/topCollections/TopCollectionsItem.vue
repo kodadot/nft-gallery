@@ -3,7 +3,7 @@
     <div
       class="top-collections-item py-2 flex items-center justify-between cursor-pointer">
       <div class="flex items-center">
-        <div class="p-4 has-text-weight-bold">
+        <div class="p-4 font-bold">
           {{ index }}
         </div>
         <div>
@@ -13,7 +13,7 @@
             :src="collection.image || placeholder" />
         </div>
         <div class="px-2 flex flex-col">
-          <div class="has-text-weight-bold whitespace-nowrap">
+          <div class="font-bold whitespace-nowrap">
             {{ truncateStr(collection.name, 12) }}
           </div>
           <div class="flex justify-start">

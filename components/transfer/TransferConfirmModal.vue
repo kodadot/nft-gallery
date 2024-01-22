@@ -15,9 +15,7 @@
 
     <template #body>
       <div class="flex justify-between items-center py-4">
-        <span class="has-text-weight-bold is-size-6">{{
-          $t('activity.network')
-        }}</span>
+        <span class="font-bold is-size-6">{{ $t('activity.network') }}</span>
         <span class="flex items-center">
           <img class="mr-2 image is-24x24" :src="tokenIcon" alt="token" />
           {{ network }}
@@ -25,7 +23,7 @@
       </div>
 
       <div class="flex justify-between items-center py-4 border-t-k-shade">
-        <span class="has-text-weight-bold is-size-6 capitalize">{{
+        <span class="font-bold is-size-6 capitalize">{{
           $t('general.from')
         }}</span>
         <span class="flex items-center">
@@ -37,9 +35,7 @@
       </div>
 
       <div class="flex justify-between items-center py-4 border-t-k-shade">
-        <span class="has-text-weight-bold is-size-6">{{
-          $t('transfers.sendTo')
-        }}</span>
+        <span class="font-bold is-size-6">{{ $t('transfers.sendTo') }}</span>
         <div v-if="targetAddresses.length === 1" class="flex items-center">
           <Avatar :value="targetAddresses[0].address" :size="24" />
           <span class="mx-2 is-size-6">
@@ -107,16 +103,14 @@
 
     <template #footer>
       <div class="flex justify-between items-center mb-3">
-        <span class="has-text-weight-bold is-size-6">{{
+        <span class="font-bold is-size-6">{{
           $t('transfers.totalAmount')
         }}</span>
         <div class="flex items-center">
           <span class="text-k-grey mr-1 text-xs"
             >({{ displayTotalValue[0] }})</span
           >
-          <span class="has-text-weight-bold is-size-5">
-            {{ displayTotalValue[1] }}</span
-          >
+          <span class="font-bold is-size-5"> {{ displayTotalValue[1] }}</span>
         </div>
       </div>
 

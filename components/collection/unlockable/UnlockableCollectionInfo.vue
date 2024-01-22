@@ -2,9 +2,7 @@
   <div class="flex justify-between mobile-flex-direction-column">
     <div class="flex flex-col flex-grow max-width">
       <div class="flex justify-between mb-2">
-        <div class="mr-2 has-text-weight-bold is-size-5 mb-1">
-          About Collection
-        </div>
+        <div class="mr-2 font-bold is-size-5 mb-1">About Collection</div>
         <HeroButtons class="is-hidden-tablet" />
       </div>
       <div class="overflow-wrap">
