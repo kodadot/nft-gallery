@@ -70,7 +70,6 @@ const props = withDefaults(
   },
 )
 
-const listingCartStore = useListingCartStore()
 const preferencesStore = usePreferencesStore()
 
 const { $i18n } = useNuxtApp()
@@ -145,7 +144,6 @@ const {
   isLoading,
   isWalletConnecting,
   mintedNft,
-  mintedNftWithMetadata,
   canListMintedNft,
   userMintedNftId,
   preSubmitMint,
@@ -244,8 +242,6 @@ const handleList = async () => {
 
 const clear = () => {
   isConfirmModalActive.value = false
-  preferencesStore.listingCartModalOpen = false
-  listingCartStore.removeItem(mintedNftWithMetadata.value?.id)
 }
 
 const handleDropAddModalConfirm = () => {

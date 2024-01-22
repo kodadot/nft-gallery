@@ -24,9 +24,10 @@ export enum PhaseType {
   PAID = 'paid',
 }
 
-export type DropPhase = {
+export type DropPhaseConfig = {
   type: PhaseType
-  amount?: number
+  amount: number
+  name?: string
 }
 
 export type MintPhase = {

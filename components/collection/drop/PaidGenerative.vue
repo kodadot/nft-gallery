@@ -8,12 +8,11 @@
     :is-image-fetching="isImageFetching"
     :is-loading="isLoading"
     :minimum-funds="minimumFundsProps"
-    :max-count="maxCount"
-    :minted-count="mintedCount"
     :mint-count-available="mintCountAvailable"
     :mint-button="mintButtonProps"
     :handle-select-image="handleSelectImage"
-    :handle-submit-mint="handleSubmitMint" />
+    :handle-submit-mint="handleSubmitMint"
+    :mint-phases="mintPhases" />
 
   <CollectionDropModalPaidMint
     v-model="isMintModalActive"
@@ -43,9 +42,11 @@ import useGenerativeDropMint, {
 } from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
 import usePaidDropMint from '@/composables/drop/usePaidDropMint'
+import useDropPhases from '@/composables/drop/useDropPhases'
 import { formatAmountWithRound } from '@/utils/format/balance'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
+import { PhaseType } from './types'
 
 export type ToMintNft = {
   name: string
@@ -158,6 +159,12 @@ const {
   collectionData,
   defaultMax,
   mintedDropCount,
+})
+
+const { mintPhases } = useDropPhases({
+  phases: PhaseType.PAID,
+  maxCount,
+  mintedCount,
 })
 
 const openMintModal = () => {

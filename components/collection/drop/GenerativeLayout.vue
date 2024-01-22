@@ -85,7 +85,6 @@ withDefaults(
   {
     description: '',
     userMintedNftId: undefined,
-    mintPhases: () => [],
   },
 )
 

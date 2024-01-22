@@ -1,4 +1,7 @@
-import { type DropPhase, PhaseType } from '@/components/collection/drop/types'
+import {
+  type DropPhaseConfig,
+  PhaseType,
+} from '@/components/collection/drop/types'
 
 export const DEFAULT_DROP = {
   alias: 'cpu',
@@ -33,13 +36,15 @@ export const AHP_GENERATIVE_DROPS = [
   '38', // Generativ Art - Pare1d0scope
 ]
 
-export const DROP_PHASES: Record<string, DropPhase[]> = {
+export const DROP_PHASES: Record<string, DropPhaseConfig[]> = {
   flatwhite: [
     {
+      name: 'mint.unlockable.privateMint',
       type: PhaseType.HOLDER_OF,
       amount: 512,
     },
     {
+      name: 'mint.unlockable.publicMint',
       type: PhaseType.PAID,
       amount: 512,
     },

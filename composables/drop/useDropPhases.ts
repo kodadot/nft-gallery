@@ -1,8 +1,11 @@
-import { type DropPhase } from '@/components/collection/drop/types'
+import {
+  type DropPhaseConfig,
+  PhaseType,
+} from '@/components/collection/drop/types'
 import { MintPhase } from '@/components/collection/drop/types'
 
 type DropPhaseParams = {
-  phases: DropPhase[]
+  phases: DropPhaseConfig[] | PhaseType
   maxCount: Ref<number>
   mintedCount: Ref<number>
 }
@@ -10,12 +13,13 @@ type DropPhaseParams = {
 export default ({ phases, maxCount, mintedCount }: DropPhaseParams) => {
   const { $i18n } = useNuxtApp()
 
+  const x: DropPhaseConfig[] = Array.isArray(phases)
+    ? phases
+    : [{ type: phases, amount: maxCount.value }]
+
   const mintPhases = computed(() =>
-    phases.map((phase, index) => {
-      const name =
-        index === 0
-          ? $i18n.t('mint.unlockable.privateMint')
-          : $i18n.t('mint.unlockable.publicMint')
+    x.map((phase, index) => {
+      const name = phase.name ? $i18n.t(phase.name) : undefined
 
       const phaseMax = phase.amount || maxCount.value
       const phaseMinted = new Array(maxCount.value)

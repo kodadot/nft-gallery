@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import type { HolderOfCollectionProp } from '../HolderOfGenerative.vue'
+import type { HolderOfCollectionProp } from '../types'
 import MintPhase from './MintPhase/MintPhase.vue'
 import {
   MinimumFundsProp,
@@ -50,13 +50,12 @@ const props = withDefaults(
     isLoading: boolean
     userMintedNftId?: string
     collectionId: string
+    mintPhases: MintPhaseType[]
     availableToMint?: number
-    mintPhases?: MintPhaseType[]
     holderOfCollection?: HolderOfCollectionProp
   }>(),
   {
     userMintedNftId: undefined,
-    mintPhases: () => [],
   },
 )
 
@@ -70,9 +69,8 @@ const phases = computed(() =>
   props.mintPhases.map((phase, index) => {
     const prevMintPhase = props.mintPhases[index - 1] || null
 
-    const title = phase.name || $i18n.t('mint.unlockable.phase')
+    const name = phase.name || $i18n.t('mint.unlockable.phase')
     let subtitle = ''
-
     let state = MintPhaseState.OPEN
 
     if (prevMintPhase && !prevMintPhase.mintedOut) {
@@ -87,7 +85,7 @@ const phases = computed(() =>
 
     return {
       ...phase,
-      title: title,
+      name: name,
       subtitle: subtitle,
       state: state,
       isLast: index + 1 === props.mintPhases.length,

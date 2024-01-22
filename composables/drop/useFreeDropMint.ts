@@ -110,7 +110,6 @@ export default ({
     isLoading,
     isWalletConnecting,
     mintedNft,
-    mintedNftWithMetadata,
     canListMintedNft,
     userMintedNftId,
     preSubmitMint,
