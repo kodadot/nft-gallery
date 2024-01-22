@@ -38,7 +38,7 @@ module.exports = {
     'no-useless-catch': 1,
     'no-var': 'error',
     'linebreak-style': 0,
-    quotes: ['error', 'single'],
+    quotes: ['error', 'single', { avoidEscape: true }],
     semi: ['error', 'never'],
     'max-classes-per-file': ['error', 2],
     'sort-imports': [
