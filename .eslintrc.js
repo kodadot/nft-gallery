@@ -18,7 +18,12 @@ module.exports = {
   },
   plugins: ['prettier', '@typescript-eslint', 'unicorn'],
   rules: {
-    'prettier/prettier': 'error',
+    'prettier/prettier': [
+      'warn',
+      {
+        singleQuote: true,
+      },
+    ],
     'no-empty-function': 'warn',
     'no-trailing-spaces': 'error',
     'unicorn/no-for-loop': 'error',
@@ -38,7 +43,7 @@ module.exports = {
     'no-useless-catch': 1,
     'no-var': 'error',
     'linebreak-style': 0,
-    quotes: ['error', 'single'],
+    quotes: ['error', 'single', { avoidEscape: true }],
     semi: ['error', 'never'],
     'max-classes-per-file': ['error', 2],
     'sort-imports': [
