@@ -150,11 +150,13 @@ const vApplySmoothing = useVModel(props, 'applySmoothing', emit)
 const heightStyle = computed(() =>
   props.chartHeight ? `height: ${props.chartHeight}` : '',
 )
-let chart = ref<InstanceType<typeof ChartJS> | null>(null)
+
+const chart = ref<{ chart: InstanceType<typeof ChartJS> } | null>(null)
 
 const onWindowResize = () => {
-  chart.value?.resize()
+  chart.value?.chart.resize()
 }
+
 useEventListener(window, 'resize', onWindowResize)
 
 const lineColor = computed(() => (isDarkMode.value ? '#fff' : '#181717'))

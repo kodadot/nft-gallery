@@ -12,7 +12,7 @@
     </div>
     <div class="flex items-center">
       <NeoSkeleton v-if="!isReady" height="15" no-margin width="80" />
-      <nuxt-link v-else class="has-text-weight-bold" :to="to">
+      <nuxt-link v-else class="font-bold" :to="to">
         {{ actionText }}
       </nuxt-link>
     </div>

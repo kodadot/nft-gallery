@@ -8,7 +8,7 @@
       </div>
       <div class="pt-4">
         <div>
-          <span class="has-text-weight-bold"> • {{ numNfts }} NFTs </span>
+          <span class="font-bold"> • {{ numNfts }} NFTs </span>
           {{ $t('massmint.willBeMinted') }}
 
           <div

@@ -2,27 +2,25 @@
   <section class="terms mb-5">
     <h1 class="title is-1 mb-4">TERMS OF SERVICE</h1>
 
-    <p class="has-text-weight-bold mb-4">Last updated September 01, 2023</p>
+    <p class="font-bold mb-4">Last updated September 01, 2023</p>
 
     <h2 class="title is-4 mb-4">AGREEMENT TO OUR LEGAL TERMS</h2>
 
     <p class="mb-4">
-      We are GenArt, Matej Nemček s.p. ("<span class="has-text-weight-bold"
-        >Company</span
-      >," "<span class="has-text-weight-bold">we</span>," "<span
-        class="has-text-weight-bold"
-        >us</span
-      >," "<span class="has-text-weight-bold">our</span>"), a company registered
-      in Slovenia at Proletarska cesta 4, Ljubljana 1000. Our VAT number is
+      We are GenArt, Matej Nemček s.p. ("<span class="font-bold">Company</span
+      >," "<span class="font-bold">we</span>," "<span class="font-bold">us</span
+      >," "<span class="font-bold">our</span>"), a company registered in
+      Slovenia at Proletarska cesta 4, Ljubljana 1000. Our VAT number is
       SI83616110.
     </p>
 
     <p class="mb-4">
       We operate the website <nuxt-link to="/">kodadot.xyz</nuxt-link> (the
-      "<span class="has-text-weight-bold">Site</span>"), as well as any other
-      related products and services that refer or link to these legal terms (the
-      "<span class="has-text-weight-bold">Legal Terms</span>") (collectively,
-      the "<span class="has-text-weight-bold">Services</span>").
+      "<span class="font-bold">Site</span>"), as well as any other related
+      products and services that refer or link to these legal terms (the "<span
+        class="font-bold"
+        >Legal Terms</span
+      >") (collectively, the "<span class="font-bold">Services</span>").
     </p>
 
     <p class="mb-4">KodaDot - Creators Marketplace</p>
@@ -35,8 +33,7 @@
 
     <p class="mb-4">
       These Legal Terms constitute a legally binding agreement made between you,
-      whether personally or on behalf of an entity ("<span
-        class="has-text-weight-bold"
+      whether personally or on behalf of an entity ("<span class="font-bold"
         >you</span
       >"), and GenArt, Matej Nemček s.p., concerning your access to and use of
       the Services. You agree that by accessing the Services, you have read,
@@ -176,7 +173,7 @@
 
     <div id="ip" class="mb-2">
       <h2 class="title is-4 mb-4">2. INTELLECTUAL PROPERTY RIGHTS</h2>
-      <p class="has-text-weight-bold mb-4">Our intellectual property</p>
+      <p class="font-bold mb-4">Our intellectual property</p>
 
       <p class="mb-4">
         We are the owner or the licensee of all intellectual property rights in
@@ -197,7 +194,7 @@
         for your personal, non-commercial use only.
       </p>
 
-      <p class="has-text-weight-bold mb-4">Your use of our Services</p>
+      <p class="font-bold mb-4">Your use of our Services</p>
 
       <p class="mb-4">
         Subject to your compliance with these Legal Terms, including the
@@ -248,9 +245,7 @@
         will terminate immediately.
       </p>
 
-      <p class="has-text-weight-bold mb-4">
-        Your submissions and contributions
-      </p>
+      <p class="font-bold mb-4">Your submissions and contributions</p>
 
       <p class="mb-4">
         Please review this section and the "<nuxt-link to="#prohibited"
@@ -261,25 +256,25 @@
       </p>
 
       <p class="mb-4">
-        <span class="has-text-weight-bold">Submissions:</span> By directly
-        sending us any question, comment, suggestion, idea, feedback, or other
-        information about the Services ("Submissions"), you agree to assign to
-        us all intellectual property rights in such Submission. You agree that
-        we shall own this Submission and be entitled to its unrestricted use and
+        <span class="font-bold">Submissions:</span> By directly sending us any
+        question, comment, suggestion, idea, feedback, or other information
+        about the Services ("Submissions"), you agree to assign to us all
+        intellectual property rights in such Submission. You agree that we shall
+        own this Submission and be entitled to its unrestricted use and
         dissemination for any lawful purpose, commercial or otherwise, without
         acknowledgment or compensation to you.
       </p>
 
       <p class="mb-4">
-        <span class="has-text-weight-bold">Contributions:</span> The Services
-        may invite you to chat, contribute to, or participate in blogs, message
-        boards, online forums, and other functionality during which you may
-        create, submit, post, display, transmit, publish, distribute, or
-        broadcast content and materials to us or through the Services, including
-        but not limited to text, writings, video, audio, photographs, music,
-        graphics, comments, reviews, rating suggestions, personal information,
-        or other material ("Contributions"). Any Submission that is publicly
-        posted shall also be treated as a Contribution.
+        <span class="font-bold">Contributions:</span> The Services may invite
+        you to chat, contribute to, or participate in blogs, message boards,
+        online forums, and other functionality during which you may create,
+        submit, post, display, transmit, publish, distribute, or broadcast
+        content and materials to us or through the Services, including but not
+        limited to text, writings, video, audio, photographs, music, graphics,
+        comments, reviews, rating suggestions, personal information, or other
+        material ("Contributions"). Any Submission that is publicly posted shall
+        also be treated as a Contribution.
       </p>
 
       <p class="mb-4">
@@ -288,7 +283,7 @@
       </p>
 
       <p class="mb-4">
-        <span class="has-text-weight-bold"
+        <span class="font-bold"
           >When you post Contributions, you grant us a license (including use of
           your name, trademarks, and logos):</span
         >
@@ -312,7 +307,7 @@
       </p>
 
       <p class="mb-4">
-        <span class="has-text-weight-bold"
+        <span class="font-bold"
           >You are responsible for what you post or upload:</span
         >
         By sending us Submissions and/or posting Contributions through any part
@@ -357,9 +352,7 @@
       </p>
 
       <p class="mb-4">
-        <span class="has-text-weight-bold"
-          >We may remove or edit your Content:</span
-        >
+        <span class="font-bold">We may remove or edit your Content:</span>
         Although we have no obligation to monitor any Contributions, we shall
         have the right to remove or edit any Contributions at any time without
         notice if in our reasonable opinion we consider such Contributions
@@ -368,7 +361,7 @@
         you to the authorities.
       </p>
 
-      <p class="has-text-weight-bold mb-4">Copyright infringement</p>
+      <p class="font-bold mb-4">Copyright infringement</p>
 
       <p class="mb-4">
         We respect the intellectual property rights of others. If you believe
@@ -942,7 +935,7 @@
 
     <div id="disputes" class="mb-2">
       <h2 class="title is-4 mb-4">19. DISPUTE RESOLUTION</h2>
-      <p class="has-text-weight-bold mb-4">Informal Negotiations</p>
+      <p class="font-bold mb-4">Informal Negotiations</p>
       <p class="mb-4">
         To expedite resolution and control the cost of any dispute, controversy,
         or claim related to these Legal Terms (each a "Dispute" and
@@ -954,7 +947,7 @@
         notice from one Party to the other Party.
       </p>
 
-      <p class="has-text-weight-bold mb-4">Binding Arbitration</p>
+      <p class="font-bold mb-4">Binding Arbitration</p>
       <p class="mb-4">
         Any dispute arising from the relationships between the Parties to these
         Legal Terms shall be determined by one arbitrator who will be chosen in
@@ -967,7 +960,7 @@
         Applicable rules of substantive law shall be the law of Liechtenstein.
       </p>
 
-      <p class="has-text-weight-bold mb-4">Restrictions</p>
+      <p class="font-bold mb-4">Restrictions</p>
       <p class="mb-4">
         The Parties agree that any arbitration shall be limited to the Dispute
         between the Parties individually. To the full extent by law, (a) no
@@ -978,7 +971,7 @@
         capacity on behalf of the general public or any other persons.
       </p>
 
-      <p class="has-text-weight-bold mb-4">
+      <p class="font-bold mb-4">
         Exceptions to Informal Negotiations and Arbitration
       </p>
       <p class="mb-4">
@@ -1163,10 +1156,10 @@
         further information regarding use of the Services, please contact us at:
       </p>
 
-      <p class="has-text-weight-bold mb-4">GenArt, Matej Nemček s.p.</p>
-      <p class="has-text-weight-bold mb-4">Proletarska cesta 4</p>
-      <p class="has-text-weight-bold mb-4">Ljubljana 1000</p>
-      <p class="has-text-weight-bold mb-4">Slovenia</p>
+      <p class="font-bold mb-4">GenArt, Matej Nemček s.p.</p>
+      <p class="font-bold mb-4">Proletarska cesta 4</p>
+      <p class="font-bold mb-4">Ljubljana 1000</p>
+      <p class="font-bold mb-4">Slovenia</p>
     </div>
   </section>
 </template>

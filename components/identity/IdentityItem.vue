@@ -2,7 +2,7 @@
   <div class="flex items-center">
     <Avatar :size="48" :value="account" />
     <div v-if="variant === 'button'" class="identity-item-button pl-3">
-      <div class="has-text-weight-bold identity-item-button-label mb-1">
+      <div class="font-bold identity-item-button-label mb-1">
         {{ label }}
       </div>
       <NeoButton
@@ -22,7 +22,7 @@
       </div>
       <component
         :is="disableIdentityLink ? 'div' : NuxtLink"
-        class="identity-name has-text-weight-bold"
+        class="identity-name font-bold"
         :to="`/${prefix}/u/${account}`">
         <Identity
           :address="account"

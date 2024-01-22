@@ -34,7 +34,7 @@
           position="top"
           multiline
           class="is-max-width-fit-content">
-          <p class="capitalize has-text-weight-bold">
+          <p class="capitalize font-bold">
             {{ step.title }}
             <NeoIcon
               icon="fa-info-circle"
@@ -46,7 +46,7 @@
             <span v-dompurify-html="step.tooltip" class="capitalize" />
           </template>
         </NeoTooltip>
-        <p v-else class="capitalize has-text-weight-bold">
+        <p v-else class="capitalize font-bold">
           {{ step.title }}
         </p>
         <div class="flex items-center">

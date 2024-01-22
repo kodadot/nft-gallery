@@ -30,7 +30,7 @@
       {{ $t('confirmPurchase.youWillPay') }}:
       <div class="flex">
         <CommonTokenMoney :value="toMintNft.price" class="text-k-grey" />
-        <span class="has-text-weight-bold ml-2">
+        <span class="font-bold ml-2">
           {{ toMintNft.priceUSD }}
         </span>
       </div>
