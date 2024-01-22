@@ -50,9 +50,13 @@
 
 <script setup lang="ts">
 import { NeoCollapse, NeoIcon } from '@kodadot1/brick'
-import type { HolderOfCollectionProp } from '../../HolderOfGenerative.vue'
 import MintPhaseHeader from './MintPhaseHeader.vue'
-import { MinimumFundsProp, MintPhaseState, PhaseType } from '../../types'
+import {
+  HolderOfCollectionProp,
+  MinimumFundsProp,
+  MintPhaseState,
+  PhaseType,
+} from '../../types'
 import MintPhaseBody from './MintPhaseBody.vue'
 
 const emit = defineEmits(['mint'])

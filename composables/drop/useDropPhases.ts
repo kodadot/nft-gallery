@@ -13,12 +13,12 @@ type DropPhaseParams = {
 export default ({ phases, maxCount, mintedCount }: DropPhaseParams) => {
   const { $i18n } = useNuxtApp()
 
-  const x: DropPhaseConfig[] = Array.isArray(phases)
+  const dropPhases: DropPhaseConfig[] = Array.isArray(phases)
     ? phases
     : [{ type: phases, amount: maxCount.value }]
 
   const mintPhases = computed(() =>
-    x.map((phase, index) => {
+    dropPhases.map((phase, index) => {
       const name = phase.name ? $i18n.t(phase.name) : undefined
 
       const phaseMax = phase.amount || maxCount.value

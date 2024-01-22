@@ -11,12 +11,11 @@
     :is-image-fetching="isImageFetching"
     :is-loading="isLoading"
     :minimum-funds="minimumFundsProps"
-    :max-count="maxCount"
-    :minted-count="mintedCount"
     :mint-count-available="mintCountAvailable"
     :mint-button="mintButtonProps"
     :handle-select-image="handleSelectImage"
-    :handle-submit-mint="handleSubmitMint" />
+    :handle-submit-mint="handleSubmitMint"
+    :mint-phases="mintPhases" />
 
   <CollectionDropAddFundsModal
     v-model="isAddFundModalActive"
@@ -38,6 +37,8 @@ import useGenerativeDropMint, {
 } from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
 import useHolderOfCollectionDropMint from '@/composables/drop/useHolderOfCollectionDropMint'
+import useDropPhases from '@/composables/drop/useDropPhases'
+import { PhaseType } from './types'
 
 const props = withDefaults(
   defineProps<{
@@ -122,6 +123,12 @@ const {
   collectionData,
   defaultMax,
   mintedDropCount,
+})
+
+const { mintPhases } = useDropPhases({
+  phases: PhaseType.HOLDER_OF,
+  maxCount,
+  mintedCount,
 })
 
 const {

@@ -5,13 +5,12 @@
     :is-image-fetching="isImageFetching"
     :is-loading="isLoading"
     :minimum-funds="minimumFundsProps"
-    :max-count="maxCount"
-    :minted-count="mintedCount"
     :mint-count-available="mintCountAvailable || !disabledByBackend"
     :mint-button="mintButtonProps"
     :collection-id="collectionId"
     :description="description"
     :drop="drop"
+    :mint-phases="mintPhases"
     :handle-select-image="handleSelectImage"
     :handle-submit-mint="handleSubmitMint" />
 
@@ -56,8 +55,9 @@ import useGenerativeDropMint, {
 } from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropNewsletter from '@/composables/drop/useGenerativeDropNewsletter'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
+import useDropPhases from '@/composables/drop/useDropPhases'
 import useFreeDropMint from '@/composables/drop/useFreeDropMint'
-import { MinimumFundsProp, MintButtonProp } from './types'
+import { MinimumFundsProp, MintButtonProp, PhaseType } from './types'
 
 const MINTING_SECOND = 120
 
@@ -138,6 +138,12 @@ const {
   collectionData,
   defaultMax,
   mintedDropCount,
+})
+
+const { mintPhases } = useDropPhases({
+  phases: PhaseType.FREE,
+  maxCount,
+  mintedCount,
 })
 
 const {

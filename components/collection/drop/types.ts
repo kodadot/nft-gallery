@@ -21,6 +21,7 @@ export type MintButtonProp = {
 
 export enum PhaseType {
   HOLDER_OF = 'holder_of',
+  FREE = 'free',
   PAID = 'paid',
 }
 
