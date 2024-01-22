@@ -26,21 +26,11 @@ main {
 }
 
 body {
-  @include ktheme() {
-    color: theme('text-color');
-  }
+
+  @apply text-text-color;
 
   a {
-    @include ktheme() {
-      &:not(.text-k-grey) {
-        color: theme('text-color');
-      }
-    }
-    &:hover {
-      @include ktheme() {
-        color: theme('link-hover');
-      }
-    }
+    @apply text-text-color hover:text-link-hover;
   }
 
   strong,
