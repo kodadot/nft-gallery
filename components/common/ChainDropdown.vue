@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NeoDropdown :position="position" :mobile-modal="mobileModal">
+    <NeoDropdown :position="position">
       <template #trigger="{ active }">
         <NeoButton
           class="chain-dropdown-text"
@@ -31,9 +31,8 @@ import { type Prefix } from '@kodadot1/static'
 const props = withDefaults(
   defineProps<{
     showNetworkLabel: boolean
-    position?: 'bottom-left'
+    position?: 'bottom-auto'
     redirect?: boolean
-    mobileModal?: boolean
     exclude: Prefix[]
   }>(),
   {

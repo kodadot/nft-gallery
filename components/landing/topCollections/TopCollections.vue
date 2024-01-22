@@ -13,11 +13,10 @@
       </div>
       <div class="pt-2">
         <ChainDropdown
-          position="bottom-left"
+          position="bottom-auto"
           :show-network-label="false"
           :redirect="false"
-          :exclude="['ksm']"
-          mobile-modal />
+          :exclude="['ksm']" />
       </div>
     </div>
 
