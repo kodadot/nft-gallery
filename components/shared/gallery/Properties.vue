@@ -7,7 +7,7 @@
         class="column is-half-mobile is-half-tablet is-one-third-desktop is-one-quarter-fullhd">
         <div class="notification is-primary is-light">
           <div
-            class="text-xs text-k-grey-lighter is-uppercase properties-attribute-key">
+            class="text-xs text-k-grey-lighter uppercase properties-attribute-key">
             {{ attribute[fieldKey] === 'undefined' ? '' : attribute[fieldKey] }}
           </div>
           <div class="text-xs has-text-white">{{ attribute.value }}</div>
