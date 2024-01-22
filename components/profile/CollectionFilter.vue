@@ -2,7 +2,7 @@
   <NeoDropdown
     v-model="checked"
     :disabled="isDisabled"
-    :y-scrollable="collections.length > 4"
+    :scrollable="collections.length > 4"
     class="py-0"
     :mobile-modal="true"
     :close-on-click="false"

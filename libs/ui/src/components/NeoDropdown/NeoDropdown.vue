@@ -8,10 +8,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    yScrollable: {
-      type: Boolean,
-      default: false,
-    },
     noShadow: {
       type: Boolean,
       default: false,
@@ -78,7 +74,7 @@ export default {
           [this.computedClass(
             'menuScrollableClass',
             'o-drop__menu--scrollable',
-          )]: this.yScrollable,
+          )]: this.scrollable,
         },
       ]
     },

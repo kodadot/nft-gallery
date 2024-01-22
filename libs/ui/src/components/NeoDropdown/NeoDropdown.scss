@@ -41,6 +41,6 @@ $dropdown-item-hover-background-color: var(--k-accent-hover);
   }
 
   &.o-drop__menu--scrollable {
-   @apply  max-h-[15rem] overflow-y-auto;
+   @apply  max-h-[15rem] overflow-y-auto #{!important};
   }
 }
