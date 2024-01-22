@@ -31,7 +31,7 @@ import { type Prefix } from '@kodadot1/static'
 const props = withDefaults(
   defineProps<{
     showNetworkLabel: boolean
-    position?: 'bottom-left' | 'bottom-right'
+    position?: 'bottom-auto'
     redirect?: boolean
     exclude: Prefix[]
   }>(),

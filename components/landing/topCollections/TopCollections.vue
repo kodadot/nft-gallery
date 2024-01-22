@@ -13,7 +13,7 @@
       </div>
       <div class="pt-2">
         <ChainDropdown
-          :position="isMobile ? 'bottom-right' : 'bottom-left'"
+          position="bottom-auto"
           :show-network-label="false"
           :redirect="false"
           :exclude="['ksm']" />
@@ -69,7 +69,6 @@ import { useFiatStore } from '@/stores/fiat'
 
 const { urlPrefix } = usePrefix()
 const fiatStore = useFiatStore()
-const { isMobile } = useViewport()
 
 const limit = 12
 const { data, loading } = useTopCollections(limit)
