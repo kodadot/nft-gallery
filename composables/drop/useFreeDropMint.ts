@@ -1,22 +1,17 @@
-import useGenerativeDropSubmit from '@/composables/drop/useGenerativeDropSubmit'
-import { DropMintedStatus } from '@/services/waifu'
+import useGenerativeDropSubmit, {
+  type GenerativeDropMintParams,
+} from '@/composables/drop/useGenerativeDropSubmit'
 import { createUnlockableMetadata } from '@/components/collection/unlockable/utils'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
-import { ImageDataPayload } from './useGenerativeDropMint'
 import { doWaifu } from '@/services/waifu'
 
 type FreeDropMintParams = {
-  defaultImage: Ref<string>
-  collectionId: Ref<string>
-  currentAccountMintedToken: Ref<DropMintedStatus | null>
   description: Ref<string | undefined>
   defaultName: Ref<string | undefined>
   collectionName: Ref<string | undefined>
   dropAlias: string
-  imageDataPayload: Ref<ImageDataPayload | undefined>
-  selectedImage: Ref<string>
   fetchDropStatus: () => Promise<void>
-}
+} & GenerativeDropMintParams
 
 export default ({
   defaultImage,
