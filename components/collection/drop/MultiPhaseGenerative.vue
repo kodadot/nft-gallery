@@ -16,6 +16,7 @@
     :mint-phases="mintPhases" />
 
   <CollectionDropHolderOfGenerativeSection
+    v-if="hasHolderOfPhase"
     ref="holderOfDrop"
     :selected-image="selectedImage"
     :collection-data="collectionData"
@@ -109,6 +110,11 @@ const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
 const paidDrop = ref()
 const holderOfDrop = ref()
 
+const phaseRefs: Partial<Record<PhaseType, Ref>> = {
+  [PhaseType.HOLDER_OF]: holderOfDrop,
+  [PhaseType.PAID]: paidDrop,
+}
+
 const activeMintPhase = computed<Ref | null>(
   () => phaseRefs[activePhase.value?.type] || null,
 )
@@ -141,13 +147,12 @@ const userMintedNftId = computed(
 )
 const isLoading = computed(() => activeMintPhase.value?.value?.isLoading)
 
-const phaseRefs: Partial<Record<PhaseType, Ref>> = {
-  holder_of: holderOfDrop,
-  paid: paidDrop,
-}
-
 const holderOfCollection = computed(
   () => holderOfDrop.value?.holderOfCollection,
+)
+
+const hasHolderOfPhase = computed(() =>
+  mintPhases.value.map((phase) => phase.type).includes(PhaseType.HOLDER_OF),
 )
 
 const { data: collectionData } = await useAsyncData(

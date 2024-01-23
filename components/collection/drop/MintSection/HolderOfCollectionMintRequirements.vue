@@ -90,7 +90,7 @@
 import MintRequirementItem from './MintRequirementItem.vue'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
-import type { HolderOfCollectionProp } from '../HolderOfGenerative.vue'
+import type { HolderOfCollectionProp } from '../types'
 
 const props = defineProps<{
   holderOfCollection: HolderOfCollectionProp
