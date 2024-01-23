@@ -126,6 +126,10 @@ export default ({
         items: string
       }
 
+      const ownedNftToUse = holderOfCollectionData.value?.nftEntities?.at(
+        mintedAmountForCurrentUser.value,
+      )
+
       initTransactionLoader()
       const cb = api.tx.utility.batchAll
       const mint = api.tx.nfts.mint(
@@ -133,9 +137,7 @@ export default ({
         collectionRes.items,
         accountId.value,
         {
-          ownedItem: holderOfCollectionData.value?.nftEntities?.at(
-            mintedAmountForCurrentUser.value,
-          ).sn,
+          ownedItem: ownedNftToUse.sn,
           mintPrice: null,
         },
       )
