@@ -6,7 +6,7 @@
     :class="{ 'fluid-padding-left': fluidPadding }">
     <template #trigger="{ open }">
       <div class="flex" role="button" :aria-expanded="open">
-        <p class="card-header-title has-text-weight-normal">Event Type</p>
+        <p class="card-header-title font-normal">Event Type</p>
         <a class="card-header-icon">
           <NeoIcon :icon="open ? 'minus' : 'plus'" />
         </a>
@@ -17,13 +17,6 @@
         <NeoCheckbox v-model="sale" data-testid="event-checkbox-filter-sale">{{
           $t('filters.sale')
         }}</NeoCheckbox>
-      </NeoField>
-      <NeoField>
-        <NeoCheckbox
-          v-model="offer"
-          data-testid="event-checkbox-filter-offer"
-          >{{ $t('filters.offer') }}</NeoCheckbox
-        >
       </NeoField>
       <NeoField>
         <NeoCheckbox
@@ -82,17 +75,6 @@ const sale =
     : computed({
         get: () => activityFiltersStore.getEventTypeFilters.sale,
         set: (value) => activityFiltersStore.setSale(value),
-      })
-
-const offer =
-  props.dataModel === 'query'
-    ? computed({
-        get: () => route.query?.offer?.toString() === 'true',
-        set: (value) => applyToUrl({ offer: String(value) }),
-      })
-    : computed({
-        get: () => activityFiltersStore.getEventTypeFilters.offer,
-        set: (value) => activityFiltersStore.setOffer(value),
       })
 
 const listing =

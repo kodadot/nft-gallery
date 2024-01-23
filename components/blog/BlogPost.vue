@@ -48,9 +48,14 @@ import { URLS } from '@/utils/constants'
 const route = useRoute()
 const slug = route.params.slug
 
-const { data: post } = await useAsyncData('post', () =>
-  queryContent(`/blog/${slug}`).findOne(),
-)
+const compatiblePostName = (originalName: string) => {
+  // eslint-disable-next-line quotes
+  return originalName.replaceAll("'", '').replaceAll('%27', '').toLowerCase()
+}
+
+const { data: post } = await useAsyncData('post', () => {
+  return queryContent(`/blog/${compatiblePostName(String(slug))}`).findOne()
+})
 
 const openShareUrl = (platform: 'twitter' | 'linkedin') => {
   let shareUrl = ''

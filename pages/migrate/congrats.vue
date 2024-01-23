@@ -3,7 +3,7 @@
     <div class="is-centered columns">
       <div class="is-4-widescreen column">
         <img :src="congratsSrc" alt="Congratulations" class="w-full" />
-        <h1 class="is-size-3 has-text-weight-bold text-center">
+        <h1 class="is-size-3 font-bold text-center">
           {{ $t('migrate.congrats.title') }}
         </h1>
         <p class="text-center is-size-5">

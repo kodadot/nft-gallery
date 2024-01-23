@@ -19,7 +19,7 @@
 
           <div>
             <div class="flex justify-between items-center my-5">
-              <div class="has-text-weight-bold is-size-5">
+              <div class="font-bold is-size-5">
                 {{ $t('mint.unlockable.phase') }}
               </div>
               <span v-if="mintCountAvailable" class="flex items-center">
@@ -29,7 +29,7 @@
             </div>
             <div class="flex justify-between items-center">
               <span>{{ mintedPercent }} %</span
-              ><span class="has-text-weight-bold">
+              ><span class="font-bold">
                 {{ mintedCount }} / {{ totalCount }}
                 {{ $t('statsOverview.minted') }}</span
               >

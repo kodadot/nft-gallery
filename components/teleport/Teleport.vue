@@ -8,13 +8,13 @@
       :status="status"
       @try-again="teleport" />
 
-    <h1 class="is-size-3 has-text-weight-bold">
+    <h1 class="is-size-3 font-bold">
       {{ $t('teleport.page') }}
     </h1>
 
     <h2>{{ $t('teleport.subtitle') }}</h2>
     <a
-      class="text-k-grey"
+      class="!text-k-blue hover:!text-k-blue-hover"
       href="https://hello.kodadot.xyz/tutorial/teleport-bridge"
       >{{ $t('teleport.howItWorks') }}
     </a>
@@ -60,7 +60,7 @@
 
     <NeoField class="mt-5">
       <template #label>
-        <div class="has-text-weight-normal">{{ $t('teleport.amount') }}</div>
+        <div class="font-normal">{{ $t('teleport.amount') }}</div>
       </template>
 
       <div class="is-relative w-full">
@@ -132,7 +132,7 @@
         v-safe-href="explorerUrl"
         target="_blank"
         rel="nofollow noopener noreferrer"
-        class="text-k-blue hover:text-k-blue-hover">
+        class="!text-k-blue hover:!text-k-blue-hover">
         {{ shortAddress(toAddress) }}
       </a>
       {{ $t('teleport.ownerMessage') }}

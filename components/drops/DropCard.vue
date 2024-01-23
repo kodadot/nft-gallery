@@ -27,7 +27,7 @@
         <div class="py-5 px-6">
           <div class="flex justify-between flex-direction column-gap">
             <div class="flex flex-col column-gap is-ellipsis">
-              <span class="has-text-weight-bold is-ellipsis">{{
+              <span class="font-bold is-ellipsis">{{
                 drop.collection.name
               }}</span>
               <div v-if="drop.collection.issuer" class="flex">

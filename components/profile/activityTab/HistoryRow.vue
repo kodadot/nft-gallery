@@ -13,7 +13,7 @@
         <nuxt-link
           class="is-ellipsis is-inline-block"
           :to="`/${urlPrefix}/gallery/${event.Item.id}`">
-          <span class="ml-5 has-text-weight-bold is-clipped">
+          <span class="ml-5 font-bold is-clipped">
             {{ event.Item.name }}
           </span>
         </nuxt-link>
@@ -91,7 +91,7 @@
         <nuxt-link
           class="is-ellipsis is-inline-block mobile-fixed-width"
           :to="`/${urlPrefix}/gallery/${event.Item.id}`">
-          <span class="has-text-weight-bold">
+          <span class="font-bold">
             {{ event.Item.name }}
           </span>
         </nuxt-link>

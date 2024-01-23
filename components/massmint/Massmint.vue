@@ -43,7 +43,7 @@
         @click="openReviewModal">
         <span class="is-size-5"
           >{{ $t('massmint.mintNFTs') }}
-          <span v-if="numOfValidNFTs" class="has-text-weight-bold">
+          <span v-if="numOfValidNFTs" class="font-bold">
             ({{ numOfValidNFTs }})
           </span>
         </span>

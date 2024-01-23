@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mt-5 has-text-weight-bold">
+    <div class="mt-5 font-bold">
       {{ $t('listingCart.setAllTo') }}
     </div>
 
