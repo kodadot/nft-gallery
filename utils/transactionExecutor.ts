@@ -36,7 +36,6 @@ const exec = async (
     const injector = await getAddress(toDefaultAddress(address))
 
     if (!injector) {
-      // eslint-disable-next-line quotes
       throw new Error("Oops! We can't find your wallet, please log in again.")
     }
 
