@@ -21,8 +21,8 @@ import ChainDropdown from '@/components/common/ChainDropdown.vue'
 
 const route = useRoute()
 
-const isActivityTab = computed(() =>
-  route.name?.toString().includes('prefix-collection-id-activity'),
+const isActivityTab = computed(
+  () => route.name?.toString().includes('prefix-collection-id-activity'),
 )
 </script>
 
