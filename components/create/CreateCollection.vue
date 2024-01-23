@@ -106,7 +106,7 @@
       </NeoField>
 
       <!-- royalty -->
-      <NeoField v-if="!isRmrk">
+      <NeoField v-if="isAssetHub">
         <RoyaltyForm
           v-model:amount="royalty.amount"
           v-model:address="royalty.address"
@@ -178,7 +178,6 @@ import type { Prefix } from '@kodadot1/static'
 import RoyaltyForm from '@/components/bsx/Create/RoyaltyForm.vue'
 import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import MintConfirmModal from '@/components/create/Confirm/MintConfirmModal.vue'
-import DropUpload from '@/components/shared/DropUpload.vue'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { availablePrefixes } from '@/utils/chain'
 import { notificationTypes, showNotification } from '@/utils/notification'
@@ -245,7 +244,7 @@ const currentChain = computed(() => {
   return selectBlockchain.value as Prefix
 })
 
-const { isAssetHub, isRemark, isRmrk } = useIsChain(currentChain)
+const { isAssetHub, isRemark } = useIsChain(currentChain)
 const { balance, totalCollectionDeposit, chainSymbol, chain } =
   useDeposit(currentChain)
 
