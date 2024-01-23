@@ -72,6 +72,7 @@ export default ({
   const {
     howAboutToExecute,
     isLoading: isTransactionLoading,
+    isCancelled: isTransactionCancelled,
     initTransactionLoader,
     status,
   } = useMetaTransaction()
@@ -117,6 +118,7 @@ export default ({
   const mintNft = async () => {
     try {
       isLoading.value = true
+      isTransactionCancelled.value = false
 
       const { apiInstance } = useApi()
       const api = await apiInstance.value
@@ -219,6 +221,12 @@ export default ({
   }
 
   watch(holderOfCollectionData, checkAvailableNfts, { immediate: true })
+
+  watch(isTransactionCancelled, (isCancelled) => {
+    if (isCancelled) {
+      isLoading.value = false
+    }
+  })
 
   return {
     maxMintLimitForCurrentUser,

@@ -21,6 +21,7 @@ function useMetaTransaction() {
   const { apiInstance } = useAPI()
   const tx = ref<ExecResult>()
   const isError = ref(false)
+  const isCancelled = ref(false)
 
   const howAboutToExecute = async (
     account: string,
@@ -71,8 +72,8 @@ function useMetaTransaction() {
 
   const onCatchError = (e) => {
     if (e instanceof Error) {
-      const isCancelled = e.message === 'Cancelled'
-      if (isCancelled) {
+      isCancelled.value = e.message === 'Cancelled'
+      if (isCancelled.value) {
         showNotification(
           $i18n.t('general.tx.cancelled'),
           notificationTypes.warn,
@@ -112,6 +113,7 @@ function useMetaTransaction() {
     isLoading,
     stopLoader,
     isError,
+    isCancelled,
   }
 }
 
