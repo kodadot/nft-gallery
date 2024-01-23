@@ -108,12 +108,33 @@ const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
 const paidDrop = ref()
 const holderOfDrop = ref()
 
-const isWalletConnecting = computed(
-  () => activeMintPhase.value?.isWalletConnecting,
+const activeMintPhase = computed<Ref | null>(
+  () => phaseRefs[activePhase.value?.type] || null,
 )
-const isImageFetching = computed(() => activeMintPhase.value?.isImageFetching)
-const userMintedNftId = computed(() => activeMintPhase.value?.userMintedNftId)
-const isLoading = computed(() => activeMintPhase.value?.isLoading)
+
+const mintButtonLabel = computed(() => {
+  return activeMintPhase.value?.value?.mintButtonProps?.label
+})
+
+const mintButtonDisabled = computed(
+  () => activeMintPhase.value?.value?.mintButtonProps?.disabled,
+)
+
+const mintButtonProps = computed<MintButtonProp>(() => ({
+  disabled: mintButtonDisabled.value,
+  label: mintButtonLabel.value,
+}))
+
+const isWalletConnecting = computed(
+  () => activeMintPhase.value?.value?.isWalletConnecting,
+)
+const isImageFetching = computed(
+  () => activeMintPhase.value?.value?.isImageFetching,
+)
+const userMintedNftId = computed(
+  () => activeMintPhase.value?.value?.userMintedNftId,
+)
+const isLoading = computed(() => activeMintPhase.value?.value?.isLoading)
 
 const phaseRefs: Partial<Record<PhaseType, Ref>> = {
   holder_of: holderOfDrop,
@@ -161,21 +182,6 @@ const { mintPhases, activePhase } = useDropPhases({
   maxCount,
   mintedCount,
 })
-
-const activeMintPhase = computed(() => phaseRefs[activePhase.value?.type])
-
-const mintButtonLabel = computed(() => {
-  return activeMintPhase.value?.mintButtonProps?.label
-})
-
-const mintButtonDisabled = computed(
-  () => activeMintPhase.value?.mintButtonProps?.disabled,
-)
-
-const mintButtonProps = computed<MintButtonProp>(() => ({
-  disabled: mintButtonDisabled.value,
-  label: mintButtonLabel.value,
-}))
 
 const handleSelectImage = (image: string) => {
   selectedImage.value = image
