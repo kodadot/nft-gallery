@@ -4,6 +4,7 @@ import useGenerativeDropSubmit from '@/composables/drop/useGenerativeDropSubmit'
 import { claimDropItem } from '@/services/waifu'
 import { createUnlockableMetadata } from '@/components/collection/unlockable/utils'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
+import { type ToMintNft } from '@/components/collection/drop/types'
 
 type PaidMintParams = {
   defaultImage: Ref<string>
@@ -16,6 +17,7 @@ type PaidMintParams = {
   imageDataPayload: Ref<ImageDataPayload | undefined>
   selectedImage: Ref<string>
   price: Ref<string | undefined>
+  nftCount: Ref<number | undefined>
   maxCount: Ref<number>
   fetchDropStatus: () => Promise<void>
   onStopMint?: () => void
@@ -34,6 +36,7 @@ export default ({
   collectionName,
   dropAlias,
   maxCount,
+  nftCount,
   fetchDropStatus,
   onStopMint = () => ({}),
   onMintError = () => ({}),
@@ -47,6 +50,7 @@ export default ({
   const {
     howAboutToExecute,
     isLoading: isTransactionLoading,
+    isCancelled: isTransactionCancelled,
     initTransactionLoader,
     isError,
     status,
@@ -72,6 +76,22 @@ export default ({
     currentAccountMintedToken,
     selectedImage,
   })
+
+  const { chainSymbol, decimals } = useChain()
+
+  const { usd: priceUSD } = useAmount(
+    computed(() => price.value),
+    decimals,
+    chainSymbol,
+  )
+
+  const toMintNft = computed<ToMintNft>(() => ({
+    image: sanitizeIpfsUrl(selectedImage.value),
+    name: `${collectionName.value || ''} #${nftCount.value || ''}`,
+    collectionName: collectionName.value || '',
+    price: price.value as string,
+    priceUSD: priceUSD.value,
+  }))
 
   const maxMintLimitForCurrentUser = computed(() => maxCount.value)
 
@@ -169,8 +189,8 @@ export default ({
     }
   })
 
-  watch([isTransactionLoading, status], ([loading, status], [wasLoading]) => {
-    if (wasLoading && !loading && status === TransactionStatus.Unknown) {
+  watch(isTransactionCancelled, (isCancelled) => {
+    if (isCancelled) {
       onStopMint()
     }
   })
@@ -187,6 +207,7 @@ export default ({
     mintedNft,
     mintedNftWithMetadata,
     canListMintedNft,
+    toMintNft,
     preSubmitMint,
     mintNft,
     listMintedNft,

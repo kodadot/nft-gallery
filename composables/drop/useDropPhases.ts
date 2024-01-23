@@ -44,7 +44,10 @@ export default ({ phases, maxCount, mintedCount }: DropPhaseParams) => {
     }),
   )
 
+  const activePhase = computed(() => mintPhases.value.find((p) => !p.mintedOut))
+
   return {
     mintPhases,
+    activePhase,
   }
 }

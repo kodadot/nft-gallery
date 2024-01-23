@@ -1,6 +1,4 @@
 <template>
-  <Loader v-model="isLoading" :status="status" />
-
   <CollectionDropGenerativeLayout
     :collection-id="collectionId"
     :description="description"
@@ -17,28 +15,53 @@
     :handle-submit-mint="handleSubmitMint"
     :mint-phases="mintPhases" />
 
-  <CollectionDropAddFundsModal
-    v-model="isAddFundModalActive"
+  <CollectionDropHolderOfGenerativeSection
+    ref="holderOfDrop"
+    v-model:selectedImage="selectedImage"
+    :collection-data="collectionData"
+    :drop="drop"
     :minimum-funds="minimumFunds"
+    :has-minimum-funds="hasMinimumFunds"
     :formatted-minimum-funds="formattedMinimumFunds"
-    :token="token"
-    :chain="chainName"
-    @close="closeAddFundModal"
-    @confirm="handleDropAddModalConfirm" />
+    :formatted-existential-deposit="formattedExistentialDeposit"
+    :current-account-minted-token="currentAccountMintedToken"
+    :image-data-payload="imageDataPayload"
+    :description="description"
+    :collection-name="collectionName"
+    :minted-amount-for-current-user="mintedAmountForCurrentUser"
+    :mint-count-available="mintCountAvailable"
+    :fetch-multiple-balance="fetchMultipleBalance"
+    :fetch-drop-status="fetchDropStatus" />
+
+  <CollectionDropPaidGenerativeSection
+    ref="paidDrop"
+    v-model:selectedImage="selectedImage"
+    :collection-data="collectionData"
+    :drop="drop"
+    :current-account-minted-token="currentAccountMintedToken"
+    :max-count="maxCount"
+    :nft-count="nftCount"
+    :collection-name="collectionName"
+    :description="description"
+    :image-data-payload="imageDataPayload"
+    :minted-amount-for-current-user="mintedAmountForCurrentUser"
+    :minimum-funds="minimumFunds"
+    :has-minimum-funds="hasMinimumFunds"
+    :formatted-minimum-funds="formattedMinimumFunds"
+    :formatted-existential-deposit="formattedExistentialDeposit"
+    :fetch-drop-status="fetchDropStatus" />
 </template>
 
 <script setup lang="ts">
 import { DropItem } from '@/params/types'
 import { useDropMinimumFunds, useDropStatus } from '@/components/drops/useDrops'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
-import Loader from '@/components/shared/Loader.vue'
 import useGenerativeDropMint, {
   type UnlockableCollectionById,
 } from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
 import useDropPhases from '@/composables/drop/useDropPhases'
-import useHolderOfCollectionDropMint from '@/composables/drop/useHolderOfCollectionDropMint'
-import { PhaseType } from './types'
+import { MintButtonProp, PhaseType } from './types'
 
 const props = withDefaults(
   defineProps<{
@@ -49,10 +72,19 @@ const props = withDefaults(
   },
 )
 
+const { $i18n } = useNuxtApp()
+const { accountId } = useAuth()
+const { client } = usePrefix()
+
 const { fetchMultipleBalance } = useMultipleBalance()
 
-const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
-  useDropMinimumFunds(props.drop)
+const {
+  hasMinimumFunds,
+  formattedMinimumFunds,
+  minimumFunds,
+  formattedExistentialDeposit,
+} = useDropMinimumFunds(props.drop)
+
 const minimumFundsDescription = computed(() =>
   $i18n.t('mint.unlockable.holderOfCollectionMinimumFundsDescription', [
     formattedMinimumFunds.value,
@@ -66,32 +98,30 @@ const minimumFundsProps = computed(() => ({
   hasAmount: hasMinimumFunds.value,
 }))
 
-const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
-  useDropStatus(props.drop.alias)
-const { $i18n } = useNuxtApp()
-const { urlPrefix } = usePrefix()
-const { accountId, isLogIn } = useAuth()
-
-const { client } = usePrefix()
-const isAddFundModalActive = ref(false)
-
-const {
-  defaultName,
-  defaultImage,
-  defaultMax,
-  collectionId,
-  chainName,
-  disabledByBackend,
-  token,
-  holderOfCollectionId,
-} = useGenerativeDropDetails(props.drop)
-
-const { totalItemDeposit, chainSymbol: depositChainSymbol } = useDeposit(
-  computed(() => props.drop.chain),
+const { collectionId, defaultMax, chainName } = useGenerativeDropDetails(
+  props.drop,
 )
 
-const depositAmount = computed(() =>
-  (Number(totalItemDeposit.value) - 0.1).toFixed(4),
+const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
+  useDropStatus(props.drop.alias)
+
+const paidDrop = ref()
+const holderOfDrop = ref()
+
+const isWalletConnecting = computed(
+  () => activeMintPhase.value?.isWalletConnecting,
+)
+const isImageFetching = computed(() => activeMintPhase.value?.isImageFetching)
+const userMintedNftId = computed(() => activeMintPhase.value?.userMintedNftId)
+const isLoading = computed(() => activeMintPhase.value?.isLoading)
+
+const phaseRefs: Partial<Record<PhaseType, Ref>> = {
+  holder_of: holderOfDrop,
+  paid: paidDrop,
+}
+
+const holderOfCollection = computed(
+  () => holderOfDrop.value?.holderOfCollection,
 )
 
 const { data: collectionData } = await useAsyncData(
@@ -119,76 +149,30 @@ const {
   description,
   imageDataPayload,
   selectedImage,
+  nftCount,
 } = useGenerativeDropMint({
   collectionData,
   defaultMax,
   mintedDropCount,
 })
 
-const { mintPhases } = useDropPhases({
+const { mintPhases, activePhase } = useDropPhases({
   phases: DROP_PHASES[props.drop.alias] || PhaseType.HOLDER_OF,
   maxCount,
   mintedCount,
 })
 
-const {
-  isHolderOfTargetCollection,
-  maxMintLimitForCurrentUser,
-  hasAvailableNfts,
-  holderOfCollection,
-  status,
-  isLoading,
-  isImageFetching,
-  isWalletConnecting,
-  userMintedNftId,
-  preSubmitMint,
-  mintNft: mintHolderOfCollectionNft,
-} = useHolderOfCollectionDropMint({
-  dropAlias: props.drop.id,
-  holderOfCollectionId,
-  defaultImage,
-  defaultName,
-  collectionId,
-  currentAccountMintedToken,
-  description,
-  mintedAmountForCurrentUser,
-  collectionName,
-  imageDataPayload,
-  selectedImage,
-  fetchDropStatus,
-})
+const activeMintPhase = computed(() => phaseRefs[activePhase.value?.type])
 
 const mintButtonLabel = computed(() => {
-  return isWalletConnecting.value
-    ? $i18n.t('shoppingCart.wallet')
-    : isLogIn.value
-      ? isHolderOfTargetCollection.value &&
-        maxMintLimitForCurrentUser.value > mintedAmountForCurrentUser.value &&
-        hasMinimumFunds.value &&
-        hasAvailableNfts.value
-        ? $i18n.t('mint.unlockable.claimPaidNft', [
-            `${depositAmount.value} ${depositChainSymbol.value}`,
-          ])
-        : $i18n.t('mint.unlockable.notEligibility')
-      : $i18n.t('mint.unlockable.checkEligibility')
+  return activeMintPhase.value?.mintButtonProps?.label
 })
 
-const mintButtonDisabled = computed<boolean>(
-  () =>
-    !mintCountAvailable.value ||
-    Boolean(disabledByBackend.value) ||
-    (isLogIn.value &&
-      Boolean(
-        !selectedImage.value ||
-          !isHolderOfTargetCollection.value ||
-          maxMintLimitForCurrentUser.value <=
-            mintedAmountForCurrentUser.value ||
-          !hasMinimumFunds.value ||
-          !hasAvailableNfts.value,
-      )),
+const mintButtonDisabled = computed(
+  () => activeMintPhase.value?.mintButtonProps?.disabled,
 )
 
-const mintButtonProps = computed(() => ({
+const mintButtonProps = computed<MintButtonProp>(() => ({
   disabled: mintButtonDisabled.value,
   label: mintButtonLabel.value,
 }))
@@ -197,32 +181,7 @@ const handleSelectImage = (image: string) => {
   selectedImage.value = image
 }
 
-const submits: Partial<Record<PhaseType, () => Promise<void>>> = {
-  holder_of: mintHolderOfCollectionNft,
-}
-
 const handleSubmitMint = async (type: PhaseType) => {
-  if (!preSubmitMint()) {
-    return false
-  }
-
-  if (!hasMinimumFunds.value) {
-    return openAddFundModal()
-  }
-
-  submits[type]?.()
-}
-
-const openAddFundModal = () => {
-  isAddFundModalActive.value = true
-}
-
-const closeAddFundModal = () => {
-  isAddFundModalActive.value = false
-}
-
-const handleDropAddModalConfirm = () => {
-  closeAddFundModal()
-  fetchMultipleBalance([urlPrefix.value])
+  phaseRefs[type]?.value.onSubmit()
 }
 </script>

@@ -132,7 +132,7 @@ const mintButtonDisabled = computed(() => {
     return false
   }
 
-  if (props.state !== MintPhaseState.OPEN) {
+  if (props.state !== MintPhaseState.OPEN || loading.value) {
     return true
   }
 
