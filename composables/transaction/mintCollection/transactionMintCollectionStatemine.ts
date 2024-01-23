@@ -1,8 +1,10 @@
+import { SupportTokens, canSupport } from '@/utils/support'
+import { SubmittableExtrinsic } from '@polkadot/api-base/types'
+import { ISubmittableResult } from '@polkadot/types/types'
 import type { CollectionToMintStatmine, MintCollectionParams } from '../types'
 import { constructMeta } from './constructMeta'
 import { useStatemineNewCollectionId } from './useNewCollectionId'
 import { calculateFees, createArgsForNftPallet } from './utils'
-import { SupportTokens, canSupport } from '@/utils/support'
 
 export async function execMintCollectionStatemine({
   item,
@@ -17,7 +19,8 @@ export async function execMintCollectionStatemine({
   status.value = 'loader.ipfs'
 
   const metadata = await constructMeta(item)
-  const { nftCount } = item.collection as CollectionToMintStatmine
+  const { nftCount, royalty, hasRoyalty } =
+    item.collection as CollectionToMintStatmine
   const { accountId } = useAuth()
 
   const cb = api.tx.utility.batchAll
@@ -56,8 +59,28 @@ export async function execMintCollectionStatemine({
     ? [api.tx.nfts.setCollectionMaxSupply(nextId, maxSupply)]
     : []
 
+  const royaltyArgs: SubmittableExtrinsic<'promise', ISubmittableResult>[] = []
+  if (royalty && isRoyaltyValid(royalty) && hasRoyalty) {
+    const setRoyaltyAmount = api.tx.nfts.setAttribute(
+      nextId,
+      null,
+      'CollectionOwner',
+      'royalty',
+      royalty.amount.toString(),
+    )
+    const setRoyaltyRecipient = api.tx.nfts.setAttribute(
+      nextId,
+      null,
+      'CollectionOwner',
+      'recipient',
+      royalty.address,
+    )
+    royaltyArgs.push(setRoyaltyAmount, setRoyaltyRecipient)
+  }
+
   const arg = [
     [
+      ...royaltyArgs,
       api.tx.nfts.create(...createArgs),
       api.tx.nfts.setCollectionMetadata(nextId, metadata),
       ...maxSupplyArg,
