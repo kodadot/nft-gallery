@@ -19,6 +19,8 @@ export const ksmHubDenyList = [
 export const dotHubDenyList = [
   '128qRiVjxU3TuT37tg7AX99zwqfPtj2t4nDKUv9Dvi5wzxuF', // RMRK test
   '155HWw3J9jyYphMm5is4vp9Bzj7ZRRd6HEzCPdWd8cq97KfT', // Very old unreacheable IPFS
+  '16aWyT5Xa2wogTARQxk8LnQqi5nquy3Xrc4YcgJrmjEWrduq', // Market Manipulation
+  '1HzwKkNGv4gdWq4ds1C5k63u8hvmjC6ULneAaZbwUBZEauF', // Dead collection
 ]
 
 export const IPFS_KODADOT_IMAGE_PLACEHOLDER =
