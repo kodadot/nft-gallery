@@ -126,7 +126,7 @@ const {
 })
 
 const { mintPhases } = useDropPhases({
-  phases: DROP_PHASES[props.drop.alias] || [],
+  phases: DROP_PHASES[props.drop.alias] || PhaseType.HOLDER_OF,
   maxCount,
   mintedCount,
 })

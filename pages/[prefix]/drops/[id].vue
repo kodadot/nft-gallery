@@ -2,13 +2,6 @@
   <UnlockableCollectionBanner :drop="drop" />
   <CollectionDropContainer v-if="dropType === 'paid'" :drop="drop" />
   <CollectionDropMultiPhaseGenerative
-    v-else-if="
-      dropType === 'generative' &&
-      drop.holds &&
-      drop.alias === MULTIPHASE_DROP_ALIAS
-    "
-    :drop="drop" />
-  <CollectionDropHolderOfGenerative
     v-else-if="dropType === 'generative' && drop.holds"
     :drop="drop" />
   <CollectionDropPaidGenerative
@@ -25,8 +18,6 @@
 import { useDrop } from '@/components/drops/useDrops'
 import UnlockableCollectionBanner from '@/components/collection/unlockable/UnlockableCollectionBanner.vue'
 import { isProduction } from '@/utils/chain'
-
-const MULTIPHASE_DROP_ALIAS = 'flatwhite'
 
 definePageMeta({
   layout: 'unlockable-mint-layout',
