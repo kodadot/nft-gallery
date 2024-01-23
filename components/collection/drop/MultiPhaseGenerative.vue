@@ -17,7 +17,7 @@
 
   <CollectionDropHolderOfGenerativeSection
     ref="holderOfDrop"
-    v-model:selectedImage="selectedImage"
+    :selected-image="selectedImage"
     :collection-data="collectionData"
     :drop="drop"
     :minimum-funds="minimumFunds"
@@ -35,8 +35,8 @@
 
   <CollectionDropPaidGenerativeSection
     ref="paidDrop"
-    v-model:selectedImage="selectedImage"
     :collection-data="collectionData"
+    :selected-image="selectedImage"
     :drop="drop"
     :current-account-minted-token="currentAccountMintedToken"
     :max-count="maxCount"
@@ -44,6 +44,7 @@
     :collection-name="collectionName"
     :description="description"
     :image-data-payload="imageDataPayload"
+    :mint-count-available="mintCountAvailable"
     :minted-amount-for-current-user="mintedAmountForCurrentUser"
     :minimum-funds="minimumFunds"
     :has-minimum-funds="hasMinimumFunds"
@@ -113,6 +114,10 @@ const activeMintPhase = computed<Ref | null>(
 )
 
 const mintButtonLabel = computed(() => {
+  if (isWalletConnecting.value) {
+    return $i18n.t('shoppingCart.wallet')
+  }
+
   return activeMintPhase.value?.value?.mintButtonProps?.label
 })
 
@@ -177,8 +182,18 @@ const {
   mintedDropCount,
 })
 
+const dropType = computed(() => {
+  if (props.drop.holds) {
+    return PhaseType.HOLDER_OF
+  }
+
+  if (Number(props.drop.price)) {
+    return PhaseType.PAID
+  }
+})
+
 const { mintPhases, activePhase } = useDropPhases({
-  phases: DROP_PHASES[props.drop.alias] || PhaseType.HOLDER_OF,
+  phases: DROP_PHASES[props.drop.alias] || dropType.value || [],
   maxCount,
   mintedCount,
 })

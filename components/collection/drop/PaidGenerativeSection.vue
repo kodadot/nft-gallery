@@ -27,6 +27,7 @@ import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 import { type ImageDataPayload } from '@/composables/drop/useGenerativeDropMint'
 import { DropMintedStatus } from '@/services/waifu'
+import { formatAmountWithRound } from '@/utils/format/balance'
 
 const props = withDefaults(
   defineProps<{
@@ -38,6 +39,7 @@ const props = withDefaults(
     collectionData: UnlockableCollectionById | null
     currentAccountMintedToken: DropMintedStatus | null
     imageDataPayload: ImageDataPayload | undefined
+    mintCountAvailable: boolean
     description: string | undefined
     collectionName: string | undefined
     selectedImage: string
@@ -51,11 +53,27 @@ const props = withDefaults(
   },
 )
 
-const { defaultName, defaultImage, collectionId, chainName, token, price } =
-  useGenerativeDropDetails(props.drop)
+const { chainSymbol, decimals } = useChain()
+const { $i18n } = useNuxtApp()
+const { isLogIn } = useAuth()
+
+const {
+  defaultName,
+  defaultImage,
+  collectionId,
+  chainName,
+  token,
+  price,
+  disabledByBackend,
+} = useGenerativeDropDetails(props.drop)
 
 const isMintModalActive = ref(false)
-const selectedImage = useVModel(props, 'selectedImage')
+const selectedImage = computed(() => props.selectedImage)
+const mintedAmountForCurrentUser = computed(
+  () => props.mintedAmountForCurrentUser,
+)
+const hasMinimumFunds = computed(() => props.hasMinimumFunds)
+const mintCountAvailable = computed(() => props.mintCountAvailable)
 
 const action = computed<AutoTeleportAction>(() => ({
   interaction: ActionlessInteraction.PAID_DROP,
@@ -65,6 +83,31 @@ const action = computed<AutoTeleportAction>(() => ({
     status: status.value,
     isError: isError.value,
   },
+}))
+
+const mintButtonLabel = computed(() => {
+  return $i18n.t('mint.unlockable.claimPaidNft', [
+    `${formatAmountWithRound(price.value || '', decimals.value)} ${
+      chainSymbol.value
+    }`,
+  ])
+})
+
+const mintButtonDisabled = computed<boolean>(
+  () =>
+    !mintCountAvailable.value ||
+    Boolean(disabledByBackend.value) ||
+    (isLogIn.value &&
+      Boolean(
+        !selectedImage.value ||
+          disabledByBackend.value ||
+          maxMintLimitForCurrentUser.value <= mintedAmountForCurrentUser.value,
+      )),
+)
+
+const mintButtonProps = computed(() => ({
+  disabled: mintButtonDisabled.value,
+  label: mintButtonLabel.value,
 }))
 
 const openMintModal = () => {
@@ -89,7 +132,13 @@ const stopMint = () => {
   isLoading.value = false
 }
 
-const onSubmit = () => openMintModal()
+const onSubmit = () => {
+  if (!preSubmitMint()) {
+    return false
+  }
+
+  openMintModal()
+}
 
 const {
   status,
@@ -97,10 +146,15 @@ const {
   isTransactionLoading,
   isError,
   mintedNft,
+  isImageFetching,
+  isWalletConnecting,
   canListMintedNft,
+  maxMintLimitForCurrentUser,
   toMintNft,
+  userMintedNftId,
   mintNft,
   listMintedNft,
+  preSubmitMint,
 } = usePaidDropMint({
   dropAlias: props.drop.id,
   defaultImage,
@@ -119,5 +173,12 @@ const {
   onMintError: closeMintModal,
 })
 
-defineExpose({ onSubmit })
+defineExpose({
+  mintButtonProps,
+  isLoading,
+  isImageFetching,
+  isWalletConnecting,
+  userMintedNftId,
+  onSubmit,
+})
 </script>

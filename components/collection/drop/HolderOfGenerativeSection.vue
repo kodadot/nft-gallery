@@ -51,7 +51,7 @@ const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { isLogIn } = useAuth()
 
-const selectedImage = useVModel(props, 'selectedImage')
+const selectedImage = computed(() => props.selectedImage)
 const isAddFundModalActive = ref(false)
 const mintedAmountForCurrentUser = computed(
   () => props.mintedAmountForCurrentUser,
