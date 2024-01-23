@@ -1,28 +1,23 @@
-import { DropMintedStatus } from '@/services/waifu'
-import { ImageDataPayload } from './useGenerativeDropMint'
-import useGenerativeDropSubmit from '@/composables/drop/useGenerativeDropSubmit'
+import useGenerativeDropSubmit, {
+  GenerativeDropMintParams,
+} from '@/composables/drop/useGenerativeDropSubmit'
 import { claimDropItem } from '@/services/waifu'
 import { createUnlockableMetadata } from '@/components/collection/unlockable/utils'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import { type ToMintNft } from '@/components/collection/drop/types'
 
 type PaidMintParams = {
-  defaultImage: Ref<string>
-  collectionId: Ref<string>
-  currentAccountMintedToken: Ref<DropMintedStatus | null>
   description: Ref<string | undefined>
   defaultName: Ref<string | undefined>
   collectionName: Ref<string | undefined>
   dropAlias: string
-  imageDataPayload: Ref<ImageDataPayload | undefined>
-  selectedImage: Ref<string>
   price: Ref<string | undefined>
   nftCount: Ref<number | undefined>
   maxCount: Ref<number>
   fetchDropStatus: () => Promise<void>
   onStopMint?: () => void
   onMintError?: () => void
-}
+} & GenerativeDropMintParams
 
 export default ({
   defaultImage,

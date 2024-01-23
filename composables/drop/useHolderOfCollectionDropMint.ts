@@ -1,12 +1,12 @@
 import holderOfCollectionById from '@/queries/subsquid/general/holderOfCollectionById.graphql'
 import { type HolderOfCollectionProp } from '@/components/collection/drop/types'
 import { useHolderOfCollectionDrop } from '@/components/drops/useDrops'
-import useGenerativeDropSubmit from '@/composables/drop/useGenerativeDropSubmit'
-import { DropMintedStatus } from '@/services/waifu'
+import useGenerativeDropSubmit, {
+  GenerativeDropMintParams,
+} from '@/composables/drop/useGenerativeDropSubmit'
 import { createUnlockableMetadata } from '@/components/collection/unlockable/utils'
 import { claimDropItem } from '@/services/waifu'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
-import { ImageDataPayload } from './useGenerativeDropMint'
 
 const KODA_MINTER = '5GGWQ1yiSvS2rPciRtAuK2xQTuxCcgoGZ7dTSzHWws4ELzwD'
 
@@ -17,18 +17,13 @@ type HolderOfCollectionByIdQuery = {
 
 type HolderOfCollectionDropMintParams = {
   holderOfCollectionId: ComputedRef<string | undefined>
-  defaultImage: Ref<string>
-  collectionId: Ref<string>
-  currentAccountMintedToken: Ref<DropMintedStatus | null>
   description: Ref<string | undefined>
   defaultName: Ref<string | undefined>
   collectionName: Ref<string | undefined>
   mintedAmountForCurrentUser: Ref<number>
   dropAlias: string
-  imageDataPayload: Ref<ImageDataPayload | undefined>
-  selectedImage: Ref<string>
   fetchDropStatus: () => Promise<void>
-}
+} & GenerativeDropMintParams
 
 export default ({
   holderOfCollectionId,

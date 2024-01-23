@@ -11,7 +11,7 @@ export type DropMintedNft = DoResult & {
   name: string
 }
 
-type GenerativeDropMintParams = {
+export type GenerativeDropMintParams = {
   imageDataPayload: Ref<ImageDataPayload | undefined>
   defaultImage: Ref<string>
   collectionId: Ref<string>
