@@ -23,8 +23,8 @@
         <div class="flex">
           <slot name="action-title">
             <span>{{ `${$t('teleport.send')} ${totalUsdValue}$` }}</span>
-            <span class="text-k-grey ml-1 is-uppercase">{{
-              `(${totalTokenAmount} ${urlPrefix})`
+            <span class="text-k-grey ml-1 uppercase">{{
+              `(${totalTokenAmount} ${unit})`
             }}</span>
           </slot>
         </div>
@@ -94,6 +94,7 @@ const props = withDefaults(
     modelValue: boolean
     totalTokenAmount?: number
     totalUsdValue?: number
+    unit?: string
     transactionId: string
     canCancel?: boolean
     isMobile?: boolean

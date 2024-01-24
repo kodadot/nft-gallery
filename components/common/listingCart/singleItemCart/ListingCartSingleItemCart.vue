@@ -21,7 +21,7 @@
 
     <hr class="my-5" />
 
-    <div class="has-text-weight-bold">{{ $t('listingCart.chooseAPrice') }}</div>
+    <div class="font-bold">{{ $t('listingCart.chooseAPrice') }}</div>
 
     <ListingCartFloorPrice v-model="floorPricePercentAdjustment" />
 

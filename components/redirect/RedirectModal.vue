@@ -1,6 +1,6 @@
 <template>
   <div class="redirect-card p-4">
-    <div class="redirect-header has-text-weight-bold pb-2 mb-4">
+    <div class="redirect-header font-bold pb-2 mb-4">
       {{ props.i18n.t('redirect.title') }}
     </div>
     <div class="mb-4">

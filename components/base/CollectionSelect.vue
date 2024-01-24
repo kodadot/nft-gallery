@@ -8,7 +8,7 @@
     <NeoField :label="$t('collection')">
       <template #label>
         <div>{{ $t('collection') }}</div>
-        <div class="has-text-weight-light text-xs mb-3">
+        <div class="font-light text-xs mb-3">
           {{ $t('Select collection where do you want mint your token') }}
         </div>
       </template>

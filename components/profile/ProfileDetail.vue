@@ -480,7 +480,7 @@ watch(collections, (value) => {
       &:nth-child(1),
       &:nth-child(2) {
         :deep(.explore-tabs-button) {
-          @apply border-0;
+          @apply border-b-0;
         }
       }
       &:nth-child(2n + 1) {

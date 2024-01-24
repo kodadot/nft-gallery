@@ -3,13 +3,13 @@
     <div class="py-4 px-5 flex border-b" aria-label="controls">
       <div
         class="mr-4 cursor-pointer"
-        :class="{ 'has-text-weight-bold': activeTab === Tabs.holders }"
+        :class="{ 'font-bold': activeTab === Tabs.holders }"
         @click="changeTab(Tabs.holders)">
         {{ $t('holders') }}
       </div>
       <div
         class="cursor-pointer"
-        :class="{ 'has-text-weight-bold': activeTab === Tabs.flippers }"
+        :class="{ 'font-bold': activeTab === Tabs.flippers }"
         @click="changeTab(Tabs.flippers)">
         {{ $t('flippers') }}
       </div>

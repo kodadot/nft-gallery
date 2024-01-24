@@ -17,7 +17,7 @@
         spin />
 
       <div>
-        <p class="capitalize has-text-weight-bold is-size-6">
+        <p class="capitalize font-bold is-size-6">
           {{ title || $t('general.doingSomeMagic') }}
         </p>
         <p class="capitalize is-size-6 text-k-grey">

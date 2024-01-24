@@ -10,7 +10,7 @@
         </div>
         <div class="flex flex-col justify-between ml-4 limit-width">
           <div
-            class="has-text-color line-height-1 whitespace-nowrap is-clipped ellipsis">
+            class="text-text-color line-height-1 whitespace-nowrap is-clipped ellipsis">
             {{ nft.name }}
           </div>
           <div

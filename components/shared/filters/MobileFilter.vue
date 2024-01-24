@@ -7,12 +7,14 @@
     :open="open"
     :can-cancel="['escape']"
     :on-cancel="onClose"
-    class="z-[1000] absolute background-color">
+    class="z-[1000] absolute"
+    content-class="!bg-background-color"
+    overlay-class="!bg-background-color opacity-[0.86]">
     <div class="flex flex-col h-full">
       <div class="flex-grow">
         <div
-          class="filters-header px-0 border-b flex items-center justify-between">
-          <p class="has-text-weight-bold">
+          class="filters-header px-4 border-b flex items-center justify-between">
+          <p class="font-bold">
             {{ $t('general.filters') }}
           </p>
           <a @click="onClose">
@@ -36,7 +38,7 @@
         <NeoButton
           label="Reset All"
           variant="text"
-          class="flex-grow min-w-36 h-14 is-shadowless"
+          class="flex-grow min-w-36 !h-14 is-shadowless"
           @click="resetFilters">
           {{ $t('general.resetAll') }}
         </NeoButton>
@@ -210,19 +212,5 @@ watch(() => route.query, syncFromUrl, { immediate: true })
 
 .filters-header {
   min-height: $navbar-mobile-min-height;
-}
-
-:deep(.background-color) {
-  .o-side__content {
-    @include ktheme() {
-      background-color: theme('background-color');
-    }
-  }
-  .o-side__overlay {
-    @include ktheme() {
-      background-color: theme('background-color');
-      opacity: 0.86;
-    }
-  }
 }
 </style>

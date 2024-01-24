@@ -8,7 +8,7 @@
           <div class="pack-content">
             <NeoIcon icon="image-polaroid" custom-size="fa-3x" />
             <div class="pack-content-text">
-              <p class="is-size-4 has-text-weight-bold">Collection</p>
+              <p class="is-size-4 font-bold">Collection</p>
               <p>{{ $t('mint.landing.collection') }}</p>
             </div>
           </div>
@@ -20,7 +20,7 @@
           <div class="pack-content">
             <NeoIcon icon="gem" custom-size="fa-3x" />
             <div class="pack-content-text">
-              <p class="is-size-4 has-text-weight-bold">NFT</p>
+              <p class="is-size-4 font-bold">NFT</p>
               <p>{{ $t('mint.landing.nft') }}</p>
             </div>
           </div>
@@ -43,7 +43,7 @@
             <NeoIcon v-else icon="wand-magic-sparkles" custom-size="fa-3x" />
 
             <div class="px-3 flex h-full flex-col justify-center">
-              <p class="is-size-4 has-text-weight-bold">
+              <p class="is-size-4 font-bold">
                 {{ !isMobile ? $t('navbar.create.generateWaifu') : 'Waifu' }}
               </p>
               <p>{{ $t('createDropdown.waifu') }}</p>
@@ -66,7 +66,7 @@
           <div class="pack-content">
             <NeoIcon icon="image" custom-size="fa-3x" />
             <div class="pack-content-text">
-              <p class="is-size-4 has-text-weight-bold">
+              <p class="is-size-4 font-bold">
                 {{ $t('mint.landing.singleNft') }}
               </p>
               <p>{{ $t('mint.landing.singleNftDesc') }}</p>
@@ -80,7 +80,7 @@
           <div class="pack-content">
             <NeoIcon icon="photo-film" custom-size="fa-3x" />
             <div class="pack-content-text">
-              <p class="is-size-4 has-text-weight-bold">
+              <p class="is-size-4 font-bold">
                 {{ $t('mint.landing.massNft') }}
               </p>
               <p>{{ $t('mint.landing.massNftDesc') }}</p>

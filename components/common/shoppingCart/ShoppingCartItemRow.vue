@@ -14,7 +14,7 @@
           class="flex flex-col justify-between ml-4 min-width w-full line-height-1">
           <nuxt-link
             :to="`/${urlPrefix}/gallery/${nft.id}`"
-            class="has-text-weight-bold has-text-color whitespace-nowrap is-clipped ellipsis"
+            class="font-bold text-text-color whitespace-nowrap is-clipped ellipsis"
             @click="emit('click-item')">
             {{ nft.name }}
           </nuxt-link>

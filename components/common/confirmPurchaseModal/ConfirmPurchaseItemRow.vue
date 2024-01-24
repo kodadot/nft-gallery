@@ -9,7 +9,7 @@
 
       <div class="flex flex-col justify-between ml-4 limit-width">
         <div
-          class="has-text-weight-bold has-text-color line-height-1 whitespace-nowrap is-clipped ellipsis">
+          class="font-bold text-text-color line-height-1 whitespace-nowrap is-clipped ellipsis">
           {{ name }}
         </div>
         <div class="line-height-1 whitespace-nowrap is-clipped ellipsis">

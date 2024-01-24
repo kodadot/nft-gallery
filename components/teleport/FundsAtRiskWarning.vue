@@ -30,7 +30,7 @@
               'https://hello.kodadot.xyz/multi-chain/existential-deposit'
             "
             target="_blank"
-            class="has-text-k-blue">
+            class="text-k-blue hover:text-k-blue-hover">
             {{ $t('teleport.whatIsExistentialDeposit') }}
           </a>
         </div>

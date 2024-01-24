@@ -8,7 +8,7 @@
     </div>
     <NeoButton
       v-if="totalChainsLength"
-      variant="pill"
+      variant="primary-rounded"
       :label="$t('profile.searchNoResultsButton', [chainNames[nextPrefix]])"
       @click="switchToPrefix(nextPrefix)" />
   </section>
