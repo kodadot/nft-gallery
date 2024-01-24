@@ -1,8 +1,8 @@
 <template>
-  <div class="unlockable-slider border slider-bar">
+  <div class="unlockable-slider border rounded-[2.5rem]">
     <div
       v-if="value > 0"
-      class="unlockable-slider-inner border slider-bar"
+      class="unlockable-slider-inner border rounded-[2.5rem]"
       :style="widthStyle"></div>
   </div>
 </template>
@@ -37,9 +37,5 @@ const widthStyle = computed(() => ({ width: `${props.value * 100}%` }))
     background: $primary;
     box-sizing: content-box;
   }
-}
-
-.slider-bar {
-  border-radius: 2.5rem;
 }
 </style>

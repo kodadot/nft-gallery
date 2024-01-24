@@ -1,5 +1,5 @@
 <template>
-  <section class="section has-text-centered">
+  <section class="section text-center">
     <div class="title is-4">
       {{ $t('profile.searchNoResultsTitle') }}
     </div>
@@ -8,7 +8,7 @@
     </div>
     <NeoButton
       v-if="totalChainsLength"
-      variant="pill"
+      variant="primary-rounded"
       :label="$t('profile.searchNoResultsButton', [chainNames[nextPrefix]])"
       @click="switchToPrefix(nextPrefix)" />
   </section>

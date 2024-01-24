@@ -8,7 +8,7 @@
     <div class="px-6 py-5 modal-width">
       <div class="flex is-size-5 mb-4 items-center">
         <NeoIcon icon="triangle-exclamation" pack="fasr" class="mr-3" />
-        <span class="has-text-weight-bold">
+        <span class="font-bold">
           {{ $t('massmint.mobileDisclaimer.title') }}
           <br />
         </span>

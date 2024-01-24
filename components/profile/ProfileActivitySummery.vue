@@ -1,10 +1,10 @@
 <template>
   <div>
     <div v-if="stats" class="level my-4 collection items-center">
-      <div class="level-item has-text-centered">
+      <div class="level-item text-center">
         <div>
           <p class="title">{{ listedCount }} ⊆ {{ totalSoldItems }}</p>
-          <p class="is-size-7 has-text-grey">
+          <p class="text-xs text-k-grey">
             {{ $t('profileStats.listed') }} /
             {{ $t('profileStats.totalSoldItems') }}
           </p>
@@ -21,37 +21,37 @@
         :header="profileStats.totalBuys"
         inline />
 
-      <div class="level-item has-text-centered">
+      <div class="level-item text-center">
         <div>
           <p class="title">
             <CommonTokenMoney :value="highestBuyPrice" inline /> ⊆
             <CommonTokenMoney :value="totalAmountSpend" inline />
           </p>
-          <p class="is-size-7 has-text-grey">
+          <p class="text-xs text-k-grey">
             {{ $t('profileStats.highestBuy') }} /
             {{ $t('profileStats.totalAmountSpend') }}
           </p>
         </div>
       </div>
 
-      <div class="level-item has-text-centered">
+      <div class="level-item text-center">
         <div>
           <p class="title">
             <CommonTokenMoney :value="totalHoldingsBoughtValues" inline /> ⊆
           </p>
-          <p class="is-size-7 has-text-grey">
+          <p class="text-xs text-k-grey">
             {{ chainSymbol }} {{ $t('profileStats.totalHoldingsBoughtValues') }}
           </p>
         </div>
       </div>
 
-      <div class="level-item has-text-centered">
+      <div class="level-item text-center">
         <div>
           <p class="title">
             <CommonTokenMoney :value="maxSoldPrice" inline /> ⊆
             <CommonTokenMoney :value="totalSell" inline />
           </p>
-          <p class="is-size-7 has-text-grey">
+          <p class="text-xs text-k-grey">
             {{ $t('profileStats.maxSoldPrice') }} /
             {{ $t('profileStats.totalSellValues') }}
           </p>

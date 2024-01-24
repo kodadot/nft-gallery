@@ -109,7 +109,7 @@
 
       <!-- deposit and balance -->
       <div>
-        <div class="flex has-text-weight-medium has-text-info">
+        <div class="flex font-medium has-text-info">
           <div>{{ $t('mint.deposit') }}:&nbsp;</div>
           <div data-testid="collection-deposit">
             {{ totalCollectionDeposit }} {{ chainSymbol }}
@@ -136,7 +136,7 @@
         :loading="isLoading" />
       <div class="p-4 flex">
         <NeoIcon icon="circle-info" size="medium" class="mr-4" />
-        <p class="is-size-7">
+        <p class="text-xs">
           <span
             v-dompurify-html="
               $t('mint.requiredDeposit', [

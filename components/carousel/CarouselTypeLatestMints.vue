@@ -8,13 +8,13 @@
           <nuxt-link
             :to="urlOf({ id: item.id, url: 'gallery', chain: item.chain })"
             :title="item.name"
-            class="has-text-weight-bold carousel-info-name">
+            class="font-bold carousel-info-name">
             <span class="is-ellipsis">{{ item.name || '--' }}</span>
           </nuxt-link>
 
           <div class="flex flex-col items-start">
             <div class="flex justify-between items-center">
-              <p class="is-size-7 text-k-grey">
+              <p class="text-xs text-k-grey">
                 {{ $t('drops.mintedBy') }}
               </p>
               <nuxt-link
@@ -26,7 +26,7 @@
                   show-clipboard />
               </nuxt-link>
             </div>
-            <p class="is-size-7 text-k-grey">{{ item.timestamp }}</p>
+            <p class="text-xs text-k-grey">{{ item.timestamp }}</p>
           </div>
         </div>
       </template>

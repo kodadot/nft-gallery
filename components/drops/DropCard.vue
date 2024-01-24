@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="drop.collection && !isLoadingMeta"
-      class="drop-card border card-border-color">
+      class="drop-card border border-border-color">
       <component
         :is="externalUrl ? 'a' : NuxtLink"
         rel="nofollow noopener noreferrer"
@@ -27,7 +27,7 @@
         <div class="py-5 px-6">
           <div class="flex justify-between flex-direction column-gap">
             <div class="flex flex-col column-gap is-ellipsis">
-              <span class="has-text-weight-bold is-ellipsis">{{
+              <span class="font-bold is-ellipsis">{{
                 drop.collection.name
               }}</span>
               <div v-if="drop.collection.issuer" class="flex">

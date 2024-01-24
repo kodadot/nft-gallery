@@ -1,9 +1,9 @@
 <template>
   <nuxt-link :to="`/${urlPrefix}/collection/${collection.id}`">
     <div
-      class="top-collections-item py-2 flex items-center justify-between is-clickable">
+      class="top-collections-item py-2 flex items-center justify-between cursor-pointer">
       <div class="flex items-center">
-        <div class="p-4 has-text-weight-bold">
+        <div class="p-4 font-bold">
           {{ index }}
         </div>
         <div>
@@ -13,14 +13,14 @@
             :src="collection.image || placeholder" />
         </div>
         <div class="px-2 flex flex-col">
-          <div class="has-text-weight-bold no-wrap">
+          <div class="font-bold whitespace-nowrap">
             {{ truncateStr(collection.name, 12) }}
           </div>
           <div class="flex justify-start">
             <div class="is-hidden-mobile">
               <div
                 v-if="collection.floorPrice || collection.floor"
-                class="no-wrap">
+                class="whitespace-nowrap">
                 {{ $t('general.floor') }}:
                 <CommonTokenMoney
                   :value="collection.floorPrice || collection.floor"
@@ -29,22 +29,21 @@
               </div>
               <div v-else>---</div>
             </div>
-            <div class="capitalize has-text-grey px-3 is-hidden-mobile">
+            <div class="capitalize text-k-grey px-3 is-hidden-mobile">
               {{ chainName }}
             </div>
           </div>
-          <div
-            class="capitalize has-text-grey is-hidden-tablet is-size-7-mobile">
+          <div class="capitalize text-k-grey is-hidden-tablet text-xs-mobile">
             {{ chainName }}
           </div>
         </div>
       </div>
       <div class="justify-end px-2 flex w-160">
-        <div class="has-text-right flex-col items-center flex is-size-7-mobile">
-          <div class="no-wrap">
+        <div class="text-right flex-col items-center flex text-xs-mobile">
+          <div class="whitespace-nowrap">
             <CommonTokenMoney :value="volume" inline :round="1" />
           </div>
-          <div class="no-wrap is-hidden-mobile">
+          <div class="whitespace-nowrap is-hidden-mobile">
             <BasicMoney
               :value="usdValue"
               inline
@@ -52,17 +51,23 @@
               :round="0" />&nbsp;USD
           </div>
 
-          <div class="is-hidden-tablet is-size-7 no-wrap">
+          <div class="is-hidden-tablet text-xs whitespace-nowrap">
             <div v-if="diffPercentString" :class="color">
               {{ diffPercentString }}
             </div>
-            <div v-else :class="color">--</div>
+            <div v-else :class="color">
+              <BasicMoney
+                :value="usdValue"
+                inline
+                hide-unit
+                :round="0" />&nbsp;USD
+            </div>
           </div>
         </div>
         <div
           v-if="diffPercentString"
           class="is-hidden-mobile justify-center items-center flex px-2">
-          <div class="is-size-6 no-wrap" :class="color">
+          <div class="is-size-6 whitespace-nowrap" :class="color">
             {{ diffPercentString }}
           </div>
         </div>

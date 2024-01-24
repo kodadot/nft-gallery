@@ -13,7 +13,7 @@
         <NeoIcon
           v-clipboard:copy="address"
           icon="copy"
-          class="has-text-link is-clickable"
+          class="has-text-link cursor-pointer"
           data-testid="identity-clipboard"
           @click="toast('Copied to clipboard')" />
       </div>
@@ -52,9 +52,7 @@ const { toast } = useToast()
 }
 
 .popover-header {
-  @include ktheme() {
-    border-bottom: 1px solid theme('k-grey');
-  }
+  @apply border-b border-k-grey;
 
   .popover-user-heading {
     font-size: 12px;

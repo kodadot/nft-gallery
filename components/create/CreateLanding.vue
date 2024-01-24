@@ -8,7 +8,7 @@
           <div class="pack-content">
             <NeoIcon icon="image-polaroid" custom-size="fa-3x" />
             <div class="pack-content-text">
-              <p class="is-size-4 has-text-weight-bold">Collection</p>
+              <p class="is-size-4 font-bold">Collection</p>
               <p>{{ $t('mint.landing.collection') }}</p>
             </div>
           </div>
@@ -20,7 +20,7 @@
           <div class="pack-content">
             <NeoIcon icon="gem" custom-size="fa-3x" />
             <div class="pack-content-text">
-              <p class="is-size-4 has-text-weight-bold">NFT</p>
+              <p class="is-size-4 font-bold">NFT</p>
               <p>{{ $t('mint.landing.nft') }}</p>
             </div>
           </div>
@@ -32,7 +32,7 @@
           :to="`/${urlPrefix}/waifu`">
           <div
             :class="{
-              'flex h-full pack-content-waifu flex-col': !isMobile,
+              'flex h-full pack-content-waifu text-center flex-col': !isMobile,
               'pack-content': isMobile,
             }">
             <img
@@ -43,15 +43,17 @@
             <NeoIcon v-else icon="wand-magic-sparkles" custom-size="fa-3x" />
 
             <div class="px-3 flex h-full flex-col justify-center">
-              <p class="is-size-4 has-text-weight-bold">
+              <p class="is-size-4 font-bold">
                 {{ !isMobile ? $t('navbar.create.generateWaifu') : 'Waifu' }}
               </p>
               <p>{{ $t('createDropdown.waifu') }}</p>
             </div>
           </div>
 
-          <div v-if="!isMobile" class="time-limit px-2 py-1gi">
-            <span class="is-size-7">{{ $t('navbar.create.timeLimit') }}</span>
+          <div
+            v-if="!isMobile"
+            class="time-limit absolute rounded-[6rem] top-4 px-2 py-1gi">
+            <span class="text-xs">{{ $t('navbar.create.timeLimit') }}</span>
           </div>
         </nuxt-link>
       </div>
@@ -64,7 +66,7 @@
           <div class="pack-content">
             <NeoIcon icon="image" custom-size="fa-3x" />
             <div class="pack-content-text">
-              <p class="is-size-4 has-text-weight-bold">
+              <p class="is-size-4 font-bold">
                 {{ $t('mint.landing.singleNft') }}
               </p>
               <p>{{ $t('mint.landing.singleNftDesc') }}</p>
@@ -78,7 +80,7 @@
           <div class="pack-content">
             <NeoIcon icon="photo-film" custom-size="fa-3x" />
             <div class="pack-content-text">
-              <p class="is-size-4 has-text-weight-bold">
+              <p class="is-size-4 font-bold">
                 {{ $t('mint.landing.massNft') }}
               </p>
               <p>{{ $t('mint.landing.massNftDesc') }}</p>
@@ -141,9 +143,7 @@ const gotoPathAfterLogin = (path: RawLocation) => {
   gap: 1.5rem;
 
   &-box {
-    cursor: pointer;
-    font-size: unset;
-    padding: 4rem 2rem;
+    @apply cursor-pointer text-[unset] px-8 py-16;
 
     @include ktheme() {
       background-color: theme('background-color');
@@ -158,8 +158,7 @@ const gotoPathAfterLogin = (path: RawLocation) => {
   }
 
   &-content {
-    text-align: center;
-    width: 14rem;
+    @apply text-center w-56;
 
     &-text {
       margin-top: 2rem;
@@ -170,9 +169,6 @@ const gotoPathAfterLogin = (path: RawLocation) => {
     width: 17rem;
 
     .time-limit {
-      position: absolute;
-      top: 1rem;
-      border-radius: 6rem;
       @include ktheme() {
         border: 1px solid theme('k-grey');
         background-color: theme('background-color');
@@ -181,8 +177,6 @@ const gotoPathAfterLogin = (path: RawLocation) => {
   }
 
   &-content-waifu {
-    text-align: center;
-
     &-text {
       margin-top: 2rem;
     }
@@ -197,10 +191,7 @@ const gotoPathAfterLogin = (path: RawLocation) => {
     }
 
     &-content {
-      display: flex;
-      gap: 2rem;
-      text-align: left;
-      width: 100%;
+      @apply flex gap-8 text-left w-full;
 
       &-text {
         margin-top: 0;

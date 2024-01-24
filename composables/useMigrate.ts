@@ -29,7 +29,7 @@ export const iconLoading = {
 }
 export const iconSuccess = {
   icon: 'check',
-  class: 'has-text-k-green',
+  class: 'text-k-green',
   textColor: '',
 }
 

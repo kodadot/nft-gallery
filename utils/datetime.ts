@@ -1,7 +1,7 @@
-import { format, isWithinInterval, subDays } from 'date-fns'
+import { isWithinInterval, subDays } from 'date-fns'
 
 export function parseDate(ts: number | Date): string {
-  return format(new Date(ts), 'HH:mm | dd.MM.yyyy')
+  return new Date(ts).toLocaleString()
 }
 
 export const isDateWithinLastDays = (date: Date, days: number) =>

@@ -39,9 +39,7 @@
               <span> {{ $t('migrate.ready.title') }} </span>
             </div>
             <div class="w-4 h-[1px] bg-separator-line-color mx-2" />
-            <nuxt-link
-              class="flex items-center has-text-weight-bold my-2"
-              to="/migrate">
+            <nuxt-link class="flex items-center font-bold my-2" to="/migrate">
               {{ $t('migrate.cta') }}
             </nuxt-link>
           </div>
@@ -147,10 +145,7 @@ useSeoMeta({
   height: 560px;
   position: relative;
   background-position: 50% 50%;
-
-  @include ktheme() {
-    border-bottom: 1px solid theme('border-color');
-  }
+  @apply border-b;
 
   &-shadow {
     background: linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.2));

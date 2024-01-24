@@ -1,7 +1,8 @@
 <template>
   <transition name="slide">
     <div v-if="!hasDisplayedCookieBanner" class="cookie-banner">
-      <div class="notices is-bottom flex items-center w-100">
+      <div
+        class="notices flex overflow-hidden pointer-events-none fixed p-[2em] inset-0 is-bottom items-center w-full z-[1000]">
         <div
           role="alertdialog"
           class="snackbar is-success is-bottom-left py-2 px-4 mb-3">
@@ -20,7 +21,7 @@
             <NeoButton
               variant="text"
               no-shadow
-              class="has-text-weight-bold ml-3"
+              class="font-bold ml-3"
               data-testid="cookie-banner-button-accept"
               @click="acceptCookies">
               {{ $t('cookies.accept') }}

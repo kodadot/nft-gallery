@@ -34,7 +34,7 @@
       v-if="isAuth && walletAccounts.length === 0"
       class="pl-5 pt-2 pb-2 flex items-center auth-tip">
       <NeoIcon icon="spinner-third" />
-      <span class="has-text-grey is-size-7 pl-4">
+      <span class="text-k-grey text-xs pl-4">
         {{ $t('walletConnect.authTip') }}
       </span>
     </div>
@@ -53,7 +53,7 @@
             :value="option.address"
             class="mr-2 image-outline" />
           <div class="flex flex-col">
-            <span class="has-text-grey is-size-7 account-name">{{
+            <span class="text-k-grey text-xs account-name">{{
               option.name
             }}</span>
             <div class="account-address">

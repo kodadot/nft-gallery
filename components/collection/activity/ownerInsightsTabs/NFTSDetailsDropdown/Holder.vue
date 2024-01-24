@@ -4,15 +4,15 @@
       v-for="{ avatar, id, name, updatedAt } in displayedNFTs"
       :key="id"
       :to="`/${urlPrefix}/gallery/${id}`"
-      class="flex pt-2 px-5 justify-start is-hoverable-item hoverable-lable-color">
+      class="flex pt-2 px-5 justify-start hover:bg-k-accent-light-2 hoverable-lable-color">
       <div class="mr-5">
         <BasicImage :src="avatar" :alt="name" class="border image-size pt-0" />
       </div>
       <div class="flex flex-col">
         {{ name }}
-        <span class="is-size-7 has-text-grey">{{
-          timeAgo(new Date(updatedAt).getTime())
-        }}</span>
+        <TimeAgo
+          custom-class="text-xs text-k-grey"
+          :timestamp="new Date(updatedAt).getTime()" />
       </div>
     </nuxt-link>
     <div ref="target" />
@@ -24,7 +24,6 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 import { processSingleMetadata } from '@/utils/cachingStrategy'
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { NFTExcludingEvents } from '@/composables/collectionActivity/types'
-import { timeAgo } from '@/components/collection/utils/timeAgo'
 import BasicImage from '@/components/shared/view/BasicImage.vue'
 
 const { placeholder } = useTheme()

@@ -1,7 +1,7 @@
 <template>
   <div class="unlockable-image-slider mt-6">
     <div
-      class="unlockable-image-tip border px-4 py-2 theme-background-color has-z-index-1 no-wrap">
+      class="unlockable-image-tip border px-4 py-2 bg-background-color z-10 whitespace-nowrap">
       {{ title || $t('mint.unlockable.imageTip') }}
     </div>
     <div ref="container" class="keen-slider">
@@ -112,10 +112,8 @@ const [thumbnail] = useKeenSlider(
   }
 
   .unlockable-image-tip {
-    border-radius: 3rem;
-    position: absolute;
-    left: 26px;
-    top: -14px;
+    @apply absolute rounded-[3rem] left-[26px] -top-3.5;
+
     @include mobile {
       left: 50%;
       transform: translateX(-50%);

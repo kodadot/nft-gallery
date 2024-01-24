@@ -9,7 +9,7 @@
 
       <NeoIcon
         v-else-if="isCompleted"
-        class="has-text-k-green"
+        class="text-k-green"
         icon="check"
         :size="iconSize" />
 
@@ -22,7 +22,7 @@
 
       <NeoIcon
         v-else-if="isFailed"
-        class="has-text-k-red"
+        class="text-k-red"
         icon="xmark"
         :size="iconSize" />
     </div>
@@ -34,7 +34,7 @@
           position="top"
           multiline
           class="is-max-width-fit-content">
-          <p class="capitalize has-text-weight-bold">
+          <p class="capitalize font-bold">
             {{ step.title }}
             <NeoIcon
               icon="fa-info-circle"
@@ -46,7 +46,7 @@
             <span v-dompurify-html="step.tooltip" class="capitalize" />
           </template>
         </NeoTooltip>
-        <p v-else class="capitalize has-text-weight-bold">
+        <p v-else class="capitalize font-bold">
           {{ step.title }}
         </p>
         <div class="flex items-center">
@@ -68,7 +68,7 @@
           <a
             v-if="isCompleted && (step.txId || step.blockNumber)"
             v-safe-href="txUrl"
-            class="has-text-link ml-4 is-size-7"
+            class="has-text-link ml-4 text-xs"
             target="_blank"
             rel="nofollow noopener noreferrer">
             {{ $t('helper.viewTx') }}

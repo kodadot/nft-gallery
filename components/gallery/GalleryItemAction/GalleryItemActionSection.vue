@@ -1,7 +1,7 @@
 <template>
   <div class="flex gallery-action-section">
     <div class="gallery-action-section-info">
-      <div class="has-text-grey gallery-action-section-info-title">
+      <div class="text-k-grey gallery-action-section-info-title">
         {{ title }}
       </div>
       <div
@@ -10,14 +10,14 @@
         <div
           v-if="Number(price)"
           data-testid="money"
-          class="gallery-action-section-price has-text-weight-bold">
+          class="gallery-action-section-price font-bold">
           {{ priceChain }}
         </div>
-        <div v-else class="has-text-weight-bold is-size-3">--</div>
+        <div v-else class="font-bold is-size-3">--</div>
 
         <div
           v-if="Number(price)"
-          class="has-text-grey flex items-center gallery-action-section-price-sub">
+          class="text-k-grey flex items-center gallery-action-section-price-sub">
           {{ priceUsd }} USD
         </div>
       </div>
@@ -77,8 +77,7 @@ watchEffect(async () => {
     align-items: flex-start;
 
     .gallery-action-section-info {
-      min-width: 10rem;
-      text-align: left;
+      @apply min-w-[10rem] text-left;
 
       .gallery-action-section-info-title {
         font-size: 0.8rem;

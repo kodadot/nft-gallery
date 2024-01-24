@@ -130,9 +130,7 @@
                 {{ item.Item.name || item.Item.id }}
               </nuxt-link>
             </td>
-            <td
-              v-show="columnsVisible['Amount'].display"
-              class="has-text-right">
+            <td v-show="columnsVisible['Amount'].display" class="text-right">
               {{ item.Amount }}
             </td>
             <td v-show="columnsVisible['Bought'].display">
@@ -163,7 +161,8 @@
 import { Interaction } from '@kodadot1/minimark/v1'
 import { formatDistanceToNow } from 'date-fns'
 import { toPercent } from '@/utils/filters'
-import { parseDate, parsePriceForItem } from './helper'
+import { parsePriceForItem } from './helper'
+import { parseDate } from '@/utils/datetime'
 import { Interaction as EventInteraction } from '../../service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'
 import {

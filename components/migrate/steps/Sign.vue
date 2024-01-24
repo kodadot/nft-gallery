@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="mt-5">{{ $t('migrate.signNotes') }}</div>
-    <p class="mt-5 has-text-grey is-size-7">
+    <p class="mt-5 text-k-grey text-xs">
       {{ $t('migrate.signStep.notesModal') }}
     </p>
     <hr />
-    <p class="is-size-7">
+    <p class="text-xs">
       <strong><NeoIcon icon="lightbulb" /> {{ $t('tip') }}</strong
       >: {{ $t('migrate.signStep.notesPopup') }}
     </p>

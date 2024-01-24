@@ -1,19 +1,19 @@
 <template>
   <NeoModal :value="isModalActive" scroll="clip" @close="emit('close')">
     <div class="p-6 modal-width">
-      <div class="border-bottom border-grey">
+      <div class="border-b border-grey">
         <p class="flex justify-center pb-4 is-size-5">
           {{ $t('massmint.reviewTtile') }}
         </p>
       </div>
       <div class="pt-4">
         <div>
-          <span class="has-text-weight-bold"> • {{ numNfts }} NFTs </span>
+          <span class="font-bold"> • {{ numNfts }} NFTs </span>
           {{ $t('massmint.willBeMinted') }}
 
           <div
             v-if="numMissingDescriptions || numMissingPrices"
-            class="has-text-k-red mt-4">
+            class="text-k-red mt-4">
             <div>{{ $t('massmint.note') }}</div>
             <div v-if="numMissingDescriptions" class="pl-3">
               •

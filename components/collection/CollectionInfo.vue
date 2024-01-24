@@ -63,7 +63,7 @@
       </div>
       <NeoButton
         v-if="hasSeeAllDescriptionOption"
-        class="no-shadow is-text is-underlined has-text-left p-0"
+        class="no-shadow is-text underline text-left p-0"
         :label="seeAllDescription ? $t('showLess') : $t('showMore')"
         data-testid="description-show-less-more-button"
         @click="toggleSeeAllDescription" />

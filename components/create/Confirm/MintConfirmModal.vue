@@ -3,7 +3,7 @@
     :value="modelValue"
     :can-cancel="['outside', 'escape']"
     scroll="clip"
-    class="top"
+    class="z-[1000]"
     max-height="calc(100vh - 180px)"
     content-class="modal-width"
     @close="onClose">
@@ -13,7 +13,7 @@
       @close="onClose">
       <div v-if="isLogIn">
         <div
-          class="rounded border shade-border-color flex justify-start flex-grow pl-3">
+          class="rounded-[10rem] border shade-border-color flex justify-start flex-grow pl-3">
           <IdentityItem
             :label="$t('confirmPurchase.connectedWith')"
             hide-identity-popover
@@ -24,7 +24,7 @@
             data-testid="item-creator" />
         </div>
       </div>
-      <div class="mt-4 has-text-weight-bold">
+      <div class="mt-4 font-bold">
         {{ title }}
       </div>
       <div class="py-4">
@@ -203,17 +203,10 @@ watchEffect(async () => {
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 
-.top {
-  z-index: 1000;
-}
 .shade-border-color {
   @include ktheme() {
     border-color: theme('k-shade');
   }
-}
-
-.rounded {
-  border-radius: 10rem;
 }
 
 .btn-height {
