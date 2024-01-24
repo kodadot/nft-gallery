@@ -62,7 +62,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/vue-fontawesome": "^3.0.5",
     "@kodadot1/brick": "workspace:*",
-    "@kodadot1/minimark": "^0.1.13",
+    "@kodadot1/minimark": "^0.1.14-rc.0",
     "@kodadot1/minipfs": "0.4.2-rc.0",
     "@kodadot1/static": "workspace:*",
     "@kodadot1/sub-api": "0.3.0-rc.0",

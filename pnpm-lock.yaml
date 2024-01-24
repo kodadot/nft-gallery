@@ -24,8 +24,8 @@ importers:
         specifier: workspace:*
         version: link:libs/ui
       '@kodadot1/minimark':
-        specifier: ^0.1.13
-        version: 0.1.13(@polkadot/api@10.11.2)(@polkadot/util-crypto@12.6.2)
+        specifier: ^0.1.14-rc.0
+        version: 0.1.14-rc.0(@polkadot/api@10.11.2)(@polkadot/util-crypto@12.6.2)
       '@kodadot1/minipfs':
         specifier: 0.4.2-rc.0
         version: 0.4.2-rc.0
@@ -3339,13 +3339,13 @@ packages:
     engines: {node: '>=16.0'}
     dev: false
 
-  /@kodadot1/minimark@0.1.13(@polkadot/api@10.11.2)(@polkadot/util-crypto@12.6.2):
-    resolution: {integrity: sha512-AUCZoCutnzVpwzWRkdtGvUV1yLCJLb9spgc7oau1ryaWRcaVLaa0mzruu3zyznYr17KuEtdvSGzAL0fpqBurtg==}
+  /@kodadot1/minimark@0.1.14-rc.0(@polkadot/api@10.11.2)(@polkadot/util-crypto@12.6.2):
+    resolution: {integrity: sha512-9mXAMueoXmrfb2A4oNUa+nQxTStzB264T2EylXpDemNOGlaWU2R84U3SP8U2jrygpQY929U42a8qQ23OSowHzQ==}
     peerDependencies:
       '@polkadot/api': ~10.x
     dependencies:
       '@polkadot/api': 10.11.2
-      '@polkadot/keyring': 12.6.1(@polkadot/util-crypto@12.6.2)(@polkadot/util@12.6.2)
+      '@polkadot/keyring': 12.6.2(@polkadot/util-crypto@12.6.2)(@polkadot/util@12.6.2)
       '@polkadot/util': 12.6.2
       nanoid: 3.3.4
       slugify: 1.6.6
@@ -5141,18 +5141,6 @@ packages:
       '@babel/runtime': 7.22.15
       '@polkadot/util': 10.4.2
       '@polkadot/util-crypto': 10.4.2(@polkadot/util@10.4.2)
-    dev: false
-
-  /@polkadot/keyring@12.6.1(@polkadot/util-crypto@12.6.2)(@polkadot/util@12.6.2):
-    resolution: {integrity: sha512-cicTctZr5Jy5vgNT2FsNiKoTZnz6zQkgDoIYv79NI+p1Fhwc9C+DN/iMCnk3Cm9vR2gSAd2fSV+Y5iKVDhAmUw==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      '@polkadot/util': 12.6.1
-      '@polkadot/util-crypto': 12.6.1
-    dependencies:
-      '@polkadot/util': 12.6.2
-      '@polkadot/util-crypto': 12.6.2(@polkadot/util@12.6.2)
-      tslib: 2.6.2
     dev: false
 
   /@polkadot/keyring@12.6.2(@polkadot/util-crypto@12.6.2)(@polkadot/util@12.6.2):
