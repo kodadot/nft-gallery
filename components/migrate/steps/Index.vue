@@ -10,7 +10,7 @@
         <h1 class="is-size-4">
           <span
             :class="{
-              'has-text-weight-bold': section === 'review',
+              'font-bold': section === 'review',
             }">
             {{ $t('migrate.review') }}
           </span>
@@ -19,12 +19,12 @@
             class="mx-4"
             :class="{
               'text-k-grey': section === 'review',
-              'has-text-color': section === 'sign',
+              'text-text-color': section === 'sign',
             }" />
           <span
             :class="{
               'text-k-grey': section === 'review',
-              'has-text-weight-bold': section === 'sign',
+              'font-bold': section === 'sign',
             }">
             {{ $t('migrate.sign') }}
           </span>

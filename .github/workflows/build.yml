@@ -42,4 +42,4 @@ jobs:
         uses: ./.github/actions/pnpm-install
 
       - name: Run Build
-        run: NITRO_PRESET=cloudflare-pages pnpm nuxi build
+        run: NITRO_PRESET=cloudflare_pages pnpm nuxi build

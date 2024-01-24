@@ -3,7 +3,7 @@
     <div
       v-for="{ avatar, boughtPrice, soldPrice, profit, nft } in displayedFlips"
       :key="nft.id"
-      class="flex py-2 px-5 justify-start is-hoverable-item flex-col">
+      class="flex py-2 px-5 justify-start hover:bg-k-accent-light-2 flex-col">
       <nuxt-link class="flex" :to="`/${urlPrefix}/gallery/${nft.id}`">
         <BasicImage
           :src="avatar"
@@ -16,8 +16,8 @@
           <span class="text-xs text-k-grey">{{ $t('activity.profit') }}</span>
           <span
             :class="{
-              'has-text-k-green': profit > 0,
-              'has-text-k-red': profit < 0,
+              'text-k-green': profit > 0,
+              'text-k-red': profit < 0,
             }"
             >{{ profit === 0 ? '--' : `${format(profit)}%` }}</span
           >

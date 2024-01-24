@@ -14,7 +14,7 @@
               :address="holderId"
               :avatar-size="35"
               data-testid="collection-nft-holder-address"
-              class="has-text-weight-bold" />
+              class="font-bold" />
             <div class="flex justify-between mt-2">
               <span class="text-xs text-k-grey">{{
                 $t('activity.owned')
@@ -42,7 +42,7 @@
             </div>
             <div>
               <div
-                class="text-xs has-text-k-blue cursor-pointer"
+                class="text-xs text-k-blue hover:text-k-blue-hover cursor-pointer"
                 data-testid="collection-holder-nft-details"
                 @click="toggleNFTDetails(holderId)">
                 {{ $t('activity.nftDetails') }}

@@ -41,7 +41,7 @@
               <div
                 class="cursor-pointer"
                 :class="{
-                  'has-text-k-red': !nft.name,
+                  'text-k-red': !nft.name,
                 }"
                 @click="openSideBarWith(nft)">
                 {{ nft.name || '*' + $t('massmint.nameRequired') }}
@@ -51,7 +51,7 @@
               <div
                 class="cursor-pointer clip-text"
                 :class="{
-                  'has-text-k-orange': !nft.description,
+                  'text-k-orange': !nft.description,
                 }"
                 @click="openSideBarWith(nft)">
                 {{ nft.description || $t('massmint.descriptionMissing') }}
@@ -62,7 +62,7 @@
                 <CommonTokenMoney
                   v-if="nft.price"
                   :value="getNativeNftPrice(nft)" />
-                <div v-else class="has-text-k-orange">
+                <div v-else class="text-k-orange">
                   {{ $t('massmint.priceMissing') }}
                 </div>
               </div>

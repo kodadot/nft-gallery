@@ -35,7 +35,7 @@
         </NeoButton>
       </template>
 
-      <NeoDropdownItem class="no-hover px-0 py-0">
+      <NeoDropdownItem class="hover:bg-transparent px-0 py-0">
         <div class="w-full flex justify-between items-center">
           <NeoCheckbox
             v-model="vHideOutliers"
@@ -45,7 +45,7 @@
           </NeoCheckbox>
         </div>
       </NeoDropdownItem>
-      <NeoDropdownItem class="no-hover px-0 py-0">
+      <NeoDropdownItem class="hover:bg-transparent px-0 py-0">
         <div class="w-full flex justify-between items-center">
           <NeoCheckbox
             v-model="vApplySmoothing"
@@ -150,11 +150,13 @@ const vApplySmoothing = useVModel(props, 'applySmoothing', emit)
 const heightStyle = computed(() =>
   props.chartHeight ? `height: ${props.chartHeight}` : '',
 )
-let chart = ref<InstanceType<typeof ChartJS> | null>(null)
+
+const chart = ref<{ chart: InstanceType<typeof ChartJS> } | null>(null)
 
 const onWindowResize = () => {
-  chart.value?.resize()
+  chart.value?.chart.resize()
 }
+
 useEventListener(window, 'resize', onWindowResize)
 
 const lineColor = computed(() => (isDarkMode.value ? '#fff' : '#181717'))

@@ -12,9 +12,7 @@
           pack="fasr"
           class="mr-3"
           size="medium" />
-        <span class="has-text-weight-bold">{{
-          $t('teleport.fundLossRisk')
-        }}</span>
+        <span class="font-bold">{{ $t('teleport.fundLossRisk') }}</span>
       </div>
       <div
         class="is-flex is-flex-direction-column px-4 bakground-warning-red border border-color-k-red">

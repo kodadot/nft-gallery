@@ -14,7 +14,7 @@
         @click="emitClose">
         {{ $t('collections') }}
       </nuxt-link>
-      <span class="menu-item is-disabled has-text-k-shade">
+      <span class="menu-item is-disabled text-k-shade">
         {{ $t('users') }}
         <span class="text-vertical-align-top text-xs">
           {{ $t('soon') }}
@@ -33,7 +33,7 @@
         {{ option.text }}
         <span
           v-if="option.isBeta"
-          class="text-vertical-align-top has-text-k-shade text-xs">
+          class="text-vertical-align-top text-k-shade text-xs">
           {{ $t('beta') }}
         </span>
       </span>

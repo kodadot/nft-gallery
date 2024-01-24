@@ -1,6 +1,6 @@
 <template>
   <div class="preview">
-    <p class="has-text-weight-bold">{{ $t('mint.nft.preview.title') }}</p>
+    <p class="font-bold">{{ $t('mint.nft.preview.title') }}</p>
 
     <div class="preview-card border bg-background-color">
       <div
@@ -11,9 +11,7 @@
         </p>
       </div>
       <div class="preview-content border-t p-3">
-        <p
-          class="has-text-weight-bold is-ellipsis"
-          data-testid="nft-preview-name">
+        <p class="font-bold is-ellipsis" data-testid="nft-preview-name">
           {{ name || 'Untitled' }}
         </p>
         <p class="text-xs is-ellipsis text-k-grey">

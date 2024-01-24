@@ -20,7 +20,7 @@
             <ProfileLink
               :address="flipperId"
               :avatar-size="35"
-              class="has-text-weight-bold" />
+              class="font-bold" />
             <div class="flex justify-between mt-2">
               <span class="text-xs text-k-grey">{{
                 $t('activity.owned')
@@ -45,8 +45,8 @@
               }}</span>
               <span
                 :class="{
-                  'has-text-k-green': bestFlip > 0,
-                  'has-text-k-red': bestFlip < 0,
+                  'text-k-green': bestFlip > 0,
+                  'text-k-red': bestFlip < 0,
                 }"
                 >{{ bestFlip === 0 ? '--' : `${format(bestFlip)}%` }}</span
               >
@@ -61,7 +61,7 @@
             </div>
             <div>
               <div
-                class="text-xs has-text-k-blue cursor-pointer"
+                class="text-xs text-k-blue hover:text-k-blue-hover cursor-pointer"
                 @click="toggleNFTDetails(flipperId)">
                 {{ $t('activity.nftDetails') }}
                 <NeoIcon

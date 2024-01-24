@@ -8,12 +8,12 @@
       </div>
       <div class="pt-4">
         <div>
-          <span class="has-text-weight-bold"> • {{ numNfts }} NFTs </span>
+          <span class="font-bold"> • {{ numNfts }} NFTs </span>
           {{ $t('massmint.willBeMinted') }}
 
           <div
             v-if="numMissingDescriptions || numMissingPrices"
-            class="has-text-k-red mt-4">
+            class="text-k-red mt-4">
             <div>{{ $t('massmint.note') }}</div>
             <div v-if="numMissingDescriptions" class="pl-3">
               •

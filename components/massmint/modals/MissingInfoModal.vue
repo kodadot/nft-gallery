@@ -2,12 +2,12 @@
   <NeoModal :value="isModalActive" scroll="clip" @close="emit('close')">
     <div class="p-6 modal-width">
       <div class="border-b border-grey">
-        <p class="has-text-weight-bold pb-4 is-size-5 flex justify-center px-0">
+        <p class="font-bold pb-4 is-size-5 flex justify-center px-0">
           {{ $t('massmint.missingRequiredInfo') }}
         </p>
       </div>
       <div class="pt-4">
-        <div class="has-text-weight-bold has-text-k-red">
+        <div class="font-bold text-k-red">
           <div>{{ $t('massmint.required') }}</div>
 
           <div class="pl-3">
@@ -16,7 +16,7 @@
         </div>
         <div
           v-if="numMissingDescriptions || numMissingPrices"
-          class="has-text-k-red mt-3">
+          class="text-k-red mt-3">
           <div>{{ $t('massmint.optional') }}</div>
 
           <div v-if="numMissingDescriptions" class="pl-3">

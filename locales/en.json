@@ -45,6 +45,7 @@
   "owner": "Owner",
   "facts": "Facts",
   "free": "Free",
+  "viewProfile": "View Profile",
   "computed id": "Computed id",
   "create collection": "Create Collection",
   "Select collection where do you want mint your token": "Select the collection where do you want to mint your token",
@@ -1195,6 +1196,7 @@
     "download": "Download",
     "reportCollection": "Report Collection",
     "deleteCollection": "Delete Collection",
+    "addNfts": "Add NFTs",
     "deleteNfts": "Delete NFTs",
     "customize": "Customize"
   },
@@ -1516,7 +1518,7 @@
       },
       "faq4": {
         "title": "Learn More About Process",
-        "desc": "<p>For a detailed look at our migration process, check out our help article on initiating and completing NFT transfers. This guide covers requirements, fees, and more.</p></br><p><a class='has-text-k-blue' href='#!'>See Article -&gt;</a></p>"
+        "desc": "<p>For a detailed look at our migration process, check out our help article on initiating and completing NFT transfers. This guide covers requirements, fees, and more.</p></br><p><a class='text-k-blue hover:text-k-blue-hover' href='#!'>See Article -&gt;</a></p>"
       }
     },
     "resultFor": "Showing Results For:",

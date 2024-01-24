@@ -15,7 +15,7 @@
     <div class="flex-1 overflow-visible ml-5 flex flex-col">
       <div class="flex justify-between">
         <NeoTooltip :label="displayName" :delay="1000" class="w-0 flex-1 mr-4">
-          <div class="is-ellipsis max-w-[8rem] has-text-weight-bold">
+          <div class="is-ellipsis max-w-[8rem] font-bold">
             {{ displayName }}
           </div>
         </NeoTooltip>

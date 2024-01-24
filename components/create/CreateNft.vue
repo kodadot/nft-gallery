@@ -75,6 +75,7 @@
             full-width
             no-shadow
             class="mt-3"
+            :preselected="preselectedCollectionId"
             @selected-collection="onCollectionSelected" />
         </div>
       </NeoField>
@@ -192,7 +193,7 @@
 
       <!-- deposit and balance -->
       <div>
-        <div class="flex has-text-weight-medium has-text-info">
+        <div class="flex font-medium has-text-info">
           <div>{{ $t('mint.deposit') }}:&nbsp;</div>
           <div>
             <span data-testid="create-nft-deposit-amount-token">
@@ -274,6 +275,7 @@ import { delay } from '@/utils/fetch'
 import { toNFTId } from '@/components/rmrk/service/scheme'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
+import { MintedCollection } from '@/composables/transaction/types'
 
 // composables
 const { $consola } = useNuxtApp()
@@ -282,6 +284,7 @@ const { accountId } = useAuth()
 const { transaction, status, isLoading, blockNumber, isError } =
   useTransaction()
 const router = useRouter()
+const route = useRoute()
 const { decimals } = useChain()
 const { toUsdPrice } = useUsdValue()
 
@@ -307,9 +310,21 @@ const form = reactive({
 const selectedCollection = ref()
 const startSelectedCollection = ref<boolean>(false)
 const chooseCollectionRef = ref()
+const preselectedCollectionId = ref<string | undefined>(
+  route.query.collectionId?.toString(),
+)
 
-const onCollectionSelected = (collection) => {
+const onCollectionSelected = (collection: MintedCollection) => {
   selectedCollection.value = collection
+
+  if (collection.id === preselectedCollectionId.value) {
+    clearPreselectedCollection()
+  }
+}
+
+const clearPreselectedCollection = () => {
+  preselectedCollectionId.value = undefined
+  router.replace({ query: { collectionId: undefined } })
 }
 
 const modalShowStatus = ref(false)

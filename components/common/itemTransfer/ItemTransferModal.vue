@@ -5,7 +5,7 @@
       <div class="modal-width">
         <header
           class="border-b border-grey flex items-center justify-between px-6">
-          <p class="py-5 is-size-6 has-text-weight-bold">
+          <p class="py-5 is-size-6 font-bold">
             {{ $t('transaction.transferNft') }}
           </p>
 
@@ -32,7 +32,7 @@
             <div
               class="flex flex-col justify-between ml-4 limit-width w-full is-clipped">
               <div
-                class="has-text-weight-bold has-text-color line-height-1 whitespace-nowrap is-ellipsis">
+                class="font-bold text-text-color line-height-1 whitespace-nowrap is-ellipsis">
                 {{ nft.name }}
               </div>
               <div class="line-height-1 whitespace-nowrap is-ellipsis">
@@ -47,7 +47,7 @@
 
           <hr class="my-4" />
 
-          <h2 class="mb-2 has-text-weight-bold has-text-color capitalize">
+          <h2 class="mb-2 font-bold text-text-color capitalize">
             {{ $t('transaction.transferTo') }}
           </h2>
 
@@ -62,6 +62,13 @@
         </div>
 
         <div class="px-6 pb-4 flex flex-col">
+          <div class="flex text-k-grey justify-between items-center mb-4">
+            <span class="text-xs capitalize">{{
+              $t('transfers.networkFee')
+            }}</span>
+            <span class="text-xs">{{ formattedTxFee }}</span>
+          </div>
+
           <NeoButton
             :disabled="isDisabled"
             :label="transferItemLabel"
@@ -93,6 +100,7 @@ import AddressInput from '@/components/shared/AddressInput.vue'
 import { Interaction } from '@kodadot1/minimark/v1'
 import formatBalance from '@/utils/format/balance'
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto'
+import type { Actions } from '@/composables/transaction/types'
 
 const emit = defineEmits(['close'])
 const props = defineProps<{
@@ -107,11 +115,29 @@ const { urlPrefix } = usePrefix()
 const { decimals, chainSymbol, chainProperties } = useChain()
 const ss58Format = computed(() => chainProperties.value?.ss58Format)
 const { accountId } = useAuth()
+const { apiInstance } = useApi()
 
+const txFee = ref<number>(0)
 const isModalActive = useVModel(props, 'value')
 const avatar = ref<string>()
 const address = ref('')
 const isAddressValid = ref(false)
+
+const action = computed<Actions>(() => ({
+  interaction: Interaction.SEND,
+  urlPrefix: urlPrefix.value,
+  address: address.value,
+  tokenId: route.params.id.toString(),
+  nftId: props.nft.id,
+  successMessage: $i18n.t('transaction.item.success') as string,
+  errorMessage: $i18n.t('transaction.item.error') as string,
+}))
+
+const { formatted: formattedTxFee } = useAmount(
+  computed(() => txFee.value),
+  decimals,
+  chainSymbol,
+)
 
 const transferItemLabel = computed(() => {
   if (!address.value) {
@@ -150,7 +176,7 @@ const onClose = () => {
   emit('close')
 }
 
-const handleAddressCheck = (isValid) => {
+const handleAddressCheck = (isValid: boolean) => {
   isAddressValid.value = isValid
 }
 
@@ -163,21 +189,24 @@ const getChainAddress = (value: string) => {
   }
 }
 
-const transfer = () => {
-  transaction({
-    interaction: Interaction.SEND,
-    urlPrefix: urlPrefix.value,
-    address: address.value,
-    tokenId: route.params.id.toString(),
-    nftId: props.nft.id,
-    successMessage: $i18n.t('transaction.item.success') as string,
-    errorMessage: $i18n.t('transaction.item.error') as string,
+const getTransferFee = async () => {
+  const api = await apiInstance.value
+  const fee = await getActionTransactionFee({
+    action: { ...action.value, address: accountId.value } as Actions,
+    address: accountId.value,
+    api,
   })
+  txFee.value = Number(fee)
+}
+
+const transfer = () => {
+  transaction(action.value)
   emit('close')
 }
 
 onMounted(() => {
   getAvatar()
+  getTransferFee()
 })
 </script>
 

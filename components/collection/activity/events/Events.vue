@@ -96,15 +96,17 @@ const filteredEvents = computed(() => {
   const filterByVerifiedIdentity = isOnlyVerifiedUsersFilterActive.value
 
   return props.events.filter((event) => {
-    const active = getEventAddresses(event)
-      .map(getIdentityId)
-      .some((x) => identityIds.includes(x))
+    const isActiveEvent = filterByVerifiedIdentity
+      ? getEventAddresses(event)
+          .map(getIdentityId)
+          .some((x) => identityIds.includes(x))
+      : true
 
-    if (!isAnyEventTypeFilterActive() && filterByVerifiedIdentity) {
-      return active
+    if (!isAnyEventTypeFilterActive()) {
+      return isActiveEvent
     }
 
-    return InteractionToKeep[event.interaction] && active
+    return InteractionToKeep[event.interaction] && isActiveEvent
   })
 })
 
