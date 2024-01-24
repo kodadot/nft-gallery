@@ -55,8 +55,6 @@
   "creative": "रचनात्मक",
   "multipleNFTS": "मल्टीपल NFT",
   "about": "के बारे में",
-  "account": "खाता",
-  "accounts": "खाताएँ",
   "action": {
     "admin": "व्यवस्थापक पैनल",
     "click": "NFT(s) को {0} करने के लिए Click करें",
@@ -108,11 +106,9 @@
     "unique": "अद्वितीय",
     "volume": "मात्रा"
   },
-  "addFunds": "Fund जोड़ें",
   "advanced user interface": "उन्नत उपयोगकर्ता इंटरफेस",
   "advancedFilters": "उन्नत फ़िल्टर",
   "ambassador program": "एम्बेसडर प्रोग्राम",
-  "amount": "राशि",
   "artist ambassador": "कलाकार एम्बेसडर",
   "arweave": {
     "tooltip": "Arweave का उपयोग करना यह दर्शाता है कि आप अपने मल्टीमीडिया को स्थायी रूप से Arweave पर संग्रहित कर रहे हैं, JPEG जैसे छोटे संपत्तियों के लिए अच्छा है।",
@@ -130,7 +126,6 @@
       "empty": "इस उपयोगकर्ता के लिए वर्तमान में कोई संपत्तियाँ नहीं हैं।"
     }
   },
-  "assets": "संपत्तियाँ",
   "autoTeleport": {
     "addFundsViaOnramp": "ऑनरैंप के माध्यम से Fund जोड़ें",
     "autoTeleport": "ऑटो TELEPORT",
@@ -218,8 +213,6 @@
   "basic user interface": "मूल उपयोगकर्ता इंटरफेस",
   "beta": "बीटा",
   "blog": "ब्लॉग",
-  "bridging": "ब्रिजिंग",
-  "burn": "जलाएं",
   "buyModal": {
     "nftNotListedAnymore": "NFT {0} अब और सूचीबद्ध नहीं है",
     "nftPriceUpdated": "NFT {0} का मूल्य अपडेट किया गया है"
@@ -233,9 +226,6 @@
   },
   "careers": "करियर",
   "chainSelect": "चयन करें श्रृंग ({0})",
-  "chart": "चार्ट",
-  "chooseFile": "File चुनें",
-  "classic": "क्लासिक",
   "collapse": {
     "collection": {
       "attributes": {
@@ -248,19 +238,15 @@
       }
     }
   },
-  "collection": "संग्रह",
   "collectionCard": {
     "items": "ITEM",
     "volume": "वॉल्यूम"
   },
-  "collections": "संग्रह",
   "Collections Per Page": "पृष्ठ प्रति संग्रह",
-  "computed id": "गणना की गई आईडी",
   "confirmDeleteCollection": {
     "content": "यह आपके collection और NFT को स्थायी रूप से हटा देगा। आपका जमा वापस किया जाएगा।",
     "deleteCollection": "collection हटाएं?"
   },
-  "confirmed": "पुष्टि हो गई",
   "confirmPurchase": {
     "action": "खरीदी की पुष्टि करें",
     "connectedWith": "के साथ कनेक्ट किया गया है",
@@ -275,8 +261,6 @@
     "decline": "अस्वीकार करें",
     "notice": "हम बेहतर सेवा के लिए कुकीज़ का उपयोग करते हैं"
   },
-  "create": "बनाएं",
-  "create collection": "संग्रह बनाएं",
   "createDropdown": {
     "aiPowered": "AI संचालित प्रक्रिया के साथ अपने NFT बनाएं",
     "massmint": "अपने संग्रह के लिए मल्टीपल NFT बनाने के लिए सरल प्रक्रिया",
@@ -285,10 +269,6 @@
     "waifu": "AI का उपयोग करके अपनी एनीमे वाइफु बनाएं"
   },
   "createNftExplainer": "यदि आपका संग्रह हाल ही Mint किया गया है और यह यहां नहीं दिखाई दे रहा है, तो कृपया प्रतीक्षा करें, यह शीघ्र ही नीचे चयनकर्ता में दिखाई दिखाएगा",
-  "creative": "रचनात्मक",
-  "creator": "निर्माता",
-  "credit": "क्रेडिट",
-  "delete": "हटाएं",
   "description": "विवरण",
   "developers": "डेवेलपर्स",
   "documentation": "दस्तावेज़",
@@ -343,11 +323,6 @@
     "youSuccessfullyClaimedNft": "आपने सफलतापूर्वक {0} NFT को दावा किया"
   },
   "dropUpload": "यहां अपनी File छोड़ें या चयन के लिए Click करें।",
-  "email": "ईमेल",
-  "explore": "अन्वेषण करें",
-  "exploreCollections": "इस पर संग्रह अन्वेषण करें",
-  "exploreItems": "इस पर ITEM अन्वेषण करें",
-  "facts": "तथ्य",
   "fiatOnRamp": {
     "agree": "I agree to the",
     "tos": "KodaDot's Terms and Conditions"
@@ -365,8 +340,6 @@
     "transfer": "स्थानांतरण",
     "verified": "सत्यापित"
   },
-  "first NFT market explorer on Kusama and Polkadot": "कुसामा और पॉलकाडॉट पर पहला NFT मार्केट एक्सप्लोरर",
-  "flippers": "फ्लिपर्स",
   "footer": {
     "join": "हमारी समुदाय से जुड़ें",
     "privacyPolicy": "गोपनीयता नीति",
@@ -374,7 +347,6 @@
     "subscribeLabel": "सब्सक्राइब",
     "toc": "उपयोग की शर्तें"
   },
-  "free": "मुक्त",
   "funfacts": {
     "1": {
       "heading": "क्या आप जानते हैं...",
@@ -633,7 +605,6 @@
       "question": "KodaDot में अद्भुत सहपाठी सांस्कृतिक है?"
     }
   },
-  "gallery": "गैलरी",
   "Gallery Items Per Page": "पृष्ठ प्रति गैलरी ITEM",
   "general": {
     "apply": "लागू करें",
@@ -699,7 +670,6 @@
     "using": "का उपयोग करते हुए"
   },
   "go back": "पीछे जाएं",
-  "handle": "हैंडल",
   "helper": {
     "builtOn": "पर बनाया गया",
     "clickToCreate": "संग्रह बनाने के लिए यहाँ Click करें",
@@ -727,7 +697,6 @@
     "today": "आज",
     "yesterday": "कल"
   },
-  "holders": "होल्डर्स",
   "hot": {
     "label": "Hot",
     "subtitle": "Featuring the recently sold NFTs on {chain}",
@@ -752,10 +721,8 @@
     "setOn": "{0} पर ऑन-चेन पहचान बनाएं",
     "socialsDescription": "सोशल्स आपके प्रोFile पृष्ठ पर दिखाए जाएंगे ताकि लोग आसानी से आपसे जुड़ सकें।"
   },
-  "img": "छवि",
   "incomplete": "अधूरा",
   "Instance_tooltip": "इंस्टेंस एक NFT की पहचान है, जैसे कि एक बाजार टिकर। यह एक \"लघु कंप्यूटर-मित्र नाम\" है",
-  "items": "ITEM",
   "landing": {
     "artists": {
       "hook": "{0} में आइए और हम आपको मुफ्त Mint्स के साथ जोड़ेंगे।",
@@ -771,7 +738,6 @@
     "startExploring": "अन्वेषण शुरू करें"
   },
   "Layout Options": "लेआउट विकल्प",
-  "legend": "लीजेंड",
   "lewd": {
     "explicit": "स्पष्ट/संवेदनशील सामग्री",
     "explicitDesc": "केवल वयस्क दर्शक। कृपया अपनी आयु की पुष्टि करें और आगे बढ़ने की सहमति दें।",
@@ -814,7 +780,6 @@
     "sign": "साइनर से प्रतिक्रिया की प्रतीक्षा कर रहे हैं",
     "uploading": "({0}/{1}) IPFS में डेटा Upload कर रहे हैं"
   },
-  "loading": "लोड हो रहा है",
   "lowestPrice": "न्यूनतम मूल्य",
   "massmint": {
     "areYouSureDelete": "क्या आप सुनिश्चित हैं कि आप हटाना चाहते हैं",
@@ -891,7 +856,6 @@
     "yesDelete": "हाँ, हटाएं",
     "yesMint": "हाँ, NFTS Mint करें"
   },
-  "Maximum NFTs in collection": "संग्रह में अधिकतम NFTs",
   "merchshop": "मर्चशॉप",
   "migrate": {
     "agreement": "मुझे समझाया गया है कि एक बार हो गया तो यह क्रिया पूर्वप्रतिस्थापन नहीं हो सकती।",
@@ -1200,8 +1164,6 @@
     "download": "डाउनलोड",
     "reportCollection": "कलेक्शन की सूचना दें"
   },
-  "multipleNFTS": "मल्टीपल NFT",
-  "name": "नाम",
   "navbar": {
     "create": {
       "generateWaifu": "वाइफु उत्पन्न करें",
@@ -1260,8 +1222,6 @@
     "notifications": "सूचनाएँ"
   },
   "ok": "ठीक है",
-  "or": "या",
-  "owner": "मालिक",
   "passion": "पैशन फीड",
   "preferences": {
     "advanced": "उन्नत उपयोगकर्ता इंटरफ़ेस",
@@ -1319,7 +1279,6 @@
     "totalSellValues": "Σ बिक्री मूल्य",
     "totalSoldItems": "Σ बेचे गए ITEM"
   },
-  "purchase": "खरीद",
   "qrCode": "क्यूआर कोड",
   "query": {
     "priceRange": {
@@ -1335,7 +1294,6 @@
     "redirect": "आपको आपके पते को टॉप-अप करने के लिए Ramp.network के होस्टेड मोड पर पुनर्निर्देशित किया जाएगा।",
     "selectAccount": "अपना खाता चुनें और खरीदने पर Click करें।"
   },
-  "recent": "हाल का",
   "redirect": {
     "continue": "जारी रखें",
     "leavingTips": "आप Kodadot से बाहर जा रहे हैं, एक बाह्यिक वेबसाइट पर",
@@ -1365,7 +1323,6 @@
     "seeAll": "सभी देखें",
     "units": "इकाइयाँ"
   },
-  "Select collection where do you want mint your token": "चुनें कि आप अपना टोकन कहां Mint करना चाहते हैं",
   "series": {
     "assets": "संपत्तियाँ",
     "averagePrice": "औसत मूल्य",
@@ -1384,7 +1341,6 @@
     "title": "शीर्ष संग्रह",
     "volume": "आयाम"
   },
-  "settings": "Settings",
   "share": {
     "copyAddress": "पता कॉपी करें",
     "copyLink": "लिंक कॉपी करें",
@@ -1421,8 +1377,6 @@
     "subtitle": "साइन अप करें और हमसे नवीनतम अपडेट प्राप्त करें, साथ ही एक $20 वाउचर प्राप्त करें।",
     "title": "लूप में रहें और प्राप्त करें"
   },
-  "simple": "साधारित",
-  "soon": "जल्दी ही",
   "sort": {
     "blockNumber_ASC": "पुराना",
     "blockNumber_DESC": "नवीनतम",
@@ -1570,7 +1524,6 @@
   "time": {
     "ago": "पहले"
   },
-  "tip": "टिप",
   "toast": {
     "downloadError": "छवि डाउनलोड करने में असमर्थ",
     "downloadOnMobile": "छवि डाउनलोड करने के लिए, पते की पंक्ति से URL कॉपी करें और इसे अपने ब्राउज़र में खोलें। पृष्ठ 2 सेकंड में खुलेगा।",
@@ -1663,7 +1616,6 @@
     "uploading": "डेटा को IPFS पर Upload किया जा रहा है",
     "waiting": "आपके हस्ताक्षर का प्रतीक्षा हो रहा है"
   },
-  "transfer": "स्थानांतरण",
   "transfers": {
     "addAddress": "प्राप्तकर्ता जोड़ें",
     "displayUnit": "प्रदर्शित इकाइयाँ",
@@ -1700,8 +1652,6 @@
     "totalAmount": "कुल मात्रा",
     "transferable": "स्थानांतरणीय"
   },
-  "transform": "परिवर्तन",
-  "translation": "हिंदी",
   "tutorial": "ट्यूटोरियल",
   "unlockable": {
     "claimDrop": "drop का दावा करें",
@@ -1710,11 +1660,7 @@
     "ownerOnly": "केवल मालिक",
     "tooltip": "खरीद के बाद खुलने वाली सामग्री"
   },
-  "uploaded": "Upload की गई",
-  "user": "उपयोगकर्ता",
   "user interface mode": "उपयोगकर्ता इंटरफेस मोड",
-  "users": "उपयोगकर्ता",
-  "useTeleport": "टेलीपोर्ट का उपयोग करें",
   "view": "देखें",
   "viewtx": "ट्रांज़ैक्शन देखें",
   "walletConnect": {
@@ -1734,6 +1680,5 @@
   },
   "warning": {
     "newTransactionWhilePriceSet": "अब मूल्य सेट करने के लिए एक अतिरिक्त लेन-देन की आवश्यकता है।"
-  },
-  "website": "वेबसाइट"
+  }
 }
