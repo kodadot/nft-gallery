@@ -63,7 +63,9 @@
 
         <div class="px-6 pb-4 flex flex-col">
           <div class="flex text-k-grey justify-between items-center mb-4">
-            <span class="text-xs">{{ $t('transfers.networkFee') }}</span>
+            <span class="text-xs capitalize">{{
+              $t('transfers.networkFee')
+            }}</span>
             <span class="text-xs">{{ formattedTxFee }}</span>
           </div>
 
