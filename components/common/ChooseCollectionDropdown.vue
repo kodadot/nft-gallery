@@ -73,9 +73,10 @@ import {
 import { MintedCollection } from '@/composables/transaction/types'
 import { useCollectionForMint } from '@/composables/massmint/useMassMint'
 
-defineProps({
+const props = defineProps({
   fullWidth: { type: Boolean, default: false },
   noShadow: { type: Boolean, default: false },
+  preselected: { type: String, default: undefined },
 })
 
 const { isLogIn, accountId } = useAuth()
@@ -92,6 +93,18 @@ const selectCollection = (collection) => {
   selectedCollection.value = collection
   emit('selectedCollection', collection)
 }
+
+const preselectCollection = (collections: MintedCollection[] | undefined) => {
+  const collection = [collections]
+    .filter(Boolean)
+    .flat()
+    .find((collection) => collection?.id === props.preselected)
+  if (collection) {
+    selectCollection(collection)
+  }
+}
+
+watch(collectionsEntites, preselectCollection, { immediate: true })
 </script>
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';

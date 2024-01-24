@@ -75,6 +75,7 @@
             full-width
             no-shadow
             class="mt-3"
+            :preselected="preselectedCollection"
             @selected-collection="onCollectionSelected" />
         </div>
       </NeoField>
@@ -282,6 +283,7 @@ const { accountId } = useAuth()
 const { transaction, status, isLoading, blockNumber, isError } =
   useTransaction()
 const router = useRouter()
+const route = useRoute()
 const { decimals } = useChain()
 const { toUsdPrice } = useUsdValue()
 
@@ -307,6 +309,9 @@ const form = reactive({
 const selectedCollection = ref()
 const startSelectedCollection = ref<boolean>(false)
 const chooseCollectionRef = ref()
+const preselectedCollection = computed<string | undefined>(() =>
+  route.query.collectionId?.toString(),
+)
 
 const onCollectionSelected = (collection) => {
   selectedCollection.value = collection
