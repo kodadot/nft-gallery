@@ -1,6 +1,6 @@
 <template>
   <NeoDropdownItem @click="addNfts">
-    {{ $i18n.t('moreActions.addNfts') }}
+    {{ $t('moreActions.addNfts') }}
   </NeoDropdownItem>
 </template>
 
@@ -8,7 +8,6 @@
 import { NeoDropdownItem } from '@kodadot1/brick'
 
 const route = useRoute()
-const { $i18n } = useNuxtApp()
 
 const id = route.params.id.toString()
 
