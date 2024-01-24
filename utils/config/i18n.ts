@@ -23,6 +23,11 @@ export const langsFlags = [
     flag: '🇫🇷',
     label: 'Français',
   },
+  {
+    value: 'hi',
+    flag: '🇮🇳',
+    label: 'हिंदी',
+  },
 ]
 
 export const setUserLocale = (locale: string) => {
