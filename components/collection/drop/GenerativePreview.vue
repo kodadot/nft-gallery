@@ -72,10 +72,10 @@ const getHash = (isDefault?: boolean) => {
     : getRandomIntFromRange(entropyRange.value[0], entropyRange.value[1])
 
   // https://github.com/paritytech/ss58-registry/blob/30889d6c9d332953a6e3333b30513eef89003f64/ss58-registry.json#L1292C17-L1292C22
-  return accountId.value
-    ? blake2AsHex(encodeAddress(accountId.value, ss58Format), 256, null, true)
-    : // random value
-      ss58Format
+  const initialValue = accountId.value
+    ? encodeAddress(accountId.value, ss58Format)
+    : String(Date.now() << ss58Format)
+  return blake2AsHex(initialValue, 256, null, true)
 }
 
 const generativeImageUrl = ref(
