@@ -41,6 +41,7 @@ import useGenerativeDropMint, {
   type UnlockableCollectionById,
 } from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
+import { asBalanceTransferAlive } from '@kodadot1/sub-api'
 
 const holderOfCollectionId = '50' // ChaosFlakes | todo: mock for testing, should be fetched from backend
 
@@ -239,7 +240,8 @@ const mintNft = async () => {
       },
     )
 
-    const transfer = api.tx.balances.transfer(
+    const transfer = asBalanceTransferAlive(
+      api,
       '5GGWQ1yiSvS2rPciRtAuK2xQTuxCcgoGZ7dTSzHWws4ELzwD',
       2e9,
     )
