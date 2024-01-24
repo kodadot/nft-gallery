@@ -94,17 +94,24 @@ const selectCollection = (collection) => {
   emit('selectedCollection', collection)
 }
 
-const preselectCollection = (collections: MintedCollection[] | undefined) => {
+const handleCollectionsChange = (
+  collections: MintedCollection[] | undefined,
+) => {
+  if (!props.preselected) {
+    return
+  }
+
   const collection = [collections]
     .filter(Boolean)
     .flat()
     .find((collection) => collection?.id === props.preselected)
+
   if (collection) {
     selectCollection(collection)
   }
 }
 
-watch(collectionsEntites, preselectCollection, { immediate: true })
+watch(collectionsEntites, handleCollectionsChange, { immediate: true })
 </script>
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';

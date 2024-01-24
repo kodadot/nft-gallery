@@ -75,7 +75,7 @@
             full-width
             no-shadow
             class="mt-3"
-            :preselected="preselectedCollection"
+            :preselected="preselectedCollectionId"
             @selected-collection="onCollectionSelected" />
         </div>
       </NeoField>
@@ -275,6 +275,7 @@ import { delay } from '@/utils/fetch'
 import { toNFTId } from '@/components/rmrk/service/scheme'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
+import { MintedCollection } from '@/composables/transaction/types'
 
 // composables
 const { $consola } = useNuxtApp()
@@ -309,12 +310,21 @@ const form = reactive({
 const selectedCollection = ref()
 const startSelectedCollection = ref<boolean>(false)
 const chooseCollectionRef = ref()
-const preselectedCollection = computed<string | undefined>(() =>
+const preselectedCollectionId = ref<string | undefined>(
   route.query.collectionId?.toString(),
 )
 
-const onCollectionSelected = (collection) => {
+const onCollectionSelected = (collection: MintedCollection) => {
   selectedCollection.value = collection
+
+  if (collection.id === preselectedCollectionId.value) {
+    clearPreselectedCollection()
+  }
+}
+
+const clearPreselectedCollection = () => {
+  preselectedCollectionId.value = undefined
+  router.replace({ query: { collectionId: undefined } })
 }
 
 const modalShowStatus = ref(false)
