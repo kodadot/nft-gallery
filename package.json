@@ -65,7 +65,7 @@
     "@kodadot1/minimark": "^0.1.13",
     "@kodadot1/minipfs": "0.4.2-rc.0",
     "@kodadot1/static": "workspace:*",
-    "@kodadot1/sub-api": "0.2.0-rc.0",
+    "@kodadot1/sub-api": "0.3.0-rc.0",
     "@nuxt/image": "^1.3.0",
     "@nuxtjs/apollo": "5.0.0-alpha.6",
     "@nuxtjs/i18n": "8.0.0-rc.3",

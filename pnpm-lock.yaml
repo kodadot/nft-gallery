@@ -33,8 +33,8 @@ importers:
         specifier: workspace:*
         version: link:libs/static
       '@kodadot1/sub-api':
-        specifier: 0.2.0-rc.0
-        version: 0.2.0-rc.0
+        specifier: 0.3.0-rc.0
+        version: 0.3.0-rc.0
       '@nuxt/image':
         specifier: ^1.3.0
         version: 1.3.0(rollup@2.79.1)
@@ -3342,16 +3342,16 @@ packages:
       ofetch: 1.3.3
     dev: false
 
-  /@kodadot1/static@0.0.2:
-    resolution: {integrity: sha512-SS+g9xVCQ6GmdjHoQvn3aplhbLJMyOGBOyOycydFmS33JHoabSEH/KZvBAmsVQUGP7slKHqJ0ZRu3HS9pi0imQ==}
+  /@kodadot1/static@0.0.4:
+    resolution: {integrity: sha512-91HlWsm1RWaQCWeeEnyQohCOJ523XaDF8njCC2xfJCsi5Ae5mW84iqt+m+MI5ZicMld07Ejuuo/YYZ8TDUUK4Q==}
     dev: false
 
-  /@kodadot1/sub-api@0.2.0-rc.0:
-    resolution: {integrity: sha512-noEwHKBLzJAj/6pZqjqX44d7j/K8sF30uKAzfmbH8vdVdAkvNIQe4XqcxqwgYGirUyT0nD5dNhDaJ/gF1EZYvQ==}
+  /@kodadot1/sub-api@0.3.0-rc.0:
+    resolution: {integrity: sha512-k1aIqnilpH3zbFhj6zuETEI/jnOOQ3ExGrSNkA7MlR8EBW+ywGKEvynAB8C/3g0q962CRi5/d9dAJTyDY5NFhg==}
     dependencies:
-      '@kodadot1/static': 0.0.2
-      '@polkadot/api': 10.9.1
-      '@polkadot/types-codec': 10.9.1
+      '@kodadot1/static': 0.0.4
+      '@polkadot/api': 10.11.2
+      '@polkadot/types-codec': 10.11.2
     transitivePeerDependencies:
       - bufferutil
       - supports-color
