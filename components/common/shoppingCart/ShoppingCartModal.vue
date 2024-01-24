@@ -35,7 +35,7 @@
           {{ $t('shoppingCart.total') }}
           <div class="flex">
             <CommonTokenMoney :value="totalPrice" class="text-k-grey" />
-            <span class="has-text-weight-bold ml-4"> ${{ priceUSD }} </span>
+            <span class="font-bold ml-4"> ${{ priceUSD }} </span>
           </div>
         </div>
         <div class="flex justify-center mx-6 pt-4 pb-5">
@@ -56,7 +56,7 @@
             alt="empty cart"
             width="140"
             class="mb-5" />
-          <span class="has-text-weight-bold mb-2">{{
+          <span class="font-bold mb-2">{{
             $t('shoppingCart.emptyCart.line1')
           }}</span>
           <span class="text-center mb-5">{{

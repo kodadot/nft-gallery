@@ -23,7 +23,7 @@
       v-if="isLewd && isLewdBlurredLayer"
       class="nsfw-blur flex capitalize items-center justify-center flex-col">
       <NeoIcon icon="eye-slash" class="mb-3" />
-      <span class="has-text-weight-bold">
+      <span class="font-bold">
         {{ $t('lewd.explicit') }}
       </span>
       <span class="nsfw-desc text-center">{{ $t('lewd.explicitDesc') }}</span>
@@ -31,7 +31,7 @@
     <div
       v-if="isInteractive"
       class="bg-k-shade border-k-grey flex items-center justify-center border rounded-full absolute right-3 top-3 image is-24x24">
-      <NeoIcon icon="code" pack="far" class="text-xs has-text-weight-medium" />
+      <NeoIcon icon="code" pack="far" class="text-xs font-medium" />
     </div>
     <NeoButton
       v-if="isLewd"

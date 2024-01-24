@@ -4,7 +4,7 @@
     :class="`nft-media-info__${variant}`">
     <div class="flex flex-col">
       <span
-        class="is-ellipsis has-text-weight-bold"
+        class="is-ellipsis font-bold"
         data-testid="nft-name"
         :title="nft.name"
         >{{ nft.name || '--' }}</span

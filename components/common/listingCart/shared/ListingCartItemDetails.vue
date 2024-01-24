@@ -12,7 +12,7 @@
 
         <div class="flex flex-col justify-between ml-4 limit-width">
           <div
-            class="has-text-weight-bold line-height-1 whitespace-nowrap is-clipped is-ellipsis"
+            class="font-bold line-height-1 whitespace-nowrap is-clipped is-ellipsis"
             :class="[discarded ? 'text-k-grey' : 'text-text-color']">
             {{ nft.name }}
           </div>

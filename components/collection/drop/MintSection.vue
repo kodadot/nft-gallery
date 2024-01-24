@@ -2,7 +2,7 @@
   <div>
     <div>
       <div class="flex justify-between items-center mb-5">
-        <div class="has-text-weight-bold is-size-5">
+        <div class="font-bold is-size-5">
           {{ $t('mint.unlockable.phase') }}
         </div>
         <div
@@ -14,7 +14,7 @@
       </div>
       <div class="flex justify-between items-center">
         <div>{{ mintedPercent }} %</div>
-        <div class="has-text-weight-bold">
+        <div class="font-bold">
           {{ mintedCount }} / {{ maxCount }}
           {{ $t('statsOverview.minted') }}
         </div>

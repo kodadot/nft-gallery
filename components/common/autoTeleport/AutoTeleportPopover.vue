@@ -7,9 +7,7 @@
         <div class="flex is-size-6 mb-3">
           <NeoIcon icon="fa-info-circle" pack="fa-regular" class="mr-2" />
 
-          <span class="has-text-weight-bold">{{
-            $t('autoTeleport.autoTeleport')
-          }}</span>
+          <span class="font-bold">{{ $t('autoTeleport.autoTeleport') }}</span>
         </div>
 
         <p class="text-left mb-2">{{ $t('autoTeleport.tooltip.first') }}</p>
@@ -17,7 +15,7 @@
           {{ $t('autoTeleport.tooltip.second') }}
         </p>
 
-        <p class="has-text-weight-bold text-left mb-3">
+        <p class="font-bold text-left mb-3">
           {{ $t('autoTeleport.tooltip.optimalTransferPath') }}
         </p>
 

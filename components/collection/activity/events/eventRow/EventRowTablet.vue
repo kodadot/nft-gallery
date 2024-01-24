@@ -15,7 +15,7 @@
         <nuxt-link
           class="is-ellipsis is-inline-block mobile-fixed-width"
           :to="`/${urlPrefix}/gallery/${event.nft.id}`">
-          <span class="has-text-weight-bold">
+          <span class="font-bold">
             {{ event.nft.name }}
           </span>
         </nuxt-link>

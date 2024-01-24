@@ -20,7 +20,7 @@
             <ProfileLink
               :address="flipperId"
               :avatar-size="35"
-              class="has-text-weight-bold" />
+              class="font-bold" />
             <div class="flex justify-between mt-2">
               <span class="text-xs text-k-grey">{{
                 $t('activity.owned')
