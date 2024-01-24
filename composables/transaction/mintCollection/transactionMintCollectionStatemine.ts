@@ -80,7 +80,6 @@ export async function execMintCollectionStatemine({
 
   const arg = [
     [
-      ...royaltyArgs,
       api.tx.nfts.create(...createArgs),
       api.tx.nfts.setCollectionMetadata(nextId, metadata),
       ...maxSupplyArg,
@@ -90,6 +89,7 @@ export async function execMintCollectionStatemine({
         feeMultiplier,
         token as SupportTokens,
       )),
+      ...royaltyArgs,
     ],
   ]
 
