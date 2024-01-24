@@ -67,7 +67,7 @@
 
   <div
     v-if="!isEmptyBalanceOnAllChains && !isBalanceLoading"
-    class="my-4 flex items-center justify-end">
+    class="mt-4 flex items-center justify-end">
     <a class="text-k-grey text-xs" @click="openRampModal"
       >+ {{ $t('addFunds') }}</a
     >
