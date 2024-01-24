@@ -785,7 +785,9 @@ const getTransferParams = async (
 
   const firstAddress = addresses[0]
 
-  const cb = isSingle ? api.tx.balances.transfer : api.tx.utility.batch
+  const cb = isSingle
+    ? api.tx.balances.transferAllowDeath
+    : api.tx.utility.batch
   const arg = isSingle
     ? [
         firstAddress.address as string,
@@ -798,7 +800,7 @@ const getTransferParams = async (
             decimals,
           )
 
-          return api.tx.balances.transfer(
+          return api.tx.balances.transferAllowDeath(
             target.address as string,
             amountToTransfer,
           )
