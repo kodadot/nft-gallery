@@ -438,9 +438,9 @@ const isDisabledButton = computed(() => {
   )
 })
 
-const _handleMaxClick = () => {
-  amount.value = myBalance.value
-}
+// const handleMaxClick = () => {
+//   amount.value = myBalance.value
+// }
 
 const checkEDBeforeTeleport = () => {
   if (showEDWarning.value) {
