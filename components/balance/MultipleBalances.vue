@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-2">
+  <div>
     <div
       v-if="isEmptyBalanceOnAllChains && !isBalanceLoading"
       class="text-xs py-4 flex flex-col items-center">
@@ -67,12 +67,13 @@
 
   <div
     v-if="!isEmptyBalanceOnAllChains && !isBalanceLoading"
-    class="flex items-center justify-between">
-    <a class="text-grey text-xs" @click="openRampModal"
+    class="mt-4 flex items-center justify-end">
+    <a class="text-k-grey text-xs" @click="openRampModal"
       >+ {{ $t('addFunds') }}</a
     >
   </div>
-  <OnRampModal :value="rampActive" @close="rampActive = false" />
+
+  <OnRampModal v-model="rampActive" @close="rampActive = false" />
 </template>
 
 <script setup lang="ts">

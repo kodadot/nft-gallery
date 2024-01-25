@@ -75,6 +75,7 @@
             full-width
             no-shadow
             class="mt-3"
+            :preselected="preselectedCollectionId"
             @selected-collection="onCollectionSelected" />
         </div>
       </NeoField>
@@ -304,13 +305,10 @@ const form = reactive({
 })
 
 // select collections
-const selectedCollection = ref()
+const { selectedCollection, preselectedCollectionId, onCollectionSelected } =
+  useCollectionDropdown()
 const startSelectedCollection = ref<boolean>(false)
 const chooseCollectionRef = ref()
-
-const onCollectionSelected = (collection) => {
-  selectedCollection.value = collection
-}
 
 const modalShowStatus = ref(false)
 

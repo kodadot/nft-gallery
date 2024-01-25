@@ -24,12 +24,12 @@
       <div class="level-item text-center">
         <div>
           <p class="title">
-            <CommonTokenMoney :value="highestBuyPrice" inline /> ⊆
-            <CommonTokenMoney :value="totalAmountSpend" inline />
+            <CommonTokenMoney :value="maxSoldPrice" inline /> ⊆
+            <CommonTokenMoney :value="totalSell" inline />
           </p>
           <p class="text-xs text-k-grey">
-            {{ $t('profileStats.highestBuy') }} /
-            {{ $t('profileStats.totalAmountSpend') }}
+            {{ $t('profileStats.maxSoldPrice') }} /
+            {{ $t('profileStats.totalSellValues') }}
           </p>
         </div>
       </div>
@@ -48,12 +48,12 @@
       <div class="level-item text-center">
         <div>
           <p class="title">
-            <CommonTokenMoney :value="maxSoldPrice" inline /> ⊆
-            <CommonTokenMoney :value="totalSell" inline />
+            <CommonTokenMoney :value="highestBuyPrice" inline /> ⊆
+            <CommonTokenMoney :value="totalAmountSpend" inline />
           </p>
           <p class="text-xs text-k-grey">
-            {{ $t('profileStats.maxSoldPrice') }} /
-            {{ $t('profileStats.totalSellValues') }}
+            {{ $t('profileStats.highestBuy') }} /
+            {{ $t('profileStats.totalAmountSpend') }}
           </p>
         </div>
       </div>

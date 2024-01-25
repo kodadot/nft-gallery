@@ -45,6 +45,7 @@
   "owner": "Owner",
   "facts": "Facts",
   "free": "Free",
+  "viewProfile": "View Profile",
   "computed id": "Computed id",
   "create collection": "Create Collection",
   "Select collection where do you want mint your token": "Select the collection where do you want to mint your token",
@@ -1195,6 +1196,7 @@
     "download": "Download",
     "reportCollection": "Report Collection",
     "deleteCollection": "Delete Collection",
+    "addNfts": "Add NFTs",
     "deleteNfts": "Delete NFTs",
     "customize": "Customize"
   },

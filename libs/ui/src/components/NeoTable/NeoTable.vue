@@ -60,10 +60,7 @@ $table-th-font-weight: 400;
       }
 
       @apply my-0 mx-0 py-1 px-0;
-
-      &:last-child {
-        @apply border-b-default border-b-k-shade;
-      }
+      @apply border-b-0 #{!important};
     }
     &--hoverable {
       tbody tr:hover td {
