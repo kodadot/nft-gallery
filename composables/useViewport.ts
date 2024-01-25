@@ -1,7 +1,14 @@
 import { useWindowSize } from '@vueuse/core'
 
 export default function () {
-  const isMobile = computed(() => useWindowSize().width.value <= 768)
+  const { width } = useWindowSize()
+  const isTouch = computed(() => width.value < 1024)
+  const isMobile = computed(() => width.value <= 768)
+  const isTinyMobile = computed(() => width.value < 480)
 
-  return { isMobile }
+  return {
+    isTouch,
+    isMobile,
+    isTinyMobile,
+  }
 }

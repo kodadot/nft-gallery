@@ -6,7 +6,7 @@
     :class="{
       'is-active': isMobileNavbarOpen,
     }">
-    <div class="container items-center" :class="{ 'is-fluid': !isMobile }">
+    <div class="container items-center" :class="{ 'is-fluid': !isTouch }">
       <!-- BRAND -->
       <div class="navbar-brand">
         <nuxt-link to="/" class="navbar-item logo nuxt-link-active">
@@ -26,7 +26,7 @@
           <div v-show="openMobileSearchBar">
             <div class="fixed-stack flex items-center justify-between p-2">
               <Search
-                v-if="isMobile"
+                v-if="isTouch"
                 ref="mobilSearchRef"
                 hide-filter
                 class="flex-grow" />
@@ -66,7 +66,7 @@
         <div class="navbar-start">
           <div class="navbar-item is-expanded flex justify-center">
             <Search
-              v-if="!isMobile"
+              v-if="!isTouch"
               class="search-navbar flex-grow pb-0 is-hidden-touch"
               hide-filter
               search-column-class="flex-grow" />
@@ -89,7 +89,7 @@
           </nuxt-link>
 
           <MobileExpandableSection
-            v-if="isMobile"
+            v-if="isTouch"
             v-slot="{ onCloseMobileSubMenu }"
             :title="$t('explore')">
             <NavbarExploreOptions
@@ -113,7 +113,7 @@
             v-show="isCreateVisible"
             class="navbar-create custom-navbar-item ml-0"
             data-testid="create"
-            :is-mobile="isMobile"
+            :is-mobile="isTouch"
             :chain="urlPrefix"
             @closeMobileNavbar="showMobileNavbar" />
 
@@ -125,7 +125,7 @@
           :chain="urlPrefix" /> -->
 
           <MobileExpandableSection
-            v-if="isMobile"
+            v-if="isTouch"
             v-slot="{ onCloseMobileSubMenu }"
             no-padding
             :title="$t('chainSelect', [chainName])">
@@ -143,15 +143,15 @@
           <NotificationBoxButton
             v-if="account"
             data-testid="navbar-button-notification"
-            :show-label="isMobile"
+            :show-label="isTouch"
             @closeBurgerMenu="showMobileNavbar" />
 
           <ShoppingCartButton
             data-testid="navbar-button-cart"
-            :show-label="isMobile"
+            :show-label="isTouch"
             @closeBurgerMenu="showMobileNavbar" />
 
-          <template v-if="isMobile">
+          <template v-if="isTouch">
             <template v-if="!account">
               <MobileExpandableSection
                 v-slot="{ onCloseMobileSubMenu }"
@@ -186,7 +186,7 @@
           </template>
 
           <NavbarProfileDropdown
-            v-if="!isMobile"
+            v-if="!isTouch"
             id="NavProfile"
             :chain="urlPrefix"
             data-testid="navbar-profile-dropdown"
@@ -212,7 +212,6 @@ import NavbarExploreOptions from '@/components/navbar/NavbarExploreOptions.vue'
 import NotificationBoxButton from '@/components/navbar/NotificationBoxButton.vue'
 import Search from '@/components/search/Search.vue'
 import ConnectWalletButton from '@/components/shared/ConnectWalletButton.vue'
-import { useEventListener } from '@vueuse/core'
 
 import { useIdentityStore } from '@/stores/identity'
 import { getChainNameByPrefix } from '@/utils/chain'
@@ -223,10 +222,7 @@ const { neoModal } = useProgrammatic()
 const openMobileSearchBar = ref(false)
 const lastScrollPosition = ref(0)
 const isBurgerMenuOpened = ref(false)
-const { width } = useWindowSize()
-const isMobile = ref(window.innerWidth < 1024)
-const isMobileWithoutTablet = ref(window.innerWidth < 768)
-const isTinyMobile = computed(() => width.value < 480)
+const { isTouch, isMobile, isTinyMobile } = useViewport()
 const { urlPrefix } = usePrefix()
 const { isDarkMode } = useTheme()
 const identityStore = useIdentityStore()
@@ -240,7 +236,7 @@ const account = computed(() => identityStore.getAuthAddress)
 const isCreateVisible = computed(() => createVisible(urlPrefix.value))
 
 const logoSrc = computed(() => {
-  const variant = isMobile.value ? 'Koda' : 'Koda_Beta'
+  const variant = isTouch.value ? 'Koda' : 'Koda_Beta'
   const color = isDarkMode.value ? '_dark' : ''
   return `/${variant}${color}.svg`
 })
@@ -255,7 +251,7 @@ const openWalletConnectModal = (): void => {
   neoModal.closeAll()
   neoModal.open({
     ...ConnectWalletModalConfig,
-    ...(isMobileWithoutTablet.value ? { animation: 'none' } : {}),
+    ...(isMobile.value ? { animation: 'none' } : {}),
   })
 }
 
@@ -299,10 +295,6 @@ const hideMobileSearchBar = () => {
   setBodyScroll(true)
 }
 
-const handleResize = () => {
-  isMobile.value = window.innerWidth < 1024
-}
-
 const chainName = computed(() => getChainNameByPrefix(urlPrefix.value))
 
 const updateAuthBalance = () => {
@@ -320,7 +312,6 @@ onBeforeUnmount(() => {
   document.documentElement.classList.remove('is-clipped-touch')
   clearInterval(updateAuthBalanceTimer.value)
 })
-useEventListener(window, 'resize', handleResize)
 </script>
 
 <style lang="scss" scoped>

@@ -38,11 +38,10 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits(['closeBurgerMenu'])
-const isMobile = ref(window.innerWidth < 1024)
-const isMobileWithoutTablet = ref(window.innerWidth < 768)
+const { isMobile, isTouch } = useViewport()
 
 const toggleShoppingCartModal = () => {
-  if (isMobile.value) {
+  if (isTouch.value) {
     emit('closeBurgerMenu')
   }
 
@@ -52,11 +51,11 @@ const toggleShoppingCartModal = () => {
   if (!isShoppingCartOpen()) {
     openShoppingCart({
       onClose: (type: ModalCloseType) => {
-        if (isMobile.value && type === ModalCloseType.BACK) {
+        if (isTouch.value && type === ModalCloseType.BACK) {
           emit('closeBurgerMenu')
         }
       },
-      ...(isMobileWithoutTablet.value ? { animation: 'none' } : {}),
+      ...(isMobile.value ? { animation: 'none' } : {}),
     })
   }
 }
