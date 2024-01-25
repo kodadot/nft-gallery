@@ -1,5 +1,7 @@
 <template>
-  <div class="carousel-info flex flex-col">
+  <div
+    class="carousel-info flex flex-col"
+    :class="{ 'carousel-info__minimal': minimal }">
     <div
       :title="item.name"
       :class="[
@@ -9,7 +11,8 @@
       <span class="is-ellipsis">{{ item.name || '--' }}</span>
       <span v-if="isCollection" class="carousel-info-arrow">----></span>
     </div>
-    <div v-if="item?.collectionId" class="min-h-[1.5rem]">
+
+    <div v-if="item?.collectionId && !minimal" class="min-h-[1.5rem]">
       <CollectionDetailsPopover :nft="item">
         <template #content>
           <nuxt-link
@@ -30,8 +33,11 @@
 
     <div
       v-if="!isCollection"
-      class="flex items-center mt-4"
-      :class="[showPrice ? 'justify-between' : 'justify-end']">
+      class="flex items-center"
+      :class="[
+        showPrice ? 'justify-between' : 'justify-end',
+        minimal ? 'mt-2' : 'mt-4',
+      ]">
       <div v-if="showPrice" class="flex items-center">
         <Money
           :value="price"
@@ -63,7 +69,9 @@ const CollectionDetailsPopover = defineAsyncComponent(
 
 const props = defineProps<{
   item: CarouselNFT
+  minimal: boolean
 }>()
+
 const { urlPrefix } = usePrefix()
 const { urlOf } = useCarouselUrl()
 const isCollection = inject<boolean>('isCollection', false)

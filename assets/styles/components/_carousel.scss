@@ -51,6 +51,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
 
+    &__minimal {
+      padding: 9px;
+    }
+
     &-name {
       width: 100%;
       white-space: nowrap;
