@@ -146,7 +146,9 @@ const mintButtonLabel = computed(() =>
 
 const handleMint = () => {
   if (isMintedOut.value) {
-    return navigateTo(`/${urlPrefix.value}/collection/${props.collectionId}`)
+    return navigateTo(
+      `/${urlPrefix.value}/collection/${props.collectionId}?listed=true`,
+    )
   }
 
   emit('mint')
