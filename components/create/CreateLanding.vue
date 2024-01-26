@@ -1,14 +1,17 @@
 <template>
-  <div class="container flex items-center justify-center flex-col">
+  <div
+    class="container m-0 bg-k-primary-light flex items-center justify-center flex-col">
     <div>
       <h1 class="title is-size-2 mb-7">{{ $t('mint.landing.heading') }}</h1>
 
-      <div v-if="route.query?.select !== 'nft'" class="pack">
-        <div class="pack-box" @click="gotoPathAfterLogin('/create/collection')">
+      <div v-if="route.query?.select !== 'nft'" class="pack flex gap-6 mt-8">
+        <div
+          class="pack-box"
+          @click="gotoPathAfterLogin(`/${urlPrefix}/create/collection`)">
           <div class="pack-content">
             <NeoIcon icon="image-polaroid" custom-size="fa-3x" />
-            <div class="pack-content-text">
-              <p class="is-size-4 font-bold">Collection</p>
+            <div class="mt-0 md:mt-8">
+              <p class="is-size-4 font-bold">{{ $t('collection') }}</p>
               <p>{{ $t('mint.landing.collection') }}</p>
             </div>
           </div>
@@ -19,8 +22,8 @@
           @click="router.push({ query: { select: 'nft' } })">
           <div class="pack-content">
             <NeoIcon icon="gem" custom-size="fa-3x" />
-            <div class="pack-content-text">
-              <p class="is-size-4 font-bold">NFT</p>
+            <div class="mt-0 md:mt-8">
+              <p class="is-size-4 font-bold">{{ $t('general.nft') }}</p>
               <p>{{ $t('mint.landing.nft') }}</p>
             </div>
           </div>
@@ -58,14 +61,14 @@
         </nuxt-link>
       </div>
 
-      <div v-else class="pack">
+      <div v-else class="pack flex gap-6 mt-8">
         <div
           class="pack-box"
           data-testid="create-landing-single-nft-button"
-          @click="gotoPathAfterLogin('/create/nft')">
+          @click="gotoPathAfterLogin(`/${urlPrefix}/create/nft`)">
           <div class="pack-content">
             <NeoIcon icon="image" custom-size="fa-3x" />
-            <div class="pack-content-text">
+            <div class="mt-0 md:mt-8">
               <p class="is-size-4 font-bold">
                 {{ $t('mint.landing.singleNft') }}
               </p>
@@ -79,7 +82,7 @@
           @click="gotoPathAfterLogin(`/${urlPrefix}/massmint`)">
           <div class="pack-content">
             <NeoIcon icon="photo-film" custom-size="fa-3x" />
-            <div class="pack-content-text">
+            <div class="mt-0 md:mt-8">
               <p class="is-size-4 font-bold">
                 {{ $t('mint.landing.massNft') }}
               </p>
@@ -105,12 +108,11 @@ const { isMobile } = useViewport()
 
 const gotoPathAfterLogin = (path: string) => {
   doAfterLogin({
-    onLoginSuccess: () => {
+    onLoginSuccess: () =>
       navigateTo({
         path,
-        query: { collectionId: route.query.collectionId ?? null },
-      })
-    },
+        query: { collectionId: route.query.collectionId },
+      }),
   })
 }
 </script>
@@ -120,12 +122,7 @@ const gotoPathAfterLogin = (path: string) => {
 
 .container {
   height: calc(100vh - 5.25rem); // 5.25rem = header height
-  margin: 0;
   max-width: 100% !important;
-
-  @include ktheme() {
-    background-color: theme('k-primaryLight');
-  }
 
   @include touch() {
     height: 100vh;
@@ -141,9 +138,6 @@ const gotoPathAfterLogin = (path: string) => {
 }
 
 .pack {
-  display: flex;
-  gap: 1.5rem;
-
   &-box {
     @apply cursor-pointer text-[unset] px-8 py-16;
 
@@ -161,10 +155,6 @@ const gotoPathAfterLogin = (path: string) => {
 
   &-content {
     @apply text-center w-56;
-
-    &-text {
-      margin-top: 2rem;
-    }
   }
 
   &-box-waifu {
@@ -178,12 +168,6 @@ const gotoPathAfterLogin = (path: string) => {
     }
   }
 
-  &-content-waifu {
-    &-text {
-      margin-top: 2rem;
-    }
-  }
-
   @include mobile() {
     flex-direction: column;
     width: 100%;
@@ -194,10 +178,6 @@ const gotoPathAfterLogin = (path: string) => {
 
     &-content {
       @apply flex gap-8 text-left w-full;
-
-      &-text {
-        margin-top: 0;
-      }
     }
   }
 }
