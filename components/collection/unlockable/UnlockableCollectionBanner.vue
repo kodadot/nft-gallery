@@ -11,7 +11,7 @@
               densities="2x"
               :src="image"
               alt="avatar"
-              class="object-fit-cover" />
+              class="object-cover" />
           </div>
           <h1 class="collection-banner-name">{{ title }}</h1>
         </div>

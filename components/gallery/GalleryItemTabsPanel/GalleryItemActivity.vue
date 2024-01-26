@@ -12,7 +12,7 @@
         <label
           v-for="(value, name) in filters"
           :key="name"
-          class="is-clickable capitalize events-checkbox-container"
+          class="cursor-pointer capitalize events-checkbox-container"
           :data-testid="name"
           :class="cssActive(value)">
           <input
@@ -76,9 +76,7 @@ const cssActive = (value) => {
 }
 
 .events {
-  @include ktheme() {
-    border-bottom: 1px solid theme('border-color');
-  }
+  @apply border-b;
 
   &-filter {
     column-gap: 0.625rem;
@@ -90,14 +88,14 @@ const cssActive = (value) => {
   }
 
   .events-checkbox-container {
+    @apply px-5 py-[5px] rounded-[25px];
+
     @include ktheme() {
       border: 1px solid theme('k-shade');
       &:hover {
         border-color: theme('border-color');
       }
     }
-    border-radius: 25px;
-    padding: 5px 20px;
   }
 
   .events-checkbox-active {

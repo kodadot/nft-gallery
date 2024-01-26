@@ -5,7 +5,7 @@
       :class="{ 'px-3 pt-4 staked-primary-title': !isMinimal }">
       <div class="flex justify-between">
         <span
-          class="is-ellipsis has-text-weight-bold"
+          class="is-ellipsis font-bold"
           data-testid="nft-name"
           :title="token.name">
           {{ token.name || '--' }}
@@ -13,7 +13,7 @@
         <span v-if="!isMinimal">x{{ token.supply }}</span>
       </div>
 
-      <div v-if="!isMinimal" class="text-xs has-text-grey">
+      <div v-if="!isMinimal" class="text-xs text-k-grey">
         {{ $t('lowestPrice') }}:
         <CommonTokenMoney
           :value="token.cheapest?.price"
@@ -23,7 +23,7 @@
 
     <div
       class="flex justify-between items-center"
-      :class="{ 'border-top card-border-color pt-2 px-3': !isMinimal }">
+      :class="{ 'border-t border-border-color pt-2 px-3': !isMinimal }">
       <template v-if="!isMinimal">
         <a class="is-ellipsis pr-1" :v-safe-href="collectionUrl">
           {{ collectionNameLabel }}

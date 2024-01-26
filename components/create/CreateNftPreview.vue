@@ -1,22 +1,20 @@
 <template>
   <div class="preview">
-    <p class="has-text-weight-bold">{{ $t('mint.nft.preview.title') }}</p>
+    <p class="font-bold">{{ $t('mint.nft.preview.title') }}</p>
 
-    <div class="preview-card border theme-background-color">
+    <div class="preview-card border bg-background-color">
       <div
         class="preview-image flex items-center"
         :style="{ backgroundImage: `url(${image})` }">
-        <p v-if="!image" class="p-4 text-xs text-align-center">
+        <p v-if="!image" class="p-4 text-xs text-center">
           {{ $t('mint.nft.preview.uploadArt') }}
         </p>
       </div>
-      <div class="preview-content border-top p-3">
-        <p
-          class="has-text-weight-bold is-ellipsis"
-          data-testid="nft-preview-name">
+      <div class="preview-content border-t p-3">
+        <p class="font-bold is-ellipsis" data-testid="nft-preview-name">
           {{ name || 'Untitled' }}
         </p>
-        <p class="text-xs is-ellipsis has-text-grey">
+        <p class="text-xs is-ellipsis text-k-grey">
           {{ collection || $t('mint.nft.preview.noCollection') }}
         </p>
 
@@ -24,7 +22,7 @@
           <p class="" data-testid="nft-preview-price">
             {{ price || '$$$' }} {{ symbol }}
           </p>
-          <p class="capitalize text-xs has-text-grey">
+          <p class="capitalize text-xs text-k-grey">
             {{ chain ? getChainNameByPrefix(chain) : '--' }}
           </p>
         </div>

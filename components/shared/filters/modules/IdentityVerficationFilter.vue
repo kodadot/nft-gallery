@@ -2,11 +2,11 @@
   <NeoCollapse
     :open="expanded"
     animation="slide"
-    class="border-bottom"
+    class="border-b"
     :class="{ 'fluid-padding-left': fluidPadding }">
     <template #trigger="{ open }">
       <div class="flex" role="button" :aria-expanded="open">
-        <p class="card-header-title has-text-weight-normal">
+        <p class="card-header-title font-normal">
           {{ $t('filters.identityVerification') }}
         </p>
         <a class="card-header-icon">

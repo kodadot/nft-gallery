@@ -15,7 +15,7 @@
         <nuxt-link
           class="is-ellipsis is-inline-block mobile-fixed-width"
           :to="`/${urlPrefix}/gallery/${event.nft.id}`">
-          <span class="has-text-weight-bold">
+          <span class="font-bold">
             {{ event.nft.name }}
           </span>
         </nuxt-link>
@@ -33,9 +33,7 @@
         <span v-else>
           {{ blank }}
         </span>
-        <span>
-          {{ timeAgo(event.timestamp) }}
-        </span>
+        <TimeAgo :timestamp="event.timestamp" />
       </div>
     </div>
 
@@ -75,7 +73,6 @@ import {
   Offer,
 } from '@/composables/collectionActivity/types'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
-import { timeAgo } from '@/components/collection/utils/timeAgo'
 import {
   blank,
   getAmount,

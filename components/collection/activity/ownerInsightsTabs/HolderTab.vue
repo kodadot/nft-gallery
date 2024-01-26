@@ -14,21 +14,21 @@
               :address="holderId"
               :avatar-size="35"
               data-testid="collection-nft-holder-address"
-              class="has-text-weight-bold" />
+              class="font-bold" />
             <div class="flex justify-between mt-2">
-              <span class="text-xs has-text-grey">{{
+              <span class="text-xs text-k-grey">{{
                 $t('activity.owned')
               }}</span>
               <span>{{ holdings.nftCount }}</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-xs has-text-grey">{{
+              <span class="text-xs text-k-grey">{{
                 $t('activity.totalBought')
               }}</span>
               <CommonTokenMoney :value="holdings.totalBought" />
             </div>
             <div class="flex justify-between">
-              <span class="text-xs has-text-grey">{{
+              <span class="text-xs text-k-grey">{{
                 $t('activity.totalSold')
               }}</span>
               <CommonTokenMoney
@@ -37,14 +37,12 @@
               <span v-else>--</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-xs has-text-grey">{{
-                $t('activity.date')
-              }}</span>
-              <span>{{ timeAgo(holdings.lastActivityTimestamp) }}</span>
+              <span class="text-xs text-k-grey">{{ $t('activity.date') }}</span>
+              <TimeAgo :timestamp="holdings.lastActivityTimestamp" />
             </div>
             <div>
               <div
-                class="text-xs has-text-k-blue is-clickable"
+                class="text-xs text-k-blue hover:text-k-blue-hover cursor-pointer"
                 data-testid="collection-holder-nft-details"
                 @click="toggleNFTDetails(holderId)">
                 {{ $t('activity.nftDetails') }}
@@ -69,7 +67,7 @@
       <div ref="target" />
     </div>
     <div v-else class="flex justify-center items-center pt-6 px-6">
-      <div class="has-text-grey has-text-centered">
+      <div class="text-k-grey text-center">
         {{ $t('activity.noHolders') }}
       </div>
     </div>
@@ -82,7 +80,6 @@ import { Owners } from '@/composables/collectionActivity/types'
 import { NeoIcon } from '@kodadot1/brick'
 
 import NFTsDetaislDropdown from './NFTsDetaislDropdown.vue'
-import { timeAgo } from '@/components/collection/utils/timeAgo'
 
 const props = defineProps<{
   owners?: Owners

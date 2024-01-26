@@ -21,7 +21,7 @@
     </div>
     <div v-else>
       <div class="mt-5">
-        <p class="has-text-weight-bold">{{ $t('migrate.collection') }}</p>
+        <p class="font-bold">{{ $t('migrate.collection') }}</p>
         <div class="flex mt-4">
           <img
             class="border mr-4"
@@ -31,7 +31,7 @@
             height="48" />
           <div>
             <p>{{ collection?.name }}</p>
-            <p class="has-text-grey text-xs">
+            <p class="text-k-grey text-xs">
               {{ $t('migrate.collectionName') }}
             </p>
           </div>
@@ -47,15 +47,18 @@
         <p>{{ collection.nftsOwned.length }}/{{ collection.nfts.length }}</p>
       </div>
 
-      <div class="border border-k-shade p-2 flex text-xs has-text-grey">
+      <div class="border border-k-shade p-2 flex text-xs text-k-grey">
         <NeoIcon icon="circle-info" class="mr-2" />
         <p>{{ $t('migrate.reviewNotes') }}</p>
       </div>
     </div>
 
     <div>
-      <p class="has-text-weight-bold mt-5">{{ $t('migrate.route') }}:</p>
-      <NeoButton rounded variant="pill" class="mt-2 no-hover">
+      <p class="font-bold mt-5">{{ $t('migrate.route') }}:</p>
+      <NeoButton
+        rounded
+        variant="pill"
+        class="mt-2 hover:bg-transparent cursor-default">
         <div class="flex items-center">
           <img
             width="20"
@@ -79,11 +82,11 @@
     <hr />
 
     <div>
-      <div class="has-text-weight-bold mt-5">{{ $t('migrate.costs') }}</div>
+      <div class="font-bold mt-5">{{ $t('migrate.costs') }}</div>
 
       <div class="text-xs">
         <p
-          class="my-4 has-text-grey is-cursor-pointer"
+          class="my-4 text-k-grey cursor-pointer"
           @click="toggleFee = !toggleFee">
           {{ $t('migrate.feeBreakdown') }}
           <NeoIcon :icon="toggleFee ? 'chevron-up' : 'chevron-down'" />
@@ -117,12 +120,12 @@
           <!-- collection existential deposit -->
           <div
             v-if="!collectionOwner"
-            class="has-text-grey flex mt-1 items-center justify-between">
+            class="text-k-grey flex mt-1 items-center justify-between">
             <div>
               {{ $t('mint.collection.modal.existentialDeposit') }}
               <NeoTooltip
                 position="top"
-                class="is-cursor-pointer"
+                class="cursor-pointer"
                 multiline-width="14rem"
                 multiline
                 :label="
@@ -141,12 +144,12 @@
           </div>
 
           <!-- nft existential deposit -->
-          <div class="has-text-grey flex mt-1 items-center justify-between">
+          <div class="text-k-grey flex mt-1 items-center justify-between">
             <div>
               {{ $t('mint.nft.modal.existentialDeposit') }}
               <NeoTooltip
                 position="top"
-                class="is-cursor-pointer"
+                class="cursor-pointer"
                 multiline-width="14rem"
                 multiline
                 :label="
@@ -165,11 +168,11 @@
           </div>
 
           <!-- kodadot fee -->
-          <div class="flex mt-1 has-text-grey items-center justify-between">
+          <div class="flex mt-1 text-k-grey items-center justify-between">
             <div>
               {{ $t('mint.nft.modal.kodadotFee') }}
               <NeoTooltip
-                class="is-cursor-pointer"
+                class="cursor-pointer"
                 position="top"
                 multiline-width="14rem"
                 :label="$t('mint.nft.modal.kodadotTooltip')"

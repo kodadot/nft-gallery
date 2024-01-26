@@ -22,14 +22,14 @@
         @resend="handleConfirmationEmailResend"
         @check="handleEmailSubscriptionCheck" />
 
-      <WaitingDrop
+      <SigningModalBody
         v-else-if="isClaimingDropStep"
         :title="$t('drops.preparingYourNft')"
         :subtitle="est">
         <p class="py-5 capitalize">
           {{ $t('drops.stayTuned') }}
         </p>
-      </WaitingDrop>
+      </SigningModalBody>
 
       <SuccessfulDrop
         v-else-if="isSuccessfulDropStep"
@@ -44,7 +44,6 @@ import { NeoModal } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import EmailSignup from './newsletter/EmailSignup.vue'
 import ConfirmEmail from './newsletter/ConfirmEmail.vue'
-import WaitingDrop from './shared/WaitingDrop.vue'
 import SuccessfulDrop from './shared/SuccessfulDrop.vue'
 import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
 import {

@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-2">
+  <div>
     <div
       v-if="isEmptyBalanceOnAllChains && !isBalanceLoading"
       class="text-xs py-4 flex flex-col items-center">
@@ -15,15 +15,15 @@
       >
     </div>
     <div v-else class="balance">
-      <div class="balance-row has-text-grey text-xs">
+      <div class="balance-row text-k-grey text-xs">
         <div class="flex-grow-[3]">{{ $t('general.chain') }}</div>
-        <div class="has-text-right flex-grow">
+        <div class="text-right flex-grow">
           {{ $t('general.token') }}
         </div>
-        <div class="has-text-right flex-grow-[2]">
+        <div class="text-right flex-grow-[2]">
           {{ $t('general.balance') }}
         </div>
-        <div class="has-text-right flex-grow-[2]">{{ $t('general.usd') }}</div>
+        <div class="text-right flex-grow-[2]">{{ $t('general.usd') }}</div>
       </div>
 
       <div
@@ -37,14 +37,14 @@
           <div class="capitalize flex-grow-[3]">
             {{ data.key }}
           </div>
-          <div class="has-text-right flex-grow">
+          <div class="text-right flex-grow">
             {{ token.name.toUpperCase() }}
           </div>
 
-          <div class="has-text-right flex-grow-[2]">
+          <div class="text-right flex-grow-[2]">
             {{ formatNumber(token.details?.balance) }}
           </div>
-          <div class="has-text-right flex-grow-[2]">
+          <div class="text-right flex-grow-[2]">
             ${{ formatNumber(token.details?.usd || '0') }}
           </div>
         </div>
@@ -67,12 +67,13 @@
 
   <div
     v-if="!isEmptyBalanceOnAllChains && !isBalanceLoading"
-    class="flex items-center justify-between">
-    <a class="text-grey text-xs" @click="openRampModal"
+    class="mt-4 flex items-center justify-end">
+    <a class="text-k-grey text-xs" @click="openRampModal"
       >+ {{ $t('addFunds') }}</a
     >
   </div>
-  <OnRampModal :value="rampActive" @close="rampActive = false" />
+
+  <OnRampModal v-model="rampActive" @close="rampActive = false" />
 </template>
 
 <script setup lang="ts">

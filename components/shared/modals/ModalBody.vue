@@ -1,6 +1,6 @@
 <template>
   <div class="modal-width">
-    <header class="px-6 py-4 flex justify-between border-bottom items-center">
+    <header class="px-6 py-4 flex justify-between border-b items-center">
       <NeoSkeleton
         v-if="loading"
         rounded
@@ -13,7 +13,7 @@
       <transition name="fade">
         <div
           v-if="!loading"
-          class="modal-card-title is-size-6 has-text-weight-bold line-height">
+          class="modal-card-title is-size-6 font-bold line-height">
           {{ title }}
         </div>
       </transition>
@@ -53,7 +53,6 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoSkeleton } from '@kodadot1/brick'
-import SkeletonLoader from '@/components/shared/SkeletonLoader.vue'
 
 const emits = defineEmits(['close'])
 withDefaults(
@@ -107,22 +106,18 @@ $b-padding: 1.25rem;
 
 .modal-skeleton {
   position: unset !important;
-  .skeleton {
-    &-backdrop {
-      top: $t-padding;
-      left: $x-padding;
-      width: calc(100% - $x-padding * 2);
-      height: calc(100% - ($t-padding + $b-padding));
-      max-height: v-bind(modalMaxHeight) !important;
-    }
+  #skeleton-backdrop {
+    top: $t-padding;
+    left: $x-padding;
+    width: calc(100% - $x-padding * 2);
+    height: calc(100% - ($t-padding + $b-padding));
+    max-height: v-bind(modalMaxHeight) !important;
   }
 }
 
 .slot {
   &__loading {
-    opacity: 0;
-    z-index: 1;
-    pointer-events: none;
+    @apply opacity-0 z-[1] pointer-events-none;
   }
 }
 

@@ -62,9 +62,12 @@ export const useTopCollections = (limit: number, immediate = true) => {
   } = useAsyncData(
     'topCollections',
     async () => {
+      const applyDenyList = isAssetHub.value
+        ? { denyList: getDenyList(urlPrefix.value) }
+        : {}
       const { data } = await useAsyncQuery<TopCollectionListResult>({
         query: isAssetHub.value ? topCollectionsListAh : topCollectionList,
-        variables: { orderBy: 'volume_DESC', limit },
+        variables: { orderBy: 'volume_DESC', limit, ...applyDenyList },
         clientId: client.value,
       })
       return data.value

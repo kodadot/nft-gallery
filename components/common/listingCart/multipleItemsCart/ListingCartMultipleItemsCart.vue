@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mt-5 has-text-weight-bold">
+    <div class="mt-5 font-bold">
       {{ $t('listingCart.setAllTo') }}
     </div>
 
@@ -8,7 +8,7 @@
       v-model="floorPricePercentAdjustment"
       show-current-floor-price />
 
-    <div class="pt-3 has-text-grey">-Or-</div>
+    <div class="pt-3 text-k-grey">-Or-</div>
     <div class="pt-3">{{ $t('listingCart.fixedPrice') }}</div>
 
     <ListingCartPriceInput

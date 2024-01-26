@@ -13,11 +13,10 @@
       </div>
       <div class="pt-2">
         <ChainDropdown
-          position="bottom-left"
+          position="bottom-auto"
           :show-network-label="false"
           :redirect="false"
-          :exclude="['ksm']"
-          mobile-modal />
+          :exclude="['ksm']" />
       </div>
     </div>
 
@@ -28,7 +27,7 @@
           :key="index"
           class="top-collections-item py-2 flex items-center justify-between">
           <div class="flex items-center">
-            <div class="p-4 has-text-weight-bold">
+            <div class="p-4 font-bold">
               {{ index }}
             </div>
             <div>
@@ -39,7 +38,7 @@
             <NeoSkeleton width="70%" />
             <NeoSkeleton width="20%" size="small" />
           </div>
-          <div class="is-pulled-right has-text-right px-4" style="width: 20%">
+          <div class="is-pulled-right text-right px-4" style="width: 20%">
             <NeoSkeleton width="80%" position="right" />
             <NeoSkeleton width="70%" size="small" position="right" />
           </div>

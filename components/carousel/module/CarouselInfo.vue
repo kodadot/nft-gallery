@@ -1,15 +1,14 @@
 <template>
   <div class="carousel-info flex flex-col">
-    <nuxt-link
-      :to="urlOf({ id: item.id, url, chain: item.chain })"
+    <div
       :title="item.name"
       :class="[
-        'has-text-weight-bold carousel-info-name',
+        'font-bold carousel-info-name',
         { 'carousel-info-collection': isCollection },
       ]">
       <span class="is-ellipsis">{{ item.name || '--' }}</span>
       <span v-if="isCollection" class="carousel-info-arrow">----></span>
-    </nuxt-link>
+    </div>
     <div v-if="item?.collectionId" class="min-h-[1.5rem]">
       <CollectionDetailsPopover :nft="item">
         <template #content>
@@ -39,7 +38,7 @@
           inline
           :prefix="item.chain"
           :unit-symbol="unitSymbol" />
-        <span v-if="showSold" class="ml-2 has-text-grey text-xs"
+        <span v-if="showSold" class="ml-2 text-k-grey text-xs"
           >- {{ $t('spotlight.sold') }}</span
         >
       </div>
@@ -67,7 +66,6 @@ const props = defineProps<{
 }>()
 const { urlPrefix } = usePrefix()
 const { urlOf } = useCarouselUrl()
-const url = inject('itemUrl', 'gallery') as string
 const isCollection = inject<boolean>('isCollection', false)
 const chainName = computed(() => {
   return getChainNameByPrefix(props.item.chain || urlPrefix.value)

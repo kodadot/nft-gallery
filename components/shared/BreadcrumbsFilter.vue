@@ -51,7 +51,7 @@
       </template>
       <div
         v-if="isAnyFilterActive"
-        class="control py-1 is-clickable"
+        class="control py-1 cursor-pointer"
         @click="clearAllFilters">
         <span>{{ $t('sort.clearAll') }}</span>
       </div>
@@ -86,12 +86,10 @@ const collectionIdList = computed(
   () => breads.value.collections?.split(',') || [],
 )
 
-const collections = computed<Collection[]>(
-  () =>
-    collectionArray.value?.filter(
-      (collection) =>
-        collectionIdList.value?.find((id) => collection.id === id),
-    ),
+const collections = computed<Collection[]>(() =>
+  collectionArray.value?.filter((collection) =>
+    collectionIdList.value?.find((id) => collection.id === id),
+  ),
 )
 
 const { isCollectionSearchMode } = useCollectionSearch()

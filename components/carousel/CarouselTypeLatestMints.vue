@@ -8,7 +8,7 @@
           <nuxt-link
             :to="urlOf({ id: item.id, url: 'gallery', chain: item.chain })"
             :title="item.name"
-            class="has-text-weight-bold carousel-info-name">
+            class="font-bold carousel-info-name">
             <span class="is-ellipsis">{{ item.name || '--' }}</span>
           </nuxt-link>
 

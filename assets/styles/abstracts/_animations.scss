@@ -81,7 +81,7 @@
   }
 }
 
-// ... dots 
+// ... dots
 @keyframes dots {
   0% {
     content: ".";
@@ -95,8 +95,7 @@
 }
 
 .dots {
-  text-align: center;
-  display: inline-block;
+  @apply text-center inline-block;
 }
 
 .dots::after {
@@ -118,7 +117,7 @@
     background-color: $shineColor;
     transform: skewX(-30deg);
     transition: background-color 0.3s;
-    z-index: 1;
+    @apply z-[1];
   }
 
   &::before {
@@ -132,7 +131,7 @@
     width: 3%;
     animation: shine2 3s ease-in-out infinite;
   }
-  
+
   &:hover {
     &::before,
     &::after {
@@ -142,7 +141,7 @@
 
   @if not $overChild {
     > :first-child {
-      z-index: 2;
+      @apply z-[2];
     }
   }
 }

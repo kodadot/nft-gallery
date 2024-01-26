@@ -1,10 +1,10 @@
 <template>
   <NeoModal :value="value" @close="value = false">
     <div class="py-4 px-5 limit-width">
-      <div class="flex mb-3 is-size-6 has-text-weight-bold">
+      <div class="flex mb-3 is-size-6 font-bold">
         {{ 'Customize Collection' }}
       </div>
-      <div class="has-text-grey text-xs mb-5">
+      <div class="text-k-grey text-xs mb-5">
         This will update the Maximum items in your collection
       </div>
       <!-- collection max nfts -->
@@ -22,16 +22,16 @@
       </NeoField>
       <div class="flex justify-end">
         <NeoButton
-          class="has-text-weight-bold mr-4"
+          class="font-bold mr-4"
           variant="text"
           no-shadow
           @click="customizeCollection">
-          <span class="has-text-k-green">
+          <span class="text-k-green">
             {{ $t('Update') }}
           </span>
         </NeoButton>
         <NeoButton
-          class="has-text-weight-bold"
+          class="font-bold"
           variant="text"
           no-shadow
           :label="$t('cancel')"

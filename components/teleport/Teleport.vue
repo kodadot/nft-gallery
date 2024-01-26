@@ -2,14 +2,19 @@
   <form
     class="mx-auto teleport-container"
     @submit.prevent="checkEDBeforeTeleport">
-    <Loader v-model="isLoading" :status="status" />
-    <h1 class="is-size-3 has-text-weight-bold">
+    <SigningModal
+      :title="$t('teleport.bridging', [amountAfterFees.displayValue, currency])"
+      :is-loading="isLoading"
+      :status="status"
+      @try-again="teleport" />
+
+    <h1 class="is-size-3 font-bold">
       {{ $t('teleport.page') }}
     </h1>
 
     <h2>{{ $t('teleport.subtitle') }}</h2>
     <a
-      class="has-text-grey"
+      class="!text-k-blue hover:!text-k-blue-hover"
       href="https://hello.kodadot.xyz/tutorial/teleport-bridge"
       >{{ $t('teleport.howItWorks') }}
     </a>
@@ -25,9 +30,7 @@
           @select="onChainChange" />
       </div>
 
-      <div
-        class="network-arrow flex is-cursor-pointer py-2"
-        @click="switchChains">
+      <div class="network-arrow flex cursor-pointer py-2" @click="switchChains">
         <svg viewBox="0 0 39 17" fill="none" xmlns="http://www.w3.org/2000/svg">
           <line y1="5.5" x2="35" y2="5.5" stroke="currentColor" />
           <line y1="11.5" x2="35" y2="11.5" stroke="currentColor" />
@@ -57,7 +60,7 @@
 
     <NeoField class="mt-5">
       <template #label>
-        <div class="has-text-weight-normal">{{ $t('teleport.amount') }}</div>
+        <div class="font-normal">{{ $t('teleport.amount') }}</div>
       </template>
 
       <div class="is-relative w-full">
@@ -70,7 +73,7 @@
           type="number"
           placeholder="Enter Amount" />
         <div class="is-absolute-right">
-          <span v-if="totalFiatValue" class="token-value text-xs has-text-grey"
+          <span v-if="totalFiatValue" class="token-value text-xs text-k-grey"
             >~{{ totalFiatValue }} usd</span
           >
           {{ currency }}
@@ -96,14 +99,14 @@
             })
           }}{{ currency }}
         </span>
-        <NeoButton
+        <!-- <NeoButton
           no-shadow
           rounded
           size="small"
           class="ml-2"
           @click="handleMaxClick"
           >{{ $t('teleport.max') }}</NeoButton
-        >
+        > -->
       </div>
     </div>
 
@@ -129,7 +132,7 @@
         v-safe-href="explorerUrl"
         target="_blank"
         rel="nofollow noopener noreferrer"
-        class="has-text-k-blue">
+        class="!text-k-blue hover:!text-k-blue-hover">
         {{ shortAddress(toAddress) }}
       </a>
       {{ $t('teleport.ownerMessage') }}
@@ -162,7 +165,6 @@ import {
   prefixToChainMap,
 } from '@/utils/teleport'
 import formatBalance from '@/utils/format/balance'
-import Loader from '@/components/shared/Loader.vue'
 import shortAddress from '@/utils/shortAddress'
 import { chainIcons, getChainName } from '@/utils/chain'
 import NetworkDropdown from './NetworkDropdown.vue'
@@ -440,9 +442,9 @@ const isDisabledButton = computed(() => {
   )
 })
 
-const handleMaxClick = () => {
-  amount.value = myBalance.value
-}
+// const handleMaxClick = () => {
+//   amount.value = myBalance.value
+// }
 
 const checkEDBeforeTeleport = () => {
   if (showEDWarning.value) {

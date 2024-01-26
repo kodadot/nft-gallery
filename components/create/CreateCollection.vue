@@ -1,6 +1,12 @@
 <template>
   <div class="is-centered" :class="{ columns: classColumn }">
-    <Loader v-if="!autoTeleport" v-model="isLoading" :status="status" />
+    <SigningModal
+      v-if="!autoTeleport"
+      :title="$t('mint.collection.minting')"
+      :is-loading="isLoading"
+      :status="status"
+      @try-again="createCollection" />
+
     <MintConfirmModal
       v-model="confirmModal"
       :auto-teleport-actions="actions"
@@ -109,7 +115,7 @@
 
       <!-- deposit and balance -->
       <div>
-        <div class="flex has-text-weight-medium has-text-info">
+        <div class="flex font-medium has-text-info">
           <div>{{ $t('mint.deposit') }}:&nbsp;</div>
           <div data-testid="collection-deposit">
             {{ totalCollectionDeposit }} {{ chainSymbol }}

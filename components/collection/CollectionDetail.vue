@@ -21,21 +21,21 @@
       </span>
     </div>
     <div v-if="nfts && !isLoading" class="flex justify-around is-vcentered">
-      <div class="detail-item has-text-centered column">
-        <p class="detail-item__title has-text-grey">
+      <div class="detail-item text-center column">
+        <p class="detail-item__title text-k-grey">
           {{ $t('collectionCard.volume') }}
         </p>
         <CommonTokenMoney :round="2" :value="collectionTradedVolumeNumber" />
       </div>
-      <div class="detail-item has-text-centered column">
-        <p class="detail-item__title has-text-grey">
+      <div class="detail-item text-center column">
+        <p class="detail-item__title text-k-grey">
           {{ $t('series.highestSale') }}
         </p>
         <CommonTokenMoney :round="2" :value="collectionHighestSalePrice" />
       </div>
 
-      <div class="detail-item has-text-centered column">
-        <p class="detail-item__title has-text-grey">
+      <div class="detail-item text-center column">
+        <p class="detail-item__title text-k-grey">
           {{ $t('collectionCard.items') }}
         </p>
         {{ collectionLength }}

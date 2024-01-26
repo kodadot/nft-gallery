@@ -1,6 +1,12 @@
 <template>
   <div>
-    <Loader v-if="!autoTeleport" v-model="isLoading" :status="status" />
+    <SigningModal
+      v-if="!autoTeleport"
+      :title="$t('listingCart.listingNft', itemCount)"
+      :is-loading="isLoading"
+      :status="status"
+      @try-again="submitListing" />
+
     <NeoModal
       :value="preferencesStore.listingCartModalOpen"
       scroll="clip"
@@ -13,7 +19,7 @@
         :scrollable="false"
         :loading="loadingAutoTeleport"
         @close="onClose">
-        <div class="px-6 limit-height">
+        <div class="px-6 max-h-[50vh] overflow-y-auto">
           <ModalIdentityItem />
 
           <ListingCartSingleItemCart
@@ -29,19 +35,19 @@
             @setFixedPrice="setFixedPrice" />
         </div>
 
-        <div class="border-top pt-5 pb-4 px-6">
+        <div class="border-t pt-5 pb-4 px-6">
           <div class="flex justify-between">
             {{ $t('listingCart.potentialEarnings') }}
             <div class="flex">
-              <span class="ml-2 has-text-grey"
+              <span class="ml-2 text-k-grey"
                 >{{ totalNFTsPrice.toFixed(4) }} {{ chainSymbol }}</span
               >
-              <span class="has-text-weight-bold ml-2"> ${{ priceUSD }} </span>
+              <span class="font-bold ml-2"> ${{ priceUSD }} </span>
             </div>
           </div>
 
           <div
-            class="flex justify-between has-text-grey pb-4 mt-3 border-bottom-k-shade">
+            class="flex justify-between text-k-grey pb-4 mt-3 border-b-k-shade">
             <span>{{ $t('listingCart.listingFees') }}</span>
             <span class="ml-2">{{ teleportTransitionTxFees }}</span>
           </div>
@@ -96,6 +102,8 @@ const fixedPrice = ref()
 const floorPricePercentAdjustment = ref()
 const autoTeleport = ref(false)
 const autoteleportButton = ref()
+const itemCount = ref(listingCartStore.count)
+const items = ref<ListCartItem[]>([])
 
 const loadingAutoTeleport = computed(() => !autoteleportButton.value?.isReady)
 
@@ -201,12 +209,18 @@ const getAction = (items: ListCartItem[]): Actions => {
   }
 }
 
+const submitListing = () => {
+  return transaction(getAction(items.value || []))
+}
+
 async function confirm({ autoteleport }: AutoTeleportActionButtonConfirmEvent) {
   try {
     autoTeleport.value = autoteleport
+    itemCount.value = listingCartStore.count
+    items.value = [...listingCartStore.itemsInChain]
 
     if (!autoteleport) {
-      await transaction(getAction(listingCartStore.itemsInChain))
+      await submitListing()
     }
 
     listingCartStore.clearListedItems()
@@ -257,17 +271,6 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.rounded {
-  border-radius: 10rem;
-}
-
-.limit-height {
-  max-height: 50vh;
-  overflow-y: auto;
-}
-
 :deep(.identity-name-font-weight-regular) {
   .identity-name {
     font-weight: unset !important;

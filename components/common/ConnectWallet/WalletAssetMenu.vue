@@ -1,62 +1,64 @@
 <template>
-  <div
-    class="wallet-asset-container mt-4 flex flex-col justify-between"
-    data-testid="sidebar-wallet-container">
-    <div>
-      <a
-        v-for="menu in menus"
-        :key="menu.label"
-        v-safe-href="menu.to"
-        class="wallet-asset-menu">
-        <span>{{ menu.label }}</span>
-        <NeoIcon icon="angle-right" size="medium" class="has-text-grey" />
-      </a>
-    </div>
-    <div class="wallet-asset-footer flex py-5 text-xs has-text-grey">
-      <!-- light/dark mode -->
-      <div class="items-center" @click="toggleColorMode">
-        <NeoIcon icon="circle-half-stroke" size="medium" />
-        <span class="is-hidden-mobile">
-          {{
-            $t(isDarkMode ? 'profileMenu.lightMode' : 'profileMenu.darkMode')
-          }}
-        </span>
+  <div class="h-full flex flex-col justify-end">
+    <div
+      class="wallet-asset-container border-t flex flex-col"
+      data-testid="sidebar-wallet-container">
+      <div>
+        <a
+          v-for="menu in menus"
+          :key="menu.label"
+          v-safe-href="menu.to"
+          class="wallet-asset-menu">
+          <span>{{ menu.label }}</span>
+          <NeoIcon icon="angle-right" size="medium" class="text-k-grey" />
+        </a>
       </div>
+      <div class="wallet-asset-footer flex py-5 text-xs text-k-grey">
+        <!-- light/dark mode -->
+        <div class="items-center" @click="toggleColorMode">
+          <NeoIcon icon="circle-half-stroke" size="medium" />
+          <span class="is-hidden-mobile">
+            {{
+              $t(isDarkMode ? 'profileMenu.lightMode' : 'profileMenu.darkMode')
+            }}
+          </span>
+        </div>
 
-      <!-- language -->
-      <div data-testid="sidebar-language" class="language-selector">
-        <NeoDropdown position="top-left" aria-role="menu" mobile-modal>
-          <template #trigger>
-            <div class="flex items-center">
-              <NeoIcon icon="globe" size="medium" />
-              <span class="is-hidden-mobile ml-1">
-                {{ $t('profileMenu.language') }}
-              </span>
-            </div>
-          </template>
+        <!-- language -->
+        <div data-testid="sidebar-language" class="language-selector">
+          <NeoDropdown position="top-left" aria-role="menu" mobile-modal>
+            <template #trigger>
+              <div class="flex items-center">
+                <NeoIcon icon="globe" size="medium" />
+                <span class="is-hidden-mobile ml-1">
+                  {{ $t('profileMenu.language') }}
+                </span>
+              </div>
+            </template>
 
-          <NeoDropdownItem
-            v-for="lang in langsFlags"
-            :key="lang.value"
-            aria-role="listitem"
-            :data-testid="`sidebar-language-${lang.value}`"
-            :value="lang.value"
-            :class="{ 'is-active': $i18n.locale === lang.value }"
-            @click="setUserLocale(lang.value)">
-            <span>{{ lang.flag }} {{ lang.label }}</span>
-          </NeoDropdownItem>
-        </NeoDropdown>
+            <NeoDropdownItem
+              v-for="lang in langsFlags"
+              :key="lang.value"
+              aria-role="listitem"
+              :data-testid="`sidebar-language-${lang.value}`"
+              :value="lang.value"
+              :class="{ 'is-active': $i18n.locale === lang.value }"
+              @click="setUserLocale(lang.value)">
+              <span>{{ lang.flag }} {{ lang.label }}</span>
+            </NeoDropdownItem>
+          </NeoDropdown>
+        </div>
+
+        <!-- settings -->
+        <nuxt-link
+          to="/settings"
+          class="text-k-grey items-center"
+          data-testid="sidebar-link-settings"
+          @click="closeModal">
+          <NeoIcon icon="gear" size="medium" />
+          <span class="is-hidden-mobile">{{ $t('settings') }}</span>
+        </nuxt-link>
       </div>
-
-      <!-- settings -->
-      <nuxt-link
-        to="/settings"
-        class="has-text-grey items-center"
-        data-testid="sidebar-link-settings"
-        @click="closeModal">
-        <NeoIcon icon="gear" size="medium" />
-        <span class="is-hidden-mobile">{{ $t('settings') }}</span>
-      </nuxt-link>
     </div>
   </div>
 </template>
@@ -112,21 +114,14 @@ const closeModal = () => {
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 
-.wallet-asset-container {
-  @include ktheme() {
-    border-top: 1px solid theme('border-color');
-  }
-  height: 100%;
-}
-
 .wallet-asset-menu {
   display: flex;
   justify-content: space-between;
   padding: 1rem 0;
-  border-bottom: 1px solid grey;
+  @apply border-b border-k-grey;
 
   &:last-child {
-    border-bottom: 0;
+    @apply border-b-0;
   }
 }
 
@@ -141,9 +136,7 @@ const closeModal = () => {
   }
 
   & > * {
-    cursor: pointer;
-    display: flex;
-    gap: 0.25rem;
+    @apply cursor-pointer flex gap-1;
 
     &:hover {
       @include ktheme() {

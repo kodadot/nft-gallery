@@ -1,13 +1,13 @@
 <template>
   <div
     v-if="isOpen"
-    class="notification-modal-container theme-background-color border-left flex flex-col"
+    class="notification-modal-container bg-background-color border-l flex flex-col"
     data-testid="notification-modal-container">
     <NeoModalHead
       :title="$t('notification.notifications')"
       @close="closeModal" />
-    <div class="px-0 pt-0 pb-3 theme-background-color">
-      <div class="notification-filter theme-background-color px-6 pt-4 pb-5">
+    <div class="px-0 pt-0 pb-3 bg-background-color">
+      <div class="notification-filter bg-background-color px-6 pt-4 pb-5">
         <div class="flex justify-between items-center pb-4">
           <span> {{ $t('notification.filters') }} </span>
           <NeoButton
@@ -29,14 +29,14 @@
         </div>
         <div v-if="showFilter" class="filter-option">
           <div v-if="collections.length > 0" class="flex flex-col pb-4">
-            <span class="text-xs has-text-grey mb-2">
+            <span class="text-xs text-k-grey mb-2">
               {{ $t('notification.byCollection') }}
             </span>
             <div class="flex flex-wrap filter-list">
               <div
                 v-for="(item, index) in collections"
                 :key="`${item}-${index}`"
-                class="filter-item rounded is-clickable px-3 mr-1 py-1 mb-1 no-wrap"
+                class="filter-item rounded cursor-pointer px-3 mr-1 py-1 mb-1 whitespace-nowrap"
                 :class="{
                   activated: collectionFilter?.id === item.id,
                 }"
@@ -46,14 +46,14 @@
             </div>
           </div>
           <div class="flex flex-col pb-4">
-            <span class="text-xs has-text-grey mb-2">{{
+            <span class="text-xs text-k-grey mb-2">{{
               $t('notification.byEvent')
             }}</span>
             <div class="flex flex-wrap filter-list">
               <div
                 v-for="event in eventTypes"
                 :key="event"
-                class="filter-item rounded is-clickable px-3 mr-1 py-1 no-wrap"
+                class="filter-item rounded cursor-pointer px-3 mr-1 py-1 whitespace-nowrap"
                 :class="{
                   activated: eventFilter.includes(event),
                 }"
@@ -67,7 +67,7 @@
           <div class="flex filter-display-list pb-3 flex-wrap">
             <NeoTag
               v-if="collectionFilter"
-              class="no-wrap mr-1 mb-1 rounded"
+              class="whitespace-nowrap mr-1 mb-1 rounded"
               closable
               @close="collectionFilter = null">
               {{ collectionFilter.name }}
@@ -75,7 +75,7 @@
             <NeoTag
               v-for="event in eventFilter"
               :key="event"
-              class="no-wrap mb-1 mr-1 rounded"
+              class="whitespace-nowrap mb-1 mr-1 rounded"
               closable
               @close="toggleEventFilter(event)">
               {{ getInteractionName(event) }}
@@ -83,11 +83,11 @@
           </div>
         </div>
       </div>
-      <div v-if="loading" class="empty-tip">
+      <div v-if="loading" class="empty-tip text-center">
         <p>{{ $t('notification.loadingTip') }}</p>
       </div>
       <div v-else>
-        <div v-if="allEvents.length === 0" class="empty-tip">
+        <div v-if="allEvents.length === 0" class="empty-tip text-center">
           <p>{{ $t('notification.emptyTipLine1') }}</p>
           <p>{{ $t('notification.emptyTipLine2') }}</p>
         </div>
@@ -181,8 +181,7 @@ const displayedEvents = computed(() =>
 <style scoped lang="scss">
 @import '@/assets/styles/abstracts/variables';
 .rounded {
-  border-radius: 2rem;
-  overflow: hidden;
+  @apply overflow-hidden rounded-[2rem];
 }
 .notification-box-modal {
   .notification-modal-container {
@@ -200,15 +199,9 @@ const displayedEvents = computed(() =>
     }
 
     .notification-filter {
-      flex-shrink: 0;
-      flex-grow: 0;
-      position: sticky;
-      top: 0;
-      z-index: 1;
+      @apply shrink-0 grow-0 sticky z-[1] top-0;
       & > div:last-child {
-        @include ktheme() {
-          border-bottom: 1px solid theme('k-grey');
-        }
+        @apply border-b border-k-grey;
       }
 
       .filter-item {
@@ -234,7 +227,6 @@ const displayedEvents = computed(() =>
     .empty-tip {
       @include ktheme() {
         color: theme('k-grey');
-        text-align: center;
       }
     }
   }
