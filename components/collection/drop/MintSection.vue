@@ -22,7 +22,7 @@
     </div>
 
     <div class="my-5">
-      <UnlockableSlider :value="mintedCount / maxCount" />
+      <CollectionUnlockableSlider :value="mintedCount / maxCount" />
     </div>
 
     <div class="my-5">
@@ -94,7 +94,6 @@
 </template>
 
 <script setup lang="ts">
-import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
 const NuxtLink = resolveComponent('NuxtLink')
@@ -135,28 +134,23 @@ const mintedPercent = computed(() => {
 })
 
 const isMintedOut = computed(() => !props.mintCountAvailable)
-
+const showHolderOfCollection = computed(() => !!props.holderOfCollection.id)
+const mintButtonDisabled = computed(() =>
+  isMintedOut.value ? false : props.mintButton.disabled,
+)
 const mintButtonLabel = computed(() =>
   isMintedOut.value
     ? $i18n.t('mint.unlockable.seeListings')
     : props.mintButton.label,
 )
 
-const mintButtonDisabled = computed(() =>
-  isMintedOut.value ? false : props.mintButton.disabled,
-)
-
 const handleMint = () => {
   if (isMintedOut.value) {
-    return navigateTo(
-      `/${urlPrefix.value}/explore/items?listed=true&collections=${props.collectionId}`,
-    )
+    return navigateTo(`/${urlPrefix.value}/collection/${props.collectionId}`)
   }
 
   emit('mint')
 }
-
-const showHolderOfCollection = computed(() => !!props.holderOfCollection.id)
 </script>
 
 <style scoped lang="scss">

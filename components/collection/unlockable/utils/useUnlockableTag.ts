@@ -33,7 +33,7 @@ export const useUnlockableTag = (small: boolean) => {
 
   const to = computed(() =>
     isMintedOut.value
-      ? `/${DEFAULT_DROP.chain}/explore/items?listed=true&collections=${DEFAULT_DROP.id}`
+      ? `/${DEFAULT_DROP.chain}/collection/{DEFAULT_DROP.id}`
       : `/${DEFAULT_DROP.chain}/drops/${DEFAULT_DROP.alias}`,
   )
 
