@@ -1,6 +1,12 @@
 <template>
   <div class="is-centered columns">
-    <Loader v-if="!autoTeleport" v-model="isLoading" :status="status" />
+    <SigningModal
+      v-if="!autoTeleport"
+      :is-loading="isLoading"
+      :title="$t('mint.nft.minting')"
+      :status="status"
+      @try-again="createNft" />
+
     <MintConfirmModal
       v-model="modalShowStatus"
       :auto-teleport-actions="autoTeleportActions"
