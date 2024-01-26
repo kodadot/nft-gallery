@@ -94,7 +94,6 @@
 
 <script setup lang="ts">
 import { NeoIcon } from '@kodadot1/brick'
-import type { RawLocation } from 'vue-router/types/router'
 
 const instance = getCurrentInstance()
 const { doAfterLogin } = useDoAfterlogin(instance)
@@ -104,7 +103,7 @@ const router = useRouter()
 const { isDarkMode } = useTheme()
 const { isMobile } = useViewport()
 
-const gotoPathAfterLogin = (path: RawLocation) => {
+const gotoPathAfterLogin = (path: string) => {
   doAfterLogin({
     onLoginSuccess: () => {
       navigateTo({ path, query: { collectionId: route.query.collectionId } })
