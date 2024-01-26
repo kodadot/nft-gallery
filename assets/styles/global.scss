@@ -288,11 +288,3 @@ hr {
 .min-width-0 {
   min-width: 0;
 }
-
-.is-desktop-hidden {
-  @apply lg:hidden #{!important};
-}
-
-.is-touch-hidden {
-  @apply max-lg:hidden #{!important};
-}
