@@ -15,7 +15,7 @@
             alt="First NFT market explorer on Kusama and Polkadot" />
         </nuxt-link>
         <div
-          class="is-hidden-desktop flex flex-grow items-center justify-end"
+          class="is-desktop-hidden flex flex-grow items-center justify-end"
           @click="closeBurgerMenu">
           <NeoButton
             v-if="isMobileNavbarOpen || isTinyMobile"
@@ -67,7 +67,7 @@
           <div class="navbar-item is-expanded flex justify-center">
             <Search
               v-if="!isTouch"
-              class="search-navbar flex-grow pb-0 is-hidden-touch"
+              class="search-navbar flex-grow pb-0 is-touch-hidden"
               hide-filter
               search-column-class="flex-grow" />
           </div>
@@ -89,16 +89,15 @@
           </nuxt-link>
 
           <MobileExpandableSection
-            v-if="isTouch"
             v-slot="{ onCloseMobileSubMenu }"
+            class="is-desktop-hidden"
             :title="$t('explore')">
             <NavbarExploreOptions
               @closeMobileNavbar="showMobileNavbar"
               @closeMobileSubMenu="onCloseMobileSubMenu" />
           </MobileExpandableSection>
           <NavbarExploreDropdown
-            v-else
-            class="navbar-explore custom-navbar-item"
+            class="navbar-explore custom-navbar-item is-touch-hidden"
             data-testid="explore" />
 
           <a
@@ -113,7 +112,6 @@
             v-show="isCreateVisible"
             class="navbar-create custom-navbar-item ml-0"
             data-testid="create"
-            :is-mobile="isTouch"
             :chain="urlPrefix"
             @closeMobileNavbar="showMobileNavbar" />
 
@@ -125,19 +123,17 @@
           :chain="urlPrefix" /> -->
 
           <MobileExpandableSection
-            v-if="isTouch"
             v-slot="{ onCloseMobileSubMenu }"
+            class="is-desktop-hidden"
             no-padding
             :title="$t('chainSelect', [chainName])">
             <NavbarChainOptions
               @select="handleMobileChainSelect"
               @closeMobileSubMenu="onCloseMobileSubMenu" />
           </MobileExpandableSection>
-
           <ChainSelectDropdown
-            v-else
             id="NavChainSelect"
-            class="navbar-chain custom-navbar-item"
+            class="navbar-chain custom-navbar-item is-touch-hidden"
             data-testid="chain-select" />
 
           <NotificationBoxButton
@@ -151,7 +147,7 @@
             :show-label="isTouch"
             @closeBurgerMenu="showMobileNavbar" />
 
-          <template v-if="isTouch">
+          <div class="is-desktop-hidden">
             <template v-if="!account">
               <MobileExpandableSection
                 v-slot="{ onCloseMobileSubMenu }"
@@ -183,11 +179,11 @@
                 variant="connect"
                 @closeBurgerMenu="showMobileNavbar" />
             </div>
-          </template>
+          </div>
 
           <NavbarProfileDropdown
-            v-if="!isTouch"
             id="NavProfile"
+            class="is-touch-hidden"
             :chain="urlPrefix"
             data-testid="navbar-profile-dropdown"
             @closeBurgerMenu="closeBurgerMenu" />
@@ -222,7 +218,9 @@ const { neoModal } = useProgrammatic()
 const openMobileSearchBar = ref(false)
 const lastScrollPosition = ref(0)
 const isBurgerMenuOpened = ref(false)
-const { isTouch, isMobile, isTinyMobile } = useViewport()
+const { isMobile, isMobileOrTablet: isTouch } = useDevice()
+const { width } = useWindowSize()
+const isTinyMobile = computed(() => width.value < 480)
 const { urlPrefix } = usePrefix()
 const { isDarkMode } = useTheme()
 const identityStore = useIdentityStore()
@@ -236,7 +234,7 @@ const account = computed(() => identityStore.getAuthAddress)
 const isCreateVisible = computed(() => createVisible(urlPrefix.value))
 
 const logoSrc = computed(() => {
-  const variant = isTouch.value ? 'Koda' : 'Koda_Beta'
+  const variant = isTouch ? 'Koda' : 'Koda_Beta'
   const color = isDarkMode.value ? '_dark' : ''
   return `/${variant}${color}.svg`
 })
@@ -251,7 +249,7 @@ const openWalletConnectModal = (): void => {
   neoModal.closeAll()
   neoModal.open({
     ...ConnectWalletModalConfig,
-    ...(isMobile.value ? { animation: 'none' } : {}),
+    ...(isMobile ? { animation: 'none' } : {}),
   })
 }
 
