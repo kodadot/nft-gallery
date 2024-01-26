@@ -106,7 +106,10 @@ const { isMobile } = useViewport()
 const gotoPathAfterLogin = (path: string) => {
   doAfterLogin({
     onLoginSuccess: () => {
-      navigateTo({ path, query: { collectionId: route.query.collectionId } })
+      navigateTo({
+        path,
+        query: { collectionId: route.query.collectionId ?? null },
+      })
     },
   })
 }
