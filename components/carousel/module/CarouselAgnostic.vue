@@ -12,7 +12,7 @@
             rel="nofollow">
             <CarouselMedia :item="item" :index="index" :length="nfts.length" />
             <slot name="card-info" :item="item">
-              <CarouselInfo :item="item" :minimal="isMobile" />
+              <CarouselInfo :item="item" />
             </slot>
           </NuxtLink>
         </div>
@@ -47,7 +47,6 @@ const props = defineProps<{
   step: number
 }>()
 const { urlOf } = useCarouselUrl()
-const { isMobile } = useViewport()
 
 const url = inject('itemUrl', 'gallery') as string
 const isCollection = computed(() => url.includes('collection'))

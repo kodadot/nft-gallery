@@ -1,18 +1,18 @@
 <template>
   <div
     class="carousel-info flex flex-col"
-    :class="{ 'carousel-info__minimal': minimal }">
+    :class="{ 'carousel-info__mobile': $device.isMobile }">
     <div
       :title="item.name"
       :class="[
-        'font-bold carousel-info-name',
+        'carousel-info-name font-bold',
         { 'carousel-info-collection': isCollection },
       ]">
       <span class="is-ellipsis">{{ item.name || '--' }}</span>
       <span v-if="isCollection" class="carousel-info-arrow">----></span>
     </div>
 
-    <div v-if="item?.collectionId && !minimal" class="min-h-[1.5rem]">
+    <div v-if="item?.collectionId && !$device.isMobile" class="min-h-[1.5rem]">
       <CollectionDetailsPopover :nft="item">
         <template #content>
           <nuxt-link
@@ -33,11 +33,8 @@
 
     <div
       v-if="!isCollection"
-      class="flex items-center"
-      :class="[
-        showPrice ? 'justify-between' : 'justify-end',
-        minimal ? 'mt-2' : 'mt-4',
-      ]">
+      class="carousel-info-footer flex items-center"
+      :class="[showPrice ? 'justify-between' : 'justify-end']">
       <div v-if="showPrice" class="flex items-center">
         <Money
           :value="price"
@@ -48,7 +45,9 @@
           >- {{ $t('spotlight.sold') }}</span
         >
       </div>
-      <p class="text-xs text-k-grey capitalize">{{ chainName }}</p>
+      <p v-if="!$device.isMobile" class="text-xs text-k-grey capitalize">
+        {{ chainName }}
+      </p>
     </div>
   </div>
 </template>
@@ -69,7 +68,6 @@ const CollectionDetailsPopover = defineAsyncComponent(
 
 const props = defineProps<{
   item: CarouselNFT
-  minimal: boolean
 }>()
 
 const { urlPrefix } = usePrefix()
