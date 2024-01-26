@@ -1,4 +1,4 @@
-// import { pwa } from './utils/config/pwa'
+import { pwa } from './utils/config/pwa'
 import { URLS, apolloClientConfig } from './utils/constants'
 import * as fs from 'fs'
 
@@ -219,7 +219,7 @@ export default defineNuxtConfig({
     '@nuxtjs/apollo',
     '@nuxtjs/i18n',
     // '@nuxtjs/sentry',
-    // '@vite-pwa/nuxt',
+    '@vite-pwa/nuxt',
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
     '@pinia/nuxt',
@@ -257,7 +257,7 @@ export default defineNuxtConfig({
     inject: false,
   },
 
-  // pwa,
+  pwa,
 
   i18n: {
     skipSettingLocaleOnNavigate: true,
