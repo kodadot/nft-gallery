@@ -1,6 +1,6 @@
 <template>
   <div class="carousel-agnostic">
-    <div class="navigation-wrapper">
+    <div class="relative">
       <div ref="wrapper" class="keen-slider">
         <div
           v-for="(item, index) in nfts"
