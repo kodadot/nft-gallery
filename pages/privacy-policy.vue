@@ -1417,6 +1417,10 @@ export default {
         },
       ],
     })
+
+    definePageMeta({
+      layout: 'default-ssr',
+    })
   },
 }
 </script>
