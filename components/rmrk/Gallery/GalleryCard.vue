@@ -1,12 +1,12 @@
 <template>
-  <div class="card nft-card">
+  <div class="card nft-card rounded-none">
     <LinkResolver
       class="nft-card__skeleton"
       :route="route"
       :link="link"
       :param="id"
       tag="a">
-      <div class="card-image">
+      <div class="card-image border border-k-grey">
         <span v-if="emoteCount" class="card-image__emotes">
           <NeoIcon icon="heart" />
           <span class="card-image__emotes__count">{{ emoteCount }}</span>
