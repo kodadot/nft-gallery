@@ -11,8 +11,9 @@
             :to="urlOf({ id: item.id, url, chain: item.chain })"
             rel="nofollow">
             <CarouselMedia :item="item" :index="index" :length="nfts.length" />
-            <CarouselInfo v-if="!slots['card-info']" :item="item" />
-            <slot name="card-info" :item="item" />
+            <slot name="card-info" :item="item">
+              <CarouselInfo :item="item" />
+            </slot>
           </NuxtLink>
         </div>
       </div>
@@ -41,7 +42,6 @@ import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/vue'
 import { CarouselWheelsPlugin, useCarouselUrl } from '../utils/useCarousel'
 
-const slots = useSlots()
 const props = defineProps<{
   nfts: CarouselNFT[]
   step: number
@@ -96,7 +96,7 @@ const [wrapper, slider] = useKeenSlider(
     },
     breakpoints: {
       '(min-width: 640px)': {
-        slides: { perView: 1.5, spacing: 32 },
+        slides: { perView: 2.2, spacing: 16 },
       },
       '(min-width: 768px)': {
         slides: { perView: 2.5, spacing: 32 },
@@ -111,7 +111,7 @@ const [wrapper, slider] = useKeenSlider(
         slides: { perView: 6, spacing: 32 },
       },
     },
-    slides: { perView: 1.5, spacing: 32 },
+    slides: { perView: 2.2, spacing: 16 },
   },
   [CarouselWheelsPlugin],
 )
