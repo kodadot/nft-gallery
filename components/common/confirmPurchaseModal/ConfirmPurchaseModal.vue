@@ -81,6 +81,7 @@ import { type AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { type AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import { useBuySupportFee } from '@/composables/transaction/utils'
 
+const DISABLED_PURCHASE_PREFIX = ['ksm', 'rmrk']
 const emit = defineEmits(['confirm', 'completed', 'close'])
 const props = defineProps<{
   action: AutoTeleportAction
@@ -128,7 +129,9 @@ const total = computed(
   () => totalNFTsPrice.value + totalRoyalties.value + supportFee.value,
 )
 
-const disabled = computed(() => !isLogIn.value)
+const disabled = computed(
+  () => !isLogIn.value || DISABLED_PURCHASE_PREFIX.includes(urlPrefix.value),
+)
 
 const priceUSD = computed(() => {
   const { nfts, royalties } = totalPriceUsd(items.value)
