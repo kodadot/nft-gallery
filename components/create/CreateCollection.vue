@@ -1,6 +1,12 @@
 <template>
   <div class="is-centered" :class="{ columns: classColumn }">
-    <Loader v-if="!autoTeleport" v-model="isLoading" :status="status" />
+    <SigningModal
+      v-if="!autoTeleport"
+      :title="$t('mint.collection.minting')"
+      :is-loading="isLoading"
+      :status="status"
+      @try-again="createCollection" />
+
     <MintConfirmModal
       v-model="confirmModal"
       :auto-teleport-actions="actions"

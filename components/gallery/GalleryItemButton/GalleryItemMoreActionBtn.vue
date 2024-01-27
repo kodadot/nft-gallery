@@ -1,6 +1,11 @@
 <template>
   <div>
-    <Loader v-model="isLoading" :status="status" />
+    <SigningModal
+      :title="$t('mint.nft.burning')"
+      :is-loading="isLoading"
+      :status="status"
+      @try-again="burn" />
+
     <NeoDropdown position="bottom-left" :mobile-modal="false">
       <template #trigger="{ active }">
         <NeoButton
@@ -32,7 +37,6 @@ import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { downloadImage } from '@/utils/download'
 import { toOriginalContentUrl } from '@/utils/ipfs'
-import Loader from '@/components/shared/Loader.vue'
 import { isMobileDevice } from '@/utils/extension'
 
 const { $i18n, $consola } = useNuxtApp()
