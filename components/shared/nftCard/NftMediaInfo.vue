@@ -6,7 +6,7 @@
       <span
         class="is-ellipsis font-bold"
         data-testid="nft-name"
-        :title="nft.name"
+        :title="nameWithSn"
         >{{ nameWithSn || '--' }}</span
       >
       <CollectionDetailsPopover
@@ -53,6 +53,7 @@ const props = withDefaults(
     showPrice?: boolean
     collectionPopoverShowDelay?: number
     variant?: NftCardVariant
+    displayNameWithSn?: boolean
   }>(),
   {
     collectionPopoverShowDelay: 500,
@@ -61,11 +62,15 @@ const props = withDefaults(
 )
 
 const nameWithSn = computed(() => {
+  const originalName = props.nft.name
+  if (!props.displayNameWithSn) {
+    return originalName
+  }
   const sn = isTokenEntity(props.nft)
     ? props.nft?.cheapest?.id?.split('-')[1]
     : props.nft?.sn
-
-  return sn ? addSnSuffixName(props.nft.name, sn) : props.nft.name
+  nameWithSn
+  return sn ? addSnSuffixName(props.nft.name, sn) : originalName
 })
 const isMinimal = computed(() =>
   props.variant ? props.variant.includes('minimal') : false,
