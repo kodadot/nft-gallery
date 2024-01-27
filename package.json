@@ -34,7 +34,7 @@
     "test:watch": "vitest --reporter verbose",
     "test:coverage": "vitest run --coverage",
     "prepare": "pnpm -F static build && nuxi prepare && husky install",
-    "postbuild": "cd .output/server/node_modules/tslib; npm pkg set 'exports[.].import.node'='./tslib.es6.mjs'"
+    "postbuild": "cd node_modules/.pnpm/tslib@2.6.2; npm pkg set 'exports[.].import.node'='./tslib.es6.mjs'"
   },
   "husky": {
     "hooks": {
