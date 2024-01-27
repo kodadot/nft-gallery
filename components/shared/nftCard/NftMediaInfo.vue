@@ -7,7 +7,7 @@
         class="is-ellipsis font-bold"
         data-testid="nft-name"
         :title="nft.name"
-        >{{ nft.name || '--' }}</span
+        >{{ nameWithSn || '--' }}</span
       >
       <CollectionDetailsPopover
         v-if="!isMinimal && (nft.collection.name || nft.collection.id)"
@@ -44,6 +44,7 @@ import { computed } from 'vue'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import { getChainNameByPrefix } from '@/utils/chain'
 import type { NeoNFT, NftCardVariant } from './types'
+import { addSnSuffixName } from '@/utils/nft'
 
 const props = withDefaults(
   defineProps<{
@@ -59,6 +60,13 @@ const props = withDefaults(
   },
 )
 
+const nameWithSn = computed(() => {
+  const sn = isTokenEntity(props.nft)
+    ? props.nft?.cheapest?.id?.split('-')[1]
+    : props.nft?.sn
+
+  return sn ? addSnSuffixName(props.nft.name, sn) : props.nft.name
+})
 const isMinimal = computed(() =>
   props.variant ? props.variant.includes('minimal') : false,
 )
