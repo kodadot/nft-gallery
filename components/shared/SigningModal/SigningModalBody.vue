@@ -38,6 +38,10 @@
           </div>
         </div>
       </template>
+
+      <template #footer>
+        <slot name="footer"></slot>
+      </template>
     </SkeletonLoader>
   </div>
 </template>
