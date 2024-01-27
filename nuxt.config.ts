@@ -30,7 +30,7 @@ export default defineNuxtConfig({
 
   vite: {
     build: {
-      sourcemap: true,
+      sourcemap: false,
     },
     plugins: [
       process.env.NODE_ENV === 'development'
@@ -41,37 +41,10 @@ export default defineNuxtConfig({
             authToken: process.env.SENTRY_AUTH_TOKEN,
           }),
     ],
-    // https://github.com/nuxt/nuxt/issues/24196#issuecomment-1825484618
-    optimizeDeps:
-      process.env.NODE_ENV === 'development'
-        ? {
-            include: [
-              '@google/model-viewer',
-              '@kodadot1/minimark/common',
-              '@kodadot1/minimark/shared',
-              '@kodadot1/minimark/v1',
-              '@kodadot1/minimark/v2',
-              '@paraspell/sdk',
-              '@polkadot/api',
-              '@polkadot/vue-identicon',
-              '@ramp-network/ramp-instant-sdk',
-              '@transak/transak-sdk',
-              '@unhead/vue',
-              'chart.js/auto',
-              'chartjs-adapter-date-fns',
-              'chartjs-plugin-zoom',
-              'graphql-ws',
-              'keen-slider/vue',
-              'keen-slider/vue.es',
-              'lodash/isEqual',
-              'lodash/sortBy',
-              'lodash/sum',
-              'lodash/unionBy',
-              'markdown-it',
-              'prismjs',
-            ],
-          }
-        : undefined,
+  },
+
+  build: {
+    transpile: ['tslib', 'graphql-ws', '@polkadot/x-global'],
   },
 
   nitro: {
@@ -84,7 +57,7 @@ export default defineNuxtConfig({
   },
 
   // Disable server-side rendering
-  ssr: false,
+  // ssr: false,
 
   // Global page headers: https://nuxt.com/docs/api/configuration/nuxt-config#head
   app: {
