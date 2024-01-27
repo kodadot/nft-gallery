@@ -53,7 +53,6 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoSkeleton } from '@kodadot1/brick'
-import SkeletonLoader from '@/components/shared/SkeletonLoader.vue'
 
 const emits = defineEmits(['close'])
 withDefaults(
