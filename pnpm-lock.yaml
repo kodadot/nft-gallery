@@ -279,6 +279,9 @@ importers:
       tailwindcss:
         specifier: ^3.4.1
         version: 3.4.1
+      tslib:
+        specifier: ^2.6.2
+        version: 2.6.2
       vitest:
         specifier: ^1.2.1
         version: 1.2.2(@types/node@20.11.7)(jsdom@19.0.0)(sass@1.70.0)
