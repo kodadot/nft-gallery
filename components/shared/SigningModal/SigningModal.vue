@@ -35,7 +35,7 @@ const props = defineProps<{
 
 const { $i18n } = useNuxtApp()
 const { estimatedTime, isActive: showEstimatedTime } =
-  useTransactionEstimedTime(computed(() => props.status))
+  useTransactionEstimatedTime(computed(() => props.status))
 
 const isModalActive = ref(false)
 const isCancelled = ref(false)
