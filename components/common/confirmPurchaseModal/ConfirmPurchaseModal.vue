@@ -81,7 +81,6 @@ import { type AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { type AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import { useBuySupportFee } from '@/composables/transaction/utils'
 
-const DISABLED_PURCHASE_PREFIX = ['ksm', 'rmrk']
 const emit = defineEmits(['confirm', 'completed', 'close'])
 const props = defineProps<{
   action: AutoTeleportAction
@@ -92,6 +91,8 @@ const prefrencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { isLogIn } = useAuth()
 const { urlPrefix } = usePrefix()
+const { isRemark } = useIsChain(urlPrefix)
+const isDisabledPurchasePrefix = isRemark
 
 const autoteleport = ref()
 const actions = computed(() => [props.action])
@@ -130,7 +131,7 @@ const total = computed(
 )
 
 const disabled = computed(
-  () => !isLogIn.value || DISABLED_PURCHASE_PREFIX.includes(urlPrefix.value),
+  () => !isLogIn.value || isDisabledPurchasePrefix.value,
 )
 
 const priceUSD = computed(() => {
