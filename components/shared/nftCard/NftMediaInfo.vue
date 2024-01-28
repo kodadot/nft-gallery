@@ -6,8 +6,8 @@
       <span
         class="is-ellipsis font-bold"
         data-testid="nft-name"
-        :title="nameWithSn"
-        >{{ nameWithSn || '--' }}</span
+        :title="name"
+        >{{ name || '--' }}</span
       >
       <CollectionDetailsPopover
         v-if="!isMinimal && (nft.collection.name || nft.collection.id)"
@@ -61,7 +61,7 @@ const props = withDefaults(
   },
 )
 
-const nameWithSn = computed(() => {
+const name = computed(() => {
   const originalName = props.nft.name
   if (!props.displayNameWithSn) {
     return originalName
@@ -69,7 +69,7 @@ const nameWithSn = computed(() => {
   const sn = isTokenEntity(props.nft)
     ? props.nft?.cheapest?.id?.split('-')[1]
     : props.nft?.sn
-  nameWithSn
+
   return sn ? addSnSuffixName(props.nft.name, sn) : originalName
 })
 const isMinimal = computed(() =>
