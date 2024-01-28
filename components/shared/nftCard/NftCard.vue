@@ -43,6 +43,7 @@
         v-else-if="!hideMediaInfo"
         :nft="nft"
         :variant="variant"
+        :display-name-with-sn="displayNameWithSn"
         :prefix="prefix"
         :show-price="showPrice"
         :collection-popover-show-delay="collectionPopoverShowDelay" />
@@ -104,6 +105,7 @@ const props = withDefaults(
     mediaStaticVideo?: boolean
     hideMediaInfo?: boolean
     linkTo?: string
+    displayNameWithSn?: boolean
   }>(),
   {
     collectionPopoverShowDelay: 500,

@@ -2,7 +2,12 @@
   <form
     class="mx-auto teleport-container"
     @submit.prevent="checkEDBeforeTeleport">
-    <Loader v-model="isLoading" :status="status" />
+    <SigningModal
+      :title="$t('teleport.bridging', [amountAfterFees.displayValue, currency])"
+      :is-loading="isLoading"
+      :status="status"
+      @try-again="teleport" />
+
     <h1 class="is-size-3 font-bold">
       {{ $t('teleport.page') }}
     </h1>
@@ -94,14 +99,14 @@
             })
           }}{{ currency }}
         </span>
-        <NeoButton
+        <!-- <NeoButton
           no-shadow
           rounded
           size="small"
           class="ml-2"
           @click="handleMaxClick"
           >{{ $t('teleport.max') }}</NeoButton
-        >
+        > -->
       </div>
     </div>
 
@@ -160,7 +165,6 @@ import {
   prefixToChainMap,
 } from '@/utils/teleport'
 import formatBalance from '@/utils/format/balance'
-import Loader from '@/components/shared/Loader.vue'
 import shortAddress from '@/utils/shortAddress'
 import { chainIcons, getChainName } from '@/utils/chain'
 import NetworkDropdown from './NetworkDropdown.vue'
@@ -438,9 +442,9 @@ const isDisabledButton = computed(() => {
   )
 })
 
-const handleMaxClick = () => {
-  amount.value = myBalance.value
-}
+// const handleMaxClick = () => {
+//   amount.value = myBalance.value
+// }
 
 const checkEDBeforeTeleport = () => {
   if (showEDWarning.value) {

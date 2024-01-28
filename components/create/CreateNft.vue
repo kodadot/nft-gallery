@@ -1,6 +1,12 @@
 <template>
   <div class="is-centered columns">
-    <Loader v-if="!autoTeleport" v-model="isLoading" :status="status" />
+    <SigningModal
+      v-if="!autoTeleport"
+      :is-loading="isLoading"
+      :title="$t('mint.nft.minting')"
+      :status="status"
+      @try-again="createNft" />
+
     <MintConfirmModal
       v-model="modalShowStatus"
       :auto-teleport-actions="autoTeleportActions"
@@ -275,7 +281,6 @@ import { delay } from '@/utils/fetch'
 import { toNFTId } from '@/components/rmrk/service/scheme'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
-import { MintedCollection } from '@/composables/transaction/types'
 
 // composables
 const { $consola } = useNuxtApp()
@@ -284,7 +289,6 @@ const { accountId } = useAuth()
 const { transaction, status, isLoading, blockNumber, isError } =
   useTransaction()
 const router = useRouter()
-const route = useRoute()
 const { decimals } = useChain()
 const { toUsdPrice } = useUsdValue()
 
@@ -307,25 +311,10 @@ const form = reactive({
 })
 
 // select collections
-const selectedCollection = ref()
+const { selectedCollection, preselectedCollectionId, onCollectionSelected } =
+  useCollectionDropdown()
 const startSelectedCollection = ref<boolean>(false)
 const chooseCollectionRef = ref()
-const preselectedCollectionId = ref<string | undefined>(
-  route.query.collectionId?.toString(),
-)
-
-const onCollectionSelected = (collection: MintedCollection) => {
-  selectedCollection.value = collection
-
-  if (collection.id === preselectedCollectionId.value) {
-    clearPreselectedCollection()
-  }
-}
-
-const clearPreselectedCollection = () => {
-  preselectedCollectionId.value = undefined
-  router.replace({ query: { collectionId: undefined } })
-}
 
 const modalShowStatus = ref(false)
 
