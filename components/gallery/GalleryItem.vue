@@ -85,7 +85,7 @@
                 </h1>
                 <h2 class="subtitle" data-testid="item-collection">
                   <CollectionDetailsPopover
-                    v-if="nft?.collection.id"
+                    v-if="nft?.collection.id && !$device.isMobile"
                     :nft="nft">
                     <template #content>
                       <nuxt-link
@@ -96,6 +96,13 @@
                       </nuxt-link>
                     </template>
                   </CollectionDetailsPopover>
+                  <nuxt-link
+                    v-if="$device.isMobile"
+                    :to="`/${urlPrefix}/collection/${collection?.id}`"
+                    class="has-text-link"
+                    data-testid="gallery-item-collection-link">
+                    {{ collection?.name || collection?.id }}
+                  </nuxt-link>
                 </h2>
               </div>
               <GalleryItemButton
