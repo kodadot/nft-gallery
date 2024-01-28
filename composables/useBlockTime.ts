@@ -15,7 +15,14 @@ export default function () {
   const blockTime = computed(
     () => chainBlockTimes[urlPrefix.value] ?? paraChainBlockTime,
   )
+
+  const estimatedTimes = computed(() => ({
+    [TransactionStatus.Broadcast]: 3 * blockTime.value,
+    [TransactionStatus.Block]: 2 * blockTime.value,
+  }))
+
   return {
     blockTime,
+    estimatedTimes,
   }
 }

@@ -10,7 +10,14 @@
         :subtitle="subtitle"
         :failed="isCancelled"
         :show-subtitle-dots="isLoading"
-        @try-again="() => $emit('tryAgain')" />
+        @try-again="() => $emit('tryAgain')">
+        <template v-if="showEstimatedTime" #footer>
+          <div
+            class="absolute z-[4] left-2/4 top-[90%] -translate-x-2/4 -translate-y-[90%] min-w-[80px] px-3 text-center rounded-full py-1 text-k-grey bg-background-color text-xs">
+            Est. ~ {{ estimatedTime }}
+          </div>
+        </template>
+      </SigningModalBody>
     </ModalBody>
   </NeoModal>
 </template>
@@ -27,6 +34,8 @@ const props = defineProps<{
 }>()
 
 const { $i18n } = useNuxtApp()
+const { estimatedTime, isActive: showEstimatedTime } =
+  useTransactionEstimatedTime(computed(() => props.status))
 
 const isModalActive = ref(false)
 const isCancelled = ref(false)
@@ -69,11 +78,12 @@ watch(
       return
     }
 
-    isCancelled.value =
+    isCancelled.value = Boolean(
       !loading &&
-      wasLoading &&
-      prevStatus === TransactionStatus.Unknown &&
-      status === TransactionStatus.Unknown
+        wasLoading &&
+        prevStatus === TransactionStatus.Unknown &&
+        status === TransactionStatus.Unknown,
+    )
   },
 )
 </script>
