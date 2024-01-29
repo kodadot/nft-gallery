@@ -51,8 +51,6 @@ import useGenerativeDropMint, {
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
 import { asBalanceTransferAlive } from '@kodadot1/sub-api'
 
-const holderOfCollectionId = '50' // ChaosFlakes | todo: mock for testing, should be fetched from backend
-
 export type HolderOfCollectionProp = {
   id: string
   isHolder: boolean
@@ -115,6 +113,7 @@ const {
   chainName,
   disabledByBackend,
   token,
+  holderOfCollectionId,
 } = useGenerativeDropDetails(props.drop)
 
 const {
@@ -181,7 +180,7 @@ const { data: holderOfCollectionData } = await useAsyncData(
       clientId: client.value,
       query: holderOfCollectionById,
       variables: {
-        id: holderOfCollectionId,
+        id: holderOfCollectionId.value,
         account: accountId.value,
       },
     }).then((res) => res.data.value),
@@ -201,7 +200,7 @@ const isHolderOfTargetCollection = computed(
 const hasAvailableNfts = computed(() => availableNfts.value !== 0)
 
 const holderOfCollection = computed<HolderOfCollectionProp>(() => ({
-  id: holderOfCollectionId,
+  id: holderOfCollectionId.value as string,
   isHolder: isHolderOfTargetCollection.value,
   hasAvailable: hasAvailableNfts.value,
   amount: {
@@ -377,7 +376,7 @@ const checkAvailableNfts = async () => {
   const nftEntities = holderOfCollectionData.value?.nftEntities || []
   const nftIds = nftEntities.map((nft) => nft.sn)
   const claimed = await Promise.all(
-    nftIds.map((sn) => isNftClaimed(sn, holderOfCollectionId)),
+    nftIds.map((sn) => isNftClaimed(sn, holderOfCollectionId.value as string)),
   )
   availableNfts.value = claimed.filter((x) => !x).length
 }
