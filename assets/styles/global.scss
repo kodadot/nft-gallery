@@ -128,19 +128,7 @@ body {
 
 /* move to global */
 .is-ellipsis {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-.force-clip {
-  max-width: 85%;
-  max-height: 24px;
-}
-
-.short-identity__table {
-  max-width: 50em;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  @apply overflow-hidden whitespace-nowrap text-ellipsis;
 }
 
 .collapseHidden {
