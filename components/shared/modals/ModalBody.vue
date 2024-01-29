@@ -91,9 +91,7 @@ const { pause, resume: start } = useIntervalFn(
   { immediate: false },
 )
 const titleRange = computed(() =>
-  seconds.value < TITLE_DURATION_SECONDS
-    ? 0
-    : Math.floor(seconds.value / TITLE_DURATION_SECONDS),
+  Math.floor(seconds.value / TITLE_DURATION_SECONDS),
 )
 const title = computed(
   () => titles[titleRange.value] || titles[titles.length - 1],
