@@ -27,9 +27,12 @@ query userStatsByAccount($account: String!) {
   sold: nftEntitiesConnection(
     orderBy: blockNumber_DESC
     where: {
-      issuer_eq: $account
-      currentOwner_not_eq: $account
       burned_eq: false
+      events_some: {
+        interaction_eq: BUY
+        currentOwner_eq: $account
+        caller_not_eq: $account
+      }
     }
   ) {
     totalCount
