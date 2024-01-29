@@ -53,7 +53,6 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoSkeleton } from '@kodadot1/brick'
-import SkeletonLoader from '@/components/shared/SkeletonLoader.vue'
 
 const emits = defineEmits(['close'])
 withDefaults(
@@ -107,14 +106,12 @@ $b-padding: 1.25rem;
 
 .modal-skeleton {
   position: unset !important;
-  .skeleton {
-    &-backdrop {
-      top: $t-padding;
-      left: $x-padding;
-      width: calc(100% - $x-padding * 2);
-      height: calc(100% - ($t-padding + $b-padding));
-      max-height: v-bind(modalMaxHeight) !important;
-    }
+  #skeleton-backdrop {
+    top: $t-padding;
+    left: $x-padding;
+    width: calc(100% - $x-padding * 2);
+    height: calc(100% - ($t-padding + $b-padding));
+    max-height: v-bind(modalMaxHeight) !important;
   }
 }
 

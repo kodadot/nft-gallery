@@ -6,6 +6,7 @@ export type NeoNFT = {
   mimeType?: string
   supply?: number
   price?: string
+  sn?: string
   cheapest?: {
     price: string
   }
