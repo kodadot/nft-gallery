@@ -1,5 +1,5 @@
 <template>
-  <div class="card nft-card rounded-none">
+  <div class="card nft-card relative overflow-hidden rounded-none">
     <LinkResolver
       class="nft-card__skeleton"
       :route="route"
@@ -9,7 +9,7 @@
       <div class="card-image border border-k-grey">
         <span v-if="emoteCount" class="card-image__emotes">
           <NeoIcon icon="heart" />
-          <span class="card-image__emotes__count">{{ emoteCount }}</span>
+          <span class="align-text-bottom">{{ emoteCount }}</span>
         </span>
         <BaseMediaItem
           :src="image"
@@ -24,12 +24,13 @@
         </span>
       </div>
 
-      <div v-if="!hideName" class="card-content">
+      <div v-if="!hideName" class="card-content rounded-none">
         <span
           class="text-center has-text-primary"
           :class="{ 'title is-4': largeDisplay }"
           :title="name">
-          <div class="has-text-overflow-ellipsis">
+          <div
+            class="overflow-hidden whitespace-nowrap text-ellipsis text-white">
             {{ nftName }}
           </div>
         </span>
@@ -46,9 +47,6 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'
-
-import LinkResolver from '@/components/shared/LinkResolver.vue'
-import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -107,19 +105,7 @@ const largeDisplay = computed(
 @import '@/assets/styles/abstracts/variables';
 
 .nft-card {
-  position: relative;
-  overflow: hidden;
   @apply border-none #{!important};
-
-  .has-text-overflow-ellipsis {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-
-    @include ktheme() {
-      color: theme('white');
-    }
-  }
 
   &__skeleton {
     transition: all 0.3s;
@@ -143,14 +129,6 @@ const largeDisplay = computed(
         }
       }
     }
-  }
-
-  .card-image__emotes__count {
-    vertical-align: text-bottom;
-  }
-
-  .card-content {
-    @apply rounded-none;
   }
 
   @media screen and (min-width: 1024px) {

@@ -34,7 +34,10 @@
             <SearchResultItem :image="item.image">
               <template #content>
                 <div class="flex flex-row justify-between pt-2 pr-2">
-                  <span class="main-title name">{{ item.name }}</span>
+                  <span
+                    class="font-bold max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap"
+                    >{{ item.name }}</span
+                  >
                   <span class="text-k-grey">
                     {{ item.chain }}
                   </span>
@@ -118,11 +121,17 @@
             <SearchResultItem :image="item.image">
               <template #content>
                 <div class="flex flex-row justify-between pt-2 pr-2">
-                  <span class="main-title name">{{ item.name }}</span>
+                  <span
+                    class="font-bold max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap"
+                    >{{ item.name }}</span
+                  >
                   <span class="capitalize">{{ urlPrefix }}</span>
                 </div>
                 <div class="flex flex-row justify-between pr-2">
-                  <span class="name">{{ item.collection?.name }}</span>
+                  <span
+                    class="max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap"
+                    >{{ item.collection?.name }}</span
+                  >
                   <span v-if="item.price && parseFloat(item.price) > 0">
                     {{ $t('price') }}:
                     <Money :value="item.price" :prefix="item.chain" inline />
@@ -211,7 +220,10 @@
           <SearchResultItem :image="item.image">
             <template #content>
               <div class="pr-2 pt-2">
-                <span class="main-title name">{{ item.name }}</span>
+                <span
+                  class="font-bold max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap"
+                  >{{ item.name }}</span
+                >
               </div>
               <div class="flex flex-row justify-between pr-2 secondary-info">
                 <span v-if="item.nftCount"
