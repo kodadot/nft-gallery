@@ -11,6 +11,7 @@
     :drop="drop"
     :holder-of-collection="holderOfCollection"
     :user-minted-nft-id="userMintedNftId"
+    :user-minted-count="mintedAmountForCurrentUser"
     :is-wallet-connecting="isWalletConnecting"
     :is-image-fetching="isImageFetching"
     :is-loading="isLoading"
@@ -141,6 +142,7 @@ const {
   userMintedNftId,
   mintedCount,
   mintCountAvailable,
+  mintedAmountForCurrentUser,
   selectedImage,
   description,
   collectionName,
@@ -169,10 +171,6 @@ const { data: holderOfCollectionData } = await useAsyncData(
   {
     watch: [accountId],
   },
-)
-
-const mintedAmountForCurrentUser = computed(
-  () => collectionData.value?.nftEntitiesConnection?.totalCount || 0, // todo: fetch from backend
 )
 
 const maxMintLimitForCurrentUser = computed(

@@ -66,6 +66,10 @@ export default ({
       : mintedNft.value?.id,
   )
 
+  const mintedAmountForCurrentUser = computed(
+    () => collectionData.value?.nftEntitiesConnection?.totalCount || 0, // todo: fetch from backend
+  )
+
   const mintedCount = computed(() =>
     Math.min(mintedDropCount.value, maxCount.value),
   )
@@ -147,6 +151,7 @@ export default ({
     maxCount,
     mintedNft,
     mintedNftWithMetadata,
+    mintedAmountForCurrentUser,
     userMintedNftId,
     mintedCount,
     mintCountAvailable,
