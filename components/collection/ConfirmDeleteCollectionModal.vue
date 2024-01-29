@@ -9,16 +9,16 @@
       </div>
       <div>
         <NeoButton
-          class="has-text-weight-bold mr-4"
+          class="font-bold mr-4"
           variant="text"
           no-shadow
           @click="emit('delete')">
-          <span class="has-text-k-red">
+          <span class="text-k-red">
             {{ $i18n.t('massmint.yesDelete') }}
           </span>
         </NeoButton>
         <NeoButton
-          class="has-text-weight-bold"
+          class="font-bold"
           variant="text"
           no-shadow
           :label="$i18n.t('cancel')"

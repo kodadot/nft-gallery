@@ -2,9 +2,7 @@
   <div class="flex justify-between mobile-flex-direction-column">
     <div class="flex flex-col flex-grow max-width">
       <div class="flex justify-between mb-2">
-        <div class="mr-2 has-text-weight-bold is-size-5 mb-1">
-          About Collection
-        </div>
+        <div class="mr-2 font-bold is-size-5 mb-1">About Collection</div>
         <HeroButtons class="is-hidden-tablet" />
       </div>
       <div class="overflow-wrap">
@@ -13,11 +11,11 @@
       <div class="flex justify-between items-center">
         <NeoButton
           v-if="hasSeeAllDescriptionOption"
-          class="no-shadow is-text text-left p-0 is-underlined"
+          class="no-shadow is-text text-left p-0 underline"
           :label="seeAllDescription ? $t('showLess') : $t('showMore')"
           @click="toggleSeeAllDescription" />
         <NeoButton
-          variant="secondary"
+          variant="outlined-rounded"
           rounded
           :tag="NuxtLink"
           :to="`/${urlPrefix}/collection/${collectionId}`"

@@ -1,7 +1,7 @@
 <template>
   <div class="flex mb-2 items-center whitespace-nowrap">
     <div class="text-k-grey pr-4 flex-grow">{{ title }}</div>
-    <div class="has-text-weight-bold flex">
+    <div class="font-bold flex">
       <slot>
         <div>{{ value }}</div>
       </slot>

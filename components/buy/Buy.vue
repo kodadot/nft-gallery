@@ -1,6 +1,12 @@
 <template>
   <div>
-    <Loader v-if="!usingAutoTeleport" v-model="isLoading" :status="status" />
+    <SigningModal
+      v-if="!usingAutoTeleport"
+      :title="$t('buyModal.buyingNft', itemCount)"
+      :is-loading="isLoading"
+      :status="status"
+      @try-again="handleBuy" />
+
     <ConfirmPurchaseModal
       :loading="!hasSyncedPrices"
       :action="autoteleportAction"
@@ -15,7 +21,6 @@ import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useFiatStore } from '@/stores/fiat'
 
-import Loader from '@/components/shared/Loader.vue'
 import ConfirmPurchaseModal from '@/components/common/confirmPurchaseModal/ConfirmPurchaseModal.vue'
 import { Actions, TokenToBuy } from '@/composables/transaction/types'
 import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
@@ -41,6 +46,7 @@ const nftSubscription = reactive<{
 const hasSyncedPrices = ref(false)
 const usingAutoTeleport = ref(false)
 const buyAction = ref<Actions>(emptyObject<Actions>())
+const itemCount = ref(1)
 
 const autoteleportAction = computed<AutoTeleportAction>(() => ({
   action: buyAction.value,
@@ -91,6 +97,7 @@ const handleConfirm = async ({
   autoteleport,
 }: AutoTeleportActionButtonConfirmEvent) => {
   usingAutoTeleport.value = autoteleport
+  itemCount.value = isShoppingCartMode.value ? items.value.length : 1
 
   if (!isShoppingCartMode.value) {
     shoppingCartStore.removeItemToBuy()

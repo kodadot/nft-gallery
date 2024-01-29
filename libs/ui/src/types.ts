@@ -15,3 +15,5 @@ export type NeoButtonVariant =
   | 'text'
   | 'pill'
   | 'border-icon'
+  | 'outlined-rounded'
+  | 'primary-rounded'

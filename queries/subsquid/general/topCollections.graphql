@@ -1,8 +1,12 @@
-query topCollections($limit: Int) {
+query topCollections(
+  $limit: Int
+  $denyList: [String!] = []
+  $orderBy: CollectionEntityOrderByInput = volume_DESC
+) {
   collectionEntities(
-    orderBy: volume_DESC
+    orderBy: [$orderBy]
     limit: $limit
-    where: { volume_gt: "0" }
+    where: { volume_gt: "0", issuer_not_in: $denyList }
   ) {
     id
     name

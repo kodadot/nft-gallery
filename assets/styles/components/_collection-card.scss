@@ -76,13 +76,7 @@
       }
     }
     &__name {
-      padding-left: 32px;
-      padding-right: 20px;
-      text-overflow: ellipsis;
-      font-weight: 700;
-      font-size: 1rem;
-      overflow: hidden;
-      white-space: nowrap;
+      @apply text-ellipsis font-bold text-base overflow-hidden whitespace-nowrap pl-8 pr-5;
       line-height: $header-height;
       &:hover {
         @include ktheme() {

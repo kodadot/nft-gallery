@@ -23,8 +23,8 @@
         <div class="flex">
           <slot name="action-title">
             <span>{{ `${$t('teleport.send')} ${totalUsdValue}$` }}</span>
-            <span class="text-k-grey ml-1 is-uppercase">{{
-              `(${totalTokenAmount} ${urlPrefix})`
+            <span class="text-k-grey ml-1 uppercase">{{
+              `(${totalTokenAmount} ${unit})`
             }}</span>
           </slot>
         </div>
@@ -94,6 +94,7 @@ const props = withDefaults(
     modelValue: boolean
     totalTokenAmount?: number
     totalUsdValue?: number
+    unit?: string
     transactionId: string
     canCancel?: boolean
     isMobile?: boolean
@@ -106,20 +107,12 @@ const props = withDefaults(
 const emit = defineEmits(['close', 'update:modelValue'])
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
-const { blockTime } = useBlockTime()
+const { estimatedTimes } = useBlockTime()
 const { toast } = useToast()
 
-const estimatedTimeLeft = computed(() => {
-  switch (props.status) {
-    case TransactionStatus.Broadcast:
-      return 3 * blockTime.value
-    case TransactionStatus.Block:
-      return 2 * blockTime.value
-    default:
-      return 'few'
-  }
-})
-
+const estimatedTimeLeft = computed(
+  () => estimatedTimes.value[props.status] || 'few',
+)
 const explorerLink = computed(() => {
   const explorerBaseUrl = chainPropListOf(urlPrefix.value).blockExplorer
   return `${explorerBaseUrl}extrinsic/${props.transactionId}`

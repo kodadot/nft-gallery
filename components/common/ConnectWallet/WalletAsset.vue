@@ -2,7 +2,7 @@
   <div class="flex flex-col wallet-asset">
     <WalletAssetSetIdentity v-if="!display" />
 
-    <div class="flex flex-col wallet-asset-container mt-4">
+    <div class="flex flex-col wallet-asset-container my-4">
       <WalletAssetIdentity />
       <WalletAssetNfts />
 

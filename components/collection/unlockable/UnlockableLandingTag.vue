@@ -18,7 +18,7 @@
         <span> {{ mintStatusText }} </span>
       </div>
       <div class="w-4 h-[1px] bg-separator-line-color mx-2" />
-      <nuxt-link class="flex items-center has-text-weight-bold my-2" :to="to">
+      <nuxt-link class="flex items-center font-bold my-2" :to="to">
         {{ actionText }}
       </nuxt-link>
     </div>

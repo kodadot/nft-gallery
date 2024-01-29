@@ -21,6 +21,7 @@
           :nft="entity"
           :hide-media-info="hideMediaInfo"
           :hide-action="hideNFTHoverAction"
+          :display-name-with-sn="displayNameWithSn"
           hide-video-controls
           :variant="
             slotProps.isMobileVariant || slotProps.grid === 'small'
@@ -32,6 +33,7 @@
           :entity="entity"
           :hide-media-info="hideMediaInfo"
           :hide-action="hideNFTHoverAction"
+          :display-name-with-sn="displayNameWithSn"
           hide-video-controls
           :variant="
             slotProps.isMobileVariant || slotProps.grid === 'small'
@@ -97,6 +99,7 @@ const props = defineProps<{
   resetSearchQueryParams?: string[]
   gridSection?: GridSection
   loadingOtherNetwork?: boolean
+  displayNameWithSn?: boolean
 }>()
 
 const emit = defineEmits(['total', 'loading'])

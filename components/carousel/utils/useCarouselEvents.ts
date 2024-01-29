@@ -181,7 +181,7 @@ const GENERATIVE_CONFIG: Partial<
   Record<Prefix, { limit: number; collections: string[] }>
 > = {
   ahp: {
-    limit: 9,
+    limit: 12,
     collections: AHP_GENERATIVE_DROPS,
   },
   ahk: {

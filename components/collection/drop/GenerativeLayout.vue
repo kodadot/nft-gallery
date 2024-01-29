@@ -29,6 +29,7 @@
 
         <div class="column pt-5 is-flex is-justify-content-center">
           <CollectionDropGenerativePreview
+            :minted="userMintedCount"
             :content="drop.content"
             :image="drop.image"
             @select="handleSelectImage" />
@@ -81,7 +82,7 @@ withDefaults(
     isLoading: boolean
     holderOfCollection?: HolderOfCollectionProp
     userMintedNftId?: string
-
+    userMintedCount: number
     handleSelectImage: (image: string) => void
     handleSubmitMint: () => void
   }>(),

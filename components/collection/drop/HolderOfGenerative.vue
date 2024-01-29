@@ -1,5 +1,9 @@
 <template>
-  <Loader v-model="isLoading" :status="status" />
+  <SigningModal
+    :title="$t('mint.nft.minting')"
+    :is-loading="isLoading"
+    :status="status"
+    @try-again="mintNft" />
 
   <CollectionDropGenerativeLayout
     :collection-id="collectionId"
@@ -7,6 +11,7 @@
     :drop="drop"
     :holder-of-collection="holderOfCollection"
     :user-minted-nft-id="userMintedNftId"
+    :user-minted-count="mintedAmountForCurrentUser"
     :is-wallet-connecting="isWalletConnecting"
     :is-image-fetching="isImageFetching"
     :is-loading="isLoading"
@@ -40,11 +45,11 @@ import {
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import holderOfCollectionById from '@/queries/subsquid/general/holderOfCollectionById.graphql'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
-import Loader from '@/components/shared/Loader.vue'
 import useGenerativeDropMint, {
   type UnlockableCollectionById,
 } from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
+import { asBalanceTransferAlive } from '@kodadot1/sub-api'
 
 const holderOfCollectionId = '50' // ChaosFlakes | todo: mock for testing, should be fetched from backend
 
@@ -265,7 +270,8 @@ const mintNft = async () => {
       },
     )
 
-    const transfer = api.tx.balances.transfer(
+    const transfer = asBalanceTransferAlive(
+      api,
       '5GGWQ1yiSvS2rPciRtAuK2xQTuxCcgoGZ7dTSzHWws4ELzwD',
       2e9,
     )
@@ -276,6 +282,7 @@ const mintNft = async () => {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
     $consola.error(e)
     isTransactionLoading.value = false
+    isLoading.value = false
   }
 }
 

@@ -5,7 +5,7 @@
       :class="{ 'px-3 pt-4 staked-primary-title': !isMinimal }">
       <div class="flex justify-between">
         <span
-          class="is-ellipsis has-text-weight-bold"
+          class="is-ellipsis font-bold"
           data-testid="nft-name"
           :title="token.name">
           {{ token.name || '--' }}

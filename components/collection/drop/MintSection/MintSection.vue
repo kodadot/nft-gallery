@@ -2,7 +2,7 @@
   <div>
     <div>
       <div class="flex justify-between items-center mb-5">
-        <div class="has-text-weight-bold is-size-5">
+        <div class="font-bold is-size-5">
           {{ $t('mint.unlockable.phase') }}
         </div>
         <div
@@ -14,7 +14,7 @@
       </div>
       <div class="flex justify-between items-center">
         <div>{{ mintedPercent }} %</div>
-        <div class="has-text-weight-bold">
+        <div class="font-bold">
           {{ mintedCount }} / {{ maxCount }}
           {{ $t('statsOverview.minted') }}
         </div>
@@ -22,7 +22,7 @@
     </div>
 
     <div class="my-5">
-      <UnlockableSlider :value="mintedCount / maxCount" />
+      <CollectionUnlockableSlider :value="mintedCount / maxCount" />
     </div>
 
     <div>
@@ -81,7 +81,6 @@
 </template>
 
 <script setup lang="ts">
-import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import HolderOfCollectionMintRequirements from './HolderOfCollectionMintRequirements.vue'
 import type { HolderOfCollectionProp } from '../HolderOfGenerative.vue'
@@ -124,23 +123,20 @@ const mintedPercent = computed(() => {
 })
 
 const isMintedOut = computed(() => !props.mintCountAvailable)
-
+const showHolderOfCollection = computed(() => !!props.holderOfCollection?.id)
+const mintButtonDisabled = computed(() =>
+  isMintedOut.value ? false : props.mintButton.disabled,
+)
 const mintButtonLabel = computed(() =>
   isMintedOut.value
     ? $i18n.t('mint.unlockable.seeListings')
     : props.mintButton.label,
 )
 
-const mintButtonDisabled = computed(() =>
-  isMintedOut.value ? false : props.mintButton.disabled,
-)
-
-const showHolderOfCollection = computed(() => !!props.holderOfCollection?.id)
-
 const handleMint = () => {
   if (isMintedOut.value) {
     return navigateTo(
-      `/${urlPrefix.value}/explore/items?listed=true&collections=${props.collectionId}`,
+      `/${urlPrefix.value}/collection/${props.collectionId}?listed=true`,
     )
   }
 

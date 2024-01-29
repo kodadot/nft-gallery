@@ -2,14 +2,19 @@
   <form
     class="mx-auto teleport-container"
     @submit.prevent="checkEDBeforeTeleport">
-    <Loader v-model="isLoading" :status="status" />
-    <h1 class="is-size-3 has-text-weight-bold">
+    <SigningModal
+      :title="$t('teleport.bridging', [amountAfterFees.displayValue, currency])"
+      :is-loading="isLoading"
+      :status="status"
+      @try-again="teleport" />
+
+    <h1 class="is-size-3 font-bold">
       {{ $t('teleport.page') }}
     </h1>
 
     <h2>{{ $t('teleport.subtitle') }}</h2>
     <a
-      class="text-k-grey"
+      class="!text-k-blue hover:!text-k-blue-hover"
       href="https://hello.kodadot.xyz/tutorial/teleport-bridge"
       >{{ $t('teleport.howItWorks') }}
     </a>
@@ -55,7 +60,7 @@
 
     <NeoField class="mt-5">
       <template #label>
-        <div class="has-text-weight-normal">{{ $t('teleport.amount') }}</div>
+        <div class="font-normal">{{ $t('teleport.amount') }}</div>
       </template>
 
       <div class="is-relative w-full">
@@ -94,14 +99,14 @@
             })
           }}{{ currency }}
         </span>
-        <NeoButton
+        <!-- <NeoButton
           no-shadow
           rounded
           size="small"
           class="ml-2"
           @click="handleMaxClick"
           >{{ $t('teleport.max') }}</NeoButton
-        >
+        > -->
       </div>
     </div>
 
@@ -127,7 +132,7 @@
         v-safe-href="explorerUrl"
         target="_blank"
         rel="nofollow noopener noreferrer"
-        class="has-text-k-blue">
+        class="!text-k-blue hover:!text-k-blue-hover">
         {{ shortAddress(toAddress) }}
       </a>
       {{ $t('teleport.ownerMessage') }}
@@ -160,7 +165,6 @@ import {
   prefixToChainMap,
 } from '@/utils/teleport'
 import formatBalance from '@/utils/format/balance'
-import Loader from '@/components/shared/Loader.vue'
 import shortAddress from '@/utils/shortAddress'
 import { chainIcons, getChainName } from '@/utils/chain'
 import NetworkDropdown from './NetworkDropdown.vue'
@@ -438,9 +442,9 @@ const isDisabledButton = computed(() => {
   )
 })
 
-const handleMaxClick = () => {
-  amount.value = myBalance.value
-}
+// const handleMaxClick = () => {
+//   amount.value = myBalance.value
+// }
 
 const checkEDBeforeTeleport = () => {
   if (showEDWarning.value) {

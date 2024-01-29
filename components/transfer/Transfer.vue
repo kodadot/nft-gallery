@@ -11,15 +11,16 @@
       <TransactionLoader
         v-model="isLoaderModalVisible"
         :status="status"
-        :total-token-amount="withoutDecimals(totalValues.withoutFee.token)"
+        :total-token-amount="
+          withoutDecimals({ value: totalValues.withoutFee.token })
+        "
+        :unit="unit"
         :transaction-id="transactionValue"
         :total-usd-value="totalValues.withoutFee.usd"
         :is-mobile="isMobile"
         @close="isLoaderModalVisible = false" />
       <div class="flex justify-between items-center mb-2">
-        <p class="has-text-weight-bold is-size-3">
-          {{ $t('transfer') }} {{ unit }}
-        </p>
+        <p class="font-bold is-size-3">{{ $t('transfer') }} {{ unit }}</p>
         <NeoDropdown
           position="bottom-left"
           :mobile-modal="false"
@@ -69,7 +70,7 @@
       </div>
       <div class="flex justify-between">
         <div class="flex flex-col">
-          <span class="has-text-weight-bold is-size-6 mb-1">{{
+          <span class="font-bold is-size-6 mb-1">{{
             $t('transfers.sender')
           }}</span>
           <div v-if="accountId" class="flex items-center">
@@ -94,7 +95,7 @@
           <Auth v-else />
         </div>
         <div class="flex flex-col items-end">
-          <span class="has-text-weight-bold is-size-6 mb-1">{{
+          <span class="font-bold is-size-6 mb-1">{{
             $t('general.balance')
           }}</span>
           <div class="flex items-center">
@@ -109,11 +110,10 @@
       <hr />
 
       <div v-if="!isMobile" class="flex">
-        <div
-          class="has-text-weight-bold is-size-6 mb-3 flex-1 mr-2 flex-grow-[2]">
+        <div class="font-bold is-size-6 mb-3 flex-1 mr-2 flex-grow-[2]">
           {{ $t('transfers.recipient') }}
         </div>
-        <div class="has-text-weight-bold is-size-6 mb-3 flex-1 flex-grow">
+        <div class="font-bold is-size-6 mb-3 flex-1 flex-grow">
           {{ $t('amount') }}
         </div>
       </div>
@@ -124,7 +124,7 @@
           class="mb-3">
           <div
             v-if="isMobile"
-            class="has-text-weight-bold is-size-6 mb-3 flex items-center justify-between">
+            class="font-bold is-size-6 mb-3 flex items-center justify-between">
             {{ $t('transfers.recipient') }} {{ index + 1 }}
             <a v-if="targetAddresses.length > 1" @click="deleteAddress(index)">
               <NeoIcon class="p-3" icon="trash" />
@@ -227,19 +227,17 @@
       </div>
 
       <div class="flex justify-between items-center mb-5">
-        <span class="has-text-weight-bold is-size-6">{{
+        <span class="font-bold is-size-6">{{
           $t('transfers.displayUnit')
         }}</span>
         <div class="flex items-center">
           <span class="is-size-6 mr-1"
             >{{ $t('transfers.transferable') }}:
           </span>
-          <span
-            v-if="displayUnit === 'token'"
-            class="has-text-weight-bold is-size-6">
+          <span v-if="displayUnit === 'token'" class="font-bold is-size-6">
             <Money :value="transferableBalance.token" inline />
           </span>
-          <span v-else class="has-text-weight-bold is-size-6"
+          <span v-else class="font-bold is-size-6"
             >{{ transferableBalance.usd }} USD</span
           >
         </div>
@@ -275,16 +273,14 @@
       </div>
 
       <div class="flex justify-between items-center mb-6">
-        <span class="has-text-weight-bold is-size-6">{{
-          $t('spotlight.total')
-        }}</span>
+        <span class="font-bold is-size-6">{{ $t('spotlight.total') }}</span>
         <div class="flex items-center">
           <span class="text-xs text-k-grey mr-1"
             >({{ displayValues.total.withFee[0] }})</span
           >
 
           <span
-            class="has-text-weight-bold is-size-6"
+            class="font-bold is-size-6"
             data-testid="transfer-total-amount"
             >{{ displayValues.total.withFee[1] }}</span
           >
@@ -789,7 +785,9 @@ const getTransferParams = async (
 
   const firstAddress = addresses[0]
 
-  const cb = isSingle ? api.tx.balances.transfer : api.tx.utility.batch
+  const cb = isSingle
+    ? api.tx.balances.transferAllowDeath
+    : api.tx.utility.batch
   const arg = isSingle
     ? [
         firstAddress.address as string,
@@ -802,7 +800,7 @@ const getTransferParams = async (
             decimals,
           )
 
-          return api.tx.balances.transfer(
+          return api.tx.balances.transferAllowDeath(
             target.address as string,
             amountToTransfer,
           )
