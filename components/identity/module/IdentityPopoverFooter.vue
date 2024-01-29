@@ -23,19 +23,18 @@
         </p>
       </div>
     </div>
-    <div v-if="soldItems.length" class="sales-container pt-2">
+    <div v-if="nfts.length" class="sales-container pt-2">
       <h6 class="popover-user-heading pb-2">
         {{ $t('profile.highestSales') }}
       </h6>
       <div class="flex sold-items">
-        <div v-for="nft in soldItems" :key="nft.id" class="sold-item">
+        <div v-for="nft in nfts" :key="nft.id" class="sold-item">
           <GalleryCard
             :id="nft.id"
             hide-name
             :metadata="nft.metadata"
-            :current-owner="nft.currentOwner"
             :route="`/${urlPrefix}/gallery`"
-            :data-testid="soldItems.indexOf(nft)" />
+            :data-testid="nfts.indexOf(nft)" />
         </div>
       </div>
     </div>
@@ -44,8 +43,7 @@
 
 <script lang="ts" setup>
 import useIdentityStats from '../utils/useIdentityStats'
-
-import type { NFT } from '@/components/rmrk/service/scheme'
+import { type EventMinimalNft } from '@/composables/useMinimalEvents'
 
 const GalleryCard = defineAsyncComponent(
   () => import('../../rmrk/Gallery/GalleryCard.vue'),
@@ -58,7 +56,7 @@ const { totalCollected, totalCreated, totalSold } = useIdentityStats({
 })
 
 defineProps<{
-  soldItems: NFT[]
+  nfts: EventMinimalNft[]
 }>()
 </script>
 

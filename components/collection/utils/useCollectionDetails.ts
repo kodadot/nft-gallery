@@ -1,7 +1,6 @@
 import { getVolume } from '@/utils/math'
-import { NFT } from '@/components/rmrk/service/scheme'
-import { NFTListSold } from '@/components/identity/utils/useIdentity'
 import { Stats } from './types'
+import { Interaction } from '@kodadot1/minimark/v2'
 
 export const useCollectionDetails = ({
   collectionId,
@@ -56,7 +55,9 @@ export const useCollectionDetails = ({
   }
 }
 
-export const useBuyEvents = ({ collectionId }) => {
+export const useBuyEvents = ({ collectionId }: { collectionId: string }) => {
+  const highestBuyPrice = ref<number>(0)
+
   const { data } = useGraphql({
     queryPrefix: 'subsquid',
     queryName: 'collectionBuyEventStatsById',
@@ -64,38 +65,24 @@ export const useBuyEvents = ({ collectionId }) => {
       id: collectionId,
     },
   })
-  const highestBuyPrice = ref<number>(0)
+
   watch(data, (result) => {
     const max = result?.stats?.[0]?.max
     if (max) {
       highestBuyPrice.value = parseInt(max)
     }
   })
-  return { highestBuyPrice }
-}
 
-export function useCollectionSoldData({ address, collectionId }) {
-  const nftEntities = ref<NFT[]>([])
-  const { data } = useGraphql({
-    queryName: 'nftListSoldByCollection',
-    variables: {
-      account: address,
-      limit: 3,
-      orderBy: 'price_DESC',
-      collectionId,
-      where: {
+  const { nftEntities: highestSoldNFTs } = useMinimalEvents({
+    interaction: Interaction.BUY,
+    where: {
+      nft: {
         collection: { id_eq: collectionId },
       },
     },
   })
 
-  watch(data as unknown as NFTListSold, (list) => {
-    if (list?.nftEntities?.length) {
-      nftEntities.value = list.nftEntities
-    }
-  })
-
-  return { nftEntities }
+  return { highestBuyPrice, highestSoldNFTs }
 }
 
 export const useCollectionMinimal = ({

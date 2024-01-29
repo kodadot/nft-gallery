@@ -1,38 +1,14 @@
-import type { NFT } from '@/components/rmrk/service/scheme'
+import { Interaction } from '@kodadot1/minimark/v2'
 
-export interface NFTListSold {
-  nftEntities?: NFT[]
-  nftEntitiesConnection: {
-    totalCount: number
-  }
-}
-
-export function useIdentitySoldData({ address }, collectionId?) {
-  const nftEntities = ref<NFT[]>([])
-  let collectionObject = {}
-  if (collectionId) {
-    collectionObject = {
-      collectionId,
-      where: {
-        collection: { id_eq: collectionId },
+export function useIdentitySoldData({ address }) {
+  const { nftEntities } = useMinimalEvents({
+    interaction: Interaction.BUY,
+    where: {
+      currentOwner_eq: address,
+      nft: {
+        currentOwner_not_eq: address,
       },
-    }
-  }
-
-  const { data } = useGraphql({
-    queryName: 'nftListSold',
-    variables: {
-      account: address,
-      limit: 3,
-      orderBy: 'price_DESC',
-      ...collectionObject,
     },
-  })
-
-  watch(data as unknown as NFTListSold, (list) => {
-    if (list.nftEntities?.length) {
-      nftEntities.value = list.nftEntities
-    }
   })
 
   return { nftEntities }

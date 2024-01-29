@@ -50,19 +50,21 @@
           </p>
         </div>
       </div>
-      <div v-if="soldItems.length" class="sales-container pt-2">
+      <div v-if="highestSoldNFTs.length" class="sales-container pt-2">
         <h6 class="popover-user-heading pb-2">
           {{ $t('profile.highestSales') }}
         </h6>
         <div class="flex sold-items">
-          <div v-for="nftItem in soldItems" :key="nftItem.id" class="sold-item">
+          <div
+            v-for="(nftItem, index) in highestSoldNFTs"
+            :key="nftItem.id"
+            class="sold-item">
             <GalleryCard
               :id="nftItem.id"
               hide-name
               :metadata="nftItem.metadata"
-              :current-owner="nftItem.currentOwner"
               :route="`/${urlPrefix}/gallery`"
-              :data-testid="soldItems.indexOf(nftItem)" />
+              :data-testid="index" />
           </div>
         </div>
       </div>
@@ -75,7 +77,6 @@ import type { CarouselNFT } from '../base/types'
 import {
   useBuyEvents,
   useCollectionDetails,
-  useCollectionSoldData,
 } from '../collection/utils/useCollectionDetails'
 
 const props = defineProps<{
@@ -92,19 +93,16 @@ const GalleryCard = defineAsyncComponent(
 
 const { urlPrefix } = usePrefix()
 
+const collectionId = computed(
+  () => (props.nft?.collection?.id || props.nft?.collectionId) as string,
+)
+
 const { stats } = useCollectionDetails({
-  collectionId: computed(
-    () => (props.nft?.collection?.id || props.nft?.collectionId) as string,
-  ),
+  collectionId: collectionId,
 })
 
-const { highestBuyPrice } = useBuyEvents({
-  collectionId: props.nft?.collection?.id || props.nft?.collectionId,
-})
-
-const { nftEntities: soldItems } = useCollectionSoldData({
-  address: props.nft?.issuer,
-  collectionId: props.nft?.collection?.id || props.nft?.collectionId,
+const { highestBuyPrice, highestSoldNFTs } = useBuyEvents({
+  collectionId: collectionId.value,
 })
 </script>
 

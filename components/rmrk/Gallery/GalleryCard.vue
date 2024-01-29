@@ -59,7 +59,6 @@ const props = withDefaults(
     emoteCount?: string | number
     price?: string
     metadata: string
-    currentOwner: string
     listed?: boolean
     hideName: boolean
   }>(),

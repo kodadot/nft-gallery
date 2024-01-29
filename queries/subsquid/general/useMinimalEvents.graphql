@@ -1,0 +1,15 @@
+query useMinimalEvents($interaction: Interaction, $and: [EventWhereInput!]) {
+  events(
+    where: {
+      interaction_eq: $interaction
+      nft: { burned_eq: false }
+      AND: $and
+    }
+  ) {
+    meta
+    nft {
+      id
+      metadata
+    }
+  }
+}
