@@ -5,7 +5,7 @@
         {{ $t('massmint.overviewTable') }}
       </div>
       <template #content>
-        <div class="limit-height">
+        <div class="max-h-[30rem] overflow-y-auto">
           <div
             class="columns is-variable is-1 is-mobile m-0 px-4 py-1 border-b border-k-grey">
             <div class="column text-k-grey is-1">#</div>
@@ -49,7 +49,7 @@
             </div>
             <div class="column is-3 flex items-center">
               <div
-                class="cursor-pointer clip-text"
+                class="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap max-w-[90%]"
                 :class="{
                   'text-k-orange': !nft.description,
                 }"
@@ -70,7 +70,7 @@
             <div class="column flex items-center">
               <div class="flex items-center pl-2">
                 <div
-                  class="border text-xs justify-center py-2 flex items-center fixed-width"
+                  class="border text-xs justify-center py-2 flex items-center w-[100px]"
                   :class="statusClass(nft.status)">
                   {{ statusTranslation(nft.status) }}
                 </div>
@@ -176,25 +176,3 @@ const getNativeNftPrice = (nft: NFT): string =>
 
 useIntersectionObserver(sentinel, handleIntersection, { threshold: 0.66 })
 </script>
-
-<style scoped lang="scss">
-.limit-height {
-  max-height: 30rem;
-  overflow-y: auto;
-}
-
-.fixed-width {
-  width: 100px;
-}
-
-.clip-text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 90%;
-}
-
-.column figure {
-  margin: 0;
-}
-</style>

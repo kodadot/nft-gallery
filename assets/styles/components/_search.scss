@@ -74,7 +74,7 @@
 
   .search-bar-collection-search {
     @apply z-[2] absolute h-6 gap-[0.35rem] left-10 top-2 cursor-default;
-    
+
     span {
       @apply h-5 px-4 py-0 rounded-[4rem];
 
@@ -184,17 +184,6 @@
 
   .loading-item {
     padding: 10px $desktop-padding-x;
-  }
-
-  .main-title {
-    font-weight: 700;
-  }
-
-  .name {
-    max-width: 34ch;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   .secondary-info {
