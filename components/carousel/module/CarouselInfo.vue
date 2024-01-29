@@ -1,15 +1,15 @@
 <template>
   <div
-    class="carousel-info flex flex-col"
+    class="carousel-info whitespace-nowrap overflow-hidden text-ellipsis p-4 flex flex-col"
     :class="{ 'carousel-info__mobile': $device.isMobile }">
     <div
       :title="item.name"
       :class="[
-        'carousel-info-name font-bold',
-        { 'carousel-info-collection': isCollection },
+        'font-bold overflow-hidden whitespace-nowrap text-ellipsis w-full',
+        { 'flex justify-between items-center': isCollection },
       ]">
       <span class="is-ellipsis">{{ item.name || '--' }}</span>
-      <span v-if="isCollection" class="carousel-info-arrow">----></span>
+      <span v-if="isCollection" class="text-text-color">----></span>
     </div>
 
     <div v-if="item?.collectionId && !$device.isMobile" class="min-h-[1.5rem]">
@@ -24,7 +24,7 @@
                 chain: item.chain,
               })
             "
-            class="text-xs carousel-info-collection-name is-ellipsis">
+            class="text-xs text-k-grey is-ellipsis">
             {{ item.collectionName || '--' }}
           </nuxt-link>
         </template>
