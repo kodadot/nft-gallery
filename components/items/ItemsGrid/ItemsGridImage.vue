@@ -7,6 +7,7 @@
     :show-price="Number(nft?.price) > 0"
     :variant="variant"
     :hide-media-info="hideMediaInfo"
+    :display-name-with-sn="displayNameWithSn"
     :class="{
       'in-cart-border':
         shoppingCartStore.isItemInCart(nft.id) ||
@@ -90,6 +91,7 @@ const props = defineProps<{
   hideMediaInfo?: boolean
   hideAction?: boolean
   hideVideoControls?: boolean
+  displayNameWithSn?: boolean
 }>()
 
 const { showCardIcon, cardIcon } = useNftCardIcon(computed(() => props.nft))

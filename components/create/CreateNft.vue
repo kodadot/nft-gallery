@@ -1,6 +1,12 @@
 <template>
   <div class="is-centered columns">
-    <Loader v-if="!autoTeleport" v-model="isLoading" :status="status" />
+    <SigningModal
+      v-if="!autoTeleport"
+      :is-loading="isLoading"
+      :title="$t('mint.nft.minting')"
+      :status="status"
+      @try-again="createNft" />
+
     <MintConfirmModal
       v-model="modalShowStatus"
       :auto-teleport-actions="autoTeleportActions"
@@ -75,6 +81,7 @@
             full-width
             no-shadow
             class="mt-3"
+            :preselected="preselectedCollectionId"
             @selected-collection="onCollectionSelected" />
         </div>
       </NeoField>
@@ -304,13 +311,10 @@ const form = reactive({
 })
 
 // select collections
-const selectedCollection = ref()
+const { selectedCollection, preselectedCollectionId, onCollectionSelected } =
+  useCollectionDropdown()
 const startSelectedCollection = ref<boolean>(false)
 const chooseCollectionRef = ref()
-
-const onCollectionSelected = (collection) => {
-  selectedCollection.value = collection
-}
 
 const modalShowStatus = ref(false)
 

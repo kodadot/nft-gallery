@@ -7,10 +7,11 @@ import {
 
 import { getApiCall } from '@/utils/gallery/abstractCalls'
 import { payRoyaltyTx, somePercentFromTX } from '@/utils/support'
+import { existentialDeposit } from '@kodadot1/static'
+import { asBalanceTransferAlive } from '@kodadot1/sub-api'
+import { encodeAddress } from '@polkadot/util-crypto'
 import type { ActionBuy } from './types'
 import { verifyRoyalty } from './utils'
-import { existentialDeposit } from '@kodadot1/static'
-import { encodeAddress } from '@polkadot/util-crypto'
 
 const getFallbackAddress = () => {
   const { chainProperties } = useChain()
@@ -83,7 +84,7 @@ function execBuyRmrk(item: ActionBuy, api, executeTransaction) {
 
       const arg = [
         api.tx.system.remark(rmrk),
-        api.tx.balances.transfer(currentOwner, price),
+        asBalanceTransferAlive(api, currentOwner, price),
         somePercentFromTX(api, price),
       ]
       const { isValid, normalizedRoyalty } = verifyRoyalty(royalty)

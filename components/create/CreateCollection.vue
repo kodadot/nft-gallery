@@ -1,6 +1,12 @@
 <template>
   <div class="is-centered" :class="{ columns: classColumn }">
-    <Loader v-if="!autoTeleport" v-model="isLoading" :status="status" />
+    <SigningModal
+      v-if="!autoTeleport"
+      :title="$t('mint.collection.minting')"
+      :is-loading="isLoading"
+      :status="status"
+      @try-again="createCollection" />
+
     <MintConfirmModal
       v-model="confirmModal"
       :auto-teleport-actions="actions"
@@ -105,6 +111,14 @@
         </div>
       </NeoField>
 
+      <!-- royalty -->
+      <NeoField v-if="isAssetHub">
+        <RoyaltyForm
+          v-model:amount="royalty.amount"
+          v-model:address="royalty.address"
+          data-testid="create-nft-royalty" />
+      </NeoField>
+
       <hr class="my-6" />
 
       <!-- deposit and balance -->
@@ -167,6 +181,12 @@ import type {
 } from '@/composables/transaction/types'
 import type { Prefix } from '@kodadot1/static'
 
+import RoyaltyForm from '@/components/bsx/Create/RoyaltyForm.vue'
+import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
+import MintConfirmModal from '@/components/create/Confirm/MintConfirmModal.vue'
+import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
+import { availablePrefixes } from '@/utils/chain'
+import { notificationTypes, showNotification } from '@/utils/notification'
 import {
   NeoButton,
   NeoField,
@@ -175,14 +195,8 @@ import {
   NeoSelect,
   NeoSwitch,
 } from '@kodadot1/brick'
-import DropUpload from '@/components/shared/DropUpload.vue'
-import { availablePrefixes } from '@/utils/chain'
-import { Interaction } from '@kodadot1/minimark/v1'
-import { notificationTypes, showNotification } from '@/utils/notification'
 import { makeSymbol } from '@kodadot1/minimark/shared'
-import MintConfirmModal from '@/components/create/Confirm/MintConfirmModal.vue'
-import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
-import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
+import { Interaction } from '@kodadot1/minimark/v1'
 
 // props
 withDefaults(
@@ -199,7 +213,7 @@ const { transaction, status, isLoading, isError, blockNumber } =
   useTransaction()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { $consola, $i18n } = useNuxtApp()
-const { isLogIn } = useAuth()
+const { isLogIn, accountId } = useAuth()
 
 // form state
 const logo = ref<File | null>(null)
@@ -210,6 +224,10 @@ const max = ref(1)
 const symbol = ref('')
 const confirmModal = ref(false)
 const autoTeleport = ref(false)
+const royalty = ref({
+  amount: 0,
+  address: accountId.value,
+})
 
 const menus = availablePrefixes()
 
@@ -252,6 +270,7 @@ const collectionInformation = computed(() => ({
 }))
 
 watch(currentChain, () => {
+  royalty.value.amount = 0
   if (currentChain.value !== urlPrefix.value) {
     setUrlPrefix(currentChain.value as Prefix)
   }
@@ -266,6 +285,8 @@ const collection = computed(() => {
     file: logo.value,
     name: name.value,
     description: description.value,
+    hasRoyalty: Boolean(royalty.value.amount),
+    royalty: royalty.value,
   }
 
   if (isAssetHub.value) {
