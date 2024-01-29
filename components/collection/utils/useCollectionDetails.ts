@@ -1,6 +1,6 @@
 import { getVolume } from '@/utils/math'
 import { Stats } from './types'
-import { Interaction } from '@kodadot1/minimark/v2'
+import { Interaction } from '@kodadot1/minimark/v1'
 
 export const useCollectionDetails = ({
   collectionId,
@@ -73,14 +73,19 @@ export const useBuyEvents = ({ collectionId }: { collectionId: string }) => {
     }
   })
 
-  const { nftEntities: highestSoldNFTs } = useMinimalEvents({
-    interaction: Interaction.BUY,
-    where: {
-      nft: {
-        collection: { id_eq: collectionId },
+  const { events, getMinimalNfts, orderMinimalEventsByHighestMeta } =
+    useMinimalEvents({
+      interaction: Interaction.BUY,
+      where: {
+        nft: {
+          collection: { id_eq: collectionId },
+        },
       },
-    },
-  })
+    })
+
+  const highestSoldNFTs = computed(() =>
+    getMinimalNfts(orderMinimalEventsByHighestMeta(events.value)),
+  )
 
   return { highestBuyPrice, highestSoldNFTs }
 }

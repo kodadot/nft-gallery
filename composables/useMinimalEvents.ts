@@ -1,19 +1,17 @@
-import { Interaction } from '@kodadot1/minimark/v2'
+import { Interaction } from '@kodadot1/minimark/v1'
 
 export type EventMinimalNft = { id: string; metadata: string }
-
-type MinimalEventsQuery = { events?: { nft: EventMinimalNft; meta: string }[] }
+type MinimalEvent = { nft: EventMinimalNft; meta: string }
+type MinimalEventsQuery = { events?: MinimalEvent[] }
 
 type UseMinimalEventsParams = {
   interaction?: Interaction
   where?: any
-  limit?: number
 }
 
 export default function useMinimalEvents({
   interaction,
   where,
-  limit = 3,
 }: UseMinimalEventsParams) {
   const { data } = useGraphql<MinimalEventsQuery>({
     queryName: 'useMinimalEvents',
@@ -25,13 +23,14 @@ export default function useMinimalEvents({
 
   const events = computed(() => data.value?.events || [])
 
-  const sortedByPrice = computed(() =>
-    events.value.sort((a, b) => Number(b.meta) - Number(a.meta)),
-  )
+  const orderMinimalEventsByHighestMeta = (
+    events: MinimalEvent[],
+  ): MinimalEvent[] => events.sort((a, b) => Number(b.meta) - Number(a.meta))
 
-  const nftEntities = computed<EventMinimalNft[]>(() =>
-    sortedByPrice.value.slice(0, limit).map((event) => event.nft),
-  )
+  const getMinimalNfts = (
+    events: MinimalEvent[],
+    limit = 3,
+  ): EventMinimalNft[] => events.slice(0, limit).map((event) => event.nft)
 
-  return { nftEntities }
+  return { events, orderMinimalEventsByHighestMeta, getMinimalNfts }
 }
