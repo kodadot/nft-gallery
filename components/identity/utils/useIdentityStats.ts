@@ -2,36 +2,6 @@ import { isAfter, subHours } from 'date-fns'
 
 import { useIdentityMintStore } from '@/stores/identityMint'
 import { formatToNow } from '@/utils/format/time'
-import { Interaction } from '@/components/rmrk/service/scheme'
-
-const useLastBought = ({ address }) => {
-  const lastBoughtDate = ref(new Date())
-
-  const { data } = useGraphql({
-    queryName: 'buyEventByProfile',
-    variables: {
-      id: address,
-    },
-  })
-
-  const fetchLastBought = () => {
-    const dataLastBought = data.value as unknown as { events: Interaction[] }
-
-    if (!address && !data.value) {
-      return
-    }
-
-    if (dataLastBought?.events?.length) {
-      lastBoughtDate.value = new Date(dataLastBought.events[0].timestamp)
-    }
-  }
-
-  watch(data, fetchLastBought)
-
-  return {
-    lastBoughtDate,
-  }
-}
 
 const whichData = ({ data, type }) => {
   const totalCount = {
@@ -69,7 +39,6 @@ export default function useIdentityStats({ address }) {
   const totalSold = ref(0)
   const firstMintDate = ref(new Date())
 
-  const { lastBoughtDate } = useLastBought({ address })
   const { data: stats } = useGraphql({
     queryName: 'userStatsByAccount',
     variables: {
@@ -78,7 +47,6 @@ export default function useIdentityStats({ address }) {
   })
 
   const startedMinting = computed(() => formatToNow(firstMintDate.value))
-  const lastBought = computed(() => formatToNow(lastBoughtDate.value))
 
   const handleNFTStats = ({ data, type }) => {
     totalCreated.value = whichData({ data, type: 'created' })
@@ -121,7 +89,6 @@ export default function useIdentityStats({ address }) {
     totalCollected,
     totalCreated,
     totalSold,
-    lastBought,
     startedMinting,
   }
 }

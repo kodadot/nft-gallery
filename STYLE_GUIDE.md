@@ -108,7 +108,7 @@ Though we haven't yet transitioned most of our data fetching logic to Nuxt lifec
 // useGraphql is a composable function that is auto-imported without having to use an explicit import statement
 // you can then call a specific GraphQL query like this in any of your SFCs
 const { data } = useGraphql({
-  queryName: 'buyEventByProfile',
+  queryName: 'allEventsByProfile',
   variables: {
     id: address,
   },
