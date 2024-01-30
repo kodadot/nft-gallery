@@ -180,6 +180,7 @@ export default function (refetchPeriodically: boolean = false) {
 
   return {
     multiBalances,
+    chainBalances,
     currentNetwork,
     currentChainBalance,
     hasCurrentChainBalance,

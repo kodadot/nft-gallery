@@ -29,7 +29,9 @@ export default function (fetchBalancePeriodically: boolean = false) {
   const { assets } = usePrefix()
   const { decimalsOf } = useChain()
   const { urlPrefix } = usePrefix()
-  const { fetchMultipleBalance } = useMultipleBalance(fetchBalancePeriodically)
+  const { fetchMultipleBalance, chainBalances } = useMultipleBalance(
+    fetchBalancePeriodically,
+  )
 
   const chain = computed<Chain | null>(
     () => prefixToChainMap[urlPrefix.value] || null,
@@ -158,6 +160,7 @@ export default function (fetchBalancePeriodically: boolean = false) {
     isError,
     isLoading,
     isAvailable,
+    chainBalances,
     teleport,
     getAddressByChain,
     getChainTokenDecimals,
