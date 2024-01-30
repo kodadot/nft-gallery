@@ -259,6 +259,7 @@ const hasAnimatedResources = computed(
 )
 
 const onNFTBought = () => {
+  console.log('test')
   activeTab.value = tabs.activity
 }
 
