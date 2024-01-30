@@ -1,9 +1,9 @@
-import { Attribute } from '@kodadot1/minimark/common'
-import { Interaction } from '@kodadot1/minimark/v1'
-import { ShoppingActions } from '@/utils/shoppingActions'
 import { BaseTokenType } from '@/components/base/types'
 import { Royalty } from '@/utils/royalty'
+import { ShoppingActions } from '@/utils/shoppingActions'
 import { Extrinsic } from '@/utils/transactionExecutor'
+import { Attribute } from '@kodadot1/minimark/common'
+import { Interaction } from '@kodadot1/minimark/v1'
 import type { ApiPromise } from '@polkadot/api'
 import { Ref } from 'vue'
 
@@ -51,6 +51,8 @@ export type BaseCollectionType = {
   name: string
   file: File | null
   description: string
+  royalty?: Royalty
+  hasRoyalty?: boolean
 }
 
 export type CollectionToMintKusama = BaseCollectionType &

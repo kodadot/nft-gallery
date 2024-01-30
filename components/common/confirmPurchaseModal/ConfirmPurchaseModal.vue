@@ -91,6 +91,8 @@ const prefrencesStore = usePreferencesStore()
 const shoppingCartStore = useShoppingCartStore()
 const { isLogIn } = useAuth()
 const { urlPrefix } = usePrefix()
+const { isRemark } = useIsChain(urlPrefix)
+const isDisabledPurchasePrefix = isRemark
 
 const autoteleport = ref()
 const actions = computed(() => [props.action])
@@ -128,7 +130,9 @@ const total = computed(
   () => totalNFTsPrice.value + totalRoyalties.value + supportFee.value,
 )
 
-const disabled = computed(() => !isLogIn.value)
+const disabled = computed(
+  () => !isLogIn.value || isDisabledPurchasePrefix.value,
+)
 
 const priceUSD = computed(() => {
   const { nfts, royalties } = totalPriceUsd(items.value)
