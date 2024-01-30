@@ -120,22 +120,15 @@ export const useDropStatus = (id: string) => {
 export const useDropMinimumFunds = (drop) => {
   const chainProperties = chainPropListOf(drop.chain)
 
-  const { chainBalances } = useTeleport()
   const { existentialDeposit } = useChain()
-  const { fetchMultipleBalance } = useMultipleBalance()
-
-  const currentChain = computed(() => prefixToChainMap[drop.chain])
-  const meta = computed<number>(() => Number(drop.meta) || 0)
-  const price = computed<number>(() => Number(drop.price) || 0)
-  const currentChainBalance = computed(
-    () =>
-      (currentChain.value && Number(chainBalances[currentChain.value]())) || 0,
-  )
-  const minimumFunds = computed<number>(() => price.value || meta.value)
+  const { fetchMultipleBalance, currentChainBalance } = useMultipleBalance()
 
   const transferableDropChainBalance = computed(
-    () => currentChainBalance.value - existentialDeposit.value,
+    () => (Number(currentChainBalance.value) || 0) - existentialDeposit.value,
   )
+  const meta = computed<number>(() => Number(drop.meta) || 0)
+  const price = computed<number>(() => Number(drop.price) || 0)
+  const minimumFunds = computed<number>(() => price.value || meta.value)
   const hasMinimumFunds = computed(
     () =>
       !minimumFunds.value ||

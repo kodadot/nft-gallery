@@ -29,19 +29,7 @@ export default function (fetchBalancePeriodically: boolean = false) {
   const { assets } = usePrefix()
   const { decimalsOf } = useChain()
   const { urlPrefix } = usePrefix()
-  const { fetchMultipleBalance, multiBalances } = useMultipleBalance(
-    fetchBalancePeriodically,
-  )
-
-  const chainBalances = {
-    [Chain.KUSAMA]: () => multiBalances.value.chains.kusama?.ksm?.nativeBalance,
-    [Chain.ASSETHUBKUSAMA]: () =>
-      multiBalances.value.chains.kusamaHub?.ksm?.nativeBalance,
-    [Chain.POLKADOT]: () =>
-      multiBalances.value.chains.polkadot?.dot?.nativeBalance,
-    [Chain.ASSETHUBPOLKADOT]: () =>
-      multiBalances.value.chains.polkadotHub?.dot?.nativeBalance,
-  }
+  const { fetchMultipleBalance } = useMultipleBalance(fetchBalancePeriodically)
 
   const chain = computed<Chain | null>(
     () => prefixToChainMap[urlPrefix.value] || null,
@@ -149,7 +137,6 @@ export default function (fetchBalancePeriodically: boolean = false) {
   const getChainTokenDecimals = (chain: Chain) => {
     switch (chain) {
       case Chain.KUSAMA:
-      case Chain.BASILISK:
       case Chain.ASSETHUBKUSAMA:
         return assets(5).decimals
       case Chain.POLKADOT:
@@ -171,7 +158,6 @@ export default function (fetchBalancePeriodically: boolean = false) {
     isError,
     isLoading,
     isAvailable,
-    chainBalances,
     teleport,
     getAddressByChain,
     getChainTokenDecimals,

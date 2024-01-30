@@ -181,6 +181,7 @@ export default function (refetchPeriodically: boolean = false) {
   return {
     multiBalances,
     currentNetwork,
+    currentChainBalance,
     hasCurrentChainBalance,
     fetchMultipleBalance,
   }
