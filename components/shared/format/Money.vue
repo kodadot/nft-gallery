@@ -1,5 +1,5 @@
 <template>
-  <div :class="['money', { 'is-inline-block': inline }]">
+  <div :class="['money', { 'inline-block': inline }]">
     <span v-if="!hideUnit">
       {{ finalValue }}
       {{ displayUnit }}
