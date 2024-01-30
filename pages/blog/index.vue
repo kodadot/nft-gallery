@@ -49,7 +49,7 @@
       <nuxt-link
         v-for="post in posts?.tokensPosts.slice(0, 2)"
         :key="post.title"
-        class="content-board is-block"
+        class="content-board block"
         :to="post._path">
         <div
           class="content-board-cover"
@@ -69,7 +69,7 @@
       <nuxt-link
         v-for="post in posts?.posts"
         :key="post.title"
-        class="content-board is-block"
+        class="content-board block"
         :to="post._path">
         <div
           class="content-board-cover"
