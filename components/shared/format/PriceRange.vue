@@ -1,5 +1,5 @@
 <template>
-  <div :class="[{ 'is-inline-block': inline }]">
+  <div :class="[{ 'inline-block': inline }]">
     {{ $t('query.priceRange.range') }} {{ $t('general.from') }}
     <Money :value="from" inline />
     <span v-if="to">
