@@ -33,6 +33,7 @@
     "test": "vitest run --reporter verbose --allowOnly",
     "test:watch": "vitest --reporter verbose",
     "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test --ui",
     "prepare": "pnpm -F static build && nuxi prepare && husky install"
   },
   "husky": {
@@ -154,9 +155,8 @@
     "vue-eslint-parser": "^9.4.1",
     "vue-gtag": "^2.0.1"
   },
-  "pnpm": {
-    "overrides": {
-      "@apollo/federation": "0.38.1"
-    }
+  "resolutions": {
+    "@apollo/federation": "0.38.1",
+    "vue": "3.4.8"
   }
 }
