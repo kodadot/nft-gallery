@@ -21,7 +21,7 @@
                 </nuxt-link>
                 collection
               </p>
-              <div v-if="!isMintedOut" class="text-xs">
+              <div class="text-xs">
                 <span class="text-k-grey capitalize mr-2">
                   {{ $t('mint.unlockable.availableForMint') }}
                 </span>
