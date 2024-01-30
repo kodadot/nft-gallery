@@ -102,7 +102,19 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      const newUtilities = {
+        '.ktheme': {
+          color: 'var(--text-color-inverse)',
+          textShadow:
+            '1px 1px 0 var(--border-color), 1px -1px 0 var(--border-color), -1px 1px 0 var(--border-color), -1px -1px 0 var(--border-color), 1px 0px 0 var(--border-color), 0px 1px 0 var(--border-color), -1px 0px 0 var(--border-color), 0px -1px 0 var(--border-color), 4px 4px var(--border-color)',
+        },
+      }
+
+      addUtilities(newUtilities, ['responsive', 'hover'])
+    },
+  ],
   corePlugins: {
     preflight: false,
   },
