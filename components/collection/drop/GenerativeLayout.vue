@@ -66,17 +66,18 @@
 <script setup lang="ts">
 import { DropItem } from '@/params/types'
 import type { HolderOfCollectionProp } from './HolderOfGenerative.vue'
+import type { MinimumFundsProp, MintButtonProp } from './types'
 
 withDefaults(
   defineProps<{
     collectionId: string
     description?: string
     drop: DropItem
-    mintButton: { label: string; disabled: boolean }
+    mintButton: MintButtonProp
     mintedCount: number
     mintCountAvailable: boolean
     maxCount: number
-    minimumFunds: { amount: number; description: string; hasAmount: boolean }
+    minimumFunds: MinimumFundsProp
     isImageFetching: boolean
     isWalletConnecting: boolean
     isLoading: boolean

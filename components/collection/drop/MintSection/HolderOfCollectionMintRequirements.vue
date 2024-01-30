@@ -9,7 +9,8 @@
         <div class="flex gap-4 flex-col w-full">
           <MintRequirementItem
             v-if="showHolderOfCollection && collection"
-            :fulfilled="fulfillsHolderOfCollection">
+            :fulfilled="fulfillsHolderOfCollection"
+            :loading="holderOfCollection.isLoading">
             <div class="flex justify-between items-center w-full">
               <p class="capitalize">
                 Holder of NFT from
@@ -58,7 +59,9 @@
               </div>
             </div>
           </MintRequirementItem>
-          <MintRequirementItem :fulfilled="fulfillsMinimumFunds">
+          <MintRequirementItem
+            :fulfilled="fulfillsMinimumFunds"
+            :loading="minimumFunds.isLoading">
             <p v-dompurify-html="minimumFunds.description" />
           </MintRequirementItem>
         </div>
@@ -91,10 +94,11 @@ import MintRequirementItem from './MintRequirementItem.vue'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import type { HolderOfCollectionProp } from '../HolderOfGenerative.vue'
+import type { MinimumFundsProp } from '../types'
 
 const props = defineProps<{
   holderOfCollection: HolderOfCollectionProp
-  minimumFunds: { amount: number; description: string; hasAmount: boolean }
+  minimumFunds: MinimumFundsProp
   isMintedOut: boolean
 }>()
 

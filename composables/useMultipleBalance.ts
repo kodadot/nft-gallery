@@ -44,7 +44,7 @@ function calculateUsd(amount: string, tokenValue) {
 
 export default function (refetchPeriodically: boolean = false) {
   const { accountId } = useAuth()
-  const { isTestnet } = usePrefix()
+  const { isTestnet, urlPrefix } = usePrefix()
   const identityStore = useIdentityStore()
   const fiatStore = useFiatStore()
 
@@ -56,7 +56,24 @@ export default function (refetchPeriodically: boolean = false) {
   } = storeToRefs(identityStore)
 
   const currentNetwork = computed(() =>
-    isTestnet.value ? 'test-network' : 'main-network',
+    isTestnet ? 'test-network' : 'main-network',
+  )
+
+  const chainBalances = computed(() => ({
+    [Chain.KUSAMA]: multiBalances.value.chains.kusama?.ksm?.nativeBalance,
+    [Chain.ASSETHUBKUSAMA]:
+      multiBalances.value.chains.kusamaHub?.ksm?.nativeBalance,
+    [Chain.POLKADOT]: multiBalances.value.chains.polkadot?.dot?.nativeBalance,
+    [Chain.ASSETHUBPOLKADOT]:
+      multiBalances.value.chains.polkadotHub?.dot?.nativeBalance,
+  }))
+
+  const currentChain = computed(() => prefixToChainMap[urlPrefix.value])
+  const currentChainBalance = computed<string | undefined>(
+    () => currentChain.value && chainBalances.value[currentChain.value],
+  )
+  const hasCurrentChainBalance = computed(
+    () => currentChainBalance.value !== undefined,
   )
 
   async function getBalance(chainName: string, token = 'KSM', tokenId = 0) {
@@ -164,6 +181,7 @@ export default function (refetchPeriodically: boolean = false) {
   return {
     multiBalances,
     currentNetwork,
+    hasCurrentChainBalance,
     fetchMultipleBalance,
   }
 }

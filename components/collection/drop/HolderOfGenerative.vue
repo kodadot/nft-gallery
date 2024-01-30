@@ -50,10 +50,12 @@ import useGenerativeDropMint, {
 } from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
 import { asBalanceTransferAlive } from '@kodadot1/sub-api'
+import { MinimumFundsProp, MintButtonProp } from './types'
 
 export type HolderOfCollectionProp = {
   id: string
   isHolder: boolean
+  isLoading: boolean
   hasAvailable: boolean
   amount: {
     total: number
@@ -70,7 +72,7 @@ const props = withDefaults(
   },
 )
 
-const { fetchMultipleBalance } = useMultipleBalance()
+const { fetchMultipleBalance, hasCurrentChainBalance } = useMultipleBalance()
 
 const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
   useDropMinimumFunds(props.drop)
@@ -81,10 +83,11 @@ const minimumFundsDescription = computed(() =>
   ]),
 )
 
-const minimumFundsProps = computed(() => ({
+const minimumFundsProps = computed<MinimumFundsProp>(() => ({
   amount: minimumFunds.value,
   description: minimumFundsDescription.value,
   hasAmount: hasMinimumFunds.value,
+  isLoading: !hasCurrentChainBalance.value,
 }))
 
 const isWalletConnecting = ref(false)
@@ -103,7 +106,7 @@ const { client } = usePrefix()
 const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isAddFundModalActive = ref(false)
-const availableNfts = ref(0)
+const availableNfts = reactive({ isLoading: true, amount: 0 })
 
 const {
   defaultName,
@@ -197,15 +200,16 @@ const isHolderOfTargetCollection = computed(
   () => maxMintLimitForCurrentUser.value > 0,
 )
 
-const hasAvailableNfts = computed(() => availableNfts.value !== 0)
+const hasAvailableNfts = computed(() => availableNfts.amount !== 0)
 
 const holderOfCollection = computed<HolderOfCollectionProp>(() => ({
   id: holderOfCollectionId.value as string,
   isHolder: isHolderOfTargetCollection.value,
   hasAvailable: hasAvailableNfts.value,
+  isLoading: availableNfts.isLoading,
   amount: {
     total: maxMintLimitForCurrentUser.value,
-    available: availableNfts.value,
+    available: availableNfts.amount,
   },
 }))
 
@@ -238,7 +242,7 @@ const mintButtonDisabled = computed<boolean>(
       )),
 )
 
-const mintButtonProps = computed(() => ({
+const mintButtonProps = computed<MintButtonProp>(() => ({
   disabled: mintButtonDisabled.value,
   label: mintButtonLabel.value,
 }))
@@ -373,12 +377,14 @@ const submitMint = async (sn: string) => {
 }
 
 const checkAvailableNfts = async () => {
+  availableNfts.isLoading = true
   const nftEntities = holderOfCollectionData.value?.nftEntities || []
   const nftIds = nftEntities.map((nft) => nft.sn)
   const claimed = await Promise.all(
     nftIds.map((sn) => isNftClaimed(sn, holderOfCollectionId.value as string)),
   )
-  availableNfts.value = claimed.filter((x) => !x).length
+  availableNfts.amount = claimed.filter((x) => !x).length
+  availableNfts.isLoading = false
 }
 
 const handleDropAddModalConfirm = () => {
