@@ -22,7 +22,7 @@
     <hr class="my-5" />
 
     <div class="flex items-center justify-between networks">
-      <div class="w-full is-relative">
+      <div class="w-full relative">
         <div class="network-title">{{ $t('teleport.source') }}</div>
         <NetworkDropdown
           :options="fromNetworks"
@@ -49,7 +49,7 @@
         </svg>
       </div>
 
-      <div class="w-full is-relative">
+      <div class="w-full relative">
         <div class="network-title">{{ $t('teleport.destination') }}</div>
         <NetworkDropdown
           :options="toNetworks"
@@ -63,7 +63,7 @@
         <div class="font-normal">{{ $t('teleport.amount') }}</div>
       </template>
 
-      <div class="is-relative w-full">
+      <div class="relative w-full">
         <NeoInput
           v-model="displayAmount"
           root-class="w-full"

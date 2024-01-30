@@ -1,7 +1,7 @@
 <template>
   <section
     :class="[
-      'is-relative landing-search flex items-center',
+      'relative landing-search flex items-center',
       isMobile ? 'mt-6' : 'my-8',
     ]">
     <img

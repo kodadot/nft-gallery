@@ -109,7 +109,7 @@
         :error="!form.salePrice"
         :label="`${$t('price')} *`">
         <div class="w-full">
-          <div class="flex justify-between items-center is-relative">
+          <div class="flex justify-between items-center relative">
             <NeoInput
               v-model="form.salePrice"
               data-testid="create-nft-input-list-value"

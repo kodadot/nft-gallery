@@ -27,7 +27,7 @@
     </header>
 
     <div
-      class="is-relative"
+      class="relative"
       :class="[
         {
           'limit-height__scrollabe': scrollable,
