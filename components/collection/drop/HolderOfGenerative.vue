@@ -50,18 +50,11 @@ import useGenerativeDropMint, {
 } from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
 import { asBalanceTransferAlive } from '@kodadot1/sub-api'
-import { MinimumFundsProp, MintButtonProp } from './types'
-
-export type HolderOfCollectionProp = {
-  id: string
-  isHolder: boolean
-  isLoading: boolean
-  hasAvailable: boolean
-  amount: {
-    total: number
-    available: number
-  }
-}
+import {
+  HolderOfCollectionProp,
+  MinimumFundsProp,
+  MintButtonProp,
+} from './types'
 
 const props = withDefaults(
   defineProps<{

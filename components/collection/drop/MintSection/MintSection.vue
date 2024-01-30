@@ -82,8 +82,11 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import type { HolderOfCollectionProp } from '../HolderOfGenerative.vue'
-import type { MinimumFundsProp, MintButtonProp } from '../types'
+import type {
+  HolderOfCollectionProp,
+  MinimumFundsProp,
+  MintButtonProp,
+} from '../types'
 
 const NuxtLink = resolveComponent('NuxtLink')
 

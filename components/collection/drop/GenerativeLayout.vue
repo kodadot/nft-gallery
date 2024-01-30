@@ -65,8 +65,11 @@
 
 <script setup lang="ts">
 import { DropItem } from '@/params/types'
-import type { HolderOfCollectionProp } from './HolderOfGenerative.vue'
-import type { MinimumFundsProp, MintButtonProp } from './types'
+import type {
+  HolderOfCollectionProp,
+  MinimumFundsProp,
+  MintButtonProp,
+} from './types'
 
 withDefaults(
   defineProps<{
