@@ -1,5 +1,5 @@
 <template>
-  <div :class="['money', { 'is-inline-block': inline }]">
+  <div :class="['money', { 'inline-block': inline }]">
     <div>
       {{ finalValue }}
       {{ realUnit }}

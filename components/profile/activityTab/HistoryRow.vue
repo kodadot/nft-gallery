@@ -11,7 +11,7 @@
             :size="50" />
         </nuxt-link>
         <nuxt-link
-          class="is-ellipsis is-inline-block"
+          class="is-ellipsis inline-block"
           :to="`/${urlPrefix}/gallery/${event.Item.id}`">
           <span class="ml-5 font-bold is-clipped">
             {{ event.Item.name }}
@@ -89,7 +89,7 @@
       </nuxt-link>
       <div class="flex flex-col justify-center gap-10px flex-grow">
         <nuxt-link
-          class="is-ellipsis is-inline-block mobile-fixed-width"
+          class="is-ellipsis inline-block mobile-fixed-width"
           :to="`/${urlPrefix}/gallery/${event.Item.id}`">
           <span class="font-bold">
             {{ event.Item.name }}
