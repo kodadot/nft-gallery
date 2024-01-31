@@ -86,7 +86,7 @@
                 <h2 class="subtitle" data-testid="item-collection">
                   <CollectionDetailsPopover
                     v-if="nft?.collection.id"
-                    class="hidden md:block"
+                    :collection="collection"
                     :nft="nft">
                     <template #content>
                       <nuxt-link
@@ -97,12 +97,6 @@
                       </nuxt-link>
                     </template>
                   </CollectionDetailsPopover>
-                  <nuxt-link
-                    :to="`/${urlPrefix}/collection/${collection?.id}`"
-                    class="has-text-link block md:hidden"
-                    data-testid="gallery-item-collection-link">
-                    {{ collection?.name || collection?.id }}
-                  </nuxt-link>
                 </h2>
               </div>
               <GalleryItemButton
