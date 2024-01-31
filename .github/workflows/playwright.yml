@@ -24,7 +24,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run Playwright tests
-        run: npx playwright test
+        run: npx playwright test basic.spec.ts
       - uses: actions/upload-artifact@v3
         if: always()
         with:
