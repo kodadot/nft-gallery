@@ -9,7 +9,7 @@ on:
 
 jobs:
   test:
-    runs-on: macos-14
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
@@ -20,7 +20,7 @@ jobs:
         run: pnpm test
 
   build:
-    runs-on: macos-14
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
@@ -34,7 +34,7 @@ jobs:
       - run: stat -c "%s" ./.nuxt/dist/server/client.manifest.mjs
 
   build-cf:
-    runs-on: macos-14
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
