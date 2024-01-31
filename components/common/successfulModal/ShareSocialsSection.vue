@@ -11,7 +11,7 @@
       <NeoButton
         variant="icon"
         no-shadow
-        class="mx-7"
+        :class="{ 'mx-7': withCopy }"
         @click="handleShareOnTelegram">
         <div class="flex flex-col text-k-grey">
           <NeoIcon pack="fab" icon="telegram" />
@@ -20,7 +20,8 @@
       </NeoButton>
 
       <NeoButton
-        v-clipboard:copy="nftFullUrl"
+        v-if="withCopy"
+        v-clipboard:copy="url"
         variant="icon"
         no-shadow
         @click="toast($t('general.copyToClipboard'))">
@@ -36,23 +37,25 @@
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
-const props = defineProps<{
-  url: string
-}>()
+const props = withDefaults(
+  defineProps<{
+    text: string
+    url: string
+    withCopy?: boolean
+  }>(),
+  {
+    withCopy: true,
+  },
+)
 
-const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 const { shareOnX, shareOnTelegram } = useSocialShare()
 
-const sharingTxt = $i18n.t('sharing.nft')
-
-const nftFullUrl = computed(() => `${window.location.origin}${props.url}`)
-
 const handleShareOnX = () => {
-  shareOnX(sharingTxt, nftFullUrl.value)
+  shareOnX(props.text, props.url)
 }
 
 const handleShareOnTelegram = () => {
-  shareOnTelegram(sharingTxt, nftFullUrl.value)
+  shareOnTelegram(props.text, props.url)
 }
 </script>

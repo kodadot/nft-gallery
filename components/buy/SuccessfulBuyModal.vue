@@ -1,5 +1,5 @@
 <template>
-  <SuccessfulModal v-model="isModalActive" :tx-hash="txHash">
+  <SuccessfulModal v-model="isModalActive" :tx-hash="txHash" :share="share">
     <template v-if="singleBuy">
       <SingleItemMedia
         :header="$t('buyModal.purchaseSuccessful')"
@@ -65,10 +65,38 @@ const props = defineProps<{
   items: ShoppingCartItem[]
 }>()
 
+const { $i18n } = useNuxtApp()
+const { urlPrefix } = usePrefix()
+const { accountId } = useAuth()
+
 const isModalActive = useVModel(props, 'modelValue')
 const expanded = ref(false)
 
 const singleBuy = computed(() => props.items.length === 1)
 const firsItem = computed(() => props.items[0])
 const moreItems = computed(() => props.items.length - COLLAPSED_ITEMS_COUNT)
+
+const shareText = computed(() => {
+  if (singleBuy.value) {
+    return $i18n.t('sharing.nft')
+  }
+
+  const some = props.items.slice(0, 3).map((item) => item.name)
+
+  return `${$i18n.t('sharing.nfts')}\n ${some.join(', ')}`
+})
+
+const url = computed(() => `${window.location.origin}/${urlPrefix.value}`)
+
+const shareUrl = computed(() =>
+  singleBuy.value
+    ? `${url.value}/gallery/${firsItem.value.id}`
+    : `${url.value}/u/${accountId.value}`,
+)
+
+const share = computed(() => ({
+  text: shareText.value,
+  withCopy: singleBuy.value,
+  url: shareUrl.value,
+}))
 </script>

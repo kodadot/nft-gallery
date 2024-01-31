@@ -11,7 +11,10 @@
 
       <hr class="!my-5" />
 
-      <ShareSocialsSection url="asd" />
+      <ShareSocialsSection
+        :text="share.text"
+        :url="share.url"
+        :with-copy="share.withCopy" />
 
       <slot name="actions">
         <ActionButtons id="as" :can-list-nft="false" />
@@ -28,6 +31,7 @@ defineEmits(['modelValue'])
 const props = defineProps<{
   modelValue: boolean
   txHash: string
+  share: { text: string; url: string; withCopy?: boolean }
 }>()
 
 const isModalActive = useVModel(props, 'modelValue')
