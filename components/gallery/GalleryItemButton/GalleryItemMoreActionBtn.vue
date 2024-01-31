@@ -1,7 +1,7 @@
 <template>
   <div>
     <SigningModal
-      :title="$t('mint.nft.burning')"
+      :title="signingModalTitle"
       :is-loading="isLoading"
       :status="status"
       @try-again="burn" />
@@ -54,6 +54,16 @@ const props = defineProps<{
   price?: string
 }>()
 
+const action = ref('')
+const signingModalTitle = computed(() => {
+  return (
+    {
+      burn: $i18n.t('mint.nft.burning'),
+      unlist: $i18n.t('mint.nft.delisting'),
+    }[action.value] || ''
+  )
+})
+
 const downloadMedia = () => {
   if (props.ipfsImage) {
     const originalUrl = toOriginalContentUrl(props.ipfsImage)
@@ -75,6 +85,7 @@ const downloadMedia = () => {
 }
 
 const burn = () => {
+  action.value = 'burn'
   transaction({
     interaction: Interaction.CONSUME,
     urlPrefix: urlPrefix.value,
@@ -85,6 +96,7 @@ const burn = () => {
 }
 
 const unlist = () => {
+  action.value = 'unlist'
   transaction({
     interaction: Interaction.LIST,
     urlPrefix: urlPrefix.value,
