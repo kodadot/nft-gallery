@@ -6,7 +6,6 @@ on:
     branches: [main, beta, production, nuxt]
 jobs:
   test:
-    timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -22,7 +21,8 @@ jobs:
 
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps chromium
-  runs playwright:
+  run-playwright:
+    needs: test
     timeout-minutes: 15
     runs-on: macos-14
     steps:
