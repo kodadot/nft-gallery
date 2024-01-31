@@ -199,7 +199,7 @@
 
       <!-- deposit and balance -->
       <div>
-        <div class="flex font-medium has-text-info">
+        <div class="flex font-medium text-k-blue hover:text-k-blue-hover">
           <div>{{ $t('mint.deposit') }}:&nbsp;</div>
           <div>
             <span data-testid="create-nft-deposit-amount-token">
