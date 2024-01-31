@@ -59,7 +59,7 @@
                   `/massmint/template.${activeDescriptionTab.toLowerCase()}`
                 "
                 variant="text"
-                class="has-text-link"
+                class="text-k-blue hover:text-k-blue-hover"
                 no-shadow
                 tag="a"
                 download>

@@ -242,7 +242,7 @@
           <a
             href="https://hello.kodadot.xyz/multi-chain/fees"
             target="_blank"
-            class="has-text-link"
+            class="text-k-blue hover:text-k-blue-hover"
             data-testid="create-nft-learn-more-link"
             rel="nofollow noopener noreferrer">
             {{ $t('helper.learnMore') }}

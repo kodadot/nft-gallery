@@ -90,7 +90,7 @@
                     <template #content>
                       <nuxt-link
                         :to="`/${urlPrefix}/collection/${collection?.id}`"
-                        class="has-text-link"
+                        class="text-k-blue hover:text-k-blue-hover"
                         data-testid="gallery-item-collection-link">
                         {{ collection?.name || collection?.id }}
                       </nuxt-link>

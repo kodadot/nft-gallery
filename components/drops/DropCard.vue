@@ -36,7 +36,7 @@
                 </div>
                 <nuxt-link
                   :to="`/${dropPrefix}/u/${drop.collection.issuer}`"
-                  class="has-text-link">
+                  class="text-k-blue hover:text-k-blue-hover">
                   <IdentityIndex
                     ref="identity"
                     :address="drop.collection.issuer"

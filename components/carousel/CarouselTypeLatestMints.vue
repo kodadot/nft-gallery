@@ -20,7 +20,7 @@
               </p>
               <nuxt-link
                 :to="`/${urlPrefix}/u/${item.currentOwner}`"
-                class="has-text-link ml-2">
+                class="text-k-blue hover:text-k-blue-hover ml-2">
                 <IdentityIndex
                   ref="identity"
                   :address="item.currentOwner"

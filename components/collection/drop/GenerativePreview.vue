@@ -33,12 +33,14 @@
 
       <a
         v-safe-href="sanitizeIpfsUrl(displayUrl)"
-        class="flex items-center has-text-link fixed-right"
+        class="flex items-center text-k-blue hover:text-k-blue-hover fixed-right"
         rel="nofollow noopener noreferrer"
         target="_blank"
         role="link">
         {{ $t('img') }}
-        <NeoIcon icon="arrow-up-right" class="ml-1 has-text-link" />
+        <NeoIcon
+          icon="arrow-up-right"
+          class="ml-1 text-k-blue hover:text-k-blue-hover" />
       </a>
     </div>
   </div>
