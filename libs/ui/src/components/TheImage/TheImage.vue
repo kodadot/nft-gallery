@@ -10,7 +10,7 @@ import type {
   MethodOptions,
   ReservedProps,
 } from 'vue'
-import { computed, defineProps, withDefaults } from 'vue'
+import { computed, withDefaults } from 'vue'
 
 export type ImageComponent =
   | 'img'
