@@ -92,6 +92,7 @@
   "incomplete": "Incomplete",
   "description": "Description",
   "showLess": "Show Less",
+  "showAll": "Show All",
   "dropUpload": "Drop your file here or click to select.",
   "chainSelect": "Select Chain ({0})",
   "success": "Success",
@@ -1693,6 +1694,7 @@
   "buyModal": {
     "nftPriceUpdated": "NFT {0} price updated",
     "nftNotListedAnymore": "NFT {0} is not listed anymore",
-    "buyingNft": "Buying NFT | Buying NFTs"
+    "buyingNft": "Buying NFT | Buying NFTs",
+    "purchaseSuccessful": "Purchase successful"
   }
 }
