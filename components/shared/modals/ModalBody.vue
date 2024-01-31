@@ -36,7 +36,7 @@
         contentClass,
       ]">
       <div v-if="loading">
-        <SkeletonLoader :title="title" class="modal-skeleton" />
+        <SkeletonLoader :title="skeletonTitle" class="modal-skeleton" />
       </div>
 
       <div
@@ -93,7 +93,7 @@ const { pause, resume: start } = useIntervalFn(
 const titleRange = computed(() =>
   Math.floor(seconds.value / TITLE_DURATION_SECONDS),
 )
-const title = computed(
+const skeletonTitle = computed(
   () => titles[titleRange.value] || titles[titles.length - 1],
 )
 

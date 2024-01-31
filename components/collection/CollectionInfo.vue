@@ -18,25 +18,27 @@
         <span v-if="recipient" class="inline">
           <span class="capitalize text-neutral-7">{{ $t('royalty') }}</span>
           &nbsp;{{ royalty }}%
-          <NeoTooltip
-            multiline
-            position="bottom"
-            :auto-close="['outside', 'inside']"
-            class="text-neutral-7">
+          <tippy
+            :arrow="true"
+            placement="bottom"
+            class="text-neutral-7"
+            :append-to="body">
             <NeoIcon class="icon" icon="info-circle" />
 
             <template #content>
-              Recipient Address:
-              <nuxt-link
-                :to="`/${urlPrefix}/u/${recipient}`"
-                class="text-k-blue hover:text-k-blue-hover">
-                <IdentityIndex
-                  ref="identity"
-                  :address="recipient"
-                  show-clipboard />
-              </nuxt-link>
+              <div class="bg-background-color border py-2 px-4 text-xs">
+                Recipient Address:
+                <nuxt-link
+                  :to="`/${urlPrefix}/u/${recipient}`"
+                  class="text-k-blue hover:text-k-blue-hover">
+                  <IdentityIndex
+                    ref="identity"
+                    :address="recipient"
+                    show-clipboard />
+                </nuxt-link>
+              </div>
             </template>
-          </NeoTooltip>
+          </tippy>
           <span class="text-neutral-5 mx-2">•</span>
         </span>
         <span>
@@ -102,13 +104,14 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon, NeoTooltip } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
 import {
   useCollectionDetails,
   useCollectionMinimal,
 } from './utils/useCollectionDetails'
 
+const body = ref(document.body)
 const route = useRoute()
 const { urlPrefix } = usePrefix()
 const { availableChains } = useChain()
