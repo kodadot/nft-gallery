@@ -31,7 +31,7 @@
                 drop.collection.name
               }}</span>
               <div v-if="drop.collection.issuer" class="flex">
-                <div class="mr-2 has-text-grey">
+                <div class="mr-2 text-k-grey">
                   {{ $t('activity.creator') }}:
                 </div>
                 <nuxt-link
@@ -46,14 +46,14 @@
             </div>
             <div class="flex justify-content-space-between" style="gap: 2rem">
               <div class="flex flex-col">
-                <div class="has-text-grey">
+                <div class="text-k-grey">
                   {{ $t('statsOverview.minted') }}
                 </div>
 
                 <div>{{ drop.minted }}/{{ drop.max }}</div>
               </div>
               <div class="flex flex-col">
-                <span class="has-text-grey">{{ $t('price') }}</span>
+                <span class="text-k-grey">{{ $t('price') }}</span>
                 <span v-if="isFreeDrop">{{ $t('free') }}</span>
                 <Money v-else :value="drop.price" :prefix="dropPrefix" inline />
               </div>

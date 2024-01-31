@@ -73,7 +73,7 @@
         <div class="w-full">
           <p
             :class="{
-              'has-text-danger': startSelectedCollection && !selectedCollection,
+              'text-k-red': startSelectedCollection && !selectedCollection,
             }">
             {{ $t('mint.nft.collection.message') }}
           </p>

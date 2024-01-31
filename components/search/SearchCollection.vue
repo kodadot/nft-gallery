@@ -28,7 +28,7 @@
           class="flex control mb-5"
           :label="!replaceBuyNowWithYolo ? 'sort.listed' : 'YOLO'"
           size="is-medium"
-          label-color="has-text-success"
+          label-color="text-k-green"
           :disabled="disableToggle"
           :message="$t('tooltip.buy')" />
         <BasicSwitch
@@ -37,7 +37,7 @@
           class="flex control mb-5"
           :label="'sort.own'"
           size="is-medium"
-          label-color="has-text-success"
+          label-color="text-k-green"
           :message="$t('tooltip.own')" />
         <slot />
       </div>
