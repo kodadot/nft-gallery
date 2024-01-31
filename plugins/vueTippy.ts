@@ -18,6 +18,7 @@ setDefaultProps({
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.use(VueTippy, {
     defaultProps: {
+      arrow: false,
       interactive: true,
       animateFill: false,
       animation: 'shift-away',
