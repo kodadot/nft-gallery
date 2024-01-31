@@ -38,9 +38,7 @@
         target="_blank"
         role="link">
         {{ $t('img') }}
-        <NeoIcon
-          icon="arrow-up-right"
-          class="ml-1 text-k-blue hover:text-k-blue-hover" />
+        <NeoIcon icon="arrow-up-right" class="ml-1" />
       </a>
     </div>
   </div>
