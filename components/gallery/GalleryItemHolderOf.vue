@@ -1,6 +1,6 @@
 <template>
   <InfoBox v-if="showWarning" variant="warning">
-    <div class="is-flex is-align-items-center">
+    <div class="is-flex items-center">
       <NeoIcon icon="triangle-exclamation" class="mr-2" />
       <span> {{ $t('drops.holderOfClaimed', [exclusiveDrop?.name]) }}</span>
     </div>

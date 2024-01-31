@@ -84,12 +84,6 @@ useResizeObserver(wrapper, (entry) => {
 .gap {
   gap: 2.5rem;
 }
-.is-flex-basis-two-thirds {
-  flex-basis: 66.6%;
-}
-.is-flex-basis-auto {
-  flex-basis: auto;
-}
 
 //hack to make the chart responsive
 .max-width {

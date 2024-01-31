@@ -22,14 +22,14 @@
       <NeoDropdownItem
         v-for="collection in collections"
         :key="collection.id"
-        class="is-flex border-none is-justify-content-center is-align-items-center"
+        class="is-flex border-none justify-center items-center"
         aria-role="listitem"
         :value="collection.id">
         <NeoCheckbox
           :model-value="isSelected(collection)"
           class="pointer-events-none" />
         <div
-          class="is-flex is-align-items-center filter-container is-flex-grow-1 min-width-0">
+          class="is-flex items-center filter-container is-flex-grow-1 min-width-0">
           <img
             :src="sanitizeIpfsUrl(collection.meta.image)"
             class="image is-32x32 is-flex-shrink-0 border mr-2"

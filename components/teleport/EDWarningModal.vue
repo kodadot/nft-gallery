@@ -6,7 +6,7 @@
     content-class="mx-4 "
     :can-cancel="false">
     <div class="px-6 py-5 width-350">
-      <div class="is-flex mb-4 is-align-items-center">
+      <div class="is-flex mb-4 items-center">
         <NeoIcon
           icon="triangle-exclamation"
           pack="fasr"
@@ -37,8 +37,7 @@
             :label="$t('teleport.checkboxLabel')" />
         </div>
       </div>
-      <div
-        class="is-flex mt-5 is-align-items-center is-justify-content-space-between">
+      <div class="is-flex mt-5 items-center is-justify-content-space-between">
         <NeoButton
           variant="pill"
           :disabled="!checked"
