@@ -11,7 +11,7 @@
         </div>
 
         <div class="network">
-          <div class="is-relative">
+          <div class="relative">
             <p class="text-destination text-k-grey">
               {{ $t('migrate.source') }}
             </p>
@@ -66,7 +66,7 @@
               <line x1="32.3293" y1="8.37629" x2="24.3293" y2="15.3763" />
             </svg>
           </div>
-          <div class="is-relative">
+          <div class="relative">
             <p class="text-destination text-k-grey">
               {{ $t('migrate.destination') }}
             </p>

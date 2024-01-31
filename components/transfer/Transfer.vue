@@ -152,7 +152,7 @@
               placeholder="Enter wallet address"
               disable-error />
             <div class="flex-1" :class="{ 'flex flex-grow': !isMobile }">
-              <div v-if="displayUnit === 'token'" class="is-relative">
+              <div v-if="displayUnit === 'token'" class="relative">
                 <NeoInput
                   v-model="destinationAddress.token"
                   input-class="pr-8"

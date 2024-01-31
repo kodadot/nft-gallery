@@ -23,13 +23,15 @@
           size="large"
           spin />
 
-        <div :class="{ 'w-52': fixedWidth }">
-          <p class="capitalize font-bold text-base">
+        <div :style="{ width: textContainerWidth }">
+          <p ref="titleRef" class="capitalize font-bold text-base">
             {{ title || $t('general.doingSomeMagic') }}
           </p>
           <p class="capitalize text-base text-k-grey">
-            {{ subtitle || $t('general.pleaseWait') }}
-            <span v-if="showDots" class="dots" />
+            <span ref="subtitleRef" class="inline-block">{{
+              subtitle || $t('general.pleaseWait')
+            }}</span>
+            <span v-if="showDots" class="dots ml-1" />
           </p>
         </div>
       </slot>
@@ -40,6 +42,8 @@
 
 <script setup lang="ts">
 import { NeoIcon, NeoSkeleton } from '@kodadot1/brick'
+
+const DOTS_PLUS_MARGIN_WIDTH = 20 //px
 
 const props = withDefaults(
   defineProps<{
@@ -54,10 +58,26 @@ const props = withDefaults(
   },
 )
 
+const titleRef = ref<HTMLElement>()
+const subtitleRef = ref<HTMLElement>()
+const textContainerWidth = ref()
+
 const showDots = computed(() => props.withDots || !props.subtitle)
-const fixedWidth = computed(() => {
-  const title = props.title || ''
-  const subtitle = props.subtitle || ''
-  return subtitle.length > title.length && showDots.value
+
+const calculateTextContainerWidth = () => {
+  if (!showDots.value) {
+    return
+  }
+
+  nextTick(() => {
+    const title = titleRef.value?.clientWidth || 0
+    const subtitle =
+      (subtitleRef.value?.clientWidth || 0) + DOTS_PLUS_MARGIN_WIDTH
+    textContainerWidth.value = subtitle > title ? `${subtitle}px` : undefined
+  })
+}
+
+watch([() => props.title, () => props.subtitle], calculateTextContainerWidth, {
+  immediate: true,
 })
 </script>

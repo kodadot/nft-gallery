@@ -13,7 +13,6 @@
 <script lang="ts" setup>
 defineProps<{
   chain: string
-  isMobile: boolean
 }>()
 const emit = defineEmits(['closeMobileNavbar'])
 
