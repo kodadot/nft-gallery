@@ -69,7 +69,7 @@
 
               <a
                 href="https://hello.kodadot.xyz/multi-chain/existential-deposit"
-                class="has-text-link text-xs capitalize mt-5 block"
+                class="text-k-blue hover:text-k-blue-hover text-xs capitalize mt-5 block"
                 target="_blank"
                 rel="nofollow noopener noreferrer"
                 >{{ $t('helper.learnMoreAboutEd') }}</a

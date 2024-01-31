@@ -8,7 +8,7 @@
           class="max-w-[200px] mx-auto my-0 text-center relative">
           {{ $t(status) }}
         </figcaption>
-        <div v-if="!status" class="mt-3 mb-3 has-text-primary">
+        <div v-if="!status" class="mt-3 mb-3 text-k-primary">
           {{ $t('helper.signStuckText') }}
         </div>
       </figure>

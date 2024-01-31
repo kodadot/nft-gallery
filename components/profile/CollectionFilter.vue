@@ -28,8 +28,7 @@
         <NeoCheckbox
           :model-value="isSelected(collection)"
           class="pointer-events-none" />
-        <div
-          class="flex items-center filter-container grow min-width-0">
+        <div class="flex items-center filter-container grow min-width-0">
           <img
             :src="sanitizeIpfsUrl(collection.meta.image)"
             class="image is-32x32 is-flex-shrink-0 border mr-2"

@@ -30,7 +30,7 @@
                 Recipient Address:
                 <nuxt-link
                   :to="`/${urlPrefix}/u/${recipient}`"
-                  class="has-text-link">
+                  class="text-k-blue hover:text-k-blue-hover">
                   <IdentityIndex
                     ref="identity"
                     :address="recipient"

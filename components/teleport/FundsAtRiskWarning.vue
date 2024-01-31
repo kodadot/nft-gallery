@@ -1,5 +1,5 @@
 <template>
-  <div class="has-text-danger flex items-center cursor-default">
+  <div class="text-k-red flex items-center cursor-default">
     <NeoIcon
       icon="triangle-exclamation"
       pack="fasr"

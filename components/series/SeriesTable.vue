@@ -471,7 +471,7 @@ const displayVolumePercent = (
   const volumePercent = Math.round(vol * 100) / 100
 
   if (getClass) {
-    return volumePercent > 0 ? 'has-text-success' : 'has-text-danger'
+    return volumePercent > 0 ? 'text-k-green' : 'text-k-red'
   }
 
   return volumePercent > 0 ? `+${volumePercent}%` : `${volumePercent}%`

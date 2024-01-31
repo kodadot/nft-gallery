@@ -6,7 +6,7 @@
       :class="[
         'mr-3',
         {
-          'has-text-success': isHolder,
+          'text-k-green': isHolder,
           'text-k-grey': !isHolder,
         },
       ]" />
