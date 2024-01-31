@@ -6,7 +6,7 @@
     content-class="mx-4 "
     :can-cancel="false">
     <div class="px-6 py-5 width-350">
-      <div class="is-flex mb-4 items-center">
+      <div class="flex mb-4 items-center">
         <NeoIcon
           icon="triangle-exclamation"
           pack="fasr"
@@ -15,7 +15,7 @@
         <span class="font-bold">{{ $t('teleport.fundLossRisk') }}</span>
       </div>
       <div
-        class="is-flex is-flex-direction-column px-4 bakground-warning-red border border-color-k-red">
+        class="flex flex-col px-4 bakground-warning-red border border-color-k-red">
         <span class="my-3">
           {{
             reason === 'source'
@@ -30,14 +30,14 @@
           }}
           <b>{{ $t('teleport.lossOfFunds') }}</b>
         </span>
-        <div class="is-flex py-4">
+        <div class="flex py-4">
           <NeoCheckbox
             v-model="checked"
             class="mr-3 text-xs"
             :label="$t('teleport.checkboxLabel')" />
         </div>
       </div>
-      <div class="is-flex mt-5 items-center justify-between">
+      <div class="flex mt-5 items-center justify-between">
         <NeoButton
           variant="pill"
           :disabled="!checked"

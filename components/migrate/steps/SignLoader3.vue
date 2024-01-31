@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <div class="is-flex items-center mb-4">
+    <div class="flex items-center mb-4">
       <div class="mr-5">
         <NeoIcon v-bind="whichIcon()" class="fa-2x" />
       </div>

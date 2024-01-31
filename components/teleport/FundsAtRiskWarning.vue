@@ -1,5 +1,5 @@
 <template>
-  <div class="has-text-danger is-flex items-center cursor-default">
+  <div class="has-text-danger flex items-center cursor-default">
     <NeoIcon
       icon="triangle-exclamation"
       pack="fasr"
@@ -12,7 +12,7 @@
       :auto-close="['outside', 'inside']">
       <u>{{ $t('teleport.why') }}</u>
       <template #content>
-        <div class="text-left py-2 is-flex is-flex-direction-column">
+        <div class="text-left py-2 flex flex-col">
           <span class="mb-3">
             {{
               reason === 'source'
