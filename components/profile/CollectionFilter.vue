@@ -40,8 +40,7 @@
               {{ collection.name || collection.id }}
             </div>
 
-            <div
-              class="is-flex is-justify-content-space-between text-xs text-k-grey">
+            <div class="is-flex justify-between text-xs text-k-grey">
               <div>{{ $t('search.owners') }}: {{ collection.owners }}</div>
             </div>
           </div>

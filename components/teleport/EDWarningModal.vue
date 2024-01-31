@@ -37,7 +37,7 @@
             :label="$t('teleport.checkboxLabel')" />
         </div>
       </div>
-      <div class="is-flex mt-5 items-center is-justify-content-space-between">
+      <div class="is-flex mt-5 items-center justify-between">
         <NeoButton
           variant="pill"
           :disabled="!checked"
