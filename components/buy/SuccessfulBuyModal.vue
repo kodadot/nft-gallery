@@ -44,6 +44,12 @@
           expanded ? $t('showLess') : $t('showAll')
         }}</a>
       </div>
+
+      <div class="mt-5 border-b-k-shade">
+        <p class="is-size-6 capitalize font-bold text-center">
+          {{ $t('buyModal.amountPurchaseSuccessfully', [items.length]) }}
+        </p>
+      </div>
     </template>
   </SuccessfulModal>
 </template>
