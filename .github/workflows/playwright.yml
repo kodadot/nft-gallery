@@ -19,13 +19,17 @@ jobs:
       - name: Run Build
         run: pnpm generate
 
-      - name: Install Playwright Browsers
-        run: pnpm exec playwright install --with-deps chromium
   run-playwright:
     needs: test
     timeout-minutes: 15
     runs-on: macos-14
     steps:
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+
+      - name: Install Playwright Browsers
+        run: pnpm exec playwright install --with-deps chromium
+
       - name: Run Playwright tests
         run: pnpm exec playwright test
       - uses: actions/upload-artifact@v3
