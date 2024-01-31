@@ -6,7 +6,8 @@ on:
     branches: [main, beta, production, nuxt]
 jobs:
   test:
-    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -19,24 +20,11 @@ jobs:
       - name: Run Build
         run: pnpm generate
 
-  run-playwright:
-    needs: test
-    timeout-minutes: 15
-    runs-on: macos-14
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 20
-          
-      - name: Install dependencies
-        uses: ./.github/actions/pnpm-install
-
       - name: Install Playwright Browsers
-        run: pnpm exec playwright install --with-deps chromium
+        run: npx playwright install --with-deps chromium
 
       - name: Run Playwright tests
-        run: pnpm exec playwright test
+        run: npx playwright test
       - uses: actions/upload-artifact@v3
         if: always()
         with:
