@@ -103,7 +103,7 @@
             <li v-for="[addr, percentile] in recipient" :key="addr" class="">
               <nuxt-link
                 :to="`/${urlPrefix}/u/${addr}`"
-                class="has-text-link is-inline-block">
+                class="has-text-link inline-block">
                 <Identity ref="identity" :address="addr" />
               </nuxt-link>
               <span className="text-xs">({{ percentile }}%)</span>

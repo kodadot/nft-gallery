@@ -1,7 +1,7 @@
 <template>
   <div class="navbar-item flex items-center" @click="toggleShoppingCartModal">
     <span v-if="props.showLabel">{{ $t('shoppingCart.label') }}</span>
-    <div class="is-relative icon" :class="{ 'ml-2': showLabel }">
+    <div class="relative icon" :class="{ 'ml-2': showLabel }">
       <NeoIcon
         class="icon"
         icon="fa-shopping-cart-outline-sharp"
@@ -38,11 +38,10 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits(['closeBurgerMenu'])
-const isMobile = ref(window.innerWidth < 1024)
-const isMobileWithoutTablet = ref(window.innerWidth < 768)
+const { isMobile, isMobileOrTablet } = useDevice()
 
 const toggleShoppingCartModal = () => {
-  if (isMobile.value) {
+  if (isMobileOrTablet) {
     emit('closeBurgerMenu')
   }
 
@@ -52,11 +51,11 @@ const toggleShoppingCartModal = () => {
   if (!isShoppingCartOpen()) {
     openShoppingCart({
       onClose: (type: ModalCloseType) => {
-        if (isMobile.value && type === ModalCloseType.BACK) {
+        if (isMobileOrTablet && type === ModalCloseType.BACK) {
           emit('closeBurgerMenu')
         }
       },
-      ...(isMobileWithoutTablet.value ? { animation: 'none' } : {}),
+      ...(isMobile ? { animation: 'none' } : {}),
     })
   }
 }

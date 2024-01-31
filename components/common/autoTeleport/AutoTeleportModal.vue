@@ -40,7 +40,7 @@
         <hr class="my-4" />
 
         <div class="flex items-start">
-          <NeoIcon icon="lightbulb" size="small" class="mr-2 is-block" />
+          <NeoIcon icon="lightbulb" size="small" class="mr-2 block" />
           <p
             v-dompurify-html="$t('autoTeleport.tip')"
             class="text-xs capitalize" />
