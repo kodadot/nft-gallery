@@ -10,7 +10,7 @@
           id="nft-img-container"
           ref="imgref"
           :class="{
-            'is-relative': !isFullscreen,
+            relative: !isFullscreen,
             'fullscreen-fallback': isFallbackActive,
           }">
           <!-- preview button -->
@@ -58,7 +58,7 @@
             v-else
             :key="image"
             ref="mediaItemRef"
-            class="gallery-item-media is-relative"
+            class="gallery-item-media relative"
             :src="getMediaSrc(image)"
             :animation-src="nftAnimation"
             :mime-type="nftAnimationMimeType || nftMimeType"
