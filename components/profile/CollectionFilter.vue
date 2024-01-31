@@ -22,26 +22,24 @@
       <NeoDropdownItem
         v-for="collection in collections"
         :key="collection.id"
-        class="is-flex border-none is-justify-content-center is-align-items-center"
+        class="flex border-none justify-center items-center"
         aria-role="listitem"
         :value="collection.id">
         <NeoCheckbox
           :model-value="isSelected(collection)"
           class="pointer-events-none" />
         <div
-          class="is-flex is-align-items-center filter-container is-flex-grow-1 min-width-0">
+          class="flex items-center filter-container grow min-width-0">
           <img
             :src="sanitizeIpfsUrl(collection.meta.image)"
             class="image is-32x32 is-flex-shrink-0 border mr-2"
             :alt="collection.name || collection.id" />
-          <div
-            class="is-flex is-flex-direction-column is-flex-grow-1 min-width-0">
+          <div class="flex flex-col grow min-width-0">
             <div class="is-ellipsis">
               {{ collection.name || collection.id }}
             </div>
 
-            <div
-              class="is-flex is-justify-content-space-between text-xs text-k-grey">
+            <div class="flex justify-between text-xs text-k-grey">
               <div>{{ $t('search.owners') }}: {{ collection.owners }}</div>
             </div>
           </div>

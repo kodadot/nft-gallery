@@ -1,5 +1,5 @@
 <template>
-  <div v-if="collection" class="is-flex is-align-items-center">
+  <div v-if="collection" class="flex items-center">
     <NeoIcon
       :icon="isHolder ? 'circle-check' : 'lock-keyhole'"
       icon-pack="fas"
