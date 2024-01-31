@@ -128,9 +128,6 @@ onMounted(async () => {
 }
 
 .drop-card {
-  a:hover {
-    color: unset;
-  }
   &:hover {
     .drop-card-banner {
       opacity: 0.85;
