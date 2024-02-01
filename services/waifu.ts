@@ -1,9 +1,8 @@
 import { $fetch, FetchError } from 'ofetch'
 import type { DropItem } from '@/params/types'
-const WAIFU_BASE_URL = 'https://waifu-me.kodadot.workers.dev'
 
 const api = $fetch.create({
-  baseURL: WAIFU_BASE_URL,
+  baseURL: 'https://fxart.kodadot.workers.dev/',
 })
 
 // type ClaimResponse = Response<any>
@@ -129,6 +128,34 @@ export const claimDropItem = async (
   })
 
   return value
+}
+
+export const allocateCollection = async (body, id) => {
+  try {
+    const response = await api(`/drops/allocate/${id}`, {
+      method: 'POST',
+      body,
+    })
+
+    return response
+  } catch (error) {
+    throw new Error(`[WAIFU::ALLOCATE] ERROR: ${(error as FetchError).data}`)
+  }
+}
+
+export const allocateClaim = async (body, id) => {
+  try {
+    const response = await api(`/drops/do/${id}`, {
+      method: 'post',
+      body,
+    })
+
+    return response
+  } catch (error) {
+    throw new Error(
+      `[WAIFU::ALLOCATE::CLAIM] ERROR: ${(error as FetchError).data}`,
+    )
+  }
 }
 
 export default api
