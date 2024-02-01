@@ -34,6 +34,7 @@
       </div>
 
       <div
+        v-if="showMore"
         class="flex mt-4 items-center"
         :class="[expanded ? 'justify-end' : 'justify-between']">
         <div v-if="!expanded" class="flex items-center gap-3">
@@ -79,6 +80,7 @@ const expanded = ref(false)
 const singleBuy = computed(() => props.items.length === 1)
 const firsItem = computed(() => props.items[0])
 const moreItems = computed(() => props.items.length - COLLAPSED_ITEMS_COUNT)
+const showMore = computed(() => props.items.length > COLLAPSED_ITEMS_COUNT)
 
 const shareText = computed(() => {
   if (singleBuy.value) {
