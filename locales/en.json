@@ -21,6 +21,7 @@
   "soon": "Soon",
   "classic": "Classic",
   "email": "Email",
+  "checking": "Checking",
   "handle": "Handle",
   "website": "Website",
   "account": "Account",
@@ -623,6 +624,7 @@
       "mintThisNft": "Mint This NFT",
       "seeYourNft": "See Your NFT",
       "minimumFundsDescription": "Holding a Minimum of <strong>{0} On {1}</strong> in Your Wallet is Required",
+      "holderOfCollectionMinimumFundsDescription": "Holding a Minimum of <strong>{0}</strong> On {1} in Your Wallet",
       "freeMinimumFundsDescription": "Holding a Minimum of <strong>{0} On {1}</strong> in Your Wallet is Required for This Free Mint.",
       "claimNftNow": "Claim NFT Now",
       "claimPaidNft": "Claim For {0}",
@@ -658,7 +660,14 @@
           "transfer": "<strong>Transfer:</strong> Move {0} from another account to your wallet.",
           "note": "Transactions may require a network confirmation"
         }
-      }
+      },
+      "requirements": "Requirements",
+      "connectWallet": "Connect wallet to proceed",
+      "availableForMint": "Available for mint",
+      "readyToMint": "Ready to Mint: {0} NFTs Remaining",
+      "requirementsNotMet": "Requirements not met",
+      "holderOfWarning1": "Each {0} collection NFT allows you to <strong>mint one</strong> new NFT.",
+      "holderOfWarning2": "After a claim, that NFT <strong>can't be</strong> used for another mint."
     },
     "blockchain": {
       "label": "Select Blockchain",

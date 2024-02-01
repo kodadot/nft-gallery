@@ -252,7 +252,7 @@ const warningReason = computed(() =>
 const insufficientAmountAfterFees = computed(() => amountAfterFees.value === 0)
 
 const recieverBalance = computed(
-  () => Number(chainBalances[toChain.value]()) || 0,
+  () => Number(chainBalances.value[toChain.value]) || 0,
 )
 
 const insufficientExistentialDepositOnTargetChain = computed(() => {
@@ -381,15 +381,9 @@ const toChainLabel = computed(() =>
   getChainName(chainToPrefixMap[toChain.value]),
 )
 
-const myBalance = computed(() => {
-  const getBalance = chainBalances[fromChain.value]
-  if (!getBalance) {
-    throw new Error(`Unsupported chain: ${fromChain.value}`)
-  }
-  const balance = Number(getBalance()) || 0
-
-  return balance
-})
+const myBalance = computed(
+  () => Number(chainBalances.value[fromChain.value]) || 0,
+)
 
 const explorerUrl = computed(() => {
   return `${blockExplorerOf(chainToPrefixMap[toChain.value])}account/${
