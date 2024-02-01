@@ -1,5 +1,9 @@
 <template>
-  <SuccessfulModal v-model="isModalActive" :tx-hash="txHash" :share="share">
+  <SuccessfulModal
+    v-model="isModalActive"
+    :tx-hash="txHash"
+    :share="share"
+    :action-buttons="actionButtons">
     <template v-if="singleBuy">
       <SingleItemMedia
         :header="$t('buyModal.purchaseSuccessful')"
@@ -34,7 +38,7 @@
         :class="[expanded ? 'justify-end' : 'justify-between']">
         <div v-if="!expanded" class="flex items-center gap-3">
           <div
-            class="bg-k-grey-light px-2 py-1 rounded-full text-k-grey text-xs">
+            class="bg-k-grey-light px-2 py-1 rounded-full text-k-grey text-xs w-8">
             +{{ moreItems }}
           </div>
           <span class="text-k-grey text-xs">{{ $t('items') }}</span>
@@ -86,12 +90,18 @@ const shareText = computed(() => {
   return `${$i18n.t('sharing.nfts')}\n ${some.join(', ')}`
 })
 
-const url = computed(() => `${window.location.origin}/${urlPrefix.value}`)
+const url = computed(() => window.location.origin)
+const userProfilePath = computed(
+  () => `/${urlPrefix.value}/u/${accountId.value}`,
+)
+const nftPath = computed(
+  () => `/${urlPrefix.value}/gallery/${firsItem.value.id}`,
+)
 
 const shareUrl = computed(() =>
   singleBuy.value
-    ? `${url.value}/gallery/${firsItem.value.id}`
-    : `${url.value}/u/${accountId.value}`,
+    ? `${url.value}/${nftPath.value}`
+    : `${url.value}/${userProfilePath.value}`,
 )
 
 const share = computed(() => ({
@@ -99,4 +109,27 @@ const share = computed(() => ({
   withCopy: singleBuy.value,
   url: shareUrl.value,
 }))
+
+const actionButtons = computed(() => ({
+  secondary: {
+    label: $i18n.t('viewNft', props.items.length),
+    onClick: viewNft,
+  },
+  primary: {
+    label: $i18n.t('listNft', props.items.length),
+    onClick: listNft,
+  },
+}))
+
+const listNft = () => {
+  //
+}
+
+const viewNft = () => {
+  if (singleBuy.value) {
+    return
+  }
+
+  navigateTo(userProfilePath.value)
+}
 </script>

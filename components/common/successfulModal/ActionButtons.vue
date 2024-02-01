@@ -2,23 +2,24 @@
   <div class="flex">
     <NeoButton
       class="border-k-grey hover-button w-full"
+      :disabled="secondary.disabled"
       rounded
       no-shadow
-      @click="viewNft"
-      >{{ $t('drops.viewNft') }}</NeoButton
+      @click="$emit('secondary')"
+      >{{ secondary.label }}</NeoButton
     >
 
     <NeoButton
       class="hover-button w-full ml-4"
-      :class="{ border: canListNft }"
-      :disabled="cantList"
-      :loading="cantList"
+      :class="{ border: !primary.disabled }"
+      :disabled="primary.disabled"
+      :loading="primary.disabled"
       variant="k-accent"
       rounded
       no-shadow
       loading-with-label
-      @click="listNft"
-      >{{ cantList ? $t('loading') : $t('drops.listNft') }}</NeoButton
+      @click="$emit('primary')"
+      >{{ primary.disabled ? $t('loading') : primary.label }}</NeoButton
     >
   </div>
 </template>
@@ -26,36 +27,14 @@
 <script setup lang="ts">
 import { NeoButton } from '@kodadot1/brick'
 
-const emit = defineEmits(['list'])
-const props = defineProps<{
-  id: string
-  canListNft: boolean
+export type ActionButton = {
+  label: string
+  disabled?: boolean
+}
+
+defineEmits(['primary', 'secondary'])
+defineProps<{
+  primary: ActionButton
+  secondary: ActionButton
 }>()
-
-const { $i18n } = useNuxtApp()
-const { toast } = useToast()
-const { urlPrefix } = usePrefix()
-
-const nftPath = computed(() => `/${urlPrefix.value}/gallery/${props.id}`)
-
-const nftFullUrl = computed(() => `${window.location.origin}${nftPath.value}`)
-
-const cantList = computed(() => !props.canListNft)
-
-const viewNft = () => {
-  window.open(nftFullUrl.value, '_blank')
-}
-
-const listNft = () => {
-  emit('list')
-}
-
-watch(
-  () => props.canListNft,
-  (canListNft) => {
-    if (canListNft) {
-      toast($i18n.t('drops.canList'))
-    }
-  },
-)
 </script>

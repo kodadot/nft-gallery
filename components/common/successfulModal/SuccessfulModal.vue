@@ -17,7 +17,11 @@
         :with-copy="share.withCopy" />
 
       <slot name="actions">
-        <ActionButtons id="as" :can-list-nft="false" />
+        <ActionButtons
+          :primary="actionButtons.primary"
+          :secondary="actionButtons.secondary"
+          @primary="actionButtons.primary.onClick"
+          @secondary="actionButtons.secondary.onClick" />
       </slot>
     </ModalBody>
   </NeoModal>
@@ -26,12 +30,22 @@
 import { NeoModal } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import TransactionSection from './TransactionSection.vue'
+import { type ActionButton } from './ActionButtons.vue'
+
+type ShareProp = { text: string; url: string; withCopy?: boolean }
+type ActionButtonWithHandler = ActionButton & { onClick: () => void }
+
+type ActionButtonsProp = {
+  primary: ActionButtonWithHandler
+  secondary: ActionButtonWithHandler
+}
 
 defineEmits(['modelValue'])
 const props = defineProps<{
   modelValue: boolean
   txHash: string
-  share: { text: string; url: string; withCopy?: boolean }
+  share: ShareProp
+  actionButtons: ActionButtonsProp
 }>()
 
 const isModalActive = useVModel(props, 'modelValue')
