@@ -5,40 +5,26 @@
     scroll="clip"
     @close="onClose">
     <ModalBody :title="$t('success')" @close="onClose">
-      <TransactionSection :tx-hash="txHash" class="mb-5" />
+      <SuccessfulModalBody
+        :tx-hash="txHash"
+        :share="share"
+        :action-buttons="actionButtons">
+        <slot />
 
-      <slot />
-
-      <hr class="!my-5" />
-
-      <ShareSocialsSection
-        :text="share.text"
-        :url="share.url"
-        :with-copy="share.withCopy" />
-
-      <slot name="actions">
-        <ActionButtons
-          :primary="actionButtons.primary"
-          :secondary="actionButtons.secondary"
-          @primary="actionButtons.primary.onClick"
-          @secondary="actionButtons.secondary.onClick" />
-      </slot>
+        <template #actions>
+          <slot name="actions" />
+        </template>
+      </SuccessfulModalBody>
     </ModalBody>
   </NeoModal>
 </template>
 <script setup lang="ts">
 import { NeoModal } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
-import TransactionSection from './TransactionSection.vue'
-import { type ActionButton } from './ActionButtons.vue'
-
-type ShareProp = { text: string; url: string; withCopy?: boolean }
-type ActionButtonWithHandler = ActionButton & { onClick: () => void }
-
-type ActionButtonsProp = {
-  primary: ActionButtonWithHandler
-  secondary: ActionButtonWithHandler
-}
+import SuccessfulModalBody, {
+  ActionButtonsProp,
+  ShareProp,
+} from './SuccessfulModalBody.vue'
 
 defineEmits(['modelValue'])
 const props = defineProps<{
