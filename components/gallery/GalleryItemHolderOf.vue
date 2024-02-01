@@ -10,13 +10,13 @@
 <script setup lang="ts">
 import { NeoIcon } from '@kodadot1/brick'
 import { NFT } from '@/components/rmrk/service/scheme'
-import { useDrop } from '../drops/useDrops'
+import { useDrop, useHolderOfCollectionDrop } from '../drops/useDrops'
 
 const props = defineProps<{
   nft: NFT
 }>()
 
-const { apiInstance } = useApi()
+const { isNftClaimed } = useHolderOfCollectionDrop()
 
 const isHolderOfCollection = computed(() =>
   Object.keys(HOLDER_OF_DROP_MAP).includes(props.nft.collection.id),
@@ -33,20 +33,8 @@ const hasAvailable = computed(() => {
   return Math.min(exclusiveDrop?.minted || 0, chainMax) < chainMax
 })
 
-const checkIfAlreadyClaimed = async () => {
-  const api = await apiInstance.value
-
-  const claimed = await api.query.nfts.attribute(
-    props.nft.collection.id,
-    props.nft.sn,
-    { Pallet: null },
-    '0x0033000000',
-  )
-
-  const wasUsed = claimed.toHuman()
-
-  return wasUsed !== null
-}
+const checkIfAlreadyClaimed = async () =>
+  isNftClaimed(props.nft.sn, props.nft.collection.id)
 
 const isActiveDrop = computed(
   () => Boolean(exclusiveDrop) && !exclusiveDrop.disabled && hasAvailable.value,
