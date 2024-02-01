@@ -1,6 +1,6 @@
 export const DEFAULT_DROP = {
-  alias: 'alchemy',
-  id: '82',
+  alias: 'florist',
+  id: '87',
   chain: 'ahp',
 }
 
@@ -17,6 +17,7 @@ export const AHK_GENERATIVE_DROPS = [
 ]
 
 export const AHP_GENERATIVE_DROPS = [
+  '87', // Florist
   '82', // Alchemy
   '77', // Chained
   '76', // Assemblies
