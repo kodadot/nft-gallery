@@ -146,7 +146,7 @@ const onClose = () => {
 }
 
 const confirm = (params: AutoTeleportActionButtonConfirmEvent) => {
-  emit('confirm', params)
+  emit('confirm', { ...params, items: items.value })
   prefrencesStore.setCompletePurchaseModalOpen(false)
 }
 </script>

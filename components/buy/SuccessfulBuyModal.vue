@@ -72,14 +72,17 @@ const props = defineProps<{
   items: ShoppingCartItem[]
 }>()
 
+const isModalActive = useVModel(props, 'modelValue')
+
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
 const { listNftByShoppingCartItem, openListingCartModal } =
   useListingCartModal()
 
-const isModalActive = useVModel(props, 'modelValue')
 const expanded = ref(false)
+const canListItems = ref(false)
+const nftSubscription = ref(() => {})
 
 const singleBuy = computed(() => props.items.length === 1)
 const firsItem = computed(() => props.items[0])
@@ -124,6 +127,7 @@ const actionButtons = computed(() => ({
   primary: {
     label: $i18n.t('listNft', props.items.length),
     onClick: handleListNft,
+    disabled: !canListItems.value,
   },
 }))
 
@@ -136,4 +140,36 @@ const handleListNft = () => {
 const handleViewNft = () => {
   navigateTo(singleBuy.value ? nftPath.value : userProfilePath.value)
 }
+
+const watchCurrentOwners = () => {
+  const ids = props.items.map((item) => item.id)
+  nftSubscription.value = useSubscriptionGraphql({
+    query: `nftEntities(where: {
+        id_in: ${JSON.stringify(ids)}
+    }) {
+      currentOwner
+    }`,
+    onChange: ({ data: { nftEntities } }) => {
+      const currentOwners: string[] = nftEntities.map((nft) => nft.currentOwner)
+      canListItems.value = currentOwners.every(
+        (currentOwner) => currentOwner === accountId.value,
+      )
+    },
+  })
+}
+
+const unsubscribeSubscription = () => nftSubscription.value()
+
+onBeforeUnmount(unsubscribeSubscription)
+
+watch(
+  () => props.modelValue,
+  (isOpen: boolean) => {
+    if (isOpen) {
+      watchCurrentOwners()
+    } else {
+      unsubscribeSubscription()
+    }
+  },
+)
 </script>

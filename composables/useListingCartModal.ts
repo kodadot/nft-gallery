@@ -1,5 +1,5 @@
 import { shoppingCartItemToListingCartItem } from '@/components/common/shoppingCart/utils'
-import { ShoppingCartItem } from '~/components/common/shoppingCart/types'
+import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
 
 export default () => {
   const listingCartStore = useListingCartStore()
