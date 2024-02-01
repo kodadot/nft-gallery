@@ -57,6 +57,8 @@
       </div>
     </template>
   </SuccessfulModal>
+
+  <ListingCartModal />
 </template>
 <script setup lang="ts">
 import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
@@ -73,6 +75,8 @@ const props = defineProps<{
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
+const { listNftByShoppingCartItem, openListingCartModal } =
+  useListingCartModal()
 
 const isModalActive = useVModel(props, 'modelValue')
 const expanded = ref(false)
@@ -115,23 +119,21 @@ const share = computed(() => ({
 const actionButtons = computed(() => ({
   secondary: {
     label: $i18n.t('viewNft', props.items.length),
-    onClick: viewNft,
+    onClick: handleViewNft,
   },
   primary: {
     label: $i18n.t('listNft', props.items.length),
-    onClick: listNft,
+    onClick: handleListNft,
   },
 }))
 
-const listNft = () => {
-  //
+const handleListNft = () => {
+  props.items.forEach(listNftByShoppingCartItem)
+  openListingCartModal()
+  isModalActive.value = false
 }
 
-const viewNft = () => {
-  if (singleBuy.value) {
-    return
-  }
-
-  navigateTo(userProfilePath.value)
+const handleViewNft = () => {
+  navigateTo(singleBuy.value ? nftPath.value : userProfilePath.value)
 }
 </script>
