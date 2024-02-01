@@ -1,6 +1,6 @@
 export const extractTwitterIdFromDescription = (desc: string = '') => {
   const regex =
-    /(?:https?:\/\/)?(?:www\.)?twitter\.com\/(?:\#!\/)?@?([^\/\?\s)]+)/
+    /(?:https?:\/\/)?(?:www\.)?(?:twitter|x)\.com\/(?:\#!\/)?@?([^\/\?\s)]+)/
 
   const match = desc.match(regex)
   if (match) {
