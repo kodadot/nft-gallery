@@ -54,9 +54,8 @@ const prefixToExploreOptionName = {
 }
 const filteredChains = computed(() => {
   return ['ahk', 'ahp', 'ksm']
-    .map(
-      (prefix) =>
-        availableChains?.value.find((chain) => chain.value === prefix),
+    .map((prefix) =>
+      availableChains?.value.find((chain) => chain.value === prefix),
     )
     .filter(Boolean)
     .map((option) => ({

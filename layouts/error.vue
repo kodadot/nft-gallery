@@ -17,7 +17,9 @@
         >creating a bug issue with steps and screenshot to reproduce.</a
       >
     </p>
-    <nuxt-link :to="`/${urlPrefix}/explore/collectibles`" class="has-text-link">
+    <nuxt-link
+      :to="`/${urlPrefix}/explore/collectibles`"
+      class="text-k-blue hover:text-k-blue-hover">
       Explore NFTs and Collections
     </nuxt-link>
   </div>

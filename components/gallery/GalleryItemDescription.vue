@@ -16,7 +16,7 @@
         <nuxt-link
           v-if="nft?.issuer"
           :to="`/${urlPrefix}/u/${nft?.issuer}`"
-          class="has-text-link">
+          class="text-k-blue hover:text-k-blue-hover">
           <Identity ref="identity" :address="nft?.issuer" />
         </nuxt-link>
       </div>
@@ -75,7 +75,7 @@
         <nuxt-link
           v-if="nft?.issuer"
           :to="`/${urlPrefix}/u/${nft?.issuer}`"
-          class="has-text-link">
+          class="text-k-blue hover:text-k-blue-hover">
           <Identity ref="identity" :address="nft?.issuer" />
         </nuxt-link>
       </div>
@@ -103,7 +103,7 @@
             <li v-for="[addr, percentile] in recipient" :key="addr" class="">
               <nuxt-link
                 :to="`/${urlPrefix}/u/${addr}`"
-                class="has-text-link is-inline-block">
+                class="text-k-blue hover:text-k-blue-hover inline-block">
                 <Identity ref="identity" :address="addr" />
               </nuxt-link>
               <span className="text-xs">({{ percentile }}%)</span>
@@ -114,12 +114,14 @@
           v-else-if="Array.isArray(recipient) && recipient.length === 1">
           <nuxt-link
             :to="`/${urlPrefix}/u/${recipient[0][0]}`"
-            class="has-text-link">
+            class="text-k-blue hover:text-k-blue-hover">
             <Identity ref="identity" :address="recipient[0][0]" />
           </nuxt-link>
         </template>
         <template v-else>
-          <nuxt-link :to="`/${urlPrefix}/u/${recipient}`" class="has-text-link">
+          <nuxt-link
+            :to="`/${urlPrefix}/u/${recipient}`"
+            class="text-k-blue hover:text-k-blue-hover">
             <Identity ref="identity" :address="recipient" />
           </nuxt-link>
         </template>
@@ -131,7 +133,7 @@
         <div>
           <a
             v-safe-href="mediaUrl"
-            class="has-text-link"
+            class="text-k-blue hover:text-k-blue-hover"
             data-testid="media-link"
             target="_blank"
             rel="nofollow noopener noreferrer">
@@ -144,7 +146,7 @@
         <div>
           <a
             v-safe-href="animatedMediaUrl"
-            class="has-text-link"
+            class="text-k-blue hover:text-k-blue-hover"
             target="_blank"
             rel="nofollow noopener noreferrer">
             {{ nftAnimationMimeType }}
@@ -155,7 +157,7 @@
         <p>{{ $t('tabs.tabDetails.metadata') }}</p>
         <a
           v-safe-href="metadataURL"
-          class="has-text-link"
+          class="text-k-blue hover:text-k-blue-hover"
           target="_blank"
           rel="nofollow noopener noreferrer"
           data-testid="metadata-link"
