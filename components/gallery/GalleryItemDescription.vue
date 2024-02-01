@@ -268,10 +268,14 @@ const parentNftUrl = computed(() => {
 const properties = computed(() => {
   const attributes = (nftMetadata.value?.attributes ||
     nftMetadata.value?.meta?.attributes ||
-    []) as Array<{ trait_type: string; value: string; key?: string }>
-
-  return attributes.map(({ trait_type, key, value }) => ({
-    trait_type: trait_type || key,
+    []) as Array<{
+    trait?: string
+    trait_type: string
+    value: string
+    key?: string
+  }>
+  return attributes.map(({ trait, trait_type, key, value }) => ({
+    trait_type: trait || trait_type || key,
     value,
   }))
 })
