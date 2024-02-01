@@ -43,7 +43,7 @@
         <nuxt-link
           v-if="!!fromAddress"
           :to="`/${urlPrefix}/u/${fromAddress}`"
-          class="has-text-link">
+          class="text-k-blue hover:text-k-blue-hover">
           <IdentityIndex ref="identity" :address="fromAddress" show-clipboard />
         </nuxt-link>
         <div v-else>
@@ -57,7 +57,7 @@
         <nuxt-link
           v-if="!!toAddress"
           :to="`/${urlPrefix}/u/${toAddress}`"
-          class="has-text-link">
+          class="text-k-blue hover:text-k-blue-hover">
           <IdentityIndex ref="identity" :address="toAddress" show-clipboard />
         </nuxt-link>
         <div v-else>
@@ -119,7 +119,7 @@
         <span class="text-xs mr-3">{{ $t('activity.event.from') }}:</span>
         <nuxt-link
           :to="`/${urlPrefix}/u/${fromAddress}`"
-          class="has-text-link is-ellipsis">
+          class="text-k-blue hover:text-k-blue-hover is-ellipsis">
           <IdentityIndex ref="identity" :address="fromAddress" show-clipboard />
         </nuxt-link>
       </div>
@@ -128,7 +128,7 @@
         <span class="text-xs mr-3">{{ $t('activity.event.to') }}:</span>
         <nuxt-link
           :to="`/${urlPrefix}/u/${toAddress}`"
-          class="has-text-link is-ellipsis">
+          class="text-k-blue hover:text-k-blue-hover is-ellipsis">
           <IdentityIndex ref="identity" :address="toAddress" show-clipboard />
         </nuxt-link>
       </div>

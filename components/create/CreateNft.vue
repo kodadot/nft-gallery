@@ -73,7 +73,7 @@
         <div class="w-full">
           <p
             :class="{
-              'has-text-danger': startSelectedCollection && !selectedCollection,
+              'text-k-red': startSelectedCollection && !selectedCollection,
             }">
             {{ $t('mint.nft.collection.message') }}
           </p>
@@ -199,7 +199,7 @@
 
       <!-- deposit and balance -->
       <div>
-        <div class="flex font-medium has-text-info">
+        <div class="flex font-medium text-k-blue hover:text-k-blue-hover">
           <div>{{ $t('mint.deposit') }}:&nbsp;</div>
           <div>
             <span data-testid="create-nft-deposit-amount-token">
@@ -242,7 +242,7 @@
           <a
             href="https://hello.kodadot.xyz/multi-chain/fees"
             target="_blank"
-            class="has-text-link"
+            class="text-k-blue hover:text-k-blue-hover"
             data-testid="create-nft-learn-more-link"
             rel="nofollow noopener noreferrer">
             {{ $t('helper.learnMore') }}

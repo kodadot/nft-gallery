@@ -44,7 +44,7 @@
         <nuxt-link
           v-if="fromAddress !== blank"
           :to="`/${urlPrefix}/u/${fromAddress}`"
-          class="has-text-link">
+          class="text-k-blue hover:text-k-blue-hover">
           <IdentityIndex
             ref="identity"
             :address="fromAddress"
@@ -61,7 +61,7 @@
         <nuxt-link
           v-if="toAddress !== blank"
           :to="`/${urlPrefix}/u/${toAddress}`"
-          class="has-text-link">
+          class="text-k-blue hover:text-k-blue-hover">
           <IdentityIndex
             ref="identity"
             :address="toAddress"
