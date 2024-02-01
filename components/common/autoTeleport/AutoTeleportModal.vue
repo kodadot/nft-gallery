@@ -110,25 +110,13 @@ const props = withDefaults(
   },
 )
 
-const activeStep = ref(0)
 const { $i18n } = useNuxtApp()
 const isModalActive = useVModel(props, 'modelValue')
 
-const checkBalanceState = computed<TransactionStepStatus>(() => {
-  let status = TransactionStepStatus.WAITING
-
-  if (
-    props.transactions.teleport.status.value === TransactionStatus.Finalized
-  ) {
-    if (props.canDoAction) {
-      status = TransactionStepStatus.COMPLETED
-    } else {
-      status = TransactionStepStatus.LOADING
-    }
-  }
-
-  return status
-})
+const activeStep = ref(0)
+const balanceCheckState = ref<TransactionStepStatus>(
+  TransactionStepStatus.WAITING,
+)
 
 const mainInteraction = computed(
   () => props.interaction || props.transactions.actions[0].interaction,
@@ -157,7 +145,7 @@ const steps = computed<TransactionStep[]>(() => {
     {
       title: $i18n.t('autoTeleport.steps.2.title'),
       tooltip: $i18n.t('autoTeleport.steps.2.tooltip'),
-      stepStatus: checkBalanceState.value,
+      stepStatus: balanceCheckState.value,
       stepStatusTextOverride: {
         [TransactionStepStatus.LOADING]: $i18n.t(
           'transactionSteps.noSignatureRequired',
@@ -193,10 +181,15 @@ const actionsFinalized = computed(() =>
     .every((status) => status.value === TransactionStatus.Finalized),
 )
 
-const hasActions = computed(() => props.transactions.actions.length)
+const hasActions = computed(() => Boolean(props.transactions.actions.length))
 
 const hasCompletedBalanceCheck = computed(
-  () => steps.value[1].stepStatus === TransactionStepStatus.COMPLETED,
+  () => balanceCheckState.value === TransactionStepStatus.COMPLETED,
+)
+
+const isTeleportTransactionFinalized = computed(
+  () =>
+    props.transactions.teleport.status.value === TransactionStatus.Finalized,
 )
 
 const autoteleportFinalized = computed(() =>
@@ -208,7 +201,11 @@ const btnLabel = computed<string>(() => {
     return $i18n.t('redirect.continue')
   }
 
-  if (!hasActions.value || !props.canDoAction || !activeStepInteraction.value) {
+  if (
+    !hasActions.value ||
+    !hasCompletedBalanceCheck.value ||
+    !activeStepInteraction.value
+  ) {
     return $i18n.t('autoTeleport.completeAllRequiredSteps')
   }
 
@@ -242,6 +239,19 @@ const submit = () => {
 const onClose = () => {
   emit('close', autoteleportFinalized.value)
 }
+
+watch(
+  [isTeleportTransactionFinalized, () => props.canDoAction],
+  ([telportFinalized, canDoAction]) => {
+    if (!telportFinalized || hasCompletedBalanceCheck.value) {
+      return
+    }
+
+    balanceCheckState.value = canDoAction
+      ? TransactionStepStatus.COMPLETED
+      : TransactionStepStatus.LOADING
+  },
+)
 
 watch(autoteleportFinalized, () => {
   if (autoteleportFinalized.value) {
