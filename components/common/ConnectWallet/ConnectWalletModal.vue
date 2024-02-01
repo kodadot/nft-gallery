@@ -64,7 +64,7 @@
         {{ $i18n.t('walletConnect.walletAnswer') }}
       </div>
       <a
-        class="text-xs has-text-link flex items-center"
+        class="text-xs text-k-blue hover:text-k-blue-hover flex items-center"
         href="https://docs.kodadot.xyz/tutorial-overview.html"
         target="_blank"
         rel="nofollow noopener noreferrer">

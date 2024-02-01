@@ -28,7 +28,10 @@
         </div>
         <div class="mt-4">
           {{ $t('mint.unlockable.loader.shareSuccess') }}
-          <a v-safe-href="postTwitterUrl" target="_blank" class="has-text-link"
+          <a
+            v-safe-href="postTwitterUrl"
+            target="_blank"
+            class="text-k-blue hover:text-k-blue-hover"
             >{{ $t('mint.unlockable.loader.onTwitter') }}
           </a>
         </div>

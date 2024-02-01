@@ -23,7 +23,7 @@
               href="/terms-of-use"
               target="_blank"
               rel="nofollow noopener noreferrer"
-              class="has-text-link"
+              class="text-k-blue hover:text-k-blue-hover"
               >{{ $t('fiatOnRamp.tos') }}</a
             >
           </div>

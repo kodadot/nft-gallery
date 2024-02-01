@@ -4,7 +4,7 @@
     <div class="flex items-center justify-between">
       <div class="flex items-center">
         <nuxt-link
-          class="is-size-6 break-word mr-2 has-text-link"
+          class="is-size-6 break-word mr-2 text-k-blue hover:text-k-blue-hover"
           :to="`/${urlPrefix}/u/${address}`">
           <span data-testid="identity-display">
             {{ identity?.display || shortenedAddress }}</span
@@ -13,7 +13,7 @@
         <NeoIcon
           v-clipboard:copy="address"
           icon="copy"
-          class="has-text-link cursor-pointer"
+          class="text-k-blue hover:text-k-blue-hover cursor-pointer"
           data-testid="identity-clipboard"
           @click="toast('Copied to clipboard')" />
       </div>
@@ -23,7 +23,10 @@
         target="_blank"
         rel="nofollow noopener noreferrer"
         data-testid="identity-twitter">
-        <NeoIcon pack="fab" icon="x-twitter" class="has-text-link" />
+        <NeoIcon
+          pack="fab"
+          icon="x-twitter"
+          class="text-k-blue hover:text-k-blue-hover" />
       </a>
     </div>
   </div>

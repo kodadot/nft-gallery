@@ -30,10 +30,7 @@
         <div class="mr-2">
           {{ $t('mint.unlockable.nftAlreadyMinted') }}
         </div>
-        <NeoIcon
-          icon="circle-check has-text-success"
-          pack="fass"
-          class="mr-4" />
+        <NeoIcon icon="circle-check text-k-green" pack="fass" class="mr-4" />
         <NeoButton
           class="my-2 mint-button"
           :tag="NuxtLink"
