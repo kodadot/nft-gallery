@@ -39,13 +39,13 @@
         <nuxt-link
           v-if="props.row.interaction === 'BUY'"
           :to="`/${urlPrefix}/u/${props.row.currentOwner}`"
-          class="has-text-link">
+          class="text-k-blue hover:text-k-blue-hover">
           <Identity :address="props.row.currentOwner" />
         </nuxt-link>
         <nuxt-link
           v-else
           :to="`/${urlPrefix}/u/${props.row.caller}`"
-          class="has-text-link">
+          class="text-k-blue hover:text-k-blue-hover">
           <Identity :address="props.row.caller" />
         </nuxt-link>
       </NeoTableColumn>
@@ -60,20 +60,20 @@
           <nuxt-link
             v-if="props.row.interaction === 'BUY'"
             :to="`/${urlPrefix}/u/${props.row.caller}`"
-            class="has-text-link">
+            class="text-k-blue hover:text-k-blue-hover">
             <Identity :address="props.row.caller" />
           </nuxt-link>
           <nuxt-link
             v-else
             :to="`/${urlPrefix}/u/${props.row.currentOwner}`"
-            class="has-text-link">
+            class="text-k-blue hover:text-k-blue-hover">
             <Identity :address="props.row.currentOwner" />
           </nuxt-link>
         </div>
         <nuxt-link
           v-else-if="props.row.interaction === 'SEND'"
           :to="`/${urlPrefix}/u/${props.row.meta}`"
-          class="has-text-link">
+          class="text-k-blue hover:text-k-blue-hover">
           <Identity :address="props.row.meta" />
         </nuxt-link>
       </NeoTableColumn>

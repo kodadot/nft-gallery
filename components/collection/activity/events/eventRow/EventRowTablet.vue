@@ -13,7 +13,7 @@
       </nuxt-link>
       <div class="flex flex-col justify-center gap-10px flex-grow">
         <nuxt-link
-          class="is-ellipsis is-inline-block mobile-fixed-width"
+          class="is-ellipsis inline-block mobile-fixed-width"
           :to="`/${urlPrefix}/gallery/${event.nft.id}`">
           <span class="font-bold">
             {{ event.nft.name }}
@@ -42,7 +42,7 @@
         <span class="text-xs mr-3">{{ $t('activity.event.from') }}:</span>
         <nuxt-link
           :to="`/${urlPrefix}/u/${fromAddress}`"
-          class="has-text-link is-ellipsis">
+          class="text-k-blue hover:text-k-blue-hover is-ellipsis">
           <IdentityIndex
             ref="identity"
             :address="fromAddress"
@@ -55,7 +55,7 @@
         <span class="text-xs mr-3">{{ $t('activity.event.to') }}:</span>
         <nuxt-link
           :to="`/${urlPrefix}/u/${toAddress}`"
-          class="has-text-link is-ellipsis">
+          class="text-k-blue hover:text-k-blue-hover is-ellipsis">
           <IdentityIndex
             ref="identity"
             :address="toAddress"

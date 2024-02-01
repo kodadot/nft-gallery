@@ -9,7 +9,7 @@
           custom-class="collection-card__image-wrapper-sub p-1" />
         <div
           v-else
-          class="is-relative w-full h-full collection-card__image-wrapper-sub p-1">
+          class="relative w-full h-full collection-card__image-wrapper-sub p-1">
           <NeoSkeleton no-margin :rounded="false" full-size />
         </div>
       </div>

@@ -5,7 +5,7 @@
       <div class="flex items-center justify-between">
         <div class="flex items-center">
           <nuxt-link
-            class="is-size-6 break-word mr-2 has-text-link"
+            class="is-size-6 break-word mr-2 text-k-blue hover:text-k-blue-hover"
             :to="`/${urlPrefix}/collection/${
               nft?.collection?.id || nft.collectionId
             }`">

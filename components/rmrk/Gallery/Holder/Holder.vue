@@ -270,9 +270,9 @@ const groupKey = computed(() => prop.groupKeyOption || 'Holder')
 
 const percentageTextClassName = (percentage: number) => {
   if (percentage > 0) {
-    return 'has-text-success'
+    return 'text-k-green'
   } else if (percentage < 0) {
-    return 'has-text-danger'
+    return 'text-k-red'
   }
   return ''
 }

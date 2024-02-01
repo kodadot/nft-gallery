@@ -50,7 +50,7 @@
 
         <div class="mt-2 is-hidden">
           <a
-            class="has-text-link"
+            class="text-k-blue hover:text-k-blue-hover"
             target="_blank"
             rel="nofollow noopener noreferrer"
             >{{ $t('helper.learnMore') }}</a

@@ -601,7 +601,8 @@
         "totalFee": "Fees Total"
       },
       "minting": "Minting NFT",
-      "burning": "Burning NFT"
+      "burning": "Burning NFT",
+      "delisting": "Delisting NFT"
     },
     "unlockable": {
       "phaseIntroduction": "We will have a 60-minute window every phase, each featuring only 10 exclusive items.",
@@ -980,6 +981,9 @@
     "supports": "Supports",
     "chooseProvider": "Choose A Provider",
     "doingSomeMagic": "Doing some magic",
+    "buildingTheExperience": "Building the Experience",
+    "finishingTouches": "Finishing Touches",
+    "almostThere": "Almost There",
     "pleaseWait": "Please wait",
     "copy": "Copy"
   },

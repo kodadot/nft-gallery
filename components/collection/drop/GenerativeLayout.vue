@@ -27,7 +27,7 @@
             @mint="handleSubmitMint" />
         </div>
 
-        <div class="column pt-5 is-flex is-justify-content-center">
+        <div class="column pt-5 flex justify-center">
           <CollectionDropGenerativePreview
             :minted="userMintedCount"
             :content="drop.content"

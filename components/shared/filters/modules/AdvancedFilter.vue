@@ -9,7 +9,7 @@
           <span data-testid="advanced-filter-collapsible">{{
             $t('advancedFilters')
           }}</span>
-          <span v-if="artView" class="ml-2 has-text-primary"
+          <span v-if="artView" class="ml-2 text-k-primary"
             >({{ $t('active') }})</span
           >
         </p>

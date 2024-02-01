@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <div class="is-flex is-align-items-center mb-4">
+    <div class="flex items-center mb-4">
       <div class="mr-5">
         <NeoIcon v-bind="whichIcon()" class="fa-2x" />
       </div>
@@ -72,8 +72,8 @@ const { $consola } = useNuxtApp()
 const from = route.query.source as Prefix
 const fromAccountId = route.query.accountId?.toString()
 const fromCollectionId = route.query.collectionId?.toString()
-const nextCollectionId = computed(
-  () => route.query.nextCollectionId?.toString(),
+const nextCollectionId = computed(() =>
+  route.query.nextCollectionId?.toString(),
 )
 
 const itemCount = route.query.itemCount?.toString()

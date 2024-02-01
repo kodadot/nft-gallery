@@ -26,7 +26,7 @@
 
       <div v-if="!hideName" class="card-content rounded-none">
         <span
-          class="text-center has-text-primary"
+          class="text-center text-k-primary"
           :class="{ 'title is-4': largeDisplay }"
           :title="name">
           <div
