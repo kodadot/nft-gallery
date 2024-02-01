@@ -31,7 +31,7 @@ jobs:
         run: pnpm generate
 
       - run: wc -l ./.nuxt/dist/server/client.manifest.mjs
-      - run: stat -f "%s" ./.nuxt/dist/server/client.manifest.mjs
+      - run: stat -f "%z" ./.nuxt/dist/server/client.manifest.mjs
 
   build-cf:
     runs-on: macos-14
