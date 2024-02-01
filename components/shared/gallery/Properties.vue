@@ -10,7 +10,7 @@
             class="text-xs text-k-grey-lighter uppercase properties-attribute-key">
             {{ attribute[fieldKey] === 'undefined' ? '' : attribute[fieldKey] }}
           </div>
-          <div class="text-xs has-text-white">{{ attribute.value }}</div>
+          <div class="text-xs">{{ attribute.value }}</div>
         </div>
       </div>
     </div>

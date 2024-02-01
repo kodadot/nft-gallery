@@ -27,7 +27,7 @@
         </button>
         <nuxt-link
           v-if="urlPrefix === 'ahk'"
-          :class="{ 'pack-box-waifu p-0 is-relative': !isMobile }"
+          :class="{ 'pack-box-waifu p-0 relative': !isMobile }"
           class="pack-box flex items-center justify-center"
           :to="`/${urlPrefix}/waifu`">
           <div
@@ -107,7 +107,7 @@ const { isMobile } = useViewport()
 const gotoPathAfterLogin = (path: RawLocation) => {
   doAfterLogin({
     onLoginSuccess: () => {
-      navigateTo(path)
+      navigateTo({ path, query: { collectionId: route.query.collectionId } })
     },
   })
 }

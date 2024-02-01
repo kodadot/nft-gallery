@@ -2,7 +2,12 @@
   <form
     class="mx-auto teleport-container"
     @submit.prevent="checkEDBeforeTeleport">
-    <Loader v-model="isLoading" :status="status" />
+    <SigningModal
+      :title="$t('teleport.bridging', [amountAfterFees.displayValue, currency])"
+      :is-loading="isLoading"
+      :status="status"
+      @try-again="teleport" />
+
     <h1 class="is-size-3 font-bold">
       {{ $t('teleport.page') }}
     </h1>
@@ -17,7 +22,7 @@
     <hr class="my-5" />
 
     <div class="flex items-center justify-between networks">
-      <div class="w-full is-relative">
+      <div class="w-full relative">
         <div class="network-title">{{ $t('teleport.source') }}</div>
         <NetworkDropdown
           :options="fromNetworks"
@@ -44,7 +49,7 @@
         </svg>
       </div>
 
-      <div class="w-full is-relative">
+      <div class="w-full relative">
         <div class="network-title">{{ $t('teleport.destination') }}</div>
         <NetworkDropdown
           :options="toNetworks"
@@ -58,7 +63,7 @@
         <div class="font-normal">{{ $t('teleport.amount') }}</div>
       </template>
 
-      <div class="is-relative w-full">
+      <div class="relative w-full">
         <NeoInput
           v-model="displayAmount"
           root-class="w-full"
@@ -94,14 +99,14 @@
             })
           }}{{ currency }}
         </span>
-        <NeoButton
+        <!-- <NeoButton
           no-shadow
           rounded
           size="small"
           class="ml-2"
           @click="handleMaxClick"
           >{{ $t('teleport.max') }}</NeoButton
-        >
+        > -->
       </div>
     </div>
 
@@ -160,7 +165,6 @@ import {
   prefixToChainMap,
 } from '@/utils/teleport'
 import formatBalance from '@/utils/format/balance'
-import Loader from '@/components/shared/Loader.vue'
 import shortAddress from '@/utils/shortAddress'
 import { chainIcons, getChainName } from '@/utils/chain'
 import NetworkDropdown from './NetworkDropdown.vue'
@@ -248,7 +252,7 @@ const warningReason = computed(() =>
 const insufficientAmountAfterFees = computed(() => amountAfterFees.value === 0)
 
 const recieverBalance = computed(
-  () => Number(chainBalances[toChain.value]()) || 0,
+  () => Number(chainBalances.value[toChain.value]) || 0,
 )
 
 const insufficientExistentialDepositOnTargetChain = computed(() => {
@@ -321,16 +325,16 @@ const isDisabled = (chain: Chain) => {
 }
 
 const fromNetworks = [
-  {
-    label: getChainName('rmrk'),
-    value: Chain.KUSAMA,
-    icon: chainIcons.rmrk,
-  },
-  {
-    label: getChainName('ahk'),
-    value: Chain.ASSETHUBKUSAMA,
-    icon: chainIcons.ahk,
-  },
+  // {
+  //   label: getChainName('rmrk'),
+  //   value: Chain.KUSAMA,
+  //   icon: chainIcons.rmrk,
+  // },
+  // {
+  //   label: getChainName('ahk'),
+  //   value: Chain.ASSETHUBKUSAMA,
+  //   icon: chainIcons.ahk,
+  // },
   {
     label: getChainName('dot'),
     value: Chain.POLKADOT,
@@ -343,18 +347,18 @@ const fromNetworks = [
   },
 ]
 const toNetworks = [
-  {
-    label: getChainName('rmrk'),
-    value: Chain.KUSAMA,
-    disabled: computed(() => isDisabled(Chain.KUSAMA)),
-    icon: chainIcons.rmrk,
-  },
-  {
-    label: getChainName('ahk'),
-    value: Chain.ASSETHUBKUSAMA,
-    disabled: computed(() => isDisabled(Chain.ASSETHUBKUSAMA)),
-    icon: chainIcons.ahk,
-  },
+  // {
+  //   label: getChainName('rmrk'),
+  //   value: Chain.KUSAMA,
+  //   disabled: computed(() => isDisabled(Chain.KUSAMA)),
+  //   icon: chainIcons.rmrk,
+  // },
+  // {
+  //   label: getChainName('ahk'),
+  //   value: Chain.ASSETHUBKUSAMA,
+  //   disabled: computed(() => isDisabled(Chain.ASSETHUBKUSAMA)),
+  //   icon: chainIcons.ahk,
+  // },
   {
     label: getChainName('dot'),
     value: Chain.POLKADOT,
@@ -377,15 +381,9 @@ const toChainLabel = computed(() =>
   getChainName(chainToPrefixMap[toChain.value]),
 )
 
-const myBalance = computed(() => {
-  const getBalance = chainBalances[fromChain.value]
-  if (!getBalance) {
-    throw new Error(`Unsupported chain: ${fromChain.value}`)
-  }
-  const balance = Number(getBalance()) || 0
-
-  return balance
-})
+const myBalance = computed(
+  () => Number(chainBalances.value[fromChain.value]) || 0,
+)
 
 const explorerUrl = computed(() => {
   return `${blockExplorerOf(chainToPrefixMap[toChain.value])}account/${
@@ -438,9 +436,9 @@ const isDisabledButton = computed(() => {
   )
 })
 
-const handleMaxClick = () => {
-  amount.value = myBalance.value
-}
+// const handleMaxClick = () => {
+//   amount.value = myBalance.value
+// }
 
 const checkEDBeforeTeleport = () => {
   if (showEDWarning.value) {

@@ -13,7 +13,7 @@
             :size="50" />
         </nuxt-link>
         <nuxt-link
-          class="is-ellipsis is-inline-block"
+          class="is-ellipsis inline-block"
           :to="`/${urlPrefix}/gallery/${event.nft.id}`">
           <span class="ml-5 font-bold is-clipped">
             {{ event.nft.name }}
@@ -44,7 +44,7 @@
         <nuxt-link
           v-if="fromAddress !== blank"
           :to="`/${urlPrefix}/u/${fromAddress}`"
-          class="has-text-link">
+          class="text-k-blue hover:text-k-blue-hover">
           <IdentityIndex
             ref="identity"
             :address="fromAddress"
@@ -61,7 +61,7 @@
         <nuxt-link
           v-if="toAddress !== blank"
           :to="`/${urlPrefix}/u/${toAddress}`"
-          class="has-text-link">
+          class="text-k-blue hover:text-k-blue-hover">
           <IdentityIndex
             ref="identity"
             :address="toAddress"

@@ -15,7 +15,7 @@ jobs:
         uses: ./.github/actions/pnpm-install
 
       - name: Run eslint with reviewdog
-        uses: reviewdog/action-eslint@v1.16.0
+        uses: reviewdog/action-eslint@v1.22.0
         with:
           level: error
           github_token: ${{ secrets.GITHUB_TOKEN }}

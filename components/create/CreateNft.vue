@@ -1,6 +1,12 @@
 <template>
   <div class="is-centered columns">
-    <Loader v-if="!autoTeleport" v-model="isLoading" :status="status" />
+    <SigningModal
+      v-if="!autoTeleport"
+      :is-loading="isLoading"
+      :title="$t('mint.nft.minting')"
+      :status="status"
+      @try-again="createNft" />
+
     <MintConfirmModal
       v-model="modalShowStatus"
       :auto-teleport-actions="autoTeleportActions"
@@ -67,7 +73,7 @@
         <div class="w-full">
           <p
             :class="{
-              'has-text-danger': startSelectedCollection && !selectedCollection,
+              'text-k-red': startSelectedCollection && !selectedCollection,
             }">
             {{ $t('mint.nft.collection.message') }}
           </p>
@@ -103,7 +109,7 @@
         :error="!form.salePrice"
         :label="`${$t('price')} *`">
         <div class="w-full">
-          <div class="flex justify-between items-center is-relative">
+          <div class="flex justify-between items-center relative">
             <NeoInput
               v-model="form.salePrice"
               data-testid="create-nft-input-list-value"
@@ -193,7 +199,7 @@
 
       <!-- deposit and balance -->
       <div>
-        <div class="flex font-medium has-text-info">
+        <div class="flex font-medium text-k-blue hover:text-k-blue-hover">
           <div>{{ $t('mint.deposit') }}:&nbsp;</div>
           <div>
             <span data-testid="create-nft-deposit-amount-token">
@@ -236,7 +242,7 @@
           <a
             href="https://hello.kodadot.xyz/multi-chain/fees"
             target="_blank"
-            class="has-text-link"
+            class="text-k-blue hover:text-k-blue-hover"
             data-testid="create-nft-learn-more-link"
             rel="nofollow noopener noreferrer">
             {{ $t('helper.learnMore') }}
@@ -275,7 +281,6 @@ import { delay } from '@/utils/fetch'
 import { toNFTId } from '@/components/rmrk/service/scheme'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
-import { MintedCollection } from '@/composables/transaction/types'
 
 // composables
 const { $consola } = useNuxtApp()
@@ -284,7 +289,6 @@ const { accountId } = useAuth()
 const { transaction, status, isLoading, blockNumber, isError } =
   useTransaction()
 const router = useRouter()
-const route = useRoute()
 const { decimals } = useChain()
 const { toUsdPrice } = useUsdValue()
 
@@ -307,25 +311,10 @@ const form = reactive({
 })
 
 // select collections
-const selectedCollection = ref()
+const { selectedCollection, preselectedCollectionId, onCollectionSelected } =
+  useCollectionDropdown()
 const startSelectedCollection = ref<boolean>(false)
 const chooseCollectionRef = ref()
-const preselectedCollectionId = ref<string | undefined>(
-  route.query.collectionId?.toString(),
-)
-
-const onCollectionSelected = (collection: MintedCollection) => {
-  selectedCollection.value = collection
-
-  if (collection.id === preselectedCollectionId.value) {
-    clearPreselectedCollection()
-  }
-}
-
-const clearPreselectedCollection = () => {
-  preselectedCollectionId.value = undefined
-  router.replace({ query: { collectionId: undefined } })
-}
 
 const modalShowStatus = ref(false)
 

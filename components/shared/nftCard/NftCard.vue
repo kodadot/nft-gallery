@@ -9,13 +9,13 @@
         :src="cardIconSrc"
         alt="Card Icon" />
       <div
-        class="is-relative"
+        class="relative"
         :class="{ 'border border-stacked ml-5 mt-5 mr-2': isStacked }">
         <MediaItem
           :key="nft.image"
           class="nft-media"
           :class="{
-            'stacked-shadow is-relative theme-background border border-stacked':
+            'stacked-shadow relative theme-background border border-stacked':
               isStacked,
           }"
           :src="nft.image"
@@ -43,6 +43,7 @@
         v-else-if="!hideMediaInfo"
         :nft="nft"
         :variant="variant"
+        :display-name-with-sn="displayNameWithSn"
         :prefix="prefix"
         :show-price="showPrice"
         :collection-popover-show-delay="collectionPopoverShowDelay" />
@@ -104,6 +105,7 @@ const props = withDefaults(
     mediaStaticVideo?: boolean
     hideMediaInfo?: boolean
     linkTo?: string
+    displayNameWithSn?: boolean
   }>(),
   {
     collectionPopoverShowDelay: 500,

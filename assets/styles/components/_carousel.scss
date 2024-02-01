@@ -45,40 +45,8 @@
     }
   }
 
-  .carousel-info {
-    padding: 16px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    &-name {
-      width: 100%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    &-collection {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      &-name {
-        @include ktheme() {
-          color: theme('k-grey');
-        }
-      }
-    }
-
-    &-arrow {
-      @include ktheme() {
-        color: theme('text-color');
-      }
-      font-family: 'Fira Code', monospace;
-    }
-  }
-
-  .navigation-wrapper {
-    position: relative;
+  .carousel-info-arrow {
+    font-family: 'Fira Code', monospace;
   }
 
   .dots {

@@ -32,6 +32,11 @@ export const iconSuccess = {
   class: 'text-k-green',
   textColor: '',
 }
+export const iconError = {
+  icon: 'xmark',
+  class: 'text-k-red',
+  textColor: '',
+}
 
 export const BATCH_SIZE = 200
 

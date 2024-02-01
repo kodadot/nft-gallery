@@ -10,6 +10,7 @@
           <div>
             <p class="mb-4">{{ $t('massmint.chooseCollection') }}</p>
             <ChooseCollectionDropdown
+              :preselected="preselectedCollectionId"
               @selectedCollection="onCollectionSelected" />
           </div>
         </div>
@@ -108,8 +109,9 @@ const preferencesStore = usePreferencesStore()
 const { $consola, $i18n } = useNuxtApp()
 const router = useRouter()
 const { urlPrefix } = usePrefix()
+const { selectedCollection, preselectedCollectionId, onCollectionSelected } =
+  useCollectionDropdown()
 
-const selectedCollection = ref<MintedCollection>()
 const NFTS = ref<{ [nftId: string]: NFT }>({})
 const mediaLoaded = ref(false)
 
@@ -196,10 +198,6 @@ const startMint = () => {
       }
     },
   )
-}
-
-const onCollectionSelected = (collection) => {
-  selectedCollection.value = collection
 }
 
 const updateNFT = (nft: NFT) => {

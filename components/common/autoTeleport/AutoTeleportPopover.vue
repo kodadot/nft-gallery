@@ -49,7 +49,7 @@
         <div class="flex justify-start mt-5">
           <a
             href="https://hello.kodadot.xyz/tutorial/teleport/auto-teleport"
-            class="has-text-link text-xs"
+            class="text-k-blue hover:text-k-blue-hover text-xs"
             target="_blank"
             rel="nofollow noopener noreferrer"
             >{{ $t('helper.learnMore') }}</a

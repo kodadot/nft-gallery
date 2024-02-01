@@ -8,6 +8,7 @@
     :show-price="isAvailableToBuy"
     :variant="variant"
     :hide-media-info="hideMediaInfo"
+    :display-name-with-sn="displayNameWithSn"
     :class="{
       'in-cart-border':
         shoppingCartStore.isItemInCart(nftForShoppingCart.id) ||
@@ -105,6 +106,7 @@ const props = defineProps<{
   hideMediaInfo?: boolean
   hideAction?: boolean
   hideVideoControls?: boolean
+  displayNameWithSn?: boolean
 }>()
 
 const {

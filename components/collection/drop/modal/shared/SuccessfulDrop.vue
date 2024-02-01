@@ -10,7 +10,7 @@
     <div class="flex items-center">
       <a
         v-safe-href="txUrl"
-        class="has-text-link ml-3 text-xs"
+        class="text-k-blue hover:text-k-blue-hover ml-3 text-xs"
         target="_blank"
         rel="nofollow noopener noreferrer">
         {{ $t('helper.viewTx') }}
@@ -47,7 +47,7 @@
       {{ $t('drops.artBy', [mintedNft.name]) }}
       <a
         v-safe-href="collectionUrl"
-        class="has-text-link"
+        class="text-k-blue hover:text-k-blue-hover"
         target="_blank"
         rel="nofollow noopener noreferrer">
         {{ mintedNft.collectionName }}
