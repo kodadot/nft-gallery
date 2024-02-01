@@ -10,7 +10,7 @@
           id="nft-img-container"
           ref="imgref"
           :class="{
-            'is-relative': !isFullscreen,
+            relative: !isFullscreen,
             'fullscreen-fallback': isFallbackActive,
           }">
           <!-- preview button -->
@@ -58,7 +58,7 @@
             v-else
             :key="image"
             ref="mediaItemRef"
-            class="gallery-item-media is-relative"
+            class="gallery-item-media relative"
             :src="getMediaSrc(image)"
             :animation-src="nftAnimation"
             :mime-type="nftAnimationMimeType || nftMimeType"
@@ -81,7 +81,7 @@
               <div class="name-container">
                 <h1 class="title" data-testid="item-title">
                   {{ title }}
-                  <span v-if="nft?.burned" class="has-text-danger">「🔥」</span>
+                  <span v-if="nft?.burned" class="text-k-red">「🔥」</span>
                 </h1>
                 <h2 class="subtitle" data-testid="item-collection">
                   <CollectionDetailsPopover
@@ -90,7 +90,7 @@
                     <template #content>
                       <nuxt-link
                         :to="`/${urlPrefix}/collection/${collection?.id}`"
-                        class="has-text-link"
+                        class="text-k-blue hover:text-k-blue-hover"
                         data-testid="gallery-item-collection-link">
                         {{ collection?.name || collection?.id }}
                       </nuxt-link>

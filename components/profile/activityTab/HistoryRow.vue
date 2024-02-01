@@ -11,7 +11,7 @@
             :size="50" />
         </nuxt-link>
         <nuxt-link
-          class="is-ellipsis is-inline-block"
+          class="is-ellipsis inline-block"
           :to="`/${urlPrefix}/gallery/${event.Item.id}`">
           <span class="ml-5 font-bold is-clipped">
             {{ event.Item.name }}
@@ -43,7 +43,7 @@
         <nuxt-link
           v-if="!!fromAddress"
           :to="`/${urlPrefix}/u/${fromAddress}`"
-          class="has-text-link">
+          class="text-k-blue hover:text-k-blue-hover">
           <IdentityIndex ref="identity" :address="fromAddress" show-clipboard />
         </nuxt-link>
         <div v-else>
@@ -57,7 +57,7 @@
         <nuxt-link
           v-if="!!toAddress"
           :to="`/${urlPrefix}/u/${toAddress}`"
-          class="has-text-link">
+          class="text-k-blue hover:text-k-blue-hover">
           <IdentityIndex ref="identity" :address="toAddress" show-clipboard />
         </nuxt-link>
         <div v-else>
@@ -89,7 +89,7 @@
       </nuxt-link>
       <div class="flex flex-col justify-center gap-10px flex-grow">
         <nuxt-link
-          class="is-ellipsis is-inline-block mobile-fixed-width"
+          class="is-ellipsis inline-block mobile-fixed-width"
           :to="`/${urlPrefix}/gallery/${event.Item.id}`">
           <span class="font-bold">
             {{ event.Item.name }}
@@ -119,7 +119,7 @@
         <span class="text-xs mr-3">{{ $t('activity.event.from') }}:</span>
         <nuxt-link
           :to="`/${urlPrefix}/u/${fromAddress}`"
-          class="has-text-link is-ellipsis">
+          class="text-k-blue hover:text-k-blue-hover is-ellipsis">
           <IdentityIndex ref="identity" :address="fromAddress" show-clipboard />
         </nuxt-link>
       </div>
@@ -128,7 +128,7 @@
         <span class="text-xs mr-3">{{ $t('activity.event.to') }}:</span>
         <nuxt-link
           :to="`/${urlPrefix}/u/${toAddress}`"
-          class="has-text-link is-ellipsis">
+          class="text-k-blue hover:text-k-blue-hover is-ellipsis">
           <IdentityIndex ref="identity" :address="toAddress" show-clipboard />
         </nuxt-link>
       </div>

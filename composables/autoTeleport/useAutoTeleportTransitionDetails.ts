@@ -66,7 +66,7 @@ export default function (
 
   const currentChainBalance = computed(
     () =>
-      (currentChain.value && Number(chainBalances[currentChain.value]())) ||
+      (currentChain.value && Number(chainBalances.value[currentChain.value])) ||
       Number(balance.value),
   )
 
@@ -99,7 +99,7 @@ export default function (
     allowedSourceChains.value.reduce(
       (reducer, chainPrefix) => ({
         ...reducer,
-        [chainPrefix]: chainBalances[chainPrefix](),
+        [chainPrefix]: chainBalances.value[chainPrefix],
       }),
       {},
     ),

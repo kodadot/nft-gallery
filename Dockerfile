@@ -1,5 +1,5 @@
 # Dockerfile
-FROM node:18
+FROM node:20
 
 # Set the same pnpm version as the version in the package.json
 ENV PNPM_VERSION 8.6.0

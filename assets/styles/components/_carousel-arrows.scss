@@ -1,11 +1,8 @@
+
+
 .arrow {
   $side-y: 32px;
   $side-x: 55px;
-
-  &-small-size {
-    $side-y: 20px;
-    $side-x: 32px;
-  }
 
   width: $side-x;
   height: $side-x;
@@ -112,3 +109,124 @@
     display: none;
   }
 }
+
+
+
+// We have to duplicate this block to use variables properly unless upgrade to sass 3.x version
+// red: https://stackoverflow.com/questions/12365703/scss-variable-scope
+
+.arrow-small-size {
+  $side-y-small: 20px;
+  $side-x-small: 32px;
+  &.arrow {
+
+    width: $side-x-small;
+    height: $side-x-small;
+  
+    @apply absolute -translate-y-2/4 cursor-pointer top-2/4;
+    -webkit-transform: translateY(-50%);
+  
+    &-left {
+      left: -30px;
+  
+      border-bottom: solid $side-y-small transparent;
+      border-top: solid $side-y-small transparent;
+      @include ktheme() {
+        border-right: solid $side-x-small theme('black');
+      }
+      &::after {
+        content: '';
+        width: 0;
+        height: 0;
+  
+        position: absolute;
+        border-bottom: solid $side-y-small - 2 transparent;
+        border-top: solid $side-y-small - 2 transparent;
+        @include ktheme() {
+          border-right: solid $side-x-small - 2 theme('white');
+        }
+        top: -($side-y-small - 2);
+        right: -($side-x-small - 1);
+        transition-duration: 0.2s;
+      }
+  
+      &::before {
+        content: '';
+        width: 0;
+        height: 0;
+  
+        position: absolute;
+        border-bottom: solid $side-y-small transparent;
+        border-top: solid $side-y-small transparent;
+        @include ktheme() {
+          border-right: solid $side-x-small theme('black');
+        }
+  
+        top: -($side-y-small - 6);
+        right: -($side-x-small + 4);
+      }
+    }
+  
+    &-right {
+      left: auto;
+      right: -30px;
+  
+      border-bottom: solid $side-y-small transparent;
+      border-top: solid $side-y-small transparent;
+      @include ktheme() {
+        border-left: solid $side-x-small theme('black');
+      }
+      &::after {
+        content: '';
+        width: 0;
+        height: 0;
+  
+        position: absolute;
+        border-bottom: solid $side-y-small - 2 transparent;
+        border-top: solid $side-y-small - 2 transparent;
+        @include ktheme() {
+          border-left: solid $side-x-small - 2 theme('white');
+        }
+        top: -($side-y-small - 2);
+        left: -($side-x-small - 1);
+        transition-duration: 0.2s;
+      }
+  
+      &::before {
+        content: '';
+        width: 0;
+        height: 0;
+  
+        position: absolute;
+        border-bottom: solid $side-y-small transparent;
+        border-top: solid $side-y-small transparent;
+        @include ktheme() {
+          border-left: solid $side-x-small theme('black');
+        }
+        top: -($side-y-small - 6);
+        left: -($side-x-small - 4);
+      }
+    }
+  
+    &:hover {
+      &.arrow-left::after {
+        @include ktheme() {
+          border-right: solid $side-x-small - 2 theme('k-accentlight');
+        }
+      }
+  
+      &.arrow-right::after {
+        @include ktheme() {
+          border-left: solid $side-x-small - 2 theme('k-accentlight');
+        }
+      }
+    }
+  
+    @media screen and (max-width: 640px) {
+      display: none;
+    }
+  }
+  
+}
+
+

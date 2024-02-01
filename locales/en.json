@@ -21,6 +21,7 @@
   "soon": "Soon",
   "classic": "Classic",
   "email": "Email",
+  "checking": "Checking",
   "handle": "Handle",
   "website": "Website",
   "account": "Account",
@@ -524,7 +525,8 @@
         "title": "Mint Collection",
         "existentialDeposit": "Collection Existential Deposit",
         "depositTooltip": "A deposit of {0} {1} is required to create a collection. Please note, this initial deposit is refundable. "
-      }
+      },
+      "minting": "Minting Collection"
     },
     "nft": {
       "art": {
@@ -597,7 +599,10 @@
         "kodadotTooltip": "By keeping this option active, you're contributing to initial costs borne by Kodadot for storing your JPEGs on your behalf. You may change this preference anytime in the settings. ",
         "carbonless": "Carbonless",
         "totalFee": "Fees Total"
-      }
+      },
+      "minting": "Minting NFT",
+      "burning": "Burning NFT",
+      "delisting": "Delisting NFT"
     },
     "unlockable": {
       "phaseIntroduction": "We will have a 60-minute window every phase, each featuring only 10 exclusive items.",
@@ -619,6 +624,7 @@
       "mintThisNft": "Mint This NFT",
       "seeYourNft": "See Your NFT",
       "minimumFundsDescription": "Holding a Minimum of <strong>{0} On {1}</strong> in Your Wallet is Required",
+      "holderOfCollectionMinimumFundsDescription": "Holding a Minimum of <strong>{0}</strong> On {1} in Your Wallet",
       "freeMinimumFundsDescription": "Holding a Minimum of <strong>{0} On {1}</strong> in Your Wallet is Required for This Free Mint.",
       "claimNftNow": "Claim NFT Now",
       "claimPaidNft": "Claim For {0}",
@@ -654,7 +660,14 @@
           "transfer": "<strong>Transfer:</strong> Move {0} from another account to your wallet.",
           "note": "Transactions may require a network confirmation"
         }
-      }
+      },
+      "requirements": "Requirements",
+      "connectWallet": "Connect wallet to proceed",
+      "availableForMint": "Available for mint",
+      "readyToMint": "Ready to Mint: {0} NFTs Remaining",
+      "requirementsNotMet": "Requirements not met",
+      "holderOfWarning1": "Each {0} collection NFT allows you to <strong>mint one</strong> new NFT.",
+      "holderOfWarning2": "After a claim, that NFT <strong>can't be</strong> used for another mint."
     },
     "blockchain": {
       "label": "Select Blockchain",
@@ -968,6 +981,9 @@
     "supports": "Supports",
     "chooseProvider": "Choose A Provider",
     "doingSomeMagic": "Doing some magic",
+    "buildingTheExperience": "Building the Experience",
+    "finishingTouches": "Finishing Touches",
+    "almostThere": "Almost There",
     "pleaseWait": "Please wait",
     "copy": "Copy"
   },
@@ -1075,7 +1091,8 @@
     "why": "Why?",
     "existentialDepositTooltip": "Amounts Below {0} + Fees Risk Being Lost. Enter The Minimum To Proceed.",
     "whatIsExistentialDeposit": "What is Existential Deposit?",
-    "checkboxLabel": "I understand this action will lead to an irreversible loss of funds."
+    "checkboxLabel": "I understand this action will lead to an irreversible loss of funds.",
+    "bridging": "Bridging {0} {1}"
   },
   "preferences": {
     "basic": "basic user interface",
@@ -1198,6 +1215,7 @@
     "deleteCollection": "Delete Collection",
     "addNfts": "Add NFTs",
     "deleteNfts": "Delete NFTs",
+    "deletingNfts": "Deleting NFTs",
     "customize": "Customize"
   },
   "collectionCard": {
@@ -1254,6 +1272,7 @@
     "transfer": "Transfer",
     "transferTo": "Transfer to",
     "transferNft": "Transfer NFT",
+    "transferingNft": "Transfering NFT",
     "inputAddressFirst": "Input address first",
     "addressIncorrect": "Address Incorrect",
     "wrongAddressCannotRecoveredWarning": "Items sent to the wrong address cannot be recovered.",
@@ -1495,7 +1514,8 @@
     "chooseAPrice": "Choose a price",
     "floorPrice": "Floor Price",
     "inputPriceFirst": "Input Price First",
-    "setAllTo": "Set All To"
+    "setAllTo": "Set All To",
+    "listingNft": "Listing NFT | Listing NFTs"
   },
   "migrate": {
     "cta": "Migrate Now",
@@ -1677,10 +1697,12 @@
   },
   "confirmDeleteCollection": {
     "deleteCollection": "Delete Collection?",
+    "deletingCollection": "Deleting Collection",
     "content": "This will permanently remove your collection and NFTs. Your deposit will be refunded."
   },
   "buyModal": {
     "nftPriceUpdated": "NFT {0} price updated",
-    "nftNotListedAnymore": "NFT {0} is not listed anymore"
+    "nftNotListedAnymore": "NFT {0} is not listed anymore",
+    "buyingNft": "Buying NFT | Buying NFTs"
   }
 }

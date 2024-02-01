@@ -27,7 +27,7 @@
     </header>
 
     <div
-      class="is-relative"
+      class="relative"
       :class="[
         {
           'limit-height__scrollabe': scrollable,
@@ -36,7 +36,7 @@
         contentClass,
       ]">
       <div v-if="loading">
-        <SkeletonLoader class="modal-skeleton" />
+        <SkeletonLoader :title="skeletonTitle" class="modal-skeleton" />
       </div>
 
       <div
@@ -53,10 +53,11 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoSkeleton } from '@kodadot1/brick'
-import SkeletonLoader from '@/components/shared/SkeletonLoader.vue'
+
+const TITLE_DURATION_SECONDS = 4
 
 const emits = defineEmits(['close'])
-withDefaults(
+const props = withDefaults(
   defineProps<{
     title: string
     loading?: boolean
@@ -74,7 +75,42 @@ withDefaults(
   },
 )
 
+const { $i18n } = useNuxtApp()
+
+const titles = [
+  $i18n.t('general.doingSomeMagic'),
+  $i18n.t('general.buildingTheExperience'),
+  $i18n.t('general.finishingTouches'),
+  $i18n.t('general.almostThere'),
+]
+const seconds = ref(0)
+
+const { pause, resume: start } = useIntervalFn(
+  () => (seconds.value += 1),
+  1000,
+  { immediate: false },
+)
+const titleRange = computed(() =>
+  Math.floor(seconds.value / TITLE_DURATION_SECONDS),
+)
+const skeletonTitle = computed(
+  () => titles[titleRange.value] || titles[titles.length - 1],
+)
+
 const onClose = () => emits('close')
+
+watch(
+  () => props.loading,
+  (loading) => {
+    if (loading) {
+      seconds.value = 0
+      start()
+    } else {
+      pause()
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <style lang="scss">
@@ -107,14 +143,12 @@ $b-padding: 1.25rem;
 
 .modal-skeleton {
   position: unset !important;
-  .skeleton {
-    &-backdrop {
-      top: $t-padding;
-      left: $x-padding;
-      width: calc(100% - $x-padding * 2);
-      height: calc(100% - ($t-padding + $b-padding));
-      max-height: v-bind(modalMaxHeight) !important;
-    }
+  #skeleton-backdrop {
+    top: $t-padding;
+    left: $x-padding;
+    width: calc(100% - $x-padding * 2);
+    height: calc(100% - ($t-padding + $b-padding));
+    max-height: v-bind(modalMaxHeight) !important;
   }
 }
 

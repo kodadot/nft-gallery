@@ -27,8 +27,9 @@
             @mint="handleSubmitMint" />
         </div>
 
-        <div class="column pt-5 is-flex is-justify-content-center">
+        <div class="column pt-5 flex justify-center">
           <CollectionDropGenerativePreview
+            :minted="userMintedCount"
             :content="drop.content"
             :image="drop.image"
             @select="handleSelectImage" />
@@ -64,30 +65,34 @@
 
 <script setup lang="ts">
 import { DropItem } from '@/params/types'
+import type {
+  HolderOfCollectionProp,
+  MinimumFundsProp,
+  MintButtonProp,
+} from './types'
 
 withDefaults(
   defineProps<{
     collectionId: string
     description?: string
     drop: DropItem
-    mintButton: { label: string; disabled: boolean }
+    mintButton: MintButtonProp
     mintedCount: number
     mintCountAvailable: boolean
     maxCount: number
-    minimumFunds: { amount: number; description: string }
+    minimumFunds: MinimumFundsProp
     isImageFetching: boolean
     isWalletConnecting: boolean
     isLoading: boolean
+    holderOfCollection?: HolderOfCollectionProp
     userMintedNftId?: string
-    holderOfCollection?: { id?: string; isHolderOfTargetCollection?: boolean }
-
+    userMintedCount: number
     handleSelectImage: (image: string) => void
     handleSubmitMint: () => void
   }>(),
   {
     description: '',
     userMintedNftId: undefined,
-    holderOfCollection: () => ({ id: '', isHolderOfTargetCollection: false }),
   },
 )
 

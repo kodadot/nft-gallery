@@ -16,7 +16,7 @@
         v-safe-href="link"
         target="_blank"
         rel="nofollow noopener noreferrer"
-        class="has-text-link">
+        class="text-k-blue hover:text-k-blue-hover">
         {{
           isMobile
             ? $t('unlockable.claimDrop')

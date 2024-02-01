@@ -13,7 +13,7 @@
         icon="arrow-right"
         @click="toMassMint" />
     </div>
-    <div class="is-relative mb-6">
+    <div class="relative mb-6">
       <div
         ref="carouselRef"
         class="carousel flex flex-nowrap"
@@ -59,7 +59,7 @@
                   `/massmint/template.${activeDescriptionTab.toLowerCase()}`
                 "
                 variant="text"
-                class="has-text-link"
+                class="text-k-blue hover:text-k-blue-hover"
                 no-shadow
                 tag="a"
                 download>
