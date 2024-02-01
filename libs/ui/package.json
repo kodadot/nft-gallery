@@ -22,11 +22,11 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
-    "@fortawesome/vue-fontawesome": "^3.0.5",
+    "@fortawesome/vue-fontawesome": "^3.0.6",
     "@google/model-viewer": "^3.4.0",
     "@vueuse/core": "^9.13.0",
     "bulma": "0.9.4",
-    "three": "^0.160.1",
+    "three": "^0.161.0",
     "vue": "^3.4.15",
     "vue-audio-visual": "2.5.0"
   }

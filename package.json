@@ -61,7 +61,7 @@
   "dependencies": {
     "@braintree/sanitize-url": "^6.0.4",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
-    "@fortawesome/vue-fontawesome": "^3.0.5",
+    "@fortawesome/vue-fontawesome": "^3.0.6",
     "@kodadot1/brick": "workspace:*",
     "@kodadot1/minimark": "^0.1.14-rc.0",
     "@kodadot1/minipfs": "0.4.2-rc.0",
@@ -85,7 +85,7 @@
     "@polkadot/vue-identicon": "^3.6.4",
     "@ramp-network/ramp-instant-sdk": "^4.0.4",
     "@transak/transak-sdk": "^1.4.1",
-    "@types/node": "^20.11.5",
+    "@types/node": "^20.11.15",
     "@vitejs/plugin-vue": "^5.0.3",
     "chart.js": "^4.4.1",
     "chartjs-adapter-date-fns": "^3.0.0",
@@ -111,7 +111,7 @@
     "vue-chartjs": "^5.3.0",
     "vue-dompurify-html": "^4.1.4",
     "vue-tippy": "^6.4.1",
-    "wavesurfer.js": "^7.6.5",
+    "wavesurfer.js": "^7.7.1",
     "workbox-window": "^6.6.0"
   },
   "devDependencies": {
@@ -127,8 +127,8 @@
     "@types/lodash": "^4.14.202",
     "@types/markdown-it": "^13.0.7",
     "@types/prismjs": "^1.26.3",
-    "@typescript-eslint/eslint-plugin": "^6.19.0",
-    "@typescript-eslint/parser": "^6.19.0",
+    "@typescript-eslint/eslint-plugin": "^6.20.0",
+    "@typescript-eslint/parser": "^6.20.0",
     "@vite-pwa/nuxt": "^0.4.0",
     "@vitest/coverage-istanbul": "^0.34.6",
     "@vueuse/core": "^9.13.0",
@@ -146,13 +146,13 @@
     "husky": "^7.0.4",
     "jsdom": "^19.0.0",
     "lint-staged": "^12.5.0",
-    "nuxt": "^3.9.3",
+    "nuxt": "^3.10.0",
     "postcss": "^8.4.33",
     "prettier": "^3.2.4",
     "sass": "^1.70.0",
     "tailwindcss": "^3.4.1",
     "vitest": "^0.34.6",
-    "vue-eslint-parser": "^9.4.1",
+    "vue-eslint-parser": "^9.4.2",
     "vue-gtag": "^2.0.1"
   },
   "resolutions": {
