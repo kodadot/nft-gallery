@@ -41,10 +41,15 @@
     </div>
     <div class="flex">
       <div class="v-border"></div>
-      <div class="mb-4 flex">
+      <div class="mb-4 flex w-full">
         <NeoIcon v-bind="whichIcon()" class="mr-4" />
         <div :class="whichIcon().textColor">
           <p>{{ $t('migrate.signStep.finalizingItems', [itemCount]) }}</p>
+        </div>
+        <div v-if="isError" class="flex-1 text-right">
+          <NeoButton variant="pill" size="small" @click="burnItems()">
+            {{ $t('helper.tryAgain') }}
+          </NeoButton>
         </div>
       </div>
     </div>
@@ -54,7 +59,7 @@
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
 import { Collections, NFTs } from '@/composables/transaction/types'
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import {
   type Steps,
   iconIdle,
@@ -64,7 +69,7 @@ import {
 import nftIdListByCollection from '@/queries/subsquid/general/nftIdListByCollection.graphql'
 
 const route = useRoute()
-const { transaction, status } = useTransaction()
+const { transaction, status, isError } = useTransaction()
 const { urlPrefix } = usePrefix()
 const { accountId } = useAuth()
 const { $consola } = useNuxtApp()
@@ -96,6 +101,10 @@ const whichIcon = () => {
 
   if (steps.value === 'step3-burn' || steps.value === 'step3-burn-collection') {
     return iconLoading
+  }
+
+  if (isError.value) {
+    return iconError
   }
 
   return iconIdle
@@ -179,7 +188,12 @@ watchDebounced(
 )
 
 watchEffect(async () => {
-  $consola.info('SignLoader3', steps.value, fromNfts.value, nextNfts.value)
+  $consola.info(
+    'SignLoader3',
+    steps.value,
+    toRaw(fromNfts.value),
+    nextNfts.value,
+  )
 
   // burn items
   if (
