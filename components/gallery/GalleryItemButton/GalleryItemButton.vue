@@ -29,10 +29,10 @@ const nftMetadata = computed(() => props.galleryItem.nftMetadata.value)
 
 const customSharingContent = computed(() => {
   const twitterId = nft.value?.meta?.description
-    ? extractTwitterIdFromDescription(nft.value.meta.description)
+    ? extractTwitterIdFromDescription(nft.value?.meta?.description)
     : ''
 
-  return twitterId ? `${$i18n.t('sharing.nftWithArtist')} @${twitterId}` : ''
+  return twitterId ? $i18n.t('sharing.nftWithArtist', [twitterId]) : ''
 })
 </script>
 
