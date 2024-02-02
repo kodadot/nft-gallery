@@ -18,7 +18,7 @@
       </a>
 
       <NeoIcon
-        class="text-k-grey opacity-20 mx-2 is-size-8"
+        class="text-k-grey opacity-20 mx-2 text-[0.5rem]"
         icon="circle"
         pack="fass"
         size="small" />
