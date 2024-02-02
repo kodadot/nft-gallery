@@ -1,5 +1,5 @@
 <template>
-  <NeoModalExtend v-modal:active="isModalActive" scroll="clip" @close="onClose">
+  <NeoModalExtend v-model:active="isModalActive" scroll="clip" @close="onClose">
     <div class="modal-width">
       <div class="border-b border-grey flex items-center justify-between px-6">
         <p class="py-5 is-size-6 font-bold">
@@ -23,7 +23,7 @@
               href="/terms-of-use"
               target="_blank"
               rel="nofollow noopener noreferrer"
-              class="has-text-link"
+              class="text-k-blue hover:text-k-blue-hover"
               >{{ $t('fiatOnRamp.tos') }}</a
             >
           </div>

@@ -36,7 +36,7 @@
       </h1>
       <template v-else>
         <h1
-          class="title is-size-1 is-size-2-mobile font-bold text-center flex is-flex-direction-column flex-wrap justify-center items-center mb-0">
+          class="title is-size-1 is-size-2-mobile font-bold text-center flex flex-col flex-wrap justify-center items-center mb-0">
           <div>
             {{ $t('search.landingTitle1') }}
             <span

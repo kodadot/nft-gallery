@@ -156,7 +156,7 @@ const usdValue = computed(() => toUsdPrice(volume.value, chainName))
 
 const color = computed(() => {
   if (diffPercent.value) {
-    return diffPercent.value < 0 ? 'has-text-danger' : 'has-text-success'
+    return diffPercent.value < 0 ? 'text-k-red' : 'text-k-green'
   }
   return undefined
 })

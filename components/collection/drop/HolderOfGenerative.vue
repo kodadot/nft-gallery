@@ -37,7 +37,11 @@
 import { createUnlockableMetadata } from '../unlockable/utils'
 import { DropItem } from '@/params/types'
 import { claimDropItem } from '@/services/waifu'
-import { useDropMinimumFunds, useDropStatus } from '@/components/drops/useDrops'
+import {
+  useDropMinimumFunds,
+  useDropStatus,
+  useHolderOfCollectionDrop,
+} from '@/components/drops/useDrops'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import holderOfCollectionById from '@/queries/subsquid/general/holderOfCollectionById.graphql'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
@@ -46,8 +50,11 @@ import useGenerativeDropMint, {
 } from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
 import { asBalanceTransferAlive } from '@kodadot1/sub-api'
-
-const holderOfCollectionId = '50' // ChaosFlakes | todo: mock for testing, should be fetched from backend
+import {
+  HolderOfCollectionProp,
+  MinimumFundsProp,
+  MintButtonProp,
+} from './types'
 
 const props = withDefaults(
   defineProps<{
@@ -58,25 +65,28 @@ const props = withDefaults(
   },
 )
 
-const { fetchMultipleBalance } = useMultipleBalance()
+const { fetchMultipleBalance, hasCurrentChainBalance } = useMultipleBalance()
 
 const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
   useDropMinimumFunds(props.drop)
 const minimumFundsDescription = computed(() =>
-  $i18n.t('mint.unlockable.minimumFundsDescription', [
+  $i18n.t('mint.unlockable.holderOfCollectionMinimumFundsDescription', [
     formattedMinimumFunds.value,
     chainName.value,
   ]),
 )
 
-const minimumFundsProps = computed(() => ({
+const minimumFundsProps = computed<MinimumFundsProp>(() => ({
   amount: minimumFunds.value,
   description: minimumFundsDescription.value,
+  hasAmount: hasMinimumFunds.value,
+  isLoading: !hasCurrentChainBalance.value,
 }))
 
 const isWalletConnecting = ref(false)
 const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
   useDropStatus(props.drop.alias)
+const { isNftClaimed } = useHolderOfCollectionDrop()
 const instance = getCurrentInstance()
 const mintNftSN = ref('0')
 const { doAfterLogin } = useDoAfterlogin(instance)
@@ -89,6 +99,7 @@ const { client } = usePrefix()
 const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isAddFundModalActive = ref(false)
+const availableNfts = reactive({ isLoading: true, amount: 0 })
 
 const {
   defaultName,
@@ -98,6 +109,7 @@ const {
   chainName,
   disabledByBackend,
   token,
+  holderOfCollectionId,
 } = useGenerativeDropDetails(props.drop)
 
 const {
@@ -164,7 +176,7 @@ const { data: holderOfCollectionData } = await useAsyncData(
       clientId: client.value,
       query: holderOfCollectionById,
       variables: {
-        id: holderOfCollectionId,
+        id: holderOfCollectionId.value,
         account: accountId.value,
       },
     }).then((res) => res.data.value),
@@ -181,9 +193,17 @@ const isHolderOfTargetCollection = computed(
   () => maxMintLimitForCurrentUser.value > 0,
 )
 
-const holderOfCollection = computed(() => ({
-  id: holderOfCollectionId,
-  isHolderOfTargetCollection: isHolderOfTargetCollection.value,
+const hasAvailableNfts = computed(() => availableNfts.amount !== 0)
+
+const holderOfCollection = computed<HolderOfCollectionProp>(() => ({
+  id: holderOfCollectionId.value as string,
+  isHolder: isHolderOfTargetCollection.value,
+  hasAvailable: hasAvailableNfts.value,
+  isLoading: availableNfts.isLoading,
+  amount: {
+    total: maxMintLimitForCurrentUser.value,
+    available: availableNfts.amount,
+  },
 }))
 
 const mintButtonLabel = computed(() => {
@@ -191,7 +211,9 @@ const mintButtonLabel = computed(() => {
     ? $i18n.t('shoppingCart.wallet')
     : isLogIn.value
       ? isHolderOfTargetCollection.value &&
-        maxMintLimitForCurrentUser.value > mintedAmountForCurrentUser.value
+        maxMintLimitForCurrentUser.value > mintedAmountForCurrentUser.value &&
+        hasMinimumFunds.value &&
+        hasAvailableNfts.value
         ? $i18n.t('mint.unlockable.claimPaidNft', [
             `${depositAmount.value} ${depositChainSymbol.value}`,
           ])
@@ -206,11 +228,14 @@ const mintButtonDisabled = computed<boolean>(
       Boolean(
         !selectedImage.value ||
           !isHolderOfTargetCollection.value ||
-          maxMintLimitForCurrentUser.value <= mintedAmountForCurrentUser.value,
+          maxMintLimitForCurrentUser.value <=
+            mintedAmountForCurrentUser.value ||
+          !hasMinimumFunds.value ||
+          !hasAvailableNfts.value,
       )),
 )
 
-const mintButtonProps = computed(() => ({
+const mintButtonProps = computed<MintButtonProp>(() => ({
   disabled: mintButtonDisabled.value,
   label: mintButtonLabel.value,
 }))
@@ -344,10 +369,23 @@ const submitMint = async (sn: string) => {
   }
 }
 
+const checkAvailableNfts = async () => {
+  availableNfts.isLoading = true
+  const nftEntities = holderOfCollectionData.value?.nftEntities || []
+  const nftIds = nftEntities.map((nft) => nft.sn)
+  const claimed = await Promise.all(
+    nftIds.map((sn) => isNftClaimed(sn, holderOfCollectionId.value as string)),
+  )
+  availableNfts.amount = claimed.filter((x) => !x).length
+  availableNfts.isLoading = false
+}
+
 const handleDropAddModalConfirm = () => {
   closeAddFundModal()
   fetchMultipleBalance([urlPrefix.value])
 }
+
+watch(holderOfCollectionData, checkAvailableNfts, { immediate: true })
 </script>
 
 <style scoped lang="scss">

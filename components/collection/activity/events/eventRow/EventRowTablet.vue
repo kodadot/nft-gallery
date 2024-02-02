@@ -42,7 +42,7 @@
         <span class="text-xs mr-3">{{ $t('activity.event.from') }}:</span>
         <nuxt-link
           :to="`/${urlPrefix}/u/${fromAddress}`"
-          class="has-text-link is-ellipsis">
+          class="text-k-blue hover:text-k-blue-hover is-ellipsis">
           <IdentityIndex
             ref="identity"
             :address="fromAddress"
@@ -55,7 +55,7 @@
         <span class="text-xs mr-3">{{ $t('activity.event.to') }}:</span>
         <nuxt-link
           :to="`/${urlPrefix}/u/${toAddress}`"
-          class="has-text-link is-ellipsis">
+          class="text-k-blue hover:text-k-blue-hover is-ellipsis">
           <IdentityIndex
             ref="identity"
             :address="toAddress"
