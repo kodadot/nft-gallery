@@ -11,7 +11,6 @@
 
     <NeoButton
       class="hover-button w-full ml-4"
-      :class="{ border: !primary.disabled }"
       :disabled="primary.disabled"
       :loading="primary.disabled"
       variant="k-accent"
