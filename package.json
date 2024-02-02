@@ -155,9 +155,5 @@
     "vitest": "^1.2.1",
     "vue-eslint-parser": "^9.4.2",
     "vue-gtag": "^2.0.1"
-  },
-  "resolutions": {
-    "@apollo/federation": "0.38.1",
-    "vue": "3.4.8"
   }
 }
