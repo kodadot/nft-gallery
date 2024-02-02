@@ -10,7 +10,7 @@
         <span class="text-2xl">{{ count }}</span>
       </div>
       <slot>
-        <div class="content is-size-5-mobile">
+        <div class="content text-xl sm:text-base">
           <Markdown :source="content" />
         </div>
       </slot>
