@@ -61,8 +61,9 @@
           :label="$t('nft.action.confirm')"
           :disabled="disabled"
           :actions="actions"
+          auto-close-modal
+          :auto-close-modal-delay-modal="0"
           @confirm="confirm"
-          @modal:close="(completed) => $emit('autoteleport:ended', completed)"
           @actions:completed="$emit('completed')" />
       </div>
     </ModalBody>
@@ -82,12 +83,7 @@ import { type AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { type AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import { useBuySupportFee } from '@/composables/transaction/utils'
 
-const emit = defineEmits([
-  'confirm',
-  'completed',
-  'close',
-  'autoteleport:ended',
-])
+const emit = defineEmits(['confirm', 'completed', 'close'])
 const props = defineProps<{
   action: AutoTeleportAction
   loading: boolean

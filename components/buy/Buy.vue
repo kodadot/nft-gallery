@@ -17,8 +17,7 @@
       :action="autoteleportAction"
       @close="handleClose"
       @confirm="handleConfirm"
-      @completed="handleActionCompleted"
-      @autoteleport:ended="handleAutoteleportEnded" />
+      @completed="handleActionCompleted" />
   </div>
 </template>
 
@@ -70,8 +69,11 @@ const autoteleportAction = computed<AutoTeleportAction>(() => ({
   },
 }))
 
-const showSuccessModalOnTxComplete = computed(
-  () => Boolean(txHash.value) && !isLoading.value && !usingAutoTeleport.value,
+const isTransactionCompleted = computed(
+  () => Boolean(txHash.value) && !isLoading.value,
+)
+const isSimpleTransactionCompleted = computed(
+  () => isTransactionCompleted.value && !usingAutoTeleport.value,
 )
 
 const items = computed(() =>
@@ -99,13 +101,9 @@ const openSuccessModal = () => {
   isSuccessfulModalOpen.value = true
 }
 
-const handleAutoteleportEnded = (completed: boolean) => {
-  if (completed) {
-    openSuccessModal()
-  }
-}
-
 const handleActionCompleted = () => {
+  openSuccessModal()
+
   nftSubscription.unsubscribe()
   preferencesStore.setTriggerBuySuccess(true)
   shoppingCartStore.clear()
@@ -258,9 +256,9 @@ watch(
   { immediate: true },
 )
 
-watch(showSuccessModalOnTxComplete, (show) => {
-  if (show) {
-    openSuccessModal()
+watch(isSimpleTransactionCompleted, (completed: boolean) => {
+  if (completed) {
+    handleActionCompleted()
   }
 })
 
