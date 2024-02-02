@@ -8,7 +8,7 @@
       :status="status"
       @try-again="teleport" />
 
-    <h1 class="text-3-5xl font-bold">
+    <h1 class="text-3xl font-bold">
       {{ $t('teleport.page') }}
     </h1>
 

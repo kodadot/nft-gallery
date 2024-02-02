@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="title text-3-5xl">
+    <h2 class="title text-3xl">
       {{ $t(label) }}
     </h2>
     <slot name="header"></slot>

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <p class="title text-3-5xl">Waii you made it! ✨</p>
+    <p class="title text-3xl">Waii you made it! ✨</p>
     <p class="title text-2xl">Your NFT should be ready in 1 minute</p>
     <nuxt-link
       class="text-2xl link"

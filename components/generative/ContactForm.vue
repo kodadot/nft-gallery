@@ -1,7 +1,7 @@
 <template>
   <section>
     <br />
-    <p class="title text-3-5xl">Enter your email</p>
+    <p class="title text-3xl">Enter your email</p>
 
     <BasicInput
       v-model="email"

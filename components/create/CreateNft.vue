@@ -23,7 +23,7 @@
         :image="imagePreview"
         data-testid="create-nft-preview-box" />
 
-      <h1 class="title text-3-5xl mb-7">
+      <h1 class="title text-3xl mb-7">
         {{ $t('mint.nft.create') }}
       </h1>
 
