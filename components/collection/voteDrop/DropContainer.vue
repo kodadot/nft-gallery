@@ -19,7 +19,7 @@
 
           <div>
             <div class="flex justify-between items-center my-5">
-              <div class="font-bold is-size-5">
+              <div class="font-bold text-xl">
                 {{ $t('mint.unlockable.phase') }}
               </div>
               <span v-if="mintCountAvailable" class="flex items-center">

@@ -60,10 +60,7 @@
           :to="`/${chain.value}/explore/collectibles`"
           :class="['mx-2 mb-3 inline-flex items-center', 'chain-option active']"
           @click="switchChain(chain.value)">
-          <img
-            class="is-size-5 chain-icon"
-            :src="chain.icon"
-            :alt="chain.text" />
+          <img class="text-xl chain-icon" :src="chain.icon" :alt="chain.text" />
           <span>{{ chainText(chain.text) }}</span>
           <sup v-if="chain.text.includes('[Beta]')" class="beta-text text-xs">
             {{ $t('beta') }}</sup

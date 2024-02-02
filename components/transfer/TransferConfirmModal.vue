@@ -110,7 +110,7 @@
           <span class="text-k-grey mr-1 text-xs"
             >({{ displayTotalValue[0] }})</span
           >
-          <span class="font-bold is-size-5"> {{ displayTotalValue[1] }}</span>
+          <span class="font-bold text-xl"> {{ displayTotalValue[1] }}</span>
         </div>
       </div>
 

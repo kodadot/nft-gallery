@@ -38,7 +38,7 @@
         <span class="font-bold is-size-6">{{ $t('identity.deposit') }}</span>
         <div class="flex items-center">
           <span class="text-k-grey mr-1 text-xs">({{ depositUsd }})</span>
-          <span class="font-bold is-size-5"> {{ deposit }}</span>
+          <span class="font-bold text-xl"> {{ deposit }}</span>
         </div>
       </div>
 

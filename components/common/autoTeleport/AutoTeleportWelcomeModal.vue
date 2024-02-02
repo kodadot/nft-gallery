@@ -34,7 +34,7 @@
               <img src="/accent-blur.svg" class="blur icon-blur" alt="blur" />
             </div>
 
-            <p class="font-bold is-size-5 mb-3">
+            <p class="font-bold text-xl mb-3">
               {{ $t(`autoTeleport.welcome.${x}.title`) }}
             </p>
 

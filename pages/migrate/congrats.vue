@@ -6,7 +6,7 @@
         <h1 class="text-3-5xl font-bold text-center">
           {{ $t('migrate.congrats.title') }}
         </h1>
-        <p class="text-center is-size-5">
+        <p class="text-center text-xl">
           {{ $t('migrate.congrats.subtitle') }}
         </p>
         <p class="text-center text-k-grey mt-5">

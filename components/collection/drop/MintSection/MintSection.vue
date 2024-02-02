@@ -2,7 +2,7 @@
   <div>
     <div>
       <div class="flex justify-between items-center mb-5">
-        <div class="font-bold is-size-5">
+        <div class="font-bold text-xl">
           {{ $t('mint.unlockable.phase') }}
         </div>
         <div
