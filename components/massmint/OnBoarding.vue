@@ -3,7 +3,7 @@
     <div class="flex items-center mb-7 px-8">
       <nuxt-link
         :to="'https://hello.kodadot.xyz/tutorial/minting/how-to-mass-mint-nfts'"
-        class="md:text-4xl text-3xl flex flex-grow justify-center font-bold"
+        class="md:text-4xl text-3-5xl flex flex-grow justify-center font-bold"
         target="_blank"
         rel="nofollow noopener noreferrer">
         {{ $t('massmint.onboarding.pageTitle') }}
