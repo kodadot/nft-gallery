@@ -7,7 +7,7 @@
     @close="onClose">
     <div class="modal-width">
       <header class="py-5 pl-6 pr-5 flex justify-between items-center">
-        <span class="capitalize is-size-3-5 font-bold">
+        <span class="capitalize text-[1.6rem] font-bold">
           {{ $t('autoTeleport.welcomeToAutoTeleport') }}
         </span>
 
