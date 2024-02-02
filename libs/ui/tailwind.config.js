@@ -101,7 +101,7 @@ module.exports = {
         'button-y': 'calc(0.5em - 1px)',
       },
       fontSize: {
-        '3-5xl': '2rem',
+        '3xl': '2rem',
       },
     },
   },
