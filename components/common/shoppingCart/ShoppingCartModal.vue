@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="shopping-cart-modal-container bg-background-color border-l flex flex-col"
+      class="shopping-cart-modal-container bg-background-color border-l flex flex-col max-h-full"
       data-testid="shopping-cart-modal-container">
       <NeoModalHead
         :title="$t('shoppingCart.title')"
@@ -20,6 +20,12 @@
       </div>
       <div v-if="numberOfItems" class="scroll-y">
         <div class="bg-background-color flex flex-grow flex-col py-2">
+          <NeoIcon
+            icon="fa-circle-down"
+            pack="fa-regular"
+            size="large"
+            variant="primary"
+            class="text-k-grey scroll-down" />
           <ShoppingCartItemRow
             v-for="item in sortedItems"
             :key="item.id"
@@ -85,7 +91,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoModalHead } from '@kodadot1/brick'
+import { NeoButton, NeoIcon, NeoModalHead } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import ShoppingCartItemRow from './ShoppingCartItemRow.vue'
@@ -174,7 +180,8 @@ const onCompletePurchase = () => {
     position: fixed;
     top: 0;
     right: 0;
-    height: 100%;
+    height: calc(100vh);
+    max-height: calc(100vh);
     padding-top: $navbar-desktop-min-height;
     max-width: 360px;
     width: 100%;
@@ -187,5 +194,11 @@ const onCompletePurchase = () => {
 
 .scroll-y {
   overflow-y: auto;
+}
+.scroll-down {
+  z-index: 5;
+  position: fixed;
+  bottom: 3rem;
+  right: 2rem;
 }
 </style>
