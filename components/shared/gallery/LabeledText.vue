@@ -3,7 +3,7 @@
     <p class="label">
       {{ $t(label) }}
     </p>
-    <p class="subtitle is-size-6">
+    <p class="subtitle text-base">
       <slot v-if="!isLoading">~</slot>
       <NeoSkeleton :active="isLoading"></NeoSkeleton>
     </p>

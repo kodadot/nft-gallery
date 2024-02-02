@@ -4,7 +4,7 @@
     <div class="flex items-center justify-between">
       <div class="flex items-center">
         <nuxt-link
-          class="is-size-6 break-word mr-2 text-k-blue hover:text-k-blue-hover"
+          class="text-base break-word mr-2 text-k-blue hover:text-k-blue-hover"
           :to="`/${urlPrefix}/u/${address}`">
           <span data-testid="identity-display">
             {{ identity?.display || shortenedAddress }}</span

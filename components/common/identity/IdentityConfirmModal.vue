@@ -16,7 +16,7 @@
           :key="key"
           class="flex justify-between items-center py-4"
           :class="{ 'border-t-k-shade': index !== 0 }">
-          <span class="font-bold is-size-6 capitalize flex justify-center">
+          <span class="font-bold text-base capitalize flex justify-center">
             <NeoIcon
               v-if="field.icon"
               class="mr-2"
@@ -25,7 +25,7 @@
             <span>{{ field.label }}</span>
           </span>
           <span class="flex items-center">
-            <span class="ml-2 is-size-6">
+            <span class="ml-2 text-base">
               {{ field.value || '--' }}
             </span>
           </span>
@@ -35,7 +35,7 @@
 
     <template #footer>
       <div class="flex justify-between items-center mb-3">
-        <span class="font-bold is-size-6">{{ $t('identity.deposit') }}</span>
+        <span class="font-bold text-base">{{ $t('identity.deposit') }}</span>
         <div class="flex items-center">
           <span class="text-k-grey mr-1 text-xs">({{ depositUsd }})</span>
           <span class="font-bold text-xl"> {{ deposit }}</span>

@@ -141,7 +141,7 @@
 
       <!-- create collection button -->
       <NeoButton
-        class="is-size-6"
+        class="text-base"
         expanded
         :label="submitButtonLabel"
         native-type="submit"

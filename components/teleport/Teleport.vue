@@ -113,7 +113,7 @@
     <NeoButton
       :label="teleportLabel"
       size="large"
-      class="is-size-6 my-5 capitalize"
+      class="text-base my-5 capitalize"
       expanded
       :loading="isLoading"
       :disabled="isDisabledButton"

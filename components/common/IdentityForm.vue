@@ -5,7 +5,7 @@
         {{ $t('identity.setOn', [getChainName(identityPrefix)]) }}
       </h1>
 
-      <div v-if="alreadyHasIdentity" class="is-size-6">
+      <div v-if="alreadyHasIdentity" class="text-base">
         <hr class="my-7" />
         <div class="mb-4">
           {{ $t('identity.establishedIdentity') }}
@@ -86,7 +86,7 @@
 
       <hr />
 
-      <p class="subtitle is-size-6">
+      <p class="subtitle text-base">
         {{ $t('identity.deposit') }}
         <Money :value="deposit" :unit-symbol="identityUnit" inline />
 

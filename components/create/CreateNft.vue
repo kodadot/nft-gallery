@@ -228,7 +228,7 @@
         expanded
         :label="$t('mint.nft.create')"
         data-testid="create-nft-button-new"
-        class="is-size-6"
+        class="text-base"
         native-type="submit"
         size="medium"
         :loading="isLoading" />

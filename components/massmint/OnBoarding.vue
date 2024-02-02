@@ -26,14 +26,14 @@
           :content="card.content"
           :active="index === currentSlide">
           <div v-if="index === 1">
-            <p class="is-size-6 font-bold mb-3">
+            <p class="text-base font-bold mb-3">
               {{ $t('massmint.onboarding.cards.1.subtitle') }}:
             </p>
-            <p class="is-size-6 mb-5">
+            <p class="text-base mb-5">
               {{ $t('massmint.onboarding.cards.1.instructions') }}
             </p>
             <div class="flex justify-between items-center mb-4 column-mobile">
-              <span class="is-size-6 font-bold">
+              <span class="text-base font-bold">
                 {{ $t('massmint.onboarding.cards.1.codeStructure') }}:
               </span>
               <div class="flex tab-gap">

@@ -50,7 +50,7 @@
         </h1>
       </template>
 
-      <div class="with-divider chain-options-title is-size-6 mt-6">
+      <div class="with-divider chain-options-title text-base mt-6">
         {{ $t('landing.startExploring') }}
       </div>
       <div class="flex justify-center flex-wrap items-baseline mt-4">
