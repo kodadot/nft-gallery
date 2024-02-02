@@ -138,7 +138,7 @@
       {{ $t('teleport.ownerMessage') }}
     </div>
   </form>
-  <TeleportEdWarningModal
+  <TeleportEDWarningModal
     v-model="insufficientEDModalOpen"
     :target-existential-deposit="targetExistentialDeposit.displayValue"
     :source-existential-deposit="sourceExistentialDeposit.displayValue"
