@@ -62,6 +62,7 @@
           :disabled="disabled"
           :actions="actions"
           @confirm="confirm"
+          @modal:close="(completed) => $emit('autoteleport:ended', completed)"
           @actions:completed="$emit('completed')" />
       </div>
     </ModalBody>
@@ -81,7 +82,12 @@ import { type AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { type AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import { useBuySupportFee } from '@/composables/transaction/utils'
 
-const emit = defineEmits(['confirm', 'completed', 'close'])
+const emit = defineEmits([
+  'confirm',
+  'completed',
+  'close',
+  'autoteleport:ended',
+])
 const props = defineProps<{
   action: AutoTeleportAction
   loading: boolean

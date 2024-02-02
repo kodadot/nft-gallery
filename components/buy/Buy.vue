@@ -17,7 +17,8 @@
       :action="autoteleportAction"
       @close="handleClose"
       @confirm="handleConfirm"
-      @completed="handleActionCompleted" />
+      @completed="handleActionCompleted"
+      @autoteleport:ended="handleAutoteleportEnded" />
   </div>
 </template>
 
@@ -98,11 +99,13 @@ const openSuccessModal = () => {
   isSuccessfulModalOpen.value = true
 }
 
-const handleActionCompleted = () => {
-  if (usingAutoTeleport.value) {
+const handleAutoteleportEnded = (completed: boolean) => {
+  if (completed) {
     openSuccessModal()
   }
+}
 
+const handleActionCompleted = () => {
   nftSubscription.unsubscribe()
   preferencesStore.setTriggerBuySuccess(true)
   shoppingCartStore.clear()
