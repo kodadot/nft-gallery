@@ -24,13 +24,13 @@
 
     <div class="flex flex-col items-center search-info">
       <h1 v-if="isMobile" class="flex flex-col items-center">
-        <span class="title is-size-3 font-bold">
+        <span class="title text-3-5xl font-bold">
           {{ $t('search.landingTitle1') }}
         </span>
-        <span class="subtitle is-size-3 font-bold capitalize">
+        <span class="subtitle text-3-5xl font-bold capitalize">
           {{ $t('search.landingTitle2') }}
         </span>
-        <span class="title is-size-3 font-bold">
+        <span class="title text-3-5xl font-bold">
           {{ $t('search.landingTitle3') }}
         </span>
       </h1>

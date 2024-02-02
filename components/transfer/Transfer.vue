@@ -20,7 +20,7 @@
         :is-mobile="isMobile"
         @close="isLoaderModalVisible = false" />
       <div class="flex justify-between items-center mb-2">
-        <p class="font-bold is-size-3">{{ $t('transfer') }} {{ unit }}</p>
+        <p class="font-bold text-3-5xl">{{ $t('transfer') }} {{ unit }}</p>
         <NeoDropdown
           position="bottom-left"
           :mobile-modal="false"

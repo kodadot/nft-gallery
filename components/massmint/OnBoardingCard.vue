@@ -4,8 +4,7 @@
     :class="{ 'not-active': !active }">
     <div class="card__content">
       <div class="flex justify-between">
-        <p
-          class="title is-size-3-desktop is-size-3-tablet is-size-5-mobile capitalize">
+        <p class="title text-xl sm:text-3-5xl capitalize">
           {{ title }}
         </p>
         <span class="is-size-4">{{ count }}</span>

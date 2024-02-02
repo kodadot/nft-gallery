@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="title is-size-3">Select your 1 waifu</p>
+    <p class="title text-3-5xl">Select your 1 waifu</p>
     <p v-if="!predicion" class="title is-size-4">...Waifing for prediction</p>
     <template v-if="predicion && predicion.output">
       <p class="title is-size-4">

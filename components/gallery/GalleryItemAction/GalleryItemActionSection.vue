@@ -13,7 +13,7 @@
           class="gallery-action-section-price font-bold">
           {{ priceChain }}
         </div>
-        <div v-else class="font-bold is-size-3">--</div>
+        <div v-else class="font-bold text-3-5xl">--</div>
 
         <div
           v-if="Number(price)"
