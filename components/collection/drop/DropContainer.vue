@@ -36,7 +36,7 @@
           </div>
           <div class="my-5">
             <div class="flex justify-between items-center">
-              <div class="title is-size-4">
+              <div class="title text-2xl">
                 <Money :value="pricePerMint" inline />
               </div>
               <div>

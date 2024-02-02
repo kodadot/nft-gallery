@@ -7,7 +7,7 @@
         <p class="title text-xl sm:text-3-5xl capitalize">
           {{ title }}
         </p>
-        <span class="is-size-4">{{ count }}</span>
+        <span class="text-2xl">{{ count }}</span>
       </div>
       <slot>
         <div class="content is-size-5-mobile">

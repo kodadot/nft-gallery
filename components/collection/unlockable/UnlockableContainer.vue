@@ -60,7 +60,7 @@
               </div>
             </template>
             <nuxt-link v-else :to="`/${urlPrefix}/gallery/${hasUserMinted}`">
-              <p class="title is-size-4">
+              <p class="title text-2xl">
                 [{{ $t('mint.unlockable.alreadyMinted') }}]
               </p>
             </nuxt-link>
