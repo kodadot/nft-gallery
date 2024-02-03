@@ -105,10 +105,6 @@ const confirm = () => {
 @import '@/assets/styles/abstracts/variables';
 @import '@/assets/styles/abstracts/animations';
 
-.modal-width {
-  width: 25rem;
-}
-
 .shine:not(:hover):not(:disabled) {
   @include shineEffect(var(--k-accent-light-3), lightgrey, false);
 
