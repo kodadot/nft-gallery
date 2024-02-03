@@ -5,8 +5,7 @@ on:
   pull_request:
     branches: [main, beta, production, nuxt]
 jobs:
-  test:
-    timeout-minutes: 15
+  install-playwright:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -17,14 +16,35 @@ jobs:
       - name: Install dependencies
         uses: ./.github/actions/pnpm-install
 
-      - name: Run Build
-        run: pnpm generate
-
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps chromium
+        
+  wait-for-netlify:
+    needs: install-playwright
+    timeout-minutes: 3
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Run Netlify test
+        run: pnpm exec playwright test netlify.spec.ts
+        env: 
+          PR_NUMBER: "$GITHUB_PR_NUMBER"
 
+  run-tests:
+    needs: wait-for-netlify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
       - name: Run Playwright tests
-        run: pnpm exec playwright test
+        run: pnpm exec playwright test basic.spec.ts
+        env: 
+          PR_NUMBER: "$GITHUB_PR_NUMBER"
       - uses: actions/upload-artifact@v3
         if: always()
         with:
