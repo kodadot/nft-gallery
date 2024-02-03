@@ -5,7 +5,7 @@
     scroll="clip"
     class="z-[1000]"
     @close="onClose">
-    <div class="modal-width">
+    <div class="w-[unset] lg:w-[40rem]">
       <header class="py-5 pl-6 pr-5 flex justify-between items-center">
         <span class="capitalize is-size-3-5 font-bold">
           {{ $t('autoTeleport.welcomeToAutoTeleport') }}
@@ -88,14 +88,6 @@ const onClose = () => {
 
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
-
-.modal-width {
-  width: 40rem;
-
-  @include mobile {
-    width: unset;
-  }
-}
 
 .btn-height {
   height: 3.5rem;

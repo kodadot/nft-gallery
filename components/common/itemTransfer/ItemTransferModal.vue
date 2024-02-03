@@ -7,7 +7,7 @@
       @try-again="transfer" />
 
     <NeoModal :value="isModalActive" scroll="clip" @close="onClose">
-      <div class="modal-width">
+      <div class="w-[unset] lg:w-[25rem]">
         <header
           class="border-b border-grey flex items-center justify-between px-6">
           <p class="py-5 is-size-6 font-bold">
@@ -216,17 +216,6 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.modal-width {
-  width: 25rem;
-}
-
-@include touch() {
-  .modal-width {
-    width: unset;
-  }
-}
 .btn-height {
   height: 3.5rem;
 }

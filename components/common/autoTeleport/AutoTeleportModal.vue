@@ -5,7 +5,7 @@
     scroll="clip"
     class="z-[1000]"
     @close="onClose">
-    <div class="modal-width">
+    <div class="w-[unset] lg:w-[25rem]">
       <header class="py-5 pl-6 pr-5 flex justify-between items-center border-b">
         <span class="modal-card-title is-size-6 font-bold">
           {{ $t('autoTeleport.signTransactions') }}
@@ -267,12 +267,6 @@ watch(autoteleportFinalized, () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.modal-width {
-  width: 25rem;
-}
-
 .btn-height {
   height: 3.5rem;
 }
@@ -280,11 +274,5 @@ watch(autoteleportFinalized, () => {
 .limit-height {
   max-height: 80vh;
   overflow-y: auto;
-}
-
-@include mobile() {
-  .modal-width {
-    width: unset;
-  }
 }
 </style>
