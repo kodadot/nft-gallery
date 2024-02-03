@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-width">
+  <div class="w-[unset] modal-width">
     <header class="px-6 py-4 flex justify-between border-b items-center">
       <NeoSkeleton
         v-if="loading"
@@ -62,6 +62,7 @@ const props = withDefaults(
     title: string
     loading?: boolean
     modalWidth?: string
+    modalMaxWidth?: string
     modalMaxHeight?: string
     contentClass?: string
     scrollable?: boolean
@@ -114,19 +115,13 @@ watch(
 </script>
 
 <style lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
 $x-padding: 2rem;
 $t-padding: 1.5rem;
 $b-padding: 1.25rem;
 
 .modal-width {
   width: v-bind(modalWidth);
-  max-width: v-bind(modalMaxHeight);
-
-  @include mobile {
-    width: unset;
-  }
+  max-width: v-bind(modalMaxWidth);
 }
 
 .limit-height {
