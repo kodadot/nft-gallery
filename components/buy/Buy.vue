@@ -101,10 +101,15 @@ const openSuccessModal = () => {
   isSuccessfulModalOpen.value = true
 }
 
+const clearNftSubscription = () => {
+  nftSubscription.unsubscribe()
+  nftSubscription.nftIds = []
+}
+
 const handleActionCompleted = () => {
   openSuccessModal()
 
-  nftSubscription.unsubscribe()
+  clearNftSubscription()
   preferencesStore.setTriggerBuySuccess(true)
   shoppingCartStore.clear()
   handleClose()
@@ -159,7 +164,7 @@ const handleBuy = async () => {
   }
 }
 
-const handleNftChange = (
+const handleNftPriceChange = (
   item: ShoppingCartItem,
   updatedNft: { id: string; price: string },
 ) => {
@@ -199,7 +204,7 @@ const handleNftChange = (
   toast($i18n.t('buyModal.nftPriceUpdated', [name]))
 }
 
-const watchNftsChanges = (nftIds: string[], force: boolean = false) => {
+const watchNftsPriceChanges = (nftIds: string[], force: boolean = false) => {
   if (isEqual(nftIds, nftSubscription.nftIds) && !force) {
     return
   }
@@ -222,7 +227,7 @@ const watchNftsChanges = (nftIds: string[], force: boolean = false) => {
           : shoppingCartStore.itemToBuy
 
         if (item) {
-          handleNftChange(item, updatedNft)
+          handleNftPriceChange(item, updatedNft)
         }
       })
 
@@ -249,8 +254,11 @@ watch(
       return
     }
 
-    if (nftIds.length) {
-      watchNftsChanges(nftIds, isModalOpen && !wasModalOpen)
+    const listenNftsPriceChanges =
+      nftIds.length && !isTransactionCompleted.value
+
+    if (listenNftsPriceChanges) {
+      watchNftsPriceChanges(nftIds, isModalOpen && !wasModalOpen)
     }
   },
   { immediate: true },
