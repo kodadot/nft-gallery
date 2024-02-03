@@ -94,8 +94,10 @@
             :title="$t('explore')">
             <NavbarExploreOptions
               @select="
-                showMobileNavbar()
-                onCloseMobileSubMenu()
+                () => {
+                  showMobileNavbar()
+                  onCloseMobileSubMenu()
+                }
               " />
           </MobileExpandableSection>
           <NavbarExploreDropdown
@@ -131,8 +133,10 @@
             :title="$t('chainSelect', [chainName])">
             <NavbarChainOptions
               @select="
-                handleMobileChainSelect()
-                onCloseMobileSubMenu()
+                () => {
+                  handleMobileChainSelect()
+                  onCloseMobileSubMenu()
+                }
               " />
           </MobileExpandableSection>
           <ChainSelectDropdown
@@ -161,8 +165,10 @@
                 icon="globe">
                 <MobileLanguageOption
                   @select="
-                    showMobileNavbar()
-                    onCloseMobileSubMenu()
+                    () => {
+                      showMobileNavbar()
+                      onCloseMobileSubMenu()
+                    }
                   " />
               </MobileExpandableSection>
               <ColorModeButton class="navbar-item" />
