@@ -1,7 +1,7 @@
 <template>
   <div class="container flex items-center justify-center flex-col">
     <div>
-      <h1 class="title text-4xl mb-7">{{ $t('mint.landing.heading') }}</h1>
+      <h1 class="title text-[2.5rem] mb-7">{{ $t('mint.landing.heading') }}</h1>
 
       <div v-if="route.query?.select !== 'nft'" class="pack">
         <div class="pack-box" @click="gotoPathAfterLogin('/create/collection')">
