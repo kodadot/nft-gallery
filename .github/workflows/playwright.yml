@@ -22,12 +22,12 @@ jobs:
       - name: Run Netlify test
         run: npx playwright test netlify.spec.ts
         env: 
-          PR_NUMBER: "$GITHUB_PR_NUMBER"
+          PR_NUMBER: ${{ github.event.number }}
     
       - name: Run Playwright tests
         run: pnpm exec playwright test basic.spec.ts
         env: 
-          PR_NUMBER: "$GITHUB_PR_NUMBER"
+          PR_NUMBER: ${{ github.event.number }}
       - uses: actions/upload-artifact@v3
         if: always()
         with:
