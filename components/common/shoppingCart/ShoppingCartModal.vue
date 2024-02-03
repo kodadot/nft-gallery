@@ -18,8 +18,9 @@
           variant="text"
           @click="clearAllItems" />
       </div>
-      <div v-if="numberOfItems" class="scroll-y">
-        <div class="bg-background-color flex flex-grow flex-col py-2">
+      <div v-if="numberOfItems" class="relative max-h-[65%]">
+        <div
+          class="bg-background-color flex flex-grow flex-col py-2 overflow-y-scroll max-h-full">
           <ShoppingCartItemRow
             v-for="item in sortedItems"
             :key="item.id"
