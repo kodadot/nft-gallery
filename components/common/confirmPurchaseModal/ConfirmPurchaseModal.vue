@@ -10,17 +10,18 @@
     <ModalBody
       :title="$t('confirmPurchase.action')"
       :loading="loading"
+      modal-max-height="80vh"
       @close="onClose">
       <div>
         <ModalIdentityItem />
       </div>
       <div class="py-2">
-        <NeoIcon
+        <!-- <NeoIcon
           icon="fa-circle-down"
           pack="fa-regular"
           size="large"
           variant="primary"
-          class="text-k-grey scroll-down" />
+          class="text-k-grey scroll-down" /> -->
         <ConfirmNftPurchaseItemRow
           v-for="nft in items"
           :key="nft.id"
