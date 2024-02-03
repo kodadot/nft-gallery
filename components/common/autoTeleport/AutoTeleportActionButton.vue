@@ -1,78 +1,81 @@
 <template>
-  <div class="flex flex-col w-full">
-    <div
-      v-if="showAutoTeleport && !hideTop"
-      class="flex justify-between w-full mb-4">
-      <div class="flex">
-        <div class="has-accent-blur">
-          <img :src="autoTeleportIcon" class="mr-2" alt="teleport arrow" />
-          <img
-            v-if="isTelportIconActive"
-            src="/accent-blur.svg"
-            alt="blur"
-            class="blur autotelport-blur" />
+  <div>
+    <div class="flex flex-col w-full">
+      <div
+        v-if="showAutoTeleport && !hideTop"
+        class="flex justify-between w-full mb-4">
+        <div class="flex">
+          <div class="has-accent-blur">
+            <img :src="autoTeleportIcon" class="mr-2" alt="teleport arrow" />
+            <img
+              v-if="isTelportIconActive"
+              src="/accent-blur.svg"
+              alt="blur"
+              class="blur autotelport-blur" />
+          </div>
+
+          <p
+            class="font-bold"
+            :class="{ 'text-k-grey': !hasAvailableTeleportTransition }">
+            {{ $t('autoTeleport.autoTeleport') }}
+          </p>
+
+          <AutoTeleportPopover
+            v-if="hasAvailableTeleportTransition"
+            position="top"
+            :transition="optimalTransition" />
         </div>
 
-        <p
-          class="font-bold"
+        <div
+          v-if="!hasAvailableTeleportTransition"
+          class="flex items-center"
           :class="{ 'text-k-grey': !hasAvailableTeleportTransition }">
-          {{ $t('autoTeleport.autoTeleport') }}
-        </p>
+          <span class="text-xs">{{ $t('autoTeleport.notAvailable') }}</span>
 
-        <AutoTeleportPopover
-          v-if="hasAvailableTeleportTransition"
-          position="top"
-          :transition="optimalTransition" />
+          <AutoTeleportPopover
+            position="left"
+            :transition="optimalTransition" />
+        </div>
+
+        <NeoSwitch
+          v-else
+          v-model="autoTeleport"
+          data-testid="auto-teleport-switch" />
       </div>
 
-      <div
-        v-if="!hasAvailableTeleportTransition"
-        class="flex items-center"
-        :class="{ 'text-k-grey': !hasAvailableTeleportTransition }">
-        <span class="text-xs">{{ $t('autoTeleport.notAvailable') }}</span>
-
-        <AutoTeleportPopover position="left" :transition="optimalTransition" />
-      </div>
-
-      <NeoSwitch
-        v-else
-        v-model="autoTeleport"
-        data-testid="auto-teleport-switch" />
+      <NeoButton
+        :label="autoTeleportLabel"
+        variant="k-accent"
+        no-shadow
+        :disabled="isDisabled"
+        class="flex flex-grow btn-height capitalize"
+        @click="handleSubmit" />
     </div>
 
-    <NeoButton
-      :label="autoTeleportLabel"
-      variant="k-accent"
-      no-shadow
-      :disabled="isDisabled"
-      class="flex flex-grow btn-height capitalize"
-      @click="handleSubmit" />
+    <AutoTeleportModal
+      v-model="isModalOpen"
+      :transition="optimalTransition"
+      :can-do-action="hasEnoughInCurrentChain"
+      :transactions="transactions"
+      :auto-close="autoCloseModal"
+      :auto-close-delay="autoCloseModalDelayModal"
+      :interaction="interaction"
+      @close="handleAutoTeleportModalClose"
+      @telport:retry="teleport"
+      @action:start="(i) => actionRun(i)"
+      @action:retry="(i) => actionRun(i, true)"
+      @completed="$emit('actions:completed')" />
+
+    <AutoTeleportWelcomeModal
+      :model-value="showFirstTimeTeleport"
+      @close="preferencesStore.setFirstTimeAutoTeleport(false)" />
+
+    <OnRampModal v-model="onRampActive" @close="onRampActive = false" />
   </div>
-
-  <AutoTeleportModal
-    v-model="isModalOpen"
-    :transition="optimalTransition"
-    :can-do-action="hasEnoughInCurrentChain"
-    :transactions="transactions"
-    :auto-close="autoCloseModal"
-    :auto-close-delay="autoCloseModalDelayModal"
-    :interaction="interaction"
-    @close="handleAutoTeleportModalClose"
-    @telport:retry="teleport"
-    @action:start="(i) => actionRun(i)"
-    @action:retry="(i) => actionRun(i, true)"
-    @completed="$emit('actions:completed')" />
-
-  <AutoTeleportWelcomeModal
-    :model-value="showFirstTimeTeleport"
-    @close="preferencesStore.setFirstTimeAutoTeleport(false)" />
-
-  <OnRampModal v-model="onRampActive" @close="onRampActive = false" />
 </template>
 
 <script setup lang="ts">
 import { NeoButton, NeoSwitch } from '@kodadot1/brick'
-import OnRampModal from '@/components/shared/OnRampModal.vue'
 import AutoTeleportWelcomeModal from './AutoTeleportWelcomeModal.vue'
 import useAutoTeleport from '@/composables/autoTeleport/useAutoTeleport'
 import type {
