@@ -91,12 +91,12 @@ const showMore = computed(() => props.items.length > COLLAPSED_ITEMS_COUNT)
 
 const shareText = computed(() => {
   if (singleBuy.value) {
-    return $i18n.t('sharing.nft')
+    return $i18n.t('sharing.boughtNft')
   }
 
-  const some = props.items.slice(0, 3).map((item) => item.name)
+  const someNfts = props.items.slice(0, 3).map((item) => item.name)
 
-  return `${$i18n.t('sharing.nfts')}\n ${some.join(', ')}`
+  return $i18n.t('sharing.boughtNfts', [someNfts.join(', ')])
 })
 
 const url = computed(() => window.location.origin)
