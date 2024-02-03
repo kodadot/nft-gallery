@@ -7,18 +7,9 @@
 }
 
 .limit-note-width {
-    max-width: 20rem;
-  }
+  max-width: 20rem;
+}
 
-  .modal-width {
-    width: 26rem;
-  }
-  .btn-height {
-    height: 3.25rem;
-  }
-
-  @include touch() {
-    .modal-width {
-      width: unset
-    }
-  }
+.btn-height {
+  height: 3.25rem;
+}
