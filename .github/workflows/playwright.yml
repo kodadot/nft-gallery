@@ -7,6 +7,11 @@ on:
 jobs:
   install-playwright:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shardIndex: [1, 2, 3, 4]
+        shardTotal: [4]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -25,7 +30,7 @@ jobs:
           PR_NUMBER: ${{ github.event.number }}
     
       - name: Run Playwright tests
-        run: pnpm exec playwright test basic.spec.ts
+        run: pnpm exec playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
         env: 
           PR_NUMBER: ${{ github.event.number }}
       - uses: actions/upload-artifact@v3
