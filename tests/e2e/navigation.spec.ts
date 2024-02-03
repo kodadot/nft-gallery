@@ -1,14 +1,8 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './fixtures'
 
-test('settings -> mint -> single nft', async ({ page }) => {
-  await page.goto('/e2e-login')
-  await expect(page.getByTestId('navbar-profile-dropdown')).toBeVisible()
-  await expect(page.getByTestId('navbar-button-connect-wallet')).toBeHidden()
-  await expect(page.getByTestId('mockAddress')).toHaveText('true', {
-    timeout: 15000,
-  })
+test('settings -> mint -> single nft', async ({ page, Commands }) => {
+  await Commands.e2elogin()
   await page.goto('/')
-
   await page.getByTestId('navbar-profile-dropdown').click()
   await page.getByTestId('sidebar-link-settings').click()
   await expect(page.getByText('Metadata')).toBeVisible()
