@@ -138,6 +138,7 @@ const handleListNft = () => {
 }
 
 const handleViewNft = () => {
+  isModalActive.value = false
   navigateTo(singleBuy.value ? nftPath.value : userProfilePath.value)
 }
 
