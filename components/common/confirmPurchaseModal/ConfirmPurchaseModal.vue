@@ -15,6 +15,12 @@
         <ModalIdentityItem />
       </div>
       <div class="py-2">
+        <NeoIcon
+          icon="fa-circle-down"
+          pack="fa-regular"
+          size="large"
+          variant="primary"
+          class="text-k-grey scroll-down" />
         <ConfirmNftPurchaseItemRow
           v-for="nft in items"
           :key="nft.id"
@@ -157,5 +163,12 @@ const confirm = (params: AutoTeleportActionButtonConfirmEvent) => {
   .identity-name {
     font-weight: unset !important;
   }
+}
+
+.scroll-down {
+  position: fixed;
+  bottom: 6rem;
+  right: calc(100vw - 960px + 4rem);
+  z-index: 5;
 }
 </style>

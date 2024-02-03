@@ -20,12 +20,6 @@
       </div>
       <div v-if="numberOfItems" class="scroll-y">
         <div class="bg-background-color flex flex-grow flex-col py-2">
-          <NeoIcon
-            icon="fa-circle-down"
-            pack="fa-regular"
-            size="large"
-            variant="primary"
-            class="text-k-grey scroll-down" />
           <ShoppingCartItemRow
             v-for="item in sortedItems"
             :key="item.id"
@@ -91,7 +85,7 @@
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon, NeoModalHead } from '@kodadot1/brick'
+import { NeoButton, NeoModalHead } from '@kodadot1/brick'
 import { usePreferencesStore } from '@/stores/preferences'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import ShoppingCartItemRow from './ShoppingCartItemRow.vue'
@@ -194,11 +188,5 @@ const onCompletePurchase = () => {
 
 .scroll-y {
   overflow-y: auto;
-}
-.scroll-down {
-  z-index: 5;
-  position: fixed;
-  bottom: 3rem;
-  right: 2rem;
 }
 </style>
