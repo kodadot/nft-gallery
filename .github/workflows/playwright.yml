@@ -5,13 +5,13 @@ on:
   pull_request:
     branches: [main, beta, production, nuxt]
 jobs:
-  install-playwright:
+  shard-number:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        shardIndex: [1, 2, 3, 4]
-        shardTotal: [4]
+        shardIndex: [1, 2, 3, 4, 5, 6]
+        shardTotal: [6]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
