@@ -86,6 +86,7 @@
                 <h2 class="subtitle" data-testid="item-collection">
                   <CollectionDetailsPopover
                     v-if="nft?.collection.id"
+                    :collection="collection"
                     :nft="nft">
                     <template #content>
                       <nuxt-link
