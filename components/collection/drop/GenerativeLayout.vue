@@ -24,6 +24,7 @@
             :disabled-by-backend="drop.disabled"
             :mint-button="mintButton"
             :holder-of-collection="holderOfCollection"
+            :current-account-minted-token="currentAccountMintedToken"
             @mint="handleSubmitMint" />
         </div>
 
@@ -50,6 +51,7 @@
           :disabled-by-backend="drop.disabled"
           :mint-button="mintButton"
           :holder-of-collection="holderOfCollection"
+          :current-account-minted-token="currentAccountMintedToken"
           @mint="handleSubmitMint" />
       </div>
 
@@ -65,6 +67,7 @@
 
 <script setup lang="ts">
 import { DropItem } from '@/params/types'
+import { type DropMintedStatus } from '@/services/waifu'
 
 withDefaults(
   defineProps<{
@@ -82,6 +85,7 @@ withDefaults(
     userMintedNftId?: string
     userMintedCount: number
     holderOfCollection?: { id?: string; isHolderOfTargetCollection?: boolean }
+    currentAccountMintedToken?: DropMintedStatus
 
     handleSelectImage: (image: string) => void
     handleSubmitMint: () => void
@@ -90,6 +94,7 @@ withDefaults(
     description: '',
     userMintedNftId: undefined,
     holderOfCollection: () => ({ id: '', isHolderOfTargetCollection: false }),
+    currentAccountMintedToken: undefined,
   },
 )
 

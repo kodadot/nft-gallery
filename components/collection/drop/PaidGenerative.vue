@@ -14,7 +14,8 @@
     :mint-count-available="mintCountAvailable"
     :mint-button="mintButtonProps"
     :handle-select-image="handleSelectImage"
-    :handle-submit-mint="handleSubmitMint" />
+    :handle-submit-mint="handleSubmitMint"
+    :current-account-minted-token="currentAccountMintedToken || undefined" />
 
   <NeoModalExtend v-model:active="isRaffleModalActive">
     <ModalBody title="Submit Raffle" @close="isRaffleModalActive = false">
@@ -280,6 +281,31 @@ const clearWalletConnecting = () => {
   isWalletConnecting.value = false
 }
 
+const allocateRaffle = async () => {
+  isLoading.value = true
+
+  const imageUrl = new URL(selectedImage.value)
+  imageHash.value = imageUrl.searchParams.get('hash') || ''
+  const imageCid = await tryCapture()
+  const metadata = await createUnlockableMetadata(
+    imageCid,
+    description.value || '',
+    collectionName.value || defaultName.value,
+    'text/html',
+    selectedImage.value,
+  )
+  const body = {
+    email: currentAccountMintedToken.value?.email || raffleEmail.value,
+    hash: imageHash.value,
+    address: accountId.value,
+    image: selectedImage.value,
+    metadata: metadata,
+  }
+  const response = await allocateCollection(body, props.drop.id)
+  raffleId.value = response.result.id
+  isLoading.value = false
+}
+
 const handleSubmitMint = async () => {
   if (!isLogIn.value) {
     isWalletConnecting.value = true
@@ -294,34 +320,24 @@ const handleSubmitMint = async () => {
     return false
   }
 
-  isRaffleModalActive.value = true
+  // skip raffle modal
+  if (
+    currentAccountMintedToken.value?.id &&
+    !currentAccountMintedToken.value?.claimed
+  ) {
+    const imageUrl = new URL(selectedImage.value)
+    imageHash.value = imageUrl.searchParams.get('hash') || ''
+    raffleId.value = currentAccountMintedToken.value?.id.toString() || ''
+    openMintModal()
+  } else {
+    isRaffleModalActive.value = true
+  }
 }
 
 const submitRaffle = async () => {
-  isLoading.value = true
+  await allocateRaffle()
 
-  const imageUrl = new URL(selectedImage.value)
-  imageHash.value = imageUrl.searchParams.get('hash') || ''
-  const imageCid = await tryCapture()
-  const metadata = await createUnlockableMetadata(
-    imageCid,
-    description.value || '',
-    collectionName.value || defaultName.value,
-    'text/html',
-    selectedImage.value,
-  )
-  const body = {
-    email: raffleEmail.value,
-    hash: imageHash.value,
-    address: accountId.value,
-    image: selectedImage.value,
-    metadata: metadata,
-  }
-  const response = await allocateCollection(body, props.drop.id)
-
-  raffleId.value = response.result.id
   isRaffleModalActive.value = false
-  isLoading.value = false
   openMintModal()
 }
 
@@ -335,9 +351,6 @@ const closeMintModal = () => {
 
 const submitMint = async (sn: string) => {
   try {
-    isImageFetching.value = true
-    isImageFetching.value = false
-
     const { result } = await allocateClaim(
       {
         sn: parseInt(sn),

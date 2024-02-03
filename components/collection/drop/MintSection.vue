@@ -26,7 +26,9 @@
     </div>
 
     <div class="my-5">
-      <div v-if="userMintedNftId" class="flex justify-end items-center">
+      <div
+        v-if="userMintedNftId && currentAccountMintedToken?.claimed"
+        class="flex justify-end items-center">
         <div class="mr-2">
           {{ $t('mint.unlockable.nftAlreadyMinted') }}
         </div>
@@ -92,6 +94,7 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { type DropMintedStatus } from '@/services/waifu'
 
 const NuxtLink = resolveComponent('NuxtLink')
 
@@ -109,10 +112,12 @@ const props = withDefaults(
     userMintedNftId?: string
     holderOfCollection?: { id?: string; isHolderOfTargetCollection?: boolean }
     collectionId: string
+    currentAccountMintedToken?: DropMintedStatus
   }>(),
   {
     userMintedNftId: undefined,
     holderOfCollection: () => ({ id: '', isHolderOfTargetCollection: false }),
+    currentAccountMintedToken: undefined,
   },
 )
 

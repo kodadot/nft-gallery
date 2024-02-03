@@ -33,6 +33,9 @@ export type DropMintedStatus = {
   id: number
   image: string
   metadata: string
+  claimed: number
+  email: string
+  hash: string
 }
 export const getDropMintedStatus = async (alias: string, accountId: string) => {
   return await api<DropMintedStatus>(`/drops/${alias}/accounts/${accountId}`, {
