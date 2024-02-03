@@ -1056,6 +1056,7 @@
   "sharing": {
     "collection": "Check out this awesome Collection on KodaDot",
     "nft": "Check out this awesome NFT on KodaDot",
+    "nftWithArtist": "Check out this awesome NFT on {'@'}KodaDot from {'@'}{0}",
     "pack": "Check out this awesome Pack on KodaDot",
     "profile": "Check out this awesome Profile on KodaDot"
   },
