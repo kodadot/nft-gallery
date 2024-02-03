@@ -25,7 +25,7 @@
       <CollectionUnlockableSlider :value="mintedCount / maxCount" />
     </div>
 
-    <div class="my-5">
+    <div>
       <div
         v-if="userMintedNftId && currentAccountMintedToken?.claimed"
         class="flex justify-end items-center">
@@ -40,35 +40,22 @@
           :to="`/${urlPrefix}/gallery/${userMintedNftId}`" />
       </div>
 
-      <div
-        v-else-if="showHolderOfCollection"
-        class="columns holder-of-collection">
-        <div class="column">
-          <CollectionDropHolderOfCollection
-            class="mt-4 mb-5"
-            :is-holder="holderOfCollection.isHolderOfTargetCollection"
-            :collection-id="holderOfCollection.id" />
-
-          <div v-if="minimumFunds.amount" class="flex items-center mr-5">
-            <NeoIcon icon="circle-info" class="mr-3" />
-            <div
-              v-dompurify-html="minimumFunds.description"
-              class="minimum-funds-description" />
-          </div>
-        </div>
-
-        <div class="column text-right">
-          <NeoButton
-            ref="root"
-            class="my-2 mint-button"
-            variant="k-accent"
-            :loading="loading"
-            :disabled="mintButtonDisabled"
-            :loading-with-label="isWalletConnecting"
-            :label="mintButtonLabel"
-            @click="handleMint" />
-        </div>
-      </div>
+      <CollectionDropMintSectionHolderOfCollectionMintRequirements
+        v-else-if="showHolderOfCollection && holderOfCollection"
+        class="my-5"
+        :holder-of-collection="holderOfCollection"
+        :minimum-funds="minimumFunds"
+        :is-minted-out="isMintedOut">
+        <NeoButton
+          ref="root"
+          class="mint-button"
+          variant="k-accent"
+          :loading="loading"
+          :disabled="buttonMint.disabled"
+          :loading-with-label="buttonMint.withLabel || isWalletConnecting"
+          :label="buttonMint.label"
+          @click="handleMint" />
+      </CollectionDropMintSectionHolderOfCollectionMintRequirements>
 
       <div v-else class="flex justify-end flex-wrap">
         <div v-if="minimumFunds.amount" class="flex items-center">
@@ -83,9 +70,9 @@
           class="ml-5 my-2 mint-button"
           variant="k-accent"
           :loading="loading"
-          :disabled="mintButtonDisabled"
-          :loading-with-label="isWalletConnecting"
-          :label="mintButtonLabel"
+          :disabled="buttonMint.disabled"
+          :loading-with-label="buttonMint.withLabel || isWalletConnecting"
+          :label="buttonMint.label"
           @click="handleMint" />
       </div>
     </div>
@@ -95,6 +82,11 @@
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { type DropMintedStatus } from '@/services/waifu'
+import type {
+  HolderOfCollectionProp,
+  MinimumFundsProp,
+  MintButtonProp,
+} from '../types'
 
 const NuxtLink = resolveComponent('NuxtLink')
 
@@ -104,19 +96,19 @@ const props = withDefaults(
     mintCountAvailable: boolean
     disabledByBackend: number
     maxCount: number
-    minimumFunds: { amount: number; description: string }
+    minimumFunds: MinimumFundsProp
     isImageFetching: boolean
     isWalletConnecting: boolean
     isLoading: boolean
-    mintButton: { label: string; disabled: boolean }
+    mintButton: MintButtonProp
     userMintedNftId?: string
-    holderOfCollection?: { id?: string; isHolderOfTargetCollection?: boolean }
+    holderOfCollection?: HolderOfCollectionProp
     collectionId: string
+    availableToMint?: number
     currentAccountMintedToken?: DropMintedStatus
   }>(),
   {
     userMintedNftId: undefined,
-    holderOfCollection: () => ({ id: '', isHolderOfTargetCollection: false }),
     currentAccountMintedToken: undefined,
   },
 )
@@ -127,7 +119,11 @@ const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 
 const loading = computed(
-  () => props.isImageFetching || props.isWalletConnecting || props.isLoading,
+  () =>
+    props.isImageFetching ||
+    props.isWalletConnecting ||
+    props.isLoading ||
+    (!isMintedOut.value && isCheckingMintRequirements.value),
 )
 
 const mintedPercent = computed(() => {
@@ -136,15 +132,38 @@ const mintedPercent = computed(() => {
 })
 
 const isMintedOut = computed(() => !props.mintCountAvailable)
-const showHolderOfCollection = computed(() => !!props.holderOfCollection.id)
-const mintButtonDisabled = computed(() =>
-  isMintedOut.value ? false : props.mintButton.disabled,
+const showHolderOfCollection = computed(() => !!props.holderOfCollection?.id)
+const isCheckingMintRequirements = computed(
+  () =>
+    showHolderOfCollection.value &&
+    (props.holderOfCollection?.isLoading || props.minimumFunds.isLoading),
 )
-const mintButtonLabel = computed(() =>
-  isMintedOut.value
-    ? $i18n.t('mint.unlockable.seeListings')
-    : props.mintButton.label,
-)
+
+const buttonMint = computed<{
+  label: string
+  disabled: boolean
+  withLabel?: boolean
+}>(() => {
+  if (isMintedOut.value) {
+    return {
+      label: $i18n.t('mint.unlockable.seeListings'),
+      disabled: false,
+    }
+  }
+
+  if (isCheckingMintRequirements.value) {
+    return {
+      label: $i18n.t('checking'),
+      disabled: true,
+      withLabel: true,
+    }
+  }
+
+  return {
+    label: props.mintButton.label,
+    disabled: props.mintButton.disabled,
+  }
+})
 
 const handleMint = () => {
   if (isMintedOut.value) {

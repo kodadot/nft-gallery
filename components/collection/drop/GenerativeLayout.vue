@@ -68,23 +68,28 @@
 <script setup lang="ts">
 import { DropItem } from '@/params/types'
 import { type DropMintedStatus } from '@/services/waifu'
+import type {
+  HolderOfCollectionProp,
+  MinimumFundsProp,
+  MintButtonProp,
+} from './types'
 
 withDefaults(
   defineProps<{
     collectionId: string
     description?: string
     drop: DropItem
-    mintButton: { label: string; disabled: boolean }
+    mintButton: MintButtonProp
     mintedCount: number
     mintCountAvailable: boolean
     maxCount: number
-    minimumFunds: { amount: number; description: string }
+    minimumFunds: MinimumFundsProp
     isImageFetching: boolean
     isWalletConnecting: boolean
     isLoading: boolean
+    holderOfCollection?: HolderOfCollectionProp
     userMintedNftId?: string
     userMintedCount: number
-    holderOfCollection?: { id?: string; isHolderOfTargetCollection?: boolean }
     currentAccountMintedToken?: DropMintedStatus
 
     handleSelectImage: (image: string) => void
@@ -93,7 +98,6 @@ withDefaults(
   {
     description: '',
     userMintedNftId: undefined,
-    holderOfCollection: () => ({ id: '', isHolderOfTargetCollection: false }),
     currentAccountMintedToken: undefined,
   },
 )

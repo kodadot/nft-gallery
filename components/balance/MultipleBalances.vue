@@ -63,17 +63,17 @@
         >${{ formatNumber(identityStore.getTotalUsd) }}</span
       >
     </p>
-  </div>
 
-  <div
-    v-if="!isEmptyBalanceOnAllChains && !isBalanceLoading"
-    class="mt-4 flex items-center justify-end">
-    <a class="text-k-grey text-xs" @click="openRampModal"
-      >+ {{ $t('addFunds') }}</a
-    >
-  </div>
+    <div
+      v-if="!isEmptyBalanceOnAllChains && !isBalanceLoading"
+      class="mt-4 flex items-center justify-end">
+      <a class="text-k-grey text-xs" @click="openRampModal"
+        >+ {{ $t('addFunds') }}</a
+      >
+    </div>
 
-  <OnRampModal v-model="rampActive" @close="rampActive = false" />
+    <OnRampModal v-model="rampActive" @close="rampActive = false" />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -81,7 +81,6 @@ import { formatNumber } from '@/utils/format/balance'
 
 import { NeoButton, NeoSkeleton } from '@kodadot1/brick'
 import { ChainToken, type ChainType, useIdentityStore } from '@/stores/identity'
-import OnRampModal from '@/components/shared/OnRampModal.vue'
 
 const displayChainOrder: ChainType[] = [
   'polkadot',
