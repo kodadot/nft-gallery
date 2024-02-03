@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[unset] modal-width">
+  <div class="w-[unset] lg:modal-width">
     <header class="px-6 py-4 flex justify-between border-b items-center">
       <NeoSkeleton
         v-if="loading"
