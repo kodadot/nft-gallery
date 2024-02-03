@@ -26,10 +26,7 @@ export default defineConfig({
   use: {
     //headless: true,
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL:
-      `https://deploy-preview-${process.env.PR_NUMBER}--koda-canary.netlify.app` ||
-      'http://localhost:9090',
-    //baseURL: 'https://canary.kodadot.xyz',
+    baseURL: `https://deploy-preview-${process.env.PR_NUMBER}--koda-canary.netlify.app`,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     permissions: ['clipboard-read', 'clipboard-write'],
