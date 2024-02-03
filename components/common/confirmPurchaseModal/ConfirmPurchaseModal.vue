@@ -3,8 +3,9 @@
     :value="isModalActive"
     :can-cancel="['outside', 'escape']"
     scroll="clip"
-    class="z-[1000]"
+    class="z-[1000] h-[90vh]"
     content-class="modal-width"
+    max-height="90vh"
     @close="onClose">
     <ModalBody
       :title="$t('confirmPurchase.action')"
