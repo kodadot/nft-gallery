@@ -125,10 +125,4 @@ const handleModalClose = (completed: boolean) => {
     height: initial;
   }
 }
-
-@include mobile() {
-  .modal-width {
-    width: unset;
-  }
-}
 </style>
