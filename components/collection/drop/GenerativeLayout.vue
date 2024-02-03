@@ -1,17 +1,24 @@
 <template>
-  <div class="unlockable-container">
-    <div class="container is-fluid border-t pt-6">
+  <div class="border-t">
+    <div class="container pt-6" :class="{ 'is-fluid': !isFullHD }">
       <div class="columns is-desktop">
-        <div class="column is-half-desktop mobile-padding">
+        <div class="column is-half-desktop mobile-padding lg:max-w-[600px]">
+          <div class="font-bold is-size-5 mb-4">
+            {{ $t('tooltip.created') }}
+          </div>
+          <CollectionDropCreatedBy v-if="address" :address="address" />
           <CollectionUnlockableCollectionInfo
+            class="mt-7"
             :collection-id="collectionId"
             :description="description" />
-          <hr />
 
-          <CollectionUnlockableTag :collection-id="collectionId" />
+          <hr class="hidden lg:block mt-7 mb-0" />
 
-          <CollectionDropMintSection
-            v-if="!isMobile"
+          <CollectionDropGenerativePreview
+            v-if="!isDesktop"
+            class="mt-7"
+            :minted="userMintedCount"
+            :drop="drop"
             :user-minted-nft-id="userMintedNftId"
             :collection-id="collectionId"
             :is-wallet-connecting="isWalletConnecting"
@@ -21,40 +28,44 @@
             :max-count="maxCount"
             :minted-count="mintedCount"
             :mint-count-available="mintCountAvailable"
-            :disabled-by-backend="drop.disabled"
             :mint-button="mintButton"
             :holder-of-collection="holderOfCollection"
-            @mint="handleSubmitMint" />
+            @mint="handleSubmitMint"
+            @select="handleSelectImage" />
+
+          <CollectionDropPhase
+            class="mt-7"
+            :minimum-funds="minimumFunds"
+            :mint-count-available="mintCountAvailable"
+            :disabled-by-backend="drop.disabled"
+            :mint-button="mintButton"
+            :holder-of-collection="holderOfCollection" />
+
+          <CollectionUnlockableTag :collection-id="collectionId" />
         </div>
 
-        <div class="column pt-5 flex justify-center">
+        <div v-if="isDesktop" class="column flex justify-end mt-[-230px]">
           <CollectionDropGenerativePreview
             :minted="userMintedCount"
-            :content="drop.content"
-            :image="drop.image"
+            :drop="drop"
+            :user-minted-nft-id="userMintedNftId"
+            :collection-id="collectionId"
+            :is-wallet-connecting="isWalletConnecting"
+            :is-image-fetching="isImageFetching"
+            :is-loading="isLoading"
+            :minimum-funds="minimumFunds"
+            :max-count="maxCount"
+            :minted-count="mintedCount"
+            :mint-count-available="mintCountAvailable"
+            :mint-button="mintButton"
+            :holder-of-collection="holderOfCollection"
+            @mint="handleSubmitMint"
             @select="handleSelectImage" />
         </div>
-
-        <CollectionDropMintSection
-          v-if="isMobile"
-          class="column"
-          :collection-id="collectionId"
-          :user-minted-nft-id="userMintedNftId"
-          :is-wallet-connecting="isWalletConnecting"
-          :is-image-fetching="isImageFetching"
-          :is-loading="isLoading"
-          :minimum-funds="minimumFunds"
-          :max-count="maxCount"
-          :minted-count="mintedCount"
-          :mint-count-available="mintCountAvailable"
-          :disabled-by-backend="drop.disabled"
-          :mint-button="mintButton"
-          :holder-of-collection="holderOfCollection"
-          @mint="handleSubmitMint" />
       </div>
 
       <CollectionUnlockableItemInfo :collection-id="collectionId" />
-      <div class="my-4">
+      <div class="mb-4 mt-10">
         <CarouselTypeLatestMints
           :collection-id="collectionId"
           interaction="MINT" />
@@ -70,8 +81,9 @@ import type {
   MinimumFundsProp,
   MintButtonProp,
 } from './types'
+import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     collectionId: string
     description?: string
@@ -96,5 +108,10 @@ withDefaults(
   },
 )
 
-const { isMobile } = useViewport()
+const { isFullHD, isDesktop } = useViewport()
+
+const { collection: collectionInfo } = useCollectionMinimal({
+  collectionId: computed(() => props.collectionId),
+})
+const address = computed(() => collectionInfo.value?.currentOwner)
 </script>

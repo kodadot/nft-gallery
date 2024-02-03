@@ -3,7 +3,9 @@
     <div class="collection-banner-shadow"></div>
 
     <section class="h-full py-8">
-      <div class="container is-fluid collection-banner-content">
+      <div
+        class="container collection-banner-content"
+        :class="{ 'is-fluid': !isFullHD }">
         <div class="flex flex-col items-start">
           <div class="collection-banner-avatar">
             <NuxtImg
@@ -39,6 +41,7 @@ const props = defineProps({
 })
 
 const route = useRoute()
+const { isFullHD } = useViewport()
 
 const title = computed(() => props.drop?.name)
 

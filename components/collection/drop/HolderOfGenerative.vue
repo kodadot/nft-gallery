@@ -70,7 +70,7 @@ const { fetchMultipleBalance, hasCurrentChainBalance } = useMultipleBalance()
 const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
   useDropMinimumFunds(props.drop)
 const minimumFundsDescription = computed(() =>
-  $i18n.t('mint.unlockable.holderOfCollectionMinimumFundsDescription', [
+  $i18n.t('drops.requirements.minimumFunds', [
     formattedMinimumFunds.value,
     chainName.value,
   ]),

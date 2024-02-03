@@ -625,7 +625,6 @@
       "seeYourNft": "See Your NFT",
       "minimumFundsDescription": "Holding a Minimum of <strong>{0} On {1}</strong> in Your Wallet is Required",
       "holderOfCollectionMinimumFundsDescription": "Holding a Minimum of <strong>{0}</strong> On {1} in Your Wallet",
-      "freeMinimumFundsDescription": "Holding a Minimum of <strong>{0} On {1}</strong> in Your Wallet is Required for This Free Mint.",
       "claimNftNow": "Claim NFT Now",
       "claimPaidNft": "Claim For {0}",
       "nftAlreadyMinted": "NFT Already Minted",
@@ -1474,7 +1473,15 @@
     "youCanContinueWithAutoteleport": "You can continue with Auto Teleport enabled.",
     "proceedToSigning": "Proceed to signing",
     "signTransaction": "Sign Transaction",
-    "paidDropWhyTooltip": "A balance above <strong>{0}</strong> is required to maintain your account's activity, covering the <strong>{1} Existential Deposit,</strong> and to enable seamless future actions."
+    "paidDropWhyTooltip": "A balance above <strong>{0}</strong> is required to maintain your account's activity, covering the <strong>{1} Existential Deposit,</strong> and to enable seamless future actions.",
+    "createNewVariation": "Create your new variation",
+    "requirements": {
+      "minimumFunds": "a Minimum of <strong>{0}</strong> On {1} in your wallet"
+    },
+    "phases": {
+      "private": "Private Mint",
+      "public": "Public Sale"
+    }
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
