@@ -18,29 +18,12 @@ jobs:
 
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps chromium
-        
-  wait-for-netlify:
-    needs: install-playwright
-    timeout-minutes: 3
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 20
+
       - name: Run Netlify test
         run: npx playwright test netlify.spec.ts
         env: 
           PR_NUMBER: "$GITHUB_PR_NUMBER"
-
-  run-tests:
-    needs: wait-for-netlify
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 20
+    
       - name: Run Playwright tests
         run: pnpm exec playwright test basic.spec.ts
         env: 
