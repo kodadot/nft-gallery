@@ -29,7 +29,7 @@ jobs:
         with:
           node-version: 20
       - name: Run Netlify test
-        run: pnpm exec playwright test netlify.spec.ts
+        run: npx playwright test netlify.spec.ts
         env: 
           PR_NUMBER: "$GITHUB_PR_NUMBER"
 
