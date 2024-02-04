@@ -1,8 +1,9 @@
 <template>
   <div class="border-t">
     <div class="container pt-6" :class="{ 'is-fluid': !isFullHD }">
-      <div class="columns is-desktop">
-        <div class="column is-half-desktop mobile-padding lg:max-w-[600px]">
+      <div class="columns">
+        <div
+          class="column is-half-desktop mobile-padding md:max-lg:mr-8 lg:max-w-[600px]">
           <div class="font-bold is-size-5 mb-4">
             {{ $t('tooltip.created') }}
           </div>
@@ -12,10 +13,10 @@
             :collection-id="collectionId"
             :description="description" />
 
-          <hr class="hidden lg:block mt-7 mb-0" />
+          <hr class="hidden md:block mt-7 mb-0" />
 
           <CollectionDropGenerativePreview
-            v-if="!isDesktop"
+            v-if="isMobile"
             class="mt-7"
             :minted="userMintedCount"
             :drop="drop"
@@ -44,7 +45,7 @@
           <CollectionUnlockableTag :collection-id="collectionId" />
         </div>
 
-        <div v-if="isDesktop" class="column flex justify-end mt-[-245px]">
+        <div v-if="!isMobile" class="column flex justify-end mt-[-245px]">
           <CollectionDropGenerativePreview
             :minted="userMintedCount"
             :drop="drop"
@@ -108,7 +109,7 @@ const props = withDefaults(
   },
 )
 
-const { isFullHD, isDesktop } = useViewport()
+const { isFullHD, isMobile } = useViewport()
 
 const { collection: collectionInfo } = useCollectionMinimal({
   collectionId: computed(() => props.collectionId),
