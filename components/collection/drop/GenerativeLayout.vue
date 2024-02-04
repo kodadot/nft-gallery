@@ -44,7 +44,7 @@
           <CollectionUnlockableTag :collection-id="collectionId" />
         </div>
 
-        <div v-if="isDesktop" class="column flex justify-end mt-[-230px]">
+        <div v-if="isDesktop" class="column flex justify-end mt-[-245px]">
           <CollectionDropGenerativePreview
             :minted="userMintedCount"
             :drop="drop"
