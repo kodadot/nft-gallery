@@ -7,7 +7,7 @@
       @model-value="isLoading = false" />
     <CountdownTimer />
     <hr class="text-color my-0" />
-    <div class="container is-fluid">
+    <div class="w-full px-[2.5rem]">
       <div class="columns is-desktop">
         <div class="column is-half-desktop mobile-padding">
           <UnlockableCollectionInfo

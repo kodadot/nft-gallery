@@ -14,14 +14,14 @@
           <div v-if="isCollection">
             <CollectionBanner />
             <section class="pt-5">
-              <div class="container is-fluid mobile-padding">
+              <div class="w-full px-[2.5rem] mobile-padding">
                 <CollectionInfo />
                 <hr class="mb-0" />
               </div>
             </section>
           </div>
           <section class="py-7 px-0">
-            <div class="container is-fluid">
+            <div class="w-full px-[2.5rem]">
               <h1 v-if="isExplore" class="title">{{ getExploreTitle }}</h1>
               <ExploreTabsFilterSort />
             </div>
@@ -66,8 +66,8 @@ useHead({
 })
 
 const isExplore = computed(() => route.path.includes('/explore'))
-const isCollection = computed(
-  () => route.name?.toString().includes('prefix-collection-id'),
+const isCollection = computed(() =>
+  route.name?.toString().includes('prefix-collection-id'),
 )
 
 const getExploreTitle = computed(() => {

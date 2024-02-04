@@ -3,7 +3,7 @@
     <div class="collection-banner-shadow"></div>
 
     <section class="h-full py-8">
-      <div class="container is-fluid collection-banner-content">
+      <div class="w-full px-[2.5rem] collection-banner-content">
         <div class="flex flex-col items-start">
           <div class="collection-banner-avatar">
             <NuxtImg

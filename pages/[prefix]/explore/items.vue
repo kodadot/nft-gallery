@@ -1,6 +1,6 @@
 <template>
   <div
-    class="container is-fluid"
+    class="w-full px-[2.5rem]"
     :class="{ 'sidebar-padding-left': isSidebarOpen }">
     <Items />
   </div>
