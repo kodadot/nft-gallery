@@ -1,9 +1,8 @@
 <template>
   <div class="border-t">
     <div class="container pt-6" :class="{ 'is-fluid': !isFullHD }">
-      <div class="columns">
-        <div
-          class="column is-half-desktop mobile-padding md:max-lg:mr-8 lg:max-w-[600px]">
+      <div class="columns is-variable is-4-tablet">
+        <div class="column is-half-desktop mobile-padding lg:max-w-[600px]">
           <div class="font-bold is-size-5 mb-4">
             {{ $t('tooltip.created') }}
           </div>
@@ -13,7 +12,7 @@
             :collection-id="collectionId"
             :description="description" />
 
-          <hr class="hidden md:block mt-7 mb-0" />
+          <hr v-if="!isMobile" class="mt-7 mb-0" />
 
           <CollectionDropGenerativePreview
             v-if="isMobile"
