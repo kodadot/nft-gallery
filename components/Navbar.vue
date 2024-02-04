@@ -9,7 +9,10 @@
     <div class="container items-center" :class="{ 'is-fluid': !isTouch }">
       <!-- BRAND -->
       <div class="navbar-brand">
-        <nuxt-link to="/" class="navbar-item logo nuxt-link-active">
+        <nuxt-link
+          to="/"
+          class="navbar-item logo nuxt-link-active"
+          @click="closeAllModals">
           <img
             :src="logoSrc"
             alt="First NFT market explorer on Kusama and Polkadot" />
@@ -76,7 +79,7 @@
 
         <!-- NAV END -->
         <div class="navbar-end">
-          <nuxt-link to="/ahp/drops" rel="nofollow">
+          <nuxt-link to="/ahp/drops" rel="nofollow" @click="closeAllModals">
             <div class="navbar-item" data-testid="drops">
               {{ $t('drops.title') }}
 
@@ -255,10 +258,12 @@ const handleMobileChainSelect = () => {
   showMobileNavbar()
 }
 
+const closeAllModals = () => neoModal.closeAll()
+
 const openWalletConnectModal = (): void => {
   showMobileNavbar()
 
-  neoModal.closeAll()
+  closeAllModals()
   neoModal.open({
     ...ConnectWalletModalConfig,
     ...(isMobile ? { animation: 'none' } : {}),
@@ -266,7 +271,7 @@ const openWalletConnectModal = (): void => {
 }
 
 const showMobileNavbar = () => {
-  neoModal.closeAll()
+  closeAllModals()
 
   document.body.classList.toggle('is-clipped')
   isMobileNavbarOpen.value = !isMobileNavbarOpen.value
