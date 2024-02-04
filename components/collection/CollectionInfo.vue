@@ -1,7 +1,6 @@
 <template>
   <div class="md:flex justify-between">
     <div class="max-w-screen-sm">
-      <CollectionHeroButtons class="is-hidden-tablet" />
       <div v-if="address" class="flex mb-4">
         <div
           class="rounded-full w-full md:w-auto border border-k-shade flex justify-start px-3">

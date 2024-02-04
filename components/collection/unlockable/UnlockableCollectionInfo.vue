@@ -3,7 +3,6 @@
     <div class="flex flex-col flex-grow max-width">
       <div class="flex justify-between mb-2">
         <div class="mr-2 font-bold is-size-5 mb-1">About Collection</div>
-        <HeroButtons class="is-hidden-tablet" />
       </div>
       <div class="overflow-wrap">
         <Markdown :source="visibleDescription" />
@@ -30,7 +29,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import HeroButtons from '@/components/collection/unlockable/UnlockableHeroButtons.vue'
 import Markdown from '@/components/shared/Markdown.vue'
 import { NeoButton } from '@kodadot1/brick'
 import { resolveComponent } from 'vue'

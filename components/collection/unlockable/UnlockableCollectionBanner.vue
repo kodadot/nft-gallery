@@ -24,14 +24,12 @@
             {{ title }}
           </h1>
         </div>
-        <HeroButtons class="is-hidden-mobile self-end" />
       </div>
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
-import HeroButtons from '@/components/collection/unlockable/UnlockableHeroButtons.vue'
 import { unlockableDesc } from '../unlockable/utils'
 import { VOTE_DROP_DESCRIPTION } from '../voteDrop/const'
 import { generateDropImage } from '@/utils/seoImageGenerator'
