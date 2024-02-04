@@ -2,7 +2,7 @@
   <div class="collection-banner" :style="{ backgroundImage: `url(${banner})` }">
     <div class="collection-banner-shadow"></div>
 
-    <section class="h-[368px] md:h-full">
+    <section class="h-[368px] lg:h-full">
       <div
         :class="[
           'container h-full flex',
