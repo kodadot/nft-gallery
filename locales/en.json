@@ -954,6 +954,7 @@
     "copyRewardLink": "Copy Reward Me link",
     "latestSales": "Latest sales",
     "generativeActivity": "Generative",
+    "generativeArt": "Generative Art",
     "search": "Search",
     "searchResultsText": "Showing results for",
     "searchNoResultsTitle": "Whoops, Couldn't find anything matching your search",
@@ -1056,6 +1057,7 @@
   "sharing": {
     "collection": "Check out this awesome Collection on KodaDot",
     "nft": "Check out this awesome NFT on KodaDot",
+    "nftWithArtist": "Check out this awesome NFT on {'@'}KodaDot from {'@'}{0}",
     "pack": "Check out this awesome Pack on KodaDot",
     "profile": "Check out this awesome Profile on KodaDot"
   },
