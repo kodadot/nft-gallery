@@ -54,10 +54,13 @@ const props = withDefaults(
     noShadow: boolean
     mobileModal: boolean
     link?: string
+    sharingContent?: string
   }>(),
   {
     noShadow: false,
     mobileModal: false,
+    link: '',
+    sharingContent: '',
   },
 )
 
@@ -66,9 +69,11 @@ const { $i18n } = useNuxtApp()
 const { toast } = useToast()
 const { isMobile } = useViewport()
 const { shareOnX } = useSocialShare()
-
+const propsSharingContent = computed(() => props.sharingContent)
 const isModalActive = ref(false)
-const sharingTxt = $i18n.t('sharing.nft')
+const sharingText = computed(
+  () => propsSharingContent.value || $i18n.t('sharing.nft'),
+)
 const realworldFullPathShare = ref(`${window.location.origin}${route.fullPath}`)
 const shareLink = computed(() =>
   props.link ? props.link : realworldFullPathShare.value,
@@ -78,6 +83,10 @@ const label = computed(() => (isMobile.value ? '' : 'Share'))
 const icon = computed(() => (isMobile.value ? 'share' : ''))
 
 const actionTwitterShare = (): void => {
-  shareOnX(sharingTxt, shareLink.value)
+  shareOnX(
+    sharingText.value,
+    shareLink.value,
+    propsSharingContent.value ? '' : 'KodaDot',
+  )
 }
 </script>

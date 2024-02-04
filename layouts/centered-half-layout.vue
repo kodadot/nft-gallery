@@ -2,7 +2,7 @@
   <div class="min-h-full flex flex-col is-clipped">
     <Navbar />
     <main class="flex-grow">
-      <section class="section">
+      <section class="px-6 py-12">
         <div class="container">
           <div class="columns is-centered">
             <div class="column is-half">
