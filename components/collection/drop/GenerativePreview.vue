@@ -55,7 +55,7 @@
     </div>
 
     <CollectionUnlockableSlider
-      class="text-neutral-5"
+      class="text-neutral-5 dark:text-neutral-9"
       :value="mintedCount / maxCount" />
 
     <CollectionDropMintButton

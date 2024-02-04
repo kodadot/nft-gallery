@@ -61,7 +61,9 @@
       <div
         v-if="!isMintedOut"
         class="border px-2 py-1 rounded-full h-fit w-fit capitalize text-xs flex"
-        :class="[readyToMint ? 'bg-k-green-accent' : 'bg-neutral-5']">
+        :class="[
+          readyToMint ? 'bg-k-green-accent' : 'bg-neutral-5 dark:bg-neutral-9',
+        ]">
         <p>
           {{ mintLabel }}
         </p>
