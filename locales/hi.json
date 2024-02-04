@@ -2,7 +2,7 @@
   "translation": "हिंदी",
   "create": "बनाएं",
   "explore": "अन्वेषण करें",
-  "exploreItems": "इस पर ITEM अन्वेषण करें",
+  "exploreItems": "इस पर वस्तु अन्वेषण करें",
   "exploreCollections": "इस पर संग्रह अन्वेषण करें",
   "credit": "क्रेडिट",
   "img": "छवि",
@@ -10,7 +10,7 @@
   "collection": "संग्रह",
   "creator": "निर्माता",
   "collections": "संग्रह",
-  "items": "ITEM",
+  "items": "वस्तु",
   "users": "उपयोगकर्ता",
   "burn": "जलाएं",
   "purchase": "खरीद",
@@ -39,7 +39,7 @@
   "addFunds": "Fund जोड़ें",
   "or": "या",
   "transform": "परिवर्तन",
-  "settings": "Settings",
+  "settings": "समायोजन",
   "first NFT market explorer on Kusama and Polkadot": "कुसामा और पॉलकाडॉट पर पहला NFT मार्केट एक्सप्लोरर",
   "legend": "लीजेंड",
   "owner": "मालिक",
@@ -75,7 +75,7 @@
       "amount": "राशि",
       "event": "घटना",
       "from": "से",
-      "item": "ITEM",
+      "item": "वस्तु",
       "time": "समय",
       "to": "को"
     },
@@ -99,7 +99,7 @@
     "todayTraded": "24 घंटे",
     "totalBought": "कुल खरीदा गया",
     "totalBuys": "Σ खरीदें",
-    "totalItems": "Σ ITEM",
+    "totalItems": "Σ वस्तु",
     "totalSold": "कुल बिक्री हुई",
     "totalSupply": "कुल आपूर्ति",
     "totalTraded": "Σ मात्रा व्यापारित",
@@ -128,8 +128,8 @@
   },
   "autoTeleport": {
     "addFundsViaOnramp": "ऑनरैंप के माध्यम से Fund जोड़ें",
-    "autoTeleport": "ऑटो TELEPORT",
-    "bridging": "सेतुबंधन",
+    "autoTeleport": "ऑटो टेलीपोर्ट",
+    "bridging": "ब्रिजिंग",
     "checking": "Fund जाँच हो रही है...",
     "close": "बंद करें",
     "completeAllRequiredSteps": "सभी आवश्यक कदम पूरे करें",
@@ -141,7 +141,7 @@
     "signTransactions": "लेन-देन के लिए हस्ताक्षर करें",
     "steps": {
       "1": {
-        "title": "TELEPORT/सेतुबंधन",
+        "title": "टेलीपोर्ट/सेतुबंधन",
         "tooltip": "इस लेन-देन से आवश्यक Fund गुना होंगे जो आवश्यक श्रृंग में खरीद के लिए"
       },
       "2": {
@@ -149,44 +149,44 @@
         "tooltip": "सुविधाएँ के लिए गंतव्य श्रृंग पर राशि की पुष्टि करना। यह कुछ सेकंडों में हो सकता है"
       },
       "buy": {
-        "confirm": "TELEPORT और खरीद की पुष्टि करें",
+        "confirm": "टेलीपोर्ट और खरीद की पुष्टि करें",
         "title": "NFT खरीद"
       },
       "consume": {
-        "confirm": "TELEPORT और NFT जलाएं",
+        "confirm": "टेलीपोर्ट और NFT जलाएं",
         "title": "NFT जलाना"
       },
       "delete": {
-        "confirm": "TELEPORT और संग्रह हटाएं",
+        "confirm": "टेलीपोर्ट और संग्रह हटाएं",
         "title": "संग्रह हटाना"
       },
       "free_drop": {
-        "confirm": "आवश्यक राशि की TELEPORT करें"
+        "confirm": "आवश्यक राशि की टेलीपोर्ट करें"
       },
       "list": {
-        "confirm": "TELEPORT और लिस्टिंग स्थिति की पुष्टि करें",
+        "confirm": "टेलीपोर्ट और लिस्टिंग स्थिति की पुष्टि करें",
         "title": "NFT लिस्टिंग"
       },
       "mint": {
-        "confirm": "TELEPORT और कलेक्टिबल बनाएं",
+        "confirm": "टेलीपोर्ट और कलेक्टिबल बनाएं",
         "title": "NFT कलेक्टिबल बनाना"
       },
       "mintnft": {
-        "confirm": "TELEPORT और NFT बनाएं",
+        "confirm": "टेलीपोर्ट और NFT बनाएं",
         "title": "NFT बनाना"
       },
       "paid_drop": {
-        "confirm": "TELEPORT और NFT का दावा करें",
+        "confirm": "टेलीपोर्ट और NFT का दावा करें",
         "title": "NFT बनाना"
       },
       "send": {
-        "confirm": "TELEPORT और NFT को स्थानांतरित करें",
+        "confirm": "टेलीपोर्ट और NFT को स्थानांतरित करें",
         "title": "NFT स्थानांतरण"
       }
     },
     "tip": "<strong>टिप:</strong> हस्ताक्षर के लिए अपने wallet एक्सटेंशन से पॉपअप देखें।",
     "tooltip": {
-      "first": "कम शेष राशि? ऑटो TELEPORT आपके सबसे धनी Network से आवश्यक राशि को सेतुबंधित करता है।",
+      "first": "कम शेष राशि? ऑटो टेलीपोर्ट आपके सबसे धनी Network से आवश्यक राशि को सेतुबंधित करता है।",
       "noOptimalTransferPath": "कोई मार्ग नहीं मिला, कृपया Fund जोड़ें",
       "noRouteFound": "कोई मार्ग नहीं मिला, कृपया Fund जोड़ें",
       "optimalTransferPath": "आदर्श स्थानांतरण मार्ग",
@@ -194,7 +194,7 @@
     },
     "welcome": {
       "1": {
-        "description": "चिंता किए बिना Networkों के बीच स्विच करें। ऑटो TELEPORT आपकी सबसे धनी श्रृंग से संपत्ति को सेतुबंधित करता है।",
+        "description": "चिंता किए बिना Networks के बीच स्विच करें। ऑटो टेलीपोर्ट आपकी सबसे धनी श्रृंग से संपत्ति को सेतुबंधित करता है।",
         "title": "अविचलनीय स्थानांतरण"
       },
       "2": {
@@ -202,13 +202,13 @@
         "title": "समय की बचत"
       },
       "3": {
-        "description": "एक टॉगल-स्विच की दूरी पर विभिन्न Networkों में सीमित व्यापार अनुभव करें।",
+        "description": "एक टॉगल-स्विच की दूरी पर विभिन्न Networks में सीमित व्यापार अनुभव करें।",
         "title": "सुखद अनुभव"
       },
-      "description": "ऑटो TELEPORT के साथ, हम संपत्ति सेतु मेनेज करते हैं। आपकी भूमिका? प्रति बार एक अतिरिक्त लेन-देन को स्वीकृत करें।",
+      "description": "ऑटो टेलीपोर्ट के साथ, हम संपत्ति सेतु मेनेज करते हैं। आपकी भूमिका? प्रति बार एक अतिरिक्त लेन-देन को स्वीकृत करें।",
       "submit": "समझा!"
     },
-    "welcomeToAutoTeleport": "ऑटो TELEPORT में आपका स्वागत है!"
+    "welcomeToAutoTeleport": "ऑटो टेलीपोर्ट में आपका स्वागत है!"
   },
   "basic user interface": "मूल उपयोगकर्ता इंटरफेस",
   "beta": "बीटा",
@@ -239,7 +239,7 @@
     }
   },
   "collectionCard": {
-    "items": "ITEM",
+    "items": "वस्तु",
     "volume": "वॉल्यूम"
   },
   "Collections Per Page": "पृष्ठ प्रति संग्रह",
@@ -281,7 +281,7 @@
     "checkYourEmail": "अपने EMAIL की जाँच करें",
     "claim": "दावा करें",
     "claimFree": "मुफ्त दावा करें",
-    "claimingDrop": "drop दावा करना",
+    "claimingDrop": "Drop दावा करना",
     "confirmYourSubscription": "अपनी सदस्यता की पुष्टि करें",
     "consent": "मैं सुधार प्राप्त करने के लिए सहमत हूँ।",
     "emailConfirmationSent": "EMAIL पुष्टि भेजी गई",
@@ -290,14 +290,14 @@
     "failedCheckingSubscription": "सदस्यता की जाँच करने में विफल",
     "failedEmailConfirmation": "EMAIL पुष्टि भेजने में विफल",
     "finalizeClaimNow": "अपनी दावा अब समाप्त करें",
-    "holderOfClaimed": "{0} drop पहले ही इस NFT के साथ दावा किया गया है। दावा के अधिकार पुनः विपणि के बाद नवीनीकृत नहीं होते।",
+    "holderOfClaimed": "{0} Drop पहले ही इस NFT के साथ दावा किया गया है। दावा के अधिकार पुनः विपणि के बाद नवीनीकृत नहीं होते।",
     "iveConfirmed": "मैंने पुष्टि की है",
     "justConfirmSubscriptionViaEmail": "EMAIL के माध्यम से अपनी सदस्यता की पुष्टि करें",
     "listNft": "NFT सूचीबद्ध करें",
-    "mintDrop": "MINT drop",
-    "mintedBy": "द्वारा MINTित",
+    "mintDrop": "MINT Drop",
+    "mintedBy": "द्वारा Minted",
     "mintingEnded": "समाप्त हो गई",
-    "mintingLive": "MINTिंग लाइव",
+    "mintingLive": "Minting लाइव",
     "mintPerAddress": "प्रति पता केवल एक बार MINT कर सकता है",
     "noEmail": "कोई EMAIL नहीं है?",
     "noUpcoming": "अब तक कुछ नहीं है...",
@@ -306,20 +306,20 @@
     "plusGetA": "+ पाएं",
     "preparingYourNft": "आपके NFT को तैयार किया जा रहा है",
     "proceedToSigning": "हस्ताक्षर करने के लिए आगे बढ़ें",
-    "recentMints": "हाल की NFT MINT्स",
+    "recentMints": "हाल की NFT Mints",
     "signTransaction": "लेन-देन के लिए हस्ताक्षर करें",
     "stayTuned": "बने रहें — आपका अद्वितीय NFT समाप्त हो रहा है!",
     "subscribe": "नए drops और कुंजी NFT मार्केट अपडेट्स के प्राथमिक एक्सेस के लिए सब्सक्राइब करें।",
     "subscribeAndClaim": "सब्सक्राइब और अपनी NFT को दावा करें",
-    "teleportRequiredAmount": "TELEPORT की आवश्यक राशि",
+    "teleportRequiredAmount": "टेलीपोर्ट की आवश्यक राशि",
     "title": "drops",
     "toConfirmYourSubscription": "अपनी सदस्यता की पुष्टि करने और मुफ्त NFT का दावा करने के लिए।",
     "upcoming": "आगामी",
     "viewNft": "NFT देखें",
     "voucherToOurShop": "हमारे शॉप के लिए वाउचर",
     "wrongEmail": "गलत EMAIL?",
-    "youCanContinueWithAutoteleport": "आप ऑटो TELEPORT सकते हैं साथ ही जारी रख सकते हैं।",
-    "yourWalletNeeds": "इस drop को दावा करने के लिए आपके wallet में कम से कम {0} की आवश्यकता है।",
+    "youCanContinueWithAutoteleport": "आप ऑटो टेलीपोर्ट सकते हैं साथ ही जारी रख सकते हैं।",
+    "yourWalletNeeds": "इस Drop को दावा करने के लिए आपके wallet में कम से कम {0} की आवश्यकता है।",
     "youSuccessfullyClaimedNft": "आपने सफलतापूर्वक {0} NFT को दावा किया"
   },
   "dropUpload": "यहां अपनी File छोड़ें या चयन के लिए Click करें।",
@@ -358,7 +358,7 @@
     },
     "3": {
       "heading": "क्या आप जानते हैं...",
-      "question": "कि KodaDot का आरंभ React-based DotApps dashboard को Vuejs में रीव्राइट करके हुआ था?"
+      "question": "कि KodaDot का आरंभ React-based DotApps Dashboard को Vuejs में रीव्राइट करके हुआ था?"
     },
     "4": {
       "heading": "क्या आप जानते हैं...",
@@ -454,7 +454,7 @@
     },
     "27": {
       "heading": "क्या आप जानते हैं...",
-      "question": "कि KodaDot का पहला संस्करण 1999 में Craiglist से भी खराब दिखता था?"
+      "question": "कि KodaDot का पहला Version 1999 में Craiglist से भी खराब दिखता था?"
     },
     "28": {
       "heading": "क्या आप जानते हैं...",
@@ -605,7 +605,7 @@
       "question": "KodaDot में अद्भुत सहपाठी सांस्कृतिक है?"
     }
   },
-  "Gallery Items Per Page": "पृष्ठ प्रति गैलरी ITEM",
+  "Gallery Items Per Page": "पृष्ठ प्रति गैलरी वस्तु",
   "general": {
     "apply": "लागू करें",
     "asset": "संपत्ति",
@@ -634,7 +634,7 @@
     "ksmDiscoverText": "Kusama NFT की खोज करें, जमा करें और बेचें",
     "latestSales": "नवीनतम बिक्री",
     "latestSalesheading": "इस पर पाए गए सबसे हाल की बिक्री",
-    "newestListDesc": "बिक्री पर नवीनतम ITEM खोजें",
+    "newestListDesc": "बिक्री पर नवीनतम वस्तु खोजें",
     "newestListHeading": "नवीनतम सूची",
     "nft": "NFT",
     "nfts": "NFT(एस)",
@@ -699,8 +699,8 @@
   },
   "hot": {
     "label": "Hot",
-    "subtitle": "Featuring the recently sold NFTs on {chain}",
-    "title": "Recent KUSAMA Sales In One Week"
+    "subtitle": "{chain} पर हाल ही में बिके NFTs का विशेषता से अद्वितीय दृश्य",
+    "title": "एक सप्ताह में हाल के KUSAMA बिक्री"
   },
   "I am helping to cover costs": "मैं खर्च को ढंग से करने में मदद कर रहा हूँ",
   "I do not want to support": "मैं समर्थन नहीं करना चाहता",
@@ -725,7 +725,7 @@
   "Instance_tooltip": "इंस्टेंस एक NFT की पहचान है, जैसे कि एक बाजार टिकर। यह एक \"लघु कंप्यूटर-मित्र नाम\" है",
   "landing": {
     "artists": {
-      "hook": "{0} में आइए और हम आपको मुफ्त Mint्स के साथ जोड़ेंगे।",
+      "hook": "{0} में आइए और हम आपको मुफ्त Mints के साथ जोड़ेंगे।",
       "touch": "संपर्क"
     },
     "ksmArtistHeading": "कलाकारों के लिए KSM",
@@ -751,12 +751,12 @@
     "fixedPrice": "निर्धारित मूल्य",
     "floorPrice": "FLOOR मूल्य",
     "inputPriceFirst": "पहले मूल्य दर्ज करें",
-    "item": "ITEM | ITEM्स",
+    "item": "वस्तु | वस्तुएँ",
     "listForSale": "बिक्री के लिए सूचीबद्ध करें",
     "listingFees": "लिस्टिंग शुल्क",
-    "listItem": "सूचीबद्ध ITEM | सूचीबद्ध ITEM्स",
-    "missing1": "1 ITEM की कीमत अद्यतित नहीं है",
-    "missingMultiple": "कई ITEMों की कीमतें अद्यतित नहीं हैं",
+    "listItem": "सूचीबद्ध वस्तु | सूचीबद्ध वस्तुएँ",
+    "missing1": "1 वस्तु की कीमत अद्यतित नहीं है",
+    "missingMultiple": "कई वस्तुएँ की कीमतें अद्यतित नहीं हैं",
     "potentialEarnings": "संभावित कमाई",
     "selectAll": "सभी का चयन करें",
     "setAllTo": "सभी को सेट करें"
@@ -772,7 +772,7 @@
     "generative": {
       "processing": "पूर्वानुमान कर रहे हैं (करीब ~2 मिनट का प्रतीक्षा करें)",
       "send": "आपके EMAIL पर लिंक भेज रहे हैं",
-      "starting": "ए.आई. मॉडल को गरमा कर रहे हैं"
+      "starting": "ए.आई. मॉडल को Start कर रहे हैं"
     },
     "ipfs": "IPFS में डेटा Upload कर रहे हैं",
     "pinImage": "छवि को पिन कर रहे हैं",
@@ -785,7 +785,7 @@
     "areYouSureDelete": "क्या आप सुनिश्चित हैं कि आप हटाना चाहते हैं",
     "backToOnbaording": "ऑनबोर्डिंग पर वापस जाएं",
     "cancel": "रद्द करें",
-    "cantMintNote": "नोट: आप आवश्यक जानकारी भरें या अधूरी Fileें हटाएं तक Mint नहीं कर सकते हैं।",
+    "cantMintNote": "नोट: आप आवश्यक जानकारी भरें या अधूरी Files हटाएं तक Mint नहीं कर सकते हैं।",
     "chooseCollection": "चुनें एक संग्रह जिसमें आपको Mint करना है",
     "continueToCollectionPage": "आपको कुछ क्षणों में संग्रह पृष्ठ पर जाएँगे...",
     "createNewCollection": "नया संग्रह बनाएं",
@@ -803,7 +803,7 @@
     "missingPrice": "मूल्य अनुपस्थित: {count} NFTs",
     "missingRequiredInfo": "कुछ छवियों में आवश्यक जानकारी अनुपस्थित है",
     "mobileDisclaimer": {
-      "content1": "हमारी मासMINT सुविधा डेस्कटॉप उपयोग के लिए फाइन-ट्यून है ताकि सर्वोत्तम Minting अनुभव हो सके",
+      "content1": "हमारी Massmint सुविधा डेस्कटॉप उपयोग के लिए फाइन-ट्यून है ताकि सर्वोत्तम Minting अनुभव हो सके",
       "content2": "मोबाइल डिवाइस पर, आपको सीमित कार्यक्षमता या लेआउट समस्याएं आ सकती हैं।",
       "continueAnyway": "फिर भी जारी रखें",
       "leave": "छोड़ें",
@@ -816,8 +816,8 @@
     "onboarding": {
       "cards": {
         "0": {
-          "content": "अपने सभी कला Fileों को **.ZIP फ़ॉर Upload** में संक्षेपित करके अपनी मास MINTिंग शुरू करें। आपकी कला के अलावा, प्रत्येक NFT को एक नाम, विवरण, और मूल्य की आवश्यकता है। \n\nइस प्रक्रिया को सुगम बनाने के लिए इन विवरणों को पहले से एक अलग File में तैयार करें। इससे प्रत्येक NFT के लिए जानकारी को मैन्युअली दर्ज करने से बचा जा सकता है। इस File को स्वरूपित करने के लिए आगे कदमों में मार्गदर्शन मिलेगा।",
-          "title": "अपनी सभी Fileें तैयार करें"
+          "content": "अपने सभी कला Fileों को **.ZIP फ़ॉर Upload** में संक्षेपित करके अपनी मास Mintingशुरू करें। आपकी कला के अलावा, प्रत्येक NFT को एक नाम, विवरण, और मूल्य की आवश्यकता है। \n\nइस प्रक्रिया को सुगम बनाने के लिए इन विवरणों को पहले से एक अलग File में तैयार करें। इससे प्रत्येक NFT के लिए जानकारी को मैन्युअली दर्ज करने से बचा जा सकता है। इस File को स्वरूपित करने के लिए आगे कदमों में मार्गदर्शन मिलेगा।",
+          "title": "अपनी सभी Files तैयार करें"
         },
         "1": {
           "codeStructure": "कोड संरचना",
@@ -851,7 +851,7 @@
     "uploadDesc": "विवरण File Upload करें (ऐच्छिक)",
     "uploadDescriptionTip": "अपनी विवरण File Upload करें।",
     "uploadPics": "तस्वीरें Upload करें",
-    "uploadzipTip": "अपनी कला Fileें एक .ZIP File में संपीड़ित करें।",
+    "uploadzipTip": "अपनी कला Files एक .ZIP File में Compress करें।",
     "willBeMinted": "Mint होगा",
     "yesDelete": "हाँ, हटाएं",
     "yesMint": "हाँ, NFTS Mint करें"
@@ -879,11 +879,11 @@
         "title": "माइग्रेशन क्या है?"
       },
       "faq2": {
-        "desc": "<p>हमारे उपकरण के साथ, आपके NFT को Polkadot/Kusama Asset हब में स्थानांतरित करना कुछ ही कदमों में हो सकता है।</p></br><ol><li>अपना संग्रह या ITEM का चयन करें</li><li>ओवरव्यू में सभी विवरणों की समीक्षा करें।</li><li>माइग्रेशन प्रक्रिया प्रारंभ करें।</li><li>सभी आवश्यक लेन-देन के लिए हस्ताक्षर करें।</li></ol>",
+        "desc": "<p>हमारे उपकरण के साथ, आपके NFT को Polkadot/Kusama Asset हब में स्थानांतरित करना कुछ ही कदमों में हो सकता है।</p></br><ol><li>अपना संग्रह या वस्तु का चयन करें</li><li>ओवरव्यू में सभी विवरणों की समीक्षा करें।</li><li>माइग्रेशन प्रक्रिया प्रारंभ करें।</li><li>सभी आवश्यक लेन-देन के लिए हस्ताक्षर करें।</li></ol>",
         "title": "कैसे माइग्रेट करें?"
       },
       "faq3": {
-        "desc": "<p>लागत निर्भर करती है:</p><ul><li>गंतव्य ब्लॉकचेन - शुल्क Polkadot Asset हब और Kusama Asset हब के बीच भिन्न होते हैं।</li><li>ITEMों की संख्या - अधिक NFT को स्थानांतरित करने से कुल लागत अधिक होती है।</li></ul></br><p>आपके माइग्रेशन के लिए विस्तार से अनुमान ओवरव्यू पृष्ठ पर प्रदान किया जाता है</p>",
+        "desc": "<p>लागत निर्भर करती है:</p><ul><li>गंतव्य ब्लॉकचेन - शुल्क Polkadot Asset हब और Kusama Asset हब के बीच भिन्न होते हैं।</li><li>वस्तुएँ की संख्या - अधिक NFT को स्थानांतरित करने से कुल लागत अधिक होती है।</li></ul></br><p>आपके माइग्रेशन के लिए विस्तार से अनुमान ओवरव्यू पृष्ठ पर प्रदान किया जाता है</p>",
         "title": "क्या हैं लागतें?"
       },
       "faq4": {
@@ -902,7 +902,7 @@
     },
     "ready": {
       "cta": "संग्रह स्थानांतरित करें",
-      "desc": "एक संग्रह के निर्माता या मालिक के रूप में, आप यहां स्थानांतरण प्रारंभ कर सकते हैं। ध्यान दें, इस स्थाने स्थानांतरित किए जा सकते हैं। आपको अन्य लोगों के पास विदेशी करने के लिए ITEM पूर्व-साइन करना होगा।",
+      "desc": "एक संग्रह के निर्माता या मालिक के रूप में, आप यहां स्थानांतरण प्रारंभ कर सकते हैं। ध्यान दें, इस स्थाने स्थानांतरित किए जा सकते हैं। आपको अन्य लोगों के पास विदेशी करने के लिए वस्तु पूर्व-साइन करना होगा।",
       "status": "स्थानांतरण के लिए उपलब्ध",
       "title": "स्थानांतरण के लिए तैयार"
     },
@@ -910,20 +910,20 @@
     "review": "समीक्षा करें",
     "reviewCtaCheck": "हस्ताक्षर करने के लिए आगे बढ़ें",
     "reviewCtaUncheck": "आगे बढ़ने से पहले स्वीकृति दें",
-    "reviewNotes": "कृपया ध्यान दें कि इस स्थिति में केवल वे ITEM हो सकते हैं जो आपके पास हैं।",
+    "reviewNotes": "कृपया ध्यान दें कि इस स्थिति में केवल वे वस्तु हो सकते हैं जो आपके पास हैं।",
     "route": "मार्ग",
     "sign": "हस्ताक्षर",
-    "signNotes": "आपके ITEM की संख्या के आधार पर, आपको स्थानांतरण के लिए कई हस्ताक्षर करने की आवश्यकता हो सकती है। कृपया इस पृष्ठ पर रहें जब तक सभी हस्ताक्षर पूरी तरह से प्रक्रिया नहीं हो जाते हैं ताकि स्थानांतरण को लॉक किया जा सके।",
+    "signNotes": "आपके वस्तु की संख्या के आधार पर, आपको स्थानांतरण के लिए कई हस्ताक्षर करने की आवश्यकता हो सकती है। कृपया इस पृष्ठ पर रहें जब तक सभी हस्ताक्षर पूरी तरह से प्रक्रिया नहीं हो जाते हैं ताकि स्थानांतरण को लॉक किया जा सके।",
     "signStep": {
       "authorize": "कृपया लेन-देन की अधिराज्यता के लिए हस्ताक्षर करें ताकि NFT माइग्रेशन पूर्ण हो सके।",
       "done": "किया गया",
       "finalization": "पूर्णीकरण",
-      "finalizingItems": "{0} ITEMों को पूर्ण कर रहे हैं",
+      "finalizingItems": "{0} वस्तुओं को पूर्ण कर रहे हैं",
       "initiation": "प्रारंभ चरण",
       "journey": "एक पहले लेन-देन के साथ आपके यात्रा को शुरू करना जिसमें नए श्रृंग पर सभी आवश्यक चीजें सेट की जाती हैं।",
       "left": "बाकी है",
-      "migratingItems": "आपके ITEMों को माइग्रेट कर रहे हैं",
-      "migratingNItems": "{0} ITEMों को माइग्रेट कर रहे हैं",
+      "migratingItems": "आपके वस्तुओं को माइग्रेट कर रहे हैं",
+      "migratingNItems": "{0} वस्तुओं को माइग्रेट कर रहे हैं",
       "noSignature": "कोई हस्ताक्षर की आवश्यकता नहीं है",
       "notesModal": "- कृपया इस मोडल को बंद ना करें जब तक लेन-देन पूर्ण नहीं होते -",
       "notesPopup": "आपके wallet एक्सटेंशन से हस्ताक्षर के लिए पॉपअप देखें।",
@@ -931,12 +931,12 @@
       "signtx": "अब आपको हस्ताक्षर करना होगा ताकि आपकी स्वामित्व में रहने वाली NFTs को माइग्रेट किया जा सके।"
     },
     "source": "Source",
-    "subHeading": "Welcome to our migration page. Here, we've simplified moving your NFTs from Kusama to the Polkadot Asset Hub, making the process quick, easy and efficient.",
+    "subHeading": "हमारे माइग्रेशन पेज में आपका स्वागत है। यहां, हमने आपके NFTs को Kusama से Polkadot एसेट हब में मार्गरित करने को सरल बना दिया है, जिससे प्रक्रिया तेज, सरल और कुशल हो गई है।",
     "tooltipCollection": "अपने संग्रह को नहीं देख रहे हैं?",
     "tooltipCollectionLabel": "अपने संग्रह को सूची में नहीं देख रहे हैं? सुनिश्चित करें कि आप उस खाता/पते से कनेक्ट हैं जिसके पास संग्रह है।",
     "waiting": {
-      "cta": "ITEM्स को स्थानांतरित करें",
-      "desc": "यहां उन व्यक्तिगत ITEM्स को दिखाया जाता है जो आपके पास हैं जो संग्रहों से स्थानांतरित हो गए हैं। इन टुकड़ों को तुरंत स्थानांतरित करके आप सुनिश्चित हो सकते हैं कि आप अद्यतित हैं। कृपया ध्यान दें, आप केवल तब स्थानांतरण शुरू कर सकते हैं जब संग्रह के स्वामी इसे प्रारंभ करते हैं।",
+      "cta": "वस्तुओं को स्थानांतरित करें",
+      "desc": "यहां उन व्यक्तिगत वस्तुओं को दिखाया जाता है जो आपके पास हैं जो संग्रहों से स्थानांतरित हो गए हैं। इन टुकड़ों को तुरंत स्थानांतरित करके आप सुनिश्चित हो सकते हैं कि आप अद्यतित हैं। कृपया ध्यान दें, आप केवल तब स्थानांतरण शुरू कर सकते हैं जब संग्रह के स्वामी इसे प्रारंभ करते हैं।",
       "own": "आपके पास इस संग्रह से <strong>{0}</strong> हैं",
       "status": "संग्रह को स्थानांतरित किया गया था द्वारा",
       "title": "आपके क्रिया का इंतजार है"
@@ -989,10 +989,10 @@
     "estimated": "अनुमानित शुल्क",
     "expert": {
       "count": "वर्तमान मेला {0} पतों के साथ मेल खाता है",
-      "countGlitch": "आपके पास उपलब्ध संस्करण से अधिक पते हैं। इससे समस्या हो सकती है। कृपया EDITION क्षेत्र को कम से कम {0} पर सेट करने की सोचें",
-      "hide": "उन्नत Settings छुपाएं",
+      "countGlitch": "आपके पास उपलब्ध Version से अधिक पते हैं। इससे समस्या हो सकती है। कृपया EDITION क्षेत्र को कम से कम {0} पर सेट करने की सोचें",
+      "hide": "उन्नत समायोजन छुपाएं",
       "postfix": "नाम के बाद हैशटैग और सूची संख्या जोड़ें (उदाहरण के लिए #1)",
-      "show": "उन्नत Settings दिखाएं",
+      "show": "उन्नत समायोजन दिखाएं",
       "sync": "संस्करणों को {0} के साथ सिंक्रनाइज़ करें"
     },
     "landing": {
@@ -1053,19 +1053,19 @@
         "addFunds": "Fund जोड़ें",
         "carbonless": "कार्बनलेस",
         "conjunction": "या उपयोग करें",
-        "depositTooltip": "एक ITEM बनाने के लिए {0} {1} का जमा किया जाना चाहिए। कृपया ध्यान दें, यह प्रारंभिक जमा वापसी के योग्य है।",
+        "depositTooltip": "एक वस्तु बनाने के लिए {0} {1} का जमा किया जाना चाहिए। कृपया ध्यान दें, यह प्रारंभिक जमा वापसी के योग्य है।",
         "existentialDeposit": "NFT अस्तित्वी संरक्षण जमा",
         "intoCollection": "संग्रह में",
         "kodadotFee": "KodaDot शुल्क",
-        "kodadotTooltip": "इस विकल्प को सक्रिय रखकर आप अपने JPEG कोडाओं को धारित करने के लिए Kodadot द्वारा उठाए गए प्रारंभिक खर्चों में सहायक हो रहे हैं। आप अपनी पसंद को Settings में कभी भी बदल सकते हैं।",
+        "kodadotTooltip": "इस विकल्प को सक्रिय रखकर आप अपने JPEG कोडाओं को धारित करने के लिए Kodadot द्वारा उठाए गए प्रारंभिक खर्चों में सहायक हो रहे हैं। आप अपनी पसंद को समायोजन में कभी भी बदल सकते हैं।",
         "login": "साइनिंग जारी रखें",
         "network": "Network",
         "networkFee": "Network शुल्क",
         "notEnoughFund": "{1} पर {0} पर पर्याप्त नहीं है",
         "price": "मूल्य",
-        "process": "MINTिंग के साथ जारी रखें",
+        "process": "Mintingके साथ जारी रखें",
         "serviceFee": "सेवा का कमीशन",
-        "teleport": "TELEPORT",
+        "teleport": "टेलीपोर्ट",
         "title": "NFT को MINT करें",
         "totalFee": "कुल शुल्क"
       },
@@ -1097,11 +1097,11 @@
     "successNewNfts": "आपने सफलता पूर्वक इस NFT को खरीदा है",
     "successPurchasedNfts": "आपने {0} को सफलता पूर्वक खरीदा है",
     "transform": "NFT में कमांड ट्रांसफ़ॉर्म करें",
-    "unlimited": "आपके कलेक्शन में असीमित ITEM्स",
+    "unlimited": "आपके कलेक्शन में असीमित वस्तुएँ",
     "unlockable": {
       "addFundsModal": {
         "howToAddFunds": "Fund जोड़ने का तरीका",
-        "textP1": "इस मुक्त, गैस मुक्त drop में भाग लेने के लिए, आपके wallet में कम से कम <strong>{0} on {1}</strong> होना चाहिए।",
+        "textP1": "इस मुक्त, गैस मुक्त Drop में भाग लेने के लिए, आपके wallet में कम से कम <strong>{0} on {1}</strong> होना चाहिए।",
         "textP2": "कृपया जारी रखने के लिए Fund जोड़ें",
         "title": "क्रिया आवश्यक है",
         "tooltip": {
@@ -1120,11 +1120,11 @@
       "eligible": "आप योग्य हैं",
       "exclusive": "केवल विशेष उपयोग के लिए",
       "freeMinimumFundsDescription": "इस मुफ्त MINT के लिए आपके wallet में <strong>{0} को {1} पर रखना</strong> आवश्यक है।",
-      "freeMintLive": "मुफ्त जेनरेटिव drop",
-      "freeMintLiveSmall": "मुफ्त जेनरेटिव drop",
+      "freeMintLive": "मुफ्त जेनरेटिव Drop",
+      "freeMintLiveSmall": "मुफ्त जेनरेटिव Drop",
       "generating": "जेनरेट हो रहा है",
-      "howItemWork": "कैसे अनलॉकेबल ITEM काम करता है",
-      "imageTip": "संभावित drop के उदाहरण",
+      "howItemWork": "कैसे अनलॉकेबल वस्तु काम करता है",
+      "imageTip": "संभावित Drop के उदाहरण",
       "loader": {
         "onTwitter": "Twitter पर",
         "shareSuccess": "अपनी सफलता को साझा करें",
@@ -1135,28 +1135,28 @@
         "viewNFTNow3": "अब दृश्यमान है।"
       },
       "minimumFundsDescription": "आपके wallet में <strong>{0} को {1} पर रखना</strong> आवश्यक है",
-      "mintedOut": "जेनरेटिव drop MINT हो गया है",
-      "mintedOutSmall": "drop MINT हो गया",
-      "mintLive": "जेनरेटिव drop MINTिंग अब हो रही है",
-      "mintLiveSmall": "जेनरेटिव drop",
+      "mintedOut": "जेनरेटिव Drop MINT हो गया है",
+      "mintedOutSmall": "Drop MINT हो गया",
+      "mintLive": "जेनरेटिव Drop Mintingअब हो रही है",
+      "mintLiveSmall": "जेनरेटिव Drop",
       "mintThisNft": "इस NFT को MINT करें",
       "nftAlreadyMinted": "NFT पहले से MINT हो गया है",
       "notEligibility": "योग्य नहीं",
-      "onlyOneExample": "drop का उदाहरण",
+      "onlyOneExample": "Drop का उदाहरण",
       "open": "खुला हुआ",
       "phase": "MINT चरण",
-      "phaseIntroduction": "प्रति चरण में हमें प्रति चरण में 60 मिनट का समय होगा, प्रति में केवल 10 विशेष ITEM शामिल होंगे।",
-      "preparing": "आपके ITEM की तैयारी हो रही है...",
+      "phaseIntroduction": "प्रति चरण में हमें प्रति चरण में 60 मिनट का समय होगा, प्रति में केवल 10 विशेष वस्तु शामिल होंगे।",
+      "preparing": "आपके वस्तु की तैयारी हो रही है...",
       "readyIn": "आपका MINT {0} में तैयार होगा, इस विंडो को बंद न करें",
       "seeListings": "लिस्टिंग देखें",
       "seeYourNft": "अपना NFT देखें",
       "takeMe": "अपना अधिकार दावित करें",
       "variations": "नए जेनरेट करें",
-      "viewItem": "ITEM देखें",
+      "viewItem": "वस्तु देखें",
       "yourVariation": "आपका विशेष रूप"
     }
   },
-  "Minting Settings": "Minting Settings",
+  "Minting Settings": "Minting समायोजन",
   "moreActions": {
     "customize": "कस्टमाइज़ करें",
     "deleteCollection": "कलेक्शन हटाएं",
@@ -1251,9 +1251,9 @@
     "gains": "लाभ",
     "highestSales": "सबसे उच्च बिक्री",
     "holdings": "धारणाएँ",
-    "page": "प्रोFile",
+    "page": "प्रोफाइल",
     "searchNoResultsButton": "{0} पर अन्वेषित करें",
-    "searchNoResultsText": "अन्य Network्स ({0}) पर कलाकार क portfoilio अन्वेषित करें",
+    "searchNoResultsText": "अन्य Networks ({0}) पर कलाकार क portfoilio अन्वेषित करें",
     "searchNoResultsTitle": "चयनित श्रृंग से कोई संपत्तियाँ नहीं हैं",
     "showQr": "क्यूआर दिखाएँ",
     "sold": "बिका",
@@ -1275,9 +1275,9 @@
     "totalAmountSpend": "Σ खर्च की गई राशि",
     "totalBuys": "Σ खरीदें",
     "totalHoldingsBoughtValues": "धारणा खरीदी गई मूल्य",
-    "totalItems": "Σ ITEM",
+    "totalItems": "Σ वस्तु",
     "totalSellValues": "Σ बिक्री मूल्य",
-    "totalSoldItems": "Σ बेचे गए ITEM"
+    "totalSoldItems": "Σ बेचे गए वस्तु"
   },
   "qrCode": "क्यूआर कोड",
   "query": {
@@ -1321,7 +1321,7 @@
     "rankings": "रैंकिंग्स",
     "searchCollection": "collection खोजें",
     "seeAll": "सभी देखें",
-    "units": "इकाइयाँ"
+    "units": "Units"
   },
   "series": {
     "assets": "संपत्तियाँ",
@@ -1392,7 +1392,7 @@
       "sortBy": "क्रमबद्ध करें द्वारा",
       "supply_ASC": "सबसे कम आपूर्ति",
       "supply_DESC": "सबसे अधिक आपूर्ति",
-      "updatedAt_ASC": "अपपुलर",
+      "updatedAt_ASC": "Unpopular",
       "updatedAt_DESC": "हाल ही में संवादित",
       "volume_DESC": "वॉल्यूम"
     },
@@ -1402,7 +1402,7 @@
     "price_ASC": "मूल्य: कम से उच्च",
     "price_DESC": "मूल्य: उच्च से कम",
     "sn_ASC": "वर्णक्रमानुसार",
-    "updatedAt_ASC": "अप्रसार्पित",
+    "updatedAt_ASC": "Unpopular",
     "updatedAt_DESC": "हाल ही में इंटरएक्ट किया गया"
   },
   "spotlight": {
@@ -1423,7 +1423,7 @@
     "unique": "∃!",
     "uniqueCollectors": "∃! कलेक्टर्स",
     "uniqueCollectorsTooltip": "अद्वितीय कलेक्टर्स",
-    "uniqueItemsTooltip": "अद्वितीय ITEM्स"
+    "uniqueItemsTooltip": "अद्वितीय वस्तुएँ"
   },
   "statsOverview": {
     "activeWallets": "सक्रिय वॉलेट्स",
@@ -1459,7 +1459,7 @@
       "event": "घटना",
       "from": "से",
       "LIST": "सूचियाँ",
-      "MINTNFT": "Mint्स",
+      "MINTNFT": "Mints",
       "price": "मूल्य",
       "SEND": "स्थानांतरण",
       "to": "को"
@@ -1476,7 +1476,7 @@
       "metadata": "मेटाडेटा",
       "royalties": "Royalty",
       "tokenStandard": "टोकन मानक",
-      "version": "संस्करण"
+      "version": "Version"
     },
     "tabProperties": {
       "floorPrice": "फ्लोर मूल्य",
@@ -1495,12 +1495,12 @@
     "donationSentTo": "आपका दान भेजा जाएगा:",
     "existentialDepositTooltip": "{0} + शुल्क कम से कम राशि खोने के जोखिम में हैं। आगे बढ़ने के लिए न्यूनतम राशि दर्ज करें।",
     "from": "से",
-    "fundLossRisk": "Fund्स हानि का जोखिम",
-    "fundsAtRisk": "Fund्स धन के सम्मुख खतरे में हैं",
+    "fundLossRisk": "Funds हानि का जोखिम",
+    "fundsAtRisk": "Funds धन के सम्मुख खतरे में हैं",
     "howItWorks": "यह कैसे काम करता है?",
     "insufficientAmountAfterFees": "शुल्क के बाद अपर्याप्त मात्रा",
     "insufficientBalance": "अपर्याप्त {0} शेष",
-    "lossOfFunds": "Fund्स की हानि।",
+    "lossOfFunds": "Funds की हानि।",
     "max": "अधिकतम",
     "ownerMessage": "(आप मालिक हैं)",
     "page": "टेलीपोर्ट",
@@ -1554,7 +1554,7 @@
     "random": "कुछ भी दिखाएं",
     "smallDisplay": "छोटा प्रदर्शन",
     "sold": "द्वारा बिक्री किए गए NFT",
-    "supportFee": "इस सुविधा को सक्षम करने से आप अपने JPEGs के लिए Kodadot को प्रारंभिक स्टोरेज लागत का समर्थन कर रहे हैं। इस पसंद को Settings में कभी भी संशोधित किया जा सकता है।",
+    "supportFee": "इस सुविधा को सक्षम करने से आप अपने JPEGs के लिए Kodadot को प्रारंभिक स्टोरेज लागत का समर्थन कर रहे हैं। इस पसंद को समायोजन में कभी भी संशोधित किया जा सकता है।",
     "symbol": "NFT का प्रतीक: उदाहरण के लिए, Kusama को KSM कहा जाता है"
   },
   "topCollections": {
@@ -1568,16 +1568,16 @@
   "transaction": {
     "addressIncorrect": "पता गलत है",
     "buy": {
-      "error": "इस ITEM को खरीदने में विफल"
+      "error": "इस वस्तु को खरीदने में विफल"
     },
     "consume": {
-      "error": "ITEM जलाने में विफल",
-      "success": "ITEM जला दिया गया"
+      "error": "वस्तु जलाने में विफल",
+      "success": "वस्तु जला दिया गया"
     },
     "inputAddressFirst": "पहले पता दर्ज करें",
     "item": {
-      "error": "ITEM भेजने में विफल",
-      "success": "ITEM भेजा गया"
+      "error": "वस्तु भेजने में विफल",
+      "success": "वस्तु भेजा गया"
     },
     "list": "सूची",
     "price": {
@@ -1592,10 +1592,10 @@
     "transferNft": "NFT को स्थानांतरित करें",
     "transferTo": "को स्थानांतरित करें",
     "unlist": {
-      "error": "ITEM अनलिस्ट करने में विफल",
-      "success": "ITEM सफलतापूर्वक अनलिस्ट किया गया"
+      "error": "वस्तु अनलिस्ट करने में विफल",
+      "success": "वस्तु सफलतापूर्वक अनलिस्ट किया गया"
     },
-    "wrongAddressCannotRecoveredWarning": "गलत पते पर भेजे गए ITEM को पुनः प्राप्त किया नहीं जा सकता है।"
+    "wrongAddressCannotRecoveredWarning": "गलत पते पर भेजे गए वस्तु को पुनः प्राप्त किया नहीं जा सकता है।"
   },
   "transactionLoader": {
     "completed": "पूर्ण",
@@ -1618,7 +1618,7 @@
   },
   "transfers": {
     "addAddress": "प्राप्तकर्ता जोड़ें",
-    "displayUnit": "प्रदर्शित इकाइयाँ",
+    "displayUnit": "प्रदर्शित Units",
     "invalidAddress": {
       "addressChanged": {
         "content": "पता सफलतापूर्वक {selectedChain} Network के लिए बदल गया था। आप यहां सहीपन की जाँच कर सकते हैं <a href='https://kusama.subscan.io/tools/format_transform' target='_blank'>यहां</a>।",
@@ -1654,9 +1654,9 @@
   },
   "tutorial": "ट्यूटोरियल",
   "unlockable": {
-    "claimDrop": "drop का दावा करें",
-    "claimPhysicalDrop": "भौतिक drop का दावा करें",
-    "item": "खुलासने योग्य ITEM",
+    "claimDrop": "Drop का दावा करें",
+    "claimPhysicalDrop": "भौतिक Drop का दावा करें",
+    "item": "खुलासने योग्य वस्तु",
     "ownerOnly": "केवल मालिक",
     "tooltip": "खरीद के बाद खुलने वाली सामग्री"
   },
