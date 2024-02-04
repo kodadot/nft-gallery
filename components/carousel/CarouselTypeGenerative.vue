@@ -1,7 +1,7 @@
 <template>
   <CarouselIndex
     data-testid="generative-activity"
-    :title="$t('general.generativeActivity')"
+    :title="$t('general.generativeArt')"
     :nfts="nfts.value"
     action-type="pagination" />
 </template>
