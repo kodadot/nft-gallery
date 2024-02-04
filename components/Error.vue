@@ -1,5 +1,5 @@
 <template>
-  <div id="Error" class="container text-center section">
+  <div id="Error" class="container text-center p-2 sm:px-6 sm:py-12">
     <h1 class="title">{{ errorTitle }}</h1>
     <p class="subtitle">{{ errorSubtitle }}</p>
     <img v-if="hasImg" :src="imgSrc" alt="Internal error cat" />
