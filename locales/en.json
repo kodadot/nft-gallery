@@ -1475,6 +1475,7 @@
     "signTransaction": "Sign Transaction",
     "paidDropWhyTooltip": "A balance above <strong>{0}</strong> is required to maintain your account's activity, covering the <strong>{1} Existential Deposit,</strong> and to enable seamless future actions.",
     "createNewVariation": "Create your new variation",
+    "holderOfCollection": "Holder of NFT from {name} collection",
     "requirements": {
       "minimumFunds": "a Minimum of <strong>{0}</strong> On {1} in your wallet"
     },

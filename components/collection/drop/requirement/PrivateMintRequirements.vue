@@ -6,17 +6,15 @@
           v-if="showHolderOfCollection && collection"
           :fulfilled="fulfillsHolderOfCollection"
           :loading="holderOfCollection.isLoading">
-          <div class="flex justify-between items-center w-full">
-            <p class="capitalize">
-              Holder of NFT from
+          <i18n-t keypath="drops.holderOfCollection" class="capitalize" tag="p">
+            <template #name>
               <nuxt-link
                 class="has-text-link"
                 :to="`/${urlPrefix}/collection/${props.holderOfCollection.id}`">
                 {{ collection?.name }}
               </nuxt-link>
-              collection
-            </p>
-          </div>
+            </template>
+          </i18n-t>
         </MintRequirementItem>
         <CollectionDropRequirementItem
           :fulfilled="fulfillsMinimumFunds"
