@@ -215,7 +215,7 @@ function updatePriceRangeByQuery(minValue?: string, maxValue?: string) {
 }
 
 function nativeSearch() {
-  if (Boolean(name.value)) {
+  if (name.value) {
     neoModal.closeAll()
   }
 
