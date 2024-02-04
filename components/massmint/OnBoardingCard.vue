@@ -10,7 +10,7 @@
         <span class="text-2xl">{{ count }}</span>
       </div>
       <slot>
-        <div class="content text-xl sm:text-base">
+        <div class="content text-xl/[1.5] sm:text-base/[1.5]">
           <Markdown :source="content" />
         </div>
       </slot>
