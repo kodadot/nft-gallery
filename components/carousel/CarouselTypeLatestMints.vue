@@ -14,7 +14,7 @@
           </nuxt-link>
 
           <div class="flex flex-col items-start">
-            <div class="flex justify-between items-center hidden md:inline">
+            <div class="flex justify-between items-center hidden md:flex">
               <p class="text-xs text-k-grey">
                 {{ $t('drops.mintedBy') }}
               </p>
