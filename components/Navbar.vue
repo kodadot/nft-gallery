@@ -9,10 +9,7 @@
     <div class="container items-center" :class="{ 'is-fluid': !isTouch }">
       <!-- BRAND -->
       <div class="navbar-brand">
-        <nuxt-link
-          to="/"
-          class="navbar-item logo nuxt-link-active"
-          @click="closeAllModals">
+        <nuxt-link to="/" class="navbar-item logo nuxt-link-active">
           <img
             :src="logoSrc"
             alt="First NFT market explorer on Kusama and Polkadot" />
@@ -79,7 +76,7 @@
 
         <!-- NAV END -->
         <div class="navbar-end">
-          <nuxt-link to="/ahp/drops" rel="nofollow" @click="closeAllModals">
+          <nuxt-link to="/ahp/drops" rel="nofollow">
             <div class="navbar-item" data-testid="drops">
               {{ $t('drops.title') }}
 
