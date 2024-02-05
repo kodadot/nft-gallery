@@ -223,9 +223,6 @@ onMounted(async () => {
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 
-.w-half {
-  width: 50%;
-}
 :deep(.override-wrapper-width) {
   .o-btn__wrapper {
     width: unset !important;
