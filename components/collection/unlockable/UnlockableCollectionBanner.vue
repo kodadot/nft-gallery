@@ -4,12 +4,8 @@
 
     <section class="h-[368px] lg:h-full">
       <div
-        :class="[
-          'container h-full flex',
-          'justify-end items-start flex-col',
-          'md:justify-between md:items-end md:flex-row',
-          { 'is-fluid': !isFullHD },
-        ]">
+        class="container h-full flex justify-end items-start flex-col md:justify-between md:items-end md:flex-row"
+        :class="{ 'is-fluid': !isFullHD }">
         <div class="flex flex-col items-start max-md:mb-8 md:h-[212px]">
           <div class="collection-banner-avatar">
             <NuxtImg
