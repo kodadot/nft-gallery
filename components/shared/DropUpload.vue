@@ -16,7 +16,7 @@
           drag-drop
           :expanded="expanded"
           :accept="accept">
-          <section class="section">
+          <section class="px-6 py-12">
             <div class="content text-center">
               <NeoIcon v-if="!file && !url" :icon="icon" custom-size="fa-2x" />
               <div v-if="url && !isModelMedia" @click.prevent>
