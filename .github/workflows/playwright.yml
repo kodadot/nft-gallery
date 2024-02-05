@@ -6,12 +6,11 @@ on:
     branches: [main, beta, production, nuxt]
 jobs:
   shard-number:
-    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        shardIndex: [1, 2, 3, 4, 5, 6]
-        shardTotal: [6]
+        os: [ubuntu-latest, macos-14]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -30,7 +29,7 @@ jobs:
           PR_NUMBER: ${{ github.event.number }}
     
       - name: Run Playwright tests
-        run: pnpm exec playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+        run: pnpm exec playwright test
         env: 
           PR_NUMBER: ${{ github.event.number }}
       - uses: actions/upload-artifact@v3
