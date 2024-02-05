@@ -2,7 +2,7 @@
   <div>
     <div class="flex justify-between items-center mb-5">
       <div class="font-bold is-size-5">
-        {{ currentPhase.title }}
+        {{ currentPhaseTitle }}
       </div>
       <div
         v-if="mintCountAvailable && !disabledByBackend"
@@ -54,15 +54,9 @@ const fulfillsMinimumFunds = computed(
   () => Boolean(props.minimumFunds.amount) && props.minimumFunds.hasAmount,
 )
 
-const currentPhase = computed(() => {
-  if (showHolderOfCollection.value) {
-    return {
-      title: $i18n.t('drops.phases.private'),
-    }
-  }
-
-  return {
-    title: $i18n.t('drops.phases.public'),
-  }
-})
+const currentPhaseTitle = computed(() =>
+  showHolderOfCollection.value
+    ? $i18n.t('drops.phases.private')
+    : $i18n.t('drops.phases.public'),
+)
 </script>
