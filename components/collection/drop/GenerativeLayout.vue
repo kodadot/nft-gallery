@@ -1,6 +1,7 @@
 <template>
   <div class="border-t">
-    <div class="container pt-6" :class="{ 'is-fluid': !isFullHD }">
+    <div
+      class="relative w-full mx-auto px-[1.25rem] md:px-[2.5rem] min-[1440px]:max-w-[1440px] pt-6">
       <div class="columns is-variable is-4-tablet">
         <div class="column is-half-desktop mobile-padding lg:max-w-[600px]">
           <div class="font-bold is-size-5 mb-4">
@@ -106,8 +107,6 @@ const props = withDefaults(
     userMintedNftId: undefined,
   },
 )
-
-const { isFullHD } = useViewport()
 
 const { collection: collectionInfo } = useCollectionMinimal({
   collectionId: computed(() => props.collectionId),
