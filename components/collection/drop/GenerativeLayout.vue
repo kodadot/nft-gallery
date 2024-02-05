@@ -12,11 +12,10 @@
             :collection-id="collectionId"
             :description="description" />
 
-          <hr v-if="!isMobile" class="mt-7 mb-0" />
+          <hr class="hidden md:block mt-7 mb-0" />
 
           <CollectionDropGenerativePreview
-            v-if="isMobile"
-            class="mt-7"
+            class="md:hidden mt-7"
             :minted="userMintedCount"
             :drop="drop"
             :user-minted-nft-id="userMintedNftId"
@@ -44,7 +43,7 @@
           <CollectionUnlockableTag :collection-id="collectionId" />
         </div>
 
-        <div v-if="!isMobile" class="column flex justify-end mt-[-245px]">
+        <div class="column hidden md:flex justify-end mt-[-245px]">
           <CollectionDropGenerativePreview
             :minted="userMintedCount"
             :drop="drop"
@@ -108,7 +107,7 @@ const props = withDefaults(
   },
 )
 
-const { isFullHD, isMobile } = useViewport()
+const { isFullHD } = useViewport()
 
 const { collection: collectionInfo } = useCollectionMinimal({
   collectionId: computed(() => props.collectionId),
