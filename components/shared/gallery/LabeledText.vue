@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="label">
+    <p class="label text-xs/normal">
       {{ $t(label) }}
     </p>
     <p class="subtitle is-size-6">
