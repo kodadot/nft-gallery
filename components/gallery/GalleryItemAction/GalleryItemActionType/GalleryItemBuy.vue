@@ -18,7 +18,7 @@
           @click="onClickShoppingCart">
           <NeoIcon
             size="medium"
-            class="icon"
+            class="w-4 h-4"
             :icon="
               shoppingCartStore.isItemInCart(nft.id)
                 ? 'fa-striked-out-cart-shopping'
