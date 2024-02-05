@@ -12,7 +12,7 @@ type ListCartItemInternal = {
   name: string
   urlPrefix: string
   price: string
-  listPrice: number
+  listPrice?: number
   collection: EntityWithId
   meta?: NFTMetadata
   metadata?: string
