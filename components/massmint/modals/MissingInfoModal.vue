@@ -1,7 +1,7 @@
 <template>
   <NeoModal :value="isModalActive" scroll="clip" @close="emit('close')">
-    <div class="p-6 modal-width">
-      <div class="border-b border-grey">
+    <div class="p-6 w-[unset] lg:w-[25rem]">
+      <div class="border-b border-k-shade">
         <p class="font-bold pb-4 is-size-5 flex justify-center px-0">
           {{ $t('massmint.missingRequiredInfo') }}
         </p>
@@ -36,7 +36,7 @@
             }}
           </div>
         </div>
-        <div class="mt-6 limit-note-width">
+        <div class="mt-6 max-w-xs">
           {{ $t('massmint.cantMintNote') }}
         </div>
       </div>
@@ -45,7 +45,7 @@
           :label="$t('massmint.goBack')"
           variant="k-accent"
           no-shadow
-          class="flex flex-grow btn-height"
+          class="flex flex-grow h-[3.25rem]"
           @click="emit('close')" />
       </div>
     </div>
@@ -66,7 +66,3 @@ const isModalActive = useVModel(props, 'modelValue')
 
 const emit = defineEmits(['close'])
 </script>
-
-<style lang="scss" scoped>
-@import './modals.scss';
-</style>
