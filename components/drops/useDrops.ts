@@ -1,11 +1,11 @@
 import { CollectionWithMeta } from '../rmrk/service/scheme'
 import {
-  DropMintedStatus,
+  type DropMintedStatus,
   getDropById,
   getDropMintedStatus,
   getDropStatus,
   getDrops,
-} from '@/services/waifu'
+} from '@/services/fxart'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { DropItem } from '@/params/types'

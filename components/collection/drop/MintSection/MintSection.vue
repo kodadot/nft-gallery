@@ -81,7 +81,7 @@
 
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
-import { type DropMintedStatus } from '@/services/waifu'
+import { type DropMintedStatus } from '@/services/fxart'
 import type {
   HolderOfCollectionProp,
   MinimumFundsProp,

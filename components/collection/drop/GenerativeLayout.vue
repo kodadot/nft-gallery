@@ -67,7 +67,7 @@
 
 <script setup lang="ts">
 import { DropItem } from '@/params/types'
-import { type DropMintedStatus } from '@/services/waifu'
+import { type DropMintedStatus } from '@/services/fxart'
 import type {
   HolderOfCollectionProp,
   MinimumFundsProp,
@@ -99,6 +99,7 @@ withDefaults(
     description: '',
     userMintedNftId: undefined,
     currentAccountMintedToken: undefined,
+    holderOfCollection: undefined,
   },
 )
 
