@@ -58,7 +58,7 @@ export interface ParamDef {
   type: TypeDef
 }
 
-export type DropType = 'paid' | 'generative' | 'drop' | 'vote'
+export type DropType = 'paid' | 'free' | 'holder'
 
 export type DropItem = {
   id: string
