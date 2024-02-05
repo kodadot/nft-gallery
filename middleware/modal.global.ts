@@ -1,8 +1,8 @@
 export default defineNuxtRouteMiddleware(() => {
-  const nuxtApp = useNuxtApp()
+  const { isHydrating } = useNuxtApp()
   const { neoModal } = useProgrammatic()
 
-  const isInitialLoad = process.client && nuxtApp.isHydrating
+  const isInitialLoad = process.client && isHydrating
 
   if (!isInitialLoad) {
     neoModal.closeAll()
