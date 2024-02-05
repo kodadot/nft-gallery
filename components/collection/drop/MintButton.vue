@@ -1,42 +1,24 @@
 <template>
-  <div>
-    <div v-if="userMintedNftId" class="flex justify-end items-center">
-      <div class="mr-2">
-        {{ $t('mint.unlockable.nftAlreadyMinted') }}
-      </div>
-      <NeoIcon icon="circle-check has-text-success" pack="fass" class="mr-4" />
-      <NeoButton
-        class="my-2 mint-button"
-        :tag="NuxtLink"
-        :label="$t('mint.unlockable.seeYourNft')"
-        :to="`/${urlPrefix}/gallery/${userMintedNftId}`" />
-    </div>
-
-    <div class="flex justify-end flex-wrap">
-      <NeoButton
-        ref="root"
-        variant="k-accent"
-        expanded
-        no-shadow
-        size="large"
-        :loading="loading"
-        :disabled="buttonMint.disabled"
-        :loading-with-label="buttonMint.withLabel || isWalletConnecting"
-        :label="buttonMint.label"
-        @click="handleMint" />
-    </div>
-  </div>
+  <NeoButton
+    ref="root"
+    variant="k-accent"
+    expanded
+    no-shadow
+    size="large"
+    :loading="loading"
+    :disabled="buttonMint.disabled"
+    :loading-with-label="buttonMint.withLabel || isWalletConnecting"
+    :label="buttonMint.label"
+    @click="handleMint" />
 </template>
 
 <script setup lang="ts">
-import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import { NeoButton } from '@kodadot1/brick'
 import type {
   HolderOfCollectionProp,
   MinimumFundsProp,
   MintButtonProp,
 } from '@/components/collection/drop/types'
-
-const NuxtLink = resolveComponent('NuxtLink')
 
 const props = defineProps<{
   mintCountAvailable: boolean
