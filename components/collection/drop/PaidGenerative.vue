@@ -69,7 +69,7 @@ const props = withDefaults(
 
 useMultipleBalance()
 const { chainSymbol, decimals } = useChain()
-
+const { hasCurrentChainBalance } = useMultipleBalance()
 const {
   hasMinimumFunds,
   formattedMinimumFunds,
@@ -77,7 +77,7 @@ const {
   formattedExistentialDeposit,
 } = useDropMinimumFunds(props.drop)
 const minimumFundsDescription = computed(() =>
-  $i18n.t('mint.unlockable.minimumFundsDescription', [
+  $i18n.t('drops.requirements.minimumFunds', [
     formattedMinimumFunds.value,
     chainName.value,
   ]),
@@ -95,6 +95,7 @@ const minimumFundsProps = computed(() => ({
   amount: minimumFunds.value,
   description: minimumFundsDescription.value,
   hasAmount: hasMinimumFunds.value,
+  isLoading: !hasCurrentChainBalance.value,
 }))
 
 const isWalletConnecting = ref(false)
@@ -193,7 +194,7 @@ const maxMintLimitForCurrentUser = computed(() => maxCount.value)
 const mintButtonLabel = computed(() => {
   return isWalletConnecting.value
     ? $i18n.t('shoppingCart.wallet')
-    : $i18n.t('mint.unlockable.claimPaidNft', [
+    : $i18n.t('drops.mintForPaid', [
         `${formatAmountWithRound(price.value || '', decimals.value)} ${
           chainSymbol.value
         }`,

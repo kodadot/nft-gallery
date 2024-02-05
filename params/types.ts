@@ -66,6 +66,7 @@ export type DropItem = {
   collection: string
   image: string
   name: string
+  content: string
   alias: string
   type: DropType
   meta: string
