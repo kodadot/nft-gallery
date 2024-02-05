@@ -172,7 +172,7 @@ const mintButtonLabel = computed(() => {
   if (isWalletConnecting.value) {
     return $i18n.t('shoppingCart.wallet')
   }
-  return $i18n.t('mint.unlockable.claimNftNow')
+  return $i18n.t('drops.mintForFree')
 })
 
 const mintButtonProps = computed(() => ({

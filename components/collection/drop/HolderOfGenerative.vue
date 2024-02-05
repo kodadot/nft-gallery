@@ -214,7 +214,7 @@ const mintButtonLabel = computed(() => {
         maxMintLimitForCurrentUser.value > mintedAmountForCurrentUser.value &&
         hasMinimumFunds.value &&
         hasAvailableNfts.value
-        ? $i18n.t('mint.unlockable.claimPaidNft', [
+        ? $i18n.t('drops.mintForPaid', [
             `${depositAmount.value} ${depositChainSymbol.value}`,
           ])
         : $i18n.t('mint.unlockable.notEligibility')

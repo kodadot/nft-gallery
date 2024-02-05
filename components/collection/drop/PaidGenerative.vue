@@ -194,7 +194,7 @@ const maxMintLimitForCurrentUser = computed(() => maxCount.value)
 const mintButtonLabel = computed(() => {
   return isWalletConnecting.value
     ? $i18n.t('shoppingCart.wallet')
-    : $i18n.t('mint.unlockable.claimPaidNft', [
+    : $i18n.t('drops.mintForPaid', [
         `${formatAmountWithRound(price.value || '', decimals.value)} ${
           chainSymbol.value
         }`,
