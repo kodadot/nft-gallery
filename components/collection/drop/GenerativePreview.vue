@@ -1,7 +1,7 @@
 <template>
   <div class="fixed-size border">
     <div
-      class="fixed-top-left border px-4 py-2 theme-background-color has-z-index-1 no-wrap">
+      class="fixed-top-left border px-4 py-2 bg-background-color z-[1] whitespace-nowrap">
       {{ $t('mint.unlockable.yourVariation') }}
     </div>
 
@@ -10,7 +10,7 @@
       :mime-type="generativeImageUrl ? 'text/html' : ''"
       preview
       is-detail
-      class="border-bottom" />
+      class="border-b" />
     <div class="flex justify-center items-center py-6">
       <NeoButton
         v-if="isLoading"
@@ -33,12 +33,12 @@
 
       <a
         v-safe-href="sanitizeIpfsUrl(displayUrl)"
-        class="flex items-center has-text-link fixed-right"
+        class="flex items-center text-k-blue hover:text-k-blue-hover fixed-right"
         rel="nofollow noopener noreferrer"
         target="_blank"
         role="link">
         {{ $t('img') }}
-        <NeoIcon icon="arrow-up-right" class="ml-1 has-text-link" />
+        <NeoIcon icon="arrow-up-right" class="ml-1" />
       </a>
     </div>
   </div>
@@ -47,10 +47,11 @@
 <script setup lang="ts">
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import { sanitizeIpfsUrl } from '@/utils/ipfs'
-import { getRandomInt } from '../unlockable/utils'
+import { getRandomIntFromRange } from '../unlockable/utils'
 import { blake2AsHex, encodeAddress } from '@polkadot/util-crypto'
 
 const props = defineProps<{
+  minted: number
   content: string
   image?: string
 }>()
@@ -58,17 +59,23 @@ const props = defineProps<{
 const emit = defineEmits(['select'])
 
 const { accountId } = useAuth()
-const { chainProperties } = useChain()
+
+const STEP = 64
+const entropyRange = computed<[number, number]>(() => [
+  STEP * props.minted,
+  STEP * (props.minted + 1),
+])
 
 const getHash = (isDefault?: boolean) => {
   const ss58Format = isDefault
-    ? chainProperties.value?.ss58Format
-    : getRandomInt(15000)
+    ? entropyRange.value[0]
+    : getRandomIntFromRange(entropyRange.value[0], entropyRange.value[1])
+
   // https://github.com/paritytech/ss58-registry/blob/30889d6c9d332953a6e3333b30513eef89003f64/ss58-registry.json#L1292C17-L1292C22
-  return accountId.value
-    ? blake2AsHex(encodeAddress(accountId.value, ss58Format), 256, null, true)
-    : // random value
-      ss58Format
+  const initialValue = accountId.value
+    ? encodeAddress(accountId.value, ss58Format)
+    : String(Date.now() << ss58Format)
+  return blake2AsHex(initialValue, 256, null, true)
 }
 
 const generativeImageUrl = ref(
@@ -121,10 +128,8 @@ watch(
 }
 
 .fixed-top-left {
-  border-radius: 3rem;
-  position: absolute;
-  left: 26px;
-  top: -14px;
+  @apply absolute rounded-[3rem] left-[26px] -top-3.5;
+
   @include mobile {
     left: 50%;
     transform: translateX(-50%);

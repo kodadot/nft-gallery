@@ -1,15 +1,15 @@
 <template>
-  <div class="card nft-card">
+  <div class="card nft-card relative overflow-hidden rounded-none">
     <LinkResolver
       class="nft-card__skeleton"
       :route="route"
       :link="link"
       :param="id"
       tag="a">
-      <div class="card-image">
+      <div class="card-image border border-k-grey">
         <span v-if="emoteCount" class="card-image__emotes">
           <NeoIcon icon="heart" />
-          <span class="card-image__emotes__count">{{ emoteCount }}</span>
+          <span class="align-text-bottom">{{ emoteCount }}</span>
         </span>
         <BaseMediaItem
           :src="image"
@@ -24,12 +24,13 @@
         </span>
       </div>
 
-      <div v-if="!hideName" class="card-content">
+      <div v-if="!hideName" class="card-content rounded-none">
         <span
-          class="has-text-centered has-text-primary"
+          class="text-center text-k-primary"
           :class="{ 'title is-4': largeDisplay }"
           :title="name">
-          <div class="has-text-overflow-ellipsis">
+          <div
+            class="overflow-hidden whitespace-nowrap text-ellipsis text-white">
             {{ nftName }}
           </div>
         </span>
@@ -46,9 +47,6 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 import { NFTMetadata } from '@/components/rmrk/service/scheme'
 import { usePreferencesStore } from '@/stores/preferences'
-
-import LinkResolver from '@/components/shared/LinkResolver.vue'
-import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -108,33 +106,14 @@ const largeDisplay = computed(
 @import '@/assets/styles/abstracts/variables';
 
 .nft-card {
-  position: relative;
-  overflow: hidden;
-  border-radius: 0px !important;
-
-  .has-text-overflow-ellipsis {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-
-    @include ktheme() {
-      color: theme('white');
-    }
-  }
+  @apply border-none #{!important};
 
   &__skeleton {
     transition: all 0.3s;
 
     .card-image {
       &__emotes {
-        position: absolute;
-        border-radius: 4px;
-        padding: 3px 8px;
-        top: 10px;
-        right: 10px;
-        font-size: 14px;
-        z-index: 3;
-        transition: all 0.3s;
+        @apply absolute rounded text-sm z-[3] transition-all duration-[0.3s] px-2 py-[3px] right-2.5 top-2.5;
 
         @include ktheme() {
           color: theme('white');
@@ -143,14 +122,7 @@ const largeDisplay = computed(
       }
 
       &__price {
-        position: absolute;
-        border-radius: 4px;
-        padding: 3px 8px;
-        bottom: 10px;
-        left: 10px;
-        font-size: 14px;
-        z-index: 3;
-        transition: all 0.3s ease;
+        @apply absolute rounded text-sm z-[3] transition-all duration-[0.3s] ease-[ease] px-2 py-[3px] left-2.5 bottom-2.5;
 
         @include ktheme() {
           background: theme('k-shade');
@@ -158,14 +130,6 @@ const largeDisplay = computed(
         }
       }
     }
-  }
-
-  .card-image__emotes__count {
-    vertical-align: text-bottom;
-  }
-
-  .card-content {
-    border-radius: 0;
   }
 
   @media screen and (min-width: 1024px) {
@@ -188,7 +152,7 @@ const largeDisplay = computed(
     &:hover .card-content {
       bottom: 0;
       opacity: 1;
-      z-index: 2;
+      @apply z-[2];
       background: $frosted-glass-background;
       backdrop-filter: $frosted-glass-backdrop-filter;
     }
@@ -211,6 +175,6 @@ const largeDisplay = computed(
 
 <style lang="scss">
 .gallery__image-wrapper img {
-  border-radius: 0px !important;
+  @apply border-none #{!important};
 }
 </style>

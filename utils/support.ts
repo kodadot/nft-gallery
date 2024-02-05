@@ -95,7 +95,8 @@ export const resolveOffsetAddress = (api: ApiPromise) => {
 }
 
 export const offsetTx = async (api: ApiPromise, price: number) => {
-  return api.tx.balances.transfer(
+  return asBalanceTransfer(
+    api,
     resolveSupportAddress(api),
     await cost(api, price),
   )

@@ -74,13 +74,9 @@
     .wallet-menu-item {
       width: 100%;
       .button {
-        border: none;
-        border-radius: 0;
-        padding: 10px 2rem;
-        box-shadow: none !important;
+        @apply w-full text-xl px-8 py-2.5 rounded-none border-none transition-none;
         background: unset;
-        width: 100%;
-        font-size: 1.25rem;
+        box-shadow: none !important;
         > span {
           flex: 1;
         }

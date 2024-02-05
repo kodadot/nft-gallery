@@ -9,26 +9,29 @@
         size="medium"
         @click="closeLoading" />
       <img src="/unlockable-loader.svg" />
-      <div class="flex flex-col items-center px-5 has-text-centered capitalize">
-        <div class="has-text-weight-bold mb-2">{{ $t('mint.success') }}</div>
+      <div class="flex flex-col items-center px-5 text-center capitalize">
+        <div class="font-bold mb-2">{{ $t('mint.success') }}</div>
         <div>
           {{ $t('mint.unlockable.loader.viewNFT1') }}
           <span v-if="minted">
             {{ $t('mint.unlockable.loader.viewNFTNow2') }}
-            <span class="has-text-weight-bold">
+            <span class="font-bold">
               {{ $t('mint.unlockable.loader.viewNFTNow3') }}</span
             >
           </span>
           <span v-else>
             {{ $t('mint.unlockable.loader.viewNFTLater2') }}
-            <span class="has-text-weight-bold">
+            <span class="font-bold">
               {{ displayDuration }}
             </span>
           </span>
         </div>
         <div class="mt-4">
           {{ $t('mint.unlockable.loader.shareSuccess') }}
-          <a v-safe-href="postTwitterUrl" target="_blank" class="has-text-link"
+          <a
+            v-safe-href="postTwitterUrl"
+            target="_blank"
+            class="text-k-blue hover:text-k-blue-hover"
             >{{ $t('mint.unlockable.loader.onTwitter') }}
           </a>
         </div>

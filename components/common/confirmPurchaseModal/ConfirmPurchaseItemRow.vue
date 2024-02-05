@@ -7,18 +7,18 @@
         </slot>
       </div>
 
-      <div class="flex flex-col justify-between ml-4 limit-width">
+      <div class="flex flex-col justify-between ml-4 w-[100px] md:w-[170px]">
         <div
-          class="has-text-weight-bold has-text-color line-height-1 no-wrap is-clipped ellipsis">
+          class="font-bold text-text-color leading-none whitespace-nowrap is-clipped text-ellipsis">
           {{ name }}
         </div>
-        <div class="line-height-1 no-wrap is-clipped ellipsis">
+        <div class="leading-none whitespace-nowrap is-clipped text-ellipsis">
           {{ collectionName }}
         </div>
       </div>
     </div>
 
-    <div class="flex items-end no-wrap line-height-1">
+    <div class="flex items-end whitespace-nowrap leading-none">
       <CommonTokenMoney :value="price" />
     </div>
   </div>
@@ -34,23 +34,3 @@ defineProps<{
   image?: string
 }>()
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.limit-width {
-  width: 170px;
-
-  @include mobile {
-    width: 100px;
-  }
-}
-
-.ellipsis {
-  text-overflow: ellipsis;
-}
-
-.line-height-1 {
-  line-height: 1;
-}
-</style>

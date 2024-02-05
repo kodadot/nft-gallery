@@ -58,6 +58,7 @@
 
           <!-- related: #5792 -->
           <div v-if="isOwner">
+            <CollectionHeroButtonAddNfts />
             <CollectionHeroButtonDeleteNfts />
             <CollectionHeroButtonDeleteCollection />
             <CollectionHeroButtonCustomizeCollection

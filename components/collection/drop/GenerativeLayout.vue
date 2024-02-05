@@ -1,6 +1,6 @@
 <template>
   <div class="unlockable-container">
-    <div class="container is-fluid border-top pt-6">
+    <div class="container is-fluid border-t pt-6">
       <div class="columns is-desktop">
         <div class="column is-half-desktop mobile-padding">
           <CollectionUnlockableCollectionInfo
@@ -13,6 +13,7 @@
           <CollectionDropMintSection
             v-if="!isMobile"
             :user-minted-nft-id="userMintedNftId"
+            :collection-id="collectionId"
             :is-wallet-connecting="isWalletConnecting"
             :is-image-fetching="isImageFetching"
             :is-loading="isLoading"
@@ -26,8 +27,9 @@
             @mint="handleSubmitMint" />
         </div>
 
-        <div class="column pt-5 is-flex is-justify-content-center">
+        <div class="column pt-5 flex justify-center">
           <CollectionDropGenerativePreview
+            :minted="userMintedCount"
             :content="drop.content"
             :image="drop.image"
             @select="handleSelectImage" />
@@ -36,6 +38,7 @@
         <CollectionDropMintSection
           v-if="isMobile"
           class="column"
+          :collection-id="collectionId"
           :user-minted-nft-id="userMintedNftId"
           :is-wallet-connecting="isWalletConnecting"
           :is-image-fetching="isImageFetching"
@@ -62,30 +65,34 @@
 
 <script setup lang="ts">
 import { DropItem } from '@/params/types'
+import type {
+  HolderOfCollectionProp,
+  MinimumFundsProp,
+  MintButtonProp,
+} from './types'
 
 withDefaults(
   defineProps<{
     collectionId: string
     description?: string
     drop: DropItem
-    mintButton: { label: string; disabled: boolean }
+    mintButton: MintButtonProp
     mintedCount: number
     mintCountAvailable: boolean
     maxCount: number
-    minimumFunds: { amount: number; description: string }
+    minimumFunds: MinimumFundsProp
     isImageFetching: boolean
     isWalletConnecting: boolean
     isLoading: boolean
+    holderOfCollection?: HolderOfCollectionProp
     userMintedNftId?: string
-    holderOfCollection?: { id?: string; isHolderOfTargetCollection?: boolean }
-
+    userMintedCount: number
     handleSelectImage: (image: string) => void
     handleSubmitMint: () => void
   }>(),
   {
     description: '',
     userMintedNftId: undefined,
-    holderOfCollection: () => ({ id: '', isHolderOfTargetCollection: false }),
   },
 )
 

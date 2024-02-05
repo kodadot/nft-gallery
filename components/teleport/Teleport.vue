@@ -2,14 +2,19 @@
   <form
     class="mx-auto teleport-container"
     @submit.prevent="checkEDBeforeTeleport">
-    <Loader v-model="isLoading" :status="status" />
-    <h1 class="is-size-3 has-text-weight-bold">
+    <SigningModal
+      :title="$t('teleport.bridging', [amountAfterFees.displayValue, currency])"
+      :is-loading="isLoading"
+      :status="status"
+      @try-again="teleport" />
+
+    <h1 class="is-size-3 font-bold">
       {{ $t('teleport.page') }}
     </h1>
 
     <h2>{{ $t('teleport.subtitle') }}</h2>
     <a
-      class="has-text-grey"
+      class="!text-k-blue hover:!text-k-blue-hover"
       href="https://hello.kodadot.xyz/tutorial/teleport-bridge"
       >{{ $t('teleport.howItWorks') }}
     </a>
@@ -17,7 +22,7 @@
     <hr class="my-5" />
 
     <div class="flex items-center justify-between networks">
-      <div class="w-full is-relative">
+      <div class="w-full relative">
         <div class="network-title">{{ $t('teleport.source') }}</div>
         <NetworkDropdown
           :options="fromNetworks"
@@ -25,9 +30,7 @@
           @select="onChainChange" />
       </div>
 
-      <div
-        class="network-arrow flex is-cursor-pointer py-2"
-        @click="switchChains">
+      <div class="network-arrow flex cursor-pointer py-2" @click="switchChains">
         <svg viewBox="0 0 39 17" fill="none" xmlns="http://www.w3.org/2000/svg">
           <line y1="5.5" x2="35" y2="5.5" stroke="currentColor" />
           <line y1="11.5" x2="35" y2="11.5" stroke="currentColor" />
@@ -46,7 +49,7 @@
         </svg>
       </div>
 
-      <div class="w-full is-relative">
+      <div class="w-full relative">
         <div class="network-title">{{ $t('teleport.destination') }}</div>
         <NetworkDropdown
           :options="toNetworks"
@@ -57,10 +60,10 @@
 
     <NeoField class="mt-5">
       <template #label>
-        <div class="has-text-weight-normal">{{ $t('teleport.amount') }}</div>
+        <div class="font-normal">{{ $t('teleport.amount') }}</div>
       </template>
 
-      <div class="is-relative w-full">
+      <div class="relative w-full">
         <NeoInput
           v-model="displayAmount"
           root-class="w-full"
@@ -70,9 +73,7 @@
           type="number"
           placeholder="Enter Amount" />
         <div class="is-absolute-right">
-          <span
-            v-if="totalFiatValue"
-            class="token-value is-size-7 has-text-grey"
+          <span v-if="totalFiatValue" class="token-value text-xs text-k-grey"
             >~{{ totalFiatValue }} usd</span
           >
           {{ currency }}
@@ -82,7 +83,7 @@
 
     <div
       v-if="myBalance !== undefined"
-      class="is-size-7 flex justify-content align-items flex-direction">
+      class="text-xs flex justify-content align-items flex-direction">
       <TeleportFundsAtRiskWarning
         v-if="showEDWarning && !isDisabledButton"
         :target-existential-deposit="targetExistentialDeposit.displayValue"
@@ -98,14 +99,14 @@
             })
           }}{{ currency }}
         </span>
-        <NeoButton
+        <!-- <NeoButton
           no-shadow
           rounded
           size="small"
           class="ml-2"
           @click="handleMaxClick"
           >{{ $t('teleport.max') }}</NeoButton
-        >
+        > -->
       </div>
     </div>
 
@@ -131,13 +132,13 @@
         v-safe-href="explorerUrl"
         target="_blank"
         rel="nofollow noopener noreferrer"
-        class="has-text-k-blue">
+        class="!text-k-blue hover:!text-k-blue-hover">
         {{ shortAddress(toAddress) }}
       </a>
       {{ $t('teleport.ownerMessage') }}
     </div>
   </form>
-  <TeleportEdWarningModal
+  <TeleportEDWarningModal
     v-model="insufficientEDModalOpen"
     :target-existential-deposit="targetExistentialDeposit.displayValue"
     :source-existential-deposit="sourceExistentialDeposit.displayValue"
@@ -161,10 +162,8 @@ import {
   chainToPrefixMap,
   getChainCurrency,
   getTransactionFee,
-  prefixToChainMap,
 } from '@/utils/teleport'
 import formatBalance from '@/utils/format/balance'
-import Loader from '@/components/shared/Loader.vue'
 import shortAddress from '@/utils/shortAddress'
 import { chainIcons, getChainName } from '@/utils/chain'
 import NetworkDropdown from './NetworkDropdown.vue'
@@ -188,7 +187,6 @@ const {
 } = useTeleport(true)
 
 const { $i18n } = useNuxtApp()
-const { urlPrefix } = usePrefix()
 const { withDecimals, withoutDecimals } = useChain()
 const fiatStore = useFiatStore()
 const fromChain = ref(Chain.POLKADOT) //Selected origin parachain
@@ -252,7 +250,7 @@ const warningReason = computed(() =>
 const insufficientAmountAfterFees = computed(() => amountAfterFees.value === 0)
 
 const recieverBalance = computed(
-  () => Number(chainBalances[toChain.value]()) || 0,
+  () => Number(chainBalances.value[toChain.value]) || 0,
 )
 
 const insufficientExistentialDepositOnTargetChain = computed(() => {
@@ -325,16 +323,17 @@ const isDisabled = (chain: Chain) => {
 }
 
 const fromNetworks = [
-  {
-    label: getChainName('rmrk'),
-    value: Chain.KUSAMA,
-    icon: chainIcons.rmrk,
-  },
-  {
-    label: getChainName('ahk'),
-    value: Chain.ASSETHUBKUSAMA,
-    icon: chainIcons.ahk,
-  },
+  // also uncomment setRelatedChain()
+  // {
+  //   label: getChainName('rmrk'),
+  //   value: Chain.KUSAMA,
+  //   icon: chainIcons.rmrk,
+  // },
+  // {
+  //   label: getChainName('ahk'),
+  //   value: Chain.ASSETHUBKUSAMA,
+  //   icon: chainIcons.ahk,
+  // },
   {
     label: getChainName('dot'),
     value: Chain.POLKADOT,
@@ -347,18 +346,18 @@ const fromNetworks = [
   },
 ]
 const toNetworks = [
-  {
-    label: getChainName('rmrk'),
-    value: Chain.KUSAMA,
-    disabled: computed(() => isDisabled(Chain.KUSAMA)),
-    icon: chainIcons.rmrk,
-  },
-  {
-    label: getChainName('ahk'),
-    value: Chain.ASSETHUBKUSAMA,
-    disabled: computed(() => isDisabled(Chain.ASSETHUBKUSAMA)),
-    icon: chainIcons.ahk,
-  },
+  // {
+  //   label: getChainName('rmrk'),
+  //   value: Chain.KUSAMA,
+  //   disabled: computed(() => isDisabled(Chain.KUSAMA)),
+  //   icon: chainIcons.rmrk,
+  // },
+  // {
+  //   label: getChainName('ahk'),
+  //   value: Chain.ASSETHUBKUSAMA,
+  //   disabled: computed(() => isDisabled(Chain.ASSETHUBKUSAMA)),
+  //   icon: chainIcons.ahk,
+  // },
   {
     label: getChainName('dot'),
     value: Chain.POLKADOT,
@@ -381,15 +380,9 @@ const toChainLabel = computed(() =>
   getChainName(chainToPrefixMap[toChain.value]),
 )
 
-const myBalance = computed(() => {
-  const getBalance = chainBalances[fromChain.value]
-  if (!getBalance) {
-    throw new Error(`Unsupported chain: ${fromChain.value}`)
-  }
-  const balance = Number(getBalance()) || 0
-
-  return balance
-})
+const myBalance = computed(
+  () => Number(chainBalances.value[fromChain.value]) || 0,
+)
 
 const explorerUrl = computed(() => {
   return `${blockExplorerOf(chainToPrefixMap[toChain.value])}account/${
@@ -411,20 +404,20 @@ const onChainChange = (selectedChain, setFrom = true) => {
   }
 }
 
-const setRelatedChain = () => {
-  const relatedFromChain = prefixToChainMap[urlPrefix.value] || Chain.POLKADOT
-  onChainChange(relatedFromChain, true)
-}
-
-watch(
-  urlPrefix,
-  () => {
-    setRelatedChain()
-  },
-  {
-    immediate: true,
-  },
-)
+// const setRelatedChain = () => {
+//   const relatedFromChain =  prefixToChainMap[urlPrefix.value] || Chain.POLKADOT
+//   onChainChange(relatedFromChain, true)
+// }
+//
+// watch(
+//   urlPrefix,
+//   () => {
+//     setRelatedChain()
+//   },
+//   {
+//     immediate: true,
+//   },
+// )
 
 const fromAddress = computed(() => getAddressByChain(fromChain.value))
 const toAddress = computed(() => getAddressByChain(toChain.value))
@@ -442,9 +435,9 @@ const isDisabledButton = computed(() => {
   )
 })
 
-const handleMaxClick = () => {
-  amount.value = myBalance.value
-}
+// const handleMaxClick = () => {
+//   amount.value = myBalance.value
+// }
 
 const checkEDBeforeTeleport = () => {
   if (showEDWarning.value) {

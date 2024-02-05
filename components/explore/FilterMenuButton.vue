@@ -7,7 +7,7 @@
         :icon="isSidebarFiltersOpen && !disabled ? 'times' : 'bars'"
         size="medium" />
     </a>
-    <div class="is-hidden-tablet is-relative">
+    <div class="is-hidden-tablet relative">
       <NeoButton :disabled="disabled" icon="bars" @click="openMobileFilters" />
       <ActiveCount v-if="numOfActiveFilters" :count="numOfActiveFilters" />
     </div>
@@ -47,12 +47,3 @@ const toggleSidebarFilters = () =>
 
 const openMobileFilters = () => preferencesStore.setMobileFilterCollapse(true)
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-a.disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-</style>

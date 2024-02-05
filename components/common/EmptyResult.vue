@@ -1,5 +1,5 @@
 <template>
-  <section class="section has-text-centered">
+  <section class="px-6 py-12 text-center">
     <div class="title is-4">
       {{ $t('general.searchNoResultsTitle') }}
     </div>

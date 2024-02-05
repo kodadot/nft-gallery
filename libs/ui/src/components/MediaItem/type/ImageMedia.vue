@@ -35,7 +35,7 @@
 
 <script lang="ts" setup>
 import consola from 'consola'
-import { computed, defineProps, withDefaults } from 'vue'
+import { computed, withDefaults } from 'vue'
 
 import TheImage from '../../TheImage/TheImage.vue'
 import type {
@@ -71,8 +71,8 @@ const isGif = computed(() => props.mimeType === 'image/gif')
 
 const className = computed(() =>
   !props.original && !props.isFullscreen
-    ? 'object-cover absolute inset-0 w-full h-full'
-    : 'block rounded-none',
+    ? 'object-cover absolute inset-0 w-full h-full !rounded-none'
+    : 'block !rounded-none',
 )
 
 const isBlob = computed(() => props.src.startsWith('blob:'))

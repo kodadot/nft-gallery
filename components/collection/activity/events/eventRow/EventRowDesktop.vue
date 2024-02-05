@@ -13,9 +13,9 @@
             :size="50" />
         </nuxt-link>
         <nuxt-link
-          class="is-ellipsis is-inline-block"
+          class="is-ellipsis inline-block"
           :to="`/${urlPrefix}/gallery/${event.nft.id}`">
-          <span class="ml-5 has-text-weight-bold is-clipped">
+          <span class="ml-5 font-bold is-clipped">
             {{ event.nft.name }}
           </span>
         </nuxt-link>
@@ -44,7 +44,7 @@
         <nuxt-link
           v-if="fromAddress !== blank"
           :to="`/${urlPrefix}/u/${fromAddress}`"
-          class="has-text-link">
+          class="text-k-blue hover:text-k-blue-hover">
           <IdentityIndex
             ref="identity"
             :address="fromAddress"
@@ -61,7 +61,7 @@
         <nuxt-link
           v-if="toAddress !== blank"
           :to="`/${urlPrefix}/u/${toAddress}`"
-          class="has-text-link">
+          class="text-k-blue hover:text-k-blue-hover">
           <IdentityIndex
             ref="identity"
             :address="toAddress"
@@ -74,9 +74,9 @@
       </div>
     </div>
     <div class="column">
-      <div class="height-50px flex items-center">
-        {{ timeAgo(event.timestamp) }}
-      </div>
+      <TimeAgo
+        custom-class="height-50px flex items-center"
+        :timestamp="event.timestamp" />
     </div>
   </div>
 </template>
@@ -88,7 +88,7 @@ import {
 } from '@/composables/collectionActivity/types'
 import CommonTokenMoney from '@/components/shared/CommonTokenMoney.vue'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
-import { timeAgo } from '@/components/collection/utils/timeAgo'
+
 import {
   blank,
   getAmount,

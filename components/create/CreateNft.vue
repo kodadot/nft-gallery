@@ -1,6 +1,12 @@
 <template>
   <div class="is-centered columns">
-    <Loader v-if="!autoTeleport" v-model="isLoading" :status="status" />
+    <SigningModal
+      v-if="!autoTeleport"
+      :is-loading="isLoading"
+      :title="$t('mint.nft.minting')"
+      :status="status"
+      @try-again="createNft" />
+
     <MintConfirmModal
       v-model="modalShowStatus"
       :auto-teleport-actions="autoTeleportActions"
@@ -64,10 +70,10 @@
         ref="chooseCollectionRef"
         :label="`${$t('mint.nft.collection.label')} *`"
         @click="startSelectedCollection = true">
-        <div class="w-100">
+        <div class="w-full">
           <p
             :class="{
-              'has-text-danger': startSelectedCollection && !selectedCollection,
+              'text-k-red': startSelectedCollection && !selectedCollection,
             }">
             {{ $t('mint.nft.collection.message') }}
           </p>
@@ -75,6 +81,7 @@
             full-width
             no-shadow
             class="mt-3"
+            :preselected="preselectedCollectionId"
             @selected-collection="onCollectionSelected" />
         </div>
       </NeoField>
@@ -102,7 +109,7 @@
         :error="!form.salePrice"
         :label="`${$t('price')} *`">
         <div class="w-full">
-          <div class="flex justify-between items-center is-relative">
+          <div class="flex justify-between items-center relative">
             <NeoInput
               v-model="form.salePrice"
               data-testid="create-nft-input-list-value"
@@ -112,7 +119,7 @@
               pattern="[0-9]+([\.,][0-9]+)?"
               placeholder="0.01 is the minimum"
               expanded />
-            <div class="position-absolute-right is-size-7 has-text-grey">
+            <div class="position-absolute-right text-xs text-k-grey">
               ~{{ salePriceUsd }} usd
             </div>
             <div class="form-addons">
@@ -124,7 +131,7 @@
 
       <!-- select blockchain -->
       <NeoField :label="`${$t('mint.blockchain.label')} *`">
-        <div class="w-100">
+        <div class="w-full">
           <p>{{ $t('mint.blockchain.message') }}</p>
           <NeoSelect
             v-model="selectChain"
@@ -145,7 +152,7 @@
 
       <!-- no of copies -->
       <NeoField :label="`${$t('mint.nft.copies.label')} (optional)`">
-        <div class="w-100">
+        <div class="w-full">
           <p>{{ $t('mint.nft.copies.message') }}</p>
           <NeoInput
             v-model="form.copies"
@@ -192,14 +199,14 @@
 
       <!-- deposit and balance -->
       <div>
-        <div class="flex has-text-weight-medium has-text-info">
+        <div class="flex font-medium text-k-blue hover:text-k-blue-hover">
           <div>{{ $t('mint.deposit') }}:&nbsp;</div>
           <div>
             <span data-testid="create-nft-deposit-amount-token">
               {{ deposit }} {{ chainSymbol }}
             </span>
             <span
-              class="is-size-7 has-text-grey ml-2"
+              class="text-xs text-k-grey ml-2"
               data-testid="create-nft-deposit-amount-usd">
               {{ depositUsd }} usd
             </span>
@@ -209,9 +216,7 @@
           <div>{{ $t('general.balance') }}:&nbsp;</div>
           <div>
             <span>{{ balance }} {{ chainSymbol }}</span>
-            <span class="is-size-7 has-text-grey ml-2">
-              {{ balanceUsd }} usd
-            </span>
+            <span class="text-xs text-k-grey ml-2"> {{ balanceUsd }} usd </span>
           </div>
         </div>
       </div>
@@ -229,7 +234,7 @@
         :loading="isLoading" />
       <div class="p-4 flex">
         <NeoIcon icon="circle-info" size="medium" class="mr-4" />
-        <p class="is-size-7">
+        <p class="text-xs">
           <span
             v-dompurify-html="
               $t('mint.requiredDeposit', [`${deposit} ${chainSymbol}`, 'NFT'])
@@ -237,7 +242,7 @@
           <a
             href="https://hello.kodadot.xyz/multi-chain/fees"
             target="_blank"
-            class="has-text-link"
+            class="text-k-blue hover:text-k-blue-hover"
             data-testid="create-nft-learn-more-link"
             rel="nofollow noopener noreferrer">
             {{ $t('helper.learnMore') }}
@@ -306,13 +311,10 @@ const form = reactive({
 })
 
 // select collections
-const selectedCollection = ref()
+const { selectedCollection, preselectedCollectionId, onCollectionSelected } =
+  useCollectionDropdown()
 const startSelectedCollection = ref<boolean>(false)
 const chooseCollectionRef = ref()
-
-const onCollectionSelected = (collection) => {
-  selectedCollection.value = collection
-}
 
 const modalShowStatus = ref(false)
 

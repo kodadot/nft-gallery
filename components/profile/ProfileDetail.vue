@@ -5,14 +5,14 @@
         <header class="card-header">
           <p class="card-header-title">{{ $t('sharing.profile') }}</p>
         </header>
-        <div class="card-content has-text-centered">
+        <div class="card-content text-center">
           <QRCode :text="realworldFullPath" />
         </div>
       </div>
     </NeoModal>
-    <div class="container is-fluid py-7 border-bottom">
+    <div class="container is-fluid py-7 border-b">
       <div class="columns is-centered">
-        <div class="column is-half has-text-centered">
+        <div class="column is-half text-center">
           <div class="container image is-64x64 mb-2">
             <Avatar :value="id" />
           </div>
@@ -166,6 +166,7 @@
         <ItemsGrid
           :search="itemsGridSearch"
           :grid-section="gridSection"
+          display-name-with-sn
           :loading-other-network="loadingOtherNetwork"
           :reset-search-query-params="['sort']">
           <template
@@ -480,7 +481,7 @@ watch(collections, (value) => {
       &:nth-child(1),
       &:nth-child(2) {
         :deep(.explore-tabs-button) {
-          border-bottom: none;
+          @apply border-b-0;
         }
       }
       &:nth-child(2n + 1) {

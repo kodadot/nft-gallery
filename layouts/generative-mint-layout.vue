@@ -4,12 +4,12 @@
     <main class="flex-grow">
       <section class="hero is-medium is-link">
         <div class="hero-body">
-          <h1 class="subtitle has-text-centered has-text-weight-bold is-size-3">
+          <h1 class="subtitle text-center font-bold is-size-3">
             Mint Your {{ NAME }} Waifu
           </h1>
         </div>
       </section>
-      <section class="section">
+      <section class="px-6 py-12">
         <div class="container">
           <div class="columns is-centered">
             <div class="column is-half">

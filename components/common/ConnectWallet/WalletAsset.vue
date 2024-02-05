@@ -2,16 +2,13 @@
   <div class="flex flex-col wallet-asset">
     <WalletAssetSetIdentity v-if="!display" />
 
-    <div class="flex flex-col wallet-asset-container mt-4">
+    <div class="flex flex-col wallet-asset-container my-4">
       <WalletAssetIdentity />
       <WalletAssetNfts />
 
       <hr class="my-4" />
 
-      <div>
-        <MultipleBalances />
-        <WalletAssetPortfolio />
-      </div>
+      <MultipleBalances />
     </div>
 
     <WalletAssetMenu />
@@ -22,7 +19,6 @@
 import { useIdentityStore } from '@/stores/identity'
 import WalletAssetIdentity from './WalletAssetIdentity.vue'
 import WalletAssetNfts from './WalletAssetNfts.vue'
-import WalletAssetPortfolio from './WalletAssetPortfolio.vue'
 import WalletAssetMenu from './WalletAssetMenu.vue'
 import WalletAssetSetIdentity from './WalletAssetSetIdentity.vue'
 

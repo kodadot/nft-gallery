@@ -8,7 +8,7 @@
     @update:active="updateActive">
     <div :class="{ 'desktop-width': !isMobile }">
       <div v-if="isFinalStep" class="flex py-5 px-6 items-center">
-        <div class="flex-grow text-align-center">{{ $t('success') }}</div>
+        <div class="flex-grow text-center">{{ $t('success') }}</div>
         <NeoButton
           variant="text"
           no-shadow
@@ -18,13 +18,13 @@
       </div>
       <div
         v-else
-        class="flex justify-between items-center py-5 px-6 border-bottom border-k-shade">
+        class="flex justify-between items-center py-5 px-6 border-b border-k-shade">
         <span>Tx:</span>
         <div class="flex">
           <slot name="action-title">
             <span>{{ `${$t('teleport.send')} ${totalUsdValue}$` }}</span>
-            <span class="has-text-grey ml-1 is-uppercase">{{
-              `(${totalTokenAmount} ${urlPrefix})`
+            <span class="text-k-grey ml-1 uppercase">{{
+              `(${totalTokenAmount} ${unit})`
             }}</span>
           </slot>
         </div>
@@ -52,12 +52,12 @@
             :clickable="false"
             :label="steps[i - 1].label"
             :variant="i == 3 ? 'last' : undefined">
-            <div class="px-4 text-align-center">
+            <div class="px-4 text-center">
               {{ steps[i - 1].tip }}
             </div>
           </NeoStepItem>
         </NeoSteps>
-        <div v-if="activeStep === 2" class="text-align-center has-text-grey">
+        <div v-if="activeStep === 2" class="text-center text-k-grey">
           {{ `Est. waiting time ~ ${estimatedTimeLeft} seconds` }}
         </div>
         <div v-if="isFinalStep" class="flex justify-center mb-4">
@@ -94,6 +94,7 @@ const props = withDefaults(
     modelValue: boolean
     totalTokenAmount?: number
     totalUsdValue?: number
+    unit?: string
     transactionId: string
     canCancel?: boolean
     isMobile?: boolean
@@ -106,20 +107,12 @@ const props = withDefaults(
 const emit = defineEmits(['close', 'update:modelValue'])
 const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
-const { blockTime } = useBlockTime()
+const { estimatedTimes } = useBlockTime()
 const { toast } = useToast()
 
-const estimatedTimeLeft = computed(() => {
-  switch (props.status) {
-    case TransactionStatus.Broadcast:
-      return 3 * blockTime.value
-    case TransactionStatus.Block:
-      return 2 * blockTime.value
-    default:
-      return 'few'
-  }
-})
-
+const estimatedTimeLeft = computed(
+  () => estimatedTimes.value[props.status] || 'few',
+)
 const explorerLink = computed(() => {
   const explorerBaseUrl = chainPropListOf(urlPrefix.value).blockExplorer
   return `${explorerBaseUrl}extrinsic/${props.transactionId}`
@@ -171,13 +164,6 @@ const checkIconForStep = (step: number) =>
   width: 27rem;
 }
 :deep(.mobile-modal) {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  border-radius: 0.75rem 0.75rem 0 0;
-  border-right: 0 !important;
-  border-left: 0 !important;
-  border-bottom: 0 !important;
+  @apply fixed rounded-[0.75rem_0.75rem_0_0] border-b-0 border-x-0 bottom-0 inset-x-0;
 }
 </style>

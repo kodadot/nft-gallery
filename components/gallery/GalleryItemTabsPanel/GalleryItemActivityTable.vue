@@ -24,7 +24,7 @@
         :label="`${$t(`tabs.tabActivity.price`)} (${chainSymbol})`">
         <p v-if="Number(props.row.meta)">
           {{ formatPrice(props.row.meta)[0] }}
-          <span class="has-text-grey">
+          <span class="text-k-grey">
             ${{ formatPrice(props.row.meta)[1] }}</span
           >
         </p>
@@ -39,13 +39,13 @@
         <nuxt-link
           v-if="props.row.interaction === 'BUY'"
           :to="`/${urlPrefix}/u/${props.row.currentOwner}`"
-          class="has-text-link">
+          class="text-k-blue hover:text-k-blue-hover">
           <Identity :address="props.row.currentOwner" />
         </nuxt-link>
         <nuxt-link
           v-else
           :to="`/${urlPrefix}/u/${props.row.caller}`"
-          class="has-text-link">
+          class="text-k-blue hover:text-k-blue-hover">
           <Identity :address="props.row.caller" />
         </nuxt-link>
       </NeoTableColumn>
@@ -60,20 +60,20 @@
           <nuxt-link
             v-if="props.row.interaction === 'BUY'"
             :to="`/${urlPrefix}/u/${props.row.caller}`"
-            class="has-text-link">
+            class="text-k-blue hover:text-k-blue-hover">
             <Identity :address="props.row.caller" />
           </nuxt-link>
           <nuxt-link
             v-else
             :to="`/${urlPrefix}/u/${props.row.currentOwner}`"
-            class="has-text-link">
+            class="text-k-blue hover:text-k-blue-hover">
             <Identity :address="props.row.currentOwner" />
           </nuxt-link>
         </div>
         <nuxt-link
           v-else-if="props.row.interaction === 'SEND'"
           :to="`/${urlPrefix}/u/${props.row.meta}`"
-          class="has-text-link">
+          class="text-k-blue hover:text-k-blue-hover">
           <Identity :address="props.row.meta" />
         </nuxt-link>
       </NeoTableColumn>
@@ -85,7 +85,9 @@
         field="timestamp"
         :label="$t('tabs.tabActivity.date')">
         <NeoTooltip :label="parseDate(props.row.timestamp)" position="left">
-          <span class="no-wrap">{{ formatToNow(props.row.timestamp) }}</span>
+          <span class="whitespace-nowrap">{{
+            formatToNow(props.row.timestamp)
+          }}</span>
         </NeoTooltip>
       </NeoTableColumn>
     </NeoTable>
@@ -210,7 +212,8 @@ const formatPrice = (price) => {
 @include touch {
   .gallery-item-activity-table {
     :deep(.o-table__td) {
-      border-bottom: inherit !important;
+      @apply border-inherit;
+
       &:before {
         font-weight: 400 !important;
       }

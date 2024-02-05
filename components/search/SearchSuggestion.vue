@@ -14,7 +14,7 @@
         label="Collections"
         value="Collections"
         data-testid="collection-tab"
-        item-header-class="has-text-left is-block mb-0 pb-4 px-0 pt-0">
+        item-header-class="text-left block mb-0 pb-4 px-0 pt-0">
         <div v-if="isCollectionResultLoading">
           <SearchResultItem
             v-for="item in searchSuggestionEachTypeMaxNum"
@@ -34,8 +34,11 @@
             <SearchResultItem :image="item.image">
               <template #content>
                 <div class="flex flex-row justify-between pt-2 pr-2">
-                  <span class="main-title name">{{ item.name }}</span>
-                  <span class="has-text-grey">
+                  <span
+                    class="font-bold max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap"
+                    >{{ item.name }}</span
+                  >
+                  <span class="text-k-grey">
                     {{ item.chain }}
                   </span>
                 </div>
@@ -63,7 +66,7 @@
                     :height="22"
                     size="medium"
                     active />
-                  <span v-else class="has-text-grey">
+                  <span v-else class="text-k-grey">
                     {{ $t('search.units') }}:
                     {{ item.totalCount || 0 }}
                   </span>
@@ -97,7 +100,7 @@
       <NeoTabItem
         label="NFTs"
         value="NFTs"
-        item-header-class="has-text-left is-block mb-0 pb-4 px-0 pt-0"
+        item-header-class="text-left block mb-0 pb-4 px-0 pt-0"
         data-testid="nft-tab">
         <div v-if="isNFTResultLoading">
           <SearchResultItem
@@ -118,11 +121,17 @@
             <SearchResultItem :image="item.image">
               <template #content>
                 <div class="flex flex-row justify-between pt-2 pr-2">
-                  <span class="main-title name">{{ item.name }}</span>
+                  <span
+                    class="font-bold max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap"
+                    >{{ item.name }}</span
+                  >
                   <span class="capitalize">{{ urlPrefix }}</span>
                 </div>
                 <div class="flex flex-row justify-between pr-2">
-                  <span class="name">{{ item.collection?.name }}</span>
+                  <span
+                    class="max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap"
+                    >{{ item.collection?.name }}</span
+                  >
                   <span v-if="item.price && parseFloat(item.price) > 0">
                     {{ $t('price') }}:
                     <Money :value="item.price" :prefix="item.chain" inline />
@@ -157,7 +166,7 @@
       <NeoTabItem
         disabled
         value="User"
-        item-header-class="has-text-left is-block mb-0 pb-4 px-0 pt-0">
+        item-header-class="text-left block mb-0 pb-4 px-0 pt-0">
         <template #header>
           {{ $t('user') }}
           <span class="small-soon-text">
@@ -201,7 +210,7 @@
       <NeoTabItem
         label="Trending"
         value="Trending"
-        item-header-class="has-text-left is-block mb-0 pb-4 px-0 pt-0">
+        item-header-class="text-left block mb-0 pb-4 px-0 pt-0">
         <div
           v-for="(item, idx) in defaultCollectionSuggestions"
           :key="item.id"
@@ -211,7 +220,10 @@
           <SearchResultItem :image="item.image">
             <template #content>
               <div class="pr-2 pt-2">
-                <span class="main-title name">{{ item.name }}</span>
+                <span
+                  class="font-bold max-w-[34ch] overflow-hidden text-ellipsis whitespace-nowrap"
+                  >{{ item.name }}</span
+                >
               </div>
               <div class="flex flex-row justify-between pr-2 secondary-info">
                 <span v-if="item.nftCount"

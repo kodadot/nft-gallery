@@ -11,8 +11,8 @@
         </div>
 
         <div class="network">
-          <div class="is-relative">
-            <p class="text-destination has-text-grey">
+          <div class="relative">
+            <p class="text-destination text-k-grey">
               {{ $t('migrate.source') }}
             </p>
             <NeoDropdown v-model="sourceSelected" aria-role="list">
@@ -66,8 +66,8 @@
               <line x1="32.3293" y1="8.37629" x2="24.3293" y2="15.3763" />
             </svg>
           </div>
-          <div class="is-relative">
-            <p class="text-destination has-text-grey">
+          <div class="relative">
+            <p class="text-destination text-k-grey">
               {{ $t('migrate.destination') }}
             </p>
             <NeoDropdown v-model="destinationSelected" aria-role="list">

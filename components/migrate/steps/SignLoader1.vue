@@ -1,48 +1,51 @@
 <template>
-  <div v-if="!collectionOwner" class="mb-5">
+  <div v-if="!collectionOwner" class="mb-5" :class="whichIcon().textColor">
     <div class="flex items-center mb-4">
       <div class="mr-5">
         <NeoIcon v-bind="whichIcon()" class="fa-2x" />
       </div>
       <div>
-        <p class="has-text-weight-bold">
+        <p class="font-bold text-xl text-text-color">
           {{ $t('migrate.signStep.initiation') }}
         </p>
-        <p class="is-size-7 has-text-grey">
+        <p class="text-k-grey">
           {{ $t('migrate.signStep.journey') }}
         </p>
       </div>
     </div>
-    <div class="flex is-size-7">
+    <div class="flex">
       <div class="v-border"></div>
-      <div class="mb-4">
+      <div class="mb-4 text-text-color">
         <p v-if="step1Iterations">
           {{ step1Iterations }}/2 {{ $t('migrate.signStep.left') }}
         </p>
         <p v-else>{{ $t('migrate.signStep.done') }}</p>
       </div>
     </div>
-    <div class="flex is-size-7">
+    <div class="flex">
       <div class="v-border"></div>
-      <div class="mb-4 flex">
+      <div class="mb-4 w-full flex">
         <div class="mr-4">
-          <NeoIcon v-if="step1Iterations === 0" v-bind="iconSuccess" />
-          <NeoIcon v-else-if="step1Iterations === 1" v-bind="iconLoading" />
-          <NeoIcon v-else v-bind="iconIdle" />
+          <NeoIcon v-bind="whichIcon()" />
         </div>
         <div>
           <p>{{ $t('create collection') }}</p>
           <nuxt-link
             v-if="step1Iterations === 0"
             target="_blank"
-            class="has-text-k-blue"
+            class="text-k-blue hover:text-k-blue-hover"
             :to="`/${client}/collection/${nextId}`">
             {{ $t('viewtx') }} <NeoIcon icon="arrow-up-right" />
           </nuxt-link>
         </div>
+        <div v-if="isError" class="flex-1 text-right">
+          <NeoButton variant="pill" size="small" @click="tryAgain()">
+            {{ $t('helper.tryAgain') }}
+          </NeoButton>
+        </div>
       </div>
     </div>
-    <div class="flex is-size-7">
+    <div class="flex">
       <div class="v-border"></div>
       <div class="mb-4 flex">
         <div class="mr-4">
@@ -51,7 +54,9 @@
         </div>
         <div>
           <p>{{ $t('migrate.signStep.prepare') }}</p>
-          <p>{{ $t('migrate.signStep.noSignature') }}</p>
+          <p class="text-k-grey text-xs">
+            {{ $t('migrate.signStep.noSignature') }}
+          </p>
         </div>
       </div>
     </div>
@@ -60,9 +65,10 @@
 
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import {
   type Steps,
+  iconError,
   iconIdle,
   iconLoading,
   iconSuccess,
@@ -76,7 +82,7 @@ const { accountId } = useAuth()
 const { client } = usePrefix()
 const { apiInstance } = useApi()
 const { nextCollectionId } = useStatemineNewCollectionId()
-const { howAboutToExecute, status } = useMetaTransaction()
+const { howAboutToExecute, status, isError } = useMetaTransaction()
 const { $consola } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
@@ -162,7 +168,7 @@ const validationStep1 = async () => {
 
     updateSteps('step2')
   } catch (error) {
-    $consola.log(error)
+    $consola.error(error)
   }
 }
 
@@ -175,7 +181,7 @@ async function checkCollection() {
       }
     `,
     onChange: ({ data }) => {
-      $consola.log({ collectionId: data.collection })
+      $consola.info({ collectionId: data.collection })
 
       if (data.collection?.id && step1Iterations.value) {
         validationStep1()
@@ -184,8 +190,19 @@ async function checkCollection() {
   })
 }
 
+function tryAgain() {
+  updateSteps('step1')
+  step1Iterations.value = ITERATIONS
+}
+
 watchEffect(async () => {
-  $consola.log('SignLoader1.vue', steps.value, status.value)
+  $consola.info(
+    'SignLoader1.vue',
+    steps.value,
+    step1Iterations.value,
+    status.value,
+    isError.value,
+  )
 
   if (steps.value === 'step1' && step1Iterations.value) {
     startStep1()
@@ -207,6 +224,10 @@ const whichIcon = () => {
 
   if (step1Iterations.value < ITERATIONS) {
     return iconLoading
+  }
+
+  if (isError.value) {
+    return iconError
   }
 
   return iconIdle

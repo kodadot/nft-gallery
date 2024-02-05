@@ -10,7 +10,7 @@
           id="nft-img-container"
           ref="imgref"
           :class="{
-            'is-relative': !isFullscreen,
+            relative: !isFullscreen,
             'fullscreen-fallback': isFallbackActive,
           }">
           <!-- preview button -->
@@ -58,7 +58,7 @@
             v-else
             :key="image"
             ref="mediaItemRef"
-            class="gallery-item-media is-relative"
+            class="gallery-item-media relative"
             :src="getMediaSrc(image)"
             :animation-src="nftAnimation"
             :mime-type="nftAnimationMimeType || nftMimeType"
@@ -81,16 +81,17 @@
               <div class="name-container">
                 <h1 class="title" data-testid="item-title">
                   {{ title }}
-                  <span v-if="nft?.burned" class="has-text-danger">「🔥」</span>
+                  <span v-if="nft?.burned" class="text-k-red">「🔥」</span>
                 </h1>
                 <h2 class="subtitle" data-testid="item-collection">
                   <CollectionDetailsPopover
                     v-if="nft?.collection.id"
+                    :collection="collection"
                     :nft="nft">
                     <template #content>
                       <nuxt-link
                         :to="`/${urlPrefix}/collection/${collection?.id}`"
-                        class="has-text-link"
+                        class="text-k-blue hover:text-k-blue-hover"
                         data-testid="gallery-item-collection-link">
                         {{ collection?.name || collection?.id }}
                       </nuxt-link>
@@ -348,7 +349,7 @@ function toggleFallback() {
     const isCurrentlyFullscreen = imgref.value.classList.toggle(
       'fullscreen-fallback',
     )
-    mainElement?.classList.toggle('no-z-index')
+    mainElement?.classList.toggle('!z-[unset]')
     isFallbackActive.value = isCurrentlyFullscreen
     isFullscreen.value = isCurrentlyFullscreen
   }
@@ -359,6 +360,7 @@ function toggleFallback() {
 @import '@/assets/styles/abstracts/variables';
 #nft-img-container:fullscreen,
 #nft-img-container.fullscreen-fallback {
+  overflow: auto;
   @include ktheme() {
     background-color: theme('background-color');
   }
@@ -407,33 +409,18 @@ $break-point-width: 930px;
   }
 }
 .back-button {
-  position: absolute;
-  left: 0.75rem;
-  top: 2rem;
-  z-index: 1;
+  @apply fixed z-[1] left-3 top-8;
   @include desktop {
     left: $fluid-container-padding;
   }
 }
 
 #nft-img-container.fullscreen-fallback {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 9999;
+  @apply fixed w-screen h-screen z-[9999] left-0 top-0;
 }
 
 .fullscreen-button {
-  position: absolute;
-  right: 2.75rem;
-  top: 2rem;
-  z-index: 2;
-  display: none;
-  width: 35px;
-  height: 35px;
-  border: 1px solid;
+  @apply absolute z-[2] hidden w-[35px] h-[35px] border border-solid right-11 top-8;
   @include ktheme() {
     background-color: rgba(theme('background-color'), 0.15);
     border-color: rgba(theme('background-color'), 0.3);
@@ -475,11 +462,12 @@ $break-point-width: 930px;
 
     .o-car__indicator {
       &__item {
+        @apply rounded-[50%];
+
         @include ktheme() {
           background: theme('background-color-inverse');
           border: theme('background-color-inverse');
         }
-        border-radius: 50%;
 
         &--active {
           @include ktheme() {

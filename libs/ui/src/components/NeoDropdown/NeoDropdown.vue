@@ -70,6 +70,12 @@ export default {
         {
           [this.computedClass('menuShadowClass', 'no-shadow')]: this.noShadow,
         },
+        {
+          [this.computedClass(
+            'menuScrollableClass',
+            'o-drop__menu--scrollable',
+          )]: this.scrollable,
+        },
       ]
     },
     isAutoPosition() {

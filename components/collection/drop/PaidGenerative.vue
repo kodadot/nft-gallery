@@ -4,6 +4,7 @@
     :description="description"
     :drop="drop"
     :user-minted-nft-id="userMintedNftId"
+    :user-minted-count="mintedAmountForCurrentUser"
     :is-wallet-connecting="isWalletConnecting"
     :is-image-fetching="isImageFetching"
     :is-loading="isLoading"
@@ -24,6 +25,7 @@
     :has-minimum-funds="hasMinimumFunds"
     :can-list-nft="canListMintedNft"
     :formatted-minimum-funds="formattedMinimumFunds"
+    :formatted-existential-deposit="formattedExistentialDeposit"
     :token="token"
     :chain="chainName"
     @confirm="handleConfirmPaidMint"
@@ -44,7 +46,7 @@ import useGenerativeDropMint, {
   type UnlockableCollectionById,
 } from '@/composables/drop/useGenerativeDropMint'
 import useGenerativeDropDetails from '@/composables/drop/useGenerativeDropDetails'
-import formatBalance from '@/utils/format/balance'
+import { formatAmountWithRound } from '@/utils/format/balance'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { ActionlessInteraction } from '@/components/common/autoTeleport/utils'
 
@@ -68,8 +70,12 @@ const props = withDefaults(
 useMultipleBalance()
 const { chainSymbol, decimals } = useChain()
 
-const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
-  useDropMinimumFunds(props.drop)
+const {
+  hasMinimumFunds,
+  formattedMinimumFunds,
+  minimumFunds,
+  formattedExistentialDeposit,
+} = useDropMinimumFunds(props.drop)
 const minimumFundsDescription = computed(() =>
   $i18n.t('mint.unlockable.minimumFundsDescription', [
     formattedMinimumFunds.value,
@@ -88,6 +94,7 @@ const toMintNft = computed<ToMintNft>(() => ({
 const minimumFundsProps = computed(() => ({
   amount: minimumFunds.value,
   description: minimumFundsDescription.value,
+  hasAmount: hasMinimumFunds.value,
 }))
 
 const isWalletConnecting = ref(false)
@@ -163,6 +170,7 @@ const {
   userMintedNftId,
   mintedCount,
   mintCountAvailable,
+  mintedAmountForCurrentUser,
   canListMintedNft,
   selectedImage,
   description,
@@ -180,25 +188,21 @@ const {
   defaultImage,
 })
 
-const mintedAmountForCurrentUser = computed(
-  () => collectionData.value?.nftEntitiesConnection?.totalCount || 0, // todo: fetch from backend
-)
-
 const maxMintLimitForCurrentUser = computed(() => maxCount.value)
 
 const mintButtonLabel = computed(() => {
   return isWalletConnecting.value
     ? $i18n.t('shoppingCart.wallet')
     : $i18n.t('mint.unlockable.claimPaidNft', [
-        `${formatBalance(price.value || '', decimals.value, '')} ${
+        `${formatAmountWithRound(price.value || '', decimals.value)} ${
           chainSymbol.value
         }`,
       ])
 })
-const mintButtonDisabled = computed(
+const mintButtonDisabled = computed<boolean>(
   () =>
     !mintCountAvailable.value ||
-    disabledByBackend.value ||
+    Boolean(disabledByBackend.value) ||
     (isLogIn.value &&
       Boolean(
         !selectedImage.value ||

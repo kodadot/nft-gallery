@@ -3,7 +3,7 @@
     <div class="flex items-center mb-7 px-8">
       <nuxt-link
         :to="'https://hello.kodadot.xyz/tutorial/minting/how-to-mass-mint-nfts'"
-        class="is-size-2-desktop is-size-2-tablet is-size-3-mobile flex flex-grow justify-center has-text-weight-bold"
+        class="is-size-2-desktop is-size-2-tablet is-size-3-mobile flex flex-grow justify-center font-bold"
         target="_blank"
         rel="nofollow noopener noreferrer">
         {{ $t('massmint.onboarding.pageTitle') }}
@@ -13,7 +13,7 @@
         icon="arrow-right"
         @click="toMassMint" />
     </div>
-    <div class="is-relative mb-6">
+    <div class="relative mb-6">
       <div
         ref="carouselRef"
         class="carousel flex flex-nowrap"
@@ -26,14 +26,14 @@
           :content="card.content"
           :active="index === currentSlide">
           <div v-if="index === 1">
-            <p class="is-size-6 has-text-weight-bold mb-3">
+            <p class="is-size-6 font-bold mb-3">
               {{ $t('massmint.onboarding.cards.1.subtitle') }}:
             </p>
             <p class="is-size-6 mb-5">
               {{ $t('massmint.onboarding.cards.1.instructions') }}
             </p>
             <div class="flex justify-between items-center mb-4 column-mobile">
-              <span class="is-size-6 has-text-weight-bold">
+              <span class="is-size-6 font-bold">
                 {{ $t('massmint.onboarding.cards.1.codeStructure') }}:
               </span>
               <div class="flex tab-gap">
@@ -59,7 +59,7 @@
                   `/massmint/template.${activeDescriptionTab.toLowerCase()}`
                 "
                 variant="text"
-                class="has-text-link"
+                class="text-k-blue hover:text-k-blue-hover"
                 no-shadow
                 tag="a"
                 download>
@@ -253,10 +253,8 @@ $card-width: clamp($min-card-width, $card-width-percents, $max-card-width);
 }
 
 .carousel-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 25%;
-  transition: background-color 0.2s ease-in-out;
+  @apply w-2.5 h-2.5 transition-[background-color] duration-[0.2s] ease-[ease-in-out] rounded-[25%];
+
   @include ktheme() {
     background-color: theme('k-shade');
   }

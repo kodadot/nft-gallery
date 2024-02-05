@@ -17,7 +17,7 @@
 import CommonHolderTable, {
   TableRow,
 } from '@/components/rmrk/Gallery/Holder/Holder.vue'
-import { parseDate } from '@/components/rmrk/Gallery/Holder/helper'
+import { parseDate } from '@/utils/datetime'
 import { formatDistanceToNow } from 'date-fns'
 import { Interaction } from '@kodadot1/minimark/v1'
 

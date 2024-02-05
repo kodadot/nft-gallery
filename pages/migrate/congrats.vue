@@ -2,14 +2,14 @@
   <div>
     <div class="is-centered columns">
       <div class="is-4-widescreen column">
-        <img :src="congratsSrc" alt="Congratulations" class="w-100" />
-        <h1 class="is-size-3 has-text-weight-bold has-text-centered">
+        <img :src="congratsSrc" alt="Congratulations" class="w-full" />
+        <h1 class="is-size-3 font-bold text-center">
           {{ $t('migrate.congrats.title') }}
         </h1>
-        <p class="has-text-centered is-size-5">
+        <p class="text-center is-size-5">
           {{ $t('migrate.congrats.subtitle') }}
         </p>
-        <p class="has-text-centered has-text-grey mt-5">
+        <p class="text-center text-k-grey mt-5">
           {{
             $t('migrate.congrats.notes', [
               collectionName,

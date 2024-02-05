@@ -187,6 +187,14 @@ export default defineNuxtConfig({
         `,
           type: 'text/javascript',
         },
+        {
+          // https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-setup
+          innerHTML: `(function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, document, "clarity", "script", "kksold2jal");`,
+          type: 'text/javascript',
+        },
       ],
     },
   },
@@ -257,7 +265,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@pinia/nuxt',
     '@nuxt/content',
-    'nuxt-simple-sitemap',
+    '@nuxtjs/sitemap',
     '@nuxtjs/google-fonts',
     '@nuxtjs/device',
   ],
@@ -332,19 +340,6 @@ export default defineNuxtConfig({
 
   routeRules: {
     '/ahp/collection/13': { sitemap: { changefreq: 'daily', priority: 0.3 } },
-  },
-
-  hooks: {
-    sitemap: {
-      generate: {
-        done(nuxtInstance) {
-          fs.copyFileSync(
-            `${nuxtInstance.options.generate.dir}/sitemap.xml`,
-            'public/sitemap.xml',
-          )
-        },
-      },
-    },
   },
 
   // https://nuxt.com/docs/api/nuxt-config#runtimeconfig

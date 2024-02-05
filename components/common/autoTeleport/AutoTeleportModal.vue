@@ -3,12 +3,11 @@
     :value="isModalActive"
     :can-cancel="['outside', 'escape']"
     scroll="clip"
-    class="top"
+    class="z-[1000]"
     @close="onClose">
     <div class="modal-width">
-      <header
-        class="py-5 pl-6 pr-5 flex justify-between items-center border-bottom">
-        <span class="modal-card-title is-size-6 has-text-weight-bold">
+      <header class="py-5 pl-6 pr-5 flex justify-between items-center border-b">
+        <span class="modal-card-title is-size-6 font-bold">
           {{ $t('autoTeleport.signTransactions') }}
         </span>
 
@@ -34,17 +33,17 @@
           {{ transition.destination?.name }}
         </p>
 
-        <p class="is-size-7 text-k-grey">
+        <p class="text-xs text-k-grey">
           {{ $t('autoTeleport.dontExit') }}
         </p>
 
         <hr class="my-4" />
 
         <div class="flex items-start">
-          <NeoIcon icon="lightbulb" size="small" class="mr-2 is-block" />
+          <NeoIcon icon="lightbulb" size="small" class="mr-2 block" />
           <p
             v-dompurify-html="$t('autoTeleport.tip')"
-            class="is-size-7 capitalize" />
+            class="text-xs capitalize" />
         </div>
 
         <p class="capitalize is-size-6 mt-4 mb-5">
@@ -111,25 +110,13 @@ const props = withDefaults(
   },
 )
 
-const activeStep = ref(0)
 const { $i18n } = useNuxtApp()
 const isModalActive = useVModel(props, 'modelValue')
 
-const checkBalanceState = computed<TransactionStepStatus>(() => {
-  let status = TransactionStepStatus.WAITING
-
-  if (
-    props.transactions.teleport.status.value === TransactionStatus.Finalized
-  ) {
-    if (props.canDoAction) {
-      status = TransactionStepStatus.COMPLETED
-    } else {
-      status = TransactionStepStatus.LOADING
-    }
-  }
-
-  return status
-})
+const activeStep = ref(0)
+const balanceCheckState = ref<TransactionStepStatus>(
+  TransactionStepStatus.WAITING,
+)
 
 const mainInteraction = computed(
   () => props.interaction || props.transactions.actions[0].interaction,
@@ -158,7 +145,7 @@ const steps = computed<TransactionStep[]>(() => {
     {
       title: $i18n.t('autoTeleport.steps.2.title'),
       tooltip: $i18n.t('autoTeleport.steps.2.tooltip'),
-      stepStatus: checkBalanceState.value,
+      stepStatus: balanceCheckState.value,
       stepStatusTextOverride: {
         [TransactionStepStatus.LOADING]: $i18n.t(
           'transactionSteps.noSignatureRequired',
@@ -194,10 +181,15 @@ const actionsFinalized = computed(() =>
     .every((status) => status.value === TransactionStatus.Finalized),
 )
 
-const hasActions = computed(() => props.transactions.actions.length)
+const hasActions = computed(() => Boolean(props.transactions.actions.length))
 
 const hasCompletedBalanceCheck = computed(
-  () => steps.value[1].stepStatus === TransactionStepStatus.COMPLETED,
+  () => balanceCheckState.value === TransactionStepStatus.COMPLETED,
+)
+
+const isTeleportTransactionFinalized = computed(
+  () =>
+    props.transactions.teleport.status.value === TransactionStatus.Finalized,
 )
 
 const autoteleportFinalized = computed(() =>
@@ -209,7 +201,11 @@ const btnLabel = computed<string>(() => {
     return $i18n.t('redirect.continue')
   }
 
-  if (!hasActions.value || !props.canDoAction || !activeStepInteraction.value) {
+  if (
+    !hasActions.value ||
+    !hasCompletedBalanceCheck.value ||
+    !activeStepInteraction.value
+  ) {
     return $i18n.t('autoTeleport.completeAllRequiredSteps')
   }
 
@@ -244,6 +240,19 @@ const onClose = () => {
   emit('close', autoteleportFinalized.value)
 }
 
+watch(
+  [isTeleportTransactionFinalized, () => props.canDoAction],
+  ([telportFinalized, canDoAction]) => {
+    if (!telportFinalized || hasCompletedBalanceCheck.value) {
+      return
+    }
+
+    balanceCheckState.value = canDoAction
+      ? TransactionStepStatus.COMPLETED
+      : TransactionStepStatus.LOADING
+  },
+)
+
 watch(autoteleportFinalized, () => {
   if (autoteleportFinalized.value) {
     emit('completed')
@@ -259,10 +268,6 @@ watch(autoteleportFinalized, () => {
 
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
-
-.top {
-  z-index: 1000;
-}
 
 .modal-width {
   width: 25rem;

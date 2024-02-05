@@ -3,11 +3,11 @@
     :value="isModalActive"
     :can-cancel="['outside', 'escape']"
     scroll="clip"
-    class="top"
+    class="z-[1000]"
     @close="onClose">
     <div class="modal-width">
       <header class="py-5 pl-6 pr-5 flex justify-between items-center">
-        <span class="capitalize is-size-3-5 has-text-weight-bold">
+        <span class="capitalize is-size-3-5 font-bold">
           {{ $t('autoTeleport.welcomeToAutoTeleport') }}
         </span>
 
@@ -30,11 +30,11 @@
               <NeoIcon
                 :icon="reasonsIcons[index]"
                 size="large"
-                class="has-text-k-primary mb-3" />
+                class="text-k-primary mb-3" />
               <img src="/accent-blur.svg" class="blur icon-blur" alt="blur" />
             </div>
 
-            <p class="has-text-weight-bold is-size-5 mb-3">
+            <p class="font-bold is-size-5 mb-3">
               {{ $t(`autoTeleport.welcome.${x}.title`) }}
             </p>
 
@@ -50,7 +50,7 @@
 
         <div class="mt-2 is-hidden">
           <a
-            class="has-text-link"
+            class="text-k-blue hover:text-k-blue-hover"
             target="_blank"
             rel="nofollow noopener noreferrer"
             >{{ $t('helper.learnMore') }}</a
@@ -88,10 +88,6 @@ const onClose = () => {
 
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
-
-.top {
-  z-index: 1000;
-}
 
 .modal-width {
   width: 40rem;

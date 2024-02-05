@@ -2,7 +2,7 @@
   <div>
     <div>
       <div class="flex justify-between items-center mb-5">
-        <div class="has-text-weight-bold is-size-5">
+        <div class="font-bold is-size-5">
           {{ $t('mint.unlockable.phase') }}
         </div>
         <div
@@ -14,7 +14,7 @@
       </div>
       <div class="flex justify-between items-center">
         <div>{{ mintedPercent }} %</div>
-        <div class="has-text-weight-bold">
+        <div class="font-bold">
           {{ mintedCount }} / {{ maxCount }}
           {{ $t('statsOverview.minted') }}
         </div>
@@ -22,18 +22,15 @@
     </div>
 
     <div class="my-5">
-      <UnlockableSlider :value="mintedCount / maxCount" />
+      <CollectionUnlockableSlider :value="mintedCount / maxCount" />
     </div>
 
-    <div class="my-5">
+    <div>
       <div v-if="userMintedNftId" class="flex justify-end items-center">
         <div class="mr-2">
           {{ $t('mint.unlockable.nftAlreadyMinted') }}
         </div>
-        <NeoIcon
-          icon="circle-check has-text-success"
-          pack="fass"
-          class="mr-4" />
+        <NeoIcon icon="circle-check text-k-green" pack="fass" class="mr-4" />
         <NeoButton
           class="my-2 mint-button"
           :tag="NuxtLink"
@@ -41,35 +38,22 @@
           :to="`/${urlPrefix}/gallery/${userMintedNftId}`" />
       </div>
 
-      <div
-        v-else-if="showHolderOfCollection"
-        class="columns holder-of-collection">
-        <div class="column">
-          <CollectionDropHolderOfCollection
-            class="mt-4 mb-5"
-            :is-holder="holderOfCollection.isHolderOfTargetCollection"
-            :collection-id="holderOfCollection.id" />
-
-          <div v-if="minimumFunds.amount" class="flex items-center mr-5">
-            <NeoIcon icon="circle-info" class="mr-3" />
-            <div
-              v-dompurify-html="minimumFunds.description"
-              class="minimum-funds-description" />
-          </div>
-        </div>
-
-        <div class="column has-text-right">
-          <NeoButton
-            ref="root"
-            class="my-2 mint-button"
-            variant="k-accent"
-            :loading="loading"
-            :disabled="mintButton.disabled"
-            :loading-with-label="isWalletConnecting"
-            :label="mintButton.label"
-            @click="emit('mint')" />
-        </div>
-      </div>
+      <CollectionDropMintSectionHolderOfCollectionMintRequirements
+        v-else-if="showHolderOfCollection && holderOfCollection"
+        class="my-5"
+        :holder-of-collection="holderOfCollection"
+        :minimum-funds="minimumFunds"
+        :is-minted-out="isMintedOut">
+        <NeoButton
+          ref="root"
+          class="mint-button"
+          variant="k-accent"
+          :loading="loading"
+          :disabled="buttonMint.disabled"
+          :loading-with-label="buttonMint.withLabel || isWalletConnecting"
+          :label="buttonMint.label"
+          @click="handleMint" />
+      </CollectionDropMintSectionHolderOfCollectionMintRequirements>
 
       <div v-else class="flex justify-end flex-wrap">
         <div v-if="minimumFunds.amount" class="flex items-center">
@@ -84,18 +68,22 @@
           class="ml-5 my-2 mint-button"
           variant="k-accent"
           :loading="loading"
-          :disabled="mintButton.disabled"
-          :loading-with-label="isWalletConnecting"
-          :label="mintButton.label"
-          @click="emit('mint')" />
+          :disabled="buttonMint.disabled"
+          :loading-with-label="buttonMint.withLabel || isWalletConnecting"
+          :label="buttonMint.label"
+          @click="handleMint" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import UnlockableSlider from '@/components/collection/unlockable/UnlockableSlider.vue'
 import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import type {
+  HolderOfCollectionProp,
+  MinimumFundsProp,
+  MintButtonProp,
+} from '../types'
 
 const NuxtLink = resolveComponent('NuxtLink')
 
@@ -105,26 +93,32 @@ const props = withDefaults(
     mintCountAvailable: boolean
     disabledByBackend: number
     maxCount: number
-    minimumFunds: { amount: bigint; description: string }
+    minimumFunds: MinimumFundsProp
     isImageFetching: boolean
     isWalletConnecting: boolean
     isLoading: boolean
-    mintButton: { label: string; disabled: boolean }
+    mintButton: MintButtonProp
     userMintedNftId?: string
-    holderOfCollection?: { id?: string; isHolderOfTargetCollection?: boolean }
+    holderOfCollection?: HolderOfCollectionProp
+    collectionId: string
+    availableToMint?: number
   }>(),
   {
     userMintedNftId: undefined,
-    holderOfCollection: () => ({ id: '', isHolderOfTargetCollection: false }),
   },
 )
 
 const emit = defineEmits(['mint'])
 
+const { $i18n } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 
 const loading = computed(
-  () => props.isImageFetching || props.isWalletConnecting || props.isLoading,
+  () =>
+    props.isImageFetching ||
+    props.isWalletConnecting ||
+    props.isLoading ||
+    (!isMintedOut.value && isCheckingMintRequirements.value),
 )
 
 const mintedPercent = computed(() => {
@@ -132,7 +126,49 @@ const mintedPercent = computed(() => {
   return Math.round(percent)
 })
 
-const showHolderOfCollection = computed(() => !!props.holderOfCollection.id)
+const isMintedOut = computed(() => !props.mintCountAvailable)
+const showHolderOfCollection = computed(() => !!props.holderOfCollection?.id)
+const isCheckingMintRequirements = computed(
+  () =>
+    showHolderOfCollection.value &&
+    (props.holderOfCollection?.isLoading || props.minimumFunds.isLoading),
+)
+
+const buttonMint = computed<{
+  label: string
+  disabled: boolean
+  withLabel?: boolean
+}>(() => {
+  if (isMintedOut.value) {
+    return {
+      label: $i18n.t('mint.unlockable.seeListings'),
+      disabled: false,
+    }
+  }
+
+  if (isCheckingMintRequirements.value) {
+    return {
+      label: $i18n.t('checking'),
+      disabled: true,
+      withLabel: true,
+    }
+  }
+
+  return {
+    label: props.mintButton.label,
+    disabled: props.mintButton.disabled,
+  }
+})
+
+const handleMint = () => {
+  if (isMintedOut.value) {
+    return navigateTo(
+      `/${urlPrefix.value}/collection/${props.collectionId}?listed=true`,
+    )
+  }
+
+  emit('mint')
+}
 </script>
 
 <style scoped lang="scss">

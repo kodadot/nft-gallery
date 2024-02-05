@@ -11,6 +11,7 @@ export type WithoutDecimalsParams = {
   digits?: number
   prefix?: Prefix
 }
+import { existentialDeposit as chainsExistentialDeposit } from '@kodadot1/static'
 
 export default function () {
   const { urlPrefix } = usePrefix()
@@ -50,6 +51,10 @@ export default function () {
     )
   }
 
+  const existentialDeposit = computed<number>(
+    () => chainsExistentialDeposit[urlPrefix.value],
+  )
+
   const unit = computed<string>(() => {
     return chainProperties.value.tokenSymbol
   })
@@ -78,5 +83,6 @@ export default function () {
     chainSymbol,
     blockExplorer,
     name,
+    existentialDeposit,
   }
 }

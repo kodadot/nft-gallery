@@ -7,7 +7,7 @@
       multiline-width="15rem">
       <div class="flex items-center">
         <img class="mr-2" :src="unlockableIcon" alt="Unlockable Icon" />
-        <span class="has-text-grey is-size-7">{{ $t('unlockable.item') }}</span>
+        <span class="text-k-grey text-xs">{{ $t('unlockable.item') }}</span>
       </div>
     </NeoTooltip>
     <div class="flex items-center">
@@ -16,7 +16,7 @@
         v-safe-href="link"
         target="_blank"
         rel="nofollow noopener noreferrer"
-        class="has-text-link">
+        class="text-k-blue hover:text-k-blue-hover">
         {{
           isMobile
             ? $t('unlockable.claimDrop')
@@ -48,8 +48,8 @@ const isOwner = computed(() => isCurrentOwner(props.nft?.currentOwner))
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables.scss';
 .unlockable-container {
-  max-width: 60%;
-  border-radius: 2rem;
+  @apply max-w-[60%] rounded-[2rem];
+
   @include ktheme() {
     border-color: theme('k-shade');
   }

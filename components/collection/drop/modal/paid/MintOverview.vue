@@ -20,7 +20,7 @@
     <hr class="my-4" />
 
     <div class="flex justify-between items-center">
-      <span class="is-size-7">{{ $t('confirmPurchase.priceForNFTs') }}</span>
+      <span class="text-xs">{{ $t('confirmPurchase.priceForNFTs') }}</span>
       <CommonTokenMoney :value="toMintNft.price" />
     </div>
 
@@ -29,24 +29,59 @@
     <div class="flex justify-between">
       {{ $t('confirmPurchase.youWillPay') }}:
       <div class="flex">
-        <CommonTokenMoney :value="toMintNft.price" class="has-text-grey" />
-        <span class="has-text-weight-bold ml-2">
+        <CommonTokenMoney :value="toMintNft.price" class="text-k-grey" />
+        <span class="font-bold ml-2">
           {{ toMintNft.priceUSD }}
         </span>
       </div>
     </div>
   </div>
 
-  <div v-if="!hasMinimumFunds" class="border k-orange-light border-k-orange2">
+  <div
+    v-if="!hasMinimumFunds"
+    class="border border-k-orange2 bg-k-orange-light">
     <div class="p-4 flex gap-3">
-      <NeoIcon icon="circle-exclamation-check" size="large" />
+      <NeoIcon
+        icon="circle-exclamation-check"
+        class="text-k-orange3"
+        size="large" />
 
-      <p class="is-size-7">
-        {{ $t('drops.yourWalletNeeds', [formattedMinimumFunds]) }}
-      </p>
+      <div class="text-xs">
+        <span class="text-text-color">
+          {{ $t('drops.yourWalletNeeds', [formattedMinimumFunds]) }}
+        </span>
+
+        <tippy placement="left" :append-to="body" class="float-right">
+          <p class="lowercase text-k-orange3">
+            {{ $t('teleport.why') }}
+          </p>
+
+          <template #content>
+            <div
+              class="bg-background-color text-xs border p-4 text-left w-[15rem]">
+              <p
+                v-dompurify-html="
+                  $t('drops.paidDropWhyTooltip', [
+                    formattedMinimumFunds,
+                    formattedExistentialDeposit,
+                  ])
+                " />
+
+              <a
+                href="https://hello.kodadot.xyz/multi-chain/existential-deposit"
+                class="text-k-blue hover:text-k-blue-hover text-xs capitalize mt-5 block"
+                target="_blank"
+                rel="nofollow noopener noreferrer"
+                >{{ $t('helper.learnMoreAboutEd') }}</a
+              >
+            </div>
+          </template>
+        </tippy>
+      </div>
     </div>
-    <div class="py-2 border-top border-k-orange2 text-center">
-      <p class="is-size-7">
+
+    <div class="py-2 border-t border-k-orange2 text-center">
+      <p class="text-xs">
         {{
           canAutoTeleport
             ? $t('drops.youCanContinueWithAutoteleport')
@@ -88,8 +123,10 @@ defineProps<{
   minimumFunds: number
   hasMinimumFunds: boolean
   formattedMinimumFunds: string
+  formattedExistentialDeposit: string
 }>()
 
+const body = ref(document.body)
 const autoteleport = ref()
 
 const canAutoTeleport = computed(() => autoteleport.value?.canAutoTeleport)

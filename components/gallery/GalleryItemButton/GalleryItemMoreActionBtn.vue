@@ -1,6 +1,11 @@
 <template>
   <div>
-    <Loader v-model="isLoading" :status="status" />
+    <SigningModal
+      :title="signingModalTitle"
+      :is-loading="isLoading"
+      :status="status"
+      @try-again="burn" />
+
     <NeoDropdown position="bottom-left" :mobile-modal="false">
       <template #trigger="{ active }">
         <NeoButton
@@ -32,7 +37,6 @@ import { NeoButton, NeoDropdown, NeoDropdownItem } from '@kodadot1/brick'
 import { Interaction } from '@kodadot1/minimark/v1'
 import { downloadImage } from '@/utils/download'
 import { toOriginalContentUrl } from '@/utils/ipfs'
-import Loader from '@/components/shared/Loader.vue'
 import { isMobileDevice } from '@/utils/extension'
 
 const { $i18n, $consola } = useNuxtApp()
@@ -49,6 +53,16 @@ const props = defineProps<{
   currentOwner?: string
   price?: string
 }>()
+
+const action = ref('')
+const signingModalTitle = computed(() => {
+  return (
+    {
+      burn: $i18n.t('mint.nft.burning'),
+      unlist: $i18n.t('mint.nft.delisting'),
+    }[action.value] || ''
+  )
+})
 
 const downloadMedia = () => {
   if (props.ipfsImage) {
@@ -71,6 +85,7 @@ const downloadMedia = () => {
 }
 
 const burn = () => {
+  action.value = 'burn'
   transaction({
     interaction: Interaction.CONSUME,
     urlPrefix: urlPrefix.value,
@@ -81,6 +96,7 @@ const burn = () => {
 }
 
 const unlist = () => {
+  action.value = 'unlist'
   transaction({
     interaction: Interaction.LIST,
     urlPrefix: urlPrefix.value,

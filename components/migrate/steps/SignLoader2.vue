@@ -2,23 +2,18 @@
   <div class="mb-5">
     <div class="flex items-center mb-4">
       <div class="mr-5">
-        <NeoIcon v-if="iterations === 0" v-bind="iconSuccess" class="fa-2x" />
-        <NeoIcon
-          v-else-if="steps.includes('step2')"
-          v-bind="iconLoading"
-          class="fa-2x" />
-        <NeoIcon v-else v-bind="iconIdle" class="fa-2x" />
+        <NeoIcon v-bind="whichIcon()" class="fa-2x" />
       </div>
       <div>
-        <p class="has-text-weight-bold">
+        <p class="font-bold text-xl">
           {{ $t('migrate.signStep.migratingItems') }}
         </p>
-        <p class="is-size-7 has-text-grey">
+        <p class="text-k-grey">
           {{ $t('migrate.signStep.signtx') }}
         </p>
       </div>
     </div>
-    <div class="flex is-size-7">
+    <div class="flex">
       <div class="v-border"></div>
       <div class="mb-4">
         <p v-if="iterations">
@@ -27,15 +22,17 @@
         <p v-else>{{ $t('migrate.signStep.done') }}</p>
       </div>
     </div>
-    <div
-      v-for="(iteration, index) in maxIterations"
-      :key="index"
-      class="flex is-size-7">
+    <div v-for="(_, index) in maxIterations" :key="index" class="flex">
       <div class="v-border"></div>
-      <div class="mb-4 flex">
+      <div class="mb-4 flex w-full">
         <NeoIcon v-bind="itemLeftIcons(index)" class="mr-4" />
-        <div>
+        <div :class="itemLeftIcons(index).textColor">
           <p>{{ $t('migrate.signStep.migratingNItems', itemLeft(index)) }}</p>
+        </div>
+        <div v-if="isError" class="flex-1 text-right">
+          <NeoButton variant="pill" size="small" @click="startStep2()">
+            {{ $t('helper.tryAgain') }}
+          </NeoButton>
         </div>
       </div>
     </div>
@@ -44,7 +41,7 @@
 
 <script setup lang="ts">
 import type { Prefix } from '@kodadot1/static'
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import {
   BATCH_SIZE,
   type Steps,
@@ -58,7 +55,7 @@ import waifuApi from '@/services/waifu'
 
 const { accountId } = useAuth()
 const { apiInstance } = useApi()
-const { howAboutToExecute, status } = useMetaTransaction()
+const { howAboutToExecute, status, isError } = useMetaTransaction()
 const { $consola } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
@@ -93,6 +90,10 @@ const itemLeft = (index) => {
 }
 
 const itemLeftIcons = (index) => {
+  if (isError.value) {
+    return iconError
+  }
+
   if (steps.value.includes('init') || steps.value.includes('step1')) {
     return iconIdle
   }
@@ -186,7 +187,7 @@ const executeStep2 = async () => {
 }
 
 watchEffect(() => {
-  $consola.log('SignLoader2.vue', steps.value, status.value)
+  $consola.info('SignLoader2.vue', steps.value, status.value)
 
   if (steps.value === 'step2') {
     startStep2()
@@ -201,4 +202,20 @@ watchEffect(() => {
     updateSteps('step3')
   }
 })
+
+const whichIcon = () => {
+  if (iterations.value === 0) {
+    return iconSuccess
+  }
+
+  if (steps.value.includes('step2')) {
+    return iconLoading
+  }
+
+  if (isError.value) {
+    return iconError
+  }
+
+  return iconIdle
+}
 </script>

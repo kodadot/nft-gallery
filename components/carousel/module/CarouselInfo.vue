@@ -1,16 +1,18 @@
 <template>
-  <div class="carousel-info flex flex-col">
-    <nuxt-link
-      :to="urlOf({ id: item.id, url, chain: item.chain })"
+  <div
+    class="carousel-info whitespace-nowrap overflow-hidden text-ellipsis p-4 flex flex-col"
+    :class="{ 'carousel-info__mobile': $device.isMobile }">
+    <div
       :title="item.name"
       :class="[
-        'has-text-weight-bold carousel-info-name',
-        { 'carousel-info-collection': isCollection },
+        'font-bold overflow-hidden whitespace-nowrap text-ellipsis w-full',
+        { 'flex justify-between items-center': isCollection },
       ]">
       <span class="is-ellipsis">{{ item.name || '--' }}</span>
-      <span v-if="isCollection" class="carousel-info-arrow">----></span>
-    </nuxt-link>
-    <div v-if="item?.collectionId" class="min-h-[1.5rem]">
+      <span v-if="isCollection" class="text-text-color">----></span>
+    </div>
+
+    <div v-if="item?.collectionId && !$device.isMobile" class="min-h-[1.5rem]">
       <CollectionDetailsPopover :nft="item">
         <template #content>
           <nuxt-link
@@ -22,7 +24,7 @@
                 chain: item.chain,
               })
             "
-            class="is-size-7 carousel-info-collection-name is-ellipsis">
+            class="text-xs text-k-grey is-ellipsis">
             {{ item.collectionName || '--' }}
           </nuxt-link>
         </template>
@@ -31,7 +33,7 @@
 
     <div
       v-if="!isCollection"
-      class="flex items-center mt-4"
+      class="carousel-info-footer flex items-center"
       :class="[showPrice ? 'justify-between' : 'justify-end']">
       <div v-if="showPrice" class="flex items-center">
         <Money
@@ -39,11 +41,13 @@
           inline
           :prefix="item.chain"
           :unit-symbol="unitSymbol" />
-        <span v-if="showSold" class="ml-2 has-text-grey is-size-7"
+        <span v-if="showSold" class="ml-2 text-k-grey text-xs"
           >- {{ $t('spotlight.sold') }}</span
         >
       </div>
-      <p class="is-size-7 text-k-grey capitalize">{{ chainName }}</p>
+      <p v-if="!$device.isMobile" class="text-xs text-k-grey capitalize">
+        {{ chainName }}
+      </p>
     </div>
   </div>
 </template>
@@ -65,15 +69,15 @@ const CollectionDetailsPopover = defineAsyncComponent(
 const props = defineProps<{
   item: CarouselNFT
 }>()
+
 const { urlPrefix } = usePrefix()
 const { urlOf } = useCarouselUrl()
-const url = inject('itemUrl', 'gallery') as string
 const isCollection = inject<boolean>('isCollection', false)
 const chainName = computed(() => {
   return getChainNameByPrefix(props.item.chain || urlPrefix.value)
 })
 
-const price = computed(() => props.item.latestSalePrice ?? props.item.price)
+const price = computed(() => props.item.latestSalePrice || props.item.price)
 const showSold = computed(() => Number(props.item.latestSalePrice) > 0)
 
 const showPrice = computed((): boolean => {

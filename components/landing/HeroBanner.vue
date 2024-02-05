@@ -1,7 +1,7 @@
 <template>
   <section
     :class="[
-      'is-relative landing-search flex items-center',
+      'relative landing-search flex items-center',
       isMobile ? 'mt-6' : 'my-8',
     ]">
     <img
@@ -24,23 +24,23 @@
 
     <div class="flex flex-col items-center search-info">
       <h1 v-if="isMobile" class="flex flex-col items-center">
-        <span class="title is-size-3 has-text-weight-bold">
+        <span class="title is-size-3 font-bold">
           {{ $t('search.landingTitle1') }}
         </span>
-        <span class="subtitle is-size-3 has-text-weight-bold capitalize">
+        <span class="subtitle is-size-3 font-bold capitalize">
           {{ $t('search.landingTitle2') }}
         </span>
-        <span class="title is-size-3 has-text-weight-bold">
+        <span class="title is-size-3 font-bold">
           {{ $t('search.landingTitle3') }}
         </span>
       </h1>
       <template v-else>
         <h1
-          class="title is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered flex is-flex-direction-column flex-wrap justify-center items-center mb-0">
+          class="title is-size-1 is-size-2-mobile font-bold text-center flex flex-col flex-wrap justify-center items-center mb-0">
           <div>
             {{ $t('search.landingTitle1') }}
             <span
-              class="subtitle is-size-1 is-size-2-mobile has-text-weight-bold has-text-centered capitalize ml-4">
+              class="subtitle is-size-1 is-size-2-mobile font-bold text-center capitalize ml-4">
               {{ $t('search.landingTitle2') }}
             </span>
           </div>
@@ -65,7 +65,7 @@
             :src="chain.icon"
             :alt="chain.text" />
           <span>{{ chainText(chain.text) }}</span>
-          <sup v-if="chain.text.includes('[Beta]')" class="beta-text is-size-7">
+          <sup v-if="chain.text.includes('[Beta]')" class="beta-text text-xs">
             {{ $t('beta') }}</sup
           >
         </nuxt-link>

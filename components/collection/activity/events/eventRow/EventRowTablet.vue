@@ -13,15 +13,15 @@
       </nuxt-link>
       <div class="flex flex-col justify-center gap-10px flex-grow">
         <nuxt-link
-          class="is-ellipsis is-inline-block mobile-fixed-width"
+          class="is-ellipsis inline-block mobile-fixed-width"
           :to="`/${urlPrefix}/gallery/${event.nft.id}`">
-          <span class="has-text-weight-bold">
+          <span class="font-bold">
             {{ event.nft.name }}
           </span>
         </nuxt-link>
 
         <div
-          class="border is-size-7 justify-center flex items-center fixed-width fixed-height"
+          class="border text-xs justify-center flex items-center fixed-width fixed-height"
           :class="getInteractionColor(event.interaction)">
           {{ interactionName }}
         </div>
@@ -33,18 +33,16 @@
         <span v-else>
           {{ blank }}
         </span>
-        <span>
-          {{ timeAgo(event.timestamp) }}
-        </span>
+        <TimeAgo :timestamp="event.timestamp" />
       </div>
     </div>
 
     <div class="flex gap flex-direction">
       <div v-if="fromAddress !== blank" class="flex items-center">
-        <span class="is-size-7 mr-3">{{ $t('activity.event.from') }}:</span>
+        <span class="text-xs mr-3">{{ $t('activity.event.from') }}:</span>
         <nuxt-link
           :to="`/${urlPrefix}/u/${fromAddress}`"
-          class="has-text-link is-ellipsis">
+          class="text-k-blue hover:text-k-blue-hover is-ellipsis">
           <IdentityIndex
             ref="identity"
             :address="fromAddress"
@@ -54,10 +52,10 @@
       </div>
 
       <div v-if="toAddress !== blank" class="flex items-center">
-        <span class="is-size-7 mr-3">{{ $t('activity.event.to') }}:</span>
+        <span class="text-xs mr-3">{{ $t('activity.event.to') }}:</span>
         <nuxt-link
           :to="`/${urlPrefix}/u/${toAddress}`"
-          class="has-text-link is-ellipsis">
+          class="text-k-blue hover:text-k-blue-hover is-ellipsis">
           <IdentityIndex
             ref="identity"
             :address="toAddress"
@@ -75,7 +73,6 @@ import {
   Offer,
 } from '@/composables/collectionActivity/types'
 import IdentityIndex from '@/components/identity/IdentityIndex.vue'
-import { timeAgo } from '@/components/collection/utils/timeAgo'
 import {
   blank,
   getAmount,

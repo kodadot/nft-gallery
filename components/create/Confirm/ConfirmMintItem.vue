@@ -8,16 +8,18 @@
             :alt="nft.name"
             class="border image is-48x48" />
         </div>
-        <div class="flex flex-col justify-between ml-4 limit-width">
-          <div class="has-text-color line-height-1 no-wrap is-clipped ellipsis">
+        <div class="flex flex-col justify-between ml-4 w-[100px] md:w-[170px]">
+          <div
+            class="text-text-color leading-none whitespace-nowrap is-clipped text-ellipsis">
             {{ nft.name }}
           </div>
-          <div class="line-height-1 no-wrap has-text-grey is-clipped ellipsis">
+          <div
+            class="leading-none whitespace-nowrap text-k-grey is-clipped text-ellipsis">
             {{ label }}:
           </div>
         </div>
       </div>
-      <div class="flex items-end no-wrap has-text-grey line-height-1">
+      <div class="flex items-end whitespace-nowrap text-k-grey leading-none">
         <template v-if="isNFT">
           <template v-if="showPrice">
             <CommonTokenMoney :value="price" />
@@ -30,7 +32,7 @@
       </div>
     </div>
     <div v-if="isNFT" class="flex mt-4 items-center">
-      <div class="has-text-grey mr-2">
+      <div class="text-k-grey mr-2">
         {{ $t('mint.nft.modal.intoCollection') }}
       </div>
       <NeoIcon icon="arrow-right-long" class="text-k-grey mr-4" />
@@ -70,22 +72,3 @@ watchEffect(() => {
   }
 })
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.limit-width {
-  width: 170px;
-  @include mobile {
-    width: 100px;
-  }
-}
-
-.ellipsis {
-  text-overflow: ellipsis;
-}
-
-.line-height-1 {
-  line-height: 1;
-}
-</style>

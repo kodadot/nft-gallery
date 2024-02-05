@@ -37,8 +37,7 @@ defineProps<{
   }
 
   &-action {
-    position: relative;
-    z-index: 1;
+    @apply relative z-[1];
 
     & > * {
       font-size: 1rem !important;
@@ -83,7 +82,7 @@ defineProps<{
     }
 
     &:hover {
-      cursor: not-allowed;
+      @apply cursor-not-allowed;
     }
   }
 
@@ -129,10 +128,7 @@ defineProps<{
   position: relative;
 
   .o-tip {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    z-index: 2;
+    @apply w-full h-full absolute z-[2];
   }
 
   .slide-action .o-tip {
@@ -140,11 +136,7 @@ defineProps<{
   }
 
   .full-width-action-button {
-    width: 100%;
-    height: 100%;
-    font-size: 1rem;
-    position: absolute;
-    z-index: 2;
+    @apply text-base w-full h-full absolute z-[2];
   }
 
   @include until-widescreen {

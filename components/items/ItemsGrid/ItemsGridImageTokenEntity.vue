@@ -8,6 +8,7 @@
     :show-price="isAvailableToBuy"
     :variant="variant"
     :hide-media-info="hideMediaInfo"
+    :display-name-with-sn="displayNameWithSn"
     :class="{
       'in-cart-border':
         shoppingCartStore.isItemInCart(nftForShoppingCart.id) ||
@@ -35,7 +36,7 @@
         <NeoButton
           data-testid="item-add-to-cart"
           no-shadow
-          class="fixed-width p-1 no-border-left btn-height override-wrapper-width"
+          class="fixed-width p-1 border-l-0 btn-height override-wrapper-width"
           @click.prevent="onClickShoppingCart">
           <NeoIcon
             class="icon"
@@ -105,6 +106,7 @@ const props = defineProps<{
   hideMediaInfo?: boolean
   hideAction?: boolean
   hideVideoControls?: boolean
+  displayNameWithSn?: boolean
 }>()
 
 const {

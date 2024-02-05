@@ -1,6 +1,6 @@
 <template>
   <div class="redirect-card p-4">
-    <div class="redirect-header has-text-weight-bold pb-2 mb-4">
+    <div class="redirect-header font-bold pb-2 mb-4">
       {{ props.i18n.t('redirect.title') }}
     </div>
     <div class="mb-4">
@@ -52,9 +52,7 @@ const handleRedirect = () => {
     background: theme('background-color');
   }
   .redirect-header {
-    @include ktheme() {
-      border-bottom: 1px solid theme('k-grey');
-    }
+    @apply border-b border-k-grey;
   }
   p.link {
     word-break: break-all;
@@ -65,11 +63,5 @@ const handleRedirect = () => {
   button.is-neo {
     flex: 1;
   }
-}
-</style>
-
-<style lang="scss">
-.redirect-modal {
-  z-index: 1000;
 }
 </style>

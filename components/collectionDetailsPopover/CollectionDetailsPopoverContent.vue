@@ -5,7 +5,7 @@
       <div class="flex items-center justify-between">
         <div class="flex items-center">
           <nuxt-link
-            class="is-size-6 break-word mr-2 has-text-link"
+            class="is-size-6 break-word mr-2 text-k-blue hover:text-k-blue-hover"
             :to="`/${urlPrefix}/collection/${
               nft?.collection?.id || nft.collectionId
             }`">
@@ -55,10 +55,7 @@
           {{ $t('profile.highestSales') }}
         </h6>
         <div class="flex sold-items">
-          <div
-            v-for="nftItem in soldItems"
-            :key="nftItem.id"
-            class="sold-item border">
+          <div v-for="nftItem in soldItems" :key="nftItem.id" class="sold-item">
             <GalleryCard
               :id="nftItem.id"
               hide-name
@@ -137,9 +134,7 @@ const { nftEntities: soldItems } = useCollectionSoldData({
 }
 
 .popover-header {
-  @include ktheme() {
-    border-bottom: 1px solid theme('k-grey');
-  }
+  @apply border-b border-k-grey;
 
   .popover-user-heading {
     font-size: 12px;
@@ -151,9 +146,7 @@ const { nftEntities: soldItems } = useCollectionSoldData({
 }
 
 .sales-container {
-  @include ktheme() {
-    border-top: 1px solid theme('k-grey');
-  }
+  @apply border-t border-k-grey;
 }
 
 .sold-items {

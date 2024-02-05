@@ -1,7 +1,7 @@
-import format, { roundAmount } from '@/utils/format/balance'
+import { formatAmountWithRound } from '@/utils/format/balance'
 
 export default function (
-  tokenAmount: ComputedRef<number | bigint | string | undefined>,
+  tokenAmount: ComputedRef<number | string | undefined>,
   tokenDecimals: ComputedRef<number>,
   chainSymbol: ComputedRef<string>,
   round: undefined | number = undefined,
@@ -9,10 +9,10 @@ export default function (
   const { getCurrentTokenValue } = useFiatStore()
 
   const amountFormatted = computed(() => {
-    const amount = format(tokenAmount.value, tokenDecimals.value, '')
-    return `${round ? roundAmount(amount, round, false) : amount} ${
-      chainSymbol.value
-    }`
+    const amount = tokenAmount.value
+      ? formatAmountWithRound(tokenAmount.value, tokenDecimals.value, round)
+      : 0
+    return `${amount} ${chainSymbol.value}`
   })
 
   const amountUsd = computed(() => {

@@ -17,21 +17,15 @@
         :minimum-funds="minimumFunds"
         :has-minimum-funds="hasMinimumFunds"
         :formatted-minimum-funds="formattedMinimumFunds"
+        :formatted-existential-deposit="formattedExistentialDeposit"
         :action="action"
         @confirm="handleConfirm"
         @close="handleModalClose" />
 
-      <WaitingDrop
+      <SigningModalBody
         v-else-if="isSigningStep"
         :title="$t('autoTeleport.steps.paid_drop.title')"
-        :subtitle="transactionStatus">
-        <div class="py-5 flex items-start">
-          <NeoIcon icon="lightbulb" size="small" class="mr-2 is-block" />
-          <p
-            v-dompurify-html="$t('autoTeleport.tip')"
-            class="is-size-7 capitalize" />
-        </div>
-      </WaitingDrop>
+        :subtitle="transactionStatus" />
 
       <SuccessfulDrop
         v-else-if="isSuccessfulDropStep"
@@ -43,13 +37,12 @@
 </template>
 
 <script setup lang="ts">
-import { NeoIcon, NeoModal } from '@kodadot1/brick'
+import { NeoModal } from '@kodadot1/brick'
 import ModalBody from '@/components/shared/modals/ModalBody.vue'
 import { AutoTeleportActionButtonConfirmEvent } from '@/components/common/autoTeleport/AutoTeleportActionButton.vue'
 import type { ToMintNft } from '../PaidGenerative.vue'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import MintOverview from './paid/MintOverview.vue'
-import WaitingDrop from './shared/WaitingDrop.vue'
 import SuccessfulDrop from './shared/SuccessfulDrop.vue'
 import type { DropMintedNft } from '@/composables/drop/useGenerativeDropMint'
 import { usePreloadMintedNftCover } from './utils'
@@ -64,6 +57,7 @@ const props = defineProps<{
   minimumFunds: number
   hasMinimumFunds: boolean
   formattedMinimumFunds: string
+  formattedExistentialDeposit: string
 
   mintedNft?: DropMintedNft
   canListNft: boolean

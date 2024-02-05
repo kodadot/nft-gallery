@@ -13,7 +13,7 @@
       @focus="hasFocus = true" />
     <template #message>
       <transition name="fade">
-        <span v-show="hasFocus && message" class="has-text-primary is-italic">{{
+        <span v-show="hasFocus && message" class="text-k-primary italic">{{
           message
         }}</span>
       </transition>

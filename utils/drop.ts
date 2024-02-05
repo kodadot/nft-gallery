@@ -1,6 +1,6 @@
 export const DEFAULT_DROP = {
-  alias: 'assemblies',
-  id: '76',
+  alias: 'florist',
+  id: '87',
   chain: 'ahp',
 }
 
@@ -17,6 +17,10 @@ export const AHK_GENERATIVE_DROPS = [
 ]
 
 export const AHP_GENERATIVE_DROPS = [
+  '87', // Florist
+  '82', // Alchemy
+  '77', // Chained
+  '76', // Assemblies
   '66', // Split
   '63', // Genera
   '60', // Christmas City
@@ -32,4 +36,4 @@ export const AHP_GENERATIVE_DROPS = [
 export const AHP_POPULAR_DROP_COLLECTIONS = [...AHP_GENERATIVE_DROPS]
 
 export const FALLBACK_DROP_COLLECTION_MAX = 300
-export const FUTURE_DROP_DATE = new Date(Date.UTC(2024, 0, 4, 16, 0, 0))
+export const FUTURE_DROP_DATE = new Date(Date.UTC(2024, 0, 25, 14, 0, 0))

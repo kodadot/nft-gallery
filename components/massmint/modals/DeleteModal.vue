@@ -1,19 +1,17 @@
 <template>
   <NeoModal :value="isModalActive" scroll="clip" @close="emit('close')">
-    <div class="p-6 modal-width">
-      <div class="flex justify-center is-size-5 pb-4 border-bottom border-grey">
+    <div class="p-6 w-[unset] lg:w-[25rem]">
+      <div class="flex justify-center is-size-5 pb-4 border-b border-k-shade">
         <span>
           {{ $t('massmint.areYouSureDelete') }}
           <br />
-          <span class="has-text-weight-bold">
-            “{{ nft.name }} #{{ nft.id }}”
-          </span>
+          <span class="font-bold"> “{{ nft.name }} #{{ nft.id }}” </span>
           ?
         </span>
       </div>
       <div class="flex mt-6">
         <NeoButton
-          class="mr-3 flex flex-grow flex-1 btn-height"
+          class="mr-3 flex flex-grow flex-1 h-[3.25rem]"
           no-shadow
           variant="k-accent"
           :label="$t('massmint.yesDelete')"
@@ -21,7 +19,7 @@
         <NeoButton
           :label="$t('massmint.cancel')"
           no-shadow
-          class="flex flex-grow flex-1 btn-height"
+          class="flex flex-grow flex-1 h-[3.25rem]"
           @click="emit('close')" />
       </div>
     </div>
@@ -45,7 +43,3 @@ const deleteNFT = (nft: NFT) => {
   emit('delete', nft)
 }
 </script>
-
-<style lang="scss" scoped>
-@import './modals.scss';
-</style>

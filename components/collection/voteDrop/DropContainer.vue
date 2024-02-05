@@ -19,7 +19,7 @@
 
           <div>
             <div class="flex justify-between items-center my-5">
-              <div class="has-text-weight-bold is-size-5">
+              <div class="font-bold is-size-5">
                 {{ $t('mint.unlockable.phase') }}
               </div>
               <span v-if="mintCountAvailable" class="flex items-center">
@@ -29,7 +29,7 @@
             </div>
             <div class="flex justify-between items-center">
               <span>{{ mintedPercent }} %</span
-              ><span class="has-text-weight-bold">
+              ><span class="font-bold">
                 {{ mintedCount }} / {{ totalCount }}
                 {{ $t('statsOverview.minted') }}</span
               >
@@ -142,8 +142,8 @@ const statusInformation = computed(() => {
     ? {
         label: $i18n.t('mint.unlockable.ayeVotersOnly'),
         icon: 'circle-info',
-        iconClass: 'has-text-grey',
-        labelClass: 'has-text-grey',
+        iconClass: 'text-k-grey',
+        labelClass: 'text-k-grey',
         iconPack: 'fasr',
       }
     : isEligibleUser.value
@@ -151,13 +151,13 @@ const statusInformation = computed(() => {
           label: $i18n.t('mint.unlockable.eligible'),
           icon: 'circle-check',
           iconPack: 'fasr',
-          iconClass: 'has-text-success',
+          iconClass: 'text-k-green',
         }
       : {
           label: $i18n.t('mint.unlockable.exclusive'),
           icon: 'circle-info',
-          iconClass: 'has-text-grey',
-          labelClass: 'has-text-grey',
+          iconClass: 'text-k-grey',
+          labelClass: 'text-k-grey',
           iconPack: 'fasr',
         }
 })

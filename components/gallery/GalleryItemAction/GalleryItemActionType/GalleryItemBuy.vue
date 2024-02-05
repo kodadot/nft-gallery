@@ -13,7 +13,7 @@
         </div>
 
         <NeoButton
-          class="button-height square-button-width no-border-left"
+          class="button-height square-button-width border-l-0"
           data-testid="item-add-to-cart"
           @click="onClickShoppingCart">
           <NeoIcon
@@ -40,7 +40,6 @@ import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'
-import OnRampModal from '@/components/shared/OnRampModal.vue'
 import { openShoppingCart } from '@/components/common/shoppingCart/ShoppingCartModalConfig'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import { nftToShoppingCartItem } from '@/components/common/shoppingCart/utils'

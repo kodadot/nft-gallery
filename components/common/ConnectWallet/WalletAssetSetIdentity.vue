@@ -1,6 +1,6 @@
 <template>
-  <div v-if="!rememberIdentity" class="set-identity">
-    <div class="wallet-asset-container is-size-7 py-1 flex justify-between">
+  <div v-if="!rememberIdentity" class="bg-blue-accent-bg-color">
+    <div class="wallet-asset-container text-xs py-1 flex justify-between">
       <nuxt-link to="/identity" @click="closeModal"
         >Create Your Onchain Identity</nuxt-link
       >
@@ -19,13 +19,3 @@ const closeModal = () => {
 
 const rememberIdentity = useStorage('remember-identity', false)
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.set-identity {
-  @include ktheme() {
-    background-color: theme('blue-accent-bg-color');
-  }
-}
-</style>

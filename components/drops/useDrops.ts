@@ -7,7 +7,6 @@ import {
   getDrops,
 } from '@/services/waifu'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
-import { existentialDeposit } from '@kodadot1/static'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { DropItem } from '@/params/types'
 import { FUTURE_DROP_DATE } from '@/utils/drop'
@@ -29,10 +28,13 @@ futureDate.setDate(futureDate.getDate() * 7) // i weeks in the future
 
 export function useDrops() {
   const drops = ref<Drop[]>([])
-  onMounted(async () => {
-    const dropsList = await getDrops()
+  const dropsList = ref<DropItem[]>([])
+  const count = computed(() => dropsList.value.length)
 
-    dropsList
+  onMounted(async () => {
+    dropsList.value = await getDrops()
+
+    dropsList.value
       .filter((drop) => !isProduction || drop.chain !== 'ahk')
       .forEach((drop) => {
         const { result: collectionData } = useQuery(
@@ -51,7 +53,7 @@ export function useDrops() {
       })
   })
 
-  return drops
+  return { drops, count }
 }
 
 const getFormattedDropItem = async (collection, drop: DropItem) => {
@@ -118,32 +120,33 @@ export const useDropStatus = (id: string) => {
 export const useDropMinimumFunds = (drop) => {
   const chainProperties = chainPropListOf(drop.chain)
 
-  const { chainBalances } = useTeleport()
-  const { urlPrefix } = usePrefix()
-  const { fetchMultipleBalance } = useMultipleBalance()
+  const { existentialDeposit } = useChain()
+  const { fetchMultipleBalance, currentChainBalance } = useMultipleBalance()
 
-  const currentChain = computed(() => prefixToChainMap[drop.chain])
+  const transferableDropChainBalance = computed(
+    () => (Number(currentChainBalance.value) || 0) - existentialDeposit.value,
+  )
   const meta = computed<number>(() => Number(drop.meta) || 0)
   const price = computed<number>(() => Number(drop.price) || 0)
-  const currentChainBalance = computed(
-    () =>
-      (currentChain.value && Number(chainBalances[currentChain.value]())) || 0,
-  )
   const minimumFunds = computed<number>(() => price.value || meta.value)
-  const transferableDropChainBalance = computed(
-    () => currentChainBalance.value - existentialDeposit[urlPrefix.value],
-  )
   const hasMinimumFunds = computed(
     () =>
       !minimumFunds.value ||
       transferableDropChainBalance.value >= minimumFunds.value,
   )
+  const tokenDecimals = computed(() => chainProperties.tokenDecimals)
+  const tokenSymbol = computed(() => chainProperties.tokenSymbol)
 
   const { formatted: formattedMinimumFunds } = useAmount(
     meta,
-    computed(() => chainProperties.tokenDecimals),
-    computed(() => chainProperties.tokenSymbol),
-    4,
+    tokenDecimals,
+    tokenSymbol,
+  )
+
+  const { formatted: formattedExistentialDeposit } = useAmount(
+    existentialDeposit,
+    tokenDecimals,
+    tokenSymbol,
   )
 
   onBeforeMount(fetchMultipleBalance)
@@ -152,5 +155,27 @@ export const useDropMinimumFunds = (drop) => {
     minimumFunds,
     hasMinimumFunds,
     formattedMinimumFunds,
+    formattedExistentialDeposit,
   }
+}
+
+export const useHolderOfCollectionDrop = () => {
+  const { apiInstance } = useApi()
+
+  const isNftClaimed = async (sn: string, collectionId: string) => {
+    const api = await apiInstance.value
+
+    const claimed = await api.query.nfts.attribute(
+      collectionId,
+      sn,
+      { Pallet: null },
+      '0x0033000000',
+    )
+
+    const wasUsed = claimed.toHuman()
+
+    return wasUsed !== null
+  }
+
+  return { isNftClaimed }
 }

@@ -3,10 +3,12 @@
     <div class="loading-container">
       <figure>
         <img class="loading-icon" :src="placeholder" />
-        <figcaption v-if="status" class="loading-text">
+        <figcaption
+          v-if="status"
+          class="max-w-[200px] mx-auto my-0 text-center relative">
           {{ $t(status) }}
         </figcaption>
-        <div v-if="!status" class="mt-3 mb-3 has-text-primary">
+        <div v-if="!status" class="mt-3 mb-3 text-k-primary">
           {{ $t('helper.signStuckText') }}
         </div>
       </figure>
@@ -115,16 +117,7 @@ onBeforeMount(() => {
   font-size: 16px;
 }
 
-.loading-text {
-  position: relative;
-  max-width: 200px;
-  text-align: center;
-  margin: 0 auto;
-}
-
 .loading-icon {
-  @include ktheme() {
-    border-bottom: 1px solid theme('k-shade');
-  }
+  @apply border-b border-k-shade;
 }
 </style>

@@ -34,6 +34,11 @@ const exec = async (
     const transfer = await callback(...params)
     const address = typeof account === 'string' ? account : account.address
     const injector = await getAddress(toDefaultAddress(address))
+
+    if (!injector) {
+      throw new Error("Oops! We can't find your wallet, please log in again.")
+    }
+
     const hasCallback = typeof statusCb === 'function'
 
     const options = injector ? { signer: injector.signer } : undefined
@@ -176,7 +181,9 @@ const getTransferParams = async (
   const api = await apiInstance.value
   const isSingle = addresses.length === 1
   const firstAddress = addresses[0]
-  const cb = isSingle ? api.tx.balances.transfer : api.tx.utility.batch
+  const cb = isSingle
+    ? api.tx.balances.transferAllowDeath
+    : api.tx.utility.batch
   const arg = isSingle
     ? [
         firstAddress.address,
@@ -188,7 +195,10 @@ const getTransferParams = async (
             calculateBalance(target.token as number, decimals),
           )
 
-          return api.tx.balances.transfer(target.address, amountToTransfer)
+          return api.tx.balances.transferAllowDeath(
+            target.address,
+            amountToTransfer,
+          )
         }),
       ]
   return { cb, arg }

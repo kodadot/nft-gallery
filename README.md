@@ -58,3 +58,6 @@ You'll find our goals for KodaDot upcoming future!
 - Join our [Telegram KodaDot Ecosystem](https://t.me/kodadot_eco), ~~[Discord](https://discord.gg/u6ymnbz4PR)~~
 - [Pick your T-shirt in KodaDot Swag Shop](https://shop.kodadot.xyz), use voucher `readme100` to get 100% OFF, first 10 redemptions only.
 
+# Fix dependency bump by renovate bot
+
+`git checkout origin/main pnpm-lock.yaml && pnpm install`

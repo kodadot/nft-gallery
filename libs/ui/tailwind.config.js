@@ -23,6 +23,9 @@ module.exports = {
         'k-green': 'var(--k-green)',
         'k-red': 'var(--k-red)',
         'k-orange': 'var(--k-orange)',
+        'k-orange-light': 'var(--k-orange-light)',
+        'k-orange2': 'var(--k-orange2)',
+        'k-orange3': 'var(--k-orange3)',
         'k-red-accent': 'var(--k-red-accent)',
         'k-red-accent-2': 'var(--k-red-accent-2)',
         'k-grey': 'var(--k-grey)',
@@ -88,7 +91,7 @@ module.exports = {
       },
       animation: {
         'icon-spin':
-          'icon-spin infinite linear var(--oruga-icon-spin-duration, 1.5s)',
+          'icon-spin infinite linear var(--oruga-icon-spin-duration, 1s)',
       },
       // TODO: remove it after removing bulma
       padding: {

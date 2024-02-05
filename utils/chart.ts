@@ -1,3 +1,5 @@
+import { Point } from 'chart.js'
+
 type ChartData = [Date, number][]
 
 export type CollectionChartData = {
@@ -43,11 +45,24 @@ const getMedianDetails = (dataset: number[]): MedianDetails => {
   }
 }
 
-export const getChartData = (data: ChartData = []): RenderedChartData =>
+export const getChartPoints = (data: ChartData = []): Point[] =>
   data.map((item) => ({
-    x: item[0],
+    x: item[0].getTime(),
     y: item[1],
   }))
+
+export const getChartDataByTimeRange = (data: ChartData, timeRange: number) => {
+  if (!data) {
+    return
+  }
+  if (timeRange === 0) {
+    return data
+  } else {
+    const now = new Date()
+    now.setDate(now.getDate() - timeRange)
+    return data.filter((item) => item[0] >= now)
+  }
+}
 
 export const getCollectionChartData = (
   data: CollectionChartData[] = [],
