@@ -18,18 +18,13 @@
           class="lg:!hidden flex flex-grow items-center justify-end"
           @click="closeBurgerMenu">
           <NeoButton
-            v-if="isMobileNavbarOpen || isTouch"
             class="square-40 mr-2"
             icon="magnifying-glass"
             @click="showMobileSearchBar" />
 
           <div v-show="openMobileSearchBar">
             <div class="fixed-stack flex items-center justify-between p-2">
-              <Search
-                v-if="isTouch"
-                ref="mobilSearchRef"
-                hide-filter
-                class="flex-grow" />
+              <Search ref="mobilSearchRef" hide-filter class="flex-grow" />
               <NeoButton
                 variant="text"
                 class="p-3 is-shadowless border-0 capitalize"
