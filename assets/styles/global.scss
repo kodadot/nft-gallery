@@ -150,12 +150,6 @@ body {
       flex-direction: column-reverse;
     }
   }
-
-  @include tablet {
-    .short-name-column {
-      width: 20%;
-    }
-  }
 }
 
 .chain-logo {
