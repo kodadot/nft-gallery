@@ -2,7 +2,7 @@
   <div>
     <div class="flex justify-between">
       <div class="flex gap-4 flex-col w-full">
-        <MintRequirementItem
+        <CollectionDropRequirementItem
           v-if="showHolderOfCollection && collection"
           :fulfilled="fulfillsHolderOfCollection"
           :loading="holderOfCollection.isLoading">
@@ -15,7 +15,7 @@
               </nuxt-link>
             </template>
           </i18n-t>
-        </MintRequirementItem>
+        </CollectionDropRequirementItem>
         <CollectionDropRequirementItem
           :fulfilled="fulfillsMinimumFunds"
           :loading="minimumFunds.isLoading">
@@ -73,7 +73,6 @@
 </template>
 
 <script setup lang="ts">
-import MintRequirementItem from './Item.vue'
 import { useCollectionMinimal } from '@/components/collection/utils/useCollectionDetails'
 import { NeoIcon, NeoTooltip } from '@kodadot1/brick'
 import type { HolderOfCollectionProp, MinimumFundsProp } from '../types'
