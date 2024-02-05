@@ -36,7 +36,7 @@
 
           <NeoDropdownItem
             v-if="accountId"
-            v-clipboard:copy="generatePaymentLink([targetAddresses[0]])"
+            v-clipboard:copy="generatePaymentLink([{ address: accountId }])"
             data-testid="transfer-dropdown-pay-me"
             @click="toast($t('toast.urlCopy'))">
             <NeoIcon icon="sack-dollar" class="mr-2" />{{
