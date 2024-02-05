@@ -7,7 +7,7 @@ test('Check if search provide results', async ({ page }) => {
 
   //Search term
   await test.step('Search for the term Waifu and hover over results', async () => {
-    await expect(page.getByTestId('search-bar').first()).toBeVisible()
+    await expect(page.getByTestId('search-bar').last()).toBeVisible()
     await page.getByTestId('search-bar-input').fill('waifu')
     await page.locator('[class="search-suggestion-container"]').hover()
   })
