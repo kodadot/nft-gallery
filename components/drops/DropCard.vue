@@ -6,6 +6,7 @@
       <component
         :is="externalUrl ? 'a' : NuxtLink"
         rel="nofollow noopener noreferrer"
+        class="hover:text-text-color"
         :to="`/${dropPrefix}/drops/${drop.alias}`">
         <div
           class="drop-card-banner border-k-grey border-b"
@@ -130,7 +131,7 @@ onMounted(async () => {
 .drop-card {
   &:hover {
     .drop-card-banner {
-      @apply border-border-color opacity-card-hover-opacity;
+      @apply opacity-card-hover-opacity;
     }
   }
   &-banner {
