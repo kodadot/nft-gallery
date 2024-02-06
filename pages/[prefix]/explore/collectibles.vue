@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full px-[2.5rem]">
+  <div class="w-full px-5 md:px-10">
     <CollectionGridWithBreadcrumbs />
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full px-[2.5rem]"
+    class="w-full px-5 md:px-10"
     :class="{ 'sidebar-padding-left': isSidebarOpen }">
     <Items />
   </div>

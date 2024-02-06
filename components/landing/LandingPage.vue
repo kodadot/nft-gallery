@@ -7,13 +7,13 @@
     <template v-if="showCarousel">
       <!-- top collections -->
       <section v-if="showTopCollections" class="py-8 instance">
-        <div class="w-full px-[2.5rem]">
+        <div class="w-full px-5 md:px-10">
           <LandingTopCollections class="my-5" />
         </div>
       </section>
 
       <section class="py-8 instance">
-        <div class="w-full px-[2.5rem]">
+        <div class="w-full px-5 md:px-10">
           <!-- generative  -->
           <LazyCarouselTypeGenerative />
         </div>
@@ -22,14 +22,14 @@
       <!-- email signup banner -->
       <transition name="slide">
         <section v-if="showSignupBanner" class="py-5 instance">
-          <div class="w-full px-[2.5rem]">
+          <div class="w-full px-5 md:px-10">
             <LandingSignupBanner class="my-4" />
           </div>
         </section>
       </transition>
 
       <section class="py-8 instance">
-        <div class="w-full px-[2.5rem]">
+        <div class="w-full px-5 md:px-10">
           <!-- latest sales -->
           <LazyCarouselTypeLatestSales />
 
@@ -40,7 +40,7 @@
     </template>
 
     <section class="py-8 instance instance-accent">
-      <div class="w-full px-[2.5rem]">
+      <div class="w-full px-5 md:px-10">
         <LazyLandingFeaturedArticles />
       </div>
     </section>

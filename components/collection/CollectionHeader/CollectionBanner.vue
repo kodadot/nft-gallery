@@ -5,7 +5,7 @@
     <div class="collection-banner-shadow"></div>
 
     <section class="h-full py-8">
-      <div class="w-full px-[2.5rem] collection-banner-content">
+      <div class="w-full px-5 md:px-10 collection-banner-content">
         <div class="lg:flex-1">
           <div class="flex flex-col items-start">
             <div class="collection-banner-avatar">

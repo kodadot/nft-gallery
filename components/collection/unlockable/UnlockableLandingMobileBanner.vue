@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full px-[2.5rem] flex border-t justify-between items-center py-3 mt-7">
+    class="w-full px-5 md:px-10 flex border-t justify-between items-center py-3 mt-7">
     <div class="flex items-center">
       <img
         width="42"
