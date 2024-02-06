@@ -93,8 +93,12 @@
             class="lg:!hidden"
             :title="$t('explore')">
             <NavbarExploreOptions
-              @closeMobileNavbar="showMobileNavbar"
-              @closeMobileSubMenu="onCloseMobileSubMenu" />
+              @select="
+                () => {
+                  showMobileNavbar()
+                  onCloseMobileSubMenu()
+                }
+              " />
           </MobileExpandableSection>
           <NavbarExploreDropdown
             class="navbar-explore custom-navbar-item max-lg:!hidden"
@@ -106,14 +110,14 @@
             target="_blank"
             class="navbar-item"
             data-testid="learn">
-            Learn
+            {{ $t('learn') }}
           </a>
           <CreateDropdown
             v-show="isCreateVisible"
             class="navbar-create custom-navbar-item ml-0"
             data-testid="create"
             :chain="urlPrefix"
-            @closeMobileNavbar="showMobileNavbar" />
+            @select="showMobileNavbar" />
 
           <!-- commenting as part of #5889-->
           <!-- <StatsDropdown
@@ -128,8 +132,12 @@
             no-padding
             :title="$t('chainSelect', [chainName])">
             <NavbarChainOptions
-              @select="handleMobileChainSelect"
-              @closeMobileSubMenu="onCloseMobileSubMenu" />
+              @select="
+                () => {
+                  handleMobileChainSelect()
+                  onCloseMobileSubMenu()
+                }
+              " />
           </MobileExpandableSection>
           <ChainSelectDropdown
             id="NavChainSelect"
@@ -156,8 +164,12 @@
                 :title="$t('profileMenu.language')"
                 icon="globe">
                 <MobileLanguageOption
-                  @closeLanguageOption="showMobileNavbar"
-                  @closeMobileSubMenu="onCloseMobileSubMenu" />
+                  @select="
+                    () => {
+                      showMobileNavbar()
+                      onCloseMobileSubMenu()
+                    }
+                  " />
               </MobileExpandableSection>
               <ColorModeButton class="navbar-item" />
             </template>
@@ -167,7 +179,7 @@
               @click.stop="openWalletConnectModal">
               <span>
                 {{ $t('profile.page') }}
-                <NeoIcon icon="user-circle" class="icon" size="medium" />
+                <NeoIcon icon="user-circle" class="w-4 h-4" size="medium" />
               </span>
               <NeoIcon class="icon--right" icon="chevron-right" />
             </div>
@@ -243,10 +255,12 @@ const handleMobileChainSelect = () => {
   showMobileNavbar()
 }
 
+const closeAllModals = () => neoModal.closeAll()
+
 const openWalletConnectModal = (): void => {
   showMobileNavbar()
 
-  neoModal.closeAll()
+  closeAllModals()
   neoModal.open({
     ...ConnectWalletModalConfig,
     ...(isMobile ? { animation: 'none' } : {}),
@@ -254,6 +268,8 @@ const openWalletConnectModal = (): void => {
 }
 
 const showMobileNavbar = () => {
+  closeAllModals()
+
   document.body.classList.toggle('is-clipped')
   isMobileNavbarOpen.value = !isMobileNavbarOpen.value
   if (!isMobileNavbarOpen.value) {

@@ -138,7 +138,7 @@ export const useDropMinimumFunds = (drop) => {
   const tokenSymbol = computed(() => chainProperties.tokenSymbol)
 
   const { formatted: formattedMinimumFunds } = useAmount(
-    meta,
+    minimumFunds,
     tokenDecimals,
     tokenSymbol,
   )

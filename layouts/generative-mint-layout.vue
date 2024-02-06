@@ -9,7 +9,7 @@
           </h1>
         </div>
       </section>
-      <section class="section">
+      <section class="px-6 py-12">
         <div class="container">
           <div class="columns is-centered">
             <div class="column is-half">
