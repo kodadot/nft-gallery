@@ -1,12 +1,8 @@
 <template>
   <UnlockableCollectionBanner :drop="drop" />
   <!-- <CollectionDropContainer v-if="dropType === 'paid'" :drop="drop" /> -->
-  <CollectionDropHolderOfGenerative
-    v-if="dropType === 'holder' && Boolean(drop.holder_of)"
-    :drop="drop" />
-  <CollectionDropPaidGenerative
-    v-else-if="dropType === 'paid' && Number(drop.price)"
-    :drop="drop" />
+  <CollectionDropHolderOfGenerative v-if="dropType === 'holder'" :drop="drop" />
+  <CollectionDropPaidGenerative v-else-if="dropType === 'paid'" :drop="drop" />
   <CollectionDropGenerative v-else-if="dropType === 'free'" :drop="drop" />
   <!-- <CollectionUnlockableContainer v-else-if="dropType === 'drop'" :drop="drop" />
   <CollectionVoteDropContainer v-else-if="dropType === 'vote'" :drop="drop" /> -->
