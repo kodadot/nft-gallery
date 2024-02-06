@@ -30,7 +30,6 @@
             :mint-count-available="mintCountAvailable"
             :mint-button="mintButton"
             :holder-of-collection="holderOfCollection"
-            :current-account-minted-token="currentAccountMintedToken"
             @mint="handleSubmitMint"
             @select="handleSelectImage" />
 
@@ -77,7 +76,6 @@
 
 <script setup lang="ts">
 import { DropItem } from '@/params/types'
-import { type DropMintedStatus } from '@/services/fxart'
 import type {
   HolderOfCollectionProp,
   MinimumFundsProp,
@@ -101,16 +99,12 @@ const props = withDefaults(
     holderOfCollection?: HolderOfCollectionProp
     userMintedNftId?: string
     userMintedCount: number
-    currentAccountMintedToken?: DropMintedStatus
-
     handleSelectImage: (image: string) => void
     handleSubmitMint: () => void
   }>(),
   {
     description: '',
     userMintedNftId: undefined,
-    currentAccountMintedToken: undefined,
-    holderOfCollection: undefined,
   },
 )
 

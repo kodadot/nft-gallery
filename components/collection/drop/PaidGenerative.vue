@@ -14,8 +14,7 @@
     :mint-count-available="mintCountAvailable"
     :mint-button="mintButtonProps"
     :handle-select-image="handleSelectImage"
-    :handle-submit-mint="handleSubmitMint"
-    :current-account-minted-token="currentAccountMintedToken || undefined" />
+    :handle-submit-mint="handleSubmitMint" />
 
   <NeoModalExtend v-model:active="isRaffleModalActive">
     <ModalBody title="Submit Raffle" @close="isRaffleModalActive = false">
@@ -297,7 +296,7 @@ const allocateRaffle = async () => {
     selectedImage.value,
   )
   const body = {
-    email: currentAccountMintedToken.value?.email || raffleEmail.value,
+    email: raffleEmail.value,
     hash: imageHash.value,
     address: accountId.value,
     image: selectedImage.value,
@@ -322,18 +321,7 @@ const handleSubmitMint = async () => {
     return false
   }
 
-  // skip raffle modal
-  if (
-    currentAccountMintedToken.value?.id &&
-    !currentAccountMintedToken.value?.claimed
-  ) {
-    const imageUrl = new URL(selectedImage.value)
-    imageHash.value = imageUrl.searchParams.get('hash') || ''
-    raffleId.value = currentAccountMintedToken.value?.id.toString() || ''
-    openMintModal()
-  } else {
-    isRaffleModalActive.value = true
-  }
+  isRaffleModalActive.value = true
 }
 
 const submitRaffle = async () => {
