@@ -5,7 +5,7 @@
       class="border border-card-border-color hover:border-border-color">
       <component
         :is="externalUrl ? 'a' : NuxtLink"
-        class="flex flex-col"
+        class="flex flex-col hover:text-text-color"
         rel="nofollow noopener noreferrer"
         :to="`/${dropPrefix}/drops/${drop.alias}`">
         <img
