@@ -5,7 +5,7 @@
         <div
           v-for="(item, index) in items"
           :key="`${item.id}-${index}`"
-          class="keen-slider__slide carousel-item">
+          class="keen-slider__slide">
           <slot :item="item" :index="index" />
         </div>
       </div>
@@ -51,8 +51,6 @@ const rightCarouselIndex = ref(0)
 
 const sliderSettings = (slider) => {
   if (slider) {
-    console.log('slider ', slider)
-
     const { track, options, slides } = slider
 
     if (!track.details) {
@@ -80,7 +78,6 @@ const [wrapper, slider] = useKeenSlider(
       sliderSettings(s)
     },
     slideChanged: (s) => {
-      console.log('slide change')
       current.value = s.track.details.rel
       sliderSettings(s)
     },
@@ -108,15 +105,13 @@ const [wrapper, slider] = useKeenSlider(
 
 <style scoped lang="scss">
 // avoid fouc on navigating
-// @media screen and (min-width: 768px) {
-//   @for $i from 0 through 3 {
-//     .keen-slider__slide:nth-child(#{$i + 1}) {
-//       min-width: 312px;
-//       max-width: 312px;
-//       transform: translate3d(#{$i * 32px}, 0px, 0px);
-//     }
-//   }
-// }
+@media screen and (min-width: 768px) {
+  @for $i from 0 through 3 {
+    .keen-slider__slide:nth-child(#{$i + 1}) {
+      transform: translate3d(#{$i * 32px}, 0px, 0px);
+    }
+  }
+}
 .fade-leave-active,
 .fade-enter-active {
   transition: all 0.2s ease;

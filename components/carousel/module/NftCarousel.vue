@@ -5,7 +5,7 @@
     :breakpoints="breakpoints">
     <template #default="{ item, index }">
       <NuxtLink
-        class="h-full flex flex-col"
+        class="h-full flex flex-col carousel-item"
         :to="urlOf({ id: item.id, url, chain: item.chain })"
         rel="nofollow">
         <CarouselMedia :item="item" :index="index" :length="nfts.length" />

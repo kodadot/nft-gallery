@@ -2,8 +2,7 @@
   <div>
     <div
       v-if="drop.collection && !isLoadingMeta"
-      id="drop-card"
-      class="border border-border-color">
+      class="border border-card-border-color hover:border-border-color">
       <component
         :is="externalUrl ? 'a' : NuxtLink"
         class="flex flex-col"
@@ -14,7 +13,7 @@
           class="hover:opacity-[0.85] hover:border-border-color h-[174px] object-cover w-full" />
 
         <div
-          class="py-5 px-5 flex flex-col justify-between gap-4 border-t border-border-color">
+          class="py-5 px-5 flex flex-col justify-between gap-4 border-t border-card-border-color hover:border-border-color">
           <span class="font-bold is-ellipsis text-xl">{{
             drop.collection.name
           }}</span>
