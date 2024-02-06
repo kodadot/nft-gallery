@@ -109,8 +109,8 @@ const nftPath = computed(
 
 const shareUrl = computed(() =>
   singleBuy.value
-    ? `${url.value}/${nftPath.value}`
-    : `${url.value}/${userProfilePath.value}`,
+    ? `${url.value}${nftPath.value}`
+    : `${url.value}${userProfilePath.value}`,
 )
 
 const share = computed(() => ({
