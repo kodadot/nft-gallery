@@ -18,18 +18,13 @@
           class="lg:!hidden flex flex-grow items-center justify-end"
           @click="closeBurgerMenu">
           <NeoButton
-            v-if="isMobileNavbarOpen || isTinyMobile"
             class="square-40 mr-2"
             icon="magnifying-glass"
             @click="showMobileSearchBar" />
 
           <div v-show="openMobileSearchBar">
             <div class="fixed-stack flex items-center justify-between p-2">
-              <Search
-                v-if="isTouch"
-                ref="mobilSearchRef"
-                hide-filter
-                class="flex-grow" />
+              <Search ref="mobilSearchRef" hide-filter class="flex-grow" />
               <NeoButton
                 variant="text"
                 class="p-3 is-shadowless border-0 capitalize"
@@ -231,8 +226,6 @@ const openMobileSearchBar = ref(false)
 const lastScrollPosition = ref(0)
 const isBurgerMenuOpened = ref(false)
 const { isMobile, isMobileOrTablet: isTouch } = useDevice()
-const { width } = useWindowSize()
-const isTinyMobile = computed(() => width.value < 480)
 const { urlPrefix } = usePrefix()
 const { isDarkMode } = useTheme()
 const identityStore = useIdentityStore()
