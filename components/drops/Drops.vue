@@ -28,7 +28,7 @@ import CreateDropCard from '@/components/drops/CreateDropCard.vue'
 import { useDrops } from './useDrops'
 import { dropsVisible } from '@/utils/config/permission.config'
 
-const DEFAULT_SKELETON_COUNT = 2
+const DEFAULT_SKELETON_COUNT = 3
 
 const { $i18n } = useNuxtApp()
 const { drops, count } = useDrops()
@@ -62,8 +62,8 @@ $gap: 1rem;
 @media (min-width: 1000px) {
   $max-card-width: calc(910px + 0.5 * #{$gap});
   .grid-container {
-    grid-template-columns: repeat(2, minmax(0, $max-card-width));
-    max-width: calc(2 * $max-card-width);
+    grid-template-columns: repeat(3, minmax(0, $max-card-width));
+    max-width: calc(3 * $max-card-width);
   }
 }
 </style>
