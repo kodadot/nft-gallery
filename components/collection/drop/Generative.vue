@@ -84,7 +84,7 @@ const { urlPrefix } = usePrefix()
 const { currentAccountMintedToken, mintedDropCount, fetchDropStatus } =
   useDropStatus(props.drop.alias)
 const { doAfterLogin } = useDoAfterlogin(instance)
-const { fetchMultipleBalance } = useMultipleBalance()
+const { fetchMultipleBalance, hasCurrentChainBalance } = useMultipleBalance()
 const { hasMinimumFunds, formattedMinimumFunds, minimumFunds } =
   useDropMinimumFunds(props.drop)
 
@@ -111,7 +111,7 @@ const {
 } = useGenerativeDropNewsletter()
 
 const minimumFundsDescription = computed(() =>
-  $i18n.t('mint.unlockable.freeMinimumFundsDescription', [
+  $i18n.t('drops.requirements.minimumFunds', [
     formattedMinimumFunds.value,
     chainName.value,
   ]),
@@ -121,6 +121,7 @@ const minimumFundsProps = computed(() => ({
   amount: minimumFunds.value,
   description: minimumFundsDescription.value,
   hasAmount: hasMinimumFunds.value,
+  isLoading: !hasCurrentChainBalance.value,
 }))
 
 const isWalletConnecting = ref(false)
@@ -171,7 +172,7 @@ const mintButtonLabel = computed(() => {
   if (isWalletConnecting.value) {
     return $i18n.t('shoppingCart.wallet')
   }
-  return $i18n.t('mint.unlockable.claimNftNow')
+  return $i18n.t('drops.mintForFree')
 })
 
 const mintButtonProps = computed(() => ({

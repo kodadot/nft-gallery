@@ -23,7 +23,7 @@
             placement="bottom"
             class="text-neutral-7"
             :append-to="body">
-            <NeoIcon class="icon" icon="info-circle" />
+            <NeoIcon class="w-4 h-4" icon="info-circle" />
 
             <template #content>
               <div class="bg-background-color border py-2 px-4 text-xs">

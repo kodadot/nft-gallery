@@ -18,7 +18,7 @@
           @click="onClickShoppingCart">
           <NeoIcon
             size="medium"
-            class="icon"
+            class="w-4 h-4"
             :icon="
               shoppingCartStore.isItemInCart(nft.id)
                 ? 'fa-striked-out-cart-shopping'
@@ -40,7 +40,6 @@ import { NeoButton, NeoIcon } from '@kodadot1/brick'
 import GalleryItemPriceSection from '../GalleryItemActionSection.vue'
 import { useShoppingCartStore } from '@/stores/shoppingCart'
 import { usePreferencesStore } from '@/stores/preferences'
-import OnRampModal from '@/components/shared/OnRampModal.vue'
 import { openShoppingCart } from '@/components/common/shoppingCart/ShoppingCartModalConfig'
 import type { NFT } from '@/components/rmrk/service/scheme'
 import { nftToShoppingCartItem } from '@/components/common/shoppingCart/utils'
