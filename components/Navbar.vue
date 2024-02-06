@@ -18,18 +18,13 @@
           class="lg:!hidden flex flex-grow items-center justify-end"
           @click="closeBurgerMenu">
           <NeoButton
-            v-if="isMobileNavbarOpen || isTinyMobile"
             class="square-40 mr-2"
             icon="magnifying-glass"
             @click="showMobileSearchBar" />
 
           <div v-show="openMobileSearchBar">
             <div class="fixed-stack flex items-center justify-between p-2">
-              <Search
-                v-if="isTouch"
-                ref="mobilSearchRef"
-                hide-filter
-                class="flex-grow" />
+              <Search ref="mobilSearchRef" hide-filter class="flex-grow" />
               <NeoButton
                 variant="text"
                 class="p-3 is-shadowless border-0 capitalize"
@@ -93,8 +88,12 @@
             class="lg:!hidden"
             :title="$t('explore')">
             <NavbarExploreOptions
-              @closeMobileNavbar="showMobileNavbar"
-              @closeMobileSubMenu="onCloseMobileSubMenu" />
+              @select="
+                () => {
+                  showMobileNavbar()
+                  onCloseMobileSubMenu()
+                }
+              " />
           </MobileExpandableSection>
           <NavbarExploreDropdown
             class="navbar-explore custom-navbar-item max-lg:!hidden"
@@ -106,14 +105,14 @@
             target="_blank"
             class="navbar-item"
             data-testid="learn">
-            Learn
+            {{ $t('learn') }}
           </a>
           <CreateDropdown
             v-show="isCreateVisible"
             class="navbar-create custom-navbar-item ml-0"
             data-testid="create"
             :chain="urlPrefix"
-            @closeMobileNavbar="showMobileNavbar" />
+            @select="showMobileNavbar" />
 
           <!-- commenting as part of #5889-->
           <!-- <StatsDropdown
@@ -128,8 +127,12 @@
             no-padding
             :title="$t('chainSelect', [chainName])">
             <NavbarChainOptions
-              @select="handleMobileChainSelect"
-              @closeMobileSubMenu="onCloseMobileSubMenu" />
+              @select="
+                () => {
+                  handleMobileChainSelect()
+                  onCloseMobileSubMenu()
+                }
+              " />
           </MobileExpandableSection>
           <ChainSelectDropdown
             id="NavChainSelect"
@@ -156,8 +159,12 @@
                 :title="$t('profileMenu.language')"
                 icon="globe">
                 <MobileLanguageOption
-                  @closeLanguageOption="showMobileNavbar"
-                  @closeMobileSubMenu="onCloseMobileSubMenu" />
+                  @select="
+                    () => {
+                      showMobileNavbar()
+                      onCloseMobileSubMenu()
+                    }
+                  " />
               </MobileExpandableSection>
               <ColorModeButton class="navbar-item" />
             </template>
@@ -167,7 +174,7 @@
               @click.stop="openWalletConnectModal">
               <span>
                 {{ $t('profile.page') }}
-                <NeoIcon icon="user-circle" class="icon" size="medium" />
+                <NeoIcon icon="user-circle" class="w-4 h-4" size="medium" />
               </span>
               <NeoIcon class="icon--right" icon="chevron-right" />
             </div>
@@ -219,8 +226,6 @@ const openMobileSearchBar = ref(false)
 const lastScrollPosition = ref(0)
 const isBurgerMenuOpened = ref(false)
 const { isMobile, isMobileOrTablet: isTouch } = useDevice()
-const { width } = useWindowSize()
-const isTinyMobile = computed(() => width.value < 480)
 const { urlPrefix } = usePrefix()
 const { isDarkMode } = useTheme()
 const identityStore = useIdentityStore()
@@ -243,10 +248,12 @@ const handleMobileChainSelect = () => {
   showMobileNavbar()
 }
 
+const closeAllModals = () => neoModal.closeAll()
+
 const openWalletConnectModal = (): void => {
   showMobileNavbar()
 
-  neoModal.closeAll()
+  closeAllModals()
   neoModal.open({
     ...ConnectWalletModalConfig,
     ...(isMobile ? { animation: 'none' } : {}),
@@ -254,6 +261,8 @@ const openWalletConnectModal = (): void => {
 }
 
 const showMobileNavbar = () => {
+  closeAllModals()
+
   document.body.classList.toggle('is-clipped')
   isMobileNavbarOpen.value = !isMobileNavbarOpen.value
   if (!isMobileNavbarOpen.value) {

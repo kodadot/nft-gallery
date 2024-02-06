@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="flex flex-col w-full">
+  <div class="w-full">
+    <div class="flex flex-col">
       <div
         v-if="showAutoTeleport && !hideTop"
         class="flex justify-between w-full mb-4">
