@@ -2,6 +2,7 @@
   <section class="landing-hero pt-6 md:pt-[56px]">
     <img
       src="/landing-blur.svg"
+      alt="Hero banner background blur"
       class="top-[10px] scale-150 md:scale-125 md:top-[-6rem] -translate-x-2/4 left-2/4 absolute pointer-events-none" />
 
     <div class="relative">

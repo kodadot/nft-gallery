@@ -10,6 +10,7 @@
         :to="`/${dropPrefix}/drops/${drop.alias}`">
         <img
           :src="image"
+          :alt="drop.collection.name"
           class="hover:opacity-[0.85] hover:border-border-color h-[174px] object-cover w-full" />
 
         <div
