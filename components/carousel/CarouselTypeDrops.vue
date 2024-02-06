@@ -1,0 +1,46 @@
+<template>
+  <div>
+    <CarouselModuleCarouselAgnostic
+      :items="drops"
+      :step="steps"
+      :breakpoints="breakpoints">
+      <template #default="{ item }">
+        <DropsDropCard :drop="item" />
+      </template>
+    </CarouselModuleCarouselAgnostic>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { type CarouseBreakpointsConfig } from '@/components/carousel/module/CarouselAgnostic.vue'
+import useCarouselDrops from './utils/useCarouselDrops'
+
+const breakpoints: CarouseBreakpointsConfig = {
+  '640px': { slides: { perView: 1.2, spacing: 16 } },
+  '768px': {
+    slides: { perView: 2.2, spacing: 16 },
+  },
+  '1024px': {
+    slides: { perView: 3, spacing: 32 },
+  },
+  '1280px': {
+    slides: { perView: 3, spacing: 32 },
+  },
+  '1540px': {
+    slides: { perView: 3, spacing: 32 },
+  },
+}
+
+const drops = useCarouselDrops()
+const { width } = useWindowSize()
+
+const steps = computed(() => {
+  if (width.value > 1024) {
+    return 3
+  }
+  if (width.value > 768) {
+    return 2
+  }
+  return 1
+})
+</script>
