@@ -15,6 +15,7 @@ const { $i18n } = useNuxtApp()
 const props = defineProps<{
   dropStartTime: Date
   ended: boolean
+  disabled: boolean
 }>()
 
 const isMintingLive = computed(() => {
@@ -26,7 +27,7 @@ const displayText = computed(() => {
   if (props.ended) {
     return $i18n.t('drops.mintingEnded')
   } else if (isMintingLive.value) {
-    return $i18n.t('drops.mintingLive')
+    return $i18n.t(props.disabled ? 'drops.comingSoon' : 'drops.mintingLive')
   } else {
     const options = {
       day: '2-digit',
