@@ -145,12 +145,6 @@ body {
       flex-direction: column-reverse;
     }
   }
-
-  @include tablet {
-    .short-name-column {
-      width: 20%;
-    }
-  }
 }
 
 .chain-logo {
@@ -179,11 +173,6 @@ hr {
   .button {
     @apply bg-k-accent-light-2 text-text-color;
   }
-}
-
-.icon svg {
-  width: 1rem;
-  height: 1rem;
 }
 
 // global table css
@@ -237,10 +226,6 @@ hr {
 
 .no-border-left {
   border-left: none !important;
-}
-
-.w-half {
-  width: 50%;
 }
 
 .has-accent-blur {

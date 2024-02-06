@@ -1,9 +1,9 @@
 <template>
   <div class="navbar-item flex items-center" @click="toggleShoppingCartModal">
     <span v-if="props.showLabel">{{ $t('shoppingCart.label') }}</span>
-    <div class="relative icon" :class="{ 'ml-2': showLabel }">
+    <div class="relative w-4 h-4" :class="{ 'ml-2': showLabel }">
       <NeoIcon
-        class="icon"
+        class="w-4 h-4"
         icon="fa-shopping-cart-outline-sharp"
         pack="fa-kit fa-fw"
         size="medium" />
