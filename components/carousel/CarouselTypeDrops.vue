@@ -1,12 +1,12 @@
 <template>
   <div>
     <CarouselModuleCarouselAgnostic
+      v-if="isReady"
+      v-slot="{ item }"
       :items="drops"
       :step="steps"
       :breakpoints="breakpoints">
-      <template #default="{ item }">
-        <DropsDropCard :drop="item" />
-      </template>
+      <DropsDropCard :drop="item" />
     </CarouselModuleCarouselAgnostic>
   </div>
 </template>
@@ -31,7 +31,7 @@ const breakpoints: CarouseBreakpointsConfig = {
   },
 }
 
-const drops = useCarouselDrops()
+const { drops, isReady } = useCarouselDrops()
 const { width } = useWindowSize()
 
 const steps = computed(() => {
