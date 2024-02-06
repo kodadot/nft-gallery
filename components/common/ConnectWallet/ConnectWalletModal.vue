@@ -40,7 +40,9 @@
       </div>
     </section>
 
-    <div class="bg-k-grey-light p-4 flex items-center mx-6 my-4">
+    <div
+      v-if="!showAccount"
+      class="bg-k-grey-light p-4 flex items-center mx-6 my-4">
       <NeoIcon class="ml-1" icon="circle-info" pack="fass" variant="k-grey" />
       <div class="text-xs text-neutral-7 ml-3">
         {{ $i18n.t('walletConnect.authText') }}
