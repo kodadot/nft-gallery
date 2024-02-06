@@ -18,7 +18,7 @@
       </a>
 
       <NeoIcon
-        class="text-k-grey opacity-20 mx-2 is-size-8"
+        class="text-k-grey opacity-20 mx-2 text-[0.5rem]"
         icon="circle"
         pack="fass"
         size="small" />
@@ -40,7 +40,7 @@
     is-detail />
 
   <div class="py-5 border-b-k-shade">
-    <p class="is-size-6 capitalize font-bold text-center">
+    <p class="text-base capitalize font-bold text-center">
       {{ $t('drops.youSuccessfullyClaimedNft', [1]) }}
     </p>
     <p class="capitalize text-xs text-center mt-2">

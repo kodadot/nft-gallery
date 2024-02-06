@@ -22,7 +22,7 @@
         </nuxt-link>
       </div>
     </template>
-    <NeoDropdownItem aria-role="menuitem" class="is-size-6" custom>
+    <NeoDropdownItem aria-role="menuitem" class="text-base" custom>
       <NavbarExploreOptions @select="onSelect" />
     </NeoDropdownItem>
   </NeoDropdown>

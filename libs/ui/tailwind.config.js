@@ -100,6 +100,9 @@ module.exports = {
         'button-x': 'calc(0.75em - 1px)',
         'button-y': 'calc(0.5em - 1px)',
       },
+      fontSize: {
+        '3xl': '2rem',
+      },
     },
   },
   plugins: [],
