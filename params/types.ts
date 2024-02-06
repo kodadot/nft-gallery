@@ -58,7 +58,7 @@ export interface ParamDef {
   type: TypeDef
 }
 
-export type DropType = 'paid' | 'generative' | 'drop' | 'vote'
+export type DropType = 'paid' | 'free' | 'holder'
 
 export type DropItem = {
   id: string
@@ -66,6 +66,7 @@ export type DropItem = {
   collection: string
   image: string
   name: string
+  content: string
   alias: string
   type: DropType
   meta: string
@@ -73,5 +74,5 @@ export type DropItem = {
   minted?: number
   max?: number
   price?: string
-  holds?: string
+  holder_of?: string
 }

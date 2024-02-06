@@ -36,7 +36,7 @@
 
           <NeoDropdownItem
             v-if="accountId"
-            v-clipboard:copy="generatePaymentLink([targetAddresses[0]])"
+            v-clipboard:copy="generatePayMeLink"
             data-testid="transfer-dropdown-pay-me"
             @click="toast($t('toast.urlCopy'))">
             <NeoIcon icon="sack-dollar" class="mr-2" />{{
@@ -422,6 +422,16 @@ const balance = computed(() => {
     usd: usdAmount,
   }
 })
+
+const generatePayMeLink = computed(() =>
+  generatePaymentLink([
+    {
+      address: accountId.value,
+      token: targetAddresses.value[0]?.token,
+      usd: targetAddresses.value[0]?.usd,
+    },
+  ]),
+)
 
 const transferableBalance = computed(() => {
   const tokenDeduction = txFee.value + chainExistentialDeposit.value

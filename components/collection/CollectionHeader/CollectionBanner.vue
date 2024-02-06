@@ -9,14 +9,11 @@
         <div class="lg:flex-1">
           <div class="flex flex-col items-start">
             <div class="collection-banner-avatar">
-              <NuxtImg
-                v-if="collectionAvatar"
-                height="88"
-                densities="2x"
+              <BaseMediaItem
                 :src="collectionAvatar"
-                class="object-fit-cover"
-                :alt="collectionName" />
-              <img v-else :src="placeholder" alt="image placeholder" />
+                :image-component="NuxtImg"
+                :title="collectionName"
+                class="w-[5.5rem] h-[5.5rem] border" />
             </div>
             <h1
               class="collection-banner-name"
@@ -60,9 +57,10 @@ import { generateCollectionImage } from '@/utils/seoImageGenerator'
 import { convertMarkdownToText } from '@/utils/markdown'
 import { useReadyItems } from '@/composables/useMigrate'
 
+const NuxtImg = resolveComponent('NuxtImg')
+
 const collectionId = computed(() => route.params.id)
 const route = useRoute()
-const { placeholder } = useTheme()
 const { entities } = useReadyItems()
 
 const { data, refetch } = useGraphql({
@@ -176,13 +174,6 @@ useSeoMeta({
       border: 1px solid theme('border-color');
       background-color: theme('background-color');
       box-shadow: theme('primary-shadow');
-    }
-
-    img {
-      display: block;
-      width: 5.5rem;
-      height: 5.5rem;
-      border: 1px solid;
     }
   }
 

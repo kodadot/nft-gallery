@@ -59,6 +59,7 @@ const emit = defineEmits<{
   (e: 'update:priceMax', value?: number): void
 }>()
 
+const { neoModal } = useProgrammatic()
 const { $consola } = useNuxtApp()
 const { urlPrefix } = usePrefix()
 const { decimals } = useChain()
@@ -214,6 +215,10 @@ function updatePriceRangeByQuery(minValue?: string, maxValue?: string) {
 }
 
 function nativeSearch() {
+  if (name.value) {
+    neoModal.closeAll()
+  }
+
   redirectToGalleryPageIfNeed({ search: name.value })
   searchQuery.value = name.value
 }

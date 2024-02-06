@@ -23,7 +23,7 @@
       </div>
     </template>
     <NeoDropdownItem aria-role="menuitem" class="text-base" custom>
-      <NavbarExploreOptions />
+      <NavbarExploreOptions @select="onSelect" />
     </NeoDropdownItem>
   </NeoDropdown>
 </template>
@@ -34,4 +34,7 @@ import { isMobileDevice } from '@/utils/extension'
 import NavbarExploreOptions from './NavbarExploreOptions.vue'
 
 const { urlPrefix } = usePrefix()
+const { neoModal } = useProgrammatic()
+
+const onSelect = () => neoModal.closeAll()
 </script>

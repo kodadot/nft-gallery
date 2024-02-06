@@ -138,7 +138,7 @@
       {{ $t('teleport.ownerMessage') }}
     </div>
   </form>
-  <TeleportEdWarningModal
+  <TeleportEDWarningModal
     v-model="insufficientEDModalOpen"
     :target-existential-deposit="targetExistentialDeposit.displayValue"
     :source-existential-deposit="sourceExistentialDeposit.displayValue"
@@ -162,7 +162,6 @@ import {
   chainToPrefixMap,
   getChainCurrency,
   getTransactionFee,
-  prefixToChainMap,
 } from '@/utils/teleport'
 import formatBalance from '@/utils/format/balance'
 import shortAddress from '@/utils/shortAddress'
@@ -188,7 +187,6 @@ const {
 } = useTeleport(true)
 
 const { $i18n } = useNuxtApp()
-const { urlPrefix } = usePrefix()
 const { withDecimals, withoutDecimals } = useChain()
 const fiatStore = useFiatStore()
 const fromChain = ref(Chain.POLKADOT) //Selected origin parachain
@@ -325,6 +323,7 @@ const isDisabled = (chain: Chain) => {
 }
 
 const fromNetworks = [
+  // also uncomment setRelatedChain()
   // {
   //   label: getChainName('rmrk'),
   //   value: Chain.KUSAMA,
@@ -405,20 +404,20 @@ const onChainChange = (selectedChain, setFrom = true) => {
   }
 }
 
-const setRelatedChain = () => {
-  const relatedFromChain = prefixToChainMap[urlPrefix.value] || Chain.POLKADOT
-  onChainChange(relatedFromChain, true)
-}
-
-watch(
-  urlPrefix,
-  () => {
-    setRelatedChain()
-  },
-  {
-    immediate: true,
-  },
-)
+// const setRelatedChain = () => {
+//   const relatedFromChain =  prefixToChainMap[urlPrefix.value] || Chain.POLKADOT
+//   onChainChange(relatedFromChain, true)
+// }
+//
+// watch(
+//   urlPrefix,
+//   () => {
+//     setRelatedChain()
+//   },
+//   {
+//     immediate: true,
+//   },
+// )
 
 const fromAddress = computed(() => getAddressByChain(fromChain.value))
 const toAddress = computed(() => getAddressByChain(toChain.value))

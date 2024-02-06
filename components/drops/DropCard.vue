@@ -2,13 +2,14 @@
   <div>
     <div
       v-if="drop.collection && !isLoadingMeta"
-      class="drop-card border border-border-color">
+      class="drop-card border border-k-grey hover:border-border-color">
       <component
         :is="externalUrl ? 'a' : NuxtLink"
         rel="nofollow noopener noreferrer"
+        class="hover:text-text-color"
         :to="`/${dropPrefix}/drops/${drop.alias}`">
         <div
-          class="drop-card-banner"
+          class="drop-card-banner border-k-grey border-b"
           :style="{ backgroundImage: `url(${image})` }">
           <section class="h-full flex">
             <div
@@ -130,10 +131,7 @@ onMounted(async () => {
 .drop-card {
   &:hover {
     .drop-card-banner {
-      opacity: 0.85;
-    }
-    @include ktheme() {
-      border-color: theme('border-color');
+      @apply opacity-card-hover-opacity;
     }
   }
   &-banner {
