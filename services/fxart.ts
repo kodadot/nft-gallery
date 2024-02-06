@@ -1,8 +1,10 @@
 import { $fetch, FetchError } from 'ofetch'
 import type { DropItem } from '@/params/types'
 
+const BASE_URL = 'https://fxart.kodadot.workers.dev/'
+
 const api = $fetch.create({
-  baseURL: 'https://fxart.kodadot.workers.dev/',
+  baseURL: BASE_URL,
 })
 
 export type DoResult = {
