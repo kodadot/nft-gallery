@@ -24,19 +24,20 @@
         pack="fass"
         size="small" />
 
-      <NeoIcon
+      <NeoButton
         v-clipboard:copy="txUrl"
-        icon="copy"
-        pack="fass"
-        class="text-k-grey cursor-pointer"
+        variant="icon"
+        no-shadow
         data-testid="tx-clipboard"
-        @click="toast($t('general.copyToClipboard'))" />
+        @click="toast($t('general.copyToClipboard'))">
+        <NeoIcon icon="copy" pack="fass" class="text-k-grey cursor-pointer" />
+      </NeoButton>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { NeoIcon } from '@kodadot1/brick'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
 
 const props = defineProps<{
   txHash: string

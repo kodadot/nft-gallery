@@ -34,10 +34,8 @@ const props = defineProps<{
 const emit = defineEmits(['confirm', 'update:modelValue'])
 
 const model = computed({
-  get() {
-    return props.modelValue
-  },
-  set(value) {
+  get: () => props.modelValue,
+  set: (value) => {
     emit('update:modelValue', value === '' ? undefined : value)
   },
 })

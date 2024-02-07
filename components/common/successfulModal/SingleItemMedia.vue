@@ -1,25 +1,27 @@
 <template>
-  <BaseMediaItem class="border border-k-shade" :src="src" preview is-detail />
+  <div>
+    <BaseMediaItem class="border border-k-shade" :src="src" preview is-detail />
 
-  <div class="mt-5 border-b-k-shade">
-    <p class="text-base capitalize font-bold text-center">
-      {{ header }}
-    </p>
-    <p class="capitalize text-xs text-center mt-2">
-      {{ $t('drops.artBy', [nftName]) }}
-      <a
-        v-safe-href="collectionUrl"
-        class="has-text-link"
-        target="_blank"
-        rel="nofollow noopener noreferrer">
-        {{ collectionName }}
-      </a>
-    </p>
+    <div class="mt-5 border-b-k-shade">
+      <p class="text-base capitalize font-bold text-center">
+        {{ header }}
+      </p>
+      <p class="capitalize text-xs text-center mt-2">
+        {{ $t('drops.artBy', [nftName]) }}
+        <nuxt-link
+          :to="`/${urlPrefix}/collection/${collectionId}`"
+          class="has-text-link"
+          target="_blank"
+          rel="nofollow noopener noreferrer">
+          {{ collectionName }}
+        </nuxt-link>
+      </p>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   header: string
   src: string
   nftName: string
@@ -28,8 +30,4 @@ const props = defineProps<{
 }>()
 
 const { urlPrefix } = usePrefix()
-
-const collectionUrl = computed(
-  () => `/${urlPrefix.value}/collection/${props.collectionId}`,
-)
 </script>

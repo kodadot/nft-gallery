@@ -1,22 +1,24 @@
 <template>
-  <TransactionSection :tx-hash="txHash" class="mb-5" />
+  <div>
+    <TransactionSection :tx-hash="txHash" class="mb-5" />
 
-  <slot />
+    <slot />
 
-  <hr class="!my-5" />
+    <hr class="!my-5" />
 
-  <ShareSocialsSection
-    :text="share.text"
-    :url="share.url"
-    :with-copy="share.withCopy" />
+    <ShareSocialsSection
+      :text="share.text"
+      :url="share.url"
+      :with-copy="share.withCopy" />
 
-  <slot name="actions">
-    <ActionButtons
-      :primary="actionButtons.primary"
-      :secondary="actionButtons.secondary"
-      @primary="actionButtons.primary.onClick"
-      @secondary="actionButtons.secondary.onClick" />
-  </slot>
+    <slot name="actions">
+      <ActionButtons
+        :primary="actionButtons.primary"
+        :secondary="actionButtons.secondary"
+        @primary="actionButtons.primary.onClick"
+        @secondary="actionButtons.secondary.onClick" />
+    </slot>
+  </div>
 </template>
 
 <script setup lang="ts">
