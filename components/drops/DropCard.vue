@@ -21,7 +21,10 @@
                   custom-class="avatar-image" />
               </div>
 
-              <TimeTag :drop-start-time="drop.dropStartTime" :ended="ended" />
+              <TimeTag
+                :drop-start-time="drop.dropStartTime"
+                :disabled="Boolean(drop.disabled)"
+                :ended="ended" />
             </div>
           </section>
         </div>
