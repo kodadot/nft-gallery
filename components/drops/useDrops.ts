@@ -30,6 +30,7 @@ export function useDrops() {
   const drops = ref<Drop[]>([])
   const dropsList = ref<DropItem[]>([])
   const count = computed(() => dropsList.value.length)
+  const loaded = ref(false)
 
   onMounted(async () => {
     dropsList.value = await getDrops()
@@ -60,10 +61,11 @@ export function useDrops() {
         }),
     ).then((dropsDataList) => {
       drops.value.push(...(dropsDataList as Drop[]))
+      loaded.value = true
     })
   })
 
-  return { drops, count }
+  return { drops, count, loaded }
 }
 
 const getFormattedDropItem = async (collection, drop: DropItem) => {

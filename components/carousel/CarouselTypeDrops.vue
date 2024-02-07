@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
 import { type CarouseBreakpointsConfig } from '@/components/carousel/module/CarouselAgnostic.vue'
-import useCarouselDrops from './utils/useCarouselDrops'
+import { useDrops } from '@/components/drops/useDrops'
 
 const breakpoints: CarouseBreakpointsConfig = {
   '640px': { slides: { perView: 1.2, spacing: 16 } },
@@ -31,7 +31,7 @@ const breakpoints: CarouseBreakpointsConfig = {
   },
 }
 
-const { drops, isReady } = useCarouselDrops()
+const { drops, loaded: isReady } = useDrops()
 const { width } = useWindowSize()
 
 const steps = computed(() => {
