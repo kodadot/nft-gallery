@@ -67,7 +67,7 @@
         <div
           v-if="diffPercentString"
           class="is-hidden-mobile justify-center items-center flex px-2">
-          <div class="is-size-6 whitespace-nowrap" :class="color">
+          <div class="text-base whitespace-nowrap" :class="color">
             {{ diffPercentString }}
           </div>
         </div>

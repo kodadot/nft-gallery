@@ -12,7 +12,7 @@
     <section v-if="showAccount">
       <WalletAsset />
     </section>
-    <section v-else-if="hasUserWalletAuth" class="modal-card-body">
+    <section v-else class="modal-card-body">
       <div class="buttons m-0">
         <WalletMenuItem
           v-for="(wallet, index) in installedWallet"
@@ -39,24 +39,15 @@
           :wallet="wallet" />
       </div>
     </section>
-    <section v-else class="modal-card-body px-6 py-4">
-      <div class="mb-5">
+
+    <div
+      v-if="!showAccount"
+      class="bg-k-grey-light p-4 flex items-center mx-6 my-4">
+      <NeoIcon class="ml-1" icon="circle-info" pack="fass" variant="k-grey" />
+      <div class="text-xs text-neutral-7 ml-3">
         {{ $i18n.t('walletConnect.authText') }}
       </div>
-      <NeoField>
-        <NeoButton
-          size="medium"
-          variant="k-accent"
-          class="confirm-button"
-          no-shadow
-          @click="setUserAuthValue">
-          <span class="flex items-center justify-center">
-            {{ $i18n.t('walletConnect.confirm') }}
-            <NeoIcon class="ml-2" icon="chevron-right" />
-          </span>
-        </NeoButton>
-      </NeoField>
-    </section>
+    </div>
 
     <footer v-if="!showAccount" class="px-6 py-4">
       <div>{{ $i18n.t('walletConnect.walletQuestion') }}</div>
@@ -78,7 +69,7 @@
 <script setup lang="ts">
 import { SupportedWallets } from '@/utils/config/wallets'
 import { BaseDotsamaWallet } from '@/utils/config/wallets/BaseDotsamaWallet'
-import { NeoButton, NeoField, NeoIcon, NeoModalHead } from '@kodadot1/brick'
+import { NeoIcon, NeoModalHead } from '@kodadot1/brick'
 import { Auth, useIdentityStore } from '@/stores/identity'
 import WalletMenuItem from '@/components/common/ConnectWallet/WalletMenuItem.vue'
 import WalletAsset from '@/components/common/ConnectWallet/WalletAsset.vue'
@@ -103,10 +94,7 @@ const setAccount = (account: Auth) => {
     localStorage.setItem('wallet', selectedWalletProvider.value.extensionName)
   }
 }
-const setUserAuthValue = () => {
-  hasUserWalletAuth.value = true
-  localStorage.setItem('user_auth_wallet_add', true.toString())
-}
+
 const installedWallet = computed(() => {
   return wallets.filter((wallet) => wallet.installed)
 })
@@ -114,9 +102,6 @@ const uninstalledWallet = computed(() => {
   return wallets.filter((wallet) => !wallet.installed)
 })
 const showUninstalledWallet = ref(!installedWallet.value.length)
-const hasUserWalletAuth = ref(
-  Boolean(localStorage.getItem('user_auth_wallet_add')),
-)
 
 const toggleShowUninstalledWallet = () => {
   showUninstalledWallet.value = !showUninstalledWallet.value

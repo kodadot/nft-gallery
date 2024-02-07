@@ -2,7 +2,7 @@
   <div class="flex justify-between mobile-flex-direction-column">
     <div class="flex flex-col flex-grow max-width">
       <div class="flex justify-between mb-2">
-        <div class="mr-2 font-bold is-size-5 mb-1">About Collection</div>
+        <div class="mr-2 font-bold text-xl mb-1">About Collection</div>
       </div>
       <div class="overflow-wrap">
         <Markdown :source="visibleDescription" />

@@ -1,9 +1,9 @@
 <template>
   <div>
-    <p class="label">
+    <p class="label text-xs/normal">
       {{ $t(label) }}
     </p>
-    <p class="subtitle is-size-6">
+    <p class="subtitle text-base">
       <slot v-if="!isLoading">~</slot>
       <NeoSkeleton :active="isLoading"></NeoSkeleton>
     </p>

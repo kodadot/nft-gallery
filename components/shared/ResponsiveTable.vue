@@ -3,7 +3,7 @@
     <div
       v-if="showNoResults"
       class="flex flex-col items-center justify-center py-8">
-      <span class="font-bold is-size-5 text-center">{{ noResultsMain }}</span>
+      <span class="font-bold text-xl text-center">{{ noResultsMain }}</span>
       <span class="text-k-grey">{{ noResultsSub }}</span>
     </div>
     <div v-else-if="items.length > 0">

@@ -24,23 +24,23 @@
 
     <div class="flex flex-col items-center search-info">
       <h1 v-if="isMobile" class="flex flex-col items-center">
-        <span class="title is-size-3 font-bold">
+        <span class="title text-3xl font-bold">
           {{ $t('search.landingTitle1') }}
         </span>
-        <span class="subtitle is-size-3 font-bold capitalize">
+        <span class="subtitle text-3xl font-bold capitalize">
           {{ $t('search.landingTitle2') }}
         </span>
-        <span class="title is-size-3 font-bold">
+        <span class="title text-3xl font-bold">
           {{ $t('search.landingTitle3') }}
         </span>
       </h1>
       <template v-else>
         <h1
-          class="title is-size-1 is-size-2-mobile font-bold text-center flex flex-col flex-wrap justify-center items-center mb-0">
+          class="title sm:text-5xl/[1.125] text-4xl/[1.125] font-bold text-center flex flex-col flex-wrap justify-center items-center mb-0">
           <div>
             {{ $t('search.landingTitle1') }}
             <span
-              class="subtitle is-size-1 is-size-2-mobile font-bold text-center capitalize ml-4">
+              class="subtitle sm:text-5xl/tight text-4xl/tight font-bold text-center capitalize ml-4">
               {{ $t('search.landingTitle2') }}
             </span>
           </div>
@@ -50,7 +50,7 @@
         </h1>
       </template>
 
-      <div class="with-divider chain-options-title is-size-6 mt-6">
+      <div class="with-divider chain-options-title text-base mt-6">
         {{ $t('landing.startExploring') }}
       </div>
       <div class="flex justify-center flex-wrap items-baseline mt-4">
@@ -60,10 +60,7 @@
           :to="`/${chain.value}/explore/collectibles`"
           :class="['mx-2 mb-3 inline-flex items-center', 'chain-option active']"
           @click="switchChain(chain.value)">
-          <img
-            class="is-size-5 chain-icon"
-            :src="chain.icon"
-            :alt="chain.text" />
+          <img class="text-xl chain-icon" :src="chain.icon" :alt="chain.text" />
           <span>{{ chainText(chain.text) }}</span>
           <sup v-if="chain.text.includes('[Beta]')" class="beta-text text-xs">
             {{ $t('beta') }}</sup

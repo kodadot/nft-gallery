@@ -1,4 +1,4 @@
-import { DoResult, DropMintedStatus } from '@/services/waifu'
+import { DoResult, DropMintedStatus } from '@/services/fxart'
 import { makeScreenshot } from '@/services/capture'
 import { pinFileToIPFS } from '@/services/nftStorage'
 import { nftToListingCartItem } from '@/components/common/shoppingCart/utils'
