@@ -29,7 +29,9 @@
         <div :class="itemLeftIcons(index).textColor">
           <p>{{ $t('migrate.signStep.migratingNItems', itemLeft(index)) }}</p>
         </div>
-        <div v-if="isError" class="flex-1 text-right">
+        <div
+          v-if="isError || status === TransactionStatus.Cancelled"
+          class="flex-1 text-right">
           <NeoButton variant="pill" size="small" @click="startStep2()">
             {{ $t('helper.tryAgain') }}
           </NeoButton>
@@ -90,7 +92,7 @@ const itemLeft = (index) => {
 }
 
 const itemLeftIcons = (index) => {
-  if (isError.value) {
+  if (isError.value || status.value === TransactionStatus.Cancelled) {
     return iconError
   }
 
@@ -204,16 +206,16 @@ watchEffect(() => {
 })
 
 const whichIcon = () => {
+  if (isError.value || status.value === TransactionStatus.Cancelled) {
+    return iconError
+  }
+
   if (iterations.value === 0) {
     return iconSuccess
   }
 
   if (steps.value.includes('step2')) {
     return iconLoading
-  }
-
-  if (isError.value) {
-    return iconError
   }
 
   return iconIdle

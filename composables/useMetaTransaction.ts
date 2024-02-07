@@ -77,6 +77,8 @@ function useMetaTransaction() {
           $i18n.t('general.tx.cancelled'),
           notificationTypes.warn,
         )
+
+        status.value = TransactionStatus.Cancelled
       } else {
         showNotification(e.toString(), notificationTypes.warn)
       }

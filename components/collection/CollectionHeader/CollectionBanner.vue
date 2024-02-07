@@ -24,7 +24,7 @@
         </div>
 
         <!-- migration is ready -->
-        <div v-if="isMigrate">
+        <div v-if="isMigrate && isRemark">
           <div
             class="rounded-full border justify-between items-center px-4 bg-background-color hidden lg:flex">
             <div class="flex items-center">
@@ -62,6 +62,8 @@ const NuxtImg = resolveComponent('NuxtImg')
 const collectionId = computed(() => route.params.id)
 const route = useRoute()
 const { entities } = useReadyItems()
+const { urlPrefix } = usePrefix()
+const { isRemark } = useIsChain(urlPrefix)
 
 const { data, refetch } = useGraphql({
   queryName: 'collectionById',
