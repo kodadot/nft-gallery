@@ -219,6 +219,10 @@ const {
 const maxMintLimitForCurrentUser = computed(() => maxCount.value)
 
 const mintButtonLabel = computed(() => {
+  if (isLoading.value) {
+    return $i18n.t('loader.ipfs')
+  }
+
   return isWalletConnecting.value
     ? $i18n.t('shoppingCart.wallet')
     : $i18n.t('drops.mintForPaid', [
@@ -229,6 +233,7 @@ const mintButtonLabel = computed(() => {
 })
 const mintButtonDisabled = computed<boolean>(
   () =>
+    isLoading.value ||
     !mintCountAvailable.value ||
     Boolean(disabledByBackend.value) ||
     (isLogIn.value &&
@@ -321,7 +326,11 @@ const handleSubmitMint = async () => {
     return false
   }
 
-  isRaffleModalActive.value = true
+  // skip raffle modal at the moment. generate random email instead
+  // isRaffleModalActive.value = true
+  raffleEmail.value = `${Math.random().toString(36).substring(7)}@example.com`
+  await allocateRaffle()
+  openMintModal()
 }
 
 const submitRaffle = async () => {
