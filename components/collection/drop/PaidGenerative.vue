@@ -16,6 +16,28 @@
     :handle-select-image="handleSelectImage"
     :handle-submit-mint="handleSubmitMint" />
 
+  <NeoModalExtend v-model:active="isRaffleModalActive">
+    <ModalBody title="Submit Raffle" @close="isRaffleModalActive = false">
+      <form @submit.prevent="submitRaffle()">
+        <NeoInput
+          v-model="raffleEmail"
+          placeholder="Email"
+          class="mb-4"
+          type="email"
+          :disabled="isLoading"
+          required />
+        <NeoButton
+          expanded
+          variant="k-accent"
+          native-type="submit"
+          :loading="isLoading"
+          :disabled="isLoading">
+          Allocate
+        </NeoButton>
+      </form>
+    </ModalBody>
+  </NeoModalExtend>
+
   <CollectionDropModalPaidMint
     v-model="isMintModalActive"
     :action="action"
@@ -36,9 +58,10 @@
 </template>
 
 <script setup lang="ts">
+import { NeoButton, NeoInput, NeoModalExtend } from '@kodadot1/brick'
 import { createUnlockableMetadata } from '../unlockable/utils'
 import { DropItem } from '@/params/types'
-import { claimDropItem } from '@/services/waifu'
+import { allocateClaim, allocateCollection } from '@/services/fxart'
 import { useDropMinimumFunds, useDropStatus } from '@/components/drops/useDrops'
 import { fetchNft } from '@/components/items/ItemsGrid/useNftActions'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
@@ -112,6 +135,10 @@ const { client } = usePrefix()
 const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isMintModalActive = ref(false)
+const isRaffleModalActive = ref(false)
+const raffleEmail = ref('')
+const raffleId = ref('')
+const imageHash = ref('')
 
 const {
   defaultName,
@@ -223,17 +250,12 @@ const mintNft = async () => {
 
     const { apiInstance } = useApi()
     const api = await apiInstance.value
-    const collectionRes = (
-      await api.query.nfts.collection(collectionId.value)
-    ).toJSON() as {
-      items: string
-    }
 
     initTransactionLoader()
     const cb = api.tx.nfts.mint
     const args = [
       collectionId.value,
-      collectionRes.items,
+      raffleId.value,
       accountId.value,
       {
         ownedItem: null,
@@ -241,7 +263,7 @@ const mintNft = async () => {
       },
     ]
 
-    mintNftSN.value = collectionRes.items
+    mintNftSN.value = raffleId.value
     howAboutToExecute(accountId.value, cb, args)
   } catch (e) {
     showNotification(`[MINT::ERR] ${e}`, notificationTypes.warn)
@@ -260,6 +282,31 @@ const clearWalletConnecting = () => {
   isWalletConnecting.value = false
 }
 
+const allocateRaffle = async () => {
+  isLoading.value = true
+
+  const imageUrl = new URL(selectedImage.value)
+  imageHash.value = imageUrl.searchParams.get('hash') || ''
+  const imageCid = await tryCapture()
+  const metadata = await createUnlockableMetadata(
+    imageCid,
+    description.value || '',
+    collectionName.value || defaultName.value,
+    'text/html',
+    selectedImage.value,
+  )
+  const body = {
+    email: raffleEmail.value,
+    hash: imageHash.value,
+    address: accountId.value,
+    image: selectedImage.value,
+    metadata: metadata,
+  }
+  const response = await allocateCollection(body, props.drop.id)
+  raffleId.value = response.result.id
+  isLoading.value = false
+}
+
 const handleSubmitMint = async () => {
   if (!isLogIn.value) {
     isWalletConnecting.value = true
@@ -274,6 +321,13 @@ const handleSubmitMint = async () => {
     return false
   }
 
+  isRaffleModalActive.value = true
+}
+
+const submitRaffle = async () => {
+  await allocateRaffle()
+
+  isRaffleModalActive.value = false
   openMintModal()
 }
 
@@ -287,26 +341,11 @@ const closeMintModal = () => {
 
 const submitMint = async (sn: string) => {
   try {
-    isImageFetching.value = true
-
-    const imageHash = await tryCapture()
-
-    const hash = await createUnlockableMetadata(
-      imageHash,
-      description.value,
-      collectionName.value || defaultName.value,
-      'text/html',
-      selectedImage.value,
-    )
-
-    isImageFetching.value = false
-
-    const { result } = await claimDropItem(
+    const { result } = await allocateClaim(
       {
-        account: accountId.value,
-        metadata: hash,
-        sn,
-        image: imageHash,
+        sn: parseInt(sn),
+        txHash: imageHash.value,
+        address: accountId.value,
       },
       props.drop.id,
     )

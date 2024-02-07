@@ -1,7 +1,7 @@
 <template>
   <div class="price-chart mt-4">
     <div class="flex items-center justify-between">
-      <p class="label">
+      <p class="label text-xs/normal">
         {{ $t('Chart') }}
       </p>
       <NeoButton variant="primary" no-shadow @click="emit('resetZoom')">

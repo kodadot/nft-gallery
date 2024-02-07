@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="label">
+    <div class="label text-xs/normal">
       {{ $t('Minting Settings') }}
     </div>
     <div class="py-2 flex">

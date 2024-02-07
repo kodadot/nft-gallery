@@ -2,7 +2,7 @@
   <div class="signup-banner">
     <div class="signup-banner__left">
       <div class="signup-banner__title-container">
-        <h3 class="is-size-5 font-bold">
+        <h3 class="text-xl font-bold">
           {{ $t('signupBanner.title') }}
         </h3>
 

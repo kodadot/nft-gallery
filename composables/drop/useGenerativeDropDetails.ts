@@ -10,7 +10,7 @@ export default (drop: DropItem) => {
   const chainName = computed(() => getChainName(drop.chain))
   const token = computed(() => prefixToToken[drop.chain])
   const price = computed(() => drop?.price)
-  const holderOfCollectionId = computed(() => drop.holds)
+  const holderOfCollectionId = computed(() => drop.holder_of)
 
   return {
     defaultMax,

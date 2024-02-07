@@ -1,7 +1,7 @@
 <template>
   <NeoModal :value="value" @close="value = false">
     <div class="py-4 px-5 limit-width">
-      <div class="flex mb-3 is-size-6 font-bold">
+      <div class="flex mb-3 text-base font-bold">
         {{ 'Customize Collection' }}
       </div>
       <div class="text-k-grey text-xs mb-5">
