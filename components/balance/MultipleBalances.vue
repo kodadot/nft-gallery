@@ -29,7 +29,7 @@
       <div
         v-for="(data, key) in multiBalancesChainsList"
         :key="key"
-        class="is-size-6">
+        class="text-base">
         <div
           v-for="token in filterEmptyBalanceChains(data.chain)"
           :key="token.name"
@@ -59,7 +59,7 @@
     <hr class="my-2" />
     <p class="flex justify-between items-end">
       <span class="text-xs"> {{ $t('spotlight.total') }}: </span>
-      <span class="is-size-6"
+      <span class="text-base"
         >${{ formatNumber(identityStore.getTotalUsd) }}</span
       >
     </p>

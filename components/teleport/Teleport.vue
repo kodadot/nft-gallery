@@ -8,7 +8,7 @@
       :status="status"
       @try-again="teleport" />
 
-    <h1 class="is-size-3 font-bold">
+    <h1 class="text-3xl font-bold">
       {{ $t('teleport.page') }}
     </h1>
 
@@ -113,7 +113,7 @@
     <NeoButton
       :label="teleportLabel"
       size="large"
-      class="is-size-6 my-5 capitalize"
+      class="text-base my-5 capitalize"
       expanded
       :loading="isLoading"
       :disabled="isDisabledButton"
@@ -489,8 +489,10 @@ $xs-breakpoint: 400px;
     gap: 0.25rem;
   }
 }
+
 .align-items {
   align-items: center;
+
   @include until($xs-breakpoint) {
     align-items: flex-start;
   }
@@ -511,6 +513,7 @@ $xs-breakpoint: 400px;
 
 .justify-content {
   justify-content: space-between;
+
   @include until($xs-breakpoint) {
     justify-content: flex-end;
   }
@@ -547,6 +550,7 @@ $xs-breakpoint: 400px;
 
   @include ktheme() {
     color: theme('text-color');
+
     &:hover {
       color: theme('link-hover');
     }

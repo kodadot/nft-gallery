@@ -1,11 +1,11 @@
 import { CollectionWithMeta } from '../rmrk/service/scheme'
 import {
-  DropMintedStatus,
+  type DropMintedStatus,
   getDropById,
   getDropMintedStatus,
   getDropStatus,
   getDrops,
-} from '@/services/waifu'
+} from '@/services/fxart'
 import unlockableCollectionById from '@/queries/subsquid/general/unlockableCollectionById.graphql'
 import { chainPropListOf } from '@/utils/config/chain.config'
 import { DropItem } from '@/params/types'
@@ -34,23 +34,33 @@ export function useDrops() {
   onMounted(async () => {
     dropsList.value = await getDrops()
 
-    dropsList.value
-      .filter((drop) => !isProduction || drop.chain !== 'ahk')
-      .forEach((drop) => {
-        const { result: collectionData } = useQuery(
-          unlockableCollectionById,
-          { id: drop.collection },
-          { clientId: drop.chain },
-        )
+    Promise.all(
+      dropsList.value
+        .filter((drop) => !isProduction || drop.chain !== 'ahk')
+        .reverse()
+        .map((drop) => {
+          return new Promise((resolve) => {
+            const { result: collectionData } = useQuery(
+              unlockableCollectionById,
+              { id: drop.collection },
+              { clientId: drop.chain },
+            )
 
-        watchEffect(async () => {
-          if (collectionData.value?.collectionEntity) {
-            const { collectionEntity } = collectionData.value
-            const newDrop = await getFormattedDropItem(collectionEntity, drop)
-            drops.value.push(newDrop)
-          }
-        })
-      })
+            watchEffect(async () => {
+              if (collectionData.value?.collectionEntity) {
+                const { collectionEntity } = collectionData.value
+                const newDrop = await getFormattedDropItem(
+                  collectionEntity,
+                  drop,
+                )
+                resolve(newDrop)
+              }
+            })
+          })
+        }),
+    ).then((dropsDataList) => {
+      drops.value.push(...(dropsDataList as Drop[]))
+    })
   })
 
   return { drops, count }
@@ -138,7 +148,7 @@ export const useDropMinimumFunds = (drop) => {
   const tokenSymbol = computed(() => chainProperties.tokenSymbol)
 
   const { formatted: formattedMinimumFunds } = useAmount(
-    meta,
+    minimumFunds,
     tokenDecimals,
     tokenSymbol,
   )

@@ -1,14 +1,14 @@
 <template>
   <div class="container flex items-center justify-center flex-col">
     <div>
-      <h1 class="title is-size-2 mb-7">{{ $t('mint.landing.heading') }}</h1>
+      <h1 class="title text-[2.5rem] mb-7">{{ $t('mint.landing.heading') }}</h1>
 
       <div v-if="route.query?.select !== 'nft'" class="pack">
         <div class="pack-box" @click="gotoPathAfterLogin('/create/collection')">
           <div class="pack-content">
             <NeoIcon icon="image-polaroid" custom-size="fa-3x" />
             <div class="pack-content-text">
-              <p class="is-size-4 font-bold">Collection</p>
+              <p class="text-2xl font-bold">Collection</p>
               <p>{{ $t('mint.landing.collection') }}</p>
             </div>
           </div>
@@ -20,7 +20,7 @@
           <div class="pack-content">
             <NeoIcon icon="gem" custom-size="fa-3x" />
             <div class="pack-content-text">
-              <p class="is-size-4 font-bold">NFT</p>
+              <p class="text-2xl font-bold">NFT</p>
               <p>{{ $t('mint.landing.nft') }}</p>
             </div>
           </div>
@@ -43,7 +43,7 @@
             <NeoIcon v-else icon="wand-magic-sparkles" custom-size="fa-3x" />
 
             <div class="px-3 flex h-full flex-col justify-center">
-              <p class="is-size-4 font-bold">
+              <p class="text-2xl font-bold">
                 {{ !isMobile ? $t('navbar.create.generateWaifu') : 'Waifu' }}
               </p>
               <p>{{ $t('createDropdown.waifu') }}</p>
@@ -66,7 +66,7 @@
           <div class="pack-content">
             <NeoIcon icon="image" custom-size="fa-3x" />
             <div class="pack-content-text">
-              <p class="is-size-4 font-bold">
+              <p class="text-2xl font-bold">
                 {{ $t('mint.landing.singleNft') }}
               </p>
               <p>{{ $t('mint.landing.singleNftDesc') }}</p>
@@ -80,7 +80,7 @@
           <div class="pack-content">
             <NeoIcon icon="photo-film" custom-size="fa-3x" />
             <div class="pack-content-text">
-              <p class="is-size-4 font-bold">
+              <p class="text-2xl font-bold">
                 {{ $t('mint.landing.massNft') }}
               </p>
               <p>{{ $t('mint.landing.massNftDesc') }}</p>

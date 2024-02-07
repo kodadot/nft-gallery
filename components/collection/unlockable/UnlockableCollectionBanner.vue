@@ -2,9 +2,10 @@
   <div class="collection-banner" :style="{ backgroundImage: `url(${banner})` }">
     <div class="collection-banner-shadow"></div>
 
-    <section class="h-full py-8">
-      <div class="container is-fluid collection-banner-content">
-        <div class="flex flex-col items-start">
+    <section class="h-[368px] lg:h-full">
+      <div
+        class="relative w-full mx-auto px-[1.25rem] md:px-[2.5rem] min-[1440px]:max-w-[1440px] h-full flex justify-end items-start flex-col md:justify-between md:items-end md:flex-row">
+        <div class="flex flex-col items-start max-md:mb-8 md:h-[212px]">
           <div class="collection-banner-avatar">
             <NuxtImg
               height="88"
@@ -13,16 +14,17 @@
               alt="avatar"
               class="object-cover" />
           </div>
-          <h1 class="collection-banner-name">{{ title }}</h1>
+          <h1
+            class="collection-banner-name mt-5 text-3xl md:text-4xl font-bold text-text-color-inverse">
+            {{ title }}
+          </h1>
         </div>
-        <HeroButtons class="is-hidden-mobile self-end" />
       </div>
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
-import HeroButtons from '@/components/collection/unlockable/UnlockableHeroButtons.vue'
 import { unlockableDesc } from '../unlockable/utils'
 import { VOTE_DROP_DESCRIPTION } from '../voteDrop/const'
 import { generateDropImage } from '@/utils/seoImageGenerator'
@@ -97,19 +99,6 @@ useHead({
     left: 0;
   }
 
-  &-content {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    height: 100%;
-
-    @include mobile {
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: flex-start;
-    }
-  }
-
   &-avatar {
     padding: 0.625rem;
 
@@ -128,12 +117,7 @@ useHead({
   }
 
   &-name {
-    font-weight: 700;
-    font-size: 2rem;
-    margin-top: 1.5rem;
-
     @include ktheme() {
-      color: theme('text-color-inverse');
       text-shadow:
         1px 1px 0 theme('text-color'),
         1px -1px 0 theme('text-color'),

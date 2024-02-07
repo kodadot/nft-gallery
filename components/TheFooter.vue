@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer-container section" data-testid="footer-container">
+  <footer class="footer-container px-6 py-12" data-testid="footer-container">
     <div class="footer-container-inner flex items-start justify-between">
       <section class="footer-container-subs flex flex-col">
         <h2 class="subtitle is-5">
@@ -94,7 +94,7 @@
             class="footer-container-socials-list-item flex items-center justify-center">
             <a
               v-safe-href="item.url"
-              class="flex icon"
+              class="flex w-4 h-4"
               rel="nofollow noopener noreferrer"
               target="_blank"
               role="link"

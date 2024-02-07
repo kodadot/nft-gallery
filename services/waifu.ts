@@ -1,5 +1,4 @@
 import { $fetch, FetchError } from 'ofetch'
-import type { DropItem } from '@/params/types'
 const WAIFU_BASE_URL = 'https://waifu-me.kodadot.workers.dev'
 
 const api = $fetch.create({
@@ -9,36 +8,6 @@ const api = $fetch.create({
 // type ClaimResponse = Response<any>
 type Response<T> = {
   result: T
-}
-
-export const getDrops = async () => {
-  return await api<DropItem[]>('drops', {
-    method: 'GET',
-  })
-}
-
-export const getDropById = async (id: string) => {
-  return await api<DropItem>(`/drops/${id}`, {
-    method: 'GET',
-  })
-}
-
-export const getDropStatus = async (alias: string) => {
-  return await api<{ count: number }>(`/drops/${alias}/status`, {
-    method: 'GET',
-  })
-}
-
-export type DropMintedStatus = {
-  created_at: string
-  id: number
-  image: string
-  metadata: string
-}
-export const getDropMintedStatus = async (alias: string, accountId: string) => {
-  return await api<DropMintedStatus>(`/drops/${alias}/accounts/${accountId}`, {
-    method: 'GET',
-  })
 }
 
 export const getLatestWaifuImages = async () => {

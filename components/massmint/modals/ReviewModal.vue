@@ -1,8 +1,8 @@
 <template>
   <NeoModal :value="isModalActive" scroll="clip" @close="emit('close')">
-    <div class="p-6 modal-width">
-      <div class="border-b border-grey">
-        <p class="flex justify-center pb-4 is-size-5">
+    <div class="p-6 w-[unset] lg:w-[25rem]">
+      <div class="border-b border-k-shade">
+        <p class="flex justify-center pb-4 text-xl">
           {{ $t('massmint.reviewTtile') }}
         </p>
       </div>
@@ -32,7 +32,7 @@
               }}
             </div>
           </div>
-          <div class="mt-6 limit-note-width">
+          <div class="mt-6 max-w-xs">
             {{ $t('massmint.reallyProcceed') }}
           </div>
         </div>
@@ -41,13 +41,13 @@
             :label="$t('massmint.yesMint')"
             :variant="mintBtnVariant"
             no-shadow
-            class="min-width btn-height flex flex-1"
+            class="min-w-[10rem] h-[3.25rem] flex flex-1"
             @click="emit('mint')" />
           <NeoButton
             :label="$t('massmint.cancel')"
             :variant="cancelBtnVariant"
             no-shadow
-            class="min-width ml-5 btn-height flex flex-1"
+            class="min-w-[10rem] ml-5 h-[3.25rem] flex flex-1"
             @click="emit('close')" />
         </div>
       </div>
@@ -76,11 +76,3 @@ const isModalActive = useVModel(props, 'modelValue')
 
 const emit = defineEmits(['close', 'mint'])
 </script>
-
-<style lang="scss" scoped>
-@import './modals.scss';
-
-.min-width {
-  min-width: 10rem;
-}
-</style>
