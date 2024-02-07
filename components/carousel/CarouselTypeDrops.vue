@@ -8,12 +8,21 @@
       :breakpoints="breakpoints">
       <DropsDropCard :drop="item" />
     </CarouselModuleCarouselAgnostic>
+    <CarouselModuleCarouselAgnostic
+      v-else
+      :items="Array(DROP_SKELETON_COUNT).fill({ id: 'skeleton' })"
+      :step="steps"
+      :breakpoints="breakpoints">
+      <DropsDropCardSkeleton />
+    </CarouselModuleCarouselAgnostic>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { type CarouseBreakpointsConfig } from '@/components/carousel/module/CarouselAgnostic.vue'
 import { useDrops } from '@/components/drops/useDrops'
+
+const DROP_SKELETON_COUNT = 3
 
 const breakpoints: CarouseBreakpointsConfig = {
   '640px': { slides: { perView: 1.2, spacing: 16 } },
