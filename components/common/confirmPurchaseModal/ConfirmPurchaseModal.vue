@@ -61,6 +61,8 @@
           :label="$t('nft.action.confirm')"
           :disabled="disabled"
           :actions="actions"
+          auto-close-modal
+          :auto-close-modal-delay-modal="0"
           @confirm="confirm"
           @actions:completed="$emit('completed')" />
       </div>
@@ -146,7 +148,7 @@ const onClose = () => {
 }
 
 const confirm = (params: AutoTeleportActionButtonConfirmEvent) => {
-  emit('confirm', params)
+  emit('confirm', { ...params, items: items.value })
   prefrencesStore.setCompletePurchaseModalOpen(false)
 }
 </script>

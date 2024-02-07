@@ -30,7 +30,15 @@
     }
 
     &--k-accent {
-      @apply bg-k-primary text-black;
+      @apply bg-k-primary ;
+    
+      &:not(:hover):not(:disabled) {
+        @apply text-black #{!important};
+      }
+
+      &:enabled {
+        @apply border-border-color #{!important};
+      }
 
       &:hover {
         @apply bg-background-color text-text-color;
