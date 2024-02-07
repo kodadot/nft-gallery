@@ -16,7 +16,7 @@
             <section class="pt-5">
               <div class="container is-fluid">
                 <CollectionInfo />
-                <hr class="bg-k-grey mb-0" />
+                <hr class="!bg-k-grey mb-0" />
               </div>
             </section>
           </div>
@@ -26,7 +26,7 @@
               <ExploreTabsFilterSort />
             </div>
           </section>
-          <hr class="bg-text-color my-0" />
+          <hr class="!bg-text-color my-0" />
           <NuxtPage />
         </div>
       </main>
