@@ -11,6 +11,7 @@ import { chainPropListOf } from '@/utils/config/chain.config'
 import { DropItem } from '@/params/types'
 import { FUTURE_DROP_DATE } from '@/utils/drop'
 import { isProduction } from '@/utils/chain'
+import sortBy from 'lodash/sortBy'
 
 export interface Drop {
   collection: CollectionWithMeta
@@ -21,6 +22,7 @@ export interface Drop {
   dropStartTime: Date
   price: string
   alias: string
+  isMintedOut: boolean
 }
 
 const futureDate = new Date()
@@ -38,7 +40,6 @@ export function useDrops() {
     Promise.all(
       dropsList.value
         .filter((drop) => !isProduction || drop.chain !== 'ahk')
-        .reverse()
         .map((drop) => {
           return new Promise((resolve) => {
             const { result: collectionData } = useQuery(
@@ -60,7 +61,7 @@ export function useDrops() {
           })
         }),
     ).then((dropsDataList) => {
-      drops.value.push(...(dropsDataList as Drop[]))
+      drops.value = sortBy(dropsDataList as Drop[], ['isMintedOut'])
       loaded.value = true
     })
   })
