@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="drop.collection && !isLoadingMeta"
-      class="border border-card-border-color hover:border-border-color">
+      class="border border-card-border-color hover:border-border-color bg-background-color">
       <component
         :is="externalUrl ? 'a' : NuxtLink"
         class="flex flex-col hover:text-text-color"
