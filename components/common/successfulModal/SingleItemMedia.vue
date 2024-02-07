@@ -2,7 +2,7 @@
   <BaseMediaItem class="border border-k-shade" :src="src" preview is-detail />
 
   <div class="mt-5 border-b-k-shade">
-    <p class="is-size-6 capitalize font-bold text-center">
+    <p class="text-base capitalize font-bold text-center">
       {{ header }}
     </p>
     <p class="capitalize text-xs text-center mt-2">
