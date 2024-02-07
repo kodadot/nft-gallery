@@ -1425,7 +1425,7 @@ export default {
 section {
   th,
   td {
-    @apply border border-border-coloralign-middle px-2 py-1;
+    @apply border border-border-color align-middle px-2 py-1;
   }
 }
 </style>
