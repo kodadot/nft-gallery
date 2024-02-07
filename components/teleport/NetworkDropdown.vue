@@ -6,7 +6,7 @@
           no-shadow
           expanded
           rounded
-          class="dropdown-trigger"
+          class="h-10 border border-border-color"
           :icon="active ? 'chevron-up' : 'chevron-down'"
           :active="active">
           <div class="flex flex-items-center">
@@ -58,15 +58,3 @@ const validateOptions = computed(() => {
   return props.options.filter((opt) => !opt.disabled?.value)
 })
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.dropdown-trigger {
-  height: 2.5rem;
-
-  @include ktheme() {
-    border: 1px solid theme('border-color');
-  }
-}
-</style>
