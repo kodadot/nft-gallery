@@ -17,7 +17,7 @@
       <strong> Services </strong>
       "), such as when you:
     </p>
-    <ul class="mb-4">
+    <ul class="list-disc list-inside mb-4">
       <li class="mb-2">
         Visit our website at
         <nuxt-link to="/"> https://kodadot.xyz </nuxt-link>
@@ -127,7 +127,7 @@
       .
     </p>
     <h2 id="toc" class="heading heading-is-2">TABLE OF CONTENTS</h2>
-    <ol>
+    <ol class="list-inside">
       <li class="mb-4">
         <nuxt-link to="#infocollect"
           >WHAT INFORMATION DO WE COLLECT?
@@ -236,7 +236,7 @@
       include the following:
     </p>
 
-    <ul class="mb-4">
+    <ul class="list-disc list-inside mb-4">
       <li class="mb-2">usernames</li>
       <li class="mb-2">email addresses</li>
     </ul>
@@ -313,7 +313,7 @@
       .
     </p>
     <p class="mb-4">The information we collect includes:</p>
-    <ul class="mb-4">
+    <ul class="list-disc list-inside mb-4">
       <li class="mb-2">
         <em> Log and Usage Data. </em>
         Log and usage data is service-related, diagnostic, usage, and
@@ -348,7 +348,7 @@
         on how you interact with our Services, including:
       </strong>
     </p>
-    <ul class="mb-4">
+    <ul class="list-disc list-inside mb-4">
       <li class="mb-2">
         •
         <strong>
@@ -431,7 +431,7 @@
       information. As such, we may rely on the following legal bases to process
       your personal information:
     </p>
-    <ul class="mb-4">
+    <ul class="list-disc list-inside mb-4">
       <li class="mb-2">
         •
         <strong> Consent. </strong>
@@ -502,7 +502,7 @@
       law to process your information without your consent, including, for
       example:
     </p>
-    <ul class="mb-4">
+    <ul class="list-disc list-inside mb-4">
       <li class="mb-2">
         If collection is clearly in the interests of an individual and consent
         cannot be obtained in a timely way
@@ -565,7 +565,7 @@
       We may need to share your personal information in the following
       situations:
     </p>
-    <ul class="mb-4">
+    <ul class="list-disc list-inside mb-4">
       <li class="mb-2">
         <strong> Business Transfers. </strong>
         We may share or transfer your information in connection with, or during
@@ -798,7 +798,7 @@
       If you would at any time like to review or change the information in your
       account or terminate your account, you can:
     </p>
-    <ul class="mb-4">
+    <ul class="list-disc list-inside mb-4">
       <li class="mb-2">
         Log in to your account settings and update your user account.
       </li>
@@ -1015,7 +1015,7 @@
       through instances where you interact with us in person, online, or by
       phone or mail in the context of:
     </p>
-    <ul class="mb-4">
+    <ul class="list-disc list-inside mb-4">
       <li class="mb-2">
         Receiving help through our customer support channels;
       </li>
@@ -1087,7 +1087,7 @@
     <p class="mb-4">
       Depending on the circumstances, you have a right to know:
     </p>
-    <ul class="mb-4">
+    <ul class="list-disc list-inside mb-4">
       <li class="mb-2">
         whether we collect and use your personal information;
       </li>
@@ -1159,7 +1159,7 @@
       provided information as soon as we finish verifying you.
     </p>
     <p class="mb-4">Other privacy rights</p>
-    <ul class="mb-4">
+    <ul class="list-disc list-inside mb-4">
       <li class="mb-2">
         You may object to the processing of your personal information.
       </li>
@@ -1202,7 +1202,7 @@
       difference is reasonably related to the value of the consumer’s data. The
       explanation must include:
     </p>
-    <ul class="mb-4">
+    <ul class="list-disc list-inside mb-4">
       <li class="mb-2">
         a good-faith estimate of the value of the consumer’s data that forms the
         basis for offering the financial incentive or price or service
@@ -1268,7 +1268,7 @@
       depending on how you interact with us and our Services. To find out more,
       please visit the following links:
     </p>
-    <ul class="mb-4">
+    <ul class="list-disc list-inside mb-4">
       <li class="mb-2">
         •
         <nuxt-link to="#infocollect"> Personal data we collect </nuxt-link>
@@ -1285,7 +1285,7 @@
       </li>
     </ul>
     <p class="mb-4">Your rights with respect to your personal data</p>
-    <ul class="mb-4">
+    <ul class="list-disc list-inside mb-4">
       <li class="mb-2">
         Right to be informed whether or not we are processing your personal data
       </li>
@@ -1422,26 +1422,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
 section {
-  @include ktheme() {
-    ul {
-      list-style-type: disc;
-      list-style-position: inside;
-    }
-
-    ol {
-      list-style-type: symbols;
-      list-style-position: inside;
-    }
-
-    th,
-    td {
-      border: 1px solid theme('border-color');
-      vertical-align: middle !important;
-      padding: 0.25rem 0.5rem;
-    }
+  th,
+  td {
+    @apply border border-border-coloralign-middle px-2 py-1;
   }
 }
 </style>
