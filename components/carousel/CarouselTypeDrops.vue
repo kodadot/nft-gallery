@@ -10,7 +10,7 @@
     </CarouselModuleCarouselAgnostic>
     <CarouselModuleCarouselAgnostic
       v-else
-      :items="Array(DROP_SKELETON_COUNT).fill({ id: 'skeleton' })"
+      :items="Array(DROP_SKELETON_COUNT).fill({ id: 'drop-skeleton' })"
       :step="steps"
       :breakpoints="breakpoints">
       <DropsDropCardSkeleton />
