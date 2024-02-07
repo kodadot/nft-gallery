@@ -2,7 +2,7 @@
   <div class="min-h-full flex flex-col is-clipped">
     <Navbar />
     <main class="flex-grow py-8">
-      <div class="container" :class="{ 'is-fluid': !isFullHD }">
+      <div class="w-full px-5 min-[1440px]:px-10">
         <Error
           v-if="$nuxt.isOffline"
           :has-img="false"
@@ -30,7 +30,4 @@ useHead({
     },
   ],
 })
-
-const { width } = useWindowSize()
-const isFullHD = computed(() => width.value >= 1440)
 </script>
