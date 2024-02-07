@@ -1,17 +1,17 @@
 <template>
-  <section class="landing-hero pt-6 md:pt-[56px]">
+  <section class="pt-6 md:!pt-[3.5rem]">
     <img
       src="/landing-blur.svg"
       alt="Hero banner background blur"
-      class="top-[10px] scale-150 md:scale-125 md:top-[-6rem] -translate-x-2/4 left-2/4 absolute pointer-events-none" />
+      class="absolute -translate-x-2/4 left-2/4 top-0 scale-150 md:scale-125 md:top-[-6rem] pointer-events-none" />
 
     <div class="relative">
       <h1
-        class="break-all is-size-1 is-size-2-mobile font-bold text-center flex flex-col flex-wrap justify-center items-center mb-0">
+        class="break-all text-3xl md:text-5xl font-bold text-center flex flex-col flex-wrap justify-center items-center mb-0">
         <div>
           {{ $t('search.landingTitle1') }}
           <span
-            class="subtitle is-size-1 is-size-2-mobile font-bold text-center capitalize block md:inline">
+            class="inverse-text text-3xl md:text-5xl font-bold text-center capitalize block md:inline">
             {{ $t('search.landingTitle2') }}
           </span>
         </div>
@@ -20,10 +20,10 @@
         </div>
       </h1>
 
-      <div class="flex justify-center">
-        <div class="with-divider is-size-6 mt-6 md:mt-[50px] capitalize">
+      <div class="flex justify-center mt-6 md:!mt-12">
+        <p class="with-divider capitalize text-base">
           {{ $t('landing.featuredGenerativeDrops') }}
-        </div>
+        </p>
       </div>
     </div>
 
@@ -36,22 +36,20 @@
 <style lang="scss" scoped>
 @import '@/assets/styles/abstracts/variables';
 
-.landing-hero {
-  .subtitle {
-    letter-spacing: -0.02em;
-    @include ktheme() {
-      color: theme('text-color-inverse');
-      text-shadow:
-        1px 1px 0 theme('text-color'),
-        1px -1px 0 theme('text-color'),
-        -1px 1px 0 theme('text-color'),
-        -1px -1px 0 theme('text-color'),
-        1px 0px 0 theme('text-color'),
-        0px 1px 0 theme('text-color'),
-        -1px 0px 0 theme('text-color'),
-        0px -1px 0 theme('text-color'),
-        4px 4px theme('text-color');
-    }
+.inverse-text {
+  letter-spacing: -0.02em;
+  @include ktheme() {
+    color: theme('text-color-inverse');
+    text-shadow:
+      1px 1px 0 theme('text-color'),
+      1px -1px 0 theme('text-color'),
+      -1px 1px 0 theme('text-color'),
+      -1px -1px 0 theme('text-color'),
+      1px 0px 0 theme('text-color'),
+      0px 1px 0 theme('text-color'),
+      -1px 0px 0 theme('text-color'),
+      0px -1px 0 theme('text-color'),
+      4px 4px theme('text-color');
   }
 }
 
