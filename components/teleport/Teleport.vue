@@ -579,7 +579,7 @@ $xs-breakpoint: 400px;
   }
 }
 
-.dark-mode {
+.dark {
   .network-arrow:before {
     background: $background-dark;
   }
