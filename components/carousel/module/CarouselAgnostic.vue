@@ -108,6 +108,8 @@ const [wrapper, slider] = useKeenSlider(
 @media screen and (min-width: 768px) {
   @for $i from 0 through 3 {
     .keen-slider__slide:nth-child(#{$i + 1}) {
+      min-width: 312px;
+      max-width: 312px;
       transform: translate3d(#{$i * 32px}, 0px, 0px);
     }
   }
