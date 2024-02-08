@@ -35,6 +35,22 @@ pnpm dev
 
 KodaDot will be available at **[localhost:9090](http://localhost:9090).**
 
+## Codespaces
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/kodadot/nft-gallery)
+
+
+Copy and paste these commands to your terminal: (It will install all dependencies and start the server.)
+
+```
+pnpm i;
+pnpm dev
+```
+
+KodaDot will be available at **[localhost:9090](http://localhost:9090).**
+
+If you’re interested in experimenting with KodaDot on the Kusama network and want a comprehensive setup with a Codespaces node, you can follow the Docker instructions provided below. Let’s get started!
+
 ## Docker 🐳
 
 If you just want to try out our KodaDot on Kusama and have a complete local set up with a local node, we assume you have [docker](https://docs.docker.com/get-docker/) and docker-compose installed.
