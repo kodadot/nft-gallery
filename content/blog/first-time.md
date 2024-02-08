@@ -37,6 +37,8 @@ KodaDot will be available at **[localhost:9090](http://localhost:9090).**
 
 ## Codespaces
 
+Click on the button below:
+
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/kodadot/nft-gallery)
 
 
