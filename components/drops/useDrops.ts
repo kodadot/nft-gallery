@@ -1,6 +1,7 @@
 import { CollectionWithMeta } from '../rmrk/service/scheme'
 import {
   type DropMintedStatus,
+  GetDropsQuery,
   getDropById,
   getDropMintedStatus,
   getDropStatus,
@@ -28,14 +29,14 @@ export interface Drop {
 const futureDate = new Date()
 futureDate.setDate(futureDate.getDate() * 7) // i weeks in the future
 
-export function useDrops() {
+export function useDrops(query?: GetDropsQuery) {
   const drops = ref<Drop[]>([])
   const dropsList = ref<DropItem[]>([])
   const count = computed(() => dropsList.value.length)
   const loaded = ref(false)
 
   onMounted(async () => {
-    dropsList.value = await getDrops()
+    dropsList.value = await getDrops(query)
 
     Promise.all(
       dropsList.value

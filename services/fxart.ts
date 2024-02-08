@@ -1,7 +1,7 @@
 import { $fetch, FetchError } from 'ofetch'
 import type { DropItem } from '@/params/types'
 
-const BASE_URL = 'https://fxart.kodadot.workers.dev/'
+const BASE_URL = 'http://0.0.0.0:8787'
 
 const api = $fetch.create({
   baseURL: BASE_URL,
@@ -17,9 +17,12 @@ export type DoResult = {
   name: string
 }
 
-export const getDrops = async () => {
+export type GetDropsQuery = { limit?: number; active?: boolean[] }
+
+export const getDrops = async (query?: GetDropsQuery) => {
   return await api<DropItem[]>('drops', {
     method: 'GET',
+    query,
   })
 }
 

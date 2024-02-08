@@ -40,7 +40,10 @@ const breakpoints: CarouseBreakpointsConfig = {
   },
 }
 
-const { drops, loaded: isReady } = useDrops()
+const { drops, loaded: isReady } = useDrops({
+  limit: 6,
+  active: [true, false],
+})
 const { width } = useWindowSize()
 
 const steps = computed(() => {
