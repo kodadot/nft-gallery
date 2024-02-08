@@ -11,7 +11,7 @@
               :alt="wallet.extensionName"
               width="32"
               style="vertical-align: middle" />
-            <span class="is-size-6 ml-2 capitalize">{{ wallet.name }}</span>
+            <span class="text-base ml-2 capitalize">{{ wallet.name }}</span>
 
             <NeoTag
               v-if="isRecent(wallet)"

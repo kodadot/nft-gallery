@@ -5,7 +5,7 @@
     :enable-mobile="false"
     content-class="mx-4 "
     :can-cancel="false">
-    <div class="px-6 py-5 width-350">
+    <div class="px-6 py-5 max-w-[350px]">
       <div class="flex mb-4 items-center">
         <NeoIcon
           icon="triangle-exclamation"
@@ -14,8 +14,7 @@
           size="medium" />
         <span class="font-bold">{{ $t('teleport.fundLossRisk') }}</span>
       </div>
-      <div
-        class="flex flex-col px-4 bakground-warning-red border border-color-k-red">
+      <div class="flex flex-col px-4 bg-k-red-accent-2 border border-k-red">
         <span class="my-3">
           {{
             reason === 'source'
@@ -73,22 +72,3 @@ watch(isModalActive, () => {
 
 const emit = defineEmits(['close', 'continue'])
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables.scss';
-
-.width-350 {
-  max-width: 350px;
-}
-
-.bakground-warning-red {
-  @include ktheme() {
-    background-color: theme('k-redaccent2');
-  }
-}
-.border-color-k-red {
-  @include ktheme() {
-    border-color: theme('k-red') !important;
-  }
-}
-</style>

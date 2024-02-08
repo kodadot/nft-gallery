@@ -41,7 +41,7 @@ import { NeoButton } from '@kodadot1/brick'
     .neo-button {
       background-color: rgba(255, 240, 248, 1);
 
-      .dark-mode & {
+      .dark & {
         color: rgba(255, 255, 255, 1);
         background-color: rgba(54, 50, 52, 1);
       }
@@ -59,23 +59,23 @@ import { NeoButton } from '@kodadot1/brick'
     width: 100%;
   }
 }
-.light-mode .drop-card {
+.light .drop-card {
   background-color: rgba(255, 255, 255);
 }
-.light-mode .neo-button {
+.light .neo-button {
   border: 1px solid rgba(0, 0, 0, 1);
 }
 
-.dark-mode .neo-button {
+.dark .neo-button {
   border: 1px solid #cecbcb;
 }
-.dark-mode .inner_card {
+.dark .inner_card {
   color: rgba(255, 255, 255);
 }
-.light-mode .inner_card {
+.light .inner_card {
   color: rgba(0, 0, 0, 1);
 }
-.dark-mode .inner_card .neo-button {
+.dark .inner_card .neo-button {
   border: 1px solid rgba(255, 255, 255);
 }
 .neo-button {

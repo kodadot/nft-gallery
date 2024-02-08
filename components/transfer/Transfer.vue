@@ -20,7 +20,7 @@
         :is-mobile="isMobile"
         @close="isLoaderModalVisible = false" />
       <div class="flex justify-between items-center mb-2">
-        <p class="font-bold is-size-3">{{ $t('transfer') }} {{ unit }}</p>
+        <p class="font-bold text-3xl">{{ $t('transfer') }} {{ unit }}</p>
         <NeoDropdown
           position="bottom-left"
           :mobile-modal="false"
@@ -36,7 +36,7 @@
 
           <NeoDropdownItem
             v-if="accountId"
-            v-clipboard:copy="generatePaymentLink([targetAddresses[0]])"
+            v-clipboard:copy="generatePayMeLink"
             data-testid="transfer-dropdown-pay-me"
             @click="toast($t('toast.urlCopy'))">
             <NeoIcon icon="sack-dollar" class="mr-2" />{{
@@ -70,7 +70,7 @@
       </div>
       <div class="flex justify-between">
         <div class="flex flex-col">
-          <span class="font-bold is-size-6 mb-1">{{
+          <span class="font-bold text-base mb-1">{{
             $t('transfers.sender')
           }}</span>
           <div v-if="accountId" class="flex items-center">
@@ -95,7 +95,7 @@
           <Auth v-else />
         </div>
         <div class="flex flex-col items-end">
-          <span class="font-bold is-size-6 mb-1">{{
+          <span class="font-bold text-base mb-1">{{
             $t('general.balance')
           }}</span>
           <div class="flex items-center">
@@ -110,10 +110,10 @@
       <hr />
 
       <div v-if="!isMobile" class="flex">
-        <div class="font-bold is-size-6 mb-3 flex-1 mr-2 flex-grow-[2]">
+        <div class="font-bold text-base mb-3 flex-1 mr-2 flex-grow-[2]">
           {{ $t('transfers.recipient') }}
         </div>
-        <div class="font-bold is-size-6 mb-3 flex-1 flex-grow">
+        <div class="font-bold text-base mb-3 flex-1 flex-grow">
           {{ $t('amount') }}
         </div>
       </div>
@@ -124,7 +124,7 @@
           class="mb-3">
           <div
             v-if="isMobile"
-            class="font-bold is-size-6 mb-3 flex items-center justify-between">
+            class="font-bold text-base mb-3 flex items-center justify-between">
             {{ $t('transfers.recipient') }} {{ index + 1 }}
             <a v-if="targetAddresses.length > 1" @click="deleteAddress(index)">
               <NeoIcon class="p-3" icon="trash" />
@@ -227,17 +227,17 @@
       </div>
 
       <div class="flex justify-between items-center mb-5">
-        <span class="font-bold is-size-6">{{
+        <span class="font-bold text-base">{{
           $t('transfers.displayUnit')
         }}</span>
         <div class="flex items-center">
-          <span class="is-size-6 mr-1"
+          <span class="text-base mr-1"
             >{{ $t('transfers.transferable') }}:
           </span>
-          <span v-if="displayUnit === 'token'" class="font-bold is-size-6">
+          <span v-if="displayUnit === 'token'" class="font-bold text-base">
             <Money :value="transferableBalance.token" inline />
           </span>
-          <span v-else class="font-bold is-size-6"
+          <span v-else class="font-bold text-base"
             >{{ transferableBalance.usd }} USD</span
           >
         </div>
@@ -273,14 +273,14 @@
       </div>
 
       <div class="flex justify-between items-center mb-6">
-        <span class="font-bold is-size-6">{{ $t('spotlight.total') }}</span>
+        <span class="font-bold text-base">{{ $t('spotlight.total') }}</span>
         <div class="flex items-center">
           <span class="text-xs text-k-grey mr-1"
             >({{ displayValues.total.withFee[0] }})</span
           >
 
           <span
-            class="font-bold is-size-6"
+            class="font-bold text-base"
             data-testid="transfer-total-amount"
             >{{ displayValues.total.withFee[1] }}</span
           >
@@ -422,6 +422,16 @@ const balance = computed(() => {
     usd: usdAmount,
   }
 })
+
+const generatePayMeLink = computed(() =>
+  generatePaymentLink([
+    {
+      address: accountId.value,
+      token: targetAddresses.value[0]?.token,
+      usd: targetAddresses.value[0]?.usd,
+    },
+  ]),
+)
 
 const transferableBalance = computed(() => {
   const tokenDeduction = txFee.value + chainExistentialDeposit.value

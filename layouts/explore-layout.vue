@@ -14,9 +14,9 @@
           <div v-if="isCollection">
             <CollectionBanner />
             <section class="pt-5">
-              <div class="container is-fluid mobile-padding">
+              <div class="container is-fluid">
                 <CollectionInfo />
-                <hr class="mb-0" />
+                <hr class="!bg-k-grey mb-0" />
               </div>
             </section>
           </div>
@@ -26,7 +26,7 @@
               <ExploreTabsFilterSort />
             </div>
           </section>
-          <hr class="text-color my-0" />
+          <hr class="!bg-text-color my-0" />
           <NuxtPage />
         </div>
       </main>
@@ -66,8 +66,8 @@ useHead({
 })
 
 const isExplore = computed(() => route.path.includes('/explore'))
-const isCollection = computed(
-  () => route.name?.toString().includes('prefix-collection-id'),
+const isCollection = computed(() =>
+  route.name?.toString().includes('prefix-collection-id'),
 )
 
 const getExploreTitle = computed(() => {
@@ -91,23 +91,3 @@ const getExploreTitle = computed(() => {
   return $i18n.t('explore')
 })
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-hr {
-  @include ktheme() {
-    background: theme('k-grey');
-  }
-}
-.text-color {
-  @include ktheme() {
-    background: theme('text-color');
-  }
-}
-
-@include touch {
-  .mobile-padding {
-    padding: 0 1rem;
-  }
-}
-</style>

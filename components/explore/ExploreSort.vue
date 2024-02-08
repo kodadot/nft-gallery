@@ -162,7 +162,7 @@ onMounted(() => {
   }
 }
 
-.dark-mode .sort-check {
+.dark .sort-check {
   filter: brightness(0%);
 }
 </style>

@@ -3,7 +3,7 @@
     <Avatar :size="48" :value="account" />
     <slot :label="label">
       <div class="identity-container">
-        <div class="text-k-grey is-size-6">
+        <div class="text-k-grey text-base">
           {{ label }}
         </div>
         <component

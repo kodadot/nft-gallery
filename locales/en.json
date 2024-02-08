@@ -11,10 +11,12 @@
   "creator": "Creator",
   "collections": "Collections",
   "items": "Items",
+  "learn": "Learn",
   "users": "Users",
   "burn": "Burn",
   "purchase": "Purchase",
   "delete": "Delete",
+  "opensIn": "Opens in",
   "bridging": "Bridging",
   "recent": "Recent",
   "user": "User",
@@ -56,6 +58,8 @@
   "confirmed": "Confirmed",
   "creative": "Creative",
   "multipleNFTS": "Multiple NFT's",
+  "viewNft": "View NFT | View NFTs",
+  "listNft": "List NFT | List NFTs",
   "about": "About",
   "blog": "Blog",
   "ambassador program": "Ambassador Program",
@@ -93,6 +97,7 @@
   "incomplete": "Incomplete",
   "description": "Description",
   "showLess": "Show Less",
+  "showAll": "Show All",
   "dropUpload": "Drop your file here or click to select.",
   "chainSelect": "Select Chain ({0})",
   "success": "Success",
@@ -625,7 +630,6 @@
       "seeYourNft": "See Your NFT",
       "minimumFundsDescription": "Holding a Minimum of <strong>{0} On {1}</strong> in Your Wallet is Required",
       "holderOfCollectionMinimumFundsDescription": "Holding a Minimum of <strong>{0}</strong> On {1} in Your Wallet",
-      "freeMinimumFundsDescription": "Holding a Minimum of <strong>{0} On {1}</strong> in Your Wallet is Required for This Free Mint.",
       "claimNftNow": "Claim NFT Now",
       "claimPaidNft": "Claim For {0}",
       "nftAlreadyMinted": "NFT Already Minted",
@@ -953,6 +957,7 @@
     "copyRewardLink": "Copy Reward Me link",
     "latestSales": "Latest sales",
     "generativeActivity": "Generative",
+    "generativeArt": "Generative Art",
     "search": "Search",
     "searchResultsText": "Showing results for",
     "searchNoResultsTitle": "Whoops, Couldn't find anything matching your search",
@@ -1055,6 +1060,9 @@
   "sharing": {
     "collection": "Check out this awesome Collection on KodaDot",
     "nft": "Check out this awesome NFT on KodaDot",
+    "boughtNft": "Check out this awesome NFT I bought on KodaDot",
+    "boughtNfts": "Check out these awesome NFTs I bought on KodaDot:\n {0}",
+    "nftWithArtist": "Check out this awesome NFT on {'@'}KodaDot from {'@'}{0}",
     "pack": "Check out this awesome Pack on KodaDot",
     "profile": "Check out this awesome Profile on KodaDot"
   },
@@ -1137,7 +1145,7 @@
     "newNftHeading": "New to NFTs?",
     "ksmArtistHeading": "KSM for artists",
     "socials": "Got any questions or want to stay in touch? Drop us a line via socials.",
-    "startExploring": "Start Exploring",
+    "featuredGenerativeDrops": "Featured generative drops",
     "newNft": {
       "click": "Click {0} for a step by step guide!",
       "here": "here"
@@ -1432,6 +1440,7 @@
     "noUpcoming": "Nothing  here yet...",
     "mintingLive": "Minting Live",
     "mintingEnded": "Ended",
+    "comingSoon": "Coming Soon",
     "mintedBy": "Minted By",
     "mintPerAddress": "Each address can mint only once",
     "recentMints": "Recent NFT Mints",
@@ -1474,7 +1483,18 @@
     "youCanContinueWithAutoteleport": "You can continue with Auto Teleport enabled.",
     "proceedToSigning": "Proceed to signing",
     "signTransaction": "Sign Transaction",
-    "paidDropWhyTooltip": "A balance above <strong>{0}</strong> is required to maintain your account's activity, covering the <strong>{1} Existential Deposit,</strong> and to enable seamless future actions."
+    "paidDropWhyTooltip": "A balance above <strong>{0}</strong> is required to maintain your account's activity, covering the <strong>{1} Existential Deposit,</strong> and to enable seamless future actions.",
+    "createNewVariation": "Create your new variation",
+    "holderOfCollection": "Holder of NFT from {name} collection",
+    "mintForFree": "Mint For Free Now",
+    "mintForPaid": "Mint For {0}",
+    "requirements": {
+      "minimumFunds": "a Minimum of <strong>{0}</strong> On {1} in your wallet"
+    },
+    "phases": {
+      "private": "Private Mint",
+      "public": "Public Sale"
+    }
   },
   "confirmPurchase": {
     "action": "Confirm Purchase",
@@ -1703,6 +1723,8 @@
   "buyModal": {
     "nftPriceUpdated": "NFT {0} price updated",
     "nftNotListedAnymore": "NFT {0} is not listed anymore",
-    "buyingNft": "Buying NFT | Buying NFTs"
+    "buyingNft": "Buying NFT | Buying NFTs",
+    "purchaseSuccessful": "Purchase successful",
+    "amountPurchaseSuccessfully": "{0} NFTs purchased successfully"
   }
 }

@@ -81,6 +81,7 @@ const useExecuteTransaction = () => {
     isError,
   } = useMetaTransaction()
   const blockNumber = ref<string>()
+  const txHash = ref<string>()
 
   const executeTransaction = ({
     cb,
@@ -90,8 +91,12 @@ const useExecuteTransaction = () => {
   }: ExecuteTransactionParams) => {
     initTransactionLoader()
 
-    const successCb = (block: string) => {
+    const successCb = ({
+      blockNumber: block,
+      txHash: hash,
+    }: HowAboutToExecuteOnSuccessParam) => {
       blockNumber.value = block
+      txHash.value = hash
 
       const isObject = typeof successMessage === 'object'
       if (isObject && successMessage.large) {
@@ -119,6 +124,7 @@ const useExecuteTransaction = () => {
     error,
     executeTransaction,
     blockNumber,
+    txHash,
     isError,
   }
 }
@@ -195,8 +201,14 @@ export const executeAction = ({
 
 export const useTransaction = () => {
   const { apiInstance, apiInstanceByPrefix } = useApi()
-  const { isLoading, status, executeTransaction, blockNumber, isError } =
-    useExecuteTransaction()
+  const {
+    isLoading,
+    status,
+    executeTransaction,
+    blockNumber,
+    txHash,
+    isError,
+  } = useExecuteTransaction()
 
   const transaction = async (item: Actions, prefix = '') => {
     let api = await apiInstance.value
@@ -213,6 +225,7 @@ export const useTransaction = () => {
     status,
     transaction,
     blockNumber,
+    txHash,
     isError,
   }
 }

@@ -37,7 +37,7 @@
       v-if="isLewd"
       rounded
       no-shadow
-      class="nsfw-action border-0 px-4 py-1 is-size-6"
+      class="nsfw-action border-0 px-4 py-1 text-base"
       :class="{ hide: isLewdBlurredLayer }"
       :label="
         isLewdBlurredLayer ? $t('lewd.showContent') : $t('lewd.hideContent')

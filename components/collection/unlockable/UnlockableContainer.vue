@@ -19,7 +19,7 @@
 
           <div>
             <div class="flex justify-between items-center my-5">
-              <span class="font-bold is-size-5">First Phase</span
+              <span class="font-bold text-xl">First Phase</span
               ><span v-if="mintCountAvailable" class="flex items-center">
                 <img src="/unlockable-pulse.svg" alt="open" />
                 Open</span
@@ -60,7 +60,7 @@
               </div>
             </template>
             <nuxt-link v-else :to="`/${urlPrefix}/gallery/${hasUserMinted}`">
-              <p class="title is-size-4">
+              <p class="title text-2xl">
                 [{{ $t('mint.unlockable.alreadyMinted') }}]
               </p>
             </nuxt-link>

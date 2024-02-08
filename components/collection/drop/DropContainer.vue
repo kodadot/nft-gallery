@@ -18,7 +18,7 @@
 
           <div>
             <div class="flex justify-between items-center my-5">
-              <div class="font-bold is-size-5">Mint Phase</div>
+              <div class="font-bold text-xl">Mint Phase</div>
               <div v-if="mintCountAvailable" class="flex items-center">
                 <img src="/unlockable-pulse.svg" alt="open" />
                 {{ $t('mint.unlockable.open') }}
@@ -36,7 +36,7 @@
           </div>
           <div class="my-5">
             <div class="flex justify-between items-center">
-              <div class="title is-size-4">
+              <div class="title text-2xl">
                 <Money :value="pricePerMint" inline />
               </div>
               <div>
