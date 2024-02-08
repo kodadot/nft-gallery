@@ -53,7 +53,6 @@
     @confirm="handleConfirmPaidMint"
     @close="closeMintModal"
     @list="handleList" />
-
   <ListingCartModal />
 </template>
 
@@ -137,7 +136,7 @@ const isImageFetching = ref(false)
 const isMintModalActive = ref(false)
 const isRaffleModalActive = ref(false)
 const raffleEmail = ref('')
-const raffleId = ref('')
+const raffleId = ref()
 const imageHash = ref('')
 
 const {
@@ -307,8 +306,22 @@ const allocateRaffle = async () => {
     image: selectedImage.value,
     metadata: metadata,
   }
-  const response = await allocateCollection(body, props.drop.id)
-  raffleId.value = response.result.id
+
+  // claim previous ID first. else, allocate new raffle
+  if (
+    currentAccountMintedToken.value?.id &&
+    !currentAccountMintedToken.value?.claimed
+  ) {
+    body.email = currentAccountMintedToken.value?.email || body.email
+    body.hash = currentAccountMintedToken.value?.hash || body.hash
+    body.image = currentAccountMintedToken.value?.image || body.image
+    body.metadata = currentAccountMintedToken.value?.metadata || body.metadata
+    raffleId.value = currentAccountMintedToken.value?.id || mintedCount.value
+  } else {
+    const response = await allocateCollection(body, props.drop.id)
+    raffleId.value = response.result.id
+  }
+
   isLoading.value = false
 }
 
