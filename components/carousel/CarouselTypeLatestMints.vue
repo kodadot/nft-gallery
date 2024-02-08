@@ -39,7 +39,7 @@
 import { flattenNFT } from './utils/useCarouselEvents'
 import { useCarouselUrl } from './utils/useCarousel'
 const CarouselList = defineAsyncComponent(
-  () => import('./module/CarouselAgnostic.vue'),
+  () => import('./module/NftCarousel.vue'),
 )
 
 const { urlOf } = useCarouselUrl()
