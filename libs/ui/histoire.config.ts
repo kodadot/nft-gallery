@@ -7,7 +7,7 @@ import { searchForWorkspaceRoot } from 'vite'
 export default defineConfig({
   setupFile: '/src/histoire.setup.ts',
   theme: {
-    darkClass: 'dark-mode',
+    darkClass: 'dark',
   },
   plugins: [HstVue()],
   vite: {

@@ -2,10 +2,15 @@
   <div>
     <SigningModal
       v-if="!usingAutoTeleport"
-      :title="$t('buyModal.buyingNft', itemCount)"
+      :title="$t('buyModal.buyingNft', buySessionItems.length)"
       :is-loading="isLoading"
       :status="status"
       @try-again="handleBuy" />
+
+    <BuySuccessfulBuyModal
+      v-model="isSuccessfulModalOpen"
+      :tx-hash="txHash"
+      :items="buySessionItems" />
 
     <ConfirmPurchaseModal
       :loading="!hasSyncedPrices"
@@ -29,7 +34,11 @@ import { warningMessage } from '@/utils/notification'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import isEqual from 'lodash/isEqual'
 
-const { transaction, status, isLoading, isError, blockNumber } =
+type ConfirmPurchaseParams = {
+  items: ShoppingCartItem[]
+} & AutoTeleportActionButtonConfirmEvent
+
+const { transaction, status, isLoading, isError, blockNumber, txHash } =
   useTransaction()
 const { urlPrefix } = usePrefix()
 const shoppingCartStore = useShoppingCartStore()
@@ -46,7 +55,8 @@ const nftSubscription = reactive<{
 const hasSyncedPrices = ref(false)
 const usingAutoTeleport = ref(false)
 const buyAction = ref<Actions>(emptyObject<Actions>())
-const itemCount = ref(1)
+const buySessionItems = ref<ShoppingCartItem[]>([])
+const isSuccessfulModalOpen = ref(false)
 
 const autoteleportAction = computed<AutoTeleportAction>(() => ({
   action: buyAction.value,
@@ -59,15 +69,16 @@ const autoteleportAction = computed<AutoTeleportAction>(() => ({
   },
 }))
 
+const isTransactionCompleted = computed(
+  () => Boolean(txHash.value) && !isLoading.value,
+)
+const isSimpleTransactionCompleted = computed(
+  () => isTransactionCompleted.value && !usingAutoTeleport.value,
+)
+
 const items = computed(() =>
   shoppingCartStore.getItemsByPrefix(urlPrefix.value),
 )
-
-onMounted(async () => {
-  if (fiatStore.incompleteFiatValues) {
-    fiatStore.fetchFiatPrice()
-  }
-})
 
 const isShoppingCartMode = computed(
   () => preferencesStore.getCompletePurchaseModal.mode === 'shopping-cart',
@@ -86,8 +97,19 @@ const handleClose = () => {
   usingAutoTeleport.value = false
 }
 
-const handleActionCompleted = () => {
+const openSuccessModal = () => {
+  isSuccessfulModalOpen.value = true
+}
+
+const clearNftSubscription = () => {
   nftSubscription.unsubscribe()
+  nftSubscription.nftIds = []
+}
+
+const handleActionCompleted = () => {
+  openSuccessModal()
+
+  clearNftSubscription()
   preferencesStore.setTriggerBuySuccess(true)
   shoppingCartStore.clear()
   handleClose()
@@ -95,9 +117,10 @@ const handleActionCompleted = () => {
 
 const handleConfirm = async ({
   autoteleport,
-}: AutoTeleportActionButtonConfirmEvent) => {
+  items: nfts,
+}: ConfirmPurchaseParams) => {
   usingAutoTeleport.value = autoteleport
-  itemCount.value = isShoppingCartMode.value ? items.value.length : 1
+  buySessionItems.value = nfts
 
   if (!isShoppingCartMode.value) {
     shoppingCartStore.removeItemToBuy()
@@ -124,17 +147,11 @@ const getBuyAction = (
   nfts: TokenToBuy | TokenToBuy[],
   nftNames: string[],
 ): Actions => {
-  const firstNftId = Array.isArray(nfts) ? nfts[0].id : nfts.id
-
   return {
     interaction: ShoppingActions.BUY,
     nfts,
     urlPrefix: urlPrefix.value,
-    successMessage: {
-      message: $i18n.t('mint.successPurchasedNfts', [nftNames.join(', ')]),
-      large: true,
-      shareLink: `${window.location.origin}/${urlPrefix.value}/gallery/${firstNftId}`,
-    },
+    successMessage: $i18n.t('mint.successPurchasedNfts', [nftNames.join(', ')]),
     errorMessage: $i18n.t('transaction.buy.error'),
   }
 }
@@ -147,17 +164,7 @@ const handleBuy = async () => {
   }
 }
 
-watch(
-  () => preferencesStore.completePurchaseModal.isOpen,
-  (isOpen, prevIsOpen) => {
-    if (isOpen && !prevIsOpen) {
-      buyAction.value = getCartModeBasedBuyAction()
-    }
-  },
-  { immediate: true },
-)
-
-const handleNftChange = (
+const handleNftPriceChange = (
   item: ShoppingCartItem,
   updatedNft: { id: string; price: string },
 ) => {
@@ -197,7 +204,7 @@ const handleNftChange = (
   toast($i18n.t('buyModal.nftPriceUpdated', [name]))
 }
 
-const watchNftsChanges = (nftIds: string[], force: boolean = false) => {
+const watchNftsPriceChanges = (nftIds: string[], force: boolean = false) => {
   if (isEqual(nftIds, nftSubscription.nftIds) && !force) {
     return
   }
@@ -220,7 +227,7 @@ const watchNftsChanges = (nftIds: string[], force: boolean = false) => {
           : shoppingCartStore.itemToBuy
 
         if (item) {
-          handleNftChange(item, updatedNft)
+          handleNftPriceChange(item, updatedNft)
         }
       })
 
@@ -247,10 +254,35 @@ watch(
       return
     }
 
-    if (nftIds.length) {
-      watchNftsChanges(nftIds, isModalOpen && !wasModalOpen)
+    const listenNftsPriceChanges =
+      nftIds.length && !isTransactionCompleted.value
+
+    if (listenNftsPriceChanges) {
+      watchNftsPriceChanges(nftIds, isModalOpen && !wasModalOpen)
     }
   },
   { immediate: true },
 )
+
+watch(isSimpleTransactionCompleted, (completed: boolean) => {
+  if (completed) {
+    handleActionCompleted()
+  }
+})
+
+watch(
+  () => preferencesStore.completePurchaseModal.isOpen,
+  (isOpen, prevIsOpen) => {
+    if (isOpen && !prevIsOpen) {
+      buyAction.value = getCartModeBasedBuyAction()
+    }
+  },
+  { immediate: true },
+)
+
+onMounted(async () => {
+  if (fiatStore.incompleteFiatValues) {
+    fiatStore.fetchFiatPrice()
+  }
+})
 </script>

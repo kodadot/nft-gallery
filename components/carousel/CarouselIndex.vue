@@ -18,7 +18,7 @@ import { useWindowSize } from '@vueuse/core'
 import type { CarouselNFT } from '@/components/base/types'
 
 const CarouselList = defineAsyncComponent(
-  () => import('./module/CarouselAgnostic.vue'),
+  () => import('./module/NftCarousel.vue'),
 )
 
 const props = defineProps<{

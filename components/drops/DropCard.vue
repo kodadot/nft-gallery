@@ -2,62 +2,36 @@
   <div>
     <div
       v-if="drop.collection && !isLoadingMeta"
-      class="drop-card border border-k-grey hover:border-border-color">
+      class="border border-card-border-color hover:border-border-color bg-background-color group">
       <component
         :is="externalUrl ? 'a' : NuxtLink"
+        class="flex flex-col hover:text-text-color"
         rel="nofollow noopener noreferrer"
-        class="hover:text-text-color"
         :to="`/${dropPrefix}/drops/${drop.alias}`">
+        <img
+          :src="image"
+          :alt="drop.collection.name"
+          class="group-hover:opacity-[0.85] h-[174px] object-cover w-full" />
+
         <div
-          class="drop-card-banner border-k-grey border-b"
-          :style="{ backgroundImage: `url(${image})` }">
-          <section class="h-full flex">
-            <div
-              class="flex justify-between p-6 w-full flex-direction align-items">
-              <div class="avatar">
-                <BasicImage
-                  :src="image"
-                  :alt="drop.collection.name"
-                  custom-class="avatar-image" />
-              </div>
+          class="py-5 px-5 flex flex-col justify-between gap-4 border-t border-card-border-color group-hover:border-border-color">
+          <span class="font-bold is-ellipsis text-xl">{{
+            drop.collection.name
+          }}</span>
 
-              <TimeTag :drop-start-time="drop.dropStartTime" :ended="ended" />
+          <div
+            class="flex items-start md:items-center flex-col md:flex-row justify-between gap-4 md:gap-0">
+            <div class="flex justify-between items-center min-h-[34px]">
+              <TimeTag
+                v-if="drop.dropStartTime || ended"
+                :drop-start-time="drop.dropStartTime"
+                :drop-status="drop.status" />
             </div>
-          </section>
-        </div>
-        <div class="py-5 px-6">
-          <div class="flex justify-between flex-direction column-gap">
-            <div class="flex flex-col column-gap is-ellipsis">
-              <span class="font-bold is-ellipsis">{{
-                drop.collection.name
-              }}</span>
-              <div v-if="drop.collection.issuer" class="flex">
-                <div class="mr-2 text-k-grey">
-                  {{ $t('activity.creator') }}:
-                </div>
-                <nuxt-link
-                  :to="`/${dropPrefix}/u/${drop.collection.issuer}`"
-                  class="text-k-blue hover:text-k-blue-hover">
-                  <IdentityIndex
-                    ref="identity"
-                    :address="drop.collection.issuer"
-                    show-clipboard />
-                </nuxt-link>
-              </div>
-            </div>
-            <div class="flex justify-content-space-between" style="gap: 2rem">
-              <div class="flex flex-col">
-                <div class="text-k-grey">
-                  {{ $t('statsOverview.minted') }}
-                </div>
 
-                <div>{{ drop.minted }}/{{ drop.max }}</div>
-              </div>
-              <div class="flex flex-col">
-                <span class="text-k-grey">{{ $t('price') }}</span>
-                <span v-if="isFreeDrop">{{ $t('free') }}</span>
-                <Money v-else :value="drop.price" :prefix="dropPrefix" inline />
-              </div>
+            <div class="flex gap-2">
+              <span class="text-k-grey">{{ $t('price') }}</span>
+              <span v-if="isFreeDrop">{{ $t('free') }}</span>
+              <Money v-else :value="drop.price" :prefix="dropPrefix" inline />
             </div>
           </div>
         </div>
@@ -74,8 +48,9 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 import type { Metadata } from '@/components/rmrk/service/scheme'
 import TimeTag from './TimeTag.vue'
-import { Drop } from './useDrops'
+import { Drop, DropStatus } from './useDrops'
 import { resolveComponent } from 'vue'
+import { Prefix } from '@kodadot1/static'
 
 const NuxtLink = resolveComponent('NuxtLink')
 
@@ -90,9 +65,9 @@ const props = defineProps<Props>()
 const image = ref('')
 const externalUrl = ref()
 
-const dropPrefix = computed(() => props.drop.chain)
+const dropPrefix = computed(() => props.drop.chain as Prefix)
 const isFreeDrop = computed(() => !Number(props.drop.price))
-const ended = computed(() => props.drop.minted === props.drop.max)
+const ended = computed(() => props.drop.status === DropStatus.MINTING_ENDED)
 
 onMounted(async () => {
   if (!props.drop?.collection) {
@@ -115,62 +90,6 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 @import '@/assets/styles/abstracts/variables';
-
-.flex-direction {
-  @include until(560) {
-    flex-direction: column;
-  }
-}
-.align-items {
-  align-items: flex-end;
-  @include until(560) {
-    align-items: flex-start;
-  }
-}
-
-.drop-card {
-  &:hover {
-    .drop-card-banner {
-      @apply opacity-card-hover-opacity;
-    }
-  }
-  &-banner {
-    height: 17rem;
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
-}
-
-.column-gap {
-  @include until(560) {
-    gap: 1rem;
-  }
-}
-.justify-content-space-between {
-  @include until(460) {
-    justify-content: space-between;
-  }
-}
-
-.avatar {
-  padding: 0.5rem;
-
-  @include ktheme() {
-    border: 1px solid theme('k-shade');
-    background-color: theme('background-color');
-  }
-
-  &-image {
-    display: block;
-    width: 5.5rem;
-    height: 5.5rem;
-    border: 1px solid;
-    @include ktheme() {
-      border: 1px solid theme('k-shade');
-    }
-  }
-}
-// allow text to wrap on mobile
 .is-ellipsis {
   @include mobile {
     white-space: unset;

@@ -1,6 +1,7 @@
 import { CollectionWithMeta } from '../rmrk/service/scheme'
 import {
   type DropMintedStatus,
+  GetDropsQuery,
   getDropById,
   getDropMintedStatus,
   getDropStatus,
@@ -11,6 +12,7 @@ import { chainPropListOf } from '@/utils/config/chain.config'
 import { DropItem } from '@/params/types'
 import { FUTURE_DROP_DATE } from '@/utils/drop'
 import { isProduction } from '@/utils/chain'
+import sortBy from 'lodash/sortBy'
 
 export interface Drop {
   collection: CollectionWithMeta
@@ -21,23 +23,44 @@ export interface Drop {
   dropStartTime: Date
   price: string
   alias: string
+  isMintedOut: boolean
+  status: DropStatus
 }
 
+export enum DropStatus {
+  MINTING_ENDED = 'minting_ended',
+  MINTING_LIVE = 'minting_live',
+  COMING_SOON = 'coming_soon', // live but disabled by backend
+  SCHEDULED_SOON = 'scheduled_soon', // live in < 24h
+  SCHEDULED = 'scheduled', // live in > 24
+  UNSCHEDULED = 'unscheduled',
+}
+
+const DROP_LIST_ORDER = [
+  DropStatus.MINTING_LIVE,
+  DropStatus.SCHEDULED_SOON,
+  DropStatus.SCHEDULED,
+  DropStatus.COMING_SOON,
+  DropStatus.MINTING_ENDED,
+  DropStatus.UNSCHEDULED,
+]
+
+const ONE_DAYH_IN_MS = 24 * 60 * 60 * 1000
 const futureDate = new Date()
 futureDate.setDate(futureDate.getDate() * 7) // i weeks in the future
 
-export function useDrops() {
+export function useDrops(query?: GetDropsQuery) {
   const drops = ref<Drop[]>([])
   const dropsList = ref<DropItem[]>([])
   const count = computed(() => dropsList.value.length)
+  const loaded = ref(false)
 
   onMounted(async () => {
-    dropsList.value = await getDrops()
+    dropsList.value = await getDrops(query)
 
     Promise.all(
       dropsList.value
         .filter((drop) => !isProduction || drop.chain !== 'ahk')
-        .reverse()
         .map((drop) => {
           return new Promise((resolve) => {
             const { result: collectionData } = useQuery(
@@ -59,18 +82,21 @@ export function useDrops() {
           })
         }),
     ).then((dropsDataList) => {
-      drops.value.push(...(dropsDataList as Drop[]))
+      drops.value = sortBy(dropsDataList as Drop[], (drop) =>
+        DROP_LIST_ORDER.indexOf(drop.status),
+      )
+      loaded.value = true
     })
   })
 
-  return { drops, count }
+  return { drops, count, loaded }
 }
 
 const getFormattedDropItem = async (collection, drop: DropItem) => {
   const chainMax = collection?.max ?? FALLBACK_DROP_COLLECTION_MAX
   const { count } = await getDropStatus(drop.alias)
   const price = drop.price || 0
-  return {
+  const newDrop = {
     ...drop,
     collection: collection,
     minted: Math.min(count, chainMax),
@@ -79,7 +105,36 @@ const getFormattedDropItem = async (collection, drop: DropItem) => {
     price,
     isMintedOut: count >= chainMax,
     isFree: !Number(price),
+  } as any
+
+  Object.assign(newDrop, { status: getLocalDropStatus(newDrop) })
+
+  return newDrop
+}
+
+const getLocalDropStatus = (drop: Omit<Drop, 'status'>): DropStatus => {
+  const now = new Date()
+
+  if (drop.minted === drop.max) {
+    return DropStatus.MINTING_ENDED
   }
+
+  if (!drop.dropStartTime) {
+    return DropStatus.UNSCHEDULED
+  }
+
+  if (drop.dropStartTime <= now) {
+    if (drop.disabled) {
+      return DropStatus.COMING_SOON
+    }
+    return DropStatus.MINTING_LIVE
+  }
+
+  if (now.valueOf() - drop.dropStartTime.valueOf() <= ONE_DAYH_IN_MS) {
+    return DropStatus.SCHEDULED_SOON
+  }
+
+  return DropStatus.SCHEDULED
 }
 
 export const getDropDetails = async (alias: string) => {
