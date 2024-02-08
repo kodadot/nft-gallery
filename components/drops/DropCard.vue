@@ -21,11 +21,11 @@
 
           <div
             class="flex items-start md:items-center flex-col md:flex-row justify-between gap-4 md:gap-0">
-            <div class="flex justify-between items-center">
+            <div class="flex justify-between items-center min-h-[34px]">
               <TimeTag
+                v-if="drop.dropStartTime || ended"
                 :drop-start-time="drop.dropStartTime"
-                :disabled="Boolean(drop.disabled)"
-                :ended="ended" />
+                :drop-status="drop.status" />
             </div>
 
             <div class="flex gap-2">
@@ -48,7 +48,7 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 import type { Metadata } from '@/components/rmrk/service/scheme'
 import TimeTag from './TimeTag.vue'
-import { Drop } from './useDrops'
+import { Drop, DropStatus } from './useDrops'
 import { resolveComponent } from 'vue'
 import { Prefix } from '@kodadot1/static'
 
@@ -67,7 +67,7 @@ const externalUrl = ref()
 
 const dropPrefix = computed(() => props.drop.chain as Prefix)
 const isFreeDrop = computed(() => !Number(props.drop.price))
-const ended = computed(() => props.drop.minted === props.drop.max)
+const ended = computed(() => props.drop.status === DropStatus.MINTING_ENDED)
 
 onMounted(async () => {
   if (!props.drop?.collection) {

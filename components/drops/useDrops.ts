@@ -24,8 +24,19 @@ export interface Drop {
   price: string
   alias: string
   isMintedOut: boolean
+  status: DropStatus
 }
 
+export enum DropStatus {
+  MINTING_ENDED = 'minting_ended',
+  MINTING_LIVE = 'minting_live',
+  COMING_SOON = 'coming_soon',
+  SCHEDULED_SOON = 'scheduled_soon',
+  SCHEDULED = 'scheduled',
+  UNSCHEDULED = 'unscheduled',
+}
+
+const ONE_DAYH_IN_MS = 24 * 60 * 60 * 1000
 const futureDate = new Date()
 futureDate.setDate(futureDate.getDate() * 7) // i weeks in the future
 
@@ -74,7 +85,7 @@ const getFormattedDropItem = async (collection, drop: DropItem) => {
   const chainMax = collection?.max ?? FALLBACK_DROP_COLLECTION_MAX
   const { count } = await getDropStatus(drop.alias)
   const price = drop.price || 0
-  return {
+  const newDrop = {
     ...drop,
     collection: collection,
     minted: Math.min(count, chainMax),
@@ -83,7 +94,36 @@ const getFormattedDropItem = async (collection, drop: DropItem) => {
     price,
     isMintedOut: count >= chainMax,
     isFree: !Number(price),
+  } as any
+
+  Object.assign(newDrop, { status: getLocalDropStatus(newDrop) })
+
+  return newDrop
+}
+
+const getLocalDropStatus = (drop: Omit<Drop, 'status'>): DropStatus => {
+  const now = new Date()
+
+  if (drop.minted === drop.max) {
+    return DropStatus.MINTING_ENDED
   }
+
+  if (!drop.dropStartTime) {
+    return DropStatus.UNSCHEDULED
+  }
+
+  if (drop.dropStartTime <= now) {
+    if (drop.disabled) {
+      return DropStatus.COMING_SOON
+    }
+    return DropStatus.MINTING_LIVE
+  }
+
+  if (now.valueOf() - drop.dropStartTime.valueOf() <= ONE_DAYH_IN_MS) {
+    return DropStatus.SCHEDULED_SOON
+  }
+
+  return DropStatus.SCHEDULED
 }
 
 export const getDropDetails = async (alias: string) => {
