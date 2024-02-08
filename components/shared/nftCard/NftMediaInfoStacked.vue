@@ -33,7 +33,7 @@
           variant="text"
           tag="a"
           :v-safe-href="collectionUrl"
-          class="text-xs nft-info-collection-name"
+          class="text-xs text-k-grey hover:text-text-color"
           label="Visit"
           icon="arrow-right" />
       </template>
@@ -42,12 +42,12 @@
         <CollectionDetailsPopover
           v-if="collectionNameLabel"
           :show-delay="collectionPopoverShowDelay"
-          class="text-xs nft-info-collection-name is-ellipsis"
+          class-name="text-xs text-k-grey hover:text-text-color overflow-hidden text-ellipsis whitespace-nowrap"
           :nft="token">
           <template #content>
             <a
               :v-safe-href="`/${prefix}/collection/${token.collection.id}`"
-              class="nft-info-collection-name">
+              class="text-k-grey hover:text-text-color">
               {{ collectionNameLabel }}
             </a>
           </template>

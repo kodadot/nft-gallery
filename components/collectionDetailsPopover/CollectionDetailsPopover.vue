@@ -2,7 +2,7 @@
   <tippy
     :append-to="body"
     placement="bottom"
-    class="hidden md:block"
+    :class="['hidden md:block', className]"
     :delay="[showDelay, hideDelay]"
     data-testid="identity"
     @show="triggered = true">
@@ -37,10 +37,12 @@ withDefaults(
     nft: CarouselNFT
     showDelay?: number
     hideDelay?: number
+    className?: string
   }>(),
   {
     showDelay: 0,
     hideDelay: 0,
+    className: '',
   },
 )
 </script>
