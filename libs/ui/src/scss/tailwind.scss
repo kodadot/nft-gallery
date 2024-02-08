@@ -11,7 +11,7 @@
   }
 
   :root,
-  :root .light-mode {
+  :root .light {
     --text-color: 0 0 0;
     --text-color-inverse: var(--white);
     --border-color: var(--black);
@@ -64,7 +64,7 @@
     --toggle-active-switch: #d9d9d9;
   }
 
-  .dark-mode {
+  .dark {
     --black: #191718;
     --text-color: 255 255 255;
     --text-color-inverse: var(--black);

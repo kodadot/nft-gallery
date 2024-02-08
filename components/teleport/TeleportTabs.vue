@@ -52,7 +52,7 @@ const emit = defineEmits(['select'])
   }
 }
 
-.dark-mode .teleport-tabs-button.active img {
+.dark .teleport-tabs-button.active img {
   filter: brightness(0%);
 }
 </style>

@@ -23,7 +23,7 @@
         :image="imagePreview"
         data-testid="create-nft-preview-box" />
 
-      <h1 class="title is-size-3 mb-7">
+      <h1 class="title text-3xl mb-7">
         {{ $t('mint.nft.create') }}
       </h1>
 
@@ -228,7 +228,7 @@
         expanded
         :label="$t('mint.nft.create')"
         data-testid="create-nft-button-new"
-        class="is-size-6"
+        class="text-base"
         native-type="submit"
         size="medium"
         :loading="isLoading" />

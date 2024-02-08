@@ -51,7 +51,7 @@
         </NeoCheckbox>
       </NeoField>
     </div>
-    <div v-else class="p-4 is-size-6 text-k-grey">
+    <div v-else class="p-4 text-base text-k-grey">
       {{ $t('general.noPopularCollections') }}
     </div>
   </NeoCollapse>

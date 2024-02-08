@@ -1,10 +1,10 @@
 <template>
-  <div class="popover-header pb-2">
-    <h6 class="popover-user-heading">{{ $t('user') }}</h6>
+  <div class="pb-2 border-b border-k-grey">
+    <h6 class="text-xs text-k-grey">{{ $t('user') }}</h6>
     <div class="flex items-center justify-between">
       <div class="flex items-center">
         <nuxt-link
-          class="is-size-6 break-word mr-2 text-k-blue hover:text-k-blue-hover"
+          class="text-base break-words mr-2 text-k-blue hover:text-k-blue-hover"
           :to="`/${urlPrefix}/u/${address}`">
           <span data-testid="identity-display">
             {{ identity?.display || shortenedAddress }}</span
@@ -42,27 +42,3 @@ const identity = inject<{ [x: string]: string }>('identity')
 const { urlPrefix } = usePrefix()
 const { toast } = useToast()
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.popover-image {
-  min-width: 60px;
-}
-
-.break-word {
-  overflow-wrap: break-word;
-}
-
-.popover-header {
-  @apply border-b border-k-grey;
-
-  .popover-user-heading {
-    font-size: 12px;
-
-    @include ktheme() {
-      color: theme('k-grey');
-    }
-  }
-}
-</style>

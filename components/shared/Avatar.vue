@@ -5,7 +5,7 @@
     theme="polkadot"
     :value="value"
     data-testid="avatar-identity-icon"
-    class="avatar rounded-full" />
+    class="border border-border-color rounded-full" />
 </template>
 
 <script lang="ts" setup>
@@ -22,13 +22,3 @@ withDefaults(
   },
 )
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/abstracts/variables';
-
-.avatar {
-  @include ktheme() {
-    border: 1px solid theme('border-color');
-  }
-}
-</style>
