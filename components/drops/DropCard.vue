@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="drop.collection && !isLoadingMeta"
-      class="border border-card-border-color hover:border-border-color bg-background-color">
+      class="border border-card-border-color hover:border-border-color bg-background-color group">
       <component
         :is="externalUrl ? 'a' : NuxtLink"
         class="flex flex-col hover:text-text-color"
@@ -11,10 +11,10 @@
         <img
           :src="image"
           :alt="drop.collection.name"
-          class="hover:opacity-[0.85] hover:border-border-color h-[174px] object-cover w-full" />
+          class="group-hover:opacity-[0.85] h-[174px] object-cover w-full" />
 
         <div
-          class="py-5 px-5 flex flex-col justify-between gap-4 border-t border-card-border-color hover:border-border-color">
+          class="py-5 px-5 flex flex-col justify-between gap-4 border-t border-card-border-color group-hover:border-border-color">
           <span class="font-bold is-ellipsis text-xl">{{
             drop.collection.name
           }}</span>
