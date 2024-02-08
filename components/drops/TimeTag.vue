@@ -46,7 +46,7 @@ const displayText = computed(() => {
       return $i18n.t('drops.comingSoon')
     case DropStatus.MINTING_LIVE:
       return $i18n.t('drops.mintingLive')
-    case DropStatus.SCHEDULED_SOON:
+    case DropStatus.SCHEDULED_SOON: {
       const duration = intervalToDuration({
         start: props.dropStartTime as Date,
         end: now.value,
@@ -54,7 +54,8 @@ const displayText = computed(() => {
       return formatDuration(duration, {
         format: ['hours', 'minutes'],
       })
-    case DropStatus.SCHEDULED:
+    }
+    case DropStatus.SCHEDULED: {
       const options = {
         day: '2-digit',
         month: '2-digit',
@@ -63,6 +64,7 @@ const displayText = computed(() => {
         hour12: false,
       } as any
       return (props.dropStartTime as Date).toLocaleString($i18n.locale, options)
+    }
     case DropStatus.UNSCHEDULED:
       return
     default:
