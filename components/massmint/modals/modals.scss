@@ -1,5 +1,3 @@
-@import '@/assets/styles/abstracts/variables';
-
 .border-grey {
     @include ktheme() {
         border-color: theme('k-shade')
