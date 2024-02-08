@@ -1,8 +1,9 @@
 <template>
   <NeoLoading v-model:active="isLoading" is-full-page :can-cancel="canCancel">
-    <div class="loading-container">
+    <div
+      class="backdrop-blur-[20px] w-[300px] min-h-[350px] mx-4 my-0 px-4 py-6 bg-background-color border border-border-color shadow-primary">
       <figure>
-        <img class="loading-icon" :src="placeholder" />
+        <img class="border-b border-k-shade" :src="placeholder" />
         <figcaption
           v-if="status"
           class="max-w-[200px] mx-auto my-0 text-center relative">
@@ -15,11 +16,11 @@
       <div
         v-if="randomFunFactHeading && randomFunFactQuestion"
         class="funfact-text">
-        <div class="funfact-heading">
+        <div class="text-xl leading-10 text-text-color">
           {{ randomFunFactHeading }}
         </div>
         <div>
-          <div class="question">{{ randomFunFactQuestion }}</div>
+          <div class="min-h-[70px] text-base">{{ randomFunFactQuestion }}</div>
         </div>
       </div>
     </div>
@@ -85,39 +86,3 @@ onBeforeMount(() => {
   clearInterval(interval.value)
 })
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-
-.loading-container {
-  padding: 24px 16px;
-  background: $white;
-  backdrop-filter: $frosted-glass-backdrop-filter;
-  margin: 0rem 1rem;
-  width: 300px;
-  min-height: 350px;
-
-  @include ktheme() {
-    box-shadow: theme('primary-shadow');
-    border: 1px solid theme('border-color');
-    background: theme('background-color');
-  }
-}
-
-.funfact-heading {
-  font-size: 20px;
-  line-height: 2.5rem;
-  @include ktheme() {
-    color: theme('text-color');
-  }
-}
-
-.question {
-  min-height: 70px;
-  font-size: 16px;
-}
-
-.loading-icon {
-  @apply border-b border-k-shade;
-}
-</style>

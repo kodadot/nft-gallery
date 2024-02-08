@@ -165,12 +165,14 @@ export interface Collection {
   blockNumber?: number
 }
 
+export type CollectionFloorPrice = { floorPrice: { price: string }[] }
+
 export interface NFT extends ItemResources {
   events: Interaction[]
   name: string
   instance: string
   transferable: number
-  collection: EntityWithId & { floorPrice: { price: string }[] }
+  collection: EntityWithId & CollectionFloorPrice
   collectionId?: string
   sn: string
   _id: string

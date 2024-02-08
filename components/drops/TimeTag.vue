@@ -25,6 +25,7 @@ const now = useNow()
 const props = defineProps<{
   dropStartTime: Date
   ended: boolean
+  disabled: boolean
 }>()
 
 const showIcon = computed(() => !props.ended && isMintingLive.value)
@@ -39,7 +40,7 @@ const displayText = computed(() => {
   if (props.ended) {
     return $i18n.t('drops.mintingEnded')
   } else if (isMintingLive.value) {
-    return $i18n.t('drops.mintingLive')
+    return $i18n.t(props.disabled ? 'drops.comingSoon' : 'drops.mintingLive')
   } else if (isLessThan24Hours.value) {
     const duration = intervalToDuration({
       start: props.dropStartTime,

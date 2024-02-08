@@ -22,7 +22,10 @@
           <div
             class="flex items-start md:items-center flex-col md:flex-row justify-between gap-4 md:gap-0">
             <div class="flex justify-between items-center">
-              <TimeTag :drop-start-time="drop.dropStartTime" :ended="ended" />
+              <TimeTag
+                :drop-start-time="drop.dropStartTime"
+                :disabled="Boolean(drop.disabled)"
+                :ended="ended" />
             </div>
 
             <div class="flex gap-2">
