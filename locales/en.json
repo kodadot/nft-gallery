@@ -57,6 +57,8 @@
   "confirmed": "Confirmed",
   "creative": "Creative",
   "multipleNFTS": "Multiple NFT's",
+  "viewNft": "View NFT | View NFTs",
+  "listNft": "List NFT | List NFTs",
   "about": "About",
   "blog": "Blog",
   "ambassador program": "Ambassador Program",
@@ -94,6 +96,7 @@
   "incomplete": "Incomplete",
   "description": "Description",
   "showLess": "Show Less",
+  "showAll": "Show All",
   "dropUpload": "Drop your file here or click to select.",
   "chainSelect": "Select Chain ({0})",
   "success": "Success",
@@ -1056,6 +1059,8 @@
   "sharing": {
     "collection": "Check out this awesome Collection on KodaDot",
     "nft": "Check out this awesome NFT on KodaDot",
+    "boughtNft": "Check out this awesome NFT I bought on KodaDot",
+    "boughtNfts": "Check out these awesome NFTs I bought on KodaDot:\n {0}",
     "nftWithArtist": "Check out this awesome NFT on {'@'}KodaDot from {'@'}{0}",
     "pack": "Check out this awesome Pack on KodaDot",
     "profile": "Check out this awesome Profile on KodaDot"
@@ -1434,6 +1439,7 @@
     "noUpcoming": "Nothing  here yet...",
     "mintingLive": "Minting Live",
     "mintingEnded": "Ended",
+    "comingSoon": "Coming Soon",
     "mintedBy": "Minted By",
     "mintPerAddress": "Each address can mint only once",
     "recentMints": "Recent NFT Mints",
@@ -1716,6 +1722,8 @@
   "buyModal": {
     "nftPriceUpdated": "NFT {0} price updated",
     "nftNotListedAnymore": "NFT {0} is not listed anymore",
-    "buyingNft": "Buying NFT | Buying NFTs"
+    "buyingNft": "Buying NFT | Buying NFTs",
+    "purchaseSuccessful": "Purchase successful",
+    "amountPurchaseSuccessfully": "{0} NFTs purchased successfully"
   }
 }

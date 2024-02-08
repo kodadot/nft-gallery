@@ -34,23 +34,33 @@ export function useDrops() {
   onMounted(async () => {
     dropsList.value = await getDrops()
 
-    dropsList.value
-      .filter((drop) => !isProduction || drop.chain !== 'ahk')
-      .forEach((drop) => {
-        const { result: collectionData } = useQuery(
-          unlockableCollectionById,
-          { id: drop.collection },
-          { clientId: drop.chain },
-        )
+    Promise.all(
+      dropsList.value
+        .filter((drop) => !isProduction || drop.chain !== 'ahk')
+        .reverse()
+        .map((drop) => {
+          return new Promise((resolve) => {
+            const { result: collectionData } = useQuery(
+              unlockableCollectionById,
+              { id: drop.collection },
+              { clientId: drop.chain },
+            )
 
-        watchEffect(async () => {
-          if (collectionData.value?.collectionEntity) {
-            const { collectionEntity } = collectionData.value
-            const newDrop = await getFormattedDropItem(collectionEntity, drop)
-            drops.value.push(newDrop)
-          }
-        })
-      })
+            watchEffect(async () => {
+              if (collectionData.value?.collectionEntity) {
+                const { collectionEntity } = collectionData.value
+                const newDrop = await getFormattedDropItem(
+                  collectionEntity,
+                  drop,
+                )
+                resolve(newDrop)
+              }
+            })
+          })
+        }),
+    ).then((dropsDataList) => {
+      drops.value.push(...(dropsDataList as Drop[]))
+    })
   })
 
   return { drops, count }

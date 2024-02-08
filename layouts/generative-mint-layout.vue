@@ -4,7 +4,7 @@
     <main class="flex-grow">
       <section class="hero is-medium is-link">
         <div class="hero-body">
-          <h1 class="subtitle text-center font-bold is-size-3">
+          <h1 class="subtitle text-center font-bold text-3xl">
             Mint Your {{ NAME }} Waifu
           </h1>
         </div>
