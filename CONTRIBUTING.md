@@ -25,6 +25,25 @@ Before you being:
 - Read up on our [tech stack](https://medium.com/kodadot/the-tech-stack-at-kodadot-8a83880f8624) to get a better picture of the infrastructure we rely on
 - Familiarise yourself with our [contributor culture](https://medium.com/kodadot/contributor-culture-at-kodadot-665243d3d6a6) to better understand the dynamics by which we operate
 
+## Codespaces
+
+
+- For an instant setup of the development environment, please follow the instructions provided below. If you’re setting up for the first time and need a detailed guide, you can refer to our First-Time Setup Guide [first-time setup](https://github.com/kodadot/nft-gallery/blob/main/content/blog/first-time.md)
+
+- Click on the button below:
+
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/kodadot/nft-gallery)
+
+
+- Copy and paste these commands to your terminal: (It will install all dependencies and start the server.)
+
+```
+pnpm i;
+pnpm dev
+```
+
+KodaDot will be available at **[localhost:9090](http://localhost:9090).**
+
 Recommended VSCode Extensions:
 
 - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
