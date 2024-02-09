@@ -77,10 +77,10 @@ export const isRangeSyntax = (text: string): boolean => {
   return regex.test(text)
 }
 
-export function between(
+export function betweenMinMax(
   x: number,
-  min: string | number,
-  max: string | number = Infinity,
+  min: number,
+  max: number = Infinity,
 ): boolean {
   return x >= min && x <= max
 }
@@ -137,7 +137,9 @@ export function processRangeSyntax(
 ): MassMintNFT[] {
   const ranges = getRange(parsed)
   return massMints.map((item, index) => {
-    const range = ranges.find(([min, max]) => between(index + 1, min, max))
+    const range = ranges.find(([min, max]) =>
+      betweenMinMax(index + 1, min, max),
+    )
     if (range) {
       const key = fromRange(...range)
       const parsedItem = parsed[key]
