@@ -99,7 +99,6 @@ const getFormattedDropItem = async (collection, drop: DropItem) => {
   const newDrop = {
     ...drop,
     collection: collection,
-    minted: Math.min(count, chainMax),
     max: chainMax,
     dropStartTime: count >= 5 ? Date.now() - 1e10 : FUTURE_DROP_DATE, // this is a bad hack to make the drop appear as "live" in the UI
     price,
