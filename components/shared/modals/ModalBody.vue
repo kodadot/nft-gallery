@@ -1,5 +1,5 @@
 <template>
-  <div :class="`w-[unset] md:v-[${modalWidth}] md:max-w-[${modalMaxWidth}]`">
+  <div :class="`w-[unset] md:w-[${modalWidth}] md:max-w-[${modalMaxWidth}]`">
     <header class="px-6 py-4 flex justify-between border-b items-center">
       <NeoSkeleton
         v-if="loading"
