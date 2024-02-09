@@ -72,7 +72,7 @@ const buttonMint = computed<{
 
   return {
     label: props.mintButton.label,
-    disabled: props.mintButton.disabled,
+    disabled: props.mintButton.disabled || loading.value,
   }
 })
 

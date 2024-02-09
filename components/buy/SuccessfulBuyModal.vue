@@ -21,7 +21,7 @@
             'max-h-[390px] overflow-y-auto': expanded,
           }">
           <div
-            v-for="item in items"
+            v-for="item in displayItems"
             :key="item.id"
             class="flex flex-row items-center gap-3">
             <BaseMediaItem
@@ -66,7 +66,7 @@
 <script setup lang="ts">
 import { ShoppingCartItem } from '@/components/common/shoppingCart/types'
 
-const COLLAPSED_ITEMS_COUNT = 6
+const COLLAPSED_ITEMS_COUNT = 5
 
 defineEmits(['modelValue'])
 const props = defineProps<{
@@ -91,6 +91,12 @@ const singleBuy = computed(() => props.items.length === 1)
 const firsItem = computed(() => props.items[0])
 const moreItems = computed(() => props.items.length - COLLAPSED_ITEMS_COUNT)
 const showMore = computed(() => props.items.length > COLLAPSED_ITEMS_COUNT)
+const displayItems = computed(() =>
+  props.items.slice(
+    0,
+    showMore.value && !expanded.value ? COLLAPSED_ITEMS_COUNT : undefined,
+  ),
+)
 
 const shareText = computed(() => {
   if (singleBuy.value) {
