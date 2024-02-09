@@ -168,4 +168,6 @@ watch(
   },
   { immediate: true },
 )
+
+defineExpose({ focusInput })
 </script>

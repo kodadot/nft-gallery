@@ -5,7 +5,7 @@ html {
   background-color: $white;
   // code mardkown style
   @include meta.load-css('prism-themes/themes/prism-one-light.css');
-  &.dark-mode {
+  &.dark {
     background-color: $scheme-main;
     // code mardkown style
     @include meta.load-css('prism-themes/themes/prism-one-dark.css');
