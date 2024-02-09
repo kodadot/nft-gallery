@@ -22,7 +22,7 @@ $modal-overlay-background-color: rgb(0 0 0 / 0.17);
 
         .modal-width,
         &.modal-width {
-          @apply w-[unset];
+          @apply w-[unset] md:w-[25rem];
         }
       }
     }
