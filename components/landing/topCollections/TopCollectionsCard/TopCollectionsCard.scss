@@ -1,0 +1,37 @@
+@import '@/assets/styles/abstracts/variables';
+
+.top-collection-card , .top-collection-card-skeleton {
+  
+  &--primary > * > &-banner {
+    @apply h-[142px];
+  }
+
+  &--primary > * > &-info {
+    @apply py-4 px-5;
+
+    .collection-name {
+      @apply text-xs md:text-base;
+    }
+
+    .info-fields {
+      @apply flex justify-between;
+    }
+  }
+
+  &--secondary > * > &-banner {
+    @apply h-[112px];
+  }
+
+  &--secondary > * > &-info {
+    @apply py-3 px-4;
+
+    .info-fields {
+      .info-volume {
+        @apply hidden;
+      }
+      > * {
+        @apply flex justify-between text-xs;
+      }
+    }
+  }
+}
