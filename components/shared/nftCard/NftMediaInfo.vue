@@ -12,12 +12,12 @@
       <CollectionDetailsPopover
         v-if="!isMinimal && (nft.collection.name || nft.collection.id)"
         :show-delay="collectionPopoverShowDelay"
-        class="text-xs nft-info-collection-name is-ellipsis"
+        class="text-xs text-k-grey hover:text-text-color is-ellipsis"
         :nft="nft">
         <template #content>
           <a
             :v-safe-href="`/${prefix}/collection/${nft.collection.id}`"
-            class="nft-info-collection-name">
+            class="text-k-grey hover:text-text-color">
             {{ nft.collection.name || '--' }}
           </a>
         </template>

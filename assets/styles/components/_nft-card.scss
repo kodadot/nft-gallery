@@ -84,12 +84,3 @@
     line-height: 1.5rem;
   }
 }
-
-.nft-info-collection-name {
-  @include ktheme() {
-    color: theme('k-grey');
-    &:hover {
-      color: theme('text-color');
-    }
-  }
-}
