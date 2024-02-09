@@ -4,7 +4,7 @@ KodaDot is committed to resolving security vulnerabilities in our software quick
 
 ## Reporting a Vulnerability
 
-Security vulnerabilities in KodaDot software should be reported by [telegram to https://t.me/yangwao](https://t.me/yangwao) or [Create bug issue](https://github.com/kodadot/nft-gallery/issues/new?assignees=&labels=bug&template=bug.yml&title=Be+descriptive+and+short) and strip out critical details and post to our [KodaDot Ecosystem Telegram](https://t.me/kodadot_eco). 
+Security vulnerabilities in KodaDot software should be reported by [telegram to @yangwao](https://t.me/yangwao) or [Create bug issue](https://github.com/kodadot/nft-gallery/issues/new?assignees=&labels=bug&template=bug.yml&title=Be+descriptive+and+short) and strip out critical details and post to our [KodaDot Ecosystem Telegram](https://t.me/kodadot_eco). 
 
 ## Your report should include the following:
 
