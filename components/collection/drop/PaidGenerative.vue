@@ -53,7 +53,6 @@
     @confirm="handleConfirmPaidMint"
     @close="closeMintModal"
     @list="handleList" />
-
   <ListingCartModal />
 </template>
 
@@ -137,7 +136,7 @@ const isImageFetching = ref(false)
 const isMintModalActive = ref(false)
 const isRaffleModalActive = ref(false)
 const raffleEmail = ref('')
-const raffleId = ref('')
+const raffleId = ref()
 const imageHash = ref('')
 
 const {
@@ -219,6 +218,10 @@ const {
 const maxMintLimitForCurrentUser = computed(() => maxCount.value)
 
 const mintButtonLabel = computed(() => {
+  if (isLoading.value) {
+    return $i18n.t('loader.ipfs')
+  }
+
   return isWalletConnecting.value
     ? $i18n.t('shoppingCart.wallet')
     : $i18n.t('drops.mintForPaid', [
@@ -229,6 +232,7 @@ const mintButtonLabel = computed(() => {
 })
 const mintButtonDisabled = computed<boolean>(
   () =>
+    isLoading.value ||
     !mintCountAvailable.value ||
     Boolean(disabledByBackend.value) ||
     (isLogIn.value &&
@@ -302,8 +306,22 @@ const allocateRaffle = async () => {
     image: selectedImage.value,
     metadata: metadata,
   }
-  const response = await allocateCollection(body, props.drop.id)
-  raffleId.value = response.result.id
+
+  // claim previous ID first. else, allocate new raffle
+  if (
+    currentAccountMintedToken.value?.id &&
+    !currentAccountMintedToken.value?.claimed
+  ) {
+    body.email = currentAccountMintedToken.value?.email || body.email
+    body.hash = currentAccountMintedToken.value?.hash || body.hash
+    body.image = currentAccountMintedToken.value?.image || body.image
+    body.metadata = currentAccountMintedToken.value?.metadata || body.metadata
+    raffleId.value = currentAccountMintedToken.value?.id || mintedCount.value
+  } else {
+    const response = await allocateCollection(body, props.drop.id)
+    raffleId.value = response.result.id
+  }
+
   isLoading.value = false
 }
 
@@ -321,7 +339,13 @@ const handleSubmitMint = async () => {
     return false
   }
 
-  isRaffleModalActive.value = true
+  // skip raffle modal at the moment. generate random email instead
+  // isRaffleModalActive.value = true
+  const crypto = window.crypto
+  const array = new Uint32Array(1)
+  raffleEmail.value = `${crypto.getRandomValues(array).toString()}@example.com`
+  await allocateRaffle()
+  openMintModal()
 }
 
 const submitRaffle = async () => {
