@@ -225,7 +225,7 @@ withDefaults(
 
 const mintedCollectionInfo = ref<MintedCollectionInfo>()
 const collectionSubscription = ref(() => {})
-const displaySuccessModal = ref(true)
+const displaySuccessModal = ref(false)
 
 // composables
 const { transaction, status, isLoading, isError, blockNumber, txHash } =
