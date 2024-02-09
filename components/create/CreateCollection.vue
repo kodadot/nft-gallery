@@ -168,6 +168,10 @@
         </p>
       </div>
     </form>
+    <CreateModalsCollectionSuccessModal
+      v-model="displaySuccessModal"
+      :tx-hash="txHash"
+      :collection="mintedCollectionInfo" />
   </div>
 </template>
 
@@ -198,6 +202,15 @@ import {
 import { makeSymbol } from '@kodadot1/minimark/shared'
 import { Interaction } from '@kodadot1/minimark/v1'
 
+export type MintedCollectionInfo = {
+  id: string
+  name: string
+  meta: {
+    image: string
+    description: string
+  }
+}
+
 // props
 withDefaults(
   defineProps<{
@@ -208,8 +221,14 @@ withDefaults(
   },
 )
 
+//refs
+
+const mintedCollectionInfo = ref<MintedCollectionInfo>()
+const collectionSubscription = ref(() => {})
+const displaySuccessModal = ref(true)
+
 // composables
-const { transaction, status, isLoading, isError, blockNumber } =
+const { transaction, status, isLoading, isError, blockNumber, txHash } =
   useTransaction()
 const { urlPrefix, setUrlPrefix } = usePrefix()
 const { $consola, $i18n } = useNuxtApp()
@@ -330,13 +349,62 @@ const handleCreateCollectionConfirmation = async ({
 const createCollection = async () => {
   try {
     isLoading.value = true
-
     await transaction(mintCollectionAction.value, currentChain.value)
   } catch (error) {
     showNotification(`[ERR] ${error}`, notificationTypes.warn)
     $consola.error(error)
   }
 }
+
+const isTransactionCompleted = computed(
+  () => Boolean(txHash.value) && !isLoading.value,
+)
+
+watch(isTransactionCompleted, () => {
+  if (isTransactionCompleted.value) {
+    subscribeToCollectionInfo()
+  }
+})
+
+const subscribeToCollectionInfo = () => {
+  const query = `  collectionEntities(
+    orderBy: blockNumber_DESC,
+    limit: 1,
+    where: {
+        issuer_eq: "${accountId.value}",
+        burned_eq: false
+        }
+    ) {
+    id
+    name
+    meta {
+      image
+      description
+    }
+    }`
+
+  collectionSubscription.value = useSubscriptionGraphql({
+    query,
+    onChange: ({ data }) => {
+      if (data.collectionEntities) {
+        // wait for collection info to match
+        if (
+          data.collectionEntities[0].name == name.value &&
+          data.collectionEntities[0].meta.description == description.value
+        ) {
+          mintedCollectionInfo.value = data.collectionEntities[0]
+          // show success modal
+          displaySuccessModal.value = true
+
+          //unsubscribe
+          collectionSubscription.value()
+        }
+      }
+    },
+  })
+}
+
+onBeforeUnmount(collectionSubscription.value)
 
 // autoteleport
 const actions = computed<AutoTeleportAction[]>(() => [
