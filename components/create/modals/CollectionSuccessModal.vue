@@ -89,7 +89,6 @@ const handleAddNfts = () => {
 <style scoped lang="scss">
 @import '@/assets/styles/abstracts/variables';
 .collection-avatar {
-  // @apply shadow-primary;
   @apply bg-background-color;
 }
 
