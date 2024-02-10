@@ -40,6 +40,10 @@ import {
 import { ApiPromise } from '@polkadot/api'
 import { isActionValid } from './transaction/utils'
 
+export type TransactionOptions = {
+  disableNSuccessNotification?: boolean
+}
+
 const resolveLargeSuccessNotification = (
   block: string,
   objectMessage: ObjectMessage,
@@ -70,7 +74,7 @@ export const resolveSuccessMessage = (
   return successMessage || 'Success!'
 }
 
-const useExecuteTransaction = () => {
+const useExecuteTransaction = (options: TransactionOptions) => {
   const { accountId } = useAuth()
   const error = ref(false)
   const {
@@ -97,6 +101,9 @@ const useExecuteTransaction = () => {
     }: HowAboutToExecuteOnSuccessParam) => {
       blockNumber.value = block
       txHash.value = hash
+      if (options.disableNSuccessNotification) {
+        return
+      }
 
       const isObject = typeof successMessage === 'object'
       if (isObject && successMessage.large) {
@@ -199,7 +206,9 @@ export const executeAction = ({
   return map[item.interaction]?.() ?? 'UNKNOWN'
 }
 
-export const useTransaction = () => {
+export const useTransaction = (
+  options: TransactionOptions = { disableNSuccessNotification: false },
+) => {
   const { apiInstance, apiInstanceByPrefix } = useApi()
   const {
     isLoading,
@@ -208,7 +217,7 @@ export const useTransaction = () => {
     blockNumber,
     txHash,
     isError,
-  } = useExecuteTransaction()
+  } = useExecuteTransaction(options)
 
   const transaction = async (item: Actions, prefix = '') => {
     let api = await apiInstance.value
