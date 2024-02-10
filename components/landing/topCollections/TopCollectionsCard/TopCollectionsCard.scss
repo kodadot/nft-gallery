@@ -1,36 +1,36 @@
 @import '@/assets/styles/abstracts/variables';
 
 .top-collection-card , .top-collection-card-skeleton {
-  
-  &--primary > * > &-banner {
-    @apply h-[142px];
+
+   &-banner {
+    @apply h-[112px] md:h-[142px] flex items-center justify-center;
+
+    &-avatar {
+      &-container {
+        @apply border border-card-border-color w-16 h-16 overflow-hidden;
+      }
+      &-inner {
+        @apply border-[6px] h-full border-text-color-inverse;
+      }
+    }
   }
 
-  &--primary > * > &-info {
+   &-info {
     @apply py-4 px-5;
 
     .collection-name {
-      @apply text-xs md:text-base;
+      @apply text-base;
     }
 
     .info-fields {
-      @apply flex justify-between;
-    }
-  }
+      @apply mt-2 flex flex-col justify-between md:flex-row;
 
-  &--secondary > * > &-banner {
-    @apply h-[112px];
-  }
-
-  &--secondary > * > &-info {
-    @apply py-3 px-4;
-
-    .info-fields {
-      .info-volume {
-        @apply hidden;
+      > div {
+        @apply flex flex-row justify-between items-center md:flex-col md:items-start;
       }
-      > * {
-        @apply flex justify-between text-xs;
+
+      > :nth-child(2) {
+        @apply md:items-end items-center ;
       }
     }
   }

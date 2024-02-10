@@ -20,54 +20,22 @@
       </div>
     </div>
 
-    <div class="top-collections-grid my-5">
-      <template v-if="loading">
-        <div
-          v-for="index in limit"
-          :key="index"
-          class="top-collections-item py-2 flex items-center justify-between">
-          <div class="flex items-center">
-            <div class="p-4 font-bold">
-              {{ index }}
-            </div>
-            <div>
-              <BasicImage custom-class="is-48x48 image-outline" rounded />
-            </div>
-          </div>
-          <div class="px-2" style="width: 60%">
-            <NeoSkeleton width="70%" />
-            <NeoSkeleton width="20%" size="small" />
-          </div>
-          <div class="is-pulled-right text-right px-4" style="width: 20%">
-            <NeoSkeleton width="80%" position="right" />
-            <NeoSkeleton width="70%" size="small" position="right" />
-          </div>
-        </div>
-      </template>
-
-      <div v-for="(collection, index) in data" v-else :key="collection.id">
-        <TopCollectionsItem
-          :collection="collection"
-          :index="index + 1"
-          :time-range="state.timeRange" />
-      </div>
-    </div>
-
-    <nuxt-link v-show="urlPrefix === 'rmrk'" to="/series-insight" class="link">
-      {{ $t('helper.seeMore') }} >
-    </nuxt-link>
+    <TopCollectionsGrid
+      :collections="data"
+      :time-range="state.timeRange"
+      :loading="loading"
+      class="mt-5 md:mt-0"
+      :skeleton-count="limit" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { TimeRange, TimeRangeOption } from '@/components/series/types'
-import BasicImage from '@/components/shared/view/BasicImage.vue'
-import { NeoButton, NeoSkeleton } from '@kodadot1/brick'
-import TopCollectionsItem from './TopCollectionsItem.vue'
+import { NeoButton } from '@kodadot1/brick'
+import TopCollectionsGrid from './TopCollectionsGrid.vue'
 import { useTopCollections } from './utils/useTopCollections'
 import { useFiatStore } from '@/stores/fiat'
 
-const { urlPrefix } = usePrefix()
 const fiatStore = useFiatStore()
 
 const limit = 12

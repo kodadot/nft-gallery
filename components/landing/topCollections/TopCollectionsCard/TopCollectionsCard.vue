@@ -1,32 +1,29 @@
 <template>
   <div
-    class="top-collection-card w-full border border-card-border-color hover:border-border-color bg-background-color"
-    :class="`top-collection-card--${variant}`">
+    class="top-collection-card w-full border border-card-border-color hover:border-border-color bg-background-color">
     <nuxt-link
       class="flex flex-col hover:text-text-color"
       rel="nofollow noopener noreferrer"
       :to="`/${urlPrefix}/collection/${collection.id}`">
       <div
-        class="top-collection-card-banner flex items-center justify-center"
+        class="top-collection-card-banner"
         :style="{ backgroundImage: `url(${collection.image})` }">
-        <div class="border border-card-border-color w-16 h-16">
+        <div class="top-collection-card-banner-avatar-container">
           <BasicImage
-            custom-class="border-[6px] border-text-color-inverse [&>img]:border [&>img]:border-card-border-color"
+            custom-class="top-collection-card-banner-avatar-inner [&>img]:border [&>img]:border-card-border-color !p-0"
             :src="collection.image || placeholder" />
         </div>
       </div>
 
       <div class="top-collection-card-info border-t border-card-border-color">
         <p
-          class="collection-name font-bold text-base whitespace-nowrap text-center">
+          class="collection-name font-bold text-base whitespace-nowrap text-center truncate">
           {{ collection.name }}
         </p>
 
-        <div class="info-fields mt-2">
-          <div
-            v-if="collection.floorPrice || collection.floor"
-            class="info-floor">
-            <p class="capitalize text-k-grey">
+        <div class="info-fields">
+          <div v-if="collection.floorPrice || collection.floor">
+            <p class="capitalize text-k-grey text-xs">
               {{ $t('price') }}
             </p>
 
@@ -42,8 +39,8 @@
             </div>
           </div>
 
-          <div class="info-volume">
-            <p class="capitalize text-k-grey text-end">
+          <div>
+            <p class="capitalize text-k-grey text-end text-xs">
               {{ $t('volume') }}
             </p>
             <div class="flex gap-2 items-center">
@@ -60,16 +57,10 @@
 import { TimeRange } from '~/components/series/types'
 import { CollectionEntityWithVolumes } from '../utils/types'
 
-const props = withDefaults(
-  defineProps<{
-    collection: CollectionEntityWithVolumes
-    timeRange?: TimeRange
-    variant: 'primary' | 'secondary'
-  }>(),
-  {
-    variant: 'primary',
-  },
-)
+const props = defineProps<{
+  collection: CollectionEntityWithVolumes
+  timeRange?: TimeRange
+}>()
 
 const { placeholder } = useTheme()
 const { urlPrefix } = usePrefix()

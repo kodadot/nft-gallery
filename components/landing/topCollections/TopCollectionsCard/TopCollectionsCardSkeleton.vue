@@ -1,29 +1,43 @@
 <template>
-  <div
-    :class="`border border-border-color top-collection-card-skeleton-${variant}`">
-    <div class="top-collection-card-skeleton-banner">
-      <NeoSkeleton no-margin :rounded="false" height="150px" />
+  <div class="top-collection-card-skeleton border border-border-color">
+    <div class="top-collection-card-skeleton-banner relative">
+      <NeoSkeleton no-margin :rounded="false" full-size />
+
+      <div class="top-collection-card-banner-avatar-container">
+        <div class="top-collection-card-banner-avatar-inner relative">
+          <NeoSkeleton
+            no-margin
+            :rounded="false"
+            full-size
+            class="border border-card-border-color" />
+        </div>
+      </div>
     </div>
 
-    <div class="py-5 px-5 flex flex-col items-start gap-4">
-      <div class="w-52">
-        <NeoSkeleton no-margin class="w-full" :rounded="false" height="28" />
+    <div class="top-collection-card-skeleton-info">
+      <div class="flex justify-center">
+        <div class="relative w-40 h-6">
+          <NeoSkeleton no-margin :rounded="false" full-size />
+        </div>
       </div>
 
-      <div
-        class="flex items-start md:items-center flex-col md:flex-row justify-between gap-4 md:gap-0 w-full">
-        <div class="w-32">
-          <NeoSkeleton
-            height="34"
-            width="100%"
-            rounded
-            no-margin
-            border-radius="3rem" />
+      <div class="info-fields">
+        <div>
+          <div class="relative w-10 h-3 mb-1">
+            <NeoSkeleton no-margin :rounded="false" full-size />
+          </div>
+          <div class="relative w-20 h-5 mt-1">
+            <NeoSkeleton no-margin :rounded="false" full-size />
+          </div>
         </div>
 
-        <div class="flex flex-row gap-4 w-24">
-          <NeoSkeleton height="24" width="100%" :rounded="false" no-margin />
-          <NeoSkeleton height="24" width="100%" :rounded="false" no-margin />
+        <div class="flex flex-col items-end">
+          <div class="relative w-10 h-3 mb-1">
+            <NeoSkeleton no-margin :rounded="false" full-size />
+          </div>
+          <div class="relative w-20 h-5 mt-1">
+            <NeoSkeleton no-margin :rounded="false" full-size />
+          </div>
         </div>
       </div>
     </div>
@@ -32,15 +46,6 @@
 
 <script setup lang="ts">
 import { NeoSkeleton } from '@kodadot1/brick'
-
-withDefaults(
-  defineProps<{
-    variant: 'primary' | 'secondary'
-  }>(),
-  {
-    variant: 'primary',
-  },
-)
 </script>
 
 <style lang="scss" scoped>
