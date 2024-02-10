@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <TopCollectionsGrid
+    <LandingTopCollectionsGrid
       :collections="data"
       :time-range="state.timeRange"
       :loading="loading"
@@ -32,7 +32,6 @@
 <script lang="ts" setup>
 import { TimeRange, TimeRangeOption } from '@/components/series/types'
 import { NeoButton } from '@kodadot1/brick'
-import TopCollectionsGrid from './TopCollectionsGrid.vue'
 import { useTopCollections } from './utils/useTopCollections'
 import { useFiatStore } from '@/stores/fiat'
 

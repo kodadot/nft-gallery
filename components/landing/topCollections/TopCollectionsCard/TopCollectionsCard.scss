@@ -7,7 +7,7 @@
 
     &-avatar {
       &-container {
-        @apply border border-card-border-color w-16 h-16 overflow-hidden;
+        @apply border border-card-border-color w-16 h-16;
       }
       &-inner {
         @apply border-[6px] h-full border-text-color-inverse;

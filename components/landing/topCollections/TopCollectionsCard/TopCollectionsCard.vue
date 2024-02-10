@@ -33,8 +33,8 @@
                 inline
                 :round="2" />
 
-              <div v-if="diffPercentString" :class="color" class="text-xs">
-                {{ diffPercentString }}
+              <div v-if="formattedDiffPercent" :class="color" class="text-xs">
+                {{ formattedDiffPercent }}
               </div>
             </div>
           </div>
@@ -67,58 +67,16 @@ const { urlPrefix } = usePrefix()
 
 const timeRange = computed(() => props.timeRange || 'Month')
 
-const volume = computed(() => {
-  switch (timeRange.value) {
-    case 'All':
-      return Number(props.collection.volume)
-    case 'Quarter':
-      return Number(props.collection.threeMonthVolume)
-    case 'Month':
-      return Number(props.collection.monthlyVolume)
-    case 'Week':
-      return Number(props.collection.weeklyVolume)
-  }
-})
-
-const previousVolume = computed(() => {
-  switch (timeRange.value) {
-    case 'All':
-      return 0
-    case 'Quarter':
-      return Number(props.collection.threeMonthlyrangeVolume)
-    case 'Month':
-      return Number(props.collection.monthlyrangeVolume)
-    case 'Week':
-      return Number(props.collection.weeklyrangeVolume)
-  }
-})
-
-const diffPercent = computed(() => {
-  if (volume.value === 0 || previousVolume.value === 0) {
-    return NaN
-  }
-  return (volume.value / previousVolume.value - 1) * 100
-})
-
-const sign = computed(() => {
-  const intSign = Math.sign(diffPercent.value)
-  if (isNaN(diffPercent.value) || intSign == 0) {
-    return ''
-  }
-  return intSign == -1 ? '-' : '+'
-})
-const diffPercentString = computed(() => {
-  if (isNaN(diffPercent.value)) {
-    return ''
-  }
-  return `${sign.value} ${Math.abs(Math.round(diffPercent.value))}%`
-})
+const { diffPercent, formattedDiffPercent, volume } = useCollectionVolume(
+  props.collection,
+  timeRange,
+)
 
 const color = computed(() => {
-  if (diffPercent.value) {
-    return diffPercent.value < 0 ? 'text-k-red' : 'text-k-green'
+  if (!diffPercent.value) {
+    return undefined
   }
-  return undefined
+  return diffPercent.value < 0 ? 'text-k-red' : 'text-k-green'
 })
 </script>
 
