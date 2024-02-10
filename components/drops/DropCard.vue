@@ -20,7 +20,7 @@
           }}</span>
 
           <div
-            class="flex items-start md:items-center flex-col md:flex-row justify-between gap-4 md:gap-0">
+            class="flex items-center flex-row justify-between flex-wrap gap-y-4 gap-x-2">
             <div class="flex justify-between items-center min-h-[34px]">
               <TimeTag
                 v-if="drop.dropStartTime || ended"
