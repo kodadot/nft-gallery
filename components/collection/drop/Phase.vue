@@ -6,7 +6,7 @@
       </div>
       <div
         v-if="mintCountAvailable && !disabledByBackend"
-        class="flex items-center">
+        class="rounded-[2rem] flex justify-between items-center border border-k-shade py-1 px-2">
         <img src="/unlockable-pulse.svg" alt="open" />
         {{ $t('mint.unlockable.open') }}
       </div>
