@@ -32,6 +32,7 @@
 import Markdown from '@/components/shared/Markdown.vue'
 import { NeoButton } from '@kodadot1/brick'
 import { resolveComponent } from 'vue'
+import { removeSuffixFromString } from '@/utils/parse'
 
 const NuxtLink = resolveComponent('NuxtLink')
 const props = defineProps<{ collectionId: string; description?: string }>()
@@ -53,8 +54,9 @@ const visibleDescription = computed(() => {
   return (
     (!hasSeeAllDescriptionOption.value || seeAllDescription.value
       ? source.value
-      : source.value?.slice(0, DESCRIPTION_MAX_LENGTH)
-    )?.replaceAll('\n', '  \n') || ''
+      : removeSuffixFromString(
+          source.value?.slice(0, DESCRIPTION_MAX_LENGTH),
+        )?.replaceAll('\n', '  \n')) + '...'
   )
 })
 </script>
