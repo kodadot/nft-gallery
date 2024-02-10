@@ -50,7 +50,8 @@ const { $i18n } = useNuxtApp()
 const nftSubscription = reactive<{
   unsubscribe: () => void
   nftIds: string[]
-}>({ unsubscribe: () => ({}), nftIds: [] })
+  active: boolean
+}>({ unsubscribe: () => ({}), nftIds: [], active: false })
 
 const hasSyncedPrices = ref(false)
 const usingAutoTeleport = ref(false)
@@ -204,13 +205,15 @@ const handleNftPriceChange = (
   toast($i18n.t('buyModal.nftPriceUpdated', [name]))
 }
 
-const watchNftsPriceChanges = (nftIds: string[], force: boolean = false) => {
+const subscribeToNftPriceChange = (
+  nftIds: string[],
+  force: boolean = false,
+) => {
   if (isEqual(nftIds, nftSubscription.nftIds) && !force) {
     return
   }
 
   hasSyncedPrices.value = false
-  nftSubscription.unsubscribe()
   nftSubscription.nftIds = nftIds
 
   nftSubscription.unsubscribe = useSubscriptionGraphql({
@@ -237,6 +240,16 @@ const watchNftsPriceChanges = (nftIds: string[], force: boolean = false) => {
 }
 
 watch(
+  () => preferencesStore.completePurchaseModal.isOpen,
+  (isOpen, prevIsOpen) => {
+    const modalGotClosed = !isOpen && prevIsOpen
+    if (modalGotClosed) {
+      nftSubscription.unsubscribe()
+    }
+  },
+)
+
+watch(
   [
     () => preferencesStore.completePurchaseModal.isOpen,
     () => shoppingCartStore.getItemToBuy,
@@ -257,8 +270,9 @@ watch(
     const listenNftsPriceChanges =
       nftIds.length && !isTransactionCompleted.value
 
-    if (listenNftsPriceChanges) {
-      watchNftsPriceChanges(nftIds, isModalOpen && !wasModalOpen)
+    if (listenNftsPriceChanges && !nftSubscription.active) {
+      nftSubscription.active = true
+      subscribeToNftPriceChange(nftIds, isModalOpen && !wasModalOpen)
     }
   },
   { immediate: true },
