@@ -12,7 +12,7 @@
             backgroundImage: `url(${avatar})`,
           }">
           <div class="flex justify-center items-center h-full">
-            <div class="collection-avatar p-2 border border-k-grey-fix">
+            <div class="bg-background-color p-2 border border-k-grey-fix">
               <BaseMediaItem
                 :src="avatar"
                 :image-component="NuxtImg"
@@ -85,14 +85,3 @@ const handleAddNfts = () => {
   navigateTo(addNftsPath.value)
 }
 </script>
-
-<style scoped lang="scss">
-@import '@/assets/styles/abstracts/variables';
-.collection-avatar {
-  @apply bg-background-color;
-}
-
-.border-k-grey-fix {
-  border-color: var(--k-grey-fix);
-}
-</style>
