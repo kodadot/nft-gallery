@@ -41,7 +41,7 @@ import { ApiPromise } from '@polkadot/api'
 import { isActionValid } from './transaction/utils'
 
 export type TransactionOptions = {
-  disableNSuccessNotification?: boolean
+  disableSuccessNotification?: boolean
 }
 
 const resolveLargeSuccessNotification = (
@@ -101,7 +101,7 @@ const useExecuteTransaction = (options: TransactionOptions) => {
     }: HowAboutToExecuteOnSuccessParam) => {
       blockNumber.value = block
       txHash.value = hash
-      if (options.disableNSuccessNotification) {
+      if (options.disableSuccessNotification) {
         return
       }
 
@@ -207,7 +207,7 @@ export const executeAction = ({
 }
 
 export const useTransaction = (
-  options: TransactionOptions = { disableNSuccessNotification: false },
+  options: TransactionOptions = { disableSuccessNotification: false },
 ) => {
   const { apiInstance, apiInstanceByPrefix } = useApi()
   const {
