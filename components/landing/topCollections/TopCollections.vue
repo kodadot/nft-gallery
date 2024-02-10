@@ -24,7 +24,7 @@
       :collections="data"
       :time-range="state.timeRange"
       :loading="loading"
-      class="mt-5 md:mt-0"
+      class="max-md:my-5"
       :skeleton-count="limit" />
   </div>
 </template>

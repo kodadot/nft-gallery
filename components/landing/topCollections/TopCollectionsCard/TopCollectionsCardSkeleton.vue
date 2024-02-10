@@ -31,7 +31,7 @@
           </div>
         </div>
 
-        <div class="flex flex-col items-end">
+        <div class="flex flex-col">
           <div class="relative w-10 h-3 mb-1">
             <NeoSkeleton no-margin :rounded="false" full-size />
           </div>
