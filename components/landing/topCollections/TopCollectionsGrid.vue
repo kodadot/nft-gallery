@@ -2,8 +2,8 @@
   <DynamicGrid grid-size="medium" :default-width="GRID_DEFAULT_WIDTH">
     <template v-if="loading">
       <LandingTopCollectionsTopCollectionsCardSkeleton
-        v-for="x in skeletonCount"
-        :key="x" />
+        v-for="skeleton in skeletonCount"
+        :key="`top-collection-skeleton-card-${skeleton}`" />
     </template>
 
     <template v-else>
