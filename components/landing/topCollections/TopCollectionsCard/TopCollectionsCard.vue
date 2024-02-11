@@ -1,12 +1,12 @@
 <template>
   <div
-    class="top-collection-card w-full border border-card-border-color hover:border-border-color bg-background-color">
+    class="top-collection-card w-full border border-card-border-color hover:border-border-color bg-background-color group">
     <nuxt-link
       class="flex flex-col hover:text-text-color"
       rel="nofollow noopener noreferrer"
       :to="`/${urlPrefix}/collection/${collection.id}`">
       <div
-        class="top-collection-card-banner"
+        class="top-collection-card-banner group-hover:opacity-[0.85]"
         :style="{ backgroundImage: `url(${collection.image})` }">
         <div class="top-collection-card-banner-avatar-container">
           <BasicImage
