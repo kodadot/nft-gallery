@@ -1,5 +1,5 @@
 <template>
-  <DynamicGrid grid-size="medium" :default-width="GRID_DEFAULT_WIDTH">
+  <DynamicGrid grid-size="medium" :default-width="GRID_DEFAULT_WIDTH" persist>
     <template v-if="loading">
       <LandingTopCollectionsTopCollectionsCardSkeleton
         v-for="skeleton in skeletonCount"
@@ -25,7 +25,7 @@ import { CollectionEntityWithVolumes } from './utils/types'
 
 const GRID_DEFAULT_WIDTH = {
   small: 0,
-  medium: 16 * 21,
+  medium: 16 * 16,
   large: 0,
 }
 
