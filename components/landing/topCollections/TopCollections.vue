@@ -40,7 +40,7 @@ const fiatStore = useFiatStore()
 const limit = 12
 const { data, loading } = useTopCollections(limit)
 
-const state = reactive<{ timeRange: TimeRange }>({ timeRange: 'All' })
+const state = reactive<{ timeRange: TimeRange }>({ timeRange: 'Month' })
 
 const timeRanges: TimeRangeOption[] = [
   { value: 'Week', label: 'week' },
