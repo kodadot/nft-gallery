@@ -60,13 +60,9 @@ const isMobileVariant = computed(
 const updateColumns = () => {
   if (containerWidth.value) {
     const currentGridItemMinWidth = props.defaultWidth[grid.value]
-
     const numCols = Math.floor(containerWidth.value / currentGridItemMinWidth)
-
     const gapsWidth = (numCols - 1) * props.gapSize
-
     const availableContainerWidth = containerWidth.value - gapsWidth
-
     const getCols = Math.floor(
       availableContainerWidth / currentGridItemMinWidth,
     )
