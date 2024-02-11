@@ -8,7 +8,7 @@
 
     &-avatar {
       &-container {
-        @apply border border-card-border-color w-16 h-16;
+        @apply border border-card-border-color w-[4.375rem] h-[4.375rem];
       }
       &-inner {
         @apply border-[6px] h-full border-text-color-inverse;
