@@ -52,7 +52,7 @@ module.exports = {
         'green-border-color': 'var(--green-border-color)',
         'blue-accent-bg-color': 'var(--blue-accent-bg-color)',
         'blue-light-hover-color': 'var(--blue-light-hover-color)',
-        'devider-line-color': 'var(--devider-line-color)',
+        'separator-line-color': 'var(--separator-line-color)',
         'toggle-primary': 'var(--toggle-primary)',
         'toggle-active-switch': 'var(--toggle-active-switch)',
         'steps-active-color': 'rgb(var(--steps-active-color) / <alpha-value>)',
