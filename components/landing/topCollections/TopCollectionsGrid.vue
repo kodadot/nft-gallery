@@ -1,5 +1,9 @@
 <template>
-  <DynamicGrid grid-size="medium" :default-width="GRID_DEFAULT_WIDTH" persist>
+  <DynamicGrid
+    grid-size="medium"
+    :default-width="GRID_DEFAULT_WIDTH"
+    persist
+    :fill-rows="collections.length || skeletonCount">
     <template v-if="loading">
       <LandingTopCollectionsTopCollectionsCardSkeleton
         v-for="skeleton in skeletonCount"

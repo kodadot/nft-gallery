@@ -26,6 +26,7 @@ const props = withDefaults(
     mobileCols?: number
     gapSize?: number
     persist: boolean
+    fillRows?: number // total amount of items in grid
   }>(),
   {
     defaultWidth: () => ({
@@ -57,6 +58,16 @@ const isMobileVariant = computed(
   () => props.mobileVariant && containerWidth.value <= 768,
 )
 
+const getColsFilledByAllRows = (cols: number): number => {
+  if (!props.fillRows || cols === 1) {
+    return cols
+  }
+
+  const areRowsFilled = (props.fillRows / cols) % 1 === 0
+
+  return areRowsFilled ? cols : getColsFilledByAllRows(cols - 1)
+}
+
 const updateColumns = () => {
   if (containerWidth.value) {
     const currentGridItemMinWidth = props.defaultWidth[grid.value]
@@ -67,8 +78,12 @@ const updateColumns = () => {
       availableContainerWidth / currentGridItemMinWidth,
     )
 
-    cols.value =
-      isMobileVariant.value && !props.persist ? props.mobileCols : getCols
+    if (isMobileVariant.value && !props.persist) {
+      cols.value = props.mobileCols
+      return
+    }
+
+    cols.value = props.fillRows ? getColsFilledByAllRows(getCols) : getCols
   }
 }
 
