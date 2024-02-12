@@ -27,7 +27,7 @@
               {{ $t('price') }}
             </p>
 
-            <div class="flex gap-2 items-center">
+            <div class="flex gap-2 items-center max-md:flex-row-reverse">
               <CommonTokenMoney
                 :value="collection.floorPrice || collection.floor"
                 inline
