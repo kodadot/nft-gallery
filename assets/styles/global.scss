@@ -43,8 +43,7 @@ body {
   }
 
   .input,
-  select,
-  .taginput-container {
+  select {
     @include ktheme() {
       background-color: theme('background-color') !important;
       color: theme('text-color') !important;
@@ -67,10 +66,6 @@ body {
         }
       }
     }
-  }
-
-  .taginput-container.is-focusable {
-    height: auto !important;
   }
 
   .select {
@@ -228,10 +223,6 @@ hr {
   height: 100% !important;
 }
 
-.no-border-left {
-  border-left: none !important;
-}
-
 .has-accent-blur {
   position: relative;
   .blur {
@@ -239,16 +230,4 @@ hr {
     top: 0;
     left: 0;
   }
-}
-
-.is-max-width-fit-content {
-  max-width: fit-content;
-}
-
-.is-overflow-y-auto {
-  overflow-y: auto;
-}
-
-.min-width-0 {
-  min-width: 0;
 }
