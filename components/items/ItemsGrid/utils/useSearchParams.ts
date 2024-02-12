@@ -23,7 +23,7 @@ function useSearchKeywords() {
       >[]
 
       if (searchBySn.value) {
-        const key = isAssetHub.value ? 'id_contains' : 'sn_contains'
+        const key = isAssetHub.value ? 'sn_eq' : 'sn_contains'
         conditions.push({ [key]: search.value })
       }
 
