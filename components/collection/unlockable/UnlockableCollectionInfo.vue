@@ -29,16 +29,17 @@
   </div>
 </template>
 <script setup lang="ts">
-import Markdown from '@/components/shared/Markdown.vue'
 import { NeoButton } from '@kodadot1/brick'
 import { resolveComponent } from 'vue'
-import { removeSuffixFromString } from '@/utils/parse'
+import {
+  DESCRIPTION_MAX_LENGTH,
+  generatePreviewDescription,
+} from '@/components/collection/utils/description'
 
 const NuxtLink = resolveComponent('NuxtLink')
 const props = defineProps<{ collectionId: string; description?: string }>()
 
 const seeAllDescription = ref(false)
-const DESCRIPTION_MAX_LENGTH = 210
 const { urlPrefix } = usePrefix()
 const toggleSeeAllDescription = () => {
   seeAllDescription.value = !seeAllDescription.value
@@ -54,9 +55,7 @@ const visibleDescription = computed(() => {
   return (
     (!hasSeeAllDescriptionOption.value || seeAllDescription.value
       ? source.value
-      : removeSuffixFromString(
-          source.value?.slice(0, DESCRIPTION_MAX_LENGTH),
-        )?.replaceAll('\n', '  \n')) + '...'
+      : generatePreviewDescription(source.value)) || ''
   )
 })
 </script>
