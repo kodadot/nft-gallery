@@ -1,5 +1,5 @@
 <template>
-  <section class="pt-6 md:!pt-[3.5rem]">
+  <section class="relative pt-6 md:!pt-[3.5rem]">
     <img
       src="/landing-blur.svg"
       alt="Hero banner background blur"
