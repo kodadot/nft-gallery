@@ -1,8 +1,10 @@
 <template>
   <div>
-    <div class="flex justify-between mobile">
-      <div class="title is-2">{{ $t('general.topCollectionsHeading') }}</div>
-      <div class="top-collection-controls buttons items-start pt-2">
+    <div class="flex justify-between mobile !pb-9 md:!pb-10">
+      <div class="title is-2 md:!mb-0">
+        {{ $t('general.topCollectionsHeading') }}
+      </div>
+      <div class="top-collection-controls buttons items-start pt-2 !mb-0">
         <NeoButton
           v-for="{ value, label } in timeRanges"
           :key="value"
@@ -11,7 +13,7 @@
           :label="`${$t(`topCollections.timeFrames.${label}`)}`"
           @click="setTimeRange(value)" />
       </div>
-      <div class="pt-2">
+      <div class="!pt-6 md:!pt-2">
         <ChainDropdown
           position="bottom-auto"
           :show-network-label="false"
@@ -24,7 +26,6 @@
       :collections="data"
       :time-range="state.timeRange"
       :loading="loading"
-      class="max-md:my-5"
       :skeleton-count="limit" />
   </div>
 </template>
