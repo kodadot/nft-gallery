@@ -1727,5 +1727,8 @@
     "buyingNft": "Buying NFT | Buying NFTs",
     "purchaseSuccessful": "Purchase successful",
     "amountPurchaseSuccessfully": "{0} NFTs purchased successfully"
+  },
+  "collectionCreatedModal": {
+    "title": "Collection Created Successfully"
   }
 }
