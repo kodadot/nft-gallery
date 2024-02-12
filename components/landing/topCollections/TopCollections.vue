@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex justify-between mobile !pb-9 md:!pb-10">
+    <div class="flex justify-between mobile pb-9 md:pb-10">
       <div class="title is-2 md:!mb-0">
         {{ $t('general.topCollectionsHeading') }}
       </div>
