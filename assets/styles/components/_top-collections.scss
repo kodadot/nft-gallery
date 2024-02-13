@@ -1,15 +1,5 @@
-.top-collection-controls.buttons .control:not(:last-of-type) {
-  border-right: 0;
-}
-
 .has-fixed-width {
   min-width: 98px;
-}
-
-@include tablet {
-  .w-160 {
-    width: 160px;
-  }
 }
 
 @include mobile {

@@ -4,7 +4,8 @@
       <div class="text-[2.5rem] font-semibold leading-[1.125] max-md:mb-6">
         {{ $t('general.topCollectionsHeading') }}
       </div>
-      <div class="top-collection-controls buttons items-start pt-2 !mb-0">
+      <div
+        class="flex items-start justify-start flex-wrap pt-2 [&>.control:not(:last-of-type)]:border-r-0">
         <NeoButton
           v-for="{ value, label } in timeRanges"
           :key="value"
