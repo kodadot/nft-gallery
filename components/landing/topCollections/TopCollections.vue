@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex justify-between mobile pb-9 md:pb-10">
-      <div class="title is-2 md:!mb-0">
+      <div class="text-[2.5rem] font-semibold leading-[1.125] max-md:mb-6">
         {{ $t('general.topCollectionsHeading') }}
       </div>
       <div class="top-collection-controls buttons items-start pt-2 !mb-0">
