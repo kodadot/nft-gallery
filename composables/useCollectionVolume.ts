@@ -2,11 +2,15 @@ import { TimeRange } from '@/components/series/types'
 import { CollectionEntityWithVolumes } from '@/components/landing/topCollections/utils/types'
 
 export default (
-  collection: CollectionEntityWithVolumes,
-  timeRange: Ref<TimeRange>,
+  collection?: CollectionEntityWithVolumes,
+  timeRange?: Ref<TimeRange>,
 ) => {
   const volume = computed(() => {
-    switch (timeRange.value) {
+    if (!collection) {
+      return 0
+    }
+
+    switch (timeRange?.value) {
       case 'All':
         return Number(collection.volume)
       case 'Quarter':
@@ -19,7 +23,11 @@ export default (
   })
 
   const previousVolume = computed(() => {
-    switch (timeRange.value) {
+    if (!collection) {
+      return 0
+    }
+
+    switch (timeRange?.value) {
       case 'All':
         return 0
       case 'Quarter':
@@ -32,7 +40,7 @@ export default (
   })
 
   const diffPercent = computed(() => {
-    if (volume.value === 0 || previousVolume.value === 0) {
+    if (!volume.value || !previousVolume.value) {
       return NaN
     }
     return (volume.value / previousVolume.value - 1) * 100
