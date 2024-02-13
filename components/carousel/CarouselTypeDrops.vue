@@ -27,7 +27,7 @@ const DROP_SKELETON_COUNT = 3
 const breakpoints: CarouseBreakpointsConfig = {
   '640px': { slides: { perView: 1.2, spacing: 16 } },
   '768px': {
-    slides: { perView: 1.6, spacing: 16 },
+    slides: { perView: 1.2, spacing: 16 },
   },
   '1024px': {
     slides: { perView: 2.2, spacing: 16 },
