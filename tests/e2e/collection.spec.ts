@@ -64,6 +64,20 @@ test('Collection interactions', async ({ page, Commands }) => {
       .click()
   })
 
+  //collection search
+  await test.step('Use collection search', async () => {
+    await page.getByTestId('filter-checkbox-buynow').nth(1).click()
+    await page
+      .locator('[data-testid="search-bar-input"] >> visible = true')
+      .fill('34')
+    await page.keyboard.press('Enter')
+    await Commands.scrollDownSlow()
+    await expect(
+      page.locator('[class="infinite-scroll-item"]').first(),
+    ).toBeVisible()
+    await expect(page.getByTestId('nft-name')).toHaveText('Pare1d0scope #34')
+  })
+
   //art view
   await test.step('Activates art view and check if NFT name was hidden', async () => {
     await page.getByTestId('advanced-filter-collapsible').first().click()
