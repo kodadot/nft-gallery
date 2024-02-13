@@ -3,13 +3,14 @@
     <div
       v-if="isEmptyBalanceOnAllChains && !isBalanceLoading"
       class="text-xs py-4 flex flex-col items-center">
-      <div class="mb-3 text-center">
+      <div class="mb-3 text-center" data-testid="balances-empty-asset-text">
         {{ $t('asset.emptyAsset') }}
       </div>
       <NeoButton
         variant="pill"
         size="small"
         class="px-4 py-1"
+        data-testid="button-add-funds-empty"
         @click="openRampModal"
         >+ {{ $t('addFunds') }}</NeoButton
       >
@@ -67,7 +68,10 @@
     <div
       v-if="!isEmptyBalanceOnAllChains && !isBalanceLoading"
       class="mt-4 flex items-center justify-end">
-      <a class="text-k-grey text-xs" @click="openRampModal"
+      <a
+        class="text-k-grey text-xs"
+        data-testid="button-add-funds-not-empty"
+        @click="openRampModal"
         >+ {{ $t('addFunds') }}</a
       >
     </div>

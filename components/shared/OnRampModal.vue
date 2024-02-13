@@ -4,7 +4,7 @@
     class="neo-modal"
     scroll="clip"
     @close="onClose">
-    <div class="w-[unset] lg:w-[25rem]">
+    <div class="w-[unset] lg:w-[25rem]" data-testid="on-ramp-modal">
       <div class="border-b border-grey flex items-center justify-between px-6">
         <p class="py-5 text-base font-bold">
           {{ $t('general.chooseProvider') }}
