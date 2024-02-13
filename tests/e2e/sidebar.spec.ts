@@ -27,7 +27,7 @@ test('Sidebar Interactions', async ({ page, Commands }) => {
   await test.step('Check if Add funds modal opens', async () => {
     await page.getByTestId('navbar-profile-dropdown').click()
     //wait for balances to load
-    await expect(page.getByTestId('balances-empty-asset-text')).toBeVisible({
+    await expect(page.getByTestId('button-add-funds-empty')).toBeVisible({
       timeout: 10000,
     })
     await page.getByTestId('button-add-funds-empty').click()
