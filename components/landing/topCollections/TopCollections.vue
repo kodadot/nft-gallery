@@ -5,7 +5,7 @@
         {{ $t('general.topCollectionsHeading') }}
       </div>
       <div
-        class="flex items-start justify-start flex-wrap pt-2 [&>.control:not(:last-of-type)]:border-r-0">
+        class="flex items-start justify-start flex-wrap pt-2 [&>.control:not(:last-of-type)]:border-r-0 [&>.control:not(:last-of-type)]:mb-2">
         <NeoButton
           v-for="{ value, label } in timeRanges"
           :key="value"
@@ -14,7 +14,7 @@
           :label="`${$t(`topCollections.timeFrames.${label}`)}`"
           @click="setTimeRange(value)" />
       </div>
-      <div class="!pt-6 md:!pt-2">
+      <div class="!pt-4 md:!pt-2">
         <ChainDropdown
           position="bottom-auto"
           :show-network-label="false"
