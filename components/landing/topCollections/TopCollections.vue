@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex justify-between mobile pb-9 md:pb-10">
+    <div class="flex justify-between max-md:flex-col pb-9 md:pb-10">
       <div class="text-[2.5rem] font-semibold leading-[1.125] max-md:mb-6">
         {{ $t('general.topCollectionsHeading') }}
       </div>
@@ -9,7 +9,7 @@
         <NeoButton
           v-for="{ value, label } in timeRanges"
           :key="value"
-          class="control column p-0 has-fixed-width px-4 mobile-padding"
+          class="control column p-0 min-w-[70px] max-md:w-full md:min-w-[98px] px-4 mobile-padding"
           :active="state.timeRange === value"
           :label="`${$t(`topCollections.timeFrames.${label}`)}`"
           @click="setTimeRange(value)" />
