@@ -10,5 +10,16 @@ export const test = base.extend<MyFixtures>({
   Commands: async ({ page }, use) => {
     await use(new Commands(page))
   },
+  page: async ({ context, page }, use) => {
+    page.on('pageerror', (err) => {
+      console.error(err)
+      throw new Error('Failing test due to error in browser: ' + err)
+    })
+    context.on('weberror', (err) => {
+      console.error(err.error())
+      throw new Error('Failing test due to error in browser: ' + err.error())
+    })
+    await use(page)
+  },
 })
 export { expect } from '@playwright/test'
