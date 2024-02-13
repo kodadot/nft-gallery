@@ -1,5 +1,5 @@
 <template>
-  <div class="border border-border-color">
+  <div class="border border-border-color bg-background-color">
     <NeoSkeleton no-margin :rounded="false" height="174" />
 
     <div class="py-5 px-5 flex flex-col items-start gap-4">
