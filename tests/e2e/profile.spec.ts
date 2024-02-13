@@ -1,6 +1,7 @@
 import { expect, test } from './fixtures'
 
 const KSM_TEST_ADDRESS = 'CmWHiv7h4m9tEzKD94DH4mqwGTvsdYQe2nouWPF7ipmHpqA'
+const KSM_TEST_ADDRESS_2 = 'DaZGYj6a9fWiDJh9Y6fnLEuZpzSKeg1bzdNjpdfGretDUGd'
 
 test('Profile Interactions', async ({ page, Commands }) => {
   await page.goto(`ahk/u/${KSM_TEST_ADDRESS}?tab=owned`)
@@ -80,4 +81,16 @@ test('Profile Interactions', async ({ page, Commands }) => {
       `/ahk/transfer?target=${KSM_TEST_ADDRESS}&usdamount=10&donation=true`,
     )
   })
+})
+
+test('Verify if there are no Assets on Selected chain', async ({
+  page,
+  Commands,
+}) => {
+  await page.goto(`rmrk/u/${KSM_TEST_ADDRESS_2}`)
+  await Commands.scrollDownSlow()
+  await expect(page.getByTestId('profile-no-assets-container')).toBeVisible({
+    timeout: 25000,
+  })
+  await expect(page.getByTestId('profile-no-assets-button')).toBeVisible()
 })
