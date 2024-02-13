@@ -7,7 +7,12 @@
       <div
         v-if="mintCountAvailable && !disabledByBackend"
         class="flex items-center">
-        <img src="/unlockable-pulse.svg" alt="open" />
+        <img
+          v-if="svgAnimationImageMounted"
+          src="/unlockable-pulse.svg"
+          alt="open-image"
+          width="32"
+          height="32" />
         {{ $t('mint.unlockable.open') }}
       </div>
     </div>
@@ -47,7 +52,13 @@ const props = defineProps<{
 }>()
 
 const { $i18n } = useNuxtApp()
+const svgAnimationImageMounted = ref(false) // hack fix animation on svg
 
+onMounted(() => {
+  setTimeout(() => {
+    svgAnimationImageMounted.value = true
+  }, 500)
+})
 const isMintedOut = computed(() => !props.mintCountAvailable)
 const showHolderOfCollection = computed(() => !!props.holderOfCollection?.id)
 const fulfillsMinimumFunds = computed(
