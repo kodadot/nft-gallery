@@ -10,9 +10,7 @@
         <img
           v-if="svgAnimationImageMounted"
           src="/unlockable-pulse.svg"
-          alt="open-image"
-          width="32"
-          height="32" />
+          alt="open" />
         {{ $t('mint.unlockable.open') }}
       </div>
     </div>
