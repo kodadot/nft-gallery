@@ -5,7 +5,7 @@
     persist
     :fill-rows="collections.length || skeletonCount">
     <template v-if="loading">
-      <LandingTopCollectionsTopCollectionsCardSkeleton
+      <LandingTopCollectionsCard
         v-for="skeleton in skeletonCount"
         :key="`top-collection-skeleton-card-${skeleton}`" />
     </template>
@@ -15,7 +15,7 @@
         v-for="(collection, index) in collections"
         :key="collection.id"
         :data-testid="`top-collection-index-${index}`">
-        <LandingTopCollectionsTopCollectionsCard
+        <LandingTopCollectionsCard
           :collection="collection"
           :time-range="timeRange" />
       </div>
