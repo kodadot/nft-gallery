@@ -254,7 +254,7 @@ watch(
       syncBuyAction()
 
       const nftIds = shoppingItems.value.map((item) => item.id)
-      if (Boolean(nftIds.length)) {
+      if (nftIds.length) {
         subscribeToNftPriceChange(nftIds)
       }
     }
