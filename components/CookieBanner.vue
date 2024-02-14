@@ -18,23 +18,20 @@
 const cookieControl = useCookieControl()
 const { grantConsent, revokeConsent } = useGtag()
 
-const cookieConsentGiven = () =>
-  cookieControl.cookiesEnabledIds.value?.includes('ga') ? true : false
+const cookieConsentGiven = computed(() =>
+  cookieControl.cookiesEnabledIds.value?.includes('ga'),
+)
 
 watch(
   () => cookieControl.cookiesEnabledIds.value,
-  (current, previous) => {
-    if (!previous?.includes('ga') && current?.includes('ga')) {
-      window.location.reload()
-    } else {
-      window.location.reload()
-    }
+  () => {
+    window.location.reload()
   },
   { deep: true },
 )
 
 onMounted(() => {
-  if (cookieConsentGiven()) {
+  if (cookieConsentGiven.value) {
     grantConsent()
   } else {
     revokeConsent()
