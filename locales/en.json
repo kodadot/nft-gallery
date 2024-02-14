@@ -1435,7 +1435,13 @@
     "claimPhysicalDrop": "Claim Physical Drop"
   },
   "drops": {
-    "title": "Drops",
+    "title": "Generative Drops",
+    "pastArtDrops": "Past Art Drops",
+    "createYourOwn": "Create your own",
+    "everyThursday": "Every Thursday",
+    "addToCal": "Add To Cal",
+    "createACalendarEvent": "Create A Calendar Event",
+    "kodadotWeeklyGenerativeDrop": "Kodadot weekly generative drop",
     "upcoming": "Upcoming",
     "noUpcoming": "Nothing  here yet...",
     "mintingLive": "Minting Live",
