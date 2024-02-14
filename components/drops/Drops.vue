@@ -1,42 +1,108 @@
 <template>
   <div>
-    <h1 class="title is-2 mb-7">
-      {{ $i18n.t('drops.title') }}
-    </h1>
+    <div
+      class="flex max-md:flex-col md:items-center justify-between mb-7 md:gap-8">
+      <h1 class="text-4xl font-semibold">
+        <span>{{ $i18n.t('drops.title') }}, </span>
+        <span class="inverse-text max-md:block">{{
+          $i18n.t('drops.everyThursday')
+        }}</span>
+      </h1>
+
+      <div
+        class="max-md:pt-8 flex items-center max-md:gap-8 md:justify-between flex-grow">
+        <NeoButton
+          icon-left="plus"
+          rounded
+          variant="outlined-rounded"
+          @click="isCreateEventModalActive = true">
+          {{ $t('drops.addToCal') }}</NeoButton
+        >
+
+        <nuxt-link
+          class="flex-shrink-0"
+          to="https://form.kodadot.xyz/drop-interest"
+          target="_blank"
+          rel="noopener noreferrer">
+          <span>{{ $t('drops.createYourOwn') }}</span>
+          <NeoIcon icon="arrow-up-right" />
+        </nuxt-link>
+      </div>
+    </div>
+
     <div class="grid-container">
       <DropsDropCardSkeleton
-        v-for="x in skeletonCount"
-        :key="`skeleton-${x}`" />
+        v-for="x in currentDrops.skeletonCount"
+        :key="`current-drops-skeleton-${x}`" />
       <div
-        v-for="(drop, index) in drops"
+        v-for="(drop, index) in currentDrops.items"
         :key="`${drop.collection?.id}=${index}`"
         class="w-full h-full"
         :data-testid="index">
         <DropCard :drop="drop" />
       </div>
     </div>
-    <hr class="my-7" />
-    <div>
-      <CreateDropCard />
+
+    <hr class="my-14" />
+
+    <h2 class="text-3xl font-semibold mb-7">
+      {{ $i18n.t('drops.pastArtDrops') }}
+    </h2>
+
+    <div class="grid-container">
+      <DropsDropCardSkeleton
+        v-for="x in pastDrops.skeletonCount"
+        :key="`skeleton-${x}`" />
+      <div
+        v-for="(drop, index) in pastDrops.items"
+        :key="`${drop.collection?.id}=${index}`"
+        class="w-full h-full"
+        :data-testid="index">
+        <DropCard :drop="drop" />
+      </div>
     </div>
+
+    <DropsCreateCalendarEventModal v-model="isCreateEventModalActive" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import DropCard from '@/components/drops/DropCard.vue'
-import CreateDropCard from '@/components/drops/CreateDropCard.vue'
 import { useDrops } from './useDrops'
 import { dropsVisible } from '@/utils/config/permission.config'
+import { NeoButton, NeoIcon } from '@kodadot1/brick'
+import filter from 'lodash/filter'
 
 const DEFAULT_SKELETON_COUNT = 3
 
 const { $i18n } = useNuxtApp()
-const { drops, count } = useDrops()
+const { drops, dropsList } = useDrops({ active: [true, false] })
 const { urlPrefix } = usePrefix()
 
-const skeletonCount = computed(
-  () => (count.value || DEFAULT_SKELETON_COUNT) - drops.value.length,
-)
+const isCreateEventModalActive = ref(false)
+
+const currentDrops = reactive({
+  items: computed(() => filter(drops.value, { active: 1 })),
+  skeletonCount: computed(() =>
+    getSkeletonCount(
+      currentDrops.items.length,
+      filter(dropsList.value, { active: 1 }).length,
+    ),
+  ),
+})
+
+const pastDrops = reactive({
+  items: computed(() => filter(drops.value, { active: 0 })),
+  skeletonCount: computed(() =>
+    getSkeletonCount(
+      pastDrops.items.length,
+      filter(dropsList.value, { active: 0 }).length,
+    ),
+  ),
+})
+
+const getSkeletonCount = (currentCount: number, totalCount: number) =>
+  (totalCount || DEFAULT_SKELETON_COUNT) - currentCount
 
 const checkRouteAvailability = () => {
   if (!dropsVisible(urlPrefix.value)) {
