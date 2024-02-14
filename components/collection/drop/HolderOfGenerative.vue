@@ -5,6 +5,15 @@
     :status="status"
     @try-again="mintNft" />
 
+  <NeoModalExtend v-model:active="isSuccessModalActive">
+    <ModalBody :title="$i18n.t('success')" :scrollable="false">
+      <CollectionDropModalSharedSuccessfulDrop
+        v-if="mintedNft"
+        :minted-nft="mintedNft"
+        :can-list-nft="false" />
+    </ModalBody>
+  </NeoModalExtend>
+
   <CollectionDropGenerativeLayout
     :collection-id="collectionId"
     :description="description"
@@ -34,6 +43,7 @@
 </template>
 
 <script setup lang="ts">
+import { NeoModalExtend } from '@kodadot1/brick'
 import { createUnlockableMetadata } from '../unlockable/utils'
 import { DropItem } from '@/params/types'
 import {
@@ -100,6 +110,7 @@ const { client } = usePrefix()
 const isLoading = ref(false)
 const isImageFetching = ref(false)
 const isAddFundModalActive = ref(false)
+const isSuccessModalActive = ref(false)
 const availableNfts = reactive({ isLoading: true, amount: 0 })
 const raffleEmail = ref('')
 const raffleId = ref()
@@ -380,6 +391,8 @@ const submitMint = async (sn: string) => {
       name: result.name,
       collectionName: collectionName.value,
     }
+
+    isSuccessModalActive.value = true
   } catch (error) {
     toast($i18n.t('drops.mintPerAddress'))
     isImageFetching.value = false
